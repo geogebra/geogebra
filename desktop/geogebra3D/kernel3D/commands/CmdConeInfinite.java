@@ -27,7 +27,7 @@ public class CmdConeInfinite extends CmdCone {
 
 	
 	protected GeoElement[] conePointPointRadius(Command c, GeoPointND p1, GeoPointND p2, NumberValue r){
-		return new GeoElement[] {kernel.getManager3D().Cone(
+		return new GeoElement[] {kernelA.getManager3D().Cone(
 				c.getLabel(),p1,p2,r)};
 	}
 	

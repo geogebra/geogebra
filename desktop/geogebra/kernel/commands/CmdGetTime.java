@@ -1,6 +1,7 @@
 package geogebra.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -13,7 +14,7 @@ import java.util.Calendar;
 /**
  *CmdGetTime
  */
-class CmdGetTime extends CommandProcessorDesktop {
+class CmdGetTime extends CommandProcessor {
 
 	/**
 	 * Create new command processor

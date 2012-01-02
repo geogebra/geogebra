@@ -62,7 +62,7 @@ public class CmdPolygon3D extends CmdPolygon {
 
 			/*
 			if (hasNormal)
-				return kernel.getManager3D().Polygon3D(c.getLabels(), points, normal);
+				return kernelA.getManager3D().Polygon3D(c.getLabels(), points, normal);
 			else*/
 				return ((Kernel)kernelA).getManager3D().Polygon3D(c.getLabels(), points);
 		}

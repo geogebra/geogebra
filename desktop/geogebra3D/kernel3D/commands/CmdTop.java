@@ -8,10 +8,10 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.commands.CommandProcessorDesktop;
+
 import geogebra3D.kernel3D.GeoQuadric3DLimited;
 
-public class CmdTop extends CommandProcessorDesktop {
+public class CmdTop extends CommandProcessor {
 		
 	public CmdTop(Kernel kernel) {
 		super(kernel);
@@ -33,7 +33,7 @@ public class CmdTop extends CommandProcessorDesktop {
 	    	) {
 	    		GeoElement[] ret =
 	    		{
-	    				(GeoElement) kernel.getManager3D().QuadricTop(
+	    				(GeoElement) kernelA.getManager3D().QuadricTop(
 	    						c.getLabel(),
 	    						(GeoQuadric3DLimited) arg[0])};
 	    		return ret;

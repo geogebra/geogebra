@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.commands.CommandProcessorDesktop;
+
 import geogebra.main.Application;
 import geogebra3D.kernel3D.GeoPoint3D;
 import geogebra3D.kernel3D.Kernel3D;
@@ -16,7 +16,7 @@ import geogebra3D.kernel3D.Kernel3D;
 /*
  * Pyramid[ <GeoPoint3D>, <GeoPoint3D>, <GeoPoint3D>, ... ] 
  */
-public class CmdPyramid extends CommandProcessorDesktop {
+public class CmdPyramid extends CommandProcessor {
 	
 	public CmdPyramid(Kernel kernel) {
 		super(kernel);
@@ -44,7 +44,7 @@ public class CmdPyramid extends CommandProcessorDesktop {
             }
         }
         // everything ok
-		GeoElement[] ret = kernel.getManager3D().Pyramid(c.getLabels(), points);
+		GeoElement[] ret = kernelA.getManager3D().Pyramid(c.getLabels(), points);
 		//for older version, make forcing labels not working
 		if (app.fileVersionBefore(Application.getSubValues("4.9.10.0")))
 			return new GeoElement[] {ret[0]};

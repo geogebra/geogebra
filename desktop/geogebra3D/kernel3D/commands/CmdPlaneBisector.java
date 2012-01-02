@@ -9,7 +9,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.commands.CommandProcessorDesktop;
+
 import geogebra3D.kernel3D.GeoCoordSys1D;
 import geogebra3D.kernel3D.GeoPlane3D;
 import geogebra3D.kernel3D.GeoPoint3D;
@@ -18,7 +18,7 @@ import geogebra3D.kernel3D.Kernel3D;
 /*
  * Orthogonal[ <GeoPoint3D>, <GeoCoordSys> ]
  */
-public class CmdPlaneBisector extends CommandProcessorDesktop {
+public class CmdPlaneBisector extends CommandProcessor {
 	
 	
 	
@@ -42,7 +42,7 @@ public class CmdPlaneBisector extends CommandProcessorDesktop {
 	    	) {
 	    		GeoElement[] ret =
 	    		{
-	    				(GeoElement) kernel.getManager3D().PlaneBisector(
+	    				(GeoElement) kernelA.getManager3D().PlaneBisector(
 	    						c.getLabel(),
 	    						(GeoSegmentND) arg[0])};
 	    		return ret;
@@ -58,7 +58,7 @@ public class CmdPlaneBisector extends CommandProcessorDesktop {
 	    	) {
 	    		GeoElement[] ret =
 	    		{
-	    				(GeoElement) kernel.getManager3D().PlaneBisector(
+	    				(GeoElement) kernelA.getManager3D().PlaneBisector(
 	    						c.getLabel(),
 	    						(GeoPointND) arg[0],
 	    						(GeoPointND) arg[1])};

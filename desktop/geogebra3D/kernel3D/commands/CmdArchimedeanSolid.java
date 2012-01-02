@@ -9,7 +9,7 @@ import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.commands.CommandProcessorDesktop;
+
 import geogebra3D.kernel3D.GeoPoint3D;
 import geogebra3D.kernel3D.GeoVector3D;
 import geogebra3D.kernel3D.Kernel3D;
@@ -19,7 +19,7 @@ import geogebra3D.kernel3D.Kernel3D;
 /*
  * Cube[ <GeoPoint3D>, <GeoPoint3D>, <GeoDirectionND> ] 
  */
-public class CmdArchimedeanSolid extends CommandProcessorDesktop {
+public class CmdArchimedeanSolid extends CommandProcessor {
 	
 	private String name;
 	
@@ -43,7 +43,7 @@ public class CmdArchimedeanSolid extends CommandProcessorDesktop {
 	    			&& (ok[1] = arg[1].isGeoPoint())
 	    			&& (ok[2] = (arg[2] instanceof GeoDirectionND))){
 	    		
-	    			GeoElement[] ret = { kernel.getManager3D().ArchimedeanSolid(c.getLabels(), 
+	    			GeoElement[] ret = { kernelA.getManager3D().ArchimedeanSolid(c.getLabels(), 
 	    					(GeoPointND) arg[0], (GeoPointND) arg[1], (GeoDirectionND) arg[2],
 	    					name) };
 					return ret;

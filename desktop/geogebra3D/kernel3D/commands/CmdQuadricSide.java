@@ -10,7 +10,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.commands.CommandProcessorDesktop;
+
 import geogebra.main.Application;
 import geogebra3D.kernel3D.GeoPlane3D;
 import geogebra3D.kernel3D.GeoPoint3D;
@@ -18,7 +18,7 @@ import geogebra3D.kernel3D.GeoQuadric3DLimited;
 import geogebra3D.kernel3D.GeoVector3D;
 import geogebra3D.kernel3D.Kernel3D;
 
-public class CmdQuadricSide extends CommandProcessorDesktop {
+public class CmdQuadricSide extends CommandProcessor {
 	
 	
 	
@@ -43,7 +43,7 @@ public class CmdQuadricSide extends CommandProcessorDesktop {
 	    			 
 	    	) {
 	    		return new GeoElement[] { 
-	    				kernel.getManager3D().QuadricSide(c.getLabel(),
+	    				kernelA.getManager3D().QuadricSide(c.getLabel(),
     					(GeoQuadric3DLimited) arg[0])};
 	    	}else{
 	    			throw argErr(arg[0]);

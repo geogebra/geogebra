@@ -10,7 +10,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.commands.CommandProcessorDesktop;
+
 import geogebra.main.Application;
 import geogebra3D.kernel3D.GeoPlane3D;
 import geogebra3D.kernel3D.GeoPoint3D;
@@ -18,7 +18,7 @@ import geogebra3D.kernel3D.GeoQuadric3DLimited;
 import geogebra3D.kernel3D.GeoVector3D;
 import geogebra3D.kernel3D.Kernel3D;
 
-public class CmdCone extends CommandProcessorDesktop {
+public class CmdCone extends CommandProcessor {
 	
 	
 	
@@ -45,7 +45,7 @@ public class CmdCone extends CommandProcessorDesktop {
 	    	) {
 	    		GeoElement[] ret =
 	    		{
-	    				kernel.getManager3D().Cone(
+	    				kernelA.getManager3D().Cone(
 	    						c.getLabel(),
 	    						(GeoPointND) arg[0],
 	    						(GeoVectorND) arg[1],
@@ -68,7 +68,7 @@ public class CmdCone extends CommandProcessorDesktop {
 	    	) {
 	    		GeoElement[] ret =
 	    		{
-	    				kernel.getManager3D().Cone(
+	    				kernelA.getManager3D().Cone(
 	    						c.getLabel(),
 	    						(GeoPointND) arg[0],
 	    						(GeoLineND) arg[1],
@@ -95,7 +95,7 @@ public class CmdCone extends CommandProcessorDesktop {
 	//overridded by CmdConeInfinite
 	
 	protected GeoElement[] conePointPointRadius(Command c, GeoPointND p1, GeoPointND p2, NumberValue r){
-		return kernel.getManager3D().ConeLimited(
+		return kernelA.getManager3D().ConeLimited(
 				c.getLabels(),p1,p2,r);
 	}
 	

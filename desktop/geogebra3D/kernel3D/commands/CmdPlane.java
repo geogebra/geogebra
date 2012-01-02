@@ -8,9 +8,9 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.commands.CommandProcessorDesktop;
 
-public class CmdPlane extends CommandProcessorDesktop {
+
+public class CmdPlane extends CommandProcessor {
 	
 	
 	
@@ -33,7 +33,7 @@ public class CmdPlane extends CommandProcessorDesktop {
 	    	if (arg[0] instanceof GeoCoordSys2D )
 	    	{GeoElement[] ret =
 	    	{
-	    			(GeoElement) kernel.getManager3D().Plane3D(
+	    			(GeoElement) kernelA.getManager3D().Plane3D(
 	    					c.getLabel(),
 	    					(GeoCoordSys2D) arg[0])};
 	    	return ret;
@@ -48,7 +48,7 @@ public class CmdPlane extends CommandProcessorDesktop {
 	    	) {
 	    		GeoElement[] ret =
 	    		{
-	    				(GeoElement) kernel.getManager3D().Plane3D(
+	    				(GeoElement) kernelA.getManager3D().Plane3D(
 	    						c.getLabel(),
 	    						(GeoPointND) arg[0],
 	    						(GeoLineND) arg[1])};
@@ -59,7 +59,7 @@ public class CmdPlane extends CommandProcessorDesktop {
 	    	) {
 	    		GeoElement[] ret =
 	    		{
-	    				(GeoElement) kernel.getManager3D().Plane3D(
+	    				(GeoElement) kernelA.getManager3D().Plane3D(
 	    						c.getLabel(),
 	    						(GeoPointND) arg[0],
 	    						(GeoCoordSys2D) arg[1])};
@@ -79,7 +79,7 @@ public class CmdPlane extends CommandProcessorDesktop {
 	    			&& (ok[2] = (arg[2] .isGeoPoint()  ))) {
 	    		GeoElement[] ret =
 	    		{
-	    				kernel.getManager3D().Plane3D(
+	    				kernelA.getManager3D().Plane3D(
 	    						c.getLabel(),
 	    						(GeoPointND) arg[0],
 	    						(GeoPointND) arg[1],

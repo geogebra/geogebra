@@ -2,26 +2,20 @@ package geogebra3D.kernel3D.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.commands.CmdPolygon;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.commands.CommandProcessorDesktop;
 import geogebra.main.Application;
-import geogebra3D.kernel3D.GeoPoint3D;
-import geogebra3D.kernel3D.Kernel3D;
 
 
 
 /*
  * Prism[ <GeoPoint3D>, <GeoPoint3D>, <GeoPoint3D>, ... ] 
  */
-public class CmdPrism extends CommandProcessorDesktop {
+public class CmdPrism extends CommandProcessor {
 	
 
 	public CmdPrism(Kernel kernel) {
@@ -43,7 +37,7 @@ public class CmdPrism extends CommandProcessorDesktop {
 		if(n==2){		
 			if ((ok[0] = (arg[0] .isGeoPolygon()))
 					&& (ok[1] = (arg[1] .isGeoPoint()))) {
-				GeoElement[] ret = kernel.getManager3D().Prism(
+				GeoElement[] ret = kernelA.getManager3D().Prism(
 								c.getLabels(),
 								(GeoPolygon) arg[0],
 								(GeoPointND) arg[1]);
@@ -53,7 +47,7 @@ public class CmdPrism extends CommandProcessorDesktop {
 				return ret;
 			} else if ((ok[0] = (arg[0] .isGeoPolygon()))
 					&& (ok[1] = (arg[1] .isNumberValue()))) {
-				GeoElement[] ret = kernel.getManager3D().Prism(
+				GeoElement[] ret = kernelA.getManager3D().Prism(
 								c.getLabels(),
 								(GeoPolygon) arg[0],
 								(NumberValue) arg[1]);	
@@ -81,7 +75,7 @@ public class CmdPrism extends CommandProcessorDesktop {
 				}
 			}
 			// everything ok
-			GeoElement[] ret = kernel.getManager3D().Prism(c.getLabels(), points);
+			GeoElement[] ret = kernelA.getManager3D().Prism(c.getLabels(), points);
 			//for older version, make forcing labels not working
 			if (app.fileVersionBefore(Application.getSubValues("4.9.10.0")))
 				return new GeoElement[] {ret[0]};

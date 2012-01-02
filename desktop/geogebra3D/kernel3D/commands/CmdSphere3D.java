@@ -7,9 +7,9 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.commands.CommandProcessorDesktop;
 
-public class CmdSphere3D extends CommandProcessorDesktop {
+
+public class CmdSphere3D extends CommandProcessor {
 	
 	
 	
@@ -32,7 +32,7 @@ public class CmdSphere3D extends CommandProcessorDesktop {
 	    			&& (ok[1] = ( arg[1] .isNumberValue() ))) {
 	    		GeoElement[] ret =
 	    		{
-	    				kernel.getManager3D().Sphere(
+	    				kernelA.getManager3D().Sphere(
 	    						c.getLabel(),
 	    						(GeoPointND) arg[0],
 	    						(NumberValue) arg[1])};
@@ -41,7 +41,7 @@ public class CmdSphere3D extends CommandProcessorDesktop {
 	    			&& (ok[1] = ( arg[1] .isGeoPoint() ))) {
 	    		GeoElement[] ret =
 	    		{
-	    				kernel.getManager3D().Sphere(
+	    				kernelA.getManager3D().Sphere(
 	    						c.getLabel(),
 	    						(GeoPointND) arg[0],
 	    						(GeoPointND) arg[1])};
