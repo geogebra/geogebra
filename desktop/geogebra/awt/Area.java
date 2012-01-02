@@ -82,12 +82,12 @@ public class Area implements geogebra.common.awt.Area, geogebra.awt.Shape{
 
 	public PathIterator getPathIterator(AffineTransform affineTransform) {
 		// TODO Auto-generated method stub
-		return (PathIterator) impl.getPathIterator((java.awt.geom.AffineTransform) affineTransform);
+		return new geogebra.awt.PathIterator(impl.getPathIterator(geogebra.awt.AffineTransform.getAwtAffineTransform(affineTransform)));
 	}
 
 	public PathIterator getPathIterator(AffineTransform at, double flatness) {
 		// TODO Auto-generated method stub
-		return (PathIterator) impl.getPathIterator((java.awt.geom.AffineTransform) at, flatness);
+		return new geogebra.awt.PathIterator(impl.getPathIterator(geogebra.awt.AffineTransform.getAwtAffineTransform(at), flatness));
 	}
 
 	public boolean intersects(double x, double y, double w, double h) {

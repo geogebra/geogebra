@@ -49,11 +49,11 @@ public class Line2D extends geogebra.common.awt.Line2D implements geogebra.awt.S
 	}
 	public PathIterator getPathIterator(AffineTransform affineTransform) {
 		// TODO Auto-generated method stub
-		return (PathIterator) impl.getPathIterator(geogebra.awt.AffineTransform.getAwtAffineTransform(affineTransform));
+		return new geogebra.awt.PathIterator(impl.getPathIterator(geogebra.awt.AffineTransform.getAwtAffineTransform(affineTransform)));
 	}
 	public PathIterator getPathIterator(AffineTransform at, double flatness) {
 		// TODO Auto-generated method stub
-		return (PathIterator) impl.getPathIterator(geogebra.awt.AffineTransform.getAwtAffineTransform(at), flatness);
+		return new geogebra.awt.PathIterator(impl.getPathIterator(geogebra.awt.AffineTransform.getAwtAffineTransform(at), flatness));
 	}
 	public boolean intersects(double x, double y, double w, double h) {
 		// TODO Auto-generated method stub
