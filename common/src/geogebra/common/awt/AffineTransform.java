@@ -11,5 +11,7 @@ public interface AffineTransform {
 	public double getShearX();
 	public double getShearY();
 	public Shape createTransformedShape(Object shape);
-	public void transform(PathPoint p, PathPoint p2);
+	public void transform(Point2D p, Point2D p2);
+	public void transform(double[] labelCoords, int i, double[] labelCoords2,
+			int j, int k);
 }

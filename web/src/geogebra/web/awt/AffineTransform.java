@@ -21,6 +21,7 @@
 
 package geogebra.web.awt;
 
+import geogebra.common.awt.Point2D;
 import geogebra.common.awt.Shape;
 import geogebra.common.euclidian.PathPoint;
 
@@ -84,6 +85,17 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
     }
 
 	public void transform(PathPoint p, PathPoint p2) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void transform(Point2D p, Point2D p2) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void transform(double[] labelCoords, int i, double[] labelCoords2,
+            int j, int k) {
 	    // TODO Auto-generated method stub
 	    
     }

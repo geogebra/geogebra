@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.Arc2D;
 import geogebra.common.awt.RectangularShape;
 import geogebra.common.awt.Shape;
@@ -51,7 +52,6 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.clipping.ClipShape;
 
 import java.awt.Rectangle;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.QuadCurve2D;
@@ -100,7 +100,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	private double mx, my, radius, yradius, angSt, angEnd;
 
 	// for ellipse, hyperbola, parabola
-	private AffineTransform transform = new AffineTransform();
+	private AffineTransform transform = AwtFactory.prototype.newAffineTransform();
 	private Shape shape;
 
 	// CONIC_ELLIPSE
@@ -719,8 +719,8 @@ final public class DrawConic extends Drawable implements Previewable {
 		}
 
 		// set transform
-		transform.setTransform(geogebra.awt.AffineTransform.getAwtAffineTransform(view.getCoordTransform()));
-		transform.concatenate(geogebra.awt.AffineTransform.getAwtAffineTransform(view.getTransform(conic, M, ev)));
+		transform.setTransform(view.getCoordTransform());
+		transform.concatenate(view.getTransform(conic, M, ev));
 
 		// set ellipse
 		ellipse.setFrameFromCenter(0, 0, halfAxes[0], halfAxes[1]);
@@ -728,10 +728,12 @@ final public class DrawConic extends Drawable implements Previewable {
 		// BIG RADIUS: larger than screen diagonal
 		int BIG_RADIUS = view.getWidth() + view.getHeight(); // > view's diagonal
 		if (xradius < BIG_RADIUS && yradius < BIG_RADIUS) {
-			shape = new geogebra.awt.GenericShape(transform.createTransformedShape(ellipse));
+			shape = transform.createTransformedShape(ellipse);
 		} else {
 			// clip big arc at screen
-			shape=ClipShape.clipToRect(shape,ellipse, transform, new Rectangle(-1,
+//			shape=ClipShape.clipToRect(shape,ellipse, transform, new Rectangle(-1,
+//					-1, view.getWidth() + 2, view.getHeight() + 2));
+			shape=ClipShape.clipToRect(new geogebra.awt.Ellipse2DDouble(ellipse), transform, new geogebra.awt.Rectangle(-1,
 					-1, view.getWidth() + 2, view.getHeight() + 2));
 
 		}
@@ -845,12 +847,12 @@ final public class DrawConic extends Drawable implements Previewable {
 		}
 
 		// set transform for Graphics2D
-		transform.setTransform(geogebra.awt.AffineTransform.getAwtAffineTransform(view.getCoordTransform()));
-		transform.concatenate(geogebra.awt.AffineTransform.getAwtAffineTransform(view.getTransform(conic, M, ev)));
+		transform.setTransform(view.getCoordTransform());
+		transform.concatenate(view.getTransform(conic, M, ev));
 
 		// build general paths of hyperbola wings and transform them
-		hypLeft.transform(new geogebra.awt.AffineTransform(transform));
-		hypRight.transform(new geogebra.awt.AffineTransform(transform));
+		hypLeft.transform(transform);
+		hypRight.transform(transform);
 
 		// set label coords
 		labelCoords[0] = 2.0 * a;
@@ -915,8 +917,8 @@ final public class DrawConic extends Drawable implements Previewable {
 		y0 = i * conic.p; // y = sqrt(2k p^2) = i p
 
 		// set transform
-		transform.setTransform(geogebra.awt.AffineTransform.getAwtAffineTransform(view.getCoordTransform()));
-		transform.concatenate(geogebra.awt.AffineTransform.getAwtAffineTransform(view.getTransform(conic, M, ev)));
+		transform.setTransform(view.getCoordTransform());
+		transform.concatenate(view.getTransform(conic, M, ev));
 
 		// setCurve(P0, P1, P2)
 		// parabola.setCurve(x0, y0, -x0, 0.0, x0, -y0);

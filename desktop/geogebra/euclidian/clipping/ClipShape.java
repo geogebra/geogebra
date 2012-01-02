@@ -330,12 +330,29 @@ public class ClipShape {
 		return clipToRect(s,null,r);
 	}
 
+	/**
+	 * @param result
+	 * @param s
+	 * @param t
+	 * @param r
+	 * @return
+	 */
 	public static geogebra.common.awt.Shape clipToRect(geogebra.common.awt.Shape result,Shape s,AffineTransform t,Rectangle2D r) {
 		if(result==null)
 			return new geogebra.awt.GeneralPath(clipToRect(s,t,r));
 		((geogebra.awt.GenericShape)result).setImpl(clipToRect(s,t,r));
 		return result;
 	}
+	
+	public static geogebra.common.awt.GeneralPath clipToRect(
+			geogebra.common.awt.Shape s, geogebra.common.awt.AffineTransform t,
+			geogebra.common.awt.Rectangle2D r){
+		return new geogebra.awt.GeneralPath(clipToRect(
+				geogebra.awt.GenericShape.getAwtShape(s),
+				geogebra.awt.AffineTransform.getAwtAffineTransform(t),
+				geogebra.awt.GenericRectangle2D.getAWTRectangle2D(r)));
+	}
+	
 	/** This creates a <code>GeneralPath</code> representing <code>s</code> when
 	 * clipped to <code>r</code>
 	 * @param s a shape that you want clipped

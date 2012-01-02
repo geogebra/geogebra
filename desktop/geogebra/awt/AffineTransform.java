@@ -64,14 +64,17 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
 		return new geogebra.awt.GenericShape(ret);
 	}
 
-	public void transform(PathPoint p, PathPoint p2) {
+	public void transform(geogebra.common.awt.Point2D p, geogebra.common.awt.Point2D p2) {
 		java.awt.geom.Point2D point = geogebra.awt.Point2D.getAwtPoint2D(p);
 		java.awt.geom.Point2D point2 = geogebra.awt.Point2D.getAwtPoint2D(p2); 
 		at.transform(point, point2);
-		p.setX(point.getX());
-		p.setY(point.getY());
 		p2.setX(point2.getX());
 		p2.setY(point2.getY());
+	}
 
+	public void transform(double[] labelCoords, int i, double[] labelCoords2,
+			int j, int k) {
+		at.transform(labelCoords, i, labelCoords2, j, k);
+		
 	}
 }
