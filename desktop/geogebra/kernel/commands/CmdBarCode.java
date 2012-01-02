@@ -253,9 +253,8 @@ class CmdBarCode extends CommandProcessor {
 				// at
 				// com.google.zxing.oned.EAN13Writer.encode(EAN13Writer.java:73)
 
-				GeoText geoText = new GeoText(cons, e1.getLocalizedMessage());
-				geoText.setLabel(c.getLabel());
-				GeoElement[] ret = { geoText };
+				app.showError(e1.getLocalizedMessage());
+				GeoElement[] ret = { };
 				return ret;
 			}
 
@@ -307,14 +306,21 @@ class CmdBarCode extends CommandProcessor {
 
 		}
 
-		if (result == null) {
-			GeoElement[] ret = {};
-			return ret;
+		// check if return geo exists, create it if not
+		GeoElement retGeo = cons.getKernel().lookupLabel(c.getLabel());
+		if (retGeo == null || !retGeo.isGeoText()) {
+			retGeo = new GeoText(cons);
+			retGeo.setLabel(c.getLabel());
+			
+		}
+				
+		if (result != null) {
+			((GeoText)retGeo).setTextString(result.getText());
+		} else {
+			retGeo.setUndefined();
 		}
 
-		GeoText text = new GeoText(cons, result.getText());
-		text.setLabel(c.getLabel());
-		GeoElement[] ret = { text };
+		GeoElement[] ret = { retGeo };
 		return ret;
 	}
 }
