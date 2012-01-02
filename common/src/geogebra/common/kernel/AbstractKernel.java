@@ -15,7 +15,6 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.arithmetic.Polynomial;
@@ -72,7 +71,6 @@ import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionConditional;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -210,7 +208,6 @@ import geogebra.common.kernel.statistics.RegressionMath;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractApplication.CasType;
 import geogebra.common.main.MyError;
-import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.MaxSizeHashMap;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
@@ -223,8 +220,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Stack;
 import java.util.TreeSet;
-
-import org.mortbay.util.StringUtil;
 
 public abstract class AbstractKernel {
 
