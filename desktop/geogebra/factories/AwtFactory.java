@@ -8,6 +8,7 @@ import geogebra.common.awt.Ellipse2DFloat;
 import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Line2D;
 import geogebra.common.awt.Point2D;
+import geogebra.common.awt.QuadCurve2D;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.Color;
@@ -138,6 +139,11 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	@Override
 	public Arc2D newArc2D() {
 		return new geogebra.awt.Arc2D();
+	}
+
+	@Override
+	public QuadCurve2D newQuadCurve2D() {
+		return new geogebra.awt.QuadCurve2D();
 	}
 
 	

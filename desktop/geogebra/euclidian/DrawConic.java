@@ -22,6 +22,7 @@ import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.Arc2D;
 import geogebra.common.awt.RectangularShape;
 import geogebra.common.awt.Shape;
+import geogebra.common.awt.QuadCurve2D;
 import geogebra.common.euclidian.DrawLine;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianConstants;
@@ -54,7 +55,6 @@ import geogebra.euclidian.clipping.ClipShape;
 import java.awt.Rectangle;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.QuadCurve2D;
 import java.util.ArrayList;
 
 /**
@@ -113,7 +113,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	private double x0, y0;
 	private double k2;
 	private GeoVec2D vertex;
-	private QuadCurve2D.Double parabola;
+	private QuadCurve2D parabola;
 	private double[] parpoints = new double[6];
 
 	// CONIC_HYPERBOLA
@@ -888,7 +888,7 @@ final public class DrawConic extends Drawable implements Previewable {
 
 		if (firstParabola) {
 			firstParabola = false;
-			parabola = new QuadCurve2D.Double();
+			parabola = AwtFactory.prototype.newQuadCurve2D();
 		}
 		// calc control points coords of parabola y^2 = 2 p x
 		x0 = Math.max(Math.abs(vertex.x - view.getXmin()),
@@ -931,7 +931,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		parpoints[5] = -y0;
 		transform.transform(parpoints, 0, parpoints, 0, 3);
 		parabola.setCurve(parpoints, 0);
-		shape = new geogebra.awt.GenericShape(parabola);
+		shape = parabola;
 
 		// set label coords
 		labelCoords[0] = 2 * conic.p;

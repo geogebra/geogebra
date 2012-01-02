@@ -2,6 +2,7 @@ package geogebra.common.factories;
 
 import java.awt.geom.Point2D.Double;
 
+import geogebra.common.awt.QuadCurve2D;
 import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.Color;
@@ -46,5 +47,6 @@ public abstract class AwtFactory {
 	public abstract Ellipse2DDouble newEllipse2DDouble();
 	public abstract Ellipse2DFloat newEllipse2DFloat(int i, int j, int k, int l);
 	public abstract Arc2D newArc2D();
+	public abstract QuadCurve2D newQuadCurve2D();
 	
 }
