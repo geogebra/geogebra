@@ -6,5 +6,7 @@ public interface Area extends Shape{
 	void intersect(Area shape);
 	void exclusiveOr(Area shape);
 	void add(Area shape);
+	boolean isEmpty();
+	public PathIterator getPathIterator(AffineTransform t);
 
 }

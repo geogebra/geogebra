@@ -23,13 +23,13 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 
 	private ArrayList<PathPoint> pathPoints;
 	private geogebra.common.awt.GeneralPath gp;
-	private EuclidianViewInterface2D view;
+	private EuclidianViewInterfaceSlim view;
 	private double largestCoord;
 	private boolean needClosePath;
 	private geogebra.common.awt.Rectangle bounds;
 	
 
-	public GeneralPathClipped(EuclidianViewInterface2D view) {
+	public GeneralPathClipped(EuclidianViewInterfaceSlim view) {
 		//this.view = (EuclidianView)view;
 		this.view = view;
 		pathPoints = new ArrayList<PathPoint>();

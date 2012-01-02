@@ -94,13 +94,11 @@ public class Area implements geogebra.common.awt.Area, geogebra.awt.Shape{
 		return impl.intersects(x, y, w, h);
 	}
 
-	public boolean intersects(java.awt.geom.Rectangle2D r) {
-		// TODO Auto-generated method stub
-		return impl.intersects(r);
+	public boolean intersects(Rectangle2D r) {
+		return impl.intersects(geogebra.awt.GenericRectangle2D.getAWTRectangle2D(r));
 	}
 
-	public boolean intersects(Rectangle2D r) {
-		// TODO Auto-generated method stub
-		return impl.intersects(geogebra.awt.GenericRectangle2D.getAWTRectangle2D(r));
+	public boolean isEmpty() {
+		return impl.isEmpty();
 	}
 }

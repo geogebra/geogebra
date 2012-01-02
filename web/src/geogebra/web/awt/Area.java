@@ -106,5 +106,8 @@ public class Area implements geogebra.common.awt.Area {
 			return null;
 		return ((Area)shape).impl;
 	}
+	public boolean isEmpty() {
+	    return impl.isEmpty();
+    }
 
 }

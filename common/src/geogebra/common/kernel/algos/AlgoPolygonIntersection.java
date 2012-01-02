@@ -12,25 +12,24 @@ the Free Software Foundation.
 
 //
  
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoPolygon;
 
 
 
-public class AlgoPolygonUnion extends AlgoPolygonOperation {
+public class AlgoPolygonIntersection extends AlgoPolygonOperation {
     
-	public AlgoPolygonUnion(Construction cons, String[] labels,
+	public AlgoPolygonIntersection(Construction cons, String[] labels,
 			GeoPolygon inPoly0, GeoPolygon inPoly1) {
 		
-		super(cons, labels, inPoly0, inPoly1, AlgoPolygonOperation.TYPE_UNION);
+		super(cons, labels, inPoly0, inPoly1, AlgoPolygonOperation.TYPE_INTERSECTION);
 	}
 	
 	@Override
 	public Algos getClassName() {
-		return Algos.AlgoPolygonUnion;
+		return Algos.AlgoPolygonIntersection;
 	}
 	
 }

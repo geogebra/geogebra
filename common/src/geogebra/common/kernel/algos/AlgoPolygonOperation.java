@@ -12,23 +12,21 @@ the Free Software Foundation.
 
 //
 
-package geogebra.kernel.algos;
+package geogebra.common.kernel.algos;
 
+import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
-import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
-import geogebra.euclidian.EuclidianView;
-import geogebra.main.Application;
 
-import java.awt.geom.Area;
-import java.awt.geom.PathIterator;
+
+import geogebra.common.awt.Area;
+import geogebra.common.awt.PathIterator;
 import java.util.ArrayList;
 
 /**
@@ -52,7 +50,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 	private GeoPoint2 [] points;
 	private int operationType;
-	private EuclidianView ev;
+	private EuclidianViewInterfaceSlim ev;
 
 	private boolean labelPointsAndSegments;
 	private boolean labelsNeedIniting;
@@ -66,7 +64,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 		super(cons);
 
-		ev = ((Application) cons.getApplication()).getEuclidianView();
+		ev = cons.getApplication().getEuclidianView();
 		this.operationType = operationType;
 		this.inPoly0 = inPoly0;
 		this.inPoly1 = inPoly1;
@@ -175,7 +173,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		}
 		gp.closePath();
 
-		return new Area(geogebra.awt.GenericShape.getAwtShape(gp));	
+		return geogebra.common.factories.AwtFactory.prototype.newArea(gp);	
 	}
 
 	@Override
