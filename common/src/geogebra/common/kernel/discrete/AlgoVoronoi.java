@@ -10,24 +10,20 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.discrete;
+package geogebra.common.kernel.discrete;
 
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
-import geogebra.common.kernel.discrete.MyLine;
 import geogebra.common.kernel.discrete.delauney.Pnt;
 import geogebra.common.kernel.discrete.delauney.Triangle;
 import geogebra.common.kernel.discrete.delauney.Triangulation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
-import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
-
-import geogebra.common.awt.Point2D;
 
 import java.util.ArrayList;
 import java.util.HashSet;

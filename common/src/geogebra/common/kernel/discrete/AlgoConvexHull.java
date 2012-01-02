@@ -1,4 +1,4 @@
-package geogebra.kernel.discrete;
+package geogebra.common.kernel.discrete;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.Algos;

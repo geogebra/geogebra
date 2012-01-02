@@ -10,24 +10,24 @@ the Free Software Foundation.
 
 */
 
-package geogebra.kernel.discrete;
+package geogebra.common.kernel.discrete;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.VoronoiAlgorithm;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.AbstractRepresentation;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.RepresentationFactory;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.RepresentationInterface;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.triangulation.TriangulationRepresentation;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.VLinkedNode;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.discrete.signalprocesser.voronoi.VoronoiAlgorithm;
-import geogebra.kernel.discrete.signalprocesser.voronoi.representation.RepresentationFactory;
-import geogebra.kernel.discrete.signalprocesser.voronoi.representation.triangulation.TriangulationRepresentation;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -1,4 +1,4 @@
-package geogebra.kernel.discrete.signalprocesser.voronoi.representation.triangulation;
+package geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.triangulation;
 
 public class VHalfEdge {
 

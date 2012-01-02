@@ -44,7 +44,7 @@ public class GeoGebraAppletPreloader extends JApplet {
 				System.out.print("loading geogebra_algos.jar... ");
 				System.out.flush();
 				try {
-					geogebra.kernel.discrete.AlgoVoronoi.class.getClass();
+					geogebra.common.kernel.discrete.AlgoVoronoi.class.getClass();
 					System.out.println("done");
 				} catch (Exception e) {
 					System.out.println("failed");

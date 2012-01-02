@@ -1,4 +1,4 @@
-package geogebra.kernel.discrete.signalprocesser.voronoi.representation.simpletriangulation;
+package geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.simpletriangulation;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
 
 public class VTriangle extends VPoint {

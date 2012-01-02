@@ -1,4 +1,4 @@
-package geogebra.kernel.discrete.signalprocesser.voronoi.representation.voronoicell;
+package geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.boundaryproblem.voronoicell;
 
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.AbstractRepresentation;
@@ -6,7 +6,6 @@ import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.V
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.binarysearchtreeimpl.VInternalNode;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.binarysearchtreeimpl.VLeafNode;
 
-import java.awt.Graphics2D;
 import java.util.Collection;
 
 // Note: this implementation is specifically dependant on the
@@ -17,6 +16,7 @@ public class VoronoiCellRepresentation extends AbstractRepresentation {
     // Variables
     
     private Collection<VPoint> voronoicells;
+    //private final ArrayList<VHalfEdge> tmp = new ArrayList<VHalfEdge>();
     
     /* ***************************************************** */
     // Constructor
@@ -40,6 +40,7 @@ public class VoronoiCellRepresentation extends AbstractRepresentation {
     public void beginAlgorithm(Collection<VPoint> points) {
         // Remember array of points
         voronoicells = points;
+        //tmp.clear();
         
         // Reset each VVertex
         for ( VPoint point : points ) {
@@ -116,13 +117,13 @@ public class VoronoiCellRepresentation extends AbstractRepresentation {
     /* ***************************************************** */
     // Paint Method
     
-    public void paint(Graphics2D g) {
+    /*public void paint(Graphics2D g) {
         for ( VPoint point : voronoicells ) {
             VVoronoiCell voronoicell = (VVoronoiCell)point;
             VHalfEdge halfedge = voronoicell.halfedge;
             
             // Print out area
-            g.drawString(Double.toString(voronoicell.getAreaOfCell()), (int)voronoicell.x+6, (int)voronoicell.y);
+            g.drawString(Integer.toString(voronoicell.getAreaOfCell()), (int)voronoicell.x+6, (int)voronoicell.y);
             
             // Draw voronoi cell
             VHalfEdge curr = halfedge;
@@ -140,7 +141,22 @@ public class VoronoiCellRepresentation extends AbstractRepresentation {
                 curr=curr.getNext();
             } while ( curr.getNext()!=null && curr!=halfedge );
         }
-    }
+        
+        /*for ( VHalfEdge halfedge : tmp ) {
+            if ( halfedge.next==null ) continue;
+         
+            // Draw line
+            if ( halfedge.x==-1 && halfedge.y==-1 && halfedge.next.x==-1 && halfedge.next.x==-1 ) {
+                continue;
+            } else if ( halfedge.x==-1 && halfedge.y==-1 ) {
+                g.drawLine( halfedge.next.x , halfedge.next.y , halfedge.next.x , halfedge.next.y - 10 );
+            } else if ( halfedge.next.x==-1 && halfedge.next.x==-1 ) {
+                g.drawLine( halfedge.x , halfedge.y , halfedge.x , halfedge.y - 10 );
+            } else {
+                g.drawLine( halfedge.x , halfedge.y , halfedge.next.x , halfedge.next.y );
+            }
+        }
+    }*/
     
     /* ***************************************************** */
 }

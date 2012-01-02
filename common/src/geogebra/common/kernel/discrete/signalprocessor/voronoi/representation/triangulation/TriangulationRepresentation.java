@@ -1,10 +1,10 @@
-package geogebra.kernel.discrete.signalprocesser.voronoi.representation.triangulation;
+package geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.triangulation;
 
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.AbstractRepresentation;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.VLinkedNode;
 
-import java.awt.Graphics2D;
+//import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -356,7 +356,7 @@ public class TriangulationRepresentation extends AbstractRepresentation {
     /* ***************************************************** */
     // Paint Method
     
-    public void paint(Graphics2D g) {
+    /*public void paint(Graphics2D g) {
         if ( mode==MODE_REDUCE_OUTER_BOUNDARIES && SHOW_INTERNAL_TRIANGLES==false ) {
             // Find an outer edge
             VHalfEdge outeredge = findOuterEdge();
@@ -417,7 +417,7 @@ public class TriangulationRepresentation extends AbstractRepresentation {
             }
         }
     }
-    
+    */
     public VHalfEdge findOuterEdge() {
         for ( VPoint point : vertexpoints ) {
             VVertex vertex = (VVertex) point;

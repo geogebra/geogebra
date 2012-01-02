@@ -1,12 +1,11 @@
-package geogebra.kernel.discrete.signalprocesser.voronoi.representation.boundaryproblem;
+package geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.boundaryproblem;
 
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.AbstractRepresentation;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.boundaryproblem.voronoicell.VVoronoiCell;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.voronoicell.VoronoiCellRepresentation;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.VLinkedNode;
-import geogebra.kernel.discrete.signalprocesser.voronoi.representation.boundaryproblem.voronoicell.VVoronoiCell;
-import geogebra.kernel.discrete.signalprocesser.voronoi.representation.voronoicell.VoronoiCellRepresentation;
 
-import java.awt.Graphics2D;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -237,7 +236,7 @@ public class BoundaryProblemRepresentation extends AbstractRepresentation {
     /* ***************************************************** */
     // Paint Method
     
-    public void paint(Graphics2D g) {
+    /*public void paint(Graphics2D g) {
         // Paint for voronoi representation first
         //if ( USE_VORONOIRATIO ) voronoirepresentation.paint(g);
         

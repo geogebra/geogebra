@@ -1,5 +1,4 @@
-package geogebra.kernel.discrete.signalprocesser.voronoi;
-import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
+package geogebra.common.kernel.discrete.signalprocessor.voronoi;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.eventqueue.EventQueue;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.eventqueue.VCircleEvent;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.eventqueue.VEvent;
@@ -8,9 +7,8 @@ import geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.Re
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.AbstractStatusStructure;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.VLinkedNode;
 import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
 
-import java.awt.Graphics2D;
+//import java.awt.Graphics2D;
 import java.util.Collection;
 
 public class VoronoiAlgorithm {
@@ -30,7 +28,7 @@ public class VoronoiAlgorithm {
     public static void generateVoronoi(RepresentationInterface datainterface, Collection<VPoint> points) {
         generateVoronoi(datainterface, points, null, null, -1);
     }
-    protected static void generateVoronoi(RepresentationInterface datainterface, Collection<VPoint> points, Graphics2D g, VPoint attentiontopoint, int attentiontopos) {
+    protected static void generateVoronoi(RepresentationInterface datainterface, Collection<VPoint> points, Object g, VPoint attentiontopoint, int attentiontopos) {
         // Initialise event queue with all site events
         EventQueue eventqueue = new EventQueue();
         VSiteEvent attentiontositeevent = null;

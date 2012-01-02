@@ -1,10 +1,9 @@
-package geogebra.kernel.discrete.signalprocesser.voronoi.representation.simpletriangulation;
+package geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.simpletriangulation;
 
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.AbstractRepresentation;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.VLinkedNode;
 
-import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -57,13 +56,13 @@ public class SimpleTriangulationRepresentation extends AbstractRepresentation {
     /* ***************************************************** */    
     // Paint Method
     
-    public void paint(Graphics2D g) {
+    /*public void paint(Graphics2D g) {
         for ( VTriangle triangle : triangles ) {
             g.drawLine( (int)triangle.p1.x , (int)triangle.p1.y , (int)triangle.p2.x , (int)triangle.p2.y );
             g.drawLine( (int)triangle.p2.x , (int)triangle.p2.y , (int)triangle.p3.x , (int)triangle.p3.y );
             g.drawLine( (int)triangle.p3.x , (int)triangle.p3.y , (int)triangle.p1.x , (int)triangle.p1.y );
         }
-    }
+    }*/
     
     /* ***************************************************** */    
 }

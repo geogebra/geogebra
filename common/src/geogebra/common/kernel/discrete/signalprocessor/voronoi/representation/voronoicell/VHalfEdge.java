@@ -1,4 +1,4 @@
-package geogebra.kernel.discrete.signalprocesser.voronoi.representation.boundaryproblem.voronoicell;
+package geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.voronoicell;
 
 public class VHalfEdge {
     

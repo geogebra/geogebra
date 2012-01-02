@@ -1,4 +1,4 @@
-package geogebra.kernel.discrete.signalprocesser.voronoi.representation.voronoicell;
+package geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.voronoicell;
 
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
 

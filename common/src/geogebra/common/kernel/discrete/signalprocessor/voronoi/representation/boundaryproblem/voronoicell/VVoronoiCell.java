@@ -1,15 +1,15 @@
-package geogebra.kernel.discrete.signalprocesser.voronoi.representation.voronoicell;
-//package signalprocesser.voronoi.representation.boundaryproblem.voronoicell;
+//package signalprocesser.voronoi.representation.voronoicell;
+package geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.boundaryproblem.voronoicell;
 
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
 
-public class VVoronoiCell extends VPoint {
-//public class VVoronoiCell extends signalprocesser.voronoi.representation.boundaryproblem.VVertex {
+//public class VVoronoiCell extends VPoint {
+public class VVoronoiCell extends  geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.boundaryproblem.VVertex {
     
-    public static final double NO_AREA_CALCULATED = -1.0;
-    public static final double INVALID_AREA       = -2.0;
+    public static final int NO_AREA_CALCULATED = -1;
+    public static final int INVALID_AREA       = -2;
     
-    public double area = NO_AREA_CALCULATED;
+    public int area = NO_AREA_CALCULATED;
     public VHalfEdge halfedge;
     
     public VVoronoiCell() { super(); }
@@ -17,18 +17,18 @@ public class VVoronoiCell extends VPoint {
     public VVoronoiCell(VPoint point) { super(point); }
     
     public void resetArea() { area = NO_AREA_CALCULATED; }
-    public double getAreaOfCell() {
+    public int getAreaOfCell() {
         if ( area==NO_AREA_CALCULATED ) {
             area = calculateAreaOfCell();
-            return ( area==INVALID_AREA ? -1.0 : area );
+            return ( area==INVALID_AREA ? -1 : area );
         } else if ( area==INVALID_AREA ) {
-            return -1.0;
+            return -1;
         } else {
             return area;
         }
     }
 
-    private double calculateAreaOfCell() {
+    private int calculateAreaOfCell() {
         // Check initially we have at least a triangle
         if ( halfedge==null || halfedge.getPrev()==null || halfedge.getNext()==null ) {
             return INVALID_AREA;
@@ -56,7 +56,7 @@ public class VVoronoiCell extends VPoint {
                 if ( point2.getNext()==null ) {
                     return INVALID_AREA;
                 } else if ( point2.getNext()==point1 ) {
-                    return totalarea;
+                    return (int)totalarea;
                 }
                 
                 // Swap to leftsided triangle
@@ -69,7 +69,7 @@ public class VVoronoiCell extends VPoint {
                 if ( point1.getPrev()==null ) {
                     return INVALID_AREA;
                 } else if ( point1.getPrev()==point2 ) {
-                    return totalarea;
+                    return (int)totalarea;
                 }
                 
                 // Swap to rightsided triangle
