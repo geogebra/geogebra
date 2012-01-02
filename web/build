@@ -20,7 +20,7 @@ ant compile-grammar-cl || exit 2
 
 # 3. Compiling common
 cd ../common
-ant -f web-build.xml clean libs javac || exit 3
+ant -f web-build.xml clean javac || exit 3
 
 # 4. Creating symlinks
 COMMONDIR=`pwd`
