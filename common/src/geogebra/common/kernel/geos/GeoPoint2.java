@@ -1872,12 +1872,27 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
 					GeoNumeric yy = new GeoNumeric(cons, inhomY);
 					spreadsheetTraceList.add(yy);
 				}
-				
+
 			} else {
+
+				// spreadsheetTraceList exists, 
+				// but if point type has changed we may need to reset traceList type
+				if (isPolar() && !spreadsheetTraceList.get(1).isGeoAngle()) {
+					spreadsheetTraceList.remove(1);
+					GeoAngle yy = new GeoAngle(cons, inhomY);
+					spreadsheetTraceList.add(yy);
+				}
+				else if(!isPolar() && spreadsheetTraceList.get(1).isGeoAngle()){
+					spreadsheetTraceList.remove(1);
+					GeoNumeric yy = new GeoNumeric(cons, inhomY);
+					spreadsheetTraceList.add(yy);
+				}
+				
+				// now set values
 				spreadsheetTraceList.get(0).setValue(inhomX);
 				spreadsheetTraceList.get(1).setValue(inhomY);
 			}
-			
+
 			return spreadsheetTraceList;
 		}
 }
