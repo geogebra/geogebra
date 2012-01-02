@@ -129,7 +129,7 @@ public class StatDialogController {
 		}else{
 
 			Point location = geo.getSpreadsheetCoords();
-			boolean isCell = (location != null && location.x < SpreadsheetView.MAX_COLUMNS && location.y < SpreadsheetView.MAX_ROWS);
+			boolean isCell = (location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS && location.y < Kernel.MAX_SPREADSHEET_ROWS);
 
 			if(isCell){	
 				//Application.debug("---------> is cell:" + geo.toString());

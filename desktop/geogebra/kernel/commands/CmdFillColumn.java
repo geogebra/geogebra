@@ -1,13 +1,13 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.gui.view.spreadsheet.SpreadsheetView;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.kernel.Kernel;
 
 /**
  *FillColumn
@@ -37,7 +37,7 @@ class CmdFillColumn extends CommandProcessor {
 
 				int col = -1 + (int) ((GeoNumeric) arg[0]).getDouble();
 
-				if (col < 0 || col > SpreadsheetView.MAX_COLUMNS)
+				if (col < 0 || col > Kernel.MAX_SPREADSHEET_COLUMNS)
 					throw argErr(app, c.getName(), arg[0]);
 
 				GeoList list = (GeoList) arg[1];

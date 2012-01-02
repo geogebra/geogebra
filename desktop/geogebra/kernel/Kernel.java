@@ -67,6 +67,10 @@ public class Kernel extends AbstractKernel {
 
 
 
+	// if these are increased above 32000, you need to change traceRow to an int[]
+	public static int MAX_SPREADSHEET_COLUMNS = 9999; 
+	public static int MAX_SPREADSHEET_ROWS = 9999;
+
 	public Kernel(AbstractApplication app) {
 		this();
 		this.app = app;

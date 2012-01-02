@@ -6623,6 +6623,32 @@ public class Application extends AbstractApplication implements
 		return traceManager;
 	}
 
+	public void repaintSpreadsheet() {
+		if (isUsingFullGui() && getGuiManager().hasSpreadsheetView()) {
+			getGuiManager().getSpreadsheetView().repaint();
+		}
+		
+	}
+
+	/*
+	 * needs to work if spreadsheet not opened yet
+	 */
+	public int getHighestUsedColumn() {
+		if (isUsingFullGui() && getGuiManager().hasSpreadsheetView()) {
+			return getGuiManager().getSpreadsheetView().getHighestUsedColumn();
+		} else {
+			int highestUsedColumn = -1;
+			Iterator<GeoElement> it = kernel.getConstruction().getGeoSetConstructionOrder().iterator();
+			while (it.hasNext()) {
+				GeoElement geo = it.next();
+				geogebra.common.awt.Point location = geo.getSpreadsheetCoords();
+				if (location != null && location.x > highestUsedColumn) highestUsedColumn = location.x;
+			}
+
+			return highestUsedColumn;
+		}
+	}
+
 
 
 

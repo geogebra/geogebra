@@ -481,12 +481,12 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 				Rectangle selRect = table.getSelectionRect(true);
 
 				// increase size if we're at the bottom of the spreadsheet				
-				if (table.dragingToRow + 1 == table.getRowCount() && table.dragingToRow < SpreadsheetView.MAX_ROWS) {
+				if (table.dragingToRow + 1 == table.getRowCount() && table.dragingToRow < Kernel.MAX_SPREADSHEET_ROWS) {
 					model.setRowCount(table.getRowCount() +1);							
 				}
 
 				// increase size if we go beyond the right edge
-				if (table.dragingToColumn + 1 == table.getColumnCount() && table.dragingToColumn < SpreadsheetView.MAX_COLUMNS) {
+				if (table.dragingToColumn + 1 == table.getColumnCount() && table.dragingToColumn < Kernel.MAX_SPREADSHEET_COLUMNS) {
 					table.setMyColumnCount(table.getColumnCount() +1);		
 					view.getColumnHeader().revalidate();
 					// Java's addColumn method will clear selection, so re-select our cell 
@@ -507,7 +507,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 						if( -rowOffset < 0.5 * table.getCellRect(table.minSelectionRow -1, table.minSelectionColumn, true).height)
 							rowOffset = 0;
 					}
-					else if (table.maxSelectionRow < SpreadsheetView.MAX_ROWS &&  table.dragingToRow > table.maxSelectionRow) {
+					else if (table.maxSelectionRow < Kernel.MAX_SPREADSHEET_ROWS &&  table.dragingToRow > table.maxSelectionRow) {
 						rowOffset = mouseY - (selRect.y + selRect.height);
 						if( rowOffset < 0.5 * table.getCellRect(table.maxSelectionRow + 1, table.maxSelectionColumn, true).height)
 							rowOffset = 0;
@@ -519,7 +519,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 						if( -colOffset < 0.5 * table.getCellRect(table.minSelectionRow, table.minSelectionColumn - 1, true).width)
 							colOffset = 0;
 					}
-					else if (table.maxSelectionColumn < SpreadsheetView.MAX_COLUMNS && table.dragingToColumn > table.maxSelectionColumn) {
+					else if (table.maxSelectionColumn < Kernel.MAX_SPREADSHEET_COLUMNS && table.dragingToColumn > table.maxSelectionColumn) {
 						colOffset = mouseX - (selRect.x + selRect.width);
 						if( colOffset < 0.5 * table.getCellRect(table.maxSelectionRow, table.maxSelectionColumn + 1, true).width)
 							colOffset = 0;

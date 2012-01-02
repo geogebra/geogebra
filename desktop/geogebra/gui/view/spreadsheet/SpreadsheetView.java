@@ -59,9 +59,10 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 	private SpreadsheetRowHeader rowHeader;
 	private JTableHeader tableHeader;
 
+	// moved to kernel
 	// if these are increased above 32000, you need to change traceRow to an int[]
-	public static int MAX_COLUMNS = 9999; // TODO make sure this is actually used
-	public static int MAX_ROWS = 9999; // TODO make sure this is actually used
+	//public static int MAX_COLUMNS = 9999; // TODO make sure this is actually used
+	//public static int MAX_ROWS = 9999; // TODO make sure this is actually used
 
 	private static int DEFAULT_COLUMN_WIDTH = 70;
 	public static final int ROW_HEADER_WIDTH = 35; // wide enough for "9999"
@@ -454,7 +455,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 
 	public void update(GeoElement geo) {
 		Point location = geo.getSpreadsheetCoords();
-		if (location != null && location.x < MAX_COLUMNS && location.y < MAX_ROWS) {
+		if (location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS && location.y < Kernel.MAX_SPREADSHEET_ROWS) {
 
 			if (location.x > highestUsedColumn) highestUsedColumn = location.x;
 			highestUsedRow=Math.max(highestUsedRow, location.y);

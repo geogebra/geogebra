@@ -3,6 +3,7 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.awt.Point;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.kernel.Kernel;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -332,10 +333,10 @@ public class CellRange implements Cloneable{
 	/** Returns true if the cell range has valid coordinates for this table
 	 */
 	public boolean isValid(){
-		return (minRow >= -1 && minRow < table.getView().MAX_ROWS)
-		&& (maxRow >= -1 && maxRow < table.getView().MAX_ROWS)
-		&& (minColumn >= -1 && minColumn < table.getView().MAX_COLUMNS)
-		&& (maxColumn >= -1 && maxColumn < table.getView().MAX_COLUMNS);
+		return (minRow >= -1 && minRow < Kernel.MAX_SPREADSHEET_ROWS)
+		&& (maxRow >= -1 && maxRow < Kernel.MAX_SPREADSHEET_ROWS)
+		&& (minColumn >= -1 && minColumn < Kernel.MAX_SPREADSHEET_COLUMNS)
+		&& (maxColumn >= -1 && maxColumn < Kernel.MAX_SPREADSHEET_COLUMNS);
 	}
 	
 	
@@ -367,7 +368,7 @@ public class CellRange implements Cloneable{
 		} else if (obj instanceof GeoElement){	
 			Point location = ((GeoElement) obj).getSpreadsheetCoords();
 			// if the geo is a cell then test if inside the cell range
-			if(location != null && location.x < SpreadsheetView.MAX_COLUMNS && location.y < SpreadsheetView.MAX_ROWS){
+			if(location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS && location.y < Kernel.MAX_SPREADSHEET_ROWS){
 				setActualRange();
 				return (location.y >= minRow && location.y <= maxRow 
 						&& location.x >= minColumn && location.x <= maxColumn);

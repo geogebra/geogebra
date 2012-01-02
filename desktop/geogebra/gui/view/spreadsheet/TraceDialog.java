@@ -17,6 +17,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.util.TraceSettings;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.inputfield.MyTextField;
+import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;
@@ -633,7 +634,7 @@ implements
 			String inputText = source.getText().trim();
 			Integer value = Integer.parseInt(source.getText());
 			
-			if (value !=null && value > 0 && value < SpreadsheetView.MAX_ROWS) {
+			if (value !=null && value > 0 && value < Kernel.MAX_SPREADSHEET_ROWS) {
 
 				if (source == firstRowField) {
 					traceManager.clearGeoTraceColumns(getSelectedGeo());
@@ -754,7 +755,7 @@ implements
 					getSettings().traceColumn1,
 					getSettings().traceRow1, 
 					getSettings().traceColumn2,
-					(getSettings().doRowLimit) ? getSettings().traceRow2: view.MAX_ROWS);
+					(getSettings().doRowLimit) ? getSettings().traceRow2: Kernel.MAX_SPREADSHEET_ROWS);
 			}
 			break;
 
@@ -768,7 +769,7 @@ implements
 		case MODE_LOCATE:
 
 			int w = getSettings().traceColumn2 - getSettings().traceColumn1;
-			int h = ((getSettings().doRowLimit) ? getSettings().traceRow2: view.MAX_ROWS)
+			int h = ((getSettings().doRowLimit) ? getSettings().traceRow2: Kernel.MAX_SPREADSHEET_ROWS)
 					- getSettings().traceRow1;
 
 			cr.setCellRange(anchorColumn, anchorRow, anchorColumn + w,anchorRow + h);

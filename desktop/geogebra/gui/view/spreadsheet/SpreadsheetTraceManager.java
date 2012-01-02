@@ -1,18 +1,13 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
-import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.TraceSettings;
 import geogebra.kernel.Kernel;
@@ -49,7 +44,7 @@ public class SpreadsheetTraceManager {
 	// external components
 	private Application app;
 	private Kernel kernel;
-	private SpreadsheetView view;
+	//private SpreadsheetView view;
 	protected MyTable table;
 
 	// collection of all geos currently traced
@@ -66,7 +61,6 @@ public class SpreadsheetTraceManager {
 
 	public SpreadsheetTraceManager(SpreadsheetView view) {
 
-		this.view = view;
 		app = view.getApplication();
 		kernel = app.getKernel();
 		table = view.getTable();
@@ -110,7 +104,7 @@ public class SpreadsheetTraceManager {
 		if (t.doRowLimit) {
 			t.traceRow2 = t.traceRow1 + t.numRows - 1 + t.headerOffset;
 		} else {
-			t.traceRow2 = SpreadsheetView.MAX_ROWS;
+			t.traceRow2 = Kernel.MAX_SPREADSHEET_ROWS;
 		}
 
 		t.tracingRow = t.traceRow1;
@@ -135,7 +129,7 @@ public class SpreadsheetTraceManager {
 
 		// traceToSpreadsheet(geo);
 		setHeader(geo, cons);
-		view.repaint();
+		app.repaintSpreadsheet();
 
 	}
 
@@ -143,7 +137,7 @@ public class SpreadsheetTraceManager {
 		TraceSettings t = geo.getTraceSettings();
 		// clearGeoTraceColumns(geo);
 		table.copyPasteCut.delete(t.traceColumn1, t.traceRow1, t.traceColumn2,
-				SpreadsheetView.MAX_ROWS);
+				Kernel.MAX_SPREADSHEET_ROWS);
 		addSpreadsheetTraceGeo(geo);
 	}
 
@@ -153,7 +147,7 @@ public class SpreadsheetTraceManager {
 		if (!traceGeoCollection.containsKey(geo))
 			return;
 		traceGeoCollection.remove(geo);
-		view.repaint();
+		app.repaintSpreadsheet();
 	}
 
 	/** Remove all geos from the trace collection. */
@@ -164,7 +158,7 @@ public class SpreadsheetTraceManager {
 		 * geo.setSpreadsheetTrace(false); }
 		 */
 		traceGeoCollection.clear();
-		view.repaint();
+		app.repaintSpreadsheet();
 		// Application.printStacktrace("remove all traces ");
 	}
 
@@ -183,7 +177,7 @@ public class SpreadsheetTraceManager {
 				// System.out.println("load this geo: " + geo.toString());
 			}
 		}
-		view.repaint();
+		app.repaintSpreadsheet();
 	}
 
 	// =============================================
@@ -191,7 +185,7 @@ public class SpreadsheetTraceManager {
 	// =============================================
 
 	private int getNextTraceColumn() {
-		return Math.max(view.getHighestUsedColumn(), getHighestTraceColumn()) + 1;
+		return Math.max(app.getHighestUsedColumn(), getHighestTraceColumn()) + 1;
 	}
 
 	private int getHighestTraceColumn() {
@@ -273,7 +267,7 @@ public class SpreadsheetTraceManager {
 			return;
 
 		table.copyPasteCut.delete(t.traceColumn1, t.traceRow1, t.traceColumn2,
-				SpreadsheetView.MAX_ROWS);
+				Kernel.MAX_SPREADSHEET_ROWS);
 		t.tracingRow = t.traceRow1;
 		t.lastTrace.clear();
 	}
@@ -295,7 +289,7 @@ public class SpreadsheetTraceManager {
 			}
 		}
 
-		view.repaint();
+		app.repaintSpreadsheet();
 	}
 
 	public TraceSettings getDefaultTraceSettings() {
@@ -461,7 +455,7 @@ public class SpreadsheetTraceManager {
 		}
 
 		// allow autoscrolling to keep the current trace in view
-		view.setScrollToShow(true);
+		app.setScrollToShow(true);
 
 		// set the headers
 		if (t.tracingRow == t.traceRow1 && t.headerOffset > 0 && !t.headerSet()) {
@@ -549,7 +543,7 @@ public class SpreadsheetTraceManager {
 			}
 		}
 
-		view.setScrollToShow(false);
+		app.setScrollToShow(false);
 
 	}
 

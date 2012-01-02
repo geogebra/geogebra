@@ -1,13 +1,13 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.gui.view.spreadsheet.SpreadsheetView;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.kernel.Kernel;
 
 /**
  *FillRow
@@ -37,7 +37,7 @@ class CmdFillRow extends CommandProcessor {
 
 				int row = -1 + (int) ((GeoNumeric) arg[0]).getDouble();
 
-				if (row < 0 || row > SpreadsheetView.MAX_ROWS)
+				if (row < 0 || row > Kernel.MAX_SPREADSHEET_ROWS)
 					throw argErr(app, c.getName(), arg[0]);
 
 				GeoList list = (GeoList) arg[1];
