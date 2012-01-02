@@ -19,7 +19,7 @@ package org.apache.commons.math.stat.descriptive;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.util.LocalizedFormats;
+// import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.moment.GeometricMean;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
 import org.apache.commons.math.stat.descriptive.moment.SecondMoment;

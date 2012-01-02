@@ -1,7 +1,26 @@
 #!/bin/sh
 # Compiles GeoGebraWeb via command line
+
+# Settings
+. ./autobuild.conf
+export GWTDIR
+
+# Compiling common
 cd ../common
 ant -f web-build.xml clean libs javac
-ant -f web-build.xml javac
-cd ../web
+
+# Creating symlinks
+COMMONDIR=`pwd`
+cd ../web/src/geogebra
+COMMON_LINK=$COMMONDIR/src/geogebra/common
+test -L common || ln -s $COMMON_LINK
+WEBAPACHE_LINK=$COMMONDIR/src/geogebra/webapache
+test -L webapache || ln -s $WEBAPACHE_LINK
+JRE_LINK=$COMMONDIR/src/geogebra/jre
+test -L jre || ln -s $JRE_LINK
+XML_LINK=$COMMONDIR/src/geogebra/Common.gwt.xml
+test -L Common.gwt.xml || ln -s $XML_LINK
+
+# Compiling web
+cd ../..
 ant clean libs build

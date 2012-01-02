@@ -74,6 +74,8 @@
       <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
       <arg line="${gwt.args}"/>
       <arg value="geogebra.Web"/>
+      <!--arg line="-logLevel"/>
+      <arg value="DEBUG"/-->
     </java>
   </target>
 

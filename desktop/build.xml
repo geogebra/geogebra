@@ -96,10 +96,11 @@ office@geogebra.org
 
 	<target name="compile-grammar-clean">
 		<delete followsymlinks="false">
-			<fileset dir="./geogebra/kernel" includes="**/*.class" />
+			<fileset dir="../common/src/geogebra/common/kernel" includes="**/*.class" />
 		</delete>
 		<delete followsymlinks="false">
-			<fileset dir="./geogebra/kernel/parser" includes="*.java"/>
+			<fileset dir="../common/src/geogebra/common/kernel/parser"
+			    includes="*.java" excludes="ParserInterface.java"/>
 		</delete>
 	</target>
 
