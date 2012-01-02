@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.regex.Matcher;
 
+import com.google.gwt.regexp.shared.MatchResult;
+
 /**
  * 
  * Utility class with methods for processing cell ranges (e.g inserting rows,
@@ -1011,7 +1013,7 @@ public class CellRangeProcessor {
 				GeoElement geo = RelativeCopy.getValue(table, x, y);
 				if (geo == null) continue;
 
-				Matcher matcher = GeoElementSpreadsheet.spreadsheetPattern.matcher(geo.getLabel());
+				MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern.exec(geo.getLabel());
 				int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
 				int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 				column += 1;
@@ -1045,7 +1047,7 @@ public class CellRangeProcessor {
 					GeoElement geo = RelativeCopy.getValue(table, x, y);
 					if (geo == null) continue;
 
-					Matcher matcher = GeoElementSpreadsheet.spreadsheetPattern.matcher(geo.getLabel());
+					MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern.exec(geo.getLabel());
 					int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
 					int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 					column += 1;
@@ -1077,7 +1079,7 @@ public class CellRangeProcessor {
 				GeoElement geo = RelativeCopy.getValue(table, x, y);
 				if (geo == null) continue;
 
-				Matcher matcher = GeoElementSpreadsheet.spreadsheetPattern.matcher(geo.getLabel());
+				MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern.exec(geo.getLabel());
 				int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
 				int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 				row += 1;
@@ -1109,7 +1111,7 @@ public class CellRangeProcessor {
 				for (int x = 0; x < columns; ++ x) {
 					GeoElement geo = RelativeCopy.getValue(table, x, y);
 					if (geo == null) continue;
-					Matcher matcher = GeoElementSpreadsheet.spreadsheetPattern.matcher(geo.getLabel());
+					MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern.exec(geo.getLabel());
 					int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
 					int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 					row += 1;

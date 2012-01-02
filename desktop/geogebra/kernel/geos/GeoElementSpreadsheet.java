@@ -1,21 +1,23 @@
 package geogebra.kernel.geos;
 
+import geogebra.common.awt.Point;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 
-import geogebra.common.awt.Point;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.google.gwt.regexp.shared.MatchResult;
+import com.google.gwt.regexp.shared.RegExp;
 
 public class GeoElementSpreadsheet extends AbstractGeoElementSpreadsheet {
 	/*
 	 * match A1, ABG1, A123 but not A0, A000, A0001 etc
 	 */
-	public static final Pattern spreadsheetPattern = Pattern
+	public static final RegExp spreadsheetPattern = RegExp
 			.compile("\\$?([A-Z]+)\\$?([1-9][0-9]*)");
+
+	//public static final RegExp spreadsheetPatternGlobal = RegExp
+	//		.compile("\\$?([A-Z]+)\\$?([1-9][0-9]*)", "g");
 
 	public static String getSpreadsheetColumnName(int i) {
 		++i;
@@ -28,10 +30,10 @@ public class GeoElementSpreadsheet extends AbstractGeoElementSpreadsheet {
 	}
 
 	public static String getSpreadsheetColumnName(String label) {
-		Matcher matcher = spreadsheetPattern.matcher(label);
-		if (!matcher.matches())
+		MatchResult matcher = spreadsheetPattern.exec(label);
+		if (matcher == null)
 			return null;
-		return matcher.group(1);
+		return matcher.getGroup(1);
 	}
 
 	// Cong Liu
@@ -51,8 +53,8 @@ public class GeoElementSpreadsheet extends AbstractGeoElementSpreadsheet {
 	 */
 	public static Point spreadsheetIndices(String cellName) {
 
-		Matcher matcher = GeoElementSpreadsheet.spreadsheetPattern
-				.matcher(cellName);
+		MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
+				.exec(cellName);
 		int column = getSpreadsheetColumn(matcher);
 		int row = getSpreadsheetRow(matcher);
 
@@ -61,18 +63,22 @@ public class GeoElementSpreadsheet extends AbstractGeoElementSpreadsheet {
 
 	// Michael Borcherds
 	public boolean isSpreadsheetLabel(String str) {
-		Matcher matcher = GeoElementSpreadsheet.spreadsheetPattern.matcher(str);
-		if (matcher.matches()) {
+		//Matcher matcher = GeoElementSpreadsheet.spreadsheetPattern.matcher(str);
+		 MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern.exec(str);
+			//if (matcher.matches()) {
+				if (matcher != null) {
 			return true;
 		}
 		return false;
 	}
 
-	public static int getSpreadsheetColumn(Matcher matcher) {
-		if (!matcher.matches())
+	public static int getSpreadsheetColumn(MatchResult matcher) {
+		//if (!matcher.matches())
+		//	return -1;
+		if (matcher == null)
 			return -1;
 
-		String s = matcher.group(1);
+		String s = matcher.getGroup(1);
 		int column = 0;
 		while (s.length() > 0) {
 			column *= 26;
@@ -84,10 +90,11 @@ public class GeoElementSpreadsheet extends AbstractGeoElementSpreadsheet {
 	}
 
 	// Cong Liu
-	public static int getSpreadsheetRow(Matcher matcher) {
-		if (!matcher.matches())
+	public static int getSpreadsheetRow(MatchResult matcher) {
+		if (matcher == null)
 			return -1;
-		String s = matcher.group(2);
+		//String s = matcher.group(2);
+		String s = matcher.getGroup(2);
 		return Integer.parseInt(s) - 1;
 	}
 
@@ -195,11 +202,11 @@ public class GeoElementSpreadsheet extends AbstractGeoElementSpreadsheet {
 
 	@Override
 	public GeoElement autoCreate(String label, Construction cons) {
-		Matcher cellNameMatcher = GeoElementSpreadsheet.spreadsheetPattern
-				.matcher(label);
-		if (cellNameMatcher.matches()) {
-			String col = cellNameMatcher.group(1);
-			int row = Integer.parseInt(cellNameMatcher.group(2));
+		MatchResult cellNameMatcher = GeoElementSpreadsheet.spreadsheetPattern
+				.exec(label);
+		if (cellNameMatcher != null) {
+			String col = cellNameMatcher.getGroup(1);
+			int row = Integer.parseInt(cellNameMatcher.getGroup(2));
 
 			// try to get neighbouring cell for object type look above
 			GeoElement neighbourCell = cons.geoTableVarLookup(col + (row - 1));

@@ -18,6 +18,8 @@ import geogebra.common.awt.Point;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
+import com.google.gwt.regexp.shared.MatchResult;
+
 /**
  *FillCells
  */
@@ -156,8 +158,8 @@ class CmdFillCells extends CommandProcessor {
 
 					GeoList list = (GeoList) arg[1];
 
-					Matcher matcher = GeoElementSpreadsheet.spreadsheetPattern
-							.matcher(arg[0].getLabel());
+					MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
+							.exec(arg[0].getLabel());
 					int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
 					int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 

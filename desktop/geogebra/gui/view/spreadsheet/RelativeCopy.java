@@ -22,6 +22,9 @@ import java.util.regex.Pattern;
 
 import javax.swing.table.TableModel;
 
+import com.google.gwt.regexp.shared.MatchResult;
+import com.google.gwt.regexp.shared.RegExp;
+
 public class RelativeCopy {
 
 	protected Kernel kernel;
@@ -58,7 +61,7 @@ public class RelativeCopy {
 		// -|1|-
 		// 2|-|3
 		// -|4|-
-		((Application)kernel.getApplication()).setWaitCursor();
+		((Application) kernel.getApplication()).setWaitCursor();
 		Construction cons = kernel.getConstruction();
 
 		try {
@@ -225,7 +228,7 @@ public class RelativeCopy {
 			return false;
 		} finally {
 			cons.stopCollectingRedefineCalls();
-			((Application)kernel.getApplication()).setDefaultCursor();
+			((Application) kernel.getApplication()).setDefaultCursor();
 		}
 	}
 
@@ -341,7 +344,7 @@ public class RelativeCopy {
 		}
 	}
 
-	protected static final Pattern pattern2 = Pattern
+	protected static final RegExp pattern2 = RegExp
 			.compile("(::|\\$)([A-Z]+)(::|\\$)([0-9]+)");
 
 	public static GeoElement doCopyNoStoringUndoInfo0(Kernel kernel,
@@ -349,8 +352,8 @@ public class RelativeCopy {
 			throws Exception {
 		if (value == null) {
 			if (oldValue != null) {
-				Matcher matcher = GeoElementSpreadsheet.spreadsheetPattern
-						.matcher(oldValue.getLabel());
+				MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
+						.exec(oldValue.getLabel());
 				int column = GeoElementSpreadsheet
 						.getSpreadsheetColumn(matcher);
 				int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
@@ -460,8 +463,8 @@ public class RelativeCopy {
 		// column + dx) + (row + dy + 1));
 
 		// create the new cell geo
-		Matcher matcher = GeoElementSpreadsheet.spreadsheetPattern
-				.matcher(value.getLabel());
+		MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
+				.exec(value.getLabel());
 		int column0 = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
 		int row0 = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 		GeoElement value2;
@@ -537,8 +540,8 @@ public class RelativeCopy {
 		dependents[dependents.length - 1] = value;
 		for (int i = 0; i < dependents.length; ++i) {
 			String name = dependents[i].getLabel();
-			Matcher matcher = GeoElementSpreadsheet.spreadsheetPattern
-					.matcher(name);
+			MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
+					.exec(name);
 			int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
 			int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 
@@ -596,11 +599,11 @@ public class RelativeCopy {
 		// needed for eg Mod[$A2, B$1] which gives Mod[$A2, ::::B$1]
 		text = text.replace("::::", "::");
 
-		Matcher matcher = GeoElementSpreadsheet.spreadsheetPattern
-				.matcher(value.getLabel());
+		MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
+				.exec(value.getLabel());
 		for (int i = 0; i < dependents.length; ++i) {
 			String name = dependents[i].getLabel();
-			matcher = GeoElementSpreadsheet.spreadsheetPattern.matcher(name);
+			matcher = GeoElementSpreadsheet.spreadsheetPattern.exec(name);
 			int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
 			int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 			if ((column == -1) || (row == -1)) {
@@ -628,7 +631,7 @@ public class RelativeCopy {
 			// "("+ column2 + row2 + ")");
 
 			before.setLength(0);
-			before.append("::");
+			before.append("$");
 			before.append(column1);
 			before.append("::");
 			before.append(row1);
@@ -684,23 +687,46 @@ public class RelativeCopy {
 		table.setValueAt(value2, row, column);
 	}
 
-	public static String replaceAll(Pattern pattern, String text, String text1,
-			String text2) {
-		String pre = "";
+	public static String replaceAll(RegExp spreadsheetpattern, String text,
+			String before, String after) {
+		StringBuilder pre = new StringBuilder();
 		String post = text;
 		int end = 0;
-		Matcher matcher = pattern.matcher(text);
-		while (matcher.find()) {
-			String s = matcher.group();
-			if (s.equals(text1)) {
-				int start = matcher.start();
-				pre += text.substring(end, start) + text2;
-				end = matcher.end();
-				post = text.substring(end);
+
+		Application.debug(text + " " + before + " " + after + " ");
+
+		MatchResult matcher;
+		do {
+			matcher = spreadsheetpattern.exec(post);
+			if (matcher != null) {
+				String s = matcher.getGroup(0);
+				Application.debug("match: " + s);
+				if (s.equals(before)) {
+					int start = post.indexOf(s);
+					pre.append(post.substring(0, start));
+					pre.append(after); // replace 's' with 'after'
+					end = start + s.length(); 
+					post = post.substring(end);
+				} else {
+					int start = post.indexOf(s); 
+					pre.append(post.substring(0, start));
+					pre.append(s); // leave 's' alone
+					end = start + s.length(); 
+					post = post.substring(end);					
+				}
 			}
-		}
-		return pre + post;
+		} while (matcher != null);
+		pre.append(post);
+		Application.debug("returning: " + pre.toString());
+		return pre.toString();
 	}
+
+	/*
+	 * int kjjjh() { Matcher matcher; while (matcher.find()) { String s =
+	 * matcher.group(); if (s.equals(before)) { int start = matcher.start(); pre
+	 * += text.substring(end, start) + after; end = matcher.end(); post =
+	 * text.substring(end); } } return pre + post; }
+	 */
 
 	/**
 	 * Returns array of GeoElements that depend on given GeoElement geo
@@ -877,7 +903,7 @@ public class RelativeCopy {
 			if (newValue.getGeoClassType() == oldValue.getGeoClassType()) {
 				// newValue.setVisualStyle(oldValue);
 			} else {
-				((Application)kernel.getApplication()).refreshViews();
+				((Application) kernel.getApplication()).refreshViews();
 			}
 		} catch (CircularDefinitionException cde) {
 			kernel.getApplication().showError("CircularDefinition");

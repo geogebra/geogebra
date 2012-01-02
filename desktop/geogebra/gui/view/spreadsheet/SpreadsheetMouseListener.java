@@ -17,6 +17,8 @@ import java.util.regex.Matcher;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.JTextComponent;
 
+import com.google.gwt.regexp.shared.MatchResult;
+
 
 
 public class SpreadsheetMouseListener implements MouseListener, MouseMotionListener
@@ -426,7 +428,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 				int column2 = (int)point.getX();
 				int row2 = (int)point.getY();
 
-				Matcher matcher = GeoElementSpreadsheet.spreadsheetPattern.matcher(selectedCellName);
+				 MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern.exec(selectedCellName);
 				int column1 = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
 				int row1 = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 
