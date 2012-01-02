@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui;
 
+import geogebra.common.factories.FormatFactory;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
@@ -41,7 +42,7 @@ public class NumberComboBox extends JComboBox {
 		setEditable(true);
 		setSelectedItem(null);
 		
-		nf = kernel.getNumberFormat();
+		nf = FormatFactory.prototype.getNumberFormat();
 		nf.setGroupingUsed(false);
 		nf.setMaximumFractionDigits(MAX_FRAC_DIGITS);
 		

@@ -24,6 +24,7 @@ import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.GetViewId;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
+import geogebra.common.factories.FormatFactory;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
@@ -313,12 +314,12 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		this.showGrid = showGrid;
 
 		axesNumberFormat = new NumberFormatAdapter[2];
-		axesNumberFormat[0] = kernel.getNumberFormat();
-		axesNumberFormat[1] = kernel.getNumberFormat();
+		axesNumberFormat[0] = FormatFactory.prototype.getNumberFormat();
+		axesNumberFormat[1] = FormatFactory.prototype.getNumberFormat();
 		axesNumberFormat[0].setGroupingUsed(false);
 		axesNumberFormat[1].setGroupingUsed(false);
 
-		printScaleNF = kernel.getNumberFormat();
+		printScaleNF = FormatFactory.prototype.getNumberFormat();
 		printScaleNF.setGroupingUsed(false);
 		printScaleNF.setMaximumFractionDigits(5);
 

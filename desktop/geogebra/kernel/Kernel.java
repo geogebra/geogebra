@@ -36,18 +36,12 @@ import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
-import geogebra.common.util.LaTeXCache;
-import geogebra.common.util.NumberFormatAdapter;
-import geogebra.common.util.ScientificFormatAdapter;
 import geogebra.kernel.algos.AlgoSolveODE;
 import geogebra.kernel.algos.AlgoSolveODE2;
 import geogebra.kernel.commands.CommandDispatcher;
 import geogebra.kernel.discrete.AlgoShortestDistance;
 import geogebra.kernel.geos.GeoElementGraphicsAdapterDesktop;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
-import geogebra.util.GeoLaTeXCache;
-import geogebra.util.NumberFormatDesktop;
-import geogebra.util.ScientificFormat;
 
 public class Kernel extends AbstractKernel {
 
@@ -56,18 +50,6 @@ public class Kernel extends AbstractKernel {
 		this();
 		this.app = app;
 
-		geogebra.common.factories.AwtFactory.prototype = new geogebra.factories.AwtFactory();
-		geogebra.common.util.StringUtil.prototype = new geogebra.util.StringUtil();
-		// TODO: probably there is better way
-		geogebra.common.awt.Color.black = geogebra.awt.Color.black;
-		geogebra.common.awt.Color.white = geogebra.awt.Color.white;
-		geogebra.common.awt.Color.blue = geogebra.awt.Color.blue;
-		geogebra.common.awt.Color.gray = geogebra.awt.Color.gray;
-		geogebra.common.awt.Color.lightGray = geogebra.awt.Color.lightGray;
-		geogebra.common.awt.Color.darkGray = geogebra.awt.Color.darkGray;
-		
-		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.euclidian.HatchingHandler();
-		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.euclidian.EuclidianStatic();
 		newConstruction();
 		getExpressionNodeEvaluator();
 
@@ -89,7 +71,7 @@ public class Kernel extends AbstractKernel {
 	 * @return Spreadsheet cell content (may be null)
 	 */
 	public GeoElement getGeoAt(int col, int row) {
-		return lookupLabel(GeoElementSpreadsheet.getSpreadsheetCellName(col,
+		return lookupLabel(getGeoElementSpreadsheet().dogetSpreadsheetCellName(col,
 				row));
 	}
 
@@ -230,14 +212,6 @@ public class Kernel extends AbstractKernel {
 		return animationManager;
 	}
 
-	
-
-	@Deprecated
-	@Override
-	public LaTeXCache newLaTeXCache() {
-		return new GeoLaTeXCache();
-	}
-
 	@Override
 	public GeoGebraCasInterface newGeoGebraCAS() {
 		return new geogebra.cas.GeoGebraCAS(this);
@@ -246,24 +220,10 @@ public class Kernel extends AbstractKernel {
 	// This is a temporary place for adapter creation methods which will move
 	// into factories later
 
-	@Override
-	public NumberFormatAdapter getNumberFormat() {
-		return new NumberFormatDesktop();
-	}
-
-	@Override
-	public NumberFormatAdapter getNumberFormat(String pattern) {
-		return new NumberFormatDesktop(pattern);
-	}
-
+	
 	@Override
 	public GeoElementGraphicsAdapter newGeoElementGraphicsAdapter() {
 		return new GeoElementGraphicsAdapterDesktop(app);
-	}
-
-	@Override
-	public ScientificFormatAdapter getScientificFormat(int a, int b, boolean c) {
-		return new ScientificFormat(a, b, c);
 	}
 
 	private GeoElementSpreadsheet ges = new GeoElementSpreadsheet();

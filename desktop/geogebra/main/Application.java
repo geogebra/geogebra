@@ -614,6 +614,7 @@ public class Application extends AbstractApplication implements
 		setLocale(mainComp.getLocale());
 
 		// init kernel
+		initFactories();
 		initKernel();
 		kernel.setPrintDecimals(AbstractKernel.STANDARD_PRINT_DECIMALS);
 
@@ -702,6 +703,24 @@ public class Application extends AbstractApplication implements
 		if (CASVersionString == "") {
 			CASVersionString = getPlain("CASInitializing");
 		}
+	}
+
+	private void initFactories() {
+		geogebra.common.factories.AwtFactory.prototype = new geogebra.factories.AwtFactory();
+		geogebra.common.factories.FormatFactory.prototype = new geogebra.factories.FormatFactory();
+		geogebra.common.factories.LaTeXFactory.prototype = new geogebra.factories.LaTeXFactory();
+		geogebra.common.util.StringUtil.prototype = new geogebra.util.StringUtil();
+		// TODO: probably there is better way
+		geogebra.common.awt.Color.black = geogebra.awt.Color.black;
+		geogebra.common.awt.Color.white = geogebra.awt.Color.white;
+		geogebra.common.awt.Color.blue = geogebra.awt.Color.blue;
+		geogebra.common.awt.Color.gray = geogebra.awt.Color.gray;
+		geogebra.common.awt.Color.lightGray = geogebra.awt.Color.lightGray;
+		geogebra.common.awt.Color.darkGray = geogebra.awt.Color.darkGray;
+		
+		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.euclidian.HatchingHandler();
+		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.euclidian.EuclidianStatic();
+		
 	}
 
 	private void handleHelpVersionArgs(CommandLineArguments args) {

@@ -24,6 +24,8 @@ import geogebra.common.awt.Point;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.factories.AwtFactory;
+import geogebra.common.factories.FormatFactory;
+import geogebra.common.factories.LaTeXFactory;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.CircularDefinitionException;
@@ -2849,7 +2851,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	public LaTeXCache getLaTeXCache() {
 		if (latexCache == null) {
-			kernel.newLaTeXCache();
+			LaTeXFactory.prototype.newLaTeXCache();
 		}
 		return latexCache;
 	}
@@ -4682,7 +4684,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			return numberD.toString();
 		}
 		// this constructors uses US locale, so we don't have to worry about ","
-		NumberFormatAdapter df = kernel.getNumberFormat("#.######");
+		NumberFormatAdapter df = FormatFactory.prototype.getNumberFormat("#.######");
 		return df.format(number);
 	}
 

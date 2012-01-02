@@ -29,19 +29,7 @@ public class Kernel extends AbstractKernel {
 	public Kernel(Application app) {
 		this();
 		this.app = app;
-		geogebra.common.factories.AwtFactory.prototype = new geogebra.web.factories.AwtFactory();
-		geogebra.common.util.StringUtil.prototype = new geogebra.common.util.StringUtil();
-		// TODO: probably there is better way
-		geogebra.common.awt.Color.black = geogebra.web.awt.Color.black;
-		geogebra.common.awt.Color.white = geogebra.web.awt.Color.white;
-		geogebra.common.awt.Color.blue = geogebra.web.awt.Color.blue;
-		geogebra.common.awt.Color.gray = geogebra.web.awt.Color.gray;
-		geogebra.common.awt.Color.lightGray = geogebra.web.awt.Color.lightGray;
-		geogebra.common.awt.Color.darkGray = geogebra.web.awt.Color.darkGray;
-		
-		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.web.euclidian.HatchingHandler();
-		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.web.euclidian.EuclidianStatic();
-		newConstruction();
+			newConstruction();
 		getExpressionNodeEvaluator();
 	}
 	
@@ -49,33 +37,10 @@ public class Kernel extends AbstractKernel {
 		super();
 	}
 
-	@Override
-    public NumberFormatAdapter getNumberFormat() {
-	    // TODO Auto-generated method stub
-	    return new NumberFormat();
-    }
-
-	@Override
-    public NumberFormatAdapter getNumberFormat(String s) {
-	    // TODO Auto-generated method stub
-	    return new NumberFormat(s);
-    }
+	
 
 	@Override
     public GeoElementGraphicsAdapter newGeoElementGraphicsAdapter() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public ScientificFormatAdapter getScientificFormat(int a, int b, boolean c) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-
-	@Override
-    public LaTeXCache newLaTeXCache() {
 	    // TODO Auto-generated method stub
 	    return null;
     }
@@ -109,37 +74,7 @@ public class Kernel extends AbstractKernel {
 	    // TODO Auto-generated method stub
 	    return null;
     }
-
-	@Override
-    public GeoElement TravelingSalesman(String a, GeoList b) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public GeoElement Voronoi(String a, GeoList b) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public GeoElement ConvexHull(String a, GeoList b) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public GeoElement MinimumSpanningTree(String a, GeoList b) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public GeoElement DelauneyTriangulation(String a, GeoList b) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
+	
 	@Override
     public GeoElement ShortestDistance(String label, GeoList geoList,
             GeoPointND geoPointND, GeoPointND geoPointND2, GeoBoolean geoBoolean) {
@@ -166,25 +101,9 @@ public class Kernel extends AbstractKernel {
 	    return null;
     }
 
-	@Override
-    public GeoElement[] Union(String[] labels, GeoPolygon geoPolygon,
-            GeoPolygon geoPolygon2) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
+	
 
-	@Override
-    public GeoElement Hull(String label, GeoList geoList, GeoNumeric geoNumeric) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public GeoElement[] IntersectPolygons(String[] labels,
-            GeoPolygon geoPolygon, GeoPolygon geoPolygon2) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
+	
 
 	@Override
     public MacroKernelInterface newMacroKernel() {

@@ -1,5 +1,6 @@
 package geogebra3D.euclidian3D;
 
+import geogebra.common.factories.FormatFactory;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.util.NumberFormatAdapter;
@@ -216,7 +217,7 @@ public class DrawAxis3D extends DrawLine3D {
     	double maxPix = 100; // only one tick is allowed per maxPix pixels
 		double units = maxPix / vScale;
 		
-		NumberFormatAdapter numberFormat = getView3D().getKernel().getNumberFormat();
+		NumberFormatAdapter numberFormat = FormatFactory.prototype.getNumberFormat();
 		//TODO see EuclidianView::setAxesIntervals	and Kernel::axisNumberDistance	
 		double distance = getView3D().getKernel().axisNumberDistance(units, numberFormat);
 

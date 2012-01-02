@@ -4,6 +4,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.adapters.Geo3DVec;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import geogebra.common.factories.FormatFactory;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.algos.*;
 import geogebra.common.kernel.arithmetic.Equation;
@@ -223,6 +224,8 @@ import java.util.List;
 import java.util.Stack;
 import java.util.TreeSet;
 
+import org.mortbay.util.StringUtil;
+
 public abstract class AbstractKernel {
 
 	// if these are increased above 32000, you need to change traceRow to an int[]
@@ -395,10 +398,10 @@ public abstract class AbstractKernel {
 		kernelID = kernelInstances;
 		casVariablePrefix = GGBCAS_VARIABLE_PREFIX + kernelID;
 
-		nf = this.getNumberFormat();
+		nf = FormatFactory.prototype.getNumberFormat();
 		nf.setGroupingUsed(false);
 
-		sf = this.getScientificFormat(5, 16, false);
+		sf = FormatFactory.prototype.getScientificFormat(5, 16, false);
 
 		setCASPrintForm(StringType.GEOGEBRA);
 	}
@@ -567,15 +570,10 @@ public abstract class AbstractKernel {
 	// Arpad Fekete, 2011-12-01
 	// public abstract ColorAdapter getColorAdapter(int red, int green, int
 	// blue);
-	public abstract NumberFormatAdapter getNumberFormat();
-
-	public abstract NumberFormatAdapter getNumberFormat(String s);
-
+	
 	public abstract GeoElementGraphicsAdapter newGeoElementGraphicsAdapter();
 
-	public abstract ScientificFormatAdapter getScientificFormat(int a, int b,
-			boolean c);
-
+	
 	protected AbstractAnimationManager animationManager;
 
 	final public boolean isAnimationRunning() {
@@ -2623,12 +2621,6 @@ public abstract class AbstractKernel {
 		}
 	}
 
-	/**
-	 * @deprecated
-	 * @return
-	 */
-	@Deprecated
-	public abstract LaTeXCache newLaTeXCache();
 
 	public synchronized GeoGebraCasInterface getGeoGebraCAS() {
 		if (ggbCAS == null) {

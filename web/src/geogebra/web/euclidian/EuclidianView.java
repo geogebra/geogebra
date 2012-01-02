@@ -291,5 +291,17 @@ public class EuclidianView extends EuclidianViewInterface2D {
 	    return null;
     }
 
+	@Override
+    public void zoom(double px, double py, double factor, int i, boolean b) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void zoomAxesRatio(double d, boolean b) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
 
 }
