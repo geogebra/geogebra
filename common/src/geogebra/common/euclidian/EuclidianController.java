@@ -3,6 +3,8 @@ package geogebra.common.euclidian;
 
 import java.util.ArrayList;
 
+import geogebra.common.awt.Point;
+import geogebra.common.awt.Point2D;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.Path;
@@ -214,6 +216,26 @@ public abstract class EuclidianController {
 	protected AbstractApplication app;
 
 	protected AbstractKernel kernel;
+
+	protected Point startLoc;
+
+	public Point mouseLoc;
+
+	protected Point lastMouseLoc;
+
+	protected Point oldLoc = new Point();
+
+	protected Point2D.Double startPoint = new Point2D.Double();
+
+	protected Point2D.Double lineEndPoint = null;
+
+	protected Point selectionStartPoint = new Point();
+
+	protected ArrayList<Double> tempDependentPointX;
+
+	protected ArrayList<Double> tempDependentPointY;
+
+	protected boolean mouseIsOverLabel = false;
 	
 	protected static final int MOVE_NONE = 101;
 	protected static final int MOVE_POINT = 102;

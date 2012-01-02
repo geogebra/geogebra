@@ -38,26 +38,12 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.awt.Point2D;
 import geogebra.web.kernel.Kernel;
-import geogebra.web.kernel.gawt.Point;
 import geogebra.web.main.Application;
 
 public class EuclidianController extends geogebra.common.euclidian.EuclidianController implements MouseDownHandler, MouseUpHandler, MouseMoveHandler, MouseOutHandler, MouseOverHandler, MouseWheelHandler, ClickHandler, DoubleClickHandler, TouchStartHandler, TouchEndHandler, TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, GestureChangeHandler {
 
 	protected EuclidianViewInterface2D view;
-	
-	protected Point oldLoc = new Point();
-
-	// for moving conics:
-	protected Point2D startPoint = new Point2D();
-
-	protected Point2D lineEndPoint = null;
-
-	protected Point selectionStartPoint = new Point();
-
-	protected ArrayList<Double> tempDependentPointX;
-	protected ArrayList<Double> tempDependentPointY;
 	
 	public EuclidianController(Kernel kernel) {
 		setKernel(kernel);

@@ -106,19 +106,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 	protected EuclidianViewInterface view;
 	// protected EuclidianView view;
 
-	protected Point startLoc, mouseLoc, lastMouseLoc; // current mouse location
-
-	protected Point oldLoc = new Point();
-
-	// for moving conics:
-	protected Point2D.Double startPoint = new Point2D.Double();
-
-	protected Point2D.Double lineEndPoint = null;
-
-	protected Point selectionStartPoint = new Point();
-
-	protected ArrayList<Double> tempDependentPointX;
-	protected ArrayList<Double> tempDependentPointY;
+	
 	
 
 	// protected GeoVec2D b;
@@ -3045,8 +3033,6 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		setMouseLocation(e);
 		processMouseMoved(e);
 	}
-
-	private boolean mouseIsOverLabel = false;
 
 	/**
 	 * 
