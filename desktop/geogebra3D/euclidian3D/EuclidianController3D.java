@@ -3,6 +3,7 @@ package geogebra3D.euclidian3D;
 
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.Path;
@@ -25,6 +26,7 @@ import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.kernelND.Region3D;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
+import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
@@ -410,8 +412,8 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			}
 
 			// update previewable
-			if (view.getPreviewDrawable() != null) 	
-				view.updatePreviewable();
+			if (((EuclidianViewInterface) view).getPreviewDrawable() != null) 	
+				((EuclidianViewInterface) view).updatePreviewable();
 			
 			// geo point has been moved
 			movedGeoPointDragged = true;
@@ -1413,8 +1415,8 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 		
 		//remembers mouse location
 		startLoc = mouseLoc;
-		view.rememberOrigins();
-		view.setMoveCursor();
+		((EuclidianViewInterface) view).rememberOrigins();
+		((EuclidianViewInterface) view).setMoveCursor();
 		
 		timeOld = System.currentTimeMillis();
 		xOld = startLoc.x;
@@ -1436,7 +1438,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 		animatedRotSpeed = (double) (x-xOld)/(time-timeOld);
 		timeOld = time; xOld = x;
 		//Application.debug("vRot="+vRot);
-		view.setCoordSystemFromMouseMove(mouseLoc.x - startLoc.x, 
+		((EuclidianViewInterface) view).setCoordSystemFromMouseMove(mouseLoc.x - startLoc.x, 
 				mouseLoc.y - startLoc.y, 
 				MOVE_ROTATE_VIEW);
 		viewRotationOccured = true;
@@ -1451,11 +1453,11 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 		
 		if (viewRotationOccured){
 			viewRotationOccured = false;
-			view.setHits(mouseLoc);
+			((EuclidianViewInterface) view).setHits(mouseLoc);
 			//Application.debug("hits"+view.getHits().toString());
 			((EuclidianView3D) view).updateCursor3D();
 			
-			view.setHitCursor();
+			((EuclidianViewInterface) view).setHitCursor();
 			((Application)app).storeUndoInfo();
 			
 
@@ -1614,27 +1616,27 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 		case EuclidianConstants.MODE_PLANE_THREE_POINTS:	
 		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:	
 		case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:	
-			view.setHits(mouseLoc);
-			hits = view.getHits();hits.removePolygons();
+			((EuclidianViewInterface) view).setHits(mouseLoc);
+			hits = ((EuclidianViewInterface) view).getHits();hits.removePolygons();
 			createNewPoint(hits, true, true, true, true, false);
 			break;
 			
 		case EuclidianConstants.MODE_ORTHOGONAL_PLANE:
 		case EuclidianConstants.MODE_PLANE_POINT_LINE:
-			view.setHits(mouseLoc);
-			hits = view.getHits();hits.removePolygons();
+			((EuclidianViewInterface) view).setHits(mouseLoc);
+			hits = ((EuclidianView) view).getHits();hits.removePolygons();
 			createNewPoint(hits, false, false, true);
 			break;	
 			
 		case EuclidianConstants.MODE_PARALLEL_PLANE:
-			view.setHits(mouseLoc);
-			hits = view.getHits();hits.removePolygons();
+			((EuclidianViewInterface) view).setHits(mouseLoc);
+			hits = ((EuclidianViewInterface) view).getHits();hits.removePolygons();
 			createNewPoint(hits, true, false, false, true, false);
 			break;	
 			
 		case EuclidianConstants.MODE_RIGHT_PRISM:
-			view.setHits(mouseLoc);
-			hits = view.getHits();
+			((EuclidianViewInterface) view).setHits(mouseLoc);
+			hits = ((EuclidianViewInterface) view).getHits();
 			switchModeForRemovePolygons(hits);
 			//Application.debug(hits.toString());
 			rightPrism(hits);
@@ -1643,14 +1645,14 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			
 		case EuclidianConstants.MODE_ROTATEVIEW:
 			startLoc = mouseLoc; 
-			view.rememberOrigins();
+			((EuclidianViewInterface) view).rememberOrigins();
 			moveMode = MOVE_ROTATE_VIEW;
 			break;
 			
 		case EuclidianConstants.MODE_CIRCLE_AXIS_POINT:	
 		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION:	
-			view.setHits(mouseLoc);
-			hits = view.getHits();
+			((EuclidianViewInterface) view).setHits(mouseLoc);
+			hits = ((EuclidianViewInterface) view).getHits();
 			hits.removePolygons();
 			if (hits.size() == 0)
 				createNewPoint(hits, false, true, true);
@@ -2562,7 +2564,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	protected boolean viewHasHitsForMouseDragged(){
 		//Application.debug(moveMode);
 		if (moveMode==MOVE_POINT && view3D.getCursor3DType()==EuclidianView3D.PREVIEW_POINT_ALREADY)
-			return view.getHits().containsGeoPoint(); //if a point is under the mouse, don't try to find another hit
+			return ((EuclidianViewInterface) view).getHits().containsGeoPoint(); //if a point is under the mouse, don't try to find another hit
 		else
 			return super.viewHasHitsForMouseDragged();
 	}

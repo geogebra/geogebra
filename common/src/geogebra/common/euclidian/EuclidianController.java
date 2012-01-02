@@ -236,6 +236,8 @@ public abstract class EuclidianController {
 	protected ArrayList<Double> tempDependentPointY;
 
 	protected boolean mouseIsOverLabel = false;
+
+	protected EuclidianViewInterfaceSlim view;
 	
 	protected static final int MOVE_NONE = 101;
 	protected static final int MOVE_POINT = 102;

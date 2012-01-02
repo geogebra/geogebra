@@ -43,8 +43,6 @@ import geogebra.web.main.Application;
 
 public class EuclidianController extends geogebra.common.euclidian.EuclidianController implements MouseDownHandler, MouseUpHandler, MouseMoveHandler, MouseOutHandler, MouseOverHandler, MouseWheelHandler, ClickHandler, DoubleClickHandler, TouchStartHandler, TouchEndHandler, TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, GestureChangeHandler {
 
-	protected EuclidianViewInterface2D view;
-	
 	public EuclidianController(Kernel kernel) {
 		setKernel(kernel);
 		setApplication((Application) kernel.getApplication());
