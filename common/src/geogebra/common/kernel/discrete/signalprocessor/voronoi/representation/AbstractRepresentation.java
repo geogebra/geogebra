@@ -1,8 +1,7 @@
-package geogebra.kernel.discrete.signalprocesser.voronoi.representation;
+package geogebra.common.kernel.discrete.signalprocessor.voronoi.representation;
 
-import geogebra.kernel.discrete.signalprocesser.voronoi.VPoint;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
 
-import java.awt.Graphics2D;
 
 abstract public class AbstractRepresentation implements RepresentationInterface {
     
@@ -11,6 +10,5 @@ abstract public class AbstractRepresentation implements RepresentationInterface 
 
     public abstract VPoint createPoint(double inhom, double inhom2);
             
-    public abstract void paint(Graphics2D g);
     
 }

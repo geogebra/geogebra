@@ -1,6 +1,6 @@
 package geogebra.kernel.discrete.signalprocesser.voronoi.representation.voronoicell;
 
-import geogebra.kernel.discrete.signalprocesser.voronoi.VPoint;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
 
 import java.util.Collection;
 

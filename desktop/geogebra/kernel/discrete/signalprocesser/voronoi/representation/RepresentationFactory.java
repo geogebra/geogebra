@@ -1,6 +1,7 @@
 package geogebra.kernel.discrete.signalprocesser.voronoi.representation;
 
-import geogebra.kernel.discrete.signalprocesser.voronoi.VPoint;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.AbstractRepresentation;
 import geogebra.kernel.discrete.signalprocesser.voronoi.representation.boundaryproblem.BoundaryProblemRepresentation;
 import geogebra.kernel.discrete.signalprocesser.voronoi.representation.simpletriangulation.SimpleTriangulationRepresentation;
 import geogebra.kernel.discrete.signalprocesser.voronoi.representation.triangulation.TriangulationRepresentation;

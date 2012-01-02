@@ -1,6 +1,6 @@
-package geogebra.kernel.discrete.signalprocesser.voronoi.statusstructure.binarysearchtreeimpl;
+package geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.binarysearchtreeimpl;
 
-import geogebra.kernel.discrete.signalprocesser.voronoi.eventqueue.VSiteEvent;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.eventqueue.VSiteEvent;
 
 public class VInternalNode implements VNode {
     

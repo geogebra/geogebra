@@ -1,11 +1,9 @@
-package geogebra.kernel.discrete.signalprocesser.voronoi.statusstructure;
+package geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure;
 
-import geogebra.kernel.discrete.signalprocesser.voronoi.eventqueue.EventQueue;
-import geogebra.kernel.discrete.signalprocesser.voronoi.eventqueue.VSiteEvent;
-import geogebra.kernel.discrete.signalprocesser.voronoi.statusstructure.binarysearchtreeimpl.BSTStatusStructure;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.eventqueue.EventQueue;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.eventqueue.VSiteEvent;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.binarysearchtreeimpl.BSTStatusStructure;
 
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
 
 abstract public class AbstractStatusStructure {
     
@@ -38,7 +36,7 @@ abstract public class AbstractStatusStructure {
     /* ***************************************************** */
     // Debug print() Method
     
-    public void print(Graphics2D g, VSiteEvent siteevent, int sweepline) {
+    /*public void print(Graphics2D g, VSiteEvent siteevent, int sweepline) {
         // Get clip bounds
         Rectangle bounds = g.getClipBounds();
         

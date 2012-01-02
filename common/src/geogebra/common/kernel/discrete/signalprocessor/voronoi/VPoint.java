@@ -1,4 +1,4 @@
-package geogebra.kernel.discrete.signalprocesser.voronoi;
+package geogebra.common.kernel.discrete.signalprocessor.voronoi;
 
 public class VPoint {
     

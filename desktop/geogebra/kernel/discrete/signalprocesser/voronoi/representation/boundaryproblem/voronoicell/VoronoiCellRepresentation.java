@@ -1,10 +1,10 @@
 package geogebra.kernel.discrete.signalprocesser.voronoi.representation.boundaryproblem.voronoicell;
 
-import geogebra.kernel.discrete.signalprocesser.voronoi.VPoint;
-import geogebra.kernel.discrete.signalprocesser.voronoi.representation.AbstractRepresentation;
-import geogebra.kernel.discrete.signalprocesser.voronoi.statusstructure.VLinkedNode;
-import geogebra.kernel.discrete.signalprocesser.voronoi.statusstructure.binarysearchtreeimpl.VInternalNode;
-import geogebra.kernel.discrete.signalprocesser.voronoi.statusstructure.binarysearchtreeimpl.VLeafNode;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.AbstractRepresentation;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.VLinkedNode;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.binarysearchtreeimpl.VInternalNode;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.binarysearchtreeimpl.VLeafNode;
 
 import java.awt.Graphics2D;
 import java.util.Collection;

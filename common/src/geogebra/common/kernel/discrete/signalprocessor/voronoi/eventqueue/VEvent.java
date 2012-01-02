@@ -1,4 +1,4 @@
-package geogebra.kernel.discrete.signalprocesser.voronoi.eventqueue;
+package geogebra.common.kernel.discrete.signalprocessor.voronoi.eventqueue;
 
 abstract public class VEvent {
     
@@ -28,7 +28,7 @@ abstract public class VEvent {
     abstract public boolean isCircleEvent();
     
     public String getID() {
-        return String.format("EVT-%X", id);
+        return "EVT-"+id;
     }
 
     public String toString() {

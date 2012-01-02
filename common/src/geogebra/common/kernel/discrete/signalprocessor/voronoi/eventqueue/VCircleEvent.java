@@ -1,5 +1,5 @@
-package geogebra.kernel.discrete.signalprocesser.voronoi.eventqueue;
-import geogebra.kernel.discrete.signalprocesser.voronoi.statusstructure.VLinkedNode;
+package geogebra.common.kernel.discrete.signalprocessor.voronoi.eventqueue;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.VLinkedNode;
 
 public class VCircleEvent extends VEvent {
     

@@ -1,5 +1,5 @@
 package geogebra.kernel.discrete.signalprocesser.voronoi.representation.simpletriangulation;
-import geogebra.kernel.discrete.signalprocesser.voronoi.VPoint;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
 
 public class VTriangle extends VPoint {
     

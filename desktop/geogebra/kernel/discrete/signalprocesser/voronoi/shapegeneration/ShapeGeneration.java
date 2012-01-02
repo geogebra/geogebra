@@ -1,5 +1,5 @@
 package geogebra.kernel.discrete.signalprocesser.voronoi.shapegeneration;
-import geogebra.kernel.discrete.signalprocesser.voronoi.VPoint;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
 
 import java.awt.Color;
 import java.awt.Font;

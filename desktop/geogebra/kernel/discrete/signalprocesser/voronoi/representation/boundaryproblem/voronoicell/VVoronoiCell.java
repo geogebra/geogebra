@@ -1,7 +1,7 @@
 //package signalprocesser.voronoi.representation.voronoicell;
 package geogebra.kernel.discrete.signalprocesser.voronoi.representation.boundaryproblem.voronoicell;
 
-import geogebra.kernel.discrete.signalprocesser.voronoi.VPoint;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
 
 //public class VVoronoiCell extends VPoint {
 public class VVoronoiCell extends  geogebra.kernel.discrete.signalprocesser.voronoi.representation.boundaryproblem.VVertex {

@@ -1,12 +1,10 @@
 package geogebra.kernel.discrete.signalprocesser.voronoi.statusstructure.binarysearchtreeimpl.debug;
-
-import geogebra.kernel.discrete.signalprocesser.shared.TextToolkit;
-import geogebra.kernel.discrete.signalprocesser.voronoi.VPoint;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.eventqueue.VSiteEvent;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.binarysearchtreeimpl.VInternalNode;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.binarysearchtreeimpl.VLeafNode;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.binarysearchtreeimpl.VNode;
 import geogebra.kernel.discrete.signalprocesser.voronoi.VoronoiShared;
-import geogebra.kernel.discrete.signalprocesser.voronoi.eventqueue.VSiteEvent;
-import geogebra.kernel.discrete.signalprocesser.voronoi.statusstructure.binarysearchtreeimpl.VInternalNode;
-import geogebra.kernel.discrete.signalprocesser.voronoi.statusstructure.binarysearchtreeimpl.VLeafNode;
-import geogebra.kernel.discrete.signalprocesser.voronoi.statusstructure.binarysearchtreeimpl.VNode;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -105,7 +103,6 @@ public class DebugTree extends javax.swing.JDialog {
                 g.setColor(Color.blue);
             }
             g.drawRect( rectangle.x , rectangle.y , rectangle.width , rectangle.height );
-            TextToolkit.writeFromTop(g, BOX_FONT, Color.BLACK, text, rectangle);
             
             // Draw child nodes
             if ( currnode!=null && currnode.isInternalNode() ) {

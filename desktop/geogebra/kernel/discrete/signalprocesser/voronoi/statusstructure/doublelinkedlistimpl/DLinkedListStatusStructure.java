@@ -1,10 +1,10 @@
 package geogebra.kernel.discrete.signalprocesser.voronoi.statusstructure.doublelinkedlistimpl;
 
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.eventqueue.EventQueue;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.eventqueue.VSiteEvent;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.AbstractStatusStructure;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.VLinkedNode;
 import geogebra.kernel.discrete.signalprocesser.voronoi.VoronoiShared;
-import geogebra.kernel.discrete.signalprocesser.voronoi.eventqueue.EventQueue;
-import geogebra.kernel.discrete.signalprocesser.voronoi.eventqueue.VSiteEvent;
-import geogebra.kernel.discrete.signalprocesser.voronoi.statusstructure.AbstractStatusStructure;
-import geogebra.kernel.discrete.signalprocesser.voronoi.statusstructure.VLinkedNode;
 
 /**
  * Implementation *not* working

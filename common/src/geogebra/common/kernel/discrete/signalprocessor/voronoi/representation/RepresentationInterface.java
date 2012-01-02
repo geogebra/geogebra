@@ -1,7 +1,7 @@
-package geogebra.kernel.discrete.signalprocesser.voronoi.representation;
+package geogebra.common.kernel.discrete.signalprocessor.voronoi.representation;
 
-import geogebra.kernel.discrete.signalprocesser.voronoi.VPoint;
-import geogebra.kernel.discrete.signalprocesser.voronoi.statusstructure.VLinkedNode;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.VLinkedNode;
 
 import java.util.Collection;
 

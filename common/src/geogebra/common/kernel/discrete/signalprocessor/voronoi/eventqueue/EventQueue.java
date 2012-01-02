@@ -1,4 +1,4 @@
-package geogebra.kernel.discrete.signalprocesser.voronoi.eventqueue;
+package geogebra.common.kernel.discrete.signalprocessor.voronoi.eventqueue;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.TreeMap;

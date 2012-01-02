@@ -1,4 +1,4 @@
-package geogebra.kernel.discrete.signalprocesser.voronoi.statusstructure.binarysearchtreeimpl;
+package geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.binarysearchtreeimpl;
 
 
 public interface VNode {

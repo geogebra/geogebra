@@ -1,12 +1,13 @@
 package geogebra.kernel.discrete.signalprocesser.voronoi;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.eventqueue.EventQueue;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.eventqueue.VCircleEvent;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.eventqueue.VEvent;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.eventqueue.VSiteEvent;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.RepresentationInterface;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.AbstractStatusStructure;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.VLinkedNode;
 import geogebra.common.main.AbstractApplication;
-import geogebra.kernel.discrete.signalprocesser.voronoi.eventqueue.EventQueue;
-import geogebra.kernel.discrete.signalprocesser.voronoi.eventqueue.VCircleEvent;
-import geogebra.kernel.discrete.signalprocesser.voronoi.eventqueue.VEvent;
-import geogebra.kernel.discrete.signalprocesser.voronoi.eventqueue.VSiteEvent;
-import geogebra.kernel.discrete.signalprocesser.voronoi.representation.RepresentationInterface;
-import geogebra.kernel.discrete.signalprocesser.voronoi.statusstructure.AbstractStatusStructure;
-import geogebra.kernel.discrete.signalprocesser.voronoi.statusstructure.VLinkedNode;
 import geogebra.main.Application;
 
 import java.awt.Graphics2D;
@@ -18,7 +19,7 @@ public class VoronoiAlgorithm {
     // Test Main Function
     
     public static void main(String[] args) {
-        VoronoiTest.main(args);
+        //VoronoiTest.main(args);
     }
     
     private VoronoiAlgorithm() { }
@@ -46,7 +47,7 @@ public class VoronoiAlgorithm {
 
         // Reset Debug/Userfriendly ID's debug to newly created nodes/events
         VEvent.uniqueid = 1;
-        geogebra.kernel.discrete.signalprocesser.voronoi.statusstructure.binarysearchtreeimpl.BSTStatusStructure.uniqueid = 1;
+        geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.binarysearchtreeimpl.BSTStatusStructure.uniqueid = 1;
         
         // Initialise an empty status structure
         AbstractStatusStructure statusstructure = AbstractStatusStructure.createDefaultStatusStructure();
@@ -62,7 +63,7 @@ public class VoronoiAlgorithm {
             if ( g!=null && attentiontositeevent==null && attentiontopos>=0 && printcalled==false ) {
                 if ( event!=null && event.getY()>=attentiontopos ) {
                     printcalled = true;
-                    statusstructure.print(g, null, attentiontopos);
+                    //statusstructure.print(g, null, attentiontopos);
                     
                     // Close the data interface and return
                     datainterface.endAlgorithm(points, event.getY(), statusstructure.getHeadNode());
@@ -76,7 +77,7 @@ public class VoronoiAlgorithm {
                 
                 // Debug Code (note: can just set g to null to parse over)
                 if ( g!=null && siteevent==attentiontositeevent ) {
-                    statusstructure.print(g, siteevent, (int)siteevent.getY());
+                    //statusstructure.print(g, siteevent, (int)siteevent.getY());
                     
                     // Close the data interface and return
                     datainterface.endAlgorithm(points, event.getY(), statusstructure.getHeadNode());
@@ -165,7 +166,7 @@ public class VoronoiAlgorithm {
         // Debug Code (note: can just set g to null to parse over)
         if ( g!=null && attentiontositeevent==null && attentiontopos>=0 && printcalled==false ) {
             printcalled = true;
-            statusstructure.print(g, null, attentiontopos);
+            //statusstructure.print(g, null, attentiontopos);
         }
         
         // Close the data interface

@@ -1,6 +1,6 @@
-package geogebra.kernel.discrete.signalprocesser.voronoi.eventqueue;
+package geogebra.common.kernel.discrete.signalprocessor.voronoi.eventqueue;
 
-import geogebra.kernel.discrete.signalprocesser.voronoi.VPoint;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
 
 public class VSiteEvent extends VEvent {
     

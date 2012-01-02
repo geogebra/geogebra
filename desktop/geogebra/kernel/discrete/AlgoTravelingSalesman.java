@@ -3,13 +3,13 @@ package geogebra.kernel.discrete;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
 import geogebra.common.kernel.discrete.tsp.method.tsp.BranchBound;
 import geogebra.common.kernel.discrete.tsp.method.tsp.Opt3;
 import geogebra.common.kernel.discrete.tsp.model.Node;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.discrete.signalprocesser.voronoi.VPoint;
 
 import java.util.ArrayList;
 
