@@ -28,6 +28,7 @@ public class TraceSettings {
 	public boolean showTraceList = false;
 
 	public boolean doTraceGeoCopy = false;
+	private boolean headerSet = false;
 
 	public void debug(GeoElement geo) {
 		System.out.println("=====================================");
@@ -50,6 +51,15 @@ public class TraceSettings {
 
 	public TraceSettings clone(TraceSettings t) {
 		return this;
+	}
+
+	public void setHeader() {
+		headerSet = true;
+		
+	}
+
+	public boolean headerSet() {
+		return headerSet ;
 	}
 
 }
