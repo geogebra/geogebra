@@ -93,18 +93,7 @@ public class SpreadsheetTraceManager {
 		if (t.doTraceGeoCopy) {
 			t.traceColumn2 = t.traceColumn1;
 		} else {
-			// set number of columns by geotype
-			if (geo.isGeoNumeric()) {
-				t.traceColumn2 = t.traceColumn1;
-			} else if (geo.isGeoPoint() || geo.isGeoVector()) {
-				t.traceColumn2 = t.traceColumn1 + 1;
-			} else if (geo.isGeoList()) {
-				t.traceColumn2 = t.traceColumn1 + ((GeoList) geo).size() - 1;
-				for (int index = 0; index < ((GeoList) geo).size(); index++) {
-					if (((GeoList) geo).get(index).isGeoPoint())
-						t.traceColumn2++;
-				}
-			}
+			t.traceColumn2 = t.traceColumn1 + geo.getSpreadsheetTraceList().size() - 1;
 		}
 
 		// Set trace rows
@@ -475,9 +464,10 @@ public class SpreadsheetTraceManager {
 		view.setScrollToShow(true);
 
 		// set the headers
-		if (t.tracingRow == t.traceRow1 && t.headerOffset > 0)
+		if (t.tracingRow == t.traceRow1 && t.headerOffset > 0 && !t.headerSet()) {
 			setHeader(geo, cons);
-
+		}
+		
 		// 'row' is the temporary row counter actually used for creating traces.
 		// 't.tracingRow' is the row counter kept in memory.
 		// When row size is limited then tracingRow = -1 serves as a flag to
@@ -786,6 +776,7 @@ public class SpreadsheetTraceManager {
 	private void setHeader(GeoElement geo, Construction cons) {
 
 		TraceSettings t = traceGeoCollection.get(geo);
+		t.setHeader();
 		int column, row;
 		String headerText = "";
 		GeoElement[] geos = geo.getGeoElements();
