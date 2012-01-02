@@ -43,7 +43,7 @@
 
   <target name="javac" depends="libs" description="Compile java source to bytecode">
     <mkdir dir="war/WEB-INF/classes"/>
-    <javac srcdir="src" includes="**" encoding="utf-8"
+    <javac srcdir="src" excludes="geogebra/common/kernel/parser/ParseException.java" encoding="utf-8"
         destdir="war/WEB-INF/classes"
         source="1.5" target="1.5" nowarn="true"
         debug="true" debuglevel="lines,vars,source">
@@ -57,8 +57,8 @@
   <!-- The dependency for the "javac" target is temporarily removed
        since javac cannot create .class files if there are some errors
        in the .java files. -->
-  <!--target name="gwtc" depends="javac" description="GWT compile to JavaScript (production mode)"-->
-  <target name="gwtc" description="GWT compile to JavaScript (production mode)">
+  <target name="gwtc" depends="javac" description="GWT compile to JavaScript (production mode)">
+  <!--target name="gwtc" description="GWT compile to JavaScript (production mode)"-->
     <java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
       <classpath>
         <pathelement location="src"/>

@@ -14,11 +14,7 @@ WEBDIR=`pwd`
 cd ../desktop
 ant compile-grammar-cl || exit 2
 
-# 3. Compiling common
-cd ../common
-ant -f web-build.xml clean javac || exit 3
-
-# 4. Creating symlinks
+# 3. Creating symlinks
 COMMONDIR=`pwd`
 COMMONDIR_LINK_SOURCE=$COMMONDIR/src/geogebra
 WEBDIR_LINK_TARGET=$WEBDIR/src/geogebra
@@ -28,11 +24,11 @@ for i in *; do
  test -L $i || ln -s $COMMONDIR_LINK_SOURCE/$i
  done
  
-# 5. Compiling web
+# 4. Compiling web
 cd ../..
-ant clean libs build || exit 5
+ant clean build || exit 4
 
-# 6. Done!
+# 5. Done!
 echo "GeoGebraWeb compilation finished. Insert this URL into your browser to test it:"
 THISDIR=`pwd`
 echo "file:///$THISDIR/war/ggbtest.html"
