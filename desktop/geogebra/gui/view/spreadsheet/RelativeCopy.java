@@ -693,14 +693,14 @@ public class RelativeCopy {
 		String post = text;
 		int end = 0;
 
-		Application.debug(text + " " + before + " " + after + " ");
+		//Application.debug(text + " " + before + " " + after + " ");
 
 		MatchResult matcher;
 		do {
 			matcher = spreadsheetpattern.exec(post);
 			if (matcher != null) {
 				String s = matcher.getGroup(0);
-				Application.debug("match: " + s);
+				//Application.debug("match: " + s);
 				if (s.equals(before)) {
 					int start = post.indexOf(s);
 					pre.append(post.substring(0, start));
@@ -717,16 +717,9 @@ public class RelativeCopy {
 			}
 		} while (matcher != null);
 		pre.append(post);
-		Application.debug("returning: " + pre.toString());
+		//Application.debug("returning: " + pre.toString());
 		return pre.toString();
 	}
-
-	/*
-	 * int kjjjh() { Matcher matcher; while (matcher.find()) { String s =
-	 * matcher.group(); if (s.equals(before)) { int start = matcher.start(); pre
-	 * += text.substring(end, start) + after; end = matcher.end(); post =
-	 * text.substring(end); } } return pre + post; }
-	 */
 
 	/**
 	 * Returns array of GeoElements that depend on given GeoElement geo
