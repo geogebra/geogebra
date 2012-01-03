@@ -777,48 +777,38 @@ public class CopyPasteCut {
 		return succ;
 	}
 
+	public boolean delete(int column1, int row1, int column2, int row2) {
 
+		return delete(app, column1, row1, column2, row2, table
+				.getSelectionType());
+	}
 
-	public boolean delete(int column1, int row1, int column2, int row2)  {
+	public void deleteAll() {
+		delete(0, 0, tableModel.getColumnCount(), tableModel.getRowCount());
+	}
+
+	public static boolean delete(Application app, int column1, int row1,
+			int column2, int row2, int selectionType) {
 		boolean succ = false;
-		for (int column = column1; column <= column2; ++ column) {
-			//int column3 = table.convertColumnIndexToModel(column);
-			for (int row = row1; row <= row2; ++ row) {
-				GeoElement value0 = RelativeCopy.getValue(table, column, row);
+		for (int column = column1; column <= column2; ++column) {
+			for (int row = row1; row <= row2; ++row) {
+				GeoElement value0 = RelativeCopy.getValue(app, column, row);
 				if (value0 != null && !value0.isFixed()) {
-					//value0.remove();
 					value0.removeOrSetUndefinedIfHasFixedDescendent();
 					succ = true;
 				}
-				//try {
-				//	MyCellEditor.prepareAddingValueToTable(kernel, table, null, value0, column3, row);
-				//} catch (Exception e) {
-				//	Application.debug("spreadsheet.delete: " + e.getMessage());
-				//}
 			}
 		}
 
-		// Let the trace manager know about the delete 
+		// Let the trace manager know about the delete
 		// TODO add SelectAll
-		if(table.getSelectionType()==MyTable.COLUMN_SELECT){
+		if (selectionType == MyTable.COLUMN_SELECT) {
 			app.getTraceManager().handleColumnDelete(column1, column2);
 		}
 
 		return succ;
 	}
-
-
-	public void deleteAll() {
-
-		table.copyPasteCut.delete(0, 0, tableModel.getColumnCount(), tableModel.getRowCount());
-
-	}
-
-
-
-
-
-
+	
 
 	private static class Record {
 		int id, x1, y1, x2, y2;

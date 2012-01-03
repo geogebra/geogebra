@@ -758,6 +758,21 @@ public class RelativeCopy {
 		return values;
 	}
 
+	
+	/**
+	 * Returns the GeoElement for the cell with the given column and row values.
+	 */
+	public static GeoElement getValue(Application app, int column, int row) {
+		
+		String cellName = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
+		
+		return app.getKernel().getConstruction().lookupLabel(cellName);
+		
+	}
+	
+	
+	
+	
 	/**
 	 * Returns the GeoElement for the cell with the given column and row values.
 	 */

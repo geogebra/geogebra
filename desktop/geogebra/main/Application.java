@@ -6638,7 +6638,7 @@ public class Application extends AbstractApplication implements
 	
 	public SpreadsheetTraceManager getTraceManager() {
 		if (traceManager == null)
-			traceManager = new SpreadsheetTraceManager(getGuiManager().getSpreadsheetView());
+			traceManager = new SpreadsheetTraceManager(this);
 		return traceManager;
 	}
 

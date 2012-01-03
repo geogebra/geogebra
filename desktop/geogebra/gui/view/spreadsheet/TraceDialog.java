@@ -760,10 +760,11 @@ implements
 			break;
 
 		case MODE_ADD:
-			if (newTraceLocation != null)
+			if (newTraceLocation != null){
 				cr = newTraceLocation;
-			else
-				cr = traceManager.getNextTraceCell();
+			}else{	
+				cr = new CellRange(view.getTable(), traceManager.getNextTraceColumn(), 0);
+			}
 			break;
 
 		case MODE_LOCATE:
