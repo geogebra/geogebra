@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.ode;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -400,7 +400,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
         }
         newManager.addEventHandler(new EndTimeChecker(endTime),
                                    Double.POSITIVE_INFINITY,
-                                   AbstractKernel.MAX_PRECISION,
+                                   Kernel.MAX_PRECISION,
                                    100);
         return newManager;
     }
