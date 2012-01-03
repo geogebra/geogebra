@@ -7458,10 +7458,6 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		return curves;
 	}
 
-	final protected void clearSelection(ArrayList<?> selectionList) {
-		clearSelection(selectionList, true);
-	}
-
 	final protected int addSelectedGeo(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,

@@ -541,4 +541,8 @@ public abstract class EuclidianController {
 		view.repaintView();
 	}
 
+	protected final void clearSelection(ArrayList<?> selectionList) {
+		clearSelection(selectionList, true);
+	}
+
 }
