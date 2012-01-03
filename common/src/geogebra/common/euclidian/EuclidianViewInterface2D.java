@@ -1491,7 +1491,7 @@ public abstract class EuclidianViewInterface2D implements EuclidianViewInterface
 	protected abstract void setWidth(int h);
 	protected abstract void repaint();
 	protected abstract void initCursor();
-	protected abstract void setSelectionRectangle(geogebra.common.awt.Rectangle r);
+	public abstract void setSelectionRectangle(geogebra.common.awt.Rectangle r);
 	protected abstract void setStyleBarMode(int mode);
 	protected abstract Drawable newDrawable(GeoElement ge);
 

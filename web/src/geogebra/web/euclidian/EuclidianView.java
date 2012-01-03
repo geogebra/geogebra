@@ -274,7 +274,7 @@ public class EuclidianView extends EuclidianViewInterface2D {
     }
 
 	@Override
-    protected void setSelectionRectangle(Rectangle r) {
+    public void setSelectionRectangle(Rectangle r) {
 	    // TODO Auto-generated method stub
 	    
     }

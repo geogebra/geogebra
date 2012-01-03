@@ -109,7 +109,7 @@ import javax.swing.text.JTextComponent;
  * This is done to be able to put class files of geogebra.gui.* packages into a
  * separate gui jar file.
  */
-public class GuiManager {
+public class GuiManager extends geogebra.common.gui.GuiManager {
 	private static final int SPREADSHEET_INI_COLS = 26;
 	private static final int SPREADSHEET_INI_ROWS = 100;
 

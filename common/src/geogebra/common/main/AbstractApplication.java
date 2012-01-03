@@ -7,6 +7,8 @@ import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import geogebra.common.gui.GuiManager;
+import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractKernel;
@@ -18,6 +20,7 @@ import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.main.settings.Settings;
+import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.common.util.DebugPrinter;
 
 import java.util.ArrayList;
@@ -189,6 +192,10 @@ public abstract class AbstractApplication {
 	public abstract AbstractKernel getKernel();
 
 	public abstract Object getImageManager();
+	
+	public abstract SpreadsheetTraceManager getTraceManager();
+	
+	public abstract GuiManager getGuiManager();
 
 	// Michael Borcherds 2008-06-22
 	public static void printStacktrace(String message) {

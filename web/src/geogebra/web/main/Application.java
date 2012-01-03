@@ -14,6 +14,8 @@ import geogebra.common.awt.Font;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import geogebra.common.gui.GuiManager;
+import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
 
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractKernel;
@@ -617,6 +619,18 @@ public class Application extends AbstractApplication {
     public void updateSelection() {
 	    // TODO Auto-generated method stub
 	    
+    }
+
+	@Override
+    public SpreadsheetTraceManager getTraceManager() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public GuiManager getGuiManager() {
+	    // TODO Auto-generated method stub
+	    return null;
     }
 
 	@Override

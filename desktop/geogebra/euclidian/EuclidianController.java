@@ -88,7 +88,6 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
 
@@ -159,23 +158,12 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 	}
 
 
-	
-
-	// ==============================================
-	// Pen
-
-	private EuclidianPen pen;
-
 	public void setPen(EuclidianPen pen) {
 		this.pen = pen;
 	}
 
 	public EuclidianPen getPen() {
-		return pen;
-	}
-
-	public int getMode() {
-		return mode;
+		return (EuclidianPen) pen;
 	}
 
 	public void setMode(int newMode) {
@@ -209,49 +197,6 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		}
 
 		kernel.notifyRepaint();
-	}
-
-	protected void endOfMode(int mode) {
-		switch (mode) {
-		case EuclidianConstants.MODE_RECORD_TO_SPREADSHEET:
-			// just to be sure recordObject is set to null
-			// usually this is already done at mouseRelease
-			if (recordObject != null) {
-				if (((Application) app).getTraceManager()
-						.isTraceGeo(recordObject)) {
-					((Application) app).getGuiManager().removeSpreadsheetTrace(recordObject);
-				}
-				recordObject.setSelected(false);
-				recordObject = null;
-			}
-			break;
-
-		case EuclidianConstants.MODE_MOVE:
-			deletePastePreviewSelected();
-			break;
-
-		case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
-			// take all selected objects and hide them
-			Collection<GeoElement> coll = ((Application)app).getSelectedGeos();
-			Iterator<GeoElement> it = coll.iterator();
-			while (it.hasNext()) {
-				GeoElement geo = it.next();
-				geo.setEuclidianVisible(false);
-				geo.updateRepaint();
-			}
-			break;
-
-		case EuclidianConstants.MODE_PEN:
-		case EuclidianConstants.MODE_FREEHAND:
-			pen.resetPenOffsets();
-
-			((EuclidianViewInterface) view).setSelectionRectangle(null);
-			break;
-		}
-
-		if (toggleModeChangedKernel) {
-			((Application)app).storeUndoInfo();
-		}
 	}
 
 	protected void initNewMode(int mode) {
@@ -740,7 +685,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			((EuclidianViewInterface) view).setHits(mouseLoc);
 			hits = ((EuclidianViewInterface) view).getHits();
 			hits.removeAllButImages();
-			pen.handleMousePressedForPenMode(e, hits);
+			((EuclidianPen) pen).handleMousePressedForPenMode(e, hits);
 			return;
 		}
 
@@ -1698,7 +1643,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 		if ((mode == EuclidianConstants.MODE_PEN)
 				|| (mode == EuclidianConstants.MODE_FREEHAND)) {
-			pen.handleMousePressedForPenMode(e, null);
+			((EuclidianPen) pen).handleMousePressedForPenMode(e, null);
 			return;
 		}
 
@@ -2247,7 +2192,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 		if ((mode == EuclidianConstants.MODE_PEN)
 				|| (mode == EuclidianConstants.MODE_FREEHAND)) {
-			pen.handleMouseReleasedForPenMode(e);
+			((EuclidianPen) pen).handleMouseReleasedForPenMode(e);
 			return;
 		}
 

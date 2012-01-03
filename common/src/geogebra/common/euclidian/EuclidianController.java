@@ -2,6 +2,8 @@ package geogebra.common.euclidian;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 import geogebra.common.awt.Point;
 import geogebra.common.awt.Point2D;
@@ -239,6 +241,11 @@ public abstract class EuclidianController {
 
 	protected EuclidianViewInterfaceSlim view;
 	
+	// ==============================================
+	// Pen
+
+	public geogebra.common.euclidian.EuclidianPen pen;
+	
 	protected static final int MOVE_NONE = 101;
 	protected static final int MOVE_POINT = 102;
 	protected static final int MOVE_LINE = 103;
@@ -473,6 +480,53 @@ public abstract class EuclidianController {
 					}
 				}
 			}
+		}
+	}
+
+	public int getMode() {
+		return mode;
+	}
+
+	protected void endOfMode(int mode) {
+		switch (mode) {
+		case EuclidianConstants.MODE_RECORD_TO_SPREADSHEET:
+			// just to be sure recordObject is set to null
+			// usually this is already done at mouseRelease
+			if (recordObject != null) {
+				if (app.getTraceManager()
+						.isTraceGeo(recordObject)) {
+					app.getGuiManager().removeSpreadsheetTrace(recordObject);
+				}
+				recordObject.setSelected(false);
+				recordObject = null;
+			}
+			break;
+	
+		case EuclidianConstants.MODE_MOVE:
+			deletePastePreviewSelected();
+			break;
+	
+		case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
+			// take all selected objects and hide them
+			Collection<GeoElement> coll = app.getSelectedGeos();
+			Iterator<GeoElement> it = coll.iterator();
+			while (it.hasNext()) {
+				GeoElement geo = it.next();
+				geo.setEuclidianVisible(false);
+				geo.updateRepaint();
+			}
+			break;
+	
+		case EuclidianConstants.MODE_PEN:
+		case EuclidianConstants.MODE_FREEHAND:
+			pen.resetPenOffsets();
+	
+			view.setSelectionRectangle(null);
+			break;
+		}
+	
+		if (toggleModeChangedKernel) {
+			app.storeUndoInfo();
 		}
 	}
 

@@ -3,6 +3,7 @@ package geogebra.common.euclidian;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import geogebra.common.awt.Rectangle;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement;
@@ -36,4 +37,5 @@ public interface EuclidianViewInterfaceSlim extends View{
 	int getPointCapturingMode();
 	void setPointCapturing(int pointCapturingStickyPoints);
 	Collection<? extends GeoPointND> getStickyPointList();
+	void setSelectionRectangle(Rectangle r);
 }

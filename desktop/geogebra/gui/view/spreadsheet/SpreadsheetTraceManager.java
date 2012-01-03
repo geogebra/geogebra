@@ -1,5 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
+import geogebra.GeoGebra;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoClass;
@@ -39,7 +40,7 @@ import java.util.TreeSet;
  * 
  */
 
-public class SpreadsheetTraceManager {
+public class SpreadsheetTraceManager extends geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager {
 
 	// external components
 	private Application app;
