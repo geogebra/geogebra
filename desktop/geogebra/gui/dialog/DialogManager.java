@@ -48,7 +48,7 @@ import geogebra.main.MyResourceBundle;
  * GeoGebra. Supports (explicit) lazy initialization so that dialogs have to be
  * created manually if needed.
  */
-public class DialogManager {
+public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	/**
 	 * Application instance.
 	 */

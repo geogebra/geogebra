@@ -62,6 +62,15 @@ public abstract class EuclidianController {
 		}
 	}
 
+	private static boolean noPointsIn(Hits hits) {
+		for (int i = 0; i < hits.size(); i++) {
+			if ((hits.get(i)).isGeoPoint()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	protected int mx; protected int my; //mouse coordinates
 
 	protected double xTemp;
@@ -1641,5 +1650,822 @@ public abstract class EuclidianController {
 				return handleAddSelected(hits, max, addMoreThanOneAllowed,
 						selectedLists, Test.GEOLIST);
 			}
+
+	protected final int addSelectedDirection(Hits hits, int max,
+			boolean addMoreThanOneAllowed) {
+				return handleAddSelected(hits, max, addMoreThanOneAllowed,
+						selectedDirections, Test.DIRECTIONND);
+			}
+
+	protected final int addSelectedCircle(Hits hits, int max,
+			boolean addMoreThanOneAllowed) {
+				ArrayList<GeoConic> selectedCircles = new ArrayList<GeoConic>();
+				for (Object c : selectedConicsND) {
+					if (((GeoConic) c).isCircle()) {
+						selectedCircles.add((GeoConic) c);
+					}
+				}
+				return handleAddSelected(hits, max, addMoreThanOneAllowed,
+						selectedCircles, Test.GEOCONIC);
+			}
+
+	protected final int addSelectedConic(Hits hits, int max,
+			boolean addMoreThanOneAllowed) {
+				return handleAddSelected(hits, max, addMoreThanOneAllowed,
+						selectedConicsND, Test.GEOCONICND);
+			}
+
+	protected final int addSelectedFunction(Hits hits, int max,
+			boolean addMoreThanOneAllowed) {
+				return handleAddSelected(hits, max, addMoreThanOneAllowed,
+						selectedFunctions, Test.GEOFUNCTION);
+			}
+
+	protected final int addSelectedCurve(Hits hits, int max,
+			boolean addMoreThanOneAllowed) {
+				return handleAddSelected(hits, max, addMoreThanOneAllowed,
+						selectedCurves, Test.GEOCURVECARTESIAN);
+			}
+
+	/** only used in 3D */
+	protected void createNewPoint(GeoPointND sourcePoint) {
+	}
+
+	/** only used in 3D */
+	protected void createNewPointIntersection(GeoPointND intersectionPoint) {
+	}
+
+	protected final GeoElement[] join(Hits hits) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+	
+		// points needed
+		addSelectedPoint(hits, 2, false);
+		// Application.debug("addSelectedPoint : "+hits+"\nselectedPoints = "+selectedPoints);
+		if (selPoints() == 2) {
+			// fetch the two selected points
+			return join();
+		}
+		return null;
+	}
+
+	protected GeoElement[] join() {
+		GeoPointND[] points = getSelectedPointsND();
+		GeoElement[] ret = { null };
+		if (((GeoElement) points[0]).isGeoElement3D()
+				|| ((GeoElement) points[1]).isGeoElement3D()) {
+			ret[0] = getKernel().getManager3D().Line3D(null, points[0],
+					points[1]);
+		} else {
+			ret[0] = getKernel().Line(null, (GeoPoint2) points[0],
+					(GeoPoint2) points[1]);
+		}
+		return ret;
+	}
+
+	protected void updateMovedGeoPoint(GeoPointND point) {
+		movedGeoPoint = point;
+	}
+
+	protected GeoElement[] ray() {
+		GeoPointND[] points = getSelectedPointsND();
+		GeoElement[] ret = { null };
+		if (((GeoElement) points[0]).isGeoElement3D()
+				|| ((GeoElement) points[1]).isGeoElement3D()) {
+			ret[0] = (GeoElement) getKernel().getManager3D().Ray3D(null,
+					points[0], points[1]);
+		} else {
+			ret[0] = getKernel().Ray(null, (GeoPoint2) points[0],
+					(GeoPoint2) points[1]);
+		}
+		return ret;
+	}
+
+	protected final GeoElement[] segment(Hits hits) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+	
+		// points needed
+		addSelectedPoint(hits, 2, false);
+		if (selPoints() == 2) {
+			// fetch the two selected points
+			return segment();
+			/*
+			 * GeoPoint[] points = getSelectedPoints(); kernel.Segment(null,
+			 * points[0], points[1]);
+			 */
+		}
+		return null;
+	}
+
+	protected GeoElement[] segment() {
+		GeoPointND[] points = getSelectedPointsND();
+		GeoElement[] ret = { null };
+		if (((GeoElement) points[0]).isGeoElement3D()
+				|| ((GeoElement) points[1]).isGeoElement3D()) {
+			ret[0] = (GeoElement) getKernel().getManager3D().Segment3D(null,
+					points[0], points[1]);
+		} else {
+			ret[0] = getKernel().Segment(null, (GeoPoint2) points[0],
+					(GeoPoint2) points[1]);
+		}
+		return ret;
+	}
+
+	protected final GeoElement[] vector(Hits hits) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+	
+		// points needed
+		addSelectedPoint(hits, 2, false);
+		if (selPoints() == 2) {
+			// fetch the two selected points
+	
+			GeoPointND[] points = getSelectedPointsND();
+			return new GeoElement[] { vector(points[0], points[1]) };
+		}
+		return null;
+	}
+
+	protected GeoElement vector(GeoPointND a, GeoPointND b) {
+		if (((GeoElement) a).isGeoElement3D()
+				|| ((GeoElement) b).isGeoElement3D()) {
+			return kernel.getManager3D().Vector3D(null, a, b);
+		} else {
+			return kernel.Vector(null, (GeoPoint2) a, (GeoPoint2) b);
+		}
+	}
+
+	protected final GeoElement[] ray(Hits hits) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+	
+		// points needed
+		addSelectedPoint(hits, 2, false);
+		if (selPoints() == 2) {
+			// fetch the two selected points
+			/*
+			 * GeoPoint[] points = getSelectedPoints(); kernel.Ray(null,
+			 * points[0], points[1]);
+			 */
+			return ray();
+		}
+	
+		return null;
+	}
+
+	protected final GeoElement[] polygon(Hits hits) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+	
+		// if the first point is clicked again, we are finished
+		if (selPoints() > 2) {
+			// check if first point was clicked again
+			boolean finished = !selectionPreview
+					&& hits.contains(selectedPoints.get(0));
+			if (finished) {
+				// build polygon
+				return polygon();
+				// kernel.Polygon(null, getSelectedPoints());
+			}
+		}
+	
+		// points needed
+		if (((polygonMode == POLYGON_RIGID) || (polygonMode == POLYGON_VECTOR))
+				&& (selPoints() > 0)) { // only want free points withput
+										// children for rigid polys (apart from
+										// first)
+			GeoElement geo = chooseGeo(hits, false);
+			if ((geo == null) || !geo.isGeoPoint() || !geo.isIndependent()
+					|| geo.hasChildren()) {
+				// addToSelectionList(selectedPoints, geo,
+				// GeoPolygon.POLYGON_MAX_POINTS);
+				return null;
+			}
+		}
+		addSelectedPoint(hits, GeoPolygon.POLYGON_MAX_POINTS, false);
+		return null;
+	}
+
+	protected final GeoElement[] polyline(Hits hits) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+	
+		// if the first point is clicked again, we are finished
+		if (selPoints() > 2) {
+			// check if first point was clicked again
+			boolean finished = !selectionPreview
+					&& hits.contains(selectedPoints.get(0));
+			if (finished) {
+				// build polygon
+				return kernel.PolyLine(null, getSelectedPoints());
+			}
+		}
+	
+		// points needed
+		addSelectedPoint(hits, GeoPolyLine.POLYLINE_MAX_POINTS, false);
+		return null;
+	}
+
+	protected GeoElement[] polygon() {
+		if (polygonMode == POLYGON_RIGID) {
+			GeoElement[] ret = { null };
+			GeoElement[] ret0 = kernel.RigidPolygon(null, getSelectedPoints());
+			if (ret0 != null) {
+				ret[0] = ret0[0];
+			}
+			return ret;
+		} else if (polygonMode == POLYGON_VECTOR) {
+			GeoElement[] ret = { null };
+			GeoElement[] ret0 = kernel.VectorPolygon(null, getSelectedPoints());
+			if (ret0 != null) {
+				ret[0] = ret0[0];
+			}
+			return ret;
+		} else {
+			// check if there is a 3D point
+			GeoPointND[] pointsND = getSelectedPointsND();
+			GeoPoint2[] points = new GeoPoint2[pointsND.length];
+			boolean point3D = false;
+			for (int i = 0; (i < pointsND.length) && !point3D; i++) {
+				if (((GeoElement) pointsND[i]).isGeoElement3D()) {
+					point3D = true;
+				} else {
+					points[i] = (GeoPoint2) pointsND[i];
+				}
+			}
+			if (point3D) {
+				GeoElement[] ret = { null };
+				GeoElement[] ret0 = kernel.getManager3D().Polygon3D(null,
+						pointsND);
+				if (ret0 != null) {
+					ret[0] = ret0[0];
+				}
+				return ret;
+			} else {
+				GeoElement[] ret = { null };
+				GeoElement[] ret0 = kernel.Polygon(null, points);
+				if (ret0 != null) {
+					ret[0] = ret0[0];
+				}
+				return ret;
+			}
+		}
+	}
+
+	protected GeoElement[] intersect(Hits hits) {
+		// Application.debug(selectedLines);
+	
+		// obscure bug: intersection of x=0 and (x-1)^2+(y-1)^=1 can intersect
+		// x=0 and y axis sometimes
+		if (hits.size() > 2) {
+			removeAxes(hits);
+		}
+	
+		if (hits.isEmpty()) {
+			return null;
+		}
+	
+		// when two objects are selected at once then only one single
+		// intersection point should be created
+		boolean singlePointWanted = selGeos() == 0;
+	
+		// check how many interesting hits we have
+		if (!selectionPreview && (hits.size() > (2 - selGeos()))) {
+			Hits goodHits = new Hits();
+			// goodHits.add(selectedGeos);
+			hits.getHits(Test.GEOLINE, tempArrayList);
+			goodHits.addAll(tempArrayList);
+	
+			if (goodHits.size() < 2) {
+				hits.getHits(Test.GEOCONIC, tempArrayList);
+				goodHits.addAll(tempArrayList);
+			}
+			if (goodHits.size() < 2) {
+				hits.getHits(Test.GEOFUNCTION, tempArrayList);
+				goodHits.addAll(tempArrayList);
+			}
+			if (goodHits.size() < 2) {
+				hits.getHits(Test.GEOPOLYGON, tempArrayList);
+				goodHits.addAll(tempArrayList);
+			}
+			if (goodHits.size() < 2) {
+				hits.getHits(Test.GEOPOLYLINE, tempArrayList);
+				goodHits.addAll(tempArrayList);
+			}
+	
+			// if (goodHits.size() > 2 - selGeos()) {
+			// // choose one geo, and select only this one
+			// GeoElement geo = chooseGeo(goodHits, true);
+			// hits.clear();
+			// hits.add(geo);
+			// } else {
+			hits = goodHits;
+			// }
+		}
+	
+		// get lines, conics and functions
+		// now there's no popup chooser, when we use the intersect Tool where
+		// multiple objects intersect
+		// just choose any 2
+		addSelectedLine(hits, 10, true);
+		addSelectedConic(hits, 10, true);
+		addSelectedFunction(hits, 10, true);
+		addSelectedImplicitpoly(hits, 10, true);
+		addSelectedPolygon(hits, 10, true);
+		addSelectedPolyLine(hits, 10, true);
+	
+		singlePointWanted = singlePointWanted && (selGeos() >= 2);
+	
+		// if (selGeos() > 2)
+		// return false;
+	
+		// two lines
+		if (selLines() >= 2) {
+			GeoLineND[] lines = getSelectedLinesND();
+			GeoElement[] ret = { null };
+			ret[0] = (GeoElement) kernel.IntersectLines(null, lines[0],
+					lines[1]);
+			return ret;
+		}
+		// two conics
+		else if (selConics() >= 2) {
+			GeoConicND[] conics = getSelectedConicsND();
+			GeoElement[] ret = { null };
+			if (singlePointWanted) {
+				ret[0] = kernel.IntersectConicsSingle(null,
+						(GeoConic) conics[0], (GeoConic) conics[1], xRW, yRW);
+			} else {
+				ret = (GeoElement[]) kernel.IntersectConics(null, conics[0],
+						conics[1]);
+			}
+			return ret;
+		} else if (selFunctions() >= 2) {
+			GeoFunction[] fun = getSelectedFunctions();
+			boolean polynomials = fun[0].isPolynomialFunction(false)
+					&& fun[1].isPolynomialFunction(false);
+			if (!polynomials) {
+				GeoPoint2 startPoint = new GeoPoint2(kernel.getConstruction());
+				startPoint.setCoords(xRW, yRW, 1.0);
+				return new GeoElement[] { kernel.IntersectFunctions(null,
+						fun[0], fun[1], startPoint) };
+			} else {
+				// polynomials
+				if (singlePointWanted) {
+					return new GeoElement[] { kernel
+							.IntersectPolynomialsSingle(null, fun[0], fun[1],
+									xRW, yRW) };
+				} else {
+					return kernel.IntersectPolynomials(null, fun[0], fun[1]);
+				}
+			}
+		}
+		// one line and one conic
+		else if ((selLines() >= 1) && (selConics() >= 1)) {
+			GeoConic[] conic = getSelectedConics();
+			GeoLine[] line = getSelectedLines();
+			GeoElement[] ret = { null };
+			if (singlePointWanted) {
+				ret[0] = kernel.IntersectLineConicSingle(null, line[0],
+						conic[0], xRW, yRW);
+			} else {
+				ret = kernel.IntersectLineConic(null, line[0], conic[0]);
+			}
+	
+			return ret;
+		}
+		// line and polyLine
+		else if ((selLines() >= 1) && (selPolyLines() >= 1)) {
+			GeoLine line = getSelectedLines()[0];
+			GeoPolyLine polyLine = getSelectedPolyLines()[0];
+			GeoElement[] ret = { null };
+			ret = kernel.IntersectLinePolyLine(new String[] { null }, line,
+					polyLine);
+			return ret;
+		}
+		// line and polygon
+		else if ((selLines() >= 1) && (selPolygons() >= 1)) {
+			GeoLine line = getSelectedLines()[0];
+			GeoPolygon polygon = getSelectedPolygons()[0];
+			GeoElement[] ret = { null };
+			ret = kernel.IntersectLinePolygon(new String[] { null }, line,
+					polygon);
+			return ret;
+		}
+		// line and function
+		else if ((selLines() >= 1) && (selFunctions() >= 1)) {
+			GeoLine[] line = getSelectedLines();
+			GeoFunction[] fun = getSelectedFunctions();
+			GeoElement[] ret = { null };
+			if (fun[0].isPolynomialFunction(false)) {
+				if (singlePointWanted) {
+					ret[0] = kernel.IntersectPolynomialLineSingle(null, fun[0],
+							line[0], xRW, yRW);
+				} else {
+					ret = kernel.IntersectPolynomialLine(null, fun[0], line[0]);
+				}
+			} else {
+				GeoPoint2 startPoint = new GeoPoint2(kernel.getConstruction());
+				startPoint.setCoords(xRW, yRW, 1.0);
+				ret[0] = kernel.IntersectFunctionLine(null, fun[0], line[0],
+						startPoint);
+			}
+			return ret;
+			// function and conic
+		} else if ((selFunctions() >= 1) && (selConics() >= 1)) {
+			GeoConic[] conic = getSelectedConics();
+			GeoFunction[] fun = getSelectedFunctions();
+			// if (fun[0].isPolynomialFunction(false)){
+			if (singlePointWanted) {
+				return new GeoElement[] { kernel
+						.IntersectPolynomialConicSingle(null, fun[0], conic[0],
+								xRW, yRW) };
+			} else {
+				return kernel.IntersectPolynomialConic(null, fun[0], conic[0]);
+				// }
+			}
+		} else if (selImplicitpoly() >= 1) {
+			if (selFunctions() >= 1) {
+				GeoImplicitPoly p = getSelectedImplicitpoly()[0];
+				GeoFunction fun = getSelectedFunctions()[0];
+				// if (fun.isPolynomialFunction(false)){
+				if (singlePointWanted) {
+					return new GeoElement[] { kernel
+							.IntersectImplicitpolyPolynomialSingle(null, p,
+									fun, xRW, yRW) };
+				} else {
+					return kernel.IntersectImplicitpolyPolynomial(null, p, fun);
+					// }else
+					// return null;
+				}
+			} else if (selLines() >= 1) {
+				GeoImplicitPoly p = getSelectedImplicitpoly()[0];
+				GeoLine l = getSelectedLines()[0];
+				if (singlePointWanted) {
+					return new GeoElement[] { kernel
+							.IntersectImplicitpolyLineSingle(null, p, l, xRW,
+									yRW) };
+				} else {
+					return kernel.IntersectImplicitpolyLine(null, p, l);
+				}
+			} else if (selConics() >= 1) {
+				GeoImplicitPoly p = getSelectedImplicitpoly()[0];
+				GeoConic c = getSelectedConics()[0];
+				if (singlePointWanted) {
+					return new GeoElement[] { kernel
+							.IntersectImplicitpolyConicSingle(null, p, c, xRW,
+									yRW) };
+				} else {
+					return kernel.IntersectImplicitpolyConic(null, p, c);
+				}
+			} else if (selImplicitpoly() >= 2) {
+				GeoImplicitPoly[] p = getSelectedImplicitpoly();
+				if (singlePointWanted) {
+					return new GeoElement[] { kernel
+							.IntersectImplicitpolysSingle(null, p[0], p[1],
+									xRW, yRW) };
+				} else {
+					return kernel.IntersectImplicitpolys(null, p[0], p[1]);
+				}
+			}
+		}
+		return null;
+	}
+
+	protected final GeoElement[] parallel(Hits hits) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+	
+		boolean hitPoint = (addSelectedPoint(hits, 1, false) != 0);
+		if (!hitPoint) {
+			if (selLines() == 0) {
+				addSelectedVector(hits, 1, false);
+			}
+			if (selVectors() == 0) {
+				addSelectedLine(hits, 1, false);
+			}
+		}
+	
+		if (selPoints() == 1) {
+			GeoElement[] ret = { null };
+			if (selVectors() == 1) {
+				// fetch selected point and vector
+				GeoPointND[] points = getSelectedPointsND();
+				GeoVectorND[] vectors = getSelectedVectorsND();
+				// create new line
+				if (((GeoElement) points[0]).isGeoElement3D()
+						|| ((GeoElement) vectors[0]).isGeoElement3D()) {
+					ret[0] = (GeoElement) getKernel().getManager3D().Line3D(
+							null, points[0], vectors[0]);
+				} else {
+					ret[0] = kernel.Line(null, (GeoPoint2) points[0],
+							(GeoVector) vectors[0]);
+				}
+				return ret;
+			} else if (selLines() == 1) {
+				// fetch selected point and vector
+				GeoPointND[] points = getSelectedPointsND();
+				GeoLineND[] lines = getSelectedLinesND();
+				// create new line
+				if (((GeoElement) points[0]).isGeoElement3D()
+						|| ((GeoElement) lines[0]).isGeoElement3D()) {
+					ret[0] = (GeoElement) getKernel().getManager3D().Line3D(
+							null, points[0], lines[0]);
+				} else {
+					ret[0] = getKernel().Line(null, (GeoPoint2) points[0],
+							(GeoLine) lines[0]);
+				}
+				return ret;
+			}
+		}
+		return null;
+	}
+
+	protected final GeoElement[] parabola(Hits hits) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+	
+		boolean hitPoint = (addSelectedPoint(hits, 1, false) != 0);
+		if (!hitPoint) {
+			addSelectedLine(hits, 1, false);
+		}
+	
+		if (selPoints() == 1) {
+			if (selLines() == 1) {
+				// fetch selected point and line
+				GeoPoint2[] points = getSelectedPoints();
+				GeoLine[] lines = getSelectedLines();
+				// create new parabola
+				GeoElement[] ret = { null };
+				ret[0] = kernel.Parabola(null, points[0], lines[0]);
+				return ret;
+			}
+		}
+		return null;
+	}
+
+	protected GeoElement[] orthogonal(Hits hits) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+	
+		boolean hitPoint = (addSelectedPoint(hits, 1, false) != 0);
+	
+		return orthogonal(hits, hitPoint);
+	
+	}
+
+	protected GeoElement[] orthogonal(Hits hits, boolean hitPoint) {
+	
+		if (!hitPoint) {
+			if (selLines() == 0) {
+				addSelectedVector(hits, 1, false, Test.GEOVECTOR);
+			}
+			if (selVectors() == 0) {
+				addSelectedLine(hits, 1, false);
+			}
+		}
+	
+		if (selPoints() == 1) {
+			if (selVectors() == 1) {
+				// fetch selected point and vector
+				GeoPointND[] points = getSelectedPointsND();
+				GeoVectorND[] vectors = getSelectedVectorsND();
+				// create new line
+				GeoElement[] ret = { null };
+				// no defined line through a point and orthogonal to a vector in
+				// 3D
+				if (((GeoElement) points[0]).isGeoElement3D()) {
+					return null;
+				} else {
+					ret[0] = kernel.OrthogonalLine(null, (GeoPoint2) points[0],
+							(GeoVector) vectors[0]);
+				}
+				return ret;
+	
+			} else if (selLines() == 1) {
+				// fetch selected point and line
+				GeoPointND[] points = getSelectedPointsND();
+				GeoLineND[] lines = getSelectedLinesND();
+				// create new line
+				return orthogonal(points[0], lines[0]);
+			}
+		}
+		return null;
+	}
+
+	protected GeoElement[] orthogonal(GeoPointND point, GeoLineND line) {
+		if (((GeoElement) point).isGeoElement3D()
+				|| ((GeoElement) line).isGeoElement3D()) {
+			return new GeoElement[] { (GeoElement) getKernel().getManager3D()
+					.OrthogonalLine3D(null, point, line,
+							((EuclidianViewInterface2D) view).getDirection()) };
+		} else {
+			return orthogonal2D(point, line);
+		}
+	}
+
+	protected GeoElement[] orthogonal2D(GeoPointND point, GeoLineND line) {
+		return new GeoElement[] { getKernel().OrthogonalLine(null,
+				(GeoPoint2) point, (GeoLine) line) };
+	}
+
+	protected final GeoElement[] midpoint(Hits hits) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+	
+		boolean hitPoint = (addSelectedPoint(hits, 2, false) != 0);
+	
+		if (!hitPoint && (selPoints() == 0)) {
+			addSelectedSegment(hits, 1, false); // segment needed
+			if (selSegments() == 0) {
+				addSelectedConic(hits, 1, false); // conic needed
+			}
+		}
+	
+		GeoElement[] ret = { null };
+	
+		if (selPoints() == 2) {
+			// fetch the two selected points
+			GeoPointND[] points = getSelectedPointsND();
+			if (((GeoElement) points[0]).isGeoElement3D()
+					|| ((GeoElement) points[1]).isGeoElement3D()) {
+				ret[0] = (GeoElement) kernel.getManager3D().Midpoint(null,
+						points[0], points[1]);
+			} else {
+				ret[0] = kernel.Midpoint(null, (GeoPoint2) points[0],
+						(GeoPoint2) points[1]);
+			}
+			return ret;
+		} else if (selSegments() == 1) {
+			// fetch the selected segment
+			GeoSegmentND[] segments = getSelectedSegmentsND();
+			if (((GeoElement) segments[0]).isGeoElement3D()) {
+				ret[0] = (GeoElement) kernel.getManager3D().Midpoint(null,
+						segments[0]);
+			} else {
+				ret[0] = kernel.Midpoint(null, (GeoSegment) segments[0]);
+			}
+			return ret;
+		} else if (selConics() == 1) {
+			// fetch the selected segment
+			GeoConic[] conics = getSelectedConics();
+			ret[0] = kernel.Center(null, conics[0]);
+			return ret;
+		}
+		return null;
+	}
+
+	protected final boolean functionInspector(Hits hits) {
+		if (hits.isEmpty()) {
+			return false;
+		}
+	
+		boolean hitFunction = (addSelectedFunction(hits, 1, false) != 0);
+	
+		if (selFunctions() == 1) {
+			GeoFunction[] functions = getSelectedFunctions();
+	
+			app.getGuiManager().getDialogManager()
+					.showFunctionInspector(functions[0]);
+			app.setMoveMode();
+		}
+	
+		return false;
+	}
+
+	protected final GeoElement[] lineBisector(Hits hits) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+		boolean hitPoint = false;
+	
+		if (selSegments() == 0) {
+			hitPoint = (addSelectedPoint(hits, 2, false) != 0);
+		}
+	
+		if (!hitPoint && (selPoints() == 0)) {
+			addSelectedSegment(hits, 1, false); // segment needed
+		}
+	
+		GeoElement[] ret = { null };
+		if (selPoints() == 2) {
+			// fetch the two selected points
+			GeoPoint2[] points = getSelectedPoints();
+			ret[0] = kernel.LineBisector(null, points[0], points[1]);
+			return ret;
+		} else if (selSegments() == 1) {
+			// fetch the selected segment
+			GeoSegment[] segments = getSelectedSegments();
+			ret[0] = kernel.LineBisector(null, segments[0]);
+			return ret;
+		}
+		return null;
+	}
+
+	protected final GeoElement[] angularBisector(Hits hits) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+		boolean hitPoint = false;
+	
+		if (selLines() == 0) {
+			hitPoint = (addSelectedPoint(hits, 3, false) != 0);
+		}
+		if (!hitPoint && (selPoints() == 0)) {
+			addSelectedLine(hits, 2, false);
+		}
+	
+		if (selPoints() == 3) {
+			// fetch the three selected points
+			GeoPoint2[] points = getSelectedPoints();
+			GeoElement[] ret = { null };
+			ret[0] = kernel.AngularBisector(null, points[0], points[1],
+					points[2]);
+			return ret;
+		} else if (selLines() == 2) {
+			// fetch the two lines
+			GeoLine[] lines = getSelectedLines();
+			return kernel.AngularBisector(null, lines[0], lines[1]);
+		}
+		return null;
+	}
+
+	protected final GeoElement[] threePoints(Hits hits, int mode) {
+	
+		if (hits.isEmpty()) {
+			return null;
+		}
+	
+		// points needed
+		addSelectedPoint(hits, 3, false);
+		if (selPoints() == 3) {
+			return switchModeForThreePoints();
+		}
+		return null;
+	}
+
+	protected GeoElement[] switchModeForThreePoints() {
+		// fetch the three selected points
+		GeoPointND[] points = getSelectedPointsND();
+		GeoElement[] ret = { null };
+		switch (mode) {
+		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
+			if (((GeoElement) points[0]).isGeoElement3D()
+					|| ((GeoElement) points[1]).isGeoElement3D()
+					|| ((GeoElement) points[2]).isGeoElement3D()) {
+				ret[0] = kernel.getManager3D().Circle3D(null, points[0],
+						points[1], points[2]);
+			} else {
+				ret[0] = kernel.Circle(null, (GeoPoint2) points[0],
+						(GeoPoint2) points[1], (GeoPoint2) points[2]);
+			}
+			break;
+	
+		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
+			ret[0] = kernel.Ellipse(null, (GeoPoint2) points[0],
+					(GeoPoint2) points[1], (GeoPoint2) points[2]);
+			break;
+	
+		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
+			ret[0] = kernel.Hyperbola(null, (GeoPoint2) points[0],
+					(GeoPoint2) points[1], (GeoPoint2) points[2]);
+			break;
+	
+		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
+			ret[0] = kernel.CircumcircleArc(null, (GeoPoint2) points[0],
+					(GeoPoint2) points[1], (GeoPoint2) points[2]);
+			break;
+	
+		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
+			ret[0] = kernel.CircumcircleSector(null, (GeoPoint2) points[0],
+					(GeoPoint2) points[1], (GeoPoint2) points[2]);
+			break;
+	
+		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
+			ret[0] = kernel.CircleArc(null, (GeoPoint2) points[0],
+					(GeoPoint2) points[1], (GeoPoint2) points[2]);
+			break;
+	
+		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
+			ret[0] = kernel.CircleSector(null, (GeoPoint2) points[0],
+					(GeoPoint2) points[1], (GeoPoint2) points[2]);
+			break;
+	
+		default:
+			return null;
+		}
+	
+		return ret;
+	}
 
 }

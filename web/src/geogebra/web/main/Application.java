@@ -690,4 +690,10 @@ public class Application extends AbstractApplication {
 	    // TODO Auto-generated method stub
 	    
     }
+
+	@Override
+    public void setMoveMode() {
+	    // TODO Auto-generated method stub
+	    
+    }
 }

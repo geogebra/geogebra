@@ -634,4 +634,6 @@ public abstract class AbstractApplication {
 
 	public abstract void toggleSelectedGeo(GeoElement geo);
 
+	public abstract void setMoveMode();
+
 }
