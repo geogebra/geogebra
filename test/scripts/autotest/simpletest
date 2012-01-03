@@ -9,6 +9,7 @@ test -r autotest.conf || {
 test -r autotest.conf && . ./autotest.conf
 
 MYDIR=$SVNDIR/geogebra/test/scripts/autotest
+WEBDIR=$SVNDIR/geogebra/web
 
 REVISION=`svn info | grep Revision: | awk '{print $2}'`
 
@@ -27,5 +28,7 @@ ECJERROR=`cat ecjerrors`
 if [ "$ECJERROR" != "" ]; then
  exit 4 # Compilation error (but GeoGebra started)
  fi
+
+cat $WEBDIR/.buildlog | grep --silent "BUILD FAILED" && exit 5 # Problem with GeoGebraWeb
 
 exit 0 # No error

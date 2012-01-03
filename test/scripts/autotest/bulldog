@@ -10,7 +10,7 @@ test -r autotest.conf && . ./autotest.conf
 
 while [ true ]; do
  date
- ./build-latest-desktop && ./alarm
+ ./build-latest && ./alarm
  date
  sleep $WAITBETWEENBUILDS
  done

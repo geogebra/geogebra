@@ -1,5 +1,5 @@
 #!/bin/sh
-# If the latest desktop was not built yet, it builds
+# If the latest version was not built yet, it builds desktop and web
 
 # 1. Start and loading configuration
 test -r autotest.conf || {
@@ -15,6 +15,7 @@ MYDIR=$SVNDIR/geogebra/test/scripts/autotest
  $SVN_COMMAND --force update
  cd $MYDIR
  ./build-desktop
+ ./build-web
  echo "The latest revision has been built now"
  exit 0
  }

@@ -10,6 +10,7 @@ test -r autotest.conf && . ./autotest.conf
 
 REVISION=`svn info | grep Revision: | awk '{print $2}'`
 REV_HTTP="http://www.geogebra.org/trac/changeset/$REVISION"
+WEBDIR=$SVNDIR/geogebra/web
 
 ./simpletest
 RESULT=$?
@@ -36,6 +37,11 @@ if [ $RESULT = 3 ]; then
 if [ $RESULT = 4 ]; then
  MESSAGE="There is a compilation problem at revision $REVISION, however GeoGebra starts properly"
  LOG=`cat $REVDIR/$REVISION/ecjerrors | awk '{printf("%s\\\n",$0);}'`
+ fi
+
+if [ $RESULT = 5 ]; then
+ MESSAGE="There is a GeoGebraWeb GWT compilation problem at revision $REVISION, however GeoGebra compiles and starts properly"
+ LOG=`cat $WEBDIR/.buildlog | awk '{printf("%s\\\n",$0);}'`
  fi
 
 if [ $RESULT = 0 ]; then
