@@ -23,6 +23,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.main.Application;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -209,7 +210,7 @@ public final class DrawImage extends Drawable {
 								.isEqual(at.getShearY(), 0.0,
 										Kernel.MAX_PRECISION));
 		}
-
+		
 		if (isInBackground != geoImage.isInBackground()) {
 			isInBackground = !isInBackground;
 			if (isInBackground) {
@@ -259,6 +260,9 @@ public final class DrawImage extends Drawable {
 					// improve rendering quality for transformed images
 					g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
 							RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+				} else {
+					g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+							RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);					
 				}
 
 				// g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
