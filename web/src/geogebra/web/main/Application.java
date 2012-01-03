@@ -684,4 +684,10 @@ public class Application extends AbstractApplication {
 	    // TODO Auto-generated method stub
 	    
     }
+
+	@Override
+    public void toggleSelectedGeo(GeoElement geo) {
+	    // TODO Auto-generated method stub
+	    
+    }
 }

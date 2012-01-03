@@ -15,9 +15,11 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoConic;
+import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -49,6 +51,16 @@ public abstract class EuclidianController {
 	protected static int POLYGON_RIGID = 1;
 
 	protected static int POLYGON_VECTOR = 2;
+
+	protected static void removeAxes(ArrayList<GeoElement> geos) {
+	
+		for (int i = geos.size() - 1; i >= 0; i--) {
+			GeoElement geo = geos.get(i);
+			if (geo instanceof GeoAxis) {
+				geos.remove(i);
+			}
+		}
+	}
 
 	protected int mx; protected int my; //mouse coordinates
 
@@ -1006,6 +1018,518 @@ public abstract class EuclidianController {
 		}
 		app.updateStyleBars();
 		app.getGuiManager().updateMenubarSelection();
+	}
+
+	protected final void setHighlightedGeos(boolean highlight) {
+		GeoElement geo;
+		Iterator<GeoElement> it = highlightedGeos.iterator();
+		while (it.hasNext()) {
+			geo = it.next();
+			geo.setHighlighted(highlight);
+		}
+	}
+
+	protected void doSingleHighlighting(GeoElement geo) {
+		if (geo == null) {
+			return;
+		}
+	
+		if (highlightedGeos.size() > 0) {
+			setHighlightedGeos(false);
+		}
+	
+		highlightedGeos.add(geo);
+		geo.setHighlighted(true);
+		kernel.notifyRepaint();
+	}
+
+	/**
+	 * 
+	 * @return true if the mouse is over a label
+	 */
+	public boolean mouseIsOverLabel() {
+		return mouseIsOverLabel;
+	}
+
+	/**
+	 * Removes parent points of segments, rays, polygons, etc. from selGeos that
+	 * are not necessary for transformations of these objects.
+	 */
+	protected void removeParentPoints(ArrayList<GeoElement> selGeos) {
+		tempArrayList.clear();
+		tempArrayList.addAll(selGeos);
+	
+		// remove parent points
+		for (int i = 0; i < selGeos.size(); i++) {
+			GeoElement geo = selGeos.get(i);
+	
+			switch (geo.getGeoClassType()) {
+			case SEGMENT:
+			case RAY:
+				// remove start and end point of segment
+				GeoLine line = (GeoLine) geo;
+				tempArrayList.remove(line.getStartPoint());
+				tempArrayList.remove(line.getEndPoint());
+				break;
+	
+			case CONICPART:
+				GeoConicPart cp = (GeoConicPart) geo;
+				ArrayList<GeoPoint2> ip = cp.getParentAlgorithm()
+						.getInputPoints();
+				tempArrayList.removeAll(ip);
+				break;
+	
+			case POLYGON:
+				// remove points and segments of poly
+				GeoPolygon poly = (GeoPolygon) geo;
+				GeoPointND[] points = poly.getPoints();
+				for (int k = 0; k < points.length; k++) {
+					tempArrayList.remove(points[k]);
+				}
+				GeoSegmentND[] segs = poly.getSegments();
+				for (int k = 0; k < segs.length; k++) {
+					tempArrayList.remove(segs[k]);
+				}
+				break;
+	
+			case POLYLINE:
+				// remove points and segments of poly
+				GeoPolyLine polyl = (GeoPolyLine) geo;
+				points = polyl.getPoints();
+				for (int k = 0; k < points.length; k++) {
+					tempArrayList.remove(points[k]);
+				}
+				break;
+			}
+		}
+	
+		selGeos.clear();
+		selGeos.addAll(tempArrayList);
+	}
+
+	protected final int addToSelectionList(ArrayList selectionList, GeoElement geo,
+			int max) {
+				if (geo == null) {
+					return 0;
+				}
+			
+				int ret = 0;
+				if (selectionList.contains(geo)) { // remove from selection
+					selectionList.remove(geo);
+					if (selectionList != selectedGeos) {
+						selectedGeos.remove(geo);
+					}
+					ret = -1;
+				} else { // new element: add to selection
+					if (selectionList.size() < max) {
+						selectionList.add(geo);
+						if (selectionList != selectedGeos) {
+							selectedGeos.add(geo);
+						}
+						ret = 1;
+					}
+				}
+				if (ret != 0) {
+					app.toggleSelectedGeo(geo);
+				}
+				return ret;
+			}
+
+	protected final int addToHighlightedList(ArrayList<?> selectionList, ArrayList<GeoElement> geos,
+			int max) {
+			
+				if (geos == null) {
+					return 0;
+				}
+			
+				GeoElement geo;
+				int ret = 0;
+				for (int i = 0; i < geos.size(); i++) {
+					geo = geos.get(i);
+					if (selectionList.contains(geo)) {
+						ret = (ret == 1) ? 1 : -1;
+					} else {
+						if (selectionList.size() < max) {
+							highlightedGeos.add(geo); // add hit
+							ret = 1;
+						}
+					}
+				}
+				return ret;
+			}
+
+	protected GeoElement chooseGeo(ArrayList<GeoElement> geos, boolean includeFixed) {
+		if (geos == null) {
+			return null;
+		}
+	
+		if (geos.size() > 1) {
+			removeAxes(geos);
+		}
+	
+		GeoElement ret = null;
+		GeoElement retFree = null;
+		GeoElement retPath = null;
+		GeoElement retIndex = null;
+		GeoElement retSegment = null;
+	
+		switch (geos.size()) {
+		case 0:
+			ret = null;
+			break;
+	
+		case 1:
+			ret = geos.get(0);
+	
+			if (!includeFixed && ret.isFixed()) {
+				return null;
+			}
+	
+			break;
+	
+		default:
+	
+			int maxLayer = -1;
+	
+			int layerCount = 0;
+	
+			// work out max layer, and
+			// count no of objects in max layer
+			for (int i = 0; i < geos.size(); i++) {
+				GeoElement geo = (geos.get(i));
+				int layer = geo.getLayer();
+	
+				if ((layer > maxLayer) && (includeFixed || !geo.isFixed())) {
+					maxLayer = layer;
+					layerCount = 1;
+					ret = geo;
+				} else if (layer == maxLayer) {
+					layerCount++;
+				}
+	
+			}
+	
+			// Application.debug("maxLayer"+maxLayer);
+			// Application.debug("layerCount"+layerCount);
+	
+			// only one object in top layer, return it.
+			if (layerCount == 1) {
+				return ret;
+			}
+	
+			int pointCount = 0;
+			int freePointCount = 0;
+			int pointOnPathCount = 0;
+			int segmentCount = 0;
+			// int polygonCount = 0;
+			int minIndex = Integer.MAX_VALUE;
+	
+			// count no of points in top layer
+			for (int i = 0; i < geos.size(); i++) {
+				GeoElement geo = (geos.get(i));
+	
+				if (geo.isGeoPoint() && (geo.getLayer() == maxLayer)
+						&& (includeFixed || !geo.isFixed())) {
+					pointCount++;
+					ret = geo;
+	
+					// find point with the lowest construction index
+					// changed from highest so that tessellation works
+					// eg two points like (a + x(A), b + y(A))
+					// we want to drag the older one
+					int index = geo.getConstructionIndex();
+					if (index < minIndex) {
+						minIndex = index;
+						retIndex = geo;
+					}
+	
+					// find point-on-path/region with the highest construction
+					// index
+					if (((GeoPointND) geo).isPointOnPath()
+							|| ((GeoPointND) geo).isPointInRegion()) {
+						pointOnPathCount++;
+						if (retPath == null) {
+							retPath = geo;
+						} else {
+							if (geo.getConstructionIndex() > retPath
+									.getConstructionIndex()) {
+								retPath = geo;
+							}
+						}
+					}
+	
+					// find free point with the highest construction index
+					if (geo.isIndependent()) {
+						freePointCount++;
+						if (retFree == null) {
+							retFree = geo;
+						} else {
+							if (geo.getConstructionIndex() > retFree
+									.getConstructionIndex()) {
+								retFree = geo;
+							}
+						}
+					}
+				}
+			}
+			// Application.debug("pointOnPathCount"+pointOnPathCount);
+			// Application.debug("freePointCount"+freePointCount);
+			// Application.debug("pointCount"+pointCount);
+	
+			// return point-on-path with highest index
+			if (pointOnPathCount > 0) {
+				return retPath;
+			}
+	
+			// return free-point with highest index
+			if (freePointCount > 0) {
+				return retFree;
+			}
+	
+			// only one point in top layer, return it
+			if (pointCount == 1) {
+				return ret;
+			}
+	
+			// just return the most recently created point
+			if (pointCount > 1) {
+				return retIndex;
+			}
+	
+			/*
+			 * try { throw new Exception("choose"); } catch (Exception e) {
+			 * e.printStackTrace();
+			 * 
+			 * }
+			 */
+	
+			boolean allFixed = false;
+	
+			// remove fixed objects (if there are some not fixed)
+			if (!includeFixed && (geos.size() > 1)) {
+	
+				allFixed = true;
+				for (int i = 0; i < geos.size(); i++) {
+					if (!geos.get(i).isFixed()) {
+						allFixed = false;
+					}
+				}
+	
+				if (!allFixed) {
+					for (int i = geos.size() - 1; i >= 0; i--) {
+						GeoElement geo = geos.get(i);
+						if (geo.isFixed()) {
+							geos.remove(i);
+						}
+					}
+				}
+	
+				if (geos.size() == 1) {
+					return geos.get(0);
+				}
+			}
+	
+			// int maxPolygonLayer = 0;
+			// count segments and polygons
+			for (int i = 0; i < geos.size(); i++) {
+				GeoElement geo = (geos.get(i));
+	
+				if (geo.isGeoSegment()) {
+					segmentCount++;
+					if (retSegment == null) {
+						retSegment = geo;
+					} else {
+	
+						// select Segment with lowest layer (& construction
+						// index)
+						if ((retSegment.getLayer() < geo.getLayer())
+								|| ((retSegment.getLayer() == geo.getLayer()) && (retSegment
+										.getConstructionIndex() > geo
+										.getConstructionIndex()))) {
+							retSegment = geo;
+	
+						}
+					}
+					// } else if (geo.isGeoPolygon()) {
+					// polygonCount++;
+					// if (geo.getLayer() > maxPolygonLayer) maxPolygonLayer =
+					// geo.getLayer();
+				}
+			}
+	
+			// check for edge of polygon being selected (priority over polygon
+			// itself)
+			// if (segmentCount == 1 && (segmentCount + polygonCount ==
+			// geos.size())) {
+			// if (retSegment.getLayer() >= maxPolygonLayer) return retSegment;
+			// }
+	
+			// give segments priority over eg Polygons, Lines
+			// that they might be drawn on top of
+			if (segmentCount > 0) {
+				return retSegment;
+			}
+	
+			// don't want a popup in this case
+			// eg multiple fixed images from Pen Tool
+			if (!includeFixed && allFixed) {
+				return null;
+			}
+	
+			/*
+			 * no points selected, multiple objects selected // popup a menu to
+			 * choose from ToolTipManager ttm = ToolTipManager.sharedInstance();
+			 * ttm.setEnabled(false); ListDialog dialog = new
+			 * ListDialog((EuclidianView) view, geos, null); if
+			 * (app.areChooserPopupsEnabled()) ret = dialog.showDialog((EuclidianView)
+			 * view, mouseLoc); ttm.setEnabled(true);
+			 */
+	
+			// now just choose geo with highest drawing priority:
+			int maxIndex = 0;
+			long maxDrawingPriority = Integer.MIN_VALUE;
+			
+			for (int i = 0 ; i < geos.size() ; i++) {
+				if (geos.get(i).getDrawingPriority() > maxDrawingPriority) {
+					maxDrawingPriority = geos.get(i).getDrawingPriority();
+					maxIndex = i;
+				}
+			}
+			ret = geos.get(maxIndex);
+		}
+		return ret;
+	
+	}
+
+	/**
+	 * Shows dialog to choose one object out of hits[] that is an instance of
+	 * specified class (note: subclasses are included)
+	 * 
+	 */
+	protected GeoElement chooseGeo(Hits hits, Test geoclass) {
+		return chooseGeo(hits.getHits(geoclass, tempArrayList), true);
+	}
+
+	/**
+	 * selectionList may only contain max objects a choose dialog will be shown
+	 * if not all objects can be added
+	 * 
+	 * @param geos
+	 *            a clone of the to-be-added list
+	 * @param addMoreThanOneAllowed
+	 *            it's possible to add several objects without choosing
+	 */
+	protected final int addToSelectionList(ArrayList<?> selectionList, ArrayList<GeoElement> geos,
+			int max, boolean addMoreThanOneAllowed, boolean tryDeselect) {
+			
+				if (geos == null) {
+					return 0;
+					// GeoElement geo;
+				}
+			
+				// ONLY ONE ELEMENT IN THE EFFECTIVE HITS
+				if (tryDeselect && (geos.size() == 1)) {
+					// select or deselect it
+					return addToSelectionList(selectionList, geos.get(0), max);
+				}
+			
+				// SEVERAL ELEMENTS
+				// here none of the selected geos should be removed
+			
+				// we don't want to add repeated elements
+				geos.removeAll(selectionList);
+				// too many objects -> choose one
+				if (!addMoreThanOneAllowed
+						|| ((geos.size() + selectionList.size()) > max)) {
+					// Application.printStacktrace(geos.toString());
+					return addToSelectionList(selectionList, chooseGeo(geos, true), max);
+				}
+			
+				// already selected objects -> choose one
+				boolean contained = false;
+				for (int i = 0; i < geos.size(); i++) {
+					if (selectionList.contains(geos.get(i))) {
+						contained = true;
+					}
+				}
+				if (contained) {
+					return addToSelectionList(selectionList, chooseGeo(geos, true), max);
+				}
+			
+				// add all objects to list
+				int count = 0;
+				for (int i = 0; i < geos.size(); i++) {
+					count += addToSelectionList(selectionList, geos.get(i), max);
+				}
+				return count;
+			}
+
+	protected final int selGeos() {
+		return selectedGeos.size();
+	}
+
+	protected final int selPoints() {
+		return selectedPoints.size();
+	}
+
+	protected final int selNumbers() {
+		return selectedNumbers.size();
+	}
+
+	protected final int selNumberValues() {
+		return selectedNumberValues.size();
+	}
+
+	protected final int selLists() {
+		return selectedLists.size();
+	}
+
+	protected final int selPolyLines() {
+		return selectedPolyLines.size();
+	}
+
+	protected final int selPolygons() {
+		return selectedPolygons.size();
+	}
+
+	protected final int selLines() {
+		return selectedLines.size();
+	}
+
+	protected final int selDirections() {
+		return selectedDirections.size();
+	}
+
+	protected final int selSegments() {
+		return selectedSegments.size();
+	}
+
+	protected final int selVectors() {
+		return selectedVectors.size();
+	}
+
+	protected final int selConics() {
+		return selectedConicsND.size();
+	}
+
+	protected final int selPaths() {
+		return selectedPaths.size();
+	}
+
+	protected final int selRegions() {
+		return selectedRegions.size();
+	}
+
+	protected final int selImplicitpoly() {
+		return selectedImplicitpoly.size();
+	}
+
+	protected final int selFunctions() {
+		return selectedFunctions.size();
+	}
+
+	protected final int selCurves() {
+		return selectedCurves.size();
 	}
 
 }

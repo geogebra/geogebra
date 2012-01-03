@@ -632,4 +632,6 @@ public abstract class AbstractApplication {
 
 	public abstract void updateStyleBars();
 
+	public abstract void toggleSelectedGeo(GeoElement geo);
+
 }
