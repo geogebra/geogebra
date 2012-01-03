@@ -526,8 +526,6 @@ public class Application extends AbstractApplication implements
 	private boolean shiftDragZoomEnabled = true;
 	private boolean isErrorDialogsActive = true;
 	private boolean isErrorDialogShowing = false;
-	private boolean isOnTheFlyPointCreationActive = true;
-
 	private static LinkedList<File> fileList = new LinkedList<File>();
 	private boolean isSaved = true;
 	// private int guiFontSize;
@@ -4968,10 +4966,6 @@ public class Application extends AbstractApplication implements
 			e.printStackTrace();
 		}
 		return sb.toString();
-	}
-
-	public final boolean isOnTheFlyPointCreationActive() {
-		return isOnTheFlyPointCreationActive;
 	}
 
 	public final void setOnTheFlyPointCreationActive(

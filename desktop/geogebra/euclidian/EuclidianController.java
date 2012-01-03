@@ -4114,20 +4114,6 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		}
 	}
 
-	/***************************************************************************
-	 * mode implementations
-	 * 
-	 * the following methods return true if a factory method of the kernel was
-	 * called
-	 **************************************************************************/
-
-	private boolean allowPointCreation() {
-		return (mode == EuclidianConstants.MODE_POINT)
-				|| (mode == EuclidianConstants.MODE_POINT_ON_OBJECT)
-				|| (mode == EuclidianConstants.MODE_COMPLEX_NUMBER)
-				|| ((Application) app).isOnTheFlyPointCreationActive();
-	}
-
 	final protected boolean createNewPoint(Hits hits, boolean onPathPossible,
 			boolean intersectPossible, boolean doSingleHighlighting) {
 

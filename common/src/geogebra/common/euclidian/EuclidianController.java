@@ -914,4 +914,17 @@ public abstract class EuclidianController {
 		return curves;
 	}
 
+	/***************************************************************************
+	 * mode implementations
+	 * 
+	 * the following methods return true if a factory method of the kernel was
+	 * called
+	 **************************************************************************/
+	protected boolean allowPointCreation() {
+		return (mode == EuclidianConstants.MODE_POINT)
+				|| (mode == EuclidianConstants.MODE_POINT_ON_OBJECT)
+				|| (mode == EuclidianConstants.MODE_COMPLEX_NUMBER)
+				|| app.isOnTheFlyPointCreationActive();
+	}
+
 }

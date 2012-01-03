@@ -74,6 +74,8 @@ public abstract class AbstractApplication {
 
 	protected AbstractKernel kernel;
 
+	protected boolean isOnTheFlyPointCreationActive = true;
+
 	public boolean useJavaFontsForLaTeX() {
 		return useJavaFontsForLaTeX;
 
@@ -541,6 +543,10 @@ public abstract class AbstractApplication {
 	public abstract GeoElementGraphicsAdapter newGeoElementGraphicsAdapter();
 
 	public abstract GeoGebraCasInterface newGeoGebraCAS();
+
+	public final boolean isOnTheFlyPointCreationActive() {
+		return isOnTheFlyPointCreationActive;
+	}
 
 
 }
