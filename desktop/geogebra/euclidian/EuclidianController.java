@@ -4363,60 +4363,6 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 	protected void createNewPointIntersection(GeoPointND intersectionPoint) {
 	}
 
-	protected GeoPointND createNewPoint(boolean forPreviewable, boolean complex) {
-		GeoPointND ret = kernel.Point(null,
-				AbstractKernel.checkDecimalFraction(xRW),
-				AbstractKernel.checkDecimalFraction(yRW), complex);
-		return ret;
-	}
-
-	protected GeoPointND createNewPoint(boolean forPreviewable, Path path,
-			boolean complex) {
-		return createNewPoint(forPreviewable, path,
-				AbstractKernel.checkDecimalFraction(xRW),
-				AbstractKernel.checkDecimalFraction(yRW), 0, complex);
-	}
-
-	protected GeoPointND createNewPoint(boolean forPreviewable, Path path,
-			double x, double y, double z, boolean complex) {
-
-		if (((GeoElement) path).isGeoElement3D()) {
-			return kernel.getManager3D().Point3D(null, path, x, y, z,
-					!forPreviewable);
-		} else {
-			return createNewPoint2D(forPreviewable, path, x, y, complex);
-		}
-	}
-
-	protected GeoPointND createNewPoint2D(boolean forPreviewable, Path path,
-			double x, double y, boolean complex) {
-		return kernel.Point(null, path, x, y, !forPreviewable, complex);
-	}
-
-	protected GeoPointND createNewPoint(boolean forPreviewable, Region region,
-			boolean complex) {
-		return createNewPoint(forPreviewable, region,
-				AbstractKernel.checkDecimalFraction(xRW),
-				AbstractKernel.checkDecimalFraction(yRW), 0, complex);
-	}
-
-	protected GeoPointND createNewPoint(boolean forPreviewable, Region region,
-			double x, double y, double z, boolean complex) {
-
-		if (((GeoElement) region).isGeoElement3D()) {
-			return kernel.getManager3D().Point3DIn(null, region,
-					new Coords(x, y, z, 1), !forPreviewable);
-		} else {
-			return createNewPoint2D(forPreviewable, region, x, y, complex);
-		}
-	}
-
-	protected GeoPointND createNewPoint2D(boolean forPreviewable,
-			Region region, double x, double y, boolean complex) {
-		GeoPointND ret = kernel.PointIn(null, region, x, y, true, complex);
-		return ret;
-	}
-
 	protected void updateMovedGeoPoint(GeoPointND point) {
 		movedGeoPoint = point;
 	}
