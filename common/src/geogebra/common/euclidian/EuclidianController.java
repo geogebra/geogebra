@@ -21,6 +21,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
@@ -33,9 +34,11 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.AbstractApplication;
 
@@ -543,6 +546,372 @@ public abstract class EuclidianController {
 
 	protected final void clearSelection(ArrayList<?> selectionList) {
 		clearSelection(selectionList, true);
+	}
+
+	protected Hits getRegionHits(Hits hits) {
+		return hits.getRegionHits(tempArrayList);
+	}
+
+	protected GeoPointND getSingleIntersectionPoint(Hits hits) {
+		if (hits.isEmpty() || (hits.size() < 2)) {
+			return null;
+		}
+	
+		GeoElement a = hits.get(0);
+		GeoElement b = hits.get(1);
+	
+		// first hit is a line
+		if (a.isGeoLine()) {
+			if (b.isGeoLine()) {
+				if (!((GeoLine) a).linDep((GeoLine) b)) {
+					return kernel
+							.IntersectLines(null, (GeoLine) a, (GeoLine) b);
+				} else {
+					return null;
+				}
+			} else if (b.isGeoConic()) {
+				return kernel.IntersectLineConicSingle(null, (GeoLine) a,
+						(GeoConic) b, xRW, yRW);
+			} else if (b.isGeoFunctionable()) {
+				// line and function
+				GeoFunction f = ((GeoFunctionable) b).getGeoFunction();
+				if (f.isPolynomialFunction(false)) {
+					return kernel.IntersectPolynomialLineSingle(null, f,
+							(GeoLine) a, xRW, yRW);
+				} else {
+					GeoPoint2 startPoint = new GeoPoint2(
+							kernel.getConstruction());
+					startPoint.setCoords(xRW, yRW, 1.0);
+					return kernel.IntersectFunctionLine(null, f, (GeoLine) a,
+							startPoint);
+				}
+			} else {
+				return null;
+			}
+		}
+		// first hit is a conic
+		else if (a.isGeoConic()) {
+			if (b.isGeoLine()) {
+				return kernel.IntersectLineConicSingle(null, (GeoLine) b,
+						(GeoConic) a, xRW, yRW);
+			} else if (b.isGeoConic() && !a.isEqual(b)) {
+				return kernel.IntersectConicsSingle(null, (GeoConic) a,
+						(GeoConic) b, xRW, yRW);
+			} else {
+				return null;
+			}
+		}
+		// first hit is a function
+		else if (a.isGeoFunctionable()) {
+			GeoFunction aFun = ((GeoFunctionable) a).getGeoFunction();
+			if (b.isGeoLine()) {
+				// line and function
+				if (aFun.isPolynomialFunction(false)) {
+					return kernel.IntersectPolynomialLineSingle(null, aFun,
+							(GeoLine) b, xRW, yRW);
+				} else {
+					GeoPoint2 startPoint = new GeoPoint2(
+							kernel.getConstruction());
+					startPoint.setCoords(xRW, yRW, 1.0);
+					return kernel.IntersectFunctionLine(null, aFun,
+							(GeoLine) b, startPoint);
+				}
+			} else if (b.isGeoFunctionable()) {
+				GeoFunction bFun = ((GeoFunctionable) b).getGeoFunction();
+				if (aFun.isPolynomialFunction(false)
+						&& bFun.isPolynomialFunction(false)) {
+					return kernel.IntersectPolynomialsSingle(null, aFun, bFun,
+							xRW, yRW);
+				} else {
+					GeoPoint2 startPoint = new GeoPoint2(
+							kernel.getConstruction());
+					startPoint.setCoords(xRW, yRW, 1.0);
+					return kernel.IntersectFunctions(null, aFun, bFun,
+							startPoint);
+				}
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
+	}
+
+	/***************************************************************************
+	 * helper functions for selection sets
+	 **************************************************************************/
+	protected final GeoElement[] getSelectedGeos() {
+		GeoElement[] ret = new GeoElement[selectedGeos.size()];
+		int i = 0;
+		Iterator<GeoElement> it = selectedGeos.iterator();
+		while (it.hasNext()) {
+			ret[i] = it.next();
+			i++;
+		}
+		clearSelection(selectedGeos);
+		return ret;
+	}
+
+	protected final void getSelectedPointsND(GeoPointND[] result) {
+	
+		for (int i = 0; i < selectedPoints.size(); i++) {
+			result[i] = selectedPoints.get(i);
+		}
+		clearSelection(selectedPoints);
+	
+	}
+
+	/**
+	 * return selected points as ND points
+	 * 
+	 * @return selected points
+	 */
+	protected final GeoPointND[] getSelectedPointsND() {
+	
+		GeoPointND[] ret = new GeoPointND[selectedPoints.size()];
+		getSelectedPointsND(ret);
+	
+		return ret;
+	}
+
+	protected final GeoPoint2[] getSelectedPoints() {
+	
+		GeoPoint2[] ret = new GeoPoint2[selectedPoints.size()];
+		getSelectedPointsND(ret);
+	
+		return ret;
+	
+	}
+
+	protected final GeoNumeric[] getSelectedNumbers() {
+		GeoNumeric[] ret = new GeoNumeric[selectedNumbers.size()];
+		for (int i = 0; i < selectedNumbers.size(); i++) {
+			ret[i] = selectedNumbers.get(i);
+		}
+		clearSelection(selectedNumbers);
+		return ret;
+	}
+
+	protected final NumberValue[] getSelectedNumberValues() {
+		NumberValue[] ret = new NumberValue[selectedNumberValues.size()];
+		for (int i = 0; i < selectedNumberValues.size(); i++) {
+			ret[i] = selectedNumberValues.get(i);
+		}
+		clearSelection(selectedNumberValues);
+		return ret;
+	}
+
+	protected final GeoList[] getSelectedLists() {
+		GeoList[] ret = new GeoList[selectedLists.size()];
+		for (int i = 0; i < selectedLists.size(); i++) {
+			ret[i] = selectedLists.get(i);
+		}
+		clearSelection(selectedLists);
+		return ret;
+	}
+
+	protected final GeoPolygon[] getSelectedPolygons() {
+		GeoPolygon[] ret = new GeoPolygon[selectedPolygons.size()];
+		for (int i = 0; i < selectedPolygons.size(); i++) {
+			ret[i] = selectedPolygons.get(i);
+		}
+		clearSelection(selectedPolygons);
+		return ret;
+	}
+
+	protected final GeoPolyLine[] getSelectedPolyLines() {
+		GeoPolyLine[] ret = new GeoPolyLine[selectedPolyLines.size()];
+		for (int i = 0; i < selectedPolyLines.size(); i++) {
+			ret[i] = selectedPolyLines.get(i);
+		}
+		clearSelection(selectedPolyLines);
+		return ret;
+	}
+
+	protected final void getSelectedLinesND(GeoLineND[] lines) {
+		int i = 0;
+		Iterator<GeoLineND> it = selectedLines.iterator();
+		while (it.hasNext()) {
+			lines[i] = it.next();
+			i++;
+		}
+		clearSelection(selectedLines);
+	}
+
+	protected final GeoLineND[] getSelectedLinesND() {
+		GeoLineND[] lines = new GeoLineND[selectedLines.size()];
+		getSelectedLinesND(lines);
+	
+		return lines;
+	}
+
+	protected final GeoLine[] getSelectedLines() {
+		GeoLine[] lines = new GeoLine[selectedLines.size()];
+		getSelectedLinesND(lines);
+	
+		return lines;
+	}
+
+	protected final void getSelectedSegmentsND(GeoSegmentND[] segments) {
+		int i = 0;
+		Iterator<GeoSegment> it = selectedSegments.iterator();
+		while (it.hasNext()) {
+			segments[i] = it.next();
+			i++;
+		}
+		clearSelection(selectedSegments);
+	}
+
+	protected final GeoSegmentND[] getSelectedSegmentsND() {
+		GeoSegmentND[] segments = new GeoSegmentND[selectedSegments.size()];
+		getSelectedSegmentsND(segments);
+	
+		return segments;
+	}
+
+	protected final GeoSegment[] getSelectedSegments() {
+		GeoSegment[] segments = new GeoSegment[selectedSegments.size()];
+		getSelectedSegmentsND(segments);
+	
+		return segments;
+	}
+
+	protected final void getSelectedVectorsND(GeoVectorND[] vectors) {
+		int i = 0;
+		Iterator<GeoVectorND> it = selectedVectors.iterator();
+		while (it.hasNext()) {
+			vectors[i] = it.next();
+			i++;
+		}
+		clearSelection(selectedVectors);
+	}
+
+	protected final GeoVectorND[] getSelectedVectorsND() {
+		GeoVectorND[] vectors = new GeoVectorND[selectedVectors.size()];
+		getSelectedVectorsND(vectors);
+	
+		return vectors;
+	}
+
+	protected final GeoVector[] getSelectedVectors() {
+		GeoVector[] vectors = new GeoVector[selectedVectors.size()];
+		getSelectedVectorsND(vectors);
+	
+		return vectors;
+	}
+
+	protected final GeoConic[] getSelectedConics() {
+		GeoConic[] conics = new GeoConic[selectedConicsND.size()];
+		int i = 0;
+		Iterator<GeoConic> it = selectedConicsND.iterator();
+		while (it.hasNext()) {
+			conics[i] = it.next();
+			i++;
+		}
+		clearSelection(selectedConicsND);
+		return conics;
+	}
+
+	protected final GeoConic[] getSelectedCircles() {
+		GeoConic[] circles = new GeoConic[selectedConicsND.size()];
+		int i = 0;
+		Iterator<GeoConic> it = selectedConicsND.iterator();
+		while (it.hasNext()) {
+			GeoConic c = it.next();
+			if (c.isCircle()) {
+				circles[i] = c;
+				i++;
+			}
+		}
+		clearSelection(selectedConicsND);
+		return circles;
+	}
+
+	protected final GeoConicND[] getSelectedConicsND() {
+		GeoConicND[] conics = new GeoConicND[selectedConicsND.size()];
+		int i = 0;
+		Iterator<GeoConic> it = selectedConicsND.iterator();
+		while (it.hasNext()) {
+			conics[i] = it.next();
+			i++;
+		}
+		clearSelection(selectedConicsND);
+		return conics;
+	}
+
+	protected final GeoDirectionND[] getSelectedDirections() {
+		GeoDirectionND[] directions = new GeoDirectionND[selectedDirections
+				.size()];
+		int i = 0;
+		Iterator<GeoDirectionND> it = selectedDirections.iterator();
+		while (it.hasNext()) {
+			directions[i] = it.next();
+			i++;
+		}
+		clearSelection(selectedDirections);
+		return directions;
+	}
+
+	protected final Region[] getSelectedRegions() {
+		Region[] regions = new Region[selectedRegions.size()];
+		int i = 0;
+		Iterator<Region> it = selectedRegions.iterator();
+		while (it.hasNext()) {
+			regions[i] = it.next();
+			i++;
+		}
+		clearSelection(selectedRegions);
+		return regions;
+	}
+
+	protected final Path[] getSelectedPaths() {
+		Path[] paths = new Path[selectedPaths.size()];
+		int i = 0;
+		Iterator<Path> it = selectedPaths.iterator();
+		while (it.hasNext()) {
+			paths[i] = it.next();
+			i++;
+		}
+		clearSelection(selectedPaths);
+		return paths;
+	}
+
+	protected final GeoImplicitPoly[] getSelectedImplicitpoly() {
+		GeoImplicitPoly[] implicitPoly = new GeoImplicitPoly[selectedImplicitpoly
+				.size()];
+		int i = 0;
+		Iterator<GeoImplicitPoly> it = selectedImplicitpoly.iterator();
+		while (it.hasNext()) {
+			implicitPoly[i] = it.next();
+			i++;
+		}
+		clearSelection(selectedImplicitpoly);
+		return implicitPoly;
+	}
+
+	protected final GeoFunction[] getSelectedFunctions() {
+		GeoFunction[] functions = new GeoFunction[selectedFunctions.size()];
+		int i = 0;
+		Iterator<GeoFunction> it = selectedFunctions.iterator();
+		while (it.hasNext()) {
+			functions[i] = it.next();
+			i++;
+		}
+		clearSelection(selectedFunctions);
+		return functions;
+	}
+
+	protected final GeoCurveCartesian[] getSelectedCurves() {
+		GeoCurveCartesian[] curves = new GeoCurveCartesian[selectedCurves
+				.size()];
+		int i = 0;
+		Iterator<GeoCurveCartesian> it = selectedCurves.iterator();
+		while (it.hasNext()) {
+			curves[i] = it.next();
+			i++;
+		}
+		clearSelection(selectedCurves);
+		return curves;
 	}
 
 }
