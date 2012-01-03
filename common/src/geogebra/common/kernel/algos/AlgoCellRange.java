@@ -14,7 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.awt.Point;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
@@ -33,7 +33,7 @@ public class AlgoCellRange extends AlgoElement {
 	private GeoList geoList;     // output list of range    
     private GeoElement startCell, endCell; // input cells
     private String toStringOutput;
-    private AbstractGeoElementSpreadsheet geoElementSpreadsheet;
+    private GeoElementSpreadsheet geoElementSpreadsheet;
     /**
      * Creates an algorithm that produces a list of GeoElements for a range of cells in the spreadsheet.
      * @param startCell e.g. A1

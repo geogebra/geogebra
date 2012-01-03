@@ -4,6 +4,7 @@ import geogebra.common.awt.Point;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -11,7 +12,6 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.AbstractApplication;
-import geogebra.kernel.geos.GeoElementSpreadsheet;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -564,7 +564,7 @@ public class RelativeCopy {
 			after.append(row1);
 			text = replaceAll(GeoElementSpreadsheet.spreadsheetPattern, text,
 					before.toString(), after.toString());
-			// text = replaceAll(GeoElementSpreadsheet.spreadsheetPattern, text,
+			// text = replaceAll(AbstractGeoElementSpreadsheet.spreadsheetPattern, text,
 			// "$" + column1 + row1, "$" + column1 + "::" + row1);
 
 			before.setLength(0);
@@ -578,7 +578,7 @@ public class RelativeCopy {
 			after.append(row1);
 			text = replaceAll(GeoElementSpreadsheet.spreadsheetPattern, text,
 					before.toString(), after.toString());
-			// text = replaceAll(GeoElementSpreadsheet.spreadsheetPattern, text,
+			// text = replaceAll(AbstractGeoElementSpreadsheet.spreadsheetPattern, text,
 			// column1 + "$" + row1, "::" + column1 + "$" + row1);
 
 			before.setLength(0);
@@ -591,7 +591,7 @@ public class RelativeCopy {
 			after.append(row1);
 			text = replaceAll(GeoElementSpreadsheet.spreadsheetPattern, text,
 					before.toString(), after.toString());
-			// text = replaceAll(GeoElementSpreadsheet.spreadsheetPattern, text,
+			// text = replaceAll(AbstractGeoElementSpreadsheet.spreadsheetPattern, text,
 			// column1 + row1, "::" + column1 + "::" + row1);
 
 		}

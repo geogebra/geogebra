@@ -1,10 +1,10 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.main.Application;
 
 import geogebra.common.awt.Point;

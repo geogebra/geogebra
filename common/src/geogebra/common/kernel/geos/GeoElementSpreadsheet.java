@@ -1,15 +1,14 @@
-package geogebra.kernel.geos;
+package geogebra.common.kernel.geos;
 
 import geogebra.common.awt.Point;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 
-public class GeoElementSpreadsheet extends AbstractGeoElementSpreadsheet {
+public class GeoElementSpreadsheet {
 	/*
 	 * match A1, ABG1, A123 but not A0, A000, A0001 etc
 	 */
@@ -53,7 +52,7 @@ public class GeoElementSpreadsheet extends AbstractGeoElementSpreadsheet {
 	 */
 	public static Point spreadsheetIndices(String cellName) {
 
-		MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
+		MatchResult matcher = spreadsheetPattern
 				.exec(cellName);
 		int column = getSpreadsheetColumn(matcher);
 		int row = getSpreadsheetRow(matcher);
@@ -63,8 +62,8 @@ public class GeoElementSpreadsheet extends AbstractGeoElementSpreadsheet {
 
 	// Michael Borcherds
 	public boolean isSpreadsheetLabel(String str) {
-		//Matcher matcher = GeoElementSpreadsheet.spreadsheetPattern.matcher(str);
-		 MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern.exec(str);
+		//Matcher matcher = spreadsheetPattern.matcher(str);
+		 MatchResult matcher = spreadsheetPattern.exec(str);
 			//if (matcher.matches()) {
 				if (matcher != null) {
 			return true;
@@ -110,7 +109,7 @@ public class GeoElementSpreadsheet extends AbstractGeoElementSpreadsheet {
 	public static Point getSpreadsheetCoordsForLabel(String inputLabel) {
 		// we need to also support wrapped GeoElements like
 		// $A4 that are implemented as dependent geos (using ExpressionNode)
-		Point p = GeoElementSpreadsheet.spreadsheetIndices(inputLabel);
+		Point p = spreadsheetIndices(inputLabel);
 		if (p.x >= 0 && p.y >= 0) {
 			return p;
 		}
@@ -122,7 +121,7 @@ public class GeoElementSpreadsheet extends AbstractGeoElementSpreadsheet {
 	/*
 	 * used to set a cell to another geo used by FillCells[] etc
 	 */
-	@Override
+	
 	public void setSpreadsheetCell(AbstractApplication app, int row, int col,
 			GeoElement cellGeo) {
 		String cellName = dogetSpreadsheetCellName(col, row);
@@ -169,40 +168,40 @@ public class GeoElementSpreadsheet extends AbstractGeoElementSpreadsheet {
 
 	}
 
-	@Override
+	
 	public Point dospreadsheetIndices(String labelPrefix) {
 		return spreadsheetIndices(labelPrefix);
 	}
 
-	@Override
+	
 	public String dogetSpreadsheetCellName(int i, int row) {
 		return getSpreadsheetCellName(i, row);
 	}
 
-	@Override
+	
 	public boolean doisSpreadsheetLabel(String label2) {
 		// TODO Auto-generated method stub
 		return isSpreadsheetLabel(label2);
 	}
 
-	@Override
+	
 	public String dogetSpreadsheetColumnName(int x) {
 		return getSpreadsheetColumnName(x);
 	}
 
-	@Override
+	
 	public String dogetSpreadsheetColumnName(String s) {
 		return getSpreadsheetColumnName(s);
 	}
 
-	@Override
+	
 	public Point dogetSpreadsheetCoordsForLabel(String label) {
 		return getSpreadsheetCoordsForLabel(label);
 	}
 
-	@Override
+	
 	public GeoElement autoCreate(String label, Construction cons) {
-		MatchResult cellNameMatcher = GeoElementSpreadsheet.spreadsheetPattern
+		MatchResult cellNameMatcher = spreadsheetPattern
 				.exec(label);
 		if (cellNameMatcher != null) {
 			String col = cellNameMatcher.getGroup(1);

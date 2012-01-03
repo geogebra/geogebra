@@ -3,6 +3,7 @@ package geogebra.gui.view.spreadsheet.statdialog;
 import geogebra.common.awt.Point;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -13,7 +14,6 @@ import geogebra.gui.view.spreadsheet.MyTable;
 import geogebra.gui.view.spreadsheet.RelativeCopy;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.main.Application;
 
 import java.util.ArrayList;

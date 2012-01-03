@@ -1,6 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
@@ -11,7 +12,7 @@ import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.SpreadsheetTraceSettings;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoElementSpreadsheet;
+
 import geogebra.main.Application;
 
 import java.util.ArrayList;

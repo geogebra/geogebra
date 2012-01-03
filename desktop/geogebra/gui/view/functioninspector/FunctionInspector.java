@@ -38,6 +38,7 @@ import geogebra.common.kernel.cas.AlgoDerivative;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.cas.AlgoLengthFunction;
 import geogebra.common.kernel.cas.AlgoTangentFunctionPoint;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
@@ -60,7 +61,6 @@ import geogebra.gui.util.SpecialNumberFormat;
 import geogebra.gui.util.SpecialNumberFormatInterface;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;

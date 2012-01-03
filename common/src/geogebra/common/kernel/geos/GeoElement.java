@@ -348,7 +348,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	/** set of all dependent algos sorted in topological order */
 	protected AlgorithmSet algoUpdateSet;
 
-	private final AbstractGeoElementSpreadsheet geoElementSpreadsheet;
+	private final GeoElementSpreadsheet geoElementSpreadsheet;
 
 	/********************************************************/
 
@@ -2453,7 +2453,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * eg A1, A2, A10 not A1, A10, A2
 	 */
 	final public static int compareLabels(String label1, String label2,
-			AbstractGeoElementSpreadsheet geoElementSpreadsheet) {
+			GeoElementSpreadsheet geoElementSpreadsheet) {
 
 		if (geoElementSpreadsheet.doisSpreadsheetLabel(label1)
 				&& geoElementSpreadsheet.doisSpreadsheetLabel(label2)) {
@@ -2519,7 +2519,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param geos
 	 */
 	public static void setLabels(String labelPrefix, GeoElement[] geos,
-			AbstractGeoElementSpreadsheet geoElementSpreadsheet) {
+			GeoElementSpreadsheet geoElementSpreadsheet) {
 		if (geos == null) {
 			return;
 		}
@@ -2575,13 +2575,13 @@ public abstract class GeoElement extends ConstructionElement implements
 	 *            array of geos
 	 */
 	public static void setLabels(String[] labels, GeoElement[] geos,
-			AbstractGeoElementSpreadsheet geoElementSpreadsheet) {
+			GeoElementSpreadsheet geoElementSpreadsheet) {
 		setLabels(labels, geos, false, geoElementSpreadsheet);
 	}
 
 	static void setLabels(String[] labels, GeoElement[] geos,
 			boolean indexedOnly,
-			AbstractGeoElementSpreadsheet geoElementSpreadsheet) {
+			GeoElementSpreadsheet geoElementSpreadsheet) {
 		int labelLen = (labels == null) ? 0 : labels.length;
 
 		if ((labelLen == 1) && (labels[0] != null) && !labels[0].equals("")) {

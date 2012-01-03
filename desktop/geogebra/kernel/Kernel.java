@@ -23,7 +23,7 @@ import geogebra.common.kernel.MacroKernelInterface;
 import geogebra.common.kernel.algos.AlgoSolveODE;
 import geogebra.common.kernel.algos.AlgoSolveODE2;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
-import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
@@ -33,7 +33,6 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.discrete.AlgoShortestDistance;
-import geogebra.kernel.geos.GeoElementSpreadsheet;
 
 public class Kernel extends AbstractKernel {
 
@@ -190,7 +189,7 @@ public class Kernel extends AbstractKernel {
 	private GeoElementSpreadsheet ges = new GeoElementSpreadsheet();
 
 	@Override
-	public AbstractGeoElementSpreadsheet getGeoElementSpreadsheet() {
+	public GeoElementSpreadsheet getGeoElementSpreadsheet() {
 		return ges;
 	}
 

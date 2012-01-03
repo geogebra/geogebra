@@ -19,7 +19,7 @@ the Free Software Foundation.
 package geogebra.gui.view.algebra;
 
 import geogebra.common.kernel.View;
-import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
@@ -27,7 +27,6 @@ import geogebra.gui.SetLabels;
 import geogebra.gui.inputfield.MathTextField;
 import geogebra.gui.view.Gridable;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.main.Application;
 
 import java.awt.Component;
@@ -669,7 +668,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 	}
 
 	private static boolean compare(GeoElement geo1, GeoElement geo2, SortMode mode,
-			AbstractGeoElementSpreadsheet geoElementSpreadsheet) {
+			GeoElementSpreadsheet geoElementSpreadsheet) {
 		switch (mode) {
 
 		case ORDER:
@@ -691,7 +690,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 	 * @param mode 
 	 */
 	final public static int getInsertPosition(DefaultMutableTreeNode parent,
-			GeoElement newGeo, SortMode mode,AbstractGeoElementSpreadsheet ges) {
+			GeoElement newGeo, SortMode mode,GeoElementSpreadsheet ges) {
 		// label of inserted geo
 		//String newLabel = newGeo.getLabel();
 
@@ -735,7 +734,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 	 * @return -1 when not found
 	 */
 	final public static int binarySearchGeo(DefaultMutableTreeNode parent,
-			String geoLabel,AbstractGeoElementSpreadsheet geoElementSpreadsheet) {
+			String geoLabel,GeoElementSpreadsheet geoElementSpreadsheet) {
 		int left = 0;
 		int right = parent.getChildCount() - 1;
 		if (right == -1)

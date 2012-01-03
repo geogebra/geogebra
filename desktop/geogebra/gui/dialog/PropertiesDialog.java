@@ -15,7 +15,7 @@ package geogebra.gui.dialog;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.View;
-import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
@@ -692,7 +692,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 			// get type node
 			String typeString = geo.getObjectType();
 			DefaultMutableTreeNode typeNode = typeNodesMap.get(typeString);
-			AbstractGeoElementSpreadsheet ges = kernel
+			GeoElementSpreadsheet ges = kernel
 					.getGeoElementSpreadsheet();
 			// init type node
 			boolean initing = typeNode == null;
@@ -763,7 +763,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 			if (typeNode == null)
 				return;
 
-			AbstractGeoElementSpreadsheet ges = kernel
+			GeoElementSpreadsheet ges = kernel
 					.getGeoElementSpreadsheet();
 
 			int pos = binarySearch ? AlgebraView.binarySearchGeo(typeNode,

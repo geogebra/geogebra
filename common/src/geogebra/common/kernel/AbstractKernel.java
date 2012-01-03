@@ -56,7 +56,7 @@ import geogebra.common.kernel.discrete.AlgoHull;
 import geogebra.common.kernel.discrete.AlgoMinimumSpanningTree;
 import geogebra.common.kernel.discrete.AlgoTravelingSalesman;
 import geogebra.common.kernel.discrete.AlgoVoronoi;
-import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -3102,7 +3102,7 @@ public abstract class AbstractKernel {
 	 * @return Spreadsheet cell content (may be null)
 	 */
 	public GeoElement getGeoAt(int col, int row) {
-		return lookupLabel(getGeoElementSpreadsheet().dogetSpreadsheetCellName(col,
+		return lookupLabel(GeoElementSpreadsheet.getSpreadsheetCellName(col,
 				row));
 	}
 	
@@ -3550,7 +3550,7 @@ public abstract class AbstractKernel {
 		return undoActive && cons.redoPossible();
 	}
 
-	public abstract AbstractGeoElementSpreadsheet getGeoElementSpreadsheet();
+	public abstract GeoElementSpreadsheet getGeoElementSpreadsheet();
 
 	
 

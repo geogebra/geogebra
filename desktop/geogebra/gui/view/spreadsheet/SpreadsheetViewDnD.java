@@ -1,7 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.gui.view.algebra.AlgebraView;
-import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.main.Application;
 import geogebra.util.AlgebraViewTransferHandler;
 

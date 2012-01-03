@@ -1,10 +1,10 @@
 
 package geogebra.gui.view.spreadsheet;
 
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.dialog.options.OptionsDialog;
 import geogebra.gui.view.spreadsheet.statdialog.StatDialog;
-import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.main.Application;
 
 import java.awt.Color;

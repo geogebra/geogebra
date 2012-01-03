@@ -1,7 +1,8 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.common.kernel.Construction;
+import geogebra.common.awt.Point;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoDependentList;
 import geogebra.common.kernel.algos.AlgoDependentPoint;
 import geogebra.common.kernel.algos.AlgoPolyLine;
@@ -9,6 +10,7 @@ import geogebra.common.kernel.algos.AlgoSort;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.Operation;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -17,14 +19,10 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.AbstractApplication;
-import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.main.Application;
 
-import geogebra.common.awt.Point;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.regex.Matcher;
 
 import com.google.gwt.regexp.shared.MatchResult;
 
@@ -1114,7 +1112,7 @@ public class CellRangeProcessor {
 
 		for(int r = r1+1; r <= cr.getMaxRow(); ++r){
 			for(int c = c1+1; c <= cr.getMaxColumn(); ++c){
-				//System.out.println(GeoElementSpreadsheet.getSpreadsheetCellName(c, r) + ": " + text);
+				//System.out.println(AbstractGeoElementSpreadsheet.getSpreadsheetCellName(c, r) + ": " + text);
 
 				text = GeoElementSpreadsheet.getSpreadsheetCellName(c, r) + "=" + fcn.getLabel() + "(";
 				text += GeoElementSpreadsheet.getSpreadsheetCellName(c1, r);
@@ -1125,7 +1123,7 @@ public class CellRangeProcessor {
 				geos = app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommandNoExceptions(text,false);
 
-				//geos[0].setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(c, r));
+				//geos[0].setLabel(AbstractGeoElementSpreadsheet.getSpreadsheetCellName(c, r));
 				geos[0].setAuxiliaryObject(true);
 			}
 		}
