@@ -1547,6 +1547,7 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
+	@Override
 	public void refreshViews() {
 		euclidianView.updateBackground();
 		if (hasEuclidianView2()) {
@@ -3266,6 +3267,7 @@ public class Application extends AbstractApplication implements
 	 * createImage(img, "bitmap.png"); } catch (Exception e) {return null;} }
 	 */
 
+	@Override
 	public void setWaitCursor() {
 		Cursor waitCursor = Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR);
 		mainComp.setCursor(waitCursor);
@@ -3279,6 +3281,7 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
+	@Override
 	public void setDefaultCursor() {
 		mainComp.setCursor(Cursor.getDefaultCursor());
 		if (euclidianView != null) {

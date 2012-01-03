@@ -344,6 +344,16 @@ public abstract class AbstractApplication {
 		// TODO Auto-generated method stub
 
 	}
+	
+	public void refreshViews() {
+		//getEuclidianView().updateBackground();
+		//if (hasEuclidianView2()) {
+		//	getEuclidianView2().updateBackground();
+		//}
+		kernel.notifyRepaint();
+	}
+
+
 
 	public boolean hasEuclidianView2() {
 		// TODO Auto-generated method stub
@@ -601,5 +611,15 @@ public abstract class AbstractApplication {
 	}
 
 	public abstract SpreadsheetTraceManager getTraceManager();
+
+	public void setDefaultCursor() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setWaitCursor() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
