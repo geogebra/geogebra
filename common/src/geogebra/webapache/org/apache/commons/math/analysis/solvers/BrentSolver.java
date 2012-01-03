@@ -108,6 +108,12 @@ public class BrentSolver extends UnivariateRealSolverImpl {
         return solve(f, min, max, initial);
     }
 
+    public double solve(int maxEval, final UnivariateRealFunction f,
+                        final double min, final double max)
+        throws MaxIterationsExceededException, FunctionEvaluationException {
+        setMaximalIterationCount(maxEval);
+        return solve(f, min, max);
+    }
     /**
      * Find a zero in the given interval with an initial guess.
      * <p>Throws <code>IllegalArgumentException</code> if the values of the

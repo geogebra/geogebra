@@ -20,6 +20,8 @@ package geogebra.kernel;
 
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.MacroKernelInterface;
+import geogebra.common.kernel.algos.AlgoSolveODE;
+import geogebra.common.kernel.algos.AlgoSolveODE2;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -30,8 +32,6 @@ import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
-import geogebra.kernel.algos.AlgoSolveODE;
-import geogebra.kernel.algos.AlgoSolveODE2;
 import geogebra.kernel.discrete.AlgoShortestDistance;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 
