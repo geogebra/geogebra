@@ -10,15 +10,11 @@ the Free Software Foundation.
 
  */
 
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.Arc2D;
 import geogebra.common.awt.Shape;
-import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.euclidian.EuclidianViewInterface2D;
-import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.clipping.ClipShape;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
@@ -90,7 +86,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	/**
 	 * Creates a new DrawConicPart for preview.
 	 */
-	DrawConicPart(EuclidianViewInterface2D view, int mode, ArrayList<GeoPointND> points) {
+	public DrawConicPart(EuclidianViewInterface2D view, int mode, ArrayList<GeoPointND> points) {
 		this.view = view;
 		prevPoints = points;
 		previewMode = mode;

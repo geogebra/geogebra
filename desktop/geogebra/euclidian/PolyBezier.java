@@ -18,6 +18,8 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.DrawConic;
+
 import java.awt.Point;
 import java.awt.geom.GeneralPath;
 import java.util.ArrayList;

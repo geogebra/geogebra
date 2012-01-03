@@ -16,13 +16,8 @@ the Free Software Foundation.
  * Created on 11. Oktober 2001, 23:59
  */
 
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
-import geogebra.common.euclidian.DrawLine;
-import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.EuclidianStatic;
-import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Matrix.Coords;

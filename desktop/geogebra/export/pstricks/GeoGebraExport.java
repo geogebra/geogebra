@@ -1,6 +1,7 @@
 package geogebra.export.pstricks;
 
 import geogebra.common.euclidian.DrawLine;
+import geogebra.common.euclidian.DrawPoint;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoBarChart;
@@ -38,7 +39,6 @@ import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.util.MyMath;
 import geogebra.euclidian.DrawAngle;
-import geogebra.euclidian.DrawPoint;
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;

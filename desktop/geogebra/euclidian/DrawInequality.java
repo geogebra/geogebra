@@ -2,6 +2,8 @@ package geogebra.euclidian;
 
 import geogebra.common.awt.Point;
 import geogebra.common.awt.Shape;
+import geogebra.common.euclidian.DrawConic;
+import geogebra.common.euclidian.DrawParametricCurve;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.EuclidianStatic;

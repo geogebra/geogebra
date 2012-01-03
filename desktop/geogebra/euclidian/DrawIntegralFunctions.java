@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.euclidian;
 
 import geogebra.common.awt.Shape;
+import geogebra.common.euclidian.DrawParametricCurve;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.kernel.algos.AlgoIntegralFunctions;

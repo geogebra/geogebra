@@ -16,7 +16,7 @@ the Free Software Foundation.
  * Created on 16. Oktober 2001, 15:13
  */
 
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.Arc2D;
@@ -26,13 +26,6 @@ import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.RectangularShape;
 import geogebra.common.awt.Shape;
 import geogebra.common.awt.QuadCurve2D;
-import geogebra.common.euclidian.DrawLine;
-import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.euclidian.EuclidianStatic;
-import geogebra.common.euclidian.EuclidianViewInterface2D;
-import geogebra.common.euclidian.GeneralPathClipped;
-import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.clipping.ClipShape;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.AbstractKernel;
@@ -70,7 +63,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	// plotpoints per quadrant for hyperbola
 	private static final int PLOT_POINTS = 32;
 	/** maximum number of plot points */
-	static final int MAX_PLOT_POINTS = 300;
+	public static final int MAX_PLOT_POINTS = 300;
 	/**
 	 * maximum of pixels for a standard circle radius bigger circles are drawn
 	 * via Arc2D
@@ -179,7 +172,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	 * @param mode
 	 * @param points
 	 */
-	DrawConic(EuclidianViewInterface2D view, int mode, ArrayList<GeoPointND> points) {
+	public DrawConic(EuclidianViewInterface2D view, int mode, ArrayList<GeoPointND> points) {
 		this.view = view;
 		prevPoints = points;
 		previewMode = mode;
@@ -205,7 +198,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	 * @param segments
 	 * @param conics
 	 */
-	DrawConic(EuclidianViewInterface2D view, int mode, ArrayList<GeoPointND> points,
+	public DrawConic(EuclidianViewInterface2D view, int mode, ArrayList<GeoPointND> points,
 			ArrayList<GeoSegment> segments, ArrayList<GeoConic> conics) {
 		this.view = view;
 		prevPoints = points;

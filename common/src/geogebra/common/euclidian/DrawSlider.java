@@ -14,10 +14,9 @@ the Free Software Foundation.
  * DrawSlider: draws a slider to change a number continously
  */
 
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
 import geogebra.common.awt.Line2D;
-import geogebra.common.euclidian.Drawable;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -46,7 +45,7 @@ public class DrawSlider extends Drawable {
 	 * @param view
 	 * @param number
 	 */
-	public DrawSlider(EuclidianView view, GeoNumeric number) {
+	public DrawSlider(EuclidianViewInterface2D view, GeoNumeric number) {
 		this.view = view;
 		hitThreshold = view.getCapturingThreshold();
 		this.number = number;

@@ -16,12 +16,9 @@ the Free Software Foundation.
  * Created on 21. 8 . 2003
  */
 
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
 import geogebra.common.awt.Line2D;
-import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.EuclidianViewInterface2D;
-import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.clipping.ClipLine;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.ConstructionDefaults;
@@ -31,6 +28,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
+import geogebra.common.euclidian.EuclidianStatic;
 
 import java.util.ArrayList;
 
@@ -67,7 +65,7 @@ public class DrawRay extends Drawable implements Previewable {
 	 * @param view
 	 * @param points
 	 */
-	DrawRay(EuclidianViewInterface2D view, ArrayList<GeoPointND> points) {
+	public DrawRay(EuclidianViewInterface2D view, ArrayList<GeoPointND> points) {
 		this.view = view;
 		this.points = points;
 
@@ -79,7 +77,7 @@ public class DrawRay extends Drawable implements Previewable {
 		update(true);
 	}
 
-	void update(boolean showLabel) {
+	public void update(boolean showLabel) {
 		isVisible = geo.isEuclidianVisible();
 		if (isVisible) {
 			labelVisible = showLabel && geo.isLabelVisible();

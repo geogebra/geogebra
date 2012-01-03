@@ -14,6 +14,9 @@ package geogebra.euclidian;
 
 import geogebra.common.awt.Point;
 import geogebra.common.awt.Point2D;
+import geogebra.common.euclidian.DrawConic;
+import geogebra.common.euclidian.DrawConicPart;
+import geogebra.common.euclidian.DrawSlider;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;

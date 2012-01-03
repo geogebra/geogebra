@@ -16,12 +16,10 @@ the Free Software Foundation.
  * Created on 16. Oktober 2001, 15:13
  */
 
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
 import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Line2D;
-import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.clipping.ClipLine;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.AbstractKernel;
@@ -32,6 +30,8 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
+//import geogebra.common.euclidian.EuclidianStatic;
+//import geogebra.euclidian.EuclidianView;
 
 import java.util.ArrayList;
 
@@ -57,7 +57,7 @@ public class DrawVector extends Drawable implements Previewable {
 	private ArrayList<GeoPointND> points;
 
 	/** Creates new DrawVector */
-	public DrawVector(EuclidianView view, GeoVectorND v) {
+	public DrawVector(EuclidianViewInterface2D view, GeoVectorND v) {
 		this.view = view;
 		this.v = v;
 		geo = (GeoElement) v;
@@ -65,7 +65,7 @@ public class DrawVector extends Drawable implements Previewable {
 		update();
 	}
 
-	DrawVector(EuclidianView view, ArrayList<GeoPointND> points) {
+	public DrawVector(EuclidianViewInterface2D view, ArrayList<GeoPointND> points) {
 		this.view = view;
 		this.points = points;
 		updatePreview();
