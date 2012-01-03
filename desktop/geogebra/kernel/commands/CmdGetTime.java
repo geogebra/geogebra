@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
-import java.util.Calendar;
+import java.util.Date;
 
 /**
  *CmdGetTime
@@ -26,11 +26,27 @@ class CmdGetTime extends CommandProcessor {
 		super(kernel);
 	}
 
+	@Override
+	@SuppressWarnings("deprecation")
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
 		case 0:
+			
+			Date cal = new Date();
+			GeoNumeric mins = new GeoNumeric(cons, cal.getMinutes());
+			int d = cal.getDay() + 1;
+			GeoNumeric day = new GeoNumeric(cons, d);
+			int m = cal.getMonth() + 1;
+			GeoNumeric month = new GeoNumeric(cons, m);
+			GeoNumeric year = new GeoNumeric(cons, cal.getYear() + 1900);
+			GeoNumeric secs = new GeoNumeric(cons, cal.getSeconds());
+			GeoNumeric hours = new GeoNumeric(cons, cal.getHours());
+			GeoNumeric date = new GeoNumeric(cons, cal.getDate());
+			GeoNumeric ms = new GeoNumeric(cons, cal.getTime() % 1000);
+			
+			/* changed to use java.util.Date - java.util.Calendar not supported by GWT
 			Calendar cal = Calendar.getInstance();
 			GeoNumeric ms = new GeoNumeric(cons, cal.get(Calendar.MILLISECOND));
 			GeoNumeric secs = new GeoNumeric(cons, cal.get(Calendar.SECOND));
@@ -42,11 +58,13 @@ class CmdGetTime extends CommandProcessor {
 			int m = cal.get(Calendar.MONTH) + 1;
 			GeoNumeric month = new GeoNumeric(cons, m);
 			GeoNumeric year = new GeoNumeric(cons, cal.get(Calendar.YEAR));
+			*/
 			GeoText monthStr = new GeoText(cons);
 			monthStr.setTextString(app.getPlain("Month."+m));
 			
 			GeoText dayStr = new GeoText(cons);
 			dayStr.setTextString(app.getPlain("Day."+d));
+			
 
 			GeoList list = new GeoList(cons);
 			list.setLabel(c.getLabel());
