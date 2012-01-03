@@ -20,10 +20,10 @@ import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.main.settings.Settings;
-import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.common.util.DebugPrinter;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public abstract class AbstractApplication {
 	public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loading.gif";
@@ -194,8 +194,6 @@ public abstract class AbstractApplication {
 	public abstract AbstractKernel getKernel();
 
 	public abstract Object getImageManager();
-	
-	public abstract SpreadsheetTraceManager getTraceManager();
 	
 	public abstract GuiManager getGuiManager();
 
@@ -544,9 +542,67 @@ public abstract class AbstractApplication {
 
 	public abstract GeoGebraCasInterface newGeoGebraCAS();
 
+	public void repaintSpreadsheet() {
+		// TODO Auto-generated method stub
+		
+	}
 	public final boolean isOnTheFlyPointCreationActive() {
 		return isOnTheFlyPointCreationActive;
 	}
 
+	/*
+	 * needs to work if spreadsheet not opened yet
+	 */
+	public int getHighestUsedColumn() {
+		//if (isUsingFullGui() && getGuiManager().hasSpreadsheetView()) {
+		//	return getGuiManager().getSpreadsheetView().getHighestUsedColumn();
+		//} else
+		{
+			int highestUsedColumn = -1;
+			Iterator<GeoElement> it = kernel.getConstruction().getGeoSetConstructionOrder().iterator();
+			while (it.hasNext()) {
+				GeoElement geo = it.next();
+				geogebra.common.awt.Point location = geo.getSpreadsheetCoords();
+				if (location != null && location.x > highestUsedColumn) highestUsedColumn = location.x;
+			}
+
+			return highestUsedColumn;
+		}
+	}
+
+	/*
+	 * needs to work if spreadsheet not opened yet
+	 */
+	public int getHighestUsedRow() {
+		//if (isUsingFullGui() && getGuiManager().hasSpreadsheetView()) {
+		//	return getGuiManager().getSpreadsheetView().getHighestUsedRow();
+		//} else
+		{
+			int highestUsedRow = -1;
+			Iterator<GeoElement> it = kernel.getConstruction().getGeoSetConstructionOrder().iterator();
+			while (it.hasNext()) {
+				GeoElement geo = it.next();
+				geogebra.common.awt.Point location = geo.getSpreadsheetCoords();
+				if (location != null && location.y > highestUsedRow) highestUsedRow = location.y;
+			}
+
+			return highestUsedRow;
+		}
+	}
+
+	public boolean isEqualsRequired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void setSpreadsheetValueAt(GeoElement value2, int i, int j) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public SpreadsheetTraceManager getTraceManager() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

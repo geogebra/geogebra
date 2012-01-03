@@ -6640,6 +6640,7 @@ public class Application extends AbstractApplication implements
 		return new geogebra.awt.Font(getBoldFont());
 	}
 	
+	@Override
 	public SpreadsheetTraceManager getTraceManager() {
 		if (traceManager == null)
 			traceManager = new SpreadsheetTraceManager(this);
@@ -6656,6 +6657,7 @@ public class Application extends AbstractApplication implements
 	/*
 	 * needs to work if spreadsheet not opened yet
 	 */
+	@Override
 	public int getHighestUsedColumn() {
 		if (isUsingFullGui() && getGuiManager().hasSpreadsheetView()) {
 			return getGuiManager().getSpreadsheetView().getHighestUsedColumn();
@@ -6671,6 +6673,36 @@ public class Application extends AbstractApplication implements
 			return highestUsedColumn;
 		}
 	}
+	
+	/*
+	 * needs to work if spreadsheet not opened yet
+	 */
+	@Override
+	public int getHighestUsedRow() {
+		if (isUsingFullGui() && getGuiManager().hasSpreadsheetView()) {
+			return getGuiManager().getSpreadsheetView().getHighestUsedRow();
+		} else {
+			int highestUsedRow = -1;
+			Iterator<GeoElement> it = kernel.getConstruction().getGeoSetConstructionOrder().iterator();
+			while (it.hasNext()) {
+				GeoElement geo = it.next();
+				geogebra.common.awt.Point location = geo.getSpreadsheetCoords();
+				if (location != null && location.y > highestUsedRow) highestUsedRow = location.y;
+			}
+
+			return highestUsedRow;
+		}
+	}
+	
+	@Override
+	public void setSpreadsheetValueAt(GeoElement value2, int row, int column) {
+		if (isUsingFullGui() && getGuiManager().hasSpreadsheetView()) {
+			getGuiManager().getSpreadsheetView().getTable().setValueAt(value2, row, column);
+		}		
+	}
+
+
+
 	@Deprecated
 	@Override
 	public UndoManager getUndoManager(Construction cons) {

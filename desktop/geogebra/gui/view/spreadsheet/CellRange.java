@@ -2,8 +2,9 @@ package geogebra.gui.view.spreadsheet;
 
 
 import geogebra.common.awt.Point;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.Kernel;
+import geogebra.common.main.AbstractApplication;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -44,24 +45,25 @@ public class CellRange implements Cloneable{
 	private int anchorRow = -1;
 	
 	
-	private MyTable table;
-
+	//private MyTable table;
+	AbstractApplication app;
 	
 	
 	/** Create new CellRange */
-	public CellRange(MyTable table) {
-		this.table = table;
+	public CellRange(AbstractApplication app) {
+		//this.table = table;
+		this.app = app;
 	}
 
-	public CellRange(MyTable table, int anchorColumn, int anchorRow, int col2, int row2) {
-		this.table = table;
+	public CellRange(AbstractApplication app, int anchorColumn, int anchorRow, int col2, int row2) {
+		this.app = app;
 		setCellRange( anchorColumn, anchorRow, col2, row2);
 
 	}
 
 	/** Construct CellRange for single cell */
-	public CellRange(MyTable table, int anchorColumn, int anchorRow) {
-		this.table = table;
+	public CellRange(AbstractApplication app, int anchorColumn, int anchorRow) {
+		this.app = app;
 		setCellRange( anchorColumn, anchorRow, anchorColumn, anchorRow);
 
 	}
@@ -159,7 +161,7 @@ public class CellRange implements Cloneable{
 	public boolean isPointList() {
 		for (int col = minColumn; col <= maxColumn; ++col) {
 			for (int row = minRow; row <= maxRow; ++row) {
-				GeoElement geo = RelativeCopy.getValue(table, col, row);
+				GeoElement geo = RelativeCopy.getValue(app, col, row);
 				
 				if (geo != null && !geo.isGeoPoint())
 					return false;
@@ -181,12 +183,12 @@ public class CellRange implements Cloneable{
 
 		if (cr.minRow == -1 && cr.maxRow == -1 && cr.minColumn != -1) {
 			adjustedCellRange.minRow = 0;
-			adjustedCellRange.maxRow = table.getRowCount() - 1;
+			adjustedCellRange.maxRow = app.getHighestUsedRow() - 1;// table.getRowCount() - 1;
 		}
 
 		if (cr.minColumn == -1 && cr.maxColumn == -1 && cr.minRow != -1) {
 			adjustedCellRange.minColumn = 0;
-			adjustedCellRange.maxColumn = table.getColumnCount() - 1;
+			adjustedCellRange.maxColumn = app.getHighestUsedColumn() - 1; //table.getColumnCount() - 1;
 		}
 
 		return adjustedCellRange;
@@ -204,12 +206,12 @@ public class CellRange implements Cloneable{
 		
 		if (minRow == -1 && maxRow == -1 ) {
 			minRow = 0;
-			maxRow = table.getRowCount() - 1;
+			maxRow = app.getHighestUsedRow() - 1;// table.getRowCount() - 1;
 		}
 
 		if (minColumn == -1 && maxColumn == -1 ) {
 			minColumn = 0;
-			maxColumn = table.getColumnCount() - 1;
+			maxColumn = app.getHighestUsedColumn() - 1; //table.getColumnCount() - 1;
 		}
 
 	}
@@ -240,7 +242,7 @@ public class CellRange implements Cloneable{
 		
 		for (int col = minColumn; col <= maxColumn; ++col) {
 			for (int row = minRow; row <= maxRow; ++row) {
-				GeoElement geo = RelativeCopy.getValue(table, col, row);
+				GeoElement geo = RelativeCopy.getValue(app, col, row);
 				if (geo != null){
 					list.add(geo);
 				}
@@ -259,7 +261,7 @@ public class CellRange implements Cloneable{
 		if (scanByColumn) { 
 			for (int col = minColumn; col <= maxColumn; ++col) {
 				for (int row = minRow; row <= maxRow; ++row) {
-					GeoElement geo = RelativeCopy.getValue(table, col, row);
+					GeoElement geo = RelativeCopy.getValue(app, col, row);
 					if (geo != null){
 						if (copyByValue)
 							list.add(geo.getValueForInputBar());
@@ -271,7 +273,7 @@ public class CellRange implements Cloneable{
 		} else {
 			for (int row = minRow; row <= maxRow; ++row) {
 				for (int col = minColumn; col <= maxColumn; ++col) {
-					GeoElement geo = RelativeCopy.getValue(table, col, row);
+					GeoElement geo = RelativeCopy.getValue(app, col, row);
 					if (geo != null)
 						if (copyByValue)
 							list.add(geo.getValueForInputBar());
@@ -320,7 +322,7 @@ public class CellRange implements Cloneable{
 		boolean hasEmptyCells = false;
 		for (int col = minColumn; col <= maxColumn; ++col) {
 			for (int row = minRow; row <= maxRow; ++row) {
-				GeoElement geo = RelativeCopy.getValue(table, col, row);
+				GeoElement geo = RelativeCopy.getValue(app, col, row);
 				if (geo == null){
 					return true;
 				}
@@ -333,10 +335,10 @@ public class CellRange implements Cloneable{
 	/** Returns true if the cell range has valid coordinates for this table
 	 */
 	public boolean isValid(){
-		return (minRow >= -1 && minRow < Kernel.MAX_SPREADSHEET_ROWS)
-		&& (maxRow >= -1 && maxRow < Kernel.MAX_SPREADSHEET_ROWS)
-		&& (minColumn >= -1 && minColumn < Kernel.MAX_SPREADSHEET_COLUMNS)
-		&& (maxColumn >= -1 && maxColumn < Kernel.MAX_SPREADSHEET_COLUMNS);
+		return (minRow >= -1 && minRow < AbstractKernel.MAX_SPREADSHEET_ROWS)
+		&& (maxRow >= -1 && maxRow < AbstractKernel.MAX_SPREADSHEET_ROWS)
+		&& (minColumn >= -1 && minColumn < AbstractKernel.MAX_SPREADSHEET_COLUMNS)
+		&& (maxColumn >= -1 && maxColumn < AbstractKernel.MAX_SPREADSHEET_COLUMNS);
 	}
 	
 	
@@ -344,7 +346,7 @@ public class CellRange implements Cloneable{
 	
 	
 	public CellRange clone(){
-		return new CellRange(table, minColumn,minRow,maxColumn,maxRow);
+		return new CellRange(app, minColumn,minRow,maxColumn,maxRow);
 	}
 	
 	public boolean equals(Object obj) {
@@ -368,7 +370,7 @@ public class CellRange implements Cloneable{
 		} else if (obj instanceof GeoElement){	
 			Point location = ((GeoElement) obj).getSpreadsheetCoords();
 			// if the geo is a cell then test if inside the cell range
-			if(location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS && location.y < Kernel.MAX_SPREADSHEET_ROWS){
+			if(location != null && location.x < AbstractKernel.MAX_SPREADSHEET_COLUMNS && location.y < AbstractKernel.MAX_SPREADSHEET_ROWS){
 				setActualRange();
 				return (location.y >= minRow && location.y <= maxRow 
 						&& location.x >= minColumn && location.x <= maxColumn);

@@ -15,10 +15,8 @@ package geogebra.gui.view.spreadsheet;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.util.SpreadsheetTraceSettings;
-import geogebra.euclidian.EuclidianView;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.kernel.Kernel;
-import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;
 
@@ -744,7 +742,7 @@ implements
 	/** Determine the cell range to be selected on spreadsheet mouse click. */
 	public CellRange getTraceSelectionRange(int anchorColumn, int anchorRow){
 
-		CellRange cr = new CellRange(view.getTable());			
+		CellRange cr = new CellRange(app);			
 
 		switch (mode) {
 		case MODE_NORMAL:
@@ -763,7 +761,7 @@ implements
 			if (newTraceLocation != null){
 				cr = newTraceLocation;
 			}else{	
-				cr = new CellRange(view.getTable(), traceManager.getNextTraceColumn(), 0);
+				cr = new CellRange(app, traceManager.getNextTraceColumn(), 0);
 			}
 			break;
 

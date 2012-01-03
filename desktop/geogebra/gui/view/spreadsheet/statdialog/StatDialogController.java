@@ -331,7 +331,7 @@ public class StatDialogController {
 					CellRange cr = ((ArrayList<CellRange>)dataSource).get(0);
 					title = new String[cr.getMaxColumn() - cr.getMinColumn()+1];
 					for(int i = 0; i < title.length; i++){
-						CellRange cr2 = new CellRange(spreadsheetTable,
+						CellRange cr2 = new CellRange(app,
 								cr.getMinColumn()+i, 
 								cr.getMinRow(), 
 								cr.getMinColumn()+i,

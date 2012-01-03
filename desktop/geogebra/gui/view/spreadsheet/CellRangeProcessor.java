@@ -165,7 +165,7 @@ public class CellRangeProcessor {
 				return false;
 
 			for(int col=cr.getMinColumn(); col<=cr.getMaxColumn(); col++){			
-				if(!containsMinimumGeoNumeric(new CellRange(table, col, cr.getMinRow(), col, cr.getMaxRow()) ,3)) 
+				if(!containsMinimumGeoNumeric(new CellRange(table.app, col, cr.getMinRow(), col, cr.getMaxRow()) ,3)) 
 					return false;
 			}
 			return true;
@@ -524,10 +524,10 @@ public class CellRangeProcessor {
 			}
 			else if(pd.r1 == 0){
 				// column name
-				title[0] = getCellRangeString(new CellRange(table,pd.c1,-1,pd.c1,-1));
+				title[0] = getCellRangeString(new CellRange(table.app,pd.c1,-1,pd.c1,-1));
 			} else{
 				// cell range
-				title[0] = getCellRangeString(new CellRange(table,pd.c1,pd.r1,pd.c1,pd.r2));
+				title[0] = getCellRangeString(new CellRange(table.app,pd.c1,pd.r1,pd.c1,pd.r2));
 			}
 
 			// handle second title
@@ -537,10 +537,10 @@ public class CellRangeProcessor {
 			}
 			else if(pd.r1 == 0){
 				// column name
-				title[1] = getCellRangeString(new CellRange(table,pd.c2,-1,pd.c2,-1));
+				title[1] = getCellRangeString(new CellRange(table.app,pd.c2,-1,pd.c2,-1));
 			} else{
 				// cell range
-				title[1] = getCellRangeString(new CellRange(table,pd.c2,pd.r1,pd.c2,pd.r2));
+				title[1] = getCellRangeString(new CellRange(table.app,pd.c2,pd.r1,pd.c2,pd.r2));
 			}
 
 
@@ -553,10 +553,10 @@ public class CellRangeProcessor {
 			}
 			else if(pd.c1 == 0){
 				// row name
-				title[0] = getCellRangeString(new CellRange(table,-1,pd.r1,-1,pd.r1));
+				title[0] = getCellRangeString(new CellRange(table.app,-1,pd.r1,-1,pd.r1));
 			} else{
 				// cell range
-				title[0] = getCellRangeString(new CellRange(table,pd.c1,pd.r1,pd.c2,pd.r1));
+				title[0] = getCellRangeString(new CellRange(table.app,pd.c1,pd.r1,pd.c2,pd.r1));
 			}
 
 			// handle second title
@@ -566,10 +566,10 @@ public class CellRangeProcessor {
 			}
 			else if(pd.c1 == 0){
 				// row name
-				title[1] = getCellRangeString(new CellRange(table,-1,pd.r2,-1,pd.r2));
+				title[1] = getCellRangeString(new CellRange(table.app,-1,pd.r2,-1,pd.r2));
 			} else{
 				// cell range
-				title[1] = getCellRangeString(new CellRange(table,pd.c1,pd.r2,pd.c2,pd.r2));
+				title[1] = getCellRangeString(new CellRange(table.app,pd.c1,pd.r2,pd.c2,pd.r2));
 			}
 
 		}
@@ -597,7 +597,7 @@ public class CellRangeProcessor {
 					titleList.add(((GeoText)RelativeCopy.getValue(table, col, 0)).getTextString());
 				}else{
 					// use column name
-					titleList.add(getCellRangeString(new CellRange(table,col,-1,col,-1)));
+					titleList.add(getCellRangeString(new CellRange(table.app,col,-1,col,-1)));
 				}
 			}
 		}
@@ -754,7 +754,7 @@ public class CellRangeProcessor {
 			boolean storeUndoInfo, GeoClass geoTypeFilter) {
 
 		ArrayList<CellRange> rangeList = new ArrayList<CellRange>();
-		CellRange cr = new CellRange(table,column,-1);
+		CellRange cr = new CellRange(table.app,column,-1);
 		cr.setActualRange();
 		rangeList.add(cr);
 

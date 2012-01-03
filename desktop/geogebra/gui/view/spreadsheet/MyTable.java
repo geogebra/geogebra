@@ -249,7 +249,7 @@ public class MyTable extends JTable implements FocusListener
 
 		// initialize selection fields
 		selectedCellRanges = new ArrayList<CellRange>();
-		selectedCellRanges.add(new CellRange(this));
+		selectedCellRanges.add(new CellRange(app));
 		setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		setCellSelectionEnabled(true);
 
@@ -300,7 +300,7 @@ public class MyTable extends JTable implements FocusListener
 
 
 		// relative copy
-		relativeCopy = new RelativeCopy(this, kernel);
+		relativeCopy = new RelativeCopy(kernel);
 		copyPasteCut = new CopyPasteCut(this, kernel);
 
 
@@ -512,7 +512,7 @@ public class MyTable extends JTable implements FocusListener
 		// create a cell range object to store
 		// the current table selection 
 
-		CellRange newSelection = new CellRange(this);
+		CellRange newSelection = new CellRange(app);
 
 		if(view.isTraceDialogVisible()){
 
@@ -751,13 +751,13 @@ public class MyTable extends JTable implements FocusListener
 
 
 	public  boolean setSelection(int c, int r){
-		CellRange cr = new CellRange(this,c,r,c,r);
+		CellRange cr = new CellRange(app,c,r,c,r);
 		return setSelection(cr);
 	}
 
 	public boolean setSelection(int c1, int r1, int c2, int r2){
 
-		CellRange cr = new CellRange(this,c1,r1,c2,r2);
+		CellRange cr = new CellRange(app,c1,r1,c2,r2);
 		if(!cr.isValid()) return false;
 
 		//ArrayList<CellRange> list = new ArrayList<CellRange>();
@@ -1771,7 +1771,7 @@ public class MyTable extends JTable implements FocusListener
 
 		// Case 1: Partial row, targetCell created beneath the column 
 		if(cr.isPartialRow() || (!cr.isPartialColumn() && Application.getShiftDown())){
-			targetRange = new CellRange(this, cr.getMaxColumn() + 1, cr.getMinRow(), cr.getMaxColumn() + 1, cr.getMaxRow());
+			targetRange = new CellRange(app, cr.getMaxColumn() + 1, cr.getMinRow(), cr.getMaxColumn() + 1, cr.getMaxRow());
 			for(int row = cr.getMinRow(); row <= cr.getMaxRow(); row ++){
 
 				// try to clear the target cell, exit if this is not possible
@@ -1782,7 +1782,7 @@ public class MyTable extends JTable implements FocusListener
 				if(isOK){ 
 					targetCell = new GeoNumeric(kernel.getConstruction(),0);
 					targetCell.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(cr.getMaxColumn() + 1, row));
-					createAutoFunctionCell(targetCell, new CellRange(this, cr.getMinColumn(), row, cr.getMaxColumn(), row) );
+					createAutoFunctionCell(targetCell, new CellRange(app, cr.getMinColumn(), row, cr.getMaxColumn(), row) );
 				}
 			}
 
@@ -1792,7 +1792,7 @@ public class MyTable extends JTable implements FocusListener
 		}
 		else {
 
-			targetRange = new CellRange(this, cr.getMinColumn(), cr.getMaxRow() + 1, cr.getMaxColumn(), cr.getMaxRow() + 1);
+			targetRange = new CellRange(app, cr.getMinColumn(), cr.getMaxRow() + 1, cr.getMaxColumn(), cr.getMaxRow() + 1);
 			for(int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col ++){
 
 				// try to clear the target cell, exit if this is not possible
@@ -1803,7 +1803,7 @@ public class MyTable extends JTable implements FocusListener
 				if(isOK){ 
 					targetCell = new GeoNumeric(kernel.getConstruction(),0);
 					targetCell.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(col, cr.getMaxRow() + 1));
-					createAutoFunctionCell(targetCell, new CellRange(this, col, cr.getMinRow(), col, cr.getMaxRow()) );
+					createAutoFunctionCell(targetCell, new CellRange(app, col, cr.getMinRow(), col, cr.getMaxRow()) );
 				}
 			}
 

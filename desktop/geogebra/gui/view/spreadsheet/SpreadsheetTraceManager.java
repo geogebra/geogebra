@@ -1,6 +1,5 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.GeoGebra;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoClass;
@@ -523,7 +522,7 @@ public class SpreadsheetTraceManager extends geogebra.common.gui.view.spreadshee
 		}
 
 		// draw the selection rectangle around the last trace row
-		// table.setSelectionRectangle(new CellRange(table,t.traceColumn1, row,
+		// table.setSelectionRectangle(new CellRange(table.app,t.traceColumn1, row,
 		// t.traceColumn2, row));
 
 		// update geo.traceRow counter

@@ -229,7 +229,7 @@ public class CellFormat {
 	 */
 	public void setFormat(Point cell, int formatType, Object formatValue){
 		ArrayList<CellRange> crList = new ArrayList<CellRange>();
-		crList.add(new CellRange(table,cell.x, cell.y));
+		crList.add(new CellRange(table.app,cell.x, cell.y));
 		setFormat(crList, formatType, formatValue);
 	}
 
@@ -391,16 +391,16 @@ public class CellFormat {
 				break;
 
 			case BORDER_STYLE_INSIDE:
-				setFormat(new CellRange(table, -1, cr.getMinRow(), -1, cr.getMinRow()), FORMAT_BORDER, BORDER_LEFT);
+				setFormat(new CellRange(table.app, -1, cr.getMinRow(), -1, cr.getMinRow()), FORMAT_BORDER, BORDER_LEFT);
 				if(cr.getMinRow() < cr.getMaxRow()){
 					byte b = (int)BORDER_LEFT + (int)BORDER_TOP;
-					setFormat(new CellRange(table, -1, cr.getMinRow()+1, -1, cr.getMaxRow()), FORMAT_BORDER, b);
+					setFormat(new CellRange(table.app, -1, cr.getMinRow()+1, -1, cr.getMaxRow()), FORMAT_BORDER, b);
 				}
 				break;
 
 			case BORDER_STYLE_FRAME:
-				setFormat(new CellRange(table, -1, cr.getMinRow(), -1, cr.getMinRow()), FORMAT_BORDER, BORDER_TOP);
-				setFormat(new CellRange(table, -1, cr.getMaxRow(), -1, cr.getMaxRow()), FORMAT_BORDER, BORDER_BOTTOM);
+				setFormat(new CellRange(table.app, -1, cr.getMinRow(), -1, cr.getMinRow()), FORMAT_BORDER, BORDER_TOP);
+				setFormat(new CellRange(table.app, -1, cr.getMaxRow(), -1, cr.getMaxRow()), FORMAT_BORDER, BORDER_BOTTOM);
 				break;
 			}
 
@@ -435,16 +435,16 @@ public class CellFormat {
 				break;
 
 			case BORDER_STYLE_INSIDE:
-				setFormat(new CellRange(table, cr.getMinColumn(), -1, cr.getMinColumn(), -1), FORMAT_BORDER, BORDER_TOP);
+				setFormat(new CellRange(table.app, cr.getMinColumn(), -1, cr.getMinColumn(), -1), FORMAT_BORDER, BORDER_TOP);
 				if(cr.getMinColumn() < cr.getMaxColumn()){
 					byte b = (int)BORDER_LEFT + (int)BORDER_TOP;
-					setFormat(new CellRange(table, cr.getMinColumn()+1, -1, cr.getMaxColumn(), -1), FORMAT_BORDER, b);
+					setFormat(new CellRange(table.app, cr.getMinColumn()+1, -1, cr.getMaxColumn(), -1), FORMAT_BORDER, b);
 				}
 				break;
 				
 			case BORDER_STYLE_FRAME:
-				setFormat(new CellRange(table, cr.getMinColumn(), -1, cr.getMinColumn(), -1), FORMAT_BORDER, BORDER_LEFT);
-				setFormat(new CellRange(table, cr.getMaxColumn(), -1, cr.getMaxColumn(), -1), FORMAT_BORDER, BORDER_RIGHT);
+				setFormat(new CellRange(table.app, cr.getMinColumn(), -1, cr.getMinColumn(), -1), FORMAT_BORDER, BORDER_LEFT);
+				setFormat(new CellRange(table.app, cr.getMaxColumn(), -1, cr.getMaxColumn(), -1), FORMAT_BORDER, BORDER_RIGHT);
 				break;	
 
 			}

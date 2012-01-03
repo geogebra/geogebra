@@ -136,7 +136,7 @@ public class CopyPasteCut {
 		{
 			sourceColumn1 = column1;
 			sourceRow1 = row1;
-			cellBufferGeo = RelativeCopy.getValues(table, column1, row1, column2, row2);
+			cellBufferGeo = RelativeCopy.getValues(app, column1, row1, column2, row2);
 		}
 	}
 
@@ -465,7 +465,7 @@ public class CopyPasteCut {
 		int y3 = row1;
 		int x4 = column1 + width - 1;
 		int y4 = row1 + height - 1;
-		GeoElement[][] values2 = RelativeCopy.getValues(table, x3, y3, x4, y4);
+		GeoElement[][] values2 = RelativeCopy.getValues(app, x3, y3, x4, y4);
 		/*
 		for (int i = 0; i < values2.length; ++ i) {
 			for (int j = 0; j < values2[i].length; ++ j) {
@@ -537,7 +537,7 @@ public class CopyPasteCut {
 				Record r = (Record)constructionIndexes[i];
 				int ix = r.getx1();
 				int iy = r.gety1();
-				values2[ix][iy] = RelativeCopy.doCopyNoStoringUndoInfo0(kernel, table, values1[ix][iy], values2[ix][iy], r.getx2(), r.gety2());
+				values2[ix][iy] = RelativeCopy.doCopyNoStoringUndoInfo0(kernel, app, values1[ix][iy], values2[ix][iy], r.getx2(), r.gety2());
 
 			}
 
@@ -747,7 +747,7 @@ public class CopyPasteCut {
 					}
 					else {
 						GeoElement value0 = RelativeCopy.getValue(table, column, row);
-						values2[iy][ix] = RelativeCopy.prepareAddingValueToTableNoStoringUndoInfo(kernel, table, data[iy][ix], value0, column, row);
+						values2[iy][ix] = RelativeCopy.prepareAddingValueToTableNoStoringUndoInfo(kernel, app, data[iy][ix], value0, column, row);
 						//values2[iy][ix].setAuxiliaryObject(values2[iy][ix].isGeoNumeric()); 
 						values2[iy][ix].setAuxiliaryObject(true); 
 						table.setValueAt(values2[iy][ix], row, column);
@@ -876,7 +876,7 @@ public class CopyPasteCut {
 	// default pasteFromFile: clear spreadsheet and then paste from upper left corner
 	public boolean pasteFromURL(URL url) {
 
-		CellRange cr = new CellRange(table, 0,0,0,0);
+		CellRange cr = new CellRange(table.app, 0,0,0,0);
 		return pasteFromURL(url, cr, true);
 
 	}

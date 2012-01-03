@@ -52,7 +52,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 		this.model = (DefaultTableModel) table.getModel();  
 		this.editor = table.editor;
 
-		this.relativeCopy = new RelativeCopy(table, kernel);
+		this.relativeCopy = new RelativeCopy(kernel);
 	}
 
 

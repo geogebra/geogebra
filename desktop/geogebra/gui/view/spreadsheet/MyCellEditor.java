@@ -290,7 +290,7 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 					}
 
 				} else {
-					GeoElement newVal = RelativeCopy.prepareAddingValueToTableNoStoringUndoInfo(kernel, table, text, value, column, row);
+					GeoElement newVal = RelativeCopy.prepareAddingValueToTableNoStoringUndoInfo(kernel, app, text, value, column, row);
 					if (newVal == null) {
 						return false;
 					}
