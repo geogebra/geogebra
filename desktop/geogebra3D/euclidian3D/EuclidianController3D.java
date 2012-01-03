@@ -2228,7 +2228,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	// POINT CAPTURING
 	
 	@Override
-	protected void transformCoords() {
+	public void transformCoords() {
 		//TODO point capturing
 	}
 		

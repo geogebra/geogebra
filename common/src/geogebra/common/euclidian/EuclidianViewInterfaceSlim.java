@@ -1,12 +1,14 @@
 package geogebra.common.euclidian;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.algos.AlgoElementInterface;
 
 public interface EuclidianViewInterfaceSlim extends View{
@@ -31,4 +33,7 @@ public interface EuclidianViewInterfaceSlim extends View{
 	DrawableND getDrawableND(GeoElement listElement);
 	DrawableND createDrawableND(GeoElement listElement);
 	void zoom(double d, double e, double i, int j, boolean b);
+	int getPointCapturingMode();
+	void setPointCapturing(int pointCapturingStickyPoints);
+	Collection<? extends GeoPointND> getStickyPointList();
 }

@@ -287,5 +287,193 @@ public abstract class EuclidianController {
 	public abstract GeoElement getRecordObject();
 
 	public abstract void setMode(int mode);
+	
+	protected abstract void transformCoords();
+	
+	// ==============================================
+	// Paste preview
+
+	
+	protected void updatePastePreviewPosition() {
+		if (translationVec == null) {
+			translationVec = new Coords(2);
+		}
+		translationVec.setX(xRW - startPoint.x);
+		translationVec.setY(yRW - startPoint.y);
+		startPoint.setLocation(xRW, yRW);
+		GeoElement.moveObjects(pastePreviewSelected, translationVec,
+				new Coords(xRW, yRW, 0), null);
+	}
+
+	public void setPastePreviewSelected() {
+	
+		// don't allow paste on top of another paste until its placed
+		if (pastePreviewSelected != null) {
+			while (!pastePreviewSelected.isEmpty()) {
+				GeoElement geo = pastePreviewSelected.get(0);
+				pastePreviewSelected.remove(geo);
+				geo.remove();
+			}
+		} else {
+			pastePreviewSelected = new ArrayList<GeoElement>();
+		}
+		pastePreviewSelectedAndDependent = new ArrayList<GeoElement>();
+		pastePreviewSelectedAndDependent.addAll(app.getSelectedGeos());
+	
+		GeoElement geo;
+		boolean firstMoveable = true;
+		for (int i = 0; i < app.getSelectedGeos().size(); i++) {
+			geo = app.getSelectedGeos().get(i);
+			if (geo.isIndependent() && geo.isMoveable()) {
+				pastePreviewSelected.add(geo);
+				if (firstMoveable) {
+					if (geo.isGeoPoint()) {
+						startPoint.setLocation(((GeoPoint2) geo).inhomX,
+								((GeoPoint2) geo).inhomY);
+						firstMoveable = false;
+					} else if (geo.isGeoText()) {
+						if (((GeoText) geo).hasAbsoluteLocation()) {
+							GeoPoint2 loc = (GeoPoint2) ((GeoText) geo)
+									.getStartPoint();
+							startPoint.setLocation(loc.inhomX, loc.inhomY);
+							firstMoveable = false;
+						}
+					} else if (geo.isGeoNumeric()) {
+						if (!((GeoNumeric) geo).isAbsoluteScreenLocActive()) {
+							startPoint.setLocation(
+									((GeoNumeric) geo).getRealWorldLocX(),
+									((GeoNumeric) geo).getRealWorldLocY());
+							firstMoveable = false;
+						} else {
+							startPoint.setLocation(view
+									.toRealWorldCoordX(((GeoNumeric) geo)
+											.getAbsoluteScreenLocX()), view
+									.toRealWorldCoordY(((GeoNumeric) geo)
+											.getAbsoluteScreenLocY()));
+							firstMoveable = false;
+						}
+					} else if (geo.isGeoImage()) {
+						if (((GeoImage) geo).hasAbsoluteLocation()) {
+							GeoPoint2 loc = ((GeoImage) geo).getStartPoints()[2];
+							if (loc != null) { // top left defined
+								// transformCoordsOffset[0]=loc.inhomX-xRW;
+								// transformCoordsOffset[1]=loc.inhomY-yRW;
+								startPoint.setLocation(loc.inhomX, loc.inhomY);
+								firstMoveable = false;
+							} else {
+								loc = ((GeoImage) geo).getStartPoint();
+								if (loc != null) { // bottom left defined
+													// (default)
+									// transformCoordsOffset[0]=loc.inhomX-xRW;
+									// transformCoordsOffset[1]=loc.inhomY-yRW;
+									startPoint.setLocation(loc.inhomX,
+											loc.inhomY);
+									firstMoveable = false;
+								} else {
+									loc = ((GeoImage) geo).getStartPoints()[1];
+									if (loc != null) { // bottom right defined
+										// transformCoordsOffset[0]=loc.inhomX-xRW;
+										// transformCoordsOffset[1]=loc.inhomY-yRW;
+										startPoint.setLocation(loc.inhomX,
+												loc.inhomY);
+										firstMoveable = false;
+									}
+								}
+							}
+						}
+					} else if (geo.isGeoBoolean()) {
+						// moveMode = MOVE_BOOLEAN;
+						startPoint.setLocation(view
+								.toRealWorldCoordX(((GeoBoolean) geo)
+										.getAbsoluteScreenLocX()), view
+								.toRealWorldCoordY(((GeoBoolean) geo)
+										.getAbsoluteScreenLocY() + 20));
+						firstMoveable = false;
+					} else if (geo.isGeoButton()) {
+						startPoint.setLocation(view
+								.toRealWorldCoordX(((GeoButton) geo)
+										.getAbsoluteScreenLocX() - 5), view
+								.toRealWorldCoordY(((GeoButton) geo)
+										.getAbsoluteScreenLocY() + 30));
+						firstMoveable = false;
+					}
+				}
+			}
+		}
+		if (firstMoveable) {
+			startPoint.setLocation((view.getXmin() + view.getXmax()) / 2,
+					(view.getYmin() + view.getYmax()) / 2);
+		}
+		if ((pastePreviewSelected != null) && !pastePreviewSelected.isEmpty()) {
+			previousPointCapturing = view.getPointCapturingMode();
+			view.setPointCapturing(EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS);
+	
+			// remove moved points from sticky points temporarily
+			for (int i = 0; i < pastePreviewSelectedAndDependent.size(); i++) {
+				geo = pastePreviewSelectedAndDependent.get(i);
+				if (geo instanceof GeoPointND) {
+					if (view.getStickyPointList().contains(geo)) {
+						view.getStickyPointList().remove(geo);
+					}
+				}
+			}
+			persistentStickyPointList = new ArrayList<GeoPointND>();
+			persistentStickyPointList.addAll(view.getStickyPointList());
+	
+			if (mouseLoc != null) {
+				transformCoords();
+				updatePastePreviewPosition();
+				kernel.notifyRepaint();
+			}
+		}
+	}
+
+	public boolean mayPaste() {
+		if (pastePreviewSelected == null) {
+			return true;
+		}
+		return pastePreviewSelected.isEmpty();
+	}
+
+	public void deletePastePreviewSelected() {
+		if (pastePreviewSelected != null) {
+			while (!pastePreviewSelected.isEmpty()) {
+				GeoElement geo = pastePreviewSelected.get(0);
+				pastePreviewSelected.remove(geo);
+				geo.remove();
+			}
+			pastePreviewSelected = null;
+		}
+		if (pastePreviewSelectedAndDependent != null) {
+			pastePreviewSelectedAndDependent = null;// new
+													// ArrayList<GeoElement>();
+		}
+	}
+
+	public void mergeStickyPointsAfterPaste() {
+	
+		for (int i = 0; i < pastePreviewSelected.size(); i++) {
+			GeoElement geo = pastePreviewSelected.get(i);
+			if (geo.isGeoPoint() && geo.isIndependent()) {
+				for (int j = 0; j < persistentStickyPointList.size(); j++) {
+					GeoPoint2 geo2 = (GeoPoint2) persistentStickyPointList
+							.get(j);
+					if (AbstractKernel.isEqual(geo2.getInhomX(),
+							((GeoPoint2) geo).getInhomX())
+							&& AbstractKernel.isEqual(geo2.getInhomY(),
+									((GeoPoint2) geo).getInhomY())) {
+						geo.setEuclidianVisible(false);
+						String geolabel = geo.getLabelSimple();
+						kernel.getAlgebraProcessor().processAlgebraCommand(
+								geo.getLabelSimple() + "="
+										+ geo2.getLabelSimple(), false);
+						kernel.lookupLabel(geolabel).setEuclidianVisible(false);
+						kernel.lookupLabel(geolabel).updateRepaint();
+						break;
+					}
+				}
+			}
+		}
+	}
 
 }

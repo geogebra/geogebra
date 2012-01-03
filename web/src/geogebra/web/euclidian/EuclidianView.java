@@ -303,5 +303,15 @@ public class EuclidianView extends EuclidianViewInterface2D {
 	    
     }
 
+	public int getPointCapturingMode() {
+	    // TODO Auto-generated method stub
+	    return 0;
+    }
+
+	public void setPointCapturing(int pointCapturingStickyPoints) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
 
 }

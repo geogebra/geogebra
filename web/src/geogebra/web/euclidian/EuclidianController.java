@@ -197,4 +197,10 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 	    return (Kernel)kernel;
     }
 
+	@Override
+    protected void transformCoords() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
 }
