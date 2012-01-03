@@ -3,6 +3,8 @@ package geogebra.gui.view.spreadsheet;
 import java.awt.Color;
 import java.awt.Font;
 import geogebra.common.awt.Point;
+import geogebra.common.gui.view.spreadsheet.CellRange;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;

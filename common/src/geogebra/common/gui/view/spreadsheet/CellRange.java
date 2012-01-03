@@ -1,4 +1,4 @@
-package geogebra.gui.view.spreadsheet;
+package geogebra.common.gui.view.spreadsheet;
 
 
 import geogebra.common.awt.Point;
@@ -6,7 +6,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 
-import java.awt.Rectangle;
 import java.util.ArrayList;
 
 /**
@@ -224,14 +223,6 @@ public class CellRange implements Cloneable{
 	public int getHeight(){
 		return maxRow - minRow + 1;		
 	}
-	
-	public Rectangle getRect(){
-		return new Rectangle(minRow,minColumn,getHeight(), getWidth());
-	}
-	
-
-	
-	
 	
 	/**
 	 * ArrayList of all geos found in the cell range 

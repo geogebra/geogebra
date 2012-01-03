@@ -1,4 +1,4 @@
-package geogebra.gui.view.spreadsheet;
+package geogebra.common.gui.view.spreadsheet;
 
 import geogebra.common.awt.Point;
 import geogebra.common.kernel.CircularDefinitionException;

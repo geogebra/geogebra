@@ -1,6 +1,8 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.awt.Point;
+import geogebra.common.gui.view.spreadsheet.CellRange;
+import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoDependentList;

@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.util.SpreadsheetTraceSettings;
