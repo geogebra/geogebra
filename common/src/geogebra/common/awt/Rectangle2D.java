@@ -13,5 +13,6 @@ public interface Rectangle2D extends RectangularShape{
 	public boolean intersects(double minX, double minY, double lengthX,
 			double lengthY);
 	public boolean intersects(Rectangle viewRect);
+	public Rectangle2D createIntersection(Rectangle2D r);
 
 }

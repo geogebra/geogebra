@@ -19,16 +19,17 @@
  * https://javagraphics.dev.java.net/
  */
 
-package geogebra.euclidian.clipping;
+package geogebra.common.euclidian.clipping;
 
 
-import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.CubicCurve2D;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Rectangle2D;
+import geogebra.common.awt.Graphics2D;
+import geogebra.common.awt.Shape;
+import geogebra.common.awt.AffineTransform;
+import geogebra.common.awt.GeneralPath;
+import geogebra.common.awt.PathIterator;
+import geogebra.common.awt.Rectangle2D;
+import geogebra.common.factories.AwtFactory;
+
 import java.util.Arrays;
 import java.util.Stack;
 
@@ -38,7 +39,8 @@ import java.util.Stack;
  */
 public class ClipShape {
 	
-	private static final DoubleArrayFactory doubleFactory = new DoubleArrayFactory();
+	//private static final DoubleArrayFactory doubleFactory = new DoubleArrayFactory();
+	private static final DoubleArrayFactory doubleFactory =  DoubleArrayFactory.prototype;
 	
 	/** This is the tolerance with which 2 numbers must
 	 * be similar to be considered "equal".
@@ -62,11 +64,11 @@ public class ClipShape {
 	 */
 	static class ClippedPath {
 		public final GeneralPath g;
-		private Stack uncommittedPoints = new Stack();
+		private Stack<double[]> uncommittedPoints = new Stack<double[]>();
 		private double initialX, initialY;
 		
 		public ClippedPath(int windingRule) {
-			g = new GeneralPath(windingRule);
+			g = AwtFactory.prototype.newGeneralPath(windingRule);
 		}
 		
 		public void moveTo(double x,double y) {
@@ -305,13 +307,15 @@ public class ClipShape {
 			eqn[2] = b;
 			eqn[3] = a;
 			if(offset==0) {
-				int k = CubicCurve2D.solveCubic(eqn,dest);
+				//int k = CubicCurve2D.solveCubic(eqn,dest);
+				int k = AwtFactory.prototype.newCubicCurve2D().solveCubic(eqn,dest);
 				if(k<0) return 0;
 				return k;
 			}
 			if(t2==null)
 				t2 = new double[3];
-			int k = CubicCurve2D.solveCubic(eqn,t2);
+			//int k = CubicCurve2D.solveCubic(eqn,t2);
+			int k = AwtFactory.prototype.newCubicCurve2D().solveCubic(eqn,t2);
 			if(k<0) return 0;
 			for(int i = 0; i<k; i++) {
 				dest[offset+i] = t2[i];
@@ -337,21 +341,22 @@ public class ClipShape {
 	 * @param r
 	 * @return
 	 */
-	public static geogebra.common.awt.Shape clipToRect(geogebra.common.awt.Shape result,Shape s,AffineTransform t,Rectangle2D r) {
-		if(result==null)
-			return new geogebra.awt.GeneralPath(clipToRect(s,t,r));
-		((geogebra.awt.GenericShape)result).setImpl(clipToRect(s,t,r));
-		return result;
-	}
 	
-	public static geogebra.common.awt.GeneralPath clipToRect(
-			geogebra.common.awt.Shape s, geogebra.common.awt.AffineTransform t,
-			geogebra.common.awt.Rectangle2D r){
-		return new geogebra.awt.GeneralPath(clipToRect(
-				geogebra.awt.GenericShape.getAwtShape(s),
-				geogebra.awt.AffineTransform.getAwtAffineTransform(t),
-				geogebra.awt.GenericRectangle2D.getAWTRectangle2D(r)));
-	}
+//	public static geogebra.common.awt.Shape clipToRect(geogebra.common.awt.Shape result,Shape s,AffineTransform t,Rectangle2D r) {
+//		if(result==null)
+//			return new geogebra.awt.GeneralPath(clipToRect(s,t,r));
+//		((geogebra.awt.GenericShape)result).setImpl(clipToRect(s,t,r));
+//		return result;
+//	}
+//	
+//	public static geogebra.common.awt.GeneralPath clipToRect(
+//			geogebra.common.awt.Shape s, geogebra.common.awt.AffineTransform t,
+//			geogebra.common.awt.Rectangle2D r){
+//		return new geogebra.awt.GeneralPath(clipToRect(
+//				geogebra.awt.GenericShape.getAwtShape(s),
+//				geogebra.awt.AffineTransform.getAwtAffineTransform(t),
+//				geogebra.awt.GenericRectangle2D.getAWTRectangle2D(r)));
+//	}
 	
 	/** This creates a <code>GeneralPath</code> representing <code>s</code> when
 	 * clipped to <code>r</code>

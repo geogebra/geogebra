@@ -515,4 +515,11 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	  fill(s);
     }
 
+
+	@Override
+    public geogebra.common.awt.Shape getClip() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
 }

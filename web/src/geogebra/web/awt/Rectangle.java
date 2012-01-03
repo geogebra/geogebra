@@ -183,4 +183,9 @@ public class Rectangle implements geogebra.common.awt.Rectangle {
 	    // TODO Auto-generated method stub
 	    return null;
     }
+
+	public Rectangle2D createIntersection(Rectangle2D r) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
 }

@@ -3,6 +3,7 @@ package geogebra.common.factories;
 import java.awt.geom.Point2D.Double;
 
 import geogebra.common.awt.Area;
+import geogebra.common.awt.CubicCurve2D;
 import geogebra.common.awt.QuadCurve2D;
 import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.BufferedImageAdapter;
@@ -53,5 +54,7 @@ public abstract class AwtFactory {
 	/*public abstract Area newArea(GeneralPathClipped hypRight);*/
 	public abstract Area newArea();
 	public abstract Area newArea(Shape shape);
+	public abstract GeneralPath newGeneralPath(int rule);
+	public abstract CubicCurve2D newCubicCurve2D();
 	
 }

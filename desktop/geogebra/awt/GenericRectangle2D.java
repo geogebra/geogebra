@@ -111,4 +111,9 @@ public class GenericRectangle2D implements geogebra.awt.Rectangle2D{
 		return impl;
 	}
 
+	public Rectangle2D createIntersection(Rectangle2D r) {
+		return new geogebra.awt.GenericRectangle2D(impl.createIntersection(
+				geogebra.awt.GenericRectangle2D.getAWTRectangle2D(r)));
+	}
+
 }

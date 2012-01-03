@@ -18,6 +18,9 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements geog
 		impl = new java.awt.geom.GeneralPath();			
 	}
 	
+	public GeneralPath(int rule) {
+		impl = new java.awt.geom.GeneralPath(rule);
+	}
 	public static java.awt.geom.GeneralPath getAwtGeneralPath(geogebra.common.awt.GeneralPath gp){
 		if(!(gp instanceof geogebra.awt.GeneralPath)){
 			if (gp!= null) Application.debug("other type");
@@ -114,5 +117,10 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements geog
 	public boolean contains(Point2D p) {
 		if (p==null) return false;
 		return impl.contains(p.getX(), p.getY());
+	}
+	@Override
+	public void curveTo(float f, float g, float h, float i, float j, float k) {
+		impl.curveTo(f, g, h, i, j, k);
+		
 	}
 }

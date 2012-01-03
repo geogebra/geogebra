@@ -33,6 +33,7 @@ import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.euclidian.Previewable;
+import geogebra.common.euclidian.clipping.ClipShape;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
@@ -53,7 +54,6 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
-import geogebra.euclidian.clipping.ClipShape;
 
 //import java.awt.Rectangle;
 //import java.awt.geom.Area;

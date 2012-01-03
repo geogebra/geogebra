@@ -780,4 +780,5 @@ public abstract class Graphics2D {
 	public abstract void fill(Object shape);
 	public abstract void setComposite(AlphaComposite alphaComp);
 	public abstract void setClip(Object shape);
+	public abstract Shape getClip();
 }

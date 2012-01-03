@@ -19,6 +19,7 @@ import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.Previewable;
+import geogebra.common.euclidian.clipping.ClipShape;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoConicPartCircle;
@@ -30,7 +31,6 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.euclidian.clipping.ClipShape;
 
 import java.util.ArrayList;
 

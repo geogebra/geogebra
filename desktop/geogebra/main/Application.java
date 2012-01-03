@@ -721,6 +721,8 @@ public class Application extends AbstractApplication implements
 		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.euclidian.HatchingHandler();
 		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.euclidian.EuclidianStatic();
 		
+		geogebra.common.euclidian.clipping.DoubleArrayFactory.prototype = new geogebra.euclidian.clipping.DoubleArrayFactory();
+		
 	}
 
 	private void handleHelpVersionArgs(CommandLineArguments args) {

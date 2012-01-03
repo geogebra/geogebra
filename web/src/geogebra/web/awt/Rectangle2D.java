@@ -106,4 +106,10 @@ public class Rectangle2D implements geogebra.common.awt.Rectangle2D {
 	    return false;
     }
 
+	public geogebra.common.awt.Rectangle2D createIntersection(
+            geogebra.common.awt.Rectangle2D r) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
 }

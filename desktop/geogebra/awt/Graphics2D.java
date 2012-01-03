@@ -348,5 +348,10 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 			impl.fill(geogebra.awt.GeneralPath.getAwtGeneralPath(((GeneralPathClipped)s).getGeneralPath()));
 
 	}
+
+	@Override
+	public geogebra.common.awt.Shape getClip() {
+		return new geogebra.awt.GenericShape(impl.getClip());
+	}
 	
 }

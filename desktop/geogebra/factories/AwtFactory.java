@@ -4,6 +4,7 @@ import geogebra.awt.Ellipse2DDouble;
 import geogebra.common.awt.Arc2D;
 import geogebra.common.awt.Area;
 import geogebra.common.awt.BasicStroke;
+import geogebra.common.awt.CubicCurve2D;
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Ellipse2DFloat;
 import geogebra.common.awt.GeneralPath;
@@ -163,6 +164,16 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	@Override
 	public Area newArea(Shape shape) {
 		return new geogebra.awt.Area(shape);
+	}
+
+	@Override
+	public GeneralPath newGeneralPath(int rule) {
+		return new geogebra.awt.GeneralPath(rule);
+	}
+
+	@Override
+	public CubicCurve2D newCubicCurve2D() {
+		return new geogebra.awt.CubicCurve2D();
 	}
 
 	

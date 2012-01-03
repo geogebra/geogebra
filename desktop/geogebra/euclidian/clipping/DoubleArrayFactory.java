@@ -37,7 +37,9 @@ import java.util.Stack;
  * are limited and the usage is predictable.
  *
  */
-public class DoubleArrayFactory {
+public class DoubleArrayFactory extends
+geogebra.common.euclidian.clipping.DoubleArrayFactory{
+	
 	private static DoubleArrayFactory globalFactory;
 	
 	public static DoubleArrayFactory getStaticFactory() {
@@ -67,7 +69,8 @@ public class DoubleArrayFactory {
 		return new Hashtable();
 	}
 	
-	private MutableInteger key = new MutableInteger(0);
+	//moved to common
+	//private MutableInteger key = new MutableInteger(0);
 	
 	/** Returns a double array of the indicated size.
 	 * <P>If arrays of that size have previously been
