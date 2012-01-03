@@ -454,7 +454,7 @@ public class SpreadsheetTraceManager {
 		app.setScrollToShow(true);
 
 		// set the headers
-		if (t.tracingRow == t.traceRow1 && t.headerOffset > 0 && !t.headerSet()) {
+		if (t.tracingRow == t.traceRow1 && t.headerOffset > 0) {
 			setHeader(geo, cons);
 		}
 		
@@ -766,7 +766,6 @@ public class SpreadsheetTraceManager {
 	private void setHeader(GeoElement geo, Construction cons) {
 
 		TraceSettings t = traceGeoCollection.get(geo);
-		t.setHeader();
 		int column, row;
 		String headerText = "";
 		GeoElement[] geos = geo.getGeoElements();

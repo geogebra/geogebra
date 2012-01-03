@@ -6257,6 +6257,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			spreadsheetColumnHeadings = new ArrayList<String>();
 		} 
 		
+		spreadsheetColumnHeadings.clear();
 		spreadsheetColumnHeadings.add(getLabel());
 		
 		return spreadsheetColumnHeadings;
