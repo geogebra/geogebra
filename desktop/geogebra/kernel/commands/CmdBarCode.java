@@ -16,8 +16,12 @@ import geogebra.main.Application;
 import geogebra.util.BarcodeFactory;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Locale;
+
+import javax.imageio.ImageIO;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
@@ -54,26 +58,32 @@ class CmdBarCode extends CommandProcessor {
 		GeoElement[] arg;
 		arg = resArgs(c);
 
+		double r;
 		switch (n) {
 		case 0:
 			// decode barcode from active Graphics View
 			BufferedImage image;
 
-			EuclidianView ev = (EuclidianView) app.getEuclidianView();
+			EuclidianView ev = (EuclidianView) app.getActiveEuclidianView();
 			if (ev.getSelectedWidth() > 600 || ev.getSelectedHeight() > 600) {
 				// if it's too big, get scaled image
 				image = ((Application) app).getExportImage(600, 600);
+				Application.debug("600x600");
 			} else {
 				// otherwise get image at 1:1
-				image = ((EuclidianView) app.getEuclidianView())
-						.getExportImage(1.0);
+				image = ev.getExportImage(1.0);
+				Application.debug("1.0");
 			}
 
 			/*
-			 * File outputfile = new File("c:\\saved2"+r+".png"); try {
-			 * ImageIO.write(image, "png", outputfile); } catch (IOException e2)
-			 * { // TODO Auto-generated catch block e2.printStackTrace(); }
+			r=Math.random();
+			Application.debug(r);
+			 File outputfile = new File("c:\\saved2"+r+".png"); try {
+			 ImageIO.write(image, "png", outputfile); } catch (IOException e2)
+			 { // TODO Auto-generated catch block
+				 e2.printStackTrace(); }
 			 */
+			 
 
 			return decode(image, c);
 
@@ -312,6 +322,7 @@ class CmdBarCode extends CommandProcessor {
 			//
 			Hashtable<DecodeHintType, Object> hints = new Hashtable<DecodeHintType, Object>();
 			hints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
+			hints.put(DecodeHintType.PURE_BARCODE, Boolean.TRUE);
 			Reader reader = new MultiFormatReader();
 			LuminanceSource source = new BufferedImageLuminanceSource(image);
 			BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
