@@ -127,7 +127,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 	 **********************************************/
 	public EuclidianController(Kernel kernel) {
 		setKernel(kernel);
-		setApplication((Application)kernel.getApplication());
+		setApplication(kernel.getApplication());
 
 		// for tooltip manager
 		DEFAULT_INITIAL_DELAY = ToolTipManager.sharedInstance()
@@ -137,19 +137,11 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 	}
 
 	public void setApplication(AbstractApplication app) {
-		this.app = (Application)app;
+		this.app = app;
 	}
 
 	public Application getApplication() {
 		return (Application) app;
-	}
-
-	public void setKernel(Kernel kernel) {
-		this.kernel = (Kernel)kernel;
-	}
-
-	public Kernel getKernel() {
-		return (Kernel) kernel;
 	}
 
 	protected void setView(EuclidianViewInterface view) {
@@ -415,7 +407,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
 				// get ID of macro
 				int macroID = mode - EuclidianConstants.MACRO_MODE_ID_OFFSET;
-				macro = (Macro) kernel.getMacro(macroID);
+				macro = kernel.getMacro(macroID);
 				macroInput = macro.getInputTypes();
 				this.mode = EuclidianConstants.MODE_MACRO;
 			}
@@ -6846,7 +6838,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 					} else {
 						// great, we got our number
 						if (num.isGeoElement()) {
-							selectedGeos.add((GeoElement) num.toGeoElement());
+							selectedGeos.add(num.toGeoElement());
 						}
 					}
 				}
@@ -6867,7 +6859,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 					} else {
 						// great, we got our angle
 						if (num.isGeoElement()) {
-							selectedGeos.add((GeoElement) num.toGeoElement());
+							selectedGeos.add(num.toGeoElement());
 						}
 					}
 				} else {

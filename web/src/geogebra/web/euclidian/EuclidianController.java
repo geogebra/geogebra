@@ -111,11 +111,6 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 	    
     }
 
-	@Override
-    public void setKernel(Kernel kernel) {
-	   this.kernel = kernel;
-    }
-
 	public void onGestureChange(GestureChangeEvent event) {
 	    // TODO Auto-generated method stub
 	    
@@ -189,11 +184,6 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 	public void onMouseDown(MouseDownEvent event) {
 	    // TODO Auto-generated method stub
 	    
-    }
-
-	@Override
-    public Kernel getKernel() {
-	    return (Kernel)kernel;
     }
 
 	@Override

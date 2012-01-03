@@ -276,10 +276,6 @@ public abstract class EuclidianController {
 
 	public abstract void handleMovedElement(GeoElement selGeo, boolean b);
 	
-	public abstract void setKernel(Kernel kernel);
-	
-	public abstract Kernel getKernel();
-	
 	public abstract void setApplication(AbstractApplication app);
 
 	public abstract void clearJustCreatedGeos();
@@ -978,5 +974,13 @@ public abstract class EuclidianController {
 					return createNewPoint2D(forPreviewable, path, x, y, complex);
 				}
 			}
+
+	public void setKernel(Kernel kernel) {
+		this.kernel = kernel;
+	}
+
+	public Kernel getKernel() {
+		return kernel;
+	}
 
 }
