@@ -27,6 +27,7 @@ import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolyLine;
@@ -2466,6 +2467,332 @@ public abstract class EuclidianController {
 		}
 	
 		return ret;
+	}
+
+	protected final boolean relation(Hits hits) {
+		if (hits.isEmpty()) {
+			return false;
+		}
+	
+		addSelectedGeo(hits, 2, false);
+		if (selGeos() == 2) {
+			// fetch the three selected points
+			GeoElement[] geos = getSelectedGeos();
+			app.showRelation(geos[0], geos[1]);
+			return true;
+		}
+		return false;
+	}
+
+	protected final GeoElement[] locus(Hits hits) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+	
+		// points needed
+		addSelectedPoint(hits, 2, false);
+		addSelectedNumeric(hits, 1, false);
+	
+		if (selPoints() == 2) {
+			// fetch the two selected points
+			GeoPoint2[] points = getSelectedPoints();
+			GeoLocus locus;
+			if (points[0].getPath() == null) {
+				locus = kernel.Locus(null, points[0], points[1]);
+			} else {
+				locus = kernel.Locus(null, points[1], points[0]);
+			}
+			GeoElement[] ret = { null };
+			ret[0] = locus;
+			return ret;
+		} else if ((selPoints() == 1) && (selNumbers() == 1)) {
+			GeoPoint2[] points = getSelectedPoints();
+			GeoNumeric[] numbers = getSelectedNumbers();
+			GeoLocus locus = kernel.Locus(null, points[0], numbers[0]);
+			GeoElement[] ret = { locus };
+			return ret;
+		}
+		return null;
+	}
+
+	protected final GeoElement[] conic5(Hits hits) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+	
+		// points needed
+		addSelectedPoint(hits, 5, false);
+		if (selPoints() == 5) {
+			// fetch the three selected points
+			GeoPoint2[] points = getSelectedPoints();
+			GeoElement[] ret = { null };
+			ret[0] = kernel.Conic(null, points);
+			return ret;
+		}
+		return null;
+	}
+
+	protected GeoElement[] slope(Hits hits) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+	
+		addSelectedLine(hits, 1, false);
+	
+		if (selLines() == 1) {
+			GeoLine line = getSelectedLines()[0];
+	
+			GeoNumeric slope;
+			/*
+			 * if (strLocale.equals("de_AT")) { slope = kernel.Slope("k", line);
+			 * } else { slope = kernel.Slope("m", line); }
+			 */
+	
+			String label = app.getPlain("ExplicitLineGradient");
+	
+			// make sure automatic naming goes m, m_1, m_2, ..., m_{10}, m_{11}
+			// etc
+			if (kernel.lookupLabel(label) != null) {
+				int i = 1;
+				while (kernel.lookupLabel(i > 9 ? label + "_{" + i + "}"
+						: label + "_" + i) != null) {
+					i++;
+				}
+				label = i > 9 ? label + "_{" + i + "}" : label + "_" + i;
+			}
+	
+			slope = kernel.Slope(label, line);
+	
+			// show value
+			if (slope.isLabelVisible()) {
+				slope.setLabelMode(GeoElement.LABEL_NAME_VALUE);
+			} else {
+				slope.setLabelMode(GeoElement.LABEL_VALUE);
+			}
+			slope.setLabelVisible(true);
+			slope.updateRepaint();
+			GeoElement[] ret = { slope };
+			return ret;
+		}
+		return null;
+	}
+
+	protected final GeoElement[] tangents(Hits hits) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+	
+		boolean found = false;
+		found = addSelectedConic(hits, 2, false) != 0;
+		if (!found) {
+			found = addSelectedFunction(hits, 1, false) != 0;
+		}
+		if (!found) {
+			found = addSelectedCurve(hits, 1, false) != 0;
+		}
+		if (!found) {
+			found = addSelectedImplicitpoly(hits, 1, false) != 0;
+		}
+	
+		if (!found) {
+			if (selLines() == 0) {
+				addSelectedPoint(hits, 1, false);
+			}
+			if (selPoints() == 0) {
+				addSelectedLine(hits, 1, false);
+			}
+		}
+	
+		if (selConics() == 1) {
+			if (selPoints() == 1) {
+				GeoConic[] conics = getSelectedConics();
+				GeoPoint2[] points = getSelectedPoints();
+				// create new tangents
+				return kernel.Tangent(null, points[0], conics[0]);
+			} else if (selLines() == 1) {
+				GeoConic[] conics = getSelectedConics();
+				GeoLine[] lines = getSelectedLines();
+				// create new line
+				return kernel.Tangent(null, lines[0], conics[0]);
+			}
+		} else if (selConics() == 2) {
+			GeoConic[] conics = getSelectedConics();
+			// create new tangents
+			return kernel.CommonTangents(null, conics[0], conics[1]);
+		} else if (selFunctions() == 1) {
+			if (selPoints() == 1) {
+				GeoFunction[] functions = getSelectedFunctions();
+				GeoPoint2[] points = getSelectedPoints();
+				// create new tangents
+				GeoElement[] ret = { null };
+				ret[0] = kernel.Tangent(null, points[0], functions[0]);
+				return ret;
+			}
+		} else if (selCurves() == 1) {
+			if (selPoints() == 1) {
+				GeoCurveCartesian[] curves = getSelectedCurves();
+				GeoPoint2[] points = getSelectedPoints();
+				// create new tangents
+				GeoElement[] ret = { null };
+				ret[0] = kernel.Tangent(null, points[0], curves[0]);
+				return ret;
+			}
+		} else if (selImplicitpoly() == 1) {
+			if (selPoints() == 1) {
+				GeoImplicitPoly implicitPoly = getSelectedImplicitpoly()[0];
+				GeoPoint2[] points = getSelectedPoints();
+				// create new tangents
+				return kernel.Tangent(null, points[0], implicitPoly);
+			} else if (selLines() == 1) {
+				GeoImplicitPoly implicitPoly = getSelectedImplicitpoly()[0];
+				GeoLine[] lines = getSelectedLines();
+				// create new line
+				return kernel.Tangent(null, lines[0], implicitPoly);
+			}
+		}
+		return null;
+	}
+
+	protected final boolean delete(Hits hits) {
+		if (hits.isEmpty()) {
+			return false;
+		}
+	
+		addSelectedGeo(hits, 1, false);
+		if (selGeos() == 1) {
+			// delete this object
+			GeoElement[] geos = getSelectedGeos();
+			geos[0].removeOrSetUndefinedIfHasFixedDescendent();
+			return true;
+		}
+		return false;
+	}
+
+	protected final GeoElement[] polarLine(Hits hits) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+		boolean hitConic = false;
+	
+		hitConic = (addSelectedConic(hits, 1, false) != 0);
+	
+		if (!hitConic) {
+			if (selVectors() == 0) {
+				addSelectedVector(hits, 1, false);
+			}
+			if (selLines() == 0) {
+				addSelectedPoint(hits, 1, false);
+			}
+			if (selPoints() == 0) {
+				addSelectedLine(hits, 1, false);
+			}
+		}
+	
+		if (selConics() == 1) {
+			GeoElement[] ret = { null };
+			if (selPoints() == 1) {
+				GeoConic[] conics = getSelectedConics();
+				GeoPoint2[] points = getSelectedPoints();
+				// create new tangents
+				ret[0] = kernel.PolarLine(null, points[0], conics[0]);
+				return ret;
+			} else if (selLines() == 1) {
+				GeoConic[] conics = getSelectedConics();
+				GeoLine[] lines = getSelectedLines();
+				// create new line
+				ret[0] = kernel.DiameterLine(null, lines[0], conics[0]);
+				return ret;
+			} else if (selVectors() == 1) {
+				GeoConic[] conics = getSelectedConics();
+				GeoVector[] vecs = getSelectedVectors();
+				// create new line
+				ret[0] = kernel.DiameterLine(null, vecs[0], conics[0]);
+				return ret;
+			}
+		}
+		return null;
+	}
+
+	protected final boolean showHideLabel(Hits hits) {
+		if (hits.isEmpty()) {
+			return false;
+		}
+	
+		if (selectionPreview) {
+			addSelectedGeo(hits, 1000, false);
+			return false;
+		}
+	
+		GeoElement geo = chooseGeo(
+				hits.getOtherHits(Test.GEOAXIS, tempArrayList), true);
+		if (geo != null) {
+			geo.setLabelVisible(!geo.isLabelVisible());
+			geo.updateRepaint();
+			return true;
+		}
+		return false;
+	}
+
+	protected final boolean copyVisualStyle(Hits hits) {
+		if (hits.isEmpty()) {
+			return false;
+		}
+	
+		if (selectionPreview) {
+			addSelectedGeo(hits, 1000, false);
+			return false;
+		}
+	
+		GeoElement geo = chooseGeo(
+				hits.getOtherHits(Test.GEOAXIS, tempArrayList), true);
+		if (geo == null) {
+			return false;
+		}
+	
+		// movedGeoElement is the active geo
+		if (movedGeoElement == null) {
+			movedGeoElement = geo;
+			Hits oldhits = new Hits();
+			oldhits.addAll(app.getSelectedGeos());
+			for (int i = oldhits.size() - 1; i >= 0; i--) {
+				GeoElement oldgeo = oldhits.get(i);
+				if (!(movedGeoElement.getClass().isInstance(oldgeo))) {
+					oldhits.remove(i);
+				}
+			}
+			if (oldhits.size() > 0) {
+				// there were appropriate selected elements
+				// apply visual style for them
+				// standard case: copy visual properties
+				for (int i = 0; i < oldhits.size(); i++) {
+					GeoElement oldgeo = oldhits.get(i);
+					oldgeo.setAdvancedVisualStyle(movedGeoElement);
+					oldgeo.updateRepaint();
+				}
+				clearSelections();
+				return true;
+			} else {
+				// there were no appropriate selected elements
+				// set movedGeoElement
+				app.addSelectedGeo(geo);
+			}
+		} else {
+			if (geo == movedGeoElement) {
+				// deselect
+				app.removeSelectedGeo(geo);
+				movedGeoElement = null;
+				if (toggleModeChangedKernel) {
+					app.storeUndoInfo();
+				}
+				toggleModeChangedKernel = false;
+			} else {
+				// standard case: copy visual properties
+				geo.setAdvancedVisualStyle(movedGeoElement);
+				geo.updateRepaint();
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

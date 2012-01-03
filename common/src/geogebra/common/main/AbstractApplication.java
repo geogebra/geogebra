@@ -636,4 +636,6 @@ public abstract class AbstractApplication {
 
 	public abstract void setMoveMode();
 
+	public abstract void removeSelectedGeo(GeoElement geo);
+
 }
