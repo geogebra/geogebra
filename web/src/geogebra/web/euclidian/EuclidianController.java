@@ -1,6 +1,5 @@
 package geogebra.web.euclidian;
 
-import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -64,25 +63,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
     }
 
 	@Override
-    public void clearJustCreatedGeos() {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
     public void clearSelections() {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void memorizeJustCreatedGeos(ArrayList<GeoElement> geos) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void memorizeJustCreatedGeos(GeoElement[] geos) {
 	    // TODO Auto-generated method stub
 	    
     }

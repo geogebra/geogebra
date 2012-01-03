@@ -6,4 +6,6 @@ public abstract class GuiManager {
 
 	public abstract void removeSpreadsheetTrace(GeoElement recordObject);
 
+	public abstract void updateMenubarSelection();
+
 }

@@ -630,4 +630,6 @@ public abstract class AbstractApplication {
 			String label, GeoList list, GeoPointND start, GeoPointND end,
 			GeoBoolean weighted);
 
+	public abstract void updateStyleBars();
+
 }

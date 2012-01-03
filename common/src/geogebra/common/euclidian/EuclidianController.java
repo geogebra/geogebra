@@ -278,13 +278,7 @@ public abstract class EuclidianController {
 	
 	public abstract void setApplication(AbstractApplication app);
 
-	public abstract void clearJustCreatedGeos();
-
 	public abstract void clearSelections();
-
-	public abstract void memorizeJustCreatedGeos(ArrayList<GeoElement> geos);
-
-	public abstract void memorizeJustCreatedGeos(GeoElement[] geos);
 
 	public abstract boolean isAltDown();
 
@@ -981,6 +975,37 @@ public abstract class EuclidianController {
 
 	public Kernel getKernel() {
 		return kernel;
+	}
+
+	public void clearJustCreatedGeos() {
+		justCreatedGeos.clear();
+		app.updateStyleBars();
+	
+		if (app.isUsingFullGui()) {
+			app.getGuiManager().updateMenubarSelection();
+		}
+	}
+
+	public ArrayList<GeoElement> getJustCreatedGeos() {
+		return justCreatedGeos;
+	}
+
+	public void memorizeJustCreatedGeos(ArrayList<GeoElement> geos) {
+		justCreatedGeos.clear();
+		justCreatedGeos.addAll(geos);
+		app.updateStyleBars();
+		app.getGuiManager().updateMenubarSelection();
+	}
+
+	public void memorizeJustCreatedGeos(GeoElement[] geos) {
+		justCreatedGeos.clear();
+		for (int i = 0; i < geos.length; i++) {
+			if (geos[i] != null) {
+				justCreatedGeos.add(geos[i]);
+			}
+		}
+		app.updateStyleBars();
+		app.getGuiManager().updateMenubarSelection();
 	}
 
 }

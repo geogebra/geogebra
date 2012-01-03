@@ -3339,37 +3339,6 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		return changedKernel;
 	}
 
-	public void memorizeJustCreatedGeos(GeoElement[] geos) {
-		justCreatedGeos.clear();
-		for (int i = 0; i < geos.length; i++) {
-			if (geos[i] != null) {
-				justCreatedGeos.add(geos[i]);
-			}
-		}
-		((Application) app).updateStyleBars();
-		((Application) app).getGuiManager().updateMenubarSelection();
-	}
-
-	public void memorizeJustCreatedGeos(ArrayList<GeoElement> geos) {
-		justCreatedGeos.clear();
-		justCreatedGeos.addAll(geos);
-		((Application) app).updateStyleBars();
-		((Application) app).getGuiManager().updateMenubarSelection();
-	}
-
-	public void clearJustCreatedGeos() {
-		justCreatedGeos.clear();
-		((Application) app).updateStyleBars();
-
-		if (((Application)app).isUsingFullGui()) {
-			((Application) app).getGuiManager().updateMenubarSelection();
-		}
-	}
-
-	public ArrayList<GeoElement> getJustCreatedGeos() {
-		return justCreatedGeos;
-	}
-
 	// process mode and return whether kernel was changed
 	public final boolean processMode(Hits hits, MouseEvent e) {
 		boolean changedKernel = false;

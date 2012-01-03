@@ -678,4 +678,10 @@ public class Application extends AbstractApplication {
 	    // TODO Auto-generated method stub
 		return null;
     }
+
+	@Override
+    public void updateStyleBars() {
+	    // TODO Auto-generated method stub
+	    
+    }
 }
