@@ -2,6 +2,7 @@ package geogebra.cas.view;
 
 import geogebra.cas.GeoGebraCAS;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoCasCell;
@@ -12,7 +13,6 @@ import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.GuiManager;
 import geogebra.gui.inputbar.InputBarHelpPanel;
 import geogebra.gui.view.Gridable;
-import geogebra.kernel.Kernel;
 
 import geogebra.main.Application;
 
@@ -42,7 +42,7 @@ public class CASView extends JComponent implements View, Gridable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Kernel kernel;
+	private AbstractKernel kernel;
 
 	private CASTable consoleTable;
 	private CASInputHandler casInputHandler;

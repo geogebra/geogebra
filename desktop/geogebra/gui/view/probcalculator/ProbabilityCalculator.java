@@ -1,6 +1,7 @@
 package geogebra.gui.view.probcalculator;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.View;
@@ -48,7 +49,6 @@ import geogebra.gui.GuiManager;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
 import geogebra.gui.view.spreadsheet.statdialog.PlotSettings;
-import geogebra.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.main.Application;
 
@@ -104,7 +104,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 	//ggb fields
 	private Application app;
 	private Construction cons;
-	private Kernel kernel; 
+	private AbstractKernel kernel; 
 	private ProbabilityManager probManager;
 	private ProbabiltyCalculatorStyleBar styleBar;
 

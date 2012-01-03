@@ -3,12 +3,12 @@
  */
 package geogebra.cas.view;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.layout.DockManager;
 import geogebra.gui.layout.DockPanel;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.Color;
@@ -42,7 +42,7 @@ public class CASTable extends JTable {
 	public final static int COL_CAS_CELLS = 0;
 
 	private CASTableModel tableModel;
-	protected Kernel kernel;
+	protected AbstractKernel kernel;
 	protected Application app;
 	private CASView view;
 	private CASTable table;

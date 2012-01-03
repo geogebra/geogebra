@@ -34,12 +34,16 @@ import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.Relation;
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
+import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
@@ -653,7 +657,7 @@ public class Application extends AbstractApplication implements
 		}
 
 		// init xml io for construction loading
-		myXMLio = new MyXMLio((Kernel) kernel, kernel.getConstruction());
+		myXMLio = new MyXMLio((AbstractKernel) kernel, kernel.getConstruction());
 
 		// open file given by startup parameter
 		handleOptionArgsEarly(args); // for --regressionFile=...
@@ -779,12 +783,12 @@ public class Application extends AbstractApplication implements
 	 */
 	public void initEuclidianViews() {
 
-		euclidianController = newEuclidianController((Kernel) kernel);
+		euclidianController = newEuclidianController((AbstractKernel) kernel);
 		euclidianView = newEuclidianView(showAxes, showGrid);
 		euclidianView.setAntialiasing(antialiasing);
 	}
 
-	protected EuclidianController newEuclidianController(Kernel kernel) {
+	protected EuclidianController newEuclidianController(AbstractKernel kernel) {
 		return new EuclidianController(kernel);
 	}
 
@@ -1512,8 +1516,8 @@ public class Application extends AbstractApplication implements
 	}
 
 	@Override
-	final public Kernel getKernel() {
-		return (Kernel) kernel;
+	final public AbstractKernel getKernel() {
+		return (AbstractKernel) kernel;
 	}
 
 	public void setApplet(AppletImplementation appletImpl) {
@@ -6733,7 +6737,10 @@ public class Application extends AbstractApplication implements
 		return new AnimationManager(kernel2);
 	}
 
-
-
+	@Override
+	public AlgoElement newAlgoShortestDistance(Construction cons, String label,
+			GeoList list, GeoPointND start, GeoPointND end, GeoBoolean weighted) {
+		return new geogebra.kernel.discrete.AlgoShortestDistance(cons, label, list, start, end, weighted);	
+	}
 
 }

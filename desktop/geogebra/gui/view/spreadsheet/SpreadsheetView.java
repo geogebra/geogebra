@@ -1,6 +1,7 @@
 
 package geogebra.gui.view.spreadsheet;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
@@ -10,7 +11,6 @@ import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.Gridable;
 import geogebra.gui.view.spreadsheet.statdialog.StatDialog;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -51,7 +51,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 
 	// ggb fields
 	protected Application app;
-	private Kernel kernel;
+	private AbstractKernel kernel;
 
 	// spreadsheet table and row header
 	protected MyTable table;
@@ -455,7 +455,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 
 	public void update(GeoElement geo) {
 		Point location = geo.getSpreadsheetCoords();
-		if (location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS && location.y < Kernel.MAX_SPREADSHEET_ROWS) {
+		if (location != null && location.x < AbstractKernel.MAX_SPREADSHEET_COLUMNS && location.y < AbstractKernel.MAX_SPREADSHEET_ROWS) {
 
 			if (location.x > highestUsedColumn) highestUsedColumn = location.x;
 			highestUsedRow=Math.max(highestUsedRow, location.y);

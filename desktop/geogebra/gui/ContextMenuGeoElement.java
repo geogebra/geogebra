@@ -33,7 +33,6 @@ import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.Color;
@@ -710,7 +709,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 
 						// automatically start animation when animating was turned on
 						if (geo.isAnimating())
-							((Kernel) geo.getKernel()).getAnimatonManager().startAnimation();	
+							((AbstractKernel) geo.getKernel()).getAnimatonManager().startAnimation();	
 					}       	
 				});
 				addItem(cbItem);            	

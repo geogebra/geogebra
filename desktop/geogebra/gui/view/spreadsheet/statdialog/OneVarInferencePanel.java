@@ -1,10 +1,10 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -47,7 +47,7 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 
 	// ggb fields
 	private Application app;
-	private Kernel kernel;
+	private AbstractKernel kernel;
 	private StatDialog statDialog;
 	private StatTable resultTable;
 	

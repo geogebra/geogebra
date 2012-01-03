@@ -1,16 +1,16 @@
 package geogebra.euclidian;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.commands.AlgebraProcessor;
-import geogebra.kernel.Kernel;
 
 import org.scilab.forge.jlatexmath.dynamic.ExternalConverter;
 import org.scilab.forge.jlatexmath.dynamic.ExternalConverterFactory;
 
 public class LatexConvertorFactory implements ExternalConverterFactory {
 
-	private Kernel kernel;
+	private AbstractKernel kernel;
 
-	public LatexConvertorFactory(Kernel kernel) {
+	public LatexConvertorFactory(AbstractKernel kernel) {
 		this.kernel = kernel;
 	}
 

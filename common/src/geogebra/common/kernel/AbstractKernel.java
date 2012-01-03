@@ -388,6 +388,15 @@ public abstract class AbstractKernel {
 	/** 3D manager */
 	private Manager3DInterface manager3D;
 	
+	public AbstractKernel(AbstractApplication app){
+		this();
+		this.app = app;
+
+		newConstruction();
+		getExpressionNodeEvaluator();
+
+		setManager3D(newManager3D(this));
+	}
 	public AbstractKernel() {
 		kernelInstances++;
 		kernelID = kernelInstances;
@@ -3550,7 +3559,6 @@ public abstract class AbstractKernel {
 		return undoActive && cons.redoPossible();
 	}
 
-	public abstract GeoElementSpreadsheet getGeoElementSpreadsheet();
 
 	
 
@@ -4839,12 +4847,7 @@ public abstract class AbstractKernel {
 		sb.append("</kernel>\n");
 	}
 
-	/**
-	 * @deprecated
-	 * @return
-	 */
-	@Deprecated
-	public abstract MacroKernelInterface newMacroKernel();
+	
 
 	/* **********************************
 	 * MACRO handling *********************************
@@ -9776,19 +9779,80 @@ public abstract class AbstractKernel {
 	}
 
 
-	public abstract GeoElement ShortestDistance(String label, GeoList geoList,
-			GeoPointND geoPointND, GeoPointND geoPointND2, GeoBoolean geoBoolean);
+	final public GeoLocus ShortestDistance(String label, GeoList list,
+			GeoPointND start, GeoPointND end, GeoBoolean weighted) {
+		return (GeoLocus) app.newAlgoShortestDistance(cons, label, list,
+				start, end, weighted).getOutput(0);
+	}
 
-	public abstract GeoElement SolveODE(String label,
-			FunctionalNVar functionalNVar, FunctionalNVar functionalNVar2,
-			GeoNumeric geoNumeric, GeoNumeric geoNumeric2,
-			GeoNumeric geoNumeric3, GeoNumeric geoNumeric4);
+	
 
-	public abstract GeoElement SolveODE2(String label,
-			GeoFunctionable geoFunctionable, GeoFunctionable geoFunctionable2,
-			GeoFunctionable geoFunctionable3, GeoNumeric geoNumeric,
-			GeoNumeric geoNumeric2, GeoNumeric geoNumeric3,
-			GeoNumeric geoNumeric4, GeoNumeric geoNumeric5);
+
+
+	
+	/***********************************
+	 * CALCULUS
+	 ***********************************/
+
+	
+	final public GeoLocus SolveODE(String label, FunctionalNVar f,
+			FunctionalNVar g, GeoNumeric x, GeoNumeric y, GeoNumeric end,
+			GeoNumeric step) {
+		AlgoSolveODE algo = new AlgoSolveODE(cons, label, f, g, x, y, end, step);
+		return algo.getResult();
+	}
+
+	/*
+	 * second order ODEs
+	 */
+	final public GeoLocus SolveODE2(String label, GeoFunctionable f,
+			GeoFunctionable g, GeoFunctionable h, GeoNumeric x, GeoNumeric y,
+			GeoNumeric yDot, GeoNumeric end, GeoNumeric step) {
+		AlgoSolveODE2 algo = new AlgoSolveODE2(cons, label, f, g, h, x, y,
+				yDot, end, step);
+		return algo.getResult();
+	}
+
+	/**
+	 * Numeric search for extremum of function f in interval [left,right] Ulven
+	 * 2011-2-5
+	 * 
+	 * final public GeoPoint[] Extremum(String label,GeoFunction f,NumberValue
+	 * left,NumberValue right) { AlgoExtremumNumerical algo=new
+	 * AlgoExtremumNumerical(cons,label,f,left,right); GeoPoint
+	 * g=algo.getNumericalExtremum(); //All variants return array... GeoPoint[]
+	 * result=new GeoPoint[1]; result[0]=g; return result;
+	 * }//Extremum(label,geofunction,numbervalue,numbervalue)
+	 */
+
+	/***********************************
+	 * PACKAGE STUFF
+	 ***********************************/
+
+	// temp for buildEquation
+
+	/*
+	 * final private String formatAbs(double x) { if (isZero(x)) return "0";
+	 * else return formatNF(Math.abs(x)); }
+	 */
+
+	
+
+
+	
+
+	
+	private GeoElementSpreadsheet ges = new GeoElementSpreadsheet();
+
+	public GeoElementSpreadsheet getGeoElementSpreadsheet() {
+		return ges;
+	}
+
+	
+
+	public MacroKernelInterface newMacroKernel() {
+		return new MacroKernel(this);
+	}
 
 	/**
 	 * Intersect[polygon,polygon] G. Sturr

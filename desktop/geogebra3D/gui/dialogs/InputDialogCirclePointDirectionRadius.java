@@ -1,12 +1,12 @@
 package geogebra3D.gui.dialogs;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.gui.InputHandler;
 import geogebra.gui.dialog.InputDialogRadius;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 /**
@@ -33,7 +33,7 @@ public class InputDialogCirclePointDirectionRadius extends InputDialogRadius{
 	 * @param forAxis 
 	 * @param kernel
 	 */
-	public InputDialogCirclePointDirectionRadius(Application app, String title, InputHandler handler, GeoPointND point, GeoDirectionND forAxis, Kernel kernel) {
+	public InputDialogCirclePointDirectionRadius(Application app, String title, InputHandler handler, GeoPointND point, GeoDirectionND forAxis, AbstractKernel kernel) {
 		super(app, title, handler, kernel);
 		
 		geoPoint = point;

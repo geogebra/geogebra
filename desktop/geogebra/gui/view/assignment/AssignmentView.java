@@ -8,7 +8,7 @@ import java.awt.print.PrinterException;
 
 import geogebra.gui.view.Gridable;
 import geogebra.gui.view.consprotocol.ConstructionProtocolView.ConstructionTableData;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
@@ -25,7 +25,7 @@ import javax.swing.JScrollPane;
 public class AssignmentView extends JPanel implements View, Gridable {
 	
 	private Application app;
-	private Kernel kernel;
+	private AbstractKernel kernel;
 	
 	public JScrollPane scrollPane;
 

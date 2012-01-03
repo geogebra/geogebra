@@ -3,6 +3,7 @@ package geogebra.export.pstricks;
 import geogebra.common.euclidian.DrawLine;
 import geogebra.common.euclidian.DrawPoint;
 import geogebra.common.euclidian.Drawable;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
@@ -40,7 +41,6 @@ import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.util.MyMath;
 import geogebra.euclidian.DrawAngle;
 import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.Color;
@@ -60,7 +60,7 @@ public abstract class GeoGebraExport implements ActionListener{
 	protected final double PRECISION_XRANGE_FUNCTION=0.00001;
 	protected StringBuilder code,codePoint,codePreamble,codeFilledObject,codeBeginDoc;
 	protected Application app;
-    protected Kernel kernel;
+    protected AbstractKernel kernel;
     protected Construction construction;
     protected EuclidianView euclidianView;
     protected ExportFrame frame;

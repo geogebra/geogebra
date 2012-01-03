@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;
@@ -9,7 +10,6 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 import geogebra.main.Application;
 import geogebra3D.kernel3D.GeoPlane3D;
@@ -23,7 +23,7 @@ public class CmdCone extends CommandProcessor {
 	
 	
 	
-	public CmdCone(Kernel kernel) {
+	public CmdCone(AbstractKernel kernel) {
 		super(kernel);
 	}
 

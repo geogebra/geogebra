@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
@@ -195,7 +196,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		Coords v1l = getB().getInhomCoordsInD(3).sub(o);
 		
 		//check if A!=B
-		if (v1l.equalsForKernel(0, Kernel.STANDARD_PRECISION)){
+		if (v1l.equalsForKernel(0, AbstractKernel.STANDARD_PRECISION)){
 			setUndefined();
 			return;
 		}
@@ -206,7 +207,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		
 		//check if vn!=0
 		Coords vn = getDirection();
-		if (vn.equalsForKernel(0, Kernel.STANDARD_PRECISION)){
+		if (vn.equalsForKernel(0, AbstractKernel.STANDARD_PRECISION)){
 			setUndefined();
 			return;
 		}		

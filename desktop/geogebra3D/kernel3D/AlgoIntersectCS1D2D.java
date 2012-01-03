@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
@@ -86,8 +87,8 @@ public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
     	//check if the point is in the line (segment or half-line)
     	// and if the point is in the region (polygon, ...)
     	if (
-    			-project[1].get(3) > line.getMinParameter() -Kernel.MAX_PRECISION
-    			&& -project[1].get(3) < line.getMaxParameter() +Kernel.MAX_PRECISION
+    			-project[1].get(3) > line.getMinParameter() -AbstractKernel.MAX_PRECISION
+    			&& -project[1].get(3) < line.getMaxParameter() +AbstractKernel.MAX_PRECISION
     			&&
  				cs2D.isInRegion(project[1].get(1),project[1].get(2))
  		){

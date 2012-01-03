@@ -1,6 +1,7 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.common.awt.Point;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -13,7 +14,6 @@ import geogebra.gui.view.spreadsheet.CellRangeProcessor;
 import geogebra.gui.view.spreadsheet.MyTable;
 import geogebra.gui.view.spreadsheet.RelativeCopy;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class StatDialogController {
 
 
 	private Application app;
-	private Kernel kernel; 
+	private AbstractKernel kernel; 
 	private Construction cons;
 	private MyTable spreadsheetTable;
 	private SpreadsheetView spView;
@@ -129,7 +129,7 @@ public class StatDialogController {
 		}else{
 
 			Point location = geo.getSpreadsheetCoords();
-			boolean isCell = (location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS && location.y < Kernel.MAX_SPREADSHEET_ROWS);
+			boolean isCell = (location != null && location.x < AbstractKernel.MAX_SPREADSHEET_COLUMNS && location.y < AbstractKernel.MAX_SPREADSHEET_ROWS);
 
 			if(isCell){	
 				//Application.debug("---------> is cell:" + geo.toString());

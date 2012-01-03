@@ -1,12 +1,12 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import geogebra.common.awt.Point;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.main.AbstractApplication;
 
 import java.awt.Rectangle;
@@ -31,7 +31,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 
 	private Application app;
 	private SpreadsheetView view;
-	private Kernel kernel;
+	private AbstractKernel kernel;
 	private MyTable table;
 	private DefaultTableModel model;	
 

@@ -1,7 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoBoolean;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.Component;
@@ -19,14 +19,14 @@ import javax.swing.SwingConstants;
  */
 public class MyCellEditorBoolean extends DefaultCellEditor {
 
-	private Kernel kernel;
+	private AbstractKernel kernel;
 	private Application app;
 	private GeoBoolean editGeo;
 	private JCheckBox checkBox;	
 	boolean editing = false;
 	
 
-	public MyCellEditorBoolean(Kernel kernel) {
+	public MyCellEditorBoolean(AbstractKernel kernel) {
 		
 		super(new JCheckBox());
 		checkBox = (JCheckBox) editorComponent;

@@ -9,7 +9,6 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.BasicStroke;
@@ -68,7 +67,7 @@ public class MyTable extends JTable implements FocusListener
 	public static final Color HEADER_GRID_COLOR = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.GRAY4);
 	public static final Color SELECTED_RECTANGLE_COLOR = Color.BLUE;
 
-	protected Kernel kernel;
+	protected AbstractKernel kernel;
 	protected Application app;
 	protected MyCellEditor editor;
 	private MyCellEditorBoolean editorBoolean;

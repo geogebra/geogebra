@@ -15,7 +15,6 @@ package geogebra.kernel.commands;
 import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.commands.*;
 import geogebra.common.main.AbstractApplication;
-import geogebra.kernel.Kernel;
 
 import java.util.HashMap;
 
@@ -53,7 +52,7 @@ public class CommandDispatcher extends AbstractCommandDispatcher{
     @Override
 	public CommandProcessor commandTableSwitch(String cmdName) {
     	try {
-    		Kernel kernel = (Kernel)this.kernel;
+    		AbstractKernel kernel = (AbstractKernel)this.kernel;
     		// This enum switch is Markus's idea.
     		// Arpad Fekete, 2011-09-28
     		switch(Commands.valueOf(cmdName)) {

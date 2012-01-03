@@ -11,7 +11,6 @@ import geogebra.gui.SetLabels;
 import geogebra.gui.dialog.PropertiesDialog;
 import geogebra.gui.dialog.PropertiesPanel;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.Component;
@@ -55,7 +54,7 @@ public class SliderPanel
 	private Application app;
 	private AnimationStepPanel stepPanel;
 	private AnimationSpeedPanel speedPanel;
-	private Kernel kernel;
+	private AbstractKernel kernel;
 	private PropertiesPanel propPanel;
 	private JPanel intervalPanel, sliderPanel, animationPanel;
 	private boolean useTabbedPane, includeRandom;

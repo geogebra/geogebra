@@ -1,18 +1,18 @@
 package geogebra3D.kernel3D.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 public class CmdAngle3D extends CmdAngle {
 	
 	
 	
 	
-	public CmdAngle3D(Kernel kernel) {
+	public CmdAngle3D(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -35,7 +35,7 @@ public class CmdAngle3D extends CmdAngle {
 	    				&& (ok[2] = (arg[2] .isGeoPoint()))) {
 	    			GeoElement[] ret =
 	    			{
-	    					((Kernel)kernelA).getManager3D().Angle3D(
+	    					((AbstractKernel)kernelA).getManager3D().Angle3D(
 	    							c.getLabel(),
 	    							(GeoPointND) arg[0],
 	    							(GeoPointND) arg[1],

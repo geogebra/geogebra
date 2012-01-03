@@ -19,32 +19,14 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 import geogebra.common.kernel.AbstractKernel;
-import geogebra.common.kernel.MacroKernelInterface;
-import geogebra.common.kernel.algos.AlgoSolveODE;
-import geogebra.common.kernel.algos.AlgoSolveODE2;
-import geogebra.common.kernel.arithmetic.FunctionalNVar;
-import geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import geogebra.common.kernel.geos.GeoBoolean;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoFunctionable;
-import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoLocus;
-import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
-import geogebra.kernel.discrete.AlgoShortestDistance;
 
 public class Kernel extends AbstractKernel {
 
 
 	public Kernel(AbstractApplication app) {
-		this();
-		this.app = app;
+		super(app);
 
-		newConstruction();
-		getExpressionNodeEvaluator();
-
-		setManager3D(newManager3D(this));
 	}
 
 	public Kernel() {
@@ -119,85 +101,5 @@ public class Kernel extends AbstractKernel {
 
 	
 	
-	@Override
-	final public GeoLocus ShortestDistance(String label, GeoList list,
-			GeoPointND start, GeoPointND end, GeoBoolean weighted) {
-		AlgoShortestDistance algo = new AlgoShortestDistance(cons, label, list,
-				start, end, weighted);
-		GeoLocus ret = algo.getResult();
-		return ret;
-	}
-
 	
-
-
-
-	
-	/***********************************
-	 * CALCULUS
-	 ***********************************/
-
-	@Override
-	final public GeoLocus SolveODE(String label, FunctionalNVar f,
-			FunctionalNVar g, GeoNumeric x, GeoNumeric y, GeoNumeric end,
-			GeoNumeric step) {
-		AlgoSolveODE algo = new AlgoSolveODE(cons, label, f, g, x, y, end, step);
-		return algo.getResult();
-	}
-
-	/*
-	 * second order ODEs
-	 */
-	@Override
-	final public GeoLocus SolveODE2(String label, GeoFunctionable f,
-			GeoFunctionable g, GeoFunctionable h, GeoNumeric x, GeoNumeric y,
-			GeoNumeric yDot, GeoNumeric end, GeoNumeric step) {
-		AlgoSolveODE2 algo = new AlgoSolveODE2(cons, label, f, g, h, x, y,
-				yDot, end, step);
-		return algo.getResult();
-	}
-
-	/**
-	 * Numeric search for extremum of function f in interval [left,right] Ulven
-	 * 2011-2-5
-	 * 
-	 * final public GeoPoint[] Extremum(String label,GeoFunction f,NumberValue
-	 * left,NumberValue right) { AlgoExtremumNumerical algo=new
-	 * AlgoExtremumNumerical(cons,label,f,left,right); GeoPoint
-	 * g=algo.getNumericalExtremum(); //All variants return array... GeoPoint[]
-	 * result=new GeoPoint[1]; result[0]=g; return result;
-	 * }//Extremum(label,geofunction,numbervalue,numbervalue)
-	 */
-
-	/***********************************
-	 * PACKAGE STUFF
-	 ***********************************/
-
-	// temp for buildEquation
-
-	/*
-	 * final private String formatAbs(double x) { if (isZero(x)) return "0";
-	 * else return formatNF(Math.abs(x)); }
-	 */
-
-	
-
-
-	
-
-	
-	private GeoElementSpreadsheet ges = new GeoElementSpreadsheet();
-
-	@Override
-	public GeoElementSpreadsheet getGeoElementSpreadsheet() {
-		return ges;
-	}
-
-	
-
-	@Deprecated
-	@Override
-	public MacroKernelInterface newMacroKernel() {
-		return new MacroKernel(this);
-	}
 }

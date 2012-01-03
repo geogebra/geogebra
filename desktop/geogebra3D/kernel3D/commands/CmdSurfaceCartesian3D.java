@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CmdCurveCartesian;
@@ -7,7 +8,6 @@ import geogebra.common.kernel.commands.CmdLine;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 import geogebra3D.kernel3D.GeoElement3D;
 import geogebra3D.kernel3D.GeoPoint3D;
 import geogebra3D.kernel3D.Kernel3D;
@@ -19,7 +19,7 @@ import geogebra3D.kernel3D.Kernel3D;
  */
 public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 	
-	public CmdSurfaceCartesian3D(Kernel kernel) {
+	public CmdSurfaceCartesian3D(AbstractKernel kernel) {
 		super(kernel);
 		
 	}
@@ -49,7 +49,7 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
     	    )
                {
             	   GeoElement [] ret = new GeoElement[1];
-                   ret[0] = ((Kernel)kernelA).getManager3D().SurfaceCartesian3D(
+                   ret[0] = ((AbstractKernel)kernelA).getManager3D().SurfaceCartesian3D(
                 		   c.getLabel(),
                 		   (NumberValue) arg[0],
                 		   (NumberValue) arg[1],

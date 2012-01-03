@@ -13,11 +13,11 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Kernel;
 
 
 /**
@@ -64,7 +64,7 @@ public abstract class AlgoLinePoint extends AlgoElement3D {
     	
     	Coords v = getDirection();
     	
-    	if (v.equalsForKernel(0, Kernel.STANDARD_PRECISION))
+    	if (v.equalsForKernel(0, AbstractKernel.STANDARD_PRECISION))
     		getLine().setUndefined();
     	else
     		getLine().setCoord(getPoint().getCoordsInD(3), v.normalize());

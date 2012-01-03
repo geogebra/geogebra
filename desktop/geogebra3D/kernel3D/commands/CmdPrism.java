@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;
@@ -7,7 +8,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 
@@ -18,7 +18,7 @@ import geogebra.main.Application;
 public class CmdPrism extends CommandProcessor {
 	
 
-	public CmdPrism(Kernel kernel) {
+	public CmdPrism(AbstractKernel kernel) {
 		super(kernel);
 		
 		

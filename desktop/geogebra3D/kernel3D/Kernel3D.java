@@ -156,7 +156,7 @@ public class Kernel3D extends Kernel {
 
 	@Override
 	public Manager3DInterface newManager3D(AbstractKernel kernel) {
-		return new Manager3D((Kernel)kernel);
+		return new Manager3D((AbstractKernel)kernel);
 	}
 
 	/**

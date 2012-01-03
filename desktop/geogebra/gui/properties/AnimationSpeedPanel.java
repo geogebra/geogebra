@@ -1,12 +1,12 @@
 package geogebra.gui.properties;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.gui.SetLabels;
 import geogebra.gui.dialog.PropertiesDialog;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.Component;
@@ -38,7 +38,7 @@ public class AnimationSpeedPanel
 	private JComboBox animationModeCB;	
 	private JLabel modeLabel, speedLabel;
 	private Application app;	
-	private Kernel kernel;
+	private AbstractKernel kernel;
 
 	public AnimationSpeedPanel(Application app) {
 		this.app = app;

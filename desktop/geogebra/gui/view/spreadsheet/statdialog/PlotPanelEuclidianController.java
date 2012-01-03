@@ -1,14 +1,14 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.euclidian.EuclidianController;
-import geogebra.kernel.Kernel;
 
 import java.awt.Point;
 
 
 public class PlotPanelEuclidianController extends EuclidianController{
 
-	public PlotPanelEuclidianController(Kernel kernel) {
+	public PlotPanelEuclidianController(AbstractKernel kernel) {
 		super(kernel);
 	}
 	

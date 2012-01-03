@@ -2,6 +2,7 @@ package geogebra3D.kernel3D;
 
 import java.util.ArrayList;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Locateable;
@@ -189,12 +190,12 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
 		sbToString.setLength(0);
 		sbToString.append(label);
 
-		switch (((Kernel) kernel).getCoordStyle()) {
-		case Kernel.COORD_STYLE_FRENCH:
+		switch (((AbstractKernel) kernel).getCoordStyle()) {
+		case AbstractKernel.COORD_STYLE_FRENCH:
 			// no equal sign
 			sbToString.append(": ");
 
-		case Kernel.COORD_STYLE_AUSTRIAN:
+		case AbstractKernel.COORD_STYLE_AUSTRIAN:
 			// no equal sign
 			break;
 
@@ -253,8 +254,8 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
 	}
 
 	private void setCoordSep() {
-		switch (((Kernel) kernel).getCoordStyle()) {
-		case Kernel.COORD_STYLE_AUSTRIAN:
+		switch (((AbstractKernel) kernel).getCoordStyle()) {
+		case AbstractKernel.COORD_STYLE_AUSTRIAN:
 			sbBuildValueString.append(" | ");
 			break;
 
@@ -411,7 +412,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
 	}
 
 	public Geo3DVec get3DVec() {
-		return new Geo3DVec((Kernel)kernel, v.getX(), v.getY(), v.getZ());
+		return new Geo3DVec((AbstractKernel)kernel, v.getX(), v.getY(), v.getZ());
 	}
 
 	public double[] getPointAsDouble() {

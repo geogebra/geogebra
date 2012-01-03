@@ -15,10 +15,14 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.AbstractUndoManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AbstractCommandDispatcher;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
+import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.util.DebugPrinter;
 
@@ -621,5 +625,9 @@ public abstract class AbstractApplication {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public abstract AlgoElement newAlgoShortestDistance(Construction cons,
+			String label, GeoList list, GeoPointND start, GeoPointND end,
+			GeoBoolean weighted);
 
 }

@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.arithmetic.Command;
@@ -12,13 +13,12 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 
 
 public class CmdMidpoint3D extends CmdMidpoint {
 	
-	public CmdMidpoint3D(Kernel kernel) {
+	public CmdMidpoint3D(AbstractKernel kernel) {
 		super(kernel);
 		
 		
@@ -40,7 +40,7 @@ public class CmdMidpoint3D extends CmdMidpoint {
 			arg = resArgs(c);
 			if (arg[0].isGeoElement3D()){
 				if (arg[0].isGeoSegment()) {
-					GeoElement[] ret = { (GeoElement) ((Kernel)kernelA).getManager3D().Midpoint(c.getLabel(),
+					GeoElement[] ret = { (GeoElement) ((AbstractKernel)kernelA).getManager3D().Midpoint(c.getLabel(),
 							(GeoSegmentND) arg[0]) };
 					return ret;
 				} 
@@ -52,7 +52,7 @@ public class CmdMidpoint3D extends CmdMidpoint {
 			if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D() ){
 				if ((ok[0] = (arg[0].isGeoPoint()))
 						&& (ok[1] = (arg[1].isGeoPoint()))) {
-					GeoElement[] ret = { (GeoElement) ((Kernel)kernelA).getManager3D().Midpoint(c.getLabel(),
+					GeoElement[] ret = { (GeoElement) ((AbstractKernel)kernelA).getManager3D().Midpoint(c.getLabel(),
 							(GeoPointND) arg[0], (GeoPointND) arg[1]) };
 					return ret;
 				} 

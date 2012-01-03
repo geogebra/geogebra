@@ -22,10 +22,14 @@ import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.AbstractUndoManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AbstractCommandDispatcher;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
+import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.Settings;
@@ -667,5 +671,12 @@ public class Application extends AbstractApplication {
     public void clearSelectedGeos() {
 	    // TODO Auto-generated method stub
 	    
+    }
+
+	@Override
+    public AlgoElement newAlgoShortestDistance(Construction cons, String label,
+            GeoList list, GeoPointND start, GeoPointND end, GeoBoolean weighted) {
+	    // TODO Auto-generated method stub
+		return null;
     }
 }

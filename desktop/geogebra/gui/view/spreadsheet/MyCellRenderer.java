@@ -8,7 +8,6 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.AbstractApplication;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.Color;
@@ -40,7 +39,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 
 	// ggb fields
 	private Application app;
-	private Kernel kernel;
+	private AbstractKernel kernel;
 	private SpreadsheetView view;
 
 	// LaTeX

@@ -13,10 +13,10 @@ the Free Software Foundation.
 package geogebra.gui.toolbar;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.AbstractApplication;
 import geogebra.gui.layout.DockPanel;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.Component;
@@ -351,7 +351,7 @@ public class Toolbar extends JToolBar {
 		sb.append(getAllToolsNoMacros());
 
 		// macros
-		Kernel kernel = app.getKernel();
+		AbstractKernel kernel = app.getKernel();
 		int macroNumber = kernel.getMacroNumber();
 
 		// check if at least one macro is shown

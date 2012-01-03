@@ -583,7 +583,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	}
 
 	public int getMode() {
-		return Kernel.COORD_CARTESIAN; // TODO other modes
+		return AbstractKernel.COORD_CARTESIAN; // TODO other modes
 	}
 
 	/**
@@ -801,7 +801,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 			Coords c1 = getCoords();
 			Coords c2 = P.getCoordsInD(3);
 			return c1.crossProduct(c2).equalsForKernel(0,
-					Kernel.STANDARD_PRECISION);
+					AbstractKernel.STANDARD_PRECISION);
 		} else
 			return false;
 
@@ -947,7 +947,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	};
 
 	public Geo3DVec get3DVec() {
-		return new Geo3DVec((Kernel)kernel, getX(), getY(), getZ());
+		return new Geo3DVec((AbstractKernel)kernel, getX(), getY(), getZ());
 	}
 
 	// ////////////////////////////////

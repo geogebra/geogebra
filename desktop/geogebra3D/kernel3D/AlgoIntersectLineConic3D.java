@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
@@ -173,8 +174,8 @@ public class AlgoIntersectLineConic3D extends AlgoIntersect3D {
 			Coords p2d = new Coords(3);
 			p2d.setX(p[1].getX());p2d.setY(p[1].getY());p2d.setZ(p[1].getW());
 			// check if intersect point is on conic
-			if (c.isOnFullConic(p2d, Kernel.MIN_PRECISION) 
-					&& g.respectLimitedPath(p[0], Kernel.EPSILON))
+			if (c.isOnFullConic(p2d, AbstractKernel.MIN_PRECISION) 
+					&& g.respectLimitedPath(p[0], AbstractKernel.EPSILON))
 				P[0].setCoords(p[0], false);
 			else
 				setPointsUndefined();
@@ -198,7 +199,7 @@ public class AlgoIntersectLineConic3D extends AlgoIntersect3D {
 	private void checkIsOnLine(GeoPoint3D p){
 		if (!p.isDefined())
 			return;
-		if (!g.respectLimitedPath(p.getCoords(),Kernel.MIN_PRECISION))
+		if (!g.respectLimitedPath(p.getCoords(),AbstractKernel.MIN_PRECISION))
 			p.setUndefined();
 	}
 	

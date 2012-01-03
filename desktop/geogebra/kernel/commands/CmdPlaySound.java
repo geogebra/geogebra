@@ -1,5 +1,6 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdScripting;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -8,7 +9,6 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra.sound.SoundManager;
 
@@ -23,7 +23,7 @@ class CmdPlaySound extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdPlaySound(Kernel kernel) {
+	public CmdPlaySound(AbstractKernel kernel) {
 		super(kernel);
 	}
 

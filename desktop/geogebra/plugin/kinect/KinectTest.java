@@ -21,10 +21,10 @@
  ****************************************************************************/
 package geogebra.plugin.kinect;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra3D.kernel3D.GeoPoint3D;
 
@@ -153,9 +153,9 @@ public class KinectTest extends Component {
 	int width, height;
 
 	private final String SAMPLE_XML_FILE = "geogebra/plugin/kinect/SamplesConfig.xml";
-	private final Kernel kernel;
+	private final AbstractKernel kernel;
 
-	public KinectTest(Kernel kernel) {
+	public KinectTest(AbstractKernel kernel) {
 
 		this.kernel = kernel;
 

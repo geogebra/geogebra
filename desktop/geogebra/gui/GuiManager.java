@@ -4,6 +4,7 @@ import geogebra.CommandLineArguments;
 import geogebra.cas.view.CASView;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -56,7 +57,6 @@ import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.gui.virtualkeyboard.WindowsUnicodeKeyboard;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
 import geogebra.util.Util;
@@ -117,7 +117,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	private static int CV_UPDATES_PER_SECOND = 10;
 
 	public Application app;
-	protected Kernel kernel;
+	protected AbstractKernel kernel;
 
 	protected DialogManager dialogManager;
 	protected DialogManager.Factory dialogManagerFactory;

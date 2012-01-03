@@ -1,10 +1,10 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import geogebra.common.awt.Point;
@@ -29,7 +29,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 
 	private Application app;
 	private SpreadsheetView view;
-	private Kernel kernel;
+	private AbstractKernel kernel;
 	private MyTable table;
 	private DefaultTableModel model;	
 	private MyCellEditor editor;
@@ -483,12 +483,12 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 				Rectangle selRect = table.getSelectionRect(true);
 
 				// increase size if we're at the bottom of the spreadsheet				
-				if (table.dragingToRow + 1 == table.getRowCount() && table.dragingToRow < Kernel.MAX_SPREADSHEET_ROWS) {
+				if (table.dragingToRow + 1 == table.getRowCount() && table.dragingToRow < AbstractKernel.MAX_SPREADSHEET_ROWS) {
 					model.setRowCount(table.getRowCount() +1);							
 				}
 
 				// increase size if we go beyond the right edge
-				if (table.dragingToColumn + 1 == table.getColumnCount() && table.dragingToColumn < Kernel.MAX_SPREADSHEET_COLUMNS) {
+				if (table.dragingToColumn + 1 == table.getColumnCount() && table.dragingToColumn < AbstractKernel.MAX_SPREADSHEET_COLUMNS) {
 					table.setMyColumnCount(table.getColumnCount() +1);		
 					view.getColumnHeader().revalidate();
 					// Java's addColumn method will clear selection, so re-select our cell 
@@ -509,7 +509,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 						if( -rowOffset < 0.5 * table.getCellRect(table.minSelectionRow -1, table.minSelectionColumn, true).height)
 							rowOffset = 0;
 					}
-					else if (table.maxSelectionRow < Kernel.MAX_SPREADSHEET_ROWS &&  table.dragingToRow > table.maxSelectionRow) {
+					else if (table.maxSelectionRow < AbstractKernel.MAX_SPREADSHEET_ROWS &&  table.dragingToRow > table.maxSelectionRow) {
 						rowOffset = mouseY - (selRect.y + selRect.height);
 						if( rowOffset < 0.5 * table.getCellRect(table.maxSelectionRow + 1, table.maxSelectionColumn, true).height)
 							rowOffset = 0;
@@ -521,7 +521,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 						if( -colOffset < 0.5 * table.getCellRect(table.minSelectionRow, table.minSelectionColumn - 1, true).width)
 							colOffset = 0;
 					}
-					else if (table.maxSelectionColumn < Kernel.MAX_SPREADSHEET_COLUMNS && table.dragingToColumn > table.maxSelectionColumn) {
+					else if (table.maxSelectionColumn < AbstractKernel.MAX_SPREADSHEET_COLUMNS && table.dragingToColumn > table.maxSelectionColumn) {
 						colOffset = mouseX - (selRect.x + selRect.width);
 						if( colOffset < 0.5 * table.getCellRect(table.maxSelectionRow, table.maxSelectionColumn + 1, true).width)
 							colOffset = 0;

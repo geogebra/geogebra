@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathParameter;
@@ -253,7 +254,7 @@ Translateable{
 					//project current point coordinates
 					//Application.debug("ici\n getWillingCoords=\n"+P.getWillingCoords()+"\n matrix=\n"+getMatrix().toString());
 					Coords preDirection = ((GeoPoint3D) P).getWillingCoords().sub(coordsys.getOrigin()).crossProduct(coordsys.getVx());
-					if(preDirection.equalsForKernel(0, Kernel.STANDARD_PRECISION))
+					if(preDirection.equalsForKernel(0, AbstractKernel.STANDARD_PRECISION))
 						preDirection = coordsys.getVy();
 
 					Coords[] project = ((GeoPoint3D) P).getWillingCoords().projectOnLineWithDirection(
@@ -271,7 +272,7 @@ Translateable{
 			//project current point coordinates
 			//Application.debug("project current point coordinates");
 			Coords preDirection = P.getCoordsInD(3).sub(coordsys.getOrigin()).crossProduct(coordsys.getVx());
-			if(preDirection.equalsForKernel(0, Kernel.STANDARD_PRECISION))
+			if(preDirection.equalsForKernel(0, AbstractKernel.STANDARD_PRECISION))
 				preDirection = coordsys.getVy();
 		
 			Coords[] project = P.getCoordsInD(3).projectOnLineWithDirection(
@@ -321,7 +322,7 @@ Translateable{
 			cross = p.sub(getStartInhomCoords()).crossProduct(getDirectionInD3());
 		
 		
-		return cross.equalsForKernel(0,  Kernel.MIN_PRECISION);
+		return cross.equalsForKernel(0,  AbstractKernel.MIN_PRECISION);
 	}
 
 	public boolean respectLimitedPath(Coords coords, double eps) {    	

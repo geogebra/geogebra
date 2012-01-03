@@ -1,7 +1,7 @@
 package geogebra3D.euclidian3D.opengl;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.kernel.Kernel;
 
 
 
@@ -64,7 +64,7 @@ public class PlotterBrushSection {
 		
 		direction = center.sub(s.center);
 
-		if (center.equalsForKernel(s.center, Kernel.STANDARD_PRECISION)){
+		if (center.equalsForKernel(s.center, AbstractKernel.STANDARD_PRECISION)){
 			if (this.thickness<s.thickness)
 				normal = s.direction;
 			else 

@@ -51,15 +51,15 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
     
     private int mode; // POLAR or CARTESIAN   
     
-    private Kernel kernel;
+    private AbstractKernel kernel;
     
     /** Creates new GeoVec2D */
-    public Geo3DVec(Kernel kernel) {
+    public Geo3DVec(AbstractKernel kernel) {
     	this.kernel = kernel;
     }
     
     /** Creates new GeoVec2D with coordinates (x,y)*/
-    public Geo3DVec(Kernel kernel, double x, double y, double z) {
+    public Geo3DVec(AbstractKernel kernel, double x, double y, double z) {
     	this(kernel);
         this.x = x;
         this.y = y;
@@ -67,7 +67,7 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
     }
     
     /** Creates new GeoVec2D with coordinates (a[0],a[1])*/
-    public Geo3DVec(Kernel kernel, double [] a) {
+    public Geo3DVec(AbstractKernel kernel, double [] a) {
     	this(kernel);
         x = a[0];
         y = a[1];
@@ -91,7 +91,7 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
     }
             
     /** Creates new GeoVec2D as vector between Points P and Q */
-    public Geo3DVec(Kernel kernel, GeoPoint3D p, GeoPoint3D q) {   
+    public Geo3DVec(AbstractKernel kernel, GeoPoint3D p, GeoPoint3D q) {   
     	this(kernel);    
         x = q.getX() - p.getX();
         y = q.getY() - p.getY();
@@ -300,10 +300,10 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
      * */
     final public static void add(GeoVec2D a, NumberValue b, GeoVec2D c) {    
     	
-    	if (a.getMode() == Kernel.COORD_COMPLEX) {  	
+    	if (a.getMode() == AbstractKernel.COORD_COMPLEX) {  	
 	        c.x = a.x + b.getDouble();
 	        c.y = a.y;
-          	c.setMode(Kernel.COORD_COMPLEX);
+          	c.setMode(AbstractKernel.COORD_COMPLEX);
           	} else {
             c.x = a.x + b.getDouble();
             c.y = a.y + b.getDouble();   		
@@ -366,10 +366,10 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
      * or (xc,yc) = (b - xa, b - yx)  for Vectors/Points
      * */
     final public static void sub(NumberValue b, GeoVec2D a, GeoVec2D c) {                                       
-    	if (a.getMode() == Kernel.COORD_COMPLEX) {  	
+    	if (a.getMode() == AbstractKernel.COORD_COMPLEX) {  	
             c.x = b.getDouble() - a.x;
             c.y = -a.y;
-          	c.setMode(Kernel.COORD_COMPLEX);
+          	c.setMode(AbstractKernel.COORD_COMPLEX);
     	} else {
             c.x = b.getDouble() - a.x;
             c.y = b.getDouble() - a.y;
@@ -380,10 +380,10 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
      * or (xc,yc) = (xa - b , yx - b)   for Vectors/Points
      * */
     final public static void sub(GeoVec2D a, NumberValue b, GeoVec2D c) {                                       
-    	if (a.getMode() == Kernel.COORD_COMPLEX) {  	
+    	if (a.getMode() == AbstractKernel.COORD_COMPLEX) {  	
             c.x = a.x - b.getDouble();
             c.y = a.y;
-          	c.setMode(Kernel.COORD_COMPLEX);
+          	c.setMode(AbstractKernel.COORD_COMPLEX);
     	} else {
             c.x = a.x - b.getDouble();
             c.y = a.y - b.getDouble();
@@ -635,7 +635,7 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
 			return toValueString();
 		}
 		
-		public Kernel getKernel() {
+		public AbstractKernel getKernel() {
 			return kernel;
 		}
 

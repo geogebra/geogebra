@@ -20,7 +20,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.gui.ToolNameIconPanel;
 import geogebra.gui.view.algebra.MyComboBoxListener;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;
 
@@ -184,7 +183,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 		GeoElement[] output = toGeoElements(outputList);
 
 		// try to create macro
-		Kernel kernel = app.getKernel();
+		AbstractKernel kernel = app.getKernel();
 		try {
 			newTool = new Macro(kernel, "newTool", input, output);
 			return true;
@@ -219,7 +218,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 			appToSave = (Application) app.getMacro().getKernel()
 					.getApplication();
 
-		Kernel kernel = appToSave.getKernel();
+		AbstractKernel kernel = appToSave.getKernel();
 		String cmdName = namePanel.getCommandName();
 		// check if command name is not used already by another macro
 		if (kernel.getMacro(cmdName) != null) {

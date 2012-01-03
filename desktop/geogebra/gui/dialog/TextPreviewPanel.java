@@ -1,5 +1,6 @@
 package geogebra.gui.dialog;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.algos.AlgoDependentText;
@@ -16,7 +17,6 @@ import geogebra.common.main.MyError;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.util.GeoGebraIcon;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.Color;
@@ -52,7 +52,7 @@ public class TextPreviewPanel extends EuclidianView {
 	private final Construction cons;
 	private boolean isIndependent;
 
-	public TextPreviewPanel(Kernel kernel) {
+	public TextPreviewPanel(AbstractKernel kernel) {
 
 		super(new EuclidianController(kernel), showAxes, showGrid,
 				EuclidianView.EVNO_GENERAL, null);

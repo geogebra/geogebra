@@ -25,7 +25,6 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.util.Unicode;
 import geogebra.gui.inputfield.AutoCompleteTextField;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.Color;
@@ -251,7 +250,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 				}
 
 				try {
-					linkedGeo = ((Kernel) geo.getKernel())
+					linkedGeo = ((AbstractKernel) geo.getKernel())
 							.getAlgebraProcessor()
 							.changeGeoElementNoExceptionHandling(linkedGeo,
 									defineText, false, true);

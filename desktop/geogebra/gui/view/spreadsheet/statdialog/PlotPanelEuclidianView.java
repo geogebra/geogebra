@@ -1,11 +1,11 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.Cursor;
@@ -93,7 +93,7 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 	/*************************************************
 	 * Construct the panel
 	 */
-	public PlotPanelEuclidianView(Kernel kernel) {
+	public PlotPanelEuclidianView(AbstractKernel kernel) {
 		super(new PlotPanelEuclidianController(kernel), showAxes, showGrid,
 				null);
 

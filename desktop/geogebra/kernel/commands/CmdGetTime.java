@@ -1,5 +1,6 @@
 package geogebra.kernel.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
@@ -7,7 +8,6 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 import java.util.Calendar;
 
@@ -22,7 +22,7 @@ class CmdGetTime extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdGetTime(Kernel kernel) {
+	public CmdGetTime(AbstractKernel kernel) {
 		super(kernel);
 	}
 

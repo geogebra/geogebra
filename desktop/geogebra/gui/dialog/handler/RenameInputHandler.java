@@ -1,11 +1,11 @@
 package geogebra.gui.dialog.handler;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.common.util.Unicode;
 import geogebra.gui.InputHandler;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra.util.CopyPaste;
 
@@ -50,7 +50,7 @@ public class RenameInputHandler implements InputHandler {
 		}
 
 		try {
-			Kernel kernel = app.getKernel();
+			AbstractKernel kernel = app.getKernel();
 			String newLabel = kernel.getAlgebraProcessor().parseLabel(
 					inputValue);
 

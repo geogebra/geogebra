@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -16,7 +16,7 @@ public class FrequencyTable extends JTable implements StatPanelInterface{
 
 
 	protected Application app;
-	private Kernel kernel; 
+	private AbstractKernel kernel; 
 	protected StatDialog statDialog;
 	private int mode;
 	protected StatTable statTable;

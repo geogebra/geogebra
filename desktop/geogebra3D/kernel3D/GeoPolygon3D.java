@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Region;
@@ -262,7 +263,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 
 			// check if the vertex lies on the coord sys
 			if (!Kernel
-					.isEqual(project[1].getZ(), 0, Kernel.STANDARD_PRECISION)) {
+					.isEqual(project[1].getZ(), 0, AbstractKernel.STANDARD_PRECISION)) {
 				coordSys.setUndefined();
 				return false;
 			}

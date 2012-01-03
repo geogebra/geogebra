@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;
@@ -8,13 +9,12 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 public class CmdCylinder extends CommandProcessor{
 	
 	
 	
-	public CmdCylinder(Kernel kernel) {
+	public CmdCylinder(AbstractKernel kernel) {
 		super(kernel);
 	}
 

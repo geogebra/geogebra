@@ -1,6 +1,7 @@
 package geogebra.cas;
 
 import geogebra.common.cas.CASException;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
@@ -11,7 +12,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.CASSettings;
 import geogebra.common.main.settings.SettingListener;
-import geogebra.kernel.Kernel;
 import geogebra.main.MyResourceBundle;
 
 import java.util.Enumeration;
@@ -153,7 +153,7 @@ public abstract class CASgeneric implements CASGenericInterface,
 	 * @return the translated String.
 	 */
 	protected String translateToCAS(ValidExpression ve, StringType casStringType) {
-		Kernel kernel = (Kernel) ve.getKernel();
+		AbstractKernel kernel = (AbstractKernel) ve.getKernel();
 		StringType oldPrintForm = kernel.getCASPrintForm();
 		kernel.setCASPrintForm(casStringType);
 

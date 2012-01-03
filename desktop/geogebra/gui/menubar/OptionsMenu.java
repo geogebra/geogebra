@@ -1,8 +1,8 @@
 package geogebra.gui.menubar;
 
 import geogebra.common.io.MyXMLHandler;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.gui.layout.Layout;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
 
@@ -22,7 +22,7 @@ import javax.swing.JRadioButtonMenuItem;
 class OptionsMenu extends BaseMenu implements ActionListener {
 	private static final long serialVersionUID = -8032696074032177289L;
 	
-	private Kernel kernel;
+	private AbstractKernel kernel;
 	private AbstractAction
 		//drawingPadPropAction,
 		showOptionsAction

@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.gui.dialog;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -23,7 +24,6 @@ import geogebra.gui.GeoTreeCellRenderer;
 import geogebra.gui.SetLabels;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.view.algebra.AlgebraView;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;
 
@@ -75,7 +75,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 
 	private static final long serialVersionUID = 1L;
 	private Application app;
-	private Kernel kernel;
+	private AbstractKernel kernel;
 	private JTreeGeoElements geoTree;
 	private JButton closeButton, defaultsButton, delButton;
 	private PropertiesPanel propPanel;

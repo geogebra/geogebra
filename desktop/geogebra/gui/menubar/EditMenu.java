@@ -1,7 +1,7 @@
 package geogebra.gui.menubar;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra.util.CopyPaste;
 
@@ -343,7 +343,7 @@ public class EditMenu extends BaseMenu {
 		selectAllAncestorsItem.setVisible(haveSelection);
 		selectionSeparator.setVisible(haveSelection);
 
-		Kernel kernel = app.getKernel();
+		AbstractKernel kernel = app.getKernel();
 		propertiesAction.setEnabled(!kernel.isEmpty());
 		selectAllAction.setEnabled(!kernel.isEmpty());
 	}

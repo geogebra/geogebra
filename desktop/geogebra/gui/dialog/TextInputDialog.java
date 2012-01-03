@@ -12,6 +12,7 @@ the Free Software Foundation.
 package geogebra.gui.dialog;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
@@ -28,7 +29,6 @@ import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.util.SelectionTable;
 import geogebra.gui.util.TableSymbols;
 import geogebra.gui.util.TableSymbolsLaTeX;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -758,7 +758,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 	 */
 	private class TextInputHandler implements InputHandler {
 
-		private Kernel kernel;
+		private AbstractKernel kernel;
 
 		private TextInputHandler() {
 			kernel = app.getKernel();

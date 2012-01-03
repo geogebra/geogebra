@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
@@ -8,7 +9,6 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 import geogebra3D.kernel3D.GeoCoordSys1D;
 import geogebra3D.kernel3D.GeoPlane3D;
@@ -22,7 +22,7 @@ public class CmdPlaneBisector extends CommandProcessor {
 	
 	
 	
-	public CmdPlaneBisector(Kernel kernel) {
+	public CmdPlaneBisector(AbstractKernel kernel) {
 		super(kernel);
 	}
 	

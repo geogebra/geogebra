@@ -1,6 +1,7 @@
 package geogebra3D.kernel3D;
 
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.Coords;
@@ -50,7 +51,7 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
         this.g = g;
         this.p = p;
 
-        newCoords = new TreeMap<Double, Coords>(Kernel.DoubleComparator(Kernel.STANDARD_PRECISION));
+        newCoords = new TreeMap<Double, Coords>(Kernel.DoubleComparator(AbstractKernel.STANDARD_PRECISION));
   
         
         compute();
@@ -111,7 +112,7 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
            	);
 
            	//check if projection is intersection point
-           	if (project!=null && project[0].equalsForKernel(project[1], Kernel.STANDARD_PRECISION)){
+           	if (project!=null && project[0].equalsForKernel(project[1], AbstractKernel.STANDARD_PRECISION)){
            	
            		double t1 = project[2].get(1); //parameter on line
            		double t2 = project[2].get(2); //parameter on segment

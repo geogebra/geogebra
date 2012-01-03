@@ -1,5 +1,6 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoListLength;
@@ -29,7 +30,6 @@ import geogebra.common.kernel.statistics.AlgoSpearman;
 import geogebra.common.kernel.statistics.AlgoStandardDeviation;
 import geogebra.common.kernel.statistics.AlgoSum;
 import geogebra.common.kernel.statistics.AlgoSumSquaredErrors;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -42,7 +42,7 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 
 	// ggb 
 	protected Application app;
-	private Kernel kernel; 
+	private AbstractKernel kernel; 
 	protected StatDialog statDialog;
 	private int mode;
 	protected StatTable statTable;

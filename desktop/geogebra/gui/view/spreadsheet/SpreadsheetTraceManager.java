@@ -1,5 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -11,7 +12,6 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.SpreadsheetTraceSettings;
-import geogebra.kernel.Kernel;
 
 import geogebra.main.Application;
 
@@ -44,7 +44,7 @@ public class SpreadsheetTraceManager extends geogebra.common.gui.view.spreadshee
 
 	// external components
 	private Application app;
-	private Kernel kernel;
+	private AbstractKernel kernel;
 
 
 	// collection of all geos currently traced
@@ -103,7 +103,7 @@ public class SpreadsheetTraceManager extends geogebra.common.gui.view.spreadshee
 		if (t.doRowLimit) {
 			t.traceRow2 = t.traceRow1 + t.numRows - 1 + t.headerOffset;
 		} else {
-			t.traceRow2 = Kernel.MAX_SPREADSHEET_ROWS;
+			t.traceRow2 = AbstractKernel.MAX_SPREADSHEET_ROWS;
 		}
 
 		t.tracingRow = t.traceRow1;
@@ -136,7 +136,7 @@ public class SpreadsheetTraceManager extends geogebra.common.gui.view.spreadshee
 		SpreadsheetTraceSettings t = geo.getTraceSettings();
 		// clearGeoTraceColumns(geo);
 		CopyPasteCut.delete(app, t.traceColumn1, t.traceRow1, t.traceColumn2,
-				Kernel.MAX_SPREADSHEET_ROWS, MyTable.CELL_SELECT);
+				AbstractKernel.MAX_SPREADSHEET_ROWS, MyTable.CELL_SELECT);
 		addSpreadsheetTraceGeo(geo);
 	}
 
@@ -264,7 +264,7 @@ public class SpreadsheetTraceManager extends geogebra.common.gui.view.spreadshee
 			return;
 
 		CopyPasteCut.delete(app, t.traceColumn1, t.traceRow1, t.traceColumn2,
-				Kernel.MAX_SPREADSHEET_ROWS, MyTable.CELL_SELECT);
+				AbstractKernel.MAX_SPREADSHEET_ROWS, MyTable.CELL_SELECT);
 		t.tracingRow = t.traceRow1;
 		t.lastTrace.clear();
 	}

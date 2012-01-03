@@ -9,14 +9,10 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
-package geogebra.kernel;
+package geogebra.common.kernel;
 
 import geogebra.common.util.MaxSizeHashMap;
 import geogebra.common.io.MyXMLHandler;
-import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Macro;
-import geogebra.common.kernel.MacroConstruction;
-import geogebra.common.kernel.MacroKernelInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AlgebraProcessor;
@@ -29,12 +25,12 @@ import java.util.LinkedHashMap;
 /**
  * Kernel with its own construction for macros.
  */
-public class MacroKernel extends Kernel implements MacroKernelInterface {
+public class MacroKernel extends AbstractKernel implements MacroKernelInterface {
 
-	private Kernel parentKernel;
+	private AbstractKernel parentKernel;
 	private MacroConstruction macroCons;
 
-	public MacroKernel(Kernel parentKernel) {
+	public MacroKernel(AbstractKernel parentKernel) {
 		this.parentKernel = parentKernel;
 
 		app = parentKernel.getApplication();
@@ -53,7 +49,7 @@ public class MacroKernel extends Kernel implements MacroKernelInterface {
 		return true;
 	}
 
-	public Kernel getParentKernel() {
+	public AbstractKernel getParentKernel() {
 		return parentKernel;
 	}
 
@@ -137,7 +133,7 @@ public class MacroKernel extends Kernel implements MacroKernelInterface {
 		return parentKernel.newMyXMLHandler(this, cons);
 	}
 
-	public AlgebraProcessor newAlgebraProcessor(Kernel kernel) {
+	public AlgebraProcessor newAlgebraProcessor(AbstractKernel kernel) {
 		return parentKernel.newAlgebraProcessor(kernel);
 	}
 

@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.TransformInterface;
 import geogebra.common.kernel.Matrix.Coords;
@@ -108,7 +109,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 			GeoPointND[] points = { algo.getP(), algo.getQ() };
 			points = t.transformPoints(points);
 			// if(t.isAffine()){
-			GeoElement ray = (GeoElement) ((Kernel) kernel).getManager3D().Ray3D(label,
+			GeoElement ray = (GeoElement) ((AbstractKernel) kernel).getManager3D().Ray3D(label,
 					points[0], points[1]);
 			ray.setVisualStyleForTransformations(this);
 			GeoElement[] geos = { ray, (GeoElement) points[0],

@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CmdFunction;
@@ -8,7 +9,6 @@ import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 import geogebra3D.kernel3D.GeoElement3D;
 import geogebra3D.kernel3D.GeoPoint3D;
 import geogebra3D.kernel3D.Kernel3D;
@@ -20,7 +20,7 @@ import geogebra3D.kernel3D.Kernel3D;
  */
 public class CmdFunction2Var extends CmdFunction {
 	
-	public CmdFunction2Var(Kernel kernel) {
+	public CmdFunction2Var(AbstractKernel kernel) {
 		super(kernel);
 	}
 
@@ -51,7 +51,7 @@ public class CmdFunction2Var extends CmdFunction {
 			) {
 				GeoElement[] ret =
 				{
-						((Kernel)kernelA).getManager3D().Function2Var(
+						((AbstractKernel)kernelA).getManager3D().Function2Var(
 								c.getLabel(),
 								(NumberValue) arg[0],
 								(GeoNumeric) arg[1],
@@ -105,7 +105,7 @@ public class CmdFunction2Var extends CmdFunction {
 			) {
 				GeoElement[] ret =
 				{
-						((Kernel)kernelA).getManager3D().Function2Var(
+						((AbstractKernel)kernelA).getManager3D().Function2Var(
 								c.getLabel(),
 								(GeoFunctionNVar) arg[0],
 								(NumberValue) arg[1],

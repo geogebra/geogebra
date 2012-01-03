@@ -6,6 +6,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -27,7 +28,6 @@ import geogebra.common.kernel.kernelND.Region3D;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.gui.GuiManager3D;
@@ -133,7 +133,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	 * common constructor
 	 * @param kernel
 	 */
-	public EuclidianController3D(Kernel kernel) {
+	public EuclidianController3D(AbstractKernel kernel) {
 		super(kernel);
 		
 		// inits min max

@@ -1,11 +1,11 @@
 package geogebra.gui.properties;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.AngleTextField;
 import geogebra.gui.SetLabels;
 import geogebra.gui.dialog.PropertiesDialog;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.Component;
@@ -34,7 +34,7 @@ public class AnimationStepPanel
 	private AngleTextField tfAnimStep;
 	private boolean partOfSliderPanel = false;
 	
-	private Kernel kernel;
+	private AbstractKernel kernel;
 
 	public AnimationStepPanel(Application app) {
 		kernel = app.getKernel();

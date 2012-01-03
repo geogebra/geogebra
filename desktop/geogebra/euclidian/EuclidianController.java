@@ -73,7 +73,6 @@ import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.MyMath;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;
 
@@ -126,7 +125,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 	/***********************************************
 	 * Creates new EuclidianController
 	 **********************************************/
-	public EuclidianController(Kernel kernel) {
+	public EuclidianController(AbstractKernel kernel) {
 		setKernel(kernel);
 		setApplication((Application)kernel.getApplication());
 
@@ -146,11 +145,11 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 	}
 
 	public void setKernel(AbstractKernel kernel) {
-		this.kernel = (geogebra.kernel.Kernel)kernel;
+		this.kernel = (AbstractKernel)kernel;
 	}
 
-	public Kernel getKernel() {
-		return (Kernel) kernel;
+	public AbstractKernel getKernel() {
+		return (AbstractKernel) kernel;
 	}
 
 	protected void setView(EuclidianViewInterface view) {

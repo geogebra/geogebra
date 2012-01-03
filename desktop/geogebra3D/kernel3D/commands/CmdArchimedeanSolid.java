@@ -2,13 +2,13 @@ package geogebra3D.kernel3D.commands;
 
 import com.quantimegroup.solutions.archimedean.common.SolidDefinition;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 import geogebra3D.kernel3D.GeoPoint3D;
 import geogebra3D.kernel3D.GeoVector3D;
@@ -23,7 +23,7 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 	
 	private String name;
 	
-	public CmdArchimedeanSolid(Kernel kernel, String name) {
+	public CmdArchimedeanSolid(AbstractKernel kernel, String name) {
 		super(kernel);
 		this.name = name;
 		

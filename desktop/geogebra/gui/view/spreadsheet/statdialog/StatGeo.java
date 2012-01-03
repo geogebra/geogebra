@@ -1,5 +1,6 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
 import geogebra.common.kernel.algos.AlgoClasses;
@@ -39,7 +40,6 @@ import geogebra.common.kernel.statistics.AlgoFitLog;
 import geogebra.common.kernel.statistics.AlgoFitLogistic;
 import geogebra.common.kernel.statistics.AlgoMean;
 import geogebra.common.kernel.statistics.AlgoStandardDeviation;
-import geogebra.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.AlgoHistogram;
 import geogebra.main.Application;
@@ -55,7 +55,7 @@ import java.awt.Color;
 public class StatGeo   {
 
 	private Application app;
-	private Kernel kernel; 
+	private AbstractKernel kernel; 
 	private Construction cons;
 
 	private double xMinData, xMaxData, yMinData, yMaxData;		

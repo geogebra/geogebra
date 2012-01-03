@@ -18,13 +18,13 @@ the Free Software Foundation.
 package geogebra3D;
 
 import geogebra.CommandLineArguments;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
 import geogebra.gui.view.spreadsheet.SpreadsheetTraceManager;
-import geogebra.kernel.Kernel;
 import geogebra.main.AppletImplementation;
 import geogebra.main.Application;
 import geogebra.main.GlobalKeyDispatcher;
@@ -105,7 +105,7 @@ public class Application3D extends Application {
 	}
 
 	@Override
-	protected EuclidianController newEuclidianController(Kernel kernel) {
+	protected EuclidianController newEuclidianController(AbstractKernel kernel) {
 		return new EuclidianControllerFor3D(kernel);
 	}
 

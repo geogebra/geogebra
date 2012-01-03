@@ -60,7 +60,6 @@ import geogebra.gui.util.SelectionTable;
 import geogebra.gui.util.SpecialNumberFormat;
 import geogebra.gui.util.SpecialNumberFormatInterface;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -123,7 +122,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 
 
 	// ggb fields
-	private Kernel kernel;
+	private AbstractKernel kernel;
 	private Construction cons;
 	private EuclidianView activeEV;
 

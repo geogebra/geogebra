@@ -1,6 +1,7 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.adapters.Geo3DVec;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Manager3DInterface;
 import geogebra.common.kernel.Path;
@@ -31,7 +32,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
-import geogebra.kernel.Kernel;
 
 /**
  * Class that for manage all 3D methods in Kernel.
@@ -41,13 +41,13 @@ import geogebra.kernel.Kernel;
  */
 public class Manager3D implements Manager3DInterface {
 
-	private Kernel kernel;
+	private AbstractKernel kernel;
 	private Construction cons;
 
 	/**
 	 * @param kernel
 	 */
-	public Manager3D(Kernel kernel) {
+	public Manager3D(AbstractKernel kernel) {
 		this.kernel = kernel;
 		this.cons = kernel.getConstruction();
 	}

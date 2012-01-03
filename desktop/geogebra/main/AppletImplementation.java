@@ -16,10 +16,10 @@ import geogebra.AppletImplementationInterface;
 import geogebra.CommandLineArguments;
 import geogebra.GeoGebraAppletPreloader;
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.MyBoolean;
 import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.Kernel;
 import geogebra.plugin.GgbAPI;
 
 import java.awt.BorderLayout;
@@ -59,7 +59,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	public JApplet applet;
 
 	protected Application app;
-	protected Kernel kernel;
+	protected AbstractKernel kernel;
 	private JButton btOpen;
 	private DoubleClickListener dcListener;
 	private EuclidianView ev;

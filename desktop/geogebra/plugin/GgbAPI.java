@@ -30,7 +30,6 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.io.MyImageIO;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra.util.AwtColorAdapter;
 
@@ -81,7 +80,7 @@ public class GgbAPI {
 
     ///// ----- Properties ----- /////
     private Application         app=                null;   //References ...
-    private Kernel              kernel=             null;
+    private AbstractKernel              kernel=             null;
     private Construction        construction=       null;
     private AlgebraProcessor    algebraprocessor=   null;
    // private PluginManager       pluginmanager=      null;    
@@ -107,7 +106,7 @@ public class GgbAPI {
     public Construction getConstruction(){return this.construction;}
     
     /** Returns reference to Kernel */
-    public Kernel getKernel(){return this.kernel;}
+    public AbstractKernel getKernel(){return this.kernel;}
     
     /** Returns reference to AlgebraProcessor */
     public AlgebraProcessor getAlgebraProcessor(){return this.algebraprocessor;}

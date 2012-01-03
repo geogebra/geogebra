@@ -67,7 +67,6 @@ import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.util.SelectionTable;
 import geogebra.gui.util.SpringUtilities;
 import geogebra.gui.view.algebra.InputPanel;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.BasicStroke;
@@ -134,7 +133,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	private static final int MAX_COMBOBOX_ENTRIES = 200;
 
 	private Application app;
-	private Kernel kernel;
+	private AbstractKernel kernel;
 	private GeoGebraColorChooser colChooser;
 
 	private static final long serialVersionUID = 1L;
@@ -5478,7 +5477,7 @@ class TextfieldSizePanel extends JPanel implements ActionListener,
 	private JLabel label;
 	private MyTextField tfTextfieldSize;
 
-	private Kernel kernel;
+	private AbstractKernel kernel;
 
 	public TextfieldSizePanel(Application app) {
 		kernel = app.getKernel();
@@ -5589,7 +5588,7 @@ class ShowConditionPanel extends JPanel implements ActionListener,
 	private Object[] geos; // currently selected geos
 	private JTextField tfCondition;
 
-	private Kernel kernel;
+	private AbstractKernel kernel;
 	private PropertiesPanel propPanel;
 
 	public ShowConditionPanel(Application app, PropertiesPanel propPanel) {
@@ -5740,7 +5739,7 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 	private String defaultR = "0", defaultG = "0", defaultB = "0",
 			defaultA = "1";
 
-	private Kernel kernel;
+	private AbstractKernel kernel;
 	private PropertiesPanel propPanel;
 
 	public ColorFunctionPanel(Application app, PropertiesPanel propPanel) {
@@ -6069,7 +6068,7 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 
 	private JCheckBox cbGraphicsView, cbGraphicsView2;
 
-	private Kernel kernel;
+	private AbstractKernel kernel;
 	private Application app;
 	private PropertiesPanel propPanel;
 

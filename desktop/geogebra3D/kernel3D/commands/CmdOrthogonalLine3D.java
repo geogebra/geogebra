@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdOrthogonalLine;
 import geogebra.common.kernel.geos.GeoElement;
@@ -8,7 +9,6 @@ import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 
 /*
  * Orthogonal[ <GeoPoint3D>, <GeoCoordSys> ]
@@ -17,7 +17,7 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 	
 	
 	
-	public CmdOrthogonalLine3D(Kernel kernel) {
+	public CmdOrthogonalLine3D(AbstractKernel kernel) {
 		super(kernel);
 	}
 	
@@ -37,7 +37,7 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 	    	) {
 	    		GeoElement[] ret =
 	    		{
-	    				(GeoElement) ((Kernel)kernelA).getManager3D().OrthogonalLine3D(
+	    				(GeoElement) ((AbstractKernel)kernelA).getManager3D().OrthogonalLine3D(
 	    						c.getLabel(),
 	    						(GeoPointND) arg[0],
 	    						(GeoCoordSys2D) arg[1])};
@@ -51,7 +51,7 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 	    	) {
 	    		GeoElement[] ret =
 	    		{
-	    				(GeoElement) ((Kernel)kernelA).getManager3D().OrthogonalLine3D(
+	    				(GeoElement) ((AbstractKernel)kernelA).getManager3D().OrthogonalLine3D(
 	    						c.getLabel(),
 	    						(GeoPointND) arg[0],
 	    						(GeoLineND) arg[1])};
@@ -62,7 +62,7 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 	    	) {
 	    		GeoElement[] ret =
 	    		{
-	    				(GeoElement) ((Kernel)kernelA).getManager3D().OrthogonalLine3D(
+	    				(GeoElement) ((AbstractKernel)kernelA).getManager3D().OrthogonalLine3D(
 	    						c.getLabel(),
 	    						(GeoLineND) arg[0],
 	    						(GeoLineND) arg[1])};
@@ -79,7 +79,7 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 	    	) {
 	    		GeoElement[] ret =
 	    		{
-	    				(GeoElement) ((Kernel)kernelA).getManager3D().OrthogonalLine3D(
+	    				(GeoElement) ((AbstractKernel)kernelA).getManager3D().OrthogonalLine3D(
 	    						c.getLabel(),
 	    						(GeoPointND) arg[0],
 	    						(GeoLineND) arg[1],

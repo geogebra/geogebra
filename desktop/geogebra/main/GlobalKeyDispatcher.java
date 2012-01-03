@@ -22,7 +22,6 @@ import geogebra.gui.GuiManager;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.app.MyFileFilter;
 import geogebra.gui.inputbar.AlgebraInput;
-import geogebra.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.util.CopyPaste;
 import geogebra.util.Util;
@@ -564,7 +563,7 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 			case KeyEvent.VK_D:
 			case KeyEvent.VK_BACK_QUOTE:
 				if (!event.isShiftDown()) {
-					Kernel kernel = app.getKernel();
+					AbstractKernel kernel = app.getKernel();
 					kernel.setAlgebraStyle((kernel.getAlgebraStyle() + 1) % 3);
 					kernel.updateConstruction();
 					app.setUnsaved();
