@@ -6879,86 +6879,10 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		return false;
 	}
 
-	final protected int addSelectedGeo(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
-		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedGeos, Test.GEOELEMENT);
-	}
-
-
-	protected int handleAddSelected(Hits hits, int max, boolean addMore,
-			ArrayList<?> list, Test geoClass) {
-
-		if (selectionPreview) {
-			return addToHighlightedList(list,
-					hits.getHits(geoClass, handleAddSelectedArrayList), max);
-		} else {
-			return addToSelectionList(list,
-					hits.getHits(geoClass, handleAddSelectedArrayList), max,
-					addMore, hits.size() == 1);
-		}
-	}
-
-	protected int handleAddSelectedRegions(Hits hits, int max, boolean addMore,
-			ArrayList<?> list) {
-		if (selectionPreview) {
-			return addToHighlightedList(list,
-					hits.getRegionHits(handleAddSelectedArrayList), max);
-		} else {
-			return addToSelectionList(list,
-					hits.getRegionHits(handleAddSelectedArrayList), max,
-					addMore, hits.size() == 1);
-		}
-	}
-
-	protected Hits handleAddSelectedArrayList = new Hits();
-
-	final protected int addSelectedPoint(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
-		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedPoints, Test.GEOPOINTND);
-	}
-
-	public final int addSelectedNumeric(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
-		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedNumbers, Test.GEONUMERIC);
-	}
-
-	public final int addSelectedNumberValue(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
-		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedNumberValues, Test.NUMBERVALUE);
-	}
-
-	final protected int addSelectedLine(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
-		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedLines, Test.GEOLINEND);
-	}
-
 	final protected int addSelectedDirection(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
 				selectedDirections, Test.DIRECTIONND);
-	}
-
-	final protected int addSelectedSegment(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
-		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedSegments, Test.GEOSEGMENTND);
-	}
-
-	final protected int addSelectedVector(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
-		return addSelectedVector(hits, max, addMoreThanOneAllowed,
-				Test.GEOVECTORND);
-	}
-
-	final protected int addSelectedVector(Hits hits, int max,
-			boolean addMoreThanOneAllowed, Test geoClass) {
-		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedVectors, geoClass);
 	}
 
 	final protected int addSelectedCircle(Hits hits, int max,
@@ -6979,24 +6903,6 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 				selectedConicsND, Test.GEOCONICND);
 	}
 
-	final protected int addSelectedPath(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
-		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedPaths, Test.PATH);
-	}
-
-	final protected int addSelectedRegion(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
-		return handleAddSelectedRegions(hits, max, addMoreThanOneAllowed,
-				selectedRegions);
-	}
-
-	final protected int addSelectedImplicitpoly(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
-		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedImplicitpoly, Test.GEOIMPLICITPOLY);
-	}
-
 	final protected int addSelectedFunction(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
@@ -7007,24 +6913,6 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 			boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
 				selectedCurves, Test.GEOCURVECARTESIAN);
-	}
-
-	final protected int addSelectedPolygon(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
-		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedPolygons, Test.GEOPOLYGON);
-	}
-
-	final protected int addSelectedPolyLine(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
-		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedPolyLines, Test.GEOPOLYLINE);
-	}
-
-	final protected int addSelectedList(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
-		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedLists, Test.GEOLIST);
 	}
 
 	public void componentResized(ComponentEvent e) {

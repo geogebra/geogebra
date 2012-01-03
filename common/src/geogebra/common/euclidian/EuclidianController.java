@@ -260,6 +260,8 @@ public abstract class EuclidianController {
 	// Pen
 
 	public geogebra.common.euclidian.EuclidianPen pen;
+
+	protected Hits handleAddSelectedArrayList = new Hits();
 	
 	protected static final int MOVE_NONE = 101;
 	protected static final int MOVE_POINT = 102;
@@ -1531,5 +1533,113 @@ public abstract class EuclidianController {
 	protected final int selCurves() {
 		return selectedCurves.size();
 	}
+
+	protected int handleAddSelected(Hits hits, int max, boolean addMore,
+			ArrayList<?> list, Test geoClass) {
+			
+				if (selectionPreview) {
+					return addToHighlightedList(list,
+							hits.getHits(geoClass, handleAddSelectedArrayList), max);
+				} else {
+					return addToSelectionList(list,
+							hits.getHits(geoClass, handleAddSelectedArrayList), max,
+							addMore, hits.size() == 1);
+				}
+			}
+
+	protected int handleAddSelectedRegions(Hits hits, int max,
+			boolean addMore, ArrayList<?> list) {
+				if (selectionPreview) {
+					return addToHighlightedList(list,
+							hits.getRegionHits(handleAddSelectedArrayList), max);
+				} else {
+					return addToSelectionList(list,
+							hits.getRegionHits(handleAddSelectedArrayList), max,
+							addMore, hits.size() == 1);
+				}
+			}
+
+	protected final int addSelectedGeo(Hits hits, int max, boolean addMoreThanOneAllowed) {
+		return handleAddSelected(hits, max, addMoreThanOneAllowed,
+				selectedGeos, Test.GEOELEMENT);
+	}
+
+	protected final int addSelectedPoint(Hits hits, int max,
+			boolean addMoreThanOneAllowed) {
+				return handleAddSelected(hits, max, addMoreThanOneAllowed,
+						selectedPoints, Test.GEOPOINTND);
+			}
+
+	public final int addSelectedNumeric(Hits hits, int max,
+			boolean addMoreThanOneAllowed) {
+				return handleAddSelected(hits, max, addMoreThanOneAllowed,
+						selectedNumbers, Test.GEONUMERIC);
+			}
+
+	public final int addSelectedNumberValue(Hits hits, int max,
+			boolean addMoreThanOneAllowed) {
+				return handleAddSelected(hits, max, addMoreThanOneAllowed,
+						selectedNumberValues, Test.NUMBERVALUE);
+			}
+
+	protected final int addSelectedLine(Hits hits, int max,
+			boolean addMoreThanOneAllowed) {
+				return handleAddSelected(hits, max, addMoreThanOneAllowed,
+						selectedLines, Test.GEOLINEND);
+			}
+
+	protected final int addSelectedSegment(Hits hits, int max,
+			boolean addMoreThanOneAllowed) {
+				return handleAddSelected(hits, max, addMoreThanOneAllowed,
+						selectedSegments, Test.GEOSEGMENTND);
+			}
+
+	protected final int addSelectedVector(Hits hits, int max,
+			boolean addMoreThanOneAllowed) {
+				return addSelectedVector(hits, max, addMoreThanOneAllowed,
+						Test.GEOVECTORND);
+			}
+
+	protected final int addSelectedVector(Hits hits, int max,
+			boolean addMoreThanOneAllowed, Test geoClass) {
+				return handleAddSelected(hits, max, addMoreThanOneAllowed,
+						selectedVectors, geoClass);
+			}
+
+	protected final int addSelectedPath(Hits hits, int max,
+			boolean addMoreThanOneAllowed) {
+				return handleAddSelected(hits, max, addMoreThanOneAllowed,
+						selectedPaths, Test.PATH);
+			}
+
+	protected final int addSelectedRegion(Hits hits, int max,
+			boolean addMoreThanOneAllowed) {
+				return handleAddSelectedRegions(hits, max, addMoreThanOneAllowed,
+						selectedRegions);
+			}
+
+	protected final int addSelectedImplicitpoly(Hits hits, int max,
+			boolean addMoreThanOneAllowed) {
+				return handleAddSelected(hits, max, addMoreThanOneAllowed,
+						selectedImplicitpoly, Test.GEOIMPLICITPOLY);
+			}
+
+	protected final int addSelectedPolygon(Hits hits, int max,
+			boolean addMoreThanOneAllowed) {
+				return handleAddSelected(hits, max, addMoreThanOneAllowed,
+						selectedPolygons, Test.GEOPOLYGON);
+			}
+
+	protected final int addSelectedPolyLine(Hits hits, int max,
+			boolean addMoreThanOneAllowed) {
+				return handleAddSelected(hits, max, addMoreThanOneAllowed,
+						selectedPolyLines, Test.GEOPOLYLINE);
+			}
+
+	protected final int addSelectedList(Hits hits, int max,
+			boolean addMoreThanOneAllowed) {
+				return handleAddSelected(hits, max, addMoreThanOneAllowed,
+						selectedLists, Test.GEOLIST);
+			}
 
 }
