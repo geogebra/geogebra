@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.TransformInterface;
@@ -12,7 +12,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
-import geogebra.kernel.Kernel;
+
 
 /**
  * 
@@ -351,7 +351,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND,
 			GeoPointND[] points = { getStartPoint(), getEndPoint() };
 			points = t.transformPoints(points);
 			// create SEGMENT
-			GeoElement segment = (GeoElement) ((AbstractKernel) kernel).getManager3D().Segment3D(
+			GeoElement segment = (GeoElement) ((Kernel) kernel).getManager3D().Segment3D(
 					label, points[0], points[1]);
 			segment.setVisualStyleForTransformations(this);
 			GeoElement[] geos = { segment, (GeoElement) points[0],

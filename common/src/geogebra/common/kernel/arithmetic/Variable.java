@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyParseError;
@@ -34,15 +34,15 @@ import java.util.HashSet;
 public class Variable extends ValidExpression {
 
 	private String name;
-	private AbstractKernel kernel;
+	private Kernel kernel;
 
 	/** Creates new VarString */
-	public Variable(AbstractKernel kernel, String name) {
+	public Variable(Kernel kernel, String name) {
 		this.name = name;
 		this.kernel = kernel;
 	}
 
-	public ExpressionValue deepCopy(AbstractKernel kernel) {
+	public ExpressionValue deepCopy(Kernel kernel) {
 		return new Variable(kernel, name);
 	}
 
@@ -193,7 +193,7 @@ public class Variable extends ValidExpression {
 		return toValueString();
 	}
 
-	public AbstractKernel getKernel() {
+	public Kernel getKernel() {
 		return kernel;
 	}
 

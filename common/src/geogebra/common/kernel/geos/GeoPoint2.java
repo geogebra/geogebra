@@ -23,7 +23,7 @@ package geogebra.common.kernel.geos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.AbstractAnimationManager;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.LocateableList;
@@ -169,13 +169,13 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
 
     @Override
 	public int getRelatedModeID() {
-    	return toStringMode == AbstractKernel.COORD_COMPLEX ? EuclidianConstants.MODE_COMPLEX_NUMBER
+    	return toStringMode == Kernel.COORD_COMPLEX ? EuclidianConstants.MODE_COMPLEX_NUMBER
     			: EuclidianConstants.MODE_POINT;
     }
     
     @Override
 	protected String getTypeString() {
-    	if (toStringMode == AbstractKernel.COORD_COMPLEX)
+    	if (toStringMode == Kernel.COORD_COMPLEX)
     		return "ComplexNumber";
     	else
     		return "Point";
@@ -300,21 +300,21 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
 			xvar.setValue(radius);
 
 			// angle
-			double angle = AbstractKernel.convertToAngleValue(Math.atan2(endPosition.getY(), endPosition.getX()));
+			double angle = Kernel.convertToAngleValue(Math.atan2(endPosition.getY(), endPosition.getX()));
 			// angle outsid of slider range
 			if (yvar.isIntervalMinActive() && yvar.isIntervalMaxActive() &&
 					(angle < yvar.getIntervalMin() || angle > yvar.getIntervalMax())) 
 			{
 				// use angle value closest to closest border
 				double minDiff = Math.abs((angle - yvar.getIntervalMin())) ;
-				if (minDiff > Math.PI) minDiff = AbstractKernel.PI_2 - minDiff;
+				if (minDiff > Math.PI) minDiff = Kernel.PI_2 - minDiff;
 				double maxDiff = Math.abs((angle - yvar.getIntervalMax()));
-				if (maxDiff > Math.PI) maxDiff = AbstractKernel.PI_2 - maxDiff;
+				if (maxDiff > Math.PI) maxDiff = Kernel.PI_2 - maxDiff;
 
 				if (minDiff < maxDiff) 
-					angle = angle - AbstractKernel.PI_2;
+					angle = angle - Kernel.PI_2;
 				else
-					angle = angle + AbstractKernel.PI_2;
+					angle = angle + Kernel.PI_2;
 			}											
 			yvar.setValue(angle);
 		}
@@ -624,7 +624,7 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
 	
 	final public void updateCoords() {
 		// infinite point
-		if (AbstractKernel.isZero(z)) {
+		if (Kernel.isZero(z)) {
 			isInfinite = true;
 			isDefined = !(Double.isNaN(x) || Double.isNaN(y));
 			inhomX = Double.NaN;
@@ -692,8 +692,8 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
         
         // both finite      
         if (isFinite() && P.isFinite())
-			return AbstractKernel.isEqual(inhomX, P.inhomX) && 
-                    	AbstractKernel.isEqual(inhomY, P.inhomY);
+			return Kernel.isEqual(inhomX, P.inhomX) && 
+                    	Kernel.isEqual(inhomY, P.inhomY);
 		else if (isInfinite() && P.isInfinite())
 			return linDep(P);
 		else return false;                        
@@ -771,10 +771,10 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
 		// det(ABC) == 0  <=>  sum1 == sum2	
 		
 		// A.z, B.z, C.z could be zero
-		double eps = Math.max(AbstractKernel.MIN_PRECISION, AbstractKernel.MIN_PRECISION * A.z
+		double eps = Math.max(Kernel.MIN_PRECISION, Kernel.MIN_PRECISION * A.z
 				* B.z * C.z);
 		
-		return AbstractKernel.isEqual(sum1, sum2, eps );
+		return Kernel.isEqual(sum1, sum2, eps );
 	}
     
     /**
@@ -934,15 +934,15 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
     	sbToString.setLength(0);                               
 		sbToString.append(label);	
 		
-		if (toStringMode==AbstractKernel.COORD_COMPLEX) {
+		if (toStringMode==Kernel.COORD_COMPLEX) {
 			sbToString.append(" = ");
 		} else {
 			switch (kernel.getCoordStyle()) {
-			case AbstractKernel.COORD_STYLE_FRENCH:
+			case Kernel.COORD_STYLE_FRENCH:
 				// no equal sign
 				sbToString.append(": ");
 
-			case AbstractKernel.COORD_STYLE_AUSTRIAN:
+			case Kernel.COORD_STYLE_AUSTRIAN:
 				// no equal sign
 				break;
 
@@ -1002,7 +1002,7 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
 				return sbBuildValueString;
 				
 			case MPREDUCE:
-				if (toStringMode==AbstractKernel.COORD_COMPLEX){
+				if (toStringMode==Kernel.COORD_COMPLEX){
 					sbBuildValueString.append("(");
 					sbBuildValueString.append(getInhomX());
 					sbBuildValueString.append("+i*");
@@ -1026,7 +1026,7 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
     	}
 			
         switch (toStringMode) {
-        case AbstractKernel.COORD_POLAR:                                            
+        case Kernel.COORD_POLAR:                                            
     		sbBuildValueString.append('(');    
 			sbBuildValueString.append(kernel.format(MyMath.length(getInhomX(), getInhomY())));
 			sbBuildValueString.append("; ");
@@ -1034,7 +1034,7 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
 			sbBuildValueString.append(')');
             break;                                
                         
-        case AbstractKernel.COORD_COMPLEX:                    
+        case Kernel.COORD_COMPLEX:                    
         	//if (!isI) { // return just "i" for special i
 				sbBuildValueString.append(kernel.format(getInhomX()));
 				sbBuildValueString.append(" ");
@@ -1047,7 +1047,7 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
        			sbBuildValueString.append('(');    
 				sbBuildValueString.append(kernel.format(getInhomX()));
 				switch (kernel.getCoordStyle()) {
-					case AbstractKernel.COORD_STYLE_AUSTRIAN:
+					case Kernel.COORD_STYLE_AUSTRIAN:
 						sbBuildValueString.append(" | ");
 						break;
 					
@@ -1110,11 +1110,11 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
         	       
         // polar or cartesian coords
         switch(toStringMode) {
-        case AbstractKernel.COORD_POLAR:
+        case Kernel.COORD_POLAR:
             sb.append("\t<coordStyle style=\"polar\"/>\n");
             break;
 
-        case AbstractKernel.COORD_COMPLEX:
+        case Kernel.COORD_COMPLEX:
             sb.append("\t<coordStyle style=\"complex\"/>\n");
             break;
 
@@ -1324,11 +1324,11 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
 		        
 						double compX = itemA.inhomX - itemB.inhomX;
 	
-						if (AbstractKernel.isZero(compX)) {
+						if (Kernel.isZero(compX)) {
 							double compY = itemA.inhomY - itemB.inhomY;
 							
 							// if x-coords equal, sort on y-coords
-							if (!AbstractKernel.isZero(compY))
+							if (!Kernel.isZero(compY))
 								return compY < 0 ? -1 : +1;
 							
 							// don't return 0 for equal objects, otherwise the TreeSet deletes duplicates
@@ -1724,7 +1724,7 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
 			
 			// check if this is currently on geo
 			if (geo.isGeoPoint() && this.isEqual(geo) ||
-					geo.isPath() && ((Path) geo).isOnPath(this, AbstractKernel.EPSILON)) {
+					geo.isPath() && ((Path) geo).isOnPath(this, Kernel.EPSILON)) {
 			
 				incident = true;
 				
@@ -1763,7 +1763,7 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
 					if (geo.isGeoPoint()) {
 						if (!this.isEqual(geo)) incident = false;
 					} else if (geo.isPath()) {
-						if (!((Path) geo).isOnPath(this, AbstractKernel.EPSILON))
+						if (!((Path) geo).isOnPath(this, Kernel.EPSILON))
 							incident = false;
 					} else {
 						incident = false;
@@ -1812,8 +1812,8 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
 		}		
 		
 		public void randomizeForErrorEstimation(){
-			setCoords(x + (Math.random() *2 -1) *AbstractKernel.EPSILON_SQRT *z,//TODO: record the error of the point
-					y + (Math.random() *2 -1) *AbstractKernel.EPSILON_SQRT *z,
+			setCoords(x + (Math.random() *2 -1) *Kernel.EPSILON_SQRT *z,//TODO: record the error of the point
+					y + (Math.random() *2 -1) *Kernel.EPSILON_SQRT *z,
 					z);
 		}	
 		

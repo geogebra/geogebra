@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
@@ -59,7 +59,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * 
 	 * @param kernel
 	 */
-	public Function(AbstractKernel kernel) {
+	public Function(Kernel kernel) {
 		super(kernel);
 		fVars = new FunctionVariable[1];
 	}
@@ -71,7 +71,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 *            source function
 	 * @param kernel
 	 */
-	public Function(Function f, AbstractKernel kernel) {
+	public Function(Function f, Kernel kernel) {
 		super(f.expression.getCopy(kernel));
 		fVars = f.fVars; // no deep copy of function variable
 		isBooleanFunction = f.isBooleanFunction;
@@ -81,7 +81,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	}
 
 	@Override
-	public ExpressionValue deepCopy(AbstractKernel kernel) {
+	public ExpressionValue deepCopy(Kernel kernel) {
 		return new Function(this, kernel);
 	}
 
@@ -175,7 +175,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		ExpressionValue left = expression.getLeft();
 
 		// translate x
-		if (!AbstractKernel.isZero(vx)) {
+		if (!Kernel.isZero(vx)) {
 			if (isLeaf && left == fVars[0]) { // special case: f(x) = x
 				expression = shiftXnode(vx);
 			} else {
@@ -186,10 +186,10 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		}
 
 		// translate y
-		if (!AbstractKernel.isZero(vy)) {
+		if (!Kernel.isZero(vy)) {
 			if (isLeaf && left != fVars[0]) { // special case f(x) = constant
 				MyDouble c = ((NumberValue) expression.getLeft()).getNumber();
-				c.set(AbstractKernel.checkDecimalFraction(c.getDouble() + vy));
+				c.set(Kernel.checkDecimalFraction(c.getDouble() + vy));
 				expression.setLeft(c);
 			} else {
 				// f(x) = f(x) + vy
@@ -220,9 +220,9 @@ public class Function extends FunctionNVar implements RealRootFunction,
 				double temp;
 				switch (en.getOperation()) {
 				case PLUS:
-					temp = AbstractKernel.checkDecimalFraction(num.getDouble()
+					temp = Kernel.checkDecimalFraction(num.getDouble()
 							- vx);
-					if (AbstractKernel.isZero(temp)) {
+					if (Kernel.isZero(temp)) {
 						expression = expression.replaceAndWrap(en, fVars[0]);
 					} else if (temp < 0) {
 						en.setOperation(Operation.MINUS);
@@ -233,9 +233,9 @@ public class Function extends FunctionNVar implements RealRootFunction,
 					return;
 
 				case MINUS:
-					temp = AbstractKernel.checkDecimalFraction(num.getDouble()
+					temp = Kernel.checkDecimalFraction(num.getDouble()
 							+ vx);
-					if (AbstractKernel.isZero(temp)) {
+					if (Kernel.isZero(temp)) {
 						expression = expression.replaceAndWrap(en, fVars[0]);
 					} else if (temp < 0) {
 						en.setOperation(Operation.PLUS);
@@ -266,7 +266,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	// node for (x - vx)
 	final private ExpressionNode shiftXnode(double vx) {
 
-		vx = AbstractKernel.checkDecimalFraction(vx);
+		vx = Kernel.checkDecimalFraction(vx);
 
 		ExpressionNode node;
 		if (vx > 0) {
@@ -289,15 +289,15 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		try { // is there a constant number to the right
 			MyDouble num = (MyDouble) expression.getRight();
 			if (num == fVars[0]) { // right side might be the function variable
-				addNumber(AbstractKernel.checkDecimalFraction(vy));
+				addNumber(Kernel.checkDecimalFraction(vy));
 				return;
 			}
 			double temp;
 			switch (expression.getOperation()) {
 			case PLUS:
-				temp = AbstractKernel
+				temp = Kernel
 						.checkDecimalFraction(num.getDouble() + vy);
-				if (AbstractKernel.isZero(temp)) {
+				if (Kernel.isZero(temp)) {
 					expression = expression.getLeftTree();
 				} else if (temp < 0) {
 					expression.setOperation(Operation.MINUS);
@@ -308,9 +308,9 @@ public class Function extends FunctionNVar implements RealRootFunction,
 				break;
 
 			case MINUS:
-				temp = AbstractKernel
+				temp = Kernel
 						.checkDecimalFraction(num.getDouble() - vy);
-				if (AbstractKernel.isZero(temp)) {
+				if (Kernel.isZero(temp)) {
 					expression = expression.getLeftTree();
 				} else if (temp < 0) {
 					expression.setOperation(Operation.PLUS);
@@ -526,7 +526,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 						return false;
 					}
 					if (node.operation.equals(Operation.POWER)) {
-						if (AbstractKernel.isZero(rightVal))
+						if (Kernel.isZero(rightVal))
 							// left^0 = 1
 							return addPolynomialFactors(
 									new MyDouble(kernel, 1), l, symbolic,
@@ -536,7 +536,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 							return addPolynomialFactors(node.getLeft(), l,
 									symbolic, rootFindingSimplification);
 					} else { // division
-						if (AbstractKernel.isZero(rightVal)) {
+						if (Kernel.isZero(rightVal)) {
 							// left / 0 = undefined
 							return false;
 						}
@@ -746,7 +746,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 
 		// get variable string with tmp prefix,
 		// e.g. "t" becomes "ggbtmpvart" here
-		AbstractKernel kernel = funX.kernel;
+		Kernel kernel = funX.kernel;
 		boolean isUseTempVariablePrefix = kernel.isUseTempVariablePrefix();
 		kernel.setUseTempVariablePrefix(true);
 		String varStr = funX.fVars[0].toString();

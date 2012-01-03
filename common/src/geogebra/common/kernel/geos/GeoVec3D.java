@@ -19,7 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 
@@ -117,15 +117,15 @@ implements Traceable {
     }
     
     // POLAR or CARTESIAN mode    
-    final public boolean isPolar() { return toStringMode == AbstractKernel.COORD_POLAR; }
+    final public boolean isPolar() { return toStringMode == Kernel.COORD_POLAR; }
     public int getMode() { return toStringMode;  }
     public void setMode(int mode ) {
         toStringMode = mode;
     }        
     
-    public void setPolar() { toStringMode = AbstractKernel.COORD_POLAR; }
-    public void setCartesian() { toStringMode = AbstractKernel.COORD_CARTESIAN; }
-    public void setComplex() { toStringMode = AbstractKernel.COORD_COMPLEX; }     
+    public void setPolar() { toStringMode = Kernel.COORD_POLAR; }
+    public void setCartesian() { toStringMode = Kernel.COORD_CARTESIAN; }
+    public void setComplex() { toStringMode = Kernel.COORD_COMPLEX; }     
     
 	@Override
 	public boolean isTraceable() {
@@ -164,13 +164,13 @@ implements Traceable {
      */
     final public boolean linDep(GeoVec3D v) {
         // v lin.dep this  <=>  cross(v,w) = o            
-        return AbstractKernel.isEqual(y * v.z, z * v.y)
-			&& AbstractKernel.isEqual(z * v.x, x * v.z) 
-			&& AbstractKernel.isEqual(x * v.y, y * v.x);       
+        return Kernel.isEqual(y * v.z, z * v.y)
+			&& Kernel.isEqual(z * v.x, x * v.z) 
+			&& Kernel.isEqual(x * v.y, y * v.x);       
     }
     
     final public boolean isZero() {
-        return AbstractKernel.isZero(x) && AbstractKernel.isZero(y) && AbstractKernel.isZero(z);
+        return Kernel.isZero(x) && Kernel.isZero(y) && Kernel.isZero(z);
     }
     
      /** Calculates the cross product of this vector and vector v.
@@ -264,8 +264,8 @@ implements Traceable {
     		return;
     	}
     	
-    	if (AbstractKernel.isZero(A.getZ())) {// A is direction
-    		if (AbstractKernel.isZero(B.getZ())) { 
+    	if (Kernel.isZero(A.getZ())) {// A is direction
+    		if (Kernel.isZero(B.getZ())) { 
 				// g is undefined
 			    g.setUndefined();
 			} else { 
@@ -277,7 +277,7 @@ implements Traceable {
 			}
     	}
     	else { // through point A
-			if (AbstractKernel.isZero(B.getZ())) { 
+			if (Kernel.isZero(B.getZ())) { 
 				// B is direction
 				Coords AInhom = A.getInhomCoords();
 				g.setCoords(B.getY() , 

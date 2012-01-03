@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
@@ -16,7 +16,7 @@ import geogebra.common.main.MyError;
  */
 public abstract class CmdOneOrTwoListsFunction extends CommandProcessor {
 
-	public CmdOneOrTwoListsFunction(AbstractKernel kernel) {
+	public CmdOneOrTwoListsFunction(Kernel kernel) {
 		super(kernel);
 	}
 

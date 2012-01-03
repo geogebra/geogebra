@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic3D;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ReplaceableValue;
@@ -39,10 +39,10 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 
 	private ExpressionValue x, y, z;
 	// private int mode = Kernel.COORD_CARTESIAN;
-	private AbstractKernel kernel;
+	private Kernel kernel;
 
 	/** Creates new MyVec3D */
-	public MyVec3DNode(AbstractKernel kernel) {
+	public MyVec3DNode(Kernel kernel) {
 		this.kernel = kernel;
 	}
 
@@ -50,13 +50,13 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 	 * Creates new MyPoint3DNode with coordinates (x,y,z) as ExpresssionNodes.
 	 * Both nodes must evaluate to NumberValues.
 	 */
-	public MyVec3DNode(AbstractKernel kernel, ExpressionValue x, ExpressionValue y,
+	public MyVec3DNode(Kernel kernel, ExpressionValue x, ExpressionValue y,
 			ExpressionValue z) {
 		this(kernel);
 		setCoords(x, y, z);
 	}
 
-	public ExpressionValue deepCopy(AbstractKernel kernel) {
+	public ExpressionValue deepCopy(Kernel kernel) {
 		return new MyVec3DNode(kernel, x.deepCopy(kernel), y.deepCopy(kernel),
 				z.deepCopy(kernel));
 	}
@@ -240,7 +240,7 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		return this;
 	}
 
-	public AbstractKernel getKernel() {
+	public Kernel getKernel() {
 		return kernel;
 	}
 }

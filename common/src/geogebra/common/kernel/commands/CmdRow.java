@@ -3,14 +3,14 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /*
  * Row[ <GeoElement> ]
  */
 public class CmdRow extends CommandProcessor {
 
-	public CmdRow(AbstractKernel kernel) {
+	public CmdRow(Kernel kernel) {
 		super(kernel);
 	}
 

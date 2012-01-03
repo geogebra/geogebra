@@ -48,7 +48,7 @@ import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoLocusInterface;
 
 import java.util.ArrayList;
@@ -247,7 +247,7 @@ Dilateable, Transformable, EuclidianViewCE {
 							d=coeff[i][j];
 						}
 					}
-					if (!AbstractKernel.isEqual(c, d))
+					if (!Kernel.isEqual(c, d))
 						return false;
 				}
 			}
@@ -461,7 +461,7 @@ Dilateable, Transformable, EuclidianViewCE {
 				if (Double.isInfinite(coeff[i][j])){
 					setUndefined();
 				}
-				isConstant=isConstant&&(AbstractKernel.isZero(coeff[i][j])||(i==0&&j==0));
+				isConstant=isConstant&&(Kernel.isZero(coeff[i][j])||(i==0&&j==0));
 			}
 		}
 		getFactors();
@@ -706,7 +706,7 @@ Dilateable, Transformable, EuclidianViewCE {
 		if (algoUpdateSet!=null){
 			double a=0,ax=0,ay=0,b=0,bx=0,by=0;
 			if (qX==null&&qY==null&&degXpX<=1&&degYpX<=1&&degXpY<=1&&degYpY<=1){
-				if ((degXpX!=1||degYpX!=1||pX[1].length==1||AbstractKernel.isZero(pX[1][1]))&&(degXpY!=1||degYpY!=1||pY[1].length==1||AbstractKernel.isZero(pY[1][1]))){
+				if ((degXpX!=1||degYpX!=1||pX[1].length==1||Kernel.isZero(pX[1][1]))&&(degXpY!=1||degYpY!=1||pY[1].length==1||Kernel.isZero(pY[1][1]))){
 					if (pX.length>0){
 						if (pX[0].length>0){
 							a=pX[0][0];
@@ -730,7 +730,7 @@ Dilateable, Transformable, EuclidianViewCE {
 						bx=pY[1][0];
 					}
 					double det=ax*by-bx*ay;
-					if (!AbstractKernel.isZero(det)){
+					if (!Kernel.isZero(det)){
 						double[][] iX=new double[][]{{(b*ay-a*by)/det,-ay/det},{by/det}};
 						double[][] iY=new double[][]{{-(b*ax-a*bx)/det,ax/det},{-bx/det}};
 						
@@ -739,7 +739,7 @@ Dilateable, Transformable, EuclidianViewCE {
 							AlgoElementInterface elem=it.next();
 							if (elem instanceof AlgoPointOnPath && isIndependent()){
 								GeoPoint2 point=((AlgoPointOnPath)elem).getP();
-								if (!AbstractKernel.isZero(point.getZ())){
+								if (!Kernel.isZero(point.getZ())){
 									double x=point.getX()/point.getZ();
 									double y=point.getY()/point.getZ();
 									double px=evalPolyCoeffAt(x,y,iX);
@@ -922,7 +922,7 @@ Dilateable, Transformable, EuclidianViewCE {
 				solution[i] = 1;
 			else
 			{
-				solution[i] = (AbstractKernel.isZero(partialSolution[j])) ? 0 : partialSolution[j];
+				solution[i] = (Kernel.isZero(partialSolution[j])) ? 0 : partialSolution[j];
 				j++;
 			}
 			
@@ -952,7 +952,7 @@ Dilateable, Transformable, EuclidianViewCE {
 		dx=evalDiffXPolyAt(x,y);
 		dy=evalDiffYPolyAt(x,y);
 		double d=Math.abs(dx)+Math.abs(dy);
-		if (AbstractKernel.isZero(d))
+		if (Kernel.isZero(d))
 			return;
 		dx/=d;
 		dy/=d;
@@ -986,7 +986,7 @@ Dilateable, Transformable, EuclidianViewCE {
 	}
 
 	public boolean isOnPath(GeoPointND PI) {
-		return isOnPath(PI, AbstractKernel.STANDARD_PRECISION);
+		return isOnPath(PI, Kernel.STANDARD_PRECISION);
 	}
 	
 	public boolean isOnPath(GeoPointND PI, double eps) {
@@ -1008,7 +1008,7 @@ Dilateable, Transformable, EuclidianViewCE {
 		
 		double value = this.evalPolyAt(px, py);
 		
-		return Math.abs(value) < AbstractKernel.MIN_PRECISION; 
+		return Math.abs(value) < Kernel.MIN_PRECISION; 
 	}
 
 	public double getMinParameter() {
@@ -1052,7 +1052,7 @@ Dilateable, Transformable, EuclidianViewCE {
 			for (int x=0;x<=degX;x++){
 				int y=d-x;
 				if (y>=0&&y<coeff[x].length){
-					if (Math.abs(coeff[x][y])>AbstractKernel.EPSILON){
+					if (Math.abs(coeff[x][y])>Kernel.EPSILON){
 						deg=d;
 						d=0;
 						break;
@@ -1166,7 +1166,7 @@ Dilateable, Transformable, EuclidianViewCE {
 		private List<double[]> boundaryIntersectCollection;
 		
 		//Second Algorithm
-		final public static double EPS=AbstractKernel.EPSILON;
+		final public static double EPS=Kernel.EPSILON;
 		
 		/**
 		 * @param x
@@ -1354,7 +1354,7 @@ Dilateable, Transformable, EuclidianViewCE {
 		}
 
 		
-		private final static double MIN_GRAD=AbstractKernel.STANDARD_PRECISION; 
+		private final static double MIN_GRAD=Kernel.STANDARD_PRECISION; 
 		private final static double MIN_STEP_SIZE=0.1; //Pixel on Screen
 		private final static double START_STEP_SIZE=0.5;
 		private final static double MAX_STEP_SIZE=1;
@@ -1631,7 +1631,7 @@ Dilateable, Transformable, EuclidianViewCE {
 			int e;
 			if (e1!=e2){
 				//solved #278 PRECISION to small (was Double.MIN_VALUE)
-				while(a2-a1>AbstractKernel.MAX_PRECISION){
+				while(a2-a1>Kernel.MAX_PRECISION){
 					e=epsSignum(evalPolyAt(x1+(x2-x1)*(a2+a1)/2,y1+(y2-y1)*(a2+a1)/2,true));
 					if (e==0){
 						return (a2+a1)/2;

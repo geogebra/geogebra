@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *Exponential distribution
@@ -19,7 +19,7 @@ public class CmdExponential extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdExponential(AbstractKernel kernel) {
+	public CmdExponential(Kernel kernel) {
 		super(kernel);
 	}
 

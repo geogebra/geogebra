@@ -10,7 +10,7 @@ package geogebra.export.pstricks;
 import geogebra.common.euclidian.DrawPoint;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoAngleLines;
@@ -49,7 +49,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.main.Application;
 import geogebra.util.Util;
@@ -577,15 +576,15 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		angExt+=angSt;
 		double r = arcSize /euclidianView.getXscale();
 		// if angle=90� and decoration=little square
-        if (AbstractKernel.isEqual(geo.getValue(),AbstractKernel.PI_HALF)&&geo.isEmphasizeRightAngle()&&euclidianView.getRightAngleStyle()==EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE){
+        if (Kernel.isEqual(geo.getValue(),Kernel.PI_HALF)&&geo.isEmphasizeRightAngle()&&euclidianView.getRightAngleStyle()==EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE){
         	r=r/Math.sqrt(2);
         	double[] x=new double[8];
         	x[0]=m[0]+r*Math.cos(angSt);
         	x[1]=m[1]+r*Math.sin(angSt);
-        	x[2]=m[0]+r*Math.sqrt(2)*Math.cos(angSt+AbstractKernel.PI_HALF/2);
-        	x[3]=m[1]+r*Math.sqrt(2)*Math.sin(angSt+AbstractKernel.PI_HALF/2);
-        	x[4]=m[0]+r*Math.cos(angSt+AbstractKernel.PI_HALF);
-        	x[5]=m[1]+r*Math.sin(angSt+AbstractKernel.PI_HALF);
+        	x[2]=m[0]+r*Math.sqrt(2)*Math.cos(angSt+Kernel.PI_HALF/2);
+        	x[3]=m[1]+r*Math.sqrt(2)*Math.sin(angSt+Kernel.PI_HALF/2);
+        	x[4]=m[0]+r*Math.cos(angSt+Kernel.PI_HALF);
+        	x[5]=m[1]+r*Math.sin(angSt+Kernel.PI_HALF);
         	x[6]=m[0];
         	x[7]=m[1];
         	
@@ -629,7 +628,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		code.append(")\\closepath}\n");
 		endBeamer(code);
 		// draw the dot if angle= 90 and decoration=dot
-		if (AbstractKernel.isEqual(geo.getValue(),AbstractKernel.PI_HALF)&&geo.isEmphasizeRightAngle()&&euclidianView.getRightAngleStyle()==EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT){
+		if (Kernel.isEqual(geo.getValue(),Kernel.PI_HALF)&&geo.isEmphasizeRightAngle()&&euclidianView.getRightAngleStyle()==EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT){
 			double diameter = geo.lineThickness/euclidianView.getXscale();
 			double radius = arcSize/euclidianView.getXscale()/1.7;
 			double labelAngle = (angSt+angExt) / 2.0;

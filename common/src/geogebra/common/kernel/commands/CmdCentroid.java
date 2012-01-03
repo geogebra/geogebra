@@ -4,7 +4,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Centroid[ <Polygon> ]
@@ -17,7 +17,7 @@ public class CmdCentroid extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdCentroid(AbstractKernel kernel) {
+	public CmdCentroid(Kernel kernel) {
 		super(kernel);
 	}
 

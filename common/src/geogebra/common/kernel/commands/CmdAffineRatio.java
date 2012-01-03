@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -18,7 +18,7 @@ public class CmdAffineRatio extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdAffineRatio(AbstractKernel kernel) {
+	public CmdAffineRatio(Kernel kernel) {
 		super(kernel);
 	}
 

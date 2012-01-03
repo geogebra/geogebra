@@ -13,7 +13,7 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.Algos;
@@ -57,7 +57,7 @@ public class AlgoOrthoLinePointLine3D extends AlgoOrtho {
     	Coords v3 = v1.crossProduct(v2);
     	Coords v = v3.crossProduct(v1);
     	
-    	if (v.equalsForKernel(0, AbstractKernel.STANDARD_PRECISION))
+    	if (v.equalsForKernel(0, Kernel.STANDARD_PRECISION))
     		getLine().setUndefined();
     	else
     		getLine().setCoord(getPoint().getCoordsInD(3), v.normalize());

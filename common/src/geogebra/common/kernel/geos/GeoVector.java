@@ -21,7 +21,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.MatrixTransformable;
@@ -298,7 +298,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		GeoVector v = (GeoVector)geo;
 
 		if (!(isFinite() && v.isFinite())) return false;                                        
-		else return AbstractKernel.isEqual(x, v.x) && AbstractKernel.isEqual(y, v.y);                                            
+		else return Kernel.isEqual(x, v.x) && Kernel.isEqual(y, v.y);                                            
 	}
 
 
@@ -358,11 +358,11 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		sbToString.append(label);
 
 		switch (kernel.getCoordStyle()) {
-		case AbstractKernel.COORD_STYLE_FRENCH:
+		case Kernel.COORD_STYLE_FRENCH:
 			// no equal sign
 			sbToString.append(": ");
 
-		case AbstractKernel.COORD_STYLE_AUSTRIAN:
+		case Kernel.COORD_STYLE_AUSTRIAN:
 			// no equal sign
 			break;
 
@@ -418,7 +418,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		default: // continue below
 		}
 		switch (toStringMode) {
-		case AbstractKernel.COORD_POLAR:                	
+		case Kernel.COORD_POLAR:                	
 			sbBuildValueString.append("(");		
 			sbBuildValueString.append(kernel.format(MyMath.length(x, y)));
 			sbBuildValueString.append("; ");
@@ -426,7 +426,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 			sbBuildValueString.append(")");
 			break;
 
-		case AbstractKernel.COORD_COMPLEX:              	
+		case Kernel.COORD_COMPLEX:              	
 			sbBuildValueString.append(kernel.format(x));
 			sbBuildValueString.append(" ");
 			sbBuildValueString.append(kernel.formatSigned(y));
@@ -437,7 +437,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 			sbBuildValueString.append("(");		
 			sbBuildValueString.append(kernel.format(x));
 			switch (kernel.getCoordStyle()) {
-			case AbstractKernel.COORD_STYLE_AUSTRIAN:
+			case Kernel.COORD_STYLE_AUSTRIAN:
 				sbBuildValueString.append(" | ");
 				break;
 
@@ -491,11 +491,11 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 
 		// polar or cartesian coords
 		switch(toStringMode) {
-		case AbstractKernel.COORD_POLAR:
+		case Kernel.COORD_POLAR:
 			sb.append("\t<coordStyle style=\"polar\"/>\n");
 			break;
 
-		case AbstractKernel.COORD_COMPLEX:
+		case Kernel.COORD_COMPLEX:
 			sb.append("\t<coordStyle style=\"complex\"/>\n");
 			break;
 
@@ -637,7 +637,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		else sb.setLength(0);
 
 		switch (toStringMode) {
-		case AbstractKernel.COORD_POLAR:                	
+		case Kernel.COORD_POLAR:                	
 			sb.append("(");		
 			sb.append(kernel.format(MyMath.length(x, y)));
 			sb.append("; ");
@@ -645,7 +645,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 			sb.append(")");
 			break;
 
-		case AbstractKernel.COORD_COMPLEX:              	
+		case Kernel.COORD_COMPLEX:              	
 			sb.append(kernel.format(x));
 			sb.append(" ");
 			sb.append(kernel.formatSigned(y));

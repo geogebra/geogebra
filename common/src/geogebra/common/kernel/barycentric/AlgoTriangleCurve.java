@@ -1,6 +1,6 @@
 package geogebra.common.kernel.barycentric;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
@@ -119,7 +119,7 @@ public class AlgoTriangleCurve extends AlgoElement implements ExpressionNodeCons
 		
 		
 		double det = (-x2 + x3)*(y1 - y3) + (x1 - x3)*(y2 - y3);
-		if(AbstractKernel.isZero(det)){
+		if(Kernel.isZero(det)){
 			poly.setUndefined();
 		}
 		else{

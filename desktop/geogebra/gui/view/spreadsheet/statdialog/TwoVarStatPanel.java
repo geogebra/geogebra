@@ -1,7 +1,7 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoListLength;
 import geogebra.common.kernel.geos.GeoElement;
@@ -36,7 +36,7 @@ import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 public class TwoVarStatPanel extends StatTable implements  ActionListener {
 
 	protected Application app;
-	private AbstractKernel kernel; 
+	private Kernel kernel; 
 	protected StatDialog statDialog;
 	protected MyTable statTable;
 

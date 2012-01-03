@@ -27,7 +27,7 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.FormatFactory;
 import geogebra.common.factories.LaTeXFactory;
 import geogebra.common.kernel.AbstractAnimationManager;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
@@ -200,7 +200,7 @@ public abstract class GeoElement extends ConstructionElement implements
 										// construction
 	protected boolean fixed = false;
 	public int labelMode = LABEL_NAME;
-	public int toStringMode = AbstractKernel.COORD_CARTESIAN; // cartesian or
+	public int toStringMode = Kernel.COORD_CARTESIAN; // cartesian or
 																// polar
 	protected Color objColor = Color.black;
 	protected Color bgColor = null; // none by default
@@ -558,7 +558,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * } return segmentsCopy; }
 	 */
 
-	public ExpressionValue deepCopy(AbstractKernel kernel) {
+	public ExpressionValue deepCopy(Kernel kernel) {
 		// default implementation: changed in some subclasses
 		return copy();
 	}
@@ -2656,7 +2656,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				}
 
 				GeoPointND point = (GeoPointND) this;
-				if (point.getMode() == AbstractKernel.COORD_COMPLEX) {
+				if (point.getMode() == Kernel.COORD_COMPLEX) {
 					chars = complexLabels;
 				}
 
@@ -4248,8 +4248,8 @@ public abstract class GeoElement extends ConstructionElement implements
 		kernel.setPrintLocalizedCommandNames(false);
 
 		// make sure numbers are not put in XML in eg Arabic
-		boolean oldI8NValue = AbstractKernel.internationalizeDigits;
-		AbstractKernel.internationalizeDigits = false;
+		boolean oldI8NValue = Kernel.internationalizeDigits;
+		Kernel.internationalizeDigits = false;
 
 		getElementOpenTagXML(sb);
 
@@ -4259,7 +4259,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		getElementCloseTagXML(sb);
 
 		kernel.setPrintLocalizedCommandNames(oldValue);
-		AbstractKernel.internationalizeDigits = oldI8NValue;
+		Kernel.internationalizeDigits = oldI8NValue;
 	}
 
 	protected void getElementOpenTagXML(StringBuilder sb) {
@@ -5169,10 +5169,10 @@ public abstract class GeoElement extends ConstructionElement implements
 			double y = point.getInhomY() + rwTransVec.getY();
 
 			// round to decimal fraction, e.g. 2.800000000001 to 2.8
-			if (Math.abs(rwTransVec.getX()) > AbstractKernel.MIN_PRECISION) {
+			if (Math.abs(rwTransVec.getX()) > Kernel.MIN_PRECISION) {
 				x = kernel.checkDecimalFraction(x);
 			}
-			if (Math.abs(rwTransVec.getY()) > AbstractKernel.MIN_PRECISION) {
+			if (Math.abs(rwTransVec.getY()) > Kernel.MIN_PRECISION) {
 				y = kernel.checkDecimalFraction(y);
 			}
 

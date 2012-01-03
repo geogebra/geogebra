@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /*
  * Take[ <List>,m,n ]
@@ -15,7 +15,7 @@ import geogebra.common.kernel.AbstractKernel;
  */
 public class CmdTake extends CommandProcessor {
 
-	public CmdTake(AbstractKernel kernel) {
+	public CmdTake(Kernel kernel) {
 		super(kernel);
 	}
 

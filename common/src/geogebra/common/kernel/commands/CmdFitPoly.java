@@ -10,7 +10,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
 */
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoClass;
@@ -26,7 +26,7 @@ import geogebra.common.main.MyError;
  */
 public class CmdFitPoly extends CommandProcessor{
 
-    public CmdFitPoly(AbstractKernel kernel) {super(kernel);}
+    public CmdFitPoly(Kernel kernel) {super(kernel);}
     
     public GeoElement[] process(Command c) throws MyError {
         int n=c.getArgumentNumber();

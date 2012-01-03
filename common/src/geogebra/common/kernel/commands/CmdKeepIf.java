@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *KeepIf
@@ -19,7 +19,7 @@ public class CmdKeepIf extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdKeepIf(AbstractKernel kernel) {
+	public CmdKeepIf(Kernel kernel) {
 		super(kernel);
 	}
 

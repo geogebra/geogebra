@@ -14,7 +14,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyBoolean;
@@ -176,7 +176,7 @@ AbsoluteScreenLocateable {
 		if (geo.isGeoNumeric()) { // eg SetValue[checkbox, 0]
 			// 1 = true
 			// 0 = false
-			setValue(AbstractKernel.isZero(((GeoNumeric)geo).getDouble() - 1));
+			setValue(Kernel.isZero(((GeoNumeric)geo).getDouble() - 1));
 			isDefined = true;
 		} else {
 			GeoBoolean b = (GeoBoolean) geo;

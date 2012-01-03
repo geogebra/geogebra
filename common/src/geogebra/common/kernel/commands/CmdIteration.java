@@ -5,14 +5,14 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /*
  * Iteration[ <function>, <start>, <n> ]
  */
 public class CmdIteration extends CommandProcessor {
 	
-	public CmdIteration(AbstractKernel kernel) {
+	public CmdIteration(Kernel kernel) {
 		super(kernel);
 	}
 

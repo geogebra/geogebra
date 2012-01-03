@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *LimitBelow
@@ -18,7 +18,7 @@ public class CmdLimitBelow extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdLimitBelow(AbstractKernel kernel) {
+	public CmdLimitBelow(Kernel kernel) {
 		super(kernel);
 	}
 

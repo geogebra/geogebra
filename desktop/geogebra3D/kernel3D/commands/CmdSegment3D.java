@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdSegment;
 import geogebra.common.kernel.geos.GeoElement;
@@ -19,7 +19,7 @@ import geogebra3D.kernel3D.Kernel3D;
 public class CmdSegment3D extends CmdSegment {
 	
 
-	public CmdSegment3D(AbstractKernel kernel) {
+	public CmdSegment3D(Kernel kernel) {
 		super(kernel);
 		
 	}
@@ -46,7 +46,7 @@ public class CmdSegment3D extends CmdSegment {
             			&& (ok[1] = (geo1.isGeoPoint()))) {
             		GeoElement[] ret =
             		{
-            				(GeoElement) ((AbstractKernel)kernelA).getManager3D().Segment3D(
+            				(GeoElement) ((Kernel)kernelA).getManager3D().Segment3D(
             						c.getLabel(),
             						(GeoPointND) geo0,
             						(GeoPointND) geo1)};

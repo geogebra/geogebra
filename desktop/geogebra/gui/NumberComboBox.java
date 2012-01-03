@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.gui;
 
 import geogebra.common.factories.FormatFactory;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.main.Application;
 
@@ -31,7 +31,7 @@ public class NumberComboBox extends JComboBox {
 	private static final String PI_STRING = "\u03c0";
 	
 	private NumberFormatAdapter nf;	
-	private AbstractKernel kernel;
+	private Kernel kernel;
 	
 	public NumberComboBox(final Application app) {		
 		kernel = app.getKernel();

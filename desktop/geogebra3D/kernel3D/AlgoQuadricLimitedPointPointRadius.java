@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -83,7 +83,7 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 		Coords o2 = secondPoint.getInhomCoordsInD(3);
 		Coords d = o2.sub(o);
 		
-		if (d.equalsForKernel(0, AbstractKernel.STANDARD_PRECISION)){
+		if (d.equalsForKernel(0, Kernel.STANDARD_PRECISION)){
 			getQuadric().setUndefined();
 			return;
 		}

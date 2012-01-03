@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -130,7 +130,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement{
     	int maxIndex=0;
     	double max=tab[0];
     	for(int i=1; i<tab.length;i++) {
-    		if((tab[i]-max) > AbstractKernel.MIN_PRECISION){
+    		if((tab[i]-max) > Kernel.MIN_PRECISION){
     			max=tab[i];
     			maxIndex++;
     			tab[maxIndex]=max;

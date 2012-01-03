@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
@@ -15,7 +15,7 @@ public class CmdNormalQuantilePlot extends CmdOneListFunction {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdNormalQuantilePlot(AbstractKernel kernel) {
+	public CmdNormalQuantilePlot(Kernel kernel) {
 		super(kernel);
 	}
 

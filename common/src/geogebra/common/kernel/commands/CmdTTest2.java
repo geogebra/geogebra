@@ -7,7 +7,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * TTest2 (t test of two sample means)
@@ -19,7 +19,7 @@ public class CmdTTest2 extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdTTest2(AbstractKernel kernel) {
+	public CmdTTest2(Kernel kernel) {
 		super(kernel);
 	}
 

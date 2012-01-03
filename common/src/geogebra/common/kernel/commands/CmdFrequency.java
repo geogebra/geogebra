@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -18,7 +18,7 @@ public class CmdFrequency extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdFrequency(AbstractKernel kernel) {
+	public CmdFrequency(Kernel kernel) {
 		super(kernel);
 	}
 

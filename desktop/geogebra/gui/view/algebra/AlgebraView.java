@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.gui.view.algebra;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
@@ -81,7 +81,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 	//public static final int MODE_VIEW = 2;
 
 	protected Application app; // parent appame
-	private AbstractKernel kernel;
+	private Kernel kernel;
 
 	private MyRenderer renderer;
 	private MyDefaultTreeCellEditor editor;

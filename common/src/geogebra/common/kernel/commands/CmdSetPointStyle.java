@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *SetPointStyle
@@ -18,7 +18,7 @@ public class CmdSetPointStyle extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdSetPointStyle(AbstractKernel kernel) {
+	public CmdSetPointStyle(Kernel kernel) {
 		super(kernel);
 	}
 

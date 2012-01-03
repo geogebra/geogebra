@@ -21,7 +21,7 @@ package geogebra.common.euclidian;
 import geogebra.common.awt.Line2D;
 import geogebra.common.euclidian.clipping.ClipLine;
 import geogebra.common.factories.AwtFactory;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
@@ -95,8 +95,8 @@ public class DrawSegment extends Drawable implements Previewable {
 		Coords B = view.getCoordsForView(s.getEndInhomCoords());
 
 		// check if in view
-		if (!AbstractKernel.isZero(A.getZ())
-				|| !AbstractKernel.isZero(B.getZ())) {
+		if (!Kernel.isZero(A.getZ())
+				|| !Kernel.isZero(B.getZ())) {
 			isVisible = false;
 			return;
 		}

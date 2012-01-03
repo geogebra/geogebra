@@ -30,7 +30,7 @@ public class MacroConstruction extends Construction {
 	 * @param kernel Kernel
 	 */
 	public MacroConstruction(MacroKernelInterface kernel) {
-		super((AbstractKernel)kernel, kernel.getParentKernel().getConstruction());
+		super((Kernel)kernel, kernel.getParentKernel().getConstruction());
 		parentCons = kernel.getParentKernel().getConstruction();
 		reservedLabels = new HashSet<String>();
 	}		   

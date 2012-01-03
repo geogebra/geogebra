@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Arc[ <GeoConic>, <Number>, <Number> ] Arc[ <GeoConic>, <GeoPoint>, <GeoPoint>
@@ -20,7 +20,7 @@ public class CmdArc extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdArc(AbstractKernel kernel) {
+	public CmdArc(Kernel kernel) {
 		super(kernel);
 	}
 

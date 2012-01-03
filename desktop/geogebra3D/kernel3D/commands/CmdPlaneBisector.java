@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
@@ -22,7 +22,7 @@ public class CmdPlaneBisector extends CommandProcessor {
 	
 	
 	
-	public CmdPlaneBisector(AbstractKernel kernel) {
+	public CmdPlaneBisector(Kernel kernel) {
 		super(kernel);
 	}
 	

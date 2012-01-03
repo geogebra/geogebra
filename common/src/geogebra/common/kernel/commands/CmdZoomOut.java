@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -20,7 +20,7 @@ public class CmdZoomOut extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdZoomOut(AbstractKernel kernel) {
+	public CmdZoomOut(Kernel kernel) {
 		super(kernel);
 	}
 
@@ -40,7 +40,7 @@ public class CmdZoomOut extends CmdScripting {
 
 				double factor = numGeo.getDouble();
 
-				if (AbstractKernel.isZero(factor))
+				if (Kernel.isZero(factor))
 					throw argErr(app, c.getName(), arg[0]);
 
 				ev.zoom(px, py, 1 / factor, 4, true);
@@ -65,7 +65,7 @@ public class CmdZoomOut extends CmdScripting {
 				double py = ev.toScreenCoordYd(p.inhomY); // mouseLoc.y;
 
 				double factor = numGeo.getDouble();
-				if (AbstractKernel.isZero(factor))
+				if (Kernel.isZero(factor))
 					throw argErr(app, c.getName(), arg[0]);
 
 				ev.zoom(px, py, 1 / factor, 4, true);

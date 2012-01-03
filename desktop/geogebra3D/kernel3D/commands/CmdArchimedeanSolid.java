@@ -2,7 +2,7 @@ package geogebra3D.kernel3D.commands;
 
 import com.quantimegroup.solutions.archimedean.common.SolidDefinition;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
@@ -23,7 +23,7 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 	
 	private String name;
 	
-	public CmdArchimedeanSolid(AbstractKernel kernel, String name) {
+	public CmdArchimedeanSolid(Kernel kernel, String name) {
 		super(kernel);
 		this.name = name;
 		

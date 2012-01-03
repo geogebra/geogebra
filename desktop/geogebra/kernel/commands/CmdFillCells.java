@@ -11,7 +11,7 @@ import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 
 import geogebra.common.awt.Point;
@@ -30,7 +30,7 @@ class CmdFillCells extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdFillCells(AbstractKernel kernel) {
+	public CmdFillCells(Kernel kernel) {
 		super(kernel);
 	}
 

@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
@@ -17,7 +17,7 @@ public class CmdANOVA extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdANOVA(AbstractKernel kernel) {
+	public CmdANOVA(Kernel kernel) {
 		super(kernel);
 	}
 

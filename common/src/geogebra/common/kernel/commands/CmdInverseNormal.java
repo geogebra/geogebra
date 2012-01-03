@@ -4,7 +4,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /*
  * , (NumberValue) arg[1][ <Number>, <Number>,<Number> ]
@@ -13,7 +13,7 @@ import geogebra.common.kernel.AbstractKernel;
  */
 public class CmdInverseNormal extends CommandProcessor {
 
-	public CmdInverseNormal(AbstractKernel kernel) {
+	public CmdInverseNormal(Kernel kernel) {
 		super(kernel);
 	}
 

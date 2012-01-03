@@ -15,7 +15,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /** 
  * RSquare[<List of Points>,<Funtion>]
@@ -25,7 +25,7 @@ import geogebra.common.kernel.AbstractKernel;
  */
 public class CmdRSquare extends CommandProcessor{
 
-    public CmdRSquare(AbstractKernel kernel) {super(kernel);}
+    public CmdRSquare(Kernel kernel) {super(kernel);}
     
     public GeoElement[] process(Command c) throws MyError {
         int n=c.getArgumentNumber();

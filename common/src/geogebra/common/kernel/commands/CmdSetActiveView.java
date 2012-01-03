@@ -5,14 +5,14 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *SetActiveView
  */
 public class CmdSetActiveView extends CmdScripting {
 
-	public CmdSetActiveView(AbstractKernel kernel) {
+	public CmdSetActiveView(Kernel kernel) {
 		super(kernel);
 	}
 

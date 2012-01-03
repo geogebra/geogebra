@@ -21,7 +21,7 @@ package geogebra.io;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.io.DocHandler;
 import geogebra.common.io.MyI2GHandler;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.MacroInterface;
@@ -96,7 +96,7 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 	// private static XMLReaderFactory factory;
 
 	private Application app;
-	private AbstractKernel kernel;
+	private Kernel kernel;
 	// Modified for Intergeo File Format (Yves Kreis) -->
 	// private MyXMLHandler handler;
 	private DocHandler handler, ggbDocHandler, i2gDocHandler;
@@ -107,7 +107,7 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 
 	// <-- Added for Intergeo File Format (Yves Kreis)
 
-	public MyXMLio(AbstractKernel kernel, Construction cons) {
+	public MyXMLio(Kernel kernel, Construction cons) {
 		this.kernel = kernel;
 		this.cons = cons;	
 		app = (Application)kernel.getApplication();

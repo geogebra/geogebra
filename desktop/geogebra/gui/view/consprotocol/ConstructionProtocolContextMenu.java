@@ -1,6 +1,6 @@
 package geogebra.gui.view.consprotocol;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.gui.view.consprotocol.ConstructionProtocolView.ColumnKeeper;
 import geogebra.main.Application;
 
@@ -23,7 +23,7 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 	private static final long serialVersionUID = 1L;
 	
 	private Application app;
-	private AbstractKernel kernel;
+	private Kernel kernel;
 	private ConstructionProtocolView constprotView;
 	
 	public ConstructionProtocolContextMenu(Application app){

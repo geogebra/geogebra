@@ -12,7 +12,7 @@ the Free Software Foundation.
 package geogebra.gui.dialog;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
@@ -758,7 +758,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 	 */
 	private class TextInputHandler implements InputHandler {
 
-		private AbstractKernel kernel;
+		private Kernel kernel;
 
 		private TextInputHandler() {
 			kernel = app.getKernel();

@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * TableText[<Matrix>],TableText[<Matrix>,<Point>]
@@ -19,7 +19,7 @@ public class CmdTableText extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdTableText(AbstractKernel kernel) {
+	public CmdTableText(Kernel kernel) {
 		super(kernel);
 	}
 

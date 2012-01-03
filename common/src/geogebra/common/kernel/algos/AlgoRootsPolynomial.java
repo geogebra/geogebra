@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.arithmetic.Function;
@@ -288,8 +288,8 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			// check if the intersection points are really on the functions
 			// due to interval restrictions this might not be the case
 			for (int i = 0; i < curRealRoots; i++) {
-				if (!AbstractKernel.isEqual(f.evaluate(curRoots[i]),
-						g.evaluate(curRoots[i]), AbstractKernel.MIN_PRECISION)) {
+				if (!Kernel.isEqual(f.evaluate(curRoots[i]),
+						g.evaluate(curRoots[i]), Kernel.MIN_PRECISION)) {
 					removeRoot(i);
 					i--;
 				}
@@ -307,7 +307,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			yValFunction = f.getFunction();
 
 			// check for vertical line a*x + c = 0: intersection at x=-c/a
-			if (AbstractKernel.isZero(line.y)) {
+			if (Kernel.isZero(line.y)) {
 				double x = -line.z / line.x;
 				curRoots[0] = x;
 				curRealRoots = 1;
@@ -326,7 +326,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			for (int i = 0; i < curRealRoots; i++) {
 				tempPoint.setCoords(curRoots[i], f.evaluate(curRoots[i]), 1.0);
 				if (!line.isIntersectionPointIncident(tempPoint,
-						AbstractKernel.MIN_PRECISION)) {
+						Kernel.MIN_PRECISION)) {
 					removeRoot(i);
 					i--;
 				}
@@ -355,7 +355,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			double maxRoot = curRoots[0];
 			int maxIndex = 0;
 			for (int i = 1; i < curRealRoots; i++) {
-				if ((curRoots[i] - maxRoot) > AbstractKernel.MIN_PRECISION) {
+				if ((curRoots[i] - maxRoot) > Kernel.MIN_PRECISION) {
 					maxRoot = curRoots[i];
 					maxIndex++;
 					curRoots[maxIndex] = maxRoot;
@@ -470,7 +470,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		}
 	}
 
-	private static final double DELTA = AbstractKernel.MIN_PRECISION * 10;
+	private static final double DELTA = Kernel.MIN_PRECISION * 10;
 
 	// add first number of doubles in roots to current roots
 	private void addToCurrentRoots(double[] roots, int number) {

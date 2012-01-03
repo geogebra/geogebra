@@ -2,11 +2,11 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 public class CmdPMCC extends CmdOneOrTwoListsFunction {
 
-	public CmdPMCC(AbstractKernel kernel) {
+	public CmdPMCC(Kernel kernel) {
 		super(kernel);
 	}
 

@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Parabola[ <GeoPoint>, <GeoLine> ]
@@ -18,7 +18,7 @@ public class CmdParabola extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdParabola(AbstractKernel kernel) {
+	public CmdParabola(Kernel kernel) {
 		super(kernel);
 	}
 

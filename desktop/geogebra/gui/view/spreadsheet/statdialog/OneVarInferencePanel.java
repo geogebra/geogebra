@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoList;
@@ -47,7 +47,7 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 
 	// ggb fields
 	private Application app;
-	private AbstractKernel kernel;
+	private Kernel kernel;
 	private StatDialog statDialog;
 	private StatTable resultTable;
 	

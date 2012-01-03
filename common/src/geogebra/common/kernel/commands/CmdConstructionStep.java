@@ -3,7 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /*
  * Defined[ Object ]
@@ -12,7 +12,7 @@ import geogebra.common.kernel.AbstractKernel;
  */
 public class CmdConstructionStep extends CommandProcessor {
 
-	public CmdConstructionStep(AbstractKernel kernel) {
+	public CmdConstructionStep(Kernel kernel) {
 		super(kernel);
 	}
 

@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;;
+import geogebra.common.kernel.Kernel;;
 
 /**
  *Union
@@ -18,7 +18,7 @@ public class CmdUnion extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdUnion(AbstractKernel kernel) {
+	public CmdUnion(Kernel kernel) {
 		super(kernel);
 	}
 

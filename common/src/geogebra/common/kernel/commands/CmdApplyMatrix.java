@@ -4,7 +4,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * ApplyMatrix[<Matrix>,<Object>]
@@ -17,7 +17,7 @@ public class CmdApplyMatrix extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdApplyMatrix(AbstractKernel kernel) {
+	public CmdApplyMatrix(Kernel kernel) {
 		super(kernel);
 	}
 

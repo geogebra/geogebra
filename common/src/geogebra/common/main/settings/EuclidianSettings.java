@@ -1,7 +1,7 @@
 package geogebra.common.main.settings;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.util.Unicode;
@@ -589,13 +589,13 @@ public class EuclidianSettings extends AbstractSettings {
 	public void setCoordSystem(double xZero, double yZero, double xscale,
 			double yscale) {
 		if (Double.isNaN(xscale)
-				|| (xscale < AbstractKernel.MAX_DOUBLE_PRECISION)
-				|| (xscale > AbstractKernel.INV_MAX_DOUBLE_PRECISION)) {
+				|| (xscale < Kernel.MAX_DOUBLE_PRECISION)
+				|| (xscale > Kernel.INV_MAX_DOUBLE_PRECISION)) {
 			return;
 		}
 		if (Double.isNaN(yscale)
-				|| (yscale < AbstractKernel.MAX_DOUBLE_PRECISION)
-				|| (yscale > AbstractKernel.INV_MAX_DOUBLE_PRECISION)) {
+				|| (yscale < Kernel.MAX_DOUBLE_PRECISION)
+				|| (yscale > Kernel.INV_MAX_DOUBLE_PRECISION)) {
 			return;
 		}
 

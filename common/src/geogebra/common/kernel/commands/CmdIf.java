@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -20,7 +20,7 @@ public class CmdIf extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdIf(AbstractKernel kernel) {
+	public CmdIf(Kernel kernel) {
 		super(kernel);
 	}
 

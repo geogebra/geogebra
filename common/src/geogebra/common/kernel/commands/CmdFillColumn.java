@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -18,7 +18,7 @@ public class CmdFillColumn extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdFillColumn(AbstractKernel kernel) {
+	public CmdFillColumn(Kernel kernel) {
 		super(kernel);
 	}
 
@@ -35,7 +35,7 @@ public class CmdFillColumn extends CommandProcessor {
 
 				int col = -1 + (int) ((GeoNumeric) arg[0]).getDouble();
 
-				if (col < 0 || col > AbstractKernel.MAX_SPREADSHEET_COLUMNS)
+				if (col < 0 || col > Kernel.MAX_SPREADSHEET_COLUMNS)
 					throw argErr(app, c.getName(), arg[0]);
 
 				GeoList list = (GeoList) arg[1];

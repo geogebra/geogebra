@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 
 /**
@@ -13,7 +13,7 @@ public class CmdCenter extends CmdMidpoint {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdCenter(AbstractKernel kernel) {
+	public CmdCenter(Kernel kernel) {
 		super(kernel);
 	}
 }

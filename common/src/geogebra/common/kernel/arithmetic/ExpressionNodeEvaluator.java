@@ -1,6 +1,6 @@
 package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoListElement;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
@@ -42,7 +42,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			// ValidExpression
 		}
 
-		AbstractKernel kernel = expressionNode.kernel;
+		Kernel kernel = expressionNode.kernel;
 		ExpressionValue right = expressionNode.right;
 		Operation operation = expressionNode.operation;
 		AbstractApplication app = expressionNode.app;
@@ -292,7 +292,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		case LESS:
 			// number < number
 			if (lt.isNumberValue() && rt.isNumberValue()) {
-				return new MyBoolean(kernel, AbstractKernel.isGreater(
+				return new MyBoolean(kernel, Kernel.isGreater(
 						((NumberValue) rt).getDouble(),
 						((NumberValue) lt).getDouble()));
 			} else {
@@ -305,7 +305,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 			// number > number
 			if (lt.isNumberValue() && rt.isNumberValue()) {
-				return new MyBoolean(kernel, AbstractKernel.isGreater(
+				return new MyBoolean(kernel, Kernel.isGreater(
 						((NumberValue) lt).getDouble(),
 						((NumberValue) rt).getDouble()));
 			} else {
@@ -318,7 +318,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		case LESS_EQUAL:
 			// number <= number
 			if (lt.isNumberValue() && rt.isNumberValue()) {
-				return new MyBoolean(kernel, AbstractKernel.isGreaterEqual(
+				return new MyBoolean(kernel, Kernel.isGreaterEqual(
 						((NumberValue) rt).getDouble(),
 						((NumberValue) lt).getDouble()));
 			} else {
@@ -330,7 +330,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		case GREATER_EQUAL:
 			// number >= number
 			if (lt.isNumberValue() && rt.isNumberValue()) {
-				return new MyBoolean(kernel, AbstractKernel.isGreaterEqual(
+				return new MyBoolean(kernel, Kernel.isGreaterEqual(
 						((NumberValue) lt).getDouble(),
 						((NumberValue) rt).getDouble()));
 			} else {
@@ -611,7 +611,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				// vector * vector (inner/dot product)
 				else if (rt.isVectorValue()) {
 					vec = ((VectorValue) lt).getVector();
-					if (vec.getMode() == AbstractKernel.COORD_COMPLEX) {
+					if (vec.getMode() == Kernel.COORD_COMPLEX) {
 
 						// complex multiply
 
@@ -773,18 +773,18 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						double a = ((NumberValue) node.left.evaluate())
 								.getDouble();
 						long al = Math.round(a);
-						if (AbstractKernel.isEqual(a, al)) { // a is integer
+						if (Kernel.isEqual(a, al)) { // a is integer
 							double b = ((NumberValue) node.right.evaluate())
 									.getDouble();
 							long bl = Math.round(b);
 							if (b == 0) {
 								// (x^a)^(1/0)
 								num.set(Double.NaN);
-							} else if (AbstractKernel.isEqual(b, bl)) { // b is
+							} else if (Kernel.isEqual(b, bl)) { // b is
 																		// integer
 								// divide through greatest common divisor of a
 								// and b
-								long gcd = AbstractKernel.gcd(al, bl);
+								long gcd = Kernel.gcd(al, bl);
 								al = al / gcd;
 								bl = bl / gcd;
 
@@ -836,7 +836,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				vec = ((VectorValue) lt).getVector();
 				num = ((NumberValue) rt).getNumber();
 
-				if (vec.getMode() == AbstractKernel.COORD_COMPLEX) {
+				if (vec.getMode() == Kernel.COORD_COMPLEX) {
 
 					// complex power
 
@@ -917,7 +917,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 				// get constant coefficent of given polynomial
 				double exponent = ((Polynomial) rt).getConstantCoeffValue();
-				if ((AbstractKernel.isInteger(exponent) && ((int) exponent >= 0))) {
+				if ((Kernel.isInteger(exponent) && ((int) exponent >= 0))) {
 					poly = new Polynomial(kernel, (Polynomial) lt);
 					poly.power((int) exponent);
 					return poly;
@@ -1906,7 +1906,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * @param rt
 	 * @return false if not defined
 	 */
-	private MyBoolean evalEquals(AbstractKernel kernel, ExpressionValue lt,
+	private MyBoolean evalEquals(Kernel kernel, ExpressionValue lt,
 			ExpressionValue rt) {
 		// booleans
 		if (lt.isBooleanValue() && rt.isBooleanValue()) {
@@ -1914,7 +1914,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					((BooleanValue) lt).getBoolean() == ((BooleanValue) rt)
 							.getBoolean());
 		} else if (lt.isNumberValue() && rt.isNumberValue()) {
-			return new MyBoolean(kernel, AbstractKernel.isEqual(
+			return new MyBoolean(kernel, Kernel.isEqual(
 					((NumberValue) lt).getDouble(),
 					((NumberValue) rt).getDouble()));
 		} else if (lt.isTextValue() && rt.isTextValue()) {

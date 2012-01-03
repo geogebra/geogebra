@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 	/**
 	 *FDistribution
@@ -19,7 +19,7 @@ import geogebra.common.kernel.AbstractKernel;
 		 * @param kernel
 		 *            kernel
 		 */
-		public CmdFDistribution(AbstractKernel kernel) {
+		public CmdFDistribution(Kernel kernel) {
 			super(kernel);
 		}
 

@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -67,7 +67,7 @@ public class AlgoFractionText extends AlgoElement {
     @Override
 	public final void compute() {
 		if (input[0].isDefined()) {
-			frac = DecimalToFraction(num.getDouble(),AbstractKernel.STANDARD_PRECISION);
+			frac = DecimalToFraction(num.getDouble(),Kernel.STANDARD_PRECISION);
 			
 			if (frac[1] == 1) { // integer
 		    	text.setTextString(kernel.format(frac[0]));				

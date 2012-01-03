@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * ClosestPoint[Point,Path] ClosestPoint[Path,Point]
@@ -18,7 +18,7 @@ public class CmdClosestPoint extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdClosestPoint(AbstractKernel kernel) {
+	public CmdClosestPoint(Kernel kernel) {
 		super(kernel);
 	}
 

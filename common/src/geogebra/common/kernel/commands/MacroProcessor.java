@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
@@ -26,7 +26,7 @@ import geogebra.common.main.MyError;
  */
 public class MacroProcessor extends CommandProcessor {
 	
-	public MacroProcessor(AbstractKernel kernel) {
+	public MacroProcessor(Kernel kernel) {
 		super(kernel);
 	}	
 		

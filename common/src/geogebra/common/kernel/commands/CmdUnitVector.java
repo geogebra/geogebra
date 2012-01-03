@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;;
+import geogebra.common.kernel.Kernel;;
 
 /**
  * UnitVector[ <GeoLine> ] UnitVector[ <GeoVector> ]
@@ -18,7 +18,7 @@ public class CmdUnitVector extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdUnitVector(AbstractKernel kernel) {
+	public CmdUnitVector(Kernel kernel) {
 		super(kernel);
 	}
 

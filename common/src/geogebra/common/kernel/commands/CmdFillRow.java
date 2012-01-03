@@ -1,12 +1,12 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *FillRow
@@ -19,7 +19,7 @@ public class CmdFillRow extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdFillRow(AbstractKernel kernel) {
+	public CmdFillRow(Kernel kernel) {
 		super(kernel);
 	}
 
@@ -36,7 +36,7 @@ public class CmdFillRow extends CommandProcessor {
 
 				int row = -1 + (int) ((GeoNumeric) arg[0]).getDouble();
 
-				if (row < 0 || row > AbstractKernel.MAX_SPREADSHEET_ROWS)
+				if (row < 0 || row > Kernel.MAX_SPREADSHEET_ROWS)
 					throw argErr(app, c.getName(), arg[0]);
 
 				GeoList list = (GeoList) arg[1];

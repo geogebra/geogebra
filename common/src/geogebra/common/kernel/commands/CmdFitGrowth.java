@@ -2,7 +2,7 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /** 
  * FitGrowth[<List of points>]
@@ -12,7 +12,7 @@ import geogebra.common.kernel.AbstractKernel;
  */
 public class CmdFitGrowth extends CmdOneListFunction{
 
-    public CmdFitGrowth(AbstractKernel kernel) {super(kernel);}
+    public CmdFitGrowth(Kernel kernel) {super(kernel);}
     
 	final protected GeoElement doCommand(String a, GeoList b)
 	{

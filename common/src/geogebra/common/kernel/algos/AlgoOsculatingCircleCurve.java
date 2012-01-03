@@ -1,6 +1,6 @@
 package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -78,7 +78,7 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
     	
     	// bugfix Michael Borcherds
     	// undefined unless A is a point on f
-        if (!f.isOnPath(A, AbstractKernel.MIN_PRECISION)) {
+        if (!f.isOnPath(A, Kernel.MIN_PRECISION)) {
         	circle.setUndefined();
         	return;
         }

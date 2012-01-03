@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 
 import java.util.HashSet;
@@ -26,13 +26,13 @@ import java.util.HashSet;
 public class MyStringBuffer extends ValidExpression implements TextValue {
 
 	private StringBuilder sb;
-	private AbstractKernel kernel;
+	private Kernel kernel;
 
 	/**
 	 * @param kernel Kernel
 	 * @param str text
 	 */
-	public MyStringBuffer(AbstractKernel kernel, String str) {
+	public MyStringBuffer(Kernel kernel, String str) {
 		sb = new StringBuilder(str);
 		this.kernel = kernel;
 	}
@@ -92,7 +92,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		return true;
 	}
 
-	public ExpressionValue deepCopy(AbstractKernel kernelForCopy) {
+	public ExpressionValue deepCopy(Kernel kernelForCopy) {
 		return getText();
 	}
 
@@ -141,7 +141,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		return false;
 	}
 
-	public AbstractKernel getKernel() {
+	public Kernel getKernel() {
 		return kernel;
 	}
 }

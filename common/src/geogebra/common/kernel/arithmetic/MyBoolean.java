@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 
 import java.util.HashSet;
@@ -25,9 +25,9 @@ import java.util.HashSet;
 public class MyBoolean extends ValidExpression implements BooleanValue {
     
     private boolean value;
-    private AbstractKernel kernel;
+    private Kernel kernel;
     
-    public MyBoolean(AbstractKernel kernel, boolean value) {
+    public MyBoolean(Kernel kernel, boolean value) {
         this.value = value;
         this.kernel = kernel;
     }
@@ -72,7 +72,7 @@ public class MyBoolean extends ValidExpression implements BooleanValue {
         return false;
     }
 
-    public ExpressionValue deepCopy(AbstractKernel kernel1) {
+    public ExpressionValue deepCopy(Kernel kernel1) {
         return new MyBoolean(kernel1, value);
     }
 
@@ -129,7 +129,7 @@ public class MyBoolean extends ValidExpression implements BooleanValue {
 		return toValueString();
 	}
 
-	public AbstractKernel getKernel() {
+	public Kernel getKernel() {
 		return kernel;
 	}
 }

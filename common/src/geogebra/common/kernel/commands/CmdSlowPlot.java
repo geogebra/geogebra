@@ -4,7 +4,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *SlowPlot
@@ -16,7 +16,7 @@ public class CmdSlowPlot extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdSlowPlot(AbstractKernel kernel) {
+	public CmdSlowPlot(Kernel kernel) {
 		super(kernel);
 	}
 

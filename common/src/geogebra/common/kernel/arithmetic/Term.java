@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 
 import java.io.Serializable;
@@ -33,17 +33,17 @@ public class Term implements Comparable<Object>, Serializable {
 
 	ExpressionValue coefficient; // hast to evaluate() to NumberValue
 	private StringBuilder variables;
-	private AbstractKernel kernel;
+	private Kernel kernel;
 
-	public Term(AbstractKernel kernel, ExpressionValue coeff, String vars) {
+	public Term(Kernel kernel, ExpressionValue coeff, String vars) {
 		this(kernel, coeff, new StringBuilder(vars));
 	}
 
-	public Term(AbstractKernel kernel, double coeff, String vars) {
+	public Term(Kernel kernel, double coeff, String vars) {
 		this(kernel, new MyDouble(kernel, coeff), new StringBuilder(vars));
 	}
 
-	public Term(AbstractKernel kernel, ExpressionValue coeff, StringBuilder vars) {
+	public Term(Kernel kernel, ExpressionValue coeff, StringBuilder vars) {
 		this.kernel = kernel;
 		coefficient = coeff;
 		variables = vars;
@@ -82,7 +82,7 @@ public class Term implements Comparable<Object>, Serializable {
 	}
 
 	boolean hasIntegerCoeff() {
-		return AbstractKernel.isInteger(((NumberValue) coefficient.evaluate())
+		return Kernel.isInteger(((NumberValue) coefficient.evaluate())
 				.getDouble());
 	}
 

@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.gui.dialog;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.algos.AlgoIntersectAbstract;
@@ -133,7 +133,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	private static final int MAX_COMBOBOX_ENTRIES = 200;
 
 	private Application app;
-	private AbstractKernel kernel;
+	private Kernel kernel;
 	private GeoGebraColorChooser colChooser;
 
 	private static final long serialVersionUID = 1L;
@@ -3211,13 +3211,13 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			else
 				mode = -1;
 			switch (mode) {
-			case AbstractKernel.COORD_CARTESIAN:
+			case Kernel.COORD_CARTESIAN:
 				coordCB.setSelectedIndex(0);
 				break;
-			case AbstractKernel.COORD_POLAR:
+			case Kernel.COORD_POLAR:
 				coordCB.setSelectedIndex(1);
 				break;
-			case AbstractKernel.COORD_COMPLEX:
+			case Kernel.COORD_COMPLEX:
 				coordCB.setSelectedIndex(2);
 				break;
 			default:
@@ -3261,7 +3261,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				case 0: // Kernel.CARTESIAN
 					for (int i = 0; i < geos.length; i++) {
 						geo = (GeoVec3D) geos[i];
-						geo.setMode(AbstractKernel.COORD_CARTESIAN);
+						geo.setMode(Kernel.COORD_CARTESIAN);
 						geo.updateRepaint();
 					}
 					break;
@@ -3269,14 +3269,14 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				case 1: // Kernel.POLAR
 					for (int i = 0; i < geos.length; i++) {
 						geo = (GeoVec3D) geos[i];
-						geo.setMode(AbstractKernel.COORD_POLAR);
+						geo.setMode(Kernel.COORD_POLAR);
 						geo.updateRepaint();
 					}
 					break;
 				case 2: // Kernel.COMPLEX
 					for (int i = 0; i < geos.length; i++) {
 						geo = (GeoVec3D) geos[i];
-						geo.setMode(AbstractKernel.COORD_COMPLEX);
+						geo.setMode(Kernel.COORD_COMPLEX);
 						geo.updateRepaint();
 					}
 					break;
@@ -5477,7 +5477,7 @@ class TextfieldSizePanel extends JPanel implements ActionListener,
 	private JLabel label;
 	private MyTextField tfTextfieldSize;
 
-	private AbstractKernel kernel;
+	private Kernel kernel;
 
 	public TextfieldSizePanel(Application app) {
 		kernel = app.getKernel();
@@ -5588,7 +5588,7 @@ class ShowConditionPanel extends JPanel implements ActionListener,
 	private Object[] geos; // currently selected geos
 	private JTextField tfCondition;
 
-	private AbstractKernel kernel;
+	private Kernel kernel;
 	private PropertiesPanel propPanel;
 
 	public ShowConditionPanel(Application app, PropertiesPanel propPanel) {
@@ -5739,7 +5739,7 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 	private String defaultR = "0", defaultG = "0", defaultB = "0",
 			defaultA = "1";
 
-	private AbstractKernel kernel;
+	private Kernel kernel;
 	private PropertiesPanel propPanel;
 
 	public ColorFunctionPanel(Application app, PropertiesPanel propPanel) {
@@ -6068,7 +6068,7 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 
 	private JCheckBox cbGraphicsView, cbGraphicsView2;
 
-	private AbstractKernel kernel;
+	private Kernel kernel;
 	private Application app;
 	private PropertiesPanel propPanel;
 

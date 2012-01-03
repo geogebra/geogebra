@@ -44,7 +44,7 @@ public class Construction {
 	 * @param k
 	 *            Kernel
 	 */
-	public Construction(AbstractKernel k) {
+	public Construction(Kernel k) {
 		this(k, null);
 	}
 
@@ -56,7 +56,7 @@ public class Construction {
 	 * @param parentConstruction
 	 *            parent construction (used for macro constructions)
 	 */
-	protected Construction(AbstractKernel k, Construction parentConstruction) {
+	protected Construction(Kernel k, Construction parentConstruction) {
 		kernel = k;
 
 		ceList = new ArrayList<ConstructionElement>();
@@ -116,7 +116,7 @@ public class Construction {
 	private boolean showOnlyBreakpoints;
 
 	// construction belongs to kernel
-	protected AbstractKernel kernel;
+	protected Kernel kernel;
 
 	// current construction step (-1 ... ceList.size() - 1)
 	// step == -1 shows empty construction
@@ -343,7 +343,7 @@ public class Construction {
 	 * 
 	 * @return current kernel
 	 */
-	public AbstractKernel getKernel() {
+	public Kernel getKernel() {
 		return kernel;
 	}
 
@@ -1013,7 +1013,7 @@ public class Construction {
 		int oldCoordStlye = kernel.getCoordStyle();
 		StringType oldPrintForm = kernel.getCASPrintForm();
 		boolean oldValue = kernel.isPrintLocalizedCommandNames();
-		kernel.setCoordStyle(AbstractKernel.COORD_STYLE_DEFAULT);
+		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
 		kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
 		kernel.setPrintLocalizedCommandNames(false);
 
@@ -1067,7 +1067,7 @@ public class Construction {
 		int oldCoordStlye = kernel.getCoordStyle();
 		StringType oldPrintForm = kernel.getCASPrintForm();
 		boolean oldValue = kernel.isPrintLocalizedCommandNames();
-		kernel.setCoordStyle(AbstractKernel.COORD_STYLE_DEFAULT);
+		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
 		// kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
 		kernel.setCASPrintForm(StringType.GEOGEBRA);
 		kernel.setPrintLocalizedCommandNames(false);
@@ -1117,7 +1117,7 @@ public class Construction {
 		int oldCoordStlye = kernel.getCoordStyle();
 		StringType oldPrintForm = kernel.getCASPrintForm();
 		boolean oldValue = kernel.isPrintLocalizedCommandNames();
-		kernel.setCoordStyle(AbstractKernel.COORD_STYLE_DEFAULT);
+		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
 		kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
 		kernel.setPrintLocalizedCommandNames(false);
 
@@ -1436,7 +1436,7 @@ public class Construction {
 		// change kernel settings temporarily
 		int oldCoordStlye = kernel.getCoordStyle();
 		StringType oldPrintForm = kernel.getCASPrintForm();
-		kernel.setCoordStyle(AbstractKernel.COORD_STYLE_DEFAULT);
+		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
 		kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
 
 		// set label to get replaceable XML

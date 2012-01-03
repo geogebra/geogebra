@@ -1,6 +1,6 @@
 package geogebra.common.kernel.barycentric;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
@@ -79,7 +79,7 @@ public class AlgoKimberling extends AlgoElement {
 		double wB = weight(k, b, c, a);
 		double wC = weight(k, c, a, b);
 		double w = wA + wB + wC;
-		if(Double.isNaN(w) ||AbstractKernel.isZero(w))
+		if(Double.isNaN(w) ||Kernel.isZero(w))
 			M.setUndefined();
 		else	
 			M.setCoords((A.x / A.z * wA + B.x / B.z * wB + C.x / C.z * wC) / w,

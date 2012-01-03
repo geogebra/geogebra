@@ -18,7 +18,7 @@
 
 package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
@@ -39,7 +39,7 @@ import java.util.HashSet;
 public class MyList extends ValidExpression implements ListValue,
 		ReplaceableValue {
 
-	private AbstractKernel kernel;
+	private Kernel kernel;
 	private int matrixRows = -1; // -1 means not calculated, 0 means not a
 									// matrix
 	private int matrixCols = -1; //
@@ -52,7 +52,7 @@ public class MyList extends ValidExpression implements ListValue,
 	 * 
 	 * @param kernel
 	 */
-	public MyList(AbstractKernel kernel) {
+	public MyList(Kernel kernel) {
 		this(kernel, 20);
 	}
 
@@ -63,12 +63,12 @@ public class MyList extends ValidExpression implements ListValue,
 	 * @param size
 	 *            length of the list
 	 */
-	public MyList(AbstractKernel kernel, int size) {
+	public MyList(Kernel kernel, int size) {
 		this.kernel = kernel;
 		listElements = new ArrayList<ExpressionValue>(size);
 	}
 
-	public MyList(AbstractKernel kernel, boolean isFlatList) {
+	public MyList(Kernel kernel, boolean isFlatList) {
 		this(kernel);
 
 		if (isFlatList) {
@@ -275,7 +275,7 @@ public class MyList extends ValidExpression implements ListValue,
 			double power = ((NumberValue) value).getDouble();
 			// Application.debug("matrix ^ "+power);
 
-			if (!AbstractKernel.isInteger(power)) {
+			if (!Kernel.isInteger(power)) {
 				listElements.clear();
 				return;
 			}
@@ -742,7 +742,7 @@ public class MyList extends ValidExpression implements ListValue,
 		return false;
 	}
 
-	public ExpressionValue deepCopy(AbstractKernel kernel) {
+	public ExpressionValue deepCopy(Kernel kernel) {
 		// copy arguments
 		int size = listElements.size();
 		MyList c = new MyList(kernel, size());
@@ -904,7 +904,7 @@ public class MyList extends ValidExpression implements ListValue,
 	 * @param list2
 	 * @return set difference of the lists
 	 */
-	public static MyList setDifference(AbstractKernel kernel, MyList list1,
+	public static MyList setDifference(Kernel kernel, MyList list1,
 			MyList list2) {
 
 		if (list2.size() == 0)
@@ -992,7 +992,7 @@ public class MyList extends ValidExpression implements ListValue,
 
 	}
 
-	public AbstractKernel getKernel() {
+	public Kernel getKernel() {
 		return kernel;
 	}
 

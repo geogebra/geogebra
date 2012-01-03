@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.Matrix.CoordMatrix;
@@ -14,7 +14,6 @@ import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Kernel;
 import geogebra3D.Application3D;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 
@@ -120,7 +119,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	public boolean isInRegion(GeoPointND P) {
 		Coords planeCoords = getNormalProjection(P.getInhomCoordsInD(3))[1];
 		// Application.debug(P.getLabel()+":\n"+planeCoords);
-		return Kernel.isEqual(planeCoords.get(3), 0, AbstractKernel.STANDARD_PRECISION);
+		return Kernel.isEqual(planeCoords.get(3), 0, Kernel.STANDARD_PRECISION);
 	}
 
 	public boolean isInRegion(double x0, double y0) {

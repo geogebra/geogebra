@@ -1,13 +1,12 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoAnglePoints;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.PlotterSurface;
@@ -147,7 +146,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 			//90°
 			boolean show90degrees = getView3D().getApplication().rightAngleStyle != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE &&
 					angle.isEmphasizeRightAngle() &&  
-					Kernel.isEqual(a, AbstractKernel.PI_HALF);
+					Kernel.isEqual(a, Kernel.PI_HALF);
 			
 			// outline
 			PlotterBrush brush = renderer.getGeometryManager().getBrush();	

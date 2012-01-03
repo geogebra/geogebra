@@ -1,7 +1,6 @@
 package geogebra.gui.view.probcalculator;
 
 import geogebra.gui.view.spreadsheet.statdialog.StatTable;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;

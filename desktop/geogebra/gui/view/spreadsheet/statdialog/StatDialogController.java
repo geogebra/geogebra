@@ -1,7 +1,7 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.common.awt.Point;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -24,7 +24,7 @@ public class StatDialogController {
 
 
 	private Application app;
-	private AbstractKernel kernel; 
+	private Kernel kernel; 
 	private Construction cons;
 	private MyTable spreadsheetTable;
 	private SpreadsheetView spView;
@@ -129,7 +129,7 @@ public class StatDialogController {
 		}else{
 
 			Point location = geo.getSpreadsheetCoords();
-			boolean isCell = (location != null && location.x < AbstractKernel.MAX_SPREADSHEET_COLUMNS && location.y < AbstractKernel.MAX_SPREADSHEET_ROWS);
+			boolean isCell = (location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS && location.y < Kernel.MAX_SPREADSHEET_ROWS);
 
 			if(isCell){	
 				//Application.debug("---------> is cell:" + geo.toString());

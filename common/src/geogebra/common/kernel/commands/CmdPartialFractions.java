@@ -4,7 +4,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *PartialFractions
@@ -17,7 +17,7 @@ public class CmdPartialFractions extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdPartialFractions(AbstractKernel kernel) {
+	public CmdPartialFractions(Kernel kernel) {
 		super(kernel);
 	}
 

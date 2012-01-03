@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * ShortestDistance[ <List of Segments>, <Start Point>, <End Point>, <Boolean
@@ -17,7 +17,7 @@ public class CmdShortestDistance extends CommandProcessor {
 	/**
 	 * @param kernel
 	 */
-	public CmdShortestDistance(AbstractKernel kernel) {
+	public CmdShortestDistance(Kernel kernel) {
 		super(kernel);
 	}
 

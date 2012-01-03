@@ -4,7 +4,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * CircumcircleArc[ <GeoPoint center>, <GeoPoint>, <GeoPoint> ]
@@ -17,7 +17,7 @@ public class CmdCircumcircleArc extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdCircumcircleArc(AbstractKernel kernel) {
+	public CmdCircumcircleArc(Kernel kernel) {
 		super(kernel);
 	}
 

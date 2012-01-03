@@ -19,14 +19,14 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
-import geogebra.kernel.Kernel;
+
 
 
 
@@ -196,7 +196,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
         + p3 * (m[5] * p1 + m[6] * p2 + m[2] * p3 + m[9])
         + m[7] * p1 + m[8] * p2 + m[9] * p3 + m[3];
         
-        AbstractKernel kernel = (AbstractKernel) q.getKernel();
+        Kernel kernel = (Kernel) q.getKernel();
         if (kernel.isZero(u)) {//no quadratic term
             if (kernel.isZero(b)) {//no linear term: 0 t = -w
                 if (kernel.isZero(w)) { // whole line is contained in q
@@ -266,7 +266,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 	private void checkIsOnLine(GeoPoint3D p){
 		if (!p.isDefined())
 			return;
-		if (!g.respectLimitedPath(p.getCoords(),AbstractKernel.MIN_PRECISION))
+		if (!g.respectLimitedPath(p.getCoords(),Kernel.MIN_PRECISION))
 			p.setUndefined();
 	}
 	

@@ -12,7 +12,7 @@
 
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.arithmetic.Command;
@@ -39,7 +39,7 @@ public abstract class CommandProcessor {
 	/** application */
 	protected AbstractApplication app;
 	/** kernel */
-	protected AbstractKernel kernelA;
+	protected Kernel kernelA;
 	/** construction */
 	protected Construction cons;
 	private AlgebraProcessor algProcessor;
@@ -50,7 +50,7 @@ public abstract class CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CommandProcessor(AbstractKernel kernel) {
+	public CommandProcessor(Kernel kernel) {
 		this.kernelA = kernel;
 		cons = kernel.getConstruction();
 		app = kernel.getApplication();
@@ -353,7 +353,7 @@ public abstract class CommandProcessor {
 	 * @param length
 	 * @date Jan 26, 2008
 	 */
-	public static GeoList wrapInList(AbstractKernel kernel, GeoElement[] args,
+	public static GeoList wrapInList(Kernel kernel, GeoElement[] args,
 			int length, GeoClass type) {
 		Construction cons = kernel.getConstruction();
 		boolean correctType = true;

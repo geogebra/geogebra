@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *Coefficients
@@ -18,7 +18,7 @@ public class CmdCoefficients extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdCoefficients(AbstractKernel kernel) {
+	public CmdCoefficients(Kernel kernel) {
 		super(kernel);
 	}
 

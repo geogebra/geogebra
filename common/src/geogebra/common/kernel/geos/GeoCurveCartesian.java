@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.ParametricCurveDistanceFunction;
 import geogebra.common.kernel.Path;
@@ -185,10 +185,10 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		super.setInterval(startParam, endParam);
 
 		// update isClosedPath, i.e. startPoint == endPoint
-		isClosedPath = AbstractKernel.isEqual(funX.evaluate(startParam),
-				funX.evaluate(endParam), AbstractKernel.MIN_PRECISION)
-				&& AbstractKernel.isEqual(funY.evaluate(startParam),
-						funY.evaluate(endParam), AbstractKernel.MIN_PRECISION);
+		isClosedPath = Kernel.isEqual(funX.evaluate(startParam),
+				funX.evaluate(endParam), Kernel.MIN_PRECISION)
+				&& Kernel.isEqual(funY.evaluate(startParam),
+						funY.evaluate(endParam), Kernel.MIN_PRECISION);
 	}
 
 	@Override
@@ -642,8 +642,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			// point A is on curve c, take its parameter
 			PathParameter pp = P.getPathParameter();
 			double pathParam = pp.t;
-			if (distFun.evaluate(pathParam) < AbstractKernel.MIN_PRECISION
-					* AbstractKernel.MIN_PRECISION)
+			if (distFun.evaluate(pathParam) < Kernel.MIN_PRECISION
+					* Kernel.MIN_PRECISION)
 				return pathParam;
 
 			// if we don't have a startValue yet, let's take the path parameter
@@ -673,7 +673,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		double right = Math.min(endParam, minParam + step);
 		ExtremumFinder extFinder= kernel.getExtremumFinder();
 		double sampleResult = extFinder.findMinimum(left, right, distFun,
-				AbstractKernel.MIN_PRECISION);
+				Kernel.MIN_PRECISION);
 
 		// if we have a valid startParam we try the intervall around it too
 		// however, we don't check the same intervall again
@@ -682,7 +682,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			left = Math.max(startParam, startValue - step);
 			right = Math.min(endParam, startValue + step);
 			double startValResult = extFinder.findMinimum(left, right, distFun,
-					AbstractKernel.MIN_PRECISION);
+					Kernel.MIN_PRECISION);
 			if (distFun.evaluate(startValResult) < distFun
 					.evaluate(sampleResult)) {
 				return startValResult;

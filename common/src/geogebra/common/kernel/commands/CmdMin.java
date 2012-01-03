@@ -7,14 +7,14 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoInterval;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /*
  * Min[ <Number>, <Number> ]
  */
 public class CmdMin extends CommandProcessor {
 
-	public CmdMin(AbstractKernel kernel) {
+	public CmdMin(Kernel kernel) {
 		super(kernel);
 	}
 

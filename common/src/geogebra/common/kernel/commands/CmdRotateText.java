@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *RotateText
@@ -17,7 +17,7 @@ public class CmdRotateText extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdRotateText(AbstractKernel kernel) {
+	public CmdRotateText(Kernel kernel) {
 		super(kernel);
 	}
 

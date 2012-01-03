@@ -2,7 +2,7 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /*
  * Mean[ list ]
@@ -10,7 +10,7 @@ import geogebra.common.kernel.AbstractKernel;
  */
 public class CmdMean extends CmdOneListFunction {
 
-	public CmdMean(AbstractKernel kernel) {
+	public CmdMean(Kernel kernel) {
 		super(kernel);
 	}
 

@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -24,13 +24,13 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	
 	
 
-	public AlgebraProcessor3D(AbstractKernel kernel) {
+	public AlgebraProcessor3D(Kernel kernel) {
 		super(kernel);
 	}
 	
 	@Override
 	final protected AbstractCommandDispatcher newCommandDispatcher(
-			AbstractKernel kernel) {
+			Kernel kernel) {
 		return new CommandDispatcher3D(kernel);
 	}
 	
@@ -72,14 +72,14 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			double y = p[1];
 			double z = p[2];
 			if (isVector)
-				ret[0] = ((AbstractKernel) kernel).getManager3D().Vector3D(label, x, y, z);	
+				ret[0] = ((Kernel) kernel).getManager3D().Vector3D(label, x, y, z);	
 			else
-				ret[0] = (GeoPoint3D) ((AbstractKernel) kernel).getManager3D().Point3D(label, x, y, z);			
+				ret[0] = (GeoPoint3D) ((Kernel) kernel).getManager3D().Point3D(label, x, y, z);			
 		} else {
 			if (isVector)
-				ret[0] = ((AbstractKernel) kernel).getManager3D().DependentVector3D(label, n);
+				ret[0] = ((Kernel) kernel).getManager3D().DependentVector3D(label, n);
 			else
-				ret[0] = (GeoPoint3D) ((AbstractKernel) kernel).getManager3D().DependentPoint3D(label, n);
+				ret[0] = (GeoPoint3D) ((Kernel) kernel).getManager3D().DependentPoint3D(label, n);
 		}
 
 		return ret;
@@ -120,9 +120,9 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			b = lhs.getCoeffValue("y");
 			c = lhs.getCoeffValue("z");
 			d = lhs.getCoeffValue("");
-			plane = (GeoPlane3D) ((AbstractKernel) kernel).getManager3D().Plane3D(label, a, b, c, d);
+			plane = (GeoPlane3D) ((Kernel) kernel).getManager3D().Plane3D(label, a, b, c, d);
 		} else
-			plane = (GeoPlane3D) ((AbstractKernel) kernel).getManager3D().DependentPlane3D(label, equ);
+			plane = (GeoPlane3D) ((Kernel) kernel).getManager3D().DependentPlane3D(label, equ);
 
 		ret[0] = plane;
 		return ret;

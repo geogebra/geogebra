@@ -4,7 +4,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *SetFixed
@@ -17,7 +17,7 @@ public class CmdSetFixed extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdSetFixed(AbstractKernel kernel) {
+	public CmdSetFixed(Kernel kernel) {
 		super(kernel);
 	}
 

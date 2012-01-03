@@ -1,7 +1,7 @@
 package geogebra.gui.menubar;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.main.AbstractApplication;
 import geogebra.gui.layout.DockManager;
 import geogebra.gui.layout.Layout;
@@ -247,7 +247,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 		vsb.append(app.getPlain("ApplicationName"));
 		vsb.append(" ");
 		vsb.append(GeoGebraConstants.VERSION_STRING);
-		switch (AbstractKernel.DEFAULT_CAS) {
+		switch (Kernel.DEFAULT_CAS) {
 		case MAXIMA:
 			vsb.append('m');
 			break;

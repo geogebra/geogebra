@@ -40,7 +40,7 @@ import java.util.TreeSet;
  */
 public class Macro implements MacroInterface {
 	
-	private AbstractKernel kernel;
+	private Kernel kernel;
 	private String cmdName = "", toolName = "", toolHelp = "";
 	private String iconFileName = ""; // image file		
 	private boolean showInToolBar = true;
@@ -62,7 +62,7 @@ public class Macro implements MacroInterface {
 	 * @param output Array of output objects
 	 * @throws Exception if	macro initialization fails (unnecessary input,	independent output)  
 	 */
-	public Macro(AbstractKernel kernel, String cmdName,  
+	public Macro(Kernel kernel, String cmdName,  
 					GeoElement [] input, GeoElement [] output) 
 	throws Exception {
 		this(kernel, cmdName);				
@@ -75,7 +75,7 @@ public class Macro implements MacroInterface {
 	 * @param kernel Kernel
 	 * @param cmdName Command name
 	 */
-	public Macro(AbstractKernel kernel, String cmdName) { 	
+	public Macro(Kernel kernel, String cmdName) { 	
 		this.kernel = kernel;
 		setCommandName(cmdName);	
 		copyCaptions = true;
@@ -93,7 +93,7 @@ public class Macro implements MacroInterface {
 	 * Returns kernel
 	 * @return kernel
 	 */
-	public AbstractKernel getKernel(){
+	public Kernel getKernel(){
 		return kernel;
 	}
 	
@@ -370,11 +370,11 @@ public class Macro implements MacroInterface {
 	 * @param macroConsElements elements involved in macro (input, internal, output)
 	 * @return XML string of macro construction
 	 */
-	 public static String buildMacroXML(AbstractKernel kernel, Set<ConstructionElement> macroConsElements) {	
+	 public static String buildMacroXML(Kernel kernel, Set<ConstructionElement> macroConsElements) {	
 		// change kernel settings temporarily
 		int oldCoordStlye = kernel.getCoordStyle();
 		StringType oldPrintForm = kernel.getCASPrintForm();        
-	    kernel.setCoordStyle(AbstractKernel.COORD_STYLE_DEFAULT);                 		
+	    kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);                 		
 	    kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
 		 
     	// get the XML for all macro construction elements

@@ -19,7 +19,7 @@ the Free Software Foundation.
 package geogebra.common.euclidian;
 
 import geogebra.common.factories.AwtFactory;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoIntersectAbstract;
@@ -108,7 +108,7 @@ public final class DrawPoint extends Drawable {
 		} else {
 			// looks if it's on view
 			Coords p = view.getCoordsForView(P.getInhomCoordsInD(3));
-			if (!AbstractKernel.isZero(p.getZ())) {
+			if (!Kernel.isZero(p.getZ())) {
 				isVisible = false;
 			} else {
 				coords[0] = p.getX();

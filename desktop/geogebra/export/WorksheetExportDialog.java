@@ -12,7 +12,7 @@
 package geogebra.export;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
@@ -104,7 +104,7 @@ public class WorksheetExportDialog extends JDialog {
 	// final private static int TYPE_JAVASCRIPT = 5;
 
 	private Application app;
-	private AbstractKernel kernel;
+	private Kernel kernel;
 	private InputPanel textAbove, textBelow, textAboveUpload, textBelowUpload;
 	private JCheckBox cbShowFrame, cbEnableRightClick, cbEnableLabelDrags,
 			cbShowResetIcon, cbShowMenuBar, cbSavePrint, cbShowToolBar,

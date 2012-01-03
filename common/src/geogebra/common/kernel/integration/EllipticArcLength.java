@@ -15,7 +15,7 @@ package geogebra.common.kernel.integration;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.roots.RealRootFunction;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Computes the arc length of an ellipse.
@@ -39,7 +39,7 @@ public class EllipticArcLength {
 		if (a <= b)
 			return AlgoIntegralDefinite.numericIntegration(arcLengthFunction, a, b);
 		else
-			return AlgoIntegralDefinite.numericIntegration(arcLengthFunction, 0, AbstractKernel.PI_2)
+			return AlgoIntegralDefinite.numericIntegration(arcLengthFunction, 0, Kernel.PI_2)
 				 - AlgoIntegralDefinite.numericIntegration(arcLengthFunction, b, a);
 		
 	}

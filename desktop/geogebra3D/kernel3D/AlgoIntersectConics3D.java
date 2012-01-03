@@ -19,7 +19,7 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrixUtil;
@@ -34,7 +34,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Kernel;
+
 
 
 
@@ -195,7 +195,7 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 		
 		//check if coord sys are incident
 		Coords cross = csA.getNormal().crossProduct(csB.getNormal());
-		if (!cross.equalsForKernel(0,  AbstractKernel.MIN_PRECISION)){	//line intersection
+		if (!cross.equalsForKernel(0,  Kernel.MIN_PRECISION)){	//line intersection
 			Coords[] intersection = CoordMatrixUtil.intersectPlanes(A.getCoordSys().getMatrixOrthonormal(), B.getCoordSys().getMatrixOrthonormal());
 			Coords op = csA.getNormalProjection(intersection[0])[1];
 			Coords dp = csA.getNormalProjection(intersection[1])[1];		
@@ -214,7 +214,7 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 			Coords p2d = new Coords(3);
 			p2d.setX(p[1].getX());p2d.setY(p[1].getY());p2d.setZ(p[1].getW());
 			// check if intersect point is on conic
-			if (c.isOnFullConic(p2d, Kernel.MIN_PRECISION))
+			if (c.isOnFullConic(p2d, AbstractKernel.MIN_PRECISION))
 				P[0].setCoords(p[0], false);
 			else
 				setPointsUndefined();
@@ -256,7 +256,7 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 		Coords pp = B.getCoordSys().getNormalProjection(p.getCoords())[1];
 		Coords pp2d = new Coords(3);
 		pp2d.setX(pp.getX());pp2d.setY(pp.getY());pp2d.setZ(pp.getW());
-		if (!B.isOnFullConic(pp2d,AbstractKernel.MIN_PRECISION))
+		if (!B.isOnFullConic(pp2d,Kernel.MIN_PRECISION))
 			p.setUndefined();
 			
 	}

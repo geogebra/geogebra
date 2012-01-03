@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.gui.view.functioninspector;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.View;
@@ -122,7 +122,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 
 
 	// ggb fields
-	private AbstractKernel kernel;
+	private Kernel kernel;
 	private Construction cons;
 	private EuclidianView activeEV;
 
@@ -691,7 +691,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 			GeoPoint2 p = ((GeoPoint2)rootGeos[i]);
 			if (p.isDefined()) {
 				double rt = p.inhomX;
-				if (AbstractKernel.isGreaterEqual(rt, xMin) && AbstractKernel.isGreaterEqual(xMax, rt)) {
+				if (Kernel.isGreaterEqual(rt, xMin) && Kernel.isGreaterEqual(xMax, rt)) {
 					root = rt;
 					count ++;
 				}

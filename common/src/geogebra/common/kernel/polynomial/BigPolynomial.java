@@ -1,6 +1,6 @@
 package geogebra.common.kernel.polynomial;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.main.AbstractApplication;
 
 import java.math.BigDecimal;
@@ -339,7 +339,7 @@ public class BigPolynomial implements Cloneable {
 		for (int i = 0; i < roots.length; i++) {
 			BigComplex root = rootPolishing(roots[i]);
 			double imag = root.imag.doubleValue();
-			if (AbstractKernel.isEqual(imag, 0., 10E-5)) {
+			if (Kernel.isEqual(imag, 0., 10E-5)) {
 				doubleRoots[c++] = root.real.doubleValue();
 			}
 		}

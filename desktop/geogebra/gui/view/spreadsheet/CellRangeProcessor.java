@@ -1,7 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.awt.Point;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoDependentList;
 import geogebra.common.kernel.algos.AlgoDependentPoint;
@@ -350,7 +350,7 @@ public class CellRangeProcessor {
 		PointDimension pd = new PointDimension();
 		getPointListDimensions(rangeList, pd);
 
-		AbstractKernel kernel = cons.getKernel();
+		Kernel kernel = cons.getKernel();
 
 		// build the string
 		ArrayList<GeoElement> list = new ArrayList<GeoElement>();

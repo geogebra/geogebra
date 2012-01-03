@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 
 /**
@@ -16,9 +16,9 @@ public class CmdOrthogonalVector extends CommandProcessor {
 
 		/**
 		* Create new command processor
-		* @param AbstractKernel kernel
+		* @param Kernel kernel
 		*/
-		public CmdOrthogonalVector(AbstractKernel kernel) {
+		public CmdOrthogonalVector(Kernel kernel) {
 			super(kernel);
 		}
 

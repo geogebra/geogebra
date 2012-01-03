@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.util.SpreadsheetTraceSettings;
 import geogebra.gui.inputfield.MyTextField;
@@ -632,7 +632,7 @@ implements
 			String inputText = source.getText().trim();
 			Integer value = Integer.parseInt(source.getText());
 			
-			if (value !=null && value > 0 && value < AbstractKernel.MAX_SPREADSHEET_ROWS) {
+			if (value !=null && value > 0 && value < Kernel.MAX_SPREADSHEET_ROWS) {
 
 				if (source == firstRowField) {
 					traceManager.clearGeoTraceColumns(getSelectedGeo());
@@ -753,7 +753,7 @@ implements
 					getSettings().traceColumn1,
 					getSettings().traceRow1, 
 					getSettings().traceColumn2,
-					(getSettings().doRowLimit) ? getSettings().traceRow2: AbstractKernel.MAX_SPREADSHEET_ROWS);
+					(getSettings().doRowLimit) ? getSettings().traceRow2: Kernel.MAX_SPREADSHEET_ROWS);
 			}
 			break;
 
@@ -768,7 +768,7 @@ implements
 		case MODE_LOCATE:
 
 			int w = getSettings().traceColumn2 - getSettings().traceColumn1;
-			int h = ((getSettings().doRowLimit) ? getSettings().traceRow2: AbstractKernel.MAX_SPREADSHEET_ROWS)
+			int h = ((getSettings().doRowLimit) ? getSettings().traceRow2: Kernel.MAX_SPREADSHEET_ROWS)
 					- getSettings().traceRow1;
 
 			cr.setCellRange(anchorColumn, anchorRow, anchorColumn + w,anchorRow + h);

@@ -22,7 +22,7 @@ import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Line2D;
 import geogebra.common.euclidian.clipping.ClipLine;
 import geogebra.common.factories.AwtFactory;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
@@ -86,7 +86,7 @@ public class DrawVector extends Drawable implements Previewable {
 		P = v.getStartPoint();
 		if (P != null && !P.isInfinite()) {
 			coords = view.getCoordsForView(P.getInhomCoordsInD(3));// P.getCoordsInD(3);
-			if (!AbstractKernel.isZero(coords.getZ())) {
+			if (!Kernel.isZero(coords.getZ())) {
 				isVisible = false;
 				return;
 			}
@@ -99,7 +99,7 @@ public class DrawVector extends Drawable implements Previewable {
 
 		// vector
 		coords = view.getCoordsForView(v.getCoordsInD(3));// v.getCoordsInD(3);
-		if (!AbstractKernel.isZero(coords.getZ())) {
+		if (!Kernel.isZero(coords.getZ())) {
 			isVisible = false;
 			return;
 		}

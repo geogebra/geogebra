@@ -4,7 +4,7 @@ import geogebra.CommandLineArguments;
 import geogebra.cas.view.CASView;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -117,7 +117,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	private static int CV_UPDATES_PER_SECOND = 10;
 
 	public Application app;
-	protected AbstractKernel kernel;
+	protected Kernel kernel;
 
 	protected DialogManager dialogManager;
 	protected DialogManager.Factory dialogManagerFactory;

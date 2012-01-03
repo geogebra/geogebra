@@ -6,7 +6,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;;
+import geogebra.common.kernel.Kernel;;
 
 /**
  * Sequence[ <expression>, <number-var>, <from>, <to> ] Sequence[ <expression>,
@@ -18,7 +18,7 @@ public class CmdZip extends CommandProcessor {
 	 * 
 	 * @param kernel
 	 */
-	public CmdZip(AbstractKernel kernel) {
+	public CmdZip(Kernel kernel) {
 		super(kernel);
 	}
 

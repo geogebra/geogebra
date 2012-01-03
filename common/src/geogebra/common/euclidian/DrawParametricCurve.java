@@ -16,7 +16,7 @@ import geogebra.common.awt.Point;
 import geogebra.common.awt.Point2D;
 import geogebra.common.awt.Shape;
 import geogebra.common.factories.AwtFactory;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -38,9 +38,9 @@ public class DrawParametricCurve extends Drawable {
 	// maximum angle between two line segments
 	private static final double MAX_ANGLE = 10; // degrees
 	private static final double MAX_ANGLE_OFF_SCREEN = 45; // degrees
-	private static final double MAX_BEND = Math.tan(MAX_ANGLE * AbstractKernel.PI_180);
+	private static final double MAX_BEND = Math.tan(MAX_ANGLE * Kernel.PI_180);
 	private static final double MAX_BEND_OFF_SCREEN = Math
-			.tan(MAX_ANGLE_OFF_SCREEN * AbstractKernel.PI_180);
+			.tan(MAX_ANGLE_OFF_SCREEN * Kernel.PI_180);
 
 	// maximum number of bisections (max number of plot points = 2^MAX_DEPTH)
 	private static final int MAX_DEFINED_BISECTIONS = 16;
@@ -125,7 +125,7 @@ public class DrawParametricCurve extends Drawable {
 		}
 		Point labelPoint;
 
-		if (AbstractKernel.isEqual(min, max)) {
+		if (Kernel.isEqual(min, max)) {
 			double[] eval = new double[2];
 			curve.evaluateCurve(min, eval);
 			view.toScreenCoords(eval);
@@ -326,7 +326,7 @@ public class DrawParametricCurve extends Drawable {
 			lineTo(gp, x0, y0);
 		} else if (moveToAllowed == GAP_RESET_XMIN) {
 			double d = gp.getCurrentPoint().getY();
-			if (!AbstractKernel.isEqual(d, y0)) {
+			if (!Kernel.isEqual(d, y0)) {
 				lineTo(gp, -10, d);
 				lineTo(gp, -10, y0);
 			}
@@ -334,7 +334,7 @@ public class DrawParametricCurve extends Drawable {
 
 		} else if (moveToAllowed == GAP_RESET_XMAX) {
 			double d = gp.getCurrentPoint().getY();
-			if (!AbstractKernel.isEqual(d, y0)) {
+			if (!Kernel.isEqual(d, y0)) {
 				lineTo(gp, view.getWidth() + 10, d);
 				lineTo(gp, view.getWidth() + 10, y0);
 			}
@@ -342,14 +342,14 @@ public class DrawParametricCurve extends Drawable {
 
 		} else if (moveToAllowed == GAP_RESET_YMIN) {
 			double d = gp.getCurrentPoint().getX();
-			if (!AbstractKernel.isEqual(d, x0)) {
+			if (!Kernel.isEqual(d, x0)) {
 				lineTo(gp, d, -10);
 				lineTo(gp, x0, -10);
 			}
 			lineTo(gp, x0, y0);
 		} else if (moveToAllowed == GAP_RESET_YMAX) {
 			double d = gp.getCurrentPoint().getX();
-			if (!AbstractKernel.isEqual(d, x0)) {
+			if (!Kernel.isEqual(d, x0)) {
 				lineTo(gp, gp.getCurrentPoint().getX(), view.getHeight() + 10);
 				lineTo(gp, x0, view.getHeight() + 10);
 			}
@@ -544,7 +544,7 @@ public class DrawParametricCurve extends Drawable {
 	 */
 	private static boolean isContinuous(ParametricCurve c, double t1,
 			double t2, int MAX_ITERATIONS) {
-		if (AbstractKernel.isEqual(t1, t2, AbstractKernel.MAX_DOUBLE_PRECISION))
+		if (Kernel.isEqual(t1, t2, Kernel.MAX_DOUBLE_PRECISION))
 			return true;
 
 		// left = c(t1)
@@ -593,8 +593,8 @@ public class DrawParametricCurve extends Drawable {
 				t1 = m;
 			}
 
-			if (AbstractKernel.isEqual(t1, t2,
-					AbstractKernel.MAX_DOUBLE_PRECISION))
+			if (Kernel.isEqual(t1, t2,
+					Kernel.MAX_DOUBLE_PRECISION))
 				return true;
 			// System.out.println("  largest dist: " + dist + ", [" + t1 + ", "
 			// + t2 +"]");
@@ -858,8 +858,8 @@ public class DrawParametricCurve extends Drawable {
 
 		// only add points that are more than MIN_PIXEL_DISTANCE
 		// from current location
-		else if (!AbstractKernel.isEqual(x, point.getX(), MIN_PIXEL_DISTANCE)
-				|| !AbstractKernel.isEqual(y, point.getY(), MIN_PIXEL_DISTANCE)) {
+		else if (!Kernel.isEqual(x, point.getX(), MIN_PIXEL_DISTANCE)
+				|| !Kernel.isEqual(y, point.getY(), MIN_PIXEL_DISTANCE)) {
 			if (lineTo) {
 				gp.lineTo(x, y);
 			} else {

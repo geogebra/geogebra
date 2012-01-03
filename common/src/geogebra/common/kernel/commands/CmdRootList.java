@@ -2,14 +2,14 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /*
  * PointList[ <List> ]
  */
 public class CmdRootList extends CmdOneListFunction {
 
-	public CmdRootList(AbstractKernel kernel) {
+	public CmdRootList(Kernel kernel) {
 		super(kernel);
 	}
 

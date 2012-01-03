@@ -221,7 +221,7 @@ import java.util.List;
 import java.util.Stack;
 import java.util.TreeSet;
 
-public abstract class AbstractKernel {
+public class Kernel {
 
 	// if these are increased above 32000, you need to change traceRow to an int[]
 		public static int MAX_SPREADSHEET_COLUMNS = 9999; 
@@ -231,7 +231,7 @@ public abstract class AbstractKernel {
 	final public static int ALGEBRA_STYLE_VALUE = 0;
 	final public static int ALGEBRA_STYLE_DEFINITION = 1;
 	final public static int ALGEBRA_STYLE_COMMAND = 2;
-	protected int algebraStyle = AbstractKernel.ALGEBRA_STYLE_VALUE;// private
+	protected int algebraStyle = Kernel.ALGEBRA_STYLE_VALUE;// private
 	// end G.Sturr
 	private MacroManager macroManager;
 	private RegressionMath regMath;
@@ -388,7 +388,7 @@ public abstract class AbstractKernel {
 	/** 3D manager */
 	private Manager3DInterface manager3D;
 	
-	public AbstractKernel(AbstractApplication app){
+	public Kernel(AbstractApplication app){
 		this();
 		this.app = app;
 
@@ -397,7 +397,7 @@ public abstract class AbstractKernel {
 
 		setManager3D(newManager3D(this));
 	}
-	public AbstractKernel() {
+	public Kernel() {
 		kernelInstances++;
 		kernelID = kernelInstances;
 		casVariablePrefix = GGBCAS_VARIABLE_PREFIX + kernelID;
@@ -427,7 +427,7 @@ public abstract class AbstractKernel {
 	 * @param kernel
 	 * @return a new algebra processor (used for 3D)
 	 */
-	public AlgebraProcessor newAlgebraProcessor(AbstractKernel kernel) {
+	public AlgebraProcessor newAlgebraProcessor(Kernel kernel) {
 		return new AlgebraProcessor(kernel);
 	}
 
@@ -436,7 +436,7 @@ public abstract class AbstractKernel {
 	 * @return a new 3D manager
 	 * TODO: reduce visibility after refactoring
 	 */
-	public Manager3DInterface newManager3D(AbstractKernel kernel) {
+	public Manager3DInterface newManager3D(Kernel kernel) {
 		return null;
 	}
 
@@ -489,7 +489,7 @@ public abstract class AbstractKernel {
 	 * @param cons
 	 * @return a new MyXMLHandler
 	 */
-	public MyXMLHandler newMyXMLHandler(AbstractKernel kernel, Construction cons) {
+	public MyXMLHandler newMyXMLHandler(Kernel kernel, Construction cons) {
 		return new MyXMLHandler(kernel, cons);
 	}
 
@@ -4805,7 +4805,7 @@ public abstract class AbstractKernel {
 
 		// angle unit
 		sb.append("\t<angleUnit val=\"");
-		sb.append(getAngleUnit() == AbstractKernel.ANGLE_RADIANT ? "radiant"
+		sb.append(getAngleUnit() == Kernel.ANGLE_RADIANT ? "radiant"
 				: "degree");
 		sb.append("\"/>\n");
 

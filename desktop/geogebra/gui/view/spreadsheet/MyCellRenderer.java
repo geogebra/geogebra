@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -39,7 +39,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 
 	// ggb fields
 	private Application app;
-	private AbstractKernel kernel;
+	private Kernel kernel;
 	private SpreadsheetView view;
 
 	// LaTeX
@@ -150,7 +150,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 		// use special rendering for buttons, booleans and lists
 		//=======================================================
 
-		if(view.allowSpecialEditor() && kernel.getAlgebraStyle()==AbstractKernel.ALGEBRA_STYLE_VALUE){
+		if(view.allowSpecialEditor() && kernel.getAlgebraStyle()==Kernel.ALGEBRA_STYLE_VALUE){
 
 			if(geo.isGeoBoolean()){
 				checkBox.setBackground(table.getBackground());
@@ -197,15 +197,15 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 			text = geo.toValueString();
 		} else {
 			switch (kernel.getAlgebraStyle()) {
-			case AbstractKernel.ALGEBRA_STYLE_VALUE:
+			case Kernel.ALGEBRA_STYLE_VALUE:
 				text = geo.toValueString();
 				break;
 
-			case AbstractKernel.ALGEBRA_STYLE_DEFINITION:
+			case Kernel.ALGEBRA_STYLE_DEFINITION:
 				text = GeoElement.convertIndicesToHTML(geo.getDefinitionDescription());
 				break;
 
-			case AbstractKernel.ALGEBRA_STYLE_COMMAND:
+			case Kernel.ALGEBRA_STYLE_COMMAND:
 				text = GeoElement.convertIndicesToHTML(geo.getCommandDescription());
 				break;
 			}	
@@ -269,7 +269,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 		}else{
 
 			boolean isSerif = false;
-			if (geo.isDefined() && kernel.getAlgebraStyle() == AbstractKernel.ALGEBRA_STYLE_VALUE) {
+			if (geo.isDefined() && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 
 				latexStr = geo.getFormulaString(StringType.LATEX, true);
 				if (geo.isLaTeXDrawableGeo(latexStr)) {

@@ -1,12 +1,12 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
 public class CmdSampleSDX extends CmdOneOrTwoListsFunction {
 
-	public CmdSampleSDX(AbstractKernel kernel) {
+	public CmdSampleSDX(Kernel kernel) {
 		super(kernel);
 	}
 

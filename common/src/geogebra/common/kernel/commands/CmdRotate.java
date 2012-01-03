@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Rotate[ <GeoPoint>, <NumberValue> ] Rotate[ <GeoVector>, <NumberValue> ]
@@ -24,7 +24,7 @@ public class CmdRotate extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdRotate(AbstractKernel kernel) {
+	public CmdRotate(Kernel kernel) {
 		super(kernel);
 	}
 

@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -19,7 +19,7 @@ public class CmdChiSquared extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdChiSquared(AbstractKernel kernel) {
+	public CmdChiSquared(Kernel kernel) {
 		super(kernel);
 	}
 

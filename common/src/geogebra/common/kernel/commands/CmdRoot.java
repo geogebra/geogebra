@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Root[ <GeoFunction> ] Root[ <GeoFunction> , <Number> ] Root[ <GeoFunction> ,
@@ -19,7 +19,7 @@ public class CmdRoot extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdRoot(AbstractKernel kernel) {
+	public CmdRoot(Kernel kernel) {
 		super(kernel);
 	}
 

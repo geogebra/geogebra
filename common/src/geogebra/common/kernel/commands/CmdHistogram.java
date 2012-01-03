@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -19,11 +19,11 @@ public class CmdHistogram extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdHistogram(AbstractKernel kernel) {		
+	public CmdHistogram(Kernel kernel) {		
 		this(kernel,false);
 	}
 	
-	public CmdHistogram(AbstractKernel kernel,boolean right) {
+	public CmdHistogram(Kernel kernel,boolean right) {
 		super(kernel);
 		this.right = right;
 	}

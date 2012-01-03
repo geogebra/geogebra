@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
@@ -18,7 +18,7 @@ import geogebra3D.kernel3D.Kernel3D;
  */
 public class CmdPyramid extends CommandProcessor {
 	
-	public CmdPyramid(AbstractKernel kernel) {
+	public CmdPyramid(Kernel kernel) {
 		super(kernel);
 		
 		

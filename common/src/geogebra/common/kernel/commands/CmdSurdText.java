@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *SurdText
@@ -18,7 +18,7 @@ public class CmdSurdText extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdSurdText(AbstractKernel kernel) {
+	public CmdSurdText(Kernel kernel) {
 		super(kernel);
 	}
 

@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Curvature[<Point>,<Curve>], Curvature[<Point>,<Function>]
@@ -20,7 +20,7 @@ public class CmdCurvature extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdCurvature(AbstractKernel kernel) {
+	public CmdCurvature(Kernel kernel) {
 		super(kernel);
 	}
 

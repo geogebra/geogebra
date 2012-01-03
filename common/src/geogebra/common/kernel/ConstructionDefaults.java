@@ -439,7 +439,7 @@ public class ConstructionDefaults {
 		case POINT:
 			GeoPoint2 p = (GeoPoint2) geo;
 			
-			if(p.getMode() == AbstractKernel.COORD_COMPLEX) {
+			if(p.getMode() == Kernel.COORD_COMPLEX) {
 				type = DEFAULT_POINT_COMPLEX;
 			} else if (p.isIndependent()) {
 				type = DEFAULT_POINT_FREE;

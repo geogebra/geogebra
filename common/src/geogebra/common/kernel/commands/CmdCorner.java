@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 
 /**
@@ -14,7 +14,7 @@ public class CmdCorner extends CmdVertex {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdCorner(AbstractKernel kernel) {
+	public CmdCorner(Kernel kernel) {
 		super(kernel);
 	}
 

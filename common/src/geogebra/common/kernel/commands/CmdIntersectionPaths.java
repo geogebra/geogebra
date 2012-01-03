@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 
 /*
@@ -17,7 +17,7 @@ import geogebra.common.kernel.AbstractKernel;
  */
 public class CmdIntersectionPaths extends CommandProcessor {
 	
-	public CmdIntersectionPaths(AbstractKernel kernel) {
+	public CmdIntersectionPaths(Kernel kernel) {
 		super(kernel);
 	}
 	

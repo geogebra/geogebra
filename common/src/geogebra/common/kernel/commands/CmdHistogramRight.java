@@ -1,10 +1,10 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 
 public class CmdHistogramRight extends CmdHistogram {
-	public CmdHistogramRight(AbstractKernel kernel){
+	public CmdHistogramRight(Kernel kernel){
 		super(kernel,true);
 	}
 }

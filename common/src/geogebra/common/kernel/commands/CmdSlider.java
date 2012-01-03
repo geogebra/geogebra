@@ -7,7 +7,7 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * 
@@ -23,7 +23,7 @@ public class CmdSlider extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdSlider(AbstractKernel kernel) {
+	public CmdSlider(Kernel kernel) {
 		super(kernel);
 	}
 

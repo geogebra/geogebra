@@ -15,7 +15,7 @@ package geogebra3D.kernel3D;
 import geogebra.GeoGebra3D;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.io.MyXMLHandler;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Manager3DInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
@@ -33,7 +33,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.MyError;
-import geogebra.kernel.Kernel;
 import geogebra3D.Application3D;
 import geogebra3D.io.MyXMLHandler3D;
 import geogebra3D.kernel3D.arithmetic.ExpressionNodeEvaluator3D;
@@ -155,8 +154,8 @@ public class Kernel3D extends Kernel {
 	 */
 
 	@Override
-	public Manager3DInterface newManager3D(AbstractKernel kernel) {
-		return new Manager3D((AbstractKernel)kernel);
+	public Manager3DInterface newManager3D(Kernel kernel) {
+		return new Manager3D((Kernel)kernel);
 	}
 
 	/**
@@ -184,7 +183,7 @@ public class Kernel3D extends Kernel {
 	}
 
 	@Override
-	public MyXMLHandler newMyXMLHandler(AbstractKernel kernel, Construction construction) {
+	public MyXMLHandler newMyXMLHandler(Kernel kernel, Construction construction) {
 		return new MyXMLHandler3D(kernel, construction);
 	}
 
@@ -202,7 +201,7 @@ public class Kernel3D extends Kernel {
 	 * @return a new algebra processor (used for 3D)
 	 */
 	@Override
-	public AlgebraProcessor newAlgebraProcessor(AbstractKernel kernel){
+	public AlgebraProcessor newAlgebraProcessor(Kernel kernel){
 		return new AlgebraProcessor3D(kernel);
 	}
 

@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -62,7 +62,7 @@ public class AlgoIsInteger extends AlgoElement {
 
     @Override
 	public final void compute() {
-        outputBoolean.setValue(AbstractKernel.isInteger(inputGeo.getDouble()));
+        outputBoolean.setValue(Kernel.isInteger(inputGeo.getDouble()));
     }
   
 }

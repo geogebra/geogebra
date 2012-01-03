@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.MyParseError;
@@ -36,11 +36,11 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 
 	protected ExpressionValue x;
 	protected ExpressionValue y;
-	private int mode = AbstractKernel.COORD_CARTESIAN;
-	protected AbstractKernel kernel;
+	private int mode = Kernel.COORD_CARTESIAN;
+	protected Kernel kernel;
 
 	/** Creates new MyVec2D */
-	public MyVecNode(AbstractKernel kernel) {
+	public MyVecNode(Kernel kernel) {
 		this.kernel = kernel;
 	}
 
@@ -48,12 +48,12 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 	 * Creates new MyVec2D with coordinates (x,y) as ExpresssionNodes. Both
 	 * nodes must evaluate to NumberValues.
 	 */
-	public MyVecNode(AbstractKernel kernel, ExpressionValue x, ExpressionValue y) {
+	public MyVecNode(Kernel kernel, ExpressionValue x, ExpressionValue y) {
 		this(kernel);
 		setCoords(x, y);
 	}
 
-	public ExpressionValue deepCopy(AbstractKernel kernel) {
+	public ExpressionValue deepCopy(Kernel kernel) {
 		return new MyVecNode(kernel, x.deepCopy(kernel), y.deepCopy(kernel));
 	}
 
@@ -88,11 +88,11 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 
 	public void setPolarCoords(ExpressionValue r, ExpressionValue phi) {
 		setCoords(r, phi);
-		mode = AbstractKernel.COORD_POLAR;
+		mode = Kernel.COORD_POLAR;
 	}
 
 	public boolean hasPolarCoords() {
-		return mode == AbstractKernel.COORD_POLAR;
+		return mode == Kernel.COORD_POLAR;
 	}
 
 	private void setCoords(ExpressionValue x, ExpressionValue y) {
@@ -113,7 +113,7 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 			throw new MyParseError(kernel.getApplication(), str);
 		}
 
-		if (mode == AbstractKernel.COORD_POLAR) {
+		if (mode == Kernel.COORD_POLAR) {
 			double r = ((NumberValue) evx).getDouble();
 			// allow negative radius for US
 			double phi = ((NumberValue) evy).getDouble();
@@ -155,7 +155,7 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 			 * coords = getCoords(); sb.append("list("); sb.append(coords[0]);
 			 * sb.append(", "); sb.append(coords[1]); sb.append(")"); break;
 			 */
-			if (mode == AbstractKernel.COORD_POLAR) {
+			if (mode == Kernel.COORD_POLAR) {
 				sb.append("polartopoint!\u00a7(");
 				sb.append(x.toString());
 				sb.append(", ");
@@ -174,7 +174,7 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 			sb.append('(');
 			sb.append(x.isGeoElement() ? ((GeoElement) x).getLabel() : x
 					.toString());
-			if (mode == AbstractKernel.COORD_CARTESIAN)
+			if (mode == Kernel.COORD_CARTESIAN)
 				sb.append(", ");
 			else
 				sb.append("; ");
@@ -284,7 +284,7 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 		return toValueString();
 	}
 
-	public AbstractKernel getKernel() {
+	public Kernel getKernel() {
 		return kernel;
 	}
 

@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.Matrix.CoordMatrix;
@@ -16,7 +16,7 @@ import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.kernelND.Region3D;
-import geogebra.kernel.Kernel;
+
 import geogebra.main.Application;
 
 /**
@@ -161,7 +161,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		// check direction
 
 		// check radius
-		if (AbstractKernel.isZero(r)) {
+		if (Kernel.isZero(r)) {
 			r = 0;
 		} else if (r < 0) {
 			defined = false;

@@ -14,7 +14,7 @@ import java.util.Arrays;
  */
 public class SystemOfEquationsSolver implements SystemOfEquationsSolverInterface{
 	
-	private double epsilon = AbstractKernel.STANDARD_PRECISION;
+	private double epsilon = Kernel.STANDARD_PRECISION;
 	
 	private EquationSolver eqnSolver;
 

@@ -7,7 +7,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *SetCoords
@@ -20,7 +20,7 @@ public class CmdSetCoords extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdSetCoords(AbstractKernel kernel) {
+	public CmdSetCoords(Kernel kernel) {
 		super(kernel);
 	}
 

@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *StartAnimation
@@ -19,7 +19,7 @@ public class CmdStartAnimation extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdStartAnimation(AbstractKernel kernel) {
+	public CmdStartAnimation(Kernel kernel) {
 		super(kernel);
 	}
 

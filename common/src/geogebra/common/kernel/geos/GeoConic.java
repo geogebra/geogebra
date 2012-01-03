@@ -19,7 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.CoordSys;
@@ -241,7 +241,7 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 	    		double p = Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
 	    		
 	    		// does circle being inverted pass through center of the other?
-	    		if (AbstractKernel.isEqual(p, r2)) {	    			
+	    		if (Kernel.isEqual(p, r2)) {	    			
 	    			double dx=x2-x1;
 	    			double dy=y2-y1;
 	    			//(x3,y3) is reflection of reflection of (x1+2dx,x1+2dy) an thus lies on the line
@@ -301,7 +301,7 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 	    	    		}
 	    				double dist2 = ((perpX-a)*(perpX-a)+(perpY-b)*(perpY-b));
 	    	    		//if line goes through center, we keep it
-	    	    		if(!AbstractKernel.isZero(dist2)){
+	    	    		if(!Kernel.isZero(dist2)){
 	    	    		double sf=r*r/dist2;
 	    	            //GeoPoint p =new GeoPoint(cons,null,a+sf*(perpX-a), b+sf*(perpY-b) ,1.0);
 	    	            GeoPoint2 m =new GeoPoint2(cons);
@@ -524,7 +524,7 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 		
 		classifyConic(false);
 		if(coeff.length <= 2 && coeff[0].length <=2 && 
-				AbstractKernel.isZero(evalCoeff(coeff,1,1))){
+				Kernel.isZero(evalCoeff(coeff,1,1))){
 			type = CONIC_LINE;
 			AbstractApplication.debug(matrix[4]+","+matrix[5]+","+matrix[2]);
 		}

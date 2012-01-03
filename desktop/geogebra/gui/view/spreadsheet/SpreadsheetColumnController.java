@@ -6,7 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import geogebra.common.awt.Point;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.main.AbstractApplication;
 
 import java.awt.Rectangle;
@@ -31,7 +31,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 
 	private Application app;
 	private SpreadsheetView view;
-	private AbstractKernel kernel;
+	private Kernel kernel;
 	private MyTable table;
 	private DefaultTableModel model;	
 

@@ -2,14 +2,14 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /*
  * Shuffle[ <List> ]
  */
 public class CmdRandomElement extends CmdOneListFunction {
 
-	public CmdRandomElement(AbstractKernel kernel) {
+	public CmdRandomElement(Kernel kernel) {
 		super(kernel);
 	}
 

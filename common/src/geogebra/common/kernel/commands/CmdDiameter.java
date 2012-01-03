@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
@@ -19,7 +19,7 @@ public class CmdDiameter extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdDiameter(AbstractKernel kernel) {
+	public CmdDiameter(Kernel kernel) {
 		super(kernel);
 	}
 

@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *Append
@@ -19,7 +19,7 @@ public class CmdIndexOf extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdIndexOf(AbstractKernel kernel) {
+	public CmdIndexOf(Kernel kernel) {
 		super(kernel);
 	}
 

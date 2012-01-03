@@ -4,7 +4,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * CircleSector[ <GeoPoint center>, <GeoPoint>, <GeoPoint> ]
@@ -17,7 +17,7 @@ public class CmdCircleSector extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdCircleSector(AbstractKernel kernel) {
+	public CmdCircleSector(Kernel kernel) {
 		super(kernel);
 	}
 

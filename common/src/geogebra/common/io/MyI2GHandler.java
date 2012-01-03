@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.io;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -98,7 +98,7 @@ public class MyI2GHandler implements DocHandler {
     private AbstractApplication app;   
 
     // for macros we need to change the kernel, so remember the original kernel too
-    private AbstractKernel kernel, origKernel;     
+    private Kernel kernel, origKernel;     
     private Construction cons, origCons;
     private Parser parser, origParser;    
 
@@ -117,7 +117,7 @@ public class MyI2GHandler implements DocHandler {
 	private GeoPoint2 segmentVia;
     
     /** Creates a new instance of MyI2GHandler */
-    public MyI2GHandler(AbstractKernel kernel, Construction cons) {             
+    public MyI2GHandler(Kernel kernel, Construction cons) {             
         origKernel = kernel;
         origCons = cons;
         origParser = new Parser(origKernel, origCons);                                                       
@@ -457,7 +457,7 @@ debug("endElements", eName);
 					            v.setCoords(coords[0].getReal() * Math.cos( coords[1].getReal() ), coords[0].getReal() * Math.sin( coords[1].getReal() ), 1);
 					            // TODO -> do not modify point/kernel mode when these settings are stored in the file format
 					            v.setPolar();
-					            kernel.setAngleUnit(AbstractKernel.ANGLE_RADIANT);
+					            kernel.setAngleUnit(Kernel.ANGLE_RADIANT);
 			        	}
 			        }
 				}
@@ -494,7 +494,7 @@ debug("endElements", eName);
     }
     
 	final public boolean isReal(Complex c) {
-		return AbstractKernel.isZero(c.getImaginary());
+		return Kernel.isZero(c.getImaginary());
 	}
 
 

@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *ParseToNumber
@@ -18,7 +18,7 @@ public class CmdParseToNumber extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdParseToNumber(AbstractKernel kernel) {
+	public CmdParseToNumber(Kernel kernel) {
 		super(kernel);
 	}
 

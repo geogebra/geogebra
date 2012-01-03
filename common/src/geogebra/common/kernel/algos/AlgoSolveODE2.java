@@ -1,6 +1,6 @@
 package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.geos.GeoElement;
@@ -80,7 +80,7 @@ public class AlgoSolveODE2 extends AlgoElement {
 		if (!b.isDefined() || !c.isDefined() || !f.isDefined()
 				|| !x.isDefined() || !y.isDefined() || !yDot.isDefined()
 				|| !step.isDefined() || !end.isDefined()
-				|| AbstractKernel.isZero(step.getDouble())) {
+				|| Kernel.isZero(step.getDouble())) {
 			locus.setUndefined();
 			return;
 		}

@@ -12,7 +12,7 @@ import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 
 /*
@@ -26,7 +26,7 @@ import geogebra.common.kernel.AbstractKernel;
  */
 public class CmdIntersect extends CommandProcessor {
 	
-	public CmdIntersect(AbstractKernel kernel) {
+	public CmdIntersect(Kernel kernel) {
 		super(kernel);
 	}
 	

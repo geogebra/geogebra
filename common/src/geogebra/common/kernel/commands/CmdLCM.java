@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /*
  * LCM[ <Number>, <Number> ]
@@ -14,7 +14,7 @@ import geogebra.common.kernel.AbstractKernel;
  */
 public class CmdLCM extends CommandProcessor {
 
-	public CmdLCM(AbstractKernel kernel) {
+	public CmdLCM(Kernel kernel) {
 		super(kernel);
 	}
 

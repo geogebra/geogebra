@@ -14,7 +14,7 @@ package geogebra.common.util;
 
 //import geogebra.AbstracKernel.AbstracKernel;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 import java.math.BigDecimal;
 
@@ -40,13 +40,13 @@ public final class MyMath {
 		return -Math.pow(-a, ONE_THIRD);
 	}
 
-	final public static double sgn(AbstractKernel AbstracKernel, double a) {
+	final public static double sgn(Kernel AbstracKernel, double a) {
 
 		// bugfix for graph f(x) = sgn(sqrt(1 - x))
 		if (Double.isNaN(a))
 			return Double.NaN;
 
-		if (AbstractKernel.isZero(a))
+		if (Kernel.isZero(a))
 			return 0.0;
 		else if (a > 0.0)
 			return 1.0;
@@ -94,7 +94,7 @@ public final class MyMath {
 
 	final public static double csc(double a) {
 		double sin = Math.sin(a);
-		if (AbstractKernel.isZero(sin))
+		if (Kernel.isZero(sin))
 			return Double.NaN;
 
 		return 1 / sin;
@@ -104,7 +104,7 @@ public final class MyMath {
 
 		// problem with eg sec(270deg)
 		double cos = Math.cos(a);
-		if (AbstractKernel.isZero(cos))
+		if (Kernel.isZero(cos))
 			return Double.NaN;
 
 		return 1 / cos;
@@ -112,7 +112,7 @@ public final class MyMath {
 
 	final public static double cot(double a) {
 		double sin = Math.sin(a);
-		if (AbstractKernel.isZero(sin))
+		if (Kernel.isZero(sin))
 			return Double.NaN; // not infinity (1/0)
 		return Math.cos(a) / sin;
 	}

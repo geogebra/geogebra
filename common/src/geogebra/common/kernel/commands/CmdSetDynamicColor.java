@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoDependentList;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
@@ -19,7 +19,7 @@ public class CmdSetDynamicColor extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdSetDynamicColor(AbstractKernel kernel) {
+	public CmdSetDynamicColor(Kernel kernel) {
 		super(kernel);
 	}
 

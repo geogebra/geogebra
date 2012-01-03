@@ -21,7 +21,7 @@ package geogebra.common.kernel.geos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -320,7 +320,7 @@ implements NumberValue, AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 	final public boolean isEqual(GeoElement geo) {
 		// return false if it's a different type, otherwise use equals() method
 		if (geo.isGeoNumeric()) 
-			return AbstractKernel.isEqual(value, ((GeoNumeric)geo).value); 
+			return Kernel.isEqual(value, ((GeoNumeric)geo).value); 
 		else 
 			return false;
 	}
@@ -1036,10 +1036,10 @@ implements NumberValue, AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 		// take current slider increment size into account:
 		// round animationValue to newValue using slider's increment setting	
 		double param = animationValue - getIntervalMin();
-		param = AbstractKernel.roundToScale(param, getAnimationStep());		
+		param = Kernel.roundToScale(param, getAnimationStep());		
 		newValue = getIntervalMin() + param;	
 		
-		if (getAnimationStep() > AbstractKernel.MIN_PRECISION) {
+		if (getAnimationStep() > Kernel.MIN_PRECISION) {
 			// round to decimal fraction, e.g. 2.800000000001 to 2.8
 			newValue = kernel.checkDecimalFraction(newValue);
 		}
@@ -1062,7 +1062,7 @@ implements NumberValue, AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 		      public int compare(NumberValue itemA, NumberValue itemB) {
 		        
 		        double comp = itemA.getDouble() - itemB.getDouble();
-		        if (AbstractKernel.isZero(comp)) {
+		        if (Kernel.isZero(comp)) {
 			        // don't return 0 for equal objects, otherwise the TreeSet deletes duplicates
 		        	if (!itemA.isGeoElement() || !itemB.isGeoElement()) return 1;
 		        	return ((GeoElement) itemA).getConstructionIndex() > ((GeoElement) itemB).getConstructionIndex() ? -1 : 1;

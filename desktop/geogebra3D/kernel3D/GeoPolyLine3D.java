@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathParameter;
@@ -302,7 +302,7 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 
 		for (; index1 < getNumPoints() - 1; index1++) {
 			if (!points[index1].getCoordsInD(3).equalsForKernel(
-					points[0].getCoordsInD(3), AbstractKernel.EPSILON)) {
+					points[0].getCoordsInD(3), Kernel.EPSILON)) {
 				direction1 = points[index1].getInhomCoordsInD(3).sub(
 						points[0].getInhomCoordsInD(3));
 				break;
@@ -318,7 +318,7 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 			direction2 = points[index2].getInhomCoordsInD(3).sub(
 					points[index1].getInhomCoordsInD(3));
 			normal = direction1.crossProduct(direction2);
-			if (!normal.equalsForKernel(new Coords(0, 0, 0), AbstractKernel.EPSILON)) {
+			if (!normal.equalsForKernel(new Coords(0, 0, 0), Kernel.EPSILON)) {
 				break;
 			} else {
 				direction2 = null;
@@ -335,7 +335,7 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 			direction3 = points[index2 + 1].getInhomCoordsInD(3).sub(
 					points[index2].getInhomCoordsInD(3));
 			if (!direction3.crossProduct(normal).equalsForKernel(
-					new Coords(0, 0, 0), AbstractKernel.EPSILON)) {
+					new Coords(0, 0, 0), Kernel.EPSILON)) {
 				isPlanar = false;
 				return;
 			} else {

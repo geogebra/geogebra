@@ -1,7 +1,7 @@
 package geogebra.common.kernel.commands;
 
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -17,7 +17,7 @@ import geogebra.common.main.MyError;
  */
 public class CmdPoint extends CommandProcessor {
 	
-	public CmdPoint (AbstractKernel kernel) {
+	public CmdPoint (Kernel kernel) {
 		super(kernel);
 	}
 	

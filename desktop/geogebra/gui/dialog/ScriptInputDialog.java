@@ -11,7 +11,7 @@ the Free Software Foundation.
 */
 package geogebra.gui.dialog;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
@@ -179,7 +179,7 @@ public class ScriptInputDialog extends InputDialog {
 	
 	private class TextInputHandler implements InputHandler {
 		
-		private AbstractKernel kernel;
+		private Kernel kernel;
        
         private TextInputHandler() { 
         	kernel = app.getKernel();

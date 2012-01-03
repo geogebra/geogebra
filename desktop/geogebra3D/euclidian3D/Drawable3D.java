@@ -3,14 +3,13 @@ package geogebra3D.euclidian3D;
 
 
 import geogebra.common.euclidian.DrawableND;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.Manager;
 import geogebra3D.euclidian3D.opengl.Renderer;
-import geogebra3D.kernel3D.GeoAxis3D;
 import geogebra3D.kernel3D.GeoElement3D;
 
 import java.awt.Color;

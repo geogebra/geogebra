@@ -18,7 +18,7 @@ import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
 
 import geogebra.common.kernel.AbstractAnimationManager;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.AbstractUndoManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.View;
@@ -38,7 +38,6 @@ import geogebra.web.euclidian.EuclidianController;
 import geogebra.web.euclidian.EuclidianView;
 import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLio;
-import geogebra.web.kernel.Kernel;
 import geogebra.web.util.DataUtil;
 
 
@@ -376,7 +375,7 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public AbstractKernel getKernel() {
+	public Kernel getKernel() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -650,7 +649,7 @@ public class Application extends AbstractApplication {
     }
 
 	@Override
-    public AbstractAnimationManager newAnimationManager(AbstractKernel kernel2) {
+    public AbstractAnimationManager newAnimationManager(Kernel kernel2) {
 	    // TODO Auto-generated method stub
 	    return null;
     }

@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoElement;
  */
 public class CmdRandomUniform extends CmdTwoNumFunction {
 
-	public CmdRandomUniform(AbstractKernel kernel) {
+	public CmdRandomUniform(Kernel kernel) {
 		super(kernel);
 	}
 

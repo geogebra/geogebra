@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoListLength;
@@ -42,7 +42,7 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 
 	// ggb 
 	protected Application app;
-	private AbstractKernel kernel; 
+	private Kernel kernel; 
 	protected StatDialog statDialog;
 	private int mode;
 	protected StatTable statTable;

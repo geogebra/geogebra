@@ -1,7 +1,7 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
@@ -45,7 +45,7 @@ SpecialNumberFormatInterface {
 
 	// ggb 
 	private Application app;
-	private AbstractKernel kernel; 
+	private Kernel kernel; 
 	private SpreadsheetView spView;	
 	private StatGeo statGeo;
 	private StatDialogController sdc;

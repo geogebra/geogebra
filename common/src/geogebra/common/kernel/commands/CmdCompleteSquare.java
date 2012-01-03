@@ -4,12 +4,12 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 
 public class CmdCompleteSquare extends CommandProcessor {
 	
-	public CmdCompleteSquare (AbstractKernel kernel) {
+	public CmdCompleteSquare (Kernel kernel) {
 		super(kernel);
 	}
 	

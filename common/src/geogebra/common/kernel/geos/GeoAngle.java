@@ -23,7 +23,7 @@ package geogebra.common.kernel.geos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AngleAlgo;
 
 /**
@@ -51,7 +51,7 @@ public class GeoAngle extends GeoNumeric {
 	/** Default minimum value when displayed as slider*/
 	final public static double DEFAULT_SLIDER_MIN = 0;
 	/** Default maximum value when displayed as slider*/
-	final public static double DEFAULT_SLIDER_MAX = AbstractKernel.PI_2;
+	final public static double DEFAULT_SLIDER_MAX = Kernel.PI_2;
 	final public static double DEFAULT_SLIDER_INCREMENT = Math.PI / 180.0;
 	/** Measure angle anticlockwise*/
 	final public static int ANGLE_ISANTICLOCKWISE = 0; // old allowReflexAngle=true
@@ -220,7 +220,7 @@ public class GeoAngle extends GeoNumeric {
 	 */
 	private double calcAngleValue(double val) {
 		// limit to [0, 2pi]
-		double angVal = AbstractKernel.convertToAngleValue(val);
+		double angVal = Kernel.convertToAngleValue(val);
 
 		rawValue = angVal;
 
@@ -248,7 +248,7 @@ public class GeoAngle extends GeoNumeric {
 
 	@Override
 	public void setIntervalMax(double max) {
-		if (max > AbstractKernel.PI_2)
+		if (max > Kernel.PI_2)
 			return;
 		super.setIntervalMax(max);
 	}

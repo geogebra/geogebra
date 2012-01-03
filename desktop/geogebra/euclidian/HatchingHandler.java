@@ -1,6 +1,6 @@
 package geogebra.euclidian;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.discrete.delauney.Pnt;
 import geogebra.common.kernel.discrete.delauney.Triangle;
 import geogebra.common.kernel.discrete.delauney.Triangulation;
@@ -63,7 +63,7 @@ public class HatchingHandler extends geogebra.common.euclidian.HatchingHandler{
 			xInt = 20;
 			yInt = (int) dist;
 
-		} else if (AbstractKernel.isEqual(Math.PI / 2, angle, 10E-8)) { // vertical
+		} else if (Kernel.isEqual(Math.PI / 2, angle, 10E-8)) { // vertical
 			xInt = (int) dist;
 			yInt = 20;
 
@@ -106,7 +106,7 @@ public class HatchingHandler extends geogebra.common.euclidian.HatchingHandler{
 			g2d.drawLine(0, yInt, xInt * 3, yInt);
 			g2d.drawLine(0, yInt * 2, xInt * 3, yInt * 2);
 
-		} else if (AbstractKernel.isEqual(Math.PI / 2, angle, 10E-8)) { // vertical
+		} else if (Kernel.isEqual(Math.PI / 2, angle, 10E-8)) { // vertical
 			g2d.drawLine(xInt, 0, xInt, yInt * 3);
 			g2d.drawLine(xInt * 2, 0, xInt * 2, yInt * 3);
 

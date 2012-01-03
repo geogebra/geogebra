@@ -4,7 +4,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 
 /*
@@ -12,7 +12,7 @@ import geogebra.common.kernel.AbstractKernel;
  */
 public class CmdIntersection extends CommandProcessor {
 	
-	public CmdIntersection(AbstractKernel kernel) {
+	public CmdIntersection(Kernel kernel) {
 		super(kernel);
 	}
 	

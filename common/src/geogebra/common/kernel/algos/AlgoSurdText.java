@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -77,7 +77,7 @@ public class AlgoSurdText extends AlgoElement {
 			
 			double decimal = num.getDouble();
 			
-			if ( AbstractKernel.isEqual(decimal - Math.round(decimal) , 0.0, AbstractKernel.MAX_PRECISION)) {
+			if ( Kernel.isEqual(decimal - Math.round(decimal) , 0.0, Kernel.MAX_PRECISION)) {
 				sb.append(kernel.format(Math.round(decimal)));
 			} else {
 				/*double[] frac = AlgoFractionText.DecimalToFraction(decimal, AbstractKernel.EPSILON);
@@ -117,7 +117,7 @@ public class AlgoSurdText extends AlgoElement {
     
     protected void PSLQappend(StringBuilder sb, double num) {
 		double[] numPowers = {num * num, num, 1.0};
-		int[] coeffs = PSLQ(numPowers,AbstractKernel.STANDARD_PRECISION,10);
+		int[] coeffs = PSLQ(numPowers,Kernel.STANDARD_PRECISION,10);
 		
 		if (coeffs[0] == 0 && coeffs[1] == 0 && coeffs[2] == 0 ) {
 			sb.append("\\text{"+app.getPlain("undefined")+"}");
@@ -351,7 +351,7 @@ public class AlgoSurdText extends AlgoElement {
 				xB[i]=0;
 				for (int k=0; k<n; k++)
 					xB[i]+= x[k]*B[k][i];
-				if (AbstractKernel.isEqual(xB[i],0,AccuracyFactor)) {
+				if (Kernel.isEqual(xB[i],0,AccuracyFactor)) {
 					for (int k=0; k<n; k++)
 						coeffs[k] = B[k][i];
 					return coeffs;

@@ -12,7 +12,7 @@ the Free Software Foundation.
 */
 
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
@@ -71,7 +71,7 @@ public class FitRealFunction implements org.apache.commons.math.optimization.fit
 	private final static	double		DELTAX			=	1.0E-8;		//To be decided...	
 	
 	/// --- Properties --- ///
-	private		AbstractKernel			kernel				=	null;
+	private		Kernel			kernel				=	null;
 	private 	int				numberOfParameters	=	0;
 	private		Object[]		gliders				=	null;			//Pointers to gliders, need for new startvalues
 	private		Function		newf				=	null;
@@ -190,7 +190,7 @@ public class FitRealFunction implements org.apache.commons.math.optimization.fit
   // --- SNIP --- /// *** Comment out when finished ***
  	
     // Hook for plugin scripts
-	public FitRealFunction(AbstractKernel k,String fname) throws Exception{
+	public FitRealFunction(Kernel k,String fname) throws Exception{
 		GeoElement geo=k.lookupLabel(fname);
 		if(geo.isGeoFunction()){
 			setFunction(((GeoFunction)geo).getFunction());

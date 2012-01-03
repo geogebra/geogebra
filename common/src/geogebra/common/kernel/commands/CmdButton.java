@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
@@ -20,7 +20,7 @@ public class CmdButton extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdButton(AbstractKernel kernel) {
+	public CmdButton(Kernel kernel) {
 		super(kernel);
 	}
 

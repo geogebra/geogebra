@@ -5,14 +5,14 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /*
  * Name[ <GeoElement> ]
  */
 public class CmdText extends CommandProcessor {
 
-	public CmdText(AbstractKernel kernel) {
+	public CmdText(Kernel kernel) {
 		super(kernel);
 	}
 

@@ -3,7 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Textfield[],Textfield[object]
@@ -19,7 +19,7 @@ public class CmdTextfield extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdTextfield(AbstractKernel kernel) {
+	public CmdTextfield(Kernel kernel) {
 		super(kernel);
 	}
 

@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Classes
@@ -17,7 +17,7 @@ public class CmdClasses extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdClasses(AbstractKernel kernel) {
+	public CmdClasses(Kernel kernel) {
 		super(kernel);
 	}
 

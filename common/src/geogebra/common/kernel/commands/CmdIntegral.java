@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Integral[ <GeoFunction> ] Integral[ <GeoFunction>, <Number a>, <Number b> ]
@@ -27,7 +27,7 @@ public class CmdIntegral extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdIntegral(AbstractKernel kernel, boolean between) {
+	public CmdIntegral(Kernel kernel, boolean between) {
 		super(kernel);
 		internalCommandName = between ? "IntegralBetween" : "Integral";
 	}

@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoConic;
@@ -28,7 +28,7 @@ public class CmdAngle extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdAngle(AbstractKernel kernel) {
+	public CmdAngle(Kernel kernel) {
 		super(kernel);
 	}
 

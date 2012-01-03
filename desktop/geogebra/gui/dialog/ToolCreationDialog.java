@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.gui.dialog;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.NameDescriptionComparator;
 import geogebra.common.kernel.geos.GeoElement;
@@ -183,7 +183,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 		GeoElement[] output = toGeoElements(outputList);
 
 		// try to create macro
-		AbstractKernel kernel = app.getKernel();
+		Kernel kernel = app.getKernel();
 		try {
 			newTool = new Macro(kernel, "newTool", input, output);
 			return true;
@@ -218,7 +218,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 			appToSave = (Application) app.getMacro().getKernel()
 					.getApplication();
 
-		AbstractKernel kernel = appToSave.getKernel();
+		Kernel kernel = appToSave.getKernel();
 		String cmdName = namePanel.getCommandName();
 		// check if command name is not used already by another macro
 		if (kernel.getMacro(cmdName) != null) {
@@ -264,7 +264,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 				options, options[1]);
 		if (returnVal == 1)
 			return;
-		AbstractKernel kernel = macro.getKernel();
+		Kernel kernel = macro.getKernel();
 		Application appToSave = (Application) kernel.getApplication();
 		boolean compatible = newTool.getNeededTypesString().equals(
 				macro.getNeededTypesString());

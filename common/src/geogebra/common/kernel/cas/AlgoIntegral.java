@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.cas;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
@@ -70,8 +70,8 @@ public class AlgoIntegral extends AlgoCasBase {
 	protected void applyCasCommand() {
 
 		// var.getLabel() can return a number in wrong alphabet (need ASCII)
-		boolean internationalizeDigits = AbstractKernel.internationalizeDigits;
-		AbstractKernel.internationalizeDigits = false;
+		boolean internationalizeDigits = Kernel.internationalizeDigits;
+		Kernel.internationalizeDigits = false;
 
 		// get variable string with tmp prefix,
 		// e.g. "x" becomes "ggbtmpvarx" here
@@ -79,7 +79,7 @@ public class AlgoIntegral extends AlgoCasBase {
 		kernel.setUseTempVariablePrefix(true);
 		String varStr = var != null ? var.getLabel() : f.getVarString();
 		kernel.setUseTempVariablePrefix(isUseTempVariablePrefix);
-		AbstractKernel.internationalizeDigits = internationalizeDigits;
+		Kernel.internationalizeDigits = internationalizeDigits;
 
 		sbAE.setLength(0);
 		sbAE.append("Integral(%");

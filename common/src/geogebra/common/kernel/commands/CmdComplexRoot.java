@@ -4,7 +4,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * ComplexRoot[ <GeoFunction> ]
@@ -17,7 +17,7 @@ public class CmdComplexRoot extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdComplexRoot(AbstractKernel kernel) {
+	public CmdComplexRoot(Kernel kernel) {
 		super(kernel);
 	}
 

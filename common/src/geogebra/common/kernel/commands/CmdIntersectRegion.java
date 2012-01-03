@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -11,7 +11,7 @@ public class CmdIntersectRegion extends CommandProcessor {
 	/**
 	 * @param kernel
 	 */
-	public CmdIntersectRegion(AbstractKernel kernel) {
+	public CmdIntersectRegion(Kernel kernel) {
 		super(kernel);
 	}
 

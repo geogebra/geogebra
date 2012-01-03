@@ -1,6 +1,6 @@
 package geogebra.gui.dialog;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -24,9 +24,9 @@ public class InputDialogDilate extends InputDialog {
 	GeoPoint2[] points;
 	GeoElement[] selGeos;
 
-	private AbstractKernel kernel;
+	private Kernel kernel;
 		
-	public InputDialogDilate(Application app, String title, InputHandler handler,  GeoPoint2[] points, GeoElement[] selGeos, AbstractKernel kernel) {
+	public InputDialogDilate(Application app, String title, InputHandler handler,  GeoPoint2[] points, GeoElement[] selGeos, Kernel kernel) {
 		super(app.getFrame(), false);
 		
 		this.app = app;

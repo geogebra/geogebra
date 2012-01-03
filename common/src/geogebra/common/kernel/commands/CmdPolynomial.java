@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Polynomial[ <GeoFunction> ]
@@ -19,7 +19,7 @@ public class CmdPolynomial extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdPolynomial(AbstractKernel kernel) {
+	public CmdPolynomial(Kernel kernel) {
 		super(kernel);
 	}
 

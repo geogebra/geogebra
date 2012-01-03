@@ -4,7 +4,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *InverseFDistribution
@@ -17,7 +17,7 @@ public class CmdInverseFDistribution extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdInverseFDistribution(AbstractKernel kernel) {
+	public CmdInverseFDistribution(Kernel kernel) {
 		super(kernel);
 	}
 

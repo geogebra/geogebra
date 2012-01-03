@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *SolveODE
@@ -19,7 +19,7 @@ public class CmdSolveODE extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdSolveODE(AbstractKernel kernel) {
+	public CmdSolveODE(Kernel kernel) {
 		super(kernel);
 	}
 

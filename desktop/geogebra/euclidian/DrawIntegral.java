@@ -15,7 +15,7 @@ package geogebra.euclidian;
 import geogebra.common.euclidian.DrawParametricCurve;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.GeneralPathClipped;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoElement;
@@ -95,7 +95,7 @@ public class DrawIntegral extends Drawable {
 
 		// plot definite integral
 
-		if (AbstractKernel.isEqual(aRW, bRW)) {
+		if (Kernel.isEqual(aRW, bRW)) {
 			gp.moveTo(ax, y0);
 			gp.lineTo(ax, view.toScreenCoordYd(f.evaluate(aRW)));
 			gp.lineTo(ax, y0);

@@ -1,7 +1,7 @@
 
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
@@ -37,7 +37,7 @@ import javax.swing.text.html.parser.ParserDelegator;
 public class CopyPasteCut {
 
 	// ggb support classes
-	protected AbstractKernel kernel;
+	protected Kernel kernel;
 	protected Application app;
 	protected MyTable table;
 	protected DefaultTableModel tableModel;
@@ -73,7 +73,7 @@ public class CopyPasteCut {
 	/***************************************
 	 * Constructor
 	 */
-	public CopyPasteCut(MyTable table0, AbstractKernel kernel0) {
+	public CopyPasteCut(MyTable table0, Kernel kernel0) {
 
 		table = table0;
 		tableModel = (DefaultTableModel) table.getModel();

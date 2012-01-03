@@ -7,7 +7,7 @@ import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /*
  * First[ <List>,n ]
@@ -16,7 +16,7 @@ import geogebra.common.kernel.AbstractKernel;
  */
 public class CmdFirst extends CommandProcessor {
 
-	public CmdFirst(AbstractKernel kernel) {
+	public CmdFirst(Kernel kernel) {
 		super(kernel);
 	}
 

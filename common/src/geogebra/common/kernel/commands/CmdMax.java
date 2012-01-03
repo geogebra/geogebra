@@ -7,14 +7,14 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoInterval;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /*
  * Max[ <Number>, <Number> ]
  */
 public class CmdMax extends CommandProcessor {
 
-	public CmdMax(AbstractKernel kernel) {
+	public CmdMax(Kernel kernel) {
 		super(kernel);
 	}
 

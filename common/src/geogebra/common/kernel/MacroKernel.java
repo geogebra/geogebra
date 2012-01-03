@@ -25,12 +25,12 @@ import java.util.LinkedHashMap;
 /**
  * Kernel with its own construction for macros.
  */
-public class MacroKernel extends AbstractKernel implements MacroKernelInterface {
+public class MacroKernel extends Kernel implements MacroKernelInterface {
 
-	private AbstractKernel parentKernel;
+	private Kernel parentKernel;
 	private MacroConstruction macroCons;
 
-	public MacroKernel(AbstractKernel parentKernel) {
+	public MacroKernel(Kernel parentKernel) {
 		this.parentKernel = parentKernel;
 
 		app = parentKernel.getApplication();
@@ -49,7 +49,7 @@ public class MacroKernel extends AbstractKernel implements MacroKernelInterface 
 		return true;
 	}
 
-	public AbstractKernel getParentKernel() {
+	public Kernel getParentKernel() {
 		return parentKernel;
 	}
 
@@ -133,7 +133,7 @@ public class MacroKernel extends AbstractKernel implements MacroKernelInterface 
 		return parentKernel.newMyXMLHandler(this, cons);
 	}
 
-	public AlgebraProcessor newAlgebraProcessor(AbstractKernel kernel) {
+	public AlgebraProcessor newAlgebraProcessor(Kernel kernel) {
 		return parentKernel.newAlgebraProcessor(kernel);
 	}
 

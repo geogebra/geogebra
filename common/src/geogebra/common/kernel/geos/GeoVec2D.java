@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ListValue;
@@ -47,23 +47,23 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
     
     private int mode; // POLAR or CARTESIAN  
     
-    private AbstractKernel kernel;
+    private Kernel kernel;
     
     
     /** Creates new GeoVec2D */
-    public GeoVec2D(AbstractKernel kernel) {
+    public GeoVec2D(Kernel kernel) {
     	this.kernel = kernel;
     }
     
     /** Creates new GeoVec2D with coordinates (x,y)*/
-    public GeoVec2D(AbstractKernel kernel, double x, double y) {
+    public GeoVec2D(Kernel kernel, double x, double y) {
     	this(kernel);
         this.x = x;
         this.y = y;
     }
     
     /** Creates new GeoVec2D with coordinates (a[0],a[1])*/
-    public GeoVec2D(AbstractKernel kernel, double [] a) {
+    public GeoVec2D(Kernel kernel, double [] a) {
     	this(kernel);
         x = a[0];
         y = a[1];
@@ -79,10 +79,10 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
     
     
     public boolean isImaginaryUnit() {
-    	return mode == AbstractKernel.COORD_COMPLEX && x == 0 && y == 1;
+    	return mode == Kernel.COORD_COMPLEX && x == 0 && y == 1;
     }
     
-	public ExpressionValue deepCopy(AbstractKernel kernel) {
+	public ExpressionValue deepCopy(Kernel kernel) {
 		return new GeoVec2D(this);
 	}   
 	
@@ -90,7 +90,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
     }
             
     /** Creates new GeoVec2D as vector between Points P and Q */
-    public GeoVec2D(AbstractKernel kernel, GeoPoint2 p, GeoPoint2 q) {   
+    public GeoVec2D(Kernel kernel, GeoPoint2 p, GeoPoint2 q) {   
     	this(kernel);    
         x = q.getX() - p.getX();
         y = q.getY() - p.getY();
@@ -177,7 +177,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
      * those of vector v. 
      */
     final public boolean isEqual(GeoVec2D v) {                   
-        return AbstractKernel.isEqual(x, v.x) && AbstractKernel.isEqual(y, v.y);                   
+        return Kernel.isEqual(x, v.x) && Kernel.isEqual(y, v.y);                   
     }
     
     /** Yields true if this vector and v are linear dependent 
@@ -186,7 +186,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
      */
     final public boolean linDep(GeoVec2D v) {
         // v = l* w  <=>  det(v, w) = o
-        return AbstractKernel.isZero(det(this, v));                   
+        return Kernel.isZero(det(this, v));                   
     }
     
     /** calculates the determinant of u and v.
@@ -257,8 +257,8 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
     final public static void add(GeoVec2D a, GeoVec2D b, GeoVec2D c) {                                       
         c.x = a.x + b.x;
         c.y = a.y + b.y;
-        if (a.getMode() == AbstractKernel.COORD_COMPLEX || b.getMode() ==AbstractKernel.COORD_COMPLEX)
-        	c.setMode(AbstractKernel.COORD_COMPLEX);
+        if (a.getMode() == Kernel.COORD_COMPLEX || b.getMode() ==Kernel.COORD_COMPLEX)
+        	c.setMode(Kernel.COORD_COMPLEX);
     }
     
     /** (xc,yc) = (xa + b , yx)  ie complex + real for complex nos
@@ -266,10 +266,10 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
      * */
     final public static void add(GeoVec2D a, NumberValue b, GeoVec2D c) {    
     	
-    	if (a.getMode() == AbstractKernel.COORD_COMPLEX) {  	
+    	if (a.getMode() == Kernel.COORD_COMPLEX) {  	
 	        c.x = a.x + b.getDouble();
 	        c.y = a.y;
-          	c.setMode(AbstractKernel.COORD_COMPLEX);
+          	c.setMode(Kernel.COORD_COMPLEX);
           	} else {
             c.x = a.x + b.getDouble();
             c.y = a.y + b.getDouble();   		
@@ -332,10 +332,10 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
      * or (xc,yc) = (b - xa, b - yx)  for Vectors/Points
      * */
     final public static void sub(NumberValue b, GeoVec2D a, GeoVec2D c) {                                       
-    	if (a.getMode() == AbstractKernel.COORD_COMPLEX) {  	
+    	if (a.getMode() == Kernel.COORD_COMPLEX) {  	
             c.x = b.getDouble() - a.x;
             c.y = -a.y;
-          	c.setMode(AbstractKernel.COORD_COMPLEX);
+          	c.setMode(Kernel.COORD_COMPLEX);
     	} else {
             c.x = b.getDouble() - a.x;
             c.y = b.getDouble() - a.y;
@@ -346,10 +346,10 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
      * or (xc,yc) = (xa - b , yx - b)   for Vectors/Points
      * */
     final public static void sub(GeoVec2D a, NumberValue b, GeoVec2D c) {                                       
-    	if (a.getMode() == AbstractKernel.COORD_COMPLEX) {  	
+    	if (a.getMode() == Kernel.COORD_COMPLEX) {  	
             c.x = a.x - b.getDouble();
             c.y = a.y;
-          	c.setMode(AbstractKernel.COORD_COMPLEX);
+          	c.setMode(Kernel.COORD_COMPLEX);
     	} else {
             c.x = a.x - b.getDouble();
             c.y = a.y - b.getDouble();
@@ -367,8 +367,8 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
     final public static void sub(GeoVec2D a, GeoVec2D b, GeoVec2D c) {
         c.x = a.x - b.x;
         c.y = a.y - b.y;
-        if (a.getMode() == AbstractKernel.COORD_COMPLEX || b.getMode() ==AbstractKernel.COORD_COMPLEX)
-        	c.setMode(AbstractKernel.COORD_COMPLEX);
+        if (a.getMode() == Kernel.COORD_COMPLEX || b.getMode() ==Kernel.COORD_COMPLEX)
+        	c.setMode(Kernel.COORD_COMPLEX);
     }       
         
     final public void mult(double b) {
@@ -396,7 +396,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
       out = out.divide(new Complex(b.x, b.y));
       c.x = out.getReal();
       c.y = out.getImaginary();
-    	c.setMode(AbstractKernel.COORD_COMPLEX);
+    	c.setMode(Kernel.COORD_COMPLEX);
       
     }
     
@@ -415,7 +415,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
         out = out.divide(new Complex(b.x, b.y));
         c.x = out.getReal();
         c.y = out.getImaginary();
-    	c.setMode(AbstractKernel.COORD_COMPLEX);
+    	c.setMode(Kernel.COORD_COMPLEX);
 }
     
     /** c = a * b Michael Borcherds 2007-12-09 */
@@ -432,7 +432,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
       c.x = out.getReal();
       c.y = out.getImaginary();
 
-    	c.setMode(AbstractKernel.COORD_COMPLEX);
+    	c.setMode(Kernel.COORD_COMPLEX);
     }
 
     /** c = a ^ b Michael Borcherds 2009-03-10 */
@@ -441,7 +441,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
         out = out.pow(new Complex(b.getDouble(), 0));
         c.x = out.getReal();
         c.y = out.getImaginary();
-      	c.setMode(AbstractKernel.COORD_COMPLEX);
+      	c.setMode(Kernel.COORD_COMPLEX);
     }
 
     /** c = sqrt(a) Michael Borcherds 2010-02-07 */
@@ -450,7 +450,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
         out = out.sqrt();
         c.x = out.getReal();
         c.y = out.getImaginary();
-      	c.setMode(AbstractKernel.COORD_COMPLEX);
+      	c.setMode(Kernel.COORD_COMPLEX);
     }
 
     /** c = sqrt(a) Michael Borcherds 2010-02-07 */
@@ -459,7 +459,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
         out = out.pow(new Complex(1/3d, 0));
         c.x = out.getReal();
         c.y = out.getImaginary();
-      	c.setMode(AbstractKernel.COORD_COMPLEX);
+      	c.setMode(Kernel.COORD_COMPLEX);
     }
 
     /** c = sqrt(a) Michael Borcherds 2010-02-07 */
@@ -468,7 +468,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
         out = out.conjugate();
         c.x = out.getReal();
         c.y = out.getImaginary();
-      	c.setMode(AbstractKernel.COORD_COMPLEX);
+      	c.setMode(Kernel.COORD_COMPLEX);
     }
 
     /** c = sqrt(a) Michael Borcherds 2010-02-07 */
@@ -482,7 +482,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
         out = out.pow(new Complex(b.x, b.y));
         c.x = out.getReal();
         c.y = out.getImaginary();
-      	c.setMode(AbstractKernel.COORD_COMPLEX);
+      	c.setMode(Kernel.COORD_COMPLEX);
     }
 
     /** c = e ^ a Michael Borcherds 2009-03-10 */
@@ -491,7 +491,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
         out = out.exp();
         c.x = out.getReal();
         c.y = out.getImaginary();
-      	c.setMode(AbstractKernel.COORD_COMPLEX);
+      	c.setMode(Kernel.COORD_COMPLEX);
     }
 
     /** c = natural log(a) Michael Borcherds 2009-03-10 */
@@ -500,7 +500,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
         out = out.log();
         c.x = out.getReal();
         c.y = out.getImaginary();
-      	c.setMode(AbstractKernel.COORD_COMPLEX);
+      	c.setMode(Kernel.COORD_COMPLEX);
     }
 
     /** c = abs(a) Michael Borcherds 2009-03-10 */
@@ -516,7 +516,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
         out = out.pow(new Complex(b.x, b.y));
         c.x = out.getReal();
         c.y = out.getImaginary();
-      	c.setMode(AbstractKernel.COORD_COMPLEX);
+      	c.setMode(Kernel.COORD_COMPLEX);
     }
 
     /** c = a * b Michael Borcherds 2007-12-09 */
@@ -531,7 +531,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
         c.x = out.getReal();
         c.y = out.getImaginary();
 
-    	c.setMode(AbstractKernel.COORD_COMPLEX);
+    	c.setMode(Kernel.COORD_COMPLEX);
     }
 
     /*
@@ -751,7 +751,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 				x=x / z1;
 				y=y / z1;
 			} else {
-				if (!AbstractKernel.isZero(z1)) {
+				if (!Kernel.isZero(z1)) {
 					// for a Vector, if z1!=0 then the answer can't be represented by a 2D vector
 					// so set undefined
 					// won't happen when 3rd row of matrix is (0,0,1)
@@ -794,7 +794,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 			
 		}
 		
-		public AbstractKernel getKernel() {
+		public Kernel getKernel() {
 			return kernel;
 		}
 

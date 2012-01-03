@@ -2,7 +2,7 @@ package geogebra.cas.view;
 
 import geogebra.cas.GeoGebraCAS;
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoCasCell;
@@ -42,7 +42,7 @@ public class CASView extends JComponent implements View, Gridable {
 
 	private static final long serialVersionUID = 1L;
 
-	private AbstractKernel kernel;
+	private Kernel kernel;
 
 	private CASTable consoleTable;
 	private CASInputHandler casInputHandler;

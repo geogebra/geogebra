@@ -17,7 +17,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.dialog.PropertiesPanel;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra.main.GeoElementSelectionListener;
 

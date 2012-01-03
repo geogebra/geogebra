@@ -4,7 +4,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *InverseGamma
@@ -17,7 +17,7 @@ public class CmdInverseGamma extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdInverseGamma(AbstractKernel kernel) {
+	public CmdInverseGamma(Kernel kernel) {
 		super(kernel);
 	}
 

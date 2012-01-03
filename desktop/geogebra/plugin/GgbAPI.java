@@ -13,7 +13,7 @@ package geogebra.plugin;
 import geogebra.cas.GeoGebraCAS;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.AlgebraProcessor;
@@ -80,7 +80,7 @@ public class GgbAPI {
 
     ///// ----- Properties ----- /////
     private Application         app=                null;   //References ...
-    private AbstractKernel              kernel=             null;
+    private Kernel              kernel=             null;
     private Construction        construction=       null;
     private AlgebraProcessor    algebraprocessor=   null;
    // private PluginManager       pluginmanager=      null;    
@@ -106,7 +106,7 @@ public class GgbAPI {
     public Construction getConstruction(){return this.construction;}
     
     /** Returns reference to Kernel */
-    public AbstractKernel getKernel(){return this.kernel;}
+    public Kernel getKernel(){return this.kernel;}
     
     /** Returns reference to AlgebraProcessor */
     public AlgebraProcessor getAlgebraProcessor(){return this.algebraprocessor;}
@@ -899,7 +899,7 @@ public class GgbAPI {
 			((GeoNumeric) geo).setValue(x);
 			geo.updateRepaint();
 		} else if (geo.isGeoBoolean()) {
-			((GeoBoolean) geo).setValue(AbstractKernel.isZero(x) ? false : true);
+			((GeoBoolean) geo).setValue(Kernel.isZero(x) ? false : true);
 			geo.updateRepaint();
 		}
 	}

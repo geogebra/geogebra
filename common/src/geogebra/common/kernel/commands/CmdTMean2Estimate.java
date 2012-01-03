@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * TEstimate (t confidence interval estimate of the difference of means)
@@ -18,7 +18,7 @@ public class CmdTMean2Estimate extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdTMean2Estimate(AbstractKernel kernel) {
+	public CmdTMean2Estimate(Kernel kernel) {
 		super(kernel);
 	}
 

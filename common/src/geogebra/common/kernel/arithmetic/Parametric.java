@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 
 import java.util.HashSet;
@@ -24,12 +24,12 @@ import java.util.HashSet;
 public class Parametric extends ValidExpression {
 	private ExpressionNode P, v;
 	private String parameter;
-	private AbstractKernel kernel;
+	private Kernel kernel;
 
 	/**
 	 * Creates new Parametric P + parameter * v. (X = P + parameter * v)
 	 */
-	public Parametric(AbstractKernel kernel, ExpressionValue P,
+	public Parametric(Kernel kernel, ExpressionValue P,
 			ExpressionValue v, String parameter) {
 		if (P.isExpressionNode())
 			this.P = (ExpressionNode) P;
@@ -70,7 +70,7 @@ public class Parametric extends ValidExpression {
 		return P.contains(ev) || v.contains(ev);
 	}
 
-	public ExpressionValue deepCopy(AbstractKernel kernel) {
+	public ExpressionValue deepCopy(Kernel kernel) {
 		return new Parametric(kernel, P.deepCopy(kernel), v.deepCopy(kernel),
 				parameter);
 	}
@@ -144,7 +144,7 @@ public class Parametric extends ValidExpression {
 		return toValueString();
 	}
 
-	public AbstractKernel getKernel() {
+	public Kernel getKernel() {
 		return kernel;
 	}
 }

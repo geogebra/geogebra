@@ -2,7 +2,7 @@ package geogebra.main;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElementInterface;
@@ -563,7 +563,7 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 			case KeyEvent.VK_D:
 			case KeyEvent.VK_BACK_QUOTE:
 				if (!event.isShiftDown()) {
-					AbstractKernel kernel = app.getKernel();
+					Kernel kernel = app.getKernel();
 					kernel.setAlgebraStyle((kernel.getAlgebraStyle() + 1) % 3);
 					kernel.updateConstruction();
 					app.setUnsaved();
@@ -896,20 +896,20 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 						GeoNumeric num = (GeoNumeric) geo;
 						double newValue = num.getValue() + changeVal
 								* num.getAnimationStep();
-						if (num.getAnimationStep() > AbstractKernel.MIN_PRECISION) {
+						if (num.getAnimationStep() > Kernel.MIN_PRECISION) {
 							// round to decimal fraction, e.g. 2.800000000001 to
 							// 2.8
 							if (num.isGeoAngle()) {
 								app.getKernel();
 								app.getKernel();
-								newValue = AbstractKernel.PI_180
-										* AbstractKernel
+								newValue = Kernel.PI_180
+										* Kernel
 												.checkDecimalFraction(
 														newValue
-																* AbstractKernel.CONST_180_PI,
+																* Kernel.CONST_180_PI,
 														1 / num.getAnimationStep());
 							} else
-								newValue = AbstractKernel.checkDecimalFraction(
+								newValue = Kernel.checkDecimalFraction(
 										newValue, 1 / num.getAnimationStep());
 						}
 						num.setValue(newValue);

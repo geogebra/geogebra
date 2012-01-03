@@ -4,7 +4,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Slope[ <GeoLine> ] Slope[ <GeoFunction> ]
@@ -17,7 +17,7 @@ public class CmdSlope extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdSlope(AbstractKernel kernel) {
+	public CmdSlope(Kernel kernel) {
 		super(kernel);
 	}
 

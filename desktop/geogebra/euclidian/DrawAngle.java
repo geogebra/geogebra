@@ -18,7 +18,7 @@ import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.factories.AwtFactory;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoAngleLines;
@@ -375,7 +375,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		// appearance
 		show90degrees = view.getRightAngleStyle() != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE
 				&& angle.isEmphasizeRightAngle()
-				&& AbstractKernel.isEqual(angExt, AbstractKernel.PI_HALF);
+				&& Kernel.isEqual(angExt, Kernel.PI_HALF);
 
 		// set coords to screen coords of vertex
 		coords[0] = m[0];
@@ -402,15 +402,15 @@ public class DrawAngle extends Drawable implements Previewable {
 								* view.getScaleRatio()));
 				square.lineTo(
 						(float) (coords[0] + arcSize
-								* Math.cos(angSt + AbstractKernel.PI_HALF / 2)),
+								* Math.cos(angSt + Kernel.PI_HALF / 2)),
 						(float) (coords[1] - arcSize
-								* Math.sin(angSt + AbstractKernel.PI_HALF / 2)
+								* Math.sin(angSt + Kernel.PI_HALF / 2)
 								* view.getScaleRatio()));
 				square.lineTo(
 						(float) (coords[0] + length
-								* Math.cos(angSt + AbstractKernel.PI_HALF)),
+								* Math.cos(angSt + Kernel.PI_HALF)),
 						(float) (coords[1] - length
-								* Math.sin(angSt + AbstractKernel.PI_HALF)
+								* Math.sin(angSt + Kernel.PI_HALF)
 								* view.getScaleRatio()));
 				square.lineTo((float) coords[0], (float) coords[1]);
 				shape = square;
@@ -427,26 +427,26 @@ public class DrawAngle extends Drawable implements Previewable {
 				square.moveTo(
 						(float) (coords[0] + length * Math.cos(angSt) + offset
 								* Math.cos(angSt) + offset
-								* Math.cos(angSt + AbstractKernel.PI_HALF)),
+								* Math.cos(angSt + Kernel.PI_HALF)),
 						(float) (coords[1] - length * Math.sin(angSt)
 								* view.getScaleRatio() - offset
 								* Math.sin(angSt) - offset
-								* Math.sin(angSt + AbstractKernel.PI_HALF)));
+								* Math.sin(angSt + Kernel.PI_HALF)));
 				square.lineTo(
 						(float) (coords[0] + offset * Math.cos(angSt) + offset
-								* Math.cos(angSt + AbstractKernel.PI_HALF)),
+								* Math.cos(angSt + Kernel.PI_HALF)),
 						(float) (coords[1] - offset * Math.sin(angSt) - offset
-								* Math.sin(angSt + AbstractKernel.PI_HALF)));
+								* Math.sin(angSt + Kernel.PI_HALF)));
 				square.lineTo(
 						(float) (coords[0] + length
-								* Math.cos(angSt + AbstractKernel.PI_HALF)
+								* Math.cos(angSt + Kernel.PI_HALF)
 								+ offset * Math.cos(angSt) + offset
-								* Math.cos(angSt + AbstractKernel.PI_HALF)),
+								* Math.cos(angSt + Kernel.PI_HALF)),
 						(float) (coords[1] - length
-								* Math.sin(angSt + AbstractKernel.PI_HALF)
+								* Math.sin(angSt + Kernel.PI_HALF)
 								* view.getScaleRatio() - offset
 								* Math.sin(angSt) - offset
-								* Math.sin(angSt + AbstractKernel.PI_HALF)));
+								* Math.sin(angSt + Kernel.PI_HALF)));
 				shape = square;  //FIXME
 
 				break;

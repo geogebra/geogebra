@@ -13,7 +13,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Length[ <GeoVector> ] Length[ <GeoPoint> ] Length[ <GeoList> ] Victor Franco
@@ -29,7 +29,7 @@ public class CmdLength extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdLength(AbstractKernel kernel) {
+	public CmdLength(Kernel kernel) {
 		super(kernel);
 	}
 

@@ -2,7 +2,7 @@ package geogebra3D.kernel3D;
 
 import java.util.ArrayList;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Locateable;
@@ -17,7 +17,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
-import geogebra.kernel.Kernel;
+
 
 /**
  * 3D vector class
@@ -190,12 +190,12 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
 		sbToString.setLength(0);
 		sbToString.append(label);
 
-		switch (((AbstractKernel) kernel).getCoordStyle()) {
-		case AbstractKernel.COORD_STYLE_FRENCH:
+		switch (((Kernel) kernel).getCoordStyle()) {
+		case Kernel.COORD_STYLE_FRENCH:
 			// no equal sign
 			sbToString.append(": ");
 
-		case AbstractKernel.COORD_STYLE_AUSTRIAN:
+		case Kernel.COORD_STYLE_AUSTRIAN:
 			// no equal sign
 			break;
 
@@ -220,13 +220,13 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
 		 * switch (toStringMode) {
 		 * 
 		 * 
-		 * case Kernel.COORD_POLAR: sbBuildValueString.append("(");
+		 * case AbstractKernel.COORD_POLAR: sbBuildValueString.append("(");
 		 * sbBuildValueString.append(kernel.format(GeoVec2D.length(x, y)));
 		 * sbBuildValueString.append("; ");
 		 * sbBuildValueString.append(kernel.formatAngle(Math.atan2(y, x)));
 		 * sbBuildValueString.append(")"); break;
 		 * 
-		 * case Kernel.COORD_COMPLEX:
+		 * case AbstractKernel.COORD_COMPLEX:
 		 * sbBuildValueString.append(kernel.format(x));
 		 * sbBuildValueString.append(" ");
 		 * sbBuildValueString.append(kernel.formatSigned(y));
@@ -234,7 +234,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
 		 * 
 		 * default: // CARTESIAN sbBuildValueString.append("(");
 		 * sbBuildValueString.append(kernel.format(x)); switch
-		 * (kernel.getCoordStyle()) { case Kernel.COORD_STYLE_AUSTRIAN:
+		 * (kernel.getCoordStyle()) { case AbstractKernel.COORD_STYLE_AUSTRIAN:
 		 * sbBuildValueString.append(" | "); break;
 		 * 
 		 * default: sbBuildValueString.append(", "); }
@@ -254,8 +254,8 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
 	}
 
 	private void setCoordSep() {
-		switch (((AbstractKernel) kernel).getCoordStyle()) {
-		case AbstractKernel.COORD_STYLE_AUSTRIAN:
+		switch (((Kernel) kernel).getCoordStyle()) {
+		case Kernel.COORD_STYLE_AUSTRIAN:
 			sbBuildValueString.append(" | ");
 			break;
 
@@ -412,7 +412,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
 	}
 
 	public Geo3DVec get3DVec() {
-		return new Geo3DVec((AbstractKernel)kernel, v.getX(), v.getY(), v.getZ());
+		return new Geo3DVec((Kernel)kernel, v.getX(), v.getY(), v.getZ());
 	}
 
 	public double[] getPointAsDouble() {

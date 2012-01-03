@@ -1,7 +1,7 @@
 package geogebra.gui.view.probcalculator;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.View;
@@ -104,7 +104,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 	//ggb fields
 	private Application app;
 	private Construction cons;
-	private AbstractKernel kernel; 
+	private Kernel kernel; 
 	private ProbabilityManager probManager;
 	private ProbabiltyCalculatorStyleBar styleBar;
 

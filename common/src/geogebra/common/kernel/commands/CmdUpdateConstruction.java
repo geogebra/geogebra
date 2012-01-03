@@ -2,7 +2,7 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;;
+import geogebra.common.kernel.Kernel;;
 
 /**
  *UpdateConstruction
@@ -15,7 +15,7 @@ public class CmdUpdateConstruction extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdUpdateConstruction(AbstractKernel kernel) {
+	public CmdUpdateConstruction(Kernel kernel) {
 		super(kernel);
 	}
 

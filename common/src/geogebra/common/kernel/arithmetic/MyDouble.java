@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -41,16 +41,16 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	private double val;
 	private boolean isAngle = false;
 
-	protected AbstractKernel kernel;
+	protected Kernel kernel;
 
 	public static double LARGEST_INTEGER = 9007199254740992.0; // 0x020000000000000
 
-	public MyDouble(AbstractKernel kernel) {
+	public MyDouble(Kernel kernel) {
 		this(kernel, 0.0);
 	}
 
 	/** Creates new MyDouble */
-	public MyDouble(AbstractKernel kernel, double x) {
+	public MyDouble(Kernel kernel, double x) {
 		this.kernel = kernel;
 		val = x;
 	}
@@ -65,7 +65,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * called from the parser power must be a string of unicode superscript
 	 * digits
 	 */
-	public MyDouble(AbstractKernel kernel, String power) {
+	public MyDouble(Kernel kernel, String power) {
 		this.kernel = kernel;
 
 		int sign = 1;
@@ -118,7 +118,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 
 	}
 
-	public ExpressionValue deepCopy(AbstractKernel kernel) {
+	public ExpressionValue deepCopy(Kernel kernel) {
 		MyDouble ret = new MyDouble(this);
 		ret.kernel = kernel;
 		return ret;
@@ -136,7 +136,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		if (isAngle) {
 			// convert to angle value first, see issue 87
 			// http://code.google.com/p/geogebra/issues/detail?id=87
-			double angleVal = AbstractKernel.convertToAngleValue(val);
+			double angleVal = Kernel.convertToAngleValue(val);
 			return kernel.formatAngle(angleVal).toString();
 		}
 		return kernel.format(val);
@@ -256,7 +256,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * make sure cos(2790 degrees) gives zero
 	 */
 	private void checkZero() {
-		if (AbstractKernel.isZero(val))
+		if (Kernel.isZero(val))
 			val = 0;
 	}
 
@@ -268,8 +268,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	final public MyDouble tan() {
 		// Math.tan() gives a very large number for tan(pi/2)
 		// but should be undefined for pi/2, 3pi/2, 5pi/2, etc.
-		if (AbstractKernel.isEqual(Math.abs(val) % Math.PI,
-				AbstractKernel.PI_HALF)) {
+		if (Kernel.isEqual(Math.abs(val) % Math.PI,
+				Kernel.PI_HALF)) {
 			val = Double.NaN;
 		} else {
 			val = Math.tan(val);
@@ -371,13 +371,13 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	final public MyDouble floor() {
 		// angle in degrees
 		// kernel.checkInteger() needed otherwise floor(60�) gives 59�
-		if (isAngle && kernel.getAngleUnit() == AbstractKernel.ANGLE_DEGREE) {
-			set(AbstractKernel.PI_180
-					* Math.floor(AbstractKernel.checkInteger(val
-							* AbstractKernel.CONST_180_PI)));
+		if (isAngle && kernel.getAngleUnit() == Kernel.ANGLE_DEGREE) {
+			set(Kernel.PI_180
+					* Math.floor(Kernel.checkInteger(val
+							* Kernel.CONST_180_PI)));
 		} else {
 			// number or angle in radians
-			set(Math.floor(AbstractKernel.checkInteger(val)));
+			set(Math.floor(Kernel.checkInteger(val)));
 		}
 		return this;
 	}
@@ -385,22 +385,22 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	final public MyDouble ceil() {
 		// angle in degrees
 		// kernel.checkInteger() needed otherwise ceil(241�) fails
-		if (isAngle && kernel.getAngleUnit() == AbstractKernel.ANGLE_DEGREE) {
-			set(AbstractKernel.PI_180
-					* Math.ceil(AbstractKernel.checkInteger(val
-							* AbstractKernel.CONST_180_PI)));
+		if (isAngle && kernel.getAngleUnit() == Kernel.ANGLE_DEGREE) {
+			set(Kernel.PI_180
+					* Math.ceil(Kernel.checkInteger(val
+							* Kernel.CONST_180_PI)));
 		} else {
 			// number or angle in radians
-			set(Math.ceil(AbstractKernel.checkInteger(val)));
+			set(Math.ceil(Kernel.checkInteger(val)));
 		}
 		return this;
 	}
 
 	final public MyDouble round() {
 		// angle in degrees
-		if (isAngle && kernel.getAngleUnit() == AbstractKernel.ANGLE_DEGREE) {
-			set(AbstractKernel.PI_180
-					* MyDouble.round(val * AbstractKernel.CONST_180_PI));
+		if (isAngle && kernel.getAngleUnit() == Kernel.ANGLE_DEGREE) {
+			set(Kernel.PI_180
+					* MyDouble.round(val * Kernel.CONST_180_PI));
 		} else {
 			// number or angle in radians
 			set(MyDouble.round(val));
@@ -725,7 +725,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return toValueString();
 	}
 
-	public AbstractKernel getKernel() {
+	public Kernel getKernel() {
 		return kernel;
 	}
 
@@ -735,7 +735,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	public int compareTo(Object arg0) {
 		if (arg0 instanceof MyDouble) {
 			MyDouble d = (MyDouble) arg0;
-			if (AbstractKernel.isEqual(val, d.getDouble())) {
+			if (Kernel.isEqual(val, d.getDouble())) {
 				return 0;
 			}
 			return val - d.getDouble() < 0 ? -1 : 1;
@@ -750,7 +750,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		}
 
 		if (d instanceof MyDouble) {
-			return AbstractKernel.isEqual(((MyDouble) d).getDouble(), val);
+			return Kernel.isEqual(((MyDouble) d).getDouble(), val);
 		}
 		return false;
 	}

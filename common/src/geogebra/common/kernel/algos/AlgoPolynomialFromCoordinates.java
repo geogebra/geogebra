@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
@@ -164,7 +164,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 		
     } 
     
-    public static Function buildPolyFunctionExpression(AbstractKernel kernel,double [] cof)
+    public static Function buildPolyFunctionExpression(Kernel kernel,double [] cof)
         {
     	int n=cof.length;
         ExpressionNode poly = null; // expression for the expanded polynomial		
@@ -202,7 +202,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 			// (coeff) * x^k
 			ExpressionValue partExp;
 			MyDouble coeffMyDouble = null;
-			if (AbstractKernel.isEqual(coeff, 1.0)) {
+			if (Kernel.isEqual(coeff, 1.0)) {
 				if (powerExp == null)
 					partExp = new MyDouble(kernel, 1.0);
 				else

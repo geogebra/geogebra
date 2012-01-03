@@ -1,7 +1,7 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.GeoGebraColorConstants;
@@ -48,7 +48,7 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 
 
 	private Application app;
-	private AbstractKernel kernel; 
+	private Kernel kernel; 
 
 	private JTable dataTable;
 	private JButton btnEnableAll;

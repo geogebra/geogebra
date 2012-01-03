@@ -1,6 +1,6 @@
 package geogebra.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdScripting;
 import geogebra.common.kernel.geos.GeoElement;
@@ -19,7 +19,7 @@ class CmdRename extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdRename(AbstractKernel kernel) {
+	public CmdRename(Kernel kernel) {
 		super(kernel);
 	}
 

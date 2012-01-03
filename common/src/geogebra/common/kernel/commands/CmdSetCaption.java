@@ -4,7 +4,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *SetCaption
@@ -17,7 +17,7 @@ public class CmdSetCaption extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdSetCaption(AbstractKernel kernel) {
+	public CmdSetCaption(Kernel kernel) {
 		super(kernel);
 	}
 

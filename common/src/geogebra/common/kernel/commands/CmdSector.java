@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Sector[ <GeoConic>, <Number>, <Number> ] Sector[ <GeoConic>, <GeoPoint>,
@@ -20,7 +20,7 @@ public class CmdSector extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdSector(AbstractKernel kernel) {
+	public CmdSector(Kernel kernel) {
 		super(kernel);
 	}
 

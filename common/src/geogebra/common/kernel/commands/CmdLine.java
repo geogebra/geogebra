@@ -1,7 +1,7 @@
 package geogebra.common.kernel.commands;
 
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -16,7 +16,7 @@ import geogebra.common.main.MyError;
  */
 public class CmdLine extends CommandProcessor {
 	
-	public CmdLine(AbstractKernel kernel) {
+	public CmdLine(Kernel kernel) {
 		super(kernel);
 	}
 	

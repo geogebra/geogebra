@@ -1,10 +1,9 @@
 package geogebra3D.euclidian3D.opengl;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.Matrix.Coords3D;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.kernel.Kernel;
 import geogebra3D.euclidian3D.plots.CurveMesh;
 import geogebra3D.euclidian3D.plots.CurveTree;
 import geogebra3D.euclidian3D.plots.MarchingCubes;
@@ -262,7 +261,7 @@ public class PlotterBrush {
 	public void segment(Coords p1, Coords p2){
 		
 		length = (float) p1.distance(p2);
-		if (Kernel.isEqual(length, 0, AbstractKernel.STANDARD_PRECISION))
+		if (Kernel.isEqual(length, 0, Kernel.STANDARD_PRECISION))
 			return;
 
 		down(p1);

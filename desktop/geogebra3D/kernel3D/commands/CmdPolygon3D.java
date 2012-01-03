@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdPolygon;
 import geogebra.common.kernel.geos.GeoElement;
@@ -18,7 +18,7 @@ import geogebra3D.kernel3D.Kernel3D;
 public class CmdPolygon3D extends CmdPolygon {
 	
 
-	public CmdPolygon3D(AbstractKernel kernel) {
+	public CmdPolygon3D(Kernel kernel) {
 		super(kernel);
 				
 	}
@@ -64,7 +64,7 @@ public class CmdPolygon3D extends CmdPolygon {
 			if (hasNormal)
 				return kernelA.getManager3D().Polygon3D(c.getLabels(), points, normal);
 			else*/
-				return ((AbstractKernel)kernelA).getManager3D().Polygon3D(c.getLabels(), points);
+				return ((Kernel)kernelA).getManager3D().Polygon3D(c.getLabels(), points);
 		}
  
 		return super.process(c);

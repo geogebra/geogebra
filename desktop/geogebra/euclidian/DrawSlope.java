@@ -16,12 +16,11 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoSlope;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.kernel.Kernel;
 
 import geogebra.common.awt.Graphics2D;
 import geogebra.common.awt.Shape;
@@ -46,7 +45,7 @@ public class DrawSlope extends Drawable {
 
 	private double[] coords = new double[2];
 	private GeneralPathClipped gp;
-	private AbstractKernel kernel;
+	private Kernel kernel;
 
 	/**
 	 * Creates new drawable for slope

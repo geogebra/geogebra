@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Translate[ <GeoPoint>, <GeoVector> ] Translate[ <GeoLine>, <GeoVector> ]
@@ -26,7 +26,7 @@ public class CmdTranslate extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdTranslate(AbstractKernel kernel) {
+	public CmdTranslate(Kernel kernel) {
 		super(kernel);
 	}
 

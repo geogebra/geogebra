@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra.util.ImageManager;
 
@@ -26,7 +26,7 @@ class CmdToolImage extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdToolImage(AbstractKernel kernel) {
+	public CmdToolImage(Kernel kernel) {
 		super(kernel);
 	}
 

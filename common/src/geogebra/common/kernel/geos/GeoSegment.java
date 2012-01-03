@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
@@ -24,7 +24,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.TransformInterface;
 
 import geogebra.common.awt.Color;
@@ -194,7 +194,7 @@ GeoSegmentND {
 		if (defined) {
 			length = startPoint.distance(endPoint);
 			
-			if (AbstractKernel.isZero(length)) length = 0;
+			if (Kernel.isZero(length)) length = 0;
 		}
 		else {
 			length = Double.NaN;	
@@ -631,7 +631,7 @@ GeoSegmentND {
     	if (checkOnFullLine) {
     		if (segEnd.sub(segStart).crossProduct(
     				point.sub(segStart)).equalsForKernel(
-    						new Coords(0,0,0), AbstractKernel.EPSILON))
+    						new Coords(0,0,0), Kernel.EPSILON))
     			return false;
     	}
     	

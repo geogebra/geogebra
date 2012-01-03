@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
@@ -142,7 +142,7 @@ public class AlgoTangentPoint extends AlgoElement implements TangentAlgo {
 	public void initForNearToRelationship() {
     	// if first tangent point is not on first tangent,
     	// we switch the intersection points
-    	if (!tangents[0].isOnFullLine(tangentPoints[0], AbstractKernel.MIN_PRECISION)) {
+    	if (!tangents[0].isOnFullLine(tangentPoints[0], Kernel.MIN_PRECISION)) {
         	algoIntersect.initForNearToRelationship();
         	
         	// remember first point
@@ -173,7 +173,7 @@ public class AlgoTangentPoint extends AlgoElement implements TangentAlgo {
         c.polarLine(P, polar);
 
         // if P lies on the conic, the polar is a tangent        
-        if (c.isIntersectionPointIncident(P, AbstractKernel.MIN_PRECISION)) {
+        if (c.isIntersectionPointIncident(P, Kernel.MIN_PRECISION)) {
             tangents[0].setCoords(polar);
             tangentPoints[0].setCoords(P);
 

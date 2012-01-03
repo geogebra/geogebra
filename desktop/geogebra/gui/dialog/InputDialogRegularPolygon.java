@@ -1,7 +1,7 @@
 package geogebra.gui.dialog;
 
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -16,9 +16,9 @@ public class InputDialogRegularPolygon extends InputDialog{
 	
 	private GeoPoint2 geoPoint1, geoPoint2;
 
-	private AbstractKernel kernel;
+	private Kernel kernel;
 	
-	public InputDialogRegularPolygon(Application app, String title, InputHandler handler, GeoPoint2 point1, GeoPoint2 point2, AbstractKernel kernel) {
+	public InputDialogRegularPolygon(Application app, String title, InputHandler handler, GeoPoint2 point1, GeoPoint2 point2, Kernel kernel) {
 		super(app, app.getPlain("Points"), title, "4", false, handler);
 		
 		geoPoint1 = point1;

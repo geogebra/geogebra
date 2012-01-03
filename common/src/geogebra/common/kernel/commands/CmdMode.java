@@ -2,14 +2,14 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /*
  * Mode[ <List> ]
  */
 public class CmdMode extends CmdOneListFunction {
 
-	public CmdMode(AbstractKernel kernel) {
+	public CmdMode(Kernel kernel) {
 		super(kernel);
 	}
 

@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
@@ -28,7 +28,7 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 
 	private static final long serialVersionUID = 1L;
 
-	protected AbstractKernel kernel;
+	protected Kernel kernel;
 	protected Application app;
 	protected GeoElement value;
 	protected MyTable table;
@@ -50,7 +50,7 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 
 
 
-	public MyCellEditor(AbstractKernel kernel) {
+	public MyCellEditor(Kernel kernel) {
 
 		super(new AutoCompleteTextField(0, (Application)kernel.getApplication(), false));
 		this.kernel = kernel;

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Font;
 import geogebra.common.awt.Graphics2D;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElementInterface;
@@ -52,7 +52,7 @@ public abstract class EuclidianViewInterface2D implements EuclidianViewInterface
 
 	public static final double YZERO_STANDARD = 315;
 
-	protected AbstractKernel kernel;
+	protected Kernel kernel;
 	
 	public static final Integer[] getLineTypes() {
 		Integer[] ret = { new Integer(EuclidianStyleConstants.LINE_TYPE_FULL),
@@ -152,7 +152,7 @@ public abstract class EuclidianViewInterface2D implements EuclidianViewInterface
 			setStyleBarMode(mode);
 		}
 		
-		public AbstractKernel getKernel() {
+		public Kernel getKernel() {
 			return kernel;
 		}
 		
@@ -246,8 +246,8 @@ public abstract class EuclidianViewInterface2D implements EuclidianViewInterface
 				ymax2 = c + (newHeight / 2);
 			}
 		}
-		if (((xmax2 - xmin2) > AbstractKernel.MIN_PRECISION)
-				&& ((ymax2 - ymin2) > AbstractKernel.MIN_PRECISION)) {
+		if (((xmax2 - xmin2) > Kernel.MIN_PRECISION)
+				&& ((ymax2 - ymin2) > Kernel.MIN_PRECISION)) {
 			setRealWorldCoordSystem(xmin2, xmax2, ymin2, ymax2);
 		}
 		updatingBounds = false;
@@ -579,13 +579,13 @@ public abstract class EuclidianViewInterface2D implements EuclidianViewInterface
 	public void setCoordSystem(double xZero, double yZero, double xscale,
 			double yscale, boolean repaint) {
 		if (Double.isNaN(xscale)
-				|| (xscale < AbstractKernel.MAX_DOUBLE_PRECISION)
-				|| (xscale > AbstractKernel.INV_MAX_DOUBLE_PRECISION)) {
+				|| (xscale < Kernel.MAX_DOUBLE_PRECISION)
+				|| (xscale > Kernel.INV_MAX_DOUBLE_PRECISION)) {
 			return;
 		}
 		if (Double.isNaN(yscale)
-				|| (yscale < AbstractKernel.MAX_DOUBLE_PRECISION)
-				|| (yscale > AbstractKernel.INV_MAX_DOUBLE_PRECISION)) {
+				|| (yscale < Kernel.MAX_DOUBLE_PRECISION)
+				|| (yscale > Kernel.INV_MAX_DOUBLE_PRECISION)) {
 			return;
 		}
 
@@ -921,7 +921,7 @@ public abstract class EuclidianViewInterface2D implements EuclidianViewInterface
 		if (automaticAxesNumberingDistances[axis]) {
 			// force same unit if scales are same, see #1082
 			if ((axis == 1) && automaticAxesNumberingDistances[0]
-					&& AbstractKernel.isEqual(getXscale(), getYscale())) {
+					&& Kernel.isEqual(getXscale(), getYscale())) {
 				axesNumberingDistances[1] = axesNumberingDistances[0];
 			} else if (piAxisUnit[axis]) {
 				axesNumberingDistances[axis] = Math.PI;

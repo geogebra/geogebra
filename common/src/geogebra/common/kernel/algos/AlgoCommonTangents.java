@@ -24,7 +24,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Two tangents through point P to conic section c
@@ -59,7 +59,7 @@ public class AlgoCommonTangents extends AlgoElement {
 
         // outer
         P = new GeoPoint2(cons);
-        if( Math.abs(r2-r) > AbstractKernel.MIN_PRECISION) {
+        if( Math.abs(r2-r) > Kernel.MIN_PRECISION) {
             P.setCoords((c.b.x*r2-c2.b.x*r)/(r2-r),
                         (c.b.y*r2-c2.b.y*r)/(r2-r), 1.0d);
         } else {
@@ -154,7 +154,7 @@ public class AlgoCommonTangents extends AlgoElement {
 	public void initForNearToRelationship() {
         // if first tangent point is not on first tangent,
         // we switch the intersection points
-        if (!tangents[0].isOnFullLine(tangentPoints[0], AbstractKernel.MIN_PRECISION)) {
+        if (!tangents[0].isOnFullLine(tangentPoints[0], Kernel.MIN_PRECISION)) {
             algoIntersect.initForNearToRelationship();
             // remember first point
             double px = tangentPoints[0].x;
@@ -166,7 +166,7 @@ public class AlgoCommonTangents extends AlgoElement {
             tangentPoints[1].setCoords(px, py, pz);
             algoIntersect.setIntersectionPoint(1, tangentPoints[1]);
         }
-        if (!tangents[0+2].isOnFullLine(tangentPoints2[0], AbstractKernel.MIN_PRECISION)) {
+        if (!tangents[0+2].isOnFullLine(tangentPoints2[0], Kernel.MIN_PRECISION)) {
             algoIntersect2.initForNearToRelationship();
             // remember first point
             double px = tangentPoints2[0].x;
@@ -195,7 +195,7 @@ public class AlgoCommonTangents extends AlgoElement {
         double r2 = c2.getCircleRadius();
 
         // outer
-        if( Math.abs(r2-r) > AbstractKernel.MIN_PRECISION) {
+        if( Math.abs(r2-r) > Kernel.MIN_PRECISION) {
             P.setCoords((c.b.x*r2-c2.b.x*r)/(r2-r),
                         (c.b.y*r2-c2.b.y*r)/(r2-r), 1.0d);
         } else {
@@ -205,7 +205,7 @@ public class AlgoCommonTangents extends AlgoElement {
         // update polar line
         c.polarLine(P, polar);
         // if P lies on the conic, the polar is a tangent        
-        if (c.isIntersectionPointIncident(P, AbstractKernel.MIN_PRECISION)) {
+        if (c.isIntersectionPointIncident(P, Kernel.MIN_PRECISION)) {
             tangents[0].setCoords(polar);
             tangentPoints[0].setCoords(P);
             // check if we had equal lines at the beginning
@@ -236,7 +236,7 @@ public class AlgoCommonTangents extends AlgoElement {
         // update polar line
         c2.polarLine(P2, polar2);
         // if P lies on the conic, the polar is a tangent        
-        if (c2.isIntersectionPointIncident(P2, AbstractKernel.MIN_PRECISION)) {
+        if (c2.isIntersectionPointIncident(P2, Kernel.MIN_PRECISION)) {
             tangents[0+2].setCoords(polar2);
             tangentPoints2[0].setCoords(P2);
             // check if we had equal lines at the beginning

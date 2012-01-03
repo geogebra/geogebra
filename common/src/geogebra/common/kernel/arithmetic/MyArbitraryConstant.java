@@ -1,7 +1,7 @@
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 public class MyArbitraryConstant extends MyDouble {
 	
@@ -17,7 +17,7 @@ public class MyArbitraryConstant extends MyDouble {
 	 * @param kernel
 	 * @param arbID ARB_INT, ARB_CONST, ARB_COMPLEX
 	 */
-	public MyArbitraryConstant(AbstractKernel kernel, int arbID, String numberStr) {
+	public MyArbitraryConstant(Kernel kernel, int arbID, String numberStr) {
 		super(kernel, 0);
 		
 		numberStr = numberStr.trim();

@@ -1,6 +1,6 @@
 package geogebra.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -44,7 +44,7 @@ class CmdBarCode extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdBarCode(AbstractKernel kernel) {
+	public CmdBarCode(Kernel kernel) {
 		super(kernel);
 	}
 

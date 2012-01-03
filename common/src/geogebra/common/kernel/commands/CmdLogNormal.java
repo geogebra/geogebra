@@ -5,14 +5,14 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /*
  * LogNormal distribution
  */
 public class CmdLogNormal extends CommandProcessor {
 
-	public CmdLogNormal(AbstractKernel kernel) {
+	public CmdLogNormal(Kernel kernel) {
 		super(kernel);
 	}
 

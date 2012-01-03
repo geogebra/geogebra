@@ -7,7 +7,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *Checkbox
@@ -20,7 +20,7 @@ public class CmdCheckbox extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdCheckbox(AbstractKernel kernel) {
+	public CmdCheckbox(Kernel kernel) {
 		super(kernel);
 	}
 

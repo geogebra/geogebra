@@ -11,7 +11,7 @@ import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.kernel.AbstractAnimationManager;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.AbstractUndoManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.View;
@@ -76,7 +76,7 @@ public abstract class AbstractApplication {
 
 	protected final ArrayList<GeoElement> selectedGeos = new ArrayList<GeoElement>();
 
-	protected AbstractKernel kernel;
+	protected Kernel kernel;
 
 	protected boolean isOnTheFlyPointCreationActive = true;
 
@@ -195,7 +195,7 @@ public abstract class AbstractApplication {
 
 	public abstract boolean isShowingEuclidianView2();
 
-	public abstract AbstractKernel getKernel();
+	public abstract Kernel getKernel();
 
 	public abstract Object getImageManager();
 	
@@ -518,7 +518,7 @@ public abstract class AbstractApplication {
 		selectedGeos.add(geo);
 		geo.setSelected(true);
 		if (repaint) {
-			((AbstractKernel)kernel).notifyRepaint();
+			((Kernel)kernel).notifyRepaint();
 		}
 		updateSelection();
 	
@@ -531,7 +531,7 @@ public abstract class AbstractApplication {
 			geos.get(i).setSelected(true);
 		}
 		if (repaint) {
-			((AbstractKernel)kernel).notifyRepaint();
+			((Kernel)kernel).notifyRepaint();
 		}
 		updateSelection();
 	}
@@ -550,7 +550,7 @@ public abstract class AbstractApplication {
 	@Deprecated
 	public abstract AbstractCommandDispatcher getCommandDispatcher();
 
-	public abstract AbstractAnimationManager newAnimationManager(AbstractKernel kernel2);
+	public abstract AbstractAnimationManager newAnimationManager(Kernel kernel2);
 
 	public abstract GeoElementGraphicsAdapter newGeoElementGraphicsAdapter();
 

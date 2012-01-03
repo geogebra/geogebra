@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 public class CmdTriangleCurve extends CommandProcessor {
 
@@ -16,7 +16,7 @@ public class CmdTriangleCurve extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdTriangleCurve(AbstractKernel kernel) {
+	public CmdTriangleCurve(Kernel kernel) {
 		super(kernel);
 	}
 

@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 
@@ -32,7 +32,7 @@ public abstract class ConstructionElement implements
 	// <-- Added for Intergeo File Format (Yves Kreis)
 
 	public transient Construction cons; // parent construction of this element
-	public transient AbstractKernel kernel; // parent kernel of this element
+	public transient Kernel kernel; // parent kernel of this element
 	protected transient AbstractApplication app; // parent application of this
 													// element
 
@@ -57,7 +57,7 @@ public abstract class ConstructionElement implements
 		return cons;
 	}
 
-	public final AbstractKernel getKernel() {
+	public final Kernel getKernel() {
 		return kernel;
 	}
 

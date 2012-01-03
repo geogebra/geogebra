@@ -5,7 +5,7 @@ import geogebra.common.kernel.Region;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 
 /**
@@ -16,9 +16,9 @@ public class CmdPointIn extends CommandProcessor {
 
 	/**
 	 * Initiates command processor for PointIn command
-	 * @param AbstractKernel kernel used for computations
+	 * @param Kernel kernel used for computations
 	 */
-	public CmdPointIn (AbstractKernel kernel) {
+	public CmdPointIn (Kernel kernel) {
 		super(kernel);
 	}
 

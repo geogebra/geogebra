@@ -2,7 +2,7 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /*
  * Sum[ list ]
@@ -10,7 +10,7 @@ import geogebra.common.kernel.AbstractKernel;
  */
 public class CmdMedian extends CmdOneListFunction {
 
-	public CmdMedian(AbstractKernel kernel) {
+	public CmdMedian(Kernel kernel) {
 		super(kernel);
 	}
 

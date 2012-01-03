@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
@@ -9,7 +9,7 @@ import geogebra.common.main.MyError;
 
 public class CmdLetterToUnicode extends CommandProcessor {
 
-	public CmdLetterToUnicode(AbstractKernel kernel) {
+	public CmdLetterToUnicode(Kernel kernel) {
 		super(kernel);
 	}
 

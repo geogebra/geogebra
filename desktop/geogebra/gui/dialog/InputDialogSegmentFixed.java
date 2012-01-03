@@ -1,6 +1,6 @@
 package geogebra.gui.dialog;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -15,9 +15,9 @@ public class InputDialogSegmentFixed extends InputDialog{
 	
 	private GeoPoint2 geoPoint1;
 
-	private AbstractKernel kernel;
+	private Kernel kernel;
 	
-	public InputDialogSegmentFixed(Application app, String title, InputHandler handler, GeoPoint2 point1, AbstractKernel kernel) {
+	public InputDialogSegmentFixed(Application app, String title, InputHandler handler, GeoPoint2 point1, Kernel kernel) {
 		super(app, app.getPlain("Length"), title, "", false, handler);
 		
 		geoPoint1 = point1;

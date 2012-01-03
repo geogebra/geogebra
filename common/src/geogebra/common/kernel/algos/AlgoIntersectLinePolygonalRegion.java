@@ -20,7 +20,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.awt.Color;
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
@@ -72,8 +72,8 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
         this.g = g;
         this.p = p;
 
-        newCoords = new TreeMap<Double, Coords>(AbstractKernel.DoubleComparator(AbstractKernel.STANDARD_PRECISION));
-        newSegmentCoords = new TreeMap<Double, Coords[]>(AbstractKernel.DoubleComparator(AbstractKernel.STANDARD_PRECISION));
+        newCoords = new TreeMap<Double, Coords>(Kernel.DoubleComparator(Kernel.STANDARD_PRECISION));
+        newSegmentCoords = new TreeMap<Double, Coords[]>(Kernel.DoubleComparator(Kernel.STANDARD_PRECISION));
         
         init();
         setInputOutput(); // for AlgoElement 
@@ -153,15 +153,15 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
     	for(int i=0; i<p.getSegments().length; i++){
     		GeoSegment seg = (GeoSegment) p.getSegments()[i];
     		Coords coords = GeoVec3D.cross((GeoLine) g, seg);
-    		if (AbstractKernel.isZero(coords.getLast())){
+    		if (Kernel.isZero(coords.getLast())){
     			Coords segStart = seg.getPointInD(2, 0);
     			Coords segEnd = seg.getPointInD(2, 1);
-    			if (((GeoLine) g).isOnPath(segStart, AbstractKernel.EPSILON) &&
-    					((GeoLine) g).isOnPath(segEnd, AbstractKernel.EPSILON)	) {
+    			if (((GeoLine) g).isOnPath(segStart, Kernel.EPSILON) &&
+    					((GeoLine) g).isOnPath(segEnd, Kernel.EPSILON)	) {
     				newCoords.put(((GeoLine) g).getPossibleParameter(segStart), segStart);
     				newCoords.put(((GeoLine) g).getPossibleParameter(segEnd), segEnd);
     			}
-    		} else if (seg.respectLimitedPath(coords, AbstractKernel.MIN_PRECISION)){
+    		} else if (seg.respectLimitedPath(coords, Kernel.MIN_PRECISION)){
        			double t = ((GeoLine) g).getPossibleParameter(coords);
     			//Application.debug("parameter("+i+") : "+t);
        			if (t>=min && t<=max)//TODO optimize that
@@ -225,7 +225,7 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
    		coordsOld = ((GeoLine)g).getPointInD(spaceDim, tOld);//TODO optimize it
 
     	if (isEnteringRegion = (p.isInRegion(coordsOld.get(1),coordsOld.get(2))
-    			&& !AbstractKernel.isEqual(tOld, maxKey))) 
+    			&& !Kernel.isEqual(tOld, maxKey))) 
     		newSegmentCoords.put(tOld,
     				new Coords[] {coordsFirst, newCoords.get(maxKey)}
     		);
@@ -249,7 +249,7 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
     		for (int i = 0; i<p.getPointsLength(); i++) {
     			GeoSegmentND currSeg = p.getSegments()[i];
     			
-    			if (currSeg.isOnPath(coordsOld, AbstractKernel.EPSILON)) {
+    			if (currSeg.isOnPath(coordsOld, Kernel.EPSILON)) {
     				tOld_m++;
     			} else {
     				continue;
@@ -260,9 +260,9 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
     				tOld_m--;
     				
     				double currSegIncline = currSeg.getDirectionInD3().dotproduct(gRight);
-    				if (AbstractKernel.isGreater(currSegIncline, 0))
+    				if (Kernel.isGreater(currSegIncline, 0))
     					tOld_mRight++;
-    				else if (AbstractKernel.isGreater(0, currSegIncline))
+    				else if (Kernel.isGreater(0, currSegIncline))
     					tOld_mLeft++;
     				else {//logically saying currSeg is along the line; can have potential computational problem unknown
     					segmentAlongLine = true;
@@ -309,11 +309,11 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
     		coordsOld = newCoords.get(tOld);
     	}
     	
-    	if(!AbstractKernel.isEqual(tOld, tLast)) {
+    	if(!Kernel.isEqual(tOld, tLast)) {
     		int tOld_m = 0;
     		for (int i = 0; i<p.getPointsLength(); i++) {
     			GeoSegmentND currSeg = p.getSegments()[i];
-    			if (currSeg.isOnPath(coordsOld, AbstractKernel.EPSILON)) {
+    			if (currSeg.isOnPath(coordsOld, Kernel.EPSILON)) {
     				tOld_m++;
     			} else {
     				continue;

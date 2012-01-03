@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * IsInRegion[<Point>,<Region>]
@@ -19,7 +19,7 @@ public class CmdIsInRegion extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdIsInRegion(AbstractKernel kernel) {
+	public CmdIsInRegion(Kernel kernel) {
 		super(kernel);
 	}
 

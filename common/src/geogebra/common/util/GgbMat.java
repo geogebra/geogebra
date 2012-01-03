@@ -1,7 +1,7 @@
 package geogebra.common.util;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -203,7 +203,7 @@ public class GgbMat extends Array2DRowRealMatrix{
 	 * @param outputList list for the copy
 	 * @param cons construction
 	 */
-	public void getMyList(MyList outputList,AbstractKernel kernel) {
+	public void getMyList(MyList outputList,Kernel kernel) {
 		if (isUndefined) {
 			return;			
 		}

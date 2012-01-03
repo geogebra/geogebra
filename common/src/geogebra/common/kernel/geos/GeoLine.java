@@ -38,7 +38,7 @@ import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.TangentAlgo;
 import geogebra.common.kernel.algos.AlgoAsymptoteInterface;
 
@@ -179,7 +179,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		Coords P = Pnd.getCoordsIn2DView();
 
 		double simplelength = Math.abs(x) + Math.abs(y);
-		if (AbstractKernel.isZero(P.getZ())) { // infinite point
+		if (Kernel.isZero(P.getZ())) { // infinite point
 			return Math.abs(x * P.getX() + y * P.getY()) < eps * simplelength;
 		}
 		// STANDARD CASE: finite point
@@ -290,7 +290,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * @return true if this line and g are parallel
 	 */
 	final public boolean isParallel(GeoLine g) {
-		return AbstractKernel.isEqual(g.x * y, g.y * x);
+		return Kernel.isEqual(g.x * y, g.y * x);
 	}
 
 	/**
@@ -310,7 +310,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * @return true if this line and g are perpendicular
 	 */
 	final public boolean isPerpendicular(GeoLine g) {
-		return AbstractKernel.isEqual(g.x * x, -g.y * y);
+		return Kernel.isEqual(g.x * x, -g.y * y);
 	}
 
 	/**
@@ -355,7 +355,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 */
 	final public double distance(GeoLine g) {
 		// parallel
-		if (AbstractKernel.isZero(g.x * y - g.y * x)) {
+		if (Kernel.isZero(g.x * y - g.y * x)) {
 			// get a point (px, py) of g and calc distance
 			double px, py;
 			if (Math.abs(g.x) > Math.abs(g.y)) {
@@ -488,8 +488,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public boolean isDefined() {
-		return (!(Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z)) && !(AbstractKernel
-				.isZero(x) && AbstractKernel.isZero(y)));
+		return (!(Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z)) && !(Kernel
+				.isZero(x) && Kernel.isZero(y)));
 	}
 
 	@Override
@@ -788,7 +788,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			g[0] = x;
 			g[1] = y;
 			g[2] = z;
-			if (AbstractKernel.isZero(x) || AbstractKernel.isZero(y)) {
+			if (Kernel.isZero(x) || Kernel.isZero(y)) {
 				return kernel.buildExplicitLineEquation(g, vars, op);
 			}
 			return kernel.buildImplicitEquation(g, vars, KEEP_LEADING_SIGN,
@@ -798,7 +798,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			g[0] = x;
 			g[1] = y;
 			g[2] = z;
-			if (AbstractKernel.isZero(x) || AbstractKernel.isZero(y)) {
+			if (Kernel.isZero(x) || Kernel.isZero(y)) {
 				return kernel.buildExplicitLineEquation(g, vars, op);
 			}
 			return kernel.buildImplicitEquation(g, vars, KEEP_LEADING_SIGN,
@@ -1113,7 +1113,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 		double x1, y1;
 
-		if (AbstractKernel.isZero(y)) {
+		if (Kernel.isZero(y)) {
 			x1 = s;
 			y1 = -q;
 			setCoords(x1 * x, y1 * x, -q * r * z + s * p * z);
@@ -1201,7 +1201,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	public double evaluate(double x_var) {
-		if (AbstractKernel.isZero(y))
+		if (Kernel.isZero(y))
 			return Double.NaN;
 		return (-x * x_var - z) / y;
 	}

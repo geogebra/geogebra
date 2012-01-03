@@ -5,11 +5,11 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;;
+import geogebra.common.kernel.Kernel;;
 
 	public class CmdUniform extends CommandProcessor {
 
-		public CmdUniform(AbstractKernel kernel) {
+		public CmdUniform(Kernel kernel) {
 			super(kernel);
 		}
 

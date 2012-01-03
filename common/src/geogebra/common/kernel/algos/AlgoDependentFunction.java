@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -116,12 +116,12 @@ public class AlgoDependentFunction extends AlgoElement {
 
 			try { // needed for eg f(x)=floor(x) f'(x)
 
-				boolean internationalizeDigits = AbstractKernel.internationalizeDigits;
-				AbstractKernel.internationalizeDigits = false;
+				boolean internationalizeDigits = Kernel.internationalizeDigits;
+				Kernel.internationalizeDigits = false;
 
 				ev = expandFunctionDerivativeNodes(expression.deepCopy(kernel));
 
-				AbstractKernel.internationalizeDigits = internationalizeDigits;
+				Kernel.internationalizeDigits = internationalizeDigits;
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -280,7 +280,7 @@ public class AlgoDependentFunction extends AlgoElement {
 							NumberValue num = (NumberValue) evR;
 							double val = num.getDouble();
 
-							if (val > 0d && AbstractKernel.isInteger(val)) {
+							if (val > 0d && Kernel.isInteger(val)) {
 
 								// eg f''' if val == 3
 								return geo.getLabel()

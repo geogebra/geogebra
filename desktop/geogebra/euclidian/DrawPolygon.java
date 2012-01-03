@@ -15,7 +15,7 @@ package geogebra.euclidian;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.euclidian.Previewable;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Matrix.Coords;
@@ -129,7 +129,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 		// first point
 		Coords v = view.getCoordsForView(points[0].getInhomCoordsInD(3));
-		if (!AbstractKernel.isZero(v.getZ()))
+		if (!Kernel.isZero(v.getZ()))
 			return false;
 		coords[0] = v.getX();
 		coords[1] = v.getY();
@@ -142,7 +142,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 		for (int i = 1; i < points.length; i++) {
 			v = view.getCoordsForView(points[i].getInhomCoordsInD(3));
-			if (!AbstractKernel.isZero(v.getZ())) {
+			if (!Kernel.isZero(v.getZ())) {
 				return false;
 			}
 			coords[0] = v.getX();

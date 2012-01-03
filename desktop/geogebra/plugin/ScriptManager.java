@@ -1,6 +1,6 @@
 package geogebra.plugin;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
@@ -53,7 +53,7 @@ public class ScriptManager {
 		try {
 			app.getKernel();
 			// call only if libraryJavaScript is not the default (ie do nothing)
-			if (!app.getKernel().getLibraryJavaScript().equals(AbstractKernel.defaultLibraryJavaScript))
+			if (!app.getKernel().getLibraryJavaScript().equals(Kernel.defaultLibraryJavaScript))
 					CallJavaScript.evalScript(app, "ggbOnInit();", null);
 		} catch (Exception e) {
 			AbstractApplication.debug("Error calling ggbOnInit(): "+e.getMessage());

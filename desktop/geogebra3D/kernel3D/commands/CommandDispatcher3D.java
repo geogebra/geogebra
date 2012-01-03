@@ -1,7 +1,7 @@
 package geogebra3D.kernel3D.commands;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.kernel.commands.CommandDispatcher;
 
 /**
@@ -17,14 +17,14 @@ public class CommandDispatcher3D extends CommandDispatcher {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CommandDispatcher3D(AbstractKernel kernel) {
+	public CommandDispatcher3D(Kernel kernel) {
 		super(kernel);
 	}
 
 	@Override
 	protected void initCmdTable() {
 		super.initCmdTable();
-		AbstractKernel kernel = (AbstractKernel) this.kernel;
+		Kernel kernel = (Kernel) this.kernel;
 		// Application.debug("CommandDispatcher3D.initCmdTable()");
 
 		cmdTable.put("Segment", new CmdSegment3D(kernel));

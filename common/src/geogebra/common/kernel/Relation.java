@@ -42,10 +42,10 @@ import geogebra.common.main.AbstractApplication;
 public class Relation extends java.lang.Object {
 
 	private AbstractApplication app;
-	private AbstractKernel kernel;
+	private Kernel kernel;
 	private Construction cons;
 
-	public Relation(AbstractKernel kernel) {
+	public Relation(Kernel kernel) {
 		this.kernel = kernel;
 		app = kernel.getApplication();
 		cons = kernel.getConstruction();
@@ -121,7 +121,7 @@ public class Relation extends java.lang.Object {
 	final private String relation(NumberValue a, NumberValue b) {
 		String str = equalityString((GeoElement) a.toGeoElement(),
 				(GeoElement) b.toGeoElement(),
-				AbstractKernel.isEqual(a.getDouble(), b.getDouble()));
+				Kernel.isEqual(a.getDouble(), b.getDouble()));
 		return str;
 	}
 
@@ -136,7 +136,7 @@ public class Relation extends java.lang.Object {
 		// sb.append(getPlain("Length"));
 		// sb.append(": ");
 		// sb.append(relation((NumberValue) a, (NumberValue) b));
-		if (AbstractKernel.isEqual(((NumberValue) a).getDouble(),
+		if (Kernel.isEqual(((NumberValue) a).getDouble(),
 				((NumberValue) b).getDouble()))
 			sb.append(getPlainNumerical("AhasTheSameLengthAsB",
 					a.getNameDescription(), b.getNameDescription()));
@@ -174,7 +174,7 @@ public class Relation extends java.lang.Object {
 	 */
 	final private String relation(GeoPoint2 A, GeoPolygon p) {
 		return incidencePerimeterString(A, p.toGeoElement(),
-				p.isOnPath(A, AbstractKernel.STANDARD_PRECISION));
+				p.isOnPath(A, Kernel.STANDARD_PRECISION));
 	}
 
 	/**
@@ -183,7 +183,7 @@ public class Relation extends java.lang.Object {
 	 */
 	final private String relation(GeoPoint2 A, Path path) {
 		return incidenceString(A, (GeoElement) path.toGeoElement(),
-				path.isOnPath(A, AbstractKernel.STANDARD_PRECISION));
+				path.isOnPath(A, Kernel.STANDARD_PRECISION));
 	}
 
 	/**
@@ -206,9 +206,9 @@ public class Relation extends java.lang.Object {
 				GeoPoint2 tempPoint = new GeoPoint2(g.cons);
 				GeoVec3D.cross(g, h, tempPoint);
 				boolean isIntersection = g.isIntersectionPointIncident(
-						tempPoint, AbstractKernel.STANDARD_PRECISION)
+						tempPoint, Kernel.STANDARD_PRECISION)
 						&& h.isIntersectionPointIncident(tempPoint,
-								AbstractKernel.STANDARD_PRECISION);
+								Kernel.STANDARD_PRECISION);
 
 				str = intersectString(g, h, isIntersection);
 			}
@@ -276,7 +276,7 @@ public class Relation extends java.lang.Object {
 		if (type == b.getConicPartType()) {
 			sb.append("\n");
 			if (type == GeoConicPart.CONIC_PART_ARC) {
-				if (AbstractKernel.isEqual(((NumberValue) a).getDouble(),
+				if (Kernel.isEqual(((NumberValue) a).getDouble(),
 						((NumberValue) b).getDouble()))
 					sb.append(getPlainNumerical("AhasTheSameLengthAsB",
 							a.getNameDescription(), b.getNameDescription()));
@@ -285,7 +285,7 @@ public class Relation extends java.lang.Object {
 							a.getNameDescription(), b.getNameDescription()));
 			} else {
 				// sb.append(app.getCommand("Area"));
-				if (AbstractKernel.isEqual(((NumberValue) a).getDouble(),
+				if (Kernel.isEqual(((NumberValue) a).getDouble(),
 						((NumberValue) b).getDouble()))
 					sb.append(getPlainNumerical("AhasTheSameAreaAsB",
 							a.getNameDescription(), b.getNameDescription()));

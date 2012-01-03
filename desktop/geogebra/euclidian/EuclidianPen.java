@@ -2,7 +2,7 @@ package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.Hits;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -417,7 +417,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen {
 			geoImage.setCorner(corner2, 1);
 
 			// need 3 corner points if axes ratio isn't 1:1
-			if (!AbstractKernel.isEqual(ev.getXscale(), ev.getYscale())) {
+			if (!Kernel.isEqual(ev.getXscale(), ev.getYscale())) {
 				GeoPoint2 corner4 = (new GeoPoint2(app.getKernel()
 						.getConstruction(), null,
 						ev.toRealWorldCoordX(penOffsetX),

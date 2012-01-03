@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.cas;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
 import geogebra.common.kernel.algos.Algos;
@@ -166,7 +166,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		// check for equal bounds
 		double lowerLimit = a.getDouble();
 		double upperLimit = b.getDouble();
-		if (AbstractKernel.isEqual(lowerLimit, upperLimit)) {
+		if (Kernel.isEqual(lowerLimit, upperLimit)) {
 			n.setValue(0);
 			return;
 		}
@@ -284,8 +284,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 
 		// check if both results are equal
 		boolean equal = !error
-				&& AbstractKernel.isEqual(firstSum, secondSum,
-						AbstractKernel.STANDARD_PRECISION);
+				&& Kernel.isEqual(firstSum, secondSum,
+						Kernel.STANDARD_PRECISION);
 
 		if (equal) {
 			// success

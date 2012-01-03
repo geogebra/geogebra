@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Polar[ <GeoPoint>, <GeoConic> ]
@@ -18,7 +18,7 @@ public class CmdPolar extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdPolar(AbstractKernel kernel) {
+	public CmdPolar(Kernel kernel) {
 		super(kernel);
 	}
 

@@ -14,7 +14,7 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -51,7 +51,7 @@ public class Inequality {
 	private GeoConic conicBorder;
 	private GeoFunction funBorder;
 	private GeoElement border;
-	private AbstractKernel kernel;
+	private Kernel kernel;
 	private boolean isAboveBorder;
 	private ExpressionNode normal;
 	private FunctionVariable[] fv;
@@ -72,7 +72,7 @@ public class Inequality {
 	 * @param fv variable
 	 * @param function function to which this ineq belongs 
 	 */
-	public Inequality(AbstractKernel kernel, ExpressionValue lhs, ExpressionValue rhs,
+	public Inequality(Kernel kernel, ExpressionValue lhs, ExpressionValue rhs,
 			Operation op, FunctionVariable[] fv, FunctionalNVar function) {
 
 		this.op = op;
@@ -108,7 +108,7 @@ public class Inequality {
 		Double coefY = normal.getCoefficient(fv[1]);
 		Double coefX = normal.getCoefficient(fv[0]);
 		Function fun = null;
-		if (coefY != null && !AbstractKernel.isZero(coefY) && !Double.isNaN(coefY)
+		if (coefY != null && !Kernel.isZero(coefY) && !Double.isNaN(coefY)
 				&& (coefX == null || Math.abs(coefX) < Math.abs(coefY))) {
 			coef = new MyDouble(kernel, -coefY);
 			isAboveBorder = coefY > 0;
@@ -118,7 +118,7 @@ public class Inequality {
 			m.simplifyLeafs();
 			fun = new Function(m, fv[0]);
 			type = INEQUALITY_PARAMETRIC_Y;
-		} else if (coefX != null && !AbstractKernel.isZero(coefX)
+		} else if (coefX != null && !Kernel.isZero(coefX)
 				&& !Double.isNaN(coefX)) {
 			coef = new MyDouble(kernel, -coefX);
 			isAboveBorder = coefX > 0;
@@ -128,13 +128,13 @@ public class Inequality {
 			m.simplifyLeafs();
 			fun = new Function(m, fv[1]);
 			type = INEQUALITY_PARAMETRIC_X;
-		} else if (coefX != null && AbstractKernel.isZero(coefX) && coefY == null) {
+		} else if (coefX != null && Kernel.isZero(coefX) && coefY == null) {
 			zeroDummy0 = new MyDouble(kernel, 0);
 			normal.replaceAndWrap(fv[0], zeroDummy0 );
 			init1varFunction(1);
 			type = funBorder.isPolynomialFunction(false) ?				
 				INEQUALITY_1VAR_Y:INEQUALITY_INVALID;
-		} else if (coefY != null && AbstractKernel.isZero(coefY) && coefX == null) {
+		} else if (coefY != null && Kernel.isZero(coefY) && coefX == null) {
 			zeroDummy1 = new MyDouble(kernel, 0);
 			normal.replaceAndWrap(fv[1], zeroDummy1);
 			init1varFunction(0);

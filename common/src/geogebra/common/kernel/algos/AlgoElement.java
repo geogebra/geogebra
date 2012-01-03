@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.View;
@@ -1152,8 +1152,8 @@ public abstract class AlgoElement extends ConstructionElement implements
 		}
 
 		// turn off eg Arabic digits
-		boolean oldDigitsSetting = AbstractKernel.internationalizeDigits;
-		AbstractKernel.internationalizeDigits = false;
+		boolean oldDigitsSetting = Kernel.internationalizeDigits;
+		Kernel.internationalizeDigits = false;
 
 		// USE INTERNAL COMMAND NAMES IN EXPRESSION
 		boolean oldValue = kernel.isPrintLocalizedCommandNames();
@@ -1177,7 +1177,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 
 		kernel.setPrintLocalizedCommandNames(oldValue);
 
-		AbstractKernel.internationalizeDigits = oldDigitsSetting;
+		Kernel.internationalizeDigits = oldDigitsSetting;
 	}
 
 	/**

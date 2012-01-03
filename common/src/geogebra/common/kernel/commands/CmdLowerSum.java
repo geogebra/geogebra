@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * LowerSum[ <GeoFunction>, <Number>, <Number>, <Number> ]
@@ -18,7 +18,7 @@ public class CmdLowerSum extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdLowerSum(AbstractKernel kernel) {
+	public CmdLowerSum(Kernel kernel) {
 		super(kernel);
 	}
 

@@ -20,7 +20,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -72,7 +72,7 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 			//Application.debug("r = "+r.toString());
 			setRootsPolynomial(r);
 		} else {
-			AbstractKernel ker = cons.getKernel();
+			Kernel ker = cons.getKernel();
 			ker.setSilentMode(true);
 			
 			/*try {
@@ -112,8 +112,8 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 					res[1] = temp;
 				}
 				algo = new AlgoRoots((Construction)cons, paramEquation, 
-						new GeoNumeric(cons, Math.max(res[1]-AbstractKernel.MIN_PRECISION,h.getMinParameter())),
-						new GeoNumeric(cons, Math.min(res[0]+AbstractKernel.MIN_PRECISION,h.getMaxParameter())));
+						new GeoNumeric(cons, Math.max(res[1]-Kernel.MIN_PRECISION,h.getMinParameter())),
+						new GeoNumeric(cons, Math.min(res[0]+Kernel.MIN_PRECISION,h.getMaxParameter())));
 			} else { 
 				algo = new AlgoRoots((Construction)cons, paramEquation, 
 						new GeoNumeric(cons, h.getMinParameter()),

@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdLength;
 import geogebra.common.kernel.geos.GeoElement;
@@ -12,7 +12,7 @@ public class CmdLength3D extends CmdLength {
 	
 	
 	
-	public CmdLength3D(AbstractKernel kernel) {
+	public CmdLength3D(Kernel kernel) {
 		super(kernel);
 	}
 
@@ -29,7 +29,7 @@ public class CmdLength3D extends CmdLength {
 	    	arg = resArgs(c);
 	    	if (arg[0].isGeoElement3D()){
 	    		if (arg[0].isGeoVector()) {
-	    			GeoElement[] ret = { ((AbstractKernel)kernelA).getManager3D().Length(c.getLabel(),
+	    			GeoElement[] ret = { ((Kernel)kernelA).getManager3D().Length(c.getLabel(),
 							(GeoVector3D) arg[0]) };
 					return ret;
 	    		}

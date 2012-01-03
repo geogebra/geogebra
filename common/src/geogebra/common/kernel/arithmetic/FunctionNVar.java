@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -46,7 +46,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	protected boolean isConstantFunction = false;
 
 	/** kernel */
-	protected AbstractKernel kernel;
+	protected Kernel kernel;
 
 	private StringBuilder sb = new StringBuilder(80);
 
@@ -83,7 +83,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	 * @param kernel
 	 *            kernel
 	 */
-	public FunctionNVar(AbstractKernel kernel) {
+	public FunctionNVar(Kernel kernel) {
 		this.kernel = kernel;
 
 	}
@@ -95,7 +95,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	 *            source function
 	 * @param kernel
 	 */
-	public FunctionNVar(FunctionNVar f, AbstractKernel kernel) {
+	public FunctionNVar(FunctionNVar f, Kernel kernel) {
 		expression = f.expression.getCopy(kernel);
 		fVars = f.fVars; // no deep copy of function variable
 		isBooleanFunction = f.isBooleanFunction;
@@ -126,11 +126,11 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	/**
 	 * @return kernel
 	 */
-	public AbstractKernel getKernel() {
+	public Kernel getKernel() {
 		return kernel;
 	}
 
-	public ExpressionValue deepCopy(AbstractKernel kernel) {
+	public ExpressionValue deepCopy(Kernel kernel) {
 		return new FunctionNVar(this, kernel);
 	}
 
@@ -788,11 +788,11 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	public void translate(double vx, double vy) {
 
 		// translate x
-		if (!AbstractKernel.isZero(vx)) {
+		if (!Kernel.isZero(vx)) {
 			translateX(expression, vx, 0);
 
 		}
-		if (!AbstractKernel.isZero(vy)) {
+		if (!Kernel.isZero(vy)) {
 			translateX(expression, vy, 1);
 
 		}
@@ -821,7 +821,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 				switch (en.getOperation()) {
 				case PLUS:
 					temp = num.getDouble() - vx;
-					if (AbstractKernel.isZero(temp)) {
+					if (Kernel.isZero(temp)) {
 						expression = expression
 								.replaceAndWrap(en, fVars[varNo]);
 					} else if (temp < 0) {
@@ -834,7 +834,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 
 				case MINUS:
 					temp = num.getDouble() + vx;
-					if (AbstractKernel.isZero(temp)) {
+					if (Kernel.isZero(temp)) {
 						expression = expression
 								.replaceAndWrap(en, fVars[varNo]);
 					} else if (temp < 0) {

@@ -3,7 +3,7 @@ package geogebra.export.pstricks;
 import geogebra.common.euclidian.DrawLine;
 import geogebra.common.euclidian.DrawPoint;
 import geogebra.common.euclidian.Drawable;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
@@ -60,7 +60,7 @@ public abstract class GeoGebraExport implements ActionListener{
 	protected final double PRECISION_XRANGE_FUNCTION=0.00001;
 	protected StringBuilder code,codePoint,codePreamble,codeFilledObject,codeBeginDoc;
 	protected Application app;
-    protected AbstractKernel kernel;
+    protected Kernel kernel;
     protected Construction construction;
     protected EuclidianView euclidianView;
     protected ExportFrame frame;

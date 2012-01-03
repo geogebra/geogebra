@@ -1,6 +1,6 @@
 package geogebra3D.euclidianForPlane;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.Coords;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 public class EuclidianControllerForPlane extends EuclidianControllerFor3D {
 
-	public EuclidianControllerForPlane(AbstractKernel kernel) {
+	public EuclidianControllerForPlane(Kernel kernel) {
 		super(kernel);
 	}
 	

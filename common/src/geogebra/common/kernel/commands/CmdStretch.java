@@ -7,7 +7,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Stretch[<Object>,<Line>,<Ratio>]
@@ -20,7 +20,7 @@ public class CmdStretch extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdStretch(AbstractKernel kernel) {
+	public CmdStretch(Kernel kernel) {
 		super(kernel);
 	}
 

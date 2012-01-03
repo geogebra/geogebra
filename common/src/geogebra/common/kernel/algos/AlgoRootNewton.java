@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -102,7 +102,7 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
     final double calcRoot(Function fun, double start) {
     	double root = Double.NaN;
   		if (rootFinderBrent == null)
-    		rootFinderBrent = new BrentSolver(AbstractKernel.STANDARD_PRECISION);
+    		rootFinderBrent = new BrentSolver(Kernel.STANDARD_PRECISION);
     	
     	// try Brent method with borders close to start value
     	try {	
@@ -164,7 +164,7 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
     
     private static boolean checkRoot(Function fun, double root) {
     	 // check what we got
-        return !Double.isNaN(root) && (Math.abs(fun.evaluate(root)) < AbstractKernel.MIN_PRECISION );
+        return !Double.isNaN(root) && (Math.abs(fun.evaluate(root)) < Kernel.MIN_PRECISION );
     }
     
     /**

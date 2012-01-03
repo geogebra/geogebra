@@ -4,12 +4,12 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 
 public class CmdTextToUnicode extends CommandProcessor {
 
-	public CmdTextToUnicode(AbstractKernel kernel) {
+	public CmdTextToUnicode(Kernel kernel) {
 		super(kernel);
 	}
 

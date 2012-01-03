@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdPolyLine;
 import geogebra.common.kernel.commands.CmdPolygon;
@@ -21,7 +21,7 @@ import geogebra3D.kernel3D.Kernel3D;
 public class CmdPolyLine3D extends CmdPolyLine {
 	
 
-	public CmdPolyLine3D(AbstractKernel kernel) {
+	public CmdPolyLine3D(Kernel kernel) {
 		super(kernel);
 				
 	}
@@ -47,7 +47,7 @@ public class CmdPolyLine3D extends CmdPolyLine {
 		    	
 				case 1:
 				if (arg[0].isGeoList())
-					return ((AbstractKernel)kernelA).getManager3D().PolyLine3D(c.getLabels(), (GeoList) arg[0]);
+					return ((Kernel)kernelA).getManager3D().PolyLine3D(c.getLabels(), (GeoList) arg[0]);
 				
 				
 		       default:
@@ -62,7 +62,7 @@ public class CmdPolyLine3D extends CmdPolyLine {
 			            }
 			        }
 			        // everything ok
-			        return ((AbstractKernel)kernelA).getManager3D().PolyLine3D(c.getLabels(), points);
+			        return ((Kernel)kernelA).getManager3D().PolyLine3D(c.getLabels(), points);
 				}	
 		}
  

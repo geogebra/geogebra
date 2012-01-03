@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.gui.dialog;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.geos.GeoElement;
@@ -84,7 +84,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 	private void updateToolBar(DefaultListModel listModel) {
 		// update order of macros:
 		// remove all macros from kernel and add them again in new order
-		AbstractKernel kernel = app.getKernel();
+		Kernel kernel = app.getKernel();
 		kernel.removeAllMacros();
 		int size = listModel.getSize();
 		for (int i = 0; i < size; i++) {
@@ -117,7 +117,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 		boolean changeToolBar = false;
 		boolean foundUsedMacro = false;
 		String macroNames = "";
-		AbstractKernel kernel = app.getKernel();
+		Kernel kernel = app.getKernel();
 		app.setSelectedGeos(new ArrayList<GeoElement>());
 		for (int i = 0; i < sel.length; i++) {
 			Macro macro = (Macro) sel[i];
@@ -353,7 +353,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 	}
 
 	private void insertTools(DefaultListModel listModel) {
-		AbstractKernel kernel = app.getKernel();
+		Kernel kernel = app.getKernel();
 		int size = kernel.getMacroNumber();
 		for (int i = 0; i < size; i++) {
 			Macro macro = kernel.getMacro(i);

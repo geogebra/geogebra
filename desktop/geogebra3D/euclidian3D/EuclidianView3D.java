@@ -6,7 +6,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordMatrixUtil;
@@ -35,7 +35,6 @@ import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianPen;
 import geogebra.euclidian.EuclidianViewInterface;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.PlotterCursor;
 import geogebra3D.euclidian3D.opengl.Renderer;
@@ -1344,8 +1343,8 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		
 		
 		//if (aNew,bNew)=(0°,90°), then change it to (90°,90°) to have correct xOy orientation
-		if (Kernel.isEqual(aNew, 0, AbstractKernel.STANDARD_PRECISION) &&
-				Kernel.isEqual(Math.abs(bNew), 90, AbstractKernel.STANDARD_PRECISION))
+		if (Kernel.isEqual(aNew, 0, Kernel.STANDARD_PRECISION) &&
+				Kernel.isEqual(Math.abs(bNew), 90, Kernel.STANDARD_PRECISION))
 			aNew=-90;
 		
 		
@@ -1357,9 +1356,9 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 			
 
 		else if (checkSameValues) 
-			if (Kernel.isEqual(aOld, aNew, AbstractKernel.STANDARD_PRECISION))
-				if (Kernel.isEqual(bOld, bNew, AbstractKernel.STANDARD_PRECISION)){
-					if (!Kernel.isEqual(Math.abs(bNew), 90, AbstractKernel.STANDARD_PRECISION))
+			if (Kernel.isEqual(aOld, aNew, Kernel.STANDARD_PRECISION))
+				if (Kernel.isEqual(bOld, bNew, Kernel.STANDARD_PRECISION)){
+					if (!Kernel.isEqual(Math.abs(bNew), 90, Kernel.STANDARD_PRECISION))
 						aNew+=180;
 					bNew*=-1;
 					//Application.debug("ici");

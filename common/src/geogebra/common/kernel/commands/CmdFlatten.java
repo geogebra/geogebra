@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -17,7 +17,7 @@ public class CmdFlatten extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdFlatten(AbstractKernel kernel) {
+	public CmdFlatten(Kernel kernel) {
 		super(kernel);
 	}
 

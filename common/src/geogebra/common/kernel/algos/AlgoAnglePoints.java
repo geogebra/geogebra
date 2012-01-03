@@ -19,7 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -181,8 +181,8 @@ public class AlgoAnglePoints extends AlgoElement implements
 		wx = C.inhomX - bx;
 		wy = C.inhomY - by;
 
-		if (AbstractKernel.isZero(vx) && AbstractKernel.isZero(vy)
-				|| AbstractKernel.isZero(wx) && AbstractKernel.isZero(wy)) {
+		if (Kernel.isZero(vx) && Kernel.isZero(vy)
+				|| Kernel.isZero(wx) && Kernel.isZero(wy)) {
 			angle.setUndefined();
 			return;
 		}

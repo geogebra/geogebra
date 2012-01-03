@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * TTestPaired (paired t test)
@@ -17,7 +17,7 @@ public class CmdTTestPaired extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdTTestPaired(AbstractKernel kernel) {
+	public CmdTTestPaired(Kernel kernel) {
 		super(kernel);
 	}
 

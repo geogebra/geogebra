@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 
@@ -30,23 +30,23 @@ public class Polynomial extends ValidExpression implements Serializable
 	private static final long serialVersionUID = 1L;
 
 	private ArrayList<Term> terms = new ArrayList<Term>();
-	private AbstractKernel kernel;
+	private Kernel kernel;
 
-	public Polynomial(AbstractKernel kernel) {
+	public Polynomial(Kernel kernel) {
 		this.kernel = kernel;
 	}
 
-	public Polynomial(AbstractKernel kernel, Term t) {
+	public Polynomial(Kernel kernel, Term t) {
 		this(kernel);
 		terms.add(t);
 	}
 
-	public Polynomial(AbstractKernel kernel, String vars) {
+	public Polynomial(Kernel kernel, String vars) {
 		this(kernel);
 		terms.add(new Term(kernel, 1.0d, vars));
 	}
 
-	public Polynomial(AbstractKernel kernel, Polynomial poly) {
+	public Polynomial(Kernel kernel, Polynomial poly) {
 		this(kernel);
 		// Application.debug("poly copy constructor input: " + poly);
 		for (int i = 0; i < poly.length(); i++) {
@@ -55,7 +55,7 @@ public class Polynomial extends ValidExpression implements Serializable
 		// Application.debug("poly copy constructor output: " + this);
 	}
 
-	public ExpressionValue deepCopy(AbstractKernel kernel) {
+	public ExpressionValue deepCopy(Kernel kernel) {
 		return new Polynomial(kernel, this);
 	}
 
@@ -237,7 +237,7 @@ public class Polynomial extends ValidExpression implements Serializable
 			t = i.next();
 			isInt = isInt
 					&& t.hasNoVars()
-					&& AbstractKernel.isInteger(((NumberValue) t.getCoefficient()
+					&& Kernel.isInteger(((NumberValue) t.getCoefficient()
 							.evaluate()).getDouble());
 		}
 		return isInt;
@@ -548,7 +548,7 @@ public class Polynomial extends ValidExpression implements Serializable
 		return toValueString();
 	}
 
-	public AbstractKernel getKernel() {
+	public Kernel getKernel() {
 		return kernel;
 	}
 } // end of class Polynomial

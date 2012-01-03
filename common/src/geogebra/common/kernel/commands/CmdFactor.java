@@ -4,11 +4,11 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 public class CmdFactor extends CommandProcessor {
 	
-	public CmdFactor (AbstractKernel kernel) {
+	public CmdFactor (Kernel kernel) {
 		super(kernel);
 	}
 	

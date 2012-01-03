@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
@@ -21,7 +21,7 @@ public class CmdDerivative extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdDerivative(AbstractKernel kernel) {
+	public CmdDerivative(Kernel kernel) {
 		super(kernel);
 	}
 

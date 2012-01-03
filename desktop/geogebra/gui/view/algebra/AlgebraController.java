@@ -19,7 +19,7 @@ the Free Software Foundation.
 package geogebra.gui.view.algebra;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.util.GeoGebraIcon;
@@ -51,7 +51,7 @@ import javax.swing.tree.TreePath;
 
 public class AlgebraController
 implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceListener {
-	private AbstractKernel kernel;
+	private Kernel kernel;
 	private Application app;
 
 	private AlgebraView view;
@@ -62,7 +62,7 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 	private DragSource ds;
 
 	/** Creates new CommandProcessor */
-	public AlgebraController(AbstractKernel kernel) {
+	public AlgebraController(Kernel kernel) {
 		this.kernel = kernel;
 		app = (Application)kernel.getApplication();		
 	}
@@ -75,7 +75,7 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 		return app;
 	}
 
-	AbstractKernel getKernel() {
+	Kernel getKernel() {
 		return kernel;
 	}
 

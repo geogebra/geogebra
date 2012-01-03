@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoList;
  */
 public class CmdOrdinalRank extends CmdOneListFunction {
 
-	public CmdOrdinalRank(AbstractKernel kernel) {
+	public CmdOrdinalRank(Kernel kernel) {
 		super(kernel);
 	}
 

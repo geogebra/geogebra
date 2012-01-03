@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -15,7 +15,7 @@ import geogebra.common.main.MyError;
  */
 public class CmdNormal extends CommandProcessor {
 
-	public CmdNormal(AbstractKernel kernel) {
+	public CmdNormal(Kernel kernel) {
 		super(kernel);
 	}
 

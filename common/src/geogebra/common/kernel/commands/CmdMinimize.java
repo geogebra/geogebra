@@ -4,14 +4,14 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Minimize[ <dependent variable>, <independent variable> ]
  */
 public class CmdMinimize extends CommandProcessor {
 
-	public CmdMinimize(AbstractKernel kernel) {
+	public CmdMinimize(Kernel kernel) {
 		super(kernel);
 	}
 

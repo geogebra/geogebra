@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
@@ -17,7 +17,7 @@ public class SpreadsheetKeyListener implements KeyListener
 	
 	private Application app;
 	private SpreadsheetView view;
-	private AbstractKernel kernel;
+	private Kernel kernel;
 	private MyTable table;
 	private DefaultTableModel model;	
 	private MyCellEditor editor;
@@ -105,7 +105,7 @@ public class SpreadsheetKeyListener implements KeyListener
 		
 		case KeyEvent.VK_DOWN:
 			// auto increase spreadsheet size when you go off the bottom	
-			if (table.getSelectedRow() + 1 == table.getRowCount() && table.getSelectedRow() < AbstractKernel.MAX_SPREADSHEET_ROWS) {
+			if (table.getSelectedRow() + 1 == table.getRowCount() && table.getSelectedRow() < Kernel.MAX_SPREADSHEET_ROWS) {
 				model.setRowCount(table.getRowCount() +1);
 				
 				//getView().getRowHeader().revalidate();   //G.STURR 2010-1-9
@@ -175,7 +175,7 @@ public class SpreadsheetKeyListener implements KeyListener
 		case KeyEvent.VK_RIGHT:
 			// auto increase spreadsheet size when you go off the right
 			
-			if (table.getSelectedColumn() + 1 == table.getColumnCount() && table.getSelectedColumn() < AbstractKernel.MAX_SPREADSHEET_COLUMNS) {
+			if (table.getSelectedColumn() + 1 == table.getColumnCount() && table.getSelectedColumn() < Kernel.MAX_SPREADSHEET_COLUMNS) {
 				table.setMyColumnCount(table.getColumnCount() +1);		
 				view.getColumnHeader().revalidate();
 				

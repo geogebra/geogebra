@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -14,7 +14,7 @@ import geogebra.common.main.MyError;
 
 public class CmdImplicitPoly extends CommandProcessor {
 
-	public CmdImplicitPoly(AbstractKernel kernel) {
+	public CmdImplicitPoly(Kernel kernel) {
 		super(kernel);
 	}
 

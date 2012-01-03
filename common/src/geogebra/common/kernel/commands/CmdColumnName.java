@@ -3,7 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *ColumnName
@@ -15,7 +15,7 @@ public class CmdColumnName extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdColumnName(AbstractKernel kernel) {
+	public CmdColumnName(Kernel kernel) {
 		super(kernel);
 	}
 

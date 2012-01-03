@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.gui.dialog.options;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
@@ -65,7 +65,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 	private static final String DEGREE_STR = "\u00b0";
 	
 	protected Application app;
-	private AbstractKernel kernel;
+	private Kernel kernel;
 	protected EuclidianViewInterface view;
 	
 	// GUI

@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Div[ a, b ]
@@ -18,7 +18,7 @@ public class CmdDiv extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdDiv(AbstractKernel kernel) {
+	public CmdDiv(Kernel kernel) {
 		super(kernel);
 	}
 

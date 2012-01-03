@@ -11,7 +11,7 @@ the Free Software Foundation.
 
  */
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.ConstructionElement;
@@ -99,7 +99,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 	private JTable table;
 	private ConstructionTableData data;
 	private Application app;
-	private AbstractKernel kernel;
+	private Kernel kernel;
 
 	private TableColumn[] tableColumns;
 

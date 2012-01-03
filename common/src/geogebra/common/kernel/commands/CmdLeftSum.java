@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * LeftSum[ <GeoFunction>, <Number>, <Number>, <Number> ]
@@ -16,7 +16,7 @@ public class CmdLeftSum extends CommandProcessor {
 	* Create new command processor
 	* @param kernel kernel
 	*/
-	public CmdLeftSum (AbstractKernel kernel) {
+	public CmdLeftSum (Kernel kernel) {
 		super(kernel);
 	}
 

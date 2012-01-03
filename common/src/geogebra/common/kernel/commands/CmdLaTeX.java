@@ -4,14 +4,14 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /*
  * Name[ <GeoElement> ]
  */
 public class CmdLaTeX extends CommandProcessor {
 
-	public CmdLaTeX(AbstractKernel kernel) {
+	public CmdLaTeX(Kernel kernel) {
 		super(kernel);
 	}
 

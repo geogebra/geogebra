@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.implicit;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.polynomial.BigPolynomial;
 
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
@@ -39,7 +39,7 @@ public class PolynomialUtils {
 			cpclone[i]=cp[i];
 		}
 		int degD=cd.length-1;
-		while(degD>=0&&AbstractKernel.isZero(cd[degD])){
+		while(degD>=0&&Kernel.isZero(cd[degD])){
 			degD--;
 		}
 		if (degD<0){ // => division by zero
@@ -78,7 +78,7 @@ public class PolynomialUtils {
 	
 	public static int getDegree(double[] c){
 		for (int i=c.length-1;i>=0;i--){
-			if (!AbstractKernel.isZero(c[i]))
+			if (!Kernel.isZero(c[i]))
 				return i;
 		}
 		return -1;
@@ -98,7 +98,7 @@ public class PolynomialUtils {
 	
 	public static int getDegree(BigPolynomial poly){
 		for (int i=poly.degree();i>=0;i--){
-			if (!AbstractKernel.isEqual(poly.getCoeff(i).doubleValue(),0.,AbstractKernel.MAX_DOUBLE_PRECISION))
+			if (!Kernel.isEqual(poly.getCoeff(i).doubleValue(),0.,Kernel.MAX_DOUBLE_PRECISION))
 				return i;
 		}
 		return -1;
@@ -119,7 +119,7 @@ public class PolynomialUtils {
 		double[][] newCoeffMinDeg=null;
 		for (int i=coeff.length-1;i>=0;i--){
 			for (int j=coeff[i].length-1;j>=0;j--){
-				if (!AbstractKernel.isZero(coeff[i][j])){
+				if (!Kernel.isZero(coeff[i][j])){
 					if (newCoeffMinDeg==null){
 						newCoeffMinDeg=new double[i+1][];
 					}
@@ -174,7 +174,7 @@ public class PolynomialUtils {
 		double err=Math.abs(p)+Math.abs(q);
 		int n=0;
 		int MAX_ITERATIONS=20;
-		while(err<10*lastErr&&err>AbstractKernel.STANDARD_PRECISION&&++n<MAX_ITERATIONS){
+		while(err<10*lastErr&&err>Kernel.STANDARD_PRECISION&&++n<MAX_ITERATIONS){
 			double px,py;
 			double qx,qy;
 			px=p1.evalDiffXPolyAt(x, y);
@@ -187,7 +187,7 @@ public class PolynomialUtils {
 				qy=line[2];
 			}
 			double det=px*qy-py*qx;
-			if (AbstractKernel.isZero(det)){
+			if (Kernel.isZero(det)){
 				break;
 			}
 			x-=(p*qy-q*py)/det;
@@ -203,7 +203,7 @@ public class PolynomialUtils {
 		}
 		pair[0]=x;
 		pair[1]=y;
-		return err<AbstractKernel.STANDARD_PRECISION;
+		return err<Kernel.STANDARD_PRECISION;
 	}
 
 }

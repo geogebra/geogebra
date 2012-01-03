@@ -5,14 +5,14 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /*
  * Curve[ <x-coord expression>,  <y-coord expression>, <number-var>, <from>, <to> ]  
  */
 public class CmdCurveCartesian extends CommandProcessor {
 	
-	public CmdCurveCartesian(AbstractKernel kernel) {
+	public CmdCurveCartesian(Kernel kernel) {
 		super(kernel);
 	}
 

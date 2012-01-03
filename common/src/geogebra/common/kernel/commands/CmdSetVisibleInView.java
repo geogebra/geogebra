@@ -6,7 +6,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *SetVisibleInView
@@ -19,7 +19,7 @@ public class CmdSetVisibleInView extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdSetVisibleInView(AbstractKernel kernel) {
+	public CmdSetVisibleInView(Kernel kernel) {
 		super(kernel);
 	}
 

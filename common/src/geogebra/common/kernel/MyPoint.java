@@ -32,8 +32,8 @@ public class MyPoint {
 	}
 
 	public boolean isEqual(double px, double py) {
-		return AbstractKernel.isEqual(x, px, AbstractKernel.MIN_PRECISION)
-				&& AbstractKernel.isEqual(y, py, AbstractKernel.MIN_PRECISION);
+		return Kernel.isEqual(x, px, Kernel.MIN_PRECISION)
+				&& Kernel.isEqual(y, py, Kernel.MIN_PRECISION);
 	}
 
 	@Override

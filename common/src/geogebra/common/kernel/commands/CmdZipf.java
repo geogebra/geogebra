@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;;
+import geogebra.common.kernel.Kernel;;
 
 /**
  *Zipf
@@ -18,7 +18,7 @@ public class CmdZipf extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdZipf(AbstractKernel kernel) {
+	public CmdZipf(Kernel kernel) {
 		super(kernel);
 	}
 

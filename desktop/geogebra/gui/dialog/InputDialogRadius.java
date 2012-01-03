@@ -1,6 +1,6 @@
 package geogebra.gui.dialog;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -24,7 +24,7 @@ public abstract class InputDialogRadius extends InputDialog{
 	private static final long serialVersionUID = 1L;
 	
 	/** current kernel */
-	protected AbstractKernel kernel;
+	protected Kernel kernel;
 	
 	/**
 	 * 
@@ -33,7 +33,7 @@ public abstract class InputDialogRadius extends InputDialog{
 	 * @param handler
 	 * @param kernel
 	 */
-	public InputDialogRadius(Application app, String title, InputHandler handler, AbstractKernel kernel) {
+	public InputDialogRadius(Application app, String title, InputHandler handler, Kernel kernel) {
 		super(app, app.getPlain("Radius"), title, "", false, handler);
 		
 		this.kernel = kernel;

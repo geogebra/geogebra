@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdOrthogonalLine;
 import geogebra.common.kernel.commands.CmdOrthogonalVector;
@@ -19,7 +19,7 @@ public class CmdOrthogonalVector3D extends CmdOrthogonalVector {
 	
 	
 	
-	public CmdOrthogonalVector3D(AbstractKernel kernel) {
+	public CmdOrthogonalVector3D(Kernel kernel) {
 		super(kernel);
 	}
 	
@@ -36,7 +36,7 @@ public class CmdOrthogonalVector3D extends CmdOrthogonalVector {
 			if (ok[0] = (arg[0] instanceof GeoCoordSys2D)) {
 				GeoElement[] ret =
 				{
-						(GeoElement) ((AbstractKernel)kernelA).getManager3D().OrthogonalVector3D(
+						(GeoElement) ((Kernel)kernelA).getManager3D().OrthogonalVector3D(
 								c.getLabel(),
 								(GeoCoordSys2D) arg[0])};
 				return ret;

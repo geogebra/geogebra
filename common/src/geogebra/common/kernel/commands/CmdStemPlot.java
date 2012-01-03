@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * StemPlot
@@ -18,7 +18,7 @@ public class CmdStemPlot extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdStemPlot(AbstractKernel kernel) {
+	public CmdStemPlot(Kernel kernel) {
 		super(kernel);
 	}
 

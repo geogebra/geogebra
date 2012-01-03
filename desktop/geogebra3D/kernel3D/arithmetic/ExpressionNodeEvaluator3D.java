@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D.arithmetic;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -27,7 +27,7 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 	public ExpressionValue evaluate(ExpressionValue expressionValue) {
 		ExpressionNode expressionNode = (ExpressionNode) expressionValue;
 
-		AbstractKernel kernel = (AbstractKernel) expressionNode.kernel;
+		Kernel kernel = (Kernel) expressionNode.kernel;
 		boolean leaf = expressionNode.leaf; 
 		ExpressionValue left = expressionNode.left; 
 		ExpressionValue right = expressionNode.right; 

@@ -21,7 +21,7 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.LocateableList;
@@ -47,7 +47,7 @@ import geogebra.common.kernel.kernelND.Region3D;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.view.algebra.AlgebraView;
-import geogebra.kernel.Kernel;
+
 
 import java.util.ArrayList;
 import java.util.TreeSet;
@@ -224,7 +224,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		// Application.printStacktrace(getLabel());
 
 		// infinite point
-		if (AbstractKernel.isZero(v.get(4))) {
+		if (Kernel.isZero(v.get(4))) {
 			// Application.debug("infinite");
 			isInfinite = true;
 			isDefined = !(Double.isNaN(v.get(1)) || Double.isNaN(v.get(2)) || Double
@@ -387,9 +387,9 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 
 			// round to decimal fraction, e.g. 2.800000000001 to 2.8
 			/*
-			 * if (Math.abs(rwTransVec.getX()) > Kernel.MIN_PRECISION) x =
+			 * if (Math.abs(rwTransVec.getX()) > AbstractKernel.MIN_PRECISION) x =
 			 * kernel.checkDecimalFraction(x); if (Math.abs(rwTransVec.getY()) >
-			 * Kernel.MIN_PRECISION) y = kernel.checkDecimalFraction(y);
+			 * AbstractKernel.MIN_PRECISION) y = kernel.checkDecimalFraction(y);
 			 */
 
 			// set translated point coords
@@ -583,7 +583,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	}
 
 	public int getMode() {
-		return AbstractKernel.COORD_CARTESIAN; // TODO other modes
+		return Kernel.COORD_CARTESIAN; // TODO other modes
 	}
 
 	/**
@@ -801,7 +801,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 			Coords c1 = getCoords();
 			Coords c2 = P.getCoordsInD(3);
 			return c1.crossProduct(c2).equalsForKernel(0,
-					AbstractKernel.STANDARD_PRECISION);
+					Kernel.STANDARD_PRECISION);
 		} else
 			return false;
 
@@ -947,7 +947,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	};
 
 	public Geo3DVec get3DVec() {
-		return new Geo3DVec((AbstractKernel)kernel, getX(), getY(), getZ());
+		return new Geo3DVec((Kernel)kernel, getX(), getY(), getZ());
 	}
 
 	// ////////////////////////////////
@@ -958,7 +958,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	 * app).getEuclidianView3D()) return true;
 	 * 
 	 * if (view==((Application3D) app).getEuclidianView()) return
-	 * Kernel.isZero(getCoords().getZ());
+	 * AbstractKernel.isZero(getCoords().getZ());
 	 * 
 	 * return false;
 	 * 

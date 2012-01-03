@@ -13,7 +13,7 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
@@ -73,7 +73,7 @@ public abstract class AlgoOrthoPlane extends AlgoElement3D {
 		
 		//if cs has "no" direction vector, set undefined and return
     	Coords vz = getNormal();
-		if (vz.equalsForKernel(0, AbstractKernel.STANDARD_PRECISION)){
+		if (vz.equalsForKernel(0, Kernel.STANDARD_PRECISION)){
 			plane.setUndefined();
 			return;
 		}

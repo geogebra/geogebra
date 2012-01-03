@@ -14,7 +14,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
@@ -999,7 +999,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 */
 	public static GeoFunction add(GeoFunction resultFun, GeoFunction fun1, GeoFunction fun2) {
 		
-		AbstractKernel kernel = fun1.getKernel();
+		Kernel kernel = fun1.getKernel();
 		
     	FunctionVariable x1 = fun1.getFunction().getFunctionVariable();
     	FunctionVariable x2 = fun2.getFunction().getFunctionVariable();
@@ -1025,7 +1025,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 * @return resulting GeoFunction or GeFunctionNvar
 	 */
 	public static FunctionNVar operationSymb(Operation op, FunctionalNVar lt , FunctionalNVar rt) {
-		AbstractKernel kernel = lt.getFunction().getKernel();
+		Kernel kernel = lt.getFunction().getKernel();
 		TreeSet<String> varNames = new TreeSet<String>();
 		for(int i=0;i<lt.getFunction().getVarNumber();i++)
 			varNames.add(lt.getFunction().getVarString(i));
@@ -1071,7 +1071,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	}
 
 	private static ExpressionNode toExpr(FunctionalNVar lt,
-			HashMap<String, FunctionVariable> varMap,AbstractKernel kernel) {
+			HashMap<String, FunctionVariable> varMap,Kernel kernel) {
 		if(lt instanceof GeoFunction)
 			return new ExpressionNode(kernel,(GeoFunction)lt,
 					Operation.FUNCTION,varMap.get(lt.getVarString()));
@@ -1102,7 +1102,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 * @return resulting function
 	 */
 	public static FunctionNVar applyNumberSymb(Operation op, FunctionalNVar fun1, ExpressionValue nv,boolean right) {
-		AbstractKernel kernel = fun1.getFunction().getKernel();
+		Kernel kernel = fun1.getFunction().getKernel();
 		TreeSet<String> varNames = new TreeSet<String>();
 		for(int i=0;i<fun1.getFunction().getVarNumber();i++)
 			varNames.add(fun1.getFunction().getVarString(i));		
@@ -1141,7 +1141,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 */
 	public static GeoFunction subtract(GeoFunction resultFun, GeoFunction fun1, GeoFunction fun2) {
 		
-		AbstractKernel kernel = fun1.getKernel();
+		Kernel kernel = fun1.getKernel();
 		
     	FunctionVariable x1 = fun1.getFunction().getFunctionVariable();
     	FunctionVariable x2 = fun2.getFunction().getFunctionVariable();
@@ -1174,7 +1174,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 */
 	public static GeoFunction mult(GeoFunction resultFun, double number, GeoFunction fun) {
 		
-		AbstractKernel kernel = fun.getKernel();
+		Kernel kernel = fun.getKernel();
 		geogebra.common.kernel.arithmetic.MyDouble num = new geogebra.common.kernel.arithmetic.MyDouble(kernel,number);
 		
     	FunctionVariable xold = fun.getFunction().getFunctionVariable();
@@ -1359,7 +1359,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 				grad = 0;
 			}
 			
-			if (!GeoFunction.CASError(gradientStrMinus, false,app) && !AbstractKernel.isZero(grad)) {
+			if (!GeoFunction.CASError(gradientStrMinus, false,app) && !Kernel.isZero(grad)) {
 				sb.setLength(0);
 		        sb.append("Limit(");
 		        sb.append(funVarStr[0]); // function expression
@@ -1605,7 +1605,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		double rd=r.getNumber().getDouble(),
 		a=S.getX(),
 		b=S.getY();
-		if(AbstractKernel.isZero(rd)){
+		if(Kernel.isZero(rd)){
 			setUndefined();
 			return;
 		}

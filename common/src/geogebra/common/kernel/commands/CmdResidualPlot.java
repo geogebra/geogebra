@@ -15,7 +15,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /** 
  * ResidualPlot[<List of Points>,<Funtion>]
@@ -25,7 +25,7 @@ import geogebra.common.kernel.AbstractKernel;
  */
 public class CmdResidualPlot extends CommandProcessor{
 
-    public CmdResidualPlot(AbstractKernel kernel) {super(kernel);}
+    public CmdResidualPlot(Kernel kernel) {super(kernel);}
     
     public GeoElement[] process(Command c) throws MyError {
         int n=c.getArgumentNumber();

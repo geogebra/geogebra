@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *Poisson Distribution
@@ -18,7 +18,7 @@ public class CmdPoisson extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdPoisson(AbstractKernel kernel) {
+	public CmdPoisson(Kernel kernel) {
 		super(kernel);
 	}
 

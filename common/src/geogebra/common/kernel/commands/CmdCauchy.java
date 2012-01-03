@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *Cauchy Distribution
@@ -19,7 +19,7 @@ public class CmdCauchy extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdCauchy(AbstractKernel kernel) {
+	public CmdCauchy(Kernel kernel) {
 		super(kernel);
 	}
 

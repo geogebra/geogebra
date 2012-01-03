@@ -27,7 +27,7 @@ import geogebra.common.io.MyXMLHandler;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.kernel.AbstractAnimationManager;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Macro;
@@ -68,7 +68,6 @@ import geogebra.gui.view.properties.PropertiesView;
 import geogebra.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.io.MyXMLio;
 import geogebra.kernel.AnimationManager;
-import geogebra.kernel.Kernel;
 import geogebra.kernel.UndoManager;
 import geogebra.kernel.commands.CommandDispatcher;
 import geogebra.kernel.geos.GeoElementGraphicsAdapterDesktop;
@@ -626,7 +625,7 @@ public class Application extends AbstractApplication implements
 		// init kernel
 		initFactories();
 		initKernel();
-		kernel.setPrintDecimals(AbstractKernel.STANDARD_PRINT_DECIMALS);
+		kernel.setPrintDecimals(Kernel.STANDARD_PRINT_DECIMALS);
 
 		// init settings
 		settings = new Settings();
@@ -657,7 +656,7 @@ public class Application extends AbstractApplication implements
 		}
 
 		// init xml io for construction loading
-		myXMLio = new MyXMLio((AbstractKernel) kernel, kernel.getConstruction());
+		myXMLio = new MyXMLio((Kernel) kernel, kernel.getConstruction());
 
 		// open file given by startup parameter
 		handleOptionArgsEarly(args); // for --regressionFile=...
@@ -783,12 +782,12 @@ public class Application extends AbstractApplication implements
 	 */
 	public void initEuclidianViews() {
 
-		euclidianController = newEuclidianController((AbstractKernel) kernel);
+		euclidianController = newEuclidianController((Kernel) kernel);
 		euclidianView = newEuclidianView(showAxes, showGrid);
 		euclidianView.setAntialiasing(antialiasing);
 	}
 
-	protected EuclidianController newEuclidianController(AbstractKernel kernel) {
+	protected EuclidianController newEuclidianController(Kernel kernel) {
 		return new EuclidianController(kernel);
 	}
 
@@ -1516,8 +1515,8 @@ public class Application extends AbstractApplication implements
 	}
 
 	@Override
-	final public AbstractKernel getKernel() {
-		return (AbstractKernel) kernel;
+	final public Kernel getKernel() {
+		return (Kernel) kernel;
 	}
 
 	public void setApplet(AppletImplementation appletImpl) {
@@ -2123,7 +2122,7 @@ public class Application extends AbstractApplication implements
 
 	@Override
 	final public boolean isRightToLeftDigits() {
-		if (!AbstractKernel.internationalizeDigits) {
+		if (!Kernel.internationalizeDigits) {
 			return false;
 		}
 		return rightToLeftDigits;
@@ -6733,7 +6732,7 @@ public class Application extends AbstractApplication implements
 	}
 
 	@Override
-	public AbstractAnimationManager newAnimationManager(AbstractKernel kernel2) {
+	public AbstractAnimationManager newAnimationManager(Kernel kernel2) {
 		return new AnimationManager(kernel2);
 	}
 

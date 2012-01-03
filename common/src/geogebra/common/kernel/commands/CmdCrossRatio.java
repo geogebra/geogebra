@@ -4,7 +4,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * CrossRtio[<Point>,<Point>,<Point>,<Point>]
@@ -18,7 +18,7 @@ public class CmdCrossRatio extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdCrossRatio(AbstractKernel kernel) {
+	public CmdCrossRatio(Kernel kernel) {
 		super(kernel);
 	}
 

@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /** 
  * 
@@ -28,12 +28,12 @@ import geogebra.common.kernel.AbstractKernel;
 public class MyNumberPair extends MyVecNode {
     
             
-    public MyNumberPair(AbstractKernel kernel, ExpressionValue en, ExpressionValue en2) {
+    public MyNumberPair(Kernel kernel, ExpressionValue en, ExpressionValue en2) {
 		super(kernel, en, en2);
 	}
 
     @Override
-	public ExpressionValue deepCopy(AbstractKernel kernel) {
+	public ExpressionValue deepCopy(Kernel kernel) {
         return new MyNumberPair(kernel, x.deepCopy(kernel), y.deepCopy(kernel));
     }
     

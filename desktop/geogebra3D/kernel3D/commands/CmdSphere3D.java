@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;
@@ -13,7 +13,7 @@ public class CmdSphere3D extends CommandProcessor {
 	
 	
 	
-	public CmdSphere3D(AbstractKernel kernel) {
+	public CmdSphere3D(Kernel kernel) {
 		super(kernel);
 	}
 

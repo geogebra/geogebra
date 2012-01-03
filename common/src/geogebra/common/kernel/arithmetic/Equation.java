@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 
@@ -32,12 +32,12 @@ public class Equation extends ValidExpression implements ReplaceableValue {
     private Polynomial leftPoly, rightPoly; // polynomial in normalForm   
     private Polynomial normalForm; // polynomial in normalForm
     private boolean isFunctionDependent; //Equation depends (non-constant) on functions (set in InitEquation)
-    protected AbstractKernel kernel;
+    protected Kernel kernel;
    
     /** check whether ExpressionNodes are evaluable to instances of Polynomial
      * or NumberValue and build an Equation out of them
      */
-    public Equation(AbstractKernel kernel, ExpressionValue lhs, ExpressionValue rhs) {
+    public Equation(Kernel kernel, ExpressionValue lhs, ExpressionValue rhs) {
     	if (lhs.isExpressionNode())
     		this.lhs = (ExpressionNode) lhs;
     	else
@@ -289,7 +289,7 @@ public class Equation extends ValidExpression implements ReplaceableValue {
 		return lhs.contains(ev) || rhs.contains(ev);
 	}
 
-	public ExpressionValue deepCopy(AbstractKernel kernel) {
+	public ExpressionValue deepCopy(Kernel kernel) {
 		return new Equation(kernel, lhs.getCopy(kernel), rhs.getCopy(kernel));
 	}
 
@@ -457,7 +457,7 @@ public class Equation extends ValidExpression implements ReplaceableValue {
 		return didReplacement;
 	}
 	
-	public AbstractKernel getKernel() {
+	public Kernel getKernel() {
 		return kernel;
 	}
  

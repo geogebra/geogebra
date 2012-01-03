@@ -6,7 +6,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 
 /*
@@ -15,7 +15,7 @@ import geogebra.common.kernel.AbstractKernel;
  */
 public class CmdCircle extends CommandProcessor {
 	
-	public CmdCircle(AbstractKernel kernel) {
+	public CmdCircle(Kernel kernel) {
 		super(kernel);
 	}
 	

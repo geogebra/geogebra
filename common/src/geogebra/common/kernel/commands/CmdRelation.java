@@ -3,7 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Relation[ <GeoElement>, <GeoElement> ]
@@ -16,7 +16,7 @@ public class CmdRelation extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdRelation(AbstractKernel kernel) {
+	public CmdRelation(Kernel kernel) {
 		super(kernel);
 	}
 

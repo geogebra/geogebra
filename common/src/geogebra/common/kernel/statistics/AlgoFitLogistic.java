@@ -13,7 +13,7 @@ the Free Software Foundation.
 */
 
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
@@ -93,7 +93,7 @@ public final class AlgoFitLogistic extends AlgoElement{
 	
 	// Properties
 	private static AbstractApplication app=	null;
-	private static AbstractKernel 	 k  =   null;
+	private static Kernel 	 k  =   null;
     private static double 		a,b,c;				//c/(1+a*exp(-bx))
     private static double[] 	xd,yd;				//datapoints
     private static int      	size;				//of xd and yd

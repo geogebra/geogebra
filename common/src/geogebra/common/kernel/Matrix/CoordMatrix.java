@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.Matrix;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -605,7 +605,7 @@ public class CoordMatrix {
 
 			for (int j = 1; j <= getColumns(); j++) {
 				double v = get(i, j);
-				if (AbstractKernel.isZero(v))
+				if (Kernel.isZero(v))
 					v = 0;
 				s += "  " + v;
 			}
@@ -809,7 +809,7 @@ public class CoordMatrix {
 
 		double d = this.det();
 
-		if (AbstractKernel.isEqual(d, 0.0, AbstractKernel.STANDARD_PRECISION)) {
+		if (Kernel.isEqual(d, 0.0, Kernel.STANDARD_PRECISION)) {
 			ret.setIsSingular(true);
 			return ret;
 		}

@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Locus[ <GeoPoint Q>, <GeoPoint P> ]
@@ -20,7 +20,7 @@ public class CmdLocus extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdLocus(AbstractKernel kernel) {
+	public CmdLocus(Kernel kernel) {
 		super(kernel);
 	}
 

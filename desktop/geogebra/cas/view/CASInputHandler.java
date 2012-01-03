@@ -1,7 +1,7 @@
 package geogebra.cas.view;
 
 import geogebra.common.cas.CASException;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -18,7 +18,7 @@ public class CASInputHandler {
 	public static final char ROW_REFERENCE_DYNAMIC = '$';
 
 	private CASView casView;
-	private AbstractKernel kernel;
+	private Kernel kernel;
 	private CASTable consoleTable;
 
 	private boolean assignToFreeGeoOnly = false;

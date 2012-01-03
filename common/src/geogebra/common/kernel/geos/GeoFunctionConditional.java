@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -434,7 +434,7 @@ public class GeoFunctionConditional extends GeoFunction {
 	
 	@Override
 	public double getLimit(double x, int direction) {
-		if (evaluateCondition(x-2*direction*AbstractKernel.getEpsilon()))
+		if (evaluateCondition(x-2*direction*Kernel.getEpsilon()))
 			return ifFun.getLimit(x, direction);
 			else if (elseFun != null) return elseFun.getLimit(x, direction);
 		return Double.NaN;
@@ -610,7 +610,7 @@ public class GeoFunctionConditional extends GeoFunction {
 			else if(lower == null && upper != null)
 				ret = varString+" "+(upperSharp?"<":Unicode.LESS_EQUAL)+" "+kernel.format(upper);
 			else if(lower!=null && upper!=null){				
-				if(AbstractKernel.isEqual(lower,upper) && !lowerSharp && !upperSharp)
+				if(Kernel.isEqual(lower,upper) && !lowerSharp && !upperSharp)
 					ret=varString+" = "+kernel.format(lower);
 				else
 					ret = kernel.format(lower)+" "+(lowerSharp?"<":Unicode.LESS_EQUAL)+" "+varString+" "+(upperSharp?"<":Unicode.LESS_EQUAL)+" "+kernel.format(upper);

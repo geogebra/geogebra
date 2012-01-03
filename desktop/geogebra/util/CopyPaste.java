@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.util;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoPolyLine;
@@ -493,7 +493,7 @@ public class CopyPaste {
 		ArrayList<ConstructionElement> geoslocalsw = removeFreeNonselectedGeoNumerics(geoslocal, geos);
 		ArrayList<ConstructionElement> geostohidesw = removeFreeNonselectedGeoNumerics(geostohide, geos);
 
-		AbstractKernel kernel = app.getKernel();
+		Kernel kernel = app.getKernel();
 
 		//// FIRST XML SAVE
 		beforeSavingToXML(geoslocal, geostohide, false);		
@@ -502,7 +502,7 @@ public class CopyPaste {
 		StringType oldPrintForm = kernel.getCASPrintForm();
         boolean oldValue = kernel.isPrintLocalizedCommandNames();
 		boolean saveScriptsToXML = kernel.getSaveScriptsToXML();
-		kernel.setCoordStyle(AbstractKernel.COORD_STYLE_DEFAULT);
+		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
 		kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
         kernel.setPrintLocalizedCommandNames(false);
 		kernel.setSaveScriptsToXML(false);
@@ -532,7 +532,7 @@ public class CopyPaste {
 		
 		// SECOND XML SAVE
 		beforeSavingToXML(geoslocalsw, geostohidesw, true);
-		kernel.setCoordStyle(AbstractKernel.COORD_STYLE_DEFAULT);
+		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
 		kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
         kernel.setPrintLocalizedCommandNames(false);
 		kernel.setSaveScriptsToXML(false);
@@ -587,7 +587,7 @@ public class CopyPaste {
 	 */
 	protected static void handleLabels(Application app, ArrayList<String> labels) {
 
-		AbstractKernel kernel = app.getKernel();
+		Kernel kernel = app.getKernel();
 		GeoElement geo;
 		for (int i = 0; i < labels.size(); i++) {
 			String ll = labels.get(i);

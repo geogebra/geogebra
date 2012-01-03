@@ -17,7 +17,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -54,7 +54,7 @@ public class AlgoDiv extends AlgoTwoNumFunction {
     		
     		double fraction = numerator / denominator;
     		double integer = Math.round(fraction);	
-    		if (AbstractKernel.isEqual(fraction, integer)) {
+    		if (Kernel.isEqual(fraction, integer)) {
     			num.setValue(integer);
     		} else if (denominator > 0)
     			{

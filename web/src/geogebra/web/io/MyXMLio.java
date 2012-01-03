@@ -4,7 +4,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.io.DocHandler;
 import geogebra.common.kernel.Construction;
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.kernel.Kernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.web.main.Application;
 
 public class MyXMLio implements geogebra.common.io.MyXMLio {

@@ -4,7 +4,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Parameter[ <GeoConic> ]
@@ -17,7 +17,7 @@ public class CmdParameter extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdParameter(AbstractKernel kernel) {
+	public CmdParameter(Kernel kernel) {
 		super(kernel);
 	}
 

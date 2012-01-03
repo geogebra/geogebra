@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -110,7 +110,7 @@ public class AlgoRootInterval extends AlgoElement {
         }
         
         // check result
-        if (Math.abs(fun.evaluate(root)) < AbstractKernel.MIN_PRECISION)
+        if (Math.abs(fun.evaluate(root)) < Kernel.MIN_PRECISION)
             return root;
         else
         	return Double.NaN;

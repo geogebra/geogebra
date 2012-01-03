@@ -20,7 +20,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
@@ -47,7 +47,7 @@ public class ExpressionNode extends ValidExpression implements
 		ReplaceableValue, ExpressionNodeConstants {
 
 	public AbstractApplication app;
-	public AbstractKernel kernel;
+	public Kernel kernel;
 	public ExpressionValue left, right;
 	public Operation operation = Operation.NO_OPERATION;
 	public boolean forceVector = false, forcePoint = false,
@@ -62,7 +62,7 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/** Creates new ExpressionNode */
-	public ExpressionNode(AbstractKernel kernel, ExpressionValue left,
+	public ExpressionNode(Kernel kernel, ExpressionValue left,
 			Operation operation, ExpressionValue right) {
 		this.kernel = kernel;
 		app = kernel.getApplication();
@@ -84,7 +84,7 @@ public class ExpressionNode extends ValidExpression implements
 	 * @param leaf
 	 *            value to be wrapped
 	 */
-	public ExpressionNode(AbstractKernel kernel, ExpressionValue leaf) {
+	public ExpressionNode(Kernel kernel, ExpressionValue leaf) {
 		this.kernel = kernel;
 		app = kernel.getApplication();
 
@@ -109,7 +109,7 @@ public class ExpressionNode extends ValidExpression implements
 		setRight(node.right);
 	}
 
-	public AbstractKernel getKernel() {
+	public Kernel getKernel() {
 		return kernel;
 	}
 
@@ -167,12 +167,12 @@ public class ExpressionNode extends ValidExpression implements
 		return new ExpressionNode(kernel, right);
 	}
 
-	public ExpressionValue deepCopy(AbstractKernel kernel) {
+	public ExpressionValue deepCopy(Kernel kernel) {
 		return getCopy(kernel);
 	}
 
 	/** copy the whole tree structure except leafs */
-	public ExpressionNode getCopy(AbstractKernel kernel) {
+	public ExpressionNode getCopy(Kernel kernel) {
 		// Application.debug("getCopy() input: " + this);
 		ExpressionNode newNode = null;
 		ExpressionValue lev = null, rev = null;
@@ -201,7 +201,7 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/** deep copy except for GeoElements */
-	public static ExpressionValue copy(ExpressionValue ev, AbstractKernel kernel) {
+	public static ExpressionValue copy(ExpressionValue ev, Kernel kernel) {
 		if (ev == null) {
 			return null;
 		}
@@ -282,7 +282,7 @@ public class ExpressionNode extends ValidExpression implements
 				ExpressionValue eval = node.evaluate();
 				if (eval.isNumberValue()) {
 					// we only simplify numbers that have integer values
-					if (AbstractKernel.isInteger(((NumberValue) eval)
+					if (Kernel.isInteger(((NumberValue) eval)
 							.getDouble())) {
 						left = eval;
 					}
@@ -300,7 +300,7 @@ public class ExpressionNode extends ValidExpression implements
 				ExpressionValue eval = node.evaluate();
 				if (eval.isNumberValue()) {
 					// we only simplify numbers that have integer values
-					if (AbstractKernel.isInteger(((NumberValue) eval)
+					if (Kernel.isInteger(((NumberValue) eval)
 							.getDouble())) {
 						right = eval;
 					}
@@ -3897,8 +3897,8 @@ public class ExpressionNode extends ValidExpression implements
 	 */
 	public static boolean isEqual(ExpressionValue ev1, ExpressionValue ev2) {
 		if (ev1.isNumberValue() && ev2.isNumberValue()) {
-			return AbstractKernel.isEqual(((NumberValue) ev1).getDouble(),
-					((NumberValue) ev2).getDouble(), AbstractKernel.EPSILON);
+			return Kernel.isEqual(((NumberValue) ev1).getDouble(),
+					((NumberValue) ev2).getDouble(), Kernel.EPSILON);
 		} else if (ev1.isTextValue() && ev2.isTextValue()) {
 			return ((TextValue) ev1).toValueString().equals(
 					((TextValue) ev2).toValueString());

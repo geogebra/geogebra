@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Sequence[ <expression>, <number-var>, <from>, <to> ]
@@ -17,7 +17,7 @@ public class CmdSequence extends CommandProcessor {
 	 * Creates new sequence command
 	 * @param kernel
 	 */
-	public CmdSequence(AbstractKernel kernel) {
+	public CmdSequence(Kernel kernel) {
 		super(kernel);
 	}
 

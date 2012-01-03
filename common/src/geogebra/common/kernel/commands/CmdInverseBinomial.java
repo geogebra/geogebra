@@ -4,7 +4,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *InverseBinomial
@@ -17,7 +17,7 @@ public class CmdInverseBinomial extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdInverseBinomial(AbstractKernel kernel) {
+	public CmdInverseBinomial(Kernel kernel) {
 		super(kernel);
 	}
 

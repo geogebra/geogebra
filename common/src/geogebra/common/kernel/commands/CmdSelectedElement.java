@@ -4,7 +4,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * SelectedElement[ <list>, <n> ] SelectedElement[ <point>, <n> ]
@@ -17,7 +17,7 @@ public class CmdSelectedElement extends CommandProcessor {
 	 *            kernel
 	 */
 
-	public CmdSelectedElement(AbstractKernel kernel) {
+	public CmdSelectedElement(Kernel kernel) {
 		super(kernel);
 	}
 

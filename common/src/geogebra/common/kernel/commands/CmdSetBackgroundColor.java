@@ -2,11 +2,11 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 public class CmdSetBackgroundColor extends CmdSetColor {
 	
-	public CmdSetBackgroundColor(AbstractKernel kernel) {
+	public CmdSetBackgroundColor(Kernel kernel) {
 		super(kernel);
 		background = true;
 	}

@@ -1,7 +1,7 @@
 package geogebra.gui.dialog;
 
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -27,10 +27,10 @@ public class InputDialogAngleFixed extends AngleInputDialog implements KeyListen
 	GeoPoint2[] points;
 	GeoElement[] selGeos;
 
-	private AbstractKernel kernel;
+	private Kernel kernel;
 	private static String defaultRotateAngle = "45\u00b0"; // 45 degrees
 		
-	public InputDialogAngleFixed(Application app, String title, InputHandler handler, GeoSegment[] segments, GeoPoint2[] points, GeoElement[] selGeos, AbstractKernel kernel) {
+	public InputDialogAngleFixed(Application app, String title, InputHandler handler, GeoSegment[] segments, GeoPoint2[] points, GeoElement[] selGeos, Kernel kernel) {
 		super(app, app.getPlain("Angle"), title, defaultRotateAngle, false, handler, false);
 		
 		geoPoint1 = points[0];

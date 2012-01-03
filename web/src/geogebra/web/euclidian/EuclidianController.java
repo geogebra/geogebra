@@ -34,11 +34,10 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 
 import geogebra.common.euclidian.EuclidianViewInterface2D;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.kernel.Kernel;
 import geogebra.web.main.Application;
 
 public class EuclidianController extends geogebra.common.euclidian.EuclidianController implements MouseDownHandler, MouseUpHandler, MouseMoveHandler, MouseOutHandler, MouseOverHandler, MouseWheelHandler, ClickHandler, DoubleClickHandler, TouchStartHandler, TouchEndHandler, TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, GestureChangeHandler {
@@ -113,8 +112,8 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
     }
 
 	@Override
-    public void setKernel(AbstractKernel kernel) {
-	   this.kernel = (geogebra.web.kernel.Kernel)kernel;
+    public void setKernel(Kernel kernel) {
+	   this.kernel = kernel;
     }
 
 	public void onGestureChange(GestureChangeEvent event) {

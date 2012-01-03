@@ -7,7 +7,7 @@ import java.util.Iterator;
 
 import geogebra.common.awt.Point;
 import geogebra.common.awt.Point2D;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
@@ -220,7 +220,7 @@ public abstract class EuclidianController {
 
 	protected AbstractApplication app;
 
-	protected AbstractKernel kernel;
+	protected Kernel kernel;
 
 	protected Point startLoc;
 
@@ -276,9 +276,9 @@ public abstract class EuclidianController {
 
 	public abstract void handleMovedElement(GeoElement selGeo, boolean b);
 	
-	public abstract void setKernel(AbstractKernel kernel);
+	public abstract void setKernel(Kernel kernel);
 	
-	public abstract AbstractKernel getKernel();
+	public abstract Kernel getKernel();
 	
 	public abstract void setApplication(AbstractApplication app);
 
@@ -468,9 +468,9 @@ public abstract class EuclidianController {
 				for (int j = 0; j < persistentStickyPointList.size(); j++) {
 					GeoPoint2 geo2 = (GeoPoint2) persistentStickyPointList
 							.get(j);
-					if (AbstractKernel.isEqual(geo2.getInhomX(),
+					if (Kernel.isEqual(geo2.getInhomX(),
 							((GeoPoint2) geo).getInhomX())
-							&& AbstractKernel.isEqual(geo2.getInhomY(),
+							&& Kernel.isEqual(geo2.getInhomY(),
 									((GeoPoint2) geo).getInhomY())) {
 						geo.setEuclidianVisible(false);
 						String geolabel = geo.getLabelSimple();
@@ -929,21 +929,21 @@ public abstract class EuclidianController {
 
 	protected GeoPointND createNewPoint(boolean forPreviewable, boolean complex) {
 		GeoPointND ret = kernel.Point(null,
-				AbstractKernel.checkDecimalFraction(xRW),
-				AbstractKernel.checkDecimalFraction(yRW), complex);
+				Kernel.checkDecimalFraction(xRW),
+				Kernel.checkDecimalFraction(yRW), complex);
 		return ret;
 	}
 
 	protected GeoPointND createNewPoint(boolean forPreviewable, Path path, boolean complex) {
 		return createNewPoint(forPreviewable, path,
-				AbstractKernel.checkDecimalFraction(xRW),
-				AbstractKernel.checkDecimalFraction(yRW), 0, complex);
+				Kernel.checkDecimalFraction(xRW),
+				Kernel.checkDecimalFraction(yRW), 0, complex);
 	}
 
 	protected GeoPointND createNewPoint(boolean forPreviewable, Region region, boolean complex) {
 		return createNewPoint(forPreviewable, region,
-				AbstractKernel.checkDecimalFraction(xRW),
-				AbstractKernel.checkDecimalFraction(yRW), 0, complex);
+				Kernel.checkDecimalFraction(xRW),
+				Kernel.checkDecimalFraction(yRW), 0, complex);
 	}
 
 	protected GeoPointND createNewPoint2D(boolean forPreviewable, Path path, double x,

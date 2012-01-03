@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;
@@ -14,7 +14,7 @@ public class CmdCylinder extends CommandProcessor{
 	
 	
 	
-	public CmdCylinder(AbstractKernel kernel) {
+	public CmdCylinder(Kernel kernel) {
 		super(kernel);
 	}
 

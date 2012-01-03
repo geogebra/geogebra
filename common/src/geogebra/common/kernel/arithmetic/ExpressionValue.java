@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 
 
@@ -45,7 +45,7 @@ public interface ExpressionValue {
 	public boolean isInTree(); // used in ExpressionNode tree
 	public void setInTree(boolean flag);
 	public boolean contains(ExpressionValue ev);
-	public ExpressionValue deepCopy(AbstractKernel kernel);
+	public ExpressionValue deepCopy(Kernel kernel);
     public ExpressionValue evaluate();
     public HashSet<GeoElement> getVariables();   
     public String toValueString();
@@ -53,6 +53,6 @@ public interface ExpressionValue {
     public String toLaTeXString(boolean symbolic);   
     public void resolveVariables();
 	public String toRealString();
-	public AbstractKernel getKernel();
+	public Kernel getKernel();
 }
 

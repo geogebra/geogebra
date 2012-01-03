@@ -12,7 +12,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.implicit;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
@@ -136,7 +136,7 @@ public class AlgoTangentImplicitpoly extends AlgoElement {
 			tangents.adjustOutputSize(n+1);
 			double dfdx = this.p.evalDiffXPolyAt(R.inhomX, R.inhomY);
 			double dfdy = this.p.evalDiffYPolyAt(R.inhomX, R.inhomY);
-			if (!AbstractKernel.isEqual(dfdx,0,1E-5)||!AbstractKernel.isEqual(dfdy,0,1E-5)){
+			if (!Kernel.isEqual(dfdx,0,1E-5)||!Kernel.isEqual(dfdy,0,1E-5)){
 				tangents.getElement(n).setCoords(dfdx, dfdy, 
 						-dfdx*R.inhomX - dfdy*R.inhomY);
 				n++;
@@ -151,8 +151,8 @@ public class AlgoTangentImplicitpoly extends AlgoElement {
 		for(int i=0; i<ip.length; i++)
 		{
 			
-			if(AbstractKernel.isEqual(ip[i].inhomX, R.inhomX, 1E-2) 
-					&& AbstractKernel.isEqual(ip[i].inhomY, R.inhomY, 1E-2))
+			if(Kernel.isEqual(ip[i].inhomX, R.inhomX, 1E-2) 
+					&& Kernel.isEqual(ip[i].inhomY, R.inhomY, 1E-2))
 				continue;
 			
 			//normal vector does not exist, therefore tangent is not defined
@@ -163,8 +163,8 @@ public class AlgoTangentImplicitpoly extends AlgoElement {
 			//A convenient necessary condition of this is  (dF/dx)^2 <= |dF1/dx| * EPSILON.
 			//Not very reasonably, now we use (dF/dx)^2 <= EPSILON only, to avoid evaluation of dF1/dx 
 			//TODO: have a more reasonable choice
-			if(AbstractKernel.isEqual(0, this.p.evalDiffXPolyAt(ip[i].inhomX, ip[i].inhomY), AbstractKernel.EPSILON_SQRT)
-					&& AbstractKernel.isEqual(0, this.p.evalDiffXPolyAt(ip[i].inhomX, ip[i].inhomY), AbstractKernel.EPSILON_SQRT))
+			if(Kernel.isEqual(0, this.p.evalDiffXPolyAt(ip[i].inhomX, ip[i].inhomY), Kernel.EPSILON_SQRT)
+					&& Kernel.isEqual(0, this.p.evalDiffXPolyAt(ip[i].inhomX, ip[i].inhomY), Kernel.EPSILON_SQRT))
 				continue;
 			
 			tangents.adjustOutputSize(n+1);

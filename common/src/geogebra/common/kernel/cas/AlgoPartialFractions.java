@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.cas;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
@@ -33,8 +33,8 @@ public class AlgoPartialFractions extends AlgoCasBase {
 	protected void applyCasCommand() {
 
 		// f.getVarString() can return a number in wrong alphabet (need ASCII)
-		boolean internationalizeDigits = AbstractKernel.internationalizeDigits;
-		AbstractKernel.internationalizeDigits = false;
+		boolean internationalizeDigits = Kernel.internationalizeDigits;
+		Kernel.internationalizeDigits = false;
 
 		// get variable string with tmp prefix,
 		// e.g. "x" becomes "ggbtmpvarx" here
@@ -43,7 +43,7 @@ public class AlgoPartialFractions extends AlgoCasBase {
 		String varStr = f.getVarString();
 		kernel.setUseTempVariablePrefix(isUseTempVariablePrefix);
 
-		AbstractKernel.internationalizeDigits = internationalizeDigits;
+		Kernel.internationalizeDigits = internationalizeDigits;
 
 		sbAE.setLength(0);
 		sbAE.append("PartialFractions(%");

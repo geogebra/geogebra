@@ -13,7 +13,7 @@ the Free Software Foundation.
 
 package geogebra.gui;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
@@ -129,7 +129,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 		int mode = point.getMode();
 		AbstractAction action;
 
-		if (mode != AbstractKernel.COORD_CARTESIAN && !geo.isFixed() && point.getMode() != AbstractKernel.COORD_COMPLEX) {
+		if (mode != Kernel.COORD_CARTESIAN && !geo.isFixed() && point.getMode() != Kernel.COORD_COMPLEX) {
 			action = new AbstractAction(app.getPlain("CartesianCoords")) {
 				/**
 				 * 
@@ -141,7 +141,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 						GeoElement geo = geos.get(i);
 						if (geo instanceof GeoPoint2) {
 							point = (GeoPoint2)geo;
-							point.setMode(AbstractKernel.COORD_CARTESIAN);
+							point.setMode(Kernel.COORD_CARTESIAN);
 							point.updateRepaint();
 						}
 					}
@@ -151,7 +151,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 			addAction(action);
 		}
 
-		if (mode != AbstractKernel.COORD_POLAR && !geo.isFixed() && point.getMode() != AbstractKernel.COORD_COMPLEX) {
+		if (mode != Kernel.COORD_POLAR && !geo.isFixed() && point.getMode() != Kernel.COORD_COMPLEX) {
 			action = new AbstractAction(app.getPlain("PolarCoords")) {
 				/**
 				 * 
@@ -163,7 +163,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 						GeoElement geo = geos.get(i);
 						if (geo instanceof GeoPoint2) {
 							point = (GeoPoint2)geo;
-							point.setMode(AbstractKernel.COORD_POLAR);
+							point.setMode(Kernel.COORD_POLAR);
 							point.updateRepaint();
 						}
 					}
@@ -285,7 +285,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 		int mode = vector.getMode();
 		AbstractAction action;
 
-		if (mode != AbstractKernel.COORD_CARTESIAN) {
+		if (mode != Kernel.COORD_CARTESIAN) {
 			action = new AbstractAction(app.getPlain("CartesianCoords")) {
 				/**
 				 * 
@@ -297,7 +297,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 						GeoElement geo = geos.get(i);
 						if (geo instanceof GeoVector) {
 							vector = (GeoVector)geo;
-							vector.setMode(AbstractKernel.COORD_CARTESIAN);
+							vector.setMode(Kernel.COORD_CARTESIAN);
 							vector.updateRepaint();
 						}
 					}
@@ -307,7 +307,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 			addAction(action);
 		}
 
-		if (mode != AbstractKernel.COORD_POLAR) {
+		if (mode != Kernel.COORD_POLAR) {
 			action = new AbstractAction(app.getPlain("PolarCoords")) {
 				/**
 				 * 
@@ -319,7 +319,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 						GeoElement geo = geos.get(i);
 						if (geo instanceof GeoVector) {
 							vector = (GeoVector)geo;
-							vector.setMode(AbstractKernel.COORD_POLAR);
+							vector.setMode(Kernel.COORD_POLAR);
 							vector.updateRepaint();
 						}
 					}
@@ -709,7 +709,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 
 						// automatically start animation when animating was turned on
 						if (geo.isAnimating())
-							((AbstractKernel) geo.getKernel()).getAnimatonManager().startAnimation();	
+							((Kernel) geo.getKernel()).getAnimatonManager().startAnimation();	
 					}       	
 				});
 				addItem(cbItem);            	

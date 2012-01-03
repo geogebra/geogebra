@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
@@ -11,7 +11,7 @@ public abstract class CmdScripting extends CommandProcessor implements CmdScript
 
 	
 
-	public CmdScripting(AbstractKernel kernel) {
+	public CmdScripting(Kernel kernel) {
 		super(kernel);
 		// TODO Auto-generated constructor stub
 	}

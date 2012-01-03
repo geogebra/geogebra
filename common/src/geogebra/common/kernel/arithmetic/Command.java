@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.AbstractApplication;
@@ -41,14 +41,14 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 	private ArrayList<ExpressionNode> args = new ArrayList<ExpressionNode>();
 	private String name; // internal command name (in English)
 
-	private AbstractKernel kernel;
+	private Kernel kernel;
 	private AbstractApplication app;
 	private GeoElement[] evalGeos; // evaluated Elements
 	private MacroInterface macro; // command may correspond to a macro
 	private boolean allowEvaluationForTypeCheck = true;
 
 	/** Creates new Command */
-	public Command(AbstractKernel kernel, String name, boolean translateName) {
+	public Command(Kernel kernel, String name, boolean translateName) {
 		this(kernel, name, translateName, true);
 	}
 
@@ -62,7 +62,7 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 	 *            whether this command is allowed to be evaluated in type checks
 	 *            like isTextValue()
 	 */
-	public Command(AbstractKernel kernel, String name, boolean translateName,
+	public Command(Kernel kernel, String name, boolean translateName,
 			boolean allowEvaluationForTypeCheck) {
 		this.kernel = kernel;
 		app = kernel.getApplication();
@@ -82,7 +82,7 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 		}
 	}
 
-	public AbstractKernel getKernel() {
+	public Kernel getKernel() {
 		return kernel;
 	}
 
@@ -283,7 +283,7 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 		return allowEvaluationForTypeCheck && evaluate().isTextValue();
 	}
 
-	public ExpressionValue deepCopy(AbstractKernel kernel) {
+	public ExpressionValue deepCopy(Kernel kernel) {
 		Command c = new Command(kernel, name, false);
 		// copy arguments
 		int size = args.size();

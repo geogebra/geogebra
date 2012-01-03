@@ -4,14 +4,14 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;;
+import geogebra.common.kernel.Kernel;;
 
 /*
  * Max[ <Number>, <Number> ]
  */
 public class CmdUnicodeToText extends CommandProcessor {
 
-	public CmdUnicodeToText(AbstractKernel kernel) {
+	public CmdUnicodeToText(Kernel kernel) {
 		super(kernel);
 	}
 

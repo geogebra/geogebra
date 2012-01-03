@@ -4,7 +4,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *Cell
@@ -16,7 +16,7 @@ public class CmdCell extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdCell(AbstractKernel kernel) {
+	public CmdCell(Kernel kernel) {
 		super(kernel);
 	}
 

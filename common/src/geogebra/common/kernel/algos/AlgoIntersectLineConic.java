@@ -19,7 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.PointPairList;
 import geogebra.common.kernel.geos.GeoConic;
@@ -268,7 +268,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
 	    				p.getIncidenceList().contains(g)) {
 	    				
 	    				//TODO: this is just a TEMPORARY FIX for #94.
-	    				if (g.isOnPath(p, AbstractKernel.EPSILON) && c.isOnPath(p, AbstractKernel.EPSILON))
+	    				if (g.isOnPath(p, Kernel.EPSILON) && c.isOnPath(p, Kernel.EPSILON))
 	    					existingIntersection = p;
 	    				
 	    					
@@ -297,7 +297,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
 	    					p.getIncidenceList().contains(c)) {
 	    					
 	    					//TODO: this is just a TEMPORARY FIX for #94.
-		    				if (g.isOnPath(p, AbstractKernel.EPSILON) && c.isOnPath(p, AbstractKernel.EPSILON)) 
+		    				if (g.isOnPath(p, Kernel.EPSILON) && c.isOnPath(p, Kernel.EPSILON)) 
 		    					existingIntersection = p;
 	    					
 	    					//existingIntersection = p;
@@ -514,8 +514,8 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
     }
     
     private boolean pointLiesOnBothPaths(GeoPoint2 P) {        	
-    	return g.isIntersectionPointIncident(P, AbstractKernel.MIN_PRECISION) &&
-			   c.isIntersectionPointIncident(P, AbstractKernel.MIN_PRECISION);
+    	return g.isIntersectionPointIncident(P, Kernel.MIN_PRECISION) &&
+			   c.isIntersectionPointIncident(P, Kernel.MIN_PRECISION);
     }
         
     
@@ -540,13 +540,13 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
     	int ret = INTERSECTION_PASSING_LINE;        
         
     	if (c.isDefined() && g.isDefined()) {    	
-	    	double epsilon = AbstractKernel.STANDARD_PRECISION;           
-	        while (epsilon <= AbstractKernel.MIN_PRECISION) {
+	    	double epsilon = Kernel.STANDARD_PRECISION;           
+	        while (epsilon <= Kernel.MIN_PRECISION) {
 	            ret = intersectLineConic(g, c, sol);    	            	            
 	            
-	            if (ok = testPoints(g, c, sol, AbstractKernel.MIN_PRECISION)) break;
+	            if (ok = testPoints(g, c, sol, Kernel.MIN_PRECISION)) break;
 	            epsilon *= 10.0;
-	            AbstractKernel.setEpsilon(epsilon);
+	            Kernel.setEpsilon(epsilon);
 	        }
 	        kernel.resetPrecision();                
     	}
@@ -591,15 +591,15 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
         double w = c.evaluate(px, py);
         
         //estimate err for delta; also avoid this too be too large
-        double delta = Math.min(AbstractKernel.MIN_PRECISION,Math.max(1,Math.abs(2*d)+Math.abs(u)+Math.abs(w))*AbstractKernel.EPSILON);
+        double delta = Math.min(Kernel.MIN_PRECISION,Math.max(1,Math.abs(2*d)+Math.abs(u)+Math.abs(w))*Kernel.EPSILON);
         
         
         // Erzeugende, Asymptote oder Treffgerade
-        if (AbstractKernel.isZero(u)) {
+        if (Kernel.isZero(u)) {
             // Erzeugende oder Asymptote
-            if (AbstractKernel.isZero(d)) {
+            if (Kernel.isZero(d)) {
                 // Erzeugende
-                if (AbstractKernel.isZero(w)) {
+                if (Kernel.isZero(w)) {
                     sol[0].setUndefined();
                     sol[1].setUndefined();
                     return INTERSECTION_PRODUCING_LINE;
@@ -630,7 +630,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
             // Tangente
             
             //if (AbstractKernel.isZero(dis)) {
-            if (AbstractKernel.isEqual(dis, 0, delta)) {
+            if (Kernel.isEqual(dis, 0, delta)) {
                 double t1 = -d / u;
                 sol[0].setCoords(px + t1 * g.y,  py - t1 * g.x, 1.0);
                 sol[1].setCoords(sol[0]);

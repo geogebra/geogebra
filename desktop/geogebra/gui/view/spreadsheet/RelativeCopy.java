@@ -1,7 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.awt.Point;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -23,12 +23,12 @@ import com.google.gwt.regexp.shared.RegExp;
 
 public class RelativeCopy {
 
-	protected AbstractKernel kernel;
+	protected Kernel kernel;
 
 	AbstractApplication app;
 	//protected MyTable table;
 
-	public RelativeCopy(AbstractKernel kernel0) {
+	public RelativeCopy(Kernel kernel0) {
 		kernel = kernel0;
 		app = kernel.getApplication();
 	}
@@ -345,7 +345,7 @@ public class RelativeCopy {
 	protected static final RegExp pattern2 = RegExp
 			.compile("(::|\\$)([A-Z]+)(::|\\$)([0-9]+)");
 
-	public static GeoElement doCopyNoStoringUndoInfo0(AbstractKernel kernel,
+	public static GeoElement doCopyNoStoringUndoInfo0(Kernel kernel,
 			AbstractApplication app, GeoElement value, GeoElement oldValue, int dx, int dy)
 			throws Exception {
 		if (value == null) {
@@ -665,7 +665,7 @@ public class RelativeCopy {
 
 	}
 
-	public static void doCopyNoStoringUndoInfo1(AbstractKernel kernel, AbstractApplication app,
+	public static void doCopyNoStoringUndoInfo1(Kernel kernel, AbstractApplication app,
 			String text, GeoElement geoForStyle, int column, int row)
 			throws Exception {
 		GeoElement oldValue = getValue(app, column, row);
@@ -776,7 +776,7 @@ public class RelativeCopy {
 	// Cell Editing Methods
 	// =========================================================================
 
-	private static GeoElement prepareNewValue(AbstractKernel kernel, String name,
+	private static GeoElement prepareNewValue(Kernel kernel, String name,
 			String text) throws Exception {
 		if (text == null) {
 			return null;
@@ -869,7 +869,7 @@ public class RelativeCopy {
 		return newValues[0];
 	}
 
-	private static GeoElement updateOldValue(AbstractKernel kernel,
+	private static GeoElement updateOldValue(Kernel kernel,
 			GeoElement oldValue, String name, String text) throws Exception {
 		String text0 = text;
 		if (text.startsWith("=")) {
@@ -953,7 +953,7 @@ public class RelativeCopy {
 	 * @throws Exception
 	 */
 	public static GeoElement prepareAddingValueToTableNoStoringUndoInfo(
-			AbstractKernel kernel, AbstractApplication app, String text, GeoElement oldValue,
+			Kernel kernel, AbstractApplication app, String text, GeoElement oldValue,
 			int column, int row) throws Exception {
 
 		// get the cell name

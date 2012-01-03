@@ -2,13 +2,12 @@ package geogebra3D.io;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.io.MyXMLHandler;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.LevelOfDetail;
 import geogebra.euclidian.EuclidianViewInterface;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra3D.Application3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
@@ -31,7 +30,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	 * @param kernel
 	 * @param cons
 	 */
-	public MyXMLHandler3D(AbstractKernel kernel, Construction cons) {
+	public MyXMLHandler3D(Kernel kernel, Construction cons) {
 		super(kernel, cons);
 	}	
 	

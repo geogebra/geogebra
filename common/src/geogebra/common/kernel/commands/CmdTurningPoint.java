@@ -4,7 +4,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * TurningPoint[ <GeoFunction> ]
@@ -17,7 +17,7 @@ public class CmdTurningPoint extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdTurningPoint(AbstractKernel kernel) {
+	public CmdTurningPoint(Kernel kernel) {
 		super(kernel);
 	}
 

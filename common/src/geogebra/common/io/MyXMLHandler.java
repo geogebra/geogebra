@@ -21,7 +21,7 @@ package geogebra.common.io;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.io.layout.*;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.Macro;
@@ -150,7 +150,7 @@ public class MyXMLHandler implements DocHandler {
 
 	// for macros we need to change the kernel, so remember the original kernel
 	// too
-	private AbstractKernel kernel, origKernel;
+	private Kernel kernel, origKernel;
 	/** construction */
 	protected Construction cons;
 
@@ -256,7 +256,7 @@ public class MyXMLHandler implements DocHandler {
 	/** Creates a new instance of MyXMLHandler 
 	 * @param kernel 
 	 * @param cons */
-	public MyXMLHandler(AbstractKernel kernel, Construction cons) {
+	public MyXMLHandler(Kernel kernel, Construction cons) {
 		origKernel = kernel;
 		origCons = cons;
 		origParser = new Parser(origKernel, origCons);
@@ -386,7 +386,7 @@ public class MyXMLHandler implements DocHandler {
 					ggbFileFormat = Double.parseDouble((String) attrs
 							.get("format"));
 					
-					ggbFileFormat = AbstractKernel.checkDecimalFraction(ggbFileFormat);
+					ggbFileFormat = Kernel.checkDecimalFraction(ggbFileFormat);
 
 					if (ggbFileFormat > FORMAT) {
 						System.err.println(app.getError("FileFormatNewer")
@@ -1383,9 +1383,9 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 
 		if (angleUnit.equals("degree"))
-			kernel.setAngleUnit(AbstractKernel.ANGLE_DEGREE);
+			kernel.setAngleUnit(Kernel.ANGLE_DEGREE);
 		else if (angleUnit.equals("radiant"))
-			kernel.setAngleUnit(AbstractKernel.ANGLE_RADIANT);
+			kernel.setAngleUnit(Kernel.ANGLE_RADIANT);
 		else
 			return false;
 		return true;
@@ -2320,9 +2320,9 @@ public class MyXMLHandler implements DocHandler {
 			// we have to change the construction object temporarily so
 			// everything
 			// is done in the macro construction from now on
-			kernel = (AbstractKernel) macroKernel;
+			kernel = (Kernel) macroKernel;
 			cons = macroKernel.getConstruction();
-			parser = new Parser((AbstractKernel)macroKernel, cons);
+			parser = new Parser((Kernel)macroKernel, cons);
 
 		} catch (Exception e) {
 			System.err.println("error in <macro>");
@@ -2449,7 +2449,7 @@ public class MyXMLHandler implements DocHandler {
 				// create algorithm for dependent cell
 				// this also creates twinGeo if necessary
 				// output is not computed again, see AlgoDependenCasCell constructor
-				AbstractKernel.DependentCasCell(geoCasCell);
+				Kernel.DependentCasCell(geoCasCell);
 			}
 		} catch (Exception e) {
 			System.err.println("error when processing <cellpair>: " + e.getMessage());

@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /*
  * Element[ <list>, <n> ]
@@ -13,7 +13,7 @@ import geogebra.common.kernel.AbstractKernel;
  */
 public class CmdElement extends CommandProcessor {
 
-	public CmdElement(AbstractKernel kernel) {
+	public CmdElement(Kernel kernel) {
 		super(kernel);
 	}
 

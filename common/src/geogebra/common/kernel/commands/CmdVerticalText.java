@@ -4,7 +4,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;;
+import geogebra.common.kernel.Kernel;;
 
 /**
  *VerticalText
@@ -16,7 +16,7 @@ public class CmdVerticalText extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdVerticalText(AbstractKernel kernel) {
+	public CmdVerticalText(Kernel kernel) {
 		super(kernel);
 	}
 

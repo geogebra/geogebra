@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
@@ -12,7 +12,7 @@ import geogebra.common.kernel.geos.GeoList;
  */
 public class CmdFitPow extends CmdOneListFunction{
 
-    public CmdFitPow(AbstractKernel kernel) {super(kernel);}
+    public CmdFitPow(Kernel kernel) {super(kernel);}
     
 	final protected GeoElement doCommand(String a, GeoList b)
 	{

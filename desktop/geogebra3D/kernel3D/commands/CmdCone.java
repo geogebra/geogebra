@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;
@@ -23,7 +23,7 @@ public class CmdCone extends CommandProcessor {
 	
 	
 	
-	public CmdCone(AbstractKernel kernel) {
+	public CmdCone(Kernel kernel) {
 		super(kernel);
 	}
 

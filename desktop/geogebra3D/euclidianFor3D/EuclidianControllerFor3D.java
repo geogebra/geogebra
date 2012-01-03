@@ -1,6 +1,6 @@
 package geogebra3D.euclidianFor3D;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -11,7 +11,7 @@ import geogebra.euclidian.EuclidianController;
 
 public class EuclidianControllerFor3D extends EuclidianController {
 
-	public EuclidianControllerFor3D(AbstractKernel kernel) {
+	public EuclidianControllerFor3D(Kernel kernel) {
 		super(kernel);
 	}
 	

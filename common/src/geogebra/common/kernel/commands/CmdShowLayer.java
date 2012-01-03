@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -19,7 +19,7 @@ public class CmdShowLayer extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdShowLayer(AbstractKernel kernel) {
+	public CmdShowLayer(Kernel kernel) {
 		super(kernel);
 	}
 

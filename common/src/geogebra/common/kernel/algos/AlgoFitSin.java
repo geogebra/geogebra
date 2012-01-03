@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 */
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -102,7 +102,7 @@ public class AlgoFitSin extends AlgoElement{
 	
 	// Properties
 	private static AbstractApplication app=	null;
-	private static AbstractKernel 	 k  =   null;
+	private static Kernel 	 k  =   null;
     private static double 					 a,b,c,d;			//a+bsin(cx+d)
     private static double[] 				 xd,yd;				//datapoints
     private static int      				 size;				//data arrays

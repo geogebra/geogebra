@@ -16,7 +16,7 @@ import geogebra.AppletImplementationInterface;
 import geogebra.CommandLineArguments;
 import geogebra.GeoGebraAppletPreloader;
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyBoolean;
 import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
@@ -59,7 +59,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	public JApplet applet;
 
 	protected Application app;
-	protected AbstractKernel kernel;
+	protected Kernel kernel;
 	private JButton btOpen;
 	private DoubleClickListener dcListener;
 	private EuclidianView ev;

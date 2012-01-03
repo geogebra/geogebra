@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoInterval;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 
 /**
@@ -16,7 +16,7 @@ import geogebra.common.kernel.AbstractKernel;
  */
 public class CmdMidpoint extends CommandProcessor {
 	
-	public CmdMidpoint(AbstractKernel kernel) {
+	public CmdMidpoint(Kernel kernel) {
 		super(kernel);
 	}
 

@@ -1,7 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -67,7 +67,7 @@ public class MyTable extends JTable implements FocusListener
 	public static final Color HEADER_GRID_COLOR = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.GRAY4);
 	public static final Color SELECTED_RECTANGLE_COLOR = Color.BLUE;
 
-	protected AbstractKernel kernel;
+	protected Kernel kernel;
 	protected Application app;
 	protected MyCellEditor editor;
 	private MyCellEditorBoolean editorBoolean;
@@ -412,7 +412,7 @@ public class MyTable extends JTable implements FocusListener
 
 		Point p = new Point(column, row);
 		if (view.allowSpecialEditor() && oneClickEditMap.containsKey(p) 
-				&& kernel.getAlgebraStyle()==AbstractKernel.ALGEBRA_STYLE_VALUE){
+				&& kernel.getAlgebraStyle()==Kernel.ALGEBRA_STYLE_VALUE){
 
 			switch (oneClickEditMap.get(p).getGeoClassType()){
 			case BOOLEAN:

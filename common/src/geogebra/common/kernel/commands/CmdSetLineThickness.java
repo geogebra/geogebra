@@ -4,7 +4,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *SetLineThickness
@@ -17,7 +17,7 @@ public class CmdSetLineThickness extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdSetLineThickness(AbstractKernel kernel) {
+	public CmdSetLineThickness(Kernel kernel) {
 		super(kernel);
 	}
 

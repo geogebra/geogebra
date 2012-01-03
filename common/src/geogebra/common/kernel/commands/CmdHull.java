@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -18,7 +18,7 @@ public class CmdHull extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdHull(AbstractKernel kernel) {
+	public CmdHull(Kernel kernel) {
 		super(kernel);
 	}
 

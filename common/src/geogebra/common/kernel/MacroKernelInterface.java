@@ -12,7 +12,7 @@ public interface MacroKernelInterface {
 
 	Construction getConstruction();
 
-	AbstractKernel getParentKernel();
+	Kernel getParentKernel();
 
 	void addReservedLabel(String label);
 

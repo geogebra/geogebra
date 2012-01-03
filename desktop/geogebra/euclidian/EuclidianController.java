@@ -22,7 +22,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.Path;
@@ -125,7 +125,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 	/***********************************************
 	 * Creates new EuclidianController
 	 **********************************************/
-	public EuclidianController(AbstractKernel kernel) {
+	public EuclidianController(Kernel kernel) {
 		setKernel(kernel);
 		setApplication((Application)kernel.getApplication());
 
@@ -144,12 +144,12 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		return (Application) app;
 	}
 
-	public void setKernel(AbstractKernel kernel) {
-		this.kernel = (AbstractKernel)kernel;
+	public void setKernel(Kernel kernel) {
+		this.kernel = (Kernel)kernel;
 	}
 
-	public AbstractKernel getKernel() {
-		return (AbstractKernel) kernel;
+	public Kernel getKernel() {
+		return (Kernel) kernel;
 	}
 
 	protected void setView(EuclidianViewInterface view) {
@@ -1425,7 +1425,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 				if ((f instanceof GeoPoint2)
 						&& movedGeoImplicitPoly.isParentOf(f)) {
 					GeoPoint2 g = (GeoPoint2) f;
-					if (!AbstractKernel.isZero(g.getZ())) {
+					if (!Kernel.isZero(g.getZ())) {
 						moveDependentPoints.add(g);
 						tempDependentPointX.add(g.getX() / g.getZ());
 						tempDependentPointY.add(g.getY() / g.getZ());
@@ -3513,8 +3513,8 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 	}
 
 	protected void movePoint(boolean repaint) {
-		movedGeoPoint.setCoords(AbstractKernel.checkDecimalFraction(xRW),
-				AbstractKernel.checkDecimalFraction(yRW), 1.0);
+		movedGeoPoint.setCoords(Kernel.checkDecimalFraction(xRW),
+				Kernel.checkDecimalFraction(yRW), 1.0);
 		((GeoElement) movedGeoPoint).updateCascade();
 		movedGeoPointDragged = true;
 
@@ -3750,25 +3750,25 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		param = (param * (max - min)) / movedGeoNumeric.getSliderWidth();
 
 		// round to animation step scale
-		param = AbstractKernel.roundToScale(param,
+		param = Kernel.roundToScale(param,
 				movedGeoNumeric.getAnimationStep());
 		double val = min + param;
 
-		if (movedGeoNumeric.getAnimationStep() > AbstractKernel.MIN_PRECISION) {
+		if (movedGeoNumeric.getAnimationStep() > Kernel.MIN_PRECISION) {
 			// round to decimal fraction, e.g. 2.800000000001 to 2.8
-			val = AbstractKernel.checkDecimalFraction(val);
+			val = Kernel.checkDecimalFraction(val);
 		}
 
 		if (movedGeoNumeric.isGeoAngle()) {
 			if (val < 0) {
 				val = 0;
-			} else if (val > AbstractKernel.PI_2) {
-				val = AbstractKernel.PI_2;
+			} else if (val > Kernel.PI_2) {
+				val = Kernel.PI_2;
 			}
 
-			val = AbstractKernel.checkDecimalFraction(val
-					* AbstractKernel.CONST_180_PI)
-					/ AbstractKernel.CONST_180_PI;
+			val = Kernel.checkDecimalFraction(val
+					* Kernel.CONST_180_PI)
+					/ Kernel.CONST_180_PI;
 
 		}
 
@@ -3957,16 +3957,16 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 				double root3 = Math.sqrt(3.0);
 				double isoGrid = ((EuclidianViewInterface)view).getGridDistances(0);
 				int oddOrEvenRow = (int) Math.round((2.0 * Math.abs(yRW
-						- AbstractKernel.roundToScale(yRW, isoGrid)))
+						- Kernel.roundToScale(yRW, isoGrid)))
 						/ isoGrid);
 
 				// Application.debug(oddOrEvenRow);
 
 				if (oddOrEvenRow == 0) {
 					// X = (x, y) ... next grid point
-					double x = AbstractKernel
+					double x = Kernel
 							.roundToScale(xRW / root3, isoGrid);
-					double y = AbstractKernel.roundToScale(yRW, isoGrid);
+					double y = Kernel.roundToScale(yRW, isoGrid);
 					// if |X - XRW| < gridInterval * pointCapturingPercentage
 					// then take the grid point
 					double a = Math.abs(x - (xRW / root3));
@@ -3982,9 +3982,9 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 				} else {
 					// X = (x, y) ... next grid point
-					double x = AbstractKernel.roundToScale((xRW / root3)
+					double x = Kernel.roundToScale((xRW / root3)
 							- (((EuclidianViewInterface)view).getGridDistances(0) / 2), isoGrid);
-					double y = AbstractKernel.roundToScale(yRW - (isoGrid / 2),
+					double y = Kernel.roundToScale(yRW - (isoGrid / 2),
 							isoGrid);
 					// if |X - XRW| < gridInterval * pointCapturingPercentage
 					// then take the grid point
@@ -4007,9 +4007,9 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 				// X = (x, y) ... next grid point
 
-				double x = AbstractKernel.roundToScale(xRW,
+				double x = Kernel.roundToScale(xRW,
 						((EuclidianViewInterface)view).getGridDistances(0));
-				double y = AbstractKernel.roundToScale(yRW,
+				double y = Kernel.roundToScale(yRW,
 						((EuclidianViewInterface)view).getGridDistances(1));
 
 				// if |X - XRW| < gridInterval * pointCapturingPercentage then
@@ -4031,7 +4031,7 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 
 				// r = get nearest grid circle radius
 				double r = MyMath.length(xRW, yRW);
-				double r2 = AbstractKernel.roundToScale(r,
+				double r2 = Kernel.roundToScale(r,
 						((EuclidianViewInterface)view).getGridDistances(0));
 
 				// get nearest radial gridline angle

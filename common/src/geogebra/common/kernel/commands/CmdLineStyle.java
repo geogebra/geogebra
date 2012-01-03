@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *LineStyle
@@ -18,7 +18,7 @@ public class CmdLineStyle extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdLineStyle(AbstractKernel kernel) {
+	public CmdLineStyle(Kernel kernel) {
 		super(kernel);
 	}
 

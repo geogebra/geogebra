@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Distance[ <GeoPoint>, <GeoPoint> ] Distance[ <GeoPoint>, <GeoLine> ]
@@ -20,7 +20,7 @@ public class CmdDistance extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdDistance(AbstractKernel kernel) {
+	public CmdDistance(Kernel kernel) {
 		super(kernel);
 	}
 

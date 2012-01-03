@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 //import geogebra.kernel.AlgoElement;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -251,7 +251,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 			y[i]=f.evaluate(x);
 			//if left endpoint is root by pure luck...
 			if(
-					( Math.abs(y[i])<AbstractKernel.MIN_PRECISION) &&
+					( Math.abs(y[i])<Kernel.MIN_PRECISION) &&
 					( signChanged(f,x) )
 			) {	//if left endpoint is root by pure luck...
 				xlist.add(x);
@@ -262,7 +262,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 					(	(y[i-1]>0.0d) && (y[i]<0.0d)	)
 				){
 					xval=calcSingleRoot(f,x-deltax,x);
-			        if (Math.abs(f.evaluate(xval)) < AbstractKernel.MIN_PRECISION){  //=1E-5: Quite large, but less doesn't work in Apache lib...
+			        if (Math.abs(f.evaluate(xval)) < Kernel.MIN_PRECISION){  //=1E-5: Quite large, but less doesn't work in Apache lib...
 			        	xlist.add(xval);
 			        }//if check
 				}//if possible root
@@ -330,7 +330,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
     }//findNumberOfSamples()
     
     private static final boolean signChanged(GeoFunction f,double x) {
-    	double delta=AbstractKernel.MIN_PRECISION*10;		//Used in AlgoRootsPolynomial
+    	double delta=Kernel.MIN_PRECISION*10;		//Used in AlgoRootsPolynomial
     	double left,right,lefty,righty;
     	boolean signChanged;
     	left=x-delta;right=x+delta;
@@ -404,7 +404,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
     public final  static String testGeoPointX(GeoPoint2 geo,double answer){
     	double value;
     	value = geo.getX();
-    	if(Math.abs(value-answer)<AbstractKernel.MIN_PRECISION){
+    	if(Math.abs(value-answer)<Kernel.MIN_PRECISION){
     		return " === GOOD ===";
     	} else {
     		return " ****************** WRONG *******************\n"+

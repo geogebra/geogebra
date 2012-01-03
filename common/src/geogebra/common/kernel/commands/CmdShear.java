@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Shear[<Object>,<Line>,<Ratio>]
@@ -18,7 +18,7 @@ public class CmdShear extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdShear(AbstractKernel kernel) {
+	public CmdShear(Kernel kernel) {
 		super(kernel);
 	}
 

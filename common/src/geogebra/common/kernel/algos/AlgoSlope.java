@@ -22,7 +22,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 
 
@@ -97,7 +97,7 @@ public class AlgoSlope extends AlgoElement implements AlgoDrawInformation{
     // direction vector of g
     @Override
 	public final void compute() {
-        if (g.isDefined() && !AbstractKernel.isZero(g.y)) {
+        if (g.isDefined() && !Kernel.isZero(g.y)) {
             slope.setValue(-g.x / g.y);
         } else {
             slope.setUndefined();

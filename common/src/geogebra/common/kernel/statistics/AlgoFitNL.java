@@ -12,7 +12,7 @@ package geogebra.common.kernel.statistics;
 
  */
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
@@ -188,7 +188,7 @@ public class AlgoFitNL extends AlgoElement {
   // --- SNIP --- /// *** Comment out when finished ***
  	
     /* Hook for plugin scripts */
-    public final void AlgoFitNL(AbstractKernel k,String fname){
+    public final void AlgoFitNL(Kernel k,String fname){
     	
     }//test()
  

@@ -4,7 +4,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Radius[ <GeoConic> ]
@@ -17,7 +17,7 @@ public class CmdRadius extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdRadius(AbstractKernel kernel) {
+	public CmdRadius(Kernel kernel) {
 		super(kernel);
 	}
 

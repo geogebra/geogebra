@@ -1,7 +1,7 @@
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -108,7 +108,7 @@ public abstract class AlgoTransformation extends AlgoElement {
 
 		GeoConicPart arc = (GeoConicPart) b;
 		if (a instanceof GeoConicPart) {
-			((GeoConicPart) b).setParameters(0, AbstractKernel.PI_2, true);
+			((GeoConicPart) b).setParameters(0, Kernel.PI_2, true);
 			if (pt == null) {
 				transformedPoint = new GeoPoint2(cons);
 				pt = new AlgoClosestPoint( cons, arc, transformedPoint);
@@ -129,7 +129,7 @@ public abstract class AlgoTransformation extends AlgoElement {
 			// Application.debug("end"+transformedPoint);
 			double e = pt.getP().getPathParameter().getT();
 			// Application.debug(d+","+e);
-			arc.setParameters(d * AbstractKernel.PI_2, e * AbstractKernel.PI_2,
+			arc.setParameters(d * Kernel.PI_2, e * Kernel.PI_2,
 					swapOrientation(((GeoConicPart) a).positiveOrientation()));
 
 			setTransformedObject(a, b);

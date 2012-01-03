@@ -10,7 +10,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Tangent[ <GeoPoint>, <GeoConic> ] Tangent[ <GeoLine>, <GeoConic> ] Tangent[
@@ -26,7 +26,7 @@ public class CmdTangent extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdTangent(AbstractKernel kernel) {
+	public CmdTangent(Kernel kernel) {
 		super(kernel);
 	}
 

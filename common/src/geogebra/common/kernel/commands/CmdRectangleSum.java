@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * RectangleSum[ <GeoFunction>, <Number>, <Number>, <Number> ]
@@ -14,9 +14,9 @@ public class CmdRectangleSum extends CommandProcessor {
 
 	/**
 	* Create new command processor
-	* @param AbstractKernel kernel
+	* @param Kernel kernel
 	*/
-	public CmdRectangleSum (AbstractKernel kernel) {
+	public CmdRectangleSum (Kernel kernel) {
 		super(kernel);
 	}
 

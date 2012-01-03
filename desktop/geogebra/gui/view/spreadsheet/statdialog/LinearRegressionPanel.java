@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.main.Application;
@@ -25,7 +25,7 @@ import javax.swing.table.JTableHeader;
 public class LinearRegressionPanel extends JPanel implements StatPanelInterface{
 
 	private Application app;
-	private AbstractKernel kernel;
+	private Kernel kernel;
 	private JList dataSourceList;
 	private DefaultTableModel model;
 	private StatDialog statDialog;

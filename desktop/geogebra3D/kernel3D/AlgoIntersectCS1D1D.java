@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.Coords;
@@ -85,7 +85,7 @@ public class AlgoIntersectCS1D1D extends AlgoIntersectCoordSys {
     	
     	if (project==null)
     		p.setUndefined(); //TODO infinite point
-    	else if (project[0].equalsForKernel(project[1], AbstractKernel.STANDARD_PRECISION)){
+    	else if (project[0].equalsForKernel(project[1], Kernel.STANDARD_PRECISION)){
     		
     		double t1 = project[2].get(1); //parameter on line 1
        		double t2 = project[2].get(2); //parameter on line 2

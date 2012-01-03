@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.arithmetic.Command;
@@ -15,7 +15,7 @@ import geogebra.common.main.MyError;
 
 public abstract class AbstractCommandDispatcher {
 	/** kernel **/
-	protected AbstractKernel kernel;
+	protected Kernel kernel;
     private Construction cons;
     private AbstractApplication app;
     
@@ -267,7 +267,7 @@ public abstract class AbstractCommandDispatcher {
      * Creates new command dispatcher
      * @param kernel2 Kernel of current application
      */
-    public AbstractCommandDispatcher(AbstractKernel kernel2) {             
+    public AbstractCommandDispatcher(Kernel kernel2) {             
     	this.kernel = kernel2;
     	cons = kernel2.getConstruction();  
     	app = kernel2.getApplication();                    

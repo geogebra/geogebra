@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Ellipse[ <GeoPoint>, <GeoPoint>, <NumberValue> ]
@@ -18,7 +18,7 @@ public class CmdEllipse extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdEllipse(AbstractKernel kernel) {
+	public CmdEllipse(Kernel kernel) {
 		super(kernel);
 	}
 

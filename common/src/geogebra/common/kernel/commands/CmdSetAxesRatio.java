@@ -6,7 +6,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 public class CmdSetAxesRatio extends CmdScripting {
 
@@ -16,7 +16,7 @@ public class CmdSetAxesRatio extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdSetAxesRatio(AbstractKernel kernel) {
+	public CmdSetAxesRatio(Kernel kernel) {
 		super(kernel);
 	}
 

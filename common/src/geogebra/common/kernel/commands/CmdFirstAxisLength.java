@@ -4,7 +4,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * FirstAxisLength[ <GeoConic> ]
@@ -17,7 +17,7 @@ public class CmdFirstAxisLength extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdFirstAxisLength(AbstractKernel kernel) {
+	public CmdFirstAxisLength(Kernel kernel) {
 		super(kernel);
 	}
 

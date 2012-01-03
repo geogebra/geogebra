@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPolyLineInterface;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;;
+import geogebra.common.kernel.Kernel;;
 
 /**
  * Vertex[ <GeoConic> ]
@@ -21,7 +21,7 @@ public class CmdVertex extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdVertex(AbstractKernel kernel) {
+	public CmdVertex(Kernel kernel) {
 		super(kernel);
 	}
 

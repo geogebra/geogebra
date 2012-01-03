@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CmdCurveCartesian;
@@ -19,8 +19,8 @@ import geogebra3D.kernel3D.Kernel3D;
  */
 public class CmdCurveCartesian3D extends CmdCurveCartesian {
 	
-	public CmdCurveCartesian3D(AbstractKernel kernel) {
-		super((AbstractKernel)kernel);
+	public CmdCurveCartesian3D(Kernel kernel) {
+		super((Kernel)kernel);
 		
 	}
 	
@@ -46,7 +46,7 @@ public class CmdCurveCartesian3D extends CmdCurveCartesian {
 	    			&& (ok[5] = arg[5].isNumberValue()))
 	    	{
 	    		GeoElement [] ret = new GeoElement[1];
-	    		ret[0] = ((AbstractKernel)kernelA).getManager3D().CurveCartesian3D(
+	    		ret[0] = ((Kernel)kernelA).getManager3D().CurveCartesian3D(
 	    				c.getLabel(),
 	    				(NumberValue) arg[0],
 	    				(NumberValue) arg[1],

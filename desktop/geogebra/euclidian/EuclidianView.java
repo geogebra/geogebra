@@ -33,7 +33,7 @@ import geogebra.common.euclidian.GetViewId;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.factories.FormatFactory;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
@@ -2100,14 +2100,14 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 
 		sb.setLength(0);
 		sb.append('(');
-		sb.append(kernel.format(AbstractKernel
+		sb.append(kernel.format(Kernel
 				.checkDecimalFraction(euclidianController.xRW)));
-		if (kernel.getCoordStyle() == AbstractKernel.COORD_STYLE_AUSTRIAN) {
+		if (kernel.getCoordStyle() == Kernel.COORD_STYLE_AUSTRIAN) {
 			sb.append(" | ");
 		} else {
 			sb.append(", ");
 		}
-		sb.append(kernel.format(AbstractKernel
+		sb.append(kernel.format(Kernel
 				.checkDecimalFraction(euclidianController.yRW)));
 		sb.append(')');
 
@@ -3225,7 +3225,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 			if (drawBorderAxes[i]) {
 				sb.append("\" axisCrossEdge=\"");
 				sb.append(true);
-			} else if (!AbstractKernel.isZero(axisCross[i])
+			} else if (!Kernel.isZero(axisCross[i])
 					&& !drawBorderAxes[i]) {
 				sb.append("\" axisCross=\"");
 				sb.append(axisCross[i]);
@@ -3327,8 +3327,8 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		;
 
 		Rectangle rect = getBounds();
-		if (AbstractKernel.isZero(rect.getHeight())
-				|| AbstractKernel.isZero(rect.getWidth())) {
+		if (Kernel.isZero(rect.getHeight())
+				|| Kernel.isZero(rect.getWidth())) {
 			if (noVisible == 0) {
 				return; // no functions or objects
 			}
@@ -3360,8 +3360,8 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 			x0RW = Math.min(getXmin(), x0RW);
 			x1RW = Math.max(getXmax(), x1RW);
 
-			if (AbstractKernel.isEqual(x0RW, getXmin())
-					&& AbstractKernel.isEqual(x1RW, getXmax())) {
+			if (Kernel.isEqual(x0RW, getXmin())
+					&& Kernel.isEqual(x1RW, getXmax())) {
 				// just functions (at sides!), don't need a gap
 				xGap = 0;
 			} else {
@@ -3405,7 +3405,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 
 		}
 
-		if (!AbstractKernel.isZero(y1RWfunctions - y0RWfunctions) && ok) {
+		if (!Kernel.isZero(y1RWfunctions - y0RWfunctions) && ok) {
 			y0RW = Math.min(y0RW, y0RWfunctions);
 			y1RW = Math.max(y1RW, y1RWfunctions);
 			// Application.debug("min height "+y0RW+" max height "+y1RW);
@@ -3491,7 +3491,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		ox += (getXZero() - ox) * f;
 		oy += (getYZero() - oy) * f;
 
-		if (!AbstractKernel.isEqual(getXscale(), newScale)) {
+		if (!Kernel.isEqual(getXscale(), newScale)) {
 			// different scales: zoom back to standard view
 			double factor = newScale / getXscale();
 			zoom((ox - (getxZero() * factor)) / (1.0 - factor),
@@ -3754,7 +3754,7 @@ public class EuclidianView extends EuclidianViewInterface2D implements Euclidian
 		public synchronized void startAnimation() {
 			dx = getxZero() - ox;
 			dy = getyZero() - oy;
-			if (AbstractKernel.isZero(dx) && AbstractKernel.isZero(dy)) {
+			if (Kernel.isZero(dx) && Kernel.isZero(dy)) {
 				return;
 			}
 

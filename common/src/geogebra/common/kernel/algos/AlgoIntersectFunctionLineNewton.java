@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.geos.GeoElement;
@@ -82,7 +82,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
         } else {
             double x;
             //  check for vertical line a*x + c = 0: intersection at x=-c/a 
-            if (AbstractKernel.isZero(line.y)) {
+            if (Kernel.isZero(line.y)) {
                 x = -line.z / line.x;                               
             } 
             // standard case
@@ -101,7 +101,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
             
             // check if the intersection point really is on the line
             // this is important for segments and rays            
-        	if (!line.isIntersectionPointIncident(rootPoint, AbstractKernel.MIN_PRECISION) ) {
+        	if (!line.isIntersectionPointIncident(rootPoint, Kernel.MIN_PRECISION) ) {
         		 rootPoint.setUndefined();
                  return;       	                
             } 

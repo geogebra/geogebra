@@ -4,7 +4,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *ShowLabel
@@ -17,7 +17,7 @@ public class CmdShowLabel extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdShowLabel(AbstractKernel kernel) {
+	public CmdShowLabel(Kernel kernel) {
 		super(kernel);
 	}
 

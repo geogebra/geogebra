@@ -1,6 +1,6 @@
 package geogebra.gui.properties;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
@@ -38,7 +38,7 @@ public class AnimationSpeedPanel
 	private JComboBox animationModeCB;	
 	private JLabel modeLabel, speedLabel;
 	private Application app;	
-	private AbstractKernel kernel;
+	private Kernel kernel;
 
 	public AnimationSpeedPanel(Application app) {
 		this.app = app;

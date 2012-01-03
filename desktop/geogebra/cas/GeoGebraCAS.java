@@ -2,14 +2,13 @@ package geogebra.cas;
 
 import geogebra.cas.mpreduce.CASmpreduce;
 import geogebra.common.cas.CASException;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.util.MaxSizeHashMap;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractApplication.CasType;
@@ -32,12 +31,12 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	private CASmpreduce casMPReduce;
 	public CasType currentCAS = CasType.NO_CAS;
 
-	public GeoGebraCAS(AbstractKernel kernel) {
+	public GeoGebraCAS(Kernel kernel) {
 		app = (Application)kernel.getApplication();
 		casParser = new CASparser(kernel);
 
 		// see http://www.geogebra.org/trac/ticket/1565
-		setCurrentCAS(AbstractKernel.DEFAULT_CAS);
+		setCurrentCAS(Kernel.DEFAULT_CAS);
 
 	}
 
@@ -159,8 +158,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 */
 	public String evaluateGeoGebraCAS(ValidExpression casInput)
 			throws CASException {
-		boolean oldDigits = AbstractKernel.internationalizeDigits;
-		AbstractKernel.internationalizeDigits = false;
+		boolean oldDigits = Kernel.internationalizeDigits;
+		Kernel.internationalizeDigits = false;
 
 		String result = null;
 		CASException exception = null;
@@ -169,7 +168,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		} catch (CASException ce) {
 			exception = ce;
 		} finally {
-			AbstractKernel.internationalizeDigits = oldDigits;
+			Kernel.internationalizeDigits = oldDigits;
 		}
 
 		// check if keep input command was successful
@@ -246,7 +245,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 	// these variables are cached to gain some speed in getPolynomialCoeffs
 	private Map<String, String[]> getPolynomialCoeffsCache = new MaxSizeHashMap<String, String[]>(
-			AbstractKernel.GEOGEBRA_CAS_CACHE_SIZE);
+			Kernel.GEOGEBRA_CAS_CACHE_SIZE);
 	private StringBuilder getPolynomialCoeffsSB = new StringBuilder();
 	private StringBuilder sbPolyCoeffs = new StringBuilder();
 

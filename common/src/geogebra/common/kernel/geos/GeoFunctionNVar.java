@@ -14,7 +14,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.RegionParameters;
@@ -45,7 +45,7 @@ public class GeoFunctionNVar extends GeoElement
 implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translateable, MatrixTransformable,
  Dilateable, PointRotateable, Mirrorable, SurfaceEvaluable {
 
-	private static final double STRICT_INEQ_OFFSET = 4*AbstractKernel.MIN_PRECISION;
+	private static final double STRICT_INEQ_OFFSET = 4*Kernel.MIN_PRECISION;
 	private static final int SEEK_DENSITY = 30;
 	private FunctionNVar fun;
 	//private List<Inequality> ineqs;	

@@ -2,7 +2,7 @@ package geogebra3D.kernel3D.commands;
 
 
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdIntersectionPaths;
 import geogebra.common.kernel.geos.GeoElement;
@@ -18,7 +18,7 @@ import geogebra3D.kernel3D.GeoQuadric3D;
 
 public class CmdIntersectionPaths3D extends CmdIntersectionPaths {
 	
-	public CmdIntersectionPaths3D(AbstractKernel kernel) {
+	public CmdIntersectionPaths3D(Kernel kernel) {
 		super(kernel);
 	}
 	
@@ -38,7 +38,7 @@ public  GeoElement[] process(Command c) throws MyError {
                 if ((ok[0] = (arg[0] .isGeoLine()))
                 		&& (ok[1] = (arg[1] .isGeoPolygon()))) {
                     GeoElement[] ret =
-                    		((AbstractKernel)kernelA).getManager3D().IntersectionSegment(
+                    		((Kernel)kernelA).getManager3D().IntersectionSegment(
                                 c.getLabels(),
                                 (GeoLineND) arg[0],
                                 (GeoPolygon) arg[1]);
@@ -46,7 +46,7 @@ public  GeoElement[] process(Command c) throws MyError {
                 } else if ((ok[0] = (arg[0] .isGeoPolygon()))
                 		&& (ok[1] = (arg[1] .isGeoLine()))) {
                     GeoElement[] ret =
-                		((AbstractKernel)kernelA).getManager3D().IntersectionSegment(
+                		((Kernel)kernelA).getManager3D().IntersectionSegment(
                             c.getLabels(),
                             (GeoLineND) arg[1],
                             (GeoPolygon) arg[0]);
@@ -56,14 +56,14 @@ public  GeoElement[] process(Command c) throws MyError {
                 if (
                         (ok[0] = (arg[0] .isGeoPlane()))
                             && (ok[1] = (arg[1] .isGeoPolygon())))
-        				return ((AbstractKernel)kernelA).getManager3D().IntersectionSegment(
+        				return ((Kernel)kernelA).getManager3D().IntersectionSegment(
                             c.getLabels(),
                             (GeoPlane3D) arg[0],
                             (GeoPolygon) arg[1]);
         			else if (
                             (ok[1] = (arg[1] .isGeoPlane()))
                             && (ok[0] = (arg[0] .isGeoPolygon())))
-        				return ((AbstractKernel)kernelA).getManager3D().IntersectionSegment(
+        				return ((Kernel)kernelA).getManager3D().IntersectionSegment(
                             c.getLabels(),
                             (GeoPlane3D) arg[1],
                             (GeoPolygon) arg[0]);
@@ -72,7 +72,7 @@ public  GeoElement[] process(Command c) throws MyError {
 
         				GeoElement[] ret =
         				{
-        						((AbstractKernel)kernelA).getManager3D().IntersectPlanes(
+        						((Kernel)kernelA).getManager3D().IntersectPlanes(
         								c.getLabel(),
         								(GeoCoordSys2D) arg[0],
         								(GeoCoordSys2D) arg[1])};
@@ -84,7 +84,7 @@ public  GeoElement[] process(Command c) throws MyError {
             		else if ((arg[0] instanceof GeoPlaneND) && (arg[1] instanceof GeoQuadricND)){
             			GeoElement[] ret =
             			{
-            					((AbstractKernel)kernelA).getManager3D().Intersect(
+            					((Kernel)kernelA).getManager3D().Intersect(
             							c.getLabel(),
             							(GeoPlaneND) arg[0],
             							(GeoQuadric3D) arg[1])};
@@ -92,7 +92,7 @@ public  GeoElement[] process(Command c) throws MyError {
             		}else if ((arg[0] instanceof GeoQuadricND) && (arg[1] instanceof GeoPlaneND)){
             			GeoElement[] ret =
             			{
-            					((AbstractKernel)kernelA).getManager3D().Intersect(
+            					((Kernel)kernelA).getManager3D().Intersect(
             							c.getLabel(),
             							(GeoPlaneND) arg[1],
             							(GeoQuadric3D) arg[0])};

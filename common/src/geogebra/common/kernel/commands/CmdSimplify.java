@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *Simplify
@@ -18,7 +18,7 @@ public class CmdSimplify extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdSimplify(AbstractKernel kernel) {
+	public CmdSimplify(Kernel kernel) {
 		super(kernel);
 	}
 

@@ -17,7 +17,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
@@ -196,8 +196,8 @@ implements LimitedPath, NumberValue, LineProperties {
 		return 
 			posOrientation == c.posOrientation &&
 			conic_part_type == c.conic_part_type &&		
-			AbstractKernel.isEqual(paramStart, c.paramStart) &&
-			AbstractKernel.isEqual(paramEnd, c.paramEnd) &&
+			Kernel.isEqual(paramStart, c.paramStart) &&
+			Kernel.isEqual(paramEnd, c.paramEnd) &&
 			super.isEqual(c);			 
 	}
 	
@@ -229,10 +229,10 @@ implements LimitedPath, NumberValue, LineProperties {
 		// handle conic types
 		switch (type) {
 			case GeoConicNDConstants.CONIC_CIRCLE:
-				paramStart = AbstractKernel.convertToAngleValue(a);
-				paramEnd = AbstractKernel.convertToAngleValue(b);		
+				paramStart = Kernel.convertToAngleValue(a);
+				paramEnd = Kernel.convertToAngleValue(b);		
 				paramExtent = paramEnd - paramStart;
-				if (paramExtent < 0) paramExtent += AbstractKernel.PI_2;
+				if (paramExtent < 0) paramExtent += Kernel.PI_2;
 				
 				double r = halfAxes[0];
 				if (conic_part_type == CONIC_PART_ARC) {
@@ -248,10 +248,10 @@ implements LimitedPath, NumberValue, LineProperties {
 				break;
 			
 			case GeoConicNDConstants.CONIC_ELLIPSE:					
-				paramStart = AbstractKernel.convertToAngleValue(a);
-				paramEnd = AbstractKernel.convertToAngleValue(b);		
+				paramStart = Kernel.convertToAngleValue(a);
+				paramEnd = Kernel.convertToAngleValue(b);		
 				paramExtent = paramEnd - paramStart;
-				if (paramExtent < 0) paramExtent += AbstractKernel.PI_2;
+				if (paramExtent < 0) paramExtent += Kernel.PI_2;
 				
 				if (ellipticArcLength == null)
 					ellipticArcLength = new EllipticArcLength(this);
@@ -425,7 +425,7 @@ implements LimitedPath, NumberValue, LineProperties {
 	
 		// adapt eps for very large circles (almost line)
 		if (halfAxes[0] > 100)
-    		eps = Math.max(AbstractKernel.MAX_PRECISION, eps / halfAxes[0]);    	    		    		   
+    		eps = Math.max(Kernel.MAX_PRECISION, eps / halfAxes[0]);    	    		    		   
 		
 		boolean result = 	pPP.t >= -eps && 
 							pPP.t <= 1 + eps;
@@ -507,10 +507,10 @@ implements LimitedPath, NumberValue, LineProperties {
 			
 		// now transform parameter t from [paramStart, paramEnd] to [0, 1]
 		if (pp.t < 0)
-			pp.t += AbstractKernel.PI_2;
+			pp.t += Kernel.PI_2;
 		double t = pp.t - paramStart;
 		if (t < 0) 
-			t += AbstractKernel.PI_2;
+			t += Kernel.PI_2;
 		pp.t = t / paramExtent;	
 	}
 	
@@ -830,10 +830,10 @@ implements LimitedPath, NumberValue, LineProperties {
 		if (getConicPartType()==CONIC_PART_SECTOR){
 			double arg = computeArg(x0,y0);
 			if (arg < 0) 
-				arg += AbstractKernel.PI_2;
+				arg += Kernel.PI_2;
 			//Application.debug(arg+" <? "+paramExtent);
 
-			return ((arg >= -AbstractKernel.EPSILON) && (arg <= paramExtent+AbstractKernel.EPSILON));
+			return ((arg >= -Kernel.EPSILON) && (arg <= paramExtent+Kernel.EPSILON));
 		}
 			
 		
@@ -864,7 +864,7 @@ implements LimitedPath, NumberValue, LineProperties {
 		// t = atan(a/b tan(theta)) where tan(theta) = py / px
 		double arg = Math.atan2(halfAxes[0]*py, halfAxes[1]*px2);
 		if (arg < 0)
-			arg += AbstractKernel.PI_2;
+			arg += Kernel.PI_2;
 		return arg - paramStart;			
 	}
 

@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -28,7 +28,7 @@ public class CmdSetValue extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdSetValue(AbstractKernel kernel) {
+	public CmdSetValue(Kernel kernel) {
 		super(kernel);
 	}
 

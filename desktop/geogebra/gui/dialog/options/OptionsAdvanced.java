@@ -2,7 +2,7 @@ package geogebra.gui.dialog.options;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.io.MyXMLHandler;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.main.settings.Settings;
@@ -532,9 +532,9 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 		cbUseLocalLabels.setSelected(app.isUsingLocalizedLabels());
 
 		angleUnitRadioDegree
-				.setSelected(app.getKernel().getAngleUnit() == AbstractKernel.ANGLE_DEGREE);
+				.setSelected(app.getKernel().getAngleUnit() == Kernel.ANGLE_DEGREE);
 		angleUnitRadioRadian
-				.setSelected(app.getKernel().getAngleUnit() != AbstractKernel.ANGLE_DEGREE);
+				.setSelected(app.getKernel().getAngleUnit() != Kernel.ANGLE_DEGREE);
 
 		continuityRadioOn.setSelected(app.getKernel().isContinuous());
 		continuityRadioOff.setSelected(!app.getKernel().isContinuous());
@@ -723,11 +723,11 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 		} else if (source == cbAllowStyleBar) {
 			settings.getLayout().setAllowStyleBar(cbAllowStyleBar.isSelected());
 		} else if (source == angleUnitRadioDegree) {
-			app.getKernel().setAngleUnit(AbstractKernel.ANGLE_DEGREE);
+			app.getKernel().setAngleUnit(Kernel.ANGLE_DEGREE);
 			app.getKernel().updateConstruction();
 			app.setUnsaved();
 		} else if (source == angleUnitRadioRadian) {
-			app.getKernel().setAngleUnit(AbstractKernel.ANGLE_RADIANT);
+			app.getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
 			app.getKernel().updateConstruction();
 			app.setUnsaved();
 		} else if (source == continuityRadioOn) {

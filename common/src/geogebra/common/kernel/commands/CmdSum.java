@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /*
  * Sum[ list ]
@@ -14,7 +14,7 @@ import geogebra.common.kernel.AbstractKernel;
  */
 public class CmdSum extends CommandProcessor {
 
-	public CmdSum(AbstractKernel kernel) {
+	public CmdSum(Kernel kernel) {
 		super(kernel);
 	}
 

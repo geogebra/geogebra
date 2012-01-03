@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 public class CmdKimberling extends CommandProcessor {
 
@@ -15,7 +15,7 @@ public class CmdKimberling extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdKimberling(AbstractKernel kernel) {
+	public CmdKimberling(Kernel kernel) {
 		super(kernel);
 	}
 

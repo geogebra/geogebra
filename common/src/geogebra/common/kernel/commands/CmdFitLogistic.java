@@ -2,7 +2,7 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /** 
  * FitLogistic[<List of points>]
@@ -12,7 +12,7 @@ import geogebra.common.kernel.AbstractKernel;
  */
 public class CmdFitLogistic extends CmdOneListFunction{
 
-    public CmdFitLogistic(AbstractKernel kernel) {super(kernel);}
+    public CmdFitLogistic(Kernel kernel) {super(kernel);}
     
 	final protected GeoElement doCommand(String a, GeoList b)
 	{

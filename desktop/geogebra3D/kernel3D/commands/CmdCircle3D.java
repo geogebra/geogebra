@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CmdCircle;
@@ -15,7 +15,7 @@ public class CmdCircle3D extends CmdCircle {
 	
 	
 	
-	public CmdCircle3D(AbstractKernel kernel) {
+	public CmdCircle3D(Kernel kernel) {
 		super(kernel);
 	}
 
@@ -35,7 +35,7 @@ public class CmdCircle3D extends CmdCircle {
 	    				&& (ok[1] = (arg[1] .isGeoPoint()))) {
 	    			GeoElement[] ret =
 	    			{
-	    					((AbstractKernel)kernelA).getManager3D().Circle3D(
+	    					((Kernel)kernelA).getManager3D().Circle3D(
 	    							c.getLabel(),
 	    							(GeoLineND) arg[0],
 	    							(GeoPointND) arg[1])};
@@ -53,7 +53,7 @@ public class CmdCircle3D extends CmdCircle {
 	    				&& (ok[2] = (arg[2] .isGeoPoint()))) {
 	    			GeoElement[] ret =
 	    			{
-	    					((AbstractKernel)kernelA).getManager3D().Circle3D(
+	    					((Kernel)kernelA).getManager3D().Circle3D(
 	    							c.getLabel(),
 	    							(GeoPointND) arg[0],
 	    							(GeoPointND) arg[1],
@@ -66,7 +66,7 @@ public class CmdCircle3D extends CmdCircle {
 	    		if ((ok[1] = (arg[1] .isNumberValue()))){
 	    			GeoElement[] ret =
 	    			{
-	    					((AbstractKernel)kernelA).getManager3D().Circle3D(
+	    					((Kernel)kernelA).getManager3D().Circle3D(
 	    							c.getLabel(),
 	    							(GeoPointND) arg[0],
 	    							(NumberValue) arg[1],
@@ -75,7 +75,7 @@ public class CmdCircle3D extends CmdCircle {
 	    		}else if ((ok[1] = (arg[1] .isGeoPoint()))){
 	    			GeoElement[] ret =
 	    			{
-	    					((AbstractKernel)kernelA).getManager3D().Circle3D(
+	    					((Kernel)kernelA).getManager3D().Circle3D(
 	    							c.getLabel(),
 	    							(GeoPointND) arg[0],
 	    							(GeoPointND) arg[1],

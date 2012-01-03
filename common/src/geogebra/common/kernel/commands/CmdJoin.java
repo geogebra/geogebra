@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  *Join
@@ -18,7 +18,7 @@ public class CmdJoin extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdJoin(AbstractKernel kernel) {
+	public CmdJoin(Kernel kernel) {
 		super(kernel);
 	}
 

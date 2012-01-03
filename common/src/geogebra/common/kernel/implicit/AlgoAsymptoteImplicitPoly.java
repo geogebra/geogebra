@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.implicit;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EquationSolverInterface;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -94,7 +94,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 		int tn=solver.polynomialRoots(tRoots,false);
 		int shift=0;
 		for (int j=1;j<tn;j++){
-			if (AbstractKernel.isEqual(tRoots[j-shift-1],tRoots[j])){
+			if (Kernel.isEqual(tRoots[j-shift-1],tRoots[j])){
 				shift++;
 			}else{
 				if (shift>0){
@@ -147,7 +147,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
         
         double last=Double.NaN;
         for (int i=0;i<n;i++){
-        	if (!AbstractKernel.isEqual(last, roots[i])){
+        	if (!Kernel.isEqual(last, roots[i])){
         		int r=Integer.MAX_VALUE;
         		ArrayList<Double> p=new ArrayList<Double>();
         		double[] divisor=new double[]{-roots[i],1};
@@ -177,7 +177,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
         					throw new Error("Zero Polynomial");
         				l=r-k;
         			}else{
-        				while(AbstractKernel.isZero(rk)){
+        				while(Kernel.isZero(rk)){
 	        				if (r-k<=l){
 	        					rk=0;
 	        					break;

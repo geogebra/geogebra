@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 
 
@@ -20,9 +20,9 @@ public class CmdOrthogonalLine extends CommandProcessor {
 
 	/**
 	* Create new command processor
-	* @param AbstractKernel kernel
+	* @param Kernel kernel
 	*/
-	public CmdOrthogonalLine(AbstractKernel kernel) {
+	public CmdOrthogonalLine(Kernel kernel) {
 		super(kernel);
 	}
 

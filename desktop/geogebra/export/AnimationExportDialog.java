@@ -1,10 +1,9 @@
 package geogebra.export;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.gui.util.AnimatedGifEncoder;
-import geogebra.kernel.Kernel;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -205,7 +204,7 @@ public class AnimationExportDialog extends JDialog {
 		case GeoElement.ANIMATION_DECREASING:
 			step = -num.getAnimationStep();
 			n = (int) ((max - min) / -step);
-			if (AbstractKernel.isZero(((max - min) / -step) - n)) n++;
+			if (Kernel.isZero(((max - min) / -step) - n)) n++;
 			if (n == 0) n = 1;
 			time = 13000 / n;
 			val = max;
@@ -213,7 +212,7 @@ public class AnimationExportDialog extends JDialog {
 		case GeoElement.ANIMATION_OSCILLATING:
 			step = num.getAnimationStep();
 			n = (int) ((max - min) / step) * 2;
-			if (AbstractKernel.isZero(((max - min) / step * 2) - n)) n++;
+			if (Kernel.isZero(((max - min) / step * 2) - n)) n++;
 			if (n == 0) n = 1;
 			time = 2 * 13000 / n;	
 			val = min;
@@ -222,7 +221,7 @@ public class AnimationExportDialog extends JDialog {
 				//GeoElement.ANIMATION_INCREASING_ONCE:
 			step = num.getAnimationStep();
 			n = (int) ((max - min) / step);
-			if (AbstractKernel.isZero(((max - min) / step) - n)) n++;
+			if (Kernel.isZero(((max - min) / step) - n)) n++;
 			if (n == 0) n = 1;
 			time = 13000 / n;
 			val = min;

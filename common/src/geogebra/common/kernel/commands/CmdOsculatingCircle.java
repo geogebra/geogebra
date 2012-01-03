@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * OsculatingCircle[<Point>,<Function>],OsculatingCircle[<Point>,<Curve>]
@@ -21,7 +21,7 @@ public class CmdOsculatingCircle extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdOsculatingCircle(AbstractKernel kernel) {
+	public CmdOsculatingCircle(Kernel kernel) {
 		super(kernel);
 	}
 

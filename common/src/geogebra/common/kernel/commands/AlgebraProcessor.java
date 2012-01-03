@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -56,7 +56,7 @@ import java.util.Set;
 
 public class AlgebraProcessor {
 
-	protected AbstractKernel kernel;
+	protected Kernel kernel;
 	private Construction cons;
 	protected AbstractApplication app;
 	private ParserInterface parser;
@@ -65,7 +65,7 @@ public class AlgebraProcessor {
 	protected ExpressionValue eval; // ggb3D : used by AlgebraProcessor3D in
 									// extended processExpressionNode
 
-	public AlgebraProcessor(AbstractKernel kernel) {
+	public AlgebraProcessor(Kernel kernel) {
 		this.kernel = kernel;
 		cons = kernel.getConstruction();
 
@@ -79,7 +79,7 @@ public class AlgebraProcessor {
 	 * @return a new command dispatcher (used for 3D)
 	 */
 	protected AbstractCommandDispatcher newCommandDispatcher(
-			AbstractKernel kernel) {
+			Kernel kernel) {
 		return kernel.getApplication().getCommandDispatcher();
 	}
 
@@ -149,7 +149,7 @@ public class AlgebraProcessor {
 				if (casCell.isOutputEmpty() && !casCell.hasChildren()) {
 					// this is a new casCell
 					cons.removeFromConstructionList(casCell);
-					AbstractKernel.DependentCasCell(casCell);
+					Kernel.DependentCasCell(casCell);
 					needsRedefinition = false;
 				} else {
 					// existing casCell with possible twinGeo
@@ -1434,10 +1434,10 @@ public class AlgebraProcessor {
 
 		GeoVec2D p = ((VectorValue) evaluate).getVector();
 
-		boolean polar = p.getMode() == AbstractKernel.COORD_POLAR;
+		boolean polar = p.getMode() == Kernel.COORD_POLAR;
 
 		// we want z = 3 + i to give a (complex) GeoPoint not a GeoVector
-		boolean complex = p.getMode() == AbstractKernel.COORD_COMPLEX;
+		boolean complex = p.getMode() == Kernel.COORD_COMPLEX;
 
 		GeoVec3D[] ret = new GeoVec3D[1];
 		boolean isIndependent = n.isConstant();
@@ -1473,10 +1473,10 @@ public class AlgebraProcessor {
 				ret[0] = kernel.DependentPoint(label, n, complex);
 		}
 		if (polar) {
-			ret[0].setMode(AbstractKernel.COORD_POLAR);
+			ret[0].setMode(Kernel.COORD_POLAR);
 			ret[0].updateRepaint();
 		} else if (complex) {
-			ret[0].setMode(AbstractKernel.COORD_COMPLEX);
+			ret[0].setMode(Kernel.COORD_COMPLEX);
 			ret[0].updateRepaint();
 		}
 		return ret;

@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Dilate[ <GeoPoint>, <NumberValue>, <GeoPoint> ] Dilate[ <GeoLine>,
@@ -21,7 +21,7 @@ public class CmdDilate extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdDilate(AbstractKernel kernel) {
+	public CmdDilate(Kernel kernel) {
 		super(kernel);
 	}
 
