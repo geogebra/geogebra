@@ -10,10 +10,10 @@ test -r autotest.conf && . ./autotest.conf
 
 WEB_AUTOBUILDDIR=../../../web
 WEB_BUILDDIR=../../../web/war
-WEBDIR=../../../web
 REVISION=`svn info | grep Revision: | awk '{print $2}'`
 mkdir -p $REVDIR/$REVISION
-$WEB_AUTOBUILDDIR/build > $WEBDIR/.buildlog 2>&1 || exit $?
+cd $WEB_AUTOBUILDDIR
+./build > $WEB_AUTOBUILDDIR/.buildlog 2>&1 || exit $?
 
 cp -a $WEB_BUILDDIR $REVDIR/$REVISION
 
