@@ -278,10 +278,9 @@ public class SpreadsheetTraceManager {
 		for (GeoElement geo : traceGeoCollection.keySet()) {
 			t = geo.getTraceSettings();
 			if (column2 >= t.traceColumn1 && column1 <= t.traceColumn2) {
-				// removeSpreadsheetTraceGeo(geo);
 				Construction cons = app.getKernel().getConstruction();
 				setHeader(geo, cons);
-				t.tracingRow = 1;
+				t.tracingRow = 0;
 			}
 		}
 
