@@ -1461,9 +1461,9 @@ public class GeoCasCell extends GeoElement {
 	@Override
 	public String getLabel() {
 		// standard case: assignment
-		if (assignmentVar != null) {
-			return kernel.printVariableName(assignmentVar);
-		}
+//		if (assignmentVar != null) {
+//			return kernel.printVariableName(assignmentVar);
+//		}
 
 		// row reference like $5
 		StringBuilder sb = new StringBuilder();
