@@ -1,12 +1,12 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.awt.Point;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
@@ -15,7 +15,6 @@ import geogebra.common.main.AbstractApplication;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.TreeSet;
 
 import com.google.gwt.regexp.shared.MatchResult;
@@ -806,7 +805,7 @@ public class RelativeCopy {
 			// check if text was the label of an existing geo
 			// toUpperCase() added to fix bug A1=1, enter just 'a1' or 'A1' into
 			// cell B1 -> A1 disappears
-			if (text.toUpperCase(Locale.US).equals(newValues[0].getLabel())
+			if (kernel.getApplication().toLowerCase(text).equals(newValues[0].getLabel())
 			// also need eg =a to work
 					|| text.equals(newValues[0].getLabel())) {
 				// make sure we create a copy of this existing or auto-created
