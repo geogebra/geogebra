@@ -98,7 +98,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 				if (point != null) {
 					int column = (int)point.getX();
 					int row = (int)point.getY();
-					GeoElement geo = RelativeCopy.getValue(table, column, row);
+					GeoElement geo = RelativeCopy.getValue(app, column, row);
 					if (geo != null) {
 						e.consume();
 					}
@@ -227,7 +227,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 					if (point != null) {
 						int column = (int)point.getX();
 						int row = (int)point.getY();
-						GeoElement geo = RelativeCopy.getValue(table, column, row);
+						GeoElement geo = RelativeCopy.getValue(app, column, row);
 						if (geo != null) {
 							
 							// get cell name

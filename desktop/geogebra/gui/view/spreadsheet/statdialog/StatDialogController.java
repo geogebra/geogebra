@@ -296,7 +296,7 @@ public class StatDialogController {
 
 				CellRange range = ((ArrayList<CellRange>)dataSource).get(0);
 				if(range.isColumn()) {
-					GeoElement geo = RelativeCopy.getValue(spreadsheetTable, range.getMinColumn(), range.getMinRow());
+					GeoElement geo = RelativeCopy.getValue(app, range.getMinColumn(), range.getMinRow());
 					if(geo != null && geo.isGeoText())
 						title[0] = geo.toDefinedValueString();
 					else

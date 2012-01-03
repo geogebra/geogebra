@@ -89,14 +89,14 @@ public class CellRangeProcessor {
 		int r1 = cr.getMinRow();
 		int c1 = cr.getMinColumn();
 
-		if (!(RelativeCopy.getValue(table, c1,r1) instanceof GeoFunctionNVar)) return false;
+		if (!(RelativeCopy.getValue(app, c1,r1) instanceof GeoFunctionNVar)) return false;
 
 		for(int r = r1+1; r <= cr.getMaxRow(); ++r){
-			if (!(RelativeCopy.getValue(table, c1,r) instanceof GeoNumeric)) return false;
+			if (!(RelativeCopy.getValue(app, c1,r) instanceof GeoNumeric)) return false;
 		}
 
 		for(int c = c1+1; c <= cr.getMaxColumn(); ++c){
-			if (!(RelativeCopy.getValue(table, c,r1) instanceof GeoNumeric)) return false;
+			if (!(RelativeCopy.getValue(app, c,r1) instanceof GeoNumeric)) return false;
 		}
 
 		return true;
@@ -197,7 +197,7 @@ public class CellRangeProcessor {
 		int count = 0;
 		for (int col = cellRange.getMinColumn(); col <= cellRange.getMaxColumn(); ++col) {
 			for (int row = cellRange.getMinRow(); row <= cellRange.getMaxRow(); ++row) {
-				GeoElement geo = RelativeCopy.getValue(table, col, row);
+				GeoElement geo = RelativeCopy.getValue(app, col, row);
 				if (geo != null && geo.isGeoNumeric()) ++count;
 				if(count >= minimumCount) return true;
 			}
@@ -363,8 +363,8 @@ public class CellRangeProcessor {
 			if (pd.doHorizontalPairs) {
 				for (int i = pd.r1; i <= pd.r2; ++i) {
 					
-					xCoord = RelativeCopy.getValue(table, pd.c1, i);
-					yCoord = RelativeCopy.getValue(table, pd.c2, i);
+					xCoord = RelativeCopy.getValue(app, pd.c1, i);
+					yCoord = RelativeCopy.getValue(app, pd.c2, i);
 					
 					// don't process the point if either coordinate is null or non-numeric, 
 					if (xCoord == null || yCoord == null || !xCoord.isGeoNumeric() || !yCoord.isGeoNumeric()) 
@@ -408,8 +408,8 @@ public class CellRangeProcessor {
 
 			} else {   // vertical pairs
 				for (int i = pd.c1; i <= pd.c2; ++i) {
-					xCoord = RelativeCopy.getValue(table, i, pd.r1);
-					yCoord = RelativeCopy.getValue(table, i, pd.r2);
+					xCoord = RelativeCopy.getValue(app, i, pd.r1);
+					yCoord = RelativeCopy.getValue(app, i, pd.r2);
 					
 					// don't process the point if either coordinate is null or non-numeric, 
 					if (xCoord == null || yCoord == null || !xCoord.isGeoNumeric() || !yCoord.isGeoNumeric()) 
@@ -518,9 +518,9 @@ public class CellRangeProcessor {
 
 		if (pd.doHorizontalPairs) {
 			// handle first title
-			if(RelativeCopy.getValue(table, pd.c1, pd.r1).isGeoText()){
+			if(RelativeCopy.getValue(app, pd.c1, pd.r1).isGeoText()){
 				//header cell text
-				title[0] = ((GeoText)RelativeCopy.getValue(table, pd.c1, pd.r1)).getTextString();
+				title[0] = ((GeoText)RelativeCopy.getValue(app, pd.c1, pd.r1)).getTextString();
 			}
 			else if(pd.r1 == 0){
 				// column name
@@ -531,9 +531,9 @@ public class CellRangeProcessor {
 			}
 
 			// handle second title
-			if(RelativeCopy.getValue(table, pd.c2, pd.r1).isGeoText()){
+			if(RelativeCopy.getValue(app, pd.c2, pd.r1).isGeoText()){
 				//header cell text
-				title[1] = ((GeoText)RelativeCopy.getValue(table, pd.c2, pd.r1)).getTextString();
+				title[1] = ((GeoText)RelativeCopy.getValue(app, pd.c2, pd.r1)).getTextString();
 			}
 			else if(pd.r1 == 0){
 				// column name
@@ -547,9 +547,9 @@ public class CellRangeProcessor {
 		} else {   // vertical pairs
 
 			// handle first title
-			if(RelativeCopy.getValue(table, pd.c1, pd.r1).isGeoText()){
+			if(RelativeCopy.getValue(app, pd.c1, pd.r1).isGeoText()){
 				//header cell text
-				title[0] = ((GeoText)RelativeCopy.getValue(table, pd.c1, pd.r1)).getTextString();
+				title[0] = ((GeoText)RelativeCopy.getValue(app, pd.c1, pd.r1)).getTextString();
 			}
 			else if(pd.c1 == 0){
 				// row name
@@ -560,9 +560,9 @@ public class CellRangeProcessor {
 			}
 
 			// handle second title
-			if(RelativeCopy.getValue(table, pd.c1, pd.r2).isGeoText()){
+			if(RelativeCopy.getValue(app, pd.c1, pd.r2).isGeoText()){
 				//header cell text
-				title[1] = ((GeoText)RelativeCopy.getValue(table, pd.c1, pd.r2)).getTextString();
+				title[1] = ((GeoText)RelativeCopy.getValue(app, pd.c1, pd.r2)).getTextString();
 			}
 			else if(pd.c1 == 0){
 				// row name
@@ -592,9 +592,9 @@ public class CellRangeProcessor {
 		for(CellRange cr : rangeList){
 			// get column header or column name from each column in this cell range
 			for(int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col++){
-				if(RelativeCopy.getValue(table, col, 0) != null && RelativeCopy.getValue(table, col, 0).isGeoText()){
+				if(RelativeCopy.getValue(app, col, 0) != null && RelativeCopy.getValue(app, col, 0).isGeoText()){
 					// use header cell text
-					titleList.add(((GeoText)RelativeCopy.getValue(table, col, 0)).getTextString());
+					titleList.add(((GeoText)RelativeCopy.getValue(app, col, 0)).getTextString());
 				}else{
 					// use column name
 					titleList.add(getCellRangeString(new CellRange(table.app,col,-1,col,-1)));
@@ -648,7 +648,7 @@ public class CellRangeProcessor {
 			//    this list will be converted to a dependent GeoList later 
 			for(Point cell: cellList){
 				if(!usedCells.contains(cell)){
-					GeoElement geo = RelativeCopy.getValue(table, cell.x, cell.y);
+					GeoElement geo = RelativeCopy.getValue(app, cell.x, cell.y);
 					if (geo != null && (geoTypeFilter == null || geo.getGeoClassType() == geoTypeFilter)){
 						if(copyByValue)
 							geoList.add(geo.copy());
@@ -712,8 +712,8 @@ public class CellRangeProcessor {
 			int c = cr.getMinColumn();
 			for(int r = cr.getMinRow(); r <= cr.getMaxRow(); r++){
 				
-					valueGeo = RelativeCopy.getValue(table, c, r);
-					freqGeo = RelativeCopy.getValue(table, c+1, r);
+					valueGeo = RelativeCopy.getValue(app, c, r);
+					freqGeo = RelativeCopy.getValue(app, c+1, r);
 
 					// validate (null or text geos)
 					//if (geo != null && (geoTypeFilter == null || geo.getGeoClassType() == geoTypeFilter)){
@@ -808,7 +808,7 @@ public class CellRangeProcessor {
 			for (int j = row1; j <= row2; ++ j) {
 				sb.append("{");
 				for (int i = column1; i <= column2; ++ i) {
-					v2 = RelativeCopy.getValue(table, i, j);
+					v2 = RelativeCopy.getValue(app, i, j);
 					if (v2 != null) {
 						if(copyByValue){
 							sb.append(v2.toDefinedValueString());
@@ -831,7 +831,7 @@ public class CellRangeProcessor {
 				//if (selected.length > j && ! selected[j])  continue; 	
 				sb.append("{");
 				for (int i = row1; i <= row2; ++ i) {
-					v2 = RelativeCopy.getValue(table, j, i);
+					v2 = RelativeCopy.getValue(app, j, i);
 					if (v2 != null) {
 						if(copyByValue){
 							sb.append(v2.toDefinedValueString());
@@ -900,7 +900,7 @@ public class CellRangeProcessor {
 		try {
 			expr = createMatrixExpression( column1, column2, row1, row2, copyByValue, transpose);
 			//Application.debug(expr);
-			geos = (GeoElement[])table.kernel.getAlgebraProcessor().processAlgebraCommandNoExceptions(expr, false);
+			geos = app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptions(expr, false);
 		} 
 		catch (Exception ex) {
 			AbstractApplication.debug("creating matrix failed "+ expr);
@@ -940,7 +940,7 @@ public class CellRangeProcessor {
 			text.append(",\"|_\"]");
 
 			//Application.debug(text);
-			geos = (GeoElement[])table.kernel.getAlgebraProcessor().processAlgebraCommandNoExceptions(text.toString(), false);
+			geos = app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptions(text.toString(), false);
 
 		} 
 		catch (Exception ex) {
@@ -982,7 +982,7 @@ public class CellRangeProcessor {
 		boolean succ = table.copyPasteCut.delete(columns - 1, 0, columns - 1, rows - 1);
 		for (int x = columns - 2; x >= column1; -- x) {
 			for (int y = 0; y < rows; ++ y) {
-				GeoElement geo = RelativeCopy.getValue(table, x, y);
+				GeoElement geo = RelativeCopy.getValue(app, x, y);
 				if (geo == null) continue;
 
 				MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern.exec(geo.getLabel());
@@ -1016,7 +1016,7 @@ public class CellRangeProcessor {
 			succ = table.copyPasteCut.delete(columns - 1, 0, columns - 1, rows - 1);
 			for (int x = columns - 2; x >= column2 + 1; -- x) {
 				for (int y = 0; y < rows; ++ y) {
-					GeoElement geo = RelativeCopy.getValue(table, x, y);
+					GeoElement geo = RelativeCopy.getValue(app, x, y);
 					if (geo == null) continue;
 
 					MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern.exec(geo.getLabel());
@@ -1048,7 +1048,7 @@ public class CellRangeProcessor {
 		boolean succ = table.copyPasteCut.delete(0, rows - 1, columns - 1, rows - 1);
 		for (int y = rows - 2; y >= row1; -- y) {
 			for (int x = 0; x < columns; ++ x) {
-				GeoElement geo = RelativeCopy.getValue(table, x, y);
+				GeoElement geo = RelativeCopy.getValue(app, x, y);
 				if (geo == null) continue;
 
 				MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern.exec(geo.getLabel());
@@ -1081,7 +1081,7 @@ public class CellRangeProcessor {
 			succ = table.copyPasteCut.delete(0, rows - 1, columns - 1, rows - 1);
 			for (int y = rows - 2; y >= row2 + 1; -- y) {
 				for (int x = 0; x < columns; ++ x) {
-					GeoElement geo = RelativeCopy.getValue(table, x, y);
+					GeoElement geo = RelativeCopy.getValue(app, x, y);
 					if (geo == null) continue;
 					MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern.exec(geo.getLabel());
 					int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
@@ -1110,7 +1110,7 @@ public class CellRangeProcessor {
 		int c1 = cr.getMinColumn();
 		String text = "";
 		GeoElement[] geos;
-		fcn = (GeoFunctionNVar) RelativeCopy.getValue(table, c1,r1);
+		fcn = (GeoFunctionNVar) RelativeCopy.getValue(app, c1,r1);
 
 		for(int r = r1+1; r <= cr.getMaxRow(); ++r){
 			for(int c = c1+1; c <= cr.getMaxColumn(); ++c){
@@ -1122,7 +1122,7 @@ public class CellRangeProcessor {
 				text += GeoElementSpreadsheet.getSpreadsheetCellName(c, r1);
 				text += ")";
 
-				geos = (GeoElement[])table.kernel.getAlgebraProcessor()
+				geos = app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommandNoExceptions(text,false);
 
 				//geos[0].setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(c, r));

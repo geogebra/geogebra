@@ -12,14 +12,11 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
-//import geogebra.main.Application;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.TreeSet;
-
-import javax.swing.table.TableModel;
 
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
@@ -775,25 +772,6 @@ public class RelativeCopy {
 		
 	}
 	
-	
-	
-	
-	/**
-	 * Returns the GeoElement for the cell with the given column and row values.
-	 */
-	public static GeoElement getValue(MyTable table, int column, int row) {
-		TableModel tableModel = table.getModel();
-		// column = table.convertColumnIndexToModel(column);
-		// Application.debug("column=" + column);
-		if ((row < 0) || (row >= tableModel.getRowCount())) {
-			return null;
-		}
-		if ((column < 0) || (column >= tableModel.getColumnCount())) {
-			return null;
-		}
-		return (GeoElement) tableModel.getValueAt(row, column);
-	}
-
 	// =========================================================================
 	// Cell Editing Methods
 	// =========================================================================

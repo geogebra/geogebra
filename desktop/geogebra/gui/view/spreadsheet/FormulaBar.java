@@ -146,7 +146,7 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 
 
 		String cellContents = "";
-		GeoElement cellGeo = table.relativeCopy.getValue(table, column, row);
+		GeoElement cellGeo = table.relativeCopy.getValue(app, column, row);
 		if(cellGeo != null){
 			//Application.debug("cell with geo selected at: " + row + " ," + column);
 			cellContents = cellGeo.getRedefineString(true, false);

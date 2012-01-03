@@ -108,7 +108,7 @@ public class CopyPasteCut {
 		cellBufferStr = "";
 		for (int row = row1; row <= row2; ++ row) {
 			for (int column = column1; column <= column2; ++ column) {
-				GeoElement value = RelativeCopy.getValue(table, column, row);
+				GeoElement value = RelativeCopy.getValue(app, column, row);
 				if (value != null) {
 					cellBufferStr += value.toValueString();
 				}
@@ -737,7 +737,7 @@ public class CopyPasteCut {
 					if(data[iy][ix] == null) continue;
 					data[iy][ix] = data[iy][ix].trim();
 					if (data[iy][ix].length() == 0) {
-						GeoElement value0 = RelativeCopy.getValue(table, column, row);
+						GeoElement value0 = RelativeCopy.getValue(app, column, row);
 						if (value0 != null) {
 							//Application.debug(value0.toValueString());
 							//MyCellEditor.prepareAddingValueToTable(kernel, table, null, value0, column, row);
@@ -746,7 +746,7 @@ public class CopyPasteCut {
 						}	
 					}
 					else {
-						GeoElement value0 = RelativeCopy.getValue(table, column, row);
+						GeoElement value0 = RelativeCopy.getValue(app, column, row);
 						values2[iy][ix] = RelativeCopy.prepareAddingValueToTableNoStoringUndoInfo(kernel, app, data[iy][ix], value0, column, row);
 						//values2[iy][ix].setAuxiliaryObject(values2[iy][ix].isGeoNumeric()); 
 						values2[iy][ix].setAuxiliaryObject(true); 

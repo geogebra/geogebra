@@ -1707,7 +1707,7 @@ public class MyTable extends JTable implements FocusListener
 		if(selectedCellRanges.size() == 1 && selectedCellRanges.get(0).isSingleCell()){
 
 			// Clear the target cell, exit if this is not possible
-			if(RelativeCopy.getValue(this, minSelectionColumn, minSelectionRow) != null){
+			if(RelativeCopy.getValue(app, minSelectionColumn, minSelectionRow) != null){
 				boolean isOK = copyPasteCut.delete(
 						minSelectionColumn, minSelectionRow, minSelectionColumn, minSelectionRow);
 				if(!isOK) 
@@ -1775,7 +1775,7 @@ public class MyTable extends JTable implements FocusListener
 			for(int row = cr.getMinRow(); row <= cr.getMaxRow(); row ++){
 
 				// try to clear the target cell, exit if this is not possible
-				if(RelativeCopy.getValue(this, cr.getMaxColumn() + 1, row) != null){
+				if(RelativeCopy.getValue(app, cr.getMaxColumn() + 1, row) != null){
 					isOK = copyPasteCut.delete(cr.getMaxColumn() + 1, row, cr.getMaxColumn() + 1, row);	
 				}
 				// create new targetCell
@@ -1796,7 +1796,7 @@ public class MyTable extends JTable implements FocusListener
 			for(int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col ++){
 
 				// try to clear the target cell, exit if this is not possible
-				if(RelativeCopy.getValue(this, col, cr.getMaxRow() + 1) != null){
+				if(RelativeCopy.getValue(app, col, cr.getMaxRow() + 1) != null){
 					isOK = copyPasteCut.delete(col, cr.getMaxRow() + 1, col, cr.getMaxRow() + 1);	
 				}
 				// create new targetCell
