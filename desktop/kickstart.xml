@@ -276,8 +276,7 @@ instructions.
 	<get
 	    src="http://google-web-toolkit.googlecode.com/files/gwt-2.4.0.zip"
 	    dest="lib/download/gwt-sdk.zip" usetimestamp="true"/>
-	<unzip src="lib/download/gwt-sdk.zip" dest="lib/">
-	    <mapper type="glob" from="*" to="build/*"/>
+	<unzip src="lib/download/gwt-sdk.zip" dest=".."> <!-- FIXME: Find a better place for GWT SDK -->
 	</unzip>
 	</target>
 	

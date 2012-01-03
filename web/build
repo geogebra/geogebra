@@ -5,7 +5,7 @@
 # Make sure that you run this script from its directory.
 
 # 1. Setting up environment variables
-GWTDIR=../desktop/lib/build/gwt-2.4.0 # Override it if needed by using autobuild.conf
+GWTDIR=../gwt-2.4.0 # Override it if needed by using autobuild.conf
 test -r autobuild.conf && . ./autobuild.conf
 export GWTDIR
 WEBDIR=`pwd`

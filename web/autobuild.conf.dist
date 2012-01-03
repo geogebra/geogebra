@@ -7,4 +7,4 @@
 
 # If you used "ant -f kickstart.xml geogebraweb-developer-commandline", then you
 # have GWT SDK in a different directory:
-GWTDIR=../desktop/lib/build/gwt-2.4.0
+GWTDIR=../gwt-2.4.0
