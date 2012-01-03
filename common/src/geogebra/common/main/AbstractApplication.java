@@ -328,10 +328,7 @@ public abstract class AbstractApplication {
 
 	public abstract String getCommandSyntax(String cmd);
 
-	public void clearSelectedGeos() {
-		// TODO Auto-generated method stub
-
-	}
+	public abstract void clearSelectedGeos();
 
 	public void setScrollToShow(boolean b) {
 		// TODO Auto-generated method stub

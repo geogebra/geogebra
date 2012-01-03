@@ -7462,18 +7462,6 @@ public class EuclidianController extends geogebra.common.euclidian.EuclidianCont
 		clearSelection(selectionList, true);
 	}
 
-	final protected void clearSelection(ArrayList<?> selectionList,
-			boolean doUpdateSelection) {
-
-		// unselect
-		selectionList.clear();
-		selectedGeos.clear();
-		if (doUpdateSelection) {
-			((Application)app).clearSelectedGeos();
-		}
-		view.repaintView();
-	}
-
 	final protected int addSelectedGeo(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,

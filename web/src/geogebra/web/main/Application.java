@@ -662,4 +662,10 @@ public class Application extends AbstractApplication {
 	    // TODO Auto-generated method stub
 	    return null;
     }
+
+	@Override
+    public void clearSelectedGeos() {
+	    // TODO Auto-generated method stub
+	    
+    }
 }

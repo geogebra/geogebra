@@ -530,4 +530,15 @@ public abstract class EuclidianController {
 		}
 	}
 
+	protected final void clearSelection(ArrayList<?> selectionList, boolean doUpdateSelection) {
+	
+		// unselect
+		selectionList.clear();
+		selectedGeos.clear();
+		if (doUpdateSelection) {
+			app.clearSelectedGeos();
+		}
+		view.repaintView();
+	}
+
 }
