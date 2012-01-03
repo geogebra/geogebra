@@ -636,68 +636,40 @@ public class CellRangeProcessor {
 		HashSet<Point> usedCells = new HashSet<Point>();
 
 		try {
-			// get list string
-			/*
-			CellRange cr = new CellRange(table);
-			for (int i = 0; i < rangeList.size(); i++) {
-				cr = (CellRange) rangeList.get(i);
-				list.addAll(0, cr.toGeoLabelList(scanByColumn, copyByValue));
-			}
-			 */
-
-			//listString.append("{");
-
+			
 			// create cellList: this holds a list of cell index pairs for the entire range
 			for(CellRange cr:rangeList){
 				cellList.addAll(cr.toCellList(scanByColumn));
 			}
 			
-			// iterate through the cells and add their contents to the expression string
+			// iterate through the cells and add their contents to either:
+			// 1) the geoList if copyByValue = true
+			// 2) the list of geoElements if copyByValue != true
+			//    this list will be converted to a dependent GeoList later 
 			for(Point cell: cellList){
 				if(!usedCells.contains(cell)){
 					GeoElement geo = RelativeCopy.getValue(table, cell.x, cell.y);
 					if (geo != null && (geoTypeFilter == null || geo.getGeoClassType() == geoTypeFilter)){
 						if(copyByValue)
-							//listString.append(geo.toDefinedValueString());
 							geoList.add(geo.copy());
 						else
-							//listString.append(geo.getLabel());
 							list.add(geo);
-
-						//listString.append(geo.getFormulaString(StringType.GEOGEBRA, copyByValue));
-						//listString.append(",");
 					}
-
 					usedCells.add(cell);
 				}
 			}
 
-			// remove last comma
-			//if(listString.length()>1)
-			//	listString.deleteCharAt(listString.length()-1);
-
-			//listString.append("}");
-			
+			// if !copyByValue convert dependent GeoList from geos collected above
 			if (!copyByValue) {
 				AlgoDependentList algo = new AlgoDependentList(cons, list, false);
 				geoList = (GeoList) algo.getGeoElements()[0];
 			}
 
 			if(isSorted){
-				//listString.insert(0, "Sort[" );
-				//listString.append("]");
 				AlgoSort algo = new AlgoSort(cons, geoList);
 				cons.removeFromConstructionList(algo);
 				geoList = (GeoList)algo.getGeoElements()[0];
 			}
-
-
-			//Application.debug(listString);
-			// convert list string to geo
-			//geos = table.kernel.getAlgebraProcessor()
-			//.processAlgebraCommandNoExceptions(listString.toString(), false);
-
-
 
 		} catch (Exception ex) {
 			AbstractApplication.debug("Creating list failed with exception " + ex);

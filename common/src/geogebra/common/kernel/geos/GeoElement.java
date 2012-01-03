@@ -57,7 +57,7 @@ import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.StringUtil;
-import geogebra.common.util.TraceSettings;
+import geogebra.common.util.SpreadsheetTraceSettings;
 import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
@@ -5532,19 +5532,19 @@ public abstract class GeoElement extends ConstructionElement implements
 		return this instanceof SpreadsheetTraceable;
 	}
 
-	private geogebra.common.util.TraceSettings traceSettings;
+	private geogebra.common.util.SpreadsheetTraceSettings traceSettings;
 
-	public TraceSettings getTraceSettings() {
+	public SpreadsheetTraceSettings getTraceSettings() {
 
 		if (traceSettings == null) {
-			traceSettings = new TraceSettings();
+			traceSettings = new SpreadsheetTraceSettings();
 		}
 
 		return traceSettings;
 
 	}
 
-	public void setTraceSettings(TraceSettings t) {
+	public void setTraceSettings(SpreadsheetTraceSettings t) {
 		traceSettings = t;
 	}
 

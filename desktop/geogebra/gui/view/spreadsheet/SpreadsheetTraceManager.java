@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.main.AbstractApplication;
-import geogebra.common.util.TraceSettings;
+import geogebra.common.util.SpreadsheetTraceSettings;
 import geogebra.kernel.Kernel;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 import geogebra.main.Application;
@@ -47,7 +47,7 @@ public class SpreadsheetTraceManager {
 
 
 	// collection of all geos currently traced
-	protected HashMap<GeoElement, TraceSettings> traceGeoCollection;
+	protected HashMap<GeoElement, SpreadsheetTraceSettings> traceGeoCollection;
 
 	// temporary collection of trace geos, held during construction updates
 	private HashSet<GeoElement> storedTraces;
@@ -63,7 +63,7 @@ public class SpreadsheetTraceManager {
 		this.app = app;
 		kernel = app.getKernel();
 
-		traceGeoCollection = new HashMap<GeoElement, TraceSettings>();
+		traceGeoCollection = new HashMap<GeoElement, SpreadsheetTraceSettings>();
 		storedTraces = new HashSet<GeoElement>();
 
 	}
@@ -74,7 +74,7 @@ public class SpreadsheetTraceManager {
 
 	/** Add a geo to the trace collection */
 	public void addSpreadsheetTraceGeo(GeoElement geo) {
-		TraceSettings t = geo.getTraceSettings();
+		SpreadsheetTraceSettings t = geo.getTraceSettings();
 		Construction cons = app.getKernel().getConstruction();
 
 		// Set trace columns
@@ -132,7 +132,7 @@ public class SpreadsheetTraceManager {
 	}
 
 	public void updateTraceSettings(GeoElement geo) {
-		TraceSettings t = geo.getTraceSettings();
+		SpreadsheetTraceSettings t = geo.getTraceSettings();
 		// clearGeoTraceColumns(geo);
 		CopyPasteCut.delete(app, t.traceColumn1, t.traceRow1, t.traceColumn2,
 				Kernel.MAX_SPREADSHEET_ROWS, MyTable.CELL_SELECT);
@@ -205,7 +205,7 @@ public class SpreadsheetTraceManager {
 	}
 
 	public boolean isTraceColumn(int column) {
-		TraceSettings t = new TraceSettings();
+		SpreadsheetTraceSettings t = new SpreadsheetTraceSettings();
 		for (GeoElement geo : traceGeoCollection.keySet()) {
 			t = traceGeoCollection.get(geo);
 			if (column >= t.traceColumn1 && column <= t.traceColumn2)
@@ -226,7 +226,7 @@ public class SpreadsheetTraceManager {
 	}
 
 	public GeoElement getTraceGeo(int column) {
-		TraceSettings t = new TraceSettings();
+		SpreadsheetTraceSettings t = new SpreadsheetTraceSettings();
 		for (GeoElement geo : traceGeoCollection.keySet()) {
 			t = traceGeoCollection.get(geo);
 			if (column >= t.traceColumn1 && column <= t.traceColumn2)
@@ -237,7 +237,7 @@ public class SpreadsheetTraceManager {
 
 	}
 
-	public TraceSettings getTraceSettings(GeoElement geo) {
+	public SpreadsheetTraceSettings getTraceSettings(GeoElement geo) {
 
 		return traceGeoCollection.get(geo);
 	}
@@ -258,7 +258,7 @@ public class SpreadsheetTraceManager {
 	 */
 	public void clearGeoTraceColumns(GeoElement geo) {
 
-		TraceSettings t = geo.getTraceSettings();
+		SpreadsheetTraceSettings t = geo.getTraceSettings();
 		if (t == null)
 			return;
 
@@ -274,7 +274,7 @@ public class SpreadsheetTraceManager {
 	 * of the column
 	 */
 	public void handleColumnDelete(int column1, int column2) {
-		TraceSettings t;
+		SpreadsheetTraceSettings t;
 		for (GeoElement geo : traceGeoCollection.keySet()) {
 			t = geo.getTraceSettings();
 			if (column2 >= t.traceColumn1 && column1 <= t.traceColumn2) {
@@ -287,8 +287,8 @@ public class SpreadsheetTraceManager {
 		app.repaintSpreadsheet();
 	}
 
-	public TraceSettings getDefaultTraceSettings() {
-		return new TraceSettings();
+	public SpreadsheetTraceSettings getDefaultTraceSettings() {
+		return new SpreadsheetTraceSettings();
 	}
 
 	public void setNeedsColumnReset(GeoElement geo, boolean flag) {
@@ -302,7 +302,7 @@ public class SpreadsheetTraceManager {
 	// =============================================
 
 	public String getTraceXML(GeoElement geo) {
-		TraceSettings t = geo.getTraceSettings();
+		SpreadsheetTraceSettings t = geo.getTraceSettings();
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("\t<spreadsheetTrace val=\"true\"");
@@ -418,7 +418,7 @@ public class SpreadsheetTraceManager {
 
 		if (!traceGeoCollection.containsKey(geo))
 			return;
-		TraceSettings t = traceGeoCollection.get(geo);
+		SpreadsheetTraceSettings t = traceGeoCollection.get(geo);
 		Construction cons = app.getKernel().getConstruction();
 
 		// TODO
@@ -547,7 +547,7 @@ public class SpreadsheetTraceManager {
 	protected boolean setGeoTraceRow(GeoElement geo, Construction cons,
 			ArrayList<Double> traceArray, int row) {
 
-		TraceSettings t = traceGeoCollection.get(geo);
+		SpreadsheetTraceSettings t = traceGeoCollection.get(geo);
 		int column = t.traceColumn1;
 		int traceIndex = 0;
 		GeoElement[] geos = geo.getGeoElements();
@@ -764,7 +764,7 @@ public class SpreadsheetTraceManager {
 	/** Create header cell(s) for each trace column of a geo. */
 	private void setHeader(GeoElement geo, Construction cons) {
 
-		TraceSettings t = traceGeoCollection.get(geo);
+		SpreadsheetTraceSettings t = traceGeoCollection.get(geo);
 		int column, row;
 		String headerText = "";
 		GeoElement[] geos = geo.getGeoElements();

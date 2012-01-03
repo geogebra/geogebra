@@ -14,7 +14,7 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.util.TraceSettings;
+import geogebra.common.util.SpreadsheetTraceSettings;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.kernel.Kernel;
@@ -158,7 +158,7 @@ implements
 			if(!traceManager.isTraceGeo(selectedGeo)){
 				// create default trace settings
 				//TraceSettings t = new TraceSettings();
-				TraceSettings t = selectedGeo.getTraceSettings(); 
+				SpreadsheetTraceSettings t = selectedGeo.getTraceSettings(); 
 				if (traceCell != null) {
 					t.traceColumn1 = traceCell.getMinColumn();
 					t.traceRow1 = traceCell.getMinRow();
@@ -688,7 +688,7 @@ implements
 		
 		// add geo to the trace collection 
 		if (traceManager.isTraceGeo(geo) == false) {		
-			TraceSettings t = geo.getTraceSettings();
+			SpreadsheetTraceSettings t = geo.getTraceSettings();
 			if (newTraceLocation != null) {
 				t.traceColumn1 = newTraceLocation.getMinColumn();
 				t.traceRow1 = newTraceLocation.getMinRow();
@@ -728,7 +728,7 @@ implements
 	}
 
 	
-	private TraceSettings getSettings(){
+	private SpreadsheetTraceSettings getSettings(){
 		if(traceGeoList.isSelectionEmpty())
 			return null;
 		else

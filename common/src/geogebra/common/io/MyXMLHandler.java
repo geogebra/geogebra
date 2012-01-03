@@ -63,7 +63,7 @@ import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.main.settings.SpreadsheetSettings;
-import geogebra.common.util.TraceSettings;
+import geogebra.common.util.SpreadsheetTraceSettings;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 
 import java.util.ArrayList;
@@ -3509,7 +3509,7 @@ public class MyXMLHandler implements DocHandler {
 			// set geo for tracing
 			geo.setSpreadsheetTrace(parseBoolean((String) attrs.get("val")));
 			
-			TraceSettings t = geo.getTraceSettings();
+			SpreadsheetTraceSettings t = geo.getTraceSettings();
 			t.traceColumn1 = Integer.parseInt((String) attrs.get("traceColumn1"));
 			t.traceColumn2 = Integer.parseInt((String) attrs.get("traceColumn2"));
 			t.traceRow1 = Integer.parseInt((String) attrs.get("traceRow1"));
