@@ -600,9 +600,6 @@ public abstract class AbstractApplication {
 		
 	}
 
-	public SpreadsheetTraceManager getTraceManager() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public abstract SpreadsheetTraceManager getTraceManager();
 
 }
