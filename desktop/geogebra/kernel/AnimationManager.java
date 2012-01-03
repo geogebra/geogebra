@@ -1,6 +1,7 @@
 package geogebra.kernel;
 
 import geogebra.common.kernel.AbstractAnimationManager;
+import geogebra.common.kernel.AbstractKernel;
 import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.geos.GeoElement;
@@ -15,14 +16,14 @@ import javax.swing.Timer;
 public class AnimationManager extends AbstractAnimationManager implements
 		ActionListener {
 
-	private Kernel kernel;
+	private AbstractKernel kernel;
 	private ArrayList<GeoElement> animatedGeos;
 	private ArrayList<Animatable> changedGeos;
 	private Timer timer;
 	private double frameRate = MAX_ANIMATION_FRAME_RATE;
 	private boolean needToShowAnimationButton;
 
-	public AnimationManager(Kernel kernel) {
+	public AnimationManager(AbstractKernel kernel) {
 		this.kernel = kernel;
 		animatedGeos = new ArrayList<GeoElement>();
 		changedGeos = new ArrayList<Animatable>();

@@ -2600,7 +2600,7 @@ public class Construction {
 	 */
 	public void initUndoInfo() {
 		if (undoManager == null)
-			undoManager = kernel.getUndoManager(this);
+			undoManager = kernel.getApplication().getUndoManager(this);
 		undoManager.initUndoInfo();
 	}
 
@@ -2611,7 +2611,7 @@ public class Construction {
 		// try to process the new construction
 		try {
 			if (undoManager == null)
-				kernel.getUndoManager(this);
+				undoManager = kernel.getApplication().getUndoManager(this);
 			undoManager.processXML(consXML.toString());
 			kernel.notifyReset();
 			kernel.updateConstruction();

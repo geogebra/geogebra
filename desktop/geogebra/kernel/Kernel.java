@@ -18,18 +18,12 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
-import geogebra.common.adapters.Geo3DVec;
-import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractKernel;
-import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MacroKernelInterface;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
-import geogebra.common.kernel.cas.GeoGebraCasInterface;
-import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
@@ -38,9 +32,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.kernel.algos.AlgoSolveODE;
 import geogebra.kernel.algos.AlgoSolveODE2;
-import geogebra.kernel.commands.CommandDispatcher;
 import geogebra.kernel.discrete.AlgoShortestDistance;
-import geogebra.kernel.geos.GeoElementGraphicsAdapterDesktop;
 import geogebra.kernel.geos.GeoElementSpreadsheet;
 
 public class Kernel extends AbstractKernel {
@@ -61,19 +53,7 @@ public class Kernel extends AbstractKernel {
 	}
 
 	
-	/**
-	 * returns GeoElement at (row,col) in spreadsheet may return nully
-	 * 
-	 * @param col
-	 *            Spreadsheet column
-	 * @param row
-	 *            Spreadsheet row
-	 * @return Spreadsheet cell content (may be null)
-	 */
-	public GeoElement getGeoAt(int col, int row) {
-		return lookupLabel(getGeoElementSpreadsheet().dogetSpreadsheetCellName(col,
-				row));
-	}
+	
 
 	
 	/**
@@ -204,28 +184,9 @@ public class Kernel extends AbstractKernel {
 	
 
 
-	@Override
-	final public AbstractAnimationManager getAnimatonManager() {
-		if (animationManager == null) {
-			animationManager = new AnimationManager(this);
-		}
-		return animationManager;
-	}
-
-	@Override
-	public GeoGebraCasInterface newGeoGebraCAS() {
-		return new geogebra.cas.GeoGebraCAS(this);
-	}
-
-	// This is a temporary place for adapter creation methods which will move
-	// into factories later
+	
 
 	
-	@Override
-	public GeoElementGraphicsAdapter newGeoElementGraphicsAdapter() {
-		return new GeoElementGraphicsAdapterDesktop(app);
-	}
-
 	private GeoElementSpreadsheet ges = new GeoElementSpreadsheet();
 
 	@Override
@@ -233,22 +194,7 @@ public class Kernel extends AbstractKernel {
 		return ges;
 	}
 
-	@Override
-	public Geo3DVec getGeo3DVec(double x, double y, double z) {
-		return new geogebra3D.kernel3D.Geo3DVec(this, x, y, z);
-	}
-
-	@Deprecated
-	@Override
-	public UndoManager getUndoManager(Construction cons) {
-		return new UndoManager(cons);
-	}
-
-	@Deprecated
-	@Override
-	public AbstractCommandDispatcher getCommandDispatcher() {
-		return new CommandDispatcher(this);
-	}
+	
 
 	@Deprecated
 	@Override

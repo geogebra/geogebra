@@ -80,7 +80,7 @@ public class AlgebraProcessor {
 	 */
 	protected AbstractCommandDispatcher newCommandDispatcher(
 			AbstractKernel kernel) {
-		return kernel.getCommandDispatcher();
+		return kernel.getApplication().getCommandDispatcher();
 	}
 
 	public Set<String> getPublicCommandSet() {

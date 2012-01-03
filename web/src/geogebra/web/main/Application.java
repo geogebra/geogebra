@@ -15,9 +15,15 @@ import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 
+import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.AbstractUndoManager;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.cas.GeoGebraCasInterface;
+import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.Settings;
@@ -611,5 +617,35 @@ public class Application extends AbstractApplication {
     public void updateSelection() {
 	    // TODO Auto-generated method stub
 	    
+    }
+
+	@Override
+    public AbstractUndoManager getUndoManager(Construction cons) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public AbstractCommandDispatcher getCommandDispatcher() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public AbstractAnimationManager newAnimationManager(AbstractKernel kernel2) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public GeoElementGraphicsAdapter newGeoElementGraphicsAdapter() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public GeoGebraCasInterface newGeoGebraCAS() {
+	    // TODO Auto-generated method stub
+	    return null;
     }
 }

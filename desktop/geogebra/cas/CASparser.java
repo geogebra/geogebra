@@ -25,7 +25,7 @@ import geogebra.common.kernel.cas.CASParserInterface;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.parser.ParseException;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.AbstractKernel;
 
 /**
  * Handles parsing and evaluating of input in the CAS view.
@@ -33,13 +33,13 @@ import geogebra.kernel.Kernel;
  * @author Markus Hohenwarter
  */
 public class CASparser implements CASParserInterface{
-	private Kernel kernel;
+	private AbstractKernel kernel;
 	
-	public CASparser(Kernel kernel) {	
+	public CASparser(AbstractKernel kernel) {	
 		this.kernel = kernel;
 	}
 	
-	public Kernel getKernel() {
+	public AbstractKernel getKernel() {
 		return kernel;
 	}
 	

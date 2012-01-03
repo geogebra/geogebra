@@ -2,27 +2,18 @@ package geogebra.web.kernel;
 
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractKernel;
-import geogebra.common.kernel.AbstractUndoManager;
-import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MacroKernelInterface;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
-import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.geos.AbstractGeoElementSpreadsheet;
-import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.util.LaTeXCache;
-import geogebra.common.util.NumberFormatAdapter;
-import geogebra.common.util.ScientificFormatAdapter;
 import geogebra.web.main.Application;
-import geogebra.web.util.NumberFormat;
 
 public class Kernel extends AbstractKernel {
 
@@ -39,23 +30,9 @@ public class Kernel extends AbstractKernel {
 
 	
 
-	@Override
-    public GeoElementGraphicsAdapter newGeoElementGraphicsAdapter() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
+	
 
-	@Override
-    public GeoGebraCasInterface newGeoGebraCAS() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public AbstractAnimationManager getAnimatonManager() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
+	
 
 	@Override
     public AbstractGeoElementSpreadsheet getGeoElementSpreadsheet() {
@@ -63,18 +40,6 @@ public class Kernel extends AbstractKernel {
 	    return null;
     }
 
-	@Override
-    public AbstractUndoManager getUndoManager(Construction cons) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
-    public AbstractCommandDispatcher getCommandDispatcher() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-	
 	@Override
     public GeoElement ShortestDistance(String label, GeoList geoList,
             GeoPointND geoPointND, GeoPointND geoPointND2, GeoBoolean geoBoolean) {

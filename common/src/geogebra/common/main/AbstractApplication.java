@@ -8,9 +8,15 @@ import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.io.layout.Perspective;
+import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.AbstractUndoManager;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.cas.GeoGebraCasInterface;
+import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.util.DebugPrinter;
 
@@ -511,6 +517,26 @@ public abstract class AbstractApplication {
 		}
 		updateSelection();
 	}
-	
+	/**
+	 * @deprecated
+	 * @param cons
+	 * @return undo manager
+	 */
+	@Deprecated
+	public abstract AbstractUndoManager getUndoManager(Construction cons);
+
+	/**
+	 * @deprecated
+	 * @return
+	 */
+	@Deprecated
+	public abstract AbstractCommandDispatcher getCommandDispatcher();
+
+	public abstract AbstractAnimationManager newAnimationManager(AbstractKernel kernel2);
+
+	public abstract GeoElementGraphicsAdapter newGeoElementGraphicsAdapter();
+
+	public abstract GeoGebraCasInterface newGeoGebraCAS();
+
 
 }

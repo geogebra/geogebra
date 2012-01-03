@@ -26,16 +26,20 @@ import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
+import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractKernel;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.Relation;
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
@@ -59,7 +63,11 @@ import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.gui.view.properties.PropertiesView;
 import geogebra.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.io.MyXMLio;
+import geogebra.kernel.AnimationManager;
 import geogebra.kernel.Kernel;
+import geogebra.kernel.UndoManager;
+import geogebra.kernel.commands.CommandDispatcher;
+import geogebra.kernel.geos.GeoElementGraphicsAdapterDesktop;
 import geogebra.plugin.CallJavaScript;
 import geogebra.plugin.GgbAPI;
 import geogebra.plugin.PluginManager;
@@ -6668,6 +6676,32 @@ public class Application extends AbstractApplication implements
 
 			return highestUsedColumn;
 		}
+	}
+	@Deprecated
+	@Override
+	public UndoManager getUndoManager(Construction cons) {
+		return new UndoManager(cons);
+	}
+
+	@Deprecated
+	@Override
+	public AbstractCommandDispatcher getCommandDispatcher() {
+		return new CommandDispatcher(kernel);
+	}
+	
+	@Override
+	public GeoGebraCasInterface newGeoGebraCAS() {
+		return new geogebra.cas.GeoGebraCAS(kernel);
+	}
+
+	@Override
+	public GeoElementGraphicsAdapter newGeoElementGraphicsAdapter() {
+		return new GeoElementGraphicsAdapterDesktop(this);
+	}
+
+	@Override
+	public AbstractAnimationManager newAnimationManager(AbstractKernel kernel2) {
+		return new AnimationManager(kernel2);
 	}
 
 

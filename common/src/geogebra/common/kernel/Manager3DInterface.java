@@ -1,5 +1,6 @@
 package geogebra.common.kernel;
 
+import geogebra.common.adapters.Geo3DVec;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Equation;
@@ -510,5 +511,7 @@ public interface Manager3DInterface {
 	 */
 	public GeoElement[] Translate3D(String label, GeoElement geoTrans,
 			GeoVectorND v);
+
+	public Geo3DVec newGeo3DVec(double double1, double double2, double double3);
 
 }

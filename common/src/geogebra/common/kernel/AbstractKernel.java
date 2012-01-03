@@ -213,7 +213,7 @@ import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
 import geogebra.common.util.Unicode;
 
-import java.awt.image.Kernel;
+//import java.awt.image.Kernel;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -566,7 +566,7 @@ public abstract class AbstractKernel {
 	// public abstract ColorAdapter getColorAdapter(int red, int green, int
 	// blue);
 	
-	public abstract GeoElementGraphicsAdapter newGeoElementGraphicsAdapter();
+	
 
 	
 	protected AbstractAnimationManager animationManager;
@@ -2619,13 +2619,12 @@ public abstract class AbstractKernel {
 
 	public synchronized GeoGebraCasInterface getGeoGebraCAS() {
 		if (ggbCAS == null) {
-			ggbCAS = newGeoGebraCAS();
+			ggbCAS = app.newGeoGebraCAS();
 		}
 
 		return ggbCAS;
 	}
 
-	abstract public GeoGebraCasInterface newGeoGebraCAS();
 
 	final public int getCoordStyle() {
 		return coordStyle;
@@ -3093,7 +3092,26 @@ public abstract class AbstractKernel {
 		return getGeoGebraCAS().getPolynomialCoeffs(exp, variable);
 	}
 
-	public abstract AbstractAnimationManager getAnimatonManager();
+	/**
+	 * returns GeoElement at (row,col) in spreadsheet may return nully
+	 * 
+	 * @param col
+	 *            Spreadsheet column
+	 * @param row
+	 *            Spreadsheet row
+	 * @return Spreadsheet cell content (may be null)
+	 */
+	public GeoElement getGeoAt(int col, int row) {
+		return lookupLabel(getGeoElementSpreadsheet().dogetSpreadsheetCellName(col,
+				row));
+	}
+	
+	final public AbstractAnimationManager getAnimatonManager() {
+		if (animationManager == null) {
+			animationManager = getApplication().newAnimationManager(this);
+		}
+		return animationManager;
+	}
 
 	public void removeIntersectionAlgorithm(AlgoIntersectAbstract algo) {
 		intersectionAlgos.remove(algo);
@@ -3570,11 +3588,6 @@ public abstract class AbstractKernel {
 
 
 	// temporary methods just while moving things
-
-	public Geo3DVec getGeo3DVec(double x, double y, double z) {
-		AbstractApplication.debug("GeoGebraCommon does not support 3D Vectors");
-		return null;
-	}
 
 	final public ExpressionNode handleTrigPower(String image,
 			ExpressionNode en, Operation type) {
@@ -4733,21 +4746,7 @@ public abstract class AbstractKernel {
 		return imaginaryUnit;
 	}
 
-	/**
-	 * @deprecated
-	 * @param cons
-	 * @return undo manager
-	 */
-	@Deprecated
-	public abstract AbstractUndoManager getUndoManager(Construction cons);
-
-	/**
-	 * @deprecated
-	 * @return
-	 */
-	@Deprecated
-	public abstract AbstractCommandDispatcher getCommandDispatcher();
-
+	
 	/**
 	 * Creates a new algorithm that uses the given macro.
 	 * 

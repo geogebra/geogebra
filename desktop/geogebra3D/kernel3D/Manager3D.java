@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.adapters.Geo3DVec;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Manager3DInterface;
 import geogebra.common.kernel.Path;
@@ -1063,6 +1064,10 @@ public class Manager3D implements Manager3DInterface {
 			GeoVectorND v) {
 		Transform3D t = new TransformTranslate3D(cons, v);
 		return t.transform(geoTrans, label);
+	}
+
+	public Geo3DVec newGeo3DVec(double x, double y, double z) {
+		return new geogebra3D.kernel3D.Geo3DVec(kernel, x, y, z);
 	}
 
 }

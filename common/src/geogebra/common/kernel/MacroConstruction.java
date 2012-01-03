@@ -42,7 +42,7 @@ public class MacroConstruction extends Construction {
 	 */
 	public void loadXML(String xmlString) throws Exception {
 		if (undoManager == null)
-			undoManager = kernel.getUndoManager(this);
+			undoManager = kernel.getApplication().getUndoManager(this);
 		
 		undoManager.processXML(xmlString);		
 	}
