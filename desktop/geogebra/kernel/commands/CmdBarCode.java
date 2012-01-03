@@ -1,7 +1,7 @@
 package geogebra.kernel.commands;
 
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.TextValue;
@@ -57,8 +57,24 @@ class CmdBarCode extends CommandProcessor {
 		switch (n) {
 		case 0:
 			// decode barcode from active Graphics View
-			BufferedImage image = ((EuclidianView) app.getEuclidianView())
-					.getExportImage(1.0);
+			BufferedImage image;
+
+			EuclidianView ev = (EuclidianView) app.getEuclidianView();
+			if (ev.getSelectedWidth() > 600 || ev.getSelectedHeight() > 600) {
+				// if it's too big, get scaled image
+				image = ((Application) app).getExportImage(600, 600);
+			} else {
+				// otherwise get image at 1:1
+				image = ((EuclidianView) app.getEuclidianView())
+						.getExportImage(1.0);
+			}
+
+			/*
+			 * File outputfile = new File("c:\\saved2"+r+".png"); try {
+			 * ImageIO.write(image, "png", outputfile); } catch (IOException e2)
+			 * { // TODO Auto-generated catch block e2.printStackTrace(); }
+			 */
+
 			return decode(image, c);
 
 		case 1:
@@ -254,7 +270,7 @@ class CmdBarCode extends CommandProcessor {
 				// com.google.zxing.oned.EAN13Writer.encode(EAN13Writer.java:73)
 
 				app.showError(e1.getLocalizedMessage());
-				GeoElement[] ret = { };
+				GeoElement[] ret = {};
 				return ret;
 			}
 
@@ -311,11 +327,11 @@ class CmdBarCode extends CommandProcessor {
 		if (retGeo == null || !retGeo.isGeoText()) {
 			retGeo = new GeoText(cons);
 			retGeo.setLabel(c.getLabel());
-			
+
 		}
-				
+
 		if (result != null) {
-			((GeoText)retGeo).setTextString(result.getText());
+			((GeoText) retGeo).setTextString(result.getText());
 		} else {
 			retGeo.setUndefined();
 		}
