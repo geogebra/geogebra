@@ -1,9 +1,8 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.algos.AlgoCellRange;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -22,7 +21,7 @@ import com.google.gwt.regexp.shared.MatchResult;
 /**
  *FillCells
  */
-class CmdFillCells extends CommandProcessor {
+public class CmdFillCells extends CommandProcessor {
 
 	/**
 	 * Create new command processor
