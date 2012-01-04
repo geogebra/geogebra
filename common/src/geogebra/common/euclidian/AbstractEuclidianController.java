@@ -2796,4 +2796,8 @@ public abstract class AbstractEuclidianController {
 		return false;
 	}
 
+	public Point getMouseLoc() {
+		return mouseLoc;
+	}
+
 }

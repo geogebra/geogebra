@@ -446,10 +446,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		refreshHighlighting(null);
 	}
 
-	public Point getMouseLoc() {
-		return mouseLoc;
-	}
-
 	public void mouseClicked(MouseEvent e) {
 
 		if ((mode == EuclidianConstants.MODE_PEN)
