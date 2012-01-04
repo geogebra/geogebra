@@ -172,13 +172,8 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 
 
 	//setters and getters	
-	public void setShowMouseCoords(boolean b);
-	public boolean getShowMouseCoords();
 	double getXZero();
 	double getYZero();
-	public void setShowAxesRatio(boolean b);
-	public Previewable getPreviewDrawable();
-	public double getGridDistances(int i);
 	public String[] getAxesLabels();
 	public void setAxesLabels(String[] labels);
 	public String[] getAxesUnitLabels();
@@ -223,13 +218,11 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	//GetBackground is still implemented in all implementations, but GetBackgroundCommon should be used instead
 	public boolean getShowGrid();
 	public boolean getGridIsBold();
-	public boolean getAllowShowMouseCoords();
 	public void setBackground(geogebra.common.awt.Color showColorChooser);
 	public void setAxesColor(Color showColorChooser);
 	public void setGridColor(Color showColorChooser);
 	public void showGrid(boolean selected);
 	public void setGridIsBold(boolean selected);
-	public void setAllowShowMouseCoords(boolean selected);
 	public void setGridLineStyle(int type);
 	public void setAutomaticAxesNumberingDistance(boolean b, int axis);
 	public void setAxesTickStyles(int[] styles);

@@ -1525,6 +1525,41 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	public abstract void zoomAxesRatio(double d, boolean b);
 
 
+	/**
+	 * 
+	 * setters and getters for EuclidianViewInterface
+	 * 
+	 */
+
+	public void setShowMouseCoords(boolean b) {
+		showMouseCoords = b;
+	}
+
+	public boolean getAllowShowMouseCoords() {
+		return allowShowMouseCoords;
+	}
+
+	public void setAllowShowMouseCoords(boolean neverShowMouseCoords) {
+		this.allowShowMouseCoords = neverShowMouseCoords;
+	}
+
+	public boolean getShowMouseCoords() {
+		return showMouseCoords;
+	}
+
+	public void setShowAxesRatio(boolean b) {
+		showAxesRatio = b;
+	}
+
+	public Previewable getPreviewDrawable() {
+		return previewDrawable;
+	}
+
+	public double getGridDistances(int i) {
+		return gridDistances[i];
+	}
+
+
 	// ///////////////////////////////////////
 	// previewables
 

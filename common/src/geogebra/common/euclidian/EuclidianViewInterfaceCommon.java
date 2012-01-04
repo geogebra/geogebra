@@ -132,15 +132,19 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 
 
 	public int getAllowToolTips();
+	public boolean getAllowShowMouseCoords();
 	public int getAxesLineStyle();
 	public geogebra.common.awt.Color getBackgroundCommon();
 	public double[] getGridDistances();
+	public double getGridDistances(int i);
 	public int getGridLineStyle();
 	public int getGridType();
 	public double getInvXscale();
 	public double getInvYscale();
 	public int getMode();
 	public int getPointStyle();
+	public Previewable getPreviewDrawable();
+	public boolean getShowMouseCoords();
 	public int getViewWidth();
 	public int getViewHeight();
 	public double getXmin();
@@ -156,6 +160,7 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 
 
 	public void setAutomaticGridDistance(boolean b);
+	public void setAllowShowMouseCoords(boolean selected);
 	public void setAxesLineStyle(int selectedIndex);
 	public void setCoordSystem(double x, double y, double xscale, double yscale);
 	public void setCoordSystemFromMouseMove(int dx, int dy, int mode);
@@ -165,6 +170,8 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 
 	// selection rectangle
 	public void setSelectionRectangle(geogebra.common.awt.Rectangle selectionRectangle);
+	public void setShowAxesRatio(boolean b);
+	public void setShowMouseCoords(boolean b);
 	public void setXminObject(NumberValue minMax);
 	public void setXmaxObject(NumberValue minMax);
 	public void setYminObject(NumberValue minMax);
