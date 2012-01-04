@@ -3,8 +3,8 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
@@ -29,7 +29,6 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.html.HTML;
@@ -789,7 +788,7 @@ public class CopyPasteCut {
 		delete(0, 0, tableModel.getColumnCount(), tableModel.getRowCount());
 	}
 
-	public static boolean delete(Application app, int column1, int row1,
+	public static boolean delete(AbstractApplication app, int column1, int row1,
 			int column2, int row2, int selectionType) {
 		boolean succ = false;
 		for (int column = column1; column <= column2; ++column) {

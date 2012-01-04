@@ -14,8 +14,6 @@ import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.SpreadsheetTraceSettings;
 
-import geogebra.main.Application;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -44,7 +42,7 @@ import java.util.TreeSet;
 public class SpreadsheetTraceManager extends geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager {
 
 	// external components
-	private Application app;
+	private AbstractApplication app;
 	private Kernel kernel;
 
 
@@ -60,7 +58,7 @@ public class SpreadsheetTraceManager extends geogebra.common.gui.view.spreadshee
 	private double[] coords = new double[3];
 	private ArrayList<Double> currentTrace = new ArrayList<Double>();
 
-	public SpreadsheetTraceManager(Application app) {
+	public SpreadsheetTraceManager(AbstractApplication app) {
 
 		this.app = app;
 		kernel = app.getKernel();
