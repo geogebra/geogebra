@@ -155,6 +155,7 @@
 -keep class geogebra.awt.Color { <fields>; }
 
 -keep class geogebra.plugin.GgbAPI { <methods>; }
+-keep class geogebra.common.plugin.GgbAPI { <methods>; }
 
 # -keep public class * {
 #    public protected *;
