@@ -200,7 +200,6 @@ public class EuclidianView extends AbstractEuclidianView {
 	    
     }
 
-	@Override
     public AbstractApplication getApplication() {
 	    // TODO Auto-generated method stub
 	    return null;
@@ -242,8 +241,6 @@ public class EuclidianView extends AbstractEuclidianView {
 	    return null;
     }
 
-
-	@Override
     public geogebra.common.awt.Color getBackgroundCommon() {
 	    // TODO Auto-generated method stub
 	    return null;
@@ -261,8 +258,7 @@ public class EuclidianView extends AbstractEuclidianView {
 	    
     }
 
-	@Override
-    protected void repaint() {
+    public void repaint() {
 	    // TODO Auto-generated method stub
 	    
     }
@@ -273,7 +269,6 @@ public class EuclidianView extends AbstractEuclidianView {
 	    
     }
 
-	@Override
     public void setSelectionRectangle(Rectangle r) {
 	    // TODO Auto-generated method stub
 	    
@@ -291,7 +286,6 @@ public class EuclidianView extends AbstractEuclidianView {
 	    return null;
     }
 
-	@Override
     public void zoom(double px, double py, double factor, int i, boolean b) {
 	    // TODO Auto-generated method stub
 	    

@@ -21,7 +21,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.NumberFormatAdapter;
 
-public abstract class AbstractEuclidianView implements EuclidianViewInterfaceSlim{
+public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCommon {
 	
 	/** View other than EV1 and EV2 **/
 	public static int EVNO_GENERAL = 1001;
@@ -1456,46 +1456,42 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceSli
 			}
 		}
 
-		public int getAxesLineStyle() {
-			return axesLineType;
-		}
+	public int getAxesLineStyle() {
+		return axesLineType;
+	}
 
-		public void setAxesLineStyle(int axesLineStyle) {
-			this.axesLineType = axesLineStyle;
-		}
-		public geogebra.common.awt.AffineTransform getCoordTransform() {
-			return coordTransform;
-		}
+	public void setAxesLineStyle(int axesLineStyle) {
+		this.axesLineType = axesLineStyle;
+	}
 
-		void setCoordTransform(geogebra.common.awt.AffineTransform coordTransform) {
-			this.coordTransform = coordTransform;
-		}
-		final public void updateBackground() {
-			// make sure axis number formats are up to date
-			setAxesIntervals(getXscale(), 0);
-			setAxesIntervals(getYscale(), 1);
+	public geogebra.common.awt.AffineTransform getCoordTransform() {
+		return coordTransform;
+	}
 
-			updateBackgroundImage();
-			updateAllDrawables(true);
-			// repaint();
-		}
-		
-	public abstract  AbstractApplication getApplication();
+	void setCoordTransform(geogebra.common.awt.AffineTransform coordTransform) {
+		this.coordTransform = coordTransform;
+	}
+
+	final public void updateBackground() {
+		// make sure axis number formats are up to date
+		setAxesIntervals(getXscale(), 0);
+		setAxesIntervals(getYscale(), 1);
+
+		updateBackgroundImage();
+		updateAllDrawables(true);
+		// repaint();
+	}
+
 	public abstract  void updateBackgroundImage();
 	public abstract  Graphics2D getBackgroundGraphics();
 	public abstract  Graphics2D getTempGraphics2D(geogebra.common.awt.Font plainFontCommon);
 	public abstract  geogebra.common.awt.GeneralPath getBoundingPath();
 	public abstract  geogebra.common.awt.Font getFont();
-	public abstract  Color getBackgroundCommon();
 	protected abstract void setHeight(int h);
 	protected abstract void setWidth(int h);
-	protected abstract void repaint();
 	protected abstract void initCursor();
-	public abstract void setSelectionRectangle(geogebra.common.awt.Rectangle r);
 	protected abstract void setStyleBarMode(int mode);
 	protected abstract Drawable newDrawable(GeoElement ge);
-
-	public abstract void zoom(double px, double py, double factor, int i, boolean b);
 
 	public abstract void zoomAxesRatio(double d, boolean b);
 }

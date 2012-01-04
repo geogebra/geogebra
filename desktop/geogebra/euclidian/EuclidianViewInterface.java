@@ -43,13 +43,6 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	public void updateSize();
 //	public void repaintEuclidianView();
 
-	/**
-	 * Zooms around fixed point (px, py)
-	 */
-	public void zoom(double px, double py, double zoomFactor, int steps, boolean storeUndo);
-
-
-
 	// ??
 	boolean hitAnimationButton(MouseEvent e);
 	void setPreview(Previewable previewDrawable);
@@ -69,9 +62,6 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	 */
 	int getPointCapturingMode();
 
-	
-	// selection rectangle
-	public void setSelectionRectangle(geogebra.common.awt.Rectangle selectionRectangle);
 	public Rectangle getSelectionRectangle();
 
 	
@@ -325,7 +315,6 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	public double getXmax();
 	public double getYmin();
 	public double getYmax();
-	public int getAxesLineStyle();
 	public int getGridLineStyle();
 	public boolean isAutomaticGridDistance();
 	public double[] getGridDistances();
@@ -336,12 +325,10 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	public void setGridIsBold(boolean selected);
 	public void setAllowShowMouseCoords(boolean selected);
 	public void setGridType(int selectedIndex);
-	public void setAxesLineStyle(int selectedIndex);
 	public void setGridLineStyle(int type);
 	public void setAutomaticGridDistance(boolean b);
 	public void setRealWorldCoordSystem(double min, double max, double ymin,
 			double ymax);
-	public void updateBackground();
 	public void setGridDistances(double[] ticks);
 	public void setAutomaticAxesNumberingDistance(boolean b, int axis);
 	public void setAxesTickStyles(int[] styles);
@@ -372,9 +359,7 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	
 	
 	public EuclidianController getEuclidianController();
-	public AbstractApplication getApplication();
 	public int getPointStyle();
-	public void repaint();
 	public void setPointCapturing(int mode);
 	
 	/**
@@ -451,11 +436,5 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 
 	public JPanel getJPanel();
 
-
-	public geogebra.common.awt.Color getBackgroundCommon();
-
-
 	//public GeoDirectionND getDirection();
-
-
 }
