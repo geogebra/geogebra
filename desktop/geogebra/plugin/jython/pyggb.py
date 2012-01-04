@@ -2,17 +2,36 @@
 from __future__ import division
 
 # GeoGebra imports
-from geogebra.kernel import GeoElement, GeoPoint, GeoNumeric, GeoVector, GeoFunction, GeoText, GeoConic, GeoLine, GeoSegment, GeoRay, GeoBoolean, GeoLocus
-from geogebra.kernel import Construction, AlgoDependentNumber, AlgoDependentPoint, AlgoDependentVector
-from geogebra.kernel.arithmetic import ExpressionNode, MyVecNode, FunctionVariable, Function as _Function, FunctionNVar, Variable, MyDouble, ExpressionNodeConstants as EC, MyBoolean, NumberValue
-from geogebra.euclidian import EuclidianView
+from geogebra.common.kernel.geos import (
+    GeoElement, GeoPoint2 as GeoPoint, GeoNumeric, GeoVector,
+    GeoFunction, GeoText, GeoConic, GeoLine, GeoSegment, GeoRay,
+    GeoBoolean, GeoLocus
+)
+from geogebra.common.kernel import Construction
+from geogebra.common.kernel.algos import (
+    AlgoDependentNumber, AlgoDependentPoint, AlgoDependentVector
+)
+from geogebra.common.kernel.arithmetic import (
+    ExpressionNode, MyVecNode, FunctionVariable, Function as _Function,
+    FunctionNVar, Variable, MyDouble, Operation as OP,
+    MyBoolean, NumberValue
+)
+from geogebra.common.euclidian import EuclidianStyleConstants as STYLE
+
 from geogebra.plugin.jython import PythonScriptInterface
 
+from geogebra.awt import Color
+
+from geogebra.plugin.jython import PythonAPI as API
+
 # Java imports
-from javax.swing import JFrame, JPanel, JTextArea, JScrollPane, BoxLayout, JButton, JList, DefaultListModel, ListCellRenderer, BorderFactory, JTextPane
+from javax.swing import (
+    JFrame, JPanel, JTextArea, JScrollPane, BoxLayout, JButton, JList,
+    DefaultListModel, ListCellRenderer, BorderFactory, JTextPane
+)
 from javax.swing.text import StyleContext, StyleConstants
 
-from java.awt import Component, BorderLayout, Color, GridLayout, Font
+from java.awt import Component, BorderLayout, Color as awtColor, GridLayout, Font
 from java.awt.event import KeyListener
 
 # Jython imports
@@ -29,10 +48,12 @@ class Interface(PythonScriptInterface):
     def init(self, app):
         global _app, _kernel, _cons, _algprocessor
         global selection, pywindow
+        global api
         _app = app
         _kernel = app.getKernel()
         _cons = _kernel.getConstruction()
         _algprocessor = _kernel.getAlgebraProcessor()
+        api = API(app)
         pywindow = self.pywin = PythonWindow()
         self.geo = Geo()
         selection = self.selection = Selection()
@@ -196,35 +217,35 @@ class Element(GenericMethods):
     
     # property: label 
     def _getlabel(self):
-        return self.geo.getLabel()
+        return API.getGeoLabel(self.geo)
     def _setlabel(self, label):
-        self.geo.setLabel(label)
-        self.geo.updateRepaint()
+        API.setGeoLabel(self.geo, label)
+        API.repaintGeo(geo)
     label = property(_getlabel, _setlabel)
 
     # property: color
     def _getcolor(self):
-        return self.geo.getObjectColor()
+        return API.getGeoColor(self.geo)
     def _setcolor(self, col):
-        self.geo.setObjColor(col)
-        self.geo.updateRepaint()
+        API.setGeoColor(self.geo, col)
+        API.repaintGeo(self.geo)
     color = property(_getcolor, _setcolor)
 
     # property: caption
     def _getcaption(self):
-        return self.geo.caption
+        return API.getGeoCaption(self.geo)
     def _setcaption(self, value):
-        self.geo.caption = value
-        self.geo.updateRepaint()
+        API.setGeoCaption(self.geo, value)
+        API.repaintGeo(self.geo)
     caption = property(_getcaption, _setcaption)
 
     # property: label_mode
     def _getlabel_mode(self):
-        return LABEL_MODES[self.geo.getLabelMode()]
+        return LABEL_MODES[API.getGeoLabelMode(self.geo)]
     def _setlabel_mode(self, mode):
         try:
             mode = LABEL_MODES.index(mode)
-            self.geo.setLabelMode(mode)
+            API.setGeoLabelMode(self.geo, mode)
         except ValueError:
             raise ValueError("illegal label mode: %s", mode)
     label_mode = property(_getlabel_mode, _setlabel_mode)
@@ -332,43 +353,43 @@ class Expression(GenericMethods):
     
     # Arithmetic operators
     def __add__(self, other):
-        return self._binop(other, EC.PLUS)
+        return self._binop(other, OP.PLUS)
     def __radd__(self, other):
-        return self._binop(other, EC.PLUS, True)
+        return self._binop(other, OP.PLUS, True)
     def __mul__(self, other):
-        return self._binop(other, EC.MULTIPLY)
+        return self._binop(other, OP.MULTIPLY)
     def __rmul__(self, other):
-        return self._binop(other, EC.MULTIPLY, True)
+        return self._binop(other, OP.MULTIPLY, True)
     def __sub__(self, other):
-        return self._binop(other, EC.MINUS)
+        return self._binop(other, OP.MINUS)
     def __rsub__(self, other):
-        return self._binop(other, EC.MINUS, True)
+        return self._binop(other, OP.MINUS, True)
     def __truediv__(self, other):
-        return self._binop(other, EC.DIVIDE)
+        return self._binop(other, OP.DIVIDE)
     def __rtruediv__(self, other):
-        return self._binop(other, EC.DIVIDE, True)
+        return self._binop(other, OP.DIVIDE, True)
     def __pow__(self, other):
-        return self._binop(other, EC.POWER)
+        return self._binop(other, OP.POWER)
     def __rpow__(self, other):
-        return self._binop(other, EC.POWER, True)
+        return self._binop(other, OP.POWER, True)
     def __neg__(self):
-        return self._binop(expr(-1), EC.MULTIPLY, self)
+        return self._binop(expr(-1), OP.MULTIPLY, self)
     def __pos__(self):
         return self
 
     # Comparisons
     def __lt__(self, other):
-        return self._binop(other, EC.LESS)
+        return self._binop(other, OP.LESS)
     def __le__(self, other):
-        return self._binop(other, EC.LESS_EQUAL)
+        return self._binop(other, OP.LESS_EQUAL)
     def __gt__(self, other):
-        return self._binop(other, EC.GREATER)
+        return self._binop(other, OP.GREATER)
     def __ge__(self, other):
-        return self._binop(other, EC.GREATER_EQUAL)
+        return self._binop(other, OP.GREATER_EQUAL)
     def __eq__(self, other):
-        return self._binop(other, EC.EQUAL_BOOLEAN)
+        return self._binop(other, OP.EQUAL_BOOLEAN)
     def __neq__(self, other):
-        return self._binop(other, EC.NOT_EQUAL)
+        return self._binop(other, OP.NOT_EQUAL)
 
     def _getvalue(self):
         val = self.expr.evaluate()
@@ -427,16 +448,16 @@ class BooleanExpression(Expression):
 
 
 unary_functions_data = [
-    ('cos', EC.COS),
-    ('sin', EC.SIN),
-    ('tan', EC.TAN),
-    ('exp', EC.EXP),
-    ('log', EC.LOG),
-    ('arccos acos', EC.ARCCOS),
-    ('arcsin asin', EC.ARCSIN),
-    ('arctan atan', EC.ARCTAN),
-    ('sqrt', EC.SQRT),
-    ('abs', EC.ABS),
+    ('cos', OP.COS),
+    ('sin', OP.SIN),
+    ('tan', OP.TAN),
+    ('exp', OP.EXP),
+    ('log', OP.LOG),
+    ('arccos acos', OP.ARCCOS),
+    ('arcsin asin', OP.ARCSIN),
+    ('arctan atan', OP.ARCTAN),
+    ('sqrt', OP.SQRT),
+    ('abs', OP.ABS),
     # TODO Add some more...
 ]
 
@@ -454,7 +475,7 @@ for names, opcode in unary_functions_data:
         unary_functions[name] = f
 
 binary_functions_data = [
-    ('arctan2 atan2', EC.ARCTAN2),
+    ('arctan2 atan2', OP.ARCTAN2),
 ]
 
 # TODO create binary_functions
@@ -507,7 +528,7 @@ class VectorOrPoint(ExpressionElement, Expression):
         try:
             return self._x
         except AttributeError:
-            xe = ExpressionNode(_kernel, self.geo, EC.XCOORD, None)
+            xe = ExpressionNode(_kernel, self.geo, OP.XCOORD, None)
             self._x = NumberExpression(xe)
             return self._x
     def _setx(self, x):
@@ -518,7 +539,7 @@ class VectorOrPoint(ExpressionElement, Expression):
         try:
             return self._y
         except AttributeError:
-            ye = ExpressionNode(_kernel, self.geo, EC.YCOORD, None)
+            ye = ExpressionNode(_kernel, self.geo, OP.YCOORD, None)
             self._y = NumberExpression(ye)
             return self._y
     def _sety(self, y):
@@ -571,11 +592,11 @@ def initfrompoint(self, p):
 class Path(Element):
 
     _line_types = {
-        'full': EuclidianView.LINE_TYPE_FULL,
-        'short-dash': EuclidianView.LINE_TYPE_DASHED_SHORT,
-        'long-dash': EuclidianView.LINE_TYPE_DASHED_LONG,
-        'dot': EuclidianView.LINE_TYPE_DASHED_DOTTED,
-        'dash-dot': EuclidianView.LINE_TYPE_DOTTED,
+        'full': STYLE.LINE_TYPE_FULL,
+        'short-dash': STYLE.LINE_TYPE_DASHED_SHORT,
+        'long-dash': STYLE.LINE_TYPE_DASHED_LONG,
+        'dot': STYLE.LINE_TYPE_DASHED_DOTTED,
+        'dash-dot': STYLE.LINE_TYPE_DOTTED,
     }
     _rev_line_types = dict((v, k) for k, v in _line_types.iteritems())
     
@@ -929,9 +950,9 @@ class Geo(object):
 
 class MyListCellRenderer(ListCellRenderer):
     colormap = {
-        "input": Color.BLACK,
-        "output": Color.BLUE,
-        "error": Color.RED
+        "input": awtColor.BLACK,
+        "output": awtColor.BLUE,
+        "error": awtColor.RED
     }
     font = Font("Monospaced", Font.PLAIN, 12)
     def getListCellRendererComponent(self, lst, value, index, isSelected, cellHasFocus):
@@ -940,7 +961,7 @@ class MyListCellRenderer(ListCellRenderer):
         renderer.foreground = self.colormap[value["type"]]
         renderer.font = self.font
         if isSelected:
-            renderer.background = Color.YELLOW
+            renderer.background = awtColor.YELLOW
         return renderer
 
 
@@ -954,9 +975,9 @@ class OutputPane(object):
         StyleConstants.setFontFamily(parent_style, "Monospaced")
         input_style = self.doc.addStyle("input", parent_style)
         output_style = self.doc.addStyle("output", parent_style)
-        StyleConstants.setForeground(output_style, Color.BLUE)
+        StyleConstants.setForeground(output_style, awtColor.BLUE)
         error_style = self.doc.addStyle("error", parent_style)
-        StyleConstants.setForeground(error_style, Color.RED)
+        StyleConstants.setForeground(error_style, awtColor.RED)
     def addtext(self, text, style="input", ensure_newline=False):
         doclen = self.doc.length
         if ensure_newline and self.doc.getText(doclen - 1, 1) != '\n':
