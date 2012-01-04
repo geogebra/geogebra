@@ -148,6 +148,9 @@
 # Plugin part
 ####
 
+# So that Jython can access GeoElement methods
+-keep class geogebra.plugin.jython.PythonAPI { <methods>; }
+
 -keep class geogebra.plugin.GgbAPI { <methods>; }
 
 # -keep public class * {
