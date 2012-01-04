@@ -199,36 +199,6 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	// previewables
 
 	/**
-	 * create a previewable for line construction
-	 * @param selectedPoints points
-	 * @return the line previewable
-	 */
-	public Previewable createPreviewLine(ArrayList<GeoPointND> selectedPoints);
-	
-	/**
-	 * create a previewable for segment construction
-	 * @param selectedPoints points
-	 * @return the segment previewable
-	 */	
-	public Previewable createPreviewSegment(ArrayList<GeoPointND> selectedPoints);
-	
-	
-	/**
-	 * create a previewable for ray construction
-	 * @param selectedPoints points
-	 * @return the ray previewable
-	 */	
-	public Previewable createPreviewRay(ArrayList<GeoPointND> selectedPoints);
-
-	
-	/**
-	 * create a previewable for vector construction
-	 * @param selectedPoints points
-	 * @return the ray previewable
-	 */	
-	public Previewable createPreviewVector(ArrayList<GeoPointND> selectedPoints);
-
-	/**
 	 * create a previewable for polygon construction
 	 * @param selectedPoints points
 	 * @return the polygon previewable
@@ -242,31 +212,11 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	 * @return the polygon previewable
 	 */		
 	public Previewable createPreviewPolyLine(ArrayList<GeoPointND> selectedPoints);
-	
-	/**
-	 * create a previewable for conic construction
-	 * @param mode 
-	 * @param selectedPoints points
-	 * @return the conic previewable
-	 */		
-	public Previewable createPreviewConic(int mode, ArrayList<GeoPointND> selectedPoints);
-	
 
 
 	public void updatePreviewable();
-	
-	
-	public void mouseEntered();
-	public void mouseExited();
-	public Previewable createPreviewParallelLine(ArrayList<GeoPointND> selectedPoints,
-			ArrayList<GeoLineND> selectedLines);
-	public Previewable createPreviewPerpendicularLine(ArrayList<GeoPointND> selectedPoints,
-			ArrayList<GeoLineND> selectedLines);
-	public Previewable createPreviewPerpendicularBisector(ArrayList<GeoPointND> selectedPoints);
-	public Previewable createPreviewAngleBisector(ArrayList<GeoPointND> selectedPoints);
-	
-	
-	
+
+
 	//options
 	public Color getAxesColor();
 	public Color getGridColor();

@@ -205,19 +205,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	// axesNumberingDistances /
 	// 2
 
-//	boolean showGrid = false;
-//
-//	protected boolean antiAliasing = true;
-//
-//	boolean showMouseCoords = false;
-//	boolean allowShowMouseCoords = true;
-//
-//	boolean showAxesRatio = false;
-//	private boolean highlightAnimationButtons = false;
-//
-//	// only used for temporary views eg Text Preview, Spreadsheet plots
-//	protected int pointCapturingMode;
-
 	// added by Loic BEGIN
 	// right angle
 	// int rightAngleStyle = EuclidianView.RIGHT_ANGLE_STYLE_SQUARE;
@@ -4138,44 +4125,8 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	// ///////////////////////////////////////
 	// previewables
 
-	public Previewable createPreviewLine(ArrayList<GeoPointND> selectedPoints) {
-
-		return new DrawLine(this, selectedPoints, DrawLine.PREVIEW_LINE);
-	}
-
-	public Previewable createPreviewPerpendicularBisector(
-			ArrayList<GeoPointND> selectedPoints) {
-
-		return new DrawLine(this, selectedPoints,
-				DrawLine.PREVIEW_PERPENDICULAR_BISECTOR);
-	}
-
-	public Previewable createPreviewAngleBisector(
-			ArrayList<GeoPointND> selectedPoints) {
-
-		return new DrawLine(this, selectedPoints,
-				DrawLine.PREVIEW_ANGLE_BISECTOR);
-	}
-
-	public Previewable createPreviewSegment(ArrayList<GeoPointND> selectedPoints) {
-		return new DrawSegment(this, selectedPoints);
-	}
-
-	public Previewable createPreviewRay(ArrayList<GeoPointND> selectedPoints) {
-		return new DrawRay(this, selectedPoints);
-	}
-
-	public Previewable createPreviewVector(ArrayList<GeoPointND> selectedPoints) {
-		return new DrawVector(this, selectedPoints);
-	}
-
 	public Previewable createPreviewPolygon(ArrayList<GeoPointND> selectedPoints) {
 		return new DrawPolygon(this, selectedPoints);
-	}
-
-	public Previewable createPreviewConic(int mode,
-			ArrayList<GeoPointND> selectedPoints) {
-		return new DrawConic(this, mode, selectedPoints);
 	}
 
 	public Previewable createPreviewAngle(ArrayList<GeoPointND> selectedPoints) {
@@ -4193,25 +4144,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 				toRealWorldCoordY(mouseLoc.y));
 	}
 
-	public void mouseEntered() {
-
-	}
-
-	public void mouseExited() {
-
-	}
-
-	public Previewable createPreviewParallelLine(
-			ArrayList<GeoPointND> selectedPoints,
-			ArrayList<GeoLineND> selectedLines) {
-		return new DrawLine(this, selectedPoints, selectedLines, true);
-	}
-
-	public Previewable createPreviewPerpendicularLine(
-			ArrayList<GeoPointND> selectedPoints,
-			ArrayList<GeoLineND> selectedLines) {
-		return new DrawLine(this, selectedPoints, selectedLines, false);
-	}
 
 	public geogebra.common.awt.GeneralPath getBoundingPath() {
 		java.awt.geom.GeneralPath gs = new java.awt.geom.GeneralPath();

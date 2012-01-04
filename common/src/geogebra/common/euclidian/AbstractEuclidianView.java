@@ -16,6 +16,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
@@ -1523,6 +1524,60 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 	public abstract void zoomAxesRatio(double d, boolean b);
 
+
+	// ///////////////////////////////////////
+	// previewables
+
+	public Previewable createPreviewLine(ArrayList<GeoPointND> selectedPoints) {
+		return new DrawLine(this, selectedPoints, DrawLine.PREVIEW_LINE);
+	}
+
+	public Previewable createPreviewPerpendicularBisector(
+			ArrayList<GeoPointND> selectedPoints) {
+		return new DrawLine(this, selectedPoints,
+				DrawLine.PREVIEW_PERPENDICULAR_BISECTOR);
+	}
+
+	public Previewable createPreviewAngleBisector(
+			ArrayList<GeoPointND> selectedPoints) {
+		return new DrawLine(this, selectedPoints,
+				DrawLine.PREVIEW_ANGLE_BISECTOR);
+	}
+
+	public Previewable createPreviewSegment(ArrayList<GeoPointND> selectedPoints) {
+		return new DrawSegment(this, selectedPoints);
+	}
+
+	public Previewable createPreviewRay(ArrayList<GeoPointND> selectedPoints) {
+		return new DrawRay(this, selectedPoints);
+	}
+
+	public Previewable createPreviewVector(ArrayList<GeoPointND> selectedPoints) {
+		return new DrawVector(this, selectedPoints);
+	}
+
+	public Previewable createPreviewConic(int mode,
+			ArrayList<GeoPointND> selectedPoints) {
+		return new DrawConic(this, mode, selectedPoints);
+	}
+
+	public void mouseEntered() {
+	}
+
+	public void mouseExited() {
+	}
+
+	public Previewable createPreviewParallelLine(
+			ArrayList<GeoPointND> selectedPoints,
+			ArrayList<GeoLineND> selectedLines) {
+		return new DrawLine(this, selectedPoints, selectedLines, true);
+	}
+
+	public Previewable createPreviewPerpendicularLine(
+			ArrayList<GeoPointND> selectedPoints,
+			ArrayList<GeoLineND> selectedLines) {
+		return new DrawLine(this, selectedPoints, selectedLines, false);
+	}
 
 	protected void setApplication(AbstractApplication application) {
 		this.application = application;
