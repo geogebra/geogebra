@@ -5,7 +5,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.kernel.Kernel;
+import geogebra.common.kernel.Kernel;
 import geogebra.main.Application;
 
 
