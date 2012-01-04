@@ -1521,11 +1521,7 @@ public class Application extends AbstractApplication implements
 		return successRet;
 	}
 
-	@Override
-	final public Kernel getKernel() {
-		return (Kernel) kernel;
-	}
-
+	
 	public void setApplet(AppletImplementation appletImpl) {
 		isApplet = true;
 		Application.appletImpl = appletImpl;

@@ -200,8 +200,6 @@ public abstract class AbstractApplication {
 
 	public abstract boolean isShowingEuclidianView2();
 
-	public abstract Kernel getKernel();
-
 	public abstract Object getImageManager();
 	
 	public abstract GuiManager getGuiManager();
@@ -644,5 +642,9 @@ public abstract class AbstractApplication {
 	public abstract void removeSelectedGeo(GeoElement geo);
 	
 	public abstract SpreadsheetTableModelInterface getSpreadsheetTableModel();
+
+	public final Kernel getKernel() {
+		return kernel;
+	}
 
 }

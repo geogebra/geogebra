@@ -376,13 +376,6 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public Kernel getKernel() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-	@Override
 	public String translateCommand(String name) {
 		// TODO Auto-generated method stub
 		return null;
