@@ -118,14 +118,14 @@ office@geogebra.org
 	<manifest file="../manifest.mf">
 		<attribute name="Main-Class" value="geogebra.GeoGebra"/>
 		<attribute name="Class-Path" 
-			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jlm_cyrillic.jar"/>
+			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jlm_cyrillic.jar jython.jar"/>
 		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
 	</manifest>
 
 	<manifest file="../manifest3D.mf">
 		<attribute name="Main-Class" value="geogebra.GeoGebra3D"/>
 		<attribute name="Class-Path" 
-			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_3d.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jlm_cyrillic.jar jogl.jar gluegen-rt.jar"/>
+			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_3d.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jython.jar jlm_cyrillic.jar jogl.jar gluegen-rt.jar"/>
 		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
 	</manifest>
 
@@ -178,6 +178,7 @@ office@geogebra.org
 			<arg value="jlatexmath.jar"/>
 			<arg value="jlm_cyrillic.jar"/>
 			<arg value="jlm_greek.jar"/>
+			<arg value="jython.jar"/>
 		</exec>
 	</target>
 	<!-- copies the jogl jars  -->
@@ -229,6 +230,7 @@ office@geogebra.org
 			<arg value="jlatexmath.jar"/>
 			<arg value="jlm_cyrillic.jar"/>
 			<arg value="jlm_greek.jar"/>
+			<arg value="jython.jar"/>
 		</exec>
 	</target>
 
