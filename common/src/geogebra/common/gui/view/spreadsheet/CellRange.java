@@ -46,15 +46,17 @@ public class CellRange implements Cloneable{
 	
 	//private MyTable table;
 	AbstractApplication app;
-	
+	private SpreadsheetTableModelInterface tableModel;
 	
 	/** Create new CellRange */
 	public CellRange(AbstractApplication app) {
-		//this.table = table;
+		this.tableModel = app.getSpreadsheetTableModel();
 		this.app = app;
 	}
 
 	public CellRange(AbstractApplication app, int anchorColumn, int anchorRow, int col2, int row2) {
+		
+		this.tableModel = app.getSpreadsheetTableModel();
 		this.app = app;
 		setCellRange( anchorColumn, anchorRow, col2, row2);
 
@@ -62,6 +64,8 @@ public class CellRange implements Cloneable{
 
 	/** Construct CellRange for single cell */
 	public CellRange(AbstractApplication app, int anchorColumn, int anchorRow) {
+		
+		this.tableModel = app.getSpreadsheetTableModel();
 		this.app = app;
 		setCellRange( anchorColumn, anchorRow, anchorColumn, anchorRow);
 
@@ -182,12 +186,12 @@ public class CellRange implements Cloneable{
 
 		if (cr.minRow == -1 && cr.maxRow == -1 && cr.minColumn != -1) {
 			adjustedCellRange.minRow = 0;
-			adjustedCellRange.maxRow = app.getHighestUsedRow() - 1;// table.getRowCount() - 1;
+			adjustedCellRange.maxRow = tableModel.getRowCount() - 1;
 		}
 
 		if (cr.minColumn == -1 && cr.maxColumn == -1 && cr.minRow != -1) {
 			adjustedCellRange.minColumn = 0;
-			adjustedCellRange.maxColumn = app.getHighestUsedColumn() - 1; //table.getColumnCount() - 1;
+			adjustedCellRange.maxColumn = tableModel.getColumnCount() - 1;
 		}
 
 		return adjustedCellRange;
@@ -205,12 +209,12 @@ public class CellRange implements Cloneable{
 		
 		if (minRow == -1 && maxRow == -1 ) {
 			minRow = 0;
-			maxRow = app.getHighestUsedRow() - 1;// table.getRowCount() - 1;
+			maxRow = tableModel.getRowCount() - 1;
 		}
 
 		if (minColumn == -1 && maxColumn == -1 ) {
 			minColumn = 0;
-			maxColumn = app.getHighestUsedColumn() - 1; //table.getColumnCount() - 1;
+			maxColumn = tableModel.getColumnCount() - 1;
 		}
 
 	}
