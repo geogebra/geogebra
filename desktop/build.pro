@@ -150,6 +150,9 @@
 
 # So that Jython can access GeoElement methods
 -keep class geogebra.plugin.jython.PythonAPI { <methods>; }
+-keep class geogebra.plugin.jython.PythonScriptInterface { <methods>; }
+# allow eg Color.Red
+-keep class geogebra.awt.Color { <fields>; }
 
 -keep class geogebra.plugin.GgbAPI { <methods>; }
 
