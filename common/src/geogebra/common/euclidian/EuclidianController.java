@@ -2756,7 +2756,8 @@ public abstract class EuclidianController {
 			oldhits.addAll(app.getSelectedGeos());
 			for (int i = oldhits.size() - 1; i >= 0; i--) {
 				GeoElement oldgeo = oldhits.get(i);
-				if (!(movedGeoElement.getClass().isInstance(oldgeo))) {
+				//if (!(movedGeoElement.getClass().isInstance(oldgeo))) {
+				if (!(Test.getSpecificTest(movedGeoElement).check(oldgeo))) {
 					oldhits.remove(i);
 				}
 			}

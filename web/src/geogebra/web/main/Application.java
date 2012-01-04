@@ -15,6 +15,7 @@ import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.gui.GuiManager;
+import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModelInterface;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
 
 import geogebra.common.kernel.AbstractAnimationManager;
@@ -701,5 +702,11 @@ public class Application extends AbstractApplication {
     public void removeSelectedGeo(GeoElement geo) {
 	    // TODO Auto-generated method stub
 	    
+    }
+
+	@Override
+    public SpreadsheetTableModelInterface getSpreadsheetTableModel() {
+	    // TODO Auto-generated method stub
+	    return null;
     }
 }
