@@ -71,57 +71,81 @@ import org.OpenNI.UserEventArgs;
 import org.OpenNI.UserGenerator;
 
 public class KinectTest extends Component {
-	class NewUserObserver implements IObserver<UserEventArgs> {
+	class NewUserObserver implements IObserver<UserEventArgs>
+	{
 		public void update(IObservable<UserEventArgs> observable,
-				UserEventArgs args) {
+				UserEventArgs args)
+		{
 			System.out.println("New user " + args.getId());
-			try {
-				poseDetectionCap.StartPoseDetection(calibPose, args.getId());
-			} catch (StatusException e) {
+			try
+			{
+				if (skeletonCap.needPoseForCalibration())
+				{
+					poseDetectionCap.startPoseDetection(calibPose, args.getId());
+				}
+				else
+				{
+					skeletonCap.requestSkeletonCalibration(args.getId(), true);
+				}
+			} catch (StatusException e)
+			{
 				e.printStackTrace();
 			}
 		}
 	}
-
-	class LostUserObserver implements IObserver<UserEventArgs> {
+	class LostUserObserver implements IObserver<UserEventArgs>
+	{
 		public void update(IObservable<UserEventArgs> observable,
-				UserEventArgs args) {
-			System.out.println("Lost use " + args.getId());
+				UserEventArgs args)
+		{
+			System.out.println("Lost user " + args.getId());
 			joints.remove(args.getId());
 		}
 	}
-
-	class CalibrationCompleteObserver implements
-			IObserver<CalibrationProgressEventArgs> {
-		public void update(
-				IObservable<CalibrationProgressEventArgs> observable,
-				CalibrationProgressEventArgs args) {
+	
+	class CalibrationCompleteObserver implements IObserver<CalibrationProgressEventArgs>
+	{
+		public void update(IObservable<CalibrationProgressEventArgs> observable,
+				CalibrationProgressEventArgs args)
+		{
 			System.out.println("Calibraion complete: " + args.getStatus());
-			try {
-				if (args.getStatus() == CalibrationProgressStatus.OK) {
-					System.out.println("starting tracking " + args.getUser());
+			try
+			{
+			if (args.getStatus() == CalibrationProgressStatus.OK)
+			{
+				System.out.println("starting tracking "  +args.getUser());
 					skeletonCap.startTracking(args.getUser());
-					joints.put(new Integer(args.getUser()),
-							new HashMap<SkeletonJoint, SkeletonJointPosition>());
-				} else {
-					poseDetectionCap.StartPoseDetection(calibPose,
-							args.getUser());
+	                joints.put(new Integer(args.getUser()), new HashMap<SkeletonJoint, SkeletonJointPosition>());
+			}
+			else if (args.getStatus() != CalibrationProgressStatus.MANUAL_ABORT)
+			{
+				if (skeletonCap.needPoseForCalibration())
+				{
+					poseDetectionCap.startPoseDetection(calibPose, args.getUser());
 				}
-			} catch (StatusException e) {
+				else
+				{
+					skeletonCap.requestSkeletonCalibration(args.getUser(), true);
+				}
+			}
+			} catch (StatusException e)
+			{
 				e.printStackTrace();
 			}
 		}
 	}
-
-	class PoseDetectedObserver implements IObserver<PoseDetectionEventArgs> {
+	class PoseDetectedObserver implements IObserver<PoseDetectionEventArgs>
+	{
 		public void update(IObservable<PoseDetectionEventArgs> observable,
-				PoseDetectionEventArgs args) {
-			System.out.println("Pose " + args.getPose() + " detected for "
-					+ args.getUser());
-			try {
-				poseDetectionCap.StopPoseDetection(args.getUser());
+				PoseDetectionEventArgs args)
+		{
+			System.out.println("Pose " + args.getPose() + " detected for " + args.getUser());
+			try
+			{
+				poseDetectionCap.stopPoseDetection(args.getUser());
 				skeletonCap.requestSkeletonCalibration(args.getUser(), true);
-			} catch (StatusException e) {
+			} catch (StatusException e)
+			{
 				e.printStackTrace();
 			}
 		}
