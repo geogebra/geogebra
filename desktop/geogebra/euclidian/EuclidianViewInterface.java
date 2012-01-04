@@ -315,9 +315,6 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	public double getXmax();
 	public double getYmin();
 	public double getYmax();
-	public int getGridLineStyle();
-	public boolean isAutomaticGridDistance();
-	public double[] getGridDistances();
 	public void setBackground(geogebra.common.awt.Color showColorChooser);
 	public void setAxesColor(Color showColorChooser);
 	public void setGridColor(Color showColorChooser);
@@ -326,10 +323,8 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	public void setAllowShowMouseCoords(boolean selected);
 	public void setGridType(int selectedIndex);
 	public void setGridLineStyle(int type);
-	public void setAutomaticGridDistance(boolean b);
 	public void setRealWorldCoordSystem(double min, double max, double ymin,
 			double ymax);
-	public void setGridDistances(double[] ticks);
 	public void setAutomaticAxesNumberingDistance(boolean b, int axis);
 	public void setAxesTickStyles(int[] styles);
 	public boolean[] getDrawBorderAxes();
@@ -343,8 +338,6 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	public void mouseMovedOver(GeoElement geo);
 
 
-	
-	public void changeLayer(GeoElement geo, int oldlayer, int newlayer);
 	public int getWidth();
 	public int getHeight();
 	public boolean hasFocus();
@@ -359,36 +352,10 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	
 	
 	public EuclidianController getEuclidianController();
-	public int getPointStyle();
 	public void setPointCapturing(int mode);
-	
-	/**
-	 * 
-	 * @return string description of plane from the view was created
-	 */
-	public String getFromPlaneString();
-	
-	/**
-	 * 
-	 * @return string translated description of plane from the view was created
-	 */
-	public String getTranslatedFromPlaneString();
+
 	public Previewable createPreviewAngle(ArrayList<GeoPointND> selectedPoints);
 
-	
-	/**
-	 * 
-	 * @return true if this is Graphics or Graphics 2
-	 */
-	public boolean isDefault2D();
-	
-	/**
-	 * 
-	 * @param geo
-	 * @return true if the geo is parent of the view
-	 */
-	public boolean hasForParent(GeoElement geo);
-	
 	/**
 	 * 
 	 * @param algoParent
@@ -429,10 +396,6 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 
 
 	public boolean requestFocusInWindow();
-
-
-	public int getAllowToolTips();
-
 
 	public JPanel getJPanel();
 

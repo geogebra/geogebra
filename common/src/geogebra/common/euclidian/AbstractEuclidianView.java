@@ -1275,186 +1275,182 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		// FOR EUCLIDIANVIEWFORPLANE
 		// /////////////////////////////////////////
 
-		/**
-		 * tranform in view coords
-		 * 
-		 * @param coords
-		 * @return the same coords for classic 2d view
-		 */
-		public Coords getCoordsForView(Coords coords) {
-			return coords;
-		}
+	/**
+	 * tranform in view coords
+	 * 
+	 * @param coords
+	 * @return the same coords for classic 2d view
+	 */
+	public Coords getCoordsForView(Coords coords) {
+		return coords;
+	}
 
-		/**
-		 * return null if classic 2D view
-		 * 
-		 * @return matrix representation of the plane shown by this view
-		 */
-		public CoordMatrix getMatrix() {
-			return null;
-		}
+	/**
+	 * return null if classic 2D view
+	 * 
+	 * @return matrix representation of the plane shown by this view
+	 */
+	public CoordMatrix getMatrix() {
+		return null;
+	}
 
-		/**
-		 * 
-		 * @param conic
-		 * @param M
-		 * @param ev
-		 * @return affine transform of the conic for this view
-		 */
-		public geogebra.common.awt.AffineTransform getTransform(GeoConicND conic, Coords M, Coords[] ev) {
-			return conic
-							.getAffineTransform();
-		}
+	/**
+	 * 
+	 * @param conic
+	 * @param M
+	 * @param ev
+	 * @return affine transform of the conic for this view
+	 */
+	public geogebra.common.awt.AffineTransform getTransform(GeoConicND conic, Coords M, Coords[] ev) {
+		return conic.getAffineTransform();
+	}
 
-		public String getFromPlaneString() {
-			return "xOyPlane";
-		}
+	public String getFromPlaneString() {
+		return "xOyPlane";
+	}
 
-		public String getTranslatedFromPlaneString() {
-			return getApplication().getPlain("xOyPlane");
-		}
+	public String getTranslatedFromPlaneString() {
+		return getApplication().getPlain("xOyPlane");
+	}
 
-		public boolean isDefault2D() {
-			return true;
-		}
-		
-		public int getViewID() {
-			switch (evNo) {
-			case 1:
-				return AbstractApplication.VIEW_EUCLIDIAN;
-			case 2:
-				return AbstractApplication.VIEW_EUCLIDIAN2;
-			default:
-				return AbstractApplication.VIEW_NONE;
-			}
-		}
+	public boolean isDefault2D() {
+		return true;
+	}
 
-		// Michael Borcherds 2008-02-29
-		public void changeLayer(GeoElement geo, int oldlayer, int newlayer) {
-			updateMaxLayerUsed(newlayer);
-			// Application.debug(drawLayers[oldlayer].size());
-			drawLayers[oldlayer].remove(DrawableMap.get(geo));
-			// Application.debug(drawLayers[oldlayer].size());
-			drawLayers[newlayer].add(DrawableMap.get(geo));
+	public int getViewID() {
+		switch (evNo) {
+		case 1:
+			return AbstractApplication.VIEW_EUCLIDIAN;
+		case 2:
+			return AbstractApplication.VIEW_EUCLIDIAN2;
+		default:
+			return AbstractApplication.VIEW_NONE;
+		}
+	}
 
-		}
+	// Michael Borcherds 2008-02-29
+	public void changeLayer(GeoElement geo, int oldlayer, int newlayer) {
+		updateMaxLayerUsed(newlayer);
+		// Application.debug(drawLayers[oldlayer].size());
+		drawLayers[oldlayer].remove(DrawableMap.get(geo));
+		// Application.debug(drawLayers[oldlayer].size());
+		drawLayers[newlayer].add(DrawableMap.get(geo));
+	}
 
-		public void updateMaxLayerUsed(int layer) {
-			if (layer > EuclidianStyleConstants.MAX_LAYERS) {
-				layer = EuclidianStyleConstants.MAX_LAYERS;
-			}
-			if (layer > getApplication().maxLayerUsed) {
-				getApplication().maxLayerUsed = layer;
-			}
+	public void updateMaxLayerUsed(int layer) {
+		if (layer > EuclidianStyleConstants.MAX_LAYERS) {
+			layer = EuclidianStyleConstants.MAX_LAYERS;
 		}
+		if (layer > getApplication().maxLayerUsed) {
+			getApplication().maxLayerUsed = layer;
+		}
+	}
 
-		public int getMaxLayerUsed() {
-			return getApplication().maxLayerUsed;
-		}
-		
-		/**
-		 * 
-		 * @return null (for 2D) and xOyPlane (for 3D)
-		 */
-		public GeoPlaneND getPlaneContaining() {
-			return kernel.getDefaultPlane();
-		}
+	public int getMaxLayerUsed() {
+		return getApplication().maxLayerUsed;
+	}
 
-		/**
-		 * 
-		 * @return null (for 2D) and xOyPlane (for 3D)
-		 */
-		public GeoDirectionND getDirection() {
-			return getPlaneContaining();
-		}
+	/**
+	 * 
+	 * @return null (for 2D) and xOyPlane (for 3D)
+	 */
+	public GeoPlaneND getPlaneContaining() {
+		return kernel.getDefaultPlane();
+	}
 
-		public void updateForPlane() {
-			// only used in EuclidianViewForPlane
-		}
+	/**
+	 * 
+	 * @return null (for 2D) and xOyPlane (for 3D)
+	 */
+	public GeoDirectionND getDirection() {
+		return getPlaneContaining();
+	}
 
-		public boolean hasForParent(GeoElement geo) {
-			return false;
-		}
+	public void updateForPlane() {
+		// only used in EuclidianViewForPlane
+	}
 
-		public boolean isMoveable(GeoElement geo) {
-			return geo.isMoveable();
-		}
+	public boolean hasForParent(GeoElement geo) {
+		return false;
+	}
 
-		public ArrayList<GeoPoint2> getFreeInputPoints(
-				AlgoElementInterface algoParent) {
-			return algoParent.getFreeInputPoints();
-		}
+	public boolean isMoveable(GeoElement geo) {
+		return geo.isMoveable();
+	}
 
-		/**
-		 * Replaces num by num2 in xmin, xmax,ymin,ymax. Does not add / remove EV
-		 * listeners from these numerics
-		 * 
-		 * @param num
-		 *            old numeric
-		 * @param num2
-		 *            new numeric
-		 */
-		public void replaceBoundObject(GeoNumeric num, GeoNumeric num2) {
-			if (xmaxObject == num) {
-				xmaxObject = num2;
-			}
-			if (xminObject == num) {
-				xminObject = num2;
-			}
-			if (ymaxObject == num) {
-				ymaxObject = num2;
-			}
-			if (yminObject == num) {
-				yminObject = num2;
-			}
-			updateBounds();
-		}
-		
-		/**
-		 * Sets the global style for rightAngle drawing.
-		 * 
-		 * @param style
-		 */
-		public void setRightAngleStyle(int style) {
-			getApplication().rightAngleStyle = style;
-			updateAllDrawables(true);
-		}
+	public ArrayList<GeoPoint2> getFreeInputPoints(
+			AlgoElementInterface algoParent) {
+		return algoParent.getFreeInputPoints();
+	}
 
-		final public int getRightAngleStyle() {
-			return getApplication().rightAngleStyle;
+	/**
+	 * Replaces num by num2 in xmin, xmax,ymin,ymax. Does not add / remove EV
+	 * listeners from these numerics
+	 * 
+	 * @param num
+	 *            old numeric
+	 * @param num2
+	 *            new numeric
+	 */
+	public void replaceBoundObject(GeoNumeric num, GeoNumeric num2) {
+		if (xmaxObject == num) {
+			xmaxObject = num2;
 		}
+		if (xminObject == num) {
+			xminObject = num2;
+		}
+		if (ymaxObject == num) {
+			ymaxObject = num2;
+		}
+		if (yminObject == num) {
+			yminObject = num2;
+		}
+		updateBounds();
+	}
 
-		public boolean isAutomaticGridDistance() {
-			return automaticGridDistance;
-		}
+	/**
+	 * Sets the global style for rightAngle drawing.
+	 * 
+	 * @param style
+	 */
+	public void setRightAngleStyle(int style) {
+		getApplication().rightAngleStyle = style;
+		updateAllDrawables(true);
+	}
 
-		public double[] getGridDistances() {
-			return gridDistances;
-		}
+	final public int getRightAngleStyle() {
+		return getApplication().rightAngleStyle;
+	}
 
-		public void setGridDistances(double[] dist) {
-			if (dist == null) {
-				AbstractApplication.debug("NULL");
-				return;
-			}
-			gridDistances = dist;
-			setAutomaticGridDistance(false);
-		}
+	public boolean isAutomaticGridDistance() {
+		return automaticGridDistance;
+	}
 
-		public int getGridLineStyle() {
-			return gridLineStyle;
-		}
+	public double[] getGridDistances() {
+		return gridDistances;
+	}
 
-		
-		
-		public void setAutomaticGridDistance(boolean flag) {
-			automaticGridDistance = flag;
-			setAxesIntervals(getXscale(), 0);
-			setAxesIntervals(getYscale(), 1);
-			if (flag) {
-				gridDistances[2] = Math.PI / 6;
-			}
+	public void setGridDistances(double[] dist) {
+		if (dist == null) {
+			AbstractApplication.debug("NULL");
+			return;
 		}
+		gridDistances = dist;
+		setAutomaticGridDistance(false);
+	}
+
+	public int getGridLineStyle() {
+		return gridLineStyle;
+	}
+
+	public void setAutomaticGridDistance(boolean flag) {
+		automaticGridDistance = flag;
+		setAxesIntervals(getXscale(), 0);
+		setAxesIntervals(getYscale(), 1);
+		if (flag) {
+			gridDistances[2] = Math.PI / 6;
+		}
+	}
 
 	public int getAxesLineStyle() {
 		return axesLineType;
