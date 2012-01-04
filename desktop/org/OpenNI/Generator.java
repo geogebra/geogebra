@@ -21,6 +21,9 @@
 ****************************************************************************/
 package org.OpenNI;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+
 public class Generator extends ProductionNode 
 {
 	Generator(Context context, long nodeHandle, boolean addRef) throws GeneralException 
@@ -113,6 +116,25 @@ public class Generator extends ProductionNode
 	{
 		return NativeMethods.xnGetDataSize(this.toNative());
 	}
+	
+	public long getDataPtr()
+	{
+		return NativeMethods.xnGetData(this.toNative());
+	}
+
+	public ByteBuffer createDataByteBuffer()
+	{
+		int size = getDataSize();
+		ByteBuffer buffer = ByteBuffer.allocateDirect(size);
+		buffer.order(ByteOrder.LITTLE_ENDIAN);
+		NativeMethods.copyToBuffer(buffer, getDataPtr(), size);
+		return buffer;
+	}
+	
+	public void copyDataToBuffer(ByteBuffer buffer, int size)
+	{
+		NativeMethods.copyToBuffer(buffer, getDataPtr(), size);
+	} 	
 
 	public long getTimestamp()
 	{

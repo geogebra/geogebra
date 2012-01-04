@@ -33,7 +33,11 @@ public enum CalibrationProgressStatus
 	TORSO(5),
 	TOP_FOV(6),
 	SIDE_FOV(7),
-	POSE(8);
+	POSE(8),
+	MANUAL_ABORT(9),
+	MANUAL_RESET(10),
+	TIMEOUT_FAIL(11);
+
 	
 	CalibrationProgressStatus(int val)
 	{

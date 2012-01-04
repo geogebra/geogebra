@@ -49,6 +49,14 @@ public class NodeInfo extends ObjectWrapper
 		return Context.createProductionNodeFromNative(hNode);
 	}
 	
+	@Override
+	public String toString() 
+	{
+		OutArg<String> result = new OutArg<String>();
+		NativeMethods.xnNodeInfoGetTreeStringRepresentation(toNative(), result);
+		return result.value;
+	}
+	
 	protected NodeInfo(long pNodeInfo) throws GeneralException 
 	{
 		super(pNodeInfo);

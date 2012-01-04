@@ -29,7 +29,8 @@ public enum PoseDetectionStatus
 	NO_USER(1),
 	TOP_FOV(2),
 	SIDE_FOV(3),
-	ERROR(4);
+	ERROR(4),
+	NO_TRACKING(5);
 	
 	PoseDetectionStatus(int val)
 	{

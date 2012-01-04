@@ -117,14 +117,37 @@ public class PoseDetectionCapability extends CapabilityBase
 		WrapperUtils.throwOnError(status);
 		return poses.value;
 	}
-	public void StartPoseDetection(String pose, int user) throws StatusException
+	/**
+	 * @deprecated Out of date. Use startPoseDetection() instead.
+	 */ 
+	@Deprecated
+	 public void StartPoseDetection(String pose, int user) throws StatusException
 	{
 		int status = NativeMethods.xnStartPoseDetection(toNative(), pose, user);
 		WrapperUtils.throwOnError(status);
 	}
+	/**
+	 * @deprecated Out of date. Use stopPoseDetection() instead.
+	 */ 
+	@Deprecated
 	public void StopPoseDetection(int user) throws StatusException
 	{
 		int status = NativeMethods.xnStopPoseDetection(toNative(), user);
+		WrapperUtils.throwOnError(status);
+	}
+	public void startPoseDetection(String pose, int user) throws StatusException
+	{
+		int status = NativeMethods.xnStartPoseDetection(toNative(), pose, user);
+		WrapperUtils.throwOnError(status);
+	}
+	public void stopPoseDetection(int user) throws StatusException
+	{
+		int status = NativeMethods.xnStopPoseDetection(toNative(), user);
+		WrapperUtils.throwOnError(status);
+	}
+	public void stopSinglePoseDetection(int user, String pose) throws StatusException
+	{
+		int status = NativeMethods.xnStopSinglePoseDetection(toNative(), user, pose);
 		WrapperUtils.throwOnError(status);
 	}
 	// Events

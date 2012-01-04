@@ -259,16 +259,22 @@ instructions.
 
 	<target name="openni-windows32" if="winnt-x86">
 	<mkdir dir="lib"/>
-	<get 
-	    src="http://www.geogebra.org/download/lib/kinect-OpenNI/OpenNI.jni-1-4-0-2.dll"
-	    dest="lib/OpenNI.jni.dll" usetimestamp="true"/>
+		<get 
+		    src="http://www.geogebra.org/download/lib/kinect-OpenNI/OpenNI.jni-1-5-2-23.dll"
+		    dest="lib/OpenNI.jni.dll" usetimestamp="true"/>
+		<get 
+		    src="http://www.geogebra.org/download/lib/kinect-OpenNI/OpenNI-1-5-2-23.dll"
+		    dest="lib/OpenNI.dll" usetimestamp="true"/>
 	</target>
 	
 	<target name="openni-windows64" if="winnt-amd64">
 	<mkdir dir="lib"/>
-	<get 
-	    src="http://www.geogebra.org/download/lib/kinect-OpenNI/OpenNI.jni64-1-4-0-2.dll"
-	    dest="lib/OpenNI.jni64.dll" usetimestamp="true"/>
+		<get 
+		    src="http://www.geogebra.org/download/lib/kinect-OpenNI/OpenNI.jni64-1-5-2-23.dll"
+		    dest="lib/OpenNI.jni64.dll" usetimestamp="true"/>
+		<get 
+		    src="http://www.geogebra.org/download/lib/kinect-OpenNI/OpenNI64-1-5-2-23.dll"
+		    dest="lib/OpenNI64.dll" usetimestamp="true"/>
 	</target>
 	
 	<target name="gwt-sdk">
