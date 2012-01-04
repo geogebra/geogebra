@@ -52,8 +52,10 @@ class Kruskal(object):
             p, q = s.startpoint, s.endpoint
             vertices.add(p)
             vertices.add(q)
-            p.onpudate = q.onupdate = self.update
             weights[s] = get_weight(s)
+        for p in vertices:
+            print "binding", p
+            p.onupdate = self.update
         self.draw()
     def set_graph_to_selection(self):
         self.set_graph(selection.segments)
