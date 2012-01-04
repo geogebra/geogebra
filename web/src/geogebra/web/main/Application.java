@@ -34,6 +34,9 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.Settings;
+import geogebra.common.plugin.GgbAPI;
+import geogebra.common.sound.SoundManager;
+import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.ResourceBundleAdapter;
 import geogebra.web.euclidian.EuclidianController;
 import geogebra.web.euclidian.EuclidianView;
@@ -516,7 +519,7 @@ public class Application extends AbstractApplication {
     }
 
 	@Override
-    public Object getImageManager() {
+    public AbstractImageManager getImageManager() {
 	    // TODO Auto-generated method stub
 	    return null;
     }
@@ -699,6 +702,42 @@ public class Application extends AbstractApplication {
 
 	@Override
     public SpreadsheetTableModelInterface getSpreadsheetTableModel() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public void setMode(int modeMove) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void addToEuclidianView(GeoElement geo) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void removeFromEuclidianView(GeoElement geo) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void setXML(String string, boolean b) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public GgbAPI getGgbApi() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public SoundManager getSoundManager() {
 	    // TODO Auto-generated method stub
 	    return null;
     }

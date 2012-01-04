@@ -3,11 +3,13 @@ package geogebra.gui.dialog.handler;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.LabelManager;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
+import geogebra.common.util.CopyPaste;
 import geogebra.common.util.Unicode;
 import geogebra.gui.InputHandler;
-import geogebra.main.Application;
-import geogebra.util.CopyPaste;
+//import geogebra.main.Application;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -19,16 +21,11 @@ public class RenameInputHandler implements InputHandler {
 
 	private boolean storeUndo;
 
-	private Application app;
+	private AbstractApplication app;
 
-	private static Set<String> invalidFunctionNames = new HashSet<String>(ExpressionNodeConstants.RESERVED_FUNCTION_NAMES);
-	static
-	{
-		invalidFunctionNames.addAll(Arrays.asList("x", "y", Unicode.IMAGINARY));
-	}
+	
 
-
-	public RenameInputHandler(Application app, GeoElement geo, boolean storeUndo) {
+	public RenameInputHandler(AbstractApplication app, GeoElement geo, boolean storeUndo) {
 		this.app = app;
 		this.geo = geo;
 		this.storeUndo = storeUndo;
@@ -44,7 +41,7 @@ public class RenameInputHandler implements InputHandler {
 		if (inputValue == null || inputValue.equals(geo.getLabel()))
 			return false;
 		
-		if (!checkName(geo, inputValue)) {
+		if (!LabelManager.checkName(geo, inputValue)) {
 			app.showError("InvalidInput", inputValue);
 			return false;
 		}
@@ -76,19 +73,5 @@ public class RenameInputHandler implements InputHandler {
 		return false;
 	}
 
-	// check if name is valid for geo
-	public static boolean checkName(GeoElement geo, String name) {
-		if (name == null) return true;
-
-		if (name.startsWith(CopyPaste.labelPrefix))
-			return false;
-
-		name = name.toLowerCase(Locale.US);
-		if (geo.isGeoFunction()) {
-			if (invalidFunctionNames.contains(name))
-					return false;
-		}
-
-		return true;
-	}
+	
 }

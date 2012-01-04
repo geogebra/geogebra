@@ -1,21 +1,19 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CmdScripting;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.main.Application;
-import geogebra.sound.SoundManager;
+import geogebra.common.sound.SoundManager;
 
 /**
  *PlaySound
  */
-class CmdPlaySound extends CmdScripting {
+public class CmdPlaySound extends CmdScripting {
 
 	/**
 	 * Create new command processor
@@ -33,20 +31,20 @@ class CmdPlaySound extends CmdScripting {
 		GeoElement[] arg;
 		
 		boolean[] ok = new boolean[n];
-		SoundManager sm = ((Application) app).getSoundManager();
+		SoundManager sm = app.getSoundManager();
 
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
 
 			// play a midi file
-			if (ok[0] = arg[0].isGeoText()) {
-				sm.playMidiFile(((String) ((GeoText) arg[0]).toValueString()));
+			if (arg[0].isGeoText()) {
+				sm.playMidiFile(( ((GeoText) arg[0]).toValueString()));
 				return;
 			}
 			// pause/resume current sound
-			else if (ok[0] = arg[0].isGeoBoolean()) {
-				sm.pauseResumeSound(((boolean) ((GeoBoolean) arg[0]).getBoolean()));
+			else if (arg[0].isGeoBoolean()) {
+				sm.pauseResumeSound((((GeoBoolean) arg[0]).getBoolean()));
 				return;
 			}
 			else {

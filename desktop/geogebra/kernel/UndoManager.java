@@ -16,9 +16,9 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractUndoManager;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.util.CopyPaste;
 import geogebra.io.MyXMLio;
 import geogebra.main.Application;
-import geogebra.util.CopyPaste;
 
 import java.io.File;
 import java.io.FileInputStream;

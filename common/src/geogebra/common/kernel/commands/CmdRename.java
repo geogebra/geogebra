@@ -1,17 +1,16 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CmdScripting;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.geos.LabelManager;
 import geogebra.common.main.MyError;
-import geogebra.gui.dialog.handler.RenameInputHandler;
 
 /**
  *Rename
  */
-class CmdRename extends CmdScripting {
+public class CmdRename extends CmdScripting {
 
 	/**
 	 * Create new command processor
@@ -34,7 +33,7 @@ class CmdRename extends CmdScripting {
 
 				GeoElement geo = (GeoElement) arg[0];
 
-				if (RenameInputHandler.checkName(geo, ((GeoText) arg[1]).getTextString())) {
+				if (LabelManager.checkName(geo, ((GeoText) arg[1]).getTextString())) {
 					geo.rename(((GeoText) arg[1]).getTextString());
 					geo.updateRepaint();
 

@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package geogebra.util;
 
+import geogebra.common.main.AbstractApplication;
+import geogebra.common.util.AbstractImageManager;
 import geogebra.main.Application;
 
 import java.awt.Color;
@@ -39,7 +41,7 @@ import javax.swing.ImageIcon;
  * To save memory every image and icon will be loaded only once. 
  * @author Markus Hohenwarter
  */
-public class ImageManager {
+public class ImageManager extends AbstractImageManager{
 		
 	private Hashtable<String, ImageIcon> iconTable = new Hashtable<String, ImageIcon>();
 	private Hashtable<String, Image> internalImageTable = new Hashtable<String, Image>();
@@ -287,4 +289,10 @@ public class ImageManager {
 		return scaledImage;
 	}
     
+	public String createImage(String path,AbstractApplication app){
+		Image im = getImageResource(path);
+		BufferedImage image = ImageManager.toBufferedImage(im);
+		String fileName = ((Application) app).createImage(image, "tool.png");
+		return fileName;
+	}
 }

@@ -14,6 +14,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.util.CopyPaste;
 import geogebra.euclidian.DrawTextField;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
@@ -23,7 +24,6 @@ import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.app.MyFileFilter;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.common.kernel.geos.GeoTextField;
-import geogebra.util.CopyPaste;
 import geogebra.util.Util;
 
 import java.awt.Color;

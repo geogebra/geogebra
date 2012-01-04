@@ -1,12 +1,9 @@
 package geogebra.common.util;
 
-import geogebra.common.awt.BufferedImageAdapter;
+import geogebra.common.main.AbstractApplication;
 
-public class AbstractImageManager {
+abstract public class AbstractImageManager {
 
-	public BufferedImageAdapter getImageResource(String imageFileName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	abstract public String createImage(String filename,AbstractApplication app);
 
 }

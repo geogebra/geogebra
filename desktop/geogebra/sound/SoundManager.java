@@ -10,7 +10,7 @@ import geogebra.main.Application;
  * @author G. Sturr
  * 
  */
-public class SoundManager {
+public class SoundManager implements geogebra.common.sound.SoundManager{
 
 	private Application app;
 	private MidiSound midiSound;

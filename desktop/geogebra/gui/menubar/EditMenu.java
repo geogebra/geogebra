@@ -2,8 +2,8 @@ package geogebra.gui.menubar;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.util.CopyPaste;
 import geogebra.main.Application;
-import geogebra.util.CopyPaste;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;

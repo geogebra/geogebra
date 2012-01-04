@@ -1,25 +1,18 @@
-package geogebra.kernel.commands;
+package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
-import geogebra.main.Application;
-import geogebra.util.ImageManager;
-
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.util.Locale;
 
 /**
  *ToolImage
  */
-class CmdToolImage extends CommandProcessor {
+public class CmdToolImage extends CommandProcessor {
 	/**
 	 * Create new command processor
 	 * 
@@ -42,19 +35,14 @@ class CmdToolImage extends CommandProcessor {
 
 				int mode = (int) ((GeoNumeric) arg[0]).getDouble();
 
-				String modeStr = kernelA.getModeText(mode)
-						.toLowerCase(Locale.US);
+				String modeStr = app.toLowerCase(kernelA.getModeText(mode));
 
 				if ("".equals(modeStr))
 					throw argErr(app, c.getName(), arg[0]);
 
-				Image im = ((ImageManager) app.getImageManager()).getImageResource(
-						"/geogebra/gui/toolbar/images/mode_" + modeStr
-								+ "_32.gif");
-
-				BufferedImage image = ImageManager.toBufferedImage(im);
-				String fileName = ((Application) app).createImage(image, "tool.png");
-
+				String fileName = app.getImageManager().createImage(
+				"/geogebra/gui/toolbar/images/mode_" + modeStr
+						+ "_32.gif",app);
 				GeoImage geoImage = new GeoImage(app.getKernel()
 						.getConstruction());
 				geoImage.setImageFileName(fileName);

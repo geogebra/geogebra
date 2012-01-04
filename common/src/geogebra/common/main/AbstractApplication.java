@@ -25,6 +25,9 @@ import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.settings.Settings;
+import geogebra.common.plugin.GgbAPI;
+import geogebra.common.sound.SoundManager;
+import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.DebugPrinter;
 
 import java.util.ArrayList;
@@ -200,7 +203,7 @@ public abstract class AbstractApplication {
 
 	public abstract boolean isShowingEuclidianView2();
 
-	public abstract Object getImageManager();
+	public abstract AbstractImageManager getImageManager();
 	
 	public abstract GuiManager getGuiManager();
 
@@ -642,6 +645,18 @@ public abstract class AbstractApplication {
 	public abstract void removeSelectedGeo(GeoElement geo);
 	
 	public abstract SpreadsheetTableModelInterface getSpreadsheetTableModel();
+	
+	public abstract void setMode(int modeMove);
+
+	public abstract void addToEuclidianView(GeoElement geo);
+
+	public abstract void removeFromEuclidianView(GeoElement geo);
+
+	public abstract void setXML(String string, boolean b);
+
+	public abstract GgbAPI getGgbApi();
+
+	public abstract SoundManager getSoundManager();
 
 	public final Kernel getKernel() {
 		return kernel;
