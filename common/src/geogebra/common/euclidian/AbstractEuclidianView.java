@@ -86,19 +86,16 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	protected double[] AxesTickInterval = { 1, 1 }; // for axes =
 	protected NumberFormatAdapter[] axesNumberFormat;
 	protected boolean[] showAxes = { true, true };
-	
+
 	// distances between grid lines
-		protected boolean automaticGridDistance = true;
-		
-		
+	protected boolean automaticGridDistance = true;
 
-		protected double[] gridDistances = { 2, 2, Math.PI / 6 };
+	protected double[] gridDistances = { 2, 2, Math.PI / 6 };
 
-		protected int gridLineStyle, axesLineType;
+	protected int gridLineStyle, axesLineType;
 
-		protected boolean gridIsBold = false; // Michael Borcherds 2008-04-11
+	protected boolean gridIsBold = false; // Michael Borcherds 2008-04-11
 
-		
 	protected int tooltipsInThisView = EuclidianStyleConstants.TOOLTIPS_AUTOMATIC;
 
 	// Michael Borcherds 2008-04-28
@@ -106,78 +103,77 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	public static final int GRID_ISOMETRIC = 1;
 	public static final int GRID_POLAR = 2;
 	protected int gridType = GRID_CARTESIAN;
-	
+
 	// FONTS
-		private Font fontPoint;
+	private Font fontPoint;
 
-		private Font fontLine;
+	private Font fontLine;
 
-		private Font fontVector;
+	private Font fontVector;
 
-		private Font fontConic;
+	private Font fontConic;
 
-		private Font fontCoords;
+	private Font fontCoords;
 
-		private Font fontAxes;
+	private Font fontAxes;
 
-		private Font fontAngle;
+	private Font fontAngle;
 
-	
 	// object is hit if mouse is within this many pixels
-		// (more for points, see DrawPoint)
-		private int capturingThreshold = 3;
+	// (more for points, see DrawPoint)
+	private int capturingThreshold = 3;
 
-		public void setCapturingThreshold(int i) {
-			capturingThreshold = i;
-		}
+	public void setCapturingThreshold(int i) {
+		capturingThreshold = i;
+	}
 
-		public int getCapturingThreshold() {
-			return capturingThreshold;
-		}
-		final public int getMode() {
-			return mode;
-		}
-		
-		public void setMode(int mode) {
-			if (mode == this.mode) {
-				return;
-			}
-			this.mode = mode;
-			initCursor();
-			getEuclidianController().clearJustCreatedGeos();
-			getEuclidianController().setMode(mode);
-			if (clearRectangle(mode)) {
-				setSelectionRectangle(null);
-			}
-			setStyleBarMode(mode);
-		}
-		
-		public Kernel getKernel() {
-			return kernel;
-		}
-		
-		/**
-		 * whether to clear selection rectangle when mode selected
-		 */
-		final private static boolean clearRectangle(int mode) {
-			switch (mode) {
-			case EuclidianConstants.MODE_PEN:
-				return false;
-			case EuclidianConstants.MODE_MIRROR_AT_LINE:
-				return false;
-			case EuclidianConstants.MODE_MIRROR_AT_POINT:
-				return false;
-			case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-				return false;
-			case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
-				return false;
-			case EuclidianConstants.MODE_DILATE_FROM_POINT:
-				return false;
-			default:
-				return true;
-			}
-		}
+	public int getCapturingThreshold() {
+		return capturingThreshold;
+	}
 
+	final public int getMode() {
+		return mode;
+	}
+
+	public void setMode(int mode) {
+		if (mode == this.mode) {
+			return;
+		}
+		this.mode = mode;
+		initCursor();
+		getEuclidianController().clearJustCreatedGeos();
+		getEuclidianController().setMode(mode);
+		if (clearRectangle(mode)) {
+			setSelectionRectangle(null);
+		}
+		setStyleBarMode(mode);
+	}
+
+	public Kernel getKernel() {
+		return kernel;
+	}
+
+	/**
+	 * whether to clear selection rectangle when mode selected
+	 */
+	final private static boolean clearRectangle(int mode) {
+		switch (mode) {
+		case EuclidianConstants.MODE_PEN:
+			return false;
+		case EuclidianConstants.MODE_MIRROR_AT_LINE:
+			return false;
+		case EuclidianConstants.MODE_MIRROR_AT_POINT:
+			return false;
+		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
+			return false;
+		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
+			return false;
+		case EuclidianConstants.MODE_DILATE_FROM_POINT:
+			return false;
+		default:
+			return true;
+		}
+	}
 
 	protected NumberValue xminObject, xmaxObject, yminObject, ymaxObject;
 

@@ -46,9 +46,6 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	// ??
 	boolean hitAnimationButton(MouseEvent e);
 	void setPreview(Previewable previewDrawable);
-	public Drawable getDrawableFor(GeoElement geo);
-	public DrawableND getDrawableND(GeoElement geo);
-	public DrawableND createDrawableND(GeoElement geo);
 	void setToolTipText(String plain);
 
 	/**
@@ -72,25 +69,7 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	void setDragCursor();
 	void setDefaultCursor();
 	void setHitCursor();
-	
 
-	
-	
-	// mode
-	/**
-	 * clears all selections and highlighting
-	 */
-	void resetMode();
-
-	
-	// screen coordinate to real world coordinate
-	/** convert screen coordinate x to real world coordinate x */
-	public double toRealWorldCoordX(double minX);
-	/** convert screen coordinate y to real world coordinate y */	
-	public double toRealWorldCoordY(double maxY);
-
-	public int toScreenCoordX(double minX);
-	public int toScreenCoordY(double maxY);
 	/**
 	 * Sets real world coord system using min and max values for both axes in
 	 * real world values.
@@ -132,9 +111,7 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	boolean getShowYaxis();
 	
 	boolean isGridOrAxesShown();
-	int getGridType();
-	void setCoordSystem(double x, double y, double xscale, double yscale);
-	
+
 	/**
 	 * sets showing flag of the axis
 	 * @param axis id of the axis
@@ -191,7 +168,6 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	
 	
 	/** Sets coord system from mouse move */
-	public void setCoordSystemFromMouseMove(int dx, int dy, int mode);
 	void setAnimatedCoordSystem(double ox, double oy, double f, double newScale,int steps, boolean storeUndo);
 
 
@@ -200,14 +176,8 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	public boolean getShowMouseCoords();
 	double getXZero();
 	double getYZero();
-	public double getInvXscale();
-	public double getInvYscale();
-	double getXscale();
-	double getYscale();
 	public void setShowAxesRatio(boolean b);
 	public Previewable getPreviewDrawable();
-	public int getViewWidth();
-	public int getViewHeight();
 	public double getGridDistances(int i);
 	public String[] getAxesLabels();
 	public void setAxesLabels(String[] labels);
@@ -224,13 +194,6 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	public boolean[] getPositiveAxes(); 
 	public void setPositiveAxes(boolean[] positiveAxis); 
 
-
-	
-	/** remembers the origins values (xzero, ...) */
-	public void rememberOrigins();
-	
-	
-	
 
 	/////////////////////////////////////////
 	// previewables
@@ -311,20 +274,13 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	public boolean getShowGrid();
 	public boolean getGridIsBold();
 	public boolean getAllowShowMouseCoords();
-	public double getXmin();
-	public double getXmax();
-	public double getYmin();
-	public double getYmax();
 	public void setBackground(geogebra.common.awt.Color showColorChooser);
 	public void setAxesColor(Color showColorChooser);
 	public void setGridColor(Color showColorChooser);
 	public void showGrid(boolean selected);
 	public void setGridIsBold(boolean selected);
 	public void setAllowShowMouseCoords(boolean selected);
-	public void setGridType(int selectedIndex);
 	public void setGridLineStyle(int type);
-	public void setRealWorldCoordSystem(double min, double max, double ymin,
-			double ymax);
 	public void setAutomaticAxesNumberingDistance(boolean b, int axis);
 	public void setAxesTickStyles(int[] styles);
 	public boolean[] getDrawBorderAxes();
@@ -333,7 +289,7 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	public double[] getAxesNumberingDistances();
 	
 	// for AlgebraView
-	public int getMode();
+
 	public void clickedGeo(GeoElement geo, MouseEvent e);
 	public void mouseMovedOver(GeoElement geo);
 
@@ -341,11 +297,6 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	public int getWidth();
 	public int getHeight();
 	public boolean hasFocus();
-	public boolean isZoomable();
-	public GeoNumeric getXminObject();
-	public GeoNumeric getXmaxObject();
-	public GeoNumeric getYminObject();
-	public GeoNumeric getYmaxObject();
 	public void setResizeXAxisCursor();
 	public void setResizeYAxisCursor();
 	
@@ -370,24 +321,7 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	 */
 	//public boolean isMoveable(GeoElement geo);
 
-	public ArrayList<GeoPointND> getStickyPointList();
-
-	
-	public void updateBoundObjects();
-	public void setXminObject(NumberValue minMax);
-	public void setXmaxObject(NumberValue minMax);
-	public void setYminObject(NumberValue minMax);
-	public void setYmaxObject(NumberValue minMax);
-	public void updateBounds();
 	public boolean getShowAxis(int axis);
-
-	
-	/**
-	 * returns true if the axes ratio is 1
-	 * @return true if the axes ratio is 1
-	 */
-	public boolean isUnitAxesRatio();
-
 
 	public void setCursor(Cursor cursor);
 
