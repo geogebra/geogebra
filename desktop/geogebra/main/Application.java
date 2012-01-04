@@ -23,6 +23,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModelInterface;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
@@ -65,6 +66,7 @@ import geogebra.gui.layout.DockBar;
 import geogebra.gui.util.ImageSelection;
 import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.gui.view.properties.PropertiesView;
+import geogebra.gui.view.spreadsheet.SpreadsheetTableModel;
 import geogebra.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.io.MyXMLio;
 import geogebra.kernel.AnimationManager;
@@ -556,6 +558,11 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
+	private SpreadsheetTableModel tableModel;
+	
+	
+	
+	
 	public Application(CommandLineArguments args, JFrame frame,
 			boolean undoActive) {
 		this(args, frame, null, null, undoActive);
@@ -6740,6 +6747,15 @@ public class Application extends AbstractApplication implements
 	public AlgoElement newAlgoShortestDistance(Construction cons, String label,
 			GeoList list, GeoPointND start, GeoPointND end, GeoBoolean weighted) {
 		return new geogebra.kernel.discrete.AlgoShortestDistance(cons, label, list, start, end, weighted);	
+	}
+
+	
+	@Override
+	public SpreadsheetTableModelInterface getSpreadsheetTableModel() {
+		if(tableModel == null){
+			tableModel = new SpreadsheetTableModel(SPREADSHEET_INI_ROWS,SPREADSHEET_INI_COLS);
+		}
+		return tableModel;
 	}
 
 }

@@ -56,7 +56,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 
 	// spreadsheet table and row header
 	protected MyTable table;
-	protected DefaultTableModel tableModel;
+	protected SpreadsheetTableModel tableModel;
 	private SpreadsheetRowHeader rowHeader;
 	private JTableHeader tableHeader;
 
@@ -119,7 +119,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 	 * Construct spreadsheet view as a split panel. 
 	 * Left panel holds file tree browser, right panel holds spreadsheet. 
 	 */
-	public SpreadsheetView(Application app, int columns, int rows) {
+	public SpreadsheetView(Application app) {
 
 		this.app = app;
 		kernel = app.getKernel();
@@ -129,7 +129,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 
 
 		// Build the spreadsheet table and enclosing scrollpane
-		buildSpreadsheet(rows, columns);
+		buildSpreadsheet();
 
 		// Build the spreadsheet panel: formulaBar above, spreadsheet in Center  
 		spreadsheetPanel = new JPanel(new BorderLayout());
@@ -164,10 +164,10 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 	}
 
 
-	private void buildSpreadsheet(int rows, int columns){
+	private void buildSpreadsheet(){
 
 		// Create the spreadsheet table model and the table
-		tableModel = new DefaultTableModel(rows, columns);
+		tableModel = (SpreadsheetTableModel) app.getSpreadsheetTableModel();
 		table = new MyTable(this, tableModel);
 
 		// Create row header

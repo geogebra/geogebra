@@ -8,6 +8,7 @@ import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.EuclidianViewInterface2D;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.gui.GuiManager;
+import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModelInterface;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.kernel.AbstractAnimationManager;
@@ -85,6 +86,10 @@ public abstract class AbstractApplication {
 
 	}
 
+	public static final int SPREADSHEET_INI_COLS = 26;
+	public static final int SPREADSHEET_INI_ROWS = 100;
+	
+	
 	public abstract String getCommand(String cmdName);
 
 	public abstract String getPlain(String cmdName);
@@ -637,5 +642,7 @@ public abstract class AbstractApplication {
 	public abstract void setMoveMode();
 
 	public abstract void removeSelectedGeo(GeoElement geo);
+	
+	public abstract SpreadsheetTableModelInterface getSpreadsheetTableModel();
 
 }

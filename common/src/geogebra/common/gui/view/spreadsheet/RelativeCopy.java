@@ -763,6 +763,7 @@ public class RelativeCopy {
 	/**
 	 * Returns the GeoElement for the cell with the given column and row values.
 	 */
+	/*
 	public static GeoElement getValue(AbstractApplication app, int column, int row) {
 		
 		String cellName = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
@@ -770,6 +771,27 @@ public class RelativeCopy {
 		return app.getKernel().getConstruction().lookupLabel(cellName);
 		
 	}
+	*/
+	
+	
+	/**
+	 * Returns the GeoElement for the cell with the given column and row values.
+	 */
+	public static GeoElement getValue(AbstractApplication app, int column, int row) {
+		SpreadsheetTableModelInterface tableModel = app.getSpreadsheetTableModel();
+		if ((row < 0) || (row >= tableModel.getRowCount())) {
+			return null;
+		}
+		if ((column < 0) || (column >= tableModel.getColumnCount())) {
+			return null;
+		}
+		return (GeoElement) tableModel.getValueAt(row, column);
+	}
+
+	
+	
+	
+	
 	
 	// =========================================================================
 	// Cell Editing Methods

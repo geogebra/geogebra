@@ -110,9 +110,7 @@ import javax.swing.text.JTextComponent;
  * separate gui jar file.
  */
 public class GuiManager extends geogebra.common.gui.GuiManager {
-	private static final int SPREADSHEET_INI_COLS = 26;
-	private static final int SPREADSHEET_INI_ROWS = 100;
-
+	
 	private static boolean USE_COMPRESSED_VIEW = true;
 	private static int CV_UPDATES_PER_SECOND = 10;
 
@@ -406,8 +404,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	public SpreadsheetView getSpreadsheetView() {
 		// init spreadsheet view
 		if (spreadsheetView == null) {
-			spreadsheetView = new SpreadsheetView(app, SPREADSHEET_INI_COLS,
-					SPREADSHEET_INI_ROWS);
+			spreadsheetView = new SpreadsheetView(app);
 		}
 
 		return spreadsheetView;
