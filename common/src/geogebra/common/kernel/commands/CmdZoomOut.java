@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 
 /**
@@ -60,7 +60,7 @@ public class CmdZoomOut extends CmdScripting {
 				GeoNumeric numGeo = (GeoNumeric) arg[0];
 				GeoPoint2 p = (GeoPoint2) arg[1];
 
-				EuclidianViewInterface2D ev = (EuclidianViewInterface2D)app.getEuclidianView();
+				AbstractEuclidianView ev = (AbstractEuclidianView)app.getEuclidianView();
 				double px = ev.toScreenCoordXd(p.inhomX); // mouseLoc.x;
 				double py = ev.toScreenCoordYd(p.inhomY); // mouseLoc.y;
 

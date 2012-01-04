@@ -21,7 +21,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.NumberFormatAdapter;
 
-public abstract class EuclidianViewInterface2D implements EuclidianViewInterfaceSlim{
+public abstract class AbstractEuclidianView implements EuclidianViewInterfaceSlim{
 	
 	/** View other than EV1 and EV2 **/
 	public static int EVNO_GENERAL = 1001;

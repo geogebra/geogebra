@@ -68,7 +68,7 @@ public final class DrawPoint extends Drawable {
 	 * @param view
 	 * @param P
 	 */
-	public DrawPoint(EuclidianViewInterface2D view, GeoPointND P) {
+	public DrawPoint(AbstractEuclidianView view, GeoPointND P) {
 		this(view, P, false);
 	}
 
@@ -79,7 +79,7 @@ public final class DrawPoint extends Drawable {
 	 * @param P
 	 * @param isPreview
 	 */
-	public DrawPoint(EuclidianViewInterface2D view, GeoPointND P, boolean isPreview) {
+	public DrawPoint(AbstractEuclidianView view, GeoPointND P, boolean isPreview) {
 		this.view = view;
 		this.P = P;
 		geo = (GeoElement) P;

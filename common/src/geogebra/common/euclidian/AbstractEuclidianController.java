@@ -2268,7 +2268,7 @@ public abstract class AbstractEuclidianController {
 				|| ((GeoElement) line).isGeoElement3D()) {
 			return new GeoElement[] { (GeoElement) getKernel().getManager3D()
 					.OrthogonalLine3D(null, point, line,
-							((EuclidianViewInterface2D) view).getDirection()) };
+							((AbstractEuclidianView) view).getDirection()) };
 		} else {
 			return orthogonal2D(point, line);
 		}

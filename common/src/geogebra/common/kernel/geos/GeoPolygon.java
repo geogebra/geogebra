@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
@@ -1459,7 +1459,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	//////////////////////////////////
 	// 2D VIEW
 	
-	private EuclidianViewInterface2D euclidianViewForPlane;
+	private AbstractEuclidianView euclidianViewForPlane;
 	
 	public void createView2D(){
 		euclidianViewForPlane = app.createEuclidianViewForPlane(this);	
@@ -1468,7 +1468,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	public void update(){
 		super.update();
 		if (euclidianViewForPlane!=null){
-			((EuclidianViewInterface2D)euclidianViewForPlane).updateForPlane();
+			((AbstractEuclidianView)euclidianViewForPlane).updateForPlane();
 		}		
 	}
 

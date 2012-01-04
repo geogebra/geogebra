@@ -59,7 +59,7 @@ public class DrawSegment extends Drawable implements Previewable {
 	 * @param s
 	 *            Segment to be drawn
 	 */
-	public DrawSegment(EuclidianViewInterface2D view, GeoLineND s) {
+	public DrawSegment(AbstractEuclidianView view, GeoLineND s) {
 		this.view = view;
 		hitThreshold = view.getCapturingThreshold();
 		this.s = s;
@@ -76,7 +76,7 @@ public class DrawSegment extends Drawable implements Previewable {
 	 * @param points
 	 *            endpoints of the segment
 	 */
-	public DrawSegment(EuclidianViewInterface2D view, ArrayList<GeoPointND> points) {
+	public DrawSegment(AbstractEuclidianView view, ArrayList<GeoPointND> points) {
 		this.view = view;
 		this.points = points;
 

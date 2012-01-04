@@ -90,7 +90,7 @@ public class DrawParametricCurve extends Drawable {
 	 * @param curve
 	 *            Curve to be drawn
 	 */
-	public DrawParametricCurve(EuclidianViewInterface2D view, ParametricCurve curve) {
+	public DrawParametricCurve(AbstractEuclidianView view, ParametricCurve curve) {
 		this.view = view;
 		hitThreshold = view.getCapturingThreshold();
 		this.curve = curve;
@@ -215,7 +215,7 @@ public class DrawParametricCurve extends Drawable {
 	 * @author Markus Hohenwarter, based on an algorithm by John Gillam
 	 */
 	final public static Point plotCurve(ParametricCurve curve, double t1,
-			double t2, EuclidianViewInterface2D view, GeneralPathClipped gp,
+			double t2, AbstractEuclidianView view, GeneralPathClipped gp,
 			boolean calcLabelPos, int moveToAllowed) {
 
 		countPoints = 0;
@@ -270,7 +270,7 @@ public class DrawParametricCurve extends Drawable {
 	 */
 	private static Point plotInterval(ParametricCurve curve, double t1,
 			double t2, int intervalDepth, double max_param_step,
-			EuclidianViewInterface2D view, GeneralPathClipped gp, boolean calcLabelPos,
+			AbstractEuclidianView view, GeneralPathClipped gp, boolean calcLabelPos,
 			int moveToAllowed) {
 		// plot interval for t in [t1, t2]
 		// If we run into a problem, i.e. an undefined point f(t), we bisect
@@ -647,7 +647,7 @@ public class DrawParametricCurve extends Drawable {
 	 * Performs a quick test whether the segment (x1, y1) to (x2, y2) is off
 	 * screen.
 	 */
-	private static boolean isSegmentOffScreen(EuclidianViewInterface2D view, double x1,
+	private static boolean isSegmentOffScreen(AbstractEuclidianView view, double x1,
 			double y1, double x2, double y2) {
 		// top;
 		if (y1 < -EuclidianStatic.CLIP_DISTANCE
@@ -707,7 +707,7 @@ public class DrawParametricCurve extends Drawable {
 	 */
 	private static Point plotProblemInterval(ParametricCurve curve, double t1,
 			double t2, int intervalDepth, double max_param_step,
-			EuclidianViewInterface2D view, GeneralPathClipped gp, boolean calcLabelPos,
+			AbstractEuclidianView view, GeneralPathClipped gp, boolean calcLabelPos,
 			int moveToAllowed, Point labelPoint) {
 		// stop recursion for too many intervals
 		if (intervalDepth > MAX_PROBLEM_BISECTIONS || t1 == t2) {

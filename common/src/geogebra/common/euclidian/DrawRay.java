@@ -50,7 +50,7 @@ public class DrawRay extends Drawable implements Previewable {
 	private double[] v = new double[2];
 
 	/** Creates new DrawSegment */
-	public DrawRay(EuclidianViewInterface2D view, GeoLineND ray) {
+	public DrawRay(AbstractEuclidianView view, GeoLineND ray) {
 		this.view = view;
 		hitThreshold = view.getCapturingThreshold();
 		this.ray = ray;
@@ -65,7 +65,7 @@ public class DrawRay extends Drawable implements Previewable {
 	 * @param view
 	 * @param points
 	 */
-	public DrawRay(EuclidianViewInterface2D view, ArrayList<GeoPointND> points) {
+	public DrawRay(AbstractEuclidianView view, ArrayList<GeoPointND> points) {
 		this.view = view;
 		this.points = points;
 

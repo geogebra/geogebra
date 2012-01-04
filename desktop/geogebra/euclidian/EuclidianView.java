@@ -28,7 +28,7 @@ import geogebra.common.euclidian.DrawSlider;
 import geogebra.common.euclidian.DrawVector;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.GetViewId;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
@@ -128,7 +128,7 @@ import javax.swing.border.Border;
  * @author Markus Hohenwarter
  * @version
  */
-public class EuclidianView extends EuclidianViewInterface2D implements EuclidianViewInterface,
+public class EuclidianView extends AbstractEuclidianView implements EuclidianViewInterface,
 		Printable, SettingListener {
 
 	protected static final long serialVersionUID = 1L;

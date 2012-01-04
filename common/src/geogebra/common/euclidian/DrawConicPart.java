@@ -65,7 +65,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	private GeoPoint2[] previewTempPoints;
 	private int previewMode, neededPrevPoints;
 
-	public DrawConicPart(EuclidianViewInterface2D view, GeoConicPart conicPart) {
+	public DrawConicPart(AbstractEuclidianView view, GeoConicPart conicPart) {
 		this.view = view;
 		hitThreshold = view.getCapturingThreshold();
 		initConicPart(conicPart);
@@ -86,7 +86,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	/**
 	 * Creates a new DrawConicPart for preview.
 	 */
-	public DrawConicPart(EuclidianViewInterface2D view, int mode, ArrayList<GeoPointND> points) {
+	public DrawConicPart(AbstractEuclidianView view, int mode, ArrayList<GeoPointND> points) {
 		this.view = view;
 		prevPoints = points;
 		previewMode = mode;

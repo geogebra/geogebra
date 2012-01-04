@@ -57,7 +57,7 @@ public class DrawVector extends Drawable implements Previewable {
 	private ArrayList<GeoPointND> points;
 
 	/** Creates new DrawVector */
-	public DrawVector(EuclidianViewInterface2D view, GeoVectorND v) {
+	public DrawVector(AbstractEuclidianView view, GeoVectorND v) {
 		this.view = view;
 		this.v = v;
 		geo = (GeoElement) v;
@@ -65,7 +65,7 @@ public class DrawVector extends Drawable implements Previewable {
 		update();
 	}
 
-	public DrawVector(EuclidianViewInterface2D view, ArrayList<GeoPointND> points) {
+	public DrawVector(AbstractEuclidianView view, ArrayList<GeoPointND> points) {
 		this.view = view;
 		this.points = points;
 		updatePreview();

@@ -32,7 +32,7 @@ import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 
-import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
@@ -52,7 +52,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		this.app = (Application)app;
 	}
 	
-	public  void setView(EuclidianViewInterface2D view) {
+	public  void setView(AbstractEuclidianView view) {
 		this.view = view;
 	}
 

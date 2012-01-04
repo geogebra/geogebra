@@ -40,7 +40,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	 * @param view
 	 * @param geoList
 	 */
-	public DrawList(EuclidianViewInterface2D view, GeoList geoList) {
+	public DrawList(AbstractEuclidianView view, GeoList geoList) {
 		this.view = view;
 		this.geoList = geoList;
 		geo = geoList;

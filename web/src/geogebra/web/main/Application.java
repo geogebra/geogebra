@@ -12,7 +12,7 @@ import com.google.gwt.dom.client.ImageElement;
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.Font;
 import geogebra.common.euclidian.DrawEquationInterface;
-import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModelInterface;
@@ -358,7 +358,7 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public EuclidianViewInterface2D createEuclidianViewForPlane(Object o) {
+	public AbstractEuclidianView createEuclidianViewForPlane(Object o) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -3,6 +3,7 @@ package geogebra.euclidian;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -37,18 +38,10 @@ import javax.swing.JPanel;
  * 
  */
 
-public interface EuclidianViewInterface extends EuclidianViewInterfaceSlim{
-	
-	/** reference to x axis*/
-	public static final int AXIS_X = 0; 
-	/** reference to y axis*/	
-	public static final int AXIS_Y = 1; 
+public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 
-	
-	
 	public void updateSize();
 //	public void repaintEuclidianView();
-
 
 	/**
 	 * Zooms around fixed point (px, py)

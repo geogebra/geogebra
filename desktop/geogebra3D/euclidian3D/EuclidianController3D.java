@@ -3,7 +3,7 @@ package geogebra3D.euclidian3D;
 
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.Kernel;

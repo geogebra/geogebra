@@ -5,7 +5,7 @@ import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Font;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModelInterface;
@@ -193,7 +193,7 @@ public abstract class AbstractApplication {
 
 	public abstract EuclidianViewInterfaceSlim getActiveEuclidianView();
 
-	public abstract EuclidianViewInterface2D createEuclidianViewForPlane(
+	public abstract AbstractEuclidianView createEuclidianViewForPlane(
 			Object o);
 
 	public abstract boolean isRightToLeftDigits();

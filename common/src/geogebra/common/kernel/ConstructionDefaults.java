@@ -14,7 +14,7 @@ package geogebra.common.kernel;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoConic;
@@ -529,7 +529,7 @@ public class ConstructionDefaults {
 	protected void setMaxLayerUsed(GeoElement geo, AbstractApplication app){
 		if (app != null) {
 			//TODO: if get EuclidianView returns 3D, this will fail
-			EuclidianViewInterface2D ev = (EuclidianViewInterface2D)app.getEuclidianView();
+			AbstractEuclidianView ev = (AbstractEuclidianView)app.getEuclidianView();
 			if (ev != null)
 				geo.setLayer(ev.getMaxLayerUsed());
 		}

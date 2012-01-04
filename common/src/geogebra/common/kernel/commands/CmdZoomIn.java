@@ -7,7 +7,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 
 
@@ -30,7 +30,7 @@ public class CmdZoomIn extends CmdScripting {
 			if (arg[0].isGeoNumeric()) {
 				GeoNumeric numGeo = (GeoNumeric) arg[0];
 
-				EuclidianViewInterfaceSlim ev = (EuclidianViewInterface2D) app.getActiveEuclidianView();
+				EuclidianViewInterfaceSlim ev = (AbstractEuclidianView) app.getActiveEuclidianView();
 				double px = ev.getWidth() / 2; // mouseLoc.x;
 				double py = ev.getHeight() / 2; // mouseLoc.y;
 
@@ -54,7 +54,7 @@ public class CmdZoomIn extends CmdScripting {
 				GeoNumeric numGeo = (GeoNumeric) arg[0];
 				GeoPoint2 p = (GeoPoint2) arg[1];
 
-				EuclidianViewInterface2D ev = (EuclidianViewInterface2D)app.getActiveEuclidianView();
+				AbstractEuclidianView ev = (AbstractEuclidianView)app.getActiveEuclidianView();
 				double px = ev.toScreenCoordXd(p.inhomX); // mouseLoc.x;
 				double py = ev.toScreenCoordYd(p.inhomY); // mouseLoc.y;
 
@@ -76,7 +76,7 @@ public class CmdZoomIn extends CmdScripting {
 			for(int i=0;i<3;i++)
 					if(!arg[i].isNumberValue())
 						throw argErr(app, c.getName(),arg[i]);
-			EuclidianViewInterface2D ev = (EuclidianViewInterface2D)app.getActiveEuclidianView();
+			AbstractEuclidianView ev = (AbstractEuclidianView)app.getActiveEuclidianView();
 			ev.setXminObject((NumberValue)arg[0]);
 			ev.setXmaxObject((NumberValue)arg[2]);
 			ev.setYminObject((NumberValue)arg[1]);

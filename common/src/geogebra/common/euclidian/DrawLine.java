@@ -77,7 +77,7 @@ public class DrawLine extends Drawable implements Previewable {
     /** Creates new DrawLine 
      * @param view 
      * @param g */
-    public DrawLine(EuclidianViewInterface2D view, GeoLineND g) {      
+    public DrawLine(AbstractEuclidianView view, GeoLineND g) {      
     	this.view = view;   
     	hitThreshold = view.getCapturingThreshold();
         this.g = g;
@@ -91,7 +91,7 @@ public class DrawLine extends Drawable implements Previewable {
 	 * @param points 
 	 * @param previewMode 
 	 */
-	public DrawLine(EuclidianViewInterface2D view, ArrayList<GeoPointND> points, int previewMode) {
+	public DrawLine(AbstractEuclidianView view, ArrayList<GeoPointND> points, int previewMode) {
 		this.previewMode = previewMode;
 		this.view = view; 
 		this.points = points;
@@ -112,7 +112,7 @@ public class DrawLine extends Drawable implements Previewable {
 	 * @param lines 
 	 * @param parallel true for paralel, false for perpendicular
 	 */
-    public DrawLine(EuclidianViewInterface2D view, ArrayList<GeoPointND> points,
+    public DrawLine(AbstractEuclidianView view, ArrayList<GeoPointND> points,
 			ArrayList<GeoLineND> lines, boolean parallel) {
     	if (parallel) previewMode = PREVIEW_PARALLEL;
     	else previewMode = PREVIEW_PERPENDICULAR;

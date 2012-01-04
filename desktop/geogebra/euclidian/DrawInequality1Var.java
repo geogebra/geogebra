@@ -4,7 +4,7 @@ import geogebra.common.awt.Shape;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.kernel.arithmetic.Inequality;
 import geogebra.common.kernel.geos.GeoElement;
@@ -34,7 +34,7 @@ public class DrawInequality1Var extends Drawable {
 	 * @param ineq
 	 * @param varIsY
 	 */
-	public DrawInequality1Var(Inequality ineq, EuclidianViewInterface2D view,
+	public DrawInequality1Var(Inequality ineq, AbstractEuclidianView view,
 			GeoElement geo, boolean varIsY) {
 		super();
 		this.ineq = ineq;

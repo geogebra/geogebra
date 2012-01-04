@@ -51,7 +51,7 @@ public abstract class Drawable extends DrawableND {
 	private int lineThickness = -1;
 	public int lineType = -1;
 
-	protected EuclidianViewInterface2D view;
+	protected AbstractEuclidianView view;
 	protected int hitThreshold = 3;
 	protected GeoElement geo;
 	public int xLabel, yLabel;

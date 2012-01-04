@@ -5,7 +5,7 @@ import geogebra.common.awt.Shape;
 import geogebra.common.euclidian.DrawConic;
 import geogebra.common.euclidian.DrawParametricCurve;
 import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
@@ -46,7 +46,7 @@ public class DrawInequality extends Drawable {
 	 * @param function
 	 *            boolean 2-var function
 	 */
-	public DrawInequality(EuclidianViewInterface2D view, FunctionalNVar function) {
+	public DrawInequality(AbstractEuclidianView view, FunctionalNVar function) {
 		this.view = view;
 		hitThreshold = view.getCapturingThreshold();
 		geo = (GeoElement) function;
@@ -63,7 +63,7 @@ public class DrawInequality extends Drawable {
 
 	}
 
-	private DrawInequality(IneqTree tree, EuclidianViewInterface2D view,
+	private DrawInequality(IneqTree tree, AbstractEuclidianView view,
 			GeoElement geo) {
 		this.view = view;
 		this.geo = geo;
@@ -313,7 +313,7 @@ public class DrawInequality extends Drawable {
 		private Inequality ineq;
 		private GeneralPathClipped gp;
 
-		protected DrawParametricInequality(Inequality ineq, EuclidianViewInterface2D view,
+		protected DrawParametricInequality(Inequality ineq, AbstractEuclidianView view,
 				GeoElement geo) {
 			this.view = view;
 			this.ineq = ineq;

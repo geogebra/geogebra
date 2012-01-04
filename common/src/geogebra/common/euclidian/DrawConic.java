@@ -147,7 +147,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	 * @param view
 	 * @param c
 	 */
-	public DrawConic(EuclidianViewInterface2D view, GeoConicND c) {
+	public DrawConic(AbstractEuclidianView view, GeoConicND c) {
 		this.view = view;
 		isPreview = false;
 		hitThreshold = view.getCapturingThreshold();
@@ -172,7 +172,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	 * @param mode
 	 * @param points
 	 */
-	public DrawConic(EuclidianViewInterface2D view, int mode, ArrayList<GeoPointND> points) {
+	public DrawConic(AbstractEuclidianView view, int mode, ArrayList<GeoPointND> points) {
 		this.view = view;
 		prevPoints = points;
 		previewMode = mode;
@@ -198,7 +198,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	 * @param segments
 	 * @param conics
 	 */
-	public DrawConic(EuclidianViewInterface2D view, int mode, ArrayList<GeoPointND> points,
+	public DrawConic(AbstractEuclidianView view, int mode, ArrayList<GeoPointND> points,
 			ArrayList<GeoSegment> segments, ArrayList<GeoConic> conics) {
 		this.view = view;
 		prevPoints = points;

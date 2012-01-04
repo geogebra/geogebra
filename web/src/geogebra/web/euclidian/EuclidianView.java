@@ -12,7 +12,7 @@ import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.euclidian.EuclidianViewInterface2D;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
@@ -30,7 +30,7 @@ import geogebra.web.kernel.gawt.Line2D;
 
 
 
-public class EuclidianView extends EuclidianViewInterface2D {
+public class EuclidianView extends AbstractEuclidianView {
 	
 	geogebra.web.awt.Graphics2D g2 = null;
 	
