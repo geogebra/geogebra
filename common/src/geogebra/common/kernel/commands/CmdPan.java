@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.kernel.Kernel;
 
 /**
@@ -38,7 +38,7 @@ public class CmdPan extends CmdScripting {
 				EuclidianViewInterface2D ev = (EuclidianViewInterface2D)app.getEuclidianView();
 				ev.rememberOrigins();
 				ev.setCoordSystemFromMouseMove((int) x.getDouble(), -(int) y
-						.getDouble(), EuclidianController.MOVE_VIEW);
+						.getDouble(), AbstractEuclidianController.MOVE_VIEW);
 
 				
 				return;

@@ -45,7 +45,7 @@ import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.AbstractApplication;
 
-public abstract class EuclidianController {
+public abstract class AbstractEuclidianController {
 
 	protected static int POLYGON_NORMAL = 0;
 

@@ -97,7 +97,7 @@ import javax.swing.text.JTextComponent;
  * 
  * Created on 16. October 2001, 15:41
  */
-public class EuclidianController extends geogebra.common.euclidian.EuclidianController implements MouseListener, MouseMotionListener,
+public class EuclidianController extends geogebra.common.euclidian.AbstractEuclidianController implements MouseListener, MouseMotionListener,
 		MouseWheelListener, ComponentListener, PropertiesPanelMiniListener {
 
 	
