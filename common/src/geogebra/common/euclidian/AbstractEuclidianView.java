@@ -119,9 +119,45 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 	private Font fontAngle;
 
+
+	protected NumberFormatAdapter printScaleNF;
+
+
+	protected boolean showGrid = false;
+
+	protected boolean antiAliasing = true;
+
+	protected boolean showMouseCoords = false;
+	protected boolean allowShowMouseCoords = true;
+
+	protected boolean showAxesRatio = false;
+	protected boolean highlightAnimationButtons = false;
+
+	// only used for temporary views eg Text Preview, Spreadsheet plots
+	protected int pointCapturingMode;
+	
+	
+	protected boolean showAxesCornerCoords = true;//private
+
+	protected boolean[] showAxesNumbers = { true, true };
+
+	protected String[] axesLabels = { null, null };
+
+	protected String[] axesUnitLabels = { null, null };
+
+	protected Previewable previewDrawable;//package private
+
+	protected boolean firstPaint = true;//private
+
+	protected StringBuilder sb = new StringBuilder();
+
 	// object is hit if mouse is within this many pixels
 	// (more for points, see DrawPoint)
 	private int capturingThreshold = 3;
+
+
+	protected AbstractApplication application;//private
+
 
 	public void setCapturingThreshold(int i) {
 		capturingThreshold = i;
@@ -1486,4 +1522,9 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	protected abstract Drawable newDrawable(GeoElement ge);
 
 	public abstract void zoomAxesRatio(double d, boolean b);
+
+
+	protected void setApplication(AbstractApplication application) {
+		this.application = application;
+	}
 }

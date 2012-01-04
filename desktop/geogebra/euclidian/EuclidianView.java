@@ -192,8 +192,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	
 
 	// member variables
-	private Application application;
-
 	protected EuclidianController euclidianController;
 
 	
@@ -202,30 +200,22 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	private int width = Application.getScreenSize().width;
 	private int height = Application.getScreenSize().height;
 
-	
-
-	protected NumberFormatAdapter printScaleNF;
-	
-
-	
-
-	
 
 	// axesNumberingDistances /
 	// 2
 
-	boolean showGrid = false;
-
-	protected boolean antiAliasing = true;
-
-	boolean showMouseCoords = false;
-	boolean allowShowMouseCoords = true;
-
-	boolean showAxesRatio = false;
-	private boolean highlightAnimationButtons = false;
-
-	// only used for temporary views eg Text Preview, Spreadsheet plots
-	protected int pointCapturingMode;
+//	boolean showGrid = false;
+//
+//	protected boolean antiAliasing = true;
+//
+//	boolean showMouseCoords = false;
+//	boolean allowShowMouseCoords = true;
+//
+//	boolean showAxesRatio = false;
+//	private boolean highlightAnimationButtons = false;
+//
+//	// only used for temporary views eg Text Preview, Spreadsheet plots
+//	protected int pointCapturingMode;
 
 	// added by Loic BEGIN
 	// right angle
@@ -233,24 +223,9 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 	// END
 
-	
 
-	
-	private boolean showAxesCornerCoords = true;
-
-	protected boolean[] showAxesNumbers = { true, true };
-
-	protected String[] axesLabels = { null, null };
-
-	protected String[] axesUnitLabels = { null, null };
-
-	
-	
 	// colors: axes, grid, background
 	protected Color axesColor, gridColor;
-
-	
-	Previewable previewDrawable;
 
 	protected Rectangle selectionRectangle;
 
@@ -264,14 +239,11 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	protected Graphics2D bgGraphics; // g2d of bgImage
 	protected Image resetImage, playImage, pauseImage, upArrowImage,
 			downArrowImage;
-	private boolean firstPaint = true;
 
 	// temp image
 	private final Graphics2D g2Dtemp = new BufferedImage(5, 5,
 			BufferedImage.TYPE_INT_RGB).createGraphics();
 	// public Graphics2D lastGraphics2D;
-
-	protected StringBuilder sb = new StringBuilder();
 
 	protected Cursor defaultCursor;
 
@@ -337,7 +309,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		evjpanel.setLayout(null);
 		evjpanel.setMinimumSize(new Dimension(20, 20));
 		euclidianController.setView(this);
-		euclidianController.setPen(new EuclidianPen(getApplication(), this));
+		euclidianController.setPen(new EuclidianPen((Application)getApplication(), this));
 
 		attachView();
 
@@ -372,7 +344,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	}
 
 	public Application getApplication() {
-		return application;
+		return (Application)application;
 	}
 
 	/**
@@ -572,7 +544,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	}
 
 	public void updateFonts() {
-		setFontSize(getApplication().getFontSize());
+		setFontSize(((Application)getApplication()).getFontSize());
 
 		setFontPoint(getApplication().getPlainFontCommon().deriveFont(Font.PLAIN, getFontSize()));
 		setFontAngle(getFontPoint());
@@ -601,8 +573,8 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 	public void setDragCursor() {
 
-		if (getApplication().useTransparentCursorWhenDragging) {
-			setCursor(getApplication().getTransparentCursor());
+		if (((Application)getApplication()).useTransparentCursorWhenDragging) {
+			setCursor(((Application)getApplication()).getTransparentCursor());
 		} else {
 			setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		}
@@ -642,12 +614,12 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 		switch (mode) {
 		case EuclidianConstants.MODE_ZOOM_IN:
-			defaultCursor = getCursorForImage(getApplication()
+			defaultCursor = getCursorForImage(((Application)getApplication())
 					.getInternalImage("cursor_zoomin.gif"));
 			break;
 
 		case EuclidianConstants.MODE_ZOOM_OUT:
-			defaultCursor = getCursorForImage(getApplication()
+			defaultCursor = getCursorForImage(((Application)getApplication())
 					.getInternalImage("cursor_zoomout.gif"));
 			break;
 		}
@@ -1039,8 +1011,8 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 			Construction cons = kernel.getConstruction();
 			String title = cons.getTitle();
 			if (!title.equals("")) {
-				Font titleFont = getApplication().getBoldFontCommon().deriveFont(Font.BOLD,
-						getApplication().getBoldFont().getSize() + 2);
+				Font titleFont = ((Application)getApplication()).getBoldFontCommon().deriveFont(Font.BOLD,
+						((Application)getApplication()).getBoldFont().getSize() + 2);
 				g2d.setFont(geogebra.awt.Font.getAwtFont(titleFont));
 				g2d.setColor(Color.black);
 				// Font fn = g2d.getFont();
@@ -1067,7 +1039,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 			// scale string:
 			// Scale in cm: 1:1 (x), 1:2 (y)
 			String scaleString = null;
-			if (getApplication().isPrintScaleString()) {
+			if (((Application)getApplication()).isPrintScaleString()) {
 				StringBuilder sb = new StringBuilder(
 						getApplication().getPlain("ScaleInCentimeter"));
 				if (printingScale <= 1) {
@@ -1104,7 +1076,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 			}
 
 			if (line != null) {
-				g2d.setFont(getApplication().getPlainFont());
+				g2d.setFont(((Application)getApplication()).getPlainFont());
 				g2d.setColor(Color.black);
 				// Font fn = g2d.getFont();
 				FontMetrics fm = g2d.getFontMetrics();
@@ -1155,10 +1127,10 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	 * 
 	 */
 	public void exportPaint(Graphics2D g2d, double scale, boolean transparency) {
-		getApplication().exporting = true;
+		((Application)getApplication()).exporting = true;
 		exportPaintPre(g2d, scale, transparency);
 		drawObjects(g2d);
-		getApplication().exporting = false;
+		((Application)getApplication()).exporting = false;
 	}
 
 	public void exportPaintPre(Graphics2D g2d, double scale) {
@@ -1355,10 +1327,10 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 			drawAxes(g);
 		}
 
-		if (getApplication().showResetIcon() && getApplication().isApplet()) {
+		if (((Application)getApplication()).showResetIcon() && getApplication().isApplet()) {
 			// need to use getApplet().width rather than width so that
 			// it works with applet rescaling
-			int w = getApplication().onlyGraphicsViewShowing() ? getApplication().getApplet().width
+			int w = ((Application)getApplication()).onlyGraphicsViewShowing() ? ((Application)getApplication()).getApplet().width
 					: getWidth() + 2;
 			g.drawImage(getResetImage(), w - 18, 2, null);
 		}
@@ -1366,21 +1338,21 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 	private Image getResetImage() {
 		if (resetImage == null) {
-			resetImage = getApplication().getRefreshViewImage();
+			resetImage = ((Application)getApplication()).getRefreshViewImage();
 		}
 		return resetImage;
 	}
 
 	private Image getPlayImage() {
 		if (playImage == null) {
-			playImage = getApplication().getPlayImage();
+			playImage = ((Application)getApplication()).getPlayImage();
 		}
 		return playImage;
 	}
 
 	private Image getPauseImage() {
 		if (pauseImage == null) {
-			pauseImage = getApplication().getPauseImage();
+			pauseImage = ((Application)getApplication()).getPauseImage();
 		}
 		return pauseImage;
 	}
@@ -2196,7 +2168,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		}
 		GetViewId evp;
 		// eg ev1 just closed
-		if ((evp = getApplication().getGuiManager().getLayout().getDockManager().getFocusedEuclidianPanel()) == null) {
+		if ((evp = ((Application)getApplication()).getGuiManager().getLayout().getDockManager().getFocusedEuclidianPanel()) == null) {
 			return true;
 		}
 
@@ -2437,7 +2409,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	 * returns GeoElement whose label is at screen coords (x,y).
 	 */
 	final public GeoElement getLabelHit(geogebra.common.awt.Point p) {
-		if (!getApplication().isLabelDragsEnabled()) {
+		if (!((Application)getApplication()).isLabelDragsEnabled()) {
 			return null;
 		}
 		DrawableIterator it = allDrawableList.getIterator();
@@ -4064,7 +4036,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	}
 
 	final public Graphics2D getTempGraphics2D() {
-		g2Dtemp.setFont(getApplication().getPlainFont());
+		g2Dtemp.setFont(((Application)getApplication()).getPlainFont());
 		return g2Dtemp;
 	}
 
@@ -4346,7 +4318,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		getStyleBar().updateButtonPointCapture(evs.getPointCapturingMode());
 
 		if (getApplication().getGuiManager() != null) {
-			getApplication().getGuiManager().updateMenubar();
+			((Application)getApplication()).getGuiManager().updateMenubar();
 		}
 	}
 
@@ -4531,9 +4503,5 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		if (hasStyleBar()) {
 			getStyleBar().setMode(mode);
 		}
-	}
-
-	protected void setApplication(Application application) {
-		this.application = application;
 	}
 }
