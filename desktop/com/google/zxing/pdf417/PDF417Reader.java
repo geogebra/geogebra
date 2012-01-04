@@ -30,7 +30,7 @@ import com.google.zxing.common.DetectorResult;
 import com.google.zxing.pdf417.decoder.Decoder;
 import com.google.zxing.pdf417.detector.Detector;
 
-import java.util.Hashtable;
+import java.util.Map;
 
 /**
  * This implementation can detect and decode PDF417 codes in an image.
@@ -54,7 +54,8 @@ public final class PDF417Reader implements Reader {
     return decode(image, null);
   }
 
-  public Result decode(BinaryBitmap image, Hashtable hints) throws NotFoundException, FormatException {
+  public Result decode(BinaryBitmap image,
+                       Map<DecodeHintType,?> hints) throws NotFoundException, FormatException {
     DecoderResult decoderResult;
     ResultPoint[] points;
     if (hints != null && hints.containsKey(DecodeHintType.PURE_BARCODE)) {
@@ -100,7 +101,7 @@ public final class PDF417Reader implements Reader {
 
     int matrixWidth = (right - left + 1) / moduleSize;
     int matrixHeight = (bottom - top + 1) / moduleSize;
-    if (matrixWidth == 0 || matrixHeight == 0) {
+    if (matrixWidth <= 0 || matrixHeight <= 0) {
       throw NotFoundException.getNotFoundInstance();
     }
 

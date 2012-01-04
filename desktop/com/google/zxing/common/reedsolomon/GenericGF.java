@@ -20,7 +20,7 @@ package com.google.zxing.common.reedsolomon;
  * <p>This class contains utility methods for performing mathematical operations over
  * the Galois Fields. Operations use a given primitive polynomial in calculations.</p>
  *
- * <p>Throughout this package, elements of the GF are represented as an <code>int</code>
+ * <p>Throughout this package, elements of the GF are represented as an {@code int}
  * for convenience and speed (but at the cost of memory).
  * </p>
  *
@@ -36,6 +36,7 @@ public final class GenericGF {
   public static final GenericGF QR_CODE_FIELD_256 = new GenericGF(0x011D, 256); // x^8 + x^4 + x^3 + x^2 + 1
   public static final GenericGF DATA_MATRIX_FIELD_256 = new GenericGF(0x012D, 256); // x^8 + x^5 + x^3 + x^2 + 1
   public static final GenericGF AZTEC_DATA_8 = DATA_MATRIX_FIELD_256;
+  public static final GenericGF MAXICODE_FIELD_64 = AZTEC_DATA_6;
 
   private static final int INITIALIZATION_THRESHOLD = 0;
 

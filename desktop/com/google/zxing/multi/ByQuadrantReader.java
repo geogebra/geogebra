@@ -18,12 +18,13 @@ package com.google.zxing.multi;
 
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.ChecksumException;
+import com.google.zxing.DecodeHintType;
 import com.google.zxing.FormatException;
 import com.google.zxing.NotFoundException;
 import com.google.zxing.Reader;
 import com.google.zxing.Result;
 
-import java.util.Hashtable;
+import java.util.Map;
 
 /**
  * This class attempts to decode a barcode from an image, not by scanning the whole image,
@@ -47,7 +48,7 @@ public final class ByQuadrantReader implements Reader {
     return decode(image, null);
   }
 
-  public Result decode(BinaryBitmap image, Hashtable hints)
+  public Result decode(BinaryBitmap image, Map<DecodeHintType,?> hints)
       throws NotFoundException, ChecksumException, FormatException {
 
     int width = image.getWidth();

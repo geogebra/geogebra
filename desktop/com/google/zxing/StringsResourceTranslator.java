@@ -28,6 +28,7 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.Arrays;
@@ -51,15 +52,17 @@ import java.util.regex.Pattern;
  */
 public final class StringsResourceTranslator {
 
+  private static final String API_KEY = "INSERT-YOUR-KEY";
+  
   private static final Charset UTF8 = Charset.forName("UTF-8");
-  private static final Pattern ENTRY_PATTERN = Pattern.compile("<string name=\"([^\"]+)\">([^<]+)</string>");
+  private static final Pattern ENTRY_PATTERN = Pattern.compile("<string name=\"([^\"]+)\".*>([^<]+)</string>");
   private static final Pattern STRINGS_FILE_NAME_PATTERN = Pattern.compile("values-(.+)");
-  private static final Pattern TRANSLATE_RESPONSE_PATTERN = Pattern.compile(
-      "\\{\"translatedText\":\"([^\"]+)\"\\}");
+  private static final Pattern TRANSLATE_RESPONSE_PATTERN = Pattern.compile("translatedText\":\\s*\"([^\"]+)\"");
+  private static final Pattern VALUES_DIR_PATTERN = Pattern.compile("values-[a-z]{2}(-[a-zA-Z]{2,3})?");
 
   private static final String APACHE_2_LICENSE =
       "<!--\n" +
-      " Copyright (C) 2010 ZXing authors\n" +
+      " Copyright (C) 2011 ZXing authors\n" +
       '\n' +
       " Licensed under the Apache License, Version 2.0 (the \"License\");\n" +
       " you may not use this file except in compliance with the License.\n" +
@@ -74,12 +77,10 @@ public final class StringsResourceTranslator {
       " limitations under the License.\n" +
       " -->\n";
 
-  private static final Map<String,String> LANGUAGE_CODE_MASSAGINGS = new HashMap<String,String>(7);
+  private static final Map<String,String> LANGUAGE_CODE_MASSAGINGS = new HashMap<String,String>(3);
   static {
-    LANGUAGE_CODE_MASSAGINGS.put("ja-rJP", "ja");
     LANGUAGE_CODE_MASSAGINGS.put("zh-rCN", "zh-cn");
     LANGUAGE_CODE_MASSAGINGS.put("zh-rTW", "zh-tw");
-	  LANGUAGE_CODE_MASSAGINGS.put("kr",     "ko");
   }
 
   private StringsResourceTranslator() {}
@@ -93,7 +94,7 @@ public final class StringsResourceTranslator {
 
     File[] translatedValuesDirs = resDir.listFiles(new FileFilter() {
       public boolean accept(File file) {
-        return file.isDirectory() && file.getName().startsWith("values-");
+        return file.isDirectory() && VALUES_DIR_PATTERN.matcher(file.getName()).matches();
       }
     });
     for (File translatedValuesDir : translatedValuesDirs) {
@@ -103,8 +104,9 @@ public final class StringsResourceTranslator {
 
   }
 
-  private static void translate(File englishFile, File translatedFile, Collection<String> forceRetranslation)
-      throws IOException {
+  private static void translate(File englishFile,
+                                File translatedFile,
+                                Collection<String> forceRetranslation) throws IOException {
 
     SortedMap<String,String> english = readLines(englishFile);
     SortedMap<String,String> translated = readLines(translatedFile);
@@ -132,14 +134,20 @@ public final class StringsResourceTranslator {
 
       for (Map.Entry<String,String> englishEntry : english.entrySet()) {
         String key = englishEntry.getKey();
+        String value = englishEntry.getValue();
         out.write("  <string name=\"");
         out.write(key);
-        out.write("\">");
+        out.write('"');
+        if (value.contains("%s") || value.contains("%f")) {
+          // Need to specify that there's a value placeholder
+          out.write(" formatted=\"false\"");
+        }
+        out.write('>');
 
         String translatedString = translated.get(key);
         if (translatedString == null || forceRetranslation.contains(key)) {
           anyChange = true;
-          translatedString = translateString(englishEntry.getValue(), language);
+          translatedString = translateString(value, language);
         }
         out.write(translatedString);
 
@@ -160,16 +168,46 @@ public final class StringsResourceTranslator {
     }
   }
 
-  private static String translateString(String english, String language) throws IOException {
+  static String translateString(String english, String language) throws IOException {
+    if ("en".equals(language)) {
+      return english;
+    }
+    String massagedLanguage = LANGUAGE_CODE_MASSAGINGS.get(language);
+    if (massagedLanguage != null) {
+      language = massagedLanguage;
+    }
     System.out.println("  Need translation for " + english);
+
     URL translateURL = new URL(
-        "http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q=" +
+        "https://www.googleapis.com/language/translate/v2?key=" + API_KEY + "&q=" +
         URLEncoder.encode(english, "UTF-8") +
-        "&langpair=en%7C" + language);
-    StringBuilder translateResult = new StringBuilder();
+        "&source=en&target=" + language);
+    CharSequence translateResult = fetch(translateURL);
+    Matcher m = TRANSLATE_RESPONSE_PATTERN.matcher(translateResult);
+    if (!m.find()) {
+      System.err.println("No translate result");
+      System.err.println(translateResult);
+      return english;
+    }
+    String translation = m.group(1);
+    System.out.println("  Got translation " + translation);
+
+    // This is a little crude; unescape some common escapes in the raw response
+    translation = translation.replaceAll("\\\\u0026quot;", "\"");
+    translation = translation.replaceAll("\\\\u0026#39;", "'");
+    translation = translation.replaceAll("\\\\u200b", "");
+    translation = translation.replaceAll("&amp;quot;", "\"");
+    translation = translation.replaceAll("&amp;#39;", "'");
+    return translation;
+  }
+
+  private static CharSequence fetch(URL translateURL) throws IOException {
+    URLConnection connection = translateURL.openConnection();
+    connection.connect();
+    StringBuilder translateResult = new StringBuilder(200);
     Reader in = null;
     try {
-      in = new InputStreamReader(translateURL.openStream(), UTF8);
+      in = new InputStreamReader(connection.getInputStream(), UTF8);
       char[] buffer = new char[1024];
       int charsRead;
       while ((charsRead = in.read(buffer)) > 0) {
@@ -178,13 +216,7 @@ public final class StringsResourceTranslator {
     } finally {
       quietClose(in);
     }
-    Matcher m = TRANSLATE_RESPONSE_PATTERN.matcher(translateResult);
-    if (!m.find()) {
-      throw new IOException("No translate result");
-    }
-    String translation = m.group(1);
-    System.out.println("  Got translation " + translation);
-    return translation;
+    return translateResult;
   }
 
   private static SortedMap<String,String> readLines(File file) throws IOException {

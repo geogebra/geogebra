@@ -31,7 +31,8 @@ import com.google.zxing.common.DecoderResult;
 import com.google.zxing.aztec.decoder.Decoder;
 import com.google.zxing.aztec.detector.Detector;
 
-import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This implementation can detect and decode Aztec codes in an image.
@@ -52,17 +53,17 @@ public final class AztecReader implements Reader {
     return decode(image, null);
   }
 
-  public Result decode(BinaryBitmap image, Hashtable hints)
+  public Result decode(BinaryBitmap image, Map<DecodeHintType,?> hints)
       throws NotFoundException, FormatException {
 
     AztecDetectorResult detectorResult = new Detector(image.getBlackMatrix()).detect();
     ResultPoint[] points = detectorResult.getPoints();
 
-    if (hints != null && detectorResult.getPoints() != null) {
+    if (hints != null) {
       ResultPointCallback rpcb = (ResultPointCallback) hints.get(DecodeHintType.NEED_RESULT_POINT_CALLBACK);
       if (rpcb != null) {
-        for (int i = 0; i < detectorResult.getPoints().length; i++) {
-          rpcb.foundPossibleResultPoint(detectorResult.getPoints()[i]);
+        for (ResultPoint point : points) {
+          rpcb.foundPossibleResultPoint(point);
         }
       }
     }
@@ -71,11 +72,13 @@ public final class AztecReader implements Reader {
 
     Result result = new Result(decoderResult.getText(), decoderResult.getRawBytes(), points, BarcodeFormat.AZTEC);
     
-    if (decoderResult.getByteSegments() != null) {
-      result.putMetadata(ResultMetadataType.BYTE_SEGMENTS, decoderResult.getByteSegments());
+    List<byte[]> byteSegments = decoderResult.getByteSegments();
+    if (byteSegments != null) {
+      result.putMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments);
     }
-    if (decoderResult.getECLevel() != null) {
-      result.putMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, decoderResult.getECLevel().toString());
+    String ecLevel = decoderResult.getECLevel();
+    if (ecLevel != null) {
+      result.putMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel);
     }
     
     return result;

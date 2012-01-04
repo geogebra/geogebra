@@ -48,19 +48,15 @@ public final class CalendarParsedResult extends ParsedResult {
                               double latitude,
                               double longitude) {
     super(ParsedResultType.CALENDAR);
-    // Start is required, end is not
-    if (start == null) {
-      throw new IllegalArgumentException();
-    }
     validateDate(start);
-    if (end == null) {
-      end = start;
-    } else {
-      validateDate(end);
-    }
     this.summary = summary;
     this.start = start;
-    this.end = end;
+    if (end != null) {
+      validateDate(end);
+      this.end = end;
+    } else {
+      this.end = null;
+    }
     this.location = location;
     this.attendee = attendee;
     this.description = description;
@@ -75,7 +71,7 @@ public final class CalendarParsedResult extends ParsedResult {
   /**
    * <p>We would return the start and end date as a {@link java.util.Date} except that this code
    * needs to work under JavaME / MIDP and there is no date parsing library available there, such
-   * as <code>java.text.SimpleDateFormat</code>.</p> See validateDate() for the return format.
+   * as {@code java.text.SimpleDateFormat}.</p> See validateDate() for the return format.
    *
    * @return start time formatted as a RFC 2445 DATE or DATE-TIME.</p>
    */
@@ -110,8 +106,9 @@ public final class CalendarParsedResult extends ParsedResult {
     return longitude;
   }
 
+  @Override
   public String getDisplayResult() {
-    StringBuffer result = new StringBuffer(100);
+    StringBuilder result = new StringBuilder(100);
     maybeAppend(summary, result);
     maybeAppend(start, result);
     maybeAppend(end, result);
@@ -127,7 +124,7 @@ public final class CalendarParsedResult extends ParsedResult {
    *
    * @param date The string to validate
    */
-  private static void validateDate(String date) {
+  private static void validateDate(CharSequence date) {
     if (date != null) {
       int length = date.length();
       if (length != 8 && length != 15 && length != 16) {
