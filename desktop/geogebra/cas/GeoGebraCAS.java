@@ -32,12 +32,16 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	public CasType currentCAS = CasType.NO_CAS;
 
 	public GeoGebraCAS(Kernel kernel) {
-		app = (Application)kernel.getApplication();
+		app = (Application) kernel.getApplication();
 		casParser = new CASparser(kernel);
 
 		// see http://www.geogebra.org/trac/ticket/1565
-		setCurrentCAS(Kernel.DEFAULT_CAS);
+		//setCurrentCAS(Kernel.DEFAULT_CAS);
 
+		// TODO: remove
+		// init CAS in background as this may take a bit
+		// see also http://www.geogebra.org/trac/ticket/1565
+		getCurrentCAS();
 	}
 
 	public CASparser getCASparser() {
@@ -45,6 +49,15 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	}
 
 	public synchronized CASgeneric getCurrentCAS() {
+		if (cas == null) {
+			Thread casIniting = new Thread() {
+				public void run() {
+					setCurrentCAS(Kernel.DEFAULT_CAS);
+				}
+			};
+			casIniting.start();
+		}
+		
 		return cas;
 	}
 
@@ -99,7 +112,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * Resets the cas and unbinds all variable and function definitions.
 	 */
 	public void reset() {
-		cas.reset();
+		getCurrentCAS().reset();
 	}
 
 	/**
@@ -109,7 +122,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * @param significantNumbers
 	 */
 	public void setSignificantFiguresForNumeric(int significantNumbers) {
-		cas.setSignificantFiguresForNumeric(significantNumbers);
+		getCurrentCAS().setSignificantFiguresForNumeric(significantNumbers);
 	}
 
 	/*
@@ -144,7 +157,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * @param var
 	 */
 	public void unbindVariable(String var) {
-		cas.unbindVariable(var);
+		getCurrentCAS().unbindVariable(var);
 	}
 
 	/**
@@ -164,7 +177,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		String result = null;
 		CASException exception = null;
 		try {
-			result = cas.evaluateGeoGebraCAS(casInput);
+			result = getCurrentCAS().evaluateGeoGebraCAS(casInput);
 		} catch (CASException ce) {
 			exception = ce;
 		} finally {
@@ -219,7 +232,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * @throws Throwable
 	 */
 	final public String evaluateRaw(String exp) throws Throwable {
-		return cas.evaluateRaw(exp);
+		return getCurrentCAS().evaluateRaw(exp);
 	}
 
 	/**
@@ -227,8 +240,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * 
 	 * @return null if last evaluation was successful.
 	 */
-	final synchronized public String getGeoGebraCASError() {
-		return cas.getEvaluateGeoGebraCASerror();
+	final public String getGeoGebraCASError() {
+		return getCurrentCAS().getEvaluateGeoGebraCASerror();
 	}
 
 	/**
@@ -326,7 +339,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		sbCASCommand.append(name);
 		sbCASCommand.append(".N");
 
-		String translation = cas.getTranslatedCASCommand(sbCASCommand
+		String translation = getCurrentCAS().getTranslatedCASCommand(sbCASCommand
 				.toString());
 
 		// check for eg Sum.N=sum(%)
@@ -376,7 +389,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		sbCASCommand.append(args.size());
 
 		// get translation ggb -> MathPiper/Maxima
-		translation = cas.getTranslatedCASCommand(sbCASCommand.toString());
+		translation = getCurrentCAS().getTranslatedCASCommand(sbCASCommand.toString());
 		sbCASCommand.setLength(0);
 
 		// no translation found:
@@ -451,13 +464,13 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		sbCASCommand.append(cmd.getName());
 		sbCASCommand.append(".");
 		sbCASCommand.append(cmd.getArgumentNumber());
-		if (cas.isCommandAvailable(sbCASCommand.toString()))
+		if (getCurrentCAS().isCommandAvailable(sbCASCommand.toString()))
 			return true;
 
 		sbCASCommand.setLength(0);
 		sbCASCommand.append(cmd.getName());
 		sbCASCommand.append(".N");
-		if (cas.isCommandAvailable(sbCASCommand.toString())) {
+		if (getCurrentCAS().isCommandAvailable(sbCASCommand.toString())) {
 			return true;
 		}
 		return false;
