@@ -39,7 +39,7 @@ public abstract class ECI {
    * @return ECI representing ECI of given value, or null if it is legal but unsupported
    * @throws IllegalArgumentException if ECI value is invalid
    */
-  public static ECI getECIByValue(int value) {
+  public static CharacterSetECI getECIByValue(int value) {
     if (value < 0 || value > 999999) {
       throw new IllegalArgumentException("Bad ECI value: " + value);
     }
