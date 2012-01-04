@@ -176,7 +176,7 @@ public class KinectTest extends Component {
 	private BufferedImage bimg;
 	int width, height;
 
-	private final String SAMPLE_XML_FILE = "geogebra/plugin/kinect/SamplesConfig.xml";
+	//private final String SAMPLE_XML_FILE = "geogebra/plugin/kinect/SamplesConfig.xml";
 	private final Kernel kernel;
 
 	public KinectTest(Kernel kernel) {
@@ -187,7 +187,7 @@ public class KinectTest extends Component {
 
 		try {
 			scriptNode = new OutArg<ScriptNode>();
-			context = Context.createFromXmlFile(SAMPLE_XML_FILE, scriptNode);
+			context = new Context(); //Context.createFromXmlFile(SAMPLE_XML_FILE, scriptNode);
 			/*
 			 * handsGen = HandsGenerator.create(context);
 			 * handsGen.getHandCreateEvent().addObserver(new
