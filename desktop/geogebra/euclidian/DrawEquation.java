@@ -95,7 +95,11 @@ public class DrawEquation implements DrawEquationInterface{
 			// a font
 			TeXFormula.registerExternalFont(
 					Character.UnicodeBlock.of('\uB458'), "Sans Serif", "Serif");
-
+			// Japanese is in standard Java fonts, so we don't need to search for
+			// a font
+			TeXFormula.registerExternalFont(
+					Character.UnicodeBlock.of('\u30ea'), "Sans Serif", "Serif");
+			
 			// Other codeblocks (currency, symbols etc)
 			TeXFormula.registerExternalFont(
 					Character.UnicodeBlock.of('\u20a0'), "Sans Serif", "Serif");
