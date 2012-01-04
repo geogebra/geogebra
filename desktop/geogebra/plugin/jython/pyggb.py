@@ -2,26 +2,11 @@
 from __future__ import division
 
 # GeoGebra imports
-from geogebra.common.kernel.geos import (
-    GeoElement, GeoPoint2 as GeoPoint, GeoNumeric, GeoVector,
-    GeoFunction, GeoText, GeoConic, GeoLine, GeoSegment, GeoRay,
-    GeoBoolean, GeoLocus
-)
-from geogebra.common.kernel import Construction
-from geogebra.common.kernel.algos import (
-    AlgoDependentNumber, AlgoDependentPoint, AlgoDependentVector
-)
-from geogebra.common.kernel.arithmetic import (
-    ExpressionNode, MyVecNode, FunctionVariable, Function as _Function,
-    FunctionNVar, Variable, MyDouble, Operation as OP,
-    MyBoolean, NumberValue
-)
+from geogebra.common.kernel.geos import GeoClass
+from geogebra.common.kernel.arithmetic import Operation as OP
 from geogebra.common.euclidian import EuclidianStyleConstants as STYLE
-
 from geogebra.plugin.jython import PythonScriptInterface
-
 from geogebra.awt import Color
-
 from geogebra.plugin.jython import PythonAPI as API
 
 # Java imports
@@ -53,11 +38,11 @@ class Interface(PythonScriptInterface):
         _kernel = app.getKernel()
         _cons = _kernel.getConstruction()
         _algprocessor = _kernel.getAlgebraProcessor()
-        api = API(app)
         pywindow = self.pywin = PythonWindow()
         self.geo = Geo()
         selection = self.selection = Selection()
         sys.stdout = self.pywin
+        api = API(app)
         self.namespace = {
             'Color': Color,
             'Point': Point,
@@ -85,6 +70,7 @@ class Interface(PythonScriptInterface):
         self.handling_event = False
         self.pywin.add("*** Python Interface initialised ***\n", "output")
     def handleEvent(self, evt_type, target):
+        target = API.Geo(target)
         if self.handling_event:
             return
         element = self.geo._get_element(target)
@@ -102,6 +88,7 @@ class Interface(PythonScriptInterface):
         finally:
             self.handling_event = False
     def notifySelected(self, geo, add):
+        geo = API.Geo(geo)
         if self.selection_listener:
             el = self.geo._get_element(geo)
             self.selection_listener.send(el, add)
@@ -197,7 +184,7 @@ class Element(GenericMethods):
         raise GenericError
     
     @specmethod.__init__
-    @sign(GeoElement)
+    @sign(API.Geo)
     def initfromgeo(self, geo):
         self.geo = geo
     
@@ -217,35 +204,35 @@ class Element(GenericMethods):
     
     # property: label 
     def _getlabel(self):
-        return API.getGeoLabel(self.geo)
+        return self.geo.getLabel()
     def _setlabel(self, label):
-        API.setGeoLabel(self.geo, label)
-        API.repaintGeo(geo)
+        self.geo.setLabel(label)
+        self.geo.updateRepaint()
     label = property(_getlabel, _setlabel)
 
     # property: color
     def _getcolor(self):
-        return API.getGeoColor(self.geo)
+        return self.geo.getColor()
     def _setcolor(self, col):
-        API.setGeoColor(self.geo, col)
-        API.repaintGeo(self.geo)
+        self.geo.setColor(col)
+        self.geo.updateRepaint()
     color = property(_getcolor, _setcolor)
 
     # property: caption
     def _getcaption(self):
-        return API.getGeoCaption(self.geo)
+        return self.geo.getCaption()
     def _setcaption(self, value):
-        API.setGeoCaption(self.geo, value)
-        API.repaintGeo(self.geo)
+        self.geo.setCaption(value)
+        self.geo.updateRepaint()
     caption = property(_getcaption, _setcaption)
 
     # property: label_mode
     def _getlabel_mode(self):
-        return LABEL_MODES[API.getGeoLabelMode(self.geo)]
+        return LABEL_MODES[self.geo.getLabelMode()]
     def _setlabel_mode(self, mode):
         try:
             mode = LABEL_MODES.index(mode)
-            API.setGeoLabelMode(self.geo, mode)
+            self.geo.setLabelMode(mode)
         except ValueError:
             raise ValueError("illegal label mode: %s", mode)
     label_mode = property(_getlabel_mode, _setlabel_mode)
@@ -267,9 +254,9 @@ class Element(GenericMethods):
     
     # property: background_color
     def _getbgcolor(self):
-        return self.geo.backgroundColor
+        return self.geo.getBackgroundColor()
     def _setbgcolor(self, val):
-        self.geo.backgroundColor = val
+        self.geo.setBackgroundColor(val)
     background_color = property(_getbgcolor, _setbgcolor)
     
     # property: visible
@@ -287,12 +274,11 @@ class Element(GenericMethods):
 def expr(obj):
     if isinstance(obj, Number):
         return NumberExpression(obj)
-    elif isinstance(obj, tuple):
-        if len(obj) == 2:
-            x, y = obj
-            return VectorExpression(x, y)
-    elif isinstance(obj, ExpressionNode):
-        return Expression.fromnode(obj)
+    elif isinstance(obj, tuple) and len(obj) == 2:
+        x, y = obj
+        return VectorExpression(x, y)
+    #elif isinstance(obj, ExpressionNode):
+    #    return Expression.fromnode(obj)
     elif isinstance(obj, Expression):
         return obj
     else:
@@ -313,11 +299,11 @@ class Expression(GenericMethods):
     @classmethod
     def fromnode(self, node):
         val = node.evaluate()
-        if val.isNumberValue():
+        if val.isNumber():
             return NumberExpression(node)
-        elif val.isVectorValue():
+        elif val.isVector():
             return VectorExpression(node)
-        elif val.isBooleanValue():
+        elif val.isBoolean():
             return BooleanExpression(node)
         else:
             # TODO add other types of expressions
@@ -325,15 +311,9 @@ class Expression(GenericMethods):
     
     def __hash__(self):
         return hash(self.geo)
-    
-    def __expr__(self):
-        return self
 
     def getnode(self):
-        if isinstance(self.expr, ExpressionNode):
-            return self.expr
-        else:
-            return ExpressionNode(_kernel, self.expr)
+        return api.nodeExpression(self.expr)
     
     def __repr__(self):
         return "<%s>" % self.expr
@@ -348,7 +328,7 @@ class Expression(GenericMethods):
             self, other = other, self
         x = self.expr
         y = other.expr
-        node = ExpressionNode(_kernel, x, opcode, y)
+        node = api.nodeExpression(x, opcode, y)
         return self.fromnode(node)
     
     # Arithmetic operators
@@ -393,11 +373,11 @@ class Expression(GenericMethods):
 
     def _getvalue(self):
         val = self.expr.evaluate()
-        if isinstance(val, NumberValue):
-            return val.getDouble()
-        elif isinstance(val, MyBoolean):
+        if val.isNumber():
+            return val.getNumber()
+        elif val.isBoolean():
             return val.getBoolean()
-        elif isinstance(val, MyVecNode):
+        elif val.isVector():
             return tuple(val.getCoords())
         else:
             # TODO cover more types
@@ -405,15 +385,7 @@ class Expression(GenericMethods):
     value = property(_getvalue)
 
     def __geo__(self):
-        node = self.getnode()
-        # Make sure that labels are not created for new geoelements
-        flag = _cons.isSuppressLabelsActive()
-        try:
-            _cons.setSuppressLabelCreation(True)
-            [element] = _algprocessor.processExpressionNode(node)
-        finally:
-            _cons.setSuppressLabelCreation(flag)
-        return element
+        return api.getGeo(self.expr)
 
 
 Expressionable = (Number, tuple, Expression)
@@ -423,7 +395,7 @@ class NumberExpression(Expression):
     @specmethod.__init__
     @sign(Number)
     def initfromnumber(self, x):
-        self.expr = MyDouble(_kernel, float(x))
+        self.expr = api.numberExpression(float(x))
     
     def __float__(self):
         return self.value
@@ -436,7 +408,7 @@ class VectorExpression(Expression):
     @sign(NumberThing, NumberThing)
     def initfromcoords(self, x, y):
         x, y = expr(x), expr(y)
-        self.expr = MyVecNode(_kernel, x.expr, y.expr)
+        self.expr = api.vectorExpression(x.expr, y.expr)
 
 
 VectorThing = (tuple, VectorExpression)
@@ -463,7 +435,7 @@ unary_functions_data = [
 
 def unary_factory(name, opcode):
     def f(e):
-        return Expression(ExpressionNode(_kernel, expr(e).expr, opcode, None))
+        return Expression(api.nodeExpression(expr(e).expr, opcode))
     f.__name__ = name
     return f
 
@@ -484,20 +456,19 @@ class ExpressionElement(Element):
     def _getexpr(self):
         return self.geo
     expr = property(_getexpr)
-
+    
 
 class Numeric(ExpressionElement, NumberExpression):
 
     @specmethod.__init__
     @sign(Number)
     def initfromnumber(self, val):
-        self.geo = GeoNumeric(_cons, float(val))
+        self.geo = api.geoNumber(float(val))
     
     @specmethod.__init__
     @sign(Expression)
     def initfromexpr(self, e):
-        algo = AlgoDependentNumber(_cons, e.expr, False)
-        self.geo = algo.number
+        self.geo = api.geoNumber(e.expr)
     
     def __float__(self):
         return self.geo.value
@@ -528,8 +499,7 @@ class VectorOrPoint(ExpressionElement, Expression):
         try:
             return self._x
         except AttributeError:
-            xe = ExpressionNode(_kernel, self.geo, OP.XCOORD, None)
-            self._x = NumberExpression(xe)
+            self._x = NumberExpression(api.xCoordExpression(self.geo))
             return self._x
     def _setx(self, x):
             self.setcoords(x, self.y.value)
@@ -539,8 +509,7 @@ class VectorOrPoint(ExpressionElement, Expression):
         try:
             return self._y
         except AttributeError:
-            ye = ExpressionNode(_kernel, self.geo, OP.YCOORD, None)
-            self._y = NumberExpression(ye)
+            self._y = NumberExpression(api.yCoordExpression(self.geo))
             return self._y
     def _sety(self, y):
             self.setcoords(self.x.value, y)
@@ -551,37 +520,36 @@ class Vector(VectorOrPoint):
     @specmethod.__init__
     @sign(VectorThing)
     def initfromexpr(self, e):
-        algo = AlgoDependentVector(_cons, expr(e).getnode())
-        self.geo = algo.vector
+        self.geo = api.geoVector(expr(e).expr)
 
     @specmethod.__init__
     @sign(Number, Number)
     def initfromnumbercoords(self, x, y):
-        self.geo = _kernel.Vector(None, float(x), float(y))
+        self.geo = api.geoVector(float(x), float(y))
 
         
 class Point(VectorOrPoint):
     @specmethod.__init__
     @sign(VectorThing)
     def initfromexpr(self, e):
-        algo = AlgoDependentPoint(_cons, expr(e).getnode(), False)
-        self.geo = algo.point
+        self.geo = api.geoPoint(expr(e).expr)
+
 
     @specmethod.__init__
     @sign(Number, Number)
     def initfromnumbercoords(self, x, y):
-        self.geo = _kernel.Point(None, float(x), float(y))
+        self.geo = api.geoPoint(float(x), float(y))
 
 
 @Vector.init.spec
 @sign(Vector, Point, Point)
 def initfrompoints(self, p, q):
-    self.geo = _kernel.Vector(None, p.geo, q.geo)
+    self.geo = api.geoVector(p.geo, q.geo);
 
 @Vector.init.spec
 @sign(Vector, Point)
 def initfrompoint(self, p):
-    self.geo = _kernel.Vector(None, p.geo)
+    self.geo = api.geoVector(p.geo);
 
 @Point.init.spec
 @sign(Point, Point)
@@ -623,12 +591,12 @@ class Line(Path):
     @specmethod.init
     @sign(Point, Point)
     def initfrom2points(self, p, q):
-        self.geo = _kernel.Line(None, p.geo, q.geo)
+        self.geo = api.geoLinePP(p.geo, q.geo)
 
     @specmethod.init
     @sign(Point, Vector)
     def initfrompointandvector(self, p, v):
-        self.geo = _kernel.Line(None, p.geo, v.geo)
+        self.geo = api.geoLinePV(p.geo, v.geo)
 
     
     def __contains__(self, p):
@@ -638,20 +606,20 @@ class Line(Path):
             return False
     
     def _getdirection(self):
-        return Vector.fromgeo(_kernel.Direction(self.geo))
+        return Vector.fromgeo(api.geoLineDirection(self.geo))
     direction = property(_getdirection)
 
 @Line.init.spec
 @sign(Line, Point, Line)
 def initfrompointandline(self, p, l):
-    return _kernel.Line(None, p.geo, l.geo)
+    return api.geoLinePL(p.geo, l.geo)
 
 
 class Segment(Line, ExpressionElement, NumberExpression):
     @specmethod.init
     @sign(Point, Point)
     def initfrompoints(self, p, q):
-        self.geo = _kernel.Segment(None, p.geo, q.geo)
+        self.geo = api.geoSegment(p.geo, q.geo)
 
     # property: startpoint    
     def _getstartpoint(self):
@@ -672,7 +640,7 @@ class Ray(Line):
     @specmethod.init
     @sign(Point, Point)
     def initfrompoints(self, p, q):
-        self.geo = _kernel.Ray(None, p.geo, q.geo)
+        self.geo = api.geoRayPP(p.geo, q.geo)
 
 
 class Text(Element):
@@ -809,17 +777,11 @@ class Function(Element):
         if nargs == 0:
             raise ValueError("function must have at least one variable")
         if nargs == 1:
-            x = FunctionVariable(_kernel, varnames[0])
-            fx = f(Expression(x))
-            func = _Function(fx.expr, x)
-            [self.geo] = _algprocessor.processFunction(None, func)
+            x = api.variableExpression(varnames[0])
+            self.geo = api.geoFunction(f(x).expr, x)
         else:
-            xs = [FunctionVariable(_kernel, v) for v in varnames[:nargs]]
-            fxs = f(*map(Expression, xs))
-            func = FunctionNVar(fxs.expr, xs)
-            #func.initFunction()
-            #self.geo = _kernel.FunctionNVar(f.__name__, func)
-            [self.geo] = _algprocessor.processFunctionNVar(None, func)
+            xs = [api.variableExpression(v) for v in varnames[:nargs]]
+            self.geo = api.geoFunctionNVar(f(*xs).expr, xs)
     
     def __call__(self, *args):
         args = map(expr, args)
@@ -828,7 +790,7 @@ class Function(Element):
         if self.nargs != 2:
             raise AttributeError
         else:
-            geo = _kernel.ImplicitPoly(None, self.geo)
+            geo = api.geoImplicitPoly(self.geo)
             return ImplicitPoly(geo)
     implicitcurve = property(_getimplicitcurve)
 
@@ -846,12 +808,12 @@ class Intersect(GenericMethods):
     @specmethod.find
     @sign(Line, Line)
     def twolines(self, l1, l2):
-        return [_kernel.IntersectLines(None, l1.geo, l2.geo)]
+        return [api.intersectLines(l1.geo, l2.geo)]
 
     @specmethod.find
     @sign(Line, Conic)
     def lineconic(self, l, c):
-        return _kernel.IntersectLineConic(None, l.geo, c.geo)
+        return api.intersectLineConic(l.geo, c.geo)
 
     @specmethod.find
     @sign(Conic, Line)
@@ -861,7 +823,7 @@ class Intersect(GenericMethods):
     @specmethod.find
     @sign(Conic, Conic)
     def twoconics(self, c1, c2):
-        return _kernel.IntersectConics(None, c1.geo, c2.geo)
+        return api.intersectConics(c1.geo, c2.geo)
     
     def __repr__(self):
         return "[%s]" % ", ".join(map(repr, self.intersections))
@@ -877,7 +839,7 @@ class Intersect(GenericMethods):
 class Selection(object):
     @property
     def all(self):
-        return map(Geo._get_element, _app.getSelectedGeos())
+        return map(Geo._get_element, api.getSelectedGeos())
     
     def filter(self, eltype):
         return [x for x in self.all if isinstance(x, eltype)]
@@ -900,8 +862,8 @@ class Selection(object):
 
 
 def pointlist():
-    classtype = GeoElement.GEO_CLASS_POINT
-    pointset = _cons.getGeoSetLabelOrder(classtype)
+    # XXX Still to convert
+    pointset = _cons.getGeoSetLabelOrder(GeoClass.POINT)
     pointlist = []
     it = pointset.iterator()
     while it.hasNext():
@@ -910,17 +872,17 @@ def pointlist():
 
 class Geo(object):
     _map = {
-        GeoVector: Vector,
-        GeoPoint: Point,
-        GeoNumeric: Numeric,
-        GeoBoolean: Boolean,
-        GeoFunction: Function,
-        GeoText: Text,
-        GeoLine: Line,
-        GeoSegment: Segment,
-        GeoRay: Ray,
-        GeoConic: Conic,
-        GeoLocus: Locus,
+        API.GeoVectorClass: Vector,
+        API.GeoPointClass: Point,
+        API.GeoNumericClass: Numeric,
+        API.GeoBooleanClass: Boolean,
+        API.GeoFunctionClass: Function,
+        API.GeoTextClass: Text,
+        API.GeoLineClass: Line,
+        API.GeoSegmentClass: Segment,
+        API.GeoRayClass: Ray,
+        API.GeoConicClass: Conic,
+        API.GeoLocusClass: Locus,
     }
     _revmap = dict((v, k) for k, v in _map.iteritems())
     _cache = {}
@@ -931,14 +893,14 @@ class Geo(object):
         elif geo in cls._cache:
             return cls._cache[geo]
         else:
-            eltype = cls._map.get(type(geo))
+            eltype = cls._map.get(geo.getType())
             if eltype is None:
                 return None
             element = eltype.fromgeo(geo)
             cls._cache[geo] = element
             return element
     def __getattr__(self, name):
-        geo = _kernel.lookupLabel(name)
+        geo = api.lookupLabel(name)
         return self._get_element(geo)
     def __setattr__(self, name, value):
         if not isinstance(value, Element):
