@@ -32,6 +32,7 @@ import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.GetViewId;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.factories.FormatFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
@@ -4503,5 +4504,9 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		if (hasStyleBar()) {
 			getStyleBar().setMode(mode);
 		}
+	}
+
+	public boolean hitAnimationButton(AbstractEvent e) {
+		return hitAnimationButton(((geogebra.euclidian.event.MouseEvent) e).impl);
 	}
 }

@@ -6,6 +6,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -1215,6 +1216,10 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 
 	public boolean hitAnimationButton(MouseEvent e) {
 		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	public boolean hitAnimationButton(AbstractEvent e) {
 		return false;
 	}
 	

@@ -13,6 +13,7 @@ import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
@@ -305,6 +306,11 @@ public class EuclidianView extends AbstractEuclidianView {
 	public void setPointCapturing(int pointCapturingStickyPoints) {
 	    // TODO Auto-generated method stub
 	    
+    }
+
+	public boolean hitAnimationButton(AbstractEvent e) {
+	    // TODO Auto-generated method stub
+	    return false;
     }
 
 

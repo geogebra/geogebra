@@ -264,7 +264,7 @@ public abstract class AbstractEuclidianController {
 
 	protected boolean mouseIsOverLabel = false;
 
-	protected EuclidianViewInterfaceSlim view;
+	protected EuclidianViewInterfaceCommon view;
 	
 	// ==============================================
 	// Pen

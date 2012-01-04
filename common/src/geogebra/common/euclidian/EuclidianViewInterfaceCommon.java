@@ -2,6 +2,7 @@ package geogebra.common.euclidian;
 
 import java.util.ArrayList;
 
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -130,4 +131,6 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 
 	public int toScreenCoordX(double minX);
 	public int toScreenCoordY(double maxY);
+
+	public boolean hitAnimationButton(AbstractEvent e);
 }
