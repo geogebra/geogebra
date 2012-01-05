@@ -147,7 +147,7 @@
 -keepclasseswithmembernames class * {
     native <methods>;
 }
--keep class org.OpenNI.NativeMethods { <methods> };
+-keep class org.OpenNI.NativeMethods { <methods>; }
 
 #####
 # Plugin part
