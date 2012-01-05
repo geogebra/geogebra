@@ -7,7 +7,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
 public interface PythonScriptInterface {
-	public void init(Application app, Kernel kernel, Construction construction, AlgebraProcessor algebraProcessor);
+	public void init(Application app);
 	public void handleEvent(String eventType, GeoElement eventTarget);
 	public void notifySelected(GeoElement geo, boolean addToSelection);
 	public void toggleWindow();

@@ -24,7 +24,7 @@ public class PythonBridge implements View, GeoElementSelectionListener {
 			interpreter.exec("import sys; sys.path.extend(['__pyclasspath__/geogebra/plugin/jython', '__pyclasspath__/Lib'])");
 			interpreter.exec("from pyggb import interface");
 			pyInterface = (PythonScriptInterface)interpreter.get("interface").__tojava__(PythonScriptInterface.class);
-			pyInterface.init(application, application.getKernel(), application.getKernel().getConstruction(), application.getKernel().getAlgebraProcessor());
+			pyInterface.init(application);
 			application.getKernel().attach(this);
 		}
 	}
