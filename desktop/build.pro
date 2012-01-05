@@ -144,18 +144,25 @@
 -keep class ccsd.vernier.SWIGTYPE_p_void  { <methods>; }
 
 # for OpenNI
+-keep class org.OpenNI.** { *; } 
 -keepclasseswithmembernames class * {
     native <methods>;
 }
--keepclasseswithmembernames class org.OpenNI.NativeMethods { <methods>; <fields>; }
+
+-keep class org.OpenNI.NativeMethods { *; }
 
 #####
 # Plugin part
 ####
 
 # So that Jython can access GeoElement methods
--keep class geogebra.plugin.jython.PythonAPI { <methods>; }
--keep class geogebra.plugin.jython.PythonScriptInterface { <methods>; }
+-keep class geogebra.plugin.jython.PythonAPI { <methods>; <fields>; }
+
+# for the inner class 'Geo'
+-keepattributes InnerClasses
+-keep class geogebra.plugin.jython.PythonAPI$Geo { <methods>; }
+
+-keep class geogebra.plugin.jython.PythonScriptInterface { <methods>; <fields>; }
 # allow eg Color.Red
 -keep class geogebra.awt.Color { <fields>; }
 -keep class geogebra.common.euclidian.EuclidianStyleConstants { <fields>; }
