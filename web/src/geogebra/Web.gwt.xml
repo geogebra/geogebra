@@ -17,6 +17,9 @@
   <!-- Specify the app entry point class.                         -->
   <entry-point class='geogebra.web.Web'/>
 
+  <!-- compile only for Safari/Chrome: reduces permutation time -->
+  <set-property name="user.agent" value="safari" />
+
   <!-- Specify the paths for translatable code                    -->
   <source path='web'/>
 
