@@ -3980,8 +3980,8 @@ public class Application extends AbstractApplication implements
 	}
 
 	@Override
-	final public int getMode() {
-		return euclidianView.getMode();
+	public EuclidianView createEuclidianView() {
+		return this.euclidianView;
 	}
 
 	/***************************************************************************

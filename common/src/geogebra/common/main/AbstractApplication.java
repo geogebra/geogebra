@@ -83,7 +83,7 @@ public abstract class AbstractApplication {
 	protected Kernel kernel;
 
 	protected boolean isOnTheFlyPointCreationActive = true;
-
+	
 	public boolean useJavaFontsForLaTeX() {
 		return useJavaFontsForLaTeX;
 
@@ -315,8 +315,13 @@ public abstract class AbstractApplication {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	public abstract int getMode();
+	
+	
+	public abstract AbstractEuclidianView createEuclidianView();
+	
+	final public int getMode() {
+		return this.createEuclidianView().getMode();
+	}
 
 	/**
 	 * @deprecated added when refactoring

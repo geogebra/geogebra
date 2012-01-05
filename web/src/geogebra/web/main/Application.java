@@ -505,10 +505,9 @@ public class Application extends AbstractApplication {
 
 
 	@Override
-    public int getMode() {
-	    // TODO Auto-generated method stub
-	    return 0;
-    }
+	public EuclidianView createEuclidianView() {
+		return this.euclidianview;
+	} 
 
 	@Override
     public void updateConstructionProtocol() {
