@@ -541,10 +541,15 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
 		return isDefined;        
 	}     
 	
+	/*
+	 * Order of instructions is important here because
+	 * we need to avoid infinite loop setUndefined -> setCoords -> 
+	 * pointChangedForRegion -> setUndefined
+	 */
     @Override
-	public void setUndefined() { 
-    	super.setUndefined();
+	public void setUndefined() {
     	isDefined = false; 
+    	super.setUndefined();
     }       
 
 	@Override
