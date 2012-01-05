@@ -21,6 +21,7 @@ import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.NumberFormatAdapter;
+import geogebra.common.util.Unicode;
 
 public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCommon {
 	
@@ -1566,6 +1567,42 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	 * setters and getters for EuclidianViewInterface
 	 * 
 	 */
+
+	public void setShowAxesNumbers(boolean[] showAxesNumbers) {
+		this.showAxesNumbers = showAxesNumbers;
+	}
+
+	public void setShowAxisNumbers(int axis, boolean showAxisNumbers) {
+		showAxesNumbers[axis] = showAxisNumbers;
+	}
+
+	public String[] getAxesUnitLabels() {
+		return axesUnitLabels;
+	}
+
+	public void setAxesUnitLabels(String[] axesUnitLabels) {
+		this.axesUnitLabels = axesUnitLabels;
+
+		// check if pi is an axis unit
+		for (int i = 0; i < 2; i++) {
+			piAxisUnit[i] = (axesUnitLabels[i] != null)
+					&& axesUnitLabels[i].equals(Unicode.PI_STRING);
+		}
+		setAxesIntervals(getXscale(), 0);
+		setAxesIntervals(getYscale(), 1);
+	}
+
+	public int[] getAxesTickStyles() {
+		return axesTickStyles;
+	}
+
+	public void setAxisTickStyle(int axis, int tickStyle) {
+		axesTickStyles[axis] = tickStyle;
+	}
+
+	public void setAxesTickStyles(int[] axesTickStyles) {
+		this.axesTickStyles = axesTickStyles;
+	}
 
 	public void setShowMouseCoords(boolean b) {
 		showMouseCoords = b;

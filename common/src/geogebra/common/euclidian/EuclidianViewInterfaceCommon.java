@@ -135,6 +135,8 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	public int getAllowToolTips();
 	public boolean getAllowShowMouseCoords();
 	public int getAxesLineStyle();
+	public int[] getAxesTickStyles();
+	public String[] getAxesUnitLabels();
 	public geogebra.common.awt.Color getBackgroundCommon();
 	public double[] getGridDistances();
 	public double getGridDistances(int i);
@@ -163,6 +165,15 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	public void setAutomaticGridDistance(boolean b);
 	public void setAllowShowMouseCoords(boolean selected);
 	public void setAxesLineStyle(int selectedIndex);
+	public void setAxesTickStyles(int[] styles);
+	public void setAxesUnitLabels(String[] unitLabels);
+
+	/** sets the tickstyle of this axis
+	 * @param axis
+	 * @param tickStyle
+	 */
+	public void setAxisTickStyle(int axis, int tickStyle);
+
 	public void setCoordSystem(double x, double y, double xscale, double yscale);
 	public void setCoordSystemFromMouseMove(int dx, int dy, int mode);
 	public void setGridDistances(double[] ticks);
@@ -172,6 +183,14 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	// selection rectangle
 	public void setSelectionRectangle(geogebra.common.awt.Rectangle selectionRectangle);
 	public void setShowAxesRatio(boolean b);
+	public void setShowAxesNumbers(boolean[] showNums);
+
+	/** sets if numbers are shown on this axis
+	 * @param axis
+	 * @param showAxisNumbers
+	 */
+	public void setShowAxisNumbers(int axis, boolean showAxisNumbers);
+
 	public void setShowMouseCoords(boolean b);
 	public void setXminObject(NumberValue minMax);
 	public void setXmaxObject(NumberValue minMax);

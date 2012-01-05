@@ -134,22 +134,7 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	 * @param axisLabel
 	 */
 	public void setAxisLabel(int axis, String axisLabel);
-	
-	
-	/** sets if numbers are shown on this axis
-	 * @param axis
-	 * @param showAxisNumbers
-	 */
-	public void setShowAxisNumbers(int axis, boolean showAxisNumbers);
-	
-	
-	/** sets the tickstyle of this axis
-	 * @param axis
-	 * @param tickStyle
-	 */
-	public void setAxisTickStyle(int axis, int tickStyle);
-	
-	
+
 	/** sets the axis crossing value
 	 * @param axis
 	 * @param cross
@@ -176,12 +161,8 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	double getYZero();
 	public String[] getAxesLabels();
 	public void setAxesLabels(String[] labels);
-	public String[] getAxesUnitLabels();
-	public void setShowAxesNumbers(boolean[] showNums);
-	public void setAxesUnitLabels(String[] unitLabels);
 	public boolean[] getShowAxesNumbers();
 	public void setAxesNumberingDistance(double tickDist, int axis);
-	public int[] getAxesTickStyles();
 	
 	public double[] getAxesCross() ;
 	public void setAxesCross(double[] axisCross); 
@@ -225,7 +206,6 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	public void setGridIsBold(boolean selected);
 	public void setGridLineStyle(int type);
 	public void setAutomaticAxesNumberingDistance(boolean b, int axis);
-	public void setAxesTickStyles(int[] styles);
 	public boolean[] getDrawBorderAxes();
 	public void setDrawBorderAxes(boolean[] border);
 	public boolean[] isAutomaticAxesNumberingDistance();

@@ -3899,42 +3899,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		return showAxesNumbers;
 	}
 
-	public void setShowAxesNumbers(boolean[] showAxesNumbers) {
-		this.showAxesNumbers = showAxesNumbers;
-	}
-
-	public void setShowAxisNumbers(int axis, boolean showAxisNumbers) {
-		showAxesNumbers[axis] = showAxisNumbers;
-	}
-
-	public String[] getAxesUnitLabels() {
-		return axesUnitLabels;
-	}
-
-	public void setAxesUnitLabels(String[] axesUnitLabels) {
-		this.axesUnitLabels = axesUnitLabels;
-
-		// check if pi is an axis unit
-		for (int i = 0; i < 2; i++) {
-			piAxisUnit[i] = (axesUnitLabels[i] != null)
-					&& axesUnitLabels[i].equals(Unicode.PI_STRING);
-		}
-		setAxesIntervals(getXscale(), 0);
-		setAxesIntervals(getYscale(), 1);
-	}
-
-	public int[] getAxesTickStyles() {
-		return axesTickStyles;
-	}
-
-	public void setAxisTickStyle(int axis, int tickStyle) {
-		axesTickStyles[axis] = tickStyle;
-	}
-
-	public void setAxesTickStyles(int[] axesTickStyles) {
-		this.axesTickStyles = axesTickStyles;
-	}
-
 	/*
 	 * --> moved to Kernel and Kernel3D public String getModeText(int mode) {
 	 * 
