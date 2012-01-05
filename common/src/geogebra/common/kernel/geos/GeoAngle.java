@@ -529,5 +529,11 @@ public class GeoAngle extends GeoNumeric {
 	public boolean hasDrawable3D(){
 		return true;
 	}	
+	
+	public boolean canHaveClickScript() {
+		return isDrawable();
+	}
+	
+
 
 }
