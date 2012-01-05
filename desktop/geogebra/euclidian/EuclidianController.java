@@ -18,6 +18,7 @@ import geogebra.common.euclidian.DrawConic;
 import geogebra.common.euclidian.DrawConicPart;
 import geogebra.common.euclidian.DrawSlider;
 import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.Hits;
@@ -168,13 +169,13 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 		allowSelectionRectangleForTranslateByVector = true;
 
-		if (EuclidianView.usesSelectionRectangleAsInput(newMode)
+		if (AbstractEuclidianView.usesSelectionRectangleAsInput(newMode)
 				&& (((EuclidianViewInterface) view).getSelectionRectangle() != null)) {
 			initNewMode(newMode);
 			if (((Application)app).getActiveEuclidianView() == view) {
 				processSelectionRectangle(null);
 			}
-		} else if (EuclidianView.usesSelectionAsInput(newMode)) {
+		} else if (AbstractEuclidianView.usesSelectionAsInput(newMode)) {
 			initNewMode(newMode);
 			if (((Application)app).getActiveEuclidianView() == view) {
 				processSelection();
@@ -195,7 +196,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		// Michael Borcherds 2007-10-12
 		// clearSelections();
 		if (!TEMPORARY_MODE
-				&& !EuclidianView.usesSelectionRectangleAsInput(mode)) {
+				&& !AbstractEuclidianView.usesSelectionRectangleAsInput(mode)) {
 			clearSelections();
 		}
 		// Michael Borcherds 2007-10-12

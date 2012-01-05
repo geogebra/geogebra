@@ -4028,41 +4028,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		return g2Dtemp;
 	}
 
-	final public static boolean usesSelectionAsInput(int mode) {
-		switch (mode) {
-		case EuclidianConstants.MODE_MIRROR_AT_LINE:
-			return true;
-		case EuclidianConstants.MODE_MIRROR_AT_POINT:
-			return true;
-		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-			return true;
-		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
-			return false; // changed for new "drag" behaviour
-		case EuclidianConstants.MODE_DILATE_FROM_POINT:
-			return true;
-		default:
-			return false;
-		}
-	}
-
-	final public static boolean usesSelectionRectangleAsInput(int mode) {
-		switch (mode) {
-		case EuclidianConstants.MODE_VISUAL_STYLE:
-		case EuclidianConstants.MODE_FITLINE:
-		case EuclidianConstants.MODE_CREATE_LIST:
-		case EuclidianConstants.MODE_PEN:
-		case EuclidianConstants.MODE_MIRROR_AT_LINE:
-		case EuclidianConstants.MODE_MIRROR_AT_POINT:
-		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
-		case EuclidianConstants.MODE_DILATE_FROM_POINT:
-		case EuclidianConstants.MODE_COPY_VISUAL_STYLE:
-			return true;
-		default:
-			return false;
-		}
-	}
-
 	public void resetMaxLayerUsed() {
 		getApplication().maxLayerUsed = 0;
 	}
