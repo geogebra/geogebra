@@ -381,7 +381,7 @@ public class MyXMLHandler implements DocHandler {
 				mode = MODE_GEOGEBRA;
 				// check file format version
 				try {
-					ggbFileFormat = Double.parseDouble((String) attrs
+					ggbFileFormat = Double.parseDouble(attrs
 							.get("format"));
 					
 					ggbFileFormat = Kernel.checkDecimalFraction(ggbFileFormat);
@@ -413,11 +413,11 @@ public class MyXMLHandler implements DocHandler {
 				}
 				
 
-				String ggbVersion = (String) attrs.get("version");
+				String ggbVersion = attrs.get("version");
 				app.setFileVersion(ggbVersion);
 
 				
-				String uniqueId = (String) attrs.get("id");
+				String uniqueId = attrs.get("id");
 				if (uniqueId != null) app.setUniqueId(uniqueId);
 			}
 			break;
@@ -654,7 +654,7 @@ public class MyXMLHandler implements DocHandler {
 		
 		// must do this first
 		if(eName.equals("viewNumber")){
-			int number = Integer.parseInt((String) attrs.get("viewNo"));
+			int number = Integer.parseInt(attrs.get("viewNo"));
 			if(number==2){
 				viewNo=number;
 			}
@@ -820,15 +820,15 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleProbabilityDistribution(LinkedHashMap<String, String> attrs) {
 
 		try {
-			int distributionType = Integer.parseInt((String) attrs.get("type"));
+			int distributionType = Integer.parseInt(attrs.get("type"));
 			app.getSettings().getProbCalcSettings().setDistributionType(distributionType);
 			
-			boolean isCumulative = parseBoolean((String) attrs.get("isCumulative"));
+			boolean isCumulative = parseBoolean(attrs.get("isCumulative"));
 			app.getSettings().getProbCalcSettings().setCumulative(isCumulative);
 			
 			
 			// get parameters from comma delimited string
-			String parmString = (String) attrs.get("parameters");
+			String parmString = attrs.get("parameters");
 			String[] parmStringArray = parmString.split(",");
 			double[] parameters = new double[parmStringArray.length];
 			for(int i = 0; i < parmStringArray.length; i++)
@@ -896,13 +896,13 @@ public class MyXMLHandler implements DocHandler {
 		}
 		if (attrs.get("xZero") != null) {
 			try {
-				double xZero = Double.parseDouble((String) attrs.get("xZero"));
-				double yZero = Double.parseDouble((String) attrs.get("yZero"));
-				double scale = Double.parseDouble((String) attrs.get("scale"));
+				double xZero = Double.parseDouble(attrs.get("xZero"));
+				double yZero = Double.parseDouble(attrs.get("yZero"));
+				double scale = Double.parseDouble(attrs.get("scale"));
 
 				// new since version 2.5
 				double yscale = scale;
-				String strYscale = (String) attrs.get("yscale");
+				String strYscale = attrs.get("yscale");
 				if (strYscale != null) {
 					yscale = Double.parseDouble(strYscale);
 				}
@@ -931,18 +931,18 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			// axes attribute was removed with V3.0, see handleAxis()
 			// this code is for downward compatibility
-			String strAxes = (String) attrs.get("axes");
+			String strAxes = attrs.get("axes");
 			if (strAxes != null) {
 				boolean showAxes = parseBoolean(strAxes);
 				//ev.showAxes(showAxes, showAxes);
 				ev.setShowAxes(showAxes, true);
 			}
 
-			ev.showGrid(parseBoolean((String) attrs.get("grid")));
+			ev.showGrid(parseBoolean(attrs.get("grid")));
 
 			try {
 				ev
-						.setGridIsBold(parseBoolean((String) attrs
+						.setGridIsBold(parseBoolean(attrs
 								.get("gridIsBold"))); // Michael Borcherds
 				// 2008-04-11
 			} catch (Exception e) {
@@ -950,13 +950,13 @@ public class MyXMLHandler implements DocHandler {
 
 			try {
 				ev
-						.setGridType(Integer.parseInt((String) attrs
+						.setGridType(Integer.parseInt(attrs
 								.get("gridType"))); // Michael Borcherds
 				// 2008-04-30
 			} catch (Exception e) {
 			}
 
-			String str = (String) attrs.get("pointCapturing");
+			String str = attrs.get("pointCapturing");
 			if (str != null) {
 				// before GeoGebra 2.7 pointCapturing was either "true" or
 				// "false"
@@ -976,7 +976,7 @@ public class MyXMLHandler implements DocHandler {
 			
 			// if there is a point style given save it
 			if(ggbFileFormat < 3.3) {
-				String strPointStyle = (String) attrs.get("pointStyle");
+				String strPointStyle = attrs.get("pointStyle");
 				if (strPointStyle != null) {
 					docPointStyle = Integer.parseInt(strPointStyle);
 				} else {
@@ -990,22 +990,22 @@ public class MyXMLHandler implements DocHandler {
 
 			// Michael Borcherds 2008-05-12
 			// size of checkbox
-			String strBooleanSize = (String) attrs.get("checkboxSize");
+			String strBooleanSize = attrs.get("checkboxSize");
 			if (strBooleanSize != null)
 				app.booleanSize = Integer.parseInt(strBooleanSize);
 				//ev.setBooleanSize(Integer.parseInt(strBooleanSize));
 			
-			boolean asm = parseBoolean((String) attrs.get("allowShowMouseCoords"));
+			boolean asm = parseBoolean(attrs.get("allowShowMouseCoords"));
 			ev.setAllowShowMouseCoords(asm);
 
-			String att = (String) attrs.get("allowToolTips");
+			String att = attrs.get("allowToolTips");
 			if (att != null)
 				ev.setAllowToolTips(Integer.parseInt(att));
 			else
 				ev.setAllowToolTips(EuclidianStyleConstants.TOOLTIPS_AUTOMATIC);
 
 			// v3.0: appearance of right angle
-			String strRightAngleStyle = (String) attrs.get("rightAngleStyle");
+			String strRightAngleStyle = attrs.get("rightAngleStyle");
 			if (strRightAngleStyle == null)
 				// before v3.0 the default was a dot to show a right angle
 				//ev.setRightAngleStyle(EuclidianView.RIGHT_ANGLE_STYLE_DOT);
@@ -1026,8 +1026,8 @@ public class MyXMLHandler implements DocHandler {
 		//	return true;
 
 		try {
-			int width = Integer.parseInt((String) attrs.get("width"));
-			int height = Integer.parseInt((String) attrs.get("height"));
+			int width = Integer.parseInt(attrs.get("width"));
+			int height = Integer.parseInt(attrs.get("height"));
 			ev.setPreferredSize(geogebra.common.factories.AwtFactory.prototype.newDimension(width, height));
 			return true;
 		} catch (Exception e) {
@@ -1040,8 +1040,8 @@ public class MyXMLHandler implements DocHandler {
 			return true;
 
 		try {
-			int width = Integer.parseInt((String) attrs.get("width"));
-			int height = Integer.parseInt((String) attrs.get("height"));
+			int width = Integer.parseInt(attrs.get("width"));
+			int height = Integer.parseInt(attrs.get("height"));
 			app.getSettings().getSpreadsheet().setPreferredSize(
 					geogebra.common.factories.AwtFactory.prototype.newDimension(width,height));
 			return true;
@@ -1053,8 +1053,8 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleSpreadsheetColumn(LinkedHashMap<String, String> attrs) {
 
 		try {
-			int col = Integer.parseInt((String) attrs.get("id"));
-			int width = Integer.parseInt((String) attrs.get("width"));
+			int col = Integer.parseInt(attrs.get("id"));
+			int width = Integer.parseInt(attrs.get("width"));
 			app.getSettings().getSpreadsheet().addWidth(col, width);
 			return true;
 		} catch (Exception e) {
@@ -1065,8 +1065,8 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleSpreadsheetCellSize(LinkedHashMap<String, String> attrs) {
 
 		try {
-			int width = Integer.parseInt((String) attrs.get("width"));
-			int height = Integer.parseInt((String) attrs.get("height"));
+			int width = Integer.parseInt(attrs.get("width"));
+			int height = Integer.parseInt(attrs.get("height"));
 			app.getSettings().getSpreadsheet().setPreferredColumnWidth(width);
 			app.getSettings().getSpreadsheet().setPreferredRowHeight(height);
 			
@@ -1080,7 +1080,7 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleSpreadsheetFormat(LinkedHashMap<String, String> attrs) {
 
 		try {
-			String cellFormat = (String) attrs.get("formatMap");
+			String cellFormat = attrs.get("formatMap");
 			app.getSettings().getSpreadsheet().setCellFormat(cellFormat);	
 			return true;
 			
@@ -1095,8 +1095,8 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleSpreadsheetRow(LinkedHashMap<String, String> attrs) {
 
 		try {
-			int row = Integer.parseInt((String) attrs.get("id"));
-			int height = Integer.parseInt((String) attrs.get("height"));
+			int row = Integer.parseInt(attrs.get("id"));
+			int height = Integer.parseInt(attrs.get("height"));
 			app.getSettings().getSpreadsheet().addHeight(row, height);
 			return true;
 		} catch (Exception e) {
@@ -1108,16 +1108,16 @@ public class MyXMLHandler implements DocHandler {
 
 		SpreadsheetSettings settings = app.getSettings().getSpreadsheet();
 		try {
-			settings.setShowFormulaBar(parseBoolean((String) attrs.get("showFormulaBar")));	
-			settings.setShowGrid(parseBoolean((String) attrs.get("showGrid")));	
-			settings.setShowFileBrowser(parseBoolean((String) attrs.get("showBrowserPanel")));	
-			settings.setShowColumnHeader(parseBoolean((String) attrs.get("showColumnHeader")));	
-			settings.setShowRowHeader(parseBoolean((String) attrs.get("showRowHeader")));	
-			settings.setShowHScrollBar(parseBoolean((String) attrs.get("showHScrollBar")));	
-			settings.setShowVScrollBar(parseBoolean((String) attrs.get("showVScrollBar")));
-			settings.setAllowSpecialEditor(parseBoolean((String) attrs.get("allowSpecialEditor")));
-			settings.setAllowToolTips(parseBoolean((String) attrs.get("allowToolTips")));
-			settings.setEqualsRequired(parseBoolean((String) attrs.get("equalsRequired")));
+			settings.setShowFormulaBar(parseBoolean(attrs.get("showFormulaBar")));	
+			settings.setShowGrid(parseBoolean(attrs.get("showGrid")));	
+			settings.setShowFileBrowser(parseBoolean(attrs.get("showBrowserPanel")));	
+			settings.setShowColumnHeader(parseBoolean(attrs.get("showColumnHeader")));	
+			settings.setShowRowHeader(parseBoolean(attrs.get("showRowHeader")));	
+			settings.setShowHScrollBar(parseBoolean(attrs.get("showHScrollBar")));	
+			settings.setShowVScrollBar(parseBoolean(attrs.get("showVScrollBar")));
+			settings.setAllowSpecialEditor(parseBoolean(attrs.get("allowSpecialEditor")));
+			settings.setAllowToolTips(parseBoolean(attrs.get("allowToolTips")));
+			settings.setEqualsRequired(parseBoolean(attrs.get("equalsRequired")));
 			return true;
 			
 		} catch (Exception e) {
@@ -1130,13 +1130,13 @@ public class MyXMLHandler implements DocHandler {
 		SpreadsheetSettings settings = app.getSettings().getSpreadsheet();
 		try {
 			
-			int hScroll = Integer.parseInt((String) attrs.get("hScroll"));
-			int vScroll = Integer.parseInt((String) attrs.get("vScroll"));
+			int hScroll = Integer.parseInt(attrs.get("hScroll"));
+			int vScroll = Integer.parseInt(attrs.get("vScroll"));
 			settings.setScrollPosition(new geogebra.common.awt.Point(hScroll, vScroll));
 			
 			
-			int row = Integer.parseInt((String) attrs.get("row"));
-			int column = Integer.parseInt((String) attrs.get("column"));
+			int row = Integer.parseInt(attrs.get("row"));
+			int column = Integer.parseInt(attrs.get("column"));
 			settings.setScrollPosition(new geogebra.common.awt.Point(row, column));
 			
 			return true;
@@ -1150,13 +1150,13 @@ public class MyXMLHandler implements DocHandler {
 
 		SpreadsheetSettings settings = app.getSettings().getSpreadsheet();
 		try {
-			if(Boolean.parseBoolean((String) attrs.get("default"))){
+			if(Boolean.parseBoolean(attrs.get("default"))){
 				settings.setDefaultBrowser(true);
 
 			}else{
-				settings.setInitialBrowserMode(Integer.parseInt((String) attrs.get("mode")));
-				settings.setInitialFilePath((String) attrs.get("dir"));
-				settings.setInitialURL((String) attrs.get("URL"));
+				settings.setInitialBrowserMode(Integer.parseInt(attrs.get("mode")));
+				settings.setInitialFilePath(attrs.get("dir"));
+				settings.setInitialURL(attrs.get("URL"));
 			}
 
 			return true;
@@ -1214,8 +1214,8 @@ public class MyXMLHandler implements DocHandler {
 
 	private static boolean handleLineStyle(EuclidianSettings ev, LinkedHashMap<String, String> attrs) {
 		try {
-			ev.setAxesLineStyle(Integer.parseInt((String) attrs.get("axes")));
-			ev.setGridLineStyle(Integer.parseInt((String) attrs.get("grid")));
+			ev.setAxesLineStyle(Integer.parseInt(attrs.get("axes")));
+			ev.setGridLineStyle(Integer.parseInt(attrs.get("grid")));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -1226,13 +1226,13 @@ public class MyXMLHandler implements DocHandler {
 		// <grid distX="2.0" distY="4.0"/>
 		try {
 			double[] dists = new double[3];
-			dists[0] = Double.parseDouble((String) attrs.get("distX"));
-			dists[1] = Double.parseDouble((String) attrs.get("distY"));
+			dists[0] = Double.parseDouble(attrs.get("distX"));
+			dists[1] = Double.parseDouble(attrs.get("distY"));
 			
 			// in v4.0 the polar grid adds an angle step element to gridDistances 
-			String theta = (String) attrs.get("distTheta");
+			String theta = attrs.get("distTheta");
 			if(theta !=null)
-				dists[2] = Double.parseDouble((String) attrs.get("distTheta"));
+				dists[2] = Double.parseDouble(attrs.get("distTheta"));
 			else
 				dists[2] = Math.PI/6; //default
 			
@@ -1255,11 +1255,11 @@ public class MyXMLHandler implements DocHandler {
 	protected boolean handleAxis(EuclidianSettings ev, LinkedHashMap<String, String> attrs) {
 		
 		try {
-			int axis = Integer.parseInt((String) attrs.get("id"));
-			String strShowAxis = (String) attrs.get("show");
-			String label = (String) attrs.get("label");
-			String unitLabel = (String) attrs.get("unitLabel");
-			boolean showNumbers = parseBoolean((String) attrs.get("showNumbers"));
+			int axis = Integer.parseInt(attrs.get("id"));
+			String strShowAxis = attrs.get("show");
+			String label = attrs.get("label");
+			String unitLabel = attrs.get("unitLabel");
+			boolean showNumbers = parseBoolean(attrs.get("showNumbers"));
 
 			// show this axis
 			if (strShowAxis != null) {
@@ -1293,14 +1293,14 @@ public class MyXMLHandler implements DocHandler {
 			*/
 
 			// check if tickDistance is given
-			String strTickDist = (String) attrs.get("tickDistance");
+			String strTickDist = attrs.get("tickDistance");
 			if (strTickDist != null) {
 				double tickDist = Double.parseDouble(strTickDist);
 				ev.setAxesNumberingDistance(tickDist, axis);
 			}
 
 			// tick style
-			String strTickStyle = (String) attrs.get("tickStyle");
+			String strTickStyle = attrs.get("tickStyle");
 			if (strTickStyle != null) {
 				int tickStyle = Integer.parseInt(strTickStyle);
 				//ev.getAxesTickStyles()[axis] = tickStyle;
@@ -1313,8 +1313,8 @@ public class MyXMLHandler implements DocHandler {
 			
 			
 			// axis crossing
-			String axisCross = (String) attrs.get("axisCross");
-			String axisCrossEdge = (String) attrs.get("axisCrossEdge");
+			String axisCross = attrs.get("axisCross");
+			String axisCrossEdge = attrs.get("axisCrossEdge");
 			boolean acb = false;
 			if (axisCrossEdge != null) {
 				acb = parseBoolean(axisCrossEdge);
@@ -1332,7 +1332,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 			// positive direction only
-			String posAxis = (String) attrs.get("positiveAxis");
+			String posAxis = attrs.get("positiveAxis");
 			if (posAxis != null) {
 				boolean isPositive = Boolean.parseBoolean(posAxis);
 				ev.setPositiveAxis(axis,isPositive);
@@ -1376,7 +1376,7 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleAngleUnit(LinkedHashMap<String, String> attrs) {
 		if (attrs == null)
 			return false;
-		String angleUnit = (String) attrs.get("val");
+		String angleUnit = attrs.get("val");
 		if (angleUnit == null)
 			return false;
 
@@ -1400,7 +1400,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleKernelCoordStyle(LinkedHashMap<String, String> attrs) {
 		try {
-			kernel.setCoordStyle(Integer.parseInt((String) attrs.get("val")));
+			kernel.setCoordStyle(Integer.parseInt(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -1409,7 +1409,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleKernelInvTrig(LinkedHashMap<String, String> attrs) {
 		try {
-			kernel.setInverseTrigReturnsAngle(parseBoolean((String) attrs.get("val")));
+			kernel.setInverseTrigReturnsAngle(parseBoolean(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -1419,7 +1419,7 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleKernelDecimals(LinkedHashMap<String, String> attrs) {
 		try {
 			kernel
-					.setPrintDecimals(Integer.parseInt((String) attrs
+					.setPrintDecimals(Integer.parseInt(attrs
 							.get("val")));
 			return true;
 		} catch (Exception e) {
@@ -1429,7 +1429,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleKernelStartAnimation(LinkedHashMap<String, String> attrs) {
 		try {
-			startAnimation = parseBoolean((String) attrs.get("val"));
+			startAnimation = parseBoolean(attrs.get("val"));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -1438,9 +1438,9 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleKernelLocalization(LinkedHashMap<String, String> attrs) {
 		try {
-			boolean digits = parseBoolean((String) attrs.get("digits"));
+			boolean digits = parseBoolean(attrs.get("digits"));
 			app.setUseLocalizedDigits(digits);
-			boolean labels = parseBoolean((String) attrs.get("labels"));
+			boolean labels = parseBoolean(attrs.get("labels"));
 			app.setUseLocalizedLabels(labels);
 			return true;
 		} catch (Exception e) {
@@ -1450,7 +1450,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleKernelFigures(LinkedHashMap<String, String> attrs) {
 		try {
-			kernel.setPrintFigures(Integer.parseInt((String) attrs.get("val")));
+			kernel.setPrintFigures(Integer.parseInt(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -1459,7 +1459,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleKernelContinuous(LinkedHashMap<String, String> attrs) {
 		try {
-			kernel.setContinuous(parseBoolean((String) attrs.get("val")));
+			kernel.setContinuous(parseBoolean(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -1469,7 +1469,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleKernelUsePathAndRegionParameters(LinkedHashMap<String, String> attrs) {
 		try {
-			kernel.setUsePathAndRegionParameters(parseBoolean((String) attrs.get("val")));
+			kernel.setUsePathAndRegionParameters(parseBoolean(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -1717,7 +1717,7 @@ public class MyXMLHandler implements DocHandler {
 			// attrs.get("useColors"));
 			// TODO: set useColors for consProt
 
-			boolean showOnlyBreakpoints = parseBoolean((String) attrs
+			boolean showOnlyBreakpoints = parseBoolean(attrs
 					.get("showOnlyBreakpoints"));
 			kernel.setShowOnlyBreakpoints(showOnlyBreakpoints);
 
@@ -1730,11 +1730,11 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleConsProtNavigationBar(AbstractApplication app,
 			LinkedHashMap<String, String> attrs) {
 		try {
-			boolean show = parseBoolean((String) attrs.get("show"));
-			boolean playButton = parseBoolean((String) attrs.get("playButton"));
-			double playDelay = Double.parseDouble((String) attrs
+			boolean show = parseBoolean(attrs.get("show"));
+			boolean playButton = parseBoolean(attrs.get("playButton"));
+			double playDelay = Double.parseDouble(attrs
 					.get("playDelay"));
-			boolean showProtButton = parseBoolean((String) attrs
+			boolean showProtButton = parseBoolean(attrs
 					.get("protButton"));
 			
 			//Maybe there is not guiManager yet. In this case we store the
@@ -1745,7 +1745,7 @@ public class MyXMLHandler implements DocHandler {
 			
 			
 			// construction step: handled at end of parsing
-			String strConsStep = (String) attrs.get("consStep");
+			String strConsStep = attrs.get("consStep");
 			if (strConsStep != null)
 				consStep = Integer.parseInt(strConsStep);
 
@@ -1767,23 +1767,23 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			// backward compatibility to versions without the layout component
 			if(ggbFileFormat < 3.3) {
-				tmp_showAlgebra = parseBoolean((String) attrs
+				tmp_showAlgebra = parseBoolean(attrs
 						.get("algebraView"));
 
 				// Michael Borcherds 2008-04-25
-				tmp_showSpreadsheet = parseBoolean((String) attrs
+				tmp_showSpreadsheet = parseBoolean(attrs
 						.get("spreadsheetView"));
 			}
 
-			String str = (String) attrs.get("auxiliaryObjects");
+			String str = attrs.get("auxiliaryObjects");
 			boolean auxiliaryObjects = (str != null && str.equals("true"));
 			app.setShowAuxiliaryObjects(auxiliaryObjects);
 
-			str = (String) attrs.get("algebraInput");
+			str = attrs.get("algebraInput");
 			boolean algebraInput = (str == null || str.equals("true"));
 			tmp_perspective.setShowInputPanel(algebraInput);
 
-			str = (String) attrs.get("cmdList");
+			str = attrs.get("cmdList");
 			boolean cmdList = (str == null || str.equals("true"));
 			tmp_perspective.setShowInputPanelCommands(cmdList);
 
@@ -1806,14 +1806,14 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	private static boolean handleGuiSettings(AbstractApplication app, LinkedHashMap<String, String> attrs) {
 		try {
-			boolean ignoreDocument = !((String)attrs.get("ignoreDocument")).equals("false");
+			boolean ignoreDocument = !attrs.get("ignoreDocument").equals("false");
 			app.getSettings().getLayout().setIgnoreDocumentLayout(ignoreDocument);
 			
-			boolean showTitleBar = !((String)attrs.get("showTitleBar")).equals("false");
+			boolean showTitleBar = !attrs.get("showTitleBar").equals("false");
 			app.getSettings().getLayout().setShowTitleBar(showTitleBar);
 			
 			if(attrs.containsKey("allowStyleBar")) {
-				boolean allowStyleBar = !((String)attrs.get("allowStyleBar")).equals("false"); 
+				boolean allowStyleBar = !attrs.get("allowStyleBar").equals("false"); 
 				app.getSettings().getLayout().setAllowStyleBar(allowStyleBar);
 			} 
 			
@@ -1827,7 +1827,7 @@ public class MyXMLHandler implements DocHandler {
 	
 	private boolean handleGraphicsSettings(LinkedHashMap<String, String> attrs) {
 		try {
-			if ("true".equals((String) attrs.get("javaLatexFonts")))
+			if ("true".equals(attrs.get("javaLatexFonts")))
 				app.getDrawEquation().setUseJavaFontsForLaTeX(app, true);
 			return true;
 		} catch(Exception e) {
@@ -1846,7 +1846,7 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	private boolean handleSplitDivider(AbstractApplication app, LinkedHashMap<String, String> attrs) {
 		try {
-			tmp_spHorizontal = !"false".equals((String) attrs.get("horizontal"));
+			tmp_spHorizontal = !"false".equals(attrs.get("horizontal"));
 			
 			// There were just two panels in GeoGebra < 3.2, therefore just one split divider position
 			// may be given. 'loc' in < 3.2 corresponds to 'loc2' in 3.2+.
@@ -1856,21 +1856,21 @@ public class MyXMLHandler implements DocHandler {
 			}
 			
 			if(tmp_spHorizontal) {
-				tmp_sp1 = Integer.parseInt((String) attrs.get("loc"));
-				tmp_sp2 = Integer.parseInt((String) attrs.get("loc2"));
+				tmp_sp1 = Integer.parseInt(attrs.get("loc"));
+				tmp_sp2 = Integer.parseInt(attrs.get("loc2"));
 			} else {
-				String strLocVert = (String) attrs.get("locVertical");
+				String strLocVert = attrs.get("locVertical");
 				if (strLocVert != null) {
 					tmp_sp1 = Integer.parseInt(strLocVert);
 				} else {
-					tmp_sp1 = Integer.parseInt((String) attrs.get("loc"));
+					tmp_sp1 = Integer.parseInt(attrs.get("loc"));
 				}
 				
-				String strLocVert2 = (String) attrs.get("locVertical2");
+				String strLocVert2 = attrs.get("locVertical2");
 				if (strLocVert2 != null) {
 					tmp_sp2 = Integer.parseInt(strLocVert2);
 				} else {
-					tmp_sp2 = Integer.parseInt((String) attrs.get("loc2"));
+					tmp_sp2 = Integer.parseInt(attrs.get("loc2"));
 				}
 			}
 			return true;
@@ -1881,7 +1881,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleToolbar(AbstractApplication app, LinkedHashMap<String, String> attrs) {
 		try {
-			String toolbarStr = (String)attrs.get("str");
+			String toolbarStr = attrs.get("str");
 			if (toolbarStr != null) {
 				// GeoGebra 3.2 or older
 
@@ -1939,13 +1939,13 @@ public class MyXMLHandler implements DocHandler {
 				tmp_perspective.setShowToolBar(true);
 				tmp_perspective.setToolbarDefinition(toolbarStr);
 			} else { // GeoGebra 4.0
-				String showToolBar = (String)attrs.get("show");
+				String showToolBar = attrs.get("show");
 				if(showToolBar == null) {
 					tmp_perspective.setShowToolBar(true);
 				} else {
 					tmp_perspective.setShowToolBar(showToolBar.equals("true"));
 				}
-				tmp_perspective.setToolbarDefinition((String) attrs.get("items"));
+				tmp_perspective.setToolbarDefinition(attrs.get("items"));
 			}
 			return true;
 		} catch (Exception e) {
@@ -1965,8 +1965,8 @@ public class MyXMLHandler implements DocHandler {
 	private static boolean handleWindowSize(AbstractApplication app, LinkedHashMap<String, String> attrs) {
 		try {
 			geogebra.common.awt.Dimension size = geogebra.common.factories.AwtFactory.prototype.newDimension(
-				Integer.parseInt((String)attrs.get("width")),
-				Integer.parseInt((String)attrs.get("height"))
+				Integer.parseInt(attrs.get("width")),
+				Integer.parseInt(attrs.get("height"))
 			);
 			app.setPreferredSize(size);
 			return true;
@@ -1978,7 +1978,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private static boolean handleFont(AbstractApplication app, LinkedHashMap<String, String> attrs) {
 		try {			
-			int guiSize = Integer.parseInt((String) attrs.get("size"));			
+			int guiSize = Integer.parseInt(attrs.get("size"));			
 
 			// old versions do just have a single font size and derive the font size for
 			// the axes / euclidian view from this single size
@@ -2002,7 +2002,7 @@ public class MyXMLHandler implements DocHandler {
 	
 	private static boolean handleMenuFont(AbstractApplication app, LinkedHashMap<String, String> attrs) {
 		try {			
-			int guiSize = Integer.parseInt((String) attrs.get("size"));
+			int guiSize = Integer.parseInt(attrs.get("size"));
 			if (guiSize <= 0) {
 				app.setGUIFontSize(-1); // default
 			} else {
@@ -2024,7 +2024,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private static boolean handleTooltipSettings(AbstractApplication app, LinkedHashMap<String, String> attrs) {
 		try {
-			String ttl = (String) attrs.get("language");
+			String ttl = attrs.get("language");
 			if (ttl != null) {
 				
 				
@@ -2045,7 +2045,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private static boolean handleMouse(AbstractApplication app, LinkedHashMap<String, String> attrs) {
 		try {			
-			app.reverseMouseWheel(!((String)attrs.get("reverseWheel")).equals("false"));
+			app.reverseMouseWheel(!attrs.get("reverseWheel").equals("false"));
 
 			return true;
 		} catch (Exception e) {
@@ -2055,7 +2055,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private static boolean handleLabelingStyle(AbstractApplication app, LinkedHashMap<String, String> attrs) {
 		try {
-			int style = Integer.parseInt((String) attrs.get("val"));
+			int style = Integer.parseInt(attrs.get("val"));
 			app.setLabelingStyle(style);
 			return true;
 		} catch (Exception e) {
@@ -2086,7 +2086,7 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	private boolean handlePerspective(LinkedHashMap<String, String> attrs) {
 		try {
-			tmp_perspective = new Perspective((String)attrs.get("id"));
+			tmp_perspective = new Perspective(attrs.get("id"));
 			tmp_perspectives.add(tmp_perspective);
 			
 			if(tmp_panes == null) {
@@ -2163,9 +2163,9 @@ public class MyXMLHandler implements DocHandler {
 	
 	private boolean handleAlgebraInput(LinkedHashMap<String, String> attrs) {
 		try {
-			tmp_perspective.setShowInputPanel(!((String)attrs.get("show")).equals("false"));
-			tmp_perspective.setShowInputPanelCommands(!((String)attrs.get("cmd")).equals("false"));
-			tmp_perspective.setShowInputPanelOnTop(!((String)attrs.get("top")).equals("false"));
+			tmp_perspective.setShowInputPanel(!attrs.get("show").equals("false"));
+			tmp_perspective.setShowInputPanelCommands(!attrs.get("cmd").equals("false"));
+			tmp_perspective.setShowInputPanelOnTop(!attrs.get("top").equals("false"));
 			
 			return true;
 		} catch(Exception e) {
@@ -2177,8 +2177,8 @@ public class MyXMLHandler implements DocHandler {
 	private void endGuiPerspectiveElement() {
 		DockPanelData[] dpInfo = new DockPanelData[tmp_views.size()];
 		DockSplitPaneData[] spInfo = new DockSplitPaneData[tmp_panes.size()];
-		tmp_perspective.setDockPanelData((DockPanelData[])tmp_views.toArray(dpInfo));
-		tmp_perspective.setSplitPaneData((DockSplitPaneData[])tmp_panes.toArray(spInfo));
+		tmp_perspective.setDockPanelData(tmp_views.toArray(dpInfo));
+		tmp_perspective.setSplitPaneData(tmp_panes.toArray(spInfo));
 	}
 
 	// ====================================
@@ -2205,16 +2205,16 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	private boolean handleView(LinkedHashMap<String, String> attrs) {
 		try {
-			int viewId = Integer.parseInt((String)attrs.get("id"));
+			int viewId = Integer.parseInt(attrs.get("id"));
 			String toolbar = attrs.get("toolbar");
-			boolean isVisible = !((String)attrs.get("visible")).equals("false");
-			boolean openInFrame = !((String)attrs.get("inframe")).equals("false");
+			boolean isVisible = !attrs.get("visible").equals("false");
+			boolean openInFrame = !attrs.get("inframe").equals("false");
 			
-			String showStyleBarStr = (String)attrs.get("stylebar");
+			String showStyleBarStr = attrs.get("stylebar");
 			boolean showStyleBar = (showStyleBarStr != null ? !showStyleBarStr.equals("false") : false);
 			
 			// the window rectangle is given in the format "x,y,width,height"
-			String[] window = ((String)attrs.get("window")).split(",");
+			String[] window = attrs.get("window").split(",");
 			geogebra.common.awt.Rectangle windowRect = geogebra.common.factories.AwtFactory.prototype.newRectangle(
 				Integer.parseInt(window[0]),
 				Integer.parseInt(window[1]),
@@ -2222,8 +2222,8 @@ public class MyXMLHandler implements DocHandler {
 				Integer.parseInt(window[3])
 			);
 			
-			String embeddedDef = (String)attrs.get("location");
-			int embeddedSize = Integer.parseInt((String)attrs.get("size"));
+			String embeddedDef = attrs.get("location");
+			int embeddedSize = Integer.parseInt(attrs.get("size"));
 			
 			tmp_views.add(new DockPanelData(viewId, toolbar, isVisible, openInFrame, showStyleBar, windowRect, embeddedDef, embeddedSize));
 			
@@ -2258,9 +2258,9 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	private boolean handlePane(LinkedHashMap<String, String> attrs) {
 		try {
-			String location = (String)attrs.get("location");
-			double dividerLocation = Double.parseDouble((String)attrs.get("divider"));
-			int orientation = Integer.parseInt((String)attrs.get("orientation"));
+			String location = attrs.get("location");
+			double dividerLocation = Double.parseDouble(attrs.get("divider"));
+			int orientation = Integer.parseInt(attrs.get("orientation"));
 			
 			tmp_panes.add(new DockSplitPaneData(location, dividerLocation, orientation));
 			
@@ -2276,9 +2276,9 @@ public class MyXMLHandler implements DocHandler {
 	// ====================================
 	private void handleConstruction(LinkedHashMap<String, String> attrs) {
 		try {
-			String title = (String) attrs.get("title");
-			String author = (String) attrs.get("author");
-			String date = (String) attrs.get("date");
+			String title = attrs.get("title");
+			String author = attrs.get("author");
+			String date = attrs.get("date");
 			if (title != null)
 				cons.setTitle(title);
 			if (author != null)
@@ -2292,12 +2292,12 @@ public class MyXMLHandler implements DocHandler {
 
 	private void initMacro(LinkedHashMap<String, String> attrs) {
 		try {
-			String cmdName = (String) attrs.get("cmdName");
-			String toolName = (String) attrs.get("toolName");
-			String toolHelp = (String) attrs.get("toolHelp");
-			String iconFile = (String) attrs.get("iconFile");
-			boolean copyCaptions = parseBoolean((String) attrs.get("copyCaptions"));
-			String strShowInToolBar = (String) attrs.get("showInToolBar");
+			String cmdName = attrs.get("cmdName");
+			String toolName = attrs.get("toolName");
+			String toolHelp = attrs.get("toolHelp");
+			String iconFile = attrs.get("iconFile");
+			boolean copyCaptions = parseBoolean(attrs.get("copyCaptions"));
+			String strShowInToolBar = attrs.get("showInToolBar");
 
 			// Make sure we don't have a macro with the same name in kernel.
 			// This can happen when a macro file (ggt) is loaded because
@@ -2348,8 +2348,8 @@ public class MyXMLHandler implements DocHandler {
 	 * <worksheetText above="blabla" below="morebla" />
 	 */
 	private void handleWorksheetText(LinkedHashMap<String, String> attrs) {
-		String above = (String) attrs.get("above");
-		String below = (String) attrs.get("below");
+		String above = attrs.get("above");
+		String below = attrs.get("below");
 		cons.setWorksheetText(above, 0);
 		cons.setWorksheetText(below, 1);
 	}
@@ -2649,9 +2649,9 @@ public class MyXMLHandler implements DocHandler {
 	// e.g. for <element type="point" label="P">
 	private GeoElement getGeoElement(LinkedHashMap<String, String> attrs) {
 		GeoElement geo = null;
-		String label = (String) attrs.get("label");
-		String type = (String) attrs.get("type");
-		String defaultset = (String) attrs.get("default");
+		String label = attrs.get("label");
+		String type = attrs.get("type");
+		String defaultset = attrs.get("default");
 		if (label == null || type == null) {
 			System.err.println("attributes missing in <element>");
 			return geo;
@@ -2961,13 +2961,13 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleShow(LinkedHashMap<String, String> attrs) {
 		try {
-			geo.setEuclidianVisible(parseBoolean((String) attrs.get("object")));
-			geo.setLabelVisible(parseBoolean((String) attrs.get("label")));
+			geo.setEuclidianVisible(parseBoolean(attrs.get("object")));
+			geo.setLabelVisible(parseBoolean(attrs.get("label")));
 			
 			// bit 0 -> display object in EV1, 0 = true (default)
 			// bit 1 -> display object in EV2, 0 = false (default)
 			int EVs = 0; // default, display in just EV1
-			String str = (String) attrs.get("ev");
+			String str = attrs.get("ev");
 			if (str != null) 
 			  EVs = Integer.parseInt(str);
 			
@@ -2993,7 +2993,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			if(!(geo instanceof GeoFunction))
 				return false;
-			((GeoFunction)geo).setShowOnAxis(parseBoolean((String) attrs.get("val")));
+			((GeoFunction)geo).setShowOnAxis(parseBoolean(attrs.get("val")));
 			return true;
 			
 		} catch (Exception e) {
@@ -3011,11 +3011,11 @@ public class MyXMLHandler implements DocHandler {
 
 		// Dynamic colors
 		// Michael Borcherds 2008-04-02
-		String red = (String) attrs.get("dynamicr");
-		String green = (String) attrs.get("dynamicg");
-		String blue = (String) attrs.get("dynamicb");
-		String alpha = (String) attrs.get("dynamica");
-		String colorSpace = (String) attrs.get("colorSpace");
+		String red = attrs.get("dynamicr");
+		String green = attrs.get("dynamicg");
+		String blue = attrs.get("dynamicb");
+		String alpha = attrs.get("dynamica");
+		String colorSpace = attrs.get("colorSpace");
 
 		if (red != null && green != null && blue != null)
 			try {
@@ -3049,30 +3049,30 @@ public class MyXMLHandler implements DocHandler {
 				System.err.println("Error loading Dynamic Colors");
 			}
 			
-			String angle = (String) attrs.get("hatchAngle");
+			String angle = attrs.get("hatchAngle");
 			if (angle != null) {
 				geo.setHatchingAngle(Integer.parseInt(angle));
 				geo.setFillType(GeoElement.FILL_HATCH);
 			}
 			
-			String inverse = (String) attrs.get("inverseFill");
+			String inverse = attrs.get("inverseFill");
 			if (inverse != null) {
 				geo.setInverseFill(Boolean.parseBoolean(inverse));				
 			}
 
-			String distance = (String) attrs.get("hatchDistance");
+			String distance = attrs.get("hatchDistance");
 			if (angle != null) {
 				geo.setHatchingDistance(Integer.parseInt(distance));
 				geo.setFillType(GeoElement.FILL_HATCH);
 			}
 
-			String filename = (String) attrs.get("image");
+			String filename = attrs.get("image");
 			if (filename != null) {
 				geo.setFillImage(filename);
 				geo.setFillType(GeoElement.FILL_IMAGE);
 			}
 
-		alpha = (String) attrs.get("alpha");
+		alpha = attrs.get("alpha");
 		if (alpha != null
 				&& (!geo.isGeoList() || ggbFileFormat > 3.19)) // ignore alpha value for lists prior to GeoGebra 3.2
 			geo.setAlphaValue(Float.parseFloat(alpha));
@@ -3094,9 +3094,9 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	private static geogebra.common.awt.Color handleColorAttrs(LinkedHashMap<String, String> attrs) {
 		try {
-			int red = Integer.parseInt((String) attrs.get("r"));
-			int green = Integer.parseInt((String) attrs.get("g"));
-			int blue = Integer.parseInt((String) attrs.get("b"));
+			int red = Integer.parseInt(attrs.get("r"));
+			int green = Integer.parseInt(attrs.get("g"));
+			int blue = Integer.parseInt(attrs.get("b"));
 			return geogebra.common.factories.AwtFactory.prototype.newColor(red, green, blue);
 		} catch (Exception e) {
 			return null;
@@ -3108,10 +3108,10 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	private static geogebra.common.awt.Color handleColorAlphaAttrs(LinkedHashMap<String, String> attrs) {
 		try {
-			int red = Integer.parseInt((String) attrs.get("r"));
-			int green = Integer.parseInt((String) attrs.get("g"));
-			int blue = Integer.parseInt((String) attrs.get("b"));
-			int alpha = Integer.parseInt((String) attrs.get("alpha"));
+			int red = Integer.parseInt(attrs.get("r"));
+			int green = Integer.parseInt(attrs.get("g"));
+			int blue = Integer.parseInt(attrs.get("b"));
+			int alpha = Integer.parseInt(attrs.get("alpha"));
 			return  geogebra.common.factories.AwtFactory.prototype.newColor(red, green, blue, alpha);
 		} catch (Exception e) {
 			return null;
@@ -3137,7 +3137,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleDecoration(LinkedHashMap<String, String> attrs) {
 		try {
-			geo.setDecorationType(Integer.parseInt((String) attrs.get("type")));
+			geo.setDecorationType(Integer.parseInt(attrs.get("type")));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -3148,13 +3148,13 @@ public class MyXMLHandler implements DocHandler {
 		// line
 		if (geo.isGeoLine()) {
 			GeoLine line = (GeoLine) geo;
-			String style = (String) attrs.get("style");
+			String style = attrs.get("style");
 			if (style.equals("implicit")) {
 				line.setToImplicit();
 			} else if (style.equals("explicit")) {
 				line.setToExplicit();
 			} else if (style.equals("parametric")) {
-				String parameter = (String) attrs.get("parameter");
+				String parameter = attrs.get("parameter");
 				line.setToParametric(parameter);
 			} else {
 				System.err.println("unknown style for line in <eqnStyle>: "
@@ -3165,7 +3165,7 @@ public class MyXMLHandler implements DocHandler {
 		// conic
 		else if (geo.isGeoConic()) {
 			GeoConicND conic = (GeoConicND) geo;
-			String style = (String) attrs.get("style");
+			String style = attrs.get("style");
 			if (style.equals("implicit")) {
 				conic.setToImplicit();
 			} else if (style.equals("specific")) {
@@ -3199,7 +3199,7 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 		GeoVec3D v = (GeoVec3D) geo;
-		String style = (String) attrs.get("style");
+		String style = attrs.get("style");
 		if (style.equals("cartesian")) {
 			v.setCartesian();
 		} else if (style.equals("polar")) {
@@ -3215,7 +3215,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleCaption(LinkedHashMap<String, String> attrs) {
 		try {
-			geo.setCaption((String) attrs.get("val"));
+			geo.setCaption(attrs.get("val"));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -3224,12 +3224,12 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleScript(LinkedHashMap<String, String> attrs,boolean javaScript) {
 		try {			
-			String clickScript = (String) attrs.get("val");
+			String clickScript = attrs.get("val");
 			if(clickScript != null && clickScript.length()>0){
 				geo.setClickScript(clickScript, false);
 				geo.setClickJavaScript(javaScript);
 			}
-			String updateScript = (String) attrs.get("onUpdate");			
+			String updateScript = attrs.get("onUpdate");			
 			if(updateScript != null && updateScript.length()>0){
 				geo.setUpdateScript(updateScript, false);
 				geo.setUpdateJavaScript(javaScript);
@@ -3245,7 +3245,7 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleCondition(LinkedHashMap<String, String> attrs) {
 		try {
 			// condition for visibility of object
-			String strShowObjectCond = (String) attrs.get("showObject");
+			String strShowObjectCond = attrs.get("showObject");
 			if (strShowObjectCond != null) {
 				// store (geo, epxression) values
 				// they will be processed in processShowObjectConditionList()
@@ -3269,7 +3269,7 @@ public class MyXMLHandler implements DocHandler {
 
 		try {
 			GeoBoolean bool = (GeoBoolean) geo;
-			bool.setCheckboxFixed(parseBoolean((String) attrs.get("fixed")));
+			bool.setCheckboxFixed(parseBoolean(attrs.get("fixed")));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -3288,7 +3288,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 
 		try {
-			String strVal = (String) attrs.get("val");
+			String strVal = attrs.get("val");
 			if (isNumber) {
 				GeoNumeric n = (GeoNumeric) geo;
 				n.setValue(Double.parseDouble(strVal));
@@ -3320,7 +3320,7 @@ public class MyXMLHandler implements DocHandler {
 
 		try {
 			PointProperties p = (PointProperties) geo;
-			p.setPointSize(Integer.parseInt((String) attrs.get("val")));
+			p.setPointSize(Integer.parseInt(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -3338,7 +3338,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			PointProperties p = (PointProperties) geo;
 			
-			int style = Integer.parseInt((String) attrs.get("val"));
+			int style = Integer.parseInt(attrs.get("val"));
 			
 			if(style == -1) {
 				style = docPointStyle;
@@ -3354,7 +3354,7 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleLayer(LinkedHashMap<String, String> attrs) {
 
 		try {
-			geo.setLayer(Integer.parseInt((String) attrs.get("val")));
+			geo.setLayer(Integer.parseInt(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -3363,12 +3363,12 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleCasCellInput(LinkedHashMap<String, String> attrs) {
 		try {
-			String input = (String) attrs.get("value");
+			String input = attrs.get("value");
 			geoCasCell.setInput(input);
 			
-			String prefix = (String) attrs.get("prefix");
-			String eval = (String) attrs.get("eval");
-			String postfix = (String) attrs.get("postfix");
+			String prefix = attrs.get("prefix");
+			String eval = attrs.get("eval");
+			String postfix = attrs.get("postfix");
 			if (eval != null) {
 				geoCasCell.setProcessingInformation(prefix, eval, postfix);
 			}
@@ -3381,8 +3381,8 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleCasCellOutput(LinkedHashMap<String, String> attrs) {
 		try {
-			String output = (String) attrs.get("value");
-			boolean error = parseBoolean((String) attrs.get("error"));
+			String output = attrs.get("value");
+			boolean error = parseBoolean(attrs.get("error"));
 			
 			if (error) {
 				geoCasCell.setError(output);
@@ -3390,12 +3390,12 @@ public class MyXMLHandler implements DocHandler {
 				geoCasCell.setOutput(output);
 			}
 			
-			String evalCommandComment = (String) attrs.get("evalCommand");
+			String evalCommandComment = attrs.get("evalCommand");
 			if (evalCommandComment != null) {
 				geoCasCell.setEvalCommand(evalCommandComment);
 			}
 			
-			String evalComment = (String) attrs.get("evalComment");
+			String evalComment = attrs.get("evalComment");
 			if (evalComment != null) {
 				geoCasCell.setEvalComment(evalComment);
 			}			
@@ -3450,26 +3450,26 @@ public class MyXMLHandler implements DocHandler {
 
 			GeoNumeric num = (GeoNumeric) geo;
 
-			String str = (String) attrs.get("min");
+			String str = attrs.get("min");
 			if (str != null) {
 				minMaxList.add(new GeoExpPair(geo, str));
-				String str2 = (String) attrs.get("max");
+				String str2 = attrs.get("max");
 				minMaxList.add(new GeoExpPair(geo, str2));
 			}
 
-			str = (String) attrs.get("absoluteScreenLocation");
+			str = attrs.get("absoluteScreenLocation");
 			if (str != null) {
 				num.setAbsoluteScreenLocActive(parseBoolean(str));
 			} else {
 				num.setAbsoluteScreenLocActive(false);
 			}
 
-			double x = Double.parseDouble((String) attrs.get("x"));
-			double y = Double.parseDouble((String) attrs.get("y"));
+			double x = Double.parseDouble(attrs.get("x"));
+			double y = Double.parseDouble(attrs.get("y"));
 			num.setSliderLocation(x, y, true);
-			num.setSliderWidth(Double.parseDouble((String) attrs.get("width")));
-			num.setSliderFixed(parseBoolean((String) attrs.get("fixed")));
-			num.setSliderHorizontal(parseBoolean((String) attrs
+			num.setSliderWidth(Double.parseDouble(attrs.get("width")));
+			num.setSliderFixed(parseBoolean(attrs.get("fixed")));
+			num.setSliderHorizontal(parseBoolean(attrs
 					.get("horizontal")));
 
 			return true;
@@ -3487,7 +3487,7 @@ public class MyXMLHandler implements DocHandler {
 
 		try {
 			Traceable t = (Traceable) geo;
-			t.setTrace(parseBoolean((String) attrs.get("val")));
+			t.setTrace(parseBoolean(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -3512,22 +3512,22 @@ public class MyXMLHandler implements DocHandler {
 			//app.getGuiManager().attachSpreadsheetView();
 			
 			// set geo for tracing
-			geo.setSpreadsheetTrace(parseBoolean((String) attrs.get("val")));
+			geo.setSpreadsheetTrace(parseBoolean(attrs.get("val")));
 			
 			SpreadsheetTraceSettings t = geo.getTraceSettings();
-			t.traceColumn1 = Integer.parseInt((String) attrs.get("traceColumn1"));
-			t.traceColumn2 = Integer.parseInt((String) attrs.get("traceColumn2"));
-			t.traceRow1 = Integer.parseInt((String) attrs.get("traceRow1"));
-			t.traceRow2 = Integer.parseInt((String) attrs.get("traceRow2"));
-			t.tracingRow = Integer.parseInt((String) attrs.get("tracingRow"));
-			t.numRows = Integer.parseInt((String) attrs.get("numRows"));	
-			t.headerOffset = Integer.parseInt((String) attrs.get("headerOffset"));
+			t.traceColumn1 = Integer.parseInt(attrs.get("traceColumn1"));
+			t.traceColumn2 = Integer.parseInt(attrs.get("traceColumn2"));
+			t.traceRow1 = Integer.parseInt(attrs.get("traceRow1"));
+			t.traceRow2 = Integer.parseInt(attrs.get("traceRow2"));
+			t.tracingRow = Integer.parseInt(attrs.get("tracingRow"));
+			t.numRows = Integer.parseInt(attrs.get("numRows"));	
+			t.headerOffset = Integer.parseInt(attrs.get("headerOffset"));
 				
-			t.doColumnReset = (parseBoolean((String) attrs.get("doColumnReset")));
-			t.doRowLimit = (parseBoolean((String) attrs.get("doRowLimit")));
-			t.showLabel = (parseBoolean((String) attrs.get("showLabel")));
-			t.showTraceList = (parseBoolean((String) attrs.get("showTraceList")));
-			t.doTraceGeoCopy = (parseBoolean((String) attrs.get("doTraceGeoCopy")));
+			t.doColumnReset = (parseBoolean(attrs.get("doColumnReset")));
+			t.doRowLimit = (parseBoolean(attrs.get("doRowLimit")));
+			t.showLabel = (parseBoolean(attrs.get("showLabel")));
+			t.showTraceList = (parseBoolean(attrs.get("showTraceList")));
+			t.doTraceGeoCopy = (parseBoolean(attrs.get("doTraceGeoCopy")));
 					
 			return true;
 			
@@ -3559,7 +3559,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleShowTrimmed(LinkedHashMap<String, String> attrs) {
 		try {
-			geo.setShowTrimmedIntersectionLines(parseBoolean((String) attrs.get("val")));
+			geo.setShowTrimmedIntersectionLines(parseBoolean(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -3568,7 +3568,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleSelectionAllowed(LinkedHashMap<String, String> attrs) {
 		try {
-			geo.setSelectionAllowed(parseBoolean((String) attrs.get("val")));
+			geo.setSelectionAllowed(parseBoolean(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -3578,7 +3578,7 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleSelectedIndex(LinkedHashMap<String, String> attrs) {
 		try {
 			if (geo.isGeoList())
-			((GeoList)geo).setSelectedIndex(Integer.parseInt(((String) attrs.get("val"))));
+			((GeoList)geo).setSelectedIndex(Integer.parseInt(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -3589,18 +3589,18 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			
 			
-			String strStep = (String) attrs.get("step");
+			String strStep = attrs.get("step");
 			if (strStep != null) {
 				// store speed expression to be processed later
 				animationStepList.add(new GeoExpPair(geo, strStep));			
 			}
-			String strSpeed = (String) attrs.get("speed");
+			String strSpeed = attrs.get("speed");
 			if (strSpeed != null) {
 				// store speed expression to be processed later
 				animationSpeedList.add(new GeoExpPair(geo, strSpeed));			
 			}
 				
-			String type = (String) attrs.get("type");
+			String type = attrs.get("type");
 			if (type != null)
 				geo.setAnimationType(Integer.parseInt(type));
 			
@@ -3608,7 +3608,7 @@ public class MyXMLHandler implements DocHandler {
 			//geo.setAnimating(parseBoolean((String) attrs.get("playing")));
 			
 			// replacement
-			if (parseBoolean((String) attrs.get("playing")))
+			if (parseBoolean(attrs.get("playing")))
 				animatingList.add(geo);			
 
 			
@@ -3620,7 +3620,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleFixed(LinkedHashMap<String, String> attrs) {
 		try {
-			geo.setFixed(parseBoolean((String) attrs.get("val")));
+			geo.setFixed(parseBoolean(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -3629,7 +3629,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleBreakpoint(LinkedHashMap<String, String> attrs) {
 		try {
-			geo.setConsProtocolBreakpoint(parseBoolean((String) attrs
+			geo.setConsProtocolBreakpoint(parseBoolean(attrs
 					.get("val")));
 			return true;
 		} catch (Exception e) {
@@ -3645,7 +3645,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 
 		try {
-			((GeoImage) geo).setImageFileName((String) attrs.get("name"));
+			((GeoImage) geo).setImageFileName(attrs.get("name"));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -3665,7 +3665,7 @@ public class MyXMLHandler implements DocHandler {
 
 		try {
 			TextProperties text = (TextProperties) geo;
-			text.setFontSize(Integer.parseInt((String) attrs.get("size"))); // compulsory
+			text.setFontSize(Integer.parseInt(attrs.get("size"))); // compulsory
 			if (serif != null) text.setSerifFont(parseBoolean((String) serif));
 			if (style != null) text.setFontStyle(Integer.parseInt((String) style));
 			return true;
@@ -3683,7 +3683,7 @@ public class MyXMLHandler implements DocHandler {
 
 		try {
 			TextProperties text = (TextProperties) geo;
-			text.setPrintDecimals(Integer.parseInt((String) attrs.get("val")), true);
+			text.setPrintDecimals(Integer.parseInt(attrs.get("val")), true);
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -3699,7 +3699,7 @@ public class MyXMLHandler implements DocHandler {
 
 		try {
 			TextProperties text = (TextProperties) geo;
-			text.setPrintFigures(Integer.parseInt((String) attrs.get("val")), true);
+			text.setPrintFigures(Integer.parseInt(attrs.get("val")), true);
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -3714,7 +3714,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 
 		try {
-			((GeoImage) geo).setInBackground(parseBoolean((String) attrs
+			((GeoImage) geo).setInBackground(parseBoolean(attrs
 					.get("val")));
 			return true;
 		} catch (Exception e) {
@@ -3730,7 +3730,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 
 		try {
-			((GeoImage) geo).setInterpolate(parseBoolean((String) attrs
+			((GeoImage) geo).setInterpolate(parseBoolean(attrs
 					.get("val")));
 			return true;
 		} catch (Exception e) {
@@ -3741,7 +3741,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleAuxiliary(LinkedHashMap<String, String> attrs) {
 		try {
-			geo.setAuxiliaryObject(parseBoolean((String) attrs.get("val")));
+			geo.setAuxiliaryObject(parseBoolean(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -3752,7 +3752,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 
 
-			((GeoText) geo).setLaTeX(parseBoolean((String) attrs.get("val")),
+			((GeoText) geo).setLaTeX(parseBoolean(attrs.get("val")),
 					false);
 			return true;
 		} catch (Exception e) {
@@ -3769,7 +3769,7 @@ public class MyXMLHandler implements DocHandler {
 
 		try {
 			GeoAngle angle = (GeoAngle) geo;
-			angle.setArcSize(Integer.parseInt((String) attrs.get("val")));
+			angle.setArcSize(Integer.parseInt(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -3786,8 +3786,8 @@ public class MyXMLHandler implements DocHandler {
 
 		try {
 			AbsoluteScreenLocateable absLoc = (AbsoluteScreenLocateable) geo;
-			int x = Integer.parseInt((String) attrs.get("x"));
-			int y = Integer.parseInt((String) attrs.get("y"));
+			int x = Integer.parseInt(attrs.get("x"));
+			int y = Integer.parseInt(attrs.get("y"));
 			absLoc.setAbsoluteScreenLoc(x, y);
 			absLoc.setAbsoluteScreenLocActive(true);
 			return true;
@@ -3805,7 +3805,7 @@ public class MyXMLHandler implements DocHandler {
 
 		try {
 			GeoAngle angle = (GeoAngle) geo;
-			angle.setAllowReflexAngle(parseBoolean((String) attrs.get("val")));
+			angle.setAllowReflexAngle(parseBoolean(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
 
@@ -3840,7 +3840,7 @@ public class MyXMLHandler implements DocHandler {
 
 		try {
 			GeoAngle angle = (GeoAngle) geo;
-			angle.setForceReflexAngle(parseBoolean((String) attrs.get("val")));
+			angle.setForceReflexAngle(parseBoolean(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
 
@@ -3860,7 +3860,7 @@ public class MyXMLHandler implements DocHandler {
 
 		try {
 			LimitedPath lpath = (LimitedPath) geo;
-			lpath.setAllowOutlyingIntersections(parseBoolean((String) attrs
+			lpath.setAllowOutlyingIntersections(parseBoolean(attrs
 					.get("val")));
 			return true;
 		} catch (Exception e) {
@@ -3878,7 +3878,7 @@ public class MyXMLHandler implements DocHandler {
 
 		try {
 			LimitedPath lpath = (LimitedPath) geo;
-			lpath.setKeepTypeOnGeometricTransform(parseBoolean((String) attrs
+			lpath.setKeepTypeOnGeometricTransform(parseBoolean(attrs
 					.get("val")));
 			return true;
 		} catch (Exception e) {
@@ -3896,7 +3896,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			GeoNumeric num = (GeoNumeric) geo;
 			num.setSlopeTriangleSize(Integer
-					.parseInt((String) attrs.get("val")));
+					.parseInt(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -3921,14 +3921,14 @@ public class MyXMLHandler implements DocHandler {
 		Locateable loc = (Locateable) geo;
 
 		// relative start point (expression or label expected)
-		String exp = (String) attrs.get("exp");
+		String exp = attrs.get("exp");
 		if (exp == null) // try deprecated attribute
-			exp = (String) attrs.get("label");
+			exp = attrs.get("label");
 
 		// for corners a number of the startPoint is given
 		int number = 0;
 		try {
-			number = Integer.parseInt((String) attrs.get("number"));
+			number = Integer.parseInt(attrs.get("number"));
 		} catch (Exception e) {
 		}
 
@@ -3973,9 +3973,9 @@ public class MyXMLHandler implements DocHandler {
 	 * @param attrs 
 	 * @return start point */
 	protected GeoPointND handleAbsoluteStartPoint(LinkedHashMap<String, String> attrs) {
-		double x = Double.parseDouble((String) attrs.get("x"));
-		double y = Double.parseDouble((String) attrs.get("y"));
-		double z = Double.parseDouble((String) attrs.get("z"));
+		double x = Double.parseDouble(attrs.get("x"));
+		double y = Double.parseDouble(attrs.get("y"));
+		double z = Double.parseDouble(attrs.get("z"));
 		GeoPoint2 p = new GeoPoint2(cons);
 		p.setCoords(x, y, z);
 		return p;
@@ -4004,7 +4004,7 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleLength(LinkedHashMap<String, String> attrs) {
 
 		// name of linked geo
-		String val = (String) attrs.get("val");
+		String val = attrs.get("val");
 
 		if (geo instanceof GeoTextField) {
 			((GeoTextField)geo).setLength(Integer.parseInt(val));
@@ -4027,7 +4027,7 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleLinkedGeo(LinkedHashMap<String, String> attrs) {
 
 		// name of linked geo
-		String exp = (String) attrs.get("exp");
+		String exp = attrs.get("exp");
 
 		if (exp != null) {
 			// store (geo, epxression, number) values
@@ -4045,7 +4045,7 @@ public class MyXMLHandler implements DocHandler {
 			Iterator<GeoExpPair> it = linkedGeoList.iterator();
 
 			while (it.hasNext()) {
-				GeoExpPair pair = (GeoExpPair) it.next();
+				GeoExpPair pair = it.next();
 				
 				((GeoTextField)pair.geo).setLinkedGeo(kernel.lookupLabel(pair.exp));
 			}
@@ -4202,12 +4202,12 @@ public class MyXMLHandler implements DocHandler {
 			// set eigenvectors, but don't classify conic now
 			// classifyConic() will be called in handleMatrix() by
 			// conic.setMatrix()
-			conic.setEigenvectors(Double.parseDouble((String) attrs.get("x0")),
-					Double.parseDouble((String) attrs.get("y0")), Double
-							.parseDouble((String) attrs.get("z0")), Double
-							.parseDouble((String) attrs.get("x1")), Double
-							.parseDouble((String) attrs.get("y1")), Double
-							.parseDouble((String) attrs.get("z1")));
+			conic.setEigenvectors(Double.parseDouble(attrs.get("x0")),
+					Double.parseDouble(attrs.get("y0")), Double
+							.parseDouble(attrs.get("z0")), Double
+							.parseDouble(attrs.get("x1")), Double
+							.parseDouble(attrs.get("y1")), Double
+							.parseDouble(attrs.get("z1")));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -4225,12 +4225,12 @@ public class MyXMLHandler implements DocHandler {
 			GeoConic conic = (GeoConic) geo;
 			// set matrix and classify conic now
 			// <eigenvectors> should have been set earlier
-			double[] matrix = { Double.parseDouble((String) attrs.get("A0")),
-					Double.parseDouble((String) attrs.get("A1")),
-					Double.parseDouble((String) attrs.get("A2")),
-					Double.parseDouble((String) attrs.get("A3")),
-					Double.parseDouble((String) attrs.get("A4")),
-					Double.parseDouble((String) attrs.get("A5")) };
+			double[] matrix = { Double.parseDouble(attrs.get("A0")),
+					Double.parseDouble(attrs.get("A1")),
+					Double.parseDouble(attrs.get("A2")),
+					Double.parseDouble(attrs.get("A3")),
+					Double.parseDouble(attrs.get("A4")),
+					Double.parseDouble(attrs.get("A5")) };
 			conic.setMatrix(matrix);
 			} 
 			return true;
@@ -4241,8 +4241,8 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleLabelOffset(LinkedHashMap<String, String> attrs) {
 		try {
-			geo.labelOffsetX = Integer.parseInt((String) attrs.get("x"));
-			geo.labelOffsetY = Integer.parseInt((String) attrs.get("y"));
+			geo.labelOffsetX = Integer.parseInt(attrs.get("x"));
+			geo.labelOffsetY = Integer.parseInt(attrs.get("y"));
 
 			return true;
 		} catch (Exception e) {
@@ -4252,7 +4252,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleLabelMode(LinkedHashMap<String, String> attrs) {
 		try {
-			geo.setLabelMode(Integer.parseInt((String) attrs.get("val")));
+			geo.setLabelMode(Integer.parseInt(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -4261,7 +4261,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleTooltipMode(LinkedHashMap<String, String> attrs) {
 		try {
-			geo.setTooltipMode(Integer.parseInt((String) attrs.get("val")));
+			geo.setTooltipMode(Integer.parseInt(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -4400,7 +4400,7 @@ public class MyXMLHandler implements DocHandler {
 		while (it.hasNext()) {
 			// parse argument expressions
 			try {
-				arg = (String) it.next();
+				arg = it.next();
 
 				// for downward compatibility: lookup label first
 				// as this could be some weird name that can't be parsed
@@ -4443,7 +4443,7 @@ public class MyXMLHandler implements DocHandler {
 			Iterator<String> it = values.iterator();
 			int countLabels = 0;
 			while (it.hasNext()) {
-				label = (String) it.next();
+				label = it.next();
 				if ("".equals(label))
 					label = null;
 				else
@@ -4487,7 +4487,7 @@ public class MyXMLHandler implements DocHandler {
 			it = values.iterator();
 			int i = 0;
 			while (it.hasNext()) {
-				label = (String) it.next();				
+				label = it.next();				
 				
 				if ("".equals(label))
 					label = null;
@@ -4520,7 +4520,7 @@ public class MyXMLHandler implements DocHandler {
 		int i = 0;
 
 		while (it.hasNext()) {
-			ret[i] = (String) it.next();
+			ret[i] = it.next();
 			i++;
 		}
 		return ret;
@@ -4530,7 +4530,7 @@ public class MyXMLHandler implements DocHandler {
 	// <expression>
 	// ====================================
 	private void startExpressionElement(String eName, LinkedHashMap<String, String> attrs) {
-		String label = (String) attrs.get("label");
+		String label = attrs.get("label");
 		
 		// ignore twinGeo expressions coming from CAS cells
 		// e.g. the GeoCasCell f(x) := x^2 automatically creates a twinGeo f
@@ -4539,13 +4539,13 @@ public class MyXMLHandler implements DocHandler {
 		if (geo != null && geo.getCorrespondingCasCell() != null)
 			return;
 		
-		String exp = (String) attrs.get("exp");
+		String exp = attrs.get("exp");
 		if (exp == null)
 			throw new MyError(app, "exp missing in <expression>");
 
 		// type may be vector or point, this is important to distinguish between
 		// them
-		String type = (String) attrs.get("type");
+		String type = attrs.get("type");
 
 		// parse expression and process it
 		try {
