@@ -222,7 +222,7 @@ instructions.
 	<mkdir dir="lib/build"/>
 	<mkdir dir="lib/download"/>
 	<get 
-	    src="http://downloads.sourceforge.net/project/proguard/proguard/4.6/proguard4.6.zip?&amp;use_mirror=heanet"
+	    src="http://www.geogebra.org/download/lib/build/tools_proguard46.jar"
 	    dest="lib/download/proguard46.zip" usetimestamp="true"/>
 	<unzip src="lib/download/proguard46.zip" dest="lib/download">
 	    <patternset>
