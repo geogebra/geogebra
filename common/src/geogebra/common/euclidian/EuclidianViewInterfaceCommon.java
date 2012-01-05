@@ -117,11 +117,15 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 
 	public boolean isAutomaticGridDistance();
 
+	public boolean[] isAutomaticAxesNumberingDistance();
+
 	/**
 	 * 
 	 * @return true if this is Graphics or Graphics 2
 	 */
 	public boolean isDefault2D();
+
+	public boolean isGridOrAxesShown();
 
 	/**
 	 * returns true if the axes ratio is 1
@@ -134,20 +138,31 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 
 	public int getAllowToolTips();
 	public boolean getAllowShowMouseCoords();
+	public double[] getAxesCross();
+	public double[] getAxesNumberingDistances();
+	public String[] getAxesLabels();
 	public int getAxesLineStyle();
 	public int[] getAxesTickStyles();
 	public String[] getAxesUnitLabels();
 	public geogebra.common.awt.Color getBackgroundCommon();
+	public boolean[] getDrawBorderAxes();
 	public double[] getGridDistances();
 	public double getGridDistances(int i);
+	public boolean getGridIsBold();
 	public int getGridLineStyle();
 	public int getGridType();
 	public double getInvXscale();
 	public double getInvYscale();
 	public int getMode();
 	public int getPointStyle();
+	public boolean[] getPositiveAxes(); 
 	public Previewable getPreviewDrawable();
+	public boolean[] getShowAxesNumbers();
+	public boolean getShowGrid();
 	public boolean getShowMouseCoords();
+	public boolean getShowAxis(int axis);
+	public boolean getShowXaxis();
+	public boolean getShowYaxis();
 	public int getViewWidth();
 	public int getViewHeight();
 	public double getXmin();
@@ -160,13 +175,33 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	public GeoNumeric getYmaxObject();
 	public double getXscale();
 	public double getYscale();
+	public double getXZero();
+	public double getYZero();
 
 
+	public void setAutomaticAxesNumberingDistance(boolean b, int axis);
 	public void setAutomaticGridDistance(boolean b);
 	public void setAllowShowMouseCoords(boolean selected);
+	public void setAxesLabels(String[] labels);
 	public void setAxesLineStyle(int selectedIndex);
 	public void setAxesTickStyles(int[] styles);
 	public void setAxesUnitLabels(String[] unitLabels);
+	public void setAxesNumberingDistance(double tickDist, int axis);
+
+	public void setAxesCross(double[] axisCross);
+
+	/** sets the axis crossing value
+	 * @param axis
+	 * @param cross
+	 */
+	public void setAxisCross(int axis, double cross);
+
+	/**
+	 * sets the axis label to axisLabel
+	 * @param axis
+	 * @param axisLabel
+	 */
+	public void setAxisLabel(int axis, String axisLabel);
 
 	/** sets the tickstyle of this axis
 	 * @param axis
@@ -176,8 +211,18 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 
 	public void setCoordSystem(double x, double y, double xscale, double yscale);
 	public void setCoordSystemFromMouseMove(int dx, int dy, int mode);
+	public void setDrawBorderAxes(boolean[] border);
 	public void setGridDistances(double[] ticks);
 	public void setGridType(int selectedIndex);
+
+	public void setPositiveAxes(boolean[] positiveAxis); 
+
+	/** sets if the axis is drawn in the positive direction only
+	 * @param axis
+	 * @param isPositive
+	 */
+	public void setPositiveAxis(int axis, boolean isPositive);
+
 	public void setRealWorldCoordSystem(double min, double max, double ymin, double ymax);
 
 	// selection rectangle

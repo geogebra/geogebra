@@ -712,6 +712,23 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 
 	/**
+	 * This is only needed for second or above euclidian views
+	 * 
+	 * @param evNo
+	 *            euclidian view number
+	 */
+	public void setEuclidianViewNo(int evNo) {
+		if (evNo >= 2) {
+			this.evNo = evNo;
+		}
+	}
+
+	public int getEuclidianViewNo() {
+		return evNo;
+	}
+
+
+	/**
 	 * @param ymaxObjectNew
 	 *            the ymaxObject to set
 	 */
@@ -759,7 +776,35 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	public double getyZero() {
 		return yZero;
 	}
-	
+
+	/**
+	 * Returns x coordinate of axes origin.
+	 */
+	public double getXZero() {
+		return getxZero();
+	}
+
+	/**
+	 * Returns y coordinate of axes origin.
+	 */
+	public double getYZero() {
+		return getyZero();
+	}
+
+	protected String getXYscaleRatioString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("x : y = ");
+		if (getXscale() >= getYscale()) {
+			sb.append("1 : ");
+			sb.append(printScaleNF.format(getXscale() / getYscale()));
+		} else {
+			sb.append(printScaleNF.format(getYscale() / getXscale()));
+			sb.append(" : 1");
+		}
+		sb.append(' ');
+		return sb.toString();
+	}
+
 	/**
 	 * Returns xscale of this view. The scale is the number of pixels in screen
 	 * space that represent one unit in user space.
@@ -828,6 +873,24 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	 */
 	public double getYmin() {
 		return ymin;
+	}
+
+	/**
+	 * When function (or parabola) is transformed to curve, we need some good
+	 * estimate for which part of curve should be ploted
+	 * 
+	 * @return lower bound for function -> curve transform
+	 */
+	public double getXmaxForFunctions() {
+		return (((2 * getXmax()) - getXmin()) + getYmax()) - getYmin();
+	}
+
+	/**
+	 * @see #getXmaxForFunctions()
+	 * @return upper bound for function -> curve transform
+	 */
+	public double getXminForFunctions() {
+		return (((2 * getXmin()) - getXmax()) + getYmin()) - getYmax();
 	}
 
 	/**
@@ -1073,6 +1136,102 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		
 	}
 
+	protected ArrayList<GeoElement> foundHits = new ArrayList<GeoElement>();
+
+	/**
+	 * returns array of changeable GeoElements out of hits
+	 * 
+	 * @param hits
+	 *            hit elements
+	 * @return array of changeable GeoElements out of hits
+	 */
+	final public ArrayList<GeoElement> getMoveableHits(
+			ArrayList<GeoElement> hits) {
+		return getMoveables(hits, TEST_MOVEABLE, null);
+	}
+
+	/**
+	 * returns array of changeable GeoElements out of hits that implement
+	 * PointRotateable
+	 * 
+	 * @param hits
+	 * @param rotCenter
+	 * @return array of changeable GeoElements out of hits that implement
+	 */
+	final public ArrayList<GeoElement> getPointRotateableHits(
+			ArrayList<GeoElement> hits, GeoPoint2 rotCenter) {
+		return getMoveables(hits, TEST_ROTATEMOVEABLE, rotCenter);
+	}
+
+
+	protected final int TEST_MOVEABLE = 1;
+
+	protected final int TEST_ROTATEMOVEABLE = 2;
+
+	protected ArrayList<GeoElement> getMoveables(ArrayList<GeoElement> hits,
+			int test, GeoPoint2 rotCenter) {
+		if (hits == null) {
+			return null;
+		}
+
+		GeoElement geo;
+		moveableList.clear();
+		for (int i = 0; i < hits.size(); ++i) {
+			geo = hits.get(i);
+			switch (test) {
+			case TEST_MOVEABLE:
+				// moveable object
+				if (geo.isMoveable(this)) {
+					moveableList.add(geo);
+				}
+				// point with changeable parent coords
+				else if (geo.isGeoPoint()) {
+					GeoPoint2 point = (GeoPoint2) geo;
+					if (point.hasChangeableCoordParentNumbers()) {
+						moveableList.add(point);
+					}
+				}
+				// not a point, but has moveable input points
+				else if (geo.hasMoveableInputPoints(this)) {
+					moveableList.add(geo);
+				}
+				break;
+
+			case TEST_ROTATEMOVEABLE:
+				// check for circular definition
+				if (geo.isRotateMoveable()) {
+					if ((rotCenter == null) || !geo.isParentOf(rotCenter)) {
+						moveableList.add(geo);
+					}
+				}
+
+				break;
+			}
+		}
+		if (moveableList.size() == 0) {
+			return null;
+		} else {
+			return moveableList;
+		}
+	}
+
+	protected ArrayList<GeoElement> moveableList = new ArrayList<GeoElement>();
+
+
+	protected ArrayList<GeoElement> topHitsList = new ArrayList<GeoElement>();
+
+	final public static boolean containsGeoPoint(ArrayList<GeoElement> hits) {
+		if (hits == null) {
+			return false;
+		}
+
+		for (int i = 0; i < hits.size(); i++) {
+			if (hits.get(i).isGeoPoint()) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	/**
 	 * Returns the drawable for the given GeoElement.
@@ -1562,11 +1721,146 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		}
 	}
 
+
+	// axis control vars
+	protected double[] axisCross = { 0, 0 };//private
+	protected boolean[] positiveAxes = { false, false };//private
+	protected boolean[] drawBorderAxes = { false, false };//private
+
+	// getters and Setters for axis control vars
+
+	public double[] getAxesCross() {
+		return axisCross;
+	}
+
+	public void setAxesCross(double[] axisCross) {
+		this.axisCross = axisCross;
+	}
+
+	// for xml handler
+	public void setAxisCross(int axis, double cross) {
+		axisCross[axis] = cross;
+	}
+
+	public boolean[] getPositiveAxes() {
+		return positiveAxes;
+	}
+
+	public void setPositiveAxes(boolean[] positiveAxis) {
+		this.positiveAxes = positiveAxis;
+	}
+
+	// for xml handler
+	public void setPositiveAxis(int axis, boolean isPositiveAxis) {
+		positiveAxes[axis] = isPositiveAxis;
+	}
+
+	public boolean[] getDrawBorderAxes() {
+		return drawBorderAxes;
+	}
+
+	public void setDrawBorderAxes(boolean[] drawBorderAxes) {
+		this.drawBorderAxes = drawBorderAxes;
+		// don't show corner coordinates if one of the axes is sticky
+		this.setAxesCornerCoordsVisible(!(drawBorderAxes[0] || drawBorderAxes[1]));
+	}
+
+	// for xml handler
+	public void setDrawBorderAxis(int axis, boolean drawBorderAxis) {
+		drawBorderAxes[axis] = drawBorderAxis;
+	}
+
+	
+	
+	public boolean isAxesCornerCoordsVisible() {
+		return showAxesCornerCoords;
+	}
+
+	public void setAxesCornerCoordsVisible(boolean showAxesCornerCoords) {
+		this.showAxesCornerCoords = showAxesCornerCoords;
+	}
+
+	public final double getPrintingScale() {
+		return printingScale;
+	}
+
+	public final void setPrintingScale(double printingScale) {
+		this.printingScale = printingScale;
+	}
+
 	/**
 	 * 
 	 * setters and getters for EuclidianViewInterface
 	 * 
 	 */
+
+	public String[] getAxesLabels() {
+		return axesLabels;
+	}
+
+	public void setAxesLabels(String[] axesLabels) {
+		this.axesLabels = axesLabels;
+		for (int i = 0; i < 2; i++) {
+			if ((axesLabels[i] != null) && (axesLabels[i].length() == 0)) {
+				axesLabels[i] = null;
+			}
+		}
+	}
+
+	/**
+	 * sets the axis label to axisLabel
+	 * 
+	 * @param axis
+	 * @param axisLabel
+	 */
+	public void setAxisLabel(int axis, String axisLabel) {
+		if ((axisLabel != null) && (axisLabel.length() == 0)) {
+			axesLabels[axis] = null;
+		} else {
+			axesLabels[axis] = axisLabel;
+		}
+	}
+
+	public void setAutomaticAxesNumberingDistance(boolean flag, int axis) {
+		automaticAxesNumberingDistances[axis] = flag;
+		if (axis == 0) {
+			setAxesIntervals(getXscale(), 0);
+		} else {
+			setAxesIntervals(getYscale(), 1);
+		}
+	}
+
+	public boolean[] isAutomaticAxesNumberingDistance() {
+		return automaticAxesNumberingDistances;
+	}
+
+	public double[] getAxesNumberingDistances() {
+		return axesNumberingDistances;
+	}
+
+	/**
+	 * 
+	 * @param dist
+	 * @param axis
+	 *            0 for xAxis, 1 for yAxis
+	 */
+	public void setAxesNumberingDistance(double dist, int axis) {
+		if (!Double.isNaN(dist)) {
+			axesNumberingDistances[axis] = dist;
+			setAutomaticAxesNumberingDistance(false, axis);
+		} else {
+			setAutomaticAxesNumberingDistance(true, axis);
+		}
+	}
+
+	// Michael Borcherds 2008-04-11
+	public boolean getGridIsBold() {
+		return gridIsBold;
+	}
+
+	public boolean[] getShowAxesNumbers() {
+		return showAxesNumbers;
+	}
 
 	public void setShowAxesNumbers(boolean[] showAxesNumbers) {
 		this.showAxesNumbers = showAxesNumbers;
@@ -1632,6 +1926,33 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		return gridDistances[i];
 	}
 
+	public boolean getShowGrid() {
+		return showGrid;
+	}
+
+	public final boolean isGridOrAxesShown() {
+		return showAxes[0] || showAxes[1] || showGrid;
+	}
+
+	/**
+	 * says if the axis is shown or not
+	 * 
+	 * @param axis
+	 *            id of the axis
+	 * @return if the axis is shown
+	 */
+	public boolean getShowAxis(int axis) {
+		return showAxes[axis];
+	}
+
+	public boolean getShowXaxis() {
+		// return showAxes[0];
+		return getShowAxis(AXIS_X);
+	}
+
+	public boolean getShowYaxis() {
+		return getShowAxis(AXIS_Y);
+	}
 
 	// ///////////////////////////////////////
 	// previewables

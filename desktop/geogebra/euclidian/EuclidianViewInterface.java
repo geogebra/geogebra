@@ -105,12 +105,6 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	//////////////////////////////////////////////////////
 	// AXIS, GRID, ETC.
 	//////////////////////////////////////////////////////	
-	
-	
-	boolean getShowXaxis();
-	boolean getShowYaxis();
-	
-	boolean isGridOrAxesShown();
 
 	/**
 	 * sets showing flag of the axis
@@ -126,50 +120,9 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	 * @param update update (or not) the background image
 	 */	
 	public void setShowAxes(boolean flag, boolean update);
-	
-	
-	/**
-	 * sets the axis label to axisLabel
-	 * @param axis
-	 * @param axisLabel
-	 */
-	public void setAxisLabel(int axis, String axisLabel);
 
-	/** sets the axis crossing value
-	 * @param axis
-	 * @param cross
-	 */
-	public void setAxisCross(int axis, double cross);
-	
-	
-	/** sets if the axis is drawn in the positive direction only
-	 * @param axis
-	 * @param isPositive
-	 */
-	public void setPositiveAxis(int axis, boolean isPositive);
-	
-	
-	
-	
-	
 	/** Sets coord system from mouse move */
 	void setAnimatedCoordSystem(double ox, double oy, double f, double newScale,int steps, boolean storeUndo);
-
-
-	//setters and getters	
-	double getXZero();
-	double getYZero();
-	public String[] getAxesLabels();
-	public void setAxesLabels(String[] labels);
-	public boolean[] getShowAxesNumbers();
-	public void setAxesNumberingDistance(double tickDist, int axis);
-	
-	public double[] getAxesCross() ;
-	public void setAxesCross(double[] axisCross); 
-	
-	public boolean[] getPositiveAxes(); 
-	public void setPositiveAxes(boolean[] positiveAxis); 
-
 
 	/////////////////////////////////////////
 	// previewables
@@ -197,20 +150,13 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	public Color getAxesColor();
 	public Color getGridColor();
 	//GetBackground is still implemented in all implementations, but GetBackgroundCommon should be used instead
-	public boolean getShowGrid();
-	public boolean getGridIsBold();
 	public void setBackground(geogebra.common.awt.Color showColorChooser);
 	public void setAxesColor(Color showColorChooser);
 	public void setGridColor(Color showColorChooser);
 	public void showGrid(boolean selected);
 	public void setGridIsBold(boolean selected);
 	public void setGridLineStyle(int type);
-	public void setAutomaticAxesNumberingDistance(boolean b, int axis);
-	public boolean[] getDrawBorderAxes();
-	public void setDrawBorderAxes(boolean[] border);
-	public boolean[] isAutomaticAxesNumberingDistance();
-	public double[] getAxesNumberingDistances();
-	
+
 	// for AlgebraView
 
 	public void clickedGeo(GeoElement geo, MouseEvent e);
@@ -243,8 +189,6 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	 * @return true if the geo is moveable in the view
 	 */
 	//public boolean isMoveable(GeoElement geo);
-
-	public boolean getShowAxis(int axis);
 
 	public void setCursor(Cursor cursor);
 
