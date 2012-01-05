@@ -1,8 +1,11 @@
 package geogebra.plugin.jython;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 import geogebra.common.awt.Color;
+import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
@@ -20,6 +23,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoBoolean;
+import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -90,6 +94,10 @@ public class PythonAPI {
 		
 		public Class getType() {
 			return geo.getClass();
+		}
+		
+		public String getTypeString() {
+			return geo.getTypeString();
 		}
 		
 		/* General GeoElement methods */
@@ -179,6 +187,23 @@ public class PythonAPI {
 			((GeoLine) geo).setEndPoint((GeoPoint2) point.geo);
 		}
 		
+		/* Text methods */
+		
+		public Geo getTextOrigin() {
+			GeoText txt = (GeoText) geo;
+			return new Geo((GeoPoint2) txt.getStartPoint());
+		}
+		
+		public void setTextOrigin(Geo start) throws CircularDefinitionException {
+			GeoText txt = (GeoText) geo;
+			txt.setStartPoint((GeoPointND) start.geo);
+		}
+		
+		public void removeTextOrigin() {
+			GeoText txt = (GeoText) geo;
+			GeoPointND orig = txt.getStartPoint();
+			txt.removeStartPoint(orig);
+		}
 	}
 	
 	/**
@@ -298,6 +323,10 @@ public class PythonAPI {
 		return new Geo(kernel.Point(null, x, y));
 	}
 	
+	public Geo geoPointOnPath(Geo path, Geo param) {
+		return new Geo(kernel.Point(null, (Path) path.geo, (NumberValue) param.geo));
+	}
+	
 	public Geo geoLinePP(Geo p, Geo q) {
 		return new Geo(kernel.Line(null,  (GeoPoint2) p.geo, (GeoPoint2) q.geo));
 	}
@@ -338,6 +367,51 @@ public class PythonAPI {
 		return new Geo(kernel.ImplicitPoly(null, (GeoFunctionNVar) f.geo));
 	}
 	
+	public Geo geoText(String text) {
+		return new Geo(kernel.Text(null, text));
+	}
+	
+	public Geo geoConic(Geo[] geos) {
+		GeoPoint2[] points = (GeoPoint2[]) unwrapGeos(geos);
+		return new Geo(kernel.Conic(null, points));
+	}
+	
+	public Geo geoCircleCP(Geo center, Geo point) {
+		return new Geo(kernel.Circle(null, (GeoPoint2) center.geo, (GeoPoint2) point.geo));
+	}
+	
+	public Geo geoCirclePPP(Geo p, Geo q, Geo r) {
+		return new Geo(kernel.Circle(null, (GeoPoint2) p.geo, (GeoPoint2) q.geo, (GeoPoint2) r.geo));
+	}
+	
+	public Geo geoCircleCS(Geo c, Geo s) {
+		return new Geo(kernel.Circle(null, (GeoPoint2) c.geo, (GeoSegment) s.geo));
+	}
+	
+	public Geo geoCircleCR(Geo c, Geo r) {
+		return new Geo(kernel.Circle(null, (GeoPoint2) c.geo, (NumberValue) r.geo));
+	}
+	
+	public Geo geoEllipseFFP(Geo s1, Geo s2, Geo p) {
+		return new Geo(kernel.Ellipse(null, (GeoPoint2) s1.geo, (GeoPoint2) s2.geo, (GeoPoint2) p.geo));
+	}
+	
+	public Geo geoEllipseFFA(Geo s1, Geo s2, Geo a) {
+		return new Geo(kernel.Ellipse(null, (GeoPoint2) s1.geo, (GeoPoint2) s2.geo, (NumberValue) a.geo));
+	}
+	
+	public Geo geoHyperbolaFFP(Geo s1, Geo s2, Geo p) {
+		return new Geo(kernel.Hyperbola(null, (GeoPoint2) s1.geo, (GeoPoint2) s2.geo, (GeoPoint2) p.geo));
+	}
+	
+	public Geo geoHyperbolaFFA(Geo s1, Geo s2, Geo a) {
+		return new Geo(kernel.Hyperbola(null, (GeoPoint2) s1.geo, (GeoPoint2) s2.geo, (NumberValue) a.geo));
+	}
+	
+	public Geo geoParabola(Geo s, Geo l) {
+		return new Geo(kernel.Parabola(null, (GeoPoint2) s.geo, (GeoLine) l.geo));
+	}
+	
 	/*
 	 * Creating expressions
 	 */
@@ -351,7 +425,6 @@ public class PythonAPI {
 	public Expression vectorExpression(Expression x, Expression y) {
 		MyVecNode node = new MyVecNode(kernel, x.expr, y.expr);
 		return new Expression(node);
-		
 	}
 	
 	/**
@@ -474,6 +547,14 @@ public class PythonAPI {
 		return wrapped;
 	}
 	
+	static private GeoElement[] unwrapGeos(Geo[] geos) {
+		GeoElement [] unwrapped = new GeoElement[geos.length];
+		for (int i = 0; i < geos.length; i++) {
+			unwrapped[i] = geos[i].geo;
+		}
+		return unwrapped;
+	}
+	
 	/**
 	 * Find the intersection of a line and a conic
 	 * @param l line
@@ -509,4 +590,41 @@ public class PythonAPI {
 		return wrapGeoElements((GeoElement[]) geos.toArray());
 	}
 	
+	/*
+	 * Construction manipulation
+	 */
+	
+	/**
+	 * Return all geos of a certain type
+	 * @param type the GeoClass desired
+	 * @return array of all geos in the construction of given type
+	 */
+	public Geo[] getGeos(GeoClass type) {
+		TreeSet<GeoElement> geoSet = cons.getGeoSetLabelOrder(type);
+		Geo[] geos = new Geo[geoSet.size()];
+		Iterator<GeoElement> it = geoSet.iterator();
+		int i = 0;
+		while (it.hasNext()) {
+			geos[i++] = new Geo(it.next());
+		}
+		return geos;
+	}
+	
+	/*
+	 * Listening to selections
+	 */
+
+	/**
+	 * start listening to selections
+	 */
+	public void startSelectionListener() {
+		app.setSelectionListenerMode(app.getPythonBridge());
+	}
+	
+	/**
+	 * Stop listening to selections
+	 */
+	public void stopSelectionListener() {
+		app.setSelectionListenerMode(null);
+	}
 }
