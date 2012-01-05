@@ -42,5 +42,17 @@ public class Point {
 	public int getX(){
 		return x;
 	}
+	
+	@Override
+	public boolean equals(Object o){
+		if(!(o instanceof Point))
+			return false;
+		return ((Point)o).x==x && ((Point)o).y==y;
+	}
+	
+	@Override
+	public int hashCode(){
+		return (x >> 16) ^ y;
+	}
 
 }
