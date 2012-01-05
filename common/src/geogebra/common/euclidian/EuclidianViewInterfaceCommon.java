@@ -1,5 +1,6 @@
 package geogebra.common.euclidian;
 
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import geogebra.common.euclidian.event.AbstractEvent;
@@ -189,6 +190,4 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 
 	public int toScreenCoordX(double minX);
 	public int toScreenCoordY(double maxY);
-
-	public boolean hitAnimationButton(AbstractEvent e);
 }

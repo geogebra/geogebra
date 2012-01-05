@@ -466,7 +466,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		if (Application.isRightClick(e)) {
 			return;
 		}
-		setMouseLocation(geogebra.euclidian.event.MouseEvent.wrapEvent(e));
+		setMouseLocation(e);
 
 		// double-click on object selects MODE_MOVE and opens redefine dialog
 		if (e.getClickCount() == 2) {
@@ -658,7 +658,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 			((Application) app).getGuiManager().setFocusedPanel(e);
 		}
 
-		setMouseLocation(geogebra.euclidian.event.MouseEvent.wrapEvent(e));
+		setMouseLocation(e);
 
 		if (handleMousePressedForViewButtons()) {
 			return;
@@ -1794,7 +1794,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 			}
 		}
 		lastMouseLoc = mouseLoc;
-		setMouseLocation(geogebra.euclidian.event.MouseEvent.wrapEvent(e));
+		setMouseLocation(e);
 		transformCoords();
 
 		// ggb3D - only for 3D view
@@ -2234,7 +2234,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		movedGeoNumericDragged = false;
 
 		((EuclidianViewInterface) view).requestFocusInWindow();
-		setMouseLocation(geogebra.euclidian.event.MouseEvent.wrapEvent(e));
+		setMouseLocation(e);
 
 		setAltDown(e.isAltDown());
 
@@ -2774,15 +2774,15 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		/*if (textfieldHasFocus) {
+		if (textfieldHasFocus) {
 			return;
 		}
 
 		setMouseLocation(e);
-		processMouseMoved(e)*/;
+		processMouseMoved(e);
 	}
 	
-	public void wrapMouseMoved(MouseEvent e) {
+	/*public void wrapMouseMoved(MouseEvent e) {
 		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
 		
 		if (textfieldHasFocus) {
@@ -2791,9 +2791,9 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		
 		setMouseLocation(event);
 		processMouseMoved(event);
-	}
+	}*/
 
-	protected void processMouseMoved(AbstractEvent e) {
+	protected void processMouseMoved(MouseEvent e) {
 
 		boolean repaintNeeded;
 
@@ -2805,7 +2805,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		}
 
 		// animation button
-		boolean hitAnimationButton = view.hitAnimationButton(e);
+		boolean hitAnimationButton = ((EuclidianViewInterface)view).hitAnimationButton(e);
 		repaintNeeded = ((EuclidianViewInterface) view).setAnimationButtonsHighlighted(hitAnimationButton);
 		if (hitAnimationButton) {
 			if (kernel.isAnimationPaused()) {
@@ -4029,8 +4029,8 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		yRW = (((EuclidianViewInterface) view).getYZero() - mouseLoc.y) * ((EuclidianViewInterface) view).getInvYscale();
 	}
 
-	protected void setMouseLocation(AbstractEvent e) {
-		mouseLoc = e.getPoint();
+	protected void setMouseLocation(MouseEvent e) {
+		mouseLoc = new Point(e.getPoint().x,e.getPoint().y);
 
 		setAltDown(e.isAltDown());
 
@@ -5775,7 +5775,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 			return;
 		}
 
-		setMouseLocation(geogebra.euclidian.event.MouseEvent.wrapEvent(e));
+		setMouseLocation(e);
 
 		// double px = view.width / 2d;
 		// double py = view.height / 2d;
