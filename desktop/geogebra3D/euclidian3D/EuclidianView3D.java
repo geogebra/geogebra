@@ -371,7 +371,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		//clipping cube
 		clippingCube = kernel3D.getClippingCube();
 		clippingCube.setEuclidianVisible(true);
-		clippingCube.setObjColor(geogebra.common.awt.Color.black);
+		clippingCube.setObjColor(geogebra.common.awt.Color.gray);
 		clippingCube.setLineThickness(2);
 		clippingCube.setIsPickable(false);
 		clippingCubeDrawable = (DrawClippingCube3D) createDrawable(clippingCube);
@@ -2478,6 +2478,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		
 		xOyPlaneDrawable.drawHidden(renderer);
 		
+		clippingCubeDrawable.drawHidden(renderer);
 		
 		if (decorationVisible)
 			pointDecorations.drawHidden(renderer);
