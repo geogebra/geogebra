@@ -30,17 +30,11 @@ Number = (int, long, float)
 
 
 class Interface(PythonScriptInterface):
-    def init(self, app, kernel, cons, algprocessor):
-        global _app, _kernel, _cons, _algprocessor
-        global selection, pywindow
+    def init(self, app):
         global api
-        _app = app
-        _kernel = kernel
-        _cons = cons
-        _algprocessor = algprocessor
-        pywindow = self.pywin = PythonWindow()
+        self.pywin = PythonWindow()
         self.geo = Geo()
-        selection = self.selection = Selection()
+        self.selection = Selection()
         sys.stdout = self.pywin
         api = API(app)
         self.namespace = {
@@ -102,10 +96,10 @@ class Interface(PythonScriptInterface):
     def isWindowVisible(self):
         return self.pywin.frame.visible
     def set_selection_listener(self, sl):
-        _app.setSelectionListenerMode(_app.getPythonBridge())
+        api.startSelectionListener()
         self.selection_listener = sl
     def remove_selection_listener(self):
-        _app.setSelectionListenerMode(None)
+        api.stopSelectionListener();
         self.selection_listener = None
     def compileinteractive(self, source):
         try:
@@ -645,23 +639,23 @@ class Ray(Line):
 
 class Text(Element):
     def __init__(self, value, location=None):
-        self.geo = _kernel.Text(None, value)
+        self.geo = api.geoText(value)
         if isinstance(location, Point):
-            self.geo.startPoint = location.geo
+            self.geo.setTextOrigin(location.geo)
         elif location is not None:
             raise TypeError
         self.geo.updateRepaint()
 
     def _setorigin(self, point):
         if isinstance(point, Point):
-            self.geo.startPoint = point.geo
+            self.geo.setTextOrigin(point.geo)
         else:
             raise TypeError
         self.geo.updateRepaint()
     def _getorigin(self):
-        return Point.fromgeo(self.geo.startPoint)
+        return Point.fromgeo(self.geo.getTextOrigin())
     def _delorigin(self):
-        self.geo.removeStartPoint(self.geo.startPoint)
+        self.geo.removeTextOrigin()
         self.geo.updateRepaint()
     origin = property(_getorigin, _setorigin, _delorigin)
 
@@ -682,13 +676,13 @@ class Conic(Path):
     @sign(Point, Point, Point, Point, Point)
     def initfrom5points(self, *points):
         geos = [p.geo for p in points]
-        self.geo = _kernel.Conic(None, geos)
+        self.geo = api.geoConic(geos)
 
-    @specmethod.init
-    @sign(Numeric, Numeric, Numeric, Numeric, Numeric, Numeric)
-    def initfrom6coeffs(self, *coeffs):
-        geos = [c.geo for c in coeffs]
-        self.geo = _kernel.Conic(None, geos)
+    #@specmethod.init
+    #@sign(Numeric, Numeric, Numeric, Numeric, Numeric, Numeric)
+    #def initfrom6coeffs(self, *coeffs):
+    #    geos = [c.geo for c in coeffs]
+    #    self.geo = _kernel.Conic(None, geos)
 
 
 class Circle(Conic):
@@ -696,22 +690,23 @@ class Circle(Conic):
     @specmethod.init
     @sign(Point, Point)
     def initfromcentreandpoint(self, p, q):
-        self.geo = _kernel.Circle(None, p.geo, q.geo)
+        self.geo = api.geoCircleCP(p.geo, q.geo)
 
     @specmethod.init
     @sign(Point, Point, Point)
     def initfrom3points(self, p, q, r):
-        self.geo = _kernel.Circle(None, p.geo, q.geo, r.geo)
+        
+        self.geo = api.geoCirclePPP(p.geo, q.geo, r.geo)
 
     @specmethod.init
     @sign(Point, Segment)
     def initfromcentreandsegment(self, c, s):
-        self.geo = _kernel.Circle(None, c.geo, s.geo)
+        self.geo = api.geoCircleCS(c.geo, s.geo)
 
     @specmethod.init
     @sign(Point, Numeric)
     def initfromcentreandradius(self, c, r):
-        self.geo = _kernel.Circle(None, c.geo, element(r).geo)
+        self.geo = api.geoCirclCRe(c.geo, element(r).geo)
 
 
 class Ellipse(Conic):
@@ -719,12 +714,12 @@ class Ellipse(Conic):
     @specmethod.init
     @sign(Point, Point, Numeric)
     def initfromfociandhalfmajoraxis(self, p, q, a):
-        self.geo = _kernel.Ellipse(None, p.geo, q.geo, a.geo)
+        self.geo = api.geoEllipseFFA(p.geo, q.geo, a.geo)
 
     @specmethod.init
     @sign(Point, Point, Point)
     def initfromfociandpoint(self, p, q, r):
-        self._geo = _kernel.Ellipse(None, p.geo, q.geo, r.geo)
+        self._geo = api.geoEllipseFFP(p.geo, q.geo, r.geo)
 
 
 class Hyperbola(Conic):
@@ -732,12 +727,12 @@ class Hyperbola(Conic):
     @specmethod.init
     @sign(Point, Point, Numeric)
     def initfromfociandhalfmajoraxis(self, p, q, a):
-        self.geo = _kernel.Hyperbola(None, p.geo, q.geo, a.geo)
+        self.geo = api.geoHyperbolaFFA(p.geo, q.geo, a.geo)
 
     @specmethod.init
     @sign(Point, Point, Point)
     def initfromfociandpoint(self, p, q, r):
-        self._geo = _kernel.Hyperbola(None, p.geo, q.geo, r.geo)
+        self._geo = api.geoHyperbolaFFP(p.geo, q.geo, r.geo)
 
 
 class Parabola(Conic):
@@ -745,7 +740,7 @@ class Parabola(Conic):
     @specmethod.init
     @sign(Point, Line)
     def initfromfocusanddirectrix(self, p, l):
-        self._geo = _kernel.Parabola(None, p.geo, l.geo)
+        self._geo = api.geoParabola(p.geo, l.geo)
 
 
 Conic._conic_types = {
@@ -761,7 +756,7 @@ class Locus(Path):
     def get_point(self, param):
         if param < 0 or param > 1:
             raise ValueError("param must be between 0 and 1")
-        return _kernel.Point(None, self.geo, element(param).geo)
+        return api.geoPointOnPath(self.geo, element(param).geo)
 
 
 class ImplicitPoly(Path):
@@ -862,13 +857,7 @@ class Selection(object):
 
 
 def pointlist():
-    # XXX Still to convert
-    pointset = _cons.getGeoSetLabelOrder(GeoClass.POINT)
-    pointlist = []
-    it = pointset.iterator()
-    while it.hasNext():
-        pointlist.append(Point.fromgeo(it.next()))
-    return pointlist
+    return api.getGeos(GeoClass.POINT)
 
 class Geo(object):
     _map = {
