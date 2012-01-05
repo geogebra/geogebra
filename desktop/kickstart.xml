@@ -223,13 +223,7 @@ instructions.
 	<mkdir dir="lib/download"/>
 	<get 
 	    src="http://www.geogebra.org/download/lib/build/tools_proguard46.jar"
-	    dest="lib/download/proguard46.zip" usetimestamp="true"/>
-	<unzip src="lib/download/proguard46.zip" dest="lib/download">
-	    <patternset>
-		<include name="proguard4.6/lib/proguard.jar"/>
-	    </patternset>
-	    <mapper type="glob" from="proguard4.6/lib/proguard.jar" to="../build/tools_proguard46.jar"/>
-	</unzip>
+	    dest="lib/build/tools_proguard46.jar" usetimestamp="true"/>
 	</target>
 
 	<!-- download javacc from GeoGebra repository -->
