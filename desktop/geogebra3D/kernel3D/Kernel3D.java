@@ -99,6 +99,10 @@ public class Kernel3D extends Kernel {
 	public GeoPlane3DConstant getXOYPlane() {
 		return ((Construction3D) cons).getXOYPlane();
 	}
+	
+	public GeoClippingCube3D getClippingCube(){
+		return ((Construction3D) cons).getClippingCube();
+	}
 
 	/* *******************************************
 	 * Methods for EuclidianView/EuclidianView3D

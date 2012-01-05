@@ -9,5 +9,7 @@ public enum GeoClass {
 
 	SURFACECARTESIAN3D,
 	
+	CLIPPINGCUBE3D,
+	
 	DEFAULT
 }

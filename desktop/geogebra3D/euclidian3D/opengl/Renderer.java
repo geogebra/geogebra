@@ -382,8 +382,24 @@ public class Renderer implements GLEventListener {
         //gl.glAlphaFunc(GLlocal.GL_GREATER, 0);
         gl.glDisable(GLlocal.GL_TEXTURE_2D);
     }
+    
+    private static final int[] GL_CLIP_PLANE = {GL.GL_CLIP_PLANE0, GL.GL_CLIP_PLANE1, GL.GL_CLIP_PLANE2, GL.GL_CLIP_PLANE3, GL.GL_CLIP_PLANE4, GL.GL_CLIP_PLANE5};
        
+    private void enableClipPlane(int n){
+    	gl.glEnable( GL_CLIP_PLANE[n] );   	
+    }
+    
+    private void enableClipPlanes(){
+    	for (int n=0; n<6; n++)
+    		enableClipPlane(n);
+    }
+    
+    public void setClipPlane(int n, double[] equation){
+    	gl.glClipPlane( GL_CLIP_PLANE[n] , equation, 0 );
+    }
+    
     private void draw(){
+	
         //labels
         drawFaceToScreen();
         
@@ -1439,6 +1455,9 @@ public class Renderer implements GLEventListener {
         //normal anti-scaling
         gl.glEnable(GLlocal.GL_NORMALIZE);
         //gl.glEnable(GLlocal.GL_RESCALE_NORMAL);
+        
+        //clipping planes
+        enableClipPlanes();
         
         //textures
         textures.init(gl);

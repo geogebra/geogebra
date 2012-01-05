@@ -37,8 +37,10 @@ import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianPen;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.main.Application;
+import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.PlotterCursor;
 import geogebra3D.euclidian3D.opengl.Renderer;
+import geogebra3D.kernel3D.GeoClippingCube3D;
 import geogebra3D.kernel3D.GeoConic3D;
 import geogebra3D.kernel3D.GeoCurveCartesian3D;
 import geogebra3D.kernel3D.GeoElement3D;
@@ -144,6 +146,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	//matrix for changing coordinate system
 	private CoordMatrix4x4 m = CoordMatrix4x4.Identity(); 
 	private CoordMatrix4x4 mInv = CoordMatrix4x4.Identity();
+	private CoordMatrix4x4 mInvTranspose = CoordMatrix4x4.Identity();
 	private CoordMatrix4x4 undoRotationMatrix = CoordMatrix4x4.Identity();
 	
 	
@@ -179,9 +182,11 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	//axis and xOy plane
 	private GeoPlane3D xOyPlane;
 	private GeoAxisND[] axis;
+	private GeoClippingCube3D clippingCube;
 	
 	private DrawPlane3D xOyPlaneDrawable;
 	private DrawAxis3D[] axisDrawable;
+	private DrawClippingCube3D clippingCubeDrawable;
 	
 	
 	/** number of drawables linked to this view (xOy plane, Ox, Oy, Oz axis) */
@@ -332,6 +337,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		//point decorations
 		initPointDecorations();
 		
+		
 		//x, y, min, max
 		xminObject = new GeoNumeric(kernel3D.getConstruction());
 		xmaxObject = new GeoNumeric(kernel3D.getConstruction());
@@ -360,7 +366,16 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		xOyPlane.setEuclidianVisible(true);
 		xOyPlane.setGridVisible(true);
 		xOyPlane.setPlateVisible(false);
-		xOyPlaneDrawable = (DrawPlane3D) createDrawable(xOyPlane);			
+		xOyPlaneDrawable = (DrawPlane3D) createDrawable(xOyPlane);		
+		
+		//clipping cube
+		clippingCube = kernel3D.getClippingCube();
+		clippingCube.setEuclidianVisible(true);
+		clippingCube.setObjColor(geogebra.common.awt.Color.black);
+		clippingCube.setLineThickness(2);
+		clippingCube.setIsPickable(false);
+		clippingCubeDrawable = (DrawClippingCube3D) createDrawable(clippingCube);
+		
 	}
 
 	// POINT_CAPTURING_STICKY_POINTS locks onto these points
@@ -566,6 +581,10 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 			case TEXT:
 				d = new DrawText3D(this,(GeoText) geo);
 				break;
+				
+			case CLIPPINGCUBE3D:
+				d = new DrawClippingCube3D(this, (GeoClippingCube3D) geo);
+				break;
 			}
 		}
 		
@@ -587,6 +606,8 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		changeCoords(mInv,vInOut);		
 	}
 	
+
+	
 	final private static void changeCoords(CoordMatrix mat, Coords vInOut){
 		Coords v1 = vInOut.getCoordsLast1();
 		vInOut.set(mat.mul(v1));		
@@ -598,6 +619,11 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	final public CoordMatrix4x4 getToSceneMatrix(){
 		
 		return mInv;
+	}
+	
+	final public CoordMatrix4x4 getToSceneMatrixTranspose(){
+		
+		return mInvTranspose;
 	}
 	
 	/** return the matrix : scene coords -> screen coords.
@@ -640,6 +666,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		m.set(m5.mul(m3.mul(m4)));	
 		
 		mInv.set(m.inverse());
+		mInvTranspose.set(mInv.transposeCopy());
 		
 		updateEye();
 			
@@ -2432,11 +2459,15 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		for(int i=0;i<3;i++)
 			axisDrawable[i].drawOutline(renderer);
 		
-		/*
-		if (decorationVisible)
-			pointDecorations.drawOutline(renderer);
-			*/
+		clippingCubeDrawable.drawOutline(renderer);
+		
 	}
+
+	
+	
+	
+	
+	
 	
 	/** draw hidden parts of view's drawables (axis)
 	 * @param renderer
@@ -2507,6 +2538,9 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		for(int i=0;i<3;i++)
 			axisDrawable[i].setWaitForUpdate();
 		
+		clippingCubeDrawable.setWaitForUpdate();
+		
+		
 		
 	}
 	
@@ -2522,6 +2556,8 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		}
 				
 		pointDecorations.setWaitForReset();
+		
+		clippingCubeDrawable.setWaitForReset();
 	}
 	
 
@@ -2557,6 +2593,12 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	
 	private void viewChangedOwnDrawables(){
 		
+		//update clipping cube
+		double[][] minMax = clippingCubeDrawable.updateMinMax();
+		clippingCubeDrawable.setWaitForUpdate();
+		
+		
+		/*
 		// calc draw min/max for x and y axis
 		for(int i=0;i<2;i++){
 			axisDrawable[i].updateDrawMinMax();
@@ -2566,12 +2608,18 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		double zmin = (renderer.getBottom()-getYZero())/getScale();
 		double zmax = (renderer.getTop()-getYZero())/getScale();
 		axisDrawable[AXIS_Z].setDrawMinMax(zmin, zmax);
+		*/
 		
+		for(int i=0;i<3;i++){
+			axisDrawable[i].setDrawMinMax(minMax[i][0], minMax[i][1]);
+		}
 		//update decorations and wait for update
 		for(int i=0;i<3;i++){
 			axisDrawable[i].updateDecorations();
 			axisDrawable[i].setWaitForUpdate();
 		}
+		
+		
 		/*
 		// sets min/max for the plane and axis
 		double xmin = axisDrawable[AXIS_X].getDrawMin(); 
@@ -2598,6 +2646,10 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		
 		// update xOyPlane
 		xOyPlaneDrawable.update();
+		
+		clippingCubeDrawable.update();
+		
+
 		
 		// update intersection curves in controller
 		//((EuclidianController3D) getEuclidianController()).updateIntersectionCurves();

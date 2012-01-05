@@ -729,13 +729,16 @@ public class PlotterBrush {
 	/** set the current thickness of the brush, using integer for thickness (see {@link GeoElement#getLineThickness()}}
 	 * @param thickness
 	 * @param scale 
+	 * @return real world thickness
 	 */
-	public void setThickness(int thickness, float scale){
+	public float setThickness(int thickness, float scale){
 		
 		this.lineThickness = thickness;
 		this.scale = scale;
 		
-		setThickness(lineThickness*LINE3D_THICKNESS/scale);
+		float t = lineThickness*LINE3D_THICKNESS/scale;
+		setThickness(t);
+		return t;
 		
 	}
 	

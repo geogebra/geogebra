@@ -20,6 +20,7 @@ public class Construction3D extends Construction {
 	private GeoAxis3D //xAxis3D, yAxis3D, 
 	zAxis3D;
 	private GeoPlane3DConstant xOyPlane;
+	private GeoClippingCube3D clippingCube;
 	private String //xAxis3DLocalName, yAxis3DLocalName, 
 	zAxis3DLocalName, xOyPlaneLocalName;
 
@@ -50,6 +51,8 @@ public class Construction3D extends Construction {
 		
 		xOyPlane = new GeoPlane3DConstant(this,GeoPlane3DConstant.XOY_PLANE);
 		
+		clippingCube = new GeoClippingCube3D(this);
+		
 	}
 	
 	
@@ -64,6 +67,9 @@ public class Construction3D extends Construction {
 	}
 	public GeoPlane3DConstant getXOYPlane(){
 		return xOyPlane;
+	}
+	public GeoClippingCube3D getClippingCube(){
+		return clippingCube;
 	}
 
 	/**
