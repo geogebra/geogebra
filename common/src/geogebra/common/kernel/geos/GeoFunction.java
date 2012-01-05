@@ -115,12 +115,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	public GeoFunction(Construction c, Function f) {
 		this(c);
 		fun = f;				
-		fun.initFunction();
-		if(fun.isBooleanFunction()){
-			GeoElement ge = (GeoElement) cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_INEQUALITY_1VAR);
-			setVisualStyle(ge);
-			setAlphaValue(ge.getAlphaValue());			
-		}
+		initFunction();
 	}
 
 	GeoImplicitPoly iPoly;
@@ -279,6 +274,15 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 */
 	public void setFunction(Function f) {
 		fun = (Function)f;
+	}
+	
+	public void initFunction(){
+		fun.initFunction();
+		if(fun.isBooleanFunction()){
+			GeoElement ge = cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_INEQUALITY_1VAR);
+			setVisualStyle(ge);
+			setAlphaValue(ge.getAlphaValue());			
+		}
 	}
 			
 	public Function getFunction() {

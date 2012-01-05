@@ -59,6 +59,7 @@ public class AlgoDependentFunction extends AlgoElement {
 		this.fun = fun;
 		f = new GeoFunction(cons);
 		f.setFunction(fun);
+		f.initFunction();
 
 		// look for FUNCTION or DERIVATIVE nodes in function
 		expression = fun.getExpression();
@@ -141,7 +142,9 @@ public class AlgoDependentFunction extends AlgoElement {
 
 			expandedFun.setExpression(node);
 			f.setFunction(expandedFun);
-			if (f.isBooleanFunction())
+			//If the label is not set (first run of compute) 
+			//isFillable will take care of updating ineqs
+			if (f.isBooleanFunction() && f.isLabelSet())
 				f.resetIneqs();
 		} else if (f.isBooleanFunction())
 			f.getFunction().updateIneqs();
