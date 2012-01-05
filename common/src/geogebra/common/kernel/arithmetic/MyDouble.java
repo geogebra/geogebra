@@ -556,7 +556,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	}
 
 	final public GeoElement toGeoElement() {
-		GeoNumeric num = new GeoNumeric(kernel.getConstruction());
+		GeoNumeric num = new GeoNumeric(kernel.getConstruction(),val);
 		return num;
 	}
 

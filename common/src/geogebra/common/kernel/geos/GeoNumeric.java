@@ -1128,7 +1128,7 @@ implements NumberValue, AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 	 */
 	public GeoElement getIntervalMinObject() {
 		if (intervalMin == null) return null;
-		return (GeoElement)intervalMin.toGeoElement();
+		return intervalMin.toGeoElement();
 	}
 	
 	/**
@@ -1137,7 +1137,7 @@ implements NumberValue, AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 	 */
 	public GeoElement getIntervalMaxObject() {
 		if (intervalMax == null) return null;
-		return (GeoElement)intervalMax.toGeoElement();
+		return intervalMax.toGeoElement();
 	}
 
 	public boolean canHaveClickScript() {
