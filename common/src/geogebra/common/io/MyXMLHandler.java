@@ -122,9 +122,9 @@ public class MyXMLHandler implements DocHandler {
 	};
 
 	/** See JSplitPane.HORIZONTAL_SPLIT */
-	private static final int JSplitPane_HORIZONTAL_SPLIT = 2;
+	private static final int JSplitPane_HORIZONTAL_SPLIT = 1;
 	/** See JSplitPane.VERTICAL_SPLIT */
-	private static final int JSplitPane_VERTICAL_SPLIT = 1;
+	private static final int JSplitPane_VERTICAL_SPLIT = 0;
 
 	private int mode;
 	private int constMode; // submode for <construction>
