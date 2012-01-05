@@ -10,11 +10,8 @@ the Free Software Foundation.
 
  */
 
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
-import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.GeneralPathClipped;
-import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
@@ -28,11 +25,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.MyMath;
 
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.Area;
-import java.awt.geom.Point2D;
+//import java.awt.Shape;
 import java.util.ArrayList;
 
 /**
@@ -57,7 +50,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	 * @param poly
 	 *            Polygon to be drawn
 	 */
-	public DrawPolygon(EuclidianView view, GeoPolygon poly) {
+	public DrawPolygon(AbstractEuclidianView view, GeoPolygon poly) {
 		this.view = view;
 		hitThreshold = view.getCapturingThreshold();
 		this.poly = poly;
@@ -74,7 +67,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	 * @param points
 	 *            vertices
 	 */
-	DrawPolygon(EuclidianView view, ArrayList<GeoPointND> points) {
+	public DrawPolygon(AbstractEuclidianView view, ArrayList<GeoPointND> points) {
 		this.view = view;
 		this.points = points;
 
@@ -94,8 +87,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 				return;
 			gp.closePath();
 			if (geo.isInverseFill()) {
-				setShape(new geogebra.awt.Area(view.getBoundingPath()));
-				getShape().subtract(new geogebra.awt.Area(gp));
+				setShape(geogebra.common.factories.AwtFactory.prototype.newArea(view.getBoundingPath()));
+				getShape().subtract(geogebra.common.factories.AwtFactory.prototype.newArea(gp));
 			}
 			// polygon on screen?
 			if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())
@@ -322,7 +315,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	@Override
 	final public boolean hit(int x, int y) {
-		Shape t = geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : geogebra.awt.GenericShape.getAwtShape(gp);
+		geogebra.common.awt.Shape t = geo.isInverseFill() ? getShape() : gp;
 		return t != null
 				&& (t.contains(x, y) || t.intersects(x - hitThreshold, y
 						- hitThreshold, 2 * hitThreshold, 2 * hitThreshold));
@@ -354,7 +347,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}
-		return new geogebra.awt.Rectangle(gp.getBounds());
+		return gp.getBounds();
 	}
 
 }

@@ -10,19 +10,13 @@ the Free Software Foundation.
 
  */
 
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
-import geogebra.common.awt.Shape;
-import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.GeneralPathClipped;
+import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.AbstractApplication;
-import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
-
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
 
 /**
  * Draws upper / lower sum of a GeoFunction
@@ -50,7 +44,7 @@ public class DrawUpperLowerSum extends Drawable {
 	 * @param n
 	 *            The sum / barchart / boxplot / histogram to be drawn
 	 */
-	public DrawUpperLowerSum(EuclidianView view, GeoNumeric n) {
+	public DrawUpperLowerSum(AbstractEuclidianView view, GeoNumeric n) {
 		this.view = view;
 		sum = n;
 		geo = n;
@@ -274,6 +268,6 @@ public class DrawUpperLowerSum extends Drawable {
 		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}
-		return new geogebra.awt.Rectangle(gp.getBounds());
+		return gp.getBounds();
 	}
 }

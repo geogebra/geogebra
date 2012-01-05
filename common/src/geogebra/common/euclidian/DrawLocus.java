@@ -10,19 +10,14 @@ the Free Software Foundation.
 
  */
 
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
-import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.Traceable;
 
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.Area;
+
 import java.util.ArrayList;
 
 public class DrawLocus extends Drawable {
@@ -33,7 +28,7 @@ public class DrawLocus extends Drawable {
 	private GeneralPathClipped gp;
 	private double[] lastPointCoords;
 
-	public DrawLocus(EuclidianView view, GeoLocus locus) {
+	public DrawLocus(AbstractEuclidianView view, GeoLocus locus) {
 		this.view = view;
 		hitThreshold = view.getCapturingThreshold();
 		this.locus = locus;
@@ -80,8 +75,8 @@ public class DrawLocus extends Drawable {
 			}
 		}
 		if (geo.isInverseFill()) {
-			setShape(new geogebra.awt.Area(view.getBoundingPath()));
-			geogebra.awt.Area.getAWTArea(getShape()).subtract(new Area(geogebra.awt.GenericShape.getAwtShape(gp)));
+			setShape(geogebra.common.factories.AwtFactory.prototype.newArea(view.getBoundingPath()));
+			getShape().subtract(geogebra.common.factories.AwtFactory.prototype.newArea(gp));
 		}
 
 	}
@@ -179,7 +174,7 @@ public class DrawLocus extends Drawable {
 	 */
 	@Override
 	final public boolean hit(int x, int y) {
-		Shape t = geo.isInverseFill() ? geogebra.awt.Area.getAWTArea(getShape()) : geogebra.awt.GenericShape.getAwtShape(gp);
+		geogebra.common.awt.Shape t = geo.isInverseFill() ? getShape() : gp;
 		if (t == null)
 			return false; // hasn't been drawn yet (hidden)
 
@@ -222,7 +217,7 @@ public class DrawLocus extends Drawable {
 				|| !geo.isEuclidianVisible()) {
 			return null;
 		}
-		return new geogebra.awt.Rectangle(gp.getBounds());
+		return gp.getBounds();
 	}
 
 }

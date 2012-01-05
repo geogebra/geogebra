@@ -15,12 +15,11 @@ the Free Software Foundation.
  *
  * Created on 03. June 2010, 12:21
  */
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 
-import java.awt.geom.Area;
 
 /**
  * Draw GeoImplicitPoly on euclidian view
@@ -30,7 +29,7 @@ public class DrawImplicitPoly extends DrawLocus {
 	private GeoImplicitPoly implicitPoly;
 	// private int fillSign; //0=>no filling, only curve -1=>fill the negativ part, 1=>fill positiv part
 	
-	public DrawImplicitPoly(EuclidianView view,GeoImplicitPoly implicitPoly) {
+	public DrawImplicitPoly(AbstractEuclidianView view,GeoImplicitPoly implicitPoly) {
 		super(view, (GeoLocus)implicitPoly.locus);
 		this.view=view;
     	hitThreshold = view.getCapturingThreshold();
@@ -41,7 +40,7 @@ public class DrawImplicitPoly extends DrawLocus {
 	
 	@Override
 	public geogebra.common.awt.Area getShape(){
-		return new geogebra.awt.Area();
+		return geogebra.common.factories.AwtFactory.prototype.newArea();
 	}
 	/**
 	 * Returns the poly to be draw

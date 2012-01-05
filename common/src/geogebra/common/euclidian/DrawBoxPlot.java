@@ -1,4 +1,4 @@
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
 import geogebra.common.kernel.algos.AlgoBoxPlot;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -7,8 +7,6 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.AbstractApplication;
 
 import geogebra.common.awt.Rectangle;
-import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.GeneralPathClipped;
 
 public class DrawBoxPlot extends Drawable {
 	private boolean isVisible, labelVisible;
@@ -18,7 +16,7 @@ public class DrawBoxPlot extends Drawable {
 	private AlgoBoxPlot algo;
 	private NumberValue a, b;
 
-	public DrawBoxPlot(EuclidianView view, GeoNumeric n) {
+	public DrawBoxPlot(AbstractEuclidianView view, GeoNumeric n) {
 		this.view = view;
 		sum = n;
 		geo = n;

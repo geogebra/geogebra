@@ -14,20 +14,14 @@ the Free Software Foundation.
  * DrawSlope: draws the slope triangle for the slope of a line
  */
 
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
+import geogebra.common.awt.Graphics2D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoSlope;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumeric;
-
-import geogebra.common.awt.Graphics2D;
-import geogebra.common.awt.Shape;
-import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.GeneralPathClipped;
-
-import java.awt.Rectangle;
 
 /**
  * 
@@ -53,7 +47,7 @@ public class DrawSlope extends Drawable {
 	 * @param view
 	 * @param slope
 	 */
-	public DrawSlope(EuclidianView view, GeoNumeric slope) {
+	public DrawSlope(AbstractEuclidianView view, GeoNumeric slope) {
 		this.view = view;
 		kernel = view.getKernel();
 		this.slope = slope;
@@ -213,7 +207,7 @@ public class DrawSlope extends Drawable {
 		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}
-		return new geogebra.awt.Rectangle(gp.getBounds());
+		return gp.getBounds();
 	}
 
 }

@@ -10,21 +10,15 @@ the Free Software Foundation.
 
  */
 
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
-import geogebra.common.awt.Shape;
-import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.GeneralPathClipped;
-import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.geom.Point2D;
+
 import java.util.ArrayList;
 
 /**
@@ -41,7 +35,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	private double[] coords = new double[2];
 	private ArrayList<?> points;
 
-	public DrawPolyLine(EuclidianView view, GeoPolyLine poly) {
+	public DrawPolyLine(AbstractEuclidianView view, GeoPolyLine poly) {
 		this.view = view;
 		this.poly = poly;
 		geo = poly;
@@ -52,7 +46,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	/**
 	 * Creates a new DrawPolygon for preview.
 	 */
-	DrawPolyLine(EuclidianView view, ArrayList<?> points) {
+	public DrawPolyLine(AbstractEuclidianView view, ArrayList<?> points) {
 		this.view = view;
 		hitThreshold = view.getCapturingThreshold();
 		this.points = points;
@@ -255,7 +249,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}
-		return new geogebra.awt.Rectangle(gp.getBounds());
+		return gp.getBounds();
 	}
 
 }

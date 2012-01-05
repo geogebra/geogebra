@@ -1,17 +1,10 @@
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
-import geogebra.common.awt.Shape;
-import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.EuclidianStatic;
-import geogebra.common.euclidian.EuclidianStyleConstants;
-import geogebra.common.euclidian.AbstractEuclidianView;
-import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.kernel.arithmetic.Inequality;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint2;
 
-import java.awt.geom.Ellipse2D;
 
 /**
  * @author kondr
@@ -23,7 +16,7 @@ public class DrawInequality1Var extends Drawable {
 	public static final double DOT_RADIUS = 1;
 	private Inequality ineq;
 	private GeneralPathClipped[] gp;
-	private Ellipse2D.Double[] circle;
+	private geogebra.common.awt.Ellipse2DDouble[] circle;
 	private boolean varIsY;
 
 	/**
@@ -72,14 +65,14 @@ public class DrawInequality1Var extends Drawable {
 			if (geo.doHighlighting()) {
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
-				geogebra.euclidian.EuclidianStatic.doDrawWithValueStrokePure(circle[i], g2);
+				EuclidianStatic.drawWithValueStrokePure(circle[i], g2);
 			}	
 
 			if (geo.lineThickness > 0) {
 				g2.setPaint(geo.getObjectColor());
 				g2.setStroke(EuclidianStatic.getStroke(geo.lineThickness / 2.0f,
 						EuclidianStyleConstants.LINE_TYPE_FULL));
-				EuclidianStatic.drawWithValueStrokePure(new geogebra.awt.GenericShape(circle[i]), g2);
+				EuclidianStatic.drawWithValueStrokePure(circle[i], g2);
 				if (!ineq.isStrict()) {
 					g2.fill(circle[i]);
 				}
@@ -138,7 +131,8 @@ public class DrawInequality1Var extends Drawable {
 				gp = new GeneralPathClipped[numOfX / 2];
 			int j = ineq.getFunBorder().evaluate(
 					view.toRealWorldCoordY(view.getHeight() + 10)) <= 0 ? 1 : 0;
-			geogebra.awt.Area a = new geogebra.awt.Area();
+			geogebra.common.awt.Area a = 
+					geogebra.common.factories.AwtFactory.prototype.newArea();
 			for (int i = 0; 2 * i + j + 1 < numOfX; i++) {
 				gp[i] = new GeneralPathClipped(view);
 				gp[i].moveTo(-10, x[2 * i + j]);
@@ -147,7 +141,7 @@ public class DrawInequality1Var extends Drawable {
 				gp[i].lineTo(-10, x[2 * i + j + 1]);
 				gp[i].lineTo(-10, x[2 * i + j]);
 				gp[i].closePath();
-				a.add(new geogebra.awt.Area(gp[i]));
+				a.add(geogebra.common.factories.AwtFactory.prototype.newArea(gp[i]));
 			}
 			setShape(a);
 		} else {
@@ -170,16 +164,16 @@ public class DrawInequality1Var extends Drawable {
 			if (gp == null)
 				gp = new GeneralPathClipped[numOfX / 2];
 
-			geogebra.awt.Area a = new geogebra.awt.Area();
+			geogebra.common.awt.Area a = geogebra.common.factories.AwtFactory.prototype.newArea();
 			int circleCount = 0;
 			if ((geo instanceof GeoFunction)&&((GeoFunction) geo).showOnAxis()) {
-				circle = new Ellipse2D.Double[numOfX];
+				circle = new geogebra.common.awt.Ellipse2DDouble[numOfX];
 				for (int i = 0; i < numOfX; i++) {					
 					if (x[i] < 0)
 						continue;
 					if (x[i] > view.getWidth())
 						break;
-					circle[circleCount] = new Ellipse2D.Double();
+					circle[circleCount] = geogebra.common.factories.AwtFactory.prototype.newEllipse2DDouble();
 					double radius = geo.getLineThickness() * DOT_RADIUS;
 					circle[circleCount].setFrame(x[i] - radius, view.toScreenCoordY(0)
 							- radius, 2 * radius, 2 * radius);
@@ -197,7 +191,7 @@ public class DrawInequality1Var extends Drawable {
 					gp[i].lineTo(x[2 * i + j + 1], -10);
 					gp[i].lineTo(x[2 * i + j], -10);
 					gp[i].closePath();
-					a.add(new geogebra.awt.Area(gp[i]));
+					a.add(geogebra.common.factories.AwtFactory.prototype.newArea(gp[i]));
 				}
 			}
 			setShape(a);

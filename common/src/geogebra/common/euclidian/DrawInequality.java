@@ -1,13 +1,7 @@
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
 import geogebra.common.awt.Point;
 import geogebra.common.awt.Shape;
-import geogebra.common.euclidian.DrawConic;
-import geogebra.common.euclidian.DrawParametricCurve;
-import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.AbstractEuclidianView;
-import geogebra.common.euclidian.EuclidianStatic;
-import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.IneqTree;
 import geogebra.common.kernel.arithmetic.Inequality;
@@ -15,11 +9,8 @@ import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.AbstractApplication;
+//import geogebra.euclidian.DrawImplicitPoly;
 
-import java.awt.Graphics2D;
-//import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.geom.Area;
 import java.util.TreeSet;
 
 /**
@@ -31,7 +22,7 @@ import java.util.TreeSet;
 public class DrawInequality extends Drawable {
 
 	private boolean isVisible;
-	private boolean labelVisible;
+	boolean labelVisible;
 
 	private Drawable drawable;
 	private Operation operation = Operation.NO_OPERATION;
@@ -143,7 +134,7 @@ public class DrawInequality extends Drawable {
 			yLabel = drawable.yLabel;
 		}
 		if (geo.isInverseFill() && !isForceNoFill()) {
-			geogebra.awt.Area b = new geogebra.awt.Area(view.getBoundingPath());
+			geogebra.common.awt.Area b = geogebra.common.factories.AwtFactory.prototype.newArea(view.getBoundingPath());
 			b.subtract(getShape());
 			setShape(b);
 		}
@@ -187,14 +178,14 @@ public class DrawInequality extends Drawable {
 			setShape(left.getShape());
 			getShape().add(right.getShape());
 		} else if (operation.equals(Operation.EQUAL_BOOLEAN)) {
-			setShape(new geogebra.awt.Area(view.getBoundingPath()));
+			setShape(geogebra.common.factories.AwtFactory.prototype.newArea(view.getBoundingPath()));
 			left.getShape().exclusiveOr(right.getShape());
 			getShape().subtract(left.getShape());
 		} else if (operation.equals(Operation.NOT_EQUAL)) {
 			setShape(left.getShape());
 			getShape().exclusiveOr(right.getShape());
 		} else if (operation.equals(Operation.NOT)) {
-			setShape(new geogebra.awt.Area(view.getBoundingPath()));
+			setShape(geogebra.common.factories.AwtFactory.prototype.newArea(view.getBoundingPath()));
 			getShape().subtract(left.getShape());
 		}		
 	}
@@ -220,9 +211,9 @@ public class DrawInequality extends Drawable {
 	private static boolean matchBorder(GeoElement border, Drawable d) {
 		if (d instanceof DrawConic && ((DrawConic) d).getConic().equals(border))
 			return true;
-		if (d instanceof DrawImplicitPoly
+		/*if (d instanceof DrawImplicitPoly
 				&& ((DrawImplicitPoly) d).getPoly().equals(border))
-			return true;
+			return true;*/
 		if (d instanceof DrawParametricInequality
 				&& ((DrawParametricInequality) d).getBorder().equals(border))
 			return ((DrawParametricInequality) d).isXparametric();
@@ -322,10 +313,10 @@ public class DrawInequality extends Drawable {
 
 		@Override
 		public geogebra.common.awt.Area getShape() {
-			return new geogebra.awt.Area(gp);
+			return geogebra.common.factories.AwtFactory.prototype.newArea(gp);
 		}
 
-		private Object getBorder() {
+		GeoElement getBorder() {
 			return ineq.getBorder();
 		}
 
@@ -433,7 +424,7 @@ public class DrawInequality extends Drawable {
 
 		}
 
-		private boolean isXparametric() {
+		boolean isXparametric() {
 			return ineq.getType() == Inequality.INEQUALITY_PARAMETRIC_X;
 		}
 
