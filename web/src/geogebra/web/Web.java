@@ -29,15 +29,18 @@ public class Web implements EntryPoint {
 		//tempRootLayoutPanel.get().add((Widget) module.getStartView());
 		Application app = new Application();
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
+		app.updateCommandDictionary();
 		try{
 		t("A=(1,1)",ap);
 		t("B=(3,3)",ap);
 		t("C=Midpoint[A,B]",ap);
 		t("a=Line[A,B]",ap);
 		t("c=Circle[A,B]",ap);
+		t("d=Curve[t^2,t^3,t,0,1]",ap);
 		AbstractApplication.debug(app.getKernel().lookupLabel("C"));
 		AbstractApplication.debug(app.getKernel().lookupLabel("a"));
 		AbstractApplication.debug(app.getKernel().lookupLabel("c"));
+		AbstractApplication.debug(app.getKernel().lookupLabel("d"));
 		}catch(Exception e){
 			e.printStackTrace();
 		}

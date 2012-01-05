@@ -39,6 +39,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.commands.CommandProcessor;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -494,14 +495,7 @@ public class Application extends AbstractApplication implements
 	// Hashtable for translation of commands from
 	// local language to internal name
 	// key = local name, value = internal name
-	private Hashtable<String, String> translateCommandTable,
-			translateCommandTableScripting;
-	// command dictionary
-	private LowerCaseDictionary commandDict;
-	private LowerCaseDictionary commandDictCAS;
 
-	// array of dictionaries corresponding to the sub command tables
-	private LowerCaseDictionary[] subCommandDict;
 
 	private boolean initing = false;
 	protected boolean showAlgebraView = true;
@@ -2465,180 +2459,15 @@ public class Application extends AbstractApplication implements
 	public final static String syntax3D = ".Syntax3D";
 	public final static String syntaxStr = ".Syntax";
 
-	private void fillCommandDict() {
-		rbcommand = getCommandResourceBundle();
+	
+	
+	
 
-		if (rbcommand == rbcommandOld) {
-			return;
-		}
-		rbcommandOld = rbcommand;
+	
 
-		// translation table for all command names in command.properties
-		if (translateCommandTable == null) {
-			translateCommandTable = new Hashtable<String, String>();
-		}
+	
 
-		// command dictionary for all public command names available in
-		// GeoGebra's input field
-		// removed check for null: commandDict.clear() removes keys, but they
-		// are still available with commandDict.getIterator()
-		// so change English -> French -> English doesn't work in the input bar
-		// see AutoCompleteTextfield.lookup()
-		// if (commandDict == null)
-		commandDict = new LowerCaseDictionary();
-		// else commandDict.clear();
-
-		translateCommandTable.clear();
-
-		Enumeration<String> e = rbcommand.getKeys();
-		Set<String> publicCommandNames = kernel.getAlgebraProcessor()
-				.getPublicCommandSet();
-
-		// =====================================
-		// init sub command dictionaries
-		Set<?>[] publicSubCommandNames = kernel.getAlgebraProcessor()
-				.getPublicCommandSubSets();
-		if (subCommandDict == null) {
-			subCommandDict = new LowerCaseDictionary[publicSubCommandNames.length];
-			for (int i = 0; i < subCommandDict.length; i++) {
-				subCommandDict[i] = new LowerCaseDictionary();
-			}
-		}
-		for (int i = 0; i < subCommandDict.length; i++) {
-			subCommandDict[i].clear();
-			// =====================================
-		}
-
-		while (e.hasMoreElements()) {
-			String internal = e.nextElement();
-			// Application.debug(internal);
-			if (!internal.endsWith(syntaxStr) && !internal.endsWith(syntax3D)
-					&& !internal.endsWith(syntaxCAS)
-					&& !internal.equals("Command")) {
-				String local = rbcommand.getString(internal);
-				if (local != null) {
-					local = local.trim();
-					// case is ignored in translating local command names to
-					// internal names!
-					translateCommandTable.put(local.toLowerCase(), internal);
-
-					// only add public commands to the command dictionary
-					if (publicCommandNames.contains(internal)) {
-						commandDict.addEntry(local);
-					}
-
-					// add public commands to the sub-command dictionaries
-					for (int i = 0; i < subCommandDict.length; i++) {
-						if (publicSubCommandNames[i].contains(internal)) {
-							subCommandDict[i].addEntry(local);
-						}
-					}
-
-				}
-			}
-		}
-
-		// get CAS Commands
-		if (kernel.isGeoGebraCASready()) {
-			fillCasCommandDict();
-		}
-		addMacroCommands();
-	}
-
-	private String oldScriptLanguage = null;
-
-	private String scriptingLanguage;
-
-	private void fillCommandDictScripting() {
-		if ((scriptingLanguage == null)
-				|| scriptingLanguage.equals(oldScriptLanguage)
-				|| "null".equals(scriptingLanguage)) {
-			return;
-		}
-		oldScriptLanguage = scriptingLanguage;
-		rbcommandScripting = MyResourceBundle.createBundle(RB_COMMAND,
-				new Locale(scriptingLanguage));
-		debug(rbcommandScripting.getLocale());
-
-		// translation table for all command names in command.properties
-		if (translateCommandTableScripting == null) {
-			translateCommandTableScripting = new Hashtable<String, String>();
-		}
-
-		// command dictionary for all public command names available in
-		// GeoGebra's input field
-
-		translateCommandTableScripting.clear();
-
-		Enumeration<String> e = rbcommandScripting.getKeys();
-
-		while (e.hasMoreElements()) {
-			String internal = e.nextElement();
-			// Application.debug(internal);
-			if (!internal.endsWith(syntaxStr) && !internal.endsWith(syntax3D)
-					&& !internal.endsWith(syntaxCAS)
-					&& !internal.equals("Command")) {
-				String local = rbcommandScripting.getString(internal);
-				if (local != null) {
-					local = local.trim();
-					// case is ignored in translating local command names to
-					// internal names!
-					translateCommandTableScripting.put(local.toLowerCase(),
-							internal);
-
-				}
-			}
-		}
-
-	}
-
-	/**
-	 * @param scriptingLanguage
-	 *            the scriptingLanguage to set
-	 */
-	@Override
-	public void setScriptingLanguage(String scriptingLanguage) {
-		this.scriptingLanguage = scriptingLanguage;
-	}
-
-	/**
-	 * @return the scriptingLanguage
-	 */
-	@Override
-	public String getScriptingLanguage() {
-		// in some files we stored language="null" accidentally
-		if ("null".equals(scriptingLanguage)) {
-			scriptingLanguage = null;
-		}
-		return scriptingLanguage;
-	}
-
-	private void addMacroCommands() {
-		if ((commandDict == null) || (kernel == null) || !kernel.hasMacros()) {
-			return;
-		}
-
-		ArrayList<MacroInterface> macros = kernel.getAllMacros();
-		for (int i = 0; i < macros.size(); i++) {
-			String cmdName = macros.get(i).getCommandName();
-			if (!commandDict.containsValue(cmdName)) {
-				commandDict.addEntry(cmdName);
-			}
-		}
-	}
-
-	@Override
-	public void removeMacroCommands() {
-		if ((commandDict == null) || (kernel == null) || !kernel.hasMacros()) {
-			return;
-		}
-
-		ArrayList<MacroInterface> macros = kernel.getAllMacros();
-		for (int i = 0; i < macros.size(); i++) {
-			String cmdName = macros.get(i).getCommandName();
-			commandDict.removeEntry(cmdName);
-		}
-	}
+	
 
 	public Locale getLocale() {
 		return currentLocale;
@@ -2968,12 +2797,12 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
-	private ResourceBundle getCommandResourceBundle() {
+	public void getCommandResourceBundle() {
 		if (rbcommand == null) {
 			rbcommand = MyResourceBundle
 					.createBundle(RB_COMMAND, currentLocale);
 		}
-		return rbcommand;
+		
 	}
 
 	final public Enumeration<String> getKeyNames() {
@@ -3126,35 +2955,7 @@ public class Application extends AbstractApplication implements
 		return rbplain != null;
 	}
 
-	/**
-	 * translate command name to internal name. Note: the case of localname is
-	 * NOT relevant
-	 */
-	@Override
-	final public String translateCommand(String localname) {
-		if (localname == null) {
-			return null;
-		}
-		if (translateCommandTable == null) {
-			return localname;
-		}
-
-		// note: lookup lower case of command name!
-		Object value = translateCommandTable.get(localname.toLowerCase());
-		if (value == null) {
-			fillCommandDictScripting();
-			if (translateCommandTableScripting != null) {
-				value = translateCommandTableScripting.get(localname
-						.toLowerCase());
-			}
-		}
-		if (value == null) {
-			return localname;
-		} else {
-			return (String) value;
-		}
-	}
-
+	
 	@Override
 	public void showRelation(GeoElement a, GeoElement b) {
 		JOptionPane.showConfirmDialog(mainComp,
@@ -3880,10 +3681,7 @@ public class Application extends AbstractApplication implements
 		System.gc();
 	}
 
-	public void updateCommandDictionary() {
-		// make sure all macro commands are in dictionary
-		fillCommandDict();
-	}
+	
 
 	/**
 	 * // think about this Downloads the latest jar files from the GeoGebra
@@ -5445,29 +5243,11 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
-	public final LowerCaseDictionary getCommandDictionary() {
-		fillCommandDict();
-		return commandDict;
-	}
+	
 
-	public final LowerCaseDictionary getCommandDictionaryCAS() {
-		fillCommandDict();
-		fillCasCommandDict();
-		return commandDictCAS;
-	}
+	
 
-	/**
-	 * Returns an array of command dictionaries corresponding to the categorized
-	 * sub command sets created in CommandDispatcher.
-	 */
-	public final LowerCaseDictionary[] getSubCommandDictionary() {
-
-		if (subCommandDict == null) {
-			initTranslatedCommands();
-		}
-
-		return subCommandDict;
-	}
+	
 
 	final static int MEMORY_CRITICAL = 100 * 1024;
 	static Runtime runtime = Runtime.getRuntime();
@@ -6358,46 +6138,7 @@ public class Application extends AbstractApplication implements
 	/** flag to test whether to draw Equations full resolution */
 	public boolean exporting = false;
 
-	public void fillCasCommandDict() {
-		// this method might get called during initialization, when we're not
-		// yet
-		// ready to fill the casCommandDict. In that case, we will fill the
-		// dict during fillCommandDict :)
-
-		if ((rbcommand == rbcommandOld)
-				&& ((commandDictCAS != null) || (rbcommand == null))) {
-			return;
-		}
-
-		rbcommandOld = rbcommand;
-
-		commandDictCAS = new LowerCaseDictionary();
-		subCommandDict[CommandDispatcher.TABLE_CAS].clear();
-
-		// iterate through all available CAS commands, add them (translated if
-		// available, otherwise untranslated)
-		for (String cmd : kernel.getGeoGebraCAS().getCurrentCAS()
-				.getAvailableCommandNames()) {
-			try {
-				String local = rbcommand.getString(cmd);
-				if (local != null) {
-					commandDictCAS.addEntry(local);
-					subCommandDict[CommandDispatcher.TABLE_CAS]
-							.addEntry(local);
-				} else {
-					commandDictCAS.addEntry(cmd);
-					subCommandDict[CommandDispatcher.TABLE_CAS]
-							.addEntry(cmd);
-				}
-			} catch (MissingResourceException mre) {
-				commandDictCAS.addEntry(cmd);
-				subCommandDict[CommandDispatcher.TABLE_CAS]
-						.addEntry(cmd);
-			}
-		}
-
-	}
-
+	
 	public boolean is3D() {
 		return false;
 	}
@@ -6750,6 +6491,36 @@ public class Application extends AbstractApplication implements
 	
 	public CommandProcessor newCmdBarCode(){
 		return new CmdBarCode(kernel);
+	}
+
+	@Override
+	public void initScriptingBundle() {
+		rbcommandScripting = MyResourceBundle.createBundle(RB_COMMAND,
+				new Locale(getScriptingLanguage()));
+		debug(rbcommandScripting.getLocale());
+		
+	}
+
+	@Override
+	public String getScriptingCommand(String internal) {
+		return rbcommandScripting.getString(internal);
+	}
+
+	@Override
+	protected boolean isCommandChanged() {
+		// TODO Auto-generated method stub
+		return rbcommandOld != rbcommand;
+	}
+
+	@Override
+	protected void setCommandChanged(boolean b) {
+		rbcommandOld = rbcommand;
+		
+	}
+
+	@Override
+	protected boolean isCommandNull() {
+		return rbcommand == null;
 	}
 
 }

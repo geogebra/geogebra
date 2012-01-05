@@ -64,8 +64,9 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public String getCommand(String cmdName) {
-		// TODO Auto-generated method stub
-		return null;
+		if(cmdName.equals("CurveCartesian"))
+			return "Curve";
+		return cmdName;
 	}
 
 	@Override
@@ -383,12 +384,6 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public String translateCommand(String name) {
-		// TODO Auto-generated method stub
-		return name;
-	}
-
-	@Override
 	public void evalScript(AbstractApplication app, String script, String arg) {
 		// TODO Auto-generated method stub
 
@@ -653,6 +648,7 @@ public class Application extends AbstractApplication {
 	    return new geogebra.web.kernel.geos.GeoElementGraphicsAdapter();
     }
 
+	
 	@Override
     public GeoGebraCasInterface newGeoGebraCAS() {
 	    // TODO Auto-generated method stub
@@ -740,6 +736,46 @@ public class Application extends AbstractApplication {
 
 	@Override
     public CommandProcessor newCmdBarCode() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+	private boolean commandChanged = true;
+	@Override
+    protected boolean isCommandChanged() {
+		return commandChanged;
+    }
+
+	@Override
+    protected void setCommandChanged(boolean b) {
+		commandChanged = b;
+    }
+
+	@Override
+    protected boolean isCommandNull() {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	@Override
+    public void initTranslatedCommands() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void getCommandResourceBundle() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void initScriptingBundle() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public String getScriptingCommand(String internal) {
 	    // TODO Auto-generated method stub
 	    return null;
     }

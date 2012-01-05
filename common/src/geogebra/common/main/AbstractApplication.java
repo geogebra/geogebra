@@ -15,10 +15,13 @@ import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.AbstractUndoManager;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
+import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.commands.CommandProcessor;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -29,9 +32,16 @@ import geogebra.common.plugin.GgbAPI;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.DebugPrinter;
+import geogebra.common.util.LowerCaseDictionary;
+
 
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.Set;
 
 public abstract class AbstractApplication {
 	public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loading.gif";
@@ -92,7 +102,275 @@ public abstract class AbstractApplication {
 	public static final int SPREADSHEET_INI_COLS = 26;
 	public static final int SPREADSHEET_INI_ROWS = 100;
 	
+	private HashMap<String, String> translateCommandTable,
+	translateCommandTableScripting;
+	// command dictionary
+	private LowerCaseDictionary commandDict;
+	private LowerCaseDictionary commandDictCAS;
+
+	// array of dictionaries corresponding to the sub command tables
+	private LowerCaseDictionary[] subCommandDict;
 	
+	private String oldScriptLanguage = null;
+
+	private String scriptingLanguage;
+
+	private void fillCommandDictScripting() {
+		if ((scriptingLanguage == null)
+				|| scriptingLanguage.equals(oldScriptLanguage)
+				|| "null".equals(scriptingLanguage)) {
+			return;
+		}
+		oldScriptLanguage = scriptingLanguage;
+		initScriptingBundle();
+
+		// translation table for all command names in command.properties
+		if (translateCommandTableScripting == null) {
+			translateCommandTableScripting = new HashMap<String, String>();
+		}
+
+		// command dictionary for all public command names available in
+		// GeoGebra's input field
+
+		translateCommandTableScripting.clear();
+
+
+		for (Commands comm:Commands.values()) {
+			String internal = comm.toString();
+			// Application.debug(internal);
+			if (!internal.equals("Command")) {
+				String local = getScriptingCommand(internal);
+				if (local != null) {
+					local = local.trim();
+					// case is ignored in translating local command names to
+					// internal names!
+					translateCommandTableScripting.put(local.toLowerCase(),
+							internal);
+
+				}
+			}
+		}
+
+	}
+	
+	protected abstract boolean isCommandChanged();
+	protected abstract void setCommandChanged(boolean b);
+	protected abstract boolean isCommandNull();
+	
+	public void fillCasCommandDict() {
+		// this method might get called during initialization, when we're not
+		// yet
+		// ready to fill the casCommandDict. In that case, we will fill the
+		// dict during fillCommandDict :)
+
+		if (!isCommandChanged()
+				&& ((commandDictCAS != null) || isCommandNull())) {
+			return;
+		}
+
+		setCommandChanged(false);
+
+		commandDictCAS = new LowerCaseDictionary();
+		subCommandDict[CommandDispatcher.TABLE_CAS].clear();
+
+		// iterate through all available CAS commands, add them (translated if
+		// available, otherwise untranslated)
+		for (String cmd : kernel.getGeoGebraCAS().getCurrentCAS()
+				.getAvailableCommandNames()) {
+			try {
+				String local = getCommand(cmd);
+				if (local != null) {
+					commandDictCAS.addEntry(local);
+					subCommandDict[CommandDispatcher.TABLE_CAS]
+							.addEntry(local);
+				} else {
+					commandDictCAS.addEntry(cmd);
+					subCommandDict[CommandDispatcher.TABLE_CAS]
+							.addEntry(cmd);
+				}
+			} catch (MissingResourceException mre) {
+				commandDictCAS.addEntry(cmd);
+				subCommandDict[CommandDispatcher.TABLE_CAS]
+						.addEntry(cmd);
+			}
+		}
+
+	}
+	
+	public final LowerCaseDictionary getCommandDictionaryCAS() {
+		fillCommandDict();
+		fillCasCommandDict();
+		return commandDictCAS;
+	}
+	
+	/**
+	 * Returns an array of command dictionaries corresponding to the categorized
+	 * sub command sets created in CommandDispatcher.
+	 */
+	public final LowerCaseDictionary[] getSubCommandDictionary() {
+
+		if (subCommandDict == null) {
+			initTranslatedCommands();
+		}
+
+		return subCommandDict;
+	}
+	public abstract void initTranslatedCommands();
+	public final LowerCaseDictionary getCommandDictionary() {
+		fillCommandDict();
+		return commandDict;
+	}
+	
+	public abstract void getCommandResourceBundle();
+	protected void fillCommandDict() {
+		getCommandResourceBundle();
+
+		if (!isCommandChanged()) {
+			return;
+		}
+		setCommandChanged(false);
+
+		// translation table for all command names in command.properties
+		if (translateCommandTable == null) {
+			translateCommandTable = new HashMap<String, String>();
+		}
+
+		// command dictionary for all public command names available in
+		// GeoGebra's input field
+		// removed check for null: commandDict.clear() removes keys, but they
+		// are still available with commandDict.getIterator()
+		// so change English -> French -> English doesn't work in the input bar
+		// see AutoCompleteTextfield.lookup()
+		// if (commandDict == null)
+		commandDict = new LowerCaseDictionary();
+		// else commandDict.clear();
+
+		translateCommandTable.clear();
+
+
+		Set<String> publicCommandNames = kernel.getAlgebraProcessor()
+				.getPublicCommandSet();
+
+		// =====================================
+		// init sub command dictionaries
+		Set<?>[] publicSubCommandNames = kernel.getAlgebraProcessor()
+				.getPublicCommandSubSets();
+		if (subCommandDict == null) {
+			subCommandDict = new LowerCaseDictionary[publicSubCommandNames.length];
+			for (int i = 0; i < subCommandDict.length; i++) {
+				subCommandDict[i] = new LowerCaseDictionary();
+			}
+		}
+		for (int i = 0; i < subCommandDict.length; i++) {
+			subCommandDict[i].clear();
+			// =====================================
+		}
+
+		for (Commands comm : Commands.values()) {
+			String internal = comm.toString();
+			// Application.debug(internal);
+			if (!internal.equals("Command")) {
+				String local = getCommand(internal);
+				if (local != null) {
+					local = local.trim();
+					// case is ignored in translating local command names to
+					// internal names!
+					translateCommandTable.put(local.toLowerCase(), internal);
+
+					// only add public commands to the command dictionary
+					if (publicCommandNames.contains(internal)) {
+						commandDict.addEntry(local);
+					}
+
+					// add public commands to the sub-command dictionaries
+					for (int i = 0; i < subCommandDict.length; i++) {
+						if (publicSubCommandNames[i].contains(internal)) {
+							subCommandDict[i].addEntry(local);
+						}
+					}
+
+				}
+			}
+		}
+
+		// get CAS Commands
+		if (kernel.isGeoGebraCASready()) {
+			fillCasCommandDict();
+		}
+		addMacroCommands();
+	}
+	
+	/**
+	 * translate command name to internal name. Note: the case of localname is
+	 * NOT relevant
+	 */
+	final public String translateCommand(String localname) {
+		if (localname == null) {
+			return null;
+		}
+		if (translateCommandTable == null) {
+			AbstractApplication.debug("translation not initialized");
+			return localname;
+		}
+
+		// note: lookup lower case of command name!
+		Object value = translateCommandTable.get(localname.toLowerCase());
+		if (value == null) {
+			fillCommandDictScripting();
+			if (translateCommandTableScripting != null) {
+				value = translateCommandTableScripting.get(localname
+						.toLowerCase());
+			}
+		}
+		if (value == null) {
+			return localname;
+		} else {
+			return (String) value;
+		}
+	}
+
+	
+	public void updateCommandDictionary() {
+		// make sure all macro commands are in dictionary
+		fillCommandDict();
+	}
+	
+	protected void addMacroCommands() {
+		if ((commandDict == null) || (kernel == null) || !kernel.hasMacros()) {
+			return;
+		}
+
+		ArrayList<MacroInterface> macros = kernel.getAllMacros();
+		for (int i = 0; i < macros.size(); i++) {
+			String cmdName = macros.get(i).getCommandName();
+			if (!commandDict.containsValue(cmdName)) {
+				commandDict.addEntry(cmdName);
+			}
+		}
+	}
+	
+
+	public void removeMacroCommands() {
+		if ((commandDict == null) || (kernel == null) || !kernel.hasMacros()) {
+			return;
+		}
+
+		ArrayList<MacroInterface> macros = kernel.getAllMacros();
+		for (int i = 0; i < macros.size(); i++) {
+			String cmdName = macros.get(i).getCommandName();
+			commandDict.removeEntry(cmdName);
+		}
+	}
+
+	
+
+	
+	public abstract void initScriptingBundle();
+
+
+	public abstract String getScriptingCommand(String internal);
+
+
 	public abstract String getCommand(String cmdName);
 
 	public abstract String getPlain(String cmdName);
@@ -150,9 +428,6 @@ public abstract class AbstractApplication {
 
 	public abstract void setBlockUpdateScripts(boolean flag);
 
-	public abstract String getScriptingLanguage();
-
-	public abstract void setScriptingLanguage(String lang);
 
 	public abstract String getInternalCommand(String s);
 
@@ -296,8 +571,24 @@ public abstract class AbstractApplication {
 		}
 
 	}
-
-	public abstract String translateCommand(String name);
+	/**
+	 * @return the scriptingLanguage
+	 */
+	public String getScriptingLanguage() {
+		// in some files we stored language="null" accidentally
+		if ("null".equals(scriptingLanguage)) {
+			scriptingLanguage = null;
+		}
+		return scriptingLanguage;
+	}
+	
+	/**
+	 * @param scriptingLanguage
+	 *            the scriptingLanguage to set
+	 */
+	public void setScriptingLanguage(String scriptingLanguage) {
+		this.scriptingLanguage = scriptingLanguage;
+	}
 
 	@SuppressWarnings("deprecation")
 	public static boolean isWhitespace(char charAt) {
@@ -468,10 +759,7 @@ public abstract class AbstractApplication {
 	public abstract void setShowConstructionProtocolNavigation(boolean show,
 			boolean playButton, double playDelay, boolean showProtButton);
 
-	public void removeMacroCommands() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	public void setTooltipTimeout(int ttt) {
 		// TODO Auto-generated method stub
