@@ -3661,7 +3661,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @return type string without "Geo" prefix
 	 */
-	abstract protected String getTypeString();
+	public abstract String getTypeString();
 
 	/*
 	 * { // e.g. GeoPoint -> type = Point //return getClassName().substring(3);
