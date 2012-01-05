@@ -54,11 +54,6 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	 */
 	boolean setAnimationButtonsHighlighted(boolean hitAnimationButton);
 
-	/**
-	 * Returns point capturing mode.
-	 */
-	int getPointCapturingMode();
-
 	public Rectangle getSelectionRectangle();
 
 	
@@ -172,7 +167,6 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	
 	
 	public EuclidianController getEuclidianController();
-	public void setPointCapturing(int mode);
 
 	public Previewable createPreviewAngle(ArrayList<GeoPointND> selectedPoints);
 

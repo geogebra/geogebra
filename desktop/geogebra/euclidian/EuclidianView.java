@@ -39,6 +39,7 @@ import geogebra.common.euclidian.DrawVector;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.GetViewId;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
@@ -143,11 +144,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		Printable, SettingListener {
 
 	protected static final long serialVersionUID = 1L;
-
-	
-
-	
-
 	
 	// zoom rectangle colors
 	protected static final Color colZoomRectangle = new Color(200, 200, 230);
@@ -199,14 +195,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 				RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 	}
 
-	
-	
-
-	// member variables
-	protected EuclidianController euclidianController;
-
-	
-
 	// use sensible defaults, see #640
 	private int width = Application.getScreenSize().width;
 	private int height = Application.getScreenSize().height;
@@ -251,10 +239,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	// set EuclidianView no - 2 for 2nd EulidianView, 1 for 1st EuclidianView
 	// and Applet
 	// EVNO_GENERAL for others
-	
-
-	private final EuclidianSettings settings;
-	
 
 	public EuclidianView(EuclidianController ec, boolean[] showAxes,
 			boolean showGrid, EuclidianSettings settings) {
@@ -274,16 +258,15 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	public EuclidianView(EuclidianController ec, boolean[] showAxes,
 			boolean showGrid, int evno, EuclidianSettings settings) {
 
+		super(ec, settings);
+
 		// Michael Borcherds 2008-03-01
 		drawLayers = new DrawableList[EuclidianStyleConstants.MAX_LAYERS + 1];
 		for (int k = 0; k <= EuclidianStyleConstants.MAX_LAYERS; k++) {
 			drawLayers[k] = new DrawableList();
 		}
 		evNo = evno;
-		euclidianController = ec;
-		kernel = ec.getKernel();
 		setApplication(ec.getApplication());
-		this.settings = settings;
 
 		evjpanel = new EuclidianViewJPanel(this);
 
@@ -306,16 +289,16 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 		evjpanel.setLayout(null);
 		evjpanel.setMinimumSize(new Dimension(20, 20));
-		euclidianController.setView(this);
-		euclidianController.setPen(new EuclidianPen((Application)getApplication(), this));
+		((EuclidianController)euclidianController).setView(this);
+		((EuclidianController)euclidianController).setPen(new EuclidianPen((Application)getApplication(), this));
 
 		attachView();
 
 		// register Listener
-		evjpanel.addMouseMotionListener(euclidianController);
-		evjpanel.addMouseListener(euclidianController);
-		evjpanel.addMouseWheelListener(euclidianController);
-		evjpanel.addComponentListener(euclidianController);
+		evjpanel.addMouseMotionListener((EuclidianController)euclidianController);
+		evjpanel.addMouseListener((EuclidianController)euclidianController);
+		evjpanel.addMouseWheelListener((EuclidianController)euclidianController);
+		evjpanel.addComponentListener((EuclidianController)euclidianController);
 
 		// no repaint
 		xminObject = new GeoNumeric(kernel.getConstruction());
@@ -415,15 +398,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		setStandardCoordSystem(repaint);
 	}
 
-	public void setStandardCoordSystem() {
-		setStandardCoordSystem(true);
-	}
-
-	private void setStandardCoordSystem(boolean repaint) {
-		setCoordSystem(XZERO_STANDARD, YZERO_STANDARD, SCALE_STANDARD,
-				SCALE_STANDARD, repaint);
-	}
-
 	public boolean hasPreferredSize() {
 		Dimension prefSize = evjpanel.getPreferredSize();
 
@@ -444,41 +418,11 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		setToolTipText(null);
 	}
 
-
-	public void attachView() {
-		kernel.notifyAddAll(this);
-		kernel.attach(this);
-	}
-
 	/*
 	 * public void detachView() { kernel.detach(this); clearView();
 	 * //kernel.notifyRemoveAll(this); }
 	 */
 
-	/**
-	 * Returns point capturing mode.
-	 */
-	final public int getPointCapturingMode() {
-
-		if (settings != null) {
-			return settings.getPointCapturingMode();
-		}
-		return pointCapturingMode;
-		
-	}
-
-	/**
-	 * Set capturing of points to the grid.
-	 */
-	public void setPointCapturing(int mode) {
-		if (settings != null) {
-			settings.setPointCapturing(mode);
-		} else {
-			pointCapturingMode = mode;
-		}
-	}
-
-	
 	/**
 	 * Returns the bounding box of all Drawable objects in this view in screen
 	 * coordinates.
@@ -554,19 +498,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 		updateDrawableFontSize();
 		updateBackground();
-	}
-
-	
-	public void setAntialiasing(boolean flag) {
-		if (flag == antiAliasing) {
-			return;
-		}
-		antiAliasing = flag;
-		repaint();
-	}
-
-	public boolean getAntialiasing() {
-		return antiAliasing;
 	}
 
 	public void setDragCursor() {
@@ -1990,7 +1921,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		
 		Point pos = new java.awt.Point(euclidianController.mouseLoc.x, euclidianController.mouseLoc.y);
 
-		String val = euclidianController.getSliderValue();
+		String val = ((EuclidianController)euclidianController).getSliderValue();
 
 		if (val == null) {
 			return false;
@@ -2174,7 +2105,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 			tempArrayList.add(geo);
 			geos = tempArrayList;
 		}
-		boolean repaintNeeded = euclidianController.refreshHighlighting(geos);
+		boolean repaintNeeded = ((EuclidianController)euclidianController).refreshHighlighting(geos);
 		if (repaintNeeded) {
 			kernel.notifyRepaint();
 		}
@@ -2190,7 +2121,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 		tempArrayList.clear();
 		tempArrayList.add(geo);
-		boolean changedKernel = euclidianController.processMode(tempArrayList,
+		boolean changedKernel = ((EuclidianController)euclidianController).processMode(tempArrayList,
 				e);
 		if (changedKernel) {
 			getApplication().storeUndoInfo();
@@ -3661,7 +3592,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	}
 
 	public EuclidianController getEuclidianController() {
-		return euclidianController;
+		return (EuclidianController)euclidianController;
 	}
 
 	final public geogebra.common.awt.Graphics2D getTempGraphics2D(geogebra.common.awt.Font font) {

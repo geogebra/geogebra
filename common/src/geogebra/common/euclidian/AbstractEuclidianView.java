@@ -20,6 +20,7 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.Unicode;
 
@@ -160,6 +161,56 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 	protected AbstractApplication application;//private
 
+	protected EuclidianSettings settings;//private final
+
+	// member variables
+	protected AbstractEuclidianController euclidianController;
+
+
+	public AbstractEuclidianView(AbstractEuclidianController ec,
+			EuclidianSettings settings) {
+
+		this.euclidianController = ec;
+		kernel = ec.getKernel();
+		this.settings = settings;
+	}
+
+	public void setStandardCoordSystem() {
+		setStandardCoordSystem(true);
+	}
+
+	protected void setStandardCoordSystem(boolean repaint) {//private
+		setCoordSystem(XZERO_STANDARD, YZERO_STANDARD, SCALE_STANDARD,
+				SCALE_STANDARD, repaint);
+	}
+
+	public void attachView() {
+		kernel.notifyAddAll(this);
+		kernel.attach(this);
+	}
+
+	/**
+	 * Returns point capturing mode.
+	 */
+	public int getPointCapturingMode() {
+
+		if (settings != null) {
+			return settings.getPointCapturingMode();
+		}
+		return pointCapturingMode;
+		
+	}
+
+	/**
+	 * Set capturing of points to the grid.
+	 */
+	public void setPointCapturing(int mode) {
+		if (settings != null) {
+			settings.setPointCapturing(mode);
+		} else {
+			pointCapturingMode = mode;
+		}
+	}
 
 	public void setCapturingThreshold(int i) {
 		capturingThreshold = i;
@@ -709,6 +760,19 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	protected boolean[] automaticAxesNumberingDistances = { true, true };
 
 	protected double[] axesNumberingDistances = { 2, 2 };
+
+
+	public void setAntialiasing(boolean flag) {
+		if (flag == antiAliasing) {
+			return;
+		}
+		antiAliasing = flag;
+		repaint();
+	}
+
+	public boolean getAntialiasing() {
+		return antiAliasing;
+	}
 
 
 	/**

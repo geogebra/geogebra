@@ -154,6 +154,12 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	public double getInvXscale();
 	public double getInvYscale();
 	public int getMode();
+
+	/**
+	 * Returns point capturing mode.
+	 */
+	public int getPointCapturingMode();
+
 	public int getPointStyle();
 	public boolean[] getPositiveAxes(); 
 	public Previewable getPreviewDrawable();
@@ -214,7 +220,7 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	public void setDrawBorderAxes(boolean[] border);
 	public void setGridDistances(double[] ticks);
 	public void setGridType(int selectedIndex);
-
+	public void setPointCapturing(int mode);
 	public void setPositiveAxes(boolean[] positiveAxis); 
 
 	/** sets if the axis is drawn in the positive direction only

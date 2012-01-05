@@ -40,6 +40,8 @@ public class EuclidianView extends AbstractEuclidianView {
 	public EuclidianView(Canvas canvas,
             EuclidianController euclidiancontroller, boolean[] showAxes,
             boolean showGrid) {
+		
+		super(euclidiancontroller, null);
 	    // TODO Auto-generated constructor stub
 		this.g2 = new geogebra.web.awt.Graphics2D(canvas);
     }
