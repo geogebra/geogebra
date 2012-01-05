@@ -62,6 +62,9 @@ public class Application extends AbstractApplication {
 	public Application(){
 		this.init(Canvas.createIfSupported());
 		kernel = new Kernel(this);
+		
+		// init settings
+		settings = new Settings();
 	}
 
 	@Override
@@ -570,11 +573,6 @@ public class Application extends AbstractApplication {
 	    return null;
     }
 
-	@Override
-    public Settings getSettings() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
 
 	@Override
     public void setScriptingDisabled(boolean scriptingDisabled) {

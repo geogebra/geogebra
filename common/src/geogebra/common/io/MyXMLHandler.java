@@ -72,8 +72,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
-
-
 import org.xml.sax.SAXException;
 
 /**
@@ -1678,23 +1676,29 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleConsProtColumns(AbstractApplication app, LinkedHashMap<String, String> attrs) {
 		try {
-			// TODO: set visible state of columns in consProt
-			/*
-			 * Iterator it = attrs.keySet().iterator(); while (it.hasNext()) {
-			 * Object ob = attrs.get(it.next());
-			 * 
-			 * boolean isVisible = parseBoolean((String) ob); }
-			 */
 
+			/* TODO: iterator() function caused error in GWT. Why?
+			 
+			//Iterator<String> it = attrs.keySet().iterator();
+			Set<String> temp = attrs.keySet();
+			Iterator<String> it = temp.iterator();
 			
-			Iterator<String> it = attrs.keySet().iterator();
 			int colCounter = 0;
 			boolean[] colsVis = new boolean[attrs.keySet().size()];
 			while (it.hasNext()) { 
 				Object ob = attrs.get(it.next()); 
 				boolean isVisible = parseBoolean((String) ob);
 				colsVis[colCounter++] = isVisible;
-				//TODO: data.columns[colCounter] = isVisible
+			}
+			*/
+			
+			boolean[] colsVis = new boolean[attrs.keySet().size()];
+			
+			ArrayList<String> keys = new ArrayList<String>(attrs.keySet());
+			for (String key : keys) {
+				int k = Integer.parseInt(key.substring(3));
+				colsVis[k] = Boolean.parseBoolean(attrs.get(key));
+
 			}
 			
 			ConstructionProtocolSettings cpSettings = app.getSettings().getConstructionProtocol();
@@ -1702,6 +1706,7 @@ public class MyXMLHandler implements DocHandler {
 			
 			return true;
 		} catch (Exception e) {
+			AbstractApplication.debug(e);
 			return false;
 		}
 	}

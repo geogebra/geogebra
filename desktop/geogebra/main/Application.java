@@ -469,7 +469,7 @@ public class Application extends AbstractApplication implements
 	private final FontManager fontManager;
 
 	protected GuiManager guiManager;
-	protected Settings settings;
+	
 
 	private Component mainComp;
 	private boolean isApplet = false;
@@ -822,13 +822,7 @@ public class Application extends AbstractApplication implements
 		return guiManager;
 	}
 
-	/**
-	 * @return
-	 */
-	@Override
-	final public Settings getSettings() {
-		return settings;
-	}
+
 
 	final public JApplet getJApplet() {
 		if (appletImpl == null) {

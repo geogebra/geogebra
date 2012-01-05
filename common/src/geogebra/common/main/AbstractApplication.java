@@ -92,6 +92,7 @@ public abstract class AbstractApplication {
 	protected Kernel kernel;
 
 	protected boolean isOnTheFlyPointCreationActive = true;
+	protected Settings settings;
 	
 	public boolean useJavaFontsForLaTeX() {
 		return useJavaFontsForLaTeX;
@@ -685,7 +686,9 @@ public abstract class AbstractApplication {
 		return null;
 	}
 
-	public abstract Settings getSettings();
+	final public Settings getSettings() {
+		return settings;
+	}
 
 	public abstract void setScriptingDisabled(boolean scriptingDisabled);
 
@@ -973,5 +976,6 @@ public abstract class AbstractApplication {
 	}
 
 	abstract public CommandProcessor newCmdBarCode();
+
 
 }
