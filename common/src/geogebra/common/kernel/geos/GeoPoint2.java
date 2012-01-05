@@ -951,7 +951,7 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
 			}
 		}
 		
-		sbToString.append(buildValueString());       
+		sbToString.append(buildValueString().toString());       
         return sbToString.toString();
     }
     

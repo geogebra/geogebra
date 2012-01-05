@@ -865,7 +865,7 @@ public class Kernel {
 
 		sbBuildImplicitEquation.setLength(0);
 		sbBuildImplicitEquation.append(buildImplicitVarPart(numbers, vars,
-				KEEP_LEADING_SIGN || (op == '='), CANCEL_DOWN));
+				KEEP_LEADING_SIGN || (op == '='), CANCEL_DOWN).toString());
 
 		if (getCASPrintForm().equals(StringType.MATH_PIPER) && (op == '=')) {
 			sbBuildImplicitEquation.append(" == ");

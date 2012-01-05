@@ -396,10 +396,10 @@ public class AlgebraProcessor {
 			if (allowErrorDialog) {// G.Sturr 2010-7-5
 				app.showError(e);
 				e.printStackTrace();
-			} else if (throwMyError)
+			} else if (throwMyError){
 				throw new MyError(app, e.getLocalizedMessage(),
 						e.getcommandName());
-
+			}
 			return null;
 		} catch (CircularDefinitionException e) {
 			AbstractApplication.debug("CircularDefinition");

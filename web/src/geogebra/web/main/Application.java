@@ -57,6 +57,10 @@ public class Application extends AbstractApplication {
 	
 	private Map<String, ImageElement> images = new HashMap<String, ImageElement>();
 	
+	public Application(){
+		this.init(Canvas.createIfSupported());
+		kernel = new Kernel(this);
+	}
 
 	@Override
 	public String getCommand(String cmdName) {
@@ -112,7 +116,7 @@ public class Application extends AbstractApplication {
 	@Override
 	public String getError(String cmdName) {
 		// TODO Auto-generated method stub
-		return null;
+		return cmdName;
 	}
 
 	@Override
@@ -381,7 +385,7 @@ public class Application extends AbstractApplication {
 	@Override
 	public String translateCommand(String name) {
 		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 
 	@Override
@@ -647,8 +651,7 @@ public class Application extends AbstractApplication {
 
 	@Override
     public GeoElementGraphicsAdapter newGeoElementGraphicsAdapter() {
-	    // TODO Auto-generated method stub
-	    return null;
+	    return new geogebra.web.kernel.geos.GeoElementGraphicsAdapter();
     }
 
 	@Override

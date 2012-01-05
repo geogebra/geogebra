@@ -731,7 +731,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(": ");
-		sbToString.append(buildValueString());
+		sbToString.append(buildValueString().toString());
 		return sbToString.toString();
 	}
 

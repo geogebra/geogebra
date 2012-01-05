@@ -346,11 +346,11 @@ public abstract class GeoQuadricND extends GeoElement implements GeoQuadricNDCon
 	 * in specific mode: y\u00b2 = ...  , (x - m)\u00b2 + (y - n)\u00b2 = r\u00b2, ...
 	 */
 	public String toString() {	
-		StringBuilder sbToString = getSbToString();
+		getSbToString();
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(": ");
-		sbToString.append(buildValueString()); 
+		sbToString.append(buildValueString().toString()); 
 		return sbToString.toString();
 	}
 		
@@ -395,7 +395,7 @@ public abstract class GeoQuadricND extends GeoElement implements GeoQuadricNDCon
 				sbToValueString.append("(");
 				sbToValueString.append(VAR_STRING[i]);
 				sbToValueString.append(" ");
-				sbToValueString.append(kernel.formatSigned(-getMidpoint().get(i+1)));
+				sbToValueString.append(kernel.formatSigned(-getMidpoint().get(i+1)).toString());
 				sbToValueString.append(")");
 				sbToValueString.append(squared);
 			}	
