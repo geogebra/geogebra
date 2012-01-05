@@ -94,7 +94,7 @@ implements LimitedPath, NumberValue, LineProperties {
     }
 	
 	@Override
-	protected String getTypeString() {      
+	public String getTypeString() {      
 		switch (conic_part_type) {
 			case CONIC_PART_ARC: 
 				return "Arc";

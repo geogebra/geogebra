@@ -102,7 +102,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	}
 
 	@Override
-	protected String getTypeString() {
+	public String getTypeString() {
 		return "CurveCartesian";
 	}
 

@@ -95,7 +95,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		return "GeoFunctionNVar";
 	}
 	
-	protected String getTypeString() {
+	public String getTypeString() {
 		return isInequality ? "Inequality":"FunctionNVar";
 	}
 	

@@ -59,7 +59,7 @@ AbsoluteScreenLocateable {
     }
 	
     @Override
-	protected String getTypeString() {
+    public String getTypeString() {
 		return "Boolean";
 	}
     

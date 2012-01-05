@@ -83,7 +83,7 @@ public class GeoInterval extends GeoFunction {
 	}
 
 	@Override
-	protected String getTypeString() {
+	public String getTypeString() {
 		return "Interval";
 	}
 

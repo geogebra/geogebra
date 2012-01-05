@@ -84,7 +84,7 @@ public class GeoScriptAction extends GeoElement  {
 	}
 
 	@Override
-	protected String getTypeString() {
+	public String getTypeString() {
 		return "ScriptAction";
 	}
 

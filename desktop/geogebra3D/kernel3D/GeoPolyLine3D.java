@@ -60,7 +60,7 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 		return "GeoPolyLine3D";
 	}
 
-	protected String getTypeString() {
+	public String getTypeString() {
 		return "PolyLine3D";
 
 	}

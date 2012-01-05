@@ -154,7 +154,7 @@ public class GeoAngle extends GeoNumeric {
 	}
 
 	@Override
-	protected String getTypeString() {
+	public String getTypeString() {
 		return "Angle";
 	}
 

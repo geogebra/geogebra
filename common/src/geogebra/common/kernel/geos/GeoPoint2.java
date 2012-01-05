@@ -174,7 +174,7 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
     }
     
     @Override
-	protected String getTypeString() {
+    public String getTypeString() {
     	if (toStringMode == Kernel.COORD_COMPLEX)
     		return "ComplexNumber";
     	else

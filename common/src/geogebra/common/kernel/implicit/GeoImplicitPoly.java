@@ -186,7 +186,7 @@ Dilateable, Transformable, EuclidianViewCE {
 	}
 
 	@Override
-	protected String getTypeString() {
+	public String getTypeString() {
 		return "ImplicitPoly";
 	}
 	

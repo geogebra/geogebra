@@ -338,7 +338,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements NumberValue {
 		return GeoClass.QUADRIC_LIMITED;
 	}
 
-	protected String getTypeString() {
+	public String getTypeString() {
 		return side.getTypeString();
 	}
 

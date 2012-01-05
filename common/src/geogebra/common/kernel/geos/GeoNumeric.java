@@ -114,7 +114,7 @@ implements NumberValue, AbsoluteScreenLocateable, GeoFunctionable, Animatable {
     	return EuclidianConstants.MODE_SLIDER;
     }	
 	
-    protected String getTypeString() {
+    public String getTypeString() {
 		return "Numeric";
 	}
     

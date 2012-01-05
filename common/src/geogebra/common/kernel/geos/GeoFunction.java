@@ -226,7 +226,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	}
 	
 	@Override
-	protected String getTypeString() {
+	public String getTypeString() {
 		return (isInequality!=null && isInequality)?"Inequality":"Function";
 	}
 	

@@ -129,7 +129,7 @@ GeoSegmentND {
 		return "GeoSegment";
  	}
 	
-	 protected String getTypeString() {
+	public String getTypeString() {
 		return "Segment";
 	}
 	 

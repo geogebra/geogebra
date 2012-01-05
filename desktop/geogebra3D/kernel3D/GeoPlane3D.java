@@ -263,7 +263,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		return "GeoPlane3D";
 	}
 
-	protected String getTypeString() {
+	public String getTypeString() {
 		return "Plane3D";
 	}
 

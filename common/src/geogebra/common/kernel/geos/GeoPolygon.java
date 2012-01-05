@@ -124,7 +124,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 		return "GeoPolygon";
 	}
 	
-    protected String getTypeString() {
+    public String getTypeString() {
     	if (points == null) 
     		return "Polygon";
     	

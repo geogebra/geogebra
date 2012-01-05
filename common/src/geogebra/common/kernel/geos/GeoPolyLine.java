@@ -72,7 +72,7 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path, Tracea
 		return "GeoPolyLine";
 	}
 	
-    protected String getTypeString() {
+    public String getTypeString() {
     		return "PolyLine";	    			
 	}
     

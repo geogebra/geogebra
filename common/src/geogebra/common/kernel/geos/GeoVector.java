@@ -70,7 +70,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		return "GeoVector";
 	}
 
-	protected String getTypeString() {
+	public String getTypeString() {
 		return "Vector";
 	}
 

@@ -106,7 +106,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	}
 
 	@Override
-	protected String getTypeString() {
+	public String getTypeString() {
 		return "List";
 	}
 

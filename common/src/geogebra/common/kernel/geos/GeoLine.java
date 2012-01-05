@@ -108,7 +108,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	@Override
-	protected String getTypeString() {
+	public String getTypeString() {
 		return "Line";
 	}
 

@@ -33,7 +33,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 		return GeoClass.RAY3D;
 	}
 
-	protected String getTypeString() {
+	public String getTypeString() {
 		return "Ray3D";
 	}
 

@@ -92,7 +92,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND,
 	 * 
 	 * @return "Segment3D"
 	 */
-	protected String getTypeString() {
+	public String getTypeString() {
 		return "Segment3D";
 	}
 

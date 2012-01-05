@@ -669,7 +669,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		return "GeoPoint3D";
 	}
 
-	protected String getTypeString() {
+	public String getTypeString() {
 		return "Point3D";
 	}
 

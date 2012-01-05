@@ -101,7 +101,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
 		return GeoClass.VECTOR3D;
 	}
 
-	protected String getTypeString() {
+	public String getTypeString() {
 		return "Vector3D";
 	}
 

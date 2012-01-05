@@ -317,7 +317,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
     	return EuclidianConstants.MODE_TEXT;
     }
 	
-    protected String getTypeString() {
+    public String getTypeString() {
 		return "Text";
 	}
 

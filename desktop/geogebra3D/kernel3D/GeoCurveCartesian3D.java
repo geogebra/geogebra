@@ -153,7 +153,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		return "GeoCurveCartesian3D";
 	}
 
-	protected String getTypeString() {
+	public String getTypeString() {
 		return "CurveCartesian3D";
 	}
 

@@ -23,7 +23,7 @@ public class GeoTextField extends GeoButton {
 		return true;
 	}
 	
-    protected String getTypeString() {
+	public String getTypeString() {
 		return "TextField";
 	}
     

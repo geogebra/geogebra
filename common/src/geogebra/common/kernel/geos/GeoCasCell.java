@@ -1438,7 +1438,7 @@ public class GeoCasCell extends GeoElement {
 	}
 
 	@Override
-	protected String getTypeString() {
+	public String getTypeString() {
 		return "CasCell";
 	}
 

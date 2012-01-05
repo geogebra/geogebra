@@ -102,7 +102,7 @@ public class GeoLocus extends GeoElement implements Path, Traceable{
 		return "GeoLocus";
 	}
 	
-    protected String getTypeString() {
+	public String getTypeString() {
 		return "Locus";
 	}
     

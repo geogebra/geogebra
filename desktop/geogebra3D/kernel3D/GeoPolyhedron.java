@@ -840,7 +840,7 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 		return GeoClass.POLYHEDRON;
 	}
 
-	protected String getTypeString() {
+	public String getTypeString() {
 		return "Polyhedron";
 	}
 

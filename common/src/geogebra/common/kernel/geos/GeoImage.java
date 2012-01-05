@@ -426,7 +426,7 @@ implements Locateable, AbsoluteScreenLocateable,
 	}
 	
 	@Override
-	protected String getTypeString() {
+	public String getTypeString() {
 		return "Image";
 	}
 	

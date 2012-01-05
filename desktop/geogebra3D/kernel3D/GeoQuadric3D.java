@@ -222,7 +222,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		return GeoClass.QUADRIC;
 	}
 
-	protected String getTypeString() {
+	public String getTypeString() {
 		switch (type) {
 		case GeoQuadric3D.QUADRIC_SPHERE:
 			return "Sphere";

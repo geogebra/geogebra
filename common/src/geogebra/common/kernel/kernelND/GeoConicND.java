@@ -3212,7 +3212,7 @@ Translateable, GeoConicNDConstants
     }
     
     
-	protected String getTypeString() { 
+    public String getTypeString() { 
 		switch (type) {
 			case GeoConic.CONIC_CIRCLE: 
 				return "Circle";

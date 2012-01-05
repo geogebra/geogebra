@@ -68,7 +68,7 @@ public class GeoClippingCube3D extends GeoElement3D {
 	}
 
 	@Override
-	protected String getTypeString() {
+	public String getTypeString() {
 		// TODO Auto-generated method stub
 		return null;
 	}

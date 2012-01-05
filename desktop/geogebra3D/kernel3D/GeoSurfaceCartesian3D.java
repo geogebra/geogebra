@@ -132,7 +132,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		return "GeoSurfaceCartesian3D";
 	}
 
-	protected String getTypeString() {
+	public String getTypeString() {
 		return "SurfaceCartesian3D";
 	}
 
