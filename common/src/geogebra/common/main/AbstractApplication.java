@@ -3,6 +3,7 @@ package geogebra.common.main;
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Font;
+import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.AbstractEuclidianView;
@@ -36,10 +37,8 @@ import geogebra.common.util.LowerCaseDictionary;
 
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.Set;
 
@@ -98,6 +97,9 @@ public abstract class AbstractApplication {
 		return useJavaFontsForLaTeX;
 
 	}
+	protected boolean antialiasing = true; 
+	protected final boolean[] showAxes = { true, true };
+	protected boolean showGrid = false;
 
 	public static final int SPREADSHEET_INI_COLS = 26;
 	public static final int SPREADSHEET_INI_ROWS = 100;
@@ -107,6 +109,9 @@ public abstract class AbstractApplication {
 	// command dictionary
 	private LowerCaseDictionary commandDict;
 	private LowerCaseDictionary commandDictCAS;
+	
+	protected AbstractEuclidianView euclidianView;
+	protected AbstractEuclidianController euclidianController;
 
 	// array of dictionaries corresponding to the sub command tables
 	private LowerCaseDictionary[] subCommandDict;
@@ -834,6 +839,25 @@ public abstract class AbstractApplication {
 		}
 		updateSelection();
 	}
+	
+	/**
+	 * init the kernel (used for 3D)
+	 */
+	public void initKernel() {
+		kernel = new Kernel(this);
+	}
+
+	/**
+	 * init the EuclidianView (and EuclidianView3D for 3D)
+	 */
+	public void initEuclidianViews() {
+
+		euclidianController = newEuclidianController( kernel);
+		euclidianView = newEuclidianView(showAxes, showGrid);
+		euclidianView.setAntialiasing(antialiasing);
+	}
+	abstract protected AbstractEuclidianView newEuclidianView(boolean[] showAxes,boolean showGrid);
+	abstract protected AbstractEuclidianController newEuclidianController(Kernel kernel);
 	/**
 	 * @deprecated
 	 * @param cons

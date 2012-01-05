@@ -2075,4 +2075,9 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	protected void setApplication(AbstractApplication application) {
 		this.application = application;
 	}
+
+	public abstract void updateFonts();
+	public abstract void updateSize();
+	public abstract boolean requestFocusInWindow();
+	
 }

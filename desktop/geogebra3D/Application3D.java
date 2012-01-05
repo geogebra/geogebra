@@ -112,7 +112,7 @@ public class Application3D extends Application {
 	@Override
 	protected EuclidianView newEuclidianView(boolean[] showAxes,
 			boolean showGrid) {
-		return new EuclidianViewFor3D(euclidianController, showAxes, showGrid,
+		return new EuclidianViewFor3D((EuclidianController)euclidianController, showAxes, showGrid,
 				1);
 	}
 

@@ -21,6 +21,8 @@ import geogebra.CommandLineArguments;
 import geogebra.GeoGebra;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.BufferedImageAdapter;
+import geogebra.common.euclidian.AbstractEuclidianController;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModelInterface;
@@ -477,8 +479,7 @@ public class Application extends AbstractApplication implements
 
 	private final MyXMLio myXMLio;
 
-	protected EuclidianView euclidianView;
-	protected EuclidianController euclidianController;
+	
 	protected GeoElementSelectionListener currentSelectionListener;
 	private GlobalKeyDispatcher globalKeyDispatcher;
 
@@ -512,9 +513,8 @@ public class Application extends AbstractApplication implements
 	private boolean showToolBarTop = true;
 	protected boolean showMenuBar = true;
 	protected boolean showConsProtNavigation = false;
-	private final boolean[] showAxes = { true, true };
-	private boolean showGrid = false;
-	private boolean antialiasing = true;
+	
+	
 	private boolean printScaleString = false;
 	private int labelingStyle = ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY;
 	private boolean allowToolTips = true;
@@ -771,23 +771,7 @@ public class Application extends AbstractApplication implements
 
 	}
 
-	/**
-	 * init the kernel (used for 3D)
-	 */
-	public void initKernel() {
-		kernel = new Kernel(this);
-	}
-
-	/**
-	 * init the EuclidianView (and EuclidianView3D for 3D)
-	 */
-	public void initEuclidianViews() {
-
-		euclidianController = newEuclidianController((Kernel) kernel);
-		euclidianView = newEuclidianView(showAxes, showGrid);
-		euclidianView.setAntialiasing(antialiasing);
-	}
-
+	
 	protected EuclidianController newEuclidianController(Kernel kernel) {
 		return new EuclidianController(kernel);
 	}
@@ -1152,11 +1136,11 @@ public class Application extends AbstractApplication implements
 		}
 
 		// minimal applet => just display EV
-		else {
-			panel.add(euclidianView.getJPanel(), BorderLayout.CENTER);
-			centerPanel.add(panel, BorderLayout.CENTER);
-			return panel;
-		}
+		
+		panel.add(((EuclidianView) euclidianView).getJPanel(), BorderLayout.CENTER);
+		centerPanel.add(panel, BorderLayout.CENTER);
+		return panel;
+		
 	}
 
 	/**
@@ -1668,7 +1652,7 @@ public class Application extends AbstractApplication implements
 
 	@Override
 	public EuclidianView getEuclidianView() {
-		return euclidianView;
+		return (EuclidianView)euclidianView;
 	}
 
 	@Override
@@ -2402,10 +2386,6 @@ public class Application extends AbstractApplication implements
 		return Locale.ENGLISH;
 	}
 
-	private static Locale getClosestWikiLocale(Locale locale) {
-		// TODO: change this once new wikis are available
-		return Locale.ENGLISH;
-	}
 
 	/*@Override
 	public ResourceBundleAdapter initAlgo2CommandBundle() {
@@ -3080,7 +3060,7 @@ public class Application extends AbstractApplication implements
 		mainComp.setCursor(waitCursor);
 
 		if (euclidianView != null) {
-			euclidianView.setCursor(waitCursor);
+			((EuclidianView)euclidianView).setCursor(waitCursor);
 		}
 
 		if (guiManager != null) {
@@ -3092,7 +3072,7 @@ public class Application extends AbstractApplication implements
 	public void setDefaultCursor() {
 		mainComp.setCursor(Cursor.getDefaultCursor());
 		if (euclidianView != null) {
-			euclidianView.setCursor(Cursor.getDefaultCursor());
+			((EuclidianView)euclidianView).setCursor(Cursor.getDefaultCursor());
 		}
 		if ((guiManager != null) && guiManager.hasEuclidianView2()) {
 			guiManager.getEuclidianView2().setCursor(Cursor.getDefaultCursor());
@@ -3779,7 +3759,7 @@ public class Application extends AbstractApplication implements
 
 	@Override
 	public EuclidianView createEuclidianView() {
-		return this.euclidianView;
+		return (EuclidianView)this.euclidianView;
 	}
 
 	/***************************************************************************

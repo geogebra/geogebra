@@ -11,6 +11,7 @@ import com.google.gwt.dom.client.ImageElement;
 
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.Font;
+import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -47,8 +48,7 @@ import geogebra.web.util.DataUtil;
 
 public class Application extends AbstractApplication {
 	
-	private EuclidianView euclidianview;
-	private EuclidianController euclidiancontroller;
+	
 	
 	MyXMLio myXMLio;
 	
@@ -56,6 +56,8 @@ public class Application extends AbstractApplication {
 	private boolean showGrid = false;
 	
 	private Map<String, ImageElement> images = new HashMap<String, ImageElement>();
+
+	private Canvas canvas;
 	
 	public Application(){
 		this.init(Canvas.createIfSupported());
@@ -403,22 +405,20 @@ public class Application extends AbstractApplication {
 		
 		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.web.euclidian.HatchingHandler();
 		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.web.euclidian.EuclidianStatic();
-	
+		this.canvas = canvas;
 		kernel = new Kernel(this);
+		initEuclidianViews();
 		
-		euclidiancontroller = new EuclidianController((Kernel)kernel);
-		euclidianview = new EuclidianView(canvas, euclidiancontroller, showAxes, showGrid);
-		
-		myXMLio = new MyXMLio((Kernel) kernel, ((Kernel)kernel).getConstruction());
+		myXMLio = new MyXMLio(kernel, kernel.getConstruction());
 	    // TODO Auto-generated method stub
 	    
     }
 	
 	public void loadGgbFile(Map<String, String> archiveContent) throws Exception {
-		euclidianview.setDisableRepaint(true);
+		((EuclidianView) euclidianView).setDisableRepaint(true);
 		loadFile(archiveContent);
-		euclidianview.setDisableRepaint(false);
-		euclidianview.repaintView();
+		((EuclidianView) euclidianView).setDisableRepaint(false);
+		euclidianView.repaintView();
 	}
 
 	public static void log(String message) {
@@ -501,7 +501,7 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public EuclidianView createEuclidianView() {
-		return this.euclidianview;
+		return (EuclidianView) this.euclidianView;
 	} 
 
 	@Override
@@ -778,5 +778,18 @@ public class Application extends AbstractApplication {
     public String getScriptingCommand(String internal) {
 	    // TODO Auto-generated method stub
 	    return null;
+    }
+
+	@Override
+    protected AbstractEuclidianView newEuclidianView(boolean[] showAxes,
+            boolean showGrid) {
+	    return euclidianView = new EuclidianView(canvas, euclidianController, showAxes, showGrid);
+    }
+
+	@Override
+    protected AbstractEuclidianController newEuclidianController(Kernel kernel) {
+		return new EuclidianController(kernel);
+		
+		
     }
 }

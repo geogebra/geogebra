@@ -9,6 +9,7 @@ import geogebra.common.awt.Font;
 import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Graphics2D;
 import geogebra.common.awt.Rectangle;
+import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianStyleConstants;
@@ -38,7 +39,7 @@ public class EuclidianView extends AbstractEuclidianView {
 	protected static final long serialVersionUID = 1L;
 
 	public EuclidianView(Canvas canvas,
-            EuclidianController euclidiancontroller, boolean[] showAxes,
+            AbstractEuclidianController euclidiancontroller, boolean[] showAxes,
             boolean showGrid) {
 		
 		super(euclidiancontroller, null);
@@ -311,6 +312,30 @@ public class EuclidianView extends AbstractEuclidianView {
     }
 
 	public boolean hitAnimationButton(AbstractEvent e) {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	@Override
+    public void setAntialiasing(boolean antialiasing2) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void updateFonts() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void updateSize() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public boolean requestFocusInWindow() {
 	    // TODO Auto-generated method stub
 	    return false;
     }

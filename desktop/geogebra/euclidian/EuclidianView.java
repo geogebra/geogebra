@@ -240,7 +240,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	// and Applet
 	// EVNO_GENERAL for others
 
-	public EuclidianView(EuclidianController ec, boolean[] showAxes,
+	public EuclidianView(AbstractEuclidianController ec, boolean[] showAxes,
 			boolean showGrid, EuclidianSettings settings) {
 		this(ec, showAxes, showGrid, 1, settings);
 	}
@@ -255,7 +255,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	 * @param evno
 	 *            number of this view
 	 */
-	public EuclidianView(EuclidianController ec, boolean[] showAxes,
+	public EuclidianView(AbstractEuclidianController ec, boolean[] showAxes,
 			boolean showGrid, int evno, EuclidianSettings settings) {
 
 		super(ec, settings);
@@ -266,7 +266,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 			drawLayers[k] = new DrawableList();
 		}
 		evNo = evno;
-		setApplication(ec.getApplication());
+		setApplication(((EuclidianController)ec).getApplication());
 
 		evjpanel = new EuclidianViewJPanel(this);
 
