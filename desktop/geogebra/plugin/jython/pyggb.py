@@ -30,14 +30,14 @@ Number = (int, long, float)
 
 
 class Interface(PythonScriptInterface):
-    def init(self, app):
+    def init(self, app, kernel, cons, algprocessor):
         global _app, _kernel, _cons, _algprocessor
         global selection, pywindow
         global api
         _app = app
-        _kernel = app.getKernel()
-        _cons = _kernel.getConstruction()
-        _algprocessor = _kernel.getAlgebraProcessor()
+        _kernel = kernel
+        _cons = cons
+        _algprocessor = algprocessor
         pywindow = self.pywin = PythonWindow()
         self.geo = Geo()
         selection = self.selection = Selection()
