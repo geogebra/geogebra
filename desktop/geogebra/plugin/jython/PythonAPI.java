@@ -66,13 +66,62 @@ public class PythonAPI {
 	
 	/**
 	 * @author arno
+	 * Adapter for various kinds of ExpressionValues
+	 */
+	public static class Expression {
+		
+		protected ExpressionValue expr;
+		
+		public Expression(ExpressionValue expr) {
+			this.expr = expr;
+		}
+		
+		public String toString() {
+			return expr.toString();
+		}
+		
+		public Expression evaluate() {
+			return new Expression(expr.evaluate());
+		}
+		public boolean isNumber() {
+			return expr.isNumberValue();
+		}
+		
+		public double getNumber() {
+			return ((NumberValue) expr).getDouble();
+		}
+		
+		public boolean isVector() {
+			return expr.isVectorValue();
+		}
+		
+		public double[] getCoords() {
+			return ((MyVecNode) expr).getCoords();
+		}
+		
+		public boolean isBoolean() {
+			return expr.isBooleanValue();
+		}
+		
+		public boolean getBoolean() {
+			return ((BooleanValue) expr).getBoolean();
+		}
+		
+		public boolean isNode() {
+			return expr.isExpressionNode();
+		}	
+	}
+	
+	/**
+	 * @author arno
 	 * Adapter for various GeoElements
 	 */
-	public static class Geo {
+	public static class Geo extends Expression {
 				
 		protected GeoElement geo;
 		
 		public Geo(GeoElement geo) {
+			super(geo);
 			this.geo = geo;
 		}
 		
@@ -204,54 +253,6 @@ public class PythonAPI {
 			GeoPointND orig = txt.getStartPoint();
 			txt.removeStartPoint(orig);
 		}
-	}
-	
-	/**
-	 * @author arno
-	 * Adapter for various kinds of ExpressionValues
-	 */
-	public static class Expression {
-		
-		protected ExpressionValue expr;
-		
-		public Expression(ExpressionValue expr) {
-			this.expr = expr;
-		}
-		
-		public String toString() {
-			return expr.toString();
-		}
-		
-		public Expression evaluate() {
-			return new Expression(expr.evaluate());
-		}
-		public boolean isNumber() {
-			return expr.isNumberValue();
-		}
-		
-		public double getNumber() {
-			return ((NumberValue) expr).getDouble();
-		}
-		
-		public boolean isVector() {
-			return expr.isVectorValue();
-		}
-		
-		public double[] getCoords() {
-			return ((MyVecNode) expr).getCoords();
-		}
-		
-		public boolean isBoolean() {
-			return expr.isBooleanValue();
-		}
-		
-		public boolean getBoolean() {
-			return ((BooleanValue) expr).getBoolean();
-		}
-		
-		public boolean isNode() {
-			return expr.isExpressionNode();
-		}	
 	}
 	
 	private Application app;
