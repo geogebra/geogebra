@@ -3947,6 +3947,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	}
 
 	public boolean hitAnimationButton(AbstractEvent e) {
-		return hitAnimationButton(((geogebra.euclidian.event.MouseEvent) e).impl);
+		return hitAnimationButton(geogebra.euclidian.event.MouseEvent.getEvent(e));
 	}
 }

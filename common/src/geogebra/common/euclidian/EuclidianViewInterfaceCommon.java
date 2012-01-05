@@ -260,4 +260,6 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 
 	public int toScreenCoordX(double minX);
 	public int toScreenCoordY(double maxY);
+
+	public boolean hitAnimationButton(AbstractEvent event);
 }

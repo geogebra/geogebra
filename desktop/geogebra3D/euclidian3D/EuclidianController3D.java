@@ -1238,13 +1238,13 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	private MouseEvent mouseEvent = null;
 	
 	@Override
-	protected void processMouseMoved(MouseEvent e) {	
+	protected void processMouseMoved(AbstractEvent e) {	
 		((EuclidianView3D) view).setHits3D(new java.awt.Point(mouseLoc.x,mouseLoc.y));	
 		
 
 		
 		//for next mouse move process
-		mouseEvent = e;
+		mouseEvent = geogebra.euclidian.event.MouseEvent.getEvent(e);
 		mouseMoved = true;
 		
 		
@@ -1287,7 +1287,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			*/
 			((EuclidianView3D) view).updateCursor3D();
 			
-			super.processMouseMoved(mouseEvent);
+			super.processMouseMoved(geogebra.euclidian.event.MouseEvent.wrapEvent(mouseEvent));
 			
 
 			mouseMoved = false;
@@ -2574,7 +2574,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		if (handledGeo!=null){
-			setMouseLocation(e);
+			setMouseLocation(geogebra.euclidian.event.MouseEvent.wrapEvent(e));
 			updateTranslationVector();
 			handledGeo.moveFromChangeableCoordParentNumbers(translationVec3D, startPoint3D, view3D.getViewDirection(), null, null);
 			//view3D.updatePreviewable();
