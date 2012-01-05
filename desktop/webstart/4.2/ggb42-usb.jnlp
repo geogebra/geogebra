@@ -54,7 +54,17 @@
     <jar href="jlatexmath.jar"/>
     <jar href="jlm_greek.jar"/>
     <jar href="jlm_cyrillic.jar"/>
+    <jar href="jython.jar"/>
   </resources>
+    <resources os="Windows" arch="x86">
+      <nativelib href = "openni.jar" />
+    </resources>
+    <resources os="Windows" arch="amd64">
+      <nativelib href = "openni64.jar" />
+    </resources>
+    <resources os="Windows" arch="x86_64">
+      <nativelib href = "openni64.jar" />
+    </resources>
     <resources os="Windows" arch="x86">
       <nativelib href = "usb/vernier_ccsd-win.jar" />
     </resources>
