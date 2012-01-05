@@ -906,6 +906,10 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 					geo = (GeoElement) geos[i];
 					geo.setShowTrimmedIntersectionLines(showTrimmedLinesCB
 							.isSelected());
+					geo.getParentAlgorithm().getInput()[0].setEuclidianVisible(false);
+					geo.getParentAlgorithm().getInput()[1].setEuclidianVisible(false);
+					geo.getParentAlgorithm().getInput()[0].updateRepaint();
+					geo.getParentAlgorithm().getInput()[1].updateRepaint();
 					geo.updateRepaint();
 				}
 			}
