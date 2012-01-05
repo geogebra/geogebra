@@ -2,7 +2,7 @@ package geogebra3D.kernel3D.commands;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Kernel;
-import geogebra.kernel.commands.CommandDispatcher;
+import geogebra.common.kernel.commands.CommandDispatcher;
 
 /**
  * Command dispatcher for 3D

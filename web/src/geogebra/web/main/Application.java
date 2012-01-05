@@ -25,7 +25,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
-import geogebra.common.kernel.commands.AbstractCommandDispatcher;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -640,12 +640,6 @@ public class Application extends AbstractApplication {
     }
 
 	@Override
-    public AbstractCommandDispatcher getCommandDispatcher() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
     public AbstractAnimationManager newAnimationManager(Kernel kernel2) {
 	    // TODO Auto-generated method stub
 	    return null;
@@ -738,6 +732,12 @@ public class Application extends AbstractApplication {
 
 	@Override
     public SoundManager getSoundManager() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public CommandProcessor newCmdBarCode() {
 	    // TODO Auto-generated method stub
 	    return null;
     }

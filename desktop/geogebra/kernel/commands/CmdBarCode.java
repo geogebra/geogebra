@@ -41,7 +41,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 /**
  * ToolImage
  */
-class CmdBarCode extends CommandProcessor {
+public class CmdBarCode extends CommandProcessor {
 	/**
 	 * Create new command processor
 	 * 

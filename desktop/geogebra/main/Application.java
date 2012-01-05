@@ -37,7 +37,7 @@ import geogebra.common.kernel.Relation;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
-import geogebra.common.kernel.commands.AbstractCommandDispatcher;
+import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -71,7 +71,7 @@ import geogebra.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.io.MyXMLio;
 import geogebra.kernel.AnimationManager;
 import geogebra.kernel.UndoManager;
-import geogebra.kernel.commands.CommandDispatcher;
+import geogebra.kernel.commands.CmdBarCode;
 import geogebra.kernel.geos.GeoElementGraphicsAdapterDesktop;
 import geogebra.plugin.CallJavaScript;
 import geogebra.plugin.GgbAPI;
@@ -6372,7 +6372,7 @@ public class Application extends AbstractApplication implements
 		rbcommandOld = rbcommand;
 
 		commandDictCAS = new LowerCaseDictionary();
-		subCommandDict[AbstractCommandDispatcher.TABLE_CAS].clear();
+		subCommandDict[CommandDispatcher.TABLE_CAS].clear();
 
 		// iterate through all available CAS commands, add them (translated if
 		// available, otherwise untranslated)
@@ -6382,16 +6382,16 @@ public class Application extends AbstractApplication implements
 				String local = rbcommand.getString(cmd);
 				if (local != null) {
 					commandDictCAS.addEntry(local);
-					subCommandDict[AbstractCommandDispatcher.TABLE_CAS]
+					subCommandDict[CommandDispatcher.TABLE_CAS]
 							.addEntry(local);
 				} else {
 					commandDictCAS.addEntry(cmd);
-					subCommandDict[AbstractCommandDispatcher.TABLE_CAS]
+					subCommandDict[CommandDispatcher.TABLE_CAS]
 							.addEntry(cmd);
 				}
 			} catch (MissingResourceException mre) {
 				commandDictCAS.addEntry(cmd);
-				subCommandDict[AbstractCommandDispatcher.TABLE_CAS]
+				subCommandDict[CommandDispatcher.TABLE_CAS]
 						.addEntry(cmd);
 			}
 		}
@@ -6509,7 +6509,6 @@ public class Application extends AbstractApplication implements
 		getScriptManager().initJavaScriptViewWithoutJavascript();
 	}
 
-	// TODO: change parameter to GeoElement once it is ported
 	@Override
 	public String getTraceXML(GeoElement ge) {
 		return getTraceManager().getTraceXML(ge);
@@ -6718,11 +6717,6 @@ public class Application extends AbstractApplication implements
 		return new UndoManager(cons);
 	}
 
-	@Deprecated
-	@Override
-	public AbstractCommandDispatcher getCommandDispatcher() {
-		return new CommandDispatcher(kernel);
-	}
 	
 	@Override
 	public GeoGebraCasInterface newGeoGebraCAS() {
@@ -6752,6 +6746,10 @@ public class Application extends AbstractApplication implements
 			tableModel = new SpreadsheetTableModel(SPREADSHEET_INI_ROWS,SPREADSHEET_INI_COLS);
 		}
 		return tableModel;
+	}
+	
+	public CommandProcessor newCmdBarCode(){
+		return new CmdBarCode(kernel);
 	}
 
 }

@@ -48,7 +48,6 @@ import geogebra.common.kernel.cas.AlgoTangentCurve;
 import geogebra.common.kernel.cas.AlgoTangentFunctionNumber;
 import geogebra.common.kernel.cas.AlgoTangentFunctionPoint;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
-import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.discrete.AlgoConvexHull;
 import geogebra.common.kernel.discrete.AlgoDelauneyTriangulation;

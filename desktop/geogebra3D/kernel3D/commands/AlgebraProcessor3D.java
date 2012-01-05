@@ -7,12 +7,11 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
-import geogebra.common.kernel.commands.AbstractCommandDispatcher;
 import geogebra.common.kernel.commands.AlgebraProcessor;
+import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.main.MyError;
-import geogebra.kernel.commands.CommandDispatcher;
 import geogebra.main.Application;
 import geogebra3D.gui.layout.panels.EuclidianDockPanel3D;
 import geogebra3D.kernel3D.GeoPlane3D;
@@ -29,7 +28,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	}
 	
 	@Override
-	final protected AbstractCommandDispatcher newCommandDispatcher(
+	final protected CommandDispatcher newCommandDispatcher(
 			Kernel kernel) {
 		return new CommandDispatcher3D(kernel);
 	}

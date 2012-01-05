@@ -18,7 +18,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
-import geogebra.common.kernel.commands.AbstractCommandDispatcher;
+import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -549,13 +549,6 @@ public abstract class AbstractApplication {
 	@Deprecated
 	public abstract AbstractUndoManager getUndoManager(Construction cons);
 
-	/**
-	 * @deprecated
-	 * @return
-	 */
-	@Deprecated
-	public abstract AbstractCommandDispatcher getCommandDispatcher();
-
 	public abstract AbstractAnimationManager newAnimationManager(Kernel kernel2);
 
 	public abstract GeoElementGraphicsAdapter newGeoElementGraphicsAdapter();
@@ -661,5 +654,7 @@ public abstract class AbstractApplication {
 	public final Kernel getKernel() {
 		return kernel;
 	}
+
+	abstract public CommandProcessor newCmdBarCode();
 
 }

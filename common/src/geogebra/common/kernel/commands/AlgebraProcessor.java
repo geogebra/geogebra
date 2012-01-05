@@ -60,7 +60,7 @@ public class AlgebraProcessor {
 	private Construction cons;
 	protected AbstractApplication app;
 	private ParserInterface parser;
-	protected AbstractCommandDispatcher cmdDispatcher;
+	protected CommandDispatcher cmdDispatcher;
 
 	protected ExpressionValue eval; // ggb3D : used by AlgebraProcessor3D in
 									// extended processExpressionNode
@@ -75,12 +75,12 @@ public class AlgebraProcessor {
 	}
 
 	/**
-	 * @param kernel
+	 * @param kernel Kernel
 	 * @return a new command dispatcher (used for 3D)
 	 */
-	protected AbstractCommandDispatcher newCommandDispatcher(
+	protected CommandDispatcher newCommandDispatcher(
 			Kernel kernel) {
-		return kernel.getApplication().getCommandDispatcher();
+		return new CommandDispatcher(kernel);
 	}
 
 	public Set<String> getPublicCommandSet() {
