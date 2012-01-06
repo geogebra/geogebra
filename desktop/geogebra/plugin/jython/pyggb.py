@@ -12,12 +12,16 @@ from geogebra.plugin.jython import PythonAPI as API
 # Java imports
 from javax.swing import (
     JFrame, JPanel, JTextArea, JScrollPane, BoxLayout, JButton, JList,
-    DefaultListModel, ListCellRenderer, BorderFactory, JTextPane
+    DefaultListModel, ListCellRenderer, BorderFactory, JTextPane,
+    JMenuBar, JMenu, JMenuItem, JFileChooser,
+    KeyStroke,
 )
 from javax.swing.text import StyleContext, StyleConstants
+from javax.swing.filechooser import FileNameExtensionFilter
+from javax.swing.event import DocumentListener
 
-from java.awt import Component, BorderLayout, Color as awtColor, GridLayout, Font
-from java.awt.event import KeyListener
+from java.awt import Toolkit, Component, BorderLayout, Color as awtColor, GridLayout, Font
+from java.awt.event import KeyListener, ActionListener, KeyEvent, ActionEvent
 
 # Jython imports
 import sys
@@ -31,10 +35,10 @@ Number = (int, long, float)
 
 class Interface(PythonScriptInterface):
     def init(self, app):
-        global api
-        self.pywin = PythonWindow()
+        global api, pywindow, selection
+        pywindow = self.pywin = PythonWindow()
         self.geo = Geo()
-        self.selection = Selection()
+        selection = self.selection = Selection()
         sys.stdout = self.pywin
         api = API(app)
         self.namespace = {
@@ -857,7 +861,7 @@ class Selection(object):
 
 
 def pointlist():
-    return api.getGeos(GeoClass.POINT)
+    return map(Geo._get_element, api.getGeos(GeoClass.POINT))
 
 class Geo(object):
     _map = {
@@ -894,9 +898,12 @@ class Geo(object):
     def __setattr__(self, name, value):
         if not isinstance(value, Element):
             node = expr(value).getnode()
-            node.label = name
+            node.nodeLabel = name
             value = element(Expression(node))
         value.label = name
+    @property
+    def points(self):
+        return map(Geo._get_element, api.getGeos(GeoClass.POINT))
 
 
 class MyListCellRenderer(ListCellRenderer):
@@ -938,11 +945,31 @@ class OutputPane(object):
         self.textpane.setCaretPosition(self.doc.length)
 
 
-class PythonWindow(KeyListener):
+class FileLoader(ActionListener):
+    def __init__(self, pywin):
+        self.fc = JFileChooser()
+        self.fc.fileFilter = FileNameExtensionFilter("Python Files", ["py"])
+        self.pywin = pywin
+        self.filename = None
+    def actionPerformed(self, evt):
+        if evt.actionCommand == 'load':
+            res = self.fc.showOpenDialog(self.pywin.frame)
+            if res == JFileChooser.APPROVE_OPTION:
+                self.filename = self.fc.selectedFile.absolutePath
+                self.pywin.reload_menuitem.text = "Reload " + self.filename
+                self.pywin.reload_menuitem.enabled = True
+            else:
+                self.filename = None
+        if self.filename:
+            print "*** Loading", self.filename, "***"
+            try:
+                execfile(self.filename, interface.namespace)
+            except Exception, e:
+                self.pywin.outputpane.addtext(str(e) + '\n', 'error')
+
+class PythonWindow(KeyListener, DocumentListener, ActionListener):
     def __init__(self):
         self.frame = JFrame("Python Window")
-        #self.historyList = JList(DefaultListModel())
-        #self.historyList.cellRenderer = MyListCellRenderer()
         scrollpane = JScrollPane()
         inputPanel = JPanel()
         inputPanel.layout = GridLayout(1, 1)
@@ -951,6 +978,7 @@ class PythonWindow(KeyListener):
         self.input.tabSize = 4
         self.input.font = Font("Monospaced", Font.PLAIN, 12)
         self.input.addKeyListener(self)
+        self.input.document.addDocumentListener(self)
         inputPanel.add(self.input)
         self.outputpane = OutputPane()
         scrollpane.viewport.view = self.outputpane.textpane #self.historyList
@@ -959,6 +987,39 @@ class PythonWindow(KeyListener):
         self.frame.size = 500, 600
         self.frame.visible = False
         self.component = None
+        self.make_menubar()
+        self.history = []
+        self.history_pos = 0
+        self.current_text = ""
+        self.checking_input = True
+    def make_menubar(self):
+        shortcut = Toolkit.getDefaultToolkit().menuShortcutKeyMask
+        menubar = JMenuBar()
+        filemenu = JMenu("File")
+        loader = FileLoader(self)
+        menubar.add(filemenu)
+        item = JMenuItem("Load Python File", actionCommand="load")
+        item.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_O, shortcut)
+        item.addActionListener(loader)
+        filemenu.add(item)
+        item = JMenuItem("Reload Python File",
+            enabled=False, actionCommand="reload"
+        )
+        item.addActionListener(loader)
+        item.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_R, shortcut)
+        self.reload_menuitem = item
+        filemenu.add(item)
+        navmenu = JMenu("Navigation")
+        menubar.add(navmenu)
+        item = JMenuItem("Previous Input", actionCommand="up")
+        item.addActionListener(self)
+        item.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_UP, ActionEvent.ALT_MASK)
+        navmenu.add(item)
+        item = JMenuItem("Next Input", actionCommand="down")
+        item.addActionListener(self)
+        item.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, ActionEvent.ALT_MASK)
+        navmenu.add(item)
+        self.frame.setJMenuBar(menubar)
     def toggle_visibility(self):
         self.frame.visible = not self.frame.visible
     def add_component(self, c):
@@ -971,11 +1032,7 @@ class PythonWindow(KeyListener):
             self.component = None
     def add(self, text, type="input"):
         self.outputpane.addtext(text, type)
-        #self.historyList.model.addElement({"text": text, "type": type})
-        #self.historyList.validate()
         self.frame.validate()
-        #last = self.historyList.model.getSize() - 1
-        #self.historyList.ensureIndexIsVisible(last)
     def error(self, text):
         self.outputpane.addtext(text, "error", ensure_newline=True)
     def write(self, text):
@@ -991,8 +1048,9 @@ class PythonWindow(KeyListener):
             code = interface.compilemodule(processed_source)
             if code == "error":
                 return
-        source = source.strip() + '\n'
-        self.outputpane.addtext(source, "input", ensure_newline=True)
+        source = source.strip()
+        self.history.append(source)
+        self.outputpane.addtext(source +'\n', "input", ensure_newline=True)
         result = interface.run(code)
         if result == "OK":
             self.input.text = ""
@@ -1001,6 +1059,7 @@ class PythonWindow(KeyListener):
     def keyReleased(self, evt):
         pass
     def keyTyped(self, evt):
+        self.current_text = source = self.input.text
         if evt.keyChar == '\n':
             # Only try to run compound statements when they end with
             # two \n
@@ -1015,7 +1074,35 @@ class PythonWindow(KeyListener):
                 prefix = lines[-2][:i]
                 if lines[-2].endswith(":"):
                     prefix += '\t'
+                self.checking_input = False
                 self.input.text = source + prefix
+                self.checking_input = True
             else:
                 self.run(evt)
-
+    def update_current_text(self):
+        if self.checking_input:
+            self.current_text = self.input.text
+            self.history_pos = 0
+    def changedUpdate(self, evt):
+        self.update_current_text()
+    def insertUpdate(self, evt):
+        self.update_current_text()
+    def removeUpdate(self, evt):
+        self.update_current_text()
+    def actionPerformed(self, evt):
+        getattr(self, "action_" + evt.actionCommand)(evt)
+    def action_up(self, evt):
+        self.checking_input = False
+        if self.history_pos < len(self.history):
+            self.history_pos += 1
+            self.input.text = self.history[-self.history_pos]
+        self.checking_input = True
+    def action_down(self, evt):
+        self.checking_input = False
+        if self.history_pos > 1:
+            self.history_pos -= 1
+            self.input.text = self.history[-self.history_pos]
+        else:
+            self.input.text = self.current_text
+            self.history_pos = 0
+        self.checking_input = True
