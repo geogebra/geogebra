@@ -44,6 +44,7 @@ import geogebra.common.euclidian.GetViewId;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.FormatFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
@@ -103,8 +104,8 @@ import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
-import java.awt.Point;
-import java.awt.Rectangle;
+import geogebra.common.awt.Point;
+import geogebra.common.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.Toolkit;
@@ -434,10 +435,10 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		DrawableIterator it = allDrawableList.getIterator();
 		while (it.hasNext()) {
 			Drawable d = it.next();
-			Rectangle bb = geogebra.awt.Rectangle.getAWTRectangle(d.getBounds());
+			Rectangle bb = d.getBounds();
 			if (bb != null) {
 				if (result == null) {
-					result = new Rectangle(bb); // changed () to (bb) bugfix,
+					result = AwtFactory.prototype.newRectangle(bb); // changed () to (bb) bugfix,
 												// otherwise top-left of screen
 												// is always included
 				}
@@ -448,7 +449,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 		// Cong Liu
 		if (result == null) {
-			result = new Rectangle(0, 0, 0, 0);
+			result = AwtFactory.prototype.newRectangle(0, 0, 0, 0);
 		}
 		return result;
 	}
@@ -570,8 +571,8 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 			if (image != null) {
 				try {
 					// Create custom cursor from the image
-					Cursor cursor = tk.createCustomCursor(image, new Point(16,
-							16), "custom cursor");
+					Cursor cursor = tk.createCustomCursor(image,
+						((geogebra.awt.Point)AwtFactory.prototype.newPoint(16, 16)).getAwtPoint(), "custom cursor");
 					return cursor;
 				} catch (Exception exc) {
 					// Catch exceptions so that we don't try to set a null
@@ -857,9 +858,9 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	protected void drawZoomRectangle(Graphics2D g2) {
 		g2.setColor(colZoomRectangleFill);
 		g2.setStroke(boldAxesStroke);
-		g2.fill(selectionRectangle);
+		g2.fill(geogebra.awt.Rectangle.getAWTRectangle( selectionRectangle ) );
 		g2.setColor(colZoomRectangle);
-		g2.draw(selectionRectangle);
+		g2.draw(geogebra.awt.Rectangle.getAWTRectangle( selectionRectangle ) );
 	}
 
 	public int print(Graphics g, PageFormat pageFormat, int pageIndex) {
@@ -1010,8 +1011,8 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		// clipping on selection rectangle
 		if (selectionRectangle != null) {
 			Rectangle rect = selectionRectangle;
-			g2d.setClip(0, 0, rect.width, rect.height);
-			g2d.translate(-rect.x, -rect.y);
+			g2d.setClip(0, 0, (int)rect.getWidth(), (int)rect.getHeight());
+			g2d.translate(-rect.getX(), -rect.getY());
 			// Application.debug(rect.x+" "+rect.y+" "+rect.width+" "+rect.height);
 		} else {
 			// use points Export_1 and Export_2 to define corner
@@ -1878,7 +1879,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		if (euclidianController.mouseLoc == null) {
 			return;
 		}
-		Point pos = new java.awt.Point(euclidianController.mouseLoc.x,euclidianController.mouseLoc.y);
+		Point pos = AwtFactory.prototype.newPoint(euclidianController.mouseLoc.x,euclidianController.mouseLoc.y);
 
 		sb.setLength(0);
 		sb.append('(');
@@ -1899,7 +1900,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	}
 
 	final protected void drawAxesRatio(Graphics2D g2) {
-		Point pos = new java.awt.Point(euclidianController.mouseLoc.x,euclidianController.mouseLoc.y);
+		Point pos = AwtFactory.prototype.newPoint(euclidianController.mouseLoc.x,euclidianController.mouseLoc.y);
 		if (pos == null) {
 			return;
 		}
@@ -1919,7 +1920,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 			return false;
 		}
 		
-		Point pos = new java.awt.Point(euclidianController.mouseLoc.x, euclidianController.mouseLoc.y);
+		Point pos = AwtFactory.prototype.newPoint(euclidianController.mouseLoc.x, euclidianController.mouseLoc.y);
 
 		String val = ((EuclidianController)euclidianController).getSliderValue();
 
@@ -2196,7 +2197,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	 * sets array of GeoElements whose visual representation is inside of the
 	 * given screen rectangle
 	 */
-	final public void setHits(Rectangle rect) {
+	final public void setHits(java.awt.Rectangle rect) {
 		hits.init();
 		geogebra.awt.Rectangle rect2 =  new geogebra.awt.Rectangle(rect);
 		if (rect == null) {
@@ -3523,7 +3524,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		if (selectionRectangle == null) {
 			return getWidth();
 		} else {
-			return selectionRectangle.width;
+			return (int)selectionRectangle.getWidth();
 		}
 	}
 
@@ -3531,13 +3532,13 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		if (selectionRectangle == null) {
 			return getHeight();
 		} else {
-			return selectionRectangle.height;
+			return (int)selectionRectangle.getHeight();
 		}
 	}
 
 	public int getExportWidth() {
 		if (selectionRectangle != null) {
-			return selectionRectangle.width;
+			return (int)selectionRectangle.getWidth();
 		}
 		try {
 			GeoPoint2 export1 = (GeoPoint2) kernel.lookupLabel(EXPORT1);
@@ -3560,7 +3561,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 	public int getExportHeight() {
 		if (selectionRectangle != null) {
-			return selectionRectangle.height;
+			return (int)selectionRectangle.getHeight();
 		}
 
 		try {
@@ -3582,13 +3583,13 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 	}
 
-	public Rectangle getSelectionRectangle() {
-		return selectionRectangle;
+	public java.awt.Rectangle getSelectionRectangle() {
+		return geogebra.awt.Rectangle.getAWTRectangle(selectionRectangle);
 	}
 
 	public void setSelectionRectangle(geogebra.common.awt.Rectangle selectionRectangle) {
 		// Application.printStacktrace("");
-		this.selectionRectangle = geogebra.awt.Rectangle.getAWTRectangle(selectionRectangle);
+		this.selectionRectangle = selectionRectangle;
 	}
 
 	public EuclidianController getEuclidianController() {
@@ -3647,7 +3648,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	}
 
 	public void updatePreviewable() {
-		Point mouseLoc = new java.awt.Point(getEuclidianController().mouseLoc.x,getEuclidianController().mouseLoc.y);
+		Point mouseLoc = AwtFactory.prototype.newPoint(getEuclidianController().mouseLoc.x,getEuclidianController().mouseLoc.y);
 		getPreviewDrawable().updateMousePos(toRealWorldCoordX(mouseLoc.x),
 				toRealWorldCoordY(mouseLoc.y));
 	}
@@ -3769,7 +3770,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	}
 
 	public void drawPoints(GeoImage ge, double[] x, double[] y) {
-		ArrayList<Point> ptList = new ArrayList<Point>();
+		ArrayList<java.awt.Point> ptList = new ArrayList<java.awt.Point>();
 
 		AbstractApplication.debug("x0" + x[0]);
 		for (int i = 0; i < x.length; i++) {
@@ -3806,7 +3807,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 				yi = ge.getFillImage().getHeight()
 						+ (yi - toScreenCoordY(ge.getCorner(0).y));
 			}
-			ptList.add(new Point(xi, yi));
+			ptList.add(new java.awt.Point(xi, yi));
 		}
 		this.getEuclidianController().getPen().doDrawPoints(ge, ptList);
 
@@ -3851,7 +3852,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		return (Graphics2D) evjpanel.getGraphics();
 	}
 
-	public Point getMousePosition() {
+	public java.awt.Point getMousePosition() {
 		return evjpanel.getMousePosition();
 	}
 

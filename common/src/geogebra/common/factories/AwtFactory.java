@@ -12,6 +12,7 @@ import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.Ellipse2DDouble;
 import geogebra.common.awt.Ellipse2DFloat;
 import geogebra.common.awt.Line2D;
+import geogebra.common.awt.Point;
 import geogebra.common.awt.Point2D;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
@@ -37,9 +38,11 @@ public abstract class AwtFactory {
 	public abstract Dimension newDimension(int width,
 			int height);
 	public abstract Point2D newPoint2D();
+	public abstract Point newPoint();
 	public abstract Rectangle newRectangle(int i, int j);
 	public abstract Rectangle newRectangle();
 	public abstract Point2D newPoint2D(double d, double coord);
+	public abstract Point newPoint(int d, int coord);
 	public abstract GeneralPath newGeneralPath();
 	public abstract BasicStroke newMyBasicStroke(float f);
 	public abstract BasicStroke newBasicStroke(float width, int endCap, int lineJoin,

@@ -12,6 +12,7 @@ import geogebra.common.awt.Ellipse2DDouble;
 import geogebra.common.awt.Ellipse2DFloat;
 import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Line2D;
+import geogebra.common.awt.Point;
 import geogebra.common.awt.Point2D;
 import geogebra.common.awt.QuadCurve2D;
 import geogebra.common.awt.Rectangle;
@@ -82,7 +83,17 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 	public Point2D newPoint2D(double x, double y) {
 		return new geogebra.web.awt.Point2D(x, y);
 	}
-	
+
+	@Override
+	public Point newPoint() {
+		return new geogebra.web.awt.Point();
+	}
+
+	@Override
+	public Point newPoint(int x, int y) {
+		return new geogebra.web.awt.Point(x, y);
+	}
+
 	@Override
 	public Rectangle newRectangle(int x, int y) {
 		return new geogebra.web.awt.Rectangle(x, y);

@@ -51,7 +51,7 @@ public class EuclidianViewJPanel extends JPanel implements geogebra.common.eucli
 
 	@Override
 	public Rectangle getBounds() {
-		return view.getBounds();
+		return geogebra.awt.Rectangle.getAWTRectangle(view.getBounds());
 	}
 
 	@Override
