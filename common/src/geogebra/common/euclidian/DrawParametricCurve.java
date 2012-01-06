@@ -46,6 +46,10 @@ public class DrawParametricCurve extends Drawable {
 	private static final int MAX_DEFINED_BISECTIONS = 16;
 	private static final int MAX_PROBLEM_BISECTIONS = 8;
 
+	// maximum number of times to loop when xDiff, yDiff are both zero
+	// eg Curve[0sin(t), 0t, t, 0, 6]
+	private static final int MAX_ZERO_COUNT = 1000;
+
 	// the curve is sampled at least at this many positions to plot it
 	private static final int MIN_SAMPLE_POINTS = 80;
 
@@ -379,6 +383,7 @@ public class DrawParametricCurve extends Drawable {
 		// slope between (t1, t2)
 		double ydiff = y - y0;
 		double xdiff = x - x0;
+		int countDiffZeros = 0;
 
 		// init previous slope using (t1, t1 + min_step)
 		curve.evaluateCurve(t1 + divisors[LENGTH - 1], eval);
@@ -412,7 +417,10 @@ public class DrawParametricCurve extends Drawable {
 			while ( // max bisection depth not reached
 			depth < MAX_DEFINED_BISECTIONS &&
 			// distance not ok or angle not ok or step too big
-					(!distanceOK || !angleOK || divisors[depth] > max_param_step)) {
+					(!distanceOK || !angleOK || divisors[depth] > max_param_step)
+					// make sure we don't get stuck on eg Curve[0sin(t), 0t, t, 0, 6]
+					&& countDiffZeros < MAX_ZERO_COUNT
+					) {
 				// push stacks
 				dyadicStack[top] = i;
 				depthStack[top] = depth;
@@ -449,6 +457,12 @@ public class DrawParametricCurve extends Drawable {
 				y = eval[1]; // yEval(t);
 				xdiff = x - x0;
 				ydiff = y - y0;
+				
+				if (Kernel.isZero(xdiff) && Kernel.isZero(ydiff)) {
+					countDiffZeros++;
+				} else {
+					countDiffZeros = 0;
+				}
 
 				// segment from last point off screen?
 				segOffScreen = isSegmentOffScreen(view, x0, y0, x, y);
