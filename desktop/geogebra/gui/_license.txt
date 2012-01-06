@@ -100,6 +100,7 @@ TRANSLATORS
   * Macedonian: Linda Fahlberg-Stojanovska, OIKT,
       Faculty of Technical Sciences, UKLO,
       Jasmina Markoska (FYR Macedonia)
+  * Malay: Daniel Leong (Malaysia)
   * Marathi: Smita Patil (India)
   * Nepali: Bhesh Raj Mainali (Nepal)
   * Norwegian: Sigbjorn Hals (Norway)
