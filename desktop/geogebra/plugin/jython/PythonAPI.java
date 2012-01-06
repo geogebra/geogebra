@@ -51,38 +51,59 @@ import geogebra.main.Application;
  */
 public class PythonAPI {
 	
-	public static Class GeoPointClass = GeoPoint2.class;
-	public static Class GeoElementClass = GeoElement.class;
-	public static Class GeoNumericClass = GeoNumeric.class;
-	public static Class GeoVectorClass = GeoVector.class;
-	public static Class GeoFunctionClass = GeoFunction.class;
-	public static Class GeoTextClass = GeoText.class;
-	public static Class GeoConicClass = GeoConic.class;
-	public static Class GeoLineClass = GeoLine.class;
-	public static Class GeoSegmentClass = GeoSegment.class;
-	public static Class GeoRayClass = GeoRay.class;
-	public static Class GeoBooleanClass = GeoBoolean.class;
-	public static Class GeoLocusClass = GeoLocus.class;
+	/*
+	 * Classes that pyggb.py needs to know about
+	 */
+	
+	public static Class<GeoPoint2> GeoPointClass = GeoPoint2.class;
+	public static Class<GeoElement> GeoElementClass = GeoElement.class;
+	public static Class<GeoNumeric> GeoNumericClass = GeoNumeric.class;
+	public static Class<GeoVector> GeoVectorClass = GeoVector.class;
+	public static Class<GeoFunction> GeoFunctionClass = GeoFunction.class;
+	public static Class<GeoText> GeoTextClass = GeoText.class;
+	public static Class<GeoConic> GeoConicClass = GeoConic.class;
+	public static Class<GeoLine> GeoLineClass = GeoLine.class;
+	public static Class<GeoSegment> GeoSegmentClass = GeoSegment.class;
+	public static Class<GeoRay> GeoRayClass = GeoRay.class;
+	public static Class<GeoBoolean> GeoBooleanClass = GeoBoolean.class;
+	public static Class<GeoLocus> GeoLocusClass = GeoLocus.class;
 	
 	/**
 	 * @author arno
-	 * Adapter for various kinds of ExpressionValues
+	 * Wrapper for various kinds of ExpressionValues
 	 */
 	public static class Expression {
 		
+		/**
+		 * The wrapped expression
+		 */
 		protected ExpressionValue expr;
 		
+		/**
+		 * Constructor
+		 * @param expr wrapped expression
+		 */
 		public Expression(ExpressionValue expr) {
 			this.expr = expr;
 		}
 		
+		@Override
 		public String toString() {
 			return expr.toString();
 		}
 		
+		/**
+		 * Evaluate the wrapped expression
+		 * @return wrapped evaluated expression
+		 */
 		public Expression evaluate() {
 			return new Expression(expr.evaluate());
 		}
+		
+		/**
+		 * Test if an expression has numerical value
+		 * @return true is expression is a number
+		 */
 		public boolean isNumber() {
 			return expr.isNumberValue();
 		}
@@ -109,7 +130,15 @@ public class PythonAPI {
 		
 		public boolean isNode() {
 			return expr.isExpressionNode();
-		}	
+		}
+		
+		public String getNodeLabel() {
+			return ((ExpressionNode) expr).getLabel();
+		}
+		
+		public void setNodeLabel(String label) {
+			((ExpressionNode) expr).setLabel(label);
+		}
 	}
 	
 	/**
@@ -125,6 +154,7 @@ public class PythonAPI {
 			this.geo = geo;
 		}
 		
+		@Override
 		public String toString() {
 			return geo.toString();
 		}
@@ -137,11 +167,12 @@ public class PythonAPI {
 			return this.geo == other.geo;
 		}
 		
+		@Override
 		public int hashCode() {
 			return geo.hashCode();
 		}
 		
-		public Class getType() {
+		public Class<? extends GeoElement> getType() {
 			return geo.getClass();
 		}
 		
