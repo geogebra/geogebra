@@ -63,7 +63,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	private JButton btOpen;
 	private DoubleClickListener dcListener;
 	private EuclidianView ev;
-	public boolean showOpenButton, undoActive;
+	public boolean undoActive;
 	public boolean showToolBar, showToolBarHelp, showAlgebraInput,
 			allowStyleBar;
 	public boolean enableRightClick = true;
@@ -80,7 +80,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 	Color bgColor, borderColor;
 	private String fileStr, customToolBar;
 	private int maxIconSize;
-	public boolean showFrame = true;
 	private JFrame wnd;
 	private JSObject browserWindow;
 	public int width, height;
@@ -177,15 +176,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 					e.printStackTrace();
 				}
 
-				// for applets with an "open GeoGebra" button or
-				// "double click to open window"
-				// init window in background
-				if (showOpenButton) {
-					initGeoGebraFrame();
-				} else if (showFrame) {
-					wnd = app.getFrame();
-				}
-
 				// load all jar files in background
 				GeoGebraAppletPreloader.loadAllJarFiles(!app
 						.useBrowserForJavaScript());
@@ -227,10 +217,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 		}
 		AbstractApplication.debug("loading " + fileStr);
 
-		// type = "button" or parameter is not available
-		String typeStr = applet.getParameter("type");
-		showOpenButton = (typeStr != null) && typeStr.equals("button");
-
 		// showToolBar = "true" or parameter is not available
 		showToolBar = "true".equals(applet.getParameter("showToolBar"));
 
@@ -263,11 +249,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 		// default is true
 		useBrowserForJavaScript = !"false".equals(applet
 				.getParameter("useBrowserForJS"));
-
-		// showFrame = "true" or "false" states whether it is possible
-		// to open the application frame by double clicking on the drawing pad
-		// !false is used for downward compatibility
-		showFrame = !"false".equals(applet.getParameter("framePossible"));
 
 		// show style bar of views, default is false
 		allowStyleBar = "true".equals(applet.getParameter("allowStyleBar"));
@@ -386,41 +367,22 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 * @return If the applet parameters indicate that the GUI is necessary.
 	 */
 	public boolean needsGui() {
-		return showOpenButton || showAlgebraInput || showToolBar || showMenuBar
-				|| enableRightClick || showFrame;
+		return showAlgebraInput || showToolBar || showMenuBar
+				|| enableRightClick;
 	}
 
 	public void initGUI() {
 		JPanel myContenPane;
 
-		// show only button to open application window
-		if (showOpenButton) {
-			btOpen = new JButton(app.getPlain("Open") + " "
-					+ app.getPlain("ApplicationName"));
-			btOpen.addActionListener(new ButtonClickListener());
 
-			// prepare content pane
-			myContenPane = new JPanel();
-			myContenPane.setBackground(bgColor);
-			myContenPane.setLayout(new FlowLayout(FlowLayout.CENTER));
-			myContenPane.add(btOpen);
-
-		}
 		// show interactive drawing pad
-		else {
-			// TODO use Appication methods (F.S.)
-			// create applet panel
-			myContenPane = createGeoGebraAppletPanel();
+		// TODO use Appication methods (F.S.)
+		// create applet panel
+		myContenPane = createGeoGebraAppletPanel();
 
-			// border around applet panel
-			myContenPane.setBorder(BorderFactory.createLineBorder(borderColor));
+		// border around applet panel
+		myContenPane.setBorder(BorderFactory.createLineBorder(borderColor));
 
-			if (showFrame) {
-				// open frame on double click
-				dcListener = new DoubleClickListener();
-				ev.addMouseListener(dcListener);
-			}
-		}
 
 		// replace applet's content pane
 		Container cp = applet.getContentPane();
@@ -531,32 +493,26 @@ public class AppletImplementation implements AppletImplementationInterface {
 	}
 
 	private synchronized void doShowFrame() {
-		if (showOpenButton) {
-			btOpen.setEnabled(false);
 
-			if (wnd == null) {
-				initGeoGebraFrame();
-			}
-		} else {
-			// clear applet
-			Container cp = applet.getContentPane();
-			cp.removeAll();
-			if (ev != null) {
-				ev.removeMouseListener(dcListener);
-			}
-
-			JPanel p = new JPanel(new BorderLayout());
-			p.setBackground(Color.white);
-			JLabel label = new JLabel("GeoGebra "
-					+ app.getPlain("WindowOpened") + "...");
-			label.setFont(app.getPlainFont());
-			p.add(label, BorderLayout.CENTER);
-			cp.add(p);
-
-			// initialize the GeoGebra frame's UIG
-			initGeoGebraFrame();
-			applet.validate();
+		// clear applet
+		Container cp = applet.getContentPane();
+		cp.removeAll();
+		if (ev != null) {
+			ev.removeMouseListener(dcListener);
 		}
+
+		JPanel p = new JPanel(new BorderLayout());
+		p.setBackground(Color.white);
+		JLabel label = new JLabel("GeoGebra "
+				+ app.getPlain("WindowOpened") + "...");
+		label.setFont(app.getPlainFont());
+		p.add(label, BorderLayout.CENTER);
+		cp.add(p);
+
+		// initialize the GeoGebra frame's UIG
+		initGeoGebraFrame();
+		applet.validate();
+
 
 		// show frame
 		wnd.setVisible(true);
@@ -581,7 +537,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 
 		// just update layout if the layout was already visible
 		// (which isn't the case in button-only mode), see ticket #217
-		if (app.isUsingFullGui() && !showOpenButton) {
+		if (app.isUsingFullGui()) {
 			app.getGuiManager().updateLayout();
 		}
 
@@ -597,11 +553,8 @@ public class AppletImplementation implements AppletImplementationInterface {
 
 				wnd.setVisible(false); // hide frame
 
-				if (showOpenButton) {
-					btOpen.setEnabled(true);
-				} else {
-					reinitGUI();
-				}
+				reinitGUI();
+
 
 				applet.setCursor(Cursor.getDefaultCursor());
 			}

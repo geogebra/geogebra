@@ -85,8 +85,6 @@ public class WorksheetExportDialog extends JDialog {
 	 */
 	private static final int TAB_HTML = 1;
 
-	private static final int BUTTON_WIDTH = 200;
-	private static final int BUTTON_HEIGHT = 40;
 	private static final int DEFAULT_HTML_PAGE_WIDTH = 600;
 	public static final int DEFAULT_APPLET_WIDTH = 600;
 	public static final int DEFAULT_APPLET_HEIGHT = 500;
@@ -106,10 +104,10 @@ public class WorksheetExportDialog extends JDialog {
 	private Application app;
 	private Kernel kernel;
 	private InputPanel textAbove, textBelow, textAboveUpload, textBelowUpload;
-	private JCheckBox cbShowFrame, cbEnableRightClick, cbEnableLabelDrags,
+	private JCheckBox cbEnableRightClick, cbEnableLabelDrags,
 			cbShowResetIcon, cbShowMenuBar, cbSavePrint, cbShowToolBar,
 			cbShowToolBarHelp, cbShowInputField, cbUseBrowserForJavaScript,
-			cbAllowRescaling, cbRemoveLinebreaks, cbOpenButton, cbOfflineJars,
+			cbAllowRescaling, cbRemoveLinebreaks, cbOfflineJars,
 			cbIncludeHTML5;
 	private JComboBox cbFileType, cbAllWorksheets;
 	private JButton exportButton, helpButton;
@@ -350,13 +348,6 @@ public class WorksheetExportDialog extends JDialog {
 			cbShowResetIcon.setSelected(Boolean.valueOf(
 					ggbPref.loadPreference(GeoGebraPreferences.EXPORT_WS_RESET_ICON,
 							"false")).booleanValue());
-			cbShowFrame.setSelected(Boolean.valueOf(
-					ggbPref.loadPreference(GeoGebraPreferences.EXPORT_WS_FRAME_POSSIBLE,
-							"false")).booleanValue());
-			cbOpenButton.setSelected(Boolean.valueOf(
-					ggbPref.loadPreference(GeoGebraPreferences.EXPORT_WS_BUTTON_TO_OPEN,
-							"false")).booleanValue());
-
 			cbShowMenuBar.setSelected(Boolean.valueOf(
 					ggbPref.loadPreference(GeoGebraPreferences.EXPORT_WS_SHOW_MENUBAR,
 							"false")).booleanValue());
@@ -428,8 +419,6 @@ public class WorksheetExportDialog extends JDialog {
 				Boolean.toString(cbEnableLabelDrags.isSelected()));
 		ggbPref.savePreference(GeoGebraPreferences.EXPORT_WS_RESET_ICON,
 				Boolean.toString(cbShowResetIcon.isSelected()));
-		ggbPref.savePreference(GeoGebraPreferences.EXPORT_WS_FRAME_POSSIBLE,
-				Boolean.toString(cbShowFrame.isSelected()));
 		ggbPref.savePreference(GeoGebraPreferences.EXPORT_WS_SHOW_MENUBAR,
 				Boolean.toString(cbShowMenuBar.isSelected()));
 		ggbPref.savePreference(GeoGebraPreferences.EXPORT_WS_SHOW_TOOLBAR,
@@ -451,8 +440,6 @@ public class WorksheetExportDialog extends JDialog {
 				Boolean.toString(cbAllowRescaling.isSelected()));
 		ggbPref.savePreference(GeoGebraPreferences.EXPORT_WS_REMOVE_LINEBREAKS,
 				Boolean.toString(cbRemoveLinebreaks.isSelected()));
-		ggbPref.savePreference(GeoGebraPreferences.EXPORT_WS_BUTTON_TO_OPEN,
-				Boolean.toString(cbOpenButton.isSelected()));
 		ggbPref.savePreference(GeoGebraPreferences.EXPORT_WS_OFFLINE_ARCHIVE,
 				Boolean.toString(cbOfflineJars.isSelected()));
 	}
@@ -577,14 +564,6 @@ public class WorksheetExportDialog extends JDialog {
 		// showResetIcon
 		cbShowResetIcon = new JCheckBox(app.getMenu("ShowResetIcon"));
 		funcPanel.add(cbShowResetIcon);
-
-		// framPossible
-		cbShowFrame = new JCheckBox(app.getPlain("DoubleClickToOpen"));
-		funcPanel.add(cbShowFrame);
-
-		// button to open applet
-		cbOpenButton = new JCheckBox(app.getPlain("OpenButton"));
-		funcPanel.add(cbOpenButton);
 
 		funcPanel.add(Box.createVerticalGlue());
 
@@ -816,14 +795,10 @@ public class WorksheetExportDialog extends JDialog {
 		case TYPE_MOODLE:
 			int appletWidth,
 			appletHeight;
-			if (cbOpenButton.isSelected()) { // change width and height for open
-																				// button
-				appletWidth = BUTTON_WIDTH;
-				appletHeight = BUTTON_HEIGHT;
-			} else {
-				appletWidth = sizePanel.getSelectedWidth();
-				appletHeight = sizePanel.getSelectedHeight();
-			}
+			
+			appletWidth = sizePanel.getSelectedWidth();
+			appletHeight = sizePanel.getSelectedHeight();
+
 
 			stringSelection = new StringSelection(getAppletTag(app, null,
 					appletWidth, appletHeight, false, removeLineBreaks,
@@ -1391,13 +1366,8 @@ public class WorksheetExportDialog extends JDialog {
 
 		// applet width
 		int appletWidth, appletHeight;
-		if (cbOpenButton.isSelected()) { // change width and height for open button
-			appletWidth = BUTTON_WIDTH;
-			appletHeight = BUTTON_HEIGHT;
-		} else {
-			appletWidth = sizePanel.getSelectedWidth();
-			appletHeight = sizePanel.getSelectedHeight();
-		}
+		appletWidth = sizePanel.getSelectedWidth();
+		appletHeight = sizePanel.getSelectedHeight();
 
 		// width for table
 		int pageWidth = Math.max(appletWidth, DEFAULT_HTML_PAGE_WIDTH);
@@ -1658,13 +1628,7 @@ public class WorksheetExportDialog extends JDialog {
 					"\t<param name=\"centerimage\" value=\"true\" />");
 		}
 
-		if (!cbOpenButton.isSelected()) {
-			appendAllAppletParameters(sb, TYPE_HTMLFILE);
-		} else {// button type
-			appendWithLineBreak(sb, "\t<param name=\"type\" value=\"button\" />");
-			// white background
-			appendWithLineBreak(sb, "\t<param name=\"bgcolor\" value=\"#FFFFFF\" />");
-		}
+		appendAllAppletParameters(sb, TYPE_HTMLFILE);
 
 		// problem with Moodle 1.9.5 mangling this
 		if (includeNoJavaMessage)
@@ -1714,9 +1678,6 @@ public class WorksheetExportDialog extends JDialog {
 	}
 
 	private void appendGgbAppletParameters(StringBuilder sb, int type) {
-
-		// framePossible (double click opens GeoGebra window)
-		appletParam(sb, "framePossible", cbShowFrame.isSelected(), type);
 
 		// showResetIcon
 		appletParam(sb, "showResetIcon", cbShowResetIcon.isSelected(), type);

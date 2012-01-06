@@ -47,7 +47,7 @@ public class GeoGebraPreferences {
 	public static final String EXPORT_WS_RIGHT_CLICK = "export_ws_right_click";
 	public static final String EXPORT_WS_LABEL_DRAGS = "export_ws_label_drags";
 	public static final String EXPORT_WS_RESET_ICON = "export_ws_reset_icon";
-	public static final String EXPORT_WS_FRAME_POSSIBLE = "export_ws_frame_possible";
+	//public static final String EXPORT_WS_FRAME_POSSIBLE = "export_ws_frame_possible";
 	public static final String EXPORT_WS_SHOW_MENUBAR = "export_ws_show_menubar";
 	public static final String EXPORT_WS_SHOW_TOOLBAR = "export_ws_show_toolbar";
 	public static final String EXPORT_WS_SHOW_TOOLBAR_HELP = "export_ws_show_toolbar_help";
@@ -59,7 +59,7 @@ public class GeoGebraPreferences {
 	public static final String EXPORT_WS_INCLUDE_HTML5 = "export_ws_include_html5";
 	public static final String EXPORT_WS_ALLOW_RESCALING = "export_ws_allow_rescaling";
 	public static final String EXPORT_WS_REMOVE_LINEBREAKS = "export_ws_remove_linebreaks";
-	public static final String EXPORT_WS_BUTTON_TO_OPEN = "export_ws_button_to_open";
+	//public static final String EXPORT_WS_BUTTON_TO_OPEN = "export_ws_button_to_open";
 	
 	// picture export dialog
 	public static final String EXPORT_PIC_FORMAT = "export_pic_format";
