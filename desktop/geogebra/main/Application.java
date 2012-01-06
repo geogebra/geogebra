@@ -25,6 +25,7 @@ import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModelInterface;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.io.layout.DockPanelData;
@@ -4317,10 +4318,6 @@ public class Application extends AbstractApplication implements
 
 	/* selection handling */
 
-	final public int selectedGeosSize() {
-		return selectedGeos.size();
-	}
-
 	final public GeoElement getLastCreatedGeoElement() {
 		return kernel.getConstruction().getLastGeoElement();
 	}
@@ -6483,6 +6480,15 @@ public class Application extends AbstractApplication implements
 	@Override
 	protected boolean isCommandNull() {
 		return rbcommand == null;
+	}
+
+
+	public static boolean isRightClick(AbstractEvent e) {
+		return isRightClick(geogebra.euclidian.event.MouseEvent.getEvent(e));
+	}
+
+	public static boolean isControlDown(AbstractEvent e) {
+		return isControlDown(geogebra.euclidian.event.MouseEvent.getEvent(e));
 	}
 
 }

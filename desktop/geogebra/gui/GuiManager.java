@@ -4,6 +4,7 @@ import geogebra.CommandLineArguments;
 import geogebra.cas.view.CASView;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
@@ -3062,5 +3063,13 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	public void updateAlgebraInput() {
 		if (algebraInput != null)
 			algebraInput.initGUI();
+	}
+
+	@Override
+	public void showPopupMenu(ArrayList<GeoElement> selectedGeos,
+			EuclidianViewInterfaceCommon view,
+			geogebra.common.awt.Point mouseLoc) {
+		showPopupMenu(selectedGeos, ((EuclidianViewInterface) view).getJPanel(), mouseLoc);
+		
 	}
 }

@@ -14,4 +14,12 @@ public abstract class AbstractEvent {
 	
 	public abstract int getID();
 
+	public abstract int getX();
+	
+	public abstract int getY();
+
+	public abstract boolean isRightClick();
+
+	public abstract boolean isControlDown();
+
 }

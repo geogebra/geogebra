@@ -8,6 +8,7 @@ import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModelInterface;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
@@ -991,5 +992,16 @@ public abstract class AbstractApplication {
 
 	abstract public CommandProcessor newCmdBarCode();
 
+	public final int selectedGeosSize() {
+		return selectedGeos.size();
+	}
 
+	public static boolean isRightClick(AbstractEvent e) {
+		return e.isRightClick();
+	}
+	
+	public static boolean isControlDown(AbstractEvent e) {
+		return e.isControlDown();
+	}
+ 
 }

@@ -56,4 +56,28 @@ public class MouseEvent extends AbstractEvent {
 		return this.id;
 	}
 
+	@Override
+	public int getX() {
+		MouseEvent current = MouseEvent.pool.get(this.id);
+		return current.event.getX();
+	}
+
+	@Override
+	public int getY() {
+		MouseEvent current = MouseEvent.pool.get(this.id);
+		return current.event.getY();
+	}
+
+	@Override
+	public boolean isRightClick() {
+		MouseEvent current = MouseEvent.pool.get(this.id);
+		return (current.event.getModifiers() & java.awt.event.MouseEvent.BUTTON3_MASK) == java.awt.event.MouseEvent.BUTTON3_MASK;
+	}
+
+	@Override
+	public boolean isControlDown() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

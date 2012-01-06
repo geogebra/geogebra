@@ -8,12 +8,14 @@ import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.Font;
 import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Graphics2D;
+import geogebra.common.awt.Point;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrix;
@@ -338,6 +340,21 @@ public class EuclidianView extends AbstractEuclidianView {
     public boolean requestFocusInWindow() {
 	    // TODO Auto-generated method stub
 	    return false;
+    }
+
+	public Hits getHits() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	public void setDefaultCursor() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void setHitCursor() {
+	    // TODO Auto-generated method stub
+	    
     }
 
 

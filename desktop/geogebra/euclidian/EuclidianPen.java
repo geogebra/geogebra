@@ -2,6 +2,7 @@ package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.Hits;
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
@@ -519,6 +520,10 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen {
 
 	public void setFreehand(boolean b) {
 		freehand = b;
+	}
+
+	public void handleMouseReleasedForPenMode(AbstractEvent event) {
+		handleMouseReleasedForPenMode(geogebra.euclidian.event.MouseEvent.getEvent(event));
 	}
 
 }

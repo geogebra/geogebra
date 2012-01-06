@@ -3,6 +3,7 @@ package geogebra.common.euclidian;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import geogebra.common.awt.Point;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -262,4 +263,12 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	public int toScreenCoordY(double maxY);
 
 	public boolean hitAnimationButton(AbstractEvent event);
+
+	public void setHits(Point mouseLoc);
+
+	public Hits getHits();
+
+	public void setDefaultCursor();
+
+	public void setHitCursor();
 }
