@@ -273,6 +273,7 @@ public class GeoAngle extends GeoNumeric {
 	public GeoElement copy() {
 		GeoAngle angle = new GeoAngle(cons);
 		angle.setValue(rawValue);
+		angle.setAngleStyle(angleStyle);
 		return angle;
 	}
 
