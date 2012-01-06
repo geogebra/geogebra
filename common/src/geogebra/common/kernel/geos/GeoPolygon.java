@@ -1198,9 +1198,15 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 				else //O on segment
 					return 2;
 			}
-				return -1; //only first point is on (Ox)
+			//only first point is on (Ox)
+			if (Kernel.isZero(x1)) //first point ~ 0
+				return 2;
+			return -1; 
 		}else if (Kernel.isZero(y2)){
-			return -1; //only second point is on (0x)
+			//only second point is on (0x)
+			if (Kernel.isZero(x2)) //second point ~ 0
+				return 2;
+			return -1; 			
 		}
 		else if (y1*y2>eps) //segment totally above or under
 			return -1;
