@@ -521,7 +521,7 @@ public class Application extends AbstractApplication implements
 
 	private boolean rightClickEnabled = true;
 	private boolean chooserPopupsEnabled = true;
-	private boolean labelDragsEnabled = true;
+//	private boolean labelDragsEnabled = true;//moved to Common
 	private boolean shiftDragZoomEnabled = true;
 	private boolean isErrorDialogsActive = true;
 	private boolean isErrorDialogShowing = false;
@@ -3535,24 +3535,12 @@ public class Application extends AbstractApplication implements
 		chooserPopupsEnabled = flag;
 	}
 
-	/**
-	 * Enables or disables label dragging in this application. This is useful
-	 * for applets.
-	 */
-	public void setLabelDragsEnabled(boolean flag) {
-		labelDragsEnabled = flag;
-	}
-
 	final public boolean isRightClickEnabled() {
 		return rightClickEnabled;
 	}
 
 	final public boolean areChooserPopupsEnabled() {
 		return chooserPopupsEnabled;
-	}
-
-	final public boolean isLabelDragsEnabled() {
-		return labelDragsEnabled;
 	}
 
 	public boolean letRename() {

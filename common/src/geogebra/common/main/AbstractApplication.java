@@ -101,6 +101,8 @@ public abstract class AbstractApplication {
 	protected boolean antialiasing = true; 
 	protected final boolean[] showAxes = { true, true };
 	protected boolean showGrid = false;
+	
+	protected boolean labelDragsEnabled = true;//private
 
 	public static final int SPREADSHEET_INI_COLS = 26;
 	public static final int SPREADSHEET_INI_ROWS = 100;
@@ -641,6 +643,18 @@ public abstract class AbstractApplication {
 	public abstract String getCommandSyntax(String cmd);
 
 	public abstract void clearSelectedGeos();
+
+	final public boolean isLabelDragsEnabled() {
+		return labelDragsEnabled;
+	}
+
+	/**
+	 * Enables or disables label dragging in this application. This is useful
+	 * for applets.
+	 */
+	public void setLabelDragsEnabled(boolean flag) {
+		labelDragsEnabled = flag;
+	}
 
 	public void setScrollToShow(boolean b) {
 		// TODO Auto-generated method stub

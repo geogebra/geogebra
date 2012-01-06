@@ -234,9 +234,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 	protected Cursor defaultCursor;
 
-	// ggb3D 2009-02-05
-	private final Hits hits;
-
 	// set EuclidianView no - 2 for 2nd EulidianView, 1 for 1st EuclidianView
 	// and Applet
 	// EVNO_GENERAL for others
@@ -309,9 +306,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		initView(false);
 
 		// updateRightAngleStyle(app.getLocale());
-
-		// ggb3D 2009-02-05
-		hits = new Hits();
 
 		// enable drop transfers
 		evjpanel.setTransferHandler(new EuclidianViewTransferHandler(this));
@@ -2132,67 +2126,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 	// ggb3D 2009-02-05
 
-	/** get the hits recorded */
-	public Hits getHits() {
-		return hits;
-	}
-
-	/**
-	 * sets the hits of GeoElements whose visual representation is at screen
-	 * coords (x,y). order: points, vectors, lines, conics
-	 */
-	final public void setHits(geogebra.common.awt.Point p) {
-
-		hits.init();
-
-		DrawableIterator it = allDrawableList.getIterator();
-		while (it.hasNext()) {
-			Drawable d = it.next();
-			if (d.hit(p.x, p.y) || d.hitLabel(p.x, p.y)) {
-				GeoElement geo = d.getGeoElement();
-				if (geo.isEuclidianVisible()) {
-					hits.add(geo);
-				}
-			}
-		}
-
-		// look for axis
-		if (hits.getImageCount() == 0) {
-			if (showAxes[0] && (Math.abs(getyZero() - p.y) < 3)) {
-				hits.add(kernel.getXAxis());
-			}
-			if (showAxes[1] && (Math.abs(getxZero() - p.x) < 3)) {
-				hits.add(kernel.getYAxis());
-			}
-		}
-
-		// keep geoelements only on the top layer
-		int maxlayer = 0;
-		for (int i = 0; i < hits.size(); ++i) {
-			GeoElement geo = hits.get(i);
-			if (maxlayer < geo.getLayer()) {
-				maxlayer = geo.getLayer();
-			}
-		}
-		for (int i = hits.size() - 1; i >= 0; i--) {
-			GeoElement geo = hits.get(i);
-			if (geo.getLayer() < maxlayer) {
-				hits.remove(i);
-			}
-		}
-
-		// remove all lists and images if there are other objects too
-		if ((hits.size() - (hits.getListCount() + hits.getImageCount())) > 0) {
-			for (int i = hits.size() - 1; i >= 0; i--) {
-				GeoElement geo = hits.get(i);
-				if (geo.isGeoList() || geo.isGeoImage()) {
-					hits.remove(i);
-				}
-			}
-		}
-
-	}
-
 	/**
 	 * sets array of GeoElements whose visual representation is inside of the
 	 * given screen rectangle
@@ -2217,158 +2150,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	// ggb3D 2009-02-05 (end)
 
 	/**
-	 * returns GeoElement whose label is at screen coords (x,y).
-	 */
-	final public GeoElement getLabelHit(geogebra.common.awt.Point p) {
-		if (!((Application)getApplication()).isLabelDragsEnabled()) {
-			return null;
-		}
-		DrawableIterator it = allDrawableList.getIterator();
-		while (it.hasNext()) {
-			Drawable d = it.next();
-			if (d.hitLabel(p.x, p.y)) {
-				GeoElement geo = d.getGeoElement();
-				if (geo.isEuclidianVisible()) {
-					return geo;
-				}
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * Returns array of GeoElements whose visual representation is at screen
-	 * coords (x,y). order: points, vectors, lines, conics
-	 * 
-	 * @param p
-	 * @return array of GeoElements drawn at (x,y)
-	 */
-	final public ArrayList<GeoElement> getHits(Point p) {
-		return getHits(p, false);
-	}
-
-	/**
-	 * Returns hits that are suitable for new point mode. A polygon is only kept
-	 * if one of its sides is also in hits.
-	 * 
-	 * @param hits
-	 * @return list of hits suitable for new point
-	 */
-	final public static ArrayList<GeoElement> getHitsForNewPointMode(
-			ArrayList<GeoElement> hits) {
-		if (hits == null) {
-			return null;
-		}
-
-		Iterator<GeoElement> it = hits.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			if (geo.isGeoPolygon()) {
-				boolean sidePresent = false;
-				GeoSegmentND[] sides = ((GeoPolygon) geo).getSegments();
-				for (int k = 0; k < sides.length; k++) {
-					if (hits.contains(sides[k])) {
-						sidePresent = true;
-						break;
-					}
-				}
-
-				if (!sidePresent) {
-					it.remove();
-				}
-			}
-		}
-
-		return hits;
-	}
-
-	final public ArrayList<GeoElement> getPointVectorNumericHits(Point p) {
-		foundHits.clear();
-
-		DrawableIterator it = allDrawableList.getIterator();
-		while (it.hasNext()) {
-			Drawable d = it.next();
-			if (d.hit(p.x, p.y) || d.hitLabel(p.x, p.y)) {
-				GeoElement geo = d.getGeoElement();
-				if (geo.isEuclidianVisible()) {
-					if (
-					// geo.isGeoNumeric() ||
-					geo.isGeoVector() || geo.isGeoPoint()) {
-						foundHits.add(geo);
-					}
-				}
-			}
-		}
-
-		return foundHits;
-	}
-
-	/**
-	 * returns array of GeoElements whose visual representation is at screen
-	 * coords (x,y). order: points, vectors, lines, conics
-	 * 
-	 * @param p
-	 * @param includePolygons
-	 * @return array of GeoElements drawn at (x,y) ordered by type
-	 */
-	final public ArrayList<GeoElement> getHits(Point p, boolean includePolygons) {
-		foundHits.clear();
-
-		// count lists, images and Polygons
-		int listCount = 0;
-		int polyCount = 0;
-		int imageCount = 0;
-
-		// get anything but a polygon
-		DrawableIterator it = allDrawableList.getIterator();
-		while (it.hasNext()) {
-			Drawable d = it.next();
-			if (d.hit(p.x, p.y) || d.hitLabel(p.x, p.y)) {
-				GeoElement geo = d.getGeoElement();
-
-				if (geo.isEuclidianVisible()) {
-					if (geo.isGeoList()) {
-						listCount++;
-					} else if (geo.isGeoImage()) {
-						imageCount++;
-					} else if (geo.isGeoPolygon()) {
-						polyCount++;
-					}
-					foundHits.add(geo);
-				}
-			}
-		}
-
-		// look for axes
-		if (foundHits.size() == 0) {
-			if (showAxes[0] && (Math.abs(getyZero() - p.y) < 3)) {
-				foundHits.add(kernel.getXAxis());
-			}
-			if (showAxes[1] && (Math.abs(getxZero() - p.x) < 3)) {
-				foundHits.add(kernel.getYAxis());
-			}
-		}
-
-		int size = foundHits.size();
-		if (size == 0) {
-			return null;
-		}
-
-		// remove all lists, images and polygons if there are other objects too
-		if ((size - (listCount + imageCount + polyCount)) > 0) {
-			for (int i = 0; i < foundHits.size(); ++i) {
-				GeoElement geo = foundHits.get(i);
-				if (geo.isGeoList() || geo.isGeoImage()
-						|| (!includePolygons && geo.isGeoPolygon())) {
-					foundHits.remove(i);
-				}
-			}
-		}
-
-		return foundHits;
-	}
-
-	/**
 	 * Returns array of GeoElements whose visual representation is inside of the
 	 * given screen rectangle
 	 * 
@@ -2391,17 +2172,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 			}
 		}
 		return foundHits;
-	}
-
-	/**
-	 * returns array of independent GeoElements whose visual representation is
-	 * at streen coords (x,y). order: points, vectors, lines, conics
-	 * 
-	 * @param p
-	 * @return array of independent GeoElements at given coords
-	 */
-	final public ArrayList<GeoElement> getMoveableHits(Point p) {
-		return getMoveableHits(getHits(p));
 	}
 
 	/**
@@ -2463,33 +2233,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 			if (other) {
 				success = !success;
 			}
-			if (success) {
-				result.add(hits.get(i));
-			}
-		}
-		return result.size() == 0 ? null : result;
-	}
-
-	/**
-	 * Stores all GeoElements of type GeoPoint, GeoVector, GeoNumeric to result
-	 * list.
-	 * 
-	 * @param hits
-	 * @param result
-	 * @return list of points, vectors and numbers
-	 * 
-	 */
-	final protected static ArrayList<GeoElement> getRecordableHits(
-			ArrayList<GeoElement> hits, ArrayList<GeoElement> result) {
-		if (hits == null) {
-			return null;
-		}
-
-		result.clear();
-		for (int i = 0; i < hits.size(); ++i) {
-			GeoElement hit = hits.get(i);
-			boolean success = (hit.isGeoPoint() || hit.isGeoVector() || hit
-					.isGeoNumeric());
 			if (success) {
 				result.add(hits.get(i));
 			}
