@@ -11,7 +11,7 @@ public interface GeoGebraConstants {
 															// below when this
 															// is updated
 	// current 3D: "4.9.13.0"
-	// current ggb42: "4.1.35.0"
+	// current ggb42: "4.1.36.0"
 
 	/* start hacks TODO remove it when release candidate */
 	public static final String PREFERENCES_ROOT = VERSION_STRING
