@@ -313,7 +313,7 @@ public class MyXMLHandler implements DocHandler {
 		// LinkedHashMap<String, String> attrs)
 		// throws SAXException {
 		// String eName = qName;
-
+		
 		switch (mode) {
 		case MODE_GEOGEBRA: // top level mode
 			startGeoGebraElement(eName, attrs);
@@ -2610,7 +2610,9 @@ public class MyXMLHandler implements DocHandler {
 	// ====================================
 
 	private void processEvSizes() {
-		for(EuclidianSettings ev:xmin.keySet()){			
+		//Set<EuclidianSettings> eSet0 = xmin.keySet();
+		ArrayList<EuclidianSettings> eSet = new ArrayList<EuclidianSettings>(xmin.keySet());
+		for(EuclidianSettings ev: eSet){			
 			if (xmin.get(ev) == null) {
 				ev.setXminObject(null, true);
 			} else {
@@ -2618,7 +2620,7 @@ public class MyXMLHandler implements DocHandler {
 				ev.setXminObject(n, true);
 			}
 		}
-		for(EuclidianSettings ev:xmax.keySet()){
+		for(EuclidianSettings ev: eSet){
 			if (xmax.get(ev) == null) {
 				ev.setXmaxObject(null, true);
 			} else {
@@ -2626,7 +2628,7 @@ public class MyXMLHandler implements DocHandler {
 				ev.setXmaxObject(n, true);
 			}
 		}
-		for(EuclidianSettings ev:ymin.keySet()){
+		for(EuclidianSettings ev: eSet){
 			if (ymin.get(ev) == null) {
 				ev.setYminObject(null, true);
 			} else {
@@ -2634,7 +2636,7 @@ public class MyXMLHandler implements DocHandler {
 				ev.setYminObject(n, true);
 			}
 		}
-		for(EuclidianSettings ev:ymax.keySet()){
+		for(EuclidianSettings ev: eSet){
 			if (ymax.get(ev) == null) {
 				ev.setYmaxObject(null, true);
 			} else {
@@ -4396,11 +4398,18 @@ public class MyXMLHandler implements DocHandler {
 		String arg = null;
 
 		Collection<String> values = attrs.values();
-		Iterator<String> it = values.iterator();
-		while (it.hasNext()) {
+		
+		//TODO: it doesn't work with GWT. why?
+		//Iterator<String> it = values.iterator();
+		//while (it.hasNext()) {
+		
+		ArrayList<String> keys = new ArrayList<String>(attrs.keySet());
+		for (String key: keys){
+		
 			// parse argument expressions
 			try {
-				arg = it.next();
+				//arg = it.next();
+				arg = attrs.get(key);
 
 				// for downward compatibility: lookup label first
 				// as this could be some weird name that can't be parsed
@@ -4439,11 +4448,17 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			// set labels for command processing
 			String label;
+			int countLabels = 0;
+			/* TODO Doesn't work with GWT. why?
 			Collection<String> values = attrs.values();
 			Iterator<String> it = values.iterator();
-			int countLabels = 0;
 			while (it.hasNext()) {
 				label = it.next();
+			 */		
+
+			ArrayList<String> attrKeys = new ArrayList<String>(attrs.keySet());
+			for (String key : attrKeys) {
+				label = attrs.get(key);
 				if ("".equals(label))
 					label = null;
 				else
@@ -4484,11 +4499,14 @@ public class MyXMLHandler implements DocHandler {
 			}			
 			// enforce setting of labels
 			// (important for invisible objects like intersection points)
-			it = values.iterator();
+			
+			//it = values.iterator();
 			int i = 0;
-			while (it.hasNext()) {
+			/*while (it.hasNext()) {
 				label = it.next();				
-				
+			*/
+			for (String key : attrKeys) {
+				label = attrs.get(key);
 				if ("".equals(label))
 					label = null;
 
