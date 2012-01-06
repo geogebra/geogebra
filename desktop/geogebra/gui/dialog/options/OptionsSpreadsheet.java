@@ -58,7 +58,7 @@ class OptionsSpreadsheet extends JPanel  implements ActionListener, FocusListene
 	private JButton browseButton, restoreButton, setCurrentButton;
 	private JRadioButton dirRadioButton, urlRadioButton;
 	private JPanel locationPanel;
-
+	
 	private JTabbedPane tabbedPane;
 	
 	/**

@@ -52,6 +52,9 @@ public class GeoCasCell extends GeoElement {
 
 	private String evalCmd, evalComment;
 	private int row = -1; // for CAS view, set by Construction
+	
+	//use this cell as text field
+	private boolean useAsText;
 
 	public GeoCasCell(Construction c) {
 		super(c);
@@ -203,6 +206,17 @@ public class GeoCasCell extends GeoElement {
 		}
 
 		return latex;
+	}
+	
+	public boolean isUseAsText(){
+		return useAsText;
+	}
+	
+	public void setUseAsText(boolean val){
+		useAsText = val;
+		suppressOutput = useAsText;
+		//recalc row height
+		update();              
 	}
 
 	public boolean isEmpty() {

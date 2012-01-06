@@ -4,15 +4,16 @@ import geogebra.common.main.settings.CASSettings;
 import geogebra.gui.SetLabels;
 import geogebra.main.Application;
 
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
+import javax.swing.JCheckBox;
 /**
  * Options for the CAS view.
  */
@@ -32,7 +33,9 @@ public class OptionsCAS  extends JPanel implements ActionListener, SetLabels {
 	
 	/** */
 	private JComboBox cbTimeout;
-
+	
+	/** show rational exponents as roots*/
+	private JCheckBox cbShowRoots;        
 	/**
 	 * Construct CAS option panel.
 	 * 
@@ -55,16 +58,24 @@ public class OptionsCAS  extends JPanel implements ActionListener, SetLabels {
 	 * @remark Do not use translations here, the option dialog will take care of calling setLabels()
 	 */
 	private void initGUI() {
-		JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		
+		JPanel timeoutPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(10,1));
+			
 		cbTimeout = new JComboBox(new Integer[] { 5, 10, 20, 30, 60 });
 		cbTimeout.addActionListener(this);
 		
 		timeoutLabel = new JLabel();
 		timeoutLabel.setLabelFor(cbTimeout);
 		
-		panel.add(timeoutLabel);
-		panel.add(cbTimeout);
+		cbShowRoots = new JCheckBox();
+		cbShowRoots.addActionListener(this);
+		cbShowRoots.setSelected(casSettings.getShowExpAsRoots());
+		
+		timeoutPanel.add(timeoutLabel);
+		timeoutPanel.add(cbTimeout);
+		panel.add(timeoutPanel);
+		panel.add(cbShowRoots);
 		
 		add(panel, BorderLayout.CENTER);
 	}
@@ -76,6 +87,7 @@ public class OptionsCAS  extends JPanel implements ActionListener, SetLabels {
 	 */
 	public void updateGUI() {
 		cbTimeout.setSelectedItem(casSettings.getTimeoutMilliseconds() / 1000);
+		cbShowRoots.setSelected(casSettings.getShowExpAsRoots());
 	}
 
 	/**
@@ -86,6 +98,10 @@ public class OptionsCAS  extends JPanel implements ActionListener, SetLabels {
 		if(e.getSource() == cbTimeout) {
 			casSettings.setTimeoutMilliseconds(((Integer)cbTimeout.getSelectedItem()) * 1000);
 		}
+		/** show rational exponents as roots*/
+		if(e.getSource() == cbShowRoots){
+			casSettings.setShowExpAsRoots(cbShowRoots.isSelected());
+		}
 	}
 
 	/**
@@ -93,6 +109,7 @@ public class OptionsCAS  extends JPanel implements ActionListener, SetLabels {
 	 */
 	public void setLabels() {
 		timeoutLabel.setText(app.getPlain("CasTimeout"));
+		cbShowRoots.setText(app.getPlain("CASShowRationalExponentsAsRoots")); //TODO: get string from resources
 	}
 
 	/**

@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JList;
 import javax.swing.JMenuItem;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JPopupMenu;
 
 public class RowHeaderPopupMenu extends JPopupMenu implements ActionListener {
@@ -17,6 +18,8 @@ public class RowHeaderPopupMenu extends JPopupMenu implements ActionListener {
 	private JList rowHeader;
 	private CASTable table;
 	private Application app;
+	
+	private JMenuItem cbUseAsText;
 
 	public RowHeaderPopupMenu(JList rowHeader, CASTable table) {
 		this.rowHeader = rowHeader;
@@ -56,6 +59,19 @@ public class RowHeaderPopupMenu extends JPopupMenu implements ActionListener {
 		item7.setActionCommand("delete");
 		item7.addActionListener(this);
 		add(item7);
+		
+		//handle cell as Textcell
+		cbUseAsText = new JCheckBoxMenuItem("use as Text");
+		cbUseAsText.setActionCommand("useAsText");
+		cbUseAsText.setIcon(app.getEmptyIcon());
+		int [] selRows2 = rowHeader.getSelectedIndices();
+		if (selRows2.length != 0) {
+			GeoCasCell casCell = table.getGeoCasCell(selRows2[0]);
+			cbUseAsText.setSelected(casCell.isUseAsText());
+		}
+		cbUseAsText.addActionListener(this);
+		//add(cbUseAsText);     work for later, by dominik
+		
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -80,7 +96,11 @@ public class RowHeaderPopupMenu extends JPopupMenu implements ActionListener {
 					casCell.remove();
 					undoNeeded = true;
 				}
-			}			
+			}
+		}
+		else if(ac.equals("useAsText")) {
+			GeoCasCell casCell2 = table.getGeoCasCell(selRows[0]);
+			casCell2.setUseAsText(cbUseAsText.isSelected());
 		}
 		
 		if (undoNeeded) {

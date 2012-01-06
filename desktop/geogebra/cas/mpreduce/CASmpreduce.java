@@ -3,6 +3,8 @@ package geogebra.cas.mpreduce;
 import geogebra.cas.CASgeneric;
 import geogebra.cas.CASparser;
 import geogebra.cas.CasParserTools;
+import geogebra.cas.CasExpressionFactory;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.cas.CASException;
 import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
@@ -166,6 +168,12 @@ public class CASmpreduce extends CASgeneric {
 	public synchronized String toGeoGebraString(String mpreduceString)
 			throws CASException {
 		ValidExpression ve = casParser.parseMPReduce(mpreduceString);
+		
+		// replace rational exponents by roots if needed
+		if(ve.getKernel().getApplication().getSettings().getCasSettings().getShowExpAsRoots()){
+			CasExpressionFactory factory = new CasExpressionFactory(ve);
+			factory.replaceExpByRoots();
+		}
 		return casParser.toGeoGebraString(ve);
 	}
 
