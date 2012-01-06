@@ -205,6 +205,16 @@ public class TextPreviewPanel extends EuclidianView {
 				textAlgo.remove();
 			}
 
+
+			// if eg FormulaText["\sqrt{x}"] is entered, it should be displayed in the preview as LaTeX
+			// NB FormulaText[a] is displayed as-is
+			// FormulaText[a]+"" needs to have LaTeX box manually checked
+			if (exp.evaluate().isGeoElement() &&
+					((GeoText)(exp.evaluate())).isLaTeXTextCommand()) {
+				isLaTeX = true;
+			}
+
+
 			// create new previewGeoDependent
 			textAlgo = new AlgoDependentText(cons, (ExpressionNode) exp);
 			cons.removeFromConstructionList(textAlgo);

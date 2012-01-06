@@ -945,7 +945,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	public void setBackgroundColor(Color bgCol) {
-		AbstractApplication.debug(getClass() + " " + bgCol);
 		bgColor = bgCol;
 	}
 

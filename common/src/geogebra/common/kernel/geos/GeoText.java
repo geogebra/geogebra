@@ -349,6 +349,13 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 		return isTextCommand;
 	}
 	
+	public boolean isLaTeXTextCommand() {
+
+		if (!isTextCommand || getParentAlgorithm() == null) return false;
+
+		return getParentAlgorithm().isLaTeXTextCommand();
+	}
+	
 	public void setAlgoMacroOutput(boolean isAlgoMacroOutput) {
 		super.setAlgoMacroOutput(true);
 		setIsTextCommand(true);

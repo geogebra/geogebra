@@ -1510,4 +1510,8 @@ public abstract class AlgoElement extends ConstructionElement implements
 	public void setOutputHandler(List<OutputHandler<?>> outputHandler) {
 		this.outputHandler = outputHandler;
 	}
+
+	public boolean isLaTeXTextCommand() {
+		return false;
+	}
 }

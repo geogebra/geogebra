@@ -102,4 +102,8 @@ public class AlgoRotateText extends AlgoElement {
     	text.setLaTeX(true,false);
     }
 
+	public boolean isLaTeXTextCommand() {
+		return true;
+	}
+
 }

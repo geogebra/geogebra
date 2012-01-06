@@ -362,5 +362,9 @@ public class AlgoStemPlot extends AlgoElement {
 		text.setTextString(sb.toString());
 		text.setLaTeX(true,false);
 	}
+	
+	public boolean isLaTeXTextCommand() {
+		return true;
+	}
 
 }

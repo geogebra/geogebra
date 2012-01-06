@@ -145,4 +145,9 @@ public class AlgoLaTeX extends AlgoElement {
     	text.setTextString(geo.getCommandDescription());	    	
     	kernel.setCASPrintForm(tempCASPrintForm);*/
     }         
+    
+	public boolean isLaTeXTextCommand() {
+		return true;
+	}
+
 }

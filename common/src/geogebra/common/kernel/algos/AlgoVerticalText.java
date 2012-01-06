@@ -75,4 +75,8 @@ public class AlgoVerticalText extends AlgoElement {
     	text.setLaTeX(true,false);
     }
 
+	public boolean isLaTeXTextCommand() {
+		return true;
+	}
+
 }

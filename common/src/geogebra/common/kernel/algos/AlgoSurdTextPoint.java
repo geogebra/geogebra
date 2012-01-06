@@ -90,4 +90,8 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 		}			
 	}
     
+	public boolean isLaTeXTextCommand() {
+		return true;
+	}
+
 }

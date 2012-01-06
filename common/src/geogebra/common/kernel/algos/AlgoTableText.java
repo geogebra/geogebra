@@ -343,4 +343,8 @@ public class AlgoTableText extends AlgoElement {
 		// End Loïc
 	}
 
+	public boolean isLaTeXTextCommand() {
+		return true;
+	}
+
 }

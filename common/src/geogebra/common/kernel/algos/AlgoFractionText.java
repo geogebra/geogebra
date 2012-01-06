@@ -166,5 +166,9 @@ public class AlgoFractionText extends AlgoElement {
 	ret[1] = FractionDenominator;
 	return ret;
 	}
+	
+	public boolean isLaTeXTextCommand() {
+		return true;
+	}
 
 }
