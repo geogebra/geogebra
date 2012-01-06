@@ -31,6 +31,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.plugin.EuclidianStyleConstants;
 
 
 /**

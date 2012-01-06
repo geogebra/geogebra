@@ -14,7 +14,6 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Font;
-import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
@@ -34,6 +33,8 @@ import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;

@@ -5,10 +5,10 @@ import geogebra.common.awt.Shape;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.IneqTree;
 import geogebra.common.kernel.arithmetic.Inequality;
-import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.plugin.Operation;
 //import geogebra.euclidian.DrawImplicitPoly;
 
 import java.util.TreeSet;

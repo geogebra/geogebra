@@ -44,6 +44,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.plugin.EuclidianStyleConstants;
 
 public abstract class AbstractEuclidianController {
 

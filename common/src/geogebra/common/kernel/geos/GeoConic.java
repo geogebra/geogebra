@@ -30,6 +30,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.MyMath;
 
 import java.util.ArrayList;

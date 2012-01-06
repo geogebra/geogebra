@@ -20,6 +20,7 @@ import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.PathMoverLocus;
 import geogebra.common.kernel.algos.AlgoLocusSliderInterface;
+import geogebra.common.plugin.GeoClass;
 
 import java.util.ArrayList;
 

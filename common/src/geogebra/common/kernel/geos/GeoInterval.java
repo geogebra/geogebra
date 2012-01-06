@@ -6,9 +6,10 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.util.Unicode;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
+import geogebra.common.plugin.GeoClass;
+import geogebra.common.plugin.Operation;
 
 /**
  * Boolean function of the type a(<|<=)x(<|<=)b

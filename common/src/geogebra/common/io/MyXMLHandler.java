@@ -19,7 +19,6 @@ the Free Software Foundation.
 package geogebra.common.io;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.io.layout.*;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
@@ -38,7 +37,6 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoCasCell;
-import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -63,6 +61,8 @@ import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.main.settings.SpreadsheetSettings;
+import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.SpreadsheetTraceSettings;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 

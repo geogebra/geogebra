@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package geogebra.gui.dialog;
 
-import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Locateable;
@@ -25,7 +24,6 @@ import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
-import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -49,6 +47,8 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.LevelOfDetail;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
+import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.plugin.GeoClass;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.SetLabels;

@@ -1,7 +1,6 @@
 package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Locateable;
@@ -12,6 +11,8 @@ import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 import geogebra.common.kernel.algos.AlgoDependentText;
 

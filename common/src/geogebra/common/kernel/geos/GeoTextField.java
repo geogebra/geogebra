@@ -1,6 +1,7 @@
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 
 public class GeoTextField extends GeoButton {

@@ -1,9 +1,9 @@
 package geogebra.common.main.settings;
 
-import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Unicode;
 //import geogebra.euclidian.EuclidianView;
 

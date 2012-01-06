@@ -1,12 +1,12 @@
 package geogebra3D.io;
 
-import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.LevelOfDetail;
+import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.main.Application;
 import geogebra3D.Application3D;

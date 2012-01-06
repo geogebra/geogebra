@@ -5,13 +5,13 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoAngle;
-import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.SpreadsheetTraceSettings;
 
 import java.util.ArrayList;

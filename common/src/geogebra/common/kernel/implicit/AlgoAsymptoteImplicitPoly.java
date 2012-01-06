@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.implicit;
 
-import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EquationSolverInterface;
@@ -21,6 +20,7 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Cloner;
 
 import java.util.ArrayList;

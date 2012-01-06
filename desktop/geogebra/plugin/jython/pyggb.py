@@ -2,9 +2,9 @@
 from __future__ import division
 
 # GeoGebra imports
-from geogebra.common.kernel.geos import GeoClass
-from geogebra.common.kernel.arithmetic import Operation as OP
-from geogebra.common.euclidian import EuclidianStyleConstants as STYLE
+from geogebra.common.plugin import GeoClass
+from geogebra.common.plugin import Operation as OP
+from geogebra.common.plugin import EuclidianStyleConstants as STYLE
 from geogebra.plugin.jython import PythonScriptInterface
 from geogebra.awt import Color
 from geogebra.plugin.jython import PythonAPI as API

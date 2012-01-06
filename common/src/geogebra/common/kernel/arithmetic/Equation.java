@@ -15,6 +15,7 @@ package geogebra.common.kernel.arithmetic;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.plugin.Operation;
 
 import java.util.HashSet;
 import java.util.Iterator;

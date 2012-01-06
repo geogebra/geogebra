@@ -7,7 +7,7 @@ package geogebra.cas;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.common.kernel.arithmetic.Operation;
+import geogebra.common.plugin.Operation;
 
 
 public class CasExpressionFactory {

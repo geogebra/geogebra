@@ -165,9 +165,9 @@
 -keep class geogebra.plugin.jython.PythonScriptInterface { <methods>; <fields>; }
 # allow eg Color.Red
 -keep class geogebra.awt.Color { <fields>; }
--keep class geogebra.common.euclidian.EuclidianStyleConstants { <fields>; }
--keep class geogebra.common.kernel.geos.GeoClass { <fields>; }
--keep class geogebra.common.kernel.arithmetic.Operation { <fields>; }
+-keep class geogebra.common.plugin.EuclidianStyleConstants { <fields>; }
+-keep class geogebra.common.plugin.GeoClass { <fields>; }
+-keep class geogebra.common.plugin.Operation { <fields>; }
 
 -keep class geogebra.plugin.GgbAPI { <methods>; }
 -keep class geogebra.common.plugin.GgbAPI { <methods>; }

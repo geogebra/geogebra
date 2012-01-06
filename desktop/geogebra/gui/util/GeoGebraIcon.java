@@ -1,7 +1,7 @@
 package geogebra.gui.util;
 
-import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidian.DrawText;
 import geogebra.euclidian.EuclidianStatic;
 import geogebra.euclidian.EuclidianView;

@@ -22,6 +22,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.plugin.EuclidianStyleConstants;
 
 import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.Color;

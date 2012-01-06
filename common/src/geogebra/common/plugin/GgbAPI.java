@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;

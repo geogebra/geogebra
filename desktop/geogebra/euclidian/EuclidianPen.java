@@ -1,12 +1,12 @@
 package geogebra.euclidian;
 
-import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.main.Application;
 
 import java.awt.AlphaComposite;

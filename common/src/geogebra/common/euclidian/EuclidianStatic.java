@@ -4,6 +4,7 @@ import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.Graphics2D;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.plugin.EuclidianStyleConstants;
 
 
 /**

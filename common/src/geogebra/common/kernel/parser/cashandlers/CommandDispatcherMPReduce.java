@@ -6,8 +6,8 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
-import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.arithmetic.Variable;
+import geogebra.common.plugin.Operation;
 
 /**
  * Handles special MPReduce commands to distinguish them from user defined

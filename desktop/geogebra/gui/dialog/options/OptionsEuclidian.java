@@ -12,9 +12,9 @@ the Free Software Foundation.
 
 package geogebra.gui.dialog.options;
 
-import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;

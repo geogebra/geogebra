@@ -37,6 +37,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.util.MyMath;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
+import geogebra.common.plugin.GeoClass;
 import geogebra.common.awt.Color;
 
 import java.util.ArrayList;

@@ -25,6 +25,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AngleAlgo;
+import geogebra.common.plugin.GeoClass;
 
 /**
  * 

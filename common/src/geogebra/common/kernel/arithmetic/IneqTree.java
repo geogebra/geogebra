@@ -1,6 +1,7 @@
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.plugin.Operation;
 
 import java.util.Set;
 

@@ -12,7 +12,6 @@ package geogebra.plugin;
  */
 import geogebra.cas.GeoGebraCAS;
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -28,6 +27,7 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.io.MyImageIO;

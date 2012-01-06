@@ -26,6 +26,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.TransformInterface;
+import geogebra.common.plugin.GeoClass;
 
 import geogebra.common.awt.Color;
 import java.util.HashSet;

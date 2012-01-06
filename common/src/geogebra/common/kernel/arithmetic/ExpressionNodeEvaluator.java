@@ -4,7 +4,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoListElement;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
-import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -17,6 +16,8 @@ import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.ParametricCurve;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
+import geogebra.common.plugin.GeoClass;
+import geogebra.common.plugin.Operation;
 
 /**
  * @author ggb3D

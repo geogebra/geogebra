@@ -14,6 +14,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.plugin.GeoClass;
 
 import geogebra.common.awt.Font;
 

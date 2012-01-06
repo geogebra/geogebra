@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package geogebra.gui.view.functioninspector;
 
-import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
@@ -33,7 +32,6 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.cas.AlgoDerivative;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.cas.AlgoLengthFunction;
@@ -50,6 +48,8 @@ import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
+import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.plugin.Operation;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
 import geogebra.gui.dialog.InputDialog;

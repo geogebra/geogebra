@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
-import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.plugin.EuclidianStyleConstants;
 
 public class PlotSettings {
 	

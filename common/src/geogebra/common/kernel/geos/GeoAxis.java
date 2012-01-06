@@ -16,6 +16,7 @@ import geogebra.common.awt.Color;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.Construction;
+import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.NumberFormatAdapter;
 
 public class GeoAxis extends GeoLine implements GeoAxisND{

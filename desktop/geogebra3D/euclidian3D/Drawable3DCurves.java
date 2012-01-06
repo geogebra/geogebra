@@ -1,7 +1,7 @@
 package geogebra3D.euclidian3D;
 
-import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidian.EuclidianView;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.Renderer;

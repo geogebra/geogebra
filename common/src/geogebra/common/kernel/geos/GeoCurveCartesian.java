@@ -29,12 +29,13 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.roots.RealRootFunction;
+import geogebra.common.plugin.GeoClass;
+import geogebra.common.plugin.Operation;
 import geogebra.common.util.MyMath;
 
 import java.util.ArrayList;

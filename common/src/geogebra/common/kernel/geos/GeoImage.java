@@ -21,6 +21,7 @@ import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 

@@ -1,11 +1,11 @@
 package geogebra.gui.dialog.options;
 
-import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.main.settings.Settings;
+import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.gui.SetLabels;
 import geogebra.gui.util.FullWidthLayout;
 import geogebra.main.Application;

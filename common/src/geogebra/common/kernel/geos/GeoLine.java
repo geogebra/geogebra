@@ -34,13 +34,14 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.Functional;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.TangentAlgo;
 import geogebra.common.kernel.algos.AlgoAsymptoteInterface;
+import geogebra.common.plugin.GeoClass;
+import geogebra.common.plugin.Operation;
 
 import java.util.ArrayList;
 

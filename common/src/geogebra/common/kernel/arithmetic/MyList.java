@@ -22,6 +22,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.plugin.Operation;
 import geogebra.common.util.GgbMat;
 
 import java.util.ArrayList;

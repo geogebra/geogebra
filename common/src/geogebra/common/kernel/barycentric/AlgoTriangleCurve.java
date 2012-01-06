@@ -7,7 +7,6 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
-import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -15,6 +14,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.plugin.Operation;
 
 
 /**

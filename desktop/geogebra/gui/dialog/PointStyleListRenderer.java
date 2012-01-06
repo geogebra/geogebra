@@ -1,6 +1,6 @@
 package geogebra.gui.dialog;
 
-import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidian.EuclidianStatic;
 import geogebra.euclidian.EuclidianView;
 

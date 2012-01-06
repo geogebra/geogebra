@@ -1,6 +1,6 @@
 package geogebra3D.euclidian3D.opengl;
 
-import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidian.EuclidianView;
 import geogebra.util.ImageManager;
 

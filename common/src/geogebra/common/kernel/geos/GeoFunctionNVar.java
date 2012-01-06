@@ -32,6 +32,7 @@ import geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import geogebra.common.util.StringUtil;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.algos.AlgoTransformation;
+import geogebra.common.plugin.GeoClass;
 
 /**
  * Explicit function in multiple variables, e.g. f(a, b, c) := a^2 + b - 3c. 

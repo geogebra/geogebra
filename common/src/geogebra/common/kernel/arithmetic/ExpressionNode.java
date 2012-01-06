@@ -30,6 +30,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
+import geogebra.common.plugin.Operation;
 import geogebra.common.util.Unicode;
 
 import java.util.HashSet;

@@ -10,6 +10,7 @@ import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 
 import java.util.HashSet;

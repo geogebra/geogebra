@@ -1,6 +1,5 @@
 package geogebra.gui.view.probcalculator;
 
-import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
@@ -20,7 +19,6 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -44,6 +42,8 @@ import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import geogebra.common.main.settings.SettingListener;
+import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.plugin.Operation;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
 import geogebra.gui.inputfield.MyTextField;

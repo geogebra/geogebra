@@ -15,6 +15,7 @@ package geogebra.common.kernel.geos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdScriptingInterface;
+import geogebra.common.plugin.GeoClass;
 
 /**
  * List of GeoElements

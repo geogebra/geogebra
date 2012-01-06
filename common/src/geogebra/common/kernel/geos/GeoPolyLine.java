@@ -24,6 +24,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.plugin.GeoClass;
 
 import java.util.HashSet;
 

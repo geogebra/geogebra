@@ -19,6 +19,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.roots.RealRootDerivFunction;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.plugin.Operation;
 
 import java.util.LinkedList;
 import java.util.List;

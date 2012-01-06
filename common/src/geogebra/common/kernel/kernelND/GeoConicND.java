@@ -19,7 +19,6 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoConic;
@@ -35,6 +34,7 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.util.MyMath;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.plugin.Operation;
 
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.factories.AwtFactory;

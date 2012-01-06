@@ -1,4 +1,4 @@
-package geogebra.common.kernel.arithmetic;
+package geogebra.common.plugin;
 
 public enum Operation { NO_OPERATION, NOT_EQUAL, NOT, OR,AND,EQUAL_BOOLEAN,LESS,GREATER,LESS_EQUAL
 	,GREATER_EQUAL,PARALLEL,PERPENDICULAR ,IS_ELEMENT_OF,IS_SUBSET_OF

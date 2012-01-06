@@ -38,6 +38,7 @@ import geogebra.common.kernel.algos.AlgoConicPartConicParameters;
 import geogebra.common.kernel.algos.AlgoConicPartConicPoints;
 import geogebra.common.kernel.algos.AlgoSemicircle;
 import geogebra.common.kernel.integration.EllipticArcLength;
+import geogebra.common.plugin.GeoClass;
 
 /**
  * GeoCirclePart for 

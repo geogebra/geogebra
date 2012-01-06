@@ -21,7 +21,6 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
@@ -46,11 +45,13 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.plugin.GeoClass;
+import geogebra.common.plugin.Operation;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;

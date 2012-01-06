@@ -36,6 +36,7 @@ import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.Unicode;
 

@@ -26,6 +26,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.EuclidianSettings;
+import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.Unicode;
 

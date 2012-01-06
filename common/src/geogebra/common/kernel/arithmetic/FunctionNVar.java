@@ -19,6 +19,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
+import geogebra.common.plugin.Operation;
 import geogebra.common.util.MaxSizeHashMap;
 import geogebra.common.util.MyMath;
 

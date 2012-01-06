@@ -29,6 +29,7 @@ import geogebra.common.kernel.algos.AlgoJoinPointsRay;
 import geogebra.common.kernel.algos.AlgoRayPointVector;
 import geogebra.common.kernel.algos.AlgoTranslate;
 import geogebra.common.kernel.geos.GeoConicPart;
+import geogebra.common.plugin.GeoClass;
 
 
 /**

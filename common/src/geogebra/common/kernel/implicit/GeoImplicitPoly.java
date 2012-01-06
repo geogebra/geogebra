@@ -34,7 +34,6 @@ import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.ConicMirrorable;
 import geogebra.common.kernel.geos.Dilateable;
-import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
@@ -50,6 +49,7 @@ import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoLocusInterface;
+import geogebra.common.plugin.GeoClass;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -5,7 +5,6 @@ import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
@@ -14,6 +13,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.statistics.SetRandomValue;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
+import geogebra.common.plugin.Operation;
 
 import java.util.Iterator;
 

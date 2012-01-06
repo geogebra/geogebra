@@ -1,4 +1,4 @@
-package geogebra.common.euclidian;
+package geogebra.common.plugin;
 
 public class EuclidianStyleConstants {
 	public static final int LINE_TYPE_FULL = 0;

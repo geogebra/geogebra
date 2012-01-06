@@ -36,12 +36,13 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.common.kernel.arithmetic.Operation;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
+import geogebra.common.plugin.GeoClass;
+import geogebra.common.plugin.Operation;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 

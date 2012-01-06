@@ -1,11 +1,11 @@
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.DrawEquationInterface;
-import geogebra.common.euclidian.EuclidianStyleConstants;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.main.Application;
 
 import geogebra.common.awt.BasicStroke;

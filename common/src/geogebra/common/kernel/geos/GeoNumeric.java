@@ -32,6 +32,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.AlgoIntegralDefiniteInterface;
 import geogebra.common.util.StringUtil;
 import geogebra.common.kernel.AbstractAnimationManager;
+import geogebra.common.plugin.GeoClass;
 
 import java.util.ArrayList;
 import java.util.Comparator;

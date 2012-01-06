@@ -7,11 +7,11 @@ import geogebra.common.kernel.algos.AlgoMacro;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.Functional2Var;
-import geogebra.common.kernel.geos.GeoClass;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import geogebra.common.kernel.kernelND.LevelOfDetail;
 import geogebra.common.kernel.kernelND.SurfaceEvaluable;
+import geogebra.common.plugin.GeoClass;
 import geogebra3D.euclidian3D.Drawable3D;
 
 /**
