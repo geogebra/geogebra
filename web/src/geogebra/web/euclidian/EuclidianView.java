@@ -13,7 +13,7 @@ import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
-import geogebra.common.euclidian.EuclidianStyleConstants;
+import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
