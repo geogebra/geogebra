@@ -76,8 +76,14 @@ public class MouseEvent extends AbstractEvent {
 
 	@Override
 	public boolean isControlDown() {
-		// TODO Auto-generated method stub
-		return false;
+		MouseEvent current = MouseEvent.pool.get(this.id);
+		return current.event.isControlDown();
+	}
+
+	@Override
+	public int getClickCount() {
+		MouseEvent current = MouseEvent.pool.get(this.id);
+		return current.event.getClickCount();
 	}
 
 }

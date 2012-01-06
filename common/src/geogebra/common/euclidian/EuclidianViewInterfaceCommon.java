@@ -271,4 +271,6 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	public void setDefaultCursor();
 
 	public void setHitCursor();
+
+	public boolean requestFocusInWindow();
 }

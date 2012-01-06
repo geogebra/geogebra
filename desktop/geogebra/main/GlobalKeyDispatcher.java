@@ -46,7 +46,7 @@ import javax.swing.text.JTextComponent;
  * 
  * @author Markus Hohenwarter
  */
-public class GlobalKeyDispatcher implements KeyEventDispatcher {
+public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatcher implements KeyEventDispatcher {
 
 	protected Application app;
 

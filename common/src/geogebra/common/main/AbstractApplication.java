@@ -1003,5 +1003,9 @@ public abstract class AbstractApplication {
 	public static boolean isControlDown(AbstractEvent e) {
 		return e.isControlDown();
 	}
+
+	public abstract boolean showAlgebraInput();
+
+	public abstract GlobalKeyDispatcher getGlobalKeyDispatcher();
  
 }

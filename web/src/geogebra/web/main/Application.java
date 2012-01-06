@@ -33,6 +33,7 @@ import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.GlobalKeyDispatcher;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.GgbAPI;
@@ -789,5 +790,17 @@ public class Application extends AbstractApplication {
 		return new EuclidianController(kernel);
 		
 		
+    }
+
+	@Override
+    public boolean showAlgebraInput() {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	@Override
+    public GlobalKeyDispatcher getGlobalKeyDispatcher() {
+	    // TODO Auto-generated method stub
+	    return null;
     }
 }

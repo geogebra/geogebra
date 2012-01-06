@@ -22,4 +22,6 @@ public abstract class AbstractEvent {
 
 	public abstract boolean isControlDown();
 
+	public abstract int getClickCount();
+
 }
