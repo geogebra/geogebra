@@ -4,8 +4,8 @@ import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Font;
 import geogebra.common.euclidian.AbstractEuclidianController;
-import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.GuiManager;
@@ -13,12 +13,13 @@ import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModelInterface;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.kernel.AbstractAnimationManager;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.AbstractUndoManager;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.commands.CommandProcessor;
@@ -35,7 +36,6 @@ import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.DebugPrinter;
 import geogebra.common.util.LowerCaseDictionary;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -176,6 +176,10 @@ public abstract class AbstractApplication {
 				&& ((commandDictCAS != null) || isCommandNull())) {
 			return;
 		}
+		CASGenericInterface cas = kernel.getGeoGebraCAS().getCurrentCAS();
+		if (cas == null) {
+			return;
+		}
 
 		setCommandChanged(false);
 
@@ -184,8 +188,7 @@ public abstract class AbstractApplication {
 
 		// iterate through all available CAS commands, add them (translated if
 		// available, otherwise untranslated)
-		for (String cmd : kernel.getGeoGebraCAS().getCurrentCAS()
-				.getAvailableCommandNames()) {
+		for (String cmd : cas.getAvailableCommandNames()) {
 			try {
 				String local = getCommand(cmd);
 				if (local != null) {
