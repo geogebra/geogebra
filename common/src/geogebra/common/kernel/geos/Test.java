@@ -1,236 +1,389 @@
 package geogebra.common.kernel.geos;
+
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.*;
 import geogebra.common.main.AbstractApplication;
+
 @SuppressWarnings("javadoc")
 /**
  * Replacement for isInstance checks
- * @author kondr
+ * @author kondr & Arpi
  *
  */
 public enum Test {
-	MOVEABLE {
+
+	// true GeoElements
+
+	GEOANGLE {
 		@Override
-		public boolean check(GeoElement ge) {
-			return false;
+		public boolean check(Object ob) {
+			return ob instanceof GeoAngle;
 		}
 	},
-	ROTATEMOVEABLE {
+
+	GEODUMMYVARIABLE {
 		@Override
-		public boolean check(GeoElement ge) {
-			return false;
+		public boolean check(Object ob) {
+			return ob instanceof GeoDummyVariable;
 		}
 	},
-	
-	GEOVECTOR {
-		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoVector;
-		}
-	},
+
 	GEONUMERIC {
 		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoNumeric;
+		public boolean check(Object ob) {
+			return ob instanceof GeoNumeric;
 		}
 	},
-	GEOLIST {
-		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoList;
-		}
-	},
+
 	GEOAXIS {
 		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoAxis;
+		public boolean check(Object ob) {
+			return ob instanceof GeoAxis;
 		}
 	},
+
 	GEOSEGMENT {
 		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoSegment;
+		public boolean check(Object ob) {
+			return ob instanceof GeoSegment;
 		}
 	},
+
+	GEORAY {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoRay;
+		}
+	},
+
 	GEOLINE {
 		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoLine;
+		public boolean check(Object ob) {
+			return ob instanceof GeoLine;
 		}
 	},
+
+	GEOVECTOR {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoVector;
+		}
+	},
+
+	GEOBOOLEAN {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoBoolean;
+		}
+	},
+
+	GEOTEXTFIELD {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoTextField;
+		}
+	},
+
+	GEOBUTTON {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoButton;
+		}
+	},
+
+	GEOCASCELL {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoButton;
+		}
+	},
+
+	GEOCONICPART {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoConicPart;
+		}
+	},
+
 	GEOCONIC {
 		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoConic;
+		public boolean check(Object ob) {
+			return ob instanceof GeoConic;
 		}
 	},
-	GEOINTERVAL {
-		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoInterval;
-		}
-	},
-	GEOFUNCTION {
-		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoFunction;
-		}
-	},
-	GEOPOLYGON {
-		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoPolygon;
-		}
-	},
-	GEOPOLYLINE {
-		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoPolyLine;
-		}
-	},
-	GEOPOINT2 {
-		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoPoint2;
-		}
-	},
-	GEOVECTORND {
-		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoVectorND;
-		}
-	},
-	GEOLINEND {
-		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoLineND;
-		}
-	},
-	GEOSEGMENTND {
-		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoSegmentND;
-		}
-	},
-	GEOIMPLICITPOLY {
-		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoImplicitPoly;
-		}
-	},
+
 	GEOCURVECARTESIAN {
 		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoCurveCartesian;
+		public boolean check(Object ob) {
+			return ob instanceof GeoCurveCartesian;
 		}
 	},
+
+	GEOFUNCTIONCONDITIONAL {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoFunctionConditional;
+		}
+	},
+
+	GEOINTERVAL {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoInterval;
+		}
+	},
+
+	GEOFUNCTION {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoFunction;
+		}
+	},
+
+	GEOFUNCTIONNVAR {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoFunctionNVar;
+		}
+	},
+
 	GEOIMAGE {
 		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoImage;
+		public boolean check(Object ob) {
+			return ob instanceof GeoImage;
 		}
 	},
-	NUMBERVALUE {
+
+	GEOLIST {
 		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof NumberValue;
+		public boolean check(Object ob) {
+			return ob instanceof GeoList;
 		}
 	},
-	PATH {
+
+	GEOLOCUS {
 		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof Path;
+		public boolean check(Object ob) {
+			return ob instanceof GeoLocus;
 		}
 	},
-	TRANSLATEABLE {
+
+	GEOPOINT2 {
 		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof Translateable;
+		public boolean check(Object ob) {
+			return ob instanceof GeoPoint2;
 		}
 	},
-	DIRECTIONND {
+
+	GEOPOLYGON {
 		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoDirectionND;
+		public boolean check(Object ob) {
+			return ob instanceof GeoPolygon;
 		}
 	},
+
+	GEOPOLYLINE {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoPolyLine;
+		}
+	},
+
+	GEOSCRIPTACTION {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoScriptAction;
+		}
+	},
+
+	GEOTEXT {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoText;
+		}
+	},
+
+	GEOIMPLICITPOLY {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoImplicitPoly;
+		}
+	},
+
+	GEOUSERINPUTELEMENT {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoUserInputElement;
+		}
+	},
+
+	// abstract GeoElements
+
 	GEOCONICND {
 		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoConicND;
+		public boolean check(Object ob) {
+			return ob instanceof GeoConicND;
 		}
 	},
-	GEOCOORDSYS2D {
-		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoCoordSys2D;
-		}
-	},
+
 	GEOQUADRICND {
 		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoQuadricND;
+		public boolean check(Object ob) {
+			return ob instanceof GeoQuadricND;
 		}
 	},
+
+	MOVEABLE {
+		@Override
+		public boolean check(Object ob) {
+			if (!(ob instanceof GeoElement))
+				return false;
+			if (((GeoElement)ob).isMoveable())
+				return true;
+
+			return false;
+		}
+	},
+
+	ROTATEMOVEABLE {
+		@Override
+		public boolean check(Object ob) {
+			if (!(ob instanceof GeoElement))
+				return false;
+			if (((GeoElement)ob).isRotateMoveable())
+				return true;
+
+			return false;
+		}
+	},
+
+	GEOELEMENT {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoElement;
+		}
+	},
+
+	// GeoElement-related interfaces
+
+	GEOCOORDSYS2D {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoCoordSys2D;
+		}
+	},
+
+	GEOSEGMENTND {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoSegmentND;
+		}
+	},
+
+	GEOLINEND {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoLineND;
+		}
+	},
+
+	GEOVECTORND {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoVectorND;
+		}
+	},
+
+	GEODIRECTIONND {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoDirectionND;
+		}
+	},
+
+	GEOPOINTND {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoPointND;
+		}
+	},
+
+	NUMBERVALUE {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof NumberValue;
+		}
+	},
+
+	PATH {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof Path;
+		}
+	},
+
+	TRANSLATEABLE {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof Translateable;
+		}
+	},
+
 	GEOQUADRIC3D {
 		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoQuadric3DInterface;
+		public boolean check(Object ob) {
+			return ob instanceof GeoQuadric3DInterface;
 		}
 	},
 	GEOPOLYGON3D {
 		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoPolygon3DInterface;
+		public boolean check(Object ob) {
+			return ob instanceof GeoPolygon3DInterface;
 		}
 	},
 	GEOCOORDSYS1D {
 		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoCoordSys1DInterface;
+		public boolean check(Object ob) {
+			return ob instanceof GeoCoordSys1DInterface;
 		}
 	},
 	TRANSFORMABLE {
 		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof Transformable;
+		public boolean check(Object ob) {
+			return ob instanceof Transformable;
 		}
 	},
 	DILATEABLE {
 		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof Dilateable;
-		}
-	},
-	GEOPOINTND {
-		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof GeoPointND;
+		public boolean check(Object ob) {
+			return ob instanceof Dilateable;
 		}
 	},
 	REGION3D {
 		@Override
-		public boolean check(GeoElement ge) {
-			return ge instanceof Region3D;
-		}	
+		public boolean check(Object ob) {
+			return ob instanceof Region3D;
+		}
 	},
-	GEOELEMENT {
+
+	OBJECT {
 		@Override
-		public boolean check(GeoElement ge) {
+		public boolean check(Object ob) {
 			return true;
 		}
-	}
-	;
-	public abstract boolean check(GeoElement ge);
-	public static Test getSpecificTest(GeoElement ge){
+	};
+
+	public abstract boolean check(Object ob);
+
+	public static Test getSpecificTest(Object obj) {
 		for(Test t : Test.values()){
-			if(t.check(ge)){
+			if(t.check(obj)){
 				AbstractApplication.debug(t);
 				return t;
 			}
 		}
-		return GEOELEMENT;
+		return OBJECT;
 	}
 }

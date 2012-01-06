@@ -1656,7 +1656,7 @@ public abstract class AbstractEuclidianController {
 	protected final int addSelectedDirection(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 				return handleAddSelected(hits, max, addMoreThanOneAllowed,
-						selectedDirections, Test.DIRECTIONND);
+						selectedDirections, Test.GEODIRECTIONND);
 			}
 
 	protected final int addSelectedCircle(Hits hits, int max,
