@@ -912,5 +912,11 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	public boolean isVector3DValue() {
 		return false;
 	}
+	
+	public GeoFunction getGeoFunction(){
+		GeoFunction gf = new GeoFunction(kernel.getConstruction());
+		gf.setFunction(this);
+		return gf;
+	}
 
 }

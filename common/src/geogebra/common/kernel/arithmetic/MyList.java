@@ -803,8 +803,10 @@ public class MyList extends ValidExpression implements ListValue,
 
 			// g:x=0, g isElementOf {x=0} gives null here
 			// see #1535
-			if (ev == null)
+			if (ev == null){
+				AbstractApplication.debug(myList.getListElement(i).getClass().getName());
 				continue;
+			}
 
 			if (ExpressionNode.isEqual(a, ev))
 				return true;

@@ -294,7 +294,11 @@ public class Equation extends ValidExpression implements ReplaceableValue {
 	}
 
 	public ExpressionValue evaluate() {		
-		return null;
+		boolean oldFlag = kernel.getConstruction().isSuppressLabelsActive();
+		kernel.getConstruction().setSuppressLabelCreation(true);
+		GeoElement ge = kernel.getAlgebraProcessor().processEquation(this)[0];
+		kernel.getConstruction().setSuppressLabelCreation(oldFlag);
+		return ge;
 	}
 
 	public HashSet<GeoElement> getVariables() {

@@ -3911,6 +3911,10 @@ public class ExpressionNode extends ValidExpression implements
 		} else if (ev1.isGeoElement() && ev2.isGeoElement()) {
 			return ((GeoElement) ev1).isEqual(((GeoElement) ev2));
 		}
+		else if (ev1 instanceof Functional && ev2 instanceof Functional){
+			return ((Functional)ev1).getGeoFunction().isEqual(((Functional)ev2).
+					getGeoFunction());
+		}
 
 		return false;
 	}
