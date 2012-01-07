@@ -407,7 +407,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 			this.app.getGuiManager().getDialogManager().initFileChooser();
 
 			// init CAS
-			this.app.getKernel().getGeoGebraCAS();
+			this.app.getKernel().getGeoGebraCAS().getCurrentCAS();
 
 			// init JLaTeXMath
 			Graphics2D g2d = this.app.getEuclidianView().getTempGraphics2D();

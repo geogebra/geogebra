@@ -16,10 +16,9 @@ import geogebra.common.main.AbstractApplication.CasType;
 import java.util.ArrayList;
 import java.util.Map;
 
-//TODO Update the description (we are currently not using Maxima and MathPiper as far as i know)
 /**
- * This class provides an interface for GeoGebra to use the computer algebra
- * systems Maxima and MathPiper.
+ * This class provides an interface for GeoGebra to use an underlying computer algebra
+ * system like MPReduce, Maxima or MathPiper.
  * 
  * @author Markus Hohenwarter
  */
@@ -35,13 +34,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		app = (Application) kernel.getApplication();
 		casParser = new CASparser(kernel);
 
+		// DO NOT init underlying CAS here to avoid hanging animation,
 		// see http://www.geogebra.org/trac/ticket/1565
-		//setCurrentCAS(Kernel.DEFAULT_CAS);
-
-		// TODO: remove
-		// init CAS in background as this may take a bit
-		// see also http://www.geogebra.org/trac/ticket/1565
-		getCurrentCAS();
+		// getCurrentCAS();
 	}
 
 	public CASparser getCASparser() {
@@ -50,12 +45,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 	public synchronized CASgeneric getCurrentCAS() {
 		if (cas == null) {
-			Thread casIniting = new Thread() {
-				public void run() {
-					setCurrentCAS(Kernel.DEFAULT_CAS);
-				}
-			};
-			casIniting.start();
+			setCurrentCAS(Kernel.DEFAULT_CAS);
 		}
 		
 		return cas;
