@@ -27,6 +27,7 @@ public class SpreadsheetTableModel extends AbstractSpreadsheetTableModel {
 	public SpreadsheetTableModel(Application app, int rows, int columns) {
 		super(app, rows, columns);
 		defaultTableModel = new DefaultTableModel(rows, columns);
+		attachView();
 	}
 
 	/**

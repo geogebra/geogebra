@@ -37,7 +37,6 @@ public abstract class AbstractSpreadsheetTableModel implements View {
 	public AbstractSpreadsheetTableModel(AbstractApplication app, int rows,
 			int columns) {
 		this.app = app;
-		attachView();
 	}
 
 	/**************************************************
