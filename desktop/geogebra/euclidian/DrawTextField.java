@@ -192,11 +192,12 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		}
 
 		public void mouseEntered(MouseEvent arg0) {
-			hit = true;
-			((EuclidianView)view).setToolTipText(null);
-			updateText();
+			if (!textField.hasFocus()) {
+				hit = true;
+				((EuclidianView)view).setToolTipText(null);
+				updateText();
+			}
 		}
-
 		public void mouseExited(MouseEvent arg0) {
 			hit = false;
 		}
