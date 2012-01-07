@@ -83,9 +83,22 @@ public class CopyPasteCut {
 		this.app = app;
 		kernel = app.getKernel();
 		
-		view = app.getGuiManager().getSpreadsheetView();
-		table = view.getTable();
+	}
+	
+	private SpreadsheetView getView() {
+		if (view == null) {
+			view = app.getGuiManager().getSpreadsheetView();
+		}
 		
+		return view;
+	}
+
+	private MyTable getTable() {
+		if (table == null) {
+			table = getView().getTable();
+		}
+		
+		return table;
 	}
 
 
@@ -493,7 +506,7 @@ public class CopyPasteCut {
 			tableModel.setRowCount(y4 + 1);
 		}
 		if (tableModel.getColumnCount() < x4 + 1) {
-			table.setMyColumnCount(x4 + 1);
+			getTable().setMyColumnCount(x4 + 1);
 		}
 
 
@@ -730,7 +743,7 @@ public class CopyPasteCut {
 				values2[iy] = new GeoElement[data[iy].length];
 				if (maxLen < data[iy].length) maxLen = data[iy].length;
 				if (tableModel.getColumnCount() < column1 + data[iy].length) {
-					table.setMyColumnCount(column1 + data[iy].length);						
+					getTable().setMyColumnCount(column1 + data[iy].length);						
 				}
 				for (int column = column1; column < column1 + data[iy].length; ++ column) {
 					if (column < 0 || column > maxColumn) continue;
@@ -781,7 +794,7 @@ public class CopyPasteCut {
 
 	public boolean delete(int column1, int row1, int column2, int row2) {
 
-		return delete(app, column1, row1, column2, row2, table
+		return delete(app, column1, row1, column2, row2, getTable()
 				.getSelectionType());
 	}
 
@@ -921,11 +934,11 @@ public class CopyPasteCut {
 			deleteAll();
 		}
 
-		boolean oldEqualsSetting = view.isEqualsRequired();
-		view.setEqualsRequired(true);
+		boolean oldEqualsSetting = getView().isEqualsRequired();
+		getView().setEqualsRequired(true);
 		boolean succ = paste(targetRange);
 		clipboard.setContents(oldContent, null);
-		view.setEqualsRequired(oldEqualsSetting);
+		getView().setEqualsRequired(oldEqualsSetting);
 
 		return succ;
 
