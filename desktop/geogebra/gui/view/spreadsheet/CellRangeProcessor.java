@@ -1,6 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.awt.Point;
+import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Kernel;
@@ -42,11 +43,13 @@ public class CellRangeProcessor {
 	private MyTable table;
 	private Application app;		
 	private Construction cons;
+	private AbstractSpreadsheetTableModel tableModel;
 
 	public CellRangeProcessor(MyTable table) {
 
 		this.table = table;
 		app = (Application)table.kernel.getApplication();
+		tableModel = app.getSpreadsheetTableModel();
 		cons = table.kernel.getConstruction();
 
 	}
@@ -165,7 +168,7 @@ public class CellRangeProcessor {
 				return false;
 
 			for(int col=cr.getMinColumn(); col<=cr.getMaxColumn(); col++){			
-				if(!containsMinimumGeoNumeric(new CellRange(table.app, col, cr.getMinRow(), col, cr.getMaxRow()) ,3)) 
+				if(!containsMinimumGeoNumeric(new CellRange(app, col, cr.getMinRow(), col, cr.getMaxRow()) ,3)) 
 					return false;
 			}
 			return true;
@@ -524,10 +527,10 @@ public class CellRangeProcessor {
 			}
 			else if(pd.r1 == 0){
 				// column name
-				title[0] = getCellRangeString(new CellRange(table.app,pd.c1,-1,pd.c1,-1));
+				title[0] = getCellRangeString(new CellRange(app,pd.c1,-1,pd.c1,-1));
 			} else{
 				// cell range
-				title[0] = getCellRangeString(new CellRange(table.app,pd.c1,pd.r1,pd.c1,pd.r2));
+				title[0] = getCellRangeString(new CellRange(app,pd.c1,pd.r1,pd.c1,pd.r2));
 			}
 
 			// handle second title
@@ -537,10 +540,10 @@ public class CellRangeProcessor {
 			}
 			else if(pd.r1 == 0){
 				// column name
-				title[1] = getCellRangeString(new CellRange(table.app,pd.c2,-1,pd.c2,-1));
+				title[1] = getCellRangeString(new CellRange(app,pd.c2,-1,pd.c2,-1));
 			} else{
 				// cell range
-				title[1] = getCellRangeString(new CellRange(table.app,pd.c2,pd.r1,pd.c2,pd.r2));
+				title[1] = getCellRangeString(new CellRange(app,pd.c2,pd.r1,pd.c2,pd.r2));
 			}
 
 
@@ -553,10 +556,10 @@ public class CellRangeProcessor {
 			}
 			else if(pd.c1 == 0){
 				// row name
-				title[0] = getCellRangeString(new CellRange(table.app,-1,pd.r1,-1,pd.r1));
+				title[0] = getCellRangeString(new CellRange(app,-1,pd.r1,-1,pd.r1));
 			} else{
 				// cell range
-				title[0] = getCellRangeString(new CellRange(table.app,pd.c1,pd.r1,pd.c2,pd.r1));
+				title[0] = getCellRangeString(new CellRange(app,pd.c1,pd.r1,pd.c2,pd.r1));
 			}
 
 			// handle second title
@@ -566,10 +569,10 @@ public class CellRangeProcessor {
 			}
 			else if(pd.c1 == 0){
 				// row name
-				title[1] = getCellRangeString(new CellRange(table.app,-1,pd.r2,-1,pd.r2));
+				title[1] = getCellRangeString(new CellRange(app,-1,pd.r2,-1,pd.r2));
 			} else{
 				// cell range
-				title[1] = getCellRangeString(new CellRange(table.app,pd.c1,pd.r2,pd.c2,pd.r2));
+				title[1] = getCellRangeString(new CellRange(app,pd.c1,pd.r2,pd.c2,pd.r2));
 			}
 
 		}
@@ -597,7 +600,7 @@ public class CellRangeProcessor {
 					titleList.add(((GeoText)RelativeCopy.getValue(app, col, 0)).getTextString());
 				}else{
 					// use column name
-					titleList.add(getCellRangeString(new CellRange(table.app,col,-1,col,-1)));
+					titleList.add(getCellRangeString(new CellRange(app,col,-1,col,-1)));
 				}
 			}
 		}
@@ -754,7 +757,7 @@ public class CellRangeProcessor {
 			boolean storeUndoInfo, GeoClass geoTypeFilter) {
 
 		ArrayList<CellRange> rangeList = new ArrayList<CellRange>();
-		CellRange cr = new CellRange(table.app,column,-1);
+		CellRange cr = new CellRange(app,column,-1);
 		cr.setActualRange();
 		rangeList.add(cr);
 
@@ -971,14 +974,14 @@ public class CellRangeProcessor {
 
 	public void InsertLeft(int column1, int column2){ 
 
-		int columns = table.getModel().getColumnCount();
+		int columns = tableModel.getColumnCount();
 		if (columns == column1 + 1){
 			// last column: need to insert one more
-			table.setMyColumnCount(table.getColumnCount() +1);		
+			table.setMyColumnCount(tableModel.getColumnCount() +1);		
 			table.getView().getColumnHeader().revalidate();
 			columns++;
 		}
-		int rows = table.getModel().getRowCount();
+		int rows = tableModel.getRowCount();
 		boolean succ = table.copyPasteCut.delete(columns - 1, 0, columns - 1, rows - 1);
 		for (int x = columns - 2; x >= column1; -- x) {
 			for (int y = 0; y < rows; ++ y) {
@@ -1002,8 +1005,8 @@ public class CellRangeProcessor {
 
 	public void InsertRight(int column1, int column2){
 
-		int columns = table.getModel().getColumnCount();
-		int rows = table.getModel().getRowCount();
+		int columns = tableModel.getColumnCount();
+		int rows = tableModel.getRowCount();
 		boolean succ = false;
 		if (columns == column1 + 1){
 			// last column: insert another on right
@@ -1037,11 +1040,11 @@ public class CellRangeProcessor {
 
 
 	public void InsertAbove(int row1, int row2){
-		int columns = table.getModel().getColumnCount();
-		int rows = table.getModel().getRowCount();
+		int columns = tableModel.getColumnCount();
+		int rows = tableModel.getRowCount();
 		if (rows == row2 + 1){
 			// last row: need to insert one more
-			table.tableModel.setRowCount(table.getRowCount() +1);		
+			tableModel.setRowCount(tableModel.getRowCount() +1);		
 			table.getView().getRowHeader().revalidate();
 			rows++;
 		}
@@ -1067,12 +1070,12 @@ public class CellRangeProcessor {
 
 
 	public void InsertBelow(int row1, int row2){	
-		int columns = table.getModel().getColumnCount();
-		int rows = table.getModel().getRowCount();
+		int columns = tableModel.getColumnCount();
+		int rows = tableModel.getRowCount();
 		boolean succ = false;
 		if (rows == row2 + 1){
 			// last row: need to insert one more
-			table.tableModel.setRowCount(table.getRowCount() +1);		
+			tableModel.setRowCount(tableModel.getRowCount() +1);		
 			table.getView().getRowHeader().revalidate();
 			// can't be undone
 		}

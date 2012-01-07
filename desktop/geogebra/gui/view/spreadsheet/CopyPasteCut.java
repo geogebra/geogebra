@@ -1,6 +1,7 @@
 
 package geogebra.gui.view.spreadsheet;
 
+import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Construction;
@@ -40,11 +41,11 @@ public class CopyPasteCut {
 	// ggb support classes
 	protected Kernel kernel;
 	protected Application app;
-	protected MyTable table;
-	protected DefaultTableModel tableModel;
-	protected SpreadsheetView view;
-
-
+	private AbstractSpreadsheetTableModel tableModel;
+	
+	private SpreadsheetView view;
+	private MyTable table;
+	
 	/**
 	 * Stores copied cell geo values as a tab-delimited string.
 	 */
@@ -68,21 +69,23 @@ public class CopyPasteCut {
 	 * Stores construction index values while performing a paste
 	 */
 	private Object [] constructionIndexes;
+	
+	
 
 
 
 	/***************************************
 	 * Constructor
 	 */
-	public CopyPasteCut(MyTable table0, Kernel kernel0) {
+	public CopyPasteCut(Application app) {
 
-		table = table0;
-		tableModel = (DefaultTableModel) table.getModel();
-		kernel = kernel0;	
-		app = (Application)kernel.getApplication();
-
-		view = table.getView();
-
+		tableModel = app.getSpreadsheetTableModel();
+		this.app = app;
+		kernel = app.getKernel();
+		
+		view = app.getGuiManager().getSpreadsheetView();
+		table = view.getTable();
+		
 	}
 
 
@@ -486,11 +489,10 @@ public class CopyPasteCut {
 
 
 		// ensure the table is large enough to contain the new data
-		DefaultTableModel model = (DefaultTableModel)table.getModel();
-		if (model.getRowCount() < y4 + 1) {
-			model.setRowCount(y4 + 1);
+		if (tableModel.getRowCount() < y4 + 1) {
+			tableModel.setRowCount(y4 + 1);
 		}
-		if (model.getColumnCount() < x4 + 1) {
+		if (tableModel.getColumnCount() < x4 + 1) {
 			table.setMyColumnCount(x4 + 1);
 		}
 
@@ -717,9 +719,8 @@ public class CopyPasteCut {
 		boolean succ = false;			
 
 		try {
-			DefaultTableModel model = (DefaultTableModel)table.getModel();
-			if (model.getRowCount() < row1 + data.length) {
-				model.setRowCount(row1 + data.length);
+			if (tableModel.getRowCount() < row1 + data.length) {
+				tableModel.setRowCount(row1 + data.length);
 			}
 			GeoElement[][] values2 = new GeoElement[data.length][];
 			int maxLen = -1;
@@ -728,7 +729,7 @@ public class CopyPasteCut {
 				int iy = row - row1;
 				values2[iy] = new GeoElement[data[iy].length];
 				if (maxLen < data[iy].length) maxLen = data[iy].length;
-				if (model.getColumnCount() < column1 + data[iy].length) {
+				if (tableModel.getColumnCount() < column1 + data[iy].length) {
 					table.setMyColumnCount(column1 + data[iy].length);						
 				}
 				for (int column = column1; column < column1 + data[iy].length; ++ column) {
@@ -751,12 +752,12 @@ public class CopyPasteCut {
 						values2[iy][ix] = RelativeCopy.prepareAddingValueToTableNoStoringUndoInfo(kernel, app, data[iy][ix], value0, column, row);
 						//values2[iy][ix].setAuxiliaryObject(values2[iy][ix].isGeoNumeric()); 
 						values2[iy][ix].setAuxiliaryObject(true); 
-						table.setValueAt(values2[iy][ix], row, column);
+						tableModel.setValueAt(values2[iy][ix], row, column);
 					}
 				}
 			}
 			//Application.debug("maxLen=" + maxLen);
-			table.getView().repaintView();
+			app.repaintSpreadsheet();
 
 			/*
 			if (values2.length == 1 || maxLen == 1) {
@@ -877,7 +878,7 @@ public class CopyPasteCut {
 	// default pasteFromFile: clear spreadsheet and then paste from upper left corner
 	public boolean pasteFromURL(URL url) {
 
-		CellRange cr = new CellRange(table.app, 0,0,0,0);
+		CellRange cr = new CellRange(app, 0,0,0,0);
 		return pasteFromURL(url, cr, true);
 
 	}

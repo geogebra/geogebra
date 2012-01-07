@@ -302,7 +302,7 @@ public class MyTable extends JTable implements FocusListener
 
 		// relative copy
 		relativeCopy = new RelativeCopy(kernel);
-		copyPasteCut = new CopyPasteCut(this, kernel);
+		copyPasteCut = new CopyPasteCut(app);
 
 
 		// - see ticket #135
