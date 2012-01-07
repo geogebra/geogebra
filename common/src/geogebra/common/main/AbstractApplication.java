@@ -195,6 +195,7 @@ public abstract class AbstractApplication {
 			try {
 				String local = getCommand(cmd);
 				if (local != null) {
+					translateCommandTable.put(local.toLowerCase(), cmd);
 					commandDictCAS.addEntry(local);
 					subCommandDict[CommandDispatcher.TABLE_CAS]
 							.addEntry(local);
