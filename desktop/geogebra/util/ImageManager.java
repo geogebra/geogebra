@@ -266,6 +266,11 @@ public class ImageManager extends AbstractImageManager{
     
         // Get the image's color model
         ColorModel cm = pg.getColorModel();
+        
+        if (cm == null) {
+        	return false;
+        }
+        
         return cm.hasAlpha();
     }
     
