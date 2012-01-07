@@ -110,12 +110,12 @@ public class AlgoDelauneyTriangulation extends AlgoHull{
 					
 					// return 0 if endpoints the same
 					// so no duplicates in the TreeMap
-					if (Kernel.isEqual(p1A.getX(), p2B.getY()) && Kernel.isEqual(p1A.getY(), p2B.getY()) && Kernel.isEqual(p2A.getX(), p1B.getX()) && Kernel.isEqual(p2A.getY(), p1B.getY())) {
+					if (Kernel.isEqual(p1A.getX(), p2B.getX()) && Kernel.isEqual(p1A.getY(), p2B.getY()) && Kernel.isEqual(p2A.getX(), p1B.getX()) && Kernel.isEqual(p2A.getY(), p1B.getY())) {
 						//Application.debug("equal2");
 						return 0;
 					}
 					// check this one second (doesn't occur in practice)
-					if (Kernel.isEqual(p1A.getX(), p1B.getY()) && Kernel.isEqual(p1A.getY(), p1B.getY()) && Kernel.isEqual(p2A.getX(), p2B.getX()) && Kernel.isEqual(p2A.getY(), p2B.getY())) {
+					if (Kernel.isEqual(p1A.getX(), p1B.getX()) && Kernel.isEqual(p1A.getY(), p1B.getY()) && Kernel.isEqual(p2A.getX(), p2B.getX()) && Kernel.isEqual(p2A.getY(), p2B.getY())) {
 						//Application.debug("equal1");
 						return 0;
 					}
