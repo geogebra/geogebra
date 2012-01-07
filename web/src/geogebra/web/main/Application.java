@@ -16,7 +16,7 @@ import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.gui.GuiManager;
-import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModelInterface;
+import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
 
 import geogebra.common.kernel.AbstractAnimationManager;
@@ -691,12 +691,7 @@ public class Application extends AbstractApplication {
 	    
     }
 
-	@Override
-    public SpreadsheetTableModelInterface getSpreadsheetTableModel() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
+	
 	@Override
     public void setMode(int modeMove) {
 	    // TODO Auto-generated method stub
@@ -800,6 +795,12 @@ public class Application extends AbstractApplication {
 
 	@Override
     public GlobalKeyDispatcher getGlobalKeyDispatcher() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public AbstractSpreadsheetTableModel getSpreadsheetTableModel() {
 	    // TODO Auto-generated method stub
 	    return null;
     }

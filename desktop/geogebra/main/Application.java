@@ -25,7 +25,7 @@ import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.event.AbstractEvent;
-import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModelInterface;
+import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
@@ -6362,54 +6362,7 @@ public class Application extends AbstractApplication implements
 		
 	}
 
-	/*
-	 * needs to work if spreadsheet not opened yet
-	 */
-	@Override
-	public int getHighestUsedColumn() {
-		if (isUsingFullGui() && getGuiManager().hasSpreadsheetView()) {
-			return getGuiManager().getSpreadsheetView().getHighestUsedColumn();
-		} else {
-			int highestUsedColumn = -1;
-			Iterator<GeoElement> it = kernel.getConstruction().getGeoSetConstructionOrder().iterator();
-			while (it.hasNext()) {
-				GeoElement geo = it.next();
-				geogebra.common.awt.Point location = geo.getSpreadsheetCoords();
-				if (location != null && location.x > highestUsedColumn) highestUsedColumn = location.x;
-			}
-
-			return highestUsedColumn;
-		}
-	}
 	
-	/*
-	 * needs to work if spreadsheet not opened yet
-	 */
-	@Override
-	public int getHighestUsedRow() {
-		if (isUsingFullGui() && getGuiManager().hasSpreadsheetView()) {
-			return getGuiManager().getSpreadsheetView().getHighestUsedRow();
-		} else {
-			int highestUsedRow = -1;
-			Iterator<GeoElement> it = kernel.getConstruction().getGeoSetConstructionOrder().iterator();
-			while (it.hasNext()) {
-				GeoElement geo = it.next();
-				geogebra.common.awt.Point location = geo.getSpreadsheetCoords();
-				if (location != null && location.y > highestUsedRow) highestUsedRow = location.y;
-			}
-
-			return highestUsedRow;
-		}
-	}
-	
-	@Override
-	public void setSpreadsheetValueAt(GeoElement value2, int row, int column) {
-		if (isUsingFullGui() && getGuiManager().hasSpreadsheetView()) {
-			getGuiManager().getSpreadsheetView().getTable().setValueAt(value2, row, column);
-		}		
-	}
-
-
 
 	@Deprecated
 	@Override
@@ -6441,9 +6394,9 @@ public class Application extends AbstractApplication implements
 
 	
 	@Override
-	public SpreadsheetTableModelInterface getSpreadsheetTableModel() {
+	public AbstractSpreadsheetTableModel getSpreadsheetTableModel() {
 		if(tableModel == null){
-			tableModel = new SpreadsheetTableModel(SPREADSHEET_INI_ROWS,SPREADSHEET_INI_COLS);
+			tableModel = new SpreadsheetTableModel(this,SPREADSHEET_INI_ROWS,SPREADSHEET_INI_COLS);
 		}
 		return tableModel;
 	}

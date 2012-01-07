@@ -7,4 +7,7 @@ public abstract class SpreadsheetTraceManager {
 	public abstract boolean isTraceGeo(GeoElement recordObject);
 
 	public abstract void handleColumnDelete(int column1, int column2);
+
+	public abstract void addSpreadsheetTraceGeo(GeoElement geo);
+	
 }

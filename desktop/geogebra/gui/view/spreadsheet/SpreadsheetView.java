@@ -68,14 +68,8 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 	private static int DEFAULT_COLUMN_WIDTH = 70;
 	public static final int ROW_HEADER_WIDTH = 35; // wide enough for "9999"
 
-	public int highestUsedColumn = -1; // for trace & print
-	public int highestUsedRow = -1; //for print
-
-
-	//TODO move this out
-	//private SpreadsheetTraceManager traceManager;
+	//TODO: should traceDialog belong to the SpreadsheetTraceManager?
 	private TraceDialog traceDialog;
-
 
 	//fields for split panel, fileBrowser and stylebar
 	private JScrollPane spreadsheet;
@@ -168,7 +162,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 
 		// Create the spreadsheet table model and the table
 		tableModel = (SpreadsheetTableModel) app.getSpreadsheetTableModel();
-		table = new MyTable(this, tableModel);
+		table = new MyTable(this, tableModel.getDefaultTableModel());
 
 		// Create row header
 		rowHeader = new SpreadsheetRowHeader(app,table);
@@ -318,8 +312,6 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 		if (scrollToShow && location != null )
 			table.scrollRectToVisible(table.getCellRect(location.y, location.x, true));
 
-		//Application.debug("highestUsedColumn="+highestUsedColumn);
-
 	}
 
 
@@ -333,37 +325,20 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 		}
 
 		Point location = geo.getSpreadsheetCoords();
-		if (location != null) {
-			doRemove(geo, location.y, location.x);
-		}
-
 
 		if(geo.isGeoBoolean()){
 			table.oneClickEditMap.remove(location);
 		}
 	}
 
-	private void doRemove(GeoElement geo, int row, int col) {
-
-		tableModel.setValueAt(null, row, col);
-		updateHighestUsedColAndRow(col,row);
-
-		//Application.debug("highestUsedColumn="+highestUsedColumn);
-	}
-
 
 
 	public void rename(GeoElement geo) {
-		//Application.debug(new Date() + " RENAME");
-		Point location = geo.getOldSpreadsheetCoords();
-		if (location != null) {
-			doRemove(geo, location.y, location.x);
-		}
 
-		add(geo);
 
 		if(app.getTraceManager().isTraceGeo(geo))
 			app.getTraceManager().updateTraceSettings(geo);
+		
 		if(isTraceDialogVisible()){
 			traceDialog.updateTraceDialog();
 		}
@@ -371,7 +346,8 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 	}
 
 
-	public void updateAuxiliaryObject(GeoElement geo) {		
+	public void updateAuxiliaryObject(GeoElement geo) {	
+		// ignore
 	}
 
 	public void repaintView() {	
@@ -383,14 +359,6 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 		//Application.debug(new Date() + " CLEAR VIEW");
 
 		//clear the table model
-		int rows = tableModel.getRowCount();
-		int columns = tableModel.getColumnCount();
-		for (int c = 0; c < columns; ++c) {
-			for (int r = 0; r < rows; ++r) {
-				tableModel.setValueAt(null, r, c);
-			}
-		}
-
 		setDefaultLayout();
 		setDefaultSelection();
 		table.oneClickEditMap.clear();
@@ -399,7 +367,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 
 
 
-	/** Respond to changes in Euclidean mode sent by GUI manager */
+	/** Respond to changes in mode sent by GUI manager */
 	public void setMode(int mode){
 
 		this.mode = mode;
@@ -423,17 +391,13 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 	public void restart() {
 
 		clearView();
-		//setDefaultLayout();
-		//setDefaultSelection();
-		highestUsedColumn = -1;
-		highestUsedRow = -1;
+		tableModel.clearView();			
 		updateColumnWidths();
-		updateFonts(); //G.Sturr 2010-6-4
-		//table.changeSelection(0,0,false,false);
+		updateFonts(); 
+
 		app.getTraceManager().loadTraceGeoCollection();
 
 		table.oneClickEditMap.clear();
-
 
 		if(oneVarStatDialog != null)
 			oneVarStatDialog.setVisible(false);
@@ -458,11 +422,12 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 		Point location = geo.getSpreadsheetCoords();
 		if (location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS && location.y < Kernel.MAX_SPREADSHEET_ROWS) {
 
-			if (location.x > highestUsedColumn) highestUsedColumn = location.x;
-			highestUsedRow=Math.max(highestUsedRow, location.y);
+
+			//TODO: rowHeader and column 
+			//  changes should be handled by a table model listener			
 
 			if (location.y >= tableModel.getRowCount()) {
-				tableModel.setRowCount(location.y + 1);		
+				//	tableModel.setRowCount(location.y + 1);		
 				spreadsheet.getRowHeader().revalidate();
 			}
 			if (location.x >= tableModel.getColumnCount()) {
@@ -472,16 +437,9 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 				// bugfix: double-click to load ggb file gives cH = null
 				if (cH != null) cH.revalidate();
 			}
-			tableModel.setValueAt(geo, location.y, location.x);
 
-			//G.Sturr 2010-4-2
 			//Mark this cell to be resized by height
 			table.cellResizeHeightSet.add(new Point(location.x, location.y));
-
-			// add tracing geos to the trace collection
-			if(geo.getSpreadsheetTrace()){
-				app.getTraceManager().addSpreadsheetTraceGeo(geo);
-			}
 
 			// put geos with special editors in the oneClickEditMap 
 			if(geo.isGeoBoolean() || geo.isGeoButton() || geo.isGeoList()){
@@ -496,55 +454,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 		update(geo);
 	}
 
-	/**
-	 * Updates highestUsedColumn
-	 */
-	private void updateHighestUsedColAndRow(int col, int row) {
-
-		if (col==highestUsedColumn){
-			boolean updatedHighestUsedColumn=false;
-			for (int c=highestUsedColumn;c>=0;c--){
-				boolean columnEmpty = true;
-				for (int r = 0;r<=highestUsedRow; r++) {
-					if (tableModel.getValueAt(r, c) != null) {
-						// column not empty
-						columnEmpty = false;
-						break;
-					}
-				}
-				if (!columnEmpty){
-					highestUsedColumn=c;
-					updatedHighestUsedColumn=true;
-					break;
-				}
-			}
-			if (!updatedHighestUsedColumn){
-				highestUsedColumn=-1;
-			}
-		}
-		if (row==highestUsedRow){
-			boolean updatedHighestUsedRow=false;
-			for (int r=highestUsedRow;r>=0;r--){
-				boolean rowEmpty = true;
-				for (int c = 0;c<=highestUsedColumn; c++) {
-					if (tableModel.getValueAt(r, c) != null) {
-						//row not empty
-						rowEmpty = false;
-						break;
-					}
-				}
-				if (!rowEmpty){
-					highestUsedRow=r;
-					updatedHighestUsedRow=true;
-					break;
-				}
-			}
-			if (!updatedHighestUsedRow){
-				highestUsedRow=-1;
-			}
-		}
-	}
-
+	
 
 
 	private boolean scrollToShow = false;
@@ -678,17 +588,6 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 			table.setSelectionRectangleColor(table.SELECTED_RECTANGLE_COLOR);
 			//table.setFocusable(true);
 		}
-	}
-
-
-	public int getHighestUsedColumn() {
-		//traceHandler.resetTraceRow(highestUsedColumn+1);
-		//traceHandler.resetTraceRow(highestUsedColumn+2);
-		return highestUsedColumn;
-	}
-	
-	public int getHighestUsedRow() {
-		return highestUsedRow;
 	}
 
 
@@ -1531,24 +1430,24 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 
 
 	public int[] getGridColwidths() {
-		int[] colWidths=new int[2+highestUsedColumn];
-		colWidths[0]=rowHeader.getWidth();
-		for (int c=0;c<=highestUsedColumn;c++){
-			colWidths[c+1]=table.getColumnModel().getColumn(c).getWidth();
+		int[] colWidths = new int[2 + tableModel.getHighestUsedColumn()];
+		colWidths[0] = rowHeader.getWidth();
+		for (int c = 0; c <= tableModel.getHighestUsedColumn(); c++) {
+			colWidths[c + 1] = table.getColumnModel().getColumn(c).getWidth();
 		}
 		return colWidths;
 	}
 
 
 	public int[] getGridRowHeights() {
-		int[] rowHeights=new int[2+highestUsedRow];
+		int[] rowHeights=new int[2+tableModel.getHighestUsedRow()];
 		
 		if(table.getTableHeader() == null)
 			rowHeights[0] = 0;
 		else
 			rowHeights[0]=table.getTableHeader().getHeight();
 		
-		for (int r=0;r<=highestUsedRow;r++){
+		for (int r=0;r<=tableModel.getHighestUsedRow();r++){
 			rowHeights[r+1]=table.getRowHeight(r);
 		}
 		return rowHeights;

@@ -46,7 +46,7 @@ public class CellRange implements Cloneable{
 	
 	//private MyTable table;
 	AbstractApplication app;
-	private SpreadsheetTableModelInterface tableModel;
+	private AbstractSpreadsheetTableModel tableModel;
 	
 	/** Create new CellRange */
 	public CellRange(AbstractApplication app) {

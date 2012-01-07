@@ -1585,7 +1585,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		GeoElement geo = null;
 		String str;
 		Double number;
-		int targetColumn = sp.getHighestUsedColumn();
+		int targetColumn = app.getSpreadsheetTableModel().getHighestUsedColumn();
 
 		if(tabPanel.getSelectedComponent() == pointTabPanel){
 

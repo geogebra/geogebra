@@ -183,7 +183,7 @@ public class SpreadsheetTraceManager extends geogebra.common.gui.view.spreadshee
 	// =============================================
 
 	public int getNextTraceColumn() {
-		return Math.max(app.getHighestUsedColumn(), getHighestTraceColumn()) + 1;
+		return Math.max(app.getSpreadsheetTableModel().getHighestUsedColumn(), getHighestTraceColumn()) + 1;
 	}
 
 	private int getHighestTraceColumn() {

@@ -9,7 +9,7 @@ import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.GuiManager;
-import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModelInterface;
+import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.kernel.AbstractAnimationManager;
@@ -69,6 +69,9 @@ public abstract class AbstractApplication {
 	public static final int VIEW_TEXT_PREVIEW = 4096;
 	public static final int VIEW_PROPERTIES = 4097;
 	public static final int VIEW_ASSIGNMENT = 8192;
+	public static final int VIEW_TABLE_MODEL = 9000;
+	
+	// note: It is not necessary to use powers of 2 for view IDs
 
 	// For eg Hebrew and Arabic.
 	public static char unicodeDecimalPoint = '.';
@@ -901,56 +904,14 @@ public abstract class AbstractApplication {
 		return isOnTheFlyPointCreationActive;
 	}
 
-	/*
-	 * needs to work if spreadsheet not opened yet
-	 */
-	public int getHighestUsedColumn() {
-		//if (isUsingFullGui() && getGuiManager().hasSpreadsheetView()) {
-		//	return getGuiManager().getSpreadsheetView().getHighestUsedColumn();
-		//} else
-		{
-			int highestUsedColumn = -1;
-			Iterator<GeoElement> it = kernel.getConstruction().getGeoSetConstructionOrder().iterator();
-			while (it.hasNext()) {
-				GeoElement geo = it.next();
-				geogebra.common.awt.Point location = geo.getSpreadsheetCoords();
-				if (location != null && location.x > highestUsedColumn) highestUsedColumn = location.x;
-			}
-
-			return highestUsedColumn;
-		}
-	}
-
-	/*
-	 * needs to work if spreadsheet not opened yet
-	 */
-	public int getHighestUsedRow() {
-		//if (isUsingFullGui() && getGuiManager().hasSpreadsheetView()) {
-		//	return getGuiManager().getSpreadsheetView().getHighestUsedRow();
-		//} else
-		{
-			int highestUsedRow = -1;
-			Iterator<GeoElement> it = kernel.getConstruction().getGeoSetConstructionOrder().iterator();
-			while (it.hasNext()) {
-				GeoElement geo = it.next();
-				geogebra.common.awt.Point location = geo.getSpreadsheetCoords();
-				if (location != null && location.y > highestUsedRow) highestUsedRow = location.y;
-			}
-
-			return highestUsedRow;
-		}
-	}
+	
 
 	public boolean isEqualsRequired() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public void setSpreadsheetValueAt(GeoElement value2, int i, int j) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 	public abstract SpreadsheetTraceManager getTraceManager();
 
 	public void setDefaultCursor() {
@@ -975,7 +936,7 @@ public abstract class AbstractApplication {
 
 	public abstract void removeSelectedGeo(GeoElement geo);
 	
-	public abstract SpreadsheetTableModelInterface getSpreadsheetTableModel();
+	public abstract AbstractSpreadsheetTableModel getSpreadsheetTableModel();
 	
 	public abstract void setMode(int modeMove);
 

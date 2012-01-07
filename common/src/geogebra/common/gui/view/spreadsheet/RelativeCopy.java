@@ -515,7 +515,7 @@ public class RelativeCopy {
 		// Application.debug("row0 ="+row0+" dy="+dy+" column0= "+column0+" dx="+dx);
 		
 		//table.setValueAt(value2, row0 + dy, column0 + dx);
-		app.setSpreadsheetValueAt(value2, row0 + dy, column0 + dx);
+		app.getSpreadsheetTableModel().setValueAt(value2, row0 + dy, column0 + dx);
 		return value2;
 
 	}
@@ -685,7 +685,7 @@ public class RelativeCopy {
 		}
 
 		//((Application)app).getGuiManager().getSpreadsheetView().getTable().setValueAt(value2, row, column);
-		app.setSpreadsheetValueAt(value2, row, column);
+		app.getSpreadsheetTableModel().setValueAt(value2, row, column);
 	}
 
 	public static String replaceAll(RegExp spreadsheetpattern, String text,
@@ -778,7 +778,7 @@ public class RelativeCopy {
 	 * Returns the GeoElement for the cell with the given column and row values.
 	 */
 	public static GeoElement getValue(AbstractApplication app, int column, int row) {
-		SpreadsheetTableModelInterface tableModel = app.getSpreadsheetTableModel();
+		AbstractSpreadsheetTableModel tableModel = app.getSpreadsheetTableModel();
 		if ((row < 0) || (row >= tableModel.getRowCount())) {
 			return null;
 		}
