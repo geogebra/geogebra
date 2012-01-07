@@ -446,7 +446,9 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		kernel.setUseTempVariablePrefix(true);
 
 		// did expression change since last time?
-		if (casEvalExpression != expression) {
+		// or did symbolic falg change?
+		if (casEvalExpression != expression || 
+				(symbolic && casEvalStringSymbolic==null)) {
 			casEvalExpression = expression;
 			if (symbolic) {
 				casEvalStringSymbolic = expression.getCASstring(
