@@ -49,6 +49,16 @@ public class Point2D extends geogebra.common.awt.Point2D {
 	public double distance(double x, double y) {
 		return impl.distance(x,y);
 	}
+	
+	public boolean equals(Object o){
+		if(!(o instanceof Point2D))
+			return false;
+		return impl.equals(((Point2D)o).impl);
+	}
+	
+	public int hashcode(){
+		return impl.hashCode(); 
+	}
 
 
 }
