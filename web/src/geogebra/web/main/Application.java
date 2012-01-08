@@ -169,12 +169,6 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public void callJavaScript(String jsFunction, Object[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public boolean isUsingLocalizedLabels() {
 		// TODO Auto-generated method stub
 		return false;
@@ -803,5 +797,18 @@ public class Application extends AbstractApplication {
     public AbstractSpreadsheetTableModel getSpreadsheetTableModel() {
 	    // TODO Auto-generated method stub
 	    return null;
+    }
+
+	@Override
+    public void evalPythonScript(AbstractApplication app, String string,
+            String arg) {
+	    debug("Python scripting not supported");
+	    
+    }
+
+	@Override
+    public void callAppletJavaScript(String string, Object[] args) {
+	    debug("callAppletJavaScript() not implemented yet");
+	    
     }
 }
