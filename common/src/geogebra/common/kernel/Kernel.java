@@ -1894,12 +1894,18 @@ public class Kernel {
 
 	}
 
-	final public static String defaultLibraryJavaScript = "function ggbOnInit() {}";
+	final public static String defaultLibraryJavaScript = "function ggbOnInit() {debug('testing js ggbOnInit'}";
+	final public static String defaultLibraryPythonScript = "def ggbOnInit():\n geo.A.x=1\n";
 
 	String libraryJavaScript = defaultLibraryJavaScript;
+	String libraryPythonScript = defaultLibraryPythonScript;
 
 	public void resetLibraryJavaScript() {
 		libraryJavaScript = defaultLibraryJavaScript;
+	}
+
+	public void resetLibraryPythonScript() {
+		libraryPythonScript = defaultLibraryPythonScript;
 	}
 
 	public void setLibraryJavaScript(String str) {

@@ -14,6 +14,7 @@ package geogebra.gui.dialog;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement.ScriptType;
 import geogebra.common.main.AbstractApplication;
 import geogebra.gui.InputHandler;
 import geogebra.gui.editor.GeoGebraEditorPane;
@@ -38,7 +39,8 @@ public class ScriptInputDialog extends InputDialog {
 
 	private GeoElement geo;
 	private boolean global = false;
-	private boolean javaScript = false;
+	//private boolean javaScript = false;
+	private ScriptType scriptType = ScriptType.GGBSCRIPT;
 	private boolean updateScript = false;
 	private JComboBox languageSelector;
 	
@@ -71,13 +73,15 @@ public class ScriptInputDialog extends InputDialog {
 		languageSelector = new JComboBox();
 		languageSelector.addItem(app.getPlain("Script"));
 		languageSelector.addItem(app.getPlain("JavaScript"));
+		languageSelector.addItem(app.getPlain("Python"));
 		languageSelector.addActionListener(this);
 		
 		if(forceJavaScript){
 			languageSelector.setSelectedIndex(1);
 			languageSelector.setEnabled(false);
 		}
-		setJSMode(forceJavaScript);
+		//setJSMode(forceJavaScript);
+		setScriptType(forceJavaScript ? ScriptType.JAVASCRIPT : ScriptType.GGBSCRIPT);
 		btPanel.add(languageSelector,0);
 			
 		centerPanel.add(inputPanel, BorderLayout.CENTER);		
@@ -99,7 +103,8 @@ public class ScriptInputDialog extends InputDialog {
 		
 		if (geo != null){
 			inputPanel.setText(updateScript ? geo.getUpdateScript() : geo.getClickScript());
-			setJSMode(updateScript ? geo.isUpdateJavaScript():geo.isClickJavaScript());
+			//setJSMode(updateScript ? geo.updateJavaScript():geo.clickJavaScript());
+			setScriptType(updateScript ? geo.getUpdateScriptType() : geo.getClickScriptType());
 		}
 	}
 	
@@ -146,7 +151,8 @@ public class ScriptInputDialog extends InputDialog {
 				}
 			}
 			else if(source == languageSelector){
-				setJSMode(languageSelector.getSelectedIndex()==1);				
+				//setJSMode(languageSelector.getSelectedIndex()==1);	
+				setScriptType(scriptType);
 			}
 		} catch (Exception ex) {
 			// do nothing on uninitializedValue		
@@ -154,9 +160,31 @@ public class ScriptInputDialog extends InputDialog {
 		}			
 	}
 	
-	private void setJSMode(boolean flag){
-		javaScript = flag;
-		((GeoGebraEditorPane) inputPanel.getTextComponent()).setEditorKit(flag ? "javascript":"geogebra");
+	//private void setJSMode(boolean flag){
+	//	javaScript = flag;
+	//	((GeoGebraEditorPane) inputPanel.getTextComponent()).setEditorKit(flag ? "javascript":"geogebra");
+	//}
+	
+	private void setScriptType(ScriptType scriptType) {
+		this.scriptType = scriptType;
+		String scriptStr;
+		switch (scriptType) {
+		default:
+		case GGBSCRIPT:
+			scriptStr = "geogebra";
+			break;
+			
+		case PYTHON:
+			Application.debug("TODO");
+			scriptStr = "javascript";//python";
+			break;
+			
+		case JAVASCRIPT:
+			scriptStr = "javascript";
+			break;
+			
+		}
+		((GeoGebraEditorPane) inputPanel.getTextComponent()).setEditorKit(scriptStr);		
 	}
 	
 	/**
@@ -202,13 +230,15 @@ public class ScriptInputDialog extends InputDialog {
             // change existing text
             	if (updateScript){            		
             		getGeo().setUpdateScript(inputValue, true);
-            		getGeo().setUpdateJavaScript(javaScript);
+            		//getGeo().setUpdateJavaScript(javaScript);
+            		getGeo().setUpdateScriptType(scriptType);
             		//let's suppose fixing this script removed the reason why scripts were blocked
                     app.setBlockUpdateScripts(false);	
             	}
             	else{
             		getGeo().setClickScript(inputValue, true);
-            		getGeo().setClickJavaScript(javaScript);
+            		//getGeo().setClickJavaScript(javaScript);
+            		getGeo().setClickScriptType(scriptType);
             	}            
             	return true;
         }

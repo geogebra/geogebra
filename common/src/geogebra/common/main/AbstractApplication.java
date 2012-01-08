@@ -422,8 +422,6 @@ public abstract class AbstractApplication {
 
 	public abstract boolean showView(int view);
 
-	public abstract void callJavaScript(String jsFunction, Object[] args);
-
 	public abstract boolean isUsingLocalizedLabels();
 
 	public abstract String getLanguage();
@@ -972,5 +970,10 @@ public abstract class AbstractApplication {
 	public abstract boolean showAlgebraInput();
 
 	public abstract GlobalKeyDispatcher getGlobalKeyDispatcher();
+
+	public abstract void evalPythonScript(AbstractApplication app, String string,
+			String arg);
+
+	public abstract void callAppletJavaScript(String string, Object[] args);
  
 }

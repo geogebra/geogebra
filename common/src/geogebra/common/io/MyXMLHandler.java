@@ -19,9 +19,11 @@ the Free Software Foundation.
 package geogebra.common.io;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.io.layout.*;
-import geogebra.common.kernel.Kernel;
+import geogebra.common.io.layout.DockPanelData;
+import geogebra.common.io.layout.DockSplitPaneData;
+import geogebra.common.io.layout.Perspective;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.MacroKernelInterface;
@@ -32,13 +34,13 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
-import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement.ScriptType;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoLine;
@@ -46,12 +48,14 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.GeoUserInputElement;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.LimitedPath;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.kernel.geos.Traceable;
+import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.parser.Parser;
@@ -64,7 +68,6 @@ import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.SpreadsheetTraceSettings;
-import geogebra.common.kernel.implicit.GeoImplicitPoly;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -72,6 +75,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+
 import org.xml.sax.SAXException;
 
 /**
@@ -2812,7 +2816,7 @@ public class MyXMLHandler implements DocHandler {
 
 		case 'g':
 			if (eName.equals("ggbscript")) {
-				ok = handleScript(attrs,false);
+				ok = handleScript(attrs, ScriptType.GGBSCRIPT);
 				break;
 			}
 
@@ -2830,7 +2834,7 @@ public class MyXMLHandler implements DocHandler {
 
 		case 'j':
 			if (eName.equals("javascript")) {
-				ok = handleScript(attrs,true);
+				ok = handleScript(attrs, ScriptType.JAVASCRIPT);
 				break;
 			}
 
@@ -2888,6 +2892,10 @@ public class MyXMLHandler implements DocHandler {
 			// Florian Sonner 2008-07-17
 			else if (eName.equals("pointStyle")) {
 				ok = handlePointStyle(attrs);
+				break;
+			}
+			else if (eName.equals("python")) {
+				ok = handleScript(attrs, ScriptType.PYTHON);
 				break;
 			}
 			/*
@@ -3224,17 +3232,17 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleScript(LinkedHashMap<String, String> attrs,boolean javaScript) {
+	private boolean handleScript(LinkedHashMap<String, String> attrs,ScriptType type) {
 		try {			
 			String clickScript = attrs.get("val");
 			if(clickScript != null && clickScript.length()>0){
 				geo.setClickScript(clickScript, false);
-				geo.setClickJavaScript(javaScript);
+				geo.setClickScriptType(type);
 			}
 			String updateScript = attrs.get("onUpdate");			
 			if(updateScript != null && updateScript.length()>0){
 				geo.setUpdateScript(updateScript, false);
-				geo.setUpdateJavaScript(javaScript);
+				geo.setUpdateScriptType(type);
 			}
 			return true;
 		} catch (Exception e) {
@@ -3304,7 +3312,7 @@ public class MyXMLHandler implements DocHandler {
 			} else if (isButton) {
 				GeoButton button = (GeoButton)geo;
 				button.setClickScript(strVal, false);
-				button.setClickJavaScript(true);
+				button.setClickScriptType(ScriptType.JAVASCRIPT);
 			}
 			return true;
 		} catch (Exception e) {

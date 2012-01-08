@@ -893,8 +893,29 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels {
 				.get(geo);
 
 		if (node != null) {
-			((DefaultTreeModel) getModel()).nodeChanged(node);
+			/* occasional exception when animating
+			 * Exception in thread "AWT-EventQueue-0" java.lang.ArrayIndexOutOfBoundsException: 1 >= 1
+			 * at java.util.Vector.elementAt(Vector.java:432)
+			 * at javax.swing.tree.DefaultMutableTreeNode.getChildAt(DefaultMutableTreeNode.java:230)
+			 * at javax.swing.tree.VariableHeightLayoutCache.treeNodesChanged(VariableHeightLayoutCache.java:412)
+			 * at javax.swing.plaf.basic.BasicTreeUI$Handler.treeNodesChanged(BasicTreeUI.java:3669)
+			 * at javax.swing.tree.DefaultTreeModel.fireTreeNodesChanged(DefaultTreeModel.java:466)
+			 * at javax.swing.tree.DefaultTreeModel.nodesChanged(DefaultTreeModel.java:328)
+			 * at javax.swing.tree.DefaultTreeModel.nodeChanged(DefaultTreeModel.java:261)
+			 * at geogebra.gui.view.algebra.AlgebraView.update(AlgebraView.java:726)
+			 * at geogebra.kernel.Kernel.notifyUpdate(Kernel.java:2082)
+			 * at geogebra.kernel.GeoElement.update(GeoElement.java:3269)
+			 * at geogebra.kernel.GeoPoint.update(GeoPoint.java:1169)
+			 * at geogebra.kernel.GeoElement.updateCascade(GeoElement.java:3313)
+			 * at geogebra.kernel.GeoElement.updateCascade(GeoElement.java:3369)
+			 * at geogebra.kernel.AnimationManager.actionPerformed(AnimationManager.java:179)
 
+			 */
+			try {
+				((DefaultTreeModel)getModel()).nodeChanged(node);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			/*
 			 * Cancel editing if the updated geo element has been edited, but
 			 * not otherwise because editing geos while animation is running

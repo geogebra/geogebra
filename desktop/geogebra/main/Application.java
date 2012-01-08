@@ -936,6 +936,7 @@ public class Application extends AbstractApplication implements
 		}
 
 		kernel.resetLibraryJavaScript();
+		kernel.resetLibraryPythonScript();
 
 		if (scriptManager != null) {
 			scriptManager.resetListeners();
@@ -3834,6 +3835,7 @@ public class Application extends AbstractApplication implements
 			// clear global JavaScript
 			if (success && !isMacroFile) {
 				kernel.resetLibraryJavaScript();
+				kernel.resetLibraryPythonScript();
 			}
 
 			// set current file
@@ -6182,9 +6184,16 @@ public class Application extends AbstractApplication implements
 		updateMenubar();
 	}
 
-	@Override
-	public void callJavaScript(String jsFunction, Object[] args) {
+	public void callAppletJavaScript(String string, Object[] args) {
+		getApplet().callJavaScript(string, args);
+	}
 
+
+	@Override
+	public void evalPythonScript(AbstractApplication app, String string,
+			String arg) {
+		Application.debug("TODO");
+		
 	}
 
 	@Override
@@ -6443,5 +6452,6 @@ public class Application extends AbstractApplication implements
 	public static boolean isControlDown(AbstractEvent e) {
 		return isControlDown(geogebra.euclidian.event.MouseEvent.getEvent(e));
 	}
+
 
 }

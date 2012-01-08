@@ -26,10 +26,10 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.FormatFactory;
 import geogebra.common.factories.LaTeXFactory;
 import geogebra.common.kernel.AbstractAnimationManager;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
@@ -38,7 +38,6 @@ import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegmentInterface;
-import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.algos.AlgorithmSet;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -57,8 +56,8 @@ import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.NumberFormatAdapter;
-import geogebra.common.util.StringUtil;
 import geogebra.common.util.SpreadsheetTraceSettings;
+import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
@@ -68,6 +67,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
+
+import com.google.appengine.tools.admin.Application;
 
 
 /**
@@ -83,33 +84,36 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	/**
-	 * @return the updateJavaScript
+	 * @return the ScriptType for update
 	 */
-	public boolean isUpdateJavaScript() {
-		return updateJavaScript;
+	public ScriptType getUpdateScriptType() {
+		return updateScriptType;
 	}
+	
 
 	/**
 	 * @param updateJavaScript
 	 *            the updateJavaScript to set
 	 */
-	public void setUpdateJavaScript(boolean updateJavaScript) {
-		this.updateJavaScript = updateJavaScript;
+	public void setUpdateScriptType(ScriptType scriptType) {
+		this.updateScriptType = scriptType;
 	}
 
 	/**
-	 * @return the clickJavaScript
+	 * @return the ScriptType for click
 	 */
-	public boolean isClickJavaScript() {
-		return clickJavaScript;
+	public ScriptType getClickScriptType() {
+		return clickScriptType;
 	}
+	
+	public enum ScriptType {GGBSCRIPT, JAVASCRIPT, PYTHON };
 
 	/**
 	 * @param clickJavaScript
 	 *            the clickJavaScript to set
 	 */
-	public void setClickJavaScript(boolean clickJavaScript) {
-		this.clickJavaScript = clickJavaScript;
+	public void setClickScriptType(ScriptType scriptType) {
+		this.clickScriptType = scriptType;
 	}
 	
 	protected ArrayList<GeoNumeric> spreadsheetTraceList = null;
@@ -4164,8 +4168,10 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	private String strHasIndexLabel;
 	private boolean hasIndexLabel = false;
-	private boolean updateJavaScript;
-	private boolean clickJavaScript;
+	//private boolean updateJavaScript;
+	//private boolean clickJavaScript;
+	private ScriptType updateScriptType = ScriptType.GGBSCRIPT;
+	private ScriptType clickScriptType = ScriptType.GGBSCRIPT;
 
 	/**
 	 * returns type and label of a GeoElement as html string (for tooltips and
@@ -4282,15 +4288,15 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	public void getScriptTags(StringBuilder sb) {
 		// JavaScript
-		if ((updateJavaScript && (updateScript.length() > 0))
-				|| (clickJavaScript && (clickScript.length() > 0))) {
+		if ((updateJavaScript() && (updateScript.length() > 0))
+				|| (clickJavaScript() && (clickScript.length() > 0))) {
 			sb.append("\t<javascript ");
-			if (clickJavaScript && (clickScript.length() > 0)) {
+			if (clickJavaScript() && (clickScript.length() > 0)) {
 				sb.append(" val=\"");
 				sb.append(getXMLClickScript());
 				sb.append("\"");
 			}
-			if (updateJavaScript && (updateScript.length() > 0)) {
+			if (updateJavaScript() && (updateScript.length() > 0)) {
 				sb.append(" onUpdate=\"");
 				sb.append(getXMLUpdateScript());
 				sb.append("\"");
@@ -4298,18 +4304,18 @@ public abstract class GeoElement extends ConstructionElement implements
 			sb.append("/>\n");
 		}
 
-		// Script
-		if ((!updateJavaScript && (updateScript != null) && (updateScript
+		// GGBScript
+		if ((updateGGBScript() && (updateScript != null) && (updateScript
 				.length() > 0))
-				|| (!clickJavaScript && (clickScript != null) && (clickScript
+				|| (clickGGBScript() && (clickScript != null) && (clickScript
 						.length() > 0))) {
 			sb.append("\t<ggbscript ");
-			if (!clickJavaScript && (clickScript.length() > 0)) {
+			if (clickGGBScript() && (clickScript.length() > 0)) {
 				sb.append(" val=\"");
 				sb.append(getXMLClickScript());
 				sb.append("\"");
 			}
-			if (!updateJavaScript && (updateScript.length() > 0)) {
+			if (updateGGBScript() && (updateScript.length() > 0)) {
 				sb.append(" onUpdate=\"");
 				sb.append(getXMLUpdateScript());
 				sb.append("\"");
@@ -4317,6 +4323,49 @@ public abstract class GeoElement extends ConstructionElement implements
 			sb.append("/>\n");
 		}
 
+		// Python
+		if ((updatePythonScript() && (updateScript != null) && (updateScript
+				.length() > 0))
+				|| (clickPythonScript() && (clickScript != null) && (clickScript
+						.length() > 0))) {
+			sb.append("\t<python ");
+			if (clickPythonScript() && (clickScript.length() > 0)) {
+				sb.append(" val=\"");
+				sb.append(getXMLClickScript());
+				sb.append("\"");
+			}
+			if (updatePythonScript() && (updateScript.length() > 0)) {
+				sb.append(" onUpdate=\"");
+				sb.append(getXMLUpdateScript());
+				sb.append("\"");
+			}
+			sb.append("/>\n");
+		}
+
+	}
+
+	public boolean clickGGBScript() {
+		return clickScriptType.equals(ScriptType.GGBSCRIPT);
+	}
+
+	public boolean updateGGBScript() {
+		return updateScriptType.equals(ScriptType.GGBSCRIPT);
+	}
+
+	public boolean clickJavaScript() {
+		return clickScriptType.equals(ScriptType.JAVASCRIPT);
+	}
+
+	public boolean updateJavaScript() {
+		return updateScriptType.equals(ScriptType.JAVASCRIPT);
+	}
+
+	public boolean clickPythonScript() {
+		return clickScriptType.equals(ScriptType.PYTHON);
+	}
+
+	private boolean updatePythonScript() {
+		return updateScriptType.equals(ScriptType.PYTHON);
 	}
 
 	public String getCaptionXML() {
@@ -5705,7 +5754,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			return;
 		}
 		// Application.debug(script);
-		if (clickJavaScript) {
+		if (!clickGGBScript()) {
 			if (app.getScriptingLanguage() == null) {
 				app.setScriptingLanguage(app.getLanguage());
 			}
@@ -5723,7 +5772,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (!canHaveUpdateScript()) {
 			return;
 		}
-		if (updateJavaScript) {
+		if (!updateGGBScript()) {
 			if (app.getScriptingLanguage() == null) {
 				app.setScriptingLanguage(app.getLanguage());
 			}
@@ -5743,14 +5792,14 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	public String getUpdateScript() {
-		if (!updateJavaScript) {
+		if (updateGGBScript()) {
 			return script2LocalizedScript(updateScript);
 		}
 		return updateScript;
 	}
 
 	public String getClickScript() {
-		if (!clickJavaScript) {
+		if (clickGGBScript()) {
 			return script2LocalizedScript(clickScript);
 		}
 		return clickScript;
@@ -5803,6 +5852,12 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 	}
 
+	private void runPythonScript(String arg, boolean update) {
+	
+		AbstractApplication.debug("running Python script: "+arg);
+		app.evalPythonScript(app, update ? updateScript : clickScript, arg);
+	}
+	
 	private void runJavaScript(String arg, boolean update) {
 		// Possible TODO: make executing update scripts also possible via
 		// browser
@@ -5810,10 +5865,10 @@ public abstract class GeoElement extends ConstructionElement implements
 			if (app.isApplet() && app.useBrowserForJavaScript() && !update) {
 				if (arg == null) {
 					Object[] args = {};
-					app.callJavaScript("ggb" + getLabel(), args);
+					app.callAppletJavaScript("ggb" + getLabel(), args);
 				} else {
 					Object[] args = { arg };
-					app.callJavaScript("ggb" + getLabel(), args);
+					app.callAppletJavaScript("ggb" + getLabel(), args);
 				}
 			} else {
 				app.evalScript(app, update ? updateScript : clickScript, arg);
@@ -5838,10 +5893,16 @@ public abstract class GeoElement extends ConstructionElement implements
 				|| app.isScriptingDisabled()) {
 			return;
 		}
-		if (clickJavaScript) {
+		switch (clickScriptType) {
+		case PYTHON:
+			runPythonScript(arg, false);
+			break;
+		case JAVASCRIPT:
 			runJavaScript(arg, false);
-		} else {
+			break;
+		case GGBSCRIPT:
 			runGgbScript(arg, false);
+			break;
 		}
 	}
 
@@ -5851,10 +5912,16 @@ public abstract class GeoElement extends ConstructionElement implements
 			return;
 		}
 		app.setBlockUpdateScripts(true);
-		if (updateJavaScript) {
+		switch (updateScriptType) {
+		case PYTHON:
+			runPythonScript(null, true);
+			break;
+		case JAVASCRIPT:
 			runJavaScript(null, true);
-		} else {
+			break;
+		case GGBSCRIPT:
 			runGgbScript(null, true);
+			break;
 		}
 	}
 
