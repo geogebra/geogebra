@@ -50,7 +50,7 @@ public class CASmpreduce extends CASgeneric {
 	/**
 	 * @return Static MPReduce interpreter shared by all CASmpreduce instances.
 	 */
-	private static synchronized Interpreter2 getStaticInterpreter() {
+	public static synchronized Interpreter2 getStaticInterpreter() {
 		if (mpreduce_static == null) {
 			mpreduce_static = new Interpreter2();
 
