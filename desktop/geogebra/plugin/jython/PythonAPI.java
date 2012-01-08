@@ -108,34 +108,59 @@ public class PythonAPI {
 			return expr.isNumberValue();
 		}
 		
+		/**
+		 * @return numerical value of the expression
+		 */
 		public double getNumber() {
 			return ((NumberValue) expr).getDouble();
 		}
 		
+		/**
+		 * @return true if the expression is a vector
+		 */
 		public boolean isVector() {
 			return expr.isVectorValue();
 		}
 		
+		/**
+		 * @return vector components of the expression
+		 */
 		public double[] getCoords() {
 			return ((MyVecNode) expr).getCoords();
 		}
 		
+		/**
+		 * @return true if the expression is a boolean
+		 */
 		public boolean isBoolean() {
 			return expr.isBooleanValue();
 		}
 		
+		/**
+		 * @return boolean value of the expression
+		 */
 		public boolean getBoolean() {
 			return ((BooleanValue) expr).getBoolean();
 		}
 		
+		/**
+		 * @return true if the wrapped expression is a node
+		 */
 		public boolean isNode() {
 			return expr.isExpressionNode();
 		}
 		
+		/**
+		 * @return the label of the expression, assuming it is a node
+		 */
 		public String getNodeLabel() {
 			return ((ExpressionNode) expr).getLabel();
 		}
 		
+		/**
+		 * Set a new label for the wrapped expression, assuming it is a node
+		 * @param label value of the new label
+		 */
 		public void setNodeLabel(String label) {
 			((ExpressionNode) expr).setLabel(label);
 		}
