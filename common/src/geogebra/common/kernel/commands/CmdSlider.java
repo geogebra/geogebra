@@ -40,7 +40,9 @@ public class CmdSlider extends CommandProcessor {
 			if (!arg[i].isBooleanValue())
 				throw argErr(app, c.getName(), arg[i]);
 		GeoNumeric slider;
-		if (n > 5 && ((BooleanValue) arg[5]).getBoolean())
+		//Slider[0,360°] should be angle
+		if ((n > 5 && ((BooleanValue) arg[5]).getBoolean()) 
+				|| arg[0] instanceof GeoAngle || arg[1] instanceof GeoAngle)
 			slider = new GeoAngle(kernelA.getConstruction());
 		else
 			slider = new GeoNumeric(kernelA.getConstruction());
@@ -58,6 +60,8 @@ public class CmdSlider extends CommandProcessor {
 			slider.setAnimating(((BooleanValue) arg[7]).getBoolean());
 		if (n > 8)
 			slider.setRandom(((BooleanValue) arg[8]).getBoolean());
+		slider.setLabelMode(GeoElement.LABEL_NAME_VALUE);
+		slider.setLabelVisible(true);
 		slider.setEuclidianVisible(true);
 		slider.setLabel(c.getLabel());
 		return new GeoElement[] { slider };
