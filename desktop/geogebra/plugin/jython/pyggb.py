@@ -16,7 +16,7 @@ from javax.swing import (
     JMenuBar, JMenu, JMenuItem, JFileChooser,
     KeyStroke,
 )
-from javax.swing.text import StyleContext, StyleConstants, SimpleAttributeSet, TabStop, TabSet
+from javax.swing.text import StyleContext, StyleConstants
 from javax.swing.filechooser import FileNameExtensionFilter
 from javax.swing.event import DocumentListener
 
@@ -24,7 +24,7 @@ from java.awt import Toolkit, Component, BorderLayout, Color as awtColor, GridLa
 from java.awt.event import KeyListener, ActionListener, KeyEvent, ActionEvent
 
 # Jython imports
-import sys, re
+import sys
 
 # Python imports
 from generic import generic, specmethod, GenericMethods, GenericError, sign
@@ -35,12 +35,13 @@ Number = (int, long, float)
 
 class Interface(PythonScriptInterface):
     def init(self, app):
-        global api, pywindow, selection
+        global api, ggbapi, pywindow, selection
         pywindow = self.pywin = PythonWindow()
         self.geo = Geo()
         selection = self.selection = Selection()
         sys.stdout = self.pywin
         api = API(app)
+        ggbapi = app.getGgbApi()
         self.namespace = {
             'Color': Color,
             'Point': Point,
@@ -58,6 +59,7 @@ class Interface(PythonScriptInterface):
             'Parabola': Parabola,
             'Locus': Locus,
             'Text': Text,
+            'ggbApplet': ggbapi,
             'Intersect': Intersect,
             'geo': self.geo,
             'selection': self.selection,
@@ -67,6 +69,12 @@ class Interface(PythonScriptInterface):
         self.namespace.update(unary_functions)
         self.handling_event = False
         self.pywin.add("*** Python Interface initialised ***\n", "output")
+    def execute(self, script):
+        try:
+            exec script in self.namespace
+        except Exception, e:
+            self.pywin.error("Runtime Error: " + str(e))
+            raise        
     def handleEvent(self, evt_type, target):
         target = API.Geo(target)
         if self.handling_event:
@@ -906,13 +914,29 @@ class Geo(object):
         return map(Geo._get_element, api.getGeos(GeoClass.POINT))
 
 
+class MyListCellRenderer(ListCellRenderer):
+    colormap = {
+        "input": awtColor.BLACK,
+        "output": awtColor.BLUE,
+        "error": awtColor.RED
+    }
+    font = Font("Monospaced", Font.PLAIN, 12)
+    def getListCellRendererComponent(self, lst, value, index, isSelected, cellHasFocus):
+        text = value["text"]
+        renderer = JTextArea(text=text)
+        renderer.foreground = self.colormap[value["type"]]
+        renderer.font = self.font
+        if isSelected:
+            renderer.background = awtColor.YELLOW
+        return renderer
+
+
 class OutputPane(object):
     def __init__(self):
         self.textpane = JTextPane()
         self.doc = self.textpane.getStyledDocument()
         self.textpane.editable = False
-        style_context = StyleContext.getDefaultStyleContext()
-        default_style = style_context.getStyle(StyleContext.DEFAULT_STYLE)
+        default_style = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE)
         parent_style = self.doc.addStyle("parent", default_style)
         StyleConstants.setFontFamily(parent_style, "Monospaced")
         input_style = self.doc.addStyle("input", parent_style)
@@ -920,24 +944,6 @@ class OutputPane(object):
         StyleConstants.setForeground(output_style, awtColor.BLUE)
         error_style = self.doc.addStyle("error", parent_style)
         StyleConstants.setForeground(error_style, awtColor.RED)
-        
-        # Do a dance to set tab size
-        font = Font("Monospaced", Font.PLAIN, 12)
-        self.textpane.setFont(font)
-        fm = self.textpane.getFontMetrics(font)
-        tabw = float(fm.stringWidth(" "*4))
-        tabs = [
-            TabStop(tabw*i, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE)
-            for i in xrange(1, 51)
-        ]
-        attr_set = style_context.addAttribute(
-            SimpleAttributeSet.EMPTY,
-            StyleConstants.TabSet,
-            TabSet(tabs)
-        )
-        self.textpane.setParagraphAttributes(attr_set, False)
-        #Dance done!
-        
     def addtext(self, text, style="input", ensure_newline=False):
         doclen = self.doc.length
         if ensure_newline and self.doc.getText(doclen - 1, 1) != '\n':
@@ -969,7 +975,6 @@ class FileLoader(ActionListener):
             except Exception, e:
                 self.pywin.outputpane.addtext(str(e) + '\n', 'error')
 
-
 class PythonWindow(KeyListener, DocumentListener, ActionListener):
     def __init__(self):
         self.frame = JFrame("Python Window")
@@ -984,7 +989,7 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
         self.input.document.addDocumentListener(self)
         inputPanel.add(self.input)
         self.outputpane = OutputPane()
-        scrollpane.viewport.view = self.outputpane.textpane
+        scrollpane.viewport.view = self.outputpane.textpane #self.historyList
         self.frame.add(scrollpane, BorderLayout.CENTER)
         self.frame.add(inputPanel, BorderLayout.PAGE_END)
         self.frame.size = 500, 600
@@ -999,7 +1004,7 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
         shortcut = Toolkit.getDefaultToolkit().menuShortcutKeyMask
         menubar = JMenuBar()
         filemenu = JMenu("File")
-        loader = FileLoader(self)
+        #loader = FileLoader(self)
         menubar.add(filemenu)
         item = JMenuItem("Load Python File", actionCommand="load")
         item.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_O, shortcut)
@@ -1040,7 +1045,7 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
         self.outputpane.addtext(text, "error", ensure_newline=True)
     def write(self, text):
         self.add(text, "output")
-    def run(self):
+    def run(self, evt):
         source = self.input.text
         if not source.strip():
             self.input.text = ""
@@ -1057,45 +1062,31 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
         result = interface.run(code)
         if result == "OK":
             self.input.text = ""
-    
-    # Implementation of KeyListener
     def keyPressed(self, evt):
         pass
     def keyReleased(self, evt):
         pass
     def keyTyped(self, evt):
+        self.current_text = source = self.input.text
         if evt.keyChar == '\n':
-            text = self.input.text
-            if text.endswith('\n\n'):
-                self.run()
-                return
-            t = text.rstrip()
-            if '\n' not in t and not t.endswith(':'):
-                self.run()
-                return
-            offset = self.input.caretPosition - 1
-            indent = None
-            if offset:
-                lines = text[:offset].rsplit('\n', 1)
-                if len(lines) == 1:
-                    line = text[:offset]
+            # Only try to run compound statements when they end with
+            # two \n
+            source = self.input.text
+            lines = source.split("\n")
+            if lines[0].rstrip().endswith(":") and not source.endswith("\n\n"):
+                for i, c in enumerate(lines[-2]):
+                    if c not in ' \t': break
                 else:
-                    line = lines[1]
-                indent = re.match('\\s*', line).group(0)
-                if len(indent) == len(line):
-                    # No non-whitespace on this line
-                    if len(text) == offset + 1:
-                        self.run()
-                        return
-                elif text[offset - 1] == ':':
-                    indent += '\t'
-            if indent:
+                    self.run(evt)
+                    return
+                prefix = lines[-2][:i]
+                if lines[-2].endswith(":"):
+                    prefix += '\t'
                 self.checking_input = False
-                self.input.text = text[:offset + 1] + indent + text[offset + 1:]
+                self.input.text = source + prefix
                 self.checking_input = True
-                self.input.caretPosition = offset + len(indent) + 1
-
-    # Implementation of DocumentListener
+            else:
+                self.run(evt)
     def update_current_text(self):
         if self.checking_input:
             self.current_text = self.input.text
@@ -1106,8 +1097,6 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
         self.update_current_text()
     def removeUpdate(self, evt):
         self.update_current_text()
-
-    # Implementation of ActionListener
     def actionPerformed(self, evt):
         getattr(self, "action_" + evt.actionCommand)(evt)
     def action_up(self, evt):

@@ -12,4 +12,5 @@ public interface PythonScriptInterface {
 	public void notifySelected(GeoElement geo, boolean addToSelection);
 	public void toggleWindow();
 	public boolean isWindowVisible();
+	public void execute(String script);
 }

@@ -88,7 +88,9 @@ public class PythonBridge implements View, GeoElementSelectionListener {
 
 	public void eval(String script) {
 		Application.debug("python: evaluating:: "+script);
-		interpreter.exec(script);
+		//interpreter.exec(script);
+		
+		pyInterface.execute(script);
 	}
 }
 
