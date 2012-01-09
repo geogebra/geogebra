@@ -15,18 +15,19 @@ TOCHECK=$THIS
 RESULT=255 # Maybe no .result file exists yet
 
 while [ $LOOP = 1 ]; do
- LOOP=0
  RESULTFILE=$REVDIR/$TOCHECK/result
  test -r $RESULTFILE && {
-  LOOP=1
   RESULT=`cat $RESULTFILE`
   if [ "$RESULT" = "0" ]; then
    OUTPUT=$TOCHECK
    LOOP=0
-  else
-   TOCHECK=$((${THIS}-1))
    fi
   }
+ TOCHECK=$((${THIS}-1))
+ if [ $TOCHECK -lt 14799 ]; then
+  LOOP=0
+  RESULT=255
+  fi
  done
 
 echo $OUTPUT

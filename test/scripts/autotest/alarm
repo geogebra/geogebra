@@ -52,8 +52,13 @@ if [ $RESULT = 0 ]; then
  fi
 
 # Sending an email to geogebra-dev:
+LASTOK=`./which-latest-ok`
+if [ "$LASTOK" != "" ]; then
+ LASTOKINFO="The last error-free revision was $LASTOK in the autotest database"
+ fi
 echo "$MESSAGE
 $REV_HTTP
+$LASTOKINFO
 
 $LOG
 
