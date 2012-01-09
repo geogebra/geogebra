@@ -125,6 +125,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	
 	private double XZeroOld = 0;
 	private double YZeroOld = 0;
+	private double ZZeroOld = 0;
 	
 	//list of 3D objects
 	private boolean waitForUpdate = true; //says if it waits for update...
@@ -600,12 +601,19 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	
 	/**
 	 * converts the vector to scene coords
-	 * @param vInOut
+	 * @param vInOut vector
 	 */
 	final public void toSceneCoords3D(Coords vInOut) {	
 		changeCoords(mInv,vInOut);		
 	}
 	
+	/**
+	 * converts the vector to screen coords
+	 * @param vInOut vector
+	 */
+	final public void toScreenCoords3D(Coords vInOut) {	
+		changeCoords(m,vInOut);		
+	}
 
 	
 	final private static void changeCoords(CoordMatrix mat, Coords vInOut){
@@ -664,6 +672,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		CoordMatrix m5 = CoordMatrix.TranslationMatrix(new double[] {getXZero(),getYZero(),getZZero()});
 		
 		m.set(m5.mul(m3.mul(m4)));	
+		//m.set((m3.mul(m4)));	
 		
 		mInv.set(m.inverse());
 		mInvTranspose.set(mInv.transposeCopy());
@@ -741,8 +750,26 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 			setRotXYinDegrees(aOld - dx, bOld + dy);
 			break;
 		case EuclidianController3D.MOVE_VIEW:
+			/*
+			Application.debug(dx+","+dy);
+			Coords v = new Coords(dx,-dy,0,0);
+			toSceneCoords3D(v);
+			Application.debug(v);
+			//v=v.add(getViewDirection().mul(-v.dotproduct(getViewDirection())));
+			v=v.projectPlaneThruV(CoordMatrix4x4.IDENTITY, getViewDirection())[0];
+			Application.debug(v);
+			toScreenCoords3D(v);
+			Application.debug(v);
+
+			setXZero(XZeroOld+v.getX());
+			setYZero(YZeroOld+v.getY());
+			setZZero(ZZeroOld+v.getZ());
+			*/
+			
 			setXZero(XZeroOld+dx);
 			setYZero(YZeroOld-dy);
+			
+			
 			updateMatrix();
 			setViewChangedByTranslate();
 			setWaitForUpdate();
@@ -821,6 +848,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		bOld = b;
 		XZeroOld = XZero;
 		YZeroOld = YZero;
+		ZZeroOld = ZZero;
 	}
 	
 	
