@@ -232,7 +232,7 @@ public class DynamicTextInputPane extends JTextPane {
 			if (right != null && !en.containsMyStringBuffer()) {
 				// neither left nor right are free texts, eg a+3 in (a+3)+"hello"
 				// so no splitting needed
-				insertDynamicText(toString(), -1, id);
+				insertDynamicText(en.toString(), -1, id);
 				return;
 			}
 			
