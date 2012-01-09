@@ -1,5 +1,5 @@
 # Make division novice-friendly :)
-from __future__ import division
+from __future__ import division, with_statement
 
 # GeoGebra imports
 from geogebra.common.plugin import GeoClass
@@ -17,7 +17,6 @@ from javax.swing import (
     KeyStroke,
 )
 from javax.swing.text import StyleContext, StyleConstants
-from javax.swing.filechooser import FileNameExtensionFilter
 from javax.swing.event import DocumentListener
 
 from java.awt import Toolkit, Component, BorderLayout, Color as awtColor, GridLayout, Font
@@ -28,6 +27,24 @@ import sys
 
 # Python imports
 from generic import generic, specmethod, GenericMethods, GenericError, sign
+
+try:
+    from javax.swing.filechooser import FileNameExtensionFilter
+except ImportError:
+    # This is Java < 6: reimplement this class in Python
+    from javax.swing.filechooser import FileFilter
+    
+    class FileNameExtensionFilter(FileFilter):
+        def __init__(self, description, extensions):
+            self._description = description
+            self.extensions = ["." + ext for ext in extensions]
+        def getDescription(self):
+            return self._description
+        def accept(self, file):
+            if file.isDirectory():
+                return True
+            name = file.name
+            return any(name.endswith(ext) for ext in self.extensions)
 
 
 Number = (int, long, float)
@@ -975,6 +992,95 @@ class FileLoader(ActionListener):
             except Exception, e:
                 self.pywin.outputpane.addtext(str(e) + '\n', 'error')
 
+
+class InputHistory(object):
+    
+    class OutOfBounds(Exception):
+        pass
+    
+    def __init__(self):
+        self.history = []
+        self.history_pos = 0
+    def append(self, input):
+        self.history.append(input)
+        self.reset_position()
+    def reset_position(self):
+        self.history_pos = 0
+    def back(self):
+        if self.history_pos < len(self.history):
+            self.history_pos += 1
+            return self.history[-self.history_pos]
+        else:
+            raise self.OutOfBounds
+    def forward(self):
+        if self.history_pos > 1:
+            self.history_pos -= 1
+            return self.history[-self.history_pos]
+        else:
+            raise self.OutOfBounds
+        
+
+class InputArea(KeyListener):
+    def __init__(self):
+        self.component = JTextArea(
+            border=BorderFactory.createEmptyBorder(5, 5, 5, 5),
+            tabSize=4,
+            font=Font("Monospaced", Font.PLAIN, 12)
+        )
+        self.component.addKeyListener(self)
+        self.nocheck = LockManager()
+
+    def _getinput(self):
+        return self.component.text
+    def _setinput(self, input):
+        self.component.text = input
+    input = property(_getinput, _setinput)
+    
+    # Implementation of KeyListener
+    def keyPressed(self, evt):
+        pass
+    def keyReleased(self, evt):
+        pass
+    def keyTyped(self, evt):
+        if evt.keyChar == '\n':
+            text = self.input
+            offset = self.component.caretPosition - 1
+            indent = None
+            if offset:
+                lines = text[:offset].rsplit('\n', 1)
+                if len(lines) == 1:
+                    line = text[:offset]
+                else:
+                    line = lines[1]
+                indent = re.match('\\s*', line).group(0)
+                if text[offset - 1] == ':':
+                    indent += '\t'
+            if indent:
+                self.input = text[:offset + 1] + indent + text[offset + 1:]
+                self.input.caretPosition = offset + len(indent) + 1
+
+
+def InteractiveInput(InputArea):
+    def __init__(self, checks_disabled):
+        self.checks_disabled = checks_disabled
+        InputArea.__init__(self)
+    def keyTyped(self, evt):
+        with self.checks_disabled:
+            InputArea.keyTyped(self, evt)
+            text = self.input
+            
+
+class LockManager(object):
+    def __init__(self):
+        self.lock = False
+    def __enter__(self):
+        self.lock = True
+        return self
+    def __exit__(self, type, value, traceback):
+        self.lock = False
+    def __nonzero__(self):
+        return self.lock
+
 class PythonWindow(KeyListener, DocumentListener, ActionListener):
     def __init__(self):
         self.frame = JFrame("Python Window")
@@ -989,22 +1095,20 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
         self.input.document.addDocumentListener(self)
         inputPanel.add(self.input)
         self.outputpane = OutputPane()
-        scrollpane.viewport.view = self.outputpane.textpane #self.historyList
+        scrollpane.viewport.view = self.outputpane.textpane
         self.frame.add(scrollpane, BorderLayout.CENTER)
         self.frame.add(inputPanel, BorderLayout.PAGE_END)
         self.frame.size = 500, 600
         self.frame.visible = False
         self.component = None
         self.make_menubar()
-        self.history = []
-        self.history_pos = 0
-        self.current_text = ""
-        self.checking_input = True
+        self.history = InputHistory()
+        self.check_disabled = LockManager()
     def make_menubar(self):
         shortcut = Toolkit.getDefaultToolkit().menuShortcutKeyMask
         menubar = JMenuBar()
         filemenu = JMenu("File")
-        #loader = FileLoader(self)
+        loader = FileLoader(self)
         menubar.add(filemenu)
         item = JMenuItem("Load Python File", actionCommand="load")
         item.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_O, shortcut)
@@ -1045,7 +1149,7 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
         self.outputpane.addtext(text, "error", ensure_newline=True)
     def write(self, text):
         self.add(text, "output")
-    def run(self, evt):
+    def run(self):
         source = self.input.text
         if not source.strip():
             self.input.text = ""
@@ -1062,55 +1166,70 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
         result = interface.run(code)
         if result == "OK":
             self.input.text = ""
+    
+    # Implementation of KeyListener
     def keyPressed(self, evt):
         pass
     def keyReleased(self, evt):
         pass
     def keyTyped(self, evt):
-        self.current_text = source = self.input.text
         if evt.keyChar == '\n':
-            # Only try to run compound statements when they end with
-            # two \n
-            source = self.input.text
-            lines = source.split("\n")
-            if lines[0].rstrip().endswith(":") and not source.endswith("\n\n"):
-                for i, c in enumerate(lines[-2]):
-                    if c not in ' \t': break
+            text = self.input.text
+            if text.endswith('\n\n'):
+                self.run()
+                return
+            t = text.rstrip()
+            if '\n' not in t and not t.endswith(':'):
+                self.run()
+                return
+            offset = self.input.caretPosition - 1
+            indent = None
+            if offset:
+                lines = text[:offset].rsplit('\n', 1)
+                if len(lines) == 1:
+                    line = text[:offset]
                 else:
-                    self.run(evt)
-                    return
-                prefix = lines[-2][:i]
-                if lines[-2].endswith(":"):
-                    prefix += '\t'
-                self.checking_input = False
-                self.input.text = source + prefix
-                self.checking_input = True
-            else:
-                self.run(evt)
+                    line = lines[1]
+                indent = re.match('\\s*', line).group(0)
+                if len(indent) == len(line):
+                    # No non-whitespace on this line
+                    if len(text) == offset + 1:
+                        self.run()
+                        return
+                elif text[offset - 1] == ':':
+                    indent += '\t'
+            if indent:
+                with self.check_disabled:
+                    self.input.text = text[:offset + 1] + indent + text[offset + 1:]
+                self.input.caretPosition = offset + len(indent) + 1
+
+    # Implementation of DocumentListener
     def update_current_text(self):
-        if self.checking_input:
+        if not self.check_disabled:
             self.current_text = self.input.text
-            self.history_pos = 0
+            self.history.reset_position()
     def changedUpdate(self, evt):
         self.update_current_text()
     def insertUpdate(self, evt):
         self.update_current_text()
     def removeUpdate(self, evt):
         self.update_current_text()
+
+    # Implementation of ActionListener
     def actionPerformed(self, evt):
         getattr(self, "action_" + evt.actionCommand)(evt)
     def action_up(self, evt):
-        self.checking_input = False
-        if self.history_pos < len(self.history):
-            self.history_pos += 1
-            self.input.text = self.history[-self.history_pos]
-        self.checking_input = True
+        """Move back in history"""
+        try:
+            with self.check_disabled:
+                self.input.text = self.history.back()
+        except InputHistory.OutOfBounds:
+            pass
     def action_down(self, evt):
-        self.checking_input = False
-        if self.history_pos > 1:
-            self.history_pos -= 1
-            self.input.text = self.history[-self.history_pos]
-        else:
+        """Move forward in history"""
+        try:
+            with self.check_disabled:
+                self.input.text = self.history.forward()
+        except InputHistory.OutOfBounds:
             self.input.text = self.current_text
-            self.history_pos = 0
-        self.checking_input = True
+            self.history.reset_position()
