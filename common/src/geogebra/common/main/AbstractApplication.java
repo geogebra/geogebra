@@ -44,7 +44,6 @@ import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.MissingResourceException;
 import java.util.Set;
@@ -83,7 +82,7 @@ public abstract class AbstractApplication {
 	// languages
 	// supported by GeoGebra, so some language codes have to be treated
 	// specially
-	public static Hashtable<String, String> specialLanguageNames = new Hashtable<String, String>();
+	public static HashMap<String, String> specialLanguageNames = new HashMap<String, String>();
 	static {
 		specialLanguageNames.put("bs",
 				"Bosnian / \u0431\u043E\u0441\u0430\u043D\u0441\u043A\u0438");
