@@ -84,6 +84,8 @@ public abstract class AbstractApplication {
 	// specially
 	public static HashMap<String, String> specialLanguageNames = new HashMap<String, String>();
 	static {
+		specialLanguageNames.put("am",
+				"Armenian / \u0570\u0561\u0575\u0565\u0580\u0565\u0576");
 		specialLanguageNames.put("bs",
 				"Bosnian / \u0431\u043E\u0441\u0430\u043D\u0441\u043A\u0438");
 		specialLanguageNames.put("zhCN",

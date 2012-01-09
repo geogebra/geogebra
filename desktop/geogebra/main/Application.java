@@ -194,8 +194,10 @@ public class Application extends AbstractApplication implements
 		}
 
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add(new Locale("ar")); // Arabic
+			supportedLocales.add(new Locale("am")); // Armenian
 		}
+
+		supportedLocales.add(new Locale("ar")); // Arabic
 		supportedLocales.add(new Locale("eu")); // Basque
 		supportedLocales.add(new Locale("bs")); // Bosnian
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
@@ -233,9 +235,8 @@ public class Application extends AbstractApplication implements
 			supportedLocales.add(new Locale("in")); // Indonesian
 		}
 		supportedLocales.add(new Locale("it")); // Italian
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add(new Locale("ja")); // Japanese
-		}
+		supportedLocales.add(new Locale("ja")); // Japanese
+
 		supportedLocales.add(new Locale("kk")); // Kazakh
 		supportedLocales.add(new Locale("ko")); // Korean
 		supportedLocales.add(new Locale("lt")); // Lithuanian
@@ -5447,9 +5448,11 @@ public class Application extends AbstractApplication implements
 
 
 	@Override
-	public void evalPythonScript(AbstractApplication app, String string,
+	public void evalPythonScript(AbstractApplication app, String script,
 			String arg) {
-		Application.debug("TODO");
+		if (arg != null) script = "arg="+arg+";"+script;
+		Application.debug(script);
+		getPythonBridge().eval(script);
 		
 	}
 
