@@ -106,9 +106,9 @@ log() {
 appendlog() {
  LINES=`wc -l $1 | awk '{print $1}'`
  log "Appending logfile with $1 ($LINES lines)"
- echo "-------- 8< $1 TOP ---------------" >> $LOGFILE
+ echo "-------- 8< $1 TOP --------" >> $LOGFILE
  cat $1 >> $LOGFILE
- echo "-------- 8< $1 BOTTOM ---------------" >> $LOGFILE
+ echo "-------- 8< $1 BOTTOM --------" >> $LOGFILE
 }
 
 runstep() {
@@ -123,8 +123,10 @@ runstep() {
  $* >$STEPLOG 2>&1 || PROBLEM=$?
  appendlog $STEPLOG
  if [ $PROBLEM != 0 ]; then
-  log "Exited with exit code $PROBLEM, see $STEPLOG for details"
+  log "Exited with exit code $PROBLEM, see $STEPLOG for more details"
+  echo "-------- 8< tail $STEPLOG TOP --------"
   tail $STEPLOG
+  echo "-------- 8< tail $STEPLOG BOTTOM --------"
   exit $EXITCODE
   fi
 }
@@ -188,8 +190,13 @@ if [ $STOPONECJERR = 1 ]; then
  echo "$ECJRESULT" | grep --silent error && exit 6
  fi
 
-# 7. Doing the rest (packing)
-runstep 7 .pack "Packing" ant -f pack.xml $PROJECT-aftervanilla
+# 7/1. Doing the rest (packing)
+runstep 71 .pack "Packing" ant -f pack.xml $PROJECT-aftervanilla
+
+# 7/2. Testing packed jars
+cd $WORKDIR/scripts/autobuild
+runstep 72 .jartest "Testing packed JARs" ./test-packed-jars 
+cd $WORKDIR
 
 # 8. Creating Windows and Mac OS X installer
 runstep 8 .installer "Creating installers" ant -f installer.xml

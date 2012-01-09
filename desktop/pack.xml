@@ -144,7 +144,7 @@ office@geogebra.org
 	<!-- bug in Java 6, see http://www.geogebra.org/forum/viewtopic.php?f=8&t=3972&st=0&sk=t&sd=a&start=15 -->
 	<taskdef name="p200ant"
 	    classname="de.matthiasmann.p200ant.P200AntTask"
-	    classpath="lib/build/tools_p200ant_java5only.jar"/>
+	    classpath="lib/build/tools_p200ant.jar"/>
 
 
 	<!-- Obfuscate jar files without signing -->
@@ -243,7 +243,7 @@ office@geogebra.org
       		</condition>
       	</target>
 
-	<target name="pack" description="pack jar files" depends="get-jvm" unless="jvm.buggy">
+	<target name="pack" description="pack jar files">
                 <fileset id="unsignedJars" dir="${build.dir}/unsigned/unpacked">
                         <include name="*.jar"/>
                 </fileset>

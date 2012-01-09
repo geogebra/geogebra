@@ -125,7 +125,9 @@ instructions.
 	
 	<!-- download p200ant from GeoGebra repository -->
 	<target name="p200ant-geogebra">
-	<get src="http://www.geogebra.org/download/lib/build/tools_p200ant_java5only.jar" dest="lib/build/tools_p200ant_java5only.jar"
+	<!--get src="http://www.geogebra.org/download/lib/build/tools_p200ant_java5only.jar" dest="lib/build/tools_p200ant_java5only.jar"
+	    usetimestamp="true"/-->
+	<get src="http://www.geogebra.org/download/lib/build/tools_p200ant.jar" dest="lib/build/tools_p200ant.jar"
 	    usetimestamp="true"/>
 	</target>
 
