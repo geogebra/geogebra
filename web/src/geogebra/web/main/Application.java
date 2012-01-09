@@ -651,8 +651,14 @@ public class Application extends AbstractApplication {
     }
 
 	@Override
-    public void callAppletJavaScript(String string, Object[] args) {
-	    debug("callAppletJavaScript() not implemented yet");
+    public void callAppletJavaScript(String fun, Object[] args) {
+	    if (args == null || args.length == 0) {
+	    	callNativeJavaScript(fun);
+	    } else if (args.length == 1) {
+	    	callNativeJavaScript(fun, args[0].toString());
+	    } else {
+	    	debug("callAppletJavaScript() not supported for more than 1 argument");
+	    }
 	    
     }
 
@@ -661,5 +667,14 @@ public class Application extends AbstractApplication {
 	    // TODO Auto-generated method stub
 	    return false;
     }
+	
+	public static native void callNativeJavaScript(String fun, String arg) /*-{
+	  eval(fun + "(" + arg + ");");
+	}-*/;
+	
+	public static native void callNativeJavaScript(String fun) /*-{
+	  eval(fun + "();");
+	}-*/;
+
 
 }
