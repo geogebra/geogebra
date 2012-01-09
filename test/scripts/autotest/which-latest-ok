@@ -1,0 +1,33 @@
+#!/bin/sh
+# Returns which is the last version that has no test problems.
+# Assumes that each version has a result file in its JAR directory.
+
+# 1. Start and loading configuration
+test -r autotest.conf || {
+ echo "$0: Cannot find autotest.conf (make sure you edit autotest.conf.dist first)"
+ exit 127
+ }
+test -r autotest.conf && . ./autotest.conf
+
+THIS=`svn info | grep Revision: | awk '{print $2}'`
+LOOP=1
+TOCHECK=$THIS
+RESULT=255 # Maybe no .result file exists yet
+
+while [ $LOOP = 1 ]; do
+ LOOP=0
+ RESULTFILE=$REVDIR/$TOCHECK/result
+ test -r $RESULTFILE && {
+  LOOP=1
+  RESULT=`cat $RESULTFILE`
+  if [ "$RESULT" = "0" ]; then
+   OUTPUT=$TOCHECK
+   LOOP=0
+  else
+   TOCHECK=$((${THIS}-1))
+   fi
+  }
+ done
+
+echo $OUTPUT
+exit $RESULT

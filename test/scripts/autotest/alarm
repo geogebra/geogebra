@@ -44,6 +44,8 @@ if [ $RESULT = 5 ]; then
  LOG=`cat $WEBDIR/.buildlog | awk '{printf("%s\\\n",$0);}'`
  fi
 
+echo $RESULT > $REVDIR/$REVISION/result
+
 if [ $RESULT = 0 ]; then
  MESSAGE="Everything is OK at revision $REVISION"
  exit 0 # Not sending an email
