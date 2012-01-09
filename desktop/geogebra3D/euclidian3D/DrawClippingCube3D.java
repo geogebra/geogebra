@@ -33,11 +33,9 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	
 	private double[][] minMax;
 	
-	//orientation of the scene
-	private short leftRightIndex=0, bottomTopIndex=1, frontBackIndex=2;
+
 	
-	//center
-	private double x0, y0, z0;
+
 	
 	//cube reduction
 	private double reduction = (1-1/Math.sqrt(2))/2;
@@ -72,86 +70,12 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		
 		Renderer renderer = getView3D().getRenderer();
 		
-		x0 = getView3D().getXZero();
-		y0 = getView3D().getYZero();
-		z0 = getView3D().getZZero();
+
 		double scale = getView3D().getScale();
 
-		/*
-		//center
-		double x0 = -getView3D().getXZero()/scale;
-		double y0 = -getView3D().getYZero()/scale;
-		double z0 = -getView3D().getZZero()/scale;
-		
-		
-		minMax[0][0] = x0;
-		minMax[0][1] = x0;
-		minMax[1][0] = y0;
-		minMax[1][1] = y0;
-		minMax[2][0] = z0;
-		minMax[2][1] = z0;
-		*/
-		
-		//check orientation of the scene
-		
-		Coords d = getView3D().getViewDirection();
-		//Application.debug(d);
-		double x = Math.abs(d.getX());
-		double y = Math.abs(d.getY());
-		double z = Math.abs(d.getZ());
-		if (x>y){
-			if (x>z){//x axis is the most orthogonal to screen
-				//Application.debug("x");
-				leftRightIndex = 1;//y
-				bottomTopIndex = 2;//z
-				frontBackIndex = 0;//x
-				if (d.getX()>0)
-					x0=-x0;
-			}else{//z axis is the most orthogonal to screen
-				setOrientationZ();
-			}
-		}else if (y>z){//y axis is the most orthogonal to screen
-			//Application.debug("y");
-			leftRightIndex = 0;//x
-			bottomTopIndex = 2;//z
-			frontBackIndex = 1;//y
-			if (d.getY()<0)
-				x0=-x0;
-		}else{//z axis is the most orthogonal to screen
-			setOrientationZ();
-		}
-
-	
-		
-		/*
-		minMax[leftRightIndex][0] += renderer.getLeft()/scale;
-		minMax[leftRightIndex][1] += renderer.getRight()/scale;
-		minMax[bottomTopIndex][0] += renderer.getBottom()/scale;
-		minMax[bottomTopIndex][1] += renderer.getTop()/scale;
-		minMax[frontBackIndex][0] += renderer.getFront(false)/scale;
-		minMax[frontBackIndex][1] += renderer.getBack(false)/scale;
-		*/
-		/*
-		minMax[leftRightIndex][0] = (renderer.getLeft()-x0)/scale;
-		minMax[leftRightIndex][1] = (renderer.getRight()-x0)/scale;
-		minMax[bottomTopIndex][0] = (renderer.getBottom()-y0)/scale;
-		minMax[bottomTopIndex][1] = (renderer.getTop()-y0)/scale;
-		minMax[frontBackIndex][0] = (renderer.getFront(false)-z0)/scale;
-		minMax[frontBackIndex][1] = (renderer.getBack(false)-z0)/scale;
-		*/
-		
-		/*
-		double xmin = (renderer.getLeft()-x0)/scale;
-		double xmax = (renderer.getRight()-x0)/scale;
-		double ymin = (renderer.getBottom()-y0)/scale;
-		double ymax = (renderer.getTop()-y0)/scale;
-		double zmin  = (renderer.getFront(false)-z0)/scale;
-		double zmax = (renderer.getBack(false)-z0)/scale;
-		*/
 		
 		Coords origin = getView3D().getToSceneMatrix().getOrigin();
-		//Application.debug(origin);
-		x0 = origin.getX(); y0 = origin.getY(); z0 = origin.getZ();
+		double x0 = origin.getX(), y0 = origin.getY(), z0 = origin.getZ();
 		
 		double xmin = (renderer.getLeft())/scale+x0;
 		double xmax = (renderer.getRight())/scale+x0;
@@ -165,49 +89,20 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		double yr = (ymax-ymin)*reduction;
 		double zr = (zmax-zmin)*reduction;
 		
-		leftRightIndex=0;
-		bottomTopIndex=2;
-		frontBackIndex=1;
 		
-		minMax[leftRightIndex][0] = xmin+xr;
-		minMax[leftRightIndex][1] = xmax-xr;
-		minMax[bottomTopIndex][0] = ymin+yr;
-		minMax[bottomTopIndex][1] = ymax-yr;
-		minMax[frontBackIndex][0] = zmin+zr;
-		minMax[frontBackIndex][1] = zmax-zr;
+		minMax[0][0] = xmin+xr;
+		minMax[0][1] = xmax-xr;
+		minMax[2][0] = ymin+yr;
+		minMax[2][1] = ymax-yr;
+		minMax[1][0] = zmin+zr;
+		minMax[1][1] = zmax-zr;
 		
-		/*
-		xmin = -2; xmax = 2; 
-		ymin = -2; ymax = 2; 
-		zmin = -1; zmax = 3;
-		*/
 		
 		//Application.debug(xmin+","+xmax+","+ymin+","+ymax+","+zmin+","+zmax);
 		
 		return minMax;
 	}
 	
-	private void setOrientationZ(){
-		//Application.debug("z\n"+getView3D().getToSceneMatrix()+"\nto screen\n"+getView3D().getToScreenMatrix());
-
-		frontBackIndex = 2;//z
-		
-		Coords vx = getView3D().getToScreenMatrix().getVx();
-		Coords vy = getView3D().getToScreenMatrix().getVy();
-		if (Math.abs(vx.getX())>Math.abs(vy.getX())){
-			leftRightIndex = 0;//x
-			bottomTopIndex = 1;//y
-			if (vx.getX()<0) x0=-x0;
-			if (vy.getY()<0) y0=-y0;
-		}else{
-			leftRightIndex = 1;//y
-			bottomTopIndex = 0;//x
-			if (vy.getX()<0) x0=-x0;
-			if (vx.getY()<0) y0=-y0;
-		}
-			
-	}
-
 
 	@Override
 	protected boolean updateForItSelf(){
