@@ -1981,8 +1981,8 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	}
 
 	public void mouseDragged(MouseEvent e) {
-
-		sliderValue = null;
+		wrapMouseDragged(e);
+		/*sliderValue = null;
 
 		if (textfieldHasFocus) {
 			return;
@@ -2221,6 +2221,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		 * If the mouse is moved wildly we take intermediate steps to get a more
 		 * continous behaviour
 		 */
+		/*
 		if (kernel.isContinuous() && (lastMouseLoc != null)) {
 			double dx = mouseLoc.x - lastMouseLoc.x;
 			double dy = mouseLoc.y - lastMouseLoc.y;
@@ -2261,7 +2262,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 			}
 		}
 
-		handleMouseDragged(true);
+		handleMouseDragged(true);*/
 	}
 
 	protected boolean allowSelectionRectangle() {
@@ -4036,21 +4037,49 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		xRW = coords.getX();
 		yRW = coords.getY();
 	}
-
-	public void mouseEntered(MouseEvent e) {
-
+	
+	
+	
+	protected void wrapMouseEntered(MouseEvent e) {
 		if (textfieldHasFocus) {
 			return;
 		}
 
 		initToolTipManager();
 		initShowMouseCoords();
-		((EuclidianViewInterface) view).mouseEntered();
+		view.mouseEntered();
+	}
+
+	public void mouseEntered(MouseEvent e) {
+		wrapMouseEntered(e);
+		/*if (textfieldHasFocus) {
+			return;
+		}
+
+		initToolTipManager();
+		initShowMouseCoords();
+		((EuclidianViewInterface) view).mouseEntered();*/
+	}
+	
+	protected void wrapMouseExited(MouseEvent e) {
+		
+		if (textfieldHasFocus) {
+			return;
+		}
+
+		refreshHighlighting(null);
+		resetToolTipManager();
+		view.setAnimationButtonsHighlighted(false);
+		view.setShowMouseCoords(false);
+		mouseLoc = null;
+		view.repaintView();
+		view.mouseExited();
+		
 	}
 
 	public void mouseExited(MouseEvent e) {
-
-		if (textfieldHasFocus) {
+		wrapMouseExited(e);
+		/*if (textfieldHasFocus) {
 			return;
 		}
 
@@ -4060,7 +4089,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		((EuclidianViewInterface) view).setShowMouseCoords(false);
 		mouseLoc = null;
 		view.repaintView();
-		((EuclidianViewInterface) view).mouseExited();
+		((EuclidianViewInterface) view).mouseExited();*/
 	}
 
 	/*

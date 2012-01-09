@@ -363,5 +363,10 @@ public class EuclidianView extends AbstractEuclidianView {
 	    return null;
     }
 
+	public boolean setAnimationButtonsHighlighted(boolean b) {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
 
 }

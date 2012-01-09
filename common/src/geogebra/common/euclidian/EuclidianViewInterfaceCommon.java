@@ -275,4 +275,6 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	public boolean requestFocusInWindow();
 	
 	public EuclidianStyleBar getStyleBar();
+
+	public boolean setAnimationButtonsHighlighted(boolean b);
 }
