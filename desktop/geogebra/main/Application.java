@@ -297,106 +297,7 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
-	// specialLanguageNames: Java does not show an English name for all
-	// languages
-	// supported by GeoGebra, so some language codes have to be treated
-	// specially
-	public static Hashtable<String, String> specialLanguageNames = new Hashtable<String, String>();
-	static {
-		specialLanguageNames.put("bs",
-				"Bosnian / \u0431\u043E\u0441\u0430\u043D\u0441\u043A\u0438");
-		specialLanguageNames.put("zhCN",
-				"Chinese Simplified / \u7B80\u4F53\u4E2D\u6587");
-		specialLanguageNames.put("zhTW",
-				"Chinese Traditional / \u7E41\u9AD4\u4E2D\u6587");
-		specialLanguageNames.put("en", "English (US)");
-		specialLanguageNames.put("enGB", "English (UK)");
-		specialLanguageNames.put("enAU", "English (Australia)");
-		specialLanguageNames.put("deAT",
-				"German (Austria) / Deutsch (\u00D6sterreich)");
-		specialLanguageNames.put("de", "German / Deutsch");
-		specialLanguageNames.put("gl", "Galician / Galego");
-		specialLanguageNames.put("noNO", "Norwegian / Bokm\u00e5l");
-		specialLanguageNames.put("noNONY", "Norwegian / Nynorsk");
-		specialLanguageNames.put("pt",
-				"Portuguese (Brazil) / Portugu\u00EAs (Brasil)");
-		specialLanguageNames.put("ptPT",
-				"Portuguese (Portugal) / Portugu\u00EAs (Portugal)");
-		specialLanguageNames.put("si",
-				"Sinhala / \u0DC3\u0DD2\u0D82\u0DC4\u0DBD"); // better than
-																// Sinhalese
 
-		specialLanguageNames.put("sq", "Albanian / Gjuha Shqipe");
-		specialLanguageNames.put("ar",
-				"Arabic / \u0627\u0644\u0639\u0631\u0628\u064A\u0629 ");
-		specialLanguageNames.put("eu", "Basque / Euskara");
-		specialLanguageNames
-				.put("bg",
-						"Bulgarian / \u0431\u044A\u043B\u0433\u0430\u0440\u0441\u043A\u0438 \u0435\u0437\u0438\u043A");
-		specialLanguageNames.put("ca", "Catalan / Catal\u00E0");
-		specialLanguageNames.put("hr", "Croatian / Hrvatska");
-		specialLanguageNames.put("cs", "Czech / \u010Ce\u0161tina");
-		specialLanguageNames.put("da", "Danish / Dansk");
-		specialLanguageNames.put("nl", "Dutch / Nederlands");
-		specialLanguageNames.put("et", "Estonian / Eesti keel");
-		specialLanguageNames.put("fi", "Finnish / Suomi");
-		specialLanguageNames.put("fr", "French / Fran\u00E7ais");
-		specialLanguageNames
-				.put("ka",
-						"Georgian / \u10E5\u10D0\u10E0\u10D7\u10E3\u10DA\u10D8 \u10D4\u10DC\u10D0");
-		specialLanguageNames.put("el",
-				"Greek / \u0395\u03BB\u03BB\u03B7\u03BD\u03B9\u03BA\u03AC");
-		specialLanguageNames.put("iw",
-				"Hebrew / \u05E2\u05B4\u05D1\u05B0\u05E8\u05B4\u05D9\u05EA");
-		specialLanguageNames
-				.put("hi",
-						"Hindi / \u092E\u093E\u0928\u0915 \u0939\u093F\u0928\u094D\u0926\u0940");
-		specialLanguageNames.put("hu", "Hungarian / Magyar");
-		specialLanguageNames.put("is", "Icelandic / \u00CDslenska");
-		specialLanguageNames.put("in", "Indonesian / Bahasa Indonesia");
-		specialLanguageNames.put("it", "Italian / Italiano");
-		specialLanguageNames.put("ja", "Japanese / \u65E5\u672C\u8A9E");
-		specialLanguageNames
-				.put("kk",
-						"Kazakh / \u049A\u0430\u0437\u0430\u049B \u0442\u0456\u043B\u0456");
-		specialLanguageNames.put("ko", "Korean / \uD55C\uAD6D\uB9D0");
-		specialLanguageNames.put("lt", "Lithuanian / Lietuvi\u0173 kalba");
-		specialLanguageNames.put("ml",
-				"Malayalam / \u0D2E\u0D32\u0D2F\u0D3E\u0D33\u0D02");
-		specialLanguageNames
-				.put("mk",
-						"Macedonian / \u041C\u0430\u043A\u0435\u0434\u043E\u043D\u0441\u043A\u0438 \u0458\u0430\u0437\u0438\u043A");
-		specialLanguageNames.put("mr",
-				"Marathi / \u092E\u0930\u093E\u0920\u0940");
-		specialLanguageNames.put("ms", "Malay / Bahasa Malaysia");
-		specialLanguageNames.put("ne",
-				"Nepalese / \u0928\u0947\u092A\u093E\u0932\u0940");
-		specialLanguageNames.put("fa",
-				"Persian / \u0641\u0627\u0631\u0633\u06CC");
-		specialLanguageNames.put("pl", "Polish / J\u0119zyk polski");
-		specialLanguageNames.put("ro", "Romanian /  Rom\u00E2n\u0103");
-		specialLanguageNames
-				.put("ru",
-						"Russian / \u0420\u0443\u0441\u0441\u043A\u0438\u0439 \u044F\u0437\u044B\u043A");
-		specialLanguageNames.put("sr",
-				"Serbian / \u0441\u0440\u043F\u0441\u043A\u0438");
-		specialLanguageNames.put("sk", "Slovakian / Slovensk\u00FD jazyk");
-		specialLanguageNames.put("sl", "Slovenian / Sloven\u0161\u010Dina");
-		specialLanguageNames.put("es", "Spanish / Espa\u00F1ol");
-		specialLanguageNames.put("sv", "Swedish / Svenska");
-		specialLanguageNames
-				.put("ta", "Tamil / \u0BA4\u0BAE\u0BBF\u0BB4\u0BCD");
-		specialLanguageNames.put("th",
-				"Thai / \u0E20\u0E32\u0E29\u0E32\u0E44\u0E17\u0E22");
-		specialLanguageNames.put("tr", "Turkish / T\u00FCrk\u00E7e");
-		specialLanguageNames
-				.put("uk",
-						"Ukrainian / \u0423\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0430 \u043C\u043E\u0432\u0430");
-		specialLanguageNames.put("vi", "Vietnamese / Ti\u1EBFng Vi\u1EC7t");
-		specialLanguageNames.put("cy", "Welsh / Cymraeg");
-		specialLanguageNames.put("ji",
-				"Yiddish / \u05D9\u05D9\u05B4\u05D3\u05D9\u05E9");
-	}
 
 	// made a little darker in ggb40
 	// (problem showing on some projectors)
@@ -441,7 +342,7 @@ public class Application extends AbstractApplication implements
 	private static final String RB_PLAIN = "/geogebra/properties/plain";
 	private static final String RB_SYMBOL = "/geogebra/properties/symbols";
 	public static final String RB_JAVA_UI = "/geogebra/properties/javaui";
-	public static final String RB_COLORS = "/geogebra/properties/colors";
+	private static final String RB_COLORS = "/geogebra/properties/colors";
 
 	private static final String RB_SETTINGS = "/geogebra/export/settings";
 	//private static final String RB_ALGO2COMMAND = "/geogebra/kernel/algo2command";
@@ -707,8 +608,8 @@ public class Application extends AbstractApplication implements
 
 		isSaved = true;
 
-		if (CASVersionString == "") {
-			CASVersionString = getPlain("CASInitializing");
+		if (getCASVersionString() == "") {
+			setCASVersionString(getPlain("CASInitializing"));
 		}
 	}
 
@@ -769,10 +670,12 @@ public class Application extends AbstractApplication implements
 	}
 
 	
+	@Override
 	protected EuclidianController newEuclidianController(Kernel kernel) {
 		return new EuclidianController(kernel);
 	}
 
+	@Override
 	protected EuclidianView newEuclidianView(boolean[] showAxes,
 			boolean showGrid) {
 		return new EuclidianView(euclidianController, showAxes, showGrid,
@@ -815,6 +718,7 @@ public class Application extends AbstractApplication implements
 	/**
 	 * @return this application's GUI manager.
 	 */
+	@Override
 	final public synchronized GuiManager getGuiManager() {
 		return guiManager;
 	}
@@ -841,6 +745,7 @@ public class Application extends AbstractApplication implements
 		return fontManager.getPlainFont();
 	}
 	
+	@Override
 	final public geogebra.common.awt.Font getPlainFontCommon() {
 		return new geogebra.awt.Font(fontManager.getPlainFont());
 	}
@@ -906,6 +811,7 @@ public class Application extends AbstractApplication implements
 		isSaved = false;
 	}
 
+	@Override
 	public boolean isIniting() {
 		return initing;
 	}
@@ -1641,6 +1547,7 @@ public class Application extends AbstractApplication implements
 		return guiManager.getAlgebraView();
 	}
 
+	@Override
 	public EuclidianView getEuclidianView2() {
 		return getGuiManager().getEuclidianView2();
 	}
@@ -2692,30 +2599,14 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
-	/**
-	 * Initializes the translated command names for this application. Note: this
-	 * will load the properties files first.
-	 */
-	final public void initTranslatedCommands() {
-		if (rbcommand == null) {
-			rbcommand = MyResourceBundle
-					.createBundle(RB_COMMAND, currentLocale);
-			fillCommandDict();
-			kernel.updateLocalAxesNames();
-		}
-	}
 
+	@Override
 	public void getCommandResourceBundle() {
 		if (rbcommand == null) {
 			rbcommand = MyResourceBundle
 					.createBundle(RB_COMMAND, currentLocale);
 		}
 		
-	}
-
-	final public Enumeration<String> getKeyNames() {
-		initTranslatedCommands();
-		return rbcommand.getKeys();
 	}
 
 	@Override
@@ -3303,6 +3194,7 @@ public class Application extends AbstractApplication implements
 				AbstractApplication.VIEW_EUCLIDIAN);
 	}
 
+	@Override
 	public boolean showAlgebraInput() {
 		return showAlgebraInput;
 	}
@@ -3529,6 +3421,7 @@ public class Application extends AbstractApplication implements
 	}
 
 	
+	@Override
 	public void updateStyleBars() {
 		if (!isUsingFullGui() || isIniting()) {
 			return;
@@ -3890,6 +3783,7 @@ public class Application extends AbstractApplication implements
 		return myXMLio.getFullMacroXML(macros);
 	}
 
+	@Override
 	public void setXML(String xml, boolean clearAll) {
 		if (clearAll) {
 			setCurrentFile(null);
@@ -4439,6 +4333,7 @@ public class Application extends AbstractApplication implements
 		return getGlobalKeyDispatcher().dispatchKeyEvent(e);
 	}
 
+	@Override
 	final public GlobalKeyDispatcher getGlobalKeyDispatcher() {
 		if (globalKeyDispatcher == null) {
 			globalKeyDispatcher = newGlobalKeyDispatcher();
@@ -4510,6 +4405,7 @@ public class Application extends AbstractApplication implements
 	/**
 	 * PluginManager gets API with this H-P Ulven 2008-04-16
 	 */
+	@Override
 	public GgbAPI getGgbApi() {
 		if (ggbapi == null) {
 			ggbapi = new GgbAPI(this);
@@ -5388,6 +5284,7 @@ public class Application extends AbstractApplication implements
 
 	private SoundManager soundManager = null;
 
+	@Override
 	public SoundManager getSoundManager() {
 		if (soundManager == null) {
 			soundManager = new SoundManager(this);
@@ -5395,17 +5292,7 @@ public class Application extends AbstractApplication implements
 		return soundManager;
 	}
 
-	private static String CASVersionString = "";
 
-	public static void setCASVersionString(String string) {
-		CASVersionString = string;
-
-	}
-
-	public static String getCASVersionString() {
-		return CASVersionString;
-
-	}
 
 	
 	
@@ -5563,6 +5450,7 @@ public class Application extends AbstractApplication implements
 		updateMenubar();
 	}
 
+	@Override
 	public void callAppletJavaScript(String string, Object[] args) {
 		getApplet().callJavaScript(string, args);
 	}
@@ -5673,6 +5561,7 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
+	@Override
 	public double getWidth() {
 		if (isApplet()) {
 			AppletImplementation applet = getApplet();
@@ -5682,6 +5571,7 @@ public class Application extends AbstractApplication implements
 			return appCP.getWidth();
 	}
 	
+	@Override
 	public double getHeight() {
 		if (isApplet()) {
 			AppletImplementation applet = getApplet();
@@ -5691,6 +5581,7 @@ public class Application extends AbstractApplication implements
 			return appCP.getHeight();
 	}
 
+	@Override
 	public geogebra.common.awt.Font getFontCommon(boolean b, int i, int size) {
 		return new geogebra.awt.Font(getFont(b,i,size));
 	}
@@ -5706,6 +5597,7 @@ public class Application extends AbstractApplication implements
 		return traceManager;
 	}
 
+	@Override
 	public void repaintSpreadsheet() {
 		if (isUsingFullGui() && getGuiManager().hasSpreadsheetView()) {
 			getGuiManager().getSpreadsheetView().repaint();
@@ -5752,6 +5644,7 @@ public class Application extends AbstractApplication implements
 		return tableModel;
 	}
 	
+	@Override
 	public CommandProcessor newCmdBarCode(){
 		return new CmdBarCode(kernel);
 	}

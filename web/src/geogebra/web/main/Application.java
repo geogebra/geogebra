@@ -588,12 +588,6 @@ public class Application extends AbstractApplication {
     }
 
 	@Override
-    public void initTranslatedCommands() {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
     public void getCommandResourceBundle() {
 	    // TODO Auto-generated method stub
 	    
