@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import geogebra.common.awt.Point;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -23,5 +24,7 @@ public abstract class GuiManager {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public abstract void setFocusedPanel(AbstractEvent event);
 
 }

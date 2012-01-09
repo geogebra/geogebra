@@ -1545,6 +1545,10 @@ public abstract class AbstractApplication {
 	public static boolean isControlDown(AbstractEvent e) {
 		return e.isControlDown();
 	}
+	
+	public static boolean isMiddleClick(AbstractEvent e) {
+		return e.isMiddleClick();
+	}
 
 	public abstract boolean showAlgebraInput();
 
@@ -1562,6 +1566,8 @@ public abstract class AbstractApplication {
 	}
 
 	private PropertiesView propertiesView;
+
+	protected boolean shiftDragZoomEnabled = true;
 
 	public void setPropertiesView(PropertiesView propertiesView) {
 		this.propertiesView = propertiesView;
@@ -1711,5 +1717,13 @@ public abstract class AbstractApplication {
 	public abstract boolean isIniting();
 
 	public abstract boolean isRightClickEnabled();
+
+	public final boolean isShiftDragZoomEnabled() {
+		return shiftDragZoomEnabled;
+	}
+
+	public final void setShiftDragZoomEnabled(boolean shiftDragZoomEnabled) {
+		this.shiftDragZoomEnabled = shiftDragZoomEnabled;
+	}
 
 }

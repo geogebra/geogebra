@@ -1609,7 +1609,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 
 	
 	@Override
-	protected void switchModeForMousePressed(MouseEvent e){
+	protected void switchModeForMousePressed(AbstractEvent e){
 
 		Hits hits;
 		

@@ -86,4 +86,22 @@ public class MouseEvent extends AbstractEvent {
 		return current.event.getClickCount();
 	}
 
+	@Override
+	public boolean isMetaDown() {
+		MouseEvent current = MouseEvent.pool.get(this.id);
+		return current.event.isMetaDown();
+	}
+
+	@Override
+	public double getWheelRotation() {
+		MouseEvent current = MouseEvent.pool.get(this.id);
+		return ((java.awt.event.MouseWheelEvent)current.event).getWheelRotation();
+	}
+
+	@Override
+	public boolean isMiddleClick() {
+		MouseEvent current = MouseEvent.pool.get(this.id);
+		return (current.event.getButton() == 2) && (current.event.getClickCount() == 1);
+	}
+
 }

@@ -5,6 +5,7 @@ import geogebra.cas.view.CASView;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
@@ -3071,5 +3072,10 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 			geogebra.common.awt.Point mouseLoc) {
 		showPopupMenu(selectedGeos, ((EuclidianViewInterface) view).getJPanel(), mouseLoc);
 		
+	}
+
+	@Override
+	public void setFocusedPanel(AbstractEvent event) {
+		setFocusedPanel(geogebra.euclidian.event.MouseEvent.getEvent(event));
 	}
 }

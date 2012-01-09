@@ -419,8 +419,6 @@ public class Application extends AbstractApplication implements
 
 	private boolean rightClickEnabled = true;
 	private boolean chooserPopupsEnabled = true;
-//	private boolean labelDragsEnabled = true;//moved to Common
-	private boolean shiftDragZoomEnabled = true;
 	private boolean isErrorDialogsActive = true;
 	private boolean isErrorDialogShowing = false;
 	private static LinkedList<File> fileList = new LinkedList<File>();
@@ -4394,14 +4392,6 @@ public class Application extends AbstractApplication implements
 		this.isErrorDialogsActive = isErrorDialogsActive;
 	}
 
-	public final boolean isShiftDragZoomEnabled() {
-		return shiftDragZoomEnabled;
-	}
-
-	public final void setShiftDragZoomEnabled(boolean shiftDragZoomEnabled) {
-		this.shiftDragZoomEnabled = shiftDragZoomEnabled;
-	}
-
 	/**
 	 * PluginManager gets API with this H-P Ulven 2008-04-16
 	 */
@@ -5686,6 +5676,10 @@ public class Application extends AbstractApplication implements
 
 	public static boolean isControlDown(AbstractEvent e) {
 		return isControlDown(geogebra.euclidian.event.MouseEvent.getEvent(e));
+	}
+
+	public static boolean isMiddleClick(AbstractEvent e) {
+		return isMiddleClick(geogebra.euclidian.event.MouseEvent.getEvent(e));
 	}
 
 

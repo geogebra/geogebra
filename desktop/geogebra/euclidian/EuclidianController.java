@@ -663,7 +663,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		}
 	}
 
-	protected void mousePressedTranslatedView(MouseEvent e) {
+	protected void mousePressedTranslatedView(AbstractEvent e) {
 
 		Hits hits;
 
@@ -720,10 +720,90 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	protected boolean handleMousePressedForViewButtons() {
 		return false;
 	}
+	
+	protected void wrapMousePressed(MouseEvent e) {
+		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
+		if (app.isUsingFullGui()) {
+			// determine parent panel to change focus
+			// EuclidianDockPanelAbstract panel =
+			// (EuclidianDockPanelAbstract)SwingUtilities.getAncestorOfClass(EuclidianDockPanelAbstract.class,
+			// (Component)e.getSource());
+
+			// if(panel != null) {
+			// app.getGuiManager().getLayout().getDockManager().setFocusedPanel(panel);
+			// }
+			app.getGuiManager().setFocusedPanel(event);
+		}
+
+		setMouseLocation(event);
+
+		if (handleMousePressedForViewButtons()) {
+			return;
+		}
+
+		Hits hits;
+
+		if ((mode == EuclidianConstants.MODE_PEN)
+				|| (mode == EuclidianConstants.MODE_FREEHAND)) {
+			view.setHits(mouseLoc);
+			hits = view.getHits();
+			hits.removeAllButImages();
+			pen.handleMousePressedForPenMode(event, hits);
+			return;
+		}
+
+		// GeoElement geo;
+		transformCoords();
+
+		moveModeSelectionHandled = false;
+		DRAGGING_OCCURED = false;
+		view.setSelectionRectangle(null);
+		selectionStartPoint.setLocation(mouseLoc);
+
+		if (hitResetIcon() || view.hitAnimationButton(event)) {
+			// see mouseReleased
+			return;
+		}
+
+		if (Application.isRightClick(event)) {
+			// ggb3D - for 3D rotation
+			processRightPressFor3D();
+
+			return;
+		} else if (app.isShiftDragZoomEnabled() && (
+		// MacOS: shift-cmd-drag is zoom
+				(e.isShiftDown() && !Application.isControlDown(event)) // All
+																	// Platforms:
+																	// Shift key
+						|| (event.isControlDown() && Application.WINDOWS // old
+																		// Windows
+																		// key:
+																		// Ctrl
+																		// key
+						) || Application.isMiddleClick(event))) {
+			// Michael Borcherds 2007-12-08 BEGIN
+			// bugfix: couldn't select multiple objects with Ctrl
+
+			view.setHits(mouseLoc);
+			hits = view.getHits();
+			switchModeForRemovePolygons(hits);
+			if (!hits.isEmpty()) // bugfix 2008-02-19 removed this:&&
+									// ((GeoElement) hits.get(0)).isGeoPoint())
+			{
+				DONT_CLEAR_SELECTION = true;
+			}
+			// Michael Borcherds 2007-12-08 END
+			TEMPORARY_MODE = true;
+			oldMode = mode; // remember current mode
+			view.setMode(EuclidianConstants.MODE_TRANSLATEVIEW);
+		}
+
+		switchModeForMousePressed(event);
+	}
 
 	public void mousePressed(MouseEvent e) {
-
-		if (((Application)app).isUsingFullGui()) {
+		wrapMousePressed(e);
+		/*if (((Application)app).isUsingFullGui()) {
 			// determine parent panel to change focus
 			// EuclidianDockPanelAbstract panel =
 			// (EuclidianDockPanelAbstract)SwingUtilities.getAncestorOfClass(EuclidianDockPanelAbstract.class,
@@ -798,7 +878,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 			view.setMode(EuclidianConstants.MODE_TRANSLATEVIEW);
 		}
 
-		switchModeForMousePressed(e);
+		switchModeForMousePressed(e);*/
 
 	}
 
@@ -830,7 +910,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		createNewPoint(hits, true, false, true, true, false);
 	}
 
-	protected void switchModeForMousePressed(MouseEvent e) {
+	protected void switchModeForMousePressed(AbstractEvent e) {
 
 		Hits hits;
 
@@ -1045,7 +1125,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		}
 	}
 
-	protected void handleMousePressedForMoveMode(MouseEvent e, boolean drag) {
+	protected void handleMousePressedForMoveMode(AbstractEvent e, boolean drag) {
 
 		// long t0 = System.currentTimeMillis();
 
@@ -1851,7 +1931,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 					TEMPORARY_MODE = true;
 					oldMode = mode; // remember current mode
 					view.setMode(EuclidianConstants.MODE_MOVE);
-					handleMousePressedForMoveMode(e, true);
+					handleMousePressedForMoveMode(event, true);
 
 					// make sure that dragging doesn't deselect the geos
 					DONT_CLEAR_SELECTION = true;
@@ -4041,6 +4121,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	
 	
 	protected void wrapMouseEntered(MouseEvent e) {
+		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
 		if (textfieldHasFocus) {
 			return;
 		}
@@ -4062,7 +4143,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	}
 	
 	protected void wrapMouseExited(MouseEvent e) {
-		
+		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
 		if (textfieldHasFocus) {
 			return;
 		}
@@ -6441,13 +6522,64 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 	public void componentMoved(ComponentEvent e) {
 	}
+	
+	protected void wrapMouseWheelMoved(MouseEvent e) {
+		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
+		if (textfieldHasFocus) {
+			return;
+		}
+
+		if ((mode == EuclidianConstants.MODE_PEN)
+				|| (mode == EuclidianConstants.MODE_FREEHAND)) {
+			return;
+		}
+
+		// don't allow mouse wheel zooming for applets if mode is not zoom mode
+		boolean allowMouseWheel = !((Application)app).isApplet()
+				|| (mode == EuclidianConstants.MODE_ZOOM_IN)
+				|| (mode == EuclidianConstants.MODE_ZOOM_OUT)
+				|| (app.isShiftDragZoomEnabled() && (event.isControlDown()
+						|| event.isMetaDown() || event.isShiftDown()));
+		if (!allowMouseWheel) {
+			return;
+		}
+
+		setMouseLocation(event);
+
+		// double px = view.width / 2d;
+		// double py = view.height / 2d;
+		double px = mouseLoc.x;
+		double py = mouseLoc.y;
+		// double dx = view.getXZero() - px;
+		// double dy = view.getYZero() - py;
+
+		double xFactor = 1;
+		if (event.isAltDown()) {
+			xFactor = 1.5;
+		}
+
+		double reverse = app.isMouseWheelReversed() ? -1 : 1;
+
+		double factor = ((event.getWheelRotation() * reverse) > 0) ? EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
+				* xFactor
+				: 1d / (EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR * xFactor);
+
+		// make zooming a little bit smoother by having some steps
+
+		((EuclidianViewInterface) view).setAnimatedCoordSystem(
+		// px + dx * factor,
+		// py + dy * factor,
+				px, py, factor, view.getXscale() * factor, 4, false);
+		// view.yscale * factor);
+		app.setUnsaved();
+	}
 
 	/**
 	 * Zooms in or out using mouse wheel
 	 */
 	public void mouseWheelMoved(MouseWheelEvent e) {
-
-		if (textfieldHasFocus) {
+		wrapMouseWheelMoved(e);
+		/*if (textfieldHasFocus) {
 			return;
 		}
 
@@ -6493,7 +6625,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		// py + dy * factor,
 				px, py, factor, view.getXscale() * factor, 4, false);
 		// view.yscale * factor);
-		((Application)app).setUnsaved();
+		((Application)app).setUnsaved();*/
 	}
 
 	public void zoomInOut(KeyEvent event) {
