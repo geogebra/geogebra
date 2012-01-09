@@ -134,11 +134,12 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 
 	public void setMouseEnabled(boolean enableMouse) {
 
+		setContextMenuEnabled(enableContextMenu);
 		removeMouseListener(ec);
 		if (enableMouse) {
 			addMouseListener(ec);
 		}
-		setContextMenuEnabled(enableContextMenu);
+		
 	}
 
 	
@@ -276,33 +277,15 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 	// Mouse Handlers
 	// =================================================
 
-	@Override
-	protected void processMouseEvent(MouseEvent e) {
-		if (e.getClickCount() > 1) {
-			e.consume();
-			return;
-		}
-
-		else if (Application.isRightClick(e)) {
-			if (e.getID() == MouseEvent.MOUSE_RELEASED) {
-				ContextMenu contextMenu = new ContextMenu();
-				contextMenu.show(e.getComponent(), e.getX(), e.getY());
-				e.consume();
-			}
-			return;
-		} else {
-			super.processMouseEvent(e);
-		}
-	}
-
-	private static class MyMouseListener implements MouseListener {
+	private class MyMouseListener implements MouseListener {
 
 		public void mouseClicked(MouseEvent e) {
 			Object ob = e.getSource();
 			// right click shows context menu
 			if (Application.isRightClick(e)) {
 				e.consume();
-				// app.getGuiManager().showPopupMenu(temp, table, origin);
+				ContextMenu popup = new ContextMenu();
+				popup.show(e.getComponent(), e.getX(), e.getY());
 			}
 		}
 
@@ -316,6 +299,9 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 		}
 
 		public void mouseReleased(MouseEvent e) {
+			if (Application.isRightClick(e)) {
+				e.consume();
+			}
 		}
 
 	}
