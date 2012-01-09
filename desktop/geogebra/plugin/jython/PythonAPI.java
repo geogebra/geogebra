@@ -168,12 +168,19 @@ public class PythonAPI {
 	
 	/**
 	 * @author arno
-	 * Adapter for various GeoElements
+	 * Wrapper for various GeoElements
 	 */
 	public static class Geo extends Expression {
 				
+		/**
+		 * The wrapped GeoElement
+		 */
 		protected GeoElement geo;
 		
+		/**
+		 * Constructor
+		 * @param geo the wrapped GeoElement
+		 */
 		public Geo(GeoElement geo) {
 			super(geo);
 			this.geo = geo;
@@ -184,10 +191,20 @@ public class PythonAPI {
 			return geo.toString();
 		}
 		
+		/**
+		 * 
+		 * @param other another Geo
+		 * @return true if both wrapped geos refer to the same object
+		 */
 		public boolean equals(Geo other) {
 			return this.geo == other.geo;
 		}
 		
+		/**
+		 * Override equality operator in Python
+		 * @param other another Geo
+		 * @return true if both wrapped geos refer to the sane object
+		 */
 		public boolean __eq__(Geo other) {
 			return this.geo == other.geo;
 		}
