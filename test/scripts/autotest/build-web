@@ -16,5 +16,6 @@ cd $WEB_AUTOBUILDDIR
 ./build > .buildlog 2>&1 || exit $?
 
 cp -a $WEB_BUILDDIR $REVDIR/$REVISION
+rm -fR $REVDIR/$REVISION/war/{.svn,WEB-INF}
 
 exit 0
