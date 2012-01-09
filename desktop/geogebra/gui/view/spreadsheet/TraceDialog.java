@@ -16,10 +16,10 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.util.SpreadsheetTraceSettings;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.Application;
-import geogebra.main.GeoElementSelectionListener;
 
 import java.awt.BorderLayout;
 import java.awt.Component;

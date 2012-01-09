@@ -2,8 +2,8 @@ package geogebra.plugin.jython;
 
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.main.Application;
-import geogebra.main.GeoElementSelectionListener;
 
 import org.python.util.PythonInterpreter;
 

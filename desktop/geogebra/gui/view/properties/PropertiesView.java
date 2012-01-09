@@ -15,10 +15,10 @@ package geogebra.gui.view.properties;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.dialog.PropertiesPanel;
 import geogebra.main.Application;
-import geogebra.main.GeoElementSelectionListener;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import javax.swing.JPanel;
  * @author mathieu
  * @version
  */
-public class PropertiesView extends JPanel implements View, GeoElementSelectionListener {
+public class PropertiesView extends JPanel implements geogebra.common.gui.view.properties.PropertiesView {
 	
 	private static final long serialVersionUID = 1L;
 	

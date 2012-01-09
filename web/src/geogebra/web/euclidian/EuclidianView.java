@@ -13,6 +13,7 @@ import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
+import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.Hits;
@@ -355,6 +356,11 @@ public class EuclidianView extends AbstractEuclidianView {
 	public void setHitCursor() {
 	    // TODO Auto-generated method stub
 	    
+    }
+
+	public EuclidianStyleBar getStyleBar() {
+	    // TODO Auto-generated method stub
+	    return null;
     }
 
 

@@ -21,8 +21,6 @@ import geogebra.CommandLineArguments;
 import geogebra.GeoGebra;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.BufferedImageAdapter;
-import geogebra.common.euclidian.AbstractEuclidianController;
-import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
@@ -39,9 +37,7 @@ import geogebra.common.kernel.Relation;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
-import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.commands.CommandProcessor;
-import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -49,11 +45,11 @@ import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.common.util.LowerCaseDictionary;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.DrawEquation;
@@ -69,7 +65,7 @@ import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.layout.DockBar;
 import geogebra.gui.util.ImageSelection;
 import geogebra.gui.view.algebra.AlgebraView;
-import geogebra.gui.view.properties.PropertiesView;
+import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.gui.view.spreadsheet.SpreadsheetTableModel;
 import geogebra.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.io.MyXMLio;
@@ -481,7 +477,7 @@ public class Application extends AbstractApplication implements
 	private final MyXMLio myXMLio;
 
 	
-	protected GeoElementSelectionListener currentSelectionListener;
+	
 	private GlobalKeyDispatcher globalKeyDispatcher;
 
 	// For language specific settings
@@ -512,12 +508,12 @@ public class Application extends AbstractApplication implements
 	private boolean showInputHelpToggle = true;
 	protected boolean showToolBar = true;
 	private boolean showToolBarTop = true;
-	protected boolean showMenuBar = true;
+	
 	protected boolean showConsProtNavigation = false;
 	
 	
 	private boolean printScaleString = false;
-	private int labelingStyle = ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY;
+	
 	private boolean allowToolTips = true;
 
 	private boolean rightClickEnabled = true;
@@ -945,18 +941,11 @@ public class Application extends AbstractApplication implements
 		resetUniqueId();
 	}
 
-	/**
-	 * Returns labeling style. See the constants in ConstructionDefaults (e.g.
-	 * LABEL_VISIBLE_AUTOMATIC)
-	 */
-	@Override
-	public int getLabelingStyle() {
-		return labelingStyle;
-	}
+	
 
 	@Override
 	public int getCurrentLabelingStyle() {
-		if (labelingStyle == ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC) {
+		if (getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC) {
 			if (isUsingFullGui()) {
 				if ((getGuiManager() != null)
 						&& getGuiManager().hasAlgebraView()) {
@@ -967,17 +956,10 @@ public class Application extends AbstractApplication implements
 			}
 			return ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS;
 		}
-		return labelingStyle;
+		return getLabelingStyle();
 	}
 
-	/**
-	 * Sets labeling style. See the constants in ConstructionDefaults (e.g.
-	 * LABEL_VISIBLE_AUTOMATIC)
-	 */
-	@Override
-	public void setLabelingStyle(int labelingStyle) {
-		this.labelingStyle = labelingStyle;
-	}
+	
 
 	public boolean getAllowToolTips() {
 		return allowToolTips;
@@ -1712,30 +1694,7 @@ public class Application extends AbstractApplication implements
 				.getActiveEuclidianView()).getShowGrid());
 	}
 
-	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
-		if (currentSelectionListener != null) {
-			currentSelectionListener.geoElementSelected(geo, addToSelection);
-		}
-	}
 
-	private PropertiesView propertiesView;
-
-	public void setPropertiesView(PropertiesView propertiesView) {
-		this.propertiesView = propertiesView;
-	}
-
-	/**
-	 * Sets a mode where clicking on an object will notify the given selection
-	 * listener.
-	 */
-	public void setSelectionListenerMode(GeoElementSelectionListener sl) {
-		currentSelectionListener = sl;
-		if (sl != null) {
-			setMode(EuclidianConstants.MODE_SELECTION_LISTENER);
-		} else {
-			setMoveMode();
-		}
-	}
 
 	public GeoElementSelectionListener getCurrentSelectionListener() {
 		return currentSelectionListener;
@@ -1745,9 +1704,7 @@ public class Application extends AbstractApplication implements
 		currentSelectionListener = sl;
 	}
 
-	public void setMoveMode() {
-		setMode(EuclidianConstants.MODE_MOVE);
-	}
+	
 
 	/**
 	 * Sets the maximum pixel size (width and height) of all icons in the user
@@ -2065,26 +2022,7 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
-	/**
-	 * Use localized labels.
-	 */
-	private boolean useLocalizedLabels = true;
 
-	/**
-	 * @return If localized labels are used for certain languages.
-	 */
-	@Override
-	public boolean isUsingLocalizedLabels() {
-		return useLocalizedLabels;
-	}
-
-	/**
-	 * Use localized labels for certain languages.
-	 */
-	@Override
-	public void setUseLocalizedLabels(boolean useLocalizedLabels) {
-		this.useLocalizedLabels = useLocalizedLabels;
-	}
 
 	// For Hebrew and Arabic. Guy Hed, 25.8.2008
 	private boolean rightToLeftReadingOrder = false;
@@ -2304,12 +2242,6 @@ public class Application extends AbstractApplication implements
 		} else {
 			unicodeZero = '0';
 		}
-	}
-
-	// Michael Borcherds 2008-02-23
-	@Override
-	public boolean languageIs(String lang) {
-		return getLocale().getLanguage().equals(lang);
 	}
 
 	StringBuilder testCharacters = new StringBuilder();
@@ -3596,31 +3528,7 @@ public class Application extends AbstractApplication implements
 		System.gc();
 	}
 
-	public void updateSelection() {
-		if (!showMenuBar || !isUsingFullGui() || isIniting()) {
-			return;
-		}
-
-		// put in to check possible bottleneck
-		// Application.debug("Update Selection");
-
-		getGuiManager().updateMenubarSelection();
-
-		if (getEuclidianView().getMode() == EuclidianConstants.MODE_VISUAL_STYLE) {
-			if (selectedGeos.size() > 0) {
-				getEuclidianView().getStyleBar().applyVisualStyle(selectedGeos);
-			}
-		}
-
-		if (getEuclidianView().getMode() == EuclidianConstants.MODE_MOVE) {
-			updateStyleBars();
-		}
-
-		if (propertiesView != null) {
-			propertiesView.updateSelection();
-		}
-	}
-
+	
 	public void updateStyleBars() {
 		if (!isUsingFullGui() || isIniting()) {
 			return;
@@ -3729,18 +3637,7 @@ public class Application extends AbstractApplication implements
 	 * euclidianView.getXYscaleRatioString()); }
 	 */
 
-	public void setMode(int mode) {
-		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
-			currentSelectionListener = null;
-		}
-
-		if (guiManager != null) {
-			getGuiManager().setMode(mode);
-		} else if (euclidianView != null) {
-			euclidianView.setMode(mode);
-		}
-	}
-
+	
 	@Override
 	public EuclidianView createEuclidianView() {
 		return (EuclidianView)this.euclidianView;
@@ -4115,7 +4012,7 @@ public class Application extends AbstractApplication implements
 		// if (labelingStyle != ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC) {
 		sb.append("\t<labelingStyle ");
 		sb.append(" val=\"");
-		sb.append(labelingStyle);
+		sb.append(getLabelingStyle());
 		sb.append("\"/>\n");
 		// }
 
@@ -4426,157 +4323,10 @@ public class Application extends AbstractApplication implements
 		updateSelection();
 	}
 
-	@Override
-	final public void clearSelectedGeos() {
-		clearSelectedGeos(true);
-	}
-
-	public void clearSelectedGeos(boolean repaint) {
-		int size = selectedGeos.size();
-		if (size > 0) {
-			for (int i = 0; i < size; i++) {
-				GeoElement geo = selectedGeos.get(i);
-				geo.setSelected(false);
-			}
-			selectedGeos.clear();
-			if (repaint) {
-				kernel.notifyRepaint();
-			}
-		}
-		updateSelection();
-	}
-
-	/**
-	 * @param element
-	 */
-	final public void toggleSelectedGeo(GeoElement geo) {
-		toggleSelectedGeo(geo, true);
-	}
-
-	final public void toggleSelectedGeo(GeoElement geo, boolean repaint) {
-		if (geo == null) {
-			return;
-		}
-
-		boolean contains = selectedGeos.contains(geo);
-		if (contains) {
-			selectedGeos.remove(geo);
-			geo.setSelected(false);
-		} else {
-			selectedGeos.add(geo);
-			geo.setSelected(true);
-		}
-
-		if (repaint) {
-			kernel.notifyRepaint();
-		}
-		updateSelection();
-	}
-
-	final public boolean containsSelectedGeo(GeoElement geo) {
-		return selectedGeos.contains(geo);
-	}
-
-	final public void removeSelectedGeo(GeoElement geo) {
-		removeSelectedGeo(geo, true);
-	}
-
-	@Override
-	final public void removeSelectedGeo(GeoElement geo, boolean repaint) {
-		if (geo == null) {
-			return;
-		}
-
-		selectedGeos.remove(geo);
-		geo.setSelected(false);
-		if (repaint) {
-			kernel.notifyRepaint();
-		}
-		updateSelection();
-	}
-
-	final public void selectNextGeo() {
-
-		TreeSet<GeoElement> tree = kernel.getConstruction()
-				.getGeoSetLabelOrder();
-
-		TreeSet<GeoElement> copy = new TreeSet<GeoElement>(tree);
-
-		Iterator<GeoElement> it = copy.iterator();
-
-		// remove geos that don't have isSelectionAllowed()==true
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			if (!geo.isSelectionAllowed()) {
-				tree.remove(geo);
-			}
-		}
-
-		it = tree.iterator();
-
-		// none selected, select first geo
-		if (selectedGeos.size() == 0) {
-			if (it.hasNext()) {
-				addSelectedGeo(it.next());
-			}
-			return;
-		}
-
-		if (selectedGeos.size() != 1) {
-			return;
-		}
-
-		// one selected, select next one
-		GeoElement selGeo = selectedGeos.get(0);
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			if (selGeo == geo) {
-				removeSelectedGeo(selGeo);
-				if (!it.hasNext()) {
-					it = tree.iterator();
-				}
-				addSelectedGeo(it.next());
-				break;
-			}
-		}
-	}
-
-	final public void selectLastGeo() {
-		if (selectedGeos.size() != 1) {
-			return;
-		}
-		GeoElement selGeo = selectedGeos.get(0);
-		GeoElement lastGeo = null;
-		TreeSet<GeoElement> tree = kernel.getConstruction()
-				.getGeoSetLabelOrder();
-		TreeSet<GeoElement> copy = new TreeSet<GeoElement>(tree);
-		Iterator<GeoElement> it = copy.iterator();
-
-		// remove geos that don't have isSelectionAllowed()==true
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			if (!geo.isSelectionAllowed()) {
-				tree.remove(geo);
-			}
-		}
-
-		it = tree.iterator();
-		while (it.hasNext()) {
-			lastGeo = it.next();
-		}
-
-		it = tree.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			if (selGeo == geo) {
-				removeSelectedGeo(selGeo);
-				addSelectedGeo(lastGeo);
-				break;
-			}
-			lastGeo = geo;
-		}
-	}
-
+	
+	
+	
+	
 	/* Event dispatching */
 	private GlassPaneListener glassPaneListener;
 
@@ -5657,337 +5407,12 @@ public class Application extends AbstractApplication implements
 
 	}
 
-	private boolean useBrowserForJavaScript = true;
+	
+	
 
-	public void setUseBrowserForJavaScript(boolean useBrowserForJavaScript) {
-		this.useBrowserForJavaScript = useBrowserForJavaScript;
-	}
 
-	@Override
-	public boolean useBrowserForJavaScript() {
-		return useBrowserForJavaScript;
-	}
-
-	/**
-	 * @return the blockUpdateScripts
-	 */
-	@Override
-	public boolean isBlockUpdateScripts() {
-		return blockUpdateScripts;
-	}
-
-	/**
-	 * @param blockUpdateScripts
-	 *            the blockUpdateScripts to set
-	 */
-	@Override
-	public void setBlockUpdateScripts(boolean blockUpdateScripts) {
-		this.blockUpdateScripts = blockUpdateScripts;
-	}
-
-	private boolean blockUpdateScripts = false;
-
-	/**
-	 * @return the scriptingDisabled
-	 */
-	@Override
-	public boolean isScriptingDisabled() {
-		return scriptingDisabled;
-	}
-
-	/**
-	 * @param sd
-	 *            the scriptingDisabled to set
-	 */
-	@Override
-	public void setScriptingDisabled(boolean sd) {
-		this.scriptingDisabled = sd;
-	}
-
-	private boolean scriptingDisabled = false;
-
-	public void addToEuclidianView(GeoElement geo) {
-		geo.addView(AbstractApplication.VIEW_EUCLIDIAN);
-		getEuclidianView().add(geo);
-	}
-
-	public void removeFromEuclidianView(GeoElement geo) {
-		geo.removeView(AbstractApplication.VIEW_EUCLIDIAN);
-		getEuclidianView().remove(geo);
-	}
-
-	// TODO remove this after ggb v>=5 (replace with same from Application3D)
-	@Override
-	public EuclidianView createEuclidianViewForPlane(Object plane) {
-		return null;
-	}
-
-	boolean reverseMouseWheel = false;
-
-	public boolean isMouseWheelReversed() {
-		return reverseMouseWheel;
-	}
-
-	@Override
-	public void reverseMouseWheel(boolean b) {
-		reverseMouseWheel = b;
-	}
-
-	/**
-	 * In some languages, a properties file cannot completely describe
-	 * translations. This method tries to rewrite a text to the correct form.
-	 * 
-	 * @param text
-	 *            the translation text to fix
-	 * @return text the fixed text
-	 * @author Zoltan Kovacs <zoltan@geogebra.org>
-	 */
-	@Override
-	public String translationFix(String text) {
-		// Currently no other language is supported than Hungarian.
-		String lang = getLocale().getLanguage();
-		if (!("hu".equals(lang))) {
-			return text;
-		}
-		return translationFixHu(text);
-	}
-
-	/**
-	 * Text fixer for the Hungarian language
-	 * 
-	 * @param text
-	 *            the translation text to fix
-	 * @return the fixed text
-	 * @author Zoltan Kovacs <zoltan@geogebra.org>
-	 */
-
-	private String translationFixHu(String text) {
-		// Fixing affixes.
-
-		// We assume that object names are usual object names like "P", "O_1"
-		// etc.
-		// FIXME: This will not work for longer object names, e.g. "X Triangle",
-		// "mypoint". To solve this problem, we should check the whole word and
-		// its vowels. Probably hunspell for JNA could help (but it can be
-		// too big solution for us), http://dren.dk/hunspell.html.
-		// TODO: The used method is not as fast as it could be, so speedup is
-		// possible.
-		String[] affixesList = { "-ra/-re", "-nak/-nek", "-ba/-be",
-				"-ban/-ben", "-hoz/-hez", "-val/-vel" };
-		String[] endE2 = { "10", "40", "50", "70", "90" };
-		// FIXME: Numbers in endings which greater than 999 are not supported
-		// yet.
-		// Special endings for -val/-vel:
-		String[] endO2 = { "00", "20", "30", "60", "80" };
-
-		for (String affixes : affixesList) {
-			int match;
-			do {
-				match = text.indexOf(affixes);
-				// match > 0 can be assumed because an affix will not start the
-				// text
-				if ((match > -1) && (match > 0)) {
-					// Affix found. Get the previous character.
-					String prevChars = translationFixPronouncedPrevChars(text,
-							match, 1);
-					if (Unicode.translationFixHu_endE1.indexOf(prevChars) > -1) {
-						text = translationFixHuAffixChange(text, match,
-								affixes, "e", prevChars);
-					} else if (Unicode.translationFixHu_endO1
-							.indexOf(prevChars) > -1) {
-						text = translationFixHuAffixChange(text, match,
-								affixes, "o", prevChars);
-					} else if (Unicode.translationFixHu_endOE1
-							.indexOf(prevChars) > -1) {
-						text = translationFixHuAffixChange(text, match,
-								affixes, Unicode.translationFixHu_oe, prevChars);
-					} else if (match > 1) {
-						// Append the previous character.
-						// TODO: This could be quicker: to add only the second
-						// char beyond prevChars
-						prevChars = translationFixPronouncedPrevChars(text,
-								match, 2);
-						boolean found2 = false;
-						for (String last2fit : endE2) {
-							if (!found2 && last2fit.equals(prevChars)) {
-								text = translationFixHuAffixChange(text, match,
-										affixes, "e", prevChars);
-								found2 = true;
-							}
-						}
-
-						// Special check for preparing -val/-vel:
-						if (!found2) {
-							for (String last2fit : endO2) {
-								if (!found2 && last2fit.equals(prevChars)) {
-									text = translationFixHuAffixChange(text,
-											match, affixes, "o", prevChars);
-									found2 = true;
-								}
-							}
-						}
-
-						if (!found2) {
-							// Use heuristics:
-							text = translationFixHuAffixChange(text, match,
-									affixes, "o", prevChars);
-						}
-
-					} else {
-						// Use heuristics:
-						text = translationFixHuAffixChange(text, match,
-								affixes, "o", prevChars);
-					}
-				}
-			} while (match > -1);
-		}
-
-		return text;
-	}
-
-	/**
-	 * Gets the previous "pronounced" characters from text before the match
-	 * position for the given length. The returned text will be lowercased.
-	 * 
-	 * Example: translationFixPrevChars("ABC_{123}", 8, 4) gives "c123"
-	 * 
-	 * @param text
-	 *            the text to pronounce
-	 * @param match
-	 *            starting position
-	 * @param length
-	 *            required length for the output
-	 * @return lowercased output
-	 */
-	private String translationFixPronouncedPrevChars(String text, int match,
-			int length) {
-		String rettext = "";
-		int rettextlen = 0;
-		String thisChar;
-		String ignoredChars = "_{}";
-
-		while ((rettextlen < length) && (match > 0)) {
-			thisChar = text.substring(match - 1, match);
-			if (ignoredChars.indexOf(thisChar) == -1) {
-				rettext = thisChar.toLowerCase() + rettext;
-				rettextlen++;
-			}
-			match--;
-		}
-		return rettext;
-	}
-
-	/**
-	 * Changes a set of possible affixes to the right one
-	 * 
-	 * @param text
-	 *            the text to be corrected
-	 * @param match
-	 *            starting position of possible change
-	 * @param affixes
-	 *            possible affixes to change
-	 * @param affixForm
-	 *            abbreviation for the change type ("o"/"a"/"e")
-	 * @param prevChars
-	 * @return the corrected text
-	 */
-	private String translationFixHuAffixChange(String text, int match,
-			String affixes, String affixForm, String prevChars) {
-
-		String replace = "";
-
-		if ("-ra/-re".equals(affixes)) {
-			if ("a".equals(affixForm) || "o".equals(affixForm)) {
-				replace = "ra";
-			} else {
-				replace = "re";
-			}
-		} else if ("-nak/-nek".equals(affixes)) {
-			if ("a".equals(affixForm) || "o".equals(affixForm)) {
-				replace = "nak";
-			} else {
-				replace = "nek";
-			}
-		} else if ("-ba/-be".equals(affixes)) {
-			if ("a".equals(affixForm) || "o".equals(affixForm)) {
-				replace = "ba";
-			} else {
-				replace = "be";
-			}
-		} else if ("-ban/-ben".equals(affixes)) {
-			if ("a".equals(affixForm) || "o".equals(affixForm)) {
-				replace = "ban";
-			} else {
-				replace = "ben";
-			}
-		} else if ("-hoz/-hez".equals(affixes)) {
-			if ("a".equals(affixForm) || "o".equals(affixForm)) {
-				replace = "hoz";
-			} else if ("e".equals(affixForm)) {
-				replace = "hez";
-			} else {
-				replace = Unicode.translationFixHu_hoez;
-			}
-		} else if ("-val/-vel".equals(affixes)) {
-			if ("a".equals(affixForm) || "o".equals(affixForm)) {
-				replace = "val";
-			} else {
-				replace = "vel";
-			}
-
-			// Handling some special cases:
-			if (prevChars.length() == 1) {
-				// f-fel, l-lel etc.
-				String sameChars = "flmnrs";
-				// y-nal, 3-mal etc.
-				String valVelFrom = sameChars + "y356789";
-				String valVelTo = sameChars + "nmtttcc";
-				int index = valVelFrom.indexOf(prevChars);
-				if (index > -1) {
-					replace = valVelTo.charAt(index) + replace.substring(1);
-				} else {
-					// x-szel, 1-gyel etc.
-					String valVelFrom2 = "x14";
-					String[] valVelTo2 = { "sz", "gy", "gy" };
-					index = valVelFrom2.indexOf(prevChars);
-					if (index > -1) {
-						replace = valVelTo2[index] + replace.substring(1);
-					}
-				}
-			} else if ((prevChars.length() == 2)
-					&& prevChars.substring(1).equals("0")) {
-				// (Currently the second part of the conditional is
-				// unnecessary.)
-				// 00-zal, 10-zel, 30-cal etc.
-				// FIXME: A_{00}-val will be replaced to A_{00}-zal currently,
-				// because we silently assume that 00 is preceeded by another
-				// number.
-				String valVelFrom = "013456789";
-				String valVelTo = "zzcnnnnnn";
-				int index = valVelFrom.indexOf(prevChars.charAt(0));
-				if (index > -1) {
-					replace = valVelTo.charAt(index) + replace.substring(1);
-				} else {
-					// 20-szal
-					if (prevChars.charAt(0) == '2') {
-						replace = "sz" + replace.substring(1);
-					}
-				}
-			}
-		}
-
-		if ("".equals(replace)) {
-			// No replace.
-			return text;
-		} else {
-			int affixesLength = affixes.length();
-			// Replace.
-			text = text.substring(0, match) + "-" + replace
-					+ text.substring(match + affixesLength);
-			return text;
-		}
-	}
-
+	
+	
 	public void checkCommands(HashMap<String, CommandProcessor> map) {
 		initTranslatedCommands();
 
@@ -6125,55 +5550,9 @@ public class Application extends AbstractApplication implements
 	// FILE VERSION HANDLING
 	// //////////////////////////////////
 
-	private int[] version = null;
 
 	protected SpreadsheetTraceManager traceManager;
-
-	@Override
-	public void setFileVersion(String version) {
-
-		// AbstractApplication.debug("file version: " + version);
-
-		if (version == null) {
-			this.version = null;
-			return;
-		}
-
-		this.version = getSubValues(version);
-	}
-
-	static final public int[] getSubValues(String version) {
-		String[] values = version.split("\\.");
-		int[] ret = new int[values.length];
-		for (int i = 0; i < values.length; i++) {
-			ret[i] = Integer.parseInt(values[i]);
-		}
-
-		return ret;
-	}
-
-	@Override
-	public boolean fileVersionBefore(int[] v) {
-		if (this.version == null) {
-			return true;
-		}
-
-		int length = version.length;
-		if (v.length < length) {
-			length = v.length;
-		}
-
-		for (int i = 0; i < length; i++) {
-			if (version[i] < v[i]) {
-				return true;
-			} else if (version[i] > v[i]) {
-				return false;
-			}
-		}
-
-		return version.length < v.length;
-	}
-
+	
 	public void setShowInputHelpToggle(boolean flag) {
 		if (showInputHelpToggle == flag) {
 			return;
@@ -6201,16 +5580,14 @@ public class Application extends AbstractApplication implements
 		return getGuiManager().showView(view);
 	}
 
-	// TODO: change parameter to GeoElement once it is ported
 	@Override
 	public void traceToSpreadsheet(GeoElement ge) {
-		getGuiManager().traceToSpreadsheet((GeoElement) ge);
+		getGuiManager().traceToSpreadsheet(ge);
 	}
 
-	// TODO: change parameter to GeoElement once it is ported
 	@Override
 	public void resetTraceColumn(GeoElement ge) {
-		getGuiManager().resetTraceColumn((GeoElement) ge);
+		getGuiManager().resetTraceColumn(ge);
 	}
 
 	@Override
@@ -6232,42 +5609,7 @@ public class Application extends AbstractApplication implements
 
 	}
 
-	@Override
-	public double getXmin() {
-		// TODO Auto-generated method stub
-		return getEuclidianView().getXmin();
-	}
-
-	@Override
-	public double getXmax() {
-		// TODO Auto-generated method stub
-		return getEuclidianView().getXmax();
-	}
-
-	@Override
-	public double getXminForFunctions() {
-		// TODO Auto-generated method stub
-		return getEuclidianView().getXminForFunctions();
-	}
-
-	@Override
-	public double getXmaxForFunctions() {
-		// TODO Auto-generated method stub
-		return getEuclidianView().getXmaxForFunctions();
-	}
-
-	@Override
-	public int getMaxLayerUsed() {
-		EuclidianView ev = getEuclidianView();
-		return ev == null ? 0 : ev.getMaxLayerUsed();
-	}
-
-	@Override
-	public double countPixels(double min, double max) {
-		EuclidianView ev = getEuclidianView();
-		return ev.toScreenCoordXd(max) - ev.toScreenCoordXd(min);
-	}
-
+	
 	@Override
 	public String toLowerCase(String substring) {
 		return substring.toLowerCase(Locale.US);

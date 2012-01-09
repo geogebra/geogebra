@@ -18,10 +18,10 @@ import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.NameDescriptionComparator;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.gui.ToolNameIconPanel;
 import geogebra.gui.view.algebra.MyComboBoxListener;
 import geogebra.main.Application;
-import geogebra.main.GeoElementSelectionListener;
 
 import java.awt.BorderLayout;
 import java.awt.Component;

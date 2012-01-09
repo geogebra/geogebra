@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.gui.dialog;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.util.StringUtil;
 import geogebra.gui.InputHandler;
 import geogebra.gui.VirtualKeyboardListener;
@@ -21,7 +22,6 @@ import geogebra.gui.util.HelpAction;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.main.Application;
-import geogebra.main.GeoElementSelectionListener;
 import geogebra.util.Util;
 
 import java.awt.BorderLayout;

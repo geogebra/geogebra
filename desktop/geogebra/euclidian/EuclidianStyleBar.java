@@ -39,7 +39,7 @@ import javax.swing.JToolBar;
  * 
  * @author G. Sturr
  */
-public class EuclidianStyleBar extends JToolBar implements ActionListener {
+public class EuclidianStyleBar extends JToolBar implements ActionListener, geogebra.common.euclidian.EuclidianStyleBar {
 
 	/***/
 	private static final long serialVersionUID = 1L;

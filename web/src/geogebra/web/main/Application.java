@@ -14,6 +14,7 @@ import geogebra.common.awt.Font;
 import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
@@ -62,7 +63,6 @@ public class Application extends AbstractApplication {
 	
 	public Application(){
 		this.init(Canvas.createIfSupported());
-		kernel = new Kernel(this);
 		
 		// init settings
 		settings = new Settings();
@@ -169,33 +169,15 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public boolean isUsingLocalizedLabels() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public String getLanguage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean languageIs(String s) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public boolean letRedefine() {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	@Override
-	public String translationFix(String s) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -216,29 +198,7 @@ public class Application extends AbstractApplication {
 		return false;
 	}
 
-	@Override
-	public boolean isBlockUpdateScripts() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void setBlockUpdateScripts(boolean flag) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public String getScriptingLanguage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setScriptingLanguage(String lang) {
-		// TODO Auto-generated method stub
-
-	}
+	
 
 	@Override
 	public String getInternalCommand(String s) {
@@ -253,18 +213,6 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public boolean isScriptingDisabled() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean useBrowserForJavaScript() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public void initJavaScriptViewWithoutJavascript() {
 		// TODO Auto-generated method stub
 
@@ -276,11 +224,7 @@ public class Application extends AbstractApplication {
 		return null;
 	}
 
-	@Override
-	public void removeSelectedGeo(GeoElement geoElement, boolean b) {
-		// TODO Auto-generated method stub
-
-	}
+	
 
 	@Override
 	public void changeLayer(GeoElement ge, int layer, int layer2) {
@@ -288,7 +232,8 @@ public class Application extends AbstractApplication {
 
 	}
 
-	public boolean freeMemoryIsCritical() {
+	@Override
+    public boolean freeMemoryIsCritical() {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -300,51 +245,9 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public int getLabelingStyle() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public String getOrdinalNumber(int i) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public double getXmin() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public double getXmax() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public double getXminForFunctions() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public double getXmaxForFunctions() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public double countPixels(double min, double max) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int getMaxLayerUsed() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	@Override
@@ -353,20 +256,10 @@ public class Application extends AbstractApplication {
 		return null;
 	}
 
-	@Override
-	public EuclidianViewInterfaceSlim getEuclidianView() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public EuclidianViewInterfaceSlim getActiveEuclidianView() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public AbstractEuclidianView createEuclidianViewForPlane(Object o) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -389,6 +282,10 @@ public class Application extends AbstractApplication {
 
 	}
 
+	/**
+	 * @param canvas Canvas
+	 * Initializes the application, seeds factory prototypes, creates Kernel and MyXXMLIO
+	 */
 	public void init(Canvas canvas) {
 		geogebra.common.factories.AwtFactory.prototype = new geogebra.web.factories.AwtFactory();
 		geogebra.common.factories.FormatFactory.prototype = new geogebra.web.factories.FormatFactory();
@@ -569,12 +466,7 @@ public class Application extends AbstractApplication {
     }
 
 
-	@Override
-    public void setScriptingDisabled(boolean scriptingDisabled) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
+	
 	@Override
     public DrawEquationInterface getDrawEquation() {
 	    // TODO Auto-generated method stub
@@ -604,12 +496,6 @@ public class Application extends AbstractApplication {
             int size) {
 	    // TODO Auto-generated method stub
 	    return null;
-    }
-
-	@Override
-    public void updateSelection() {
-	    // TODO Auto-generated method stub
-	    
     }
 
 	@Override
@@ -649,12 +535,6 @@ public class Application extends AbstractApplication {
     }
 
 	@Override
-    public void clearSelectedGeos() {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
     public AlgoElement newAlgoShortestDistance(Construction cons, String label,
             GeoList list, GeoPointND start, GeoPointND end, GeoBoolean weighted) {
 	    // TODO Auto-generated method stub
@@ -663,43 +543,6 @@ public class Application extends AbstractApplication {
 
 	@Override
     public void updateStyleBars() {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void toggleSelectedGeo(GeoElement geo) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void setMoveMode() {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void removeSelectedGeo(GeoElement geo) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	
-	@Override
-    public void setMode(int modeMove) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void addToEuclidianView(GeoElement geo) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void removeFromEuclidianView(GeoElement geo) {
 	    // TODO Auto-generated method stub
 	    
     }
@@ -800,6 +643,13 @@ public class Application extends AbstractApplication {
     }
 
 	@Override
+    public boolean isIniting() {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+
+	@Override
     public void evalPythonScript(AbstractApplication app, String string,
             String arg) {
 	    debug("Python scripting not supported");
@@ -811,4 +661,5 @@ public class Application extends AbstractApplication {
 	    debug("callAppletJavaScript() not implemented yet");
 	    
     }
+
 }
