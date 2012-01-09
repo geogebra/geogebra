@@ -1710,4 +1710,6 @@ public abstract class AbstractApplication {
 	
 	public abstract boolean isIniting();
 
+	public abstract boolean isRightClickEnabled();
+
 }

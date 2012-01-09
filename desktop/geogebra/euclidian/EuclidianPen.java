@@ -526,4 +526,9 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen {
 		handleMouseReleasedForPenMode(geogebra.euclidian.event.MouseEvent.getEvent(event));
 	}
 
+	@Override
+	public void handleMousePressedForPenMode(AbstractEvent e, Hits hits) {
+		handleMousePressedForPenMode(geogebra.euclidian.event.MouseEvent.getEvent(e), hits);
+	}
+
 }

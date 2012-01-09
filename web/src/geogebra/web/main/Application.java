@@ -656,4 +656,10 @@ public class Application extends AbstractApplication {
 	    
     }
 
+	@Override
+    public boolean isRightClickEnabled() {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
 }

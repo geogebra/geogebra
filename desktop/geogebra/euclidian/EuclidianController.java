@@ -463,7 +463,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		setAltDown(event.isAltDown());
 
 		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
-			((EuclidianViewInterfaceCommon) view).requestFocusInWindow();
+			view.requestFocusInWindow();
 		}
 
 		if (Application.isRightClick(event)) {
@@ -479,8 +479,8 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 			app.clearSelectedGeos();
 			// hits = view.getTopHits(mouseLoc);
-			((EuclidianViewInterfaceCommon) view).setHits(mouseLoc);
-			hits = ((EuclidianViewInterfaceCommon) view).getHits().getTopHits();
+			view.setHits(mouseLoc);
+			hits = view.getHits().getTopHits();
 			switchModeForRemovePolygons(hits);
 			if (!hits.isEmpty()) {
 				view.setMode(EuclidianConstants.MODE_MOVE);
@@ -1695,6 +1695,290 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	protected boolean viewHasHitsForMouseDragged() {
 		return !(((EuclidianViewInterface) view).getHits().isEmpty());
 	}
+	
+	protected void wrapMouseDragged(MouseEvent e) {
+		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
+		sliderValue = null;
+
+		if (textfieldHasFocus) {
+			return;
+		}
+
+		if ((mode == EuclidianConstants.MODE_PEN)
+				|| (mode == EuclidianConstants.MODE_FREEHAND)) {
+			pen.handleMousePressedForPenMode(event, null);
+			return;
+		}
+
+		clearJustCreatedGeos();
+
+		if (!DRAGGING_OCCURED) {
+
+			DRAGGING_OCCURED = true;
+
+			if ((mode == EuclidianConstants.MODE_TRANSLATE_BY_VECTOR)
+					&& (selGeos() == 0)) {
+				((EuclidianViewInterface) view).setHits(mouseLoc);
+
+				Hits hits = ((EuclidianViewInterface) view).getHits().getTopHits();
+
+				GeoElement topHit = hits.get(0);
+
+				if (topHit.isGeoVector()) {
+
+					if ((topHit.getParentAlgorithm() instanceof AlgoVector)) { // Vector[A,B]
+						AlgoVector algo = (AlgoVector) topHit
+								.getParentAlgorithm();
+						GeoPoint2 p = algo.getInputPoints().get(0);
+						GeoPoint2 q = algo.getInputPoints().get(1);
+						GeoVector vec = kernel.Vector(null, 0, 0);
+						vec.setEuclidianVisible(false);
+						vec.setAuxiliaryObject(true);
+						GeoElement[] pp = kernel.Translate(null, p, vec);
+						GeoElement[] qq = kernel.Translate(null, q, vec);
+						AlgoVector newVecAlgo = new AlgoVector(kernel.getConstruction(), null,
+								(GeoPointND) pp[0], (GeoPointND) qq[0]);
+						transformCoordsOffset[0] = xRW;
+						transformCoordsOffset[1] = yRW;
+
+						// make sure vector looks the same when translated
+						pp[0].setEuclidianVisible(p.isEuclidianVisible());
+						qq[0].update();
+						qq[0].setEuclidianVisible(q.isEuclidianVisible());
+						qq[0].update();
+						newVecAlgo.getGeoElements()[0].setVisualStyleForTransformations(topHit);
+
+						app.setMode(EuclidianConstants.MODE_MOVE);
+						movedGeoVector = vec;
+						moveMode = MOVE_VECTOR_NO_GRID;
+						return;
+					} else {// if (topHit.isIndependent()) {
+						movedGeoPoint = new GeoPoint2(kernel.getConstruction(),
+								null, 0, 0, 0);
+						AlgoTranslate algoTP = new AlgoTranslate(
+								kernel.getConstruction(), null,
+								(GeoElement) movedGeoPoint, (GeoVec3D) topHit);
+						GeoPoint2 p = (GeoPoint2) algoTP.getGeoElements()[0];
+
+						AlgoVector newVecAlgo = new AlgoVector(kernel.getConstruction(), null,
+								movedGeoPoint, p);
+						
+						// make sure vector looks the same when translated
+						((GeoPoint2) movedGeoPoint).setEuclidianVisible(false);
+						((GeoPoint2) movedGeoPoint).update();
+						p.setEuclidianVisible(false);
+						p.update();
+						newVecAlgo.getGeoElements()[0].setVisualStyleForTransformations(topHit);
+						
+						moveMode = MOVE_POINT;
+					}
+				}
+
+				if (topHit.isTranslateable() || topHit.isGeoPolygon()) {
+					GeoVector vec;
+					if (topHit.isGeoPolygon()) {
+						// for polygons, we need a labelled vector so that all
+						// the vertices move together
+						vec = kernel.Vector(null, 0, 0);
+						vec.setEuclidianVisible(false);
+						vec.setAuxiliaryObject(true);
+					} else {
+						vec = kernel.Vector(0, 0);
+					}
+					kernel.Translate(null, hits.get(0), vec);
+					transformCoordsOffset[0] = xRW;
+					transformCoordsOffset[1] = yRW;
+
+					((Application)app).setMode(EuclidianConstants.MODE_MOVE);
+					movedGeoVector = vec;
+					moveMode = MOVE_VECTOR_NO_GRID;
+					return;
+				}
+			}
+
+			// Michael Borcherds 2007-10-07 allow right mouse button to drag
+			// points
+			// mathieu : also if it's mode point, we can drag the point
+			if (Application.isRightClick(event)
+					|| (mode == EuclidianConstants.MODE_POINT)
+					|| (mode == EuclidianConstants.MODE_COMPLEX_NUMBER)
+					|| (mode == EuclidianConstants.MODE_POINT_ON_OBJECT)
+					|| (mode == EuclidianConstants.MODE_SLIDER)
+					|| (mode == EuclidianConstants.MODE_BUTTON_ACTION)
+					|| (mode == EuclidianConstants.MODE_TEXTFIELD_ACTION)
+					|| (mode == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX)
+					|| (mode == EuclidianConstants.MODE_TEXT)) {
+				((EuclidianViewInterface) view).setHits(mouseLoc);
+
+				// make sure slider tool drags only sliders, not other object
+				// types
+				if (mode == EuclidianConstants.MODE_SLIDER) {
+					if (((EuclidianViewInterface) view).getHits().size() != 1) {
+						return;
+					}
+
+					if (!(((EuclidianViewInterface) view).getHits().get(0) instanceof GeoNumeric)) {
+						return;
+					}
+				} else if ((mode == EuclidianConstants.MODE_BUTTON_ACTION)
+						|| (mode == EuclidianConstants.MODE_TEXTFIELD_ACTION)) {
+					if (((EuclidianViewInterface) view).getHits().size() != 1) {
+						return;
+					}
+
+					if (!(((EuclidianViewInterface) view).getHits().get(0) instanceof GeoButton)) {
+						return;
+					}
+				} else if (mode == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX) {
+					if (((EuclidianViewInterface) view).getHits().size() != 1) {
+						return;
+					}
+
+					if (!(((EuclidianViewInterface) view).getHits().get(0) instanceof GeoBoolean)) {
+						return;
+					}
+				} else if (mode == EuclidianConstants.MODE_TEXT) {
+					if (((EuclidianViewInterface) view).getHits().size() != 1) {
+						return;
+					}
+
+					if (!(((EuclidianViewInterface) view).getHits().get(0) instanceof GeoText)) {
+						return;
+					}
+				}
+
+				if (viewHasHitsForMouseDragged()) {
+					TEMPORARY_MODE = true;
+					oldMode = mode; // remember current mode
+					view.setMode(EuclidianConstants.MODE_MOVE);
+					handleMousePressedForMoveMode(e, true);
+
+					// make sure that dragging doesn't deselect the geos
+					DONT_CLEAR_SELECTION = true;
+
+					return;
+				}
+
+			}
+			if (!app.isRightClickEnabled()) {
+				return;
+				// Michael Borcherds 2007-10-07
+			}
+
+			if (mode == EuclidianConstants.MODE_MOVE_ROTATE) {
+				app.clearSelectedGeos(false);
+				app.addSelectedGeo(rotationCenter, false);
+			}
+		}
+		lastMouseLoc = mouseLoc;
+		setMouseLocation(event);
+		transformCoords();
+
+		// ggb3D - only for 3D view
+		if (moveMode == MOVE_ROTATE_VIEW) {
+			if (processRotate3DView()) {
+				return;
+			}
+		}
+
+		if (Application.isRightClick(event)) {
+			// if there's no hit, or if first hit is not moveable, do 3D view
+			// rotation
+			if ((!TEMPORARY_MODE)
+					|| (view.getHits().size() == 0)
+					|| !view.getHits().get(0).isMoveable(view)
+					|| (!view.getHits().get(0).isGeoPoint() &&  view.getHits()
+							.get(0).hasDrawable3D())) {
+				if (processRotate3DView()) { // in 2D view, return false
+					if (TEMPORARY_MODE) {
+						TEMPORARY_MODE = false;
+						mode = oldMode;
+						view.setMode(mode);
+					}
+					return;
+				}
+			}
+		}
+
+		// dragging eg a fixed point shouldn't start the selection rectangle
+		if (view.getHits().isEmpty()) {
+			// zoom rectangle (right drag) or selection rectangle (left drag)
+			// Michael Borcherds 2007-10-07 allow dragging with right mouse
+			// button
+			if (((Application.isRightClick(event)) || allowSelectionRectangle())
+					&& !TEMPORARY_MODE) {
+				// Michael Borcherds 2007-10-07
+				// set zoom rectangle's size
+				// right-drag: zoom
+				// Shift-right-drag: zoom without preserving aspect ratio
+				updateSelectionRectangle((Application.isRightClick(event) && !e
+						.isShiftDown())
+				// MACOS:
+				// Cmd-left-drag: zoom
+				// Cmd-shift-left-drag: zoom without preserving aspect ratio
+						|| (Application.MAC_OS && Application.isControlDown(event)
+								&& !e.isShiftDown() && !Application
+									.isRightClick(event)));
+				view.repaintView();
+				return;
+			}
+		}
+
+		// update previewable
+		if (view.getPreviewDrawable() != null) {
+			view.getPreviewDrawable().updateMousePos(
+					view.toRealWorldCoordX(mouseLoc.x),
+					view.toRealWorldCoordY(mouseLoc.y));
+		}
+
+		/*
+		 * Conintuity handling
+		 * 
+		 * If the mouse is moved wildly we take intermediate steps to get a more
+		 * continous behaviour
+		 */
+		if (kernel.isContinuous() && (lastMouseLoc != null)) {
+			double dx = mouseLoc.x - lastMouseLoc.x;
+			double dy = mouseLoc.y - lastMouseLoc.y;
+			double distsq = (dx * dx) + (dy * dy);
+			if (distsq > MOUSE_DRAG_MAX_DIST_SQUARE) {
+				double factor = Math.sqrt(MOUSE_DRAG_MAX_DIST_SQUARE / distsq);
+				dx *= factor;
+				dy *= factor;
+
+				// number of continuity steps <= MAX_CONTINUITY_STEPS
+				int steps = Math
+						.min((int) (1.0 / factor), MAX_CONTINUITY_STEPS);
+				int mx = mouseLoc.x;
+				int my = mouseLoc.y;
+
+				// Application.debug("BIG drag dist: " + Math.sqrt(distsq) +
+				// ", steps: " + steps );
+				for (int i = 1; i <= steps; i++) {
+					mouseLoc.x = (int) Math.round(lastMouseLoc.x + (i * dx));
+					mouseLoc.y = (int) Math.round(lastMouseLoc.y + (i * dy));
+					calcRWcoords();
+
+					handleMouseDragged(false);
+				}
+
+				// set endpoint of mouse movement if we are not already there
+				if ((mouseLoc.x != mx) || (mouseLoc.y != my)) {
+					mouseLoc.x = mx;
+					mouseLoc.y = my;
+					calcRWcoords();
+				}
+			}
+		}
+
+		if (pastePreviewSelected != null) {
+			if (!pastePreviewSelected.isEmpty()) {
+				updatePastePreviewPosition();
+			}
+		}
+
+		handleMouseDragged(true);
+	}
 
 	public void mouseDragged(MouseEvent e) {
 
@@ -2323,7 +2607,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		if (hitResetIcon()) {
 			((Application) app).reset();
 			return;
-		} else if (((EuclidianViewInterfaceCommon) view).hitAnimationButton(event)) {
+		} else if (view.hitAnimationButton(event)) {
 			if (kernel.isAnimationRunning()) {
 				kernel.getAnimatonManager().stopAnimation();
 			} else {
@@ -2359,15 +2643,15 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 				// get selected GeoElements
 				// show popup menu after right click
-				((EuclidianViewInterfaceCommon) view).setHits(mouseLoc);
-				hits = ((EuclidianViewInterfaceCommon) view).getHits().getTopHits();
+				view.setHits(mouseLoc);
+				hits = view.getHits().getTopHits();
 				if (hits.isEmpty()) {
 					// no hits
 					if (app.selectedGeosSize() > 0) {
 						// GeoElement selGeo = (GeoElement)
 						// app.getSelectedGeos().get(0);
 						app.getGuiManager().showPopupMenu(
-								app.getSelectedGeos(),  ((EuclidianViewInterfaceCommon) view), mouseLoc);
+								app.getSelectedGeos(),  view, mouseLoc);
 					} else {
 						showDrawingPadPopup(mouseLoc);
 					}
@@ -2388,7 +2672,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 						}
 
 						app.getGuiManager().showPopupMenu(
-								app.getSelectedGeos(), (EuclidianViewInterfaceCommon) view, mouseLoc);
+								app.getSelectedGeos(), view, mouseLoc);
 					} else {
 						// no selected geos: choose geo and show popup menu
 						geo = chooseGeo(hits, false);
@@ -2396,7 +2680,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 							ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
 							geos.add(geo);
 							app.getGuiManager().showPopupMenu(geos,
-									(EuclidianViewInterfaceCommon) view, mouseLoc);
+									view, mouseLoc);
 						} else {
 							// for 3D : if the geo hitted is xOyPlane, then
 							// chooseGeo return null
@@ -2456,14 +2740,14 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		// make sure that when alt is pressed for creating a segment or line
 		// it works if the endpoint is on a path
 		if (useLineEndPoint && (lineEndPoint != null)) {
-			mouseLoc.x = ((EuclidianViewInterfaceCommon) view).toScreenCoordX(lineEndPoint.x);
-			mouseLoc.y = ((EuclidianViewInterfaceCommon) view).toScreenCoordY(lineEndPoint.y);
+			mouseLoc.x = view.toScreenCoordX(lineEndPoint.x);
+			mouseLoc.y = view.toScreenCoordY(lineEndPoint.y);
 			useLineEndPoint = false;
 		}
 
 		// now handle current mode
-		((EuclidianViewInterfaceCommon) view).setHits(mouseLoc);
-		hits = ((EuclidianViewInterfaceCommon) view).getHits();
+		view.setHits(mouseLoc);
+		hits = view.getHits();
 		switchModeForRemovePolygons(hits);
 		// Application.debug(mode + "\n" + hits.toString());
 
@@ -2514,9 +2798,9 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 		if (!hits.isEmpty()) {
 			// Application.debug("hits ="+hits);
-			((EuclidianViewInterfaceCommon) view).setDefaultCursor();
+			view.setDefaultCursor();
 		} else {
-			((EuclidianViewInterfaceCommon) view).setHitCursor();
+			view.setHitCursor();
 		}
 
 		if ((mode == EuclidianConstants.MODE_RECORD_TO_SPREADSHEET)
@@ -3183,7 +3467,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		}
 
 		// animation button
-		boolean hitAnimationButton = ((EuclidianViewInterfaceCommon)view).hitAnimationButton(event);
+		boolean hitAnimationButton = view.hitAnimationButton(event);
 		repaintNeeded = ((EuclidianViewInterface) view).setAnimationButtonsHighlighted(hitAnimationButton);
 		if (hitAnimationButton) {
 			if (kernel.isAnimationPaused()) {
