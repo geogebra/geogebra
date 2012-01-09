@@ -152,7 +152,7 @@ public class ScriptInputDialog extends InputDialog {
 			}
 			else if(source == languageSelector){
 				//setJSMode(languageSelector.getSelectedIndex()==1);	
-				setScriptType(scriptType);
+				setScriptType(ScriptType.values()[languageSelector.getSelectedIndex()]);
 			}
 		} catch (Exception ex) {
 			// do nothing on uninitializedValue		

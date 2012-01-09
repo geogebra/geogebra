@@ -111,6 +111,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 *            the clickJavaScript to set
 	 */
 	public void setClickScriptType(ScriptType scriptType) {
+		AbstractApplication.debug("hhhhh"+scriptType.ordinal());
 		this.clickScriptType = scriptType;
 	}
 	

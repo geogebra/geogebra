@@ -58,6 +58,13 @@ public class ScriptManager {
 		} catch (Exception e) {
 			AbstractApplication.debug("Error calling ggbOnInit(): "+e.getMessage());
 		}
+		
+		// Python
+		String libraryPythonScript = app.getKernel().getLibraryPythonScript();
+		if (!libraryPythonScript.equals(Kernel.defaultLibraryPythonScript)) {
+			app.getPythonBridge().eval(libraryPythonScript+"\nggbOnInit();");
+		}
+
 	}
 	
 

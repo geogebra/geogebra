@@ -69,6 +69,7 @@ public class PythonBridge implements View, GeoElementSelectionListener {
 	}
 	
 	public void reset() {
+		
 	} 
 	
 	public void clearView() {
@@ -83,6 +84,11 @@ public class PythonBridge implements View, GeoElementSelectionListener {
 
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 		pyInterface.notifySelected(geo, addToSelection);
+	}
+
+	public void eval(String script) {
+		Application.debug("python: evaluating:: "+script);
+		interpreter.exec(script);
 	}
 }
 

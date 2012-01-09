@@ -1926,6 +1926,10 @@ public class Kernel {
 		return libraryJavaScript;
 	}
 
+	public String getLibraryPythonScript() {
+		return libraryPythonScript;
+	}
+
 	/** return all points of the current construction */
 	public TreeSet<GeoElement> getPointSet() {
 		return getConstruction().getGeoSetLabelOrder(GeoClass.POINT);
