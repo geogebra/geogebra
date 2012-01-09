@@ -32,7 +32,6 @@ import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.io.MyImageIO;
 import geogebra.main.Application;
-import geogebra.util.AwtColorAdapter;
 
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;

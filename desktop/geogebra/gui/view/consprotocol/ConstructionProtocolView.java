@@ -16,7 +16,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
@@ -28,7 +27,6 @@ import geogebra.export.WorksheetExportDialog;
 import geogebra.gui.TitlePanel;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.main.Application;
-import geogebra.util.AwtColorAdapter;
 import geogebra.util.Util;
 
 import java.awt.BorderLayout;
@@ -1880,7 +1878,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 						Color color = data.getColorAt(nRow, col);
 						if (color != Color.black) {
 							sb.append("<span style=\"color:#");
-							sb.append(StringUtil.toHexString(new AwtColorAdapter(color)));
+							sb.append(StringUtil.toHexString(new geogebra.awt.Color(color)));
 							sb.append("\">");
 							sb.append(str);
 							sb.append("</span>");

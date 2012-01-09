@@ -7,7 +7,6 @@ import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.BufferedImageOp;
 import geogebra.common.awt.Color;
-import geogebra.common.awt.ColorAdapter;
 import geogebra.common.awt.Composite;
 import geogebra.common.awt.FontRenderContext;
 import geogebra.common.awt.GlyphVector;

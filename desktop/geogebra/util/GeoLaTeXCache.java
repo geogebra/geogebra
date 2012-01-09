@@ -1,6 +1,5 @@
 package geogebra.util;
 
-import geogebra.common.awt.ColorAdapter;
 import geogebra.common.util.LaTeXCache;
 
 import java.awt.Color;
@@ -13,12 +12,12 @@ public class GeoLaTeXCache implements LaTeXCache{
 	// used by Captions, GeoText and DrawParametricCurve to cache LaTeX formulae
 	public Object keyLaTeX = null;
 
-	public Object getCachedLaTeXKey(String latex, int fontSize, int style, ColorAdapter fgColorAdapter) {
+	public Object getCachedLaTeXKey(String latex, int fontSize, int style, geogebra.common.awt.Color fgColor) {
 		Object newKey;
 		try {
 				
 		newKey = JLaTeXMathCache.getCachedTeXFormula(latex, TeXConstants.STYLE_DISPLAY, style, fontSize, 1 /* inset around the label*/, 
-				(AwtColorAdapter)fgColorAdapter);
+				geogebra.awt.Color.getAwtColor(fgColor));
 		} catch (ParseException e) {
 			if (keyLaTeX != null) {
 				// remove old key from cache

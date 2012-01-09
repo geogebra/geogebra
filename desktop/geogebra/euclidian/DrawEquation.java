@@ -6,7 +6,6 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.Unicode;
 import geogebra.main.Application;
-import geogebra.util.AwtColorAdapter;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -209,7 +208,7 @@ public class DrawEquation implements DrawEquationInterface{
 																 */, fgColor);
 			else
 				key = geo.getLaTeXCache().getCachedLaTeXKey(text,
-						font.getSize() + 3, style, new AwtColorAdapter(fgColor));
+						font.getSize() + 3, style, new geogebra.awt.Color(fgColor));
 
 			im = JLaTeXMathCache.getCachedTeXFormulaImage(key);
 
