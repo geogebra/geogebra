@@ -16,14 +16,14 @@ from javax.swing import (
     JMenuBar, JMenu, JMenuItem, JFileChooser,
     KeyStroke,
 )
-from javax.swing.text import StyleContext, StyleConstants
+from javax.swing.text import StyleContext, StyleConstants, SimpleAttributeSet, TabStop, TabSet
 from javax.swing.event import DocumentListener
 
 from java.awt import Toolkit, Component, BorderLayout, Color as awtColor, GridLayout, Font
 from java.awt.event import KeyListener, ActionListener, KeyEvent, ActionEvent
 
 # Jython imports
-import sys
+import sys, re
 
 # Python imports
 from generic import generic, specmethod, GenericMethods, GenericError, sign
@@ -953,7 +953,8 @@ class OutputPane(object):
         self.textpane = JTextPane()
         self.doc = self.textpane.getStyledDocument()
         self.textpane.editable = False
-        default_style = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE)
+        style_context = StyleContext.getDefaultStyleContext()
+        default_style = style_context.getStyle(StyleContext.DEFAULT_STYLE)
         parent_style = self.doc.addStyle("parent", default_style)
         StyleConstants.setFontFamily(parent_style, "Monospaced")
         input_style = self.doc.addStyle("input", parent_style)
@@ -961,6 +962,24 @@ class OutputPane(object):
         StyleConstants.setForeground(output_style, awtColor.BLUE)
         error_style = self.doc.addStyle("error", parent_style)
         StyleConstants.setForeground(error_style, awtColor.RED)
+        
+        # Do a dance to set tab size
+        font = Font("Monospaced", Font.PLAIN, 12)
+        self.textpane.setFont(font)
+        fm = self.textpane.getFontMetrics(font)
+        tabw = float(fm.stringWidth(" "*4))
+        tabs = [
+            TabStop(tabw*i, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE)
+            for i in xrange(1, 51)
+        ]
+        attr_set = style_context.addAttribute(
+            SimpleAttributeSet.EMPTY,
+            StyleConstants.TabSet,
+            TabSet(tabs)
+        )
+        self.textpane.setParagraphAttributes(attr_set, False)
+        #Dance done!
+        
     def addtext(self, text, style="input", ensure_newline=False):
         doclen = self.doc.length
         if ensure_newline and self.doc.getText(doclen - 1, 1) != '\n':
