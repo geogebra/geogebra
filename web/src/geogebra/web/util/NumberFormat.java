@@ -3,6 +3,7 @@ package geogebra.web.util;
 import com.google.gwt.i18n.client.CurrencyData;
 import com.google.gwt.i18n.client.constants.NumberConstants;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.NumberFormatAdapter;
 
 /**
@@ -53,7 +54,7 @@ public class NumberFormat extends Format implements NumberFormatAdapter {
 	}
 
 	public void applyPattern(String string) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 

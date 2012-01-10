@@ -131,7 +131,7 @@ public class EuclidianView extends AbstractEuclidianView {
 	}
 
 	public static void setAntialiasingStatic(Graphics2D g2d) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 	
@@ -194,7 +194,7 @@ public class EuclidianView extends AbstractEuclidianView {
 
 	
 	public void clearView() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
@@ -203,16 +203,15 @@ public class EuclidianView extends AbstractEuclidianView {
     	return (Application)application;
     }
 
-
 	@Override
     public Graphics2D getBackgroundGraphics() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 	private Graphics2D g2dtemp;
 	@Override
     public Graphics2D getTempGraphics2D(Font plainFontCommon) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    if(g2dtemp==null)
 	    	g2dtemp = new geogebra.web.awt.Graphics2D(Canvas.createIfSupported());
 	    g2dtemp.setFont(plainFontCommon);
@@ -221,36 +220,36 @@ public class EuclidianView extends AbstractEuclidianView {
 
 	@Override
     public AffineTransform getCoordTransform() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 
 	@Override
     public GeneralPath getBoundingPath() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 
 	@Override
     public Font getFont() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 
     public geogebra.common.awt.Color getBackgroundCommon() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 
 	@Override
     protected void setHeight(int h) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	@Override
     protected void setWidth(int h) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
@@ -261,90 +260,90 @@ public class EuclidianView extends AbstractEuclidianView {
 
 	@Override
     protected void initCursor() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
     public void setSelectionRectangle(Rectangle r) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	@Override
     protected void setStyleBarMode(int mode) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
     public void zoom(double px, double py, double factor, int i, boolean b) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	@Override
     public void zoomAxesRatio(double d, boolean b) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	public boolean hitAnimationButton(AbstractEvent e) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return false;
     }
 
 	@Override
     public void setAntialiasing(boolean antialiasing2) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	@Override
     public void updateFonts() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	@Override
     public void updateSize() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	@Override
     public boolean requestFocusInWindow() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return false;
     }
 
 	@Override
     public Hits getHits() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 
 	public void setDefaultCursor() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	public void setHitCursor() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	public EuclidianStyleBar getStyleBar() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 
 	public boolean setAnimationButtonsHighlighted(boolean b) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return false;
     }
 
 	@Override
     protected void drawActionObjects(Graphics2D g) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 

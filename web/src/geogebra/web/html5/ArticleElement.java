@@ -1,5 +1,7 @@
 package geogebra.web.html5;
 
+import geogebra.common.main.AbstractApplication;
+
 import java.util.Iterator;
 
 import com.google.gwt.dom.client.Element;
@@ -42,7 +44,7 @@ public final class ArticleElement extends Element implements HasWidgets {
 
 	
     public Iterator<Widget> iterator() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 

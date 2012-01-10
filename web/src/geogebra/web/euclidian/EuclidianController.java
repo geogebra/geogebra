@@ -61,112 +61,112 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 	@Override
     public void handleMovedElement(GeoElement selGeo, boolean b) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	@Override
     public boolean isAltDown() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return false;
     }
 
 	@Override
     public void setLineEndPoint(geogebra.common.awt.Point2D endPoint) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	@Override
     public GeoElement getRecordObject() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 
 	@Override
     public void setMode(int mode) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	public void onGestureChange(GestureChangeEvent event) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	public void onGestureEnd(GestureEndEvent event) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	public void onGestureStart(GestureStartEvent event) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	public void onTouchCancel(TouchCancelEvent event) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	public void onTouchMove(TouchMoveEvent event) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	public void onTouchEnd(TouchEndEvent event) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	public void onTouchStart(TouchStartEvent event) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	public void onDoubleClick(DoubleClickEvent event) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	public void onClick(ClickEvent event) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	public void onMouseWheel(MouseWheelEvent event) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	public void onMouseOver(MouseOverEvent event) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	public void onMouseOut(MouseOutEvent event) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	public void onMouseMove(MouseMoveEvent event) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	public void onMouseUp(MouseUpEvent event) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	public void onMouseDown(MouseDownEvent event) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	@Override
     protected void initToolTipManager() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 

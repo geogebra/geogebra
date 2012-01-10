@@ -77,124 +77,124 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public String getPlain(String cmdName) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getPlain(String cmdName, String param) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getPlain(String cmdName, String param, String param2) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getPlain(String cmdName, String param, String param2,
 	        String param3) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getPlain(String cmdName, String param, String param2,
 	        String param3, String param4) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getPlain(String cmdName, String param, String param2,
 	        String param3, String param4, String param5) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getMenu(String cmdName) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getError(String cmdName) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return cmdName;
 	}
 
 	@Override
 	public boolean isRightToLeftReadingOrder() {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void setTooltipFlag() {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void clearTooltipFlag() {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public boolean isApplet() {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void storeUndoInfo() {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public boolean isUsingFullGui() {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean showView(int view) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public String getLanguage() {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean letRedefine() {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void traceToSpreadsheet(GeoElement o) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void resetTraceColumn(GeoElement o) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public boolean isReverseNameDescriptionLanguage() {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return false;
 	}
 
@@ -202,25 +202,25 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public String getInternalCommand(String s) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void showError(String s) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void initJavaScriptViewWithoutJavascript() {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public Object getTraceXML(GeoElement geoElement) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return null;
 	}
 
@@ -228,31 +228,31 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public void changeLayer(GeoElement ge, int layer, int layer2) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 
 	}
 
 	@Override
     public boolean freeMemoryIsCritical() {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public long freeMemory() {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public String getOrdinalNumber(int i) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object getAlgebraView() {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return null;
 	}
 
@@ -271,19 +271,19 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public boolean isRightToLeftDigits() {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isShowingEuclidianView2() {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void evalScript(AbstractApplication app, String script, String arg) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 
 	}
 
@@ -310,7 +310,7 @@ public class Application extends AbstractApplication {
 		initEuclidianViews();
 		
 		myXMLio = new MyXMLio(kernel, kernel.getConstruction());
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 	
@@ -406,67 +406,67 @@ public class Application extends AbstractApplication {
 
 	@Override
     public void updateConstructionProtocol() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	@Override
     public int getCurrentLabelingStyle() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return 0;
     }
 
 	@Override
     public AbstractImageManager getImageManager() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 
 	@Override
     public String reverseGetColor(String colorName) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 
 	@Override
     public String getColor(String string) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 
 	@Override
     public BufferedImageAdapter getExternalImageAdapter(String filename) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 
 	@Override
     public String getCommandSyntax(String cmd) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 
 	@Override
     public void showRelation(GeoElement geoElement, GeoElement geoElement2) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	@Override
     public void showError(MyError e) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	@Override
     public void showError(String string, String str) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	@Override
     public View getView(int id) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 
@@ -474,56 +474,55 @@ public class Application extends AbstractApplication {
 	
 	@Override
     public DrawEquationInterface getDrawEquation() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 
 	@Override
     public void setShowConstructionProtocolNavigation(boolean show,
             boolean playButton, double playDelay, boolean showProtButton) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	@Override
     public double getWidth() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return 0;
     }
 
 	@Override
     public double getHeight() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return 0;
     }
 
 	public Font getFontCanDisplay(String labelDesc, boolean serif, int style,
             int size) {
-	    // TODO Auto-generated method stub
 	    return new geogebra.web.awt.Font("normal");
     }
 
 	@Override
     public SpreadsheetTraceManager getTraceManager() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 
 	@Override
     public GuiManager getGuiManager() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 
 	@Override
     public AbstractUndoManager getUndoManager(Construction cons) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 
 	@Override
     public AbstractAnimationManager newAnimationManager(Kernel kernel2) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 
@@ -535,44 +534,44 @@ public class Application extends AbstractApplication {
 	
 	@Override
     public GeoGebraCasInterface newGeoGebraCAS() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 
 	@Override
     public AlgoElement newAlgoShortestDistance(Construction cons, String label,
             GeoList list, GeoPointND start, GeoPointND end, GeoBoolean weighted) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return null;
     }
 
 	@Override
     public void updateStyleBars() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	@Override
     public void setXML(String string, boolean b) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	@Override
     public GgbAPI getGgbApi() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 
 	@Override
     public SoundManager getSoundManager() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 
 	@Override
     public CommandProcessor newCmdBarCode() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 	private boolean commandChanged = true;
@@ -588,25 +587,25 @@ public class Application extends AbstractApplication {
 
 	@Override
     protected boolean isCommandNull() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return false;
     }
 
 	@Override
     public void getCommandResourceBundle() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	@Override
     public void initScriptingBundle() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	@Override
     public String getScriptingCommand(String internal) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 
@@ -625,25 +624,25 @@ public class Application extends AbstractApplication {
 
 	@Override
     public boolean showAlgebraInput() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return false;
     }
 
 	@Override
     public GlobalKeyDispatcher getGlobalKeyDispatcher() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 
 	@Override
     public AbstractSpreadsheetTableModel getSpreadsheetTableModel() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 
 	@Override
     public boolean isIniting() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return false;
     }
 
@@ -669,7 +668,7 @@ public class Application extends AbstractApplication {
 
 	@Override
     public boolean isRightClickEnabled() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return false;
     }
 	
@@ -683,7 +682,7 @@ public class Application extends AbstractApplication {
 
 	@Override
     public void updateMenubar() {
-	    // TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 

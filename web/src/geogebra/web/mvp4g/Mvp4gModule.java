@@ -3,6 +3,7 @@ package geogebra.web.mvp4g;
 import java.util.ArrayList;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.main.AbstractApplication;
 import geogebra.web.eventbus.MyEventBus;
 import geogebra.web.ggb.ApplicationWrapper;
 import geogebra.web.gin.AsyncProvider;
@@ -94,7 +95,7 @@ public class Mvp4gModule {
 	
 
 	public Widget getStartView() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 
