@@ -163,7 +163,7 @@ office@geogebra.org
 	</target>
 
 	<!-- create index.list in geogebra.jar for optimized loading of other jars by Java classloader -->
-	<target name="ggb-jar-index" depends="ggb-jar-files" description="create index in geogegebra.jar">
+	<target name="ggb-jar-index" description="create index in geogebra.jar">
 		<exec executable="jar" dir="${build.dir}">
 			<arg value="i"/>
 			<arg value="geogebra.jar"/>
@@ -212,7 +212,7 @@ office@geogebra.org
 	</target>
 
 	<!-- create index.list in geogebra.jar for optimized loading of other jars by Java classloader -->
-	<target name="ggb-jar-index3D" depends="ggb-jar-files3D" description="create index in geogebra.jar">
+	<target name="ggb-jar-index3D" description="create index in geogebra.jar">
 		<exec executable="jar" dir="${build.dir}">
 			<arg value="i"/>
 			<arg value="geogebra.jar"/>

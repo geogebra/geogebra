@@ -156,7 +156,7 @@ export JDK_HOME=$JAVA_HOME
 export JAVACMD=$JAVA_HOME/bin/java
 export ANT_OPTS="-Xmx1024m"
 
-log "START"
+log "START, verbose log is written to $LOGFILE"
 
 cd $WORKDIR
 umask 0002 # trying to ensure g+w rights for all created files automatically

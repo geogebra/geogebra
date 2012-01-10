@@ -54,14 +54,14 @@ office@geogebra.org
 
 	<!-- build signed and unsigned GeoGebra jar files -->
 	<target name="geogebra-aftervanilla" 
-		depends="clean, ggb-jar-files, copyDebug, signDebug, obfuscate, delete3D, ggb-jar-index, 
+		depends="clean, ggb-jar-files, copyDebug, signDebug, obfuscate, delete3D,
 					copyJars, sign, pack, preloadHtml, finish">
 	</target>
 
 	<!-- build signed and unsigned GeoGebra 3D jar files -->
 	<target name="geogebra3D-aftervanilla" 
-		depends="clean, ggb-jar-files3D, copyDebug3D, signDebug, obfuscate3D, ggb-jar-index3D, 
-					copyJars3D, sign, pack, preloadHtml, finish">
+		depends="clean, ggb-jar-files3D, copyDebug3D, signDebug, obfuscate3D,
+					copyJars3D, sign3D, pack, preloadHtml, finish">
 	</target>
 	<!-- build jar files for testing without obfuscation -->
 	<target name="geogebra-unobfuscated" 
@@ -181,12 +181,22 @@ office@geogebra.org
 
 		<!-- repack and sign jars first time -->
 		<antcall target="repack"/>
+		<antcall target="ggb-jar-index"/>
 		<antcall target="doSign"/>
+	</target>
 
-		<!-- used to use to repack and sign jars second time -->
-		<!-- not needed  due to pack.segment.limit=-1 works properly -->
-		<!--antcall target="repack"/-->
-		<!--antcall target="doSign"/-->
+	<!-- Sign jar files -->
+	<target name="sign3D" description="repack and sign 3D jar files twice (to ensure WebStart compatibility)">
+		<!-- check if keystore file present -->
+		<condition property="keystore.present">
+			<available file="${workspace.dir}/igi-keystore.p12"/>
+		</condition>
+
+		<!-- repack and sign jars first time -->
+		
+		<antcall target="repack"/>
+		<antcall target="ggb-jar-index3D"/>
+		<antcall target="doSign"/>
 	</target>
 
 	<!-- sign jars -->
