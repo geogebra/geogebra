@@ -293,18 +293,6 @@ public class EuclidianView extends AbstractEuclidianView {
 	    
     }
 
-	@Override
-    public int getPointCapturingMode() {
-	    // TODO Auto-generated method stub
-	    return 0;
-    }
-
-	@Override
-    public void setPointCapturing(int pointCapturingStickyPoints) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
 	public boolean hitAnimationButton(AbstractEvent e) {
 	    // TODO Auto-generated method stub
 	    return false;
