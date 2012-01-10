@@ -60,12 +60,12 @@ public class Ellipse2DDouble implements geogebra.common.awt.Ellipse2DDouble {
 	
 
 	public void setFrame(double xUL, double yUL, double d, double e) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+		impl.setFrame(xUL,yUL,d,e);
 
 	}
 
 	public void setFrameFromCenter(double i, double j, double d, double e) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+		impl.setFrameFromCenter(i, j, d, e);
 
 	}
 
