@@ -38,6 +38,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
+import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -2940,6 +2941,70 @@ public abstract class AbstractEuclidianController {
 			return switchModeForCircleOrSphere2(mode);
 		}
 		return null;
+	}
+
+	protected final boolean showHideObject(Hits hits) {
+		if (hits.isEmpty()) {
+			return false;
+		}
+	
+		if (selectionPreview) {
+			addSelectedGeo(hits, 1000, false);
+			return false;
+		}
+	
+		GeoElement geo = chooseGeo(hits, true);
+		if (geo != null) {
+			// hide axis
+			if (geo instanceof GeoAxis) {
+				switch (((GeoAxis) geo).getType()) {
+				case GeoAxisND.X_AXIS:
+					// view.showAxes(false, view.getShowYaxis());
+					view.setShowAxis(EuclidianViewInterfaceCommon.AXIS_X, false, true);
+					break;
+	
+				case GeoAxisND.Y_AXIS:
+					// view.showAxes(view.getShowXaxis(), false);
+					view.setShowAxis(EuclidianViewInterfaceCommon.AXIS_Y, false, true);
+					break;
+				}
+				app.updateMenubar();
+			} else {
+				app.toggleSelectedGeo(geo);
+			}
+			return true;
+		}
+		return false;
+	}
+
+	protected final boolean text(Hits hits, int mode, boolean altDown) {
+		GeoPointND loc = null; // location
+	
+		if (hits.isEmpty()) {
+			if (selectionPreview) {
+				return false;
+			} else {
+				// create new Point
+				loc = new GeoPoint2(kernel.getConstruction());
+				loc.setCoords(xRW, yRW, 1.0);
+			}
+		} else {
+			// points needed
+			addSelectedPoint(hits, 1, false);
+			if (selPoints() == 1) {
+				// fetch the selected point
+				GeoPointND[] points = getSelectedPointsND();
+				loc = points[0];
+			}
+		}
+	
+		// got location
+		if (loc != null) {
+			app.getGuiManager().getDialogManager().showTextCreationDialog(loc);
+			return true;
+		}
+	
+		return false;
 	}
 
 }

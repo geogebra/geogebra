@@ -413,5 +413,10 @@ public class EuclidianView extends AbstractEuclidianView {
 	    
     }
 
+	public void setShowAxis(int axisX, boolean b, boolean c) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
 
 }

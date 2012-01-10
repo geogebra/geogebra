@@ -20,7 +20,6 @@ import geogebra.common.euclidian.DrawSlider;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.event.AbstractEvent;
@@ -5510,40 +5509,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		return false;
 	}
 
-	final protected boolean showHideObject(Hits hits) {
-		if (hits.isEmpty()) {
-			return false;
-		}
-
-		if (selectionPreview) {
-			addSelectedGeo(hits, 1000, false);
-			return false;
-		}
-
-		GeoElement geo = chooseGeo(hits, true);
-		if (geo != null) {
-			// hide axis
-			if (geo instanceof GeoAxis) {
-				switch (((GeoAxis) geo).getType()) {
-				case GeoAxisND.X_AXIS:
-					// view.showAxes(false, view.getShowYaxis());
-					((EuclidianViewInterface) view).setShowAxis(EuclidianViewInterface.AXIS_X, false, true);
-					break;
-
-				case GeoAxisND.Y_AXIS:
-					// view.showAxes(view.getShowXaxis(), false);
-					((EuclidianViewInterface) view).setShowAxis(EuclidianViewInterface.AXIS_Y, false, true);
-					break;
-				}
-				((Application) app).updateMenubar();
-			} else {
-				((Application) app).toggleSelectedGeo(geo);
-			}
-			return true;
-		}
-		return false;
-	}
-
 	// get Transformables and point
 	final protected GeoElement[] mirrorAtPoint(Hits hits) {
 		if (hits.isEmpty()) {
@@ -6283,36 +6248,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 			kernel.useMacro(null, macro, getSelectedGeos());
 			return true;
 		}
-		return false;
-	}
-
-	final protected boolean text(Hits hits, int mode, boolean altDown) {
-		GeoPointND loc = null; // location
-
-		if (hits.isEmpty()) {
-			if (selectionPreview) {
-				return false;
-			} else {
-				// create new Point
-				loc = new GeoPoint2(kernel.getConstruction());
-				loc.setCoords(xRW, yRW, 1.0);
-			}
-		} else {
-			// points needed
-			addSelectedPoint(hits, 1, false);
-			if (selPoints() == 1) {
-				// fetch the selected point
-				GeoPointND[] points = getSelectedPointsND();
-				loc = points[0];
-			}
-		}
-
-		// got location
-		if (loc != null) {
-			((Application) app).getGuiManager().getDialogManager().showTextCreationDialog(loc);
-			return true;
-		}
-
 		return false;
 	}
 

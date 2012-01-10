@@ -279,4 +279,6 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 
 	public boolean setAnimationButtonsHighlighted(boolean b);
 
+	public void setShowAxis(int axisX, boolean b, boolean c);
+
 }

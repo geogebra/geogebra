@@ -676,5 +676,11 @@ public class Application extends AbstractApplication {
 	  eval(fun + "();");
 	}-*/;
 
+	@Override
+    public void updateMenubar() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
 
 }

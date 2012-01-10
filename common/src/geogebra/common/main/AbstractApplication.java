@@ -1728,4 +1728,6 @@ public abstract class AbstractApplication {
 		this.shiftDragZoomEnabled = shiftDragZoomEnabled;
 	}
 
+	public abstract void updateMenubar();
+
 }
