@@ -40,6 +40,7 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.plugin.GeoClass;
+import geogebra.common.plugin.GgbAPI;
 import geogebra.common.plugin.Operation;
 import geogebra.main.Application;
 
@@ -707,7 +708,6 @@ public class PythonAPI {
 	 */
 	public GgbAPI getGgbApi() {
     		return app.getGgbApi();
-    	}
     }
 	
 }
