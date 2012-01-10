@@ -42,4 +42,10 @@ public class Point2D extends geogebra.common.awt.Point2D {
 	    return impl.distance(x,y);
     }
 
+	public static geogebra.web.kernel.gawt.Point2D.Double getGawtPoint2D(
+			geogebra.common.awt.Point2D p) {
+		if (p==null) return null;
+		return new geogebra.web.kernel.gawt.Point2D.Double(p.getX(),p.getY());
+    }
+
 }

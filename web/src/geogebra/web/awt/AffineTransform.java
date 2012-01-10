@@ -92,13 +92,16 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
     */
 
 	public void transform(Point2D p, Point2D p2) {
-	    // TODO Auto-generated method stub
-	    
+		geogebra.web.kernel.gawt.Point2D point = geogebra.web.awt.Point2D.getGawtPoint2D(p);
+		geogebra.web.kernel.gawt.Point2D point2 = geogebra.web.awt.Point2D.getGawtPoint2D(p2); 
+		at.transform(point, point2);
+		p2.setX(point2.getX());
+		p2.setY(point2.getY());    
     }
 
 	public void transform(double[] labelCoords, int i, double[] labelCoords2,
             int j, int k) {
-	    // TODO Auto-generated method stub
+		at.transform(labelCoords, i, labelCoords2, j, k);
 	    
     }
 	
