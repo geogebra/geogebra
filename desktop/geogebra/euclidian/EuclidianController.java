@@ -4115,16 +4115,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	
 	
 	
-	protected void wrapMouseEntered(AbstractEvent event) {
-		if (textfieldHasFocus) {
-			return;
-		}
-
-		initToolTipManager();
-		initShowMouseCoords();
-		view.mouseEntered();
-	}
-
 	public void mouseEntered(MouseEvent e) {
 		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
 		wrapMouseEntered(event);
@@ -4174,7 +4164,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	 * public void focusLost(FocusEvent e) { resetToolTipManager(); }
 	 */
 
-	protected void initToolTipManager() {
+	public void initToolTipManager() {
 		// set tooltip manager
 		ToolTipManager ttm = ToolTipManager.sharedInstance();
 		ttm.setInitialDelay(DEFAULT_INITIAL_DELAY / 2);

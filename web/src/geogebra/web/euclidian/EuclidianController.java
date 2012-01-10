@@ -173,4 +173,10 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	    
     }
 
+	@Override
+    protected void initToolTipManager() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
 }

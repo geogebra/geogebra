@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import geogebra.common.awt.Point;
 import geogebra.common.awt.Point2D;
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.Path;
@@ -2812,6 +2813,16 @@ public abstract class AbstractEuclidianController {
 	protected void initShowMouseCoords() {
 		view.setShowMouseCoords((mode == EuclidianConstants.MODE_POINT)
 				|| (mode == EuclidianConstants.MODE_MOVE));
+	}
+
+	protected void wrapMouseEntered(AbstractEvent event) {
+		if (textfieldHasFocus) {
+			return;
+		}
+	
+		initToolTipManager();
+		initShowMouseCoords();
+		view.mouseEntered();
 	}
 
 }
