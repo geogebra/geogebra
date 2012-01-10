@@ -108,6 +108,8 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements
 	
 	@Override
     public Point2D getCurrentPoint() {
+		if(impl.getCurrentPoint()==null)
+			return null;
 		return new geogebra.web.awt.Point2D(impl.getCurrentPoint().getX(),impl.getCurrentPoint().getY());
 	}
 

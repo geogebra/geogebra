@@ -19,6 +19,7 @@ import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.RenderableImage;
 import geogebra.common.awt.RenderedImage;
 import geogebra.common.awt.RenderingHints;
+import geogebra.common.main.AbstractApplication;
 import geogebra.web.kernel.gawt.BufferedImage;
 import geogebra.web.kernel.gawt.PathIterator;
 import geogebra.web.kernel.gawt.Shape;
@@ -505,13 +506,13 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	@Override
     public void draw(geogebra.common.awt.Shape s) {
-	    draw(s);
+		AbstractApplication.debug("implementation needed");
     }
 
 
 	@Override
     public void fill(geogebra.common.awt.Shape s) {
-	  fill(s);
+	  AbstractApplication.debug("implementation needed");
     }
 
 

@@ -3152,7 +3152,9 @@ public class Kernel {
 			viewBounds[i] = Double.NEGATIVE_INFINITY;
 		}
 		viewBounds[0] = viewBounds[2] = Double.POSITIVE_INFINITY;
-		for (int id : viewSet) {
+		//we can't use foreach here because of GWT
+		for (int i=0;i<viewSet.size();i++) {
+			Integer id = viewSet.get(i);
 			View view = getApplication().getView(id);
 			if ((view != null) && (view instanceof EuclidianViewInterfaceSlim)) {
 				EuclidianViewInterfaceSlim ev = (EuclidianViewInterfaceSlim) view;

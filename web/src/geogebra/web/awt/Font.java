@@ -147,8 +147,10 @@ public class Font extends geogebra.common.awt.Font{
 
 	@Override
     public geogebra.common.awt.Font deriveFont(int plain2, int fontSize) {
-	    // TODO Auto-generated method stub
-	    return null;
+	    Font ret = new Font(fontStyle);
+	    ret.setFontStyle(plain2);
+	    ret.setFontSize(fontSize);
+	    return ret;
     }
 
 	@Override

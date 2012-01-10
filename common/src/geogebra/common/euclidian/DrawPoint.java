@@ -37,7 +37,7 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 /**
  * 
  * @author Markus
- * @version
+ * @version 2011-01-10
  */
 public final class DrawPoint extends Drawable {
 
@@ -66,8 +66,8 @@ public final class DrawPoint extends Drawable {
 	/**
 	 * Creates new DrawPoint
 	 * 
-	 * @param view
-	 * @param P
+	 * @param view view
+	 * @param P point to be drawn
 	 */
 	public DrawPoint(AbstractEuclidianView view, GeoPointND P) {
 		this(view, P, false);
@@ -76,9 +76,9 @@ public final class DrawPoint extends Drawable {
 	/**
 	 * Creates new DrawPoint
 	 * 
-	 * @param view
-	 * @param P
-	 * @param isPreview
+	 * @param view View
+	 * @param P point to be drawn
+	 * @param isPreview true iff preview
 	 */
 	public DrawPoint(AbstractEuclidianView view, GeoPointND P, boolean isPreview) {
 		this.view = view;
@@ -194,7 +194,7 @@ public final class DrawPoint extends Drawable {
 				direction = -1.0;
 
 			if (gp == null) {
-				gp = AwtFactory.prototype.newGeneralPath();;
+				gp = AwtFactory.prototype.newGeneralPath();
 			}
 			root3over2 = Math.sqrt(3.0) / 2.0;
 			gp.moveTo((float) coords[0], (float) (coords[1] + direction
@@ -318,32 +318,32 @@ public final class DrawPoint extends Drawable {
 
 	private Drawable drawable;
 
-	private void drawClippedSection(GeoElement geo, geogebra.common.awt.Graphics2D g2) {
+	private void drawClippedSection(GeoElement geo2, geogebra.common.awt.Graphics2D g2) {
 
 		switch (geo.getGeoClassType()) {
 		case LINE:
-			drawable = new DrawLine(view, (GeoLine) geo);
+			drawable = new DrawLine(view, (GeoLine) geo2);
 			break;
 		case SEGMENT:
-			drawable = new DrawSegment(view, (GeoSegment) geo);
+			drawable = new DrawSegment(view, (GeoSegment) geo2);
 			break;
 		case CONIC:
-			drawable = new DrawConic(view, (GeoConic) geo);
+			drawable = new DrawConic(view, (GeoConic) geo2);
 			break;
 		case FUNCTION:
-			drawable = new DrawParametricCurve(view, (GeoFunction) geo);
+			drawable = new DrawParametricCurve(view, (GeoFunction) geo2);
 			break;
 		case AXIS:
 			drawable = null;
 			break;
 		case CONICPART:
-			drawable = new DrawConicPart(view, (GeoConicPart) geo);
+			drawable = new DrawConicPart(view, (GeoConicPart) geo2);
 			break;
 
 		default:
 			drawable = null;
 			AbstractApplication.debug("unsupported type for restriced drawing "
-					+ geo.getClass() + "");
+					+ geo2.getClass() + "");
 		}
 
 		if (drawable != null) {
@@ -352,20 +352,20 @@ public final class DrawPoint extends Drawable {
 
 			view.toScreenCoords(coords);
 
-			geogebra.common.awt.Ellipse2DFloat circle = geogebra.common.factories.AwtFactory.prototype.newEllipse2DFloat((int) coords[0] - 30,
+			geogebra.common.awt.Ellipse2DFloat circleClip = 
+					geogebra.common.factories.AwtFactory.prototype.newEllipse2DFloat((int) coords[0] - 30,
 					(int) coords[1] - 30, 60, 60);
-			g2.clip(circle);
-			geo.forceEuclidianVisible(true);
+			g2.clip(circleClip);
+			geo2.forceEuclidianVisible(true);
 			drawable.update();
 			drawable.draw(g2);
-			geo.forceEuclidianVisible(false);
+			geo2.forceEuclidianVisible(false);
 			g2.setClip(null);
 		}
 	}
 
 	@Override
 	final public void draw(geogebra.common.awt.Graphics2D g2) {
-		AbstractApplication.debug("drawing point");
 		if (isVisible) {
 			if (geo.doHighlighting()) {
 				g2.setPaint(geo.getSelColor());
