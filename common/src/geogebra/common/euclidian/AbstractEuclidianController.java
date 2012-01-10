@@ -273,6 +273,8 @@ public abstract class AbstractEuclidianController {
 	public geogebra.common.euclidian.EuclidianPen pen;
 
 	protected Hits handleAddSelectedArrayList = new Hits();
+
+	protected boolean textfieldHasFocus = false;
 	
 	protected static final int MOVE_NONE = 101;
 	protected static final int MOVE_POINT = 102;
@@ -2799,6 +2801,10 @@ public abstract class AbstractEuclidianController {
 
 	public Point getMouseLoc() {
 		return mouseLoc;
+	}
+
+	public void textfieldHasFocus(boolean hasFocus) {
+		textfieldHasFocus = hasFocus;
 	}
 
 }

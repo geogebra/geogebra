@@ -4146,7 +4146,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		if (textfieldHasFocus) {
 			return;
 		}
-
+			
 		refreshHighlighting(null);
 		resetToolTipManager();
 		view.setAnimationButtonsHighlighted(false);
@@ -6681,11 +6681,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		return ((GeoElement) movedGeoPoint);
 	}
 
-	private boolean textfieldHasFocus = false;
-
-	public void textfieldHasFocus(boolean hasFocus) {
-		textfieldHasFocus = hasFocus;
-	}
+	
 
 	// /////////////////////////////////////////
 	// EMPTY METHODS USED FOR EuclidianView3D
