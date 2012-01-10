@@ -254,9 +254,68 @@ public class EuclidianView extends AbstractEuclidianView {
 	    
     }
 
+	final public void paint(geogebra.common.awt.Graphics2D g2) {
+		//Graphics2D g2 = (Graphics2D) g;
+		// lastGraphics2D = g2;
+
+//		g2.setRenderingHints(defRenderingHints);
+//		// g2.setClip(0, 0, width, height);
+//
+//		// BACKGROUND
+//		// draw background image (with axes and/or grid)
+//		if (bgImage == null) {
+//			if (firstPaint) {
+//				updateSize();
+//				g2.drawImage(bgImage, 0, 0, null);
+//				firstPaint = false;
+//			} else {
+//				drawBackgroundWithImages(g2);
+//			}
+//		} else {
+//			// draw background image
+//			g2.drawImage(bgImage, 0, 0, null);
+//		}
+//
+//		/*
+//		 * switch (drawMode) { case DRAW_MODE_BACKGROUND_IMAGE: // draw
+//		 * background image (with axes and/or grid) if (bgImage == null)
+//		 * updateSize(); else g2.drawImage(bgImage, 0,0, null); break;
+//		 * 
+//		 * default: // DRAW_MODE_DIRECT_DRAW: drawBackground(g2, true); }
+//		 */
+//
+//		// FOREGROUND
+//		if (antiAliasing) {
+//			setAntialiasing(g2);
+//		}
+
+		// draw equations, checkboxes and all geo objects
+		drawObjects(g2);
+
+//		if (selectionRectangle != null) {
+//			drawZoomRectangle(g2);
+//		}
+//
+//		// when mouse over slider, show preview value of slider for that point
+//		boolean drawn = drawSliderValue(g2);
+//
+//		if (!drawn) {
+//			if (allowShowMouseCoords && showMouseCoords
+//					&& (showAxes[0] || showAxes[1] || showGrid)) {
+//				drawMouseCoords(g2);
+//			}
+//			if (showAxesRatio) {
+//				drawAxesRatio(g2);
+//			}
+//		}
+//
+//		if (kernel.needToShowAnimationButton()) {
+//			drawAnimationButtons(g2);
+//		}
+	}
+
     public void repaint() {
-	    // TODO Auto-generated method stub
-	    
+	    paint(g2);
     }
 
 	@Override
