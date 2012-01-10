@@ -6503,12 +6503,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		}
 	}
 
-	private String sliderValue = null;
-
-	public String getSliderValue() {
-		return sliderValue;
-	}
-
 	public Hits getHighlightedgeos() {
 		return highlightedGeos.clone();
 	}

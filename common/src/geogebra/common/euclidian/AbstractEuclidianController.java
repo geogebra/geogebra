@@ -279,6 +279,8 @@ public abstract class AbstractEuclidianController {
 	protected Hits handleAddSelectedArrayList = new Hits();
 
 	protected boolean textfieldHasFocus = false;
+
+	protected String sliderValue = null;
 	
 	protected static final int MOVE_NONE = 101;
 	protected static final int MOVE_POINT = 102;
@@ -3105,7 +3107,6 @@ public abstract class AbstractEuclidianController {
 	}
 
 	public String getSliderValue() {
-		// TODO Auto-generated method stub
-		return null;
+		return sliderValue;
 	}
 }
