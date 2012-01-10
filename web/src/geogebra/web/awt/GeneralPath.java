@@ -51,12 +51,12 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements
 
 	
 	public PathIterator getPathIterator(AffineTransform affineTransform) {
-		return (PathIterator) impl.getPathIterator(geogebra.web.awt.AffineTransform.getWebTransform(affineTransform));
+		return (PathIterator) impl.getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(affineTransform));
 	}
 
 	
 	public PathIterator getPathIterator(AffineTransform at, double flatness) {
-		return (PathIterator) impl.getPathIterator(geogebra.web.awt.AffineTransform.getWebTransform(at), flatness);
+		return (PathIterator) impl.getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(at), flatness);
 	}
 
 	
@@ -70,7 +70,7 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements
 	}
 
 	
-	public geogebra.web.kernel.gawt.Shape getWebShape() {
+	public geogebra.web.kernel.gawt.Shape getGawtShape() {
 		return impl;
 	}
 
@@ -102,7 +102,7 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements
 	@Override
     public geogebra.common.awt.Shape createTransformedShape(
 	        AffineTransform affineTransform) {
-		return (geogebra.common.awt.Shape) impl.createTransformedShape(geogebra.web.awt.AffineTransform.getWebTransform(affineTransform));
+		return (geogebra.common.awt.Shape) impl.createTransformedShape(geogebra.web.awt.AffineTransform.getGawtAffineTransform(affineTransform));
 	}
 
 	
@@ -113,25 +113,23 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements
 
 	@Override
     public boolean contains(Rectangle2D p) {
-	    // TODO Auto-generated method stub
-	    return false;
+	    return impl.contains(geogebra.web.awt.Rectangle2D.getGawtRectangle2D(p));
     }
 
 	@Override
     public boolean contains(double arg0, double arg1, double arg2, double arg3) {
-	    // TODO Auto-generated method stub
-	    return false;
+	    return impl.contains(arg0, arg1, arg2, arg3);
     }
 
 	@Override
     public boolean contains(Point2D p) {
-	    // TODO Auto-generated method stub
-	    return false;
+		if (p==null) return false;
+		return impl.contains(p.getX(), p.getY());
     }
 
 	@Override
     public void curveTo(float f, float g, float h, float i, float j, float k) {
-	    // TODO Auto-generated method stub
+		impl.curveTo(f, g, h, i, j, k);
 	    
     }
 

@@ -75,8 +75,7 @@ public class GenericRectangle2D implements geogebra.awt.Rectangle2D{
 	}
 
 	public boolean contains(double xTry, double yTry) {
-		// TODO Auto-generated method stub
-		return false;
+		return impl.contains(xTry, yTry);
 	}
 
 	public boolean intersects(int i, int j, int k, int l) {

@@ -63,7 +63,7 @@ public class Line2D extends geogebra.common.awt.Line2D implements Shape {
 	}
 
 	
-	public geogebra.web.kernel.gawt.Shape getWebShape() {
+	public geogebra.web.kernel.gawt.Shape getGawtShape() {
 		return impl;
 	}
 

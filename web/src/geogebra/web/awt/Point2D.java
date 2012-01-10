@@ -39,8 +39,7 @@ public class Point2D extends geogebra.common.awt.Point2D {
 
 	
     public double distance(double x, double y) {
-	    // TODO Auto-generated method stub
-	    return 0;
+	    return impl.distance(x,y);
     }
 
 }

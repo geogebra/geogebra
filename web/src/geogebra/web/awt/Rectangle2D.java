@@ -60,56 +60,58 @@ public class Rectangle2D implements geogebra.common.awt.Rectangle2D {
 	public boolean intersects(Rectangle r) {
 		return impl.intersects(r.getX(), r.getY(), r.getHeight(), r.getWidth());
 	}
-
+	
+	
 	public boolean intersects(int i, int j, int k, int l) {
-	    // TODO Auto-generated method stub
-	    return false;
+	    return impl.intersects(i,j,k,l);
     }
 
 	public boolean contains(int x, int y) {
-	    // TODO Auto-generated method stub
-	    return false;
+	    return impl.contains(x,y);
     }
 
 	public Rectangle getBounds() {
-	    // TODO Auto-generated method stub
-	    return null;
+	    return new geogebra.web.awt.Rectangle(impl.getBounds());
     }
 
 	public geogebra.common.awt.Rectangle2D getBounds2D() {
-	    // TODO Auto-generated method stub
-	    return null;
+		return new geogebra.web.awt.Rectangle2D(impl.getBounds2D());
     }
 
 	public boolean contains(Rectangle rectangle) {
-	    // TODO Auto-generated method stub
-	    return false;
+	    return impl.contains(geogebra.web.awt.Rectangle.getGawtRectangle(rectangle));
     }
 
 	public boolean contains(double xTry, double yTry) {
-	    // TODO Auto-generated method stub
-	    return false;
+	    return impl.contains(xTry, yTry);
     }
 
 	public PathIterator getPathIterator(AffineTransform affineTransform) {
-	    // TODO Auto-generated method stub
-	    return null;
+		return (PathIterator) impl.getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(affineTransform));
     }
 
 	public PathIterator getPathIterator(AffineTransform at, double flatness) {
-	    // TODO Auto-generated method stub
-	    return null;
+		return (PathIterator) impl.getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(at), flatness);
     }
 
 	public boolean intersects(geogebra.common.awt.Rectangle2D r) {
-	    // TODO Auto-generated method stub
-	    return false;
+		return impl.intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
 	public geogebra.common.awt.Rectangle2D createIntersection(
             geogebra.common.awt.Rectangle2D r) {
-	    // TODO Auto-generated method stub
-	    return null;
+	    return new geogebra.web.awt.Rectangle2D(
+	    		impl.createIntersection(geogebra.web.awt.Rectangle2D.getGawtRectangle2D(r)));
+
     }
+
+	public static geogebra.web.kernel.gawt.Rectangle2D getGawtRectangle2D(
+			geogebra.common.awt.Rectangle2D p){
+		if(!(p instanceof geogebra.web.awt.Rectangle2D))
+			return null;
+		return ((geogebra.web.awt.Rectangle2D)p).impl;
+    }
+	
+	
 
 }

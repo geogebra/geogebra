@@ -24,7 +24,7 @@ public class Area implements geogebra.common.awt.Area {
 	 * Creates new area
 	 */
 	public Area(Shape shape) {
-		impl = new geogebra.web.kernel.gawt.Area(geogebra.web.awt.GenericShape.getWebShape(shape));
+		impl = new geogebra.web.kernel.gawt.Area(geogebra.web.awt.GenericShape.getGawtShape(shape));
 	}
 
 	public boolean intersects(int i, int j, int k, int l) {

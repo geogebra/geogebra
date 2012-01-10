@@ -77,17 +77,19 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
 	 * @param at2
 	 * @return
 	 */
-	public static geogebra.web.kernel.gawt.AffineTransform getWebTransform(
+	public static geogebra.web.kernel.gawt.AffineTransform getGawtAffineTransform(
             geogebra.common.awt.AffineTransform at2) {
 	    if(!(at2 instanceof AffineTransform))
 	    	return null;
 	    return ((AffineTransform)at2).at;
     }
 
+	/*
 	public void transform(PathPoint p, PathPoint p2) {
 	    // TODO Auto-generated method stub
 	    
     }
+    */
 
 	public void transform(Point2D p, Point2D p2) {
 	    // TODO Auto-generated method stub

@@ -44,12 +44,12 @@ public class GenericShape implements Shape {
 
 	
 	public PathIterator getPathIterator(AffineTransform affineTransform) {
-		return (PathIterator) impl.getPathIterator(geogebra.web.awt.AffineTransform.getWebTransform(affineTransform));
+		return (PathIterator) impl.getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(affineTransform));
 	}
 
 	
 	public PathIterator getPathIterator(AffineTransform at, double flatness) {
-		return (PathIterator) impl.getPathIterator(geogebra.web.awt.AffineTransform.getWebTransform(at),flatness);
+		return (PathIterator) impl.getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(at),flatness);
 	}
 
 	
@@ -63,10 +63,10 @@ public class GenericShape implements Shape {
 	}
 
 
-	public static geogebra.web.kernel.gawt.Shape getWebShape(Shape shape) {
+	public static geogebra.web.kernel.gawt.Shape getGawtShape(Shape shape) {
 	    if(!(shape instanceof geogebra.web.awt.Shape))
 	    	return null;
-	    return ((geogebra.web.awt.Shape)shape).getWebShape();
+	    return ((geogebra.web.awt.Shape)shape).getGawtShape();
     }
 
 }

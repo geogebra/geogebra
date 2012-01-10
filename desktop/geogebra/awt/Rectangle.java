@@ -131,9 +131,13 @@ public class Rectangle implements geogebra.awt.Rectangle2D, geogebra.common.awt.
 	public boolean intersects(geogebra.common.awt.Rectangle viewRect) {
 		return impl.intersects(Rectangle.getAWTRectangle(viewRect)) ;
 	}
+
+	/*
 	public boolean contains(PathPoint prevP) {
 		return impl.contains(Point2D.getAwtPoint2D(prevP));
 	}
+	*/
+	
 	public boolean intersects(int i, int j, int k, int l) {
 		return impl.intersects(i, j, k, l);
 	}
