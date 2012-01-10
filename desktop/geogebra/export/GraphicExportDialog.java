@@ -687,7 +687,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			ev.exportPaintPre(new geogebra.awt.Graphics2D(g), exportScale);
 
 			g.startGroup("misc");
-			ev.drawObjectsPre(g);
+			ev.drawActionObjects(new geogebra.awt.Graphics2D(g));
 			g.endGroup("misc");
 
 			for (int layer = 0; layer <= ev.getMaxLayerUsed(); layer++) // draw

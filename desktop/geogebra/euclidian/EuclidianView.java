@@ -1854,20 +1854,13 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 	
 
-	// Michael Borcherds 2008-03-01
-	public void drawObjectsPre(Graphics2D g2) {
+	
 
+		public void drawActionObjects(geogebra.common.awt.Graphics2D g2){
 		// TODO layers for Buttons and Textfields
-
-		// for cross-platform UI the stroke must be reset to show buttons
-		// properly, see #442
-		g2.setStroke(EuclidianStatic.getDefaultStrokeAwt());
-		((geogebra.euclidian.EuclidianViewJPanel)evjpanel).paintChildren(g2); // draws Buttons and Textfields
-
-	}
-
-		protected void drawActionObjects(geogebra.common.awt.Graphics2D g2){
-		// TODO layers for Buttons and Textfields
+			// for cross-platform UI the stroke must be reset to show buttons
+			// properly, see #442
+			g2.setStroke(EuclidianStatic.getDefaultStroke());
 				((geogebra.euclidian.EuclidianViewJPanel)evjpanel).paintChildren(
 						geogebra.awt.Graphics2D.getAwtGraphics(g2)); // draws Buttons and Textfields
 	}

@@ -2401,9 +2401,6 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		protected void drawObjects(geogebra.common.awt.Graphics2D g2) {
 
 			drawGeometricObjects(g2);
-			// for cross-platform UI the stroke must be reset to show buttons
-			// properly, see #442
-			g2.setStroke(EuclidianStatic.getDefaultStroke());
 			drawActionObjects(g2);
 
 			if (previewDrawable != null) {
