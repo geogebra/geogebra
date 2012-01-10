@@ -15,6 +15,7 @@ from javax.swing import (
     DefaultListModel, ListCellRenderer, BorderFactory, JTextPane,
     JMenuBar, JMenu, JMenuItem, JFileChooser,
     KeyStroke,
+    JTabbedPane,
 )
 from javax.swing.text import StyleContext, StyleConstants, SimpleAttributeSet, TabStop, TabSet
 from javax.swing.event import DocumentListener
@@ -1076,18 +1077,29 @@ class InputArea(KeyListener):
                     indent += '\t'
             if indent:
                 self.input = text[:offset + 1] + indent + text[offset + 1:]
-                self.input.caretPosition = offset + len(indent) + 1
+                self.component.caretPosition = offset + len(indent) + 1
 
 
-def InteractiveInput(InputArea):
-    def __init__(self, checks_disabled):
+class InteractiveInput(InputArea):
+    def __init__(self, checks_disabled, runcode):
         self.checks_disabled = checks_disabled
+        self.runcode = runcode
         InputArea.__init__(self)
     def keyTyped(self, evt):
         with self.checks_disabled:
             InputArea.keyTyped(self, evt)
+            if evt.keyChar != '\n':
+                return
             text = self.input
-            
+            lines = self.input.split("\n")
+            if (
+                len(lines) == 2 and not lines[1] or
+                len(lines) > 2 and not lines[-1].strip() and not lines[-2].strip()
+            ):
+                res = self.runcode(text)
+                if res:
+                    self.input = ""
+
 
 class LockManager(object):
     def __init__(self):
@@ -1100,29 +1112,40 @@ class LockManager(object):
     def __nonzero__(self):
         return self.lock
 
+
 class PythonWindow(KeyListener, DocumentListener, ActionListener):
     def __init__(self):
         self.frame = JFrame("Python Window")
+
+        tabs = JTabbedPane()
+
+        interactive_pane = JPanel(BorderLayout())
+        script_pane = JPanel(BorderLayout())
+        
         scrollpane = JScrollPane()
         inputPanel = JPanel()
         inputPanel.layout = GridLayout(1, 1)
-        self.input = JTextArea("")
-        self.input.border = BorderFactory.createEmptyBorder(5, 5, 5, 5)
-        self.input.tabSize = 4
-        self.input.font = Font("Monospaced", Font.PLAIN, 12)
-        self.input.addKeyListener(self)
-        self.input.document.addDocumentListener(self)
-        inputPanel.add(self.input)
+        self.check_disabled = LockManager()
+        self.input = InteractiveInput(self.check_disabled, self.runcode)
+        self.input.component.document.addDocumentListener(self)
+        inputPanel.add(self.input.component)
         self.outputpane = OutputPane()
         scrollpane.viewport.view = self.outputpane.textpane
-        self.frame.add(scrollpane, BorderLayout.CENTER)
-        self.frame.add(inputPanel, BorderLayout.PAGE_END)
+        interactive_pane.add(scrollpane, BorderLayout.CENTER)
+        interactive_pane.add(inputPanel, BorderLayout.PAGE_END)
+
+        self.script_area = script_area = InputArea()
+        script_pane.add(script_area.component, BorderLayout.CENTER)
+        
+        tabs.addTab("Interactive", interactive_pane)
+        tabs.addTab("Script", script_pane)
+        
+        self.frame.add(tabs)
         self.frame.size = 500, 600
         self.frame.visible = False
         self.component = None
         self.make_menubar()
         self.history = InputHistory()
-        self.check_disabled = LockManager()
     def make_menubar(self):
         shortcut = Toolkit.getDefaultToolkit().menuShortcutKeyMask
         menubar = JMenuBar()
@@ -1140,16 +1163,34 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
         item.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_R, shortcut)
         self.reload_menuitem = item
         filemenu.add(item)
+        
         navmenu = JMenu("Navigation")
         menubar.add(navmenu)
+        
         item = JMenuItem("Previous Input", actionCommand="up")
         item.addActionListener(self)
-        item.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_UP, ActionEvent.ALT_MASK)
+        item.accelerator = KeyStroke.getKeyStroke(
+            KeyEvent.VK_UP,
+            ActionEvent.ALT_MASK
+        )
         navmenu.add(item)
+        
         item = JMenuItem("Next Input", actionCommand="down")
         item.addActionListener(self)
-        item.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, ActionEvent.ALT_MASK)
+        item.accelerator = KeyStroke.getKeyStroke(
+            KeyEvent.VK_DOWN,
+            ActionEvent.ALT_MASK
+        )
         navmenu.add(item)
+
+        item = JMenuItem("Run Script", actionCommand="runscript")
+        item.addActionListener(self)
+        item.accelerator = KeyStroke.getKeyStroke(
+            KeyEvent.VK_E,
+            shortcut
+        )
+        navmenu.add(item)
+        
         self.frame.setJMenuBar(menubar)
     def toggle_visibility(self):
         self.frame.visible = not self.frame.visible
@@ -1168,6 +1209,22 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
         self.outputpane.addtext(text, "error", ensure_newline=True)
     def write(self, text):
         self.add(text, "output")
+    def runcode(self, source, interactive=True):
+        if not source.strip():
+            return True
+        processed_source = source.replace("$", "geo.")
+        code = interface.compileinteractive(processed_source)
+        if code in ("continue", "error"):
+            code = interface.compilemodule(processed_source)
+            if code == "error":
+                return False
+        source = source.strip()
+        if interactive:
+            self.history.append(source)
+            self.current_text = ""
+            self.outputpane.addtext(source +'\n', "input", ensure_newline=True)
+        interface.run(code)
+        return True
     def run(self):
         source = self.input.text
         if not source.strip():
@@ -1225,7 +1282,7 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
     # Implementation of DocumentListener
     def update_current_text(self):
         if not self.check_disabled:
-            self.current_text = self.input.text
+            self.current_text = self.input.input
             self.history.reset_position()
     def changedUpdate(self, evt):
         self.update_current_text()
@@ -1241,14 +1298,17 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
         """Move back in history"""
         try:
             with self.check_disabled:
-                self.input.text = self.history.back()
+                self.input.input = self.history.back()
         except InputHistory.OutOfBounds:
             pass
     def action_down(self, evt):
         """Move forward in history"""
         try:
             with self.check_disabled:
-                self.input.text = self.history.forward()
+                self.input.input = self.history.forward()
         except InputHistory.OutOfBounds:
-            self.input.text = self.current_text
+            self.input.input = self.current_text
             self.history.reset_position()
+    def action_runscript(self, evt):
+        """Run script"""
+        self.runcode(self.script_area.input, interactive=False)
