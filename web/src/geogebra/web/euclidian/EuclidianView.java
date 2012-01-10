@@ -290,7 +290,7 @@ public class EuclidianView extends AbstractEuclidianView {
 //		}
 
 		// draw equations, checkboxes and all geo objects
-		drawObjects(g2);
+		drawObjects((Graphics2D)g2);
 
 //		if (selectionRectangle != null) {
 //			drawZoomRectangle(g2);

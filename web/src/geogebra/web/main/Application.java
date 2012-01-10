@@ -256,12 +256,17 @@ public class Application extends AbstractApplication {
 		return null;
 	}
 
-	
+	@Override
+	public EuclidianView getEuclidianView() {
+		return (EuclidianView)euclidianView;
+	}
 
 	@Override
-	public EuclidianViewInterfaceSlim getActiveEuclidianView() {
-		// TODO Auto-generated method stub
-		return null;
+	public EuclidianViewInterfaceCommon getActiveEuclidianView() {
+//		if (getGuiManager() == null) {
+			return getEuclidianView();
+//		}
+//		return getGuiManager().getActiveEuclidianView();
 	}
 
 	@Override
