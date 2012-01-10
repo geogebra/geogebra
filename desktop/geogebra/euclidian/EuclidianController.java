@@ -47,7 +47,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolyLine;
@@ -59,17 +58,14 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Test;
-import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
-import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.MyMath;
 import geogebra.main.Application;
 
@@ -84,7 +80,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Locale;
 
@@ -4500,201 +4495,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		return list;
 	}
 
-	/**
-	 * COORD TRANSFORM SCREEN -> REAL WORLD
-	 * 
-	 * real world coords -> screen coords ( xscale 0 xZero ) T = ( 0 -yscale
-	 * yZero ) ( 0 0 1 )
-	 * 
-	 * screen coords -> real world coords ( 1/xscale 0 -xZero/xscale ) T^(-1) =
-	 * ( 0 -1/yscale yZero/yscale ) ( 0 0 1 )
-	 */
-
-	/*
-	 * protected void transformCoords() { transformCoords(false); }
-	 */
-
-	public void transformCoords() {
-		// calc real world coords
-		calcRWcoords();
-
-		// if alt pressed, make sure slope is a multiple of 15 degrees
-		if (((mode == EuclidianConstants.MODE_JOIN)
-				|| (mode == EuclidianConstants.MODE_SEGMENT)
-				|| (mode == EuclidianConstants.MODE_RAY)
-				|| (mode == EuclidianConstants.MODE_VECTOR)
-				|| (mode == EuclidianConstants.MODE_POLYGON) || (mode == EuclidianConstants.MODE_POLYLINE))
-				&& useLineEndPoint && (lineEndPoint != null)) {
-			xRW = lineEndPoint.x;
-			yRW = lineEndPoint.y;
-			return;
-		}
-
-		if ((mode == EuclidianConstants.MODE_MOVE)
-				&& ((moveMode == MOVE_NUMERIC)
-						|| (moveMode == MOVE_VECTOR_NO_GRID) || (moveMode == MOVE_POINT_WITH_OFFSET))) {
-			return;
-		}
-
-		// point capturing to grid
-		double pointCapturingPercentage = 1;
-		switch (((EuclidianViewInterface) view).getPointCapturingMode()) {
-
-		case EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS:
-			pointCapturingPercentage = 0.125;
-			ArrayList<GeoPointND> spl = ((EuclidianViewInterface) view).getStickyPointList();
-			boolean captured = false;
-			if (spl != null) {
-				for (int i = 0; i < spl.size(); i++) {
-					GeoPoint2 gp = (GeoPoint2) spl.get(i);
-					if ((Math.abs(gp.getInhomX() - xRW) < (((EuclidianViewInterface)view).getGridDistances(0) * pointCapturingPercentage))
-							&& (Math.abs(gp.getInhomY() - yRW) < (((EuclidianViewInterface)view).getGridDistances(1) * pointCapturingPercentage))) {
-						xRW = gp.getInhomX();
-						yRW = gp.getInhomY();
-						captured = true;
-						break;
-					}
-				}
-			}
-			if (captured) {
-				break;
-			}
-
-		case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
-			if (!((EuclidianViewInterface) view).isGridOrAxesShown()) {
-				break;
-			}
-
-		case EuclidianStyleConstants.POINT_CAPTURING_ON:
-			pointCapturingPercentage = 0.125;
-
-		case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
-
-			xRW += transformCoordsOffset[0];
-			yRW += transformCoordsOffset[1];
-
-			switch (((EuclidianViewInterface) view).getGridType()) {
-			case EuclidianView.GRID_ISOMETRIC:
-
-				// isometric Michael Borcherds 2008-04-28
-				// iso grid is effectively two rectangular grids overlayed
-				// (offset)
-				// so first we decide which one we're on (oddOrEvenRow)
-				// then compress the grid by a scale factor of root3
-				// horizontally to make it square.
-
-				double root3 = Math.sqrt(3.0);
-				double isoGrid = ((EuclidianViewInterface)view).getGridDistances(0);
-				int oddOrEvenRow = (int) Math.round((2.0 * Math.abs(yRW
-						- Kernel.roundToScale(yRW, isoGrid)))
-						/ isoGrid);
-
-				// Application.debug(oddOrEvenRow);
-
-				if (oddOrEvenRow == 0) {
-					// X = (x, y) ... next grid point
-					double x = Kernel
-							.roundToScale(xRW / root3, isoGrid);
-					double y = Kernel.roundToScale(yRW, isoGrid);
-					// if |X - XRW| < gridInterval * pointCapturingPercentage
-					// then take the grid point
-					double a = Math.abs(x - (xRW / root3));
-					double b = Math.abs(y - yRW);
-					if ((a < (isoGrid * pointCapturingPercentage))
-							&& (b < (isoGrid * pointCapturingPercentage))) {
-						xRW = (x * root3) - transformCoordsOffset[0];
-						yRW = y - transformCoordsOffset[1];
-					} else {
-						xRW -= transformCoordsOffset[0];
-						yRW -= transformCoordsOffset[1];
-					}
-
-				} else {
-					// X = (x, y) ... next grid point
-					double x = Kernel.roundToScale((xRW / root3)
-							- (((EuclidianViewInterface)view).getGridDistances(0) / 2), isoGrid);
-					double y = Kernel.roundToScale(yRW - (isoGrid / 2),
-							isoGrid);
-					// if |X - XRW| < gridInterval * pointCapturingPercentage
-					// then take the grid point
-					double a = Math.abs(x - ((xRW / root3) - (isoGrid / 2)));
-					double b = Math.abs(y - (yRW - (isoGrid / 2)));
-					if ((a < (isoGrid * pointCapturingPercentage))
-							&& (b < (isoGrid * pointCapturingPercentage))) {
-						xRW = ((x + (isoGrid / 2)) * root3)
-								- transformCoordsOffset[0];
-						yRW = (y + (isoGrid / 2)) - transformCoordsOffset[1];
-					} else {
-						xRW -= transformCoordsOffset[0];
-						yRW -= transformCoordsOffset[1];
-					}
-
-				}
-				break;
-
-			case EuclidianView.GRID_CARTESIAN:
-
-				// X = (x, y) ... next grid point
-
-				double x = Kernel.roundToScale(xRW,
-						((EuclidianViewInterface)view).getGridDistances(0));
-				double y = Kernel.roundToScale(yRW,
-						((EuclidianViewInterface)view).getGridDistances(1));
-
-				// if |X - XRW| < gridInterval * pointCapturingPercentage then
-				// take the grid point
-				double a = Math.abs(x - xRW);
-				double b = Math.abs(y - yRW);
-
-				if ((a < (((EuclidianViewInterface)view).getGridDistances(0) * pointCapturingPercentage))
-						&& (b < (((EuclidianViewInterface)view).getGridDistances(1) * pointCapturingPercentage))) {
-					xRW = x - transformCoordsOffset[0];
-					yRW = y - transformCoordsOffset[1];
-				} else {
-					xRW -= transformCoordsOffset[0];
-					yRW -= transformCoordsOffset[1];
-				}
-				break;
-
-			case EuclidianView.GRID_POLAR:
-
-				// r = get nearest grid circle radius
-				double r = MyMath.length(xRW, yRW);
-				double r2 = Kernel.roundToScale(r,
-						((EuclidianViewInterface)view).getGridDistances(0));
-
-				// get nearest radial gridline angle
-				double angle = Math.atan2(yRW, xRW);
-				double angleOffset = angle % ((EuclidianViewInterface)view).getGridDistances(2);
-				if (angleOffset < (((EuclidianViewInterface)view).getGridDistances(2) / 2)) {
-					angle = angle - angleOffset;
-				} else {
-					angle = (angle - angleOffset) + ((EuclidianViewInterface)view).getGridDistances(2);
-				}
-
-				// get grid point
-				double x1 = r2 * Math.cos(angle);
-				double y1 = r2 * Math.sin(angle);
-
-				// if |X - XRW| < gridInterval * pointCapturingPercentage then
-				// take the grid point
-				double a1 = Math.abs(x1 - xRW);
-				double b1 = Math.abs(y1 - yRW);
-
-				if ((a1 < (((EuclidianViewInterface)view).getGridDistances(0) * pointCapturingPercentage))
-						&& (b1 < (((EuclidianViewInterface)view).getGridDistances(1) * pointCapturingPercentage))) {
-					xRW = x1 - transformCoordsOffset[0];
-					yRW = y1 - transformCoordsOffset[1];
-				} else {
-					xRW -= transformCoordsOffset[0];
-					yRW -= transformCoordsOffset[1];
-				}
-				break;
-			}
-
-		default:
-		}
-	}
+	
 
 	/*
 	 * final protected void transformCoords(boolean usePointCapturing) { // calc
@@ -4719,28 +4520,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	 * 
 	 * default: // point capturing off } } }
 	 */
-
-	protected void calcRWcoords() {
-		xRW = (mouseLoc.x - ((EuclidianViewInterface) view).getXZero()) * ((EuclidianViewInterface) view).getInvXscale();
-		yRW = (((EuclidianViewInterface) view).getYZero() - mouseLoc.y) * ((EuclidianViewInterface) view).getInvYscale();
-	}
-
-	protected void setMouseLocation(AbstractEvent event) {
-		mouseLoc = event.getPoint();
-
-		setAltDown(event.isAltDown());
-
-		if (mouseLoc.x < 0) {
-			mouseLoc.x = 0;
-		} else if (mouseLoc.x > ((EuclidianViewInterface) view).getViewWidth()) {
-			mouseLoc.x = ((EuclidianViewInterface) view).getViewWidth();
-		}
-		if (mouseLoc.y < 0) {
-			mouseLoc.y = 0;
-		} else if (mouseLoc.y > ((EuclidianViewInterface) view).getViewHeight()) {
-			mouseLoc.y = ((EuclidianViewInterface) view).getViewHeight();
-		}
-	}
 
 	final protected boolean createNewPoint(Hits hits, boolean onPathPossible,
 			boolean intersectPossible, boolean doSingleHighlighting) {
@@ -5447,229 +5226,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		((Application) app).getGuiManager().getDialogManager()
 				.showBooleanCheckboxCreationDialog(mouseLoc, null);
 		return false;
-	}
-
-	// get Transformable and vector
-	final protected GeoElement[] translateByVector(Hits hits) {
-		if (hits.isEmpty()) {
-			return null;
-		}
-
-		// Transformable
-		int count = 0;
-		if (selGeos() == 0) {
-			Hits transAbles = hits.getHits(Test.TRANSLATEABLE, tempArrayList);
-			count = addSelectedGeo(transAbles, 1, false);
-		}
-
-		// polygon
-		if (count == 0) {
-			count = addSelectedPolygon(hits, 1, false);
-		}
-
-		// list
-		if (count == 0) {
-			count = addSelectedList(hits, 1, false);
-		}
-
-		// translation vector
-		if (count == 0) {
-			count = addSelectedVector(hits, 1, false);
-		}
-
-		// create translation vector
-		if (count == 0) {
-			count = addSelectedPoint(hits, 2, false);
-			selectedGeos.removeAll(selectedPoints);
-			allowSelectionRectangleForTranslateByVector = false;
-		}
-
-		// we got the mirror point
-		if ((selVectors() == 1) || (selPoints() == 2)) {
-			if (selPolygons() == 1) {
-				GeoPolygon[] polys = getSelectedPolygons();
-				GeoVectorND vec = null;
-				if (selVectors() == 1) {
-					vec = getSelectedVectorsND()[0];
-				} else {
-					GeoPointND[] ab = getSelectedPointsND();
-					vec = (GeoVectorND) vector(ab[0], ab[1]);
-				}
-				allowSelectionRectangleForTranslateByVector = true;
-				return translate(polys[0], vec);
-			} else if (selGeos() > 0) {
-				// mirror all selected geos
-				GeoElement[] geos = getSelectedGeos();
-				GeoVectorND vec = null;
-				if (selVectors() == 1) {
-					vec = getSelectedVectorsND()[0];
-				} else {
-					GeoPointND[] ab = getSelectedPointsND();
-					vec = (GeoVectorND) vector(ab[0], ab[1]);
-				}
-				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
-				for (int i = 0; i < geos.length; i++) {
-					if (geos[i] != vec) {
-						if ((geos[i] instanceof Translateable)
-								|| geos[i].isGeoPolygon()
-								|| geos[i].isGeoList()) {
-							ret.addAll(Arrays.asList(translate(geos[i], vec)));
-						}
-					}
-				}
-				GeoElement[] retex = {};
-				allowSelectionRectangleForTranslateByVector = true;
-				return ret.toArray(retex);
-			}
-		}
-		return null;
-	}
-
-	protected GeoElement[] translate(GeoElement geo, GeoVectorND vec) {
-		return kernel.Translate(null, geo, (GeoVector) vec);
-	}
-
-	// get rotateable object, point and angle
-	final protected GeoElement[] rotateByAngle(Hits hits) {
-		if (hits.isEmpty()) {
-			return null;
-		}
-
-		// Transformable
-		int count = 0;
-		if (selGeos() == 0) {
-			Hits rotAbles = hits.getHits(Test.TRANSFORMABLE, tempArrayList);
-			count = addSelectedGeo(rotAbles, 1, false);
-		}
-
-		// polygon
-		if (count == 0) {
-			count = addSelectedPolygon(hits, 1, false);
-		}
-
-		// rotation center
-		if (count == 0) {
-			addSelectedPoint(hits, 1, false);
-		}
-
-		// we got the rotation center point
-		if ((selPoints() == 1) && (selGeos() > 0)) {
-
-			GeoElement[] selGeos = getSelectedGeos();
-
-			((Application) app).getGuiManager()
-					.getDialogManager()
-					.showNumberInputDialogRotate(
-							((Application)app).getMenu(getKernel().getModeText(mode)),
-							getSelectedPolygons(), getSelectedPoints(), selGeos);
-
-			return null;
-
-		}
-
-		return null;
-	}
-
-	// get dilateable object, point and number
-	final protected GeoElement[] dilateFromPoint(Hits hits) {
-		if (hits.isEmpty()) {
-			return null;
-		}
-
-		// dilateable
-		int count = 0;
-		if (selGeos() == 0) {
-			Hits dilAbles = hits.getHits(Test.DILATEABLE, tempArrayList);
-			count = addSelectedGeo(dilAbles, 1, false);
-		}
-
-		// polygon
-		if (count == 0) {
-			count = addSelectedPolygon(hits, 1, false);
-		}
-
-		// dilation center
-		if (count == 0) {
-			addSelectedPoint(hits, 1, false);
-		}
-
-		// we got the mirror point
-		if (selPoints() == 1) {
-
-			GeoElement[] selGeos = getSelectedGeos();
-
-			((Application) app).getGuiManager()
-					.getDialogManager()
-					.showNumberInputDialogDilate(
-							((Application)app).getMenu(getKernel().getModeText(mode)),
-							getSelectedPolygons(), getSelectedPoints(), selGeos);
-
-			return null;
-
-			/*
-			 * NumberValue num =
-			 * app.getGuiManager().showNumberInputDialog(app.getMenu
-			 * (getKernel().getModeText(mode)), app.getPlain("Numeric"), null);
-			 * if (num == null) { view.resetMode(); return null; }
-			 * 
-			 * if (selPolygons() == 1) { GeoPolygon[] polys =
-			 * getSelectedPolygons(); GeoPoint[] points = getSelectedPoints();
-			 * return kernel.Dilate(null, polys[0], num, points[0]); } else if
-			 * (selGeos() > 0) { // mirror all selected geos GeoElement [] geos
-			 * = getSelectedGeos(); GeoPoint point = getSelectedPoints()[0];
-			 * ArrayList<GeoElement> ret = new ArrayList<GeoElement>(); for (int
-			 * i=0; i < geos.length; i++) { if (geos[i] != point) { if (geos[i]
-			 * instanceof Dilateable || geos[i].isGeoPolygon())
-			 * ret.addAll(Arrays.asList(kernel.Dilate(null, geos[i], num,
-			 * point))); } } GeoElement[] retex = {}; return ret.toArray(retex);
-			 * }
-			 */
-		}
-		return null;
-	}
-
-	final protected GeoElement[] fitLine(Hits hits) {
-
-		GeoList list;
-
-		addSelectedList(hits, 1, false);
-
-		GeoElement[] ret = { null };
-		if (selLists() > 0) {
-			list = getSelectedLists()[0];
-			if (list != null) {
-				ret[0] = kernel.FitLineY(null, list);
-				return ret;
-			}
-		} else {
-			addSelectedPoint(hits, 999, true);
-
-			if (selPoints() > 1) {
-				GeoPoint2[] points = getSelectedPoints();
-				list = geogebra.common.kernel.commands.CommandProcessor
-						.wrapInList(kernel, points, points.length,
-								GeoClass.POINT);
-				if (list != null) {
-					ret[0] = kernel.FitLineY(null, list);
-					return ret;
-				}
-			}
-		}
-		return null;
-	}
-
-	final protected GeoElement[] createList(Hits hits) {
-		GeoList list;
-		GeoElement[] ret = { null };
-
-		if (!selectionPreview && (hits.size() > 1)) {
-			list = kernel.List(null, hits, false);
-			if (list != null) {
-				ret[0] = list;
-				return ret;
-			}
-		}
-		return null;
 	}
 
 	// Michael Borcherds 2008-03-14

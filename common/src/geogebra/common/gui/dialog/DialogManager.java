@@ -6,6 +6,7 @@ import geogebra.common.euclidian.Hits;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -27,5 +28,13 @@ public abstract class DialogManager {
 	public abstract void showTextCreationDialog(GeoPointND loc);
 
 	public abstract boolean showSliderCreationDialog(int x, int y);
+
+	public abstract void showNumberInputDialogRotate(String menu,
+			GeoPolygon[] selectedPolygons, GeoPoint2[] selectedPoints,
+			GeoElement[] selGeos);
+
+	public abstract void showNumberInputDialogDilate(String menu,
+			GeoPolygon[] selectedPolygons, GeoPoint2[] selectedPoints,
+			GeoElement[] selGeos);
 
 }

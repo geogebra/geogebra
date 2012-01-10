@@ -165,12 +165,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
     }
 
 	@Override
-    protected void transformCoords() {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
     protected void initToolTipManager() {
 	    // TODO Auto-generated method stub
 	    
