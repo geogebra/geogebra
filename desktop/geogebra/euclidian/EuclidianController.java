@@ -417,11 +417,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		return previewDrawable;
 	}
 
-	protected void initShowMouseCoords() {
-		((EuclidianViewInterface) view).setShowMouseCoords((mode == EuclidianConstants.MODE_POINT)
-				|| (mode == EuclidianConstants.MODE_MOVE));
-	}
-
 	public void clearSelections() {
 
 		clearSelection(selectedNumbers, false);

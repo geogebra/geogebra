@@ -2806,5 +2806,12 @@ public abstract class AbstractEuclidianController {
 	public void textfieldHasFocus(boolean hasFocus) {
 		textfieldHasFocus = hasFocus;
 	}
+	
+	protected abstract void initToolTipManager();
+
+	protected void initShowMouseCoords() {
+		view.setShowMouseCoords((mode == EuclidianConstants.MODE_POINT)
+				|| (mode == EuclidianConstants.MODE_MOVE));
+	}
 
 }
