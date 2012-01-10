@@ -3729,8 +3729,8 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 			if (selectionPreview) {
 				move(hits.getTopHits());
 			} else {
-				if (DRAGGING_OCCURED && (((Application) app).selectedGeosSize() == 1)) {
-					((Application)app).clearSelectedGeos();
+				if (DRAGGING_OCCURED && (app.selectedGeosSize() == 1)) {
+					app.clearSelectedGeos();
 				}
 
 			}
@@ -3765,7 +3765,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		// copy geo to algebra input
 		case EuclidianConstants.MODE_SELECTION_LISTENER:
 			boolean addToSelection = (event != null)
-					&& (Application.isControlDown(event));
+					&& (AbstractApplication.isControlDown(event));
 			geoElementSelected(hits.getTopHits(), addToSelection);
 			break;
 
@@ -6033,29 +6033,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		return null;
 	}
 
-	// get point and number
-	final protected boolean segmentFixed(Hits hits) {
-		if (hits.isEmpty()) {
-			return false;
-		}
-
-		// dilation center
-		addSelectedPoint(hits, 1, false);
-
-		// we got the point
-		if (selPoints() == 1) {
-			// get length of segment
-			((Application) app).getGuiManager()
-					.getDialogManager()
-					.showNumberInputDialogSegmentFixed(
-							((Application)app).getMenu(getKernel().getModeText(mode)),
-							getSelectedPoints()[0]);
-
-			return true;
-		}
-		return false;
-	}
-
 	final protected GeoElement[] fitLine(Hits hits) {
 
 		GeoList list;
@@ -6203,36 +6180,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		return null;
 	}
 
-	// get two points and number
-	final protected GeoElement[] angleFixed(Hits hits) {
-		if (hits.isEmpty()) {
-			return null;
-		}
-
-		// dilation center
-		int count = addSelectedPoint(hits, 2, false);
-
-		if (count == 0) {
-			addSelectedSegment(hits, 1, false);
-		}
-
-		// we got the points
-		if ((selPoints() == 2) || (selSegments() == 1)) {
-
-			GeoElement[] selGeos = getSelectedGeos();
-
-			((Application) app).getGuiManager()
-					.getDialogManager()
-					.showNumberInputDialogAngleFixed(
-							((Application)app).getMenu(getKernel().getModeText(mode)),
-							getSelectedSegments(), getSelectedPoints(), selGeos);
-
-			return null;
-
-		}
-		return null;
-	}
-
 	// get center point and number
 	final protected boolean circlePointRadius(Hits hits) {
 		if (hits.isEmpty()) {
@@ -6372,41 +6319,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 			kernel.useMacro(null, macro, getSelectedGeos());
 			return true;
 		}
-		return false;
-	}
-
-	final protected boolean geoElementSelected(Hits hits, boolean addToSelection) {
-		if (hits.isEmpty()) {
-			return false;
-		}
-
-		addSelectedGeo(hits, 1, false);
-		if (selGeos() == 1) {
-			GeoElement[] geos = getSelectedGeos();
-			((Application)app).geoElementSelected(geos[0], addToSelection);
-		}
-		return false;
-	}
-
-	// dummy function for highlighting:
-	// used only in preview mode, see mouseMoved() and selectionPreview
-	protected boolean move(Hits hits) {
-		addSelectedGeo(hits.getMoveableHits(view), 1, false);
-		return false;
-	}
-
-	// dummy function for highlighting:
-	// used only in preview mode, see mouseMoved() and selectionPreview
-	final protected boolean moveRotate(Hits hits) {
-		addSelectedGeo(hits.getPointRotateableHits(view, rotationCenter), 1,
-				false);
-		return false;
-	}
-
-	// dummy function for highlighting:
-	// used only in preview mode, see mouseMoved() and selectionPreview
-	final protected boolean point(Hits hits) {
-		addSelectedGeo(hits.getHits(Test.PATH, tempArrayList), 1, false);
 		return false;
 	}
 

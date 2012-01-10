@@ -2825,4 +2825,84 @@ public abstract class AbstractEuclidianController {
 		view.mouseEntered();
 	}
 
+	protected boolean move(Hits hits) {
+		addSelectedGeo(hits.getMoveableHits(view), 1, false);
+		return false;
+	}
+
+	protected final boolean moveRotate(Hits hits) {
+		addSelectedGeo(hits.getPointRotateableHits(view, rotationCenter), 1,
+				false);
+		return false;
+	}
+
+	protected final boolean point(Hits hits) {
+		addSelectedGeo(hits.getHits(Test.PATH, tempArrayList), 1, false);
+		return false;
+	}
+
+	protected final boolean geoElementSelected(Hits hits, boolean addToSelection) {
+		if (hits.isEmpty()) {
+			return false;
+		}
+	
+		addSelectedGeo(hits, 1, false);
+		if (selGeos() == 1) {
+			GeoElement[] geos = getSelectedGeos();
+			app.geoElementSelected(geos[0], addToSelection);
+		}
+		return false;
+	}
+
+	protected final boolean segmentFixed(Hits hits) {
+		if (hits.isEmpty()) {
+			return false;
+		}
+	
+		// dilation center
+		addSelectedPoint(hits, 1, false);
+	
+		// we got the point
+		if (selPoints() == 1) {
+			// get length of segment
+			app.getGuiManager()
+					.getDialogManager()
+					.showNumberInputDialogSegmentFixed(
+							app.getMenu(getKernel().getModeText(mode)),
+							getSelectedPoints()[0]);
+	
+			return true;
+		}
+		return false;
+	}
+
+	protected final GeoElement[] angleFixed(Hits hits) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+	
+		// dilation center
+		int count = addSelectedPoint(hits, 2, false);
+	
+		if (count == 0) {
+			addSelectedSegment(hits, 1, false);
+		}
+	
+		// we got the points
+		if ((selPoints() == 2) || (selSegments() == 1)) {
+	
+			GeoElement[] selGeos = getSelectedGeos();
+	
+			app.getGuiManager()
+					.getDialogManager()
+					.showNumberInputDialogAngleFixed(
+							app.getMenu(getKernel().getModeText(mode)),
+							getSelectedSegments(), getSelectedPoints(), selGeos);
+	
+			return null;
+	
+		}
+		return null;
+	}
+
 }
