@@ -14,6 +14,8 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.web.euclidian.EuclidianController;
+import geogebra.web.main.Application;
 import geogebra.web.awt.BasicStroke;
 import geogebra.web.awt.Color;
 import geogebra.web.kernel.gawt.Ellipse2D;
@@ -185,8 +187,7 @@ public class EuclidianView extends AbstractEuclidianView {
 	}
 
 	public EuclidianController getEuclidianController() {
-	    // TODO Auto-generated method stub
-	    return null;
+		return (EuclidianController)euclidianController;
     }
 
 	
@@ -195,9 +196,9 @@ public class EuclidianView extends AbstractEuclidianView {
 	    
     }
 
-    public AbstractApplication getApplication() {
-	    // TODO Auto-generated method stub
-	    return null;
+    @Override
+    public Application getApplication() {
+    	return (Application)application;
     }
 
 	@Override
@@ -292,12 +293,14 @@ public class EuclidianView extends AbstractEuclidianView {
 	    
     }
 
-	public int getPointCapturingMode() {
+	@Override
+    public int getPointCapturingMode() {
 	    // TODO Auto-generated method stub
 	    return 0;
     }
 
-	public void setPointCapturing(int pointCapturingStickyPoints) {
+	@Override
+    public void setPointCapturing(int pointCapturingStickyPoints) {
 	    // TODO Auto-generated method stub
 	    
     }
@@ -331,7 +334,8 @@ public class EuclidianView extends AbstractEuclidianView {
 	    return false;
     }
 
-	public Hits getHits() {
+	@Override
+    public Hits getHits() {
 	    // TODO Auto-generated method stub
 	    return null;
     }
