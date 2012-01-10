@@ -30,4 +30,9 @@ public abstract class GuiManager {
 
 	public abstract void loadImage(GeoPoint2 loc, Object object, boolean altDown);
 
+	public boolean hasAlgebraView() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

@@ -11,6 +11,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.GuiManager;
+import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
@@ -909,7 +910,7 @@ public abstract class AbstractApplication {
 	}
 
 
-	public abstract Object getAlgebraView();
+	public abstract AlgebraView getAlgebraView();
 
 	public EuclidianViewInterfaceCommon getEuclidianView(){
 		return euclidianView;
@@ -1104,7 +1105,21 @@ public abstract class AbstractApplication {
 	@Deprecated
 	public abstract void updateConstructionProtocol();
 
-	public abstract int getCurrentLabelingStyle();
+	public int getCurrentLabelingStyle() {
+		if (getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC) {
+			if (isUsingFullGui()) {
+				if ((getGuiManager() != null)
+						&& getGuiManager().hasAlgebraView()) {
+					return getAlgebraView().isVisible() ? ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS
+							: ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
+				}
+				return ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
+			}
+			return ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS;
+		}
+		return getLabelingStyle();
+	}
+
 
 	public abstract String reverseGetColor(String colorName);
 

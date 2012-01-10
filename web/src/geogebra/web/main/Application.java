@@ -17,6 +17,7 @@ import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.gui.GuiManager;
+import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
 
@@ -251,7 +252,7 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public Object getAlgebraView() {
+	public AlgebraView getAlgebraView() {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return null;
 	}

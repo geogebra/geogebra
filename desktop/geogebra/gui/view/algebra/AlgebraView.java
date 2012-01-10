@@ -58,7 +58,7 @@ import javax.swing.tree.TreePath;
  * @author Markus
  * @version
  */
-public class AlgebraView extends JTree implements View, Gridable, SetLabels {
+public class AlgebraView extends JTree implements View, Gridable, SetLabels, geogebra.common.gui.view.algebra.AlgebraView {
 
 	private static final long serialVersionUID = 1L;
 

@@ -848,22 +848,7 @@ public class Application extends AbstractApplication implements
 
 	
 
-	@Override
-	public int getCurrentLabelingStyle() {
-		if (getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC) {
-			if (isUsingFullGui()) {
-				if ((getGuiManager() != null)
-						&& getGuiManager().hasAlgebraView()) {
-					return getGuiManager().getAlgebraView().isVisible() ? ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS
-							: ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
-				}
-				return ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
-			}
-			return ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS;
-		}
-		return getLabelingStyle();
-	}
-
+	
 	
 
 	public boolean getAllowToolTips() {
