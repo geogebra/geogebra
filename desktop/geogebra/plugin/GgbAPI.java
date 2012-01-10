@@ -10,13 +10,8 @@ package geogebra.plugin;
  the Free Software Foundation.
  
  */
-import geogebra.cas.GeoGebraCAS;
-import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.cas.GeoGebraCasInterface;
-import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
@@ -24,16 +19,12 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVector;
-import geogebra.common.kernel.geos.PointProperties;
-import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.main.AbstractApplication;
-import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.io.MyImageIO;
 import geogebra.main.Application;
 
-import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -47,11 +38,11 @@ import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
-import java.util.TreeSet;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
+import javax.swing.JOptionPane;
 
 
 /** 
@@ -839,6 +830,17 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI{
 		}
 		((GeoImage)ge).clearFillImage();
 		
+	}
+
+	public String prompt(Object value0, Object value1) {
+		return (String)JOptionPane.showInputDialog(
+        app.getFrame(),
+        value0,
+        "GeoGebra",
+        JOptionPane.PLAIN_MESSAGE,
+        null,
+        null,
+        value1);
 	}
 
 	

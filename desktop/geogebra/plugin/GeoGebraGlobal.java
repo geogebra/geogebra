@@ -85,15 +85,15 @@ public class GeoGebraGlobal implements IdFunctionCall {
 			case Id_prompt: {
 				Object value0 = (args.length != 0) ? args[0] : "";
 				Object value1 = (args.length > 1) ? args[1] : "";
-				String s = (String)JOptionPane.showInputDialog(
+				/*String s = (String)JOptionPane.showInputDialog(
 	                    app.getFrame(),
 	                    value0,
 	                    "GeoGebra",
 	                    JOptionPane.PLAIN_MESSAGE,
 	                    null,
 	                    null,
-	                    value1);
-				return s;
+	                    value1);*/
+				return app.getGgbApi().prompt(value0, value1);
 			}
 			}
 		}

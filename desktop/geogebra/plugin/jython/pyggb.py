@@ -83,10 +83,13 @@ class Interface(PythonScriptInterface):
             'selection': self.selection,
             'pointlist': pointlist,
             'interactive': interactive,
+            'input': input,
+            'debug': debug,
         }
         self.namespace.update(unary_functions)
         self.handling_event = False
         self.pywin.add("*** Python Interface initialised ***\n", "output")
+
     def execute(self, script):
         try:
             exec script in self.namespace
@@ -888,6 +891,14 @@ class Selection(object):
 
 def pointlist():
     return map(Geo._get_element, api.getGeos(GeoClass.POINT))
+
+def debug(s):
+    ggbapi.debug(s)
+def input(s, t = ""):
+    ret = ggbapi.prompt(s, t)
+    if ret is None:
+        return ""
+    return ret
 
 class Geo(object):
     _map = {
