@@ -365,7 +365,7 @@ public final class DrawPoint extends Drawable {
 
 	@Override
 	final public void draw(geogebra.common.awt.Graphics2D g2) {
-
+		AbstractApplication.debug("drawing point");
 		if (isVisible) {
 			if (geo.doHighlighting()) {
 				g2.setPaint(geo.getSelColor());

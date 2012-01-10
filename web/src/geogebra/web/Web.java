@@ -261,9 +261,13 @@ public class Web implements EntryPoint {
 		archiveContent.put("geogebra.xml",defaultCons);
 		try{
 		app.loadGgbFile(archiveContent);
+		app.getKernel().setNotifyViewsActive(true);
+		app.getEuclidianView().repaint();
 		}
 		catch (Throwable t){
 			t.printStackTrace();
+			
+			
 		}
 	}
 }

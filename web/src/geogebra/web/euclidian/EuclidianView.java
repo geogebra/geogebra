@@ -11,7 +11,13 @@ import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.geos.GeoBoolean;
+import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoImage;
+import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.web.euclidian.EuclidianController;
@@ -33,16 +39,14 @@ public class EuclidianView extends AbstractEuclidianView {
 
 	public EuclidianView(Canvas canvas,
             AbstractEuclidianController euclidiancontroller, boolean[] showAxes,
-            boolean showGrid) {
-		
+            boolean showGrid) {		
 		super(euclidiancontroller, null);
+		evNo = 1;
 	    // TODO Auto-generated constructor stub
 		this.g2 = new geogebra.web.awt.Graphics2D(canvas);
+		attachView();
     }
 
-	// zoom rectangle colors
-	protected static final Color colZoomRectangle = new Color(200, 200, 230);
-	protected static final Color colZoomRectangleFill = new Color(200, 200, 230, 50);
 
 	// STROKES
 	protected static MyBasicStroke standardStroke = new MyBasicStroke(1.0f);
@@ -56,8 +60,6 @@ public class EuclidianView extends AbstractEuclidianView {
 	protected static BasicStroke defAxesStroke = new BasicStroke(1.0f,
 			BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
 
-	protected static BasicStroke boldAxesStroke = new BasicStroke(2.0f, // changed from 1.8f (same as bold grid) Michael Borcherds 2008-04-12
-			BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
 
 	// axes and grid stroke
 	protected BasicStroke axesStroke, tickStroke, gridStroke;
@@ -207,11 +209,14 @@ public class EuclidianView extends AbstractEuclidianView {
 	    // TODO Auto-generated method stub
 	    return null;
     }
-
+	private Graphics2D g2dtemp;
 	@Override
     public Graphics2D getTempGraphics2D(Font plainFontCommon) {
 	    // TODO Auto-generated method stub
-	    return null;
+	    if(g2dtemp==null)
+	    	g2dtemp = new geogebra.web.awt.Graphics2D(Canvas.createIfSupported());
+	    g2dtemp.setFont(plainFontCommon);
+	    return g2dtemp;
     }
 
 	@Override
@@ -269,12 +274,6 @@ public class EuclidianView extends AbstractEuclidianView {
     protected void setStyleBarMode(int mode) {
 	    // TODO Auto-generated method stub
 	    
-    }
-
-	@Override
-    protected Drawable newDrawable(GeoElement ge) {
-	    // TODO Auto-generated method stub
-	    return null;
     }
 
     public void zoom(double px, double py, double factor, int i, boolean b) {
@@ -358,6 +357,42 @@ public class EuclidianView extends AbstractEuclidianView {
     protected void setAntialiasing(Graphics2D g2) {
 	    // TODO Auto-generated method stub
 	    
+    }
+
+	@Override
+    public Drawable newDrawText(GeoText geo) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public Drawable newDrawImage(GeoImage geo) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public Drawable newDrawButton(GeoButton geo) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public Drawable newDrawTextField(GeoTextField geo) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public Drawable newDrawBoolean(GeoBoolean geo) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public Drawable newDrawAngle(GeoAngle geo) {
+	    // TODO Auto-generated method stub
+	    return null;
     }
 
 

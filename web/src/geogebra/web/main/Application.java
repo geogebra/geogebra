@@ -500,7 +500,7 @@ public class Application extends AbstractApplication {
 	public Font getFontCanDisplay(String labelDesc, boolean serif, int style,
             int size) {
 	    // TODO Auto-generated method stub
-	    return null;
+	    return new geogebra.web.awt.Font("normal");
     }
 
 	@Override

@@ -241,11 +241,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 		super(ec, settings);
 
-		// Michael Borcherds 2008-03-01
-		drawLayers = new DrawableList[EuclidianStyleConstants.MAX_LAYERS + 1];
-		for (int k = 0; k <= EuclidianStyleConstants.MAX_LAYERS; k++) {
-			drawLayers[k] = new DrawableList();
-		}
 		evNo = evno;
 		setApplication(((EuclidianController)ec).getApplication());
 
@@ -2104,197 +2099,34 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 	
 	
-	/**
-	 * adds a GeoElement to this view
-	 * 
-	 * @param geo
-	 *            GeoElement to be added
-	 * @return drawable for given GeoElement
-	 */
-	@Override
-	protected Drawable newDrawable(GeoElement geo) {
-		Drawable d = null;
 
-		switch (geo.getGeoClassType()) {
-		case BOOLEAN:
-			d = new DrawBoolean(this, (GeoBoolean) geo);
-			break;
 
-		case BUTTON:
+	
+	
 
-			d = new DrawButton(this, (GeoButton) geo);
-			break;
 
-		case TEXTFIELD:
+	
 
-			d = new DrawTextField(this, (GeoTextField) geo);
-			break;
-
-		case POINT:
-		case POINT3D:
-			d = new DrawPoint(this, (GeoPointND) geo);
-			break;
-
-		case SEGMENT:
-		case SEGMENT3D:
-			d = new DrawSegment(this, (GeoSegmentND) geo);
-			break;
-
-		case RAY:
-		case RAY3D:
-			d = new DrawRay(this, (GeoRayND) geo);
-			break;
-
-		case LINE:
-		case LINE3D:
-			d = new DrawLine(this, (GeoLineND) geo);
-			break;
-
-		case POLYGON:
-		case POLYGON3D:
-			d = new DrawPolygon(this, (GeoPolygon) geo);
-			break;
-
-		case POLYLINE:
-			d = new DrawPolyLine(this, (GeoPolyLine) geo);
-			break;
-
-		case FUNCTION_NVAR:
-			if (((GeoFunctionNVar) geo).isBooleanFunction()) {
-				d = new DrawInequality(this, (GeoFunctionNVar) geo);
-			}
-			break;
-		case INTERVAL:
-			if (((GeoFunction) geo).isBooleanFunction()) {
-				d = new DrawInequality(this, (GeoFunction) geo);
-			}
-			break;
-
-		case ANGLE:
-			if (geo.isIndependent()) {
-				// independent number may be shown as slider
-				d = new DrawSlider(this, (GeoNumeric) geo);
-			} else {
-				d = new DrawAngle(this, (GeoAngle) geo);
-				if (geo.isDrawable()) {
-					if (!geo.isColorSet()) {
-						Color col = geogebra.awt.Color
-								.getAwtColor(geo
-										.getConstruction()
-										.getConstructionDefaults()
-										.getDefaultGeo(
-												ConstructionDefaults.DEFAULT_ANGLE)
-										.getObjectColor());
-						AbstractApplication.debug(col);
-						geo.setObjColor(new geogebra.awt.Color(col));
-					}
-				}
-			}
-			break;
-
-		case NUMERIC:
-			AlgoElement algo = geo.getDrawAlgorithm();
-			if (algo == null) {
-				// independent number may be shown as slider
-				if (geo.isEuclidianVisible()) {
-					// make sure min/max initialized properly on redefinition
-					// eg f(x)=x^2
-					// f = 1
-					geo.setEuclidianVisible(false);
-					geo.setEuclidianVisible(true);
-				}
-				d = new DrawSlider(this, (GeoNumeric) geo);
-			} else if (algo instanceof AlgoSlope) {
-				d = new DrawSlope(this, (GeoNumeric) geo);
-			} else if (algo instanceof AlgoIntegralDefinite) {
-				d = new DrawIntegral(this, (GeoNumeric) geo);
-			} else if (algo instanceof AlgoIntegralFunctions) {
-				d = new DrawIntegralFunctions(this, (GeoNumeric) geo);
-			} else if (algo instanceof AlgoFunctionAreaSums) {
-				d = new DrawUpperLowerSum(this, (GeoNumeric) geo);
-			} else if (algo instanceof AlgoBoxPlot) {
-				d = new DrawBoxPlot(this, (GeoNumeric) geo);
-			}
-			if (d != null) {
-				if (!geo.isColorSet()) {
-					ConstructionDefaults consDef = geo
-							.getConstruction().getConstructionDefaults();
-					if (geo.isIndependent()) {
-						Color col = geogebra.awt.Color
-								.getAwtColor(consDef
-										.getDefaultGeo(
-												ConstructionDefaults.DEFAULT_NUMBER)
-										.getObjectColor());
-						geo.setObjColor(new geogebra.awt.Color(col));
-					} else {
-						Color col = geogebra.awt.Color
-								.getAwtColor(consDef
-										.getDefaultGeo(
-												ConstructionDefaults.DEFAULT_POLYGON)
-										.getObjectColor());
-						geo.setObjColor(new geogebra.awt.Color(col));
-					}
-				}
-			}
-			break;
-
-		case VECTOR:
-		case VECTOR3D:
-			d = new DrawVector(this, (GeoVectorND) geo);
-			break;
-
-		case CONICPART:
-			d = new DrawConicPart(this, (GeoConicPart) geo);
-			break;
-
-		case CONIC:
-		case CONIC3D:
-			d = new DrawConic(this, (GeoConicND) geo);
-			break;
-
-		case IMPLICIT_POLY:
-			d = new DrawImplicitPoly(this, (GeoImplicitPoly) geo);
-			break;
-
-		case FUNCTION:
-		case FUNCTIONCONDITIONAL:
-			if (((GeoFunction) geo).isBooleanFunction()) {
-				d = new DrawInequality(this, (FunctionalNVar) geo);
-			} else {
-				d = new DrawParametricCurve(this, (ParametricCurve) geo);
-			}
-			break;
-
-		case TEXT:
-			GeoText text = (GeoText) geo;
-			d = new DrawText(this, text);
-			break;
-
-		case IMAGE:
-			d = new DrawImage(this, (GeoImage) geo);
-			break;
-
-		case LOCUS:
-			d = new DrawLocus(this, (GeoLocus) geo);
-			break;
-
-		case CURVE_CARTESIAN:
-			d = new DrawParametricCurve(this, (GeoCurveCartesian) geo);
-			break;
-
-		case LIST:
-			d = new DrawList(this, (GeoList) geo);
-			break;
-		}
-
-		return d;
+	public Drawable newDrawAngle(GeoAngle geo) {
+		return new DrawAngle(this,geo);
 	}
-
+	public Drawable newDrawBoolean( GeoBoolean geo) {
+		return new DrawBoolean(this,geo);
+	}
+	public Drawable newDrawButton( GeoButton geo) {
+		return new DrawButton(this,geo);
+	}
+	public Drawable newDrawTextField(GeoTextField geo) {
+		return new DrawTextField(this,geo);
+	}
 	
+	public Drawable newDrawImage(GeoImage geo) {
+		return new DrawImage(this,geo);
+	}
 	
-
-
-	
+	public Drawable newDrawText(GeoText geo) {
+		return new DrawText(this,geo);
+	}
 
 	public void clearView() {
 		evjpanel.removeAll(); // remove hotEqns

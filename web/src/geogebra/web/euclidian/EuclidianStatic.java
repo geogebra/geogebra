@@ -29,7 +29,7 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic {
 	@Override
 	protected Point doDrawIndexedString(AbstractApplication app, Graphics2D g3,
 	        String str, float xPos, float yPos, boolean serif) {
-		Graphics2D g2 =  (geogebra.web.awt.Graphics2D) g3;
+		Graphics2D g2 =  g3;
 		Font g2font = g2.getFont();
 		g2font = ((Application) app).getFontCanDisplay(str, serif, g2font.getStyle(),
 				g2font.getSize());
