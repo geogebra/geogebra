@@ -33,6 +33,8 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.Hits;
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
@@ -59,12 +61,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 	@Override
     public void handleMovedElement(GeoElement selGeo, boolean b) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void clearSelections() {
 	    // TODO Auto-generated method stub
 	    
     }
@@ -184,6 +180,12 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
     protected GeoElement[] createCircle2ForPoints3D(GeoPointND p0, GeoPointND p1) {
 	    // TODO Auto-generated method stub
 	    return null;
+    }
+
+	@Override
+    public boolean processMode(Hits hits, AbstractEvent event) {
+	    // TODO Auto-generated method stub
+	    return false;
     }
 
 }

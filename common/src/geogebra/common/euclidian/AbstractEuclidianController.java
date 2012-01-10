@@ -311,8 +311,6 @@ public abstract class AbstractEuclidianController {
 	
 	public abstract void setApplication(AbstractApplication app);
 
-	public abstract void clearSelections();
-
 	public abstract void setLineEndPoint(geogebra.common.awt.Point2D endPoint);
 
 	public abstract GeoElement getRecordObject();
@@ -3211,5 +3209,63 @@ public abstract class AbstractEuclidianController {
 			}
 		}
 		return null;
+	}
+	
+	public abstract boolean processMode(Hits hits, AbstractEvent event);
+
+	public final boolean refreshHighlighting(Hits hits) {
+		boolean repaintNeeded = false;
+	
+		// clear old highlighting
+		if (highlightedGeos.size() > 0) {
+			setHighlightedGeos(false);
+			repaintNeeded = true;
+		}
+		// find new objects to highlight
+		highlightedGeos.clear();
+		selectionPreview = true; // only preview selection, see also
+		// mouseReleased()
+		processMode(hits, null); // build highlightedGeos List
+	
+		if (highlightJustCreatedGeos) {
+			highlightedGeos.addAll(justCreatedGeos); // we also highlight just
+														// created geos
+		}
+	
+		selectionPreview = false; // reactivate selection in mouseReleased()
+	
+		// set highlighted objects
+		if (highlightedGeos.size() > 0) {
+			setHighlightedGeos(true);
+			repaintNeeded = true;
+		}
+		return repaintNeeded;
+	}
+
+	public void clearSelections() {
+	
+		clearSelection(selectedNumbers, false);
+		clearSelection(selectedNumberValues, false);
+		clearSelection(selectedPoints, false);
+		clearSelection(selectedLines, false);
+		clearSelection(selectedSegments, false);
+		clearSelection(selectedConicsND, false);
+		clearSelection(selectedVectors, false);
+		clearSelection(selectedPolygons, false);
+		clearSelection(selectedGeos, false);
+		clearSelection(selectedFunctions, false);
+		clearSelection(selectedCurves, false);
+		clearSelection(selectedLists, false);
+		clearSelection(selectedPaths, false);
+		clearSelection(selectedRegions, false);
+	
+		app.clearSelectedGeos();
+	
+		// if we clear selection and highlighting,
+		// we may want to clear justCreatedGeos also
+		clearJustCreatedGeos();
+	
+		// clear highlighting
+		refreshHighlighting(null);
 	}
 }

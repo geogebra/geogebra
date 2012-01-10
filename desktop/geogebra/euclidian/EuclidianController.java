@@ -415,33 +415,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		return previewDrawable;
 	}
 
-	public void clearSelections() {
-
-		clearSelection(selectedNumbers, false);
-		clearSelection(selectedNumberValues, false);
-		clearSelection(selectedPoints, false);
-		clearSelection(selectedLines, false);
-		clearSelection(selectedSegments, false);
-		clearSelection(selectedConicsND, false);
-		clearSelection(selectedVectors, false);
-		clearSelection(selectedPolygons, false);
-		clearSelection(selectedGeos, false);
-		clearSelection(selectedFunctions, false);
-		clearSelection(selectedCurves, false);
-		clearSelection(selectedLists, false);
-		clearSelection(selectedPaths, false);
-		clearSelection(selectedRegions, false);
-
-		app.clearSelectedGeos();
-
-		// if we clear selection and highlighting,
-		// we may want to clear justCreatedGeos also
-		clearJustCreatedGeos();
-
-		// clear highlighting
-		refreshHighlighting(null);
-	}
-	
 	protected void wrapMouseclicked(AbstractEvent event) {
 		
 		if ((mode == EuclidianConstants.MODE_PEN)
@@ -3684,37 +3657,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		}
 	}
 
-	// mode specific highlighting of selectable objects
-	// returns wheter repaint is necessary
-	public final boolean refreshHighlighting(Hits hits) {
-		boolean repaintNeeded = false;
-
-		// clear old highlighting
-		if (highlightedGeos.size() > 0) {
-			setHighlightedGeos(false);
-			repaintNeeded = true;
-		}
-		// find new objects to highlight
-		highlightedGeos.clear();
-		selectionPreview = true; // only preview selection, see also
-		// mouseReleased()
-		processMode(hits, null); // build highlightedGeos List
-
-		if (highlightJustCreatedGeos) {
-			highlightedGeos.addAll(justCreatedGeos); // we also highlight just
-														// created geos
-		}
-
-		selectionPreview = false; // reactivate selection in mouseReleased()
-
-		// set highlighted objects
-		if (highlightedGeos.size() > 0) {
-			setHighlightedGeos(true);
-			repaintNeeded = true;
-		}
-		return repaintNeeded;
-	}
-
 	protected boolean switchModeForProcessMode(Hits hits, AbstractEvent event) {
 
 		Boolean changedKernel = false;
@@ -5530,8 +5472,8 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 				getSelectedPaths();
 
 				// move point (20,20) pixels when detached
-				double x = ((EuclidianViewInterface) view).toScreenCoordX(p.inhomX) + 20;
-				double y = ((EuclidianViewInterface) view).toScreenCoordY(p.inhomY) + 20;
+				double x = view.toScreenCoordX(p.inhomX) + 20;
+				double y = view.toScreenCoordY(p.inhomY) + 20;
 
 				try {
 					Construction cons = kernel.getConstruction();
