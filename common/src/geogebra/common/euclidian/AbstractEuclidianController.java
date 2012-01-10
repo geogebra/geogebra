@@ -3109,4 +3109,107 @@ public abstract class AbstractEuclidianController {
 	public String getSliderValue() {
 		return sliderValue;
 	}
+
+	protected final GeoElement[] mirrorAtLine(Hits hits) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+	
+		// Transformable
+		int count = 0;
+		if (selGeos() == 0) {
+			Hits mirAbles = hits.getHits(Test.TRANSFORMABLE, tempArrayList);
+			count = addSelectedGeo(mirAbles, 1, false);
+		}
+	
+		// polygon
+		if (count == 0) {
+			count = addSelectedPolygon(hits, 1, false);
+		}
+	
+		// line = mirror
+		if (count == 0) {
+			addSelectedLine(hits, 1, false);
+		}
+	
+		// we got the mirror point
+		if (selLines() == 1) {
+			if (selPolygons() == 1) {
+				GeoPolygon[] polys = getSelectedPolygons();
+				GeoLine[] lines = getSelectedLines();
+				return kernel.Mirror(null, polys[0], lines[0]);
+			} else if (selGeos() > 0) {
+				// mirror all selected geos
+				GeoElement[] geos = getSelectedGeos();
+				GeoLine line = getSelectedLines()[0];
+				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+				for (int i = 0; i < geos.length; i++) {
+					if (geos[i] != line) {
+						if (geos[i] instanceof Transformable) {
+							ret.addAll(Arrays.asList(kernel.Mirror(null,
+									geos[i], line)));
+						} else if (geos[i].isGeoPolygon()) {
+							ret.addAll(Arrays.asList(kernel.Mirror(null,
+									geos[i], line)));
+						}
+					}
+				}
+				GeoElement[] retex = {};
+				return ret.toArray(retex);
+			}
+		}
+		return null;
+	}
+
+	protected final GeoElement[] mirrorAtCircle(Hits hits) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+	
+		// Transformable
+		int count = 0;
+		if (selGeos() == 0) {
+			Hits mirAbles = hits.getHits(Test.TRANSFORMABLE, tempArrayList);
+			mirAbles.removeImages();
+			count = addSelectedGeo(mirAbles, 1, false);
+		}
+	
+		// polygon
+		if (count == 0) {
+			count = addSelectedPolygon(hits, 1, false);
+		}
+	
+		// line = mirror
+		if (count == 0) {
+			addSelectedConic(hits, 1, false);
+		}
+	
+		// we got the mirror point
+		if (selConics() == 1) {
+			if (selPolygons() == 1) {
+				GeoPolygon[] polys = getSelectedPolygons();
+				GeoConic[] lines = getSelectedCircles();
+				return kernel.Mirror(null, polys[0], lines[0]);
+			} else if (selGeos() > 0) {
+				// mirror all selected geos
+				GeoElement[] geos = getSelectedGeos();
+				GeoConic line = getSelectedCircles()[0];
+				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+				for (int i = 0; i < geos.length; i++) {
+					if (geos[i] != line) {
+						if (geos[i] instanceof Transformable) {
+							ret.addAll(Arrays.asList(kernel.Mirror(null,
+									geos[i], line)));
+						} else if (geos[i].isGeoPolygon()) {
+							ret.addAll(Arrays.asList(kernel.Mirror(null,
+									geos[i], line)));
+						}
+					}
+				}
+				GeoElement[] retex = {};
+				return ret.toArray(retex);
+			}
+		}
+		return null;
+	}
 }
