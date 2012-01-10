@@ -2107,8 +2107,9 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 		tempArrayList.clear();
 		tempArrayList.add(geo);
+		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
 		boolean changedKernel = ((EuclidianController)euclidianController).processMode(tempArrayList,
-				e);
+				event);
 		if (changedKernel) {
 			getApplication().storeUndoInfo();
 		}

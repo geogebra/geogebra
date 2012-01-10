@@ -3013,8 +3013,9 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 
 		tempArrayList.clear();
 		tempArrayList.add(geo);
+		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
 		boolean changedKernel = euclidianController3D.processMode(tempArrayList,
-				e);
+				event);
 		if (changedKernel)
 			app.storeUndoInfo();
 		getKernel().notifyRepaint();

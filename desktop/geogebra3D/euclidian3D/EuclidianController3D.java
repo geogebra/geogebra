@@ -1192,7 +1192,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	// mouse released
 	
 	@Override
-	protected void processReleaseForMovedGeoPoint(MouseEvent e){
+	protected void processReleaseForMovedGeoPoint(AbstractEvent e){
 		
 		
 		
@@ -1478,7 +1478,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	// PROCESS MODE
 	
 	@Override
-	protected boolean switchModeForProcessMode(Hits hits, MouseEvent e){
+	protected boolean switchModeForProcessMode(Hits hits, AbstractEvent e){
 		
 		boolean changedKernel = false;
 		
