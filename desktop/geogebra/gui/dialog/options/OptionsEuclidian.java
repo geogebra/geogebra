@@ -718,24 +718,24 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 				view.setBackground(view.getBackgroundCommon());
 			}
 		} else if (source == btAxesColor) {
-			Color col = app.getGuiManager().showColorChooser(view.getAxesColor());
+			geogebra.common.awt.Color col = new geogebra.awt.Color(app.getGuiManager().showColorChooser(view.getAxesColor()));
 			if (view == app.getEuclidianView()) {
-				app.getSettings().getEuclidian(1).setAxesColor(new geogebra.awt.Color(col));
+				app.getSettings().getEuclidian(1).setAxesColor(col);
 			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 				view.setAxesColor(col);
 			} else if (view == app.getEuclidianView2()) {
-				app.getSettings().getEuclidian(2).setAxesColor(new geogebra.awt.Color(col));
+				app.getSettings().getEuclidian(2).setAxesColor(col);
 			} else {
 				view.setAxesColor(col);
 			}
 		} else if (source == btGridColor) {
-			Color col = app.getGuiManager().showColorChooser(view.getGridColor());
+			geogebra.common.awt.Color col = new geogebra.awt.Color(app.getGuiManager().showColorChooser(view.getGridColor()));
 			if (view == app.getEuclidianView()) {
-				app.getSettings().getEuclidian(1).setGridColor(new geogebra.awt.Color(col));
+				app.getSettings().getEuclidian(1).setGridColor(col);
 			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 				view.setGridColor(col);
 			} else if (view == app.getEuclidianView2()) {
-				app.getSettings().getEuclidian(2).setGridColor(new geogebra.awt.Color(col));
+				app.getSettings().getEuclidian(2).setGridColor(col);
 			} else {
 				view.setGridColor(col);
 			}

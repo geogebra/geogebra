@@ -146,8 +146,8 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	public Color getGridColor();
 	//GetBackground is still implemented in all implementations, but GetBackgroundCommon should be used instead
 	public void setBackground(geogebra.common.awt.Color showColorChooser);
-	public void setAxesColor(Color showColorChooser);
-	public void setGridColor(Color showColorChooser);
+	public void setAxesColor(geogebra.common.awt.Color showColorChooser);
+	public void setGridColor(geogebra.common.awt.Color showColorChooser);
 	public void showGrid(boolean selected);
 	public void setGridIsBold(boolean selected);
 	public void setGridLineStyle(int type);

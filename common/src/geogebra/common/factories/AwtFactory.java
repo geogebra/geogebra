@@ -45,6 +45,7 @@ public abstract class AwtFactory {
 	public abstract Point newPoint(int d, int coord);
 	public abstract GeneralPath newGeneralPath();
 	public abstract BasicStroke newMyBasicStroke(float f);
+	public abstract BasicStroke newBasicStroke(float f,int cap,int join);
 	public abstract BasicStroke newBasicStroke(float width, int endCap, int lineJoin,
 			float miterLimit, float[] dash, float f);
 	public abstract BasicStroke newBasicStroke(float f);

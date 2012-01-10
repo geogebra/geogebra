@@ -63,7 +63,7 @@ public class HatchingHandler extends geogebra.common.euclidian.HatchingHandler {
 		Graphics2D g2d = bufferedImage.createGraphics();
 
 		// enable anti-aliasing
-		EuclidianView.setAntialiasing(g2d);
+		EuclidianView.setAntialiasingStatic(g2d);
 
 		// enable transparency
 		g2d.setComposite(AlphaComposite.Src);
@@ -132,7 +132,7 @@ public class HatchingHandler extends geogebra.common.euclidian.HatchingHandler {
 			Graphics2D g2d = copy.createGraphics();
 
 			// enable anti-aliasing
-			EuclidianView.setAntialiasing(g2d);
+			EuclidianView.setAntialiasingStatic(g2d);
 
 			// set total transparency
 			g2d.setComposite(AlphaComposite.Src);

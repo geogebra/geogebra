@@ -148,12 +148,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 	protected static final long serialVersionUID = 1L;
 	
-	// zoom rectangle colors
-	protected static final geogebra.common.awt.Color colZoomRectangle = 
-			geogebra.common.factories.AwtFactory.prototype.newColor(200, 200, 230);
-	protected static final geogebra.common.awt.Color colZoomRectangleFill = 
-			geogebra.common.factories.AwtFactory.prototype.newColor(200, 200,
-			230, 50);
+
 
 	// STROKES
 
@@ -164,22 +159,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 			new geogebra.awt.BasicStroke( new BasicStroke(1.0f,
 			BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
 
-	protected static geogebra.common.awt.BasicStroke boldAxesStroke = new geogebra.awt.BasicStroke(new BasicStroke(2.0f, 
-			// changed
-																		// from
-																		// 1.8f
-																		// (same
-																		// as
-																		// bold
-																		// grid)
-																		// Michael
-																		// Borcherds
-																		// 2008-04-12
-			BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-
-	// axes and grid stroke
-	protected geogebra.common.awt.BasicStroke axesStroke, tickStroke, gridStroke;
-
+	
 	protected Line2D.Double tempLine = new Line2D.Double();
 	protected Ellipse2D.Double circle = new Ellipse2D.Double(); // polar grid
 																// circles
@@ -220,16 +200,13 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	// colors: axes, grid, background
 	protected geogebra.common.awt.Color axesColor, gridColor;
 
-	protected Rectangle selectionRectangle;
+	
 
 	// temp
 	// public static final int DRAW_MODE_DIRECT_DRAW = 0;
 	// public static final int DRAW_MODE_BACKGROUND_IMAGE = 1;
 
-	// or use volatile image
-	// protected int drawMode = DRAW_MODE_BACKGROUND_IMAGE;
-	protected BufferedImageAdapter bgImage;
-	protected geogebra.common.awt.Graphics2D bgGraphics; // g2d of bgImage
+	
 	protected Image resetImage, playImage, pauseImage, upArrowImage,
 			downArrowImage;
 
@@ -367,9 +344,9 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		// init grid's line type
 		setGridLineStyle(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
-		setAxesColor(Color.black); // Michael Borcherds 2008-01-26 was darkgray
-		setGridColor(Color.lightGray);
-		setBackground(geogebra.awt.Color.white);
+		setAxesColor(geogebra.common.awt.Color.black); // Michael Borcherds 2008-01-26 was darkgray
+		setGridColor(geogebra.common.awt.Color.lightGray);
+		setBackground(geogebra.common.awt.Color.white);
 
 		// showAxes = true;
 		// showGrid = false;
@@ -790,90 +767,29 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		showGrid = show;
 		updateBackgroundImage();
 	}
-
-	//@Override
-	final public void paint(geogebra.common.awt.Graphics2D g2) {
-		//Graphics2D g2 = (Graphics2D) g;
-		// lastGraphics2D = g2;
-
+	
+	public void setDefRenderingHints(geogebra.common.awt.Graphics2D g2){
 		g2.setRenderingHints(defRenderingHints);
-		// g2.setClip(0, 0, width, height);
-
-		// BACKGROUND
-		// draw background image (with axes and/or grid)
-		if (bgImage == null) {
-			if (firstPaint) {
-				updateSize();
-				g2.drawImage(bgImage, 0, 0, null);
-				firstPaint = false;
-			} else {
-				drawBackgroundWithImages(g2);
-			}
-		} else {
-			// draw background image
-			g2.drawImage(bgImage, 0, 0, null);
-		}
-
-		/*
-		 * switch (drawMode) { case DRAW_MODE_BACKGROUND_IMAGE: // draw
-		 * background image (with axes and/or grid) if (bgImage == null)
-		 * updateSize(); else g2.drawImage(bgImage, 0,0, null); break;
-		 * 
-		 * default: // DRAW_MODE_DIRECT_DRAW: drawBackground(g2, true); }
-		 */
-
-		// FOREGROUND
-		if (antiAliasing) {
-			setAntialiasing(g2);
-		}
-
-		// draw equations, checkboxes and all geo objects
-		drawObjects(g2);
-
-		if (selectionRectangle != null) {
-			drawZoomRectangle(g2);
-		}
-
-		// when mouse over slider, show preview value of slider for that point
-		boolean drawn = drawSliderValue(g2);
-
-		if (!drawn) {
-			if (allowShowMouseCoords && showMouseCoords
-					&& (showAxes[0] || showAxes[1] || showGrid)) {
-				drawMouseCoords(g2);
-			}
-			if (showAxesRatio) {
-				drawAxesRatio(g2);
-			}
-		}
-
-		if (kernel.needToShowAnimationButton()) {
-			drawAnimationButtons(g2);
-		}
 	}
-	public static void setAntialiasing(Graphics2D g2) {
+
+		public static void setAntialiasing(Graphics2D g2) {
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 	}
 	
-	public static void setAntialiasing(geogebra.common.awt.Graphics2D g2) {
+	@Override
+	public void setAntialiasing(geogebra.common.awt.Graphics2D g2) {
 		setAntialiasing(geogebra.awt.Graphics2D.getAwtGraphics(g2));
 	}
 
-	protected void drawZoomRectangle(geogebra.common.awt.Graphics2D g2) {
-		g2.setColor(colZoomRectangleFill);
-		g2.setStroke(boldAxesStroke);
-		g2.fill( selectionRectangle );
-		g2.setColor(colZoomRectangle);
-		g2.draw( selectionRectangle );
-	}
+	
 
 	public int print(Graphics g, PageFormat pageFormat, int pageIndex) {
 		if (pageIndex > 0) {
 			return (NO_SUCH_PAGE);
-		} else {
+		} 
 			Graphics2D g2d = (Graphics2D) g;
 			AffineTransform oldTransform = g2d.getTransform();
 
@@ -982,7 +898,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 			System.gc();
 			return (PAGE_EXISTS);
-		}
+		
 	}
 
 	public void exportPaint(Graphics2D g2d, double scale) {
@@ -1150,27 +1066,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		return bgGraphics;
 	}
 
-	
 
-	@Override
-	final public void updateBackgroundImage() {
-		if (bgGraphics != null) {
-			drawBackgroundWithImages(bgGraphics,false);
-		}
-	}
-
-	private void drawBackgroundWithImages(geogebra.common.awt.Graphics2D g) {
-		drawBackgroundWithImages(g, false);
-	}
-
-	private void drawBackgroundWithImages(geogebra.common.awt.Graphics2D g, boolean transparency) {
-		if (!transparency) {
-			clearBackground(g);
-		}
-
-		bgImageList.drawAll(g);
-		drawBackground(g, false);
-	}
 
 	final protected void drawBackground(geogebra.common.awt.Graphics2D g, boolean clear) {
 		if (clear) {
@@ -1233,12 +1129,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		return pauseImage;
 	}
 
-	final protected void clearBackground(geogebra.common.awt.Graphics2D g) {
-		g.setColor(new geogebra.awt.Color(
-				((geogebra.euclidian.EuclidianViewJPanel)evjpanel).getBackground()
-				));
-		g.fillRect(0, 0, getWidth(), getHeight());
-	}
+	
 
 	protected static int SCREEN_BORDER = 10;
 
@@ -1886,65 +1777,8 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		g2.setClip(oldClip);
 	}
 
-	final protected void drawMouseCoords(geogebra.common.awt.Graphics2D g2) {
-		if (euclidianController.mouseLoc == null) {
-			return;
-		}
-		Point pos = AwtFactory.prototype.newPoint(euclidianController.mouseLoc.x,euclidianController.mouseLoc.y);
+	
 
-		sb.setLength(0);
-		sb.append('(');
-		sb.append(kernel.format(Kernel
-				.checkDecimalFraction(euclidianController.xRW)));
-		if (kernel.getCoordStyle() == Kernel.COORD_STYLE_AUSTRIAN) {
-			sb.append(" | ");
-		} else {
-			sb.append(", ");
-		}
-		sb.append(kernel.format(Kernel
-				.checkDecimalFraction(euclidianController.yRW)));
-		sb.append(')');
-
-		g2.setColor(geogebra.common.awt.Color.darkGray);
-		g2.setFont(getFontCoords());
-		g2.drawString(sb.toString(), pos.x + 15, pos.y + 15);
-	}
-
-	final protected void drawAxesRatio(geogebra.common.awt.Graphics2D g2) {
-		Point pos = AwtFactory.prototype.newPoint(euclidianController.mouseLoc.x,euclidianController.mouseLoc.y);
-		if (pos == null) {
-			return;
-		}
-
-		g2.setColor(geogebra.common.awt.Color.darkGray);
-		g2.setFont(getFontLine());
-		g2.drawString(getXYscaleRatioString(), pos.x + 15, pos.y + 30);
-	}
-
-	final protected boolean drawSliderValue(geogebra.common.awt.Graphics2D g2) {
-
-		if (mode != EuclidianConstants.MODE_MOVE) {
-			return false;
-		}
-		
-		if (euclidianController.mouseLoc == null) {
-			return false;
-		}
-		
-		Point pos = AwtFactory.prototype.newPoint(euclidianController.mouseLoc.x, euclidianController.mouseLoc.y);
-
-		String val = ((EuclidianController)euclidianController).getSliderValue();
-
-		if (val == null) {
-			return false;
-		}
-
-		g2.setColor(geogebra.common.awt.Color.darkGray);
-		g2.setFont(getFontLine());
-		g2.drawString(val, pos.x + 15, pos.y + 15);
-
-		return true;
-	}
 
 	final protected void drawAnimationButtons(geogebra.common.awt.Graphics2D g2) {
 
@@ -3202,9 +3036,9 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		return geogebra.awt.Color.getAwtColor(axesColor);
 	}
 
-	public void setAxesColor(Color axesColor) {
+	public void setAxesColor(geogebra.common.awt.Color axesColor) {
 		if (axesColor != null) {
-			this.axesColor = new geogebra.awt.Color(axesColor);
+			this.axesColor = axesColor;
 		}
 	}
 
@@ -3236,9 +3070,9 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		updateBackgroundImage();
 	}
 
-	public void setGridColor(Color gridColor) {
+	public void setGridColor(geogebra.common.awt.Color gridColor) {
 		if (gridColor != null) {
-			this.gridColor = new geogebra.awt.Color(gridColor);
+			this.gridColor = gridColor;
 		}
 	}
 
@@ -3418,8 +3252,8 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		setYmaxObject(evs.getYmaxObject());
 
 		setBackground(evs.getBackground());
-		setAxesColor(geogebra.awt.Color.getAwtColor(evs.getAxesColor()));
-		setGridColor(geogebra.awt.Color.getAwtColor(evs.getGridColor()));
+		setAxesColor(evs.getAxesColor());
+		setGridColor(evs.getGridColor());
 		setAxesLineStyle(evs.getAxesLineStyle());
 		setGridLineStyle(evs.getGridLineStyle());
 

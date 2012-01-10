@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import geogebra.common.awt.BasicStroke;
+import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Font;
 import geogebra.common.awt.Graphics2D;
 import geogebra.common.awt.Point;
+import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.DrawableList.DrawableIterator;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
@@ -60,6 +64,33 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	public static final double XZERO_STANDARD = 215;
 
 	public static final double YZERO_STANDARD = 315;
+	// or use volatile image
+		// protected int drawMode = DRAW_MODE_BACKGROUND_IMAGE;
+		protected BufferedImageAdapter bgImage;
+		protected geogebra.common.awt.Graphics2D bgGraphics; // g2d of bgImage
+		// zoom rectangle colors
+		protected static final geogebra.common.awt.Color colZoomRectangle = 
+				geogebra.common.factories.AwtFactory.prototype.newColor(200, 200, 230);
+		protected static final geogebra.common.awt.Color colZoomRectangleFill = 
+				geogebra.common.factories.AwtFactory.prototype.newColor(200, 200,
+				230, 50);
+		protected Rectangle selectionRectangle;
+		protected static geogebra.common.awt.BasicStroke boldAxesStroke = 
+				geogebra.common.factories.AwtFactory.prototype.newBasicStroke(2.0f, 
+				// changed
+																			// from
+																			// 1.8f
+																			// (same
+																			// as
+																			// bold
+																			// grid)
+																			// Michael
+																			// Borcherds
+																			// 2008-04-12
+				BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
+
+		// axes and grid stroke
+		protected geogebra.common.awt.BasicStroke axesStroke, tickStroke, gridStroke;
 
 	protected Kernel kernel;
 	
@@ -2000,7 +2031,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		// repaint();
 	}
 
-	public abstract  void updateBackgroundImage();
+	
 	public abstract  Graphics2D getBackgroundGraphics();
 	public abstract  Graphics2D getTempGraphics2D(geogebra.common.awt.Font plainFontCommon);
 	public abstract  geogebra.common.awt.GeneralPath getBoundingPath();
@@ -2380,7 +2411,174 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			}
 		}
 		
+		final protected void clearBackground(geogebra.common.awt.Graphics2D g) {
+			g.setColor(getBackgroundCommon());
+			g.fillRect(0, 0, getWidth(), getHeight());
+		}
+		
+		protected void drawBackgroundWithImages(geogebra.common.awt.Graphics2D g, boolean transparency) {
+			if (!transparency) {
+				clearBackground(g);
+			}
+
+			bgImageList.drawAll(g);
+			drawBackground(g, false);
+		}
+		
+		final protected void drawAxesRatio(geogebra.common.awt.Graphics2D g2) {
+			Point pos = AwtFactory.prototype.newPoint(euclidianController.mouseLoc.x,euclidianController.mouseLoc.y);
+			if (pos == null) {
+				return;
+			}
+
+			g2.setColor(geogebra.common.awt.Color.darkGray);
+			g2.setFont(getFontLine());
+			g2.drawString(getXYscaleRatioString(), pos.x + 15, pos.y + 30);
+		}
+
+		final protected boolean drawSliderValue(geogebra.common.awt.Graphics2D g2) {
+
+			if (mode != EuclidianConstants.MODE_MOVE) {
+				return false;
+			}
+			
+			if (euclidianController.mouseLoc == null) {
+				return false;
+			}
+			
+			Point pos = AwtFactory.prototype.newPoint(euclidianController.mouseLoc.x, euclidianController.mouseLoc.y);
+
+			String val = euclidianController.getSliderValue();
+
+			if (val == null) {
+				return false;
+			}
+
+			g2.setColor(geogebra.common.awt.Color.darkGray);
+			g2.setFont(getFontLine());
+			g2.drawString(val, pos.x + 15, pos.y + 15);
+
+			return true;
+		}
+		
+		//@Override
+		final public void paint(geogebra.common.awt.Graphics2D g2) {
+			//Graphics2D g2 = (Graphics2D) g;
+			// lastGraphics2D = g2;
+
+			setDefRenderingHints(g2);
+			// g2.setClip(0, 0, width, height);
+
+			// BACKGROUND
+			// draw background image (with axes and/or grid)
+			if (bgImage == null) {
+				if (firstPaint) {
+					updateSize();
+					g2.drawImage(bgImage, 0, 0, null);
+					firstPaint = false;
+				} else {
+					drawBackgroundWithImages(g2);
+				}
+			} else {
+				// draw background image
+				g2.drawImage(bgImage, 0, 0, null);
+			}
+
+			/*
+			 * switch (drawMode) { case DRAW_MODE_BACKGROUND_IMAGE: // draw
+			 * background image (with axes and/or grid) if (bgImage == null)
+			 * updateSize(); else g2.drawImage(bgImage, 0,0, null); break;
+			 * 
+			 * default: // DRAW_MODE_DIRECT_DRAW: drawBackground(g2, true); }
+			 */
+
+			// FOREGROUND
+			if (antiAliasing) {
+				setAntialiasing(g2);
+			}
+
+			// draw equations, checkboxes and all geo objects
+			drawObjects(g2);
+
+			if (selectionRectangle != null) {
+				drawZoomRectangle(g2);
+			}
+
+			// when mouse over slider, show preview value of slider for that point
+			boolean drawn = drawSliderValue(g2);
+
+			if (!drawn) {
+				if (allowShowMouseCoords && showMouseCoords
+						&& (showAxes[0] || showAxes[1] || showGrid)) {
+					drawMouseCoords(g2);
+				}
+				if (showAxesRatio) {
+					drawAxesRatio(g2);
+				}
+			}
+
+			if (kernel.needToShowAnimationButton()) {
+				drawAnimationButtons(g2);
+			}
+		}
+		
+		final public void updateBackgroundImage() {
+			if (bgGraphics != null) {
+				drawBackgroundWithImages(bgGraphics,false);
+			}
+		}
+		
+		protected void drawZoomRectangle(geogebra.common.awt.Graphics2D g2) {
+			g2.setColor(colZoomRectangleFill);
+			g2.setStroke(boldAxesStroke);
+			g2.fill( selectionRectangle );
+			g2.setColor(colZoomRectangle);
+			g2.draw( selectionRectangle );
+		}
+
+		final protected void drawMouseCoords(geogebra.common.awt.Graphics2D g2) {
+			if (euclidianController.mouseLoc == null) {
+				return;
+			}
+			Point pos = AwtFactory.prototype.newPoint(euclidianController.mouseLoc.x,euclidianController.mouseLoc.y);
+
+			sb.setLength(0);
+			sb.append('(');
+			sb.append(kernel.format(Kernel
+					.checkDecimalFraction(euclidianController.xRW)));
+			if (kernel.getCoordStyle() == Kernel.COORD_STYLE_AUSTRIAN) {
+				sb.append(" | ");
+			} else {
+				sb.append(", ");
+			}
+			sb.append(kernel.format(Kernel
+					.checkDecimalFraction(euclidianController.yRW)));
+			sb.append(')');
+
+			g2.setColor(geogebra.common.awt.Color.darkGray);
+			g2.setFont(getFontCoords());
+			g2.drawString(sb.toString(), pos.x + 15, pos.y + 15);
+		}
+
+		
+		private void drawBackgroundWithImages(geogebra.common.awt.Graphics2D g) {
+			drawBackgroundWithImages(g, false);
+		}
+		protected void drawBackground(Graphics2D g,boolean b){
+			//TODO port this method
+		}
+		
 		protected abstract void drawActionObjects(geogebra.common.awt.Graphics2D g);
 
+		public void setDefRenderingHints(Graphics2D g2){
+			// TODO Auto-generated method stub
+		}
+
+		protected abstract void setAntialiasing(Graphics2D g2);
+		
+		protected void drawAnimationButtons(Graphics2D g2) {
+			// TODO Auto-generated method stub
+			
+		}
 	
 }

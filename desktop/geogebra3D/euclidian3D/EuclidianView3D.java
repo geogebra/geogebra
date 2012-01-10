@@ -2898,13 +2898,13 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	}
 
 
-	public void setAxesColor(Color showColorChooser) {
+	public void setAxesColor(geogebra.common.awt.Color showColorChooser) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
-	public void setGridColor(Color showColorChooser) {
+	public void setGridColor(geogebra.common.awt.Color showColorChooser) {
 		// TODO Auto-generated method stub
 		
 	}

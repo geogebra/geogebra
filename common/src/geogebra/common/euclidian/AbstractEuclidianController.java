@@ -3007,4 +3007,9 @@ public abstract class AbstractEuclidianController {
 		return false;
 	}
 
+	public String getSliderValue() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

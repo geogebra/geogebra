@@ -185,5 +185,10 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 		return new geogebra.awt.CubicCurve2D();
 	}
 
+	@Override
+	public BasicStroke newBasicStroke(float f, int cap, int join) {
+		return new geogebra.awt.BasicStroke(f, cap, join);
+	}
+
 	
 }
