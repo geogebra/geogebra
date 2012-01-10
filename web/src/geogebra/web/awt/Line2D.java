@@ -74,14 +74,16 @@ public class Line2D extends geogebra.common.awt.Line2D implements Shape {
 
 	@Override
     public Point2D getP1() {
-	    // TODO Auto-generated method stub
-	    return null;
+		geogebra.web.kernel.gawt.Point2D p = impl.getP1();
+		if (p==null) return null;
+		return new geogebra.web.awt.Point2D(p.getX(), p.getY());
     }
 
 	@Override
     public Point2D getP2() {
-	    // TODO Auto-generated method stub
-	    return null;
+		geogebra.web.kernel.gawt.Point2D p2 = impl.getP2();
+		if (p2==null) return null;
+		return new geogebra.web.awt.Point2D(p2.getX(), p2.getY());
     }
 
 }
