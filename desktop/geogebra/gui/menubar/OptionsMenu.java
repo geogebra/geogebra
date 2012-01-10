@@ -220,8 +220,8 @@ class OptionsMenu extends BaseMenu implements ActionListener {
 		String ggbLangCode;
 
 		JMenu submenu1 = new JMenu("A - D");
-		JMenu submenu2 = new JMenu("E - H");
-		JMenu submenu3 = new JMenu("I - Q");
+		JMenu submenu2 = new JMenu("E - I");
+		JMenu submenu3 = new JMenu("J - Q");
 		JMenu submenu4 = new JMenu("R - Z");
 		menu.add(submenu1);
 		menu.add(submenu2);
@@ -253,7 +253,7 @@ class OptionsMenu extends BaseMenu implements ActionListener {
 			char ch = text.charAt(0);
 			if (ch <= 'D')
 				submenu1.add(mi);
-			else if (ch <= 'H')
+			else if (ch <= 'I')
 				submenu2.add(mi);
 			else if (ch <= 'Q')
 				submenu3.add(mi);
