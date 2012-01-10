@@ -2,6 +2,7 @@ package geogebra.common.euclidian;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -37,6 +38,7 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Test;
+import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.kernelND.GeoConicND;
@@ -308,8 +310,6 @@ public abstract class AbstractEuclidianController {
 	public abstract void setApplication(AbstractApplication app);
 
 	public abstract void clearSelections();
-
-	public abstract boolean isAltDown();
 
 	public abstract void setLineEndPoint(geogebra.common.awt.Point2D endPoint);
 
@@ -3007,9 +3007,105 @@ public abstract class AbstractEuclidianController {
 		return false;
 	}
 
+	public boolean isAltDown() {
+		return altDown;
+	}
+
+	public void setAltDown(boolean altDown) {
+		this.altDown = altDown;
+	}
+
+	protected final boolean slider() {
+		if (!selectionPreview && (mouseLoc != null)) {
+			app.getGuiManager().getDialogManager()
+					.showSliderCreationDialog(mouseLoc.x, mouseLoc.y);
+		}
+		return false;
+	}
+
+	protected final boolean image(Hits hits, int mode, boolean altDown) {
+		GeoPoint2 loc = null; // location
+	
+		if (hits.isEmpty()) {
+			if (selectionPreview) {
+				return false;
+			} else {
+				// create new Point
+				loc = new GeoPoint2(kernel.getConstruction());
+				loc.setCoords(xRW, yRW, 1.0);
+			}
+		} else {
+			// points needed
+			addSelectedPoint(hits, 1, false);
+			if (selPoints() == 1) {
+				// fetch the selected point
+				GeoPoint2[] points = getSelectedPoints();
+				loc = points[0];
+			}
+		}
+	
+		// got location
+		if (loc != null) {
+			app.getGuiManager().loadImage(loc, null, altDown);
+			return true;
+		}
+	
+		return false;
+	}
+
+	protected final GeoElement[] mirrorAtPoint(Hits hits) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+	
+		// try to get one Transformable
+		int count = 0;
+		if (selGeos() == 0) {
+			Hits mirAbles = hits.getHits(Test.TRANSFORMABLE, tempArrayList);
+			count = addSelectedGeo(mirAbles, 1, false);
+		}
+	
+		// polygon
+		if (count == 0) {
+			count = addSelectedPolygon(hits, 1, false);
+		}
+	
+		// point = mirror
+		if (count == 0) {
+			count = addSelectedPoint(hits, 1, false);
+		}
+	
+		// we got the mirror point
+		if (selPoints() == 1) {
+			if (selPolygons() == 1) {
+				GeoPolygon[] polys = getSelectedPolygons();
+				GeoPoint2[] points = getSelectedPoints();
+				return kernel.Mirror(null, polys[0], points[0]);
+			} else if (selGeos() > 0) {
+				// mirror all selected geos
+				GeoElement[] geos = getSelectedGeos();
+				GeoPoint2 point = getSelectedPoints()[0];
+				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+				for (int i = 0; i < geos.length; i++) {
+					if (geos[i] != point) {
+						if (geos[i] instanceof Transformable) {
+							ret.addAll(Arrays.asList(kernel.Mirror(null,
+									geos[i], point)));
+						} else if (geos[i].isGeoPolygon()) {
+							ret.addAll(Arrays.asList(kernel.Mirror(null,
+									geos[i], point)));
+						}
+					}
+				}
+				GeoElement[] retex = {};
+				return ret.toArray(retex);
+			}
+		}
+		return null;
+	}
+
 	public String getSliderValue() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

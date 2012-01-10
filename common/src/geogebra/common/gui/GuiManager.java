@@ -7,6 +7,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint2;
 
 public abstract class GuiManager {
 
@@ -26,5 +27,7 @@ public abstract class GuiManager {
 	}
 
 	public abstract void setFocusedPanel(AbstractEvent event);
+
+	public abstract void loadImage(GeoPoint2 loc, Object object, boolean altDown);
 
 }

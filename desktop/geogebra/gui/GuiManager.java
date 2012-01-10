@@ -3078,4 +3078,10 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	public void setFocusedPanel(AbstractEvent event) {
 		setFocusedPanel(geogebra.euclidian.event.MouseEvent.getEvent(event));
 	}
+
+	@Override
+	public void loadImage(GeoPoint2 loc, Object transfer, boolean fromClipboard) {
+		loadImage(loc, (Transferable)transfer, fromClipboard);
+		
+	}
 }

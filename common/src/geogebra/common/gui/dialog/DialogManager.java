@@ -26,4 +26,6 @@ public abstract class DialogManager {
 
 	public abstract void showTextCreationDialog(GeoPointND loc);
 
+	public abstract boolean showSliderCreationDialog(int x, int y);
+
 }

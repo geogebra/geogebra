@@ -5509,58 +5509,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		return false;
 	}
 
-	// get Transformables and point
-	final protected GeoElement[] mirrorAtPoint(Hits hits) {
-		if (hits.isEmpty()) {
-			return null;
-		}
-
-		// try to get one Transformable
-		int count = 0;
-		if (selGeos() == 0) {
-			Hits mirAbles = hits.getHits(Test.TRANSFORMABLE, tempArrayList);
-			count = addSelectedGeo(mirAbles, 1, false);
-		}
-
-		// polygon
-		if (count == 0) {
-			count = addSelectedPolygon(hits, 1, false);
-		}
-
-		// point = mirror
-		if (count == 0) {
-			count = addSelectedPoint(hits, 1, false);
-		}
-
-		// we got the mirror point
-		if (selPoints() == 1) {
-			if (selPolygons() == 1) {
-				GeoPolygon[] polys = getSelectedPolygons();
-				GeoPoint2[] points = getSelectedPoints();
-				return kernel.Mirror(null, polys[0], points[0]);
-			} else if (selGeos() > 0) {
-				// mirror all selected geos
-				GeoElement[] geos = getSelectedGeos();
-				GeoPoint2 point = getSelectedPoints()[0];
-				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
-				for (int i = 0; i < geos.length; i++) {
-					if (geos[i] != point) {
-						if (geos[i] instanceof Transformable) {
-							ret.addAll(Arrays.asList(kernel.Mirror(null,
-									geos[i], point)));
-						} else if (geos[i].isGeoPolygon()) {
-							ret.addAll(Arrays.asList(kernel.Mirror(null,
-									geos[i], point)));
-						}
-					}
-				}
-				GeoElement[] retex = {};
-				return ret.toArray(retex);
-			}
-		}
-		return null;
-	}
-
 	// get Transformable and line
 	final protected GeoElement[] mirrorAtLine(Hits hits) {
 		if (hits.isEmpty()) {
@@ -6251,45 +6199,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		return false;
 	}
 
-	final protected boolean image(Hits hits, int mode, boolean altDown) {
-		GeoPoint2 loc = null; // location
-
-		if (hits.isEmpty()) {
-			if (selectionPreview) {
-				return false;
-			} else {
-				// create new Point
-				loc = new GeoPoint2(kernel.getConstruction());
-				loc.setCoords(xRW, yRW, 1.0);
-			}
-		} else {
-			// points needed
-			addSelectedPoint(hits, 1, false);
-			if (selPoints() == 1) {
-				// fetch the selected point
-				GeoPoint2[] points = getSelectedPoints();
-				loc = points[0];
-			}
-		}
-
-		// got location
-		if (loc != null) {
-			((Application) app).getGuiManager().loadImage(loc, null, altDown);
-			return true;
-		}
-
-		return false;
-	}
-
-	// new slider
-	final protected boolean slider() {
-		if (!selectionPreview && (mouseLoc != null)) {
-			((Application) app).getGuiManager().getDialogManager()
-					.showSliderCreationDialog(mouseLoc.x, mouseLoc.y);
-		}
-		return false;
-	}
-
 	// new button
 	final protected boolean button(boolean textfield) {
 		if (!selectionPreview && (mouseLoc != null)) {
@@ -6602,14 +6511,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 	public Hits getHighlightedgeos() {
 		return highlightedGeos.clone();
-	}
-
-	public boolean isAltDown() {
-		return altDown;
-	}
-
-	public void setAltDown(boolean altDown) {
-		this.altDown = altDown;
 	}
 
 	public void setLineEndPoint(geogebra.common.awt.Point2D p) {
