@@ -58,7 +58,7 @@ class Interface(PythonScriptInterface):
         selection = self.selection = Selection()
         sys.stdout = self.pywin
         api = API(app)
-        ggbapi = app.getGgbApi()
+        ggbapi = api.getGgbApi()
         self.namespace = {
             'Color': Color,
             'Point': Point,

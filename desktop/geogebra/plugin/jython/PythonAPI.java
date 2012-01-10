@@ -701,4 +701,13 @@ public class PythonAPI {
 	public void stopSelectionListener() {
 		app.setSelectionListenerMode(null);
 	}
+	
+	/**
+	 * Arnaud's solution to fix #1670, comment: 15
+	 */
+	public GgbAPI getGgbApi() {
+    		return app.getGgbApi();
+    	}
+    }
+	
 }
