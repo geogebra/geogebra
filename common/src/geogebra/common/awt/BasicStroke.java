@@ -13,6 +13,7 @@ public interface BasicStroke {
 	int getEndCap();
 	float getMiterLimit();
 	int getLineJoin();
+	float getLineWidth();
 
 	
 

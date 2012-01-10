@@ -353,5 +353,21 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 	public geogebra.common.awt.Shape getClip() {
 		return new geogebra.awt.GenericShape(impl.getClip());
 	}
+
+	@Override
+	public void drawRect(int x, int y, int width, int height) {
+		impl.drawRect(x, y, width, height);
+		
+	}
+
+	@Override
+	public void setClip(int x, int y, int width, int height) {
+		impl.setClip(x, y, width, height);
+		
+	}
+
+	public void setImpl(java.awt.Graphics2D g) {
+		impl = g;
+	}
 	
 }

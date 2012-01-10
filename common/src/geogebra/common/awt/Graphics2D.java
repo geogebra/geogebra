@@ -781,4 +781,8 @@ public abstract class Graphics2D {
 	public abstract void setComposite(AlphaComposite alphaComp);
 	public abstract void setClip(Object shape);
 	public abstract Shape getClip();
+
+	public abstract void drawRect(int i, int j, int k, int l);
+
+	public abstract void setClip(int xAxisStart, int i, int width, int yAxisEnd);
 }

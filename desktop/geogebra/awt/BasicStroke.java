@@ -40,5 +40,8 @@ public class BasicStroke implements geogebra.common.awt.BasicStroke {
 	public Shape createStrokedShape(Shape shape) {
 		return new geogebra.awt.GenericShape(impl.createStrokedShape(geogebra.awt.GenericShape.getAwtShape(shape)));
 	}
+	public float getLineWidth() {
+		return impl.getLineWidth();
+	}
 	
 }

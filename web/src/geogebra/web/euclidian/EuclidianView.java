@@ -1,37 +1,25 @@
 package geogebra.web.euclidian;
 
-import java.util.ArrayList;
-
-import com.google.gwt.canvas.client.Canvas;
-
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.Font;
 import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Graphics2D;
-import geogebra.common.awt.Point;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.AbstractEuclidianController;
-import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.DrawableND;
-import geogebra.common.euclidian.EuclidianStyleBar;
-import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
-import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.Matrix.CoordMatrix;
-import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.web.awt.BasicStroke;
 import geogebra.web.awt.Color;
 import geogebra.web.kernel.gawt.Ellipse2D;
 import geogebra.web.kernel.gawt.Line2D;
+
+import com.google.gwt.canvas.client.Canvas;
 
 
 
@@ -366,6 +354,12 @@ public class EuclidianView extends AbstractEuclidianView {
 	public boolean setAnimationButtonsHighlighted(boolean b) {
 	    // TODO Auto-generated method stub
 	    return false;
+    }
+
+	@Override
+    protected void drawActionObjects(Graphics2D g) {
+	    // TODO Auto-generated method stub
+	    
     }
 
 

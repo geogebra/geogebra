@@ -180,6 +180,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 		this.euclidianController = ec;
 		kernel = ec.getKernel();
+		application = kernel.getApplication();
 		this.settings = settings;
 
 		// ggb3D 2009-02-05
@@ -2339,9 +2340,47 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	protected void setApplication(AbstractApplication application) {
 		this.application = application;
 	}
+	
+	public AbstractApplication getApplication() {
+		return this.application;
+	}
 
 	public abstract void updateFonts();
 	public abstract void updateSize();
 	public abstract boolean requestFocusInWindow();
+	
+	// Michael Borcherds 2008-03-01
+		protected void drawGeometricObjects(geogebra.common.awt.Graphics2D g2) {
+			// boolean
+			// isSVGExtensions=g2.getClass().getName().endsWith("SVGExtensions");
+			int layer;
+
+			for (layer = 0; layer <= getApplication().maxLayerUsed; layer++) // only draw layers
+																// we need
+			{
+				// if (isSVGExtensions)
+				// ((geogebra.export.SVGExtensions)g2).startGroup("layer "+layer);
+				drawLayers[layer].drawAll(g2);
+				// if (isSVGExtensions)
+				// ((geogebra.export.SVGExtensions)g2).endGroup("layer "+layer);
+			}
+		}
+
+		// Michael Borcherds 2008-03-01
+		protected void drawObjects(geogebra.common.awt.Graphics2D g2) {
+
+			drawGeometricObjects(g2);
+			// for cross-platform UI the stroke must be reset to show buttons
+			// properly, see #442
+			g2.setStroke(EuclidianStatic.getDefaultStroke());
+			drawActionObjects(g2);
+
+			if (previewDrawable != null) {
+				previewDrawable.drawPreview(g2);
+			}
+		}
+		
+		protected abstract void drawActionObjects(geogebra.common.awt.Graphics2D g);
+
 	
 }

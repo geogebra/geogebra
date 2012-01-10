@@ -8,4 +8,6 @@ public interface BufferedImageAdapter {
 
 	int getHeight();
 
+	geogebra.common.awt.Graphics2D createGraphics();
+
 }

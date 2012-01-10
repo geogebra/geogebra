@@ -520,5 +520,16 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	    // TODO Auto-generated method stub
 	    return null;
     }
+	@Override
+	public void drawRect(int x, int y, int width, int height) {
+	    // TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setClip(int x, int y, int width, int height) {
+	    // TODO Auto-generated method stub
+		
+	}
 
 }

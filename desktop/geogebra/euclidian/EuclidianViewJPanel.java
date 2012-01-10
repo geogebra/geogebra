@@ -59,9 +59,11 @@ public class EuclidianViewJPanel extends JPanel implements geogebra.common.eucli
 		super.setToolTipText(plain);
 	}
 
+	private geogebra.awt.Graphics2D g2 = new geogebra.awt.Graphics2D(null);
 	@Override
 	final public void paint(Graphics g) {
-		view.paint(g);
+		g2.setImpl((java.awt.Graphics2D)g);
+		view.paint(g2);
 	}
 	
 	public void processMouseEventImpl(MouseEvent e) {

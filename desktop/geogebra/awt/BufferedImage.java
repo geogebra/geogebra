@@ -2,6 +2,7 @@ package geogebra.awt;
 
 
 import geogebra.common.awt.BufferedImageAdapter;
+import geogebra.common.awt.Graphics2D;
 
 public class BufferedImage implements BufferedImageAdapter {
 	public int TYPE_INT_ARGB = java.awt.image.BufferedImage.TYPE_INT_ARGB;
@@ -27,6 +28,10 @@ public class BufferedImage implements BufferedImageAdapter {
 		if(im==null)
 			return null;
 		return ((BufferedImage)im).impl;
+	}
+
+	public Graphics2D createGraphics() {
+		return new geogebra.awt.Graphics2D((java.awt.Graphics2D)impl.getGraphics());
 	}
 
 }
