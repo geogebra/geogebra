@@ -6,8 +6,10 @@ import geogebra.common.awt.Point2D;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.kernel.gawt.Shape;
 
-public class Ellipse2DDouble implements geogebra.common.awt.Ellipse2DDouble {
+public class Ellipse2DDouble implements geogebra.common.awt.Ellipse2DDouble,
+geogebra.web.awt.Shape{
 
 	private geogebra.web.kernel.gawt.Ellipse2D.Double impl;
 	
@@ -68,5 +70,9 @@ public class Ellipse2DDouble implements geogebra.common.awt.Ellipse2DDouble {
 		impl.setFrameFromCenter(i, j, d, e);
 
 	}
+
+	public Shape getGawtShape() {
+		return impl;
+    }
 
 }

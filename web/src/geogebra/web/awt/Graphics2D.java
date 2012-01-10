@@ -48,14 +48,14 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
 	@Override
     public void draw3DRect(int x, int y, int width, int height, boolean raised) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 
 	}
 
 	
 	@Override
     public void fill3DRect(int x, int y, int width, int height, boolean raised) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 
 	}
 
@@ -104,7 +104,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
 	@Override
     public boolean drawImage(Image img, AffineTransform xform, ImageObserver obs) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return false;
 	}
 
@@ -117,14 +117,14 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
 	@Override
     public void drawRenderedImage(RenderedImage img, AffineTransform xform) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 
 	}
 
 	
 	@Override
     public void drawRenderableImage(RenderableImage img, AffineTransform xform) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 
 	}
 
@@ -143,7 +143,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
 	@Override
     public void drawString(AttributedCharacterIterator iterator, int x, int y) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 
 	}
 
@@ -151,18 +151,21 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	@Override
     public void drawString(AttributedCharacterIterator iterator, float x,
 	        float y) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 
 	}
 
 	
 	@Override
     public void drawGlyphVector(GlyphVector g, float x, float y) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 
 	}
 
 
+	/**
+	 * @param shape
+	 */
 	public void fill(Shape shape) {
 		if (shape == null) {
 			GWT.log("Error in EuclidianView.fill");
@@ -199,28 +202,28 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 
 	public boolean hit(Rectangle rect, Shape s, boolean onStroke) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return false;
 	}
 
 	
 	@Override
     public GraphicsConfiguration getDeviceConfiguration() {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return null;
 	}
 
 	
 	@Override
     public void setComposite(Composite comp) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 
 	}
 
 	
 	@Override
     public void setPaint(Paint paint) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 
 	}
 
@@ -237,126 +240,124 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
 	@Override
     public void setRenderingHint(Key hintKey, Object hintValue) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 
 	}
 
 	
 	@Override
     public Object getRenderingHint(Key hintKey) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return null;
 	}
 
 	
 	@Override
     public void setRenderingHints(Map<?, ?> hints) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 
 	}
 
 	
 	@Override
     public void addRenderingHints(Map<?, ?> hints) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 
 	}
 
 	
 	@Override
     public RenderingHints getRenderingHints() {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return null;
 	}
 
 	
 	@Override
     public void translate(int x, int y) {
-		// TODO Auto-generated method stub
-
+		context.translate(x, y);
 	}
 
 	
 	@Override
     public void translate(double tx, double ty) {
-		// TODO Auto-generated method stub
+		context.translate(tx, ty);
 
 	}
 
 	
 	@Override
     public void rotate(double theta) {
-		// TODO Auto-generated method stub
+		context.rotate(theta);
 
 	}
 
 	
 	@Override
     public void rotate(double theta, double x, double y) {
-		// TODO Auto-generated method stub
-
+		context.translate(x, y);
+		context.rotate(theta);
+		context.translate(-x, -y);
 	}
 
 	
 	@Override
     public void scale(double sx, double sy) {
-		// TODO Auto-generated method stub
-
+		context.scale(sx, sy);
 	}
 
 	
 	@Override
     public void shear(double shx, double shy) {
-		// TODO Auto-generated method stub
-
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	}
 
 	
 	@Override
     public void transform(AffineTransform Tx) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 
 	}
 
 	
 	@Override
     public void setTransform(AffineTransform Tx) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 
 	}
 
 	
 	@Override
     public AffineTransform getTransform() {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return null;
 	}
 
 	
 	@Override
     public Paint getPaint() {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return null;
 	}
 
 	
 	@Override
     public Composite getComposite() {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return null;
 	}
 
 	
 	@Override
     public void setBackground(Color color) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 
 	}
 
 	
 	@Override
     public Color getBackground() {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return null;
 	}
 
@@ -370,7 +371,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	}
 
 	public void clip(Shape s) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 
 	}
 
@@ -383,7 +384,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
 	@Override
     public Color getColor() {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return null;
 	}
 
@@ -441,14 +442,14 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
     @Override
     public void setFont(geogebra.common.awt.Font font) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	
     @Override
     public void setColor(Color selColor) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
@@ -466,7 +467,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	@Override
     public void clip(geogebra.common.awt.Shape s) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
@@ -474,62 +475,61 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
     public void drawImage(BufferedImageAdapter img, int x, int y,
             BufferedImageOp op) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	
     public void fillRect(int i, int j, int k, int l) {
-	    // TODO Auto-generated method stub
-	    
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
     }
 
 	
     public void drawLine(int x1, int y1, int x2, int y2) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 	
     public void setComposite(AlphaComposite alphaComp) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 
 	@Override
     public void setClip(Object shape) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
 
 
 	@Override
     public void draw(geogebra.common.awt.Shape s) {
-		AbstractApplication.debug("implementation needed");
+		draw(geogebra.web.awt.GenericShape.getGawtShape(s));
     }
 
 
 	@Override
     public void fill(geogebra.common.awt.Shape s) {
-	  AbstractApplication.debug("implementation needed");
+		fill(geogebra.web.awt.GenericShape.getGawtShape(s));
     }
 
 
 	@Override
     public geogebra.common.awt.Shape getClip() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
     }
 	@Override
 	public void drawRect(int x, int y, int width, int height) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void setClip(int x, int y, int width, int height) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		
 	}
 

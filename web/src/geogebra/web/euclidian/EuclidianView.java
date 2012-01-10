@@ -211,7 +211,6 @@ public class EuclidianView extends AbstractEuclidianView {
 	private Graphics2D g2dtemp;
 	@Override
     public Graphics2D getTempGraphics2D(Font plainFontCommon) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    if(g2dtemp==null)
 	    	g2dtemp = new geogebra.web.awt.Graphics2D(Canvas.createIfSupported());
 	    g2dtemp.setFont(plainFontCommon);
