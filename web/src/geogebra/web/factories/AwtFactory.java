@@ -137,20 +137,17 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 
 	@Override
     public BasicStroke newBasicStroke(float f) {
-	    // TODO Auto-generated method stub
-	    return null;
+	    return new geogebra.web.awt.BasicStroke();
     }
 
 	@Override
     public Rectangle newRectangle() {
-	    // TODO Auto-generated method stub
-	    return null;
+		return new geogebra.web.awt.Rectangle();
     }
 
 	@Override
     public Arc2D newArc2D() {
-	    // TODO Auto-generated method stub
-	    return null;
+		return new geogebra.web.awt.Arc2D();
     }
 
 	@Override

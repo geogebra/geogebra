@@ -11,6 +11,10 @@ public class Ellipse2DDouble implements geogebra.common.awt.Ellipse2DDouble {
 
 	private geogebra.web.kernel.gawt.Ellipse2D.Double impl;
 	
+	public Ellipse2DDouble(){
+		impl = new geogebra.web.kernel.gawt.Ellipse2D.Double();
+	}
+	
 	public boolean intersects(int i, int j, int k, int l) {
 	    return impl.intersects(i,j,k,l);
     }
