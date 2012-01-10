@@ -732,15 +732,15 @@ public class GeoCasCell extends GeoElement {
 	}
 
 	private TreeSet<GeoElement> updateInputGeoElements(
-			TreeSet<String> invars) {
-		if (invars == null || invars.isEmpty())
+			TreeSet<String> inputVars) {
+		if (inputVars == null || inputVars.isEmpty())
 			return null;
 
 		// list to collect geo variables
 		TreeSet<GeoElement> geoVars = new TreeSet<GeoElement>();
 
 		// go through all variables
-		for (String varLabel : invars) {
+		for (String varLabel : inputVars) {
 			// lookup GeoCasCell first
 			GeoElement geo = kernel.lookupCasCellLabel(varLabel);
 
@@ -803,12 +803,11 @@ public class GeoCasCell extends GeoElement {
 		if (inGeos != null) {
 			for (GeoElement inGeo : inGeos) {
 				boolean success = node.replaceGeoDummyVariables(
-						inGeo.getLabel(), (GeoElement) inGeo);
+						inGeo.getLabel(), inGeo);
 				if (!success) {
 					// try $ row reference
 					node.replaceGeoDummyVariables(
-							ExpressionNodeConstants.CAS_ROW_REFERENCE_PREFIX,
-							(GeoElement) inGeo);
+							ExpressionNodeConstants.CAS_ROW_REFERENCE_PREFIX, inGeo);
 				}
 			}
 		}
@@ -977,16 +976,17 @@ public class GeoCasCell extends GeoElement {
 		// note: MPReduce returns "f" for a function definition "f(x) := x^2"
 		// && !output.startsWith(assignmentVar);
 
+		String res = output;
 		if (isFunctionDeclaration) {
 			StringBuilder sb = new StringBuilder();
 			sb.append(inputVE.getLabelForAssignment());
 			sb.append(inputVE.getAssignmentOperator());
 			sb.append(output);
-			output = sb.toString();
+			res = sb.toString();
 		}
 
 		// parse output into valid expression
-		outputVE = parseGeoGebraCASInputAndResolveDummyVars(output);
+		outputVE = parseGeoGebraCASInputAndResolveDummyVars(res);
 
 		if (isFunctionDeclaration) {
 			// replace GeoDummyVariable objects in outputVE by the function
@@ -1476,9 +1476,9 @@ public class GeoCasCell extends GeoElement {
 	@Override
 	public String getLabel() {
 		// standard case: assignment
-//		if (assignmentVar != null) {
-//			return kernel.printVariableName(assignmentVar);
-//		}
+		if (assignmentVar != null) {
+			return kernel.printVariableName(assignmentVar);
+		}
 
 		// row reference like $5
 		StringBuilder sb = new StringBuilder();
