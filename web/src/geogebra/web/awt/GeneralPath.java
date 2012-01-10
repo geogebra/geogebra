@@ -20,6 +20,10 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements
 	}
 	
 	
+	public GeneralPath(int rule) {
+		impl = new geogebra.web.kernel.gawt.GeneralPath(rule);
+    }
+
 	public boolean intersects(int rx, int ry, int rw, int rh) {
 		return impl.intersects(rx, ry, rw, rh);
 	}

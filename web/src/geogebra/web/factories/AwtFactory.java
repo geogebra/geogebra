@@ -152,8 +152,7 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 
 	@Override
     public QuadCurve2D newQuadCurve2D() {
-	    // TODO Auto-generated method stub
-	    return null;
+		return new geogebra.web.awt.QuadCurve2D();
     }
 
 	/*
@@ -166,26 +165,22 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 
 	@Override
     public Area newArea() {
-	    // TODO Auto-generated method stub
-	    return null;
+		return new geogebra.web.awt.Area();
     }
 
 	@Override
     public Area newArea(Shape shape) {
-	    // TODO Auto-generated method stub
-	    return null;
+		return new geogebra.web.awt.Area(shape);
     }
 
 	@Override
     public GeneralPath newGeneralPath(int rule) {
-	    // TODO Auto-generated method stub
-	    return null;
+		return new geogebra.web.awt.GeneralPath(rule);
     }
 
 	@Override
     public CubicCurve2D newCubicCurve2D() {
-	    // TODO Auto-generated method stub
-	    return null;
+		return new geogebra.web.awt.CubicCurve2D();
     }
 
 	@Override
