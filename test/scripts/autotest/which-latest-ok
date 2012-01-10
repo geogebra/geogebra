@@ -23,7 +23,7 @@ while [ $LOOP = 1 ]; do
    LOOP=0
    fi
   }
- TOCHECK=$((${THIS}-1))
+ TOCHECK=$((${TOCHECK}-1))
  if [ $TOCHECK -lt 14799 ]; then
   LOOP=0
   RESULT=255
