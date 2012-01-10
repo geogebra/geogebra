@@ -24,7 +24,6 @@ import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
@@ -5448,123 +5447,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		((Application) app).getGuiManager().getDialogManager()
 				.showBooleanCheckboxCreationDialog(mouseLoc, null);
 		return false;
-	}
-
-	final protected boolean attachDetach(Hits hits, AbstractEvent event) {
-		if (hits.isEmpty()) {
-			return false;
-		}
-
-		addSelectedRegion(hits, 1, false);
-
-		addSelectedPath(hits, 1, false);
-
-		addSelectedPoint(hits, 1, false);
-
-		if (selectedPoints.size() == 1) {
-
-			GeoPoint2 p = (GeoPoint2) selectedPoints.get(0);
-
-			if (p.isPointOnPath() || p.isPointInRegion()) {
-
-				getSelectedPoints();
-				getSelectedRegions();
-				getSelectedPaths();
-
-				// move point (20,20) pixels when detached
-				double x = view.toScreenCoordX(p.inhomX) + 20;
-				double y = view.toScreenCoordY(p.inhomY) + 20;
-
-				try {
-					Construction cons = kernel.getConstruction();
-					boolean oldLabelCreationFlag = cons
-							.isSuppressLabelsActive();
-					cons.setSuppressLabelCreation(true);
-					GeoPoint2 newPoint = new GeoPoint2(
-							kernel.getConstruction(), null,
-							view.toRealWorldCoordX(x),
-							view.toRealWorldCoordY(y), 1.0);
-					cons.setSuppressLabelCreation(oldLabelCreationFlag);
-					cons.replace(p, newPoint);
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				clearSelections();
-				return true;
-			}
-		}
-
-		if (selPoints() == 1) {
-			if ((selPaths() == 1) && !isAltDown()) { // press alt to force region
-													// (ie inside) not path
-													// (edge)
-				Path paths[] = getSelectedPaths();
-				GeoPoint2[] points = getSelectedPoints();
-
-				// Application.debug("path: "+paths[0]+"\npoint: "+points[0]);
-
-				if (((GeoElement) paths[0]).isChildOf(points[0])) {
-					return false;
-				}
-
-				if (((GeoElement) paths[0]).isGeoPolygon()
-						|| (((GeoElement) paths[0]).isGeoConic() && (((GeoConicND) paths[0])
-								.getLastHitType() == GeoConicND.HIT_TYPE_ON_FILLING))) {
-					return attach(points[0], (Region) paths[0]);
-				}
-
-				return attach(points[0], paths[0]);
-
-			} else if (selRegions() == 1) {
-				Region regions[] = getSelectedRegions();
-				GeoPoint2[] points = getSelectedPoints();
-
-				if (!((GeoElement) regions[0]).isChildOf(points[0])) {
-					return attach(points[0], regions[0]);
-				}
-
-			}
-		}
-		return false;
-	}
-
-	final protected boolean attach(GeoPoint2 point, Path path) {
-
-		try {
-			Construction cons = kernel.getConstruction();
-			boolean oldLabelCreationFlag = cons.isSuppressLabelsActive();
-			cons.setSuppressLabelCreation(true);
-			GeoPoint2 newPoint = kernel.Point(null, path,
-					view.toRealWorldCoordX(mx), view.toRealWorldCoordY(my),
-					false, false);
-			cons.setSuppressLabelCreation(oldLabelCreationFlag);
-			kernel.getConstruction().replace(point, newPoint);
-			clearSelections();
-			return true;
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			return false;
-		}
-	}
-
-	final protected boolean attach(GeoPoint2 point, Region region) {
-
-		try {
-			Construction cons = kernel.getConstruction();
-			boolean oldLabelCreationFlag = cons.isSuppressLabelsActive();
-			cons.setSuppressLabelCreation(true);
-			GeoPoint2 newPoint = kernel.PointIn(null, region,
-					view.toRealWorldCoordX(mx), view.toRealWorldCoordY(my),
-					false, false);
-			cons.setSuppressLabelCreation(oldLabelCreationFlag);
-			kernel.getConstruction().replace(point, newPoint);
-			clearSelections();
-			return true;
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			return false;
-		}
 	}
 
 	// get Transformable and vector
