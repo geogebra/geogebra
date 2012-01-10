@@ -36,6 +36,7 @@ import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.main.Application;
 
@@ -177,6 +178,12 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
     protected void initToolTipManager() {
 	    // TODO Auto-generated method stub
 	    
+    }
+
+	@Override
+    protected GeoElement[] createCircle2ForPoints3D(GeoPointND p0, GeoPointND p1) {
+	    // TODO Auto-generated method stub
+	    return null;
     }
 
 }

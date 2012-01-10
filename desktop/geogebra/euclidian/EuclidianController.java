@@ -5161,43 +5161,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		return angle;
 	}
 
-	// get 2 points
-	final protected GeoElement[] circleOrSphere2(Hits hits, int mode) {
-		if (hits.isEmpty()) {
-			return null;
-		}
-
-		// points needed
-		addSelectedPoint(hits, 2, false);
-		if (selPoints() == 2) {
-			// fetch the three selected points
-			return switchModeForCircleOrSphere2(mode);
-		}
-		return null;
-	}
-
-	protected GeoElement[] switchModeForCircleOrSphere2(int mode) {
-		GeoPointND[] points = getSelectedPointsND();
-		if (mode == EuclidianConstants.MODE_SEMICIRCLE) {
-			return new GeoElement[] { kernel.Semicircle(null,
-					(GeoPoint2) points[0], (GeoPoint2) points[1]) };
-		} else {
-			return createCircle2(points[0], points[1]);
-		}
-
-	}
-
-	protected GeoElement[] createCircle2(GeoPointND p0, GeoPointND p1) {
-		if (((GeoElement) p0).isGeoElement3D()
-				|| ((GeoElement) p1).isGeoElement3D()) {
-			return createCircle2ForPoints3D(p0, p1);
-		} else {
-			return new GeoElement[] { kernel.Circle(null, (GeoPoint2) p0,
-					(GeoPoint2) p1) };
-		}
-	}
-
-	protected GeoElement[] createCircle2ForPoints3D(GeoPointND p0, GeoPointND p1) {
+	public GeoElement[] createCircle2ForPoints3D(GeoPointND p0, GeoPointND p1) {
 		return new GeoElement[] { kernel.getManager3D().Circle3D(null, p0, p1,
 				((EuclidianView) view).getDirection()) };
 	}
@@ -5208,7 +5172,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 			return null;
 		}
 		
-		Point mouseCoords = new Point(event.getPoint().x,event.getPoint().y);
+		Point mouseCoords = event.getPoint();
 
 		int count = addSelectedPoint(hits, 2, false);
 		if (count == 0) {
