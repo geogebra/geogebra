@@ -4262,4 +4262,114 @@ public abstract class AbstractEuclidianController {
 	
 		return null;
 	}
+
+	protected boolean showCheckBox(Hits hits) {
+		if (selectionPreview) {
+			return false;
+		}
+	
+		app.getGuiManager().getDialogManager()
+				.showBooleanCheckboxCreationDialog(mouseLoc, null);
+		return false;
+	}
+
+	protected final GeoElement[] compasses(Hits hits) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+	
+		// we already have two points that define the radius
+		if (selPoints() == 2) {
+			GeoPoint2[] points = new GeoPoint2[2];
+			points[0] = (GeoPoint2) selectedPoints.get(0);
+			points[1] = (GeoPoint2) selectedPoints.get(1);
+	
+			// check for centerPoint
+			GeoPoint2 centerPoint = (GeoPoint2) chooseGeo(hits, Test.GEOPOINT2);
+	
+			if (centerPoint != null) {
+				if (selectionPreview) {
+					// highlight the center point
+					tempArrayList.clear();
+					tempArrayList.add(centerPoint);
+					addToHighlightedList(selectedPoints, tempArrayList, 3);
+					return null;
+				} else {
+					// three points: center, distance between two points
+					GeoElement circle = kernel.Circle(null, centerPoint,
+							points[0], points[1], true);
+					GeoElement[] ret = { circle };
+					clearSelections();
+					return ret;
+				}
+			}
+		}
+	
+		// we already have a circle that defines the radius
+		else if (selConics() == 1) {
+			GeoConic circle = selectedConicsND.get(0);
+	
+			// check for centerPoint
+			GeoPoint2 centerPoint = (GeoPoint2) chooseGeo(hits, Test.GEOPOINT2);
+	
+			if (centerPoint != null) {
+				if (selectionPreview) {
+					// highlight the center point
+					tempArrayList.clear();
+					tempArrayList.add(centerPoint);
+					addToHighlightedList(selectedPoints, tempArrayList, 3);
+					return null;
+				} else {
+					// center point and circle which defines radius
+					GeoElement circlel = kernel.Circle(null, centerPoint,
+							circle);
+					GeoElement ret[] = { circlel };
+					clearSelections();
+					return ret;
+				}
+			}
+		}
+		// we already have a segment that defines the radius
+		else if (selSegments() == 1) {
+			GeoSegment segment = selectedSegments.get(0);
+	
+			// check for centerPoint
+			GeoPoint2 centerPoint = (GeoPoint2) chooseGeo(hits, Test.GEOPOINT2);
+	
+			if (centerPoint != null) {
+				if (selectionPreview) {
+					// highlight the center point
+					tempArrayList.clear();
+					tempArrayList.add(centerPoint);
+					addToHighlightedList(selectedPoints, tempArrayList, 3);
+					return null;
+				} else {
+					// center point and segment
+					GeoElement circlel = kernel.Circle(null, centerPoint,
+							segment);
+					GeoElement[] ret = { circlel };
+					clearSelections();
+					return ret;
+				}
+			}
+		}
+	
+		// don't have radius yet: need two points or segment
+		boolean hitPoint = (addSelectedPoint(hits, 2, false) != 0);
+		if (!hitPoint && (selPoints() != 2)) {
+			addSelectedSegment(hits, 1, false);
+			addSelectedConic(hits, 1, false);
+	
+			// don't allow conics other than circles to be selected
+			if (selectedConicsND.size() > 0) {
+				GeoConic c = selectedConicsND.get(0);
+				if (!c.isCircle()) {
+					selectedConicsND.remove(0);
+					clearSelections();
+				}
+			}
+		}
+	
+		return null;
+	}
 }
