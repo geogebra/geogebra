@@ -1,0 +1,41 @@
+#!/bin/sh
+#
+# Munin plugin to graph the change of number of problems.
+#
+# Parameters:
+#
+# 	rootdir      - directory path to the parent of geogebra/{desktop,common,web} (if omitted, default is /home/tester/svn)
+#
+# This script is based on the acpi script (rev. 1.6).
+# Modified by Zoltan Kovacs <zoltan@geogebra.org>
+#
+#%# family=auto
+#%# capabilities=autoconf
+
+if [ "$rootdir" = "" ]; then
+    rootdir=/home/tester/svn
+    fi
+    
+if [ "$1" = "autoconf" ]; then
+	test -d $rootdir/geogebra || {
+	    echo "no (no $rootdir/geogebra/ directory found)"
+	    exit 1
+	    }
+	echo yes
+	exit 0
+	fi
+
+if [ "$1" = "config" ]; then
+
+        echo 'graph_title Change of problems'
+        echo 'graph_args --base 1000 -l 0'
+        echo 'graph_vlabel files'
+        echo 'graph_category system' # fixme
+        echo 'graph_info This graph shows the change of number of problems.'
+        echo 'problems.label problems'
+        echo 'problems.info Number of problems'
+        exit 0
+fi
+
+echo -n "problems.value "
+cat $rootdir/geogebra/desktop/.ecjlog | tail -1 | awk '{print $1}'
