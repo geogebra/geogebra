@@ -249,10 +249,14 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	private double animatedScaleStartX;
 	/** y start of animated scale */
 	private double animatedScaleStartY;
+	/** z start of animated scale */
+	private double animatedScaleStartZ;
 	/** x end of animated scale */
 	private double animatedScaleEndX;
 	/** y end of animated scale */
 	private double animatedScaleEndY;
+	/** z end of animated scale */
+	private double animatedScaleEndZ;
 	
 	
 	/** tells if the view is under continue animation for rotation */
@@ -661,18 +665,19 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		//rotations
 		CoordMatrix m1 = CoordMatrix.Rotation3DMatrix(CoordMatrix.X_AXIS, (this.b-90)*EuclidianController3D.ANGLE_TO_DEGREES);
 		CoordMatrix m2 = CoordMatrix.Rotation3DMatrix(CoordMatrix.Z_AXIS, (-this.a-90)*EuclidianController3D.ANGLE_TO_DEGREES);
-		CoordMatrix m3 = m1.mul(m2);
+		CoordMatrix mRot = m1.mul(m2);
 
-		undoRotationMatrix.set(m3.inverse());
+		undoRotationMatrix.set(mRot.inverse());
 
 		//scaling
-		CoordMatrix m4 = CoordMatrix.ScaleMatrix(new double[] {getXscale(),getYscale(),getZscale()});		
+		CoordMatrix mScale = CoordMatrix.ScaleMatrix(new double[] {getXscale(),getYscale(),getZscale()});		
 		
 		//translation
-		CoordMatrix m5 = CoordMatrix.TranslationMatrix(new double[] {getXZero(),getYZero(),getZZero()});
+		CoordMatrix mTrans = CoordMatrix.TranslationMatrix(new double[] {getXZero(),getYZero(),getZZero()});
 		
-		m.set(m5.mul(m3.mul(m4)));	
-		//m.set((m3.mul(m4)));	
+		//m.set(m5.mul(m3.mul(m4)));	
+		//m.set(m3.mul(m5.mul(m4)));	
+		m.set(mRot.mul(mScale.mul(mTrans)));	
 		
 		mInv.set(m.inverse());
 		mInvTranspose.set(mInv.transposeCopy());
@@ -749,26 +754,18 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		case EuclidianController3D.MOVE_ROTATE_VIEW:
 			setRotXYinDegrees(aOld - dx, bOld + dy);
 			break;
-		case EuclidianController3D.MOVE_VIEW:
-			/*
-			Application.debug(dx+","+dy);
+		case EuclidianController3D.MOVE_VIEW:			
 			Coords v = new Coords(dx,-dy,0,0);
 			toSceneCoords3D(v);
-			Application.debug(v);
-			//v=v.add(getViewDirection().mul(-v.dotproduct(getViewDirection())));
-			v=v.projectPlaneThruV(CoordMatrix4x4.IDENTITY, getViewDirection())[0];
-			Application.debug(v);
-			toScreenCoords3D(v);
-			Application.debug(v);
-
+			v=v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, getViewDirection())[0];
 			setXZero(XZeroOld+v.getX());
 			setYZero(YZeroOld+v.getY());
-			setZZero(ZZeroOld+v.getZ());
-			*/
+			//setZZero(ZZeroOld+v.getZ());
 			
+			/*
 			setXZero(XZeroOld+dx);
 			setYZero(YZeroOld-dy);
-			
+			*/
 			
 			updateMatrix();
 			setViewChangedByTranslate();
@@ -800,6 +797,17 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	 * @param val */
 	public void setZZero(double val) { 
 		ZZero=val; 
+	}
+	
+	/**
+	 * sets the origin
+	 * @param x x coord
+	 * @param y y coord
+	 * @param z z coord
+	 */
+	public void setZeroFromXML(double x, double y, double z){
+		//divide by scale for new matrix multiplication (since 4.9.14)
+		setXZero(x/scale);setYZero(y/scale);setZZero(z/scale);
 	}
 		
 	public double getXRot(){ return a;}
@@ -1316,15 +1324,55 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		return  animatedContinueRot;
 	}
 	
+	/**
+	 * 
+	 * @param p point
+	 * @return true if the point is between min-max coords values
+	 */
+	public boolean isInside(Coords p){
+		double[] minmax = getXMinMax();
+		double val = p.getX();
+		if (val<minmax[0] || val>minmax[1])
+			return false;
+		minmax = getYMinMax();
+		val = p.getY();
+		if (val<minmax[0] || val>minmax[1])
+			return false;
+		minmax = getZMinMax();
+		val = p.getZ();
+		if (val<minmax[0] || val>minmax[1])
+			return false;
+		return true;		
+	}
+	
 	public void setAnimatedCoordSystem(double ox, double oy, double f, double newScale,
 			int steps, boolean storeUndo) {
 		
 		animatedScaleStartX=getXZero();
 		animatedScaleStartY=getYZero();
+		animatedScaleStartZ=getZZero();
+
+		/*
 		double centerX = ox+renderer.getLeft();
 		double centerY = -oy+renderer.getTop();
-		animatedScaleEndX=centerX+(animatedScaleStartX-centerX)*f;
-		animatedScaleEndY=centerY+(animatedScaleStartY-centerY)*f;
+		Coords v = new Coords(centerX,centerY,0,1);
+		toSceneCoords3D(v);
+		v=v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, getViewDirection())[0];
+		*/
+		Coords v=cursor3D.getInhomCoords();
+		
+		if (!isInside(v)){//takes center of the scene for fixed point
+			v = new Coords(-animatedScaleStartX,-animatedScaleStartY,-animatedScaleStartZ,1);
+		}
+		
+		//Application.debug(v);
+		
+		double factor=getScale()/newScale;
+		animatedScaleEndX=-v.getX()+(animatedScaleStartX+v.getX())*factor;
+		animatedScaleEndY=-v.getY()+(animatedScaleStartY+v.getY())*factor;
+		animatedScaleEndZ=-v.getZ()+(animatedScaleStartZ+v.getZ())*factor;
+
+		
 		
 		//Application.debug("mouse = ("+ox+","+oy+")"+"\nscale end = ("+animatedScaleEndX+","+animatedScaleEndY+")"+"\nZero = ("+animatedScaleStartX+","+animatedScaleStartY+")");
 		
@@ -1458,6 +1506,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 			setScale(animatedScaleStart*(1-t)+animatedScaleEnd*t);
 			setXZero(animatedScaleStartX*(1-t)+animatedScaleEndX*t);
 			setYZero(animatedScaleStartY*(1-t)+animatedScaleEndY*t);
+			setZZero(animatedScaleStartZ*(1-t)+animatedScaleEndZ*t);
 			updateMatrix();
 			
 		}

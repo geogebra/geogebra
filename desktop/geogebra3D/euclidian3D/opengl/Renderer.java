@@ -394,6 +394,11 @@ public class Renderer implements GLEventListener {
     		enableClipPlane(n);
     }
     
+    /**
+     * sets the clip plane
+     * @param n index of the clip plane
+     * @param equation equation of the clip plane
+     */
     public void setClipPlane(int n, double[] equation){
     	gl.glClipPlane( GL_CLIP_PLANE[n] , equation, 0 );
     }
@@ -1457,7 +1462,7 @@ public class Renderer implements GLEventListener {
         //gl.glEnable(GLlocal.GL_RESCALE_NORMAL);
         
         //clipping planes
-        enableClipPlanes();
+        //enableClipPlanes();
         
         //textures
         textures.init(gl);
@@ -1683,10 +1688,14 @@ public class Renderer implements GLEventListener {
     private void setColorMask(){
     	if (view3D.getProjection()==EuclidianView3D.PROJECTION_ANAGLYPH){
     		if (eye==EYE_LEFT) {
-    			gl.glColorMask(true,false,false,true);
+    			gl.glColorMask(true,false,false,true); //cyan
+    			//gl.glColorMask(false,true,false,true); //magenta
+       			//gl.glColorMask(false,false,false,true);
     		} else {
-    			gl.glColorMask(false,!view3D.isAnaglyphShutDownGreen(),true,true);
-    		}
+    			gl.glColorMask(false,!view3D.isAnaglyphShutDownGreen(),true,true); //red
+       			//gl.glColorMask(true,false,false,true); //cyan -> green
+       			//gl.glColorMask(false,false,false,true);
+       		}
     	} else {
     		gl.glColorMask(true,true,true,true);
     	}	
