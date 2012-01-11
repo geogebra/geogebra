@@ -1,5 +1,6 @@
 package geogebra.gui.view.probcalculator;
 
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
@@ -44,7 +45,6 @@ import geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.Operation;
-import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
@@ -2167,7 +2167,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			}
 
 			// set the window dimensions of the target EV to match the prob calc dimensions
-			EuclidianView ev  = (EuclidianView) app.getView(viewID);
+			AbstractEuclidianView ev  = (AbstractEuclidianView) app.getView(viewID);
 			ev.setRealWorldCoordSystem(plotSettings.xMin, plotSettings.xMax, plotSettings.yMin, plotSettings.yMax);
 			ev.setAutomaticAxesNumberingDistance(plotSettings.xAxesIntervalAuto, 0);
 			ev.setAutomaticAxesNumberingDistance(plotSettings.yAxesIntervalAuto, 1);

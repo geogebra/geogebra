@@ -12,8 +12,8 @@ the Free Software Foundation.
 
 package geogebra.export;
 
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.main.AbstractApplication;
-import geogebra.euclidian.EuclidianView;
 import geogebra.gui.TitlePanel;
 import geogebra.gui.view.consprotocol.ConstructionProtocolView;
 import geogebra.main.Application;
@@ -95,7 +95,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 		}
 
 		// panel with fields to enter width and height of picture
-		EuclidianView ev = app.getEuclidianView();
+		AbstractEuclidianView ev = app.getEuclidianView();
 		// int height = (int) Math.ceil(DEFAULT_GRAPHICS_WIDTH *
 		// (double) ev.getHeight() / ev.getWidth());
 		// sizePanel = new GraphicSizePanel(app, DEFAULT_GRAPHICS_WIDTH,

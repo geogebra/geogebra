@@ -18,8 +18,8 @@ the Free Software Foundation.
 
 package geogebra.gui;
 
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Kernel;
-import geogebra.euclidian.EuclidianView;
 import geogebra.gui.dialog.options.OptionsDialog;
 import geogebra.main.Application;
 
@@ -73,7 +73,7 @@ implements ActionListener {
         this.px = px;
         this.py = py;
         
-        EuclidianView ev=((EuclidianView)app.getActiveEuclidianView());
+        AbstractEuclidianView ev=((AbstractEuclidianView)app.getActiveEuclidianView());
         if(ev.getEuclidianViewNo()==2){
         	 setTitle("<html>" + app.getPlain("DrawingPad2") + "</html>");
         }
@@ -226,7 +226,7 @@ implements ActionListener {
         };  
   	    
         // get current axes ratio
-        double scaleRatio = ((EuclidianView)app.getActiveEuclidianView()).getScaleRatio();        
+        double scaleRatio = ((AbstractEuclidianView)app.getActiveEuclidianView()).getScaleRatio();        
         
         JMenuItem mi;		
         //int perc;   	         

@@ -3,6 +3,7 @@ package geogebra.gui;
 import geogebra.CommandLineArguments;
 import geogebra.cas.view.CASView;
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
@@ -2390,7 +2391,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 			public void actionPerformed(ActionEvent e) {
 				// get ev with focus
-				EuclidianView ev = ((EuclidianView) getActiveEuclidianView());
+				AbstractEuclidianView ev = ((AbstractEuclidianView) getActiveEuclidianView());
 
 				if (app.getEuclidianView() == ev)
 					app.getSettings().getEuclidian(1)

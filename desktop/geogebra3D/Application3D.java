@@ -18,11 +18,11 @@ the Free Software Foundation.
 package geogebra3D;
 
 import geogebra.CommandLineArguments;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.euclidian.EuclidianController;
-import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
 import geogebra.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.main.AppletImplementation;
@@ -110,7 +110,7 @@ public class Application3D extends Application {
 	}
 
 	@Override
-	protected EuclidianView newEuclidianView(boolean[] showAxes,
+	protected AbstractEuclidianView newEuclidianView(boolean[] showAxes,
 			boolean showGrid) {
 		return new EuclidianViewFor3D((EuclidianController)euclidianController, showAxes, showGrid,
 				1);
@@ -176,7 +176,7 @@ public class Application3D extends Application {
 	 * @return create a new euclidian view for the plane
 	 */
 	@Override
-	public EuclidianView createEuclidianViewForPlane(Object o) {
+	public AbstractEuclidianView createEuclidianViewForPlane(Object o) {
 		GeoCoordSys2D plane = (GeoCoordSys2D) o;
 		// create new view for plane and controller
 		EuclidianController ec = new EuclidianControllerForPlane(kernel3D);

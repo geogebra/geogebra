@@ -21,6 +21,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import geogebra.common.awt.Point;
 import geogebra.common.awt.Rectangle;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.Drawable;
 
 
@@ -46,7 +47,7 @@ public final class DrawBoolean extends Drawable {
 	private CheckBoxIcon checkBoxIcon;
 
 	/** Creates new DrawText */
-	public DrawBoolean(EuclidianView view, GeoBoolean geoBool) {
+	public DrawBoolean(AbstractEuclidianView view, GeoBoolean geoBool) {
 		this.view = view;
 		this.geoBool = geoBool;
 		geo = geoBool;
@@ -209,11 +210,11 @@ public final class DrawBoolean extends Drawable {
 		
 		//int csize = 13;
 		
-		EuclidianView ev;
+		AbstractEuclidianView ev;
 		
 		public static Color highlightBackground = new Color(230, 230, 230);
 		
-		public CheckBoxIcon(EuclidianView ev)
+		public CheckBoxIcon(AbstractEuclidianView ev)
 		{
 			this.ev=ev;
 		}

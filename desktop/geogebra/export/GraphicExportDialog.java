@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.export;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
@@ -135,7 +136,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
 
 		// scale
-		EuclidianView ev = (EuclidianView) app.getActiveEuclidianView();
+		AbstractEuclidianView ev = (AbstractEuclidianView) app.getActiveEuclidianView();
 
 		final PrintScalePanel psp = new PrintScalePanel(app, ev);
 		psp.addActionListener(new ActionListener() {

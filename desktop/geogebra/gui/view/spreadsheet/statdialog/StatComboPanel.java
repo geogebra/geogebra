@@ -1,10 +1,10 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.EuclidianSettings;
-import geogebra.euclidian.EuclidianView;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.common.kernel.algos.AlgoHistogram;
@@ -1028,7 +1028,7 @@ StatPanelInterface{
 			}
 
 			// set the window dimensions of the target EV to match the plotPanel dimensions
-			EuclidianView ev  = (EuclidianView) app.getView(viewID);
+			AbstractEuclidianView ev  = (AbstractEuclidianView) app.getView(viewID);
 			ev.setRealWorldCoordSystem(settings.xMin, settings.xMax, settings.yMin, settings.yMax);
 			ev.setAutomaticAxesNumberingDistance(settings.xAxesIntervalAuto, 0);
 			ev.setAutomaticAxesNumberingDistance(settings.yAxesIntervalAuto, 1);

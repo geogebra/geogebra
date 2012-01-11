@@ -335,7 +335,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 		// preview for compass: radius first
 		case EuclidianConstants.MODE_COMPASSES:
-			previewDrawable = new DrawConic((EuclidianView) view, mode,
+			previewDrawable = new DrawConic((AbstractEuclidianView) view, mode,
 					selectedPoints, selectedSegments, selectedConicsND);
 			break;
 
@@ -345,7 +345,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
 		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
-			previewDrawable = new DrawConicPart((EuclidianView) view, mode,
+			previewDrawable = new DrawConicPart((AbstractEuclidianView) view, mode,
 					selectedPoints);
 			break;
 
@@ -587,14 +587,14 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 			break;
 
 		case EuclidianConstants.MODE_ZOOM_IN:
-			((EuclidianViewInterface) view).zoom(mouseLoc.x, mouseLoc.y, EuclidianView.MODE_ZOOM_FACTOR,
+			((EuclidianViewInterface) view).zoom(mouseLoc.x, mouseLoc.y, AbstractEuclidianView.MODE_ZOOM_FACTOR,
 					15, false);
 			toggleModeChangedKernel = true;
 			break;
 
 		case EuclidianConstants.MODE_ZOOM_OUT:
 			((EuclidianViewInterface) view).zoom(mouseLoc.x, mouseLoc.y,
-					1d / EuclidianView.MODE_ZOOM_FACTOR, 15, false);
+					1d / AbstractEuclidianView.MODE_ZOOM_FACTOR, 15, false);
 			toggleModeChangedKernel = true;
 			break;
 		}
@@ -4881,7 +4881,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 	public GeoElement[] createCircle2ForPoints3D(GeoPointND p0, GeoPointND p1) {
 		return new GeoElement[] { kernel.getManager3D().Circle3D(null, p0, p1,
-				((EuclidianView) view).getDirection()) };
+				((AbstractEuclidianView) view).getDirection()) };
 	}
 
 	// get 2 points, 2 lines or 1 point and 1 line
@@ -5345,7 +5345,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 					.getDialogManager()
 					.showNumberInputDialogCirclePointRadius(
 							((Application)app).getMenu(getKernel().getModeText(mode)),
-							getSelectedPointsND()[0], (EuclidianView) view);
+							getSelectedPointsND()[0], (AbstractEuclidianView) view);
 			return true;
 		}
 		return false;
@@ -5539,9 +5539,9 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 		double reverse = app.isMouseWheelReversed() ? -1 : 1;
 
-		double factor = ((event.getWheelRotation() * reverse) > 0) ? EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
+		double factor = ((event.getWheelRotation() * reverse) > 0) ? AbstractEuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
 				* xFactor
-				: 1d / (EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR * xFactor);
+				: 1d / (AbstractEuclidianView.MOUSE_WHEEL_ZOOM_FACTOR * xFactor);
 
 		// make zooming a little bit smoother by having some steps
 
@@ -5625,8 +5625,8 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 			py = view.getHeight() / 2;
 		}
 
-		double factor = event.getKeyCode() == KeyEvent.VK_MINUS ? 1d / EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
-				: EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR;
+		double factor = event.getKeyCode() == KeyEvent.VK_MINUS ? 1d / AbstractEuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
+				: AbstractEuclidianView.MOUSE_WHEEL_ZOOM_FACTOR;
 
 		// accelerated zoom
 		if (event.isAltDown()) {

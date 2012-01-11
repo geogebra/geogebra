@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui.view.functioninspector;
 
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
@@ -50,7 +51,6 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.Operation;
-import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
 import geogebra.gui.dialog.InputDialog;
 import geogebra.gui.inputfield.MyTextField;
@@ -124,7 +124,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 	// ggb fields
 	private Kernel kernel;
 	private Construction cons;
-	private EuclidianView activeEV;
+	private AbstractEuclidianView activeEV;
 
 	// table fields
 	private InspectorTable tableXY, tableInterval;
@@ -182,7 +182,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 
 		boolean showApply = false;
 		this.selectedGeo = selectedGeo;
-		activeEV = (EuclidianView) app.getActiveEuclidianView();	
+		activeEV = (AbstractEuclidianView) app.getActiveEuclidianView();	
 
 		extraColumnList = new ArrayList<Integer>();
 
@@ -1120,7 +1120,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 			return;
 		}
 
-		activeEV = (EuclidianView) app.getActiveEuclidianView();	
+		activeEV = (AbstractEuclidianView) app.getActiveEuclidianView();	
 		selectedGeo = (GeoFunction)geo;
 
 		lblGeoName.setText(getTitleString());

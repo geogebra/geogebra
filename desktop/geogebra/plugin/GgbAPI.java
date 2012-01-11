@@ -10,6 +10,7 @@ package geogebra.plugin;
  the Free Software Foundation.
  
  */
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -575,7 +576,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 	 * as [xmin, ymin, width, height]
 	 */
 	public synchronized Rectangle2D.Double getCoordSystemRectangle() {
-		EuclidianView ev = app.getEuclidianView();
+		AbstractEuclidianView ev = app.getEuclidianView();
 		return new Rectangle2D.Double(ev.getXmin(), ev.getYmin(), 
 				ev.getXmax() - ev.getXmin(), ev.getYmax() - ev.getYmin());
 	}

@@ -1,6 +1,7 @@
 package geogebra.web.euclidian;
 
 import geogebra.common.awt.AffineTransform;
+import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Font;
 import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Graphics2D;
@@ -387,6 +388,18 @@ public class EuclidianView extends AbstractEuclidianView {
     public Drawable newDrawAngle(GeoAngle geo) {
 	    // TODO Auto-generated method stub
 	    return null;
+    }
+
+	@Override
+    public void setBackground(geogebra.common.awt.Color bgColor) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void setPreferredSize(Dimension preferredSize) {
+	    // TODO Auto-generated method stub
+	    
     }
 	
 }

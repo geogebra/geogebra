@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
@@ -53,7 +54,7 @@ public final class DrawText extends Drawable {
 	 * @param view
 	 * @param text
 	 */
-	public DrawText(EuclidianView view, GeoText text) {
+	public DrawText(AbstractEuclidianView view, GeoText text) {
 		this.view = view;
 		this.text = text;
 		geo = text;

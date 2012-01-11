@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui.dialog;
 
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Locateable;
@@ -6168,7 +6169,7 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 			for (int i = 0; i < geos.length; i++) {
 				GeoElement geo = (GeoElement) geos[i];
 
-				EuclidianView ev2 = app.getEuclidianView2();
+				AbstractEuclidianView ev2 = app.getEuclidianView2();
 
 				if (cbGraphicsView2.isSelected()) {
 					geo.addView(AbstractApplication.VIEW_EUCLIDIAN2);

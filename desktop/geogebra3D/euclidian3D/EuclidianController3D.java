@@ -27,7 +27,6 @@ import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.kernelND.Region3D;
 import geogebra.euclidian.EuclidianController;
-import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.main.Application;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
@@ -1625,7 +1624,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 		case EuclidianConstants.MODE_ORTHOGONAL_PLANE:
 		case EuclidianConstants.MODE_PLANE_POINT_LINE:
 			((EuclidianViewInterface) view).setHits(mouseLoc);
-			hits = ((EuclidianView) view).getHits();hits.removePolygons();
+			hits = ((AbstractEuclidianView) view).getHits();hits.removePolygons();
 			createNewPoint(hits, false, false, true);
 			break;	
 			

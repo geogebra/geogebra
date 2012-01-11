@@ -14,6 +14,7 @@ package geogebra.euclidian;
 
 import geogebra.common.awt.Line2D;
 import geogebra.common.awt.Ellipse2DDouble;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.factories.AwtFactory;
@@ -105,7 +106,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	 * @param angle
 	 *            Angle to be drawn
 	 */
-	public DrawAngle(EuclidianView view, GeoAngle angle) {
+	public DrawAngle(AbstractEuclidianView view, GeoAngle angle) {
 		this.view = view;
 		this.angle = angle;
 		geo = angle;
@@ -126,7 +127,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	 * @param view
 	 * @param points
 	 */
-	DrawAngle(EuclidianView view, ArrayList<GeoPointND> points) {
+	DrawAngle(AbstractEuclidianView view, ArrayList<GeoPointND> points) {
 		this.view = view;
 		prevPoints = points;
 

@@ -81,7 +81,6 @@ import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.AbstractApplication;
-import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -578,9 +577,9 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 		try {
 			GeoPoint2 export1 = (GeoPoint2) getApplication().getKernel().lookupLabel(
-					EuclidianView.EXPORT1);
+					AbstractEuclidianView.EXPORT1);
 			GeoPoint2 export2 = (GeoPoint2) getApplication().getKernel().lookupLabel(
-					EuclidianView.EXPORT2);
+					AbstractEuclidianView.EXPORT2);
 
 			if ((export1 == null) || (export2 == null)) {
 				return;
@@ -730,14 +729,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 	}
 
-	public void showGrid(boolean show) {
-		if (show == showGrid) {
-			return;
-		}
-		showGrid = show;
-		updateBackgroundImage();
-	}
-	
 	public void setDefRenderingHints(geogebra.common.awt.Graphics2D g2){
 		g2.setRenderingHints(defRenderingHints);
 	}
@@ -2410,32 +2401,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		return geogebra.awt.Color.getAwtColor(gridColor);
 	}
 
-	// Michael Borcherds 2008-04-11
-	public void setGridIsBold(boolean gridIsBold) {
-		if (this.gridIsBold == gridIsBold) {
-			return;
-		}
-
-		this.gridIsBold = gridIsBold;
-		setGridLineStyle(gridLineStyle);
-
-		updateBackgroundImage();
-	}
-
-	public void setGridColor(geogebra.common.awt.Color gridColor) {
-		if (gridColor != null) {
-			this.gridColor = gridColor;
-		}
-	}
-
-	public void setGridLineStyle(int gridLineStyle) {
-		this.gridLineStyle = gridLineStyle;
-		gridStroke = EuclidianStatic.getStroke(gridIsBold ? 2f : 1f, gridLineStyle); // Michael
-																		// Borcherds
-																		// 2008-04-11
-																		// added
-																		// gridisbold
-	}
+	
 
 	/*
 	 * --> moved to Kernel and Kernel3D public String getModeText(int mode) {
@@ -2595,100 +2561,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 	
 	
-	public void settingsChanged(AbstractSettings settings) {
-		EuclidianSettings evs = (EuclidianSettings) settings;
-
-		setXminObject(evs.getXminObject());
-		setXmaxObject(evs.getXmaxObject());
-		setYminObject(evs.getYminObject());
-		setYmaxObject(evs.getYmaxObject());
-
-		setBackground(evs.getBackground());
-		setAxesColor(evs.getAxesColor());
-		setGridColor(evs.getGridColor());
-		setAxesLineStyle(evs.getAxesLineStyle());
-		setGridLineStyle(evs.getGridLineStyle());
-
-		double[] d = evs.getGridDistances();
-		if (!evs.getAutomaticGridDistance() && (d == null)) {
-			setAutomaticGridDistance(false);
-		} else if (d == null) {
-			setAutomaticGridDistance(true);
-		} else {
-			setGridDistances(d);
-		}
-
-		setShowAxis(0, evs.getShowAxis(0), false);
-		setShowAxis(1, evs.getShowAxis(1), false);
-		axesLabels = evs.getAxesLabels();
-		setAxesUnitLabels(evs.getAxesUnitLabels());
-
-		showAxesNumbers = evs.getShowAxisNumbers();
-
-		// might be Double.NaN, handled in setAxesNumberingDistance()
-		if (!evs.getAutomaticAxesNumberingDistance(0)
-				&& Double.isNaN(evs.getAxisNumberingDistanceX())) {
-			setAutomaticAxesNumberingDistance(false, 0);
-		} else {
-			setAxesNumberingDistance(evs.getAxisNumberingDistanceX(), 0);
-		}
-		if (!evs.getAutomaticAxesNumberingDistance(1)
-				&& Double.isNaN(evs.getAxisNumberingDistanceY())) {
-			setAutomaticAxesNumberingDistance(false, 1);
-		} else {
-			setAxesNumberingDistance(evs.getAxisNumberingDistanceY(), 1);
-		}
-
-		axesTickStyles[0] = evs.getAxesTickStyles()[0];
-		axesTickStyles[1] = evs.getAxesTickStyles()[1];
-
-		setDrawBorderAxes(evs.getDrawBorderAxes());
-
-		axisCross[0] = evs.getAxesCross()[0];
-		axisCross[1] = evs.getAxesCross()[1];
-		positiveAxes[0] = evs.getPositiveAxes()[0];
-		positiveAxes[1] = evs.getPositiveAxes()[1];
-
-		Dimension ps = geogebra.awt.Dimension.getAWTDimension(evs
-				.getPreferredSize());
-		if (ps != null) {
-			evjpanel.setPreferredSize(ps);
-		}
-
-		showGrid(evs.getShowGrid());
-
-		setGridIsBold(evs.getGridIsBold());
-
-		setGridType(evs.getGridType());
-
-		setPointCapturing(evs.getPointCapturingMode());
-
-		setAllowShowMouseCoords(evs.getAllowShowMouseCoords());
-
-		setAllowToolTips(evs.getAllowToolTips());
-
-		synchronizeMenuBarAndEuclidianStyleBar(evs);
-
-		if (evs.getXmaxObject() == null) {
-			setCoordSystem(evs.getXZero(), evs.getYZero(), evs.getXscale(),
-					evs.getYscale(), true);
-			evs.setXminObject(xminObject, false);
-			evs.setXmaxObject(xmaxObject, false);
-			evs.setYminObject(yminObject, false);
-			evs.setYmaxObject(ymaxObject, false);
-		} else {
-			updateBounds();
-		}
-	}
-
-	private void synchronizeMenuBarAndEuclidianStyleBar(EuclidianSettings evs) {
-		getStyleBar().updateButtonPointCapture(evs.getPointCapturingMode());
-
-		if (getApplication().getGuiManager() != null) {
-			((Application)getApplication()).getGuiManager().updateMenubar();
-		}
-	}
-
 	public Graphics2D getGraphicsForPen() {
 		return (Graphics2D) evjpanel.getGraphics();
 
@@ -2797,6 +2669,10 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	
 	public void setPreferredSize(Dimension preferredSize) {
 		evjpanel.setPreferredSize(preferredSize);
+	}
+	
+	public void setPreferredSize(geogebra.common.awt.Dimension preferredSize) {
+		evjpanel.setPreferredSize(geogebra.awt.Dimension.getAWTDimension(preferredSize));
 	}
 	
 	public void revalidate() {

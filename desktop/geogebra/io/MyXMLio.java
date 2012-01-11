@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.io;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.io.DocHandler;
 import geogebra.common.io.MyI2GHandler;
 import geogebra.common.kernel.Kernel;
@@ -27,7 +28,6 @@ import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
-import geogebra.euclidian.EuclidianView;
 import geogebra.main.Application;
 import geogebra.util.Util;
 
@@ -612,7 +612,7 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 			String fileName) {
 		// <-- Modified for Intergeo File Format (Yves Kreis)
 
-		EuclidianView ev = app.getEuclidianView();
+		AbstractEuclidianView ev = app.getEuclidianView();
 
 		// max 128 pixels either way
 		/*

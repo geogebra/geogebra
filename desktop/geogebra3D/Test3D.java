@@ -18,9 +18,9 @@ the Free Software Foundation.
 
 package geogebra3D;
 
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
-import geogebra.euclidian.EuclidianView;
 
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.kernel3D.GeoPlane3D;
@@ -41,12 +41,12 @@ public class Test3D{
 	
 	Construction cons;
 	Kernel3D kernel3D;
-	EuclidianView view2D;
+	AbstractEuclidianView view2D;
 	Application3D app;
 		
 	GeoPlane3D xOyPlane;
 
-	public Test3D(Kernel3D kernel3D, EuclidianView view2D, EuclidianView3D view3D, Application3D app){
+	public Test3D(Kernel3D kernel3D, AbstractEuclidianView view2D, EuclidianView3D view3D, Application3D app){
 		
 		this.kernel3D=kernel3D;
 		cons=kernel3D.getConstruction();

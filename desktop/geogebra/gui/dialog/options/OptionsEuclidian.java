@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui.dialog.options;
 
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -376,9 +377,9 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
         
         // type
         String[] gridTypeLabel = new String[3];
-        gridTypeLabel[EuclidianView.GRID_CARTESIAN] = app.getMenu("Cartesian");
-        gridTypeLabel[EuclidianView.GRID_ISOMETRIC] = app.getMenu("Isometric");
-        gridTypeLabel[EuclidianView.GRID_POLAR] = app.getMenu("Polar");
+        gridTypeLabel[AbstractEuclidianView.GRID_CARTESIAN] = app.getMenu("Cartesian");
+        gridTypeLabel[AbstractEuclidianView.GRID_ISOMETRIC] = app.getMenu("Isometric");
+        gridTypeLabel[AbstractEuclidianView.GRID_POLAR] = app.getMenu("Polar");
         cbGridType = new JComboBox(gridTypeLabel);
         cbGridType.addActionListener(this);        
 		typePanel.add(cbGridType);
@@ -518,7 +519,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 
         if (view instanceof EuclidianView) {
         	cbTooltips.removeActionListener(this);
-        	int ind = ((EuclidianView)view).getAllowToolTips();
+        	int ind = ((AbstractEuclidianView)view).getAllowToolTips();
         	if (ind == EuclidianStyleConstants.TOOLTIPS_ON)
         		cbTooltips.setSelectedIndex(0);
         	else if (ind == EuclidianStyleConstants.TOOLTIPS_AUTOMATIC)
@@ -572,7 +573,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
         cbGridTickAngle.removeItemListener(this);
         double [] gridTicks = view.getGridDistances();
             
-        if(view.getGridType() != EuclidianView.GRID_POLAR) {
+        if(view.getGridType() != AbstractEuclidianView.GRID_POLAR) {
         	
         	ncbGridTickY.setVisible(true);
         	gridLabel2.setVisible(true);
@@ -752,11 +753,11 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 				if (view == app.getEuclidianView()) {
 					app.getSettings().getEuclidian(1).setAllowToolTips(ind);
 				} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
-					((EuclidianView)view).setAllowToolTips(ind);
+					((AbstractEuclidianView)view).setAllowToolTips(ind);
 				} else if (view == app.getEuclidianView2()) {
 					app.getSettings().getEuclidian(2).setAllowToolTips(ind);
 				} else {
-					((EuclidianView)view).setAllowToolTips(ind);
+					((AbstractEuclidianView)view).setAllowToolTips(ind);
 				}
 			}
 		} else if (source == cbShowAxes) {

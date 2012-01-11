@@ -14,6 +14,7 @@ import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -27,7 +28,6 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
-import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
 import geogebra.gui.InputHandler;
 import geogebra.gui.app.MyFileFilter;
@@ -408,7 +408,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	}
 
 	public void showNumberInputDialogCirclePointRadius(String title,
-			GeoPointND geoPoint1, EuclidianView view) {
+			GeoPointND geoPoint1, AbstractEuclidianView view) {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());

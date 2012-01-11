@@ -12,8 +12,8 @@ the Free Software Foundation.
 
 package geogebra.export;
 
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.main.AbstractApplication;
-import geogebra.euclidian.EuclidianView;
 import geogebra.gui.TitlePanel;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.view.Gridable;
@@ -309,8 +309,8 @@ public class PrintPreview extends JDialog {
 		panelForTitleAndScaling = new JPanel(new BorderLayout());
 		
 		// show scale panel for euclidian view
-		EuclidianView ev = app.getEuclidianView();
-		EuclidianView ev2 = app.getEuclidianView2();
+		AbstractEuclidianView ev = app.getEuclidianView();
+		AbstractEuclidianView ev2 = app.getEuclidianView2();
 		app.clearSelectedGeos();
 		
 		tempPanel = new JPanel(new GridLayout(0,1));
@@ -350,7 +350,7 @@ public class PrintPreview extends JDialog {
 		});
 					
 		// scale panel to set scale of x-axis in cm
-		PrintScalePanel scalePanel = new PrintScalePanel(app, (EuclidianView) m_target);				
+		PrintScalePanel scalePanel = new PrintScalePanel(app, (AbstractEuclidianView) m_target);				
 		scalePanel.addActionListener(lst);									
 		
 		JPanel retPanel = new JPanel();

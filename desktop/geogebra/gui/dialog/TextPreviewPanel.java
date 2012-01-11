@@ -1,5 +1,6 @@
 package geogebra.gui.dialog;
 
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
@@ -55,7 +56,7 @@ public class TextPreviewPanel extends EuclidianView {
 	public TextPreviewPanel(Kernel kernel) {
 
 		super(new EuclidianController(kernel), showAxes, showGrid,
-				EuclidianView.EVNO_GENERAL, null);
+				AbstractEuclidianView.EVNO_GENERAL, null);
 		this.ec = this.getEuclidianController();
 
 		this.cons = kernel.getConstruction();

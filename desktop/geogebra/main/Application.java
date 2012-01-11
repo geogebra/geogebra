@@ -21,6 +21,7 @@ import geogebra.CommandLineArguments;
 import geogebra.GeoGebra;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.BufferedImageAdapter;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
@@ -675,7 +676,7 @@ public class Application extends AbstractApplication implements
 	}
 
 	@Override
-	protected EuclidianView newEuclidianView(boolean[] showAxes,
+	protected AbstractEuclidianView newEuclidianView(boolean[] showAxes,
 			boolean showGrid) {
 		return new EuclidianView(euclidianController, showAxes, showGrid,
 				getSettings().getEuclidian(1));
@@ -1574,14 +1575,14 @@ public class Application extends AbstractApplication implements
 	}
 
 	public void setShowAxesSelected(JCheckBoxMenuItem cb) {
-		cb.setSelected(((EuclidianView) getGuiManager()
+		cb.setSelected(((AbstractEuclidianView) getGuiManager()
 				.getActiveEuclidianView()).getShowXaxis()
-				&& ((EuclidianView) getGuiManager().getActiveEuclidianView())
+				&& ((AbstractEuclidianView) getGuiManager().getActiveEuclidianView())
 						.getShowYaxis());
 	}
 
 	public void setShowGridSelected(JCheckBoxMenuItem cb) {
-		cb.setSelected(((EuclidianView) getGuiManager()
+		cb.setSelected(((AbstractEuclidianView) getGuiManager()
 				.getActiveEuclidianView()).getShowGrid());
 	}
 
@@ -1692,7 +1693,7 @@ public class Application extends AbstractApplication implements
 	// }
 
 	public final void zoom(double px, double py, double zoomFactor) {
-		((EuclidianView) getGuiManager().getActiveEuclidianView()).zoom(px, py,
+		((AbstractEuclidianView) getGuiManager().getActiveEuclidianView()).zoom(px, py,
 				zoomFactor, 15, true);
 	}
 
@@ -1701,7 +1702,7 @@ public class Application extends AbstractApplication implements
 	 * yscale / xscale;
 	 */
 	public final void zoomAxesRatio(double axesratio) {
-		((EuclidianView) getGuiManager().getActiveEuclidianView())
+		((AbstractEuclidianView) getGuiManager().getActiveEuclidianView())
 				.zoomAxesRatio(axesratio, true);
 	}
 
@@ -3508,8 +3509,8 @@ public class Application extends AbstractApplication implements
 
 	
 	@Override
-	public EuclidianView createEuclidianView() {
-		return (EuclidianView)this.euclidianView;
+	public AbstractEuclidianView createEuclidianView() {
+		return (AbstractEuclidianView)this.euclidianView;
 	}
 
 	/***************************************************************************

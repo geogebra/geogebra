@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
@@ -59,7 +60,7 @@ public final class DrawImage extends Drawable {
 	private Rectangle boundingBox;
 	private GeneralPath highlighting;
 
-	public DrawImage(EuclidianView view, GeoImage geoImage) {
+	public DrawImage(AbstractEuclidianView view, GeoImage geoImage) {
 		this.view = view;
 		this.geoImage = geoImage;
 		geo = geoImage;
