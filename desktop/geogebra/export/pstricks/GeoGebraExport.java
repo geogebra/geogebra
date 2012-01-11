@@ -185,7 +185,7 @@ public abstract class GeoGebraExport implements ActionListener {
 	 * @return The resulting String
 	 */
 	protected String sci2dec(double d) {
-		String s = String.valueOf(d).toLowerCase(Locale.US);
+		String s = app.toLowerCase(String.valueOf(d));
 		StringTokenizer st = new StringTokenizer(s, "e");
 		StringBuilder number;
 		if (st.countTokens() == 1)

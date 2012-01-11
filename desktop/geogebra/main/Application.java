@@ -1282,7 +1282,7 @@ public class Application extends AbstractApplication implements
 			return false;
 		}
 		String fileArgument = args.getStringValue("file0");
-		String lowerCase = fileArgument.toLowerCase(Locale.US);
+		String lowerCase = toLowerCase(fileArgument);
 		return lowerCase.endsWith(FILE_EXT_GEOGEBRA_TOOL);
 	}
 
@@ -1314,7 +1314,7 @@ public class Application extends AbstractApplication implements
 
 				try {
 					boolean success;
-					String lowerCase = fileArgument.toLowerCase(Locale.US);
+					String lowerCase = toLowerCase(fileArgument);
 					boolean isMacroFile = lowerCase
 							.endsWith(FILE_EXT_GEOGEBRA_TOOL);
 
@@ -2280,7 +2280,7 @@ public class Application extends AbstractApplication implements
 		}
 
 		if ((key.length() == 5)
-				&& key.toLowerCase(Locale.US).startsWith("gray")) {
+				&& toLowerCase(key).startsWith("gray")) {
 			switch (key.charAt(4)) {
 			case '0':
 				return getColor("white");
@@ -2308,7 +2308,7 @@ public class Application extends AbstractApplication implements
 		}
 
 		try {
-			return rbcolors.getString(key.toLowerCase(Locale.US));
+			return rbcolors.getString(toLowerCase(key));
 		} catch (Exception e) {
 			return key;
 		}
@@ -2316,7 +2316,7 @@ public class Application extends AbstractApplication implements
 
 	@Override
 	final public String reverseGetColor(String str) {
-		str = StringUtil.removeSpaces(str.toLowerCase(Locale.US));
+		str = StringUtil.removeSpaces(toLowerCase(str));
 		if (rbcolors == null) {
 			initColorsResourceBundle();
 		}
@@ -2326,8 +2326,8 @@ public class Application extends AbstractApplication implements
 			Enumeration<String> enumer = rbcolors.getKeys();
 			while (enumer.hasMoreElements()) {
 				String key = enumer.nextElement();
-				if (str.equals(StringUtil.removeSpaces(rbcolors.getString(key)
-						.toLowerCase(Locale.US)))) {
+				if (str.equals(StringUtil.removeSpaces(toLowerCase(rbcolors.getString(key))
+						))) {
 					return key;
 				}
 			}
@@ -2609,7 +2609,7 @@ public class Application extends AbstractApplication implements
 	final public String getReverseCommand(String key) {
 		initTranslatedCommands();
 
-		key = key.toLowerCase(Locale.US);
+		key = toLowerCase(key);
 		try {
 
 			Enumeration<String> enume = rbcommand.getKeys();
@@ -2618,12 +2618,12 @@ public class Application extends AbstractApplication implements
 				String s = enume.nextElement();
 
 				// check internal commands
-				if (s.toLowerCase(Locale.US).equals(key)) {
+				if (toLowerCase(s).equals(key)) {
 					return s;
 				}
 
 				// check localized commands
-				if (rbcommand.getString(s).toLowerCase(Locale.US).equals(key)) {
+				if (toLowerCase(rbcommand.getString(s)).equals(key)) {
 					return s;
 				}
 			}
@@ -3151,7 +3151,7 @@ public class Application extends AbstractApplication implements
 			// standard case
 			String modeText = getKernel().getModeText(mode);
 			// bugfix for Turkish locale added Locale.US
-			String iconName = "mode_" + modeText.toLowerCase(Locale.US)
+			String iconName = "mode_" + toLowerCase(modeText)
 					+ "_32.gif";
 			icon = getToolBarImage(iconName, border);
 			if (icon == null) {
@@ -4762,20 +4762,6 @@ public class Application extends AbstractApplication implements
 			return "";
 		} else {
 			return fileName.substring(dotPos + 1).toLowerCase(Locale.US); // Michael
-			// Borcherds
-			// 2008
-			// -
-			// 02
-			// -
-			// 06
-			// added
-			// .
-			// toLowerCase
-			// (
-			// Locale
-			// .
-			// US
-			// )
 		}
 	}
 
@@ -5470,8 +5456,8 @@ public class Application extends AbstractApplication implements
 
 	
 	@Override
-	public String toLowerCase(String substring) {
-		return substring.toLowerCase(Locale.US);
+	public String toLowerCase(String str) {
+		return str.toLowerCase(Locale.US);
 	}
 
 	@Override

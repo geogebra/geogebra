@@ -4986,8 +4986,8 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 			GeoText text = createDynamicText(((Application)app).getCommand("Circumference"),
 					circumFerence, mouseCoords);
 			if (conic.isLabelSet()) {
-				circumFerence.setLabel(removeUnderscores(((Application)app).getCommand(
-						"Circumference").toLowerCase(Locale.US)
+				circumFerence.setLabel(removeUnderscores(app.toLowerCase(((Application)app).getCommand(
+						"Circumference"))
 						+ conic.getLabel()));
 				text.setLabel(removeUnderscores(((Application)app).getPlain("Text")
 						+ conic.getLabel()));
@@ -5051,8 +5051,8 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 				geoA.updateRepaint();
 				geoB.updateRepaint();
 			} else {
-				length.setLabel(removeUnderscores(((Application)app).getCommand("Distance")
-						.toLowerCase(Locale.US)));
+				length.setLabel(removeUnderscores(app.toLowerCase(((Application)app).getCommand("Distance")
+						)));
 				strText = "\"\"" + length.getLabel();
 			}
 
@@ -5134,8 +5134,8 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 			GeoText text = createDynamicText(((Application)app).getCommand("Area"), area,
 					mouseCoords);
 			if (conic.isLabelSet()) {
-				area.setLabel(removeUnderscores(((Application)app).getCommand("Area")
-						.toLowerCase(Locale.US) + conic.getLabel()));
+				area.setLabel(removeUnderscores(app.toLowerCase(((Application)app).getCommand("Area")
+						) + conic.getLabel()));
 				text.setLabel(removeUnderscores(((Application)app).getPlain("Text")
 						+ conic.getLabel()));
 			}

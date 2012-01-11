@@ -282,7 +282,7 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 			String line;
 			try {
 				String firstLine = br.readLine();
-				if (firstLine.toLowerCase(Locale.US).startsWith(
+				if (app.toLowerCase(firstLine).startsWith(
 						"# geogebra plugin properties")) { // check first line
 					while ((line = br.readLine()) != null) {
 						lines.add(line); // debug(line);

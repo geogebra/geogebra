@@ -283,7 +283,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 	 */
 	public synchronized void openFile(String strURL) {
 		try {
-			String lowerCase = strURL.toLowerCase(Locale.US);
+			String lowerCase = app.toLowerCase(strURL);
 			URL url = new URL(strURL);
 			app.loadXML(url, lowerCase.endsWith(Application.FILE_EXT_GEOGEBRA_TOOL));
 		} catch (Exception e) {
@@ -320,7 +320,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 				app.getEuclidianView().getExportImage(1);
 			
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write(img, format.toLowerCase(Locale.US), baos);
+			ImageIO.write(img, app.toLowerCase(format), baos);
 			
 			MessageDigest md5 = getMessageDigestMD5();
 			byte[] bytesOut = baos.toByteArray();
@@ -722,7 +722,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 	 */
 	public synchronized String getObjectType(String objName) {
 		GeoElement geo = kernel.lookupLabel(objName);
-		return (geo == null) ? "" : geo.getObjectType().toLowerCase(Locale.US);
+		return (geo == null) ? "" : app.toLowerCase(geo.getObjectType());
 	}
 	
 	/**

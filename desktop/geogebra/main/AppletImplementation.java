@@ -837,7 +837,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 					app.setWaitCursor();
 					try {
 						URL ggbURL = new URL(fileStr);
-						app.loadXML(ggbURL, fileStr.toLowerCase(Locale.US)
+						app.loadXML(ggbURL, app.toLowerCase(fileStr)
 								.endsWith(Application.FILE_EXT_GEOGEBRA_TOOL));
 						reinitGUI();
 						applet.validate();
@@ -896,7 +896,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 				app.setWaitCursor();
 				try {
 					String myStrURL = strURL;
-					String lowerCase = strURL.toLowerCase(Locale.US);
+					String lowerCase = app.toLowerCase(strURL);
 					if (!(lowerCase.startsWith("http") || lowerCase
 							.startsWith("file"))) {
 						myStrURL = applet.getCodeBase() + myStrURL;

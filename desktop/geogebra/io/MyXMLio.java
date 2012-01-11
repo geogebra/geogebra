@@ -686,7 +686,7 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 		try {
 			// try to write image using the format of the filename extension
 			int pos = fileName.lastIndexOf('.');
-			String ext = fileName.substring(pos + 1).toLowerCase(Locale.US);
+			String ext = app.toLowerCase(fileName.substring(pos + 1));
 			if (ext.equals("jpg") || ext.equals("jpeg"))
 				ext = "JPG";
 			else
