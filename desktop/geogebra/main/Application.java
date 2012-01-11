@@ -29,9 +29,9 @@ import geogebra.common.io.MyXMLHandler;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.kernel.AbstractAnimationManager;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.Relation;
@@ -66,7 +66,6 @@ import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.layout.DockBar;
 import geogebra.gui.util.ImageSelection;
 import geogebra.gui.view.algebra.AlgebraView;
-import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.gui.view.spreadsheet.SpreadsheetTableModel;
 import geogebra.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.io.MyXMLio;
@@ -132,11 +131,9 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Locale;
-import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeSet;
@@ -1777,6 +1774,8 @@ public class Application extends AbstractApplication implements
 	}
 	
 	public String getTooltipLanguageString() {
+		if(tooltipLocale==null)
+			return null;
 		return tooltipLocale.toString();
 	}
 
