@@ -44,6 +44,9 @@ public class EuclidianView extends AbstractEuclidianView {
 		evNo = 1;
 	    // TODO Auto-generated constructor stub
 		this.g2 = new geogebra.web.awt.Graphics2D(canvas);
+		setAxesColor(geogebra.common.awt.Color.black);
+		updateFonts();
+		setStandardCoordSystem();
 		attachView();
     }
 
@@ -57,8 +60,7 @@ public class EuclidianView extends AbstractEuclidianView {
 	// protected static MyBasicStroke thinStroke = new MyBasicStroke(1.0f);
 
 	// axes strokes
-	protected static BasicStroke defAxesStroke = new BasicStroke(1.0f,
-			BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
+	
 
 
 	// axes and grid stroke
@@ -297,12 +299,6 @@ public class EuclidianView extends AbstractEuclidianView {
     }
 
 	@Override
-    public void updateFonts() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
     public void updateSize() {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
@@ -392,6 +388,5 @@ public class EuclidianView extends AbstractEuclidianView {
 	    // TODO Auto-generated method stub
 	    return null;
     }
-
-
+	
 }

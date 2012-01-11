@@ -34,7 +34,7 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
 	}
 	
     public void setTransform(geogebra.common.awt.AffineTransform a) {
-	    at.setTransform((geogebra.web.kernel.gawt.AffineTransform) a);    
+	    at.setTransform(getGawtAffineTransform(a));    
     }
 
 	
@@ -45,7 +45,7 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
 
 	
     public void concatenate(geogebra.common.awt.AffineTransform a) {
-	  at.concatenate((geogebra.web.kernel.gawt.AffineTransform) a);
+	  at.concatenate(getGawtAffineTransform(a));
     }
 
 	

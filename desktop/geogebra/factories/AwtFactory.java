@@ -7,6 +7,8 @@ import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.CubicCurve2D;
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Ellipse2DFloat;
+import geogebra.common.awt.Font;
+import geogebra.common.awt.FontRenderContext;
 import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Line2D;
 import geogebra.common.awt.Point;
@@ -19,6 +21,7 @@ import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.Rectangle2D;
 import geogebra.common.awt.RectangularShape;
 import geogebra.common.awt.Shape;
+import geogebra.common.awt.font.TextLayout;
 import geogebra.common.euclidian.GeneralPathClipped;
 
 public class AwtFactory extends geogebra.common.factories.AwtFactory{
@@ -188,6 +191,13 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	@Override
 	public BasicStroke newBasicStroke(float f, int cap, int join) {
 		return new geogebra.awt.BasicStroke(f, cap, join);
+	}
+
+	@Override
+	public TextLayout newTextLayout(String string, Font fontLine,
+			FontRenderContext frc) {
+		// TODO Auto-generated method stub
+		return new geogebra.awt.TextLayout(string,fontLine,(geogebra.awt.FontRenderContext)frc);
 	}
 
 	

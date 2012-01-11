@@ -394,11 +394,6 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 		return currentFont;
 	}
 
-	//
-	public void setFont(Font font) {
-		currentFont = font;
-	}
-
 	
 	@Override
     public void setPaint(Color fillColor) {
@@ -442,7 +437,8 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
     @Override
     public void setFont(geogebra.common.awt.Font font) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+    	if(font instanceof geogebra.web.awt.Font)
+    		currentFont=(geogebra.web.awt.Font)font; 
 	    
     }
 

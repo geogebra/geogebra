@@ -197,8 +197,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	// END
 
 
-	// colors: axes, grid, background
-	protected geogebra.common.awt.Color axesColor, gridColor;
+	
 
 	
 
@@ -250,11 +249,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		this.showAxes[1] = showAxes[1];
 		this.showGrid = showGrid;
 
-		axesNumberFormat = new NumberFormatAdapter[2];
-		axesNumberFormat[0] = FormatFactory.prototype.getNumberFormat();
-		axesNumberFormat[1] = FormatFactory.prototype.getNumberFormat();
-		axesNumberFormat[0].setGroupingUsed(false);
-		axesNumberFormat[1].setGroupingUsed(false);
+		
 
 		printScaleNF = FormatFactory.prototype.getNumberFormat();
 		printScaleNF.setGroupingUsed(false);
@@ -276,11 +271,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		evjpanel.addMouseWheelListener((EuclidianController)euclidianController);
 		evjpanel.addComponentListener((EuclidianController)euclidianController);
 
-		// no repaint
-		xminObject = new GeoNumeric(kernel.getConstruction());
-		xmaxObject = new GeoNumeric(kernel.getConstruction());
-		yminObject = new GeoNumeric(kernel.getConstruction());
-		ymaxObject = new GeoNumeric(kernel.getConstruction());
+		
 		initView(false);
 
 		// updateRightAngleStyle(app.getLocale());
@@ -459,22 +450,8 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		drawLayers[layer].add(img);
 	}
 
-	@Override
-	public void updateFonts() {
-		setFontSize(((Application)getApplication()).getFontSize());
-
-		setFontPoint(getApplication().getPlainFontCommon().deriveFont(Font.PLAIN, getFontSize()));
-		setFontAngle(getFontPoint());
-		setFontLine(getFontPoint());
-		setFontVector(getFontPoint());
-		setFontConic(getFontPoint());
-		setFontCoords(getApplication().getPlainFontCommon().deriveFont(Font.PLAIN, getFontSize() - 2));
-		setFontAxes(getFontCoords());
-
-		updateDrawableFontSize();
-		updateBackground();
-	}
-
+	
+	
 	public void setDragCursor() {
 
 		if (((Application)getApplication()).useTransparentCursorWhenDragging) {
@@ -1063,46 +1040,14 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 
 
-	final protected void drawBackground(geogebra.common.awt.Graphics2D g, boolean clear) {
-		if (clear) {
-			clearBackground(g);
-		}
 
-		setAntialiasing(g);
-
-		// handle drawing axes near the screen edge
-		if (drawBorderAxes[0] || drawBorderAxes[1]) {
-
-			// edge axes are not drawn at the exact edge, instead they
-			// are inset enough to draw the labels
-			// labelOffset = amount of space needed to draw labels
-			Point labelOffset = getMaximumLabelSize(g);
-
-			// force the the axisCross position to be near the edge
-			if (drawBorderAxes[0]) {
-				axisCross[0] = getYmin() + ((labelOffset.y + 10) / getYscale());
-			}
-			if (drawBorderAxes[1]) {
-				axisCross[1] = getXmin() + ((labelOffset.x + 10) / getXscale());
-			}
-		}
-
-		if (showGrid) {
-			drawGrid(g);
-		}
-		if (showAxes[0] || showAxes[1]) {
-			drawAxes(g);
-		}
-
-		if (((Application)getApplication()).showResetIcon() && getApplication().isApplet()) {
-			// need to use getApplet().width rather than width so that
-			// it works with applet rescaling
-			int w = ((Application)getApplication()).onlyGraphicsViewShowing() ? ((Application)getApplication()).getApplet().width
-					: getWidth() + 2;
-			geogebra.awt.Graphics2D.getAwtGraphics(g).drawImage(getResetImage(), w - 18, 2, null);
-		}
+	protected void drawResetIcon(geogebra.common.awt.Graphics2D g){
+		// need to use getApplet().width rather than width so that
+					// it works with applet rescaling
+					int w = ((Application)getApplication()).onlyGraphicsViewShowing() ? ((Application)getApplication()).getApplet().width
+							: getWidth() + 2;
+					geogebra.awt.Graphics2D.getAwtGraphics(g).drawImage(getResetImage(), w - 18, 2, null);
 	}
-
 	private Image getResetImage() {
 		if (resetImage == null) {
 			resetImage = ((Application)getApplication()).getRefreshViewImage();
@@ -1126,7 +1071,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 	
 
-	protected static int SCREEN_BORDER = 10;
+	
 
 	// =================================================
 	// Draw Axes
@@ -1136,425 +1081,13 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	// Modified drawAxes() to allow variable
 	// crossing points and positive-only axes
 
-	private double getLabelLength(double rw, FontRenderContext frc) {
-		TextLayout layout = new TextLayout(
-				kernel.formatPiE(rw, axesNumberFormat[0])
-						+ ((axesUnitLabels[0] != null) && !piAxisUnit[0] ? axesUnitLabels[0]
-								: ""), geogebra.awt.Font.getAwtFont(getFontAxes()), frc);
-		return layout.getAdvance();
-	}
+
 
 	/*
 	 * #******************************************** drawAxes
 	 * ********************************************
 	 */
-	final void drawAxes(geogebra.common.awt.Graphics2D g2) {
-
-		// xCrossPix: yAxis crosses the xAxis at this x pixel
-		double xCrossPix = this.getxZero() + (axisCross[1] * getXscale());
-
-		// yCrossPix: xAxis crosses the YAxis at his y pixel
-		double yCrossPix = this.getyZero() - (axisCross[0] * getYscale());
-
-		// yAxis end value (for drawing half-axis)
-		int yAxisEnd = positiveAxes[1] ? (int) yCrossPix : getHeight();
-
-		// xAxis start value (for drawing half-axis)
-		int xAxisStart = positiveAxes[0] ? (int) xCrossPix : 0;
-
-		// for axes ticks
-		double yZeroTick = yCrossPix;
-		double xZeroTick = xCrossPix;
-		double yBig = yCrossPix + 4;
-		double xBig = xCrossPix - 4;
-		double ySmall1 = yCrossPix + 0;
-		double ySmall2 = yCrossPix + 2;
-		double xSmall1 = xCrossPix - 0;
-		double xSmall2 = xCrossPix - 2;
-		int xoffset, yoffset;
-
-		boolean bold = (axesLineType == EuclidianStyleConstants.AXES_LINE_TYPE_FULL_BOLD)
-				|| (axesLineType == EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_BOLD);
-		boolean drawArrowsx = ((axesLineType == EuclidianStyleConstants.AXES_LINE_TYPE_ARROW) || (axesLineType == EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_BOLD))
-				&& !(positiveAxes[0] && (getXmax() < axisCross[1]));
-		boolean drawArrowsy = ((axesLineType == EuclidianStyleConstants.AXES_LINE_TYPE_ARROW) || (axesLineType == EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_BOLD))
-				&& !(positiveAxes[1] && (getYmax() < axisCross[0]));
-		// AXES_TICK_STYLE_MAJOR_MINOR = 0;
-		// AXES_TICK_STYLE_MAJOR = 1;
-		// AXES_TICK_STYLE_NONE = 2;
-
-		boolean[] drawMajorTicks = { axesTickStyles[0] <= 1,
-				axesTickStyles[1] <= 1 };
-		boolean[] drawMinorTicks = { axesTickStyles[0] == 0,
-				axesTickStyles[1] == 0 };
-
-		FontRenderContext frc = geogebra.awt.Graphics2D.getAwtGraphics(g2).getFontRenderContext();
-		g2.setFont(getFontAxes());
-		int fontsize = getFontAxes().getSize();
-		int arrowSize = fontsize / 3;
-		g2.setPaint(axesColor);
-
-		if (bold) {
-			axesStroke = boldAxesStroke;
-			tickStroke = boldAxesStroke;
-			ySmall2++;
-			xSmall2--;
-			arrowSize += 1;
-		} else {
-			axesStroke = defAxesStroke;
-			tickStroke = defAxesStroke;
-		}
-
-		// turn antialiasing off
-		// Object antiAliasValue = g2
-		// .getRenderingHint(RenderingHints.KEY_ANTIALIASING);
-		// g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-		// RenderingHints.VALUE_ANTIALIAS_OFF);
-
-		// make sure arrows don't go off screen (eg EMF export)
-		double arrowAdjustx = drawArrowsx ? axesStroke.getLineWidth() : 0;
-		double arrowAdjusty = drawArrowsy ? axesStroke.getLineWidth() : 0;
-
-		// ========================================
-		// X-AXIS
-
-		if (showAxes[0] && (getYmin() < axisCross[0]) && (getYmax() > axisCross[0])) {
-			if (showGrid) {
-				yoffset = fontsize + 4;
-				xoffset = 10;
-			} else {
-				yoffset = fontsize + 4;
-				xoffset = 1;
-			}
-
-			// label of x axis
-			if (axesLabels[0] != null) {
-				TextLayout layout = new TextLayout(axesLabels[0], geogebra.awt.Font.getAwtFont(getFontLine()), frc);
-				g2.drawString(axesLabels[0],
-						(int) (getWidth() - 10 - layout.getAdvance()),
-						(int) (yCrossPix - 4));
-			}
-
-			// numbers
-
-			double rw = getXmin() - (getXmin() % axesNumberingDistances[0]);
-			int labelno = (int) Math.round(rw / axesNumberingDistances[0]);
-			// by default we start with minor tick to the left of first major
-			// tick, exception is for positive only
-			double smallTickOffset = 0;
-			double axesStep = getXscale() * axesNumberingDistances[0]; // pixelstep
-			if (getPositiveAxes()[0] && (rw > getXmin())) {
-				// start labels at the y-axis instead of screen border
-				// be careful: axisCross[1] = x value for which the y-axis
-				// crosses,
-				// so xmin is replaced axisCross[1] and not axisCross[0]
-				rw = MyMath.nextMultiple(axisCross[1],
-						axesNumberingDistances[0]);
-				smallTickOffset = axesStep;
-				labelno = 0;
-			}
-
-			double pix = getxZero() + (rw * getXscale());
-
-			double smallTickPix;
-			double tickStep = axesStep / 2;
-			double labelLengthMax = Math.max(
-					getLabelLength(rw, frc),
-					getLabelLength(MyMath.nextMultiple(getXmax(),
-							axesNumberingDistances[0]), frc));
-			int unitsPerLabelX = (int) MyMath.nextPrettyNumber(labelLengthMax
-					/ axesStep);
-
-			if (pix < SCREEN_BORDER) {
-				// big tick
-				if (drawMajorTicks[0]) {
-					g2.setStroke(tickStroke);
-					tempLine.setLine(pix, yZeroTick, pix, yBig);
-					g2.draw(tempLine);
-				}
-				pix += axesStep;
-				rw += axesNumberingDistances[0];
-				labelno += 1;
-			}
-			int maxX = getWidth() - SCREEN_BORDER;
-
-			for (; pix < getWidth(); rw += axesNumberingDistances[0], pix += axesStep) {
-				if (pix <= maxX) {
-					if (showAxesNumbers[0]) {
-						String strNum = kernel.formatPiE(rw,
-								axesNumberFormat[0]);
-
-						// flag to handle drawing a label at axis crossing point
-						boolean zero = strNum.equals(""
-								+ kernel.formatPiE(axisCross[1],
-										axesNumberFormat[0]));
-						if ((labelno % unitsPerLabelX) == 0) {
-							sb.setLength(0);
-							sb.append(strNum);
-							if ((axesUnitLabels[0] != null) && !piAxisUnit[0]) {
-								sb.append(axesUnitLabels[0]);
-							}
-
-							TextLayout layout = new TextLayout(sb.toString(),
-									geogebra.awt.Font.getAwtFont(getFontAxes()), frc);
-							int x, y = (int) (yCrossPix + yoffset);
-
-							// if label intersects the y-axis then draw it 6
-							// pixels to the left
-							if (zero && showAxes[1] && !positiveAxes[1]) {
-								x = (int) (pix + 6);
-							} else {
-								x = (int) ((pix + xoffset) - (layout
-										.getAdvance() / 2));
-							}
-
-							// make sure we don't print one string on top of the
-							// other
-
-							// prevTextEnd = (int) (x + layout.getAdvance());
-							g2.drawString(sb.toString(), x, y);
-						}
-					}
-
-					// big tick
-					if (drawMajorTicks[0]) {
-						g2.setStroke(tickStroke);
-						tempLine.setLine(pix, yZeroTick, pix, yBig);
-						g2.draw(tempLine);
-					}
-				} else if (drawMajorTicks[0] && !drawArrowsx) {
-					// draw last tick if there is no arrow
-					tempLine.setLine(pix, yZeroTick, pix, yBig);
-					g2.draw(tempLine);
-				}
-
-				// small tick
-				smallTickPix = (pix - tickStep) + smallTickOffset;
-				if (drawMinorTicks[0]) {
-					g2.setStroke(tickStroke);
-					tempLine.setLine(smallTickPix, ySmall1, smallTickPix,
-							ySmall2);
-					g2.draw(tempLine);
-				}
-				labelno++;
-			}
-			// last small tick
-			smallTickPix = (pix - tickStep) + smallTickOffset;
-			if (drawMinorTicks[0]) {
-				g2.setStroke(tickStroke);
-				tempLine.setLine(smallTickPix, ySmall1, smallTickPix, ySmall2);
-				g2.draw(tempLine);
-			}
-
-			// x-Axis
-			g2.setStroke(axesStroke);
-
-			// tempLine.setLine(0, yCrossPix, width, yCrossPix);
-			tempLine.setLine(xAxisStart, yCrossPix, getWidth() - arrowAdjustx - 1,
-					yCrossPix);
-
-			g2.draw(tempLine);
-
-			if (drawArrowsx) {
-
-				// draw arrow for x-axis
-				tempLine.setLine(getWidth() - arrowAdjustx, yCrossPix + 0.5, getWidth()
-						- arrowAdjustx - arrowSize, yCrossPix - arrowSize);
-				g2.draw(tempLine);
-				tempLine.setLine(getWidth() - arrowAdjustx, yCrossPix - 0.5, getWidth()
-						- arrowAdjustx - arrowSize, yCrossPix + arrowSize);
-				g2.draw(tempLine);
-
-				// g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				// RenderingHints.VALUE_ANTIALIAS_OFF);
-			}
-		}
-
-		// ========================================
-		// Y-AXIS
-
-		if (showAxes[1] && (getXmin() < axisCross[1]) && (getXmax() > axisCross[1])) {
-
-			if (showGrid) {
-				xoffset = -2 - (fontsize / 4);
-				yoffset = -2;
-			} else {
-				xoffset = -4 - (fontsize / 4);
-				yoffset = (fontsize / 2) - 1;
-			}
-
-			// label of y axis
-			if (axesLabels[1] != null) {
-				TextLayout layout = new TextLayout(axesLabels[1], geogebra.awt.Font.getAwtFont(getFontLine()), frc);
-				g2.drawString(axesLabels[1], (int) (xCrossPix + 5),
-						(int) (5 + layout.getAscent()));
-			}
-
-			// numbers
-			double rw = getYmin() - (getYmin() % axesNumberingDistances[1]);
-			int labelno = (int) Math.round(rw / axesNumberingDistances[1]);
-			// by default we start with minor tick to the left of first major
-			// tick, exception is for positive only
-			double smallTickOffset = 0;
-			double axesStep = getYscale() * axesNumberingDistances[1]; // pixelstep
-			if (getPositiveAxes()[1] && (rw > getYmin())) {
-				// start labels at the y-axis instead of screen border
-				// be careful: axisCross[1] = x value for which the y-axis
-				// crosses,
-				// so xmin is replaced axisCross[1] and not axisCross[0]
-				rw = MyMath.nextMultiple(axisCross[0],
-						axesNumberingDistances[1]);
-				smallTickOffset = axesStep;
-				labelno = 0;
-			}
-
-			double pix = getyZero() - (rw * getYscale());
-
-			double tickStep = axesStep / 2;
-
-			double maxHeight = new TextLayout("9", 
-					geogebra.awt.Font.getAwtFont(getFontAxes()), frc).getBounds()
-					.getHeight() * 2;
-			int unitsPerLabelY = (int) MyMath.nextPrettyNumber(maxHeight
-					/ axesStep);
-
-			if (pix > (getHeight() - SCREEN_BORDER)) {
-				// big tick
-				if (drawMajorTicks[1]) {
-					g2.setStroke(tickStroke);
-					tempLine.setLine(xBig, pix, xZeroTick, pix);
-					g2.draw(tempLine);
-				}
-				pix -= axesStep;
-				rw += axesNumberingDistances[1];
-				labelno++;
-			}
-
-			double smallTickPix = pix + tickStep;
-
-			// draw all of the remaining ticks and labels
-
-			// int maxY = height - SCREEN_BORDER;
-			int maxY = SCREEN_BORDER;
-
-			// for (; pix <= height; rw -= axesNumberingDistances[1], pix +=
-			// axesStep) {
-			// yAxisEnd
-
-			for (; pix >= maxY; rw += axesNumberingDistances[1], pix -= axesStep, labelno++) {
-				if (pix >= maxY) {
-					if (showAxesNumbers[1]) {
-						String strNum = kernel.formatPiE(rw,
-								axesNumberFormat[1]);
-
-						// flag for handling label at axis cross point
-						boolean zero = strNum.equals(""
-								+ kernel.formatPiE(axisCross[0],
-										axesNumberFormat[0]));
-						if ((labelno % unitsPerLabelY) == 0) {
-							sb.setLength(0);
-							sb.append(strNum);
-							if ((axesUnitLabels[1] != null) && !piAxisUnit[1]) {
-								sb.append(axesUnitLabels[1]);
-							}
-
-							TextLayout layout = new TextLayout(sb.toString(),
-									geogebra.awt.Font.getAwtFont(getFontAxes()), frc);
-							int x = (int) ((xCrossPix + xoffset) - layout
-									.getAdvance());
-							int y;
-							// if the label is at the axis cross point then draw
-							// it 2 pixels above
-							if (zero && showAxes[0] && !positiveAxes[0]) {
-								y = (int) (yCrossPix - 2);
-							} else {
-								y = (int) (pix + yoffset);
-							}
-							g2.drawString(sb.toString(), x, y);
-						}
-					}
-					if (drawMajorTicks[1]) {
-						g2.setStroke(tickStroke);
-						tempLine.setLine(xBig, pix, xZeroTick, pix);
-						g2.draw(tempLine);
-					}
-				} else if (drawMajorTicks[1] && !drawArrowsy) {
-					// draw last tick if there is no arrow
-					g2.setStroke(tickStroke);
-					tempLine.setLine(xBig, pix, xZeroTick, pix);
-					g2.draw(tempLine);
-				}
-
-				// small tick
-				smallTickPix = (pix + tickStep) - smallTickOffset;
-				if (drawMinorTicks[1]) {
-					g2.setStroke(tickStroke);
-					tempLine.setLine(xSmall1, smallTickPix, xSmall2,
-							smallTickPix);
-					g2.draw(tempLine);
-				}
-
-			}// end for
-			smallTickPix = (pix + tickStep) - smallTickOffset;
-			if (drawMinorTicks[0]) {
-				g2.setStroke(tickStroke);
-				tempLine.setLine(smallTickPix, ySmall1, smallTickPix, ySmall2);
-				g2.draw(tempLine);
-			}
-
-			// y-Axis
-
-			// tempLine.setLine(xZero, 0, xZero, height);
-
-			tempLine.setLine(xCrossPix, arrowAdjusty + (drawArrowsy ? 1 : -1),
-					xCrossPix, yAxisEnd);
-
-			g2.draw(tempLine);
-
-			if (drawArrowsy) {
-				// draw arrow for y-axis
-				tempLine.setLine(xCrossPix + 0.5, arrowAdjusty, xCrossPix
-						- arrowSize, arrowAdjusty + arrowSize);
-				g2.draw(tempLine);
-				tempLine.setLine(xCrossPix - 0.5, arrowAdjusty, xCrossPix
-						+ arrowSize, arrowAdjusty + arrowSize);
-				g2.draw(tempLine);
-			}
-		}
-
-		// if one of the axes is not visible, show upper left and lower right
-		// corner coords
-		if (showAxesCornerCoords) {
-			if ((getXmin() > 0) || (getXmax() < 0) || (getYmin() > 0) || (getYmax() < 0)) {
-				// uper left corner
-				sb.setLength(0);
-				sb.append('(');
-				sb.append(kernel.formatPiE(getXmin(), axesNumberFormat[0]));
-				sb.append(AbstractApplication.unicodeComma);
-				sb.append(" ");
-				sb.append(kernel.formatPiE(getYmax(), axesNumberFormat[1]));
-				sb.append(')');
-
-				int textHeight = 2 + getFontAxes().getSize();
-				g2.setFont(getFontAxes());
-				g2.drawString(sb.toString(), 5, textHeight);
-
-				// lower right corner
-				sb.setLength(0);
-				sb.append('(');
-				sb.append(kernel.formatPiE(getXmax(), axesNumberFormat[0]));
-				sb.append(AbstractApplication.unicodeComma);
-				sb.append(" ");
-				sb.append(kernel.formatPiE(getYmin(), axesNumberFormat[1]));
-				sb.append(')');
-
-				TextLayout layout = new TextLayout(sb.toString(), geogebra.awt.Font.getAwtFont(getFontAxes()), frc);
-				layout.draw(geogebra.awt.Graphics2D.getAwtGraphics(g2), (int) (getWidth() - 5 - layout.getAdvance()),
-						getHeight() - 5);
-			}
-		}
-	}
-
+	
 	/**
 	 * Finds maximum pixel width and height needed to draw current x and y axis
 	 * labels. return[0] = max width, return[1] = max height
@@ -1602,7 +1135,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		return max;
 	}
 
-	final void drawGrid(geogebra.common.awt.Graphics2D g2) {
+	final protected void drawGrid(geogebra.common.awt.Graphics2D g2) {
 		g2.setColor(gridColor);
 		g2.setStroke(gridStroke);
 
@@ -2861,11 +2394,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		return geogebra.awt.Color.getAwtColor(axesColor);
 	}
 
-	public void setAxesColor(geogebra.common.awt.Color axesColor) {
-		if (axesColor != null) {
-			this.axesColor = axesColor;
-		}
-	}
+	
 
 	public Color getBackground() {
 		return ((geogebra.euclidian.EuclidianViewJPanel)evjpanel).getBackground();

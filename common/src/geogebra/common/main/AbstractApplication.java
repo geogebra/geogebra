@@ -1365,10 +1365,7 @@ public abstract class AbstractApplication {
 		return null;
 	}
 
-	public Font getPlainFontCommon() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public abstract Font getPlainFontCommon();
 
 	public boolean isExporting() {
 		// TODO Auto-generated method stub
@@ -1744,5 +1741,15 @@ public abstract class AbstractApplication {
 	}
 
 	public abstract void updateMenubar();
+
+	public boolean showResetIcon() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public int getFontSize() {
+		// TODO Auto-generated method stub
+		return 10;
+	}
 
 }

@@ -412,12 +412,6 @@ public class Application extends AbstractApplication {
     }
 
 	@Override
-    public int getCurrentLabelingStyle() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
-	    return 0;
-    }
-
-	@Override
     public AbstractImageManager getImageManager() {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return null;
@@ -685,6 +679,12 @@ public class Application extends AbstractApplication {
     public void updateMenubar() {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
+    }
+
+	@Override
+    public Font getPlainFontCommon() {
+	    // TODO Auto-generated method stub
+	    return new geogebra.web.awt.Font("normal");
     }
 
 
