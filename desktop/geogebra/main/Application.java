@@ -5460,6 +5460,10 @@ public class Application extends AbstractApplication implements
 		return str.toLowerCase(Locale.US);
 	}
 
+	public String toUpperCase(String s) {
+		return s.toUpperCase(Locale.US);
+	}
+
 	@Override
 	public String getLanguage() {
 		return getLocale().getLanguage();
