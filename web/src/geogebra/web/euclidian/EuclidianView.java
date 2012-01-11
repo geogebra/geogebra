@@ -20,6 +20,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.web.euclidian.EuclidianController;
 import geogebra.web.main.Application;
@@ -40,7 +41,7 @@ public class EuclidianView extends AbstractEuclidianView {
 
 	public EuclidianView(Canvas canvas,
             AbstractEuclidianController euclidiancontroller, boolean[] showAxes,
-            boolean showGrid) {		
+            boolean showGrid, EuclidianSettings settings) {		
 		super(euclidiancontroller, null);
 		evNo = 1;
 	    // TODO Auto-generated constructor stub

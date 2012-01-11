@@ -601,7 +601,8 @@ public class Application extends AbstractApplication {
 	@Override
     protected AbstractEuclidianView newEuclidianView(boolean[] showAxes,
             boolean showGrid) {
-	    return euclidianView = new EuclidianView(canvas, euclidianController, showAxes, showGrid);
+	    return euclidianView = new EuclidianView(
+	    		canvas, euclidianController, showAxes, showGrid, getSettings().getEuclidian(1));
     }
 
 	@Override
