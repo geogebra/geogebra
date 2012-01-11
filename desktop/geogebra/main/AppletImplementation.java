@@ -21,22 +21,20 @@ import geogebra.common.kernel.arithmetic.MyBoolean;
 import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
 import geogebra.plugin.GgbAPI;
+import geogebra.util.Util;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Cursor;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Locale;
@@ -800,7 +798,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	}
 
 	public synchronized void setUndoPoint() {
-		app.getKernel().getConstruction().storeUndoInfo();
+		kernel.getConstruction().storeUndoInfo();
 	}
 
 	/**
@@ -876,35 +874,14 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 * returns IP address
 	 */
 	public synchronized String getIPAddress() {
-		return (String) AccessController
-				.doPrivileged(new PrivilegedAction<Object>() {
-					public Object run() {
-						try {
-							InetAddress addr = InetAddress.getLocalHost();
-							// Get host name
-							return addr.getHostAddress();
-						} catch (UnknownHostException e) {
-							return "";
-						}
-					}
-				});
+		return Util.getIPAddress();
 	}
 
 	/*
 	 * returns hostname
 	 */
 	public synchronized String getHostname() {
-		return AccessController.doPrivileged(new PrivilegedAction<String>() {
-			public String run() {
-				try {
-					InetAddress addr = InetAddress.getLocalHost();
-					// Get host name
-					return addr.getHostName();
-				} catch (UnknownHostException e) {
-					return "";
-				}
-			}
-		});
+		return Util.getHostname();
 	}
 
 	/**

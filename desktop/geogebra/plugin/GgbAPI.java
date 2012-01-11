@@ -20,10 +20,12 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.plugin.JavaScriptAPI;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.io.MyImageIO;
 import geogebra.main.Application;
+import geogebra.util.Util;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -67,7 +69,7 @@ import javax.swing.JOptionPane;
     Tranferred applet interface methods (the relevant ones) from GeoGebraAppletBase
 */
 
-public class GgbAPI extends geogebra.common.plugin.GgbAPI{
+public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptAPI {
 
 	private Application         app=                null;   //References ...
    
@@ -841,6 +843,45 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI{
         null,
         null,
         value1);
+	}
+
+	public String getBase64() {
+		return getBase64(false);
+	}
+
+	public void setOnTheFlyPointCreationActive(boolean flag) {
+		app.setOnTheFlyPointCreationActive(flag);
+		
+	}
+
+	public void setUndoPoint() {
+		kernel.getConstruction().storeUndoInfo();
+	}
+
+	public String getIPAddress() {
+		return Util.getIPAddress();
+	}
+
+	public String getHostname() {
+		return Util.getHostname();
+	}
+
+	public void startAnimation() {
+		kernel.getAnimatonManager().startAnimation();		
+	}
+
+	public void stopAnimation() {
+		kernel.getAnimatonManager().stopAnimation();		
+	}
+
+	public void hideCursorWhenDragging(boolean hideCursorWhenDragging) {
+		((Application) kernel.getApplication())
+		.setUseTransparentCursorWhenDragging(hideCursorWhenDragging);
+	}
+
+	public boolean isAnimationRunning() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	

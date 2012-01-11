@@ -31,7 +31,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Comparator;
 
 import javax.swing.JComponent;
@@ -302,6 +306,35 @@ public class Util extends Object {
 		}
 		
 		return comparator;
+	}
+	
+	public static String getIPAddress() {
+		return (String) AccessController
+				.doPrivileged(new PrivilegedAction<Object>() {
+					public Object run() {
+						try {
+							InetAddress addr = InetAddress.getLocalHost();
+							// Get host name
+							return addr.getHostAddress();
+						} catch (UnknownHostException e) {
+							return "";
+						}
+					}
+				});
+	}
+	
+	public static String getHostname() {
+		return AccessController.doPrivileged(new PrivilegedAction<String>() {
+			public String run() {
+				try {
+					InetAddress addr = InetAddress.getLocalHost();
+					// Get host name
+					return addr.getHostName();
+				} catch (UnknownHostException e) {
+					return "";
+				}
+			}
+		});
 	}
 
 }
