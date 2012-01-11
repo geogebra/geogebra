@@ -529,4 +529,14 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 		
 	}
 
+
+	public void setWidth(int w) {
+	    canvas.setWidth(w+"px");	    
+    }
+
+
+	public void setHeight(int h) {
+	    canvas.setHeight(h+"px");
+    }
+
 }

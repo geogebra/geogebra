@@ -182,9 +182,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 				RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 	}
 
-	// use sensible defaults, see #640
-	private int width = Application.getScreenSize().width;
-	private int height = Application.getScreenSize().height;
+	
 
 
 	// axesNumberingDistances /
@@ -2859,12 +2857,10 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 	@Override
 	protected void setHeight(int height) {
-		this.height = height;
 	}
 
 	@Override
 	protected void setWidth(int width) {
-		this.width = width;
 	}
 
 	
