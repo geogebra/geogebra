@@ -308,17 +308,29 @@ Ctrl Alt               {   }
 					AbstractApplication.debug("no key matched "+keyString+" "+StringUtil.toHexString(keyString));
 				}
 
+			// insert into the text component
 			if (!insertStr.equals("")) {
 				JTextComponent comp = (JTextComponent) e.getComponent();
 				int pos = comp.getCaretPosition();
-				String oldText = comp.getText();
-				StringBuilder sb = new StringBuilder();
-				sb.append(oldText.substring(0, pos));
-				sb.append(insertStr);
-				sb.append(oldText.substring(pos));            
-				comp.setText(sb.toString());
 
-				comp.setCaretPosition(pos + insertStr.length());
+				// if we have a DynamicTextInputPane then using setText to
+				// insert will destroy any dynamic objects, so use its
+				// insertString method instead.
+				if (comp instanceof DynamicTextInputPane) {
+					((DynamicTextInputPane) comp).insertString(pos, insertStr,
+							null);
+				} else
+				// all other cases use setText
+				{
+					String oldText = comp.getText();
+					StringBuilder sb = new StringBuilder();
+					sb.append(oldText.substring(0, pos));
+					sb.append(insertStr);
+					sb.append(oldText.substring(pos));
+					comp.setText(sb.toString());
+					comp.setCaretPosition(pos + insertStr.length());
+				}
+
 				e.consume();
 			}
 		}
