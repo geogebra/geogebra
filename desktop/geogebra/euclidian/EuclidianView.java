@@ -2476,11 +2476,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		return geogebra.awt.Rectangle.getAWTRectangle(selectionRectangle);
 	}
 
-	public void setSelectionRectangle(geogebra.common.awt.Rectangle selectionRectangle) {
-		// Application.printStacktrace("");
-		this.selectionRectangle = selectionRectangle;
-	}
-
 	public EuclidianController getEuclidianController() {
 		return (EuclidianController)euclidianController;
 	}

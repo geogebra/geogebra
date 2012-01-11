@@ -2326,6 +2326,11 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 	// getters and Setters for axis control vars
 
+	public void setSelectionRectangle(geogebra.common.awt.Rectangle selectionRectangle) {
+		// Application.printStacktrace("");
+		this.selectionRectangle = selectionRectangle;
+	}
+
 	public double[] getAxesCross() {
 		return axisCross;
 	}

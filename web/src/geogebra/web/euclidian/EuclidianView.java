@@ -267,11 +267,6 @@ public class EuclidianView extends AbstractEuclidianView {
 	    
     }
 
-    public void setSelectionRectangle(Rectangle r) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
-	    
-    }
-
 	@Override
     protected void setStyleBarMode(int mode) {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
@@ -310,12 +305,6 @@ public class EuclidianView extends AbstractEuclidianView {
     public boolean requestFocusInWindow() {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    return false;
-    }
-
-	@Override
-    public Hits getHits() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
-	    return null;
     }
 
 	public void setDefaultCursor() {
