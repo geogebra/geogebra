@@ -64,7 +64,7 @@ class Interface(PythonScriptInterface):
             'Color': Color,
             'Point': Point,
             'Element': Element,
-            'Numeric': Numeric,
+            'Number': Number,
             'Vector': Vector,
             'Line': Line,
             'Segment': Segment,
@@ -485,7 +485,7 @@ class ExpressionElement(Element):
     expr = property(_getexpr)
     
 
-class Numeric(ExpressionElement, NumberExpression):
+class Number(ExpressionElement, NumberExpression):
 
     @specmethod.__init__
     @sign(Number)
@@ -712,7 +712,7 @@ class Conic(Path):
         self.geo = api.geoConic(geos)
 
     #@specmethod.init
-    #@sign(Numeric, Numeric, Numeric, Numeric, Numeric, Numeric)
+    #@sign(Number, Number, Number, Number, Number, Number)
     #def initfrom6coeffs(self, *coeffs):
     #    geos = [c.geo for c in coeffs]
     #    self.geo = _kernel.Conic(None, geos)
@@ -737,7 +737,7 @@ class Circle(Conic):
         self.geo = api.geoCircleCS(c.geo, s.geo)
 
     @specmethod.init
-    @sign(Point, Numeric)
+    @sign(Point, Number)
     def initfromcentreandradius(self, c, r):
         self.geo = api.geoCirclCRe(c.geo, element(r).geo)
 
@@ -745,7 +745,7 @@ class Circle(Conic):
 class Ellipse(Conic):
     
     @specmethod.init
-    @sign(Point, Point, Numeric)
+    @sign(Point, Point, Number)
     def initfromfociandhalfmajoraxis(self, p, q, a):
         self.geo = api.geoEllipseFFA(p.geo, q.geo, a.geo)
 
@@ -758,7 +758,7 @@ class Ellipse(Conic):
 class Hyperbola(Conic):
     
     @specmethod.init
-    @sign(Point, Point, Numeric)
+    @sign(Point, Point, Number)
     def initfromfociandhalfmajoraxis(self, p, q, a):
         self.geo = api.geoHyperbolaFFA(p.geo, q.geo, a.geo)
 
@@ -904,7 +904,7 @@ class Geo(object):
     _map = {
         API.GeoVectorClass: Vector,
         API.GeoPointClass: Point,
-        API.GeoNumericClass: Numeric,
+        API.GeoNumericClass: Number,
         API.GeoBooleanClass: Boolean,
         API.GeoFunctionClass: Function,
         API.GeoTextClass: Text,
