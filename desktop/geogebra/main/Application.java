@@ -195,7 +195,7 @@ public class Application extends AbstractApplication implements
 		}
 
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add(new Locale("am")); // Armenian
+			supportedLocales.add(new Locale("hy")); // Armenian
 		}
 
 		supportedLocales.add(new Locale("ar")); // Arabic
