@@ -85,6 +85,7 @@ class Interface(PythonScriptInterface):
             'interactive': interactive,
             'input': input,
             'debug': debug,
+            'alert': alert,
         }
         self.namespace.update(unary_functions)
         self.handling_event = False
@@ -894,6 +895,8 @@ def pointlist():
 
 def debug(s):
     ggbapi.debug(s)
+def alert(s):
+    ggbapi.alert(s)
 def input(s, t = ""):
     ret = ggbapi.prompt(s, t)
     if ret is None:

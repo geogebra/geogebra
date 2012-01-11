@@ -883,6 +883,26 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	/**
+	 * pops up message dialog with "OK" and "Stop Script"
+	 * 
+	 * @param message to display
+	 */
+	public void alert(String message) {
+		Object[] options = {app.getPlain("StopScript"), app.getPlain("OK")};
+		int n = JOptionPane.showOptionDialog(app.getFrame(),
+				message,
+			    "GeoGebra",
+			    JOptionPane.YES_NO_OPTION,
+			    JOptionPane.QUESTION_MESSAGE,
+			    null,     //do not use a custom Icon
+			    options,  //the titles of buttons
+			    options[0]); //default button title
+		
+		if (n == 0) throw new Error("Script stopped by user");
+		
+	}
 
 	
 
