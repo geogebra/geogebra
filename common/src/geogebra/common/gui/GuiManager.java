@@ -13,6 +13,8 @@ public abstract class GuiManager {
 
 	public abstract void removeSpreadsheetTrace(GeoElement recordObject);
 
+	public void updateMenubar() { } // temporarily nothing
+
 	public abstract void updateMenubarSelection();
 
 	public abstract DialogManager getDialogManager();

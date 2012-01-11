@@ -1047,6 +1047,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		menuBar.initMenubar();
 	}
 
+	@Override
 	public void updateMenubar() {
 		if (menuBar != null)
 			menuBar.updateMenubar();

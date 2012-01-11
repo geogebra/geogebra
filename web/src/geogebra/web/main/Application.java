@@ -671,8 +671,8 @@ public class Application extends AbstractApplication {
 
 	@Override
     public void updateMenubar() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
-	    
+		//getGuiManager().updateMenubar(); // implementation is not needed for now
+		//AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
     }
 
 	@Override
