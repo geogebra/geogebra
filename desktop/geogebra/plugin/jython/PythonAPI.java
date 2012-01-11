@@ -54,18 +54,30 @@ public class PythonAPI {
 	 * Classes that pyggb.py needs to know about
 	 */
 
-	public static Class<GeoPoint2> GeoPointClass = GeoPoint2.class;
-	public static Class<GeoElement> GeoElementClass = GeoElement.class;
-	public static Class<GeoNumeric> GeoNumericClass = GeoNumeric.class;
-	public static Class<GeoVector> GeoVectorClass = GeoVector.class;
-	public static Class<GeoFunction> GeoFunctionClass = GeoFunction.class;
-	public static Class<GeoText> GeoTextClass = GeoText.class;
-	public static Class<GeoConic> GeoConicClass = GeoConic.class;
-	public static Class<GeoLine> GeoLineClass = GeoLine.class;
-	public static Class<GeoSegment> GeoSegmentClass = GeoSegment.class;
-	public static Class<GeoRay> GeoRayClass = GeoRay.class;
-	public static Class<GeoBoolean> GeoBooleanClass = GeoBoolean.class;
-	public static Class<GeoLocus> GeoLocusClass = GeoLocus.class;
+	@SuppressWarnings("javadoc")
+	public static final Class<GeoPoint2> GeoPointClass = GeoPoint2.class;
+	@SuppressWarnings("javadoc")
+	public static final Class<GeoElement> GeoElementClass = GeoElement.class;
+	@SuppressWarnings("javadoc")
+	public static final Class<GeoNumeric> GeoNumericClass = GeoNumeric.class;
+	@SuppressWarnings("javadoc")
+	public static final Class<GeoVector> GeoVectorClass = GeoVector.class;
+	@SuppressWarnings("javadoc")
+	public static final Class<GeoFunction> GeoFunctionClass = GeoFunction.class;
+	@SuppressWarnings("javadoc")
+	public static final Class<GeoText> GeoTextClass = GeoText.class;
+	@SuppressWarnings("javadoc")
+	public static final Class<GeoConic> GeoConicClass = GeoConic.class;
+	@SuppressWarnings("javadoc")
+	public static final Class<GeoLine> GeoLineClass = GeoLine.class;
+	@SuppressWarnings("javadoc")
+	public static final Class<GeoSegment> GeoSegmentClass = GeoSegment.class;
+	@SuppressWarnings("javadoc")
+	public static final Class<GeoRay> GeoRayClass = GeoRay.class;
+	@SuppressWarnings("javadoc")
+	public static final Class<GeoBoolean> GeoBooleanClass = GeoBoolean.class;
+	@SuppressWarnings("javadoc")
+	public static final Class<GeoLocus> GeoLocusClass = GeoLocus.class;
 
 	/**
 	 * @author arno Wrapper for various kinds of ExpressionValues
@@ -222,147 +234,269 @@ public class PythonAPI {
 			return geo.hashCode();
 		}
 
+		/**
+		 * @return the class of the wrapped Geo
+		 */
 		public Class<? extends GeoElement> getType() {
 			return geo.getClass();
 		}
 
+		/**
+		 * @return the type string of the wrapped Geo
+		 */
 		public String getTypeString() {
 			return geo.getTypeString();
 		}
 
 		/* General GeoElement methods */
 
+		/**
+		 * update and repaint the Geo
+		 */
 		public void updateRepaint() {
 			geo.updateRepaint();
 		}
 
+		/**
+		 * @return the label of the wrapped Geo
+		 */
 		public String getLabel() {
 			return geo.getLabel();
 		}
-
+		
+		/**
+		 * Set the label of the wrapped Geo
+		 * @param label the new label
+		 */
 		public void setLabel(String label) {
 			geo.setLabel(label);
 		}
-
+		
+		/**
+		 * @return the Geo's color
+		 */
 		public Color getColor() {
 			return geo.getObjectColor();
 		}
-
+		
+		/**
+		 * Set the Geo's color
+		 * @param color the new color
+		 */
 		public void setColor(Color color) {
 			geo.setObjColor(color);
 		}
-
+		
+		/**
+		 * @return the caption of the Geo
+		 */
 		public String getCaption() {
 			return geo.getCaption();
 		}
-
+		
+		/**
+		 * Set the caption of the Geo
+		 * @param caption the new caption
+		 */
 		public void setCaption(String caption) {
 			geo.setCaption(caption);
 		}
-
+		
+		/**
+		 * @return the label mode of the Geo
+		 */
 		public int getLabelMode() {
 			return geo.getLabelMode();
 		}
-
+		
+		/**
+		 * Set the label mode of the Geo
+		 * @param mode the new label mode
+		 */
 		public void setLabelMode(int mode) {
 			geo.setLabelMode(mode);
 		}
-
+		
+		/**
+		 * @return the color of the Geo's label
+		 */
 		public Color getLabelColor() {
 			return geo.getLabelColor();
 		}
 
+		/**
+		 * Set the color of the Geo's label
+		 * @param color the new color for the label
+		 */
 		public void setLabelColor(Color color) {
 			geo.setLabelColor(color);
 		}
-
+		
+		/**
+		 * @return true if the label is visible
+		 */
 		public boolean isLabelVisible() {
 			return geo.isLabelVisible();
 		}
+		
+		/**
+		 * Set the visibility of the Geo's label
+		 * @param v true to make the label visible
+		 */
 
 		public void setLabelVisible(boolean v) {
 			geo.setLabelVisible(v);
 		}
-
+		
+		/**
+		 * @return the background color for the Geo
+		 */
 		public Color getBackgroundColor() {
 			return geo.getBackgroundColor();
 		}
-
+		
+		/**
+		 * Set the background color for the Geo
+		 * @param color the new background color for the Geo
+		 */
 		public void setBackgroundColor(Color color) {
 			geo.setBackgroundColor(color);
 		}
+
+		
+		/**
+		 * @return the line thickness
+		 */
 
 		public int getLineThickness() {
 			return geo.getLineThickness();
 		}
 
+		/**
+		 * Set the Geo's line thickness
+		 * @param thickness the new line thickness
+		 */
 		public void setLineThickness(int thickness) {
 			geo.setLineThickness(thickness);
 		}
-
+		
+		/**
+		 * @return the Geo's line type
+		 */
 		public int getLineType() {
 			return geo.getLineType();
 		}
-
+		
+		/**
+		 * Set the Geo's line type
+		 * @param type the new line type
+		 */
 		public void setLineType(int type) {
 			geo.setLineType(type);
 		}
 
-		public void isEuclidianVisible() {
-			geo.isEuclidianVisible();
+		/**
+		 * @return true if the Geo is visible
+		 */
+		public boolean isEuclidianVisible() {
+			return geo.isEuclidianVisible();
 		}
 
+		/**
+		 * Set the visibility of the Geo
+		 * @param b true to make the Geo visible
+		 */
 		public void setEuclidianVisible(boolean b) {
 			geo.setEuclidianVisible(b);
 		}
 
+		/**
+		 * @return true if this Geo conic is really a circle
+		 */
 		public boolean keepsType() {
-			Application.debug("TODO");
-			return true;
+			return ((GeoConicND) geo).keepsType();
 		}
 
 		/* GeoVec3D methods */
 
+		/**
+		 * Set the coordinates of the wrapped geoVec3D
+		 * @param x new x-coordinate
+		 * @param y new y-coordinate
+		 * @param z new z-coordinate
+		 */		
 		public void setCoords(double x, double y, double z) {
 			((GeoVec3D) geo).setCoords(x, y, z);
 		}
 
 		/* Path methods */
 
+		/**
+		 * @param point the point to check
+		 * @param eps precision
+		 * @return true if the point is on the path
+		 */
 		public boolean isOnPath(Geo point, double eps) {
 			return ((Path) geo).isOnPath((GeoPointND) point.geo, eps);
 		}
 
 		/* GeoLine methods */
 
+		/**
+		 * @return the start point of the wrapped geoLine
+		 */
 		public Geo getStartPoint() {
 			return new Geo(((GeoLine) geo).getStartPoint());
 		}
-
+		
+		/**
+		 * Set the start point of the wrapped GeoLine
+		 * @param point the new start point
+		 */
 		public void setStartPoint(Geo point) {
 			((GeoLine) geo).setStartPoint((GeoPoint2) point.geo);
 		}
-
+		
+		/**
+		 * @return the end point of the wrapped GeoLine
+		 */
 		public Geo getEndPoint() {
 			return new Geo(((GeoLine) geo).getEndPoint());
 		}
-
+		
+		/**
+		 * Set the end point of the wrapped GeoLine
+		 * @param point the new end point
+		 */
 		public void setEndPoint(Geo point) {
 			((GeoLine) geo).setEndPoint((GeoPoint2) point.geo);
 		}
 
+		
 		/* Text methods */
 
+		
+		/**
+		 * @return the origin point of the wrapped GeoText
+		 */
 		public Geo getTextOrigin() {
 			GeoText txt = (GeoText) geo;
 			return new Geo((GeoPoint2) txt.getStartPoint());
 		}
 
+		/**
+		 * Set the start point of the wrapped GeoText
+		 * @param start the new start point
+		 * @throws CircularDefinitionException (dont' know)
+		 */
 		public void setTextOrigin(Geo start) throws CircularDefinitionException {
 			GeoText txt = (GeoText) geo;
 			txt.setStartPoint((GeoPointND) start.geo);
 		}
 
+		/**
+		 * remove the start point of the wrapped GeoText
+		 */
 		public void removeTextOrigin() {
 			GeoText txt = (GeoText) geo;
 			GeoPointND orig = txt.getStartPoint();
@@ -403,10 +537,20 @@ public class PythonAPI {
 	 * Creating geos
 	 */
 
+	/**
+	 * Create a new numeric Geo
+	 * @param x the numeric value
+	 * @return Geo with value x
+	 */
 	public Geo geoNumber(double x) {
 		return new Geo(new GeoNumeric(cons, x));
 	}
 
+	/**
+	 * Create a new numeric Geo from an expression
+	 * @param expr expression to get the value of the geo from
+	 * @return new Geo with the value of expr
+	 */
 	public Geo geoNumber(Expression expr) {
 
 		AlgoDependentNumber algo = new AlgoDependentNumber(cons,
@@ -414,71 +558,156 @@ public class PythonAPI {
 		return new Geo(algo.getNumber());
 	}
 
+	/**
+	 * Create a new vector Geo from an expression
+	 * @param expr expression to get the coordinates of the Geo from
+	 * @return new vector Geo with coordinates given by expr
+	 */
 	public Geo geoVector(Expression expr) {
 		AlgoDependentVector algo = new AlgoDependentVector(cons,
 				getNode(expr.expr));
 		return new Geo(algo.getVector());
 	}
 
+	/**
+	 * Create a vector Geo from its coordinates
+	 * @param x the vector's x-coordinate
+	 * @param y the vector's y-coordinate
+	 * @return new vector Geo with coordinates (x, y)
+	 */
 	public Geo geoVector(double x, double y) {
 		return new Geo(kernel.Vector(x, y));
 	}
 
+	/**
+	 * Create a new vector Geo
+	 * @param start the vector's start point
+	 * @param end the vector's end point
+	 * @return new vector Geo from start to end
+	 */
 	public Geo geoVector(Geo start, Geo end) {
 		return new Geo(kernel.Vector(null, (GeoPoint2) start.geo,
 				(GeoPoint2) end.geo));
 	}
 
+	/**
+	 * Create a position vector Geo
+	 * @param pos the point
+	 * @return new vector Geo from O to pos
+	 */
 	public Geo geoVector(Geo pos) {
 		return new Geo(kernel.Vector(null, (GeoPoint2) pos.geo));
 	}
 
+	/**
+	 * @param line a Geo line
+	 * @return the direction of the line
+	 */
 	public Geo geoLineDirection(Geo line) {
 		return new Geo(kernel.Direction(null, (GeoLine) line.geo));
 	}
 
+	/**
+	 * Create a new point from an expression
+	 * @param expr expression giving the coordinates of the point
+	 * @return new Geo point
+	 */
 	public Geo geoPoint(Expression expr) {
 		AlgoDependentPoint algo = new AlgoDependentPoint(cons,
 				getNode(expr.expr), false);
 		return new Geo(algo.getPoint());
 	}
 
+	/**
+	 * Create a new point from coordinates
+	 * @param x the x-coordinate
+	 * @param y the y-coordinate
+	 * @return new Geo point with coordinates (x, y)
+	 */
 	public Geo geoPoint(double x, double y) {
 		return new Geo(kernel.Point(null, x, y));
 	}
 
+	/**
+	 * Create a new point on a path
+	 * @param path the path to point the point on
+	 * @param param parameter to set the location of the point on the path
+	 * @return new Geo on path
+	 */
 	public Geo geoPointOnPath(Geo path, Geo param) {
 		return new Geo(kernel.Point(null, (Path) path.geo,
 				(NumberValue) param.geo));
 	}
 
+	/**
+	 * Create a new line through two points
+	 * @param p first point on the line
+	 * @param q second point on the line
+	 * @return new Geo line
+	 */
 	public Geo geoLinePP(Geo p, Geo q) {
 		return new Geo(kernel.Line(null, (GeoPoint2) p.geo, (GeoPoint2) q.geo));
 	}
 
+	/**
+	 * Create a new line through a point with direction given by a vector
+	 * @param p point on the line
+	 * @param q direction vector for the line
+	 * @return new Geo line
+	 */
 	public Geo geoLinePV(Geo p, Geo q) {
 		return new Geo(kernel.Line(null, (GeoPoint2) p.geo, (GeoVector) q.geo));
 	}
 
+	/**
+	 * Create a new line through a point parallel to another line
+	 * @param p point on the line
+	 * @param l line parallel to the new line
+	 * @return new Geo line
+	 */
 	public Geo geoLinePL(Geo p, Geo l) {
 		return new Geo(kernel.Line(null, (GeoPoint2) p.geo, (GeoLine) l.geo));
 	}
 
+	/**
+	 * Create a new segment with two given end points
+	 * @param p the first end point
+	 * @param q the second end point
+	 * @return new Geo segment
+	 */
 	public Geo geoSegment(Geo p, Geo q) {
 		return new Geo(kernel.Segment(null, (GeoPoint2) p.geo,
 				(GeoPoint2) q.geo));
 	}
 
+	/**
+	 * Create a new ray from a point through another
+	 * @param p the origin of the ray
+	 * @param q a point on the ray
+	 * @return new Geo ray
+	 */
 	public Geo geoRayPP(Geo p, Geo q) {
 		return new Geo(kernel.Ray(null, (GeoPoint2) p.geo, (GeoPoint2) q.geo));
 	}
 
+	/**
+	 * Create a new function from an expression and a variable
+	 * @param f expression that represents the function
+	 * @param x expression that represents the variable
+	 * @return new Geo funcion
+	 */
 	public Geo geoFunction(Expression f, Expression x) {
 		Function func = new Function(getNode(f.expr), (FunctionVariable) x.expr);
 		GeoElement[] geos = algProcessor.processFunction(null, func);
 		return new Geo(geos[0]);
 	}
 
+	/**
+	 * Create a new function with several variables
+	 * @param f the expression that represents the function
+	 * @param xs and array of expression that represent the variables
+	 * @return new Geo function
+	 */
 	public Geo geoFunctionNVar(Expression f, Expression[] xs) {
 		FunctionVariable[] vars = new FunctionVariable[xs.length];
 		for (int i = 0; i < xs.length; i++) {
@@ -489,59 +718,134 @@ public class PythonAPI {
 		return new Geo(geos[0]);
 	}
 
+	/**
+	 * Create an implicit curve from a function
+	 * @param f the function
+	 * @return new Geo implicit curve representing f(x, y) = 0
+	 */
 	public Geo geoImplicitPoly(Geo f) {
 		return new Geo(kernel.ImplicitPoly(null, (GeoFunctionNVar) f.geo));
 	}
 
+	/**
+	 * Create a new text object
+	 * @param text the text
+	 * @return new Geo text
+	 */
 	public Geo geoText(String text) {
 		return new Geo(kernel.Text(null, text));
 	}
 
+	/**
+	 * Create a new conic through 5 points
+	 * @param geos array of points
+	 * @return the new Geo conic
+	 */
 	public Geo geoConic(Geo[] geos) {
 		GeoPoint2[] points = (GeoPoint2[]) unwrapGeos(geos);
 		return new Geo(kernel.Conic(null, points));
 	}
 
+	/**
+	 * Create a new circle with given center and point on the circumference
+	 * @param center the center
+	 * @param point point on the circumference
+	 * @return new Geo circle
+	 */
 	public Geo geoCircleCP(Geo center, Geo point) {
 		return new Geo(kernel.Circle(null, (GeoPoint2) center.geo,
 				(GeoPoint2) point.geo));
 	}
 
+	/**
+	 * Create a new circle through three points
+	 * @param p first point on the circumference
+	 * @param q second point on the circumference
+	 * @param r third point on the circumference
+	 * @return new Geo circle
+	 */
 	public Geo geoCirclePPP(Geo p, Geo q, Geo r) {
 		return new Geo(kernel.Circle(null, (GeoPoint2) p.geo,
 				(GeoPoint2) q.geo, (GeoPoint2) r.geo));
 	}
 
+	/**
+	 * Create a new circle with given center and radius
+	 * @param c center of the circle
+	 * @param s segment giving the radius of the circle
+	 * @return new Geo circle
+	 */
 	public Geo geoCircleCS(Geo c, Geo s) {
 		return new Geo(kernel.Circle(null, (GeoPoint2) c.geo,
 				(GeoSegment) s.geo));
 	}
 
+	/**
+	 * Create a new circle with given center and radius
+	 * @param c center of the circle
+	 * @param r radius of the circle
+	 * @return new Geo circle
+	 */
 	public Geo geoCircleCR(Geo c, Geo r) {
 		return new Geo(kernel.Circle(null, (GeoPoint2) c.geo,
 				(NumberValue) r.geo));
 	}
 
+	/**
+	 * Create a new ellipse with two given foci and going through a given point
+	 * @param s1 first focus of the ellipse
+	 * @param s2 second focus of the ellipse
+	 * @param p point on the ellipse
+	 * @return new Geo ellipse
+	 */
 	public Geo geoEllipseFFP(Geo s1, Geo s2, Geo p) {
 		return new Geo(kernel.Ellipse(null, (GeoPoint2) s1.geo,
 				(GeoPoint2) s2.geo, (GeoPoint2) p.geo));
 	}
 
+	/**
+	 * Create a new ellipse with two given foci and a given semi-major axis length
+	 * @param s1 first focus of the ellipse
+	 * @param s2 second focus of the ellipse
+	 * @param a length of semi-major axis
+	 * @return new Geo ellipse
+	 */
 	public Geo geoEllipseFFA(Geo s1, Geo s2, Geo a) {
 		return new Geo(kernel.Ellipse(null, (GeoPoint2) s1.geo,
 				(GeoPoint2) s2.geo, (NumberValue) a.geo));
 	}
 
+
+	/**
+	 * Create a new hyperbola with two given foci and going through a given point
+	 * @param s1 first focus of the hyperbola
+	 * @param s2 second focus of the hyperbola
+	 * @param p point on the ellipse
+	 * @return new Geo hyperbola
+	 */
 	public Geo geoHyperbolaFFP(Geo s1, Geo s2, Geo p) {
 		return new Geo(kernel.Hyperbola(null, (GeoPoint2) s1.geo,
 				(GeoPoint2) s2.geo, (GeoPoint2) p.geo));
 	}
 
+	/**
+	 * Create a new hyperbola with two given foci and a given semi-major axis length
+	 * @param s1 first focus of the hyperbola
+	 * @param s2 second focus of the hyperbola
+	 * @param a length of semi-major axis
+	 * @return new Geo hyperbola
+	 */
 	public Geo geoHyperbolaFFA(Geo s1, Geo s2, Geo a) {
 		return new Geo(kernel.Hyperbola(null, (GeoPoint2) s1.geo,
 				(GeoPoint2) s2.geo, (NumberValue) a.geo));
 	}
 
+	/**
+	 * Create a new parabola with a given focus and directrix
+	 * @param s the focus
+	 * @param l the directrix
+	 * @return new Geo parabola
+	 */
 	public Geo geoParabola(Geo s, Geo l) {
 		return new Geo(
 				kernel.Parabola(null, (GeoPoint2) s.geo, (GeoLine) l.geo));
@@ -805,6 +1109,7 @@ public class PythonAPI {
 
 	/**
 	 * Arnaud's solution to fix #1670, comment: 15
+	 * @return the GgbAPI instance of the application
 	 */
 	public GgbAPI getGgbApi() {
 		return app.getGgbApi();
