@@ -6,6 +6,7 @@ import geogebra.common.awt.Point;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.Hits;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -48,5 +49,13 @@ public abstract class DialogManager {
 
 	public abstract void showNumberInputDialogCirclePointRadius(String menu,
 			GeoPointND geoPointND, AbstractEuclidianView view);
+
+	public abstract NumberValue showNumberInputDialog(String title, String message,
+			String initText);
+
+	public abstract Object[] showAngleInputDialog(String title, String message,
+			String initText);
+
+	public abstract boolean showButtonCreationDialog(int x, int y, boolean textfield);
 
 }

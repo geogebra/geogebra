@@ -281,4 +281,6 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 
 	public void setShowAxis(int axisX, boolean b, boolean c);
 
+	public void setDragCursor();
+
 }

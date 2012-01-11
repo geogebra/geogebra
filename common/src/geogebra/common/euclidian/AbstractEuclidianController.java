@@ -4416,4 +4416,336 @@ public abstract class AbstractEuclidianController {
 		}
 		return false;
 	}
+
+	/** return the current movedGeoPoint */
+	public GeoElement getMovedGeoPoint() {
+		return ((GeoElement) movedGeoPoint);
+	}
+
+	public GeoPointND updateNewPoint(boolean forPreviewable, Hits hits, boolean onPathPossible,
+			boolean inRegionPossible, boolean intersectPossible, boolean doSingleHighlighting, boolean chooseGeo, boolean complex) {
+			
+				// create hits for region
+				Hits regionHits = getRegionHits(hits);
+			
+				// only keep polygon in hits if one side of polygon is in hits too
+				// removed: Point Tool creates Point on edge of Polygon
+				if ((mode != EuclidianConstants.MODE_POINT)
+						&& (mode != EuclidianConstants.MODE_POINT_ON_OBJECT)
+						&& (mode != EuclidianConstants.MODE_COMPLEX_NUMBER)
+						&& !hits.isEmpty()) {
+					hits.keepOnlyHitsForNewPointMode();
+				}
+			
+				// Application.debug(hits);
+			
+				Path path = null;
+				Region region = null;
+				boolean createPoint = true;
+				if (hits.containsGeoPoint()) {
+					createPoint = false;
+					if (forPreviewable) {
+						createNewPoint((GeoPointND) hits.getHits(Test.GEOPOINTND,
+								tempArrayList).get(0));
+					}
+				}
+			
+				GeoPointND point = null;
+			
+				// try to get an intersection point
+				if (createPoint && intersectPossible) {
+					GeoPointND intersectPoint = getSingleIntersectionPoint(hits);
+					if (intersectPoint != null) {
+						if (!forPreviewable) {
+							point = intersectPoint;
+							// we don't use an undefined or infinite
+							// intersection point
+							if (!point.showInEuclidianView()) {
+								point.remove();
+							} else {
+								createPoint = false;
+							}
+						} else {
+							createNewPointIntersection(intersectPoint);
+							createPoint = false;
+						}
+					}
+				}
+			
+				// Application.debug(hits+"\ncreatePoint="+createPoint+"\ninRegionPossible="+inRegionPossible+"\nchooseGeo="+chooseGeo);
+			
+				// check for paths and regions
+				if (createPoint) {
+			
+					boolean createPointOnBoundary = false;
+			
+					// check if point lies in a region and if we are allowed to place a
+					// point
+					// in a region
+					if (!regionHits.isEmpty()) {
+						if (inRegionPossible) {
+							if (chooseGeo) {
+								region = (Region) chooseGeo(regionHits, true);
+							} else {
+								region = (Region) regionHits.get(0);
+							}
+							if (region != null) {
+								if (((GeoElement) region).isGeoPolygon()) {
+									GeoSegmentND[] sides = ((GeoPolygon) region)
+											.getSegments();
+									boolean sideInHits = false;
+									for (int k = 0; k < sides.length; k++) {
+										// sideInHits = sideInHits ||
+										// hits.remove(sides[k]); //not removing sides,
+										// just test
+										if (hits.contains(sides[k])) {
+											sideInHits = true;
+											break;
+										}
+									}
+			
+									if (!sideInHits) {
+										createPoint = true;
+										hits.removePolygonsIfSideNotPresent(); // if a
+																				// polygon
+																				// is a
+																				// region,
+																				// need
+																				// only
+																				// polygons
+																				// that
+																				// should
+																				// be a
+																				// path
+										if (mode == EuclidianConstants.MODE_POINT_ON_OBJECT) {
+											hits.removeSegmentsFromPolygons(); // remove
+																				// polygon's
+																				// segments
+																				// to
+																				// take
+																				// the
+																				// polygon
+																				// for
+																				// path
+										}
+									} else {
+										if (mode == EuclidianConstants.MODE_POINT_ON_OBJECT) {
+											// if one wants a point on boundary of a
+											// polygon
+											createPoint = false;
+											createPointOnBoundary = true;
+										} else {
+											createPoint = false;
+											hits.remove(region); // (OPTIONAL) if side
+																	// is in hits, still
+																	// don't need the
+																	// polygon as a path
+											region = null;
+										}
+									}
+								} else if (((GeoElement) region).isGeoConic()) {
+									if ((mode == EuclidianConstants.MODE_POINT_ON_OBJECT)
+											&& (((GeoConicND) region).getLastHitType() == GeoConicND.HIT_TYPE_ON_FILLING)) {
+										createPoint = true;
+										hits.remove(region); // conic won't be treated
+																// as a path
+									} else {
+										createPoint = true;
+									}
+								}
+							} else {
+								createPoint = true;
+							}
+						} else {
+							createPoint = true;
+							// if inRegionPossible is false, the point is created as a
+							// free point
+						}
+					}
+			
+					// check if point lies on path and if we are allowed to place a
+					// point
+					// on a path
+					if (createPointOnBoundary) {
+						// special case for MODE_POINT_ON_OBJECT : if an edge of a
+						// polygon is clicked, create Point[polygon]
+						path = (Path) region;
+						region = null;
+						createPoint = true;
+					} else {
+						Hits pathHits = hits.getHits(Test.PATH, tempArrayList);
+						if (!pathHits.isEmpty()) {
+							if (onPathPossible) {
+								if (chooseGeo) {
+									path = (Path) chooseGeo(pathHits, true);
+								} else {
+									path = (Path) pathHits.get(0);
+								}
+								createPoint = path != null;
+							} else {
+								createPoint = true;
+							}
+						}
+					}
+				}
+			
+				// Application.debug("createPoint 3 = "+createPoint);
+			
+				if (createPoint) {
+					transformCoords(); // use point capturing if on
+					// branches reordered to prefer path, and then region
+					if ((path != null) && onPathPossible) {
+						point = createNewPoint(forPreviewable, path, complex);
+					} else if ((region != null) && inRegionPossible) {
+						point = createNewPoint(forPreviewable, region, complex);
+					} else {
+						point = createNewPoint(forPreviewable, complex);
+						view.setShowMouseCoords(true);
+					}
+				}
+			
+				return point;
+			}
+
+	protected GeoPointND getNewPoint(Hits hits, boolean onPathPossible, boolean inRegionPossible,
+			boolean intersectPossible, boolean doSingleHighlighting, boolean complex) {
+			
+				return updateNewPoint(false, hits, onPathPossible, inRegionPossible,
+						intersectPossible, doSingleHighlighting, true, complex);
+			}
+
+	protected final boolean createNewPoint(Hits hits, boolean onPathPossible,
+			boolean inRegionPossible, boolean intersectPossible, boolean doSingleHighlighting, boolean complex) {
+			
+				if (!allowPointCreation()) {
+					return false;
+				}
+			
+				GeoPointND point = getNewPoint(hits, onPathPossible, inRegionPossible,
+						intersectPossible, doSingleHighlighting, complex);
+			
+				if (point != null) {
+			
+					updateMovedGeoPoint(point);
+			
+					movedGeoElement = getMovedGeoPoint();
+					moveMode = MOVE_POINT;
+					view.setDragCursor();
+					if (doSingleHighlighting) {
+						doSingleHighlighting(getMovedGeoPoint());
+					}
+					POINT_CREATED = true;
+			
+					return true;
+				} else {
+					moveMode = MOVE_NONE;
+					POINT_CREATED = false;
+					return false;
+				}
+			}
+
+	protected final boolean createNewPoint(Hits hits, boolean onPathPossible,
+			boolean intersectPossible, boolean doSingleHighlighting) {
+			
+				// inRegionpossible must be false so that the Segment Tool creates a
+				// point on the edge of a circle
+				return createNewPoint(hits, onPathPossible, false, intersectPossible,
+						doSingleHighlighting, false);
+			}
+
+	/**
+	 * Handles selected objects for a macro
+	 * 
+	 * @param hits
+	 * @return
+	 */
+	protected final boolean macro(Hits hits) {
+		// try to get next needed type of macroInput
+		int index = selGeos();
+	
+		// standard case: try to get one object of needed input type
+		boolean objectFound = 1 == handleAddSelected(hits,
+				macroInput.length, false, selectedGeos, macroInput[index]);
+	
+		// some old code for polygon removed in [6779]
+	
+		// we're done if in selection preview
+		if (selectionPreview) {
+			return false;
+		}
+	
+		// only one point needed: try to create it
+		if (!objectFound && macroInput[index].equals(GeoPoint2.class.getName())) {
+			if (createNewPoint(hits, true, true, false)) {
+				// take movedGeoPoint which is the newly created point
+				selectedGeos.add(getMovedGeoPoint());
+				app.addSelectedGeo(getMovedGeoPoint());
+				objectFound = true;
+				POINT_CREATED = false;
+			}
+		}
+	
+		// object found in handleAddSelected()
+		if (objectFound || macroInput[index].equals(Test.GEONUMERIC)
+				|| macroInput[index].equals(GeoAngle.class.getName())) {
+			if (!objectFound) {
+				index--;
+			}
+			// look ahead if we need a number or an angle next
+			while (++index < macroInput.length) {
+				// maybe we need a number
+				if (macroInput[index].equals(Test.GEONUMERIC)) {
+					NumberValue num = app
+							.getGuiManager()
+							.getDialogManager()
+							.showNumberInputDialog(
+									macro.getToolOrCommandName(),
+									app.getPlain("Numeric"), null);
+					if (num == null) {
+						// no success: reset mode
+						view.resetMode();
+						return false;
+					} else {
+						// great, we got our number
+						if (num.isGeoElement()) {
+							selectedGeos.add(num.toGeoElement());
+						}
+					}
+				}
+	
+				// maybe we need an angle
+				else if (macroInput[index].equals(GeoAngle.class.getName())) {
+					Object[] ob = app
+							.getGuiManager()
+							.getDialogManager()
+							.showAngleInputDialog(macro.getToolOrCommandName(),
+									app.getPlain("Angle"), "45\u00b0");
+					NumberValue num = (NumberValue) ob[0];
+	
+					if (num == null) {
+						// no success: reset mode
+						view.resetMode();
+						return false;
+					} else {
+						// great, we got our angle
+						if (num.isGeoElement()) {
+							selectedGeos.add(num.toGeoElement());
+						}
+					}
+				} else {
+					break;
+				}
+			}
+		}
+	
+		// Application.debug("index: " + index + ", needed type: " +
+		// macroInput[index]);
+	
+		// do we have everything we need?
+		if (selGeos() == macroInput.length) {
+			kernel.useMacro(null, macro, getSelectedGeos());
+			return true;
+		}
+		return false;
+	}
 }

@@ -392,5 +392,10 @@ public class EuclidianView extends AbstractEuclidianView {
 	    g2.setHeight((int) preferredSize.getHeight());
 	    
     }
+
+	public void setDragCursor() {
+	    // TODO Auto-generated method stub
+	    
+    }
 	
 }
