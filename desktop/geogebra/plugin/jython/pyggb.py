@@ -288,9 +288,9 @@ class Element(GenericMethods):
     
     # property: visible
     def _getvisible(self):
-        return self.geo.euclidianVisible
+        return self.geo.isEuclidianVisible()
     def _setvisible(self, value):
-        self.geo.euclidianVisible = bool(value)
+        self.geo.setEuclidianVisible(bool(value))
         self.geo.updateRepaint()
     visible = property(_getvisible, _setvisible)
     
