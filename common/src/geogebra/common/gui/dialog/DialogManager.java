@@ -2,7 +2,9 @@ package geogebra.common.gui.dialog;
 
 import java.util.ArrayList;
 
+import geogebra.common.awt.Point;
 import geogebra.common.euclidian.Hits;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -36,5 +38,10 @@ public abstract class DialogManager {
 	public abstract void showNumberInputDialogDilate(String menu,
 			GeoPolygon[] selectedPolygons, GeoPoint2[] selectedPoints,
 			GeoElement[] selGeos);
+
+	public abstract void showNumberInputDialogRegularPolygon(String menu,
+			GeoPoint2 geoPoint2, GeoPoint2 geoPoint22);
+
+	public abstract void showBooleanCheckboxCreationDialog(Point loc, GeoBoolean bool);
 
 }

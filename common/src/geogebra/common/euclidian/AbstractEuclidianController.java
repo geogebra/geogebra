@@ -16,8 +16,10 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
@@ -3821,5 +3823,239 @@ public abstract class AbstractEuclidianController {
 	
 		default:
 		}
+	}
+
+	protected GeoAngle createAngle(GeoPointND A, GeoPointND B, GeoPointND C) {
+		return kernel.Angle(null, (GeoPoint2) A, (GeoPoint2) B, (GeoPoint2) C);
+	}
+
+	protected GeoAngle createLineAngle(GeoLine[] lines) {
+		GeoAngle angle = null;
+	
+		// did we get two segments?
+		if ((lines[0] instanceof GeoSegment)
+				&& (lines[1] instanceof GeoSegment)) {
+			// check if the segments have one point in common
+			GeoSegment a = (GeoSegment) lines[0];
+			GeoSegment b = (GeoSegment) lines[1];
+			// get endpoints
+			GeoPoint2 a1 = a.getStartPoint();
+			GeoPoint2 a2 = a.getEndPoint();
+			GeoPoint2 b1 = b.getStartPoint();
+			GeoPoint2 b2 = b.getEndPoint();
+	
+			if (a1 == b1) {
+				angle = kernel.Angle(null, a2, a1, b2);
+			} else if (a1 == b2) {
+				angle = kernel.Angle(null, a2, a1, b1);
+			} else if (a2 == b1) {
+				angle = kernel.Angle(null, a1, a2, b2);
+			} else if (a2 == b2) {
+				angle = kernel.Angle(null, a1, a2, b1);
+			}
+		}
+	
+		if (angle == null) {
+			angle = kernel.Angle(null, lines[0], lines[1]);
+		}
+	
+		return angle;
+	}
+
+	protected String removeUnderscores(String label) {
+		// remove all indices
+		return label.replaceAll("_", "");
+	}
+
+	/**
+	 * Creates a text that shows a number value of geo at the current mouse
+	 * position.
+	 */
+	protected GeoText createDynamicText(String descText, GeoElement value, Point loc) {
+		// create text that shows length
+		try {
+			// create dynamic text
+			String dynText = "\"" + descText + " = \" + " + value.getLabel();
+	
+			GeoText text = kernel.getAlgebraProcessor().evaluateToText(dynText,
+					true, true);
+			text.setAbsoluteScreenLocActive(true);
+			text.setAbsoluteScreenLoc(loc.x, loc.y);
+			text.updateRepaint();
+			return text;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/**
+	 * Creates a text that shows the distance length between geoA and geoB at
+	 * the given startpoint.
+	 */
+	protected GeoText createDistanceText(GeoElement geoA, GeoElement geoB, GeoPoint2 startPoint,
+			GeoNumeric length) {
+				// create text that shows length
+				try {
+					String strText = "";
+					boolean useLabels = geoA.isLabelSet() && geoB.isLabelSet();
+					if (useLabels) {
+						length.setLabel(removeUnderscores(app.toLowerCase(app.getCommand("Distance"))
+								//.toLowerCase(Locale.US)
+								+ geoA.getLabel()
+								+ geoB.getLabel()));
+						// strText = "\"\\overline{\" + Name["+ geoA.getLabel()
+						// + "] + Name["+ geoB.getLabel() + "] + \"} \\, = \\, \" + "
+						// + length.getLabel();
+			
+						// DistanceAB="\\overline{" + %0 + %1 + "} \\, = \\, " + %2
+						// or
+						// DistanceAB=%0+%1+" \\, = \\, "+%2
+						strText = app.getPlain("DistanceAB.LaTeX",
+								"Name[" + geoA.getLabel() + "]",
+								"Name[" + geoB.getLabel() + "]", length.getLabel());
+						// Application.debug(strText);
+						geoA.setLabelVisible(true);
+						geoB.setLabelVisible(true);
+						geoA.updateRepaint();
+						geoB.updateRepaint();
+					} else {
+						length.setLabel(removeUnderscores(app.toLowerCase(app.getCommand("Distance"))));
+								//.toLowerCase(Locale.US)));
+						strText = "\"\"" + length.getLabel();
+					}
+			
+					// create dynamic text
+					GeoText text = kernel.getAlgebraProcessor().evaluateToText(strText,
+							true, true);
+					if (useLabels) {
+						text.setLabel(removeUnderscores(app.getPlain("Text")
+								+ geoA.getLabel() + geoB.getLabel()));
+						text.setLaTeX(useLabels, true);
+					}
+			
+					text.setStartPoint(startPoint);
+					text.updateRepaint();
+					return text;
+				} catch (Exception e) {
+					e.printStackTrace();
+					return null;
+				}
+			}
+
+	protected String descriptionPoints(String prefix, GeoPolygon poly) {
+		// build description text including point labels
+		String descText = prefix;
+	
+		// use points for polygon with static points (i.e. no list of points)
+		GeoPoint2[] points = null;
+		if (poly.getParentAlgorithm() instanceof AlgoPolygon) {
+			points = ((AlgoPolygon) poly.getParentAlgorithm()).getPoints();
+		}
+	
+		if (points != null) {
+			descText = descText + " \"";
+			boolean allLabelsSet = true;
+			for (int i = 0; i < points.length; i++) {
+				if (points[i].isLabelSet()) {
+					descText = descText + " + Name[" + points[i].getLabel()
+							+ "]";
+				} else {
+					allLabelsSet = false;
+					i = points.length;
+				}
+			}
+	
+			if (allLabelsSet) {
+				descText = descText + " + \"";
+				for (int i = 0; i < points.length; i++) {
+					points[i].setLabelVisible(true);
+					points[i].updateRepaint();
+				}
+			} else {
+				descText = app.getCommand("Area");
+			}
+		}
+		return descText;
+	}
+
+	protected GeoElement[] area(Hits hits, AbstractEvent event) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+		
+		Point mouseCoords = event.getPoint();
+	
+		int count = addSelectedPolygon(hits, 1, false);
+		if (count == 0) {
+			addSelectedConic(hits, 2, false);
+		}
+	
+		// area of CONIC
+		if (selConics() == 1) {
+			GeoConic conic = getSelectedConics()[0];
+	
+			// check if arc
+			if (conic.isGeoConicPart()) {
+				GeoConicPart conicPart = (GeoConicPart) conic;
+				if (conicPart.getConicPartType() == GeoConicPart.CONIC_PART_ARC) {
+					clearSelections();
+					return null;
+				}
+			}
+	
+			// standard case: conic
+			GeoNumeric area = kernel.Area(null, conic);
+	
+			// text
+			GeoText text = createDynamicText(app.getCommand("Area"), area,
+					mouseCoords);
+			if (conic.isLabelSet()) {
+				area.setLabel(removeUnderscores(app.toLowerCase(app.getCommand("Area"))
+						+ conic.getLabel()));
+				text.setLabel(removeUnderscores(app.getPlain("Text")
+						+ conic.getLabel()));
+			}
+			GeoElement[] ret = { text };
+			return ret;
+		}
+	
+		// area of polygon
+		else if (selPolygons() == 1) {
+			GeoPolygon[] poly = getSelectedPolygons();
+	
+			// dynamic text with polygon's area
+			GeoText text = createDynamicText(
+					descriptionPoints(app.getCommand("Area"), poly[0]),
+					poly[0], mouseLoc);
+			if (poly[0].isLabelSet()) {
+				text.setLabel(removeUnderscores(app.getPlain("Text")
+						+ poly[0].getLabel()));
+			}
+			GeoElement[] ret = { text };
+			return ret;
+		}
+	
+		return null;
+	}
+
+	protected boolean regularPolygon(Hits hits) {
+		if (hits.isEmpty()) {
+			return false;
+		}
+	
+		// need two points
+		addSelectedPoint(hits, 2, false);
+	
+		if (selPoints() == 2) {
+			GeoPoint2[] points = getSelectedPoints();
+			app.getGuiManager()
+					.getDialogManager()
+					.showNumberInputDialogRegularPolygon(
+							app.getMenu(getKernel().getModeText(mode)),
+							points[0], points[1]);
+			return true;
+		}
+		return false;
 	}
 }

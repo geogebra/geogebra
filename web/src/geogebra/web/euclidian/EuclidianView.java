@@ -399,7 +399,8 @@ public class EuclidianView extends AbstractEuclidianView {
 
 	@Override
     public void setPreferredSize(Dimension preferredSize) {
-	    // TODO Auto-generated method stub
+	    g2.setWidth((int) preferredSize.getWidth());;
+	    g2.setHeight((int) preferredSize.getHeight());
 	    
     }
 	

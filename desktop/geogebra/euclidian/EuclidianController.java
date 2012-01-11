@@ -4841,44 +4841,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		}
 	}
 
-	protected GeoAngle createAngle(GeoPointND A, GeoPointND B, GeoPointND C) {
-		return kernel.Angle(null, (GeoPoint2) A, (GeoPoint2) B, (GeoPoint2) C);
-	}
-
-	// build angle between two lines
-	protected GeoAngle createLineAngle(GeoLine[] lines) {
-		GeoAngle angle = null;
-
-		// did we get two segments?
-		if ((lines[0] instanceof GeoSegment)
-				&& (lines[1] instanceof GeoSegment)) {
-			// check if the segments have one point in common
-			GeoSegment a = (GeoSegment) lines[0];
-			GeoSegment b = (GeoSegment) lines[1];
-			// get endpoints
-			GeoPoint2 a1 = a.getStartPoint();
-			GeoPoint2 a2 = a.getEndPoint();
-			GeoPoint2 b1 = b.getStartPoint();
-			GeoPoint2 b2 = b.getEndPoint();
-
-			if (a1 == b1) {
-				angle = kernel.Angle(null, a2, a1, b2);
-			} else if (a1 == b2) {
-				angle = kernel.Angle(null, a2, a1, b1);
-			} else if (a2 == b1) {
-				angle = kernel.Angle(null, a1, a2, b2);
-			} else if (a2 == b2) {
-				angle = kernel.Angle(null, a1, a2, b1);
-			}
-		}
-
-		if (angle == null) {
-			angle = kernel.Angle(null, lines[0], lines[1]);
-		}
-
-		return angle;
-	}
-
 	public GeoElement[] createCircle2ForPoints3D(GeoPointND p0, GeoPointND p1) {
 		return new GeoElement[] { kernel.getManager3D().Circle3D(null, p0, p1,
 				((AbstractEuclidianView) view).getDirection()) };
@@ -5223,7 +5185,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 			return false;
 		}
 
-		((Application) app).getGuiManager().getDialogManager()
+		app.getGuiManager().getDialogManager()
 				.showBooleanCheckboxCreationDialog(mouseLoc, null);
 		return false;
 	}
