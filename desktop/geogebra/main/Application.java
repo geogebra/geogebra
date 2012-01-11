@@ -1758,11 +1758,6 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
-	@Override
-	public void clearTooltipFlag() {
-		tooltipFlag = false;
-	}
-
 	/*
 	 * sets secondary language
 	 */
@@ -2341,9 +2336,6 @@ public class Application extends AbstractApplication implements
 			return str;
 		}
 	}
-
-	// used when a secondary language is being used for tooltips
-	private boolean tooltipFlag = false;
 
 	@Override
 	final public String getPlain(String key) {

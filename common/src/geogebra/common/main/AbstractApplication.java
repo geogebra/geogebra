@@ -546,8 +546,6 @@ public abstract class AbstractApplication {
 
 	public abstract void setTooltipFlag();
 
-	public abstract void clearTooltipFlag();
-
 	public abstract boolean isApplet();
 
 	public abstract void storeUndoInfo();
@@ -1583,6 +1581,9 @@ public abstract class AbstractApplication {
 
 	protected boolean shiftDragZoomEnabled = true;
 
+	// used when a secondary language is being used for tooltips 
+	protected boolean tooltipFlag = false;
+
 	public void setPropertiesView(PropertiesView propertiesView) {
 		this.propertiesView = propertiesView;
 	}
@@ -1750,6 +1751,10 @@ public abstract class AbstractApplication {
 	public int getFontSize() {
 		// TODO Auto-generated method stub
 		return 10;
+	}
+
+	public void clearTooltipFlag() {
+		tooltipFlag = false;
 	}
 
 }

@@ -140,12 +140,6 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public void clearTooltipFlag() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public boolean isApplet() {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 		return false;
