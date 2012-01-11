@@ -30,7 +30,6 @@ import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.AlgoTranslate;
 import geogebra.common.kernel.algos.AlgoVector;
 import geogebra.common.kernel.algos.AlgoVectorPoint;
@@ -4770,223 +4769,16 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	 * line = kernel.Line(null, points[0], points[1]); }
 	 */
 
-	// get 2 lines, 2 vectors or 3 points
-	final protected GeoElement[] angle(Hits hits) {
-		if (hits.isEmpty()) {
-			return null;
-		}
-
-		int count = 0;
-		if (selPoints() == 0) {
-			if (selVectors() == 0) {
-				count = addSelectedLine(hits, 2, false);
-			}
-			if (selLines() == 0) {
-				count = addSelectedVector(hits, 2, false);
-			}
-		}
-		if (count == 0) {
-			count = addSelectedPoint(hits, 3, false);
-		}
-
-		// try polygon too
-		boolean polyFound = false;
-		if (count == 0) {
-			polyFound = 1 == addSelectedGeo(
-					hits.getHits(Test.GEOPOLYGON, tempArrayList), 1, false);
-		}
-
-		GeoAngle angle = null;
-		GeoElement[] angles = null;
-		if (selPoints() == 3) {
-			GeoPointND[] points = getSelectedPointsND();
-			angle = createAngle(points[0], points[1], points[2]);
-		} else if (selVectors() == 2) {
-			GeoVector[] vecs = getSelectedVectors();
-			angle = kernel.Angle(null, vecs[0], vecs[1]);
-		} else if (selLines() == 2) {
-			GeoLine[] lines = getSelectedLines();
-			angle = createLineAngle(lines);
-		} else if (polyFound && (selGeos() == 1)) {
-			angles = kernel.Angles(null, (GeoPolygon) getSelectedGeos()[0]);
-		}
-
-		if (angle != null) {
-			// commented in V3.0:
-			// angle.setAllowReflexAngle(false);
-			// make sure that we show angle value
-			if (angle.isLabelVisible()) {
-				angle.setLabelMode(GeoElement.LABEL_NAME_VALUE);
-			} else {
-				angle.setLabelMode(GeoElement.LABEL_VALUE);
-			}
-			angle.setLabelVisible(true);
-			angle.updateRepaint();
-			GeoElement[] ret = { angle };
-			return ret;
-		} else if (angles != null) {
-			for (int i = 0; i < angles.length; i++) {
-				// make sure that we show angle value
-				if (angles[i].isLabelVisible()) {
-					angles[i].setLabelMode(GeoElement.LABEL_NAME_VALUE);
-				} else {
-					angles[i].setLabelMode(GeoElement.LABEL_VALUE);
-				}
-				angles[i].setLabelVisible(true);
-				angles[i].updateRepaint();
-			}
-			return angles;
-		} else {
-			return null;
-		}
-	}
-
 	public GeoElement[] createCircle2ForPoints3D(GeoPointND p0, GeoPointND p1) {
 		return new GeoElement[] { kernel.getManager3D().Circle3D(null, p0, p1,
 				((AbstractEuclidianView) view).getDirection()) };
-	}
-
-	// get 2 points, 2 lines or 1 point and 1 line
-	final protected GeoElement[] distance(Hits hits, AbstractEvent event) {
-		if (hits.isEmpty()) {
-			return null;
-		}
-		
-		Point mouseCoords = event.getPoint();
-
-		int count = addSelectedPoint(hits, 2, false);
-		if (count == 0) {
-			addSelectedLine(hits, 2, false);
-		}
-		if (count == 0) {
-			addSelectedConic(hits, 2, false);
-		}
-		if (count == 0) {
-			addSelectedPolygon(hits, 2, false);
-		}
-		if (count == 0) {
-			addSelectedSegment(hits, 2, false);
-		}
-
-		// TWO POINTS
-		if (selPoints() == 2) {
-			// length
-			GeoPoint2[] points = getSelectedPoints();
-			GeoNumeric length = kernel.Distance(null, (GeoPointND) points[0],
-					(GeoPointND) points[1]);
-
-			// set startpoint of text to midpoint of two points
-			GeoPoint2 midPoint = kernel.Midpoint(points[0], points[1]);
-			GeoElement[] ret = { null };
-			ret[0] = createDistanceText(points[0], points[1], midPoint, length);
-			return ret;
-		}
-
-		// SEGMENT
-		else if (selSegments() == 1) {
-			// length
-			GeoSegment[] segments = getSelectedSegments();
-
-			// length
-			if (segments[0].isLabelVisible()) {
-				segments[0].setLabelMode(GeoElement.LABEL_NAME_VALUE);
-			} else {
-				segments[0].setLabelMode(GeoElement.LABEL_VALUE);
-			}
-			segments[0].setLabelVisible(true);
-			segments[0].updateRepaint();
-			return segments; // return this not null because the kernel has
-								// changed
-		}
-
-		// TWO LINES
-		else if (selLines() == 2) {
-			GeoLine[] lines = getSelectedLines();
-			GeoElement[] ret = { null };
-			ret[0] = kernel.Distance(null, lines[0], lines[1]);
-			return ret; // return this not null because the kernel has changed
-		}
-
-		// POINT AND LINE
-		else if ((selPoints() == 1) && (selLines() == 1)) {
-			GeoPoint2[] points = getSelectedPoints();
-			GeoLine[] lines = getSelectedLines();
-			GeoNumeric length = kernel.Distance(null, points[0], lines[0]);
-
-			// set startpoint of text to midpoint between point and line
-			GeoPoint2 midPoint = kernel.Midpoint(points[0],
-					kernel.ClosestPoint(points[0], lines[0]));
-			GeoElement[] ret = { null };
-			ret[0] = createDistanceText(points[0], lines[0], midPoint, length);
-			return ret;
-		}
-
-		// circumference of CONIC
-		else if (selConics() == 1) {
-			GeoConic conic = getSelectedConics()[0];
-			if (conic.isGeoConicPart()) {
-				// length of arc
-				GeoConicPart conicPart = (GeoConicPart) conic;
-				if (conicPart.getConicPartType() == GeoConicPart.CONIC_PART_ARC) {
-					// arc length
-					if (conic.isLabelVisible()) {
-						conic.setLabelMode(GeoElement.LABEL_NAME_VALUE);
-					} else {
-						conic.setLabelMode(GeoElement.LABEL_VALUE);
-					}
-					conic.updateRepaint();
-					GeoElement[] ret = { conic };
-					return ret; // return this not null because the kernel has
-								// changed
-				}
-			}
-
-			// standard case: conic
-			GeoNumeric circumFerence = kernel.Circumference(null, conic);
-
-			// text
-			GeoText text = createDynamicText(((Application)app).getCommand("Circumference"),
-					circumFerence, mouseCoords);
-			if (conic.isLabelSet()) {
-				circumFerence.setLabel(removeUnderscores(app.toLowerCase(((Application)app).getCommand(
-						"Circumference"))
-						+ conic.getLabel()));
-				text.setLabel(removeUnderscores(((Application)app).getPlain("Text")
-						+ conic.getLabel()));
-			}
-			GeoElement[] ret = { text };
-			return ret;
-		}
-
-		// perimeter of CONIC
-		else if (selPolygons() == 1) {
-			GeoPolygon[] poly = getSelectedPolygons();
-			GeoNumeric perimeter = kernel.Perimeter(null, poly[0]);
-
-			// text
-			GeoText text = createDynamicText(
-					descriptionPoints(((Application)app).getCommand("Perimeter"), poly[0]),
-					perimeter, mouseCoords);
-
-			if (poly[0].isLabelSet()) {
-				perimeter.setLabel(removeUnderscores(((Application)app)
-						.getCommand("Perimeter").toLowerCase(Locale.US)
-						+ poly[0].getLabel()));
-				text.setLabel(removeUnderscores(((Application)app).getPlain("Text")
-						+ poly[0].getLabel()));
-			}
-			GeoElement[] ret = { text };
-			return ret;
-		}
-
-		return null;
 	}
 
 	/**
 	 * Creates a text that shows the distance length between geoA and geoB at
 	 * the given startpoint.
 	 */
-	protected GeoText createDistanceText(GeoElement geoA, GeoElement geoB,
+	public GeoText createDistanceText(GeoElement geoA, GeoElement geoB,
 			GeoPoint2 startPoint, GeoNumeric length) {
 		// create text that shows length
 		try {
@@ -5040,7 +4832,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	 * Creates a text that shows a number value of geo at the current mouse
 	 * position.
 	 */
-	protected GeoText createDynamicText(String descText, GeoElement value,
+	public GeoText createDynamicText(String descText, GeoElement value,
 			Point loc) {
 		// create text that shows length
 		try {
@@ -5059,7 +4851,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		}
 	}
 
-	protected String removeUnderscores(String label) {
+	public String removeUnderscores(String label) {
 		// remove all indices
 		return label.replaceAll("_", "");
 	}
@@ -5122,62 +4914,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		}
 
 		return null;
-	}
-
-	protected String descriptionPoints(String prefix, GeoPolygon poly) {
-		// build description text including point labels
-		String descText = prefix;
-
-		// use points for polygon with static points (i.e. no list of points)
-		GeoPoint2[] points = null;
-		if (poly.getParentAlgorithm() instanceof AlgoPolygon) {
-			points = ((AlgoPolygon) poly.getParentAlgorithm()).getPoints();
-		}
-
-		if (points != null) {
-			descText = descText + " \"";
-			boolean allLabelsSet = true;
-			for (int i = 0; i < points.length; i++) {
-				if (points[i].isLabelSet()) {
-					descText = descText + " + Name[" + points[i].getLabel()
-							+ "]";
-				} else {
-					allLabelsSet = false;
-					i = points.length;
-				}
-			}
-
-			if (allLabelsSet) {
-				descText = descText + " + \"";
-				for (int i = 0; i < points.length; i++) {
-					points[i].setLabelVisible(true);
-					points[i].updateRepaint();
-				}
-			} else {
-				descText = ((Application)app).getCommand("Area");
-			}
-		}
-		return descText;
-	}
-
-	protected boolean regularPolygon(Hits hits) {
-		if (hits.isEmpty()) {
-			return false;
-		}
-
-		// need two points
-		addSelectedPoint(hits, 2, false);
-
-		if (selPoints() == 2) {
-			GeoPoint2[] points = getSelectedPoints();
-			((Application)app).getGuiManager()
-					.getDialogManager()
-					.showNumberInputDialogRegularPolygon(
-							((Application)app).getMenu(getKernel().getModeText(mode)),
-							points[0], points[1]);
-			return true;
-		}
-		return false;
 	}
 
 	protected boolean showCheckBox(Hits hits) {
