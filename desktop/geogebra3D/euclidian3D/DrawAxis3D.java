@@ -268,7 +268,12 @@ public class DrawAxis3D extends DrawLine3D {
 		drawMinFinal = drawMin;
 		drawMaxFinal = drawMax;
 	}
-
+	
+	public void setDrawMinMaxImmediatly(double drawMin, double drawMax){
+		drawMinFinal = drawMin;
+		drawMaxFinal = drawMax;
+		super.setDrawMinMax(drawMinFinal, drawMaxFinal);
+	}
 	
 	public double[] getDrawMinMax(){
 		long deltaT = getDeltaT();

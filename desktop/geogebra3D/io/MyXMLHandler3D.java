@@ -156,8 +156,12 @@ public class MyXMLHandler3D extends MyXMLHandler {
 
 			ev.setScale(scale);
 			//ev.setXZero(xZero);ev.setYZero(yZero);ev.setZZero(zZero);
-			ev.setZeroFromXML(xZero,yZero,zZero);
 			ev.setRotXYinDegrees(zAngle, xAngle);
+			ev.setZeroFromXML(xZero,yZero,zZero);
+			
+			ev.updateMatrix();
+			ev.setViewChanged();
+			ev.setWaitForUpdate();	
 			
 			return true;
 		} catch (Exception e) {

@@ -1,9 +1,11 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.PlotterSurface;
 import geogebra3D.euclidian3D.opengl.Renderer;
@@ -29,7 +31,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	
 	
 	protected double xmin, xmax, ymin, ymax;
-	double[] minmaxXFinal,minmaxYFinal;
+	double[] minmaxXFinal = new double[2], minmaxYFinal = new double[2];
 	
 	/** says if the view direction is parallel to the plane */
 	private boolean viewDirectionIsParallel; 
@@ -134,12 +136,14 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		
 		surface.setU(xmin,xmax);surface.setNbU(2);
 		surface.setV(ymin,ymax);surface.setNbV(2);
-		
-		float fading;
-		fading = (float) (xdelta * geo.getFading());
-		surface.setUFading(fading, fading);
-		fading = (float) (ydelta * geo.getFading());
-		surface.setVFading(fading, fading);
+
+		if (!getView3D().useClippingCube()){
+			float fading;
+			fading = xdelta * geo.getFading();
+			surface.setUFading(fading, fading);
+			fading = ydelta * geo.getFading();
+			surface.setVFading(fading, fading);
+		}
 		surface.draw();
 		setGeometryIndex(surface.end());
 		
@@ -210,71 +214,107 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			return true;
 	}
 
+	@Override
 	protected void updateForView(){
 		if (getView3D().viewChanged()){
+			if (getView3D().useClippingCube())
+				if (!getView3D().viewChangedByTranslate() && !getView3D().viewChangedByZoom())	//only rotation			
+					return;
+			
 			setWaitForUpdate();
-			/*
-			if (getView3D().viewChangedByRotate()){
-				//Application.debug(getGeoElement().getMainDirection().dotproduct(getView3D().getViewDirection()));
-				((GeoPlane3D) getGeoElement()).updateViewForPlaneDirection(
-						getView3D().getViewDirection(),
-						getView3D().getToScreenMatrix());
-			}
-			*/
 		}
 		
 	}
 	
+	@Override
 	public void setWaitForUpdate(){
 		
 		super.setWaitForUpdate();
 		setMinMax();
 	}
 	
+	private void updateMinMax(Coords v){
+		double x = v.getX(), y = v.getY();
+		if (x<minmaxXFinal[0])
+			minmaxXFinal[0]=x;
+		if (x>minmaxXFinal[1])
+			minmaxXFinal[1]=x;
+		if (y<minmaxYFinal[0])
+			minmaxYFinal[0]=y;
+		if (y>minmaxYFinal[1])
+			minmaxYFinal[1]=y;		
+	}
+	
 	protected void setMinMax(){
-		
-		setTime();
-		
-		GeoPlane3D geo = (GeoPlane3D) getGeoElement();
-		
-		//record old values
-		xmin=geo.getXmin();
-		xmax=geo.getXmax();
-		ymin=geo.getYmin();
-		ymax=geo.getYmax();
 
-		//calc new values
-		Coords origin = geo.evaluatePoint(0, 0);
-		Coords vx = geo.evaluatePoint(1, 0).sub(origin);
-		Coords vy = geo.evaluatePoint(0, 1).sub(origin);
-		
-		Coords screenOrigin = getView3D().getToSceneMatrix().getOrigin();
-		Coords[] project = geo.getCoordSys().getNormalProjectionForDrawing(screenOrigin);
-		
-		
-		//Coords o = getView3D().getToScreenMatrix().mul(origin);
-		Coords o = getView3D().getToScreenMatrix().mul(project[0]);
-		
-		//Application.debug("screenOrigin=\n"+screenOrigin+"\nproject[0]=\n"+project[0]+"\nScreenMatrix()=\n"+getView3D().getToScreenMatrix()+"\no=\n"+o);
+		if (getView3D().useClippingCube()){
+			
+			/*
+			for (int i=0;i<8;i++)
+				Application.debug("vertex["+i+"]\n"+getView3D().getClippingVertex(i));
+				*/
+			
+			minmaxXFinal[0]=Double.POSITIVE_INFINITY;
+			minmaxYFinal[0]=Double.POSITIVE_INFINITY;
+			minmaxXFinal[1]=Double.NEGATIVE_INFINITY;
+			minmaxYFinal[1]=Double.NEGATIVE_INFINITY;
+			/*
+			minmaxXFinal[0]=0;
+			minmaxYFinal[0]=0;
+			minmaxXFinal[1]=0;
+			minmaxYFinal[1]=0;
+			*/
+			
+			GeoPlane3D geo = (GeoPlane3D) getGeoElement();
+			CoordMatrix m = geo.getCoordSys().getDrawingMatrix();
+			for (int i=0;i<8;i++){
+				Coords v = getView3D().getClippingVertex(i).projectPlane(m)[1];
+				updateMinMax(v);
+			}
+			
+		}else{
+			GeoPlane3D geo = (GeoPlane3D) getGeoElement();
 
-		minmaxXFinal = getView3D().getRenderer().getIntervalInFrustum(
-				new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
-				o, getView3D().getToScreenMatrix().mul(vx), false);	
+			//record old values
+			xmin=geo.getXmin();
+			xmax=geo.getXmax();
+			ymin=geo.getYmin();
+			ymax=geo.getYmax();
 
-		minmaxYFinal = getView3D().getRenderer().getIntervalInFrustum(
-				new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
-				o, getView3D().getToScreenMatrix().mul(vy), false);		
-		
-		
-		for (int i=0;i<2;i++){
-			minmaxXFinal[i]+=project[1].getX();
-			minmaxYFinal[i]+=project[1].getY();
+			//calc new values
+			Coords origin = geo.evaluatePoint(0, 0);
+			Coords vx = geo.evaluatePoint(1, 0).sub(origin);
+			Coords vy = geo.evaluatePoint(0, 1).sub(origin);
+
+			Coords screenOrigin = getView3D().getToSceneMatrix().getOrigin();
+			Coords[] project = geo.getCoordSys().getNormalProjectionForDrawing(screenOrigin);
+
+
+			//Coords o = getView3D().getToScreenMatrix().mul(origin);
+			Coords o = getView3D().getToScreenMatrix().mul(project[0]);
+
+			//Application.debug("screenOrigin=\n"+screenOrigin+"\nproject[0]=\n"+project[0]+"\nScreenMatrix()=\n"+getView3D().getToScreenMatrix()+"\no=\n"+o);
+
+			minmaxXFinal = getView3D().getRenderer().getIntervalInFrustum(
+					new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
+					o, getView3D().getToScreenMatrix().mul(vx), false);	
+
+			minmaxYFinal = getView3D().getRenderer().getIntervalInFrustum(
+					new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
+					o, getView3D().getToScreenMatrix().mul(vy), false);		
+
+
+			for (int i=0;i<2;i++){
+				minmaxXFinal[i]+=project[1].getX();
+				minmaxYFinal[i]+=project[1].getY();
+			}
+
+
+
+			setTime();
+			reduceBounds(minmaxXFinal);
+			reduceBounds(minmaxYFinal);
 		}
-		
-			
-			
-		reduceBounds(minmaxXFinal);
-		reduceBounds(minmaxYFinal);
 	}
 	
 	private static final double REDUCE_BOUNDS_FACTOR = 0.975;

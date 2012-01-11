@@ -3,11 +3,8 @@ package geogebra3D.euclidian3D;
 
 
 
-import org.python.modules.math;
-
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoClippingCube3D;
@@ -33,12 +30,15 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	
 	private double[][] minMax;
 	
+	private Coords[] vertices;
+	
 
 	
 
 	
 	//cube reduction
 	private double reduction = (1-1/Math.sqrt(2))/2;
+	//private double reduction = (1-1./2.)/2;
 	
 	/**
 	 * Common constructor
@@ -53,6 +53,9 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		for (int i=0; i<3; i++)
 			minMax[i] = new double[2];
 		
+		vertices = new Coords[8];
+		for (int i=0; i<8; i++)
+			vertices[i] = new Coords(0,0,0,1);
 	}
 	
 	public double xmin(){ return minMax[0][0]; }
@@ -97,12 +100,36 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		minMax[1][0] = zmin+zr;
 		minMax[1][1] = zmax-zr;
 		
-		
+		setVertices();
 		//Application.debug(xmin+","+xmax+","+ymin+","+ymax+","+zmin+","+zmax);
 		
 		return minMax;
 	}
 	
+	private void setVertices(){
+		for (int x=0; x<2; x++)
+			for (int y=0; y<2; y++)
+				for (int z=0; z<2; z++){
+					Coords vertex = vertices[x+2*y+4*z];
+					vertex.setX(minMax[0][x]);
+					vertex.setY(minMax[1][y]);
+					vertex.setZ(minMax[2][z]);				
+				}
+	}
+	
+	/**
+	 * 
+	 * @param i index
+	 * @return i-th vertex
+	 */
+	public Coords getVertex(int i){
+		return vertices[i];
+	}
+	
+	@Override
+	protected boolean isVisible(){
+		return getView3D().showClippingCube();
+	}
 
 	@Override
 	protected boolean updateForItSelf(){

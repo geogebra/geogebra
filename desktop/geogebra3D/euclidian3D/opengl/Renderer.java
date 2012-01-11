@@ -276,10 +276,19 @@ public class Renderer implements GLEventListener {
         	doPick();
         	//Application.debug("doPick");
         	//return;
-        //else         	      
+        //else 
+        
+        //clip planes
+        if (enableClipPlanes!=enableClipPlanesOld){
+        	if (enableClipPlanes)
+        		enableClipPlanes();
+        	else
+        		disableClipPlanes();
+        	enableClipPlanesOld=enableClipPlanes;
+        }
                 
         //update 3D controller
-        ((EuclidianController3D) view3D.getEuclidianController()).processMouseMoved();
+        view3D.getEuclidianController().processMouseMoved();
         
         /*
         if (intersectionCurvesWaitForPick){//picking intersection curves
@@ -384,14 +393,35 @@ public class Renderer implements GLEventListener {
     }
     
     private static final int[] GL_CLIP_PLANE = {GL.GL_CLIP_PLANE0, GL.GL_CLIP_PLANE1, GL.GL_CLIP_PLANE2, GL.GL_CLIP_PLANE3, GL.GL_CLIP_PLANE4, GL.GL_CLIP_PLANE5};
+    
+    private boolean enableClipPlanes;
+    private boolean enableClipPlanesOld;
+    
+    /**
+     * sets if clip planes have to be enabled
+     * @param flag flag
+     */
+    public void setEnableClipPlanes(boolean flag){
+    	enableClipPlanesOld = enableClipPlanes;
+    	enableClipPlanes = flag;
+    }
        
     private void enableClipPlane(int n){
     	gl.glEnable( GL_CLIP_PLANE[n] );   	
     }
     
+    private void disableClipPlane(int n){
+    	gl.glDisable( GL_CLIP_PLANE[n] );   	
+    }
+    
     private void enableClipPlanes(){
     	for (int n=0; n<6; n++)
     		enableClipPlane(n);
+    }
+    
+    private void disableClipPlanes(){
+    	for (int n=0; n<6; n++)
+    		disableClipPlane(n);
     }
     
     /**
@@ -1462,7 +1492,9 @@ public class Renderer implements GLEventListener {
         //gl.glEnable(GLlocal.GL_RESCALE_NORMAL);
         
         //clipping planes
-        //enableClipPlanes();
+        enableClipPlanes();
+        enableClipPlanes = true;
+        enableClipPlanesOld = true;
         
         //textures
         textures.init(gl);
@@ -1741,10 +1773,10 @@ public class Renderer implements GLEventListener {
     	right=left+w;
     	top = bottom+h;
     	
-    	//sets depth equals width
-    	front = -w/2;
-    	
-    	back = w/2;
+    	int depth = w/2;//sets depth equals width
+       	//int depth = (w+h)/4;//sets depth equals mean(width,height)
+      	front = -depth;   	
+    	back = depth;
 
 
     	switch (view3D.getProjection()){
@@ -1761,6 +1793,9 @@ public class Renderer implements GLEventListener {
     	}
     	    	
     	setView();
+    	
+    	view3D.setViewChanged();
+    	view3D.setWaitForUpdate();
     }
 
 	public void dispose(GLAutoDrawable arg0) {

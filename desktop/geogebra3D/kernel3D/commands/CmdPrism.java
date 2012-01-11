@@ -7,6 +7,7 @@ import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.main.Application;
 
@@ -77,7 +78,7 @@ public class CmdPrism extends CommandProcessor {
 			// everything ok
 			GeoElement[] ret = kernelA.getManager3D().Prism(c.getLabels(), points);
 			//for older version, make forcing labels not working
-			if (app.fileVersionBefore(Application.getSubValues("4.9.10.0")))
+			if (app.fileVersionBefore(AbstractApplication.getSubValues("4.9.10.0")))
 				return new GeoElement[] {ret[0]};
 			return ret;
 		}else{

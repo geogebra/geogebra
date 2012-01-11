@@ -44,6 +44,7 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 	}
 	
 	
+	@Override
 	protected boolean updateForItSelf(){
 		
 		double[] xMinMax = xAxis.getDrawMinMax();
@@ -64,10 +65,17 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 		return !(xAxis.waitForUpdate() || yAxis.waitForUpdate());
 	}
 	
+	@Override
 	protected void updateForView(){
 		
 	}
 	
+	@Override
+	protected void setMinMax(){
+		
+	}
+	
+	@Override
 	protected boolean isGridVisible(){
 		return ((GeoPlane3D)getGeoElement()).isGridVisible();
 	}

@@ -1,5 +1,6 @@
 package geogebra3D.euclidian3D;
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianConstants;
@@ -32,6 +33,7 @@ import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianPen;
@@ -366,12 +368,6 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 			axisDrawable[i] = (DrawAxis3D) createDrawable((GeoElement) axis[i]);
 		}	
 		
-		//plane	
-		xOyPlane = kernel3D.getXOYPlane();
-		xOyPlane.setEuclidianVisible(true);
-		xOyPlane.setGridVisible(true);
-		xOyPlane.setPlateVisible(false);
-		xOyPlaneDrawable = (DrawPlane3D) createDrawable(xOyPlane);		
 		
 		//clipping cube
 		clippingCube = kernel3D.getClippingCube();
@@ -381,6 +377,13 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		clippingCube.setIsPickable(false);
 		clippingCubeDrawable = (DrawClippingCube3D) createDrawable(clippingCube);
 		
+		//plane	
+		xOyPlane = kernel3D.getXOYPlane();
+		xOyPlane.setEuclidianVisible(true);
+		xOyPlane.setGridVisible(true);
+		xOyPlane.setPlateVisible(false);
+		xOyPlaneDrawable = (DrawPlane3D) createDrawable(xOyPlane);		
+
 	}
 
 	// POINT_CAPTURING_STICKY_POINTS locks onto these points
@@ -652,7 +655,22 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	final public CoordMatrix4x4 getUndoRotationMatrix(){
 		
 		return undoRotationMatrix;
-	}	
+	}
+	
+	
+	private CoordMatrix getRotationMatrix(){
+		CoordMatrix m1 = CoordMatrix.Rotation3DMatrix(CoordMatrix.X_AXIS, (this.b-90)*EuclidianController3D.ANGLE_TO_DEGREES);
+		CoordMatrix m2 = CoordMatrix.Rotation3DMatrix(CoordMatrix.Z_AXIS, (-this.a-90)*EuclidianController3D.ANGLE_TO_DEGREES);
+		return m1.mul(m2);
+	}
+	
+	private CoordMatrix getScaleMatrix(){
+		return CoordMatrix.ScaleMatrix(new double[] {getXscale(),getYscale(),getZscale()});				
+	}
+	
+	private CoordMatrix getTranslationMatrix(){
+		return CoordMatrix.TranslationMatrix(new double[] {getXZero(),getYZero(),getZZero()});		
+	}
 	
 	/**
 	 * set Matrix for view3D
@@ -663,17 +681,15 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		//Application.printStacktrace("");
 		
 		//rotations
-		CoordMatrix m1 = CoordMatrix.Rotation3DMatrix(CoordMatrix.X_AXIS, (this.b-90)*EuclidianController3D.ANGLE_TO_DEGREES);
-		CoordMatrix m2 = CoordMatrix.Rotation3DMatrix(CoordMatrix.Z_AXIS, (-this.a-90)*EuclidianController3D.ANGLE_TO_DEGREES);
-		CoordMatrix mRot = m1.mul(m2);
+		CoordMatrix mRot = getRotationMatrix();
 
 		undoRotationMatrix.set(mRot.inverse());
 
 		//scaling
-		CoordMatrix mScale = CoordMatrix.ScaleMatrix(new double[] {getXscale(),getYscale(),getZscale()});		
+		CoordMatrix mScale = getScaleMatrix();
 		
 		//translation
-		CoordMatrix mTrans = CoordMatrix.TranslationMatrix(new double[] {getXZero(),getYZero(),getZZero()});
+		CoordMatrix mTrans = getTranslationMatrix();
 		
 		//m.set(m5.mul(m3.mul(m4)));	
 		//m.set(m3.mul(m5.mul(m4)));	
@@ -742,10 +758,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		else if (this.b<-EuclidianController3D.ANGLE_MAX)
 			this.b=-EuclidianController3D.ANGLE_MAX;
 		
-		updateMatrix();
 
-		setViewChangedByRotate();
-		setWaitForUpdate();
 	}
 		
 	/** Sets coord system from mouse move */
@@ -753,6 +766,9 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		switch(mode){
 		case EuclidianController3D.MOVE_ROTATE_VIEW:
 			setRotXYinDegrees(aOld - dx, bOld + dy);
+			updateMatrix();
+			setViewChangedByRotate();
+			setWaitForUpdate();	
 			break;
 		case EuclidianController3D.MOVE_VIEW:			
 			Coords v = new Coords(dx,-dy,0,0);
@@ -806,8 +822,24 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	 * @param z z coord
 	 */
 	public void setZeroFromXML(double x, double y, double z){
-		//divide by scale for new matrix multiplication (since 4.9.14)
-		setXZero(x/scale);setYZero(y/scale);setZZero(z/scale);
+		
+		if (GeoGebraConstants.IS_PRE_RELEASE){
+			if (app.fileVersionBefore(AbstractApplication.getSubValues("4.9.14.0"))){
+				//new matrix multiplication (since 4.9.14)
+				CoordMatrix mRot = getRotationMatrix();
+				CoordMatrix mScale = getScaleMatrix();
+				setXZero(x);setYZero(y);setZZero(z);
+				CoordMatrix mTrans = getTranslationMatrix();
+				CoordMatrix mRS = mRot.mul(mScale);
+				CoordMatrix matrix = ((mRS.inverse()).mul(mTrans).mul(mRS));
+				Coords origin = matrix.getOrigin();				
+				setXZero(origin.getX());setYZero(origin.getY());setZZero(origin.getZ());
+				updateMatrix();
+				return;
+			}
+		}
+		
+		setXZero(x);setYZero(y);setZZero(z);
 	}
 		
 	public double getXRot(){ return a;}
@@ -1345,6 +1377,35 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		return true;		
 	}
 	
+	
+	private boolean useClippingCube = true;
+	
+	/**
+	 * 
+	 * @return true if use of clipping cube
+	 */
+	public boolean useClippingCube(){
+		return useClippingCube;
+	}
+	
+	/**
+	 * sets the use of the clipping cube
+	 * @param flag flag
+	 */
+	public void setUseClippingCube(boolean flag){
+		useClippingCube = flag;
+	}
+	
+	/**
+	 * 
+	 * @return true if clipping cube is shown
+	 */
+	public boolean showClippingCube(){
+		return useClippingCube();
+	}
+	
+	
+	
 	public void setAnimatedCoordSystem(double ox, double oy, double f, double newScale,
 			int steps, boolean storeUndo) {
 		
@@ -1507,13 +1568,19 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 			setXZero(animatedScaleStartX*(1-t)+animatedScaleEndX*t);
 			setYZero(animatedScaleStartY*(1-t)+animatedScaleEndY*t);
 			setZZero(animatedScaleStartZ*(1-t)+animatedScaleEndZ*t);
+			
 			updateMatrix();
+			setViewChangedByZoom();
+			setViewChangedByTranslate();
 			
 		}
 		
 		if (animatedContinueRot){
 			double da = (System.currentTimeMillis()-animatedRotTimeStart)*animatedRotSpeed;			
 			setRotXYinDegrees(aOld + da, bOld);
+			
+			updateMatrix();
+			setViewChangedByRotate();
 		}
 		
 		if (animatedRot){
@@ -1527,6 +1594,9 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 			}
 			
 			setRotXYinDegrees(aOld*(1-t)+aNew*t, bOld*(1-t)+bNew*t);
+
+			updateMatrix();
+			setViewChangedByRotate();
 		}
 
 			
@@ -2669,47 +2739,46 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		
 	}
 	
+	/**
+	 * 
+	 * @param i index
+	 * @return i-th vertex of the clipping cube
+	 */
+	public Coords getClippingVertex(int i){
+		return clippingCubeDrawable.getVertex(i);
+	}
+	
 	private void viewChangedOwnDrawables(){
-		
-		//update clipping cube
-		double[][] minMax = clippingCubeDrawable.updateMinMax();
-		clippingCubeDrawable.setWaitForUpdate();
-		
-		
-		/*
-		// calc draw min/max for x and y axis
-		for(int i=0;i<2;i++){
-			axisDrawable[i].updateDrawMinMax();
-		}
-		
-		//for z axis, use bottom to top min/max
-		double zmin = (renderer.getBottom()-getYZero())/getScale();
-		double zmax = (renderer.getTop()-getYZero())/getScale();
-		axisDrawable[AXIS_Z].setDrawMinMax(zmin, zmax);
-		*/
-		
-		for(int i=0;i<3;i++){
-			axisDrawable[i].setDrawMinMax(minMax[i][0], minMax[i][1]);
-		}
-		//update decorations and wait for update
-		for(int i=0;i<3;i++){
-			axisDrawable[i].updateDecorations();
-			axisDrawable[i].setWaitForUpdate();
-		}
-		
-		
-		/*
-		// sets min/max for the plane and axis
-		double xmin = axisDrawable[AXIS_X].getDrawMin(); 
-		double ymin = axisDrawable[AXIS_Y].getDrawMin();
-		double xmax = axisDrawable[AXIS_X].getDrawMax(); 
-		double ymax = axisDrawable[AXIS_Y].getDrawMax();
-		
-		// update xOyPlane
-		xOyPlane.setGridCorners(xmin,ymin,xmax,ymax);
-		xOyPlane.setGridDistances(axis[AXIS_X].getNumbersDistance(), axis[AXIS_Y].getNumbersDistance());
 
-		 */
+		if (useClippingCube()){
+			//update clipping cube
+			double[][] minMax = clippingCubeDrawable.updateMinMax();
+			clippingCubeDrawable.setWaitForUpdate();
+			//update decorations and wait for update
+			for(int i=0;i<3;i++){
+				axisDrawable[i].setDrawMinMaxImmediatly(minMax[i][0], minMax[i][1]);
+				axisDrawable[i].updateDecorations();
+				axisDrawable[i].setWaitForUpdate();
+			}
+		}else{
+			// calc draw min/max for x and y axis
+			for(int i=0;i<2;i++){
+				axisDrawable[i].updateDrawMinMax();
+			}
+
+			//for z axis, use bottom to top min/max
+			double zmin = (renderer.getBottom()-getYZero())/getScale();
+			double zmax = (renderer.getTop()-getYZero())/getScale();
+			axisDrawable[AXIS_Z].setDrawMinMax(zmin, zmax);
+
+			//update decorations and wait for update
+			for(int i=0;i<3;i++){
+				axisDrawable[i].updateDecorations();
+				axisDrawable[i].setWaitForUpdate();
+			}
+		}
+		
+		
 	}
 	
 	
@@ -3200,7 +3269,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	private void setViewChangedByZoom(){viewChangedByZoom = true;}
 	private void setViewChangedByTranslate(){viewChangedByTranslate = true;}
 	private void setViewChangedByRotate(){viewChangedByRotate = true;}
-	private void setViewChanged(){
+	public void setViewChanged(){
 		viewChangedByZoom = true;
 		viewChangedByTranslate = true;
 		viewChangedByRotate = true;
