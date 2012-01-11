@@ -1004,6 +1004,55 @@ class OutputPane(object):
         self.textpane.setCaretPosition(self.doc.length)
 
 
+class FileManager(ActionListener):
+    def __init__(self, pywin):
+        self.fc = JFileChooser()
+        self.fc.fileFilter = FileNameExtensionFilter("Python Files", ["py"])
+        self.pywin = pywin
+        self.load_path = None
+        self.script_path = None
+    def show_open_dialog(self, title):
+        self.fc.dialogTitle = title
+        res = self.fc.showOpenDialog(self.pywin.frame)
+        if res == JFileChooser.APPROVE_OPTION:
+            return self.fc.selectedFile
+    def show_save_dialog(self, title):
+        self.fc.dialogTitle = title
+        res = self.fc.showSaveDialog(self.pywin.frame)
+        if res == JFileChooser.APPROVE_OPTION:
+            return self.fc.selectedFile    
+    def save_script(self):
+        if self.script_path is None:
+            return
+        with open(self.script_path, "wb") as stream:
+            stream.write(self.pywin.script_area.input)
+    def open_script(self):
+        f = self.show_open_dialog("Select script file to open")
+        if f is None:
+            return
+        self.script_path = f.absolutePath
+        with open(self.script_path, "rb") as stream:
+            self.pywin.script_area.input = stream.read()
+    def save_script_as(self):
+        f = self.show_save_dialog("Select file to write script to")
+        if f is None:
+            return
+        self.script_path = f.absolutePath
+        self.save_script()
+    def load_script(self):
+        f = self.show_open_dialog("Select script file to load")
+        if f is None:
+            return
+        self.load_path = f.absolutePath
+        self.reload_script()
+    def reload_script(self):
+        print "*** Loading", self.load_path, "***"
+        try:
+            execfile(self.load_path, interface.namespace)
+        except Exception, e:
+            self.pywin.outputpane.addtext(str(e) + '\n', 'error')
+
+
 class FileLoader(ActionListener):
     def __init__(self, pywin):
         self.fc = JFileChooser()
@@ -1148,8 +1197,10 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
         interactive_pane.add(scrollpane, BorderLayout.CENTER)
         interactive_pane.add(inputPanel, BorderLayout.PAGE_END)
 
+        scrollpane = JScrollPane()
         self.script_area = script_area = InputArea()
-        script_pane.add(script_area.component, BorderLayout.CENTER)
+        scrollpane.viewport.view = self.script_area.component
+        script_pane.add(scrollpane, BorderLayout.CENTER)
         
         tabs.addTab("Interactive", interactive_pane)
         tabs.addTab("Script", script_pane)
@@ -1163,19 +1214,35 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
     def make_menubar(self):
         shortcut = Toolkit.getDefaultToolkit().menuShortcutKeyMask
         menubar = JMenuBar()
+
+        def new_item(title, cmd, key, mod=shortcut):
+            item = JMenuItem(title, actionCommand=cmd)
+            item.accelerator = KeyStroke.getKeyStroke(key, mod)
+            item.addActionListener(self)
+            return item
         filemenu = JMenu("File")
-        loader = FileLoader(self)
         menubar.add(filemenu)
-        item = JMenuItem("Load Python File", actionCommand="load")
-        item.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_O, shortcut)
-        item.addActionListener(loader)
+
+        fm = self.file_manager = FileManager(self)
+        
+        item = new_item("Run Python File...", "load", KeyEvent.VK_L)
         filemenu.add(item)
-        item = JMenuItem("Reload Python File",
-            enabled=False, actionCommand="reload"
-        )
-        item.addActionListener(loader)
-        item.accelerator = KeyStroke.getKeyStroke(KeyEvent.VK_R, shortcut)
+
+        item = new_item("Run Python File", "reload", KeyEvent.VK_R)
+        item.enabled = False
         self.reload_menuitem = item
+        filemenu.add(item)
+
+        item = new_item("Open Python Script...", "open", KeyEvent.VK_O)
+        filemenu.add(item)
+
+        item = new_item("Save Python Script", "save", KeyEvent.VK_S)
+        item.enabled = False
+        self.save_menuitem = item
+        filemenu.add(item)
+
+        item = new_item("Save Python Script As...", "save_as", KeyEvent.VK_S,
+                        mod = shortcut + ActionEvent.SHIFT_MASK)
         filemenu.add(item)
         
         navmenu = JMenu("Navigation")
@@ -1308,6 +1375,8 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
     # Implementation of ActionListener
     def actionPerformed(self, evt):
         getattr(self, "action_" + evt.actionCommand)(evt)
+
+    # Navigating history
     def action_up(self, evt):
         """Move back in history"""
         try:
@@ -1323,6 +1392,30 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
         except InputHistory.OutOfBounds:
             self.input.input = self.current_text
             self.history.reset_position()
+
+    # Script actions
     def action_runscript(self, evt):
         """Run script"""
         self.runcode(self.script_area.input, interactive=False)
+
+    # Saving / loading scripts
+    def action_open(self, evt):
+        self.file_manager.open_script()
+        if self.file_manager.script_path:
+            self.save_menuitem.enabled = True
+            self.save_menuitem.text = "Save " + self.file_manager.script_path
+    def action_save(self, evt):
+        self.file_manager.save_script()
+    def action_save_as(self, evt):
+        self.file_manager.save_script_as()
+        if self.file_manager.script_path:
+            self.save_menuitem.enabled = True
+            self.save_menuitem.text = "Save " + self.file_manager.script_path
+    def action_load(self, evt):
+        self.file_manager.load_script()
+        if self.file_manager.load_path:
+            self.reload_menuitem.enabled = True
+            self.reload_menuitem.text = "Run " + self.file_manager.load_path
+    def action_reload(self, evt):
+        self.file_manager.reload_script()
+
