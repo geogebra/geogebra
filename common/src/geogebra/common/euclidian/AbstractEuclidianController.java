@@ -4372,4 +4372,48 @@ public abstract class AbstractEuclidianController {
 	
 		return null;
 	}
+
+	protected final GeoElement[] vectorFromPoint(Hits hits) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+	
+		// point
+		int count = addSelectedPoint(hits, 1, false);
+	
+		// vector
+		if (count == 0) {
+			addSelectedVector(hits, 1, false);
+		}
+	
+		if ((selPoints() == 1) && (selVectors() == 1)) {
+			GeoVector[] vecs = getSelectedVectors();
+			GeoPoint2[] points = getSelectedPoints();
+			GeoPoint2 endPoint = (GeoPoint2) kernel.Translate(null, points[0],
+					vecs[0])[0];
+			GeoElement[] ret = { null };
+			ret[0] = kernel.Vector(null, points[0], endPoint);
+			return ret;
+		}
+		return null;
+	}
+
+	protected final boolean circlePointRadius(Hits hits) {
+		if (hits.isEmpty()) {
+			return false;
+		}
+	
+		addSelectedPoint(hits, 1, false);
+	
+		// we got the center point
+		if (selPoints() == 1) {
+			app.getGuiManager()
+					.getDialogManager()
+					.showNumberInputDialogCirclePointRadius(
+							app.getMenu(getKernel().getModeText(mode)),
+							getSelectedPointsND()[0], (AbstractEuclidianView) view);
+			return true;
+		}
+		return false;
+	}
 }

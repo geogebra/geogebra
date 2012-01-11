@@ -3,6 +3,8 @@ package geogebra.common.gui.dialog;
 import java.util.ArrayList;
 
 import geogebra.common.awt.Point;
+import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -43,5 +45,8 @@ public abstract class DialogManager {
 			GeoPoint2 geoPoint2, GeoPoint2 geoPoint22);
 
 	public abstract void showBooleanCheckboxCreationDialog(Point loc, GeoBoolean bool);
+
+	public abstract void showNumberInputDialogCirclePointRadius(String menu,
+			GeoPointND geoPointND, AbstractEuclidianView view);
 
 }
