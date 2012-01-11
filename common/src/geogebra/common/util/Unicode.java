@@ -147,6 +147,7 @@ public class Unicode {
 			testCharMap.put("ru", '\u0439'); // Russian
 			testCharMap.put("mr", '\u092e'); // Marathi
 			testCharMap.put("ne", '\u0947'); // Nepalese
+			testCharMap.put("am", '\u0570'); // Armenian
 			
 		}	
 	}
