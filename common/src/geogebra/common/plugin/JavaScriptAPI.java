@@ -1,4 +1,4 @@
-package geogebra;
+package geogebra.common.plugin;
 
 
 
