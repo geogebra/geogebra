@@ -316,6 +316,11 @@ public class PythonAPI {
 			geo.setEuclidianVisible(b);
 		}
 
+		public boolean keepsType() {
+			Application.debug("TODO");
+			return true;
+		}
+
 		/* GeoVec3D methods */
 
 		public void setCoords(double x, double y, double z) {
