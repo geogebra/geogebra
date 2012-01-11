@@ -8,4 +8,6 @@ public interface EuclidianStyleBar {
 
 	void applyVisualStyle(ArrayList<GeoElement> selectedGeos);
 
+	public void updateButtonPointCapture(int mode);
+
 }
