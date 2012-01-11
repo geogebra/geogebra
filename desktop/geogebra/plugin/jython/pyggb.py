@@ -946,22 +946,9 @@ class Geo(object):
         return map(Geo._get_element, api.getGeos(GeoClass.POINT))
 
 
-class MyListCellRenderer(ListCellRenderer):
-    colormap = {
-        "input": awtColor.BLACK,
-        "output": awtColor.BLUE,
-        "error": awtColor.RED
-    }
-    font = Font("Monospaced", Font.PLAIN, 12)
-    def getListCellRendererComponent(self, lst, value, index, isSelected, cellHasFocus):
-        text = value["text"]
-        renderer = JTextArea(text=text)
-        renderer.foreground = self.colormap[value["type"]]
-        renderer.font = self.font
-        if isSelected:
-            renderer.background = awtColor.YELLOW
-        return renderer
-
+#
+# GUI
+#
 
 class OutputPane(object):
     def __init__(self):
@@ -1051,29 +1038,6 @@ class FileManager(ActionListener):
             execfile(self.load_path, interface.namespace)
         except Exception, e:
             self.pywin.outputpane.addtext(str(e) + '\n', 'error')
-
-
-class FileLoader(ActionListener):
-    def __init__(self, pywin):
-        self.fc = JFileChooser()
-        self.fc.fileFilter = FileNameExtensionFilter("Python Files", ["py"])
-        self.pywin = pywin
-        self.filename = None
-    def actionPerformed(self, evt):
-        if evt.actionCommand == 'load':
-            res = self.fc.showOpenDialog(self.pywin.frame)
-            if res == JFileChooser.APPROVE_OPTION:
-                self.filename = self.fc.selectedFile.absolutePath
-                self.pywin.reload_menuitem.text = "Reload " + self.filename
-                self.pywin.reload_menuitem.enabled = True
-            else:
-                self.filename = None
-        if self.filename:
-            print "*** Loading", self.filename, "***"
-            try:
-                execfile(self.filename, interface.namespace)
-            except Exception, e:
-                self.pywin.outputpane.addtext(str(e) + '\n', 'error')
 
 
 class InputHistory(object):
