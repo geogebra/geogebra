@@ -90,7 +90,7 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 			}
 
 			// make sure we use a font that can display the text
-			setFont(app.getFontCanDisplay(text, Font.BOLD));
+			setFont(app.getFontCanDisplayAwt(text, Font.BOLD));
 			setText(text);
 
 			if (geo.doHighlighting()) 
@@ -149,7 +149,7 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 			setText(str);
 
 			// make sure we use a font that can display the text
-			setFont(app.getFontCanDisplay(str));
+			setFont(app.getFontCanDisplayAwt(str));
 		}		
 		return this;
 	}

@@ -6,7 +6,7 @@ public class FontRenderContext extends geogebra.common.awt.FontRenderContext {
 	public FontRenderContext(java.awt.font.FontRenderContext frc){
 		impl = frc;
 	}
-	public static java.awt.font.FontRenderContext getAwtFrc(geogebra.awt.FontRenderContext frc) {
+	public static java.awt.font.FontRenderContext getAwtFrc(geogebra.common.awt.FontRenderContext frc) {
 		if(!(frc instanceof FontRenderContext)){
 			return null;
 		}

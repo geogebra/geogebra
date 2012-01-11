@@ -926,7 +926,7 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 		rightAngleRadio2.setText("\u25a1");
 		rightAngleRadio3.setText("\u2219");
 		rightAngleRadio4.setText("\u2335");
-		rightAngleRadio4.setFont(app.getFontCanDisplay("\u2335"));
+		rightAngleRadio4.setFont(app.getFontCanDisplayAwt("\u2335"));
 
 		coordinatesPanel.setBorder(BorderFactory.createTitledBorder(app
 				.getPlain("Coordinates")));

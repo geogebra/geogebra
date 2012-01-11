@@ -308,11 +308,9 @@ public class Application extends AbstractApplication implements
 	// Font settings
 	public static final int MIN_FONT_SIZE = 10;
 
-	// currently used application fonts
-	private int appFontSize;
+	
 
-	// gui / menu fontsize (-1 = use appFontSize)
-	private int guiFontSize = -1;
+	
 
 	// maximum number of files to (save &) show in File -> Recent submenu
 	public static final int MAX_RECENT_FILES = 8;
@@ -769,28 +767,7 @@ public class Application extends AbstractApplication implements
 		return fontManager;
 	}
 
-	/**
-	 * Returns a font that can display testString.
-	 */
-	public Font getFontCanDisplay(String testString) {
-		return getFontCanDisplay(testString, false, Font.PLAIN, appFontSize);
-	}
 
-	/**
-	 * Returns a font that can display testString.
-	 */
-	public Font getFontCanDisplay(String testString, int fontStyle) {
-		return getFontCanDisplay(testString, false, fontStyle, appFontSize);
-	}
-
-	/**
-	 * Returns a font that can display testString.
-	 */
-	public Font getFontCanDisplay(String testString, boolean serif,
-			int fontStyle, int fontSize) {
-		return fontManager.getFontCanDisplay(testString, serif, fontStyle,
-				fontSize);
-	}
 
 	/**
 	 * Sets state of application to "saved", so that no warning appears on
@@ -1797,6 +1774,10 @@ public class Application extends AbstractApplication implements
 
 	public Locale getTooltipLanguage() {
 		return tooltipLocale;
+	}
+	
+	public String getTooltipLanguageString() {
+		return tooltipLocale.toString();
 	}
 
 	@Override
@@ -2945,23 +2926,12 @@ public class Application extends AbstractApplication implements
 		getGuiManager().updateFrameTitle();
 	}
 
-	@Override
-	public void setFontSize(int points) {
-		setFontSize(points, true);
-	}
+	
+	
 
-	public void setFontSize(int points, boolean update) {
-		if (points == appFontSize) {
-			return;
-		}
-		appFontSize = points;
-		isSaved = false;
-		if (!update) {
-			return;
-		}
+	
 
-		resetFonts();
-
+	public void updateUI() {
 		if (!initing) {
 			if (appletImpl != null) {
 				SwingUtilities.updateComponentTreeUI(appletImpl.getJApplet());
@@ -2970,53 +2940,19 @@ public class Application extends AbstractApplication implements
 				SwingUtilities.updateComponentTreeUI(frame);
 			}
 		}
+		
 	}
 
 	public void resetFonts() {
-		fontManager.setFontSize(getGUIFontSize());
+		getFontManager().setFontSize(getGUIFontSize());
 		updateFonts();
 	}
 
-	public void updateFonts() {
-		if (euclidianView != null) {
-			euclidianView.updateFonts();
-		}
+	
 
-		if (guiManager != null) {
-			getGuiManager().updateFonts();
-			if (hasEuclidianView2()) {
-				getEuclidianView2().updateFonts();
-			}
-		}
+	
 
-	}
-
-	public int getFontSize() {
-		return appFontSize;
-	}
-
-	public int getGUIFontSize() {
-		return guiFontSize == -1 ? appFontSize : guiFontSize;
-	}
-
-	@Override
-	public void setGUIFontSize(int size) {
-		guiFontSize = size;
-		updateFonts();
-		isSaved = false;
-
-		resetFonts();
-
-		if (!initing) {
-			if (appletImpl != null) {
-				SwingUtilities.updateComponentTreeUI(appletImpl.getJApplet());
-			}
-			if (frame != null) {
-				SwingUtilities.updateComponentTreeUI(frame);
-			}
-		}
-	}
-
+	
 	private void setLabels() {
 		if (initing) {
 			return;
@@ -3847,89 +3783,40 @@ public class Application extends AbstractApplication implements
 	 * isSaved = true; System.gc(); }
 	 */
 
-	/**
-	 * Returns gui settings in XML format
-	 */
-	public String getGuiXML(boolean asPreference) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("<gui>\n");
-
+	
+	protected void getWindowLayoutXML(StringBuilder sb, boolean asPreference) {
 		// save the dimensions of the current window
-		sb.append("\t<window width=\"");
+				sb.append("\t<window width=\"");
 
-		if ((frame != null) && (frame.getWidth() > 0)) {
-			sb.append(frame.getWidth());
-		} else {
-			sb.append(800);
-		}
+				if ((frame != null) && (frame.getWidth() > 0)) {
+					sb.append(frame.getWidth());
+				} else {
+					sb.append(800);
+				}
 
-		sb.append("\" height=\"");
+				sb.append("\" height=\"");
 
-		if ((frame != null) && (frame.getHeight() > 0)) {
-			sb.append(frame.getHeight());
-		} else {
-			sb.append(600);
-		}
+				if ((frame != null) && (frame.getHeight() > 0)) {
+					sb.append(frame.getHeight());
+				} else {
+					sb.append(600);
+				}
 
-		sb.append("\" />\n");
+				sb.append("\" />\n");
 
-		if (guiManager == null) {
-			initGuiManager();
-		}
-		getGuiManager().getLayout().getXml(sb, asPreference);
+				if (guiManager == null) {
+					initGuiManager();
+				}
+				getGuiManager().getLayout().getXml(sb, asPreference);
 
-		// labeling style
-		// default changed so we need to always save this now
-		// if (labelingStyle != ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC) {
-		sb.append("\t<labelingStyle ");
-		sb.append(" val=\"");
-		sb.append(getLabelingStyle());
-		sb.append("\"/>\n");
-		// }
-
-		// just save mouse settings as preference
-		if (asPreference) {
-			sb.append("\t<mouse reverseWheel=\"");
-			sb.append(isMouseWheelReversed());
-			sb.append("\"/>\n");
-		}
-
-		sb.append("\t<font ");
-		sb.append(" size=\"");
-		sb.append(appFontSize);
-		sb.append("\"/>\n");
-
-		if (asPreference) {
-			sb.append("\t<menuFont ");
-			sb.append(" size=\"");
-			sb.append(guiFontSize);
-			sb.append("\"/>\n");
-
-			sb.append("\t<tooltipSettings ");
-			if (getTooltipLanguage() != null) {
-				sb.append(" language=\"");
-				sb.append(getTooltipLanguage());
-				sb.append("\"");
-			}
-			sb.append(" timeout=\"");
-			sb.append(getTooltipTimeout());
-			sb.append("\"");
-
-			sb.append("/>\n");
-		}
-
-		if (!asPreference) {
-			sb.append("\t<graphicsSettings");
-			sb.append(" javaLatexFonts=\"");
-			sb.append(useJavaFontsForLaTeX());
-			sb.append("\"/>\n");
-		}
-
-		sb.append(getConsProtocolXML());
-
-		sb.append("</gui>\n");
-
-		return sb.toString();
+				// labeling style
+				// default changed so we need to always save this now
+				// if (labelingStyle != ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC) {
+				sb.append("\t<labelingStyle ");
+				sb.append(" val=\"");
+				sb.append(getLabelingStyle());
+				sb.append("\"/>\n");
+				// }
 	}
 
 	@Override
@@ -3996,21 +3883,7 @@ public class Application extends AbstractApplication implements
 		sb.append("\"/>\n");
 	}
 
-	public String getConsProtocolXML() {
-		if (guiManager == null) {
-			return "";
-		}
-
-		StringBuilder sb = new StringBuilder();
-
-		// construction protocol
-		if (getGuiManager().isUsingConstructionProtocol()) {
-			getGuiManager().getConsProtocolXML(sb);
-		}
-
-		return sb.toString();
-	}
-
+	
 	/**
 	 * Returns the CodeBase URL.
 	 */
@@ -5651,6 +5524,18 @@ public class Application extends AbstractApplication implements
 
 	public static boolean isMiddleClick(AbstractEvent e) {
 		return isMiddleClick(geogebra.euclidian.event.MouseEvent.getEvent(e));
+	}
+
+	public Font getFontCanDisplayAwt(String string, boolean b, int plain, int i) {
+		return geogebra.awt.Font.getAwtFont(getFontCanDisplay(string,b,plain,i));
+	}
+
+	public Font getFontCanDisplayAwt(String string) {
+		return geogebra.awt.Font.getAwtFont(getFontCanDisplay(string));
+	}
+
+	public Font getFontCanDisplayAwt(String value, int plain) {
+		return geogebra.awt.Font.getAwtFont(getFontCanDisplay(value,plain));
 	}
 
 

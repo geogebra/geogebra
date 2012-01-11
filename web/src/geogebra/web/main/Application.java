@@ -35,6 +35,7 @@ import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.AbstractFontManager;
 import geogebra.common.main.GlobalKeyDispatcher;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.Settings;
@@ -52,7 +53,7 @@ import geogebra.web.util.DataUtil;
 public class Application extends AbstractApplication {
 	
 	
-	
+	private FontManager fontManager;
 	MyXMLio myXMLio;
 	
 	private boolean[] showAxes = {true,true};
@@ -64,7 +65,8 @@ public class Application extends AbstractApplication {
 	
 	public Application(){
 		this.init(Canvas.createIfSupported());
-
+		fontManager = new FontManager();
+		setFontSize(12);
 	}
 
 	@Override
@@ -682,6 +684,30 @@ public class Application extends AbstractApplication {
     public Font getPlainFontCommon() {
 	    // TODO Auto-generated method stub
 	    return new geogebra.web.awt.Font("normal");
+    }
+
+	@Override
+    public AbstractFontManager getFontManager() {
+	    // TODO Auto-generated method stub
+	    return fontManager;
+    }
+
+	@Override
+    public void updateUI() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public String getTooltipLanguageString() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    protected void getWindowLayoutXML(StringBuilder sb, boolean asPreference) {
+	    // TODO Auto-generated method stub
+	    
     }
 
 

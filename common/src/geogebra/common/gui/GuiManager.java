@@ -37,4 +37,16 @@ public abstract class GuiManager {
 		return false;
 	}
 
+	public abstract void updateFonts();
+
+	public boolean isUsingConstructionProtocol() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void getConsProtocolXML(StringBuilder sb) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

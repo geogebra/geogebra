@@ -182,7 +182,7 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 			} else {
 				String text = app.getMenu(items[i]);
 				mi = new JRadioButtonMenuItem(text);
-				mi.setFont(app.getFontCanDisplay(text));
+				mi.setFont(app.getFontCanDisplayAwt(text));
 				if (i == selectedPos)
 					mi.setSelected(true);
 				mi.setActionCommand(actionCommands[i]);
@@ -216,7 +216,7 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 			} else {
 				String text = app.getMenu(items[i]);
 				mi = new JRadioButtonMenuItem(text);
-				mi.setFont(app.getFontCanDisplay(text));
+				mi.setFont(app.getFontCanDisplayAwt(text));
 				if (i == selectedPos)
 					mi.setSelected(true);
 				mi.setActionCommand(actionCommands[i]);

@@ -120,7 +120,7 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 		delegate.setValue(text);
 
 		Component component = getComponent();
-		component.setFont(app.getFontCanDisplay(text));
+		component.setFont(app.getFontCanDisplayAwt(text));
 
 		editing = true;	
 

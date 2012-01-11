@@ -1,5 +1,6 @@
 package geogebra.main;
 
+import geogebra.common.main.AbstractFontManager;
 import geogebra.common.util.Unicode;
 
 import java.awt.Font;
@@ -16,7 +17,7 @@ import javax.swing.UIManager;
  * Manages fonts for different languages. Use setLanguage() and setFontSize() to
  * initialize the default fonts.
  */
-public class FontManager {
+public class FontManager extends AbstractFontManager{
 	
 	private Font boldFont, italicFont, plainFont, smallFont, serifFont, serifFontBold, javaSans, javaSerif;
 	private int fontSize;
@@ -227,7 +228,7 @@ public class FontManager {
 	/**
 	 * Returns a font that can display testString.
 	 */
-	public Font getFontCanDisplay(String testString, boolean serif, int fontStyle, int fontSize) {
+	public Font getFontCanDisplayAwt(String testString, boolean serif, int fontStyle, int fontSize) {
 		Font appFont = serif ? serifFont : plainFont;
 		if (appFont == null) {
 			return plainFont;
@@ -394,6 +395,14 @@ public class FontManager {
 		UIManager.put("PasswordField.font", plain);
 		UIManager.put("TextArea.font", plain);
 		UIManager.put("ToolTip.font", plain);
+	}
+
+	
+
+	@Override
+	public geogebra.common.awt.Font getFontCanDisplay(String testString,
+			boolean serif, int fontStyle, int fontSize) {
+		return new geogebra.awt.Font(getFontCanDisplayAwt(testString,serif,fontStyle,fontSize));
 	}
 
 }

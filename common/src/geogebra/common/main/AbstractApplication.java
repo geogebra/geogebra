@@ -193,6 +193,10 @@ public abstract class AbstractApplication {
 		return CASVersionString;
 
 	}
+	// gui / menu fontsize (-1 = use appFontSize)
+		private int guiFontSize = -1;
+	// currently used application fonts
+		private int appFontSize;
 	// note: It is not necessary to use powers of 2 for view IDs
 
 	// For eg Hebrew and Arabic.
@@ -1235,15 +1239,9 @@ public abstract class AbstractApplication {
 
 	
 
-	public void setFontSize(int guiSize) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	public void setGUIFontSize(int i) {
-		// TODO Auto-generated method stub
-		
-	}
+	
+
 
 	public void setUniqueId(String uniqueId) {
 		// TODO Auto-generated method stub
@@ -1367,7 +1365,7 @@ public abstract class AbstractApplication {
 		return false;
 	}
 
-	public EuclidianViewInterfaceSlim getEuclidianView2() {
+	public AbstractEuclidianView getEuclidianView2() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -1771,12 +1769,160 @@ public abstract class AbstractApplication {
 	}
 
 	public int getFontSize() {
-		// TODO Auto-generated method stub
-		return 10;
+		return appFontSize;
 	}
+	public void setFontSize(int points) {
+		setFontSize(points, true);
+	}
+	public void setFontSize(int points, boolean update) {
+		if (points == appFontSize) {
+			return;
+		}
+		appFontSize = points;
+		//isSaved = false;
+		if (!update) {
+			return;
+		}
 
+		resetFonts();
+
+		updateUI();
+	}
+	public abstract void updateUI();
+	
 	public void clearTooltipFlag() {
 		tooltipFlag = false;
 	}
+	
+	public void resetFonts() {
+		getFontManager().setFontSize(getGUIFontSize());
+		updateFonts();
+	}
+
+	public int getGUIFontSize() {
+		return guiFontSize == -1 ? getFontSize() : guiFontSize;
+	}
+
+	public void setGUIFontSize(int size) {
+		guiFontSize = size;
+		updateFonts();
+		//isSaved = false;
+
+		resetFonts();
+
+		updateUI();
+	}
+
+
+	protected AbstractFontManager getFontManager() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void updateFonts() {
+		if (euclidianView != null) {
+			euclidianView.updateFonts();
+		}
+
+		if (getGuiManager() != null) {
+			getGuiManager().updateFonts();
+			if (hasEuclidianView2()) {
+				getEuclidianView2().updateFonts();
+			}
+		}
+
+	}
+	
+	/**
+	 * Returns a font that can display testString.
+	 */
+	public Font getFontCanDisplay(String testString) {
+		return getFontCanDisplay(testString, false, Font.PLAIN, getFontSize());
+	}
+
+	/**
+	 * Returns a font that can display testString.
+	 */
+	public Font getFontCanDisplay(String testString, int fontStyle) {
+		return getFontCanDisplay(testString, false, fontStyle, getFontSize());
+	}
+
+	/**
+	 * Returns a font that can display testString.
+	 */
+	public Font getFontCanDisplay(String testString, boolean serif,
+			int fontStyle, int fontSize) {
+		return getFontManager().getFontCanDisplay(testString, serif, fontStyle,
+				fontSize);
+	}
+	
+	/**
+	 * Returns gui settings in XML format
+	 */
+	public String getGuiXML(boolean asPreference) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<gui>\n");
+
+		getWindowLayoutXML(sb,asPreference);
+		// just save mouse settings as preference
+		if (asPreference) {
+			sb.append("\t<mouse reverseWheel=\"");
+			sb.append(isMouseWheelReversed());
+			sb.append("\"/>\n");
+		}
+
+		sb.append("\t<font ");
+		sb.append(" size=\"");
+		sb.append(getFontSize());
+		sb.append("\"/>\n");
+
+		if (asPreference) {
+			sb.append("\t<menuFont ");
+			sb.append(" size=\"");
+			//sb.append(guiFontSize);
+			sb.append("\"/>\n");
+
+			sb.append("\t<tooltipSettings ");
+			if (getTooltipLanguageString() != null) {
+				sb.append(" language=\"");
+				sb.append(getTooltipLanguageString());
+				sb.append("\"");
+			}
+			sb.append(" timeout=\"");
+			sb.append(getTooltipTimeout());
+			sb.append("\"");
+
+			sb.append("/>\n");
+		}
+
+		if (!asPreference) {
+			sb.append("\t<graphicsSettings");
+			sb.append(" javaLatexFonts=\"");
+			sb.append(useJavaFontsForLaTeX());
+			sb.append("\"/>\n");
+		}
+
+		sb.append(getConsProtocolXML());
+
+		sb.append("</gui>\n");
+
+		return sb.toString();
+	}
+	public String getConsProtocolXML() {
+		if (getGuiManager() == null) {
+			return "";
+		}
+
+		StringBuilder sb = new StringBuilder();
+
+		// construction protocol
+		if (getGuiManager().isUsingConstructionProtocol()) {
+			getGuiManager().getConsProtocolXML(sb);
+		}
+
+		return sb.toString();
+	}
+	public abstract String getTooltipLanguageString();
+	protected abstract void getWindowLayoutXML(StringBuilder sb, boolean asPreference);
 
 }

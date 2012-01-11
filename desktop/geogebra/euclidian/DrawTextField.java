@@ -362,7 +362,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		Application app = ((EuclidianView)view).getApplication();
 
 		Font vFont = geogebra.awt.Font.getAwtFont(view.getFont());
-		Font font = app.getFontCanDisplay(textField.getText(), false,
+		Font font = app.getFontCanDisplayAwt(textField.getText(), false,
 				vFont.getStyle(), fontSize);
 
 		textField.setOpaque(true);

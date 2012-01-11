@@ -220,7 +220,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 			fontStyle = Font.PLAIN;
 
 		setText(text);
-		setFont(app.getFontCanDisplay(text, fontStyle));
+		setFont(app.getFontCanDisplayAwt(text, fontStyle));
 
 
 

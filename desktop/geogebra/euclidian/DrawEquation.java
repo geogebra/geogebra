@@ -76,7 +76,7 @@ public class DrawEquation implements DrawEquationInterface{
 			while (it.hasNext()) {
 				String lang = it.next();
 				Character ch = Unicode.getTestChar(lang);
-				Font testFont = app.getFontCanDisplay(ch.toString(), true,
+				Font testFont = app.getFontCanDisplayAwt(ch.toString(), true,
 						Font.PLAIN, 12);
 				if (testFont != null)
 					TeXFormula.registerExternalFont(

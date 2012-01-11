@@ -25,8 +25,8 @@ public class DrawLabel3DForText extends DrawLabel3D {
 		if (geo.isLaTeX())
 			return geogebra.awt.Rectangle.getAWTRectangle(EuclidianStatic.drawMultilineLaTeX(view.getApplication(), new geogebra.awt.Graphics2D(tempGraphics), geo, new geogebra.awt.Graphics2D(tempGraphics), new geogebra.awt.Font(font), 
 					geogebra.awt.Color.BLACK, geogebra.awt.Color.WHITE, text, 0, 0, false));
-		else
-			return EuclidianStatic.drawMultiLineIndexedText(view.getApplication(), text, 0, 0, new geogebra.awt.Graphics2D(tempGraphics), false);
+		
+			return geogebra.awt.Rectangle.getAWTRectangle(EuclidianStatic.drawMultiLineIndexedText(view.getApplication(), text, 0, 0, new geogebra.awt.Graphics2D(tempGraphics), false));
 		
 	}
 

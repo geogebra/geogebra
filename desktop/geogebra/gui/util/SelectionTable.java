@@ -421,7 +421,7 @@ public class SelectionTable extends JTable {
 				this.setHorizontalAlignment(horizontalAlignment);
 				this.setVerticalAlignment(SwingConstants.CENTER);
 				setText((String)value);
-				setFont(app.getFontCanDisplay((String)value, Font.PLAIN));
+				setFont(app.getFontCanDisplayAwt((String)value, Font.PLAIN));
 				setBorder(paddingBorder);
 
 			}else{		

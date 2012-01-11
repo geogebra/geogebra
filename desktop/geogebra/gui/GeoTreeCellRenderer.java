@@ -73,7 +73,7 @@ public class GeoTreeCellRenderer extends DefaultTreeCellRenderer {
 			
 			setForeground(geogebra.awt.Color.getAwtColor(geo.getLabelColor()));			
 			setText(geo.getLabelTextOrHTML());	
-			setFont(app.getFontCanDisplay(getText(), Font.BOLD));
+			setFont(app.getFontCanDisplayAwt(getText(), Font.BOLD));
 			
 			if (geo.doHighlighting())				   
 				setBackground(Application.COLOR_SELECTION);
@@ -92,7 +92,7 @@ public class GeoTreeCellRenderer extends DefaultTreeCellRenderer {
 			setBorder(null);					
 			setText(value.toString());
 			setIcon(null);	
-			setFont(app.getFontCanDisplay(getText()));
+			setFont(app.getFontCanDisplayAwt(getText()));
 			
 		}	
 		

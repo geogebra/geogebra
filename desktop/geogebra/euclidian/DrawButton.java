@@ -162,7 +162,7 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 		Application app = (Application)view.getApplication();
 
 		myButton.setOpaque(true);
-		myButton.setFont(app.getFontCanDisplay(myButton.getText(),
+		myButton.setFont(app.getFontCanDisplayAwt(myButton.getText(),
 				geoButton.isSerifFont(), geoButton.getFontStyle(), fontSize));
 
 		// myButton.setForeground(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));

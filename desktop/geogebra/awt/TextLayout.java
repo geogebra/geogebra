@@ -7,7 +7,7 @@ import geogebra.common.awt.Rectangle;
 public class TextLayout implements geogebra.common.awt.font.TextLayout {
 	private java.awt.font.TextLayout impl;
 	public TextLayout(String string, Font fontLine,
-			geogebra.awt.FontRenderContext frc) {
+			geogebra.common.awt.FontRenderContext frc) {
 		impl = new java.awt.font.TextLayout(string,geogebra.awt.Font.getAwtFont(fontLine),
 				geogebra.awt.FontRenderContext.getAwtFrc(frc));
 	}

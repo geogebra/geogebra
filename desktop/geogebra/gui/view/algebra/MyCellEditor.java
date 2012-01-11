@@ -56,7 +56,7 @@ public class MyCellEditor extends DefaultCellEditor {
         delegate.setValue(stringValue);
         
 		// make sure we use a font that can display the text
-        editorComponent.setFont(app.getFontCanDisplay(str));
+        editorComponent.setFont(app.getFontCanDisplayAwt(str));
         return editorComponent;
     }
 }

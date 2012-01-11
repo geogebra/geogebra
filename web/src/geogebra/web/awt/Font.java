@@ -159,4 +159,10 @@ public class Font extends geogebra.common.awt.Font{
 	    return null;
     }
 
+	@Override
+    public String getFontName() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
 }

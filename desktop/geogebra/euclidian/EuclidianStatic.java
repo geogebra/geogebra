@@ -5,22 +5,11 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.AbstractApplication;
-import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.main.Application;
 
-import geogebra.common.awt.BasicStroke;
-import geogebra.common.awt.GeneralPath;
-
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
-import java.awt.font.FontRenderContext;
-import java.awt.font.TextLayout;
 import java.util.ArrayList;
 
 public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic{
@@ -31,10 +20,11 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic{
 	// in order to be usable from Common. (like an adapter)
 
 	// Michael Borcherds 2008-06-10
-	final static float textWidth(String str, Font font, FontRenderContext frc) {
+	final static float textWidth(String str, geogebra.common.awt.Font font, 
+			geogebra.common.awt.FontRenderContext frc) {
 		if (str.equals(""))
 			return 0f;
-		TextLayout layout = new TextLayout(str, font, frc);
+		geogebra.common.awt.font.TextLayout layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(str, font, frc);
 		return layout.getAdvance();
 
 	}
@@ -247,11 +237,11 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic{
 		int fontSize = g2.getFont().getSize();
 		float lineSpread = fontSize * 1.5f;
 
-		Font font = geogebra.awt.Font.getAwtFont(g2.getFont());
+		geogebra.common.awt.Font font = g2.getFont();
 		font = ((Application) app).getFontCanDisplay(labelDesc, serif, font.getStyle(),
 				font.getSize());
 
-		FontRenderContext frc = geogebra.awt.Graphics2D.getAwtGraphics(g2).getFontRenderContext();
+		geogebra.common.awt.FontRenderContext frc = g2.getFontRenderContext();
 		int xoffset = 0;
 
 		// draw text line by line
@@ -293,7 +283,7 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic{
 
 	}
 
-	public final static Rectangle drawMultiLineIndexedText(Application app,
+	public final static geogebra.common.awt.Rectangle drawMultiLineIndexedText(Application app,
 			String labelDesc, int xLabel, int yLabel, geogebra.common.awt.Graphics2D g2,
 			boolean serif) {
 		int lines = 0;
@@ -332,7 +322,7 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic{
 		// labelHasIndex = yoffset > 0;
 		int height = (int) ((lines + 1) * lineSpread);
 
-		return new Rectangle(xLabel - 3, yLabel - fontSize - 3, xoffset + 6,
+		return new geogebra.awt.Rectangle(xLabel - 3, yLabel - fontSize - 3, xoffset + 6,
 				height + 6);
 		// labelRectangle.setBounds(xLabel, yLabel - fontSize, xoffset, height
 		// );
@@ -351,14 +341,14 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic{
 	@Override
 	public geogebra.common.awt.Point doDrawIndexedString(AbstractApplication app, geogebra.common.awt.Graphics2D g3,
 			String str, float xPos, float yPos, boolean serif) {
-		Graphics2D g2 =  geogebra.awt.Graphics2D.getAwtGraphics(g3);
-		Font g2font = g2.getFont();
+		
+		geogebra.common.awt.Font g2font = g3.getFont();
 		g2font = ((Application) app).getFontCanDisplay(str, serif, g2font.getStyle(),
 				g2font.getSize());
-		Font indexFont = getIndexFont(g2font);
-		Font font = g2font;
-		TextLayout layout;
-		FontRenderContext frc = g2.getFontRenderContext();
+		geogebra.common.awt.Font indexFont = getIndexFont(g2font);
+		geogebra.common.awt.Font font = g2font;
+		geogebra.common.awt.font.TextLayout layout;
+		geogebra.common.awt.FontRenderContext frc = g3.getFontRenderContext();
 
 		int indexOffset = indexFont.getSize() / 2;
 		float maxY = 0;
@@ -380,9 +370,9 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic{
 					if (y > maxY)
 						maxY = y;
 					String tempStr = str.substring(startPos, i);
-					layout = new TextLayout(tempStr, font, frc);
-					g2.setFont(font);
-					g2.drawString(tempStr, x, y);
+					layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(tempStr, font, frc);
+					g3.setFont(font);
+					g3.drawString(tempStr, x, y);
 					x += layout.getAdvance();
 				}
 				startPos = i + 1;
@@ -396,9 +386,9 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic{
 					if (y > maxY)
 						maxY = y;
 					String tempStr = str.substring(startPos, startPos + 1);
-					layout = new TextLayout(tempStr, font, frc);
-					g2.setFont(font);
-					g2.drawString(tempStr, x, y);
+					layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(tempStr, font, frc);
+					g3.setFont(font);
+					g3.drawString(tempStr, x, y);
 					x += layout.getAdvance();
 					depth--;
 				}
@@ -414,9 +404,9 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic{
 						if (y > maxY)
 							maxY = y;
 						String tempStr = str.substring(startPos, i);
-						layout = new TextLayout(tempStr, font, frc);
-						g2.setFont(font);
-						g2.drawString(tempStr, x, y);
+						layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(tempStr, font, frc);
+						g3.setFont(font);
+						g3.drawString(tempStr, x, y);
 						x += layout.getAdvance();
 					}
 					startPos = i + 1;
@@ -432,16 +422,16 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic{
 			if (y > maxY)
 				maxY = y;
 			String tempStr = str.substring(startPos);
-			layout = new TextLayout(tempStr, font, frc);
-			g2.setFont(font);
-			g2.drawString(tempStr, x, y);
+			layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(tempStr, font, frc);
+			g3.setFont(font);
+			g3.drawString(tempStr, x, y);
 			x += layout.getAdvance();
 		}
-		g2.setFont(g2font);
+		g3.setFont(g2font);
 		return new geogebra.common.awt.Point(Math.round(x - xPos), Math.round(maxY - yPos));
 	}
 
-	private static Font getIndexFont(Font f) {
+	private static geogebra.common.awt.Font getIndexFont(geogebra.common.awt.Font f) {
 		// index font size should be at least 8pt
 		int newSize = Math.max((int) (f.getSize() * 0.9), 8);
 		return f.deriveFont(f.getStyle(), newSize);

@@ -196,7 +196,7 @@ class OptionsMenu extends BaseMenu implements ActionListener {
 			} else {
 				String text = app.getMenu(items[i]);
 				mi = new JRadioButtonMenuItem(text);
-				mi.setFont(app.getFontCanDisplay(text, false, Font.PLAIN, app.getGUIFontSize()));
+				mi.setFont(app.getFontCanDisplayAwt(text, false, Font.PLAIN, app.getGUIFontSize()));
 				if (i == selectedPos)
 					mi.setSelected(true);
 				mi.setActionCommand(actionCommands[i]);
@@ -242,7 +242,7 @@ class OptionsMenu extends BaseMenu implements ActionListener {
 			mi = new JRadioButtonMenuItem(text);
 			
 			// make sure eg Malayalam, Georgian drawn OK (not in standard Java font)
-			mi.setFont(app.getFontCanDisplay(text, false, Font.PLAIN, app.getGUIFontSize()));
+			mi.setFont(app.getFontCanDisplayAwt(text, false, Font.PLAIN, app.getGUIFontSize()));
 
 			if (loc == app.getLocale())
 				mi.setSelected(true);

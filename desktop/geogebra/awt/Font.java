@@ -43,4 +43,8 @@ public class Font extends geogebra.common.awt.Font {
 	public geogebra.common.awt.Font deriveFont(int i) {
 		return new Font(impl.deriveFont(i));
 	}
+	@Override
+	public String getFontName() {
+		return impl.getFontName();
+	}
 }

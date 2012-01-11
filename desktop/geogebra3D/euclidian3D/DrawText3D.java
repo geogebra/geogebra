@@ -73,7 +73,7 @@ public class DrawText3D extends Drawable3DCurves {
 			//if (isLaTeX) {
 			//	//setEqnFontSize();				
 			//} else {				
-				Font textFont = getView3D().getApplication().getFontCanDisplay(text.getTextString(), newSerifFont, newFontStyle, newFontSize);				
+				Font textFont = getView3D().getApplication().getFontCanDisplayAwt(text.getTextString(), newSerifFont, newFontStyle, newFontSize);				
 			//}	
 				
 				return textFont;
