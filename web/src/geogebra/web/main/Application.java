@@ -64,9 +64,7 @@ public class Application extends AbstractApplication {
 	
 	public Application(){
 		this.init(Canvas.createIfSupported());
-		
-		// init settings
-		settings = new Settings();
+
 	}
 
 	@Override
@@ -302,6 +300,10 @@ public class Application extends AbstractApplication {
 		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.web.euclidian.EuclidianStatic();
 		this.canvas = canvas;
 		kernel = new Kernel(this);
+
+		// init settings
+		settings = new Settings();
+		
 		initEuclidianViews();
 		
 		myXMLio = new MyXMLio(kernel, kernel.getConstruction());
