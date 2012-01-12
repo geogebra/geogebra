@@ -10,21 +10,16 @@ the Free Software Foundation.
 
  */
 
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
-import geogebra.common.euclidian.AbstractEuclidianView;
-import geogebra.common.euclidian.Drawable;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.main.Application;
+import geogebra.common.main.AbstractApplication;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
+
 
 /**
  * 
@@ -60,7 +55,7 @@ public final class DrawText extends Drawable {
 		geo = text;
 
 		textFont = view.getApplication().getPlainFontCommon()
-				.deriveFont(Font.PLAIN, view.getFontSize());
+				.deriveFont(geogebra.common.awt.Font.PLAIN, view.getFontSize());
 
 		// this is needed as (bold) LaTeX texts are created with isLaTeX = false
 		// at this stage
@@ -213,7 +208,7 @@ public final class DrawText extends Drawable {
 				}
 				g2.setStroke(objStroke);
 				g2.setPaint(bg);
-				g2.fill(geogebra.awt.Rectangle.getAWTRectangle(labelRectangle));
+				g2.fill(labelRectangle);
 			}
 
 			if (isLaTeX) {
@@ -232,8 +227,8 @@ public final class DrawText extends Drawable {
 			// draw label rectangle
 			if (geo.doHighlighting()) {
 				g2.setStroke(objStroke);
-				g2.setPaint(geogebra.awt.Color.lightGray);
-				g2.draw(geogebra.awt.Rectangle.getAWTRectangle(labelRectangle));
+				g2.setPaint(geogebra.common.awt.Color.lightGray);
+				g2.draw(labelRectangle);
 			}
 		}
 	}
@@ -306,7 +301,7 @@ public final class DrawText extends Drawable {
 			// if (isLaTeX) {
 			// //setEqnFontSize();
 			// } else {
-			Application app = (Application)view.getApplication();
+			AbstractApplication app = view.getApplication();
 			textFont = app.getFontCanDisplay(text.getTextString(), serifFont,
 					fontStyle, fontSize);
 			// }

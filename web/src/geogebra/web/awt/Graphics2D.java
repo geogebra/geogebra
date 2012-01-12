@@ -37,6 +37,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	private final Context2d context;
 	
 	private Font currentFont = new Font("normal");
+	private Color color;
 
 	/**
 	 * @param canvas
@@ -384,8 +385,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
 	@Override
     public Color getColor() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return null;
+		return color;
 	}
 
 	
@@ -444,21 +444,9 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	
     @Override
-    public void setColor(Color selColor) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
-    }
-
-	
-    @Override
-    public void draw(Object shape) {
-	  draw((geogebra.web.awt.Shape) shape);
-    }
-
-	
-    @Override
-    public void fill(Object shape) {
-	    fill((geogebra.web.awt.Shape) shape);
+    public void setColor(Color fillColor) {
+    	context.setStrokeStyle("rgba("+fillColor.getRed()+","+fillColor.getGreen()+","+fillColor.getBlue()+","+fillColor.getAlpha()/255+")");
+    	this.color=fillColor;
     }
 
 	@Override

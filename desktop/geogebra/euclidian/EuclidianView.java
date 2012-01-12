@@ -34,6 +34,7 @@ import geogebra.common.euclidian.DrawRay;
 import geogebra.common.euclidian.DrawSegment;
 import geogebra.common.euclidian.DrawSlider;
 import geogebra.common.euclidian.DrawSlope;
+import geogebra.common.euclidian.DrawText;
 import geogebra.common.euclidian.DrawUpperLowerSum;
 import geogebra.common.euclidian.DrawVector;
 import geogebra.common.euclidian.EuclidianConstants;
@@ -159,7 +160,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 			BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
 
 	
-	protected Line2D.Double tempLine = new Line2D.Double();
+	//protected Line2D.Double tempLine = new Line2D.Double();
 	protected Ellipse2D.Double circle = new Ellipse2D.Double(); // polar grid
 																// circles
 
@@ -1252,7 +1253,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 			double r = min - (min % tickStepR);
 			while (r <= max) {
 				circle.setFrame(getxZero() - r, getyZero() - r, 2 * r, 2 * r);
-				g2.draw(circle);
+				g2.draw(new geogebra.awt.GenericShape(circle));
 				r = r + tickStepR;
 
 			}

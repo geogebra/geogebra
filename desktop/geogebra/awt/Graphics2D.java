@@ -265,23 +265,6 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 	}
 
 	@Override
-	public void draw(Object shape) {
-		if(shape instanceof java.awt.Shape)
-			impl.draw((java.awt.Shape)shape);
-		if(shape instanceof geogebra.common.awt.Shape)
-			impl.draw(((geogebra.awt.Shape)shape).getAwtShape());
-	}
-
-	@Override
-	public void fill(Object shape) {
-		if(shape instanceof java.awt.Shape)
-			impl.fill((java.awt.Shape)shape);
-		if(shape instanceof geogebra.common.awt.Shape)
-			impl.fill(((geogebra.awt.Shape)shape).getAwtShape());
-		
-	}
-
-	@Override
 	public BasicStroke getStroke() {
 		return (geogebra.awt.BasicStroke) impl.getStroke();
 	}

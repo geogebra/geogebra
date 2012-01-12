@@ -2852,7 +2852,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 				drawResetIcon(g);
 			}
 		}
-		private Line2D tempLine = geogebra.common.factories.AwtFactory.prototype.newLine2D();
+		protected Line2D tempLine = geogebra.common.factories.AwtFactory.prototype.newLine2D();
 		/**
 		 * Get styleBar
 		 */
