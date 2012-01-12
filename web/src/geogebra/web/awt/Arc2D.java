@@ -41,12 +41,14 @@ public class Arc2D extends geogebra.common.awt.Arc2D {
 	
 
 	public PathIterator getPathIterator(AffineTransform affineTransform) {
-		return (PathIterator) impl.getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(affineTransform));
+		return new geogebra.web.awt.PathIterator( 
+				impl.getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(affineTransform)));
 	}
 
 	
 	public PathIterator getPathIterator(AffineTransform at, double flatness) {
-		return (PathIterator) impl.getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(at), flatness);
+		return new geogebra.web.awt.PathIterator(
+				impl.getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(at), flatness));
 	}
 
 	public boolean intersects(double x, double y, double w, double h) {

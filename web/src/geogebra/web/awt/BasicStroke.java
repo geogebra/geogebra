@@ -76,7 +76,6 @@ public class BasicStroke implements geogebra.common.awt.BasicStroke {
 	}
 	
 	public float getMiterLimit() {
-		// TODO Auto-generated method stub
 		return miterLimit;
 	}
 

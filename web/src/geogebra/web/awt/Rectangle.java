@@ -157,12 +157,12 @@ public class Rectangle implements geogebra.common.awt.Rectangle {
     }
 
 	public PathIterator getPathIterator(AffineTransform affineTransform) {
-		return (PathIterator) impl.getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(affineTransform));
+		return new geogebra.web.awt.PathIterator(impl.getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(affineTransform)));
 	}
 
 	
 	public PathIterator getPathIterator(AffineTransform at, double flatness) {
-		return (PathIterator) impl.getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(at), flatness);
+		return new geogebra.web.awt.PathIterator(impl.getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(at), flatness));
 	}
 
 	

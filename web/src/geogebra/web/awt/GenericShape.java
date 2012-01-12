@@ -13,6 +13,11 @@ public class GenericShape implements Shape {
 	private GenericShape(){}
 	
 	
+	public GenericShape(geogebra.web.kernel.gawt.Shape s) {
+	    impl = s;
+    }
+
+
 	public boolean intersects(int x, int y, int w, int h) {
 		return impl.intersects(x, y, w, h);
 	}
@@ -44,7 +49,7 @@ public class GenericShape implements Shape {
 
 	
 	public PathIterator getPathIterator(AffineTransform affineTransform) {
-		return (PathIterator) impl.getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(affineTransform));
+		return new geogebra.web.awt.PathIterator(impl.getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(affineTransform)));
 	}
 
 	

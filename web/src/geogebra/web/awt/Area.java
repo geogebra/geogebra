@@ -58,12 +58,14 @@ public class Area implements geogebra.common.awt.Area {
 
 	
 	public PathIterator getPathIterator(AffineTransform affineTransform) {
-		return (PathIterator) impl.getPathIterator((geogebra.web.kernel.gawt.AffineTransform) affineTransform);
+		return new geogebra.web.awt.PathIterator(
+				impl.getPathIterator((geogebra.web.kernel.gawt.AffineTransform) affineTransform));
 	}
 
 	
 	public PathIterator getPathIterator(AffineTransform at, double flatness) {
-		return (PathIterator) impl.getPathIterator((geogebra.web.kernel.gawt.AffineTransform) at, flatness);
+		return new geogebra.web.awt.PathIterator(
+				impl.getPathIterator((geogebra.web.kernel.gawt.AffineTransform) at, flatness));
 	}
 
 	
