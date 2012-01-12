@@ -3222,8 +3222,6 @@ public abstract class AbstractEuclidianController {
 		return null;
 	}
 	
-	public abstract boolean processMode(Hits hits, AbstractEvent event);
-
 	public final boolean refreshHighlighting(Hits hits) {
 		boolean repaintNeeded = false;
 	
@@ -5090,6 +5088,69 @@ public abstract class AbstractEuclidianController {
 	
 		if (!changedKernel) {
 			return ret != null;
+		}
+	
+		return changedKernel;
+	}
+
+	protected void processModeLock(Path path) {
+		GeoPoint2 p = kernel.Point(null, path, xRW, yRW, false, false);
+		p.update();
+		xRW = p.inhomX;
+		yRW = p.inhomY;
+	}
+
+	protected void processModeLock(GeoPointND point) {
+		Coords coords = point.getInhomCoordsInD(2);
+		xRW = coords.getX();
+		yRW = coords.getY();
+	}
+
+	public void processModeLock() {
+	
+		// make previewable "lock" onto points & paths
+		// priority for highlighted geos (points)
+		Hits getTopHits = highlightedGeos.getTopHits();
+		// nothing highlighted, look at eg circles, lines
+		if (getTopHits.size() == 0) {
+			getTopHits = view.getHits().getTopHits();
+		}
+	
+		if (getTopHits.size() > 0) {
+			GeoElement geo = getTopHits.get(0);
+			if (geo instanceof Path) {
+				processModeLock((Path) geo);
+			} else if (geo.isGeoPoint()) {
+				processModeLock((GeoPointND) geo);
+			} else {
+				transformCoords(); // grid lock
+			}
+		} else {
+			transformCoords(); // grid lock
+		}
+	}
+
+	public final boolean processMode(Hits hits, AbstractEvent event) {
+		boolean changedKernel = false;
+	
+		if (hits == null) {
+			hits = new Hits();
+		}
+	
+		changedKernel = switchModeForProcessMode(hits, event);
+	
+		// update preview
+		if (view.getPreviewDrawable() != null) {
+			view.getPreviewDrawable().updatePreview();
+			if (mouseLoc != null) {
+				xRW = view.toRealWorldCoordX(mouseLoc.x);
+				yRW = view.toRealWorldCoordY(mouseLoc.y);
+	
+				processModeLock();
+	
+				view.getPreviewDrawable().updateMousePos(xRW, yRW);
+			}
+			view.repaintView();
 		}
 	
 		return changedKernel;
