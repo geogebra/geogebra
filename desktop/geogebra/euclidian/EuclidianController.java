@@ -2643,7 +2643,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 				return;
 			}
 			if (!TEMPORARY_MODE) {
-				if (app.isRightClickEnabled()) {
+				if (!app.isRightClickEnabled()) {
 					return;
 				}
 				if (processZoomRectangle()) {
