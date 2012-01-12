@@ -14,6 +14,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.awt.Color;
 import geogebra.common.factories.AwtFactory;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.Construction;
 import geogebra.common.plugin.GeoClass;
@@ -177,5 +178,10 @@ public class GeoAxis extends GeoLine implements GeoAxisND{
 	}	
 	
 
-	
+	public Coords getDirectionInD3() {
+		if(type==X_AXIS)
+			return new Coords(1, 0, 0, 0);
+		
+		return new Coords(0, 1, 0, 0);
+	}
 }

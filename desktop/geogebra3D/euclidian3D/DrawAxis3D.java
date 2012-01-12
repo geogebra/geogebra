@@ -124,7 +124,7 @@ public class DrawAxis3D extends DrawLine3D {
     			//sets the label visible
     			label.setIsVisible(true);
     			label.update(strNum, getView3D().getApplication().getPlainFont(), 
-    					geogebra.awt.Color.getAwtColor((geogebra.awt.Color) getGeoElement().getObjectColor()),
+    					geogebra.awt.Color.getAwtColor(getGeoElement().getObjectColor()),
     					origin.copyVector(),
     					axis.getNumbersXOffset(),axis.getNumbersYOffset());
     			//TODO optimize this
@@ -133,7 +133,7 @@ public class DrawAxis3D extends DrawLine3D {
     			label = new DrawLabel3D(getView3D());
     			label.setAnchor(true);
     			label.update(strNum, getView3D().getApplication().getPlainFont(), 
-    					geogebra.awt.Color.getAwtColor((geogebra.awt.Color) getGeoElement().getObjectColor()),
+    					geogebra.awt.Color.getAwtColor(getGeoElement().getObjectColor()),
     					origin.copyVector(),
     					axis.getNumbersXOffset(),axis.getNumbersYOffset());
     			labels.put(strNum, label);
@@ -143,10 +143,12 @@ public class DrawAxis3D extends DrawLine3D {
     	
 		
 		// update end of axis label
+    	label.setAnchor(true);
 		label.update(axis.getAxisLabel(), getView3D().getApplication().getPlainFont(), 
-				geogebra.awt.Color.getAwtColor((geogebra.awt.Color) getGeoElement().getObjectColor()),
+				geogebra.awt.Color.getAwtColor(getGeoElement().getObjectColor()),
 				((GeoAxisND) getGeoElement()).getPointInD(3,minmax[1]),
-				getGeoElement().labelOffsetX-4,getGeoElement().labelOffsetY-6
+				getGeoElement().labelOffsetX,//-4,
+				getGeoElement().labelOffsetY//-6
 		);
 
 		
@@ -206,7 +208,9 @@ public class DrawAxis3D extends DrawLine3D {
     	int xOffset = -vy;
     	int yOffset = vx;
     	
-    	if (yOffset>0){
+    	
+    	//if (yOffset>0){
+    	if (axis.getType()==GeoAxisND.X_AXIS){
     		xOffset = -xOffset;
     		yOffset = -yOffset;
     	}
@@ -223,7 +227,9 @@ public class DrawAxis3D extends DrawLine3D {
 
 		axis.updateDecorations(distance, numberFormat, 
 				xOffset, yOffset,
-				-vx-2*xOffset,-vy-2*yOffset);
+				((-vx-xOffset)*3)/2,//-vx,//-2*xOffset,
+				((-vy-yOffset)*3)/2//-vy//-2*yOffset
+				);
 		
     	
     }

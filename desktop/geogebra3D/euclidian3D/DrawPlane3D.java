@@ -233,6 +233,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		setMinMax();
 	}
 	
+	/*
 	private void updateMinMax(Coords v){
 		double x = v.getX(), y = v.getY();
 		if (x<minmaxXFinal[0])
@@ -244,32 +245,50 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		if (y>minmaxYFinal[1])
 			minmaxYFinal[1]=y;		
 	}
+	*/
 	
 	protected void setMinMax(){
 
 		if (getView3D().useClippingCube()){
 			
 			/*
-			for (int i=0;i<8;i++)
-				Application.debug("vertex["+i+"]\n"+getView3D().getClippingVertex(i));
-				*/
-			
 			minmaxXFinal[0]=Double.POSITIVE_INFINITY;
 			minmaxYFinal[0]=Double.POSITIVE_INFINITY;
 			minmaxXFinal[1]=Double.NEGATIVE_INFINITY;
 			minmaxYFinal[1]=Double.NEGATIVE_INFINITY;
-			/*
-			minmaxXFinal[0]=0;
-			minmaxYFinal[0]=0;
-			minmaxXFinal[1]=0;
-			minmaxYFinal[1]=0;
-			*/
 			
 			GeoPlane3D geo = (GeoPlane3D) getGeoElement();
 			CoordMatrix m = geo.getCoordSys().getDrawingMatrix();
 			for (int i=0;i<8;i++){
 				Coords v = getView3D().getClippingVertex(i).projectPlane(m)[1];
 				updateMinMax(v);
+			}
+			*/
+			
+
+			GeoPlane3D geo = (GeoPlane3D) getGeoElement();
+			CoordMatrix m = geo.getCoordSys().getDrawingMatrix();
+			Coords o = getView3D().getClippingVertex(0).projectPlane(m)[1];
+			minmaxXFinal[0]=o.getX();
+			minmaxYFinal[0]=o.getY();
+			minmaxXFinal[1]=o.getX();
+			minmaxYFinal[1]=o.getY();
+			Coords[] v = new Coords[3];
+			v[0] = getView3D().getClippingVertex(1).projectPlane(m)[1].sub(o);
+			v[1] = getView3D().getClippingVertex(2).projectPlane(m)[1].sub(o);
+			v[2] = getView3D().getClippingVertex(4).projectPlane(m)[1].sub(o);
+			for (int i=0; i<3; i++){
+				double x = v[i].getX();
+				if (x<0)
+					minmaxXFinal[0]+=x; //sub from xmin
+				else
+					minmaxXFinal[1]+=x; //add to xmax
+				double y = v[i].getY();
+				if (y<0)
+					minmaxYFinal[0]+=y; //sub from ymin
+				else
+					minmaxYFinal[1]+=y; //add to ymax
+				
 			}
 			
 		}else{

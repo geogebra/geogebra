@@ -1,6 +1,7 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.NumberFormatAdapter;
@@ -12,6 +13,8 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 
 	private String axisLabel;
 	
+	private int type;
+	
 	// for numbers and ticks
 	private NumberFormatAdapter numberFormat;
 	private double numbersDistance;
@@ -21,9 +24,15 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 	public GeoAxis3D(Construction cons) {
 		super(cons);
 	}
+	
+	public int getType() {
+		return type;
+	}
 		
 	public GeoAxis3D(Construction c, int type){
 		this(c);
+		
+		this.type=type;
 		
 		switch (type) {
 		case X_AXIS_3D:
@@ -164,7 +173,9 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		return ticksize;
 	}
 	
-	
+	public Coords getDirectionInD3() {
+		return new Coords(0, 0, 1, 0);
+	}
 
 
 }

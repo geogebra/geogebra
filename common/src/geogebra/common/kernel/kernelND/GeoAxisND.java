@@ -28,6 +28,7 @@ public interface GeoAxisND extends GeoLineND{
 	public int getNumbersXOffset();
 	public int getNumbersYOffset(); 
 
+	public int getType();
 
 	/////////////////////////////////////////
 	// METHODS FOR GEOELEMENT
