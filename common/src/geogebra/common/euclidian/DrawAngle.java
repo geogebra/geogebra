@@ -10,13 +10,10 @@
  
  */
 
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
 import geogebra.common.awt.Line2D;
 import geogebra.common.awt.Ellipse2DDouble;
-import geogebra.common.euclidian.AbstractEuclidianView;
-import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.Previewable;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
@@ -39,7 +36,7 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Shape;
-import java.awt.geom.Arc2D;
+import geogebra.common.awt.Arc2D;
 //import java.awt.geom.Line2D;
 
 import java.util.ArrayList;
@@ -74,7 +71,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	private int angleDrawMode;
 
 	// private Arc2D.Double fillArc = new Arc2D.Double();
-	private Arc2D.Double drawArc = new Arc2D.Double();
+	private Arc2D drawArc = geogebra.common.factories.AwtFactory.prototype.newArc2D();
 	private GeneralPath polygon = AwtFactory.prototype.newGeneralPath(); // Michael Borcherds
 														// 2007-11-19
 	private Ellipse2DDouble dot90degree;
@@ -89,7 +86,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	// For decoration
 	// added by Lo�c BEGIN
 	private Shape shapeArc1, shapeArc2;
-	private Arc2D.Double decoArc = new Arc2D.Double();
+	private Arc2D decoArc = geogebra.common.factories.AwtFactory.prototype.newArc2D();
 	private Line2D[] tick;
 	private double[] angleTick = new double[2];
 	/** maximum angle distance between two ticks. */
@@ -127,7 +124,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	 * @param view
 	 * @param points
 	 */
-	DrawAngle(AbstractEuclidianView view, ArrayList<GeoPointND> points) {
+	public DrawAngle(AbstractEuclidianView view, ArrayList<GeoPointND> points) {
 		this.view = view;
 		prevPoints = points;
 
@@ -770,7 +767,7 @@ public class DrawAngle extends Drawable implements Previewable {
 			return null;
 
 		// return selection circle's bounding box
-		return new geogebra.awt.Rectangle(shape.getBounds());
+		return shape.getBounds();
 	}
 
 	private void initPreview() {

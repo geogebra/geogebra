@@ -1,28 +1,13 @@
 package geogebra.euclidian;
 
-import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.DrawableND;
-import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.kernelND.GeoDirectionND;
-import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
-
-
-
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -46,45 +31,15 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	// ??
 	boolean hitAnimationButton(MouseEvent e);
 	void setPreview(Previewable previewDrawable);
-	void setToolTipText(String plain);
-
-	/**
-	 * Updates highlighting of animation buttons. 
-	 * @return whether status was changed
-	 */
-	boolean setAnimationButtonsHighlighted(boolean hitAnimationButton);
-
-	public geogebra.common.awt.Rectangle getSelectionRectangle();
 
 	
 	
 	
 	// cursor
 	void setMoveCursor();
-	void setDragCursor();
-	void setDefaultCursor();
-	void setHitCursor();
 
-	/**
-	 * Sets real world coord system using min and max values for both axes in
-	 * real world values.
-	 */
-	public void setAnimatedRealWorldCoordSystem(double xmin, double xmax,
-			double ymin, double ymax, int steps, boolean storeUndo);
-
-
-
-
-
-	
-	
-	
 	
 	//hits	
-	/**get the hits recorded */
-	Hits getHits();
-	/** set the hits regarding to the mouse location */
-	void setHits(geogebra.common.awt.Point mouseLoc);
 	
 	
 	/**
@@ -93,7 +48,6 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	 */
 	public void setHits(Rectangle rect);	
 	
-	GeoElement getLabelHit(geogebra.common.awt.Point mouseLoc);
 	
 
 	
@@ -101,13 +55,8 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	// AXIS, GRID, ETC.
 	//////////////////////////////////////////////////////	
 
-	/**
-	 * sets showing flag of the axis
-	 * @param axis id of the axis
-	 * @param flag show/hide
-	 * @param update update (or not) the background image
-	 */
-	public void setShowAxis(int axis, boolean flag, boolean update);
+	
+	
 	
 	/**
 	 * sets showing flag of all axes
@@ -138,7 +87,6 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	public Previewable createPreviewPolyLine(ArrayList<GeoPointND> selectedPoints);
 
 
-	public void updatePreviewable();
 
 
 	//options
@@ -158,13 +106,7 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	public void mouseMovedOver(GeoElement geo);
 
 
-	public int getWidth();
-	public int getHeight();
 	public boolean hasFocus();
-	public void setResizeXAxisCursor();
-	public void setResizeYAxisCursor();
-	
-	
 	
 	public EuclidianController getEuclidianController();
 
@@ -189,8 +131,6 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 
 	public Graphics2D getGraphicsForPen();
 
-
-	public boolean requestFocusInWindow();
 
 	public JPanel getJPanel();
 

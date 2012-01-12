@@ -1,11 +1,11 @@
 package geogebra3D.euclidianFor3D;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.DrawAngle;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoAnglePoints;
 import geogebra.common.kernel.geos.GeoAngle;
-import geogebra.euclidian.DrawAngle;
 
 public class DrawAngleFor3D extends DrawAngle {
 

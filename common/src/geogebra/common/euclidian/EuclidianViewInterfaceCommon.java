@@ -265,8 +265,10 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 
 	public boolean hitAnimationButton(AbstractEvent event);
 
+	/** set the hits regarding to the mouse location */
 	public void setHits(Point mouseLoc);
 
+	/**get the hits recorded */
 	public Hits getHits();
 
 	public void setDefaultCursor();
@@ -277,14 +279,28 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	
 	public EuclidianStyleBar getStyleBar();
 
+	/**
+	 * Updates highlighting of animation buttons. 
+	 * @return whether status was changed
+	 */
 	public boolean setAnimationButtonsHighlighted(boolean b);
 
+	/**
+	 * sets showing flag of the axis
+	 * @param axis id of the axis
+	 * @param flag show/hide
+	 * @param update update (or not) the background image
+	 */
 	public void setShowAxis(int axisX, boolean b, boolean c);
 
 	public void setDragCursor();
 
 	public Rectangle getSelectionRectangle();
 
+	/**
+	 * Sets real world coord system using min and max values for both axes in
+	 * real world values.
+	 */
 	public void setAnimatedRealWorldCoordSystem(double realWorldCoordX,
 			double realWorldCoordX2, double realWorldCoordY,
 			double realWorldCoordY2, int i, boolean b);

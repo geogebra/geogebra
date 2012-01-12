@@ -11,5 +11,7 @@ public abstract class Arc2D implements RectangularShape{
 			double degrees2, int open2);
 	public abstract Point2D getStartPoint();
 	public abstract Point2D getEndPoint();
+	public abstract void setArcByCenter(double d, double e, double r, double f,
+			double g, int pie2);
 
 }

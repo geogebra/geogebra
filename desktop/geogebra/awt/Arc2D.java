@@ -75,6 +75,13 @@ public class Arc2D extends geogebra.common.awt.Arc2D implements RectangularShape
 	public Point2D getEndPoint() {
 		return new geogebra.awt.Point2D((java.awt.geom.Point2D.Double)impl.getEndPoint());
 	}
+
+	@Override
+	public void setArcByCenter(double x, double y, double radius, double angSt,
+			double angExt, int closure) {
+		impl.setArcByCenter(x, y, radius, angSt, angExt, closure);
+		
+	}
 	
 
 }

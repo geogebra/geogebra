@@ -79,4 +79,11 @@ public class Arc2D extends geogebra.common.awt.Arc2D {
 		return null;
 	}
 
+	@Override
+	public void setArcByCenter(double x, double y, double radius, double angSt,
+			double angExt, int closure) {
+	    impl.setArcByCenter(angExt, y, radius, angSt, angExt, closure);
+	    
+    }
+
 }

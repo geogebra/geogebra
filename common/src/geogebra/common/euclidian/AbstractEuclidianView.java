@@ -2162,7 +2162,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 				// independent number may be shown as slider
 				d = new DrawSlider(this, (GeoNumeric) geo);
 			} else {
-				d = newDrawAngle( (GeoAngle) geo);
+				d = new DrawAngle(this, (GeoAngle) geo);
 				if (geo.isDrawable()) {
 					if (!geo.isColorSet()) {
 						geogebra.common.awt.Color col = geo
@@ -2274,12 +2274,10 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		return d;
 	}
 
-	public abstract Drawable newDrawText(GeoText geo);
 	public abstract Drawable newDrawImage(GeoImage geo);
 	public abstract Drawable newDrawButton(GeoButton geo);
 	public abstract Drawable newDrawTextField(GeoTextField geo);
 	public abstract Drawable newDrawBoolean(GeoBoolean geo);
-	public abstract Drawable newDrawAngle(GeoAngle geo);
 	public abstract void zoomAxesRatio(double d, boolean b);
 
 

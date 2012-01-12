@@ -18,6 +18,7 @@ import geogebra.common.euclidian.DrawList;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableList;
 import geogebra.common.euclidian.DrawableList.DrawableIterator;
+import geogebra.common.euclidian.DrawAngle;
 import geogebra.common.euclidian.DrawBoxPlot;
 import geogebra.common.euclidian.DrawConic;
 import geogebra.common.euclidian.DrawConicPart;
@@ -1433,9 +1434,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 	
 
-	public Drawable newDrawAngle(GeoAngle geo) {
-		return new DrawAngle(this,geo);
-	}
+	
 	public Drawable newDrawBoolean( GeoBoolean geo) {
 		return new DrawBoolean(this,geo);
 	}
@@ -1448,10 +1447,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	
 	public Drawable newDrawImage(GeoImage geo) {
 		return new DrawImage(this,geo);
-	}
-	
-	public Drawable newDrawText(GeoText geo) {
-		return new DrawText(this,geo);
 	}
 
 	public void clearView() {

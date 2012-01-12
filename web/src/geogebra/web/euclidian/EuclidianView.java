@@ -326,12 +326,6 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
     }
 
 	@Override
-    public Drawable newDrawText(GeoText geo) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
-    }
-
-	@Override
     public Drawable newDrawImage(GeoImage geo) {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
@@ -351,12 +345,6 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     public Drawable newDrawBoolean(GeoBoolean geo) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
-    }
-
-	@Override
-    public Drawable newDrawAngle(GeoAngle geo) {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
     }
