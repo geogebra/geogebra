@@ -40,6 +40,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
@@ -5176,5 +5177,387 @@ public abstract class AbstractEuclidianController {
 	 */
 	protected boolean processRightReleaseFor3D() {
 		return false;
+	}
+
+	protected final void rotateObject(boolean repaint) {
+		double angle = Math.atan2(yRW - rotationCenter.inhomY, xRW
+				- rotationCenter.inhomX)
+				- rotStartAngle;
+	
+		tempNum.set(angle);
+		rotGeoElement.set(rotStartGeo);
+		((PointRotateable) rotGeoElement).rotate(tempNum, rotationCenter);
+	
+		if (repaint) {
+			rotGeoElement.updateRepaint();
+		} else {
+			rotGeoElement.updateCascade();
+		}
+	}
+
+	protected final void moveLabel() {
+		movedLabelGeoElement.setLabelOffset((oldLoc.x + mouseLoc.x)
+				- startLoc.x, (oldLoc.y + mouseLoc.y) - startLoc.y);
+		// no update cascade needed
+		movedLabelGeoElement.update();
+		kernel.notifyRepaint();
+	}
+
+	protected void movePoint(boolean repaint) {
+		movedGeoPoint.setCoords(Kernel.checkDecimalFraction(xRW),
+				Kernel.checkDecimalFraction(yRW), 1.0);
+		((GeoElement) movedGeoPoint).updateCascade();
+		movedGeoPointDragged = true;
+	
+		if (repaint) {
+			kernel.notifyRepaint();
+		}
+	}
+
+	protected void movePointWithOffset(boolean repaint) {
+		movedGeoPoint.setCoords(
+				kernel.checkDecimalFraction(xRW - transformCoordsOffset[0]),
+				kernel.checkDecimalFraction(yRW - transformCoordsOffset[1]),
+				1.0);
+		((GeoElement) movedGeoPoint).updateCascade();
+		movedGeoPointDragged = true;
+	
+		if (repaint) {
+			kernel.notifyRepaint();
+		}
+	}
+
+	protected final void moveLine(boolean repaint) {
+		// make parallel geoLine through (xRW, yRW)
+		movedGeoLine.setCoords(movedGeoLine.x, movedGeoLine.y,
+				-((movedGeoLine.x * xRW) + (movedGeoLine.y * yRW)));
+		if (repaint) {
+			movedGeoLine.updateRepaint();
+		} else {
+			movedGeoLine.updateCascade();
+		}
+	}
+
+	protected final void moveVector(boolean repaint) {
+		GeoPoint2 P = movedGeoVector.getStartPoint();
+		if (P == null) {
+			movedGeoVector.setCoords(xRW - transformCoordsOffset[0], yRW
+					- transformCoordsOffset[1], 0.0);
+		} else {
+			movedGeoVector.setCoords(xRW - P.inhomX, yRW - P.inhomY, 0.0);
+		}
+	
+		if (repaint) {
+			movedGeoVector.updateRepaint();
+		} else {
+			movedGeoVector.updateCascade();
+		}
+	}
+
+	protected final void moveVectorStartPoint(boolean repaint) {
+		GeoPoint2 P = movedGeoVector.getStartPoint();
+		P.setCoords(xRW, yRW, 1.0);
+	
+		if (repaint) {
+			movedGeoVector.updateRepaint();
+		} else {
+			movedGeoVector.updateCascade();
+		}
+	}
+
+	protected final void moveText(boolean repaint) {
+		if (movedGeoText.isAbsoluteScreenLocActive()) {
+			movedGeoText.setAbsoluteScreenLoc((oldLoc.x + mouseLoc.x)
+					- startLoc.x, (oldLoc.y + mouseLoc.y) - startLoc.y);
+	
+			// part of snap to grid code - buggy, so commented out
+			// movedGeoText.setAbsoluteScreenLoc(view.toScreenCoordX(xRW -
+			// startPoint.x), view.toScreenCoordY(yRW - startPoint.y));
+		} else {
+			if (movedGeoText.hasAbsoluteLocation()) {
+				// absolute location: change location
+				GeoPoint2 loc = (GeoPoint2) movedGeoText.getStartPoint();
+				loc.setCoords(xRW - startPoint.x, yRW - startPoint.y, 1.0);
+			} else {
+				// relative location: move label (change label offset)
+				movedGeoText.setLabelOffset((oldLoc.x + mouseLoc.x)
+						- startLoc.x, (oldLoc.y + mouseLoc.y) - startLoc.y);
+			}
+		}
+	
+		if (repaint) {
+			movedGeoText.updateRepaint();
+		} else {
+			movedGeoText.updateCascade();
+		}
+	}
+
+	protected final void moveImage(boolean repaint) {
+		if (movedGeoImage.isAbsoluteScreenLocActive()) {
+			// movedGeoImage.setAbsoluteScreenLoc( oldLoc.x +
+			// mouseLoc.x-startLoc.x,
+			// oldLoc.y + mouseLoc.y-startLoc.y);
+	
+			movedGeoImage.setAbsoluteScreenLoc(
+					view.toScreenCoordX(xRW - startPoint.x),
+					view.toScreenCoordY(yRW - startPoint.y));
+	
+			if (repaint) {
+				movedGeoImage.updateRepaint();
+			} else {
+				movedGeoImage.updateCascade();
+			}
+		} else {
+			if (movedGeoImage.hasAbsoluteLocation()) {
+				// absolute location: translate all defined corners
+				double vx = xRW - startPoint.x;
+				double vy = yRW - startPoint.y;
+				movedGeoImage.set(oldImage);
+				for (int i = 0; i < 3; i++) {
+					GeoPoint2 corner = movedGeoImage.getCorner(i);
+					if (corner != null) {
+						corner.setCoords(corner.inhomX + vx,
+								corner.inhomY + vy, 1.0);
+					}
+				}
+	
+				if (repaint) {
+					movedGeoImage.updateRepaint();
+				} else {
+					movedGeoImage.updateCascade();
+				}
+			}
+		}
+	}
+
+	protected final void moveConic(boolean repaint) {
+		movedGeoConic.set(tempConic);
+		movedGeoConic.translate(xRW - startPoint.x, yRW - startPoint.y);
+	
+		if (repaint) {
+			movedGeoConic.updateRepaint();
+		} else {
+			movedGeoConic.updateCascade();
+		}
+	}
+
+	protected final void moveImplicitPoly(boolean repaint) {
+		movedGeoImplicitPoly.set(tempImplicitPoly);
+		movedGeoImplicitPoly.translate(xRW - startPoint.x, yRW - startPoint.y);
+	
+		// set points
+		for (int i = 0; i < moveDependentPoints.size(); i++) {
+			GeoPoint2 g = moveDependentPoints.get(i);
+			g.setCoords2D(tempDependentPointX.get(i),
+					tempDependentPointY.get(i), 1);
+			g.translate(new Coords(xRW - startPoint.x, yRW - startPoint.y, 1));
+			// g.updateCascade();
+		}
+	
+		if (repaint) {
+			movedGeoImplicitPoly.updateRepaint();
+		} else {
+			movedGeoImplicitPoly.updateCascade();
+		}
+	
+		// int i=0;
+		// for (GeoElement elem:movedGeoImplicitPoly.getAllChildren()){
+		// if (elem instanceof GeoPoint){
+		// if (movedGeoImplicitPoly.isParentOf(elem)){
+		// GeoPoint g=((GeoPoint)elem);
+		// g.getPathParameter().setT(tempDependentPointOnPath.get(i++));
+		// tempImplicitPoly.pathChanged(g);
+		// g.translate(new Coords(xRW - startPoint.x, yRW - startPoint.y));
+		// }
+		// }else if (elem instanceof GeoImplicitPoly){
+		//
+		// }
+		// }
+	
+	}
+
+	protected final void moveFunction(boolean repaint) {
+		movedGeoFunction.set(tempFunction);
+		movedGeoFunction.translate(xRW - startPoint.x, yRW - startPoint.y);
+	
+		if (repaint) {
+			movedGeoFunction.updateRepaint();
+		} else {
+			movedGeoFunction.updateCascade();
+		}
+	}
+
+	protected final void moveBoolean(boolean repaint) {
+		// movedGeoBoolean.setAbsoluteScreenLoc( oldLoc.x +
+		// mouseLoc.x-startLoc.x,
+		// oldLoc.y + mouseLoc.y-startLoc.y);
+	
+		// part of snap to grid code
+		movedGeoBoolean.setAbsoluteScreenLoc(
+				view.toScreenCoordX(xRW - startPoint.x),
+				view.toScreenCoordY(yRW - startPoint.y));
+	
+		if (repaint) {
+			movedGeoBoolean.updateRepaint();
+		} else {
+			movedGeoBoolean.updateCascade();
+		}
+	}
+
+	protected final void moveButton(boolean repaint) {
+		// movedGeoButton.setAbsoluteScreenLoc( oldLoc.x +
+		// mouseLoc.x-startLoc.x,
+		// oldLoc.y + mouseLoc.y-startLoc.y);
+	
+		// part of snap to grid code
+		movedGeoButton.setAbsoluteScreenLoc(
+				view.toScreenCoordX(xRW - startPoint.x),
+				view.toScreenCoordY(yRW - startPoint.y));
+	
+		if (repaint) {
+			movedGeoButton.updateRepaint();
+		} else {
+			movedGeoButton.updateCascade();
+		}
+	}
+
+	protected final double getSliderValue(GeoNumeric movedGeoNumeric) {
+		double min = movedGeoNumeric.getIntervalMin();
+		double max = movedGeoNumeric.getIntervalMax();
+		double param;
+		if (movedGeoNumeric.isSliderHorizontal()) {
+			if (movedGeoNumeric.isAbsoluteScreenLocActive()) {
+				param = mouseLoc.x - startPoint.x;
+			} else {
+				param = xRW - startPoint.x;
+			}
+		} else {
+			if (movedGeoNumeric.isAbsoluteScreenLocActive()) {
+				param = startPoint.y - mouseLoc.y;
+			} else {
+				param = yRW - startPoint.y;
+			}
+		}
+		param = (param * (max - min)) / movedGeoNumeric.getSliderWidth();
+	
+		// round to animation step scale
+		param = Kernel.roundToScale(param,
+				movedGeoNumeric.getAnimationStep());
+		double val = min + param;
+	
+		if (movedGeoNumeric.getAnimationStep() > Kernel.MIN_PRECISION) {
+			// round to decimal fraction, e.g. 2.800000000001 to 2.8
+			val = Kernel.checkDecimalFraction(val);
+		}
+	
+		if (movedGeoNumeric.isGeoAngle()) {
+			if (val < 0) {
+				val = 0;
+			} else if (val > Kernel.PI_2) {
+				val = Kernel.PI_2;
+			}
+	
+			val = Kernel.checkDecimalFraction(val
+					* Kernel.CONST_180_PI)
+					/ Kernel.CONST_180_PI;
+	
+		}
+	
+		return val;
+	}
+
+	protected final void moveNumeric(boolean repaint) {
+	
+		double newVal = getSliderValue(movedGeoNumeric);
+		double oldVal = movedGeoNumeric.getValue();
+	
+		// don't set the value unless needed
+		// (causes update)
+		double min = movedGeoNumeric.getIntervalMin();
+		if ((min == oldVal) && (newVal < min)) {
+			return;
+		}
+		double max = movedGeoNumeric.getIntervalMax();
+		if ((max == oldVal) && (newVal > max)) {
+			return;
+		}
+	
+		// do not set value unless it really changed!
+		if (oldVal == newVal) {
+			return;
+		}
+	
+		movedGeoNumeric.setValue(newVal);
+		movedGeoNumericDragged = true;
+	
+		// movedGeoNumeric.setAnimating(false); // stop animation if slider
+		// dragged
+	
+		// if (repaint)
+		movedGeoNumeric.updateRepaint();
+		// else
+		// movedGeoNumeric.updateCascade();
+	}
+
+	protected final void moveSlider(boolean repaint) {
+	
+		// TEMPORARY_MODE true -> dragging slider using Slider Tool
+		// or right-hand mouse button
+	
+		if (movedGeoNumeric.isAbsoluteScreenLocActive()) {
+			// movedGeoNumeric.setAbsoluteScreenLoc( oldLoc.x +
+			// mouseLoc.x-startLoc.x,
+			// oldLoc.y + mouseLoc.y-startLoc.y, TEMPORARY_MODE);
+	
+			// part of snap to grid code
+			movedGeoNumeric.setAbsoluteScreenLoc(
+					view.toScreenCoordX(xRW - startPoint.x),
+					view.toScreenCoordY(yRW - startPoint.y), TEMPORARY_MODE);
+		} else {
+			movedGeoNumeric.setSliderLocation(xRW - startPoint.x, yRW
+					- startPoint.y, TEMPORARY_MODE);
+		}
+	
+		// don't cascade, only position of the slider has changed
+		movedGeoNumeric.update();
+	
+		if (repaint) {
+			kernel.notifyRepaint();
+		}
+	}
+
+	protected void moveDependent(boolean repaint) {
+	
+		translationVec.setX(xRW - startPoint.x);
+		translationVec.setY(yRW - startPoint.y);
+	
+		startPoint.setLocation(xRW, yRW);
+	
+		// we don't specify screen coords for translation as all objects are
+		// Transformables
+		GeoElement.moveObjects(translateableGeos, translationVec, new Coords(
+				xRW, yRW, 0), null);
+		if (repaint) {
+			kernel.notifyRepaint();
+		}
+	}
+
+	protected ArrayList<GeoElement> removeParentsOfView(ArrayList<GeoElement> list) {
+		return list;
+	}
+
+	protected void moveMultipleObjects(boolean repaint) {
+		translationVec.setX(xRW - startPoint.x);
+		translationVec.setY(yRW - startPoint.y);
+		startPoint.setLocation(xRW, yRW);
+		startLoc = mouseLoc;
+	
+		// move all selected geos
+		GeoElement.moveObjects(removeParentsOfView(app.getSelectedGeos()),
+				translationVec, new Coords(xRW, yRW, 0), null);
+	
+		if (repaint) {
+			kernel.notifyRepaint();
+		}
 	}
 }
