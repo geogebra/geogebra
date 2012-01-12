@@ -5865,5 +5865,143 @@ public abstract class AbstractEuclidianController {
 		view.mouseExited();
 		
 	}
+
+	protected void handleSelectClick(ArrayList<GeoElement> geos, boolean ctrlDown) {
+		if (geos == null) {
+			app.clearSelectedGeos();
+		} else {
+			if (ctrlDown) {
+				// boolean selected = geo.is
+				app.toggleSelectedGeo(chooseGeo(geos, true));
+				// app.geoElementSelected(geo, true); // copy definiton to input
+				// bar
+			} else {
+				if (!moveModeSelectionHandled) {
+					GeoElement geo = chooseGeo(geos, true);
+					if (geo != null) {
+						app.clearSelectedGeos(false);
+						app.addSelectedGeo(geo);
+					}
+				}
+			}
+		}
+	}
+
+	protected void mouseClickedMode(AbstractEvent event, int mode) {
+	
+		switch (mode) {
+		case EuclidianConstants.MODE_RECORD_TO_SPREADSHEET:
+			clearSelections();
+			break;
+		case EuclidianConstants.MODE_VISUAL_STYLE:
+		case EuclidianConstants.MODE_MOVE:
+		case EuclidianConstants.MODE_SELECTION_LISTENER:
+			switch (event.getClickCount()) {
+			case 1:
+				// handle selection click
+				view.setHits(mouseLoc);
+				handleSelectClick(view.getHits().getTopHits(),// view.getTopHits(mouseLoc),
+						app.isControlDown(event));
+				break;
+			/*
+			 * // open properties dialog on double click case 2: if
+			 * (app.isApplet()) return;
+			 * 
+			 * app.clearSelectedGeos(); hits = view.getTopHits(mouseLoc); if
+			 * (hits != null && mode == EuclidianConstants.MODE_MOVE) {
+			 * GeoElement geo0 = (GeoElement)hits.get(0); if (!geo0.isFixed() &&
+			 * !(geo0.isGeoImage() && geo0.isIndependent()))
+			 * app.getGuiManager().showRedefineDialog((GeoElement)hits.get(0));
+			 * } break;
+			 */
+			}
+			break;
+	
+		case EuclidianConstants.MODE_ZOOM_IN:
+			view.zoom(mouseLoc.x, mouseLoc.y, AbstractEuclidianView.MODE_ZOOM_FACTOR,
+					15, false);
+			toggleModeChangedKernel = true;
+			break;
+	
+		case EuclidianConstants.MODE_ZOOM_OUT:
+			view.zoom(mouseLoc.x, mouseLoc.y,
+					1d / AbstractEuclidianView.MODE_ZOOM_FACTOR, 15, false);
+			toggleModeChangedKernel = true;
+			break;
+		}
+	}
+
+	protected void wrapMouseclicked(AbstractEvent event) {
+		
+		if ((mode == EuclidianConstants.MODE_PEN)
+				|| (mode == EuclidianConstants.MODE_FREEHAND)) {
+			return;
+		}
+	
+		Hits hits;
+		// GeoElement geo;
+	
+		setAltDown(event.isAltDown());
+	
+		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
+			view.requestFocusInWindow();
+		}
+	
+		if (app.isRightClick(event)) {
+			return;
+		}
+		setMouseLocation(event);
+	
+		// double-click on object selects MODE_MOVE and opens redefine dialog
+		if (event.getClickCount() == 2) {
+			if (app.isApplet() || app.isControlDown(event)) {
+				return;
+			}
+	
+			app.clearSelectedGeos();
+			// hits = view.getTopHits(mouseLoc);
+			view.setHits(mouseLoc);
+			hits = view.getHits().getTopHits();
+			switchModeForRemovePolygons(hits);
+			if (!hits.isEmpty()) {
+				view.setMode(EuclidianConstants.MODE_MOVE);
+				GeoElement geo0 = hits.get(0);
+	
+				if (geo0.isGeoNumeric() && ((GeoNumeric) geo0).isSlider()) {
+					// double-click slider -> Object Properties
+					app.getGuiManager().getDialogManager()
+							.showPropertiesDialog(hits);
+				} else if (!geo0.isFixed()
+						&& !(geo0.isGeoBoolean() && geo0.isIndependent())
+						&& !(geo0.isGeoImage() && geo0.isIndependent())
+						&& !geo0.isGeoButton()) {
+					app.getGuiManager().getDialogManager()
+							.showRedefineDialog(hits.get(0), true);
+				}
+			}
+	
+		}
+	
+		mouseClickedMode(event, mode);
+	
+		// Alt click: copy definition to input field
+		if (event.isAltDown() && app.showAlgebraInput()) {
+			view.setHits(mouseLoc);
+			hits = view.getHits().getTopHits();
+			hits.removePolygons();
+			if ((hits != null) && (hits.size() > 0)) {
+				GeoElement geo = hits.get(0);
+	
+				// F3 key: copy definition to input bar
+				if (mode != EuclidianConstants.MODE_ATTACH_DETACH) {
+					app.getGlobalKeyDispatcher()
+							.handleFunctionKeyForAlgebraInput(3, geo);
+				}
+	
+				moveMode = MOVE_NONE;
+				return;
+			}
+		}
+	}
 	
 }
