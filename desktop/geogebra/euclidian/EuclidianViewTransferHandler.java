@@ -13,11 +13,13 @@ import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 
+import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.TransferHandler;
 
@@ -135,23 +137,31 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 
 		// ------------------------------------------
 		// Import handling is done in this order:
-		// 1) Images
-		// 2) Text
-		// 3) GGB files
+		// 1) PlotPanel GeoElement copies
+		// 2) Images
+		// 3) Text
+		// 4) GGB files
 		// ------------------------------------------
 
-		// first try to get an image
+		// try to get PlotPanel GeoElement copies
 		if (t.isDataFlavorSupported(PlotPanelEuclidianView.plotPanelFlavor)) {
-			if (ev == app.getEuclidianView())
-				app.getGuiManager().getProbabilityCalculator()
-						.exportGeosToEV(1);
-			else if (ev == app.getEuclidianView2())
-				app.getGuiManager().getProbabilityCalculator()
-						.exportGeosToEV(2);
+	
+			try {
+				AbstractAction act = (AbstractAction) t.getTransferData(PlotPanelEuclidianView.plotPanelFlavor);
+				act.putValue("euclidianViewID", ev.getViewID());
+				act.actionPerformed(new ActionEvent(act, 0, null));
+			} catch (UnsupportedFlavorException e) {
+				e.printStackTrace();
+				return false;
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+			
 			return true;
 		}
 
-		// first try to get an image
+		// try to get an image
 		boolean imageDropped = ev.getApplication().getGuiManager()
 				.loadImage(startPoint, t, false);
 		if (imageDropped)

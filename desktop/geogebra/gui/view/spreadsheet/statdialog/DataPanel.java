@@ -7,6 +7,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.gui.view.spreadsheet.MyTable;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -23,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -48,22 +50,20 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 
 
 	private Application app;
-	private Kernel kernel; 
-
+	private StatDialog statDialog;
+	private StatDialogController statController;
+	
 	private JTable dataTable;
 	private JButton btnEnableAll;
 	private MyRowHeader rowHeader;
 	private MyColumnHeaderRenderer columnHeader;
 	private JScrollPane scrollPane;
 
-	//private GeoList dataListAll; 
-
 	private Boolean[] selectionList;
-	private StatDialog statDialog;
-	private StatDialogController statController;
-	private int mode;
 
+	private JLabel lblHeader; 
 	public int preferredColumnWidth = SpreadsheetSettings.TABLE_CELL_WIDTH; 
+
 
 	private static final Color DISABLED_BACKGROUND_COLOR = Color.LIGHT_GRAY;	
 	private static final Color SELECTED_BACKGROUND_COLOR_HEADER = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER);
@@ -75,21 +75,22 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 	/*************************************************
 	 * Construct a DataPanel
 	 */
-	public DataPanel(Application app, StatDialog statDialog, GeoList dataListAll, int mode){
-
+	public DataPanel(Application app, StatDialog statDialog)
+	{
 		this.app = app;	
-		kernel = app.getKernel();
 		this.statDialog = statDialog;
-		this.mode = mode;
 		this.statController = statDialog.getStatDialogController();
-		//	this.dataListAll = dataAll;
 
-		selectionList = new Boolean[dataListAll.size()];
-		for(int i=0; i<dataListAll.size(); ++i){
-			selectionList[i] = true;
-		}
+		buildDataTable();
+		populateDataTable(statController.getDataArray());
+		createGUI();
+	}
 
-		// build the data table	
+	
+	
+
+	private void buildDataTable()
+	{	
 		dataTable = new JTable(){
 			// disable cell edits (for now)
 			@Override
@@ -106,11 +107,12 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 				}
 			}
 		};
-
-		populateDataTable(dataListAll);
-
+	}
 
 
+
+	private void createGUI()
+	{
 		// set table and column renderers
 		dataTable.setDefaultRenderer(Object.class, new MyCellRenderer());
 		columnHeader = new MyColumnHeaderRenderer();
@@ -173,115 +175,102 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 		scrollPane.setCorner(ScrollPaneConstants.LOWER_LEFT_CORNER, new Corner());
 		scrollPane.setCorner(ScrollPaneConstants.UPPER_RIGHT_CORNER, new Corner());
 
-
-
-		// hide the table header
-		//dataTable.setTableHeader(null);
-		//scrollPane.setColumnHeaderView(null);
-
-
-		// finally, load up our JPanel
-		this.setLayout(new BorderLayout());
-
-		//JPanel header = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JLabel header = new JLabel(app.getMenu("Data"));
-		//header.add(btnEnableAll);
-		//header.add(lblData);
-
-
-		header.setHorizontalAlignment(SwingConstants.LEFT);
-		header.setBorder(BorderFactory.createCompoundBorder(
+		lblHeader = new JLabel();
+		lblHeader.setHorizontalAlignment(JLabel.LEFT);
+		lblHeader.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createEtchedBorder(),	
 				BorderFactory.createEmptyBorder(2,5,2,2)));
 
-
-
-
-		this.add(header, BorderLayout.NORTH);	
+		
+		// finally, load up our JPanel
+		this.setLayout(new BorderLayout());
+		this.add(lblHeader, BorderLayout.NORTH);	
 		this.add(scrollPane, BorderLayout.CENTER);
-
 		this.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+		this.setMinimumSize(dataTable.getPreferredSize());
 
-
-
-
-	}  // END constructor 
-
-
-	public void removeGeos(){
-
-		//	if(dataListAll != null){
-		//	dataListAll.remove();
-		//	}
-		//	dataListAll = null;
 	}
 
 
 
+	public void removeGeos(){
+
+	}
 
 
-	private void populateDataTable(GeoList dataList){
+	private Boolean[] updateSelectionList(ArrayList<GeoElement> dataArray) {
 
+		selectionList = new Boolean[dataArray.size()];
+		for(int i=0; i<selectionList.length; ++i){
+			selectionList[i] = true;
+		}
+
+		return selectionList;
+	}
+
+
+	private void populateDataTable(ArrayList<GeoElement> dataArray){
+
+		if(dataArray == null || dataArray.size()<1){		
+			return;
+		}
+		
+		
 		TableModel dataModel = null;
 		GeoPoint2 geo = null;
 		String[] titles = statDialog.getDataTitles();
 
-		switch(mode){
+		switch(statDialog.getMode()){
 
 		case StatDialog.MODE_ONEVAR:
 
-			dataModel = new DefaultTableModel(dataList.size(),1);
-			for (int row = 0; row < dataList.size(); ++row){
-				dataModel.setValueAt(dataList.get(row).toDefinedValueString(),row,0);
+			dataModel = new DefaultTableModel(dataArray.size(),1);
+			for (int row = 0; row < dataArray.size(); ++row){
+				dataModel.setValueAt(dataArray.get(row).toDefinedValueString(),row,0);
 			}
 
 			dataTable.setModel(dataModel);
-
 			dataTable.getColumnModel().getColumn(0).setHeaderValue(titles[0]);
 
+			updateSelectionList(dataArray);
 
 			break;
 
 		case StatDialog.MODE_REGRESSION:
 
-			dataModel = new DefaultTableModel(dataList.size(),2);
-			for (int row = 0; row < dataList.size(); ++row){
-				dataModel.setValueAt(((GeoPoint2)(dataList.get(row))).getInhomX(),row,0);
-				dataModel.setValueAt(((GeoPoint2)(dataList.get(row))).getInhomY(),row,1);
+			dataModel = new DefaultTableModel(dataArray.size(),2);
+			for (int row = 0; row < dataArray.size(); ++row){
+				dataModel.setValueAt(((GeoPoint2)(dataArray.get(row))).getInhomX(),row,0);
+				dataModel.setValueAt(((GeoPoint2)(dataArray.get(row))).getInhomY(),row,1);
 			}
 
 			dataTable.setModel(dataModel);
-
 			dataTable.getColumnModel().getColumn(0).setHeaderValue(
 					app.getMenu("Column.X") + ": " + titles[0]);
 			dataTable.getColumnModel().getColumn(1).setHeaderValue(
 					app.getMenu("Column.Y") + ": " + titles[1]);
 
+			updateSelectionList(dataArray);
+
 			break;
 		}
-
-
-
-
-
-
-
 
 	}
 
 
 
-	/** Updates the data table. 
-	 * Called on data set changes. */
-	public void updateDataTable(GeoList dataAll){
+	/**
+	 * Loads the data table. Called on data set changes.
+	 */
+	public void loadDataTable(ArrayList<GeoElement> dataArray){
 
 
 		// load the data model
-		populateDataTable(dataAll);
+		populateDataTable(dataArray);
 
 		// prepare boolean selection list for the checkboxes
-		selectionList = new Boolean[dataAll.size()];
-		for(int i=0; i<dataAll.size(); ++i){
+		selectionList = new Boolean[dataArray.size()];
+		for(int i=0; i<dataArray.size(); ++i){
 			selectionList[i] = true;
 		}	
 
@@ -335,26 +324,42 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 	public void setFont(Font font) {
 		super.setFont(font);
 
-		if(dataTable != null){
-			int size = font.getSize();
-			if (size < 12) size = 12; // minimum size
-			double multiplier = (size)/12.0;
-
+		if(dataTable != null && dataTable.getRowCount()>0 && dataTable.getColumnCount()>0){
+			
+			// set the font for each component
 			dataTable.setFont(font);
+			if(dataTable.getTableHeader() != null)	
+				dataTable.getTableHeader().setFont(font);
 			rowHeader.setFont(font);
+			
+			// get row height needed to draw an "X" character
 			int h = dataTable.getCellRenderer(0,0).getTableCellRendererComponent(dataTable, "X",
 					false, false, 0, 0).getPreferredSize().height; 
-
+			
+			// use this height to set the table and row header heights
 			dataTable.setRowHeight(h);
 			rowHeader.setFixedCellHeight(h);
 
-			preferredColumnWidth = (int) (SpreadsheetSettings.TABLE_CELL_WIDTH * multiplier);
-			//columnHeader.setPreferredSize(new Dimension(preferredColumnWidth, (int)(MyTable.TABLE_CELL_HEIGHT * multiplier)));
 
+			// set the column width
+			int size = font.getSize();
+			if (size < 12) size = 12; // minimum size
+			double multiplier = (size)/12.0;
+			preferredColumnWidth = (int) (SpreadsheetSettings.TABLE_CELL_WIDTH * multiplier);
+
+			//columnHeader.setPreferredSize(new Dimension(preferredColumnWidth, (int)(MyTable.TABLE_CELL_HEIGHT * multiplier)));
+			//this.validate();
+			//dataTable.repaint();
 		}
+		
+		if(dataTable != null)
+			dataTable.setPreferredScrollableViewportSize(dataTable.getPreferredSize());
 
 	}
 
+	
+	
+	
 	public MyRowHeader getRowHeader(){
 		return rowHeader;
 	}
@@ -388,7 +393,7 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 		}
 
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int rowIndex, int colIndex) {
-
+			setFont(app.getPlainFont());
 			setText(value.toString());
 
 			return this;        			
@@ -417,7 +422,7 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 				setText("");
 				return this;
 			}
-
+			setFont(app.getPlainFont());
 			String text = value.toString();
 
 			//if (isSelected) 
@@ -453,20 +458,7 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 			this.table = table;
 			this.dataPanel = dataPanel;
 
-
-			/*
-			model = new DefaultListModel();
-			for(int i=0; i< table.getRowCount(); ++i){
-				model.addElement(new Boolean(true));
-			}
-			setModel(model);
-			 */
-
-			//model = (DefaultListModel) this.getModel();
-
 			setCellRenderer(new RowHeaderRenderer(table));
-			//addListSelectionListener(new MySelectionListener());
-			//setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			setSelectionModel( table.getSelectionModel());
 			this.addMouseListener(this);
 
@@ -491,10 +483,8 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 
 				setHorizontalAlignment(LEFT);
 				setFont(table.getFont());
-
-				//iconShown = app.getImageIcon("shown.gif");
-				//iconUnChecked = app.getImageIcon("hidden.gif");
 			}
+
 
 			public Component getListCellRendererComponent( JList list, 
 					Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -508,23 +498,15 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 					setIcon(iconUnChecked);
 				}
 
-				// selection
-
-				//if (isSelected) 
-				//setBackground(SELECTED_BACKGROUND_COLOR_HEADER);
-				//setBackground(MyTable.BACKGROUND_COLOR_HEADER);
-
-
 				if(!(Boolean) value)								
 					setBackground(DISABLED_BACKGROUND_COLOR);
 				else		
 					setBackground(TABLE_HEADER_COLOR);
 
-
 				return this;
 			}
-
 		}
+
 
 		class MySelectionListener implements ListSelectionListener{
 			public void valueChanged(ListSelectionEvent e) {
@@ -536,15 +518,9 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 			}
 		}
 
-		public void mouseClicked(MouseEvent e) {
-
-		}
-
-		public void mouseEntered(MouseEvent arg0) {	
-		}
-
-		public void mouseExited(MouseEvent arg0) {		
-		}
+		public void mouseClicked(MouseEvent e) {}
+		public void mouseEntered(MouseEvent arg0) {}
+		public void mouseExited(MouseEvent arg0) {}
 
 		public void mousePressed(MouseEvent e) {	
 			// check if we clicked in checkbox icon area 		
@@ -555,18 +531,8 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 				// icon clicked: toggle enable/disable data
 				selectionList[this.getSelectedIndex()] = !selectionList[this.getSelectedIndex()];
 				statController.updateSelectedDataList(this.getSelectedIndex(), selectionList[this.getSelectedIndex()] );
-
 				btnEnableAll.setEnabled(!isAllEnabled());
 
-				//	statDialog.handleDataPanelSelectionChange(selectionList);
-
-				/*
-					boolean bool = !((Boolean)getSelectedValue());
-					for(int row = 0; row < table.getSelectedRows().length; ++row){			
-						model.setElementAt(bool,table.getSelectedRows()[row]);
-
-					}
-				 */
 				table.repaint();
 				repaint();
 				return;
@@ -595,10 +561,7 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 					return false;
 			}
 			return true;
-
 		}
-
-
 
 	}
 
@@ -753,14 +716,12 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 
 
 	public void setLabels() {
-		// TODO Auto-generated method stub
-
+		lblHeader.setText(app.getMenu("Data"));
 	}
 
 
 	public void updatePanel() {
 		// TODO Auto-generated method stub
-
 	}
 
 }

@@ -317,7 +317,7 @@ public class StatTable extends JScrollPane {
 	}
 
 	/**
-	 * Adjust the width of a column to fit the maximum preferred width of 
+	 * Adjust the height of a row to fit the maximum preferred height of 
 	 * its cell contents.
 	 */
 	public void autoFitRowHeight(){

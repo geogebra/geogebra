@@ -35,14 +35,18 @@ import java.util.ArrayList;
 import javax.swing.AbstractAction;
 import javax.swing.JDialog;
 import javax.swing.JPopupMenu;
-import javax.swing.border.Border;
 
 /**
  * 
- * Creates a JPanel with an extended instance of EuclidianView and methods for
- * creating geos in the panel.
+ * An extension of EuclidianView used for display of a set of GeoElements
+ * without all of the mouse and key controls of the full EuclidianView. Unlike
+ * EuclidianView, this view remains centered in the panel when resized.
  * 
- * @author gsturr 2010-6-30
+ * Includes a right-click context menu and DnD support for exporting either the
+ * set of GeoElements or an image of the view.
+ * 
+ * 
+ * @author G.Sturr 2010-6-30
  * 
  */
 public class PlotPanelEuclidianView extends EuclidianView implements
@@ -51,127 +55,112 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 	private final EuclidianController ec;
 	private final PlotPanelEuclidianView plotPanelEV;
 
-	public int viewID;
-
 	private static boolean[] showAxes = { true, true };
 	private static boolean showGrid = false;
 
+	/** Plot panel viewID. This is not a constant; it is assigned by GuiManager. */
+	private int viewID;
+
+	/** Settings to control EuclidianView features (e.g. axes visibility) */
 	private PlotSettings plotSettings;
 
+	/** Mouse listener to trigger context menu */
 	private MyMouseListener myMouseListener;
 
-	private boolean enableContextMenu;
-
-	public PlotSettings getPlotSettings() {
-		return plotSettings;
-	}
-
 	/**
-	 * Sets the given plotSettings and updates the panel accordingly
-	 * 
-	 * @param plotSettings
+	 * Flag to determine if the mouse is over the drag region, a thin rectangle
+	 * at the top of the panel
 	 */
-	public void updateSettings(PlotSettings plotSettings) {
-		this.plotSettings = plotSettings;
-		this.setEVParams();
-	}
-
 	private boolean overDragRegion = false;
+
+	/** Drag source for DnD */
 	private DragSource ds;
 
-	protected void enableDnD() {
-		ds = new DragSource();
-		DragGestureRecognizer dgr = ds.createDefaultDragGestureRecognizer(this.getJPanel(),
-				DnDConstants.ACTION_COPY, this);
-	}
+	/** DnD cursors */
+	private Cursor grabbingCursor, grabCursor;
 
-	// protected Cursor defaultCursor = Cursor.getDefaultCursor();
-	// protected Cursor handCursor =
-	// Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
-	protected Cursor grabbingCursor, grabCursor;
+	/** List of AbstractActions for the popup context menu */
+	ArrayList<AbstractAction> actionList;
+
+	/**
+	 * Action method export of GeoElements to EuclidianView. Since the action is
+	 * specific to the parent container, it is injected in the constructor.
+	 * */
+	private AbstractAction exportToEVAction;
+		
+	/** DataFlavor for plotPanel drags */
+	public final static DataFlavor plotPanelFlavor = new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType
+			+ ";class=javax.swing.AbstractAction", "plotPanelFlavor");
+	
 
 	/*************************************************
 	 * Construct the panel
 	 */
-	public PlotPanelEuclidianView(Kernel kernel) {
+	public PlotPanelEuclidianView(Kernel kernel, AbstractAction exportAction) {
 		super(new PlotPanelEuclidianController(kernel), showAxes, showGrid,
 				null);
 
+		// set fields
 		plotPanelEV = this;
 		this.ec = this.getEuclidianController();
+		this.exportToEVAction = exportAction;
+		plotSettings = new PlotSettings();
 
-		viewID = ((Application)kernel.getApplication()).getGuiManager()
+		// get viewID from GuiManager
+		viewID = ((Application) kernel.getApplication()).getGuiManager()
 				.assignPlotPanelID(this);
 
-		grabCursor = getCursorForImage(getApplication().getImageIcon("cursor_grab.gif")
-				.getImage());
+		// create cursors for DnD
+		grabCursor = getCursorForImage(getApplication().getImageIcon(
+				"cursor_grab.gif").getImage());
 		grabbingCursor = getCursorForImage(getApplication().getImageIcon(
 				"cursor_grabbing.gif").getImage());
 
-		setMouseEnabled(false);
+		// enable/disable mouseListeners
+		setMouseEnabled(false, true);
 		setMouseMotionEnabled(false);
 		setMouseWheelEnabled(false);
-		setAllowShowMouseCoords(false);
-		setAxesCornerCoordsVisible(false);
-		setContextMenuEnabled(true);
-
 		this.addMouseMotionListener(new MyMouseMotionListener());
 
+		// set some default EV features
+		setAllowShowMouseCoords(false);
+		setAxesCornerCoordsVisible(false);
 		setAntialiasing(true);
 		updateFonts();
+
+		// set preferred size so that updateSize will work and this EV can be
+		// properly initialized
 		setPreferredSize(new Dimension(300, 200));
 		setSize(new Dimension(300, 200));
 		updateSize();
 
-		plotSettings = new PlotSettings();
-
+		// add a component listener that will allow the view to resize in a
+		// centered
 		addComponentListener(this);
 		enableDnD();
 
 	}
 
-
-
-	public void setMouseEnabled(boolean enableMouse) {
-
-		setContextMenuEnabled(enableContextMenu);
-		removeMouseListener(ec);
-		if (enableMouse) {
-			addMouseListener(ec);
-		}
-		
-	}
-
-	
-
-	public void setMouseMotionEnabled(boolean enableMouseMotion) {
-		removeMouseMotionListener(ec);
-		if (enableMouseMotion) {
-			addMouseMotionListener(ec);
-		}
-	}
-
-	public void setMouseWheelEnabled(boolean enableMouseWheel) {
-		removeMouseWheelListener(ec);
-		if (enableMouseWheel) {
-			addMouseWheelListener(ec);
-		}
-	}
-
-	public void setContextMenuEnabled(boolean enableContextMenu) {
-		this.enableContextMenu = enableContextMenu;
-		if (myMouseListener == null) {
-			myMouseListener = new MyMouseListener();
-		}
-		removeMouseListener(myMouseListener);
-		if (enableContextMenu) {
-			addMouseListener(myMouseListener);
-		}
-		;
-	}
+	/*********** End Constructor **********************/
 
 	/**
-	 * Override UpdateSize() so that our plots stay centered and scaled in a
+	 * Overrides EuclidianView setMode method so that no action is taken on a
+	 * mode change.
+	 */
+	@Override
+	public void setMode(int mode) {
+		// .... do nothing
+	}
+
+	/** Returns viewID */
+	@Override
+	public int getViewID() {
+		return viewID;
+	}
+	
+	
+	/**
+	 * Override updateSize() so that our plots stay centered and scaled in a
 	 * resized window.
 	 */
 	@Override
@@ -184,24 +173,48 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 		double ymaxTemp = getYmax();
 
 		// standard update: change the coord system to match new window
-		// dimensions
-		// with the upper left corner fixed and the other bounds adjusted.
+		// dimensions with the upper left corner fixed and the other bounds
+		// adjusted.
 		super.updateSize();
 
 		// now reset the coord system so that our view dimensions are restored
 		// using the new scaling factors.
 		setRealWorldCoordSystem(xminTemp, xmaxTemp, yminTemp, ymaxTemp);
 	}
+	
 
-	@Override
-	public void setMode(int mode) {
-		// .... do nothing
+	// ==================================================
+	//           Plot Settings
+	// =================================================
+
+	/**
+	 * Returns plotSettings field for this panel.
+	 * 
+	 * @return
+	 */
+	public PlotSettings getPlotSettings() {
+		return plotSettings;
 	}
 
+	/**
+	 * Sets the plotSettings field and updates the panel accordingly.
+	 * 
+	 * @param plotSettings
+	 */
+	public void updateSettings(PlotSettings plotSettings) {
+		this.plotSettings = plotSettings;
+		this.setEVParams();
+	}
+
+	/**
+	 * Uses the values stored in the plotSettings field to update the features
+	 * of this EuclidianView (e.g. axes visibility)
+	 */
 	public void setEVParams() {
 
 		showGrid(plotSettings.showGrid);
-		setShowAxis(EuclidianViewInterface.AXIS_Y, plotSettings.showYAxis, false);
+		setShowAxis(EuclidianViewInterface.AXIS_Y, plotSettings.showYAxis,
+				false);
 
 		setAutomaticGridDistance(plotSettings.gridIntervalAuto);
 		if (!plotSettings.gridIntervalAuto) {
@@ -227,7 +240,8 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 		if (plotSettings.forceXAxisBuffer) {
 			// ensure that the axis labels are shown
 			// by forcing a fixed pixel height below the x-axis
-			double pixelOffset = (30 * getApplication().getSmallFont().getSize()) / 12.0;
+			double pixelOffset = (30 * getApplication().getSmallFont()
+					.getSize()) / 12.0;
 			double pixelHeight = this.getHeight();
 			plotSettings.yMin = (-pixelOffset * plotSettings.yMax)
 					/ (pixelHeight + pixelOffset);
@@ -255,14 +269,16 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 		repaint();
 	}
 
-	// ==================================================
-	// Component Listener (for resizing our EV)
-	// =================================================
+	// ===========================================================
+	//         Component Listener 
+	// ===========================================================
 
 	public void componentHidden(ComponentEvent arg0) {
+		// ignore
 	}
 
 	public void componentMoved(ComponentEvent arg0) {
+		// ignore
 	}
 
 	public void componentResized(ComponentEvent arg0) {
@@ -271,12 +287,71 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 	}
 
 	public void componentShown(ComponentEvent arg0) {
+		// ignore
 	}
 
+	
+
 	// ==================================================
-	// Mouse Handlers
+	//             Mouse Listeners
 	// =================================================
 
+	/**
+	 * Enables/disables the default EuclidianController mouse listener and
+	 * myMouseListener, the listener that handles the right-click context menu.
+	 * 
+	 * @param enableECMouseListener
+	 *            default = false
+	 * @param enableMyMouseListener
+	 *            default = true
+	 */
+	public void setMouseEnabled(boolean enableECMouseListener,
+			boolean enableMyMouseListener) {
+		if (myMouseListener == null) {
+			myMouseListener = new MyMouseListener();
+		}
+		removeMouseListener(myMouseListener);
+		removeMouseListener(ec);
+
+		if (enableMyMouseListener) {
+			addMouseListener(myMouseListener);
+		}
+		if (enableECMouseListener) {
+			addMouseListener(ec);
+		}
+	}
+
+	/**
+	 * Enables/disables the EuclidianController mouse motion listener
+	 * 
+	 * @param enableMouseMotion
+	 *            default = false
+	 */
+	public void setMouseMotionEnabled(boolean enableMouseMotion) {
+		removeMouseMotionListener(ec);
+		if (enableMouseMotion) {
+			addMouseMotionListener(ec);
+		}
+	}
+
+	/**
+	 * Enables/disables the EuclidianController mouse wheel listener
+	 * 
+	 * @param enableMouseWheel
+	 *            default = false
+	 */
+	public void setMouseWheelEnabled(boolean enableMouseWheel) {
+		removeMouseWheelListener(ec);
+		if (enableMouseWheel) {
+			addMouseWheelListener(ec);
+		}
+	}
+
+	/**
+	 * Mouse listener class to handle right click trigger for the context menu.
+	 * Right click events are consumed to prevent the EuclidianController from
+	 * handling right-clicks as well.
+	 */
 	private class MyMouseListener implements MouseListener {
 
 		public void mouseClicked(MouseEvent e) {
@@ -289,13 +364,10 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 			}
 		}
 
-		public void mouseEntered(MouseEvent e) {
-		}
-
-		public void mouseExited(MouseEvent e) {
-		}
-
 		public void mousePressed(MouseEvent e) {
+			if (Application.isRightClick(e)) {
+				e.consume();
+			}
 		}
 
 		public void mouseReleased(MouseEvent e) {
@@ -304,25 +376,36 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 			}
 		}
 
+		public void mouseEntered(MouseEvent e) {
+			// ignore
+		}
+
+		public void mouseExited(MouseEvent e) {
+			// ignore
+		}
+
 	}
 
+	/**
+	 * Mouse motion listener for handling DnD drags
+	 */
 	class MyMouseMotionListener implements MouseMotionListener {
 
 		public void mouseDragged(MouseEvent e) {
-			// TODO Auto-generated method stub
-
+			// ignore
 		}
 
+		/** handles mouse motion over the drag region */
 		public void mouseMoved(MouseEvent e) {
 			overDragRegion = e.getPoint().y < 10;
-			// if(overDragRegion)
-			// plotPanelEV.setSelectionRectangle(new Rectangle(0, 0,
-			// plotPanelEV.getWidth(), plotPanelEV.getHeight()));
-			// else
-			// plotPanelEV.setSelectionRectangle(null);
+			setDefaultCursor();
 		}
 	}
 
+	/**
+	 * Overrides EuclidianView.setDefaultCursor so that DnD grab hand cursors
+	 * are drawn when over the drag region.
+	 */
 	@Override
 	public void setDefaultCursor() {
 		if (overDragRegion) {
@@ -333,14 +416,17 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 	}
 
 	// =============================================
-	// Context Menu
+	//          Context Menu Popup 
 	// =============================================
 
+	/**
+	 * Popup menu with menu items for exporting either the GeoElements or an
+	 * image of the view.
+	 */
 	private class ContextMenu extends JPopupMenu {
 
 		public ContextMenu() {
 			this.setOpaque(true);
-			// setBackground(bgColor);
 			setFont(getApplication().getPlainFont());
 
 			for (AbstractAction action : getActionList()) {
@@ -349,29 +435,53 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 		}
 	}
 
-	ArrayList<AbstractAction> actionList;
-
-	public ArrayList<AbstractAction> getActionList() {
-		if (actionList == null) {
-			actionList = new ArrayList<AbstractAction>();
-			// actionList.add(exportToEVAction);
-			actionList.add(drawingPadToClipboardAction);
-			actionList.add(exportGraphicAction);
-		}
-		return actionList;
-	}
-
+	/**
+	 * Sets the list of AbstractActions to be used in the popup context menu.
+	 * 
+	 * @param actionList
+	 */
 	public void setActionList(ArrayList<AbstractAction> actionList) {
 		this.actionList = actionList;
 	}
 
+	/**
+	 * Returns the list of AbstractActions to be used in the popup context menu.
+	 * 
+	 * @return
+	 */
+	public ArrayList<AbstractAction> getActionList() {
+
+		if (actionList == null) {
+			actionList = new ArrayList<AbstractAction>();
+			actionList.add(drawingPadToClipboardAction);
+			actionList.add(exportGraphicAction);
+			if (exportToEVAction != null) {
+				exportToEVAction.putValue(AbstractAction.NAME, getApplication()
+						.getMenu("CopyToGraphics"));
+				exportToEVAction.putValue(AbstractAction.SMALL_ICON,
+						getApplication().getImageIcon("edit-copy.png"));
+				actionList.add(exportToEVAction);
+			}
+		}
+		return actionList;
+	}
+
+	/**
+	 * Adds an AbstractAction to the end of the list of AbstractActions
+	 * displayed in the context menu.
+	 * 
+	 * @param action
+	 */
 	public void appendActionList(AbstractAction action) {
 		getActionList().add(action);
 	}
 
-	AbstractAction exportGraphicAction = new AbstractAction(
-			getApplication().getPlain("ExportAsPicture") + "...",
-			getApplication().getImageIcon("image-x-generic.png")) {
+	/**
+	 * Action to export an image of the view as a file.
+	 */
+	AbstractAction exportGraphicAction = new AbstractAction(getApplication()
+			.getPlain("ExportAsPicture") + "...", getApplication()
+			.getImageIcon("image-x-generic.png")) {
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
@@ -405,8 +515,12 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 		}
 	};
 
+	/**
+	 * Action to export an image of the view to the clipboard.
+	 */
 	AbstractAction drawingPadToClipboardAction = new AbstractAction(
-			getApplication().getMenu("CopyToClipboard"), getApplication().getImageIcon("edit-copy.png")) {
+			getApplication().getMenu("CopyToClipboard"), getApplication()
+					.getImageIcon("edit-copy.png")) {
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
@@ -425,22 +539,35 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 	};
 
 	// =====================================================
-	// Drag and Drop
+	//               Drag and Drop
 	// =====================================================
 
+	protected void enableDnD() {
+		ds = new DragSource();
+		DragGestureRecognizer dgr = ds.createDefaultDragGestureRecognizer(
+				this.getJPanel(), DnDConstants.ACTION_COPY, this);
+	}
+
 	public void dragDropEnd(DragSourceDropEvent e) {
+		// clean up selection rectangle
+		plotPanelEV.setSelectionRectangle(null);
+		plotPanelEV.repaint();
 	}
 
 	public void dragEnter(DragSourceDragEvent e) {
+		// ignore
 	}
 
 	public void dragExit(DragSourceEvent e) {
+		// ignore
 	}
 
 	public void dragOver(DragSourceDragEvent e) {
+		// ignore
 	}
 
 	public void dropActionChanged(DragSourceDragEvent e) {
+		// ignore
 	}
 
 	public void dragGestureRecognized(DragGestureEvent dge) {
@@ -454,8 +581,7 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 
 	}
 
-	public static final DataFlavor plotPanelFlavor = new DataFlavor(
-			PlotPanelEuclidianView.class, "plotPanel");
+
 
 	/**
 	 * Extension of Transferable for exporting PlotPanelEV contents
@@ -468,9 +594,12 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 		private final String plotPanelIdentifier;
 		private final Image image;
 
+		// private final Action act;
+
 		public TransferablePlotPanel() {
 			image = plotPanelEV.getExportImage(1d);
 			plotPanelIdentifier = "ProbabilityCalculator";
+			// act = sampleAction;
 		}
 
 		public DataFlavor[] getTransferDataFlavors() {
@@ -489,7 +618,7 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 		public Object getTransferData(DataFlavor flavor)
 				throws UnsupportedFlavorException {
 			if (flavor.equals(plotPanelFlavor)) {
-				return plotPanelIdentifier;
+				return exportToEVAction;
 			}
 			if (flavor.equals(DataFlavor.imageFlavor)) {
 				return image;
@@ -497,12 +626,5 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 			throw new UnsupportedFlavorException(flavor);
 		}
 	}
-
-	@Override
-	public int getViewID() {
-		return viewID;
-	}
-
-	
 
 }

@@ -322,7 +322,7 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 		revalidate();
 		repaint();
 		this.setMinimumSize(this.getPreferredSize());
-		statDialog.updateStatDataPanelVisibility();
+		//statDialog.updateStatDataPanelVisibility();
 		
 	}
 

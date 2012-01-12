@@ -235,13 +235,11 @@ public class StatGeo   {
 			al = new AlgoClasses(cons, dataList, null, null, new GeoNumeric(cons, numClasses));
 		}
 		removeFromConstructionList(al);
-
 		double density = -1;
 		if(settings.frequencyType == StatPanelSettings.TYPE_RELATIVE)
 			density = 1.0*classWidth/dataList.size();
 		if(settings.frequencyType == StatPanelSettings.TYPE_NORMALIZED)
 			density = 1.0/dataList.size();
-
 
 		//if(isFrequencyPolygon)
 		//	al2 = new AlgoFrequencyPolygon(cons, new GeoBoolean(cons, settings.isCumulative), 
@@ -249,21 +247,24 @@ public class StatGeo   {
 		//else
 		al2 = new AlgoHistogram(cons, new GeoBoolean(cons, settings.isCumulative), 
 				(GeoList)al.getGeoElements()[0], dataList, new GeoBoolean(cons, true), new GeoNumeric(cons, density),histogramRight);
-		removeFromConstructionList(al2);
-
+		
+		
 		if(isFrequencyPolygon){
 			AlgoPolyLine al3 = createFrequencyPolygon((AlgoHistogram) al2, settings.isCumulative);
-			removeFromConstructionList(al3);
 			geo = al3.getGeoElements()[0];
 			geo.setObjColor(new geogebra.awt.Color(StatDialog.OVERLAY_COLOR));
 			geo.setLineThickness(StatDialog.thicknessCurve);
+			removeFromConstructionList(al2);
+			removeFromConstructionList(al3);
 
 		}else{
 			geo = al2.getGeoElements()[0];
 			geo.setObjColor(new geogebra.awt.Color(StatDialog.HISTOGRAM_COLOR));
 			geo.setAlphaValue(StatDialog.opacityBarChart);
 			geo.setLineThickness(StatDialog.thicknessBarChart);
+			removeFromConstructionList(al2);
 		}
+
 		return geo;	
 	}
 
@@ -296,7 +297,7 @@ public class StatGeo   {
 		cons.setSuppressLabelCreation(suppressLabelCreation);
 
 		AlgoPolyLine polyLine = new AlgoPolyLine(cons, null, points);
-		removeFromConstructionList(polyLine);
+		
 		return polyLine;
 	}
 
@@ -771,7 +772,7 @@ public class StatGeo   {
 	
 	
 	
-	public boolean doRemoveFromConstruction() {
+	public boolean removeFromConstruction() {
 		return removeFromConstruction;
 	}
 	public void setRemoveFromConstruction(boolean removeFromConstruction) {
@@ -779,6 +780,9 @@ public class StatGeo   {
 	}
 	
 	private void removeFromConstructionList(ConstructionElement ce){
+		//System.out.println("remove from cons:" + removeFromConstruction);
+		
+			
 		if(removeFromConstruction)
 			cons.removeFromConstructionList(ce);
 	}

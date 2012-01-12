@@ -1,10 +1,11 @@
 package geogebra.gui.view.probcalculator;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoDependentPoint;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -49,7 +50,6 @@ import geogebra.gui.GuiManager;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
 import geogebra.gui.view.spreadsheet.statdialog.PlotSettings;
-import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -81,7 +81,6 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -364,21 +363,20 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 			// plot panel (extension of EuclidianView)
 			//======================================================
-			plotPanel = new PlotPanelEuclidianView(app.getKernel());
-			plotPanel.setMouseEnabled(true);
+			
+			
+			plotPanel = new PlotPanelEuclidianView(app.getKernel(), exportToEVAction);
+			plotPanel.setMouseEnabled(true,true);
 			plotPanel.setMouseMotionEnabled(true);
 
+			/*
 			plotPanel.setBorder(BorderFactory.createCompoundBorder(
 					BorderFactory.createEmptyBorder(2, 2, 2, 2),
 					BorderFactory.createBevelBorder(BevelBorder.LOWERED))); 
-
+			 */
 			plotPanel.setBorder(BorderFactory.createEmptyBorder());
 
-			plotPanel.setBorder(BorderFactory.createEmptyBorder());
-
-			addPlotPanelExportMenu(plotPanel);
-
-
+			
 			// table panel
 			//======================================================
 			table = new ProbabilityTable(app, this);
@@ -1980,28 +1978,45 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 	//============================================================
 
 
-	private void addPlotPanelExportMenu(PlotPanelEuclidianView plotPanel){
+	
+	/**
+	 * Action to export all GeoElements that are currently displayed in this
+	 * panel to a EuclidianView. The viewID for the target EuclidianView is
+	 * stored as a property with key "euclidianViewID".
+	 * 
+	 * This action is passed as a parameter to plotPanel where it is used in
+	 * the plotPanel context menu and the EuclidianView transfer handler
+	 * when the plot panel is dragged into an EV.
+	 */
+	AbstractAction exportToEVAction = new AbstractAction() {
+		private static final long serialVersionUID = 1L;
 
-		AbstractAction exportToEVAction = new AbstractAction(app
-				.getMenu("CopyToGraphics"), app
-				.getImageIcon("edit-copy.png")) {
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				if(Application.getShiftDown())
-					exportGeosToEV(AbstractApplication.VIEW_EUCLIDIAN2);
-				else
-					exportGeosToEV(AbstractApplication.VIEW_EUCLIDIAN);
+		public void actionPerformed(ActionEvent event){
+			Integer euclidianViewID = (Integer) this.getValue("euclidianViewID");
+			
+			// if null ID then use EV1 unless shift is down, then use EV2
+			if(euclidianViewID == null){
+				euclidianViewID = app.getShiftDown()? app.getEuclidianView2().getViewID() : app.getEuclidianView().getViewID();
 			}
-		};
+			
+			// do the export
+			exportGeosToEV(euclidianViewID);
+			
+			// null out the ID property
+			this.putValue("euclidianViewID", null);
+		}
+	};
+	
+	
+	
 
-		plotPanel.appendActionList(exportToEVAction);
-	}
-
-
-
-
-	public void exportGeosToEV(int viewID){
+	/**
+	 * Exports all GeoElements that are currently displayed in this panel to a target
+	 * EuclidianView.
+	 * 
+	 * @param euclidianViewID	viewID of the target EuclidianView
+	 */
+	public void exportGeosToEV(int euclidianViewID){
 
 		app.setWaitCursor();
 		ArrayList<GeoElement> newGeoList = new ArrayList<GeoElement>();
@@ -2154,12 +2169,12 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			// set the EV location and auxiliary = false for all of the new geos
 			for(GeoElement geo: newGeoList){
 				geo.setAuxiliaryObject(false);
-				if(viewID == AbstractApplication.VIEW_EUCLIDIAN){
+				if(euclidianViewID == AbstractApplication.VIEW_EUCLIDIAN){
 					geo.addView(AbstractApplication.VIEW_EUCLIDIAN);
 					geo.removeView(AbstractApplication.VIEW_EUCLIDIAN2);
 					geo.update();
 				}
-				else if(viewID == AbstractApplication.VIEW_EUCLIDIAN2){
+				else if(euclidianViewID == AbstractApplication.VIEW_EUCLIDIAN2){
 					geo.addView(AbstractApplication.VIEW_EUCLIDIAN2);
 					geo.removeView(AbstractApplication.VIEW_EUCLIDIAN);
 					geo.update();
@@ -2167,7 +2182,9 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			}
 
 			// set the window dimensions of the target EV to match the prob calc dimensions
-			AbstractEuclidianView ev  = (AbstractEuclidianView) app.getView(viewID);
+
+			AbstractEuclidianView ev  = (AbstractEuclidianView) app.getView(euclidianViewID);
+
 			ev.setRealWorldCoordSystem(plotSettings.xMin, plotSettings.xMax, plotSettings.yMin, plotSettings.yMax);
 			ev.setAutomaticAxesNumberingDistance(plotSettings.xAxesIntervalAuto, 0);
 			ev.setAutomaticAxesNumberingDistance(plotSettings.yAxesIntervalAuto, 1);

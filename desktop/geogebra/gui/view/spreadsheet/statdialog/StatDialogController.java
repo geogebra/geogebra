@@ -20,8 +20,13 @@ import java.util.ArrayList;
 
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 
+/**
+ * Class to control data management for StatDialog.  
+ * 
+ * @author G. Sturr
+ *
+ */
 public class StatDialogController {
-
 
 	private Application app;
 	private Kernel kernel; 
@@ -32,25 +37,25 @@ public class StatDialogController {
 	private StatGeo statGeo; 
 
 	private Object dataSource;
-	private GeoList dataAll, dataSelected;
-
-
-	public GeoList getDataAll() {
-		return dataAll;
+	
+	private ArrayList<GeoElement> dataArray;
+	public ArrayList<GeoElement> getDataArray() {
+		return dataArray;
 	}
-
+	
+	private GeoList dataSelected;
 	public GeoList getDataSelected() {
 		return dataSelected;
 	}
 
-	private GeoElement geoRegression;
-
+	
 	private int mode;
 	private boolean leftToRight = true;
 	public void setLeftToRight(boolean leftToRight) {
 		this.leftToRight = leftToRight;
 	}
-
+	
+	private GeoElement geoRegression;
 	public GeoElement getRegressionModel() {
 		return geoRegression;
 	}
@@ -59,7 +64,12 @@ public class StatDialogController {
 	}
 
 
-
+	/****************************************************
+	 * Constructs a StatDialogController
+	 * @param app
+	 * @param spView
+	 * @param statDialog
+	 */
 	public StatDialogController(Application app, SpreadsheetView spView, StatDialog statDialog){
 
 		this.app = app;
@@ -145,33 +155,30 @@ public class StatDialogController {
 
 
 	/**
-	 * Copies values from the current DataSource into the GeoList dataListAll
-	 * and then stores references to these values in the GeoList dataListSelected.
+	 * Loads references to GeoElements contained in the field dataSource into the
+	 * GeoList field dataListSelected and the ArrayList field dataArray.
 	 */
 	protected void loadDataLists(){
 
 		if(dataSource == null) return;
 
 		CellRangeProcessor crProcessor = spreadsheetTable.getCellRangeProcessor();
-		String text = "";
 
 		boolean scanByColumn = true;
-		//boolean isSorted = false;
-		boolean copyByValue = true;
+		boolean copyByValue = false;
 		boolean doStoreUndo = false;
 		boolean isSorted = false;
 		boolean doCreateFreePoints = false;
+		boolean setLabel = false;
 
 
 		//=======================================
 		// create/update dataListAll 
-		if(dataAll != null) dataAll.remove();
+		if(dataSelected != null) dataSelected.remove();
 
+		//TODO: handle dataSource of type geoList 
 		if(dataSource instanceof GeoList){
-			//dataListAll = dataSource;
-			text = ((GeoList)dataSource).getLabel();
-			//if(isSorted)
-			//	text = "Sort[" + text + "]";
+			
 
 		}else{
 
@@ -179,31 +186,32 @@ public class StatDialogController {
 			switch (mode){
 
 			case StatDialog.MODE_ONEVAR:
-				dataAll = (GeoList) crProcessor.createList(
+				dataSelected = (GeoList) crProcessor.createList(
 						cellRangeList, 
 						scanByColumn,
 						copyByValue, 
-						false, 
+						isSorted, 
 						doStoreUndo, 
-						GeoClass.NUMERIC, false);
+						GeoClass.NUMERIC, setLabel);
 
 				break;
 
 			case StatDialog.MODE_REGRESSION:
-				
+
+				// data is a cell range of points
 				if( cellRangeList.size()==1 && cellRangeList.get(0).isPointList()){
-					dataAll = (GeoList) crProcessor.createList(
+					dataSelected = (GeoList) crProcessor.createList(
 							cellRangeList, 
 							scanByColumn,
 							copyByValue, 
 							isSorted, 
 							doStoreUndo, 
-							GeoClass.POINT, false);
+							GeoClass.POINT, setLabel);
 				}
-				
-				else{
-					
-					dataAll = (GeoList) crProcessor.createPointGeoList(
+
+				// data is from two cell ranges of numbers that must be converted to points 
+				else{					
+					dataSelected = (GeoList) crProcessor.createPointGeoList(
 							cellRangeList, 
 							copyByValue, 
 							leftToRight,
@@ -213,9 +221,9 @@ public class StatDialogController {
 				}
 				break;
 
-				case StatDialog.MODE_MULTIVAR:
+			case StatDialog.MODE_MULTIVAR:
 					cons.setSuppressLabelCreation(true);
-					dataAll = crProcessor.createCollectionList((ArrayList<CellRange>)dataSource, true); 
+					dataSelected = crProcessor.createCollectionList((ArrayList<CellRange>)dataSource, true); 
 					cons.setSuppressLabelCreation(false);
 					break;
 
@@ -223,32 +231,25 @@ public class StatDialogController {
 		}	
 
 		
-		//=======================================
-		// create/update dataListSelected
+		// create and update dataArray (list of all geos contained in dataSelected)
 
-		if(dataSelected == null){
-			cons.setSuppressLabelCreation(true);
-			dataSelected = new GeoList(cons);			
-			cons.setSuppressLabelCreation(false);
+		if(dataSelected != null){
+			
+			if(dataArray == null)
+				dataArray = new ArrayList<GeoElement>();
+						
+			dataArray.clear();
+			for(int i=0; i<dataSelected.size(); i++){
+				dataArray.add(i,dataSelected.get(i));
+			}
 		}
 		
-
-		try {			
-			dataSelected.clear();
-			for(int i=0; i<dataAll.size(); ++i)
-				dataSelected.add(dataAll.get(i));		
-		} 
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		if( !sd.isIniting && sd.dataPanel != null){
-			sd.dataPanel.updateDataTable(this.dataAll);
-		}
-
+		// load dataPanel with dataArray
+		sd.getDataPanel().loadDataTable(dataArray);
+		
 	}
 
-
+	
 
 	/**
 	 * Add/remove elements from the selected data list. 
@@ -256,7 +257,7 @@ public class StatDialogController {
 	 */
 	public void updateSelectedDataList(int index, boolean doAdd) {
 
-		GeoElement geo = dataAll.get(index);
+		GeoElement geo = dataArray.get(index);
 
 		if(doAdd){
 			dataSelected.add(geo);
@@ -275,6 +276,8 @@ public class StatDialogController {
 
 	/**
 	 * Gets the data titles from the source cells.
+	 * 
+	 * @return String array of data titles
 	 */
 	public String[] getDataTitles(){
 
@@ -355,11 +358,11 @@ public class StatDialogController {
 	}
 
 
+	
 	public void swapXY(){
 		leftToRight = !leftToRight;
 		updateDialog(false);
 	}
-
 
 
 	public void updateDialog(boolean doSetDataSource){
@@ -392,8 +395,6 @@ public class StatDialogController {
 		sd.statisticsPanel.updatePanel();
 
 	}
-
-
 
 
 	protected void handleRemovedDataGeo(GeoElement geo){
@@ -436,7 +437,6 @@ public class StatDialogController {
 	 */
 	public void removeStatGeos(){
 
-		removeStatGeo(dataAll);
 		removeStatGeo(dataSelected);
 		removeStatGeo(geoRegression);
 
@@ -486,7 +486,6 @@ public class StatDialogController {
 
 		return val;
 	}
-
 
 
 

@@ -1,13 +1,13 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.kernel.algos.AlgoHistogram;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.AbstractApplication;
-import geogebra.common.main.settings.EuclidianSettings;
+import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
-import geogebra.common.kernel.algos.AlgoHistogram;
 import geogebra.main.Application;
 import geogebra.util.Validation;
 
@@ -132,8 +132,8 @@ StatPanelInterface{
 	private JToolBar manualClassesPanel;
 	private JLabel lblStart;
 	private JLabel lblWidth;
-	private MyTextField fldStart;
-	private MyTextField fldWidth;
+	private AutoCompleteTextField fldStart;
+	private AutoCompleteTextField fldWidth;
 	private JLabel lblNumClasses;
 
 
@@ -229,12 +229,9 @@ StatPanelInterface{
 		}
 
 
-		// create display panels 
-
-		plotPanel = new PlotPanelEuclidianView(app.getKernel());
-		addPlotPanelExportMenu(plotPanel);
-		//plotPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-		//settings.plotPanel = plotPanel;
+		
+		plotPanel = new PlotPanelEuclidianView(app.getKernel(), exportToEVAction);
+		
 
 		plotPanelNorth = new JPanel();
 		plotPanelSouth = new JPanel();
@@ -499,7 +496,7 @@ StatPanelInterface{
 		lblStart = new JLabel();
 		lblWidth = new JLabel();
 
-		fldStart = new MyTextField(app);
+		fldStart = new AutoCompleteTextField(4,app);
 		Dimension d = fldStart.getMaximumSize();
 		d.height = fldStart.getPreferredSize().height;
 		fldStart.setMaximumSize(d);
@@ -507,7 +504,7 @@ StatPanelInterface{
 		fldStart.setText("" + (int)settings.classStart);
 		fldStart.addFocusListener(this);
 
-		fldWidth = new MyTextField(app);
+		fldWidth = new AutoCompleteTextField(4,app);
 		fldWidth.setMaximumSize(d);
 		fldStart.setColumns(4);
 		fldWidth.setColumns(4);
@@ -595,20 +592,13 @@ StatPanelInterface{
 
 	
 	public void updatePlot(boolean doCreate){
-		updatePlot(doCreate, true);
-	}
-	
-	public void updatePlot(boolean doCreate, boolean removeFromConstruction){
 
 		GeoList dataListSelected = statDialog.getStatDialogController().getDataSelected();
 		
-		statGeo.setRemoveFromConstruction(removeFromConstruction);
 		
-		
-		if(!removeFromConstruction){	
-			statDialog.getStatDialogController().setRegressionGeo();
-			
-		}
+		//if(!statGeo.removeFromConstruction()){	
+			//statDialog.getStatDialogController().setRegressionGeo();			
+		//}
 	
 		
 		GeoElement geo;
@@ -627,7 +617,7 @@ StatPanelInterface{
 			if(doCreate){
 				if(histogram != null)
 					histogram.remove();
-				histogram = statGeo.createHistogram( dataListSelected, numClasses, settings, false);
+				histogram = statGeo.createHistogram(dataListSelected, numClasses, settings, false);
 				plotGeoList.add(histogram);
 
 				if(frequencyPolygon != null)
@@ -775,7 +765,7 @@ StatPanelInterface{
 		}
 
 
-		if(doCreate && removeFromConstruction){
+		if(doCreate && statGeo.removeFromConstruction()){
 			for(GeoElement listGeo:plotGeoList){
 				// add the geo to our view and remove it from EV		
 				listGeo.addView(plotPanel.getViewID());
@@ -968,43 +958,66 @@ StatPanelInterface{
 		}
 	}
 
+	
+	
+	
+	// **********************************************
+	//               Export
+	// **********************************************
+	
+	/**
+	 * Action to export all GeoElements that are currently displayed in this
+	 * panel to a EuclidianView. The viewID for the target EuclidianView is
+	 * stored as a property with key "euclidianViewID".
+	 * 
+	 * This action is passed as a parameter to plotPanel where it is used in
+	 * the plotPanel context menu and the EuclidianView transfer handler
+	 * when the plot panel is dragged into an EV.
+	 */
+	AbstractAction exportToEVAction = new AbstractAction() {
+		private static final long serialVersionUID = 1L;
 
-
-	private void addPlotPanelExportMenu(PlotPanelEuclidianView plotPanel){
-
-		AbstractAction exportToEVAction = new AbstractAction(app
-				.getMenu("CopyToGraphics"), app
-				.getImageIcon("edit-copy.png")) {
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				if(app.getShiftDown())
-					exportGeosToEV(AbstractApplication.VIEW_EUCLIDIAN2);
-				else
-					exportGeosToEV(AbstractApplication.VIEW_EUCLIDIAN);
-
+		public void actionPerformed(ActionEvent event){
+			Integer euclidianViewID = (Integer) this.getValue("euclidianViewID");
+			
+			// if null ID then use EV1 unless shift is down, then use EV2
+			if(euclidianViewID == null){
+				euclidianViewID = app.getShiftDown()? app.getEuclidianView2().getViewID() : app.getEuclidianView().getViewID();
 			}
-		};
+			
+			// do the export
+			exportGeosToEV(euclidianViewID);
+			
+			// null out the ID property
+			this.putValue("euclidianViewID", null);
+		}
+	};
 
-		plotPanel.appendActionList(exportToEVAction);
-	}
 
-
-	public void exportGeosToEV(int viewID){
+	
+	/**
+	 * Exports all GeoElements that are currently displayed in this panel to a
+	 * target EuclidianView.
+	 * 
+	 * @param euclidianViewID
+	 *            viewID of the target EuclidianView
+	 */
+	public void exportGeosToEV(int euclidianViewID){
 
 		app.setWaitCursor();
-		String expr;
-
+		AbstractEuclidianView targetEV  = (AbstractEuclidianView) app.getView(euclidianViewID);
+		
 		try {
 			app.storeUndoInfo();
 
 			// prepare the data list to display in the EV (e.g. set labels, auxiliary = false)
 			GeoList dataListSelected = statDialog.getStatDialogController().getDataSelected();
-			prepareGeoForEV(dataListSelected, viewID);
+			prepareGeoForEV(dataListSelected, euclidianViewID);
 			
 
 			// update the plot to get a new set of geos that exist in the construction
-			updatePlot(true, false);
+			statGeo.setRemoveFromConstruction(false);
+			updatePlot(true);
 
 			// remove the histogram from the plot geo list if it is not showing
 			if(histogram != null && settings.showHistogram == false){
@@ -1015,30 +1028,31 @@ StatPanelInterface{
 
 			// prepare the new geos to display in the EV (e.g. set labels, auxiliary = false)
 			for(GeoElement geo: plotGeoList){
-				prepareGeoForEV(geo, viewID);
+				prepareGeoForEV(geo, euclidianViewID);
 			}
 			
 			GeoElement regressionCopy = null;
 			if(statDialog.getMode() == StatDialog.MODE_REGRESSION 
 					&& statDialog.getRegressionMode() != StatDialog.REG_NONE)
 			{
-				regressionCopy = (GeoElement)statGeo.createRegressionPlot((GeoList) dataListSelected,
+				regressionCopy = statGeo.createRegressionPlot(dataListSelected,
 						statDialog.getRegressionMode(), statDialog.getRegressionOrder(), false);
-				prepareGeoForEV(regressionCopy, viewID);
+				prepareGeoForEV(regressionCopy, euclidianViewID);
 			}
 
 			// set the window dimensions of the target EV to match the plotPanel dimensions
-			AbstractEuclidianView ev  = (AbstractEuclidianView) app.getView(viewID);
-			ev.setRealWorldCoordSystem(settings.xMin, settings.xMax, settings.yMin, settings.yMax);
-			ev.setAutomaticAxesNumberingDistance(settings.xAxesIntervalAuto, 0);
-			ev.setAutomaticAxesNumberingDistance(settings.yAxesIntervalAuto, 1);
+			
+			targetEV.setRealWorldCoordSystem(settings.xMin, settings.xMax, settings.yMin, settings.yMax);
+			targetEV.setAutomaticAxesNumberingDistance(settings.xAxesIntervalAuto, 0);
+			targetEV.setAutomaticAxesNumberingDistance(settings.yAxesIntervalAuto, 1);
+
 			if(!settings.xAxesIntervalAuto){
-				ev.setAxesNumberingDistance(settings.xAxesInterval, 0);
+				targetEV.setAxesNumberingDistance(settings.xAxesInterval, 0);
 			}
 			if(!settings.yAxesIntervalAuto){
-				ev.setAxesNumberingDistance(settings.yAxesInterval, 1);
+				targetEV.setAxesNumberingDistance(settings.yAxesInterval, 1);
 			}
-			ev.updateBackground();			
+			targetEV.updateBackground();			
 						
 
 			// null our display geos and clear the plotGeoList to unlink the new geos
@@ -1058,8 +1072,7 @@ StatPanelInterface{
 				residualPlot = null;
 				regressionCopy.remove();
 				dataListSelected.setEuclidianVisible(false); // hide the dataListSelected scatterplot 
-				dataListSelected.updateRepaint();
-				
+				dataListSelected.updateRepaint();				
 			}
 			
 			
@@ -1077,7 +1090,8 @@ StatPanelInterface{
 			statDialog.getStatDialogController().loadDataLists();
 			
 			//update the plot in removeFromConstruction mode to get a new set of geos for our plot
-			updatePlot(true, true);
+			statGeo.setRemoveFromConstruction(true);
+			updatePlot(true);
 
 
 		} catch (Exception e) {
@@ -1086,20 +1100,29 @@ StatPanelInterface{
 		}
 
 		app.setDefaultCursor();
+		app.storeUndoInfo();
 	}
 
 	
-	private void prepareGeoForEV(GeoElement geo, int viewID){
+	/**
+	 * Prepares the specified GeoElement for visibility in a target
+	 * EuclidianView.
+	 * 
+	 * @param geo
+	 * @param euclidianViewID
+	 *            viewID of the target EuclidianView
+	 */
+	private static void prepareGeoForEV(GeoElement geo, int euclidianViewID){
 
 		geo.setLabel(null);
 		geo.setEuclidianVisible(true);
 		geo.setAuxiliaryObject(false);
-		if(viewID == AbstractApplication.VIEW_EUCLIDIAN){
+		if(euclidianViewID == AbstractApplication.VIEW_EUCLIDIAN){
 			geo.addView(AbstractApplication.VIEW_EUCLIDIAN);
 			geo.removeView(AbstractApplication.VIEW_EUCLIDIAN2);
 			geo.update();
 		}
-		if(viewID == AbstractApplication.VIEW_EUCLIDIAN2){
+		if(euclidianViewID == AbstractApplication.VIEW_EUCLIDIAN2){
 			geo.addView(AbstractApplication.VIEW_EUCLIDIAN2);
 			geo.removeView(AbstractApplication.VIEW_EUCLIDIAN);
 			geo.update();

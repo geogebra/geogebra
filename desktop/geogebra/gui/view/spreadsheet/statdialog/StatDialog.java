@@ -191,17 +191,6 @@ SpecialNumberFormatInterface {
 		statisticsPanel = new StatisticsPanel(app, this);
 		statisticsPanel.setBorder(BorderFactory.createEmptyBorder(4, 2, 2, 2));
 
-
-		// Create DataPanel to display the current data set(s) and allow
-		// temporary editing. 
-		if(mode != MODE_MULTIVAR){
-			dataPanel = new DataPanel(app, this, sdc.getDataAll(), mode);
-			//dataPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-			dataPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
-		}
-
-
-
 		// Init the GUI and attach this view to the kernel
 
 		initGUI();
@@ -216,6 +205,20 @@ SpecialNumberFormatInterface {
 	}
 
 
+	// Create DataPanel to display the current data set(s) and allow
+	// temporary editing.
+	protected DataPanel getDataPanel(){
+
+		if(dataPanel == null && mode != MODE_MULTIVAR){
+			dataPanel = new DataPanel(app, this);
+			dataPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+		}
+
+		return dataPanel;
+
+	}
+	
+	
 
 
 	//=================================================
