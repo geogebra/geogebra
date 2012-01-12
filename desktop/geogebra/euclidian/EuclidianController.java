@@ -3343,26 +3343,8 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	public void mouseMoved(MouseEvent e) {
 		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
 		wrapMouseMoved(event);
-		/*if (textfieldHasFocus) {
-			return;
-		}
-
-		setMouseLocation(e);
-		processMouseMoved(e);*/
 	}
 	
-	protected void wrapMouseMoved(AbstractEvent event) {
-		
-		if (textfieldHasFocus) {
-			return;
-		}
-		
-		setMouseLocation(event);
-		processMouseMoved(event);
-		//event.release(e.getID()); //does it necessary?
-		
-	}
-
 	public void mouseEntered(MouseEvent e) {
 		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
 		wrapMouseEntered(event);

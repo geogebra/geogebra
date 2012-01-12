@@ -5836,4 +5836,16 @@ public abstract class AbstractEuclidianController {
 			kernel.notifyRepaint();
 		}
 	}
+
+	protected void wrapMouseMoved(AbstractEvent event) {
+		
+		if (textfieldHasFocus) {
+			return;
+		}
+		
+		setMouseLocation(event);
+		processMouseMoved(event);
+		//event.release(e.getID()); //does it necessary?
+		
+	}
 }
