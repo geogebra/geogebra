@@ -23,7 +23,6 @@ package geogebra.web.awt;
 
 import geogebra.common.awt.Point2D;
 import geogebra.common.awt.Shape;
-import geogebra.common.euclidian.PathPoint;
 import geogebra.common.main.AbstractApplication;
 
 public class AffineTransform implements geogebra.common.awt.AffineTransform {
@@ -70,12 +69,9 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
     }
 
 	
-    public Shape createTransformedShape(Object shape) {
+    public Shape createTransformedShape(geogebra.common.awt.Shape shape) {
 		geogebra.web.kernel.gawt.Shape ret = null;
-		if(shape instanceof geogebra.web.awt.Shape)
-			ret = at.createTransformedShape(geogebra.web.awt.GenericShape.getGawtShape((geogebra.web.awt.Shape)shape));
-		if(shape instanceof geogebra.web.kernel.gawt.Shape)
-			ret = at.createTransformedShape((geogebra.web.kernel.gawt.Shape)shape);
+		ret = at.createTransformedShape(geogebra.web.awt.GenericShape.getGawtShape(shape));
 		if(ret==null) AbstractApplication.debug("type of shape is: "+shape.getClass());
 		return new geogebra.web.awt.GenericShape(ret);
     }

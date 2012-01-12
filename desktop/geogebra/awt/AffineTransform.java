@@ -55,12 +55,9 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
 		return ((AffineTransform)a).getImpl();
 	}
 
-	public Shape createTransformedShape(Object shape) {
+	public Shape createTransformedShape(geogebra.common.awt.Shape shape) {
 		java.awt.Shape ret = null;
-		if(shape instanceof geogebra.awt.Shape)
-			ret = at.createTransformedShape(geogebra.awt.GenericShape.getAwtShape((geogebra.awt.Shape)shape));
-		if(shape instanceof java.awt.Shape)
-			ret = at.createTransformedShape((java.awt.Shape)shape);
+		ret = at.createTransformedShape(geogebra.awt.GenericShape.getAwtShape(shape));
 		return new geogebra.awt.GenericShape(ret);
 	}
 
