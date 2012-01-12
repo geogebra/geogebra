@@ -141,7 +141,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	}
 
 	public static void setAntialiasingStatic(Graphics2D g2d) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 	
@@ -204,7 +204,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	
 	public void clearView() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
@@ -215,7 +215,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     public Graphics2D getBackgroundGraphics() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
     }
 	private Graphics2D g2dtemp;
@@ -228,37 +228,31 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
     }
 
 	@Override
-    public AffineTransform getCoordTransform() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
-	    return null;
-    }
-
-	@Override
     public GeneralPath getBoundingPath() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
     }
 
 	@Override
     public Font getFont() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
     }
 
     public geogebra.common.awt.Color getBackgroundCommon() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
     }
 
 	@Override
     protected void setHeight(int h) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	@Override
     protected void setWidth(int h) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
@@ -269,57 +263,52 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     protected void initCursor() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	@Override
     protected void setStyleBarMode(int mode) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
     public void zoom(double px, double py, double factor, int i, boolean b) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	@Override
     public void zoomAxesRatio(double d, boolean b) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	public boolean hitAnimationButton(AbstractEvent e) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return false;
     }
 
-	@Override
-    public void setAntialiasing(boolean antialiasing2) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
-	    
-    }
 
 	@Override
     public void updateSize() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	@Override
     public boolean requestFocusInWindow() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return false;
     }
 
 	public void setDefaultCursor() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	public void setHitCursor() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 	
@@ -332,66 +321,66 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	}
 
 	public boolean setAnimationButtonsHighlighted(boolean b) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return false;
     }
 
 	@Override
     protected void drawActionObjects(Graphics2D g) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	public void setShowAxis(int axisX, boolean b, boolean c) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	@Override
     protected void setAntialiasing(Graphics2D g2) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	@Override
     public Drawable newDrawText(GeoText geo) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
     }
 
 	@Override
     public Drawable newDrawImage(GeoImage geo) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
     }
 
 	@Override
     public Drawable newDrawButton(GeoButton geo) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
     }
 
 	@Override
     public Drawable newDrawTextField(GeoTextField geo) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
     }
 
 	@Override
     public Drawable newDrawBoolean(GeoBoolean geo) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
     }
 
 	@Override
     public Drawable newDrawAngle(GeoAngle geo) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
     }
 
 	@Override
     public void setBackground(geogebra.common.awt.Color bgColor) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
@@ -401,24 +390,24 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
     }
 
 	public void setDragCursor() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	public Rectangle getSelectionRectangle() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
     }
 
 	public void setAnimatedRealWorldCoordSystem(double realWorldCoordX,
             double realWorldCoordX2, double realWorldCoordY,
             double realWorldCoordY2, int i, boolean b) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	public void setHits(Rectangle selectionRectangle) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 	
