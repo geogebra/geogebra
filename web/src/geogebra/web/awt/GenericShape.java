@@ -74,6 +74,7 @@ public class GenericShape implements Shape {
 		if(shape instanceof GeneralPathClipped){
 			shapeCommon = ((GeneralPathClipped)shape).getGeneralPath();
 		}
+		else shapeCommon = shape;
 	    if(!(shapeCommon instanceof geogebra.web.awt.Shape))
 	    	return null;
 	    return ((geogebra.web.awt.Shape)shapeCommon).getGawtShape();

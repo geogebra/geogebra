@@ -219,6 +219,8 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	    return null;
     }
 	private Graphics2D g2dtemp;
+
+	private geogebra.common.awt.Color backgroundColor = geogebra.web.awt.Color.white;
 	@Override
     public Graphics2D getTempGraphics2D(Font plainFontCommon) {
 	    if(g2dtemp==null)
@@ -240,8 +242,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
     }
 
     public geogebra.common.awt.Color getBackgroundCommon() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
+	    return backgroundColor ;
     }
 
 	@Override
