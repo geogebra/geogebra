@@ -5,6 +5,7 @@ import geogebra.common.awt.PathIterator;
 import geogebra.common.awt.Point2D;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
+import geogebra.common.main.AbstractApplication;
 
 public class Arc2D extends geogebra.common.awt.Arc2D {
 
@@ -62,19 +63,19 @@ public class Arc2D extends geogebra.common.awt.Arc2D {
 	@Override
 	public void setArc(double d, double e, double f, double g, double degrees,
 	        double degrees2, int open2) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 
 	}
 
 	@Override
 	public Point2D getStartPoint() {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 		return null;
 	}
 
 	@Override
 	public Point2D getEndPoint() {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 		return null;
 	}
 

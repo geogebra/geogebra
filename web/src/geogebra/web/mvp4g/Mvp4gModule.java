@@ -95,7 +95,7 @@ public class Mvp4gModule {
 	
 
 	public Widget getStartView() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
     }
 

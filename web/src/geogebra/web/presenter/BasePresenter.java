@@ -29,32 +29,32 @@ public abstract class BasePresenter {
     }
 
 	public void onPageLoad() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	public void onCreateApplicationAndAddTo(HasWidgets container) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	public void onSyncCanvasSizeWithApplication() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	public void onFileContentLoaded(JsUint8Array zippedContent) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	public void onWorksheetConstructionFailed(String errorMessage) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	public void onWorksheetReady() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 	

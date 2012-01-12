@@ -2,6 +2,7 @@ package geogebra.web.euclidian;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.AbstractApplication;
 
 import java.util.ArrayList;
 
@@ -16,22 +17,22 @@ public class EuclidianStyleBar implements geogebra.common.euclidian.EuclidianSty
 	public void updateButtonPointCapture(int mode) { }
 
 	public void setMode(int mode) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	public void setLabels() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	public void restoreDefaultGeo() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	public void updateStyleBar() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 

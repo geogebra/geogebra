@@ -22,7 +22,7 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic {
 	        Graphics2D tempGraphics, GeoElement geo, Graphics2D g2, Font font,
 	        Color fgColor, Color bgColor, String labelDesc, int xLabel,
 	        int yLabel, boolean serif) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 		return null;
 	}
 
@@ -129,7 +129,7 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic {
 	
 	@Override
 	protected void doFillWithValueStrokePure(Shape shape, Graphics2D g3) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 
 	}
 
@@ -193,7 +193,7 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic {
 
 	@Override
 	protected void doDrawWithValueStrokePure(Shape shape, Graphics2D g2) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 
 	}
 

@@ -1,5 +1,7 @@
 package geogebra.web.awt;
 
+import geogebra.common.main.AbstractApplication;
+
 public class Font extends geogebra.common.awt.Font{
 	public static final int PLAIN = 0;
 	public static final int BOLD = 1;
@@ -68,7 +70,7 @@ public class Font extends geogebra.common.awt.Font{
 	}
 
 	public Font deriveFont(String fontStyle2, final int newSize) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 		return new Font(fontStyle) {
 			{
 				setFontSize(String.valueOf(newSize));
@@ -77,7 +79,7 @@ public class Font extends geogebra.common.awt.Font{
 	}
 
 	public int canDisplayUpTo(String textString) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 		return 0;
 	}
 
@@ -101,7 +103,7 @@ public class Font extends geogebra.common.awt.Font{
 			setFontWeight("normal");
 		}
 		
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 		
 	}
 
@@ -123,7 +125,7 @@ public class Font extends geogebra.common.awt.Font{
 			setFontSize("12");
 			break;
 		}
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 		
 	}
 	
@@ -141,7 +143,7 @@ public class Font extends geogebra.common.awt.Font{
 
 	@Override
     public int getStyle() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return 0;
     }
 
@@ -155,13 +157,13 @@ public class Font extends geogebra.common.awt.Font{
 
 	@Override
     public geogebra.common.awt.Font deriveFont(int i) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
     }
 
 	@Override
     public String getFontName() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
     }
 

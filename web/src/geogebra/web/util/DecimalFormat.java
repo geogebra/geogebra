@@ -1,5 +1,7 @@
 package geogebra.web.util;
 
+import geogebra.common.main.AbstractApplication;
+
 /**
  * @author gabor@geogebra.org
  * <p>
@@ -16,7 +18,7 @@ public class DecimalFormat extends Format {
     }
 
 	public String format(double d) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return nf.format(d);
     }
 

@@ -54,7 +54,7 @@ public class NumberFormat extends Format implements NumberFormatAdapter {
 	}
 
 	public void applyPattern(String string) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 

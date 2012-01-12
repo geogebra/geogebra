@@ -93,7 +93,7 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
 
 	/*
 	public void transform(PathPoint p, PathPoint p2) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
     */

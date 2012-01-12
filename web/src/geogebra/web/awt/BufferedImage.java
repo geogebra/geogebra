@@ -2,6 +2,7 @@ package geogebra.web.awt;
 
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.Graphics2D;
+import geogebra.common.main.AbstractApplication;
 
 public class BufferedImage implements BufferedImageAdapter {
 	
@@ -26,12 +27,12 @@ public class BufferedImage implements BufferedImageAdapter {
 	}
 
 	public Graphics2D createGraphics() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
     }
 
 	public BufferedImage getSubimage(int xInt, int yInt, int xInt2, int yInt2) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
     }
 

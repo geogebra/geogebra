@@ -44,7 +44,7 @@ public final class ArticleElement extends Element implements HasWidgets {
 
 	
     public Iterator<Widget> iterator() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
     }
 

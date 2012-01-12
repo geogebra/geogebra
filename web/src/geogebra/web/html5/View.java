@@ -1,5 +1,7 @@
 package geogebra.web.html5;
 
+import geogebra.common.main.AbstractApplication;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -34,7 +36,7 @@ public class View extends Widget {
     }
 
 	public String getDataParamFileName() {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return ((ArticleElement) container).getDataParamFileName();
     }
 

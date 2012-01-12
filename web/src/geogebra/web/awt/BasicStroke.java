@@ -3,6 +3,7 @@ package geogebra.web.awt;
 import com.google.gwt.canvas.dom.client.Context2d.LineCap;
 import com.google.gwt.canvas.dom.client.Context2d.LineJoin;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.web.kernel.gawt.Shape;
 
 /**
@@ -57,7 +58,7 @@ public class BasicStroke implements geogebra.common.awt.BasicStroke {
 
 	// Methods
 	public Shape createStrokedShape(Shape shape) {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 		return shape;
 	}
 	
@@ -81,7 +82,7 @@ public class BasicStroke implements geogebra.common.awt.BasicStroke {
 
 	public geogebra.common.awt.Shape createStrokedShape(
             geogebra.common.awt.Shape shape) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
     }
 	

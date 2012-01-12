@@ -161,7 +161,7 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 	/*
 	@Override
     public Area newArea(GeneralPathClipped hypRight) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
     }
     */

@@ -1,5 +1,7 @@
 package geogebra.web.awt;
 
+import geogebra.common.main.AbstractApplication;
+
 public class Point extends geogebra.common.awt.Point {
 	
 	private geogebra.web.kernel.gawt.Point impl;
@@ -39,7 +41,7 @@ public class Point extends geogebra.common.awt.Point {
 
 	
     public double distance(double x, double y) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return 0;
     }
 

@@ -135,7 +135,7 @@ public class Rectangle implements geogebra.common.awt.Rectangle {
 
 	/*
 	public boolean contains(PathPoint prevP) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return false;
     }
     */

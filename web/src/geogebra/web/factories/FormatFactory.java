@@ -1,5 +1,6 @@
 package geogebra.web.factories;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
 import geogebra.web.util.NumberFormat;
@@ -17,7 +18,7 @@ public class FormatFactory extends geogebra.common.factories.FormatFactory{
 
 	@Override
     public ScientificFormatAdapter getScientificFormat(int a, int b, boolean c) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
     }
 }

@@ -1,5 +1,7 @@
 package geogebra.web.awt;
 
+import geogebra.common.main.AbstractApplication;
+
 public class Color extends geogebra.common.awt.Color {
 	
 		private int r;
@@ -133,7 +135,7 @@ public class Color extends geogebra.common.awt.Color {
 		rgb[0] = (float) (getRed() / 255.0);
 		rgb[1] = (float) (getGreen() / 255.0);
 		rgb[2] = (float) (getBlue() / 255.0);
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 		
 	}
 
