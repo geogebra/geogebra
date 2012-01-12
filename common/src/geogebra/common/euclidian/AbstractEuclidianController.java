@@ -19,6 +19,9 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoPolygon;
+import geogebra.common.kernel.algos.AlgoTranslate;
+import geogebra.common.kernel.algos.AlgoVector;
+import geogebra.common.kernel.algos.AlgoVectorPoint;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -321,8 +324,6 @@ public abstract class AbstractEuclidianController {
 	protected static final int MOVE_VECTOR_NO_GRID = 122;
 	protected static final int MOVE_POINT_WITH_OFFSET = 123;
 
-	public abstract void handleMovedElement(GeoElement selGeo, boolean b);
-	
 	public abstract void setApplication(AbstractApplication app);
 
 	public abstract void setLineEndPoint(geogebra.common.awt.Point2D endPoint);
@@ -6002,6 +6003,549 @@ public abstract class AbstractEuclidianController {
 				return;
 			}
 		}
+	}
+
+	public void resetMovedGeoPoint() {
+		movedGeoPoint = null;
+	}
+
+	public void setStartPointLocation() {
+		startPoint.setLocation(xRW, yRW);
+	}
+
+	public void handleMovedElement(GeoElement geo, boolean multiple) {
+		resetMovedGeoPoint();
+		movedGeoElement = geo;
+	
+		// multiple geos selected
+		if ((movedGeoElement != null) && multiple) {
+			moveMode = MOVE_MULTIPLE_OBJECTS;
+			startPoint.setLocation(xRW, yRW);
+			startLoc = mouseLoc;
+			view.setDragCursor();
+			if (translationVec == null) {
+				translationVec = new Coords(2);
+			}
+		}
+	
+		// DEPENDENT object: changeable parents?
+		// move free parent points (e.g. for segments)
+		else if (!movedGeoElement.isMoveable(view)) {
+	
+			translateableGeos = null;
+			GeoVector vec = null;
+			boolean sameVector = true;
+	
+			// allow dragging of Translate[Object, vector] if 'vector' is
+			// independent
+			if (movedGeoElement.isGeoPolygon()) {
+				GeoPolygon poly = (GeoPolygon) movedGeoElement;
+				GeoPointND[] pts = poly.getPoints();
+	
+				// get vector for first point
+				AlgoElement algo = ((GeoElement) pts[0]).getParentAlgorithm();
+				if (algo instanceof AlgoTranslate) {
+					GeoElement[] input = algo.getInput();
+					
+					if ( input[1].isIndependent()) {
+						vec = (GeoVector) input[1];
+	
+						// now check other points are translated by the same vector
+						for (int i = 1; i < pts.length; i++) {
+							algo = ((GeoElement) pts[i]).getParentAlgorithm();
+							if (!(algo instanceof AlgoTranslate)) {
+								sameVector = false;
+								break;
+							}
+							input = algo.getInput();
+	
+							GeoVector vec2 = (GeoVector) input[1];
+							if (vec != vec2) {
+								sameVector = false;
+								break;
+							}
+	
+						}
+					}
+	
+				}
+			} else if (movedGeoElement.isGeoSegment()
+					|| movedGeoElement.isGeoRay()
+					|| (movedGeoElement.getParentAlgorithm() instanceof AlgoVector)) {
+				GeoPoint2 start = null;
+				GeoPoint2 end = null;
+				if (movedGeoElement.getParentAlgorithm() instanceof AlgoVector) {
+					// Vector[A,B]
+					AlgoVector algoVec = (AlgoVector) movedGeoElement
+							.getParentAlgorithm();
+					start = algoVec.getInputPoints().get(0);
+					end = algoVec.getInputPoints().get(1);
+	
+					if (start.isIndependent() && !end.isIndependent()) {
+						end = null;
+						transformCoordsOffset[0] = xRW - start.inhomX;
+						transformCoordsOffset[1] = yRW - start.inhomY;
+						moveMode = MOVE_POINT_WITH_OFFSET;
+						movedGeoPoint = start;
+						return;
+	
+					}
+	
+				} else {
+					// Segment/ray
+					GeoLine line = (GeoLine) movedGeoElement;
+					start = line.getStartPoint();
+					end = line.getEndPoint();
+				}
+	
+				if ((start != null) && (end != null)) {
+					// get vector for first point
+					AlgoElement algo = start.getParentAlgorithm();
+					AlgoElement algo2 = end.getParentAlgorithm();
+					if ((algo instanceof AlgoTranslate)
+							&& (algo2 instanceof AlgoTranslate)) {
+						GeoElement[] input = algo.getInput();
+						vec = (GeoVector) input[1];
+						GeoElement[] input2 = algo2.getInput();
+						GeoVector vec2 = (GeoVector) input2[1];
+	
+						// now check if points are translated by the same vector
+						if (vec != vec2) {
+							sameVector = false;
+						}
+	
+					}
+				}
+			} else if (movedGeoElement.isTranslateable()) {
+				AlgoElement algo = movedGeoElement.getParentAlgorithm();
+				if (algo instanceof AlgoTranslate) {
+					GeoElement[] input = algo.getInput();
+					if (input[1].isIndependent()) {
+						vec = (GeoVector) input[1];
+					}
+				}
+			} else if (movedGeoElement.getParentAlgorithm() instanceof AlgoVectorPoint) {
+				// allow Vector[(1,2)] to be dragged
+				vec = (GeoVector) movedGeoElement;
+			}
+	
+			if (vec != null) {
+				if (vec.getParentAlgorithm() instanceof AlgoVectorPoint) {
+					// unwrap Vector[(1,2)]
+					AlgoVectorPoint algo = (AlgoVectorPoint) vec
+							.getParentAlgorithm();
+					moveMode = MOVE_POINT_WITH_OFFSET;
+					transformCoordsOffset[0] = xRW - vec.x;
+					transformCoordsOffset[1] = yRW - vec.y;
+					movedGeoPoint = algo.getP();
+					return;
+				}
+	
+				if (sameVector && ((vec.label == null) || vec.isIndependent())) {
+					transformCoordsOffset[0] = xRW - vec.x;
+					transformCoordsOffset[1] = yRW - vec.y;
+					movedGeoVector = vec;
+					moveMode = MOVE_VECTOR_NO_GRID;
+					return;
+				}
+			}
+	
+			// point with changeable coord parent numbers
+			if (movedGeoElement.hasChangeableCoordParentNumbers()) {
+				movedGeoElement.recordChangeableCoordParentNumbers();
+				translateableGeos = new ArrayList<GeoElement>();
+				translateableGeos.add(movedGeoElement);
+			}
+	
+			// STANDARD case: get free input points of dependent movedGeoElement
+			else if (movedGeoElement.hasMoveableInputPoints(view)) {
+				// allow only moving of the following object types
+				if (movedGeoElement.isGeoLine()
+						|| movedGeoElement.isGeoPolygon()
+						|| (movedGeoElement instanceof GeoPolyLine)
+						|| movedGeoElement.isGeoConic()
+						|| movedGeoElement.isGeoImage()
+						|| movedGeoElement.isGeoList()
+						|| movedGeoElement.isGeoVector()) {
+					translateableGeos = movedGeoElement
+							.getFreeInputPoints(view);
+				}
+			}
+	
+			// init move dependent mode if we have something to move ;-)
+			if (translateableGeos != null) {
+				moveMode = MOVE_DEPENDENT;
+	
+				if (translateableGeos.get(0) instanceof GeoPoint2) {
+					GeoPoint2 point = ((GeoPoint2) translateableGeos.get(0));
+					if (point.getParentAlgorithm() != null) {
+						// make sure snap-to-grid works for dragging (a + x(A),
+						// b + x(B))
+						transformCoordsOffset[0] = 0;
+						transformCoordsOffset[1] = 0;
+	
+					} else {
+						// snap to grid when dragging polygons, segments, images
+						// etc
+						// use first point
+						point.getInhomCoords(transformCoordsOffset);
+						transformCoordsOffset[0] -= xRW;
+						transformCoordsOffset[1] -= yRW;
+					}
+				}
+	
+				setStartPointLocation();
+	
+				view.setDragCursor();
+				if (translationVec == null) {
+					translationVec = new Coords(2);
+				}
+			} else {
+				moveMode = MOVE_NONE;
+			}
+		}
+	
+		// free point
+		else if (movedGeoElement.isGeoPoint()) {
+			moveMode = MOVE_POINT;
+			setMovedGeoPoint(movedGeoElement);
+			// make sure snap-to-grid works after e.g. pressing a button
+			transformCoordsOffset[0] = 0;
+			transformCoordsOffset[1] = 0;
+		}
+	
+		// free line
+		else if (movedGeoElement.isGeoLine()) {
+			moveMode = MOVE_LINE;
+			movedGeoLine = (GeoLine) movedGeoElement;
+			view.setShowMouseCoords(true);
+			view.setDragCursor();
+		}
+	
+		// free vector
+		else if (movedGeoElement.isGeoVector()) {
+			movedGeoVector = (GeoVector) movedGeoElement;
+	
+			// change vector itself or move only startpoint?
+			// if vector is dependent or
+			// mouseLoc is closer to the startpoint than to the end
+			// point
+			// then move the startpoint of the vector
+			if (movedGeoVector.hasAbsoluteLocation()) {
+				GeoPoint2 sP = movedGeoVector.getStartPoint();
+				double sx = 0;
+				double sy = 0;
+				if (sP != null) {
+					sx = sP.inhomX;
+					sy = sP.inhomY;
+				}
+				// if |mouse - startpoint| < 1/2 * |vec| then move
+				// startpoint
+				if ((2d * MyMath.length(xRW - sx, yRW - sy)) < MyMath.length(
+						movedGeoVector.x, movedGeoVector.y)) { // take
+					// startPoint
+					moveMode = MOVE_VECTOR_STARTPOINT;
+					if (sP == null) {
+						sP = new GeoPoint2(kernel.getConstruction());
+						sP.setCoords(xRW, xRW, 1.0);
+						try {
+							movedGeoVector.setStartPoint(sP);
+						} catch (Exception ex) {
+							ex.printStackTrace();
+						}
+					}
+				} else {
+					moveMode = MOVE_VECTOR;
+				}
+			} else {
+				moveMode = MOVE_VECTOR;
+			}
+	
+			view.setShowMouseCoords(true);
+			view.setDragCursor();
+		}
+	
+		// free text
+		else if (movedGeoElement.isGeoText()) {
+			moveMode = MOVE_TEXT;
+			movedGeoText = (GeoText) movedGeoElement;
+			view.setShowMouseCoords(false);
+			view.setDragCursor();
+	
+			if (movedGeoText.isAbsoluteScreenLocActive()) {
+				oldLoc.setLocation(movedGeoText.getAbsoluteScreenLocX(),
+						movedGeoText.getAbsoluteScreenLocY());
+				startLoc = mouseLoc;
+	
+				// part of snap to grid code - buggy, so commented out
+				// startPoint.setLocation(xRW -
+				// view.toRealWorldCoordX(oldLoc.x), yRW -
+				// view.toRealWorldCoordY(oldLoc.y));
+				// movedGeoText.setNeedsUpdatedBoundingBox(true);
+				// movedGeoText.update();
+				// transformCoordsOffset[0]=movedGeoText.getBoundingBox().getX()-xRW;
+				// transformCoordsOffset[1]=movedGeoText.getBoundingBox().getY()-yRW;
+			} else if (movedGeoText.hasAbsoluteLocation()) {
+				// absolute location: change location
+				GeoPoint2 loc = (GeoPoint2) movedGeoText.getStartPoint();
+				if (loc == null) {
+					loc = new GeoPoint2(kernel.getConstruction());
+					loc.setCoords(0, 0, 1.0);
+					try {
+						movedGeoText.setStartPoint(loc);
+					} catch (Exception ex) {
+					}
+					startPoint.setLocation(xRW, yRW);
+				} else {
+					startPoint.setLocation(xRW - loc.inhomX, yRW - loc.inhomY);
+	
+					GeoPoint2 loc2 = new GeoPoint2(loc);
+					movedGeoText.setNeedsUpdatedBoundingBox(true);
+					movedGeoText.update();
+					loc2.setCoords(movedGeoText.getBoundingBox().getX(),
+							movedGeoText.getBoundingBox().getY(), 1.0);
+	
+					transformCoordsOffset[0] = loc2.inhomX - xRW;
+					transformCoordsOffset[1] = loc2.inhomY - yRW;
+				}
+			} else {
+				// for relative locations label has to be moved
+				oldLoc.setLocation(movedGeoText.labelOffsetX,
+						movedGeoText.labelOffsetY);
+				startLoc = mouseLoc;
+			}
+		}
+	
+		// free conic
+		else if (movedGeoElement.isGeoConic()) {
+			moveMode = MOVE_CONIC;
+			movedGeoConic = (GeoConic) movedGeoElement;
+			view.setShowMouseCoords(false);
+			view.setDragCursor();
+	
+			startPoint.setLocation(xRW, yRW);
+			if (tempConic == null) {
+				tempConic = new GeoConic(kernel.getConstruction());
+			}
+			tempConic.set(movedGeoConic);
+		} else if (movedGeoElement.isGeoImplicitPoly()) {
+			moveMode = MOVE_IMPLICITPOLY;
+			movedGeoImplicitPoly = (GeoImplicitPoly) movedGeoElement;
+			view.setShowMouseCoords(false);
+			view.setDragCursor();
+	
+			startPoint.setLocation(xRW, yRW);
+			if (tempImplicitPoly == null) {
+				tempImplicitPoly = new GeoImplicitPoly(movedGeoImplicitPoly);
+			} else {
+				tempImplicitPoly.set(movedGeoImplicitPoly);
+			}
+	
+			if (tempDependentPointX == null) {
+				tempDependentPointX = new ArrayList<Double>();
+			} else {
+				tempDependentPointX.clear();
+			}
+	
+			if (tempDependentPointY == null) {
+				tempDependentPointY = new ArrayList<Double>();
+			} else {
+				tempDependentPointY.clear();
+			}
+	
+			if (moveDependentPoints == null) {
+				moveDependentPoints = new ArrayList<GeoPoint2>();
+			} else {
+				moveDependentPoints.clear();
+			}
+	
+			for (GeoElement f : movedGeoImplicitPoly.getAllChildren()) {
+				// if (f instanceof GeoPoint &&
+				// f.getParentAlgorithm().getInput().length==1 &&
+				// f.getParentAlgorithm().getInput()[0] instanceof Path){
+				if ((f instanceof GeoPoint2)
+						&& movedGeoImplicitPoly.isParentOf(f)) {
+					GeoPoint2 g = (GeoPoint2) f;
+					if (!Kernel.isZero(g.getZ())) {
+						moveDependentPoints.add(g);
+						tempDependentPointX.add(g.getX() / g.getZ());
+						tempDependentPointY.add(g.getY() / g.getZ());
+					}
+				}
+			}
+			// for (GeoElement elem:movedGeoImplicitPoly.getAllChildren()){
+			// if (elem instanceof GeoPoint){
+			// if (movedGeoImplicitPoly.isParentOf(elem)){
+			// tempDependentPointOnPath.add(((GeoPoint)elem).getPathParameter().getT());
+			// }
+			// }
+			// }
+	
+		} else if (movedGeoElement.isGeoFunction()) {
+			moveMode = MOVE_FUNCTION;
+			movedGeoFunction = (GeoFunction) movedGeoElement;
+			view.setShowMouseCoords(false);
+			view.setDragCursor();
+	
+			startPoint.setLocation(xRW, yRW);
+			if (tempFunction == null) {
+				tempFunction = new GeoFunction(kernel.getConstruction());
+			}
+			tempFunction.set(movedGeoFunction);
+		}
+	
+		// free number
+		else if (movedGeoElement.isGeoNumeric()) {
+			movedGeoNumeric = (GeoNumeric) movedGeoElement;
+			moveMode = MOVE_NUMERIC;
+	
+			Drawable d = view.getDrawableFor(movedGeoNumeric);
+			if (d instanceof DrawSlider) {
+				// should we move the slider
+				// or the point on the slider, i.e. change the number
+				DrawSlider ds = (DrawSlider) d;
+				// TEMPORARY_MODE true -> dragging slider using Slider Tool
+				// or right-hand mouse button
+	
+				// otherwise using Move Tool -> move dot
+				if (((TEMPORARY_MODE && app.isRightClickEnabled()) || !movedGeoNumeric
+						.isSliderFixed())
+						&& !ds.hitPoint(mouseLoc.x, mouseLoc.y)
+						&& ds.hitSlider(mouseLoc.x, mouseLoc.y)) {
+					moveMode = MOVE_SLIDER;
+					if (movedGeoNumeric.isAbsoluteScreenLocActive()) {
+						oldLoc.setLocation(
+								movedGeoNumeric.getAbsoluteScreenLocX(),
+								movedGeoNumeric.getAbsoluteScreenLocY());
+						startLoc = mouseLoc;
+	
+						// part of snap to grid code
+						startPoint.setLocation(
+								xRW - view.toRealWorldCoordX(oldLoc.x), yRW
+										- view.toRealWorldCoordY(oldLoc.y));
+						transformCoordsOffset[0] = view
+								.toRealWorldCoordX(oldLoc.x) - xRW;
+						transformCoordsOffset[1] = view
+								.toRealWorldCoordY(oldLoc.y) - yRW;
+					} else {
+						startPoint.setLocation(
+								xRW - movedGeoNumeric.getRealWorldLocX(), yRW
+										- movedGeoNumeric.getRealWorldLocY());
+						transformCoordsOffset[0] = movedGeoNumeric
+								.getRealWorldLocX() - xRW;
+						transformCoordsOffset[1] = movedGeoNumeric
+								.getRealWorldLocY() - yRW;
+					}
+				} else {
+					startPoint.setLocation(movedGeoNumeric.getSliderX(),
+							movedGeoNumeric.getSliderY());
+	
+					// update straightaway in case it's just a click (no drag)
+					moveNumeric(true);
+				}
+			}
+	
+			view.setShowMouseCoords(false);
+			view.setDragCursor();
+		}
+	
+		// checkbox
+		else if (movedGeoElement.isGeoBoolean()) {
+			movedGeoBoolean = (GeoBoolean) movedGeoElement;
+	
+			// if fixed checkbox dragged, behave as if it's been clicked
+			// important for electronic whiteboards
+			if (movedGeoBoolean.isCheckboxFixed()) {
+				movedGeoBoolean.setValue(!movedGeoBoolean.getBoolean());
+				app.removeSelectedGeo(movedGeoBoolean); // make sure doesn't get
+														// selected
+				movedGeoBoolean.updateCascade();
+	
+			}
+	
+			// move checkbox
+			moveMode = MOVE_BOOLEAN;
+			startLoc = mouseLoc;
+			oldLoc.x = movedGeoBoolean.getAbsoluteScreenLocX();
+			oldLoc.y = movedGeoBoolean.getAbsoluteScreenLocY();
+	
+			// part of snap to grid code (the constant 5 comes from DrawBoolean)
+			startPoint.setLocation(xRW - view.toRealWorldCoordX(oldLoc.x), yRW
+					- view.toRealWorldCoordY(oldLoc.y));
+			transformCoordsOffset[0] = view.toRealWorldCoordX(oldLoc.x + 5)
+					- xRW;
+			transformCoordsOffset[1] = view.toRealWorldCoordY(oldLoc.y + 5)
+					- yRW;
+	
+			view.setShowMouseCoords(false);
+			view.setDragCursor();
+	
+		}
+	
+		// button
+		else if (movedGeoElement.isGeoButton()) {
+			movedGeoButton = (GeoButton) movedGeoElement;
+			// move checkbox
+			moveMode = MOVE_BUTTON;
+			startLoc = mouseLoc;
+			oldLoc.x = movedGeoButton.getAbsoluteScreenLocX();
+			oldLoc.y = movedGeoButton.getAbsoluteScreenLocY();
+	
+			// part of snap to grid code
+			startPoint.setLocation(xRW - view.toRealWorldCoordX(oldLoc.x), yRW
+					- view.toRealWorldCoordY(oldLoc.y));
+			transformCoordsOffset[0] = view.toRealWorldCoordX(oldLoc.x) - xRW;
+			transformCoordsOffset[1] = view.toRealWorldCoordY(oldLoc.y) - yRW;
+	
+			view.setShowMouseCoords(false);
+			view.setDragCursor();
+		}
+	
+		// image
+		else if (movedGeoElement.isGeoImage()) {
+			moveMode = MOVE_IMAGE;
+			movedGeoImage = (GeoImage) movedGeoElement;
+			view.setShowMouseCoords(false);
+			view.setDragCursor();
+	
+			if (movedGeoImage.isAbsoluteScreenLocActive()) {
+				oldLoc.setLocation(movedGeoImage.getAbsoluteScreenLocX(),
+						movedGeoImage.getAbsoluteScreenLocY());
+				startLoc = mouseLoc;
+	
+				// part of snap to grid code
+				startPoint.setLocation(xRW - view.toRealWorldCoordX(oldLoc.x),
+						yRW - view.toRealWorldCoordY(oldLoc.y));
+				transformCoordsOffset[0] = view.toRealWorldCoordX(oldLoc.x)
+						- xRW;
+				transformCoordsOffset[1] = view.toRealWorldCoordY(oldLoc.y)
+						- yRW;
+			} else if (movedGeoImage.hasAbsoluteLocation()) {
+				startPoint.setLocation(xRW, yRW);
+				oldImage = new GeoImage(movedGeoImage);
+	
+				GeoPoint2 loc = movedGeoImage.getStartPoints()[2];
+				if (loc != null) { // top left defined
+					transformCoordsOffset[0] = loc.inhomX - xRW;
+					transformCoordsOffset[1] = loc.inhomY - yRW;
+				} else {
+					loc = movedGeoImage.getStartPoint();
+					if (loc != null) { // bottom left defined (default)
+						transformCoordsOffset[0] = loc.inhomX - xRW;
+						transformCoordsOffset[1] = loc.inhomY - yRW;
+					} else {
+						loc = movedGeoImage.getStartPoints()[1];
+						if (loc != null) { // bottom right defined
+							transformCoordsOffset[0] = loc.inhomX - xRW;
+							transformCoordsOffset[1] = loc.inhomY - yRW;
+						}
+					}
+				}
+			}
+		} else {
+			moveMode = MOVE_NONE;
+		}
+	
 	}
 	
 }

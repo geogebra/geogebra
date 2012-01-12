@@ -58,12 +58,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	}
 
 	@Override
-    public void handleMovedElement(GeoElement selGeo, boolean b) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
-    }
-
-	@Override
     public boolean isAltDown() {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return false;
