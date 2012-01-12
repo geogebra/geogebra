@@ -199,9 +199,7 @@ public final class DrawText extends Drawable {
 	final public void draw(geogebra.common.awt.Graphics2D g2) {
 		if (isVisible) {
 
-			geogebra.common.awt.Color bg = geo.getBackgroundColor() == null ? 
-					geogebra.awt.Color.WHITE
-					: geo.getBackgroundColor();
+			geogebra.common.awt.Color bg = geo.getBackgroundColor();
 
 			if (bg != null) {
 

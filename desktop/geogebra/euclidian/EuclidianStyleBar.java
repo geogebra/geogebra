@@ -1688,7 +1688,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 			if (geo instanceof TextProperties)
 				if (geogebra.awt.Color.getAwtColor(geo.getBackgroundColor()) != color
 						|| geo.getAlphaValue() != alpha) {
-					geo.setBackgroundColor(new geogebra.awt.Color(color));
+					geo.setBackgroundColor(color == null ? null : new geogebra.awt.Color(color));
 					// TODO apply background alpha
 					// --------
 					geo.updateRepaint();

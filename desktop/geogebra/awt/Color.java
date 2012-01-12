@@ -109,4 +109,5 @@ public class Color extends geogebra.common.awt.Color {
 			 Math.max((int)(getGreen()*FACTOR), 0),
 			 Math.max((int)(getBlue() *FACTOR), 0));
     }
+    
 }
