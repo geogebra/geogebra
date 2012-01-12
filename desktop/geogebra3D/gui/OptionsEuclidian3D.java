@@ -2,16 +2,20 @@ package geogebra3D.gui;
 
 import geogebra.gui.dialog.options.OptionsEuclidian;
 import geogebra.gui.inputfield.MyTextField;
+import geogebra.main.Application;
 import geogebra3D.Application3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -19,6 +23,8 @@ import javax.swing.JTextField;
 public class OptionsEuclidian3D extends OptionsEuclidian {
 	
 	private AxisPanel3D zAxisPanel;
+	
+	private JCheckBox cbUseClipping, cbShowClipping;
 
 	public OptionsEuclidian3D(Application3D app) {
 		super(app, app.getEuclidianView3D());
@@ -28,6 +34,32 @@ public class OptionsEuclidian3D extends OptionsEuclidian {
 		
 		updateGUI();
 		
+	}
+
+	@Override
+	protected JPanel buildBasicNorthPanel() {
+
+		//-------------------------------------
+		// axes options panel
+		JPanel clippingOptionsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		clippingOptionsPanel.setBorder(BorderFactory.createTitledBorder(app.getMenu("Clipping")));
+
+		// show axes
+		cbUseClipping = new JCheckBox(app.getPlain("UseClipping")); 						
+		clippingOptionsPanel.add(cbUseClipping);  
+		clippingOptionsPanel.add(Box.createRigidArea(new Dimension(10,0)));
+		cbShowClipping = new JCheckBox(app.getPlain("ShowClipping")); 						
+		clippingOptionsPanel.add(cbShowClipping);  
+
+
+		
+		//-------------------------------------
+
+		JPanel northPanel = super.buildBasicNorthPanel();
+		northPanel.add(Box.createRigidArea(new Dimension(0,16)));
+        northPanel.add(clippingOptionsPanel);
+
+		return northPanel;
 	}
 
 	private void enableStuff(boolean flag){
@@ -87,6 +119,16 @@ public class OptionsEuclidian3D extends OptionsEuclidian {
 	public void updateGUI() {
 		super.updateGUI();
 
+		//basic panel
+		cbUseClipping.removeActionListener(this);
+		cbUseClipping.setSelected(((EuclidianView3D) view).useClippingCube());
+		cbUseClipping.addActionListener(this);
+		
+		cbShowClipping.removeActionListener(this);
+		cbShowClipping.setSelected(((EuclidianView3D) view).showClippingCube());
+		cbShowClipping.addActionListener(this);          
+
+		//z axis panel
 		zAxisPanel.updatePanel();
 		
 		//projection
@@ -324,6 +366,10 @@ public class OptionsEuclidian3D extends OptionsEuclidian {
 	public void setLabels(){
 		super.setLabels();
 		
+		//basic tab
+		cbUseClipping.setText(app.getPlain("UseClipping"));
+		cbShowClipping.setText(app.getPlain("ShowClipping"));
+		
 		//perspective tab
 		projectionLabel[0].setText(app.getPlain("orthographic"));
 		
@@ -344,8 +390,12 @@ public class OptionsEuclidian3D extends OptionsEuclidian {
 	
 	@Override
 	protected void doActionPerformed(Object source) {	
-		
-		if (source == tfPersp) {
+			
+		if (source == cbUseClipping) {
+			((EuclidianView3D) view).setUseClippingCube(cbUseClipping.isSelected());			
+		}else if (source == cbShowClipping) {
+				((EuclidianView3D) view).setShowClippingCube(cbShowClipping.isSelected());			
+		}else if (source == tfPersp) {
 			try{
 				double val = Double.parseDouble(tfPersp.getText());
 				if (! Double.isNaN(val)) {

@@ -218,7 +218,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
         
 	}
 		
-	private JPanel buildBasicPanel() {
+	protected JPanel buildBasicNorthPanel() {
 		
 		//===================================
 		// create sub panels
@@ -346,11 +346,17 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
         northPanel.add(Box.createRigidArea(new Dimension(0,16)));
         northPanel.add(bgPanel);
 
-        // use a BorderLayout to keep sub panels together
-        JPanel basicPanel = new JPanel(new BorderLayout());
-        basicPanel.add(northPanel, BorderLayout.NORTH);
+
   	
-       return basicPanel;		
+       return northPanel;		
+	}
+
+	private JPanel buildBasicPanel() {
+		// use a BorderLayout to keep sub panels together
+		JPanel basicPanel = new JPanel(new BorderLayout());
+		basicPanel.add(buildBasicNorthPanel(), BorderLayout.NORTH);
+
+		return basicPanel;	
 	}
 		
 	private JPanel buildGridPanel() {

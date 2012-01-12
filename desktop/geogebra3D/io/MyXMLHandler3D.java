@@ -71,6 +71,9 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			if (eName.equals("coordSystem")) {
 				ok = handleCoordSystem3D(ev, attrs);
 				break;
+			}else if (eName.equals("clipping")) {
+				ok = handleClipping(ev, attrs);
+				break;
 			}
 
 		case 'g':
@@ -251,6 +254,31 @@ public class MyXMLHandler3D extends MyXMLHandler {
 				boolean showGrid = parseBoolean(strShowGrid);
 				ev.setShowGrid(showGrid);
 			}
+			return true;
+		} catch (Exception e) {
+			//e.printStackTrace();
+			return false;
+		}
+	}
+	
+	/** handles plane attributes (show grid) for EuclidianView3D
+	 * @param ev
+	 * @param attrs
+	 * @return true if all is done ok
+	 */
+	protected boolean handleClipping(EuclidianView3D ev, LinkedHashMap<String, String> attrs) {
+		try {
+			String strUseClipping = (String) attrs.get("use");
+			if (strUseClipping != null) {
+				boolean useClipping = parseBoolean(strUseClipping);
+				ev.setUseClippingCube(useClipping);
+			}
+			String strShowClipping = (String) attrs.get("show");
+			if (strShowClipping != null) {
+				boolean showClipping = parseBoolean(strShowClipping);
+				ev.setShowClippingCube(showClipping);
+			}
+			
 			return true;
 		} catch (Exception e) {
 			//e.printStackTrace();

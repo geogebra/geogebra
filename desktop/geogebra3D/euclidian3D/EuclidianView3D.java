@@ -1379,6 +1379,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	
 	
 	private boolean useClippingCube = true;
+	private boolean showClippingCube = true;
 	
 	/**
 	 * 
@@ -1393,7 +1394,12 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	 * @param flag flag
 	 */
 	public void setUseClippingCube(boolean flag){
+
 		useClippingCube = flag;
+		renderer.setEnableClipPlanes(flag);
+		setViewChanged();
+		setWaitForUpdate();
+		
 	}
 	
 	/**
@@ -1401,7 +1407,15 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	 * @return true if clipping cube is shown
 	 */
 	public boolean showClippingCube(){
-		return useClippingCube();
+		return showClippingCube;
+	}
+	
+	/**
+	 * sets if the clipping cube is shown
+	 * @param flag flag
+	 */
+	public void setShowClippingCube(boolean flag){
+		showClippingCube=flag;
 	}
 	
 	
@@ -2482,6 +2496,12 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		sb.append("\"/>\n");
 		
 		
+		// clipping cube
+		sb.append("\t<clipping use=\"");
+		sb.append(useClippingCube());
+		sb.append("\" show=\"");
+		sb.append(showClippingCube());
+		sb.append("\"/>\n");	
 		
 		sb.append("</euclidianView3D>\n");
 		return sb.toString();
@@ -2606,7 +2626,8 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		for(int i=0;i<3;i++)
 			axisDrawable[i].drawOutline(renderer);
 		
-		clippingCubeDrawable.drawOutline(renderer);
+		if (showClippingCube())
+			clippingCubeDrawable.drawOutline(renderer);
 		
 	}
 
@@ -2625,7 +2646,8 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		
 		xOyPlaneDrawable.drawHidden(renderer);
 		
-		clippingCubeDrawable.drawHidden(renderer);
+		if (showClippingCube())
+			clippingCubeDrawable.drawHidden(renderer);
 		
 		if (decorationVisible)
 			pointDecorations.drawHidden(renderer);

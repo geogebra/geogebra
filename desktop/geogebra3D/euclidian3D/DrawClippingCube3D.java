@@ -5,6 +5,7 @@ package geogebra3D.euclidian3D;
 
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoClippingCube3D;
@@ -128,7 +129,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	
 	@Override
 	protected boolean isVisible(){
-		return getView3D().showClippingCube();
+		return getView3D().useClippingCube();
 	}
 
 	@Override
@@ -137,11 +138,15 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 		Renderer renderer = getView3D().getRenderer();
 		
+
+		clippingBorder =  (float) (GeoElement.MAX_LINE_WIDTH*PlotterBrush.LINE3D_THICKNESS/getView3D().getScale());
+				
 		//geometry
 		PlotterBrush brush = renderer.getGeometryManager().getBrush();
 
 		brush.start(8);
-		clippingBorder = brush.setThickness(getGeoElement().getLineThickness(),(float) getView3D().getScale());
+		//clippingBorder = 
+		brush.setThickness(getGeoElement().getLineThickness(),(float) getView3D().getScale());
 		brush.setAffineTexture(
 				0.5f,  0.25f);
 
