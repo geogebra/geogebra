@@ -5848,4 +5848,22 @@ public abstract class AbstractEuclidianController {
 		//event.release(e.getID()); //does it necessary?
 		
 	}
+	
+	protected abstract void resetToolTipManager();
+
+	protected void wrapMouseExited(AbstractEvent event) {
+		if (textfieldHasFocus) {
+			return;
+		}
+			
+		refreshHighlighting(null);
+		resetToolTipManager();
+		view.setAnimationButtonsHighlighted(false);
+		view.setShowMouseCoords(false);
+		mouseLoc = null;
+		view.repaintView();
+		view.mouseExited();
+		
+	}
+	
 }

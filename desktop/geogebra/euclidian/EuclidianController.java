@@ -3348,44 +3348,11 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	public void mouseEntered(MouseEvent e) {
 		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
 		wrapMouseEntered(event);
-		/*if (textfieldHasFocus) {
-			return;
-		}
-
-		initToolTipManager();
-		initShowMouseCoords();
-		((EuclidianViewInterface) view).mouseEntered();*/
 	}
 	
-	protected void wrapMouseExited(AbstractEvent event) {
-		if (textfieldHasFocus) {
-			return;
-		}
-			
-		refreshHighlighting(null);
-		resetToolTipManager();
-		view.setAnimationButtonsHighlighted(false);
-		view.setShowMouseCoords(false);
-		mouseLoc = null;
-		view.repaintView();
-		view.mouseExited();
-		
-	}
-
 	public void mouseExited(MouseEvent e) {
 		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
 		wrapMouseExited(event);
-		/*if (textfieldHasFocus) {
-			return;
-		}
-
-		refreshHighlighting(null);
-		resetToolTipManager();
-		((EuclidianViewInterface) view).setAnimationButtonsHighlighted(false);
-		((EuclidianViewInterface) view).setShowMouseCoords(false);
-		mouseLoc = null;
-		view.repaintView();
-		((EuclidianViewInterface) view).mouseExited();*/
 	}
 
 	/*
@@ -3401,7 +3368,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		ttm.setEnabled(((Application) app).getAllowToolTips());
 	}
 
-	protected void resetToolTipManager() {
+	public void resetToolTipManager() {
 		ToolTipManager ttm = ToolTipManager.sharedInstance();
 		ttm.setInitialDelay(DEFAULT_INITIAL_DELAY);
 	}
