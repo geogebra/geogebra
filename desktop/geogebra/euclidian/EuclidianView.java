@@ -1461,7 +1461,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	 * sets array of GeoElements whose visual representation is inside of the
 	 * given screen rectangle
 	 */
-	final public void setHits(java.awt.Rectangle rect) {
+	final public void setHits(Rectangle rect) {
 		hits.init();
 		geogebra.awt.Rectangle rect2 =  new geogebra.awt.Rectangle(rect);
 		if (rect == null) {
@@ -2467,8 +2467,8 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 	}
 
-	public java.awt.Rectangle getSelectionRectangle() {
-		return geogebra.awt.Rectangle.getAWTRectangle(selectionRectangle);
+	public Rectangle getSelectionRectangle() {
+		return selectionRectangle;
 	}
 
 	public EuclidianController getEuclidianController() {
@@ -2742,5 +2742,9 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 	public boolean hitAnimationButton(AbstractEvent e) {
 		return hitAnimationButton(geogebra.euclidian.event.MouseEvent.getEvent(e));
+	}
+
+	public void setHits(java.awt.Rectangle rect) {
+		setHits(new geogebra.awt.Rectangle(rect));
 	}
 }

@@ -710,5 +710,11 @@ public class Application extends AbstractApplication {
 	    
     }
 
+	@Override
+    public void reset() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
 
 }

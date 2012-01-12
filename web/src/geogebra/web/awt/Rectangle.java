@@ -188,4 +188,8 @@ public class Rectangle implements geogebra.common.awt.Rectangle {
 	    		impl.createIntersection(geogebra.web.awt.Rectangle2D.getGawtRectangle2D(r)));
 
     }
+
+	public void setSize(int width, int height) {
+	    impl.setSize(width, height);
+    }
 }

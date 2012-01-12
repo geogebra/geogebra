@@ -19,4 +19,6 @@ public abstract class EuclidianPen {
 
 	public abstract void handleMousePressedForPenMode(AbstractEvent e, Hits hits);
 
+	public abstract void handleMouseReleasedForPenMode(AbstractEvent event);
+
 }

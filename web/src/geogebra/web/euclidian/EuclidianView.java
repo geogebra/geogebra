@@ -404,5 +404,22 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	    // TODO Auto-generated method stub
 	    
     }
+
+	public Rectangle getSelectionRectangle() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	public void setAnimatedRealWorldCoordSystem(double realWorldCoordX,
+            double realWorldCoordX2, double realWorldCoordY,
+            double realWorldCoordY2, int i, boolean b) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void setHits(Rectangle selectionRectangle) {
+	    // TODO Auto-generated method stub
+	    
+    }
 	
 }

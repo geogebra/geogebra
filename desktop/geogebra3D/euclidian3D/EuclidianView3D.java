@@ -1252,8 +1252,8 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		return previewDrawable;
 	}
 
-	public Rectangle getSelectionRectangle() {
-		return selectionRectangle;
+	public geogebra.common.awt.Rectangle getSelectionRectangle() {
+		return new geogebra.awt.Rectangle(selectionRectangle);
 	}
 
 	public boolean getShowMouseCoords() {
@@ -3608,6 +3608,10 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	}
 	public geogebra.common.awt.Color getBackgroundCommon() {
 		return new geogebra.awt.Color(getBackground());
+		
+	}
+	
+	public void setHits(geogebra.common.awt.Rectangle r) {
 		
 	}
 

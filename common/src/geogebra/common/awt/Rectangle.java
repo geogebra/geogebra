@@ -26,5 +26,6 @@ public interface Rectangle extends Rectangle2D {
 	//public boolean contains(PathPoint prevP);
 	public boolean contains(Point2D p1);
 	public Rectangle union(Rectangle bounds);
+	public void setSize(int width, int height);
 
 }

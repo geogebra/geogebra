@@ -133,7 +133,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen {
 
 	public void handleMousePressedForPenMode(MouseEvent e, Hits hits) {
 
-		Rectangle rect = view.getSelectionRectangle();
+		Rectangle rect = geogebra.awt.Rectangle.getAWTRectangle(view.getSelectionRectangle());
 
 		if (Application.isRightClick(e) && !freehand) {
 			view.setCursor(app.getEraserCursor());

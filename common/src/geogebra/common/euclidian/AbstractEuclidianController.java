@@ -5155,4 +5155,26 @@ public abstract class AbstractEuclidianController {
 	
 		return changedKernel;
 	}
+
+	protected void processReleaseForMovedGeoPoint(AbstractEvent event) {
+	
+		// deselect point after drag, but not on click
+		// outdated - we want to leave the point selected after drag now
+		// if (movedGeoPointDragged) getMovedGeoPoint().setSelected(false);
+	
+		if ((mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET)
+				&& app.isUsingFullGui()) {
+			getMovedGeoPoint().resetTraceColumns();
+		}
+	
+	}
+
+	/**
+	 * right-release the mouse makes stop 3D rotation
+	 * 
+	 * @return false
+	 */
+	protected boolean processRightReleaseFor3D() {
+		return false;
+	}
 }

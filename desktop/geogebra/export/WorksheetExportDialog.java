@@ -144,7 +144,7 @@ public class WorksheetExportDialog extends JDialog {
 		EuclidianView ev = app.getEuclidianView();
 
 		// 1) selection rectangle
-		Rectangle rect = ev.getSelectionRectangle();
+		Rectangle rect = geogebra.awt.Rectangle.getAWTRectangle(ev.getSelectionRectangle());
 		if (rect != null) {
 			double xZero = ev.getXZero() - rect.x;
 			double yZero = ev.getYZero() - rect.y;

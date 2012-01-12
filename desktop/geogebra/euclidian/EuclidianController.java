@@ -14,6 +14,7 @@ package geogebra.euclidian;
 
 import geogebra.common.awt.Point;
 import geogebra.common.awt.Point2D;
+import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.DrawConic;
 import geogebra.common.euclidian.DrawConicPart;
 import geogebra.common.euclidian.DrawSlider;
@@ -62,7 +63,6 @@ import geogebra.common.util.MyMath;
 import geogebra.main.Application;
 
 import java.awt.Color;
-import java.awt.Rectangle;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
@@ -2513,7 +2513,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 			}
 		}
 
-		Rectangle rect = ((EuclidianViewInterface) view).getSelectionRectangle();
+		Rectangle rect = view.getSelectionRectangle();
 		if (height >= 0) {
 			if (width >= 0) {
 				rect.setLocation(selectionStartPoint.x,selectionStartPoint.y);
@@ -2534,20 +2534,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 				rect.setSize(-width, -height);
 			}
 		}
-	}
-
-	// used for 3D
-	protected void processReleaseForMovedGeoPoint(AbstractEvent event) {
-
-		// deselect point after drag, but not on click
-		// outdated - we want to leave the point selected after drag now
-		// if (movedGeoPointDragged) getMovedGeoPoint().setSelected(false);
-
-		if ((mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET)
-				&& ((Application)app).isUsingFullGui()) {
-			getMovedGeoPoint().resetTraceColumns();
-		}
-
 	}
 
 	public void showDrawingPadPopup(Point mouseLoc) {
@@ -2572,7 +2558,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 		if ((mode == EuclidianConstants.MODE_PEN)
 				|| (mode == EuclidianConstants.MODE_FREEHAND)) {
-			((EuclidianPen) pen).handleMouseReleasedForPenMode(event);
+			pen.handleMouseReleasedForPenMode(event);
 			return;
 		}
 
@@ -2585,8 +2571,8 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 			for (int i = 0; i < pastePreviewSelectedAndDependent.size(); i++) {
 				GeoElement geo = pastePreviewSelectedAndDependent.get(i);
 				if (geo.isGeoPoint()) {
-					if (!((EuclidianViewInterface) view).getStickyPointList().contains(geo)) {
-						((EuclidianViewInterface) view).getStickyPointList().add((GeoPointND) geo);
+					if (!view.getStickyPointList().contains(geo)) {
+						view.getStickyPointList().add((GeoPointND) geo);
 					}
 				}
 			}
@@ -2594,9 +2580,9 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 			pastePreviewSelected = null;
 			pastePreviewSelectedAndDependent = null;
-			((EuclidianViewInterface) view).setPointCapturing(previousPointCapturing);
+			view.setPointCapturing(previousPointCapturing);
 			changedKernel0 = true;
-			((Application)app).getKernel().getConstruction().getUndoManager()
+			app.getKernel().getConstruction().getUndoManager()
 					.storeUndoInfoAfterPasteOrAdd();
 		}
 
@@ -2619,7 +2605,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 			// if (movedGeoNumericDragged) movedGeoNumeric.setSelected(false);
 
 			if ((mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET)
-					&& ((Application)app).isUsingFullGui()) {
+					&& app.isUsingFullGui()) {
 				movedGeoNumeric.resetTraceColumns();
 			}
 		}
@@ -2627,7 +2613,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		movedGeoPointDragged = false;
 		movedGeoNumericDragged = false;
 
-		((EuclidianViewInterface) view).requestFocusInWindow();
+		view.requestFocusInWindow();
 		setMouseLocation(event);
 
 		setAltDown(event.isAltDown());
@@ -2637,7 +2623,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		GeoElement geo;
 
 		if (hitResetIcon()) {
-			((Application) app).reset();
+			app.reset();
 			return;
 		} else if (view.hitAnimationButton(event)) {
 			if (kernel.isAnimationRunning()) {
@@ -2646,19 +2632,19 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 				kernel.getAnimatonManager().startAnimation();
 			}
 			view.repaintView();
-			((Application)app).setUnsaved();
+			app.setUnsaved();
 			return;
 		}
 
 		// Michael Borcherds 2007-10-08 allow drag with right mouse button
-		if ((Application.isRightClick(event) || Application.isControlDown(event)))// &&
+		if ((app.isRightClick(event) || app.isControlDown(event)))// &&
 																			// !TEMPORARY_MODE)
 		{
 			if (processRightReleaseFor3D()) {
 				return;
 			}
 			if (!TEMPORARY_MODE) {
-				if (!((Application) app).isRightClickEnabled()) {
+				if (app.isRightClickEnabled()) {
 					return;
 				}
 				if (processZoomRectangle()) {
@@ -3249,29 +3235,29 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 	// return if we really did zoom
 	protected boolean processZoomRectangle() {
-		Rectangle rect = ((EuclidianViewInterface) view).getSelectionRectangle();
+		geogebra.awt.Rectangle rect = (geogebra.awt.Rectangle) view.getSelectionRectangle();
 		if (rect == null) {
 			return false;
 		}
 
-		if ((rect.width < 30) || (rect.height < 30)
-				|| !((Application) app).isShiftDragZoomEnabled() // Michael Borcherds 2007-12-11
+		if ((rect.getWidth() < 30) || (rect.getHeight() < 30)
+				|| !app.isShiftDragZoomEnabled() // Michael Borcherds 2007-12-11
 		) {
-			((EuclidianViewInterface) view).setSelectionRectangle(null);
+			view.setSelectionRectangle(null);
 			view.repaintView();
 			return false;
 		}
 
-		((EuclidianViewInterface) view).resetMode();
+		view.resetMode();
 		// zoom zoomRectangle to EuclidianView's size
 		// double factor = (double) view.width / (double) rect.width;
 		// Point p = rect.getLocation();
-		((EuclidianViewInterface) view).setSelectionRectangle(null);
+		view.setSelectionRectangle(null);
 		// view.setAnimatedCoordSystem((view.xZero - p.x) * factor,
 		// (view.yZero - p.y) * factor, view.xscale * factor, 15, true);
 
 		// zoom without (necessarily) preserving the aspect ratio
-		((EuclidianViewInterface) view).setAnimatedRealWorldCoordSystem(
+		view.setAnimatedRealWorldCoordSystem(
 				view.toRealWorldCoordX(rect.getMinX()),
 				view.toRealWorldCoordX(rect.getMaxX()),
 				view.toRealWorldCoordY(rect.getMaxY()),
@@ -3282,7 +3268,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	// select all geos in selection rectangle
 	protected void processSelectionRectangle(AbstractEvent e) {
 		clearSelections();
-		((EuclidianViewInterface) view).setHits(((EuclidianViewInterface) view).getSelectionRectangle());
+		view.setHits(view.getSelectionRectangle());
 		Hits hits = ((EuclidianViewInterface) view).getHits();
 
 		switch (mode) {
@@ -4321,15 +4307,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	 * @return false
 	 */
 	protected boolean processRotate3DView() {
-		return false;
-	}
-
-	/**
-	 * right-release the mouse makes stop 3D rotation
-	 * 
-	 * @return false
-	 */
-	protected boolean processRightReleaseFor3D() {
 		return false;
 	}
 

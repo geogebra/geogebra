@@ -54,7 +54,7 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	 */
 	boolean setAnimationButtonsHighlighted(boolean hitAnimationButton);
 
-	public Rectangle getSelectionRectangle();
+	public geogebra.common.awt.Rectangle getSelectionRectangle();
 
 	
 	

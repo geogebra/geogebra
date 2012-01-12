@@ -152,7 +152,7 @@ public abstract class GeoGebraExport implements ActionListener {
 		// Changes to make xmin,xmax,ymin,ymax be defined by the selection
 		// rectangle
 		// when this one is defined.
-		Rectangle rect = this.euclidianView.getSelectionRectangle();
+		Rectangle rect = geogebra.awt.Rectangle.getAWTRectangle(this.euclidianView.getSelectionRectangle());
 		if (rect != null) {
 			xmin = euclidianView.toRealWorldCoordX(rect.getMinX());
 			xmax = euclidianView.toRealWorldCoordX(rect.getMaxX());

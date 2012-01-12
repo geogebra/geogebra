@@ -1,9 +1,9 @@
 package geogebra.common.euclidian;
 
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import geogebra.common.awt.Point;
+import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -282,5 +282,13 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	public void setShowAxis(int axisX, boolean b, boolean c);
 
 	public void setDragCursor();
+
+	public Rectangle getSelectionRectangle();
+
+	public void setAnimatedRealWorldCoordSystem(double realWorldCoordX,
+			double realWorldCoordX2, double realWorldCoordY,
+			double realWorldCoordY2, int i, boolean b);
+
+	public void setHits(geogebra.common.awt.Rectangle selectionRectangle);
 
 }

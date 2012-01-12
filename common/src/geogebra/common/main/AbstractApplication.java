@@ -1925,4 +1925,6 @@ public abstract class AbstractApplication {
 	public abstract String getTooltipLanguageString();
 	protected abstract void getWindowLayoutXML(StringBuilder sb, boolean asPreference);
 
+	public abstract void reset();
+
 }

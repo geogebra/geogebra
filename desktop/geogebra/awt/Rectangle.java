@@ -181,5 +181,8 @@ public class Rectangle implements geogebra.awt.Rectangle2D, geogebra.common.awt.
 		return new geogebra.awt.GenericRectangle2D(impl.createIntersection(
 				geogebra.awt.GenericRectangle2D.getAWTRectangle2D(r)));
 	}
+	public void setSize(int width, int height) {
+		impl.setSize(width, height);
+	}
 
 }
