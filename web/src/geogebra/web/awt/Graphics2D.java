@@ -8,6 +8,7 @@ import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.BufferedImageOp;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Composite;
+import geogebra.common.awt.Dimension;
 import geogebra.common.awt.FontRenderContext;
 import geogebra.common.awt.GlyphVector;
 import geogebra.common.awt.GraphicsConfiguration;
@@ -537,6 +538,14 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	public void setHeight(int h) {
 	    canvas.setHeight(h+"px");
+    }
+
+
+	public void setPreferredSize(Dimension preferredSize) {
+	    setWidth((int) preferredSize.getWidth());
+	    setHeight((int) preferredSize.getHeight());
+	    setCoordinateSpaceHeight(getOffsetHeight());
+	    setCoordinateSpaceWidth(getCoordinateSpaceWidth());
     }
 
 }

@@ -9,7 +9,6 @@ import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -21,6 +20,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.EuclidianSettings;
+import geogebra.common.main.settings.SettingListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.web.euclidian.EuclidianController;
 import geogebra.web.main.Application;
@@ -33,7 +33,7 @@ import com.google.gwt.canvas.client.Canvas;
 
 
 
-public class EuclidianView extends AbstractEuclidianView {
+public class EuclidianView extends AbstractEuclidianView implements SettingListener{
 	
 	geogebra.web.awt.Graphics2D g2 = null;
 	
@@ -42,7 +42,7 @@ public class EuclidianView extends AbstractEuclidianView {
 	public EuclidianView(Canvas canvas,
             AbstractEuclidianController euclidiancontroller, boolean[] showAxes,
             boolean showGrid, EuclidianSettings settings) {		
-		super(euclidiancontroller, null);
+		super(euclidiancontroller, settings);
 		evNo = 1;
 	    // TODO Auto-generated constructor stub
 		this.g2 = new geogebra.web.awt.Graphics2D(canvas);
@@ -50,6 +50,12 @@ public class EuclidianView extends AbstractEuclidianView {
 		updateFonts();
 		setStandardCoordSystem();
 		attachView();
+		
+		if ((evNo == 1) || (evNo == 2)) {
+			EuclidianSettings es = getApplication().getSettings().getEuclidian(evNo);
+			settingsChanged(es);
+			es.addListener(this);
+		}
     }
 
 
@@ -316,11 +322,14 @@ public class EuclidianView extends AbstractEuclidianView {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
 	    
     }
+	
+	public geogebra.common.euclidian.EuclidianStyleBar getStyleBar() {
+		if (styleBar == null) {
+			styleBar = new EuclidianStyleBar(this);
+		}
 
-	public EuclidianStyleBar getStyleBar() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
-	    return null;
-    }
+		return styleBar;
+	}
 
 	public boolean setAnimationButtonsHighlighted(boolean b) {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated method stub
@@ -388,9 +397,7 @@ public class EuclidianView extends AbstractEuclidianView {
 
 	@Override
     public void setPreferredSize(Dimension preferredSize) {
-	    g2.setWidth((int) preferredSize.getWidth());;
-	    g2.setHeight((int) preferredSize.getHeight());
-	    
+	    g2.setPreferredSize(preferredSize);
     }
 
 	public void setDragCursor() {

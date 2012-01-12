@@ -10,4 +10,12 @@ public interface EuclidianStyleBar {
 
 	public void updateButtonPointCapture(int mode);
 
+	void setMode(int mode);
+
+	void setLabels();
+
+	void restoreDefaultGeo();
+
+	void updateStyleBar();
+
 }

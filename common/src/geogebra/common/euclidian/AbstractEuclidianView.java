@@ -2853,6 +2853,10 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			}
 		}
 		private Line2D tempLine = geogebra.common.factories.AwtFactory.prototype.newLine2D();
+		/**
+		 * Get styleBar
+		 */
+		protected geogebra.common.euclidian.EuclidianStyleBar styleBar;
 		
 		protected void drawGrid(geogebra.common.awt.Graphics2D g2) {
 			

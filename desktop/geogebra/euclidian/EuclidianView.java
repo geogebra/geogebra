@@ -290,12 +290,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		return (Application)application;
 	}
 
-	/**
-	 * Get styleBar
-	 */
-	EuclidianStyleBar styleBar;
-
-	public EuclidianStyleBar getStyleBar() {
+	public geogebra.common.euclidian.EuclidianStyleBar getStyleBar() {
 		if (styleBar == null) {
 			styleBar = new EuclidianStyleBar(this);
 		}
