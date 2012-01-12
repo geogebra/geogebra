@@ -1457,26 +1457,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 	// ggb3D 2009-02-05
 
-	/**
-	 * sets array of GeoElements whose visual representation is inside of the
-	 * given screen rectangle
-	 */
-	final public void setHits(Rectangle rect) {
-		hits.init();
-		geogebra.awt.Rectangle rect2 =  new geogebra.awt.Rectangle(rect);
-		if (rect == null) {
-			return;
-		}
-
-		DrawableIterator it = allDrawableList.getIterator();
-		while (it.hasNext()) {
-			Drawable d = it.next();
-			GeoElement geo = d.getGeoElement();
-			if (geo.isEuclidianVisible() && d.isInside(rect2)) {
-				hits.add(geo);
-			}
-		}
-	}
+	
 
 	// ggb3D 2009-02-05 (end)
 

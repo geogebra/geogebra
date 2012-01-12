@@ -3427,4 +3427,24 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 				updateBounds();
 			}
 		}
+
+		/**
+		 * sets array of GeoElements whose visual representation is inside of the
+		 * given screen rectangle
+		 */
+		public final void setHits(Rectangle rect) {
+			hits.init();
+			if (rect == null) {
+				return;
+			}
+		
+			DrawableIterator it = allDrawableList.getIterator();
+			while (it.hasNext()) {
+				Drawable d = it.next();
+				GeoElement geo = d.getGeoElement();
+				if (geo.isEuclidianVisible() && d.isInside(rect)) {
+					hits.add(geo);
+				}
+			}
+		}
 }

@@ -19,7 +19,7 @@ import org.python.util.PythonInterpreter;
  * It also listens to selection events on GeoElements and passes them on to
  * the PythonScriptInterface object as well.
  */
-public class PythonBridge implements View, GeoElementSelectionListener {
+public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge implements View, GeoElementSelectionListener {
 	private Application application;
 	private PythonInterpreter interpreter;
 	private PythonScriptInterface pyInterface;

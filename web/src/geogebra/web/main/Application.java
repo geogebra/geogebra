@@ -40,6 +40,7 @@ import geogebra.common.main.GlobalKeyDispatcher;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.GgbAPI;
+import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.ResourceBundleAdapter;
@@ -714,6 +715,18 @@ public class Application extends AbstractApplication {
     public void reset() {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
+    }
+
+	@Override
+    public boolean hasPythonBridge() {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	@Override
+    public PythonBridge getPythonBridge() {
+	    // TODO Auto-generated method stub
+	    return null;
     }
 
 

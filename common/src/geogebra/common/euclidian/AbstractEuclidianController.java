@@ -16,6 +16,8 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoDynamicCoordinates;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -5558,6 +5560,38 @@ public abstract class AbstractEuclidianController {
 	
 		if (repaint) {
 			kernel.notifyRepaint();
+		}
+	}
+
+	public void setMovedGeoPoint(GeoElement geo) {
+		movedGeoPoint = (GeoPointND) movedGeoElement;
+	
+		AlgoElement algo = ((GeoElement) movedGeoPoint).getParentAlgorithm();
+		if ((algo != null) && (algo instanceof AlgoDynamicCoordinates)) {
+			movedGeoPoint = ((AlgoDynamicCoordinates) algo).getParentPoint();
+		}
+	
+		view.setShowMouseCoords(!app.isApplet() && !movedGeoPoint.hasPath());
+		view.setDragCursor();
+	}
+
+	/**
+	 * for some modes, polygons are not to be removed
+	 * 
+	 * @param hits
+	 */
+	protected void switchModeForRemovePolygons(Hits hits) {
+		switch (mode) {
+		case EuclidianConstants.MODE_POINT:
+		case EuclidianConstants.MODE_COMPLEX_NUMBER:
+		case EuclidianConstants.MODE_POINT_ON_OBJECT:
+			// removed: polygons can still be selected if they are the only
+			// object clicked on
+			// case EuclidianView.MODE_INTERSECT:
+			// case EuclidianView.MODE_INTERSECTION_CURVE:
+			break;
+		default:
+			hits.removePolygons();
 		}
 	}
 }

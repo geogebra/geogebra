@@ -405,10 +405,5 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
-
-	public void setHits(Rectangle selectionRectangle) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
-    }
 	
 }

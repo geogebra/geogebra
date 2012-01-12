@@ -37,6 +37,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GgbAPI;
+import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.DebugPrinter;
@@ -1926,5 +1927,9 @@ public abstract class AbstractApplication {
 	protected abstract void getWindowLayoutXML(StringBuilder sb, boolean asPreference);
 
 	public abstract void reset();
+
+	public abstract boolean hasPythonBridge();
+
+	public abstract PythonBridge getPythonBridge();
 
 }

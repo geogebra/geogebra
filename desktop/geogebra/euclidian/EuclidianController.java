@@ -21,13 +21,13 @@ import geogebra.common.euclidian.DrawSlider;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoTranslate;
 import geogebra.common.kernel.algos.AlgoVector;
@@ -1701,18 +1701,9 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 	}
 
-	// //////////////////////////////////////////
-	// setters movedGeoElement -> movedGeoPoint, ...
-	public void setMovedGeoPoint(GeoElement geo) {
-		movedGeoPoint = (GeoPointND) movedGeoElement;
-
-		AlgoElement algo = ((GeoElement) movedGeoPoint).getParentAlgorithm();
-		if ((algo != null) && (algo instanceof AlgoDynamicCoordinates)) {
-			movedGeoPoint = ((AlgoDynamicCoordinates) algo).getParentPoint();
-		}
-
-		((EuclidianViewInterface) view).setShowMouseCoords(!((Application)app).isApplet() && !movedGeoPoint.hasPath());
-		((EuclidianViewInterface) view).setDragCursor();
+	private EuclidianViewInterfaceCommon setShowMouseCoords(boolean b) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	public void setStartPointLocation() {
@@ -3144,26 +3135,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		return hits;
 	}
 
-	/**
-	 * for some modes, polygons are not to be removed
-	 * 
-	 * @param hits
-	 */
-	protected void switchModeForRemovePolygons(Hits hits) {
-		switch (mode) {
-		case EuclidianConstants.MODE_POINT:
-		case EuclidianConstants.MODE_COMPLEX_NUMBER:
-		case EuclidianConstants.MODE_POINT_ON_OBJECT:
-			// removed: polygons can still be selected if they are the only
-			// object clicked on
-			// case EuclidianView.MODE_INTERSECT:
-			// case EuclidianView.MODE_INTERSECTION_CURVE:
-			break;
-		default:
-			hits.removePolygons();
-		}
-	}
-
 	protected boolean switchModeForMouseReleased(int mode, Hits hits,
 			boolean changedKernel) {
 		switch (mode) {
@@ -3174,8 +3145,8 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE: // Michael Borcherds
 														// 2008-03-23
 		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-			((EuclidianViewInterface) view).setHits(mouseLoc);
-			hits = ((EuclidianViewInterface) view).getHits();
+			view.setHits(mouseLoc);
+			hits = view.getHits();
 			hits.removePolygons();
 			// hits = view.getHits(mouseLoc);
 			if (hits.isEmpty()) {
@@ -3197,8 +3168,8 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 			// change checkbox (boolean) state on mouse up only if there's been
 			// no drag
-			((EuclidianViewInterface) view).setHits(mouseLoc);
-			hits = ((EuclidianViewInterface) view).getHits().getTopHits();
+			view.setHits(mouseLoc);
+			hits = view.getHits().getTopHits();
 			// hits = view.getTopHits(mouseLoc);
 			if (!hits.isEmpty()) {
 				GeoElement hit = hits.get(0);
@@ -3207,7 +3178,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 					if (!bool.isCheckboxFixed()) { // otherwise changed on mouse
 													// down
 						bool.setValue(!bool.getBoolean());
-						((Application)app).removeSelectedGeo(bool); // make sure doesn't get
+						app.removeSelectedGeo(bool); // make sure doesn't get
 														// selected
 						bool.updateCascade();
 					}
@@ -3217,8 +3188,8 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 					if (geo1 != null) {
 						geo1.runScripts(null);
 					}
-					if (((Application) app).hasPythonBridge()) {
-						((Application) app).getPythonBridge().click(geo1);
+					if (app.hasPythonBridge()) {
+						app.getPythonBridge().click(geo1);
 					}
 				}
 			}
