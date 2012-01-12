@@ -1208,7 +1208,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			else{
 				//switch the direction of move (xy or z) in case of left-click
 				//if (!movedGeoPointDragged){
-				if (!DRAGGING_OCCURED && !Application.isRightClick(e)){
+				if (!DRAGGING_OCCURED && !app.isRightClick(e)){
 					movedGeoPoint.switchMoveMode();
 					((EuclidianView3D) view).getCursor3D().setMoveMode(movedGeoPoint.getMoveMode());
 					//Application.debug(movedGeoPoint+"\nmove mode="+movedGeoPoint.getMoveMode()+"\ncursor move mode="+((EuclidianView3D) view).getCursor3D().getMoveMode());

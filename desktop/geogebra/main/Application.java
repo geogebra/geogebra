@@ -5511,17 +5511,18 @@ public class Application extends AbstractApplication implements
 	protected boolean isCommandNull() {
 		return rbcommand == null;
 	}
-
-
-	public static boolean isRightClick(AbstractEvent e) {
+	@Override
+	public boolean isRightClick(AbstractEvent e) {
 		return isRightClick(geogebra.euclidian.event.MouseEvent.getEvent(e));
 	}
 
-	public static boolean isControlDown(AbstractEvent e) {
+	@Override
+	public boolean isControlDown(AbstractEvent e) {
 		return isControlDown(geogebra.euclidian.event.MouseEvent.getEvent(e));
 	}
-
-	public static boolean isMiddleClick(AbstractEvent e) {
+	
+	@Override
+	public boolean isMiddleClick(AbstractEvent e) {
 		return isMiddleClick(geogebra.euclidian.event.MouseEvent.getEvent(e));
 	}
 

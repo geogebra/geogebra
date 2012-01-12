@@ -4810,7 +4810,7 @@ public abstract class AbstractEuclidianController {
 		// copy geo to algebra input
 		case EuclidianConstants.MODE_SELECTION_LISTENER:
 			boolean addToSelection = (event != null)
-					&& (AbstractApplication.isControlDown(event));
+					&& (app.isControlDown(event));
 			geoElementSelected(hits.getTopHits(), addToSelection);
 			break;
 	

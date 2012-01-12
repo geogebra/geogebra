@@ -1570,15 +1570,15 @@ public abstract class AbstractApplication {
 		return selectedGeos.size();
 	}
 
-	public static boolean isRightClick(AbstractEvent e) {
+	public boolean isRightClick(AbstractEvent e) {
 		return e.isRightClick();
 	}
 	
-	public static boolean isControlDown(AbstractEvent e) {
+	public boolean isControlDown(AbstractEvent e) {
 		return e.isControlDown();
 	}
 	
-	public static boolean isMiddleClick(AbstractEvent e) {
+	public boolean isMiddleClick(AbstractEvent e) {
 		return e.isMiddleClick();
 	}
 

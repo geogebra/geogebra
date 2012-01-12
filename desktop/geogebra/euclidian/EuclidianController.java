@@ -416,14 +416,14 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 			view.requestFocusInWindow();
 		}
 
-		if (Application.isRightClick(event)) {
+		if (app.isRightClick(event)) {
 			return;
 		}
 		setMouseLocation(event);
 
 		// double-click on object selects MODE_MOVE and opens redefine dialog
 		if (event.getClickCount() == 2) {
-			if (app.isApplet() || Application.isControlDown(event)) {
+			if (app.isApplet() || app.isControlDown(event)) {
 				return;
 			}
 
@@ -561,7 +561,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 				// handle selection click
 				((EuclidianViewInterface) view).setHits(mouseLoc);
 				handleSelectClick(((EuclidianViewInterface) view).getHits().getTopHits(),// view.getTopHits(mouseLoc),
-						Application.isControlDown(event));
+						app.isControlDown(event));
 				break;
 			/*
 			 * // open properties dialog on double click case 2: if
@@ -715,14 +715,14 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 			return;
 		}
 
-		if (Application.isRightClick(event)) {
+		if (app.isRightClick(event)) {
 			// ggb3D - for 3D rotation
 			processRightPressFor3D();
 
 			return;
 		} else if (app.isShiftDragZoomEnabled() && (
 		// MacOS: shift-cmd-drag is zoom
-				(event.isShiftDown() && !Application.isControlDown(event)) // All
+				(event.isShiftDown() && !app.isControlDown(event)) // All
 																	// Platforms:
 																	// Shift key
 						|| (event.isControlDown() && Application.WINDOWS // old
@@ -730,7 +730,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 																		// key:
 																		// Ctrl
 																		// key
-						) || Application.isMiddleClick(event))) {
+						) || app.isMiddleClick(event))) {
 			// Michael Borcherds 2007-12-08 BEGIN
 			// bugfix: couldn't select multiple objects with Ctrl
 
@@ -1085,7 +1085,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		// view.resetTraceRow(); // for trace/spreadsheet
 
 		// fix for meta-click to work on Mac/Linux
-		if (Application.isControlDown(e)) {
+		if (app.isControlDown(e)) {
 			return;
 		}
 
@@ -1829,7 +1829,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 			// Michael Borcherds 2007-10-07 allow right mouse button to drag
 			// points
 			// mathieu : also if it's mode point, we can drag the point
-			if (Application.isRightClick(event)
+			if (app.isRightClick(event)
 					|| (mode == EuclidianConstants.MODE_POINT)
 					|| (mode == EuclidianConstants.MODE_COMPLEX_NUMBER)
 					|| (mode == EuclidianConstants.MODE_POINT_ON_OBJECT)
@@ -1911,7 +1911,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 			}
 		}
 
-		if (Application.isRightClick(event)) {
+		if (app.isRightClick(event)) {
 			// if there's no hit, or if first hit is not moveable, do 3D view
 			// rotation
 			if ((!TEMPORARY_MODE)
@@ -1935,19 +1935,19 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 			// zoom rectangle (right drag) or selection rectangle (left drag)
 			// Michael Borcherds 2007-10-07 allow dragging with right mouse
 			// button
-			if (((Application.isRightClick(event)) || allowSelectionRectangle())
+			if (((app.isRightClick(event)) || allowSelectionRectangle())
 					&& !TEMPORARY_MODE) {
 				// Michael Borcherds 2007-10-07
 				// set zoom rectangle's size
 				// right-drag: zoom
 				// Shift-right-drag: zoom without preserving aspect ratio
-				updateSelectionRectangle((Application.isRightClick(event) && !event
+				updateSelectionRectangle((app.isRightClick(event) && !event
 						.isShiftDown())
 				// MACOS:
 				// Cmd-left-drag: zoom
 				// Cmd-shift-left-drag: zoom without preserving aspect ratio
-						|| (Application.MAC_OS && Application.isControlDown(event)
-								&& !event.isShiftDown() && !Application
+						|| (Application.MAC_OS && app.isControlDown(event)
+								&& !event.isShiftDown() && !app
 									.isRightClick(event)));
 				view.repaintView();
 				return;
@@ -2653,8 +2653,8 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 				// make sure cmd-click selects multiple points (not open
 				// properties)
-				if ((Application.MAC_OS && Application.isControlDown(event))
-						|| !Application.isRightClick(event)) {
+				if ((Application.MAC_OS && app.isControlDown(event))
+						|| !app.isRightClick(event)) {
 					return;
 				}
 
