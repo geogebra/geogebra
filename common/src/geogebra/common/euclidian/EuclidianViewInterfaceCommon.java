@@ -317,4 +317,6 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 
 	public void updatePreviewable();
 
+	public int getEuclidianViewNo();
+
 }

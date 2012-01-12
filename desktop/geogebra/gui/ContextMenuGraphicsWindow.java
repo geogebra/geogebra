@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.gui;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Kernel;
 import geogebra.gui.dialog.options.OptionsDialog;
 import geogebra.main.Application;
@@ -73,7 +74,7 @@ implements ActionListener {
         this.px = px;
         this.py = py;
         
-        AbstractEuclidianView ev=((AbstractEuclidianView)app.getActiveEuclidianView());
+        EuclidianViewInterfaceCommon ev= app.getActiveEuclidianView();
         if(ev.getEuclidianViewNo()==2){
         	 setTitle("<html>" + app.getPlain("DrawingPad2") + "</html>");
         }

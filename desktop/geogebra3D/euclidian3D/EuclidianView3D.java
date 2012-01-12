@@ -3637,5 +3637,13 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		
 	}
 
+	
+	
+	public int getEuclidianViewNo() {
+		// TODO Auto-generated method stub
+		return AbstractApplication.VIEW_EUCLIDIAN3D;
+	}
+
+	
 }
 
