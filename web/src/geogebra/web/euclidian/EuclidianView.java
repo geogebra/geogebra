@@ -1,6 +1,5 @@
 package geogebra.web.euclidian;
 
-import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Font;
 import geogebra.common.awt.GeneralPath;
@@ -9,12 +8,10 @@ import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoTextField;
@@ -22,12 +19,8 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.web.euclidian.EuclidianController;
-import geogebra.web.main.Application;
 import geogebra.web.awt.BasicStroke;
-import geogebra.web.awt.Color;
-import geogebra.web.kernel.gawt.Ellipse2D;
-import geogebra.web.kernel.gawt.Line2D;
+import geogebra.web.main.Application;
 
 import com.google.gwt.canvas.client.Canvas;
 
@@ -65,17 +58,6 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	protected static MyBasicStroke selStroke = new MyBasicStroke(
 			1.0f + EuclidianStyleConstants.SELECTION_ADD);
 
-	// protected static MyBasicStroke thinStroke = new MyBasicStroke(1.0f);
-
-	// axes strokes
-	
-
-
-	// axes and grid stroke
-	protected BasicStroke axesStroke, tickStroke, gridStroke;
-
-	protected Line2D.Double tempLine = new Line2D.Double();
-	protected Ellipse2D.Double circle = new Ellipse2D.Double(); //polar grid circles
 	protected boolean unitAxesRatio;
 
 	static public MyBasicStroke getDefaultStroke() {
