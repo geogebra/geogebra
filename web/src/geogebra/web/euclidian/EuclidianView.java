@@ -405,5 +405,25 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
+
+	public void setToolTipText(String plainTooltip) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void setResizeXAxisCursor() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void setResizeYAxisCursor() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void updatePreviewable() {
+	    // TODO Auto-generated method stub
+	    
+    }
 	
 }

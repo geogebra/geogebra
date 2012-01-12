@@ -729,5 +729,11 @@ public class Application extends AbstractApplication {
 	    return null;
     }
 
+	@Override
+    public String getPlainTooltip(String string) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
 
 }

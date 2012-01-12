@@ -1932,4 +1932,6 @@ public abstract class AbstractApplication {
 
 	public abstract PythonBridge getPythonBridge();
 
+	public abstract String getPlainTooltip(String string);
+
 }

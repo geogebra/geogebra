@@ -291,4 +291,14 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 
 	public void setHits(geogebra.common.awt.Rectangle selectionRectangle);
 
+	public void setToolTipText(String plainTooltip);
+
+	public GeoElement getLabelHit(Point mouseLoc);
+
+	public void setResizeXAxisCursor();
+
+	public void setResizeYAxisCursor();
+
+	public void updatePreviewable();
+
 }

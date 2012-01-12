@@ -34,7 +34,6 @@ import geogebra.common.kernel.algos.AlgoVector;
 import geogebra.common.kernel.algos.AlgoVectorPoint;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.VectorValue;
-import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoConic;
@@ -53,11 +52,9 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
-import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoElementSelectionListener;
-import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.MyMath;
 import geogebra.main.Application;
 
@@ -3125,84 +3122,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 //		kernel.notifyRepaint();*/
 	}
 
-	protected Hits addPointCreatedForMouseReleased(Hits hits) {
-
-		if (hits.isEmpty()) {
-			hits = new Hits();
-			hits.add(getMovedGeoPoint());
-		}
-
-		return hits;
-	}
-
-	protected boolean switchModeForMouseReleased(int mode, Hits hits,
-			boolean changedKernel) {
-		switch (mode) {
-		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
-		case EuclidianConstants.MODE_DILATE_FROM_POINT:
-		case EuclidianConstants.MODE_MIRROR_AT_POINT:
-		case EuclidianConstants.MODE_MIRROR_AT_LINE:
-		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE: // Michael Borcherds
-														// 2008-03-23
-		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-			view.setHits(mouseLoc);
-			hits = view.getHits();
-			hits.removePolygons();
-			// hits = view.getHits(mouseLoc);
-			if (hits.isEmpty()) {
-				POINT_CREATED = createNewPoint(hits, false, false, true);
-			}
-			changedKernel = POINT_CREATED;
-			break;
-
-		case EuclidianConstants.MODE_TRANSLATEVIEW:
-			changedKernel = true;
-			break;
-
-		case EuclidianConstants.MODE_BUTTON_ACTION:
-		case EuclidianConstants.MODE_TEXTFIELD_ACTION:
-			// make sure script not triggered
-			break;
-
-		default:
-
-			// change checkbox (boolean) state on mouse up only if there's been
-			// no drag
-			view.setHits(mouseLoc);
-			hits = view.getHits().getTopHits();
-			// hits = view.getTopHits(mouseLoc);
-			if (!hits.isEmpty()) {
-				GeoElement hit = hits.get(0);
-				if ((hit != null) && hit.isGeoBoolean()) {
-					GeoBoolean bool = (GeoBoolean) (hits.get(0));
-					if (!bool.isCheckboxFixed()) { // otherwise changed on mouse
-													// down
-						bool.setValue(!bool.getBoolean());
-						app.removeSelectedGeo(bool); // make sure doesn't get
-														// selected
-						bool.updateCascade();
-					}
-				} else if (hit != null) {
-					GeoElement geo1 = chooseGeo(hits, true);
-					// ggb3D : geo1 may be null if it's axes or xOy plane
-					if (geo1 != null) {
-						geo1.runScripts(null);
-					}
-					if (app.hasPythonBridge()) {
-						app.getPythonBridge().click(geo1);
-					}
-				}
-			}
-		}
-
-		return changedKernel;
-	}
-
-	protected boolean hitResetIcon() {
-		return ((Application) app).showResetIcon()
-				&& ((mouseLoc.y < 18) && (mouseLoc.x > (((EuclidianViewInterface) view).getViewWidth() - 18)));
-	}
-
 	// return if we really did zoom
 	protected boolean processZoomRectangle() {
 		geogebra.awt.Rectangle rect = (geogebra.awt.Rectangle) view.getSelectionRectangle();
@@ -3442,161 +3361,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		processMouseMoved(event);
 		//event.release(e.getID()); //does it necessary?
 		
-	}
-
-	protected void processMouseMoved(AbstractEvent event) {
-
-		boolean repaintNeeded;
-
-		// reset icon
-		if (hitResetIcon()) {
-			((EuclidianViewInterface) view).setToolTipText(((Application) app).getPlainTooltip("resetConstruction"));
-			((EuclidianViewInterface) view).setHitCursor();
-			return;
-		}
-
-		// animation button
-		boolean hitAnimationButton = view.hitAnimationButton(event);
-		repaintNeeded = ((EuclidianViewInterface) view).setAnimationButtonsHighlighted(hitAnimationButton);
-		if (hitAnimationButton) {
-			if (kernel.isAnimationPaused()) {
-				((EuclidianViewInterface) view).setToolTipText(((Application) app).getPlainTooltip("Play"));
-			} else {
-				((EuclidianViewInterface) view).setToolTipText(((Application) app).getPlainTooltip("Pause"));
-			}
-			((EuclidianViewInterface) view).setHitCursor();
-			view.repaintView();
-			return;
-		}
-
-		// standard handling
-		Hits hits = new Hits();
-		boolean noHighlighting = false;
-		setAltDown(event.isAltDown());
-
-		// label hit
-		GeoElement geo = ((EuclidianViewInterface) view).getLabelHit(mouseLoc);
-		if (geo != null) {
-			mouseIsOverLabel = true;
-		} else {
-			mouseIsOverLabel = false;
-		}
-		if (moveMode(mode)) { // label hit in move mode: block all other hits
-			if (geo != null) {
-				// Application.debug("hop");
-				noHighlighting = true;
-				tempArrayList.clear();
-				tempArrayList.add(geo);
-				hits = tempArrayList;
-			}
-		}
-
-		if (hits.isEmpty()) {
-			((EuclidianViewInterface) view).setHits(mouseLoc);
-			hits = ((EuclidianViewInterface) view).getHits();
-			switchModeForRemovePolygons(hits);
-		}
-
-		if (hits.isEmpty()) {
-			((EuclidianViewInterface) view).setToolTipText(null);
-			((EuclidianViewInterface) view).setDefaultCursor();
-		} else {
-			if (event.isShiftDown() && (hits.size() == 1)
-					&& (hits.get(0) instanceof GeoAxis)) {
-				if (((GeoAxis) hits.get(0)).getType() == GeoAxisND.X_AXIS) {
-					((EuclidianViewInterface) view).setResizeXAxisCursor();
-				} else {
-					((EuclidianViewInterface) view).setResizeYAxisCursor();
-				}
-			} else {
-				((EuclidianViewInterface) view).setHitCursor();
-			}
-		}
-
-		// for testing: save the full hits for later use
-		Hits tempFullHits = hits.clone();
-		// Application.debug("tempFullHits="+tempFullHits);
-
-		// set tool tip text
-		// the tooltips are only shown if algebra view is visible
-		// if (app.isUsingLayout() && app.getGuiManager().showAlgebraView()) {
-		// hits = view.getTopHits(hits);
-
-		hits = hits.getTopHits();
-
-		sliderValue = null;
-		if (hits.size() == 1) {
-			GeoElement hit = hits.get(0);
-			int labelMode = hit.getLabelMode();
-			if (hit.isGeoNumeric()
-					&& ((GeoNumeric) hit).isSlider()
-					&& ((labelMode == GeoElement.LABEL_NAME_VALUE) || (labelMode == GeoElement.LABEL_VALUE))) {
-
-				// only do this if we are not pasting something from the
-				// clipboard right now
-				// because moving on the label of a slider might move the pasted
-				// objects away otherwise
-				if ((pastePreviewSelected == null) ? (true)
-						: (pastePreviewSelected.isEmpty())) {
-
-					startPoint.setLocation(((GeoNumeric) hit).getSliderX(),
-							((GeoNumeric) hit).getSliderY());
-
-					// preview just for fixed sliders
-					if (((GeoNumeric) hit).isSliderFixed()) {
-						sliderValue = kernel
-								.format(getSliderValue((GeoNumeric) hit));
-					}
-				}
-			}
-		}
-
-		if (!hits.isEmpty()) {
-			boolean alwaysOn = false;
-			if (view instanceof EuclidianView) {
-				if ( ((EuclidianViewInterface) view).getAllowToolTips() == EuclidianStyleConstants.TOOLTIPS_ON) {
-					alwaysOn = true;
-				}
-			}
-			String text = GeoElement.getToolTipDescriptionHTML(hits, true,
-					true, alwaysOn);
-			((EuclidianViewInterface) view).setToolTipText(text);
-		} else {
-			((EuclidianViewInterface) view).setToolTipText(null);
-			// }
-		}
-
-		// update previewable
-		if (((EuclidianViewInterface) view).getPreviewDrawable() != null) {
-			((EuclidianViewInterface) view).updatePreviewable();
-			repaintNeeded = true;
-		}
-
-		if ((pastePreviewSelected != null) && !pastePreviewSelected.isEmpty()) {
-			transformCoords();
-			updatePastePreviewPosition();
-			repaintNeeded = true;
-		}
-
-		// show Mouse coordinates, manage alt -> multiple of 15 degrees
-		else if (((EuclidianViewInterface) view).getShowMouseCoords() && ((EuclidianViewInterface) view).getAllowShowMouseCoords()) {
-			transformCoords();
-			repaintNeeded = true;
-		}
-
-		// Application.debug(tempFullHits.getTopHits(2,10));
-		// manage highlighting & "snap to object"
-		// Application.debug("noHighlighting = "+noHighlighting);
-		// Application.debug("hits = "+hits.toString());
-		// repaintNeeded = noHighlighting ? refreshHighlighting(null) :
-		// refreshHighlighting(hits)
-		// || repaintNeeded;
-
-		repaintNeeded = noHighlighting ? refreshHighlighting(null)
-				: refreshHighlighting(tempFullHits) || repaintNeeded;
-		if (repaintNeeded) {
-			kernel.notifyRepaint();
-		}
 	}
 
 	public void mouseEntered(MouseEvent e) {
@@ -3979,15 +3743,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		}
 		((Application) app).getGuiManager().toggleMiniProperties(false);
 
-	}
-
-	protected boolean moveMode(int mode) {
-		if ((mode == EuclidianConstants.MODE_MOVE)
-				|| (mode == EuclidianConstants.MODE_VISUAL_STYLE)) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 	public Hits getHighlightedgeos() {
