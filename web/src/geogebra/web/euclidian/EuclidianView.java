@@ -383,5 +383,10 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	    // TODO Auto-generated method stub
 	    
     }
+
+	public void setMoveCursor() {
+	    // TODO Auto-generated method stub
+	    
+    }
 	
 }

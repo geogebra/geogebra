@@ -8,6 +8,7 @@ import java.util.Iterator;
 
 import geogebra.common.awt.Point;
 import geogebra.common.awt.Point2D;
+import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -44,6 +45,7 @@ import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Test;
@@ -58,6 +60,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.MyMath;
@@ -69,6 +72,10 @@ public abstract class AbstractEuclidianController {
 	protected static int POLYGON_RIGID = 1;
 
 	protected static int POLYGON_VECTOR = 2;
+
+	protected static double MOUSE_DRAG_MAX_DIST_SQUARE = 36;
+
+	protected static int MAX_CONTINUITY_STEPS = 4;
 
 	protected static void removeAxes(ArrayList<GeoElement> geos) {
 	
@@ -6546,6 +6553,626 @@ public abstract class AbstractEuclidianController {
 			moveMode = MOVE_NONE;
 		}
 	
+	}
+
+	protected void updateSelectionRectangle(boolean keepScreenRatio) {
+		if (view.getSelectionRectangle() == null) {
+			view.setSelectionRectangle(geogebra.common.factories.AwtFactory.prototype.newRectangle(0,0));
+		}
+	
+		int dx = mouseLoc.x - selectionStartPoint.x;
+		int dy = mouseLoc.y - selectionStartPoint.y;
+		int dxabs = Math.abs(dx);
+		int dyabs = Math.abs(dy);
+	
+		int width = dx;
+		int height = dy;
+	
+		// the zoom rectangle should have the same aspect ratio as the view
+		if (keepScreenRatio) {
+			double ratio = (double) view.getViewWidth()
+					/ (double) view.getViewHeight();
+			if (dxabs >= (dyabs * ratio)) {
+				height = (int) (Math.round(dxabs / ratio));
+				if (dy < 0) {
+					height = -height;
+				}
+			} else {
+				width = (int) Math.round(dyabs * ratio);
+				if (dx < 0) {
+					width = -width;
+				}
+			}
+		}
+	
+		Rectangle rect = view.getSelectionRectangle();
+		if (height >= 0) {
+			if (width >= 0) {
+				rect.setLocation(selectionStartPoint.x,selectionStartPoint.y);
+				rect.setSize(width, height);
+			} else { // width < 0
+				rect.setLocation(selectionStartPoint.x + width,
+						selectionStartPoint.y);
+				rect.setSize(-width, height);
+			}
+		} else { // height < 0
+			if (width >= 0) {
+				rect.setLocation(selectionStartPoint.x, selectionStartPoint.y
+						+ height);
+				rect.setSize(width, -height);
+			} else { // width < 0
+				rect.setLocation(selectionStartPoint.x + width,
+						selectionStartPoint.y + height);
+				rect.setSize(-width, -height);
+			}
+		}
+	}
+
+	protected void handleMouseDragged(boolean repaint) {
+		// moveMode was set in mousePressed()
+		switch (moveMode) {
+		case MOVE_ROTATE:
+			rotateObject(repaint);
+			break;
+	
+		case MOVE_POINT:
+			movePoint(repaint);
+			break;
+	
+		case MOVE_POINT_WITH_OFFSET:
+			movePointWithOffset(repaint);
+			break;
+	
+		case MOVE_LINE:
+			moveLine(repaint);
+			break;
+	
+		case MOVE_VECTOR:
+		case MOVE_VECTOR_NO_GRID:
+			moveVector(repaint);
+			break;
+	
+		case MOVE_VECTOR_STARTPOINT:
+			moveVectorStartPoint(repaint);
+			break;
+	
+		case MOVE_CONIC:
+			moveConic(repaint);
+			break;
+	
+		case MOVE_IMPLICITPOLY:
+			moveImplicitPoly(repaint);
+			break;
+	
+		case MOVE_FUNCTION:
+			moveFunction(repaint);
+			break;
+	
+		case MOVE_LABEL:
+			moveLabel();
+			break;
+	
+		case MOVE_TEXT:
+			moveText(repaint);
+			break;
+	
+		case MOVE_IMAGE:
+			moveImage(repaint);
+			break;
+	
+		case MOVE_NUMERIC:
+			// view.incrementTraceRow(); // for spreadsheet/trace
+	
+			moveNumeric(repaint);
+			break;
+	
+		case MOVE_SLIDER:
+			moveSlider(repaint);
+			break;
+	
+		case MOVE_BOOLEAN:
+			moveBoolean(repaint);
+			break;
+	
+		case MOVE_BUTTON:
+			moveButton(repaint);
+			break;
+	
+		case MOVE_DEPENDENT:
+			moveDependent(repaint);
+			break;
+	
+		case MOVE_MULTIPLE_OBJECTS:
+			moveMultipleObjects(repaint);
+			break;
+	
+		case MOVE_VIEW:
+			if (repaint) {
+				if (TEMPORARY_MODE) {
+					view.setMoveCursor();
+				}
+				/*
+				 * view.setCoordSystem(xZeroOld + mouseLoc.x - startLoc.x,
+				 * yZeroOld + mouseLoc.y - startLoc.y, view.getXscale(),
+				 * view.getYscale());
+				 */
+				view.setCoordSystemFromMouseMove(mouseLoc.x - startLoc.x,
+						mouseLoc.y - startLoc.y, MOVE_VIEW);
+			}
+			break;
+	
+		case MOVE_X_AXIS:
+			if (repaint) {
+				if (TEMPORARY_MODE) {
+					view.setResizeXAxisCursor();
+				}
+	
+				// take care when we get close to the origin
+				if (Math.abs(mouseLoc.x - view.getXZero()) < 2) {
+					mouseLoc.x = (int) Math
+							.round(mouseLoc.x > view.getXZero() ? view
+									.getXZero() + 2 : view.getXZero() - 2);
+				}
+				double xscale = (mouseLoc.x - view.getXZero()) / xTemp;
+				view.setCoordSystem(view.getXZero(), view.getYZero(), xscale,
+						view.getYscale());
+			}
+			break;
+	
+		case MOVE_Y_AXIS:
+			if (repaint) {
+				if (TEMPORARY_MODE) {
+					view.setResizeYAxisCursor();
+				}
+				// take care when we get close to the origin
+				if (Math.abs(mouseLoc.y - view.getYZero()) < 2) {
+					mouseLoc.y = (int) Math
+							.round(mouseLoc.y > view.getYZero() ? view
+									.getYZero() + 2 : view.getYZero() - 2);
+				}
+				double yscale = ( view.getYZero() - mouseLoc.y) / yTemp;
+				view.setCoordSystem(view.getXZero(), view.getYZero(),
+						view.getXscale(), yscale);
+			}
+			break;
+	
+		default: // do nothing
+		}
+	}
+
+	protected boolean viewHasHitsForMouseDragged() {
+		return !(view.getHits().isEmpty());
+	}
+
+	/**
+	 * right-drag the mouse makes 3D rotation
+	 * 
+	 * @return false
+	 */
+	protected boolean processRotate3DView() {
+		return false;
+	}
+
+	protected boolean allowSelectionRectangle() {
+		switch (mode) {
+		// move objects
+		case EuclidianConstants.MODE_MOVE:
+			return moveMode == MOVE_NONE;
+	
+			// move rotate objects
+		case EuclidianConstants.MODE_MOVE_ROTATE:
+			return selPoints() > 0; // need rotation center
+	
+			// object selection mode
+		case EuclidianConstants.MODE_SELECTION_LISTENER:
+			GeoElementSelectionListener sel = app.getCurrentSelectionListener();
+			if (sel == null) {
+				return false;
+			}
+			if (app.isUsingFullGui()) {
+				return !app.getGuiManager().isInputFieldSelectionListener();
+			} else {
+				return sel != null;
+			}
+	
+			// transformations
+		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
+			return allowSelectionRectangleForTranslateByVector;
+	
+		case EuclidianConstants.MODE_DILATE_FROM_POINT:
+		case EuclidianConstants.MODE_MIRROR_AT_POINT:
+		case EuclidianConstants.MODE_MIRROR_AT_LINE:
+		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE: // Michael Borcherds
+														// 2008-03-23
+		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
+		case EuclidianConstants.MODE_FITLINE:
+		case EuclidianConstants.MODE_CREATE_LIST:
+		case EuclidianConstants.MODE_VISUAL_STYLE:
+		case EuclidianConstants.MODE_COPY_VISUAL_STYLE:
+			return true;
+	
+			// checkbox, button
+		case EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX:
+		case EuclidianConstants.MODE_BUTTON_ACTION:
+		case EuclidianConstants.MODE_TEXTFIELD_ACTION:
+			return true;
+	
+		default:
+			return false;
+		}
+	}
+
+	protected void handleMousePressedForMoveMode(AbstractEvent e, boolean drag) {
+	
+		// long t0 = System.currentTimeMillis();
+	
+		// Application.debug("start");
+	
+		// view.resetTraceRow(); // for trace/spreadsheet
+	
+		// fix for meta-click to work on Mac/Linux
+		if (app.isControlDown(e)) {
+			return;
+		}
+	
+		// move label?
+		GeoElement geo = view.getLabelHit(mouseLoc);
+		// Application.debug("label("+(System.currentTimeMillis()-t0)+")");
+		if (geo != null) {
+			moveMode = MOVE_LABEL;
+			movedLabelGeoElement = geo;
+			oldLoc.setLocation(geo.labelOffsetX, geo.labelOffsetY);
+			startLoc = mouseLoc;
+			view.setDragCursor();
+			return;
+		}
+	
+		// Application.debug("laps("+(System.currentTimeMillis()-t0)+")");
+	
+		// find and set movedGeoElement
+		view.setHits(mouseLoc);
+	
+		// make sure that eg slider takes precedence over a polygon (in the same
+		// layer)
+		view.getHits().removePolygons();
+	
+		Hits moveableList;
+	
+		// if we just click (no drag) on eg an intersection, we want it selected
+		// not a popup with just the lines in
+	
+		// now we want this behaviour always as
+		// * there is no popup
+		// * user might do eg click then arrow keys
+		// * want drag with left button to work (eg tessellation)
+	
+		// consider intersection of 2 circles.
+		// On drag, we want to be able to drag a circle
+		// on click, we want to be able to select the intersection point
+		if (drag) {
+			moveableList = view.getHits().getMoveableHits(view);
+		} else {
+			moveableList = view.getHits();
+		}
+	
+		Hits hits = moveableList.getTopHits();
+	
+		// Application.debug("end("+(System.currentTimeMillis()-t0)+")");
+	
+		ArrayList<GeoElement> selGeos = app.getSelectedGeos();
+	
+		// if object was chosen before, take it now!
+		if ((selGeos.size() == 1) && !hits.isEmpty()
+				&& hits.contains(selGeos.get(0))) {
+			// object was chosen before: take it
+			geo = selGeos.get(0);
+		} else {
+			// choose out of hits
+			geo = chooseGeo(hits, false);
+	
+			if (!selGeos.contains(geo)) {
+				app.clearSelectedGeos();
+				app.addSelectedGeo(geo);
+				// app.geoElementSelected(geo, false); // copy definiton to
+				// input bar
+			}
+		}
+	
+		if ((geo != null) && !geo.isFixed()) {
+			moveModeSelectionHandled = true;
+		} else {
+			// no geo clicked at
+			moveMode = MOVE_NONE;
+			resetMovedGeoPoint();
+			return;
+		}
+	
+		handleMovedElement(geo, selGeos.size() > 1);
+	
+		view.repaintView();
+	}
+
+	protected void wrapMouseDragged(AbstractEvent event) {
+		sliderValue = null;
+	
+		if (textfieldHasFocus) {
+			return;
+		}
+	
+		if ((mode == EuclidianConstants.MODE_PEN)
+				|| (mode == EuclidianConstants.MODE_FREEHAND)) {
+			pen.handleMousePressedForPenMode(event, null);
+			return;
+		}
+	
+		clearJustCreatedGeos();
+	
+		if (!DRAGGING_OCCURED) {
+	
+			DRAGGING_OCCURED = true;
+	
+			if ((mode == EuclidianConstants.MODE_TRANSLATE_BY_VECTOR)
+					&& (selGeos() == 0)) {
+				view.setHits(mouseLoc);
+	
+				Hits hits = view.getHits().getTopHits();
+	
+				GeoElement topHit = hits.get(0);
+	
+				if (topHit.isGeoVector()) {
+	
+					if ((topHit.getParentAlgorithm() instanceof AlgoVector)) { // Vector[A,B]
+						AlgoVector algo = (AlgoVector) topHit
+								.getParentAlgorithm();
+						GeoPoint2 p = algo.getInputPoints().get(0);
+						GeoPoint2 q = algo.getInputPoints().get(1);
+						GeoVector vec = kernel.Vector(null, 0, 0);
+						vec.setEuclidianVisible(false);
+						vec.setAuxiliaryObject(true);
+						GeoElement[] pp = kernel.Translate(null, p, vec);
+						GeoElement[] qq = kernel.Translate(null, q, vec);
+						AlgoVector newVecAlgo = new AlgoVector(kernel.getConstruction(), null,
+								(GeoPointND) pp[0], (GeoPointND) qq[0]);
+						transformCoordsOffset[0] = xRW;
+						transformCoordsOffset[1] = yRW;
+	
+						// make sure vector looks the same when translated
+						pp[0].setEuclidianVisible(p.isEuclidianVisible());
+						qq[0].update();
+						qq[0].setEuclidianVisible(q.isEuclidianVisible());
+						qq[0].update();
+						newVecAlgo.getGeoElements()[0].setVisualStyleForTransformations(topHit);
+	
+						app.setMode(EuclidianConstants.MODE_MOVE);
+						movedGeoVector = vec;
+						moveMode = MOVE_VECTOR_NO_GRID;
+						return;
+					} else {// if (topHit.isIndependent()) {
+						movedGeoPoint = new GeoPoint2(kernel.getConstruction(),
+								null, 0, 0, 0);
+						AlgoTranslate algoTP = new AlgoTranslate(
+								kernel.getConstruction(), null,
+								(GeoElement) movedGeoPoint, (GeoVec3D) topHit);
+						GeoPoint2 p = (GeoPoint2) algoTP.getGeoElements()[0];
+	
+						AlgoVector newVecAlgo = new AlgoVector(kernel.getConstruction(), null,
+								movedGeoPoint, p);
+						
+						// make sure vector looks the same when translated
+						((GeoPoint2) movedGeoPoint).setEuclidianVisible(false);
+						((GeoPoint2) movedGeoPoint).update();
+						p.setEuclidianVisible(false);
+						p.update();
+						newVecAlgo.getGeoElements()[0].setVisualStyleForTransformations(topHit);
+						
+						moveMode = MOVE_POINT;
+					}
+				}
+	
+				if (topHit.isTranslateable() || topHit.isGeoPolygon()) {
+					GeoVector vec;
+					if (topHit.isGeoPolygon()) {
+						// for polygons, we need a labelled vector so that all
+						// the vertices move together
+						vec = kernel.Vector(null, 0, 0);
+						vec.setEuclidianVisible(false);
+						vec.setAuxiliaryObject(true);
+					} else {
+						vec = kernel.Vector(0, 0);
+					}
+					kernel.Translate(null, hits.get(0), vec);
+					transformCoordsOffset[0] = xRW;
+					transformCoordsOffset[1] = yRW;
+	
+					app.setMode(EuclidianConstants.MODE_MOVE);
+					movedGeoVector = vec;
+					moveMode = MOVE_VECTOR_NO_GRID;
+					return;
+				}
+			}
+	
+			// Michael Borcherds 2007-10-07 allow right mouse button to drag
+			// points
+			// mathieu : also if it's mode point, we can drag the point
+			if (app.isRightClick(event)
+					|| (mode == EuclidianConstants.MODE_POINT)
+					|| (mode == EuclidianConstants.MODE_COMPLEX_NUMBER)
+					|| (mode == EuclidianConstants.MODE_POINT_ON_OBJECT)
+					|| (mode == EuclidianConstants.MODE_SLIDER)
+					|| (mode == EuclidianConstants.MODE_BUTTON_ACTION)
+					|| (mode == EuclidianConstants.MODE_TEXTFIELD_ACTION)
+					|| (mode == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX)
+					|| (mode == EuclidianConstants.MODE_TEXT)) {
+				view.setHits(mouseLoc);
+	
+				// make sure slider tool drags only sliders, not other object
+				// types
+				if (mode == EuclidianConstants.MODE_SLIDER) {
+					if (view.getHits().size() != 1) {
+						return;
+					}
+	
+					if (!(view.getHits().get(0) instanceof GeoNumeric)) {
+						return;
+					}
+				} else if ((mode == EuclidianConstants.MODE_BUTTON_ACTION)
+						|| (mode == EuclidianConstants.MODE_TEXTFIELD_ACTION)) {
+					if (view.getHits().size() != 1) {
+						return;
+					}
+	
+					if (!(view.getHits().get(0) instanceof GeoButton)) {
+						return;
+					}
+				} else if (mode == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX) {
+					if (view.getHits().size() != 1) {
+						return;
+					}
+	
+					if (!(view.getHits().get(0) instanceof GeoBoolean)) {
+						return;
+					}
+				} else if (mode == EuclidianConstants.MODE_TEXT) {
+					if (view.getHits().size() != 1) {
+						return;
+					}
+	
+					if (!(view.getHits().get(0) instanceof GeoText)) {
+						return;
+					}
+				}
+	
+				if (viewHasHitsForMouseDragged()) {
+					TEMPORARY_MODE = true;
+					oldMode = mode; // remember current mode
+					view.setMode(EuclidianConstants.MODE_MOVE);
+					handleMousePressedForMoveMode(event, true);
+	
+					// make sure that dragging doesn't deselect the geos
+					DONT_CLEAR_SELECTION = true;
+	
+					return;
+				}
+	
+			}
+			if (!app.isRightClickEnabled()) {
+				return;
+				// Michael Borcherds 2007-10-07
+			}
+	
+			if (mode == EuclidianConstants.MODE_MOVE_ROTATE) {
+				app.clearSelectedGeos(false);
+				app.addSelectedGeo(rotationCenter, false);
+			}
+		}
+		lastMouseLoc = mouseLoc;
+		setMouseLocation(event);
+		transformCoords();
+	
+		// ggb3D - only for 3D view
+		if (moveMode == MOVE_ROTATE_VIEW) {
+			if (processRotate3DView()) {
+				return;
+			}
+		}
+	
+		if (app.isRightClick(event)) {
+			// if there's no hit, or if first hit is not moveable, do 3D view
+			// rotation
+			if ((!TEMPORARY_MODE)
+					|| (view.getHits().size() == 0)
+					|| !view.getHits().get(0).isMoveable(view)
+					|| (!view.getHits().get(0).isGeoPoint() &&  view.getHits()
+							.get(0).hasDrawable3D())) {
+				if (processRotate3DView()) { // in 2D view, return false
+					if (TEMPORARY_MODE) {
+						TEMPORARY_MODE = false;
+						mode = oldMode;
+						view.setMode(mode);
+					}
+					return;
+				}
+			}
+		}
+	
+		// dragging eg a fixed point shouldn't start the selection rectangle
+		if (view.getHits().isEmpty()) {
+			// zoom rectangle (right drag) or selection rectangle (left drag)
+			// Michael Borcherds 2007-10-07 allow dragging with right mouse
+			// button
+			if (((app.isRightClick(event)) || allowSelectionRectangle())
+					&& !TEMPORARY_MODE) {
+				// Michael Borcherds 2007-10-07
+				// set zoom rectangle's size
+				// right-drag: zoom
+				// Shift-right-drag: zoom without preserving aspect ratio
+				updateSelectionRectangle((app.isRightClick(event) && !event
+						.isShiftDown())
+				// MACOS:
+				// Cmd-left-drag: zoom
+				// Cmd-shift-left-drag: zoom without preserving aspect ratio
+						|| (AbstractApplication.MAC_OS && app.isControlDown(event)
+								&& !event.isShiftDown() && !app
+									.isRightClick(event)));
+				view.repaintView();
+				return;
+			}
+		}
+	
+		// update previewable
+		if (view.getPreviewDrawable() != null) {
+			view.getPreviewDrawable().updateMousePos(
+					view.toRealWorldCoordX(mouseLoc.x),
+					view.toRealWorldCoordY(mouseLoc.y));
+		}
+	
+		/*
+		 * Conintuity handling
+		 * 
+		 * If the mouse is moved wildly we take intermediate steps to get a more
+		 * continous behaviour
+		 */
+		if (kernel.isContinuous() && (lastMouseLoc != null)) {
+			double dx = mouseLoc.x - lastMouseLoc.x;
+			double dy = mouseLoc.y - lastMouseLoc.y;
+			double distsq = (dx * dx) + (dy * dy);
+			if (distsq > MOUSE_DRAG_MAX_DIST_SQUARE) {
+				double factor = Math.sqrt(MOUSE_DRAG_MAX_DIST_SQUARE / distsq);
+				dx *= factor;
+				dy *= factor;
+	
+				// number of continuity steps <= MAX_CONTINUITY_STEPS
+				int steps = Math
+						.min((int) (1.0 / factor), MAX_CONTINUITY_STEPS);
+				int mx = mouseLoc.x;
+				int my = mouseLoc.y;
+	
+				// Application.debug("BIG drag dist: " + Math.sqrt(distsq) +
+				// ", steps: " + steps );
+				for (int i = 1; i <= steps; i++) {
+					mouseLoc.x = (int) Math.round(lastMouseLoc.x + (i * dx));
+					mouseLoc.y = (int) Math.round(lastMouseLoc.y + (i * dy));
+					calcRWcoords();
+	
+					handleMouseDragged(false);
+				}
+	
+				// set endpoint of mouse movement if we are not already there
+				if ((mouseLoc.x != mx) || (mouseLoc.y != my)) {
+					mouseLoc.x = mx;
+					mouseLoc.y = my;
+					calcRWcoords();
+				}
+			}
+		}
+	
+		if (pastePreviewSelected != null) {
+			if (!pastePreviewSelected.isEmpty()) {
+				updatePastePreviewPosition();
+			}
+		}
+	
+		handleMouseDragged(true);
 	}
 	
 }

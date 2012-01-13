@@ -317,6 +317,10 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 
 	public void updatePreviewable();
 
+
+	public void setMoveCursor();
+
+
 	public int getEuclidianViewNo();
 
 	public double toScreenCoordXd(double rwX);

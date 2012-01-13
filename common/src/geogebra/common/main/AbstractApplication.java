@@ -984,6 +984,17 @@ public abstract class AbstractApplication {
 
 	public static DebugPrinter dbg;
 	private static Set<String> reportedImpls = new TreeSet<String>();
+
+	public static String OS = "";
+
+	public static boolean MAC_OS = OS.startsWith("mac");
+
+	public static boolean WINDOWS = OS.startsWith("windows");
+
+	public static boolean WINDOWS_VISTA_OR_LATER = WINDOWS
+				&& !OS.startsWith("windows 2000") && !OS.startsWith("windows 95")
+				&& !OS.startsWith("windows 98") && !OS.startsWith("windows nt")
+				&& !OS.startsWith("windows xp");
 	// Michael Borcherds 2008-06-22
 	private static void doDebug(String s, boolean showTime, boolean showMemory,
 			int level) {
@@ -1937,5 +1948,7 @@ public abstract class AbstractApplication {
 	public abstract PythonBridge getPythonBridge();
 
 	public abstract String getPlainTooltip(String string);
+
+	public abstract GeoElementSelectionListener getCurrentSelectionListener();
 
 }

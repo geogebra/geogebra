@@ -36,6 +36,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractFontManager;
+import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.GlobalKeyDispatcher;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.Settings;
@@ -731,6 +732,12 @@ public class Application extends AbstractApplication {
 
 	@Override
     public String getPlainTooltip(String string) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public GeoElementSelectionListener getCurrentSelectionListener() {
 	    // TODO Auto-generated method stub
 	    return null;
     }

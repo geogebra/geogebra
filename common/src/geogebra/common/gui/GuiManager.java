@@ -49,4 +49,6 @@ public abstract class GuiManager {
 		
 	}
 
+	public abstract boolean isInputFieldSelectionListener();
+
 }
