@@ -7673,7 +7673,7 @@ public abstract class AbstractEuclidianController {
 			// remove non-Points
 			for (int i = 0; i < hits.size(); i++) {
 				GeoElement geo = hits.get(i);
-				if (!(GeoPoint2.class.isInstance(geo))) {
+				if (!(Test.GEOPOINT2.check(geo))) {
 					hits.remove(i);
 				}
 			}
@@ -7753,7 +7753,7 @@ public abstract class AbstractEuclidianController {
 		case EuclidianConstants.MODE_FITLINE:
 			for (int i = 0; i < hits.size(); i++) {
 				GeoElement geo = hits.get(i);
-				if (!(GeoPoint2.class.isInstance(geo))) {
+				if (!(Test.GEOPOINT2.check(geo))) {
 					hits.remove(i);
 				}
 			}
