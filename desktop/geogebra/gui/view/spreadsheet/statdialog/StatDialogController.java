@@ -211,7 +211,7 @@ public class StatDialogController {
 
 				// data is from two cell ranges of numbers that must be converted to points 
 				else{					
-					dataSelected = (GeoList) crProcessor.createPointGeoList(
+					dataSelected = crProcessor.createPointGeoList(
 							cellRangeList, 
 							copyByValue, 
 							leftToRight,
@@ -245,8 +245,9 @@ public class StatDialogController {
 		}
 		
 		// load dataPanel with dataArray
-		sd.getDataPanel().loadDataTable(dataArray);
-		
+		if(mode != StatDialog.MODE_MULTIVAR){
+			sd.getDataPanel().loadDataTable(dataArray);
+		}
 	}
 
 	
