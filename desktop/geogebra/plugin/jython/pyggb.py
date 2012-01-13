@@ -21,10 +21,14 @@ from javax.swing import (
     JTabbedPane,
     SwingUtilities
 )
-from javax.swing.text import StyleContext, StyleConstants, SimpleAttributeSet, TabStop, TabSet
+from javax.swing.text import (
+    StyleContext, StyleConstants, SimpleAttributeSet, TabStop, TabSet
+)
 from javax.swing.event import DocumentListener
 
-from java.awt import Toolkit, Component, BorderLayout, Color as awtColor, GridLayout, Font
+from java.awt import (
+    Toolkit, Component, BorderLayout, Color as awtColor, GridLayout, Font
+)
 from java.awt.event import KeyListener, ActionListener, KeyEvent, ActionEvent
 
 # Jython imports
@@ -1072,45 +1076,6 @@ class InputHistory(object):
             raise self.OutOfBounds
         
 
-class InputArea(KeyListener):
-    def __init__(self):
-        self.component = JTextArea(
-            border=BorderFactory.createEmptyBorder(5, 5, 5, 5),
-            tabSize=4,
-            font=Font("Monospaced", Font.PLAIN, 12)
-        )
-        self.component.addKeyListener(self)
-        self.nocheck = LockManager()
-
-    def _getinput(self):
-        return self.component.text
-    def _setinput(self, input):
-        self.component.text = input
-    input = property(_getinput, _setinput)
-    
-    # Implementation of KeyListener
-    def keyPressed(self, evt):
-        pass
-    def keyReleased(self, evt):
-        pass
-    def keyTyped(self, evt):
-        if evt.keyChar == '\n':
-            text = self.input
-            offset = self.component.caretPosition - 1
-            indent = None
-            if offset:
-                lines = text[:offset].rsplit('\n', 1)
-                if len(lines) == 1:
-                    line = text[:offset]
-                else:
-                    line = lines[1]
-                indent = re.match('\\s*', line).group(0)
-                if text[offset - 1] == ':':
-                    indent += '\t'
-            if indent:
-                self.input = text[:offset + 1] + indent + text[offset + 1:]
-                self.component.caretPosition = offset + len(indent) + 1
-
 class Later(Runnable):
     def __init__(self, f):
         self.f = f
@@ -1216,17 +1181,22 @@ class InputPane(KeyListener, DocumentListener):
             return style
         
         self.doc = self.component.getStyledDocument()
+
+        attrs = SimpleAttributeSet()
+        StyleConstants.setLineSpacing(attrs, 0.2)
+        self.component.setParagraphAttributes(attrs, True)
+        
         style_context = StyleContext.getDefaultStyleContext()
         default_style = style_context.getStyle(StyleContext.DEFAULT_STYLE)
         self.parent_style = self.doc.addStyle("parent", default_style)
         StyleConstants.setFontFamily(self.parent_style, "Monospaced")
 
-        self.kw_style = new_style("kw", "990066", bold=True)
-        self.num_style = new_style("number", "003366")
-        self.str_style = new_style("string", "993300")
-        self.comment_style = new_style("comment", "FF0000")
-        self.defname_style = new_style("defname", "0033FF")
-        new_style("classname", "006600")
+        new_style("kw", "990066", bold=True)
+        new_style("number", "003366")
+        new_style("string", "993300")
+        new_style("comment", "FF0000")
+        new_style("defname", "0033FF", bold=True)
+        new_style("classname", "009900", bold=True)
         new_style("builtin", italic=True)
         
         # Do a dance to set tab size
