@@ -9,6 +9,7 @@ import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.view.algebra.AlgebraView;
@@ -1950,5 +1951,7 @@ public abstract class AbstractApplication {
 	public abstract String getPlainTooltip(String string);
 
 	public abstract GeoElementSelectionListener getCurrentSelectionListener();
+
+	public abstract void setSelectedGeos(ArrayList<GeoElement> geos);
 
 }

@@ -53,4 +53,8 @@ public abstract class GuiManager {
 
 	public abstract void addSpreadsheetTrace(GeoElement tracegeo);
 
+	public abstract boolean isPropertiesDialogSelectionListener();
+
+	public abstract geogebra.common.javax.swing.JTextComponent getAlgebraInputTextField();
+
 }

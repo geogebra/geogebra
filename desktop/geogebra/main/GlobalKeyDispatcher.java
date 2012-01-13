@@ -710,8 +710,8 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 				handleFunctionKeyForAlgebraInput(3, geos.get(0));
 			else {
 				// F3 key: copy definitions to input field as list
-				JTextComponent textComponent = app.getGuiManager()
-						.getAlgebraInputTextField();
+				JTextComponent textComponent = ((geogebra.javax.swing.JTextComponent)app.getGuiManager()
+						.getAlgebraInputTextField()).getImpl();
 
 				StringBuilder sb = new StringBuilder();
 				sb.append('{');
@@ -971,8 +971,8 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 	public void handleFunctionKeyForAlgebraInput(int fkey, GeoElement geo) {
 		if (!app.isUsingFullGui() || !app.showAlgebraInput())
 			return;
-		JTextComponent textComponent = app.getGuiManager()
-				.getAlgebraInputTextField();
+		JTextComponent textComponent = ((geogebra.javax.swing.JTextComponent)app.getGuiManager()
+				.getAlgebraInputTextField()).getImpl();
 
 		switch (fkey) {
 		case 3: // F3 key: copy definition to input field

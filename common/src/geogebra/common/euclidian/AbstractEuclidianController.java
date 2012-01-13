@@ -7560,5 +7560,165 @@ public abstract class AbstractEuclidianController {
 	
 		switchModeForMousePressed(event);
 	}
+
+	protected boolean processZoomRectangle() {
+		Rectangle rect = view.getSelectionRectangle();
+		if (rect == null) {
+			return false;
+		}
+	
+		if ((rect.getWidth() < 30) || (rect.getHeight() < 30)
+				|| !app.isShiftDragZoomEnabled() // Michael Borcherds 2007-12-11
+		) {
+			view.setSelectionRectangle(null);
+			view.repaintView();
+			return false;
+		}
+	
+		view.resetMode();
+		// zoom zoomRectangle to EuclidianView's size
+		// double factor = (double) view.width / (double) rect.width;
+		// Point p = rect.getLocation();
+		view.setSelectionRectangle(null);
+		// view.setAnimatedCoordSystem((view.xZero - p.x) * factor,
+		// (view.yZero - p.y) * factor, view.xscale * factor, 15, true);
+	
+		// zoom without (necessarily) preserving the aspect ratio
+		view.setAnimatedRealWorldCoordSystem(
+				view.toRealWorldCoordX(rect.getMinX()),
+				view.toRealWorldCoordX(rect.getMaxX()),
+				view.toRealWorldCoordY(rect.getMaxY()),
+				view.toRealWorldCoordY(rect.getMinY()), 15, true);
+		return true;
+	}
+
+	protected void processSelectionRectangleForTransformations(Hits hits,
+			Test test) {
+				for (int i = 0; i < hits.size(); i++) {
+					GeoElement geo = hits.get(i);
+					if (!(test.check(geo))
+					// || geo.isGeoPolygon()
+					) {
+						hits.remove(i);
+					}
+				}
+				removeParentPoints(hits);
+				selectedGeos.addAll(hits);
+				app.setSelectedGeos(hits);
+			}
+
+	protected void processSelectionRectangle(AbstractEvent e) {
+		clearSelections();
+		view.setHits(view.getSelectionRectangle());
+		Hits hits = view.getHits();
+	
+		switch (mode) {
+		case EuclidianConstants.MODE_SELECTION_LISTENER:
+			// tell properties dialog
+			if ((hits.size() > 0)
+					&& app.isUsingFullGui()
+					&& app.getGuiManager()
+							.isPropertiesDialogSelectionListener()) {
+				GeoElement geo = hits.get(0);
+				app.geoElementSelected(geo, false);
+				for (int i = 1; i < hits.size(); i++) {
+					app.geoElementSelected(hits.get(i), true);
+				}
+			}
+			break;
+	
+		case EuclidianConstants.MODE_MIRROR_AT_POINT:
+		case EuclidianConstants.MODE_MIRROR_AT_LINE:
+		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE: // Michael Borcherds
+														// 2008-03-23
+			processSelectionRectangleForTransformations(hits,
+					Test.TRANSFORMABLE);
+			break;
+	
+		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
+			processSelectionRectangleForTransformations(hits,
+					Test.TRANSFORMABLE);
+			break;
+	
+		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
+			processSelectionRectangleForTransformations(hits,
+					Test.TRANSFORMABLE);
+			break;
+	
+		case EuclidianConstants.MODE_DILATE_FROM_POINT:
+			processSelectionRectangleForTransformations(hits, Test.DILATEABLE);
+			break;
+	
+		case EuclidianConstants.MODE_CREATE_LIST:
+			removeParentPoints(hits);
+			selectedGeos.addAll(hits);
+			app.setSelectedGeos(hits);
+			processMode(hits, e);
+			view.setSelectionRectangle(null);
+			break;
+	
+		case EuclidianConstants.MODE_FITLINE:
+	
+			// check for list first
+			if (hits.size() == 1) {
+				if (hits.get(0).isGeoList()) {
+					selectedGeos.addAll(hits);
+					app.setSelectedGeos(hits);
+					processMode(hits, e);
+					view.setSelectionRectangle(null);
+					break;
+				}
+			}
+	
+			// remove non-Points
+			for (int i = 0; i < hits.size(); i++) {
+				GeoElement geo = hits.get(i);
+				if (!(GeoPoint2.class.isInstance(geo))) {
+					hits.remove(i);
+				}
+			}
+	
+			// Fit line makes sense only for more than 2 points (or one list)
+			if (hits.size() < 3) {
+				hits.clear();
+			} else {
+				removeParentPoints(hits);
+				selectedGeos.addAll(hits);
+				app.setSelectedGeos(hits);
+				processMode(hits, e);
+				view.setSelectionRectangle(null);
+			}
+			break;
+	
+		default:
+			// STANDARD CASE
+			app.setSelectedGeos(hits);
+	
+			// if alt pressed, create list of objects as string and copy to
+			// input bar
+			if ((hits != null) && (hits.size() > 0) && (e != null)
+					&& e.isAltDown() && app.isUsingFullGui()
+					&& app.showAlgebraInput()) {
+	
+				geogebra.common.javax.swing.JTextComponent textComponent = app.getGuiManager()
+						.getAlgebraInputTextField();
+	
+				StringBuilder sb = new StringBuilder();
+				sb.append(" {");
+				for (int i = 0; i < hits.size(); i++) {
+					sb.append(hits.get(i).getLabel());
+					if (i < (hits.size() - 1)) {
+						sb.append(", ");
+					}
+				}
+				sb.append("} ");
+				// Application.debug(sb+"");
+				textComponent.replaceSelection(sb.toString());
+			}
+			break;
+		}
+	
+		kernel.notifyRepaint();
+	}
 	
 }

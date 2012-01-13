@@ -742,5 +742,11 @@ public class Application extends AbstractApplication {
 	    return null;
     }
 
+	@Override
+    public void setSelectedGeos(ArrayList<GeoElement> geos) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
 
 }
