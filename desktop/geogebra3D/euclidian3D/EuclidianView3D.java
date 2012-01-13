@@ -122,7 +122,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	
 	//viewing values
 	private double XZero = 0;
-	private double YZero = -117;
+	private double YZero = 0;
 	private double ZZero = 0;
 	
 	private double XZeroOld = 0;
@@ -857,7 +857,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 
 	
 	//TODO specific scaling for each direction
-	private double scale = 100; 
+	private double scale = 50; 
 
 
 	public double getXscale() { return scale; }
