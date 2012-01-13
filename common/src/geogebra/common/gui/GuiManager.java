@@ -57,4 +57,7 @@ public abstract class GuiManager {
 
 	public abstract geogebra.common.javax.swing.JTextComponent getAlgebraInputTextField();
 
+	public abstract void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
+			Point mouseLoc);
+
 }

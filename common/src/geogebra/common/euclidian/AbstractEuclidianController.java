@@ -7720,5 +7720,361 @@ public abstract class AbstractEuclidianController {
 	
 		kernel.notifyRepaint();
 	}
+
+	protected void processSelection() {
+		Hits hits = new Hits();
+		hits.addAll(app.getSelectedGeos());
+		clearSelections();
+	
+		switch (mode) {
+		case EuclidianConstants.MODE_MIRROR_AT_POINT:
+		case EuclidianConstants.MODE_MIRROR_AT_LINE:
+		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE: // Michael Borcherds
+														// 2008-03-23
+			processSelectionRectangleForTransformations(hits,
+					Test.TRANSFORMABLE);
+			break;
+	
+		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
+			processSelectionRectangleForTransformations(hits,
+					Test.TRANSFORMABLE);
+			break;
+	
+		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
+			processSelectionRectangleForTransformations(hits,
+					Test.TRANSFORMABLE);
+			break;
+	
+		case EuclidianConstants.MODE_DILATE_FROM_POINT:
+			processSelectionRectangleForTransformations(hits, Test.DILATEABLE);
+			break;
+	
+		// case EuclidianConstants.MODE_CREATE_LIST:
+		case EuclidianConstants.MODE_FITLINE:
+			for (int i = 0; i < hits.size(); i++) {
+				GeoElement geo = hits.get(i);
+				if (!(GeoPoint2.class.isInstance(geo))) {
+					hits.remove(i);
+				}
+			}
+			// Fit line makes sense only for more than 2 points
+			if (hits.size() < 3) {
+				hits.clear();
+			} else {
+				removeParentPoints(hits);
+				selectedGeos.addAll(hits);
+				app.setSelectedGeos(hits);
+				processMode(hits, null);
+				view.setSelectionRectangle(null);
+			}
+			break;
+	
+		default:
+			break;
+		}
+	
+		kernel.notifyRepaint();
+	}
+
+	public void showDrawingPadPopup(Point mouseLoc) {
+		app.getGuiManager().showDrawingPadPopup(view, mouseLoc);
+	}
+
+	protected void wrapMouseReleased(AbstractEvent event) {
+		
+		sliderValue = null;
+	
+		if (event != null) {
+			mx = event.getX();
+			my = event.getY();
+		}
+		// reset
+		transformCoordsOffset[0] = 0;
+		transformCoordsOffset[1] = 0;
+	
+		if (textfieldHasFocus) {
+			return;
+		}
+	
+		if ((mode == EuclidianConstants.MODE_PEN)
+				|| (mode == EuclidianConstants.MODE_FREEHAND)) {
+			pen.handleMouseReleasedForPenMode(event);
+			return;
+		}
+	
+		boolean changedKernel0 = false;
+		if (pastePreviewSelected != null) {
+	
+			mergeStickyPointsAfterPaste();
+	
+			// add moved points to sticky points again
+			for (int i = 0; i < pastePreviewSelectedAndDependent.size(); i++) {
+				GeoElement geo = pastePreviewSelectedAndDependent.get(i);
+				if (geo.isGeoPoint()) {
+					if (!view.getStickyPointList().contains(geo)) {
+						view.getStickyPointList().add((GeoPointND) geo);
+					}
+				}
+			}
+			persistentStickyPointList = new ArrayList<GeoPointND>();
+	
+			pastePreviewSelected = null;
+			pastePreviewSelectedAndDependent = null;
+			view.setPointCapturing(previousPointCapturing);
+			changedKernel0 = true;
+			app.getKernel().getConstruction().getUndoManager()
+					.storeUndoInfoAfterPasteOrAdd();
+		}
+	
+		// if (mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET)
+		// view.resetTraceRow(); // for trace/spreadsheet
+		if (getMovedGeoPoint() != null) {
+	
+			processReleaseForMovedGeoPoint(event);
+			/*
+			 * // deselect point after drag, but not on click if
+			 * (movedGeoPointDragged) getMovedGeoPoint().setSelected(false);
+			 * 
+			 * if (mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET)
+			 * getMovedGeoPoint().resetTraceColumns();
+			 */
+		}
+		if (movedGeoNumeric != null) {
+	
+			// deselect slider after drag, but not on click
+			// if (movedGeoNumericDragged) movedGeoNumeric.setSelected(false);
+	
+			if ((mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET)
+					&& app.isUsingFullGui()) {
+				movedGeoNumeric.resetTraceColumns();
+			}
+		}
+	
+		movedGeoPointDragged = false;
+		movedGeoNumericDragged = false;
+	
+		view.requestFocusInWindow();
+		setMouseLocation(event);
+	
+		setAltDown(event.isAltDown());
+	
+		transformCoords();
+		Hits hits = null;
+		GeoElement geo;
+	
+		if (hitResetIcon()) {
+			app.reset();
+			return;
+		} else if (view.hitAnimationButton(event)) {
+			if (kernel.isAnimationRunning()) {
+				kernel.getAnimatonManager().stopAnimation();
+			} else {
+				kernel.getAnimatonManager().startAnimation();
+			}
+			view.repaintView();
+			app.setUnsaved();
+			return;
+		}
+	
+		// Michael Borcherds 2007-10-08 allow drag with right mouse button
+		if ((app.isRightClick(event) || app.isControlDown(event)))// &&
+																			// !TEMPORARY_MODE)
+		{
+			if (processRightReleaseFor3D()) {
+				return;
+			}
+			if (!TEMPORARY_MODE) {
+				if (!app.isRightClickEnabled()) {
+					return;
+				}
+				if (processZoomRectangle()) {
+					return;
+					// Michael Borcherds 2007-10-08
+				}
+	
+				// make sure cmd-click selects multiple points (not open
+				// properties)
+				if ((AbstractApplication.MAC_OS && app.isControlDown(event))
+						|| !app.isRightClick(event)) {
+					return;
+				}
+	
+				// get selected GeoElements
+				// show popup menu after right click
+				view.setHits(mouseLoc);
+				hits = view.getHits().getTopHits();
+				if (hits.isEmpty()) {
+					// no hits
+					if (app.selectedGeosSize() > 0) {
+						// GeoElement selGeo = (GeoElement)
+						// app.getSelectedGeos().get(0);
+						app.getGuiManager().showPopupMenu(
+								app.getSelectedGeos(),  view, mouseLoc);
+					} else {
+						showDrawingPadPopup(mouseLoc);
+					}
+				} else {
+					// there are hits
+					if (app.selectedGeosSize() > 0) {
+	
+						// right click on already selected geos -> show menu for
+						// them
+						// right click on object(s) not selected -> clear
+						// selection
+						// and show menu just for new objects
+						if (!app.getSelectedGeos().contains(hits.get(0))) {
+							app.clearSelectedGeos();
+							app.addSelectedGeos(hits, true);
+						} else {
+							app.addSelectedGeo(hits.get(0));
+						}
+	
+						app.getGuiManager().showPopupMenu(
+								app.getSelectedGeos(), view, mouseLoc);
+					} else {
+						// no selected geos: choose geo and show popup menu
+						geo = chooseGeo(hits, false);
+						if (geo != null) {
+							ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
+							geos.add(geo);
+							app.getGuiManager().showPopupMenu(geos,
+									view, mouseLoc);
+						} else {
+							// for 3D : if the geo hitted is xOyPlane, then
+							// chooseGeo return null
+							// app.getGuiManager().showDrawingPadPopup((EuclidianView)
+							// view, mouseLoc);
+							showDrawingPadPopup(mouseLoc);
+						}
+					}
+				}
+				return;
+			}
+		}
+	
+		// handle moving
+		boolean changedKernel = false;
+		if (DRAGGING_OCCURED) {
+	
+			DRAGGING_OCCURED = false;
+			// // copy value into input bar
+			// if (mode == EuclidianView.MODE_MOVE && movedGeoElement != null) {
+			// app.geoElementSelected(movedGeoElement,false);
+			// }
+	
+			// check movedGeoElement.isLabelSet() to stop moving points
+			// in Probability Calculator triggering Undo
+			changedKernel = ((movedGeoElement != null) && movedGeoElement
+					.isLabelSet()) && (moveMode != MOVE_NONE);
+			movedGeoElement = null;
+			rotGeoElement = null;
+	
+			// Michael Borcherds 2007-10-08 allow dragging with right mouse
+			// button
+			if (!TEMPORARY_MODE) {
+				// Michael Borcherds 2007-10-08
+				if (allowSelectionRectangle()) {
+					processSelectionRectangle(event);
+	
+					return;
+				}
+			}
+		} else {
+			// no hits: release mouse button creates a point
+			// for the transformation tools
+			// (note: this cannot be done in mousePressed because
+			// we want to be able to select multiple objects using the selection
+			// rectangle)
+	
+			changedKernel = switchModeForMouseReleased(mode, hits,
+					changedKernel);
+		}
+	
+		// remember helper point, see createNewPoint()
+		if (changedKernel && !changedKernel0) {
+			app.storeUndoInfo();
+		}
+	
+		// make sure that when alt is pressed for creating a segment or line
+		// it works if the endpoint is on a path
+		if (useLineEndPoint && (lineEndPoint != null)) {
+			mouseLoc.x = view.toScreenCoordX(lineEndPoint.x);
+			mouseLoc.y = view.toScreenCoordY(lineEndPoint.y);
+			useLineEndPoint = false;
+		}
+	
+		// now handle current mode
+		view.setHits(mouseLoc);
+		hits = view.getHits();
+		switchModeForRemovePolygons(hits);
+		// Application.debug(mode + "\n" + hits.toString());
+	
+		// Michael Borcherds 2007-12-08 BEGIN moved up a few lines (bugfix:
+		// Tools eg Line Segment weren't working with grid on)
+		// grid capturing on: newly created point should be taken
+		// Application.debug("POINT_CREATED="+POINT_CREATED+"\nhits=\n"+hits+"\ngetMovedGeoPoint()="+getMovedGeoPoint());
+		if (POINT_CREATED) {
+			hits = addPointCreatedForMouseReleased(hits);
+		}
+		POINT_CREATED = false;
+		// Michael Borcherds 2007-12-08 END
+	
+		if (TEMPORARY_MODE) {
+	
+			// Michael Borcherds 2007-10-13 BEGIN
+			view.setMode(oldMode);
+			TEMPORARY_MODE = false;
+			// Michael Borcherds 2007-12-08 BEGIN bugfix: couldn't select
+			// multiple points with Ctrl
+			if (DONT_CLEAR_SELECTION == false) {
+				clearSelections();
+			}
+			DONT_CLEAR_SELECTION = false;
+			// Michael Borcherds 2007-12-08 END
+			// mode = oldMode;
+			// Michael Borcherds 2007-10-13 END
+		}
+		// Michael Borcherds 2007-10-12 bugfix: ctrl-click on a point does the
+		// original mode's command at end of drag if a point was clicked on
+		// also needed for right-drag
+		else {
+			if (mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) {
+				changedKernel = processMode(hits, event);
+			}
+			if (changedKernel) {
+				app.storeUndoInfo();
+			}
+		}
+		// Michael Borcherds 2007-10-12
+	
+		// Michael Borcherds 2007-10-12
+		// moved up a few lines
+		// changedKernel = processMode(hits, e);
+		// if (changedKernel)
+		// app.storeUndoInfo();
+		// Michael Borcherds 2007-10-12
+	
+		if (!hits.isEmpty()) {
+			// Application.debug("hits ="+hits);
+			view.setDefaultCursor();
+		} else {
+			view.setHitCursor();
+		}
+	
+		if ((mode == EuclidianConstants.MODE_RECORD_TO_SPREADSHEET)
+				&& (recordObject != null)) {
+			clearSelections();
+		} else {
+			// this is in the else branch to avoid running it twice
+			refreshHighlighting(null);
+		}
+	
+		// reinit vars
+		// view.setDrawMode(EuclidianConstants.DRAW_MODE_BACKGROUND_IMAGE);
+		moveMode = MOVE_NONE;
+		initShowMouseCoords();
+		view.setShowAxesRatio(false);
+		kernel.notifyRepaint();
+	}
 	
 }

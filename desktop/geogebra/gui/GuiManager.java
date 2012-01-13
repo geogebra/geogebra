@@ -3086,4 +3086,10 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		loadImage(loc, (Transferable)transfer, fromClipboard);
 		
 	}
+
+	@Override
+	public void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
+			geogebra.common.awt.Point mouseLoc) {
+		showDrawingPadPopup(((EuclidianView)view).getJPanel(), mouseLoc);
+	}
 }
