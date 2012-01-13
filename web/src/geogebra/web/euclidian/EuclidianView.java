@@ -414,5 +414,10 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	    // TODO Auto-generated method stub
 	    return null;
     }
+
+	public void setPreview(Previewable switchPreviewableForInitNewMode) {
+	    // TODO Auto-generated method stub
+	    
+    }
 	
 }

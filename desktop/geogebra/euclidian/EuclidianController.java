@@ -106,69 +106,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		return (EuclidianPen) pen;
 	}
 
-	@Override
-	public void setMode(int newMode) {
-
-		if ((newMode == EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS)
-				|| (newMode == EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS)
-				|| (newMode == EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS)) {
-			return;
-		}
-
-		endOfMode(mode);
-
-		allowSelectionRectangleForTranslateByVector = true;
-
-		if (AbstractEuclidianView.usesSelectionRectangleAsInput(newMode)
-				&& (((EuclidianViewInterface) view).getSelectionRectangle() != null)) {
-			initNewMode(newMode);
-			if (((Application)app).getActiveEuclidianView() == view) {
-				processSelectionRectangle(null);
-			}
-		} else if (AbstractEuclidianView.usesSelectionAsInput(newMode)) {
-			initNewMode(newMode);
-			if (((Application)app).getActiveEuclidianView() == view) {
-				processSelection();
-			}
-		} else {
-			if (!TEMPORARY_MODE) {
-				((Application)app).clearSelectedGeos(false);
-			}
-			initNewMode(newMode);
-		}
-
-		kernel.notifyRepaint();
-	}
-
-	protected void initNewMode(int mode) {
-		this.mode = mode;
-		initShowMouseCoords();
-		// Michael Borcherds 2007-10-12
-		// clearSelections();
-		if (!TEMPORARY_MODE
-				&& !AbstractEuclidianView.usesSelectionRectangleAsInput(mode)) {
-			clearSelections();
-		}
-		// Michael Borcherds 2007-10-12
-		moveMode = MOVE_NONE;
-
-		closeMiniPropertiesPanel();
-
-		if (mode == EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) {
-			if (!((Application) app).getGuiManager().hasSpreadsheetView()) {
-				((Application) app).getGuiManager().attachSpreadsheetView();
-			}
-			if (!((Application) app).getGuiManager().showView(
-					AbstractApplication.VIEW_SPREADSHEET)) {
-				((Application) app).getGuiManager().setShowView(true,
-						AbstractApplication.VIEW_SPREADSHEET);
-			}
-		}
-
-		((EuclidianViewInterface) view).setPreview(switchPreviewableForInitNewMode(mode));
-		toggleModeChangedKernel = false;
-	}
-
 	public void mouseClicked(MouseEvent e) {
 		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
 		wrapMouseclicked(event);
@@ -386,23 +323,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 			geo.updateRepaint();
 		}
 		// }
-	}
-
-	private void openMiniPropertiesPanel() {
-		if (!((Application)app).isUsingFullGui()) {
-			return;
-		}
-		if (Application.isMiniPropertiesActive()) {
-			((Application) app).getGuiManager().toggleMiniProperties(true);
-		}
-	}
-
-	private void closeMiniPropertiesPanel() {
-		if (!((Application)app).isUsingFullGui()) {
-			return;
-		}
-		((Application) app).getGuiManager().toggleMiniProperties(false);
-
 	}
 
 }

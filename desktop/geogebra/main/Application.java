@@ -4889,16 +4889,7 @@ public class Application extends AbstractApplication implements
 		handwritingRecognitionTimedRecognise = show;
 	}
 
-	private static boolean miniPropertiesActive = true;
-
-	public static boolean isMiniPropertiesActive() {
-		return miniPropertiesActive;
-	}
-
-	public static void setMiniPropertiesActive(boolean active) {
-		miniPropertiesActive = active;
-		// Application.debug("miniprops active:"+miniPropertiesActive);
-	}
+	
 
 	// determines which CAS is being used
 

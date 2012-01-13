@@ -63,12 +63,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	    return false;
     }
 
-	@Override
-    public void setMode(int mode) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
-    }
-
 	public void onGestureChange(GestureChangeEvent event) {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    

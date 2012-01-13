@@ -60,4 +60,14 @@ public abstract class GuiManager {
 	public abstract void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
 			Point mouseLoc);
 
+	public abstract void toggleMiniProperties(boolean b);
+
+	public abstract boolean hasSpreadsheetView();
+
+	public abstract void attachSpreadsheetView();
+
+	public abstract void setShowView(boolean b, int viewSpreadsheet);
+
+	public abstract boolean showView(int viewSpreadsheet);
+
 }

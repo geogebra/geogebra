@@ -334,7 +334,7 @@ public abstract class AbstractEuclidianController {
 
 	public abstract void setApplication(AbstractApplication app);
 
-	public abstract void setMode(int mode);
+	
 	
 	
 	
@@ -8368,6 +8368,85 @@ public abstract class AbstractEuclidianController {
 		}
 	
 		return previewDrawable;
+	}
+
+	protected void closeMiniPropertiesPanel() {
+		if (!app.isUsingFullGui()) {
+			return;
+		}
+		app.getGuiManager().toggleMiniProperties(false);
+	
+	}
+
+	private void openMiniPropertiesPanel() {
+		if (!app.isUsingFullGui()) {
+			return;
+		}
+		if (AbstractApplication.isMiniPropertiesActive()) {
+			app.getGuiManager().toggleMiniProperties(true);
+		}
+	}
+
+	protected void initNewMode(int mode) {
+		this.mode = mode;
+		initShowMouseCoords();
+		// Michael Borcherds 2007-10-12
+		// clearSelections();
+		if (!TEMPORARY_MODE
+				&& !AbstractEuclidianView.usesSelectionRectangleAsInput(mode)) {
+			clearSelections();
+		}
+		// Michael Borcherds 2007-10-12
+		moveMode = MOVE_NONE;
+	
+		closeMiniPropertiesPanel();
+	
+		if (mode == EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) {
+			if (!app.getGuiManager().hasSpreadsheetView()) {
+				app.getGuiManager().attachSpreadsheetView();
+			}
+			if (!app.getGuiManager().showView(
+					AbstractApplication.VIEW_SPREADSHEET)) {
+				app.getGuiManager().setShowView(true,
+						AbstractApplication.VIEW_SPREADSHEET);
+			}
+		}
+	
+		view.setPreview(switchPreviewableForInitNewMode(mode));
+		toggleModeChangedKernel = false;
+	}
+
+	public void setMode(int newMode) {
+	
+		if ((newMode == EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS)
+				|| (newMode == EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS)
+				|| (newMode == EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS)) {
+			return;
+		}
+	
+		endOfMode(mode);
+	
+		allowSelectionRectangleForTranslateByVector = true;
+	
+		if (AbstractEuclidianView.usesSelectionRectangleAsInput(newMode)
+				&& (view.getSelectionRectangle() != null)) {
+			initNewMode(newMode);
+			if (app.getActiveEuclidianView() == view) {
+				processSelectionRectangle(null);
+			}
+		} else if (AbstractEuclidianView.usesSelectionAsInput(newMode)) {
+			initNewMode(newMode);
+			if (app.getActiveEuclidianView() == view) {
+				processSelection();
+			}
+		} else {
+			if (!TEMPORARY_MODE) {
+				app.clearSelectedGeos(false);
+			}
+			initNewMode(newMode);
+		}
+	
+		kernel.notifyRepaint();
 	}
 	
 }

@@ -336,4 +336,6 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 
 	public Previewable createPreviewAngle(ArrayList<GeoPointND> selectedPoints);
 
+	public void setPreview(Previewable switchPreviewableForInitNewMode);
+
 }
