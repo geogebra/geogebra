@@ -51,4 +51,6 @@ public abstract class GuiManager {
 
 	public abstract boolean isInputFieldSelectionListener();
 
+	public abstract void addSpreadsheetTrace(GeoElement tracegeo);
+
 }

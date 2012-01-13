@@ -7174,5 +7174,391 @@ public abstract class AbstractEuclidianController {
 	
 		handleMouseDragged(true);
 	}
+
+	/**
+	 * 
+	 * @return true if a view button has been pressed (see 3D)
+	 */
+	protected boolean handleMousePressedForViewButtons() {
+		return false;
+	}
+
+	/** right-press the mouse makes start 3D rotation */
+	protected void processRightPressFor3D() {
+	
+	}
+
+	protected void createNewPointForModePoint(Hits hits, boolean complex) {
+		if ((mode == EuclidianConstants.MODE_POINT)
+				|| (mode == EuclidianConstants.MODE_COMPLEX_NUMBER)) {// remove
+																		// polygons
+																		// :
+																		// point
+																		// inside
+																		// a
+																		// polygon
+																		// is
+																		// created
+																		// free,
+																		// as in
+																		// v3.2
+			AbstractApplication.debug("complex" + complex);
+			hits.removeAllPolygons();
+			hits.removeConicsHittedOnFilling();
+			createNewPoint(hits, true, false, true, true, complex);
+		} else {// if mode==EuclidianView.MODE_POINT_ON_OBJECT, point can be in
+				// a region
+			createNewPoint(hits, true, true, true, true, complex);
+		}
+	}
+
+	protected void createNewPointForModeOther(Hits hits) {
+		createNewPoint(hits, true, false, true, true, false);
+	}
+
+	protected void handleMousePressedForRotateMode() {
+		GeoElement geo;
+		Hits hits;
+	
+		// we need the center of the rotation
+		if (rotationCenter == null) {
+			view.setHits(mouseLoc);
+			rotationCenter = (GeoPoint2) chooseGeo(
+					view.getHits().getHits(Test.GEOPOINT2, tempArrayList),
+					true);
+			app.addSelectedGeo(rotationCenter);
+			moveMode = MOVE_NONE;
+		} else {
+			view.setHits(mouseLoc);
+			hits = view.getHits();
+			hits.removePolygons();
+			// hits = view.getHits(mouseLoc);
+			// got rotation center again: deselect
+			if (!hits.isEmpty() && hits.contains(rotationCenter)) {
+				app.removeSelectedGeo(rotationCenter);
+				rotationCenter = null;
+				moveMode = MOVE_NONE;
+				return;
+			}
+	
+			moveModeSelectionHandled = true;
+	
+			// find and set rotGeoElement
+			hits = hits.getPointRotateableHits(view, rotationCenter);
+			if (!hits.isEmpty() && hits.contains(rotGeoElement)) {
+				geo = rotGeoElement;
+			} else {
+				geo = chooseGeo(hits, true);
+				app.addSelectedGeo(geo);
+			}
+			rotGeoElement = geo;
+	
+			if (geo != null) {
+				doSingleHighlighting(rotGeoElement);
+				// rotGeoElement.setHighlighted(true);
+	
+				// init values needed for rotation
+				rotStartGeo = rotGeoElement.copy();
+				rotStartAngle = Math.atan2(yRW - rotationCenter.inhomY, xRW
+						- rotationCenter.inhomX);
+				moveMode = MOVE_ROTATE;
+			} else {
+				moveMode = MOVE_NONE;
+			}
+		}
+	}
+
+	protected void mousePressedTranslatedView(AbstractEvent e) {
+	
+		Hits hits;
+	
+		// check if axis is hit
+		// hits = view.getHits(mouseLoc);
+		view.setHits(mouseLoc);
+		hits = view.getHits();
+		hits.removePolygons();
+		// Application.debug("MODE_TRANSLATEVIEW - "+hits.toString());
+	
+		/*
+		 * if (!hits.isEmpty() && hits.size() == 1) { Object hit0 = hits.get(0);
+		 * if (hit0 == kernel.getXAxis()) moveMode = MOVE_X_AXIS; else if (hit0
+		 * == kernel.getYAxis()) moveMode = MOVE_Y_AXIS; else moveMode =
+		 * MOVE_VIEW; } else { moveMode = MOVE_VIEW; }
+		 */
+	
+		moveMode = MOVE_VIEW;
+		if (!hits.isEmpty()) {
+			for (Object hit : hits) {
+				if (hit == kernel.getXAxis()) {
+					moveMode = MOVE_X_AXIS;
+				}
+				if (hit == kernel.getYAxis()) {
+					moveMode = MOVE_Y_AXIS;
+				}
+			}
+		}
+	
+		startLoc = mouseLoc;
+		if (!TEMPORARY_MODE) {
+			if (moveMode == MOVE_VIEW) {
+				view.setMoveCursor();
+			} else {
+				view.setDragCursor();
+			}
+		}
+	
+		// xZeroOld = view.getXZero();
+		// yZeroOld = view.getYZero();
+		view.rememberOrigins();
+		xTemp = xRW;
+		yTemp = yRW;
+		view.setShowAxesRatio((moveMode == MOVE_X_AXIS)
+				|| (moveMode == MOVE_Y_AXIS));
+		// view.setDrawMode(EuclidianConstants.DRAW_MODE_DIRECT_DRAW);
+	
+	}
+
+	protected void switchModeForMousePressed(AbstractEvent e) {
+	
+		Hits hits;
+	
+		switch (mode) {
+		// create new point at mouse location
+		// this point can be dragged: see mouseDragged() and mouseReleased()
+		case EuclidianConstants.MODE_COMPLEX_NUMBER:
+			view.setHits(mouseLoc);
+			hits = view.getHits();
+			createNewPointForModePoint(hits, true);
+			break;
+		case EuclidianConstants.MODE_POINT:
+		case EuclidianConstants.MODE_POINT_ON_OBJECT:
+			view.setHits(mouseLoc);
+			hits = view.getHits();
+			AbstractApplication.debug(hits);
+			// if mode==EuclidianView.MODE_POINT_ON_OBJECT, point can be in a
+			// region
+			createNewPointForModePoint(hits, false);
+			break;
+	
+		case EuclidianConstants.MODE_SEGMENT:
+		case EuclidianConstants.MODE_SEGMENT_FIXED:
+		case EuclidianConstants.MODE_JOIN:
+		case EuclidianConstants.MODE_RAY:
+		case EuclidianConstants.MODE_VECTOR:
+		case EuclidianConstants.MODE_CIRCLE_TWO_POINTS:
+		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS:
+		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
+		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
+		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
+		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
+		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
+		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
+		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
+		case EuclidianConstants.MODE_SEMICIRCLE:
+		case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
+		case EuclidianConstants.MODE_POLYGON:
+		case EuclidianConstants.MODE_POLYLINE:
+		case EuclidianConstants.MODE_REGULAR_POLYGON:
+			// hits = view.getHits(mouseLoc);
+			view.setHits(mouseLoc);
+			hits = view.getHits();
+			hits.removePolygons();
+			createNewPointForModeOther(hits);
+			break;
+	
+		case EuclidianConstants.MODE_VECTOR_POLYGON:
+		case EuclidianConstants.MODE_RIGID_POLYGON:
+			view.setHits(mouseLoc);
+			hits = view.getHits();
+			hits.removePolygons();
+			createNewPoint(hits, false, false, false, false, false);
+			break;
+	
+		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
+			if (!allowSelectionRectangleForTranslateByVector) {
+				view.setHits(mouseLoc);
+				hits = view.getHits();
+				hits.removePolygons();
+				if (hits.size() == 0) {
+					createNewPoint(hits, false, true, true);
+				}
+			}
+			break;
+	
+		case EuclidianConstants.MODE_PARALLEL:
+		case EuclidianConstants.MODE_PARABOLA: // Michael Borcherds 2008-04-08
+		case EuclidianConstants.MODE_ORTHOGONAL:
+		case EuclidianConstants.MODE_LINE_BISECTOR:
+		case EuclidianConstants.MODE_ANGULAR_BISECTOR:
+		case EuclidianConstants.MODE_TANGENTS:
+		case EuclidianConstants.MODE_POLAR_DIAMETER:
+			// hits = view.getHits(mouseLoc);
+			view.setHits(mouseLoc);
+			hits = view.getHits();
+			hits.removePolygons();
+			if (hits.size() == 0) {
+				createNewPoint(hits, false, true, true);
+			}
+			break;
+	
+		case EuclidianConstants.MODE_COMPASSES: // Michael Borcherds 2008-03-13
+			// hits = view.getHits(mouseLoc);
+			view.setHits(mouseLoc);
+			hits = view.getHits();
+			hits.removePolygons();
+			if (hits.isEmpty()) {
+				createNewPoint(hits, false, true, true);
+			}
+			break;
+	
+		case EuclidianConstants.MODE_ANGLE:
+			// hits = view.getTopHits(mouseLoc);
+			view.setHits(mouseLoc);
+			hits = view.getHits().getTopHits();
+			// check if we got a polygon
+			if (hits.isEmpty()) {
+				createNewPoint(hits, false, false, true);
+			}
+			break;
+	
+		case EuclidianConstants.MODE_ANGLE_FIXED:
+		case EuclidianConstants.MODE_MIDPOINT:
+			// hits = view.getHits(mouseLoc);
+			view.setHits(mouseLoc);
+			hits = view.getHits();
+			hits.removePolygons();
+			if (hits.isEmpty()
+					|| (!hits.get(0).isGeoSegment() && !hits.get(0)
+							.isGeoConic())) {
+				createNewPoint(hits, false, false, true);
+			}
+			break;
+	
+		case EuclidianConstants.MODE_MOVE_ROTATE:
+			handleMousePressedForRotateMode();
+			break;
+	
+		case EuclidianConstants.MODE_RECORD_TO_SPREADSHEET:
+			view.setHits(mouseLoc);
+			hits = view.getHits();
+			GeoElement tracegeo = hits.getFirstHit(Test.GEOPOINTND);
+			if (tracegeo == null) {
+				tracegeo = hits.getFirstHit(Test.GEOVECTOR);
+			}
+			if (tracegeo == null) {
+				tracegeo = hits.getFirstHit(Test.GEONUMERIC);
+			}
+			if (tracegeo == null) {
+				tracegeo = hits.getFirstHit(Test.GEOLIST);
+			}
+			if (tracegeo != null) {
+				if (recordObject == null) {
+					if (!app.getTraceManager().isTraceGeo(tracegeo)) {
+						app.getGuiManager().addSpreadsheetTrace(tracegeo);
+					}
+					recordObject = tracegeo;
+				}
+				handleMousePressedForMoveMode(e, false);
+				tracegeo.updateRepaint();
+			}
+			break;
+	
+		// move an object
+		case EuclidianConstants.MODE_MOVE:
+		case EuclidianConstants.MODE_VISUAL_STYLE:
+			handleMousePressedForMoveMode(e, false);
+			break;
+	
+		// move drawing pad or axis
+		case EuclidianConstants.MODE_TRANSLATEVIEW:
+	
+			mousePressedTranslatedView(e);
+	
+			break;
+	
+		default:
+			moveMode = MOVE_NONE;
+		}
+	}
+
+	protected void wrapMousePressed(AbstractEvent event) {
+		
+		if (app.isUsingFullGui()) {
+			// determine parent panel to change focus
+			// EuclidianDockPanelAbstract panel =
+			// (EuclidianDockPanelAbstract)SwingUtilities.getAncestorOfClass(EuclidianDockPanelAbstract.class,
+			// (Component)e.getSource());
+	
+			// if(panel != null) {
+			// app.getGuiManager().getLayout().getDockManager().setFocusedPanel(panel);
+			// }
+			app.getGuiManager().setFocusedPanel(event);
+		}
+	
+		setMouseLocation(event);
+	
+		if (handleMousePressedForViewButtons()) {
+			return;
+		}
+	
+		Hits hits;
+	
+		if ((mode == EuclidianConstants.MODE_PEN)
+				|| (mode == EuclidianConstants.MODE_FREEHAND)) {
+			view.setHits(mouseLoc);
+			hits = view.getHits();
+			hits.removeAllButImages();
+			pen.handleMousePressedForPenMode(event, hits);
+			return;
+		}
+	
+		// GeoElement geo;
+		transformCoords();
+	
+		moveModeSelectionHandled = false;
+		DRAGGING_OCCURED = false;
+		view.setSelectionRectangle(null);
+		selectionStartPoint.setLocation(mouseLoc);
+	
+		if (hitResetIcon() || view.hitAnimationButton(event)) {
+			// see mouseReleased
+			return;
+		}
+	
+		if (app.isRightClick(event)) {
+			// ggb3D - for 3D rotation
+			processRightPressFor3D();
+	
+			return;
+		} else if (app.isShiftDragZoomEnabled() && (
+		// MacOS: shift-cmd-drag is zoom
+				(event.isShiftDown() && !app.isControlDown(event)) // All
+																	// Platforms:
+																	// Shift key
+						|| (event.isControlDown() && AbstractApplication.WINDOWS // old
+																		// Windows
+																		// key:
+																		// Ctrl
+																		// key
+						) || app.isMiddleClick(event))) {
+			// Michael Borcherds 2007-12-08 BEGIN
+			// bugfix: couldn't select multiple objects with Ctrl
+	
+			view.setHits(mouseLoc);
+			hits = view.getHits();
+			switchModeForRemovePolygons(hits);
+			if (!hits.isEmpty()) // bugfix 2008-02-19 removed this:&&
+									// ((GeoElement) hits.get(0)).isGeoPoint())
+			{
+				DONT_CLEAR_SELECTION = true;
+			}
+			// Michael Borcherds 2007-12-08 END
+			TEMPORARY_MODE = true;
+			oldMode = mode; // remember current mode
+			view.setMode(EuclidianConstants.MODE_TRANSLATEVIEW);
+		}
+	
+		switchModeForMousePressed(event);
+	}
 	
 }
