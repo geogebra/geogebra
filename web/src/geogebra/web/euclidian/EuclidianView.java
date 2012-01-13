@@ -2,9 +2,7 @@ package geogebra.web.euclidian;
 
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Font;
-import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Graphics2D;
-import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.Drawable;
@@ -212,12 +210,6 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
     }
 
 	@Override
-    public GeneralPath getBoundingPath() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
-    }
-
-	@Override
     public Font getFont() {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
@@ -363,11 +355,6 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	public void setDragCursor() {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
-    }
-
-	public Rectangle getSelectionRectangle() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
     }
 
 	public void setAnimatedRealWorldCoordSystem(double realWorldCoordX,

@@ -2271,10 +2271,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 	}
 
-	public Rectangle getSelectionRectangle() {
-		return selectionRectangle;
-	}
-
 	public EuclidianController getEuclidianController() {
 		return (EuclidianController)euclidianController;
 	}
@@ -2338,23 +2334,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	}
 
 
-	@Override
-	public geogebra.common.awt.GeneralPath getBoundingPath() {
-		java.awt.geom.GeneralPath gs = new java.awt.geom.GeneralPath();
-		gs.moveTo(0, 0);
-		gs.lineTo(getWidth(), 0);
-		gs.lineTo(getWidth(), getHeight());
-		gs.lineTo(0, getHeight());
-		gs.lineTo(0, 0);
-		gs.closePath();
-		return new geogebra.awt.GeneralPath(gs);
-	}
-
-	
-	
-
-	
-	
 	public Graphics2D getGraphicsForPen() {
 		return (Graphics2D) evjpanel.getGraphics();
 

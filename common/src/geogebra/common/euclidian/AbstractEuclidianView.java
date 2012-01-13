@@ -2087,7 +2087,6 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	
 	public abstract  Graphics2D getBackgroundGraphics();
 	public abstract  Graphics2D getTempGraphics2D(geogebra.common.awt.Font plainFontCommon);
-	public abstract  geogebra.common.awt.GeneralPath getBoundingPath();
 	public abstract  geogebra.common.awt.Font getFont();
 	protected abstract void setHeight(int h);
 	protected abstract void setWidth(int h);
@@ -3613,5 +3612,20 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 					hits.add(geo);
 				}
 			}
+		}
+
+		public Rectangle getSelectionRectangle() {
+			return selectionRectangle;
+		}
+
+		public geogebra.common.awt.GeneralPath getBoundingPath() {
+			geogebra.common.awt.GeneralPath gs = AwtFactory.prototype.newGeneralPath();
+			gs.moveTo(0, 0);
+			gs.lineTo(getWidth(), 0);
+			gs.lineTo(getWidth(), getHeight());
+			gs.lineTo(0, getHeight());
+			gs.lineTo(0, 0);
+			gs.closePath();
+			return gs;
 		}
 }
