@@ -15,15 +15,8 @@ package geogebra.euclidian;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.RemoveNeeded;
-import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.common.kernel.arithmetic.FunctionalNVar;
-import geogebra.common.kernel.geos.GeoTextField;
-import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.util.Unicode;
+import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.main.Application;
 
@@ -31,8 +24,6 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
@@ -44,7 +35,6 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.Box;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 /**
@@ -55,7 +45,7 @@ import javax.swing.SwingUtilities;
  */
 public final class DrawTextField extends Drawable implements RemoveNeeded {
 
-	private final GeoTextField geoButton;
+	final GeoTextField geoButton;
 
 	private boolean isVisible;
 
@@ -195,7 +185,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 			if (!textField.hasFocus()) {
 				hit = true;
 				((EuclidianView)view).setToolTipText(null);
-				updateText();
+				geoButton.updateText(textField);
 			}
 		}
 		public void mouseExited(MouseEvent arg0) {
@@ -204,69 +194,14 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 		public void focusGained(FocusEvent e) {
 			((EuclidianView)view).getEuclidianController().textfieldHasFocus(true);
-			updateText();
+			geoButton.updateText(textField);
 
 		}
 
 		public void focusLost(FocusEvent e) {
 			((EuclidianView)view).getEuclidianController().textfieldHasFocus(false);
 
-			GeoElement linkedGeo = geoButton.getLinkedGeo();
-
-			if (linkedGeo != null) {
-
-				String defineText = textField.getText();
-
-				if (linkedGeo.isGeoLine()) {
-
-					// not y=
-					// and not Line[A,B]
-					if ((defineText.indexOf('=') == -1)
-							&& (defineText.indexOf('[') == -1)) {
-						// x + 1 changed to
-						// y = x + 1
-						defineText = "y=" + defineText;
-					}
-
-					String prefix = linkedGeo.getLabel() + ":";
-					// need a: in front of
-					// X = (-0.69, 0) + \lambda (1, -2)
-					if (!defineText.startsWith(prefix)) {
-						defineText = prefix + defineText;
-					}
-				} else if (linkedGeo.isGeoText()) {
-					defineText = "\"" + defineText + "\"";
-				} else if (linkedGeo.isGeoPoint()) {
-					if (((GeoPoint2) linkedGeo).toStringMode == Kernel.COORD_COMPLEX) {
-						// z=2 doesn't work for complex numbers (parses to
-						// GeoNumeric)
-						defineText = defineText + "+0" + Unicode.IMAGINARY;
-					}
-				} else if (linkedGeo instanceof FunctionalNVar) {
-					// string like f(x,y)=x^2
-					// or f(\theta) = \theta
-					defineText = linkedGeo.getLabel() + "("
-							+ ((FunctionalNVar) linkedGeo).getVarString()
-							+ ")=" + defineText;
-				}
-
-				try {
-					linkedGeo = ((Kernel) geo.getKernel())
-							.getAlgebraProcessor()
-							.changeGeoElementNoExceptionHandling(linkedGeo,
-									defineText, false, true);
-				} catch (Exception e1) {
-					geo.getKernel().getApplication().showError(e1.getMessage());
-					updateText();
-					return;
-				}
-				geoButton.setLinkedGeo(linkedGeo);
-
-				updateText();
-
-			}
-
-			geo.runScripts(textField.getText());
+			geoButton.textObjectUpdated(textField);
 
 		}
 
@@ -277,11 +212,8 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 		public void keyReleased(KeyEvent e) {
 			if (e.getKeyChar() == '\n') {
-				// geo.runScripts(textField.getText());
-
-				// this should be enough to trigger script event
-				// ie in focusLost
-				((EuclidianView)view).requestFocus();
+				((EuclidianView)view).getEuclidianController().textfieldHasFocus(false);
+				geoButton.textObjectUpdated(textField);
 			}
 
 		}
@@ -293,40 +225,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 	}
 
-	void updateText() {
 
-		GeoElement linkedGeo = geoButton.getLinkedGeo();
-		if (linkedGeo != null) {
-
-			String text;
-
-			if (linkedGeo.isGeoText()) {
-				text = ((GeoText) linkedGeo).getTextString();
-			} else {
-
-				// want just a number for eg a=3 but we want variables for eg
-				// y=m x + c
-				boolean substituteNos = linkedGeo.isGeoNumeric()
-						&& linkedGeo.isIndependent();
-				text = linkedGeo.getFormulaString(StringType.GEOGEBRA,
-						substituteNos);
-			}
-
-			if (linkedGeo.isGeoText() && (text.indexOf("\n") > -1)) {
-				// replace linefeed with \\n
-				while (text.indexOf("\n") > -1) {
-					text = text.replaceAll("\n", "\\\\\\\\n");
-				}
-			}
-			if (!textField.getText().equals(text)) { // avoid redraw error
-				textField.setText(text);
-			}
-
-		}
-
-		geoButton.setText(textField.getText());
-
-	}
 	private int oldLength = 0;
 	@Override
 	final public void update() {
@@ -355,7 +254,8 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 			label.setText(labelDesc);
 			box.setVisible(true);
 		} else {
-			label.setText("");
+			//spaces make the textfield draggable even if label is invisible
+			label.setText("   ");
 		}
 
 		int fontSize = view.getFontSize() + geoButton.getFontSize();
@@ -377,7 +277,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 		textField.setFocusable(true);
 		textField.setEditable(true);
-		updateText();
+		geoButton.updateText(textField);
 		// set checkbox state
 		// jButton.removeItemListener(bl);
 		// jButton.setSelected(geo.getBoolean());

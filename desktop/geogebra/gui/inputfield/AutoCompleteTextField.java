@@ -7,6 +7,7 @@ import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.MyError;
 import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.Korean;
+import geogebra.common.util.TextObject;
 import geogebra.gui.autocompletion.CommandCompletionListCellRenderer;
 import geogebra.gui.autocompletion.CompletionsPopup;
 import geogebra.gui.util.GeoGebraIcon;
@@ -27,7 +28,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class AutoCompleteTextField extends MathTextField implements 
-AutoComplete, KeyListener, GeoElementSelectionListener {
+AutoComplete, GeoElementSelectionListener, TextObject {
 
 	private static final long serialVersionUID = 1L;
 
