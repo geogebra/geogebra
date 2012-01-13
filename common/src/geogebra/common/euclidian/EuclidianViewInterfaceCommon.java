@@ -329,4 +329,11 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	public void setAnimatedCoordSystem(double px, double py, double factor,
 			double d, int i, boolean b);
 
+	public Previewable createPreviewPolygon(ArrayList<GeoPointND> selectedPoints);
+
+	public Previewable createPreviewPolyLine(
+			ArrayList<GeoPointND> selectedPoints);
+
+	public Previewable createPreviewAngle(ArrayList<GeoPointND> selectedPoints);
+
 }

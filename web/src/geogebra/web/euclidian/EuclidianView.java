@@ -1,11 +1,14 @@
 package geogebra.web.euclidian;
 
+import java.util.ArrayList;
+
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Font;
 import geogebra.common.awt.Graphics2D;
 import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -13,6 +16,7 @@ import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoTextField;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.SettingListener;
@@ -393,6 +397,22 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
             double d, int i, boolean b) {
 	    // TODO Auto-generated method stub
 	    
+    }
+
+	public Previewable createPreviewPolygon(ArrayList<GeoPointND> selectedPoints) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	public Previewable createPreviewPolyLine(
+            ArrayList<GeoPointND> selectedPoints) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	public Previewable createPreviewAngle(ArrayList<GeoPointND> selectedPoints) {
+	    // TODO Auto-generated method stub
+	    return null;
     }
 	
 }

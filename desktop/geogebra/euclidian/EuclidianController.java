@@ -12,14 +12,9 @@
 
 package geogebra.euclidian;
 
-import geogebra.common.awt.Point2D;
-import geogebra.common.euclidian.DrawConic;
-import geogebra.common.euclidian.DrawConicPart;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.euclidian.Hits;
-import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
@@ -27,9 +22,6 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoImage;
-import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
@@ -44,7 +36,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Locale;
 
 import javax.swing.JComponent;
@@ -92,6 +83,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		tempNum = new MyDouble(kernel);
 	}
 
+	@Override
 	public void setApplication(AbstractApplication app) {
 		this.app = app;
 	}
@@ -114,6 +106,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		return (EuclidianPen) pen;
 	}
 
+	@Override
 	public void setMode(int newMode) {
 
 		if ((newMode == EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS)
@@ -176,203 +169,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		toggleModeChangedKernel = false;
 	}
 
-	protected Previewable switchPreviewableForInitNewMode(int mode) {
-
-		Previewable previewDrawable = null;
-		// init preview drawables
-		switch (mode) {
-
-		case EuclidianConstants.MODE_FREEHAND:
-			pen.setFreehand(true);
-
-			break;
-		case EuclidianConstants.MODE_PEN:
-			pen.setFreehand(false);
-
-			/*
-			 * boolean createUndo = true; // scale both EVs 1:1 if
-			 * (app.getEuclidianView().isVisible()) {
-			 * app.getEuclidianView().zoomAxesRatio(1, true); createUndo =
-			 * false; }
-			 * 
-			 * if (app.hasEuclidianView2() &&
-			 * app.getEuclidianView2().isVisible()) {
-			 * app.getEuclidianView2().zoomAxesRatio(1, createUndo); }//
-			 */
-
-			ArrayList<GeoElement> selection = ((Application)app).getSelectedGeos();
-			if (selection.size() == 1) {
-				GeoElement geo = selection.get(0);
-				// getCorner(1) == null as we can't write to transformed images
-				if (geo.isGeoImage()) {
-					GeoPoint2 c1 = ((GeoImage) geo).getCorner(0);
-					GeoPoint2 c2 = ((GeoImage) geo).getCorner(1);
-					GeoPoint2 c3 = ((GeoImage) geo).getCorner(2);
-
-					if ((c3 == null)
-							&& ((c2 == null // c2 = null -> not transformed
-							)
-							// or c1 and c2 are the correct spacing for the
-							// image not to be transformed
-							// (ie image was probably created by the Pen Tool)
-							|| ((c1 != null) && (c2 != null)
-									&& (c1.inhomY == c2.inhomY) && ((((EuclidianViewInterface) view)
-									.toScreenCoordX(c2.inhomX) - ((EuclidianViewInterface) view)
-									.toScreenCoordX(c1.inhomX)) == ((GeoImage) geo)
-									.getFillImage().getWidth())))) {
-						pen.setPenGeo((GeoImage) geo);
-					} else {
-						pen.setPenGeo(null);
-					}
-
-					pen.setPenWritingToExistingImage(pen.getPenGeo() != null);
-				}
-			}
-
-			// no break;
-
-		case EuclidianConstants.MODE_VISUAL_STYLE:
-
-			// openMiniPropertiesPanel();
-
-			break;
-
-		case EuclidianConstants.MODE_PARALLEL:
-			previewDrawable = ((EuclidianViewInterface) view).createPreviewParallelLine(selectedPoints,
-					selectedLines);
-			break;
-
-		case EuclidianConstants.MODE_ANGULAR_BISECTOR:
-			previewDrawable = ((EuclidianViewInterface) view).createPreviewAngleBisector(selectedPoints);
-			break;
-
-		case EuclidianConstants.MODE_ORTHOGONAL:
-			previewDrawable = ((EuclidianViewInterface) view).createPreviewPerpendicularLine(
-					selectedPoints, selectedLines);
-			break;
-
-		case EuclidianConstants.MODE_LINE_BISECTOR:
-			previewDrawable = ((EuclidianViewInterface) view)
-					.createPreviewPerpendicularBisector(selectedPoints);
-			break;
-
-		case EuclidianConstants.MODE_JOIN: // line through two points
-			useLineEndPoint = false;
-			previewDrawable = ((EuclidianViewInterface) view).createPreviewLine(selectedPoints);
-			break;
-
-		case EuclidianConstants.MODE_SEGMENT:
-			useLineEndPoint = false;
-			previewDrawable = ((EuclidianViewInterface) view).createPreviewSegment(selectedPoints);
-			break;
-
-		case EuclidianConstants.MODE_RAY:
-			useLineEndPoint = false;
-			previewDrawable = ((EuclidianViewInterface) view).createPreviewRay(selectedPoints);
-			break;
-
-		case EuclidianConstants.MODE_VECTOR:
-			useLineEndPoint = false;
-			previewDrawable = ((EuclidianViewInterface) view).createPreviewVector(selectedPoints);
-			break;
-
-		case EuclidianConstants.MODE_POLYGON:
-		case EuclidianConstants.MODE_RIGID_POLYGON:
-		case EuclidianConstants.MODE_VECTOR_POLYGON:
-			previewDrawable = ((EuclidianViewInterface) view).createPreviewPolygon(selectedPoints);
-			break;
-
-		case EuclidianConstants.MODE_POLYLINE:
-			previewDrawable = ((EuclidianViewInterface) view).createPreviewPolyLine(selectedPoints);
-			break;
-
-		case EuclidianConstants.MODE_CIRCLE_TWO_POINTS:
-		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
-		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
-		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
-			previewDrawable = ((EuclidianViewInterface) view).createPreviewConic(mode, selectedPoints);
-			break;
-
-		case EuclidianConstants.MODE_ANGLE:
-			previewDrawable = ((EuclidianViewInterface) view).createPreviewAngle(selectedPoints);
-			break;
-
-		// preview for compass: radius first
-		case EuclidianConstants.MODE_COMPASSES:
-			previewDrawable = new DrawConic((AbstractEuclidianView) view, mode,
-					selectedPoints, selectedSegments, selectedConicsND);
-			break;
-
-		// preview for arcs and sectors
-		case EuclidianConstants.MODE_SEMICIRCLE:
-		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
-			previewDrawable = new DrawConicPart((AbstractEuclidianView) view, mode,
-					selectedPoints);
-			break;
-
-		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
-			useLineEndPoint = false;
-			previewDrawable = ((EuclidianViewInterface) view).createPreviewVector(selectedPoints);
-			break;
-
-		case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
-			// select all hidden objects
-			Iterator<GeoElement> it = kernel.getConstruction()
-					.getGeoSetConstructionOrder().iterator();
-			while (it.hasNext()) {
-				GeoElement geo = it.next();
-				// independent numbers should not be set visible
-				// as this would produce a slider
-				if (!geo.isSetEuclidianVisible()
-						&& !((geo.isNumberValue() || geo.isBooleanValue()) && geo
-								.isIndependent())) {
-					geo.setEuclidianVisible(true);
-					((Application)app).addSelectedGeo(geo);
-					geo.updateRepaint();
-				}
-			}
-			break;
-
-		case EuclidianConstants.MODE_COPY_VISUAL_STYLE:
-			movedGeoElement = null; // this will be the active geo template
-			break;
-
-		case EuclidianConstants.MODE_MOVE_ROTATE:
-			rotationCenter = null; // this will be the active geo template
-			break;
-
-		case EuclidianConstants.MODE_RECORD_TO_SPREADSHEET:
-
-			// G.Sturr 2010-5-14
-			if (recordObject != null) {
-				((Application) app).getGuiManager().removeSpreadsheetTrace(recordObject);
-				// END G.Sturr
-			}
-
-			recordObject = null;
-
-			break;
-
-		default:
-			previewDrawable = null;
-
-			// macro mode?
-			if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
-				// get ID of macro
-				int macroID = mode - EuclidianConstants.MACRO_MODE_ID_OFFSET;
-				macro = kernel.getMacro(macroID);
-				macroInput = macro.getInputTypes();
-				this.mode = EuclidianConstants.MODE_MACRO;
-			}
-			break;
-		}
-
-		return previewDrawable;
-	}
-
 	public void mouseClicked(MouseEvent e) {
 		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
 		wrapMouseclicked(event);
@@ -419,6 +215,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	 * public void focusLost(FocusEvent e) { resetToolTipManager(); }
 	 */
 
+	@Override
 	public void initToolTipManager() {
 		// set tooltip manager
 		ToolTipManager ttm = ToolTipManager.sharedInstance();
@@ -426,6 +223,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		ttm.setEnabled(((Application) app).getAllowToolTips());
 	}
 
+	@Override
 	public void resetToolTipManager() {
 		ToolTipManager ttm = ToolTipManager.sharedInstance();
 		ttm.setInitialDelay(DEFAULT_INITIAL_DELAY);
@@ -479,6 +277,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	 * line = kernel.Line(null, points[0], points[1]); }
 	 */
 
+	@Override
 	public GeoElement[] createCircle2ForPoints3D(GeoPointND p0, GeoPointND p1) {
 		return new GeoElement[] { kernel.getManager3D().Circle3D(null, p0, p1,
 				((AbstractEuclidianView) view).getDirection()) };
@@ -541,14 +340,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 	}
 
-	/*
-	 * when drawing a line, this is used when alt is down to set the angle to be
-	 * a multiple of 15 degrees
-	 */
-	public void setLineEndPoint(Point2D.Double point) {
-		lineEndPoint = point;
-		useLineEndPoint = true;
-	}
+	
 
 	// /////////////////////////////////////////
 	// moved GeoElements
@@ -580,24 +372,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		// }
 	}
 
-	public void setSize(int size) {
-		// if (mode == EuclidianView.MODE_VISUAL_STYLE) {
-		ArrayList<GeoElement> geos = ((Application)app).getSelectedGeos();
-
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
-			if (geo instanceof PointProperties) {
-				((PointProperties) geo).setPointSize(size);
-				geo.updateRepaint();
-			} else {
-				geo.setLineThickness(size);
-				geo.updateRepaint();
-			}
-		}
-		// }
-
-	}
-
 	Color penColor = Color.black;
 
 	public void setColor(Color color) {
@@ -612,15 +386,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 			geo.updateRepaint();
 		}
 		// }
-	}
-
-	public void setAlpha(float alpha) {
-		ArrayList<GeoElement> geos = ((Application)app).getSelectedGeos();
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
-			geo.setAlphaValue(alpha);
-			geo.updateRepaint();
-		}
 	}
 
 	private void openMiniPropertiesPanel() {
@@ -638,22 +403,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		}
 		((Application) app).getGuiManager().toggleMiniProperties(false);
 
-	}
-
-	public Hits getHighlightedgeos() {
-		return highlightedGeos.clone();
-	}
-
-	public void setLineEndPoint(geogebra.common.awt.Point2D p) {
-		if(p==null)
-			lineEndPoint = null;
-		else
-		lineEndPoint = new Point2D.Double(p.getX(),p.getY());
-		useLineEndPoint = true;
-	}
-
-	public GeoElement getRecordObject() {
-		return recordObject;
 	}
 
 }

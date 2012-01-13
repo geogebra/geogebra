@@ -64,18 +64,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
     }
 
 	@Override
-    public void setLineEndPoint(geogebra.common.awt.Point2D endPoint) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
-    }
-
-	@Override
-    public GeoElement getRecordObject() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
-    }
-
-	@Override
     public void setMode(int mode) {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    

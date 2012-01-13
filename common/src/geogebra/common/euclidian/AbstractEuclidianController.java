@@ -47,6 +47,7 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.geos.Transformable;
@@ -332,10 +333,6 @@ public abstract class AbstractEuclidianController {
 	protected static final int MOVE_POINT_WITH_OFFSET = 123;
 
 	public abstract void setApplication(AbstractApplication app);
-
-	public abstract void setLineEndPoint(geogebra.common.awt.Point2D endPoint);
-
-	public abstract GeoElement getRecordObject();
 
 	public abstract void setMode(int mode);
 	
@@ -8126,6 +8123,251 @@ public abstract class AbstractEuclidianController {
 				px, py, factor, view.getXscale() * factor, 4, false);
 		// view.yscale * factor);
 		app.setUnsaved();
+	}
+
+	public GeoElement getRecordObject() {
+		return recordObject;
+	}
+
+	public void setLineEndPoint(geogebra.common.awt.Point2D p) {
+		if(p==null)
+			lineEndPoint = null;
+		else
+		lineEndPoint = new Point2D.Double(p.getX(),p.getY());
+		useLineEndPoint = true;
+	}
+
+	public Hits getHighlightedgeos() {
+		return highlightedGeos.clone();
+	}
+
+	public void setAlpha(float alpha) {
+		ArrayList<GeoElement> geos = app.getSelectedGeos();
+		for (int i = 0; i < geos.size(); i++) {
+			GeoElement geo = geos.get(i);
+			geo.setAlphaValue(alpha);
+			geo.updateRepaint();
+		}
+	}
+
+	public void setSize(int size) {
+		// if (mode == EuclidianView.MODE_VISUAL_STYLE) {
+		ArrayList<GeoElement> geos = app.getSelectedGeos();
+	
+		for (int i = 0; i < geos.size(); i++) {
+			GeoElement geo = geos.get(i);
+			if (geo instanceof PointProperties) {
+				((PointProperties) geo).setPointSize(size);
+				geo.updateRepaint();
+			} else {
+				geo.setLineThickness(size);
+				geo.updateRepaint();
+			}
+		}
+		// }
+	
+	}
+
+	public void setLineEndPoint(Point2D.Double point) {
+		lineEndPoint = point;
+		useLineEndPoint = true;
+	}
+
+	protected Previewable switchPreviewableForInitNewMode(int mode) {
+	
+		Previewable previewDrawable = null;
+		// init preview drawables
+		switch (mode) {
+	
+		case EuclidianConstants.MODE_FREEHAND:
+			pen.setFreehand(true);
+	
+			break;
+		case EuclidianConstants.MODE_PEN:
+			pen.setFreehand(false);
+	
+			/*
+			 * boolean createUndo = true; // scale both EVs 1:1 if
+			 * (app.getEuclidianView().isVisible()) {
+			 * app.getEuclidianView().zoomAxesRatio(1, true); createUndo =
+			 * false; }
+			 * 
+			 * if (app.hasEuclidianView2() &&
+			 * app.getEuclidianView2().isVisible()) {
+			 * app.getEuclidianView2().zoomAxesRatio(1, createUndo); }//
+			 */
+	
+			ArrayList<GeoElement> selection = app.getSelectedGeos();
+			if (selection.size() == 1) {
+				GeoElement geo = selection.get(0);
+				// getCorner(1) == null as we can't write to transformed images
+				if (geo.isGeoImage()) {
+					GeoPoint2 c1 = ((GeoImage) geo).getCorner(0);
+					GeoPoint2 c2 = ((GeoImage) geo).getCorner(1);
+					GeoPoint2 c3 = ((GeoImage) geo).getCorner(2);
+	
+					if ((c3 == null)
+							&& ((c2 == null // c2 = null -> not transformed
+							)
+							// or c1 and c2 are the correct spacing for the
+							// image not to be transformed
+							// (ie image was probably created by the Pen Tool)
+							|| ((c1 != null) && (c2 != null)
+									&& (c1.inhomY == c2.inhomY) && ((view
+									.toScreenCoordX(c2.inhomX) - view
+									.toScreenCoordX(c1.inhomX)) == ((GeoImage) geo)
+									.getFillImage().getWidth())))) {
+						pen.setPenGeo((GeoImage) geo);
+					} else {
+						pen.setPenGeo(null);
+					}
+	
+					pen.setPenWritingToExistingImage(pen.getPenGeo() != null);
+				}
+			}
+	
+			// no break;
+	
+		case EuclidianConstants.MODE_VISUAL_STYLE:
+	
+			// openMiniPropertiesPanel();
+	
+			break;
+	
+		case EuclidianConstants.MODE_PARALLEL:
+			previewDrawable = view.createPreviewParallelLine(selectedPoints,
+					selectedLines);
+			break;
+	
+		case EuclidianConstants.MODE_ANGULAR_BISECTOR:
+			previewDrawable = view.createPreviewAngleBisector(selectedPoints);
+			break;
+	
+		case EuclidianConstants.MODE_ORTHOGONAL:
+			previewDrawable = view.createPreviewPerpendicularLine(
+					selectedPoints, selectedLines);
+			break;
+	
+		case EuclidianConstants.MODE_LINE_BISECTOR:
+			previewDrawable = view
+					.createPreviewPerpendicularBisector(selectedPoints);
+			break;
+	
+		case EuclidianConstants.MODE_JOIN: // line through two points
+			useLineEndPoint = false;
+			previewDrawable = view.createPreviewLine(selectedPoints);
+			break;
+	
+		case EuclidianConstants.MODE_SEGMENT:
+			useLineEndPoint = false;
+			previewDrawable = view.createPreviewSegment(selectedPoints);
+			break;
+	
+		case EuclidianConstants.MODE_RAY:
+			useLineEndPoint = false;
+			previewDrawable = view.createPreviewRay(selectedPoints);
+			break;
+	
+		case EuclidianConstants.MODE_VECTOR:
+			useLineEndPoint = false;
+			previewDrawable = view.createPreviewVector(selectedPoints);
+			break;
+	
+		case EuclidianConstants.MODE_POLYGON:
+		case EuclidianConstants.MODE_RIGID_POLYGON:
+		case EuclidianConstants.MODE_VECTOR_POLYGON:
+			previewDrawable = view.createPreviewPolygon(selectedPoints);
+			break;
+	
+		case EuclidianConstants.MODE_POLYLINE:
+			previewDrawable = view.createPreviewPolyLine(selectedPoints);
+			break;
+	
+		case EuclidianConstants.MODE_CIRCLE_TWO_POINTS:
+		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
+		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
+		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
+			previewDrawable = view.createPreviewConic(mode, selectedPoints);
+			break;
+	
+		case EuclidianConstants.MODE_ANGLE:
+			previewDrawable = view.createPreviewAngle(selectedPoints);
+			break;
+	
+		// preview for compass: radius first
+		case EuclidianConstants.MODE_COMPASSES:
+			previewDrawable = new DrawConic((AbstractEuclidianView) view, mode,
+					selectedPoints, selectedSegments, selectedConicsND);
+			break;
+	
+		// preview for arcs and sectors
+		case EuclidianConstants.MODE_SEMICIRCLE:
+		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
+		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
+		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
+		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
+			previewDrawable = new DrawConicPart((AbstractEuclidianView) view, mode,
+					selectedPoints);
+			break;
+	
+		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
+			useLineEndPoint = false;
+			previewDrawable = view.createPreviewVector(selectedPoints);
+			break;
+	
+		case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
+			// select all hidden objects
+			Iterator<GeoElement> it = kernel.getConstruction()
+					.getGeoSetConstructionOrder().iterator();
+			while (it.hasNext()) {
+				GeoElement geo = it.next();
+				// independent numbers should not be set visible
+				// as this would produce a slider
+				if (!geo.isSetEuclidianVisible()
+						&& !((geo.isNumberValue() || geo.isBooleanValue()) && geo
+								.isIndependent())) {
+					geo.setEuclidianVisible(true);
+					app.addSelectedGeo(geo);
+					geo.updateRepaint();
+				}
+			}
+			break;
+	
+		case EuclidianConstants.MODE_COPY_VISUAL_STYLE:
+			movedGeoElement = null; // this will be the active geo template
+			break;
+	
+		case EuclidianConstants.MODE_MOVE_ROTATE:
+			rotationCenter = null; // this will be the active geo template
+			break;
+	
+		case EuclidianConstants.MODE_RECORD_TO_SPREADSHEET:
+	
+			// G.Sturr 2010-5-14
+			if (recordObject != null) {
+				app.getGuiManager().removeSpreadsheetTrace(recordObject);
+				// END G.Sturr
+			}
+	
+			recordObject = null;
+	
+			break;
+	
+		default:
+			previewDrawable = null;
+	
+			// macro mode?
+			if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
+				// get ID of macro
+				int macroID = mode - EuclidianConstants.MACRO_MODE_ID_OFFSET;
+				macro = kernel.getMacro(macroID);
+				macroInput = macro.getInputTypes();
+				this.mode = EuclidianConstants.MODE_MACRO;
+			}
+			break;
+		}
+	
+		return previewDrawable;
 	}
 	
 }
