@@ -4,7 +4,6 @@ import geogebra.cas.CASgeneric;
 import geogebra.cas.CASparser;
 import geogebra.cas.CasParserTools;
 import geogebra.cas.CasExpressionFactory;
-import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.cas.CASException;
 import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
@@ -12,7 +11,6 @@ import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
 
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -60,7 +58,7 @@ public class CASmpreduce extends CASgeneric {
 			} catch (Throwable e) {
 			}
 
-			Application.setCASVersionString(getVersionString(mpreduce_static));
+			AbstractApplication.setCASVersionString(getVersionString(mpreduce_static));
 		}
 
 		return mpreduce_static;

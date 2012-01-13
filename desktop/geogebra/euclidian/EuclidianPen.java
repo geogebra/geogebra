@@ -15,7 +15,7 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.Point;
+import geogebra.common.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -24,8 +24,9 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 
-public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen {
+public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 
 	private Application app;
 	private EuclidianViewInterface view;
@@ -345,7 +346,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen {
 
 	}
 
-	protected void doDrawPoints(GeoImage gi, ArrayList<Point> penPoints2) {
+	public void doDrawPoints(GeoImage gi, List<Point> penPoints2) {
 		PolyBezier pb = new PolyBezier(penPoints2);
 		BufferedImage penImage2 = gi == null ? penImage
 				: geogebra.awt.BufferedImage.getAwtBufferedImage(gi

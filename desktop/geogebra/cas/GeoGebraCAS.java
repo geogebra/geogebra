@@ -9,7 +9,6 @@ import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.util.MaxSizeHashMap;
-import geogebra.main.Application;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractApplication.CasType;
 
@@ -24,14 +23,14 @@ import java.util.Map;
  */
 public class GeoGebraCAS implements GeoGebraCasInterface {
 
-	private Application app;
+	private AbstractApplication app;
 	private CASparser casParser;
 	private CASgeneric cas;
 	private CASmpreduce casMPReduce;
 	public CasType currentCAS = CasType.NO_CAS;
 
 	public GeoGebraCAS(Kernel kernel) {
-		app = (Application) kernel.getApplication();
+		app = kernel.getApplication();
 		casParser = new CASparser(kernel);
 
 		// DO NOT init underlying CAS here to avoid hanging animation,

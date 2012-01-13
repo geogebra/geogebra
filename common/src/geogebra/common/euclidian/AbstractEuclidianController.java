@@ -8448,5 +8448,10 @@ public abstract class AbstractEuclidianController {
 	
 		kernel.notifyRepaint();
 	}
+
+	public EuclidianPen getPen() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

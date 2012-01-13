@@ -24,6 +24,7 @@ import java.awt.Point;
 import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * adapted from polyline
@@ -44,7 +45,7 @@ public class PolyBezier {
            setNumberOfPoints(n);  
     }
     
-    public PolyBezier(ArrayList<?> al) {
+    public PolyBezier(List<?> al) {
     	setNumberOfPoints(al.size());
     
     	int i=0;

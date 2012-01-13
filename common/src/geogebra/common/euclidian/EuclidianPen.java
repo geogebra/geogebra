@@ -1,6 +1,7 @@
 package geogebra.common.euclidian;
 
-import java.awt.event.MouseEvent;
+import java.util.List;
+import geogebra.common.awt.Point;
 
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.geos.GeoImage;
@@ -20,5 +21,7 @@ public abstract class EuclidianPen {
 	public abstract void handleMousePressedForPenMode(AbstractEvent e, Hits hits);
 
 	public abstract void handleMouseReleasedForPenMode(AbstractEvent event);
+	
+	public abstract void doDrawPoints(GeoImage ge,List<Point> list); 
 
 }

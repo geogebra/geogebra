@@ -54,5 +54,8 @@ public class Point {
 	public int hashCode(){
 		return (x << 16) ^ y;
 	}
+	public double distance(Point d) {
+		return Math.sqrt((x-d.x)*(x-d.x)+(y-d.y)*(y-d.y));
+	}
 
 }

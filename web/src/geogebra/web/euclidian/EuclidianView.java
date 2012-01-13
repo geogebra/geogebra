@@ -205,11 +205,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
     	return (Application)application;
     }
 
-	@Override
-    public Graphics2D getBackgroundGraphics() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
-    }
+	
 	private Graphics2D g2dtemp;
 
 	private geogebra.common.awt.Color backgroundColor = geogebra.web.awt.Color.white;
@@ -318,10 +314,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	    
     }
 
-	public void setShowAxis(int axisX, boolean b, boolean c) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
-    }
+	
 
 	@Override
     protected void setAntialiasing(Graphics2D g2) {
@@ -329,11 +322,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	    
     }
 
-	@Override
-    public Drawable newDrawImage(GeoImage geo) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
-    }
+	
 
 	@Override
     public Drawable newDrawButton(GeoButton geo) {
@@ -407,25 +396,4 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	    
     }
 
-	public Previewable createPreviewPolygon(ArrayList<GeoPointND> selectedPoints) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	public Previewable createPreviewPolyLine(
-            ArrayList<GeoPointND> selectedPoints) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	public Previewable createPreviewAngle(ArrayList<GeoPointND> selectedPoints) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	public void setPreview(Previewable switchPreviewableForInitNewMode) {
-	    // TODO Auto-generated method stub
-	    
-    }
-	
 }
