@@ -45,6 +45,14 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		updateFonts();
 		setStandardCoordSystem();
 		attachView();
+		canvas.addClickHandler((EuclidianController)euclidiancontroller);	
+		canvas.addMouseMoveHandler((EuclidianController)euclidiancontroller);
+		canvas.addMouseOverHandler((EuclidianController)euclidiancontroller);
+		canvas.addMouseOutHandler((EuclidianController)euclidiancontroller);
+		canvas.addMouseDownHandler((EuclidianController)euclidiancontroller);
+		canvas.addMouseUpHandler((EuclidianController)euclidiancontroller);
+		canvas.addMouseWheelHandler((EuclidianController)euclidiancontroller);
+		
 		
 		if ((evNo == 1) || (evNo == 2)) {
 			EuclidianSettings es = getApplication().getSettings().getEuclidian(evNo);

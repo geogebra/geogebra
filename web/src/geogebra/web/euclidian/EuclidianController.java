@@ -57,12 +57,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		this.view = view;
 	}
 
-	@Override
-    public boolean isAltDown() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return false;
-    }
-
 	public void onGestureChange(GestureChangeEvent event) {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
