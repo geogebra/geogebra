@@ -10,12 +10,16 @@ from geogebra.awt import Color
 from geogebra.plugin.jython import PythonAPI as API
 
 # Java imports
+
+from java.lang import Runnable
+
 from javax.swing import (
     JFrame, JPanel, JTextArea, JScrollPane, BoxLayout, JButton, JList,
     DefaultListModel, ListCellRenderer, BorderFactory, JTextPane,
     JMenuBar, JMenu, JMenuItem, JFileChooser,
     KeyStroke,
     JTabbedPane,
+    SwingUtilities
 )
 from javax.swing.text import StyleContext, StyleConstants, SimpleAttributeSet, TabStop, TabSet
 from javax.swing.event import DocumentListener
@@ -28,6 +32,7 @@ import sys, re
 
 # Python imports
 from generic import generic, specmethod, GenericMethods, GenericError, sign
+import lexing
 
 try:
     from javax.swing.filechooser import FileNameExtensionFilter
@@ -1106,15 +1111,227 @@ class InputArea(KeyListener):
                 self.input = text[:offset + 1] + indent + text[offset + 1:]
                 self.component.caretPosition = offset + len(indent) + 1
 
+class Later(Runnable):
+    def __init__(self, f):
+        self.f = f
+    def run(self):
+        self.f()
 
-class InteractiveInput(InputArea):
+def later(f):
+    SwingUtilities.invokeLater(Later(f))
+    return f
+
+import keyword, __builtin__
+
+class PyLexer(lexing.Lexer):
+    separators = 'space', 'punctuation', 'assignment', 'grouper', 'operator', 'shortstring', #'unknown'
+    order = [
+        'float', 'integer', 'shortstring',
+        'operator', 'assignment',
+        'grouper',
+        'keyword', 'builtin', 'identifier', 
+        'space', 'punctuation'
+        'comment',
+        #'unknown',
+    ]
+
+    space = r'\s'
+    decorator = r'^\s*@'
+    punctuation = r"[.,;:]"
+    assignment = r"=|\+=|-=|\*\*=|\*=|/=|//=|<<=|>>=|\^=|\|=|&="
+    grouper = r"[(){}\[\]]"
+    operator = r"\+|-|\*\*|\*|//|/|\^|&|\||~|<=|>=|==|!="
+    keyword = r"(%s)(?!\w)" % "|".join(keyword.kwlist)
+    builtin = r"(%s)(?!\w)" % "|".join(dir(__builtin__))
+    integer = r"[0-9]+"
+    identifier = r"[a-zA-Z_]\w*"
+    float = r"[0-9]+\.[0-9]*([eE][+-]?[0-9]+)?"
+    shortstring = r"[uU]?[rR]?'([^'\n\\]|\\[^\n])*'" \
+                  r'|[uU]?[rR]?"([^"\n\\]|\\[^\n])*"'
+    comment = r'#.*'
+    #unknown = r'.'
+
+tok_style_map = {
+    PyLexer.keyword: "kw",
+    PyLexer.integer: "number",
+    PyLexer.float: "number",
+    PyLexer.shortstring: "string",
+    PyLexer.comment: "comment",
+    PyLexer.builtin: "builtin",
+}
+
+python_kw = re.compile(r"\b(%s)\b" % "|".join(keyword.kwlist))
+
+class PyState(object):
+    def __init__(self):
+        self.reset()
+    def reset(self):
+        self.state = 'default'
+    def trans(self, token):
+        if token.toktype == PyLexer.space:
+            return 'default'
+        res = getattr(self, 'trans_' + self.state)(token)
+        if res is None:
+            self.state = 'default'
+            return self.trans_default(token)
+        else:
+            return res
+    def trans_default(self, token):
+        if token.strval == "def":
+            self.state = "def"
+        elif token.strval == "class":
+            self.state = "class"
+        return tok_style_map.get(token.toktype, 'default')
+    def trans_def(self, token):
+        if token.toktype == PyLexer.identifier:
+            self.state = 'default'
+            return "defname"
+    def trans_class(self, token):
+        if token.toktype == PyLexer.identifier:
+            self.state = 'default'
+            return 'classname'
+
+class InputPane(KeyListener, DocumentListener):
+    def __init__(self):
+        self.component = JTextPane(
+            border=BorderFactory.createEmptyBorder(5, 5, 5, 5)
+        )
+        
+        def new_style(name, color=None, bold=None, italic=None, underline=None):
+            style = self.doc.addStyle(name, self.parent_style)
+            if color is not None:
+                if isinstance(color, str):
+                    color = awtColor(
+                        int(color[0:2], 16),
+                        int(color[2:4], 16),
+                        int(color[4:6], 16)
+                    )
+                StyleConstants.setForeground(style, color)
+            if bold is not None:
+                StyleConstants.setBold(style, bold)
+            if italic is not None:
+                StyleConstants.setItalic(style, italic)
+            if underline is not None:
+                StyleConstants.setUnderline(style, underline)
+            return style
+        
+        self.doc = self.component.getStyledDocument()
+        style_context = StyleContext.getDefaultStyleContext()
+        default_style = style_context.getStyle(StyleContext.DEFAULT_STYLE)
+        self.parent_style = self.doc.addStyle("parent", default_style)
+        StyleConstants.setFontFamily(self.parent_style, "Monospaced")
+
+        self.kw_style = new_style("kw", "990066", bold=True)
+        self.num_style = new_style("number", "003366")
+        self.str_style = new_style("string", "993300")
+        self.comment_style = new_style("comment", "FF0000")
+        self.defname_style = new_style("defname", "0033FF")
+        new_style("classname", "006600")
+        new_style("builtin", italic=True)
+        
+        # Do a dance to set tab size
+        font = Font("Monospaced", Font.PLAIN, 12)
+        self.component.setFont(font)
+        fm = self.component.getFontMetrics(font)
+        tabw = float(fm.stringWidth(" "*4))
+        tabs = [
+            TabStop(tabw*i, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE)
+            for i in xrange(1, 51)
+        ]
+        attr_set = style_context.addAttribute(
+            SimpleAttributeSet.EMPTY,
+            StyleConstants.TabSet,
+            TabSet(tabs)
+        )
+        self.component.setParagraphAttributes(attr_set, False)
+        #Dance done!
+        
+        self.component.addKeyListener(self)
+        # Remove?
+        # self.nocheck = LockManager()
+        self.doc.addDocumentListener(self)
+    
+    def _getinput(self):
+        return self.doc.getText(0, self.doc.length)
+    def _setinput(self, input):
+        self.doc.remove(0, self.doc.length)
+        self.doc.insertString(0, input, self.parent_style)
+    input = property(_getinput, _setinput)
+
+    def getline(self, offset):
+        """Return the start and end offsets of the line at offset"""
+        root = self.doc.defaultRootElement
+        line = root.getElementIndex(offset)
+        element = root.getElement(line)
+        return element.startOffset, element.endOffset
+    
+    # Implementation of KeyListener
+    def keyPressed(self, evt):
+        pass
+    def keyReleased(self, evt):
+        pass
+    def keyTyped(self, evt):
+        if evt.keyChar == '\n':
+            text = self.input
+            offset = self.component.caretPosition - 1
+            indent = None
+            if offset:
+                prev_line = self.doc.getText(0, offset).rsplit('\n', 1)[-1]
+                indent = re.match('\\s*', prev_line).group(0)
+                if text[offset - 1] == ':':
+                    indent += '\t'
+            if indent:
+                self.doc.insertString(offset + 1, indent, self.parent_style)
+
+    # Implementation of DocumentListener
+    def change_styles(self, start, end):
+        text = self.doc.getText(start, end - start)
+        @later
+        def do_change_styles(start=start, state=PyState()):
+            pos = 0
+            while True:
+                try:
+                    for tok in PyLexer.scan(text, pos):
+                        toklen = len(tok.strval)
+                        style_name = state.trans(tok)
+                        # print "style for %s:" % tok.strval, style_name
+                        style = self.doc.getStyle(style_name)
+                        self.doc.setCharacterAttributes(
+                            start, toklen, style, True
+                        )
+                        start += toklen
+                        pos += toklen
+                    else:
+                        break
+                except lexing.Error:
+                    pos += 1
+                    start += 1
+    def set_line_style(self, offset):
+        start, end = self.getline(offset)
+        self.change_styles(start, end)
+    def set_region_style(self, offset, length):
+        start, _ = self.getline(offset)
+        _, end = self.getline(offset + length)
+        self.change_styles(start, end)
+    def changedUpdate(self, evt):
+        pass
+    def insertUpdate(self, evt):
+        if evt.length == 1:
+            self.set_line_style(evt.offset)
+        else:
+            self.set_region_style(evt.offset, evt.length)
+    def removeUpdate(self, evt):
+        self.set_line_style(evt.offset - 1)
+
+
+class InteractiveInput(InputPane):
     def __init__(self, checks_disabled, runcode):
+        InputPane.__init__(self)
         self.checks_disabled = checks_disabled
         self.runcode = runcode
-        InputArea.__init__(self)
     def keyTyped(self, evt):
         with self.checks_disabled:
-            InputArea.keyTyped(self, evt)
+            InputPane.keyTyped(self, evt)
             if evt.keyChar != '\n':
                 return
             text = self.input
@@ -1162,7 +1379,7 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
         interactive_pane.add(inputPanel, BorderLayout.PAGE_END)
 
         scrollpane = JScrollPane()
-        self.script_area = script_area = InputArea()
+        self.script_area = script_area = InputPane()
         scrollpane.viewport.view = self.script_area.component
         script_pane.add(scrollpane, BorderLayout.CENTER)
         
