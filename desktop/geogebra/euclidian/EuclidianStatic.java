@@ -484,5 +484,34 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic{
 		return geogebra.awt.BasicStroke.getAwtStroke(geogebra.common.euclidian.EuclidianStatic.getDefaultStroke());
 	}
 
+	public Object doSetInterpolationHint(geogebra.common.awt.Graphics2D g3,
+			boolean needsInterpolationRenderingHint) {
+		java.awt.Graphics2D g2 = geogebra.awt.Graphics2D.getAwtGraphics(g3);
+		Object oldInterpolationHint = g2
+				.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
+
+		if (oldInterpolationHint == null)
+			oldInterpolationHint = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+
+		if (needsInterpolationRenderingHint) {
+			// improve rendering quality for transformed images
+			g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+					RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		} else {
+			g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+					RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);					
+		}
+		return oldInterpolationHint;
+	}
+
+	@Override
+	protected void doResetInterpolationHint(geogebra.common.awt.Graphics2D g3,
+			Object hint) {
+		java.awt.Graphics2D g2 = geogebra.awt.Graphics2D.getAwtGraphics(g3);
+		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+				hint);
+		
+	}
 	
+
 }

@@ -198,4 +198,17 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic {
 
 	}
 
+	@Override
+    protected Object doSetInterpolationHint(Graphics2D g3,
+            boolean needsInterpolationRenderingHint) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    protected void doResetInterpolationHint(Graphics2D g3, Object hint) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
 }

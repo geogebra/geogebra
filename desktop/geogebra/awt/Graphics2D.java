@@ -105,8 +105,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 
 	@Override
 	public void setComposite(Composite comp) {
-		// TODO Auto-generated method stub
-		
+		impl.setComposite(geogebra.awt.Composite.getAwtComposite(comp));
 	}
 
 	@Override
@@ -195,8 +194,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 
 	@Override
 	public AffineTransform getTransform() {
-		// TODO Auto-generated method stub
-		return null;
+		return new geogebra.awt.AffineTransform(impl.getTransform());
 	}
 
 	@Override
@@ -207,8 +205,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 
 	@Override
 	public Composite getComposite() {
-		// TODO Auto-generated method stub
-		return null;
+		return new geogebra.awt.Composite(impl.getComposite());
 	}
 
 	@Override
@@ -296,11 +293,6 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 	@Override
 	public void drawLine(int x1, int y1, int x2, int y2) {
 		impl.drawLine(x1, y1, x2, y2);
-	}
-
-	@Override
-	public void setComposite(AlphaComposite alphaComp) {
-		impl.setComposite((java.awt.Composite) alphaComp);
 	}
 
 	@Override

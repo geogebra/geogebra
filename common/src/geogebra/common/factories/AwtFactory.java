@@ -65,5 +65,7 @@ public abstract class AwtFactory {
 	public abstract CubicCurve2D newCubicCurve2D();
 	public abstract TextLayout newTextLayout(String string, Font fontLine,
 			FontRenderContext frc);
+	public abstract geogebra.common.awt.AlphaComposite newAlphaComposite(int srcOver,
+			float alpha);
 	
 }

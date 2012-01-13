@@ -22,6 +22,7 @@ import geogebra.common.euclidian.DrawAngle;
 import geogebra.common.euclidian.DrawBoxPlot;
 import geogebra.common.euclidian.DrawConic;
 import geogebra.common.euclidian.DrawConicPart;
+import geogebra.common.euclidian.DrawImage;
 import geogebra.common.euclidian.DrawImplicitPoly;
 import geogebra.common.euclidian.DrawInequality;
 import geogebra.common.euclidian.DrawIntegral;
@@ -260,7 +261,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		evjpanel.setLayout(null);
 		evjpanel.setMinimumSize(new Dimension(20, 20));
 		((EuclidianController)euclidianController).setView(this);
-		((EuclidianController)euclidianController).setPen(new EuclidianPen((Application)getApplication(), this));
+		((EuclidianController)euclidianController).setPen(new EuclidianPen(getApplication(), this));
 
 		attachView();
 
@@ -426,30 +427,14 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	// added by Loic BEGIN
 	
 	// END
-	final void addBackgroundImage(DrawImage img) {
-		bgImageList.addUnique(img);
-		// drawImageList.remove(img);
 
-		// Michael Borcherds 2008-02-29
-		int layer = img.getGeoElement().getLayer();
-		drawLayers[layer].remove(img);
-	}
-
-	final void removeBackgroundImage(DrawImage img) {
-		bgImageList.remove(img);
-		// drawImageList.add(img);
-
-		// Michael Borcherds 2008-02-29
-		int layer = img.getGeoElement().getLayer();
-		drawLayers[layer].add(img);
-	}
 
 	
 	
 	public void setDragCursor() {
 
-		if (((Application)getApplication()).useTransparentCursorWhenDragging) {
-			setCursor(((Application)getApplication()).getTransparentCursor());
+		if (getApplication().useTransparentCursorWhenDragging) {
+			setCursor(getApplication().getTransparentCursor());
 		} else {
 			setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		}
@@ -490,12 +475,12 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 		switch (mode) {
 		case EuclidianConstants.MODE_ZOOM_IN:
-			defaultCursor = getCursorForImage(((Application)getApplication())
+			defaultCursor = getCursorForImage(getApplication()
 					.getInternalImage("cursor_zoomin.gif"));
 			break;
 
 		case EuclidianConstants.MODE_ZOOM_OUT:
-			defaultCursor = getCursorForImage(((Application)getApplication())
+			defaultCursor = getCursorForImage(getApplication()
 					.getInternalImage("cursor_zoomout.gif"));
 			break;
 		}
@@ -759,8 +744,8 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 			Construction cons = kernel.getConstruction();
 			String title = cons.getTitle();
 			if (!title.equals("")) {
-				Font titleFont = ((Application)getApplication()).getBoldFontCommon().deriveFont(Font.BOLD,
-						((Application)getApplication()).getBoldFont().getSize() + 2);
+				Font titleFont = getApplication().getBoldFontCommon().deriveFont(Font.BOLD,
+						getApplication().getBoldFont().getSize() + 2);
 				g2d.setFont(geogebra.awt.Font.getAwtFont(titleFont));
 				g2d.setColor(Color.black);
 				// Font fn = g2d.getFont();
@@ -787,7 +772,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 			// scale string:
 			// Scale in cm: 1:1 (x), 1:2 (y)
 			String scaleString = null;
-			if (((Application)getApplication()).isPrintScaleString()) {
+			if (getApplication().isPrintScaleString()) {
 				StringBuilder sb = new StringBuilder(
 						getApplication().getPlain("ScaleInCentimeter"));
 				if (printingScale <= 1) {
@@ -824,7 +809,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 			}
 
 			if (line != null) {
-				g2d.setFont(((Application)getApplication()).getPlainFont());
+				g2d.setFont(getApplication().getPlainFont());
 				g2d.setColor(Color.black);
 				// Font fn = g2d.getFont();
 				FontMetrics fm = g2d.getFontMetrics();
@@ -875,10 +860,10 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	 * 
 	 */
 	public void exportPaint(geogebra.common.awt.Graphics2D g2d, double scale, boolean transparency) {
-		((Application)getApplication()).exporting = true;
+		getApplication().exporting = true;
 		exportPaintPre(g2d, scale, transparency);
 		drawObjects(g2d);
-		((Application)getApplication()).exporting = false;
+		getApplication().exporting = false;
 	}
 
 	public void exportPaintPre(geogebra.common.awt.Graphics2D g2d, double scale) {
@@ -932,7 +917,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 			if (bgImage == null) {
 				drawBackgroundWithImages(g2d, transparency);
 			} else {
-				geogebra.awt.Graphics2D.getAwtGraphics(g2d).drawImage(geogebra.awt.BufferedImage.getAwtBufferedImage(bgImage), 0, 0, (JPanel)evjpanel);
+				geogebra.awt.Graphics2D.getAwtGraphics(g2d).drawImage(geogebra.awt.BufferedImage.getAwtBufferedImage(bgImage), 0, 0, evjpanel);
 			}
 		} else {
 			// just clear the background if transparency is disabled (clear =
@@ -1030,27 +1015,27 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	protected void drawResetIcon(geogebra.common.awt.Graphics2D g){
 		// need to use getApplet().width rather than width so that
 					// it works with applet rescaling
-					int w = ((Application)getApplication()).onlyGraphicsViewShowing() ? ((Application)getApplication()).getApplet().width
+					int w = getApplication().onlyGraphicsViewShowing() ? getApplication().getApplet().width
 							: getWidth() + 2;
 					geogebra.awt.Graphics2D.getAwtGraphics(g).drawImage(getResetImage(), w - 18, 2, null);
 	}
 	private Image getResetImage() {
 		if (resetImage == null) {
-			resetImage = ((Application)getApplication()).getRefreshViewImage();
+			resetImage = getApplication().getRefreshViewImage();
 		}
 		return resetImage;
 	}
 
 	private Image getPlayImage() {
 		if (playImage == null) {
-			playImage = ((Application)getApplication()).getPlayImage();
+			playImage = getApplication().getPlayImage();
 		}
 		return playImage;
 	}
 
 	private Image getPauseImage() {
 		if (pauseImage == null) {
-			pauseImage = ((Application)getApplication()).getPauseImage();
+			pauseImage = getApplication().getPauseImage();
 		}
 		return pauseImage;
 	}
@@ -1165,7 +1150,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		}
 		GetViewId evp;
 		// eg ev1 just closed
-		if ((evp = ((Application)getApplication()).getGuiManager().getLayout().getDockManager().getFocusedEuclidianPanel()) == null) {
+		if ((evp = getApplication().getGuiManager().getLayout().getDockManager().getFocusedEuclidianPanel()) == null) {
 			return true;
 		}
 
@@ -1202,7 +1187,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 			// for cross-platform UI the stroke must be reset to show buttons
 			// properly, see #442
 			g2.setStroke(EuclidianStatic.getDefaultStroke());
-				((geogebra.euclidian.EuclidianViewJPanel)evjpanel).paintChildren(
+				evjpanel.paintChildren(
 						geogebra.awt.Graphics2D.getAwtGraphics(g2)); // draws Buttons and Textfields
 	}
 	
@@ -2185,15 +2170,15 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	
 
 	public Color getBackground() {
-		return ((geogebra.euclidian.EuclidianViewJPanel)evjpanel).getBackground();
+		return evjpanel.getBackground();
 	}
 	
 	public geogebra.common.awt.Color getBackgroundCommon() {
-		return new geogebra.awt.Color(((geogebra.euclidian.EuclidianViewJPanel)evjpanel).getBackground());
+		return new geogebra.awt.Color(evjpanel.getBackground());
 	}
 
 	public void setBackground(geogebra.common.awt.Color bgColor) {
-		((geogebra.euclidian.EuclidianViewJPanel)evjpanel).setBackground(geogebra.awt.Color.getAwtColor(bgColor));
+		evjpanel.setBackground(geogebra.awt.Color.getAwtColor(bgColor));
 	}
 
 	public Color getGridColor() {
@@ -2283,7 +2268,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	}
 
 	final public Graphics2D getTempGraphics2D() {
-		g2Dtemp.setFont(((Application)getApplication()).getPlainFont());
+		g2Dtemp.setFont(getApplication().getPlainFont());
 		return g2Dtemp;
 	}
 

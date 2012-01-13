@@ -74,4 +74,18 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
 		at.transform(labelCoords, i, labelCoords2, j, k);
 		
 	}
+
+	public geogebra.common.awt.AffineTransform createInverse() throws Exception {
+		return new AffineTransform(at.createInverse());
+	}
+
+	public void scale(double xscale, double d) {
+		at.scale(xscale, d);
+		
+	}
+
+	public void translate(double ax, double ay) {
+		at.translate(ax, ay);
+		
+	}
 }

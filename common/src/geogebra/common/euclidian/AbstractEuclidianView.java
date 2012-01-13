@@ -3628,4 +3628,22 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			gs.closePath();
 			return gs;
 		}
+
+		final public void addBackgroundImage(DrawImage img) {
+			bgImageList.addUnique(img);
+			// drawImageList.remove(img);
+
+			// Michael Borcherds 2008-02-29
+			int layer = img.getGeoElement().getLayer();
+			drawLayers[layer].remove(img);
+		}
+
+		final public void removeBackgroundImage(DrawImage img) {
+			bgImageList.remove(img);
+			// drawImageList.add(img);
+
+			// Michael Borcherds 2008-02-29
+			int layer = img.getGeoElement().getLayer();
+			drawLayers[layer].add(img);
+		}
 }

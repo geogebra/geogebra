@@ -1,6 +1,7 @@
 package geogebra.factories;
 
 import geogebra.awt.Ellipse2DDouble;
+import geogebra.common.awt.AlphaComposite;
 import geogebra.common.awt.Arc2D;
 import geogebra.common.awt.Area;
 import geogebra.common.awt.BasicStroke;
@@ -87,10 +88,12 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 		return new geogebra.awt.Point2D(x,y);
 	}
 
+	@Override
 	public Point newPoint() {
 		return new geogebra.awt.Point();
 	}
 
+	@Override
 	public Point newPoint(int x, int y) {
 		return new geogebra.awt.Point(x,y);
 	}
@@ -196,8 +199,12 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	@Override
 	public TextLayout newTextLayout(String string, Font fontLine,
 			FontRenderContext frc) {
-		// TODO Auto-generated method stub
-		return new geogebra.awt.TextLayout(string,fontLine,(geogebra.awt.FontRenderContext)frc);
+		return new geogebra.awt.TextLayout(string,fontLine,frc);
+	}
+
+	@Override
+	public AlphaComposite newAlphaComposite(int rule, float alpha) {
+		return new geogebra.awt.AlphaComposite(java.awt.AlphaComposite.getInstance(rule, alpha));
 	}
 
 	

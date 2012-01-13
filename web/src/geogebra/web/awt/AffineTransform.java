@@ -33,6 +33,10 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
 		at = new geogebra.web.kernel.gawt.AffineTransform();
 	}
 	
+	public AffineTransform(geogebra.web.kernel.gawt.AffineTransform at) {
+		this.at = at;
+	}
+	
     public void setTransform(geogebra.common.awt.AffineTransform a) {
 	    at.setTransform(getGawtAffineTransform(a));    
     }
@@ -105,6 +109,21 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
 	public void transform(double[] labelCoords, int i, double[] labelCoords2,
             int j, int k) {
 		at.transform(labelCoords, i, labelCoords2, j, k);
+	    
+    }
+
+	public geogebra.common.awt.AffineTransform createInverse() throws Exception{
+	    // TODO Auto-generated method stub
+	    return new geogebra.web.awt.AffineTransform(at.createInverse());
+    }
+
+	public void scale(double xscale, double d) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void translate(double ax, double ay) {
+	    // TODO Auto-generated method stub
 	    
     }
 	

@@ -141,5 +141,22 @@ public abstract class EuclidianStatic {
 		
 	}
 	protected abstract void doDrawWithValueStrokePure(geogebra.common.awt.Shape shape, Graphics2D g2);
+	public static Object setInterpolationHint(
+			geogebra.common.awt.Graphics2D g3,
+			boolean needsInterpolationRenderingHint) {
+		
+		return prototype.doSetInterpolationHint(g3,needsInterpolationRenderingHint);
+	}
+	public static void resetInterpolationHint(
+			geogebra.common.awt.Graphics2D g3,
+			Object hint) {
+		
+		prototype.doResetInterpolationHint(g3,hint);
+	}
+	protected abstract Object doSetInterpolationHint(Graphics2D g3,
+			boolean needsInterpolationRenderingHint);
+	protected abstract void doResetInterpolationHint(
+			geogebra.common.awt.Graphics2D g3,
+			Object hint);
 		
 }

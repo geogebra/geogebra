@@ -1,6 +1,7 @@
 package geogebra.web.factories;
 
 import geogebra.common.awt.AffineTransform;
+import geogebra.common.awt.AlphaComposite;
 import geogebra.common.awt.Arc2D;
 import geogebra.common.awt.Area;
 import geogebra.common.awt.BasicStroke;
@@ -195,6 +196,12 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
     public TextLayout newTextLayout(String string, Font fontLine,
             FontRenderContext frc) {
 	    return new geogebra.web.awt.font.TextLayout(string,fontLine,(geogebra.web.awt.FontRenderContext) frc);
+    }
+
+	@Override
+    public AlphaComposite newAlphaComposite(int srcOver, float alpha) {
+	    // TODO Auto-generated method stub
+	    return null;
     }
 
 }

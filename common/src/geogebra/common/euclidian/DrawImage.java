@@ -16,28 +16,18 @@ the Free Software Foundation.
  * Created on 11. Oktober 2001, 23:59
  */
 
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
-import geogebra.common.euclidian.AbstractEuclidianView;
-import geogebra.common.euclidian.Drawable;
+import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.main.Application;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Composite;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.Point2D;
+
+
+
+
 
 /**
  * 
@@ -48,17 +38,17 @@ public final class DrawImage extends Drawable {
 
 	private GeoImage geoImage;
 	boolean isVisible;
-	private Image image;
+	private BufferedImageAdapter image;
 
 	boolean absoluteLocation;
-	private AlphaComposite alphaComp;
+	private geogebra.common.awt.AlphaComposite alphaComp;
 	private float alpha = -1;
 	private boolean isInBackground = false;
-	private AffineTransform at, atInverse, tempAT;
+	private geogebra.common.awt.AffineTransform at, atInverse, tempAT;
 	private boolean needsInterpolationRenderingHint;
 	private int screenX, screenY;
-	private Rectangle boundingBox;
-	private GeneralPath highlighting;
+	private geogebra.common.awt.Rectangle boundingBox;
+	private geogebra.common.awt.GeneralPath highlighting;
 
 	public DrawImage(AbstractEuclidianView view, GeoImage geoImage) {
 		this.view = view;
@@ -66,9 +56,9 @@ public final class DrawImage extends Drawable {
 		geo = geoImage;
 
 		// temp
-		at = new AffineTransform();
-		tempAT = new AffineTransform();
-		boundingBox = new Rectangle();
+		at = geogebra.common.factories.AwtFactory.prototype.newAffineTransform();
+		tempAT = geogebra.common.factories.AwtFactory.prototype.newAffineTransform();
+		boundingBox = geogebra.common.factories.AwtFactory.prototype.newRectangle();
 
 		selStroke = geogebra.common.factories.AwtFactory.prototype.newMyBasicStroke(1.5f);
 
@@ -84,14 +74,14 @@ public final class DrawImage extends Drawable {
 
 		if (geo.getAlphaValue() != alpha) {
 			alpha = geo.getAlphaValue();
-			alphaComp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-					alpha);
+			alphaComp = geogebra.common.factories.AwtFactory.prototype.newAlphaComposite(
+					geogebra.common.awt.AlphaComposite.SRC_OVER,alpha);
 		}
 
-		image = geogebra.awt.BufferedImage.getAwtBufferedImage(geoImage
-				.getFillImage());
-		int width = image.getWidth(null);
-		int height = image.getHeight(null);
+		image = geoImage
+				.getFillImage();
+		int width = image.getWidth();
+		int height = image.getHeight();
 		absoluteLocation = geoImage.isAbsoluteScreenLocActive();
 
 		// ABSOLUTE SCREEN POSITION
@@ -119,7 +109,7 @@ public final class DrawImage extends Drawable {
 			}
 
 			// set transform according to corners
-			at.setTransform(geogebra.awt.AffineTransform.getAwtAffineTransform(view.getCoordTransform())); // last transform: real world
+			at.setTransform(view.getCoordTransform()); // last transform: real world
 													// -> screen
 			at.translate(ax, ay); // translate to first corner A
 
@@ -187,13 +177,13 @@ public final class DrawImage extends Drawable {
 
 			// calculate bounding box for isInside
 			boundingBox.setBounds(0, 0, width, height);
-			Shape shape = at.createTransformedShape(boundingBox);
+			geogebra.common.awt.Shape shape = at.createTransformedShape(boundingBox);
 			boundingBox = shape.getBounds();
 
 			try {
 				// for hit testing
 				atInverse = at.createInverse();
-			} catch (NoninvertibleTransformException e) {
+			} catch (Exception e) {
 				isVisible = false;
 				return;
 			}
@@ -215,9 +205,9 @@ public final class DrawImage extends Drawable {
 		if (isInBackground != geoImage.isInBackground()) {
 			isInBackground = !isInBackground;
 			if (isInBackground) {
-				((EuclidianView)view).addBackgroundImage(this);
+				view.addBackgroundImage(this);
 			} else {
-				((EuclidianView)view).removeBackgroundImage(this);
+				view.removeBackgroundImage(this);
 				view.updateBackgroundImage();
 			}
 		}
@@ -228,47 +218,33 @@ public final class DrawImage extends Drawable {
 
 	@Override
 	final public void draw(geogebra.common.awt.Graphics2D g3) {
-		Graphics2D g2 = geogebra.awt.Graphics2D.getAwtGraphics(g3);
 		if (isVisible) {
-			Composite oldComp = g2.getComposite();
+			geogebra.common.awt.Composite oldComp = g3.getComposite();
 			if (alpha >= 0f && alpha < 1f) {
 				if (alphaComp == null)
-					alphaComp = AlphaComposite.getInstance(
-							AlphaComposite.SRC_OVER, alpha);
-				g2.setComposite(alphaComp);
+					alphaComp = geogebra.common.factories.AwtFactory.prototype.newAlphaComposite(
+							geogebra.common.awt.AlphaComposite.SRC_OVER, alpha);
+				g3.setComposite(alphaComp);
 			}
 
 			if (absoluteLocation) {
-				g2.drawImage(image, screenX, screenY, null);
+				g3.drawImage(image, screenX, screenY, null);
 				if (!isInBackground && geo.doHighlighting()) {
 					// draw rectangle around image
 					g3.setStroke(selStroke);
-					g3.setPaint(geogebra.awt.Color.lightGray);
-					g2.draw(geogebra.awt.Rectangle.getAWTRectangle(labelRectangle));
+					g3.setPaint(geogebra.common.awt.Color.lightGray);
+					g3.draw(labelRectangle);
 				}
 			} else {
-				AffineTransform oldAT = g2.getTransform();
-				g2.transform(at);
+				geogebra.common.awt.AffineTransform oldAT = g3.getTransform();
+				g3.transform(at);
 
 				// improve rendering quality for transformed images
-				Object oldInterpolationHint = g2
-						.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
-
-				if (oldInterpolationHint == null)
-					oldInterpolationHint = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
-
-				if (needsInterpolationRenderingHint) {
-					// improve rendering quality for transformed images
-					g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-							RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-				} else {
-					g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-							RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);					
-				}
+				Object oldInterpolationHint = geogebra.common.euclidian.EuclidianStatic.setInterpolationHint(g3,needsInterpolationRenderingHint);
 
 				// g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 
-				g2.drawImage(image, 0, 0, null);
+				g3.drawImage(image, 0, 0, null);
 				if (!isInBackground && geo.doHighlighting()) {
 					// draw rectangle around image
 					g3.setStroke(selStroke);
@@ -279,21 +255,21 @@ public final class DrawImage extends Drawable {
 					// g2.draw(labelRectangle);
 
 					// draw parallelogram around edge
-					drawHighlighting(at, g2);
-					Point2D corner1 = new Point2D.Double(
+					drawHighlighting(at, g3);
+					geogebra.common.awt.Point2D corner1 = geogebra.common.factories.AwtFactory.prototype.newPoint2D(
 							labelRectangle.getMinX(), labelRectangle.getMinY());
-					Point2D corner2 = new Point2D.Double(
+					geogebra.common.awt.Point2D corner2 = geogebra.common.factories.AwtFactory.prototype.newPoint2D(
 							labelRectangle.getMinX(), labelRectangle.getMaxY());
-					Point2D corner3 = new Point2D.Double(
+					geogebra.common.awt.Point2D corner3 = geogebra.common.factories.AwtFactory.prototype.newPoint2D(
 							labelRectangle.getMaxX(), labelRectangle.getMaxY());
-					Point2D corner4 = new Point2D.Double(
+					geogebra.common.awt.Point2D corner4 = geogebra.common.factories.AwtFactory.prototype.newPoint2D(
 							labelRectangle.getMaxX(), labelRectangle.getMinY());
 					at.transform(corner1, corner1);
 					at.transform(corner2, corner2);
 					at.transform(corner3, corner3);
 					at.transform(corner4, corner4);
 					if (highlighting == null)
-						highlighting = new GeneralPath();
+						highlighting = geogebra.common.factories.AwtFactory.prototype.newGeneralPath();
 					else
 						highlighting.reset();
 					highlighting.moveTo((float) corner1.getX(),
@@ -306,22 +282,21 @@ public final class DrawImage extends Drawable {
 							(float) corner4.getY());
 					highlighting.lineTo((float) corner1.getX(),
 							(float) corner1.getY());
-					g2.setTransform(oldAT);
-					g2.draw(highlighting);
+					g3.setTransform(oldAT);
+					g3.draw(highlighting);
 
 				}
 
 				// reset previous values
-				g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-						oldInterpolationHint);
-				g2.setTransform(oldAT);
+				geogebra.common.euclidian.EuclidianStatic.resetInterpolationHint(g3,oldInterpolationHint);
+				g3.setTransform(oldAT);
 			}
 
-			g2.setComposite(oldComp);
+			g3.setComposite(oldComp);
 		}
 	}
 
-	private void drawHighlighting(AffineTransform at2, Graphics2D g2) {
+	private void drawHighlighting(geogebra.common.awt.AffineTransform at2, geogebra.common.awt.Graphics2D g2) {
 		// TODO Auto-generated method stub
 
 	}
@@ -355,7 +330,7 @@ public final class DrawImage extends Drawable {
 	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
 		if (!isVisible || geoImage.isInBackground())
 			return false;
-		return geogebra.awt.Rectangle.getAWTRectangle(rect).contains(boundingBox);
+		return rect.contains(boundingBox);
 	}
 
 	/**
@@ -366,7 +341,7 @@ public final class DrawImage extends Drawable {
 		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}
-		return new geogebra.awt.Rectangle(boundingBox);
+		return boundingBox;
 	}
 
 	/**

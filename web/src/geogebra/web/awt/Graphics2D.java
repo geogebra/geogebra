@@ -479,12 +479,6 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
     	context.lineTo(x2, y2);
     }
 
-	
-    @Override
-    public void setComposite(AlphaComposite alphaComp) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
-    }
 
 
 	@Override
