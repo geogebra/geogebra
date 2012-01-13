@@ -5519,6 +5519,32 @@ public class Application extends AbstractApplication implements
 	public Font getFontCanDisplayAwt(String value, int plain) {
 		return geogebra.awt.Font.getAwtFont(getFontCanDisplay(value,plain));
 	}
+	
+
+	@Override
+	public boolean isMacOS() {
+		return MAC_OS;
+	}
+
+	@Override
+	public boolean isWindows() {
+		return WINDOWS;
+	}
+
+	@Override
+	public boolean isWindowsVistaOrLater() {
+		return WINDOWS_VISTA_OR_LATER;
+	}
+
+	// don't pull these up to common, use the non static methods isWindows(), isMacOS(), isWindowsVistaOrLater() instead
+	private static String OS = System.getProperty("os.name").toLowerCase(Locale.US);
+	public static boolean MAC_OS = OS.startsWith("mac"); 
+	public static boolean WINDOWS = OS.startsWith("windows"); 
+	// make sure still works in the future on eg Windows 9 
+	public static boolean WINDOWS_VISTA_OR_LATER = WINDOWS 
+			&& !OS.startsWith("windows 2000") && !OS.startsWith("windows 95") 
+			&& !OS.startsWith("windows 98") && !OS.startsWith("windows nt") 
+			&& !OS.startsWith("windows xp"); 
 
 
 }

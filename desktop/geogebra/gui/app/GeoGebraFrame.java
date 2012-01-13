@@ -220,7 +220,6 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 
 		if (Application.MAC_OS)
 			initMacSpecifics();
-
 		// set system look and feel
 		try {
 			if (Application.MAC_OS || Application.WINDOWS)

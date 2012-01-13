@@ -7108,7 +7108,7 @@ public abstract class AbstractEuclidianController {
 				// MACOS:
 				// Cmd-left-drag: zoom
 				// Cmd-shift-left-drag: zoom without preserving aspect ratio
-						|| (AbstractApplication.MAC_OS && app.isControlDown(event)
+						|| (app.isMacOS() && app.isControlDown(event)
 								&& !event.isShiftDown() && !app
 									.isRightClick(event)));
 				view.repaintView();
@@ -7532,7 +7532,7 @@ public abstract class AbstractEuclidianController {
 				(event.isShiftDown() && !app.isControlDown(event)) // All
 																	// Platforms:
 																	// Shift key
-						|| (event.isControlDown() && AbstractApplication.WINDOWS // old
+						|| (event.isControlDown() && app.isWindows() // old
 																		// Windows
 																		// key:
 																		// Ctrl
@@ -7891,7 +7891,7 @@ public abstract class AbstractEuclidianController {
 	
 				// make sure cmd-click selects multiple points (not open
 				// properties)
-				if ((AbstractApplication.MAC_OS && app.isControlDown(event))
+				if ((app.isMacOS() && app.isControlDown(event))
 						|| !app.isRightClick(event)) {
 					return;
 				}
