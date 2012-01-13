@@ -7,7 +7,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 
 
@@ -15,11 +15,15 @@ import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
  *ZoomIn
  */
 public class CmdZoomIn extends CmdScripting {
-
+	/**
+	 * Creates new ZooomOut command
+	 * @param kernel kernel
+	 */
 	public CmdZoomIn(Kernel kernel) {
 		super(kernel);
 	}
 
+	@Override
 	final public void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
@@ -30,7 +34,7 @@ public class CmdZoomIn extends CmdScripting {
 			if (arg[0].isGeoNumeric()) {
 				GeoNumeric numGeo = (GeoNumeric) arg[0];
 
-				EuclidianViewInterfaceSlim ev = (AbstractEuclidianView) app.getActiveEuclidianView();
+				EuclidianViewInterfaceSlim ev =  app.getActiveEuclidianView();
 				double px = ev.getWidth() / 2; // mouseLoc.x;
 				double py = ev.getHeight() / 2; // mouseLoc.y;
 
@@ -45,7 +49,7 @@ public class CmdZoomIn extends CmdScripting {
 				
 				return;
 
-			} else
+			} 
 				throw argErr(app, c.getName(), arg[0]);
 		case 2:
 			arg = resArgs(c);
@@ -54,7 +58,7 @@ public class CmdZoomIn extends CmdScripting {
 				GeoNumeric numGeo = (GeoNumeric) arg[0];
 				GeoPoint2 p = (GeoPoint2) arg[1];
 
-				AbstractEuclidianView ev = (AbstractEuclidianView)app.getActiveEuclidianView();
+				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 				double px = ev.toScreenCoordXd(p.inhomX); // mouseLoc.x;
 				double py = ev.toScreenCoordYd(p.inhomY); // mouseLoc.y;
 
@@ -69,14 +73,14 @@ public class CmdZoomIn extends CmdScripting {
 				
 				return;
 
-			} else
+			} 
 				throw argErr(app, c.getName(), ok0 ? arg[1] : arg[0]);
 		case 4:
 			arg = resArgs(c);
 			for(int i=0;i<3;i++)
 					if(!arg[i].isNumberValue())
 						throw argErr(app, c.getName(),arg[i]);
-			AbstractEuclidianView ev = (AbstractEuclidianView)app.getActiveEuclidianView();
+			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 			ev.setXminObject((NumberValue)arg[0]);
 			ev.setXmaxObject((NumberValue)arg[2]);
 			ev.setYminObject((NumberValue)arg[1]);

@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 
 /**
@@ -34,7 +34,7 @@ public class CmdZoomOut extends CmdScripting {
 			if (arg[0].isGeoNumeric()) {
 				GeoNumeric numGeo = (GeoNumeric) arg[0];
 
-				EuclidianViewInterfaceSlim ev = app.getEuclidianView();
+				EuclidianViewInterfaceSlim ev = app.getActiveEuclidianView();
 				double px = ev.getWidth() / 2.0; // mouseLoc.x;
 				double py = ev.getHeight() / 2.0; // mouseLoc.y;
 
@@ -60,7 +60,7 @@ public class CmdZoomOut extends CmdScripting {
 				GeoNumeric numGeo = (GeoNumeric) arg[0];
 				GeoPoint2 p = (GeoPoint2) arg[1];
 
-				AbstractEuclidianView ev = (AbstractEuclidianView)app.getEuclidianView();
+				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 				double px = ev.toScreenCoordXd(p.inhomX); // mouseLoc.x;
 				double py = ev.toScreenCoordYd(p.inhomY); // mouseLoc.y;
 

@@ -1479,7 +1479,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	public void update(){
 		super.update();
 		if (euclidianViewForPlane!=null){
-			((AbstractEuclidianView)euclidianViewForPlane).updateForPlane();
+			euclidianViewForPlane.updateForPlane();
 		}		
 	}
 

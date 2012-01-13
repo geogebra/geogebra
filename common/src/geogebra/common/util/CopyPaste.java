@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.util;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -27,7 +28,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.main.AbstractApplication;
-import geogebra.common.euclidian.AbstractEuclidianView;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,7 +56,7 @@ public class CopyPaste {
 
 	protected static StringBuilder copiedXMLforSameWindow;
 	protected static ArrayList<String> copiedXMLlabelsforSameWindow;
-	protected static AbstractEuclidianView copySource;
+	protected static EuclidianViewInterfaceCommon copySource;
 	protected static Object copyObject, copyObject2;
 
 	/**
@@ -487,7 +488,7 @@ public class CopyPaste {
 		copiedXMLlabels = new ArrayList<String>();
 		copiedXMLforSameWindow = new StringBuilder();
 		copiedXMLlabelsforSameWindow = new ArrayList<String>();
-		copySource = (AbstractEuclidianView) app.getActiveEuclidianView();
+		copySource = app.getActiveEuclidianView();
 		copyObject = app.getKernel().getConstruction().getUndoManager()
 				.getCurrentUndoInfo();
 
@@ -721,7 +722,7 @@ public class CopyPaste {
 				.setPastePreviewSelected();
 
 		if (pasteFast(app)) {
-			AbstractEuclidianView ev = (AbstractEuclidianView) app
+			EuclidianViewInterfaceCommon ev = app
 					.getActiveEuclidianView();
 			if (ev == app.getEuclidianView()) {
 				app.getGgbApi().evalXML(copiedXMLforSameWindow.toString());
@@ -734,7 +735,7 @@ public class CopyPaste {
 			}
 			handleLabels(app, copiedXMLlabelsforSameWindow);
 		} else {
-			AbstractEuclidianView ev = (AbstractEuclidianView) app
+			EuclidianViewInterfaceCommon ev = app
 					.getActiveEuclidianView();
 			if (ev == app.getEuclidianView()) {
 				app.getGgbApi().evalXML(copiedXML.toString());

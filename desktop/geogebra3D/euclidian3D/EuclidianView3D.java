@@ -3645,5 +3645,17 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	}
 
 	
+	public double toScreenCoordXd(double rwX) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public double toScreenCoordYd(double rwY) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	
+	
 }
 

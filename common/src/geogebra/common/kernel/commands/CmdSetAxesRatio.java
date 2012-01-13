@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
@@ -33,13 +34,14 @@ public class CmdSetAxesRatio extends CmdScripting {
 				
 				GeoNumeric numGeo = (GeoNumeric) arg[0];
 				GeoNumeric numGeo2 = (GeoNumeric) arg[1];
-				AbstractEuclidianView ev = (AbstractEuclidianView)app.getEuclidianView();
-				ev.zoomAxesRatio(numGeo.getDouble()/numGeo2.getDouble(), true);
+				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+				if(ev instanceof AbstractEuclidianView)
+					((AbstractEuclidianView)ev).zoomAxesRatio(numGeo.getDouble()/numGeo2.getDouble(), true);
 				
 				return;
 
-			} else
-				throw argErr(app, c.getName(), ok0 ? arg[1] : arg[0]);
+			}
+			throw argErr(app, c.getName(), ok0 ? arg[1] : arg[0]);
 		case 3:
 			arg = resArgs(c);			
 			if ((ok0 = arg[0].isGeoNumeric()) && arg[1].isGeoNumeric()) {
@@ -56,8 +58,8 @@ public class CmdSetAxesRatio extends CmdScripting {
 				
 				return;
 
-			} else
-				throw argErr(app, c.getName(), ok0 ? arg[1] : arg[0]);
+			}
+			throw argErr(app, c.getName(), ok0 ? arg[1] : arg[0]);
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

@@ -919,7 +919,7 @@ public abstract class AbstractApplication {
 		return euclidianView;
 	}
 
-	public abstract EuclidianViewInterfaceSlim getActiveEuclidianView();
+	public abstract EuclidianViewInterfaceCommon getActiveEuclidianView();
 
 
 	public abstract boolean isRightToLeftDigits();

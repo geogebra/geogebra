@@ -319,4 +319,7 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 
 	public int getEuclidianViewNo();
 
+	public double toScreenCoordXd(double rwX);
+	public double toScreenCoordYd(double rwY);
+
 }

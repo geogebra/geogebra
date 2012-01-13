@@ -528,10 +528,7 @@ public class ConstructionDefaults {
 	
 	protected void setMaxLayerUsed(GeoElement geo, AbstractApplication app){
 		if (app != null) {
-			//TODO: if get EuclidianView returns 3D, this will fail
-			AbstractEuclidianView ev = (AbstractEuclidianView)app.getEuclidianView();
-			if (ev != null)
-				geo.setLayer(ev.getMaxLayerUsed());
+			geo.setLayer(app.getMaxLayerUsed());
 		}
 	}
 	
