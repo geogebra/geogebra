@@ -326,4 +326,7 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	public double toScreenCoordXd(double rwX);
 	public double toScreenCoordYd(double rwY);
 
+	public void setAnimatedCoordSystem(double px, double py, double factor,
+			double d, int i, boolean b);
+
 }

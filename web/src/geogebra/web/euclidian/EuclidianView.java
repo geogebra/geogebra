@@ -388,5 +388,11 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	    // TODO Auto-generated method stub
 	    
     }
+
+	public void setAnimatedCoordSystem(double px, double py, double factor,
+            double d, int i, boolean b) {
+	    // TODO Auto-generated method stub
+	    
+    }
 	
 }

@@ -498,110 +498,12 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	public void componentMoved(ComponentEvent e) {
 	}
 	
-	protected void wrapMouseWheelMoved(AbstractEvent event) {
-		
-		if (textfieldHasFocus) {
-			return;
-		}
-
-		if ((mode == EuclidianConstants.MODE_PEN)
-				|| (mode == EuclidianConstants.MODE_FREEHAND)) {
-			return;
-		}
-
-		// don't allow mouse wheel zooming for applets if mode is not zoom mode
-		boolean allowMouseWheel = !((Application)app).isApplet()
-				|| (mode == EuclidianConstants.MODE_ZOOM_IN)
-				|| (mode == EuclidianConstants.MODE_ZOOM_OUT)
-				|| (app.isShiftDragZoomEnabled() && (event.isControlDown()
-						|| event.isMetaDown() || event.isShiftDown()));
-		if (!allowMouseWheel) {
-			return;
-		}
-
-		setMouseLocation(event);
-
-		// double px = view.width / 2d;
-		// double py = view.height / 2d;
-		double px = mouseLoc.x;
-		double py = mouseLoc.y;
-		// double dx = view.getXZero() - px;
-		// double dy = view.getYZero() - py;
-
-		double xFactor = 1;
-		if (event.isAltDown()) {
-			xFactor = 1.5;
-		}
-
-		double reverse = app.isMouseWheelReversed() ? -1 : 1;
-
-		double factor = ((event.getWheelRotation() * reverse) > 0) ? AbstractEuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
-				* xFactor
-				: 1d / (AbstractEuclidianView.MOUSE_WHEEL_ZOOM_FACTOR * xFactor);
-
-		// make zooming a little bit smoother by having some steps
-
-		((EuclidianViewInterface) view).setAnimatedCoordSystem(
-		// px + dx * factor,
-		// py + dy * factor,
-				px, py, factor, view.getXscale() * factor, 4, false);
-		// view.yscale * factor);
-		app.setUnsaved();
-	}
-
 	/**
 	 * Zooms in or out using mouse wheel
 	 */
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
 		wrapMouseWheelMoved(event);
-		/*if (textfieldHasFocus) {
-			return;
-		}
-
-		if ((mode == EuclidianConstants.MODE_PEN)
-				|| (mode == EuclidianConstants.MODE_FREEHAND)) {
-			return;
-		}
-
-		// don't allow mouse wheel zooming for applets if mode is not zoom mode
-		boolean allowMouseWheel = !((Application)app).isApplet()
-				|| (mode == EuclidianConstants.MODE_ZOOM_IN)
-				|| (mode == EuclidianConstants.MODE_ZOOM_OUT)
-				|| (((Application) app).isShiftDragZoomEnabled() && (e.isControlDown()
-						|| e.isMetaDown() || e.isShiftDown()));
-		if (!allowMouseWheel) {
-			return;
-		}
-
-		setMouseLocation(geogebra.euclidian.event.MouseEvent.wrapEvent(e));
-
-		// double px = view.width / 2d;
-		// double py = view.height / 2d;
-		double px = mouseLoc.x;
-		double py = mouseLoc.y;
-		// double dx = view.getXZero() - px;
-		// double dy = view.getYZero() - py;
-
-		double xFactor = 1;
-		if (e.isAltDown()) {
-			xFactor = 1.5;
-		}
-
-		double reverse = ((Application) app).isMouseWheelReversed() ? -1 : 1;
-
-		double factor = ((e.getWheelRotation() * reverse) > 0) ? EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
-				* xFactor
-				: 1d / (EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR * xFactor);
-
-		// make zooming a little bit smoother by having some steps
-
-		((EuclidianViewInterface) view).setAnimatedCoordSystem(
-		// px + dx * factor,
-		// py + dy * factor,
-				px, py, factor, view.getXscale() * factor, 4, false);
-		// view.yscale * factor);
-		((Application)app).setUnsaved();*/
 	}
 
 	public void zoomInOut(KeyEvent event) {

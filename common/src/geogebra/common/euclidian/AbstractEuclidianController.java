@@ -8076,5 +8076,56 @@ public abstract class AbstractEuclidianController {
 		view.setShowAxesRatio(false);
 		kernel.notifyRepaint();
 	}
+
+	protected void wrapMouseWheelMoved(AbstractEvent event) {
+		
+		if (textfieldHasFocus) {
+			return;
+		}
+	
+		if ((mode == EuclidianConstants.MODE_PEN)
+				|| (mode == EuclidianConstants.MODE_FREEHAND)) {
+			return;
+		}
+	
+		// don't allow mouse wheel zooming for applets if mode is not zoom mode
+		boolean allowMouseWheel = !app.isApplet()
+				|| (mode == EuclidianConstants.MODE_ZOOM_IN)
+				|| (mode == EuclidianConstants.MODE_ZOOM_OUT)
+				|| (app.isShiftDragZoomEnabled() && (event.isControlDown()
+						|| event.isMetaDown() || event.isShiftDown()));
+		if (!allowMouseWheel) {
+			return;
+		}
+	
+		setMouseLocation(event);
+	
+		// double px = view.width / 2d;
+		// double py = view.height / 2d;
+		double px = mouseLoc.x;
+		double py = mouseLoc.y;
+		// double dx = view.getXZero() - px;
+		// double dy = view.getYZero() - py;
+	
+		double xFactor = 1;
+		if (event.isAltDown()) {
+			xFactor = 1.5;
+		}
+	
+		double reverse = app.isMouseWheelReversed() ? -1 : 1;
+	
+		double factor = ((event.getWheelRotation() * reverse) > 0) ? AbstractEuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
+				* xFactor
+				: 1d / (AbstractEuclidianView.MOUSE_WHEEL_ZOOM_FACTOR * xFactor);
+	
+		// make zooming a little bit smoother by having some steps
+	
+		view.setAnimatedCoordSystem(
+		// px + dx * factor,
+		// py + dy * factor,
+				px, py, factor, view.getXscale() * factor, 4, false);
+		// view.yscale * factor);
+		app.setUnsaved();
+	}
 	
 }
