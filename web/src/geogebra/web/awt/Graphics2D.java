@@ -531,7 +531,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	    setWidth((int) preferredSize.getWidth());
 	    setHeight((int) preferredSize.getHeight());
 	    setCoordinateSpaceHeight(getOffsetHeight());
-	    setCoordinateSpaceWidth(getCoordinateSpaceWidth());
+	    setCoordinateSpaceWidth(getOffsetWidth());
     }
 	
 	public Canvas getCanvas() {
