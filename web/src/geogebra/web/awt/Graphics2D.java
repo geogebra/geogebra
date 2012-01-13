@@ -111,7 +111,8 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	}
 
 	//
-	public void drawImage(BufferedImageAdapter img, BufferedImageOp op, int x,
+	@Override
+    public void drawImage(BufferedImageAdapter img, BufferedImageOp op, int x,
 	        int y) {
 		context.drawImage(((BufferedImage) img).getImageElement(), x, y);
 	}
@@ -446,6 +447,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
     @Override
     public void setColor(Color fillColor) {
     	context.setStrokeStyle("rgba("+fillColor.getRed()+","+fillColor.getGreen()+","+fillColor.getBlue()+","+fillColor.getAlpha()/255+")");
+    	context.setFillStyle("rgba("+fillColor.getRed()+","+fillColor.getGreen()+","+fillColor.getBlue()+","+fillColor.getAlpha()/255+")");
     	this.color=fillColor;
     }
 
@@ -457,6 +459,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 
 	
+    @Override
     public void drawImage(BufferedImageAdapter img, int x, int y,
             BufferedImageOp op) {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
@@ -464,17 +467,20 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
     }
 
 	
-    public void fillRect(int i, int j, int k, int l) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+    @Override
+    public void fillRect(int x, int y, int w, int h) {
+    	context.fillRect(x, y, w, h);
     }
 
 	
+    @Override
     public void drawLine(int x1, int y1, int x2, int y2) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+    	context.moveTo(x1, y1);
+    	context.lineTo(x2, y2);
     }
 
 	
+    @Override
     public void setComposite(AlphaComposite alphaComp) {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
@@ -484,7 +490,6 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	@Override
     public void setClip(Object shape) {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
     }
 
 
