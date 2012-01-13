@@ -6,8 +6,9 @@ import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
 import geogebra.common.awt.Shape;
 import geogebra.common.euclidian.GeneralPathClipped;
+import geogebra.common.main.AbstractApplication;
 
-public class GenericShape implements Shape {
+public class GenericShape implements geogebra.web.awt.Shape {
 
 	private geogebra.web.kernel.gawt.Shape impl;
 	
@@ -70,14 +71,17 @@ public class GenericShape implements Shape {
 
 
 	public static geogebra.web.kernel.gawt.Shape getGawtShape(Shape shape) {
-		Shape shapeCommon = null;
-		if(shape instanceof GeneralPathClipped){
-			shapeCommon = ((GeneralPathClipped)shape).getGeneralPath();
-		}
-		else shapeCommon = shape;
-	    if(!(shapeCommon instanceof geogebra.web.awt.Shape))
+		Shape shapeCommon = shape instanceof GeneralPathClipped ?
+			 ((GeneralPathClipped)shape).getGeneralPath() : shape;
+	    if(!(shapeCommon instanceof geogebra.web.awt.Shape)){
 	    	return null;
+	    }
 	    return ((geogebra.web.awt.Shape)shapeCommon).getGawtShape();
+    }
+
+
+	public geogebra.web.kernel.gawt.Shape getGawtShape() {
+	    return impl;
     }
 
 }
