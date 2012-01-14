@@ -63,7 +63,7 @@ public class Arc2D extends geogebra.common.awt.Arc2D implements Shape {
 	@Override
 	public void setArc(double d, double e, double f, double g, double degrees,
 	        double degrees2, int open2) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		impl.setArc(d,e,f,g,degrees,degrees2,open2);
 
 	}
 
@@ -82,7 +82,7 @@ public class Arc2D extends geogebra.common.awt.Arc2D implements Shape {
 	@Override
 	public void setArcByCenter(double x, double y, double radius, double angSt,
 			double angExt, int closure) {
-	    impl.setArcByCenter(angExt, y, radius, angSt, angExt, closure);
+	    impl.setArcByCenter(x, y, radius, angSt, angExt, closure);
 	    
     }
 
