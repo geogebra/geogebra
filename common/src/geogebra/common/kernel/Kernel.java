@@ -2,6 +2,7 @@ package geogebra.common.kernel;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.adapters.Geo3DVec;
+import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.factories.FormatFactory;
@@ -2637,7 +2638,7 @@ public class Kernel {
 
 	public synchronized GeoGebraCasInterface getGeoGebraCAS() {
 		if (ggbCAS == null) {
-			ggbCAS = app.newGeoGebraCAS();
+			ggbCAS = new GeoGebraCAS(this);
 		}
 
 		return ggbCAS;

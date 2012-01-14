@@ -1484,8 +1484,6 @@ public abstract class AbstractApplication {
 
 	public abstract GeoElementGraphicsAdapter newGeoElementGraphicsAdapter();
 
-	public abstract GeoGebraCasInterface newGeoGebraCAS();
-
 	public void repaintSpreadsheet() {
 		// TODO Auto-generated method stub
 		

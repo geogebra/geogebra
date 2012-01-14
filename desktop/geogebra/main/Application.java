@@ -615,6 +615,7 @@ public class Application extends AbstractApplication implements
 		geogebra.common.factories.AwtFactory.prototype = new geogebra.factories.AwtFactory();
 		geogebra.common.factories.FormatFactory.prototype = new geogebra.factories.FormatFactory();
 		geogebra.common.factories.LaTeXFactory.prototype = new geogebra.factories.LaTeXFactory();
+		geogebra.common.factories.CASFactory.prototype = new geogebra.factories.CASFactory();
 		geogebra.common.util.StringUtil.prototype = new geogebra.util.StringUtil();
 		// TODO: probably there is better way
 		geogebra.common.awt.Color.black = geogebra.awt.Color.black;
@@ -5426,12 +5427,6 @@ public class Application extends AbstractApplication implements
 	@Override
 	public UndoManager getUndoManager(Construction cons) {
 		return new UndoManager(cons);
-	}
-
-	
-	@Override
-	public GeoGebraCasInterface newGeoGebraCAS() {
-		return new geogebra.cas.GeoGebraCAS(kernel);
 	}
 
 	@Override

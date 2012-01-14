@@ -10,9 +10,8 @@
 
  */
 
-package geogebra.cas;
+package geogebra.common.cas;
 
-import geogebra.common.cas.CASException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;

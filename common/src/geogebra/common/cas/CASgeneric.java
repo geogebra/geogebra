@@ -1,6 +1,5 @@
-package geogebra.cas;
+package geogebra.common.cas;
 
-import geogebra.common.cas.CASException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -12,12 +11,9 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.CASSettings;
 import geogebra.common.main.settings.SettingListener;
-import geogebra.main.MyResourceBundle;
 
-import java.util.Enumeration;
 import java.util.HashSet;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import java.util.Map;
 import java.util.Set;
 
 public abstract class CASgeneric implements CASGenericInterface,
@@ -29,14 +25,13 @@ public abstract class CASgeneric implements CASGenericInterface,
 	private long timeoutMillis = 5000;
 
 	protected CASparser casParser;
-	private ResourceBundle rbCasTranslations; // translates from GeogebraCAS
+	private Map<String,String> rbCasTranslations; // translates from GeogebraCAS
 												// syntax to the internal CAS
 												// syntax.
-	private String translationResourcePath;
 
-	public CASgeneric(CASparser casParser, String translationResourcePath) {
+	public CASgeneric(CASparser casParser) {
 		this.casParser = casParser;
-		this.translationResourcePath = translationResourcePath;
+		
 	}
 
 	/**
@@ -48,7 +43,7 @@ public abstract class CASgeneric implements CASGenericInterface,
 	 * @return evaluation result
 	 * @throws CASException
 	 */
-	protected abstract String evaluateGeoGebraCAS(ValidExpression casInput)
+	public abstract String evaluateGeoGebraCAS(ValidExpression casInput)
 			throws CASException;
 
 	/**
@@ -101,14 +96,7 @@ public abstract class CASgeneric implements CASGenericInterface,
 	 * 
 	 */
 	public String getTranslatedCASCommand(String command) {
-		String ret;
-		try {
-			ret = getTranslationRessourceBundle().getString(command);
-		} catch (MissingResourceException e) {
-			ret = null;
-		}
-
-		return ret;
+		return getTranslationRessourceBundle().get(command);
 	}
 
 	/**
@@ -126,12 +114,13 @@ public abstract class CASgeneric implements CASGenericInterface,
 	 * @return The current ResourceBundle used for translations.
 	 * 
 	 */
-	private synchronized ResourceBundle getTranslationRessourceBundle() {
+	private synchronized Map<String,String> getTranslationRessourceBundle() {
 		if (rbCasTranslations == null)
-			rbCasTranslations = MyResourceBundle
-					.loadSingleBundleFile(translationResourcePath);
+			rbCasTranslations = initTranslationMap();
 		return rbCasTranslations;
 	}
+	
+	public abstract Map<String,String> initTranslationMap();
 
 	public final String toAssignment(GeoElement ge) {
 		String body = ge.getCASString(false);
@@ -246,10 +235,8 @@ public abstract class CASgeneric implements CASGenericInterface,
 	 */
 	public Set<String> getAvailableCommandNames() {
 		Set<String> cmdSet = new HashSet<String>();
-		for (Enumeration<String> e = getTranslationRessourceBundle().getKeys(); e
-				.hasMoreElements();) {
-			String s = e.nextElement();
-			String cmd = s.substring(0, s.indexOf('.'));
+		for (String signature: getTranslationRessourceBundle().keySet()) {
+			String cmd = signature.substring(0, signature.indexOf('.'));
 			cmdSet.add(cmd);
 		}
 		return cmdSet;

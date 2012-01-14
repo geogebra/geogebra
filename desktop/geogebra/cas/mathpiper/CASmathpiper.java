@@ -1,13 +1,14 @@
 package geogebra.cas.mathpiper;
 
-import geogebra.cas.CASgeneric;
-import geogebra.cas.CASparser;
-import geogebra.cas.CasParserTools;
 import geogebra.common.cas.CASException;
+import geogebra.common.cas.CASgeneric;
+import geogebra.common.cas.CASparser;
+import geogebra.common.cas.CasParserTools;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.main.Application;
 
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -23,7 +24,7 @@ public class CASmathpiper extends CASgeneric {
 	private EvaluationResponse response;
 
 	public CASmathpiper(CASparser casParser, CasParserTools parserTools) {
-		super(casParser, RB_GGB_TO_MathPiper);
+		super(casParser);
 		this.parserTools = parserTools;
 
 		getMathPiper();
@@ -317,5 +318,11 @@ public class CASmathpiper extends CASgeneric {
 	public void setSignificantFiguresForNumeric(int significantNumbers) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public Map<String, String> initTranslationMap() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

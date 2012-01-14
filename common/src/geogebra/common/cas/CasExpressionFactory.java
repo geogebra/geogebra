@@ -2,7 +2,7 @@
  *  @author dominik kreil 
  * */
 
-package geogebra.cas;
+package geogebra.common.cas;
 
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.MyDouble;

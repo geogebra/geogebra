@@ -1,6 +1,6 @@
 package geogebra.cas.view;
 
-import geogebra.cas.GeoGebraCAS;
+import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
@@ -226,7 +226,7 @@ public class CASView extends JComponent implements View, Gridable {
 
 	final public synchronized GeoGebraCAS getCAS() {
 		if (cas == null) {
-			cas = (geogebra.cas.GeoGebraCAS) kernel.getGeoGebraCAS();
+			cas = (geogebra.common.cas.GeoGebraCAS) kernel.getGeoGebraCAS();
 		}
 
 		return cas;

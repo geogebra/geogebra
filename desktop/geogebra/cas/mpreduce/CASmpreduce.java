@@ -1,10 +1,11 @@
 package geogebra.cas.mpreduce;
 
-import geogebra.cas.CASgeneric;
-import geogebra.cas.CASparser;
-import geogebra.cas.CasParserTools;
-import geogebra.cas.CasExpressionFactory;
 import geogebra.common.cas.CASException;
+import geogebra.common.cas.CASparser;
+import geogebra.common.cas.CasExpressionFactory;
+import geogebra.common.cas.CasParserTools;
+import geogebra.common.cas.mpreduce.AbstractCASmpreduce;
+import geogebra.common.cas.mpreduce.Ggb2MPReduce;
 import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -12,6 +13,7 @@ import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.main.AbstractApplication;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.concurrent.TimeoutException;
@@ -20,7 +22,7 @@ import java.util.regex.Pattern;
 
 import org.mathpiper.mpreduce.Interpreter2;
 
-public class CASmpreduce extends CASgeneric {
+public class CASmpreduce extends AbstractCASmpreduce {
 
 	private final static String RB_GGB_TO_MPReduce = "/geogebra/cas/mpreduce/ggb2mpreduce";
 	private int significantNumbers = -1;
@@ -40,7 +42,7 @@ public class CASmpreduce extends CASgeneric {
 	final private Set<String> predefinedFunctions = ExpressionNodeConstants.RESERVED_FUNCTION_NAMES;
 
 	public CASmpreduce(CASparser casParser, CasParserTools parserTools) {
-		super(casParser, RB_GGB_TO_MPReduce);
+		super(casParser);
 		this.parserTools = parserTools;
 		getMPReduce();
 	}
@@ -901,5 +903,10 @@ public class CASmpreduce extends CASgeneric {
 		} catch (Throwable th) {
 			th.printStackTrace();
 		}
+	}
+
+	@Override
+	public Map<String, String> initTranslationMap() {
+		return new Ggb2MPReduce().getMap();
 	}
 }

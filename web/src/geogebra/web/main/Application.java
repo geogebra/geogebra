@@ -526,13 +526,6 @@ public class Application extends AbstractApplication {
 	    return new geogebra.web.kernel.geos.GeoElementGraphicsAdapter();
     }
 
-	
-	@Override
-    public GeoGebraCasInterface newGeoGebraCAS() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
-    }
-
 	@Override
     public AlgoElement newAlgoShortestDistance(Construction cons, String label,
             GeoList list, GeoPointND start, GeoPointND end, GeoBoolean weighted) {

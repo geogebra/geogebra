@@ -1,15 +1,17 @@
 package geogebra.cas.maxima;
 
 
-import geogebra.cas.CASgeneric;
-import geogebra.cas.CASparser;
+import java.util.Map;
+
+import geogebra.common.cas.CASgeneric;
+import geogebra.common.cas.CASparser;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 
 
 public class CASmaxima extends CASgeneric {
 
 	public CASmaxima(CASparser casParser, String translationResourcePath) {
-		super(casParser, translationResourcePath);
+		super(casParser);
 		// TODO Auto-generated constructor stub
 	}
 /*
@@ -44,7 +46,7 @@ public class CASmaxima extends CASgeneric {
 //	}
 
 	@Override
-	protected String evaluateGeoGebraCAS(ValidExpression casInput) {
+	public String evaluateGeoGebraCAS(ValidExpression casInput) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -83,6 +85,11 @@ public class CASmaxima extends CASgeneric {
 	public void setSignificantFiguresForNumeric(int significantNumbers) {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public Map<String, String> initTranslationMap() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	/**

@@ -1,12 +1,12 @@
-package geogebra.cas;
+package geogebra.common.cas;
 
-import geogebra.cas.mpreduce.CASmpreduce;
-import geogebra.common.cas.CASException;
+import geogebra.common.cas.mpreduce.AbstractCASmpreduce;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.util.MaxSizeHashMap;
 import geogebra.common.main.AbstractApplication;
@@ -26,7 +26,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	private AbstractApplication app;
 	private CASparser casParser;
 	private CASgeneric cas;
-	private CASmpreduce casMPReduce;
+	private AbstractCASmpreduce casMPReduce;
 	public CasType currentCAS = CasType.NO_CAS;
 
 	public GeoGebraCAS(Kernel kernel) {
@@ -126,9 +126,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * CasParserToolsImpl('b')); }
 	 */
 
-	private synchronized CASmpreduce getMPReduce() {
+	private synchronized AbstractCASmpreduce getMPReduce() {
 		if (casMPReduce == null)
-			casMPReduce = new CASmpreduce(casParser,
+			casMPReduce = geogebra.common.factories.CASFactory.prototype.newMPReduce(casParser,
 					new CasParserToolsImpl('e'));
 		return casMPReduce;
 	}

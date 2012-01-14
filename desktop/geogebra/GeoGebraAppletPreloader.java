@@ -57,7 +57,7 @@ public class GeoGebraAppletPreloader extends JApplet {
 				System.out.print("loading geogebra_cas.jar... ");
 				System.out.flush();
 				try {
-					geogebra.cas.GeoGebraCAS.class.getClass();
+					geogebra.common.cas.GeoGebraCAS.class.getClass();
 					System.out.println("done");
 				} catch (Exception e) {
 					System.out.println("failed");

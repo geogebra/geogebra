@@ -1,4 +1,4 @@
-package geogebra.cas;
+package geogebra.common.cas;
 
 public interface CasParserTools {
 	
