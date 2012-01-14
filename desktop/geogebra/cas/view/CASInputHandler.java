@@ -715,24 +715,7 @@ public class CASInputHandler {
 	 * @param prefix
 	 * @param postfix
 	 */
-	private void setCellOutput(GeoCasCell cellValue, String prefix,
-			String result, String postfix) {
-		// Set the value into the table
-		if (result != null && prefix != null && postfix != null) {
-			if (prefix.length() == 0 && postfix.length() == 0) {
-				// no prefix, no postfix: just evaluation
-				cellValue.setOutput(result);
-			} else {
-				// make sure that evaluation is put into parentheses
-				cellValue.setOutput(prefix + " (" + result + ") " + postfix);
-			}
-		} else {
-			cellValue.setError("CAS.GeneralErrorMessage");
-			System.err.println("GeoGebraCAS.evaluateRow: "
-					+ casView.getCAS().getGeoGebraCASError());
-		}
-	}
-
+	
 	// /**
 	// * Evaluates eval as GeoGebraCAS input. Dynamic references are
 	// * resolved according to the given row number.

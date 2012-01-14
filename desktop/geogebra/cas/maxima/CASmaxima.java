@@ -58,12 +58,6 @@ public class CASmaxima extends CASgeneric {
 	}
 
 	@Override
-	public String getEvaluateGeoGebraCASerror() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void unbindVariable(String var) {
 		// TODO Auto-generated method stub
 		

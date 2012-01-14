@@ -5,7 +5,6 @@ import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasExpressionFactory;
 import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.mpreduce.AbstractCASmpreduce;
-import geogebra.common.cas.mpreduce.Ggb2MPReduce;
 import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -13,7 +12,6 @@ import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.main.AbstractApplication;
 
-import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.concurrent.TimeoutException;
@@ -207,20 +205,7 @@ public class CASmpreduce extends AbstractCASmpreduce {
 		}
 	}
 
-	@Override
-	public String translateFunctionDeclaration(String label, String parameters,
-			String body) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(" procedure ");
-		sb.append(label);
-		sb.append("(");
-		sb.append(parameters);
-		sb.append("); begin return ");
-		sb.append(body);
-		sb.append(" end ");
-
-		return sb.toString();
-	}
+	
 
 	@Override
 	public String evaluateRaw(String exp) throws Throwable {
@@ -301,11 +286,7 @@ public class CASmpreduce extends AbstractCASmpreduce {
 		return result;
 	}
 
-	@Override
-	public String getEvaluateGeoGebraCASerror() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public synchronized void reset() {
@@ -904,9 +885,5 @@ public class CASmpreduce extends AbstractCASmpreduce {
 			th.printStackTrace();
 		}
 	}
-
-	@Override
-	public Map<String, String> initTranslationMap() {
-		return new Ggb2MPReduce().getMap();
-	}
+	
 }

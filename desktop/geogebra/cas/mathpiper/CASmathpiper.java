@@ -204,7 +204,6 @@ public class CASmathpiper extends CASgeneric {
 		}
 	}
 
-	@Override
 	final synchronized public String getEvaluateGeoGebraCASerror() {
 		if (response != null) {
 			return response.getExceptionMessage();

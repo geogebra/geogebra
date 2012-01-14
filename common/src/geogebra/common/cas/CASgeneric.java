@@ -57,12 +57,7 @@ public abstract class CASgeneric implements CASGenericInterface,
 	 */
 	public abstract String evaluateRaw(String exp) throws Throwable;
 
-	/**
-	 * Returns the error message of the last call of evaluateGeoGebraCAS().
-	 * 
-	 * @return null if last evaluation was successful.
-	 */
-	public abstract String getEvaluateGeoGebraCASerror();
+	
 
 	// /**
 	// * Returns whether var is a defined variable.

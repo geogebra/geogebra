@@ -291,6 +291,7 @@ public class Application extends AbstractApplication {
 	public void init(Canvas canvas) {
 		geogebra.common.factories.AwtFactory.prototype = new geogebra.web.factories.AwtFactory();
 		geogebra.common.factories.FormatFactory.prototype = new geogebra.web.factories.FormatFactory();
+		geogebra.common.factories.CASFactory.prototype = new geogebra.web.factories.CASFactory();
 		geogebra.common.util.StringUtil.prototype = new geogebra.common.util.StringUtil();
 		// TODO: probably there is better way
 		geogebra.common.awt.Color.black = geogebra.web.awt.Color.black;

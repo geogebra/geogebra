@@ -224,14 +224,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return getCurrentCAS().evaluateRaw(exp);
 	}
 
-	/**
-	 * Returns the error message of the last call of evaluateGeoGebraCAS().
-	 * 
-	 * @return null if last evaluation was successful.
-	 */
-	final public String getGeoGebraCASError() {
-		return getCurrentCAS().getEvaluateGeoGebraCASerror();
-	}
+	
 
 	/**
 	 * Evaluates an expression given in MPReduce syntax.
