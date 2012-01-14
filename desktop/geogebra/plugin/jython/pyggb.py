@@ -1264,7 +1264,6 @@ class InputPane(KeyListener, DocumentListener):
                     for tok in PyLexer.scan(text, pos):
                         toklen = len(tok.strval)
                         style_name = state.trans(tok)
-                        # print "style for %s:" % tok.strval, style_name
                         style = self.doc.getStyle(style_name)
                         self.doc.setCharacterAttributes(
                             start, toklen, style, True
@@ -1317,14 +1316,14 @@ class InteractiveInput(InputPane):
 
 class LockManager(object):
     def __init__(self):
-        self.lock = False
+        self.lock = 0
     def __enter__(self):
-        self.lock = True
+        self.lock += 1
         return self
     def __exit__(self, type, value, traceback):
-        self.lock = False
+        self.lock -= 1
     def __nonzero__(self):
-        return self.lock
+        return bool(self.lock)
 
 
 class PythonWindow(KeyListener, DocumentListener, ActionListener):
@@ -1517,7 +1516,7 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
             self.current_text = self.input.input
             self.history.reset_position()
     def changedUpdate(self, evt):
-        self.update_current_text()
+        pass
     def insertUpdate(self, evt):
         self.update_current_text()
     def removeUpdate(self, evt):
