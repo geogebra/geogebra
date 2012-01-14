@@ -3,7 +3,6 @@ package geogebra.common.euclidian;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.TreeSet;
 
 import geogebra.common.awt.BasicStroke;
@@ -3662,19 +3661,6 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			// Michael Borcherds 2008-02-29
 			int layer = img.getGeoElement().getLayer();
 			drawLayers[layer].add(img);
-		}
-		
-		public void updateRightAngleStyle(Locale locale) {
-			// change rightAngleStyle for German to
-			// EuclidianView.RIGHT_ANGLE_STYLE_DOT
-			if (getRightAngleStyle() != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE) {
-				if (locale.getLanguage().equals("de")
-						|| locale.getLanguage().equals("hu")) {
-					setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT);
-				} else {
-					setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE);
-				}
-			}
 		}
 		
 		protected void resetLists() {
