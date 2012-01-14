@@ -190,7 +190,7 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 		} 
 		else if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			// let euclidianView know about the click
-			ev.clickedGeo(geo, e);
+			ev.clickedGeo(geo, geogebra.euclidian.event.MouseEvent.wrapEvent(e));
 		} else 
 			// tell selection listener about click
 			app.geoElementSelected(geo, false);

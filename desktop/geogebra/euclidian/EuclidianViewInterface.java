@@ -2,6 +2,7 @@ package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.Previewable;
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -102,7 +103,7 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 
 	// for AlgebraView
 
-	public void clickedGeo(GeoElement geo, MouseEvent e);
+	public void clickedGeo(GeoElement geo, AbstractEvent e);
 	public void mouseMovedOver(GeoElement geo);
 
 

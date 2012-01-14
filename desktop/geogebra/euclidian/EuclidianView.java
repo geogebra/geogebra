@@ -13,85 +13,27 @@
 package geogebra.euclidian;
 
 import geogebra.common.awt.Font;
-import geogebra.common.euclidian.DrawLine;
-import geogebra.common.euclidian.DrawList;
-import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.DrawableList;
-import geogebra.common.euclidian.DrawableList.DrawableIterator;
-import geogebra.common.euclidian.DrawAngle;
-import geogebra.common.euclidian.DrawBoxPlot;
-import geogebra.common.euclidian.DrawConic;
-import geogebra.common.euclidian.DrawConicPart;
-import geogebra.common.euclidian.DrawImage;
-import geogebra.common.euclidian.DrawImplicitPoly;
-import geogebra.common.euclidian.DrawInequality;
-import geogebra.common.euclidian.DrawIntegral;
-import geogebra.common.euclidian.DrawIntegralFunctions;
-import geogebra.common.euclidian.DrawLocus;
-import geogebra.common.euclidian.DrawParametricCurve;
-import geogebra.common.euclidian.DrawPoint;
-import geogebra.common.euclidian.DrawPolyLine;
-import geogebra.common.euclidian.DrawPolygon;
-import geogebra.common.euclidian.DrawRay;
-import geogebra.common.euclidian.DrawSegment;
-import geogebra.common.euclidian.DrawSlider;
-import geogebra.common.euclidian.DrawSlope;
-import geogebra.common.euclidian.DrawText;
-import geogebra.common.euclidian.DrawUpperLowerSum;
-import geogebra.common.euclidian.DrawVector;
-import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.AbstractEuclidianController;
+import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.GetViewId;
 import geogebra.common.euclidian.Hits;
-import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.FormatFactory;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.ConstructionDefaults;
-import geogebra.common.kernel.algos.AlgoBoxPlot;
-import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
-import geogebra.common.kernel.algos.AlgoIntegralFunctions;
-import geogebra.common.kernel.algos.AlgoSlope;
-import geogebra.common.kernel.arithmetic.FunctionalNVar;
-import geogebra.common.kernel.cas.AlgoIntegralDefinite;
-import geogebra.common.kernel.geos.GeoTextField;
-import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
-import geogebra.common.kernel.geos.GeoConicPart;
-import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunctionNVar;
-import geogebra.common.kernel.geos.GeoImage;
-import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoLocus;
-import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoPolyLine;
-import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.kernel.geos.ParametricCurve;
-import geogebra.common.kernel.implicit.GeoImplicitPoly;
-import geogebra.common.kernel.kernelND.GeoConicND;
-import geogebra.common.kernel.kernelND.GeoLineND;
-import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.kernelND.GeoRayND;
-import geogebra.common.kernel.kernelND.GeoSegmentND;
-import geogebra.common.kernel.kernelND.GeoVectorND;
+import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.common.plugin.GeoClass;
-import geogebra.common.util.MyMath;
-import geogebra.common.util.NumberFormatAdapter;
-import geogebra.common.util.StringUtil;
-import geogebra.common.util.Unicode;
 import geogebra.main.Application;
 
 import java.awt.BasicStroke;
@@ -106,12 +48,7 @@ import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
-
-import geogebra.common.awt.BufferedImageAdapter;
-import geogebra.common.awt.Point;
-import geogebra.common.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.Transparency;
 import java.awt.event.ActionEvent;
@@ -122,19 +59,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelListener;
-import java.awt.font.FontRenderContext;
-import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.TreeSet;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -1013,55 +943,15 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		}
 	}
 
-	protected Hits tempArrayList = new Hits();
-
-	// for use in AlgebraController
-	final public void clickedGeo(GeoElement geo, MouseEvent e) {
-		if (geo == null) {
-			return;
-		}
-
-		tempArrayList.clear();
-		tempArrayList.add(geo);
-		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
-		boolean changedKernel = ((EuclidianController)euclidianController).processMode(tempArrayList,
-				event);
-		if (changedKernel) {
-			getApplication().storeUndoInfo();
-		}
-		kernel.notifyRepaint();
-	}
-
-	// ggb3D 2009-02-05
-
-	
-
-	// ggb3D 2009-02-05 (end)
-
-	
-
-
-	/*
-	 * interface View implementation
-	 */
-
-	
-	
-
-
-	
-	
-
-
-	
-
 	
 	public Drawable newDrawBoolean( GeoBoolean geo) {
 		return new DrawBoolean(this,geo);
 	}
+
 	public Drawable newDrawButton( GeoButton geo) {
 		return new DrawButton(this,geo);
 	}
+
 	public Drawable newDrawTextField(GeoTextField geo) {
 		return new DrawTextField(this,geo);
 	}
@@ -1527,69 +1417,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	 * return getKernel().getModeText(mode); }
 	 */
 
-	public int getSelectedWidth() {
-		if (selectionRectangle == null) {
-			return getWidth();
-		} else {
-			return (int)selectionRectangle.getWidth();
-		}
-	}
-
-	public int getSelectedHeight() {
-		if (selectionRectangle == null) {
-			return getHeight();
-		} else {
-			return (int)selectionRectangle.getHeight();
-		}
-	}
-
-	public int getExportWidth() {
-		if (selectionRectangle != null) {
-			return (int)selectionRectangle.getWidth();
-		}
-		try {
-			GeoPoint2 export1 = (GeoPoint2) kernel.lookupLabel(EXPORT1);
-			GeoPoint2 export2 = (GeoPoint2) kernel.lookupLabel(EXPORT2);
-			double[] xy1 = new double[2];
-			double[] xy2 = new double[2];
-			export1.getInhomCoords(xy1);
-			export2.getInhomCoords(xy2);
-			double x1 = xy1[0];
-			double x2 = xy2[0];
-			x1 = (x1 / getInvXscale()) + getxZero();
-			x2 = (x2 / getInvXscale()) + getxZero();
-
-			return (int) Math.abs(x1 - x2) + 2;
-		} catch (Exception e) {
-			return getWidth();
-		}
-
-	}
-
-	public int getExportHeight() {
-		if (selectionRectangle != null) {
-			return (int)selectionRectangle.getHeight();
-		}
-
-		try {
-			GeoPoint2 export1 = (GeoPoint2) kernel.lookupLabel(EXPORT1);
-			GeoPoint2 export2 = (GeoPoint2) kernel.lookupLabel(EXPORT2);
-			double[] xy1 = new double[2];
-			double[] xy2 = new double[2];
-			export1.getInhomCoords(xy1);
-			export2.getInhomCoords(xy2);
-			double y1 = xy1[1];
-			double y2 = xy2[1];
-			y1 = getyZero() - (y1 / getInvYscale());
-			y2 = getyZero() - (y2 / getInvYscale());
-
-			return (int) Math.abs(y1 - y2) + 2;
-		} catch (Exception e) {
-			return getHeight();
-		}
-
-	}
-
+	
 	public EuclidianController getEuclidianController() {
 		return (EuclidianController)euclidianController;
 	}

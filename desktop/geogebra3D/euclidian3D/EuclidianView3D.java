@@ -3147,13 +3147,12 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 
 	protected Hits3D tempArrayList = new Hits3D();
 	
-	public void clickedGeo(GeoElement geo, MouseEvent e) {
+	public void clickedGeo(GeoElement geo, AbstractEvent event) {
 		if (geo == null)
 			return;
 
 		tempArrayList.clear();
 		tempArrayList.add(geo);
-		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
 		boolean changedKernel = euclidianController3D.processMode(tempArrayList,
 				event);
 		if (changedKernel)

@@ -4237,12 +4237,86 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 					storeUndo);
 
 		}
+		
+		public int getSelectedWidth() {
+			if (selectionRectangle == null) {
+				return getWidth();
+			} else {
+				return (int)selectionRectangle.getWidth();
+			}
+		}
 
+		public int getSelectedHeight() {
+			if (selectionRectangle == null) {
+				return getHeight();
+			} else {
+				return (int)selectionRectangle.getHeight();
+			}
+		}
 
+		public int getExportWidth() {
+			if (selectionRectangle != null) {
+				return (int)selectionRectangle.getWidth();
+			}
+			try {
+				GeoPoint2 export1 = (GeoPoint2) kernel.lookupLabel(EXPORT1);
+				GeoPoint2 export2 = (GeoPoint2) kernel.lookupLabel(EXPORT2);
+				double[] xy1 = new double[2];
+				double[] xy2 = new double[2];
+				export1.getInhomCoords(xy1);
+				export2.getInhomCoords(xy2);
+				double x1 = xy1[0];
+				double x2 = xy2[0];
+				x1 = (x1 / getInvXscale()) + getxZero();
+				x2 = (x2 / getInvXscale()) + getxZero();
 
+				return (int) Math.abs(x1 - x2) + 2;
+			} catch (Exception e) {
+				return getWidth();
+			}
 
+		}
 
+		public int getExportHeight() {
+			if (selectionRectangle != null) {
+				return (int)selectionRectangle.getHeight();
+			}
 
+			try {
+				GeoPoint2 export1 = (GeoPoint2) kernel.lookupLabel(EXPORT1);
+				GeoPoint2 export2 = (GeoPoint2) kernel.lookupLabel(EXPORT2);
+				double[] xy1 = new double[2];
+				double[] xy2 = new double[2];
+				export1.getInhomCoords(xy1);
+				export2.getInhomCoords(xy2);
+				double y1 = xy1[1];
+				double y2 = xy2[1];
+				y1 = getyZero() - (y1 / getInvYscale());
+				y2 = getyZero() - (y2 / getInvYscale());
 
+				return (int) Math.abs(y1 - y2) + 2;
+			} catch (Exception e) {
+				return getHeight();
+			}
 
+		}
+		
+	protected Hits tempArrayList = new Hits();
+
+		// for use in AlgebraController
+	final public void clickedGeo(GeoElement geo, geogebra.common.euclidian.event.AbstractEvent event) {
+		if (geo == null) {
+			return;
+		}
+
+		tempArrayList.clear();
+		tempArrayList.add(geo);
+		
+		boolean changedKernel = euclidianController.processMode(tempArrayList,
+				event);
+		if (changedKernel) {
+			getApplication().storeUndoInfo();
+		}
+		kernel.notifyRepaint();
+	}
 }
