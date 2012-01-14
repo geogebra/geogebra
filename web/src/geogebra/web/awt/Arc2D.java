@@ -7,7 +7,7 @@ import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
 import geogebra.common.main.AbstractApplication;
 
-public class Arc2D extends geogebra.common.awt.Arc2D {
+public class Arc2D extends geogebra.common.awt.Arc2D implements Shape {
 
 	private geogebra.web.kernel.gawt.Arc2D.Double impl;
 
@@ -84,6 +84,10 @@ public class Arc2D extends geogebra.common.awt.Arc2D {
 			double angExt, int closure) {
 	    impl.setArcByCenter(angExt, y, radius, angSt, angExt, closure);
 	    
+    }
+
+	public geogebra.web.kernel.gawt.Shape getGawtShape() {
+	    return impl;
     }
 
 }
