@@ -1,5 +1,7 @@
 package geogebra.common.gui.view.algebra;
 
-public interface AlgebraView {
+import geogebra.common.kernel.View;
+
+public interface AlgebraView extends View{
 	public boolean isVisible();
 }

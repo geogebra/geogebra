@@ -6,6 +6,7 @@ import geogebra.common.awt.Point;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.dialog.DialogManager;
+import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 
@@ -69,5 +70,15 @@ public abstract class GuiManager {
 	public abstract void setShowView(boolean b, int viewSpreadsheet);
 
 	public abstract boolean showView(int viewSpreadsheet);
+
+	public abstract View getConstructionProtocolData();
+	
+	public abstract View getCasView();
+	
+	public abstract View getSpreadsheetView();
+	
+	public abstract View getProbabilityCalculator();
+	
+	public abstract View getPlotPanelView(int id);
 
 }

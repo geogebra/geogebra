@@ -460,14 +460,6 @@ public class Application extends AbstractApplication {
     }
 
 	@Override
-    public View getView(int id) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
-    }
-
-
-	
-	@Override
     public DrawEquationInterface getDrawEquation() {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;

@@ -1256,7 +1256,45 @@ public abstract class AbstractApplication {
 
 	public abstract void showError(String string, String str);
 
-	public abstract View getView(int id);
+	public View getView(int viewID) {
+
+		// check for PlotPanel ID family first
+		if ((getGuiManager() != null)
+				&& (getGuiManager().getPlotPanelView(viewID) != null)) {
+			return getGuiManager().getPlotPanelView(viewID);
+		}
+
+		else {
+			switch (viewID) {
+			case VIEW_EUCLIDIAN:
+				return getEuclidianView();
+			case VIEW_ALGEBRA:
+				return getAlgebraView();
+			case VIEW_SPREADSHEET:
+				return getGuiManager().getSpreadsheetView();
+			case VIEW_CAS:
+				return getGuiManager().getCasView();
+			case VIEW_EUCLIDIAN2:
+				return hasEuclidianView2() ? getEuclidianView2() : null;
+			case VIEW_CONSTRUCTION_PROTOCOL:
+				return getGuiManager().getConstructionProtocolData();
+			case VIEW_PROBABILITY_CALCULATOR:
+				return getGuiManager().getProbabilityCalculator();
+				// case VIEW_FUNCTION_INSPECTOR: return (View)getGuiManager()..
+				// case VIEW_INSPECTOR: return
+				// (View)getGuiManager().getSpreadsheetView();
+				// case VIEW_EUCLIDIAN3D: return
+				// (View)getGuiManager().getSpreadsheetView();
+				// case VIEW_EUCLIDIAN_FOR_PLANE: return
+				// (View)getGuiManager().getSpreadsheetView();
+				// case VIEW_TEXT_PREVIEW: return
+				// (View)getGuiManager().getSpreadsheetView();
+			}
+		}
+
+		return null;
+	}
+
 
 	public String getCompleteUserInterfaceXML(boolean b) {
 		// TODO Auto-generated method stub

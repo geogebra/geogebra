@@ -22,6 +22,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.ParametricCurve;
 import geogebra.common.kernel.roots.RealRootUtil;
+import geogebra.common.main.AbstractApplication;
 
 
 /**
@@ -128,7 +129,7 @@ public class DrawParametricCurve extends Drawable {
 				max = maxView;
 		}
 		Point labelPoint;
-
+		AbstractApplication.debug(min+","+max);
 		if (Kernel.isEqual(min, max)) {
 			double[] eval = new double[2];
 			curve.evaluateCurve(min, eval);

@@ -5969,7 +5969,8 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	public void setVisibility(int viewId, boolean setVisible) {
 		if (setVisible) {
-			viewFlags.add(viewId);
+			if(!viewFlags.contains(viewId))
+				viewFlags.add(viewId);
 		} else {
 			viewFlags.remove(Integer.valueOf(viewId));
 		}
