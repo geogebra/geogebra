@@ -30,6 +30,7 @@ import java.util.Map;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.ImageElement;
 
 public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
@@ -462,8 +463,10 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
     @Override
     public void drawImage(BufferedImageAdapter img, int x, int y,
             BufferedImageOp op) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+    	BufferedImage bi = geogebra.web.awt.BufferedImage.getGawtImage(img);
+    	if(bi==null)
+    		return;
+    	context.drawImage(bi.getImageElement(), x, y);
     }
 
 	

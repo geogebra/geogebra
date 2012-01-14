@@ -36,4 +36,11 @@ public class BufferedImage implements BufferedImageAdapter {
 	    return null;
     }
 
+	public static geogebra.web.kernel.gawt.BufferedImage getGawtImage(BufferedImageAdapter img) {
+		if(!(img instanceof BufferedImage))
+			return null;
+		return ((BufferedImage)img).impl;
+	    
+    }
+
 }

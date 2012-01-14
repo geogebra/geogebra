@@ -690,7 +690,6 @@ public class Application extends AbstractApplication {
 
 	@Override
     public AbstractFontManager getFontManager() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return fontManager;
     }
 
