@@ -3028,28 +3028,8 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		return true;
 	}
 
-	// =======================================
-	// temporary: for testing
-	PropertiesPanel tempPropPanel;
-
-	// =======================================
 
 	public Component getInputHelpPanel() {
-
-		// =======================================
-		// test code
-
-		if (Application.getShiftDown()) {
-			if (tempPropPanel == null) {
-				tempPropPanel = new PropertiesPanel(app,
-						new GeoGebraColorChooser(app), false);
-				tempPropPanel.setMinimumSize(tempPropPanel.getPreferredSize());
-			}
-			if (app.selectedGeosSize() > 0)
-				tempPropPanel.updateSelection(app.getSelectedGeos().toArray());
-			return this.tempPropPanel;
-		}
-		// =======================================
 
 		if (inputHelpPanel == null)
 			inputHelpPanel = new InputBarHelpPanel(app);
