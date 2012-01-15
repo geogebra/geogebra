@@ -47,7 +47,7 @@ cat $SVN_COMMANDS
 sh $SVN_COMMANDS
 
 # 6. If a subdirectory should be added, then dive into it...
-cat $TO_ADD | awk '{runstr="test -d \"" $0 "\" && (cd \"" $0 "\"; '$MYFULLPATH')" ; system(runstr);}'
+cat $LOCAL_CONTENTS | awk '{runstr="test -d \"" $0 "\" && (cd \"" $0 "\"; '$MYFULLPATH')" ; system(runstr);}'
 
 # 7. Cleanup:
 rm -f $REMOTE_CONTENTS $LOCAL_CONTENTS $DIFFFILE $TO_DELETE $TO_ADD $SVN_COMMANDS
