@@ -85,6 +85,10 @@ public class Application3D extends Application {
 	}
 
 	@Override
+	protected void fillCommandDict(){
+		fillCommandDict(true);
+	}
+	@Override
 	protected void initImageManager(Component component) {
 		imageManager = new ImageManager3D(component);
 	}

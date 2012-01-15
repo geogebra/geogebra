@@ -378,7 +378,10 @@ public abstract class AbstractApplication {
 	}
 	
 	public abstract void getCommandResourceBundle();
-	protected void fillCommandDict() {
+	protected void fillCommandDict(){
+		fillCommandDict(false);
+	}
+	protected void fillCommandDict(boolean include3D) {
 		getCommandResourceBundle();
 
 		if (!isCommandChanged()) {
@@ -423,6 +426,8 @@ public abstract class AbstractApplication {
 		}
 
 		for (Commands comm : Commands.values()) {
+			if(!include3D && comm.equals(Commands.Bottom))
+				break;
 			String internal = comm.toString();
 			// Application.debug(internal);
 			if (!internal.equals("Command")) {

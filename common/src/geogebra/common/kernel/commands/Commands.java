@@ -161,7 +161,7 @@ public enum Commands {
    	DynamicCoordinates,
    	
 	//=================================================================
-  	// Other ???
+  	// Optimization
 	//=============================================================
    	Maximize, Minimize,
    	
@@ -173,5 +173,11 @@ public enum Commands {
    	LinearEccentricity, MajorAxis, SemiMajorAxisLength, PerpendicularBisector,
    	PerpendicularLine, PerpendicularVector, MinorAxis, SemiMinorAxisLength,
    	UnitPerpendicularVector, CorrelationCoefficient, FitLine, BinomialCoefficient,
-   	RandomBetween
+   	RandomBetween,
+   	//=================================================================
+  	// 3D
+	//=============================================================
+   	
+   	Bottom,Cone,Cube,Cylinder,Dodecahedron,Ends,Icosahedron,InfiniteCone,InfiniteCylinder,
+   	Octahedron,Plane,QuadricSide,SurfaceCartesian,Tetrahedron,Top
 }
