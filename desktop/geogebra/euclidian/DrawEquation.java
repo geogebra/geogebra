@@ -26,10 +26,10 @@ import org.scilab.forge.jlatexmath.WebStartAlphabetRegistration;
 import org.scilab.forge.jlatexmath.cache.JLaTeXMathCache;
 import org.scilab.forge.jlatexmath.dynamic.DynamicAtom;
 
-public class DrawEquation implements DrawEquationInterface{
-	private JLabel jl = new JLabel();
-	boolean drawEquationJLaTeXMathFirstCall = true;
-	private Object initJLaTeXMath;
+public class DrawEquation implements DrawEquationInterface {
+	private final JLabel	jl								= new JLabel();
+	boolean					drawEquationJLaTeXMathFirstCall	= true;
+	private Object			initJLaTeXMath;
 
 	/**
 	 * Renders LaTeX equation using JLaTeXMath
@@ -45,44 +45,47 @@ public class DrawEquation implements DrawEquationInterface{
 	 * @param bgColor
 	 * @return dimension of rendered equation
 	 */
-	final public Dimension drawEquationJLaTeXMath(Application app,
-			GeoElement geo, Graphics2D g2, int x, int y, String text,
-			geogebra.common.awt.Font font, boolean serif, Color fgColor, Color bgColor,
-			boolean useCache, Integer maxWidth, Float lineSpace) {
+	final public Dimension drawEquationJLaTeXMath(final Application app,
+			final GeoElement geo, final Graphics2D g2, final int x, final int y, final String text,
+			final geogebra.common.awt.Font font, final boolean serif, final Color fgColor, final Color bgColor,
+			final boolean useCache, final Integer maxWidth, final Float lineSpace) {
 		// TODO uncomment when \- works
 		// text=addPossibleBreaks(text);
 
 		int width = -1;
 		int height = -1;
-		//int depth = 0;
+		// int depth = 0;
 
 		if (drawEquationJLaTeXMathFirstCall) { // first call
 
 			drawEquationJLaTeXMathFirstCall = false;
 
 			// initialise definitions
-			if (initJLaTeXMath == null)
+			if (initJLaTeXMath == null) {
 				initJLaTeXMath = new TeXFormula(
 						"\\DeclareMathOperator{\\sech}{sech} \\DeclareMathOperator{\\csch}{csch} \\DeclareMathOperator{\\erf}{erf}");
+			}
 
 			// make sure cache doesn't get too big
 			JLaTeXMathCache.setMaxCachedObjects(100);
-			
+
 			// disable \magnification{factor} (makes Algebra View not work)
 			DefaultTeXFont.enableMagnification(false);
 
-			Iterator<String> it = Unicode.getCharMapIterator();
+			final Iterator<String> it = Unicode.getCharMapIterator();
 
 			while (it.hasNext()) {
-				String lang = it.next();
-				Character ch = Unicode.getTestChar(lang);
-				Font testFont = app.getFontCanDisplayAwt(ch.toString(), true,
+				final String lang = it.next();
+				final String str = Unicode.getTestChar(lang);
+				final Font testFont = app.getFontCanDisplayAwt(str, true,
 						Font.PLAIN, 12);
 				if (testFont != null)
+				{
 					TeXFormula.registerExternalFont(
-							Character.UnicodeBlock.of(ch),
+							Character.UnicodeBlock.of(str.charAt(0)),
 							testFont.getFontName());
-				// Application.debug("LaTeX font registering: "+lang+" "+testFont.getFontName());
+					// Application.debug("LaTeX font registering: "+lang+" "+testFont.getFontName());
+				}
 
 			}
 
@@ -98,7 +101,7 @@ public class DrawEquation implements DrawEquationInterface{
 			// a font
 			TeXFormula.registerExternalFont(
 					Character.UnicodeBlock.of('\u30ea'), "Sans Serif", "Serif");
-			
+
 			// Other codeblocks (currency, symbols etc)
 			TeXFormula.registerExternalFont(
 					Character.UnicodeBlock.of('\u20a0'), "Sans Serif", "Serif");
@@ -118,26 +121,29 @@ public class DrawEquation implements DrawEquationInterface{
 				// URLAlphabetRegistration.register(new
 				// URL(app.getCodeBase()+"jlm_cyrillic.jar"),
 				// "cyrillic",URLAlphabetRegistration.JLM_CYRILLIC);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				e.printStackTrace();
 			}
-			LatexConvertorFactory factory = new LatexConvertorFactory(
+			final LatexConvertorFactory factory = new LatexConvertorFactory(
 					app.getKernel());
 			DynamicAtom.setExternalConverterFactory(factory);
 
 		}
 
 		int style = 0;
-		if (font.isBold())
+		if (font.isBold()) {
 			style = style | TeXFormula.BOLD;
-		if (font.isItalic())
+		}
+		if (font.isItalic()) {
 			style = style | TeXFormula.ITALIC;
-		if (!serif)
+		}
+		if (!serif) {
 			style = style | TeXFormula.SANSSERIF;
+		}
 
 		// if we're exporting, we want to draw it full resolution
 		// if it's a \jlmDynamic text, we don't want to add it to the cache
-		if (app.exporting || text.indexOf("\\jlmDynamic") > -1 || !useCache) {
+		if (app.exporting || (text.indexOf("\\jlmDynamic") > -1) || !useCache) {
 
 			// Application.debug("creating new icon for: "+text);
 			TeXFormula formula;
@@ -146,15 +152,16 @@ public class DrawEquation implements DrawEquationInterface{
 			try {
 				formula = new TeXFormula(text);
 
-				if (maxWidth == null)
+				if (maxWidth == null) {
 					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
 							font.getSize() + 3, style, fgColor);
-				else
+				} else {
 					icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
 							font.getSize() + 3, TeXConstants.UNIT_CM,
 							maxWidth.intValue(), TeXConstants.ALIGN_LEFT,
 							TeXConstants.UNIT_CM, lineSpace.floatValue());
-			} catch (MyError e) {
+				}
+			} catch (final MyError e) {
 				// e.printStackTrace();
 				// Application.debug("MyError LaTeX parse exception: "+e.getMessage()+"\n"+text);
 				// Write error message to Graphics View
@@ -170,7 +177,7 @@ public class DrawEquation implements DrawEquationInterface{
 				// Rectangle rec = drawMultiLineText(e.getMessage()+"\n"+text,
 				// x, y + g2.getFont().getSize(), g2);
 				// return new Dimension(rec.width, rec.height);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				// e.printStackTrace();
 				// Application.debug("LaTeX parse exception: "+e.getMessage()+"\n"+text);
 				// Write error message to Graphics View
@@ -199,29 +206,30 @@ public class DrawEquation implements DrawEquationInterface{
 			// GeoText
 			// so that we can remove it from the cache if it changes
 			// eg for a (regular) dynamic LaTeX text eg "\sqrt{"+a+"}"
-			if (geo == null)
+			if (geo == null) {
 				key = JLaTeXMathCache.getCachedTeXFormula(text,
 						TeXConstants.STYLE_DISPLAY, style,
 						font.getSize() + 3 /* font size */, 1 /*
 																 * inset around
 																 * the label
 																 */, fgColor);
-			else
+			} else {
 				key = geo.getLaTeXCache().getCachedLaTeXKey(text,
 						font.getSize() + 3, style, new geogebra.awt.Color(fgColor));
+			}
 
 			im = JLaTeXMathCache.getCachedTeXFormulaImage(key);
 
-			int ret[] = JLaTeXMathCache.getCachedTeXFormulaDimensions(key);
+			final int ret[] = JLaTeXMathCache.getCachedTeXFormulaDimensions(key);
 			width = ret[0];
 			height = ret[1];
-			//depth = ret[2];
+			// depth = ret[2];
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			// Application.debug("LaTeX parse exception: "+e.getMessage()+"\n"+text);
 			// Write error message to Graphics View
 
-			TeXFormula formula = TeXFormula.getPartialTeXFormula(text);
+			final TeXFormula formula = TeXFormula.getPartialTeXFormula(text);
 			im = formula.createBufferedImage(TeXConstants.STYLE_DISPLAY,
 					font.getSize() + 3, Color.black, Color.white);
 
@@ -243,11 +251,11 @@ public class DrawEquation implements DrawEquationInterface{
 		return new Dimension(width, height);
 	}
 
-	public void setUseJavaFontsForLaTeX(AbstractApplication app, boolean b) {
+	public void setUseJavaFontsForLaTeX(final AbstractApplication app, final boolean b) {
 		if (b != app.useJavaFontsForLaTeX) {
 			app.useJavaFontsForLaTeX = b;
-			String serifFont = b ? "Serif" : null;
-			String sansSerifFont = b ? "Sans Serif" : null;
+			final String serifFont = b ? "Serif" : null;
+			final String sansSerifFont = b ? "Sans Serif" : null;
 			TeXFormula.registerExternalFont(Character.UnicodeBlock.BASIC_LATIN,
 					sansSerifFont, serifFont);
 			JLaTeXMathCache.clearCache();
@@ -255,22 +263,25 @@ public class DrawEquation implements DrawEquationInterface{
 		}
 	}
 
-	final public geogebra.common.awt.Dimension drawEquation(AbstractApplication app,
-			GeoElement geo, geogebra.common.awt.Graphics2D g2, int x, int y, String text,
-			geogebra.common.awt.Font font, boolean serif, geogebra.common.awt.Color fgColor, geogebra.common.awt.Color bgColor,
-			boolean useCache) {
-		return new geogebra.awt.Dimension(drawEquation((Application)app, geo, 
+	final public geogebra.common.awt.Dimension drawEquation(final AbstractApplication app,
+			final GeoElement geo, final geogebra.common.awt.Graphics2D g2, final int x, final int y, final String text,
+			final geogebra.common.awt.Font font, final boolean serif, final geogebra.common.awt.Color fgColor,
+			final geogebra.common.awt.Color bgColor,
+			final boolean useCache) {
+		return new geogebra.awt.Dimension(drawEquation((Application) app, geo,
 				geogebra.awt.Graphics2D.getAwtGraphics(g2), x, y, text, font, serif, fgColor,
 				bgColor, useCache, null, null));
 	}
 
-	final public Dimension drawEquation(Application app,
-			GeoElement geo, Graphics2D g2, int x, int y, String text,
-			geogebra.common.awt.Font font, boolean serif, geogebra.common.awt.Color fgColor, geogebra.common.awt.Color bgColor,
-			boolean useCache, Integer maxWidth, Float lineSpace) {
+	final public Dimension drawEquation(final Application app,
+			final GeoElement geo, final Graphics2D g2, final int x, final int y, final String text,
+			final geogebra.common.awt.Font font, final boolean serif, final geogebra.common.awt.Color fgColor,
+			final geogebra.common.awt.Color bgColor,
+			final boolean useCache, final Integer maxWidth, final Float lineSpace) {
 		// if (useJLaTeXMath)
 		return app.getDrawEquation().drawEquationJLaTeXMath(app, geo, g2, x, y,
-				text, font, serif, geogebra.awt.Color.getAwtColor(fgColor), geogebra.awt.Color.getAwtColor(bgColor), useCache, maxWidth,
+				text, font, serif, geogebra.awt.Color.getAwtColor(fgColor), geogebra.awt.Color.getAwtColor(bgColor),
+				useCache, maxWidth,
 				lineSpace);
 		// else return drawEquationHotEqn(app, g2, x, y, text, font, fgColor,
 		// bgColor);
