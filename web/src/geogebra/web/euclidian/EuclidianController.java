@@ -33,6 +33,7 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
@@ -93,42 +94,35 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
     }
 
 	public void onDoubleClick(DoubleClickEvent event) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
     }
 
 	public void onClick(ClickEvent event) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
     }
 
 	public void onMouseWheel(MouseWheelEvent event) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
     }
 
 	public void onMouseOver(MouseOverEvent event) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
     }
 
 	public void onMouseOut(MouseOutEvent event) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
     }
 
 	public void onMouseMove(MouseMoveEvent event) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
     }
 
 	public void onMouseUp(MouseUpEvent event) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
     }
 
 	public void onMouseDown(MouseDownEvent event) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
 	    
     }
 
