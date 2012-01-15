@@ -443,7 +443,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 
 	public void setLabels() {
 
-
+		setTitle(app.getMenu("FunctionInspector"));
 		lblStep.setText(app.getMenu("Step") + ":");		
 		lblInterval.setText(" \u2264 x \u2264 " );	// <= x <=
 
