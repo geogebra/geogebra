@@ -43,7 +43,8 @@ import java.util.ArrayList;
  * List of GeoElements
  */
 public class GeoList extends GeoElement implements ListValue, LineProperties,
-		PointProperties, TextProperties, Traceable, Path, Transformable, SpreadsheetTraceable {
+		PointProperties, TextProperties, Traceable, Path, Transformable,
+		SpreadsheetTraceable {
 
 	public final static GeoClass ELEMENT_TYPE_MIXED = GeoClass.DEFAULT;
 
@@ -53,11 +54,11 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	private static String STR_CLOSE = "}";
 
 	// GeoElement list members
-	private ArrayList<GeoElement> geoList;
+	private final ArrayList<GeoElement> geoList;
 
 	// lists will often grow and shrink dynamically,
 	// so we keep a cacheList of all old list elements
-	private ArrayList<GeoElement> cacheList;
+	private final ArrayList<GeoElement> cacheList;
 
 	private boolean isDefined = true;
 	private boolean isDrawable = true;
@@ -73,11 +74,11 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	private ArrayList<GeoElement> colorFunctionListener; // Michael Borcherds
 															// 2008-04-02
 
-	public GeoList(Construction c) {
+	public GeoList(final Construction c) {
 		this(c, 20);
 	}
 
-	private GeoList(Construction c, int size) {
+	private GeoList(final Construction c, final int size) {
 		super(c);
 
 		// moved from GeoElement's constructor
@@ -91,12 +92,12 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	}
 
 	@Override
-	public void setParentAlgorithm(AlgoElement algo) {
+	public void setParentAlgorithm(final AlgoElement algo) {
 		super.setParentAlgorithm(algo);
 		setEuclidianVisible(true);
 	}
 
-	public GeoList(GeoList list) {
+	public GeoList(final GeoList list) {
 		this(list.cons, list.size());
 		set(list);
 	}
@@ -131,7 +132,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	}
 
 	@Override
-	public void set(GeoElement geo) {
+	public void set(final GeoElement geo) {
 
 		if (geo.isGeoNumeric()) { // eg SetValue[list, 2]
 			// 1 -> first element
@@ -140,13 +141,13 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 			return;
 		}
-		GeoList l = (GeoList) geo;
+		final GeoList l = (GeoList) geo;
 
-		if (l.cons != cons && isAlgoMacroOutput()) {
+		if ((l.cons != cons) && isAlgoMacroOutput()) {
 			// MACRO CASE
 			// this object is an output object of AlgoMacro
 			// we need to check the references to all geos in the list
-			AlgoMacroInterface algoMacro = (AlgoMacroInterface) getParentAlgorithm();
+			final AlgoMacroInterface algoMacro = (AlgoMacroInterface) getParentAlgorithm();
 			algoMacro.initList(l, this);
 		} else {
 			// STANDARD CASE
@@ -164,25 +165,25 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 * 
 	 * @param showAllProperties
 	 */
-	public void setShowAllProperties(boolean showAllProperties) {
+	public void setShowAllProperties(final boolean showAllProperties) {
 		this.showAllProperties = showAllProperties;
 	}
 
-	private void copyListElements(GeoList otherList) {
-		int otherListSize = otherList.size();
+	private void copyListElements(final GeoList otherList) {
+		final int otherListSize = otherList.size();
 		ensureCapacity(otherListSize);
 		geoList.clear();
 
 		for (int i = 0; i < otherListSize; i++) {
-			GeoElement otherElement = otherList.get(i);
+			final GeoElement otherElement = otherList.get(i);
 			GeoElement thisElement = null;
 
 			// try to reuse cached GeoElement
 			if (i < cacheList.size()) {
-				GeoElement cachedGeo = (GeoElement) cacheList.get(i);
+				final GeoElement cachedGeo = cacheList.get(i);
 				if (!cachedGeo.isLabelSet()
-						&& cachedGeo.getGeoClassType() == otherElement
-								.getGeoClassType()) {
+						&& (cachedGeo.getGeoClassType() == otherElement
+								.getGeoClassType())) {
 					// cached geo is unlabeled and has needed object type: use
 					// it
 					cachedGeo.set(otherElement);
@@ -200,48 +201,51 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		}
 	}
 
-	private GeoElement getCopyForList(GeoElement geo) {
+	private GeoElement getCopyForList(final GeoElement geo) {
 		if (geo.isLabelSet()) {
 			// take original element
 			return geo;
 		} else {
 			// create a copy of geo
-			GeoElement ret = geo.copyInternal(cons);
+			final GeoElement ret = geo.copyInternal(cons);
 			ret.setParentAlgorithm(getParentAlgorithm());
 			return ret;
 		}
 	}
 
-	private void applyVisualStyle(GeoElement geo) {
+	private void applyVisualStyle(final GeoElement geo) {
 
 		if (!geo.isLabelSet()) {
-			geo.setObjColor(this.getObjectColor());
+			geo.setObjColor(getObjectColor());
+
+			geo.setColorSpace(getColorSpace());
 
 			// copy color function
-			if (this.getColorFunction() != null) {
-				geo.setColorFunction(this.getColorFunction());
+			if (getColorFunction() != null) {
+				geo.setColorFunction(getColorFunction());
 			} else {
 				geo.removeColorFunction();
 			}
 
-			geo.setLineThickness(this.getLineThickness());
-			geo.setLineType(this.getLineType());
+			geo.setLineThickness(getLineThickness());
+			geo.setLineType(getLineType());
 
 			if (geo instanceof PointProperties) {
-				((PointProperties) geo).setPointSize(this.getPointSize());
-				((PointProperties) geo).setPointStyle(this.getPointStyle());
+				((PointProperties) geo).setPointSize(getPointSize());
+				((PointProperties) geo).setPointStyle(getPointStyle());
 			}
 
 			if (geo instanceof TextProperties) {
-				((TextProperties) geo).setFontSize(this.getFontSize());
-				((TextProperties) geo).setFontStyle(this.getFontStyle());
-				((TextProperties) geo).setSerifFont(this.isSerifFont());
-				if (useSignificantFigures)
-					((TextProperties) geo).setPrintFigures(
-							this.getPrintFigures(), false);
-				else
-					((TextProperties) geo).setPrintDecimals(
-							this.getPrintDecimals(), false);
+				((TextProperties) geo).setFontSize(getFontSize());
+				((TextProperties) geo).setFontStyle(getFontStyle());
+				((TextProperties) geo).setSerifFont(isSerifFont());
+				if (useSignificantFigures) {
+					((TextProperties) geo).setPrintFigures(getPrintFigures(),
+							false);
+				} else {
+					((TextProperties) geo).setPrintDecimals(getPrintDecimals(),
+							false);
+				}
 
 			}
 
@@ -249,15 +253,15 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			geo.setHatchingAngle(hatchingAngle);
 			geo.setHatchingDistance(hatchingDistance);
 			geo.setImageFileName(getGraphicsAdapter().getImageFileName());
-			geo.setAlphaValue(this.getAlphaValue());
+			geo.setAlphaValue(getAlphaValue());
 
-			geo.setLayer(this.getLayer());
+			geo.setLayer(getLayer());
 
 			// copy ShowObjectCondition, unless it generates a
 			// CirclularDefinitionException
 			try {
-				geo.setShowObjectCondition(this.getShowObjectCondition());
-			} catch (Exception e) {
+				geo.setShowObjectCondition(getShowObjectCondition());
+			} catch (final Exception e) {
 			}
 
 			setElementEuclidianVisible(geo, isSetEuclidianVisible());
@@ -268,28 +272,51 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	public final void removeColorFunction() {
 		super.removeColorFunction();
 
-		if (geoList == null || geoList.size() == 0)
+		if ((geoList == null) || (geoList.size() == 0)) {
 			return;
+		}
 
-		int size = geoList.size();
+		final int size = geoList.size();
 		for (int i = 0; i < size; i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			if (!geo.isLabelSet())
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
 				geo.removeColorFunction();
+			}
 		}
 	}
 
-	public final void setColorFunction(GeoList col) {
+	@Override
+	public final void setColorFunction(final GeoList col) {
 		super.setColorFunction(col);
 
-		if (geoList == null || geoList.size() == 0)
+		if ((geoList == null) || (geoList.size() == 0)) {
 			return;
+		}
 
-		int size = geoList.size();
+		final int size = geoList.size();
 		for (int i = 0; i < size; i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			if (!geo.isLabelSet())
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
 				geo.setColorFunction(col);
+			}
+		}
+
+	}
+
+	@Override
+	public final void setColorSpace(final int colorSpace) {
+		super.setColorSpace(colorSpace);
+
+		if ((geoList == null) || (geoList.size() == 0)) {
+			return;
+		}
+
+		final int size = geoList.size();
+		for (int i = 0; i < size; i++) {
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
+				geo.setColorSpace(colorSpace);
+			}
 		}
 
 	}
@@ -309,24 +336,26 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 */
 
 	@Override
-	public final void setShowObjectCondition(GeoBoolean bool)
+	public final void setShowObjectCondition(final GeoBoolean bool)
 			throws CircularDefinitionException {
 		super.setShowObjectCondition(bool);
 
-		if (geoList == null || geoList.size() == 0)
+		if ((geoList == null) || (geoList.size() == 0)) {
 			return;
+		}
 
-		int size = geoList.size();
+		final int size = geoList.size();
 		for (int i = 0; i < size; i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			if (!geo.isLabelSet())
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
 				geo.setShowObjectCondition(bool);
+			}
 		}
 
 	}
 
 	@Override
-	public void setVisualStyle(GeoElement style) {
+	public void setVisualStyle(final GeoElement style) {
 		super.setVisualStyle(style);
 
 		// set point style
@@ -336,74 +365,83 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		}
 
 		// set visual style
-		if (geoList == null || geoList.size() == 0)
+		if ((geoList == null) || (geoList.size() == 0)) {
 			return;
-		int size = geoList.size();
+		}
+		final int size = geoList.size();
 		for (int i = 0; i < size; i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			if (!geo.isLabelSet())
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
 				geo.setVisualStyle(style);
-		}
-	}
-
-	public void setObjColor(Color color) {
-		super.setObjColor(color);
-
-		if (geoList == null || geoList.size() == 0)
-			return;
-
-		int size = geoList.size();
-		for (int i = 0; i < size; i++) {
-			GeoElement geo = get(i);
-			if (!geo.isLabelSet())
-				geo.setObjColor(color);
-		}
-	}
-
-	public void setBackgroundColor(Color color) {
-		super.setBackgroundColor(color);
-
-		if (geoList == null || geoList.size() == 0)
-			return;
-
-		int size = geoList.size();
-		for (int i = 0; i < size; i++) {
-			GeoElement geo = get(i);
-			if (!geo.isLabelSet())
-				geo.setBackgroundColor(color);
+			}
 		}
 	}
 
 	@Override
-	public void setEuclidianVisible(boolean visible) {
+	public void setObjColor(final Color color) {
+		super.setObjColor(color);
+
+		if ((geoList == null) || (geoList.size() == 0)) {
+			return;
+		}
+
+		final int size = geoList.size();
+		for (int i = 0; i < size; i++) {
+			final GeoElement geo = get(i);
+			if (!geo.isLabelSet()) {
+				geo.setObjColor(color);
+			}
+		}
+	}
+
+	@Override
+	public void setBackgroundColor(final Color color) {
+		super.setBackgroundColor(color);
+
+		if ((geoList == null) || (geoList.size() == 0)) {
+			return;
+		}
+
+		final int size = geoList.size();
+		for (int i = 0; i < size; i++) {
+			final GeoElement geo = get(i);
+			if (!geo.isLabelSet()) {
+				geo.setBackgroundColor(color);
+			}
+		}
+	}
+
+	@Override
+	public void setEuclidianVisible(final boolean visible) {
 		super.setEuclidianVisible(visible);
 
-		if (geoList == null || geoList.size() == 0)
+		if ((geoList == null) || (geoList.size() == 0)) {
 			return;
+		}
 
-		int size = geoList.size();
+		final int size = geoList.size();
 		for (int i = 0; i < size; i++) {
-			GeoElement geo = get(i);
+			final GeoElement geo = get(i);
 			setElementEuclidianVisible(geo, visible);
 		}
 	}
 
-	private static void setElementEuclidianVisible(GeoElement geo,
-			boolean visible) {
-		if (!geo.isLabelSet() && !geo.isGeoNumeric())
+	private static void setElementEuclidianVisible(final GeoElement geo,
+			final boolean visible) {
+		if (!geo.isLabelSet() && !geo.isGeoNumeric()) {
 			geo.setEuclidianVisible(visible);
+		}
 	}
 
 	/**
 	 * Returns this GeoList as a MyList object.
 	 */
 	public MyList getMyList() {
-		int size = geoList.size();
-		MyList myList = new MyList(kernel, size);
+		final int size = geoList.size();
+		final MyList myList = new MyList(kernel, size);
 
 		for (int i = 0; i < size; i++) {
-			myList.addListElement(new ExpressionNode(kernel,
-					(GeoElement) geoList.get(i)));
+			myList.addListElement(new ExpressionNode(kernel, geoList.get(i)));
 		}
 
 		return myList;
@@ -414,15 +452,16 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return isDefined;
 	}
 
-	public void setDefined(boolean flag) {
+	public void setDefined(final boolean flag) {
 		isDefined = flag;
 
 		if (!isDefined) {
-			int size = geoList.size();
+			final int size = geoList.size();
 			for (int i = 0; i < size; i++) {
-				GeoElement geo = (GeoElement) geoList.get(i);
-				if (!geo.isLabelSet())
+				final GeoElement geo = geoList.get(i);
+				if (!geo.isLabelSet()) {
 					geo.setUndefined();
+				}
 			}
 		}
 	}
@@ -455,21 +494,23 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 * free up memory and set undefined
 	 */
 	public final void clearCache() {
-		if (cacheList.size() > 0)
+		if (cacheList.size() > 0) {
 			for (int i = 0; i < cacheList.size(); i++) {
-				GeoElement geo = (GeoElement) cacheList.get(i);
-				if (geo != null && !geo.isLabelSet())
+				final GeoElement geo = cacheList.get(i);
+				if ((geo != null) && !geo.isLabelSet()) {
 					geo.remove();
+				}
 			}
+		}
 		cacheList.clear();
 		clear();
 		setUndefined();
 		System.gc();
 	}
 
-	public final void add(GeoElement geoI) {
+	public final void add(final GeoElement geoI) {
 		// add geo to end of list
-		GeoElement geo = (GeoElement) geoI;
+		final GeoElement geo = geoI;
 		geoList.add(geo);
 
 		/*
@@ -482,7 +523,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		 */
 
 		// add to cache
-		int pos = geoList.size() - 1;
+		final int pos = geoList.size() - 1;
 		if (pos < cacheList.size()) {
 			cacheList.set(pos, geo);
 		} else {
@@ -514,7 +555,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 * @param geo
 	 *            element to be removed
 	 */
-	public final void remove(GeoElement geo) {
+	public final void remove(final GeoElement geo) {
 		geoList.remove(geo);
 	}
 
@@ -525,7 +566,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 * @param index
 	 *            position of element to be removed
 	 */
-	public final void remove(int index) {
+	public final void remove(final int index) {
 		geoList.remove(index);
 	}
 
@@ -536,8 +577,8 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 *            element position
 	 * @return the element at the specified position in this list.
 	 */
-	final public GeoElement get(int index) {
-		return (GeoElement) geoList.get(index);
+	final public GeoElement get(final int index) {
+		return geoList.get(index);
 	}
 
 	/**
@@ -549,7 +590,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 *            element position -- column
 	 * @return the element at the specified position in this (2D) list.
 	 */
-	final public GeoElement get(int index, int index2) {
+	final public GeoElement get(final int index, final int index2) {
 		return ((GeoList) geoList.get(index)).get(index2);
 	}
 
@@ -560,17 +601,17 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 */
 	public double[] toDouble() {
 		try {
-			double[] valueArray = new double[geoList.size()];
+			final double[] valueArray = new double[geoList.size()];
 			for (int i = 0; i < valueArray.length; i++) {
 				valueArray[i] = ((NumberValue) geoList.get(i)).getDouble();
 			}
 			return valueArray;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			return null;
 		}
 	}
 
-	final public void ensureCapacity(int size) {
+	final public void ensureCapacity(final int size) {
 		geoList.ensureCapacity(size);
 		cacheList.ensureCapacity(size);
 	}
@@ -591,8 +632,8 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 *            element position
 	 * @return cached alement at given position
 	 */
-	final public GeoElement getCached(int index) {
-		return (GeoElement) cacheList.get(index);
+	final public GeoElement getCached(final int index) {
+		return cacheList.get(index);
 	}
 
 	@Override
@@ -613,17 +654,17 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		}
 
 		// first (n-1) elements
-		int lastIndex = geoList.size() - 1;
+		final int lastIndex = geoList.size() - 1;
 		if (lastIndex > -1) {
 			for (int i = 0; i < lastIndex; i++) {
-				GeoElement geo = (GeoElement) geoList.get(i);
+				final GeoElement geo = geoList.get(i);
 
 				sbBuildValueString.append(geo.getAlgebraDescriptionRegrOut());
 				sbBuildValueString.append(" ");
 			}
 
 			// last element
-			GeoElement geo = (GeoElement) geoList.get(lastIndex);
+			final GeoElement geo = geoList.get(lastIndex);
 			sbBuildValueString.append(geo.getAlgebraDescriptionRegrOut());
 		}
 
@@ -644,36 +685,40 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			return sbBuildValueString;
 		}
 
-		if (kernel.getCASPrintForm().equals(StringType.LATEX))
+		if (kernel.getCASPrintForm().equals(StringType.LATEX)) {
 			sbBuildValueString.append("\\left\\");
-		if (kernel.getCASPrintForm().equals(StringType.MPREDUCE))
+		}
+		if (kernel.getCASPrintForm().equals(StringType.MPREDUCE)) {
 			sbBuildValueString.append("list(");
-		else
+		} else {
 			sbBuildValueString.append(STR_OPEN);
+		}
 		// first (n-1) elements
-		int lastIndex = geoList.size() - 1;
+		final int lastIndex = geoList.size() - 1;
 		if (lastIndex > -1) {
 			for (int i = 0; i < lastIndex; i++) {
-				GeoElement geo = (GeoElement) geoList.get(i);
+				final GeoElement geo = geoList.get(i);
 				sbBuildValueString.append(geo.toOutputValueString());
 				sbBuildValueString.append(AbstractApplication.unicodeComma);
 				sbBuildValueString.append(" ");
 			}
 
 			// last element
-			GeoElement geo = (GeoElement) geoList.get(lastIndex);
+			final GeoElement geo = geoList.get(lastIndex);
 			sbBuildValueString.append(geo.toOutputValueString());
 		}
-		if (kernel.getCASPrintForm().equals(StringType.LATEX))
+		if (kernel.getCASPrintForm().equals(StringType.LATEX)) {
 			sbBuildValueString.append("\\right\\");
-		if (kernel.getCASPrintForm().equals(StringType.MPREDUCE))
+		}
+		if (kernel.getCASPrintForm().equals(StringType.MPREDUCE)) {
 			sbBuildValueString.append(")");
-		else
+		} else {
 			sbBuildValueString.append(STR_CLOSE);
+		}
 		return sbBuildValueString;
 	}
 
-	private StringBuilder sbBuildValueString = new StringBuilder(50);
+	private final StringBuilder sbBuildValueString = new StringBuilder(50);
 
 	@Override
 	public boolean isGeoList() {
@@ -689,12 +734,12 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 * save object in XML format
 	 */
 	@Override
-	public final void getXML(StringBuilder sb) {
+	public final void getXML(final StringBuilder sb) {
 
 		// an independent list needs to add
 		// its expression itself
 		// e.g. {1,2,3}
-		if (isIndependent() && getDefaultGeoType() < 0) {
+		if (isIndependent() && (getDefaultGeoType() < 0)) {
 			sb.append("<expression");
 			sb.append(" label =\"");
 			sb.append(StringUtil.encodeXML(label));
@@ -730,7 +775,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		sb.append("\"/>\n");
 
 		// font settings
-		if (serifFont || fontSize != 0 || fontStyle != 0) {
+		if (serifFont || (fontSize != 0) || (fontStyle != 0)) {
 			sb.append("\t<font serif=\"");
 			sb.append(serifFont);
 			sb.append("\" size=\"");
@@ -741,14 +786,14 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		}
 
 		// print decimals
-		if (printDecimals >= 0 && !useSignificantFigures) {
+		if ((printDecimals >= 0) && !useSignificantFigures) {
 			sb.append("\t<decimals val=\"");
 			sb.append(printDecimals);
 			sb.append("\"/>\n");
 		}
 
 		// print significant figures
-		if (printFigures >= 0 && useSignificantFigures) {
+		if ((printFigures >= 0) && useSignificantFigures) {
 			sb.append("\t<significantfigures val=\"");
 			sb.append(printFigures);
 			sb.append("\"/>\n");
@@ -763,13 +808,14 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 * 
 	 * @param geo
 	 */
-	public void registerColorFunctionListener(GeoElement geo) {
-		if (colorFunctionListener == null)
+	public void registerColorFunctionListener(final GeoElement geo) {
+		if (colorFunctionListener == null) {
 			colorFunctionListener = new ArrayList<GeoElement>();
-		colorFunctionListener.add((GeoElement) geo);
+		}
+		colorFunctionListener.add(geo);
 	}
 
-	public void unregisterColorFunctionListener(GeoElement geo) {
+	public void unregisterColorFunctionListener(final GeoElement geo) {
 		if (colorFunctionListener != null) {
 			colorFunctionListener.remove(geo);
 		}
@@ -787,7 +833,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		if (colorFunctionListener != null) {
 			// Application.debug("GeoList update listeners");
 			for (int i = 0; i < colorFunctionListener.size(); i++) {
-				GeoElement geo = (GeoElement) colorFunctionListener.get(i);
+				final GeoElement geo = colorFunctionListener.get(i);
 				// kernel.notifyUpdate(geo);
 				// geo.toGeoElement().updateCascade();
 				geo.updateVisualStyle();
@@ -805,12 +851,12 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 		if (colorFunctionListener != null) {
 			// copy conditionListeners into array
-			Object[] geos = colorFunctionListener.toArray();
+			final Object[] geos = colorFunctionListener.toArray();
 			colorFunctionListener.clear();
 
 			// tell all condition listeners
 			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
+				final GeoElement geo = (GeoElement) geos[i];
 				geo.removeColorFunction();
 				kernel.notifyUpdate(geo);
 			}
@@ -823,43 +869,46 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 * return whether this list equals GeoList list Michael Borcherds 2008-04-12
 	 */
 	@Override
-	final public boolean isEqual(GeoElement geo) {
+	final public boolean isEqual(final GeoElement geo) {
 
-		if (!geo.isGeoList())
+		if (!geo.isGeoList()) {
 			return false;
+		}
 
-		GeoList list = (GeoList) geo;
+		final GeoList list = (GeoList) geo;
 
 		// check sizes
-		if (geoList.size() != list.size())
+		if (geoList.size() != list.size()) {
 			return false;
+		}
 
 		// check each element
 		for (int i = 0; i < list.geoList.size(); i++) {
-			GeoElement geoA = (GeoElement) geoList.get(i);
-			GeoElement geoB = list.get(i);
+			final GeoElement geoA = geoList.get(i);
+			final GeoElement geoB = list.get(i);
 
-			if (!geoA.isEqual(geoB))
+			if (!geoA.isEqual(geoB)) {
 				return false;
-			/*
-			 * if (geoA.isGeoNumeric() && geoB.isGeoNumeric()) { if
-			 * (!((GeoNumeric)geoA).equals((GeoNumeric)geoB)) return false; }
-			 * else if (geoA.isGeoConicPart() && geoB.isGeoConicPart()) { if
-			 * (!((GeoConicPart)geoA).equals((GeoConicPart)geoB)) return false;
-			 * } else if (geoA.isGeoConic() && geoB.isGeoConic()) { if
-			 * (!((GeoConic)geoA).equals((GeoConic)geoB)) return false; } else
-			 * if (geoA.isGeoAngle() && geoB.isGeoAngle()) { if
-			 * (!((GeoAngle)geoA).equals((GeoAngle)geoB)) return false; } else
-			 * if (geoA.isGeoPoint() && geoB.isGeoPoint()) { if
-			 * (!((GeoPoint)geoA).equals((GeoPoint)geoB)) return false; } else
-			 * if (geoA.isGeoPolygon() && geoB.isGeoPolygon()) { if
-			 * (!((GeoPolygon)geoA).equals((GeoPolygon)geoB)) return false; }
-			 * else if (geoA.isGeoSegment() && geoB.isGeoSegment()) { if
-			 * (!((GeoSegment)geoA).equals((GeoSegment)geoB)) return false; }
-			 * else if (geoA.isGeoList() && geoB.isGeoList()) { if
-			 * (!((GeoList)geoA).equals((GeoList)geoB)) return false; } else if
-			 * (!geoA.equals(geoB)) return false;
-			 */
+				/*
+				 * if (geoA.isGeoNumeric() && geoB.isGeoNumeric()) { if
+				 * (!((GeoNumeric)geoA).equals((GeoNumeric)geoB)) return false;
+				 * } else if (geoA.isGeoConicPart() && geoB.isGeoConicPart()) {
+				 * if (!((GeoConicPart)geoA).equals((GeoConicPart)geoB)) return
+				 * false; } else if (geoA.isGeoConic() && geoB.isGeoConic()) {
+				 * if (!((GeoConic)geoA).equals((GeoConic)geoB)) return false; }
+				 * else if (geoA.isGeoAngle() && geoB.isGeoAngle()) { if
+				 * (!((GeoAngle)geoA).equals((GeoAngle)geoB)) return false; }
+				 * else if (geoA.isGeoPoint() && geoB.isGeoPoint()) { if
+				 * (!((GeoPoint)geoA).equals((GeoPoint)geoB)) return false; }
+				 * else if (geoA.isGeoPolygon() && geoB.isGeoPolygon()) { if
+				 * (!((GeoPolygon)geoA).equals((GeoPolygon)geoB)) return false;
+				 * } else if (geoA.isGeoSegment() && geoB.isGeoSegment()) { if
+				 * (!((GeoSegment)geoA).equals((GeoSegment)geoB)) return false;
+				 * } else if (geoA.isGeoList() && geoB.isGeoList()) { if
+				 * (!((GeoList)geoA).equals((GeoList)geoB)) return false; } else
+				 * if (!geoA.equals(geoB)) return false;
+				 */
+			}
 		}
 
 		// all list elements equal
@@ -872,17 +921,19 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	}
 
 	@Override
-	public void setLineThickness(int thickness) {
+	public void setLineThickness(final int thickness) {
 
 		super.setLineThickness(thickness);
 
-		if (geoList == null || geoList.size() == 0)
+		if ((geoList == null) || (geoList.size() == 0)) {
 			return;
+		}
 
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			if (!geo.isLabelSet())
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
 				geo.setLineThickness(thickness);
+			}
 		}
 
 		// Application.debug("GeoList.setLineThickness "+thickness);
@@ -899,31 +950,36 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 */
 	@Override
 	public int getMinimumLineThickness() {
-		if (geoList == null || geoList.size() == 0)
+		if ((geoList == null) || (geoList.size() == 0)) {
 			return 1;
+		}
 
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			if (!geo.isLabelSet())
-				if (geo.getMinimumLineThickness() == 1)
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
+				if (geo.getMinimumLineThickness() == 1) {
 					return 1;
+				}
+			}
 		}
 
 		return 0;
 	}
 
 	@Override
-	public void setLineType(int type) {
+	public void setLineType(final int type) {
 
 		super.setLineType(type);
 
-		if (geoList == null || geoList.size() == 0)
+		if ((geoList == null) || (geoList.size() == 0)) {
 			return;
+		}
 
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			if (!geo.isLabelSet())
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
 				geo.setLineType(type);
+			}
 		}
 
 		// Application.debug("GeoList.setLineType");
@@ -938,16 +994,18 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	public int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
 	private int pointStyle = -1; // use global option if -1
 
-	public void setPointSize(int size) {
+	public void setPointSize(final int size) {
 		pointSize = size;
 
-		if (geoList == null || geoList.size() == 0)
+		if ((geoList == null) || (geoList.size() == 0)) {
 			return;
+		}
 
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			if (!geo.isLabelSet() && geo instanceof PointProperties)
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet() && (geo instanceof PointProperties)) {
 				((PointProperties) geo).setPointSize(size);
+			}
 		}
 	}
 
@@ -955,16 +1013,18 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return pointSize;
 	}
 
-	public void setPointStyle(int style) {
+	public void setPointStyle(final int style) {
 		pointStyle = style;
 
-		if (geoList == null || geoList.size() == 0)
+		if ((geoList == null) || (geoList.size() == 0)) {
 			return;
+		}
 
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			if (!geo.isLabelSet() && geo instanceof PointProperties)
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet() && (geo instanceof PointProperties)) {
 				((PointProperties) geo).setPointStyle(style);
+			}
 		}
 	}
 
@@ -974,10 +1034,10 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			// no alphaValue set
 			// so we need to set it to that of the first element, if there is
 			// one
-			if (geoList != null && geoList.size() > 0) {
+			if ((geoList != null) && (geoList.size() > 0)) {
 
 				// get alpha value of first element
-				float alpha = ((GeoElement) geoList.get(0)).getAlphaValue();
+				final float alpha = geoList.get(0).getAlphaValue();
 
 				// Application.debug("setting list alpha to "+alpha);
 
@@ -987,9 +1047,10 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 				// if appropriate
 				if (geoList.size() > 1) {
 					for (int i = 1; i < geoList.size(); i++) {
-						GeoElement geo = (GeoElement) geoList.get(i);
-						if (!geo.isLabelSet())
+						final GeoElement geo = geoList.get(i);
+						if (!geo.isLabelSet()) {
 							geo.setAlphaValue(alpha);
+						}
 					}
 
 				}
@@ -1002,7 +1063,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	}
 
 	@Override
-	public void setAlphaValue(float alpha) {
+	public void setAlphaValue(final float alpha) {
 
 		if (alpha == -1) {
 			// wait until we have a GeoElement in the list to use
@@ -1013,13 +1074,15 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 		super.setAlphaValue(alpha);
 
-		if (geoList == null || geoList.size() == 0)
+		if ((geoList == null) || (geoList.size() == 0)) {
 			return;
+		}
 
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			if (!geo.isLabelSet())
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
 				geo.setAlphaValue(alpha);
+			}
 		}
 
 	}
@@ -1030,18 +1093,21 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 	@Override
 	public boolean isFillable() {
-		if (geoList == null || geoList.size() == 0)
+		if ((geoList == null) || (geoList.size() == 0)) {
 			return false;
+		}
 
 		boolean someFillable = false;
 		boolean allLabelsSet = true;
 
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			if (geo.isFillable())
+			final GeoElement geo = geoList.get(i);
+			if (geo.isFillable()) {
 				someFillable = true;
-			if (!geo.isLabelSet())
+			}
+			if (!geo.isLabelSet()) {
 				allLabelsSet = false;
+			}
 		}
 
 		return someFillable && !allLabelsSet;
@@ -1049,7 +1115,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 	@Override
 	public GeoElement getGeoElementForPropertiesDialog() {
-		if (geoList.size() > 0 && elementType != ELEMENT_TYPE_MIXED) {
+		if ((geoList.size() > 0) && (elementType != ELEMENT_TYPE_MIXED)) {
 			return get(0).getGeoElementForPropertiesDialog(); // getGeoElementForPropertiesDialog()
 																// to cope with
 																// lists of
@@ -1064,32 +1130,36 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 */
 	public boolean isMatrix() {
 
-		if (!getElementType().equals(GeoClass.LIST) || size() == 0)
+		if (!getElementType().equals(GeoClass.LIST) || (size() == 0)) {
 			return false;
+		}
 
-		GeoElement geo0 = get(0);
+		final GeoElement geo0 = get(0);
 		if (geo0.isGeoList()) {
-			int length = ((GeoList) geo0).size();
+			final int length = ((GeoList) geo0).size();
 			if (length == 0) {
 				return false;
 			} else {
 				if (size() > 0) {
 					for (int i = 0; i < size(); i++) {
-						GeoElement geoi = get(i);
+						final GeoElement geoi = get(i);
 						// Application.debug(((GeoList)geoi).get(0).getGeoClassType()+"");
-						if (!get(i).isGeoList() || ((GeoList) geoi).size() == 0
-								|| ((GeoList) geoi).size() != length)
+						if (!get(i).isGeoList()
+								|| (((GeoList) geoi).size() == 0)
+								|| (((GeoList) geoi).size() != length)) {
 							return false;
-						else {
+						} else {
 							for (int j = 0; j < ((GeoList) geoi).size(); j++) {
-								GeoElement geoij = ((GeoList) geoi).get(j);
+								final GeoElement geoij = ((GeoList) geoi)
+										.get(j);
 								if (!geoij.getGeoClassType().equals(
 										GeoClass.NUMERIC)
 										&& !geoij.getGeoClassType().equals(
 												GeoClass.FUNCTION)
 										&& !geoij.getGeoClassType().equals(
-												GeoClass.FUNCTION_NVAR))
+												GeoClass.FUNCTION_NVAR)) {
 									return false;
+								}
 							}
 						}
 					}
@@ -1112,16 +1182,18 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return fontSize;
 	}
 
-	public void setFontSize(int size) {
+	public void setFontSize(final int size) {
 		fontSize = size;
 
-		if (geoList == null || geoList.size() == 0)
+		if ((geoList == null) || (geoList.size() == 0)) {
 			return;
+		}
 
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			if (geo instanceof TextProperties && !geo.isLabelSet())
+			final GeoElement geo = geoList.get(i);
+			if ((geo instanceof TextProperties) && !geo.isLabelSet()) {
 				((TextProperties) geo).setFontSize(size);
+			}
 		}
 	}
 
@@ -1129,16 +1201,18 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return fontStyle;
 	}
 
-	public void setFontStyle(int fontStyle) {
+	public void setFontStyle(final int fontStyle) {
 		this.fontStyle = fontStyle;
 
-		if (geoList == null || geoList.size() == 0)
+		if ((geoList == null) || (geoList.size() == 0)) {
 			return;
+		}
 
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			if (geo instanceof TextProperties && !geo.isLabelSet())
+			final GeoElement geo = geoList.get(i);
+			if ((geo instanceof TextProperties) && !geo.isLabelSet()) {
 				((TextProperties) geo).setFontStyle(fontStyle);
+			}
 		}
 	}
 
@@ -1150,21 +1224,23 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return printFigures;
 	}
 
-	public void setPrintDecimals(int printDecimals, boolean update) {
+	public void setPrintDecimals(final int printDecimals, final boolean update) {
 		this.printDecimals = printDecimals;
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			if (geo instanceof TextProperties && !geo.isLabelSet())
+			final GeoElement geo = geoList.get(i);
+			if ((geo instanceof TextProperties) && !geo.isLabelSet()) {
 				((TextProperties) geo).setPrintDecimals(printDecimals, update);
+			}
 		}
 	}
 
-	public void setPrintFigures(int printFigures, boolean update) {
+	public void setPrintFigures(final int printFigures, final boolean update) {
 		this.printFigures = printFigures;
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			if (geo instanceof TextProperties && !geo.isLabelSet())
+			final GeoElement geo = geoList.get(i);
+			if ((geo instanceof TextProperties) && !geo.isLabelSet()) {
 				((TextProperties) geo).setPrintFigures(printFigures, update);
+			}
 		}
 	}
 
@@ -1177,62 +1253,68 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return serifFont;
 	}
 
-	public void setSerifFont(boolean serifFont) {
+	public void setSerifFont(final boolean serifFont) {
 		this.serifFont = serifFont;
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			if (geo instanceof TextProperties && !geo.isLabelSet())
+			final GeoElement geo = geoList.get(i);
+			if ((geo instanceof TextProperties) && !geo.isLabelSet()) {
 				((TextProperties) geo).setSerifFont(serifFont);
+			}
 		}
 	}
 
 	@Override
-	public void setHatchingAngle(int angle) {
+	public void setHatchingAngle(final int angle) {
 		super.setHatchingAngle(angle);
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			if (!geo.isLabelSet())
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
 				geo.setHatchingAngle(angle);
+			}
 		}
 	}
 
 	@Override
-	public void setHatchingDistance(int distance) {
+	public void setHatchingDistance(final int distance) {
 		super.setHatchingDistance(distance);
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			if (!geo.isLabelSet())
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
 				geo.setHatchingDistance(distance);
+			}
 		}
 	}
 
 	@Override
-	public void setFillType(int type) {
+	public void setFillType(final int type) {
 		super.setFillType(type);
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			if (!geo.isLabelSet())
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
 				geo.setFillType(type);
+			}
 		}
 	}
 
 	@Override
-	public void setFillImage(String filename) {
+	public void setFillImage(final String filename) {
 		super.setFillImage(filename);
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			if (!geo.isLabelSet())
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
 				geo.setFillImage(filename);
+			}
 		}
 	}
 
 	@Override
-	public void setImageFileName(String filename) {
+	public void setImageFileName(final String filename) {
 		super.setImageFileName(filename);
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			if (!geo.isLabelSet())
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
 				geo.setImageFileName(filename);
+			}
 		}
 	}
 
@@ -1241,13 +1323,15 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 * able to set the line properties
 	 */
 	public boolean showLineProperties() {
-		if (showAllProperties)
+		if (showAllProperties) {
 			return true;
+		}
 
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			if (geo instanceof LineProperties && !geo.isLabelSet())
+			final GeoElement geo = geoList.get(i);
+			if ((geo instanceof LineProperties) && !geo.isLabelSet()) {
 				return true;
+			}
 		}
 
 		return false;
@@ -1258,13 +1342,15 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 * able to set the point properties
 	 */
 	public boolean showPointProperties() {
-		if (showAllProperties)
+		if (showAllProperties) {
 			return true;
+		}
 
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			if (geo instanceof PointProperties && !geo.isLabelSet())
+			final GeoElement geo = geoList.get(i);
+			if ((geo instanceof PointProperties) && !geo.isLabelSet()) {
 				return true;
+			}
 		}
 
 		return false;
@@ -1276,25 +1362,27 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	}
 
 	@Override
-	public String toLaTeXString(boolean symbolic) {
+	public String toLaTeXString(final boolean symbolic) {
 
 		if (isMatrix()) {
 
 			// int rows = size();
-			int cols = ((GeoList) get(0)).size();
+			final int cols = ((GeoList) get(0)).size();
 
-			StringBuilder sb = new StringBuilder();
+			final StringBuilder sb = new StringBuilder();
 			sb.append("\\left(\\begin{array}{");
 			// eg rr
-			for (int i = 0; i < cols; i++)
+			for (int i = 0; i < cols; i++) {
 				sb.append('r');
+			}
 			sb.append("}");
 			for (int i = 0; i < size(); i++) {
-				GeoList geo = (GeoList) get(i);
+				final GeoList geo = (GeoList) get(i);
 				for (int j = 0; j < geo.size(); j++) {
 					sb.append(geo.get(j).toLaTeXString(symbolic));
-					if (j < geo.size() - 1)
+					if (j < (geo.size() - 1)) {
 						sb.append("&");
+					}
 				}
 				sb.append("\\\\");
 			}
@@ -1308,7 +1396,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	}
 
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
+	protected void getXMLtags(final StringBuilder sb) {
 		super.getXMLtags(sb);
 
 		getLineStyleXML(sb);
@@ -1339,7 +1427,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return selectedIndex;
 	}
 
-	public void setSelectedIndex(int selectedIndex0) {
+	public void setSelectedIndex(final int selectedIndex0) {
 		selectedIndex = selectedIndex0;
 	}
 
@@ -1358,13 +1446,14 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 * the user or null if there's a problem
 	 */
 	public GeoElement getSelectedElement() {
-		if (selectedIndex > -1 && selectedIndex < size())
+		if ((selectedIndex > -1) && (selectedIndex < size())) {
 			return get(selectedIndex);
-		else
+		} else {
 			return null;
+		}
 	}
 
-	public void setTrace(boolean trace) {
+	public void setTrace(final boolean trace) {
 		this.trace = trace;
 	}
 
@@ -1390,7 +1479,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	/*
 	 * adapted from GeoLocus
 	 */
-	public void pointChanged(GeoPointND P) {
+	public void pointChanged(final GeoPointND P) {
 		// Application.debug("pointChanged",1);
 
 		// GeoPoint P = (GeoPoint) PI;
@@ -1400,17 +1489,17 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		// update closestPointIndex
 		getNearestPoint(P);
 
-		GeoElement geo = get(closestPointIndex);
+		final GeoElement geo = get(closestPointIndex);
 		if (!(geo instanceof PathOrPoint)) {
 			AbstractApplication.debug("TODO: " + geo.getClassName()
 					+ " should implement PathOrPoint interface");
 			return;
 		}
-		PathOrPoint path = (PathOrPoint) get(closestPointIndex);
+		final PathOrPoint path = (PathOrPoint) get(closestPointIndex);
 
 		path.pointChanged(P);
 
-		PathParameter pp = P.getPathParameter();
+		final PathParameter pp = P.getPathParameter();
 
 		// update path param
 		// 0-1 for first obj
@@ -1424,14 +1513,14 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 	}
 
-	public void getNearestPoint(GeoPointND p) {
+	public void getNearestPoint(final GeoPointND p) {
 		// Application.printStacktrace(p.inhomX+" "+p.inhomY);
 		double distance = Double.POSITIVE_INFINITY;
 		closestPointIndex = 0; // default - first object
 		// double closestIndex = -1;
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			double d = geo.distance(p);
+			final GeoElement geo = geoList.get(i);
+			final double d = geo.distance(p);
 			// Application.debug(i+" "+d+" "+distance+" "+getLabel());
 			if (d < distance) {
 				distance = d;
@@ -1444,11 +1533,12 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		// return get(closestPointIndex).getNearestPoint(p);
 	}
 
-	public double distance(GeoPoint2 p) {
+	@Override
+	public double distance(final GeoPoint2 p) {
 		double distance = Double.POSITIVE_INFINITY;
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			double d = geo.distance(p);
+			final GeoElement geo = geoList.get(i);
+			final double d = geo.distance(p);
 			if (d < distance) {
 				distance = d;
 			}
@@ -1457,7 +1547,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return distance;
 	}
 
-	public void pathChanged(GeoPointND PI) {
+	public void pathChanged(final GeoPointND PI) {
 
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
@@ -1466,22 +1556,23 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			return;
 		}
 
-		PathParameter pp = PI.getPathParameter();
+		final PathParameter pp = PI.getPathParameter();
 
 		double t = pp.getT();
 		int n = (int) Math.floor(t);
 
 		// check n is in a sensible range
-		if (n >= size() || n < 0) {
-			double check = t - size();
+		if ((n >= size()) || (n < 0)) {
+			final double check = t - size();
 			// t = size() when at very end of path
 			// so check == 0 is OK, just need to set n = size() - 1
-			if (check != 0.0)
+			if (check != 0.0) {
 				AbstractApplication.debug("problem with path param "
 						+ PI.getLabel());
+			}
 			n = (n < 0) ? 0 : size() - 1;
 		}
-		PathOrPoint path = (PathOrPoint) get(n);
+		final PathOrPoint path = (PathOrPoint) get(n);
 
 		pp.setT(PathNormalizer.toParentPathParameter(t - n,
 				path.getMinParameter(), path.getMaxParameter()));
@@ -1499,12 +1590,13 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 	}
 
-	public boolean isOnPath(GeoPointND PI, double eps) {
+	public boolean isOnPath(final GeoPointND PI, final double eps) {
 		// Application.debug("isOnPath",1);
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
-			if (((PathOrPoint) geo).isOnPath(PI, eps))
+			final GeoElement geo = geoList.get(i);
+			if (((PathOrPoint) geo).isOnPath(PI, eps)) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -1531,20 +1623,23 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	}
 
 	@Override
-	public boolean hasMoveableInputPoints(EuclidianViewInterfaceSlim view) {
+	public boolean hasMoveableInputPoints(final EuclidianViewInterfaceSlim view) {
 		// we don't want e.g. DotPlots to be dragged
-		if (!(getParentAlgorithm() == null || getParentAlgorithm() instanceof AlgoDependentListInterface))
+		if (!((getParentAlgorithm() == null) || (getParentAlgorithm() instanceof AlgoDependentListInterface))) {
 			return false;
+		}
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
+			final GeoElement geo = geoList.get(i);
 
 			if (geo.isGeoPoint()) {
-				if (!geo.isMoveable())
+				if (!geo.isMoveable()) {
 					return false;
+				}
 			} else {
 				// not point
-				if (!geo.hasMoveableInputPoints(view))
+				if (!geo.hasMoveableInputPoints(view)) {
 					return false;
+				}
 			}
 		}
 
@@ -1557,27 +1652,30 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 */
 	@Override
 	public ArrayList<GeoPoint2> getFreeInputPoints(
-			EuclidianViewInterfaceSlim view) {
-		ArrayList<GeoPoint2> al = new ArrayList<GeoPoint2>();
+			final EuclidianViewInterfaceSlim view) {
+		final ArrayList<GeoPoint2> al = new ArrayList<GeoPoint2>();
 
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = (GeoElement) geoList.get(i);
+			final GeoElement geo = geoList.get(i);
 
 			if (geo.isGeoPoint()) {
-				GeoPoint2 p = (GeoPoint2) geo;
-				if (p.isMoveable() && !al.contains(p))
+				final GeoPoint2 p = (GeoPoint2) geo;
+				if (p.isMoveable() && !al.contains(p)) {
 					al.add(p);
+				}
 
 			} else {
-				ArrayList<GeoPoint2> al2 = geo.getFreeInputPoints(view);
+				final ArrayList<GeoPoint2> al2 = geo.getFreeInputPoints(view);
 
-				if (al2 != null)
+				if (al2 != null) {
 					for (int j = 0; j < al2.size(); j++) {
-						GeoPoint2 p = al2.get(j);
+						final GeoPoint2 p = al2.get(j);
 						// make sure duplicates aren't added
-						if (!al.contains(p))
+						if (!al.contains(p)) {
 							al.add(p);
+						}
 					}
+				}
 			}
 		}
 		return al;
@@ -1590,71 +1688,80 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	}
 
 	@Override
-	public String getCASString(boolean symbolic) {
+	public String getCASString(final boolean symbolic) {
 
 		// isMatrix() is rather expensive, and we only need it
 		// if we're using Maxima, so test for that first
-		StringType casPrinttype = kernel.getCASPrintForm();
+		final StringType casPrinttype = kernel.getCASPrintForm();
 		if ((!casPrinttype.equals(StringType.MAXIMA) && !casPrinttype
-				.equals(StringType.MPREDUCE)) || !isMatrix())
+				.equals(StringType.MPREDUCE)) || !isMatrix()) {
 			return super.getCASString(symbolic);
+		}
 
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		if (casPrinttype.equals(StringType.MAXIMA)) {
 			sb.append("matrix(");
 			for (int i = 0; i < size(); i++) {
-				GeoList geo = (GeoList) get(i);
+				final GeoList geo = (GeoList) get(i);
 				sb.append('[');
 				for (int j = 0; j < geo.size(); j++) {
 					sb.append(geo.get(j).getCASString(symbolic));
-					if (j != geo.size() - 1)
+					if (j != (geo.size() - 1)) {
 						sb.append(',');
+					}
 				}
 				sb.append(']');
-				if (i != size() - 1)
+				if (i != (size() - 1)) {
 					sb.append(',');
+				}
 			}
 			sb.append(')');
 		} else {
 			sb.append("mat(");
 			for (int i = 0; i < size(); i++) {
-				GeoList geo = (GeoList) get(i);
+				final GeoList geo = (GeoList) get(i);
 				sb.append("(");
 				for (int j = 0; j < geo.size(); j++) {
 					sb.append(geo.get(j).getCASString(symbolic));
-					if (j != geo.size() - 1)
+					if (j != (geo.size() - 1)) {
 						sb.append(',');
+					}
 				}
 				sb.append(')');
-				if (i != size() - 1)
+				if (i != (size() - 1)) {
 					sb.append(',');
+				}
 			}
 			sb.append(')');
 		}
 		return sb.toString();
 	}
 
-	public boolean listContains(GeoElement geo) {
-		if (geoList == null)
+	public boolean listContains(final GeoElement geo) {
+		if (geoList == null) {
 			return true;
+		}
 		return geoList.contains(geo);
 	}
 
 	@Override
-	public boolean isLaTeXDrawableGeo(String latexStr) {
+	public boolean isLaTeXDrawableGeo(final String latexStr) {
 
 		// check for matrix
-		if (getElementType().equals(GeoClass.LIST))
+		if (getElementType().equals(GeoClass.LIST)) {
 			return true;
+		}
 
 		// don't check getGeoElementForPropertiesDialog
 		// as we want matrices to use latex
-		if (getElementType().equals(GeoClass.NUMERIC))
+		if (getElementType().equals(GeoClass.NUMERIC)) {
 			return false;
+		}
 
 		return super.isLaTeXDrawableGeo(latexStr);
 	}
 
+	@Override
 	public ArrayList<String> getColumnHeadings() {
 
 		if (spreadsheetColumnHeadings == null) {
@@ -1662,17 +1769,16 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		} else {
 			spreadsheetColumnHeadings.clear();
 		}
-				
+
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = geoList.get(i);
+			final GeoElement geo = geoList.get(i);
 			if (geo instanceof SpreadsheetTraceable) {
-				ArrayList<String> geoHead = geo.getColumnHeadings();
-				for (int j = 0 ; j < geoHead.size() ; j++) {
+				final ArrayList<String> geoHead = geo.getColumnHeadings();
+				for (int j = 0; j < geoHead.size(); j++) {
 					spreadsheetColumnHeadings.add(geoHead.get(j));
 				}
 			}
 		}
-		
 
 		return spreadsheetColumnHeadings;
 	}
@@ -1681,6 +1787,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 * default for elements implementing NumberValue interface eg GeoSegment,
 	 * GeoPolygon
 	 */
+	@Override
 	public ArrayList<GeoNumeric> getSpreadsheetTraceList() {
 
 		if (spreadsheetTraceList == null) {
@@ -1690,9 +1797,9 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		}
 
 		for (int i = 0; i < geoList.size(); i++) {
-			GeoElement geo = geoList.get(i);
+			final GeoElement geo = geoList.get(i);
 			if (geo instanceof SpreadsheetTraceable) {
-				ArrayList<GeoNumeric> traces = ((SpreadsheetTraceable) geo)
+				final ArrayList<GeoNumeric> traces = ((SpreadsheetTraceable) geo)
 						.getSpreadsheetTraceList();
 				spreadsheetTraceList.addAll(traces);
 			}
