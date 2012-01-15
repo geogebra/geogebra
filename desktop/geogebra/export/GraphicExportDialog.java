@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.export;
 
+import geogebra.GeoGebra;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.main.AbstractApplication;
@@ -31,13 +32,18 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -498,10 +504,10 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	/**
 	 * Shows save dialog and exports drawing as eps.
 	 */
-	final private boolean exportEPS(boolean exportToClipboard) {
+	final private boolean exportEPS(final boolean exportToClipboard) {
 
-		EuclidianView ev = getEuclidianView();
-		double printingScale = ev.getPrintingScale();
+		final EuclidianView ev = getEuclidianView();
+		final double printingScale = ev.getPrintingScale();
 
 		// set dpi to 72
 		exportScale = (printingScale * 72) / 2.54 / ev.getXscale();
@@ -509,40 +515,46 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		pixelWidth = (int) Math.floor(ev.getExportWidth() * exportScale);
 		pixelHeight = (int) Math.floor(ev.getExportHeight() * exportScale);
 
-		// Michael Borcherds 2008-03-02 BEGIN
 		File file;
-		String tempDir = DownloadManager.getTempDir();
+		OutputStream os;
 		if (exportToClipboard) {
-			file = new File(tempDir + "geogebra.eps");
+			os = new ByteArrayOutputStream();
 		} else {
-			// Michael Borcherds 2008-03-02 END
 			file = app.getGuiManager().showSaveDialog(Application.FILE_EXT_EPS,
 					null, app.getPlain("eps") + " " + app.getMenu("Files"),
 					true, false);
-		}
-		if (file == null) {
-			return false;
+			
+			try {
+				os = new FileOutputStream(file);
+			} catch (FileNotFoundException e) {
+				app.showError("SaveFileFailed");
+				Application.debug(e.toString());
+				return false;
+			}
 		}
 		try {
+			
 
-			geogebra.export.epsgraphics.EpsGraphics g = new geogebra.export.epsgraphics.EpsGraphics(
+			final geogebra.export.epsgraphics.EpsGraphics g = new geogebra.export.epsgraphics.EpsGraphics(
 					app.getPlain("ApplicationName") + ", "
-							+ GeoGebraConstants.GEOGEBRA_WEBSITE,
-					(new FileOutputStream(file)), 0, 0, pixelWidth,
-					pixelHeight, ColorMode.COLOR_RGB);
+							+ GeoGebra.GEOGEBRA_WEBSITE, os, 0, 0, pixelWidth, pixelHeight,
+					ColorMode.COLOR_RGB);
 
 			// draw to epsGraphics2D
 			ev.exportPaint(g, exportScale);
 			g.close();
 
 			if (exportToClipboard) {
-				sendToClipboard(file); // Michael Borcherds 2008-03-02 END
+				Toolkit toolkit = Toolkit.getDefaultToolkit();
+				Clipboard clipboard = toolkit.getSystemClipboard();
+				clipboard.setContents(
+						new StringSelection(((ByteArrayOutputStream)os).toString("UTF-8")), null);
 			}
 
 			return true;
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			app.showError("SaveFileFailed");
-			AbstractApplication.debug(ex.toString());
+			Application.debug(ex.toString());
 			return false;
 		}
 	}
