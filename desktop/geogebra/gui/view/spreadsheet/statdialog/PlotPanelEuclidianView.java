@@ -495,7 +495,7 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 
 							// use reflection for
 							JDialog d = new geogebra.export.GraphicExportDialog(
-									getApplication());
+									getApplication(), plotPanelEV);
 							d.setVisible(true);
 
 						} catch (Exception e) {
