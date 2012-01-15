@@ -1530,6 +1530,10 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 			if (mode == 3 || mode == 0)
 				mode = 3 - mode; // swap 0 and 3
 			ev.setPointCapturing(mode);
+			
+			// update other EV stylebars since this is a global property 
+			app.updateStyleBars();
+			
 		}
 
 		else if (source == btnColor) {
