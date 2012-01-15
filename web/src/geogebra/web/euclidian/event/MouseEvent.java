@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import javax.swing.plaf.basic.BasicScrollPaneUI.HSBChangeListener;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.HasNativeEvent;
 import com.google.gwt.user.client.Event;
@@ -16,17 +17,22 @@ import geogebra.common.euclidian.event.AbstractEvent;
 public class MouseEvent extends AbstractEvent {
 	
 	public static HashMap<Integer,MouseEvent> pool = new HashMap<Integer, MouseEvent>();
-	private Event event;
+	private NativeEvent event;
 	private Integer id;
 	
-	private MouseEvent(Event e) {
-		this.event = e;
-		this.id = e.getTypeInt();
+	private MouseEvent(NativeEvent event) {
+		this.event = event;
+		this.id = getTypeId(event.getType());
 		MouseEvent.pool.put(this.id, this);
 	}
 	
-	public static AbstractEvent wrapEvent(Event e) {
-		return new MouseEvent(e);
+	private Integer getTypeId(String type) {
+	    GWT.log(type);
+	    return 0;
+    }
+
+	public static AbstractEvent wrapEvent(NativeEvent nativeEvent) {
+		return new MouseEvent(nativeEvent);
 	}
 
 	@Override
@@ -47,7 +53,7 @@ public class MouseEvent extends AbstractEvent {
 		return current.event.getShiftKey();
 	}
 
-	public static Event getEvent(AbstractEvent e) {
+	public static NativeEvent getEvent(AbstractEvent e) {
 		return MouseEvent.pool.get(e.getID()).event;
 	}
 
@@ -88,7 +94,7 @@ public class MouseEvent extends AbstractEvent {
 	@Override
 	public int getClickCount() {
 		MouseEvent current = MouseEvent.pool.get(this.id);
-		if (current.event.getTypeInt() == Event.ONDBLCLICK) {
+		if (current.event.getType() == "doubleclick") {
 			return 2;
 		} else {
 			return 1;
