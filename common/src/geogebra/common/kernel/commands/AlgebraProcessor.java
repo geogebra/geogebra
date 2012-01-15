@@ -87,13 +87,6 @@ public class AlgebraProcessor {
 		return cmdDispatcher.getPublicCommandSet();
 	}
 
-	/**
-	 * Returns an array of public command sets. Each set is a categorized subset
-	 * of the command table.
-	 */
-	public Set<HashMap<String, CommandProcessor>[]>[] getPublicCommandSubSets() {
-		return cmdDispatcher.getPublicCommandSubSets();
-	}
 
 	/**
 	 * Returns the localized name of a command subset. Indices are defined in

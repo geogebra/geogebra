@@ -43,15 +43,10 @@ public class CommandDispatcher {
      * call Markus, so he can give you one million reasons why this is a
      * terribly bad idea!
      **/   
-    protected HashMap<String,CommandProcessor> cmdTable;
-    
-    /**
-     * Same info as cmdTable, but separated for each command type.
-     * Used only in input help panel.
-     */
-    protected HashMap<String,CommandProcessor>[] cmdSubTable;
+    protected HashMap<String,CommandProcessor> cmdTable,casTable;
+
        
-    private int tableCount = GeoGebraConstants.CAS_VIEW_ENABLED ? 19 : 18;
+    public static final int tableCount = GeoGebraConstants.CAS_VIEW_ENABLED ? 19 : 18;
     
     /**
      * Returns localized name of given command set
@@ -74,10 +69,11 @@ public class CommandDispatcher {
     	case Commands.TABLE_PROBABILITY: return app.getMenu("Type.Probability");
     	case Commands.TABLE_SPREADSHEET: return app.getMenu("Type.Spreadsheet");
     	case Commands.TABLE_SCRIPTING: return app.getMenu("Type.Scripting");
-    	case Commands.TABLE_DISCRETE_MATH: return app.getMenu("Type.DiscreteMath");
+    	case Commands.TABLE_DISCRETE: return app.getMenu("Type.DiscreteMath");
     	case Commands.TABLE_GEOGEBRA: return app.getMenu("Type.GeoGebra");
     	case Commands.TABLE_OPTIMIZATION: return app.getMenu("Type.OptimizationCommands");
     	case Commands.TABLE_CAS: return app.getMenu("Type.CAS");
+    	case Commands.TABLE_3D: return app.getMenu("Type.3D");
     	// Commands.TABLE_ENGLISH:
     	default: return null;
     	}
@@ -118,23 +114,7 @@ public class CommandDispatcher {
 	}
     
     
-    /**
-     * Returns an array of sets containing the command names 
-     * found in each table of the array cmdSubTable.
-     */
-    public Set[] getPublicCommandSubSets() {
-    	
-    	if (cmdTable == null) {
-    		initCmdTable();
-    	}  
-    	
-    	Set[] subSet = new Set[tableCount];  	
-        for(int i = 0; i < tableCount; i++){
-        	subSet[i] = cmdSubTable[i].keySet();
-        }
-  
-    	return subSet;
-    }
+    
     
     
     
@@ -225,11 +205,8 @@ public class CommandDispatcher {
     	
     	// external commands: visible to users    
     	cmdTable = new HashMap<String,CommandProcessor>(500);
+    	casTable = new HashMap<String,CommandProcessor>(500);
     	
-    	cmdSubTable = new HashMap[tableCount];
-    	for(int i = 0; i<tableCount; i++)
-    		cmdSubTable[i] = new HashMap<String,CommandProcessor>(500);
-
     	// Here we doesn't instantiate CommandProcessor object as before,
     	// in order to speedup the initial loading of the Application
     	// we instantiate CommandProcessor objects when needed and
@@ -242,89 +219,10 @@ public class CommandDispatcher {
     	// Arpad Fekete, 2011-09-29
 
     	for (Commands comm : Commands.values()) {
-    		switch (comm) {
-    			case Line:
-    		    	cmdSubTable[Commands.TABLE_ALGEBRA].putAll(cmdTable);
-    		    	cmdTable.clear();
-    		    	break;
-    			case Text:
-    		    	cmdSubTable[Commands.TABLE_GEOMETRY].putAll(cmdTable);
-    		    	cmdTable.clear();
-    		    	break;
-    			case If:
-    		    	cmdSubTable[Commands.TABLE_TEXT].putAll(cmdTable);
-    		    	cmdTable.clear();
-    		    	break;
-    			case Root:
-    		      	cmdSubTable[Commands.TABLE_LOGICAL].putAll(cmdTable);
-    		    	cmdTable.clear();
-    		    	break;
-    			case Ellipse:
-    		    	cmdSubTable[Commands.TABLE_FUNCTION].putAll(cmdTable);
-    		    	cmdTable.clear();
-    		    	break;
-    			case Sort:
-    		    	cmdSubTable[Commands.TABLE_CONIC].putAll(cmdTable);
-    		    	cmdTable.clear();
-    		    	break;
-    			case BarChart:
-    		    	cmdSubTable[Commands.TABLE_LIST].putAll(cmdTable);
-    		    	cmdTable.clear();
-    		    	break;
-    			case Sum:
-    		    	cmdSubTable[Commands.TABLE_CHARTS].putAll(cmdTable);
-    		    	cmdTable.clear();
-    		    	break;
-    			case Random:
-    		    	cmdSubTable[Commands.TABLE_STATISTICS].putAll(cmdTable);
-    		    	cmdTable.clear();
-    		    	break;
-    			case ApplyMatrix:
-    		    	cmdSubTable[Commands.TABLE_PROBABILITY].putAll(cmdTable);
-    		    	cmdTable.clear();
-    		    	break;
-    			case Mirror:
-    		    	cmdSubTable[Commands.TABLE_VECTOR].putAll(cmdTable);
-    		    	cmdTable.clear();
-    		    	break;
-    			case CellRange:
-    		    	cmdSubTable[Commands.TABLE_TRANSFORMATION].putAll(cmdTable);
-    		    	cmdTable.clear();
-    		    	break;
-    			case CopyFreeObject:
-    		      	cmdSubTable[Commands.TABLE_SPREADSHEET].putAll(cmdTable);
-    		    	cmdTable.clear();
-    		    	break;
-    			case Voronoi:
-    		       	cmdSubTable[Commands.TABLE_SCRIPTING].putAll(cmdTable);
-    		    	cmdTable.clear();
-    		    	break;
-    			case Corner:
-    		    	cmdSubTable[Commands.TABLE_DISCRETE_MATH].putAll(cmdTable);
-    		    	cmdTable.clear();
-    		    	break;
-    			case Maximize:
-    		    	cmdSubTable[Commands.TABLE_GEOGEBRA].putAll(cmdTable);
-    		    	cmdTable.clear();
-    		    	break;
-    			case Curve:
-    		    	cmdSubTable[Commands.TABLE_OPTIMIZATION].putAll(cmdTable);
-    		    	cmdTable.clear();
-    		    	break;
-    		}
-    		cmdTable.put(comm.name(), null);
+    			cmdTable.put(comm.name(), null);
     	}
-    	cmdSubTable[Commands.TABLE_ENGLISH].putAll(cmdTable);
-    	cmdTable.clear();
-
-    	//=================================================================
-      	// Put all of the sub Tables together to create cmdTable
     	
-    	for(int i = 0; i < tableCount; i++) {
-    		if (i != Commands.TABLE_CAS) {
-	    		cmdTable.putAll(cmdSubTable[i]);
-    		}
-    	}
+    	
     	
     	//=============================================================	
       	// CAS
@@ -350,15 +248,9 @@ public class CommandDispatcher {
     	// since isCasActive is now true.
     	if (cmdTable == null)
     		return;
-    	for (String cmd : kernel.getGeoGebraCAS().getCurrentCAS().getAvailableCommandNames()) {
-    		
-    		// add commands that are in the cas ONLY
-    		if (!cmdTable.containsKey(cmd))
-    			cmdSubTable[Commands.TABLE_CAS].put(cmd, null); 
-    	}
+
 		fillInternalCmdTable();
     }
-
 	
     /**
      * Fills internal command table (table for commands 

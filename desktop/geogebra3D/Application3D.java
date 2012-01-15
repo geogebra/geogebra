@@ -20,6 +20,7 @@ package geogebra3D;
 import geogebra.CommandLineArguments;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.commands.CommandsConstants;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.euclidian.EuclidianController;
@@ -85,8 +86,8 @@ public class Application3D extends Application {
 	}
 
 	@Override
-	protected void fillCommandDict(){
-		fillCommandDict(true);
+	protected boolean tableVisible(int table) {
+		return !(table ==CommandsConstants.TABLE_ENGLISH);
 	}
 	@Override
 	protected void initImageManager(Component component) {

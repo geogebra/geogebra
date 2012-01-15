@@ -30,6 +30,7 @@ import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.commands.Commands;
+import geogebra.common.kernel.commands.CommandsConstants;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -317,10 +318,13 @@ public abstract class AbstractApplication {
 
 		commandDictCAS = new LowerCaseDictionary();
 		subCommandDict[Commands.TABLE_CAS].clear();
-
+		Set<String> nonCAScommands = kernel.getAlgebraProcessor().getPublicCommandSet();
 		// iterate through all available CAS commands, add them (translated if
 		// available, otherwise untranslated)
 		for (String cmd : cas.getAvailableCommandNames()) {
+			//skip commands which are also available as non-CAS
+			if(nonCAScommands.contains(cmd))
+				continue;
 			try {
 				String local = getCommand(cmd);
 				if (local != null) {
@@ -357,6 +361,8 @@ public abstract class AbstractApplication {
 		if (subCommandDict == null) {
 			initTranslatedCommands();
 		}
+		if(isCommandChanged())
+			updateCommandDictionary();
 
 		return subCommandDict;
 	}
@@ -378,16 +384,14 @@ public abstract class AbstractApplication {
 	}
 	
 	public abstract void getCommandResourceBundle();
-	protected void fillCommandDict(){
-		fillCommandDict(false);
-	}
-	protected void fillCommandDict(boolean include3D) {
+	
+	protected void fillCommandDict() {
 		getCommandResourceBundle();
 
 		if (!isCommandChanged()) {
 			return;
 		}
-		setCommandChanged(false);
+		
 
 		// translation table for all command names in command.properties
 		if (translateCommandTable == null) {
@@ -412,10 +416,9 @@ public abstract class AbstractApplication {
 
 		// =====================================
 		// init sub command dictionaries
-		Set<?>[] publicSubCommandNames = kernel.getAlgebraProcessor()
-				.getPublicCommandSubSets();
+		
 		if (subCommandDict == null) {
-			subCommandDict = new LowerCaseDictionary[publicSubCommandNames.length];
+			subCommandDict = new LowerCaseDictionary[CommandDispatcher.tableCount];
 			for (int i = 0; i < subCommandDict.length; i++) {
 				subCommandDict[i] = new LowerCaseDictionary();
 			}
@@ -426,32 +429,28 @@ public abstract class AbstractApplication {
 		}
 
 		for (Commands comm : Commands.values()) {
-			if(!include3D && comm.equals(Commands.Bottom))
-				break;
-			String internal = comm.toString();
+			if(!tableVisible(comm.getTable()))
+				continue;
+			String internal = comm.name();
 			// Application.debug(internal);
-			if (!internal.equals("Command")) {
-				String local = getCommand(internal);
-				if (local != null) {
-					local = local.trim();
-					// case is ignored in translating local command names to
-					// internal names!
-					translateCommandTable.put(local.toLowerCase(), internal);
+			String local = getCommand(internal);
+			if (local != null) {
+				local = local.trim();
+				// case is ignored in translating local command names to
+				// internal names!
+				translateCommandTable.put(local.toLowerCase(), internal);
 
-					// only add public commands to the command dictionary
-					if (publicCommandNames.contains(internal)) {
-						commandDict.addEntry(local);
-					}
-
-					// add public commands to the sub-command dictionaries
-					for (int i = 0; i < subCommandDict.length; i++) {
-						if (publicSubCommandNames[i].contains(internal)) {
-							subCommandDict[i].addEntry(local);
-						}
-					}
-
+				// only add public commands to the command dictionary
+				if (publicCommandNames.contains(internal)) {
+					commandDict.addEntry(local);
 				}
+
+				// add public commands to the sub-command dictionaries
+				subCommandDict[comm.getTable()].addEntry(local);
+				
+
 			}
+			
 		}
 
 		// get CAS Commands
@@ -459,8 +458,18 @@ public abstract class AbstractApplication {
 			fillCasCommandDict();
 		}
 		addMacroCommands();
+		setCommandChanged(false);
 	}
-	
+	/**
+	 * return true if commands of this table should be visible in input bar help
+	 * and autocomplete
+	 * @param table table number, see CommandConstants.TABLE_*
+	 * @return true for visible tables
+	 */
+	protected boolean tableVisible(int table) {
+		return !(table==CommandsConstants.TABLE_3D || table ==CommandsConstants.TABLE_ENGLISH);
+	}
+
 	/**
 	 * translate command name to internal name. Note: the case of localname is
 	 * NOT relevant
