@@ -247,6 +247,10 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 */
 	private void draw(Shape s, String action) {
 		if (s != null) {
+			
+			// 20120115 bugfix: stroke needs to be appended each time
+			appendStroke();
+			
 			if (!_transform.isIdentity()) {
 				s = _transform.createTransformedShape(s);
 			}
@@ -531,13 +535,24 @@ public class EpsGraphics extends java.awt.Graphics2D {
 		}
 	}
 
+	/*
+	 * 20120115 bugfix: stroke needs to be appended each time
+	 * (non-Javadoc)
+	 * @see java.awt.Graphics2D#setStroke(java.awt.Stroke)
+	 */
+	public void setStroke(final Stroke currentStroke) {
+		this.currentStroke = currentStroke;
+	}
+
+	Stroke currentStroke = null;
+
 	/**
 	 * Sets the stroke. Only accepts BasicStroke objects (or subclasses of
 	 * BasicStroke).
 	 */
-	public void setStroke(Stroke s) {
-		if (s instanceof BasicStroke) {
-			_stroke = (BasicStroke) s;
+	public void appendStroke() {
+		if (currentStroke instanceof BasicStroke) {
+			_stroke = (BasicStroke) currentStroke;
 			append(_stroke.getLineWidth() + " setlinewidth");
 			double miterLimit = _stroke.getMiterLimit();
 			if (miterLimit < 1.0f) {
