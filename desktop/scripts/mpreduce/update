@@ -20,7 +20,7 @@ MYFULLDIR=`cd $MYDIR; pwd`
 
 cd ../../../..
 test -d geogebra || svn checkout http://www.geogebra.org/svn/trunk/geogebra geogebra
-test -d mathpiper || https://mathpiper.googlecode.com/svn/trunk/ mathpiper 
+test -d mathpiper || svn checkout https://mathpiper.googlecode.com/svn/trunk/ mathpiper 
 test -d mpreduce-read-only || svn checkout https://mathpiper.googlecode.com/svn/trunk/src/library_apps/mpreduce mpreduce-read-only
 
 #echo "Update MathPiper from SVN ..."
