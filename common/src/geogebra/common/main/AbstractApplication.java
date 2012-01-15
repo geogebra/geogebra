@@ -316,7 +316,7 @@ public abstract class AbstractApplication {
 		setCommandChanged(false);
 
 		commandDictCAS = new LowerCaseDictionary();
-		subCommandDict[CommandDispatcher.TABLE_CAS].clear();
+		subCommandDict[Commands.TABLE_CAS].clear();
 
 		// iterate through all available CAS commands, add them (translated if
 		// available, otherwise untranslated)
@@ -326,16 +326,16 @@ public abstract class AbstractApplication {
 				if (local != null) {
 					translateCommandTable.put(local.toLowerCase(), cmd);
 					commandDictCAS.addEntry(local);
-					subCommandDict[CommandDispatcher.TABLE_CAS]
+					subCommandDict[Commands.TABLE_CAS]
 							.addEntry(local);
 				} else {
 					commandDictCAS.addEntry(cmd);
-					subCommandDict[CommandDispatcher.TABLE_CAS]
+					subCommandDict[Commands.TABLE_CAS]
 							.addEntry(cmd);
 				}
 			} catch (MissingResourceException mre) {
 				commandDictCAS.addEntry(cmd);
-				subCommandDict[CommandDispatcher.TABLE_CAS]
+				subCommandDict[Commands.TABLE_CAS]
 						.addEntry(cmd);
 			}
 		}

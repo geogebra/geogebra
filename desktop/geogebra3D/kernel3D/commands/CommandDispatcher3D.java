@@ -1,8 +1,10 @@
 package geogebra3D.kernel3D.commands;
 
-import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.CommandDispatcher;
+import geogebra.common.kernel.commands.CommandProcessor;
+import geogebra.common.kernel.commands.Commands;
+import geogebra.common.main.AbstractApplication;
 
 /**
  * Command dispatcher for 3D
@@ -22,90 +24,127 @@ public class CommandDispatcher3D extends CommandDispatcher {
 	}
 
 	@Override
-	protected void initCmdTable() {
-		super.initCmdTable();
-		Kernel kernel = (Kernel) this.kernel;
-		// Application.debug("CommandDispatcher3D.initCmdTable()");
+	public CommandProcessor commandTableSwitch(String cmdName) {
+		try {
+			switch (Commands.valueOf(cmdName)) {
 
-		cmdTable.put("Segment", new CmdSegment3D(kernel));
-		cmdTable.put("Line", new CmdLine3D(kernel));
-		cmdTable.put("Ray", new CmdRay3D(kernel));
-		cmdTable.put("Vector", new CmdVector3D(kernel));
-		cmdTable.put("Polygon", new CmdPolygon3D(kernel));
-		cmdTable.put("PolyLine", new CmdPolyLine3D(kernel));
-		cmdTable.put("Point", new CmdPoint3D(kernel));
-		cmdTable.put("Midpoint", new CmdMidpoint3D(kernel));
+			case Segment:
+				return new CmdSegment3D(kernel);
+			case Line:
+				return new CmdLine3D(kernel);
+			case Ray:
+				return new CmdRay3D(kernel);
+			case Vector:
+				return new CmdVector3D(kernel);
+			case Polygon:
+				return new CmdPolygon3D(kernel);
+			case PolyLine:
+				return new CmdPolyLine3D(kernel);
+			case Point:
+				return new CmdPoint3D(kernel);
+			case Midpoint:
+				return new CmdMidpoint3D(kernel);
+			case Circle:
+				return new CmdCircle3D(kernel);
 
-		cmdTable.put("Circle", new CmdCircle3D(kernel));
+			case OrthogonalLine:
+				return new CmdOrthogonalLine3D(kernel);
+			case OrthogonalVector:
+				return new CmdOrthogonalVector3D(kernel);
 
-		cmdTable.put("OrthogonalLine", new CmdOrthogonalLine3D(kernel));
-		cmdTable.put("OrthogonalVector", new CmdOrthogonalVector3D(kernel));
+			case UnitOrthogonalVector:
+				return new CmdUnitOrthogonalVector3D(kernel);
 
-		cmdTable.put("UnitOrthogonalVector", new CmdUnitOrthogonalVector3D(
-				kernel));
+			case CurveCartesian:
+				return new CmdCurveCartesian3D(kernel);
 
-		cmdTable.put("CurveCartesian", new CmdCurveCartesian3D(kernel));
+			case Plane:
+				return new CmdPlane(kernel);
+			case PerpendicularPlane:
+				return new CmdOrthogonalPlane(kernel);
+			case OrthogonalPlane:
+				return new CmdOrthogonalPlane(kernel); // old name
 
-		cmdTable.put("Plane", new CmdPlane(kernel));
-		cmdTable.put("PerpendicularPlane", new CmdOrthogonalPlane(kernel));
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			// old name
-			cmdTable.put("OrthogonalPlane", new CmdOrthogonalPlane(kernel));
+			case PlaneBisector:
+				return new CmdPlaneBisector(kernel);
+
+				// case Polyhedron: return new CmdPolyhedron(kernel);
+
+			case Prism:
+				return new CmdPrism(kernel);
+			case Pyramid:
+				return new CmdPyramid(kernel);
+
+			case Tetrahedron:
+				return new CmdArchimedeanSolid(kernel, "Tetrahedron");
+			case Cube:
+				return new CmdArchimedeanSolid(kernel, "Cube");
+			case Octahedron:
+				return new CmdArchimedeanSolid(kernel, "Octahedron");
+			case Dodecahedron:
+				return new CmdArchimedeanSolid(kernel, "Dodecahedron");
+			case Icosahedron:
+				return new CmdArchimedeanSolid(kernel, "Icosahedron");
+
+			case PointIn:
+				return new CmdPointIn3D(kernel);
+
+			case Intersect:
+				return new CmdIntersect3D(kernel);
+			case Intersection:
+				return new CmdIntersect3D(kernel);
+				// case IntersectionPaths: return new
+				// CmdIntersectionPaths(kernel);
+			case IntersectionPaths:
+				return new CmdIntersectionPaths3D(kernel);
+
+			case Sphere:
+				return new CmdSphere3D(kernel);
+
+			case Cone:
+				return new CmdCone(kernel);
+			case InfiniteCone:
+				return new CmdConeInfinite(kernel);
+			case ConeInfinite:
+				return new CmdConeInfinite(kernel); // removed for release
+													// candidate
+
+			case Cylinder:
+				return new CmdCylinder(kernel);
+			case InfiniteCylinder:
+				return new CmdCylinderInfinite(kernel);
+			case CylinderInfinite:
+				return new CmdCylinderInfinite(kernel); // removed for release
+														// candidate
+
+			case QuadricSide:
+				return new CmdQuadricSide(kernel);
+			case Bottom:
+				return new CmdBottom(kernel);
+			case Top:
+				return new CmdTop(kernel);
+
+			case Function:
+				return new CmdFunction2Var(kernel);
+
+			case SurfaceCartesian:
+				return new CmdSurfaceCartesian3D(kernel);
+
+			case Angle:
+				return new CmdAngle3D(kernel);
+
+			case Translate:
+				return new CmdTranslate3D(kernel);
+
+			case Length:
+				return new CmdLength3D(kernel);
+			default:
+				return super.commandTableSwitch(cmdName);
+			}
+		} catch (Exception e) {
+			AbstractApplication.debug("command not found / CAS command called");
 		}
-		cmdTable.put("PlaneBisector", new CmdPlaneBisector(kernel));
-
-		// cmdTable.put("Polyhedron", new CmdPolyhedron(kernel));
-
-		cmdTable.put("Prism", new CmdPrism(kernel));
-		cmdTable.put("Pyramid", new CmdPyramid(kernel));
-
-		cmdTable.put("Tetrahedron", new CmdArchimedeanSolid(kernel,
-				"Tetrahedron"));
-		cmdTable.put("Cube", new CmdArchimedeanSolid(kernel, "Cube"));
-		cmdTable.put("Octahedron",
-				new CmdArchimedeanSolid(kernel, "Octahedron"));
-		cmdTable.put("Dodecahedron", new CmdArchimedeanSolid(kernel,
-				"Dodecahedron"));
-		cmdTable.put("Icosahedron", new CmdArchimedeanSolid(kernel,
-				"Icosahedron"));
-
-		cmdTable.put("PointIn", new CmdPointIn3D(kernel));
-
-		cmdTable.put("Intersect", new CmdIntersect3D(kernel));
-		cmdTable.put("Intersection", new CmdIntersect3D(kernel));
-		// cmdTable.put("IntersectionPaths", new CmdIntersectionPaths(kernel));
-		cmdTable.put("IntersectionPaths", new CmdIntersectionPaths3D(kernel));
-
-		cmdTable.put("Sphere", new CmdSphere3D(kernel));
-
-		cmdTable.put("Cone", new CmdCone(kernel));
-		cmdTable.put("InfiniteCone", new CmdConeInfinite(kernel));
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			// old name
-			cmdTable.put("ConeInfinite", new CmdConeInfinite(kernel)); //removed for release candidate
-		}
-
-		cmdTable.put("Cylinder", new CmdCylinder(kernel));
-		cmdTable.put("InfiniteCylinder", new CmdCylinderInfinite(kernel));
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			// old name
-			cmdTable.put("CylinderInfinite", new CmdCylinderInfinite(kernel)); //removed for release candidate
-		}
-
-		cmdTable.put("QuadricSide", new CmdQuadricSide(kernel));
-		cmdTable.put("Bottom", new CmdBottom(kernel));
-		cmdTable.put("Top", new CmdTop(kernel));
-
-		cmdTable.put("Function", new CmdFunction2Var(kernel));
-
-		cmdTable.put("SurfaceCartesian", new CmdSurfaceCartesian3D(kernel));
-
-		cmdTable.put("Angle", new CmdAngle3D(kernel));
-
-		cmdTable.put("Translate", new CmdTranslate3D(kernel));
-
-		cmdTable.put("Length", new CmdLength3D(kernel));
-
+		return null;
 	}
 
 }

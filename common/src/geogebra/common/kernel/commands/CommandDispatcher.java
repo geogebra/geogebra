@@ -28,7 +28,6 @@ import java.util.Set;
  * Runs commands and handles string to command processor conversion.
  * 
  */
-@SuppressWarnings("javadoc")
 public class CommandDispatcher {
     
 	/** kernel **/
@@ -48,53 +47,38 @@ public class CommandDispatcher {
     
     /**
      * Same info as cmdTable, but separated for each command type.
-     * Used only in {@link geogebra.gui.inputbar.InputBarHelpPanel}
+     * Used only in input help panel.
      */
     protected HashMap<String,CommandProcessor>[] cmdSubTable;
-    public static final int TABLE_GEOMETRY = 0;
-    public static final int TABLE_ALGEBRA = 1;
-    public static final int TABLE_TEXT = 2;
-    public static final int TABLE_LOGICAL = 3;
-    public static final int TABLE_FUNCTION = 4;
-    public static final int TABLE_CONIC = 5;
-    public static final int TABLE_LIST = 6;
-    public static final int TABLE_VECTOR = 7;
-    public static final int TABLE_TRANSFORMATION = 8;
-    public static final int TABLE_CHARTS = 9;
-    public static final int TABLE_STATISTICS = 10;
-    public static final int TABLE_PROBABILITY = 11;
-    public static final int TABLE_SPREADSHEET = 12;
-    public static final int TABLE_SCRIPTING = 13;
-    public static final int TABLE_DISCRETE_MATH = 14;
-    public static final int TABLE_GEOGEBRA = 15;
-    public static final int TABLE_OPTIMIZATION = 16;
-    public static final int TABLE_ENGLISH = 17;
-    
-    public static final int TABLE_CAS=18;   
+       
     private int tableCount = GeoGebraConstants.CAS_VIEW_ENABLED ? 19 : 18;
     
-    
+    /**
+     * Returns localized name of given command set
+     * @param index number of set (see Commands.TABLE_*)
+     * @return localized name
+     */
     public String getSubCommandSetName(int index){
     	switch (index) {
-    	case TABLE_GEOMETRY: return app.getMenu("Type.Geometry");
-    	case TABLE_ALGEBRA: return app.getMenu("Type.Algebra");
-    	case TABLE_TEXT: return app.getMenu("Type.Text");
-    	case TABLE_LOGICAL: return app.getMenu("Type.Logic");
-    	case TABLE_FUNCTION: return app.getMenu("Type.FunctionsAndCalculus");
-    	case TABLE_CONIC: return app.getMenu("Type.Conic");
-    	case TABLE_LIST: return app.getMenu("Type.List");
-    	case TABLE_VECTOR:return app.getMenu("Type.VectorAndMatrix");
-    	case TABLE_TRANSFORMATION: return app.getMenu("Type.Transformation");
-    	case TABLE_CHARTS: return app.getMenu("Type.Chart");
-    	case TABLE_STATISTICS: return app.getMenu("Type.Statistics");
-    	case TABLE_PROBABILITY: return app.getMenu("Type.Probability");
-    	case TABLE_SPREADSHEET: return app.getMenu("Type.Spreadsheet");
-    	case TABLE_SCRIPTING: return app.getMenu("Type.Scripting");
-    	case TABLE_DISCRETE_MATH: return app.getMenu("Type.DiscreteMath");
-    	case TABLE_GEOGEBRA: return app.getMenu("Type.GeoGebra");
-    	case TABLE_OPTIMIZATION: return app.getMenu("Type.OptimizationCommands");
-    	case TABLE_CAS: return app.getMenu("Type.CAS");
-    	// TABLE_ENGLISH:
+    	case Commands.TABLE_GEOMETRY: return app.getMenu("Type.Geometry");
+    	case Commands.TABLE_ALGEBRA: return app.getMenu("Type.Algebra");
+    	case Commands.TABLE_TEXT: return app.getMenu("Type.Text");
+    	case Commands.TABLE_LOGICAL: return app.getMenu("Type.Logic");
+    	case Commands.TABLE_FUNCTION: return app.getMenu("Type.FunctionsAndCalculus");
+    	case Commands.TABLE_CONIC: return app.getMenu("Type.Conic");
+    	case Commands.TABLE_LIST: return app.getMenu("Type.List");
+    	case Commands.TABLE_VECTOR:return app.getMenu("Type.VectorAndMatrix");
+    	case Commands.TABLE_TRANSFORMATION: return app.getMenu("Type.Transformation");
+    	case Commands.TABLE_CHARTS: return app.getMenu("Type.Chart");
+    	case Commands.TABLE_STATISTICS: return app.getMenu("Type.Statistics");
+    	case Commands.TABLE_PROBABILITY: return app.getMenu("Type.Probability");
+    	case Commands.TABLE_SPREADSHEET: return app.getMenu("Type.Spreadsheet");
+    	case Commands.TABLE_SCRIPTING: return app.getMenu("Type.Scripting");
+    	case Commands.TABLE_DISCRETE_MATH: return app.getMenu("Type.DiscreteMath");
+    	case Commands.TABLE_GEOGEBRA: return app.getMenu("Type.GeoGebra");
+    	case Commands.TABLE_OPTIMIZATION: return app.getMenu("Type.OptimizationCommands");
+    	case Commands.TABLE_CAS: return app.getMenu("Type.CAS");
+    	// Commands.TABLE_ENGLISH:
     	default: return null;
     	}
     }
@@ -260,84 +244,84 @@ public class CommandDispatcher {
     	for (Commands comm : Commands.values()) {
     		switch (comm) {
     			case Line:
-    		    	cmdSubTable[TABLE_ALGEBRA].putAll(cmdTable);
+    		    	cmdSubTable[Commands.TABLE_ALGEBRA].putAll(cmdTable);
     		    	cmdTable.clear();
     		    	break;
     			case Text:
-    		    	cmdSubTable[TABLE_GEOMETRY].putAll(cmdTable);
+    		    	cmdSubTable[Commands.TABLE_GEOMETRY].putAll(cmdTable);
     		    	cmdTable.clear();
     		    	break;
     			case If:
-    		    	cmdSubTable[TABLE_TEXT].putAll(cmdTable);
+    		    	cmdSubTable[Commands.TABLE_TEXT].putAll(cmdTable);
     		    	cmdTable.clear();
     		    	break;
     			case Root:
-    		      	cmdSubTable[TABLE_LOGICAL].putAll(cmdTable);
+    		      	cmdSubTable[Commands.TABLE_LOGICAL].putAll(cmdTable);
     		    	cmdTable.clear();
     		    	break;
     			case Ellipse:
-    		    	cmdSubTable[TABLE_FUNCTION].putAll(cmdTable);
+    		    	cmdSubTable[Commands.TABLE_FUNCTION].putAll(cmdTable);
     		    	cmdTable.clear();
     		    	break;
     			case Sort:
-    		    	cmdSubTable[TABLE_CONIC].putAll(cmdTable);
+    		    	cmdSubTable[Commands.TABLE_CONIC].putAll(cmdTable);
     		    	cmdTable.clear();
     		    	break;
     			case BarChart:
-    		    	cmdSubTable[TABLE_LIST].putAll(cmdTable);
+    		    	cmdSubTable[Commands.TABLE_LIST].putAll(cmdTable);
     		    	cmdTable.clear();
     		    	break;
     			case Sum:
-    		    	cmdSubTable[TABLE_CHARTS].putAll(cmdTable);
+    		    	cmdSubTable[Commands.TABLE_CHARTS].putAll(cmdTable);
     		    	cmdTable.clear();
     		    	break;
     			case Random:
-    		    	cmdSubTable[TABLE_STATISTICS].putAll(cmdTable);
+    		    	cmdSubTable[Commands.TABLE_STATISTICS].putAll(cmdTable);
     		    	cmdTable.clear();
     		    	break;
     			case ApplyMatrix:
-    		    	cmdSubTable[TABLE_PROBABILITY].putAll(cmdTable);
+    		    	cmdSubTable[Commands.TABLE_PROBABILITY].putAll(cmdTable);
     		    	cmdTable.clear();
     		    	break;
     			case Mirror:
-    		    	cmdSubTable[TABLE_VECTOR].putAll(cmdTable);
+    		    	cmdSubTable[Commands.TABLE_VECTOR].putAll(cmdTable);
     		    	cmdTable.clear();
     		    	break;
     			case CellRange:
-    		    	cmdSubTable[TABLE_TRANSFORMATION].putAll(cmdTable);
+    		    	cmdSubTable[Commands.TABLE_TRANSFORMATION].putAll(cmdTable);
     		    	cmdTable.clear();
     		    	break;
     			case CopyFreeObject:
-    		      	cmdSubTable[TABLE_SPREADSHEET].putAll(cmdTable);
+    		      	cmdSubTable[Commands.TABLE_SPREADSHEET].putAll(cmdTable);
     		    	cmdTable.clear();
     		    	break;
     			case Voronoi:
-    		       	cmdSubTable[TABLE_SCRIPTING].putAll(cmdTable);
+    		       	cmdSubTable[Commands.TABLE_SCRIPTING].putAll(cmdTable);
     		    	cmdTable.clear();
     		    	break;
     			case Corner:
-    		    	cmdSubTable[TABLE_DISCRETE_MATH].putAll(cmdTable);
+    		    	cmdSubTable[Commands.TABLE_DISCRETE_MATH].putAll(cmdTable);
     		    	cmdTable.clear();
     		    	break;
     			case Maximize:
-    		    	cmdSubTable[TABLE_GEOGEBRA].putAll(cmdTable);
+    		    	cmdSubTable[Commands.TABLE_GEOGEBRA].putAll(cmdTable);
     		    	cmdTable.clear();
     		    	break;
     			case Curve:
-    		    	cmdSubTable[TABLE_OPTIMIZATION].putAll(cmdTable);
+    		    	cmdSubTable[Commands.TABLE_OPTIMIZATION].putAll(cmdTable);
     		    	cmdTable.clear();
     		    	break;
     		}
     		cmdTable.put(comm.name(), null);
     	}
-    	cmdSubTable[TABLE_ENGLISH].putAll(cmdTable);
+    	cmdSubTable[Commands.TABLE_ENGLISH].putAll(cmdTable);
     	cmdTable.clear();
 
     	//=================================================================
       	// Put all of the sub Tables together to create cmdTable
     	
     	for(int i = 0; i < tableCount; i++) {
-    		if (i != TABLE_CAS) {
+    		if (i != Commands.TABLE_CAS) {
 	    		cmdTable.putAll(cmdSubTable[i]);
     		}
     	}
@@ -370,15 +354,17 @@ public class CommandDispatcher {
     		
     		// add commands that are in the cas ONLY
     		if (!cmdTable.containsKey(cmd))
-    			cmdSubTable[TABLE_CAS].put(cmd, null); 
+    			cmdSubTable[Commands.TABLE_CAS].put(cmd, null); 
     	}
 		fillInternalCmdTable();
     }
 
 	
-
+    /**
+     * Fills internal command table (table for commands 
+     * that should not be visible to the user but are returned by CAS)
+     */
 	protected void fillInternalCmdTable(){
-		// internal command table for commands that should not be visible to the user
 		internalCmdTable = new HashMap<String,CommandProcessor>();
 		// support parsing diff() results back from Maxima
 		internalCmdTable.put("diff", new CmdDerivative(kernel));
@@ -393,6 +379,7 @@ public class CommandDispatcher {
      * object is not there already in the command table.
      * 
      * @param cmdName String command name
+     * @return Processor for given command
      */
 	public CommandProcessor commandTableSwitch(String cmdName) {
     	try {
