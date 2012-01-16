@@ -14,6 +14,7 @@ public interface BasicStroke {
 	float getMiterLimit();
 	int getLineJoin();
 	float getLineWidth();
+	float[] getDashArray();
 
 	
 

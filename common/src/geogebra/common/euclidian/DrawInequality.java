@@ -227,13 +227,18 @@ public class DrawInequality extends Drawable {
 			return;
 		if (operation.equals(Operation.NO_OPERATION)) {
 			if (drawable != null) {
+				drawable.updateStrokesJustLineThickness(geo); 
 				drawable.draw(g2);
 			}
 		} else {
-			if (left != null)
+			if (left != null) {
+				left.updateStrokesJustLineThickness(geo); 
 				left.draw(g2);
-			if (right != null)
+			}
+			if (right != null) {
+				right.updateStrokesJustLineThickness(geo); 
 				right.draw(g2);
+			}
 		}
 		if (!isForceNoFill()) {			
 			if (gpAxis != null) {
@@ -250,8 +255,14 @@ public class DrawInequality extends Drawable {
 					g2.draw(gpAxis[i]);
 				}
 
-			} else
+			} else {
+				if (geo.getFillType()==GeoElement.FILL_HATCH) { 
+					// make sure line thickness set for hatching 
+					updateStrokes(geo); 
+				} 				
+				
 				fill(g2, getShape(), true);
+			}
 		}
 		
 		if (labelVisible) {

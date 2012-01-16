@@ -34,7 +34,7 @@ import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Shape;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.awt.Area;
-//import geogebra.euclidian.DrawEquation;
+
 
 /**
  * 
@@ -475,6 +475,25 @@ public abstract class Drawable extends DrawableND {
 			objStroke = EuclidianStatic.getStroke(width, lineType);
 		}
 	}
+
+	final void updateStrokesJustLineThickness(GeoElement geo) {
+		strokedShape = null;
+		strokedShape2 = null;
+
+		if (lineThickness != geo.lineThickness) {
+			lineThickness = geo.lineThickness;
+
+			float width = lineThickness / 2.0f;
+			objStroke = geogebra.common.factories.AwtFactory.prototype.newBasicStroke(width, objStroke.getEndCap(), objStroke.getLineJoin(), objStroke.getMiterLimit(),
+					objStroke.getDashArray(), 0.0f);
+			decoStroke = geogebra.common.factories.AwtFactory.prototype.newBasicStroke(width, objStroke.getEndCap(), objStroke.getLineJoin(), objStroke.getMiterLimit(),
+					decoStroke.getDashArray(), 0.0f);
+			selStroke = geogebra.common.factories.AwtFactory.prototype.newBasicStroke(width + EuclidianStyleConstants.SELECTION_ADD, objStroke.getEndCap(), objStroke.getLineJoin(), objStroke.getMiterLimit(),
+					selStroke.getDashArray(), 0.0f);
+
+		} 
+	}
+
 
 	// private StringBuilder command = new StringBuilder();
 	private double[] coords = new double[2];

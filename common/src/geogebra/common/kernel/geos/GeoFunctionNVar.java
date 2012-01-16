@@ -757,5 +757,15 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		public  boolean isLaTeXDrawableGeo(String latexStr) {
 			return isLaTeXneeded(latexStr);
 		}
+		
+		protected void getXMLtags(StringBuilder sb) {
+			super.getXMLtags(sb);
+			
+			// needed for inequalities
+			if (isInequality()) {
+				getLineStyleXML(sb);
+			}
+			
+		}
 
 }

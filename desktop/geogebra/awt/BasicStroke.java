@@ -43,5 +43,8 @@ public class BasicStroke implements geogebra.common.awt.BasicStroke {
 	public float getLineWidth() {
 		return impl.getLineWidth();
 	}
+	public float[] getDashArray() {
+		return impl.getDashArray();
+	}
 	
 }
