@@ -215,7 +215,7 @@ instructions.
 	<!-- download mpreduce default.img from GeoGebra repository -->
 	<target name="mpreduce-geogebra">
 	<get 
-	    src="http://www.geogebra.org/download/lib/build/mpreduce/default.img-20111130"
+	    src="http://www.geogebra.org/download/lib/build/mpreduce/default.img-20120116"
 	    dest="default.img" usetimestamp="true"/>
 	</target>
 	
