@@ -92,38 +92,54 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
+	
+	private boolean DRAGMODE_MUST_BE_SELECTED = false;
 
 	public void onDoubleClick(DoubleClickEvent event) {
 		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
-    }
+		 wrapMouseclicked(e);
+	}
 
 	public void onClick(ClickEvent event) {
 		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
+		 wrapMouseclicked(e);
     }
 
 	public void onMouseWheel(MouseWheelEvent event) {
 		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
+		 wrapMouseWheelMoved(e);
     }
 
 	public void onMouseOver(MouseOverEvent event) {
 		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
+		 wrapMouseEntered(e);
     }
 
 	public void onMouseOut(MouseOutEvent event) {
 		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
-    }
+		wrapMouseExited(e);
+	}
 
 	public void onMouseMove(MouseMoveEvent event) {
 		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
-    }
+		 if (!DRAGMODE_MUST_BE_SELECTED) {
+			 wrapMouseMoved(e);
+		 } else {
+			 wrapMouseDragged(e);
+		 }
+	
+	}
 
 	public void onMouseUp(MouseUpEvent event) {
+		DRAGMODE_MUST_BE_SELECTED = false;
 		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
+		wrapMouseReleased(e);
     }
 
 	public void onMouseDown(MouseDownEvent event) {
+		DRAGMODE_MUST_BE_SELECTED = true;
 		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
-	    
+	    wrapMousePressed(e);
     }
 
 	@Override

@@ -20,6 +20,17 @@ public class MouseEvent extends AbstractEvent {
 	private NativeEvent event;
 	private Integer id;
 	
+	public static final int	MOUSE_CLICKED = 500;
+	public static final int	MOUSE_DRAGGED =	506;
+	public static final int	MOUSE_ENTERED =	504;
+	public static final int	MOUSE_EXITED =	505;
+	public static final int	MOUSE_FIRST	 = 500;
+	public static final int	MOUSE_LAST	 = 507;
+	public static final int	MOUSE_MOVED	 = 503;
+	public static final int	MOUSE_PRESSED	= 501;
+	public static final int	MOUSE_RELEASED	= 502;
+	public static final int	MOUSE_WHEEL	 = 507;
+	
 	private MouseEvent(NativeEvent event) {
 		this.event = event;
 		this.id = getTypeId(event.getType());
@@ -27,8 +38,21 @@ public class MouseEvent extends AbstractEvent {
 	}
 	
 	private Integer getTypeId(String type) {
-	    GWT.log(type);
-	    return 0;
+		if (type.equals("click")) {
+			return MOUSE_CLICKED;
+		} else if (type.equals("mousedown")) {
+			return MOUSE_PRESSED;
+		} else if (type.equals("mouseup")) {
+			return MOUSE_RELEASED;
+		} else if (type.equals("mousemove")) {
+			return MOUSE_MOVED;
+		} else if (type.equals("mousewheel")) {
+			return MOUSE_WHEEL;
+		} else if (type.equals("mouseover")) {
+			return MOUSE_ENTERED;
+		} else if (type.equals("mouseout")) {
+			return MOUSE_EXITED;
+		} else return 0;		
     }
 
 	public static AbstractEvent wrapEvent(NativeEvent nativeEvent) {

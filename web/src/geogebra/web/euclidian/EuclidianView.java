@@ -45,6 +45,8 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		updateFonts();
 		setStandardCoordSystem();
 		attachView();
+		
+		((EuclidianController)euclidiancontroller).setView(this);
 		canvas.addClickHandler((EuclidianController)euclidiancontroller);	
 		canvas.addMouseMoveHandler((EuclidianController)euclidiancontroller);
 		canvas.addMouseOverHandler((EuclidianController)euclidiancontroller);

@@ -58,7 +58,6 @@ public class BasicStroke implements geogebra.common.awt.BasicStroke {
 
 	// Methods
 	public Shape createStrokedShape(Shape shape) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 		return shape;
 	}
 	
@@ -83,7 +82,7 @@ public class BasicStroke implements geogebra.common.awt.BasicStroke {
 	public geogebra.common.awt.Shape createStrokedShape(
             geogebra.common.awt.Shape shape) {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
+	    return shape;
     }
 	
 	public static int getJoin(String join){
