@@ -46,6 +46,7 @@ import geogebra.common.kernel.cas.AlgoSolveODECas;
 import geogebra.common.kernel.cas.AlgoTangentCurve;
 import geogebra.common.kernel.cas.AlgoTangentFunctionNumber;
 import geogebra.common.kernel.cas.AlgoTangentFunctionPoint;
+import geogebra.common.kernel.cas.AsynchronousCommand;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.discrete.AlgoConvexHull;
@@ -2436,6 +2437,30 @@ public class Kernel {
 		return result;
 	}
 	
+	
+	public void evaluateGeoGebraCASAsync(String exp, boolean useCaching,AsynchronousCommand c,int id)
+			 {
+		String result = null;
+		if (useCaching && hasCasCache()) {
+			result = getCasCache().get(exp);
+			if (result != null) {
+				// caching worked
+				// TODO: remove
+				System.out
+						.println("used ggbCasCache: " + exp + " -> " + result);
+				c.handleCASoutput(result, id);
+				return;
+			}
+		}
+
+		// evaluate in GeoGebraCAS
+		getGeoGebraCAS().evaluateGeoGebraCASAsync(exp,useCaching,c,id);
+	}
+	
+	public void putToCasCache(String exp,String result){
+			getCasCache().put(exp, result);
+	}
+
 	/**
 	 * Resets the GeoGebraCAS and clears all variables.
 	 */

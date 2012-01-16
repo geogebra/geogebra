@@ -25,7 +25,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
  * 
  * @author Michael Borcherds
  */
-public class AlgoLimit extends AlgoElement {
+public class AlgoLimit extends AlgoElement implements AsynchronousCommand{
 
 	protected GeoFunction f;
 	protected NumberValue num; // input
@@ -78,13 +78,38 @@ public class AlgoLimit extends AlgoElement {
 			outNum.setUndefined();
 			return;
 		}
-
-		outNum.setValue(f.getLimit(num.getDouble(), 0));
+		String limitString = f.getLimit(num.getDouble(), getDirection());
+		if(f==null){
+			outNum.setUndefined();
+			return;
+		}
+		kernel.evaluateGeoGebraCASAsync(limitString, true, this, 0);
 	}
-
+	/**
+	 * 
+	 * @return direction -- 0 default, -1 above, +1 below
+	 */
+	protected int getDirection(){
+		return 0;
+	}
 	@Override
 	final public String toString() {
 		return getCommandDescription();
+	}
+	
+	
+
+	public void handleCASoutput(String output, int requestID) {
+		
+		NumberValue nv = kernel.getAlgebraProcessor().evaluateToNumeric(
+					output, false);
+		outNum.setValue(nv.getDouble());
+		
+	}
+
+	public void handleException(Throwable exception,int id) {
+		outNum.setUndefined();
+		
 	}
 
 }

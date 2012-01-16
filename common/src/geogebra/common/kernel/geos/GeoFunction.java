@@ -15,7 +15,6 @@ package geogebra.common.kernel.geos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
@@ -48,7 +47,6 @@ import geogebra.common.util.Unicode;
 
 import java.util.HashMap;
 import java.util.Iterator;
-//import java.util.Locale;
 import java.util.TreeSet;
 
 /**
@@ -59,7 +57,7 @@ import java.util.TreeSet;
  * @author Markus Hohenwarter
  */
 public class GeoFunction extends GeoElement
-implements VarString, Path, Translateable, Traceable, Functional, FunctionalNVar, GeoFunctionable,Region,
+implements VarString, Translateable, Functional, FunctionalNVar, GeoFunctionable,Region,
 CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilateable, Transformable {
 
 	/** inner function representation */
@@ -1225,7 +1223,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 *            otherwise
 	 * @return the limit
 	 */
-	public double getLimit(double x, int direction) {
+	public String getLimit(double x, int direction) {
 		// get function and function variable string using temp variable
 		// prefixes,
 		// e.g. f(x) = a x^2 returns {"ggbtmpvara ggbtmpvarx^2", "ggbtmpvarx"}
@@ -1253,17 +1251,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		// increase precision to improve problems like
 		// http://www.geogebra.org/trac/ticket/1106
 		sb.append("50)");
-
-		try {
-			String functionOut = kernel
-					.evaluateCachedGeoGebraCAS(sb.toString());
-			NumberValue nv = kernel.getAlgebraProcessor().evaluateToNumeric(
-					functionOut, false);
-			return nv.getDouble();
-		} catch (Throwable e) {
-			e.printStackTrace();
-			return Double.NaN;
-		}
+		return sb.toString();
 	}
 
 	/**

@@ -434,11 +434,11 @@ public class GeoFunctionConditional extends GeoFunction {
 	}
 	
 	@Override
-	public double getLimit(double x, int direction) {
+	public String getLimit(double x, int direction) {
 		if (evaluateCondition(x-2*direction*Kernel.getEpsilon()))
 			return ifFun.getLimit(x, direction);
 			else if (elseFun != null) return elseFun.getLimit(x, direction);
-		return Double.NaN;
+		return null;
 	}
 
 	@Override

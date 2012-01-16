@@ -38,4 +38,7 @@ public interface GeoGebraCasInterface {
 			boolean symbolic);
 
 	public CasType getCurrentCASType();
+
+	public void evaluateGeoGebraCASAsync(String exp, boolean useCaching,
+			AsynchronousCommand c, int id);
 }

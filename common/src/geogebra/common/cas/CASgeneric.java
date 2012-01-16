@@ -6,8 +6,10 @@ import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.cas.AsynchronousCommand;
 import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.CASSettings;
 import geogebra.common.main.settings.SettingListener;
@@ -235,6 +237,46 @@ public abstract class CASgeneric implements CASGenericInterface,
 			cmdSet.add(cmd);
 		}
 		return cmdSet;
+	}
+
+	public void evaluateGeoGebraCASAsync(ValidExpression inVE,
+			boolean useCaching, AsynchronousCommand c, int id, boolean oldDigits,String input) {
+		AbstractApplication.debug("Only MPReduce supports async calls");
+		
+	}
+	
+	public void CASAsyncFinished(ValidExpression exp,String result2,
+			boolean useCaching,
+			Throwable exception,AsynchronousCommand c,
+			int id,boolean oldDigits,String input){
+		Kernel.internationalizeDigits = oldDigits;
+		String result=result2;
+
+		// check if keep input command was successful
+		// e.g. for KeepInput[Substitute[...]]
+		// otherwise return input
+		if (exp.isKeepInputUsed()
+				&& (exception != null || "?".equals(result))) {
+			// return original input
+			c.handleCASoutput(exp.toString(), id);
+		}
+
+		// pass on exception
+		if (exception != null){
+			c.handleException(exception,id);
+		}
+
+		// success
+		if (result2 != null) {
+			// get names of escaped global variables right
+			// e.g. "ggbcasvar1a" needs to be changed to "a"
+			// e.g. "ggbtmpvara" needs to be changed to "a"
+			result = casParser.getKernel().removeCASVariablePrefix(result, " ");
+		}
+
+		c.handleCASoutput(result,id);
+		if(useCaching)
+			casParser.getKernel().putToCasCache(input, result);
 	}
 
 }

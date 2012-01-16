@@ -4,12 +4,14 @@ import geogebra.common.cas.CASException;
 import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasExpressionFactory;
 import geogebra.common.cas.CasParserTools;
+import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.cas.mpreduce.AbstractCASmpreduce;
 import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.cas.AsynchronousCommand;
 import geogebra.common.main.AbstractApplication;
 
 import java.util.Set;
@@ -185,6 +187,7 @@ public class CASmpreduce extends AbstractCASmpreduce {
 	 * @return result string (null possible)
 	 * @throws CASException
 	 */
+	@Override
 	public final String evaluateMPReduce(String exp) throws CASException {
 		try {
 			exp = casParser.replaceIndices(exp);
@@ -884,6 +887,28 @@ public class CASmpreduce extends AbstractCASmpreduce {
 		} catch (Throwable th) {
 			th.printStackTrace();
 		}
+	}
+	
+	@Override
+	public void evaluateGeoGebraCASAsync(final ValidExpression inVE,
+			final boolean useCaching, final AsynchronousCommand c, final int id, 
+			final boolean oldDigits,final String input) {
+		
+		Thread casThread = new Thread(){
+			@Override
+			public void run(){
+				String result;
+				AbstractApplication.debug("thread is running");
+				try{
+				result = evaluateGeoGebraCAS(inVE);
+				}catch(Throwable e){
+					result ="";
+					CASAsyncFinished(inVE, result,useCaching, e, c, id, oldDigits,input);
+				}
+				CASAsyncFinished(inVE, result,useCaching, null, c, id, oldDigits,input);
+			}
+		};
+		casThread.run();
 	}
 	
 }

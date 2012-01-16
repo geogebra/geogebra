@@ -24,7 +24,7 @@ import geogebra.common.kernel.geos.GeoList;
  * 
  * @author Michael Borcherds
  */
-public class AlgoCoefficients extends AlgoElement {
+public class AlgoCoefficients extends AlgoElement implements AsynchronousCommand{
 
 	private GeoFunction f; // input
 	private GeoList g; // output
@@ -81,19 +81,28 @@ public class AlgoCoefficients extends AlgoElement {
 		sb.append(",");
 		sb.append(funVarStr[1]); // function variable
 		sb.append(")");
-		String functionOut;
-		try {
-			functionOut = kernel.evaluateCachedGeoGebraCAS(sb.toString());
-			g.set(kernel.getAlgebraProcessor().evaluateToList(functionOut));
-			g.setDefined(true);
-		} catch (Throwable e) {
-			g.setUndefined();
-		}
+		kernel.evaluateGeoGebraCASAsync(sb.toString(),true,this,0);			
+
 	}
 
 	@Override
 	final public String toString() {
 		return getCommandDescription();
+	}
+
+	public void handleCASoutput(String output, int requestID) {
+		if(kernel.getAlgebraProcessor().evaluateToList(output)==null){
+			g.setUndefined();
+		}else{
+			g.set(kernel.getAlgebraProcessor().evaluateToList(output));
+			g.setDefined(true);
+		}
+		
+	}
+
+	public void handleException(Throwable exception,int id) {
+		g.setUndefined();
+		
 	}
 
 }

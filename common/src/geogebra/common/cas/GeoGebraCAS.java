@@ -6,6 +6,7 @@ import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.cas.AsynchronousCommand;
 import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.util.MaxSizeHashMap;
@@ -493,5 +494,21 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	public CasType getCurrentCASType() {
 		return currentCAS;
 	}
+
+	public void evaluateGeoGebraCASAsync(String exp, boolean useCaching,
+			AsynchronousCommand c, int id) {
+		boolean oldDigits = Kernel.internationalizeDigits;
+		Kernel.internationalizeDigits = false;
+		ValidExpression inVE = null;
+		try{
+			inVE = casParser.parseGeoGebraCASInput(exp);
+		}catch(Exception e){
+			Kernel.internationalizeDigits = oldDigits;
+			c.handleException(e,id);
+		}
+		getCurrentCAS().evaluateGeoGebraCASAsync(inVE,useCaching,c,id,oldDigits,exp);
+	}
+	
+
 
 }

@@ -35,13 +35,8 @@ public class AlgoLimitBelow extends AlgoLimit {
 	}
 
 	@Override
-	public final void compute() {
-		if (!f.isDefined() || !input[1].isDefined()) {
-			outNum.setUndefined();
-			return;
-		}
-
-		outNum.setValue(f.getLimit(num.getDouble(), 1));
+	protected int getDirection(){
+		return 1;
 	}
 
 }
