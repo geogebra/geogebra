@@ -107,8 +107,7 @@ public class BasicStroke implements geogebra.common.awt.BasicStroke {
 	    return gwtJoins[getEndCap()];
     }
 
-	@Override
-    public float[] getDashArray() {
+	public float[] getDashArray() {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
     }
