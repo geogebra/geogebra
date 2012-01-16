@@ -2,7 +2,6 @@ package geogebra.web.html5;
 
 import geogebra.common.main.AbstractApplication;
 
-import java.util.Iterator;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.TagName;
@@ -10,7 +9,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
 @TagName(ArticleElement.TAG)
-public final class ArticleElement extends Element implements HasWidgets {
+public final class ArticleElement extends Element {
 	
 	static final String TAG = "article";
 	
@@ -43,10 +42,6 @@ public final class ArticleElement extends Element implements HasWidgets {
     }
 
 	
-    public Iterator<Widget> iterator() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
-    }
 
 	
     public boolean remove(Widget w) {

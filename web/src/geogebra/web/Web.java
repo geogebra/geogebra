@@ -1,16 +1,24 @@
 package geogebra.web;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.html5.ArticleElement;
+import geogebra.web.html5.Dom;
 import geogebra.web.main.Application;
-import geogebra.web.mvp4g.Mvp4gModule;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -23,11 +31,23 @@ public class Web implements EntryPoint {
 	public void t(String s,AlgebraProcessor ap) throws Exception{
 		ap.processAlgebraCommandNoExceptionHandling(s, false,false, true);
 	}
+	private ArrayList<ArticleElement> getGeoGebraMobileTags() {
+		NodeList<Element> nodes = Dom.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
+		ArrayList<ArticleElement> articleNodes = new ArrayList<ArticleElement>();
+		for (int i = 0; i < nodes.getLength(); i++) {
+			nodes.getItem(i).setId(GeoGebraConstants.GGM_CLASS_NAME+i);
+			articleNodes.add(ArticleElement.as(nodes.getItem(i)));
+		}
+		return articleNodes;
+	}
 
 	public void onModuleLoad() {
-		//just mimic not real :-)
-		Mvp4gModule module = (Mvp4gModule) GWT.create(Mvp4gModule.class);
-		module.createAndStartModule();
-		//tempRootLayoutPanel.get().add((Widget) module.getStartView());
+		startGeoGebra(getGeoGebraMobileTags());
 	}
+	
+	private void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
+	 	
+		geogebra.web.gui.app.GeoGebraFrame.main(geoGebraMobileTags);
+	    
+    }
 }

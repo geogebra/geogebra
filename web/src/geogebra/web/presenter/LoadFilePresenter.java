@@ -1,10 +1,7 @@
 package geogebra.web.presenter;
 
-import geogebra.web.eventbus.MyEventBus;
 import geogebra.web.helper.FileLoadCallback;
 import geogebra.web.helper.UrlFetcher;
-import geogebra.web.html5.ArticleElement;
-import geogebra.web.html5.View;
 import geogebra.web.jso.JsUint8Array;
 
 public class LoadFilePresenter extends BasePresenter {
@@ -51,7 +48,7 @@ public class LoadFilePresenter extends BasePresenter {
 	
 	private final FileLoadCallback fileLoadCallback = new FileLoadCallback() {
 		public void onSuccess(JsUint8Array zippedContent) {
-			getEventBus().fileContentLoaded(zippedContent);
+			getView().fileContentLoaded(zippedContent);
 		}
 		
 		public void onError(String errorMessage) {

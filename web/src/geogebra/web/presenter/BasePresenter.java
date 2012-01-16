@@ -1,24 +1,16 @@
 package geogebra.web.presenter;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.eventbus.MyEventBus;
 import geogebra.web.html5.View;
 import geogebra.web.jso.JsUint8Array;
 
 public abstract class BasePresenter {
 	
-	protected MyEventBus eventBus;
 	private View view;
 
-	public MyEventBus getEventBus() {
-	    return eventBus;
-    }
-
-	public void setEventBus(MyEventBus eventBus) {
-	    this.eventBus = eventBus;
-    }
 
 	public View getView() {
 	    return view;
@@ -33,7 +25,7 @@ public abstract class BasePresenter {
 	    
     }
 
-	public void onCreateApplicationAndAddTo(HasWidgets container) {
+	public void onCreateApplicationAndAddTo(Element element) {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }

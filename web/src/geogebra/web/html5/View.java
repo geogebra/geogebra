@@ -1,21 +1,31 @@
 package geogebra.web.html5;
 
+import java.util.Map;
+
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.jso.JsUint8Array;
+import geogebra.web.main.Application;
+import geogebra.web.util.DataUtil;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
 public class View extends Widget {
 	
-	private HasWidgets container;
+	private Map<String, String> archiveContent;
 	
-	public View(HasWidgets container) {
+	private Element container;
+	private Application app;
+	
+	public View(Element container, Application app) {
+		this.app = app;
 		this.container = container;
     }
 
-	public HasWidgets getContainer() {
+	public Element getContainer() {
 	    return container;
     }
 
@@ -38,6 +48,31 @@ public class View extends Widget {
 	public String getDataParamFileName() {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return ((ArticleElement) container).getDataParamFileName();
+    }
+
+	public void fileContentLoaded(JsUint8Array zippedContent) {
+		archiveContent = DataUtil.unzip(zippedContent);
+		maybeLoadFile();	    
+    }
+	
+	private void maybeLoadFile() {
+		if (app == null || archiveContent == null) {
+			return;
+		}
+		
+		try {
+			app.loadGgbFile(archiveContent);
+		} catch (Exception ex) {
+				Application.log(ex.getMessage());
+			return;
+		}
+		archiveContent = null;
+		onSyncCanvasSizeWithApplication();
+	}
+
+	private void onSyncCanvasSizeWithApplication() {
+	   app.getEuclidianView().synCanvasSize();
+	   app.getActiveEuclidianView().repaintView();
     }
 
 }

@@ -8,6 +8,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.user.client.ui.Widget;
 
 import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.Font;
@@ -731,6 +732,10 @@ public class Application extends AbstractApplication {
     public void setSelectedGeos(ArrayList<GeoElement> geos) {
 	    // TODO Auto-generated method stub
 	    
+    }
+
+	public Widget buildApplicationPanel() {
+	    return canvas;
     }
 
 

@@ -42,7 +42,7 @@ import org.apache.commons.math.exception.NotStrictlyPositiveException;
  * @version $Revision$ $Date$
  * @since 2.2
  */
-public class MultidimensionalCounter implements Iterable<Integer> {
+public class MultidimensionalCounter {
     /**
      * Number of dimensions.
      */
@@ -67,7 +67,7 @@ public class MultidimensionalCounter implements Iterable<Integer> {
     /**
      * Perform iteration over the multidimensional counter.
      */
-    public class Iterator implements java.util.Iterator<Integer> {
+    public class Iterator /*implements java.util.Iterator<Integer>*/ {
         /**
          * Multidimensional counter.
          */
