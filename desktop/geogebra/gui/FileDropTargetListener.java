@@ -75,7 +75,7 @@ public class FileDropTargetListener implements DropTargetListener {
 	}
 
 	/**
-	 * Determines if a transferable contains ggb files and attempts
+	 * Determines if a transferable contains ggb/ggt files and attempts
 	 * to open them.
 	 * 
 	 * @param t
@@ -85,10 +85,27 @@ public class FileDropTargetListener implements DropTargetListener {
 
 		ArrayList<File> al = getGGBfiles(t);	
 
-		if (al.size() == 0 || !isGGBFile(al.get(0).getName())) {
+		if (al.size() == 0) {
 			return false;
 		}
-		else if (app.isSaved() || app.saveCurrentFile()) {				
+		
+		boolean allGGT = true;
+		for (int i = al.size() - 1 ; i >= 0 ; i--) {
+			if (!isGGBFile(al.get(i).getName()) && !isGGTFile(al.get(i).getName())) {
+				al.remove(i);
+			} else {
+				if (!isGGTFile(al.get(i).getName())) {
+					allGGT = false;
+				}
+
+			}
+		}
+		
+		if (al.size() == 0) {
+			return false;
+		}
+
+		else if (allGGT || app.isSaved() || app.saveCurrentFile()) {				
 			File [] files = new File[al.size()];
 			for (int i = 0 ; i < al.size() ; i++)
 				files[i] = al.get(i);
@@ -100,14 +117,25 @@ public class FileDropTargetListener implements DropTargetListener {
 	
 	
 	/**
-	 * Tests if a file has the GeoGebra extension
+	 * Tests if a file has the GeoGebra ggb extension
 	 * @param fileName
 	 * @return
 	 */
-	private static boolean isGGBFile(String fileName){
+	private boolean isGGBFile(String fileName){
 		int mid = fileName.lastIndexOf(".");
 	    String ext = fileName.substring(mid+1,fileName.length());
-	    return ext.equals(Application.FILE_EXT_GEOGEBRA);
+	    return app.toLowerCase(ext).equals(Application.FILE_EXT_GEOGEBRA);
+	}
+
+	/**
+	 * Tests if a file has the GeoGebra ggt extension
+	 * @param fileName
+	 * @return
+	 */
+	private boolean isGGTFile(String fileName){
+		int mid = fileName.lastIndexOf(".");
+	    String ext = fileName.substring(mid+1,fileName.length());
+	    return app.toLowerCase(ext).equals(Application.FILE_EXT_GEOGEBRA_TOOL);
 	}
 
 	private ArrayList<File> getGGBfiles(Transferable transferable) {
