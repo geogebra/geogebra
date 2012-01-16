@@ -42,7 +42,7 @@ public class View extends Widget {
     }
 
 	public void showLoadAnimation(String absoluteUrl) {
-	  	GWT.log("Showing animation");    
+	  	app.showLoadingAnimation(true); 
     }
 
 	public String getDataParamFileName() {
@@ -71,6 +71,7 @@ public class View extends Widget {
 	}
 
 	private void onSyncCanvasSizeWithApplication() {
+	   app.showLoadingAnimation(false);
 	   app.getEuclidianView().synCanvasSize();
 	   app.getActiveEuclidianView().repaintView();
     }

@@ -5,9 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context;
+import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Widget;
 
 import geogebra.common.awt.BufferedImageAdapter;
@@ -736,6 +739,54 @@ public class Application extends AbstractApplication {
 
 	public Widget buildApplicationPanel() {
 	    return canvas;
+    }
+	
+	Timer t = null;
+
+	public void showLoadingAnimation(boolean go) {
+		if (go) {
+		    if (canvas != null) {
+		    	final Context2d ctx = canvas.getContext2d();
+		    	t = new Timer() {
+					private int i = 0;
+					@Override
+					public void run() {
+						switch (i) {
+						case 0:
+							ctx.clearRect(10, 10, 20, 100);
+							ctx.fillText("Loading", 22, 22);
+							i++;
+							break;
+						case 1:
+							ctx.clearRect(10, 10, 20, 100);
+							ctx.fillText("Loading.", 22, 22);
+							i++;
+							break;
+						case 2:
+							ctx.clearRect(10, 10, 20, 100);
+							ctx.fillText("Loading..", 22, 22);
+							i++;
+							break;
+						case 3:
+							ctx.clearRect(10, 10, 20, 100);
+							ctx.fillText("Loading...", 22, 22);
+							i++;
+							break;
+						default:
+							i=0;
+						}
+					}
+				};
+				t.scheduleRepeating(1000);
+				t.run();
+		    }
+		} else {
+			if (t != null) {
+				t.cancel();
+			}
+			
+		}
+	    
     }
 
 
