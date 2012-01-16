@@ -1312,13 +1312,12 @@ class InputPane(KeyListener, DocumentListener):
         # self.nocheck = LockManager()
         self.doc.addDocumentListener(self)
 
-        self.line_numbers = None
-        
     def _getinput(self):
         return self.doc.getText(0, self.doc.length)
     def _setinput(self, input):
         self.doc.remove(0, self.doc.length)
         self.doc.insertString(0, input, self.parent_style)
+        self.component.setCaretPosition(0)
     input = property(_getinput, _setinput)
 
     def getline(self, offset):
@@ -1370,8 +1369,7 @@ class InputPane(KeyListener, DocumentListener):
                     start += 1
     def set_line_style(self, offset):
         start, end = self.getline(offset)
-        self.change_styles(start, end)
-        
+        self.change_styles(start, end)  
     def set_region_style(self, offset, length):
         start, _ = self.getline(offset)
         _, end = self.getline(offset + length)
