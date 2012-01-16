@@ -73,6 +73,8 @@ public class Application extends AbstractApplication {
 		this.init(Canvas.createIfSupported());
 		fontManager = new FontManager();
 		setFontSize(12);
+		setLabelDragsEnabled(false);
+		
 	}
 
 	@Override
