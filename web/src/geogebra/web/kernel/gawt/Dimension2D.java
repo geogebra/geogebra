@@ -26,9 +26,9 @@ public abstract class Dimension2D implements Cloneable {
     protected Dimension2D() {
     }
 
-    public abstract double getWidth();
+    public abstract int getWidth();
 
-    public abstract double getHeight();
+    public abstract int getHeight();
 
     public abstract void setSize(double width, double height);
 

@@ -12,12 +12,12 @@ public class Dimension extends geogebra.common.awt.Dimension {
 		impl = new geogebra.web.kernel.gawt.Dimension(w, h);
 	}
 	@Override
-	public double getWidth() {
+	public int getWidth() {
 		return impl.getWidth();
 	}
 
 	@Override
-	public double getHeight() {
+	public int getHeight() {
 		return impl.getHeight();
 	}
 

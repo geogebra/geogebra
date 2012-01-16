@@ -88,12 +88,12 @@ public class Dimension extends Dimension2D implements Serializable {
     }
 
     @Override
-    public double getHeight() {
+    public int getHeight() {
         return height;
     }
 
     @Override
-    public double getWidth() {
+    public int getWidth() {
         return width;
     }
 

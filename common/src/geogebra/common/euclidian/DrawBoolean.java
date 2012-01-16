@@ -10,19 +10,21 @@
  
  */
 
-package geogebra.euclidian;
+package geogebra.common.euclidian;
 
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+//import java.awt.Color;
+//import java.awt.Dimension;
+//import java.awt.Graphics;
+
+import geogebra.common.awt.Color;
+import geogebra.common.awt.Dimension;
+import geogebra.common.awt.Graphics2D;
 import geogebra.common.awt.Point;
 import geogebra.common.awt.Rectangle;
-import geogebra.common.euclidian.AbstractEuclidianView;
-import geogebra.common.euclidian.Drawable;
+import geogebra.common.factories.AwtFactory;
 
 
 /**
@@ -115,10 +117,10 @@ public final class DrawBoolean extends Drawable {
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;		
 		int size = view.getBooleanSize();
-		Dimension prefSize = new Dimension(size + 12,size + 12);//checkBox.getPreferredSize();
+		Dimension prefSize = AwtFactory.prototype.newDimension(size + 12,size + 12);//checkBox.getPreferredSize();
 		labelRectangle.setBounds(xLabel, yLabel,
-				prefSize.width + ((textSize == null) ? 0 : textSize.x),
-				prefSize.height);
+				prefSize.getWidth() + ((textSize == null) ? 0 : textSize.x),
+				prefSize.getHeight());
 			
 		//checkBox.setBounds(labelRectangle);	
 	}
@@ -133,7 +135,7 @@ public final class DrawBoolean extends Drawable {
 			g2.setFont(view.getFontPoint());
 			g2.setStroke(EuclidianStatic.getDefaultStroke()); 
 			
-			checkBoxIcon.paintIcon(geoBool.getBoolean(), geoBool.doHighlighting(), geogebra.awt.Graphics2D.getAwtGraphics(g2), geoBool.labelOffsetX + 5, geoBool.labelOffsetY + 5);
+			checkBoxIcon.paintIcon(geoBool.getBoolean(), geoBool.doHighlighting(), g2, geoBool.labelOffsetX + 5, geoBool.labelOffsetY + 5);
 			
 			g2.setPaint(geo.getObjectColor());
 			textSize = EuclidianStatic.drawIndexedString(view.getApplication(), g2, labelDesc, geoBool.labelOffsetX + size + 9, geoBool.labelOffsetY + (size + 9) / 2 + 5, false);
@@ -212,14 +214,14 @@ public final class DrawBoolean extends Drawable {
 		
 		AbstractEuclidianView ev;
 		
-		public static Color highlightBackground = new Color(230, 230, 230);
+		public static Color highlightBackground = AwtFactory.prototype.newColor(230, 230, 230);
 		
 		public CheckBoxIcon(AbstractEuclidianView ev)
 		{
 			this.ev=ev;
 		}
 		
-        public void paintIcon(boolean checked, boolean highlighted, Graphics g, int x, int y) {
+        public void paintIcon(boolean checked, boolean highlighted, Graphics2D g, int x, int y) {
 
             
             int csize = ev.getBooleanSize();
@@ -228,7 +230,7 @@ public final class DrawBoolean extends Drawable {
                 // outer bevel
                 if (true) {
                     // Outer top/left
-                    g.setColor(new Color(128,128,128));
+                    g.setColor(AwtFactory.prototype.newColor(128,128,128));
                     g.drawLine(x, y, x + (csize-2), y);
                     g.drawLine(x, y + 1, x, y + (csize-2));
 
@@ -238,12 +240,12 @@ public final class DrawBoolean extends Drawable {
                     g.drawLine(x, y + (csize-1), x + (csize-2), y + (csize-1));
 
                     // Inner top.left
-                    g.setColor(new Color(64,64,64));
+                    g.setColor(AwtFactory.prototype.newColor(64,64,64));
                     g.drawLine(x + 1, y + 1, x + (csize-3), y + 1);
                     g.drawLine(x + 1, y + 2, x + 1, y + (csize-3));
 
                     // Inner bottom/right
-                    g.setColor(new Color(212,208,200));
+                    g.setColor(AwtFactory.prototype.newColor(212,208,200));
                     g.drawLine(x + 1, y + (csize-2), x + (csize-2), y + (csize-2));
                     g.drawLine(x + (csize-2), y + 1, x + (csize-2), y + (csize-3));
 
@@ -256,7 +258,7 @@ public final class DrawBoolean extends Drawable {
                     g.fillRect(x + 2, y + 2, csize - 4, csize - 4);
                 } 
 
-                g.setColor(new Color(0,0,0));
+                g.setColor(AwtFactory.prototype.newColor(0,0,0));
 
                 // paint check
                 

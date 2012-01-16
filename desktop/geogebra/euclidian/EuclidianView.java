@@ -16,6 +16,7 @@ import geogebra.common.awt.Font;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.DrawBoolean;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.GetViewId;
