@@ -111,12 +111,14 @@ public class AlgoDependentText extends AlgoElement {
     @Override
 	final public String toString() {
         // was defined as e.g.  text0 = "Radius: " + r
+    	if (root == null) return "";
         return root.toString();
     }
     
     @Override
 	final public String toRealString() {
         // was defined as e.g.  text0 = "Radius: " + r
+    	if (root == null) return "";
         return root.toRealString();
     }
 }
