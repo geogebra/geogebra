@@ -172,7 +172,7 @@ public class Application extends AbstractApplication {
 	@Override
 	public String getLanguage() {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return null;
+		return "en";
 	}
 
 	@Override
@@ -243,12 +243,6 @@ public class Application extends AbstractApplication {
 	public long freeMemory() {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 		return 0;
-	}
-
-	@Override
-	public String getOrdinalNumber(int i) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return null;
 	}
 
 	@Override

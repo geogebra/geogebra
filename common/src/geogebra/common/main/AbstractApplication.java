@@ -574,7 +574,10 @@ public abstract class AbstractApplication {
 
 	public abstract boolean showView(int view);
 
-
+	/**
+	 * 
+	 * @return 2 letter language name, eg "en"
+	 */
 	public abstract String getLanguage();
 
 	public boolean languageIs(String lang) {
@@ -893,7 +896,131 @@ public abstract class AbstractApplication {
 	public abstract long freeMemory();
 
 
-	public abstract String getOrdinalNumber(int i);
+	/**
+	 * given 1, return eg 1st, 1e, 1:e according to the language
+	 * 
+	 * http://en.wikipedia.org/wiki/Ordinal_indicator
+	 */
+	StringBuilder sbOrdinal;
+
+	/*
+	 * given 1, return eg 1st, 1e, 1:e according to the language
+	 * 
+	 * http://en.wikipedia.org/wiki/Ordinal_indicator
+	 */
+	public String getOrdinalNumber(int n) {
+		String lang = getLanguage();
+		
+		if ("en".equals(lang)) return getOrdinalNumberEn(n);
+
+		// check here for languages where 1st = 1
+		if ("pt".equals(lang) || "ar".equals(lang) || "cy".equals(lang)
+				|| "fa".equals(lang) || "ja".equals(lang) || "ko".equals(lang)
+				|| "lt".equals(lang) || "mr".equals(lang) || "ms".equals(lang)
+				|| "nl".equals(lang) || "si".equals(lang) || "th".equals(lang)
+				|| "vi".equals(lang) || "zh".equals(lang)) {
+			return n + "";
+		}
+
+		if (sbOrdinal == null) {
+			sbOrdinal = new StringBuilder();
+		} else {
+			sbOrdinal.setLength(0);
+		}
+
+		// prefixes
+		if ("in".equals(lang)) {
+			sbOrdinal.append("ke-");
+		} else if ("iw".equals(lang)) {
+			// prefix and postfix for Hebrew
+			sbOrdinal.append("\u200f\u200e");
+		}
+
+		sbOrdinal.append(n);
+
+		if ("cs".equals(lang) || "da".equals(lang) || "et".equals(lang)
+				|| "eu".equals(lang) || "hr".equals(lang) || "hu".equals(lang)
+				|| "is".equals(lang) || "no".equals(lang) || "sk".equals(lang)
+				|| "sr".equals(lang) || "tr".equals(lang)) {
+			sbOrdinal.append('.');
+		} else if ("de".equals(lang)) {
+			sbOrdinal.append("th");
+		} else if ("fi".equals(lang)) {
+			sbOrdinal.append(":s");
+		} else if ("el".equals(lang)) {
+			sbOrdinal.append('\u03b7');
+		} else if ("ro".equals(lang) || "ca".equals(lang) || "es".equals(lang)
+				|| "it".equals(lang) || "pt".equals(lang)) {
+			sbOrdinal.append(Unicode.FEMININE_ORDINAL_INDICATOR);
+		} else if ("bs".equals(lang) || "sl".equals(lang)) {
+			sbOrdinal.append("-ti");
+		} else if ("sq".equals(lang)) {
+			sbOrdinal.append("-te");
+		} else if ("gl".equals(lang)) {
+			sbOrdinal.append("ava");
+		} else if ("mk".equals(lang)) {
+			sbOrdinal.append("-\u0442\u0438");
+		} else if ("ka".equals(lang)) {
+			sbOrdinal.append("-\u10d4");
+		} else if ("iw".equals(lang)) {
+			sbOrdinal.append("\u200e\u200f");
+		} else if ("ru".equals(lang) || "uk".equals(lang)) {
+			sbOrdinal.append("-\u0433\u043e");
+		} else if ("fr".equals(lang)) {
+			if (n == 1) {
+				sbOrdinal.append("er"); // could also be "re" for feminine...
+			} else {
+				sbOrdinal.append("e"); // could also be "es" for plural...
+			}
+		} else if ("sv".equals(lang)) {
+			int unitsDigit = n % 10;
+			if ((unitsDigit == 1) || (unitsDigit == 2)) {
+				sbOrdinal.append(":a");
+			} else {
+				sbOrdinal.append(":e");
+			}
+		} 
+
+		return sbOrdinal.toString();
+
+	}
+
+	
+	/**
+	 * given 1, return eg 1st (English only)
+	 * 
+	 * http://en.wikipedia.org/wiki/Ordinal_indicator
+	 */
+	public String getOrdinalNumberEn(int n) {
+		/*
+		 * http://en.wikipedia.org/wiki/Names_of_numbers_in_English If the
+		 * tens digit of a number is 1, then write "th" after the number.
+		 * For example: 13th, 19th, 112th, 9,311th. If the tens digit is not
+		 * equal to 1, then use the following table: If the units digit is:
+		 * 0 1 2 3 4 5 6 7 8 9 write this after the number th st nd rd th th
+		 * th th th th
+		 */
+
+		int tensDigit = (n / 10) % 10;
+
+		if (tensDigit == 1) {
+			return n + "th";
+		}
+
+		int unitsDigit = n % 10;
+
+		switch (unitsDigit) {
+		case 1:
+			return n + "st";
+		case 2:
+			return n + "nd";
+		case 3:
+			return n + "rd";
+		default:
+			return n + "th";
+		}
+
+	}
 
 	public double getXmin() {
 		// TODO Auto-generated method stub
