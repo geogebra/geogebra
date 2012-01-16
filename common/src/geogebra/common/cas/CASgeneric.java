@@ -239,8 +239,8 @@ public abstract class CASgeneric implements CASGenericInterface,
 		return cmdSet;
 	}
 
-	public void evaluateGeoGebraCASAsync(ValidExpression inVE,
-			boolean useCaching, AsynchronousCommand c, int id, boolean oldDigits,String input) {
+	public void evaluateGeoGebraCASAsync(String input,
+			boolean useCaching, AsynchronousCommand c, int id, boolean oldDigits) {
 		AbstractApplication.debug("Only MPReduce supports async calls");
 		
 	}

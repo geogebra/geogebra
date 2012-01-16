@@ -499,14 +499,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			AsynchronousCommand c, int id) {
 		boolean oldDigits = Kernel.internationalizeDigits;
 		Kernel.internationalizeDigits = false;
-		ValidExpression inVE = null;
-		try{
-			inVE = casParser.parseGeoGebraCASInput(exp);
-		}catch(Exception e){
-			Kernel.internationalizeDigits = oldDigits;
-			c.handleException(e,id);
-		}
-		getCurrentCAS().evaluateGeoGebraCASAsync(inVE,useCaching,c,id,oldDigits,exp);
+		getCurrentCAS().evaluateGeoGebraCASAsync(exp,useCaching,c,id,oldDigits);
 	}
 	
 

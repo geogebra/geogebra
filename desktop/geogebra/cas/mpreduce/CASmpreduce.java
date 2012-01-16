@@ -890,22 +890,24 @@ public class CASmpreduce extends AbstractCASmpreduce {
 	}
 	
 	@Override
-	public void evaluateGeoGebraCASAsync(final ValidExpression inVE,
-			final boolean useCaching, final AsynchronousCommand c, final int id, 
-			final boolean oldDigits,final String input) {
+	public void evaluateGeoGebraCASAsync(final String input,
+			final boolean useCaching, final AsynchronousCommand command, final int id, 
+			final boolean oldDigits) {
 		
 		Thread casThread = new Thread(){
 			@Override
 			public void run(){
 				String result;
+				ValidExpression inVE = null;
 				AbstractApplication.debug("thread is running");
 				try{
-				result = evaluateGeoGebraCAS(inVE);
-				}catch(Throwable e){
+					inVE = casParser.parseGeoGebraCASInput(input);
+					result = evaluateGeoGebraCAS(inVE);
+				}catch(Throwable exception){
 					result ="";
-					CASAsyncFinished(inVE, result,useCaching, e, c, id, oldDigits,input);
+					CASAsyncFinished(inVE, result,useCaching, exception, command, id, oldDigits,input);
 				}
-				CASAsyncFinished(inVE, result,useCaching, null, c, id, oldDigits,input);
+				CASAsyncFinished(inVE, result,useCaching, null, command, id, oldDigits,input);
 			}
 		};
 		casThread.run();
