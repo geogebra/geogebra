@@ -74,6 +74,7 @@ public class Application extends AbstractApplication {
 		fontManager = new FontManager();
 		setFontSize(12);
 		setLabelDragsEnabled(false);
+		getEuclidianView().setCapturingThreshold(20);
 		
 	}
 
