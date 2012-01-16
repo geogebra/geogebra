@@ -1086,10 +1086,14 @@ def later(f):
     SwingUtilities.invokeLater(Later(f))
     return f
 
+
 import keyword, __builtin__
 
 class PyLexer(lexing.Lexer):
-    separators = 'space', 'punctuation', 'assignment', 'grouper', 'operator', 'shortstring', #'unknown'
+    separators = [
+        'space', 'punctuation', 'assignment', 'grouper', 'operator',
+        'shortstring'
+    ]
     order = [
         'float', 'integer', 'shortstring',
         'operator', 'assignment',
@@ -1097,7 +1101,6 @@ class PyLexer(lexing.Lexer):
         'keyword', 'builtin', 'identifier', 
         'space', 'punctuation'
         'comment',
-        #'unknown',
     ]
 
     space = r'\s'
@@ -1114,7 +1117,7 @@ class PyLexer(lexing.Lexer):
     shortstring = r"[uU]?[rR]?'([^'\n\\]|\\[^\n])*'" \
                   r'|[uU]?[rR]?"([^"\n\\]|\\[^\n])*"'
     comment = r'#.*'
-    #unknown = r'.'
+
 
 tok_style_map = {
     PyLexer.keyword: "kw",
@@ -1125,7 +1128,6 @@ tok_style_map = {
     PyLexer.builtin: "builtin",
 }
 
-python_kw = re.compile(r"\b(%s)\b" % "|".join(keyword.kwlist))
 
 class PyState(object):
     def __init__(self):
@@ -1156,9 +1158,98 @@ class PyState(object):
             self.state = 'default'
             return 'classname'
 
+class NoWrapJTextPane(JTextPane):
+    """JTextPane which doesn't wrap lines"""
+    def getScrollableTracksViewportWidth(self):
+        parent = self.parent
+        if parent:
+            return self.getUI().getPreferredSize(self).width <= parent.size.width
+        else:
+            return True
+
+def new_style(doc, name, parent=None, **style_args):
+    if parent is None:
+        style_context = StyleContext.getDefaultStyleContext()
+        parent = style_context.getStyle(StyleContext.DEFAULT_STYLE)
+    style = doc.addStyle(name, parent)
+    for name, value in style_args.iteritems():
+        method = "set" + name.capitalize()
+        getattr(StyleConstants, method)(style, value)
+    return style
+
+def document_linecount(doc):
+    """ Return the number of lines in a document"""
+    if not doc.length:
+        return 1
+    linecount = doc.defaultRootElement.getElementIndex(doc.length - 1) + 1
+    last_char = doc.getText(doc.length - 1, 1)
+    if last_char == "\n":
+        linecount += 1
+    return linecount
+
+def make_line_numbers(start, end):
+        ndigits = len(str(end))
+        pattern = "%%%ii" % ndigits
+        return "\n".join(map(pattern.__mod__, range(start, end + 1)))
+
+def trace(f):
+    def decorated(*args, **kwargs):
+        print "->", f.__name__, args, kwargs
+        res = f(*args, **kwargs)
+        print "<-", f.__name__
+        return res
+    return decorated
+
+class LineNumbering(DocumentListener):
+    def __init__(self, textpane):
+        self.component = JTextPane(
+            font=textpane.font,
+            border=BorderFactory.createEmptyBorder(5, 5, 5, 5),
+            editable=False,
+            background=awtColor(220, 220, 220),
+        )
+        self.doc = self.component.document
+        self.component.setParagraphAttributes(
+            textpane.paragraphAttributes, True
+        )
+        self.linecount = 0
+        self.style = new_style(self.doc, "default",
+            foreground=awtColor(100, 100, 100),
+        )
+        self.reset(1)
+        textpane.document.addDocumentListener(self)
+    def changedUpdate(self, evt):
+        pass
+    def reset(self, lc):
+        self.linecount = lc
+        self.doc.remove(0, self.doc.length)
+        self.doc.insertString(0, make_line_numbers(1, lc), self.style)
+    def resize(self, lc):
+        if not lc:
+            self.reset(1)
+        elif len(str(lc)) != len(str(self.linecount)):
+            self.reset(lc)
+        elif lc > self.linecount:
+            self.doc.insertString(self.doc.length, "\n", self.style)
+            self.doc.insertString(self.doc.length,
+                make_line_numbers(self.linecount + 1, lc),
+                self.style
+            )
+            self.linecount = lc
+        elif lc < self.linecount:
+            root = self.doc.defaultRootElement
+            offset = root.getElement(lc).startOffset - 1
+            self.doc.remove(offset, self.doc.length - offset)
+            self.linecount = lc
+    def insertUpdate(self, evt):
+        self.resize(document_linecount(evt.document))
+    def removeUpdate(self, evt):
+        self.resize(document_linecount(evt.document))
+
+
 class InputPane(KeyListener, DocumentListener):
     def __init__(self):
-        self.component = JTextPane(
+        self.component = NoWrapJTextPane(
             border=BorderFactory.createEmptyBorder(5, 5, 5, 5)
         )
         
@@ -1220,7 +1311,9 @@ class InputPane(KeyListener, DocumentListener):
         # Remove?
         # self.nocheck = LockManager()
         self.doc.addDocumentListener(self)
-    
+
+        self.line_numbers = None
+        
     def _getinput(self):
         return self.doc.getText(0, self.doc.length)
     def _setinput(self, input):
@@ -1278,6 +1371,7 @@ class InputPane(KeyListener, DocumentListener):
     def set_line_style(self, offset):
         start, end = self.getline(offset)
         self.change_styles(start, end)
+        
     def set_region_style(self, offset, length):
         start, _ = self.getline(offset)
         _, end = self.getline(offset + length)
@@ -1349,7 +1443,9 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
 
         scrollpane = JScrollPane()
         self.script_area = script_area = InputPane()
+        line_numbers = LineNumbering(self.script_area.component)
         scrollpane.viewport.view = self.script_area.component
+        scrollpane.rowHeaderView = line_numbers.component
         script_pane.add(scrollpane, BorderLayout.CENTER)
         
         tabs.addTab("Interactive", interactive_pane)
