@@ -24,12 +24,24 @@ for i in *; do
  cd $WEBDIR_LINK_TARGET
  test -L $i || ln -s $COMMONDIR_LINK_SOURCE/$i
  done
- 
-# 4. Compiling web
+
+# 4. Preparing full compilation
+fullcomp() {
+cd $WEBDIR
+PROJECT=$1
+PLC=`echo $PROJECT | awk '{print tolower($1)}'`
+cd ../$PLC/src/geogebra
+cp $PROJECT-full.gwt.xml $PROJECT.gwt.xml
+}
+
+fullcomp Common
+fullcomp Web
+
+# 5. Compiling web
 cd ../..
 ant clean build || exit 4
 
-# 5. Done!
+# 6. Done!
 echo "GeoGebraWeb compilation finished. Insert this URL into your browser to test it:"
 THISDIR=`pwd`
 echo "file:///$THISDIR/war/ggbtest.html"
