@@ -17,9 +17,7 @@ the Free Software Foundation.
  */
 package geogebra.common.euclidian;
 
-import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
-
 
 /**
  * Draw GeoImplicitPoly on euclidian view
@@ -30,7 +28,7 @@ public class DrawImplicitPoly extends DrawLocus {
 	// private int fillSign; //0=>no filling, only curve -1=>fill the negativ part, 1=>fill positiv part
 	
 	public DrawImplicitPoly(AbstractEuclidianView view,GeoImplicitPoly implicitPoly) {
-		super(view, (GeoLocus)implicitPoly.locus);
+		super(view, implicitPoly.locus);
 		this.view=view;
     	hitThreshold = view.getCapturingThreshold();
 		this.implicitPoly = implicitPoly;

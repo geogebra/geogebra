@@ -120,7 +120,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	 */
 	final public void remove() {
 		for (int i = drawables.size() - 1; i >= 0; i--) {
-			GeoElement geo = (GeoElement) drawables.get(i).getGeoElement();
+			GeoElement geo = drawables.get(i).getGeoElement();
 			if (!geo.isLabelSet())
 				view.remove(geo);
 		}

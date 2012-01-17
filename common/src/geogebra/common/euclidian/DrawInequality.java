@@ -1,7 +1,6 @@
 package geogebra.common.euclidian;
 
 import geogebra.common.awt.Point;
-import geogebra.common.awt.Shape;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.IneqTree;
 import geogebra.common.kernel.arithmetic.Inequality;
@@ -428,8 +427,8 @@ public class DrawInequality extends Drawable {
 				
 			}
 			if (labelVisible) {
-				xLabel = (int)labelPos.getX();
-				yLabel = (int)labelPos.getY();				
+				xLabel = labelPos.getX();
+				yLabel = labelPos.getY();				
 				addLabelOffset();
 			}
 

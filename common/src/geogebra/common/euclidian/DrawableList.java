@@ -21,7 +21,8 @@ import java.util.Iterator;
  */
 public class DrawableList {
 
-	private Link head, tail;
+	Link head;
+	private Link tail;
 	private int size = 0;
 
 	/**
@@ -242,7 +243,7 @@ public class DrawableList {
 	public class DrawableIterator implements Iterator<Drawable> {
 		private Link it;
 
-		private DrawableIterator() {
+		DrawableIterator() {
 			reset();
 		}
 

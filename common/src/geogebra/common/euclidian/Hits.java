@@ -1,13 +1,8 @@
 package geogebra.common.euclidian;
 
-import geogebra.common.kernel.Path;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.*;
 import geogebra.common.kernel.geos.Test;
-import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.*;
-import geogebra.common.main.AbstractApplication;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -22,6 +17,8 @@ import java.util.Iterator;
 //TODO change ArrayList to TreeSet 
 
 public class Hits extends ArrayList<GeoElement> {
+	
+	private static final long serialVersionUID = 1L;
 	
 	private int listCount;
 	protected int polyCount;
@@ -111,7 +108,7 @@ public class Hits extends ArrayList<GeoElement> {
 	 */
 	final public void removeAllPoints(){
 		for (int i = size() - 1 ; i >= 0 ; i-- ) {
-			GeoElement geo = (GeoElement) get(i);
+			GeoElement geo = get(i);
 			if (geo==null || geo.isGeoPoint())
 				remove(i);
 		}
@@ -119,7 +116,7 @@ public class Hits extends ArrayList<GeoElement> {
 	
 	final public void removeAllDimElements(){
 		for (int i = size() - 1 ; i >= 0 ; i-- ) {
-			GeoElement geo = (GeoElement) get(i);
+			GeoElement geo = get(i);
 			//transparency criteria same as in EuclidianController3D::decideHideIntersection
 			if (geo==null || 
 					geo.isRegion() && (geo.getAlphaValue() < 0.1f || geo.getLineThickness() <0.5f) ||
@@ -234,7 +231,7 @@ public class Hits extends ArrayList<GeoElement> {
 
 		Hits ret = new Hits();
 		for (int i = 0; i < size(); ++i) {
-			GeoElement geo = (GeoElement) get(i);
+			GeoElement geo = get(i);
 			if (
 					//geo.isGeoNumeric() ||
 					 geo.isGeoVector()
@@ -255,7 +252,7 @@ public class Hits extends ArrayList<GeoElement> {
 		if (size() - polyCount > 0) {
 			
 			for (int i = size() - 1 ; i >= 0 ; i-- ) {
-				GeoElement geo = (GeoElement) get(i);
+				GeoElement geo = get(i);
 				if (geo.isGeoPolygon())
 					remove(i);
 			}
@@ -264,7 +261,7 @@ public class Hits extends ArrayList<GeoElement> {
 
 	final public void removeAllPolygons(){
 		for (int i = size() - 1 ; i >= 0 ; i-- ) {
-			GeoElement geo = (GeoElement) get(i);
+			GeoElement geo = get(i);
 			if (geo.isGeoPolygon())
 				remove(i);
 		}
@@ -276,7 +273,7 @@ public class Hits extends ArrayList<GeoElement> {
 	public void removeAllPolygonsButOne(){
 		int toRemove = polyCount-1;
 		for (int i = size() - 1 ; i >= 0 && toRemove>0; i-- ) {
-			GeoElement geo = (GeoElement) get(i);
+			GeoElement geo = get(i);
 			if (geo.isGeoPolygon()){
 				remove(i);
 				toRemove--;
@@ -295,7 +292,7 @@ public class Hits extends ArrayList<GeoElement> {
 	
 	public void removeImages() {
 		for (int i = size() - 1 ; i >= 0 ; i-- ) {
-			GeoElement geo = (GeoElement) get(i);
+			GeoElement geo = get(i);
 			if (geo.isGeoImage())
 				remove(i);
 		}
@@ -334,7 +331,7 @@ public class Hits extends ArrayList<GeoElement> {
 		GeoElement geo;
 		Hits moveableList = new Hits();
 		for (int i = 0; i < size(); ++i) {
-			geo = (GeoElement) get(i);
+			geo = get(i);
 			switch (test) {
 			case MOVEABLE:
 				// moveable object
@@ -451,7 +448,7 @@ public class Hits extends ArrayList<GeoElement> {
 			Hits result) {
 		result.clear();
 		for (int i = 0; i < size(); ++i) {
-			if (((GeoElement)get(i)).isRegion())
+			if (get(i).isRegion())
 				result.add(get(i));
 		}
 		//return result.size() == 0 ? null : result;
@@ -495,7 +492,7 @@ public class Hits extends ArrayList<GeoElement> {
 
 		for (int i = 0; i < size(); ++i) {
 			if(geoclass.check(get(i)))
-				return (GeoElement) get(i);
+				return get(i);
 		}
 
 		return null;
@@ -553,8 +550,8 @@ public class Hits extends ArrayList<GeoElement> {
 			//Hits topHitsList = new Hits();
 			getHits(Test.GEOPOINTND, false, topHitsList);
 			return topHitsList;
-		} else
-			return clone();
+		} 
+		return clone();
 	}
 	
 	/** return hits at the top, limited to a number of nb
@@ -596,7 +593,7 @@ public class Hits extends ArrayList<GeoElement> {
 	final public boolean containsGeoPoint() {
 
 		for (int i = 0; i < size(); i++) {
-			if (((GeoElement) get(i)).isGeoPoint())
+			if (get(i).isGeoPoint())
 				return true;
 		}
 		return false;
@@ -606,7 +603,7 @@ public class Hits extends ArrayList<GeoElement> {
 
 		GeoElement geo;
 		for (int i = 0; i < size(); i++) {
-			geo = (GeoElement) get(i);
+			geo = get(i);
 			if (geo.isGeoPoint()){
 				ret.add(geo);
 				return true;
@@ -620,7 +617,7 @@ public class Hits extends ArrayList<GeoElement> {
 		String s = "hits: "+size();
 		GeoElement geo;
 		for (int i = 0; i < size(); i++) {
-			geo = (GeoElement) get(i);
+			geo = get(i);
 			s+="\n hits("+i+") = "+geo.getLabel();
 		}
 		return s;

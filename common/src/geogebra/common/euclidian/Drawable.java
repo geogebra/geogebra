@@ -128,8 +128,8 @@ public abstract class Drawable extends DrawableND {
 					.getApplication(), geo, g2, xLabel, yLabel - offsetY, label
 					.substring(1, label.length() - 1), g2.getFont(), serif, g2
 					.getColor(), g2.getBackground(), true);
-			labelRectangle.setBounds(xLabel, yLabel - offsetY, (int)dim.getWidth(),
-					(int)dim.getHeight());
+			labelRectangle.setBounds(xLabel, yLabel - offsetY, dim.getWidth(),
+					dim.getHeight());
 			return;
 		}
 

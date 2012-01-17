@@ -14,40 +14,38 @@ public class PathPoint extends geogebra.common.awt.Point2D{
 		this.lineTo = lineTo;
 	}
 
-	
+	@Override
 	public double getX() {
 		return this.x;
 	}
 
-	
+	@Override
 	public double distance(double x, double y) {
 	    return geogebra.common.awt.Point2D.distanceSq(getX(), getY(), x, y);
 	}
 
-	
+	@Override
 	public double getY() {
 		return y;
 	}
 
-	
+	@Override
 	public void setX(double x) {
 		this.x = x;
 	}
-
 	
+	@Override
 	public void setY(double y) {
 		this.y = y;
 	}
-
 	
+	@Override
 	public double distance(geogebra.common.awt.Point2D q) {
 		return distance(q.getX(), q.getY());
 	}
 
-
 	public boolean getLineTo() {
 		return lineTo;
 	}
-
 
 }
