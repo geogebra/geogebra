@@ -396,18 +396,18 @@ public final class DrawPoint extends Drawable {
 				// draw cross like: X or +
 				g2.setPaint(geo.getObjectColor());
 				g2.setStroke(getCrossStroke(pointSize));
-				g2.draw(line1);
-				g2.draw(line2);
+				EuclidianStatic.drawWithValueStrokePure(line1, g2);
+				EuclidianStatic.drawWithValueStrokePure(line2, g2);
 				break;
 
 			case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND:
 				// draw diamond
 				g2.setPaint(geo.getObjectColor());
 				g2.setStroke(getCrossStroke(pointSize));
-				g2.draw(line1);
-				g2.draw(line2);
-				g2.draw(line3);
-				g2.draw(line4);
+				EuclidianStatic.drawWithValueStrokePure(line1, g2);
+				EuclidianStatic.drawWithValueStrokePure(line2, g2);
+				EuclidianStatic.drawWithValueStrokePure(line3, g2);
+				EuclidianStatic.drawWithValueStrokePure(line4, g2);
 				break;
 
 			case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND:
@@ -426,7 +426,7 @@ public final class DrawPoint extends Drawable {
 				// draw a circle
 				g2.setPaint(geo.getObjectColor());
 				g2.setStroke(getCrossStroke(pointSize));
-				g2.draw(circle);
+				EuclidianStatic.drawWithValueStrokePure(circle, g2);
 				break;
 
 			// case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
@@ -438,7 +438,7 @@ public final class DrawPoint extends Drawable {
 				// black stroke
 				g2.setPaint(geogebra.common.awt.Color.black);
 				g2.setStroke(borderStroke);
-				g2.draw(circle);
+				EuclidianStatic.drawWithValueStrokePure(circle, g2);
 			}
 
 			// label
