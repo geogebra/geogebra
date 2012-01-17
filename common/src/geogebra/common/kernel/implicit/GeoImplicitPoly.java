@@ -216,6 +216,10 @@ Dilateable, Transformable, EuclidianViewCE {
 
 	@Override
 	public boolean isDefined() {
+		return defined;
+	}
+	
+	public boolean isOnScreen(){
 		return defined && locus.isDefined() && locus.getMyPointList().size() > 0;
 	}
 	

@@ -23,6 +23,7 @@ import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.AbstractApplication;
 
 import geogebra.common.awt.Point2D;
@@ -339,7 +340,7 @@ public class AlgoLocus extends AlgoElement {
 	@Override
 	public final void compute() {
 		if (!movingPoint.isDefined() || macroCons == null
-				|| !path.toGeoElement().isDefined()) {
+				|| !isPathIterable(path.toGeoElement())) {
 			locus.setUndefined();
 			return;
 		}
@@ -529,6 +530,12 @@ public class AlgoLocus extends AlgoElement {
 
 		// Application.debug("LOCUS COMPUTE updateCascades: " + countUpdates +
 		// ", cache used: " + useCache);
+	}
+
+	private static boolean isPathIterable(GeoElement geoElement) {
+		if(geoElement.isGeoImplicitPoly())
+			return ((GeoImplicitPoly)geoElement).isOnScreen();
+		return geoElement.isDefined();
 	}
 
 	/**
