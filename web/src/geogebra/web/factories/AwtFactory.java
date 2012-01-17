@@ -141,7 +141,7 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 
 	@Override
     public BasicStroke newBasicStroke(float f) {
-	    return new geogebra.web.awt.BasicStroke();
+	    return new geogebra.web.awt.BasicStroke(f);
     }
 
 	@Override
