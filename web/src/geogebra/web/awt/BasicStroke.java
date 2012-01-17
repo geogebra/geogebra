@@ -20,7 +20,7 @@ public class BasicStroke implements geogebra.common.awt.BasicStroke {
 	
 	// Private fields
 	private float lineWidth = 1;
-	private int lineCap = CAP_BUTT;
+	private int lineCap = CAP_SQUARE;
 	private int lineJoin = JOIN_MITER;
 	private float miterLimit = 10;
 
@@ -30,7 +30,7 @@ public class BasicStroke implements geogebra.common.awt.BasicStroke {
 	}
 
 	public BasicStroke(float width) {
-		this(width, CAP_BUTT, JOIN_MITER);
+		this(width, CAP_SQUARE, JOIN_MITER);
 	}
 
 	public BasicStroke(float lineWidth, int lineCap, int lineJoin) {
