@@ -1,7 +1,5 @@
 package geogebra.common.awt;
 
-import geogebra.common.euclidian.PathPoint;
-
 public interface Rectangle extends Rectangle2D {
 	
 	public double getY();
