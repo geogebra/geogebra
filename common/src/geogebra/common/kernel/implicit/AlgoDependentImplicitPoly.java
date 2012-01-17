@@ -124,7 +124,10 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 				return;
 			}
 		}
-		switch (equation.degree()) {
+		//use the forced behavior here
+		int degree = equation.isForcedImplicitPoly()? 3 : 
+			(equation.isForcedConic() ? 2 :equation.degree()); 
+		switch (degree) {
 			// linear equation -> LINE   
 			case 1 :
 				if (geoElement instanceof GeoLine){
