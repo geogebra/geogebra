@@ -6008,8 +6008,7 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 			list = kernel.getAlgebraProcessor().evaluateToList(
 					"{" + strRed + "," + strGreen + "," + strBlue + "}");
 
-			if (!"1".equals(strAlpha))
-				listAlpha = kernel.getAlgebraProcessor().evaluateToList(
+			listAlpha = kernel.getAlgebraProcessor().evaluateToList(
 						"{" + strRed + "," + strGreen + "," + strBlue + ","
 								+ strAlpha + "}");
 
