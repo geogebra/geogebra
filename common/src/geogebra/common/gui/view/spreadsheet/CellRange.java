@@ -34,7 +34,7 @@ import java.util.ArrayList;
  */
 
 
-public class CellRange implements Cloneable{
+public class CellRange {
 	
 	private int minColumn = -1;
 	private int minRow = -1;
@@ -336,7 +336,7 @@ public class CellRange implements Cloneable{
 		&& (maxColumn >= -1 && maxColumn < Kernel.MAX_SPREADSHEET_COLUMNS);
 	}
 	
-	@Override
+
 	public CellRange clone(){
 		return new CellRange(app, minColumn,minRow,maxColumn,maxRow);
 	}
