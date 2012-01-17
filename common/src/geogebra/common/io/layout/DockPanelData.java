@@ -70,7 +70,7 @@ public class DockPanelData {
 	 * @param embeddedSize	The size of the view in the main window.
 	 */
 	public DockPanelData(int viewId, String toolbar, boolean isVisible, boolean inFrame, boolean showStyleBar, Point windowLoc, Dimension windowSize, String embeddedDef, int embeddedSize) {
-		this(viewId, toolbar, isVisible, inFrame, showStyleBar, geogebra.common.factories.AwtFactory.prototype.newRectangle(windowLoc.getX(), windowLoc.getY(),(int)windowSize.getWidth(),(int)windowSize.getHeight()), embeddedDef, embeddedSize);
+		this(viewId, toolbar, isVisible, inFrame, showStyleBar, geogebra.common.factories.AwtFactory.prototype.newRectangle(windowLoc.getX(), windowLoc.getY(),windowSize.getWidth(),windowSize.getHeight()), embeddedDef, embeddedSize);
 	}
 
 	/** 
@@ -176,6 +176,7 @@ public class DockPanelData {
 	 * Clone this object. Required as dock panels would change the loaded perspective 
 	 * automatically otherwise.
 	 */
+	@Override
 	public Object clone() {
 		return new DockPanelData(viewId, toolbarString, isVisible, openInFrame, showStyleBar, frameBounds, embeddedDef, embeddedSize);
 	}

@@ -139,7 +139,7 @@ public abstract class CASgeneric implements CASGenericInterface,
 	 * @return the translated String.
 	 */
 	protected String translateToCAS(ValidExpression ve, StringType casStringType) {
-		Kernel kernel = (Kernel) ve.getKernel();
+		Kernel kernel = ve.getKernel();
 		StringType oldPrintForm = kernel.getCASPrintForm();
 		kernel.setCASPrintForm(casStringType);
 

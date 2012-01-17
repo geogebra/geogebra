@@ -154,7 +154,7 @@ debug("startDocument", "");
     	reset();
     }
 
-    final public void startElement(String eName, LinkedHashMap attrs) throws SAXException {
+    final public void startElement(String eName, LinkedHashMap<String, String> attrs) throws SAXException {
 debug("startElement", eName);
         switch (mode) {
         	case MODE_CONSTRUCTION : // top level mode
@@ -235,7 +235,7 @@ debug("endDocument", "");
     //====================================
     // <construction>    
     //====================================
-    private void startConstruction(String eName, LinkedHashMap attrs) {
+    private void startConstruction(String eName, LinkedHashMap<String, String> attrs) {
 debug("startConstruction", eName);
     	if (eName.equals("elements")) {
             mode = MODE_ELEMENTS;
@@ -261,7 +261,7 @@ debug("endConstruction", eName);
     //====================================
     // <elements>    
     //====================================
-    private void startElements(String eName, LinkedHashMap attrs) {
+    private void startElements(String eName, LinkedHashMap<String, String> attrs) {
 debug("startElements", eName);
     	switch (subMode) {
     		case MODE_INVALID :
@@ -271,7 +271,7 @@ debug("startElements", eName);
             		break;
     			}
     			
-    	        String label = (String) attrs.get("id");
+    	        String label = attrs.get("id");
     	        if (label == null) {
     	            AbstractApplication.debug("attribute id missing in <" + eName + ">");
     	            break;
@@ -430,11 +430,11 @@ debug("endElements", eName);
 					GeoVec3D v;
 					if (segment) {
 						if (!segmentStart.isDefined()) {
-							v = (GeoVec3D) segmentStart;
+							v = segmentStart;
 						} else if (!segmentEnd.isDefined()) {
-							v = (GeoVec3D) segmentEnd;
+							v = segmentEnd;
 						} else {
-							v = (GeoVec3D) segmentVia;
+							v = segmentVia;
 						}
 					} else {
 						v = (GeoVec3D) geo;
@@ -493,7 +493,7 @@ debug("endElements", eName);
     	}
     }
     
-	final public boolean isReal(Complex c) {
+	final public static boolean isReal(Complex c) {
 		return Kernel.isZero(c.getImaginary());
 	}
 
@@ -502,7 +502,7 @@ debug("endElements", eName);
     //====================================
     // <constraints>    
     //====================================
-    private void startConstraints(String eName, LinkedHashMap attrs) {
+    private void startConstraints(String eName, LinkedHashMap<String, String> attrs) {
 debug("startConstraints", eName);
     	switch (subMode) {
     		case MODE_INVALID :
@@ -698,7 +698,7 @@ debug("endConstraints", eName);
 		}
     }
     
-    private void handleConstraintsStart(String eName, LinkedHashMap attrs, String outputType, int outputQuantity, String[] inputType, int[] inputQuantity) {
+    private void handleConstraintsStart(String eName, LinkedHashMap<String, String> attrs, String outputType, int outputQuantity, String[] inputType, int[] inputQuantity) {
     	if (inputType.length != inputQuantity.length) {
     		AbstractApplication.debug("call of handleConstraintsStart with invalid arguments, this should never happen :-(");
     		return;
@@ -708,7 +708,7 @@ debug("endConstraints", eName);
     	
     	if (eName.equals(outputType)) {
     		if (inputType.length > 0 && outputType.equals(inputType[0])) {
-    			if ("true".equals((String) attrs.get("out"))) {
+    			if ("true".equals(attrs.get("out"))) {
     				if (cmd.labelCount() >= outputQuantity) {
         				AbstractApplication.debug("more than " + outputQuantity + " <" + eName + " out=\"true\"> specified for <" + cmdName + ">");
         				return;
@@ -722,7 +722,7 @@ debug("endConstraints", eName);
     				return;
     			}
     		} else {
-    			if (!"true".equals((String) attrs.get("out"))) {
+    			if (!"true".equals(attrs.get("out"))) {
     				AbstractApplication.debug("tag <" + eName + "> not set as output tag");
     			}
     			if (cmd.labelCount() >= outputQuantity) {
@@ -863,7 +863,7 @@ System.out.println(eName);
     //====================================
     // <display>    
     //====================================
-    private void startDisplay(String eName, LinkedHashMap attrs) {
+    private void startDisplay(String eName, LinkedHashMap<String, String> attrs) {
 debug("startDisplay", eName);
 		switch (subMode) {
 			case MODE_INVALID :
@@ -873,7 +873,7 @@ debug("startDisplay", eName);
             		break;
     			}
     			
-    	        String label = (String) attrs.get("id");
+    	        String label = attrs.get("id");
     	        if (label == null) {
     	            AbstractApplication.debug("attribute id missing in <" + eName + ">");
     	            break;

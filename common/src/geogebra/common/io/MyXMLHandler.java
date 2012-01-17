@@ -1610,8 +1610,8 @@ public class MyXMLHandler implements DocHandler {
 		geogebra.common.awt.Dimension evSize = app.getSettings().getEuclidian(1).getPreferredSize();
 		
 		// calculate window dimensions
-		int width = (int) evSize.getWidth();
-		int height = (int) evSize.getHeight();
+		int width = evSize.getWidth();
+		int height = evSize.getHeight();
 		
 		// minimal size for documents, necessary for GeoGebra < 3
 		if(width <= 100 || height <= 100) {

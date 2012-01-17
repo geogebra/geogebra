@@ -233,7 +233,7 @@ public class CellRange implements Cloneable{
 	 */
 	public ArrayList<GeoElement> toGeoList() {
 
-		ArrayList<GeoElement> list = new ArrayList();
+		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
 		
 		for (int col = minColumn; col <= maxColumn; ++col) {
 			for (int row = minRow; row <= maxRow; ++row) {
@@ -249,9 +249,9 @@ public class CellRange implements Cloneable{
 	/**
 	 * ArrayList of labels for each geo found in the cell range
 	 */
-	public ArrayList toGeoLabelList(boolean scanByColumn, boolean copyByValue) {
+	public ArrayList<String> toGeoLabelList(boolean scanByColumn, boolean copyByValue) {
 
-		ArrayList list = new ArrayList();
+		ArrayList<String> list = new ArrayList<String>();
 
 		if (scanByColumn) { 
 			for (int col = minColumn; col <= maxColumn; ++col) {
@@ -336,24 +336,21 @@ public class CellRange implements Cloneable{
 		&& (maxColumn >= -1 && maxColumn < Kernel.MAX_SPREADSHEET_COLUMNS);
 	}
 	
-	
-	
-	
-	
+	@Override
 	public CellRange clone(){
 		return new CellRange(app, minColumn,minRow,maxColumn,maxRow);
 	}
 	
+	@Override
 	public boolean equals(Object obj) {
 		CellRange cr;
 		if (obj instanceof CellRange) {
 			cr = (CellRange) obj;
 			return (cr.minColumn == minColumn && cr.minRow == minRow
 					&& cr.maxColumn == maxColumn && cr.maxRow == maxRow);
-		} else
-			return false;
+		}
+		return false;
 	}
-	
 	
 	public boolean contains(Object obj) {
 		

@@ -1,7 +1,5 @@
 package geogebra.common.factories;
 
-import java.awt.geom.Point2D.Double;
-
 import geogebra.common.awt.Area;
 import geogebra.common.awt.CubicCurve2D;
 import geogebra.common.awt.Font;
@@ -21,10 +19,8 @@ import geogebra.common.awt.Rectangle2D;
 import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Arc2D;
-import geogebra.common.awt.RectangularShape;
 import geogebra.common.awt.Shape;
 import geogebra.common.awt.font.TextLayout;
-import geogebra.common.euclidian.GeneralPathClipped;
 
 public abstract class AwtFactory {
 	public static AwtFactory prototype = null;

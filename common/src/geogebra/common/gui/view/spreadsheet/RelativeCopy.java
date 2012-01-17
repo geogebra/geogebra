@@ -235,7 +235,7 @@ public class RelativeCopy {
 	 * @param cellRange
 	 * @return
 	 */
-	private boolean isPatternSource(CellRange cellRange) {
+	private static boolean isPatternSource(CellRange cellRange) {
 		// don't allow empty cells
 		if (cellRange.hasEmptyCells()) {
 			return false;

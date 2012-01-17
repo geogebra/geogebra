@@ -7,7 +7,6 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.AsynchronousCommand;
-import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.util.MaxSizeHashMap;
 import geogebra.common.main.AbstractApplication;

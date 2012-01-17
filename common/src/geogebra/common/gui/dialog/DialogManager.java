@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import geogebra.common.awt.Point;
 import geogebra.common.euclidian.AbstractEuclidianView;
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.euclidian.Hits;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
