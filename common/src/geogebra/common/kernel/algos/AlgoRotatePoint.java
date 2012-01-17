@@ -59,7 +59,7 @@ public class AlgoRotatePoint extends AlgoTransformation {
         this.angle = angle;
         this.Q = Q;
 
-        angleGeo = (GeoElement)angle.toGeoElement();
+        angleGeo = angle.toGeoElement();
         inGeo = A;
         
         outGeo = getResultTemplate(inGeo);

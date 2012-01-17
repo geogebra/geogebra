@@ -16,8 +16,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
-import java.util.ArrayList;
-
 /**
  * adapted from AlgoJoin
  * 
@@ -87,6 +85,7 @@ public class AlgoFlatten extends AlgoElement {
 		}
 	}
 	
+	@Override
 	final public String toString(){
 		return getCommandDescription();
 	}

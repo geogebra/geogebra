@@ -60,9 +60,9 @@ public class AlgoFunctionMin extends AlgoElement {
     	this.function=function;
     	this.f=function.getGeoFunction();
     	this.left=left;
-    	this.geoleft=(GeoElement)left.toGeoElement();
+		this.geoleft = left.toGeoElement();
     	this.right=right;
-    	this.georight=(GeoElement)right.toGeoElement();
+    	this.georight=right.toGeoElement();
     	
     	E=new GeoPoint2(cons);					//Put an extremum point in the user interface from the very start
     	E.setCoords(0.0,0.0,1.0);

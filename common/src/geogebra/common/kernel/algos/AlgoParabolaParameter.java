@@ -23,6 +23,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
 
 /**
@@ -71,7 +72,7 @@ public class AlgoParabolaParameter extends AlgoElement {
     // set parameter of parabola
     @Override
 	public final void compute() {        
-        if (c.type == GeoConic.CONIC_PARABOLA)
+        if (c.type == GeoConicNDConstants.CONIC_PARABOLA)
             num.setValue(c.p);
         else 
             num.setUndefined();

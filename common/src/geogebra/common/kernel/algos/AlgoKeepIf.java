@@ -91,12 +91,12 @@ public class AlgoKeepIf extends AlgoElement {
     	{
     		GeoElement geo = inputList.get(i);
     		if(geo.isGeoNumeric()){
-				if (boolFun.evaluateBoolean(((GeoNumeric)geo).getValue()) ) outputList.add(geo.copyInternal(cons));; 
+				if (boolFun.evaluateBoolean(((GeoNumeric)geo).getValue()) ) outputList.add(geo.copyInternal(cons));
 			} 
 			else {
     			ExpressionNode ex = (ExpressionNode)boolFun.getFunction().getExpression().deepCopy(kernel);
     			ex.replaceAndWrap(var, geo.evaluate());
-    			if (((MyBoolean)ex.evaluate()).getBoolean()) outputList.add(geo.copyInternal(cons));;
+    			if (((MyBoolean)ex.evaluate()).getBoolean()) outputList.add(geo.copyInternal(cons));
 			}
 				
     	}

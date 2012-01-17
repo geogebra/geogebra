@@ -188,7 +188,7 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 		// update our histogram to get class borders and y values
 		algoHistogram.update();
 		
-		if(!((GeoElement)algoHistogram.getOutput()[0]).isDefined()) {
+		if(!algoHistogram.getOutput()[0].isDefined()) {
 			outputPolyLine.setUndefined();
 			return;
 		}		

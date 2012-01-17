@@ -95,11 +95,11 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo {
 	protected void setInputOutput() {
     	if(param == null){
     		input = new GeoElement[1];
-    		input[0] = (GeoElement)path.toGeoElement();
+    		input[0] = path.toGeoElement();
     	}else {
     		input = new GeoElement[2];
-    		input[0] = (GeoElement)path.toGeoElement();
-    		input[1] = (GeoElement)param.toGeoElement();    		
+    		input[0] = path.toGeoElement();
+    		input[1] = param.toGeoElement();    		
     	}
         setOutputLength(1);
         setOutput(0, P);

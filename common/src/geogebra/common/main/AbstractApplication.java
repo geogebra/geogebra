@@ -8,8 +8,6 @@ import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
-import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.view.algebra.AlgebraView;
@@ -26,7 +24,6 @@ import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.cas.CASGenericInterface;
-import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.commands.Commands;
@@ -317,7 +314,7 @@ public abstract class AbstractApplication {
 		setCommandChanged(false);
 
 		commandDictCAS = new LowerCaseDictionary();
-		subCommandDict[Commands.TABLE_CAS].clear();
+		subCommandDict[CommandsConstants.TABLE_CAS].clear();
 		Set<String> nonCAScommands = kernel.getAlgebraProcessor().getPublicCommandSet();
 		// iterate through all available CAS commands, add them (translated if
 		// available, otherwise untranslated)
@@ -330,16 +327,16 @@ public abstract class AbstractApplication {
 				if (local != null) {
 					translateCommandTable.put(local.toLowerCase(), cmd);
 					commandDictCAS.addEntry(local);
-					subCommandDict[Commands.TABLE_CAS]
+					subCommandDict[CommandsConstants.TABLE_CAS]
 							.addEntry(local);
 				} else {
 					commandDictCAS.addEntry(cmd);
-					subCommandDict[Commands.TABLE_CAS]
+					subCommandDict[CommandsConstants.TABLE_CAS]
 							.addEntry(cmd);
 				}
 			} catch (MissingResourceException mre) {
 				commandDictCAS.addEntry(cmd);
-				subCommandDict[Commands.TABLE_CAS]
+				subCommandDict[CommandsConstants.TABLE_CAS]
 						.addEntry(cmd);
 			}
 		}

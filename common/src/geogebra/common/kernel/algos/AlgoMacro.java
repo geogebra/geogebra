@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -42,7 +41,7 @@ import java.util.HashMap;
  * @version 
  */
 public class AlgoMacro extends AlgoElement 
-implements EuclidianViewCE, AlgoMacroInterface {
+implements AlgoMacroInterface {
 
 	private Macro macro; 
 	
@@ -188,8 +187,8 @@ implements EuclidianViewCE, AlgoMacroInterface {
 		// we use an array list algoOutputAndReferencedGeos with corresponding macro and algo geos
 		int size = macroOutputAndReferencedGeos.size();
 		for (int i=0; i < size; i++) {	
-			GeoElement macroGeo = (GeoElement) macroOutputAndReferencedGeos.get(i);
-			GeoElement algoGeo = (GeoElement) algoOutputAndReferencedGeos.get(i);
+			GeoElement macroGeo = macroOutputAndReferencedGeos.get(i);
+			GeoElement algoGeo = algoOutputAndReferencedGeos.get(i);
 			if(macroGeo.isDefined()){
 				algoGeo.set(macroGeo);	
 				AlgoElement drawAlgo = macroGeo.getParentAlgorithm();
@@ -287,7 +286,7 @@ implements EuclidianViewCE, AlgoMacroInterface {
 	 */
 	private GeoElement getAlgoGeo(GeoElement macroGeo) {
 		if (macroGeo == null) return null;
-		GeoElement algoGeo = (GeoElement) macroToAlgoMap.get(macroGeo);
+		GeoElement algoGeo = macroToAlgoMap.get(macroGeo);
 		
 		// if we don't have a corresponding GeoElement in our map yet, 
 		// create a new geo and update the map
@@ -454,7 +453,7 @@ implements EuclidianViewCE, AlgoMacroInterface {
 		geoList.clear();
 		geoList.ensureCapacity(size);
 		for (int i=0; i < size; i++) {	
-			geoList.add( getAlgoGeo((GeoElement)macroList.get(i)) );				
+			geoList.add( getAlgoGeo(macroList.get(i)) );				
 		}			
 	} 
 	

@@ -78,7 +78,7 @@ public class AlgoSearchMaximum {
     	kernel=cons.getKernel();
     	GeoElement geo = kernel.lookupLabel(depstr);
     	if( (geo!=null)&& (geo.isGeoElement())){
-    		dep=(GeoElement)geo;
+			dep = geo;
     	}//if dep ok
     	geo=kernel.lookupLabel(indepstr);
     	if( (geo!=null) && (geo.isGeoNumeric()) ){

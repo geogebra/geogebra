@@ -56,8 +56,8 @@ public class AlgoIntegralFunctions extends AlgoElement  implements AlgoDrawInfor
 		this.a = a;
 		this.b = b;
 		this.evaluate = evaluate;
-		ageo = (GeoElement)a.toGeoElement();		
-		bgeo = (GeoElement)b.toGeoElement();
+		ageo = a.toGeoElement();		
+		bgeo = b.toGeoElement();
 		
 		
 		// helper algorithms for integral f and g		

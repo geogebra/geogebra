@@ -180,9 +180,9 @@ public class AlgoFrequency extends AlgoElement {
 				value.add(text);
 				if(classList == null) {
 					if( doCumulative) {
-						frequency.add(new GeoNumeric(cons,f.getCumFreq((Comparable<?>)s )));
+						frequency.add(new GeoNumeric(cons,f.getCumFreq(s )));
 					} else {
-						frequency.add(new GeoNumeric(cons,f.getCount((Comparable<?>)s )));
+						frequency.add(new GeoNumeric(cons,f.getCount(s )));
 					}
 				}
 			}
@@ -204,9 +204,9 @@ public class AlgoFrequency extends AlgoElement {
 
 				if(classList == null)
 					if( doCumulative)
-						frequency.add(new GeoNumeric(cons,f.getCumFreq((Comparable<?>)n )));
+						frequency.add(new GeoNumeric(cons,f.getCumFreq(n )));
 					else
-						frequency.add(new GeoNumeric(cons,f.getCount((Comparable<?>)n )));
+						frequency.add(new GeoNumeric(cons,f.getCount(n )));
 			}
 		} 
 
@@ -245,12 +245,12 @@ public class AlgoFrequency extends AlgoElement {
 					lowerClassBound = swap;
 					increasing = false;
 				}
-					classFreq = f.getCumFreq((Comparable<?>)upperClassBound) 
-					- f.getCumFreq((Comparable<?>)lowerClassBound) 
-					+ f.getCount((Comparable<?>)lowerClassBound);
+					classFreq = f.getCumFreq(upperClassBound) 
+					- f.getCumFreq(lowerClassBound) 
+					+ f.getCount(lowerClassBound);
 				if((i!=length -1 && increasing) ||
 					(i!=1 && !increasing))
-					classFreq -= f.getCount((Comparable<?>)upperClassBound);
+					classFreq -= f.getCount(upperClassBound);
 				
 
 			//	System.out.println(" =================================");

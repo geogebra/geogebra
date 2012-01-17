@@ -24,6 +24,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec2D;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
 
 /**
@@ -83,7 +84,7 @@ public class AlgoDirectrix extends AlgoElement {
     @Override
 	public final void compute() {
         // only parabola has directrix
-        if (c.type == GeoConic.CONIC_PARABOLA) {
+        if (c.type == GeoConicNDConstants.CONIC_PARABOLA) {
             // directrix has direction of second eigenvector
             // through point (b - p/2* eigenvec1)        
             directrix.x = -eigenvec[1].y;

@@ -38,9 +38,9 @@ public class AlgoIterationList extends AlgoElement {
         super(cons);
         this.f = f;
         this.startValue = startValue;
-        startValueGeo = (GeoElement)startValue.toGeoElement();
+        startValueGeo = startValue.toGeoElement();
         this.n = n;
-        nGeo = (GeoElement)n.toGeoElement();
+        nGeo = n.toGeoElement();
                
         list = new GeoList(cons);
 

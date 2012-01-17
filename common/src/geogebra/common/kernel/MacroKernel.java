@@ -133,6 +133,7 @@ public class MacroKernel extends Kernel implements MacroKernelInterface {
 		return parentKernel.newMyXMLHandler(this, cons);
 	}
 
+	@Override
 	public AlgebraProcessor newAlgebraProcessor(Kernel kernel) {
 		return parentKernel.newAlgebraProcessor(kernel);
 	}

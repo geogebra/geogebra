@@ -105,10 +105,10 @@ public class MyMath2 {
 
 		// Michael Borcherds 2007-10-15 BEGIN added case for x<0 otherwise no
 		// results in 3rd quadrant
-		if (x >= 0)
+		if (x >= 0) {
 			return Math.exp(Gamma.logGamma(x));
-		else
-			return -Math.PI / (x * Math.exp(Gamma.logGamma(-x)) * Math.sin(Math.PI * x));
+		}
+		return -Math.PI / (x * Math.exp(Gamma.logGamma(-x)) * Math.sin(Math.PI * x));
 		// Michael Borcherds 2007-10-15 END
 	}
 

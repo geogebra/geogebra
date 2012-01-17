@@ -22,6 +22,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
 
 
@@ -70,7 +71,7 @@ public class AlgoRadius extends AlgoElement {
     // set parameter of parabola
     @Override
 	public final void compute() {        
-        if (c.type == GeoConic.CONIC_CIRCLE) {
+        if (c.type == GeoConicNDConstants.CONIC_CIRCLE) {
             num.setValue(c.halfAxes[0]);
         } else {
             num.setUndefined();

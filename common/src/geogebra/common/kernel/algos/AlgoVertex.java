@@ -23,6 +23,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec2D;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
 
 /**
@@ -88,8 +89,8 @@ public class AlgoVertex extends AlgoElement {
     @Override
 	public final void compute() {  
         switch (c.type) {
-            case GeoConic.CONIC_CIRCLE:                                      
-            case GeoConic.CONIC_ELLIPSE:
+            case GeoConicNDConstants.CONIC_CIRCLE:                                      
+            case GeoConicNDConstants.CONIC_ELLIPSE:
                 temp1 = c.halfAxes[0] * eigenvec[0].x;
                 temp2 = c.halfAxes[0] * eigenvec[0].y;
                 vertex[0].setCoords(b.x - temp1, b.y - temp2, 1.0);
@@ -101,7 +102,7 @@ public class AlgoVertex extends AlgoElement {
                 vertex[3].setCoords( b.x + temp1, b.y + temp2, 1.0);   
                 break;
                 
-            case GeoConic.CONIC_HYPERBOLA:
+            case GeoConicNDConstants.CONIC_HYPERBOLA:
                 temp1 = c.halfAxes[0] * eigenvec[0].x;
                 temp2 = c.halfAxes[0] * eigenvec[0].y;
                 vertex[0].setCoords(b.x - temp1, b.y - temp2, 1.0d);
@@ -111,9 +112,9 @@ public class AlgoVertex extends AlgoElement {
                 vertex[3].setUndefined();                
                 break;
                 
-            case GeoConic.CONIC_PARABOLA:
-            case GeoConic.CONIC_PARALLEL_LINES:
-            case GeoConic.CONIC_DOUBLE_LINE:
+            case GeoConicNDConstants.CONIC_PARABOLA:
+            case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+            case GeoConicNDConstants.CONIC_DOUBLE_LINE:
                 vertex[0].setCoords(b.x, b.y, 1.0);
 
                 // other vertex undefined

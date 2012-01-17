@@ -14,6 +14,8 @@ import org.apache.commons.math.linear.RealMatrix;
 
 public class GgbMat extends Array2DRowRealMatrix{
 
+	private static final long serialVersionUID = 1L;
+	
 	private boolean isUndefined = false;
 
 	public GgbMat(GeoList inputList) {

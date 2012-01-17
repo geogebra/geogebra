@@ -40,7 +40,7 @@ public class AlgoTextElement extends AlgoElement {
 		super(cons);
 		this.text = text;
 		this.num = num;
-		numGeo = (GeoElement)num.toGeoElement();
+		numGeo = num.toGeoElement();
 
 		textOut = new GeoText(cons);
 		textOut.setIsTextCommand(true);

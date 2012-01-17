@@ -71,7 +71,7 @@ public class AlgoDilate extends AlgoTransformation {
 		this.S = S;
 
 		inGeo = A;
-		rgeo = (GeoElement) r.toGeoElement();
+		rgeo = r.toGeoElement();
 		if (A instanceof GeoPolygon || A instanceof GeoPolyLine
 				|| A.isLimitedPath()) {
 			outGeo = inGeo.copyInternal(cons);

@@ -16,14 +16,12 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
 
-public class AlgoDrawingPadCorner extends AlgoElement implements
-		EuclidianViewCE {
+public class AlgoDrawingPadCorner extends AlgoElement {
 
 	private GeoPoint2 corner; // output
 	private NumberValue number, evNum;
@@ -54,11 +52,11 @@ public class AlgoDrawingPadCorner extends AlgoElement implements
 	protected void setInputOutput() {
 		if (evNum == null) {
 			input = new GeoElement[1];
-			input[0] = (GeoElement)number.toGeoElement();
+			input[0] = number.toGeoElement();
 		} else {
 			input = new GeoElement[2];
-			input[0] = (GeoElement)evNum.toGeoElement();
-			input[1] = (GeoElement)number.toGeoElement();
+			input[0] = evNum.toGeoElement();
+			input[1] = number.toGeoElement();
 
 		}
 
@@ -87,8 +85,8 @@ public class AlgoDrawingPadCorner extends AlgoElement implements
 			if (!app.hasEuclidianView2()) {
 				corner.setUndefined();
 				return;
-			} else
-				ev = app.getEuclidianView2();
+			} 
+			ev = app.getEuclidianView2();
 		}
 
 		double width = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1);

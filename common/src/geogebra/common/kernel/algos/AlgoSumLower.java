@@ -42,7 +42,7 @@ public class AlgoSumLower extends AlgoFunctionAreaSums {
 	private AlgoSumLower( 
 			   NumberValue a, NumberValue b, NumberValue n,double[]vals,double[]borders) {
 		super(a, b, n, AlgoFunctionAreaSums.TYPE_LOWERSUM,vals,borders);		
-		((Construction) cons).registerEuclidianViewCE(this);
+		cons.registerEuclidianViewCE(this);
 	}
 	
 	public AlgoSumLower copy() {

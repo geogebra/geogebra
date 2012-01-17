@@ -13,14 +13,12 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint2;
 
-public class AlgoImageCorner extends AlgoElement 
-implements EuclidianViewCE {
+public class AlgoImageCorner extends AlgoElement {
     
     private GeoImage img;  // input
     private GeoPoint2 corner;     // output    
@@ -47,7 +45,7 @@ implements EuclidianViewCE {
 	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = img;        
-        input[1] = (GeoElement)number.toGeoElement();
+        input[1] = number.toGeoElement();
               
         super.setOutputLength(1);
         super.setOutput(0, corner);

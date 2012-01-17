@@ -13,12 +13,10 @@ the Free Software Foundation.
 package geogebra.common.kernel;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -543,7 +541,7 @@ public class ConstructionDefaults {
 		// all object types that are not specifically supported
 		// should get the default values of a line
 		//int type = DEFAULT_LINE;
-		GeoElement geo = (GeoElement)geoI;
+		GeoElement geo = geoI;
 		int type = getDefaultType(geo);
 			
 		

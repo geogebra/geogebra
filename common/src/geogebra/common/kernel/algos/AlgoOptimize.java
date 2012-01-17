@@ -88,7 +88,7 @@ public abstract class AlgoOptimize extends AlgoElement{
 	/** Implementing AlgoElement */
     @Override
 	public final void compute() {
-    	double old=0.0d,res=0.0;;
+    	double old=0.0d,res=0.0;
 
     	if(isrunning){ return; }   		//do nothing return as fast as possible		
 

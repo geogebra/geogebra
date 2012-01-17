@@ -55,8 +55,8 @@ public abstract class AlgoTwoNumFunction extends AlgoElement {
     @Override
 	protected void setInputOutput() {
         input =  new GeoElement[2];
-        input[0] = (GeoElement)a.toGeoElement();
-        input[1] = (GeoElement)b.toGeoElement();
+        input[0] = a.toGeoElement();
+        input[1] = b.toGeoElement();
         
         super.setOutputLength(1);
         super.setOutput(0, num);

@@ -21,6 +21,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
 /**
  *
@@ -68,16 +69,16 @@ public class AlgoEccentricity extends AlgoElement {
     @Override
 	public final void compute() {
         switch (c.type) {
-        case GeoConic.CONIC_CIRCLE :
+        case GeoConicNDConstants.CONIC_CIRCLE :
             num.setValue(0.0);
             break;
 
-        case GeoConic.CONIC_PARABOLA :
+        case GeoConicNDConstants.CONIC_PARABOLA :
             num.setValue(1.0);
             break;
 
-            case GeoConic.CONIC_HYPERBOLA :
-            case GeoConic.CONIC_ELLIPSE :
+            case GeoConicNDConstants.CONIC_HYPERBOLA :
+            case GeoConicNDConstants.CONIC_ELLIPSE :
                 num.setValue(c.eccentricity);
                 break;
 

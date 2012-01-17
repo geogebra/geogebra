@@ -87,7 +87,7 @@ public class AlgoIndexOf extends AlgoElement {
         	input = new GeoElement[3];
             input[0] = needle;        	
             input[1] = hayStack;
-            input[2] = (GeoElement)start.toGeoElement();
+            input[2] = start.toGeoElement();
         }
 
         setOutputLength(1);

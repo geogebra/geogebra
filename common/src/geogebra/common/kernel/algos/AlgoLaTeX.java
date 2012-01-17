@@ -146,6 +146,7 @@ public class AlgoLaTeX extends AlgoElement {
     	kernel.setCASPrintForm(tempCASPrintForm);*/
     }         
     
+	@Override
 	public boolean isLaTeXTextCommand() {
 		return true;
 	}

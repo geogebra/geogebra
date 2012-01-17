@@ -34,12 +34,13 @@ import java.util.ArrayList;
  */
 public class AlgoPolygonRegular extends AlgoElement implements AlgoPolygonRegularInterface{
 
-	private final GeoPoint2 A, B;  // input
+	final GeoPoint2 A;  // input
+	final GeoPoint2 B;
 	private NumberValue num; // input
 	
 	private int numOld = 2;
 	
-	private OutputHandler<GeoPolygon> outputPolygon;
+	OutputHandler<GeoPolygon> outputPolygon;
 	private OutputHandler<GeoPoint2> outputPoints;
 	private OutputHandler<GeoSegment> outputSegments;
    
@@ -47,8 +48,8 @@ public class AlgoPolygonRegular extends AlgoElement implements AlgoPolygonRegula
     private MyDouble rotAngle;
     
     private boolean labelPointsAndSegments;
-    private boolean showNewSegmentsLabels;
-    private boolean showNewPointsLabels;
+    boolean showNewSegmentsLabels;
+    boolean showNewPointsLabels;
     private boolean labelsNeedIniting;
     
     /**
@@ -194,18 +195,18 @@ public class AlgoPolygonRegular extends AlgoElement implements AlgoPolygonRegula
     	input = new GeoElement[3];
 		input[0] = A;
 		input[1] = B;
-		input[2] = (GeoElement)num.toGeoElement();    	
+		input[2] = num.toGeoElement();    	
 		// set dependencies
         for (int i = 0; i < input.length; i++) {
             input[i].addAlgorithm(this);
         }
-        ((Construction) cons).addToAlgorithmList(this);
+        cons.addToAlgorithmList(this);
 
         // setOutput(); done in compute
 
         // parent of output
         getPoly().setParentAlgorithm(this);       
-        ((Construction) cons).addToAlgorithmList(this); 
+        cons.addToAlgorithmList(this); 
     }        
 
  
@@ -215,7 +216,8 @@ public class AlgoPolygonRegular extends AlgoElement implements AlgoPolygonRegula
     /**
      * Computes points of regular polygon
      */
-    public final void compute() {
+    @Override
+	public final void compute() {
     	
        	// check points and number
     	double nd = num.getDouble();
@@ -352,7 +354,7 @@ public class AlgoPolygonRegular extends AlgoElement implements AlgoPolygonRegula
     	// objects further up (e.g. polygon) the tree
 		ArrayList<AlgoElement> algoList = oldPoint.getAlgorithmList();
 		for (int k=0; k < algoList.size(); k++) {        			
-			AlgoElement algo = (AlgoElement) algoList.get(k);	
+			AlgoElement algo = algoList.get(k);	
 			for (int j=0; j < input.length; j++)
 				input[j].removeFromUpdateSets(algo);			
 		}
@@ -364,7 +366,7 @@ public class AlgoPolygonRegular extends AlgoElement implements AlgoPolygonRegula
 		// to make sure we don't remove the polygon as well		
 		GeoPolygon poly = getPoly();
 		for (int k=0; k < algoList.size(); k++) {        			
-			AlgoElement algo = (AlgoElement) algoList.get(k);	
+			AlgoElement algo = algoList.get(k);	
 			// make sure we don't remove the polygon as well
 			if (algo instanceof AlgoJoinPointsSegment &&
 				((AlgoJoinPointsSegment) algo).getPoly() == poly) 

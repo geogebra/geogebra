@@ -52,8 +52,8 @@ public class AlgoTaylorSeries extends AlgoElement {
 		this.a = a;
 		this.n = n;
 
-		ageo = (GeoElement)a.toGeoElement();
-		ngeo = (GeoElement)n.toGeoElement();
+		ageo = a.toGeoElement();
+		ngeo = n.toGeoElement();
 
 		g = new GeoFunction(cons); // output
 		setInputOutput(); // for AlgoElement

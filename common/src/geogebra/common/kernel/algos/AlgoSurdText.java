@@ -528,6 +528,7 @@ public class AlgoSurdText extends AlgoElement {
 		return ret;
 	}
 
+	@Override
 	public boolean isLaTeXTextCommand() {
 		return true;
 	}

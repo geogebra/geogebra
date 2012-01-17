@@ -94,7 +94,7 @@ public class AlgoIncircle extends AlgoElement {
     }
     
     public GeoConicND getCircle() {
-        return (GeoConicND) circle;
+        return circle;
     }
     public GeoPoint2 getA() {
         return (GeoPoint2) A;

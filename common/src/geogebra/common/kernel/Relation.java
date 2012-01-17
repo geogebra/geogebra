@@ -119,8 +119,8 @@ public class Relation extends java.lang.Object {
 	 * description of the relation between two numbers a, b (equal, unequal)
 	 */
 	final private String relation(NumberValue a, NumberValue b) {
-		String str = equalityString((GeoElement) a.toGeoElement(),
-				(GeoElement) b.toGeoElement(),
+		String str = equalityString(a.toGeoElement(),
+				b.toGeoElement(),
 				Kernel.isEqual(a.getDouble(), b.getDouble()));
 		return str;
 	}
@@ -182,7 +182,7 @@ public class Relation extends java.lang.Object {
 	 * incident)
 	 */
 	final private String relation(GeoPoint2 A, Path path) {
-		return incidenceString(A, (GeoElement) path.toGeoElement(),
+		return incidenceString(A, path.toGeoElement(),
 				path.isOnPath(A, Kernel.STANDARD_PRECISION));
 	}
 

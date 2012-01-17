@@ -15,14 +15,12 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoText;
 
-public class AlgoTextCorner extends AlgoElement 
-implements EuclidianViewCE {
+public class AlgoTextCorner extends AlgoElement {
 
 	private GeoText txt;  // input
     private GeoPoint2 corner;     // output    
@@ -57,7 +55,7 @@ implements EuclidianViewCE {
 	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = txt;        
-        input[1] = (GeoElement)number.toGeoElement();
+        input[1] = number.toGeoElement();
         
         super.setOutputLength(1);
         super.setOutput(0, corner);

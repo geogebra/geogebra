@@ -4,7 +4,7 @@ package geogebra.common.util;
  * A class that encapsulates a value and its error. Primarily for use with
  * ScientificFormat
  * 
- * @see ScientificFormat
+ * @see ScientificFormatAdapter
  * 
  * @author Tony Johnson
  * @author Mark Donszelmann

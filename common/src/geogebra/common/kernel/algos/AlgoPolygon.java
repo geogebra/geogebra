@@ -202,7 +202,7 @@ public class AlgoPolygon extends AlgoElement {
     	
     	// parent of output
         poly.setParentAlgorithm(this);       
-        ((Construction) cons).addToAlgorithmList(this); 
+        cons.addToAlgorithmList(this); 
     }    
         
     private void setOutput() {

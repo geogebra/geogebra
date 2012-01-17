@@ -92,7 +92,7 @@ public class AlgoHistogram extends AlgoFunctionAreaSums {
 			return new AlgoHistogram((GeoBoolean)getIsCumulative().copy(), 
 				(GeoBoolean)getUseDensityGeo().copy(),(GeoNumeric)getDensityGeo().copy(),
 				Cloner.clone(getValues()),Cloner.clone(getLeftBorder()),N);
-		return new AlgoHistogram((Construction)kernel.getConstruction(), Cloner.clone(getValues()),Cloner.clone(getLeftBorder()),N);
+		return new AlgoHistogram(kernel.getConstruction(), Cloner.clone(getValues()),Cloner.clone(getLeftBorder()),N);
 	}
 	
 }

@@ -403,7 +403,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * ggbApplet.getCommandString(objName); ggbApplet.getValueString(objName);
 	 */
 
-	final String getCommandString(Algos classname) {
+	final static String getCommandString(Algos classname) {
 		// init rbalgo2command if needed
 		// for translation of Algo-classname to command name
 
@@ -1479,7 +1479,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * remove all outputs from algebra view
 	 */
 	public void removeOutputFromAlgebraView() {
-		View av = (View) app.getAlgebraView();
+		View av = app.getAlgebraView();
 		if (av != null) {
 			for (int i = 0; i < getOutputLength(); i++) {
 				av.remove(getOutput(i));

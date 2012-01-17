@@ -23,6 +23,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec2D;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
 /**
  * 
@@ -92,20 +93,20 @@ public class AlgoFocus extends AlgoElement {
 	@Override
 	public final void compute() {
 		switch (c.type) {
-		case GeoConic.CONIC_CIRCLE:
+		case GeoConicNDConstants.CONIC_CIRCLE:
 			focus[0].setCoords(b.x, b.y, 1.0);
 			focus[1].setCoords(b.x, b.y, 1.0);
 			break;
 
-		case GeoConic.CONIC_ELLIPSE:
-		case GeoConic.CONIC_HYPERBOLA:
+		case GeoConicNDConstants.CONIC_ELLIPSE:
+		case GeoConicNDConstants.CONIC_HYPERBOLA:
 			temp1 = c.linearEccentricity * eigenvec[0].x;
 			temp2 = c.linearEccentricity * eigenvec[0].y;
 			focus[0].setCoords(b.x - temp1, b.y - temp2, 1.0d);
 			focus[1].setCoords(b.x + temp1, b.y + temp2, 1.0d);
 			break;
 
-		case GeoConic.CONIC_PARABOLA:
+		case GeoConicNDConstants.CONIC_PARABOLA:
 			temp1 = c.p / 2;
 			focus[0].setCoords(b.x + temp1 * eigenvec[0].x, b.y + temp1
 					* eigenvec[0].y, 1.0);

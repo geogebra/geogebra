@@ -20,11 +20,12 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
 
 public class AlgoSolveODE extends AlgoElement {
 
-		private FunctionalNVar f0, f1; // input
+		private FunctionalNVar f0; // input
+		FunctionalNVar f1;
 		private GeoNumeric x, y, end, step; // input
 	    //private GeoList g; // output        
 	    private GeoLocus locus; // output   
-	    private ArrayList<MyPoint> al;
+	    ArrayList<MyPoint> al;
 	    
 	    public AlgoSolveODE(Construction cons, String label, FunctionalNVar f0, FunctionalNVar f1, GeoNumeric x, GeoNumeric y, GeoNumeric end, GeoNumeric step) {
 	    	super(cons);
@@ -130,7 +131,7 @@ public class AlgoSolveODE extends AlgoElement {
 	    StepHandler stepHandler = new StepHandler() {
 	        public void reset() {}
 	        
-	        Construction cons = (Construction) kernel.getConstruction();
+	        Construction cons = kernel.getConstruction();
 	                
 	        public boolean requiresDenseOutput() { return false; }
 	                

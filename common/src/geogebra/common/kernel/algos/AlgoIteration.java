@@ -37,9 +37,9 @@ public class AlgoIteration extends AlgoElement {
         super(cons);
         this.f = f;
         this.startValue = startValue;
-        startValueGeo = (GeoElement)startValue.toGeoElement();
+        startValueGeo = startValue.toGeoElement();
         this.n = n;
-        nGeo = (GeoElement)n.toGeoElement();
+        nGeo = n.toGeoElement();
                
         result = new GeoNumeric(cons);
 

@@ -50,7 +50,7 @@ public class AlgoPrimeFactors extends AlgoElement {
     @Override
 	protected void setInputOutput(){
         input = new GeoElement[1];
-        input[0] = (GeoElement)num.toGeoElement();
+        input[0] = num.toGeoElement();
 
         super.setOutputLength(1);
         super.setOutput(0, outputList);

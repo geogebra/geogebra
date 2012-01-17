@@ -218,7 +218,7 @@ public class PathNormalizer implements Path {
 	}
 
 	public GeoElement toGeoElement() {
-		return (GeoElement) parentPath.toGeoElement();
+		return parentPath.toGeoElement();
 	}
 
 	/*

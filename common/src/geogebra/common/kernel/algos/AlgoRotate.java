@@ -55,7 +55,7 @@ public class AlgoRotate extends AlgoTransformation {
         super(cons);        
         this.angle = angle;
 
-        angleGeo = (GeoElement)angle.toGeoElement();
+        angleGeo = angle.toGeoElement();
         inGeo = A;
         
         
@@ -85,7 +85,7 @@ public class AlgoRotate extends AlgoTransformation {
 	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = inGeo;
-        input[1] = (GeoElement)angle.toGeoElement();
+        input[1] = angle.toGeoElement();
 
         setOutputLength(1);
         setOutput(0,outGeo);

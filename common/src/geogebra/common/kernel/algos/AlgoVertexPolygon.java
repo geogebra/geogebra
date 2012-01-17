@@ -105,7 +105,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 	public void setInputOutput() {
 		if(index!=null){
 			input = new GeoElement[2];
-			input[1] = (GeoElement)index.toGeoElement();			
+			input[1] = index.toGeoElement();			
 			setOutputLength(1);
 			setOutput(0,oneVertex);
 		}else{

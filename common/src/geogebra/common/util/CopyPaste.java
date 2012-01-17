@@ -101,7 +101,7 @@ public class CopyPaste {
 
 		ConstructionElement geo;
 		for (int i = geos.size() - 1; i >= 0; i--) {
-			geo = (ConstructionElement) geos.get(i);
+			geo = geos.get(i);
 			if (geo.getAllIndependentPredecessors().contains(
 					app.getKernel().getXAxis())) {
 				geos.remove(i);
@@ -325,15 +325,15 @@ public class CopyPaste {
 			geoal = geo.getAlgorithmList();
 
 			for (int j = 0; j < geoal.size(); j++) {
-				ale = (AlgoElement) geoal.get(j);
+				ale = geoal.get(j);
 
 				if (!ale.getClassName().equals(Algos.AlgoMacro)) {
 
 					ac = new ArrayList<ConstructionElement>();
 					ac.addAll(Arrays.asList(ale.getInput()));
 					if (conels.containsAll(ac)
-							&& !conels.contains((ConstructionElement) ale)) {
-						conels.add((ConstructionElement) ale);
+							&& !conels.contains(ale)) {
+						conels.add(ale);
 						geos = ale.getOutput();
 						for (int k = 0; k < geos.length; k++) {
 							if (!ret.contains(geos[k])
@@ -397,7 +397,7 @@ public class CopyPaste {
 		ConstructionElement geo;
 		String label;
 		for (int i = 0; i < conels.size(); i++) {
-			geo = (ConstructionElement) conels.get(i);
+			geo = conels.get(i);
 			if (geo.isGeoElement()) {
 				label = ((GeoElement) geo).getLabelSimple();
 				if (label != null) {
@@ -444,7 +444,7 @@ public class CopyPaste {
 		ConstructionElement geo;
 		String label;
 		for (int i = 0; i < conels.size(); i++) {
-			geo = (ConstructionElement) conels.get(i);
+			geo = conels.get(i);
 			if (geo.isGeoElement()) {
 				label = ((GeoElement) geo).getLabelSimple();
 				if (label != null && label.length() >= labelPrefix.length()) {

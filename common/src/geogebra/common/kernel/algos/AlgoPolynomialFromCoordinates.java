@@ -298,8 +298,8 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
         BigDecimal phi,ff,b;
         for (i=0;i<n;i++)
         {
-        	x[i]=new BigDecimal((double)xx[i]);
-        	y[i]=new BigDecimal((double)yy[i]);
+        	x[i]=new BigDecimal(xx[i]);
+        	y[i]=new BigDecimal(yy[i]);
         }
         //double s[] = new double[n];
     for (i=0;i<n;i++) s[i]=cof[i]=new BigDecimal(0.0d);

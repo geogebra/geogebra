@@ -119,7 +119,7 @@ public class AlgoSort extends AlgoElement {
         
         Iterator<GeoElement> iterator = sortedSet.iterator();
         while (iterator.hasNext()) {
-     	   outputList.add((GeoElement)(iterator.next()));
+     	   outputList.add((iterator.next()));
         }      
     }
   

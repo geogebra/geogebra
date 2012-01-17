@@ -262,7 +262,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
 		if (pointsOnConic != null) {
 			//get a point from pointsOnConic to see if it is on g.
 	    	for (int i=0; i < pointsOnConic.size(); ++i ) {
-	    		GeoPoint2 p = (GeoPoint2) pointsOnConic.get(i);	 
+	    		GeoPoint2 p = pointsOnConic.get(i);	 
 	    		if (p.isLabelSet()) { //an existing intersection should be a labeled one
 	    			if (p.getIncidenceList()!=null && 
 	    				p.getIncidenceList().contains(g)) {
@@ -291,7 +291,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
 	    	if (pointsOnLine != null) {
 	    		//get a point from pointsOnLine to see if it is on c.
 	    		for (int i=0; i < pointsOnLine.size(); ++i) {
-	    			GeoPoint2 p = (GeoPoint2) pointsOnLine.get(i);
+	    			GeoPoint2 p = pointsOnLine.get(i);
 	    			if (p.isLabelSet()) { //an existing intersection should be a labeled one
 	    				if (p.getIncidenceList()!=null && 
 	    					p.getIncidenceList().contains(c)) {
@@ -548,7 +548,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
 	            epsilon *= 10.0;
 	            Kernel.setEpsilon(epsilon);
 	        }
-	        kernel.resetPrecision();                
+	        Kernel.resetPrecision();                
     	}
     	
         // intersection failed

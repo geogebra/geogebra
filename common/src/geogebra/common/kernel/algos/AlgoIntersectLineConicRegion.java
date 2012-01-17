@@ -320,6 +320,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
         GeoElement.setLabels(labelPrefixForLines,outputLines,kernel.getGeoElementSpreadsheet());
 	}
 
+	@Override
 	protected void refreshOutput() {
         super.setOutputLength(numberOfPoints + numberOfOutputLines);
         outputPoints =  new GeoPoint2[numberOfPoints];

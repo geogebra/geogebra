@@ -61,7 +61,7 @@ public class AlgoPointInRegion extends AlgoElement {
     @Override
 	protected void setInputOutput() {
         input = new GeoElement[1];
-        input[0] = (GeoElement)region.toGeoElement();
+        input[0] = region.toGeoElement();
 
         setOutputLength(1);
         setOutput(0,P);

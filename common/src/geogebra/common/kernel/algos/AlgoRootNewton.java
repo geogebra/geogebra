@@ -51,7 +51,7 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
         super(cons);
         this.f = f;
         this.start = start;
-        startGeo = (GeoElement)start.toGeoElement();
+        startGeo = start.toGeoElement();
 
         // output
         rootPoint = new GeoPoint2(cons);

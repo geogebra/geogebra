@@ -232,13 +232,13 @@ public class AlgoMirror extends AlgoTransformation {
 		if((geo instanceof GeoFunction) && mirror != mirrorPoint)
 			return new GeoCurveCartesian(cons);
 		if(geo.isLimitedPath() && mirror == mirrorConic)
-			return (GeoElement)kernel.newGeoConicPart(cons, GeoConicPart.CONIC_PART_ARC);
+			return kernel.newGeoConicPart(cons, GeoConicPart.CONIC_PART_ARC);
 		if (mirror instanceof GeoConic && geo instanceof GeoLine){
         	return new GeoConic(cons);        	
         }
         if (mirror instanceof GeoConic && geo instanceof GeoConic && 
         		(!((GeoConic)geo).isCircle()||!((GeoConic)geo).keepsType()))
-        	return (GeoElement)kernel.newGeoImplicitPoly(cons);
+        	return kernel.newGeoImplicitPoly(cons);
 		if(geo instanceof GeoPolyLineInterface  || (geo.isLimitedPath() && mirror!=mirrorConic))
 			return geo.copyInternal(cons);		
 		if(geo.isGeoList())        	

@@ -123,7 +123,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	}
 
 	public AlgoRootsPolynomial(GeoFunction f) {
-		super((Construction)f.cons);
+		super(f.cons);
 		this.f = f;
 
 		tempPoint = new GeoPoint2(cons);
@@ -131,7 +131,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		// set mode
 		mode = MULTIPLE_ROOTS;
 
-		eqnSolver = cons.getKernel().getEquationSolver();;
+		eqnSolver = cons.getKernel().getEquationSolver();
 
 		// make sure root points is not null
 		int number = labels == null ? 1 : Math.max(1, labels.length);
@@ -406,7 +406,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			// compute the roots of every single factor
 			Iterator<PolyFunction> it = factorList.iterator();
 			while (it.hasNext()) {
-				PolyFunction polyFun = (PolyFunction) it.next();
+				PolyFunction polyFun = it.next();
 
 				// update the current coefficients of polyFun
 				// (this is needed for SymbolicPolyFunction objects)

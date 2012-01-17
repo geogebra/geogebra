@@ -91,7 +91,7 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 			
 			GeoImplicitPoly iPoly = new GeoImplicitPoly(cons);
 			c.toGeoImplicitPoly(iPoly);
-			GeoFunction paramEquation = new GeoFunction((Construction) cons, iPoly, null, h);
+			GeoFunction paramEquation = new GeoFunction(cons, iPoly, null, h);
 			
 			double nroots = 0;
 			double res[] = new double[2];
@@ -111,11 +111,11 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 					res[0] = res[1];
 					res[1] = temp;
 				}
-				algo = new AlgoRoots((Construction)cons, paramEquation, 
+				algo = new AlgoRoots(cons, paramEquation, 
 						new GeoNumeric(cons, Math.max(res[1]-Kernel.MIN_PRECISION,h.getMinParameter())),
 						new GeoNumeric(cons, Math.min(res[0]+Kernel.MIN_PRECISION,h.getMaxParameter())));
 			} else { 
-				algo = new AlgoRoots((Construction)cons, paramEquation, 
+				algo = new AlgoRoots(cons, paramEquation, 
 						new GeoNumeric(cons, h.getMinParameter()),
 						new GeoNumeric(cons, h.getMaxParameter()));
 			}

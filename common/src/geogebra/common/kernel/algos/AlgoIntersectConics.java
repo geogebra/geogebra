@@ -283,7 +283,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
 		if (pointsOnConic != null) {
 			int size = pointsOnConic.size();
 			for (int i=0; i < size; i++) {
-				GeoPoint2 p = (GeoPoint2) pointsOnConic.get(i);
+				GeoPoint2 p = pointsOnConic.get(i);
 				//if (B.isOnPath(p, AbstractKernel.MIN_PRECISION)) {
 				if (p.isLabelSet() && 
 						p.getIncidenceList()!=null && 
@@ -512,7 +512,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
             // try it with lower precision     
             epsilon *= 10.0;                        
         }            
-        kernel.resetPrecision();
+        Kernel.resetPrecision();
         
         // did not find intersections
         if (!ok) {

@@ -85,12 +85,12 @@ public class AlgoSequence extends AlgoElement {
         this.expression = expression;
         this.var = var;
         this.var_from = var_from;
-        var_from_geo = (GeoElement)var_from.toGeoElement();
+        var_from_geo = var_from.toGeoElement();
         this.var_to = var_to;
-        var_to_geo = (GeoElement)var_to.toGeoElement(); 
+        var_to_geo = var_to.toGeoElement(); 
         this.var_step = var_step;          
         if (var_step != null)
-        	var_step_geo = (GeoElement)var_step.toGeoElement();
+        	var_step_geo = var_step.toGeoElement();
         	
     	expressionParentAlgo = expression.getParentAlgorithm();
     	expIsFunctionOrCurve = expression.isGeoFunction() || expression.isGeoCurveCartesian() 
@@ -118,7 +118,7 @@ public class AlgoSequence extends AlgoElement {
 		super(cons);
 		isSimple = true;
 		var_to = upTo;
-		var_to_geo = (GeoElement)var_to.toGeoElement(); 
+		var_to_geo = var_to.toGeoElement(); 
 		list = new GeoList(cons);       
 		setInputOutput();     
         compute();

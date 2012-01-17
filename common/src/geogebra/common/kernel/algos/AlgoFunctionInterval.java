@@ -45,8 +45,8 @@ public class AlgoFunctionInterval extends AlgoElement {
         this.f = f;
         this.a = a;
         this.b = b;         
-        ageo = (GeoElement)a.toGeoElement();
-        bgeo = (GeoElement)b.toGeoElement();
+        ageo = a.toGeoElement();
+        bgeo = b.toGeoElement();
             
         //g = new GeoFunction(cons); // output
         //g = new GeoFunction(cons); // output

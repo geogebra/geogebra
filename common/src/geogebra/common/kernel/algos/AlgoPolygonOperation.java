@@ -107,7 +107,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		for (int i = 0; i < input.length; i++) {
 			input[i].addAlgorithm(this);
 		}
-		((Construction) cons).addToAlgorithmList(this);
+		cons.addToAlgorithmList(this);
 
 		// setOutput(); done in compute
 		// there we just set something to be sure that getOutput doesn't return null.
@@ -115,7 +115,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		setOutput(0,poly);
 		// parent of output
 		poly.setParentAlgorithm(this);
-		((Construction) cons).addToAlgorithmList(this);
+		cons.addToAlgorithmList(this);
 
 	}
 
@@ -226,8 +226,8 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 				// Sometimes the Path iterator gives two almost identical points and 
 				// we only want one of them. 
 				// TODO: Why does this happen???
-				if ((double) Math.abs(oldCoords[0] - coords[0]) > epsilon
-						|| (double) Math.abs(oldCoords[1] - coords[1]) > epsilon) {
+				if (Math.abs(oldCoords[0] - coords[0]) > epsilon
+						|| Math.abs(oldCoords[1] - coords[1]) > epsilon) {
 					xcoord.add(coords[0]);
 					ycoord.add(coords[1]);
 				}
@@ -359,7 +359,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		// objects further up (e.g. polygon) the tree
 		ArrayList<AlgoElement> algoList = oldPoint.getAlgorithmList();
 		for (int k = 0; k < algoList.size(); k++) {
-			AlgoElement algo = (AlgoElement) algoList.get(k);
+			AlgoElement algo = algoList.get(k);
 			for (int j = 0; j < input.length; j++)
 				input[j].removeFromUpdateSets(algo);
 		}
@@ -370,7 +370,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		// remove dependent segment algorithm that are part of this polygon
 		// to make sure we don't remove the polygon as well
 		for (int k = 0; k < algoList.size(); k++) {
-			AlgoElement algo = (AlgoElement) algoList.get(k);
+			AlgoElement algo = algoList.get(k);
 			// make sure we don't remove the polygon as well
 			if (algo instanceof AlgoJoinPointsSegment
 					&& ((AlgoJoinPointsSegment) algo).getPoly() == poly) {

@@ -52,8 +52,8 @@ public class AlgoDynamicCoordinates extends AlgoElement {
 	protected void setInputOutput() {
         input = new GeoElement[3];
         input[0] = P;
-        input[1] = (GeoElement)x.toGeoElement();
-        input[2] = (GeoElement)y.toGeoElement();
+        input[1] = x.toGeoElement();
+        input[2] = y.toGeoElement();
 
         super.setOutputLength(1);
         super.setOutput(0, M);

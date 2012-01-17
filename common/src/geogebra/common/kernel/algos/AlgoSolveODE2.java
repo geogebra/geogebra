@@ -24,7 +24,7 @@ public class AlgoSolveODE2 extends AlgoElement {
 	private GeoNumeric x, y, yDot, end, step; // input
 	// private GeoList g; // output
 	private GeoLocus locus; // output
-	private ArrayList<MyPoint> al;
+	ArrayList<MyPoint> al;
 
 	public AlgoSolveODE2(Construction cons, String label, GeoFunctionable b,
 			GeoFunctionable c, GeoFunctionable f, GeoNumeric x, GeoNumeric y,
@@ -131,7 +131,7 @@ public class AlgoSolveODE2 extends AlgoElement {
 		public void reset() {
 		}
 
-		Construction cons = (Construction) kernel.getConstruction();
+		Construction cons = kernel.getConstruction();
 
 		public boolean requiresDenseOutput() {
 			return false;

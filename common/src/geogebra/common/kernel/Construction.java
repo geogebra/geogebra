@@ -912,7 +912,7 @@ public class Construction {
 
 		Iterator<GeoElement> it = randomElements.iterator();
 		while (it.hasNext()) {
-			GeoElement num = (GeoElement) it.next();
+			GeoElement num = it.next();
 			num.updateRandomGeo();
 		}
 	}
@@ -1565,7 +1565,7 @@ public class Construction {
 	 * @see #lookupLabel(String)
 	 */
 	public void putLabel(GeoElement geoI) {
-		GeoElement geo = (GeoElement) geoI;
+		GeoElement geo = geoI;
 		if (supressLabelCreation || geo.label == null)
 			return;
 
@@ -1582,7 +1582,7 @@ public class Construction {
 	 * @see #putLabel(GeoElement)
 	 */
 	public void removeLabel(GeoElement geoI) {
-		GeoElement geo = (GeoElement) geoI;
+		GeoElement geo = geoI;
 		geo.unbindVariableInCAS();
 		geoTable.remove(geo.label);
 		removeFromGeoSets(geo);
@@ -1956,8 +1956,8 @@ public class Construction {
 		// collect all predecessors of casCell
 		TreeSet<GeoElement> allPred = new TreeSet<GeoElement>();
 		for (GeoElement directInput : casCell.getGeoElementVariables()) {
-			allPred.addAll(((GeoElement) directInput).getAllPredecessors());
-			allPred.add((GeoElement) directInput);
+			allPred.addAll(directInput.getAllPredecessors());
+			allPred.add(directInput);
 		}
 
 		// Find max construction index of casCell's predecessors

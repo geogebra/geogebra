@@ -68,7 +68,7 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 
 		this.M = M;
 		this.r = r;
-		rgeo = (GeoElement)r.toGeoElement();
+		rgeo = r.toGeoElement();
 		sphereND = createSphereND(cons);
 
 		setInputOutput(); // for AlgoElement

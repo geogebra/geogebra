@@ -363,6 +363,7 @@ public class AlgoStemPlot extends AlgoElement {
 		text.setLaTeX(true,false);
 	}
 	
+	@Override
 	public boolean isLaTeXTextCommand() {
 		return true;
 	}

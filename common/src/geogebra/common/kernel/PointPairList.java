@@ -53,7 +53,7 @@ public class PointPairList {
 	 * where isPalive == true comes before isPalive == false and isQonPath ==
 	 * true comes before isQonPath == false.
 	 */
-	private boolean smallerThan(PointPair a, PointPair b) {
+	private static boolean smallerThan(PointPair a, PointPair b) {
 		if (a.isPalive) {
 			if (b.isPalive) {
 				// both are alive
