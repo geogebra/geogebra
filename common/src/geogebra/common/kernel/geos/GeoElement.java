@@ -883,7 +883,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				R1 = X;
 				G1 = 0;
 				B1 = C;
-			} else if (H < 6) {
+			} else {
 				R1 = C;
 				G1 = 0;
 				B1 = X;
