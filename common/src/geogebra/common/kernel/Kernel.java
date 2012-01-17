@@ -9761,12 +9761,12 @@ public class Kernel {
 		return poly;
 	}
 
-	final public GeoImplicitPoly TriangleCubic(String label, GeoPoint2 A,
+	final public GeoElement TriangleCubic(String label, GeoPoint2 A,
 			GeoPoint2 B, GeoPoint2 C, GeoImplicitPoly v, GeoNumeric a,
 			GeoNumeric b, GeoNumeric c) {
 		AlgoTriangleCurve algo = new AlgoTriangleCurve((Construction) cons,
 				label, A, B, C, v, a, b, c);
-		GeoImplicitPoly poly = algo.getResult();
+		GeoElement poly = algo.getResult();
 
 		return poly;
 	}

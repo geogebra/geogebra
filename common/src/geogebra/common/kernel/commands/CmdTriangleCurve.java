@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -28,14 +29,16 @@ public class CmdTriangleCurve extends CommandProcessor {
 		switch (n) {
 		case 4:
 			GeoNumeric ta=null,tb=null,tc=null;
-			
+			arg = new GeoElement[4];
+			for(int i=0;i<3;i++)
+				arg[i]=resArg(c,i);
 			ta =new GeoNumeric(cons);
 			tb =new GeoNumeric(cons);
 			tc =new GeoNumeric(cons);
 			cons.addLocalVariable("A", ta);
 			cons.addLocalVariable("B", tb);
 			cons.addLocalVariable("C", tc);
-			arg = resArgs(c);
+			arg[3] = resArg(c,3);
 
 			if ((ok[0] = arg[0].isGeoPoint()) &&
 					(ok[1] = arg[1].isGeoPoint()) &&
@@ -65,4 +68,25 @@ public class CmdTriangleCurve extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
+	protected final GeoElement resArg(Command c,int pos) throws MyError {
+		boolean oldMacroMode = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+
+		// resolve arguments to get GeoElements
+		ExpressionNode[] arg = c.getArguments();
+		
+
+		
+			// resolve variables in argument expression
+			arg[pos].resolveVariables();
+
+			// resolve i-th argument and get GeoElements
+			// use only first resolved argument object for result
+			GeoElement result = resArg(arg[pos])[0];
+		
+
+		cons.setSuppressLabelCreation(oldMacroMode);
+		return result;
+	}
+
 }

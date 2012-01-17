@@ -30,7 +30,7 @@ public class AlgoTriangleCurve extends AlgoElement implements ExpressionNodeCons
 	public static final long serialVersionUID = 1L;
 	private GeoPoint2 A, B, C; // input
 	private GeoImplicitPoly n;	// number of curve
-	private GeoImplicitPoly poly; // output
+	private GeoElement poly; // output
 	private Equation eq;
 	private GeoNumeric[] xcoef,ycoef,constant;
 	private AlgoDependentImplicitPoly dd;
@@ -76,7 +76,7 @@ public class AlgoTriangleCurve extends AlgoElement implements ExpressionNodeCons
 		AbstractApplication.debug(flag);
 		dd = new AlgoDependentImplicitPoly(cons, label, eq);
 		cons.removeFromConstructionList(dd);
-		poly = (GeoImplicitPoly) dd.getOutput()[0];		
+		poly = dd.getOutput()[0];		
 				
 		setInputOutput();
 		compute();		
@@ -86,7 +86,7 @@ public class AlgoTriangleCurve extends AlgoElement implements ExpressionNodeCons
 	}
 
 	public Algos getClassName() {
-		return Algos.AlgoTriangleCubic;
+		return Algos.AlgoTriangleCurve;
 	}
 
 	// for AlgoElement
@@ -102,7 +102,7 @@ public class AlgoTriangleCurve extends AlgoElement implements ExpressionNodeCons
 		setDependencies(); // done ycoef[1] AlgoElement
 	}
 
-	public GeoImplicitPoly getResult() {
+	public GeoElement getResult() {
 		return poly;
 	}
 

@@ -421,7 +421,7 @@ public enum Algos {
 	AlgoZipfBarChart(Commands.Zipf),
 	AlgoKimberling(Commands.TriangleCenter),
 	AlgoFunctionFreehand(Commands.Function),
-	TriangleCurve(Commands.TriangleCurve),
+	AlgoTriangleCurve(Commands.TriangleCurve),
 	AlgoPolygon3D(Commands.Polygon),
 	//AlgoCoordSys2D(Commands.CoordSys2D),
 	AlgoJoinPoints3DSegment(Commands.Segment),
