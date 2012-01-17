@@ -478,8 +478,37 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
     @Override
     public void drawLine(int x1, int y1, int x2, int y2) {
+
+    	/* TODO: there is some differences between the result of
+    	 * geogebra.awt.Graphics.drawLine(...) function.
+    	 * Here is an attempt to make longer the vertical and horizontal lines:  
+    	 
+    	int x_1 = Math.min(x1,x2);
+    	int y_1 = Math.min(y1,y2);
+    	int x_2 = Math.max(x1,x2);
+    	int y_2 = Math.max(y1,y2);
+    	
+    	if(x1==x2){
+    		y_1--;
+    		y_2++;
+    	} else if(y1==y2){
+    		x_1--;
+    		x_2++;
+    	}
+    	 	
+    	context.beginPath();
+    	context.moveTo(x_1, y_1);
+    	context.lineTo(x_2, y_2);
+    	context.closePath();
+    	context.stroke();
+*/
+    	context.beginPath();
     	context.moveTo(x1, y1);
     	context.lineTo(x2, y2);
+    	context.closePath();
+    	context.stroke();
+
+    	
     }
 
 

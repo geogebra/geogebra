@@ -135,7 +135,6 @@ public class Color extends geogebra.common.awt.Color {
 		rgb[0] = (float) (getRed() / 255.0);
 		rgb[1] = (float) (getGreen() / 255.0);
 		rgb[2] = (float) (getBlue() / 255.0);
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 		
 	}
 

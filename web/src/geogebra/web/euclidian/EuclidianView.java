@@ -7,6 +7,7 @@ import geogebra.common.awt.Font;
 import geogebra.common.awt.Graphics2D;
 import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.DrawBoolean;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.event.AbstractEvent;
@@ -340,8 +341,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     public Drawable newDrawBoolean(GeoBoolean geo) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
+		return new DrawBoolean(this,geo);
     }
 
 	@Override
