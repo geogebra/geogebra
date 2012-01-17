@@ -31,7 +31,7 @@ cd $WEBDIR
 PROJECT=$1
 PLC=`echo $PROJECT | awk '{print tolower($1)}'`
 cd ../$PLC/src/geogebra
-cp $PROJECT-full.gwt.xml $PROJECT.gwt.xml
+cp $PROJECT.gwt.xml-full $PROJECT.gwt.xml
 }
 
 fullcomp Common
