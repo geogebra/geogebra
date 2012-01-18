@@ -1,11 +1,17 @@
 package geogebra.web.main;
 
+
 import geogebra.common.awt.Font;
 import geogebra.common.main.AbstractFontManager;
-
+/**
+ * This class takes care of storing and creating fonts.
+ * @author Zbynek (based on Desktop FontManager)
+ *
+ */
 public class FontManager extends AbstractFontManager{
 	private int fontSize;
 	
+	@Override
 	public void setFontSize(int size){
 		fontSize = size;
 	}
@@ -13,7 +19,11 @@ public class FontManager extends AbstractFontManager{
 	@Override
     public Font getFontCanDisplay(String testString, boolean serif,
             int fontStyle, int fontSize) {
-	    return new geogebra.web.awt.Font("normal");
+	    geogebra.web.awt.Font ret = new geogebra.web.awt.Font("normal");
+	    ret.setFontStyle(fontStyle);
+	    ret.setFontSize(fontSize);
+	    ret.setFontFamily(serif?"serif":"sans-serif");
+	    return ret;
     }
 
 }
