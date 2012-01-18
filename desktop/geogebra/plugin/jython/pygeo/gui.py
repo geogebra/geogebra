@@ -629,7 +629,15 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
         item = new_item("Run Selection", "runselection", KeyEvent.VK_E,
                         mod=shortcut | ActionEvent.SHIFT_MASK)
         navmenu.add(item)
+
+        item = new_item("Indent Selection", "indentselection",
+                        KeyEvent.VK_CLOSE_BRACKET)
+        navmenu.add(item)
         
+        item = new_item("Dedent Selection", "dedentselection",
+                        KeyEvent.VK_OPEN_BRACKET)
+        navmenu.add(item)
+
         self.frame.setJMenuBar(menubar)
     
     def toggle_visibility(self):
@@ -659,7 +667,9 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
         if code in ("continue", "error"):
             code = self.interface.compilemodule(processed_source)
             if code == "error":
-                return False
+                return
+        if code == "error":
+            return False
         source = source.strip()
         if interactive:
             self.history.append(source)
@@ -764,6 +774,22 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
         """Run selected text in script"""
         code = self.script_area.component.selectedText.strip()
         self.runcode(code, interactive=False)
+    def action_indentselection(self, evt):
+        component = self.script_area.component
+        lines = component.selectedText.split("\n")
+        for i, line in enumerate(lines):
+            if line:
+                lines[i] = "\t" + line
+        component.replaceSelection("\n".join(lines))
+    def action_dedentselection(self, evt):
+        component = self.script_area.component
+        lines = component.selectedText.split("\n")
+        for i, line in enumerate(lines):
+            if line.startswith("\t"):
+                lines[i] = line[1:]
+            elif line.startswith("    "):
+                lines[i] = line[4:]
+        component.replaceSelection("\n".join(lines))
     
     # Saving / loading scripts
     def action_open(self, evt):
