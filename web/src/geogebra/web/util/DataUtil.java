@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.core.client.JsArrayString;
 
 public final class DataUtil {
@@ -914,5 +915,124 @@ public final class DataUtil {
 
 		//====JSXGRAPH UTIL CLASS END======================================//
 	}-*/;
+	
+	 /** Base-64 characters. */
+	  private static final String BASE_64 =
+	    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
+	  /** Base-64 padding character. */
+	  private static final char BASE_64_PAD = '=';
+	
+	@SuppressWarnings("deprecation")	// Character.isWhitespace(char) is not supported by GWT
+	  public static byte[] decode(String b64)
+	  {
+	    GwtByteArrayOutputStream result = new GwtByteArrayOutputStream(b64.length() / 3);
+	    int state = 0, i;
+	    byte temp = 0;
+
+	    for (i = 0; i < b64.length(); i++)
+	      {
+	        if (Character.isSpace(b64.charAt(i)))
+	          {
+	            continue;
+	          }
+	        if (b64.charAt(i) == BASE_64_PAD)
+	          {
+	            break;
+	          }
+
+	        int pos = BASE_64.indexOf(b64.charAt(i));
+	        if (pos < 0)
+	          {
+	            throw new RuntimeException("non-Base64 character " + b64.charAt(i));
+	          }
+	        switch (state)
+	          {
+	          case 0:
+	            temp = (byte) (pos - BASE_64.indexOf('A') << 2);
+	            state = 1;
+	            break;
+
+	          case 1:
+	            temp |= (byte) (pos - BASE_64.indexOf('A') >>> 4);
+	            result.write(temp);
+	            temp = (byte) ((pos - BASE_64.indexOf('A') & 0x0f) << 4);
+	            state = 2;
+	            break;
+
+	          case 2:
+	            temp |= (byte) ((pos - BASE_64.indexOf('A') & 0x7f) >>> 2);
+	            result.write(temp);
+	            temp = (byte) ((pos - BASE_64.indexOf('A') & 0x03) << 6);
+	            state = 3;
+	            break;
+
+	          case 3:
+	            temp |= (byte) (pos - BASE_64.indexOf('A') & 0xff);
+	            result.write(temp);
+	            state = 0;
+	            break;
+
+	          default:
+	            throw new Error("this statement should be unreachable");
+	          }
+	      }
+
+	    if (i < b64.length() && b64.charAt(i) == BASE_64_PAD)
+	      {
+	        switch (state)
+	          {
+	          case 0:
+	          case 1:
+	            throw new RuntimeException("malformed Base64 sequence");
+
+	          case 2:
+	            for ( ; i < b64.length(); i++)
+	              {
+	                if (!Character.isSpace(b64.charAt(i)))
+	                  {
+	                    break;
+	                  }
+	              }
+	            // We must see a second pad character here.
+	            if (b64.charAt(i) != BASE_64_PAD)
+	              {
+	                throw new RuntimeException("malformed Base64 sequence");
+	              }
+	            i++;
+	            // Fall-through.
+
+	          case 3:
+	            i++;
+	            for ( ; i < b64.length(); i++)
+	              {
+	                // We should only see whitespace after this.
+	                if (!Character.isSpace(b64.charAt(i)))
+	                  {
+	                    System.err.println(b64.charAt(i));
+	                    throw new RuntimeException("malformed Base64 sequence");
+	                  }
+	              }
+	          }
+	      }
+	    else
+	      {
+	        if (state != 0)
+	          {
+	            throw new RuntimeException("malformed Base64 sequence");
+	          }
+	      }
+
+	    return result.toByteArray();
+	  }
+
+	public static Map<String, String> unzip(JsArrayInteger jsBytes) {
+		ensureInstall();
+		return prepareContent(nativeUnzip(jsBytes));
+    }
+
+	private static native JsArray<JsArrayString> nativeUnzip(JsArrayInteger jsBytes) /*-{
+		return (new $wnd.ggm.JXG.Util.Unzip(jsBytes)).unzip();
+    }-*/;
 	
 }

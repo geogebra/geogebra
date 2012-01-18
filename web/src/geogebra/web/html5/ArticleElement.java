@@ -59,7 +59,7 @@ public final class ArticleElement extends Element {
 	}
 	
 	public String getDataParamBase64String() {
-		return this.getAttribute("data-param-ggbbase64");
+		return (this.getAttribute("data-param-ggbbase64") != null) ? this.getAttribute("data-param-ggbbase64") : "";
 	}
 
 }

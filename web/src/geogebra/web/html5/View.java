@@ -8,6 +8,7 @@ import geogebra.web.main.Application;
 import geogebra.web.util.DataUtil;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -46,10 +47,13 @@ public class View extends Widget {
     }
 
 	public String getDataParamFileName() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return ((ArticleElement) container).getDataParamFileName();
     }
 
+	public String getDataParamBase64String() {
+		return ((ArticleElement) container).getDataParamBase64String();
+	}
+	
 	public void fileContentLoaded(JsUint8Array zippedContent) {
 		archiveContent = DataUtil.unzip(zippedContent);
 		maybeLoadFile();	    
@@ -74,6 +78,11 @@ public class View extends Widget {
 	   app.showLoadingAnimation(false);
 	   app.getEuclidianView().synCanvasSize();
 	   app.getActiveEuclidianView().repaintView();
+    }
+
+	public void fileContentLoaded(JsArrayInteger jsBytes) {
+		archiveContent = DataUtil.unzip(jsBytes);
+		maybeLoadFile();   
     }
 
 }
