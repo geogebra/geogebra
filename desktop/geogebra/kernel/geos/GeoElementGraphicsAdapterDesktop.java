@@ -10,30 +10,13 @@ import geogebra.awt.BufferedImage;
 
 import java.awt.Image;
 
-public class GeoElementGraphicsAdapterDesktop implements
+public class GeoElementGraphicsAdapterDesktop extends
 		GeoElementGraphicsAdapter {
 
-	protected String imageFileName = "";
-	protected BufferedImageAdapter image;
 	protected Application app;
 
 	public GeoElementGraphicsAdapterDesktop(AbstractApplication appl) {
 		app = (Application) appl;
-	}
-
-	public BufferedImageAdapter getImageOnly() {
-		return image;
-	}
-
-	public void setImageOnly(BufferedImageAdapter ba) {
-		try {
-			image = ba;
-		} catch (Exception e) {
-		}
-	}
-
-	public void setImageFileNameOnly(String fn) {
-		imageFileName = fn;
 	}
 
 	public BufferedImageAdapter getFillImage() {
@@ -55,11 +38,6 @@ public class GeoElementGraphicsAdapterDesktop implements
 		return image;
 	}
 
-	public void setFillImage(String filename) {
-		imageFileName = filename;
-		image = null;
-	}
-
 	public void setImageFileName(String fileName) {
 		if (fileName.equals(this.imageFileName))
 			return;
@@ -75,10 +53,6 @@ public class GeoElementGraphicsAdapterDesktop implements
 			image = ((AbstractApplication) app)
 					.getExternalImageAdapter(fileName);
 		}
-	}
-
-	public String getImageFileName() {
-		return imageFileName;
 	}
 
 }
