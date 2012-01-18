@@ -1,5 +1,5 @@
-from pyggb import Point, Segment, pywindow, selection, Color
-
+from pyggb import pywindow, selection
+from pygeo.objects import Point, Segment, Color
 from javax.swing import JPanel, JButton
 from java.awt.event import ActionListener
 import random
