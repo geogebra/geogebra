@@ -2624,6 +2624,10 @@ public abstract class AbstractApplication {
 	final public boolean showResetIcon() {
 		return showResetIcon && !runningInFrame;
 	}
+
+	public boolean isUndoActive() {
+		return kernel.isUndoActive();
+	}
 	
 
 }

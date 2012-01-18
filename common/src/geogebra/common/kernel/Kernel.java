@@ -9888,7 +9888,7 @@ public class Kernel {
 
 	
 
-	public MacroKernelInterface newMacroKernel() {
+	public MacroKernel newMacroKernel() {
 		return new MacroKernel(this);
 	}
 

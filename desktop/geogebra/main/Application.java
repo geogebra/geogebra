@@ -2928,10 +2928,6 @@ public class Application extends AbstractApplication implements
 		isSaved = true;
 	}
 
-	public boolean isUndoActive() {
-		return kernel.isUndoActive();
-	}
-
 	/**
 	 * Enables or disables right clicking in this application. This is useful
 	 * for applets.

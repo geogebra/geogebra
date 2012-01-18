@@ -17,6 +17,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
+import geogebra.common.kernel.MacroKernel;
 import geogebra.common.kernel.MacroKernelInterface;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
@@ -71,7 +72,7 @@ public class AlgoLocus extends AlgoElement {
 	private boolean foundDefined;
 	private boolean maxTimeExceeded;
 	private Construction macroCons;
-	private MacroKernelInterface macroKernel;
+	private MacroKernel macroKernel;
 	// private AlgorithmSet macroConsAlgoSet;
 	// list with all original elements used for the macro construction
 	private TreeSet<ConstructionElement> locusConsOrigElements;

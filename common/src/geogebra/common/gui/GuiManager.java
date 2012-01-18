@@ -96,4 +96,9 @@ public abstract class GuiManager {
 		
 	}
 
+	public void updateActions() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
