@@ -137,11 +137,7 @@ public class Application extends AbstractApplication {
 		return cmdName;
 	}
 
-	@Override
-	public boolean isRightToLeftReadingOrder() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return false;
-	}
+	
 
 	@Override
 	public void setTooltipFlag() {
@@ -197,12 +193,7 @@ public class Application extends AbstractApplication {
 
 	}
 
-	@Override
-	public boolean isReverseNameDescriptionLanguage() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return false;
-	}
-
+	
 	
 
 	@Override
@@ -231,11 +222,7 @@ public class Application extends AbstractApplication {
 
 	
 
-	@Override
-	public void changeLayer(GeoElement ge, int layer, int layer2) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-
-	}
+	
 
 	@Override
     public boolean freeMemoryIsCritical() {
@@ -268,12 +255,7 @@ public class Application extends AbstractApplication {
 //		return getGuiManager().getActiveEuclidianView();
 	}
 
-	@Override
-	public boolean isRightToLeftDigits() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return false;
-	}
-
+	
 	@Override
 	public boolean isShowingEuclidianView2() {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
@@ -721,11 +703,7 @@ public class Application extends AbstractApplication {
 	    return null;
     }
 
-	@Override
-    public void setSelectedGeos(ArrayList<GeoElement> geos) {
-	    // TODO Auto-generated method stub
-	    
-    }
+	
 
 	public Widget buildApplicationPanel() {
 	    return canvas;

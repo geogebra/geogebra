@@ -22,6 +22,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.JavaScriptAPI;
+import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.io.MyImageIO;
@@ -327,7 +328,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 			md5.update(bytesOut);
 			byte[] md5hash = new byte[32];
 			md5hash = md5.digest();
-			return Application.convertToHex(md5hash);	
+			return StringUtil.convertToHex(md5hash);	
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -881,8 +882,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 	}
 
 	public boolean isAnimationRunning() {
-		// TODO Auto-generated method stub
-		return false;
+		return kernel.getAnimatonManager().isRunning();
 	}
 	
 	/**

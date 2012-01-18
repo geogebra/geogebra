@@ -20,6 +20,7 @@ import geogebra.common.kernel.AbstractUndoManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -46,6 +47,7 @@ import geogebra.common.util.Unicode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.Set;
 import java.util.TreeSet;
@@ -77,7 +79,9 @@ public abstract class AbstractApplication {
 	public static final int VIEW_PROPERTIES = 4097;
 	public static final int VIEW_ASSIGNMENT = 8192;
 	public static final int VIEW_TABLE_MODEL = 9000;
-	
+	private boolean showResetIcon = false;
+	public boolean runningInFrame = false; // don't want to show resetIcon if
+											// running in Frame
 	
 	// specialLanguageNames: Java does not show an English name for all
 	// languages
@@ -559,7 +563,7 @@ public abstract class AbstractApplication {
 
 	public abstract String getError(String cmdName);
 
-	public abstract boolean isRightToLeftReadingOrder();
+
 
 	public abstract void setTooltipFlag();
 
@@ -581,7 +585,18 @@ public abstract class AbstractApplication {
 		return getLanguage().equals(lang);
 	}
 
-	public abstract boolean letRedefine();
+	public boolean letRename() {
+		return true;
+	}
+
+	public boolean letDelete() {
+		return true;
+	}
+
+	public boolean letRedefine() {
+		return true;
+	}
+
 
 	/**
 	 * In some languages, a properties file cannot completely describe
@@ -843,7 +858,7 @@ public abstract class AbstractApplication {
 
 	public abstract void resetTraceColumn(GeoElement o);
 
-	public abstract boolean isReverseNameDescriptionLanguage();
+	
 
 	/**
 	 * @return the blockUpdateScripts
@@ -886,7 +901,232 @@ public abstract class AbstractApplication {
 
 	
 
-	public abstract void changeLayer(GeoElement ge, int layer, int layer2);
+	public final void changeLayer(GeoElement ge, int layer, int layer2) {
+		EuclidianViewInterfaceCommon ev = getActiveEuclidianView();// app.getEuclidianView();
+		if (ev != null) {
+			ev.changeLayer(ge, ge.layer, layer2);
+		}
+
+	}
+	
+	public boolean is3D() {
+		return false;
+	}
+	
+	String[] fontSizeStrings = null;
+
+	public String[] getFontSizeStrings() {
+		if (fontSizeStrings == null) {
+			fontSizeStrings = new String[] { getPlain("ExtraSmall"),
+					getPlain("VerySmall"), getPlain("Small"),
+					getPlain("Medium"), getPlain("Large"),
+					getPlain("VeryLarge"), getPlain("ExtraLarge") };
+		}
+
+		return fontSizeStrings;
+	}
+	
+	/* selection handling */
+
+	final public GeoElement getLastCreatedGeoElement() {
+		return kernel.getConstruction().getLastGeoElement();
+	}
+	
+	// used by PropertyDialogGeoElement and MenuBarImpl
+		// for the Rounding Menus
+		final public static int roundingMenuLookup[] = { 0, 1, 2, 3, 4, 5, 10, 15,
+				-1, 3, 5, 10, 15 };
+		final public static int decimalsLookup[] = { 0, 1, 2, 3, 4, 5, -1, -1, -1,
+				-1, 6, -1, -1, -1, -1, 7 };
+		final public static int figuresLookup[] = { -1, -1, -1, 9, -1, 10, -1, -1,
+				-1, -1, 11, -1, -1, -1, -1, 12 };
+
+		public String[] getRoundingMenu() {
+			String[] strDecimalSpaces = {
+					getPlain("ADecimalPlaces", "0"),
+					getPlain("ADecimalPlace", "1"),
+					getPlain("ADecimalPlaces", "2"),
+					getPlain("ADecimalPlaces", "3"),
+					getPlain("ADecimalPlaces", "4"),
+					getPlain("ADecimalPlaces", "5"),
+					getPlain("ADecimalPlaces", "10"),
+					getPlain("ADecimalPlaces", "15"),
+					"---", // separator
+					getPlain("ASignificantFigures", "3"),
+					getPlain("ASignificantFigures", "5"),
+					getPlain("ASignificantFigures", "10"),
+					getPlain("ASignificantFigures", "15") };
+
+			// zero is singular in eg French
+			if (!isZeroPlural(getLanguage())) {
+				strDecimalSpaces[0] = getPlain("ADecimalPlace", "0");
+			}
+
+			return strDecimalSpaces;
+		}
+		
+		/*
+		 * in French, zero is singular, eg 0 dcimale rather than 0 decimal places
+		 */
+		public boolean isZeroPlural(String lang) {
+			if (lang.startsWith("fr")) {
+				return false;
+			}
+			return true;
+		}
+		
+		
+
+		final public static String[] strDecimalSpacesAC = { "0 decimals",
+				"1 decimals", "2 decimals", "3 decimals", "4 decimals",
+				"5 decimals", "10 decimals", "15 decimals", "", "3 figures",
+				"5 figures", "10 figures", "15 figures" };
+
+		// Rounding Menus end
+
+		public void deleteSelectedObjects() {
+			if (letDelete()) {
+				Object[] geos = getSelectedGeos().toArray();
+				for (int i = 0; i < geos.length; i++) {
+					GeoElement geo = (GeoElement) geos[i];
+					if (!geo.isFixed()) {
+						geo.removeOrSetUndefinedIfHasFixedDescendent();
+					}
+				}
+
+				// also delete just created geos if possible
+				ArrayList<GeoElement> geos2 = getActiveEuclidianView()
+						.getEuclidianController().getJustCreatedGeos();
+				for (int j = 0; j < geos2.size(); j++) {
+					GeoElement geo = geos2.get(j);
+					if (!geo.isFixed()) {
+						geo.removeOrSetUndefinedIfHasFixedDescendent();
+					}
+				}
+				getActiveEuclidianView().getEuclidianController()
+						.clearJustCreatedGeos();
+				getActiveEuclidianView().getEuclidianController().clearSelections();
+				storeUndoInfo();
+			}
+
+		}
+
+
+	/**
+	 * geos must contain GeoElement objects only.
+	 * 
+	 * @param geos
+	 */
+	final public void setSelectedGeos(ArrayList<GeoElement> geos) {
+		clearSelectedGeos(false);
+		if (geos != null) {
+			for (int i = 0; i < geos.size(); i++) {
+				GeoElement geo = geos.get(i);
+				addSelectedGeo(geo, false);
+			}
+		}
+		kernel.notifyRepaint();
+		updateSelection();
+	}
+
+	/*
+	 * Michael Borcherds 2008-03-03 modified to select all of a layer pass
+	 * layer==-1 to select all objects
+	 */
+	final public void selectAll(int layer) {
+		clearSelectedGeos(false);
+
+		Iterator<GeoElement> it = kernel.getConstruction()
+				.getGeoSetLabelOrder().iterator();
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+			if ((layer == -1) || (geo.getLayer() == layer)) {
+				addSelectedGeo(geo, false);
+			}
+		}
+		kernel.notifyRepaint();
+		updateSelection();
+	}
+
+	final public void invertSelection() {
+
+		Iterator<GeoElement> it = kernel.getConstruction()
+				.getGeoSetLabelOrder().iterator();
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+			if (selectedGeos.contains(geo)) {
+				removeSelectedGeo(geo, false);
+			} else {
+				addSelectedGeo(geo, false);
+			}
+		}
+		kernel.notifyRepaint();
+		updateSelection();
+	}
+
+	final public void selectAllPredecessors() {
+
+		for (int i = 0; i < selectedGeos.size(); i++) {
+			GeoElement geo = selectedGeos.get(i);
+			TreeSet<GeoElement> tree = geo.getAllPredecessors();
+			Iterator<GeoElement> it2 = tree.iterator();
+			while (it2.hasNext()) {
+				addSelectedGeo(it2.next(), false);
+			}
+		}
+		kernel.notifyRepaint();
+		updateSelection();
+	}
+
+	final public void showHideSelection() {
+
+		for (int i = 0; i < selectedGeos.size(); i++) {
+			GeoElement geo = selectedGeos.get(i);
+			geo.setEuclidianVisible(!geo.isEuclidianVisible());
+			geo.update();
+		}
+		kernel.notifyRepaint();
+		updateSelection();
+	}
+
+	final public void showHideSelectionLabels() {
+
+		for (int i = 0; i < selectedGeos.size(); i++) {
+			GeoElement geo = selectedGeos.get(i);
+			geo.setLabelVisible(!geo.isLabelVisible());
+			geo.update();
+		}
+		kernel.notifyRepaint();
+		updateSelection();
+	}
+	
+	final public void selectAllDescendants() {
+
+		for (int i = 0; i < selectedGeos.size(); i++) {
+			GeoElement geo = selectedGeos.get(i);
+			TreeSet<GeoElement> tree = geo.getAllChildren();
+			Iterator<GeoElement> it2 = tree.iterator();
+			while (it2.hasNext()) {
+				addSelectedGeo(it2.next(), false);
+			}
+		}
+		kernel.notifyRepaint();
+		updateSelection();
+	}
+	
+	public void getKeyboardXML(StringBuilder sb) {
+		sb.append("<keyboard width=\"");
+		sb.append(getSettings().getKeyboard().getKeyboardWidth());
+		sb.append("\" height=\"");
+		sb.append(getSettings().getKeyboard().getKeyboardHeight());
+		sb.append("\" opacity=\"");
+		sb.append(getSettings().getKeyboard().getKeyboardOpacity());
+		sb.append("\" language=\"");
+		sb.append(getSettings().getKeyboard().getKeyboardLocale());
+		sb.append("\" show=\"");
+		sb.append(getSettings().getKeyboard().isShowKeyboardOnStart());
+		sb.append("\"/>");
+	}
 
 	public abstract boolean freeMemoryIsCritical();
 
@@ -1018,6 +1258,150 @@ public abstract class AbstractApplication {
 		}
 
 	}
+	
+	/**
+	 * Use localized digits.
+	 */
+	private boolean useLocalizedDigits = false;
+
+	/**
+	 * @return If localized digits are used for certain languages (Arabic,
+	 *         Hebrew, etc).
+	 */
+	public boolean isUsingLocalizedDigits() {
+		return useLocalizedDigits;
+	}
+
+	/**
+	 * Use localized digits for certain languages (Arabic, Hebrew, etc).
+	 * 
+	 * Calls {@link #updateReverseLanguage(Locale)} to apply the change, but
+	 * just if the new flag differs from the current.
+	 */
+	public void setUseLocalizedDigits(boolean useLocalizedDigits) {
+		if (this.useLocalizedDigits == useLocalizedDigits) {
+			return;
+		}
+
+		this.useLocalizedDigits = useLocalizedDigits;
+		updateReverseLanguage(getLanguage());
+		getKernel().updateConstruction();
+		setUnsaved();
+
+		if (euclidianView != null) {
+			euclidianView.updateBackground();
+		}
+	}
+	// for Basque and Hungarian you have to say "A point" instead of "point A"
+		private boolean reverseNameDescription = false;
+		private boolean isAutoCompletePossible = true;
+
+		
+		final public boolean isReverseNameDescriptionLanguage() {
+			// for Basque and Hungarian
+			return reverseNameDescription;
+		}
+
+		/**
+		 * Returns whether autocomplete should be used at all. Certain languages
+		 * make problems with auto complete turned on (e.g. Korean).
+		 */
+		final public boolean isAutoCompletePossible() {
+			return isAutoCompletePossible;
+		}
+
+		// For Hebrew and Arabic. Guy Hed, 25.8.2008
+		private boolean rightToLeftReadingOrder = false;
+
+		final public boolean isRightToLeftReadingOrder() {
+			return rightToLeftReadingOrder;
+		}
+
+		// For Persian and Arabic.
+		private boolean rightToLeftDigits = false;
+
+		final public boolean isRightToLeftDigits() {
+			if (!Kernel.internationalizeDigits) {
+				return false;
+			}
+			return rightToLeftDigits;
+		}
+
+		
+	protected void updateReverseLanguage(String lang) {
+
+		
+		// reverseLanguage = "zh".equals(lang); removed Michael Borcherds
+		// 2008-03-31
+		reverseNameDescription = "eu".equals(lang) || "hu".equals(lang);
+
+		// used for axes labels
+		rightToLeftDigits = ("ar".equals(lang) || "fa".equals(lang));
+
+		// Guy Hed, 25.8.2008
+		// Guy Hed, 26.4.2009 - added Yiddish and Persian as RTL languages
+		rightToLeftReadingOrder = ("iw".equals(lang) || "ar".equals(lang)
+				|| "fa".equals(lang) || "ji".equals(lang));
+
+		// Another option:
+		// rightToLeftReadingOrder =
+		// (Character.getDirectionality(getPlain("Algebra").charAt(1)) ==
+		// Character.DIRECTIONALITY_RIGHT_TO_LEFT);
+
+		// turn off auto-complete for Korean
+		isAutoCompletePossible = true;// !"ko".equals(lang);
+
+		// defaults
+		unicodeDecimalPoint = '.';
+		unicodeComma = ',';
+		// unicodeThousandsSeparator=',';
+
+		if (isUsingLocalizedDigits()) {
+			if (lang.startsWith("ar")) { // Arabic
+				unicodeZero = '\u0660'; // Arabic-Indic digit 0
+				unicodeDecimalPoint = '\u066b'; // Arabic-Indic decimal point
+				unicodeComma = '\u060c'; // Arabic comma
+				// unicodeThousandsSeparator = '\u066c'; // Arabic Thousands
+				// separator
+			} else if (lang.startsWith("fa")) { // Persian
+				unicodeZero = '\u06f0'; // Persian digit 0 (Extended
+										// Arabic-Indic)
+				unicodeDecimalPoint = '\u066b'; // Arabic comma
+				unicodeComma = '\u060c'; // Arabic-Indic decimal point
+				// unicodeThousandsSeparator = '\u066c'; // Arabic Thousands
+				// separators
+			} else if (lang.startsWith("ml")) {
+				unicodeZero = '\u0d66'; // Malayalam digit 0
+			} else if (lang.startsWith("th")) {
+				unicodeZero = '\u0e50'; // Thai digit 0
+			} else if (lang.startsWith("ta")) {
+				unicodeZero = '\u0be6'; // Tamil digit 0
+			} else if (lang.startsWith("sd")) {
+				unicodeZero = '\u1bb0'; // Sudanese digit 0
+			} else if (lang.startsWith("kh")) {
+				unicodeZero = '\u17e0'; // Khmer digit 0
+			} else if (lang.startsWith("mn")) {
+				unicodeZero = '\u1810'; // Mongolian digit 0
+			} else if (lang.startsWith("mm")) {
+				unicodeZero = '\u1040'; // Mayanmar digit 0
+			} else {
+				unicodeZero = '0';
+			}
+		} else {
+			unicodeZero = '0';
+		}
+	}
+
+	public void updateRightAngleStyle() {
+		if (rightAngleStyle != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE) {
+			if (getLanguage().equals("de")
+					|| getLanguage().equals("hu")) {
+				rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT;
+			} else {
+				rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE;
+			}
+		}
+	}
 
 	public double getXmin() {
 		// TODO Auto-generated method stub
@@ -1061,7 +1445,7 @@ public abstract class AbstractApplication {
 	public abstract EuclidianViewInterfaceCommon getActiveEuclidianView();
 
 
-	public abstract boolean isRightToLeftDigits();
+	
 
 	public abstract boolean isShowingEuclidianView2();
 
@@ -1373,11 +1757,45 @@ public abstract class AbstractApplication {
 	}
 	
 	public void refreshViews() {
-		//getEuclidianView().updateBackground();
-		//if (hasEuclidianView2()) {
-		//	getEuclidianView2().updateBackground();
-		//}
+		getEuclidianView().updateBackground();
+		if (hasEuclidianView2()) {
+			getEuclidianView2().updateBackground();
+		}
 		kernel.notifyRepaint();
+	}
+	
+	/**
+	 * Switches the application to macro editing mode
+	 * 
+	 * @author Zbynek Konecny
+	 * @version 2010-05-26
+	 * @param macro
+	 *            Tool to be edited
+	 */
+	public void openMacro(Macro macro) {
+		String allXml = getXML();
+		String header = allXml.substring(0, allXml.indexOf("<construction"));
+		String footer = allXml.substring(allXml.indexOf("</construction>"),
+				allXml.length());
+		StringBuilder sb = new StringBuilder();
+		macro.getXML(sb);
+		String macroXml = sb.toString();
+		String newXml = header
+				+ macroXml.substring(macroXml.indexOf("<construction"),
+						macroXml.indexOf("</construction>")) + footer;
+		this.macro = macro;
+		setXML(newXml, true);
+	}
+	
+	private Macro macro;
+
+	/**
+	 * Returns macro if in macro editing mode.
+	 * 
+	 * @return macro being edited (in unchanged state)
+	 */
+	public Macro getMacro() {
+		return macro;
 	}
 
 	private int labelingStyle = ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY;
@@ -1391,6 +1809,11 @@ public abstract class AbstractApplication {
 			GeoElement geoElement2);
 
 	public abstract void showError(MyError e);
+	
+	public String getXML(){
+		//TODO unimplemented
+		return "";
+	}
 
 	public abstract void showError(String string, String str);
 
@@ -1434,9 +1857,67 @@ public abstract class AbstractApplication {
 	}
 
 
-	public String getCompleteUserInterfaceXML(boolean b) {
-		// TODO Auto-generated method stub
-		return null;
+	public String getCompleteUserInterfaceXML(boolean asPreference) {
+		StringBuilder sb = new StringBuilder();
+
+		// save gui tag settings
+		sb.append(getGuiXML(asPreference));
+
+		// save euclidianView settings
+		getEuclidianView().getXML(sb, asPreference);
+
+		// save euclidian view 2 settings
+		if (hasEuclidianView2()) {
+			getEuclidianView2().getXML(sb, asPreference);
+		} else if (asPreference && (getGuiManager() != null)) {
+			getEuclidianView2().getXML(sb, true);
+		}
+
+		// save spreadsheetView settings
+		if (getGuiManager().hasSpreadsheetView()) {
+			getGuiManager().getSpreadsheetViewXML(sb, asPreference);
+		}
+
+		// save AlgebraView settings
+		// if (getGuiManager().hasAlgebraView()){
+		// getGuiManager().getAlgebraViewXML(sb);
+		// }
+
+		// save ProbabilityCalculator settings
+		if (getGuiManager().hasProbabilityCalculator()) {
+			getGuiManager().getProbabilityCalculatorXML(sb);
+		}
+		if (asPreference) {
+			getKeyboardXML(sb);
+		}
+		// coord style, decimal places settings etc
+		kernel.getKernelXML(sb, asPreference);
+		getScriptingXML(sb, asPreference);
+		// save cas view seeting and cas session
+		// if (casView != null) {
+		// sb.append(((geogebra.cas.view.CASView) casView).getGUIXML());
+		// sb.append(((geogebra.cas.view.CASView) casView).getSessionXML());
+		// }
+
+		return sb.toString();
+	}
+
+	private void getScriptingXML(StringBuilder sb, boolean asPreference) {
+		sb.append("<scripting");
+		if (getScriptingLanguage() != null) {
+			sb.append(" language=\"");
+			sb.append(getScriptingLanguage());
+			sb.append("\"");
+		}
+		sb.append(" blocked=\"");
+		sb.append(isBlockUpdateScripts());
+
+		if (!asPreference) {
+			sb.append("\" disabled=\"");
+			sb.append(isScriptingDisabled());
+		}
+
+		sb.append("\"/>\n");
 	}
 
 	final public Settings getSettings() {
@@ -1505,10 +1986,7 @@ public abstract class AbstractApplication {
 	}
 
 
-	public void setUseLocalizedDigits(boolean digits) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	public void setPreferredSize(Dimension size) {
 		// TODO Auto-generated method stub
@@ -1566,10 +2044,7 @@ public abstract class AbstractApplication {
 		
 	}
 
-	public boolean isUsingLocalizedDigits() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
 	public AbstractEuclidianView getEuclidianView2() {
 		// TODO Auto-generated method stub
@@ -1967,11 +2442,6 @@ public abstract class AbstractApplication {
 
 	public abstract void updateMenubar();
 
-	public boolean showResetIcon() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	public int getFontSize() {
 		return appFontSize;
 	}
@@ -2137,8 +2607,23 @@ public abstract class AbstractApplication {
 
 	public abstract String getPlainTooltip(String string);
 
-	public abstract GeoElementSelectionListener getCurrentSelectionListener();
+	public GeoElementSelectionListener getCurrentSelectionListener() {
+		return currentSelectionListener;
+	}
 
-	public abstract void setSelectedGeos(ArrayList<GeoElement> geos);
+	public void setCurrentSelectionListener(GeoElementSelectionListener sl) {
+		currentSelectionListener = sl;
+	}
+	public void setShowResetIcon(boolean flag) {
+		if (flag != showResetIcon) {
+			showResetIcon = flag;
+			euclidianView.updateBackground();
+		}
+	}
+
+	final public boolean showResetIcon() {
+		return showResetIcon && !runningInFrame;
+	}
+	
 
 }

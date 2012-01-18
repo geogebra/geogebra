@@ -137,7 +137,7 @@ public class Application3D extends Application {
 		sb.append(super.getCompleteUserInterfaceXML(asPreference));
 
 		// save euclidianView3D settings
-		sb.append(euclidianView3D.getXML());
+		euclidianView3D.getXML(sb,asPreference);
 
 		return sb.toString();
 	}
@@ -154,7 +154,7 @@ public class Application3D extends Application {
 	@Override
 	public void getEuclidianViewXML(StringBuilder sb, boolean asPreference) {
 		super.getEuclidianViewXML(sb, asPreference);
-		sb.append(getEuclidianView3D().getXML());
+		getEuclidianView3D().getXML(sb,asPreference);
 	}
 
 	@Override

@@ -81,4 +81,19 @@ public abstract class GuiManager {
 	
 	public abstract View getPlotPanelView(int id);
 
+	public boolean hasProbabilityCalculator() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void getProbabilityCalculatorXML(StringBuilder sb) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

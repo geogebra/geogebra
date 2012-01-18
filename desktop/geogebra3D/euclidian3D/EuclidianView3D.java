@@ -2409,13 +2409,13 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 	 * @see geogebra3D.io.MyXMLHandler3D
 	 * @return the XML description of 3D view settings
 	 */
-	public String getXML() {
+	public void getXML(StringBuilder sb,boolean asPreference) {
 		
 		//Application.debug("getXML: "+a+","+b);
 		
 		//if (true)	return "";
 		
-		StringBuilder sb = new StringBuilder();
+		
 		sb.append("<euclidianView3D>\n");
 		
 		
@@ -2504,7 +2504,7 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 		sb.append("\"/>\n");	
 		
 		sb.append("</euclidianView3D>\n");
-		return sb.toString();
+		
 	}
 	
 	

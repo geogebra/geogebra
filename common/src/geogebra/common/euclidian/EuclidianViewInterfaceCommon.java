@@ -338,4 +338,6 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 
 	public void setPreview(Previewable switchPreviewableForInitNewMode);
 
+	public void getXML(StringBuilder sb, boolean asPreference);
+
 }

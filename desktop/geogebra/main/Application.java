@@ -368,9 +368,7 @@ public class Application extends AbstractApplication implements
 
 	private Component mainComp;
 	private boolean isApplet = false;
-	private boolean showResetIcon = false;
-	public boolean runningInFrame = false; // don't want to show resetIcon if
-											// running in Frame
+	
 
 	private final MyXMLio myXMLio;
 
@@ -1059,16 +1057,7 @@ public class Application extends AbstractApplication implements
 		topPanel.revalidate();
 	}
 
-	private Macro macro;
 
-	/**
-	 * Returns macro if in macro editing mode.
-	 * 
-	 * @return macro being edited (in unchanged state)
-	 */
-	public Macro getMacro() {
-		return macro;
-	}
 
 	private String regressionFileName = null;
 
@@ -1084,28 +1073,7 @@ public class Application extends AbstractApplication implements
 		System.exit(0);
 	}
 
-	/**
-	 * Switches the application to macro editing mode
-	 * 
-	 * @author Zbynek Konecny
-	 * @version 2010-05-26
-	 * @param macro
-	 *            Tool to be edited
-	 */
-	public void openMacro(Macro macro) {
-		String allXml = getXML();
-		String header = allXml.substring(0, allXml.indexOf("<construction"));
-		String footer = allXml.substring(allXml.indexOf("</construction>"),
-				allXml.length());
-		StringBuilder sb = new StringBuilder();
-		macro.getXML(sb);
-		String macroXml = sb.toString();
-		String newXml = header
-				+ macroXml.substring(macroXml.indexOf("<construction"),
-						macroXml.indexOf("</construction>")) + footer;
-		this.macro = macro;
-		setXML(newXml, true);
-	}
+
 
 	/**
 	 * Adds a macro from XML
@@ -1357,16 +1325,7 @@ public class Application extends AbstractApplication implements
 		return appletImpl;
 	}
 
-	public void setShowResetIcon(boolean flag) {
-		if (flag != showResetIcon) {
-			showResetIcon = flag;
-			euclidianView.updateBackground();
-		}
-	}
-
-	final public boolean showResetIcon() {
-		return showResetIcon && !runningInFrame;
-	}
+	
 
 	public void reset() {
 		if (appletImpl != null) {
@@ -1376,15 +1335,6 @@ public class Application extends AbstractApplication implements
 		} else {
 			clearConstruction();
 		}
-	}
-
-	@Override
-	public void refreshViews() {
-		euclidianView.updateBackground();
-		if (hasEuclidianView2()) {
-			getEuclidianView2().updateBackground();
-		}
-		kernel.notifyRepaint();
 	}
 
 	public void setFrame(JFrame frame) {
@@ -1566,14 +1516,7 @@ public class Application extends AbstractApplication implements
 
 
 
-	public GeoElementSelectionListener getCurrentSelectionListener() {
-		return currentSelectionListener;
-	}
-
-	public void setCurrentSelectionListener(GeoElementSelectionListener sl) {
-		currentSelectionListener = sl;
-	}
-
+	
 	
 
 	/**
@@ -1829,16 +1772,7 @@ public class Application extends AbstractApplication implements
 		System.gc();
 	}
 
-	public void updateRightAngleStyle() {
-		if (rightAngleStyle != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE) {
-			if (getLocale().getLanguage().equals("de")
-					|| getLocale().getLanguage().equals("hu")) {
-				rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT;
-			} else {
-				rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE;
-			}
-		}
-	}
+	
 
 	/*
 	 * removed Michael Borcherds 2008-03-31 private boolean reverseLanguage =
@@ -1846,158 +1780,16 @@ public class Application extends AbstractApplication implements
 	 * 20041010 // for Chinese return reverseLanguage; }
 	 */
 
-	/*
-	 * in French, zero is singular, eg 0 dcimale rather than 0 decimal places
-	 */
-	public boolean isZeroPlural(Locale locale) {
-		String lang = locale.getLanguage();
-		if (lang.startsWith("fr")) {
-			return false;
-		}
-		return true;
-	}
+	
 
-	/**
-	 * Use localized digits.
-	 */
-	private boolean useLocalizedDigits = false;
-
-	/**
-	 * @return If localized digits are used for certain languages (Arabic,
-	 *         Hebrew, etc).
-	 */
-	@Override
-	public boolean isUsingLocalizedDigits() {
-		return useLocalizedDigits;
-	}
-
-	/**
-	 * Use localized digits for certain languages (Arabic, Hebrew, etc).
-	 * 
-	 * Calls {@link #updateReverseLanguage(Locale)} to apply the change, but
-	 * just if the new flag differs from the current.
-	 */
-	@Override
-	public void setUseLocalizedDigits(boolean useLocalizedDigits) {
-		if (this.useLocalizedDigits == useLocalizedDigits) {
-			return;
-		}
-
-		this.useLocalizedDigits = useLocalizedDigits;
-		updateReverseLanguage(currentLocale);
-		getKernel().updateConstruction();
-		setUnsaved();
-
-		if (euclidianView != null) {
-			euclidianView.updateBackground();
-		}
-	}
+	
 
 
-
-	// For Hebrew and Arabic. Guy Hed, 25.8.2008
-	private boolean rightToLeftReadingOrder = false;
-
-	@Override
-	final public boolean isRightToLeftReadingOrder() {
-		return rightToLeftReadingOrder;
-	}
-
-	// For Persian and Arabic.
-	private boolean rightToLeftDigits = false;
-
-	@Override
-	final public boolean isRightToLeftDigits() {
-		if (!Kernel.internationalizeDigits) {
-			return false;
-		}
-		return rightToLeftDigits;
-	}
-
+	
 	// public static char unicodeThousandsSeparator = ','; // \u066c for Arabic
 
-	// for Basque and Hungarian you have to say "A point" instead of "point A"
-	private boolean reverseNameDescription = false;
-	private boolean isAutoCompletePossible = true;
-
-	@Override
-	final public boolean isReverseNameDescriptionLanguage() {
-		// for Basque and Hungarian
-		return reverseNameDescription;
-	}
-
-	/**
-	 * Returns whether autocomplete should be used at all. Certain languages
-	 * make problems with auto complete turned on (e.g. Korean).
-	 */
-	final public boolean isAutoCompletePossible() {
-		return isAutoCompletePossible;
-	}
-
-	private void updateReverseLanguage(Locale locale) {
-
-		String lang = locale.getLanguage();
-		// reverseLanguage = "zh".equals(lang); removed Michael Borcherds
-		// 2008-03-31
-		reverseNameDescription = "eu".equals(lang) || "hu".equals(lang);
-
-		// used for axes labels
-		rightToLeftDigits = ("ar".equals(lang) || "fa".equals(lang));
-
-		// Guy Hed, 25.8.2008
-		// Guy Hed, 26.4.2009 - added Yiddish and Persian as RTL languages
-		rightToLeftReadingOrder = ("iw".equals(lang) || "ar".equals(lang)
-				|| "fa".equals(lang) || "ji".equals(lang));
-
-		// Another option:
-		// rightToLeftReadingOrder =
-		// (Character.getDirectionality(getPlain("Algebra").charAt(1)) ==
-		// Character.DIRECTIONALITY_RIGHT_TO_LEFT);
-
-		// turn off auto-complete for Korean
-		isAutoCompletePossible = true;// !"ko".equals(lang);
-
-		// defaults
-		unicodeDecimalPoint = '.';
-		unicodeComma = ',';
-		// unicodeThousandsSeparator=',';
-
-		if (isUsingLocalizedDigits()) {
-			if (lang.startsWith("ar")) { // Arabic
-				unicodeZero = '\u0660'; // Arabic-Indic digit 0
-				unicodeDecimalPoint = '\u066b'; // Arabic-Indic decimal point
-				unicodeComma = '\u060c'; // Arabic comma
-				// unicodeThousandsSeparator = '\u066c'; // Arabic Thousands
-				// separator
-			} else if (lang.startsWith("fa")) { // Persian
-				unicodeZero = '\u06f0'; // Persian digit 0 (Extended
-										// Arabic-Indic)
-				unicodeDecimalPoint = '\u066b'; // Arabic comma
-				unicodeComma = '\u060c'; // Arabic-Indic decimal point
-				// unicodeThousandsSeparator = '\u066c'; // Arabic Thousands
-				// separators
-			} else if (lang.startsWith("ml")) {
-				unicodeZero = '\u0d66'; // Malayalam digit 0
-			} else if (lang.startsWith("th")) {
-				unicodeZero = '\u0e50'; // Thai digit 0
-			} else if (lang.startsWith("ta")) {
-				unicodeZero = '\u0be6'; // Tamil digit 0
-			} else if (lang.startsWith("sd")) {
-				unicodeZero = '\u1bb0'; // Sudanese digit 0
-			} else if (lang.startsWith("kh")) {
-				unicodeZero = '\u17e0'; // Khmer digit 0
-			} else if (lang.startsWith("mn")) {
-				unicodeZero = '\u1810'; // Mongolian digit 0
-			} else if (lang.startsWith("mm")) {
-				unicodeZero = '\u1040'; // Mayanmar digit 0
-			} else {
-				unicodeZero = '0';
-			}
-		} else {
-			unicodeZero = '0';
-		}
-	}
-
+	
+	
 	StringBuilder testCharacters = new StringBuilder();
 
 	public void setLocale(Locale locale) {
@@ -2023,10 +1815,7 @@ public class Application extends AbstractApplication implements
 			updateResourceBundles();
 		}
 
-		updateReverseLanguage(locale);
-
-		// TODO delete object language ?
-		String language = getLocale().getLanguage();
+		updateReverseLanguage(locale.getLanguage());
 
 	}
 
@@ -3168,19 +2957,7 @@ public class Application extends AbstractApplication implements
 		return chooserPopupsEnabled;
 	}
 
-	public boolean letRename() {
-		return true;
-	}
-
-	public boolean letDelete() {
-		return true;
-	}
-
-	@Override
-	public boolean letRedefine() {
-		return true;
-	}
-
+	
 	public boolean letShowPopupMenu() {
 		return rightClickEnabled;
 	}
@@ -3705,69 +3482,8 @@ public class Application extends AbstractApplication implements
 				// }
 	}
 
-	@Override
-	public String getCompleteUserInterfaceXML(boolean asPreference) {
-		StringBuilder sb = new StringBuilder();
 
-		// save gui tag settings
-		sb.append(getGuiXML(asPreference));
 
-		// save euclidianView settings
-		getEuclidianView().getXML(sb, asPreference);
-
-		// save euclidian view 2 settings
-		if (hasEuclidianView2()) {
-			getEuclidianView2().getXML(sb, asPreference);
-		} else if (asPreference && (getGuiManager() != null)) {
-			getEuclidianView2().getXML(sb, true);
-		}
-
-		// save spreadsheetView settings
-		if (getGuiManager().hasSpreadsheetView()) {
-			getGuiManager().getSpreadsheetViewXML(sb, asPreference);
-		}
-
-		// save AlgebraView settings
-		// if (getGuiManager().hasAlgebraView()){
-		// getGuiManager().getAlgebraViewXML(sb);
-		// }
-
-		// save ProbabilityCalculator settings
-		if (getGuiManager().hasProbabilityCalculator()) {
-			getGuiManager().getProbabilityCalculatorXML(sb);
-		}
-		if (asPreference) {
-			getKeyboardXML(sb);
-		}
-		// coord style, decimal places settings etc
-		kernel.getKernelXML(sb, asPreference);
-		getScriptingXML(sb, asPreference);
-		// save cas view seeting and cas session
-		// if (casView != null) {
-		// sb.append(((geogebra.cas.view.CASView) casView).getGUIXML());
-		// sb.append(((geogebra.cas.view.CASView) casView).getSessionXML());
-		// }
-
-		return sb.toString();
-	}
-
-	private void getScriptingXML(StringBuilder sb, boolean asPreference) {
-		sb.append("<scripting");
-		if (getScriptingLanguage() != null) {
-			sb.append(" language=\"");
-			sb.append(getScriptingLanguage());
-			sb.append("\"");
-		}
-		sb.append(" blocked=\"");
-		sb.append(isBlockUpdateScripts());
-
-		if (!asPreference) {
-			sb.append("\" disabled=\"");
-			sb.append(isScriptingDisabled());
-		}
-
-		sb.append("\"/>\n");
-	}
 
 	
 	/**
@@ -3845,113 +3561,9 @@ public class Application extends AbstractApplication implements
 		return hasFullPermissions;
 	}
 
-	/* selection handling */
 
-	final public GeoElement getLastCreatedGeoElement() {
-		return kernel.getConstruction().getLastGeoElement();
-	}
 
-	/**
-	 * geos must contain GeoElement objects only.
-	 * 
-	 * @param geos
-	 */
-	final public void setSelectedGeos(ArrayList<GeoElement> geos) {
-		clearSelectedGeos(false);
-		if (geos != null) {
-			for (int i = 0; i < geos.size(); i++) {
-				GeoElement geo = geos.get(i);
-				addSelectedGeo(geo, false);
-			}
-		}
-		kernel.notifyRepaint();
-		updateSelection();
-	}
-
-	/*
-	 * Michael Borcherds 2008-03-03 modified to select all of a layer pass
-	 * layer==-1 to select all objects
-	 */
-	final public void selectAll(int layer) {
-		clearSelectedGeos(false);
-
-		Iterator<GeoElement> it = kernel.getConstruction()
-				.getGeoSetLabelOrder().iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			if ((layer == -1) || (geo.getLayer() == layer)) {
-				addSelectedGeo(geo, false);
-			}
-		}
-		kernel.notifyRepaint();
-		updateSelection();
-	}
-
-	final public void invertSelection() {
-
-		Iterator<GeoElement> it = kernel.getConstruction()
-				.getGeoSetLabelOrder().iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			if (selectedGeos.contains(geo)) {
-				removeSelectedGeo(geo, false);
-			} else {
-				addSelectedGeo(geo, false);
-			}
-		}
-		kernel.notifyRepaint();
-		updateSelection();
-	}
-
-	final public void selectAllPredecessors() {
-
-		for (int i = 0; i < selectedGeos.size(); i++) {
-			GeoElement geo = selectedGeos.get(i);
-			TreeSet<GeoElement> tree = geo.getAllPredecessors();
-			Iterator<GeoElement> it2 = tree.iterator();
-			while (it2.hasNext()) {
-				addSelectedGeo(it2.next(), false);
-			}
-		}
-		kernel.notifyRepaint();
-		updateSelection();
-	}
-
-	final public void showHideSelection() {
-
-		for (int i = 0; i < selectedGeos.size(); i++) {
-			GeoElement geo = selectedGeos.get(i);
-			geo.setEuclidianVisible(!geo.isEuclidianVisible());
-			geo.update();
-		}
-		kernel.notifyRepaint();
-		updateSelection();
-	}
-
-	final public void showHideSelectionLabels() {
-
-		for (int i = 0; i < selectedGeos.size(); i++) {
-			GeoElement geo = selectedGeos.get(i);
-			geo.setLabelVisible(!geo.isLabelVisible());
-			geo.update();
-		}
-		kernel.notifyRepaint();
-		updateSelection();
-	}
-
-	final public void selectAllDescendants() {
-
-		for (int i = 0; i < selectedGeos.size(); i++) {
-			GeoElement geo = selectedGeos.get(i);
-			TreeSet<GeoElement> tree = geo.getAllChildren();
-			Iterator<GeoElement> it2 = tree.iterator();
-			while (it2.hasNext()) {
-				addSelectedGeo(it2.next(), false);
-			}
-		}
-		kernel.notifyRepaint();
-		updateSelection();
-	}
+	
 
 	
 	
@@ -4306,73 +3918,7 @@ public class Application extends AbstractApplication implements
 		// return e.isMetaDown();
 	}
 
-	// used by PropertyDialogGeoElement and MenuBarImpl
-	// for the Rounding Menus
-	final public static int roundingMenuLookup[] = { 0, 1, 2, 3, 4, 5, 10, 15,
-			-1, 3, 5, 10, 15 };
-	final public static int decimalsLookup[] = { 0, 1, 2, 3, 4, 5, -1, -1, -1,
-			-1, 6, -1, -1, -1, -1, 7 };
-	final public static int figuresLookup[] = { -1, -1, -1, 9, -1, 10, -1, -1,
-			-1, -1, 11, -1, -1, -1, -1, 12 };
-
-	public String[] getRoundingMenu() {
-		String[] strDecimalSpaces = {
-				getPlain("ADecimalPlaces", "0"),
-				getPlain("ADecimalPlace", "1"),
-				getPlain("ADecimalPlaces", "2"),
-				getPlain("ADecimalPlaces", "3"),
-				getPlain("ADecimalPlaces", "4"),
-				getPlain("ADecimalPlaces", "5"),
-				getPlain("ADecimalPlaces", "10"),
-				getPlain("ADecimalPlaces", "15"),
-				"---", // separator
-				getPlain("ASignificantFigures", "3"),
-				getPlain("ASignificantFigures", "5"),
-				getPlain("ASignificantFigures", "10"),
-				getPlain("ASignificantFigures", "15") };
-
-		// zero is singular in eg French
-		if (!isZeroPlural(getLocale())) {
-			strDecimalSpaces[0] = getPlain("ADecimalPlace", "0");
-		}
-
-		return strDecimalSpaces;
-	}
-
-	final public static String[] strDecimalSpacesAC = { "0 decimals",
-			"1 decimals", "2 decimals", "3 decimals", "4 decimals",
-			"5 decimals", "10 decimals", "15 decimals", "", "3 figures",
-			"5 figures", "10 figures", "15 figures" };
-
-	// Rounding Menus end
-
-	public void deleteSelectedObjects() {
-		if (letDelete()) {
-			Object[] geos = getSelectedGeos().toArray();
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
-				if (!geo.isFixed()) {
-					geo.removeOrSetUndefinedIfHasFixedDescendent();
-				}
-			}
-
-			// also delete just created geos if possible
-			ArrayList<GeoElement> geos2 = getActiveEuclidianView()
-					.getEuclidianController().getJustCreatedGeos();
-			for (int j = 0; j < geos2.size(); j++) {
-				GeoElement geo = geos2.get(j);
-				if (!geo.isFixed()) {
-					geo.removeOrSetUndefinedIfHasFixedDescendent();
-				}
-			}
-			getActiveEuclidianView().getEuclidianController()
-					.clearJustCreatedGeos();
-			getActiveEuclidianView().getEuclidianController().clearSelections();
-			storeUndoInfo();
-		}
-
-	}
-
+	
 	/**
 	 * stores an image in the application's imageManager.
 	 * 
@@ -4396,7 +3942,7 @@ public class Application extends AbstractApplication implements
 				byte[] md5hash = new byte[32];
 				md.update(fileData, 0, fileData.length);
 				md5hash = md.digest();
-				zip_directory = convertToHex(md5hash);
+				zip_directory = StringUtil.convertToHex(md5hash);
 			} catch (Exception e) {
 				AbstractApplication.debug("MD5 Error");
 				zip_directory = "images";
@@ -4481,25 +4027,7 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
-	// code from freenet
-	// http://emu.freenetproject.org/pipermail/cvs/2007-June/040186.html
-	// GPL2
-	public static String convertToHex(byte[] data) {
-		StringBuilder buf = new StringBuilder();
-		for (int i = 0; i < data.length; i++) {
-			int halfbyte = (data[i] >>> 4) & 0x0F;
-			int two_halfs = 0;
-			do {
-				if ((0 <= halfbyte) && (halfbyte <= 9)) {
-					buf.append((char) ('0' + halfbyte));
-				} else {
-					buf.append((char) ('a' + (halfbyte - 10)));
-				}
-				halfbyte = data[i] & 0x0F;
-			} while (two_halfs++ < 1);
-		}
-		return buf.toString();
-	}
+	
 
 	public static String getExtension(File file) {
 		String fileName = file.getName();
@@ -4551,12 +4079,6 @@ public class Application extends AbstractApplication implements
 			return fileName.substring(0, dotPos);
 		}
 	}
-
-	
-
-	
-
-	
 
 	final static int MEMORY_CRITICAL = 100 * 1024;
 	static Runtime runtime = Runtime.getRuntime();
@@ -4733,46 +4255,8 @@ public class Application extends AbstractApplication implements
 		// Application.debug("VK active:"+virtualKeyboardActive);
 	}
 
-	private static boolean handwritingRecognitionActive = false;
-
-	public static boolean isHandwritingRecognitionActive() {
-		return handwritingRecognitionActive;
-	}
-
-	public static void setHandwritingRecognitionActive(boolean active) {
-		handwritingRecognitionActive = active;
-	}
-
-	private static boolean handwritingRecognitionAutoAdd = true;
-
-	public static boolean isHandwritingRecognitionAutoAdd() {
-		return handwritingRecognitionAutoAdd;
-	}
-
-	public static void setHandwritingRecognitionAutoAdd(boolean show) {
-		handwritingRecognitionAutoAdd = show;
-	}
-
-	private static boolean handwritingRecognitionTimedAdd = false;
-
-	public static boolean isHandwritingRecognitionTimedAdd() {
-		return handwritingRecognitionTimedAdd;
-	}
-
-	public static void setHandwritingRecognitionTimedAdd(boolean show) {
-		handwritingRecognitionTimedAdd = show;
-	}
-
-	private static boolean handwritingRecognitionTimedRecognise = false;
-
-	public static boolean isHandwritingRecognitionTimedRecognise() {
-		return handwritingRecognitionTimedRecognise;
-	}
-
-	public static void setHandwritingRecognitionTimedRecognise(boolean show) {
-		handwritingRecognitionTimedRecognise = show;
-	}
-
+	
+	
 	
 
 	// determines which CAS is being used
@@ -5017,32 +4501,9 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
-	String[] fontSizeStrings = null;
+	
 
-	public String[] getFontSizeStrings() {
-		if (fontSizeStrings == null) {
-			fontSizeStrings = new String[] { getPlain("ExtraSmall"),
-					getPlain("VerySmall"), getPlain("Small"),
-					getPlain("Medium"), getPlain("Large"),
-					getPlain("VeryLarge"), getPlain("ExtraLarge") };
-		}
-
-		return fontSizeStrings;
-	}
-
-	public void getKeyboardXML(StringBuilder sb) {
-		sb.append("<keyboard width=\"");
-		sb.append(getSettings().getKeyboard().getKeyboardWidth());
-		sb.append("\" height=\"");
-		sb.append(getSettings().getKeyboard().getKeyboardHeight());
-		sb.append("\" opacity=\"");
-		sb.append(getSettings().getKeyboard().getKeyboardOpacity());
-		sb.append("\" language=\"");
-		sb.append(getSettings().getKeyboard().getKeyboardLocale());
-		sb.append("\" show=\"");
-		sb.append(getSettings().getKeyboard().isShowKeyboardOnStart());
-		sb.append("\"/>");
-	}
+	
 
 	@Override
 	public void setScrollToShow(boolean b) {
@@ -5066,10 +4527,6 @@ public class Application extends AbstractApplication implements
 	/** flag to test whether to draw Equations full resolution */
 	public boolean exporting = false;
 
-	
-	public boolean is3D() {
-		return false;
-	}
 
 	// random id to identify ggb files
 	// eg so that GeoGebraTube can notice it's a version of the same file
@@ -5145,16 +4602,6 @@ public class Application extends AbstractApplication implements
 		return getTraceManager().getTraceXML(ge);
 	}
 
-	@Override
-	public void changeLayer(GeoElement ge, int layer, int layer2) {
-		EuclidianViewInterface ev = getActiveEuclidianView();// app.getEuclidianView();
-		if (ev != null) {
-			ev.changeLayer(ge, ge.layer, layer2);
-		}
-
-	}
-
-	
 	@Override
 	public String toLowerCase(String str) {
 		return str.toLowerCase(Locale.US);

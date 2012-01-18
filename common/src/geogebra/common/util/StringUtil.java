@@ -4,6 +4,26 @@ import geogebra.common.awt.Color;
 
 public class StringUtil {
     private static StringBuilder hexSB = null;
+    
+ // code from freenet
+ 	// http://emu.freenetproject.org/pipermail/cvs/2007-June/040186.html
+ 	// GPL2
+ 	public static String convertToHex(byte[] data) {
+ 		StringBuilder buf = new StringBuilder();
+ 		for (int i = 0; i < data.length; i++) {
+ 			int halfbyte = (data[i] >>> 4) & 0x0F;
+ 			int two_halfs = 0;
+ 			do {
+ 				if ((0 <= halfbyte) && (halfbyte <= 9)) {
+ 					buf.append((char) ('0' + halfbyte));
+ 				} else {
+ 					buf.append((char) ('a' + (halfbyte - 10)));
+ 				}
+ 				halfbyte = data[i] & 0x0F;
+ 			} while (two_halfs++ < 1);
+ 		}
+ 		return buf.toString();
+ 	}
 
     /**
      * converts Color to hex String with RGB values
