@@ -716,5 +716,11 @@ public class Application extends AbstractApplication {
 		}
     }
 
+	public static native void console(String str) /*-{
+		if ($wnd && $wnd.console) {
+			$wnd.console.log("no"+str);
+		}
+    }-*/;
+
 
 }

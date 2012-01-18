@@ -81,39 +81,36 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	}
 
 	public void onGestureChange(GestureChangeEvent event) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
     }
 
 	public void onGestureEnd(GestureEndEvent event) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
     }
 
 	public void onGestureStart(GestureStartEvent event) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
     }
 
 	public void onTouchCancel(TouchCancelEvent event) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
-    }
+		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
+		 Application.console(event.getAssociatedType().getName());
+	}
 
 	public void onTouchMove(TouchMoveEvent event) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
-    }
+		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
+		 Application.console(event.getAssociatedType().getName());
+	}
 
 	public void onTouchEnd(TouchEndEvent event) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
-    }
+		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
+		 Application.console(event.getAssociatedType().getName());
+	}
 
 	public void onTouchStart(TouchStartEvent event) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
-    }
+	   //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
+		 Application.console(event.getAssociatedType().getName());
+	}
 	
 	private boolean DRAGMODE_MUST_BE_SELECTED = false;
 

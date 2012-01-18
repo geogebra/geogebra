@@ -56,6 +56,14 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		canvas.addMouseUpHandler((EuclidianController)euclidiancontroller);
 		canvas.addMouseWheelHandler((EuclidianController)euclidiancontroller);
 		
+		canvas.addTouchStartHandler((EuclidianController)euclidiancontroller);
+		canvas.addTouchEndHandler((EuclidianController)euclidiancontroller);
+		canvas.addTouchMoveHandler((EuclidianController)euclidiancontroller);
+		canvas.addTouchCancelHandler((EuclidianController)euclidiancontroller);
+		canvas.addGestureStartHandler((EuclidianController)euclidiancontroller);
+		canvas.addGestureChangeHandler((EuclidianController)euclidiancontroller);
+		canvas.addGestureEndHandler((EuclidianController)euclidiancontroller);
+		
 		
 		if ((evNo == 1) || (evNo == 2)) {
 			EuclidianSettings es = getApplication().getSettings().getEuclidian(evNo);
