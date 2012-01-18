@@ -74,6 +74,7 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 
 	// library javascript available to GeoJavaScriptButton objects
 	final private static String JAVASCRIPT_FILE = "geogebra_javascript.js";
+	final private static String PYTHON_FILE = "geogebra_python.py";
 
 	// All xml output is zipped. The created zip archive *may* contain
 	// an entry named XML_FILE_THUMBNAIL for the construction
@@ -169,7 +170,8 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 		byte[] macroXmlFileBuffer = null;
 		boolean xmlFound = false;
 		boolean macroXMLfound = false;
-
+		boolean javaScriptFound = false;
+		boolean pythonFound = false;
 		boolean ggbHandler = false;
 		
 		// get all entries from the zip archive
@@ -201,7 +203,13 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 			} else if (name.equals(JAVASCRIPT_FILE)) {
 				// load JavaScript
 				kernel.setLibraryJavaScript(Util.loadIntoString(zip));
-			} else {
+				javaScriptFound= true;
+			} else if (name.equals(PYTHON_FILE)) {
+				// load JavaScript
+				kernel.setLibraryPythonScript(Util.loadIntoString(zip));
+				pythonFound= true;
+			} 
+			else {
 				// try to load image
 				try {
 					BufferedImage img = ImageIO.read(zip);
@@ -234,7 +242,10 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 		if (!isGGTfile && xmlFileBuffer != null) {
 			processXMLBuffer(xmlFileBuffer, !macroXMLfound, isGGTfile);
 		}
-
+		if(!javaScriptFound)
+			kernel.resetLibraryJavaScript();
+		if(!pythonFound)
+			kernel.resetLibraryJavaScript();
 		if (!(macroXMLfound || xmlFound))
 			throw new Exception("No XML data found in file.");
 	}

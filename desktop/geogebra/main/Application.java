@@ -3197,11 +3197,8 @@ public class Application extends AbstractApplication implements
 		try {
 			boolean success = loadXML(url.openStream(), isMacroFile);
 
-			// clear global JavaScript
-			if (success && !isMacroFile) {
-				kernel.resetLibraryJavaScript();
-				kernel.resetLibraryPythonScript();
-			}
+			// don't clear JavaScript here -- we may have just read one from the file.
+			// MyXMLio.readZip() handles script resetting
 
 			// set current file
 			if (!isMacroFile && url.toExternalForm().startsWith("file")) {
