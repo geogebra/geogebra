@@ -1,9 +1,11 @@
 package geogebra3D.gui;
 
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.EuclidianView;
+import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.GuiManager;
 import geogebra.gui.dialog.InputDialog;
 import geogebra.gui.dialog.handler.NumberInputHandler;
@@ -161,14 +163,14 @@ public class GuiManager3D extends GuiManager {
 	 * Displays the zoom menu at the position p in the coordinate space of
 	 * euclidianView
 	 */
-	public void showDrawingPadPopup3D(Component invoker, Point p) {
+	public void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view, geogebra.common.awt.Point p) {
 		// clear highlighting and selections in views		
 		((Application3D) app).getEuclidianView3D().resetMode();
 		
 		// menu for drawing pane context menu
 		ContextMenuGraphicsWindow3D popupMenu = new ContextMenuGraphicsWindow3D(
 				app, p.x, p.y);
-		popupMenu.show(invoker, p.x, p.y);
+		popupMenu.show(((EuclidianViewND) view).getJPanel(), p.x, p.y);
 	}
 	
 	

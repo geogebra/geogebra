@@ -1707,9 +1707,8 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	
 	@Override
 	public void showDrawingPadPopup(geogebra.common.awt.Point mouseLoc){
-		((GuiManager3D) ((Application)app).getGuiManager()).showDrawingPadPopup3D((JPanel) view, new java.awt.Point(mouseLoc.x,mouseLoc.y));		
+		((GuiManager3D) ((Application)app).getGuiManager()).showDrawingPadPopup3D(view, mouseLoc);
 	}
-
 	
 	///////////////////////////////////////////
 	// INTERSECTIONS
