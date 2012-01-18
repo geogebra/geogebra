@@ -128,6 +128,13 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	}
 	
 	@Override
+	// CAP_BUTT, JOIN_MITER behaves differently on JRE & GWT
+	// see #1699
+	public BasicStroke newBasicStrokeJoinMitre(float f) {
+		return new geogebra.awt.BasicStroke(f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER);
+	}
+	
+	@Override
 	public Line2D newLine2D() {
 		return new geogebra.awt.Line2D();
 	}

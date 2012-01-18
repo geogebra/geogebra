@@ -24,6 +24,7 @@ import geogebra.common.awt.RectangularShape;
 import geogebra.common.awt.Shape;
 import geogebra.common.awt.font.TextLayout;
 import geogebra.common.euclidian.GeneralPathClipped;
+import geogebra.common.main.AbstractApplication;
 
 public class AwtFactory extends geogebra.common.factories.AwtFactory {
 
@@ -142,6 +143,13 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 	@Override
     public BasicStroke newBasicStroke(float f) {
 	    return new geogebra.web.awt.BasicStroke(f);
+    }
+
+	@Override
+	// CAP_BUTT, JOIN_MITER behaves differently on JRE & GWT
+	// see #1699
+    public BasicStroke newBasicStrokeJoinMitre(float f) {
+	    return new geogebra.web.awt.BasicStroke(f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER);
     }
 
 	@Override

@@ -63,5 +63,6 @@ public abstract class AwtFactory {
 			FontRenderContext frc);
 	public abstract geogebra.common.awt.AlphaComposite newAlphaComposite(int srcOver,
 			float alpha);
+	public abstract BasicStroke newBasicStrokeJoinMitre(float f);
 	
 }

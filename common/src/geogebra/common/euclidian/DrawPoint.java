@@ -59,7 +59,8 @@ public final class DrawPoint extends Drawable {
 
 	private static geogebra.common.awt.BasicStroke borderStroke = EuclidianStatic
 			.getDefaultStroke();
-	private static geogebra.common.awt.BasicStroke[] crossStrokes = new geogebra.common.awt.BasicStroke[10];
+	private static geogebra.common.awt.BasicStroke[] fillStrokes = new geogebra.common.awt.BasicStroke[10];
+	private static geogebra.common.awt.BasicStroke[] emptyStrokes = new geogebra.common.awt.BasicStroke[10];
 
 	private boolean isPreview;
 
@@ -395,7 +396,7 @@ public final class DrawPoint extends Drawable {
 			case EuclidianStyleConstants.POINT_STYLE_CROSS:
 				// draw cross like: X or +
 				g2.setPaint(geo.getObjectColor());
-				g2.setStroke(getCrossStroke(pointSize));
+				g2.setStroke(getEmptyStroke(pointSize));
 				g2.draw(line1);
 				g2.draw(line2);
 				break;
@@ -403,7 +404,7 @@ public final class DrawPoint extends Drawable {
 			case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND:
 				// draw diamond
 				g2.setPaint(geo.getObjectColor());
-				g2.setStroke(getCrossStroke(pointSize));
+				g2.setStroke(getEmptyStroke(pointSize));
 				g2.draw(line1);
 				g2.draw(line2);
 				g2.draw(line3);
@@ -417,7 +418,7 @@ public final class DrawPoint extends Drawable {
 			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST:
 				// draw diamond
 				g2.setPaint(geo.getObjectColor());
-				g2.setStroke(getCrossStroke(pointSize));
+				g2.setStroke(getFillStroke(pointSize));
 				EuclidianStatic.drawWithValueStrokePure(gp, g2);
 				g2.fill(gp);
 				break;
@@ -425,7 +426,7 @@ public final class DrawPoint extends Drawable {
 			case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
 				// draw a circle
 				g2.setPaint(geo.getObjectColor());
-				g2.setStroke(getCrossStroke(pointSize));
+				g2.setStroke(getEmptyStroke(pointSize));
 				g2.draw(circle);
 				break;
 
@@ -464,7 +465,7 @@ public final class DrawPoint extends Drawable {
 
 		switch (pointStyle) {
 		case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
-			g2.setStroke(getCrossStroke(pointSize));
+			g2.setStroke(getEmptyStroke(pointSize));
 			g2.draw(circle);
 			break;
 
@@ -513,15 +514,30 @@ public final class DrawPoint extends Drawable {
 	/*
 	 * pointSize can be more than 9 (set from JavaScript, SetPointSize[])
 	 */
-	final private static geogebra.common.awt.BasicStroke getCrossStroke(int pointSize) {
-
+	final private static geogebra.common.awt.BasicStroke getEmptyStroke(int pointSize) {
 		if (pointSize > 9)
 			return AwtFactory.prototype.newBasicStroke(pointSize / 2f);
 
-		if (crossStrokes[pointSize] == null)
-			crossStrokes[pointSize] = AwtFactory.prototype.newBasicStroke(pointSize / 2f);
+		if (emptyStrokes[pointSize] == null)
+			emptyStrokes[pointSize] = AwtFactory.prototype.newBasicStroke(pointSize / 2f);
 
-		return crossStrokes[pointSize];
+		return emptyStrokes[pointSize];
+	}
+
+	/*
+	 * pointSize can be more than 9 (set from JavaScript, SetPointSize[])
+	 * CAP_BUTT, JOIN_MITER behaves differently on JRE & GWT
+	 * see #1699
+	 */
+	final private static geogebra.common.awt.BasicStroke getFillStroke(int pointSize) {
+
+		if (pointSize > 9)
+			return AwtFactory.prototype.newBasicStrokeJoinMitre(pointSize / 2f);
+
+		if (fillStrokes[pointSize] == null)
+			fillStrokes[pointSize] = AwtFactory.prototype.newBasicStrokeJoinMitre(pointSize / 2f);
+
+		return fillStrokes[pointSize];
 	}
 
 	private int getSelectionDiamaterMin() {
