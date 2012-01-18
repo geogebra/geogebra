@@ -33,12 +33,12 @@ public class EuclidianDockPanel3D extends EuclidianDockPanelAbstract {
 
 	@Override
 	protected JComponent loadComponent() {
-		return ((Application3D)app).getEuclidianView3D();
+		return ((Application3D)app).getEuclidianView3D().getJPanel();
 	}
 	
 	@Override
 	protected JComponent loadStyleBar() {
-		return ((Application3D)app).getEuclidianView3D().getStyleBar();
+		return (JComponent)  ((Application3D)app).getEuclidianView3D().getStyleBar();
 	}
 	
 	@Override

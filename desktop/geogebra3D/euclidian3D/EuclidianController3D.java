@@ -1241,6 +1241,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	
 	@Override
 	protected void processMouseMoved(AbstractEvent e) {	
+		
 		((EuclidianView3D) view).setHits3D(new java.awt.Point(mouseLoc.x,mouseLoc.y));	
 		
 

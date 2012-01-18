@@ -7,6 +7,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Functional2Var;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.PlotterSurface;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoPoint3D;
@@ -72,6 +73,8 @@ implements Previewable, Functional2Var{
 	
 
 	protected boolean updateForItSelf(){
+		
+		//Application.debug(getGeoElement());
 		
 		//updateColors();
 		

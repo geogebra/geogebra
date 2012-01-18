@@ -157,6 +157,7 @@ public class Drawable3DLists {
 	/** update all 3D objects */
 	public void updateAll(){
 		
+		
 		/*
 		if (isUpdatingAll){
 			Application.printStacktrace("is already updating");

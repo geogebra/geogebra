@@ -6402,7 +6402,7 @@ public abstract class AbstractEuclidianController {
 			movedGeoNumeric = (GeoNumeric) movedGeoElement;
 			moveMode = MOVE_NUMERIC;
 	
-			Drawable d = view.getDrawableFor(movedGeoNumeric);
+			DrawableND d = view.getDrawableFor(movedGeoNumeric);
 			if (d instanceof DrawSlider) {
 				// should we move the slider
 				// or the point on the slider, i.e. change the number

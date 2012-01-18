@@ -1,6 +1,7 @@
 package geogebra3D.euclidianFor3D;
 
 import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.DrawableND;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.euclidian.EuclidianController;
@@ -22,10 +23,10 @@ public class EuclidianViewFor3D extends EuclidianView {
 	}
 
 	@Override
-	protected Drawable newDrawable(GeoElement geo) {
+	protected DrawableND newDrawable(GeoElement geo) {
 
 		// first try super method
-		Drawable d = super.newDrawable(geo);
+		DrawableND d = super.newDrawable(geo);
 		if (d != null) {
 			return d;
 		}

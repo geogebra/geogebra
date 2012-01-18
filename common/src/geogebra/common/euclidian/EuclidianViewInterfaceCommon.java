@@ -97,7 +97,7 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 
 	public AbstractApplication getApplication();
 
-	public Drawable getDrawableFor(GeoElement geo);
+	public DrawableND getDrawableFor(GeoElement geo);
 
 	public DrawableND getDrawableND(GeoElement geo);
 

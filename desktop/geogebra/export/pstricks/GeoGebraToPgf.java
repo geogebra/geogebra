@@ -2,6 +2,7 @@ package geogebra.export.pstricks;
 
 import geogebra.common.euclidian.DrawPoint;
 import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.DrawableND;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.Matrix.Coords;
@@ -2133,7 +2134,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		endBeamer(code);
 	}
     
-	protected void drawLabel(GeoElement geo,Drawable drawGeo){
+	protected void drawLabel(GeoElement geo,DrawableND drawGeo){
 		try{
 			if (geo.isLabelVisible()){
 				String name;

@@ -4,6 +4,7 @@ import geogebra.common.euclidian.DrawAngle;
 import geogebra.common.euclidian.DrawLine;
 import geogebra.common.euclidian.DrawPoint;
 import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.DrawableND;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoBarChart;
@@ -585,7 +586,7 @@ public abstract class GeoGebraExport implements ActionListener {
 	 * @param drawGeo
 	 *            Drawable object attached to geo
 	 */
-	abstract protected void drawLabel(GeoElement geo, Drawable drawGeo);
+	abstract protected void drawLabel(GeoElement geo, DrawableND drawGeo);
 
 	/**
 	 * Export as PSTricks or PGF/TikZ the GeoFunction object

@@ -262,7 +262,6 @@ public class Renderer implements GLEventListener {
 	 */
     public void display(GLAutoDrawable gLDrawable) {
     	
-    	if (!view3D.isStarted()) return;
     	
     	//Application.debug("display");
 
@@ -1157,6 +1156,7 @@ public class Renderer implements GLEventListener {
      * does the picking to sets which objects are under the mouse coordinates.
      */
     public void doPick(){
+    	
    	
     	if (geoToPickSize!=oldGeoToPickSize || needsNewPickingBuffer){
     		int bufSize=geoToPickSize*2+1 +20; //TODO remove "+20" due to intersection curve

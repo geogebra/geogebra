@@ -83,5 +83,15 @@ public abstract class DrawableND {
 	 * update it immediately
 	 */
 	public abstract void update();
+
+	public double getxLabel() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public double getyLabel() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 }

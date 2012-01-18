@@ -35,6 +35,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.Application;
 
 import java.awt.BasicStroke;
@@ -76,7 +77,7 @@ import javax.swing.border.Border;
  * @author Markus Hohenwarter
  * @version
  */
-public class EuclidianView extends AbstractEuclidianView implements EuclidianViewInterface,
+public class EuclidianView extends EuclidianViewND implements EuclidianViewInterface,
 		Printable, SettingListener {
 
 	protected static final long serialVersionUID = 1L;
@@ -97,7 +98,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	protected Ellipse2D.Double circle = new Ellipse2D.Double(); // polar grid
 																// circles
 
-	protected EuclidianViewJPanel evjpanel;
 
 	
 	protected static RenderingHints defRenderingHints = new RenderingHints(null);
@@ -140,9 +140,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	protected Image resetImage, playImage, pauseImage, upArrowImage,
 			downArrowImage;
 
-	// temp image
-	private final Graphics2D g2Dtemp = new BufferedImage(5, 5,
-			BufferedImage.TYPE_INT_RGB).createGraphics();
+
 	// public Graphics2D lastGraphics2D;
 
 	protected Cursor defaultCursor;
@@ -174,7 +172,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		evNo = evno;
 		setApplication(((EuclidianController)ec).getApplication());
 
-		evjpanel = new EuclidianViewJPanel(this);
 
 		this.showAxes[0] = showAxes[0];
 		this.showAxes[1] = showAxes[1];
@@ -187,28 +184,20 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		printScaleNF.setMaximumFractionDigits(5);
 
 		// algebra controller will take care of our key events
-		evjpanel.setFocusable(true);
 
-		evjpanel.setLayout(null);
-		evjpanel.setMinimumSize(new Dimension(20, 20));
 		((EuclidianController)euclidianController).setView(this);
 		((EuclidianController)euclidianController).setPen(new EuclidianPen(getApplication(), this));
 
 		attachView();
 
-		// register Listener
-		evjpanel.addMouseMotionListener((EuclidianController)euclidianController);
-		evjpanel.addMouseListener((EuclidianController)euclidianController);
-		evjpanel.addMouseWheelListener((EuclidianController)euclidianController);
-		evjpanel.addComponentListener((EuclidianController)euclidianController);
+
 
 		
 		initView(false);
 
 		// updateRightAngleStyle(app.getLocale());
 
-		// enable drop transfers
-		evjpanel.setTransferHandler(new EuclidianViewTransferHandler(this));
+
 
 		// settings from XML for EV1, EV2
 		// not for eg probability calculator
@@ -219,28 +208,12 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		}
 	}
 
-	@Override
-	public Application getApplication() {
-		return (Application)application;
-	}
 
-	public geogebra.common.euclidian.EuclidianStyleBar getStyleBar() {
-		if (styleBar == null) {
-			styleBar = new EuclidianStyleBar(this);
-		}
-
-		return styleBar;
-	}
-
-	public boolean hasStyleBar() {
-		return styleBar != null;
-	}
 
 	
 
 	protected void initView(boolean repaint) {
-		// preferred size
-		evjpanel.setPreferredSize(null);
+		super.initView(repaint);
 
 		// init grid's line type
 		setGridLineStyle(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
@@ -279,7 +252,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	}
 
 	public boolean hasPreferredSize() {
-		Dimension prefSize = evjpanel.getPreferredSize();
+		Dimension prefSize = getPreferredSize();
 
 		return (prefSize != null) && (prefSize.width > MIN_WIDTH)
 				&& (prefSize.height > MIN_HEIGHT);
@@ -296,13 +269,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	//
 
 
-	//@Override
-	public void setToolTipText(String plain) {
-		if ((tooltipsInThisView == EuclidianStyleConstants.TOOLTIPS_ON)
-				|| (tooltipsInThisView == EuclidianStyleConstants.TOOLTIPS_AUTOMATIC)) {
-			evjpanel.setToolTipText(plain);
-		}
-	}
 
 	// added by Loic BEGIN
 	
@@ -412,60 +378,11 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 	protected MyZoomerRW zoomerRW;
 
 		
-	public int getWidth() {
-		return evjpanel.getWidth();
-	}
-	
-	public int getHeight() {
-		return evjpanel.getHeight();
-	}
 
 	
 
-	@Override
-	public void updateSize() {
 
-		// record the old coord system
 
-		setWidth(getWidth());
-		setHeight(getHeight());
-		if ((getWidth() <= 0) || (getHeight() <= 0)) {
-			return;
-		}
-
-		// real world values
-		setRealWorldBounds();
-
-		// ================================================
-		// G.Sturr 8/27/10: test: rescale on window resize
-		//
-		// reset the coord system so that our view dimensions are restored
-		// using the new scaling factors.
-
-		// setRealWorldCoordSystem(xminTemp, xmaxTemp, yminTemp, ymaxTemp);
-
-		GraphicsConfiguration gconf = evjpanel.getGraphicsConfiguration();
-		try {
-			createImage(gconf);
-		} catch (OutOfMemoryError e) {
-			bgImage = null;
-			bgGraphics = null;
-			System.gc();
-		}
-
-		updateBackgroundImage();
-		updateAllDrawables(true);
-	}
-
-	private void createImage(GraphicsConfiguration gc) {
-		if (gc != null) {
-			bgImage = new geogebra.awt.BufferedImage(gc.createCompatibleImage(getWidth(), getHeight()));
-			bgGraphics = bgImage.createGraphics();
-			if (antiAliasing) {
-				setAntialiasing(bgGraphics);
-			}
-		}
-	}
 
 	// move view:
 	/*
@@ -481,17 +398,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		g2.setRenderingHints(defRenderingHints);
 	}
 
-		public static void setAntialiasing(Graphics2D g2) {
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
-		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-	}
-	
-	@Override
-	public void setAntialiasing(geogebra.common.awt.Graphics2D g2) {
-		setAntialiasing(geogebra.awt.Graphics2D.getAwtGraphics(g2));
-	}
+
 
 	
 
@@ -683,7 +590,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 			if (bgImage == null) {
 				drawBackgroundWithImages(g2d, transparency);
 			} else {
-				geogebra.awt.Graphics2D.getAwtGraphics(g2d).drawImage(geogebra.awt.BufferedImage.getAwtBufferedImage(bgImage), 0, 0, evjpanel);
+				geogebra.awt.Graphics2D.getAwtGraphics(g2d).drawImage(geogebra.awt.BufferedImage.getAwtBufferedImage(bgImage), 0, 0, getJPanel());
 			}
 		} else {
 			// just clear the background if transparency is disabled (clear =
@@ -876,15 +783,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 	
 
-		public void drawActionObjects(geogebra.common.awt.Graphics2D g2){
-		// TODO layers for Buttons and Textfields
-			// for cross-platform UI the stroke must be reset to show buttons
-			// properly, see #442
-			g2.setStroke(EuclidianStatic.getDefaultStroke());
-				evjpanel.paintChildren(
-						geogebra.awt.Graphics2D.getAwtGraphics(g2)); // draws Buttons and Textfields
-	}
-	
 	/*
 	 * protected void drawObjects(Graphics2D g2, int layer) { // draw images
 	 * drawImageList.drawAll(g2);
@@ -949,6 +847,7 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		return new DrawBoolean(this,geo);
 	}
 
+
 	public Drawable newDrawButton( GeoButton geo) {
 		return new DrawButton(this,geo);
 	}
@@ -957,14 +856,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		return new DrawTextField(this,geo);
 	}
 
-
-	public void clearView() {
-		evjpanel.removeAll(); // remove hotEqns
-		resetLists();
-		initView(false);
-		updateBackgroundImage(); // clear traces and images
-		// resetMode();
-	}
 
 	
 	public String getXML() {
@@ -1394,17 +1285,6 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 
 	
 
-	public Color getBackground() {
-		return evjpanel.getBackground();
-	}
-	
-	public geogebra.common.awt.Color getBackgroundCommon() {
-		return new geogebra.awt.Color(evjpanel.getBackground());
-	}
-
-	public void setBackground(geogebra.common.awt.Color bgColor) {
-		evjpanel.setBackground(geogebra.awt.Color.getAwtColor(bgColor));
-	}
 
 	public Color getGridColor() {
 		return geogebra.awt.Color.getAwtColor(gridColor);
@@ -1423,165 +1303,20 @@ public class EuclidianView extends AbstractEuclidianView implements EuclidianVie
 		return (EuclidianController)euclidianController;
 	}
 
-	@Override
-	final public geogebra.common.awt.Graphics2D getTempGraphics2D(geogebra.common.awt.Font font) {
-		g2Dtemp.setFont(geogebra.awt.Font.getAwtFont(font)); // Michael Borcherds 2008-06-11 bugfix for
-								// Corner[text,n]
-		return new geogebra.awt.Graphics2D(g2Dtemp);
-	}
 
-	final public Graphics2D getTempGraphics2D() {
-		g2Dtemp.setFont(getApplication().getPlainFont());
-		return g2Dtemp;
-	}
+
+
 
 	
 
-	public Graphics2D getGraphicsForPen() {
-		return (Graphics2D) evjpanel.getGraphics();
 
-	}
 
-	
-	
-	public void setCursor(Cursor cursor) {
-		((JPanel)evjpanel).setCursor(cursor);
-	}
-
-	public boolean hasFocus() {
-		return evjpanel.hasFocus();
-	}
-
-	public void repaint() {
-		evjpanel.repaint();
-	}
-	
-	public void add(Component comp) {
-		evjpanel.add(comp);
-	}
-	
-	public void remove(Component comp) {
-		evjpanel.remove(comp);
-	}
-
-	public JPanel getJPanel() {
-		// TODO Auto-generated method stub
-		return evjpanel;
-	}
-
-	public void requestFocus() {
-		evjpanel.requestFocus();		
-	}
-
-	@Override
-	public Font getFont() {
-		// TODO Auto-generated method stub
-		return new geogebra.awt.Font(evjpanel.getFont());
-	}
-
-	public Graphics2D getGraphics() {
-		return (Graphics2D) evjpanel.getGraphics();
-	}
-
-	public java.awt.Point getMousePosition() {
-		return evjpanel.getMousePosition();
-	}
-
-	public FontMetrics getFontMetrics(java.awt.Font font) {
-		return evjpanel.getFontMetrics(font);
-	}
-
-	public boolean isShowing() {
-		return evjpanel.isShowing();
-	}
-
-	@Override
-	public boolean requestFocusInWindow() {
-		return evjpanel.requestFocusInWindow();	
-	}
-	
-	public void setPreferredSize(Dimension preferredSize) {
-		evjpanel.setPreferredSize(preferredSize);
-	}
-	
-	public void setPreferredSize(geogebra.common.awt.Dimension preferredSize) {
-		evjpanel.setPreferredSize(geogebra.awt.Dimension.getAWTDimension(preferredSize));
-	}
-	
-	public void revalidate() {
-		evjpanel.revalidate();
-	}
-	
-	public void addMouseListener(MouseListener ml) {
-		evjpanel.addMouseListener(ml);
-	}
-	
-	public void removeMouseListener(MouseListener ml) {
-		evjpanel.removeMouseListener(ml);
-	}
-	
-	public void addMouseMotionListener(MouseMotionListener mml) {
-		evjpanel.addMouseMotionListener(mml);
-	}
-	
-	public void removeMouseMotionListener(MouseMotionListener mml) {
-		evjpanel.removeMouseMotionListener(mml);
-	}
-	
-	public void addMouseWheelListener(MouseWheelListener mwl) {
-		evjpanel.addMouseWheelListener(mwl);
-	}
-	
-	public void removeMouseWheelListener(MouseWheelListener mwl) {
-		evjpanel.removeMouseWheelListener(mwl);
-	}
-
-	public void dispatchEvent(ComponentEvent componentEvent) {
-		evjpanel.dispatchEvent(componentEvent);
-	}
-	
-	public void setBorder(Border border) {
-		evjpanel.setBorder(border)	;
-	}
-	
-	public void addComponentListener(
-			ComponentListener componentListener) {
-		evjpanel.addComponentListener(componentListener);
-		
-	}
-	
-	public void setSize(Dimension dimension) {
-		evjpanel.setSize(dimension);
-		
-	}
-
-	public Dimension getPreferredSize() {
-		// TODO Auto-generated method stub
-		return evjpanel.getPreferredSize();
-	}
-
-	protected void processMouseEvent(MouseEvent e) {
-		evjpanel.processMouseEventImpl(e);
-	}
-
-	@Override
-	protected void setHeight(int height) {
-	}
-
-	@Override
-	protected void setWidth(int width) {
-	}
 
 	
 	
 	
 
-	@Override
-	protected void setStyleBarMode(int mode) {
-		if (hasStyleBar()) {
-			getStyleBar().setMode(mode);
-		}
-	}
+
 
 	public boolean hitAnimationButton(AbstractEvent e) {
 		return hitAnimationButton(geogebra.euclidian.event.MouseEvent.getEvent(e));

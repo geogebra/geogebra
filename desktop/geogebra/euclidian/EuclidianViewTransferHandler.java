@@ -5,6 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.AbstractApplication;
+import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
 import geogebra.main.Application;
 import geogebra.util.AlgebraViewTransferHandler;
@@ -34,7 +35,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 
 	private static final long serialVersionUID = 1L;
 
-	private EuclidianView ev;
+	private EuclidianViewND ev;
 	private Application app;
 
 	static DataFlavor textReaderFlavor;
@@ -83,7 +84,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 	 * 
 	 * @param ev
 	 */
-	public EuclidianViewTransferHandler(EuclidianView ev) {
+	public EuclidianViewTransferHandler(EuclidianViewND ev) {
 		this.ev = ev;
 		this.app = ev.getApplication();
 	}

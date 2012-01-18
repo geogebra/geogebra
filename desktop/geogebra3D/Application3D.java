@@ -105,7 +105,7 @@ public class Application3D extends Application {
 
 		// init the 3D euclidian view
 		euclidianController3D = new EuclidianController3D(kernel3D);
-		euclidianView3D = new EuclidianView3D(euclidianController3D);
+		euclidianView3D = new EuclidianView3D(euclidianController3D,null);
 
 	}
 

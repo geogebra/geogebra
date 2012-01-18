@@ -327,7 +327,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		return capturingThreshold;
 	}
 
-	final public int getMode() {
+	public int getMode() {
 		return mode;
 	}
 
@@ -749,7 +749,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	}
 
 	/** Sets coord system from mouse move */
-	final public void setCoordSystemFromMouseMove(int dx, int dy, int mode) {
+	public void setCoordSystemFromMouseMove(int dx, int dy, int mode) {
 		setCoordSystem(xZeroOld + dx, yZeroOld + dy, getXscale(), getYscale());
 	}
 
@@ -843,7 +843,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	protected double printingScale;
 
 	// Map (geo, drawable) for GeoElements and Drawables
-	protected HashMap<GeoElement, Drawable> DrawableMap = new HashMap<GeoElement, Drawable>(
+	protected HashMap<GeoElement, DrawableND> DrawableMap = new HashMap<GeoElement, DrawableND>(
 			500);
 
 	protected ArrayList<GeoPointND> stickyPointList = new ArrayList<GeoPointND>();
@@ -1238,7 +1238,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		}
 	}
 
-	final public void update(GeoElement geo) {
+	public void update(GeoElement geo) {
 		Object d = DrawableMap.get(geo);
 		if (d != null) {
 			((Drawable) d).update();
@@ -1259,7 +1259,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		}
 
 		// check if there is already a drawable for geo
-		Drawable d = getDrawable(geo);
+		DrawableND d = getDrawable(geo);
 		
 		if (d != null) {
 			return;
@@ -1267,7 +1267,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 		d = createDrawable(geo);
 		if (d != null) {
-			addToDrawableLists(d);
+			addToDrawableLists((Drawable) d);
 			repaint();
 		}
 
@@ -1276,8 +1276,8 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	/**
 	 * removes a GeoElement from this view
 	 */
-	final public void remove(GeoElement geo) {
-		Drawable d = DrawableMap.get(geo);
+	public void remove(GeoElement geo) {
+		Drawable d = (Drawable) DrawableMap.get(geo);
 		int layer = geo.getLayer();
 		if(d==null)
 			return;
@@ -1307,7 +1307,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	 * sets the hits of GeoElements whose visual representation is at screen
 	 * coords (x,y). order: points, vectors, lines, conics
 	 */
-	final public void setHits(geogebra.common.awt.Point p) {
+	public void setHits(geogebra.common.awt.Point p) {
 
 		hits.init();
 
@@ -1362,7 +1362,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	/**
 	 * returns GeoElement whose label is at screen coords (x,y).
 	 */
-	final public GeoElement getLabelHit(geogebra.common.awt.Point p) {
+	public GeoElement getLabelHit(geogebra.common.awt.Point p) {
 		if (!getApplication().isLabelDragsEnabled()) {
 			return null;
 		}
@@ -1654,11 +1654,11 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	 * @param geo
 	 * @return drawable for the given GeoElement.
 	 */
-	final Drawable getDrawable(GeoElement geo) {
+	final DrawableND getDrawable(GeoElement geo) {
 		return DrawableMap.get(geo);
 	}
 
-	final public DrawableND getDrawableND(GeoElement geo) {
+	public DrawableND getDrawableND(GeoElement geo) {
 		return getDrawable(geo);
 	}
 
@@ -1712,7 +1712,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		return geo.isVisibleInView(this.getViewID());
 	}
 
-	public DrawableND createDrawableND(GeoElement geo) {
+	final public DrawableND createDrawableND(GeoElement geo) {
 		return createDrawable(geo);
 	}
 	/**
@@ -1722,8 +1722,8 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	 *            GeoElement to be added
 	 * @return drawable for given GeoElement
 	 */
-	protected Drawable createDrawable(GeoElement geo) {
-		Drawable d = newDrawable(geo);
+	protected DrawableND createDrawable(GeoElement geo) {
+		DrawableND d = newDrawable(geo);
 		if (d != null) {
 			DrawableMap.put(geo, d);
 			if (geo.isGeoPoint()) {
@@ -1746,20 +1746,20 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		setMode(mode);
 	}
 	
-	final public void repaintView() {
+	public void repaintView() {
 		repaint();
 	}
 
-	final public void repaintEuclidianView() {
+	public void repaintEuclidianView() {
 		repaint();
 	}
 
 
-	final public void updateVisualStyle(GeoElement geo) {
+	public void updateVisualStyle(GeoElement geo) {
 		update(geo);
 	}
 
-	final public Drawable getDrawableFor(GeoElement geo) {
+	final public DrawableND getDrawableFor(GeoElement geo) {
 		return DrawableMap.get(geo);
 	}
 
@@ -1866,7 +1866,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		updateAllDrawables(true);
 	}
 
-	final public int getPointStyle() {
+	public int getPointStyle() {
 		return getApplication().pointStyle;
 	}
 
@@ -1939,9 +1939,9 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	public void changeLayer(GeoElement geo, int oldlayer, int newlayer) {
 		updateMaxLayerUsed(newlayer);
 		// Application.debug(drawLayers[oldlayer].size());
-		drawLayers[oldlayer].remove(DrawableMap.get(geo));
+		drawLayers[oldlayer].remove((Drawable) DrawableMap.get(geo));
 		// Application.debug(drawLayers[oldlayer].size());
-		drawLayers[newlayer].add(DrawableMap.get(geo));
+		drawLayers[newlayer].add((Drawable) DrawableMap.get(geo));
 	}
 
 	public void updateMaxLayerUsed(int layer) {
@@ -2101,7 +2101,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	 *            GeoElement to be added
 	 * @return drawable for given GeoElement
 	 */
-	protected Drawable newDrawable(GeoElement geo) {
+	protected DrawableND newDrawable(GeoElement geo) {
 		Drawable d = null;
 		switch (geo.getGeoClassType()) {
 		case BOOLEAN:

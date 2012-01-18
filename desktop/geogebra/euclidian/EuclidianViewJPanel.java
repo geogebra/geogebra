@@ -1,5 +1,7 @@
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.AbstractEuclidianView;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -11,9 +13,9 @@ public class EuclidianViewJPanel extends JPanel implements geogebra.common.eucli
 
 	private static final long serialVersionUID = 1L;
 	
-	EuclidianView view;
+	AbstractEuclidianView view;
 
-	public EuclidianViewJPanel(EuclidianView view) {
+	public EuclidianViewJPanel(AbstractEuclidianView view) {
 		this.view = view;
 	}
 
