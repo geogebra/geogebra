@@ -14,7 +14,7 @@ import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Widget;
 
-import geogebra.common.awt.BufferedImageAdapter;
+import geogebra.common.awt.BufferedImage;
 import geogebra.common.awt.Font;
 import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.DrawEquationInterface;
@@ -407,7 +407,7 @@ public class Application extends AbstractApplication {
     }
 
 	@Override
-    public BufferedImageAdapter getExternalImageAdapter(String filename) {
+    public BufferedImage getExternalImageAdapter(String filename) {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
     }

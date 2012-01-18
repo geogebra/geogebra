@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.BufferedImageAdapter;
+import geogebra.common.awt.BufferedImage;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
@@ -38,7 +38,7 @@ public final class DrawImage extends Drawable {
 
 	private GeoImage geoImage;
 	boolean isVisible;
-	private BufferedImageAdapter image;
+	private BufferedImage image;
 
 	boolean absoluteLocation;
 	private geogebra.common.awt.AlphaComposite alphaComp;

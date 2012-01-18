@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.awt.BufferedImageAdapter;
+import geogebra.common.awt.BufferedImage;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Point;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -6104,7 +6104,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		return hatchingDistance;
 	}
 
-	public BufferedImageAdapter getFillImage() {
+	public BufferedImage getFillImage() {
 
 		return graphicsadapter.getFillImage();
 	}

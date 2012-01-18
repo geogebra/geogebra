@@ -1,6 +1,6 @@
 package geogebra.common.awt;
 
-public interface BufferedImageAdapter {
+public interface BufferedImage {
 
 	public int TYPE_INT_ARGB = 2;
 

@@ -6,7 +6,7 @@ import geogebra.common.awt.Font;
 import geogebra.common.awt.FontRenderContext;
 import geogebra.common.awt.QuadCurve2D;
 import geogebra.common.awt.BasicStroke;
-import geogebra.common.awt.BufferedImageAdapter;
+import geogebra.common.awt.BufferedImage;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.Ellipse2DDouble;
@@ -32,7 +32,7 @@ public abstract class AwtFactory {
 	public abstract AffineTransform newAffineTransform();
 	public abstract Rectangle2D newRectangle2D();
 	public abstract Rectangle newRectangle(int x,int y,int w,int h);
-	public abstract BufferedImageAdapter newBufferedImage(int pixelWidth,
+	public abstract BufferedImage newBufferedImage(int pixelWidth,
 			int pixelHeight, int typeIntArgb);
 	public abstract Dimension newDimension(int width,
 			int height);

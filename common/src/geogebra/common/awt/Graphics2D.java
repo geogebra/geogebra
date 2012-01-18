@@ -119,10 +119,10 @@ public abstract class Graphics2D {
 	 * @see #clip
 	 * @see #setClip
 	 */
-	public abstract void drawImage(BufferedImageAdapter img, BufferedImageOp op,
+	public abstract void drawImage(BufferedImage img, BufferedImageOp op,
 			int x, int y);
 	
-	public abstract void drawImage(BufferedImageAdapter img, int x, int y, BufferedImageOp op);
+	public abstract void drawImage(BufferedImage img, int x, int y, BufferedImageOp op);
 
 	/**
 	 * Renders a {@link RenderedImage},

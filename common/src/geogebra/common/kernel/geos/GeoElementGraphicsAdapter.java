@@ -1,17 +1,17 @@
 package geogebra.common.kernel.geos;
 
-import geogebra.common.awt.BufferedImageAdapter;
+import geogebra.common.awt.BufferedImage;
 
 public abstract class GeoElementGraphicsAdapter {
 
 	protected String imageFileName = "";
-	protected BufferedImageAdapter image;
+	protected BufferedImage image;
 
-	public BufferedImageAdapter getImageOnly() {
+	public BufferedImage getImageOnly() {
 		return image;
 	}
 
-	public void setImageOnly(BufferedImageAdapter ba) {
+	public void setImageOnly(BufferedImage ba) {
 		try {
 			image = ba;
 		} catch (Exception e) {
@@ -30,7 +30,7 @@ public abstract class GeoElementGraphicsAdapter {
 	
 	
 
-	public abstract BufferedImageAdapter getFillImage();
+	public abstract BufferedImage getFillImage();
 	public abstract void setImageFileName(String fileName);
 
 	public void setFillImage(String filename) {

@@ -4,7 +4,6 @@ import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.AlphaComposite;
 import geogebra.common.awt.AttributedCharacterIterator;
 import geogebra.common.awt.BasicStroke;
-import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.BufferedImageOp;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Composite;
@@ -113,7 +112,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	//
 	@Override
-    public void drawImage(BufferedImageAdapter img, BufferedImageOp op, int x,
+    public void drawImage(geogebra.common.awt.BufferedImage img, BufferedImageOp op, int x,
 	        int y) {
 		context.drawImage(((BufferedImage) img).getImageElement(), x, y);
 	}
@@ -461,7 +460,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	
     @Override
-    public void drawImage(BufferedImageAdapter img, int x, int y,
+    public void drawImage(geogebra.common.awt.BufferedImage img, int x, int y,
             BufferedImageOp op) {
     	BufferedImage bi = geogebra.web.awt.BufferedImage.getGawtImage(img);
     	if(bi==null)

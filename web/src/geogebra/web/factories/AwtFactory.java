@@ -5,7 +5,7 @@ import geogebra.common.awt.AlphaComposite;
 import geogebra.common.awt.Arc2D;
 import geogebra.common.awt.Area;
 import geogebra.common.awt.BasicStroke;
-import geogebra.common.awt.BufferedImageAdapter;
+import geogebra.common.awt.BufferedImage;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.CubicCurve2D;
 import geogebra.common.awt.Dimension;
@@ -68,7 +68,7 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 	}
 
 	@Override
-	public BufferedImageAdapter newBufferedImage(int pixelWidth,
+	public BufferedImage newBufferedImage(int pixelWidth,
 	        int pixelHeight, int typeIntArgb) {
 		return new geogebra.web.awt.BufferedImage(pixelWidth, pixelHeight, typeIntArgb);
 	}

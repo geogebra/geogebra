@@ -1,6 +1,6 @@
 package geogebra.common.main;
 
-import geogebra.common.awt.BufferedImageAdapter;
+import geogebra.common.awt.BufferedImage;
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Font;
 import geogebra.common.euclidian.AbstractEuclidianController;
@@ -1705,7 +1705,7 @@ public abstract class AbstractApplication {
 		return 32;
 	}
 
-	public abstract BufferedImageAdapter getExternalImageAdapter(String filename);
+	public abstract BufferedImage getExternalImageAdapter(String filename);
 
 	public abstract String getCommandSyntax(String cmd);
 

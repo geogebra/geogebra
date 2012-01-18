@@ -16,7 +16,7 @@ import geogebra.common.awt.Point;
 import geogebra.common.awt.Point2D;
 import geogebra.common.awt.QuadCurve2D;
 import geogebra.common.awt.Rectangle;
-import geogebra.common.awt.BufferedImageAdapter;
+import geogebra.common.awt.BufferedImage;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.Rectangle2D;
@@ -67,7 +67,7 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	}
 
 	@Override
-	public BufferedImageAdapter newBufferedImage(int pixelWidth,
+	public BufferedImage newBufferedImage(int pixelWidth,
 			int pixelHeight, int type) {
 		// TODO Auto-generated method stub
 		return new geogebra.awt.BufferedImage(pixelWidth,pixelHeight,type);

@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 import geogebra.common.awt.BasicStroke;
-import geogebra.common.awt.BufferedImageAdapter;
+import geogebra.common.awt.BufferedImage;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Ellipse2DDouble;
@@ -103,7 +103,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	public static final double YZERO_STANDARD = 315;
 	// or use volatile image
 		// protected int drawMode = DRAW_MODE_BACKGROUND_IMAGE;
-		protected BufferedImageAdapter bgImage;
+		protected BufferedImage bgImage;
 		protected geogebra.common.awt.Graphics2D bgGraphics; // g2d of bgImage
 		// zoom rectangle colors
 		protected static final geogebra.common.awt.Color colZoomRectangle = 

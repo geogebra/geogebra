@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.awt.BufferedImageAdapter;
+import geogebra.common.awt.BufferedImage;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.CircularDefinitionException;
@@ -928,7 +928,7 @@ implements Locateable, AbsoluteScreenLocateable,
 	}
 
 	public void clearFillImage() {
-		this.getGraphicsAdapter().setImageOnly(geogebra.common.factories.AwtFactory.prototype.newBufferedImage(pixelWidth, pixelHeight, BufferedImageAdapter.TYPE_INT_ARGB));
+		this.getGraphicsAdapter().setImageOnly(geogebra.common.factories.AwtFactory.prototype.newBufferedImage(pixelWidth, pixelHeight, BufferedImage.TYPE_INT_ARGB));
 		this.updateRepaint();
 		
 	}

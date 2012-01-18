@@ -1,10 +1,8 @@
 package geogebra.awt;
 
-
-import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.Graphics2D;
 
-public class BufferedImage implements BufferedImageAdapter {
+public class BufferedImage implements geogebra.common.awt.BufferedImage {
 	public int TYPE_INT_ARGB = java.awt.image.BufferedImage.TYPE_INT_ARGB;
 	private java.awt.image.BufferedImage impl;
 	
@@ -24,7 +22,8 @@ public class BufferedImage implements BufferedImageAdapter {
 		return impl.getHeight();
 	}
 	
-	public static java.awt.image.BufferedImage getAwtBufferedImage(BufferedImageAdapter im){
+	public static java.awt.image.BufferedImage getAwtBufferedImage(
+			geogebra.common.awt.BufferedImage im){
 		if(im==null)
 			return null;
 		return ((BufferedImage)im).impl;

@@ -1,6 +1,5 @@
 package geogebra.kernel.geos;
 
-import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.main.AbstractApplication;
 
@@ -19,7 +18,7 @@ public class GeoElementGraphicsAdapterDesktop extends
 		app = (Application) appl;
 	}
 
-	public BufferedImageAdapter getFillImage() {
+	public geogebra.common.awt.BufferedImage getFillImage() {
 		if (image != null)
 			return image;
 

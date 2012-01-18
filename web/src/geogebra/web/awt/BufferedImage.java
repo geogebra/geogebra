@@ -1,10 +1,9 @@
 package geogebra.web.awt;
 
-import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.awt.Graphics2D;
 import geogebra.common.main.AbstractApplication;
 
-public class BufferedImage implements BufferedImageAdapter {
+public class BufferedImage implements geogebra.common.awt.BufferedImage {
 	
 	private geogebra.web.kernel.gawt.BufferedImage impl;
 	
@@ -12,7 +11,7 @@ public class BufferedImage implements BufferedImageAdapter {
 		impl = new geogebra.web.kernel.gawt.BufferedImage(width,height,imageType);
 	}
 
-	public BufferedImage(BufferedImageAdapter fillImage) {
+	public BufferedImage(geogebra.common.awt.BufferedImage fillImage) {
 	    // TODO Auto-generated constructor stub
     }
 
@@ -36,7 +35,7 @@ public class BufferedImage implements BufferedImageAdapter {
 	    return null;
     }
 
-	public static geogebra.web.kernel.gawt.BufferedImage getGawtImage(BufferedImageAdapter img) {
+	public static geogebra.web.kernel.gawt.BufferedImage getGawtImage(geogebra.common.awt.BufferedImage img) {
 		if(!(img instanceof BufferedImage))
 			return null;
 		return ((BufferedImage)img).impl;

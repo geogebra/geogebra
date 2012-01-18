@@ -20,7 +20,6 @@ package geogebra.main;
 import geogebra.CommandLineArguments;
 import geogebra.GeoGebra;
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.awt.BufferedImageAdapter;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.event.AbstractEvent;
@@ -1599,7 +1598,7 @@ public class Application extends AbstractApplication implements
 	}
 
 	@Override
-	public BufferedImageAdapter getExternalImageAdapter(String filename) {
+	public geogebra.common.awt.BufferedImage getExternalImageAdapter(String filename) {
 		return new geogebra.awt.BufferedImage(
 				ImageManager.getExternalImage(filename));
 	}

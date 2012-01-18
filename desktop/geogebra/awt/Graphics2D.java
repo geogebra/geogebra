@@ -4,7 +4,7 @@ import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.AlphaComposite;
 import geogebra.common.awt.AttributedCharacterIterator;
 import geogebra.common.awt.BasicStroke;
-import geogebra.common.awt.BufferedImageAdapter;
+import geogebra.common.awt.BufferedImage;
 import geogebra.common.awt.BufferedImageOp;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Composite;
@@ -272,16 +272,16 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 	}
 
 	@Override
-	public void drawImage(BufferedImageAdapter img, BufferedImageOp op, int x,
+	public void drawImage(BufferedImage img, BufferedImageOp op, int x,
 			int y) {
-		impl.drawImage(BufferedImage.getAwtBufferedImage(img), (geogebra.awt.BufferedImageOp) op, x, y);
+		impl.drawImage(geogebra.awt.BufferedImage.getAwtBufferedImage(img), (geogebra.awt.BufferedImageOp) op, x, y);
 		
 	}
 
 	@Override
-	public void drawImage(BufferedImageAdapter img, int x, int y,
+	public void drawImage(BufferedImage img, int x, int y,
 			BufferedImageOp op) {
-		impl.drawImage(BufferedImage.getAwtBufferedImage(img),(geogebra.awt.BufferedImageOp) op, x, y);
+		impl.drawImage(geogebra.awt.BufferedImage.getAwtBufferedImage(img),(geogebra.awt.BufferedImageOp) op, x, y);
 		
 	}
 
