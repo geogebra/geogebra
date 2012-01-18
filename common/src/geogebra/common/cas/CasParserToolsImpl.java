@@ -2,7 +2,7 @@ package geogebra.common.cas;
 
 import com.google.gwt.regexp.shared.RegExp;
 
-class CasParserToolsImpl implements CasParserTools {
+public class CasParserToolsImpl implements CasParserTools {
 	
 	private static final char DEFAULT_EXP_CHAR = 'E';
 	
