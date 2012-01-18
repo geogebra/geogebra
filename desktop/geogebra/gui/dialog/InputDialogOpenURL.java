@@ -18,7 +18,7 @@ public class InputDialogOpenURL extends InputDialog{
 		// check if there's a string starting http:// already on the clipboard
 		// (quite likely!!)
 		String clipboardString = app.getStringFromClipboard();
-		if (clipboardString != null && (clipboardString.startsWith("http://") || clipboardString.startsWith("www")))
+		if (clipboardString != null && (clipboardString.startsWith("http://") || clipboardString.startsWith("https://") || clipboardString.startsWith("www")))
 			initString = clipboardString;
 
 		createGUI(app.getMenu("OpenWebpage"), app.getMenu("EnterAppletAddress"), false, DEFAULT_COLUMNS, 1, false, false, true, false, false, false, true);
