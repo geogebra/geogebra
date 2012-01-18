@@ -48,6 +48,6 @@ public interface GeoGebraConstants {
 	public static final String URL_PARAM_GGB_FILE = "ggb-file";
 	public static final String URL_PARAM_PROXY = "url";
 	public static final String PROXY_SERVING_LOCATION = "proxy";
-	public static final String GGM_CLASS_NAME = "geogebramobile";
+	public static final String GGM_CLASS_NAME = "geogebraweb";
 
 }
