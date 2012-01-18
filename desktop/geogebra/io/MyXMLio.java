@@ -245,7 +245,7 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 		if(!javaScriptFound)
 			kernel.resetLibraryJavaScript();
 		if(!pythonFound)
-			kernel.resetLibraryJavaScript();
+			kernel.resetLibraryPythonScript();
 		if (!(macroXMLfound || xmlFound))
 			throw new Exception("No XML data found in file.");
 	}
