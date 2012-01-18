@@ -85,7 +85,7 @@ public class Color extends geogebra.common.awt.Color {
 		setRed((int) (r*255));
 		setGreen((int) (g*255));
 		setBlue((int) (b*255));
-		setAlpha((int) alpha*255);
+		setAlpha((int) (alpha*255));
 		
 		// TODO Auto-generated constructor stub
 	}
