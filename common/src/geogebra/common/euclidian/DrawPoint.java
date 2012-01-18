@@ -513,13 +513,15 @@ public final class DrawPoint extends Drawable {
 
 	/*
 	 * pointSize can be more than 9 (set from JavaScript, SetPointSize[])
+	 * CAP_BUTT, JOIN_MITER behaves differently on JRE & GWT
+	 * see #1699
 	 */
 	final private static geogebra.common.awt.BasicStroke getEmptyStroke(int pointSize) {
 		if (pointSize > 9)
-			return AwtFactory.prototype.newBasicStroke(pointSize / 2f);
+			return AwtFactory.prototype.newBasicStrokeJoinMitre(pointSize / 2f);
 
 		if (emptyStrokes[pointSize] == null)
-			emptyStrokes[pointSize] = AwtFactory.prototype.newBasicStroke(pointSize / 2f);
+			emptyStrokes[pointSize] = AwtFactory.prototype.newBasicStrokeJoinMitre(pointSize / 2f);
 
 		return emptyStrokes[pointSize];
 	}
@@ -532,10 +534,10 @@ public final class DrawPoint extends Drawable {
 	final private static geogebra.common.awt.BasicStroke getFillStroke(int pointSize) {
 
 		if (pointSize > 9)
-			return AwtFactory.prototype.newBasicStrokeJoinMitre(pointSize / 2f);
+			return AwtFactory.prototype.newBasicStroke(pointSize / 2f);
 
 		if (fillStrokes[pointSize] == null)
-			fillStrokes[pointSize] = AwtFactory.prototype.newBasicStrokeJoinMitre(pointSize / 2f);
+			fillStrokes[pointSize] = AwtFactory.prototype.newBasicStroke(pointSize / 2f);
 
 		return fillStrokes[pointSize];
 	}
