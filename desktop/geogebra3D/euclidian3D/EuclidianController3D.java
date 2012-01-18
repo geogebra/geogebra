@@ -29,6 +29,7 @@ import geogebra.common.kernel.kernelND.Region3D;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.main.Application;
+import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.gui.GuiManager3D;
 import geogebra3D.gui.dialogs.DialogManager3D;
@@ -183,12 +184,14 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 		
 		// sets the min/max values
 		double[] minmax;
+		double size = movedGeoPoint.getPointSize()*DrawPoint3D.DRAW_POINT_FACTOR/view3D.getScale();
 		minmax = view3D.getXMinMax();
-		xMinMax = getMinMax(minmax[0], coords.getX(), minmax[1]);
+		xMinMax = getMinMax(minmax[0]+size, coords.getX(), minmax[1]-size);
+		//Application.debug("size="+geo.getLineThickness()+","+size+"\nxmin="+xMinMax[0]+"\nxmax="+xMinMax[1]);
 		minmax = view3D.getYMinMax();
-		yMinMax = getMinMax(minmax[0], coords.getY(), minmax[1]);
+		yMinMax = getMinMax(minmax[0]+size, coords.getY(), minmax[1]-size);
 		minmax = view3D.getZMinMax();
-		zMinMax = getMinMax(minmax[0], coords.getZ(), minmax[1]);
+		zMinMax = getMinMax(minmax[0]+size, coords.getZ(), minmax[1]-size);
 			
 
 		//Application.debug("xMinMax="+xMinMax[0]+","+xMinMax[1]);

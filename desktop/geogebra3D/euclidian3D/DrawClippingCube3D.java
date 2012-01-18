@@ -6,6 +6,7 @@ package geogebra3D.euclidian3D;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoClippingCube3D;
@@ -59,12 +60,14 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 			vertices[i] = new Coords(0,0,0,1);
 	}
 	
+	/*
 	public double xmin(){ return minMax[0][0]; }
 	public double ymin(){ return minMax[1][0]; }	
 	public double zmin(){ return minMax[2][0]; }	
 	public double xmax(){ return minMax[0][1]; }
 	public double ymax(){ return minMax[1][1]; }	
 	public double zmax(){ return minMax[2][1]; }	
+	*/
 	
 	/**
 	 * update the x,y,z min/max values
@@ -127,6 +130,11 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		return vertices[i];
 	}
 	
+	private Coords getVertexWithBorder(int x, int y, int z){
+		return vertices[x+2*y+4*z].add(new Coords(clippingBorder*(1-2*x),clippingBorder*(1-2*y),clippingBorder*(1-2*z),0));
+	}
+	
+	
 	@Override
 	protected boolean isVisible(){
 		return getView3D().useClippingCube();
@@ -139,34 +147,33 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		Renderer renderer = getView3D().getRenderer();
 		
 
-		clippingBorder =  (float) (GeoElement.MAX_LINE_WIDTH*PlotterBrush.LINE3D_THICKNESS/getView3D().getScale());
+		//clippingBorder =  (float) (GeoElement.MAX_LINE_WIDTH*PlotterBrush.LINE3D_THICKNESS/getView3D().getScale());
 				
 		//geometry
 		PlotterBrush brush = renderer.getGeometryManager().getBrush();
 
 		brush.start(8);
-		//clippingBorder = 
-		brush.setThickness(getGeoElement().getLineThickness(),(float) getView3D().getScale());
+		clippingBorder = 
+				brush.setThickness(getGeoElement().getLineThickness(),(float) getView3D().getScale());
 		brush.setAffineTexture(
 				0.5f,  0.25f);
 
-		Coords corner = new Coords(xmin(), ymin(), zmin(), 0);
-		brush.segment(corner,new Coords(xmax(), ymin(), zmin(), 0));
-		brush.segment(corner,new Coords(xmin(), ymax(), zmin(), 0));
-		brush.segment(corner,new Coords(xmin(), ymin(), zmax(), 0));
-
-		corner = new Coords(xmax(), ymax(), zmax(), 0);
-		brush.segment(corner,new Coords(xmin(), ymax(), zmax(), 0));
-		brush.segment(corner,new Coords(xmax(), ymin(), zmax(), 0));
-		brush.segment(corner,new Coords(xmax(), ymax(), zmin(), 0));
-
-		brush.segment(new Coords(xmax(), ymax(), zmin(), 0),new Coords(xmax(), ymin(), zmin(), 0));
-		brush.segment(new Coords(xmax(), ymin(), zmax(), 0),new Coords(xmax(), ymin(), zmin(), 0));
-		brush.segment(new Coords(xmax(), ymin(), zmax(), 0),new Coords(xmin(), ymin(), zmax(), 0));
-		brush.segment(new Coords(xmin(), ymax(), zmax(), 0),new Coords(xmin(), ymin(), zmax(), 0));
-		brush.segment(new Coords(xmin(), ymax(), zmax(), 0),new Coords(xmin(), ymax(), zmin(), 0));
-		brush.segment(new Coords(xmax(), ymax(), zmin(), 0),new Coords(xmin(), ymax(), zmin(), 0));
-
+		brush.segment(getVertexWithBorder(0, 0, 0),getVertexWithBorder(1, 0, 0));
+		brush.segment(getVertexWithBorder(0, 0, 0),getVertexWithBorder(0, 1, 0));
+		brush.segment(getVertexWithBorder(0, 0, 0),getVertexWithBorder(0, 0, 1));
+		
+		brush.segment(getVertexWithBorder(1, 1, 0),getVertexWithBorder(0, 1, 0));
+		brush.segment(getVertexWithBorder(1, 1, 0),getVertexWithBorder(1, 0, 0));
+		brush.segment(getVertexWithBorder(1, 1, 0),getVertexWithBorder(1, 1, 1));
+		
+		brush.segment(getVertexWithBorder(1, 0, 1),getVertexWithBorder(0, 0, 1));
+		brush.segment(getVertexWithBorder(1, 0, 1),getVertexWithBorder(1, 1, 1));
+		brush.segment(getVertexWithBorder(1, 0, 1),getVertexWithBorder(1, 0, 0));
+		
+		brush.segment(getVertexWithBorder(0, 1, 1),getVertexWithBorder(1, 1, 1));
+		brush.segment(getVertexWithBorder(0, 1, 1),getVertexWithBorder(0, 0, 1));
+		brush.segment(getVertexWithBorder(0, 1, 1),getVertexWithBorder(0, 1, 0));
+		
 		setGeometryIndex(brush.end());
 
 		
@@ -179,12 +186,12 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	private void updateEquations(){
 		Renderer renderer = getView3D().getRenderer();
 		CoordMatrix mInvTranspose = getView3D().getToSceneMatrixTranspose();		
-		renderer.setClipPlane(0, mInvTranspose.mul( new Coords(1,0,0,-xmin()+clippingBorder)).get());
-		renderer.setClipPlane(1, mInvTranspose.mul( new Coords(-1,0,0,xmax()+clippingBorder)).get());
-		renderer.setClipPlane(2, mInvTranspose.mul( new Coords(0,1,0,-ymin()+clippingBorder)).get());
-		renderer.setClipPlane(3, mInvTranspose.mul( new Coords(0,-1,0,ymax()+clippingBorder)).get());
-		renderer.setClipPlane(4, mInvTranspose.mul( new Coords(0,0,1,-zmin()+clippingBorder)).get());
-		renderer.setClipPlane(5, mInvTranspose.mul( new Coords(0,0,-1,zmax()+clippingBorder)).get());
+		renderer.setClipPlane(0, mInvTranspose.mul( new Coords(1,0,0,-minMax[0][0])).get());
+		renderer.setClipPlane(1, mInvTranspose.mul( new Coords(-1,0,0,minMax[0][1])).get());
+		renderer.setClipPlane(2, mInvTranspose.mul( new Coords(0,1,0,-minMax[1][0])).get());
+		renderer.setClipPlane(3, mInvTranspose.mul( new Coords(0,-1,0,minMax[1][1])).get());
+		renderer.setClipPlane(4, mInvTranspose.mul( new Coords(0,0,1,-minMax[2][0])).get());
+		renderer.setClipPlane(5, mInvTranspose.mul( new Coords(0,0,-1,minMax[2][1])).get());
 
 	}
 	

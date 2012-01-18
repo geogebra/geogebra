@@ -29,8 +29,8 @@ public class DrawPoint3D extends Drawable3DCurves
 implements Previewable, Functional2Var{
 	
 	
-	
-
+	/** factor for drawing points */
+	public static final float DRAW_POINT_FACTOR = 1.5f;
 	
 		
 	
@@ -99,7 +99,7 @@ implements Previewable, Functional2Var{
 		
 		surface.start();
 		GeoPointND point = (GeoPointND) getGeoElement(); 
-		surface.drawSphere(point.getPointSize(),point.getInhomCoordsInD(3), point.getPointSize()/getView3D().getScale()*1.5);
+		surface.drawSphere(point.getPointSize(),point.getInhomCoordsInD(3), point.getPointSize()/getView3D().getScale()*DRAW_POINT_FACTOR);
 		
 		
 		setGeometryIndex(surface.end());

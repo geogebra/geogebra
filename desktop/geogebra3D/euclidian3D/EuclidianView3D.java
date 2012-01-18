@@ -2993,7 +2993,6 @@ public class EuclidianView3D extends JPanel implements Printable, EuclidianViewI
 
 
 	public double getXmin() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
