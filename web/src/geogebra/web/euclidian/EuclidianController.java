@@ -31,6 +31,7 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
+import com.google.gwt.user.client.Window;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.event.AbstractEvent;
@@ -49,6 +50,27 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		
 		tempNum = new MyDouble(kernel);
     }
+	
+	@Override
+	protected void setMouseLocation(AbstractEvent event) {
+		mouseLoc = event.getPoint();
+		
+		setAltDown(event.isAltDown());
+		
+		mouseLoc.x = mouseLoc.x - ((EuclidianView) view).getAbsoluteLeft() + Window.getScrollLeft();
+		mouseLoc.y = mouseLoc.y - ((EuclidianView) view).getAbsoluteTop() + Window.getScrollTop();
+	
+		if (mouseLoc.x < 0) {
+			mouseLoc.x = 0;
+		} else if (mouseLoc.x > view.getViewWidth()) {
+			mouseLoc.x = view.getViewWidth();
+		}
+		if (mouseLoc.y < 0) {
+			mouseLoc.y = 0;
+		} else if (mouseLoc.y > view.getViewHeight()) {
+			mouseLoc.y = view.getViewHeight();
+		}
+	}
 	
 	public void setApplication(AbstractApplication app) {
 		this.app = (Application)app;
