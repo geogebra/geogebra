@@ -600,6 +600,8 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
         self.reload_menuitem = item
         filemenu.add(item)
 
+        filemenu.addSeparator()
+        
         item = new_item("Open Python Script...", "open", KeyEvent.VK_O)
         filemenu.add(item)
 
@@ -611,32 +613,44 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
         item = new_item("Save Python Script As...", "save_as", KeyEvent.VK_S,
                         mod = shortcut + ActionEvent.SHIFT_MASK)
         filemenu.add(item)
-        
-        navmenu = JMenu("Navigation")
-        menubar.add(navmenu)
-        
-        item = new_item("Previous Input", "up", KeyEvent.VK_UP,
-            mod=ActionEvent.ALT_MASK)
-        navmenu.add(item)
-        
-        item = new_item("Next Input", "down", KeyEvent.VK_DOWN,
-                         mod=ActionEvent.ALT_MASK)
-        navmenu.add(item)
+
+        editmenu = JMenu("Edit")
+        menubar.add(editmenu)
+
+        editmenu.add(new_item("Cut", "cut", KeyEvent.VK_X))
+        editmenu.add(new_item("Copy", "copy", KeyEvent.VK_C))
+        editmenu.add(new_item("Paste", "paste", KeyEvent.VK_V))
+
+        editmenu.addSeparator()
 
         item = new_item("Run Script", "runscript", KeyEvent.VK_E)
-        navmenu.add(item)
-
+        editmenu.add(item)
+        
         item = new_item("Run Selection", "runselection", KeyEvent.VK_E,
                         mod=shortcut | ActionEvent.SHIFT_MASK)
-        navmenu.add(item)
+        editmenu.add(item)
 
+        editmenu.addSeparator()
+        
         item = new_item("Indent Selection", "indentselection",
                         KeyEvent.VK_CLOSE_BRACKET)
-        navmenu.add(item)
+        editmenu.add(item)
         
         item = new_item("Dedent Selection", "dedentselection",
                         KeyEvent.VK_OPEN_BRACKET)
-        navmenu.add(item)
+        editmenu.add(item)
+        
+        shellmenu = JMenu("Interactive")
+        menubar.add(shellmenu)
+        
+        item = new_item("Previous Input", "up", KeyEvent.VK_UP,
+            mod=ActionEvent.ALT_MASK)
+        shellmenu.add(item)
+        
+        item = new_item("Next Input", "down", KeyEvent.VK_DOWN,
+                         mod=ActionEvent.ALT_MASK)
+        shellmenu.add(item)
+
 
         self.frame.setJMenuBar(menubar)
     
@@ -747,7 +761,10 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
 
     # Implementation of ActionListener
     def actionPerformed(self, evt):
-        getattr(self, "action_" + evt.actionCommand)(evt)
+        try:
+            getattr(self, "action_" + evt.actionCommand)(evt)
+        except AttributeError:
+            pass
 
     # Navigating history
     def action_up(self, evt):
