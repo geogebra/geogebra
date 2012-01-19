@@ -174,7 +174,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		 if (!DRAGMODE_MUST_BE_SELECTED) {
 			 wrapMouseMoved(e);
 		 } else {
-			 app.console("drag");
 			 wrapMouseDragged(e);
 		 }
 	
