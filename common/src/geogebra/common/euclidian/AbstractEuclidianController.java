@@ -6075,8 +6075,8 @@ public abstract class AbstractEuclidianController {
 			} else if (movedGeoElement.isGeoSegment()
 					|| movedGeoElement.isGeoRay()
 					|| (movedGeoElement.getParentAlgorithm() instanceof AlgoVector)) {
-				GeoPoint2 start = null;
-				GeoPoint2 end = null;
+				GeoPointND start = null;
+				GeoPointND end = null;
 				if (movedGeoElement.getParentAlgorithm() instanceof AlgoVector) {
 					// Vector[A,B]
 					AlgoVector algoVec = (AlgoVector) movedGeoElement
@@ -6086,8 +6086,9 @@ public abstract class AbstractEuclidianController {
 	
 					if (start.isIndependent() && !end.isIndependent()) {
 						end = null;
-						transformCoordsOffset[0] = xRW - start.inhomX;
-						transformCoordsOffset[1] = yRW - start.inhomY;
+						Coords coords = start.getInhomCoords();
+						transformCoordsOffset[0] = xRW - coords.getX();
+						transformCoordsOffset[1] = yRW - coords.getY();
 						moveMode = MOVE_POINT_WITH_OFFSET;
 						movedGeoPoint = start;
 						return;
@@ -6096,7 +6097,7 @@ public abstract class AbstractEuclidianController {
 	
 				} else {
 					// Segment/ray
-					GeoLine line = (GeoLine) movedGeoElement;
+					GeoLineND line = (GeoLineND) movedGeoElement;
 					start = line.getStartPoint();
 					end = line.getEndPoint();
 				}

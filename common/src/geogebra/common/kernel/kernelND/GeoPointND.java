@@ -5,6 +5,7 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.LocateableList;
 import geogebra.common.kernel.PathParameter;
@@ -170,6 +171,10 @@ public interface GeoPointND {
 	public boolean isAbsoluteStartPoint();
 
 	public GeoElement copyInternal(Construction cons);
+
+	public boolean isIndependent();
+
+	public AlgoElement getParentAlgorithm();
 
 	
 	//private boolean movePointMode = MOVE_POINT_MODE_XY;
