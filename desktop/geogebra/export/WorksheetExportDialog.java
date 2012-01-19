@@ -650,7 +650,7 @@ public class WorksheetExportDialog extends JDialog {
 
 		// left column
 		// include HTML5
-		cbIncludeHTML5 = new JCheckBox(app.getMenu("IncludeHTML5"));
+		cbIncludeHTML5 = new JCheckBox(app.getMenu("HTML5Only"));
 		if (GeoGebraConstants.IS_PRE_RELEASE) filePanelWest.add(cbIncludeHTML5);
 
 		// download jar files
@@ -1558,23 +1558,14 @@ public class WorksheetExportDialog extends JDialog {
 
 		StringBuilder sb = new StringBuilder();
 
-		// JavaScript version for non-Java devices eg Android, iPhone
+		// GeoGebraWeb (JavaScript/HTML5) for non-Java devices eg Android, iPhone
 		if (includeHTML5) {
-
-			appendWithLineBreak(
-					sb,
-					"<script type=\"text/javascript\" language=\"javascript\" src=\"http://www.geogebra.org/mobile/4.0/geogebramobile/geogebramobile.nocache.js\"></script>");
-			sb.append("<article class=\"geogebramobile\" style=\"width: ");
-			sb.append(width);
-			sb.append("px; height: ");
-			sb.append(height);
-			appendWithLineBreak(sb, "px; border: 1px solid black;\"");
-			sb.append("data-param-ggbbase64=\"");
-			appendBase64(app, sb);
-			sb.append("\"");
-			appendWithLineBreak(sb, "></article>");
-			appendWithLineBreak(sb, "<noscript id=\"ggbappletwrapper\">");
-		}
+			appendWithLineBreak(sb,	"<script type=\"text/javascript\" language=\"javascript\" src=\"http://www.geogebra.org/web/4.2/web.nocache.js\"></script>");
+			appendWithLineBreak(sb,	"<article class=\"geogebraweb\" style=\"border: 1px solid black; display:inline-block;\" ");
+		    sb.append("data-param-ggbbase64=\"");
+		    appendBase64(app, sb);
+		    appendWithLineBreak(sb, "\"></article>");
+		} else {
 
 		// include applet
 		sb.append("<applet name=\"ggbApplet\" code=\"geogebra.GeoGebraApplet\"");
@@ -1635,9 +1626,9 @@ public class WorksheetExportDialog extends JDialog {
 			appendWithLineBreak(sb, app.getPlain("NoJavaMessage"));
 
 		sb.append("</applet>");
-		if (includeHTML5) {
-			appendWithLineBreak(sb, "</noscript>");
+		
 		}
+
 		return sb.toString();
 	}
 
