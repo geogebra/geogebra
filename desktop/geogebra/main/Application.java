@@ -4823,7 +4823,9 @@ public class Application extends AbstractApplication implements
 	public static boolean WINDOWS_VISTA_OR_LATER = WINDOWS 
 			&& !OS.startsWith("windows 2000") && !OS.startsWith("windows 95") 
 			&& !OS.startsWith("windows 98") && !OS.startsWith("windows nt") 
-			&& !OS.startsWith("windows xp"); 
+			&& !OS.startsWith("windows xp");
+
+	
 
 
 }

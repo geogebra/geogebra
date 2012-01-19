@@ -149,7 +149,6 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public boolean isApplet() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 		return false;
 	}
 
@@ -714,12 +713,6 @@ public class Application extends AbstractApplication {
 			ctx.fillText("Loading...", 22, 22);
 		}
     }
-
-	public static native void console(String str) /*-{
-		if ($wnd && $wnd.console) {
-			$wnd.console.log("no"+str);
-		}
-    }-*/;
 
 
 

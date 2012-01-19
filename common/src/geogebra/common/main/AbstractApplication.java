@@ -2628,6 +2628,12 @@ public abstract class AbstractApplication {
 	public boolean isUndoActive() {
 		return kernel.isUndoActive();
 	}
+
+	public static native void console(String string) /*-{
+		if ($wnd && $wnd.console) {
+			$wnd.console.log(string);
+		}
+	}-*/;
 	
 
 }

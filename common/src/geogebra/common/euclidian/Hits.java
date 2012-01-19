@@ -1,8 +1,9 @@
 package geogebra.common.euclidian;
 
 import geogebra.common.kernel.geos.*;
-import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.*;
+import geogebra.common.main.AbstractApplication;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -31,11 +32,15 @@ public class Hits extends ArrayList<GeoElement> {
 		polyCount = 0;
 		imageCount = 0;
 	}
-	//Can't override
+	//Can't override and GWT don't support CLONE anyway.
 	@SuppressWarnings("all")
 	public Hits clone() {
-
-		Hits ret = (Hits) super.clone();
+		Hits ret = new Hits();
+		if (this.size() > 0) {
+			for (int i = 0; i < this.size(); i++) {
+				ret.add(this.get(i));
+			}
+		}
 		ret.listCount = this.listCount;
 		ret.polyCount = this.polyCount;
 		ret.imageCount = this.imageCount;

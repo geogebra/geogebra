@@ -5715,7 +5715,7 @@ public abstract class AbstractEuclidianController {
 		Hits hits = new Hits();
 		boolean noHighlighting = false;
 		setAltDown(event.isAltDown());
-	
+		
 		// label hit
 		GeoElement geo = view.getLabelHit(mouseLoc);
 		if (geo != null) {
@@ -5738,7 +5738,7 @@ public abstract class AbstractEuclidianController {
 			hits = view.getHits();
 			switchModeForRemovePolygons(hits);
 		}
-	
+		
 		if (hits.isEmpty()) {
 			view.setToolTipText(null);
 			view.setDefaultCursor();
@@ -5754,9 +5754,10 @@ public abstract class AbstractEuclidianController {
 				view.setHitCursor();
 			}
 		}
-	
+		
 		// for testing: save the full hits for later use
 		Hits tempFullHits = hits.clone();
+		
 		// Application.debug("tempFullHits="+tempFullHits);
 	
 		// set tool tip text
@@ -5765,7 +5766,7 @@ public abstract class AbstractEuclidianController {
 		// hits = view.getTopHits(hits);
 	
 		hits = hits.getTopHits();
-	
+		
 		sliderValue = null;
 		if (hits.size() == 1) {
 			GeoElement hit = hits.get(0);
@@ -5792,7 +5793,7 @@ public abstract class AbstractEuclidianController {
 				}
 			}
 		}
-	
+		
 		if (!hits.isEmpty()) {
 			boolean alwaysOn = false;
 			if (view instanceof AbstractEuclidianView) {
@@ -5813,13 +5814,13 @@ public abstract class AbstractEuclidianController {
 			view.updatePreviewable();
 			repaintNeeded = true;
 		}
-	
+		
 		if ((pastePreviewSelected != null) && !pastePreviewSelected.isEmpty()) {
 			transformCoords();
 			updatePastePreviewPosition();
 			repaintNeeded = true;
 		}
-	
+		
 		// show Mouse coordinates, manage alt -> multiple of 15 degrees
 		else if (view.getShowMouseCoords() && view.getAllowShowMouseCoords()) {
 			transformCoords();
@@ -5848,6 +5849,7 @@ public abstract class AbstractEuclidianController {
 		}
 		
 		setMouseLocation(event);
+		
 		processMouseMoved(event);
 		//event.release(e.getID()); //does it necessary?
 		
@@ -6298,6 +6300,7 @@ public abstract class AbstractEuclidianController {
 					try {
 						movedGeoText.setStartPoint(loc);
 					} catch (Exception ex) {
+						ex.printStackTrace();
 					}
 					startPoint.setLocation(xRW, yRW);
 				} else {

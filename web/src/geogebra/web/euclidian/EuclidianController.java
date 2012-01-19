@@ -105,7 +105,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 	public void onTouchCancel(TouchCancelEvent event) {
 		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
-		 Application.console(event.getAssociatedType().getName());
+		 app.console(event.getAssociatedType().getName());
 	}
 
 	public void onTouchMove(TouchMoveEvent event) {
@@ -174,6 +174,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		 if (!DRAGMODE_MUST_BE_SELECTED) {
 			 wrapMouseMoved(e);
 		 } else {
+			 app.console("drag");
 			 wrapMouseDragged(e);
 		 }
 	
