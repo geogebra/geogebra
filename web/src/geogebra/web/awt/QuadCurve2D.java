@@ -5,7 +5,7 @@ import geogebra.common.awt.PathIterator;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
 
-public class QuadCurve2D extends geogebra.common.awt.QuadCurve2D {
+public class QuadCurve2D extends geogebra.common.awt.QuadCurve2D implements Shape{
 
 	private geogebra.web.kernel.gawt.QuadCurve2D.Double impl;
 	
@@ -60,5 +60,9 @@ public class QuadCurve2D extends geogebra.common.awt.QuadCurve2D {
 	public void setCurve(double[] parpoints, int i) {
 		impl.setCurve(parpoints, i);
 	}
+
+	public geogebra.web.kernel.gawt.Shape getGawtShape() {
+	    return impl;
+    }
 
 }
