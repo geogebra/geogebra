@@ -6,7 +6,7 @@ import geogebra.common.awt.Point2D;
 import geogebra.common.awt.Rectangle2D;
 import geogebra.common.euclidian.PathPoint;
 
-public class Rectangle implements geogebra.common.awt.Rectangle {
+public class Rectangle extends geogebra.web.awt.Rectangle2D implements geogebra.common.awt.Rectangle {
 
 	private geogebra.web.kernel.gawt.Rectangle impl;
 	

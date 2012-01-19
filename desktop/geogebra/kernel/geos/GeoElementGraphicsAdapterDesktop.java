@@ -2,7 +2,6 @@ package geogebra.kernel.geos;
 
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.main.AbstractApplication;
-
 import geogebra.main.Application;
 import geogebra.util.ImageManager;
 import geogebra.awt.BufferedImage;
@@ -26,12 +25,17 @@ public class GeoElementGraphicsAdapterDesktop extends
 			Image im = app.getImageManager().getImageResource(imageFileName);
 			image = new BufferedImage(ImageManager.toBufferedImage(im));
 		} else {
+/*
 			java.awt.image.BufferedImage extimg = app
 					.getExternalImage(imageFileName);
 			if (extimg == null)
 				image = null;
 			else
 				image = new BufferedImage(extimg);
+				*/
+			
+			image = app.getExternalImageAdapter(imageFileName);
+
 		}
 
 		return image;

@@ -410,10 +410,9 @@ public class Application extends AbstractApplication {
 
 	@Override
     public BufferedImage getExternalImageAdapter(String filename) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
+		return new geogebra.web.awt.BufferedImage(images.get(filename));
     }
-
+	
 	@Override
     public String getCommandSyntax(String cmd) {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
@@ -492,7 +491,7 @@ public class Application extends AbstractApplication {
 
 	@Override
     public GeoElementGraphicsAdapter newGeoElementGraphicsAdapter() {
-	    return new geogebra.web.kernel.geos.GeoElementGraphicsAdapter();
+	    return new geogebra.web.kernel.geos.GeoElementGraphicsAdapter(this);
     }
 
 	@Override
@@ -721,6 +720,7 @@ public class Application extends AbstractApplication {
 			$wnd.console.log("no"+str);
 		}
     }-*/;
+
 
 
 }

@@ -1,5 +1,7 @@
 package geogebra.web.awt;
 
+import com.google.gwt.dom.client.ImageElement;
+
 import geogebra.common.awt.Graphics2D;
 import geogebra.common.main.AbstractApplication;
 
@@ -16,6 +18,10 @@ public class BufferedImage implements geogebra.common.awt.BufferedImage {
     }
 
 	
+	public BufferedImage(ImageElement imageElement) {
+	    impl = new geogebra.web.kernel.gawt.BufferedImage(imageElement);
+    }
+
 	public int getWidth() {
 		return impl.getWidth();
 	}

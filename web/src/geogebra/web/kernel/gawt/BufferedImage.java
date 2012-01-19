@@ -14,6 +14,10 @@ public class BufferedImage {
 	    img.setHeight(height);
     }
 
+	public BufferedImage(ImageElement imageElement) {
+	    img = imageElement;
+    }
+
 	public int getWidth() {
 	   return img.getWidth();
     }

@@ -3,8 +3,9 @@ package geogebra.web.awt;
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.PathIterator;
 import geogebra.common.awt.Rectangle;
+import geogebra.web.kernel.gawt.Shape;
 
-public class Rectangle2D implements geogebra.common.awt.Rectangle2D {
+public class Rectangle2D implements geogebra.common.awt.Rectangle2D, geogebra.web.awt.Shape {
 	
 	private geogebra.web.kernel.gawt.Rectangle2D impl;
 
@@ -110,6 +111,10 @@ public class Rectangle2D implements geogebra.common.awt.Rectangle2D {
 		if(!(p instanceof geogebra.web.awt.Rectangle2D))
 			return null;
 		return ((geogebra.web.awt.Rectangle2D)p).impl;
+    }
+
+	public Shape getGawtShape() {
+		return impl;
     }
 	
 	
