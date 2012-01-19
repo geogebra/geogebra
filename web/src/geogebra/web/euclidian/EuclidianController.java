@@ -1,6 +1,8 @@
 package geogebra.web.euclidian;
 
 
+import com.google.gwt.core.client.JsArray;
+import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
@@ -82,15 +84,24 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 	public void onGestureChange(GestureChangeEvent event) {
 		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
-    }
+		//to not move the canvas (later some sophisticated handling must be find out)
+				event.preventDefault();
+				event.stopPropagation();
+	}
 
 	public void onGestureEnd(GestureEndEvent event) {
 		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
-    }
+		//to not move the canvas (later some sophisticated handling must be find out)
+				event.preventDefault();
+				event.stopPropagation();
+	}
 
 	public void onGestureStart(GestureStartEvent event) {
 		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
-    }
+		//to not move the canvas (later some sophisticated handling must be find out)
+				event.preventDefault();
+				event.stopPropagation();
+	}
 
 	public void onTouchCancel(TouchCancelEvent event) {
 		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
@@ -98,18 +109,37 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	}
 
 	public void onTouchMove(TouchMoveEvent event) {
-		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
-		 Application.console(event.getAssociatedType().getName());
+		JsArray<Touch> targets = event.getTargetTouches();
+		for (int i = 0; i < targets.length(); i++) {
+			AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(i));
+			wrapMouseDragged(e);
+		}
+		//to not move the canvas (later some sophisticated handling must be find out)
+		event.preventDefault();
+		event.stopPropagation();
 	}
 
 	public void onTouchEnd(TouchEndEvent event) {
-		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
-		 Application.console(event.getAssociatedType().getName());
+		JsArray<Touch> targets = event.getTargetTouches();
+		for (int i = 0; i < targets.length(); i++) {
+			 AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(i));
+			 //should be substracted the event just ended, and call mouseevent for that.
+			 //later :-)
+		}
+		//to not move the canvas (later some sophisticated handling must be find out)
+				event.preventDefault();
+				event.stopPropagation();
 	}
 
 	public void onTouchStart(TouchStartEvent event) {
-	   //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
-		 Application.console(event.getAssociatedType().getName());
+		JsArray<Touch> targets = event.getTargetTouches();
+		for (int i = 0; i < targets.length(); i++) {
+			AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(i));
+			wrapMousePressed(e);
+		}
+		//to not move the canvas (later some sophisticated handling must be find out)
+				event.preventDefault();
+				event.stopPropagation();
 	}
 	
 	private boolean DRAGMODE_MUST_BE_SELECTED = false;
