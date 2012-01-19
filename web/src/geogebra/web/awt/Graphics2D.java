@@ -171,7 +171,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	 */
 	public void fill(Shape shape) {
 		if (shape == null) {
-			GWT.log("Error in EuclidianView.fill");
+			AbstractApplication.printStacktrace("Error in EuclidianView.fill");
 			return;
 		}
 		context.beginPath();
@@ -441,7 +441,13 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
     	if(font instanceof geogebra.web.awt.Font){
     		currentFont=(geogebra.web.awt.Font)font;
     		//TODO: pass other parameters here as well
-    		context.setFont(currentFont.getFontSize()+"px "+currentFont.getFontFamily());
+    		try{
+    		context.setFont(currentFont.getFullFontString());
+    		}
+    		catch(Throwable t){
+    			AbstractApplication.debug(currentFont.getFullFontString());
+    			t.printStackTrace();
+    		}
     	}
 	    
     }

@@ -1048,7 +1048,7 @@ final public class DrawConic extends Drawable implements Previewable {
 
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
-			return AwtFactory.prototype.newRectangle(shape.getBounds());
+			return shape.getBounds();
 
 		default:
 			return null;

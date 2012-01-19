@@ -270,10 +270,10 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:
-			return AwtFactory.prototype.newRectangle(shape.getBounds());
+			return shape.getBounds();
 
 		case DRAW_TYPE_SEGMENT:
-			return AwtFactory.prototype.newRectangle(drawSegment.getBounds());
+			return drawSegment.getBounds();
 
 		default:
 			return null;

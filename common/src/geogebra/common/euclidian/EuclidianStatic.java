@@ -2,6 +2,7 @@ package geogebra.common.euclidian;
 
 import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.Graphics2D;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -31,6 +32,16 @@ public abstract class EuclidianStatic {
 	}
 	static public BasicStroke getDefaultSelectionStroke() {
 		return selStroke;
+	}
+	
+	// Michael Borcherds 2008-06-10
+	final static float textWidth(String str, geogebra.common.awt.Font font, 
+			geogebra.common.awt.FontRenderContext frc) {
+		if (str.equals(""))
+			return 0f;
+		geogebra.common.awt.font.TextLayout layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(str, font, frc);
+		return layout.getAdvance();
+
 	}
 	/**
 	 * Creates a stroke with thickness width, dashed according to line style
@@ -81,6 +92,66 @@ public abstract class EuclidianStatic {
 		return geogebra.common.factories.AwtFactory.prototype.newBasicStroke(width, endCap, standardStroke.getLineJoin(),
 				standardStroke.getMiterLimit(), dash, 0.0f);
 	}
+	
+	/**
+	 * Adds \\- to positions where the line can be broken. Now it only breaks at
+	 * +, -, * and spaces.
+	 * 
+	 * @param latex
+	 *            String
+	 * @return The LaTeX string with breaks
+	 */
+	protected static String addPossibleBreaks(String latex) {
+		StringBuilder latexTmp = new StringBuilder(latex);
+		int depth = 0;
+		boolean no_addition = true;
+		for (int i = 0; i < latexTmp.length() - 2; i++) {
+			char character = latexTmp.charAt(i);
+			switch (character) {
+			case '(':
+			case '[':
+			case '{':
+				depth++;
+				break;
+			case ')':
+			case ']':
+			case '}':
+				depth--;
+				break;
+			case '\\':
+				if (latexTmp.charAt(i + 1) != ';')
+					break;
+				i++;
+				latexTmp.insert(i + 1, "\\?");
+				i = i + 2;
+				break;
+			case ' ':
+				if (latexTmp.charAt(i + 1) != ' ')
+					break;
+				i++;
+			case '*':
+				if (depth != 0)
+					break;
+				latexTmp.insert(i + 1, "\\?");
+				i = i + 2;
+				break;
+			case '+':
+			case '-':
+				if (depth != 0)
+					break;
+				latexTmp.insert(i + 1, "\\-");
+				i = i + 2;
+				no_addition = false;
+			}
+		}
+		// no addition happened at depth zero so it can be broken
+		// on * and space too.
+		if (no_addition) {
+			return latexTmp.toString().replaceAll("\\?", "\\-");
+		}
+		return latexTmp.toString().replaceAll("\\?", "");
+	}
+
 /*
 	public abstract float textWidth(String str, Font font, FontRenderContext frc);
 	*/
@@ -106,6 +177,12 @@ public abstract class EuclidianStatic {
 			geogebra.common.awt.Color fgColor, geogebra.common.awt.Color bgColor, String labelDesc, int xLabel,
 			int yLabel, boolean serif);
 	
+	private static geogebra.common.awt.Font getIndexFont(geogebra.common.awt.Font f) {
+		// index font size should be at least 8pt
+		int newSize = Math.max((int) (f.getSize() * 0.9), 8);
+		return f.deriveFont(f.getStyle(), newSize);
+	}
+	
 	/**
 	 * Draws a string str with possible indices to g2 at position x, y. The
 	 * indices are drawn using the given indexFont. Examples for strings with
@@ -117,11 +194,98 @@ public abstract class EuclidianStatic {
 	 */
 	public static geogebra.common.awt.Point drawIndexedString(AbstractApplication app, geogebra.common.awt.Graphics2D g3,
 			String str, float xPos, float yPos, boolean serif) {
-		return prototype.doDrawIndexedString(app, g3, str, xPos, yPos, serif);
+
+		geogebra.common.awt.Font g2font = g3.getFont();
+		g2font = app.getFontCanDisplay(str, serif, g2font.getStyle(),
+				g2font.getSize());
+		geogebra.common.awt.Font indexFont = getIndexFont(g2font);
+		geogebra.common.awt.Font font = g2font;
+		geogebra.common.awt.font.TextLayout layout;
+		geogebra.common.awt.FontRenderContext frc = g3.getFontRenderContext();
+
+		int indexOffset = indexFont.getSize() / 2;
+		float maxY = 0;
+		int depth = 0;
+		float x = xPos;
+		float y = yPos;
+		int startPos = 0;
+		if (str == null)
+			return null;
+		int length = str.length();
+
+		for (int i = 0; i < length; i++) {
+			switch (str.charAt(i)) {
+			case '_':
+				// draw everything before _
+				if (i > startPos) {
+					font = (depth == 0) ? g2font : indexFont;
+					y = yPos + depth * indexOffset;
+					if (y > maxY)
+						maxY = y;
+					String tempStr = str.substring(startPos, i);
+					layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(tempStr, font, frc);
+					g3.setFont(font);
+					g3.drawString(tempStr, x, y);
+					x += layout.getAdvance();
+				}
+				startPos = i + 1;
+				depth++;
+
+				// check if next character is a '{' (beginning of index with
+				// several chars)
+				if (startPos < length && str.charAt(startPos) != '{') {
+					font = (depth == 0) ? g2font : indexFont;
+					y = yPos + depth * indexOffset;
+					if (y > maxY)
+						maxY = y;
+					String tempStr = str.substring(startPos, startPos + 1);
+					layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(tempStr, font, frc);
+					g3.setFont(font);
+					g3.drawString(tempStr, x, y);
+					x += layout.getAdvance();
+					depth--;
+				}
+				i++;
+				startPos++;
+				break;
+
+			case '}': // end of index with several characters
+				if (depth > 0) {
+					if (i > startPos) {
+						font = (depth == 0) ? g2font : indexFont;
+						y = yPos + depth * indexOffset;
+						if (y > maxY)
+							maxY = y;
+						String tempStr = str.substring(startPos, i);
+						layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(tempStr, font, frc);
+						g3.setFont(font);
+						g3.drawString(tempStr, x, y);
+						x += layout.getAdvance();
+					}
+					startPos = i + 1;
+					depth--;
+				}
+				break;
+			}
+		}
+
+		if (startPos < length) {
+			font = (depth == 0) ? g2font : indexFont;
+			y = yPos + depth * indexOffset;
+			if (y > maxY)
+				maxY = y;
+			String tempStr = str.substring(startPos);
+			layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(tempStr, font, frc);
+			g3.setFont(font);
+			g3.drawString(tempStr, x, y);
+			x += layout.getAdvance();
+		}
+		g3.setFont(g2font);
+		return new geogebra.common.awt.Point(Math.round(x - xPos), Math.round(maxY - yPos));
+
 	}
 	
-	protected abstract geogebra.common.awt.Point doDrawIndexedString(AbstractApplication app, geogebra.common.awt.Graphics2D g3,
-			String str, float xPos, float yPos, boolean serif);
+	
 	protected abstract  void doFillWithValueStrokePure(geogebra.common.awt.Shape shape, geogebra.common.awt.Graphics2D g3);
 	public static void fillWithValueStrokePure(geogebra.common.awt.Shape shape, geogebra.common.awt.Graphics2D g3){
 		prototype.doFillWithValueStrokePure(shape, g3);
@@ -130,11 +294,52 @@ public abstract class EuclidianStatic {
 	public final static geogebra.common.awt.Rectangle drawMultiLineText(AbstractApplication app,
 			String labelDesc, int xLabel, int yLabel, geogebra.common.awt.Graphics2D g2,
 			boolean serif) {
-		return prototype.doDrawMultiLineText(app, labelDesc, xLabel, yLabel, g2, serif);
+		int lines = 0;
+		int fontSize = g2.getFont().getSize();
+		float lineSpread = fontSize * 1.5f;
+
+		geogebra.common.awt.Font font = g2.getFont();
+		font = app.getFontCanDisplay(labelDesc, serif, font.getStyle(),
+				font.getSize());
+
+		geogebra.common.awt.FontRenderContext frc = g2.getFontRenderContext();
+		int xoffset = 0;
+
+		// draw text line by line
+		int lineBegin = 0;
+		int length = labelDesc.length();
+		for (int i = 0; i < length - 1; i++) {
+			if (labelDesc.charAt(i) == '\n') {
+				// end of line reached: draw this line
+				g2.drawString(labelDesc.substring(lineBegin, i), xLabel, yLabel
+						+ lines * lineSpread);
+
+				int width = (int) textWidth(labelDesc.substring(lineBegin, i),
+						font, frc);
+				if (width > xoffset)
+					xoffset = width;
+
+				lines++;
+				lineBegin = i + 1;
+			}
+		}
+
+		float ypos = yLabel + lines * lineSpread;
+		g2.drawString(labelDesc.substring(lineBegin), xLabel, ypos);
+
+		int width = (int) textWidth(labelDesc.substring(lineBegin), font, frc);
+		if (width > xoffset)
+			xoffset = width;
+
+		// Michael Borcherds 2008-06-10
+		// changed setLocation to setBounds (bugfix)
+		// and added final float textWidth()
+		// labelRectangle.setLocation(xLabel, yLabel - fontSize);
+		int height = (int) ((lines + 1) * lineSpread);
+
+		return AwtFactory.prototype.newRectangle(xLabel - 3, yLabel - fontSize - 3, xoffset + 6,
+				height + 6);
 	}
-	protected abstract  geogebra.common.awt.Rectangle doDrawMultiLineText(AbstractApplication app,
-			String labelDesc, int xLabel, int yLabel, geogebra.common.awt.Graphics2D g2,
-			boolean serif);
 
 	public static void drawWithValueStrokePure(geogebra.common.awt.Shape shape, Graphics2D g2) {
 		prototype.doDrawWithValueStrokePure(shape, g2);

@@ -368,7 +368,7 @@ public class DrawVector extends Drawable implements Previewable {
 			return null;
 		geogebra.common.awt.Rectangle ret = null;
 		if (lineVisible)
-			ret = AwtFactory.prototype.newRectangle(line.getBounds());
+			ret = line.getBounds();
 
 		if (arrowheadVisible)
 			ret = (ret == null) ? AwtFactory.prototype.newRectangle(gp.getBounds()):

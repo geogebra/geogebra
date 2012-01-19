@@ -1,13 +1,9 @@
 package geogebra.web.awt;
 
-import geogebra.common.awt.AffineTransform;
-import geogebra.common.awt.PathIterator;
 import geogebra.common.awt.Point2D;
-import geogebra.common.awt.Rectangle2D;
-import geogebra.common.euclidian.PathPoint;
 
 public class Rectangle extends geogebra.web.awt.Rectangle2D implements geogebra.common.awt.Rectangle {
-
+	
 	private geogebra.web.kernel.gawt.Rectangle impl;
 	
 	public Rectangle() {
@@ -30,22 +26,26 @@ public class Rectangle extends geogebra.web.awt.Rectangle2D implements geogebra.
 	    impl = new geogebra.web.kernel.gawt.Rectangle(x, y, w, h);
     }
 
-	public double getY() {
+	@Override
+    public double getY() {
 		return impl.getY();
 	}
 
 
-	public double getX() {
+	@Override
+    public double getX() {
 		return impl.getX();
 	}
 
 
-	public double getWidth() {
+	@Override
+    public double getWidth() {
 		return impl.getWidth();
 	}
 
 	
-	public double getHeight() {
+	@Override
+    public double getHeight() {
 		return impl.getHeight();
 	}
 
@@ -65,7 +65,8 @@ public class Rectangle extends geogebra.web.awt.Rectangle2D implements geogebra.
 	}
 
 	
-	public boolean contains(geogebra.common.awt.Rectangle r) {
+	@Override
+    public boolean contains(geogebra.common.awt.Rectangle r) {
 		return impl.contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
 	}
 
@@ -97,80 +98,14 @@ public class Rectangle extends geogebra.web.awt.Rectangle2D implements geogebra.
 	public double getMaxY() {
 		return impl.getMaxY();
 	}
-
-	
-	public boolean contains(double x, double y) {
-		return impl.contains(x, y);
-	}
-
 	
 	public void add(double x, double y) {
 		impl.add(x, y);
-	}
-
-	
-	public void setRect(double x, double y, double width, double height) {
-		impl.setRect(x, y, width, height);
-	}
-
-	
-	public void setFrame(double x, double y, double width, double height) {
-		impl.setFrameFromDiagonal(x, y, width, height);
-	}
-
-	
-	public boolean intersects(double minX, double minY, double lengthX,
-	        double lengthY) {
-		return impl.intersects(minX, minY, lengthX, lengthY);
-	}
-
-	
-	public boolean intersects(geogebra.common.awt.Rectangle r) {
-		return impl.intersects(Rectangle.getGawtRectangle(r)) ;
 	}
 	
 	public static geogebra.web.kernel.gawt.Rectangle getGawtRectangle(geogebra.common.awt.Rectangle r) {
 		return new geogebra.web.kernel.gawt.Rectangle((int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight());
 	}
-
-	/*
-	public boolean contains(PathPoint prevP) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return false;
-    }
-    */
-
-	public boolean intersects(int i, int j, int k, int l) {
-	    return impl.intersects(i,j,k,l);
-    }
-
-	public boolean contains(int x, int y) {
-	    return impl.contains(x,y);
-    }
-
-	public geogebra.common.awt.Rectangle getBounds() {
-	    return new geogebra.web.awt.Rectangle(impl.getBounds());
-    }
-
-	public Rectangle2D getBounds2D() {
-		return new geogebra.web.awt.Rectangle2D(impl.getBounds2D());
-    }
-
-	public PathIterator getPathIterator(AffineTransform affineTransform) {
-		return new geogebra.web.awt.PathIterator(impl.getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(affineTransform)));
-	}
-
-	
-	public PathIterator getPathIterator(AffineTransform at, double flatness) {
-		return new geogebra.web.awt.PathIterator(impl.getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(at), flatness));
-	}
-
-	
-	public boolean intersects(Rectangle2D r) {
-		return impl.intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
-	}
-	
-
 
 	public boolean contains(Point2D p) {
 		if (p==null) return false;
@@ -183,13 +118,13 @@ public class Rectangle extends geogebra.web.awt.Rectangle2D implements geogebra.
 	    		impl.union(geogebra.web.awt.Rectangle.getGawtRectangle(bounds)));
     }
 
-	public Rectangle2D createIntersection(Rectangle2D r) {
-	    return new geogebra.web.awt.Rectangle2D(
-	    		impl.createIntersection(geogebra.web.awt.Rectangle2D.getGawtRectangle2D(r)));
-
-    }
-
+	
 	public void setSize(int width, int height) {
 	    impl.setSize(width, height);
     }
+	
+	@Override
+    protected geogebra.web.kernel.gawt.Rectangle getImpl(){
+		return impl;
+	}
 }

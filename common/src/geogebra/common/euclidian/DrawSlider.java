@@ -209,7 +209,7 @@ public class DrawSlider extends Drawable {
 				|| !geo.isEuclidianVisible()) {
 			return null;
 		}
-		return AwtFactory.prototype.newRectangle(line.getBounds());
+		return line.getBounds();
 	}
 
 }

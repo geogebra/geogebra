@@ -23,7 +23,6 @@ public class FontManager extends AbstractFontManager{
 	    geogebra.web.awt.Font ret = new geogebra.web.awt.Font("normal");
 	    ret.setFontStyle(fontStyle);
 	    ret.setFontSize(fontSize);
-	    AbstractApplication.debug(fontSize);
 	    ret.setFontFamily(serif?"serif":"sans-serif");
 	    return ret;
     }

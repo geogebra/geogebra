@@ -21,6 +21,8 @@
 
 package geogebra.web.kernel.gawt;
 
+import geogebra.common.main.AbstractApplication;
+
 import java.util.NoSuchElementException;
 
 public abstract class QuadCurve2D implements Shape, Cloneable {
@@ -258,6 +260,7 @@ public abstract class QuadCurve2D implements Shape, Cloneable {
             }
             if (t != null) {
                 t.transform(coords, 0, coords, 0, count);
+                AbstractApplication.debug(coords[0]+","+coords[1]+","+coords[2]+","+coords[3]);
             }
             return type;
         }

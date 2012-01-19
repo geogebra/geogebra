@@ -23,86 +23,86 @@ public class Rectangle2D implements geogebra.common.awt.Rectangle2D, geogebra.we
 
 	
 	public double getY() {
-		return impl.getY();
+		return getImpl().getY();
 	}
 
 	
 	public double getX() {
-		return impl.getX();
+		return getImpl().getX();
 	}
 
 	
 	public double getWidth() {
-		return impl.getWidth();
+		return getImpl().getWidth();
 	}
 
 	
 	public double getHeight() {
-		return impl.getHeight();
+		return getImpl().getHeight();
 	}
 
 	
 	public void setRect(double x, double y, double width, double height) {
-		impl.setRect(x, y, width, height);
+		getImpl().setRect(x, y, width, height);
 	}
 
 	
 	public void setFrame(double x, double y, double width, double height) {
-		impl.setFrame(x, y, width, height);
+		getImpl().setFrame(x, y, width, height);
 	}
 
 	
 	public boolean intersects(double minX, double minY, double lengthX,
 	        double lengthY) {
-		return impl.intersects(minX, minY, lengthX, lengthY);
+		return getImpl().intersects(minX, minY, lengthX, lengthY);
 	}
 
 	
 	public boolean intersects(Rectangle r) {
-		return impl.intersects(r.getX(), r.getY(), r.getHeight(), r.getWidth());
+		return getImpl().intersects(r.getX(), r.getY(), r.getHeight(), r.getWidth());
 	}
 	
 	
 	public boolean intersects(int i, int j, int k, int l) {
-	    return impl.intersects(i,j,k,l);
+	    return getImpl().intersects(i,j,k,l);
     }
 
 	public boolean contains(int x, int y) {
-	    return impl.contains(x,y);
+	    return getImpl().contains(x,y);
     }
 
 	public Rectangle getBounds() {
-	    return new geogebra.web.awt.Rectangle(impl.getBounds());
+	    return new geogebra.web.awt.Rectangle(getImpl().getBounds());
     }
 
 	public geogebra.common.awt.Rectangle2D getBounds2D() {
-		return new geogebra.web.awt.Rectangle2D(impl.getBounds2D());
+		return new geogebra.web.awt.Rectangle2D(getImpl().getBounds2D());
     }
 
 	public boolean contains(Rectangle rectangle) {
-	    return impl.contains(geogebra.web.awt.Rectangle.getGawtRectangle(rectangle));
+	    return getImpl().contains(geogebra.web.awt.Rectangle.getGawtRectangle(rectangle));
     }
 
 	public boolean contains(double xTry, double yTry) {
-	    return impl.contains(xTry, yTry);
+	    return getImpl().contains(xTry, yTry);
     }
 
 	public PathIterator getPathIterator(AffineTransform affineTransform) {
-		return new geogebra.web.awt.PathIterator(impl.getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(affineTransform)));
+		return new geogebra.web.awt.PathIterator(getImpl().getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(affineTransform)));
     }
 
 	public PathIterator getPathIterator(AffineTransform at, double flatness) {
-		return new geogebra.web.awt.PathIterator(impl.getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(at), flatness));
+		return new geogebra.web.awt.PathIterator(getImpl().getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(at), flatness));
     }
 
 	public boolean intersects(geogebra.common.awt.Rectangle2D r) {
-		return impl.intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+		return getImpl().intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
 	public geogebra.common.awt.Rectangle2D createIntersection(
             geogebra.common.awt.Rectangle2D r) {
 	    return new geogebra.web.awt.Rectangle2D(
-	    		impl.createIntersection(geogebra.web.awt.Rectangle2D.getGawtRectangle2D(r)));
+	    		getImpl().createIntersection(geogebra.web.awt.Rectangle2D.getGawtRectangle2D(r)));
 
     }
 
@@ -110,12 +110,17 @@ public class Rectangle2D implements geogebra.common.awt.Rectangle2D, geogebra.we
 			geogebra.common.awt.Rectangle2D p){
 		if(!(p instanceof geogebra.web.awt.Rectangle2D))
 			return null;
-		return ((geogebra.web.awt.Rectangle2D)p).impl;
+		return ((geogebra.web.awt.Rectangle2D)p).getImpl();
     }
 
 	public Shape getGawtShape() {
-		return impl;
+		return getImpl();
     }
+
+	protected geogebra.web.kernel.gawt.Rectangle2D getImpl() {
+	    return impl;
+    }
+
 	
 	
 
