@@ -355,12 +355,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 		//point decorations
 		initPointDecorations();
 		
-		
-		//x, y, min, max
-		xminObject = new GeoNumeric(kernel3D.getConstruction());
-		xmaxObject = new GeoNumeric(kernel3D.getConstruction());
-		yminObject = new GeoNumeric(kernel3D.getConstruction());
-		ymaxObject = new GeoNumeric(kernel3D.getConstruction());	
+			
 	}
 	
 	/**
@@ -2735,6 +2730,8 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 		}
 		
 		
+	
+		
 	}
 	
 	
@@ -2917,27 +2914,6 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 	}
 
 
-	public double getXmin() {
-		return 0;
-	}
-
-
-	public double getXmax() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
-	public double getYmin() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
-	public double getYmax() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 
 	public int getAxesLineStyle() {
@@ -3076,91 +3052,15 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 		getApplication().getEuclidianView().changeLayer(geo, oldlayer, newlayer);
 	}
 
-
+/*
 	public boolean isZoomable() {
 		// TODO Auto-generated method stub
 		return false;
 	}
+*/
 
-	NumberValue xminObject, xmaxObject, yminObject, ymaxObject;
-	/**
-	 * @return the xminObject
-	 */
-	public GeoNumeric getXminObject() {
-		return (GeoNumeric) xminObject;
-	}
 
-	/**
-	 * @param xminObjectNew the xminObject to set
-	 */
-	public void setXminObject(NumberValue xminObjectNew) {
-		if(xminObjectNew == null) return;
-		if(xminObject !=null)
-		((GeoNumeric)xminObject).removeEVSizeListener(this);
-		this.xminObject = xminObjectNew;
-		setSizeListeners();	
-	}
 
-	/**
-	 * @return the xmaxObject
-	 */
-	public GeoNumeric getXmaxObject() {
-		return (GeoNumeric) xmaxObject;
-	}
-
-	/**
-	 * @param xmaxObjectNew the xmaxObject to set
-	 */
-	public void setXmaxObject(NumberValue xmaxObjectNew) {
-		if(xmaxObjectNew == null) return;
-		if(xmaxObject !=null)
-		((GeoNumeric)xmaxObject).removeEVSizeListener(this);
-		this.xmaxObject = xmaxObjectNew;
-		setSizeListeners();	
-	}
-
-	/**
-	 * @return the yminObject
-	 */
-	public GeoNumeric getYminObject() {
-		return (GeoNumeric) yminObject;
-	}
-
-	/**
-	 * @param yminObjectNew the yminObject to set
-	 */
-	public void setYminObject(NumberValue yminObjectNew) {
-		if(yminObjectNew == null) return;
-		if(yminObject !=null)
-		((GeoNumeric)yminObject).removeEVSizeListener(this);
-		this.yminObject = yminObjectNew;
-		setSizeListeners();		
-	}
-
-	private void setSizeListeners() {		
-		((GeoNumeric)xminObject).addEVSizeListener(this);
-		((GeoNumeric)yminObject).addEVSizeListener(this);
-		((GeoNumeric)xmaxObject).addEVSizeListener(this);
-		((GeoNumeric)ymaxObject).addEVSizeListener(this);
-	}
-
-	/**
-	 * @return the ymaxObject
-	 */
-	public GeoNumeric getYmaxObject() {
-		return (GeoNumeric) ymaxObject;
-	}
-
-	/**
-	 * @param ymaxObjectNew the ymaxObject to set
-	 */
-	public void setYmaxObject(NumberValue ymaxObjectNew) {
-		if(ymaxObjectNew == null) return;
-		if(ymaxObject !=null)
-			((GeoNumeric)ymaxObject).removeEVSizeListener(this);
-		this.ymaxObject = ymaxObjectNew;
-		setSizeListeners();
-	}
 
 	public void setResizeXAxisCursor() {
 		// TODO Auto-generated method stub
@@ -3432,21 +3332,8 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 	//////////////////////////////////////////////////////
 
 
-	public void updateBoundObjects() {
-		if(isZoomable()){
-			((GeoNumeric)xminObject).setValue(getXmin());
-			((GeoNumeric)xmaxObject).setValue(getXmax());
-			((GeoNumeric)yminObject).setValue(getYmin());
-			((GeoNumeric)ymaxObject).setValue(getYmax());
-		}
-	}
 
 
-
-	public void updateBounds() {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 	public boolean getShowAxis(int axis) {

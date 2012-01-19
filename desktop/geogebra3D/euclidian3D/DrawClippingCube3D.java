@@ -75,10 +75,12 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	 */
 	public double[][] updateMinMax(){
 		
-		Renderer renderer = getView3D().getRenderer();
+		EuclidianView3D view = getView3D(); 
+		
+		Renderer renderer = view.getRenderer();
 		
 
-		double scale = getView3D().getScale();
+		double scale = view.getScale();
 
 		
 		Coords origin = getView3D().getToSceneMatrix().getOrigin();
@@ -106,6 +108,10 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		
 		setVertices();
 		//Application.debug(xmin+","+xmax+","+ymin+","+ymax+","+zmin+","+zmax);
+		
+		
+		view.setXmin(minMax[0][0]);view.setXmax(minMax[0][1]);
+		view.setYmin(minMax[1][0]);view.setYmax(minMax[1][1]);
 		
 		return minMax;
 	}

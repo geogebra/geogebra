@@ -478,8 +478,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
         return gridPanel;
 	}	
 	
-	protected void updateMinMax(){
-
+	final protected void updateMinMax(){
         tfMinX.removeActionListener(this);
 	 	tfMaxX.removeActionListener(this);
         tfMinY.removeActionListener(this);

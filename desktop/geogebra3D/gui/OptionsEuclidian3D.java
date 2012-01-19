@@ -167,10 +167,6 @@ public class OptionsEuclidian3D extends OptionsEuclidian {
 		
 	}
 	
-	@Override
-	protected void updateMinMax(){
-		super.updateMinMax();
-	}
 	
 	@Override
 	protected void setCbViewSelectedIndex() {

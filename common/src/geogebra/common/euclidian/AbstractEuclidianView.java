@@ -371,7 +371,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		}
 	}
 
-	protected NumberValue xminObject, xmaxObject, yminObject, ymaxObject;
+	private NumberValue xminObject, xmaxObject, yminObject, ymaxObject;
 
 	/**
 	 * @return the xminObject
@@ -1083,19 +1083,19 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		this.scaleRatio = scaleRatio;
 	}
 
-	void setXmin(double xmin) {
+	public void setXmin(double xmin) {
 		this.xmin = xmin;
 	}
 
-	void setXmax(double xmax) {
+	public void setXmax(double xmax) {
 		this.xmax = xmax;
 	}
 
-	void setYmin(double ymin) {
+	public void setYmin(double ymin) {
 		this.ymin = ymin;
 	}
 
-	void setYmax(double ymax) {
+	public void setYmax(double ymax) {
 		this.ymax = ymax;
 	}
 
