@@ -463,9 +463,9 @@ public class Application extends AbstractApplication {
 	    return 0;
     }
 
-	public Font getFontCanDisplay(String labelDesc, boolean serif, int style,
+	public Font getFontCanDisplay(String testString, boolean serif, int style,
             int size) {
-	    return new geogebra.web.awt.Font("normal");
+	    return fontManager.getFontCanDisplay(testString, serif, style, size);
     }
 
 	@Override
