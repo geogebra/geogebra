@@ -9,9 +9,14 @@ with Python scripting).
 The directory desktop/jython must be populated first.  This can be
 done with the "reset_jython.sh" script in this directory.
 
-The script, when started, monitors desktop/jython for access to files within it. Every file which is accessed is recorded.  The idea is to start the script, start GeoGebra and test Python scripting.  If the script's output doesn't show anything, it means that it hasn't detected access to a new file.
+The script, when started, monitors desktop/jython for access to files
+within it. Every file which is accessed is recorded.  The idea is to
+start the script, start GeoGebra and test Python scripting.  If the
+script's output doesn't show anything, it means that it hasn't
+detected access to a new file.
 
-Play with it for a while and when it seems that there aren't any new files accessed, send me the file called "included_paths.json".
+Play with it for a while and when it seems that there aren't any new
+files accessed, send me the file called"included_paths.json".
 
 Author: Arnaud
 """
