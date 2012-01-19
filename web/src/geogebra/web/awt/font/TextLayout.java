@@ -33,7 +33,11 @@ public class TextLayout implements geogebra.common.awt.font.TextLayout {
 	    return font.getSize()*2;
     }
 
-	public void draw(Graphics2D g2, int i, int j) {
+	public void draw(Graphics2D g2, int x, int y) {
+		Font tempFont = g2.getFont();
+		g2.setFont(font);
+		g2.drawString(str, x, y);
+		g2.setFont(tempFont);
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }

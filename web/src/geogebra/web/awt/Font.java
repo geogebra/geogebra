@@ -71,16 +71,15 @@ public class Font extends geogebra.common.awt.Font{
 
 	public Font deriveFont(String fontStyle2, final int newSize) {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return new Font(fontStyle) {
-			{
-				setFontSize(String.valueOf(newSize));
-			}
-		};
+		Font f = new Font(fontStyle2);
+		f.setFontSize(newSize);
+		return f;
 	}
 
-	public int canDisplayUpTo(String textString) {
+	@Override
+    public int canDisplayUpTo(String textString) {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return 0;
+		return textString.length();
 	}
 
 	public void setFontStyle(int fontStyle) {
@@ -108,43 +107,27 @@ public class Font extends geogebra.common.awt.Font{
 	}
 
 	public void setFontSize(int fontSize) {
-		switch (fontSize) {
-		case -4:
-			setFontSize("8");
-			break;
-		case -2:
-			setFontSize("10");
-			break;
-		case 2:
-			setFontSize("14");
-			break;
-		case 4:
-			setFontSize("16");
-			break;
-		default:
-			setFontSize("12");
-			break;
-		}
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		
+		this.fontSize = ""+fontSize; 
 	}
 	
-	public int getSize() {
+	@Override
+    public int getSize() {
 		return Integer.parseInt(fontSize);
 	}
 	
-	public boolean isItalic() {
-		return (fontStyle == "italic");
+	@Override
+    public boolean isItalic() {
+		return fontStyle.equals("italic");
 	}
 	
-	public boolean isBold() {
-		return (fontWeight == "bold");
+	@Override
+    public boolean isBold() {
+		return fontWeight.equals("bold");
 	}
 
 	@Override
     public int getStyle() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return 0;
+	    return (isBold()?1:0)+(isItalic()?2:0);
     }
 
 	@Override
@@ -164,7 +147,7 @@ public class Font extends geogebra.common.awt.Font{
 	@Override
     public String getFontName() {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
+	    return fontFamily;
     }
 
 }

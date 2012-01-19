@@ -54,6 +54,7 @@ import geogebra.web.euclidian.EuclidianController;
 import geogebra.web.euclidian.EuclidianView;
 import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLio;
+import geogebra.web.kernel.AnimationManager;
 import geogebra.web.kernel.UndoManager;
 import geogebra.web.util.DataUtil;
 
@@ -481,14 +482,12 @@ public class Application extends AbstractApplication {
 
 	@Override
     public AbstractUndoManager getUndoManager(Construction cons) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return new UndoManager(cons);
     }
 
 	@Override
     public AbstractAnimationManager newAnimationManager(Kernel kernel2) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
+	    return new AnimationManager(kernel2);
     }
 
 	@Override

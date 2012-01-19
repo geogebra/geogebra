@@ -438,8 +438,11 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
     @Override
     public void setFont(geogebra.common.awt.Font font) {
-    	if(font instanceof geogebra.web.awt.Font)
-    		currentFont=(geogebra.web.awt.Font)font; 
+    	if(font instanceof geogebra.web.awt.Font){
+    		currentFont=(geogebra.web.awt.Font)font;
+    		//TODO: pass other parameters here as well
+    		context.setFont(currentFont.getFontSize()+"px "+currentFont.getFontFamily());
+    	}
 	    
     }
 
