@@ -1,35 +1,37 @@
 # Make division novice-friendly :)
 from __future__ import division, with_statement
 
-# GeoGebra imports
-from geogebra.plugin.jython import PythonScriptInterface
-
-from geogebra.awt import Color
-from geogebra.plugin.jython import PythonAPI as API
-
 # Jython imports
-import sys
+import sys, traceback
 
-# Python imports
-from pygeo.gui import PythonWindow
-from pygeo import objects
-
+from geogebra.plugin.jython import PythonAPI as API
+from geogebra.plugin.jython import PythonScriptInterface
 
 class Interface(PythonScriptInterface):
     
     def init(self, app):
         global api, ggbapi, pywindow, selection
+
+        from pygeo.gui import PythonWindow
+        pywindow = self.pywin = PythonWindow(self)
+        
+        # GeoGebra imports
+
+        from geogebra.awt import Color
+
+        # Python imports
+        from pygeo import objects
+
         api = API(app)
         # Inject the api into objects.py
         # XXX There must be a better way!
         objects.api = api
-        pywindow = self.pywin = PythonWindow(self)
         self.geo = objects.Geo()
         selection = self.selection = objects.Selection()
         sys.stdout = self.pywin
         ggbapi = api.getGgbApi()
         self.namespace = {
-            'Color': Color,
+           'Color': Color,
             'Point': objects.Point,
             'Element': objects.Element,
             'Number': objects.Numeric,
@@ -63,10 +65,12 @@ class Interface(PythonScriptInterface):
         try:
             exec script in self.namespace
         except Exception, e:
-            self.pywin.error("Runtime Error: " + str(e))
+            self.pywin.error(traceback.format_exc())
             raise
         
     def handleEvent(self, evt_type, target):
+        if evt_type in ("add", "remove", "rename"):
+            self.pywin.update_geos(api.allGeos)
         target = API.Geo(target)
         if self.handling_event:
             return
@@ -101,6 +105,25 @@ class Interface(PythonScriptInterface):
     
     def isWindowVisible(self):
         return self.pywin.frame.visible
+
+    def setEventListener(self, geo, evt, code):
+        geo = API.Geo(geo)
+        el = self.geo._get_element(geo)
+        if not code.strip():
+            # print "deleting %s listener for %s" % (evt, el)
+            try:
+                delattr(el, "on" + evt)
+            except AttributeError:
+                pass
+            return
+        code = "\n".join("\t" + line for line in code.split("\n"))
+        # print "setting %s listener for %s" % (evt, el)
+        try:
+            exec "def __f__(self):\n%s" % code in self.namespace 
+            setattr(el, "on" + evt, self.namespace['__f__'])
+            del self.namespace['__f__']
+        except SyntaxError:
+            pass
     
     def set_selection_listener(self, sl):
         api.startSelectionListener()
@@ -114,27 +137,26 @@ class Interface(PythonScriptInterface):
         try:
             return compile(source, "<pyggb>", "single")
         except SyntaxError, e:
-            if e.msg in (r"no viable alternative at input '<EOF>'",
-                         r"mismatched input '\n' expecting INDENT"):
-                return "continue"
-            else:
-                self.pywin.error("Syntax Error: " + e.msg)
-                return "error"
+            self.pywin.error(traceback.format_exc())
+            return "error"
     
     def compilemodule(self, source):
         try:
             return compile(source, "<pyggb>", "exec")
         except SyntaxError, e:
-            self.pywin.error("Syntax Error: " + e.msg)
+            self.pywin.error(traceback.format_exc())
             return "error"
     
     def run(self, code):
         try:
             exec code in self.namespace
         except Exception, e:
-            self.pywin.error("Runtime Error: " + str(e))
+            self.pywin.error(traceback.format_exc())
             raise
         return "OK"
+
+    def format_tb(self):
+        return 
 
 interface = Interface()
 
@@ -177,3 +199,10 @@ def input(s, t = ""):
         return ""
     return ret
 
+
+# This is to update the atime of the modules I want to keep in the jython jar
+def do_protected_imports():
+    print "protected imports"
+    import random, collections, bisect, functools, pprint, itertools
+
+# do_protected_imports()
