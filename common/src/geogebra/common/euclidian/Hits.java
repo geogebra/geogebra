@@ -1,8 +1,8 @@
 package geogebra.common.euclidian;
 
 import geogebra.common.kernel.geos.*;
+import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.*;
-import geogebra.common.main.AbstractApplication;
 
 import java.util.ArrayList;
 import java.util.Iterator;
