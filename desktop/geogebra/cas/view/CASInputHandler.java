@@ -715,7 +715,7 @@ public class CASInputHandler {
 	 * @param prefix
 	 * @param postfix
 	 */
-	
+
 	// /**
 	// * Evaluates eval as GeoGebraCAS input. Dynamic references are
 	// * resolved according to the given row number.
@@ -853,7 +853,8 @@ public class CASInputHandler {
 			boolean foundReference = false;
 			boolean addParentheses = false;
 			boolean startOfReferenceNumber = false;
-			
+			boolean needOutput = true;
+
 			// -1 means reference without a number (to the last row)
 			int referenceNumber = -1;
 
@@ -862,25 +863,29 @@ public class CASInputHandler {
 
 				if (foundReference) {
 					if (Character.isDigit(c)) {
-						if(startOfReferenceNumber) {
+						if (startOfReferenceNumber) {
 							startOfReferenceNumber = false;
 							referenceNumber = 0;
 						}
 						referenceNumber = referenceNumber * 10
 								+ Character.digit(c, 10);
 						continue;
+					} else if (c == delimiter) {
+						// ## or $$
+						needOutput = false;
+						continue;
 					}
 
 					foundReference = false;
 					// needed if the reference is the first term in the
-					// expression
+					// expression, because in this case addParantheses isn't true yet
 					if (i < str.length() - 1) {
 						addParentheses = true;
 						newNoParentheses = false;
 					}
 
 					handleReference(sb, selectedRow, referenceNumber,
-							addParentheses, newNoParentheses);
+							addParentheses, newNoParentheses, needOutput);
 				}
 
 				if (c != delimiter) {
@@ -903,16 +908,16 @@ public class CASInputHandler {
 
 			if (foundReference) {
 				handleReference(sb, selectedRow, referenceNumber,
-						addParentheses, newNoParentheses);
+						addParentheses, newNoParentheses, needOutput);
 			}
-
 			break;
 		}
 		return sb.toString();
 	}
 
 	private void handleReference(StringBuilder sb, int selectedRow,
-			int referenceNumber, boolean addParentheses, boolean noParentheses) {
+			int referenceNumber, boolean addParentheses, boolean noParentheses,
+			boolean needOutput) {
 
 		if (referenceNumber > 0 && referenceNumber != selectedRow + 1
 				&& referenceNumber <= casView.getRowCount()) {
@@ -923,8 +928,14 @@ public class CASInputHandler {
 			appendReference(sb, reference, addParentheses, noParentheses);
 
 		} else if (referenceNumber == -1 && selectedRow > 0) {
-			// just a # (or $) is in the input (without a number)
-			String reference = casView.getRowOutputValue(selectedRow - 1);
+			String reference;
+			if (needOutput) {
+				// just a # (or $) is in the input (without a number)
+				reference = casView.getRowOutputValue(selectedRow - 1);
+			} else {
+				// ## or $$
+				reference = casView.getRowInputValue(selectedRow - 1);
+			}
 
 			appendReference(sb, reference, addParentheses, noParentheses);
 
@@ -1066,7 +1077,8 @@ public class CASInputHandler {
 		// replace a := with Delete[a]
 		if (inputTrim.endsWith(":=")) {
 			inputTrim = casView.getApp().getCommand("Delete") + "["
-					+ inputTrim.substring(0, inputTrim.length() - 2).trim() + "];";
+					+ inputTrim.substring(0, inputTrim.length() - 2).trim()
+					+ "];";
 		}
 
 		// remove trailing =
