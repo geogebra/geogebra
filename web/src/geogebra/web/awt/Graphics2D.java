@@ -250,7 +250,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	}
 
 	public native void setStrokeDash(JsArrayNumber dasharray) /*-{
-//		if ($wnd.canvasHelpers.context.mozDash)
+		if (typeof $wnd.canvasHelpers.context.mozDash != 'undefined')
 			$wnd.canvasHelpers.context.mozDash = dasharray;
 	}-*/;
 
