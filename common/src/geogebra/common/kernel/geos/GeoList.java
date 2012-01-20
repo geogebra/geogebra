@@ -1808,4 +1808,14 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return spreadsheetTraceList;
 	}
 
+	public void performScriptActions() {
+		for(int i=0;i<size();i++){
+			if(get(i) instanceof GeoScriptAction)
+				((GeoScriptAction) get(i)).perform();
+			if(get(i) instanceof GeoList)
+				((GeoList) get(i)).performScriptActions();
+		}
+		
+	}
+
 }
