@@ -245,6 +245,8 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 				for (int i = 0; i < dasharr.length; i++)
 					jsarrn.set(i, dasharr[i]);
 				setStrokeDash( jsarrn );
+			} else {
+				setStrokeDash(null);
 			}
 		}
 	}
