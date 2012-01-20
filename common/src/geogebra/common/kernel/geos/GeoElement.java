@@ -105,6 +105,10 @@ public abstract class GeoElement extends ConstructionElement implements
 	public enum ScriptType {
 		GGBSCRIPT, JAVASCRIPT, PYTHON
 	};
+	
+	public enum EventType {
+		CLICK, UPDATE
+	};
 
 	/**
 	 * @param clickJavaScript
@@ -5769,6 +5773,12 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 		return retone.toString();
 	}
+	
+	private void setPythonEventHandler(ScriptType type, String evt, String code) {
+		if (type == ScriptType.PYTHON) {
+			app.getPythonBridge().setEventListener(this, evt, code);
+		}		
+	}
 
 	public void setClickScript(final String script,
 			final boolean translateInternal) {
@@ -5780,11 +5790,13 @@ public abstract class GeoElement extends ConstructionElement implements
 			if (app.getScriptingLanguage() == null) {
 				app.setScriptingLanguage(app.getLanguage());
 			}
+			setPythonEventHandler(clickScriptType, "click", script);
 			clickScript = script;
 		} else {
 			if (translateInternal) {
 				clickScript = localizedScript2Script(script);
 			} else {
+				setPythonEventHandler(clickScriptType, "click", script);
 				clickScript = script;
 			}
 		}
@@ -5799,11 +5811,13 @@ public abstract class GeoElement extends ConstructionElement implements
 			if (app.getScriptingLanguage() == null) {
 				app.setScriptingLanguage(app.getLanguage());
 			}
+			setPythonEventHandler(updateScriptType, "update", script);
 			updateScript = script;
 		} else {
 			if (translateInternal) {
 				updateScript = localizedScript2Script(script);
 			} else {
+				setPythonEventHandler(updateScriptType, "update", script);
 				updateScript = script;
 			}
 		}
@@ -5827,7 +5841,17 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 		return clickScript;
 	}
-
+	
+	public String getScript(EventType type) {
+		switch (type) {
+		case CLICK:
+			return getClickScript();
+		case UPDATE:
+			return getUpdateScript();
+		}
+		return "";
+	}
+	
 	public String getXMLUpdateScript() {
 		return StringUtil.encodeXML(updateScript);
 	}
@@ -5918,7 +5942,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 		switch (clickScriptType) {
 		case PYTHON:
-			runPythonScript(arg, false);
+			//runPythonScript(arg, false);
 			break;
 		case JAVASCRIPT:
 			runJavaScript(arg, false);
@@ -5937,7 +5961,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		app.setBlockUpdateScripts(true);
 		switch (updateScriptType) {
 		case PYTHON:
-			runPythonScript(null, true);
+			//runPythonScript(null, true);
 			break;
 		case JAVASCRIPT:
 			runJavaScript(null, true);
