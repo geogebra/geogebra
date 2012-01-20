@@ -14,8 +14,8 @@ from javax.swing import (
     DefaultListModel, ListCellRenderer, BorderFactory, JTextPane,
     JMenuBar, JMenu, JMenuItem, JFileChooser,
     KeyStroke,
-    JTabbedPane,
-    SwingUtilities
+    JTabbedPane, JComboBox,
+    SwingUtilities,
 )
 from javax.swing.text import (
     StyleContext, StyleConstants, SimpleAttributeSet, TabStop, TabSet
@@ -535,6 +535,57 @@ class LockManager(object):
     def __nonzero__(self):
         return bool(self.lock)
 
+class EventsPane(ActionListener):
+    
+    def __init__(self):
+        self.component = JPanel(BorderLayout())
+
+        # Create editor pane
+        scrollpane = JScrollPane()
+        self.script_area = InputPane()
+        line_numbers = LineNumbering(self.script_area.component)
+        scrollpane.viewport.view = self.script_area.component
+        scrollpane.rowHeaderView = line_numbers.component
+        self.component.add(scrollpane, BorderLayout.CENTER)
+
+        # Create Selection pane
+        select_pane = JPanel()
+        self.objects_box = JComboBox([])
+        select_pane.add(self.objects_box)
+        self.events_box = JComboBox(["update", "click"])
+        select_pane.add(self.events_box)
+        self.component.add(select_pane, BorderLayout.PAGE_START)
+
+        self.events_box.addActionListener(self)
+        self.objects_box.addActionListener(self)
+
+        self.current = None
+    
+    def update_geos(self, geos):
+        self.objects_box.removeAllItems()
+        self.geos = geos
+        for geo in self.geos:
+            self.objects_box.addItem(geo.typeString + " " + geo.label)
+        self.objects_box.repaint()
+
+    def save_current_script(self):
+        if self.current is None:
+            return
+        geo, evt = self.current
+        script = self.script_area.input
+        setattr(geo, evt + "Script", script)
+            
+    def update_script_area(self):
+        self.save_current_script()
+        geo = self.geos[self.objects_box.selectedIndex]
+        evt = self.events_box.selectedItem
+        self.current = geo, evt
+        self.script_area.input = getattr(geo, evt + "Script")
+
+    # Implementation of ActionEvent
+    def actionPerformed(self, evt):
+        self.update_script_area()
+
 
 class PythonWindow(KeyListener, DocumentListener, ActionListener):
     
@@ -567,9 +618,13 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
         scrollpane.viewport.view = self.script_area.component
         scrollpane.rowHeaderView = line_numbers.component
         script_pane.add(scrollpane, BorderLayout.CENTER)
+
+        # Create Events Pane
+        self.events_pane = EventsPane()
         
         tabs.addTab("Interactive", interactive_pane)
         tabs.addTab("Script", script_pane)
+        tabs.addTab("Events", self.events_pane.component)
         
         self.frame.add(tabs)
         self.frame.size = 500, 600
@@ -577,6 +632,9 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
         self.component = None
         self.make_menubar()
         self.history = InputHistory()
+
+    def update_geos(self, geos):
+        self.events_pane.update_geos(geos)
     
     def make_menubar(self):
         shortcut = Toolkit.getDefaultToolkit().menuShortcutKeyMask
