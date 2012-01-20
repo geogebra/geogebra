@@ -726,7 +726,7 @@ public class Application extends AbstractApplication {
 
 	public void showLoadingAnimation(boolean go) {
 		if (!go) {
-			GeoGebraFrame.splash.hide();
+			//GeoGebraFrame.splash.hide();
 		}
     }
 

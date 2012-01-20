@@ -58,8 +58,8 @@ public class GeoGebraFrame extends VerticalPanel {
 		
 		GuiResources.INSTANCE.getCssWeb().ensureInjected();
 		
-		splash = new SplashDialog();
-		splash.show();
+		//splash = new SplashDialog();
+		//splash.show();
 		
 	   
 		for (ArticleElement articleElement : geoGebraMobileTags) {
