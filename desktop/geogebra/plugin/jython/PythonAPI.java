@@ -416,7 +416,41 @@ public class PythonAPI {
 		public boolean keepsType() {
 			return ((GeoConicND) geo).keepsType();
 		}
-
+		
+		/* Scripting */
+		
+		/**
+		 * Get click script
+		 * @return click script
+		 */
+		
+		public String getClickScript() {
+			return geo.getClickScript();
+		}
+		
+		/**
+		 * @return update script
+		 */
+		public String getUpdateScript() {
+			return geo.getUpdateScript();
+		}
+		
+		/**
+		 * @param script new click script
+		 */
+		public void setClickScript(String script) {
+			geo.setClickScriptType(GeoElement.ScriptType.PYTHON);
+			geo.setClickScript(script, false);
+		}
+		
+		/**
+		 * @param script new update script
+		 */
+		public void setUpdateScript(String script) {
+			geo.setUpdateScriptType(GeoElement.ScriptType.PYTHON);			
+			geo.setUpdateScript(script, false);
+		}
+		
 		/* GeoVec3D methods */
 
 		/**
@@ -1080,6 +1114,22 @@ public class PythonAPI {
 	 */
 	public Geo[] getGeos(GeoClass type) {
 		TreeSet<GeoElement> geoSet = cons.getGeoSetLabelOrder(type);
+		Geo[] geos = new Geo[geoSet.size()];
+		Iterator<GeoElement> it = geoSet.iterator();
+		int i = 0;
+		while (it.hasNext()) {
+			geos[i++] = new Geo(it.next());
+		}
+		return geos;
+	}
+
+	/**
+	 * Return all labelled geos in alphabetical order of typestring + label
+	 * 
+	 * @return array of all labelled geos in the construction
+	 */
+	public Geo[] getAllGeos() {
+		TreeSet<GeoElement> geoSet = cons.getGeoSetNameDescriptionOrder();
 		Geo[] geos = new Geo[geoSet.size()];
 		Iterator<GeoElement> it = geoSet.iterator();
 		int i = 0;
