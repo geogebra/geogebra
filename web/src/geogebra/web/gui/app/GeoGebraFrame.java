@@ -1,6 +1,8 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.web.css.CssWeb;
+import geogebra.web.css.GuiResources;
 import geogebra.web.helper.RequestTemplateXhr2;
 import geogebra.web.helper.UrlFetcherImpl;
 import geogebra.web.html5.ArticleElement;
@@ -48,7 +50,10 @@ public class GeoGebraFrame extends VerticalPanel {
     }
 
 	private static void init(ArrayList<ArticleElement> geoGebraMobileTags) {
-	    for (ArticleElement articleElement : geoGebraMobileTags) {
+		
+		GuiResources.INSTANCE.getCssWeb().ensureInjected();
+	   
+		for (ArticleElement articleElement : geoGebraMobileTags) {
 	        GeoGebraFrame inst = new GeoGebraFrame();
 	        Application app = inst.createApplication();
 	        inst.app = app;
