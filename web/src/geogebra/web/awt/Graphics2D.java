@@ -29,6 +29,7 @@ import java.util.Map;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JsArrayNumber;
 import com.google.gwt.dom.client.ImageElement;
 
 public class Graphics2D extends geogebra.common.awt.Graphics2D {
@@ -236,10 +237,31 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 			context.setLineWidth(((geogebra.web.awt.BasicStroke)stroke).getLineWidth());
 			context.setLineCap(((geogebra.web.awt.BasicStroke)stroke).getEndCapString());
 			context.setLineJoin(((geogebra.web.awt.BasicStroke)stroke).getLineJoinString());
+
+			/*
+			float [] dasharr = ((geogebra.web.awt.BasicStroke)stroke).getDashArray();
+			if (dasharr != null) {
+				JsArrayNumber jsarrn = JsArrayNumber.createArray().cast();
+				jsarrn.setLength(dasharr.length);
+				for (int i = 0; i < dasharr.length; i++)
+					jsarrn.set(i, dasharr[i]);
+				setStrokeDash( jsarrn );
+			} else {
+				setStrokeDash( null );
+			}
+			*/
+
+			// uncomment this to see the demo of the dashed lines
+			// setStrokeDash();
 		}
 	}
 
-	
+	public native void setStrokeDash() /*-{
+		if ($wnd.canvasHelpers.context.mozDash)
+			$wnd.canvasHelpers.context.mozDash = [10.0, 5.0];//dasharray;
+	}-*/;
+
+
 	@Override
     public void setRenderingHint(Key hintKey, Object hintValue) {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated

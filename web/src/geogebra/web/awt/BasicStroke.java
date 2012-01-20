@@ -23,6 +23,7 @@ public class BasicStroke implements geogebra.common.awt.BasicStroke {
 	private int lineCap = CAP_BUTT;
 	private int lineJoin = JOIN_MITER;
 	private float miterLimit = 10;
+	private float [] dasharray = null;
 
 	// Constructors
 	public BasicStroke() {
@@ -37,6 +38,7 @@ public class BasicStroke implements geogebra.common.awt.BasicStroke {
 		this.lineWidth = lineWidth;
 		this.lineCap = lineCap;
 		this.lineJoin = lineJoin;
+		this.dasharray = null;
 	}
 
 	public BasicStroke(float width, int endCap, int lineJoin,
@@ -44,12 +46,14 @@ public class BasicStroke implements geogebra.common.awt.BasicStroke {
 		this.lineWidth = width;
 		this.lineCap = endCap;
 		this.lineJoin = lineJoin;
+		this.dasharray = dash;
 	}
 
 	public BasicStroke(geogebra.common.awt.BasicStroke objStroke) {
 	   this.lineWidth = ((BasicStroke) objStroke).getLineWidth();
 	   this.lineCap = ((BasicStroke) objStroke).getLineCap();
 	   this.lineJoin = ((BasicStroke) objStroke).getLineJoin();
+	   this.dasharray = ((BasicStroke) objStroke).getDashArray();
     }
 
 	public int getLineCap() {
@@ -108,8 +112,7 @@ public class BasicStroke implements geogebra.common.awt.BasicStroke {
     }
 
 	public float[] getDashArray() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
+	    return dasharray;
     }
 
 }

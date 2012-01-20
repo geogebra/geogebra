@@ -289,6 +289,9 @@ public class Application extends AbstractApplication {
 		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.web.euclidian.HatchingHandler();
 		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.web.euclidian.EuclidianStatic();
 		this.canvas = canvas;
+
+	    registerCanvasHelpers();
+
 		kernel = new Kernel(this);
 
 		// init settings
@@ -298,9 +301,22 @@ public class Application extends AbstractApplication {
 		
 		myXMLio = new MyXMLio(kernel, kernel.getConstruction());
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
-    }
-	
+
+	}
+
+	public Canvas getCanvas() {
+		return canvas;
+	}
+
+	public native void registerCanvasHelpers() /*-{
+
+		$wnd.canvasHelpers = {};
+		$wnd.canvasHelpers.imageData = {};
+		$wnd.canvasHelpers.canvas = this.@geogebra.web.main.Application::getCanvas()().@com.google.gwt.canvas.client.Canvas::getElement()();
+		$wnd.canvasHelpers.context = $wnd.canvasHelpers.canvas.getContext("2d");
+
+	}-*/;
+
 	public void loadGgbFile(Map<String, String> archiveContent) throws Exception {
 		((EuclidianView) euclidianView).setDisableRepaint(true);
 		loadFile(archiveContent);
