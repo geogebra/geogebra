@@ -122,7 +122,17 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 		pyInterface.notifySelected(geo, addToSelection);
 	}
-
+	
+	/**
+	 * Set Python event listener
+	 * @param geo target of the event listener
+	 * @param evtType event type ("update", "click"...)
+	 * @param code Python code to execute
+	 */
+	public void setEventListener(GeoElement geo, String evtType, String code) {
+		pyInterface.setEventListener(geo, evtType, code);
+	}
+	
 	/**
 	 * Evaluate a Python script
 	 * @param script script to evaluate
