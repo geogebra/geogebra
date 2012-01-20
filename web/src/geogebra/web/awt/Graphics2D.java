@@ -238,7 +238,6 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 			context.setLineCap(((geogebra.web.awt.BasicStroke)stroke).getEndCapString());
 			context.setLineJoin(((geogebra.web.awt.BasicStroke)stroke).getLineJoinString());
 
-			/*
 			float [] dasharr = ((geogebra.web.awt.BasicStroke)stroke).getDashArray();
 			if (dasharr != null) {
 				JsArrayNumber jsarrn = JsArrayNumber.createArray().cast();
@@ -246,19 +245,13 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 				for (int i = 0; i < dasharr.length; i++)
 					jsarrn.set(i, dasharr[i]);
 				setStrokeDash( jsarrn );
-			} else {
-				setStrokeDash( null );
 			}
-			*/
-
-			// uncomment this to see the demo of the dashed lines
-			setStrokeDash();
 		}
 	}
 
-	public native void setStrokeDash() /*-{
+	public native void setStrokeDash(JsArrayNumber dasharray) /*-{
 //		if ($wnd.canvasHelpers.context.mozDash)
-			$wnd.canvasHelpers.context.mozDash = [10.0, 5.0];//dasharray;
+			$wnd.canvasHelpers.context.mozDash = dasharray;
 	}-*/;
 
 
