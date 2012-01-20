@@ -29,6 +29,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.MyMath;
@@ -89,14 +90,14 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 		}
 		
 		if (numberCount == 6) {
-			this.setCoeffs(((GeoNumeric)coeffList.get(0)).getDouble(),
+			setCoeffs(((GeoNumeric)coeffList.get(0)).getDouble(),
 					((GeoNumeric)coeffList.get(1)).getDouble(),
 					((GeoNumeric)coeffList.get(2)).getDouble(),
 					((GeoNumeric)coeffList.get(3)).getDouble(),
 					((GeoNumeric)coeffList.get(4)).getDouble(),
 					((GeoNumeric)coeffList.get(5)).getDouble());
 		} else {
-			this.setUndefined();
+			setUndefined();
 		}
 		
 		setLabel(label);
@@ -259,7 +260,7 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 	    			//we update the eigenvectors etc.
 	    			this.setMatrix(matrix);
 	    			//classification yields CONIC_DOUBLE_LINE, we want a single line
-	    			type = GeoConic.CONIC_LINE;
+	    			type = GeoConicNDConstants.CONIC_LINE;
 	    			return;
 	    		}
 	    		
@@ -277,14 +278,14 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 	    		setCircleMatrix(temp, r3);
 	    		temp.removeOrSetUndefinedIfHasFixedDescendent();
 	    	}
-	    	else if (c.isCircle() && (this.getType() == GeoConic.CONIC_LINE || this.getType() == GeoConic.CONIC_PARALLEL_LINES))
+	    	else if (c.isCircle() && (this.getType() == GeoConicNDConstants.CONIC_LINE || this.getType() == GeoConicNDConstants.CONIC_PARALLEL_LINES))
 	    	{ // Mirror point in circle
 	    		
 	    			
-	    			if (c.getType()==GeoConic.CONIC_CIRCLE)
+	    			if (c.getType()==GeoConicNDConstants.CONIC_CIRCLE)
 	    	    	{ // Mirror point in circle
 	    	    		double r =  c.getHalfAxes()[0];
-	    	    		GeoVec2D midpoint=((GeoConic)c).getTranslationVector();
+	    	    		GeoVec2D midpoint= c.getTranslationVector();
 	    	    		double a=midpoint.x;
 	    	    		double b=midpoint.y;
 	    	    		double lx = (getLines()[0]).x;
@@ -308,7 +309,7 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 	    	            GeoPoint2 m =new GeoPoint2(cons);
 	    	            m.setCoords(a+sf*(perpX-a)/2, b+sf*(perpY-b)/2 ,1.0);
 	    	            setSphereND(m,sf/2*Math.sqrt(((perpX-a)*(perpX-a)+(perpY-b)*(perpY-b))));
-	    	    		}else type = GeoConic.CONIC_LINE;
+	    	    		}else type = GeoConicNDConstants.CONIC_LINE;
 	    	    	}
 	    	    	else
 	    	    	{
@@ -344,7 +345,7 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 		eigenvec[1].mult(-1.0);
 		
 		// mirror translation vector b
-		b.mirror((GeoPoint2)Q);	
+		b.mirror(Q);	
 		setMidpoint(new double[] {b.x,b.y});
 		
 
@@ -500,7 +501,7 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 	
 	@Override
 	public boolean isFillable() {
-		return type != GeoConic.CONIC_LINE;
+		return type != GeoConicNDConstants.CONIC_LINE;
 	}
 
 	@Override
@@ -547,7 +548,7 @@ implements Region, Traceable, ConicMirrorable, Transformable,
 		lines = new GeoLine[2];
 		lines[0] = (GeoLine)line;
 		lines[1] = (GeoLine)line;
-		type=GeoConic.CONIC_LINE;
+		type=GeoConicNDConstants.CONIC_LINE;
 		
 	}
 

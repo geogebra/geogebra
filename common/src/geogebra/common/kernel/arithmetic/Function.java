@@ -585,6 +585,10 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 */
 	private PolyFunction expandToPolyFunction(ExpressionValue ev,
 			boolean symbolic) {
+		PolyFunction polyFunNoCas = expandToPolyFunctionNoCas(ev,
+				symbolic);
+		if(polyFunNoCas!=null)
+			return polyFunNoCas;
 		ExpressionNode node;
 		if (ev.isExpressionNode()) {
 			node = (ExpressionNode) ev;
@@ -646,6 +650,45 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			e.printStackTrace();
 			return null;
 		}
+	}
+	private ExpressionNode zeroExpr = new ExpressionNode(kernel,new MyDouble(kernel,0));
+	private PolyFunction expandToPolyFunctionNoCas(ExpressionValue ev,
+			boolean symbolic){
+		PolyFunction polyFun = null;
+		Polynomial xVar=new Polynomial(kernel,"x");
+		ExpressionValue[][] coeff = null;
+		int terms = -1;
+		ExpressionNode replaced = 
+				((ExpressionNode) expression.deepCopy(kernel)).replaceAndWrap(fVars[0], xVar);
+				
+		Equation equ=new Equation(kernel,replaced,new MyDouble(kernel,0));				
+		try{
+			equ.initEquation();
+			coeff =equ.getNormalForm().getCoeff();
+			terms = coeff.length;
+		}
+		catch(Throwable t){
+			AbstractApplication.debug(expression+" couldn't be transformed to polynomial");
+		}
+		if(terms == -1)
+			return null;
+		if(!symbolic){
+			double [] coeffValues = new double[terms];
+			for(int i=0;i<coeff.length;i++){
+				coeffValues[i]=coeff[i][0] instanceof NumberValue ?
+						((NumberValue)coeff[i][0]).getDouble() : 0;
+			}
+			polyFun = new PolyFunction(coeffValues);
+		}else{
+			ExpressionNode[] coeffExpr = new ExpressionNode[terms];
+			for(int i=0;i<coeff.length;i++){
+				coeffExpr[i]= coeff[i][0]==null?zeroExpr
+						:new ExpressionNode(kernel,coeff[i][0]);
+			}
+			polyFun = new SymbolicPolyFunction(coeffExpr);
+		}
+		
+		return polyFun;
 	}
 
 	/**

@@ -30,6 +30,11 @@ public class SymbolicPolyFunction extends PolyFunction {
 		symbCoeffs = new ExpressionNode[degree + 1];		
 	}
 	
+	public SymbolicPolyFunction(ExpressionNode[] coeff) {
+		super(coeff.length-1);
+		symbCoeffs = coeff;		
+	}
+	
 	public ExpressionNode [] getSymbolicCoeffs() {
 		return symbCoeffs;
 	}
