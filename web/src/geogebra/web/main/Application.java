@@ -52,6 +52,7 @@ import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.ResourceBundleAdapter;
 import geogebra.web.euclidian.EuclidianController;
 import geogebra.web.euclidian.EuclidianView;
+import geogebra.web.gui.app.GeoGebraFrame;
 import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLio;
 import geogebra.web.kernel.AnimationManager;
@@ -724,9 +725,8 @@ public class Application extends AbstractApplication {
     }
 
 	public void showLoadingAnimation(boolean go) {
-		if (canvas != null) {
-			Context2d ctx = canvas.getContext2d();
-			ctx.fillText("Loading...", 22, 22);
+		if (!go) {
+			GeoGebraFrame.splash.hide();
 		}
     }
 

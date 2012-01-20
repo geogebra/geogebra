@@ -18,7 +18,9 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
@@ -48,10 +50,17 @@ public class GeoGebraFrame extends VerticalPanel {
 	public static void main(ArrayList<ArticleElement> geoGebraMobileTags) {
 		init(geoGebraMobileTags);
     }
+	
+	public static SplashDialog splash =  null;
+	
 
 	private static void init(ArrayList<ArticleElement> geoGebraMobileTags) {
 		
 		GuiResources.INSTANCE.getCssWeb().ensureInjected();
+		
+		splash = new SplashDialog();
+		splash.show();
+		
 	   
 		for (ArticleElement articleElement : geoGebraMobileTags) {
 	        GeoGebraFrame inst = new GeoGebraFrame();
