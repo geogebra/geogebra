@@ -13,6 +13,8 @@ public class SplashDialog extends DialogBox {
 	
 	public SplashDialog() {
 		super();
+		setWidth(splashImg.getWidth()+"px");
+		setHeight((splashImg.getHeight()+spinner.getHeight())+"px");
 		VerticalPanel p = new VerticalPanel();
 		p.add(splashImg);
 		p.add(spinner);
