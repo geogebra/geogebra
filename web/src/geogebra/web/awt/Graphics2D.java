@@ -252,12 +252,12 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 			*/
 
 			// uncomment this to see the demo of the dashed lines
-			// setStrokeDash();
+			setStrokeDash();
 		}
 	}
 
 	public native void setStrokeDash() /*-{
-		if ($wnd.canvasHelpers.context.mozDash)
+//		if ($wnd.canvasHelpers.context.mozDash)
 			$wnd.canvasHelpers.context.mozDash = [10.0, 5.0];//dasharray;
 	}-*/;
 
