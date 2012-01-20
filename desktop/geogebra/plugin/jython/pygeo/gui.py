@@ -554,11 +554,14 @@ class EventsPane(ActionListener):
         select_pane.add(self.objects_box)
         self.events_box = JComboBox(["update", "click"])
         select_pane.add(self.events_box)
+        save_btn = JButton("Save")
+        select_pane.add(save_btn)
         self.component.add(select_pane, BorderLayout.PAGE_START)
 
         self.events_box.addActionListener(self)
         self.objects_box.addActionListener(self)
-
+        save_btn.addActionListener(self)
+        
         self.current = None
     
     def update_geos(self, geos):
