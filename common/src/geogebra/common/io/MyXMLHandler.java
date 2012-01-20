@@ -3310,13 +3310,13 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			String clickScript = attrs.get("val");
 			if (clickScript != null && clickScript.length() > 0) {
-				geo.setClickScript(clickScript, false);
 				geo.setClickScriptType(type);
+				geo.setClickScript(clickScript, false);
 			}
 			String updateScript = attrs.get("onUpdate");
 			if (updateScript != null && updateScript.length() > 0) {
-				geo.setUpdateScript(updateScript, false);
 				geo.setUpdateScriptType(type);
+				geo.setUpdateScript(updateScript, false);
 			}
 			return true;
 		} catch (Exception e) {
