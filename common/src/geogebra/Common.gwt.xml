@@ -10,14 +10,12 @@
   <!-- <inherits name='com.google.gwt.user.theme.standard.Standard'/> -->
   <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
-
   <!-- Other module inherits                                      -->
 
   <!-- Specify the app entry point class.                         -->
   <entry-point class='geogebra.common.Common'/>
 
   <!-- compile only for Safari/Chrome: reduces permutation time --> 
-  <set-property name="user.agent" value="safari" /> 
 
   <!-- Specify the paths for translatable code                    -->
   <source path='common'/>

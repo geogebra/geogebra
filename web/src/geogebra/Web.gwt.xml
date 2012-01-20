@@ -15,13 +15,14 @@
   <!-- Other module inherits        -->
   <inherits name='com.google.gwt.xml.XML' /> 
   <inherits name='geogebra.Common'/>
+  <!--<add-linker name="xs"/> -->
   <!-- Specify the app entry point class.                         -->
   <entry-point class='geogebra.web.Web'/>
 
   <!-- compile only for Firefox / Chrome / Safari - choose one: reduces permutation time --> 
-  <set-property name="user.agent" value="gecko1_8, safari" />
+  <!-- <set-property name="user.agent" value="gecko1_8, safari" /> -->
   <!--  uncomment it if we want to go to production (cross - site js) -->
-  <!-- <add-linker name="xs" /> -->
+  
   <!-- Specify the paths for translatable code                    -->
   <source path='web'/>
 </module>
