@@ -319,13 +319,9 @@ public abstract class AbstractApplication {
 
 		commandDictCAS = new LowerCaseDictionary();
 		subCommandDict[CommandsConstants.TABLE_CAS].clear();
-		Set<String> nonCAScommands = kernel.getAlgebraProcessor().getPublicCommandSet();
 		// iterate through all available CAS commands, add them (translated if
 		// available, otherwise untranslated)
 		for (String cmd : cas.getAvailableCommandNames()) {
-			//skip commands which are also available as non-CAS
-			if(nonCAScommands.contains(cmd))
-				continue;
 			try {
 				String local = getCommand(cmd);
 				if (local != null) {
