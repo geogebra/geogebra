@@ -125,7 +125,10 @@ public class GgbMat extends Array2DRowRealMatrix{
 				break;
 			{
 				int i = r;
-				while (data[i][lead] == 0) {
+				//make sure we don't use a leader which is almost zero
+				// http://www.geogebra.org/forum/viewtopic.php?f=1&t=25684
+				while (Kernel.isZero(data[i][lead])) {
+					data[i][lead] = 0;
 					i++;
 					if (i == rowCount) {
 						i = r;
