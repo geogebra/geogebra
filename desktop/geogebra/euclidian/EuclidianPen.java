@@ -40,6 +40,14 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	private boolean penWritingToExistingImage = false;
 	private ArrayList<Point> penPoints = new ArrayList<Point>();
 	int minX = Integer.MAX_VALUE, maxX = Integer.MIN_VALUE;
+	int brk[];
+	int MAX_POLYGON_SIDES=4;
+	double LINE_MAX_DET=0.015;
+	double SLANT_TOLERANCE=5*Math.PI/180;
+	Inertia a=new Inertia();
+	Inertia b=new Inertia();
+	Inertia c=new Inertia();
+	Inertia d=new Inertia();
 
 	private boolean erasing = false;
 
@@ -210,9 +218,9 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			// view window
 			if ((penOffsetX > 0 && penOffsetY > 0)
 					|| (x == 0 && y == height && height == view.getHeight() && width == view
-							.getWidth()))
+					.getWidth()))
 				penImage = geogebra.awt.BufferedImage
-						.getAwtBufferedImage(lastPenImage.getFillImage());
+				.getAwtBufferedImage(lastPenImage.getFillImage());
 			else {
 				penImage = null;
 				lastPenImage = null;
@@ -238,7 +246,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			int y2 = c2 == null ? y1 : view.toScreenCoordY(c2.getInhomY());
 
 			if (y1 == y2 && x1 + width == x2) { // check image isn't rotated /
-												// scaled
+				// scaled
 				penGeo = hit;
 				penUsingOffsets = true;
 				penImage = geogebra.awt.BufferedImage
@@ -321,6 +329,35 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 
 		Point newPoint = new Point(e.getX() - penOffsetX, e.getY() - penOffsetY);
 		penPoints.add(newPoint);
+		//System.out.println(penPoints);
+		//if recognize_shape option is checked
+		brk=new int[5];
+		//System.out.println(penPoints);
+		int n=this.findPolygonal(0,penPoints.size()-1,MAX_POLYGON_SIDES,0,0);
+		//System.out.println(n);
+		if(n==1)//then stroke is a line
+		{
+			System.out.println("Current stroke is a line");
+			double xcenter,ycenter,x1,y1,x2,y2,x,y,z,angle;
+			xcenter=a.sx/a.mass;
+			ycenter=a.sy/a.mass;
+			x=this.I_xx(a);
+			y=this.I_xy(a);
+			z=this.I_yy(a);
+			angle=Math.atan2(2*y, x-z)/2;
+			if(Math.abs(angle)<SLANT_TOLERANCE)
+			{
+				angle=0;
+				y1=ycenter;
+				y2=ycenter;
+			}
+			if(Math.abs(angle)>Math.PI/2-SLANT_TOLERANCE)
+			{
+				x1=xcenter;
+				x2=xcenter;
+			}
+			//	line1=new Line2D();
+		}
 
 		// if (lastPenImage != null) penImage = lastPenImage.getImage();
 		// //app.getExternalImage(lastPenImage);
@@ -330,7 +367,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		doDrawPoints(null, penPoints);
 		if (app.getScriptManager() != null) {
 			double x[] = new double[penPoints.size()], y[] = new double[penPoints
-					.size()];
+			                                                            .size()];
 			for (int i = 0; i < penPoints.size(); i++) {
 				x[i] = view.toRealWorldCoordX(penPoints.get(i).getX()
 						+ penOffsetX);
@@ -377,7 +414,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		} else {
 			g2d.setStroke(geogebra.awt.BasicStroke.getAwtStroke(geogebra.common.euclidian.EuclidianStatic.getStroke(2 * penSize, (penPoints2
 					.size() <= 2) ? EuclidianStyleConstants.LINE_TYPE_FULL
-					: penLineStyle)));
+							: penLineStyle)));
 			g2d.setColor(penColor);
 		}
 		g2d.draw(pb.gp);
@@ -405,8 +442,8 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 					1.0));
 			GeoPoint2 corner2 = (new GeoPoint2(app.getKernel()
 					.getConstruction(), null, ev.toRealWorldCoordX(penOffsetX
-					+ penImage2.getWidth()), ev.toRealWorldCoordY(penOffsetY
-					+ penImage2.getHeight()), 1.0));
+							+ penImage2.getWidth()), ev.toRealWorldCoordY(penOffsetY
+									+ penImage2.getHeight()), 1.0));
 			corner.setLabelVisible(false);
 			corner2.setLabelVisible(false);
 			corner.setAuxiliaryObject(!penUsingOffsets);
@@ -509,7 +546,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		sb.append("}]");
 
 		app.getKernel().getAlgebraProcessor()
-				.processAlgebraCommand(sb.toString(), true);
+		.processAlgebraCommand(sb.toString(), true);
 
 		penPoints.clear();
 
@@ -530,6 +567,199 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	@Override
 	public void handleMousePressedForPenMode(AbstractEvent e, Hits hits) {
 		handleMousePressedForPenMode(geogebra.euclidian.event.MouseEvent.getEvent(e), hits);
+	}
+	
+	/*
+	 * ported from xournal by Neel Shah
+	 */
+	public int findPolygonal(int start, int end, int nsides,int offset1,int offset2)
+	{
+		Inertia s=new Inertia();
+		Inertia s1=null;
+		Inertia s2=null;
+		int k, i1=0, i2=0, n1=0, n2;
+		double det1, det2;  
+		//System.out.println(start);
+		//System.out.println(end);
+		if (end == start) 
+			return 0; // no way
+		if (nsides <= 0) 
+			return 0;
+		if (end-start<5)
+			nsides = 1; // too small for a polygon
+		// look for a linear piece that's big enough
+		for(k=0;k<nsides;++k)
+		{
+			i1 = start + (k*(end-start))/nsides; 
+			//System.out.println(i1);
+			i2 = start + ((k+1)*(end-start))/nsides;
+			//System.out.println(i2);
+			calc_inertia(i1,i2,s);
+			if(this.I_det(s) < LINE_MAX_DET)
+				break;
+		}
+		if(k==nsides)
+			return 0;
+		while(true)
+		{
+			double dm;
+			int temp[]=new int[4];
+			if(i1 > start)
+			{
+				s1=s;
+				temp[0]=penPoints.get(i1-1).x;
+				temp[1]=penPoints.get(i1-1).y;
+				temp[2]=penPoints.get(i1).x;
+				temp[3]=penPoints.get(i1).y;
+				dm=Math.hypot(temp[2]-temp[0],temp[1]-temp[3]);
+				s1.mass=s1.mass+dm;
+				s1.sx=s1.sx+(dm*temp[0]);
+				s1.sxx=s1.sxx+(dm*temp[0]*temp[0]);
+				s1.sxy=s1.sxy+(dm*temp[0]*temp[1]);
+				s1.sy=s1.sy+(dm*temp[1]);
+				s1.syy=s1.syy+(dm*temp[1]*temp[1]);
+				det1=this.I_det(s1);
+			}
+			else
+				det1=1;
+			if(i2 < end)
+			{
+				s2=s;
+				temp[0]=penPoints.get(i2).x;
+				temp[1]=penPoints.get(i2).y;
+				temp[2]=penPoints.get(i2+1).x;
+				temp[3]=penPoints.get(i2+1).y;
+				dm=Math.hypot(temp[2]-temp[0],temp[1]-temp[3]);
+				s2.mass=s2.mass+dm;
+				s2.sx=s2.sx+(dm*temp[0]);
+				s2.sxx=s2.sxx+(dm*temp[0]*temp[0]);
+				s2.sxy=s2.sxy+(dm*temp[0]*temp[1]);
+				s2.sy=s2.sy+(dm*temp[1]);
+				s2.syy=s2.syy+(dm*temp[1]*temp[1]);
+				det2=this.I_det(s2);
+			}
+			else
+				det2=1;
+			if (det1<det2 && det1<LINE_MAX_DET) 
+			{
+				i1--; 
+				s=s1;
+			}
+			else if (det2<det1 && det2<LINE_MAX_DET) 
+			{ 
+				i2++; 
+				s=s2;
+			}
+			else
+				break;
+		}
+		if(i1 > start)
+		{
+			int temp;
+			if(i2==end)
+				temp=nsides-1;
+			temp=nsides-2;
+			//System.out.println(n1);
+			n1=this.findPolygonal(start, i1, temp, offset1,offset2);
+			if(n1==0)
+				return 0;
+		}
+		else
+			n1=0;
+		brk[n1+offset1] = i1;
+		brk[n1+1+offset1] = i2;
+		if(offset2+n1==0)
+		{
+			a=s;
+		}
+		if(offset2+n1==1)
+		{
+			b=s;
+		}
+		if(offset2+n1==2)
+		{
+			c=s;
+		}
+		if(offset2+n1==3)
+		{
+			d=s;
+		}
+		if(i2 < end)
+		{
+			n2=this.findPolygonal(i2,end,nsides-n1-1, offset1+n1+1,offset2+n1+1);
+			if(n2==0.)
+				return 0;
+		}
+		else
+			n2=0;
+		return n1+n2+1;
+	}
+	public void calc_inertia(int start,int end,Inertia s)
+	{
+		int i;
+		int coeff=1;
+		int temp[]=new int[4];
+		double dm=0;
+		s.mass=0.;
+		s.sx=0.;
+		s.sxx=0.;
+		s.sxy=0.;
+		s.sy=0.;
+		s.syy=0.;
+		temp[0]=penPoints.get(start).x;
+		temp[1]=penPoints.get(start).y;
+		temp[2]=penPoints.get(start+1).x;
+		temp[3]=penPoints.get(start+1).y;
+		dm=coeff*Math.hypot(temp[2]-temp[0],temp[3]-temp[1]);
+		s.mass=s.mass+dm;
+		s.sx=s.sx+(dm*temp[0]);
+		s.sxx=s.sxx+(dm*temp[0]*temp[0]);
+		s.sxy=s.sxy+(dm*temp[0]*temp[1]);
+		s.sy=s.sy+(dm*temp[1]);
+		s.syy=s.syy+(dm*temp[1]*temp[1]);
+		for(i=start+1;i<end;++i)
+		{
+			temp[0]=penPoints.get(i).x;
+			temp[1]=penPoints.get(i).y;
+			temp[2]=penPoints.get(i+1).x;
+			temp[3]=penPoints.get(i+1).y;
+			dm=coeff*Math.hypot(temp[2]-temp[0],temp[3]-temp[1]);
+			s.mass=s.mass+dm;
+			s.sx=s.sx+(dm*temp[0]);
+			s.sxx=s.sxx+(dm*temp[0]*temp[0]);
+			s.sxy=s.sxy+(dm*temp[0]*temp[1]);
+			s.sy=s.sy+(dm*temp[1]);
+			s.syy=s.syy+(dm*temp[1]*temp[1]);
+		}
+	}
+	final double I_det(Inertia s)
+	{
+		double ixx=I_xx(s);
+		double iyy=I_yy(s);
+		double ixy=I_xy(s);
+		if(s.mass <= 0.)
+			return 0.;
+		if(ixx+iyy <= 0.)
+			return 0.;
+		return 4*(ixx*iyy-ixy*ixy)/(ixx+iyy)/(ixx+iyy);
+	}
+	double I_xx(Inertia s)
+	{
+		if(s.mass <= 0.)
+			return 0.;
+		return (s.sxx - s.sx*s.sx/s.mass)/s.mass;
+	}
+	double I_xy(Inertia s)
+	{
+		if (s.mass <= 0.) 
+			return 0.;
+		return (s.sxy - s.sx*s.sy/s.mass)/s.mass;
+	}
+	double I_yy(Inertia s)
+	{
+		if (s.mass <= 0.) 
+			return 0.;
+		return (s.syy - s.sy*s.sy/s.mass)/s.mass;
 	}
 
 }
