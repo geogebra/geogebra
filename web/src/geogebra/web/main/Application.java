@@ -345,7 +345,7 @@ public class Application extends AbstractApplication {
 		// Macros (optional)
 		if (macros != null) {
 			macros = DataUtil.utf8Decode(macros);
-			//tmpaddMacroXML(macros);
+			myXMLio.processXmlString(macros,true,true);
 		}	
 		
 		if (archive.entrySet() != null) {
