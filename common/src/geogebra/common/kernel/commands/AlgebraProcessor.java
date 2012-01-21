@@ -843,7 +843,11 @@ public class AlgebraProcessor {
 				((GeoScriptAction) ret[0]).perform();
 				return new GeoElement[] {};
 			}else if (ret != null && ret.length > 0 && ret[0] instanceof GeoList){
-				((GeoList)ret[0]).performScriptActions();
+				int actions =((GeoList)ret[0]).performScriptActions();
+				if(actions>0){
+					ret[0].remove();
+					return new GeoElement[] {};
+				}
 			}
 		}
 
