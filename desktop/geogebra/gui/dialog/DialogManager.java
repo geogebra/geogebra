@@ -585,27 +585,12 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 		// update locale
 		currentLocale = app.getLocale();
 
-		// load javaui properties file for specific locale
-		// next two lines edited by Zbynek Konecny 2010-04-23 to avoid false
-		// exception message
-		String underscoreLocale = "en".equals(currentLocale.getLanguage()) ? ""
-				: "_" + currentLocale;
-		rbJavaUI = MyResourceBundle.loadSingleBundleFile(Application.RB_JAVA_UI
-				+ underscoreLocale);
-		boolean foundLocaleFile = rbJavaUI != null;
-		if (!foundLocaleFile)
-			// fall back on English
-			rbJavaUI = MyResourceBundle
-					.loadSingleBundleFile(Application.RB_JAVA_UI);
-
-		// set or delete all keys in UIManager
+		// load javaui properties file 
+		rbJavaUI = MyResourceBundle.createBundle(Application.RB_JAVA_UI, currentLocale);
 		Enumeration<String> keys = rbJavaUI.getKeys();
 		while (keys.hasMoreElements()) {
 			String key = keys.nextElement();
-			String value = foundLocaleFile ? rbJavaUI.getString(key) : null;
-
-			// set or delete UIManager key entry (set values to null when locale
-			// file not found)
+			String value = rbJavaUI.getString(key);
 			UIManager.put(key, value);
 		}
 
