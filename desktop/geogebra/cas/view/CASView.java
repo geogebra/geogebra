@@ -7,7 +7,6 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.GuiManager;
@@ -44,13 +43,13 @@ public class CASView extends JComponent implements View, Gridable {
 
 	private Kernel kernel;
 
-	private CASTable consoleTable;
+	CASTable consoleTable;
 	private CASInputHandler casInputHandler;
 	private CASSubDialog subDialog;
 
 	private GeoGebraCAS cas;
 	private Application app;
-	private final RowHeader rowHeader;
+	final RowHeader rowHeader;
 	private boolean toolbarIsUpdatedByDockPanel;
 
 	public CASView(Application app) {

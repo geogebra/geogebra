@@ -1,6 +1,5 @@
 package geogebra.cas.view;
 
-import geogebra.euclidian.DrawEquation;
 import geogebra.main.Application;
 
 import java.awt.Dimension;
@@ -59,7 +58,7 @@ public class LaTeXPanel extends JPanel {
 				app.getPlainFontCommon(), false, new geogebra.awt.Color(getForeground()), 
 				new geogebra.awt.Color(getBackground()), true);	
 
-		return new Dimension((int)fd.getWidth(), (int)fd.getHeight());
+		return new Dimension(fd.getWidth(), fd.getHeight());
 	}
 	
 	private boolean ensureImageSize(int width, int height) {
