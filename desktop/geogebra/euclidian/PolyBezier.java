@@ -45,13 +45,13 @@ public class PolyBezier {
            setNumberOfPoints(n);  
     }
     
-    public PolyBezier(List<?> al) {
+    public PolyBezier(List<geogebra.common.awt.Point> al) {
     	setNumberOfPoints(al.size());
     
     	int i=0;
-    	Iterator<?> it = al.iterator();
+    	Iterator<geogebra.common.awt.Point> it = al.iterator();
     	while (it.hasNext()) {
-    		Point p = (Point)(it.next());
+    		geogebra.common.awt.Point p = it.next();
     		x[i] = p.getX();
     		y[i] = p.getY();
     		i++;
