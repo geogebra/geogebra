@@ -9,10 +9,10 @@ import geogebra.common.main.AbstractApplication;
 
 public class Arc2D extends geogebra.common.awt.Arc2D implements Shape {
 
-	private geogebra.web.kernel.gawt.Arc2D.Double impl;
+	private geogebra.web.openjdk.awt.geom.Arc2D.Double impl;
 
 	public Arc2D(){
-		impl = new geogebra.web.kernel.gawt.Arc2D.Double();
+		impl = new geogebra.web.openjdk.awt.geom.Arc2D.Double();
 	}
 	
 	public boolean intersects(int i, int j, int k, int l) {
