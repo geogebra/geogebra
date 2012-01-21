@@ -12,6 +12,7 @@ MYDIR=$SVNDIR/geogebra/test/scripts/autotest
 
 ./check-if-latest || {
  cd $SVNDIR/geogebra
+ find -name '*.gwt.xml' -delete
  $SVN_COMMAND --force update --accept theirs-full
  cd $MYDIR
  ./build-desktop
