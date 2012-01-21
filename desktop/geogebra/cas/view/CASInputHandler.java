@@ -871,7 +871,7 @@ public class CASInputHandler {
 								+ Character.digit(c, 10);
 						continue;
 					} else if (c == delimiter) {
-						// ## or $$
+						// ## or $$ or #n# or $n$
 						needOutput = false;
 						continue;
 					}
@@ -921,9 +921,16 @@ public class CASInputHandler {
 
 		if (referenceNumber > 0 && referenceNumber != selectedRow + 1
 				&& referenceNumber <= casView.getRowCount()) {
-			// a # (or $) with a following number is in the the input (for
-			// example #3)
-			String reference = casView.getRowOutputValue(referenceNumber - 1);
+			String reference;
+			if (needOutput) {
+				// a # (or $) with a following number is in the the input (for
+				// example #3)
+				reference = casView.getRowOutputValue(referenceNumber - 1);
+			} else {
+				// a # (or $) with a following number and the same delimiter again
+				// is in the the input (for example #3#)
+				reference = casView.getRowInputValue(referenceNumber - 1);
+			}
 
 			appendReference(sb, reference, addParentheses, noParentheses);
 
