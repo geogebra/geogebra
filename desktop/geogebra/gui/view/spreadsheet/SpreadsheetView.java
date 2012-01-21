@@ -40,7 +40,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JViewport;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
@@ -326,8 +325,11 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 
 		Point location = geo.getSpreadsheetCoords();
 
-		if(geo.isGeoBoolean()){
-			table.oneClickEditMap.remove(location);
+		switch (geo.getGeoClassType()){
+			case BOOLEAN:
+			case BUTTON:
+			case LIST:
+				table.oneClickEditMap.remove(geo);				
 		}
 	}
 
