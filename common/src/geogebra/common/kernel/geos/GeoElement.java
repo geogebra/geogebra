@@ -5917,7 +5917,16 @@ public abstract class GeoElement extends ConstructionElement implements
 					final Object[] args = { arg };
 					app.callAppletJavaScript("ggb" + getLabel(), args);
 				}
-			} else {
+			} else if (app.isHTML5Applet()) {
+				String functionPrefix = update ? "ggbUpdate" : "ggb";
+				if (arg == null) {
+					final Object[] args = {};
+					app.callAppletJavaScript(functionPrefix + getLabel(), args);
+				} else {
+					final Object[] args = { arg };
+					app.callAppletJavaScript(functionPrefix + getLabel(), args);
+				}
+			}else {
 				app.evalScript(app, update ? updateScript : clickScript, arg);
 			}
 			// there have been no errors

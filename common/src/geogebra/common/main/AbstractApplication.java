@@ -2639,6 +2639,8 @@ public abstract class AbstractApplication {
 			$wnd.console.log(string);
 		}
 	}-*/;
+
+	public abstract boolean isHTML5Applet();
 	
 
 }

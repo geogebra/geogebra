@@ -730,5 +730,10 @@ public class Application extends AbstractApplication {
     }-*/;
 
 
+	@Override
+    public boolean isHTML5Applet() {
+	    return true;
+    }
+
 
 }

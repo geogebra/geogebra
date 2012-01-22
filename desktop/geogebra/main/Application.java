@@ -4819,6 +4819,11 @@ public class Application extends AbstractApplication implements
 			&& !OS.startsWith("windows 98") && !OS.startsWith("windows nt") 
 			&& !OS.startsWith("windows xp");
 
+	@Override
+	public boolean isHTML5Applet() {
+		return false;
+	}
+
 	
 
 
