@@ -5,6 +5,7 @@ import geogebra.web.css.CssWeb;
 import geogebra.web.css.GuiResources;
 import geogebra.web.helper.RequestTemplateXhr2;
 import geogebra.web.helper.UrlFetcherImpl;
+import geogebra.web.helper.XhrFactory;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.View;
 import geogebra.web.main.Application;
@@ -33,7 +34,7 @@ public class GeoGebraFrame extends VerticalPanel {
 
 	private static LoadFilePresenter fileLoader = new LoadFilePresenter(
 			new UrlFetcherImpl(
-					new RequestTemplateXhr2(),
+					XhrFactory.getSupportedXhr(),
 					GeoGebraConstants.URL_PARAM_GGB_FILE,
 					GeoGebraConstants.URL_PARAM_PROXY,
 					GeoGebraConstants.PROXY_SERVING_LOCATION
@@ -59,7 +60,6 @@ public class GeoGebraFrame extends VerticalPanel {
 		GuiResources.INSTANCE.getCssWeb().ensureInjected();
 		
 		//splash = new SplashDialog();
-		//splash.show();
 		
 	   
 		for (ArticleElement articleElement : geoGebraMobileTags) {

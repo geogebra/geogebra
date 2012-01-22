@@ -725,6 +725,10 @@ public class Application extends AbstractApplication {
 		}
     }
 
+	public static native void alert(String string) /*-{
+	   $wnd.alert(string);
+    }-*/;
+
 
 
 }

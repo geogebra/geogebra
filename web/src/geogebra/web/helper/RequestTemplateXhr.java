@@ -16,11 +16,19 @@ public class RequestTemplateXhr implements RequestTemplate {
 	}
 	
 	private static native JsUint8Array toByteArray(String binStr) /*-{
-		var bytes = new Uint8Array(binStr.length);
-		for (var i = 0; i < binStr.length; i++) {
-			bytes[i] = binStr.charCodeAt(i) & 0xff;
+		if (typeof $wnd.Uint8Array != 'undefined') {
+			var bytes = new Uint8Array(binStr.length);
+			for (var i = 0; i < binStr.length; i++) {
+				bytes[i] = binStr.charCodeAt(i) & 0xff;
+			}
+			return bytes;
+		} else {
+			var bytes = new Array(binStr.length);
+			for (var i = 0; i < binStr.length; i++) {
+				bytes[i] = binStr.charCodeAt(i) & 0xff;
+			}
+			return bytes;
 		}
-		return bytes;
 	}-*/;
 	
 	private native void nativeFetchBinary(String url, FileLoadCallback callback) /*-{

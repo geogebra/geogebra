@@ -1,5 +1,15 @@
-@external geogebraweb;
+@external geogebraweb, loadinganim;
+
 .geogebraweb {
 	display:inline-block;
 	border:1px solid black;
+}
+
+.loadinganim {
+	width:427px;
+	height:136px;
+	position:absolute;
+	border: 1px solid black;
+	border-radius:5px;
+	background-color:white;
 }
