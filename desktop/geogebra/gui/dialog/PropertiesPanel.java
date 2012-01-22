@@ -1014,7 +1014,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		private Object[] geos; // currently selected geos
 		private JLabel previewLabel, currentColorLabel;
 		private PreviewPanel previewPanel;
-		private JPanel opacityPanel;
+		private JPanel opacityPanel, colorChooserContainer;
 		private JRadioButton rbtnForegroundColor, rbtnBackgroundColor;
 		private JButton btnClearBackground;
 
@@ -1022,6 +1022,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		private JPanel previewMetaPanel;
 		private boolean allFillable = false;
 		private boolean hasBackground = false;
+		
 
 		public ColorPanel(GeoGebraColorChooser colChooser) {
 
@@ -1069,8 +1070,8 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			btnClearBackground.addActionListener(this);
 
 			// panel to hold color chooser
-			JPanel colorPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-			colorPanel.add(colorChooserPanel);
+			colorChooserContainer = new JPanel(new FlowLayout(FlowLayout.LEFT));
+			colorChooserContainer.add(colorChooserPanel);
 
 			// panel to hold opacity slider
 			opacityPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -1101,7 +1102,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 
 			// put the sub-panels together
 			setLayout(new BorderLayout());
-			add(colorPanel, BorderLayout.NORTH);
+			add(colorChooserContainer, BorderLayout.NORTH);
 			add(southPanel, BorderLayout.WEST);
 
 		}
@@ -1199,6 +1200,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 
 			boolean equalObjColor = true;
 			boolean equalObjColorBackground = true;
+			boolean hasImageGeo = geo0.isGeoImage(); 
 			allFillable = geo0.isFillable();
 			hasBackground = geo0.hasBackgroundColor();
 
@@ -1216,6 +1218,10 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				// has background
 				if (!((GeoElement) geos[i]).hasBackgroundColor()) {
 					hasBackground = false;
+				}
+				// has image geo
+				if (temp.isGeoImage()) {
+					hasImageGeo = true;
 				}
 			}
 
@@ -1306,6 +1312,12 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			btnClearBackground.setVisible(rbtnBackgroundColor.isSelected());
 			btnClearBackground.setEnabled(rbtnBackgroundColor.isSelected());
 
+			
+			// hide the color chooser and preview if we have an image
+			colorChooserContainer.setVisible(!hasImageGeo);
+			previewMetaPanel.setVisible(!hasImageGeo);
+		
+			
 			return this;
 		}
 
@@ -1370,18 +1382,9 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			kernel.notifyRepaint();
 		}
 
-		// show everything but images
+		// show color panel for all geos 
+		// (for images only the opacity slider is shown)		
 		private boolean checkGeos(Object[] geos) {
-			for (int i = 0; i < geos.length; i++) {
-				/*
-				 * removed - we want to be able to change the color of
-				 * everything in the spreadsheet if (geos[i] instanceof
-				 * GeoNumeric) { GeoNumeric num = (GeoNumeric) geos[i]; if
-				 * (!num.isDrawable()) return false; } else
-				 */
-				if (geos[i] instanceof GeoImage)
-					return false;
-			}
 			return true;
 		}
 
