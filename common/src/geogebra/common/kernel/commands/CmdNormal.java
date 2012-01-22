@@ -48,7 +48,7 @@ public class CmdNormal extends CommandProcessor {
 					kernelA.restorePrintAccuracy();
 					
 					if (cumulative) {
-						GeoElement[] ret = (GeoElement[])kernelA.getAlgebraProcessor().processAlgebraCommand( "(erf((x-("+mean+"))/abs("+sd+")) + 1)/2", true );
+						GeoElement[] ret = (GeoElement[])kernelA.getAlgebraProcessor().processAlgebraCommand( "(erf((x-("+mean+"))/(sqrt(2)*abs("+sd+"))) + 1)/2", true );
 						
 						return ret;
 						
