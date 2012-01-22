@@ -72,6 +72,12 @@ public class Application extends AbstractApplication {
 		setLabelDragsEnabled(false);
 		getEuclidianView().setCapturingThreshold(20);
 		
+		/*
+		 * doesn't work, gives:
+		 * ggbOnInit is not defined at function _Ge(a){wGe();eval(a+'();')}
+		 * 		getScriptManager().ggbOnInit();
+		 */
+		
 	}
 
 	@Override

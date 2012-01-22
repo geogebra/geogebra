@@ -10,8 +10,7 @@ public class ScriptManager extends ScriptManagerCommon {
 
 	@Override
     public void callJavaScript(String jsFunction, Object[] args) {
-	    // TODO Auto-generated method stub
-	    
+	    app.callAppletJavaScript(jsFunction, args);	    
     }
 
 }

@@ -237,7 +237,7 @@ public abstract class ScriptManagerCommon {
 	}
 
 	public void ggbOnInit() {
-
+		app.callAppletJavaScript("ggbOnInit", null);
 	}
 
 	public synchronized void initJavaScript() {

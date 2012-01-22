@@ -897,7 +897,7 @@ public abstract class AbstractApplication {
 		getScriptManager().initJavaScriptViewWithoutJavascript();
 	}
 
-	protected abstract ScriptManagerCommon getScriptManager();
+	public abstract ScriptManagerCommon getScriptManager();
 
 	public abstract Object getTraceXML(GeoElement geoElement);
 
