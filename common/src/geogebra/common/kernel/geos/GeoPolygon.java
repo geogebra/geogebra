@@ -37,6 +37,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.util.MyMath;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.awt.Color;
 
@@ -1184,29 +1185,32 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 	}
 
 	/** returns 1 if the segment ((x1,y1),(x2,y2)) intersects y=0 for x>0,
-	 * 2 if (0,0) is on the segment and -1 otherwise*/
+	 * 2 if (0,0) is on the segment and -1 otherwise
+	 * If the segment only touches the line for x>0, this touch is counted only 
+	 * if the segment is in y>0.
+	 * 
+	 * Segments lying entirely on y=0 are ignored, unless they go through (0,0).
+	 * */
 	private static int intersectOx(double x1, double y1, double x2, double y2){
 		
 		double eps = Kernel.STANDARD_PRECISION;
 		
 		if (Kernel.isZero(y1)){ //first point on (Ox)
 			if (Kernel.isZero(y2)){ //second point on (Ox)
-				if ((x1+eps<0) && (x2+eps<0)) //segment totally on the left
-					return -1;
-				else if ((x1>eps) && (x2>eps)) //segment totally on the right
-					return 1;
-				else //O on segment
+				if (Kernel.isGreaterEqual(0, x1*x2)) //0 on segment
 					return 2;
+					//ignore the segment on 0x if it is whole on left or right
+				return -1;
 			}
 			//only first point is on (Ox)
 			if (Kernel.isZero(x1)) //first point ~ 0
 				return 2;
-			return -1; 
+			return y2 > eps && x1 > eps ? 1 : -1;
 		}else if (Kernel.isZero(y2)){
 			//only second point is on (0x)
 			if (Kernel.isZero(x2)) //second point ~ 0
 				return 2;
-			return -1; 			
+			return y1 > eps && x2 > eps ? 1 : -1;
 		}
 		else if (y1*y2>eps) //segment totally above or under
 			return -1;
