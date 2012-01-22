@@ -5885,6 +5885,7 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 		if (!checkGeos(geos))
 			return null;
 
+		// check for fillable geos in the current selection
 		boolean someFillable = false;
 		for (int i = 0; i < geos.length; i++) {
 			if (((GeoElement) geos[i]).isFillable()) {
@@ -5893,9 +5894,11 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 			}
 		}
 
+		// if we have any fillables then show the opacity field
 		tfAlpha.setVisible(someFillable);
 		nameLabelA.setVisible(someFillable);
 
+		// set default field values
 		GeoElement geo = (GeoElement) geos[0];
 		Color col = geogebra.awt.Color.getAwtColor(geo.getObjectColor());
 		defaultR = "" + col.getRed() / 255.0;
@@ -5903,6 +5906,8 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 		defaultB = "" + col.getBlue() / 255.0;
 		defaultA = "" + geo.getFillColor().getAlpha() / 255.0;
 
+		
+		// remove action listeners
 		tfRed.removeActionListener(this);
 		tfGreen.removeActionListener(this);
 		tfBlue.removeActionListener(this);
@@ -5924,9 +5929,15 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 			if (colorList.size() == 4)
 				strAlpha = colorList.get(3).getLabel();
 		}
+		
+		// set the selected color space and labels to match the first geo's color space
 		colorSpace = geo0.getColorSpace();
 		cbColorSpace.setSelectedIndex(colorSpace);
+		allowSetComboBoxLabels = false;
+		setLabels();
 
+		// compare first geo with other selected geos
+		// if difference exists in a color then null it out
 		for (int i = 0; i < geos.length; i++) {
 			geo = (GeoElement) geos[i];
 			GeoList colorListTemp = geo.getColorFunction();
@@ -5948,15 +5959,20 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 			}
 		}
 
+		// set the color fields
 		tfRed.setText(strRed);
-		tfRed.addActionListener(this);
 		tfGreen.setText(strGreen);
-		tfGreen.addActionListener(this);
-		tfBlue.setText(strBlue);
-		tfBlue.addActionListener(this);
+		tfBlue.setText(strBlue);	
 		tfAlpha.setText(strAlpha);
+		
+		
+		// restore action listeners
+		tfRed.addActionListener(this);
+		tfGreen.addActionListener(this);
+		tfBlue.addActionListener(this);
 		tfAlpha.addActionListener(this);
 		cbColorSpace.addActionListener(this);
+		
 		return this;
 	}
 
