@@ -1477,8 +1477,11 @@ public abstract class AbstractApplication {
 		}
 	}
 
-	public static void debug(Object s[]) {
-		debug(s, 0);
+	public static void debug(double[] s) {
+		String ret="";
+		for(int i=0;i<s.length;i++)
+			ret = ret+(i==0?"":",")+s[i];
+		debug(ret, 0);
 	}
 
 	static StringBuilder debugSb = null;

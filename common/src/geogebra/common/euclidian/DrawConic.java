@@ -22,6 +22,7 @@ import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.Arc2D;
 import geogebra.common.awt.Area;
 import geogebra.common.awt.Ellipse2DDouble;
+import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.RectangularShape;
 import geogebra.common.awt.Shape;
@@ -109,8 +110,8 @@ final public class DrawConic extends Drawable implements Previewable {
 	private double x0, y0;
 	private double k2;
 	private GeoVec2D vertex;
-	private QuadCurve2D parabola;
-	private double[] parpoints = new double[6];
+	private GeneralPath parabola;
+	private double[] parpoints = new double[8];
 
 	// CONIC_HYPERBOLA
 	private boolean firstHyperbola = true;
@@ -885,7 +886,7 @@ final public class DrawConic extends Drawable implements Previewable {
 
 		if (firstParabola) {
 			firstParabola = false;
-			parabola = AwtFactory.prototype.newQuadCurve2D();
+			parabola = AwtFactory.prototype.newGeneralPath();
 		}
 		// calc control points coords of parabola y^2 = 2 p x
 		x0 = Math.max(Math.abs(vertex.x - view.getXmin()),
@@ -922,12 +923,20 @@ final public class DrawConic extends Drawable implements Previewable {
 		// shape = transform.createTransformedShape(parabola);
 		parpoints[0] = x0;
 		parpoints[1] = y0;
-		parpoints[2] = -x0;
-		parpoints[3] = 0.0;
-		parpoints[4] = x0;
-		parpoints[5] = -y0;
-		transform.transform(parpoints, 0, parpoints, 0, 3);
-		parabola.setCurve(parpoints, 0);
+		
+		parpoints[2] = -x0/3;
+		parpoints[3] = y0/3;
+		
+		parpoints[4] = -x0/3;
+		parpoints[5] = -y0/3;
+		
+		parpoints[6] = x0;
+		parpoints[7] = -y0;
+		transform.transform(parpoints, 0, parpoints, 0, 4);
+		parabola.reset();
+		parabola.moveTo((float)parpoints[0], (float)parpoints[1]);
+		parabola.curveTo(parpoints[2], parpoints[3],parpoints[4], parpoints[5],
+				parpoints[6], parpoints[7]);
 		shape = parabola;
 
 		// set label coords

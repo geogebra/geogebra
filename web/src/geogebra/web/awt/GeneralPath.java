@@ -134,8 +134,8 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements
     }
 
 	@Override
-    public void curveTo(float f, float g, float h, float i, float j, float k) {
-		impl.curveTo(f, g, h, i, j, k);
+    public void curveTo(double f, double g, double h, double i, double j, double k) {
+		impl.curveTo((float)f, (float)g, (float)h, (float)i, (float)j, (float)k);
 	    
     }
 
