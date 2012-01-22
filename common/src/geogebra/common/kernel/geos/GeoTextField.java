@@ -44,6 +44,14 @@ public class GeoTextField extends GeoButton {
 	public void setLinkedGeo(GeoElement geo) {
 		linkedGeo = geo;
 		text = geo.getValueForInputBar();
+		
+		// remove quotes from start and end
+		if (text.length() > 0 && text.charAt(0) == '"') {
+			text = text.substring(1);
+		}		
+		if (text.length() > 0 && text.charAt(text.length() - 1) == '"') {
+			text = text.substring(0, text.length() - 1);
+		}
 	}
 	
 	public GeoElement getLinkedGeo() {
