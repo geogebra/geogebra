@@ -59,7 +59,7 @@ public class Rectangle2D implements geogebra.common.awt.Rectangle2D, geogebra.we
 
 	
 	public boolean intersects(Rectangle r) {
-		return getImpl().intersects(r.getX(), r.getY(), r.getHeight(), r.getWidth());
+		return getImpl().intersects(geogebra.web.awt.Rectangle.getGawtRectangle(r));
 	}
 	
 	

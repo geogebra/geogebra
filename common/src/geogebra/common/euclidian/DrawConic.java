@@ -267,12 +267,12 @@ final public class DrawConic extends Drawable implements Previewable {
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 		case GeoConicNDConstants.CONIC_PARABOLA:
-			boolean includesScreenCompletely = shape.contains(AwtFactory.prototype.newRectangle(viewRect));
+			boolean includesScreenCompletely = shape.contains(viewRect);
 
 			// offScreen = includesScreenCompletely or the shape does not
 			// intersect the view rectangle
 			boolean offScreen = includesScreenCompletely
-					|| !shape.getBounds2D().intersects(AwtFactory.prototype.newRectangle(viewRect));
+					|| !shape.getBounds2D().intersects(viewRect);
 			if (geo.getAlphaValue() == 0f) {
 				// no filling
 				isVisible = !offScreen;

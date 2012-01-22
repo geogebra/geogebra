@@ -104,7 +104,9 @@ public class Rectangle extends geogebra.web.awt.Rectangle2D implements geogebra.
 	}
 	
 	public static geogebra.web.kernel.gawt.Rectangle getGawtRectangle(geogebra.common.awt.Rectangle r) {
-		return new geogebra.web.kernel.gawt.Rectangle((int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight());
+		if(!(r instanceof Rectangle))
+			return null;
+		return ((Rectangle)r).impl;
 	}
 
 	public boolean contains(Point2D p) {
