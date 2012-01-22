@@ -1164,5 +1164,20 @@ public class PythonAPI {
 	public GgbAPI getGgbApi() {
 		return app.getGgbApi();
 	}
-
+	
+	/**
+	 * Get the Python init script
+	 * @return the Python init script
+	 */
+	public String getInitScript() {
+		return kernel.getLibraryPythonScript();
+	}
+	
+	/**
+	 * Set the Python init script
+	 * @param script the new Python init script
+	 */
+	public void setInitScript(String script) {
+		kernel.setLibraryPythonScript(script);
+	}
 }
