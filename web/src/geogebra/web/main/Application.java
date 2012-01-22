@@ -203,20 +203,10 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public void initJavaScriptViewWithoutJavascript() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-
-	}
-
-	@Override
 	public Object getTraceXML(GeoElement geoElement) {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 		return null;
 	}
-
-	
-
-	
 
 	@Override
     public boolean freeMemoryIsCritical() {

@@ -4584,11 +4584,6 @@ public class Application extends AbstractApplication implements
 	}
 
 	@Override
-	public void initJavaScriptViewWithoutJavascript() {
-		getScriptManager().initJavaScriptViewWithoutJavascript();
-	}
-
-	@Override
 	public String getTraceXML(GeoElement ge) {
 		return getTraceManager().getTraceXML(ge);
 	}

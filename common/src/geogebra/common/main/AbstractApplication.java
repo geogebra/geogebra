@@ -893,7 +893,11 @@ public abstract class AbstractApplication {
 		return useBrowserForJavaScript;
 	}
 
-	public abstract void initJavaScriptViewWithoutJavascript();
+	final public void initJavaScriptViewWithoutJavascript() {
+		getScriptManager().initJavaScriptViewWithoutJavascript();
+	}
+
+	protected abstract ScriptManagerCommon getScriptManager();
 
 	public abstract Object getTraceXML(GeoElement geoElement);
 
