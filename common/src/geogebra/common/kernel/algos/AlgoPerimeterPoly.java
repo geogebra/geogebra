@@ -73,7 +73,7 @@ public class AlgoPerimeterPoly extends AlgoElement {
 				
 		GeoSegmentND[] segment = polygon.getSegments();
 		double length = 0;
-		for (int i = 0; i < segment.length; i++) {
+		for (int i = 0; i < polygon.getPointsLength(); i++) {
 			length = length + (segment[i].getLength());		
 		}
 		circum.setValue(length);
