@@ -35,7 +35,7 @@ public class DialogManager3D extends DialogManager {
 			showNumberInputDialogCirclePointDirectionRadius(title, geoPoint1, view.getDirection());
 		} else {
 			//create 2D circle
-			showNumberInputDialogCirclePointRadius(title, geoPoint1, view);
+			super.showNumberInputDialogCirclePointRadius(title, geoPoint1, view);
 		}		
 	}
 	
