@@ -584,13 +584,31 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 
 		// update locale
 		currentLocale = app.getLocale();
+		String lang = currentLocale.getLanguage();
+		boolean deleteKeys = false;
 
-		// load javaui properties file 
-		rbJavaUI = MyResourceBundle.createBundle(Application.RB_JAVA_UI, currentLocale);
+		if ("it".equals(lang)
+				|| "zh".equals(lang)
+				|| "ja".equals(lang)
+				|| "de".equals(lang)
+				//|| "es".equals(lang) we have our own Spanish translation
+				//|| "fr".equals(lang) we have our own French translation
+				|| "ko".equals(lang)
+				|| "sv".equals(lang) ) {
+			// get keys to delete
+			// as Java is localized in these languages already
+			// http://openjdk.java.net/groups/i18n/
+			rbJavaUI = MyResourceBundle
+					.loadSingleBundleFile(Application.RB_JAVA_UI);		
+			deleteKeys = true;
+		} else {
+			rbJavaUI = MyResourceBundle.createBundle(Application.RB_JAVA_UI, currentLocale);			
+		}
+		
 		Enumeration<String> keys = rbJavaUI.getKeys();
 		while (keys.hasMoreElements()) {
 			String key = keys.nextElement();
-			String value = rbJavaUI.getString(key);
+			String value = deleteKeys ? null : rbJavaUI.getString(key);
 			UIManager.put(key, value);
 		}
 
