@@ -673,7 +673,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			//     offset = 1 - lowest discrete x value 
 
 			double  firstX = ((GeoNumeric)discreteValueList.get(0)).getDouble();
-			MyDouble offset = new MyDouble(kernel, 1d - firstX);
+			MyDouble offset = new MyDouble(kernel, 1d - firstX + 0.5);
 
 			ExpressionNode low = new ExpressionNode(kernel, lowPoint, Operation.XCOORD, null);
 			ExpressionNode high = new ExpressionNode(kernel, highPoint, Operation.XCOORD, null);				
@@ -2120,7 +2120,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 				// create interval bar chart
 				// ============================
-				double offset = 1 - ((GeoNumeric)discreteValueList.get(0)).getDouble();  
+				double offset = 1 - ((GeoNumeric)discreteValueList.get(0)).getDouble() + 0.5;  
 				expr = "Take[" + discreteProbListCopy.getLabel()  + ", x(" 
 				+ lowPointCopy.getLabel() + ")+" + offset + ", x(" + highPointCopy.getLabel() +")+" + offset +"]";
 				GeoElement intervalProbList  = (GeoList) createGeoFromString(expr, null, false);
