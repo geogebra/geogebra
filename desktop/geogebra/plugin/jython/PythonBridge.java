@@ -129,6 +129,7 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	 * @param evtType event type ("update", "click"...)
 	 * @param code Python code to execute
 	 */
+	@Override
 	public void setEventListener(GeoElement geo, String evtType, String code) {
 		pyInterface.setEventListener(geo, evtType, code);
 	}
@@ -138,9 +139,6 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	 * @param script script to evaluate
 	 */
 	public void eval(String script) {
-		AbstractApplication.debug("python: evaluating:: "+script);
-		//interpreter.exec(script);
-		
 		pyInterface.execute(script);
 	}
 }

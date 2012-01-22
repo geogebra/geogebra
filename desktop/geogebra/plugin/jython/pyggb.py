@@ -12,20 +12,19 @@ class Interface(PythonScriptInterface):
     def init(self, app):
         global api, ggbapi, pywindow, selection
 
-        from pygeo.gui import PythonWindow
-        pywindow = self.pywin = PythonWindow(self)
-        
+        self.api = api = API(app)
+
         # GeoGebra imports
 
         from geogebra.awt import Color
 
         # Python imports
-        from pygeo import objects
+        from pygeo import gui, objects
 
-        api = API(app)
         # Inject the api into objects.py
         # XXX There must be a better way!
-        objects.api = api
+        objects.api = gui.api = api
+        pywindow = self.pywin = gui.PythonWindow(self)
         self.geo = objects.Geo()
         selection = self.selection = objects.Selection()
         sys.stdout = self.pywin

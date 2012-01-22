@@ -535,6 +535,32 @@ class LockManager(object):
     def __nonzero__(self):
         return bool(self.lock)
 
+class ScriptPane(ActionListener):
+    def __init__(self):
+        self.component = JPanel(BorderLayout())
+
+        # Create editor pane
+        scrollpane = JScrollPane()
+        self.script_area = InputPane()
+        line_numbers = LineNumbering(self.script_area.component)
+        scrollpane.viewport.view = self.script_area.component
+        scrollpane.rowHeaderView = line_numbers.component
+        self.component.add(scrollpane, BorderLayout.CENTER)
+
+        self.script_area.input = api.initScript
+        
+        # Create Selection pane
+        select_pane = JPanel()
+        save_btn = JButton("Save")
+        select_pane.add(save_btn)
+        self.component.add(select_pane, BorderLayout.PAGE_START)
+
+        save_btn.addActionListener(self)
+
+    def actionPerformed(self, evt):
+        api.initScript = self.script_area.input
+
+        
 class EventsPane(ActionListener):
     
     def __init__(self):
@@ -614,19 +640,13 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
         interactive_pane.add(inputPanel, BorderLayout.PAGE_END)
 
         # Create Script Pane
-        script_pane = JPanel(BorderLayout())
-        scrollpane = JScrollPane()
-        self.script_area = script_area = InputPane()
-        line_numbers = LineNumbering(self.script_area.component)
-        scrollpane.viewport.view = self.script_area.component
-        scrollpane.rowHeaderView = line_numbers.component
-        script_pane.add(scrollpane, BorderLayout.CENTER)
+        self.script_pane = ScriptPane()
 
         # Create Events Pane
         self.events_pane = EventsPane()
         
         tabs.addTab("Interactive", interactive_pane)
-        tabs.addTab("Script", script_pane)
+        tabs.addTab("Script", self.script_pane.component)
         tabs.addTab("Events", self.events_pane.component)
         
         self.frame.add(tabs)
