@@ -3087,7 +3087,10 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 
 		public ScriptEditPanel() {
 			super(new BorderLayout());
-
+			
+			int row = 35;
+			int column = 15;
+			
 			tabbedPane = new JTabbedPane();
 
 			clickDialog = new ScriptInputDialog(app, app.getPlain("Script"),
@@ -3100,19 +3103,19 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			// add(td.getInputPanel(), BorderLayout.NORTH);
 			// add(td2.getInputPanel(), BorderLayout.CENTER);
 			clickScriptPanel = new JPanel(new BorderLayout(0, 0));
-			clickScriptPanel.add(clickDialog.getInputPanel(),
+			clickScriptPanel.add(clickDialog.getInputPanel(row, column),
 					BorderLayout.NORTH);
 			clickScriptPanel.add(clickDialog.getButtonPanel(),
 					BorderLayout.EAST);
 
 			updateScriptPanel = new JPanel(new BorderLayout(0, 0));
-			updateScriptPanel.add(updateDialog.getInputPanel(),
+			updateScriptPanel.add(updateDialog.getInputPanel(row,column),
 					BorderLayout.NORTH);
 			updateScriptPanel.add(updateDialog.getButtonPanel(),
 					BorderLayout.EAST);
 
 			globalScriptPanel = new JPanel(new BorderLayout(0, 0));
-			globalScriptPanel.add(globalDialog.getInputPanel(),
+			globalScriptPanel.add(globalDialog.getInputPanel(row,column),
 					BorderLayout.NORTH);
 			globalScriptPanel.add(globalDialog.getButtonPanel(),
 					BorderLayout.EAST);

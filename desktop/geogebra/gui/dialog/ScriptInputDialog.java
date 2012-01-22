@@ -21,8 +21,10 @@ import geogebra.gui.editor.GeoGebraEditorPane;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -118,7 +120,31 @@ public class ScriptInputDialog extends InputDialog {
         inputPanel.setText(app.getKernel().getLibraryJavaScript());
 	}
 	
-	public JPanel getInputPanel() {
+	
+	/**
+	 * Returns the inputPanel and sets its preferred size from the given row
+	 * and column value. 
+	 * 
+	 * @param row
+	 * @param column
+	 * @return
+	 */
+	public JPanel getInputPanel(int row, int column) {
+
+		Dimension dim = ((GeoGebraEditorPane) inputPanel.getTextComponent())
+				.getPreferredSizeFromRowColumn(row, column);
+		inputPanel.setPreferredSize(dim);
+		
+		// add a small margin
+		inputPanel.getTextComponent().setBorder(BorderFactory.createEmptyBorder(4,4,4,4));
+		
+		return inputPanel;
+		
+	}
+	
+	
+	
+	public JPanel getInputPanel() {	
 		return inputPanel;
 	}
 	

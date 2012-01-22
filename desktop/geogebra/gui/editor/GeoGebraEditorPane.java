@@ -133,9 +133,17 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 		this.rowHeight = getFontMetrics(getFont()).getHeight();
 	}
 
+	
+	// =================================================================
+	//
+	// TODO These two methods are preventing the script editor from scrolling. Do we
+	// need them, can they be removed?
+
 	/**
 	 * {@inheritDoc}
 	 */
+	
+	/*
 	@Override
 	public Dimension getPreferredSize() {
 		Dimension dim = super.getPreferredSize();
@@ -149,15 +157,51 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 
 		return dim;
 	}
+	*/
+	
 
 	/**
 	 * {@inheritDoc}
 	 */
+	
+	/*
 	@Override
 	public Dimension getPreferredScrollableViewportSize() {
 		return new Dimension(cols * columnWidth, rows * rowHeight);
 	}
+	 */
+	
+	
+	// =================================================================
+	
+	
+	
+	
+	
+	/**
+	 * Returns preferred dimension for the given number of rows and columns
+	 * when using the current font.
+	 * 
+	 * @param row
+	 * @param column
+	 * @return
+	 */
+	public Dimension getPreferredSizeFromRowColumn(int row, int column) {
+		
+		Dimension dim = new Dimension(400, 400); 
+		if (cols != 0) {
+			dim.width = cols * columnWidth;
+		}
+		if (rows != 0) {
+			dim.height = rows * rowHeight;
+		}
 
+		return dim;
+	}
+	
+	
+	
+	
 	/**
 	 * Add a new KeywordListener
 	 *
