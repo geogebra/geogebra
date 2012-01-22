@@ -73,7 +73,6 @@ import javax.swing.JOptionPane;
 
 public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptAPI {
 
-	private Application         app=                null;   //References ...
    
    /** Constructor:
     *  Makes the api with a reference to the GeoGebra program.
@@ -88,11 +87,6 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
     //    pluginmanager=app.getPluginManager();
     }//Constructor
     
-    /** Returns reference to Application */
-    public Application getApplication(){return this.app;}
-    
-    
-
     /** Returns reference to PluginManager */
 //    public PluginManager getPluginManager() {
 //    	if(pluginmanager==null){
@@ -148,7 +142,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 	public synchronized byte [] getGGBfile() {
 		try {
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			app.getXMLio().writeGeoGebraFile(bos, true);
+			((Application) app).getXMLio().writeGeoGebraFile(bos, true);
 			bos.flush();
 			return bos.toByteArray();
 		} catch (IOException e) {
@@ -157,20 +151,17 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 		}
 	}
 
-	/**
-	 * Returns current construction in XML format. May be used for saving.
-	 */
-	public synchronized String getXML() {
-		return app.getXML();
+	public String getBase64() {
+		return getBase64(false);
 	}
-	
+
 	/**
 	 * Returns current construction in Base64 format. May be used for saving.
 	 */
 	public synchronized String getBase64(boolean includeThumbnail) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
-			app.getXMLio().writeGeoGebraFile(baos, includeThumbnail);
+			((Application) app).getXMLio().writeGeoGebraFile(baos, includeThumbnail);
 			return geogebra.common.util.Base64.encode(baos.toByteArray(), 0);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -178,13 +169,6 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 		}
 	}
 	
-	
-	/**
-	 * Opens construction given in XML format. May be used for loading constructions.
-	 */
-	public synchronized void setXML(String xml) {
-		app.setXML(xml, true);
-	}
 	
 	/**
 	 * Opens construction given in XML format. May be used for loading constructions.
@@ -198,7 +182,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 			e.printStackTrace();
 			return;
 		}
-		app.loadXML(zipFile);
+		((Application) app).loadXML(zipFile);
 	}
 	
 	
@@ -251,7 +235,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 	 * Note: this is especially useful together with evalCommand().
 	 */
 	public synchronized void setErrorDialogsActive(boolean flag) {
-		app.setErrorDialogsActive(flag);
+		((JavaScriptAPI) app).setErrorDialogsActive(flag);
 	}
 	
 	/**
@@ -267,7 +251,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 	 * Clears the construction and resets all views.
 	 */
 	public synchronized void fileNew() {
-		app.fileNew();
+		((Application) app).fileNew();
 	}
 	
 	/**
@@ -286,7 +270,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 		try {
 			String lowerCase = app.toLowerCase(strURL);
 			URL url = new URL(strURL);
-			app.loadXML(url, lowerCase.endsWith(Application.FILE_EXT_GEOGEBRA_TOOL));
+			((Application) app).loadXML(url, lowerCase.endsWith(Application.FILE_EXT_GEOGEBRA_TOOL));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -318,7 +302,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 		try {
 		
 			BufferedImage img =
-				app.getEuclidianView().getExportImage(1);
+				((Application)app).getEuclidianView().getExportImage(1);
 			
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ImageIO.write(img, app.toLowerCase(format), baos);
@@ -348,304 +332,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 	}
 	
 
-	public synchronized int getLineStyle(String objName) {
-		GeoElement geo = kernel.lookupLabel(objName);
-		if (geo == null) return -1;		
-		int type = geo.getLineType();	
-		
-		// convert from 0,10,15,20,30
-		// to 0,1,2,3,4
-		
-		Integer[] types = EuclidianView.getLineTypes();
-		for (int i = 0 ; i < types.length ; i++) {
-			if (type == types[i].intValue())
-				return i;
-		}
-		
-		return -1; // unknown type
-	}	
-	
-	public synchronized void setLineStyle(String objName, int style) {
-		Integer[] types = EuclidianView.getLineTypes();
-		
-		if (style < 0 || style >= types.length)
-			return;
-		
-		GeoElement geo = kernel.lookupLabel(objName);
-		if (geo == null) return;		
-		
-		geo.setLineType(types[style].intValue());
-		geo.updateRepaint();
-	}	
-	
-	/**
-	 * Deletes the object with the given name.
-	 */
-	public synchronized void deleteObject(String objName) {			
-		GeoElement geo = kernel.lookupLabel(objName);
-		if (geo == null) return;		
-		geo.remove();
-		kernel.notifyRepaint();
-	}	
-	
-	/**
-	 * Renames an object from oldName to newName.
-	 * @return whether renaming worked
-	 */
-	public synchronized boolean renameObject(String oldName, String newName) {		
-		GeoElement geo = kernel.lookupLabel(oldName);
-		if (geo == null) 
-			return false;
-		
-		// try to rename
-		boolean success = geo.rename(newName);
-		kernel.notifyRepaint();
-		
-		return success;
-	}	
-	
-	/**
-	 * Returns true if the object with the given name exists.
-	 */
-	public synchronized boolean exists(String objName) {			
-		GeoElement geo = kernel.lookupLabel(objName);
-		return (geo != null);				
-	}	
-	
-	/**
-	 * Returns true if the object with the given name has a vaild
-	 * value at the moment.
-	 */
-	public synchronized boolean isDefined(String objName) {			
-		GeoElement geo = kernel.lookupLabel(objName);
-		if (geo == null) 
-			return false;
-		else
-			return geo.isDefined();
-	}	
-	
-	/**
-	 * Returns true if the object with the given name is independent.
-	 */
-	public synchronized boolean isIndependent(String objName) {			
-		GeoElement geo = kernel.lookupLabel(objName);
-		if (geo == null) 
-			return false;
-		else
-			return geo.isIndependent();
-	}	
-	
-	/**
-	 * Returns the value of the object with the given name as a string.
-	 */
-	public synchronized String getValueString(String objName) {
-		GeoElement geo = kernel.lookupLabel(objName);
-		if (geo == null) return "";	
-		
-		if (geo.isGeoText())
-			return ((GeoText)geo).getTextString();
-		
-		return geo.getAlgebraDescription();
-	}
-	
-	/**
-	 * Returns the definition of the object with the given name as a string.
-	 */
-	public synchronized String getDefinitionString(String objName) {
-		GeoElement geo = kernel.lookupLabel(objName);
-		if (geo == null) return "";		
-		return geo.getDefinitionDescription();
-	}
-	
-	/**
-	 * Returns the command of the object with the given name as a string.
-	 */
-	public synchronized String getCommandString(String objName) {		
-		GeoElement geo = kernel.lookupLabel(objName);
-		if (geo == null) return "";		
-		return geo.getCommandDescription();
-	}
-	
-	/**
-	 * Returns the x-coord of the object with the given name. Note: returns 0 if
-	 * the object is not a point or a vector.
-	 */
-	public synchronized double getXcoord(String objName) {
-		GeoElement geo = kernel.lookupLabel(objName);
-		if (geo == null) return 0;
-		
-		if (geo.isGeoPoint())
-			return ((GeoPoint2) geo).inhomX;
-		else if (geo.isGeoVector())
-			return ((GeoVector) geo).x;
-		else
-			return 0;
-	}
-	
-	/**
-	 * Returns the y-coord of the object with the given name. Note: returns 0 if
-	 * the object is not a point or a vector.
-	 */
-	public synchronized double getYcoord(String objName) {
-		GeoElement geo = kernel.lookupLabel(objName);
-		if (geo == null) return 0;
-		
-		if (geo.isGeoPoint())
-			return ((GeoPoint2) geo).inhomY;
-		else if (geo.isGeoVector())
-			return ((GeoVector) geo).y;
-		else
-			return 0;
-	}
-	
-	/**
-	 * Sets the coordinates of the object with the given name. Note: if the
-	 * specified object is not a point or a vector, nothing happens.
-	 */
-	public synchronized void setCoords(String objName, double x, double y) {
-		GeoElement geo = kernel.lookupLabel(objName);
-		if (geo == null) return;
-		
-		if (geo.isGeoPoint()) {
-			((GeoPoint2) geo).setCoords(x, y, 1);
-			geo.updateRepaint();
-		}
-		else if (geo.isGeoVector()) {
-			((GeoVector) geo).setCoords(x, y, 0);
-			geo.updateRepaint();
-		}
-	}
-	
-	/**
-	 * Returns the double value of the object with the given name.
-	 * For a boolean, returns 0 for false, 1 for true
-	 * Note: returns 0 if the object does not have a value.
-	 */
-	public synchronized double getValue(String objName) {
-		GeoElement geo = kernel.lookupLabel(objName);
-		if (geo == null)
-			return 0;
-		
-		if (geo.isNumberValue())
-			return ((NumberValue) geo).getDouble();		
-		else if (geo.isGeoBoolean())
-			return ((GeoBoolean) geo).getBoolean() ? 1 : 0;		
-		
-		return 0;
-	}
-	
-	/**
-	 * Sets the double value of the object with the given name.
-	 * For a boolean 0 -> false, any other value -> true
-	 * Note: if the specified object is not a number, nothing happens.
-	 */
-	public synchronized void setValue(String objName, double x) {
-		GeoElement geo = kernel.lookupLabel(objName);
-		if (geo == null || !geo.isIndependent()) return;
-		
-		if (geo.isGeoNumeric()) {
-			((GeoNumeric) geo).setValue(x);
-			geo.updateRepaint();
-		} else if (geo.isGeoBoolean()) {
-			((GeoBoolean) geo).setValue(Kernel.isZero(x) ? false : true);
-			geo.updateRepaint();
-		}
-	}
-	
-	/**
-	 * Turns the repainting of all views on or off.
-	 */
-	public synchronized void setRepaintingActive(boolean flag) {		
-		//Application.debug("set repainting: " + flag);
-		kernel.setNotifyRepaintActive(flag);
-	}	
-	
 
-	/*
-	 * Methods to change the geometry window's properties	 
-	 */
-	
-	/**
-	 * Sets the Cartesian coordinate system in the graphics window.
-	 */
-	public synchronized void setCoordSystem(double xmin, double xmax, double ymin, double ymax) {
-		app.getEuclidianView().setRealWorldCoordSystem(xmin, xmax, ymin, ymax);
-	}
-	
-	/**
-	 * Returns the dimensions of the real world coordinate system in the graphics view
-	 * as [xmin, ymin, width, height]
-	 */
-	public synchronized Rectangle2D.Double getCoordSystemRectangle() {
-		AbstractEuclidianView ev = app.getEuclidianView();
-		return new Rectangle2D.Double(ev.getXmin(), ev.getYmin(), 
-				ev.getXmax() - ev.getXmin(), ev.getYmax() - ev.getYmin());
-	}
-	
-	/**
-	 * Shows or hides the x- and y-axis of the coordinate system in the graphics window.
-	 */
-	public synchronized void setAxesVisible(boolean xVisible, boolean yVisible) {		
-		app.getEuclidianView().setShowAxis(EuclidianViewInterface.AXIS_X, xVisible, false);
-		app.getEuclidianView().setShowAxis(EuclidianViewInterface.AXIS_Y, yVisible, false);
-		kernel.notifyRepaint();
-	}	
-	
-	/**
-	 * If the origin is off screen and the axes are visible, GeoGebra shows coordinates
-	 * of the upper-left and bottom-right screen corner. This method lets you
-	 * hide these corner coordinates.
-	 */
-	public synchronized void setAxesCornerCoordsVisible(boolean showAxesCornerCoords) {		
-		app.getEuclidianView().setAxesCornerCoordsVisible(showAxesCornerCoords);
-	}	
-	
-	/**
-	 * Shows or hides the coordinate grid in the graphics window.
-	 */
-	public synchronized void setGridVisible(boolean flag) {		
-		app.getSettings().getEuclidian(1).showGrid(flag);
-		app.getSettings().getEuclidian(2).showGrid(flag);
-	}
-	
-	/*
-	 * Methods to get all object names of the construction 
-	 */
-	
-		
-	/**
-	 * Returns an array with the names of all selected objects.
-	 */
-	public synchronized String [] getSelectedObjectNames() {			
-		ArrayList<GeoElement> selGeos = app.getSelectedGeos();
-		String [] objNames = new String[selGeos.size()];
-		
-		for (int i=0; i < selGeos.size(); i++) {
-			GeoElement geo = (GeoElement) selGeos.get(i);
-			objNames[i] = geo.getLabel();
-		}
-		return objNames;
-	}	
-	
-	/**
-	 * Returns the number of objects in the construction.
-	 */
-	public synchronized int getObjectNumber() {					
-		return getObjNames().length;			
-	}	
-	
-	/**
-	 * Returns the name of the n-th object of this construction.
-	 */
-	public synchronized String getObjectName(int i) {					
-		String [] names = getObjNames();
-					
-		try {
-			return names[i];
-		} catch (Exception e) {
-			return "";
-		}
-	}
 	
 	
 	/*
@@ -664,7 +351,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 				try {			
 					// draw graphics view into image
 					BufferedImage img =
-						app.getEuclidianView().getExportImage(exportScale, transparent); 
+							((Application)app).getEuclidianView().getExportImage(exportScale, transparent); 
 					
 					// write image to file
 					MyImageIO.write(img, "png", (float)DPI,  file);	
@@ -691,7 +378,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 	 */
 	public synchronized String getPNGBase64(double exportScale, boolean transparent, double DPI) {
 		BufferedImage img =
-			app.getEuclidianView().getExportImage(exportScale, transparent); 
+				((Application)app).getEuclidianView().getExportImage(exportScale, transparent); 
 
 		
 	    try {
@@ -718,93 +405,16 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 	}
 	
 	
-	/**
-	 * Returns the type of the object with the given name as a string (e.g. point, line, circle, ...)
-	 */
-	public synchronized String getObjectType(String objName) {
-		GeoElement geo = kernel.lookupLabel(objName);
-		return (geo == null) ? "" : app.toLowerCase(geo.getObjectType());
-	}
 	
-	/**
-	 * Sets the mode of the geometry window (EuclidianView). 
-	 */
-	public synchronized void setMode(int mode) {
-		app.setMode(mode);
-	}	
 	
 	
 	
 	public synchronized void registerLoggerListener(String JSFunctionName) {
-		app.getScriptManager().getUSBFunctions().registerLoggerListener(JSFunctionName);
+		((Application)app).getScriptManager().getUSBFunctions().registerLoggerListener(JSFunctionName);
 	}
 
 	public synchronized void unregisterLoggerListener(String JSFunctionName) {
-		app.getScriptManager().getUSBFunctions().unregisterLoggerListener(JSFunctionName);
-	}
-	
-	public synchronized void registerAddListener(String JSFunctionName) {
-		app.getScriptManager().registerAddListener(JSFunctionName);
-	}
-
-	public synchronized void unregisterAddListener(String JSFunctionName) {
-		app.getScriptManager().unregisterAddListener(JSFunctionName);
-	}
-	
-	public synchronized void registerRemoveListener(String JSFunctionName) {
-		app.getScriptManager().registerRemoveListener(JSFunctionName);
-	}
-	
-	public synchronized void unregisterRemoveListener(String JSFunctionName) {
-		app.getScriptManager().unregisterRemoveListener(JSFunctionName);
-	}
-	
-	public synchronized void registerClearListener(String JSFunctionName) {
-		app.getScriptManager().registerClearListener(JSFunctionName);
-	}
-
-	public synchronized void unregisterClearListener(String JSFunctionName) {
-		app.getScriptManager().unregisterClearListener(JSFunctionName);
-	}
-
-	public synchronized void registerRenameListener(String JSFunctionName) {
-		app.getScriptManager().registerRenameListener(JSFunctionName);
-	}
-	
-	public synchronized void unregisterRenameListener(String JSFunctionName) {
-		app.getScriptManager().unregisterRenameListener(JSFunctionName);
-	}
-	
-	public synchronized void registerUpdateListener(String JSFunctionName) {
-		app.getScriptManager().registerUpdateListener(JSFunctionName);
-	}
-	
-	public synchronized void unregisterUpdateListener(String JSFunctionName) {
-		app.getScriptManager().unregisterUpdateListener(JSFunctionName);
-	}
-
-	public synchronized void registerObjectUpdateListener(String objName, String JSFunctionName) {
-		app.getScriptManager().registerObjectUpdateListener(objName, JSFunctionName);
-	}
-	
-	public synchronized void unregisterObjectUpdateListener(String objName) {
-		app.getScriptManager().unregisterObjectUpdateListener(objName);
-	}
-	
-	public synchronized void registerPenListener(String JSFunctionName) {
-		app.getScriptManager().registerPenListener(JSFunctionName);
-	}
-	
-	public synchronized void unregisterPenListener(String JSFunctionName) {
-		app.getScriptManager().unregisterPenListener(JSFunctionName);
-	}
-
-	public boolean isMoveable(String objName) {
-		GeoElement geo = kernel.lookupLabel(objName);
-		if (geo == null) 
-			return false;
-		else
-			return geo.isMoveable();
+		((Application)app).getScriptManager().getUSBFunctions().unregisterLoggerListener(JSFunctionName);
 	}
 
 	public void drawToImage(String label, double[] x, double[] y) {
@@ -821,7 +431,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 			return;
 		}
 		
-		app.getEuclidianView().drawPoints((GeoImage)ge,x,y);
+		((Application)app).getEuclidianView().drawPoints((GeoImage)ge,x,y);
 		
 	}
 
@@ -838,7 +448,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 
 	public String prompt(Object value0, Object value1) {
 		return (String)JOptionPane.showInputDialog(
-        app.getFrame(),
+				((Application)app).getFrame(),
         value0,
         "GeoGebra",
         JOptionPane.PLAIN_MESSAGE,
@@ -847,43 +457,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
         value1);
 	}
 
-	public String getBase64() {
-		return getBase64(false);
-	}
 
-	public void setOnTheFlyPointCreationActive(boolean flag) {
-		app.setOnTheFlyPointCreationActive(flag);
-		
-	}
-
-	public void setUndoPoint() {
-		kernel.getConstruction().storeUndoInfo();
-	}
-
-	public String getIPAddress() {
-		return Util.getIPAddress();
-	}
-
-	public String getHostname() {
-		return Util.getHostname();
-	}
-
-	public void startAnimation() {
-		kernel.getAnimatonManager().startAnimation();		
-	}
-
-	public void stopAnimation() {
-		kernel.getAnimatonManager().stopAnimation();		
-	}
-
-	public void hideCursorWhenDragging(boolean hideCursorWhenDragging) {
-		((Application) kernel.getApplication())
-		.setUseTransparentCursorWhenDragging(hideCursorWhenDragging);
-	}
-
-	public boolean isAnimationRunning() {
-		return kernel.getAnimatonManager().isRunning();
-	}
 	
 	/**
 	 * pops up message dialog with "OK" and "Stop Script"
@@ -892,7 +466,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 	 */
 	public void alert(String message) {
 		Object[] options = {app.getPlain("StopScript"), app.getPlain("OK")};
-		int n = JOptionPane.showOptionDialog(app.getFrame(),
+		int n = JOptionPane.showOptionDialog(((Application)app).getFrame(),
 				message,
 			    "GeoGebra",
 			    JOptionPane.YES_NO_OPTION,
@@ -905,7 +479,25 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 		
 	}
 
+	public String getIPAddress() {
+		return Util.getIPAddress();
+	}
+
+	public String getHostname() {
+		return Util.getHostname();
+	}
+
+	/**
+	 * Returns the dimensions of the real world coordinate system in the graphics view
+	 * as [xmin, ymin, width, height]
+	 */
+	public synchronized Rectangle2D.Double getCoordSystemRectangle() {
+		AbstractEuclidianView ev = (AbstractEuclidianView) app.getEuclidianView();
+		return new Rectangle2D.Double(ev.getXmin(), ev.getYmin(), 
+				ev.getXmax() - ev.getXmin(), ev.getYmax() - ev.getYmin());
+	}
 	
+
 
 
 		

@@ -340,4 +340,6 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 
 	public void getXML(StringBuilder sb, boolean asPreference);
 
+	public void setAxesCornerCoordsVisible(boolean showAxesCornerCoords);
+
 }

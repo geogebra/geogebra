@@ -2641,6 +2641,17 @@ public abstract class AbstractApplication {
 	}-*/;
 
 	public abstract boolean isHTML5Applet();
+
+	public void setOnTheFlyPointCreationActive(boolean flag) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setUseTransparentCursorWhenDragging(
+			boolean hideCursorWhenDragging) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }

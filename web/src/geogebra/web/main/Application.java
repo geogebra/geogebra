@@ -27,7 +27,6 @@ import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.GlobalKeyDispatcher;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.Settings;
-import geogebra.common.plugin.GgbAPI;
 import geogebra.common.plugin.ScriptManagerCommon;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.sound.SoundManager;
@@ -64,6 +63,7 @@ public class Application extends AbstractApplication {
 	private Map<String, ImageElement> images = new HashMap<String, ImageElement>();
 
 	private Canvas canvas;
+	private geogebra.common.plugin.GgbAPI ggbapi;
 	
 	public Application(){
 		this.init(Canvas.createIfSupported());
@@ -72,12 +72,8 @@ public class Application extends AbstractApplication {
 		setLabelDragsEnabled(false);
 		getEuclidianView().setCapturingThreshold(20);
 		
-		/*
-		 * doesn't work, gives:
-		 * ggbOnInit is not defined at function _Ge(a){wGe();eval(a+'();')}
-		 * 		getScriptManager().ggbOnInit();
-		 */
-		
+		getScriptManager().ggbOnInit();
+		 		
 	}
 
 	@Override
@@ -518,10 +514,13 @@ public class Application extends AbstractApplication {
     }
 
 	@Override
-    public GgbAPI getGgbApi() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
-    }
+	public geogebra.common.plugin.GgbAPI getGgbApi() {
+		if (ggbapi == null) {
+			ggbapi = new geogebra.web.main.GgbAPI(this);
+		}
+
+		return ggbapi;
+	}
 
 	@Override
     public SoundManager getSoundManager() {
@@ -641,12 +640,23 @@ public class Application extends AbstractApplication {
     }
 	
 	public static native void callNativeJavaScript(String fun, String arg) /*-{
-	  eval(fun + "(" + arg + ");");
+	  eval("window." + fun + "(" + arg + ");");
 	}-*/;
 	
 	public static native void callNativeJavaScript(String fun) /*-{
-	  eval(fun + "();");
+	  eval("window." + fun + "();");
 	}-*/;
+	
+	public static native void ggbOnInit() /*-{
+	if (typeof $wnd.ggbOnInit === 'function')
+		$wnd.ggbOnInit();
+	}-*/;
+
+	public static native void ggbOnInit(String arg) /*-{
+	if (typeof $wnd.ggbOnInit === 'function')
+		$wnd.ggbOnInit(arg);
+	}-*/;
+
 
 	@Override
     public void updateMenubar() {

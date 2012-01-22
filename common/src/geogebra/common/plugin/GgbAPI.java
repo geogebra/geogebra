@@ -1,18 +1,27 @@
 package geogebra.common.plugin;
 
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AlgebraProcessor;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.main.AbstractApplication;
+
 
 public abstract class GgbAPI {
 	// /// ----- Properties ----- /////
@@ -20,11 +29,10 @@ public abstract class GgbAPI {
 	protected Kernel kernel = null;
 	protected Construction construction = null;
 	protected AlgebraProcessor algebraprocessor = null;
+	protected AbstractApplication app = null;
 
 	// private PluginManager pluginmanager= null;
 	// /// ----- Interface ----- /////
-	abstract public AbstractApplication getApplication();
-
 	/** Returns reference to Construction */
 	public Construction getConstruction() {
 		return this.construction;
@@ -452,5 +460,418 @@ public abstract class GgbAPI {
 		geo.setAlphaValue((float) filling);
 		geo.updateRepaint();
 	}
+	public void setOnTheFlyPointCreationActive(boolean flag) {
+		app.setOnTheFlyPointCreationActive(flag);
+		
+	}
+
+	public void setUndoPoint() {
+		kernel.getConstruction().storeUndoInfo();
+	}
+
+	public void startAnimation() {
+		kernel.getAnimatonManager().startAnimation();		
+	}
+
+	public void stopAnimation() {
+		kernel.getAnimatonManager().stopAnimation();		
+	}
+
+	public void hideCursorWhenDragging(boolean hideCursorWhenDragging) {
+		kernel.getApplication()
+		.setUseTransparentCursorWhenDragging(hideCursorWhenDragging);
+	}
+
+	public boolean isAnimationRunning() {
+		return kernel.getAnimatonManager().isRunning();
+	}
+	
+	public synchronized void registerAddListener(String JSFunctionName) {
+		app.getScriptManager().registerAddListener(JSFunctionName);
+	}
+
+	public synchronized void unregisterAddListener(String JSFunctionName) {
+		app.getScriptManager().unregisterAddListener(JSFunctionName);
+	}
+	
+	public synchronized void registerRemoveListener(String JSFunctionName) {
+		app.getScriptManager().registerRemoveListener(JSFunctionName);
+	}
+	
+	public synchronized void unregisterRemoveListener(String JSFunctionName) {
+		app.getScriptManager().unregisterRemoveListener(JSFunctionName);
+	}
+	
+	public synchronized void registerClearListener(String JSFunctionName) {
+		app.getScriptManager().registerClearListener(JSFunctionName);
+	}
+
+	public synchronized void unregisterClearListener(String JSFunctionName) {
+		app.getScriptManager().unregisterClearListener(JSFunctionName);
+	}
+
+	public synchronized void registerRenameListener(String JSFunctionName) {
+		app.getScriptManager().registerRenameListener(JSFunctionName);
+	}
+	
+	public synchronized void unregisterRenameListener(String JSFunctionName) {
+		app.getScriptManager().unregisterRenameListener(JSFunctionName);
+	}
+	
+	public synchronized void registerUpdateListener(String JSFunctionName) {
+		app.getScriptManager().registerUpdateListener(JSFunctionName);
+	}
+	
+	public synchronized void unregisterUpdateListener(String JSFunctionName) {
+		app.getScriptManager().unregisterUpdateListener(JSFunctionName);
+	}
+
+	public synchronized void registerObjectUpdateListener(String objName, String JSFunctionName) {
+		app.getScriptManager().registerObjectUpdateListener(objName, JSFunctionName);
+	}
+	
+	public synchronized void unregisterObjectUpdateListener(String objName) {
+		app.getScriptManager().unregisterObjectUpdateListener(objName);
+	}
+	
+	public synchronized void registerPenListener(String JSFunctionName) {
+		app.getScriptManager().registerPenListener(JSFunctionName);
+	}
+	
+	public synchronized void unregisterPenListener(String JSFunctionName) {
+		app.getScriptManager().unregisterPenListener(JSFunctionName);
+	}
+
+	public boolean isMoveable(String objName) {
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null) 
+			return false;
+		else
+			return geo.isMoveable();
+	}
+	
+	/**
+	 * Returns the type of the object with the given name as a string (e.g. point, line, circle, ...)
+	 */
+	public synchronized String getObjectType(String objName) {
+		GeoElement geo = kernel.lookupLabel(objName);
+		return (geo == null) ? "" : app.toLowerCase(geo.getObjectType());
+	}
+	
+	/**
+	 * Sets the mode of the geometry window (EuclidianView). 
+	 */
+	public synchronized void setMode(int mode) {
+		app.setMode(mode);
+	}
+	
+	public synchronized int getLineStyle(String objName) {
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null) return -1;		
+		int type = geo.getLineType();	
+		
+		// convert from 0,10,15,20,30
+		// to 0,1,2,3,4
+		
+		Integer[] types = AbstractEuclidianView.getLineTypes();
+		for (int i = 0 ; i < types.length ; i++) {
+			if (type == types[i].intValue())
+				return i;
+		}
+		
+		return -1; // unknown type
+	}	
+	
+	public synchronized void setLineStyle(String objName, int style) {
+		Integer[] types = AbstractEuclidianView.getLineTypes();
+		
+		if (style < 0 || style >= types.length)
+			return;
+		
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null) return;		
+		
+		geo.setLineType(types[style].intValue());
+		geo.updateRepaint();
+	}	
+	
+	/**
+	 * Deletes the object with the given name.
+	 */
+	public synchronized void deleteObject(String objName) {			
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null) return;		
+		geo.remove();
+		kernel.notifyRepaint();
+	}	
+	
+	/**
+	 * Renames an object from oldName to newName.
+	 * @return whether renaming worked
+	 */
+	public synchronized boolean renameObject(String oldName, String newName) {		
+		GeoElement geo = kernel.lookupLabel(oldName);
+		if (geo == null) 
+			return false;
+		
+		// try to rename
+		boolean success = geo.rename(newName);
+		kernel.notifyRepaint();
+		
+		return success;
+	}	
+	
+	/**
+	 * Returns true if the object with the given name exists.
+	 */
+	public synchronized boolean exists(String objName) {			
+		GeoElement geo = kernel.lookupLabel(objName);
+		return (geo != null);				
+	}	
+	
+	/**
+	 * Returns true if the object with the given name has a vaild
+	 * value at the moment.
+	 */
+	public synchronized boolean isDefined(String objName) {			
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null) 
+			return false;
+		else
+			return geo.isDefined();
+	}	
+	
+	/**
+	 * Returns true if the object with the given name is independent.
+	 */
+	public synchronized boolean isIndependent(String objName) {			
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null) 
+			return false;
+		else
+			return geo.isIndependent();
+	}	
+	
+	/**
+	 * Returns the value of the object with the given name as a string.
+	 */
+	public synchronized String getValueString(String objName) {
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null) return "";	
+		
+		if (geo.isGeoText())
+			return ((GeoText)geo).getTextString();
+		
+		return geo.getAlgebraDescription();
+	}
+	
+	/**
+	 * Returns the definition of the object with the given name as a string.
+	 */
+	public synchronized String getDefinitionString(String objName) {
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null) return "";		
+		return geo.getDefinitionDescription();
+	}
+	
+	/**
+	 * Returns the command of the object with the given name as a string.
+	 */
+	public synchronized String getCommandString(String objName) {		
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null) return "";		
+		return geo.getCommandDescription();
+	}
+	
+	/**
+	 * Returns the x-coord of the object with the given name. Note: returns 0 if
+	 * the object is not a point or a vector.
+	 */
+	public synchronized double getXcoord(String objName) {
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null) return 0;
+		
+		if (geo.isGeoPoint())
+			return ((GeoPoint2) geo).inhomX;
+		else if (geo.isGeoVector())
+			return ((GeoVector) geo).x;
+		else
+			return 0;
+	}
+	
+	/**
+	 * Returns the y-coord of the object with the given name. Note: returns 0 if
+	 * the object is not a point or a vector.
+	 */
+	public synchronized double getYcoord(String objName) {
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null) return 0;
+		
+		if (geo.isGeoPoint())
+			return ((GeoPoint2) geo).inhomY;
+		else if (geo.isGeoVector())
+			return ((GeoVector) geo).y;
+		else
+			return 0;
+	}
+	
+	/**
+	 * Sets the coordinates of the object with the given name. Note: if the
+	 * specified object is not a point or a vector, nothing happens.
+	 */
+	public synchronized void setCoords(String objName, double x, double y) {
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null) return;
+		
+		if (geo.isGeoPoint()) {
+			((GeoPoint2) geo).setCoords(x, y, 1);
+			geo.updateRepaint();
+		}
+		else if (geo.isGeoVector()) {
+			((GeoVector) geo).setCoords(x, y, 0);
+			geo.updateRepaint();
+		}
+	}
+	
+	/**
+	 * Returns the double value of the object with the given name.
+	 * For a boolean, returns 0 for false, 1 for true
+	 * Note: returns 0 if the object does not have a value.
+	 */
+	public synchronized double getValue(String objName) {
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null)
+			return 0;
+		
+		if (geo.isNumberValue())
+			return ((NumberValue) geo).getDouble();		
+		else if (geo.isGeoBoolean())
+			return ((GeoBoolean) geo).getBoolean() ? 1 : 0;		
+		
+		return 0;
+	}
+	
+	/**
+	 * Sets the double value of the object with the given name.
+	 * For a boolean 0 -> false, any other value -> true
+	 * Note: if the specified object is not a number, nothing happens.
+	 */
+	public synchronized void setValue(String objName, double x) {
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null || !geo.isIndependent()) return;
+		
+		if (geo.isGeoNumeric()) {
+			((GeoNumeric) geo).setValue(x);
+			geo.updateRepaint();
+		} else if (geo.isGeoBoolean()) {
+			((GeoBoolean) geo).setValue(Kernel.isZero(x) ? false : true);
+			geo.updateRepaint();
+		}
+	}
+	
+	/**
+	 * Turns the repainting of all views on or off.
+	 */
+	public synchronized void setRepaintingActive(boolean flag) {		
+		//Application.debug("set repainting: " + flag);
+		kernel.setNotifyRepaintActive(flag);
+	}	
+	
+
+	/*
+	 * Methods to change the geometry window's properties	 
+	 */
+	
+	/**
+	 * Sets the Cartesian coordinate system in the graphics window.
+	 */
+	public synchronized void setCoordSystem(double xmin, double xmax, double ymin, double ymax) {
+		app.getEuclidianView().setRealWorldCoordSystem(xmin, xmax, ymin, ymax);
+	}
+	
+	/**
+	 * Shows or hides the x- and y-axis of the coordinate system in the graphics window.
+	 */
+	public synchronized void setAxesVisible(boolean xVisible, boolean yVisible) {		
+		app.getEuclidianView().setShowAxis(AbstractEuclidianView.AXIS_X, xVisible, false);
+		app.getEuclidianView().setShowAxis(AbstractEuclidianView.AXIS_Y, yVisible, false);
+		kernel.notifyRepaint();
+	}	
+	
+	/**
+	 * If the origin is off screen and the axes are visible, GeoGebra shows coordinates
+	 * of the upper-left and bottom-right screen corner. This method lets you
+	 * hide these corner coordinates.
+	 */
+	public synchronized void setAxesCornerCoordsVisible(boolean showAxesCornerCoords) {		
+		app.getEuclidianView().setAxesCornerCoordsVisible(showAxesCornerCoords);
+	}	
+	
+	/**
+	 * Shows or hides the coordinate grid in the graphics window.
+	 */
+	public synchronized void setGridVisible(boolean flag) {		
+		app.getSettings().getEuclidian(1).showGrid(flag);
+		app.getSettings().getEuclidian(2).showGrid(flag);
+	}
+	
+	/*
+	 * Methods to get all object names of the construction 
+	 */
+	
+		
+	/**
+	 * Returns an array with the names of all selected objects.
+	 */
+	public synchronized String [] getSelectedObjectNames() {			
+		ArrayList<GeoElement> selGeos = app.getSelectedGeos();
+		String [] objNames = new String[selGeos.size()];
+		
+		for (int i=0; i < selGeos.size(); i++) {
+			GeoElement geo = (GeoElement) selGeos.get(i);
+			objNames[i] = geo.getLabel();
+		}
+		return objNames;
+	}	
+	
+	/**
+	 * Returns the number of objects in the construction.
+	 */
+	public synchronized int getObjectNumber() {					
+		return getObjNames().length;			
+	}	
+	
+	/**
+	 * Returns the name of the n-th object of this construction.
+	 */
+	public synchronized String getObjectName(int i) {					
+		String [] names = getObjNames();
+					
+		try {
+			return names[i];
+		} catch (Exception e) {
+			return "";
+		}
+	}
+	
+	/**
+	 * Opens construction given in XML format. May be used for loading constructions.
+	 */
+	public synchronized void setXML(String xml) {
+		app.setXML(xml, true);
+	}
+	
+	/**
+	 * Returns current construction in XML format. May be used for saving.
+	 */
+	public synchronized String getXML() {
+		return app.getXML();
+	}
+	
+    final public AbstractApplication getApplication() {
+	    // TODO Auto-generated method stub
+	    return app;
+    }
+	
 
 }
