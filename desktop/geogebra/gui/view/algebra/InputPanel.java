@@ -8,6 +8,7 @@ import geogebra.gui.VirtualKeyboardListener;
 import geogebra.gui.editor.GeoGebraEditorPane;
 import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.gui.inputfield.MyTextField;
+import geogebra.gui.util.TextLineNumber;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.main.Application;
 
@@ -42,6 +43,9 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 	private JPanel tfPanel;  
 	
 	private boolean showSymbolPopup;
+
+	/** JScrollpane for the textComponent */
+	private JScrollPane scrollPane;
 	
 	
 	//=====================================
@@ -110,9 +114,9 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 			// put the text pane in a border layout to prevent JTextPane's auto word wrap
 			JPanel noWrapPanel = new JPanel(new BorderLayout());
 			noWrapPanel.add(textComponent);
-			JScrollPane sp = new JScrollPane(noWrapPanel); 
-			sp.setAutoscrolls(true);
-			add(sp, BorderLayout.CENTER);
+			scrollPane = new JScrollPane(noWrapPanel); 
+			scrollPane.setAutoscrolls(true);
+			add(scrollPane, BorderLayout.CENTER);
 				
 		} 
 		
@@ -122,6 +126,19 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 			tfPanel.add(textComponent, BorderLayout.CENTER);
 			add(tfPanel, BorderLayout.CENTER);
 		}		
+	}
+	
+	/**
+	 * Hide/show line numbering in the text component
+	 */
+	public void setShowLineNumbering(boolean showLineNumbers) {
+		if (showLineNumbers) {
+			scrollPane.setRowHeaderView(new TextLineNumber(textComponent));
+		} 
+		else 
+		{
+			scrollPane.setRowHeaderView(null);
+		}
 	}
 	
 	public JTextComponent getTextComponent() {

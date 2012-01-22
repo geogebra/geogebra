@@ -3103,23 +3103,24 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			// add(td.getInputPanel(), BorderLayout.NORTH);
 			// add(td2.getInputPanel(), BorderLayout.CENTER);
 			clickScriptPanel = new JPanel(new BorderLayout(0, 0));
-			clickScriptPanel.add(clickDialog.getInputPanel(row, column),
+			clickScriptPanel.add(clickDialog.getInputPanel(row, column,true),
 					BorderLayout.NORTH);
 			clickScriptPanel.add(clickDialog.getButtonPanel(),
 					BorderLayout.EAST);
 
 			updateScriptPanel = new JPanel(new BorderLayout(0, 0));
-			updateScriptPanel.add(updateDialog.getInputPanel(row,column),
+			updateScriptPanel.add(updateDialog.getInputPanel(row,column,true),
 					BorderLayout.NORTH);
 			updateScriptPanel.add(updateDialog.getButtonPanel(),
 					BorderLayout.EAST);
 
 			globalScriptPanel = new JPanel(new BorderLayout(0, 0));
-			globalScriptPanel.add(globalDialog.getInputPanel(row,column),
+			globalScriptPanel.add(globalDialog.getInputPanel(row,column,true),
 					BorderLayout.NORTH);
 			globalScriptPanel.add(globalDialog.getButtonPanel(),
 					BorderLayout.EAST);
 
+			
 			add(tabbedPane, BorderLayout.CENTER);
 
 		}

@@ -123,18 +123,19 @@ public class ScriptInputDialog extends InputDialog {
 	
 	/**
 	 * Returns the inputPanel and sets its preferred size from the given row
-	 * and column value. 
+	 * and column value. Includes option to hide/show line numbering.
 	 * 
 	 * @param row
 	 * @param column
+	 * @param showLineNumbers 
 	 * @return
 	 */
-	public JPanel getInputPanel(int row, int column) {
+	public JPanel getInputPanel(int row, int column, boolean showLineNumbers) {
 
 		Dimension dim = ((GeoGebraEditorPane) inputPanel.getTextComponent())
 				.getPreferredSizeFromRowColumn(row, column);
 		inputPanel.setPreferredSize(dim);
-		
+		inputPanel.setShowLineNumbering(showLineNumbers);
 		// add a small margin
 		inputPanel.getTextComponent().setBorder(BorderFactory.createEmptyBorder(4,4,4,4));
 		
