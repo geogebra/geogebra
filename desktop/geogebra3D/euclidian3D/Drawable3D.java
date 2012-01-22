@@ -298,7 +298,7 @@ public abstract class Drawable3D extends DrawableND {
 	protected void updateLabel(){
 		
 		label.update(getGeoElement().getLabelDescription(), getView3D().getApplication().getPlainFont(), 
-				geogebra.awt.Color.getAwtColor((geogebra.awt.Color) getGeoElement().getObjectColor()),
+				geogebra.awt.Color.getAwtColor(getGeoElement().getObjectColor()),
 				getLabelPosition(),
 				getLabelOffsetX(),-getLabelOffsetY());
 
@@ -717,8 +717,8 @@ public abstract class Drawable3D extends DrawableND {
 			if (set2.isEmpty())
 				return -1;
 			
-			Drawable3D d1 = (Drawable3D) set1.first();
-			Drawable3D d2 = (Drawable3D) set2.first();
+			Drawable3D d1 = set1.first();
+			Drawable3D d2 = set2.first();
 			
 						
 			return d1.comparePickingTo(d2,true);
@@ -784,7 +784,7 @@ public abstract class Drawable3D extends DrawableND {
 	}
 	
 	protected void setColors(double alpha, Coords color, Coords colorHighlighted){
-		Color c = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) getGeoElement().getObjectColor());
+		Color c = geogebra.awt.Color.getAwtColor(getGeoElement().getObjectColor());
 		color.set(new Coords((double) c.getRed()/255, (double) c.getGreen()/255, (double) c.getBlue()/255,alpha));
 
 		if (getView3D().isGrayScaled())
@@ -950,7 +950,7 @@ public abstract class Drawable3D extends DrawableND {
 	/** duration of the update */
 	protected static final int TIME_DURATION = TIME_END-TIME_WAIT;
 	/** time factor for min/max calculation */
-	protected static final float TIME_FACTOR = 1f/((float) TIME_DURATION);
+	protected static final float TIME_FACTOR = 1f/TIME_DURATION;
 
 
 	

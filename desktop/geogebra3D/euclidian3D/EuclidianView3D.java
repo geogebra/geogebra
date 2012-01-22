@@ -1,6 +1,7 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.DrawBoolean;
 import geogebra.common.euclidian.Drawable;
@@ -35,6 +36,7 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
+import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
@@ -45,6 +47,7 @@ import geogebra.common.util.Unicode;
 import geogebra.euclidian.DrawButton;
 import geogebra.euclidian.DrawTextField;
 import geogebra.euclidian.EuclidianPen;
+import geogebra.euclidian.EuclidianStyleBar;
 import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.Application;
@@ -212,7 +215,8 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 
 	//preview
 	private Previewable previewDrawable;
-	private GeoPoint3D cursor3D;
+	private GeoPoint3D cursor3D, cursorOnXOYPlane;
+	//private boolean cursorOnXOYPlaneVisible;
 	public DrawLine3D previewDrawLine3D;
 	public DrawConic3D previewDrawConic3D;
 	public GeoLine3D previewLine;
@@ -320,7 +324,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 		geosToAddToHits = new TreeSet<GeoElement>();
 		
 		//TODO replace canvas3D with GLDisplay
-		Application.debug("create gl renderer");
+		AbstractApplication.debug("create gl renderer");
 		renderer = new Renderer(this);
 		renderer.setDrawable3DLists(drawable3DLists);
 		
@@ -340,6 +344,9 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 		canvas.setFocusable(true);
 		
 				
+
+		initAxisAndPlane();
+		
 		//previewables
 		//kernel3D.setSilentMode(true);
 		cursor3D = new GeoPoint3D(kernel3D.getConstruction());
@@ -348,9 +355,13 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 		//cursor3D.setLabelOffset(5, -5);
 		//cursor3D.setEuclidianVisible(false);
 		cursor3D.setMoveNormalDirection(EuclidianView3D.vz);
-		//kernel3D.setSilentMode(false);		
+		//kernel3D.setSilentMode(false);
 		
-		initAxisAndPlane();
+		cursorOnXOYPlane = new GeoPoint3D(kernel3D.getConstruction());
+		cursorOnXOYPlane.setCoords(0,0,0,1);
+		cursorOnXOYPlane.setIsPickable(false);
+		cursorOnXOYPlane.setMoveNormalDirection(EuclidianView3D.vz);
+		cursorOnXOYPlane.setRegion(xOyPlane);
 		
 		//point decorations
 		initPointDecorations();
@@ -378,8 +389,8 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 		//clipping cube
 		clippingCube = kernel3D.getClippingCube();
 		clippingCube.setEuclidianVisible(true);
-		clippingCube.setObjColor(geogebra.common.awt.Color.gray);
-		clippingCube.setLineThickness(2);
+		clippingCube.setObjColor(new geogebra.awt.Color(0.5f,0.5f,0.5f));
+		clippingCube.setLineThickness(1);
 		clippingCube.setIsPickable(false);
 		clippingCubeDrawable = (DrawClippingCube3D) createDrawable(clippingCube);
 		
@@ -771,24 +782,24 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 	/** Sets coord system from mouse move */
 	final public void setCoordSystemFromMouseMove(int dx, int dy, int mode) {	
 		switch(mode){
-		case EuclidianController3D.MOVE_ROTATE_VIEW:
+		case AbstractEuclidianController.MOVE_ROTATE_VIEW:
 			setRotXYinDegrees(aOld - dx, bOld + dy);
 			updateMatrix();
 			setViewChangedByRotate();
 			setWaitForUpdate();	
 			break;
-		case EuclidianController3D.MOVE_VIEW:			
+		case AbstractEuclidianController.MOVE_VIEW:			
 			Coords v = new Coords(dx,-dy,0,0);
 			toSceneCoords3D(v);
-			v=v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, getViewDirection())[0];
-			setXZero(XZeroOld+v.getX());
-			setYZero(YZeroOld+v.getY());
-			//setZZero(ZZeroOld+v.getZ());
-			
-			/*
-			setXZero(XZeroOld+dx);
-			setYZero(YZeroOld-dy);
-			*/
+
+			if (cursorOnXOYPlane.getRealMoveMode()==GeoPointND.MOVE_MODE_XY){
+				v=v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, getViewDirection())[0];
+				setXZero(XZeroOld+v.getX());
+				setYZero(YZeroOld+v.getY());
+			}else{
+				v=v.projectPlane(CoordMatrix4x4.IDENTITY)[1];
+				setZZero(ZZeroOld+v.getZ());
+			}
 			
 			updateMatrix();
 			setViewChangedByTranslate();
@@ -1362,6 +1373,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 	 */
 	public void setShowClippingCube(boolean flag){
 		showClippingCube=flag;
+		setWaitForUpdate();
 	}
 	
 	
@@ -1913,7 +1925,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 	 */
 	@SuppressWarnings("rawtypes")
 	public Previewable createPreviewSphere(ArrayList selectedPoints){
-		return new DrawQuadric3D(this, selectedPoints, GeoQuadricND.QUADRIC_SPHERE);
+		return new DrawQuadric3D(this, selectedPoints, GeoQuadricNDConstants.QUADRIC_SPHERE);
 	}	
 
 	/**
@@ -1943,12 +1955,39 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 				false, false);
 			
 
+			updateCursorOnXOYPlane();
 			
 			updateMatrixForCursor3D();
 		}
 		
 	}
 	
+	private void updateCursorOnXOYPlane(){
+		cursorOnXOYPlane.setWillingCoords(getCursor3D().getCoords());
+		cursorOnXOYPlane.setWillingDirection(getViewDirection());
+		cursorOnXOYPlane.doRegion();
+		
+		//cursorOnXOYPlaneVisible = isInside(cursorOnXOYPlane.getInhomCoords());
+		
+		//if (cursorOnXOYPlaneVisible)
+			cursorOnXOYPlane.getDrawingMatrix().setDiag(1/getScale());
+			
+		//Application.debug(cursorOnXOYPlane.getCoords());
+		//Application.debug(cursorOnXOYPlane.getDrawingMatrix());
+	}
+	
+
+	public void switchMoveCursor() {
+		
+		if (moveCursorIsVisible())
+			cursorOnXOYPlane.switchMoveMode();
+		
+		
+	}
+
+	private boolean moveCursorIsVisible(){
+		return cursor==CURSOR_MOVE || euclidianController3D.getMode()==EuclidianConstants.MODE_TRANSLATEVIEW;
+	}
 	
 	/**
 	 * update the 3D cursor with current hits
@@ -2192,67 +2231,71 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 
 		
 		//Application.debug("hasMouse="+hasMouse+"\n!getEuclidianController().mouseIsOverLabel() "+!getEuclidianController().mouseIsOverLabel() +"\ngetEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())" + getEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())+"\ncursor="+cursor+"\ngetCursor3DType()="+getCursor3DType());		
-		
-		if (hasMouse 
-				&& !getEuclidianController().mouseIsOverLabel() 
-				&& getEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())
-		){
-			renderer.setMatrix(getCursor3D().getDrawingMatrix());
-			
-			switch(cursor){
-			case CURSOR_DEFAULT:
-				switch(getCursor3DType()){
-				case PREVIEW_POINT_FREE: //free point on xOy plane
-					renderer.drawCursor(PlotterCursor.TYPE_CROSS2D);					
+		//Application.debug(mode);
+				
+		if (hasMouse){
+			if (moveCursorIsVisible()){
+				renderer.setMatrix(cursorOnXOYPlane.getDrawingMatrix());
+				drawPointAlready(cursorOnXOYPlane.getRealMoveMode());	
+			}else if(!getEuclidianController().mouseIsOverLabel() 
+					&& getEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())
+					){
+				renderer.setMatrix(getCursor3D().getDrawingMatrix());
+				
+				switch(cursor){
+				case CURSOR_DEFAULT:
+					switch(getCursor3DType()){
+					case PREVIEW_POINT_FREE: //free point on xOy plane
+						renderer.drawCursor(PlotterCursor.TYPE_CROSS2D);					
+						break;
+					case PREVIEW_POINT_ALREADY: //showing arrows directions
+						drawPointAlready(getCursor3D().getMoveMode());				
+						break;				
+					}
 					break;
-				case PREVIEW_POINT_ALREADY: //showing arrows directions
-					drawPointAlready();				
-					break;				
-				}
-				break;
-				/*
+					/*
 			case CURSOR_DRAG:
 				if(getCursor3DType()==PREVIEW_POINT_ALREADY)
 					drawPointAlready();
 				break;
-				*/
-			case CURSOR_HIT:									
-				switch(getCursor3DType()){
-				case PREVIEW_POINT_FREE:
-					renderer.drawCursor(PlotterCursor.TYPE_CROSS2D);
-					break;
-				case PREVIEW_POINT_REGION:
-					if (getEuclidianController().getMode()==EuclidianConstants.MODE_VIEW_IN_FRONT_OF)
-						renderer.drawViewInFrontOf();
-					else
+					 */
+				case CURSOR_HIT:									
+					switch(getCursor3DType()){
+					case PREVIEW_POINT_FREE:
 						renderer.drawCursor(PlotterCursor.TYPE_CROSS2D);
-					break;
-				case PREVIEW_POINT_PATH:
-					if (getEuclidianController().getMode()==EuclidianConstants.MODE_VIEW_IN_FRONT_OF)
-						renderer.drawViewInFrontOf();
-					else
-						renderer.drawCursor(PlotterCursor.TYPE_CYLINDER);
-					break;
-				case PREVIEW_POINT_DEPENDENT:
-					renderer.drawCursor(PlotterCursor.TYPE_DIAMOND);
-					break;
+						break;
+					case PREVIEW_POINT_REGION:
+						if (getEuclidianController().getMode()==EuclidianConstants.MODE_VIEW_IN_FRONT_OF)
+							renderer.drawViewInFrontOf();
+						else
+							renderer.drawCursor(PlotterCursor.TYPE_CROSS2D);
+						break;
+					case PREVIEW_POINT_PATH:
+						if (getEuclidianController().getMode()==EuclidianConstants.MODE_VIEW_IN_FRONT_OF)
+							renderer.drawViewInFrontOf();
+						else
+							renderer.drawCursor(PlotterCursor.TYPE_CYLINDER);
+						break;
+					case PREVIEW_POINT_DEPENDENT:
+						renderer.drawCursor(PlotterCursor.TYPE_DIAMOND);
+						break;
 
-				case PREVIEW_POINT_ALREADY:
-					drawPointAlready();
+					case PREVIEW_POINT_ALREADY:
+						drawPointAlready(getCursor3D().getMoveMode());
+						break;
+					}
 					break;
 				}
-				break;
 			}
-		
 		}
 	}
 	
 	
-	private void drawPointAlready(){
+	private void drawPointAlready(int mode){
 		
-		//Application.debug(getCursor3D().getMoveMode());
+		//Application.debug(mode);
 		
-		switch (getCursor3D().getMoveMode()){
+		switch (mode){
 		case GeoPointND.MOVE_MODE_XY:
 			renderer.drawCursor(PlotterCursor.TYPE_ALREADY_XY);
 			break;
@@ -2270,6 +2313,31 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 		// 3D cursor
 		cursor = CURSOR_MOVE;
 		
+		//Application.printStacktrace("");
+		//Application.debug("ici");
+		
+	}
+
+	public void setCursor(int cursor){
+		switch(cursor){
+		case CURSOR_DRAG:
+			setDragCursor();
+			break;
+		case CURSOR_MOVE:
+			setMoveCursor();
+			break;
+		case CURSOR_HIT:
+			setHitCursor();
+			break;
+		case CURSOR_DEFAULT:
+		default:
+			setDefaultCursor();
+			break;
+		}
+	}
+	
+	public int getCursor(){
+		return cursor;
 	}
 	
 	private boolean defaultCursorWillBeHitCursor = false;
@@ -2295,6 +2363,9 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 	public void setDefaultCursor(){
 		//Application.printStacktrace("setDefaultCursor:"+defaultCursorWillBeHitCursor);
 		
+		if (app.getShiftDown()) //do nothing
+			return;
+		
 		if (defaultCursorWillBeHitCursor){
 			defaultCursorWillBeHitCursor=false;
 			setHitCursor();
@@ -2309,6 +2380,10 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 	}
 	
 	public void setHitCursor(){
+		
+		if (app.getShiftDown()) //do nothing
+			return;
+		
 		//Application.printStacktrace("setHitCursor");
 		cursor = CURSOR_HIT;
 	}
@@ -2701,7 +2776,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 	
 	private void viewChangedOwnDrawables(){
 
-		if (useClippingCube()){
+		//if (useClippingCube()){
 			//update clipping cube
 			double[][] minMax = clippingCubeDrawable.updateMinMax();
 			clippingCubeDrawable.setWaitForUpdate();
@@ -2711,7 +2786,8 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 				axisDrawable[i].updateDecorations();
 				axisDrawable[i].setWaitForUpdate();
 			}
-		}else{
+		/*
+	    }else{
 			// calc draw min/max for x and y axis
 			for(int i=0;i<2;i++){
 				axisDrawable[i].updateDrawMinMax();
@@ -2728,7 +2804,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 				axisDrawable[i].setWaitForUpdate();
 			}
 		}
-		
+		*/
 		
 	
 		
@@ -3296,7 +3372,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 		return false;
 	}
 	public int getViewID() {
-		return Application.VIEW_EUCLIDIAN3D;
+		return AbstractApplication.VIEW_EUCLIDIAN3D;
 	}
 	
 	private double cavAngle = 30;
@@ -3425,6 +3501,9 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 	// EUCLIDIANVIEWND
 	//////////////////////////////////////////
 	
+	protected EuclidianStyleBar newEuclidianStyleBar(){
+		return new EuclidianStyleBar3D(this);
+	}
 	
 	public Drawable newDrawBoolean( GeoBoolean geo) {
 		return null;

@@ -3641,6 +3641,7 @@ public class Application extends AbstractApplication implements
 
 		controlDown = isControlDown(e);
 		shiftDown = e.isShiftDown();
+		
 
 		// check if key event came from this main component
 		// (needed to take care of multiple application windows or applets)
@@ -3659,6 +3660,8 @@ public class Application extends AbstractApplication implements
 
 			// key event came from another window or applet: ignore it
 			return false;
+		}else if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+			handleShiftEvent(shiftDown);
 		}
 
 		// if the glass pane is visible, don't do anything
@@ -3670,6 +3673,13 @@ public class Application extends AbstractApplication implements
 
 		// handle global keys like ESC and function keys
 		return getGlobalKeyDispatcher().dispatchKeyEvent(e);
+	}
+	
+	/**
+	 * handle shift key pressed or released
+	 */
+	protected void handleShiftEvent(boolean isShiftDown){
+		
 	}
 
 	@Override

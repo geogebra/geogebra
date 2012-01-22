@@ -140,11 +140,12 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		return vertices[x+2*y+4*z].add(new Coords(clippingBorder*(1-2*x),clippingBorder*(1-2*y),clippingBorder*(1-2*z),0));
 	}
 	
-	
+	/*
 	@Override
 	protected boolean isVisible(){
 		return getView3D().useClippingCube();
 	}
+    */
 
 	@Override
 	protected boolean updateForItSelf(){

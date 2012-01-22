@@ -66,6 +66,7 @@ public class Hits3D extends Hits {
 	
 	
 	
+	@Override
 	public Hits3D clone() {
 
 		Hits3D ret = (Hits3D) super.clone();
@@ -78,8 +79,13 @@ public class Hits3D extends Hits {
 		return ret;
 	} 
 	
+	@Override
+	protected Hits newHits(){
+		return new Hits3D();
+	}
 	
 	
+	@Override
 	public boolean add(GeoElement geo){
 		
 		if (geo instanceof GeoCoordSys2D) {
@@ -94,6 +100,7 @@ public class Hits3D extends Hits {
 	}
 	
 	
+	@Override
 	public void init(){
 		super.init();
 		for (int i=0;i<Drawable3D.DRAW_PICK_ORDER_MAX;i++)
@@ -199,6 +206,7 @@ public class Hits3D extends Hits {
 	
 	
 	
+	@Override
 	public Hits getTopHits() {
 
 		if (topHits.isEmpty())
@@ -208,6 +216,7 @@ public class Hits3D extends Hits {
 		
 	}
 	
+	@Override
 	public Hits getTopHits(int depth, int geoN) {
 		Hits3D ret = new Hits3D();
 		int depthCount = 0;
@@ -275,11 +284,13 @@ public class Hits3D extends Hits {
 	/**
 	 * remove all polygons but one
 	 */
+	@Override
 	public void removeAllPolygonsButOne(){
 		super.removeAllPolygonsButOne();
 		topHits.clear(); //getTopHits() return this
 	}
 	
+	@Override
 	public void removeAllPolygonsAndQuadricsButOne(){
 		boolean foundTarget = false;
 		for (int i = 0 ; i < size() - 1 ; ++i ) {
@@ -306,6 +317,7 @@ public class Hits3D extends Hits {
 		}
 	}
 	
+	@Override
 	protected Hits createNewHits() {
 		return new Hits3D();
 	}	

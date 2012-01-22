@@ -1007,6 +1007,14 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		else
 			return moveMode;
 	}
+	
+	/**
+	 * 
+	 * @return value of moveMode
+	 */
+	public int getRealMoveMode(){
+		return moveMode;
+	}
 
 	private Coords moveNormalDirection;
 

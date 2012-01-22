@@ -366,11 +366,18 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 		}
 	}
 	
+	/**
+	 * 
+	 * @return new euclidian style bar
+	 */
+	protected EuclidianStyleBar newEuclidianStyleBar(){
+		return new EuclidianStyleBar(this);
+	}
 
 
 	final public geogebra.common.euclidian.EuclidianStyleBar getStyleBar() {
 		if (styleBar == null) {
-			styleBar = new EuclidianStyleBar(this);
+			styleBar = newEuclidianStyleBar();
 		}
 
 		return styleBar;

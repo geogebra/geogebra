@@ -1194,6 +1194,14 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	// mouse released
 	
 	@Override
+	protected void wrapMouseReleased(AbstractEvent event) {
+		if (!DRAGGING_OCCURED && !app.isRightClick(event))
+			view3D.switchMoveCursor();
+		
+		super.wrapMouseReleased(event);
+	}
+	
+	@Override
 	protected void processReleaseForMovedGeoPoint(AbstractEvent e){
 		
 		
@@ -1420,7 +1428,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 		//remembers mouse location
 		startLoc = mouseLoc;
 		((EuclidianViewInterface) view).rememberOrigins();
-		((EuclidianViewInterface) view).setMoveCursor();
+		((EuclidianViewInterface) view).setDefaultCursor();
 		
 		timeOld = System.currentTimeMillis();
 		xOld = startLoc.x;
@@ -2695,8 +2703,15 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			return orthogonal2D(point, line);
 	
 	}
-	
 
+
+	@Override
+	public boolean refreshHighlighting(Hits hits) {
+		if (Application.getShiftDown())
+			return false;
+
+		return super.refreshHighlighting(hits);
+	}
 	
 }
 

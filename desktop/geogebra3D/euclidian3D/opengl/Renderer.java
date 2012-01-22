@@ -278,12 +278,13 @@ public class Renderer implements GLEventListener {
         //else 
         
         //clip planes
-        if (enableClipPlanes!=enableClipPlanesOld){
+        if (waitForUpdateClipPlanes){
+        	//Application.debug(enableClipPlanes);
         	if (enableClipPlanes)
         		enableClipPlanes();
         	else
         		disableClipPlanes();
-        	enableClipPlanesOld=enableClipPlanes;
+        	waitForUpdateClipPlanes=false;
         }
                 
         //update 3D controller
@@ -394,15 +395,18 @@ public class Renderer implements GLEventListener {
     private static final int[] GL_CLIP_PLANE = {GL.GL_CLIP_PLANE0, GL.GL_CLIP_PLANE1, GL.GL_CLIP_PLANE2, GL.GL_CLIP_PLANE3, GL.GL_CLIP_PLANE4, GL.GL_CLIP_PLANE5};
     
     private boolean enableClipPlanes;
-    private boolean enableClipPlanesOld;
+    private boolean waitForUpdateClipPlanes=false;
     
     /**
      * sets if clip planes have to be enabled
      * @param flag flag
      */
     public void setEnableClipPlanes(boolean flag){
-    	enableClipPlanesOld = enableClipPlanes;
-    	enableClipPlanes = flag;
+    	//Application.printStacktrace(""+flag);
+    	//if (enableClipPlanes != flag){
+    		waitForUpdateClipPlanes = true;
+    		enableClipPlanes = flag;
+    	//}
     }
        
     private void enableClipPlane(int n){
@@ -1492,9 +1496,8 @@ public class Renderer implements GLEventListener {
         //gl.glEnable(GLlocal.GL_RESCALE_NORMAL);
         
         //clipping planes
-        enableClipPlanes();
-        enableClipPlanes = true;
-        enableClipPlanesOld = true;
+        //enableClipPlanes();
+        //enableClipPlanes = true;
         
         //textures
         textures.init(gl);

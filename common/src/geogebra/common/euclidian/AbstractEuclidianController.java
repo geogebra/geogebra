@@ -526,6 +526,10 @@ public abstract class AbstractEuclidianController {
 	public int getMode() {
 		return mode;
 	}
+	
+	public int getMoveMode() {
+		return moveMode;
+	}
 
 	protected void endOfMode(int mode) {
 		switch (mode) {
@@ -3229,7 +3233,7 @@ public abstract class AbstractEuclidianController {
 		return null;
 	}
 	
-	public final boolean refreshHighlighting(Hits hits) {
+	public boolean refreshHighlighting(Hits hits) {
 		boolean repaintNeeded = false;
 	
 		// clear old highlighting

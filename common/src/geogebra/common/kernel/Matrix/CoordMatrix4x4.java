@@ -163,11 +163,26 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	// /////////////////////////////////////////////////
 	// OPERATIONS
 
+	/**
+	 * multiply all values by v (but not origin column)
+	 * @param v value
+	 */
 	public void mulAllButOrigin(double v) {
 		for (int i = 0; i < 12; i++)
 			val[i] *= v;
 
 	}
+	
+	/**
+	 * set the diag values to v (not on origin column)
+	 * @param v value
+	 */
+	public void setDiag(double v) {
+		for (int i = 1; i <= 3; i++)
+			set(i, i, v);
+
+	}
+	
 
 	// /////////////////////////////////////////////////
 	// LENGTHS
