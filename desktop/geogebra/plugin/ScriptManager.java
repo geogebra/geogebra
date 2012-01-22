@@ -59,7 +59,12 @@ public class ScriptManager extends geogebra.common.plugin.ScriptManagerCommon {
 		// Python
 		String libraryPythonScript = app.getKernel().getLibraryPythonScript();
 		if (!libraryPythonScript.equals(Kernel.defaultLibraryPythonScript)) {
-			((Application)app).getPythonBridge().eval(libraryPythonScript+"\nggbOnInit();");
+			// TODO ggbOnInit() is made optional here, in a hackish way
+			app.getPythonBridge().eval(libraryPythonScript+ "\n"
+					+ "try:\n"
+					+ "    ggbOnInit()\n"
+					+ "except NameError:\n"
+					+ "    pass\n");
 		}
 
 	}
