@@ -37,6 +37,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GgbAPI;
+import geogebra.common.plugin.ScriptManagerCommon;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
@@ -53,6 +54,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public abstract class AbstractApplication {
+	protected ScriptManagerCommon scriptManager = null;
 	public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loading.gif";
 
 	public static final String WIKI_OPERATORS = "Predefined Functions and Operators";

@@ -427,7 +427,6 @@ public class Application extends AbstractApplication implements
 
 	private GgbAPI ggbapi = null;
 	private PluginManager pluginmanager = null;
-	private ScriptManager scriptManager = null;
 	private PythonBridge pythonBridge = null;
 
 	// GUI elements to support a sidebar help panel for the input bar.
@@ -3768,7 +3767,7 @@ public class Application extends AbstractApplication implements
 		if (scriptManager == null) {
 			scriptManager = new ScriptManager(this);
 		}
-		return scriptManager;
+		return (ScriptManager) scriptManager;
 	}
 
 	/*

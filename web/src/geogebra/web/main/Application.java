@@ -1,38 +1,20 @@
 package geogebra.web.main;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context;
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.Widget;
-
 import geogebra.common.awt.BufferedImage;
 import geogebra.common.awt.Font;
 import geogebra.common.euclidian.AbstractEuclidianController;
-import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
-
 import geogebra.common.kernel.AbstractAnimationManager;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.AbstractUndoManager;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.View;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -46,18 +28,28 @@ import geogebra.common.main.GlobalKeyDispatcher;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.GgbAPI;
+import geogebra.common.plugin.ScriptManagerCommon;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
-import geogebra.common.util.ResourceBundleAdapter;
 import geogebra.web.euclidian.EuclidianController;
 import geogebra.web.euclidian.EuclidianView;
-import geogebra.web.gui.app.GeoGebraFrame;
 import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLio;
 import geogebra.web.kernel.AnimationManager;
 import geogebra.web.kernel.UndoManager;
 import geogebra.web.util.DataUtil;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.user.client.ui.Widget;
 
 
 public class Application extends AbstractApplication {
@@ -626,6 +618,13 @@ public class Application extends AbstractApplication {
 	    debug("Python scripting not supported");
 	    
     }
+	
+	public ScriptManagerCommon getScriptManager() {
+		if (scriptManager == null) {
+			scriptManager = new ScriptManager(this);
+		}
+		return scriptManager;
+	} 
 
 	@Override
     public void callAppletJavaScript(String fun, Object[] args) {
