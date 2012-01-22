@@ -8,4 +8,5 @@ public abstract class PythonBridge {
 	
 	public abstract void setEventListener(GeoElement geo, String evtType, String code);
 
+	public abstract void eval(String script);
 }
