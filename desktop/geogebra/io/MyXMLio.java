@@ -205,7 +205,7 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 				kernel.setLibraryJavaScript(Util.loadIntoString(zip));
 				javaScriptFound= true;
 			} else if (name.equals(PYTHON_FILE)) {
-				// load JavaScript
+				// load Python Script
 				kernel.setLibraryPythonScript(Util.loadIntoString(zip));
 				pythonFound= true;
 			} 
@@ -461,7 +461,13 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 			osw.write(kernel.getLibraryJavaScript());
 			osw.flush();
 			zip.closeEntry();
-	
+			
+			// Do the same with Python file
+			zip.putNextEntry(new ZipEntry(PYTHON_FILE));
+			osw.write(kernel.getLibraryPythonScript());
+			osw.flush();
+			zip.closeEntry();
+			
 			// write XML file for construction
 			zip.putNextEntry(new ZipEntry(XML_FILE));
 			osw.write(getFullXML());
