@@ -50,8 +50,10 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 	}
 	
 	
+	@Override
 	protected void addBtnPointCapture(){}
 	
+	@Override
 	protected void addBtnRotateView(){
 		
 		//addSeparator();
@@ -68,11 +70,13 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 		add(btnViewProjection);
 	}
 
+	@Override
 	protected boolean isVisibleInThisView(GeoElement geo){
 		return geo.isVisibleInView3D() ;
 	}
 	
 	
+	@Override
 	protected void processSource(Object source, ArrayList<GeoElement> targetGeos){
 		if (source.equals(btnRotateView)) {
 
@@ -112,6 +116,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 			super.processSource(source, targetGeos);
 	}
 
+	@Override
 	protected void createButtons() {
 
 		super.createButtons();
@@ -119,6 +124,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 		//========================================
 		// rotate view button
 		btnRotateView = new PopupMenuButton(app, null, -1, -1, null, -1,  false,  true){
+			@Override
 			public void update(Object[] geos) {
 				this.setVisible(geos.length == 0 && mode != EuclidianConstants.MODE_PEN);	  
 			}
@@ -224,12 +230,14 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 			}
 		}
 
+		@Override
 		public void update(Object[] geos) {
 			this.setVisible(geos.length == 0  && mode != EuclidianConstants.MODE_PEN);	  
 		}
 
 	}
 	
+	@Override
 	public void setLabels(){
 		super.setLabels();
 		btnRotateView.setToolTipText(app.getPlainTooltip("stylebar.RotateView"));
@@ -241,6 +249,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 		//btnViewProjection.setSelectedIndex(((EuclidianView3D) ev).getProjection());
 	}
 	
+	@Override
 	protected void updateGUI(){
 		super.updateGUI();
 		
@@ -277,6 +286,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 	}
 	
 	
+	@Override
 	protected PopupMenuButton[] newPopupBtnList(){
 		PopupMenuButton[] superList = super.newPopupBtnList();
 		PopupMenuButton[] ret = new PopupMenuButton[superList.length+2];
@@ -289,6 +299,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 		return ret;
 	}
 	
+	@Override
 	protected MyToggleButton[] newToggleBtnList(){
 		MyToggleButton[] superList = super.newToggleBtnList();
 		MyToggleButton[] ret = new MyToggleButton[superList.length+4];
