@@ -664,14 +664,18 @@ public class Application extends AbstractApplication {
 	    return false;
     }
 	
-	public static native void callNativeJavaScript(String fun, String arg) /*-{
-	  eval("window." + fun + "(" + arg + ");");
+	public native void callNativeJavaScript(String funcname) /*-{
+		if ($wnd[funcname]) {
+			$wnd[funcname]();
+		}
 	}-*/;
-	
-	public static native void callNativeJavaScript(String fun) /*-{
-	  eval("window." + fun + "();");
+
+	public native void callNativeJavaScript(String funcname, String arg) /*-{
+		if ($wnd[funcname]) {
+			$wnd[funcname](arg);
+		}
 	}-*/;
-	
+
 	public static native void ggbOnInit() /*-{
 	if (typeof $wnd.ggbOnInit === 'function')
 		$wnd.ggbOnInit();
