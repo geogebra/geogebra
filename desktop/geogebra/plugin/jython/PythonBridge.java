@@ -31,6 +31,7 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	 */
 	public PythonBridge(Application app) {
 		application = app;
+		PythonAPI.init(app);
 		interpreter = null;
 		init();
 	}
@@ -41,7 +42,7 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 			interpreter.exec("import sys; sys.path.extend(['__pyclasspath__/geogebra/plugin/jython', '__pyclasspath__/Lib'])");
 			interpreter.exec("from pyggb import interface");
 			pyInterface = (PythonScriptInterface)interpreter.get("interface").__tojava__(PythonScriptInterface.class);
-			pyInterface.init(application);
+			pyInterface.init();
 			application.getKernel().attach(this);
 		}
 	}
@@ -66,6 +67,7 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	 * (For now this is done in EuclidianController.switchModeForMouseReleased)
 	 * @param geo the clicked GeoElement
 	 */
+	@Override
 	public void click(GeoElement geo) {
 		pyInterface.handleEvent("click", geo);
 	}

@@ -13,7 +13,7 @@ public interface PythonScriptInterface {
 	/**
 	 * @param app the application object
 	 */
-	public void init(Application app);
+	public void init();
 	
 	/**
 	 * This method is called every time an event is triggered on a GeoElement

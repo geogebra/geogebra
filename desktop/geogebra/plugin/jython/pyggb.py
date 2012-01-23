@@ -1,36 +1,31 @@
 # Make division novice-friendly :)
 from __future__ import division, with_statement
 
-# Jython imports
-import sys, traceback
+from geogebra.plugin.jython import PythonAPI as API, PythonScriptInterface
 
-from geogebra.plugin.jython import PythonAPI as API
-from geogebra.plugin.jython import PythonScriptInterface
+from collections import defaultdict
+import sys
+
+api = API.getInstance()
+ggbapi = api.ggbApi
 
 class Interface(PythonScriptInterface):
     
-    def init(self, app):
-        global api, ggbapi, pywindow, selection
-
-        self.api = api = API(app)
+    def init(self):
+        global selection
 
         # GeoGebra imports
 
         from geogebra.awt import Color
 
         # Python imports
-        from pygeo import gui, objects
+        from pygeo import objects
 
-        # Inject the api into objects.py
-        # XXX There must be a better way!
-        objects.api = gui.api = api
-        pywindow = self.pywin = gui.PythonWindow(self)
+        self.pywin = None
         self.geo = objects.Geo()
         selection = self.selection = objects.Selection()
-        sys.stdout = self.pywin
-        ggbapi = api.getGgbApi()
         self.namespace = {
-           'Color': Color,
+            'Color': Color,
             'Point': objects.Point,
             'Element': objects.Element,
             'Number': objects.Numeric,
@@ -58,18 +53,14 @@ class Interface(PythonScriptInterface):
         }
         self.namespace.update(objects.unary_functions)
         self.handling_event = False
-        self.pywin.add("*** Python Interface initialised ***\n", "output")
-        
+        self.event_listeners = defaultdict(list)
+
     def execute(self, script):
-        try:
-            exec script in self.namespace
-        except Exception, e:
-            self.pywin.error(traceback.format_exc())
-            raise
+        self.run(script)
         
     def handleEvent(self, evt_type, target):
-        if evt_type in ("add", "remove", "rename"):
-            self.pywin.update_geos(api.allGeos)
+        for listener in self.event_listeners[evt_type]:
+            listener(evt_type, target)
         target = API.Geo(target)
         if self.handling_event:
             return
@@ -82,8 +73,8 @@ class Interface(PythonScriptInterface):
             self.handling_event = True
             action(element)
         except Exception:
-            self.pywin.error("Error while handling event '%s' on '%r'"
-                           % (evt_type, target))
+            sys.stderr.write("Error while handling event '%s' on '%r'\n"
+                             % (evt_type, target))
             raise
         finally:
             self.handling_event = False
@@ -100,10 +91,13 @@ class Interface(PythonScriptInterface):
             self.remove_selection_listener()
     
     def toggleWindow(self):
+        if self.pywin is None:
+            from pygeo import gui
+            self.pywin = gui.PythonWindow()
         self.pywin.toggle_visibility()
     
     def isWindowVisible(self):
-        return self.pywin.frame.visible
+        return self.pywin is not None and self.pywin.frame.visible
 
     def setEventListener(self, geo, evt, code):
         geo = API.Geo(geo)
@@ -123,7 +117,13 @@ class Interface(PythonScriptInterface):
             del self.namespace['__f__']
         except SyntaxError:
             pass
+
+    def addEventListener(self, evt, listener):
+        self.event_listeners[evt].append(listener)
     
+    def removeEventListener(self, evt, listener):
+        self.event_listeners[evt].remove(listener)
+        
     def set_selection_listener(self, sl):
         api.startSelectionListener()
         self.selection_listener = sl
@@ -131,31 +131,35 @@ class Interface(PythonScriptInterface):
     def remove_selection_listener(self):
         api.stopSelectionListener();
         self.selection_listener = None
-    
+
+    def format_source(self, source):
+        if isinstance(source, basestring):
+            return source.replace("$", "geo.")
+        else:
+            return source
     def compileinteractive(self, source):
-        try:
-            return compile(source, "<pyggb>", "single")
-        except SyntaxError, e:
-            self.pywin.error(traceback.format_exc())
-            return "error"
+        source = self.format_source(source)
+        return compile(source, "<pyggb>", "single")
     
     def compilemodule(self, source):
+        source = self.format_source(source)
+        return compile(source, "<pyggb>", "exec")
+
+    def compile_im(self, source):
+        source = self.format_source(source)
         try:
-            return compile(source, "<pyggb>", "exec")
+            code = self.compileinteractive(source)
         except SyntaxError, e:
-            self.pywin.error(traceback.format_exc())
-            return "error"
+            try:
+                code = self.compilemodule(source)
+            except SyntaxError:
+                raise e
+        return code
     
     def run(self, code):
-        try:
-            exec code in self.namespace
-        except Exception, e:
-            self.pywin.error(traceback.format_exc())
-            raise
-        return "OK"
+        code = self.format_source(code)
+        exec code in self.namespace
 
-    def format_tb(self):
-        return 
 
 interface = Interface()
 

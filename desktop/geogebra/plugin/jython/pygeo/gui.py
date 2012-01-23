@@ -1,7 +1,12 @@
 from __future__ import division, with_statement
 
 # Standard Library imports
-import re
+import re, sys, traceback
+
+from geogebra.plugin.jython import PythonAPI as API
+api = API.getInstance()
+
+from pyggb import interface
 
 # Local imports
 import lexing
@@ -20,7 +25,7 @@ from javax.swing import (
 from javax.swing.text import (
     StyleContext, StyleConstants, SimpleAttributeSet, TabStop, TabSet
 )
-from javax.swing.event import DocumentListener
+from javax.swing.event import DocumentListener, ChangeListener
 
 from java.awt import (
     Toolkit, Component, BorderLayout, Color as awtColor, GridLayout, Font
@@ -44,6 +49,19 @@ except ImportError:
                 return True
             name = file.name
             return any(name.endswith(ext) for ext in self.extensions)
+
+
+class StdStreams(object):
+
+    """Context manager that replace standard streams with custom ones."""
+    
+    def __init__(self, stdout, stderr):
+        self.streams = stdout, stderr
+    def __enter__(self):
+        self.sys_streams = sys.stdout, sys.stderr
+        sys.stdout, sys.stderr = self.streams
+    def __exit__(self, type, value, traceback):
+        sys.stdout, sys.stderr = self.sys_streams
 
 
 class OutputPane(object):
@@ -83,8 +101,9 @@ class OutputPane(object):
         
     def addtext(self, text, style="input", ensure_newline=False):
         doclen = self.doc.length
-        if ensure_newline and self.doc.getText(doclen - 1, 1) != '\n':
-            text = '\n' + text
+        if ensure_newline and doclen:
+            if self.doc.getText(doclen - 1, 1) != '\n':
+                text = '\n' + text
         self.doc.insertString(self.doc.length, text, self.doc.getStyle(style))
         # Scroll down
         self.textpane.setCaretPosition(self.doc.length)
@@ -444,7 +463,25 @@ class InputPane(KeyListener, DocumentListener):
         line = root.getElementIndex(offset)
         element = root.getElement(line)
         return element.startOffset, element.endOffset
-    
+
+    # Indent / dedent selection
+    def indent_selection(self):
+        component = self.component
+        lines = component.selectedText.split("\n")
+        for i, line in enumerate(lines):
+            if line:
+                lines[i] = "\t" + line
+        component.replaceSelection("\n".join(lines))
+    def dedent_selection(self):
+        component = self.component
+        lines = component.selectedText.split("\n")
+        for i, line in enumerate(lines):
+            if line.startswith("\t"):
+                lines[i] = line[1:]
+            elif line.startswith("    "):
+                lines[i] = line[4:]
+        component.replaceSelection("\n".join(lines))
+
     # Implementation of KeyListener
     def keyPressed(self, evt):
         pass
@@ -535,7 +572,98 @@ class LockManager(object):
     def __nonzero__(self):
         return bool(self.lock)
 
+class MyStream(object):
+    def __init__(self, write):
+        self.write = write
+
+
+class InteractivePane(ActionListener, DocumentListener):
+
+    def __init__(self):
+        self.component = JPanel(BorderLayout())
+        
+        scrollpane = JScrollPane()
+        inputPanel = JPanel()
+        inputPanel.layout = GridLayout(1, 1)
+        self.check_disabled = LockManager()
+        self.input = InteractiveInput(self.check_disabled, self.runcode)
+        self.input.component.document.addDocumentListener(self)
+        inputPanel.add(self.input.component)
+        self.outputpane = OutputPane()
+        scrollpane.viewport.view = self.outputpane.textpane
+        self.component.add(scrollpane, BorderLayout.CENTER)
+        self.component.add(inputPanel, BorderLayout.PAGE_END)
+        self.history = InputHistory()
+
+        self.stdout = MyStream(self.write)
+        self.stderr = MyStream(self.error)
+        
+    # Methods for writing to output area
+    def add(self, text):
+        self.outputpane.addtext(text, "input", ensure_newline=True)
+    def error(self, text):
+        self.outputpane.addtext(text, "error", ensure_newline=True)
+    def write(self, text):
+        self.outputpane.addtext(text, "output")
+    def show_traceback(self):
+        tb_lines = traceback.format_exception(*sys.exc_info())
+        self.error("".join(tb_lines[3:]))
+    
+    # Code execution
+    def runcode(self, text):
+        with StdStreams(self.stdout, self.stderr):
+            try:
+                code = interface.compile_im(text)
+            except Exception, e:
+                self.show_traceback()
+                return False
+            text = text.strip()
+            self.history.append(text)
+            self.current_text = ""
+            self.add(text + "\n")
+            try:
+                interface.run(code)
+            except Exception, e:
+                self.show_traceback()
+        return True
+
+    def indent_selection(self):
+        return self.input_area.indent_selection()
+    def dedent_selection(self):
+        return self.input_area.dedent_selection()
+    
+    # Implementation of DocumentListener
+    def update_current_text(self):
+        if not self.check_disabled:
+            self.current_text = self.input.input
+            self.history.reset_position()
+    def changedUpdate(self, evt):
+        pass
+    def insertUpdate(self, evt):
+        self.update_current_text()
+    def removeUpdate(self, evt):
+        self.update_current_text()
+
+    # Navigating history
+    def history_back(self):
+        """Move back in history"""
+        try:
+            with self.check_disabled:
+                self.input.input = self.history.back()
+        except InputHistory.OutOfBounds:
+            pass
+    def history_forward(self):
+        """Move forward in history"""
+        try:
+            with self.check_disabled:
+                self.input.input = self.history.forward()
+        except InputHistory.OutOfBounds:
+            self.input.input = self.current_text
+            self.history.reset_position()
+
+
 class ScriptPane(ActionListener):
+
     def __init__(self):
         self.component = JPanel(BorderLayout())
 
@@ -557,7 +685,13 @@ class ScriptPane(ActionListener):
 
         save_btn.addActionListener(self)
 
+    def indent_selection(self):
+        self.script_area.indent_selection()
+    def dedent_selection(self):
+        self.script_area.dedent_selection()
+
     def actionPerformed(self, evt):
+        # 'Save' button was clicked
         api.initScript = self.script_area.input
 
         
@@ -589,14 +723,25 @@ class EventsPane(ActionListener):
         save_btn.addActionListener(self)
         
         self.current = None
+        self.update_geos()
+        interface.addEventListener("add", self.event_listener)
+        interface.addEventListener("remove", self.event_listener)
     
-    def update_geos(self, geos):
+    def indent_selection(self):
+        return self.script_area.indent_selection()
+    def dedent_selection(self):
+        return self.script_area.dedent_selection()
+
+    def update_geos(self):
         self.objects_box.removeAllItems()
-        self.geos = geos
+        self.geos = api.allGeos
         for geo in self.geos:
             self.objects_box.addItem(geo.typeString + " " + geo.label)
         self.objects_box.repaint()
 
+    def event_listener(self, evt, target):
+        self.update_geos()
+    
     def save_current_script(self):
         if self.current is None:
             return
@@ -616,45 +761,33 @@ class EventsPane(ActionListener):
         self.update_script_area()
 
 
-class PythonWindow(KeyListener, DocumentListener, ActionListener):
+class PythonWindow(ActionListener, ChangeListener):
     
-    def __init__(self, interface):
-        self.interface = interface
-        
+    def __init__(self):
         self.frame = JFrame("Python Window")
 
         tabs = JTabbedPane()
 
-        # Create Interactive Pane
-        interactive_pane = JPanel(BorderLayout())        
-        scrollpane = JScrollPane()
-        inputPanel = JPanel()
-        inputPanel.layout = GridLayout(1, 1)
-        self.check_disabled = LockManager()
-        self.input = InteractiveInput(self.check_disabled, self.runcode)
-        self.input.component.document.addDocumentListener(self)
-        inputPanel.add(self.input.component)
-        self.outputpane = OutputPane()
-        scrollpane.viewport.view = self.outputpane.textpane
-        interactive_pane.add(scrollpane, BorderLayout.CENTER)
-        interactive_pane.add(inputPanel, BorderLayout.PAGE_END)
-
-        # Create Script Pane
+        self.interactive_pane = InteractivePane()
         self.script_pane = ScriptPane()
-
-        # Create Events Pane
         self.events_pane = EventsPane()
         
-        tabs.addTab("Interactive", interactive_pane)
+        tabs.addTab("Interactive", self.interactive_pane.component)
         tabs.addTab("Script", self.script_pane.component)
         tabs.addTab("Events", self.events_pane.component)
+        self.panes = [
+            self.interactive_pane,
+            self.script_pane,
+            self.events_pane
+        ]
+        self.active_pane = self.interactive_pane
+        tabs.addChangeListener(self)
         
         self.frame.add(tabs)
         self.frame.size = 500, 600
         self.frame.visible = False
         self.component = None
         self.make_menubar()
-        self.history = InputHistory()
 
     def update_geos(self, geos):
         self.events_pane.update_geos(geos)
@@ -745,101 +878,22 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
         if self.component is not None:
             self.frame.remove(self.component)
             self.component = None
-    def add(self, text, type="input"):
-        self.outputpane.addtext(text, type)
-        self.frame.validate()
-    def error(self, text):
-        self.outputpane.addtext(text, "error", ensure_newline=True)
-    def write(self, text):
-        self.add(text, "output")
 
     # Code execution methods
-    def runcode(self, source, interactive=True):
-        if not source.strip():
-            return True
-        processed_source = source.replace("$", "geo.")
-        code = self.interface.compileinteractive(processed_source)
-        if code in ("continue", "error"):
-            code = self.interface.compilemodule(processed_source)
-            if code == "error":
-                return
-        if code == "error":
-            return False
-        source = source.strip()
-        if interactive:
-            self.history.append(source)
-            self.current_text = ""
-            self.outputpane.addtext(source +'\n', "input", ensure_newline=True)
-        self.interface.run(code)
-        return True
-    def run(self):
-        source = self.input.text
-        if not source.strip():
-            self.input.text = ""
-            return
-        processed_source = source.replace("$", "geo.")
-        code = self.interface.compileinteractive(processed_source)
-        if code in ("continue", "error"):
-            code = self.interface.compilemodule(processed_source)
-            if code == "error":
-                return
-        source = source.strip()
-        self.history.append(source)
-        self.outputpane.addtext(source +'\n', "input", ensure_newline=True)
-        result = self.interface.run(code)
-        if result == "OK":
-            self.input.text = ""
+    def runcode(self, source):
+        self.interactive_pane.runcode(source)
     def execfile(self, path):
-        return execfile(path, self.interface.namespace)
+        with open(path, "rb") as f:
+            self.runcode(f.read())
 
-    # Implementation of KeyListener
-    def keyPressed(self, evt):
-        pass
-    def keyReleased(self, evt):
-        pass
-    def keyTyped(self, evt):
-        if evt.keyChar == '\n':
-            text = self.input.text
-            if text.endswith('\n\n'):
-                self.run()
-                return
-            t = text.rstrip()
-            if '\n' not in t and not t.endswith(':'):
-                self.run()
-                return
-            offset = self.input.caretPosition - 1
-            indent = None
-            if offset:
-                lines = text[:offset].rsplit('\n', 1)
-                if len(lines) == 1:
-                    line = text[:offset]
-                else:
-                    line = lines[1]
-                indent = re.match('\\s*', line).group(0)
-                if len(indent) == len(line):
-                    # No non-whitespace on this line
-                    if len(text) == offset + 1:
-                        self.run()
-                        return
-                elif text[offset - 1] == ':':
-                    indent += '\t'
-            if indent:
-                with self.check_disabled:
-                    self.input.text = text[:offset + 1] + indent + text[offset + 1:]
-                self.input.caretPosition = offset + len(indent) + 1
-
-    # Implementation of DocumentListener
-    def update_current_text(self):
-        if not self.check_disabled:
-            self.current_text = self.input.input
-            self.history.reset_position()
-    def changedUpdate(self, evt):
-        pass
-    def insertUpdate(self, evt):
-        self.update_current_text()
-    def removeUpdate(self, evt):
-        self.update_current_text()
-
+    # Implementation of ChangeListener
+    def stateChanged(self, evt):
+        i = evt.source.selectedIndex
+        if 0 <= i < len(self.panes):
+            self.active_pane = self.panes[i]
+        else:
+            self.active_pane = None
+    
     # Implementation of ActionListener
     def actionPerformed(self, evt):
         try:
@@ -847,47 +901,26 @@ class PythonWindow(KeyListener, DocumentListener, ActionListener):
         except AttributeError:
             pass
 
-    # Navigating history
+    # History actions
     def action_up(self, evt):
-        """Move back in history"""
-        try:
-            with self.check_disabled:
-                self.input.input = self.history.back()
-        except InputHistory.OutOfBounds:
-            pass
+        self.interactive_pane.history_back()
     def action_down(self, evt):
-        """Move forward in history"""
-        try:
-            with self.check_disabled:
-                self.input.input = self.history.forward()
-        except InputHistory.OutOfBounds:
-            self.input.input = self.current_text
-            self.history.reset_position()
-
+        self.interactive_pane.history_forward()
+    
     # Script actions
     def action_runscript(self, evt):
         """Run script"""
-        self.runcode(self.script_area.input, interactive=False)
+        self.runcode(self.script_area.input)
     def action_runselection(self, evt):
         """Run selected text in script"""
         code = self.script_area.component.selectedText.strip()
-        self.runcode(code, interactive=False)
+        self.runcode(code)
     def action_indentselection(self, evt):
-        component = self.script_area.component
-        lines = component.selectedText.split("\n")
-        for i, line in enumerate(lines):
-            if line:
-                lines[i] = "\t" + line
-        component.replaceSelection("\n".join(lines))
+        if self.active_pane:
+            self.active_pane.indent_selection()
     def action_dedentselection(self, evt):
-        component = self.script_area.component
-        lines = component.selectedText.split("\n")
-        for i, line in enumerate(lines):
-            if line.startswith("\t"):
-                lines[i] = line[1:]
-            elif line.startswith("    "):
-                lines[i] = line[4:]
-        component.replaceSelection("\n".join(lines))
+        if self.active_pane:
+            self.active_pane.dedent_selection()
     
     # Saving / loading scripts
     def action_open(self, evt):

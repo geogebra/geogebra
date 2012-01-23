@@ -543,17 +543,36 @@ public class PythonAPI {
 	private Construction cons;
 	private AlgebraProcessor algProcessor;
 
+	private static PythonAPI instance = null;
+	
 	/**
 	 * Create a new PythonAPI instance
 	 * 
 	 * @param app
 	 *            the running application instance
 	 */
-	public PythonAPI(Application app) {
+	private PythonAPI(Application app) {
 		this.app = app;
 		this.kernel = app.getKernel();
 		this.cons = kernel.getConstruction();
 		this.algProcessor = kernel.getAlgebraProcessor();
+	}
+	
+	/**
+	 * Initialize the PythonAPI instance
+	 * @param app the application
+	 */
+	public static void init(Application app) {
+		if (instance == null) {
+			instance = new PythonAPI(app);
+		}
+	}
+	
+	/**
+	 * @return the API instance
+	 */
+	public static PythonAPI getInstance() {
+		return instance;
 	}
 
 	/**
