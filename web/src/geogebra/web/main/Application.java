@@ -38,6 +38,7 @@ import geogebra.web.io.MyXMLio;
 import geogebra.web.kernel.AnimationManager;
 import geogebra.web.kernel.UndoManager;
 import geogebra.web.util.DataUtil;
+import geogebra.web.util.DebugPrinterWeb;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,6 +67,7 @@ public class Application extends AbstractApplication {
 	private geogebra.common.plugin.GgbAPI ggbapi;
 	
 	public Application(){
+		dbg = new DebugPrinterWeb();
 		this.init(Canvas.createIfSupported());
 		fontManager = new FontManager();
 		setFontSize(12);

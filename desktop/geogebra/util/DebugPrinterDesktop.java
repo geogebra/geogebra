@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import geogebra.common.util.DebugPrinter;
 
-public class DebugPrinterDesktop implements DebugPrinter{
+public class DebugPrinterDesktop extends DebugPrinter{
 	public void getTimeInfo(StringBuilder sb){
 	Calendar calendar = new GregorianCalendar();
 	int min = calendar.get(Calendar.MINUTE);
@@ -22,7 +22,7 @@ public class DebugPrinterDesktop implements DebugPrinter{
 	}
 
 	public void print(String s,String info, int level) {
-PrintStream debug = System.out;
+		PrintStream debug = System.out;
 		
 		if (level > 0) debug = System.err;
 

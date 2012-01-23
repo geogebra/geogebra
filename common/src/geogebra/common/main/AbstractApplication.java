@@ -1511,7 +1511,7 @@ public abstract class AbstractApplication {
 	}
 
 	public static DebugPrinter dbg;
-	private static Set<String> reportedImpls = new TreeSet<String>();
+	
 
 	public boolean isMacOS() {
 		return false;
@@ -1530,41 +1530,8 @@ public abstract class AbstractApplication {
 	// Michael Borcherds 2008-06-22
 	private static void doDebug(String s, boolean showTime, boolean showMemory,
 			int level) {
-
-		String ss = s == null ? "<null>" : s;
-
-		Throwable t = new Throwable();
-		StackTraceElement[] elements = t.getStackTrace();
-
-		// String calleeMethod = elements[0].getMethodName();
-		String callerMethodName = elements[2].getMethodName();
-		String callerClassName = elements[2].getClassName();
-		if(s.toLowerCase().equals("implementation needed")){
-			if(reportedImpls.contains(callerClassName+callerMethodName))
-				return;
-			reportedImpls.add(callerClassName+callerMethodName);
-		}
-		StringBuilder sb = new StringBuilder("*** Message from ");
-		sb.append("[");
-		sb.append(callerClassName);
-		sb.append(".");
-		sb.append(callerMethodName);
-		sb.append("]");
-
-		if ((dbg != null) && showTime) {
-			dbg.getTimeInfo(sb);
-		}
-
-		if ((dbg != null) && showMemory) {
-			dbg.getMemoryInfo(sb);
-
-		}
-		if (dbg == null) {
-			System.out.println(ss + sb.toString());
-		} else {
-			dbg.print(ss, sb.toString(), level);
-		}
-
+		if(dbg!=null)
+			dbg.debug(s, showMemory, showTime, level);
 	}
 	/**
 	 * @return the scriptingLanguage
