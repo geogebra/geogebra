@@ -56,4 +56,10 @@ public class DebugPrinterDesktop extends DebugPrinter{
 		sb.append("\n used memory (total-free): ");
 		sb.append(usedK + "K");			
 	}
+
+	@Override
+	public void print(String s) {
+		//do nothing here, I just needed that for web
+		
+	}
 }

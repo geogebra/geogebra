@@ -101,9 +101,6 @@ public class Font extends geogebra.common.awt.Font{
 			setFontStyle("normal");
 			setFontWeight("normal");
 		}
-		
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		
 	}
 
 	public void setFontSize(int fontSize) {

@@ -49,6 +49,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
 import com.google.gwt.canvas.dom.client.Context2d.TextBaseline;
+import com.google.gwt.canvas.dom.client.TextMetrics;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
@@ -296,6 +297,8 @@ public class Application extends AbstractApplication {
 
 	private void showSplashImageOnCanvas() {
 	    if (this.canvas != null) {
+	    	String geogebra = "GeoGebra";
+	    	
 	    	canvas.setWidth("427px");
 	    	canvas.setHeight("120px");
 	    	canvas.setCoordinateSpaceWidth(427);
@@ -306,11 +309,12 @@ public class Application extends AbstractApplication {
 	    	ctx.setTextAlign(TextAlign.START);	
 	    	ctx.setFont("50px Century Gothic, Helvetica, sans-serif");
 	    	ctx.setFillStyle("#666666");
-	    	ctx.fillText("GeoGebra", 33, 37);
-	    	ctx.setFillStyle("#7e7eff");
-	    	ctx.setTextAlign(TextAlign.LEFT);
-	    	ctx.setFont("20px Century Gothic, Helvetica, sans-serif");
-	    	ctx.fillText("4",260,33);
+	    	ctx.fillText(geogebra, 33, 37);
+	    	//TextMetrics txm = ctx.measureText(geogebra);
+	    	//ctx.setFillStyle("#7e7eff");
+	    	//ctx.setTextAlign(TextAlign.LEFT);
+	    	//ctx.setFont("20px Century Gothic, Helvetica, sans-serif");
+	    	//ctx.fillText("4",txm.getWidth(),37);
 	    }
     }
 
@@ -695,7 +699,6 @@ public class Application extends AbstractApplication {
 
 	@Override
     public Font getPlainFontCommon() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return new geogebra.web.awt.Font("normal");
     }
 

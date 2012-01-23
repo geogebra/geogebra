@@ -1,5 +1,7 @@
 package geogebra.web.helper;
 
+import geogebra.web.main.Application;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window.Location;
 
