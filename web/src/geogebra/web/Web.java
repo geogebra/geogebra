@@ -10,6 +10,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
 import geogebra.web.main.Application;
+import geogebra.web.util.DebugPrinterWeb;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -42,6 +43,9 @@ public class Web implements EntryPoint {
 	}
 
 	public void onModuleLoad() {
+		//for debug
+		//DebugPrinterWeb.DEBUG_IN_PRODUCTION = true;
+		
 		startGeoGebra(getGeoGebraMobileTags());
 	}
 	
