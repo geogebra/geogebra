@@ -37,6 +37,13 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
 		this.at = at;
 	}
 	
+	public AffineTransform(double m00, double m10, double m01, double m11,
+            double m02, double m12) {
+		this();
+		at.setTransform(m00, m10, m01, m11, m02, m12);
+	}
+	
+	
     public void setTransform(geogebra.common.awt.AffineTransform a) {
 	    at.setTransform(getGawtAffineTransform(a));    
     }
@@ -72,7 +79,14 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
 	    return at.getShearY();
     }
 
+    public double getTranslateX(){
+    	return at.getTranslateX();
+    }
 	
+    public double getTranslateY(){
+    	return at.getTranslateY();
+    }
+    
     public Shape createTransformedShape(geogebra.common.awt.Shape shape) {
 		geogebra.web.kernel.gawt.Shape ret = null;
 		ret = at.createTransformedShape(geogebra.web.awt.GenericShape.getGawtShape(shape));
@@ -118,12 +132,12 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
     }
 
 	public void scale(double xscale, double d) {
-	    // TODO Auto-generated method stub
+	    at.scale(xscale, d);
 	    
     }
 
 	public void translate(double ax, double ay) {
-	    // TODO Auto-generated method stub
+	    at.translate(ax, ay);
 	    
     }
 	

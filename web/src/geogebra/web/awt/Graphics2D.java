@@ -39,6 +39,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	private Font currentFont = new Font("normal");
 	private Color color;
+	private AffineTransform savedTransform;
 	private float [] dash_array = null;
 
 	/**
@@ -47,6 +48,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	public Graphics2D(Canvas canvas) {
 	    this.canvas = canvas;
 	    this.context = canvas.getContext2d();
+	    savedTransform = new geogebra.web.awt.AffineTransform();
     }
 
 	
@@ -300,12 +302,14 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	@Override
     public void translate(int x, int y) {
 		context.translate(x, y);
+		savedTransform.translate(x, y);
 	}
 
 	
 	@Override
     public void translate(double tx, double ty) {
 		context.translate(tx, ty);
+		savedTransform.translate(tx, ty);
 
 	}
 
@@ -313,6 +317,9 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	@Override
     public void rotate(double theta) {
 		context.rotate(theta);
+		savedTransform.concatenate(
+				new geogebra.web.awt.AffineTransform(
+						Math.cos(theta), Math.sin(theta), -Math.sin(theta), Math.cos(theta), 0, 0));
 
 	}
 
@@ -322,41 +329,55 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 		context.translate(x, y);
 		context.rotate(theta);
 		context.translate(-x, -y);
+		savedTransform.concatenate(
+				new geogebra.web.awt.AffineTransform(
+						Math.cos(theta), Math.sin(theta), -Math.sin(theta), Math.cos(theta), x, y));
 	}
 
 	
 	@Override
     public void scale(double sx, double sy) {
 		context.scale(sx, sy);
+		savedTransform.scale(sx, sy);
 	}
 
 	
 	@Override
     public void shear(double shx, double shy) {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+//		savedTransform.concatenate(
+//				new geogebra.web.awt.AffineTransform(
+//						1, shy, shx, 1, 0, 0));
+		
 	}
 
 	
 	@Override
     public void transform(AffineTransform Tx) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-
+		context.transform(Tx.getScaleX(), Tx.getShearX(),
+				Tx.getShearY(), Tx.getScaleY(),
+				((geogebra.web.awt.AffineTransform)Tx).getTranslateX(),
+				((geogebra.web.awt.AffineTransform)Tx).getTranslateY());
+		savedTransform.concatenate(Tx);
 	}
 
 	
 	@Override
     public void setTransform(AffineTransform Tx) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		context.setTransform(Tx.getScaleX(), Tx.getShearX(),
+		Tx.getShearY(), Tx.getScaleY(),
+		((geogebra.web.awt.AffineTransform)Tx).getTranslateX(),
+		((geogebra.web.awt.AffineTransform)Tx).getTranslateY());
+		savedTransform = Tx;
 
 	}
 
 	
 	@Override
     public AffineTransform getTransform() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return null;
+		return savedTransform;
 	}
-
+	
 	
 	@Override
     public Paint getPaint() {
