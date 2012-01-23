@@ -7,6 +7,9 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI implements JavaScript
 
 	public GgbAPI(Application app) {
 		this.app = app;
+		this.kernel = app.getKernel();
+        this.algebraprocessor=kernel.getAlgebraProcessor();
+        this.construction=kernel.getConstruction();
 	}
 
 	
