@@ -836,7 +836,7 @@ public class EuclidianView extends EuclidianViewND implements EuclidianViewInter
 			tempArrayList.add(geo);
 			geos = tempArrayList;
 		}
-		boolean repaintNeeded = ((EuclidianController)euclidianController).refreshHighlighting(geos);
+		boolean repaintNeeded = ((EuclidianController)euclidianController).refreshHighlighting(geos, null);
 		if (repaintNeeded) {
 			kernel.notifyRepaint();
 		}

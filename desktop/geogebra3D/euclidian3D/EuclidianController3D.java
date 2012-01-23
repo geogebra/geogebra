@@ -2706,11 +2706,11 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 
 
 	@Override
-	public boolean refreshHighlighting(Hits hits) {
+	public boolean refreshHighlighting(Hits hits, AbstractEvent event) {
 		if (Application.getShiftDown())
 			return false;
 
-		return super.refreshHighlighting(hits);
+		return super.refreshHighlighting(hits, event);
 	}
 	
 }

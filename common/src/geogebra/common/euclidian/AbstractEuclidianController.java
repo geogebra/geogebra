@@ -3233,7 +3233,7 @@ public abstract class AbstractEuclidianController {
 		return null;
 	}
 	
-	public boolean refreshHighlighting(Hits hits) {
+	public boolean refreshHighlighting(Hits hits, AbstractEvent event) {
 		boolean repaintNeeded = false;
 	
 		// clear old highlighting
@@ -3245,7 +3245,7 @@ public abstract class AbstractEuclidianController {
 		highlightedGeos.clear();
 		selectionPreview = true; // only preview selection, see also
 		// mouseReleased()
-		processMode(hits, null); // build highlightedGeos List
+		processMode(hits, event); // build highlightedGeos List
 	
 		if (highlightJustCreatedGeos) {
 			highlightedGeos.addAll(justCreatedGeos); // we also highlight just
@@ -3286,7 +3286,7 @@ public abstract class AbstractEuclidianController {
 		clearJustCreatedGeos();
 	
 		// clear highlighting
-		refreshHighlighting(null);
+		refreshHighlighting(null, null);
 	}
 
 	protected final boolean attach(GeoPoint2 point, Path path) {
@@ -5839,8 +5839,8 @@ public abstract class AbstractEuclidianController {
 		// refreshHighlighting(hits)
 		// || repaintNeeded;
 	
-		repaintNeeded = noHighlighting ? refreshHighlighting(null)
-				: refreshHighlighting(tempFullHits) || repaintNeeded;
+		repaintNeeded = noHighlighting ? refreshHighlighting(null, event)
+				: refreshHighlighting(tempFullHits, event) || repaintNeeded;
 		if (repaintNeeded) {
 			kernel.notifyRepaint();
 		}
@@ -5866,7 +5866,7 @@ public abstract class AbstractEuclidianController {
 			return;
 		}
 			
-		refreshHighlighting(null);
+		refreshHighlighting(null, event);
 		resetToolTipManager();
 		view.setAnimationButtonsHighlighted(false);
 		view.setShowMouseCoords(false);
@@ -8070,7 +8070,7 @@ public abstract class AbstractEuclidianController {
 			clearSelections();
 		} else {
 			// this is in the else branch to avoid running it twice
-			refreshHighlighting(null);
+			refreshHighlighting(null, event);
 		}
 	
 		// reinit vars

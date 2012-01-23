@@ -3119,7 +3119,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 			tempArrayList.add(geo);
 			geos = tempArrayList;
 		}
-		boolean repaintNeeded = euclidianController3D.refreshHighlighting(geos);
+		boolean repaintNeeded = euclidianController3D.refreshHighlighting(geos, null);
 		if (repaintNeeded)
 			getKernel().notifyRepaint();
 	}	
