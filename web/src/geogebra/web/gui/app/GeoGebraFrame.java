@@ -52,14 +52,10 @@ public class GeoGebraFrame extends VerticalPanel {
 		init(geoGebraMobileTags);
     }
 	
-	public static SplashDialog splash =  null;
-	
 
 	private static void init(ArrayList<ArticleElement> geoGebraMobileTags) {
 		
 		GuiResources.INSTANCE.getCssWeb().ensureInjected();
-		
-		//splash = new SplashDialog();
 		
 	   
 		for (ArticleElement articleElement : geoGebraMobileTags) {

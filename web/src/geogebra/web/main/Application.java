@@ -46,6 +46,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
+import com.google.gwt.canvas.dom.client.Context2d.TextBaseline;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
@@ -286,10 +289,30 @@ public class Application extends AbstractApplication {
 		
 		initEuclidianViews();
 		
+		
+		
 		myXMLio = new MyXMLio(kernel, kernel.getConstruction());
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-
 	}
+
+	private void showSplashImageOnCanvas() {
+	    if (this.canvas != null) {
+	    	canvas.setWidth("427px");
+	    	canvas.setHeight("120px");
+	    	canvas.setCoordinateSpaceWidth(427);
+	    	canvas.setCoordinateSpaceHeight(120);
+	    	Context2d ctx = canvas.getContext2d();
+	    	ctx.clearRect(0, 0, canvas.getCoordinateSpaceWidth(), canvas.getCoordinateSpaceHeight());
+	    	ctx.setTextBaseline(TextBaseline.TOP);
+	    	ctx.setTextAlign(TextAlign.START);	
+	    	ctx.setFont("50px Century Gothic, Helvetica, sans-serif");
+	    	ctx.setFillStyle("#666666");
+	    	ctx.fillText("GeoGebra", 33, 37);
+	    	ctx.setFillStyle("#7e7eff");
+	    	ctx.setTextAlign(TextAlign.LEFT);
+	    	ctx.setFont("20px Century Gothic, Helvetica, sans-serif");
+	    	ctx.fillText("4",260,33);
+	    }
+    }
 
 	public Canvas getCanvas() {
 		return canvas;
@@ -732,9 +755,7 @@ public class Application extends AbstractApplication {
     }
 
 	public void showLoadingAnimation(boolean go) {
-		if (!go) {
-			//GeoGebraFrame.splash.hide();
-		}
+		showSplashImageOnCanvas();
     }
 
 	public static native void alert(String string) /*-{
