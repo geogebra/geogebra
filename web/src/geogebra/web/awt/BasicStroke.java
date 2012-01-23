@@ -108,7 +108,7 @@ public class BasicStroke implements geogebra.common.awt.BasicStroke {
 	    return gwtCaps[getEndCap()];
     }
 	public LineJoin getLineJoinString() {
-	    return gwtJoins[getEndCap()];
+	    return gwtJoins[getLineJoin()];
     }
 
 	public float[] getDashArray() {

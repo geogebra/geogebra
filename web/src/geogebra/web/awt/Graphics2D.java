@@ -36,9 +36,10 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
 	protected final Canvas canvas;
 	private final Context2d context;
-	
+
 	private Font currentFont = new Font("normal");
 	private Color color;
+	private float [] dash_array = null;
 
 	/**
 	 * @param canvas
@@ -248,6 +249,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 			} else {
 				setStrokeDash(null);
 			}
+			dash_array = dasharr;
 		}
 	}
 
@@ -383,13 +385,19 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 		return null;
 	}
 
-	
+
 	@Override
     public BasicStroke getStroke() {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return new geogebra.web.awt.BasicStroke((float) context.getLineWidth(), 
-				geogebra.web.awt.BasicStroke.getCap(context.getLineCap()),
-				geogebra.web.awt.BasicStroke.getJoin(context.getLineJoin()));
+
+		return new geogebra.web.awt.BasicStroke(
+			(float) context.getLineWidth(), 
+			geogebra.web.awt.BasicStroke.getCap(context.getLineCap()),
+			geogebra.web.awt.BasicStroke.getJoin(context.getLineJoin()),
+			0,
+			dash_array,
+			0
+		);
 	}
 
 	public void clip(Shape s) {
