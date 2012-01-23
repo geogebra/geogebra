@@ -8,17 +8,24 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
 
-/*
- * , (NumberValue) arg[1][ <Number>, <Number>,<Number> ]
+/**
+ * Normal[mean,SD,val]
+ * Normal[mean,SD,x]
+ * Normal[mean,SD,x, cumulative]
  * 
  * adapted from CmdMax by Michael Borcherds 2008-01-20
  */
 public class CmdNormal extends CommandProcessor {
 
+	/**
+	 * Creates new processor for Normal command
+	 * @param kernel Kernel
+	 */
 	public CmdNormal(Kernel kernel) {
 		super(kernel);
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean ok;
@@ -48,16 +55,9 @@ public class CmdNormal extends CommandProcessor {
 					kernelA.restorePrintAccuracy();
 					
 					if (cumulative) {
-						GeoElement[] ret = (GeoElement[])kernelA.getAlgebraProcessor().processAlgebraCommand( "(erf((x-("+mean+"))/(sqrt(2)*abs("+sd+"))) + 1)/2", true );
-						
-						return ret;
-						
-					} else {
-						GeoElement[] ret = (GeoElement[])kernelA.getAlgebraProcessor().processAlgebraCommand( "exp(-((x-("+mean+"))/("+sd+"))^2/2)/(sqrt(2*pi)*abs("+sd+"))", true );
-						
-						return ret;
+						return kernelA.getAlgebraProcessor().processAlgebraCommand( "(erf((x-("+mean+"))/(sqrt(2)*abs("+sd+"))) + 1)/2", true );
 					}
-					
+					return kernelA.getAlgebraProcessor().processAlgebraCommand( "exp(-((x-("+mean+"))/("+sd+"))^2/2)/(sqrt(2*pi)*abs("+sd+"))", true );					
 				} else if (arg[2].isNumberValue()) 
 				{
 					GeoElement[] ret = { 
