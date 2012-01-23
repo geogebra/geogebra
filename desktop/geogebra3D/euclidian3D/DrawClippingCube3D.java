@@ -39,7 +39,17 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 	
 	//cube reduction
-	private double reduction = (1-1/Math.sqrt(2))/2;
+	static public int REDUCTION_SMALL = 0;
+	static public int REDUCTION_MEDIUM = 1;
+	static public int REDUCTION_LARGE = 2;
+	
+	static private double[] REDUCTION_VALUES = {
+		(1-1./Math.sqrt(3))/2, //small
+		(1-1./Math.sqrt(2))/2, //medium
+		(1-1./1)/2	 //large
+	};
+	
+	private int reduction = REDUCTION_MEDIUM;
 	//private double reduction = (1-1./2.)/2;
 	
 	/**
@@ -70,6 +80,23 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	*/
 	
 	/**
+	 * sets the reduction of the cube
+	 * @param value reduction
+	 */
+	public void setReduction(int value){
+		reduction = value;
+	}
+	
+	/**
+	 * 
+	 * @return the reduction of the cube
+	 */
+	public int getReduction(){
+		return reduction;
+	}
+	
+	
+	/**
 	 * update the x,y,z min/max values
 	 * @return the min/max values
 	 */
@@ -94,9 +121,9 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		double zmax = (renderer.getBack(false))/scale+y0;
 		
 		
-		double xr = (xmax-xmin)*reduction;
-		double yr = (ymax-ymin)*reduction;
-		double zr = (zmax-zmin)*reduction;
+		double xr = (xmax-xmin)*REDUCTION_VALUES[reduction];
+		double yr = (ymax-ymin)*REDUCTION_VALUES[reduction];
+		double zr = (zmax-zmin)*REDUCTION_VALUES[reduction];
 		
 		
 		minMax[0][0] = xmin+xr;

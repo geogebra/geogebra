@@ -1335,8 +1335,8 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 	}
 	
 	
-	private boolean useClippingCube = true;
-	private boolean showClippingCube = true;
+	private boolean useClippingCube = false;
+	private boolean showClippingCube = false;
 	
 	/**
 	 * 
@@ -1376,6 +1376,24 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 		setWaitForUpdate();
 	}
 	
+	
+	
+	/**
+	 * sets the reduction of the clipping box
+	 * @param value reduction
+	 */
+	public void setClippingReduction(int value){
+		clippingCubeDrawable.setReduction(value);
+		setWaitForUpdate();
+	}
+	
+	/**
+	 * 
+	 * @return the reduction of the clipping box
+	 */
+	public int getClippingReduction(){
+		return clippingCubeDrawable.getReduction();
+	}
 	
 	
 	public void setAnimatedCoordSystem(double ox, double oy, double f, double newScale,
@@ -2232,16 +2250,17 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 		
 		//Application.debug("hasMouse="+hasMouse+"\n!getEuclidianController().mouseIsOverLabel() "+!getEuclidianController().mouseIsOverLabel() +"\ngetEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())" + getEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())+"\ncursor="+cursor+"\ngetCursor3DType()="+getCursor3DType());		
 		//Application.debug(mode);
-				
+
 		if (hasMouse){
 			if (moveCursorIsVisible()){
 				renderer.setMatrix(cursorOnXOYPlane.getDrawingMatrix());
 				drawPointAlready(cursorOnXOYPlane.getRealMoveMode());	
+				renderer.drawCursor(PlotterCursor.TYPE_CUBE);
 			}else if(!getEuclidianController().mouseIsOverLabel() 
 					&& getEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())
 					){
 				renderer.setMatrix(getCursor3D().getDrawingMatrix());
-				
+
 				switch(cursor){
 				case CURSOR_DEFAULT:
 					switch(getCursor3DType()){
@@ -2289,7 +2308,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 			}
 		}
 	}
-	
+
 	
 	private void drawPointAlready(int mode){
 		

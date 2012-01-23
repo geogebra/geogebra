@@ -4,6 +4,7 @@ import geogebra.gui.dialog.options.OptionsEuclidian;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.Application;
 import geogebra3D.Application3D;
+import geogebra3D.euclidian3D.DrawClippingCube3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
 
 import java.awt.BorderLayout;
@@ -13,11 +14,13 @@ import java.awt.FlowLayout;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 public class OptionsEuclidian3D extends OptionsEuclidian {
@@ -26,6 +29,8 @@ public class OptionsEuclidian3D extends OptionsEuclidian {
 	
 	private JCheckBox cbUseClipping, cbShowClipping;
 
+	private JRadioButton radioClippingSmall, radioClippingMedium, radioClippingLarge;
+	
 	public OptionsEuclidian3D(Application3D app) {
 		super(app, app.getEuclidianView3D());
 		
@@ -40,17 +45,32 @@ public class OptionsEuclidian3D extends OptionsEuclidian {
 	protected JPanel buildBasicNorthPanel() {
 
 		//-------------------------------------
-		// axes options panel
+		// clipping options panel
 		JPanel clippingOptionsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		clippingOptionsPanel.setBorder(BorderFactory.createTitledBorder(app.getMenu("Clipping")));
 
-		// show axes
+		// clipping
 		cbUseClipping = new JCheckBox(app.getPlain("UseClipping")); 						
 		clippingOptionsPanel.add(cbUseClipping);  
 		clippingOptionsPanel.add(Box.createRigidArea(new Dimension(10,0)));
 		cbShowClipping = new JCheckBox(app.getPlain("ShowClipping")); 						
 		clippingOptionsPanel.add(cbShowClipping);  
-
+		
+		JPanel boxSizePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		boxSizePanel.setBorder(BorderFactory.createTitledBorder(app.getMenu("BoxSize")));		
+		radioClippingSmall = new JRadioButton(app.getPlain("small"));
+		radioClippingMedium = new JRadioButton(app.getPlain("medium"));
+		radioClippingLarge = new JRadioButton(app.getPlain("large"));
+		boxSizePanel.add(radioClippingSmall);
+		boxSizePanel.add(radioClippingMedium);
+		boxSizePanel.add(radioClippingLarge);
+		radioClippingSmall.addActionListener(this);
+		radioClippingMedium.addActionListener(this);
+		radioClippingLarge.addActionListener(this);
+		ButtonGroup boxSizeGroup = new ButtonGroup();
+		boxSizeGroup.add(radioClippingSmall);
+		boxSizeGroup.add(radioClippingMedium);
+		boxSizeGroup.add(radioClippingLarge);
 
 		
 		//-------------------------------------
@@ -58,6 +78,7 @@ public class OptionsEuclidian3D extends OptionsEuclidian {
 		JPanel northPanel = super.buildBasicNorthPanel();
 		northPanel.add(Box.createRigidArea(new Dimension(0,16)));
         northPanel.add(clippingOptionsPanel);
+        northPanel.add(boxSizePanel);
 
 		return northPanel;
 	}
@@ -126,7 +147,22 @@ public class OptionsEuclidian3D extends OptionsEuclidian {
 		
 		cbShowClipping.removeActionListener(this);
 		cbShowClipping.setSelected(((EuclidianView3D) view).showClippingCube());
-		cbShowClipping.addActionListener(this);          
+		cbShowClipping.addActionListener(this);  
+		
+		/*
+		radioClippingSmall.removeActionListener(this);
+		radioClippingMedium.removeActionListener(this);
+		radioClippingLarge.removeActionListener(this);
+		*/
+		int flag = ((EuclidianView3D) view).getClippingReduction();
+		radioClippingSmall.setSelected(flag==DrawClippingCube3D.REDUCTION_SMALL);
+		radioClippingMedium.setSelected(flag==DrawClippingCube3D.REDUCTION_MEDIUM);
+		radioClippingLarge.setSelected(flag==DrawClippingCube3D.REDUCTION_LARGE);
+		/*
+		radioClippingSmall.addActionListener(this);
+		radioClippingMedium.addActionListener(this);
+		radioClippingLarge.addActionListener(this);
+	*/
 
 		//z axis panel
 		zAxisPanel.updatePanel();
@@ -365,6 +401,9 @@ public class OptionsEuclidian3D extends OptionsEuclidian {
 		//basic tab
 		cbUseClipping.setText(app.getPlain("UseClipping"));
 		cbShowClipping.setText(app.getPlain("ShowClipping"));
+		radioClippingSmall.setText(app.getPlain("small"));
+		radioClippingMedium.setText(app.getPlain("medium"));
+		radioClippingLarge.setText(app.getPlain("large"));
 		
 		//perspective tab
 		projectionLabel[0].setText(app.getPlain("orthographic"));
@@ -390,7 +429,13 @@ public class OptionsEuclidian3D extends OptionsEuclidian {
 		if (source == cbUseClipping) {
 			((EuclidianView3D) view).setUseClippingCube(cbUseClipping.isSelected());			
 		}else if (source == cbShowClipping) {
-				((EuclidianView3D) view).setShowClippingCube(cbShowClipping.isSelected());			
+				((EuclidianView3D) view).setShowClippingCube(cbShowClipping.isSelected());		
+		}else if (source == radioClippingSmall) {		
+			((EuclidianView3D) view).setClippingReduction(DrawClippingCube3D.REDUCTION_SMALL);
+		}else if (source == radioClippingMedium) {		
+			((EuclidianView3D) view).setClippingReduction(DrawClippingCube3D.REDUCTION_MEDIUM);
+		}else if (source == radioClippingLarge) {		
+			((EuclidianView3D) view).setClippingReduction(DrawClippingCube3D.REDUCTION_LARGE);
 		}else if (source == tfPersp) {
 			try{
 				double val = Double.parseDouble(tfPersp.getText());

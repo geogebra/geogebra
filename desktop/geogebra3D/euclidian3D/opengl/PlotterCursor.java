@@ -25,6 +25,9 @@ public class PlotterCursor {
 	static public int TYPE_CROSS3D = 3;
 	static public int TYPE_ALREADY_XY = 4;
 	static public int TYPE_ALREADY_Z = 5;
+	static public int TYPE_CUBE = 6;
+	
+	static private int TYPE_LENGTH = TYPE_CUBE +1;
 	
 	
 	
@@ -36,6 +39,8 @@ public class PlotterCursor {
 	static private float size_start_move = 7f;
 	static private float size_move = 40f;
 	static private float thickness3 = 2*thickness;
+	
+	static private float size_cube = size_start_move;
 	
 	private int[] index;
 	
@@ -49,7 +54,7 @@ public class PlotterCursor {
 		
 		this.manager = manager;
 		
-		index = new int[6];
+		index = new int[TYPE_LENGTH];
 		
 		
 		//crosses
@@ -87,7 +92,7 @@ public class PlotterCursor {
 		brush.segment(new Coords(0, size_start_move, 0, 1),new Coords(0, size_move, 0, 1));
 		brush.setThickness(thickness3);//re sets the thickness
 		brush.segment(new Coords(0, -size_start_move, 0, 1),new Coords(0, -size_move, 0, 1));
-		index[4] =brush.end();
+		index[TYPE_ALREADY_XY] =brush.end();
 
 
 		//z
@@ -97,10 +102,54 @@ public class PlotterCursor {
 		brush.segment(new Coords(0, 0, size_start_move, 1),new Coords(0, 0, size_move, 1));
 		brush.setThickness(thickness3);//re sets the thickness
 		brush.segment(new Coords(0, 0, -size_start_move, 1),new Coords(0, 0, -size_move, 1));
-		index[5] =brush.end();
+		index[TYPE_ALREADY_Z] =brush.end();
 
 		brush.setArrowType(PlotterBrush.ARROW_TYPE_NONE);
 
+		//cube
+		index[TYPE_CUBE] = manager.startNewList();
+		manager.startGeometry(Manager.QUADS);
+		manager.color(0.5f,0.5f,0.5f);
+		//up
+		manager.normal(0,0,1);
+		manager.vertex(size_cube, size_cube, size_cube);
+		manager.vertex(-size_cube, size_cube, size_cube);
+		manager.vertex(-size_cube, -size_cube, size_cube);
+		manager.vertex(size_cube, -size_cube, size_cube);
+		//down
+		manager.normal(0,0,-1);
+		manager.vertex(size_cube, size_cube, -size_cube);
+		manager.vertex(size_cube, -size_cube, -size_cube);
+		manager.vertex(-size_cube, -size_cube, -size_cube);
+		manager.vertex(-size_cube, size_cube, -size_cube);
+		//right
+		manager.normal(1,0,0);
+		manager.vertex(size_cube, size_cube, size_cube);
+		manager.vertex(size_cube, -size_cube, size_cube);
+		manager.vertex(size_cube, -size_cube, -size_cube);
+		manager.vertex(size_cube, size_cube, -size_cube);
+		//left
+		manager.normal(-1,0,0);
+		manager.vertex(-size_cube, size_cube, size_cube);
+		manager.vertex(-size_cube, size_cube, -size_cube);
+		manager.vertex(-size_cube, -size_cube, -size_cube);
+		manager.vertex(-size_cube, -size_cube, size_cube);
+		//back
+		manager.normal(0,1,0);
+		manager.vertex(size_cube, size_cube, size_cube);
+		manager.vertex(size_cube, size_cube, -size_cube);
+		manager.vertex(-size_cube, size_cube, -size_cube);
+		manager.vertex(-size_cube, size_cube, size_cube);
+		//front
+		manager.normal(0,-1,0);
+		manager.vertex(size_cube, -size_cube, size_cube);
+		manager.vertex(-size_cube, -size_cube, size_cube);
+		manager.vertex(-size_cube, -size_cube, -size_cube);
+		manager.vertex(size_cube, -size_cube, -size_cube);
+
+		
+		manager.endGeometry();
+		manager.endList();
 	}
 
 	
@@ -111,7 +160,7 @@ public class PlotterCursor {
 	 * @return true it type is of "already" (xy or z)
 	 */
 	static public boolean isTypeAlready(int type){
-		return type==TYPE_ALREADY_XY || type==TYPE_ALREADY_Z;
+		return type==TYPE_ALREADY_XY || type==TYPE_ALREADY_Z || type==TYPE_CUBE;
 	}
 
 
