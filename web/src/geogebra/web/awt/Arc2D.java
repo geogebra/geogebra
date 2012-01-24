@@ -69,14 +69,14 @@ public class Arc2D extends geogebra.common.awt.Arc2D implements Shape {
 
 	@Override
 	public Point2D getStartPoint() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return null;
+		geogebra.web.kernel.gawt.Point2D p = impl.getStartPoint();
+		return new Point2D.Double(p.getX(), p.getY());
 	}
 
 	@Override
 	public Point2D getEndPoint() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return null;
+		geogebra.web.kernel.gawt.Point2D p = impl.getEndPoint();
+		return new Point2D.Double(p.getX(), p.getY());
 	}
 
 	@Override
