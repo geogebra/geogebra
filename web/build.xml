@@ -59,7 +59,7 @@
        in the .java files. -->
   <target name="gwtc" depends="javac" description="GWT compile to JavaScript (production mode)">
   <!--target name="gwtc" description="GWT compile to JavaScript (production mode)"-->
-    <java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
+    <java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler" inputstring="">
       <classpath>
         <pathelement location="src"/>
         <path refid="project.class.path"/>
