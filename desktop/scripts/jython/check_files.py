@@ -16,7 +16,7 @@ script's output doesn't show anything, it means that it hasn't
 detected access to a new file.
 
 Play with it for a while and when it seems that there aren't any new
-files accessed, send me the file called"included_paths.json".
+files accessed, send me the file called "included_paths.json".
 
 Author: Arnaud
 """
