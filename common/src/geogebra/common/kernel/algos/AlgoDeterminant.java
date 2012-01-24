@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -69,7 +70,12 @@ public class AlgoDeterminant extends AlgoElement {
 	   		return;   		
 	   	}
    		
-   		num.setValue(matrix.getDeterminant());
+   		double det = matrix.getDeterminant();
+   		
+   		// needed for eg  {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}} 
+   		if (Kernel.isZero(det)) det = 0;
+   		
+   		num.setValue(det);
    		
    		// Determinant[{{1,2},{3,4}}]
     }

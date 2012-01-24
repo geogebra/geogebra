@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.util.GgbMat;
@@ -68,30 +69,15 @@ public class AlgoInvert extends AlgoElement {
 	   		return;   		
 	   	}
    		
-   		/*
-   		if (matrix.getRows() == 1) {
-   			
-   			double det = matrix.det();
-   			
-   			if (AbstractKernel.isZero(det)) {
-   	  			outputList.setUndefined();
-   		   		return;   		
-   		   	}
-   			
-   			// invert 1x1 matrix
-   			matrix = new GgbMatrix(1,1);
-   			matrix.set(1,1,1/det);
-   			
-   			outputList = matrix.getGeoList(outputList, cons);
-   			return;
-   		}*/
+   		// needed for eg  {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}} 
+   		double det = matrix.getDeterminant();
+   		if (Kernel.isZero(det)) {
+  			outputList.setUndefined();
+	   		return;   		
+	   	}
    		
    		matrix.inverseImmediate();
    		
-   		if (matrix.isUndefined()) {
-  			//outputList.setUndefined();
-	   		//return;   		
-	   	}
    		// Invert[{{1,2},{3,4}}]
    		
    		matrix.getGeoList(outputList, cons);      
