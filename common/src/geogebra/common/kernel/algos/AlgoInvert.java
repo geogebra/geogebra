@@ -70,13 +70,15 @@ public class AlgoInvert extends AlgoElement {
 	   	}
    		
    		// needed for eg  {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}} 
-   		double det = matrix.getDeterminant();
-   		if (Kernel.isZero(det)) {
-  			outputList.setUndefined();
-	   		return;   		
-	   	}
-   		
+   		boolean integers = matrix.hasOnlyIntegers();
+   		double det = Math.round(matrix.determinant());
    		matrix.inverseImmediate();
+   		if(integers){
+   			for(int i=0;i<inputList.size();i++)
+   				for(int j=0;j<inputList.size();j++){
+   					matrix.setEntry(i, j, Math.round(matrix.getEntry(i, j)*det)/det);
+   				}
+   		}
    		
    		// Invert[{{1,2},{3,4}}]
    		

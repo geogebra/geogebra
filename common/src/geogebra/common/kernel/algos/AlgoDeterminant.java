@@ -70,10 +70,10 @@ public class AlgoDeterminant extends AlgoElement {
 	   		return;   		
 	   	}
    		
-   		double det = matrix.getDeterminant();
+   		double det = matrix.determinant();
    		
-   		// needed for eg  {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}} 
-   		if (Kernel.isZero(det)) det = 0;
+   		if(matrix.hasOnlyIntegers())
+   			det = Math.round(det);
    		
    		num.setValue(det);
    		

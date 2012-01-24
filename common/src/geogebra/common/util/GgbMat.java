@@ -10,14 +10,27 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
+import org.apache.commons.math.linear.DecompositionSolver;
+import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
 
+/**
+ * Matrix format allowing conversion from/to MyList and GeoList,
+ * supporting matrix operations (inverse, determinant etc.)
+ * 
+ * @author Michael Borcherds
+ *
+ */
 public class GgbMat extends Array2DRowRealMatrix{
 
 	private static final long serialVersionUID = 1L;
 	
 	private boolean isUndefined = false;
 
+	/**
+	 * Creates matrix from GeoList
+	 * @param inputList list
+	 */
 	public GgbMat(GeoList inputList) {
 		int rows = inputList.size();
 		if (!inputList.isDefined() || rows == 0) {
@@ -68,6 +81,10 @@ public class GgbMat extends Array2DRowRealMatrix{
 		}
 	}
 
+	/**
+	 * Creates matrix from MyList
+	 * @param inputList list
+	 */
 	public GgbMat(MyList inputList) {
 
 		if (!inputList.isMatrix()) {
@@ -95,21 +112,33 @@ public class GgbMat extends Array2DRowRealMatrix{
 		}
 	}
 
+	/**
+	 * Inverts this matrix. If singular, sets the undefined flag to true.
+	 */
 	public void inverseImmediate() {
 
 		try {
-			// TODO deprecated methods
-			RealMatrix ret = inverse();
+			DecompositionSolver d = new LUDecompositionImpl(this,Kernel.EPSILON).getSolver();
+			RealMatrix ret = d.getInverse();
 			data = ret.getData();
-			luDecompose();
 			// m = ret.m;
 			// n = ret.n;
 		} catch (Exception e) { // can't invert
 			setIsUndefined(true);
 		}
 	}
+	
+	/**
+	 * Returns determinant of this matrix
+	 * @return determinat
+	 */
+	public double determinant(){
+		return new LUDecompositionImpl(this, Kernel.EPSILON).getDeterminant();
+	}
 
-	/*
+	/**
+	 * Computes the reduced row echelon form.
+	 * 
 	 * code from http://rosettacode.org/wiki/Reduced_row_echelon_form
 	 */
 	public void reducedRowEchelonFormImmediate() {
@@ -158,7 +187,10 @@ public class GgbMat extends Array2DRowRealMatrix{
 			lead++;
 		}
 	}
-
+	
+	/**
+	 * Transposes this matrix
+	 */
 	public void transposeImmediate() {
 
 		int m = getRowDimension();
@@ -171,11 +203,6 @@ public class GgbMat extends Array2DRowRealMatrix{
 			}
 		}
 		data = C;
-
-		// TODO deprecated method
-		if (m == n) {
-			luDecompose();
-		}
 	}
 
 	/**
@@ -204,9 +231,9 @@ public class GgbMat extends Array2DRowRealMatrix{
 	}
 	
 	/**
-	 * returns GgbMatrix as a GeoList eg { {1,2}, {3,4} }
+	 * returns GgbMatrix as a MyList eg { {1,2}, {3,4} }
 	 * @param outputList list for the copy
-	 * @param cons construction
+	 * @param kernel kernel
 	 */
 	public void getMyList(MyList outputList,Kernel kernel) {
 		if (isUndefined) {
@@ -226,15 +253,31 @@ public class GgbMat extends Array2DRowRealMatrix{
 	}
 
 
-	/*
-	 * returns true if the matrix is undefined eg after being inverted
+	/**
+	 * @return true if the matrix is undefined eg after being inverted
 	 */
 	public boolean isUndefined() {
 		return isUndefined;
 	}
 
+	/**
+	 * Sets the undefined flag to false (e.g. when inverting singular matrix)
+	 * @param undefined new undefined flag
+	 */
 	public void setIsUndefined(boolean undefined) {
 		isUndefined = undefined;
+	}
+
+	/**
+	 * True for matrix formed by integers
+	 * @return true if all entries are integers
+	 */
+	public boolean hasOnlyIntegers() {
+		for(int i=0;i<data.length;i++)
+			for(int j=0;j<data[i].length;j++)
+				if(!Kernel.isInteger(data[i][j]))
+					return false;
+		return true;
 	}
 
 }
