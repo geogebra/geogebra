@@ -935,8 +935,9 @@ final public class DrawConic extends Drawable implements Previewable {
 		transform.transform(parpoints, 0, parpoints, 0, 4);
 		parabola.reset();
 		parabola.moveTo((float)parpoints[0], (float)parpoints[1]);
-		parabola.curveTo(parpoints[2], parpoints[3],parpoints[4], parpoints[5],
-				parpoints[6], parpoints[7]);
+		parabola.curveTo(
+			(float)parpoints[2], (float)parpoints[3], (float)parpoints[4],
+			(float)parpoints[5], (float)parpoints[6], (float)parpoints[7]);
 		shape = parabola;
 
 		// set label coords

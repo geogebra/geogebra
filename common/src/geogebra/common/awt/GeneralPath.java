@@ -23,6 +23,6 @@ public abstract class GeneralPath implements geogebra.common.awt.Shape {
 
 	public abstract boolean contains(Point2D p);
 
-	public abstract void curveTo(double parpoints, double parpoints2, double parpoints3, double parpoints4, double parpoints5, double parpoints6);
+	public abstract void curveTo(float parpoints, float parpoints2, float parpoints3, float parpoints4, float parpoints5, float parpoints6);
 
 }
