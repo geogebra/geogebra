@@ -75,7 +75,7 @@ public class Term implements Comparable<Object>, Serializable {
 
 	void setVariables(StringBuilder vars) {
 		variables.setLength(0);
-		variables.append(vars.toString());
+		variables.append((CharSequence)vars);
 	}
 
 	boolean hasNoVars() {
@@ -155,7 +155,7 @@ public class Term implements Comparable<Object>, Serializable {
 	 */
 	void multiply(Term t) {
 		coefficient = multiply(coefficient, t.coefficient);
-		variables.append(t.variables.toString());
+		variables.append((CharSequence)t.variables);
 		sort(variables);
 	}
 

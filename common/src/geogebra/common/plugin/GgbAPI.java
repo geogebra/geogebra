@@ -869,7 +869,6 @@ public abstract class GgbAPI {
 	}
 	
     final public AbstractApplication getApplication() {
-	    // TODO Auto-generated method stub
 	    return app;
     }
 	
