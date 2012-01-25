@@ -6,15 +6,15 @@ import geogebra.common.awt.Point2D;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.kernel.gawt.Shape;
+import geogebra.web.openjdk.awt.geom.Shape;
 
 public class Ellipse2DDouble implements geogebra.common.awt.Ellipse2DDouble,
 geogebra.web.awt.Shape{
 
-	private geogebra.web.kernel.gawt.Ellipse2D.Double impl;
+	private geogebra.web.openjdk.awt.geom.Ellipse2D.Double impl;
 	
 	public Ellipse2DDouble(){
-		impl = new geogebra.web.kernel.gawt.Ellipse2D.Double();
+		impl = new geogebra.web.openjdk.awt.geom.Ellipse2D.Double();
 	}
 	
 	public boolean intersects(int i, int j, int k, int l) {

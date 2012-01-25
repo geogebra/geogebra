@@ -10,12 +10,12 @@ import geogebra.common.main.AbstractApplication;
 
 public class GenericShape implements geogebra.web.awt.Shape {
 
-	private geogebra.web.kernel.gawt.Shape impl;
+	private geogebra.web.openjdk.awt.geom.Shape impl;
 	
 	private GenericShape(){}
 	
 	
-	public GenericShape(geogebra.web.kernel.gawt.Shape s) {
+	public GenericShape(geogebra.web.openjdk.awt.geom.Shape s) {
 	    impl = s;
     }
 
@@ -70,7 +70,7 @@ public class GenericShape implements geogebra.web.awt.Shape {
 	}
 
 
-	public static geogebra.web.kernel.gawt.Shape getGawtShape(Shape shape) {
+	public static geogebra.web.openjdk.awt.geom.Shape getGawtShape(Shape shape) {
 		Shape shapeCommon = shape instanceof GeneralPathClipped ?
 			 ((GeneralPathClipped)shape).getGeneralPath() : shape;
 	    if(!(shapeCommon instanceof geogebra.web.awt.Shape)){
@@ -80,7 +80,7 @@ public class GenericShape implements geogebra.web.awt.Shape {
     }
 
 
-	public geogebra.web.kernel.gawt.Shape getGawtShape() {
+	public geogebra.web.openjdk.awt.geom.Shape getGawtShape() {
 	    return impl;
     }
 

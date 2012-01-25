@@ -4,10 +4,10 @@ import geogebra.common.awt.Point2D;
 
 public class Rectangle extends geogebra.web.awt.Rectangle2D implements geogebra.common.awt.Rectangle {
 	
-	private geogebra.web.kernel.gawt.Rectangle impl;
+	private geogebra.web.openjdk.awt.geom.Rectangle impl;
 	
 	public Rectangle() {
-		impl = new geogebra.web.kernel.gawt.Rectangle();
+		impl = new geogebra.web.openjdk.awt.geom.Rectangle();
 	}
 	
 	public Rectangle(geogebra.common.awt.Rectangle r) {
@@ -15,15 +15,15 @@ public class Rectangle extends geogebra.web.awt.Rectangle2D implements geogebra.
 	}
 	
 	public Rectangle(int w, int h) {
-		impl = new geogebra.web.kernel.gawt.Rectangle(w, h);
+		impl = new geogebra.web.openjdk.awt.geom.Rectangle(w, h);
 	}
 	
-	public Rectangle(geogebra.web.kernel.gawt.Rectangle r) {
-	    impl = new geogebra.web.kernel.gawt.Rectangle(r.x, r.y, r.width, r.height);    
+	public Rectangle(geogebra.web.openjdk.awt.geom.Rectangle r) {
+	    impl = new geogebra.web.openjdk.awt.geom.Rectangle(r.x, r.y, r.width, r.height);    
 	}
 
 	public Rectangle(int x, int y, int w, int h) {
-	    impl = new geogebra.web.kernel.gawt.Rectangle(x, y, w, h);
+	    impl = new geogebra.web.openjdk.awt.geom.Rectangle(x, y, w, h);
     }
 
 	@Override
@@ -103,7 +103,7 @@ public class Rectangle extends geogebra.web.awt.Rectangle2D implements geogebra.
 		impl.add(x, y);
 	}
 	
-	public static geogebra.web.kernel.gawt.Rectangle getGawtRectangle(geogebra.common.awt.Rectangle r) {
+	public static geogebra.web.openjdk.awt.geom.Rectangle getGawtRectangle(geogebra.common.awt.Rectangle r) {
 		if(!(r instanceof Rectangle))
 			return null;
 		return ((Rectangle)r).impl;
@@ -126,7 +126,7 @@ public class Rectangle extends geogebra.web.awt.Rectangle2D implements geogebra.
     }
 	
 	@Override
-    protected geogebra.web.kernel.gawt.Rectangle getImpl(){
+    protected geogebra.web.openjdk.awt.geom.Rectangle getImpl(){
 		return impl;
 	}
 }

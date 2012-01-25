@@ -2,9 +2,9 @@ package geogebra.web.awt;
 
 public class PathIterator implements geogebra.common.awt.PathIterator {
 
-	geogebra.web.kernel.gawt.PathIterator impl;
+	geogebra.web.openjdk.awt.geom.PathIterator impl;
 	
-	public PathIterator(geogebra.web.kernel.gawt.PathIterator pathIterator) {
+	public PathIterator(geogebra.web.openjdk.awt.geom.PathIterator pathIterator) {
 	    impl = pathIterator;
     }
 

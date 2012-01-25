@@ -19,6 +19,8 @@
 package geogebra.web.kernel.gawt;
 
 
+import geogebra.web.openjdk.awt.geom.PathIterator;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

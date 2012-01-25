@@ -7,10 +7,10 @@ import geogebra.common.awt.Rectangle2D;
 
 public class Ellipse2DFloat implements geogebra.common.awt.Ellipse2DFloat {
 
-	private geogebra.web.kernel.gawt.Ellipse2D.Float impl;
+	private geogebra.web.openjdk.awt.geom.Ellipse2D.Float impl;
 	
 	public Ellipse2DFloat(){
-		impl = new geogebra.web.kernel.gawt.Ellipse2D.Float();
+		impl = new geogebra.web.openjdk.awt.geom.Ellipse2D.Float();
 	}
 	
 	public boolean intersects(int i, int j, int k, int l) {

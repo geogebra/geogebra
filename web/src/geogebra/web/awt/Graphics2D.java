@@ -21,8 +21,8 @@ import geogebra.common.awt.RenderedImage;
 import geogebra.common.awt.RenderingHints;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.kernel.gawt.BufferedImage;
-import geogebra.web.kernel.gawt.PathIterator;
-import geogebra.web.kernel.gawt.Shape;
+import geogebra.web.openjdk.awt.geom.PathIterator;
+import geogebra.web.openjdk.awt.geom.Shape;
 
 import java.util.Map;
 

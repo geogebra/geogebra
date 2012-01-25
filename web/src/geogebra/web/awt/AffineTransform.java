@@ -27,13 +27,13 @@ import geogebra.common.main.AbstractApplication;
 
 public class AffineTransform implements geogebra.common.awt.AffineTransform {
 
-	private geogebra.web.kernel.gawt.AffineTransform at;
+	private geogebra.web.openjdk.awt.geom.AffineTransform at;
 	
 	public AffineTransform() {
-		at = new geogebra.web.kernel.gawt.AffineTransform();
+		at = new geogebra.web.openjdk.awt.geom.AffineTransform();
 	}
 	
-	public AffineTransform(geogebra.web.kernel.gawt.AffineTransform at) {
+	public AffineTransform(geogebra.web.openjdk.awt.geom.AffineTransform at) {
 		this.at = at;
 	}
 	
@@ -88,7 +88,7 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
     }
     
     public Shape createTransformedShape(geogebra.common.awt.Shape shape) {
-		geogebra.web.kernel.gawt.Shape ret = null;
+		geogebra.web.openjdk.awt.geom.Shape ret = null;
 		ret = at.createTransformedShape(geogebra.web.awt.GenericShape.getGawtShape(shape));
 		if(ret==null) AbstractApplication.debug("type of shape is: "+shape.getClass());
 		return new geogebra.web.awt.GenericShape(ret);
@@ -98,7 +98,7 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
 	 * @param at2
 	 * @return
 	 */
-	public static geogebra.web.kernel.gawt.AffineTransform getGawtAffineTransform(
+	public static geogebra.web.openjdk.awt.geom.AffineTransform getGawtAffineTransform(
             geogebra.common.awt.AffineTransform at2) {
 	    if(!(at2 instanceof AffineTransform))
 	    	return null;
@@ -113,8 +113,8 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
     */
 
 	public void transform(Point2D p, Point2D p2) {
-		geogebra.web.kernel.gawt.Point2D point = geogebra.web.awt.Point2D.getGawtPoint2D(p);
-		geogebra.web.kernel.gawt.Point2D point2 = geogebra.web.awt.Point2D.getGawtPoint2D(p2); 
+		geogebra.web.openjdk.awt.geom.Point2D point = geogebra.web.awt.Point2D.getGawtPoint2D(p);
+		geogebra.web.openjdk.awt.geom.Point2D point2 = geogebra.web.awt.Point2D.getGawtPoint2D(p2); 
 		at.transform(point, point2);
 		p2.setX(point2.getX());
 		p2.setY(point2.getY());    

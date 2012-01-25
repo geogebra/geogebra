@@ -7,10 +7,10 @@ import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
 
 public class Line2D extends geogebra.common.awt.Line2D implements Shape {
-	private geogebra.web.kernel.gawt.Line2D impl;
+	private geogebra.web.openjdk.awt.geom.Line2D impl;
 	
 	public Line2D() {
-		impl = new geogebra.web.kernel.gawt.Line2D.Double();
+		impl = new geogebra.web.openjdk.awt.geom.Line2D.Double();
 	}
 	
 	public boolean intersects(int x, int y, int w, int h) {
@@ -44,12 +44,12 @@ public class Line2D extends geogebra.common.awt.Line2D implements Shape {
 
 	
 	public PathIterator getPathIterator(AffineTransform affineTransform) {
-		return (PathIterator) impl.getPathIterator((geogebra.web.kernel.gawt.AffineTransform) affineTransform);
+		return (PathIterator) impl.getPathIterator((geogebra.web.openjdk.awt.geom.AffineTransform) affineTransform);
 	}
 
 	
 	public PathIterator getPathIterator(AffineTransform at, double flatness) {
-		return (PathIterator) impl.getPathIterator((geogebra.web.kernel.gawt.AffineTransform) at, flatness);
+		return (PathIterator) impl.getPathIterator((geogebra.web.openjdk.awt.geom.AffineTransform) at, flatness);
 	}
 
 	
@@ -63,7 +63,7 @@ public class Line2D extends geogebra.common.awt.Line2D implements Shape {
 	}
 
 	
-	public geogebra.web.kernel.gawt.Shape getGawtShape() {
+	public geogebra.web.openjdk.awt.geom.Shape getGawtShape() {
 		return impl;
 	}
 
@@ -74,14 +74,14 @@ public class Line2D extends geogebra.common.awt.Line2D implements Shape {
 
 	@Override
     public Point2D getP1() {
-		geogebra.web.kernel.gawt.Point2D p = impl.getP1();
+		geogebra.web.openjdk.awt.geom.Point2D p = impl.getP1();
 		if (p==null) return null;
 		return new geogebra.web.awt.Point2D(p.getX(), p.getY());
     }
 
 	@Override
     public Point2D getP2() {
-		geogebra.web.kernel.gawt.Point2D p2 = impl.getP2();
+		geogebra.web.openjdk.awt.geom.Point2D p2 = impl.getP2();
 		if (p2==null) return null;
 		return new geogebra.web.awt.Point2D(p2.getX(), p2.getY());
     }

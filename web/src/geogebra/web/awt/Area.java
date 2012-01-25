@@ -13,18 +13,18 @@ import geogebra.common.awt.Shape;
  */
 public class Area implements geogebra.common.awt.Area {
 	
-	private geogebra.web.kernel.gawt.Area impl;
+	private geogebra.web.openjdk.awt.geom.Area impl;
 	/**
 	 * Creates new area
 	 */
 	public Area() {
-		impl = new geogebra.web.kernel.gawt.Area();
+		impl = new geogebra.web.openjdk.awt.geom.Area();
 	}
 	/**
 	 * Creates new area
 	 */
 	public Area(Shape shape) {
-		impl = new geogebra.web.kernel.gawt.Area(geogebra.web.awt.GenericShape.getGawtShape(shape));
+		impl = new geogebra.web.openjdk.awt.geom.Area(geogebra.web.awt.GenericShape.getGawtShape(shape));
 	}
 
 	public boolean intersects(int i, int j, int k, int l) {
@@ -59,13 +59,13 @@ public class Area implements geogebra.common.awt.Area {
 	
 	public PathIterator getPathIterator(AffineTransform affineTransform) {
 		return new geogebra.web.awt.PathIterator(
-				impl.getPathIterator((geogebra.web.kernel.gawt.AffineTransform) affineTransform));
+				impl.getPathIterator((geogebra.web.openjdk.awt.geom.AffineTransform) affineTransform));
 	}
 
 	
 	public PathIterator getPathIterator(AffineTransform at, double flatness) {
 		return new geogebra.web.awt.PathIterator(
-				impl.getPathIterator((geogebra.web.kernel.gawt.AffineTransform) at, flatness));
+				impl.getPathIterator((geogebra.web.openjdk.awt.geom.AffineTransform) at, flatness));
 	}
 
 	
@@ -103,7 +103,7 @@ public class Area implements geogebra.common.awt.Area {
 	 * @param shape
 	 * @return wrapped area or null in case of wrong input type
 	 */
-	public static geogebra.web.kernel.gawt.Area getGawtArea(geogebra.common.awt.Area shape){
+	public static geogebra.web.openjdk.awt.geom.Area getGawtArea(geogebra.common.awt.Area shape){
 		if(!(shape instanceof Area))
 			return null;
 		return ((Area)shape).impl;

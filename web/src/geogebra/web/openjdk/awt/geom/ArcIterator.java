@@ -1,12 +1,14 @@
 /*
- * Copyright 1997-2003 Sun Microsystems, Inc.  All Rights Reserved.
+ * @(#)ArcIterator.java	1.16 03/12/19
+  *
+ * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Sun designates this
+ * published by the Free Software Foundation.  Oracle designates this
  * particular file as subject to the "Classpath" exception as provided
- * by Sun in the LICENSE file that accompanied this code.
+ * by Oracle in the LICENSE file that accompanied this code.
  *
  * This code is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
@@ -18,15 +20,13 @@
  * 2 along with this work; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa Clara,
- * CA 95054 USA or visit www.sun.com if you need additional information or
- * have any questions.
+ * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+ * or visit www.oracle.com if you need additional information or have any
+ * questions.
  */
 
 package geogebra.web.openjdk.awt.geom;
 
-import geogebra.web.kernel.gawt.AffineTransform;
-import geogebra.web.kernel.gawt.PathIterator;
 
 import java.util.*;
 
@@ -34,7 +34,8 @@ import java.util.*;
  * A utility class to iterate over the path segments of an arc
  * through the PathIterator interface.
  *
- * @author      Jim Graham
+ * @version 10 Feb 1997
+ * @author	Jim Graham
  */
 class ArcIterator implements PathIterator {
     double x, y, w, h, angStRad, increment, cv;
@@ -44,44 +45,44 @@ class ArcIterator implements PathIterator {
     int lineSegs;
 
     ArcIterator(Arc2D a, AffineTransform at) {
-        this.w = a.getWidth() / 2;
-        this.h = a.getHeight() / 2;
-        this.x = a.getX() + w;
-        this.y = a.getY() + h;
-        this.angStRad = -Math.toRadians(a.getAngleStart());
-        this.affine = at;
-        double ext = -a.getAngleExtent();
-        if (ext >= 360.0 || ext <= -360) {
-            arcSegs = 4;
-            this.increment = Math.PI / 2;
-            // btan(Math.PI / 2);
-            this.cv = 0.5522847498307933;
-            if (ext < 0) {
-                increment = -increment;
-                cv = -cv;
-            }
-        } else {
-            arcSegs = (int) Math.ceil(Math.abs(ext) / 90.0);
-            this.increment = Math.toRadians(ext / arcSegs);
-            this.cv = btan(increment);
-            if (cv == 0) {
-                arcSegs = 0;
-            }
-        }
-        switch (a.getArcType()) {
-        case Arc2D.OPEN:
-            lineSegs = 0;
-            break;
-        case Arc2D.CHORD:
-            lineSegs = 1;
-            break;
-        case Arc2D.PIE:
-            lineSegs = 2;
-            break;
-        }
-        if (w < 0 || h < 0) {
-            arcSegs = lineSegs = -1;
-        }
+	this.w = a.getWidth() / 2;
+	this.h = a.getHeight() / 2;
+	this.x = a.getX() + w;
+	this.y = a.getY() + h;
+	this.angStRad = -Math.toRadians(a.getAngleStart());
+	this.affine = at;
+	double ext = -a.getAngleExtent();
+	if (ext >= 360.0 || ext <= -360) {
+	    arcSegs = 4;
+	    this.increment = Math.PI / 2;
+	    // btan(Math.PI / 2);
+	    this.cv = 0.5522847498307933;
+	    if (ext < 0) {
+		increment = -increment;
+		cv = -cv;
+	    }
+	} else {
+	    arcSegs = (int) Math.ceil(Math.abs(ext) / 90.0);
+	    this.increment = Math.toRadians(ext / arcSegs);
+	    this.cv = btan(increment);
+	    if (cv == 0) {
+		arcSegs = 0;
+	    }
+	}
+	switch (a.getArcType()) {
+	case Arc2D.OPEN:
+	    lineSegs = 0;
+	    break;
+	case Arc2D.CHORD:
+	    lineSegs = 1;
+	    break;
+	case Arc2D.PIE:
+	    lineSegs = 2;
+	    break;
+	}
+	if (w < 0 || h < 0) {
+	    arcSegs = lineSegs = -1;
+	}
     }
 
     /**
@@ -91,7 +92,7 @@ class ArcIterator implements PathIterator {
      * @see #WIND_NON_ZERO
      */
     public int getWindingRule() {
-        return WIND_NON_ZERO;
+	return WIND_NON_ZERO;
     }
 
     /**
@@ -99,7 +100,7 @@ class ArcIterator implements PathIterator {
      * @return true if there are more points to read
      */
     public boolean isDone() {
-        return index > arcSegs + lineSegs;
+	return index > arcSegs + lineSegs;
     }
 
     /**
@@ -108,7 +109,7 @@ class ArcIterator implements PathIterator {
      * more points in that direction.
      */
     public void next() {
-        index++;
+	index++;
     }
 
     /*
@@ -189,8 +190,8 @@ class ArcIterator implements PathIterator {
      *
      */
     private static double btan(double increment) {
-        increment /= 2.0;
-        return 4.0 / 3.0 * Math.sin(increment) / (1.0 + Math.cos(increment));
+	increment /= 2.0;
+	return 4.0 / 3.0 * Math.sin(increment) / (1.0 + Math.cos(increment));
     }
 
     /**
@@ -212,45 +213,45 @@ class ArcIterator implements PathIterator {
      * @see #SEG_CLOSE
      */
     public int currentSegment(float[] coords) {
-        if (isDone()) {
-            throw new NoSuchElementException("arc iterator out of bounds");
-        }
-        double angle = angStRad;
-        if (index == 0) {
-            coords[0] = (float) (x + Math.cos(angle) * w);
-            coords[1] = (float) (y + Math.sin(angle) * h);
-            if (affine != null) {
-                affine.transform(coords, 0, coords, 0, 1);
-            }
-            return SEG_MOVETO;
-        }
-        if (index > arcSegs) {
-            if (index == arcSegs + lineSegs) {
-                return SEG_CLOSE;
-            }
-            coords[0] = (float) x;
-            coords[1] = (float) y;
-            if (affine != null) {
-                affine.transform(coords, 0, coords, 0, 1);
-            }
-            return SEG_LINETO;
-        }
-        angle += increment * (index - 1);
-        double relx = Math.cos(angle);
-        double rely = Math.sin(angle);
-        coords[0] = (float) (x + (relx - cv * rely) * w);
-        coords[1] = (float) (y + (rely + cv * relx) * h);
-        angle += increment;
-        relx = Math.cos(angle);
-        rely = Math.sin(angle);
-        coords[2] = (float) (x + (relx + cv * rely) * w);
-        coords[3] = (float) (y + (rely - cv * relx) * h);
-        coords[4] = (float) (x + relx * w);
-        coords[5] = (float) (y + rely * h);
-        if (affine != null) {
-            affine.transform(coords, 0, coords, 0, 3);
-        }
-        return SEG_CUBICTO;
+	if (isDone()) {
+	    throw new NoSuchElementException("arc iterator out of bounds");
+	}
+	double angle = angStRad;
+	if (index == 0) {
+	    coords[0] = (float) (x + Math.cos(angle) * w);
+	    coords[1] = (float) (y + Math.sin(angle) * h);
+	    if (affine != null) {
+		affine.transform(coords, 0, coords, 0, 1);
+	    }
+	    return SEG_MOVETO;
+	}
+	if (index > arcSegs) {
+	    if (index == arcSegs + lineSegs) {
+		return SEG_CLOSE;
+	    }
+	    coords[0] = (float) x;
+	    coords[1] = (float) y;
+	    if (affine != null) {
+		affine.transform(coords, 0, coords, 0, 1);
+	    }
+	    return SEG_LINETO;
+	}
+	angle += increment * (index - 1);
+	double relx = Math.cos(angle);
+	double rely = Math.sin(angle);
+	coords[0] = (float) (x + (relx - cv * rely) * w);
+	coords[1] = (float) (y + (rely + cv * relx) * h);
+	angle += increment;
+	relx = Math.cos(angle);
+	rely = Math.sin(angle);
+	coords[2] = (float) (x + (relx + cv * rely) * w);
+	coords[3] = (float) (y + (rely - cv * relx) * h);
+	coords[4] = (float) (x + relx * w);
+	coords[5] = (float) (y + rely * h);
+	if (affine != null) {
+	    affine.transform(coords, 0, coords, 0, 3);
+	}
+	return SEG_CUBICTO;
     }
 
     /**
@@ -272,44 +273,44 @@ class ArcIterator implements PathIterator {
      * @see #SEG_CLOSE
      */
     public int currentSegment(double[] coords) {
-        if (isDone()) {
-            throw new NoSuchElementException("arc iterator out of bounds");
-        }
-        double angle = angStRad;
-        if (index == 0) {
-            coords[0] = x + Math.cos(angle) * w;
-            coords[1] = y + Math.sin(angle) * h;
-            if (affine != null) {
-                affine.transform(coords, 0, coords, 0, 1);
-            }
-            return SEG_MOVETO;
-        }
-        if (index > arcSegs) {
-            if (index == arcSegs + lineSegs) {
-                return SEG_CLOSE;
-            }
-            coords[0] = x;
-            coords[1] = y;
-            if (affine != null) {
-                affine.transform(coords, 0, coords, 0, 1);
-            }
-            return SEG_LINETO;
-        }
-        angle += increment * (index - 1);
-        double relx = Math.cos(angle);
-        double rely = Math.sin(angle);
-        coords[0] = x + (relx - cv * rely) * w;
-        coords[1] = y + (rely + cv * relx) * h;
-        angle += increment;
-        relx = Math.cos(angle);
-        rely = Math.sin(angle);
-        coords[2] = x + (relx + cv * rely) * w;
-        coords[3] = y + (rely - cv * relx) * h;
-        coords[4] = x + relx * w;
-        coords[5] = y + rely * h;
-        if (affine != null) {
-            affine.transform(coords, 0, coords, 0, 3);
-        }
-        return SEG_CUBICTO;
+	if (isDone()) {
+	    throw new NoSuchElementException("arc iterator out of bounds");
+	}
+	double angle = angStRad;
+	if (index == 0) {
+	    coords[0] = x + Math.cos(angle) * w;
+	    coords[1] = y + Math.sin(angle) * h;
+	    if (affine != null) {
+		affine.transform(coords, 0, coords, 0, 1);
+	    }
+	    return SEG_MOVETO;
+	}
+	if (index > arcSegs) {
+	    if (index == arcSegs + lineSegs) {
+		return SEG_CLOSE;
+	    }
+	    coords[0] = x;
+	    coords[1] = y;
+	    if (affine != null) {
+		affine.transform(coords, 0, coords, 0, 1);
+	    }
+	    return SEG_LINETO;
+	}
+	angle += increment * (index - 1);
+	double relx = Math.cos(angle);
+	double rely = Math.sin(angle);
+	coords[0] = x + (relx - cv * rely) * w;
+	coords[1] = y + (rely + cv * relx) * h;
+	angle += increment;
+	relx = Math.cos(angle);
+	rely = Math.sin(angle);
+	coords[2] = x + (relx + cv * rely) * w;
+	coords[3] = y + (rely - cv * relx) * h;
+	coords[4] = x + relx * w;
+	coords[5] = y + rely * h;
+	if (affine != null) {
+	    affine.transform(coords, 0, coords, 0, 3);
+	}
+	return SEG_CUBICTO;
     }
 }

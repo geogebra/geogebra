@@ -4,7 +4,7 @@ import com.google.gwt.canvas.dom.client.Context2d.LineCap;
 import com.google.gwt.canvas.dom.client.Context2d.LineJoin;
 
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.kernel.gawt.Shape;
+import geogebra.web.openjdk.awt.geom.Shape;
 
 /**
  * A class that reassembles {@link java.awt.BasicStroke} for use with GWT.

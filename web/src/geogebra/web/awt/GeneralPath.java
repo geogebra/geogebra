@@ -9,19 +9,19 @@ import geogebra.common.awt.Rectangle2D;
 public class GeneralPath extends geogebra.common.awt.GeneralPath implements
         Shape {
 	
-	private geogebra.web.kernel.gawt.GeneralPath impl = new geogebra.web.kernel.gawt.GeneralPath();
+	private geogebra.web.openjdk.awt.geom.GeneralPath impl = new geogebra.web.openjdk.awt.geom.GeneralPath();
 
 	public GeneralPath() {
-		impl = new geogebra.web.kernel.gawt.GeneralPath();
+		impl = new geogebra.web.openjdk.awt.geom.GeneralPath();
 	}
 	
-	public GeneralPath(geogebra.web.kernel.gawt.GeneralPath g) {
+	public GeneralPath(geogebra.web.openjdk.awt.geom.GeneralPath g) {
 		impl = g;
 	}
 	
 	
 	public GeneralPath(int rule) {
-		impl = new geogebra.web.kernel.gawt.GeneralPath(rule);
+		impl = new geogebra.web.openjdk.awt.geom.GeneralPath(rule);
     }
 
 	public boolean intersects(int rx, int ry, int rw, int rh) {
@@ -74,7 +74,7 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements
 	}
 
 	
-	public geogebra.web.kernel.gawt.Shape getGawtShape() {
+	public geogebra.web.openjdk.awt.geom.Shape getGawtShape() {
 		return impl;
 	}
 

@@ -3,22 +3,22 @@ package geogebra.web.awt;
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.PathIterator;
 import geogebra.common.awt.Rectangle;
-import geogebra.web.kernel.gawt.Shape;
+import geogebra.web.openjdk.awt.geom.Shape;
 
 public class Rectangle2D implements geogebra.common.awt.Rectangle2D, geogebra.web.awt.Shape {
 	
-	private geogebra.web.kernel.gawt.Rectangle2D impl;
+	private geogebra.web.openjdk.awt.geom.Rectangle2D impl;
 
 
 	public Rectangle2D() {
-		impl = new geogebra.web.kernel.gawt.Rectangle2D.Double();
+		impl = new geogebra.web.openjdk.awt.geom.Rectangle2D.Double();
 	}
 	
-	public Rectangle2D(geogebra.web.kernel.gawt.Rectangle2D bounds2d) {
+	public Rectangle2D(geogebra.web.openjdk.awt.geom.Rectangle2D bounds2d) {
 		impl = bounds2d;
 	}
 	public Rectangle2D(int x, int y, int width, int height) {
-		impl = new geogebra.web.kernel.gawt.Rectangle2D.Double(x, y, width, height);
+		impl = new geogebra.web.openjdk.awt.geom.Rectangle2D.Double(x, y, width, height);
     }
 
 	
@@ -106,7 +106,7 @@ public class Rectangle2D implements geogebra.common.awt.Rectangle2D, geogebra.we
 
     }
 
-	public static geogebra.web.kernel.gawt.Rectangle2D getGawtRectangle2D(
+	public static geogebra.web.openjdk.awt.geom.Rectangle2D getGawtRectangle2D(
 			geogebra.common.awt.Rectangle2D p){
 		if(!(p instanceof geogebra.web.awt.Rectangle2D))
 			return null;
@@ -117,7 +117,7 @@ public class Rectangle2D implements geogebra.common.awt.Rectangle2D, geogebra.we
 		return getImpl();
     }
 
-	protected geogebra.web.kernel.gawt.Rectangle2D getImpl() {
+	protected geogebra.web.openjdk.awt.geom.Rectangle2D getImpl() {
 	    return impl;
     }
 

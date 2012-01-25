@@ -4,14 +4,14 @@ import geogebra.common.main.AbstractApplication;
 
 public class Point extends geogebra.common.awt.Point {
 	
-	private geogebra.web.kernel.gawt.Point impl;
+	private geogebra.web.openjdk.awt.geom.Point impl;
 
 	public Point() {
-		impl = new geogebra.web.kernel.gawt.Point();
+		impl = new geogebra.web.openjdk.awt.geom.Point();
 	}
 	
 	public Point(int x, int y) {
-		impl = new geogebra.web.kernel.gawt.Point(x, y);
+		impl = new geogebra.web.openjdk.awt.geom.Point(x, y);
 	}
 	
 	
