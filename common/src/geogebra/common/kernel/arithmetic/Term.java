@@ -33,7 +33,7 @@ public class Term implements Comparable<Object>, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	ExpressionValue coefficient; // hast to evaluate() to NumberValue
-	private StringBuilder variables;
+	StringBuilder variables;
 	private Kernel kernel;
 
 	public Term(Kernel kernel, ExpressionValue coeff, String vars) {
@@ -155,7 +155,7 @@ public class Term implements Comparable<Object>, Serializable {
 	 */
 	void multiply(Term t) {
 		coefficient = multiply(coefficient, t.coefficient);
-		variables.append(t.variables);
+		variables.append(t.variables.toString());//variables not private and toString called because of a runtime error in Web
 		sort(variables);
 	}
 

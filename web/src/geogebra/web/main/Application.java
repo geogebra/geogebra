@@ -77,9 +77,9 @@ public class Application extends AbstractApplication {
 		setFontSize(12);
 		setLabelDragsEnabled(false);
 		getEuclidianView().setCapturingThreshold(20);
-		
-		getScriptManager().ggbOnInit();
-		 		
+
+
+		getScriptManager();//.ggbOnInit();//this is not called here because we have to delay it until the canvas is first drawn
 	}
 
 	@Override

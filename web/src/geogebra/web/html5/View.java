@@ -63,15 +63,17 @@ public class View extends Widget {
 		if (app == null || archiveContent == null) {
 			return;
 		}
-		
+
 		try {
 			app.loadGgbFile(archiveContent);
 		} catch (Exception ex) {
-				Application.log(ex.getMessage());
+			Application.log(ex.getMessage());
 			return;
 		}
 		archiveContent = null;
 		onSyncCanvasSizeWithApplication();
+
+		app.getScriptManager().ggbOnInit();// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
 	}
 
 	private void onSyncCanvasSizeWithApplication() {
