@@ -2161,6 +2161,13 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		case ANGLE:
 			if (geo.isIndependent()) {
 				// independent number may be shown as slider
+				if (geo.isEuclidianVisible()) {
+					// make sure min/max initialized properly on redefinition
+					// eg f(x)=x^2
+					// f = 1
+					geo.setEuclidianVisible(false);
+					geo.setEuclidianVisible(true);
+				}
 				d = new DrawSlider(this, (GeoNumeric) geo);
 			} else {
 				d = new DrawAngle(this, (GeoAngle) geo);
