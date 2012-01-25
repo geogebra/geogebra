@@ -21,27 +21,41 @@ files accessed, send me the file called "included_paths.json".
 Author: Arnaud
 """
 
-import os
+import os, sys, json, urllib, urllib2
 from time import time, sleep
 from datetime import datetime
-import json
+from getpass import getuser
 
+save_filename = "files.json"
 jython_root = "../../jython"
+send_url = "http://geogebra.idm.jku.at/ggbtrans/jcollect/add/"
+send_timeout = 10
+start_time = time()
+user = getuser()
+platform = sys.platform
 
 def load_data():
-    global start_time, included_paths
     try:
-        with open("included_paths.json", "rb") as f:
-            start_time, serializable = json.loads(f.read())
-            included_paths = dict((k, set(v)) for k, v in serializable.iteritems())
+        with open(save_filename, "rb") as f:
+            data, pending = json.loads(f.read())
+            data = dict((k, set(v)) for k, v in data.iteritems())
+            return data, pending
     except IOError:
-        start_time = time()
-        included_paths = {}
+        return {}, []
 
-def save_data():
-    with open("included_paths.json", "wb") as f:
-        serializable = dict((k, list(v)) for k, v in included_paths.iteritems())
-        f.write(json.dumps((start_time, serializable)))
+def save_data(data, pending):
+    with open(save_filename, "wb") as f:
+        data = dict((k, list(v)) for k, v in data.iteritems())
+        f.write(json.dumps([data, pending]))
+
+def send_data(pending):
+    post_data = urllib.urlencode([
+        ('user', user),
+        ('platform', platform),
+        ('data', json.dumps(pending)),
+    ])
+    response = urllib2.urlopen(send_url, post_data)
+    return json.loads(response.read())
 
 protected_dirs = ['jni']
 
@@ -52,54 +66,84 @@ protected_dirs = ['jni']
 def force_include(root):
     return any('/' + d in root for d in protected_dirs)
 
-def update_included():
+def update_data(data, pending):
     new_files = 0
     for root, dirs, files in os.walk(jython_root):
         force = force_include(root)
+        norm_root = root[len(jython_root) + 1:].replace("\\", "/")
         for name in files:
             path = os.path.join(root, name)
             stats = os.stat(path)
             if force or stats.st_atime >= start_time:
-                included_names = included_paths.setdefault(root, set())
+                included_names = data.setdefault(root, set())
                 if name not in included_names:
-                    included_names.add(name)
-                    print "+", path
                     new_files += 1
+                    included_names.add(name)
+                    norm_path = "%s/%s" % (norm_root, name)
+                    pending.append(norm_path)
     return new_files
 
-def calc_size():
+def calc_size(data):
     size = 0
-    for root, files in included_paths.iteritems():
+    for root, files in data.iteritems():
         for name in files:
             path = os.path.join(root, name)
             stats = os.stat(path)
             size += stats.st_size
     return size / 2.0**20
 
-def list_all():
-    for root, files in included_paths.iteritems():
+def list_all(data):
+    for root, files in data.iteritems():
         print root
         for name in files:
             print "    +", name
 
-def delete_unused():
+def delete_unused(data):
     for root, dirs, files in os.walk(jython_root):
-        files_to_keep = included_paths.get(root, set())
+        files_to_keep = data.get(root, set())
         for name in set(files) - files_to_keep:
             path = os.path.join(root, name)
             print "-", path
             os.remove(path)
 
 if __name__ == "__main__":
-    load_data()
+    data, pending = load_data()
+    should_save = False
     start_time = time()
+    print "="*60
     print "Please use Python Scripting in GeoGebra..."
-    print "Press Ctrl-C (or I think Ctrl-Z on Windows) to quit"
+    print "Press Ctrl-C to quit"
     print "Only quit after you've stopped using GeoGebra!"
-    while True:
-        sleep(5)
-        print datetime.now().ctime()
-        new_files = update_included()
-        if new_files:
-            print new_files, "new files.  New size :", calc_size()
-            save_data()
+    print "="*60
+    print "Data will be sent with the following information:"
+    print "User:", user
+    print "Platform:", platform
+    print "="*60
+    try:
+        while True:
+            sleep(5)
+            sys.stdout.write(".")
+            sys.stdout.flush()
+            new_files = update_data(data, pending)
+            if new_files:
+                print
+                print new_files, "new local files.",
+                print "New size :", calc_size(data)
+                should_save = True
+            if pending:
+                try:
+                    print "\nSending data...",
+                    res = send_data(pending)
+                    print "Done - %s new files on server" % res["count"]
+                    pending = []
+                    should_save = True
+                except urllib2.HTTPError, e:
+                    print "HTTP Error ", e.code
+                except urllib2.URLError, e:
+                    print "Unable to send:", e.reason
+            if should_save:
+                save_data(data, pending)
+                should_save = False
+    except KeyboardInterrupt:
+        print "\n\nThank you. Bye!\n"
+        
