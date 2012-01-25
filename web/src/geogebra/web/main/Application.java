@@ -67,8 +67,6 @@ public class Application extends AbstractApplication {
 	private boolean[] showAxes = {true,true};
 	private boolean showGrid = false;
 	
-	private Map<String, ImageElement> images = new HashMap<String, ImageElement>();
-	
 	protected ImageManager imageManager;
 
 	private Canvas canvas;
@@ -347,9 +345,6 @@ public class Application extends AbstractApplication {
     }
 	
 	private void loadFile(Map<String, String> archive) throws Exception {
-		// Reset file
-		images.clear();
-		
 		// Handling of construction and macro file
 		String construction = archive.remove("geogebra.xml");
 		String macros = archive.remove("geogebra_macro.xml");
@@ -401,7 +396,7 @@ public class Application extends AbstractApplication {
 		}
 		
 		String base64 = DataUtil.base64Encode(binaryContent);
-		addExternalImage(filename,new geogebra.web.awt.BufferedImage(createImage(ext,base64)));
+		addExternalImage(filename,createImage(ext,base64));
 	}
 	
 	private ImageElement createImage(String ext, String base64) {
@@ -425,8 +420,7 @@ public class Application extends AbstractApplication {
 
 	@Override
     public AbstractImageManager getImageManager() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
+	    return imageManager;
     }
 
 	@Override
@@ -441,11 +435,6 @@ public class Application extends AbstractApplication {
 	    return null;
     }
 
-	@Override
-    public BufferedImage getExternalImageAdapter(String filename) {
-		return new geogebra.web.awt.BufferedImage(images.get(filename));
-    }
-	
 	@Override
     public String getCommandSyntax(String cmd) {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
@@ -784,9 +773,14 @@ public class Application extends AbstractApplication {
 		imageManager = new ImageManager();
 	}
 	
-	public void addExternalImage(String filename, BufferedImage image) {
-		imageManager.addExternalImage(filename, image);
+	public void addExternalImage(String filename, ImageElement imageElement) {
+		imageManager.addExternalImage(filename, imageElement);
 	}
+
+	@Override
+    public BufferedImage getExternalImageAdapter(String fileName) {
+		return new geogebra.web.awt.BufferedImage(ImageManager.getExternalImage(fileName));
+    }
 
 
 }
