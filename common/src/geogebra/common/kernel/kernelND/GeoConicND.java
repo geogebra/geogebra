@@ -1274,7 +1274,7 @@ Translateable, GeoConicNDConstants
 						
 		
 		if (type == CONIC_LINE) {
-			sbToValueString.append(lines[0].toStringLHS());
+			sbToValueString.append((CharSequence)lines[0].toStringLHS());
 			sbToValueString.append(" = 0");
 			return sbToValueString;
 		}
@@ -1431,7 +1431,7 @@ Translateable, GeoConicNDConstants
 
 					case CONIC_DOUBLE_LINE :
 						sbToValueString.append('(');
-						sbToValueString.append(lines[0].toStringLHS());
+						sbToValueString.append((CharSequence)lines[0].toStringLHS());
 						sbToValueString.append(")");
 						sbToValueString.append(squared);
 						sbToValueString.append(" = 0");
@@ -1440,9 +1440,9 @@ Translateable, GeoConicNDConstants
 					case CONIC_PARALLEL_LINES :
 					case CONIC_INTERSECTING_LINES :
 						sbToValueString.append('(');
-						sbToValueString.append(lines[0].toStringLHS());
+						sbToValueString.append((CharSequence)lines[0].toStringLHS());
 						sbToValueString.append(") (");
-						sbToValueString.append(lines[1].toStringLHS());
+						sbToValueString.append((CharSequence)lines[1].toStringLHS());
 						sbToValueString.append(") = 0");
 						return sbToValueString;
 						

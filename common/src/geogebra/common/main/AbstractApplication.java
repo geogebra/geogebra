@@ -1494,7 +1494,7 @@ public abstract class AbstractApplication {
 		}
 
 		for (int i = 0; i < s.length; i++) {
-			debugSb.append(s[i]);
+			debugSb.append(s[i].toString());
 			debugSb.append('\n');
 		}
 

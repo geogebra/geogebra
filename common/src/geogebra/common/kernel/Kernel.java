@@ -863,7 +863,7 @@ public class Kernel {
 			char op) {
 
 		sbBuildImplicitEquation.setLength(0);
-		sbBuildImplicitEquation.append(buildImplicitVarPart(numbers, vars,
+		sbBuildImplicitEquation.append((CharSequence)buildImplicitVarPart(numbers, vars,
 				KEEP_LEADING_SIGN || (op == '='), CANCEL_DOWN).toString());
 
 		if (getCASPrintForm().equals(StringType.MATH_PIPER) && (op == '=')) {
@@ -1271,7 +1271,7 @@ public class Kernel {
 	final public StringBuilder buildLHS(double[] numbers, String[] vars,
 			boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN) {
 		sbBuildLHS.setLength(0);
-		sbBuildLHS.append(buildImplicitVarPart(numbers, vars,
+		sbBuildLHS.append((CharSequence)buildImplicitVarPart(numbers, vars,
 				KEEP_LEADING_SIGN, CANCEL_DOWN));
 
 		// add constant coeff
