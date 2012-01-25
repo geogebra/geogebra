@@ -39,7 +39,9 @@ import geogebra.web.kernel.AnimationManager;
 import geogebra.web.kernel.UndoManager;
 import geogebra.web.util.DataUtil;
 import geogebra.web.util.DebugPrinterWeb;
+import geogebra.web.util.ImageManager;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,6 +68,8 @@ public class Application extends AbstractApplication {
 	private boolean showGrid = false;
 	
 	private Map<String, ImageElement> images = new HashMap<String, ImageElement>();
+	
+	protected ImageManager imageManager;
 
 	private Canvas canvas;
 	private geogebra.common.plugin.GgbAPI ggbapi;
@@ -290,7 +294,7 @@ public class Application extends AbstractApplication {
 		
 		initEuclidianViews();
 		
-		
+		initImageManager();
 		
 		myXMLio = new MyXMLio(kernel, kernel.getConstruction());
 	}
@@ -397,7 +401,7 @@ public class Application extends AbstractApplication {
 		}
 		
 		String base64 = DataUtil.base64Encode(binaryContent);
-		images.put(filename, createImage(ext, base64));
+		addExternalImage(filename,new geogebra.web.awt.BufferedImage(createImage(ext,base64)));
 	}
 	
 	private ImageElement createImage(String ext, String base64) {
@@ -563,6 +567,7 @@ public class Application extends AbstractApplication {
 	    return null;
     }
 	private boolean commandChanged = true;
+
 	@Override
     protected boolean isCommandChanged() {
 		return commandChanged;
@@ -774,6 +779,14 @@ public class Application extends AbstractApplication {
     public boolean isHTML5Applet() {
 	    return true;
     }
+	
+	protected void initImageManager() {
+		imageManager = new ImageManager();
+	}
+	
+	public void addExternalImage(String filename, BufferedImage image) {
+		imageManager.addExternalImage(filename, image);
+	}
 
 
 }
