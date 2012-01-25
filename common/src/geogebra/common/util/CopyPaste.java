@@ -159,6 +159,8 @@ public class CopyPaste {
 		GeoElement geo;
 		for (int i = geos.size() - 1; i >= 0; i--) {
 			geo = (GeoElement) geos.get(i);
+			if(geo.getParentAlgorithm()==null)
+				continue;
 			if ((geo.isGeoLine() && geo.getParentAlgorithm().getClassName()
 					.equals(Algos.AlgoJoinPoints))
 					|| (geo.isGeoSegment() && geo.getParentAlgorithm()
