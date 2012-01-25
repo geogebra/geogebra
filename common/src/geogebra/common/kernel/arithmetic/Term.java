@@ -33,7 +33,7 @@ public class Term implements Comparable<Object>, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	ExpressionValue coefficient; // hast to evaluate() to NumberValue
-	StringBuilder variables;
+	private StringBuilder variables;
 	private Kernel kernel;
 
 	public Term(Kernel kernel, ExpressionValue coeff, String vars) {
@@ -75,7 +75,7 @@ public class Term implements Comparable<Object>, Serializable {
 
 	void setVariables(StringBuilder vars) {
 		variables.setLength(0);
-		variables.append(vars);
+		variables.append(vars.toString());
 	}
 
 	boolean hasNoVars() {
@@ -155,7 +155,7 @@ public class Term implements Comparable<Object>, Serializable {
 	 */
 	void multiply(Term t) {
 		coefficient = multiply(coefficient, t.coefficient);
-		variables.append(t.variables.toString());//variables not private and toString called because of a runtime error in Web
+		variables.append(t.variables.toString());
 		sort(variables);
 	}
 
@@ -344,7 +344,7 @@ public class Term implements Comparable<Object>, Serializable {
 			}
 			StringBuilder sb = new StringBuilder();
 			sb.append('(');
-			sb.append(n);
+			sb.append(n.toString());
 			sb.append(')');
 			return sb.toString();
 		} else
