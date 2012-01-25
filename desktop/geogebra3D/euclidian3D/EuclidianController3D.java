@@ -4,6 +4,7 @@ package geogebra3D.euclidian3D;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.GetViewId;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.event.AbstractEvent;
@@ -15,6 +16,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSurfaceFinite;
 import geogebra.common.kernel.geos.Test;
@@ -320,7 +322,18 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	}
 	
 	
-
+	
+	@Override
+	protected void moveTextAbsoluteLocation(){
+		Coords o = view3D.getPickPoint(mouseLoc.x,mouseLoc.y); 
+		view3D.toSceneCoords3D(o);
+		//o = (o.sub(startPoint3D)).projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, view3D.getViewDirection())[0];
+		o = o.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, view3D.getViewDirection())[0];
+		//Application.debug(o);
+		//((GeoPoint2) movedGeoText.getStartPoint()).setCoords(o.getX(),o.getY(), 1.0);
+		((GeoPoint2) movedGeoText.getStartPoint()).setCoords(o.getX()-startPoint3DxOy.getX(),o.getY()-startPoint3DxOy.getY(), 1.0);
+	}
+	
 	
 	@Override
 	protected void movePoint(boolean repaint){
@@ -2161,7 +2174,8 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			int i = 0;
 			boolean checking = true;
 			ArrayList<Drawable3D> existingDrawables = ((Hits3D) hits).getDrawables();
-			while(checking && i<hits.size()){
+			//while(checking && i<hits.size()){
+			while(checking && i<existingDrawables.size()){
 				Drawable3D d = existingDrawables.get(i);
 				GeoElement geo = d.getGeoElement();
 				//Application.debug("hits("+i+"): "+geo+"\nzmin="+d.zPickMin+"\nzmax="+d.zPickMax);
@@ -2600,7 +2614,10 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	// MOVE OBJECTS
 	////////////////////////////////////////
 	
-	private Coords startPoint3D;
+	private Coords startPoint3D = new Coords(0,0,0,1);
+	private Coords startPoint3DxOy = new Coords(0,0,0,1);
+	
+	private double zRW;
 
 	private Coords translationVec3D = new Coords(4);
 	
@@ -2612,12 +2629,41 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	
 	@Override
 	public void setStartPointLocation(){
+		udpateStartPoint();
+		
+		//Application.debug(startPoint3D);
+		
+		super.setStartPointLocation();
+	}
+	
+	private void udpateStartPoint(){
 		if (mouseLoc==null)//case that it's algebra view calling
 			return;
 		startPoint3D = view3D.getPickPoint(mouseLoc.x, mouseLoc.y);
 		view3D.toSceneCoords3D(startPoint3D);
 		
-		super.setStartPointLocation();
+		//project on xOy
+		startPoint3DxOy = startPoint3D.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, view3D.getViewDirection())[0];
+
+	}
+	
+	@Override
+	public void setStartPointLocationWithOrigin(double x, double y) {
+		udpateStartPoint();
+		//sub origin
+		startPoint3DxOy.setX(startPoint3DxOy.getX()-x);
+		startPoint3DxOy.setY(startPoint3DxOy.getY()-y);
+		
+		super.setStartPointLocationWithOrigin(x, y);
+	}
+	
+	@Override
+	protected void calcRWcoords() {
+		Coords point =  view3D.getPickPoint(mouseLoc.x, mouseLoc.y);
+		view3D.toSceneCoords3D(point);
+		xRW = point.getX();
+		yRW = point.getY();
+		zRW = point.getZ();
 	}
 
 	@Override

@@ -249,16 +249,9 @@ public abstract class Drawable3D extends DrawableND {
 	/** update this according to the {@link GeoElement3D} 
 	 *
 	 */
+	@Override
 	final public void update(){
-		
 
-		/*
-		if (waitForUpdate||viewChanged||labelWaitForUpdate)
-			Application.debug(getGeoElement()+"\n waitForUpdate="+waitForUpdate
-					+"\n viewChanged="+viewChanged
-					+"\n labelWaitForUpdate="+labelWaitForUpdate
-					+"\n reset="+labelWaitForReset);
-					*/
 
 		if (waitForUpdateVisualStyle){
 			updateColors();
@@ -337,6 +330,7 @@ public abstract class Drawable3D extends DrawableND {
 	/**
 	 * says that it has to be updated
 	 */
+	@Override
 	public void setWaitForUpdate(){
 		
 		waitForUpdate = true;
@@ -591,6 +585,9 @@ public abstract class Drawable3D extends DrawableND {
 				
     }
     
+    /**
+     * @return true if the label is visible
+     */
     protected boolean isLabelVisible(){
     	return getGeoElement()!=null && isVisible() && getGeoElement().isLabelVisible();
     }
@@ -871,7 +868,8 @@ public abstract class Drawable3D extends DrawableND {
      * get the GeoElementInterface linked to the Drawable3D 
      * @return the GeoElement3DInterface linked to
      */  
-    public GeoElement getGeoElement() {
+    @Override
+	public GeoElement getGeoElement() {
         return geo;
     }   
     

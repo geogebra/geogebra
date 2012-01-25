@@ -124,7 +124,7 @@ public class Hits3D extends Hits {
 		
 		//Application.debug("isLabel = "+isLabel);
 		
-		if (isLabel)
+		if (isLabel && !d.getGeoElement().isGeoText())
 			hitsLabels.add(d);
 		//else{
 		

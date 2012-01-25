@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
+import com.google.appengine.tools.admin.Application;
+
 import geogebra.common.awt.Point;
 import geogebra.common.awt.Point2D;
 import geogebra.common.awt.Rectangle;
@@ -5276,6 +5278,7 @@ public abstract class AbstractEuclidianController {
 	}
 
 	protected final void moveText(boolean repaint) {
+		
 		if (movedGeoText.isAbsoluteScreenLocActive()) {
 			movedGeoText.setAbsoluteScreenLoc((oldLoc.x + mouseLoc.x)
 					- startLoc.x, (oldLoc.y + mouseLoc.y) - startLoc.y);
@@ -5286,8 +5289,8 @@ public abstract class AbstractEuclidianController {
 		} else {
 			if (movedGeoText.hasAbsoluteLocation()) {
 				// absolute location: change location
-				GeoPoint2 loc = (GeoPoint2) movedGeoText.getStartPoint();
-				loc.setCoords(xRW - startPoint.x, yRW - startPoint.y, 1.0);
+				moveTextAbsoluteLocation();
+				
 			} else {
 				// relative location: move label (change label offset)
 				movedGeoText.setLabelOffset((oldLoc.x + mouseLoc.x)
@@ -5300,6 +5303,11 @@ public abstract class AbstractEuclidianController {
 		} else {
 			movedGeoText.updateCascade();
 		}
+	}
+	
+	protected void moveTextAbsoluteLocation(){
+		GeoPoint2 loc = (GeoPoint2) movedGeoText.getStartPoint();
+		loc.setCoords(xRW - startPoint.x, yRW - startPoint.y, 1.0);
 	}
 
 	protected final void moveImage(boolean repaint) {
@@ -6021,6 +6029,10 @@ public abstract class AbstractEuclidianController {
 	public void setStartPointLocation() {
 		startPoint.setLocation(xRW, yRW);
 	}
+	
+	public void setStartPointLocationWithOrigin(double x, double y) {
+		startPoint.setLocation(xRW-x, yRW-y);
+	}
 
 	public void handleMovedElement(GeoElement geo, boolean multiple) {
 		resetMovedGeoPoint();
@@ -6029,7 +6041,7 @@ public abstract class AbstractEuclidianController {
 		// multiple geos selected
 		if ((movedGeoElement != null) && multiple) {
 			moveMode = MOVE_MULTIPLE_OBJECTS;
-			startPoint.setLocation(xRW, yRW);
+			setStartPointLocation();
 			startLoc = mouseLoc;
 			view.setDragCursor();
 			if (translationVec == null) {
@@ -6296,6 +6308,7 @@ public abstract class AbstractEuclidianController {
 				// transformCoordsOffset[0]=movedGeoText.getBoundingBox().getX()-xRW;
 				// transformCoordsOffset[1]=movedGeoText.getBoundingBox().getY()-yRW;
 			} else if (movedGeoText.hasAbsoluteLocation()) {
+
 				// absolute location: change location
 				GeoPoint2 loc = (GeoPoint2) movedGeoText.getStartPoint();
 				if (loc == null) {
@@ -6306,9 +6319,9 @@ public abstract class AbstractEuclidianController {
 					} catch (Exception ex) {
 						ex.printStackTrace();
 					}
-					startPoint.setLocation(xRW, yRW);
+					setStartPointLocation();
 				} else {
-					startPoint.setLocation(xRW - loc.inhomX, yRW - loc.inhomY);
+					setStartPointLocationWithOrigin(loc.inhomX, loc.inhomY);
 	
 					GeoPoint2 loc2 = new GeoPoint2(loc);
 					movedGeoText.setNeedsUpdatedBoundingBox(true);
@@ -6334,7 +6347,7 @@ public abstract class AbstractEuclidianController {
 			view.setShowMouseCoords(false);
 			view.setDragCursor();
 	
-			startPoint.setLocation(xRW, yRW);
+			setStartPointLocation();
 			if (tempConic == null) {
 				tempConic = new GeoConic(kernel.getConstruction());
 			}
@@ -6345,7 +6358,7 @@ public abstract class AbstractEuclidianController {
 			view.setShowMouseCoords(false);
 			view.setDragCursor();
 	
-			startPoint.setLocation(xRW, yRW);
+			setStartPointLocation();
 			if (tempImplicitPoly == null) {
 				tempImplicitPoly = new GeoImplicitPoly(movedGeoImplicitPoly);
 			} else {
@@ -6398,7 +6411,7 @@ public abstract class AbstractEuclidianController {
 			view.setShowMouseCoords(false);
 			view.setDragCursor();
 	
-			startPoint.setLocation(xRW, yRW);
+			setStartPointLocation();
 			if (tempFunction == null) {
 				tempFunction = new GeoFunction(kernel.getConstruction());
 			}
@@ -6532,7 +6545,7 @@ public abstract class AbstractEuclidianController {
 				transformCoordsOffset[1] = view.toRealWorldCoordY(oldLoc.y)
 						- yRW;
 			} else if (movedGeoImage.hasAbsoluteLocation()) {
-				startPoint.setLocation(xRW, yRW);
+				setStartPointLocation();
 				oldImage = new GeoImage(movedGeoImage);
 	
 				GeoPoint2 loc = movedGeoImage.getStartPoints()[2];

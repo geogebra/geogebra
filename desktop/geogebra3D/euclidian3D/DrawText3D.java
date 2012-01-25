@@ -1,14 +1,13 @@
 package geogebra3D.euclidian3D;
 
 
-import java.awt.Color;
-import java.awt.Font;
-
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.Renderer;
+
+import java.awt.Font;
 
 public class DrawText3D extends Drawable3DCurves {
 
@@ -20,37 +19,43 @@ public class DrawText3D extends Drawable3DCurves {
 		
 	}
 	
+	@Override
 	protected DrawLabel3D newDrawLabel3D(EuclidianView3D view3D){
 		return new DrawLabel3DForText(view3D);
 	}
 	
 
+	@Override
 	protected void updateForView() {
 
 	}
 
+	@Override
 	protected boolean updateForItSelf() {
+		//setLabelWaitForUpdate();
 		return true;
 	}
 
 
+	@Override
 	public void drawGeometry(Renderer renderer) {
 		
 	}
 
+	@Override
 	protected void updateLabel(){	
 		
 		GeoText text = (GeoText) getGeoElement();
 				
 		label.update(text.getTextString(), 
 				getFont(), 
-				geogebra.awt.Color.getAwtColor((geogebra.awt.Color) getGeoElement().getObjectColor()),
+				geogebra.awt.Color.getAwtColor(getGeoElement().getObjectColor()),
 				getLabelPosition(),
 				getLabelOffsetX(),-getLabelOffsetY());
 
 
 	}
-	
+
 	
 	private Font getFont() {
 		GeoText text = (GeoText) getGeoElement();
@@ -79,15 +84,17 @@ public class DrawText3D extends Drawable3DCurves {
 				return textFont;
 	}
 	
-	private boolean isLocationDefined;
+	//private boolean isLocationDefined;
 	
-    protected boolean isLabelVisible(){
-    	return isVisible() && isLocationDefined;
+    @Override
+	protected boolean isLabelVisible(){
+    	return isVisible();// && isLocationDefined;
     }
     
-    public Coords getLabelPosition(){
+    @Override
+	public Coords getLabelPosition(){
     	
-    	isLocationDefined = true;
+    	//isLocationDefined = true;
     	
     	GeoText text = (GeoText) getGeoElement();
     	
@@ -97,6 +104,7 @@ public class DrawText3D extends Drawable3DCurves {
 		
 		
 		GeoPointND loc = text.getStartPoint();
+		
 	       
 		if (loc == null)
 			//return new Coords(getView3D().getXZero(),getView3D().getYZero(),0,1);
@@ -104,7 +112,7 @@ public class DrawText3D extends Drawable3DCurves {
 				 
 		
 	    if (!loc.isDefined()){
-	    	isLocationDefined = false;
+	    	//isLocationDefined = false;
 	    	return null;
 	    }
 	    
@@ -113,6 +121,7 @@ public class DrawText3D extends Drawable3DCurves {
     }
 	
 
+	@Override
 	public int getPickOrder() {
 		
 		return DRAW_PICK_ORDER_0D;
