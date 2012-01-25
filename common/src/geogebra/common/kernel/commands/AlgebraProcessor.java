@@ -45,13 +45,11 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.parser.ParserInterface;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
+import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.kernel.commands.MyException;
-//import geogebra.kernel.parser.ParseException;
-//import geogebra.kernel.parser.Parser;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Set;
 
 public class AlgebraProcessor {
@@ -799,8 +797,8 @@ public class AlgebraProcessor {
 					// simply assign value and don't redefine
 					if (replaceable.isIndependent()
 							&& ret[0].isIndependent()
-							&& replaceable.getGeoClassType() == ret[0]
-									.getGeoClassType()) {
+							&& compatibleTypes(replaceable.getGeoClassType(), ret[0]
+									.getGeoClassType())) {
 						replaceable.set(ret[0]);
 						replaceable.updateRepaint();
 						ret[0] = replaceable;
@@ -832,8 +830,25 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
+	private static boolean compatibleTypes(GeoClass type,
+			GeoClass type2) {
+		if(type2.equals(type))
+			return true;
+		if(type2.equals(GeoClass.NUMERIC)&&type.equals(GeoClass.ANGLE))
+			return true;
+		if(type.equals(GeoClass.NUMERIC)&&type2.equals(GeoClass.ANGLE))
+			return true;
+		return false;
+	}
+	/**
+	 * Processes valid expression
+	 * @param ve expression to process
+	 * @return array of geos
+	 * @throws MyError if syntax error occurs
+	 * @throws CircularDefinitionException if circular definition occurs
+	 */
 	public GeoElement[] doProcessValidExpression(ValidExpression ve)
-			throws MyError, Exception {
+			throws MyError, CircularDefinitionException {
 		GeoElement[] ret = null;
 
 		if (ve instanceof ExpressionNode) {
