@@ -4654,7 +4654,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		// trace to spreadsheet
 		if (app.isUsingFullGui() && isSpreadsheetTraceable()
 				&& getSpreadsheetTrace()) {
-			sb.append(app.getTraceXML(this));
+			sb.append(app.getTraceXML(this));// sb.append(null)?
 		}
 
 		/*

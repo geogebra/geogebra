@@ -1036,7 +1036,7 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
     		sbBuildValueString.append('(');    
 			sbBuildValueString.append(kernel.format(MyMath.length(getInhomX(), getInhomY())));
 			sbBuildValueString.append("; ");
-			sbBuildValueString.append(kernel.formatAngle(Math.atan2(getInhomY(), getInhomX())));
+			sbBuildValueString.append((CharSequence)kernel.formatAngle(Math.atan2(getInhomY(), getInhomX())));
 			sbBuildValueString.append(')');
             break;                                
                         

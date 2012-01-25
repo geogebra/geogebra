@@ -607,7 +607,7 @@ public class GeoCasCell extends GeoElement {
 
 		// replace commands with (
 		regexSb.setLength(0);
-		regexSb.append(regexPrefix);
+		regexSb.append((CharSequence)regexPrefix);
 		regexSb.append(oldCmd);
 		regexSb.append("[\\(]");
 		newCmdSb.setLength(0);

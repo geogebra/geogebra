@@ -1954,7 +1954,7 @@ public class MyXMLHandler implements DocHandler {
 							} else {
 								thousande = 0;
 								afterspace = false;
-								converted.append(addendum);
+								converted.append((CharSequence)addendum);
 								converted.append(toolbarStr.charAt(lv));
 							}
 						}
@@ -1967,7 +1967,7 @@ public class MyXMLHandler implements DocHandler {
 								converted.append("100"
 										+ addendum.toString().substring(1));
 							} else {
-								converted.append(addendum);
+								converted.append((CharSequence)addendum);
 							}
 							afterspace = false;
 							thousande = 0;

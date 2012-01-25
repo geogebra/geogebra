@@ -403,7 +403,7 @@ public class Equation extends ValidExpression implements ReplaceableValue {
         
         // left hand side
         if (lhs != null) 
-        	sb.append(lhs);
+        	sb.append(lhs.toString());
         else 
         	sb.append('0');
         
@@ -419,7 +419,7 @@ public class Equation extends ValidExpression implements ReplaceableValue {
         
         // right hand side
         if (rhs != null) 
-        	sb.append(rhs);
+        	sb.append(rhs.toString());
         else
         	sb.append('0');
         

@@ -1327,7 +1327,7 @@ Translateable, GeoConicNDConstants
 								sbToValueString.append(squared);
 							} else {
 								sbToValueString.append("(x ");
-								sbToValueString.append(kernel.formatSigned(-b.x));
+								sbToValueString.append((CharSequence)kernel.formatSigned(-b.x));
 								sbToValueString.append(")");
 								sbToValueString.append(squared);
 							}
@@ -1339,7 +1339,7 @@ Translateable, GeoConicNDConstants
 								sbToValueString.append(squared);
 							} else {
 								sbToValueString.append("(y ");
-								sbToValueString.append(kernel.formatSigned(-b.y));
+								sbToValueString.append((CharSequence)kernel.formatSigned(-b.y));
 								sbToValueString.append(")");
 								sbToValueString.append(squared);
 							}
@@ -1379,7 +1379,7 @@ Translateable, GeoConicNDConstants
 								sbToValueString.append('(');
 								sbToValueString.append(firstVar);
 								sbToValueString.append(' ');
-								sbToValueString.append(kernel.formatSigned(-b1));
+								sbToValueString.append((CharSequence)kernel.formatSigned(-b1));
 								sbToValueString.append(")");
 								sbToValueString.append(squared);
 							}
@@ -1393,7 +1393,7 @@ Translateable, GeoConicNDConstants
 								sbToValueString.append('(');
 								sbToValueString.append(secondVar);
 								sbToValueString.append(' ');
-								sbToValueString.append(kernel.formatSigned(-b2));
+								sbToValueString.append((CharSequence)kernel.formatSigned(-b2));
 								sbToValueString.append(")");
 								sbToValueString.append(squared);
 							}

@@ -346,11 +346,11 @@ public class AlgoStemPlot extends AlgoElement {
 		sb.append('{');
 		sb.append("\\begin{tabular}{ll}");  	
 		if(outlierIndex[0] > 0)
-			sb.append(low);
-		sb.append(body);
+			sb.append((CharSequence)low);
+		sb.append((CharSequence)body);
 		if(outlierIndex[1] < data.length)
-			sb.append(high);
-		sb.append(key);
+			sb.append((CharSequence)high);
+		sb.append((CharSequence)key);
 		sb.append("\\end{tabular}");
 		sb.append('}');
 

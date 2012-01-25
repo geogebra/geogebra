@@ -395,7 +395,7 @@ public abstract class GeoQuadricND extends GeoElement implements GeoQuadricNDCon
 				sbToValueString.append("(");
 				sbToValueString.append(VAR_STRING[i]);
 				sbToValueString.append(" ");
-				sbToValueString.append(kernel.formatSigned(-getMidpoint().get(i+1)).toString());
+				sbToValueString.append((CharSequence)kernel.formatSigned(-getMidpoint().get(i+1)).toString());
 				sbToValueString.append(")");
 				sbToValueString.append(squared);
 			}	

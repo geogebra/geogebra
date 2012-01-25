@@ -899,7 +899,7 @@ public abstract class AbstractApplication {
 
 	public abstract ScriptManagerCommon getScriptManager();
 
-	public abstract Object getTraceXML(GeoElement geoElement);
+	public abstract String getTraceXML(GeoElement geoElement);
 
 	
 

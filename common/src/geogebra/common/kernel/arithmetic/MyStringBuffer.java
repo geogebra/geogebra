@@ -56,7 +56,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 	public String toString() {
 		StringBuilder temp = new StringBuilder();
 		temp.append("\"");
-		temp.append(sb);
+		temp.append((CharSequence)sb);
 		temp.append("\"");
 		return temp.toString();
 	}
@@ -111,7 +111,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 	final public String toOutputValueString() {
 		StringBuffer sb2 = new StringBuffer(sb.length() + 2);
 		sb2.append('"');
-		sb2.append(sb);
+		sb2.append((CharSequence)sb);
 		sb2.append('"');
 		return sb2.toString();
 	}

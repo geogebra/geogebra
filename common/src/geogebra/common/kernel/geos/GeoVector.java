@@ -423,14 +423,14 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 			sbBuildValueString.append("(");		
 			sbBuildValueString.append(kernel.format(MyMath.length(x, y)));
 			sbBuildValueString.append("; ");
-			sbBuildValueString.append(kernel.formatAngle(Math.atan2(y, x)));
+			sbBuildValueString.append((CharSequence)kernel.formatAngle(Math.atan2(y, x)));
 			sbBuildValueString.append(")");
 			break;
 
 		case Kernel.COORD_COMPLEX:              	
 			sbBuildValueString.append(kernel.format(x));
 			sbBuildValueString.append(" ");
-			sbBuildValueString.append(kernel.formatSigned(y));
+			sbBuildValueString.append((CharSequence)kernel.formatSigned(y));
 			sbBuildValueString.append(Unicode.IMAGINARY);
 			break;                                
 
@@ -642,14 +642,14 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 			sb.append("(");		
 			sb.append(kernel.format(MyMath.length(x, y)));
 			sb.append("; ");
-			sb.append(kernel.formatAngle(Math.atan2(y, x)));
+			sb.append((CharSequence)kernel.formatAngle(Math.atan2(y, x)));
 			sb.append(")");
 			break;
 
 		case Kernel.COORD_COMPLEX:              	
 			sb.append(kernel.format(x));
 			sb.append(" ");
-			sb.append(kernel.formatSigned(y));
+			sb.append((CharSequence)kernel.formatSigned(y));
 			sb.append(Unicode.IMAGINARY);
 			break;                                
 

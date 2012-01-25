@@ -1379,7 +1379,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 					
 					if (!SB.toString().endsWith(sb.toString())) { // not duplicated
 						if (SB.length() > 1) SB.append(',');
-						SB.append(sb);
+						SB.append((CharSequence)sb);
 						//Application.debug("diagonal asymptote minus: y = "+gradientStrMinus+"x + "+interceptStrMinus,1);			
 					}
 					
@@ -1426,7 +1426,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		    	sb.append(limit);
 		    	if (!SB.toString().endsWith(sb.toString())) { // not duplicated
 			    	if (SB.length() > 1) SB.append(',');
-			    	SB.append(sb);
+			    	SB.append((CharSequence)sb);
 		    	}
 		    }
         } catch (Throwable t) {

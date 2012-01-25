@@ -211,7 +211,7 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public Object getTraceXML(GeoElement geoElement) {
+	public String getTraceXML(GeoElement geoElement) {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 		return null;
 	}
