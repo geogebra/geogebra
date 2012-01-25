@@ -7,7 +7,8 @@ accessed when GeoGebra is running (this only happens when working
 with Python scripting).
 
 The directory desktop/jython must be populated first.  This can be
-done with the "reset_jython.sh" script in this directory.
+done on unix platforms with the "reset_jython.sh" script in this
+directory. Sorry I don't know how to do this for Windows!
 
 The script, when started, monitors desktop/jython for access to files
 within it. Every file which is accessed is recorded.  The idea is to
