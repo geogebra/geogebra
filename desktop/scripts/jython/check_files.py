@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-This scripts creates or updates a file called "included_paths.json"
+This scripts creates or updates a file called "files.json"
 which contains all the paths to files in desktop/jython which are
 accessed when GeoGebra is running (this only happens when working
 with Python scripting).
@@ -15,8 +15,9 @@ start the script, start GeoGebra and test Python scripting.  If the
 script's output doesn't show anything, it means that it hasn't
 detected access to a new file.
 
-Play with it for a while and when it seems that there aren't any new
-files accessed, send me the file called "included_paths.json".
+If the computer has internet access, the paths to the new files are
+automatically uploaded to a server (see send_url below) and checked
+against a database of known used jython files.
 
 Author: Arnaud
 """
