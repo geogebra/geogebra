@@ -321,7 +321,7 @@ class Boolean(ExpressionElement, Expression):
 
 class VectorOrPoint(ExpressionElement, Expression):
 
-    @specmethod.__init__
+    @specmethod.init
     @sign(NumberThing, NumberThing)
     def initfromexprcoords(self, xe, ye):
         ve = VectorExpression(xe, ye)
@@ -358,25 +358,25 @@ class VectorOrPoint(ExpressionElement, Expression):
 
 
 class Vector(VectorOrPoint):
-    @specmethod.__init__
+    @specmethod.init
     @sign(VectorThing)
     def initfromexpr(self, e):
         self.geo = api.geoVector(expr(e).expr)
 
-    @specmethod.__init__
+    @specmethod.init
     @sign(Number, Number)
     def initfromnumbercoords(self, x, y):
         self.geo = api.geoVector(float(x), float(y))
 
         
 class Point(VectorOrPoint):
-    @specmethod.__init__
+    @specmethod.init
     @sign(VectorThing)
     def initfromexpr(self, e):
         self.geo = api.geoPoint(expr(e).expr)
 
 
-    @specmethod.__init__
+    @specmethod.init
     @sign(Number, Number)
     def initfromnumbercoords(self, x, y):
         self.geo = api.geoPoint(float(x), float(y))
@@ -485,13 +485,11 @@ class Ray(Line):
 
 
 class Text(Element):
-    def __init__(self, value, location=None):
+    def __init__(self, value, **kwargs):
         self.geo = api.geoText(value)
-        if isinstance(location, Point):
-            self.geo.setTextOrigin(location.geo)
-        elif location is not None:
-            raise TypeError
         self.geo.updateRepaint()
+        for k, v in kwargs.iteritems():
+            setattr(self, k, v)
 
     def _setorigin(self, point):
         if isinstance(point, Point):
@@ -620,14 +618,14 @@ class Function(Element):
             raise ValueError("function must have at least one variable")
         if nargs == 1:
             x = api.variableExpression(varnames[0])
-            self.geo = api.geoFunction(f(x).expr, x)
+            self.geo = api.geoFunction(f(Expression(x)).expr, x)
         else:
             xs = [api.variableExpression(v) for v in varnames[:nargs]]
-            self.geo = api.geoFunctionNVar(f(*xs).expr, xs)
+            self.geo = api.geoFunctionNVar(f(*map(Expression, xs)).expr, xs)
     
     def __call__(self, *args):
         args = map(expr, args)
-
+        
     def _getimplicitcurve(self):
         if self.nargs != 2:
             raise AttributeError
