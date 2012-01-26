@@ -2955,18 +2955,22 @@ Translateable, GeoConicNDConstants
 	 */
 	public boolean isInRegion(double x0, double y0) {
 		
+		return evaluate(x0,y0)*evaluateInSignificantPoint()  >= 0; 
+
+	}
+	
+	public double evaluateInSignificantPoint(){
 		switch (type){
 		case CONIC_INTERSECTING_LINES:
-			return evaluate(x0,y0)*evaluate(b.x+lines[0].x+lines[1].x,b.y+lines[0].y+lines[1].y) >= 0;
+			return evaluate(b.x+lines[0].x+lines[1].x,b.y+lines[0].y+lines[1].y);
 		case CONIC_HYPERBOLA:
-			return evaluate(x0,y0)*evaluate(b.x,b.y) <= 0;	
+			return -evaluate(b.x,b.y);	
 		case CONIC_PARABOLA:
-			return evaluate(x0,y0)*evaluate(b.x + p * eigenvec[0].x,
-					b.y + p * eigenvec[0].y)  >= 0;	
+			return evaluate(b.x + p * eigenvec[0].x,
+					b.y + p * eigenvec[0].y);	
 		default:
-			return evaluate(x0,y0)*evaluate(b.x,b.y)  >= 0; 
+			return evaluate(b.x,b.y); 
 		}
-		
 	}
 	
 

@@ -194,30 +194,7 @@ public class Inequality {
 	}
 
 	private void setAboveBorderFromConic() {
-		if (conicBorder.getType() == GeoConicNDConstants.CONIC_INTERSECTING_LINES ||
-				conicBorder.getType() == GeoConicNDConstants.CONIC_EMPTY ||
-				conicBorder.getType() == GeoConicNDConstants.CONIC_LINE) {
-			   		isAboveBorder = true;
-			   		return;
-		}
-		GeoVec2D midpoint = conicBorder.getTranslationVector();
-		ExpressionNode normalCopy = (ExpressionNode) normal
-				.deepCopy(kernel);
-		double midX, midY;	
-		if (conicBorder.getType() == GeoConicNDConstants.CONIC_PARABOLA){
-			//TODO: replace with Eigenvec once GeoVec2D is ported
-			midX = midpoint.getX()+conicBorder.getP()*conicBorder.getEigenvec(0).getX();
-			midY = midpoint.getY()+conicBorder.getP()*conicBorder.getEigenvec(0).getY();
-		} else {					
-			midX = midpoint.getY();
-			midY = midpoint.getX();
-		} 
-		normalCopy.replaceAndWrap(fv[0], new MyDouble(kernel, midX));
-		normalCopy.replaceAndWrap(fv[1], new MyDouble(kernel, midY));
-		double valAtCenter = ((NumberValue) normalCopy.evaluate())
-				.getDouble();
-		isAboveBorder = (valAtCenter < 0)
-				^ (conicBorder.getType() == GeoConicNDConstants.CONIC_HYPERBOLA);		
+		isAboveBorder = conicBorder.evaluateInSignificantPoint()<0;		
 	}
 	
 	private void init1varFunction(int varIndex) {

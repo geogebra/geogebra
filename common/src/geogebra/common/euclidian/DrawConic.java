@@ -401,8 +401,12 @@ final public class DrawConic extends Drawable implements Previewable {
 		for (int i = 0; i < 6; i++) {
 			double val1 = conic.evaluate(view.toRealWorldCoordX(xTry[i]),
 					view.toRealWorldCoordY(yTry[i]));
+			if(conic.type == GeoConicNDConstants.CONIC_INTERSECTING_LINES)
+				val1*=conic.evaluate(conic.b.x+lines[0].x+lines[1].x,conic.b.y+lines[0].y+lines[1].y);
+			if(conic.type == GeoConicNDConstants.CONIC_PARALLEL_LINES)
+				val1*=conic.evaluate(conic.b.x,conic.b.y);
 			if (!Kernel.isZero(val1))
-				return (val1 < 0) ^ shape.contains(xTry[i], yTry[i]);
+				return (val1 > 0) ^ shape.contains(xTry[i], yTry[i]);
 		}
 		return false;
 	}
