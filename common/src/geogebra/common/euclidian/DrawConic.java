@@ -353,7 +353,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	 * Updates the lines and shape so that positive part is colored
 	 */
 	final private void updateLines() {
-
+		shape = null;
 		if (conic.isGeoElement3D()) {// TODO implement for 3D conics
 			isVisible = false;
 			return;
