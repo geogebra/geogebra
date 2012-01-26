@@ -1,11 +1,14 @@
 package geogebra.euclidian;
 
+import geogebra.common.awt.Point;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.main.Application;
 
@@ -15,7 +18,6 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import geogebra.common.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -357,7 +359,45 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 				x2=xcenter;
 			}
 			//	line1=new Line2D();
-		}
+			double x_first=view.toRealWorldCoordX(penPoints.get(0).x);
+			double y_first=view.toRealWorldCoordY(penPoints.get(0).y);
+			double x_last=view.toRealWorldCoordX(penPoints.get(penPoints.size()-1).x);
+			double y_last=view.toRealWorldCoordY(penPoints.get(penPoints.size()-1).y);
+			String equation=null;
+			if(x_first==x_last)
+			{
+				equation="x" + "=" + (x_first);
+				System.out.println(equation);
+				GeoPoint2 p = new GeoPoint2(app.getKernel().getConstruction(), x_first, y_first, 1.0);
+			                GeoPoint2 q = new GeoPoint2(app.getKernel().getConstruction(), x_last, y_last, 1.0);
+			                AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), equation, p, q);
+			}
+			else if(y_last==y_first)
+			{
+				equation="y" + "=" + " " + (y_first);
+				System.out.println(equation);
+				GeoPoint2 p = new GeoPoint2(app.getKernel().getConstruction(), x_first, y_first, 1.0);
+			                GeoPoint2 q = new GeoPoint2(app.getKernel().getConstruction(), x_last, y_last, 1.0);
+			                AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), equation, p, q);
+			}
+			else
+			{
+				double y_diff=(y_first-y_last);
+				double x_diff=(x_last-x_first);
+				if(x_diff<0)
+				{
+					equation=y_diff + "x" + "-" + -x_diff + "y" + "=" + ((x_diff*y_first)+(y_diff*x_first));
+					AbstractApplication.debug(equation);
+				}
+				else
+				{
+					equation=y_diff + "x" + "+" + x_diff + "y" + "=" + ((x_diff*y_first)+(y_diff*x_first));
+					AbstractApplication.debug(equation);
+				}
+				GeoPoint2 p = new GeoPoint2(app.getKernel().getConstruction(), x_first, y_first, 1.0);
+			                GeoPoint2 q = new GeoPoint2(app.getKernel().getConstruction(), x_last, y_last, 1.0);
+			                AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), equation, p, q);
+			}		}
 
 		// if (lastPenImage != null) penImage = lastPenImage.getImage();
 		// //app.getExternalImage(lastPenImage);
