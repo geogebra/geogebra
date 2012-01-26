@@ -249,7 +249,7 @@ public class ScriptManager extends ScriptManagerCommon {
 			ggbAPI.@geogebra.web.main.GgbAPI::setGridVisible(Z)(flag);
 		};
 
-		$wnd.ggbApplet.getAllObjectNames = function() {
+		$wnd.ggbApplet.getAllObjectNames = function() {// deprecated since 3.0
 			return ggbAPI.@geogebra.web.main.GgbAPI::getAllObjectNames()();
 		};
 
@@ -321,6 +321,21 @@ public class ScriptManager extends ScriptManagerCommon {
 		$wnd.ggbApplet.unregisterObjectUpdateListener = function(JSFunctionName) {
 			ggbAPI.@geogebra.web.main.GgbAPI::unregisterObjectUpdateListener(Ljava/lang/String;)(JSFunctionName);
 		};
+
+		// other methods from the Wiki (consider to implement here)
+		// http://wiki.geogebra.org/en/Reference:JavaScript
+		//
+		// String getPNGBase64(double exportScale, boolean transparent, double DPI)
+		// boolean writePNGtoFile(String filename, double exportScale, boolean transparent, double DPI)
+		// boolean isIndependent(String objName)
+		// boolean isMoveable(String objName)
+		// String getBase64()
+		// void setBase64(String)
+		// void openFile(String strURL)
+		// String evalMathPiper(String string) // evalGeoGebraCAS(String string)
+		// String getIPAddress()
+		// String getHostname()
+		// void debug(String string)
 	}-*/;
 	
 
