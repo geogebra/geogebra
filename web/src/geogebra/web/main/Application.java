@@ -527,10 +527,23 @@ public class Application extends AbstractApplication {
     }
 
 	@Override
-    public void setXML(String string, boolean b) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
-    }
+	public void setXML(String xml, boolean clearAll) {
+		//AR if (clearAll) {
+			//AR setCurrentFile(null);
+		//AR }
+
+		try {
+			// make sure objects are displayed in the correct View
+			setActiveView(AbstractApplication.VIEW_EUCLIDIAN);
+			myXMLio.processXMLString(xml, clearAll, false);
+		} catch (MyError err) {
+			err.printStackTrace();
+			showError(err);
+		} catch (Exception e) {
+			e.printStackTrace();
+			showError("LoadFileFailed");
+		}
+	}
 
 	@Override
 	public geogebra.common.plugin.GgbAPI getGgbApi() {

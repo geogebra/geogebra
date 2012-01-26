@@ -41,7 +41,7 @@ public class ScriptManager extends ScriptManagerCommon {
 		};
 
 		$wnd.ggbApplet.setXML = function(xml) {
-			//ggbAPI.@geogebra.web.main.GgbAPI::setXML(Ljava/lang/String;)(xml);
+			ggbAPI.@geogebra.web.main.GgbAPI::setXML(Ljava/lang/String;)(xml);
 		};
 
 		$wnd.ggbApplet.evalXML = function(xmlString) {

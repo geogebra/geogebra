@@ -3722,11 +3722,6 @@ public class Application extends AbstractApplication implements
 		return sb.toString();
 	}
 
-	public final void setOnTheFlyPointCreationActive(
-			boolean isOnTheFlyPointCreationActive) {
-		this.isOnTheFlyPointCreationActive = isOnTheFlyPointCreationActive;
-	}
-
 	public final boolean isErrorDialogsActive() {
 		return isErrorDialogsActive;
 	}

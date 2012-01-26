@@ -2613,9 +2613,9 @@ public abstract class AbstractApplication {
 
 	public abstract boolean isHTML5Applet();
 
-	public void setOnTheFlyPointCreationActive(boolean flag) {
-		// TODO Auto-generated method stub
-		
+	public final void setOnTheFlyPointCreationActive(
+			boolean isOnTheFlyPointCreationActive) {
+		this.isOnTheFlyPointCreationActive = isOnTheFlyPointCreationActive;
 	}
 
 	public void setUseTransparentCursorWhenDragging(
