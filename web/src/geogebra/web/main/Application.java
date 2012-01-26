@@ -45,6 +45,7 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.Map.Entry;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -59,11 +60,9 @@ import com.google.gwt.user.client.ui.Widget;
 
 
 public class Application extends AbstractApplication {
-	
-	
+
 	private FontManager fontManager;
-	MyXMLio myXMLio;
-	
+
 	private boolean[] showAxes = {true,true};
 	private boolean showGrid = false;
 	
@@ -357,7 +356,7 @@ public class Application extends AbstractApplication {
 		// Macros (optional)
 		if (macros != null) {
 			macros = DataUtil.utf8Decode(macros);
-			myXMLio.processXmlString(macros,true,true);
+			myXMLio.processXMLString(macros,true,true);
 		}	
 		
 		if (archive.entrySet() != null) {
@@ -368,7 +367,7 @@ public class Application extends AbstractApplication {
 		if (!imageManager.hasImages()) {
 			// Process Construction
 			construction = DataUtil.utf8Decode(construction);
-			myXMLio.processXmlString(construction, true, false);		
+			myXMLio.processXMLString(construction, true, false);		
 		}
 		//on images do nothing here: wait for callback when images loaded.
 	}
@@ -782,5 +781,21 @@ public class Application extends AbstractApplication {
 		return new geogebra.web.awt.BufferedImage(ImageManager.getExternalImage(fileName));
     }
 
+
+	// random id to identify ggb files
+	// eg so that GeoGebraTube can notice it's a version of the same file
+	private String uniqueId = null;//FIXME: generate new UUID: + UUID.randomUUID();
+
+	public String getUniqueId() {
+		return uniqueId;
+	}
+
+	public void setUniqueId(String uniqueId) {
+		this.uniqueId = uniqueId;
+	}
+
+	public void resetUniqueId() {
+		uniqueId = null;//FIXME: generate new UUID: + UUID.randomUUID();
+	}
 
 }

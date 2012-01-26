@@ -16,7 +16,7 @@ public class UndoManager extends AbstractUndoManager {
 
 	@Override
 	public void processXML(String xml) throws Exception {
-		xmlio.processXmlString(xml, true, false);
+		xmlio.processXMLString(xml, true, false);
 
 	}
 

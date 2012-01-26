@@ -59,7 +59,7 @@ import javax.imageio.ImageIO;
  * 
  * @author Markus Hohenwarter
  */
-public class MyXMLio implements geogebra.common.io.MyXMLio{
+public class MyXMLio extends geogebra.common.io.MyXMLio{
 
 	// All xml output is zipped. The created zip archive contains
 	// an entry named XML_FILE for the construction
@@ -96,15 +96,12 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 	// Use the default (non-validating) parser
 	// private static XMLReaderFactory factory;
 
-	private Application app;
-	private Kernel kernel;
 	// Modified for Intergeo File Format (Yves Kreis) -->
 	// private MyXMLHandler handler;
 	private DocHandler handler, ggbDocHandler, i2gDocHandler;
 	// <-- Modified for Intergeo File Format (Yves Kreis)
 	private QDParser xmlParser;
 	// Added for Intergeo File Format (Yves Kreis) -->
-	private Construction cons;
 
 	// <-- Added for Intergeo File Format (Yves Kreis)
 
@@ -213,7 +210,7 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 				// try to load image
 				try {
 					BufferedImage img = ImageIO.read(zip);
-					app.addExternalImage(name, img);
+					((Application)app).addExternalImage(name, img);
 				} catch (IOException e) {
 					AbstractApplication
 							.debug("readZipFromURL: image could not be loaded: "
@@ -350,13 +347,13 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 		// handle construction step stored in XMLhandler
 		// do this only if the construction protocol navigation is showing	
 		if (!isGGTFile && oldVal &&
-				app.showConsProtNavigation()) 
+				((Application)app).showConsProtNavigation()) 
 		{
 				//app.getGuiManager().setConstructionStep(handler.getConsStep());
 
 			if (app.getGuiManager() != null)
 				// if there is a ConstructionProtocolView, then update its navigation bars
-				app.getGuiManager().getConstructionProtocolView().setConstructionStep(handler.getConsStep());
+				((Application)app).getGuiManager().getConstructionProtocolView().setConstructionStep(handler.getConsStep());
 			else
 				// otherwise this is not needed 
 				app.getKernel().getConstruction().setStep(handler.getConsStep());
@@ -629,7 +626,7 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 			String fileName) {
 		// <-- Modified for Intergeo File Format (Yves Kreis)
 
-		AbstractEuclidianView ev = app.getEuclidianView();
+		AbstractEuclidianView ev = ((Application)app).getEuclidianView();
 
 		// max 128 pixels either way
 		/*
@@ -640,7 +637,7 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 				 
 		try {
 			//BufferedImage img = app.getExportImage(exportScale);
-			BufferedImage img = app.getExportImage(THUMBNAIL_PIXELS_X,THUMBNAIL_PIXELS_Y);
+			BufferedImage img = ((Application)app).getExportImage(THUMBNAIL_PIXELS_X,THUMBNAIL_PIXELS_Y);
 			if (img != null)
 				// Modified for Intergeo File Format (Yves Kreis) -->
 				// writeImageToZip(zip, XML_FILE_THUMBNAIL, img);
@@ -674,7 +671,7 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 
 			// save macro icon
 			String fileName = macro.getIconFileName();
-			BufferedImage img = app.getExternalImage(fileName);
+			BufferedImage img = ((Application)app).getExternalImage(fileName);
 			if (img != null)
 				// Modified for Intergeo File Format (Yves Kreis) -->
 				// writeImageToZip(zip, fileName, img);
@@ -747,55 +744,6 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 		w.close();
 		z.close();
 	}
-	
-	private final static void addXMLHeader(StringBuilder sb) {
-		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
-	}
-
-	private final static void addGeoGebraHeader(StringBuilder sb, boolean isMacro, String uniqueId) {
-		sb.append("<geogebra format=\"");
-		sb.append(GeoGebraConstants.XML_FILE_FORMAT);
-		sb.append("\" ");
-		sb.append("version=\"");
-		sb.append(GeoGebraConstants.VERSION_STRING);
-		sb.append("\" ");
-		if (uniqueId != null) {
-			sb.append("id=\"");
-			sb.append(uniqueId); // unique id to identify ggb file
-			sb.append("\" ");
-		}
-		sb.append(" xsi:noNamespaceSchemaLocation=\"http://www.geogebra.org/");
-		if (isMacro)
-			sb.append(GeoGebraConstants.GGT_XSD_FILENAME); //eg	ggt.xsd
-		else
-			sb.append(GeoGebraConstants.GGB_XSD_FILENAME); //eg	ggb.xsd
-		sb.append("\" xmlns=\"\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" >\n");
-	}
-	
-
-	/**
-	 * Returns XML representation of all settings and construction. GeoGebra
-	 * File Format.
-	 */
-	public String getFullXML() {
-		StringBuilder sb = new StringBuilder();
-		addXMLHeader(sb);
-		addGeoGebraHeader(sb, false, app.getUniqueId());
-		//sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
-		//sb.append("<geogebra format=\"" + GeoGebra.XML_FILE_FORMAT + "\"");
-		//sb.append(" xsi:noNamespaceSchemaLocation=\"http://www.geogebra.org/");
-		//sb.append(GeoGebra.GGB_XSD_FILENAME); //eg	ggb.xsd
-		//sb.append("\" xmlns=\"\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" >\n");
-
-		// save gui settings
-		sb.append(app.getCompleteUserInterfaceXML(false));		
-
-		// save construction
-		cons.getConstructionXML(sb);
-		
-		sb.append("</geogebra>");
-		return sb.toString();
-	}
 
 	/**
 	 * Returns I2G representation of construction. Intergeo File Format.
@@ -826,42 +774,6 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 
 		sb.append("</construction>\n");
 
-		return sb.toString();
-	}
-
-	/**
-	 * Returns XML representation of all settings WITHOUT construction.
-	 */
-	public String getPreferencesXML() {
-		StringBuilder sb = new StringBuilder();
-		addXMLHeader(sb);
-		addGeoGebraHeader(sb, false, null);
-		//sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
-		//sb.append("<geogebra format=\"" + GeoGebra.XML_FILE_FORMAT
-		//				+ "\">\n");
-
-		// save gui settings
-		sb.append(app.getCompleteUserInterfaceXML(true));
-		
-		sb.append("</geogebra>");
-		return sb.toString();
-	}
-
-	/**
-	 * Returns XML representation of given macros in the kernel.
-	 */
-	public String getFullMacroXML(ArrayList<MacroInterface> macros) {
-		StringBuilder sb = new StringBuilder();
-		addXMLHeader(sb);
-		addGeoGebraHeader(sb, true, null);
-		//sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
-		//sb.append("<geogebra format=\"" + GeoGebra.XML_FILE_FORMAT
-		//				+ "\">\n");
-
-		// save construction
-		sb.append(kernel.getMacroXML(macros));
-
-		sb.append("</geogebra>");
 		return sb.toString();
 	}
 
@@ -926,15 +838,5 @@ public class MyXMLio implements geogebra.common.io.MyXMLio{
 	 * ImageIO.getWriterFormatNames(); for (int i=0; i < formats.length; i++) {
 	 * Application.debug(formats[i]); } }
 	 */
-
-	/** 
-	* Returns .out representation for regression testing. 
-	*/ 
-	public String getConstructionRegressionOut() {
-		StringBuilder sb = new StringBuilder();
-		cons.getConstructionRegressionOut(sb);
-		return sb.toString();
-	}		         
-
 }
 

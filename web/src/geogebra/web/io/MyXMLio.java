@@ -7,14 +7,11 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.kernel.Kernel;
 import geogebra.web.main.Application;
 
-public class MyXMLio implements geogebra.common.io.MyXMLio {
-	
-	private AbstractApplication app;
-	private Kernel kernel;
+public class MyXMLio extends geogebra.common.io.MyXMLio {
+
 	private DocHandler handler, ggbDocHandler;//, i2gDocHandler;
 	private XmlParser xmlParser;
-	private Construction cons;
-	
+
 	public MyXMLio(Kernel kernel, Construction cons) {
 		this.kernel = kernel;
 		this.cons = cons;	
@@ -29,47 +26,8 @@ public class MyXMLio implements geogebra.common.io.MyXMLio {
 			ggbDocHandler = kernel.newMyXMLHandler(cons);
 		return ggbDocHandler;
 	}
-	
-	private final static void addXMLHeader(StringBuilder sb) {
-		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
-	}
-	
-	private final static void addGeoGebraHeader(StringBuilder sb, boolean isMacro) {
-		sb.append("<geogebra format=\"" + GeoGebraConstants.XML_FILE_FORMAT + "\"");
-		sb.append(" xsi:noNamespaceSchemaLocation=\"http://www.geogebra.org/");
-		if (isMacro)
-			sb.append(GeoGebraConstants.GGT_XSD_FILENAME); //eg	ggt.xsd
-		else
-			sb.append(GeoGebraConstants.GGB_XSD_FILENAME); //eg	ggb.xsd
-		sb.append("\" xmlns=\"\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" >\n");
-	}
 
-	public String getFullXML() {
-		StringBuilder sb = new StringBuilder();
-		addXMLHeader(sb);
-		addGeoGebraHeader(sb, false);
-		//sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
-		//sb.append("<geogebra format=\"" + GeoGebra.XML_FILE_FORMAT + "\"");
-		//sb.append(" xsi:noNamespaceSchemaLocation=\"http://www.geogebra.org/");
-		//sb.append(GeoGebra.GGB_XSD_FILENAME); //eg	ggb.xsd
-		//sb.append("\" xmlns=\"\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" >\n");
-
-		// save gui settings
-		sb.append(app.getCompleteUserInterfaceXML(false));		
-
-		// save construction
-		cons.getConstructionXML(sb);
-		
-		// save cas session
-		/*AGif (app.hasFullGui() && app.getGuiManager().hasCasView()) {
-			app.getGuiManager().getCasView().getSessionXML(sb);
-		}*/
-
-		sb.append("</geogebra>");
-		return sb.toString();
-	}
-	
-	public void processXmlString(String xml, boolean clearConstruction, boolean isGgtFile) throws Exception {
+	public void processXMLString(String xml, boolean clearConstruction, boolean isGgtFile) throws Exception {
 		boolean oldVal = kernel.isNotifyViewsActive();
 		if (!isGgtFile) {
 			kernel.setNotifyViewsActive(false);
@@ -106,7 +64,7 @@ public class MyXMLio implements geogebra.common.io.MyXMLio {
 
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);
-		addGeoGebraHeader(sb, false);
+		addGeoGebraHeader(sb, false, app.getUniqueId());
 		//sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		//sb.append("<geogebra format=\"" + GeoGebra.XML_FILE_FORMAT + "\">\n");
 

@@ -14,6 +14,7 @@ import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
+import geogebra.common.io.MyXMLio;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractUndoManager;
@@ -199,10 +200,13 @@ public abstract class AbstractApplication {
 		return CASVersionString;
 
 	}
+
+	protected MyXMLio myXMLio;
+
 	// gui / menu fontsize (-1 = use appFontSize)
-		private int guiFontSize = -1;
+	private int guiFontSize = -1;
 	// currently used application fonts
-		private int appFontSize;
+	private int appFontSize;
 	// note: It is not necessary to use powers of 2 for view IDs
 
 	// For eg Hebrew and Arabic.
@@ -1781,10 +1785,10 @@ public abstract class AbstractApplication {
 			GeoElement geoElement2);
 
 	public abstract void showError(MyError e);
-	
-	public String getXML(){
-		//TODO unimplemented
-		return "";
+
+	// FKH 20040826
+	public String getXML() {
+		return myXMLio.getFullXML();
 	}
 
 	public abstract void showError(String string, String str);
@@ -1896,16 +1900,13 @@ public abstract class AbstractApplication {
 		return settings;
 	}
 
-	
 
 
-	
+	public abstract String getUniqueId();
+	public abstract void setUniqueId(String uniqueId);
+	public abstract void resetUniqueId();
 
 
-	public void setUniqueId(String uniqueId) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	public void setShowAuxiliaryObjects(boolean auxiliaryObjects) {
 		// TODO Auto-generated method stub
@@ -2619,6 +2620,4 @@ public abstract class AbstractApplication {
 		// TODO Auto-generated method stub
 		
 	}
-	
-
 }

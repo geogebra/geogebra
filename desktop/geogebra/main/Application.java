@@ -367,12 +367,9 @@ public class Application extends AbstractApplication implements
 
 	private Component mainComp;
 	private boolean isApplet = false;
-	
-
-	private final MyXMLio myXMLio;
 
 	
-	
+
 	private GlobalKeyDispatcher globalKeyDispatcher;
 
 	// For language specific settings
@@ -3218,7 +3215,7 @@ public class Application extends AbstractApplication implements
 			// make sure objects are displayed in the correct View
 			setActiveView(AbstractApplication.VIEW_EUCLIDIAN);
 
-			myXMLio.readZipFromString(zipFile);
+			((MyXMLio)myXMLio).readZipFromString(zipFile);
 
 			kernel.initUndoInfo();
 			isSaved = true;
@@ -3273,7 +3270,7 @@ public class Application extends AbstractApplication implements
 			resetUniqueId();
 
 			BufferedInputStream bis = new BufferedInputStream(is);
-			myXMLio.readZipFromInputStream(bis, isMacroFile);
+			((MyXMLio)myXMLio).readZipFromInputStream(bis, isMacroFile);
 			is.close();
 			bis.close();
 
@@ -3309,7 +3306,7 @@ public class Application extends AbstractApplication implements
 	public boolean saveGeoGebraFile(File file) {
 		try {
 			setWaitCursor();
-			myXMLio.writeGeoGebraFile(file);
+			((MyXMLio)myXMLio).writeGeoGebraFile(file);
 			isSaved = true;
 			setDefaultCursor();
 			return true;
@@ -3329,7 +3326,7 @@ public class Application extends AbstractApplication implements
 	final public boolean saveMacroFile(File file, ArrayList<MacroInterface> macros) {
 		try {
 			setWaitCursor();
-			myXMLio.writeMacroFile(file, macros);
+			((MyXMLio)myXMLio).writeMacroFile(file, macros);
 			setDefaultCursor();
 			return true;
 		} catch (Exception e) {
@@ -3338,11 +3335,6 @@ public class Application extends AbstractApplication implements
 			e.printStackTrace();
 			return false;
 		}
-	}
-
-	// FKH 20040826
-	public String getXML() {
-		return myXMLio.getFullXML();
 	}
 
 	public String getMacroXML() {
@@ -3380,7 +3372,7 @@ public class Application extends AbstractApplication implements
 	public byte[] getMacroFileAsByteArray() {
 		try {
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
-			myXMLio.writeMacroStream(os, kernel.getAllMacros());
+			((MyXMLio)myXMLio).writeMacroStream(os, kernel.getAllMacros());
 			os.flush();
 			return os.toByteArray();
 		} catch (Exception e) {
@@ -3398,7 +3390,7 @@ public class Application extends AbstractApplication implements
 
 			if (byteArray != null) {
 				ByteArrayInputStream is = new ByteArrayInputStream(byteArray);
-				myXMLio.readZipFromInputStream(is, true);
+				((MyXMLio)myXMLio).readZipFromInputStream(is, true);
 				is.close();
 			}
 		} catch (Exception e) {
@@ -3407,7 +3399,7 @@ public class Application extends AbstractApplication implements
 	}
 
 	final public MyXMLio getXMLio() {
-		return myXMLio;
+		return (MyXMLio)myXMLio;
 	}
 
 	public boolean isSaved() {
@@ -3967,7 +3959,7 @@ public class Application extends AbstractApplication implements
 			// write and reload image to make sure we can save it
 			// without problems
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
-			myXMLio.writeImageToStream(os, fileName, img);
+			((MyXMLio)myXMLio).writeImageToStream(os, fileName, img);
 			os.flush();
 			ByteArrayInputStream is = new ByteArrayInputStream(os.toByteArray());
 
