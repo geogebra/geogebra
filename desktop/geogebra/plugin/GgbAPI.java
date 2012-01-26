@@ -235,7 +235,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 	 * Note: this is especially useful together with evalCommand().
 	 */
 	public synchronized void setErrorDialogsActive(boolean flag) {
-		((JavaScriptAPI) app).setErrorDialogsActive(flag);//FIXME: bad typecast
+		((Application) app).setErrorDialogsActive(flag);
 	}
 	
 	/**
