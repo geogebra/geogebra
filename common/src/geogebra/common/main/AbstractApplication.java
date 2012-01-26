@@ -1849,20 +1849,23 @@ public abstract class AbstractApplication {
 			getEuclidianView2().getXML(sb, true);
 		}
 
-		// save spreadsheetView settings
-		if (getGuiManager().hasSpreadsheetView()) {
-			getGuiManager().getSpreadsheetViewXML(sb, asPreference);
+		if (getGuiManager() != null) {
+			// save spreadsheetView settings
+			if (getGuiManager().hasSpreadsheetView()) {
+				getGuiManager().getSpreadsheetViewXML(sb, asPreference);
+			}
+
+			// save AlgebraView settings
+			// if (getGuiManager().hasAlgebraView()){
+			// getGuiManager().getAlgebraViewXML(sb);
+			// }
+
+			// save ProbabilityCalculator settings
+			if (getGuiManager().hasProbabilityCalculator()) {
+				getGuiManager().getProbabilityCalculatorXML(sb);
+			}
 		}
 
-		// save AlgebraView settings
-		// if (getGuiManager().hasAlgebraView()){
-		// getGuiManager().getAlgebraViewXML(sb);
-		// }
-
-		// save ProbabilityCalculator settings
-		if (getGuiManager().hasProbabilityCalculator()) {
-			getGuiManager().getProbabilityCalculatorXML(sb);
-		}
 		if (asPreference) {
 			getKeyboardXML(sb);
 		}
