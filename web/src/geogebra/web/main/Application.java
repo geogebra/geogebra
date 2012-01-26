@@ -360,15 +360,17 @@ public class Application extends AbstractApplication {
 		
 		if (archive.entrySet() != null) {
 			for (Entry<String, String> entry : archive.entrySet()) {
-				maybeProcessImage(entry.getKey(), entry.getValue(),construction);
+				maybeProcessImage(entry.getKey(), entry.getValue());
 			}
 		}
 		if (!imageManager.hasImages()) {
 			// Process Construction
 			construction = DataUtil.utf8Decode(construction);
 			myXMLio.processXMLString(construction, true, false);		
-		}
+		} else {
 		//on images do nothing here: wait for callback when images loaded.
+			imageManager.triggerImageLoading(construction,myXMLio);
+		}
 	}
 	
 	private static final ArrayList<String> IMAGE_EXTENSIONS = new ArrayList<String>();
@@ -378,7 +380,7 @@ public class Application extends AbstractApplication {
 		IMAGE_EXTENSIONS.add("jpg");
 		IMAGE_EXTENSIONS.add("png");
 	}
-	private void maybeProcessImage(String filename, String binaryContent, String construction) {
+	private void maybeProcessImage(String filename, String binaryContent) {
 		String fn = filename.toLowerCase();
 		if (fn.equals("geogebra_thumbnail.png")) {
 			return;			// Ignore thumbnail
@@ -395,7 +397,7 @@ public class Application extends AbstractApplication {
 		}
 		
 		String base64 = DataUtil.base64Encode(binaryContent);
-		addExternalImage(filename,createImageSrc(ext,base64),construction);
+		addExternalImage(filename,createImageSrc(ext,base64));
 	}
 	
 	private String createImageSrc(String ext, String base64) {
@@ -783,8 +785,7 @@ public class Application extends AbstractApplication {
 		imageManager = new ImageManager();
 	}
 	
-	public void addExternalImage(String filename, String src, String xml) {
-		imageManager.setConstructionXml(xml);
+	public void addExternalImage(String filename, String src) {
 		imageManager.addExternalImage(filename,src);
 	}
 
