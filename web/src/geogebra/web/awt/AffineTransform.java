@@ -66,7 +66,7 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
 
 	
     public double getScaleY() {
-	    return at.getScaleX();
+	    return at.getScaleY();
     }
 
 	
