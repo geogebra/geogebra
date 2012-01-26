@@ -1032,7 +1032,7 @@ public abstract class AbstractEuclidianController {
 		justCreatedGeos.clear();
 		app.updateStyleBars();
 	
-		if (app.isUsingFullGui()) {
+		if (app.isUsingFullGui() && app.getGuiManager() != null) {
 			app.getGuiManager().updateMenubarSelection();
 		}
 	}
@@ -1044,8 +1044,10 @@ public abstract class AbstractEuclidianController {
 	public void memorizeJustCreatedGeos(ArrayList<GeoElement> geos) {
 		justCreatedGeos.clear();
 		justCreatedGeos.addAll(geos);
-		app.updateStyleBars();
-		app.getGuiManager().updateMenubarSelection();
+		if (app.isUsingFullGui() && app.getGuiManager() != null) {
+			app.updateStyleBars();
+			app.getGuiManager().updateMenubarSelection();
+		}
 	}
 
 	public void memorizeJustCreatedGeos(GeoElement[] geos) {
@@ -1055,8 +1057,10 @@ public abstract class AbstractEuclidianController {
 				justCreatedGeos.add(geos[i]);
 			}
 		}
-		app.updateStyleBars();
-		app.getGuiManager().updateMenubarSelection();
+		if (app.isUsingFullGui() && app.getGuiManager() != null) {
+			app.updateStyleBars();
+			app.getGuiManager().updateMenubarSelection();
+		}
 	}
 
 	protected final void setHighlightedGeos(boolean highlight) {
@@ -5982,22 +5986,23 @@ public abstract class AbstractEuclidianController {
 			if (!hits.isEmpty()) {
 				view.setMode(EuclidianConstants.MODE_MOVE);
 				GeoElement geo0 = hits.get(0);
-	
-				if (geo0.isGeoNumeric() && ((GeoNumeric) geo0).isSlider()) {
-					// double-click slider -> Object Properties
-					app.getGuiManager().getDialogManager()
-							.showPropertiesDialog(hits);
-				} else if (!geo0.isFixed()
-						&& !(geo0.isGeoBoolean() && geo0.isIndependent())
-						&& !(geo0.isGeoImage() && geo0.isIndependent())
-						&& !geo0.isGeoButton()) {
-					app.getGuiManager().getDialogManager()
-							.showRedefineDialog(hits.get(0), true);
+
+				if (app.isUsingFullGui() && app.getGuiManager() != null) {
+					if (geo0.isGeoNumeric() && ((GeoNumeric) geo0).isSlider()) {
+						// double-click slider -> Object Properties
+						app.getGuiManager().getDialogManager()
+								.showPropertiesDialog(hits);
+					} else if (!geo0.isFixed()
+							&& !(geo0.isGeoBoolean() && geo0.isIndependent())
+							&& !(geo0.isGeoImage() && geo0.isIndependent())
+							&& !geo0.isGeoButton()) {
+						app.getGuiManager().getDialogManager()
+								.showRedefineDialog(hits.get(0), true);
+					}
 				}
 			}
-	
 		}
-	
+
 		mouseClickedMode(event, mode);
 	
 		// Alt click: copy definition to input field
@@ -6784,7 +6789,7 @@ public abstract class AbstractEuclidianController {
 			if (sel == null) {
 				return false;
 			}
-			if (app.isUsingFullGui()) {
+			if (app.isUsingFullGui() && app.getGuiManager() != null) {
 				return !app.getGuiManager().isInputFieldSelectionListener();
 			} else {
 				return sel != null;
@@ -7498,7 +7503,7 @@ public abstract class AbstractEuclidianController {
 
 	protected void wrapMousePressed(AbstractEvent event) {
 		
-		if (app.isUsingFullGui()) {
+		if (app.isUsingFullGui() && app.getGuiManager() != null) {
 			// determine parent panel to change focus
 			// EuclidianDockPanelAbstract panel =
 			// (EuclidianDockPanelAbstract)SwingUtilities.getAncestorOfClass(EuclidianDockPanelAbstract.class,
@@ -7920,13 +7925,15 @@ public abstract class AbstractEuclidianController {
 				hits = view.getHits().getTopHits();
 				if (hits.isEmpty()) {
 					// no hits
-					if (app.selectedGeosSize() > 0) {
-						// GeoElement selGeo = (GeoElement)
-						// app.getSelectedGeos().get(0);
-						app.getGuiManager().showPopupMenu(
-								app.getSelectedGeos(),  view, mouseLoc);
-					} else {
-						showDrawingPadPopup(mouseLoc);
+					if (app.isUsingFullGui() && app.getGuiManager() != null) {
+						if (app.selectedGeosSize() > 0) {
+							// GeoElement selGeo = (GeoElement)
+							// app.getSelectedGeos().get(0);
+							app.getGuiManager().showPopupMenu(
+									app.getSelectedGeos(),  view, mouseLoc);
+						} else {
+							showDrawingPadPopup(mouseLoc);
+						}
 					}
 				} else {
 					// there are hits
@@ -7943,23 +7950,26 @@ public abstract class AbstractEuclidianController {
 						} else {
 							app.addSelectedGeo(hits.get(0));
 						}
-	
-						app.getGuiManager().showPopupMenu(
-								app.getSelectedGeos(), view, mouseLoc);
+
+						if (app.isUsingFullGui() && app.getGuiManager() != null)
+							app.getGuiManager().showPopupMenu(
+									app.getSelectedGeos(), view, mouseLoc);
 					} else {
 						// no selected geos: choose geo and show popup menu
 						geo = chooseGeo(hits, false);
-						if (geo != null) {
-							ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
-							geos.add(geo);
-							app.getGuiManager().showPopupMenu(geos,
-									view, mouseLoc);
-						} else {
-							// for 3D : if the geo hitted is xOyPlane, then
-							// chooseGeo return null
-							// app.getGuiManager().showDrawingPadPopup((EuclidianView)
-							// view, mouseLoc);
-							showDrawingPadPopup(mouseLoc);
+						if (app.isUsingFullGui() && app.getGuiManager() != null) {
+							if (geo != null) {
+								ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
+								geos.add(geo);
+								app.getGuiManager().showPopupMenu(geos,
+										view, mouseLoc);
+							} else {
+								// for 3D : if the geo hitted is xOyPlane, then
+								// chooseGeo return null
+								// app.getGuiManager().showDrawingPadPopup((EuclidianView)
+								// view, mouseLoc);
+								showDrawingPadPopup(mouseLoc);
+							}
 						}
 					}
 				}

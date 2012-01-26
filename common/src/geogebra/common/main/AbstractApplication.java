@@ -1459,6 +1459,8 @@ public abstract class AbstractApplication {
 	
 	public abstract GuiManager getGuiManager();
 
+	protected void initGuiManager() { }
+
 	// Michael Borcherds 2008-06-22
 	public static void printStacktrace(String message) {
 		try {
@@ -1800,7 +1802,6 @@ public abstract class AbstractApplication {
 				&& (getGuiManager().getPlotPanelView(viewID) != null)) {
 			return getGuiManager().getPlotPanelView(viewID);
 		}
-
 		else {
 			switch (viewID) {
 			case VIEW_EUCLIDIAN:
@@ -1808,14 +1809,30 @@ public abstract class AbstractApplication {
 			case VIEW_ALGEBRA:
 				return getAlgebraView();
 			case VIEW_SPREADSHEET:
+				if (!isUsingFullGui())
+					return null;
+				else if (getGuiManager() == null)
+					initGuiManager();
 				return getGuiManager().getSpreadsheetView();
 			case VIEW_CAS:
+				if (!isUsingFullGui())
+					return null;
+				else if (getGuiManager() == null)
+					initGuiManager();
 				return getGuiManager().getCasView();
 			case VIEW_EUCLIDIAN2:
 				return hasEuclidianView2() ? getEuclidianView2() : null;
 			case VIEW_CONSTRUCTION_PROTOCOL:
+				if (!isUsingFullGui())
+					return null;
+				else if (getGuiManager() == null)
+					initGuiManager();
 				return getGuiManager().getConstructionProtocolData();
 			case VIEW_PROBABILITY_CALCULATOR:
+				if (!isUsingFullGui())
+					return null;
+				else if (getGuiManager() == null)
+					initGuiManager();
 				return getGuiManager().getProbabilityCalculator();
 				// case VIEW_FUNCTION_INSPECTOR: return (View)getGuiManager()..
 				// case VIEW_INSPECTOR: return
@@ -2284,7 +2301,8 @@ public abstract class AbstractApplication {
 		// put in to check possible bottleneck
 		// Application.debug("Update Selection");
 
-		getGuiManager().updateMenubarSelection();
+		if (getGuiManager() != null)
+			getGuiManager().updateMenubarSelection();
 
 		if (getEuclidianView().getMode() == EuclidianConstants.MODE_VISUAL_STYLE) {
 			if (selectedGeos.size() > 0) {
