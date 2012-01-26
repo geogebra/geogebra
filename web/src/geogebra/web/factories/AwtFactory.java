@@ -208,8 +208,7 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 
 	@Override
     public AlphaComposite newAlphaComposite(int srcOver, float alpha) {
-	    // TODO Auto-generated method stub
-	    return null;
+	   return new geogebra.web.awt.AlphaComposite(srcOver,alpha);
     }
 
 }
