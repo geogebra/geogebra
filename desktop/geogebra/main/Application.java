@@ -4175,12 +4175,6 @@ public class Application extends AbstractApplication implements
 	}
 
 	Cursor transparentCursor = null;
-	public boolean useTransparentCursorWhenDragging = false;
-
-	public void setUseTransparentCursorWhenDragging(
-			boolean useTransparentCursorWhenDragging) {
-		this.useTransparentCursorWhenDragging = useTransparentCursorWhenDragging;
-	}
 
 	public Cursor getTransparentCursor() {
 

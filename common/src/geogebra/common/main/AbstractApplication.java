@@ -2636,9 +2636,9 @@ public abstract class AbstractApplication {
 		this.isOnTheFlyPointCreationActive = isOnTheFlyPointCreationActive;
 	}
 
+	public boolean useTransparentCursorWhenDragging = false;
 	public void setUseTransparentCursorWhenDragging(
-			boolean hideCursorWhenDragging) {
-		// TODO Auto-generated method stub
-		
+			boolean useTransparentCursorWhenDragging) {
+		this.useTransparentCursorWhenDragging = useTransparentCursorWhenDragging;
 	}
 }

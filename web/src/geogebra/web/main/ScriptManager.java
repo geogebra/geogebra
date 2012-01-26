@@ -64,11 +64,12 @@ public class ScriptManager extends ScriptManagerCommon {
 			ggbAPI.@geogebra.web.main.GgbAPI::setUndoPoint()();
 		};
 
-		$wnd.ggbApplet.setErrorDialogsActive = function(flag) {
-			ggbAPI.@geogebra.web.main.GgbAPI::setErrorDialogsActive(Z)(flag);
-		};
+		// This is not yet used in GeoGebraWeb
+		//$wnd.ggbApplet.setErrorDialogsActive = function(flag) {
+		//	ggbAPI.@geogebra.web.main.GgbAPI::setErrorDialogsActive(Z)(flag);
+		//};
 
-		$wnd.ggbApplet.reset = function() {
+		$wnd.ggbApplet.reset = function() {//TODO: implement this in Desktop and Web
 			ggbAPI.@geogebra.web.main.GgbAPI::reset()();
 		};
 
@@ -156,7 +157,6 @@ public class ScriptManager extends ScriptManagerCommon {
 			return ggbAPI.@geogebra.web.main.GgbAPI::getPointStyle(Ljava/lang/String;)(objName);
 		};
 
-		//AR $wnd.ggpApplet.getPointSize = function(objName) {
 		$wnd.ggbApplet.getPointSize = function(objName) {
 			return ggbAPI.@geogebra.web.main.GgbAPI::getPointSize(Ljava/lang/String;)(objName);
 		};
@@ -181,7 +181,7 @@ public class ScriptManager extends ScriptManagerCommon {
 			ggbAPI.@geogebra.web.main.GgbAPI::stopAnimation()();
 		};
 
-		$wnd.ggbApplet.hideCursorWhenDragging = function(hideCursorWhenDragging) {
+		$wnd.ggbApplet.hideCursorWhenDragging = function(hideCursorWhenDragging) {//TODO: CSS hacks in GeoGebraWeb
 			ggbAPI.@geogebra.web.main.GgbAPI::hideCursorWhenDragging(Z)(hideCursorWhenDragging);
 		};
 
@@ -269,6 +269,7 @@ public class ScriptManager extends ScriptManagerCommon {
 			ggbAPI.@geogebra.web.main.GgbAPI::setMode(I)(mode);
 		};
 
+		// not supported by GgbAPI Desktop,Web
 		//$wnd.ggbApplet.callJavaScript = function(jsFunction, args) {
 		//	ggbAPI.@geogebra.web.main.GgbAPI::callJavaScript(Ljava/lang/String;Ljava/lang/String;)(jsFunction,args);
 		//};
