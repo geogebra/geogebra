@@ -37,11 +37,9 @@ public abstract class AwtFactory {
 	public abstract Dimension newDimension(int width,
 			int height);
 	public abstract Point2D newPoint2D();
-	public abstract Point newPoint();
 	public abstract Rectangle newRectangle(int i, int j);
 	public abstract Rectangle newRectangle();
 	public abstract Point2D newPoint2D(double d, double coord);
-	public abstract Point newPoint(int d, int coord);
 	public abstract GeneralPath newGeneralPath();
 	public abstract BasicStroke newMyBasicStroke(float f);
 	public abstract BasicStroke newBasicStroke(float f,int cap,int join);

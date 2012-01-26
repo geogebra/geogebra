@@ -88,7 +88,7 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 		return new geogebra.awt.Point2D(x,y);
 	}
 
-	@Override
+	/*@Override
 	public Point newPoint() {
 		return new geogebra.awt.Point();
 	}
@@ -96,7 +96,7 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	@Override
 	public Point newPoint(int x, int y) {
 		return new geogebra.awt.Point(x,y);
-	}
+	}*/
 
 	@Override
 	public Rectangle newRectangle(int i, int j) {

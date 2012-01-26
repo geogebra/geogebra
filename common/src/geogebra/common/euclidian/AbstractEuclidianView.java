@@ -2612,7 +2612,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	}
 
 	public void updatePreviewable() {
-		Point mouseLoc = AwtFactory.prototype.newPoint(getEuclidianController().mouseLoc.x,getEuclidianController().mouseLoc.y);
+		Point mouseLoc = getEuclidianController().mouseLoc;
 		getPreviewDrawable().updateMousePos(toRealWorldCoordX(mouseLoc.x),
 				toRealWorldCoordY(mouseLoc.y));
 	}
@@ -2705,7 +2705,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		}
 		
 		final protected void drawAxesRatio(geogebra.common.awt.Graphics2D g2) {
-			Point pos = AwtFactory.prototype.newPoint(euclidianController.mouseLoc.x,euclidianController.mouseLoc.y);
+			Point pos = euclidianController.mouseLoc;
 			if (pos == null) {
 				return;
 			}
@@ -2725,7 +2725,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 				return false;
 			}
 			
-			Point pos = AwtFactory.prototype.newPoint(euclidianController.mouseLoc.x, euclidianController.mouseLoc.y);
+			Point pos = euclidianController.mouseLoc;
 
 			String val = euclidianController.getSliderValue();
 
@@ -2819,7 +2819,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			if (euclidianController.mouseLoc == null) {
 				return;
 			}
-			Point pos = AwtFactory.prototype.newPoint(euclidianController.mouseLoc.x,euclidianController.mouseLoc.y);
+			Point pos = euclidianController.mouseLoc;
 
 			sb.setLength(0);
 			sb.append('(');

@@ -349,7 +349,7 @@ public class EuclidianView extends EuclidianViewND implements EuclidianViewInter
 				try {
 					// Create custom cursor from the image
 					Cursor cursor = tk.createCustomCursor(image,
-						((geogebra.awt.Point)AwtFactory.prototype.newPoint(16, 16)).getAwtPoint(), "custom cursor");
+						new java.awt.Point(16, 16), "custom cursor");
 					return cursor;
 				} catch (Exception exc) {
 					// Catch exceptions so that we don't try to set a null
