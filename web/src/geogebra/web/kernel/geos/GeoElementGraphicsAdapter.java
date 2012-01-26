@@ -1,8 +1,12 @@
 package geogebra.web.kernel.geos;
 
+
+import com.google.gwt.dom.client.ImageElement;
+
 import geogebra.common.awt.BufferedImage;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.main.Application;
+import geogebra.web.util.ImageManager;
 
 public class GeoElementGraphicsAdapter extends
         geogebra.common.kernel.geos.GeoElementGraphicsAdapter {
@@ -26,8 +30,20 @@ public class GeoElementGraphicsAdapter extends
     }
 
 	public void setImageFileName(String fileName) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+		if (fileName.equals(this.imageFileName))
+			return;
+
+		this.imageFileName = fileName;
+
+		if (fileName.startsWith("/geogebra")) { // internal image
+			ImageElement im = ((ImageManager) ((AbstractApplication) app)
+					.getImageManager()).getImageResource(imageFileName);
+			image = new geogebra.web.awt.BufferedImage(ImageManager.toBufferedImage(im));
+
+		} else {
+			image = ((AbstractApplication) app)
+					.getExternalImageAdapter(fileName);
+		}
     }
 
 }

@@ -362,14 +362,15 @@ public class Application extends AbstractApplication {
 		
 		if (archive.entrySet() != null) {
 			for (Entry<String, String> entry : archive.entrySet()) {
-				maybeProcessImage(entry.getKey(), entry.getValue());
-				//GWT.log(entry.getKey()+" "+entry.getValue());
+				maybeProcessImage(entry.getKey(), entry.getValue(),construction);
 			}
 		}
-		
-		// Process Construction
-		construction = DataUtil.utf8Decode(construction);
-		myXMLio.processXmlString(construction, true, false);
+		if (!imageManager.hasImages()) {
+			// Process Construction
+			construction = DataUtil.utf8Decode(construction);
+			myXMLio.processXmlString(construction, true, false);		
+		}
+		//on images do nothing here: wait for callback when images loaded.
 	}
 	
 	private static final ArrayList<String> IMAGE_EXTENSIONS = new ArrayList<String>();
@@ -379,7 +380,7 @@ public class Application extends AbstractApplication {
 		IMAGE_EXTENSIONS.add("jpg");
 		IMAGE_EXTENSIONS.add("png");
 	}
-	private void maybeProcessImage(String filename, String binaryContent) {
+	private void maybeProcessImage(String filename, String binaryContent, String construction) {
 		String fn = filename.toLowerCase();
 		if (fn.equals("geogebra_thumbnail.png")) {
 			return;			// Ignore thumbnail
@@ -396,14 +397,12 @@ public class Application extends AbstractApplication {
 		}
 		
 		String base64 = DataUtil.base64Encode(binaryContent);
-		addExternalImage(filename,createImage(ext,base64));
+		addExternalImage(filename,createImageSrc(ext,base64),construction);
 	}
 	
-	private ImageElement createImage(String ext, String base64) {
+	private String createImageSrc(String ext, String base64) {
 		String dataUrl = "data:image/" + ext + ";base64," + base64;
-		ImageElement image = Document.get().createImageElement();
-		image.setSrc(dataUrl);
-		return image;
+		return dataUrl;
 	}
 
 
@@ -773,8 +772,9 @@ public class Application extends AbstractApplication {
 		imageManager = new ImageManager();
 	}
 	
-	public void addExternalImage(String filename, ImageElement imageElement) {
-		imageManager.addExternalImage(filename, imageElement);
+	public void addExternalImage(String filename, String src, String xml) {
+		imageManager.setConstructionXml(xml);
+		imageManager.addExternalImage(filename,src);
 	}
 
 	@Override
