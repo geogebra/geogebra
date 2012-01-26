@@ -45,7 +45,6 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.Map.Entry;
 
 import com.google.gwt.canvas.client.Canvas;
