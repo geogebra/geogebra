@@ -58,7 +58,7 @@ public class ImageManager extends AbstractImageManager {
 		imagesLoaded++;
 		if (imagesLoaded == externalImageSrcs.size()) {
 			try {
-				myXMLio.processXmlString(construction, true, false);
+				myXMLio.processXMLString(construction, true, false);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

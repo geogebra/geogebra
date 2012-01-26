@@ -369,7 +369,7 @@ public class Application extends AbstractApplication {
 			myXMLio.processXMLString(construction, true, false);		
 		} else {
 		//on images do nothing here: wait for callback when images loaded.
-			imageManager.triggerImageLoading(construction,myXMLio);
+			imageManager.triggerImageLoading(construction,(MyXMLio) myXMLio);
 		}
 	}
 	
