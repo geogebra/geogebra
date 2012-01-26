@@ -227,6 +227,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 			if (alpha >= 0f && alpha < 1f) {
 				context.setGlobalAlpha(alpha);
 			}
+			context.setGlobalAlpha(0.5d);
 			context.restore();
 		}
 	}
@@ -359,8 +360,8 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
 	@Override
     public void transform(AffineTransform Tx) {
-		context.transform(Tx.getScaleX(), Tx.getShearX(),
-				Tx.getShearY(), Tx.getScaleY(),
+		context.transform(Tx.getScaleX(), Tx.getShearY(),
+				Tx.getShearX(), Tx.getScaleY(),
 				((geogebra.web.awt.AffineTransform)Tx).getTranslateX(),
 				((geogebra.web.awt.AffineTransform)Tx).getTranslateY());
 		savedTransform.concatenate(Tx);
