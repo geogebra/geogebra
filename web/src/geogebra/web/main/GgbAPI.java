@@ -1,5 +1,7 @@
 package geogebra.web.main;
 
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.JavaScriptAPI;
 
@@ -41,13 +43,12 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI implements JavaScript
 	    
     }
 
-	
+
     public void refreshViews() {
-	    // TODO Auto-generated method stub
-	    
+    	app.refreshViews();
     }
 
-	
+
     public String getIPAddress() {
 	    // TODO Auto-generated method stub
 	    return null;
@@ -91,13 +92,18 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI implements JavaScript
 	    
     }
 
-	
+
     public void clearImage(String label) {
-	    // TODO Auto-generated method stub
-	    
+		GeoElement ge = kernel.lookupLabel(label);
+		
+		if(!ge.isGeoImage()){
+			debug("Bad drawToImage arguments");
+			return;
+		}
+		((GeoImage)ge).clearFillImage();
     }
 
-	
+
     public String getBase64() {
 	    // TODO Auto-generated method stub
 	    return null;
