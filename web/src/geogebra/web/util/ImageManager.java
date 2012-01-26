@@ -84,7 +84,7 @@ public class ImageManager extends AbstractImageManager {
 			for (Entry<String, String> imgSrc : externalImageSrcs.entrySet()) {
 				ImageWrapper img = new ImageWrapper(externalImageTable.get(imgSrc.getKey())); 
 				img.attachNativeLoadHandler(this);	
-				img.setUrl(imgSrc.getValue());
+				img.getElement().setSrc(imgSrc.getValue());
 			}
 		}
 	}

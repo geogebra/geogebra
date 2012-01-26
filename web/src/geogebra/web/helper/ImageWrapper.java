@@ -6,10 +6,12 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.ui.Image;
 
-public class ImageWrapper extends Image {
+public class ImageWrapper {
+	
+	ImageElement img;
 
 	public ImageWrapper(ImageElement imageElement) {
-	    super(imageElement);
+		this.img = imageElement;
     }
 	
 	/**
@@ -19,7 +21,7 @@ public class ImageWrapper extends Image {
 	 * So we must hack it.
 	 */
 	public void attachNativeLoadHandler(ImageManager imageManager) {
-		addNativeLoadHandler(getElement(),imageManager);
+		addNativeLoadHandler(img,imageManager);
 	}
 
 	private native void addNativeLoadHandler(Element img, ImageManager imageManager) /*-{
@@ -27,5 +29,9 @@ public class ImageWrapper extends Image {
 			imageManager.@geogebra.web.util.ImageManager::checkIfAllLoaded()();
 		});
 	}-*/;
+	
+	public ImageElement getElement() {
+		return img;
+	}
 
 }
