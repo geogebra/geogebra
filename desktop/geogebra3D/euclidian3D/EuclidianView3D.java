@@ -3,6 +3,7 @@ package geogebra3D.euclidian3D;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.AbstractZoomer;
 import geogebra.common.euclidian.DrawBoolean;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
@@ -49,6 +50,7 @@ import geogebra.euclidian.DrawTextField;
 import geogebra.euclidian.EuclidianPen;
 import geogebra.euclidian.EuclidianStyleBar;
 import geogebra.euclidian.EuclidianViewInterface;
+import geogebra.euclidian.MyZoomer;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
@@ -1603,11 +1605,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 
 
 
-	public void setAnimatedRealWorldCoordSystem(double xmin, double xmax,
-			double ymin, double ymax, int steps, boolean storeUndo) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 
 
@@ -3129,19 +3127,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 	}
 
 	protected Hits3D tempArrayList = new Hits3D();
-	
 
-	final public void mouseMovedOver(GeoElement geo) {
-		Hits geos = null;
-		if (geo != null) {
-			tempArrayList.clear();
-			tempArrayList.add(geo);
-			geos = tempArrayList;
-		}
-		boolean repaintNeeded = euclidianController3D.refreshHighlighting(geos, null);
-		if (repaintNeeded)
-			getKernel().notifyRepaint();
-	}	
 	
 	public void changeLayer(GeoElement geo, int oldlayer, int newlayer){
 		getApplication().getEuclidianView().changeLayer(geo, oldlayer, newlayer);
@@ -3541,13 +3527,14 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 		
 	}
 	
-	@Override
-	public final void zoomAxesRatio(double newRatio, boolean storeUndo) {
-
-	}
 	
 	public int print(Graphics g, PageFormat pageFormat, int pageIndex) {
 		return NO_SUCH_PAGE;
+	}
+
+	@Override
+	protected AbstractZoomer newZoomer() {
+		return new MyZoomer(this);
 	}
 	
 }

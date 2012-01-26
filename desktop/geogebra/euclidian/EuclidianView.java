@@ -16,6 +16,7 @@ import geogebra.common.awt.Font;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.AbstractZoomer;
 import geogebra.common.euclidian.DrawBoolean;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianConstants;
@@ -82,23 +83,6 @@ public class EuclidianView extends EuclidianViewND implements EuclidianViewInter
 
 	protected static final long serialVersionUID = 1L;
 	
-
-
-	// STROKES
-
-	// protected static MyBasicStroke thinStroke = new MyBasicStroke(1.0f);
-
-	// axes strokes
-	protected static geogebra.common.awt.BasicStroke defAxesStroke = 
-			new geogebra.awt.BasicStroke( new BasicStroke(1.0f,
-			BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-
-	
-	//protected Line2D.Double tempLine = new Line2D.Double();
-	protected Ellipse2D.Double circle = new Ellipse2D.Double(); // polar grid
-																// circles
-
-
 	
 	protected static RenderingHints defRenderingHints = new RenderingHints(null);
 	{
@@ -115,22 +99,6 @@ public class EuclidianView extends EuclidianViewND implements EuclidianViewInter
 				RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 	}
 
-	
-
-
-	// axesNumberingDistances /
-	// 2
-
-	// added by Loic BEGIN
-	// right angle
-	// int rightAngleStyle = EuclidianView.RIGHT_ANGLE_STYLE_SQUARE;
-
-	// END
-
-
-	
-
-	
 
 	// temp
 	// public static final int DRAW_MODE_DIRECT_DRAW = 0;
@@ -190,8 +158,6 @@ public class EuclidianView extends EuclidianViewND implements EuclidianViewInter
 
 		attachView();
 
-
-
 		
 		initView(false);
 
@@ -208,10 +174,7 @@ public class EuclidianView extends EuclidianViewND implements EuclidianViewInter
 		}
 	}
 
-
-
-	
-
+	@Override
 	protected void initView(boolean repaint) {
 		super.initView(repaint);
 
@@ -258,25 +221,6 @@ public class EuclidianView extends EuclidianViewND implements EuclidianViewInter
 				&& (prefSize.height > MIN_HEIGHT);
 	}
 
-	
-
-	/*
-	 * public void detachView() { kernel.detach(this); clearView();
-	 * //kernel.notifyRemoveAll(this); }
-	 */
-
-	
-	//
-
-
-
-	// added by Loic BEGIN
-	
-	// END
-
-
-	
-	
 	public void setDragCursor() {
 
 		if (getApplication().useTransparentCursorWhenDragging) {
@@ -362,45 +306,10 @@ public class EuclidianView extends EuclidianViewND implements EuclidianViewInter
 		return null;
 	}
 
-	/**
-	 * Sets real world coord system using min and max values for both axes in
-	 * real world values.
-	 */
-	final public void setAnimatedRealWorldCoordSystem(double xmin, double xmax,
-			double ymin, double ymax, int steps, boolean storeUndo) {
-		if (zoomerRW == null) {
-			zoomerRW = new MyZoomerRW();
-		}
-		zoomerRW.init(xmin, xmax, ymin, ymax, steps, storeUndo);
-		zoomerRW.startAnimation();
-	}
-
-	protected MyZoomerRW zoomerRW;
-
-		
-
-	
-
-
-
-
-	// move view:
-	/*
-	 * protected void setDrawMode(int mode) { if (mode != drawMode) { drawMode =
-	 * mode; if (mode == DRAW_MODE_BACKGROUND_IMAGE) updateBackgroundImage(); }
-	 * }
-	 */
-
-	
-	
-
+	@Override
 	public void setDefRenderingHints(geogebra.common.awt.Graphics2D g2){
 		g2.setRenderingHints(defRenderingHints);
 	}
-
-
-
-	
 
 	public int print(Graphics g, PageFormat pageFormat, int pageIndex) {
 		if (pageIndex > 0) {
@@ -659,6 +568,7 @@ public class EuclidianView extends EuclidianViewND implements EuclidianViewInter
 
 
 
+	@Override
 	protected void drawResetIcon(geogebra.common.awt.Graphics2D g){
 		// need to use getApplet().width rather than width so that
 					// it works with applet rescaling
@@ -687,26 +597,7 @@ public class EuclidianView extends EuclidianViewND implements EuclidianViewInter
 		return pauseImage;
 	}
 
-	
-
-	
-
-	// =================================================
-	// Draw Axes
-	// =================================================
-
-	// G.Sturr: 2010-8-9
-	// Modified drawAxes() to allow variable
-	// crossing points and positive-only axes
-
-
-
-	/*
-	 * #******************************************** drawAxes
-	 * ********************************************
-	 */
-	
-	
+	@Override
 	final protected void drawAnimationButtons(geogebra.common.awt.Graphics2D g2) {
 
 		// draw button in focused EV only
@@ -724,7 +615,7 @@ public class EuclidianView extends EuclidianViewND implements EuclidianViewInter
 			g2.setColor(geogebra.common.awt.Color.lightGray);
 		}
 
-		g2.setStroke(EuclidianStatic.getDefaultStroke());
+		g2.setStroke(geogebra.common.euclidian.EuclidianStatic.getDefaultStroke());
 
 		// draw pause or play button
 		g2.drawRect(x - 2, y - 2, 18, 18);
@@ -749,9 +640,9 @@ public class EuclidianView extends EuclidianViewND implements EuclidianViewInter
 		if ( getApplication().getGuiManager() == null) {
 			return true;
 		}
-		GetViewId evp;
 		// eg ev1 just closed
-		if ((evp = getApplication().getGuiManager().getLayout().getDockManager().getFocusedEuclidianPanel()) == null) {
+		 GetViewId evp = getApplication().getGuiManager().getLayout().getDockManager().getFocusedEuclidianPanel();
+		if (evp == null) {
 			return true;
 		}
 
@@ -773,556 +664,45 @@ public class EuclidianView extends EuclidianViewND implements EuclidianViewInter
 
 		if (flag == highlightAnimationButtons) {
 			return false;
-		} else {
-			highlightAnimationButtons = flag;
-			return true;
-		}
+		} 
+		highlightAnimationButtons = flag;
+		return true;
+		
 	}
 
-	
-
-	
-
-	/*
-	 * protected void drawObjects(Graphics2D g2, int layer) { // draw images
-	 * drawImageList.drawAll(g2);
-	 * 
-	 * // draw HotEquations // all in layer 0 currently // layer -1 means draw
-	 * all if (layer == 0 || layer == -1) paintChildren(g2);
-	 * 
-	 * // draw Geometric objects drawGeometricObjects(g2, layer); }
-	 */
-
-	/**
-	 * Draws all GeoElements except images.
-	 * 
-	 * protected void drawGeometricObjects(Graphics2D g2, int layer) {
-	 * 
-	 * if (previewDrawable != null && (layer == app.getMaxLayer() || layer ==
-	 * -1)) { // Michael Borcherds 2008-02-26 only draw once
-	 * previewDrawable.drawPreview(g2); }
-	 * 
-	 * // draw lists of objects drawListList.drawAll(g2);
-	 * 
-	 * // draw polygons drawPolygonList.drawAll(g2);
-	 * 
-	 * // draw conics drawConicList.drawAll(g2);
-	 * 
-	 * // draw angles and numbers drawNumericList.drawAll(g2);
-	 * 
-	 * // draw functions drawFunctionList.drawAll(g2);
-	 * 
-	 * // draw lines drawLineList.drawAll(g2);
-	 * 
-	 * // draw segments drawSegmentList.drawAll(g2);
-	 * 
-	 * // draw vectors drawVectorList.drawAll(g2);
-	 * 
-	 * // draw locus drawLocusList.drawAll(g2);
-	 * 
-	 * // draw points drawPointList.drawAll(g2);
-	 * 
-	 * // draw text drawTextList.drawAll(g2);
-	 * 
-	 * // boolean are not drawn as they are JToggleButtons and children of the
-	 * view }
-	 */
-
-	// for use in AlgebraController
-	final public void mouseMovedOver(GeoElement geo) {
-		Hits geos = null;
-		if (geo != null) {
-			tempArrayList.clear();
-			tempArrayList.add(geo);
-			geos = tempArrayList;
-		}
-		boolean repaintNeeded = ((EuclidianController)euclidianController).refreshHighlighting(geos, null);
-		if (repaintNeeded) {
-			kernel.notifyRepaint();
-		}
-	}
-
-	
-	public Drawable newDrawBoolean( GeoBoolean geo) {
-		return new DrawBoolean(this,geo);
-	}
-
-
+	@Override
 	public Drawable newDrawButton( GeoButton geo) {
 		return new DrawButton(this,geo);
 	}
 
+	@Override
 	public Drawable newDrawTextField(GeoTextField geo) {
 		return new DrawTextField(this,geo);
 	}
 
-
-	
-	public String getXML() {
-		StringBuilder sb = new StringBuilder();
-		getXML(sb, false);
-		return sb.toString();
-	}
-
-	
 	/***************************************************************************
 	 * ANIMATED ZOOMING
 	 **************************************************************************/
-
-	/**
-	 * Zooms around fixed point (px, py)
-	 */
-	public final void zoom(double px, double py, double zoomFactor, int steps,
-			boolean storeUndo) {
-		if (!isZoomable()) {
-			return;
-		}
-		if (zoomer == null) {
-			zoomer = new MyZoomer();
-		}
-		zoomer.init(px, py, zoomFactor, steps, storeUndo);
-		zoomer.startAnimation();
-
-	}
-
-	
-	protected MyZoomer zoomer;
-
-	/**
-	 * Zooms towards the given axes scale ratio. Note: Only the y-axis is
-	 * changed here. ratio = yscale / xscale;
-	 * 
-	 * @param newRatio
-	 * @param storeUndo
-	 */
 	@Override
-	public final void zoomAxesRatio(double newRatio, boolean storeUndo) {
-		if (!isZoomable()) {
-			return;
-		}
-		if (isUnitAxesRatio()) {
-			return;
-		}
-		if (axesRatioZoomer == null) {
-			axesRatioZoomer = new MyAxesRatioZoomer();
-		}
-		axesRatioZoomer.init(newRatio, storeUndo);
-		axesRatioZoomer.startAnimation();
-	}
-
-	protected MyAxesRatioZoomer axesRatioZoomer;
-
-	
-	public final void setStandardView(boolean storeUndo) {
-		if (!isZoomable()) {
-			return;
-		}
-		final double xzero, yzero;
-
-		// check if the window is so small that we need custom
-		// positions.
-		if (getWidth() < (XZERO_STANDARD * 3)) {
-			xzero = getWidth() / 3.0;
-		} else {
-			xzero = XZERO_STANDARD;
-		}
-
-		if (getHeight() < (YZERO_STANDARD * 1.6)) {
-			yzero = getHeight() / 1.6;
-		} else {
-			yzero = YZERO_STANDARD;
-		}
-
-		if (getScaleRatio() != 1.0) {
-			// set axes ratio back to 1
-			if (axesRatioZoomer == null) {
-				axesRatioZoomer = new MyAxesRatioZoomer();
-			}
-			axesRatioZoomer.init(1, false);
-
-			Thread waiter = new Thread() {
-				@Override
-				public void run() {
-					// wait until zoomer has finished
-					axesRatioZoomer.startAnimation();
-					while (axesRatioZoomer.isRunning()) {
-						try {
-							Thread.sleep(100);
-						} catch (Exception e) {
-						}
-					}
-					setAnimatedCoordSystem(xzero, yzero, 0, SCALE_STANDARD, 15,
-							false);
-				}
-			};
-			waiter.start();
-		} else {
-			setAnimatedCoordSystem(xzero, yzero, 0, SCALE_STANDARD, 15, false);
-		}
-		if (storeUndo) {
-			getApplication().storeUndoInfo();
-		}
-	}
-
-	/**
-	 * Sets coord system of this view. Just like setCoordSystem but with
-	 * previous animation.
-	 * 
-	 * @param ox
-	 *            x coord of old origin
-	 * @param oy
-	 *            y coord of old origin
-	 * @param newScale
-	 */
-	final public void setAnimatedCoordSystem(double ox, double oy, double f,
-			double newScale, int steps, boolean storeUndo) {
-
-		ox += (getXZero() - ox) * f;
-		oy += (getYZero() - oy) * f;
-
-		if (!Kernel.isEqual(getXscale(), newScale)) {
-			// different scales: zoom back to standard view
-			double factor = newScale / getXscale();
-			zoom((ox - (getxZero() * factor)) / (1.0 - factor),
-					(oy - (getyZero() * factor)) / (1.0 - factor), factor, steps,
-					storeUndo);
-		} else {
-			// same scales: translate view to standard origin
-			// do this with the following action listener
-			if (mover == null) {
-				mover = new MyMover();
-			}
-			mover.init(ox, oy, storeUndo);
-			mover.startAnimation();
-		}
-	}
-
-	protected MyMover mover;
-
-	protected class MyZoomer implements ActionListener {
-		static final int MAX_STEPS = 15; // frames
-
-		static final int DELAY = 10;
-
-		static final int MAX_TIME = 400; // millis
-
-		protected Timer timer; // for animation
-
-		protected double px, py; // zoom point
-
-		protected double factor;
-
-		protected int counter, steps;
-
-		protected double oldScale, newScale, add, dx, dy;
-
-		protected long startTime;
-
-		protected boolean storeUndo;
-
-		public MyZoomer() {
-			timer = new Timer(DELAY, this);
-		}
-
-		public void init(double px, double py, double zoomFactor, int steps,
-				boolean storeUndo) {
-			this.px = px;
-			this.py = py;
-			// this.zoomFactor = zoomFactor;
-			this.storeUndo = storeUndo;
-
-			oldScale = getXscale();
-			newScale = getXscale() * zoomFactor;
-			this.steps = Math.min(MAX_STEPS, steps);
-		}
-
-		public synchronized void startAnimation() {
-			if (timer == null) {
-				return;
-			}
-			// setDrawMode(DRAW_MODE_DIRECT_DRAW);
-			add = (newScale - oldScale) / steps;
-			dx = getxZero() - px;
-			dy = getyZero() - py;
-			counter = 0;
-
-			startTime = System.currentTimeMillis();
-			timer.start();
-		}
-
-		protected synchronized void stopAnimation() {
-			timer.stop();
-			// setDrawMode(DRAW_MODE_BACKGROUND_IMAGE);
-			factor = newScale / oldScale;
-			setCoordSystem(px + (dx * factor), py + (dy * factor), newScale,
-					newScale * getScaleRatio());
-
-			if (storeUndo) {
-				getApplication().storeUndoInfo();
-			}
-		}
-
-		public synchronized void actionPerformed(ActionEvent e) {
-			counter++;
-			long time = System.currentTimeMillis() - startTime;
-			if ((counter == steps) || (time > MAX_TIME)) { // end of animation
-				stopAnimation();
-			} else {
-				factor = 1.0 + ((counter * add) / oldScale);
-				setCoordSystem(px + (dx * factor), py + (dy * factor), oldScale
-						* factor, oldScale * factor * getScaleRatio());
-			}
-		}
-	}
-
-	protected class MyZoomerRW implements ActionListener {
-		static final int MAX_STEPS = 15; // frames
-
-		static final int DELAY = 10;
-
-		static final int MAX_TIME = 400; // millis
-
-		protected Timer timer; // for animation
-
-		protected int counter, steps;
-
-		protected long startTime;
-
-		protected boolean storeUndo;
-
-		protected double x0, x1, y0, y1, xminOld, xmaxOld, yminOld, ymaxOld;
-
-		public MyZoomerRW() {
-			timer = new Timer(DELAY, this);
-		}
-
-		public void init(double x0, double x1, double y0, double y1, int steps,
-				boolean storeUndo) {
-			this.x0 = x0;
-			this.x1 = x1;
-			this.y0 = y0;
-			this.y1 = y1;
-
-			xminOld = getXmin();
-			xmaxOld = getXmax();
-			yminOld = getYmin();
-			ymaxOld = getYmax();
-			// this.zoomFactor = zoomFactor;
-			this.storeUndo = storeUndo;
-
-			this.steps = Math.min(MAX_STEPS, steps);
-		}
-
-		public synchronized void startAnimation() {
-			if (timer == null) {
-				return;
-			}
-			counter = 0;
-
-			startTime = System.currentTimeMillis();
-			timer.start();
-		}
-
-		protected synchronized void stopAnimation() {
-			timer.stop();
-			setRealWorldCoordSystem(x0, x1, y0, y1);
-
-			if (storeUndo) {
-				getApplication().storeUndoInfo();
-			}
-		}
-
-		public synchronized void actionPerformed(ActionEvent e) {
-			counter++;
-			long time = System.currentTimeMillis() - startTime;
-			if ((counter == steps) || (time > MAX_TIME)) { // end of animation
-				stopAnimation();
-			} else {
-				double i = counter;
-				double j = steps - counter;
-				setRealWorldCoordSystem(((x0 * i) + (xminOld * j)) / steps,
-						((x1 * i) + (xmaxOld * j)) / steps,
-						((y0 * i) + (yminOld * j)) / steps,
-						((y1 * i) + (ymaxOld * j)) / steps);
-			}
-		}
-	}
-
-	// changes the scale of the y-Axis continously to reach
-	// the given scale ratio yscale / xscale
-	protected class MyAxesRatioZoomer implements ActionListener {
-
-		protected Timer timer; // for animation
-
-		protected double factor;
-
-		protected int counter;
-
-		protected double oldScale, newScale, add;
-
-		protected long startTime;
-
-		protected boolean storeUndo;
-
-		public MyAxesRatioZoomer() {
-			timer = new Timer(MyZoomer.DELAY, this);
-		}
-
-		public void init(double ratio, boolean storeUndo) {
-			// this.ratio = ratio;
-			this.storeUndo = storeUndo;
-
-			// zoomFactor = ratio / scaleRatio;
-			oldScale = getYscale();
-			newScale = getXscale() * ratio; // new yscale
-		}
-
-		public synchronized void startAnimation() {
-			if (timer == null) {
-				return;
-			}
-			// setDrawMode(DRAW_MODE_DIRECT_DRAW);
-			add = (newScale - oldScale) / MyZoomer.MAX_STEPS;
-			counter = 0;
-
-			startTime = System.currentTimeMillis();
-			timer.start();
-		}
-
-		protected synchronized void stopAnimation() {
-			timer.stop();
-			// setDrawMode(DRAW_MODE_BACKGROUND_IMAGE);
-			setCoordSystem(getxZero(), getyZero(), getXscale(), newScale);
-			if (storeUndo) {
-				getApplication().storeUndoInfo();
-			}
-		}
-
-		public synchronized void actionPerformed(ActionEvent e) {
-			counter++;
-			long time = System.currentTimeMillis() - startTime;
-			if ((counter == MyZoomer.MAX_STEPS) || (time > MyZoomer.MAX_TIME)) { // end
-				// of
-				// animation
-				stopAnimation();
-			} else {
-				factor = 1.0 + ((counter * add) / oldScale);
-				setCoordSystem(getxZero(), getyZero(), getXscale(), oldScale * factor);
-			}
-		}
-
-		final synchronized boolean isRunning() {
-			return timer.isRunning();
-		}
-	}
-
-	// used for animated moving of euclidian view to standard origin
-	protected class MyMover implements ActionListener {
-		protected double dx, dy, add;
-
-		protected int counter;
-
-		protected double ox, oy; // new origin
-
-		protected Timer timer;
-
-		protected long startTime;
-
-		protected boolean storeUndo;
-
-		public MyMover() {
-			timer = new Timer(MyZoomer.DELAY, this);
-		}
-
-		public void init(double ox, double oy, boolean storeUndo) {
-			this.ox = ox;
-			this.oy = oy;
-			this.storeUndo = storeUndo;
-		}
-
-		public synchronized void startAnimation() {
-			dx = getxZero() - ox;
-			dy = getyZero() - oy;
-			if (Kernel.isZero(dx) && Kernel.isZero(dy)) {
-				return;
-			}
-
-			// setDrawMode(DRAW_MODE_DIRECT_DRAW);
-			add = 1.0 / MyZoomer.MAX_STEPS;
-			counter = 0;
-
-			startTime = System.currentTimeMillis();
-			timer.start();
-		}
-
-		protected synchronized void stopAnimation() {
-			timer.stop();
-			// setDrawMode(DRAW_MODE_BACKGROUND_IMAGE);
-			setCoordSystem(ox, oy, getXscale(), getYscale());
-			if (storeUndo) {
-				getApplication().storeUndoInfo();
-			}
-		}
-
-		public synchronized void actionPerformed(ActionEvent e) {
-			counter++;
-			long time = System.currentTimeMillis() - startTime;
-			if ((counter == MyZoomer.MAX_STEPS) || (time > MyZoomer.MAX_TIME)) { // end
-				// of
-				// animation
-				stopAnimation();
-			} else {
-				double factor = 1.0 - (counter * add);
-				setCoordSystem(ox + (dx * factor), oy + (dy * factor), getXscale(),
-						getYscale());
-			}
-		}
+	protected MyZoomer newZoomer() {
+		return new MyZoomer(this);
 	}
 
 	public Color getAxesColor() {
 		return geogebra.awt.Color.getAwtColor(axesColor);
 	}
 
-	
-
-
 	public Color getGridColor() {
 		return geogebra.awt.Color.getAwtColor(gridColor);
 	}
 
-	
-
-	/*
-	 * --> moved to Kernel and Kernel3D public String getModeText(int mode) {
-	 * 
-	 * return getKernel().getModeText(mode); }
-	 */
-
-	
 	public EuclidianController getEuclidianController() {
 		return (EuclidianController)euclidianController;
 	}
-
-
-
-
-
-	
-
-
-
-
-	
-	
-	
-
-
 
 	public boolean hitAnimationButton(AbstractEvent e) {
 		return hitAnimationButton(geogebra.euclidian.event.MouseEvent.getEvent(e));
 	}
 
-	public void setHits(java.awt.Rectangle rect) {
-		setHits(new geogebra.awt.Rectangle(rect));
-	}
+
 }

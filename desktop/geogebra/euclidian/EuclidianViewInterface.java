@@ -40,17 +40,6 @@ public interface EuclidianViewInterface extends EuclidianViewInterfaceCommon {
 	void setMoveCursor();
 
 	
-	//hits	
-	
-	
-	/**
-	 * sets array of GeoElements whose visual representation is inside of
-	 * the given screen rectangle
-	 */
-	public void setHits(Rectangle rect);	
-	
-	
-
 	
 	//////////////////////////////////////////////////////
 	// AXIS, GRID, ETC.

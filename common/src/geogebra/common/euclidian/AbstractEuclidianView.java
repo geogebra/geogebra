@@ -70,6 +70,7 @@ import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
+
 public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCommon {
 	
 	/** View other than EV1 and EV2 **/
@@ -2105,7 +2106,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		Drawable d = null;
 		switch (geo.getGeoClassType()) {
 		case BOOLEAN:
-			d = newDrawBoolean((GeoBoolean) geo);
+			d = new DrawBoolean(this,(GeoBoolean) geo);
 			break;
 
 		case BUTTON:
@@ -2284,8 +2285,6 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 	public abstract Drawable newDrawButton(GeoButton geo);
 	public abstract Drawable newDrawTextField(GeoTextField geo);
-	public abstract Drawable newDrawBoolean(GeoBoolean geo);
-	public abstract void zoomAxesRatio(double d, boolean b);
 
 
 	final public static boolean usesSelectionAsInput(int mode) {
@@ -3055,7 +3054,14 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			g2.setClip(oldClip);
 		}
 
-		
+		// =================================================
+		// Draw Axes
+		// =================================================
+
+		// G.Sturr: 2010-8-9
+		// Modified drawAxes() to allow variable
+		// crossing points and positive-only axes
+
 		private double getLabelLength(double rw, FontRenderContext frc) {
 			TextLayout layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(
 					kernel.formatPiE(rw, axesNumberFormat[0])
@@ -3876,7 +3882,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		final public geogebra.common.awt.Graphics2D getBackgroundGraphics() {
 			return bgGraphics;
 		}
-		
+
 		/**
 		 * returns settings in XML format
 		 * 
@@ -4326,4 +4332,154 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		}
 		kernel.notifyRepaint();
 	}
+	
+	protected abstract AbstractZoomer newZoomer();
+	
+
+	/**
+	 * Zooms around fixed point (px, py)
+	 */
+	public void zoom(double px, double py, double zoomFactor, int steps,
+			boolean storeUndo) {
+		if (!isZoomable()) {
+			return;
+		}
+		if (zoomer == null) {
+			zoomer = newZoomer();
+		}
+		zoomer.init(px, py, zoomFactor, steps, storeUndo);
+		zoomer.startAnimation();
+
+	}
+
+	
+	protected AbstractZoomer zoomer;
+
+	/**
+	 * Zooms towards the given axes scale ratio. Note: Only the y-axis is
+	 * changed here. ratio = yscale / xscale;
+	 * 
+	 * @param newRatio
+	 * @param storeUndo
+	 */
+	public final void zoomAxesRatio(double newRatio, boolean storeUndo) {
+		if (!isZoomable()) {
+			return;
+		}
+		if (isUnitAxesRatio()) {
+			return;
+		}
+		if (axesRatioZoomer == null) {
+			axesRatioZoomer = newZoomer();
+		}
+		axesRatioZoomer.init(newRatio, storeUndo);
+		axesRatioZoomer.startAnimation();
+	}
+
+	protected AbstractZoomer axesRatioZoomer;
+
+	
+	public final void setStandardView(boolean storeUndo) {
+		if (!isZoomable()) {
+			return;
+		}
+		final double xzero, yzero;
+
+		// check if the window is so small that we need custom
+		// positions.
+		if (getWidth() < (XZERO_STANDARD * 3)) {
+			xzero = getWidth() / 3.0;
+		} else {
+			xzero = XZERO_STANDARD;
+		}
+
+		if (getHeight() < (YZERO_STANDARD * 1.6)) {
+			yzero = getHeight() / 1.6;
+		} else {
+			yzero = YZERO_STANDARD;
+		}
+
+		if (getScaleRatio() != 1.0) {
+			// set axes ratio back to 1
+			if (axesRatioZoomer == null) {
+				axesRatioZoomer = newZoomer();
+			}
+			axesRatioZoomer.init(1, false);
+			axesRatioZoomer.setStandardViewAfter(xzero,yzero);
+			axesRatioZoomer.startAnimation();
+		} else {
+			setAnimatedCoordSystem(xzero, yzero, 0, SCALE_STANDARD, 15, false);
+		}
+		if (storeUndo) {
+			getApplication().storeUndoInfo();
+		}
+	}
+
+	
+	/**
+	 * Sets coord system of this view. Just like setCoordSystem but with
+	 * previous animation.
+	 * 
+	 * 
+	 * @param ox
+	 *            x coord of old origin
+	 * @param oy
+	 *            y coord of old origin
+	 * @param newScale
+	 */
+	public void setAnimatedCoordSystem(double ox, double oy, double f,
+			double newScale, int steps, boolean storeUndo) {
+
+		ox += (getXZero() - ox) * f;
+		oy += (getYZero() - oy) * f;
+
+		if (!Kernel.isEqual(getXscale(), newScale)) {
+			// different scales: zoom back to standard view
+			double factor = newScale / getXscale();
+			zoom((ox - (getxZero() * factor)) / (1.0 - factor),
+					(oy - (getyZero() * factor)) / (1.0 - factor), factor, steps,
+					storeUndo);
+		} else {
+			// same scales: translate view to standard origin
+			// do this with the following action listener
+			if (mover == null) {
+				mover = newZoomer();
+			}
+			mover.init(ox, oy, storeUndo);
+			mover.startAnimation();
+		}
+	}
+
+	protected AbstractZoomer mover;
+	
+	/**
+	 * Sets real world coord system using min and max values for both axes in
+	 * real world values.
+	 */
+	final public void setAnimatedRealWorldCoordSystem(double xmin, double xmax,
+			double ymin, double ymax, int steps, boolean storeUndo) {
+		if (zoomerRW == null) {
+			zoomerRW = newZoomer();
+		}
+		zoomerRW.initRW(xmin, xmax, ymin, ymax, steps, storeUndo);
+		zoomerRW.startAnimation();
+	}
+
+	protected AbstractZoomer zoomerRW;
+
+	
+	// for use in AlgebraController
+		final public void mouseMovedOver(GeoElement geo) {
+			Hits geos = null;
+			if (geo != null) {
+				tempArrayList.clear();
+				tempArrayList.add(geo);
+				geos = tempArrayList;
+			}
+			boolean repaintNeeded = getEuclidianController().refreshHighlighting(geos, null);
+			if (repaintNeeded) {
+				kernel.notifyRepaint();
+			}
+		}
+
 }

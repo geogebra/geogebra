@@ -7,6 +7,7 @@ import geogebra.common.awt.Font;
 import geogebra.common.awt.Graphics2D;
 import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.AbstractZoomer;
 import geogebra.common.euclidian.DrawBoolean;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.Previewable;
@@ -267,17 +268,6 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	    
     }
 
-    public void zoom(double px, double py, double factor, int i, boolean b) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
-    }
-
-	@Override
-    public void zoomAxesRatio(double d, boolean b) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
-    }
-
 	public boolean hitAnimationButton(AbstractEvent e) {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return false;
@@ -348,11 +338,6 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
     }
 
 	@Override
-    public Drawable newDrawBoolean(GeoBoolean geo) {
-		return new DrawBoolean(this,geo);
-    }
-
-	@Override
     public void setBackground(geogebra.common.awt.Color bgColor) {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
@@ -364,13 +349,6 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
     }
 
 	public void setDragCursor() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
-    }
-
-	public void setAnimatedRealWorldCoordSystem(double realWorldCoordX,
-            double realWorldCoordX2, double realWorldCoordY,
-            double realWorldCoordY2, int i, boolean b) {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
@@ -400,10 +378,9 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	    
     }
 
-	public void setAnimatedCoordSystem(double px, double py, double factor,
-            double d, int i, boolean b) {
-	    // TODO Auto-generated method stub
-	    
+	@Override
+    protected AbstractZoomer newZoomer() {
+	    return new MyZoomer(this);
     }
 
 }
