@@ -370,8 +370,8 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
 	@Override
     public void setTransform(AffineTransform Tx) {
-		context.setTransform(Tx.getScaleX(), Tx.getShearX(),
-		Tx.getShearY(), Tx.getScaleY(),
+		context.setTransform(Tx.getScaleX(), Tx.getShearY(),
+		Tx.getShearX(), Tx.getScaleY(),
 		((geogebra.web.awt.AffineTransform)Tx).getTranslateX(),
 		((geogebra.web.awt.AffineTransform)Tx).getTranslateY());
 		savedTransform = Tx;
