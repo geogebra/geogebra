@@ -104,6 +104,7 @@ public class ScriptInputDialog extends InputDialog {
 		this.geo = geo;
 		
 		if (geo != null){
+			AbstractApplication.debug(updateScript ? geo.getUpdateScript() : geo.getClickScript());
 			inputPanel.setText(updateScript ? geo.getUpdateScript() : geo.getClickScript());
 			//setJSMode(updateScript ? geo.updateJavaScript():geo.clickJavaScript());
 			setScriptType(updateScript ? geo.getUpdateScriptType() : geo.getClickScriptType());

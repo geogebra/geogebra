@@ -51,7 +51,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		setApplication((Application) kernel.getApplication());
 		
 		tempNum = new MyDouble(kernel);
-    }
+	}
 	
 	@Override
 	protected void setMouseLocation(AbstractEvent event) {
@@ -113,6 +113,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		for (int i = 0; i < targets.length(); i++) {
 			AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(i));
 			wrapMouseDragged(e);
+			e.release();
 		}
 		//to not move the canvas (later some sophisticated handling must be find out)
 		event.preventDefault();
@@ -123,6 +124,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		JsArray<Touch> targets = event.getTargetTouches();
 		for (int i = 0; i < targets.length(); i++) {
 			 AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(i));
+			 e.release();
 			 //should be substracted the event just ended, and call mouseevent for that.
 			 //later :-)
 		}
@@ -136,6 +138,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		for (int i = 0; i < targets.length(); i++) {
 			AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(i));
 			wrapMousePressed(e);
+			e.release();
 		}
 		//to not move the canvas (later some sophisticated handling must be find out)
 				event.preventDefault();
@@ -147,26 +150,31 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	public void onDoubleClick(DoubleClickEvent event) {
 		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
 		 wrapMouseclicked(e);
+		 e.release();
 	}
 
 	public void onClick(ClickEvent event) {
 		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
 		 wrapMouseclicked(e);
-    }
+		 e.release();
+	}
 
 	public void onMouseWheel(MouseWheelEvent event) {
 		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
 		 wrapMouseWheelMoved(e);
-    }
+		 e.release();
+	}
 
 	public void onMouseOver(MouseOverEvent event) {
 		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
 		 wrapMouseEntered(e);
-    }
+		 e.release();
+	}
 
 	public void onMouseOut(MouseOutEvent event) {
 		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
 		wrapMouseExited(e);
+		e.release();
 	}
 
 	public void onMouseMove(MouseMoveEvent event) {
@@ -176,37 +184,39 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		 } else {
 			 wrapMouseDragged(e);
 		 }
-	
+		 e.release();
 	}
 
 	public void onMouseUp(MouseUpEvent event) {
 		DRAGMODE_MUST_BE_SELECTED = false;
 		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
 		wrapMouseReleased(e);
-    }
+		e.release();
+	}
 
 	public void onMouseDown(MouseDownEvent event) {
 		DRAGMODE_MUST_BE_SELECTED = true;
 		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
-	    wrapMousePressed(e);
-    }
+		wrapMousePressed(e);
+		e.release();
+	}
 
 	@Override
-    protected void initToolTipManager() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
-    }
+	protected void initToolTipManager() {
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		
+	}
 
 	@Override
-    protected GeoElement[] createCircle2ForPoints3D(GeoPointND p0, GeoPointND p1) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
-    }
+	protected GeoElement[] createCircle2ForPoints3D(GeoPointND p0, GeoPointND p1) {
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		return null;
+	}
 
 	@Override
-    protected void resetToolTipManager() {
-	    // TODO Auto-generated method stub
-	    
-    }
+	protected void resetToolTipManager() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

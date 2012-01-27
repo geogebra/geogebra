@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.gui.view.algebra;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.euclidian.EuclidianViewInterface;
@@ -190,7 +191,9 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 		} 
 		else if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			// let euclidianView know about the click
-			ev.clickedGeo(geo, geogebra.euclidian.event.MouseEvent.wrapEvent(e));
+			AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
+			ev.clickedGeo(geo, event);
+			event.release();
 		} else 
 			// tell selection listener about click
 			app.geoElementSelected(geo, false);

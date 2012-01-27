@@ -109,11 +109,13 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	public void mouseClicked(MouseEvent e) {
 		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
 		wrapMouseclicked(event);
+		event.release();
 	}
 
 	public void mousePressed(MouseEvent e) {
 		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
 		wrapMousePressed(event);
+		event.release();
 	}
 
 	private EuclidianViewInterfaceCommon setShowMouseCoords(boolean b) {
@@ -124,26 +126,31 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	public void mouseDragged(MouseEvent e) {
 		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
 		wrapMouseDragged(event);
+		event.release();
 	}
 
 	public void mouseReleased(MouseEvent e) {
 		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
 		wrapMouseReleased(event);
+		event.release();
 	}
 
 	public void mouseMoved(MouseEvent e) {
 		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
 		wrapMouseMoved(event);
+		event.release();
 	}
 	
 	public void mouseEntered(MouseEvent e) {
 		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
 		wrapMouseEntered(event);
+		event.release();
 	}
 	
 	public void mouseExited(MouseEvent e) {
 		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
 		wrapMouseExited(event);
+		event.release();
 	}
 
 	/*
@@ -240,6 +247,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
 		wrapMouseWheelMoved(event);
+		event.release();
 	}
 
 	public void zoomInOut(KeyEvent event) {

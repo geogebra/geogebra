@@ -1,6 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Kernel;
@@ -116,7 +117,9 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 			int col = table.columnAtPoint(e.getPoint());
 			GeoElement geo = (GeoElement) model.getValueAt(row, col);	
 			// let euclidianView know about the click
-			app.getEuclidianView().clickedGeo(geo, geogebra.euclidian.event.MouseEvent.wrapEvent(e));
+			AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
+			app.getEuclidianView().clickedGeo(geo, event);
+			event.release();
 		}
 
 		//		else

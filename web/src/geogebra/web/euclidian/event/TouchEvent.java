@@ -1,33 +1,29 @@
 package geogebra.web.euclidian.event;
 
-import java.util.HashMap;
-
-import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.Touch;
-
 import geogebra.common.awt.Point;
 import geogebra.common.euclidian.event.AbstractEvent;
-import geogebra.web.main.Application;
+
+import java.util.LinkedList;
+
+import com.google.gwt.dom.client.Touch;
 
 public class TouchEvent extends AbstractEvent {
 	
 	private static final Integer TOUCHSTART = 1;
 	private static final Integer TOUCHMOVE = 2;
 	private static final Integer TOUCHEND = 3;
-	public static HashMap<Integer, TouchEvent> pool = new HashMap<Integer, TouchEvent>();
+	public static LinkedList<TouchEvent> pool = new LinkedList<TouchEvent>();
 	private Touch event;
 	private Integer id;
 	
 	private TouchEvent(Touch touch) {
 		this.event = touch;
-		this.id  = touch.getIdentifier();
-		TouchEvent.pool.put(this.id, this);
 	}
 
 	@Override
 	public Point getPoint() {
-		TouchEvent current = TouchEvent.pool.get(this.id);
-		return new Point(current.event.getClientX(),current.event.getClientY());
+		
+		return new Point(event.getClientX(),event.getClientY());
 	}
 
 	@Override
@@ -41,8 +37,8 @@ public class TouchEvent extends AbstractEvent {
 	}
 
 	@Override
-	public void release(int l) {
-		TouchEvent.pool.remove(l);
+	public void release() {
+		TouchEvent.pool.remove(this);
 	}
 
 	@Override
@@ -52,14 +48,14 @@ public class TouchEvent extends AbstractEvent {
 
 	@Override
 	public int getX() {
-		TouchEvent current = TouchEvent.pool.get(this.id);
-		return current.event.getClientX();
+		
+		return event.getClientX();
 	}
 
 	@Override
 	public int getY() {
-		TouchEvent current = TouchEvent.pool.get(this.id);
-		return current.event.getClientY();
+		
+		return event.getClientY();
 	}
 
 	@Override
@@ -93,7 +89,13 @@ public class TouchEvent extends AbstractEvent {
 	}
 
 	public static AbstractEvent wrapEvent(Touch touch) {
-	   return new TouchEvent(touch);
-    }
+		if(!pool.isEmpty()){
+			TouchEvent wrap = pool.getLast();
+			wrap.event = touch;
+			pool.removeLast();
+			return wrap;
+		}
+		return new TouchEvent(touch);
+	}
 
 }

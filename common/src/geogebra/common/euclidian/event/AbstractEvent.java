@@ -10,7 +10,7 @@ public abstract class AbstractEvent {
 
 	public abstract boolean isShiftDown();
 
-	public abstract void release(int l);
+	public abstract void release();
 	
 	public abstract int getID();
 
