@@ -31,6 +31,7 @@ import geogebra.common.plugin.ScriptManagerCommon;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
+import geogebra.web.css.GuiResources;
 import geogebra.web.euclidian.EuclidianController;
 import geogebra.web.euclidian.EuclidianView;
 import geogebra.web.io.ConstructionException;
@@ -42,6 +43,7 @@ import geogebra.web.util.DebugPrinterWeb;
 import geogebra.web.util.ImageManager;
 
 import java.awt.Component;
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -809,6 +811,21 @@ public class Application extends AbstractApplication {
 
 	public void resetUniqueId() {
 		uniqueId = null;//FIXME: generate new UUID: + UUID.randomUUID();
+	}
+	
+	public ImageElement getRefreshViewImage() {
+		// don't need to load gui jar as reset image is in main jar
+		return imageManager.getInternalImage(GuiResources.INSTANCE.viewRefresh());
+	}
+
+	public ImageElement getPlayImage() {
+		// don't need to load gui jar as reset image is in main jar
+		return imageManager.getInternalImage(GuiResources.INSTANCE.navPlay());
+	}
+
+	public ImageElement getPauseImage() {
+		// don't need to load gui jar as reset image is in main jar
+		return imageManager.getInternalImage(GuiResources.INSTANCE.navPause());
 	}
 
 }

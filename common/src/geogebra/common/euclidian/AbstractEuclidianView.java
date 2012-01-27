@@ -3488,8 +3488,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		protected abstract void setAntialiasing(Graphics2D g2);
 		
 		protected void drawAnimationButtons(Graphics2D g2) {
-			// TODO Auto-generated method stub
-			
+			//it could be abstract, but mess with EuclididanView3D
 		}
 	
 		public abstract void setBackground(Color bgColor);

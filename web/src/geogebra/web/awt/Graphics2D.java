@@ -605,8 +605,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
     }
 	@Override
 	public void drawRect(int x, int y, int width, int height) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		
+	   context.rect(x, y, width, height);
 	}
 
 	@Override

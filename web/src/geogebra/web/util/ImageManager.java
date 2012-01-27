@@ -9,6 +9,7 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -97,4 +98,10 @@ public class ImageManager extends AbstractImageManager {
 	public boolean hasImages() {
 		return !externalImageTable.isEmpty();
 	}
+
+	public ImageElement getInternalImage(ImageResource resource) {
+	    ImageElement img = Document.get().createImageElement();
+	    img.setSrc(resource.getSafeUri().asString());
+	    return img;
+    }
 }

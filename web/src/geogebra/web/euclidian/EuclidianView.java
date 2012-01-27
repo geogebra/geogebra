@@ -1,5 +1,6 @@
 package geogebra.web.euclidian;
 
+import java.awt.Image;
 import java.util.ArrayList;
 
 import geogebra.common.awt.Dimension;
@@ -10,6 +11,7 @@ import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.AbstractZoomer;
 import geogebra.common.euclidian.DrawBoolean;
 import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.GetViewId;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -27,6 +29,7 @@ import geogebra.web.awt.BasicStroke;
 import geogebra.web.main.Application;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.ImageElement;
 
 
 
@@ -35,6 +38,9 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	geogebra.web.awt.Graphics2D g2 = null;
 	
 	protected static final long serialVersionUID = 1L;
+	
+	protected ImageElement resetImage, playImage, pauseImage, upArrowImage,
+	downArrowImage;
 
 	public EuclidianView(Canvas canvas,
             AbstractEuclidianController euclidiancontroller, boolean[] showAxes,
@@ -250,6 +256,8 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
+	
+	
 
 	
     public void repaint() {
@@ -267,10 +275,38 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
+	
+	
+	
+	private ImageElement getResetImage() {
+		if (resetImage == null) {
+			resetImage = getApplication().getRefreshViewImage();
+		}
+		return resetImage;
+	}
+
+	private ImageElement getPlayImage() {
+		if (playImage == null) {
+			playImage = getApplication().getPlayImage();
+		}
+		return playImage;
+	}
+
+	private ImageElement getPauseImage() {
+		if (pauseImage == null) {
+			pauseImage = getApplication().getPauseImage();
+		}
+		return pauseImage;
+	}
 
 	public boolean hitAnimationButton(AbstractEvent e) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return false;
+		// draw button in focused EV only
+				if (!drawPlayButtonInThisView()) {
+					return false;
+				}
+
+				return kernel.needToShowAnimationButton() && (e.getX() <= 20)
+						&& (e.getY() >= (getHeight() - 20));
     }
 
 
@@ -303,11 +339,66 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 		return styleBar;
 	}
+	
+	private boolean drawPlayButtonInThisView() {
 
-	public boolean setAnimationButtonsHighlighted(boolean b) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return false;
+		// just one view
+		if ( getApplication().getGuiManager() == null) {
+			return true;
+		}
+		// eg ev1 just closed
+		// GetViewId evp = getApplication().getGuiManager().getLayout().getDockManager().getFocusedEuclidianPanel();
+		//we dont have above yet: so just be null :-)
+		GetViewId evp = null;
+		if (evp == null) {
+			return true;
+		}
+
+		return !((getApplication().getGuiManager() != null) && (this.getViewID() != evp
+				.getViewId()));
+	}
+
+	public boolean setAnimationButtonsHighlighted(boolean flag) {
+
+		// draw button in focused EV only
+		if (!drawPlayButtonInThisView()) {
+			return false;
+		}
+
+		if (flag == highlightAnimationButtons) {
+			return false;
+		} 
+		highlightAnimationButtons = flag;
+		return true;
+		
     }
+	
+	@Override
+	final protected void drawAnimationButtons(geogebra.common.awt.Graphics2D g2) {
+
+		// draw button in focused EV only
+		if (!drawPlayButtonInThisView()) {
+			return;
+		}
+
+		int x = 6;
+		int y = getHeight() - 22;
+
+		if (highlightAnimationButtons) {
+			// draw filled circle to highlight button
+			g2.setColor(geogebra.common.awt.Color.darkGray);
+		} else {
+			g2.setColor(geogebra.common.awt.Color.lightGray);
+		}
+
+		g2.setStroke(geogebra.common.euclidian.EuclidianStatic.getDefaultStroke());
+
+		// draw pause or play button
+		g2.drawRect(x - 2, y - 2, 18, 18);
+		ImageElement img = kernel.isAnimationRunning() ? getPauseImage()
+				: getPlayImage();
+		g2.drawImage(new geogebra.web.awt.BufferedImage(img), x, y, null);
+	}
 
 	@Override
     protected void drawActionObjects(Graphics2D g) {

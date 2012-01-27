@@ -16,5 +16,14 @@ public interface GuiResources extends ClientBundle {
 	
 	@Source("geogebra/resources/images/spinner.gif")
 	ImageResource getGeoGebraWebSpinner();
+	
+	@Source("geogebra/resources/images/nav_play.png")
+	ImageResource navPlay();
+	
+	@Source("geogebra/resources/images/nav_pause.png")
+	ImageResource navPause();
+	
+	@Source("geogebra/resources/images/view-refresh.png")
+	ImageResource viewRefresh();
 
 }
