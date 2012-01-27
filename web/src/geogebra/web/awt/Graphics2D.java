@@ -222,14 +222,16 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
 	@Override
     public void setComposite(Composite comp) {
-		if (comp != null) {
-			float alpha  = ((geogebra.web.awt.AlphaComposite) comp).getAlpha();
-			if (alpha >= 0f && alpha < 1f) {
-				context.setGlobalAlpha(alpha);
-			}
-			context.setGlobalAlpha(0.5d);
-			context.restore();
-		}
+		context.setGlobalAlpha(((geogebra.web.awt.AlphaComposite)comp).getAlpha());
+		
+//		if (comp != null) {
+//			float alpha  = ((geogebra.web.awt.AlphaComposite) comp).getAlpha();
+//			if (alpha >= 0f && alpha < 1f) {
+//				context.setGlobalAlpha(alpha);
+//			}
+//			context.setGlobalAlpha(0.5d);
+//			context.restore();
+//		}
 	}
 
 	
@@ -396,10 +398,12 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
 	@Override
     public Composite getComposite() {
-		context.save();
-		//just to not return null;
-		return new geogebra.web.awt.AlphaComposite(0, 0) {
-		};
+		return new geogebra.web.awt.AlphaComposite(3, (float) context.getGlobalAlpha());
+	
+//		context.save();
+//		//just to not return null;
+//		return new geogebra.web.awt.AlphaComposite(0, 0) {
+//		};
 	}
 
 	
