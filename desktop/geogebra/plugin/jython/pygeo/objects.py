@@ -15,11 +15,17 @@ class Element(GenericMethods):
 
     @generic
     def __init__(self, *args, **kwargs):
-        elements = [element(arg) for arg in args]
-        self.init(*elements)
-        for key, value in kwargs.iteritems():
-            setattr(self, key, value)
+        try:
+            self.rawinit(*args)
+        except TypeError:
+            elements = [element(arg) for arg in args]
+            self.init(*elements)
+        self._setattrs(kwargs)
 
+    @generic
+    def rawinit(self, *args):
+        raise GenericError
+    
     @generic
     def init(self, *args):
         raise GenericError
@@ -35,6 +41,10 @@ class Element(GenericMethods):
         el.geo = geo        
         return el
 
+    def _setattrs(self, kwargs):
+        for key, value in kwargs.iteritems():
+            setattr(self, key, value)
+        
     def __repr__(self):
         return "<%s>" % self.geo
     def __str__(self):
@@ -358,25 +368,25 @@ class VectorOrPoint(ExpressionElement, Expression):
 
 
 class Vector(VectorOrPoint):
-    @specmethod.init
+    @specmethod.rawinit
     @sign(VectorThing)
     def initfromexpr(self, e):
         self.geo = api.geoVector(expr(e).expr)
-
-    @specmethod.init
+        self._setattrs(kwargs)
+    @specmethod.rawinit
     @sign(Number, Number)
     def initfromnumbercoords(self, x, y):
         self.geo = api.geoVector(float(x), float(y))
 
         
 class Point(VectorOrPoint):
-    @specmethod.init
+    @specmethod.rawinit
     @sign(VectorThing)
     def initfromexpr(self, e):
         self.geo = api.geoPoint(expr(e).expr)
 
 
-    @specmethod.init
+    @specmethod.rawinit
     @sign(Number, Number)
     def initfromnumbercoords(self, x, y):
         self.geo = api.geoPoint(float(x), float(y))
