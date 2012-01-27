@@ -108,7 +108,7 @@ public class Rectangle implements geogebra.awt.Rectangle2D, geogebra.common.awt.
 	}
 	
 	public double getMaxY() {
-		return impl.getMinY();
+		return impl.getMaxY();
 	}
 	
 	public void add(double x, double y) {
