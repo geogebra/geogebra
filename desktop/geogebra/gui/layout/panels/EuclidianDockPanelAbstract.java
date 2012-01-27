@@ -1,6 +1,7 @@
 package geogebra.gui.layout.panels;
 
 import geogebra.euclidian.EuclidianViewInterface;
+import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.layout.DockPanel;
 
 import java.awt.BorderLayout;
@@ -46,7 +47,7 @@ public abstract class EuclidianDockPanelAbstract extends DockPanel implements ge
 	 * @remark This method has to be overridden if the component of the 
 	 * 			dock panel is not the euclidian view itself
 	 */
-	abstract public EuclidianViewInterface getEuclidianView();
+	abstract public EuclidianViewND getEuclidianView();
 	
 	/**
 	 * sets this euclidian panel to have the "euclidian focus"

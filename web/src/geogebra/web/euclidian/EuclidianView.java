@@ -27,7 +27,6 @@ import geogebra.web.main.Application;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.user.client.Window;
 
 
@@ -493,6 +492,11 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	@Override
     protected AbstractZoomer newZoomer() {
 	    return new MyZoomer(this);
+    }
+
+	public boolean hasFocus() {
+	    // TODO Auto-generated method stub
+	    return true;
     }
 
 }

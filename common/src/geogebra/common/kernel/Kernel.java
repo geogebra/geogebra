@@ -9912,6 +9912,13 @@ public class Kernel {
 		GeoElement[] polygon = algo.getOutput();
 		return polygon;
 	}
+	public void notifyChangeLayer(GeoElement ge, int layer, int layer2) {
+		app.updateMaxLayerUsed(layer2);
+		for (int i = 0; i < viewCnt; ++i) {
+			if(views[i] instanceof LayerView)
+				((LayerView)views[i]).changeLayer(ge,layer,layer2);
+		}
+	}
 
 
 }

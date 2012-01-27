@@ -906,13 +906,13 @@ public abstract class AbstractApplication {
 	public abstract String getTraceXML(GeoElement geoElement);
 
 	
-
-	public final void changeLayer(GeoElement ge, int layer, int layer2) {
-		EuclidianViewInterfaceCommon ev = getActiveEuclidianView();// app.getEuclidianView();
-		if (ev != null) {
-			ev.changeLayer(ge, ge.layer, layer2);
+	public void updateMaxLayerUsed(int layer) {
+		if (layer > EuclidianStyleConstants.MAX_LAYERS) {
+			layer = EuclidianStyleConstants.MAX_LAYERS;
 		}
-
+		if (layer > maxLayerUsed) {
+			maxLayerUsed = layer;
+		}
 	}
 	
 	public boolean is3D() {

@@ -18,6 +18,8 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import geogebra.euclidianND.EuclidianViewND;
+
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -31,7 +33,7 @@ import java.util.List;
 public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 
 	private Application app;
-	private EuclidianViewInterface view;
+	private EuclidianViewND view;
 
 	private int penOffsetX = 0;
 	private int penOffsetY = 0;
@@ -87,7 +89,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	/************************************************
 	 * Construct EuclidianPen
 	 */
-	public EuclidianPen(Application app, EuclidianViewInterface view) {
+	public EuclidianPen(Application app, EuclidianViewND view) {
 		this.view = view;
 		this.app = app;
 

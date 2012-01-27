@@ -57,6 +57,7 @@ import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianStatic;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
+import geogebra.euclidianND.EuclidianViewND;
 import geogebra.export.GraphicExportDialog;
 import geogebra.export.WorksheetExportDialog;
 import geogebra.gui.GuiManager;
@@ -1481,7 +1482,7 @@ public class Application extends AbstractApplication implements
 	}
 
 	@Override
-	public EuclidianViewInterface getActiveEuclidianView() {
+	public EuclidianViewND getActiveEuclidianView() {
 		if (getGuiManager() == null) {
 			return getEuclidianView();
 		}

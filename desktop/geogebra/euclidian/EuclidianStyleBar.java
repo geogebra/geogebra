@@ -15,6 +15,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.MyError;
+import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.color.ColorPopupMenuButton;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.MyToggleButton;
@@ -120,7 +121,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 	 * @param ev
 	 *            view
 	 */
-	public EuclidianStyleBar(EuclidianViewInterface ev) {
+	public EuclidianStyleBar(EuclidianViewND ev) {
 
 		isIniting = true;
 

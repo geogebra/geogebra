@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import geogebra.common.awt.Rectangle;
-import geogebra.common.kernel.View;
+import geogebra.common.kernel.LayerView;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.algos.AlgoElementInterface;
 
-public interface EuclidianViewInterfaceSlim extends View{
+public interface EuclidianViewInterfaceSlim extends LayerView{
 
 	boolean isDefault2D();
 	public ArrayList<GeoPoint2> getFreeInputPoints(AlgoElementInterface algoParent);

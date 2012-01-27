@@ -19,9 +19,9 @@ the Free Software Foundation.
 package geogebra.gui.view.algebra;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.View;
-import geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import geogebra.common.kernel.LayerView;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.SetLabels;
@@ -58,7 +58,7 @@ import javax.swing.tree.TreePath;
  * @author Markus
  * @version
  */
-public class AlgebraView extends JTree implements View, Gridable, SetLabels, geogebra.common.gui.view.algebra.AlgebraView {
+public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels, geogebra.common.gui.view.algebra.AlgebraView {
 
 	private static final long serialVersionUID = 1L;
 
@@ -782,7 +782,7 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels, geo
 	 */
 	public void remove(GeoElement geo) {
 		cancelEditing();
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) nodeTable
+		DefaultMutableTreeNode node = nodeTable
 				.get(geo);
 
 		if (node != null) {
@@ -870,10 +870,10 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels, geo
 			break;
 		case LAYER:
 			int layer = ((GeoElement) node.getUserObject()).getLayer();
-			parent = (DefaultMutableTreeNode) layerNodesMap.get(layer);
+			parent = layerNodesMap.get(layer);
 
 			// this has been the last node
-			if (parent.getChildCount() == 0) {
+			if ((parent!=null) && parent.getChildCount() == 0) {
 				layerNodesMap.remove(layer);
 				model.removeNodeFromParent(parent);
 			}
@@ -1169,6 +1169,20 @@ public class AlgebraView extends JTree implements View, Gridable, SetLabels, geo
 
 	public Component[][] getPrintComponents() {
 		return new Component[][] { { this } };
+	}
+
+	public void changeLayer(GeoElement g, int oldLayer, int newLayer) {
+		AbstractApplication.debug("updating");
+		if(this.treeMode.equals(SortMode.LAYER)){
+			//make sure we return the object on the same layer as we got it
+			//don't presume it's on oldLayer initially
+			int layer = g.layer;
+			g.layer=oldLayer;
+			this.remove(g);
+			g.layer = newLayer;
+			this.add(g);
+			g.layer=layer;
+		}
 	}
 
 	

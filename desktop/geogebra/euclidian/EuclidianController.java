@@ -24,6 +24,7 @@ import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
+import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.Application;
 
 import java.awt.Color;
@@ -229,7 +230,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 	public void componentResized(ComponentEvent e) {
 		// tell the view that it was resized
-		((EuclidianViewInterface) view).updateSize();
+		((EuclidianViewND) view).updateSize();
 	}
 
 	public void componentShown(ComponentEvent e) {

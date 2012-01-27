@@ -19,6 +19,7 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
+import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.NumberComboBox;
 import geogebra.gui.SetLabels;
 import geogebra.gui.dialog.DashListRenderer;
@@ -67,7 +68,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 	
 	protected Application app;
 	private Kernel kernel;
-	protected EuclidianViewInterface view;
+	protected EuclidianViewND view;
 	
 	// GUI
 	protected JTabbedPane tabbedPane;
@@ -120,7 +121,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 	 * Creates a new dialog for the properties of the Euclidian view.
 	 * @param app parent frame
 	 */
-	public OptionsEuclidian(Application app, EuclidianViewInterface view) {
+	public OptionsEuclidian(Application app, EuclidianViewND view) {
 		
 		isIniting = true;
 		this.app = app;	
@@ -132,7 +133,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 		isIniting = false;
 	}
 	
-	public void setView(EuclidianViewInterface view){
+	public void setView(EuclidianViewND view){
 		this.view = view;
 		if(!isIniting) {
 			updateGUI();

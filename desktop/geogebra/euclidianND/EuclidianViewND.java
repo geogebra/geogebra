@@ -386,4 +386,28 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 	final public boolean hasStyleBar() {
 		return styleBar != null;
 	}
+	
+
+//	public void repaintEuclidianView();
+
+	// ??
+	public abstract boolean hitAnimationButton(MouseEvent e);
+	//options
+	public abstract Color getAxesColor();
+	public abstract Color getGridColor();
+	//GetBackground is still implemented in all implementations, but GetBackgroundCommon should be used instead
+	
+	// for AlgebraView
+
+		
+	public abstract EuclidianController getEuclidianController();
+
+	//public abstract void setCursor(Cursor cursor);
+
+
+	//public abstract Graphics2D getGraphicsForPen();
+
+
+	//public abstract JPanel getJPanel();
+
 }

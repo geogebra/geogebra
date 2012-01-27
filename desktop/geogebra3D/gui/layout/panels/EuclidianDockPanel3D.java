@@ -3,6 +3,7 @@ package geogebra3D.gui.layout.panels;
 import javax.swing.JComponent;
 
 import geogebra.euclidian.EuclidianViewInterface;
+import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.gui.toolbar.Toolbar;
 import geogebra.main.Application;
@@ -42,7 +43,7 @@ public class EuclidianDockPanel3D extends EuclidianDockPanelAbstract {
 	}
 	
 	@Override
-	public EuclidianViewInterface getEuclidianView() {
+	public EuclidianViewND getEuclidianView() {
 		return ((Application3D)app).getEuclidianView3D();
 	}
 }

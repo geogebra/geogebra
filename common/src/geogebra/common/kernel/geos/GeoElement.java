@@ -995,12 +995,9 @@ public abstract class GeoElement extends ConstructionElement implements
 			layer = 0;
 		}
 
-		app.changeLayer(this, this.layer, layer);
+		kernel.notifyChangeLayer(this, this.layer, layer);
 
 		this.layer = layer;
-
-		// TODO: update Algebra View
-		AbstractApplication.debug("TODO: update Algebra View");
 	}
 
 	// Michael Borcherds 2008-02-23

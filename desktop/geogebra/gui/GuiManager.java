@@ -22,6 +22,7 @@ import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewInterface;
+import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.app.MyFileFilter;
 import geogebra.gui.color.GeoGebraColorChooser;
@@ -587,7 +588,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	 *         default (if the user uses this mode). This is the focused
 	 *         euclidian view or the first euclidian view at the moment.
 	 */
-	public EuclidianViewInterface getActiveEuclidianView() {
+	public EuclidianViewND getActiveEuclidianView() {
 
 		EuclidianDockPanelAbstract focusedEuclidianPanel = layout
 				.getDockManager().getFocusedEuclidianPanel();
@@ -3058,7 +3059,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	public void showPopupMenu(ArrayList<GeoElement> selectedGeos,
 			EuclidianViewInterfaceCommon view,
 			geogebra.common.awt.Point mouseLoc) {
-		showPopupMenu(selectedGeos, ((EuclidianViewInterface) view).getJPanel(), mouseLoc);
+		showPopupMenu(selectedGeos, ((EuclidianViewND) view).getJPanel(), mouseLoc);
 		
 	}
 

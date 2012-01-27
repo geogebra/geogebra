@@ -25,7 +25,7 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 */
 	public void zoom(double px, double py, double zoomFactor, int steps, boolean storeUndo);
 
-	public void changeLayer(GeoElement geo, int oldlayer, int newlayer);
+	//public void changeLayer(GeoElement geo, int oldlayer, int newlayer);
 
 	// mode
 	/**
@@ -326,11 +326,29 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	public double toScreenCoordXd(double rwX);
 	public double toScreenCoordYd(double rwY);
 
+	/** Sets coord system from mouse move */
 	public void setAnimatedCoordSystem(double px, double py, double factor,
 			double d, int i, boolean b);
+	
+	/**
+	 * sets showing flag of all axes
+	 * @param flag show/hide
+	 * @param update update (or not) the background image
+	 */	
+	public void setShowAxes(boolean flag, boolean update);
 
+	/**
+	 * create a previewable for polygon construction
+	 * @param selectedPoints points
+	 * @return the polygon previewable
+	 */	
 	public Previewable createPreviewPolygon(ArrayList<GeoPointND> selectedPoints);
 
+	/**
+	 * create a previewable for polyline construction
+	 * @param selectedPoints points
+	 * @return the polygon previewable
+	 */		
 	public Previewable createPreviewPolyLine(
 			ArrayList<GeoPointND> selectedPoints);
 
@@ -341,5 +359,17 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	public void getXML(StringBuilder sb, boolean asPreference);
 
 	public void setAxesCornerCoordsVisible(boolean showAxesCornerCoords);
+	public void showGrid(boolean selected);
+	public void setGridIsBold(boolean selected);
+	public void setGridLineStyle(int type);
+	public void clickedGeo(GeoElement geo, AbstractEvent e);
+	public void mouseMovedOver(GeoElement geo);
+	public void setBackground(geogebra.common.awt.Color showColorChooser);
+	public void setAxesColor(geogebra.common.awt.Color showColorChooser);
+	public void setGridColor(geogebra.common.awt.Color showColorChooser);
+	
+
+	public boolean hasFocus();
+
 
 }
