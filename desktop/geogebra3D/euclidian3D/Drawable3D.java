@@ -199,8 +199,10 @@ public abstract class Drawable3D extends DrawableND {
 	public static final int DRAW_TYPE_SURFACES = DRAW_TYPE_CURVES+1;
 	/** type for drawing polyhedrons, quadrics, etc. */
 	public static final int DRAW_TYPE_CLOSED_SURFACES = DRAW_TYPE_SURFACES+1;
+	/** type for drawing parametric surfaces, etc., that need clipping */
+	public static final int DRAW_TYPE_CLIPPED_SURFACES = DRAW_TYPE_CLOSED_SURFACES+1;
 	/** number max of drawing types */
-	public static final int DRAW_TYPE_MAX = DRAW_TYPE_CLOSED_SURFACES+1;
+	public static final int DRAW_TYPE_MAX = DRAW_TYPE_CLIPPED_SURFACES+1;
 	
 	
 	

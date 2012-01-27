@@ -128,6 +128,14 @@ public class Drawable3DLists {
 		return size;
 	}
 	
+	/**
+	 * 
+	 * @return true if contains clipped surfaces
+	 */
+	public boolean containsClippedSurfaces(){
+		return !lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES].isEmpty();
+	}
+	
 	
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
@@ -234,7 +242,19 @@ public class Drawable3DLists {
 		
 	}
 
+	/**
+	 * draw clipped surfaces that are not transparent
+	 * @param renderer
+	 */
+	public void drawNotTransparentSurfacesClipped(Renderer renderer){
+		
+	
+		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES].iterator(); d.hasNext();) 
+			d.next().drawNotTransparentSurface(renderer);	
 
+		
+	}
+	
 	/** draw the hidden (dashed) parts of curves and points
 	 * @param renderer opengl context
 	 */
@@ -275,6 +295,17 @@ public class Drawable3DLists {
 	public void drawTranspClosed(Renderer renderer){
 
 		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES].iterator(); d.hasNext();) 
+			d.next().drawTransp(renderer);	
+		
+	}
+	
+	/**
+	 * draw transparent clipped surfaces
+	 * @param renderer
+	 */
+	public void drawTranspClipped(Renderer renderer){
+
+		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES].iterator(); d.hasNext();) 
 			d.next().drawTransp(renderer);	
 		
 	}
@@ -333,6 +364,16 @@ public class Drawable3DLists {
 
 	}
 	
+	/** draw the hiding (clipped surfaces) parts
+	 * @param renderer opengl context
+	 */
+	public void drawClippedSurfacesForHiding(Renderer renderer){
+
+		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES].iterator(); d.hasNext();) 
+			d.next().drawHiding(renderer);	
+
+	}
+
 	/** draw objects to pick them
 	 * @param renderer opengl context
 	 */
@@ -346,11 +387,20 @@ public class Drawable3DLists {
 			}
 		
 		renderer.setCulling(false);
-		for(int i=Drawable3D.DRAW_TYPE_SURFACES; i<Drawable3D.DRAW_TYPE_MAX; i++)
+		for(int i=Drawable3D.DRAW_TYPE_SURFACES; i<Drawable3D.DRAW_TYPE_CLOSED_SURFACES; i++)
 			for (Iterator<Drawable3D> iter = lists[i].iterator(); iter.hasNext();) {
 	        	Drawable3D d = iter.next();
 	        	renderer.pick(d);
 			}		
+
+		if (containsClippedSurfaces()){
+			renderer.enableClipPlanesIfNeeded();
+			for (Iterator<Drawable3D> iter = lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES].iterator(); iter.hasNext();) {
+				Drawable3D d = iter.next();
+				renderer.pick(d);
+			}
+			renderer.disableClipPlanesIfNeeded();
+		}
 		
 		view3D.drawForPicking(renderer);
 		

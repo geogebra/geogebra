@@ -225,8 +225,20 @@ public class Renderer implements GLEventListener {
 		//gl.glDisable(GLlocal.GL_TEXTURE_2D);
 		//TODO improve this !
 		gl.glEnable(GLlocal.GL_CULL_FACE);
-		gl.glCullFace(GLlocal.GL_FRONT); drawable3DLists.drawTranspClosed(this);//draws inside parts  
-		gl.glCullFace(GLlocal.GL_BACK); drawable3DLists.drawTranspClosed(this);//draws outside parts 	
+		gl.glCullFace(GLlocal.GL_FRONT); 
+		drawable3DLists.drawTranspClosed(this);//draws inside parts  
+		if (drawable3DLists.containsClippedSurfaces()){
+			enableClipPlanesIfNeeded();
+			drawable3DLists.drawTranspClipped(this); //clipped surfaces back-faces
+			disableClipPlanesIfNeeded();
+		}
+		gl.glCullFace(GLlocal.GL_BACK); 
+		drawable3DLists.drawTranspClosed(this);//draws outside parts 	
+		if (drawable3DLists.containsClippedSurfaces()){
+			enableClipPlanesIfNeeded();
+			drawable3DLists.drawTranspClipped(this); //clipped surfaces back-faces
+			disableClipPlanesIfNeeded();
+		}
 	}
 		
 	private void drawNotTransp(){
@@ -242,8 +254,20 @@ public class Renderer implements GLEventListener {
 		
 		//TODO improve this !
 		gl.glEnable(GLlocal.GL_CULL_FACE);
-		gl.glCullFace(GLlocal.GL_FRONT); drawable3DLists.drawNotTransparentSurfacesClosed(this);//draws inside parts  
-		gl.glCullFace(GLlocal.GL_BACK); drawable3DLists.drawNotTransparentSurfacesClosed(this);//draws outside parts 		
+		gl.glCullFace(GLlocal.GL_FRONT); 
+		drawable3DLists.drawNotTransparentSurfacesClosed(this);//draws inside parts  
+		if (drawable3DLists.containsClippedSurfaces()){
+			enableClipPlanesIfNeeded();
+			drawable3DLists.drawNotTransparentSurfacesClipped(this); //clipped surfaces back-faces
+			disableClipPlanesIfNeeded();
+		}
+		gl.glCullFace(GLlocal.GL_BACK); 
+		drawable3DLists.drawNotTransparentSurfacesClosed(this);//draws outside parts 	
+		if (drawable3DLists.containsClippedSurfaces()){
+			enableClipPlanesIfNeeded();
+			drawable3DLists.drawNotTransparentSurfacesClipped(this); //clipped surfaces back-faces
+			disableClipPlanesIfNeeded();
+		}
 	}
 	
 	/**
@@ -402,11 +426,8 @@ public class Renderer implements GLEventListener {
      * @param flag flag
      */
     public void setEnableClipPlanes(boolean flag){
-    	//Application.printStacktrace(""+flag);
-    	//if (enableClipPlanes != flag){
-    		waitForUpdateClipPlanes = true;
-    		enableClipPlanes = flag;
-    	//}
+    	waitForUpdateClipPlanes = true;
+    	enableClipPlanes = flag;
     }
        
     private void enableClipPlane(int n){
@@ -422,9 +443,25 @@ public class Renderer implements GLEventListener {
     		enableClipPlane(n);
     }
     
+    /**
+     * enable clipping if needed
+     */
+    public void enableClipPlanesIfNeeded(){
+    	if (!enableClipPlanes)
+    		enableClipPlanes();
+    }
+    
     private void disableClipPlanes(){
     	for (int n=0; n<6; n++)
     		disableClipPlane(n);
+    }
+    
+    /**
+     * disable clipping if needed
+     */
+    public void disableClipPlanesIfNeeded(){
+    	if (!enableClipPlanes)
+    		disableClipPlanes();
     }
     
     /**
@@ -498,6 +535,11 @@ public class Renderer implements GLEventListener {
         gl.glColorMask(false,false,false,false); //no writing in color buffer		
         gl.glCullFace(GLlocal.GL_FRONT); //draws inside parts    
         drawable3DLists.drawClosedSurfacesForHiding(this); //closed surfaces back-faces
+        if (drawable3DLists.containsClippedSurfaces()){
+        	enableClipPlanesIfNeeded();
+        	drawable3DLists.drawClippedSurfacesForHiding(this); //clipped surfaces back-faces
+        	disableClipPlanesIfNeeded();
+        }
         gl.glDisable(GLlocal.GL_CULL_FACE);
         drawable3DLists.drawSurfacesForHiding(this); //non closed surfaces
         //gl.glColorMask(true,true,true,true);
@@ -518,7 +560,11 @@ public class Renderer implements GLEventListener {
         gl.glEnable(GLlocal.GL_CULL_FACE);
         gl.glCullFace(GLlocal.GL_BACK); //draws inside parts
         drawable3DLists.drawClosedSurfacesForHiding(this); //closed surfaces front-faces
-        //gl.glColorMask(true,true,true,true);
+        if (drawable3DLists.containsClippedSurfaces()){
+        	enableClipPlanesIfNeeded();
+        	drawable3DLists.drawClippedSurfacesForHiding(this); //clipped surfaces back-faces
+        	disableClipPlanesIfNeeded();
+        }
         setColorMask();        
         
         //re-drawing transparents parts for better transparent effect
@@ -565,7 +611,12 @@ public class Renderer implements GLEventListener {
         gl.glEnable(GLlocal.GL_ALPHA_TEST);
         
     	drawable3DLists.drawTransp(this);
-    	drawable3DLists.drawTranspClosed(this);   
+    	drawable3DLists.drawTranspClosed(this);
+    	if (drawable3DLists.containsClippedSurfaces()){
+    		enableClipPlanesIfNeeded();
+    		drawable3DLists.drawTranspClipped(this); 
+    		disableClipPlanesIfNeeded();
+    	}
     	
     	gl.glPopAttrib();  	   	
     }

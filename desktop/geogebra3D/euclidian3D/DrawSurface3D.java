@@ -160,11 +160,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 
 	public void addToDrawable3DLists(Drawable3DLists lists){
-		addToDrawable3DLists(lists,DRAW_TYPE_CLOSED_SURFACES);
+		addToDrawable3DLists(lists,DRAW_TYPE_CLIPPED_SURFACES);
 	}
     
     public void removeFromDrawable3DLists(Drawable3DLists lists){
-    	removeFromDrawable3DLists(lists,DRAW_TYPE_CLOSED_SURFACES);
+    	removeFromDrawable3DLists(lists,DRAW_TYPE_CLIPPED_SURFACES);
     }
     
 
