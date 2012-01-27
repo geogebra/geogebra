@@ -28,6 +28,7 @@ import geogebra.web.main.Application;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.CanvasElement;
+import com.google.gwt.user.client.Window;
 
 
 public class EuclidianView extends AbstractEuclidianView implements SettingListener{
@@ -302,8 +303,8 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 					return false;
 				}
 
-				return kernel.needToShowAnimationButton() && (e.getX() <= 20)
-						&& (e.getY() >= (getHeight() - 20));
+				return kernel.needToShowAnimationButton() && (e.getX() - g2.getAbsoluteLeft() + Window.getScrollLeft() <= 20)
+						&& (e.getY() - g2.getAbsoluteTop() + Window.getScrollTop() >= (getHeight() - 20));
     }
 
 
