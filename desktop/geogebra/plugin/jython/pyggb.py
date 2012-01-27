@@ -118,6 +118,10 @@ class Interface(PythonScriptInterface):
         except SyntaxError:
             pass
 
+    def reset(self):
+        if self.pywin is not None:
+            self.pywin.reset()
+    
     def addEventListener(self, evt, listener):
         self.event_listeners[evt].append(listener)
     

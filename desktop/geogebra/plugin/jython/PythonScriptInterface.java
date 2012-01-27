@@ -53,4 +53,9 @@ public interface PythonScriptInterface {
 	 * @param code Python code to execute
 	 */
 	public void setEventListener(GeoElement geo, String evtType, String code);
+
+	/**
+	 * 
+	 */
+	public void reset();
 }

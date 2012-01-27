@@ -675,7 +675,7 @@ class ScriptPane(ActionListener):
         scrollpane.rowHeaderView = line_numbers.component
         self.component.add(scrollpane, BorderLayout.CENTER)
 
-        self.script_area.input = api.initScript
+        self.reset()
         
         # Create Selection pane
         select_pane = JPanel()
@@ -690,6 +690,9 @@ class ScriptPane(ActionListener):
     def dedent_selection(self):
         self.script_area.dedent_selection()
 
+    def reset(self):
+        self.script_area.input = api.initScript
+    
     def actionPerformed(self, evt):
         # 'Save' button was clicked
         api.initScript = self.script_area.input
@@ -756,6 +759,10 @@ class EventsPane(ActionListener):
         self.current = geo, evt
         self.script_area.input = getattr(geo, evt + "Script")
 
+    def reset(self):
+        self.current=None
+        self.update_geos()
+    
     # Implementation of ActionEvent
     def actionPerformed(self, evt):
         self.update_script_area()
@@ -867,6 +874,12 @@ class PythonWindow(ActionListener, ChangeListener):
 
 
         self.frame.setJMenuBar(menubar)
+
+    def reset(self):
+        """This is called when a new file is loaded"""
+        self.script_pane.reset()
+        self.events_pane.reset()
+        print "resetting..."
     
     def toggle_visibility(self):
         self.frame.visible = not self.frame.visible
