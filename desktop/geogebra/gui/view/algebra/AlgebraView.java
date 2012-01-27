@@ -1172,7 +1172,6 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 	}
 
 	public void changeLayer(GeoElement g, int oldLayer, int newLayer) {
-		AbstractApplication.debug("updating");
 		if(this.treeMode.equals(SortMode.LAYER)){
 			//make sure we return the object on the same layer as we got it
 			//don't presume it's on oldLayer initially
