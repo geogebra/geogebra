@@ -11,7 +11,7 @@ import geogebra.common.awt.Shape;
  * @author Gabor
  *
  */
-public class Area implements geogebra.common.awt.Area {
+public class Area implements geogebra.common.awt.Area, geogebra.common.awt.Shape {
 	
 	private geogebra.web.openjdk.awt.geom.Area impl;
 	/**
@@ -110,6 +110,10 @@ public class Area implements geogebra.common.awt.Area {
 	}
 	public boolean isEmpty() {
 	    return impl.isEmpty();
+    }
+	
+	public geogebra.web.openjdk.awt.geom.Shape getGawtShape() {
+	    return impl;
     }
 
 }
