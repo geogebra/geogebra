@@ -822,9 +822,9 @@ public class CASInputHandler {
 	// }
 
 	/**
-	 * Replaces references to other rows (e.g. #, #3, $3) in input string by the
-	 * values from those rows. Warning: dynamic references (with $) are
-	 * currently also replaced statically.
+	 * Replaces references to other rows (e.g. #, #3, $3, ##, #3#, $$, $3$) in
+	 * the input string by the values from those rows. Warning: dynamic
+	 * references (with $) are also replaced statically.
 	 * 
 	 * @param str
 	 *            the input expression
@@ -878,7 +878,8 @@ public class CASInputHandler {
 
 					foundReference = false;
 					// needed if the reference is the first term in the
-					// expression, because in this case addParantheses isn't true yet
+					// expression, because in this case addParantheses isn't
+					// true yet
 					if (i < str.length() - 1) {
 						addParentheses = true;
 						newNoParentheses = false;
@@ -927,7 +928,8 @@ public class CASInputHandler {
 				// example #3)
 				reference = casView.getRowOutputValue(referenceNumber - 1);
 			} else {
-				// a # (or $) with a following number and the same delimiter again
+				// a # (or $) with a following number and the same delimiter
+				// again
 				// is in the the input (for example #3#)
 				reference = casView.getRowInputValue(referenceNumber - 1);
 			}
