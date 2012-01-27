@@ -7,11 +7,11 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// update lines below when this is updated
 	public static final String BUILD_DATE = "27 January 2012";
-	public static final String VERSION_STRING = "4.9.18.0"; // <- update lines
+	public static final String VERSION_STRING = "4.1.48.0"; // <- update lines
 															// below when this
 															// is updated
 	// current 3D: "4.9.18.0"
-	// current ggb42: "4.1.47.0"
+	// current ggb42: "4.1.48.0"
 
 	/* start hacks TODO remove it when release candidate */
 	public static final String PREFERENCES_ROOT = VERSION_STRING
