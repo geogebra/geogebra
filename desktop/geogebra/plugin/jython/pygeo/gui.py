@@ -923,10 +923,10 @@ class PythonWindow(ActionListener, ChangeListener):
     # Script actions
     def action_runscript(self, evt):
         """Run script"""
-        self.runcode(self.script_area.input)
+        self.runcode(self.script_pane.script_area.input)
     def action_runselection(self, evt):
         """Run selected text in script"""
-        code = self.script_area.component.selectedText.strip()
+        code = self.script_pane.script_area.component.selectedText.strip()
         self.runcode(code)
     def action_indentselection(self, evt):
         if self.active_pane:
