@@ -26,6 +26,8 @@ WEBDIR=`pwd`
 VERBOSE=0
 USERAGENTS=gecko1_8,safari,ie9,opera
 INSTALLDIR=""
+XS=""
+STYLE=OBFUSCATED
 
 # 3. Reading command line arguments
 while [ $# -gt 0 ]; do
@@ -36,8 +38,10 @@ while [ $# -gt 0 ]; do
    echo "Usage: $0 [options]"
    echo " Where options can be (defaults in parentheses):"
    echo "  -h, -help, --help   This help"
-   echo "  -u [useragents]     Comma separated list of user agents to compile (default: $USERAGENTS)"
-   echo "  -i [directory]      If set, installs GeoGebraWeb into the given dir"
+   echo "  -u [useragents]     Comma separated list of user agents to compile ($USERAGENTS)"
+   echo "  -i [directory]      If set, installs GeoGebraWeb into the given directory"
+   echo "  -x                  XS compilation"
+   echo "  -s [style]          Compilation style: OBFUSCATED, PRETTY or DETAILED ($STYLE)"
    echo "  -v, --verbose       Be verbose whenever possible"
    exit 0
    ;;
@@ -50,6 +54,15 @@ while [ $# -gt 0 ]; do
   -i)
    shift
    INSTALLDIR="$1"
+   ;;
+
+  -x)
+   XS="<add-linker name=\\\"xs\\\"\/>"
+   ;;
+
+  -s)
+   shift
+   STYLE="$1"
    ;;
 
   -v | --verbose)
@@ -70,6 +83,8 @@ if [ "$VERBOSE" = 1 ]; then
 else
  ANT="ant"
  fi
+
+MYARGS="<arg line=\\\"-style $STYLE\\\"\/>"
 
 # 2. (Re)creating parser
 cd ../desktop
@@ -92,7 +107,8 @@ cd $WEBDIR
 PROJECT=$1
 PLC=`echo $PROJECT | awk '{print tolower($1)}'`
 cd ../$PLC/src/geogebra
-cat $PROJECT.gwt.xml-var | sed s/"\${useragents}"/"$USERAGENTS"/g > $PROJECT.gwt.xml
+cat $PROJECT.gwt.xml-var | sed s/"\${useragents}"/"$USERAGENTS"/g \
+ | sed s/"<!-- \$linker -->"/"$XS"/g > $PROJECT.gwt.xml
 }
 
 speccomp Common
@@ -100,7 +116,8 @@ speccomp Web
 
 # 5. Compiling web
 cd ../..
-$ANT clean build || exit 4
+cat build.xml | sed s/"<!-- \$myargs -->"/"$MYARGS"/g > mybuild.xml
+$ANT -f mybuild.xml clean build || exit 4
 
 # 6. Done!
 if [ "$INSTALLDIR" = "" ]; then
