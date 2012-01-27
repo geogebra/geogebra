@@ -381,7 +381,9 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
 	@Override
     public AffineTransform getTransform() {
-		return savedTransform;
+		AffineTransform ret = new geogebra.web.awt.AffineTransform();
+		ret.setTransform(savedTransform);
+		return ret;
 	}
 	
 	
