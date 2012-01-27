@@ -1,9 +1,5 @@
 package geogebra.web.euclidian;
 
-import java.awt.GraphicsConfiguration;
-import java.awt.Image;
-import java.util.ArrayList;
-
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Font;
 import geogebra.common.awt.Graphics2D;
@@ -313,31 +309,14 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     public void updateSize() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-
-		// record the old coord system
-
-		/* Almost good, just tracing traces labels too - Arpad
-
-		setWidth(getWidth());
-		setHeight(getHeight());
-		if ((getWidth() <= 0) || (getHeight() <= 0)) {
-			return;
-		}
+		
+		/* for some reason, this freezes so outcommented
 
 		// real world values
 		setRealWorldBounds();
 
-		// ================================================
-		// G.Sturr 8/27/10: test: rescale on window resize
-		//
-		// reset the coord system so that our view dimensions are restored
-		// using the new scaling factors.
-
-		// setRealWorldCoordSystem(xminTemp, xmaxTemp, yminTemp, ymaxTemp);
-
 		try {
-			createImage(g2);
+			createImage();
 		} catch (Exception e) {
 			bgImage = null;
 			bgGraphics = null;
@@ -349,14 +328,11 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		*/
     }
 
-	private void createImage(Graphics2D g2) {
-		if (g2 != null) {
-			CanvasElement imd = (CanvasElement)((geogebra.web.awt.Graphics2D)g2).getCanvas().getCanvasElement().cloneNode(true);
-			bgImage = new geogebra.web.awt.BufferedImage(imd);
-			bgGraphics = bgImage.createGraphics();
-			if (antiAliasing) {
-				setAntialiasing(bgGraphics);
-			}
+	private void createImage() {
+		bgImage = new geogebra.web.awt.BufferedImage(getWidth(), getHeight(), 0);
+		bgGraphics = bgImage.createGraphics();
+		if (antiAliasing) {
+			setAntialiasing(bgGraphics);
 		}
 	}
 
