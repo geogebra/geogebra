@@ -11,7 +11,7 @@ import geogebra.common.awt.Shape;
  * @author Gabor
  *
  */
-public class Area implements geogebra.common.awt.Area, geogebra.common.awt.Shape {
+public class Area implements geogebra.common.awt.Area, geogebra.web.awt.Shape {
 	
 	private geogebra.web.openjdk.awt.geom.Area impl;
 	/**

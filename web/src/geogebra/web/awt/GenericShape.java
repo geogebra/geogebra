@@ -76,10 +76,7 @@ public class GenericShape implements geogebra.web.awt.Shape {
 				
 				if((shapeCommon instanceof geogebra.web.awt.Shape)){
 					return ((geogebra.web.awt.Shape)shapeCommon).getGawtShape();
-				} else if((shapeCommon instanceof geogebra.web.awt.Area)){
-					return ((geogebra.web.awt.Area)shapeCommon).getGawtShape();
 				}
-				
 				AbstractApplication.debug("unimplemented class in GenericShape.getGawtShape() "+shapeCommon.getClass());
 				return null;
 	}
