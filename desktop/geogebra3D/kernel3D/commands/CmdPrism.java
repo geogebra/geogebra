@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -43,7 +44,7 @@ public class CmdPrism extends CommandProcessor {
 								(GeoPolygon) arg[0],
 								(GeoPointND) arg[1]);
 				//for older version, make forcing labels not working
-				if (app.fileVersionBefore(Application.getSubValues("4.9.10.0")))
+				if (GeoGebraConstants.IS_PRE_RELEASE && app.fileVersionBefore(AbstractApplication.getSubValues("4.9.10.0")))
 					return new GeoElement[] {ret[0]};
 				return ret;
 			} else if ((ok[0] = (arg[0] .isGeoPolygon()))
@@ -53,14 +54,13 @@ public class CmdPrism extends CommandProcessor {
 								(GeoPolygon) arg[0],
 								(NumberValue) arg[1]);	
 				//for older version, make forcing labels not working
-				if (app.fileVersionBefore(Application.getSubValues("4.9.10.0")))
+				if (GeoGebraConstants.IS_PRE_RELEASE && app.fileVersionBefore(AbstractApplication.getSubValues("4.9.10.0")))
 					return new GeoElement[] {ret[0]};
 				return ret;
 			} else {
                 if (!ok[0])
                     throw argErr(app, c.getName(), arg[0]);
-                else
-                    throw argErr(app, c.getName(), arg[1]);
+                throw argErr(app, c.getName(), arg[1]);
             }
 
 		}else if (n>2){
@@ -78,7 +78,7 @@ public class CmdPrism extends CommandProcessor {
 			// everything ok
 			GeoElement[] ret = kernelA.getManager3D().Prism(c.getLabels(), points);
 			//for older version, make forcing labels not working
-			if (app.fileVersionBefore(AbstractApplication.getSubValues("4.9.10.0")))
+			if (GeoGebraConstants.IS_PRE_RELEASE && app.fileVersionBefore(AbstractApplication.getSubValues("4.9.10.0")))
 				return new GeoElement[] {ret[0]};
 			return ret;
 		}else{

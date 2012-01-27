@@ -677,10 +677,37 @@ public class EuclidianView3D extends EuclidianViewND implements Printable, Eucli
 		return undoRotationMatrix;
 	}
 	
+	private boolean yAxisIsUp = false;
+	
+	/**
+	 * 
+	 * @return true if y axis is up (and not z axis)
+	 */
+	public boolean getYAxisIsUp(){
+		return yAxisIsUp;
+	}
+	
+	/**
+	 * set if y axis is up (and not z axis)
+	 * @param flag flag
+	 */
+	public void setYAxisIsUp(boolean flag){
+		yAxisIsUp = flag;
+	}
+
 	
 	private CoordMatrix getRotationMatrix(){
-		CoordMatrix m1 = CoordMatrix.Rotation3DMatrix(CoordMatrix.X_AXIS, (this.b-90)*EuclidianController3D.ANGLE_TO_DEGREES);
-		CoordMatrix m2 = CoordMatrix.Rotation3DMatrix(CoordMatrix.Z_AXIS, (-this.a-90)*EuclidianController3D.ANGLE_TO_DEGREES);
+		
+		CoordMatrix m1, m2;
+
+		if (yAxisIsUp){ //y axis taken for up-down direction
+			m1 = CoordMatrix.Rotation3DMatrix(CoordMatrix.X_AXIS, (this.b)*EuclidianController3D.ANGLE_TO_DEGREES);
+			m2 = CoordMatrix.Rotation3DMatrix(CoordMatrix.Y_AXIS, (-this.a-90)*EuclidianController3D.ANGLE_TO_DEGREES);		
+		}else{ //z axis taken for up-down direction
+			m1 = CoordMatrix.Rotation3DMatrix(CoordMatrix.X_AXIS, (this.b-90)*EuclidianController3D.ANGLE_TO_DEGREES);
+			m2 = CoordMatrix.Rotation3DMatrix(CoordMatrix.Z_AXIS, (-this.a-90)*EuclidianController3D.ANGLE_TO_DEGREES);
+		}
+		
 		return m1.mul(m2);
 	}
 	

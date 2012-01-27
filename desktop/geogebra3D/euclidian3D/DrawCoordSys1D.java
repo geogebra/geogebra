@@ -5,6 +5,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoCoordSys1D;
@@ -84,7 +85,7 @@ public abstract class DrawCoordSys1D extends Drawable3DCurves implements Preview
 		GeoLineND cs = (GeoLineND) getGeoElement();
 		double[] minmax = getDrawMinMax(); 
 		updateForItSelf(cs.getPointInD(3,minmax[0]).getInhomCoords(),cs.getPointInD(3,minmax[1]).getInhomCoords());
-	
+		
 		return true;
 	}
 

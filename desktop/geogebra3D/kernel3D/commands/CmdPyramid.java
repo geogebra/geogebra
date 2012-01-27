@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D.commands;
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
@@ -46,7 +47,7 @@ public class CmdPyramid extends CommandProcessor {
         // everything ok
 		GeoElement[] ret = kernelA.getManager3D().Pyramid(c.getLabels(), points);
 		//for older version, make forcing labels not working
-		if (app.fileVersionBefore(Application.getSubValues("4.9.10.0")))
+		if (GeoGebraConstants.IS_PRE_RELEASE && app.fileVersionBefore(Application.getSubValues("4.9.10.0")))
 			return new GeoElement[] {ret[0]};
 		return ret;
 

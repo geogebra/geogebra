@@ -1,9 +1,11 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 /**
@@ -77,7 +79,8 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 	 * sets if it's an old file version
 	 */
 	protected void setIsOldFileVersion(){
-		isOldFileVersion = app.fileVersionBefore(Application.getSubValues("4.9.10.0"));
+		isOldFileVersion = GeoGebraConstants.IS_PRE_RELEASE 
+				&& app.fileVersionBefore(AbstractApplication.getSubValues("4.9.10.0"));
 	}
 	
 	/**

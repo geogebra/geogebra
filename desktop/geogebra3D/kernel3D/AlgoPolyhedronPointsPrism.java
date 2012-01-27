@@ -8,6 +8,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.main.Application;
 
 import java.util.Collection;
 
@@ -337,6 +338,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 			for (int i=0; i<bottomPointsLength; i++)
 				outputSegmentsTop.addOutput((GeoSegment3D) polyhedron.getSegment(points[bottomPointsLength+i], points[bottomPointsLength+((i+1) % bottomPointsLength)]),false);
 		}else{
+			//Application.debug("ici");
 			Collection<GeoPolygon3D> faces = polyhedron.getFacesCollection();
 			int top = faces.size();			
 			int step = 1;
