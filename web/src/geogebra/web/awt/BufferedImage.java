@@ -1,6 +1,9 @@
 package geogebra.web.awt;
 
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.canvas.dom.client.Context2d;
 
 import geogebra.common.awt.Graphics2D;
 import geogebra.common.main.AbstractApplication;
@@ -18,6 +21,10 @@ public class BufferedImage implements geogebra.common.awt.BufferedImage {
     }
 
 	
+	public BufferedImage(CanvasElement imageElement) {
+	    impl = new geogebra.web.kernel.gawt.BufferedImage(imageElement);
+    }
+
 	public BufferedImage(ImageElement imageElement) {
 	    impl = new geogebra.web.kernel.gawt.BufferedImage(imageElement);
     }
@@ -32,8 +39,12 @@ public class BufferedImage implements geogebra.common.awt.BufferedImage {
 	}
 
 	public Graphics2D createGraphics() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
+		Canvas cv = Canvas.createIfSupported();
+		cv.setCoordinateSpaceWidth(impl.getWidth());
+		cv.setCoordinateSpaceHeight(impl.getHeight());
+		Context2d c2d = cv.getContext2d();
+		c2d.drawImage(impl.getCanvasElement(),0,0);
+		return new geogebra.web.awt.Graphics2D(cv);
     }
 
 	public BufferedImage getSubimage(int xInt, int yInt, int xInt2, int yInt2) {

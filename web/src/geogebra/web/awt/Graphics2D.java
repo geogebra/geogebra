@@ -118,7 +118,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	@Override
     public void drawImage(geogebra.common.awt.BufferedImage img, BufferedImageOp op, int x,
 	        int y) {
-		context.drawImage(((BufferedImage) img).getImageElement(), x, y);
+		context.drawImage(((BufferedImage) img).getCanvasElement(), x, y);
 	}
 
 	
@@ -533,7 +533,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
     	BufferedImage bi = geogebra.web.awt.BufferedImage.getGawtImage(img);
     	if(bi==null)
     		return;
-    	context.drawImage(bi.getImageElement(), x, y);
+    	context.drawImage(bi.getCanvasElement(), x, y);
     }
 
 	
