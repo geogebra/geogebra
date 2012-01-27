@@ -57,6 +57,7 @@ import com.google.gwt.canvas.dom.client.TextMetrics;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -175,8 +176,7 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public String getLanguage() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return "en";
+		return LocaleInfo.getCurrentLocale().getLocaleName();
 	}
 
 	@Override
