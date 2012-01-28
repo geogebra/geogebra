@@ -52,6 +52,9 @@ class Element(GenericMethods):
             return self.label
         else:
             return "(unnamed)"
+
+    def remove(self):
+        self.geo.remove()
     
     # property: label 
     def _getlabel(self):
@@ -515,6 +518,10 @@ class Text(Element):
     origin = property(_getorigin, _setorigin, _delorigin)
 
 
+class Button(Element):
+    pass
+
+
 class Conic(Path):
 
     @classmethod
@@ -726,6 +733,7 @@ class Geo(object):
         API.GeoRayClass: Ray,
         API.GeoConicClass: Conic,
         API.GeoLocusClass: Locus,
+        API.GeoButtonClass: Button,
     }
     _revmap = dict((v, k) for k, v in _map.iteritems())
     _cache = {}

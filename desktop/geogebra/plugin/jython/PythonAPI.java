@@ -22,6 +22,7 @@ import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoBoolean;
+import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -66,6 +67,8 @@ public class PythonAPI {
 	public static final Class<GeoFunction> GeoFunctionClass = GeoFunction.class;
 	@SuppressWarnings("javadoc")
 	public static final Class<GeoText> GeoTextClass = GeoText.class;
+	@SuppressWarnings("javadoc")
+	public static final Class<GeoButton> GeoButtonClass = GeoButton.class;
 	@SuppressWarnings("javadoc")
 	public static final Class<GeoConic> GeoConicClass = GeoConic.class;
 	@SuppressWarnings("javadoc")
@@ -248,6 +251,13 @@ public class PythonAPI {
 			return geo.getTypeString();
 		}
 
+		/**
+		 * Remove the geo
+		 */
+		public void remove() {
+			geo.removeOrSetUndefinedIfHasFixedDescendent();
+		}
+		
 		/* General GeoElement methods */
 
 		/**
