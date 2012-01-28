@@ -11,20 +11,11 @@ package geogebra.plugin;
  
  */
 import geogebra.common.euclidian.AbstractEuclidianView;
-import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
-import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.JavaScriptAPI;
 import geogebra.common.util.StringUtil;
-import geogebra.euclidian.EuclidianView;
-import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.io.MyImageIO;
 import geogebra.main.Application;
 import geogebra.util.Util;
@@ -39,9 +30,7 @@ import java.security.AccessController;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivilegedAction;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Locale;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriter;

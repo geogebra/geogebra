@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.view.algebra.AlgebraController;
 import geogebra.gui.view.algebra.AlgebraHelperBar;
 import geogebra.gui.view.algebra.AlgebraView;
@@ -57,7 +57,7 @@ public class AlgebraView3D extends AlgebraView {
 		DefaultMutableTreeNode parent;
 		
 		// get view node
-		EuclidianViewInterface view = (EuclidianViewInterface)geo.getViewForValueString();
+		EuclidianViewInterfaceCommon view = (EuclidianViewInterfaceCommon)geo.getViewForValueString();
 		if (view==null){
 			if (geo.isGeoElement3D())
 				view = ((Application3D) app).getEuclidianView3D();

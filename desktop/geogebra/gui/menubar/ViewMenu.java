@@ -1,7 +1,7 @@
 package geogebra.gui.menubar;
 
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.main.settings.KeyboardSettings;
-import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.GuiManager;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.layout.Layout;
@@ -70,7 +70,7 @@ class ViewMenu extends BaseMenu {
 	 * ActiveEuclidianView has changed
 	 */
 	void updateItems() {
-		EuclidianViewInterface ev = app.getActiveEuclidianView();
+		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 		cbShowAxes.setSelected(ev.getShowXaxis() && ev.getShowYaxis());
 		cbShowGrid.setSelected(ev.getShowGrid());
 	}

@@ -2,8 +2,8 @@ package geogebra3D.euclidian3D;
 
 import geogebra.common.euclidian.DrawListArray;
 import geogebra.common.euclidian.DrawableND;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.euclidian.EuclidianViewInterface;
 
 /**
  * Class for storing 3D drawables includes in a DrawList
@@ -19,7 +19,7 @@ public class DrawList3DArray extends DrawListArray {
 	 * common constructor
 	 * @param view
 	 */
-	public DrawList3DArray(EuclidianViewInterface view) {
+	public DrawList3DArray(EuclidianViewInterfaceCommon view) {
 		super(view);
 	}
 	

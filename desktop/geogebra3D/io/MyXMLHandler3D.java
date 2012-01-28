@@ -1,5 +1,6 @@
 package geogebra3D.io;
 
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
@@ -7,7 +8,6 @@ import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.LevelOfDetail;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.main.Application;
 import geogebra3D.Application3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
@@ -298,7 +298,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		return p;
 	}
 	
-	private static boolean handleBgColor(EuclidianViewInterface ev, LinkedHashMap<String, String> attrs) {
+	private static boolean handleBgColor(EuclidianViewInterfaceCommon ev, LinkedHashMap<String, String> attrs) {
 		
 		Application.debug("TODO: remove this");
 		
@@ -320,7 +320,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		}
 	}
 	
-	protected boolean handleAxis(EuclidianViewInterface ev, LinkedHashMap<String, String> attrs) {
+	protected boolean handleAxis(EuclidianViewInterfaceCommon ev, LinkedHashMap<String, String> attrs) {
 		
 		Application.debug("TODO: remove this");
 		

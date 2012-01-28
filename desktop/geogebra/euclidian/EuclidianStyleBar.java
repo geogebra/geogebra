@@ -1,6 +1,7 @@
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -47,7 +48,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 
 	// ggb
 	EuclidianController ec;
-	protected EuclidianViewInterface ev;
+	protected EuclidianViewInterfaceCommon ev;
 	protected Application app;
 	private Construction cons;
 

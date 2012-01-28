@@ -1,11 +1,11 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
-import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.main.Application;
 
 import java.awt.Cursor;
@@ -213,7 +213,7 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 	public void setEVParams() {
 
 		showGrid(plotSettings.showGrid);
-		setShowAxis(EuclidianViewInterface.AXIS_Y, plotSettings.showYAxis,
+		setShowAxis(EuclidianViewInterfaceCommon.AXIS_Y, plotSettings.showYAxis,
 				false);
 
 		setAutomaticGridDistance(plotSettings.gridIntervalAuto);

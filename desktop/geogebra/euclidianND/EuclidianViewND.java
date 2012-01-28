@@ -1,5 +1,18 @@
 package geogebra.euclidianND;
 
+import geogebra.common.awt.Font;
+import geogebra.common.euclidian.AbstractEuclidianController;
+import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.main.settings.EuclidianSettings;
+import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.euclidian.EuclidianController;
+import geogebra.euclidian.EuclidianStatic;
+import geogebra.euclidian.EuclidianStyleBar;
+import geogebra.euclidian.EuclidianViewJPanel;
+import geogebra.euclidian.EuclidianViewTransferHandler;
+import geogebra.main.Application;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -19,31 +32,13 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-import geogebra.common.awt.Font;
-import geogebra.common.euclidian.AbstractEuclidianController;
-import geogebra.common.euclidian.AbstractEuclidianView;
-import geogebra.common.euclidian.Drawable;
-import geogebra.common.kernel.geos.GeoButton;
-import geogebra.common.kernel.geos.GeoTextField;
-import geogebra.common.main.settings.EuclidianSettings;
-import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.euclidian.DrawButton;
-import geogebra.euclidian.DrawTextField;
-import geogebra.euclidian.EuclidianController;
-import geogebra.euclidian.EuclidianStatic;
-import geogebra.euclidian.EuclidianStyleBar;
-import geogebra.euclidian.EuclidianViewInterface;
-import geogebra.euclidian.EuclidianViewJPanel;
-import geogebra.euclidian.EuclidianViewTransferHandler;
-import geogebra.main.Application;
-
 /**
  * Euclidian view for 2D/3D
  * 
  * @author matthieu
  *
  */
-public abstract class EuclidianViewND extends AbstractEuclidianView implements EuclidianViewInterface{
+public abstract class EuclidianViewND extends AbstractEuclidianView implements EuclidianViewInterfaceCommon{
 	
 	private EuclidianViewJPanel evjpanel;
 

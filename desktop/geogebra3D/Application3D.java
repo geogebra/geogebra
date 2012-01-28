@@ -19,15 +19,12 @@ package geogebra3D;
 
 import geogebra.CommandLineArguments;
 import geogebra.common.euclidian.AbstractEuclidianView;
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.CommandsConstants;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.euclidian.EuclidianController;
-import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.GuiManager;
-import geogebra.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.main.AppletImplementation;
 import geogebra.main.Application;
 import geogebra.main.GlobalKeyDispatcher;

@@ -1,7 +1,6 @@
 package geogebra.gui.layout.panels;
 
 import geogebra.common.main.AbstractApplication;
-import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.Application;
 

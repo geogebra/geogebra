@@ -1,5 +1,6 @@
 package geogebra3D.gui.layout.panels;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.gui.toolbar.Toolbar;
@@ -13,15 +14,15 @@ import javax.swing.JComponent;
  */
 public class EuclidianDockPanelForPlane extends EuclidianDockPanelAbstract {
 	private static final long serialVersionUID = 1L;
-	private Application app;
 	private EuclidianViewForPlane view;
 	
 	/**
-	 * @param app
+	 * @param app application
+	 * @param view view for plane
 	 */
 	public EuclidianDockPanelForPlane(Application app, EuclidianViewForPlane view) {
 		super(
-			Application.VIEW_EUCLIDIAN_FOR_PLANE,	// view id 
+			AbstractApplication.VIEW_EUCLIDIAN_FOR_PLANE,	// view id 
 			"GraphicsViewForPlaneA", 				// view title
 			Toolbar.getAllToolsNoMacrosForPlane(),// toolbar string
 			true,						// style bar?

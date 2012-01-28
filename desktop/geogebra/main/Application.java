@@ -56,7 +56,6 @@ import geogebra.euclidian.DrawEquation;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianStatic;
 import geogebra.euclidian.EuclidianView;
-import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.export.GraphicExportDialog;
 import geogebra.export.WorksheetExportDialog;

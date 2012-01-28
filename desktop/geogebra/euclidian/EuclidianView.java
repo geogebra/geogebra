@@ -20,6 +20,7 @@ import geogebra.common.euclidian.AbstractZoomer;
 import geogebra.common.euclidian.DrawBoolean;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.GetViewId;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
@@ -78,7 +79,7 @@ import javax.swing.border.Border;
  * @author Markus Hohenwarter
  * @version
  */
-public class EuclidianView extends EuclidianViewND implements EuclidianViewInterface,
+public class EuclidianView extends EuclidianViewND implements
 		Printable, SettingListener {
 
 	protected static final long serialVersionUID = 1L;

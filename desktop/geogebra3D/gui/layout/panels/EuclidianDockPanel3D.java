@@ -2,7 +2,7 @@ package geogebra3D.gui.layout.panels;
 
 import javax.swing.JComponent;
 
-import geogebra.euclidian.EuclidianViewInterface;
+import geogebra.common.main.AbstractApplication;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.gui.toolbar.Toolbar;
@@ -14,14 +14,13 @@ import geogebra3D.Application3D;
  */
 public class EuclidianDockPanel3D extends EuclidianDockPanelAbstract {
 	private static final long serialVersionUID = 1L;
-	private Application app;
 	
 	/**
-	 * @param app
+	 * @param app application
 	 */
 	public EuclidianDockPanel3D(Application app) {
 		super(
-			Application.VIEW_EUCLIDIAN3D,	// view id 
+			AbstractApplication.VIEW_EUCLIDIAN3D,	// view id 
 			"GraphicsView3D", 				// view title
 			Toolbar.getAllToolsNoMacros3D(),// toolbar string
 			true,						// style bar?

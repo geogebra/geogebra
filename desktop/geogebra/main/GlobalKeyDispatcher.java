@@ -1,6 +1,7 @@
 package geogebra.main;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Matrix.Coords;
@@ -18,7 +19,6 @@ import geogebra.common.util.CopyPaste;
 import geogebra.euclidian.DrawTextField;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
-import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.GuiManager;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.app.MyFileFilter;
@@ -613,7 +613,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 			}
 
 			// Get the EuclidianView which has the focus
-			EuclidianViewInterface ev = app.getActiveEuclidianView();
+			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 			int width = ev.getWidth();
 			int height = ev.getHeight();
 			if (ev.hasFocus())

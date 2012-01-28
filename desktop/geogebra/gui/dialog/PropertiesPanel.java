@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.gui.dialog;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Locateable;
@@ -51,7 +52,6 @@ import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.euclidian.EuclidianView;
-import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.SetLabels;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.dialog.handler.RedefineInputHandler;
@@ -2306,7 +2306,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			// absolute screen location flag changed
 			if (source == cbAbsScreenLoc) {
 				boolean flag = cbAbsScreenLoc.isSelected();
-				EuclidianViewInterface ev = app.getActiveEuclidianView();
+				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 				for (int i = 0; i < geos.length; i++) {
 					geo = (AbsoluteScreenLocateable) geos[i];
 					if (flag) {

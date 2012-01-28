@@ -13,6 +13,7 @@ the Free Software Foundation.
 
 package geogebra.gui;
 
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.geos.GeoConic;
@@ -29,7 +30,6 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
-import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
@@ -547,8 +547,8 @@ public class ContextMenuGeoElement extends JPopupMenu {
 		if (panel==null)
 			return;
 		
-		EuclidianViewInterface oldView = (EuclidianViewInterface)geo.getViewForValueString();
-		EuclidianViewInterface newView = app.getActiveEuclidianView();
+		EuclidianViewInterfaceCommon oldView = (EuclidianViewInterfaceCommon)geo.getViewForValueString();
+		EuclidianViewInterfaceCommon newView = app.getActiveEuclidianView();
 		
 		if (newView==app.getEuclidianView2())
 			newView=app.getEuclidianView(); //graphics and graphics2 are treated the same

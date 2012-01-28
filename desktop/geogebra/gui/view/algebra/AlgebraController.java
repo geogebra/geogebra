@@ -19,10 +19,10 @@ the Free Software Foundation.
 package geogebra.gui.view.algebra;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.main.Application;
 
@@ -121,7 +121,7 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 		// check double click
 		int clicks = e.getClickCount();
 		//EuclidianView ev = app.getEuclidianView();
-		EuclidianViewInterface ev = app.getActiveEuclidianView();
+		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 		if (clicks == 2) {										
 			app.clearSelectedGeos();
 			ev.resetMode();
@@ -260,7 +260,7 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 
 			TreePath tp = view.getPathForLocation(e.getX(), e.getY());
 			GeoElement geo = AlgebraView.getGeoElementForPath(tp);	
-			EuclidianViewInterface ev = app.getActiveEuclidianView();
+			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 			int mode = ev.getMode();
 
 			if ( (mode == EuclidianConstants.MODE_MOVE || mode == EuclidianConstants.MODE_SELECTION_LISTENER)  && 
@@ -300,7 +300,7 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 
 		// tell EuclidianView to handle mouse over
 		//EuclidianView ev = app.getEuclidianView();
-		EuclidianViewInterface ev = app.getActiveEuclidianView();
+		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 		ev.mouseMovedOver(geo);								
 
 		if (geo != null) {

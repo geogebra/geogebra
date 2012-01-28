@@ -1,10 +1,10 @@
 package geogebra.gui.layout.panels;
 
-import javax.swing.JComponent;
-
 import geogebra.common.main.AbstractApplication;
 import geogebra.gui.layout.DockPanel;
 import geogebra.main.Application;
+
+import javax.swing.JComponent;
 
 /**
  * @author Christoph Reinisch

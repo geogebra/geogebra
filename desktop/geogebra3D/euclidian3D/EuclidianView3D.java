@@ -2,9 +2,7 @@ package geogebra3D.euclidian3D;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.AbstractEuclidianController;
-import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.AbstractZoomer;
-import geogebra.common.euclidian.DrawBoolean;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianConstants;
@@ -16,9 +14,7 @@ import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoElementInterface;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
@@ -36,7 +32,6 @@ import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -45,15 +40,11 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Unicode;
-import geogebra.euclidian.DrawButton;
-import geogebra.euclidian.DrawTextField;
 import geogebra.euclidian.EuclidianPen;
 import geogebra.euclidian.EuclidianStyleBar;
-import geogebra.euclidian.EuclidianViewInterface;
 import geogebra.euclidian.MyZoomer;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.Application;
-import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.PlotterCursor;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoClippingCube3D;
@@ -81,20 +72,17 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
-import java.awt.print.PrinterException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.TreeMap;
 import java.util.TreeSet;
-
-import javax.swing.JPanel;
 
 /**
  * Class for 3D view
  * @author matthieu
  *
  */
-public class EuclidianView3D extends EuclidianViewND implements Printable, EuclidianViewInterface {
+public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 	private static final long serialVersionUID = -8414195993686838278L;
 	

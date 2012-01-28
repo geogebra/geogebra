@@ -15,7 +15,6 @@ package geogebra;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.JavaScriptAPI;
 import geogebra.main.AppletImplementation;
-import geogebra.main.Application;
 
 import java.awt.Color;
 import java.awt.Graphics;

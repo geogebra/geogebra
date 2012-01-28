@@ -93,7 +93,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		return (Application) app;
 	}
 
-	protected void setView(EuclidianViewInterface view) {
+	protected void setView(EuclidianViewInterfaceCommon view) {
 		// void setView(EuclidianView view) {
 		this.view = view;
 	}
@@ -277,7 +277,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		}
 
 		// make zooming a little bit smoother by having some steps
-		((EuclidianViewInterface) view).setAnimatedCoordSystem(
+		((EuclidianViewInterfaceCommon) view).setAnimatedCoordSystem(
 		// px + dx * factor,
 		// py + dy * factor,
 				px, py, factor, view.getXscale() * factor, 4, false);
