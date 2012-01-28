@@ -5666,9 +5666,6 @@ public abstract class AbstractEuclidianController {
 							if (geo1 != null) {
 								geo1.runScripts(null);
 							}
-							if (app.hasPythonBridge()) {
-								app.getPythonBridge().click(geo1);
-							}
 						}
 					}
 				}

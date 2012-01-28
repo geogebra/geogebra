@@ -5948,6 +5948,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 		switch (clickScriptType) {
 		case PYTHON:
+			app.getPythonBridge().click(this);
 			//runPythonScript(arg, false);
 			break;
 		case JAVASCRIPT:
