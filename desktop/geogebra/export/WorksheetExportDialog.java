@@ -1715,13 +1715,13 @@ public class WorksheetExportDialog extends JDialog {
 
 		// JVM arguments, for Java 1.6.0_10 and later
 		// increase heap memory for applets
-		String javaArgs = "-Xmx" + GeoGebraConstants.MAX_HEAP_SPACE
-				+ "m -Djnlp.packEnabled=true";
+		String javaArgs = "-Xmx" + GeoGebraConstants.MAX_HEAP_SPACE+ "m";
+		
 		// TODO: include pack.gz files in offline export
-		// if (cbOfflineArchive.isSelected()) {
-		// // look for local pack200 files: jar.pack.gz
-		// javaArgs += " -Djnlp.packEnabled=true";
-		// }
+		 if (!cbOfflineJars.isSelected()) {
+			 // look for local pack200 files: jar.pack.gz
+			 javaArgs += " -Djnlp.packEnabled=true";
+		 }
 
 		// sb.append("\t<param name=\"java_arguments\" value=\"" + javaArgs +
 		// "\" />");
