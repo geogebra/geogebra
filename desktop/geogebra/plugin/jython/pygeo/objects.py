@@ -744,9 +744,7 @@ class Geo(object):
         elif geo in cls._cache:
             return cls._cache[geo]
         else:
-            eltype = cls._map.get(geo.getType())
-            if eltype is None:
-                return None
+            eltype = cls._map.get(geo.getType(), Element)
             element = eltype.fromgeo(geo)
             cls._cache[geo] = element
             return element
