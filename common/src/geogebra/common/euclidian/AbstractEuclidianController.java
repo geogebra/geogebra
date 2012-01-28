@@ -8398,22 +8398,6 @@ public abstract class AbstractEuclidianController {
 		return previewDrawable;
 	}
 
-	protected void closeMiniPropertiesPanel() {
-		if (!app.isUsingFullGui()) {
-			return;
-		}
-		app.getGuiManager().toggleMiniProperties(false);
-	
-	}
-
-	private void openMiniPropertiesPanel() {
-		if (!app.isUsingFullGui()) {
-			return;
-		}
-		if (AbstractApplication.isMiniPropertiesActive()) {
-			app.getGuiManager().toggleMiniProperties(true);
-		}
-	}
 
 	protected void initNewMode(int mode) {
 		this.mode = mode;
@@ -8426,8 +8410,6 @@ public abstract class AbstractEuclidianController {
 		}
 		// Michael Borcherds 2007-10-12
 		moveMode = MOVE_NONE;
-	
-		closeMiniPropertiesPanel();
 	
 		if (mode == EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) {
 			if (!app.getGuiManager().hasSpreadsheetView()) {

@@ -15,22 +15,13 @@ package geogebra.euclidian;
 import geogebra.common.awt.Font;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.AbstractEuclidianController;
-import geogebra.common.euclidian.AbstractEuclidianView;
-import geogebra.common.euclidian.AbstractZoomer;
-import geogebra.common.euclidian.DrawBoolean;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.GetViewId;
-import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
-import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.FormatFactory;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.AbstractApplication;
@@ -38,11 +29,8 @@ import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidianND.EuclidianViewND;
-import geogebra.main.Application;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
@@ -55,24 +43,12 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.Transparency;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
-
-import javax.swing.JPanel;
-import javax.swing.Timer;
-import javax.swing.border.Border;
 
 /**
  * 
@@ -681,21 +657,7 @@ public class EuclidianView extends EuclidianViewND implements
 		return new DrawTextField(this,geo);
 	}
 
-	/***************************************************************************
-	 * ANIMATED ZOOMING
-	 **************************************************************************/
-	@Override
-	protected MyZoomer newZoomer() {
-		return new MyZoomer(this);
-	}
 
-	public Color getAxesColor() {
-		return geogebra.awt.Color.getAwtColor(axesColor);
-	}
-
-	public Color getGridColor() {
-		return geogebra.awt.Color.getAwtColor(gridColor);
-	}
 
 	public EuclidianController getEuclidianController() {
 		return (EuclidianController)euclidianController;

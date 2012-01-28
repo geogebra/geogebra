@@ -2993,16 +2993,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 
 
-	public Color getAxesColor() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	public Color getGridColor() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 
 	public boolean getShowGrid() {
@@ -3525,9 +3516,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		return new EuclidianStyleBar3D(this);
 	}
 	
-	public Drawable newDrawBoolean( GeoBoolean geo) {
-		return null;
-	}
+	
 
 
 	public Drawable newDrawButton( GeoButton geo) {
@@ -3547,10 +3536,6 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		return NO_SUCH_PAGE;
 	}
 
-	@Override
-	protected AbstractZoomer newZoomer() {
-		return new MyZoomer(this);
-	}
 	
 }
 

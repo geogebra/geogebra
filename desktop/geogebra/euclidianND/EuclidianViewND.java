@@ -11,6 +11,7 @@ import geogebra.euclidian.EuclidianStatic;
 import geogebra.euclidian.EuclidianStyleBar;
 import geogebra.euclidian.EuclidianViewJPanel;
 import geogebra.euclidian.EuclidianViewTransferHandler;
+import geogebra.euclidian.MyZoomer;
 import geogebra.main.Application;
 
 import java.awt.Color;
@@ -382,27 +383,26 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 		return styleBar != null;
 	}
 	
-
-//	public void repaintEuclidianView();
-
-	// ??
-	public abstract boolean hitAnimationButton(MouseEvent e);
 	//options
-	public abstract Color getAxesColor();
-	public abstract Color getGridColor();
-	//GetBackground is still implemented in all implementations, but GetBackgroundCommon should be used instead
+	public Color getAxesColor() {
+		return geogebra.awt.Color.getAwtColor(axesColor);
+	}
+
+	public Color getGridColor() {
+		return geogebra.awt.Color.getAwtColor(gridColor);
+	}
+	
 	
 	// for AlgebraView
-
+	/***************************************************************************
+	 * ANIMATED ZOOMING
+	 **************************************************************************/
+	@Override
+	protected MyZoomer newZoomer() {
+		return new MyZoomer(this);
+	}
 		
 	public abstract EuclidianController getEuclidianController();
 
-	//public abstract void setCursor(Cursor cursor);
-
-
-	//public abstract Graphics2D getGraphicsForPen();
-
-
-	//public abstract JPanel getJPanel();
 
 }

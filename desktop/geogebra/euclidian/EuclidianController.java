@@ -17,10 +17,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.arithmetic.VectorValue;
-import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
@@ -37,11 +34,8 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
-import java.util.Locale;
 
-import javax.swing.JComponent;
 import javax.swing.ToolTipManager;
-import javax.swing.text.JTextComponent;
 
 /**
  * EuclidianController.java
@@ -49,7 +43,7 @@ import javax.swing.text.JTextComponent;
  * Created on 16. October 2001, 15:41
  */
 public class EuclidianController extends geogebra.common.euclidian.AbstractEuclidianController implements MouseListener, MouseMotionListener,
-		MouseWheelListener, ComponentListener, PropertiesPanelMiniListener {
+		MouseWheelListener, ComponentListener{
 
 	
 
@@ -234,12 +228,15 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	}
 
 	public void componentShown(ComponentEvent e) {
+		//do nothing
 	}
 
 	public void componentHidden(ComponentEvent e) {
+		//do nothing
 	}
 
 	public void componentMoved(ComponentEvent e) {
+		//do nothing
 	}
 	
 	/**
@@ -277,7 +274,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		}
 
 		// make zooming a little bit smoother by having some steps
-		((EuclidianViewInterfaceCommon) view).setAnimatedCoordSystem(
+		view.setAnimatedCoordSystem(
 		// px + dx * factor,
 		// py + dy * factor,
 				px, py, factor, view.getXscale() * factor, 4, false);
@@ -287,51 +284,5 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	}
 
 	
-
-	// /////////////////////////////////////////
-	// moved GeoElements
-
-	
-
-	
-
-	// /////////////////////////////////////////
-	// EMPTY METHODS USED FOR EuclidianView3D
-
-	// ******************************
-	// PropertiesPanelMini Listeners
-	// ******************************
-	int penLineStyle = 0;
-
-	public void setLineStyle(int lineStyle) {
-		penLineStyle = lineStyle;
-
-		// if (mode == EuclidianView.MODE_VISUAL_STYLE) {
-		ArrayList<GeoElement> geos = ((Application)app).getSelectedGeos();
-
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
-			geo.setLineType(lineStyle);
-			geo.updateRepaint();
-
-		}
-		// }
-	}
-
-	Color penColor = Color.black;
-
-	public void setColor(Color color) {
-		penColor = color;
-
-		// if (mode == EuclidianView.MODE_VISUAL_STYLE) {
-		ArrayList<GeoElement> geos = ((Application)app).getSelectedGeos();
-
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
-			geo.setObjColor(new geogebra.awt.Color(color));
-			geo.updateRepaint();
-		}
-		// }
-	}
 
 }

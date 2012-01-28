@@ -89,12 +89,6 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	}
 
 	@Override
-	public void toggleMiniProperties(boolean b) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public boolean hasSpreadsheetView() {
 		// TODO Auto-generated method stub
 		return false;
