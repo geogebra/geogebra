@@ -44,6 +44,9 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	private boolean penWritingToExistingImage = false;
 	private ArrayList<Point> penPoints = new ArrayList<Point>();
 	int minX = Integer.MAX_VALUE, maxX = Integer.MIN_VALUE;
+	double CIRCLE_MIN_DET=0.95;
+	double CIRCLE_MAX_SCORE=0.10;
+	double score=0;
 	int brk[];
 	int MAX_POLYGON_SIDES=4;
 	double LINE_MAX_DET=0.015;
@@ -337,6 +340,8 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		//if recognize_shape option is checked
 		brk=new int[5];
 		//System.out.println(penPoints);
+		Inertia s=new Inertia();
+		this.calc_inertia(0,penPoints.size()-1,s);
 		int n=this.findPolygonal(0,penPoints.size()-1,MAX_POLYGON_SIDES,0,0);
 		//System.out.println(n);
 		if(n==1)//then stroke is a line
@@ -399,8 +404,16 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 				GeoPoint2 p = new GeoPoint2(app.getKernel().getConstruction(), x_first, y_first, 1.0);
 			                GeoPoint2 q = new GeoPoint2(app.getKernel().getConstruction(), x_last, y_last, 1.0);
 			                AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), equation, p, q);
-			}		}
-
+			}		
+		}
+		if(this.I_det(s) > CIRCLE_MIN_DET)
+		{
+			score=this.score_circle(0,penPoints.size()-1,s);
+			if(score<CIRCLE_MAX_SCORE)
+			{
+				System.out.println("current stroke is a circle");
+			}
+		}
 		// if (lastPenImage != null) penImage = lastPenImage.getImage();
 		// //app.getExternalImage(lastPenImage);
 
@@ -803,5 +816,38 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			return 0.;
 		return (s.syy - s.sy*s.sy/s.mass)/s.mass;
 	}
-
+	double score_circle(int start, int end, Inertia s)
+	{
+		double sum, x0, y0, r0, dm, deltar;
+		int i;
+		if(s.mass==0.)
+			return 0;
+		sum=0.;
+		x0=this.center_x(s);
+		y0=this.center_y(s);
+		r0=this.I_rad(s);
+		for(i=start;i<end;++i)
+		{
+			dm=Math.hypot(penPoints.get(i+1).x-penPoints.get(i).x,penPoints.get(i+1).y-penPoints.get(i).y );
+			deltar=Math.hypot(penPoints.get(i).x-x0,penPoints.get(i).y-y0)-r0;
+			sum=sum+(dm*Math.abs(deltar));
+		}
+		return sum/(s.mass*r0);
+	}
+	double center_x(Inertia s)
+	{
+		return s.sx/s.mass;
+	}
+	double center_y(Inertia s)
+	{
+		return s.sy/s.mass;
+	}
+	double I_rad(Inertia s)
+	{
+		double ixx=this.I_xx(s);
+		double iyy=this.I_yy(s);
+		if(ixx+iyy<=0.)
+			return 0.;
+		return Math.sqrt(ixx+iyy);
+	}
 }
