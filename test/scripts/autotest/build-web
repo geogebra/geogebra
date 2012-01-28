@@ -20,4 +20,6 @@ for i in .svn WEB-INF; do
  rm -fR $REVDIR/$REVISION/war/$i
  done
 
+echo $REVISION > $REVDIR/$REVISION/war/web/version.txt
+
 exit 0
