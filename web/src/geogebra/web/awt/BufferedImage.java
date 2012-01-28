@@ -16,7 +16,7 @@ public class BufferedImage implements geogebra.common.awt.BufferedImage {
 	}
 
 	public BufferedImage(geogebra.common.awt.BufferedImage fillImage) {
-	    // TODO Auto-generated constructor stub
+	    impl = getGawtImage(fillImage);
     }
 
 	public BufferedImage(ImageElement imageElement) {

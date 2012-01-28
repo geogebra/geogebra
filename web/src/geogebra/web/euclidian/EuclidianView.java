@@ -360,7 +360,8 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		return styleBar;
 	}
 	
-	private boolean drawPlayButtonInThisView() {
+	@Override
+    protected boolean drawPlayButtonInThisView() {
 
 		// just one view
 		if ( getApplication().getGuiManager() == null) {
@@ -377,21 +378,6 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		return !((getApplication().getGuiManager() != null) && (this.getViewID() != evp
 				.getViewId()));
 	}
-
-	public boolean setAnimationButtonsHighlighted(boolean flag) {
-
-		// draw button in focused EV only
-		if (!drawPlayButtonInThisView()) {
-			return false;
-		}
-
-		if (flag == highlightAnimationButtons) {
-			return false;
-		} 
-		highlightAnimationButtons = flag;
-		return true;
-		
-    }
 	
 	@Override
 	final protected void drawAnimationButtons(geogebra.common.awt.Graphics2D g2) {
@@ -479,7 +465,8 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	    
     }
 
-	public void updatePreviewable() {
+	@Override
+    public void updatePreviewable() {
 	    // TODO Auto-generated method stub
 	    
     }

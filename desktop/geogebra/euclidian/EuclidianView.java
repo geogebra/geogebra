@@ -490,7 +490,6 @@ public class EuclidianView extends EuclidianViewND implements
 		setAntialiasing(g2d);
 	}
 
-	
 	/**
 	 * Returns image of drawing pad sized according to the given scale factor.
 	 * 
@@ -574,6 +573,7 @@ public class EuclidianView extends EuclidianViewND implements
 		return pauseImage;
 	}
 
+	
 	@Override
 	final protected void drawAnimationButtons(geogebra.common.awt.Graphics2D g2) {
 
@@ -601,7 +601,7 @@ public class EuclidianView extends EuclidianViewND implements
 		geogebra.awt.Graphics2D.getAwtGraphics(g2).drawImage(img, x, y, null);
 	}
 
-	public final boolean hitAnimationButton(MouseEvent e) {
+	public final boolean hitAnimationButton(AbstractEvent e) {
 		// draw button in focused EV only
 		if (!drawPlayButtonInThisView()) {
 			return false;
@@ -611,7 +611,8 @@ public class EuclidianView extends EuclidianViewND implements
 				&& (e.getY() >= (getHeight() - 20));
 	}
 
-	private boolean drawPlayButtonInThisView() {
+	@Override
+	protected boolean drawPlayButtonInThisView() {
 
 		// just one view
 		if ( getApplication().getGuiManager() == null) {
@@ -627,25 +628,7 @@ public class EuclidianView extends EuclidianViewND implements
 				.getViewId()));
 	}
 
-	/**
-	 * Updates highlighting of animation buttons.
-	 * 
-	 * @return whether status was changed
-	 */
-	public final boolean setAnimationButtonsHighlighted(boolean flag) {
-
-		// draw button in focused EV only
-		if (!drawPlayButtonInThisView()) {
-			return false;
-		}
-
-		if (flag == highlightAnimationButtons) {
-			return false;
-		} 
-		highlightAnimationButtons = flag;
-		return true;
-		
-	}
+	
 
 	@Override
 	public Drawable newDrawButton( GeoButton geo) {
@@ -659,13 +642,11 @@ public class EuclidianView extends EuclidianViewND implements
 
 
 
+	@Override
 	public EuclidianController getEuclidianController() {
 		return (EuclidianController)euclidianController;
 	}
 
-	public boolean hitAnimationButton(AbstractEvent e) {
-		return hitAnimationButton(geogebra.euclidian.event.MouseEvent.getEvent(e));
-	}
-
+	
 
 }

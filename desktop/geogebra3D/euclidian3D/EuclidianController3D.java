@@ -428,8 +428,8 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			}
 
 			// update previewable
-			if (((EuclidianViewInterfaceCommon) view).getPreviewDrawable() != null) 	
-				((EuclidianViewInterfaceCommon) view).updatePreviewable();
+			if (view.getPreviewDrawable() != null) 	
+				view.updatePreviewable();
 			
 			// geo point has been moved
 			movedGeoPointDragged = true;
@@ -633,7 +633,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			else
 				point3D = (GeoPoint3D) kernel.getManager3D().Point3D(null, 0,0,0);
 		}else{
-			point3D = (GeoPoint3D) createNewPoint(true, (Region) view3D.getxOyPlane(), complex);
+			point3D = (GeoPoint3D) createNewPoint(true, view3D.getxOyPlane(), complex);
 			if (point3D==null)
 				return null;
 			point3D.setPath(null);
@@ -751,10 +751,10 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 		if(mouseLoc==null)
 			return null;
 
-		GeoElement a = (GeoElement) hits.get(0);
+		GeoElement a = hits.get(0);
 		if (a.isGeoLine()) {
 			while (hits.size()>=2) {
-				if (((GeoElement)hits.get(1)).isGeoPlane() &&
+				if (hits.get(1).isGeoPlane() &&
 						AlgoIntersectCS1D2D.getConfigLinePlane(
 						(GeoLineND)a,
 						((GeoCoordSys2D)hits.get(1))
@@ -765,7 +765,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			}
 		} else if (a.isGeoConic()) {
 			while (hits.size()>=2) {
-				if (((GeoElement)hits.get(1)).isGeoPlane() &&
+				if (hits.get(1).isGeoPlane() &&
 						AlgoIntersectCS2D2D.getConfigPlanePlane(
 						(((GeoConicND)a).getCoordSys()),
 						(((GeoCoordSys2D)hits.get(1)).getCoordSys())
@@ -791,7 +791,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			return null;
 		
 		//Application.debug(hits.toString());
-		GeoElement b = (GeoElement) hits.get(1);
+		GeoElement b = hits.get(1);
 		GeoPoint3D point = null;
 
 		kernel.setSilentMode(true);
@@ -1065,7 +1065,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 				GeoPointND[] points = getSelectedPointsND();
 				GeoLineND[] lines = getSelectedLinesND();
 				// create new plane
-				getKernel().getManager3D().Plane3D(null, points[0], (GeoLineND) lines[0]);
+				getKernel().getManager3D().Plane3D(null, points[0], lines[0]);
 				return true;
 			}
 		}
@@ -1132,7 +1132,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 				GeoPointND[] points = getSelectedPointsND();
 				GeoCoordSys2D[] cs = getselectedCS2D();//TODO
 				// create new plane
-				getKernel().getManager3D().Plane3D(null, points[0], (GeoCoordSys2D) cs[0]);
+				getKernel().getManager3D().Plane3D(null, points[0], cs[0]);
 				return true;
 			}
 		}
@@ -1438,8 +1438,8 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 		
 		//remembers mouse location
 		startLoc = mouseLoc;
-		((EuclidianViewInterfaceCommon) view).rememberOrigins();
-		((EuclidianViewInterfaceCommon) view).setDefaultCursor();
+		view.rememberOrigins();
+		view.setDefaultCursor();
 		
 		timeOld = System.currentTimeMillis();
 		xOld = startLoc.x;
@@ -1461,7 +1461,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 		animatedRotSpeed = (double) (x-xOld)/(time-timeOld);
 		timeOld = time; xOld = x;
 		//Application.debug("vRot="+vRot);
-		((EuclidianViewInterfaceCommon) view).setCoordSystemFromMouseMove(mouseLoc.x - startLoc.x, 
+		view.setCoordSystemFromMouseMove(mouseLoc.x - startLoc.x, 
 				mouseLoc.y - startLoc.y, 
 				MOVE_ROTATE_VIEW);
 		viewRotationOccured = true;
@@ -1476,11 +1476,11 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 		
 		if (viewRotationOccured){
 			viewRotationOccured = false;
-			((EuclidianViewInterfaceCommon) view).setHits(mouseLoc);
+			view.setHits(mouseLoc);
 			//Application.debug("hits"+view.getHits().toString());
 			((EuclidianView3D) view).updateCursor3D();
 			
-			((EuclidianViewInterfaceCommon) view).setHitCursor();
+			view.setHitCursor();
 			((Application)app).storeUndoInfo();
 			
 
@@ -1639,27 +1639,27 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 		case EuclidianConstants.MODE_PLANE_THREE_POINTS:	
 		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:	
 		case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:	
-			((EuclidianViewInterfaceCommon) view).setHits(mouseLoc);
-			hits = ((EuclidianViewInterfaceCommon) view).getHits();hits.removePolygons();
+			view.setHits(mouseLoc);
+			hits = view.getHits();hits.removePolygons();
 			createNewPoint(hits, true, true, true, true, false);
 			break;
 			
 		case EuclidianConstants.MODE_ORTHOGONAL_PLANE:
 		case EuclidianConstants.MODE_PLANE_POINT_LINE:
-			((EuclidianViewInterfaceCommon) view).setHits(mouseLoc);
+			view.setHits(mouseLoc);
 			hits = ((AbstractEuclidianView) view).getHits();hits.removePolygons();
 			createNewPoint(hits, false, false, true);
 			break;	
 			
 		case EuclidianConstants.MODE_PARALLEL_PLANE:
-			((EuclidianViewInterfaceCommon) view).setHits(mouseLoc);
-			hits = ((EuclidianViewInterfaceCommon) view).getHits();hits.removePolygons();
+			view.setHits(mouseLoc);
+			hits = view.getHits();hits.removePolygons();
 			createNewPoint(hits, true, false, false, true, false);
 			break;	
 			
 		case EuclidianConstants.MODE_RIGHT_PRISM:
-			((EuclidianViewInterfaceCommon) view).setHits(mouseLoc);
-			hits = ((EuclidianViewInterfaceCommon) view).getHits();
+			view.setHits(mouseLoc);
+			hits = view.getHits();
 			switchModeForRemovePolygons(hits);
 			//Application.debug(hits.toString());
 			rightPrism(hits);
@@ -1668,14 +1668,14 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			
 		case EuclidianConstants.MODE_ROTATEVIEW:
 			startLoc = mouseLoc; 
-			((EuclidianViewInterfaceCommon) view).rememberOrigins();
+			view.rememberOrigins();
 			moveMode = MOVE_ROTATE_VIEW;
 			break;
 			
 		case EuclidianConstants.MODE_CIRCLE_AXIS_POINT:	
 		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION:	
-			((EuclidianViewInterfaceCommon) view).setHits(mouseLoc);
-			hits = ((EuclidianViewInterfaceCommon) view).getHits();
+			view.setHits(mouseLoc);
+			hits = view.getHits();
 			hits.removePolygons();
 			if (hits.size() == 0)
 				createNewPoint(hits, false, true, true);
@@ -1808,7 +1808,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			GeoElement selected = selectedGeos.get(0);
 			if (selected.isGeoLine()) {
 				while (goodHits.size()>=1) {
-					if (((GeoElement)goodHits.get(0)).isGeoPlane() &&
+					if (goodHits.get(0).isGeoPlane() &&
 							AlgoIntersectCS1D2D.getConfigLinePlane(
 							(GeoLineND)selected,
 							((GeoCoordSys2D)goodHits.get(0))
@@ -1819,7 +1819,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 				}
 			} else if (selected.isGeoConic()) {
 				while (goodHits.size()>=1) {
-					if (((GeoElement)goodHits.get(0)).isGeoPlane() &&
+					if (goodHits.get(0).isGeoPlane() &&
 							AlgoIntersectCS2D2D.getConfigPlanePlane(
 							(((GeoConicND)selected).getCoordSys()),
 							(((GeoCoordSys2D)goodHits.get(0)).getCoordSys())
@@ -1894,7 +1894,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 				if (cs2Ds instanceof GeoPolygon) {
 					return getKernel().getManager3D().IntersectionPoint(
 								new String[] {null},
-								(GeoLineND) line,
+								line,
 								(GeoPolygon) cs2Ds
 								);
 				} else {
@@ -1977,7 +1977,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 
 			for (int i = 0; i<hits.size(); ++i) {
 				for (int j=i+1; j<hits.size(); ++j) {
-					this.createIntersectionCurve((GeoElement)hits.get(i), (GeoElement)hits.get(j));
+					this.createIntersectionCurve(hits.get(i), hits.get(j));
 				}
 			}
 
@@ -2056,7 +2056,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 
 			GeoElement plane = (GeoElement) getSelectedCS2D()[0];
 			GeoQuadric3D quad = getSelectedQuadric()[0];
-			GeoElement[] ret = {kernel.getManager3D().Intersect( null, (GeoPlaneND) plane, (GeoQuadric3D) quad)};
+			GeoElement[] ret = {kernel.getManager3D().Intersect( null, (GeoPlaneND) plane, quad)};
 			return ret[0].isDefined();
 		}
 
@@ -2223,7 +2223,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			if (hits.size()<2 //check first if there are at least 2 geos 
 					|| hits.get(0)!= resultedGeo && hits.get(0)!=A && hits.get(0)!=B
 					|| hits.get(1)!=resultedGeo && hits.get(1)!=A && hits.get(1)!=B) {
-				goodHits.add((GeoElement)hits.get(0));
+				goodHits.add(hits.get(0));
 				hideIntersection = true;
 				return;
 			}
@@ -2587,7 +2587,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	protected boolean viewHasHitsForMouseDragged(){
 		//Application.debug(moveMode);
 		if (moveMode==MOVE_POINT && view3D.getCursor3DType()==EuclidianView3D.PREVIEW_POINT_ALREADY)
-			return ((EuclidianViewInterfaceCommon) view).getHits().containsGeoPoint(); //if a point is under the mouse, don't try to find another hit
+			return view.getHits().containsGeoPoint(); //if a point is under the mouse, don't try to find another hit
 		else
 			return super.viewHasHitsForMouseDragged();
 	}
@@ -2697,7 +2697,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	final protected GeoPolygon[] getSelectedPolygons3D() {				
 		GeoPolygon[] ret = new GeoPolygon[selectedPolygons3D.size()];
 		for (int i = 0; i < selectedPolygons3D.size(); i++) {		
-			ret[i] = (GeoPolygon) selectedPolygons3D.get(i);
+			ret[i] = selectedPolygons3D.get(i);
 		}
 		clearSelection(selectedPolygons3D);
 		return ret;
@@ -2728,7 +2728,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 				GeoPointND[] points = getSelectedPointsND();
 				GeoCoordSys2D[] cs = getselectedCS2D();
 				// create new line
-				return new GeoElement[] {(GeoElement) getKernel().getManager3D().OrthogonalLine3D(null, points[0], (GeoCoordSys2D) cs[0])};
+				return new GeoElement[] {(GeoElement) getKernel().getManager3D().OrthogonalLine3D(null, points[0], cs[0])};
 			}
 		}
 		

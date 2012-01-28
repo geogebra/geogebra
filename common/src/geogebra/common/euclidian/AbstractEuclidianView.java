@@ -4472,5 +4472,30 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 				kernel.notifyRepaint();
 			}
 		}
+		
+		/**
+		 * Updates highlighting of animation buttons.
+		 * 
+		 * @return whether status was changed
+		 */
+		public final boolean setAnimationButtonsHighlighted(boolean flag) {
+
+			// draw button in focused EV only
+			if (!drawPlayButtonInThisView()) {
+				return false;
+			}
+
+			if (flag == highlightAnimationButtons) {
+				return false;
+			} 
+			highlightAnimationButtons = flag;
+			return true;
+			
+		}
+
+		protected boolean drawPlayButtonInThisView() {
+			// TODO Auto-generated method stub
+			return true;
+		}
 
 }
