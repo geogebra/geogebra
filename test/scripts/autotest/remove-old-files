@@ -1,0 +1,13 @@
+#!/bin/sh
+# Removes old .cache.html files.
+# Copy this to the web/test42 directory on the web server and run it as a cronjob
+# on a daily basis.
+NEWEST=4
+
+COUNT=`find . -name '*.cache.html' | wc -l`
+
+if [ $COUNT -gt $NEWEST ]; then
+ echo "Removing .cache.html files, leaving the last $NEWEST only"
+ FROM=`expr $NEWEST + 1`
+ ls -1 -t *.cache.html | tail -n +$FROM | xargs rm
+ fi
