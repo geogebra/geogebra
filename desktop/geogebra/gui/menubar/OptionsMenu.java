@@ -380,9 +380,13 @@ class OptionsMenu extends BaseMenu implements ActionListener {
 
 		// change graphics quality
 		if (cmd.equals("LowQuality")) {
-			app.getEuclidianView().setAntialiasing(false);
+			app.getEuclidianView1().setAntialiasing(false);
+			if(app.hasEuclidianView2EitherShowingOrNot())
+				app.getEuclidianView2().setAntialiasing(false);
 		} else if (cmd.equals("HighQuality")) {
-			app.getEuclidianView().setAntialiasing(true);
+			app.getEuclidianView1().setAntialiasing(true);
+			if(app.hasEuclidianView2EitherShowingOrNot())
+				app.getEuclidianView2().setAntialiasing(true);
 		}
 
 		// font size

@@ -259,14 +259,14 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 			String input = inputField.getText();					   
 			if (input == null || input.length() == 0)
 			{
-				app.getEuclidianView().requestFocus(); // Michael Borcherds 2008-05-12
+				app.getActiveEuclidianView().requestFocus(); // Michael Borcherds 2008-05-12
 				return;
 			}
 
 			app.setScrollToShow(true);
 			GeoElement[] geos;
 			try {
-				geos = (GeoElement[])app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionHandling( input, true, false, true );
+				geos = app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionHandling( input, true, false, true );
 			} catch (Exception ee) {
 				inputField.showError(ee);
 				return;
@@ -283,8 +283,8 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 				GeoText text = (GeoText)geos[0];
 				if (!text.isTextCommand() && text.getStartPoint() == null) {
 
-					Construction cons = (Construction) text.getConstruction();
-					AbstractEuclidianView ev = app.getEuclidianView();
+					Construction cons = text.getConstruction();
+					AbstractEuclidianView ev = app.getActiveEuclidianView();
 
 					boolean oldSuppressLabelsStatus = cons.isSuppressLabelsActive();
 					cons.setSuppressLabelCreation(true);

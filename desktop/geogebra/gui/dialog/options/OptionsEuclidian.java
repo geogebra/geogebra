@@ -927,7 +927,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 	protected void setViewFromIndex(int index){
 		
 		if(index == 0)
-			setView(app.getEuclidianView());
+			setView(app.getEuclidianView1());
 		else
 			setView(app.getGuiManager().getEuclidianView2());
 		

@@ -21,6 +21,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.euclidian.EuclidianView;
+import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.GeoTreeCellRenderer;
 import geogebra.gui.SetLabels;
 import geogebra.gui.color.GeoGebraColorChooser;
@@ -853,7 +854,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 			Point loc = e.getPoint();
 			GeoElement geo = AlgebraView.getGeoElementForLocation(this, loc.x,
 					loc.y);
-			EuclidianView ev = app.getEuclidianView();
+			EuclidianViewND ev = app.getActiveEuclidianView();
 
 			// tell EuclidianView to handle mouse over
 			ev.mouseMovedOver(geo);

@@ -112,7 +112,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 																				// /
 																				// (double)height
 																				// ;
-					app.getEuclidianView().zoomAroundCenter(zoomFactor);
+					app.getEuclidianView1().zoomAroundCenter(zoomFactor);
 
 				}
 
@@ -452,7 +452,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		app.getSettings().getLayout().setAllowStyleBar(allowStyleBar);
 
 		appletPanel.add(app.buildApplicationPanel(), BorderLayout.CENTER);
-		ev = app.getEuclidianView();
+		ev = app.getEuclidianView1();
 		ev.updateBackground();
 
 		return appletPanel;

@@ -244,7 +244,7 @@ public class AnimationExportDialog extends JDialog {
 				num.setValue(val);
 				num.updateRepaint();
 
-				Image img = app.getEuclidianView().getExportImage(1);
+				Image img = app.getEuclidianView1().getExportImage(1);
 				gifEncoder.addFrame((BufferedImage)img);
 
 				val += step;

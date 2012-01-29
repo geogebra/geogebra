@@ -412,7 +412,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 			geogebra.cas.mpreduce.CASmpreduce.getStaticInterpreter();
 			
 			// init JLaTeXMath
-			Graphics2D g2d = this.app.getEuclidianView().getTempGraphics2D();
+			Graphics2D g2d = this.app.getEuclidianView1().getTempGraphics2D();
 			app.getDrawEquation().drawEquation(this.app, null,
 					new geogebra.awt.Graphics2D(g2d), 0, 0, "x^{2}",
 					new geogebra.awt.Font(g2d.getFont()), false, geogebra.awt.Color.BLACK, geogebra.awt.Color.WHITE, false);

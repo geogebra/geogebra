@@ -6,6 +6,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.euclidian.EuclidianView;
 import geogebra.gui.SetLabels;
 import geogebra.gui.util.FullWidthLayout;
 import geogebra.main.Application;
@@ -544,12 +545,12 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 		usePathAndRegionParametersRadioOff.setSelected(!app.getKernel()
 				.usePathAndRegionParameters());
 
-		checkboxSizeRadioRegular.setSelected(app.getEuclidianView()
+		checkboxSizeRadioRegular.setSelected(app.getEuclidianView1()
 				.getBooleanSize() == 13);
-		checkboxSizeRadioLarge.setSelected(app.getEuclidianView()
+		checkboxSizeRadioLarge.setSelected(app.getEuclidianView1()
 				.getBooleanSize() == 26);
 
-		switch (app.getEuclidianView().getPointStyle()) {
+		switch (app.getEuclidianView1().getPointStyle()) {
 		case 1:
 			pointStyleRadio1.setSelected(true);
 			break;
@@ -574,13 +575,13 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 			break;
 		}
 
-		rightAngleRadio1.setSelected(app.getEuclidianView()
+		rightAngleRadio1.setSelected(app.getEuclidianView1()
 				.getRightAngleStyle() == 0);
-		rightAngleRadio2.setSelected(app.getEuclidianView()
+		rightAngleRadio2.setSelected(app.getEuclidianView1()
 				.getRightAngleStyle() == 1);
-		rightAngleRadio3.setSelected(app.getEuclidianView()
+		rightAngleRadio3.setSelected(app.getEuclidianView1()
 				.getRightAngleStyle() == 2);
-		rightAngleRadio4.setSelected(app.getEuclidianView()
+		rightAngleRadio4.setSelected(app.getEuclidianView1()
 				.getRightAngleStyle() == 3);
 
 		coordinatesRadio1.setSelected(app.getKernel().getCoordStyle() == 0);
@@ -746,54 +747,7 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 			app.getKernel().setUsePathAndRegionParameters(false);
 			// app.getKernel().updateConstruction();
 			app.setUnsaved();
-		} else if (source == pointStyleRadio0) {
-			app.getEuclidianView().setPointStyle(0);
-			if (app.hasEuclidianView2())
-				app.getEuclidianView2().setPointStyle(0);
-		} else if (source == pointStyleRadio1) {
-			app.getEuclidianView().setPointStyle(1);
-			if (app.hasEuclidianView2())
-				app.getEuclidianView2().setPointStyle(1);
-		} else if (source == pointStyleRadio2) {
-			app.getEuclidianView().setPointStyle(2);
-			if (app.hasEuclidianView2())
-				app.getEuclidianView2().setPointStyle(2);
-		} else if (source == pointStyleRadio3) {
-			app.getEuclidianView().setPointStyle(3);
-			if (app.hasEuclidianView2())
-				app.getEuclidianView2().setPointStyle(3);
-		} else if (source == pointStyleRadio4) {
-			app.getEuclidianView().setPointStyle(4);
-			if (app.hasEuclidianView2())
-				app.getEuclidianView2().setPointStyle(4);
-		} else if (source == pointStyleRadio6) {
-			app.getEuclidianView().setPointStyle(6);
-			if (app.hasEuclidianView2())
-				app.getEuclidianView2().setPointStyle(6);
-		} else if (source == pointStyleRadio7) {
-			app.getEuclidianView().setPointStyle(7);
-			if (app.hasEuclidianView2())
-				app.getEuclidianView2().setPointStyle(7);
-		} else if (source == checkboxSizeRadioRegular) {
-			app.getEuclidianView().setBooleanSize(13);
-			if (app.hasEuclidianView2())
-				app.getEuclidianView2().setBooleanSize(13);
-		} else if (source == checkboxSizeRadioLarge) {
-			app.getEuclidianView().setBooleanSize(26);
-			if (app.hasEuclidianView2())
-				app.getEuclidianView2().setBooleanSize(26);
-		} else if (source == rightAngleRadio1) {
-			app.getEuclidianView().setRightAngleStyle(
-					EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE);
-		} else if (source == rightAngleRadio2) {
-			app.getEuclidianView().setRightAngleStyle(
-					EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE);
-		} else if (source == rightAngleRadio3) {
-			app.getEuclidianView().setRightAngleStyle(
-					EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT);
-		} else if (source == rightAngleRadio4) {
-			app.getEuclidianView().setRightAngleStyle(
-					EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L);
+		
 		} else if (source == coordinatesRadio1) {
 			app.getKernel().setCoordStyle(0);
 			app.getKernel().updateConstruction();
@@ -822,6 +776,45 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 					cbKeyboardShowAutomatic.isSelected());
 		} else if (source == tfKeyboardWidth || source == tfKeyboardHeight) {
 			changeWidthOrHeight(source);
+		} else {
+			handleEVOption(source,app.getEuclidianView1());
+			if(app.hasEuclidianView2EitherShowingOrNot()){
+				handleEVOption(source, app.getEuclidianView2());
+			}
+		}
+	}
+
+	private void handleEVOption(Object source, EuclidianView view) {
+		if (source == pointStyleRadio0) {
+			view.setPointStyle(0);
+		} else if (source == pointStyleRadio1) {
+			view.setPointStyle(1);
+		} else if (source == pointStyleRadio2) {
+			view.setPointStyle(2);
+		} else if (source == pointStyleRadio3) {
+			view.setPointStyle(3);
+		} else if (source == pointStyleRadio4) {
+			view.setPointStyle(4);
+		} else if (source == pointStyleRadio6) {
+			view.setPointStyle(6);
+		} else if (source == pointStyleRadio7) {
+			view.setPointStyle(7);
+		} else if (source == checkboxSizeRadioRegular) {
+			view.setBooleanSize(13);
+		} else if (source == checkboxSizeRadioLarge) {
+			view.setBooleanSize(26);
+		} else if (source == rightAngleRadio1) {
+			view.setRightAngleStyle(
+					EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE);
+		} else if (source == rightAngleRadio2) {
+			view.setRightAngleStyle(
+					EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE);
+		} else if (source == rightAngleRadio3) {
+			view.setRightAngleStyle(
+					EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT);
+		} else if (source == rightAngleRadio4) {
+			view.setRightAngleStyle(
+					EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L);
 		}
 	}
 

@@ -291,7 +291,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 		try {
 		
 			BufferedImage img =
-				((Application)app).getEuclidianView().getExportImage(1);
+				((Application)app).getEuclidianView1().getExportImage(1);
 			
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ImageIO.write(img, app.toLowerCase(format), baos);
@@ -340,7 +340,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 				try {			
 					// draw graphics view into image
 					BufferedImage img =
-							((Application)app).getEuclidianView().getExportImage(exportScale, transparent); 
+							((Application)app).getEuclidianView1().getExportImage(exportScale, transparent); 
 					
 					// write image to file
 					MyImageIO.write(img, "png", (float)DPI,  file);	
@@ -367,12 +367,12 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 	 */
 	public synchronized String getPNGBase64(double exportScale, boolean transparent, double DPI) {
 		BufferedImage img =
-				((Application)app).getEuclidianView().getExportImage(exportScale, transparent); 
+				((Application)app).getEuclidianView1().getExportImage(exportScale, transparent); 
 
 		
 	    try {
 		    Iterator<ImageWriter> it = ImageIO.getImageWritersByFormatName("png");
-		    ImageWriter writer = (ImageWriter) it.next();
+		    ImageWriter writer = it.next();
 		    ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
 
 		    ImageOutputStream ios = ImageIO.createImageOutputStream(baos);
@@ -420,7 +420,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 			return;
 		}
 		
-		((Application)app).getEuclidianView().drawPoints((GeoImage)ge,x,y);
+		((Application)app).getEuclidianView1().drawPoints((GeoImage)ge,x,y);
 		
 	}
 

@@ -3382,7 +3382,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	// SOME LINKS WITH 2D VIEW
 	
 	public Graphics2D getGraphicsForPen(){
-		return app.getEuclidianView().getGraphicsForPen();
+		return app.getEuclidianView1().getGraphicsForPen();
 		
 	}
 

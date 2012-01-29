@@ -77,7 +77,7 @@ public class View extends Widget {
 	}
 
 	private void onSyncCanvasSizeWithApplication() {
-	   app.getEuclidianView().synCanvasSize();
+	   app.getEuclidianView1().synCanvasSize();
 	   app.getActiveEuclidianView().repaintView();
     }
 

@@ -18,6 +18,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianView;
+import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.GuiManager;
 import geogebra.gui.TitlePanel;
 import geogebra.gui.app.GeoGebraFrame;
@@ -141,7 +142,7 @@ public class WorksheetExportDialog extends JDialog {
 	 * upper left corner of the euclidian view.
 	 */
 	private void checkEuclidianView() {
-		EuclidianView ev = app.getEuclidianView();
+		EuclidianViewND ev = app.getActiveEuclidianView();
 
 		// 1) selection rectangle
 		Rectangle rect = geogebra.awt.Rectangle.getAWTRectangle(ev.getSelectionRectangle());

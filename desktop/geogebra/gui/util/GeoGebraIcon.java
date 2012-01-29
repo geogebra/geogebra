@@ -847,8 +847,8 @@ public class GeoGebraIcon {
 		// Create image with dummy size, then draw into it to get the correct size
 		GeoText geo = new GeoText(app.getKernel().getConstruction(), latex);
 		geo.setSerifFont(serif);
-		DrawText draw = new DrawText(app.getEuclidianView(), geo);		
-		draw.drawMultilineLaTeX(app.getEuclidianView().getTempGraphics2D(new geogebra.awt.Font(font)),
+		DrawText draw = new DrawText(app.getActiveEuclidianView(), geo);		
+		draw.drawMultilineLaTeX(app.getActiveEuclidianView().getTempGraphics2D(new geogebra.awt.Font(font)),
 				new geogebra.awt.Font(font), new geogebra.awt.Color(fgColor), new geogebra.awt.Color(bgColor));
 		Rectangle d = geogebra.awt.Rectangle.getAWTRectangle(draw.getBounds());
 		

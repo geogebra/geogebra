@@ -410,7 +410,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 		// Manually dispatch a resize event as the size of the 
 		// euclidian view isn't updated all the time.
 		// TODO What does the resize do which will update the component ?!
-		app.getEuclidianView().dispatchEvent(
+		app.getActiveEuclidianView().dispatchEvent(
 			new ComponentEvent(rootPane, ComponentEvent.COMPONENT_RESIZED)
 		);
 	}

@@ -165,7 +165,7 @@ public class GeoGebraPanel extends JPanel {
 	 * Returns the graphics view's panel.
 	 */
 	public JPanel getGraphicsPanel() {
-		return app.getEuclidianView().getJPanel();
+		return app.getEuclidianView1().getJPanel();
 	}
 	
 	/**

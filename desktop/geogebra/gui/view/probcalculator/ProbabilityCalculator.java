@@ -736,7 +736,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			GeoLine axis = new GeoLine(cons);		
 			axis.setCoords(0, 1, 0);
 			axis.setLayer(4);
-			axis.setObjColor(new geogebra.awt.Color(app.getEuclidianView().getAxesColor()));
+			axis.setObjColor(new geogebra.awt.Color(app.getEuclidianView1().getAxesColor()));
 			axis.setLineThickness(discreteIntervalGraph.lineThickness);
 			axis.setFixed(true);
 			axis.updateCascade();

@@ -1444,8 +1444,17 @@ public abstract class AbstractApplication {
 
 	public abstract AlgebraView getAlgebraView();
 
+	@Deprecated
 	public EuclidianViewInterfaceCommon getEuclidianView(){
 		return euclidianView;
+	}
+	
+	public AbstractEuclidianView getEuclidianView1(){
+		return euclidianView;
+	}
+	
+	public void resetMaxLayerUsed() {
+		maxLayerUsed = 0;
 	}
 
 	public abstract EuclidianViewInterfaceCommon getActiveEuclidianView();

@@ -95,7 +95,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 		}
 
 		// panel with fields to enter width and height of picture
-		AbstractEuclidianView ev = app.getEuclidianView();
+		AbstractEuclidianView ev = app.getEuclidianView1();
 		// int height = (int) Math.ceil(DEFAULT_GRAPHICS_WIDTH *
 		// (double) ev.getHeight() / ev.getWidth());
 		// sizePanel = new GraphicSizePanel(app, DEFAULT_GRAPHICS_WIDTH,
@@ -263,7 +263,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 
 			if (includePicture) {
 				// picture of drawing pad
-				img = app.getEuclidianView().getExportImage(1d);
+				img = app.getEuclidianView1().getExportImage(1d);
 			} else if (includeAlgebraPicture) {
 				// picture of drawing pad
 				img = getCenterPanelImage();

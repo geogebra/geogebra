@@ -809,8 +809,8 @@ public class Application extends AbstractApplication implements
 			getGuiManager().resetSpreadsheet();
 		}
 
-		getEuclidianView().resetMaxLayerUsed();
-		getEuclidianView().resetXYMinMaxObjects();
+		resetMaxLayerUsed();
+		getEuclidianView1().resetXYMinMaxObjects();
 		if (hasEuclidianView2EitherShowingOrNot()) {
 			getEuclidianView2().resetXYMinMaxObjects();
 		}
@@ -1110,7 +1110,7 @@ public class Application extends AbstractApplication implements
 			centerPanel.add(getGuiManager().getLayout().getRootComponent(),
 					BorderLayout.CENTER);
 		} else {
-			centerPanel.add(getEuclidianView().getJPanel(), BorderLayout.CENTER);
+			centerPanel.add(getEuclidianView1().getJPanel(), BorderLayout.CENTER);
 		}
 
 		if (updateUI) {
@@ -1190,7 +1190,7 @@ public class Application extends AbstractApplication implements
 				getGuiManager().getLayout().applyPerspective("BasicGeometry");
 				GlobalKeyDispatcher.changeFontsAndGeoElements(this, 20, false);
 				setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF);
-				getEuclidianView().setCapturingThreshold(10);
+				getEuclidianView1().setCapturingThreshold(10);
 				kernel.setPrintDecimals(0); // rounding to 0dp
 				GeoAngle defaultAngle = (GeoAngle) getKernel()
 						.getConstruction().getConstructionDefaults()
@@ -1202,7 +1202,7 @@ public class Application extends AbstractApplication implements
 		boolean antiAliasing = args.getBooleanValue("antiAliasing", true);
 		if (!antiAliasing) {
 			this.antialiasing = false;
-			this.getEuclidianView().setAntialiasing(antiAliasing);
+			this.getEuclidianView1().setAntialiasing(antiAliasing);
 			this.getEuclidianView2().setAntialiasing(antiAliasing);
 		}
 	}
@@ -1447,7 +1447,7 @@ public class Application extends AbstractApplication implements
 	}
 
 	@Override
-	public EuclidianView getEuclidianView() {
+	public EuclidianView getEuclidianView1() {
 		return (EuclidianView)euclidianView;
 	}
 
@@ -1487,18 +1487,19 @@ public class Application extends AbstractApplication implements
 	@Override
 	public EuclidianViewND getActiveEuclidianView() {
 		if (getGuiManager() == null) {
-			return getEuclidianView();
+			return getEuclidianView1();
 		}
 		return getGuiManager().getActiveEuclidianView();
 	}
 
+	//TODO: maybe we want to implement this for EV2 as well
 	public BufferedImage getExportImage(double maxX, double maxY)
 			throws OutOfMemoryError {
 
-		double scale = Math.min(maxX / getEuclidianView().getSelectedWidth(),
-				maxY / getEuclidianView().getSelectedHeight());
+		double scale = Math.min(maxX / getEuclidianView1().getSelectedWidth(),
+				maxY / getEuclidianView1().getSelectedHeight());
 
-		return getEuclidianView().getExportImage(scale);
+		return getEuclidianView1().getExportImage(scale);
 	}
 
 	public void setShowAxesSelected(JCheckBoxMenuItem cb) {
@@ -2998,8 +2999,8 @@ public class Application extends AbstractApplication implements
 			return;
 		}
 
-		if (getEuclidianView().hasStyleBar()) {
-			getEuclidianView().getStyleBar().updateStyleBar();
+		if (getEuclidianView1().hasStyleBar()) {
+			getEuclidianView1().getStyleBar().updateStyleBar();
 		}
 
 		if (hasEuclidianView2() && getEuclidianView2().hasStyleBar()) {

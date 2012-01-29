@@ -252,7 +252,7 @@ public class PrintPreview extends JDialog {
 						} else if (selItem == app.getPlain("Spreadsheet")){
 							m_target = new PrintGridable((Gridable)app.getGuiManager().getSpreadsheetView());
 						} else if (selItem == app.getPlain("DrawingPad")){
-							m_target = app.getEuclidianView();
+							m_target = app.getEuclidianView1();
 						} else if (selItem == app.getPlain("DrawingPad2")){
 							m_target = app.getGuiManager().getEuclidianView2();
 						} else if (selItem == app.getPlain("ConstructionProtocol")){
@@ -309,7 +309,7 @@ public class PrintPreview extends JDialog {
 		panelForTitleAndScaling = new JPanel(new BorderLayout());
 		
 		// show scale panel for euclidian view
-		AbstractEuclidianView ev = app.getEuclidianView();
+		AbstractEuclidianView ev = app.getEuclidianView1();
 		AbstractEuclidianView ev2 = app.getEuclidianView2();
 		app.clearSelectedGeos();
 		

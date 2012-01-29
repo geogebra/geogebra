@@ -54,7 +54,7 @@ public class EuclidianDockPanel extends EuclidianDockPanelAbstract {
 
 	@Override
 	protected JComponent loadStyleBar() {		
-		return (JComponent) app.getEuclidianView().getStyleBar();
+		return (JComponent) app.getEuclidianView1().getStyleBar();
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class EuclidianDockPanel extends EuclidianDockPanelAbstract {
 		if(panel == null) {
 			panel = new JPanel(new BorderLayout());
 			
-			panel.add(app.getEuclidianView().getJPanel(), BorderLayout.CENTER);
+			panel.add(app.getEuclidianView1().getJPanel(), BorderLayout.CENTER);
 			
 			consProtNav = app.getGuiManager().getConstructionProtocolNavigation();
 
@@ -89,6 +89,6 @@ public class EuclidianDockPanel extends EuclidianDockPanelAbstract {
 	 */
 	@Override
 	public EuclidianViewND getEuclidianView() {
-		return app.getEuclidianView();
+		return app.getEuclidianView1();
 	}
 }

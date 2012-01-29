@@ -9,6 +9,7 @@ import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.LayoutSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.euclidian.EuclidianView;
+import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.InputHandler;
 import geogebra.gui.dialog.InputDialog;
 import geogebra.gui.toolbar.Toolbar;
@@ -200,9 +201,9 @@ public class Layout implements SettingListener {
 	public void applyPerspective(Perspective perspective) {
 		// ignore axes & grid settings for the document perspective
 		if(!perspective.getId().equals("tmp")) {
-			EuclidianView ev = app.getEuclidianView();
+			EuclidianViewND ev = app.getActiveEuclidianView();
 
-			if (app.getEuclidianView() == ev)
+			if (app.getEuclidianView1() == ev)
 				app.getSettings().getEuclidian(1).setShowAxes(perspective.getShowAxes(), perspective.getShowAxes());
 			else if (!app.hasEuclidianView2EitherShowingOrNot())
 				ev.setShowAxes(perspective.getShowAxes(), false);
@@ -211,7 +212,7 @@ public class Layout implements SettingListener {
 			else
 				ev.setShowAxes(perspective.getShowAxes(), false);
 
-			if (app.getEuclidianView() == ev)
+			if (app.getEuclidianView1() == ev)
 				app.getSettings().getEuclidian(1).showGrid(perspective.getShowGrid());
 			else if (!app.hasEuclidianView2EitherShowingOrNot())
 				ev.showGrid(perspective.getShowGrid());
@@ -280,7 +281,7 @@ public class Layout implements SettingListener {
 		
 		// return the default perspective in case we're creating new preferences of
 		// a virgin application.		
-		AbstractEuclidianView ev = app.getEuclidianView();
+		AbstractEuclidianView ev = app.getEuclidianView1();
 		Perspective perspective = new Perspective(id);
 
 		// get the information about the split panes
@@ -303,7 +304,7 @@ public class Layout implements SettingListener {
 				}
 				panels[i].setEmbeddedDef(panels[i].calculateEmbeddedDef());
 			}
-			dockPanelInfo[i] = (DockPanelData)panels[i].createInfo();
+			dockPanelInfo[i] = panels[i].createInfo();
 		}
 
 		// Sort the dock panels as the entries with the smallest amount of
@@ -337,7 +338,7 @@ public class Layout implements SettingListener {
 	 */
 	public Perspective[] getPerspectives() {
 		Perspective[] array = new Perspective[perspectives.size()];
-		return (Perspective[])perspectives.toArray(array);
+		return perspectives.toArray(array);
 	}
 
 	/**
@@ -348,7 +349,7 @@ public class Layout implements SettingListener {
 		if(index >= perspectives.size())
 			throw new IndexOutOfBoundsException();
 		
-		return (Perspective)perspectives.get(index);
+		return perspectives.get(index);
 	}
 	
 	/**

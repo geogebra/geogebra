@@ -593,7 +593,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		if (focusedEuclidianPanel != null) {
 			return focusedEuclidianPanel.getEuclidianView();
 		}
-		return app.getEuclidianView();
+		return app.getEuclidianView1();
 	}
 
 	/**
@@ -820,7 +820,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 			layout.getDockManager().hide(viewId);
 
 			if (viewId == AbstractApplication.VIEW_SPREADSHEET) {
-				app.getEuclidianView().requestFocus();
+				app.getActiveEuclidianView().requestFocus();
 			}
 		}
 		toolbarPanel.validate();
@@ -1006,9 +1006,9 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		if (algebraInput != null)
 			algebraInput.setLabels();
 
-		if (app.getEuclidianView() != null
-				&& app.getEuclidianView().hasStyleBar())
-			app.getEuclidianView().getStyleBar().setLabels();
+		if (app.getEuclidianView1() != null
+				&& app.getEuclidianView1().hasStyleBar())
+			app.getEuclidianView1().getStyleBar().setLabels();
 
 		if (hasEuclidianView2() == true
 				&& app.getEuclidianView2().hasStyleBar())

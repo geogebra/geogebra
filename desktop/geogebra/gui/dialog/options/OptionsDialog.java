@@ -235,8 +235,8 @@ public class OptionsDialog extends JDialog implements WindowListener, SetLabels 
 							.createDefaultGeoElements();
 
 					// reset the stylebar defaultGeo
-					if (app.getEuclidianView().hasStyleBar())
-						app.getEuclidianView().getStyleBar()
+					if (app.getEuclidianView1().hasStyleBar())
+						app.getEuclidianView1().getStyleBar()
 								.restoreDefaultGeo();
 					if (app.hasEuclidianView2EitherShowingOrNot()
 							&& app.getEuclidianView2().hasStyleBar())
@@ -289,7 +289,7 @@ public class OptionsDialog extends JDialog implements WindowListener, SetLabels 
 
 	protected void createTabs() {
 		defaultsPanel = new OptionsDefaults(app);
-		euclidianPanel = new OptionsEuclidian(app, app.getEuclidianView());
+		euclidianPanel = new OptionsEuclidian(app, app.getActiveEuclidianView());
 		spreadsheetPanel = new OptionsSpreadsheet(app, app.getGuiManager()
 				.getSpreadsheetView());
 		casPanel = new OptionsCAS(app);

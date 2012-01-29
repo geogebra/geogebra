@@ -79,7 +79,7 @@ public class Application extends AbstractApplication {
 		fontManager = new FontManager();
 		setFontSize(12);
 		setLabelDragsEnabled(false);
-		getEuclidianView().setCapturingThreshold(20);
+		AbstractEuclidianView.setCapturingThreshold(20);
 
 
 		getScriptManager();//.ggbOnInit();//this is not called here because we have to delay it until the canvas is first drawn
@@ -235,16 +235,16 @@ public class Application extends AbstractApplication {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 		return null;
 	}
-
+	
 	@Override
-	public EuclidianView getEuclidianView() {
+	public EuclidianView getEuclidianView1() {
 		return (EuclidianView)euclidianView;
 	}
 
 	@Override
 	public EuclidianViewInterfaceCommon getActiveEuclidianView() {
 //		if (getGuiManager() == null) {
-			return getEuclidianView();
+			return getEuclidianView1();
 //		}
 //		return getGuiManager().getActiveEuclidianView();
 	}

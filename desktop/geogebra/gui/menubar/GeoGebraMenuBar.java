@@ -216,7 +216,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 						else if (dm.getFocusedPanel()==dm.getPanel(AbstractApplication.VIEW_ALGEBRA))
 							new geogebra.export.PrintPreview(app, app.getGuiManager().getAlgebraView(), PageFormat.LANDSCAPE);
 						else if (dm.getFocusedPanel()==dm.getPanel(AbstractApplication.VIEW_EUCLIDIAN))
-							new geogebra.export.PrintPreview(app, app.getEuclidianView(), PageFormat.LANDSCAPE);
+							new geogebra.export.PrintPreview(app, app.getEuclidianView1(), PageFormat.LANDSCAPE);
 						//if there is no view in focus (e.g. just closed the focused view),
 						// it prints the GeoGebra main window
 						else //if (dm.getFocusedPanel()==null)

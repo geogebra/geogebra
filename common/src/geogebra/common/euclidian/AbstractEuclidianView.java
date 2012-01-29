@@ -235,7 +235,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 	// object is hit if mouse is within this many pixels
 	// (more for points, see DrawPoint)
-	private int capturingThreshold = 3;
+	private static int capturingThreshold = 3;
 
 
 	protected AbstractApplication application;//private
@@ -320,11 +320,11 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		}
 	}
 
-	public void setCapturingThreshold(int i) {
+	public static void setCapturingThreshold(int i) {
 		capturingThreshold = i;
 	}
 
-	public int getCapturingThreshold() {
+	public static int getCapturingThreshold() {
 		return capturingThreshold;
 	}
 
@@ -4094,10 +4094,6 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			}
 			euclidianController.getPen().doDrawPoints(ge, ptList);
 
-		}
-		
-		public void resetMaxLayerUsed() {
-			getApplication().maxLayerUsed = 0;
 		}
 
 		public void resetXYMinMaxObjects() {
