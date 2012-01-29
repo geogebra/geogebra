@@ -827,5 +827,7 @@ public class Application extends AbstractApplication {
 		// don't need to load gui jar as reset image is in main jar
 		return imageManager.getInternalImage(GuiResources.INSTANCE.navPause());
 	}
+	
+
 
 }

@@ -1,5 +1,8 @@
 package geogebra.web.main;
 
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
+
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.AbstractApplication;
@@ -23,6 +26,10 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI implements JavaScript
     public String getBase64(boolean includeThumbnail) {
 	    // TODO Auto-generated method stub
 	    return null;
+    }
+
+    public Context2d getContext2D() {
+	    return ((Application)app).getCanvas().getContext2d();
     }
 
 	
