@@ -673,7 +673,7 @@ public class Application extends AbstractApplication {
 	@Override
     public boolean isRightClickEnabled() {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return false;
+	    return true;
     }
 	
 	public native void callNativeJavaScript(String funcname) /*-{
