@@ -39,7 +39,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 				</xs:annotation>
 				</xs:element>				
 			</xs:sequence>
-			<xs:attribute name="format" type="xs:double" use="required"/>
+			<xs:attribute name="format" type="xs:double" use="required">
+				<xs:annotation>
+					<xs:documentation>
+					Deprecated since 4.0, use version insted.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="version" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	
@@ -399,6 +406,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 						<xs:attribute name="show" type="xs:boolean"/>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="clipping">
+					<xs:complexType>
+						<xs:attribute name="use" type="xs:boolean"/>
+						<xs:attribute name="show" type="xs:boolean"/>
+					</xs:complexType>
+				</xs:element>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -422,6 +435,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element name="continuous" type="boolVal" minOccurs="0"/>
+				<xs:element name="usePathAndRegionParameters" type="boolVal" minOccurs="0"/>
 				<xs:element name="decimals" type="intVal"/>
 				<xs:element name="significantFigures" type="intVal" minOccurs="0"/>
 				<xs:element name="angleUnit">
