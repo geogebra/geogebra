@@ -160,7 +160,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	}
 
 	public void onMouseWheel(MouseWheelEvent event) {
-		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
+		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),event.getDeltaY());
 		 wrapMouseWheelMoved(e);
 		 e.release();
 	}
