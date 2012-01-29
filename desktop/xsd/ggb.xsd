@@ -39,14 +39,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 				</xs:annotation>
 				</xs:element>				
 			</xs:sequence>
-			<xs:attribute name="format" type="xs:double" use="required">
+			<xs:attribute name="format" type="xs:double">
 				<xs:annotation>
 					<xs:documentation>
-					Deprecated since 4.0, use version insted.
+					Deprecated since 4.2, use version insted.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
-			<xs:attribute name="version" type="xs:string" use="required"/>
+			<xs:attribute name="version" type="xs:string"/>
 		</xs:complexType>
 	</xs:element>
 	
