@@ -693,6 +693,11 @@ class Intersect(GenericMethods):
             yield i
 
 
+class List(Element):
+    def init(self, *args):
+        self.geo = api.geoList([arg.geo for arg in args])
+
+
 class Selection(object):
     @property
     def all(self):
@@ -734,6 +739,7 @@ class Geo(object):
         API.GeoConicClass: Conic,
         API.GeoLocusClass: Locus,
         API.GeoButtonClass: Button,
+        API.GeoListClass: List,
     }
     _revmap = dict((v, k) for k, v in _map.iteritems())
     _cache = {}

@@ -107,14 +107,14 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	
 	public void reset() {
 		if (pyInterface != null) {
+			// AbstractApplication.debug("*** reset ***");
 			pyInterface.reset();
 		}	
 	} 
 	
 	public void clearView() {
 		if (pyInterface != null) {
-			/* Quick fix: initscript is not reset at this stage */
-			PythonAPI.getInstance().setInitScript("");
+			// AbstractApplication.debug("*** clearView ***");
 			pyInterface.reset();
 		}
 	}

@@ -41,6 +41,8 @@ class Interface(PythonScriptInterface):
             'Parabola': objects.Parabola,
             'Locus': objects.Locus,
             'Text': objects.Text,
+            'Button': objects.Button,
+            'List': objects.List,
             'Intersect': objects.Intersect,
             'ggbApplet': ggbapi,
             'geo': self.geo,
@@ -50,6 +52,7 @@ class Interface(PythonScriptInterface):
             'input': input,
             'debug': debug,
             'alert': alert,
+            '__api__': api,
         }
         self.namespace.update(objects.unary_functions)
         self.handling_event = False

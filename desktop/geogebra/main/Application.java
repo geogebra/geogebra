@@ -788,6 +788,13 @@ public class Application extends AbstractApplication implements
 	}
 
 	public void fileNew() {
+		kernel.resetLibraryJavaScript();
+		
+		// This needs to happen *before* clearConstruction is called
+		// as clearConstruction calls notifyClearView which triggers the
+		// updating of the Python Script
+		kernel.resetLibraryPythonScript();
+
 		// clear all
 		clearConstruction();
 
@@ -807,9 +814,6 @@ public class Application extends AbstractApplication implements
 		if (hasEuclidianView2EitherShowingOrNot()) {
 			getEuclidianView2().resetXYMinMaxObjects();
 		}
-
-		kernel.resetLibraryJavaScript();
-		kernel.resetLibraryPythonScript();
 
 		if (scriptManager != null) {
 			scriptManager.resetListeners();

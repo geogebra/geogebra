@@ -28,6 +28,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -36,6 +37,7 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -46,8 +48,10 @@ import geogebra.common.plugin.Operation;
 import geogebra.main.Application;
 
 /**
- * @author arno API for interaction with Python - could be used for other
- *         languages as well This class must not be obfuscated!
+ * API for interaction with Python - could be used for other
+ * languages as well This class must not be obfuscated!
+ * @author arno 
+ * 
  */
 public class PythonAPI {
 
@@ -81,9 +85,12 @@ public class PythonAPI {
 	public static final Class<GeoBoolean> GeoBooleanClass = GeoBoolean.class;
 	@SuppressWarnings("javadoc")
 	public static final Class<GeoLocus> GeoLocusClass = GeoLocus.class;
-
+	@SuppressWarnings("javadoc")
+	public static final Class<GeoList> GeoListClass = GeoList.class;
+	
 	/**
-	 * @author arno Wrapper for various kinds of ExpressionValues
+	 * Wrapper for various kinds of ExpressionValues
+	 * @author arno 
 	 */
 	public static class Expression {
 
@@ -186,7 +193,9 @@ public class PythonAPI {
 	}
 
 	/**
-	 * @author arno Wrapper for various GeoElements
+	 * @author arno
+	 * 
+	 * Wrapper for various GeoElements
 	 */
 	public static class Geo extends Expression {
 
@@ -375,6 +384,23 @@ public class PythonAPI {
 
 		
 		/**
+		 * Get the trace value of the geo
+		 * @return true if the geo is traceable and being traced
+		 */
+		public boolean getTrace() {
+			return geo.isTraceable() && ((Traceable) geo).getTrace();
+		}
+		
+		/**
+		 * Set whether the geo is being traced or not
+		 * @param trace the trace value
+		 */
+		public void setTrace(boolean trace) {
+			if (geo.isTraceable()) {
+				((Traceable) geo).setTrace(trace);
+			}
+		}
+		/**
 		 * @return the line thickness
 		 */
 
@@ -548,10 +574,10 @@ public class PythonAPI {
 		}
 	}
 
-	private Application app;
-	private Kernel kernel;
-	private Construction cons;
-	private AlgebraProcessor algProcessor;
+	public Application app;
+	public Kernel kernel;
+	public Construction cons;
+	public AlgebraProcessor algProcessor;
 
 	private static PythonAPI instance = null;
 	
@@ -913,7 +939,22 @@ public class PythonAPI {
 		return new Geo(
 				kernel.Parabola(null, (GeoPoint2) s.geo, (GeoLine) l.geo));
 	}
-
+	
+	/* Lists */
+	
+	/**
+	 * @param geos
+	 * @return new geoList
+	 */
+	public Geo geoList(Geo[] geos) {
+		ArrayList<GeoElement> lst = new ArrayList<GeoElement>();
+		GeoElement[] unwrapped = unwrapGeos(geos);
+		for (int i = 0; i < unwrapped.length; i++) {
+			lst.add(unwrapped[i]);
+		}
+		return new Geo(kernel.List(null, lst, true));
+	}
+	
 	/*
 	 * Creating expressions
 	 */
