@@ -122,4 +122,9 @@ public class MouseEvent extends AbstractEvent {
 	    return e;
     }
 
+	@Override
+    public boolean isPopupTrigger() {
+	    return false;
+    }
+
 }

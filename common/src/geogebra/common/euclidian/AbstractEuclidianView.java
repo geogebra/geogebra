@@ -1343,6 +1343,21 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		}
 
 	}
+	
+	public MyButton getHitButton(geogebra.common.awt.Point p) {
+
+		
+
+		DrawableIterator it = allDrawableList.getIterator();
+		while (it.hasNext()) {
+			Drawable d = it.next();
+			if (d.hit(p.x, p.y) && d instanceof DrawButton) {				
+					return ((DrawButton)d).myButton;
+			}
+		}
+		return null;
+	}
+
 
 	/**
 	 * returns GeoElement whose label is at screen coords (x,y).

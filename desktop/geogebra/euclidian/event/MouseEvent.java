@@ -97,4 +97,9 @@ public class MouseEvent extends AbstractEvent {
 		return (event.getButton() == 2) && (event.getClickCount() == 1);
 	}
 
+	@Override
+	public boolean isPopupTrigger() {
+		return event.isPopupTrigger();
+	}
+
 }

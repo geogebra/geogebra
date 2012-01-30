@@ -19,6 +19,8 @@ public class MyButton {
 	private String text;
 
 	private Font font;
+
+	private boolean pressed,draggedOrContext;
 	public MyButton(GeoButton button, AbstractEuclidianView view) {
 		this.geoButton = button;
 		this.view = view;
@@ -72,8 +74,11 @@ public class MyButton {
 		} else {
 			bg2 = bg.brighter();
 		}
-		p = geogebra.common.factories.AwtFactory.prototype.newGradientPaint(x, y, bg2, x, y+getHeight(), bg);
-
+		if(!pressed){
+			p = geogebra.common.factories.AwtFactory.prototype.newGradientPaint(x, y, bg2, x, y+getHeight(), bg);
+		}else{
+			p = geogebra.common.factories.AwtFactory.prototype.newGradientPaint(x, y, bg, x, y+getHeight(), bg2);
+		}
 		geogebra.common.awt.Paint oldPaint = g.getPaint();
 
 		g.setPaint(p);
@@ -170,5 +175,34 @@ public class MyButton {
 	public void setFont(Font fontCanDisplay) {
 		this.font = fontCanDisplay;
 		
+	}
+
+
+
+
+	public void setPressed(boolean b) {
+		if(b){
+			draggedOrContext = false;
+		}
+		//releasing
+		else if(!draggedOrContext){
+			geoButton.runScripts(null);
+		}
+			
+		pressed = b;
+	}
+
+
+
+
+	public void setDraggedOrContext(boolean b) {
+		draggedOrContext = b;
+	}
+
+
+
+
+	public boolean getDraggedOrContext() {
+		return draggedOrContext;
 	}
 }

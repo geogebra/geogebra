@@ -305,6 +305,8 @@ public abstract class AbstractEuclidianController {
 	protected boolean textfieldHasFocus = false;
 
 	protected String sliderValue = null;
+
+	private MyButton pressedButton;
 	
 	protected static final int MOVE_NONE = 101;
 	protected static final int MOVE_POINT = 102;
@@ -5651,7 +5653,10 @@ public abstract class AbstractEuclidianController {
 					// hits = view.getTopHits(mouseLoc);
 					if (!hits.isEmpty()) {
 						GeoElement hit = hits.get(0);
-						if ((hit != null) && hit.isGeoBoolean()) {
+						if ((hit != null) && hit.isGeoButton()) {
+							app.removeSelectedGeo(hit);
+						}
+						else if ((hit != null) && hit.isGeoBoolean()) {
 							GeoBoolean bool = (GeoBoolean) (hits.get(0));
 							if (!bool.isCheckboxFixed()) { // otherwise changed on mouse
 															// down
@@ -6911,11 +6916,12 @@ public abstract class AbstractEuclidianController {
 
 	protected void wrapMouseDragged(AbstractEvent event) {
 		sliderValue = null;
-	
 		if (textfieldHasFocus) {
 			return;
 		}
-	
+		if(pressedButton!=null){
+			pressedButton.setDraggedOrContext(true);
+		}
 		if ((mode == EuclidianConstants.MODE_PEN)
 				|| (mode == EuclidianConstants.MODE_FREEHAND)) {
 			pen.handleMousePressedForPenMode(event, null);
@@ -7528,6 +7534,17 @@ public abstract class AbstractEuclidianController {
 			pen.handleMousePressedForPenMode(event, hits);
 			return;
 		}
+		else{
+			
+				this.pressedButton = view.getHitButton(mouseLoc);
+				if(pressedButton!=null){
+				pressedButton.setPressed(true);
+				pressedButton.setDraggedOrContext(event.isMetaDown()
+						|| event.isPopupTrigger());
+				}
+				//TODO:repaint?
+			
+		}
 	
 		// GeoElement geo;
 		transformCoords();
@@ -7798,7 +7815,12 @@ public abstract class AbstractEuclidianController {
 	}
 
 	protected void wrapMouseReleased(AbstractEvent event) {
-		
+		if(pressedButton!=null){
+			pressedButton.setDraggedOrContext(pressedButton.getDraggedOrContext()
+					|| event.isMetaDown() || event.isPopupTrigger());
+			pressedButton.setPressed(false);	
+			pressedButton=null;
+		}
 		sliderValue = null;
 	
 		if (event != null) {

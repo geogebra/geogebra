@@ -30,4 +30,6 @@ public abstract class AbstractEvent {
 
 	public abstract boolean isMiddleClick();
 
+	public abstract boolean isPopupTrigger();
+
 }

@@ -98,4 +98,9 @@ public class TouchEvent extends AbstractEvent {
 		return new TouchEvent(touch);
 	}
 
+	@Override
+    public boolean isPopupTrigger() {
+	    return false;
+    }
+
 }

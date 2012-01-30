@@ -270,7 +270,7 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 
 	/**get the hits recorded */
 	public Hits getHits();
-
+	public MyButton getHitButton(geogebra.common.awt.Point p);
 	public void setDefaultCursor();
 
 	public void setHitCursor();
