@@ -155,7 +155,7 @@ class MCTriangle extends DynamicMeshElement2 {
 	 * @param func the function being modeled
 	 */
 	MCTriangle(double[][] cs, GeoFunctionNVar func) {
-		super(2, 1, 0, false, 0, null, null);
+		super(null, 0, false, 0);
 
 		this.func = func;
 
@@ -324,7 +324,7 @@ class MCTriangle extends DynamicMeshElement2 {
 	}
 
 	@Override
-	protected void setHidden(DynamicMeshTriList2 drawList, boolean val) {
+	protected void setHidden(boolean val) {
 		// TODO Auto-generated method stub
 
 	}
@@ -336,7 +336,7 @@ class MCTriangle extends DynamicMeshElement2 {
 	}
 
 	@Override
-	protected void cullChildren(double radSq, DynamicMeshTriList2 drawList) {
+	protected void cullChildren() {
 		// TODO Auto-generated method stub
 
 	}

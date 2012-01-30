@@ -25,6 +25,8 @@ public class DrawCurve3D extends Drawable3DCurves {
 	
 	private double savedRadius;
 	
+	private double[] cullingBox;
+	
 	private final double radiusMaxFactor = 1.1;
 	private final double radiusMinFactor = 0.9;
 	
@@ -40,7 +42,7 @@ public class DrawCurve3D extends Drawable3DCurves {
 			tree = new CurveTree(curve, a_view3d);
 		else {
 			updateRadius();
-			mesh = new CurveMesh(curve, savedRadius,(float)a_view3d.getScale());
+			mesh = new CurveMesh(curve, cullingBox,(float)a_view3d.getScale());
 		}
 	}
 	
@@ -95,7 +97,7 @@ public class DrawCurve3D extends Drawable3DCurves {
 		}
 	}
 	
-		/** gets the viewing radius based on the viewing frustum 
+	/** gets the viewing radius based on the viewing frustum 
 	 */
 	private double currentRadius() {
 		EuclidianView3D view = getView3D();

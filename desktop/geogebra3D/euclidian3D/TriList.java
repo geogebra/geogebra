@@ -216,8 +216,8 @@ public class TriList implements Iterable<TriListElem>{
 	 */
 	public TriListElem add(float[] vertices, float[] normals) {
 
-		// if (!inputValid(vertices, normals))
-		// return null;
+//		 if (!inputValid(vertices, normals))
+//		 return null;
 
 		TriListElem t = new TriListElem();
 		t.setPrev(back);
@@ -414,6 +414,7 @@ public class TriList implements Iterable<TriListElem>{
 			}
 
 			public void remove() {
+				throw new UnsupportedOperationException();
 			}
 		};
 	}
@@ -426,7 +427,7 @@ public class TriList implements Iterable<TriListElem>{
 	 * @return false if the triangle is null or already visible, otherwise true
 	 */
 	public boolean show(TriListElem t) {
-
+		
 		if (t == null || t.getIndex() != -1)
 			return false;
 

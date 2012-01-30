@@ -20,7 +20,7 @@ public class DrawImplicitFunction3Var extends Drawable3DSurfaces {
 	/**
 	 * common constructor
 	 * @param a_view3d
-	 * @param function
+	 * @param function The function being rendered
 	 */
 	public DrawImplicitFunction3Var(EuclidianView3D a_view3d, GeoFunctionNVar function) {
 		super(a_view3d, function);

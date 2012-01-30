@@ -9,19 +9,6 @@ import java.nio.FloatBuffer;
  */
 public interface DynamicMeshTriList2 {
 
-	// /**
-	// * @param capacity
-	// * the maximum number of triangles
-	// * @param margin
-	// * free triangle amount before considered full
-	// * @param trisInChunk
-	// * amount of triangles in each chunk
-	// */
-	// protected DynamicMeshTriList2(int capacity, int margin, int trisInChunk)
-	// {
-	// super(capacity, margin, trisInChunk, true);
-	// }
-
 	/**
 	 * @param e
 	 *            the element to add
@@ -30,15 +17,10 @@ public interface DynamicMeshTriList2 {
 
 	/**
 	 * @param e
-	 *            the element to remove
-	 * @param i
+	 *            the element to add
+	 * @param i triangle index (used for surfaces)
 	 */
 	abstract public void add(DynamicMeshElement2 e, int i);
-
-	// /**
-	// * @return the total visible error
-	// */
-	// abstract public double getError();
 
 	/**
 	 * @param e
@@ -50,7 +32,7 @@ public interface DynamicMeshTriList2 {
 	/**
 	 * @param e
 	 *            the element to remove
-	 * @param i
+	 * @param i triangle index (used for surfaces)
 	 * @return true if the element was removed, otherwise false
 	 */
 	abstract public boolean remove(DynamicMeshElement2 e, int i);
@@ -64,37 +46,41 @@ public interface DynamicMeshTriList2 {
 
 	/**
 	 * @param t
-	 *            the elemet to attempt to show
+	 *            the element to attempt to show
 	 * @return true if the element was shown, otherwise false
 	 */
 	abstract public boolean show(DynamicMeshElement2 t);
 
+	/**
+	 * Reevaluates vertices, error, etc. for all elements in the list.
+	 * @param currentVersion current mesh version
+	 */
 	public void recalculate(int currentVersion);
 
-	// TriListElem e = front;
-	// LinkedList<DynamicMeshElement2> list = new
-	// LinkedList<DynamicMeshElement2>();
-	// DynamicMeshElement2 el;
-	// while (e != null) {
-	// el = (DynamicMeshElement2) e.getOwner();
-	// if(el.lastVersion!=currentVersion)
-	// list.add(el);
-	// e=e.getNext();
-	// }
-	// Iterator<DynamicMeshElement2> it = list.iterator();
-	// while(it.hasNext()){
-	// DynamicMeshElement2 a = it.next();
-	// reinsert(a,currentVersion);
-	// }
-	// }
+	/**
+	 * Reinserts an element into the list - used when an element is updated
+	 * @param a element to reinsert
+	 * @param version current version of the mesh
+	 */
+	abstract void reinsert(DynamicMeshElement2 a, int version);
 
-	abstract void reinsert(DynamicMeshElement2 a, int currentVersion);
-
+	/**
+	 * @return the triangle buffer
+	 */
 	public abstract FloatBuffer getTriangleBuffer();
 
+	/**
+	 * @return the float buffer
+	 */
 	public abstract FloatBuffer getNormalBuffer();
 
+	/**
+	 * @return number of triangles in the list
+	 */
 	public abstract int getTriAmt();
 
+	/**
+	 * @return number of chunks in the list
+	 */
 	public abstract int getChunkAmt();
 }

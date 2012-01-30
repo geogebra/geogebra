@@ -4,7 +4,6 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Functional2Var;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra3D.euclidian3D.plots.MarchingCubes;
-import geogebra3D.euclidian3D.plots.ParametricSurfaceMesh;
 import geogebra3D.euclidian3D.plots.SurfaceMesh2;
 
 import java.nio.FloatBuffer;
@@ -287,37 +286,7 @@ public class PlotterSurface {
 		}
 		manager.endGeometry();
 	}
-	
-	public void draw(ParametricSurfaceMesh tree){
 		
-		FloatBuffer b1 = tree.getVertices();
-		FloatBuffer b2 = tree.getNormals();
-		int cnt = tree.getTriangleCount();
-		manager.startGeometry(Manager.TRIANGLES);
-		
-		/*TODO use fading texture
-		float uT = getTextureCoord(1, uNb, uMinFadeNb, uMaxFadeNb);
-		float vT = getTextureCoord(1, vNb, vMinFadeNb, vMaxFadeNb);	
-		manager.texture(uT, vT);
-		*/
-		manager.texture(0, 0);
-		
-		float[] f = new float[9]; float[] n = new float[9];
-		b1.rewind(); b2.rewind();
-		for(int i = 0; i < cnt; i++) {
-			b1.get(f);b2.get(n);
-			manager.normal(n[0],n[1],n[2]);
-			manager.vertex(f[0],f[1],f[2]);
-			manager.normal(n[3],n[4],n[5]);
-			manager.vertex(f[3],f[4],f[5]);
-			manager.normal(n[6],n[7],n[8]);
-			manager.vertex(f[6],f[7],f[8]);
-		}
-		manager.endGeometry();
-	}
-	
-
-	
 	public void draw(MarchingCubes mc, Renderer renderer) {
  		FloatBuffer b1 = mc.getVertices();
 		FloatBuffer b2 = mc.getNormals();

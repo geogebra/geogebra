@@ -4,19 +4,20 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import geogebra3D.euclidian3D.BucketAssigner;
-import geogebra3D.euclidian3D.TriListElem;
-
 
 /**
  * An approximate priority queue using buckets and linked lists. Insertion and
  * deletion are fast.
  * 
  */
-public class FastBucketPQ{
+public class FastBucketPQ {
+
 	/** total amount of buckets */
 	private static final int DEFAULT_BUCKET_AMT = 2048;
+
 	/** array of front of buckets */
 	protected DynamicMeshElement2[] buckets;
+
 	/** array of back of buckets */
 	protected DynamicMeshElement2[] backs;
 
@@ -39,8 +40,10 @@ public class FastBucketPQ{
 	 * @param ba
 	 *            the bucket assigner to use
 	 * @param reverse
+	 *            if true, elements are sorted reversely
 	 */
-	protected FastBucketPQ(BucketAssigner<DynamicMeshElement2> ba, boolean reverse) {
+	protected FastBucketPQ(BucketAssigner<DynamicMeshElement2> ba,
+			boolean reverse) {
 		this(DEFAULT_BUCKET_AMT, ba, reverse);
 	}
 
@@ -50,9 +53,10 @@ public class FastBucketPQ{
 	 * @param ba
 	 *            the bucket assigner to use
 	 * @param reverse
+	 *            if true, elements are sorted reversely
 	 */
-	@SuppressWarnings("unchecked")
-	public FastBucketPQ(int bucketAmt, BucketAssigner<DynamicMeshElement2> ba, boolean reverse) {
+	public FastBucketPQ(int bucketAmt, BucketAssigner<DynamicMeshElement2> ba,
+			boolean reverse) {
 		this.bucketAmt = bucketAmt;
 		buckets = new DynamicMeshElement2[bucketAmt];
 		backs = new DynamicMeshElement2[bucketAmt];
@@ -64,20 +68,20 @@ public class FastBucketPQ{
 		int i = bucketAssigner.getBucketIndex(el, bucketAmt);
 		return reverse ? bucketAmt - 1 - i : i;
 	}
-	
+
 	private boolean addToZeroBucket(DynamicMeshElement2 obj) {
 		if (null == obj)
 			throw new NullPointerException();
 
-		if (obj.owner!=null)
+		if (obj.bucket_owner != null)
 			return false;
 
 		int bucketIndex = 0;
 
 		// update pointers
-		obj.prev = backs[bucketIndex];
+		obj.bucket_prev = backs[bucketIndex];
 		if (backs[bucketIndex] != null)
-			backs[bucketIndex].next = obj;
+			backs[bucketIndex].bucket_next = obj;
 		backs[bucketIndex] = obj;
 		if (buckets[bucketIndex] == null)
 			buckets[bucketIndex] = obj;
@@ -86,11 +90,11 @@ public class FastBucketPQ{
 		if (bucketIndex > maxBucket)
 			maxBucket = bucketIndex;
 
-		obj.bucketIndex = bucketIndex;
+		obj.bucket_index = bucketIndex;
 
 		count++;
 
-		obj.owner=this;
+		obj.bucket_owner = this;
 
 		return true;
 	}
@@ -98,27 +102,24 @@ public class FastBucketPQ{
 	/**
 	 * Adds an element to the queue.
 	 * 
-	 * @param ob
+	 * @param obj
 	 *            the object to be added.
 	 * @return false if the element is already in the queue. Otherwise true.
 	 */
 	public boolean add(DynamicMeshElement2 obj) {
-		
-		if(obj instanceof DynamicMeshElement2 && ((DynamicMeshElement2)obj).cullInfo==CullInfo2.OUT)
+
+		if (obj.cullInfo == CullInfo2.OUT)
 			return addToZeroBucket(obj);
 
-		if (null == obj)
-			throw new NullPointerException();
-
-		if (obj.owner!=null)
+		if (obj.bucket_owner != null)
 			return false;
 
 		int bucketIndex = getIndex(obj);
-		
+
 		// update pointers
-		obj.prev = backs[bucketIndex];
+		obj.bucket_prev = backs[bucketIndex];
 		if (backs[bucketIndex] != null)
-			backs[bucketIndex].next = obj;
+			backs[bucketIndex].bucket_next = obj;
 		backs[bucketIndex] = obj;
 		if (buckets[bucketIndex] == null)
 			buckets[bucketIndex] = obj;
@@ -127,11 +128,11 @@ public class FastBucketPQ{
 		if (bucketIndex > maxBucket)
 			maxBucket = bucketIndex;
 
-		obj.bucketIndex = bucketIndex;
+		obj.bucket_index = bucketIndex;
 
 		count++;
 
-		obj.owner=this;
+		obj.bucket_owner = this;
 
 		return true;
 	}
@@ -143,54 +144,58 @@ public class FastBucketPQ{
 	 */
 	public boolean remove(DynamicMeshElement2 elem) {
 		// ignore element if not in queue
-		if (elem == null || elem.owner!=this)
+		if (elem == null || elem.bucket_owner != this)
 			return false;
 
-		int bi = elem.bucketIndex;
+		int bi = elem.bucket_index;
 
 		// update pointers of elements before/after in queue
-		if (elem.next != null)
-			elem.next.prev = elem.prev;
-		if (elem.prev != null)
-			elem.prev.next = elem.next;
+		if (elem.bucket_next != null)
+			elem.bucket_next.bucket_prev = elem.bucket_prev;
+		if (elem.bucket_prev != null)
+			elem.bucket_prev.bucket_next = elem.bucket_next;
 
 		// update bucket list and max bucket index as needed
 		if (buckets[bi] == elem)
-			buckets[bi] = elem.next;
+			buckets[bi] = elem.bucket_next;
 
 		if (backs[bi] == elem)
-			backs[bi] = elem.prev;
+			backs[bi] = elem.bucket_prev;
 
 		while (maxBucket > 0 && buckets[maxBucket] == null)
 			maxBucket--;
 
-		elem.next = elem.prev = null;
+		elem.bucket_next = elem.bucket_prev = null;
 
-		elem.owner=null;
+		elem.bucket_owner = null;
 
 		count--;
 
 		return true;
 	}
-	
-	public void debugErrorTest(){
-		//find the bucket of maximum error and compare it to the front element
+
+	/**
+	 * Finds the bucket of maximum error and compares it to the front element.
+	 * Used for debugging purposes only.
+	 */
+	public void debugErrorTest() {
 		double maxError = -100;
 		int buck = -1;
 		double frontError = peek().getError();
-		
-		for(int i=0;i<=maxBucket;i++) {
+
+		for (int i = 0; i <= maxBucket; i++) {
 			DynamicMeshElement2 e = buckets[i];
-			while(e!=null){
+			while (e != null) {
 				double err = e.getError();
-				if(err>maxError){
-					maxError=err;
-					buck=i;
+				if (err > maxError) {
+					maxError = err;
+					buck = i;
 				}
-				e=e.next;
+				e = e.bucket_next;
 			}
 		}
-		System.out.println("Maximum error: "+maxError+"\tBucket: "+buck+"\tFront error: "+frontError);
+		System.out.println("Maximum error: " + maxError + "\tBucket: " + buck
+				+ "\tFront error: " + frontError);
 	}
 
 	/**
@@ -200,6 +205,10 @@ public class FastBucketPQ{
 		return buckets[maxBucket];
 	}
 
+	/**
+	 * Retrieves and removes the first element in the queue.
+	 * @return top element in first bucket, or null if all buckets appear to be empty
+	 */
 	public DynamicMeshElement2 poll() {
 		if (maxBucket == 0)
 			return null;
@@ -207,30 +216,42 @@ public class FastBucketPQ{
 		remove(elem);
 		return elem;
 	}
-	
+
+	/**
+	 * Retrieves and removes the first element in the queue. Not stable if queue is empty.
+	 * @return top element in first bucket
+	 */
 	public DynamicMeshElement2 forcePoll() {
 		DynamicMeshElement2 elem = buckets[maxBucket];
 		remove(elem);
 		return elem;
 	}
-	
+
+	/** 
+	 * Forces all elements in queue to recalculate vertices, error, etc.
+	 * @param currentVersion Current version of the mesh - increments when the function is changed
+	 * @param triList Triangle list used.
+	 */
 	public void recalculate(int currentVersion, DynamicMeshTriList2 triList) {
 		LinkedList<DynamicMeshElement2> list = new LinkedList<DynamicMeshElement2>();
-		for(int i=0;i<=maxBucket;i++) {
+		for (int i = 0; i <= maxBucket; i++) {
 			DynamicMeshElement2 e = buckets[i];
-			while(e!=null){
-				if(e.lastVersion!=currentVersion)
+			while (e != null) {
+				if (e.lastVersion != currentVersion)
 					list.add(e);
-				e=e.next;
+				e = e.bucket_next;
 			}
 		}
 		Iterator<DynamicMeshElement2> it = list.iterator();
-		while(it.hasNext()){
+		while (it.hasNext()) {
 			DynamicMeshElement2 a = it.next();
-			triList.reinsert(a,currentVersion);
+			triList.reinsert(a, currentVersion);
 		}
 	}
 
+	/**
+	 * @return number of elements in queue
+	 */
 	public int size() {
 		return count;
 	}

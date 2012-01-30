@@ -1,9 +1,7 @@
 package geogebra3D.euclidian3D;
 
-import geogebra.common.kernel.Matrix.Coords;
 import geogebra3D.euclidian3D.opengl.PlotterSurface;
 import geogebra3D.euclidian3D.opengl.Renderer;
-import geogebra3D.euclidian3D.plots.ParametricSurfaceMesh;
 import geogebra3D.euclidian3D.plots.SurfaceMesh2;
 import geogebra3D.kernel3D.GeoSurfaceCartesian3D;
 
@@ -14,11 +12,17 @@ import geogebra3D.kernel3D.GeoSurfaceCartesian3D;
  */
 public class DrawSurface3D extends Drawable3DSurfaces {
 	
-	private SurfaceMesh2 mesh;	
-	private double savedRadius;
+	/** The mesh currently being rendered - is occasionally reset */
+	private SurfaceMesh2 mesh;
 	
+	/** The function being rendered */
 	GeoSurfaceCartesian3D surface;
-	private double[] params = new double[4];
+	
+	/** current domain for the function on the format {xmin, xmax, ymin, ymax} */
+	private double[] domain = new double[4];
+	
+	/** Current culling box - set to view3d.(x|y|z)(max|min) */
+	private double[] cullingBox = new double[6];
 
 	/**
 	 * common constructor
@@ -38,18 +42,48 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		);
 		*/
 		
-		setParams();
+		updateDomain();
 		
-		updateRadius();
+		updateCullingBox();
 		
-		mesh = new SurfaceMesh2(surface, savedRadius, false);
+		mesh = new SurfaceMesh2(surface, cullingBox, domain);
 	}
 	
-	private void setParams(){
-		params[0]=surface.getMinParameter(0);
-		params[1]=surface.getMaxParameter(0);
-		params[2]=surface.getMinParameter(1);
-		params[3]=surface.getMaxParameter(1);
+	private boolean updateDomain(){
+		boolean changed = false;
+		
+		double t = surface.getMinParameter(0);
+		if(t != domain[0]) {
+			changed = true;
+			domain[0] = t;
+		}
+		t = surface.getMaxParameter(0);
+		if(t != domain[1]) {
+			changed = true;
+			domain[1] = t;
+		}
+		t = surface.getMinParameter(1);
+		if(t != domain[2]) {
+			changed = true;
+			domain[2] = t;
+		}
+		t = surface.getMaxParameter(1);
+		if(t != domain[3]) {
+			changed = true;
+			domain[3] = t;
+		}
+		
+		return changed;
+	}
+	
+	private void updateCullingBox(){
+		EuclidianView3D view = getView3D();
+		cullingBox[0] = view.getXMinMax()[0];
+		cullingBox[1] = view.getXMinMax()[1];
+		cullingBox[2] = view.getYMinMax()[0];
+		cullingBox[3] = view.getYMinMax()[1];
+		cullingBox[4] = view.getZMinMax()[0];
+		cullingBox[5] = view.getZMinMax()[1];
 	}
 	
 	public void drawGeometry(Renderer renderer) {
@@ -70,49 +104,12 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	}
 	
-	/** 
-	 * gets the viewing radius based on the viewing frustum 
-	 */
-	private void updateRadius() {
-		EuclidianView3D view = getView3D();
-		Renderer temp = view.getRenderer();
-		double x1 = temp.getLeft();
-		double x2 = temp.getRight();
-		double y1 = temp.getTop();
-		double y2 = temp.getBottom();
-		double z1 = temp.getFront(true);
-		double z2 = temp.getBack(true);
-		Coords [] v = new Coords[8];
-		v[0] = new Coords(x1,y1,z1,0);
-		v[1] = new Coords(x1,y2,z1,0);
-		v[2] = new Coords(x1,y1,z2,0);
-		v[3] = new Coords(x1,y2,z2,0);
-		v[4] = new Coords(x2,y1,z1,0);
-		v[5] = new Coords(x2,y2,z1,0);
-		v[6] = new Coords(x2,y1,z2,0);
-		v[7] = new Coords(x2,y2,z2,0);
-
-		savedRadius=0;
-		double norm;
-		for(int i = 0; i < 8; i++){
-			view.toSceneCoords3D(v[i]);
-			norm = v[i].norm();
-			if(norm>savedRadius)
-				savedRadius=norm;
-		}
-	}
-	
+	@Override
 	protected boolean updateForItSelf(){
-		//super.updateForItSelf();
-		boolean ret = true;
-		
 		if(elementHasChanged){
-			if( surface.getMinParameter(0)!=params[0] || 
-					surface.getMaxParameter(0)!=params[1] || 
-					surface.getMinParameter(1)!=params[2] || 
-					surface.getMaxParameter(1)!=params[3] ){
-				mesh = new SurfaceMesh2(surface, savedRadius, false);
-				setParams();
+			if (updateDomain()) {
+				//domain has changed - create a new mesh
+				mesh = new SurfaceMesh2(surface, cullingBox, domain);
 			} else {
 				//otherwise, update the surface
 				elementHasChanged = false;
@@ -121,8 +118,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 		
 		Renderer renderer = getView3D().getRenderer();
-		mesh.setRadius(savedRadius);
-		ret = mesh.optimize();
+		mesh.setCullingBox(cullingBox);
+		boolean ret = mesh.optimize();
 		
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
 		GeoSurfaceCartesian3D geo = (GeoSurfaceCartesian3D) getGeoElement();
@@ -146,18 +143,16 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		surface.draw(mesh);
 		setGeometryIndex(surface.end());
 
-		return ret;
+		return false;
 	}
 	
 	protected void updateForView(){
-		//updateRadius();
+		updateCullingBox();
 	}
 
 	public int getPickOrder() {
 		return DRAW_PICK_ORDER_2D;
 	}
-	
-
 
 	public void addToDrawable3DLists(Drawable3DLists lists){
 		addToDrawable3DLists(lists,DRAW_TYPE_CLIPPED_SURFACES);

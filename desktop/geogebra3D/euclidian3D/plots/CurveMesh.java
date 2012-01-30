@@ -55,33 +55,28 @@ class CurveSegment extends DynamicMeshElement2 {
 	 * @param mergeQueue
 	 *            a reference to the merge queue
 	 */
-	public CurveSegment(GeoCurveCartesian3D curve, int level, double pa1,
-			double pa2, int version, FastBucketPQ splitQueue,
-			FastBucketPQ mergeQueue) {
-		super(2, 1, level, false, version, splitQueue, mergeQueue);
+	public CurveSegment(CurveMesh mesh, int level, double pa1,
+			double pa2, int version) {
+		super(mesh, level, false, version);
 
-		this.curve = curve;
-
-		Coords v1 = curve.evaluateCurve(pa1);
-		Coords v2 = curve.evaluateCurve(pa2);
+		Coords v1 = mesh.curve.evaluateCurve(pa1);
+		Coords v2 = mesh.curve.evaluateCurve(pa2);
 		Coords t1 = approxTangent(pa1, v1);
 		Coords t2 = approxTangent(pa2, v2);
 
-		init(curve, level, pa1, pa2, v1, v2, t1, t2);
+		init(pa1, pa2, v1, v2, t1, t2);
 	}
 
-	private CurveSegment(GeoCurveCartesian3D curve, int level, double pa1,
+	private CurveSegment(CurveMesh mesh, int level, double pa1,
 			double pa2, Coords v1, Coords v2, Coords t1, Coords t2,
-			CurveSegment parent, int version, FastBucketPQ splitQueue,
-			FastBucketPQ mergeQueue) {
-		super(2, 1, level, false, version, splitQueue, mergeQueue);
+			CurveSegment parent, int version) {
+		super(mesh, level, false, version);
 		parents[0] = parent;
-		init(curve, level, pa1, pa2, v1, v2, t1, t2);
+		init(pa1, pa2, v1, v2, t1, t2);
 	}
 
-	private void init(GeoCurveCartesian3D curve, int level, double pa1,
-			double pa2, Coords v1, Coords v2, Coords t1, Coords t2) {
-		this.curve = curve;
+	private void init(double pa1, double pa2, Coords v1, Coords v2, Coords t1,
+			Coords t2) {
 
 		params[0] = pa1;
 		params[2] = pa2;
@@ -99,38 +94,64 @@ class CurveSegment extends DynamicMeshElement2 {
 		vertices[1] = curve.evaluateCurve(params[1]);
 		tangents[1] = approxTangent(params[1], vertices[1]);
 
-		setBoundingRadii();
+		setBoundingBox();
 		generateError();
 	}
 
-	private void setBoundingRadii() {
+	/**
+	 * Calculates an axis-aligned bounding box based on the three vertices. 
+	 */
+	private void setBoundingBox() {
+		final Coords v1 = vertices[0];
+		final Coords v2 = vertices[1];
+		final Coords v3 = vertices[1];
 
-		minRadSq = maxRadSq = vertices[0].squareNorm();
-		boolean isNaN = Double.isNaN(minRadSq);
+		double x0, x1, y0, y1, z0, z1, x, y, z;
+		final double[] xs = { v2.getX(), v3.getX() };
+		final double[] ys = { v2.getY(), v3.getY() };
+		final double[] zs = { v2.getZ(), v3.getZ() };
 
-		// might as well use the information in the midpoint vertex
-		double r = vertices[1].squareNorm();
-		if (r > maxRadSq)
-			maxRadSq = r;
-		else if (r < minRadSq)
-			minRadSq = r;
-		isNaN |= Double.isNaN(r);
+		x0 = x1 = v1.getX();
+		y0 = y1 = v1.getY();
+		z0 = z1 = v1.getZ();
 
-		r = vertices[2].squareNorm();
-		if (r > maxRadSq)
-			maxRadSq = r;
-		else if (r < minRadSq)
-			minRadSq = r;
-		isNaN |= Double.isNaN(r);
+		for (int i = 0; i < 2; i++) {
+			x = xs[i];
+			y = ys[i];
+			z = zs[i];
 
-		if (isNaN || Double.isInfinite(maxRadSq)) {
-			maxRadSq = Double.POSITIVE_INFINITY;
-			isSingular = true;
-
-			if (Double.isNaN(minRadSq))
-				minRadSq = 0;
-		} else if (maxRadSq > 1e4)
-			maxRadSq = Double.POSITIVE_INFINITY;
+			if (Double.isNaN(x) || Double.isInfinite(x)) {
+				x0 = Double.NEGATIVE_INFINITY;
+				x1 = Double.POSITIVE_INFINITY;
+				isSingular = true;
+			} else {
+				if (x0 > x)
+					x0 = x;
+				if (x1 < x)
+					x1 = x;
+			}
+			if (Double.isNaN(y) || Double.isInfinite(y)) {
+				y0 = Double.NEGATIVE_INFINITY;
+				y1 = Double.POSITIVE_INFINITY;
+				isSingular = true;
+			} else {
+				if (y0 > y)
+					y0 = y;
+				if (y1 < y)
+					y1 = y;
+			}
+			if (Double.isNaN(z) || Double.isInfinite(z)) {
+				z0 = Double.NEGATIVE_INFINITY;
+				z1 = Double.POSITIVE_INFINITY;
+				isSingular = true;
+			} else {
+				if (z0 > z)
+					z0 = z;
+				if (z1 < z)
+					z1 = z;
+			}
+		}
+		boundingBox = new double[] { x0, x1, y0, y1, z0, z1 };
 	}
 
 	private void generateError() {
@@ -146,7 +167,7 @@ class CurveSegment extends DynamicMeshElement2 {
 		error = Math.sqrt(s * (s - a) * (s - b) * (s - c)) + d;
 
 		// alternative error measure for singular segments
-		if (Double.isInfinite(maxRadSq))
+		if (isSingular)
 			error = 1e10;
 		else if (Double.isNaN(error)) {
 			// TODO: investigate whether it would be a good idea to
@@ -176,41 +197,41 @@ class CurveSegment extends DynamicMeshElement2 {
 	}
 
 	@Override
-	protected void setHidden(DynamicMeshTriList2 drawList, boolean val) {
+	protected void setHidden(boolean val) {
 		if (val)
-			drawList.hide(this);
+			mesh.drawList.hide(this);
 		else
-			drawList.show(this);
+			mesh.drawList.show(this);
 	}
 
 	@Override
 	protected void reinsertInQueue() {
-		if (mergeQueue.remove(this))
-			mergeQueue.add(this);
-		else if (splitQueue.remove(this))
-			splitQueue.add(this);
+		if (mesh.mergeQueue.remove(this))
+			mesh.mergeQueue.add(this);
+		else if (mesh.splitQueue.remove(this))
+			mesh.splitQueue.add(this);
 	}
 
 	@Override
-	protected void cullChildren(double radSq, DynamicMeshTriList2 drawList) {
+	protected void cullChildren() {
 		if (!isSplit())
 			return;
 
 		if (children[0] != null)
-			children[0].updateCullInfo(radSq, drawList, splitQueue, mergeQueue);
+			children[0].updateCullInfo();
 		if (children[1] != null)
-			children[1].updateCullInfo(radSq, drawList, splitQueue, mergeQueue);
+			children[1].updateCullInfo();
 	}
 
 	@Override
 	protected void createChild(int i) {
 		// generate both children at once
-		children[0] = new CurveSegment(curve, level + 1, params[0], params[1],
+		children[0] = new CurveSegment((CurveMesh) mesh, level + 1, params[0], params[1],
 				vertices[0], vertices[1], tangents[0], tangents[1], this,
-				lastVersion, splitQueue, mergeQueue);
-		children[1] = new CurveSegment(curve, level + 1, params[1], params[2],
+				lastVersion);
+		children[1] = new CurveSegment((CurveMesh) mesh, level + 1, params[1], params[2],
 				vertices[1], vertices[2], tangents[1], tangents[2], this,
-				lastVersion, splitQueue, mergeQueue);
+				lastVersion);
 	}
 
 	@Override
@@ -252,7 +273,7 @@ class CurveSegment extends DynamicMeshElement2 {
 
 		length = vertices[0].distance(vertices[2]);
 
-		setBoundingRadii();
+		setBoundingBox();
 		generateError();
 
 		return true;
@@ -282,7 +303,7 @@ class CurveMeshTriList extends CurveTriList implements DynamicMeshTriList2 {
 	 * Adds a segment to the curve. If the segment vertices are unspecified,
 	 * these are created.
 	 * 
-	 * @param s
+	 * @param t
 	 *            the segment to add
 	 */
 	public void add(DynamicMeshElement2 t) {
@@ -304,23 +325,23 @@ class CurveMeshTriList extends CurveTriList implements DynamicMeshTriList2 {
 
 		TriListElem lm = add(s.vertices[0], s.vertices[2], s.tangents[0],
 				s.tangents[2], s.cullInfo != CullInfo2.OUT);
-		
+
 		s.triListElem = lm;
-		
+
 		return;
 	}
 
 	/**
 	 * Removes a segment if it is part of the curve.
 	 * 
-	 * @param s
+	 * @param t
 	 *            the segment to remove
 	 * @return true if the segment was removed, false if it wasn't in the curve
 	 *         in the first place
 	 */
 	public boolean remove(DynamicMeshElement2 t) {
 		CurveSegment s = (CurveSegment) t;
-		
+
 		boolean ret = hide(s);
 
 		// free triangle
@@ -374,7 +395,7 @@ class CurveMeshTriList extends CurveTriList implements DynamicMeshTriList2 {
 	public void add(DynamicMeshElement2 e, int i) {
 		add(e);
 	}
-	
+
 	public boolean remove(DynamicMeshElement2 e, int i) {
 		return remove(e);
 	}
@@ -385,14 +406,14 @@ class CurveMeshTriList extends CurveTriList implements DynamicMeshTriList2 {
 		DynamicMeshElement2 el;
 		while (e != null) {
 			el = (DynamicMeshElement2) e.getOwner();
-			if(el.lastVersion!=currentVersion)
+			if (el.lastVersion != currentVersion)
 				list.add(el);
-			e=e.getNext();
+			e = e.getNext();
 		}
 		Iterator<DynamicMeshElement2> it = list.iterator();
-		while(it.hasNext()){
+		while (it.hasNext()) {
 			DynamicMeshElement2 elem = it.next();
-			reinsert(elem,currentVersion);
+			reinsert(elem, currentVersion);
 		}
 	}
 }
@@ -437,19 +458,20 @@ public class CurveMesh extends DynamicMesh2 {
 
 	private CurveSegment root;
 
-	private GeoCurveCartesian3D curve;
+	GeoCurveCartesian3D curve;
 
 	/**
-	 * @param curve
-	 * @param rad
-	 * @param scale
+	 * @param curve The curve to render
+	 * @param cullingBox Axis-aligned box to cull segments against
+	 * @param scale How zoomed out things are - used to set width
 	 */
-	public CurveMesh(GeoCurveCartesian3D curve, double rad, float scale) {
+	public CurveMesh(GeoCurveCartesian3D curve, double[] cullingBox, float scale) {
 		super(new FastBucketPQ(new CurveSplitBucketAssigner(), true),
 				new FastBucketPQ(new CurveSplitBucketAssigner(), false),
-				(DynamicMeshTriList2)new CurveMeshTriList(100, 0, scale * scalingFactor), 1, 2, maxLevel);
+				new CurveMeshTriList(100, 0, scale * scalingFactor), 1, 2,
+				maxLevel);
 
-		setRadius(rad);
+		setCullingBox(cullingBox);
 
 		this.curve = curve;
 
@@ -460,10 +482,10 @@ public class CurveMesh extends DynamicMesh2 {
 	 * generates the first few segments
 	 */
 	private void initCurve() {
-		root = new CurveSegment(curve, 0, curve.getMinParameter(),
-				curve.getMaxParameter(), currentVersion, splitQueue, mergeQueue);
+		root = new CurveSegment(this, 0, curve.getMinParameter(),
+				curve.getMaxParameter(), currentVersion);
 
-		root.updateCullInfo(radSq, drawList, splitQueue, mergeQueue);
+		root.updateCullInfo();
 
 		splitQueue.add(root);
 		drawList.add(root);
@@ -475,8 +497,9 @@ public class CurveMesh extends DynamicMesh2 {
 
 	}
 
+	@Override
 	protected void updateCullingInfo() {
-		root.updateCullInfo(radSq, drawList, splitQueue, mergeQueue);
+		root.updateCullInfo();
 	}
 
 	@Override
@@ -491,7 +514,7 @@ public class CurveMesh extends DynamicMesh2 {
 	@Override
 	protected String getDebugInfo(long time) {
 		return curve + ":\tupdate time: " + time + "ms\ttriangles: "
-				+ ((CurveTriList)drawList).getTriAmt() + "\t max error: "
+				+ ((CurveTriList) drawList).getTriAmt() + "\t max error: "
 				+ splitQueue.peek().getError();
 	}
 
@@ -499,7 +522,7 @@ public class CurveMesh extends DynamicMesh2 {
 	 * @return the amount of visible segments
 	 */
 	public int getVisibleChunks() {
-		return ((CurveTriList)drawList).getChunkAmt();
+		return ((CurveTriList) drawList).getChunkAmt();
 	}
 
 	/**
