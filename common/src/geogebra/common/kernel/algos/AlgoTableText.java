@@ -16,6 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.util.StringUtil;
 
 public class AlgoTableText extends AlgoElement {
 
@@ -35,6 +36,8 @@ public class AlgoTableText extends AlgoElement {
 	private boolean verticalLines, horizontalLines;
 	private String justification, openBracket, closeBracket, openString,
 			closeString;
+	private int columns;
+	private int rows;
 
 	// getters for style variables (used by EuclidianStyleBar)
 	public int getAlignment() {
@@ -188,7 +191,7 @@ public class AlgoTableText extends AlgoElement {
 	@Override
 	public final void compute() {
 
-		int columns = geoList.size();
+		columns = geoList.size();
 
 		if (!geoList.isDefined() || columns == 0) {
 			text.setTextString("");
@@ -212,7 +215,7 @@ public class AlgoTableText extends AlgoElement {
 		if (geoLists == null || geoLists.length < columns)
 			geoLists = new GeoList[columns];
 
-		int rows = 0;
+		rows = 0;
 
 		for (int c = 0; c < columns; c++) {
 			GeoElement geo = geoList.get(c);
@@ -236,15 +239,60 @@ public class AlgoTableText extends AlgoElement {
 		text.setTemporaryPrintAccuracy();
 
 		sb.setLength(0);
+		
+		switch (app.getFormulaRenderingType()) {
+		case MATHML:
+			mathml();
+			break;
+		case LATEX:
+			latex();
+			break;
+		}
 
+		text.restorePrintAccuracy();
+		// Application.debug(sb.toString());
+		text.setTextString(sb.toString());
+		text.setLaTeX(true, false);
+	}
+
+	private void mathml() {
+		if (alignment == VERTICAL) {
+
+
+			sb.append("<matrix>");
+			for (int r = 0; r < rows; r++) {
+				sb.append("<matrixrow>");
+				for (int c = 0; c < columns; c++) {
+					addCellMathML(c, r);
+				}
+				sb.append("</matrixrow>"); 
+			}
+			sb.append("</matrix>");
+
+		} else { // alignment == HORIZONTAL
+
+			// TableText[{11.1,322,3.11},{4,55,666,7777,88888},{6.11,7.99,8.01,9.81},{(1,2)},"c()"]
+
+			sb.append("<matrix>");
+			for (int c = 0; c < columns; c++) {
+				sb.append("<matrixrow>");
+				for (int r = 0; r < rows; r++) {
+					addCellMathML(c, r);
+				}
+				sb.append("</matrixrow>");
+			}
+			sb.append("</matrix>");
+		}
+		
+	}
+
+	private void latex() {
 		// surround in { } to make eg this work:
 		// FormulaText["\bgcolor{ff0000}"+TableText[matrix1]]
 		sb.append('{');
 
 		sb.append(openBracket);
-		// Added by Loïc 2009/12/15
 		sb.append("\\begin{array}{");
-		// end Loïc
 
 		if (alignment == VERTICAL) {
 
@@ -262,10 +310,8 @@ public class AlgoTableText extends AlgoElement {
 
 			for (int r = 0; r < rows; r++) {
 				for (int c = 0; c < columns; c++) {
-					// Added by Loïc 2009/12/15
 					boolean finalCell = (c == columns - 1);
-					addCell(c, r, finalCell);
-					// end Loïc
+					addCellLaTeX(c, r, finalCell);
 				}
 				sb.append(" \\\\ "); // newline in LaTeX ie \\
 				if (horizontalLines)
@@ -290,10 +336,8 @@ public class AlgoTableText extends AlgoElement {
 
 			for (int c = 0; c < columns; c++) {
 				for (int r = 0; r < rows; r++) {
-					// Added by Loïc 2009/12/15
 					boolean finalCell = (r == rows - 1);
-					addCell(c, r, finalCell);
-					// end Loïc
+					addCellLaTeX(c, r, finalCell);
 				}
 				sb.append(" \\\\ "); // newline in LaTeX ie \\
 				if (horizontalLines) {
@@ -302,24 +346,15 @@ public class AlgoTableText extends AlgoElement {
 			}
 		}
 
-		text.restorePrintAccuracy();
-		// Added by Loïc 2009/12/15
 		sb.append("\\end{array}");
 		sb.append(closeBracket);
-		// end Loïc 2009/12/15
 
 		// surround in { } to make eg this work:
 		// FormulaText["\bgcolor{ff0000}"+TableText[matrix1]]
 		sb.append('}');
+		}
 
-		// Application.debug(sb.toString());
-		text.setTextString(sb.toString());
-		text.setLaTeX(true, false);
-	}
-
-	// Modify by Loïc Le Coq 2009/12/15
-	private void addCell(int c, int r, boolean finalCell) {
-		// End Loïc
+	private void addCellLaTeX(int c, int r, boolean finalCell) {
 		if (geoLists[c].size() > r) { // check list has an element at this
 										// position
 			GeoElement geo1 = geoLists[c].get(r);
@@ -328,19 +363,36 @@ public class AlgoTableText extends AlgoElement {
 			String text = geo1.toLaTeXString(false);
 			if (" ".equals(text) || "".equals(text))
 				text = "\\;"; // problem with JLaTeXMath, was "\u00a0";
-			// Modify by Loïc Le Coq 2009/12/15
 			if (geo1.isTextValue()) {
 				sb.append("\\text{"); // preserve spaces
 				sb.append(text);
 				sb.append("}");
 			} else
 				sb.append(text);
-			// End Loïc
 		}
-		// Modify by Loïc Le Coq 2009/12/15
 		if (!finalCell)
 			sb.append("&"); // separate columns
-		// End Loïc
+	}
+
+	private void addCellMathML(int c, int r) {
+		if (geoLists[c].size() > r) { // check list has an element at this
+										// position
+			GeoElement geo1 = geoLists[c].get(r);
+
+			// replace " " and "" with a hard space (allow blank columns/rows)
+			String text = geo1.toLaTeXString(false);
+			if (text.startsWith("<apply>")) {
+				sb.append(text);
+			} else if (StringUtil.isNumber(text)) {
+				sb.append("<cn>");
+				sb.append(text);
+				sb.append("</cn>");
+			} else {
+				sb.append("<ci>");
+				sb.append(text);
+				sb.append("</ci>");
+			} 
+		}
 	}
 
 	@Override

@@ -31,6 +31,7 @@ import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.Operation;
+import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
 import java.util.HashSet;
@@ -4040,7 +4041,7 @@ public class ExpressionNode extends ValidExpression implements
 		
 		if (leftStr.startsWith("<apply>")) {
 			sb.append(leftStr);
-		} else if (isNumber(leftStr)) {
+		} else if (StringUtil.isNumber(leftStr)) {
 			sb.append("<cn>");
 			sb.append(leftStr);
 			sb.append("</cn>");			
@@ -4056,7 +4057,7 @@ public class ExpressionNode extends ValidExpression implements
 		if (rightStr != null) {
 			if (rightStr.startsWith("<apply>")) {
 				sb.append(rightStr);
-			} else if (isNumber(rightStr)) {
+			} else if (StringUtil.isNumber(rightStr)) {
 				sb.append("<cn>");
 				sb.append(rightStr);
 				sb.append("</cn>");			
@@ -4071,16 +4072,6 @@ public class ExpressionNode extends ValidExpression implements
 		
 		sb.append("</apply>");
 		
-	}
-
-	private boolean isNumber(String s) {
-		try {
-			double d = Double.parseDouble(s);
-		} catch (Exception e) {
-			return false;
-		}
-		
-		return true;
 	}
 
 	/**

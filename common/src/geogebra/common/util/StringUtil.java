@@ -1,6 +1,7 @@
 package geogebra.common.util;
 
 import geogebra.common.awt.Color;
+import geogebra.common.main.AbstractApplication;
 
 public class StringUtil {
     private static StringBuilder hexSB = null;
@@ -498,6 +499,15 @@ public class StringUtil {
 		if (high == null) return new StringBuilder();
 		high.setLength(0);
 		return high;
+	}
+
+	public static boolean isNumber(String text) {
+		for (int i = 0 ; i < text.length() ; i++) {
+			char c = text.charAt(i);
+			if (!Character.isDigit(c) && c != AbstractApplication.unicodeDecimalPoint && c != '-') return false; 
+		}
+		
+		return true;
 	}
 
 }
