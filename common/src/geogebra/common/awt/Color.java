@@ -60,5 +60,7 @@ public abstract class Color {
     	}
     	return 0xff000000 | (r << 16) | (g << 8) | (b << 0);
         }
+	public abstract geogebra.common.awt.Color darker();
+	public abstract geogebra.common.awt.Color brighter();
 
 }

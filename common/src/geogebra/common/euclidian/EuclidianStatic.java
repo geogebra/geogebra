@@ -35,7 +35,7 @@ public abstract class EuclidianStatic {
 	}
 	
 	// Michael Borcherds 2008-06-10
-	final static float textWidth(String str, geogebra.common.awt.Font font, 
+	public final static float textWidth(String str, geogebra.common.awt.Font font, 
 			geogebra.common.awt.FontRenderContext frc) {
 		if (str.equals(""))
 			return 0f;

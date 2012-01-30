@@ -782,4 +782,8 @@ public abstract class Graphics2D {
 	public abstract void drawRect(int i, int j, int k, int l);
 
 	public abstract void setClip(int xAxisStart, int i, int width, int yAxisEnd);
+
+	public abstract void drawRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight);
+
+	public abstract void fillRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight);
 }

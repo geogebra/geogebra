@@ -1,7 +1,5 @@
 package geogebra.web.awt;
 
-import geogebra.common.main.AbstractApplication;
-
 public class Color extends geogebra.common.awt.Color {
 	
 		private int r;
@@ -140,6 +138,19 @@ public class Color extends geogebra.common.awt.Color {
 
 	public int getRGBOnly() {
 		return (((getRed()*256)+ getGreen())* 256)+getBlue();
+	}
+	
+	public Color darker() {
+    	return new Color(Math.max((int)(getRed()  *FACTOR), 0), 
+			 Math.max((int)(getGreen()*FACTOR), 0),
+			 Math.max((int)(getBlue() *FACTOR), 0));
+    }
+
+	@Override
+	public geogebra.common.awt.Color brighter() {
+		return new Color(Math.min((int)(getRed()  /FACTOR), 255), 
+				 Math.min((int)(getGreen()/FACTOR), 255),
+				 Math.min((int)(getBlue() /FACTOR), 255));
 	}
 
 }

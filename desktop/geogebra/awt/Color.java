@@ -107,10 +107,18 @@ public class Color extends geogebra.common.awt.Color {
 		return new Color(java.awt.Color.getHSBColor(h, s, b));
 	}
 	
-    public Color darker() {
+    @Override
+	public Color darker() {
     	return new Color(Math.max((int)(getRed()  *FACTOR), 0), 
 			 Math.max((int)(getGreen()*FACTOR), 0),
 			 Math.max((int)(getBlue() *FACTOR), 0));
     }
+
+	@Override
+	public geogebra.common.awt.Color brighter() {
+		return new Color(Math.min((int)(getRed()  /FACTOR), 255), 
+				 Math.min((int)(getGreen()/FACTOR), 255),
+				 Math.min((int)(getBlue() /FACTOR), 255));
+	}
     
 }

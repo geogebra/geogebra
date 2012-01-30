@@ -2087,7 +2087,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 		case BUTTON:
 
-			d = newDrawButton((GeoButton) geo);
+			d = new DrawButton(this,(GeoButton) geo);
 			break;
 
 		case TEXTFIELD:
@@ -2259,7 +2259,6 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		return d;
 	}
 
-	public abstract Drawable newDrawButton(GeoButton geo);
 	public abstract Drawable newDrawTextField(GeoTextField geo);
 
 

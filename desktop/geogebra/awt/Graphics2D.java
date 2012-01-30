@@ -110,6 +110,11 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 
 	@Override
 	public void setPaint(Paint paint) {
+		if(paint instanceof geogebra.awt.GradientPaint){
+			impl.setPaint(((geogebra.awt.GradientPaint)paint).getPaint());
+			return;
+		}
+			
 		setPaint((geogebra.common.awt.Color)paint);
 		
 	}
@@ -342,6 +347,18 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 
 	public void setImpl(java.awt.Graphics2D g) {
 		impl = g;
+	}
+
+	@Override
+	public void drawRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight) {
+		impl.drawRoundRect(x, y, width, height, arcWidth, arcHeight);
+		
+	}
+
+	@Override
+	public void fillRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight) {
+		impl.fillRoundRect(x, y, width, height, arcWidth, arcHeight);
+		
 	}
 	
 }

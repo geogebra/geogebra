@@ -11,6 +11,7 @@ import geogebra.common.awt.Ellipse2DFloat;
 import geogebra.common.awt.Font;
 import geogebra.common.awt.FontRenderContext;
 import geogebra.common.awt.GeneralPath;
+import geogebra.common.awt.GradientPaint;
 import geogebra.common.awt.Line2D;
 import geogebra.common.awt.Point;
 import geogebra.common.awt.Point2D;
@@ -212,6 +213,12 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	@Override
 	public AlphaComposite newAlphaComposite(int rule, float alpha) {
 		return new geogebra.awt.AlphaComposite(java.awt.AlphaComposite.getInstance(rule, alpha));
+	}
+
+	@Override
+	public GradientPaint newGradientPaint(int x, int y, Color bg2, int x2,
+			int i, Color bg) {
+		return new geogebra.awt.GradientPaint(x, y, bg2, x2, i, bg);
 	}
 
 	

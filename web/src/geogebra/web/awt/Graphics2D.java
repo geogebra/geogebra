@@ -640,4 +640,22 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 		return this.canvas;
 	}
 
+
+	@Override
+    public void drawRoundRect(int x, int y, int width, int height,
+            int arcWidth, int arcHeight) {
+	    context.rect(x, y, width, height);
+	    context.stroke();
+	    
+    }
+
+
+	@Override
+    public void fillRoundRect(int x, int y, int width, int height,
+            int arcWidth, int arcHeight) {
+		context.rect(x, y, width, height);
+	    context.fill();
+	    
+    }
+
 }

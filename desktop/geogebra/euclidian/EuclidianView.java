@@ -15,6 +15,7 @@ package geogebra.euclidian;
 import geogebra.common.awt.Font;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.AbstractEuclidianController;
+import geogebra.common.euclidian.DrawButton;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.GetViewId;
@@ -628,12 +629,6 @@ public class EuclidianView extends EuclidianViewND implements
 				.getViewId()));
 	}
 
-	
-
-	@Override
-	public Drawable newDrawButton( GeoButton geo) {
-		return new DrawButton(this,geo);
-	}
 
 	@Override
 	public Drawable newDrawTextField(GeoTextField geo) {

@@ -1,5 +1,6 @@
 package geogebra.common.factories;
 
+import geogebra.common.awt.GradientPaint;
 import geogebra.common.awt.Area;
 import geogebra.common.awt.CubicCurve2D;
 import geogebra.common.awt.Font;
@@ -62,5 +63,8 @@ public abstract class AwtFactory {
 	public abstract geogebra.common.awt.AlphaComposite newAlphaComposite(int srcOver,
 			float alpha);
 	public abstract BasicStroke newBasicStrokeJoinMitre(float f);
+	public abstract GradientPaint newGradientPaint(int x, int y,
+			geogebra.common.awt.Color bg2, int x2, int i,
+			geogebra.common.awt.Color bg);
 	
 }

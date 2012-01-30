@@ -421,13 +421,6 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	    
     }
 
-	
-
-	@Override
-    public Drawable newDrawButton(GeoButton geo) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
-    }
 
 	@Override
     public Drawable newDrawTextField(GeoTextField geo) {
