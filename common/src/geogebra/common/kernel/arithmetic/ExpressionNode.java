@@ -3115,33 +3115,34 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case LOG:
-			switch (STRING_TYPE) {
-			case MATHML:
+			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<ln/>", leftStr, null);
-				break;
-			case LATEX:
-				sb.append("\\ln \\left( ");
-				break;
-
-			case MATH_PIPER:
-				sb.append("Ln(");
-				break;
-
-			case MAXIMA:
-			case JASYMCA:
-			case GEOGEBRA_XML:
-			case MPREDUCE:
-				sb.append("log(");
-				break;
-
-			case PSTRICKS:
-			case PGF:
-			default:
-				sb.append("ln(");
-				break;
+			} else {
+				switch (STRING_TYPE) {
+				case LATEX:
+					sb.append("\\ln \\left( ");
+					break;
+	
+				case MATH_PIPER:
+					sb.append("Ln(");
+					break;
+	
+				case MAXIMA:
+				case JASYMCA:
+				case GEOGEBRA_XML:
+				case MPREDUCE:
+					sb.append("log(");
+					break;
+	
+				case PSTRICKS:
+				case PGF:
+				default:
+					sb.append("ln(");
+					break;
+				}
+				sb.append(leftStr);
+				sb.append(rightBracket(STRING_TYPE));
 			}
-			sb.append(leftStr);
-			sb.append(rightBracket(STRING_TYPE));
 			break;
 
 		case LOGB:
