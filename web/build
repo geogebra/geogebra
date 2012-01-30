@@ -15,6 +15,7 @@ if [ "$SVNDIR" = "" ]; then
 else
  WORKDIR=`cd $SVNDIR/geogebra/web; pwd`
  fi
+echo "using $GWTDIR for get GWT jars\n"
 export GWTDIR
 cd $WORKDIR
 WEBDIR=`pwd`
@@ -143,3 +144,12 @@ else
  echo "GeoGebraWeb compilation finished. Insert this URL into your browser to test it:"
  echo "file:///$INSTALLDIR/Web.html"
  fi
+
+# 7. Cleanup: Removing links not to break eclipse
+cd $WEBDIR_LINK_TARGET
+for i in *; do
+        if test -L $i; then
+            rm -rf $i;
+            echo "cleanup: removing link: $i"
+        fi
+    done
