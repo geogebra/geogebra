@@ -12,8 +12,9 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
@@ -69,22 +70,53 @@ public class AlgoFractionText extends AlgoElement {
 		if (input[0].isDefined()) {
 			frac = DecimalToFraction(num.getDouble(),Kernel.STANDARD_PRECISION);
 			
-			if (frac[1] == 1) { // integer
-		    	text.setTextString(kernel.format(frac[0]));				
-			} else if (frac[1] == 0) { // 1 / 0 or -1 / 0
-		    	text.setTextString(frac[0] < 0 ? "-"+Unicode.Infinity : ""+Unicode.Infinity);				
-			} else {
-				sb.setLength(0);
-		    	sb.append("{\\frac{");
-		    	// checkDecimalFraction() needed for eg FractionText[20.0764]
-		    	sb.append(kernel.format(Kernel.checkDecimalFraction(frac[0])));
-		    	sb.append("}{");
-		    	sb.append(kernel.format(Kernel.checkDecimalFraction(frac[1])));
-		    	sb.append("}}");
-		    	
-		    	text.setTextString(sb.toString());
+			switch (app.getFormulaRenderingType()) {
+			case MATHML:
+				if (frac[1] == 1) { // integer
+					sb.setLength(0);
+					sb.append("<cn>");
+					sb.append(kernel.format(frac[0]));				
+					sb.append("</cn>");
+					text.setTextString(sb.toString());
+				} else if (frac[1] == 0) { // 1 / 0 or -1 / 0
+			    	if (frac[0] < 0) {
+			    		text.setTextString("<apply><minus/><infinity/></apply>");		
+			    	} else {
+			    		text.setTextString("<infinity/>");
+			    	}
+				} else {
+					sb.setLength(0);
+			    	sb.append("<apply><divide/><cn>");
+			    	// checkDecimalFraction() needed for eg FractionText[20.0764]
+			    	sb.append(kernel.format(Kernel.checkDecimalFraction(frac[0])));
+			    	sb.append("</cn><cn>");
+			    	sb.append(kernel.format(Kernel.checkDecimalFraction(frac[1])));
+			    	sb.append("</cn></apply>");
+			    	
+			    	text.setTextString(sb.toString());
+				}
+		    	break;
+			case LATEX:
+				if (frac[1] == 1) { // integer
+			    	text.setTextString(kernel.format(frac[0]));				
+				} else if (frac[1] == 0) { // 1 / 0 or -1 / 0
+			    	text.setTextString(frac[0] < 0 ? "-"+Unicode.Infinity : ""+Unicode.Infinity);				
+				} else {
+					sb.setLength(0);
+			    	sb.append("{\\frac{");
+			    	// checkDecimalFraction() needed for eg FractionText[20.0764]
+			    	sb.append(kernel.format(Kernel.checkDecimalFraction(frac[0])));
+			    	sb.append("}{");
+			    	sb.append(kernel.format(Kernel.checkDecimalFraction(frac[1])));
+			    	sb.append("}}");
+			    	
+			    	text.setTextString(sb.toString());
+				}
+		    	break;
+				
 			}
 	    	text.setLaTeX(true,false);
+			
 
 		} else
 			text.setTextString(app.getPlain("undefined"));
