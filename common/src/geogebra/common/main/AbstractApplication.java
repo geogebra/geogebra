@@ -578,11 +578,7 @@ public abstract class AbstractApplication {
 
 	public abstract boolean showView(int view);
 
-	/**
-	 * 
-	 * @return 2 letter language name, eg "en"
-	 */
-	public abstract String getLanguage();
+	
 
 	public boolean languageIs(String lang) {
 		return getLanguage().equals(lang);
@@ -2628,6 +2624,7 @@ public abstract class AbstractApplication {
 	}
 
 	public boolean useTransparentCursorWhenDragging = false;
+	
 	public void setUseTransparentCursorWhenDragging(
 			boolean useTransparentCursorWhenDragging) {
 		this.useTransparentCursorWhenDragging = useTransparentCursorWhenDragging;
@@ -2639,4 +2636,19 @@ public abstract class AbstractApplication {
 	 */
 	public abstract StringType getFormulaRenderingType();
 
+	//For Language specific settings
+	protected Locale currentLocale;
+	
+	public Locale getLocale() {
+		return currentLocale;
+	}
+	
+	/**
+	 * 
+	 * @return 2 letter language name, eg "en"
+	 */
+	public String getLanguage() {
+		return getLocale().getLanguage();
+	}
+	
 }

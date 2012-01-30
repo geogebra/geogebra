@@ -373,9 +373,6 @@ public class Application extends AbstractApplication implements
 
 	private GlobalKeyDispatcher globalKeyDispatcher;
 
-	// For language specific settings
-	private Locale currentLocale;
-
 	private Locale tooltipLocale = null;
 	private ResourceBundle rbmenu, rbmenuTT, rbcommand, rbcommandTT,
 			rbcommandEnglish, rbcommandOld, rbcommandScripting, rberror,
@@ -1654,7 +1651,7 @@ public class Application extends AbstractApplication implements
 
 		Locale loc;
 		if (languageCode.length() == 6) {
-			// language, country
+			// language, country, variant
 			loc = new Locale(languageCode.substring(0, 2),
 					languageCode.substring(2, 4), languageCode.substring(4, 6));
 		} else if (languageCode.length() == 4) {
@@ -1919,9 +1916,7 @@ public class Application extends AbstractApplication implements
 
 	
 
-	public Locale getLocale() {
-		return currentLocale;
-	}
+	
 
 	/*
 	 * properties methods
@@ -4590,11 +4585,6 @@ public class Application extends AbstractApplication implements
 
 	public String toUpperCase(String s) {
 		return s.toUpperCase(Locale.US);
-	}
-
-	@Override
-	public String getLanguage() {
-		return getLocale().getLanguage();
 	}
 
 	@Override
