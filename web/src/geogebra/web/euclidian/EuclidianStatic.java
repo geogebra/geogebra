@@ -1,6 +1,7 @@
 package geogebra.web.euclidian;
 
 import geogebra.common.awt.Color;
+import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Font;
 import geogebra.common.awt.Graphics2D;
 import geogebra.common.awt.Rectangle;
@@ -17,10 +18,10 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic {
 	        Graphics2D tempGraphics, GeoElement geo, Graphics2D g2, Font font,
 	        Color fgColor, Color bgColor, String labelDesc, int x,
 	        int y, boolean serif) {
-		app.getDrawEquation().drawEquation(app, geo, g2, x, y, labelDesc, font, serif, fgColor, bgColor, false);
+		Dimension dim = app.getDrawEquation().drawEquation(app, geo, g2, x, y, labelDesc, font, serif, fgColor, bgColor, false);
 		
 		// TODO: dimension
-		return new geogebra.web.awt.Rectangle(x, y, 100, 100);
+		return new geogebra.web.awt.Rectangle(x, y, dim.getWidth(), dim.getHeight());
 	}
 
 	private static Font getIndexFont(Font f) {

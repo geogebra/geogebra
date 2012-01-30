@@ -9,6 +9,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.core.client.JsArrayInteger;
 
 public class DrawEquationWeb implements DrawEquationInterface {
 
@@ -19,15 +20,15 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	public Dimension drawEquation(AbstractApplication app, GeoElement geo,
             Graphics2D g2, int x, int y, String mathml, Font font, boolean serif,
             Color fgColor, Color bgColor, boolean useCache) {
-	    drawEquation(((geogebra.web.awt.Graphics2D)g2).getCanvas().getContext2d(), mathml, x, y);
+	    JsArrayInteger ret = drawEquation(((geogebra.web.awt.Graphics2D)g2).getCanvas().getContext2d(), mathml, x, y);
 	    
-	    // TODO: correct dimensions
-	    return new geogebra.web.awt.Dimension(100, 100);
+	    return new geogebra.web.awt.Dimension(ret == null ? 100 : ret.get(0),ret == null ? 100 : ret.get(1));
     }
 	
-	public static native void drawEquation(Context2d ctx, String mathml, int x, int y) /*-{
+	public static native JsArrayInteger drawEquation(Context2d ctx, String mathml, int x, int y) /*-{
 	if (typeof $wnd.ggbOnInit === 'function')
-		$wnd.drawEquation(ctx, mathml, x, y);
+		return $wnd.drawEquation(ctx, mathml, x, y);
+	return [50, 50];
 	}-*/;
 
 
