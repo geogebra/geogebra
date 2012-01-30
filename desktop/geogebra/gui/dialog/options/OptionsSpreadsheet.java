@@ -25,6 +25,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.net.URL;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -49,7 +50,8 @@ class OptionsSpreadsheet extends JPanel  implements ActionListener, FocusListene
 	private static final long serialVersionUID = 1L;
 
 	private Application app;
-	
+	private SpreadsheetView view;
+
 	private JCheckBox cbShowFormulaBar, cbShowGrid, cbShowRowHeader, 
 	cbShowColumnHeader, cbShowHScrollbar,  cbShowVScrollbar, 
 	cbShowBrowser, cbAllowSpecialEditor, cbAllowToolTips, cbPrependCommands;
@@ -66,7 +68,7 @@ class OptionsSpreadsheet extends JPanel  implements ActionListener, FocusListene
 	 */
 	public OptionsSpreadsheet(Application app, SpreadsheetView view) {
 		this.app = app;	
-		
+		this.view = view;
 		// build GUI
 		initGUI();
 		updateGUI();
@@ -440,7 +442,15 @@ class OptionsSpreadsheet extends JPanel  implements ActionListener, FocusListene
 		}
 		
 		else if (source == setCurrentButton) {
+			settings().beginBatch();
 			settings().setDefaultBrowser(false);
+			if(settings().initialBrowserMode() == FileBrowserPanel.MODE_URL){
+				settings().setInitialURL(((URL) view.getFileBrowser().getRoot()).toExternalForm());
+			}else{
+				settings().setInitialFilePath(view.getFileBrowser().getRootString());
+				System.out.println(view.getFileBrowser().getRootString());
+			}
+			settings().endBatch();
 		}
 		
 		updateGUI();		

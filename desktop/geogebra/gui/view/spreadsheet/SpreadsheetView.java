@@ -1107,6 +1107,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 	}
 
 	public boolean setFileBrowserDirectory(String rootString, int mode) {
+		settings().setInitialBrowserMode(mode);
 		return getFileBrowser().setRoot(rootString, mode);
 	}
 

@@ -254,8 +254,9 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 					int returnVal = fc.showOpenDialog(browserPanel);
 					if (returnVal == JFileChooser.APPROVE_OPTION) {
 						setRoot(fc.getSelectedFile(), MODE_FILE);
-						// ((JButton)e.getSource()).setText(fc.getSelectedFile().getName());
+						view.settings().setInitialBrowserMode(MODE_FILE);
 					}
+					
 				}
 			});
 			add(menuItem);
