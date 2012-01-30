@@ -10,8 +10,11 @@ public class BufferedImage {
 
 	public BufferedImage(int width, int height, int imageType) {
 		img = ImageElement.as(DOM.createImg());
-	    img.setWidth(width);
-	    img.setHeight(height);
+		img.setWidth(width);
+		img.setHeight(height);
+		img.setSrc(
+			((CanvasElement)CanvasElement.createObject().cast()).toDataUrl("image/png")
+		);
     }
 
 	public BufferedImage(ImageElement imageElement) {

@@ -310,16 +310,12 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	@Override
     public void updateSize() {
 
-		setWidth(getWidth());
-		setHeight(getHeight());
 		if ((getWidth() <= 0) || (getHeight() <= 0)) {
 			return;
 		}
 
 		// real world values
 		setRealWorldBounds();
-
-		/* for some reason, this freezes so outcommented
 
 		try {
 			createImage();
@@ -329,9 +325,8 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 			System.gc();
 		}
 
-		updateBackgroundImage();
-		updateAllDrawables(true);
-		*/
+		//updateBackgroundImage();// commenting this out may work
+		//updateAllDrawables(true);
     }
 
 	private void createImage() {

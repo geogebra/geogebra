@@ -176,6 +176,11 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
+	public String getLanguage() {
+		return LocaleInfo.getCurrentLocale().getLocaleName();
+	}
+
+	@Override
 	public boolean letRedefine() {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 		return false;

@@ -578,7 +578,11 @@ public abstract class AbstractApplication {
 
 	public abstract boolean showView(int view);
 
-	
+	/** 
+	 *  
+	 * @return 2 letter language name, eg "en" 
+	 */ 
+	public abstract String getLanguage();
 
 	public boolean languageIs(String lang) {
 		return getLanguage().equals(lang);
@@ -2635,20 +2639,4 @@ public abstract class AbstractApplication {
 	 * StringType.MATHML for web (canvasmath)
 	 */
 	public abstract StringType getFormulaRenderingType();
-
-	//For Language specific settings
-	protected Locale currentLocale;
-	
-	public Locale getLocale() {
-		return currentLocale;
-	}
-	
-	/**
-	 * 
-	 * @return 2 letter language name, eg "en"
-	 */
-	public String getLanguage() {
-		return getLocale().getLanguage();
-	}
-	
 }

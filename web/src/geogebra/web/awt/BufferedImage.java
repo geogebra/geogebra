@@ -34,17 +34,12 @@ public class BufferedImage implements geogebra.common.awt.BufferedImage {
 
 	public Graphics2D createGraphics() {
 
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return null;
-
-		/* for some reason, this freezes, so outcommented - Arpad
 		Canvas cv = Canvas.createIfSupported();
 		cv.setCoordinateSpaceWidth(impl.getWidth());
 		cv.setCoordinateSpaceHeight(impl.getHeight());
 		Context2d c2d = cv.getContext2d();
 		c2d.drawImage(impl.getImageElement(),0,0);
 		return new geogebra.web.awt.Graphics2D(cv);
-		*/
     }
 
 	public BufferedImage getSubimage(int xInt, int yInt, int xInt2, int yInt2) {
