@@ -309,11 +309,17 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     public void updateSize() {
-		
-		/* for some reason, this freezes so outcommented
+
+		setWidth(getWidth());
+		setHeight(getHeight());
+		if ((getWidth() <= 0) || (getHeight() <= 0)) {
+			return;
+		}
 
 		// real world values
 		setRealWorldBounds();
+
+		/* for some reason, this freezes so outcommented
 
 		try {
 			createImage();
