@@ -1,10 +1,34 @@
 #!/bin/sh
 # Compiles GeoGebraWeb via command line.
 # @author Zoltan Kovacs <zoltan@geogebra.org>
-
 # Make sure that you run this script from its directory.
-
 # 1. Setting up environment variables
+#Functions first
+#Cleanup: Removing links not to break eclipse
+cleanup() {
+    echo "Cleaning up..."
+    ${WEBDIR_LINK_TARGET?" is not set: nothing to clean up"}
+        cd $WEBDIR_LINK_TARGET
+        for i in *; do
+                if test -L $i; then
+                    rm -rf $i;
+                    echo "cleanup: removing link: $i"
+                fi
+            done
+}
+
+speccomp() {
+echo "$0: Preparing specifing compilation settings for $1"
+cd $WEBDIR
+PROJECT=$1
+PLC=`echo $PROJECT | awk '{print tolower($1)}'`
+cd ../$PLC/src/geogebra
+cat $PROJECT.gwt.xml-var | sed s/"\${useragents}"/"$USERAGENTS"/g \
+ | sed s/"<!-- \$linker -->"/"$XS"/g > $PROJECT.gwt.xml
+}
+
+trap "cleanup" EXIT 2 9 15
+
 GWTDIR=../gwt-2.4.0 # Override it if needed by using autobuild.conf
 test -r autobuild.conf && . ./autobuild.conf && echo "$0: Using autobuild.conf for overriding defaults"
 
@@ -47,6 +71,7 @@ while [ $# -gt 0 ]; do
   -u)
    shift
    USERAGENTS="$1"
+   echo "Compiling for $1"
    ;;
 
   -i)
@@ -56,11 +81,13 @@ while [ $# -gt 0 ]; do
 
   -x)
    XS="<add-linker name=\\\"xs\\\"\/>"
+   echo "Compiling with XS (cross site)"
    ;;
 
   -s)
    shift
    STYLE="$1"
+   echo "Compiling with $STYLE"
    ;;
    
   -g)
@@ -111,15 +138,6 @@ for i in *; do
  done
 
 # 4. Preparing specific compilation
-speccomp() {
-echo "$0: Preparing specifing compilation settings for $1"
-cd $WEBDIR
-PROJECT=$1
-PLC=`echo $PROJECT | awk '{print tolower($1)}'`
-cd ../$PLC/src/geogebra
-cat $PROJECT.gwt.xml-var | sed s/"\${useragents}"/"$USERAGENTS"/g \
- | sed s/"<!-- \$linker -->"/"$XS"/g > $PROJECT.gwt.xml
-}
 
 speccomp Common
 speccomp Web
@@ -145,11 +163,6 @@ else
  echo "file:///$INSTALLDIR/Web.html"
  fi
 
-# 7. Cleanup: Removing links not to break eclipse
-cd $WEBDIR_LINK_TARGET
-for i in *; do
-        if test -L $i; then
-            rm -rf $i;
-            echo "cleanup: removing link: $i"
-        fi
-    done
+
+exit 0;
+
