@@ -493,7 +493,7 @@ public class Renderer implements GLEventListener {
         //gl.glCullFace(GLlocal.GL_FRONT);
         view3D.drawCursor(this);
                  
-        drawWireFrame();
+//        drawWireFrame();
                
         //primitives.enableVBO(gl);
         
