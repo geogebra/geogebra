@@ -63,6 +63,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 
 public class Application extends AbstractApplication {
+	
+	public final static String DEFAULT_LANGUAGE = "en";
 
 	private FontManager fontManager;
 
@@ -175,9 +177,19 @@ public class Application extends AbstractApplication {
 		return false;
 	}
 
+	
+	/**
+	 * Following Java's convention, the return string should only include the language part of the local.
+	 * The assumption here that the "default" locale is English (for now) 
+	 */
 	@Override
 	public String getLanguage() {
-		return LocaleInfo.getCurrentLocale().getLocaleName();
+		
+		String localeName = LocaleInfo.getCurrentLocale().getLocaleName();
+		if(localeName.toLowerCase().equals("default")) {
+			return Application.DEFAULT_LANGUAGE;
+		}
+			return  localeName.substring(0,2);		
 	}
 
 	@Override
