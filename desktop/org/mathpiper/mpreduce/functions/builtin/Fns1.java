@@ -48,6 +48,7 @@ import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import org.mathpiper.mpreduce.Environment;
@@ -186,6 +187,7 @@ public class Fns1
         {"dated-name",                  new Dated_nameFn()},
         {"datelessp",                   new DatelesspFn()},
         {"datestamp",                   new DatestampFn()},
+        {"timeofday",                   new TimeofdayFn()},
         {"define-in-module",            new Define_in_moduleFn()},
         {"deflist",                     new DeflistFn()},
         {"deleq",                       new DeleqFn()},
@@ -205,6 +207,7 @@ public class Fns1
         {"egetv",                       new EgetvFn()},
         {"eject",                       new EjectFn()},
         {"enable-backtrace",            new Enable_backtraceFn()},
+        {"enable-errorset",             new Enable_errorsetFn()},
         {"endp",                        new EndpFn()},
         {"eputv",                       new EputvFn()},
         {"eq",                          new EqFn()},
@@ -1602,6 +1605,13 @@ class DateFn extends BuiltinFunction
         String s = DateFormat.getDateTimeInstance().format(now);
         return new LispString(s);
     }
+    public LispObject op1(LispObject a1)
+    {
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yy");
+        String s = df.format(new Date());
+        return new LispString(s);
+    }
+
 }
 
 class Dated_nameFn extends BuiltinFunction
@@ -1634,6 +1644,17 @@ class DatestampFn extends BuiltinFunction
     {
         Date now = new Date();
         return LispInteger.valueOf(now.getTime());
+    }
+}
+
+class TimeofdayFn extends BuiltinFunction
+{
+    public LispObject op0() throws Exception
+    {
+        Date now = new Date();
+        long ms = now.getTime();
+        return new Cons(LispInteger.valueOf(ms/1000),
+                        LispInteger.valueOf(1000*(ms%1000)));
     }
 }
 
@@ -1832,7 +1853,20 @@ class Enable_backtraceFn extends BuiltinFunction
 {
     public LispObject op1(LispObject arg1) throws Exception
     {
-        return error(name + " not yet implemented");
+    	// Not actually doing anything yet
+        System.out.printf("enable-backtrace called%n");
+        return Jlisp.nil;
+    }
+}
+
+class Enable_errorsetFn extends BuiltinFunction
+{
+	public LispObject op2(LispObject arg1, LispObject arg2) throws Exception
+    {
+// Not actually doing anything yet
+        System.out.printf("enable-errorset called%n");
+        return new Cons(LispInteger.valueOf(1),
+                        LispInteger.valueOf(1));
     }
 }
 
@@ -3232,7 +3266,14 @@ class List_directoryFn extends BuiltinFunction
 {
     public LispObject op1(LispObject arg1) throws Exception
     {
-        return error(name + " not yet implemented");
+        String s;
+        if (arg1 instanceof Symbol)
+        {   ((Symbol)arg1).completeName();
+            s = ((Symbol)arg1).pname;
+        }
+        else if (arg1 instanceof LispString) s = ((LispString)arg1).string;
+        else return Jlisp.nil;
+        return LispStream.listDirectory(s);
     }
 }
 

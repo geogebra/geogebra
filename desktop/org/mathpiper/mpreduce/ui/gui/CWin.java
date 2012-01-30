@@ -375,10 +375,10 @@ String [] args = new String [0];
 public static void main(String [] args)
 {
 // If the command line includes an argument "-w" then I will remove
-// that so it doe not get looked at again and start the system up as a simple
+// that so it does not get looked at again and start the system up as a simple
 // application to run from the command line rather than in a window.
 //
-// The effect is that I can rin things in THREE ways:
+// The effect is that I can run things in THREE ways:
 //    (1) As an applet, ie using a browser of some form. In such cases
 //        it is hard to pass (variable) parameters;
 //    (2) As an application but one that pops up a window and then behaves

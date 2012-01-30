@@ -279,7 +279,9 @@ public class Jlisp extends Environment
 		{
 			lispIO = null;
 			finishingUp = true;
-			t.interrupt();     // so it can exit
+			if (t != null){
+				t.interrupt();     // so it can exit
+			}
 			int i;
 			// In general I close in the opposite order from that in which I opened files.
 			// The code here is such that if closing one file happened to have a side
@@ -1062,12 +1064,13 @@ public class Jlisp extends Environment
 		// The things put in lispsystem* must include various ones relied upon
 		// by the REDUCE build scripts!
 		((Symbol)lit[Lit.lispsystem]).car/*value*/ =
-		        new Cons(new Cons(Symbol.intern("c-code"), LispInteger.valueOf(0)),
-		                 new Cons(new Cons(Symbol.intern("name"),   new LispString("java")),
-		                          new Cons(Symbol.intern("csl"),       // a lie, in some sense!
-		                                   new Cons(Symbol.intern("jlisp"),
-		                                            new Cons(Symbol.intern("embedded"),
-		                                                     nil)))));
+		        new Cons(new Cons(Symbol.intern("platform"), Symbol.intern("java")),
+			        new Cons(new Cons(Symbol.intern("c-code"), LispInteger.valueOf(0)),
+			                 new Cons(new Cons(Symbol.intern("name"),   new LispString("java")),
+			                          new Cons(Symbol.intern("csl"),       // a lie, in some sense!
+			                                   new Cons(Symbol.intern("jlisp"),
+			                                            new Cons(Symbol.intern("embedded"),
+			                                                     nil))))));
 
 		Fns.fluid(nil);
 		Fns.fluid(lispTrue);

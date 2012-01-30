@@ -53,6 +53,7 @@ import org.mathpiper.mpreduce.Lit;
 import org.mathpiper.mpreduce.symbols.Symbol;
 import org.mathpiper.mpreduce.LispObject;
 import org.mathpiper.mpreduce.LispReader;
+import org.mathpiper.mpreduce.datatypes.Cons;
 import org.mathpiper.mpreduce.datatypes.LispString;
 import org.mathpiper.mpreduce.exceptions.ResourceException;
 
@@ -766,6 +767,21 @@ public class LispStream extends LispObject
         }
         catch (Exception e)
         {   return Environment.nil;
+        }
+    }
+    
+    public static LispObject listDirectory(String s)
+    {
+        try
+        {   File f = new File(nameConvert(s));
+            if (!f.isDirectory()) return Jlisp.nil;
+            LispObject r = Jlisp.nil;
+            for (String n : f.list())
+               r = new Cons(new LispString(n), r);
+            return Fns.reversip(r);
+        }
+        catch (Exception e)
+        {   return Jlisp.nil;
         }
     }
     
