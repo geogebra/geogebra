@@ -1410,45 +1410,19 @@ public abstract class AbstractApplication {
 		}
 	}
 
-	public double getXmin() {
-		// TODO Auto-generated method stub
-		return getEuclidianView().getXmin();
-	}
-
-	public double getXmax() {
-		// TODO Auto-generated method stub
-		return getEuclidianView().getXmax();
-	}
-
-	
-	public double getXminForFunctions() {
-		// TODO Auto-generated method stub
-		return ((AbstractEuclidianView)getEuclidianView()).getXminForFunctions();
-	}
-
-	
-	public double getXmaxForFunctions() {
-		// TODO Auto-generated method stub
-		return ((AbstractEuclidianView)getEuclidianView()).getXmaxForFunctions();
-	}
-
 	public int getMaxLayerUsed() {
 		return maxLayerUsed;
 	}
 
 	
 	public double countPixels(double min, double max) {
-		AbstractEuclidianView ev = (AbstractEuclidianView)getEuclidianView();
+		AbstractEuclidianView ev = getEuclidianView1();
 		return ev.toScreenCoordXd(max) - ev.toScreenCoordXd(min);
 	}
 
 
 	public abstract AlgebraView getAlgebraView();
 
-	@Deprecated
-	public EuclidianViewInterfaceCommon getEuclidianView(){
-		return euclidianView;
-	}
 	
 	public AbstractEuclidianView getEuclidianView1(){
 		return euclidianView;
@@ -1461,7 +1435,14 @@ public abstract class AbstractApplication {
 	public abstract EuclidianViewInterfaceCommon getActiveEuclidianView();
 
 
+	public void getEuclidianViewXML(StringBuilder sb, boolean asPreference) {
+		getEuclidianView1().getXML(sb, asPreference);
+		if(hasEuclidianView2EitherShowingOrNot()){
+			getEuclidianView1().getXML(sb, asPreference);
+		}
+	}
 	
+	public abstract boolean hasEuclidianView2EitherShowingOrNot();
 
 	public abstract boolean isShowingEuclidianView2();
 
@@ -1745,7 +1726,7 @@ public abstract class AbstractApplication {
 	}
 	
 	public void refreshViews() {
-		getEuclidianView().updateBackground();
+		getEuclidianView1().updateBackground();
 		if (hasEuclidianView2()) {
 			getEuclidianView2().updateBackground();
 		}
@@ -1815,7 +1796,7 @@ public abstract class AbstractApplication {
 		else {
 			switch (viewID) {
 			case VIEW_EUCLIDIAN:
-				return getEuclidianView();
+				return getEuclidianView1();
 			case VIEW_ALGEBRA:
 				return getAlgebraView();
 			case VIEW_SPREADSHEET:
@@ -1867,7 +1848,7 @@ public abstract class AbstractApplication {
 		sb.append(getGuiXML(asPreference));
 
 		// save euclidianView settings
-		getEuclidianView().getXML(sb, asPreference);
+		getEuclidianView1().getXML(sb, asPreference);
 
 		// save euclidian view 2 settings
 		if (hasEuclidianView2()) {
@@ -2223,12 +2204,12 @@ public abstract class AbstractApplication {
 
 	public void addToEuclidianView(GeoElement geo) {
 		geo.addView(AbstractApplication.VIEW_EUCLIDIAN);
-		getEuclidianView().add(geo);
+		getEuclidianView1().add(geo);
 	}
 
 	public void removeFromEuclidianView(GeoElement geo) {
 		geo.removeView(AbstractApplication.VIEW_EUCLIDIAN);
-		getEuclidianView().remove(geo);
+		getEuclidianView1().remove(geo);
 	}
 
 	// TODO remove this after ggb v>=5 (replace with same from Application3D)
@@ -2314,13 +2295,13 @@ public abstract class AbstractApplication {
 		if (getGuiManager() != null)
 			getGuiManager().updateMenubarSelection();
 
-		if (getEuclidianView().getMode() == EuclidianConstants.MODE_VISUAL_STYLE) {
+		if (getActiveEuclidianView().getMode() == EuclidianConstants.MODE_VISUAL_STYLE) {
 			if (selectedGeos.size() > 0) {
-				getEuclidianView().getStyleBar().applyVisualStyle(selectedGeos);
+				getActiveEuclidianView().getStyleBar().applyVisualStyle(selectedGeos);
 			}
 		}
 
-		if (getEuclidianView().getMode() == EuclidianConstants.MODE_MOVE) {
+		if (getActiveEuclidianView().getMode() == EuclidianConstants.MODE_MOVE) {
 			updateStyleBars();
 		}
 

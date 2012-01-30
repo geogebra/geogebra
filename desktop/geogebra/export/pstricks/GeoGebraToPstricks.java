@@ -54,7 +54,7 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.main.Application;
 import geogebra.util.Util;
 
-import java.awt.Color;
+import geogebra.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.geom.AffineTransform;
@@ -106,7 +106,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
     	codeFilledObject=new StringBuilder();
 		codeBeginDoc=new StringBuilder();
 		codeBeginPic=new StringBuilder();
-		CustomColor=new HashMap<Color,String>();
+		CustomColor=new HashMap<geogebra.common.awt.Color,String>();
  		if (format==GeoGebraToPstricks.FORMAT_BEAMER){
  	    	codePreamble.append("\\documentclass[" +
  	    			frame.getFontSize()+"pt]{beamer}\n");
@@ -454,7 +454,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
     	float xLabelHor = (x + xright) /2;
         float yLabelHor = y -(float)(
         		(euclidianView.getFont().getSize() + 2)/euclidianView.getYscale());
-		Color geocolor=geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor());
+		Color geocolor=((geogebra.awt.Color) geo.getObjectColor());
 		startBeamer(codePoint);
 		codePoint.append("\\rput[bl](");
 		codePoint.append(kernel.format(xLabelHor));
@@ -822,7 +822,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			st=st.replaceAll("\\u20ac", "\\\\euro{}");
 			if (!eurosym) codePreamble.append("\\usepackage{eurosym}\n");
 		}
-		Color geocolor=geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor());
+		Color geocolor=((geogebra.awt.Color) geo.getObjectColor());
 		int style=geo.getFontStyle();
 		int size=geo.getFontSize()+app.getGUIFontSize();
 		GeoPoint2 gp;
@@ -1566,7 +1566,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 				xLabel=euclidianView.toRealWorldCoordX(Math.round(xLabel));
 				yLabel=euclidianView.toRealWorldCoordY(Math.round(yLabel));
 				
-				Color geocolor=geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor());
+				Color geocolor=((geogebra.awt.Color) geo.getObjectColor());
 				startBeamer(codePoint);
 				codePoint.append("\\rput[bl](");
 				codePoint.append(kernel.format(xLabel));
@@ -1595,7 +1595,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	
     // Draw the grid 
 	private void drawGrid(){
-		Color GridCol=euclidianView.getGridColor();
+		geogebra.common.awt.Color GridCol=euclidianView.getGridColor();
 		double[] GridDist=euclidianView.getGridDistances();
 //		int GridLine=euclidianView.getGridLineStyle();
 
@@ -1688,11 +1688,11 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		codeBeginPic.append("\n");
 	}
 	private void PointOptionCode(GeoPoint2 geo){
-		Color dotcolor=geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor());
+		Color dotcolor=((geogebra.awt.Color) geo.getObjectColor());
 		int dotsize=geo.getPointSize();
 		int dotstyle=geo.getPointStyle();
 		if (dotstyle == -1) { // default
-			dotstyle = app.getEuclidianView().getPointStyle();
+			dotstyle = app.getEuclidianView1().getPointStyle();
 		}
 		boolean coma=false;
 		boolean bracket=false;
@@ -1759,7 +1759,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	}
 	private String LineOptionCode(GeoElement geo,boolean transparency){
 		StringBuilder sb=new StringBuilder(); 
-		Color linecolor=geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor());
+		Color linecolor=((geogebra.awt.Color) geo.getObjectColor());
 		int linethickness=geo.getLineThickness();
 		int linestyle=geo.getLineType();
 
@@ -1867,7 +1867,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		}
 	}
 	// Append the name color to StringBuilder sb 
-	protected void ColorCode(Color c,StringBuilder sb){
+	protected void ColorCode(geogebra.common.awt.Color c,StringBuilder sb){
 		if (frame.isGrayscale()){
 			String colorname="";
 			int red=c.getRed();

@@ -1129,7 +1129,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		start = initialX;
 
 		// initial step = EV grid step 
-		step = 0.25 * kernel.getApplication().getEuclidianView().getGridDistances()[0];
+		step = 0.25 * kernel.getApplication().getActiveEuclidianView().getGridDistances()[0];
 		fldStep.removeActionListener(this);
 		fldStep.setText("" + step);
 		fldStep.addActionListener(this);

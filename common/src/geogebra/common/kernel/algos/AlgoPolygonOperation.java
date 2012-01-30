@@ -65,7 +65,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 		super(cons);
 
-		ev = cons.getApplication().getEuclidianView();
+		ev = cons.getApplication().getActiveEuclidianView();
 		this.operationType = operationType;
 		this.inPoly0 = inPoly0;
 		this.inPoly1 = inPoly1;

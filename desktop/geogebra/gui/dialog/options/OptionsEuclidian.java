@@ -495,7 +495,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 	}	
 	
 	protected void setCbViewSelectedIndex(){
-		if(view == app.getEuclidianView())
+		if(view == app.getEuclidianView1())
     		cbView.setSelectedIndex(0);
 		else
 			cbView.setSelectedIndex(1);
@@ -510,8 +510,8 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 	public void updateGUI() {
 		
 		btBackgroundColor.setForeground(geogebra.awt.Color.getAwtColor(view.getBackgroundCommon()));
-		btAxesColor.setForeground(view.getAxesColor());
-		btGridColor.setForeground(view.getGridColor());
+		btAxesColor.setForeground(geogebra.awt.Color.getAwtColor(view.getAxesColor()));
+		btGridColor.setForeground(geogebra.awt.Color.getAwtColor(view.getGridColor()));
 		
 		cbShowAxes.removeActionListener(this);
         cbShowAxes.setSelected(view.getShowXaxis() && view.getShowYaxis());
@@ -705,10 +705,10 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 	
 	protected void doActionPerformed(Object source) {				
 		if (source == btBackgroundColor) {
-			if (view == app.getEuclidianView()) {
+			if (view == app.getEuclidianView1()) {
 				app.getSettings().getEuclidian(1).setBackground(
 						new geogebra.awt.Color(app.getGuiManager().showColorChooser(
-						geogebra.awt.Color.getAwtColor(app.getSettings().getEuclidian(1).getBackground())
+						app.getSettings().getEuclidian(1).getBackground()
 					))
 				);
 			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
@@ -716,7 +716,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 			} else if (view == app.getEuclidianView2()) {
 				app.getSettings().getEuclidian(2).setBackground(
 						new geogebra.awt.Color(app.getGuiManager().showColorChooser(
-							geogebra.awt.Color.getAwtColor(app.getSettings().getEuclidian(2).getBackground()))
+							app.getSettings().getEuclidian(2).getBackground())
 					)
 				);
 			} else {
@@ -724,7 +724,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 			}
 		} else if (source == btAxesColor) {
 			geogebra.common.awt.Color col = new geogebra.awt.Color(app.getGuiManager().showColorChooser(view.getAxesColor()));
-			if (view == app.getEuclidianView()) {
+			if (view == app.getEuclidianView1()) {
 				app.getSettings().getEuclidian(1).setAxesColor(col);
 			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 				view.setAxesColor(col);
@@ -735,7 +735,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 			}
 		} else if (source == btGridColor) {
 			geogebra.common.awt.Color col = new geogebra.awt.Color(app.getGuiManager().showColorChooser(view.getGridColor()));
-			if (view == app.getEuclidianView()) {
+			if (view == app.getEuclidianView1()) {
 				app.getSettings().getEuclidian(1).setGridColor(col);
 			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 				view.setGridColor(col);
@@ -754,7 +754,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 				ind = EuclidianStyleConstants.TOOLTIPS_OFF;
 			}
 			if (view instanceof EuclidianView) {
-				if (view == app.getEuclidianView()) {
+				if (view == app.getEuclidianView1()) {
 					app.getSettings().getEuclidian(1).setAllowToolTips(ind);
 				} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 					((AbstractEuclidianView)view).setAllowToolTips(ind);
@@ -765,7 +765,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 				}
 			}
 		} else if (source == cbShowAxes) {
-			if (app.getEuclidianView() == view) {
+			if (app.getEuclidianView1() == view) {
 				app.getSettings().getEuclidian(1).setShowAxes(cbShowAxes.isSelected(), cbShowAxes.isSelected());
 			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 				view.setShowAxes(cbShowAxes.isSelected(), true);
@@ -775,7 +775,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 				view.setShowAxes(cbShowAxes.isSelected(), true);
 			}
 		} else if (source == cbShowGrid) {
-			if (app.getEuclidianView() == view) {
+			if (app.getEuclidianView1() == view) {
 				app.getSettings().getEuclidian(1).showGrid(cbShowGrid.isSelected());
 			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 				view.showGrid(cbShowGrid.isSelected());
@@ -785,7 +785,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 				view.showGrid(cbShowGrid.isSelected());
 			}
 		} else if (source == cbBoldGrid) {
-			if (app.getEuclidianView() == view) {
+			if (app.getEuclidianView1() == view) {
 				app.getSettings().getEuclidian(1).setGridIsBold(cbBoldGrid.isSelected());
 			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 				view.setGridIsBold(cbBoldGrid.isSelected());
@@ -795,7 +795,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 				view.setGridIsBold(cbBoldGrid.isSelected());
 			}
 		} else if (source == cbShowMouseCoords) {
-			if (view == app.getEuclidianView()) {
+			if (view == app.getEuclidianView1()) {
 				app.getSettings().getEuclidian(1).setAllowShowMouseCoords(cbShowMouseCoords.isSelected());
 			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 				view.setAllowShowMouseCoords(cbShowMouseCoords.isSelected());
@@ -805,7 +805,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 				view.setAllowShowMouseCoords(cbShowMouseCoords.isSelected());
 			}
 		} else if (source == cbGridType) {
-			if (app.getEuclidianView() == view) {
+			if (app.getEuclidianView1() == view) {
 				app.getSettings().getEuclidian(1).setGridType(cbGridType.getSelectedIndex());
 			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 				view.setGridType(cbGridType.getSelectedIndex());
@@ -815,7 +815,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 				view.setGridType(cbGridType.getSelectedIndex());
 			}
 		} else if (source == cbAxesStyle) {
-			if (view == app.getEuclidianView()) {
+			if (view == app.getEuclidianView1()) {
 				app.getSettings().getEuclidian(1).setAxesLineStyle(cbAxesStyle.getSelectedIndex());
 			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 				view.setAxesLineStyle(cbAxesStyle.getSelectedIndex());
@@ -827,7 +827,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 		} else if (source == cbGridStyle) {
 			int type = ((Integer) cbGridStyle.getSelectedItem()).intValue();
 
-			if (app.getEuclidianView() == view) {
+			if (app.getEuclidianView1() == view) {
 				app.getSettings().getEuclidian(1).setGridLineStyle(type);
 			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 				view.setGridLineStyle(type);
@@ -837,7 +837,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 				view.setGridLineStyle(type);
 			}
 		} else if (source == cbGridManualTick) {
-			if (app.getEuclidianView() == view) {
+			if (app.getEuclidianView1() == view) {
 				app.getSettings().getEuclidian(1).setAutomaticGridDistance(!cbGridManualTick.isSelected(), true);
 			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 				view.setAutomaticGridDistance(!cbGridManualTick.isSelected());
@@ -873,7 +873,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 			}
 			else {
 				if(source == tfMinX){
-					if (view == app.getEuclidianView()) {
+					if (view == app.getEuclidianView1()) {
 						app.getSettings().getEuclidian(1).setXminObject(minMax, true);
 					} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 						view.setXminObject(minMax);
@@ -883,7 +883,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 						view.setXminObject(minMax);
 					}
 				}else if(source== tfMaxX){
-					if (view == app.getEuclidianView()) {
+					if (view == app.getEuclidianView1()) {
 						app.getSettings().getEuclidian(1).setXmaxObject(minMax, true);
 					} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 						view.setXmaxObject(minMax);
@@ -893,7 +893,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 						view.setXmaxObject(minMax);
 					}
 				}else if(source == tfMinY){
-					if (view == app.getEuclidianView()) {
+					if (view == app.getEuclidianView1()) {
 						app.getSettings().getEuclidian(1).setYminObject(minMax, true);
 					} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 						view.setYminObject(minMax);
@@ -903,7 +903,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 						view.setYminObject(minMax);
 					}
 				}else if(source== tfMaxY){
-					if (view == app.getEuclidianView()) {
+					if (view == app.getEuclidianView1()) {
 						app.getSettings().getEuclidian(1).setYmaxObject(minMax, true);
 					} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
 						view.setYmaxObject(minMax);
@@ -1148,7 +1148,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 		private void doActionPerformed(Object source) {	
 						
 			if (source == cbShowAxis) {
-				if (app.getEuclidianView() == view)
+				if (app.getEuclidianView1() == view)
 					app.getSettings().getEuclidian(1).setShowAxis(axis, cbShowAxis.isSelected());
 				else if (!app.hasEuclidianView2EitherShowingOrNot())
 					view.setShowAxis(axis, cbShowAxis.isSelected(), true);
@@ -1166,7 +1166,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 
 			else if (source == cbManualTicks) {
 
-				if (app.getEuclidianView() == view)
+				if (app.getEuclidianView1() == view)
 					app.getSettings().getEuclidian(1).setAutomaticAxesNumberingDistance(!cbManualTicks.isSelected(), axis, true);
 				else if (!app.hasEuclidianView2EitherShowingOrNot())
 					view.setAutomaticAxesNumberingDistance(!cbManualTicks.isSelected(), axis);
@@ -1197,7 +1197,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 				int [] styles = view.getAxesTickStyles();
 				styles[axis] = type;
 
-				if (app.getEuclidianView() == view)
+				if (app.getEuclidianView1() == view)
 					app.getSettings().getEuclidian(1).setAxisTickStyle(axis, type);
 				else if (!app.hasEuclidianView2EitherShowingOrNot())
 					view.setAxesTickStyles(styles);
@@ -1215,7 +1215,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 					double[] ac = view.getAxesCross();
 					ac[axis] = cross;
 
-					if (app.getEuclidianView() == view)
+					if (app.getEuclidianView1() == view)
 						app.getSettings().getEuclidian(1).setAxisCross(axis, cross);
 					else if (!app.hasEuclidianView2EitherShowingOrNot())
 						view.setAxesCross(ac);
@@ -1229,7 +1229,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 			}
 
 			else if (source == cbPositiveAxis) {
-				if (view == app.getEuclidianView())
+				if (view == app.getEuclidianView1())
 					app.getSettings().getEuclidian(1).setPositiveAxis(axis, cbPositiveAxis.isSelected());
 				else if (!app.hasEuclidianView2EitherShowingOrNot())
 					view.setPositiveAxis(axis, cbPositiveAxis.isSelected());
@@ -1260,7 +1260,7 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 			if (source == ncbTickDist) {
 				double val = ncbTickDist.getValue();
 				if (val > 0) {
-					if (app.getEuclidianView() == view)
+					if (app.getEuclidianView1() == view)
 						app.getSettings().getEuclidian(1).setAxesNumberingDistance(val, axis);
 					else if (!app.hasEuclidianView2EitherShowingOrNot())
 						view.setAxesNumberingDistance(val, axis);

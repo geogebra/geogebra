@@ -45,7 +45,7 @@ public class CmdSetVisibleInView extends CmdScripting {
 
 				switch (viewNo) {
 				case 1:
-					ev = app.getEuclidianView();
+					ev = app.getEuclidianView1();
 					break;
 				case 2:
 					if (!app.hasEuclidianView2()) break;

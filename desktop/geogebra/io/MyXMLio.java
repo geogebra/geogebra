@@ -626,6 +626,7 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 			String fileName) {
 		// <-- Modified for Intergeo File Format (Yves Kreis)
 
+		
 
 		// max 128 pixels either way
 		/*
@@ -792,10 +793,6 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 		// save euclidianView settings
 		app.getEuclidianViewXML(sb,false);
 		
-		//save euclidian view 2 settings
-		if(app.hasEuclidianView2EitherShowingOrNot()){
-			app.getEuclidianView2().getXML(sb,false);
-		}
 		
 		// save kernel settings
 		c.getKernel().getKernelXML(sb, false);

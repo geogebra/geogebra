@@ -19,7 +19,7 @@ public abstract class CmdTwoNumFunction extends CommandProcessor {
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
-
+		
 		switch (n) {
 		
 		case 2:			

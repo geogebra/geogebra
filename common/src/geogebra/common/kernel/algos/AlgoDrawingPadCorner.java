@@ -80,7 +80,7 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 		AbstractApplication app = cons.getApplication();
 
 		if (evNum == null || evNum.getDouble() == 1.0)
-			ev = app.getEuclidianView();
+			ev = app.getEuclidianView1();
 		else {
 			if (!app.hasEuclidianView2()) {
 				corner.setUndefined();

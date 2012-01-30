@@ -1356,7 +1356,7 @@ public class Construction {
 		if (moveMode) {
 			GeoElement selGeo = kernel.lookupLabel(oldSelection);
 			app.addSelectedGeo(selGeo, false);
-			app.getEuclidianView().getEuclidianController()
+			app.getActiveEuclidianView().getEuclidianController()
 					.handleMovedElement(selGeo, false);
 		}
 	}

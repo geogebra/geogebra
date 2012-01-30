@@ -885,8 +885,11 @@ implements AlgoDrawInformation{
             // calulate the min and max x-coords of what actually needs to be drawn
 			// do subsampling only in this region
 			
-            double visibleMin = Math.max(Math.min(ad, bd), app.getXmin());
-            double visibleMax = Math.min(Math.max(ad, bd), app.getXmax());	
+            double visibleMin = Math.max(Math.min(ad, bd),
+            		kernel.getViewsXMin(sum));
+            		
+            double visibleMax = Math.min(Math.max(ad, bd), 
+            		kernel.getViewsXMax(sum));	
             
             // subsample every 5 pixels
             double noOfSamples = app.countPixels(visibleMin, visibleMax) / SAMPLE_PIXELS;

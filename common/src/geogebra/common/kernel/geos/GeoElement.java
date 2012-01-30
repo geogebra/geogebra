@@ -380,11 +380,8 @@ public abstract class GeoElement extends ConstructionElement implements
 		// isConsProtBreakpoint = cons.showOnlyBreakpoints();
 
 		// ensure all new objects are in the top layer
-		final AbstractApplication app = c.getApplication();
 		if (app != null) {
-			if (app.getEuclidianView() != null) {
-				layer = app.maxLayerUsed;
-			}
+			layer = app.maxLayerUsed;
 		}
 
 		viewFlags = new ArrayList<Integer>();

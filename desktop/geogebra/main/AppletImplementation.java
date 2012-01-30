@@ -1220,7 +1220,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 */
 	public synchronized void setCoordSystem(double xmin, double xmax,
 			double ymin, double ymax) {
-		app.getEuclidianView().setRealWorldCoordSystem(xmin, xmax, ymin, ymax);
+		app.getEuclidianView1().setRealWorldCoordSystem(xmin, xmax, ymin, ymax);
 	}
 
 	/**

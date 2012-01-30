@@ -786,15 +786,15 @@ public abstract class GgbAPI {
 	 * Sets the Cartesian coordinate system in the graphics window.
 	 */
 	public synchronized void setCoordSystem(double xmin, double xmax, double ymin, double ymax) {
-		app.getEuclidianView().setRealWorldCoordSystem(xmin, xmax, ymin, ymax);
+		app.getEuclidianView1().setRealWorldCoordSystem(xmin, xmax, ymin, ymax);
 	}
 	
 	/**
 	 * Shows or hides the x- and y-axis of the coordinate system in the graphics window.
 	 */
 	public synchronized void setAxesVisible(boolean xVisible, boolean yVisible) {		
-		app.getEuclidianView().setShowAxis(AbstractEuclidianView.AXIS_X, xVisible, false);
-		app.getEuclidianView().setShowAxis(AbstractEuclidianView.AXIS_Y, yVisible, false);
+		app.getEuclidianView1().setShowAxis(AbstractEuclidianView.AXIS_X, xVisible, false);
+		app.getEuclidianView1().setShowAxis(AbstractEuclidianView.AXIS_Y, yVisible, false);
 		kernel.notifyRepaint();
 	}	
 	
@@ -804,7 +804,10 @@ public abstract class GgbAPI {
 	 * hide these corner coordinates.
 	 */
 	public synchronized void setAxesCornerCoordsVisible(boolean showAxesCornerCoords) {		
-		app.getEuclidianView().setAxesCornerCoordsVisible(showAxesCornerCoords);
+		app.getEuclidianView1().setAxesCornerCoordsVisible(showAxesCornerCoords);
+		if(app.hasEuclidianView2()){
+			app.getEuclidianView2().setAxesCornerCoordsVisible(showAxesCornerCoords);
+		}
 	}	
 	
 	/**

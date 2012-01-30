@@ -1587,8 +1587,8 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		if(this.hasInterval()){
 			curve.setInterval(intervalMin, intervalMax);
 		}else{
-			double min = app.getXminForFunctions();
-			double max = app.getXmaxForFunctions();   
+			double min = kernel.getXminForFunctions();
+			double max = kernel.getXmaxForFunctions();   
 			curve.setInterval(min, max);
 			curve.setHideRangeInFormula(true);
 		}

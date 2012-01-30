@@ -75,7 +75,7 @@ public class AlgoAxisStepY extends AlgoElement {
     // calc the current value of the arithmetic tree
     @Override
 	public final void compute() {  
-    	double axisSteps[] = (kernel.getApplication()).getEuclidianView().getGridDistances();
+    	double axisSteps[] = (kernel.getApplication()).getEuclidianView1().getGridDistances();
     	num.setValue(axisSteps[1]);
     }         
 }

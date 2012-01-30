@@ -1502,7 +1502,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 	protected void processSource(Object source, ArrayList<GeoElement> targetGeos) {
 
 		if (source.equals(btnShowAxes)) {
-			if (app.getEuclidianView() == ev)
+			if (app.getEuclidianView1() == ev)
 				app.getSettings().getEuclidian(1)
 						.setShowAxes(!ev.getShowXaxis(), !ev.getShowXaxis());
 			else if (!app.hasEuclidianView2EitherShowingOrNot())
@@ -1516,7 +1516,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 		}
 
 		else if (source.equals(btnShowGrid)) {
-			if (app.getEuclidianView() == ev)
+			if (app.getEuclidianView1() == ev)
 				app.getSettings().getEuclidian(1).showGrid(!ev.getShowGrid());
 			else if (!app.hasEuclidianView2EitherShowingOrNot())
 				ev.showGrid(!ev.getShowGrid());

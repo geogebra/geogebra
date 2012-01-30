@@ -1040,23 +1040,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		return ymin;
 	}
 
-	/**
-	 * When function (or parabola) is transformed to curve, we need some good
-	 * estimate for which part of curve should be ploted
-	 * 
-	 * @return lower bound for function -> curve transform
-	 */
-	public double getXmaxForFunctions() {
-		return (((2 * getXmax()) - getXmin()) + getYmax()) - getYmin();
-	}
-
-	/**
-	 * @see #getXmaxForFunctions()
-	 * @return upper bound for function -> curve transform
-	 */
-	public double getXminForFunctions() {
-		return (((2 * getXmin()) - getXmax()) + getYmin()) - getYmax();
-	}
+	
 
 	/**
 	 * Returns grid type.
@@ -4492,6 +4476,14 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		protected boolean drawPlayButtonInThisView() {
 			// TODO Auto-generated method stub
 			return true;
+		}
+		
+		public geogebra.common.awt.Color getAxesColor() {
+			return axesColor;
+		}
+
+		public geogebra.common.awt.Color getGridColor() {
+			return gridColor;
 		}
 
 }

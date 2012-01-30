@@ -118,7 +118,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 			GeoElement geo = (GeoElement) model.getValueAt(row, col);	
 			// let euclidianView know about the click
 			AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
-			app.getEuclidianView().clickedGeo(geo, event);
+			app.getActiveEuclidianView().clickedGeo(geo, event);
 			event.release();
 		}
 

@@ -367,7 +367,9 @@ class OptionsMenu extends BaseMenu implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			app.setLanguage(Application.getLocale(e.getActionCommand()));
 			// make sure axes labels are updated eg for Arabic 
-			app.getEuclidianView().updateBackground(); 
+			app.getEuclidianView1().updateBackground();
+			if(app.hasEuclidianView2EitherShowingOrNot())
+				app.getEuclidianView2().updateBackground();
 			GeoGebraPreferences.getPref().saveDefaultLocale(app.getLocale());
 		}
 	}
@@ -444,7 +446,7 @@ class OptionsMenu extends BaseMenu implements ActionListener {
 		// Point capturing
 		else if (cmd.endsWith("PointCapturing")) {
 			int mode = Integer.parseInt(cmd.substring(0, 1));
-			app.getEuclidianView().setPointCapturing(mode);
+			app.getEuclidianView1().setPointCapturing(mode);
 			if (app.hasEuclidianView2EitherShowingOrNot()) {
 				app.getEuclidianView2().setPointCapturing(mode);
 			}

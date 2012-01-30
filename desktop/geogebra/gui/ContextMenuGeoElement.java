@@ -551,14 +551,14 @@ public class ContextMenuGeoElement extends JPopupMenu {
 		EuclidianViewInterfaceCommon newView = app.getActiveEuclidianView();
 		
 		if (newView==app.getEuclidianView2())
-			newView=app.getEuclidianView(); //graphics and graphics2 are treated the same
+			newView=app.getEuclidianView1(); //graphics and graphics2 are treated the same
 		
 		if (oldView==newView)
 			return;
 
 
 		if (oldView==null)
-			if (newView==app.getEuclidianView() || newView==app.getEuclidianView2()){
+			if (newView==app.getEuclidianView1() || newView==app.getEuclidianView2()){
 				if (!geo.isGeoElement3D()) // if 2D geo and new view is 2D standard view, no changes
 					return;
 			}else if (!(newView instanceof EuclidianView))
@@ -704,12 +704,11 @@ public class ContextMenuGeoElement extends JPopupMenu {
 							
 						}
 						app.storeUndoInfo();
-						
-                        app.getEuclidianView().repaint();
+                        app.getActiveEuclidianView().repaint();
 
 						// automatically start animation when animating was turned on
 						if (geo.isAnimating())
-							((Kernel) geo.getKernel()).getAnimatonManager().startAnimation();	
+							geo.getKernel().getAnimatonManager().startAnimation();	
 					}       	
 				});
 				addItem(cbItem);            	

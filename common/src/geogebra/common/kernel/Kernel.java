@@ -9919,6 +9919,22 @@ public class Kernel {
 				((LayerView)views[i]).changeLayer(ge,layer,layer2);
 		}
 	}
+	/**
+	 * When function (or parabola) is transformed to curve, we need some good
+	 * estimate for which part of curve should be ploted
+	 * 
+	 * @return lower bound for function -> curve transform
+	 */
+	public double getXmaxForFunctions() {
+		return (((2 * getXmax()) - getXmin()) + getYmax()) - getYmin();
+	}
 
+	/**
+	 * @see #getXmaxForFunctions()
+	 * @return upper bound for function -> curve transform
+	 */
+	public double getXminForFunctions() {
+		return (((2 * getXmin()) - getXmax()) + getYmin()) - getYmax();
+	}
 
 }

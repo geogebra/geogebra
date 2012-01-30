@@ -231,7 +231,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	 * Displays the configuration dialog for the toolbar
 	 */
 	public void showToolbarConfigDialog() {
-		app.getEuclidianView().resetMode();
+		app.getActiveEuclidianView().resetMode();
 		ToolbarConfigDialog dialog = new ToolbarConfigDialog(app);
 		dialog.setVisible(true);
 	}

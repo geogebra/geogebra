@@ -736,7 +736,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			GeoLine axis = new GeoLine(cons);		
 			axis.setCoords(0, 1, 0);
 			axis.setLayer(4);
-			axis.setObjColor(new geogebra.awt.Color(app.getEuclidianView1().getAxesColor()));
+			axis.setObjColor(app.getEuclidianView1().getAxesColor());
 			axis.setLineThickness(discreteIntervalGraph.lineThickness);
 			axis.setFixed(true);
 			axis.updateCascade();
@@ -1562,7 +1562,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 		geo.addView(plotPanel.getViewID());
 		plotPanel.add(geo);
 		geo.removeView(AbstractApplication.VIEW_EUCLIDIAN);
-		app.getEuclidianView().remove(geo);
+		app.getEuclidianView1().remove(geo);
 	}
 
 	private void hideToolTips(){
@@ -1996,7 +1996,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			
 			// if null ID then use EV1 unless shift is down, then use EV2
 			if(euclidianViewID == null){
-				euclidianViewID = app.getShiftDown()? app.getEuclidianView2().getViewID() : app.getEuclidianView().getViewID();
+				euclidianViewID = app.getShiftDown()? app.getEuclidianView2().getViewID() : app.getEuclidianView1().getViewID();
 			}
 			
 			// do the export

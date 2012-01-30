@@ -30,8 +30,8 @@ public class ApplicationWrapper extends BasePresenter {
 	}
 	
 	public void onSyncCanvasSizeWithApplication() {
-		((geogebra.web.euclidian.EuclidianView) app.getEuclidianView()).synCanvasSize();
-		app.getEuclidianView().repaintView();
+		((geogebra.web.euclidian.EuclidianView) app.getEuclidianView1()).synCanvasSize();
+		app.getEuclidianView1().repaintView();
 	}
 	
 	public void onFileContentLoaded(final JsUint8Array zippedContent) {

@@ -225,7 +225,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 				gui.getLayout().getDockManager()
 						.moveFocus(!event.isShiftDown());
 
-			} else if (app.getEuclidianView().hasFocus()
+			} else if (app.getActiveEuclidianView().hasFocus()
 					|| app.getGuiManager().getAlgebraView().hasFocus()) {
 				if (event.isShiftDown())
 					app.selectLastGeo();
@@ -540,8 +540,8 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 			case KeyEvent.VK_EQUALS:
 
 				// disable zooming in PEN mode
-				if (app.getEuclidianView().getMode() != EuclidianConstants.MODE_PEN
-						|| app.getEuclidianView().getMode() != EuclidianConstants.MODE_FREEHAND) {
+				if (app.getActiveEuclidianView().getMode() != EuclidianConstants.MODE_PEN
+						|| app.getActiveEuclidianView().getMode() != EuclidianConstants.MODE_FREEHAND) {
 
 					boolean spanish = app.getLocale().toString()
 							.startsWith("es");

@@ -771,7 +771,7 @@ StatPanelInterface{
 				listGeo.addView(plotPanel.getViewID());
 				plotPanel.add(listGeo);
 				listGeo.removeView(AbstractApplication.VIEW_EUCLIDIAN);
-				app.getEuclidianView().remove(listGeo);
+				app.getEuclidianView1().remove(listGeo);
 			}
 		}
 		
@@ -982,7 +982,7 @@ StatPanelInterface{
 			
 			// if null ID then use EV1 unless shift is down, then use EV2
 			if(euclidianViewID == null){
-				euclidianViewID = app.getShiftDown()? app.getEuclidianView2().getViewID() : app.getEuclidianView().getViewID();
+				euclidianViewID = app.getShiftDown()? app.getEuclidianView2().getViewID() : app.getEuclidianView1().getViewID();
 			}
 			
 			// do the export

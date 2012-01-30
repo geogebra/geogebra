@@ -12,6 +12,9 @@ public class Color extends geogebra.common.awt.Color {
 	public static final Color GREEN = new Color(0, 255, 0);
 	public static final Color YELLOW = new Color(255, 255, 0);
 	public static final Color DARK_GRAY = new Color(68, 68, 68);
+	public static final Color LIGHT_GRAY = new Color(192, 192, 192);
+	public static final Color CYAN = new Color(0, 255, 255);
+	public static final Color MAGENTA = new Color(255, 0, 255);
 	public static final Color red = new Color(255, 0, 0);
 	public static final Color yellow = new Color(255, 255, 0);
 	public static final Color green = new Color(0, 255, 0);

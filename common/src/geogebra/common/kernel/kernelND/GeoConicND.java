@@ -3121,8 +3121,8 @@ Translateable, GeoConicNDConstants
 					fv,
 					Operation.MULTIPLY,
 					fv);
-			min = app.getXminForFunctions();
-			max = app.getXmaxForFunctions();
+			min = kernel.getXminForFunctions();
+			max = kernel.getXmaxForFunctions();
 			}
 		else return;
 		ExpressionNode rwX = new ExpressionNode(kernel,new ExpressionNode(kernel, 

@@ -156,7 +156,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 			}
 
 			super.setVisible(true);
-			app.getEuclidianView().requestFocusInWindow();
+			app.getActiveEuclidianView().requestFocusInWindow();
 		} else {
 			if (!isShowing())
 				return;

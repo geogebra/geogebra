@@ -293,7 +293,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 	 * focus (current code assumes only 2 EVs)
 	 */
 	private void requestViewFocus() {
-		if (ev.equals(app.getEuclidianView()))
+		if (ev.equals(app.getEuclidianView1()))
 			app.getGuiManager().getLayout().getDockManager()
 					.setFocusedPanel(AbstractApplication.VIEW_EUCLIDIAN);
 		else

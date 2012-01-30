@@ -481,7 +481,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 	 * as [xmin, ymin, width, height]
 	 */
 	public synchronized Rectangle2D.Double getCoordSystemRectangle() {
-		AbstractEuclidianView ev = (AbstractEuclidianView) app.getEuclidianView();
+		AbstractEuclidianView ev = app.getEuclidianView1();
 		return new Rectangle2D.Double(ev.getXmin(), ev.getYmin(), 
 				ev.getXmax() - ev.getXmin(), ev.getYmax() - ev.getYmin());
 	}

@@ -3775,7 +3775,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			if (geo0.getPointStyle() == -1) {
 				// select default button
 				buttons[0].setSelected(true);
-				cbStyle.setSelectedIndex(app.getEuclidianView().getPointStyle());
+				cbStyle.setSelectedIndex(app.getEuclidianView1().getPointStyle());
 
 			} else {
 				// select custom button and set combo box selection
@@ -3830,7 +3830,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			// default button click
 			if (e.getActionCommand() == "default") {
 				cbStyle.removeActionListener(this);
-				cbStyle.setSelectedIndex(app.getEuclidianView().getPointStyle());
+				cbStyle.setSelectedIndex(app.getEuclidianView1().getPointStyle());
 				cbStyle.addActionListener(this);
 			}
 			// END G.STURR

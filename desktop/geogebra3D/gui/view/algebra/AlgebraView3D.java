@@ -62,7 +62,7 @@ public class AlgebraView3D extends AlgebraView {
 			if (geo.isGeoElement3D())
 				view = ((Application3D) app).getEuclidianView3D();
 			else
-				view = app.getEuclidianView();
+				view = app.getActiveEuclidianView();
 		}
 		
 		String viewString = view.getFromPlaneString();

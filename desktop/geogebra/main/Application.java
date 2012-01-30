@@ -1481,9 +1481,7 @@ public class Application extends AbstractApplication implements
 				&& getGuiManager().getEuclidianView2().isShowing();
 	}
 
-	public void getEuclidianViewXML(StringBuilder sb, boolean asPreference) {
-		getEuclidianView().getXML(sb, asPreference);
-	}
+	
 
 	@Override
 	public EuclidianViewND getActiveEuclidianView() {

@@ -833,7 +833,11 @@ public class Application extends AbstractApplication {
 		// don't need to load gui jar as reset image is in main jar
 		return imageManager.getInternalImage(GuiResources.INSTANCE.navPause());
 	}
-
+	@Override
+    public boolean hasEuclidianView2EitherShowingOrNot() {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
 	@Override
     public StringType getFormulaRenderingType() {
 	    return StringType.MATHML;

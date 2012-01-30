@@ -3050,19 +3050,6 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 	protected Hits3D tempArrayList = new Hits3D();
 
-	
-	public void changeLayer(GeoElement geo, int oldlayer, int newlayer){
-		getApplication().getEuclidianView().changeLayer(geo, oldlayer, newlayer);
-	}
-
-/*
-	public boolean isZoomable() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-*/
-
-
 
 
 	public void setResizeXAxisCursor() {

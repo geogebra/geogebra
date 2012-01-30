@@ -264,8 +264,8 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 		// pixels_in_visible_interval=...
 		// n=pixels_in_visible_interval/PIXELS_BETWEEN_SAMPLES;
 
-		double visiblemax = app.getXmax();
-		double visiblemin = app.getXmin();
+		double visiblemax = kernel.getViewsXMax(points[0]);
+		double visiblemin = kernel.getViewsXMin(points[0]);
 		double visiblepixs = app.countPixels(visiblemin, visiblemax);
 		// debug("Visible pixels: "+visiblepixs);
 		double pixsininterval = visiblepixs * (r - l)

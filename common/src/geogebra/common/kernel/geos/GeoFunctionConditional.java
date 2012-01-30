@@ -632,8 +632,8 @@ public class GeoFunctionConditional extends GeoFunction {
 		curve.setFunctionY(fn);
 		Function varFun = new Function(new ExpressionNode(kernel,t),t);
 		curve.setFunctionX(varFun);
-		double min = app.getXminForFunctions();
-		double max = app.getXmaxForFunctions();
+		double min = kernel.getXminForFunctions();
+		double max = kernel.getXmaxForFunctions();
 		curve.setInterval(min, max);   
 		curve.setHideRangeInFormula(true);
 	}

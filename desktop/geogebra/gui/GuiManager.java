@@ -852,8 +852,8 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	public void setShowConstructionProtocolNavigation(boolean show) {
 		if (show) {
-			if (app.getEuclidianView() != null)
-				app.getEuclidianView().resetMode();
+			if (app.getActiveEuclidianView() != null)
+				app.getActiveEuclidianView().resetMode();
 			getConstructionProtocolNavigation();
 			constProtocolNavigation.register();
 		} else {
@@ -894,7 +894,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	 * Displays the construction protocol dialog
 	 */
 	public void showConstructionProtocol() {
-		app.getEuclidianView().resetMode();
+		app.getActiveEuclidianView().resetMode();
 		getConstructionProtocolView();
 		constructionProtocolView.setVisible(true);
 	}
@@ -1097,7 +1097,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	 */
 	public void showDrawingPadPopup(Component invoker, geogebra.common.awt.Point p) {
 		// clear highlighting and selections in views
-		app.getEuclidianView().resetMode();
+		app.getActiveEuclidianView().resetMode();
 
 		// menu for drawing pane context menu
 		drawingPadpopupMenu = new ContextMenuGraphicsWindow(app, p.x, p.y);
@@ -1132,7 +1132,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 			showDrawingPadPopup(invoker, p);
 		} else {
 			// clear highlighting and selections in views
-			app.getEuclidianView().resetMode();
+			app.getActiveEuclidianView().resetMode();
 
 			Point screenPos = (invoker == null) ? new Point(0, 0) : invoker
 					.getLocationOnScreen();
@@ -1210,11 +1210,11 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		return ret;
 	}
 
-	public Color showColorChooser(Color currentColor) {
+	public Color showColorChooser(geogebra.common.awt.Color currentColor) {
 
 		try {
 			GeoGebraColorChooser chooser = new GeoGebraColorChooser(app);
-			chooser.setColor(currentColor);
+			chooser.setColor(geogebra.awt.Color.getAwtColor(currentColor));
 			JDialog dialog = JColorChooser.createDialog(app.getMainComponent(),
 					app.getPlain("ChooseColor"), true, chooser, null, null);
 			dialog.setVisible(true);
@@ -1541,8 +1541,10 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	public boolean saveCurrentFile() {
 		getDialogManager().closePropertiesDialog();
 
-		app.getEuclidianView().reset();
-
+		app.getEuclidianView1().reset();
+		if(app.hasEuclidianView2()){
+			app.getEuclidianView2().reset();
+		}
 		// use null component for iconified frame
 		Component comp = app.getMainComponent();
 		if (app.getFrame() instanceof GeoGebraFrame) {
@@ -2367,11 +2369,11 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 			public void actionPerformed(ActionEvent e) {
 				// get ev with focus
-				EuclidianView ev = ((EuclidianView) getActiveEuclidianView());
+				EuclidianViewND ev = getActiveEuclidianView();
 
 				boolean bothAxesShown = ev.getShowXaxis() && ev.getShowYaxis();
 
-				if (app.getEuclidianView() == ev)
+				if (app.getEuclidianView1() == ev)
 					app.getSettings().getEuclidian(1)
 							.setShowAxes(!bothAxesShown, !bothAxesShown);
 				else if (!app.hasEuclidianView2EitherShowingOrNot())
@@ -2395,9 +2397,9 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 			public void actionPerformed(ActionEvent e) {
 				// get ev with focus
-				AbstractEuclidianView ev = ((AbstractEuclidianView) getActiveEuclidianView());
+				AbstractEuclidianView ev = getActiveEuclidianView();
 
-				if (app.getEuclidianView() == ev)
+				if (app.getEuclidianView1() == ev)
 					app.getSettings().getEuclidian(1)
 							.showGrid(!ev.getShowGrid());
 				else if (!app.hasEuclidianView2EitherShowingOrNot())

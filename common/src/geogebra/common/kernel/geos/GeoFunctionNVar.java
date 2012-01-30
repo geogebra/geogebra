@@ -47,7 +47,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
  Dilateable, PointRotateable, Mirrorable, SurfaceEvaluable {
 
 	private static final double STRICT_INEQ_OFFSET = 4*Kernel.MIN_PRECISION;
-	private static final int SEEK_DENSITY = 30;
+	private static final int SEARCH_SAMPLES = 70;
 	private FunctionNVar fun;
 	//private List<Inequality> ineqs;	
 	private boolean isInequality;
@@ -609,12 +609,18 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	 * @param P
 	 */
 	private void tryLocateInEV(GeoPointND P) {
-		EuclidianViewInterfaceSlim ev = kernel.getApplication().getEuclidianView();
+		//EuclidianViewInterfaceSlim ev = kernel.getApplication().getEuclidianView();
 		boolean found = false;
-		for (int i = 0; !found && i < ev.getWidth() / SEEK_DENSITY; i++)
-			for (int j = 0; !found && j < ev.getHeight() / SEEK_DENSITY; j++) {
-				double rx = ev.toRealWorldCoordX(SEEK_DENSITY * i);
-				double ry = ev.toRealWorldCoordY(SEEK_DENSITY * i);
+		double xmin = kernel.getViewsXMin((GeoElement)P);
+		double xmax = kernel.getViewsXMax((GeoElement)P);
+		double ymin = kernel.getViewsYMin((GeoElement)P);
+		double ymax = kernel.getViewsYMax((GeoElement)P);
+		for (int i = 0; !found && i < SEARCH_SAMPLES; i++)
+			for (int j = 0; !found && j < SEARCH_SAMPLES; j++) {
+				double p =i/SEARCH_SAMPLES;
+				double rx = p*xmin+(1-p)*xmax;
+				double q =i/SEARCH_SAMPLES;
+				double ry = q*ymin+(1-q)*ymax;
 				if (isInRegion(rx, ry)) {
 					((GeoPoint2) P).setCoords(rx, ry, 1);
 					//Application.debug("Desperately found"+rx+","+ry);

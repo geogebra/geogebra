@@ -383,15 +383,6 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 		return styleBar != null;
 	}
 	
-	//options
-	public Color getAxesColor() {
-		return geogebra.awt.Color.getAwtColor(axesColor);
-	}
-
-	public Color getGridColor() {
-		return geogebra.awt.Color.getAwtColor(gridColor);
-	}
-	
 	
 	// for AlgebraView
 	/***************************************************************************

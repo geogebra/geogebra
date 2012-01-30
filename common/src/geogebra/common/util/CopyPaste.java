@@ -636,7 +636,7 @@ public class CopyPaste {
 			String ll = labels.get(i);
 			geo = kernel.lookupLabel(ll);
 			if (geo != null) {
-				if (app.getActiveEuclidianView() == app.getEuclidianView()) {
+				if (app.getActiveEuclidianView() == app.getEuclidianView1()) {
 					app.addToEuclidianView(geo);
 					if (app.hasEuclidianView2()) {
 						geo.removeView(AbstractApplication.VIEW_EUCLIDIAN2);
@@ -726,7 +726,7 @@ public class CopyPaste {
 		if (pasteFast(app)) {
 			EuclidianViewInterfaceCommon ev = app
 					.getActiveEuclidianView();
-			if (ev == app.getEuclidianView()) {
+			if (ev == app.getEuclidianView1()) {
 				app.getGgbApi().evalXML(copiedXMLforSameWindow.toString());
 				app.getKernel().getConstruction().updateConstruction();
 				app.setActiveView(AbstractApplication.VIEW_EUCLIDIAN);
@@ -739,7 +739,7 @@ public class CopyPaste {
 		} else {
 			EuclidianViewInterfaceCommon ev = app
 					.getActiveEuclidianView();
-			if (ev == app.getEuclidianView()) {
+			if (ev == app.getEuclidianView1()) {
 				app.getGgbApi().evalXML(copiedXML.toString());
 				app.getKernel().getConstruction().updateConstruction();
 				app.setActiveView(AbstractApplication.VIEW_EUCLIDIAN);
