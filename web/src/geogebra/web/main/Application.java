@@ -742,8 +742,18 @@ public class Application extends AbstractApplication {
 	@Override
     public void reset() {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+	    clearConstruction();
     }
+
+	public void clearConstruction() {
+	//if (isSaved() || saveCurrentFile()) {
+		kernel.clearConstruction();
+
+		kernel.initUndoInfo();
+	//	setCurrentFile(null);
+		setMoveMode();
+	//}
+	}
 
 	@Override
     public boolean hasPythonBridge() {
