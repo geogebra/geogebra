@@ -600,9 +600,11 @@ public class SurfaceMesh2 extends DynamicMesh2 implements OctreeCollection {
 				new FastBucketPQ(new SurfaceSplitBucketAssigner2(), false),
 				new SurfaceTriList2(100, 0), 2, 4, maxLevel);
 		this.function = function;
+		/*
 		if(function instanceof GeoCurveCartesian3D)
 			((GeoSurfaceCartesian3D)function).setLevelOfDetail(2);
 		setLevelOfDetail(2);
+		*/
 
 		setCullingBox(cullingBox);
 

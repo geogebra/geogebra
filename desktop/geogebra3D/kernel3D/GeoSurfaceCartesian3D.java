@@ -215,7 +215,12 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	// /////////////////////////
 	// LEVEL OF DETAIL
 
-	private int levelOfDetail = 0;
+	/**
+	 * default level of detail
+	 */
+	public static int LEVEL_OF_DETAIL_DEFAULT = 5;
+	
+	private int levelOfDetail = LEVEL_OF_DETAIL_DEFAULT;
 
 	public void setLevelOfDetail(int val) {
 		levelOfDetail = val;

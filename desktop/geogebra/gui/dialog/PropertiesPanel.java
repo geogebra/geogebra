@@ -5172,7 +5172,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		public LodPanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
 
-			slider = new JSlider(0, 4);
+			slider = new JSlider(0, 10);
 			slider.setMajorTickSpacing(1);
 			slider.setMinorTickSpacing(1);
 			slider.setPaintTicks(true);
