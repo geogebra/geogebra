@@ -2569,491 +2569,508 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case COS:
-			switch (STRING_TYPE) {
-			case MATHML:
+			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<cos/>", leftStr, null);
-				break;
-			case LATEX:
-				sb.append("\\cos \\left( ");
-				break;
-
-			case MATH_PIPER:
-				sb.append("Cos(");
-				break;
-
-			case PSTRICKS:
-				sb.append("COS(");
-				break;
-
-			default:
-				sb.append("cos(");
-			}
-			if (STRING_TYPE.equals(StringType.PGF)) {
-				sb.append("(" + leftStr + ") 180/pi");
 			} else {
-				sb.append(leftStr);
+				switch (STRING_TYPE) {
+				case LATEX:
+					sb.append("\\cos \\left( ");
+					break;
+	
+				case MATH_PIPER:
+					sb.append("Cos(");
+					break;
+	
+				case PSTRICKS:
+					sb.append("COS(");
+					break;
+	
+				default:
+					sb.append("cos(");
+				}
+				if (STRING_TYPE.equals(StringType.PGF)) {
+					sb.append("(" + leftStr + ") 180/pi");
+				} else {
+					sb.append(leftStr);
+				}
+				sb.append(rightBracket(STRING_TYPE));
 			}
-			sb.append(rightBracket(STRING_TYPE));
 			break;
 
 		case SIN:
-			switch (STRING_TYPE) {
-			case MATHML:
+			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<sin/>", leftStr, null);
-				break;
-			case LATEX:
-				sb.append("\\sin \\left( ");
-				break;
-
-			case MATH_PIPER:
-				sb.append("Sin(");
-				break;
-
-			case PSTRICKS:
-				sb.append("SIN(");
-				break;
-
-			default:
-				sb.append("sin(");
-			}
-			if (STRING_TYPE.equals(StringType.PGF)) {
-				sb.append("(" + leftStr + ") 180/pi");
 			} else {
-				sb.append(leftStr);
+				switch (STRING_TYPE) {
+				case LATEX:
+					sb.append("\\sin \\left( ");
+					break;
+	
+				case MATH_PIPER:
+					sb.append("Sin(");
+					break;
+	
+				case PSTRICKS:
+					sb.append("SIN(");
+					break;
+	
+				default:
+					sb.append("sin(");
+				}
+				if (STRING_TYPE.equals(StringType.PGF)) {
+					sb.append("(" + leftStr + ") 180/pi");
+				} else {
+					sb.append(leftStr);
+				}
+				sb.append(rightBracket(STRING_TYPE));
 			}
-			sb.append(rightBracket(STRING_TYPE));
-
 			break;
 
 		case TAN:
-			switch (STRING_TYPE) {
-			case MATHML:
+			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<tan/>", leftStr, null);
-				break;
-			case LATEX:
-				sb.append("\\tan \\left( ");
-				break;
-
-			case MATH_PIPER:
-				sb.append("Tan(");
-				break;
-
-			case PSTRICKS:
-				sb.append("TAN(");
-				break;
-
-			default:
-				sb.append("tan(");
-			}
-			if (STRING_TYPE.equals(StringType.PGF)) {
-				sb.append("(" + leftStr + ") 180/pi");
 			} else {
-				sb.append(leftStr);
+				switch (STRING_TYPE) {
+				case LATEX:
+					sb.append("\\tan \\left( ");
+					break;
+	
+				case MATH_PIPER:
+					sb.append("Tan(");
+					break;
+	
+				case PSTRICKS:
+					sb.append("TAN(");
+					break;
+	
+				default:
+					sb.append("tan(");
+				}
+				if (STRING_TYPE.equals(StringType.PGF)) {
+					sb.append("(" + leftStr + ") 180/pi");
+				} else {
+					sb.append(leftStr);
+				}
+				sb.append(rightBracket(STRING_TYPE));
 			}
-			sb.append(rightBracket(STRING_TYPE));
 			break;
 
 		case CSC:
-			switch (STRING_TYPE) {
-			case MATHML:
+			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<csc/>", leftStr, null);
-				break;
-			case LATEX:
-				sb.append("\\csc \\left( ");
-				break;
-
-			case MATH_PIPER:
-				sb.append("Csc(");
-				break;
-
-			case PSTRICKS:
-				sb.append("CSC(");
-				break;
-
-			default:
-				sb.append("csc(");
-			}
-			if (STRING_TYPE.equals(StringType.PGF)) {
-				sb.append("(" + leftStr + ") 180/pi");
 			} else {
-				sb.append(leftStr);
+				switch (STRING_TYPE) {
+				case LATEX:
+					sb.append("\\csc \\left( ");
+					break;
+	
+				case MATH_PIPER:
+					sb.append("Csc(");
+					break;
+	
+				case PSTRICKS:
+					sb.append("CSC(");
+					break;
+	
+				default:
+					sb.append("csc(");
+				}
+				if (STRING_TYPE.equals(StringType.PGF)) {
+					sb.append("(" + leftStr + ") 180/pi");
+				} else {
+					sb.append(leftStr);
+				}
+				sb.append(rightBracket(STRING_TYPE));
 			}
-			sb.append(rightBracket(STRING_TYPE));
 			break;
 
 		case SEC:
-			switch (STRING_TYPE) {
-			case MATHML:
+			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<sec/>", leftStr, null);
-				break;
-			case LATEX:
-				sb.append("\\sec \\left( ");
-				break;
-
-			case MATH_PIPER:
-				sb.append("Sec(");
-				break;
-
-			case PSTRICKS:
-				sb.append("SEC(");
-				break;
-
-			default:
-				sb.append("sec(");
+				} else {
+				switch (STRING_TYPE) {
+				case LATEX:
+					sb.append("\\sec \\left( ");
+					break;
+	
+				case MATH_PIPER:
+					sb.append("Sec(");
+					break;
+	
+				case PSTRICKS:
+					sb.append("SEC(");
+					break;
+	
+				default:
+					sb.append("sec(");
+				}
+				if (STRING_TYPE.equals(StringType.PGF)) {
+					sb.append("(" + leftStr + ") 180/pi");
+				} else {
+					sb.append(leftStr);
+				}
+				sb.append(rightBracket(STRING_TYPE));
 			}
-			if (STRING_TYPE.equals(StringType.PGF)) {
-				sb.append("(" + leftStr + ") 180/pi");
-			} else {
-				sb.append(leftStr);
-			}
-			sb.append(rightBracket(STRING_TYPE));
 			break;
 
 		case COT:
-			switch (STRING_TYPE) {
-			case MATHML:
+			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<cot/>", leftStr, null);
-				break;
-			case LATEX:
-				sb.append("\\cot \\left( ");
-				break;
-
-			case MATH_PIPER:
-				sb.append("Cot(");
-				break;
-
-			case PSTRICKS:
-				sb.append("COT(");
-				break;
-
-			default:
-				sb.append("cot(");
-			}
-			if (STRING_TYPE.equals(StringType.PGF)) {
-				sb.append("(" + leftStr + ") 180/pi");
 			} else {
-				sb.append(leftStr);
+				switch (STRING_TYPE) {
+				case LATEX:
+					sb.append("\\cot \\left( ");
+					break;
+	
+				case MATH_PIPER:
+					sb.append("Cot(");
+					break;
+	
+				case PSTRICKS:
+					sb.append("COT(");
+					break;
+	
+				default:
+					sb.append("cot(");
+				}
+				if (STRING_TYPE.equals(StringType.PGF)) {
+					sb.append("(" + leftStr + ") 180/pi");
+				} else {
+					sb.append(leftStr);
+				}
+				sb.append(rightBracket(STRING_TYPE));
 			}
-			sb.append(rightBracket(STRING_TYPE));
 			break;
 
 		case CSCH:
-			switch (STRING_TYPE) {
-			case MATHML:
+			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<csch/>", leftStr, null);
-				break;
-			case LATEX:
-				sb.append("\\csch \\left( ");
-				break;
-
-			case MATH_PIPER:
-				sb.append("Csch(");
-				break;
-
-			case PSTRICKS:
-				sb.append("CSCH(");
-				break;
-
-			default:
-				sb.append("csch(");
+			} else {
+				switch (STRING_TYPE) {
+				case LATEX:
+					sb.append("\\csch \\left( ");
+					break;
+	
+				case MATH_PIPER:
+					sb.append("Csch(");
+					break;
+	
+				case PSTRICKS:
+					sb.append("CSCH(");
+					break;
+	
+				default:
+					sb.append("csch(");
+				}
+				sb.append(leftStr);
+				sb.append(rightBracket(STRING_TYPE));
 			}
-			sb.append(leftStr);
-			sb.append(rightBracket(STRING_TYPE));
 			break;
 
 		case SECH:
-			switch (STRING_TYPE) {
-			case MATHML:
+			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<sech/>", leftStr, null);
-				break;
-			case LATEX:
-				sb.append("\\sech \\left( ");
-				break;
-
-			case MATH_PIPER:
-				sb.append("Sech(");
-				break;
-
-			case PSTRICKS:
-				sb.append("SECH(");
-				break;
-
-			default:
-				sb.append("sech(");
+			} else {
+			switch (STRING_TYPE) {
+				case LATEX:
+					sb.append("\\sech \\left( ");
+					break;
+	
+				case MATH_PIPER:
+					sb.append("Sech(");
+					break;
+	
+				case PSTRICKS:
+					sb.append("SECH(");
+					break;
+	
+				default:
+					sb.append("sech(");
+				}
+				sb.append(leftStr);
+				sb.append(rightBracket(STRING_TYPE));
 			}
-			sb.append(leftStr);
-			sb.append(rightBracket(STRING_TYPE));
 			break;
 
 		case COTH:
-			switch (STRING_TYPE) {
-			case MATHML:
+			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<coth/>", leftStr, null);
-				break;
-			case LATEX:
-				sb.append("\\coth \\left( ");
-				break;
-
-			case MATH_PIPER:
-				sb.append("Coth(");
-				break;
-
-			case PSTRICKS:
-				sb.append("COTH(");
-				break;
-
-			default:
-				sb.append("coth(");
+			} else {
+			switch (STRING_TYPE) {
+				case LATEX:
+					sb.append("\\coth \\left( ");
+					break;
+	
+				case MATH_PIPER:
+					sb.append("Coth(");
+					break;
+	
+				case PSTRICKS:
+					sb.append("COTH(");
+					break;
+	
+				default:
+					sb.append("coth(");
+				}
+				sb.append(leftStr);
+				sb.append(rightBracket(STRING_TYPE));
 			}
-			sb.append(leftStr);
-			sb.append(rightBracket(STRING_TYPE));
 			break;
 
 		case ARCCOS:
-			switch (STRING_TYPE) {
-			case MATHML:
+			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<arccos/>", leftStr, null);
-				break;
-			case LATEX:
-				sb.append("acos \\left( ");
-				break;
+			} else {
+				switch (STRING_TYPE) {
+				case LATEX:
+					sb.append("acos \\left( ");
+					break;
 
-			case MATH_PIPER:
-				sb.append("ArcCos(");
-				break;
+				case MATH_PIPER:
+					sb.append("ArcCos(");
+					break;
 
-			case PSTRICKS:
-				sb.append("ACOS(");
-				break;
+				case PSTRICKS:
+					sb.append("ACOS(");
+					break;
 
-			default:
-				sb.append("acos(");
+				default:
+					sb.append("acos(");
+				}
+				sb.append(leftStr);
+				sb.append(rightBracket(STRING_TYPE));
 			}
-			sb.append(leftStr);
-			sb.append(rightBracket(STRING_TYPE));
 			break;
 
 		case ARCSIN:
-			switch (STRING_TYPE) {
-			case MATHML:
+			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<arcsin/>", leftStr, null);
-				break;
-			case LATEX:
-				sb.append("asin \\left( ");
-				break;
-
-			case MATH_PIPER:
-				sb.append("ArcSin(");
-				break;
-
-			case PSTRICKS:
-				sb.append("ASIN(");
-				break;
-
-			default:
-				sb.append("asin(");
+			} else {
+				switch (STRING_TYPE) {
+				case LATEX:
+					sb.append("asin \\left( ");
+					break;
+	
+				case MATH_PIPER:
+					sb.append("ArcSin(");
+					break;
+	
+				case PSTRICKS:
+					sb.append("ASIN(");
+					break;
+	
+				default:
+					sb.append("asin(");
+				}
+				sb.append(leftStr);
+				sb.append(rightBracket(STRING_TYPE));
 			}
-			sb.append(leftStr);
-			sb.append(rightBracket(STRING_TYPE));
 			break;
 
 		case ARCTAN:
-			switch (STRING_TYPE) {
-			case MATHML:
+			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<arctan/>", leftStr, null);
-				break;
-			case LATEX:
-				sb.append("atan \\left( ");
-				break;
-
-			case MATH_PIPER:
-				sb.append("ArcTan(");
-				break;
-
-			case PSTRICKS:
-				sb.append("ATAN(");
-				break;
-
-			default:
-				sb.append("atan(");
+			} else {
+				switch (STRING_TYPE) {
+				case LATEX:
+					sb.append("atan \\left( ");
+					break;
+	
+				case MATH_PIPER:
+					sb.append("ArcTan(");
+					break;
+	
+				case PSTRICKS:
+					sb.append("ATAN(");
+					break;
+	
+				default:
+					sb.append("atan(");
+				}
+				sb.append(leftStr);
+				sb.append(rightBracket(STRING_TYPE));
 			}
-			sb.append(leftStr);
-			sb.append(rightBracket(STRING_TYPE));
 			break;
 
 		case ARCTAN2:
+			if (STRING_TYPE.equals(StringType.MATHML)) {
+				mathml(sb, "<atan/>", leftStr, rightStr);
+			} else {
 			switch (STRING_TYPE) {
-			case MATHML:
-				mathml(sb, "<arctan2/>", leftStr, rightStr);
-				AbstractApplication.debug("arctan2 not supported in MathML");
-				break;
-			case LATEX:
-				sb.append("atan2 \\left( ");
-				break;
-
-			case MATH_PIPER:
-				sb.append("ArcTan2(");
-				break;
-
-			case PSTRICKS:
-				sb.append("ATAN2(");
-				break;
-
-			case MPREDUCE:
-				sb.append("myatan2(");
-				break;
-
-			default:
-				sb.append("atan2(");
+				case LATEX:
+					sb.append("atan2 \\left( ");
+					break;
+	
+				case MATH_PIPER:
+					sb.append("ArcTan2(");
+					break;
+	
+				case PSTRICKS:
+					sb.append("ATAN2(");
+					break;
+	
+				case MPREDUCE:
+					sb.append("myatan2(");
+					break;
+	
+				default:
+					sb.append("atan2(");
+				}
+				sb.append(leftStr);
+				sb.append(',');
+				sb.append(rightStr);
+				sb.append(rightBracket(STRING_TYPE));
 			}
-			sb.append(leftStr);
-			sb.append(',');
-			sb.append(rightStr);
-			sb.append(rightBracket(STRING_TYPE));
 			break;
 
 		case COSH:
-			switch (STRING_TYPE) {
-			case MATHML:
+			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<cosh/>", leftStr, null);
-				break;
-			case LATEX:
-				sb.append("\\cosh \\left( ");
-				break;
-
-			case MATH_PIPER:
-				sb.append("Cosh(");
-				break;
-
-			case PSTRICKS:
-				sb.append("COSH(");
-				break;
-
-			default:
-				sb.append("cosh(");
+			} else {
+				switch (STRING_TYPE) {
+				case LATEX:
+					sb.append("\\cosh \\left( ");
+					break;
+	
+				case MATH_PIPER:
+					sb.append("Cosh(");
+					break;
+	
+				case PSTRICKS:
+					sb.append("COSH(");
+					break;
+	
+				default:
+					sb.append("cosh(");
+				}
+				sb.append(leftStr);
+				sb.append(rightBracket(STRING_TYPE));
 			}
-			sb.append(leftStr);
-			sb.append(rightBracket(STRING_TYPE));
 			break;
 
 		case SINH:
-			switch (STRING_TYPE) {
-			case MATHML:
+			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<sinh/>", leftStr, null);
-				break;
-			case LATEX:
-				sb.append("\\sinh \\left( ");
-				break;
-
-			case MATH_PIPER:
-				sb.append("Sinh(");
-				break;
-
-			case PSTRICKS:
-				sb.append("SINH(");
-				break;
-
-			default:
-				sb.append("sinh(");
+			} else {
+				switch (STRING_TYPE) {
+				case LATEX:
+					sb.append("\\sinh \\left( ");
+					break;
+	
+				case MATH_PIPER:
+					sb.append("Sinh(");
+					break;
+	
+				case PSTRICKS:
+					sb.append("SINH(");
+					break;
+	
+				default:
+					sb.append("sinh(");
+				}
+				sb.append(leftStr);
+				sb.append(rightBracket(STRING_TYPE));
 			}
-			sb.append(leftStr);
-			sb.append(rightBracket(STRING_TYPE));
 			break;
 
 		case TANH:
-			switch (STRING_TYPE) {
-			case MATHML:
-				mathml(sb, "<tanh/>", leftStr, null);
-				break;
-			case LATEX:
-				sb.append("\\tanh \\left( ");
-				break;
-
-			case MATH_PIPER:
-				sb.append("Tanh(");
-				break;
-
-			case PSTRICKS:
-				sb.append("TANH(");
-				break;
-
-			default:
-				sb.append("tanh(");
+			if (STRING_TYPE.equals(StringType.MATHML)) {
+				mathml(sb, "<sin/>", leftStr, null);
+			} else {
+				switch (STRING_TYPE) {
+				case LATEX:
+					sb.append("\\tanh \\left( ");
+					break;
+	
+				case MATH_PIPER:
+					sb.append("Tanh(");
+					break;
+	
+				case PSTRICKS:
+					sb.append("TANH(");
+					break;
+	
+				default:
+					sb.append("tanh(");
+				}
+				sb.append(leftStr);
+				sb.append(rightBracket(STRING_TYPE));
 			}
-			sb.append(leftStr);
-			sb.append(rightBracket(STRING_TYPE));
 			break;
 
 		case ACOSH:
-			switch (STRING_TYPE) {
-			case MATHML:
+			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<arccosh/>", leftStr, null);
-				break;
-			case LATEX:
-				sb.append("\\operatorname{acosh} \\left( ");
-				break;
-
-			case MATH_PIPER:
-				sb.append("ArcCosh(");
-				break;
-
-			case PSTRICKS:
-				sb.append("ACOSH(");
-				break;
-
-			default:
-				sb.append("acosh(");
+			} else {
+			switch (STRING_TYPE) {
+				case LATEX:
+					sb.append("\\operatorname{acosh} \\left( ");
+					break;
+	
+				case MATH_PIPER:
+					sb.append("ArcCosh(");
+					break;
+	
+				case PSTRICKS:
+					sb.append("ACOSH(");
+					break;
+	
+				default:
+					sb.append("acosh(");
+				}
+				sb.append(leftStr);
+				sb.append(rightBracket(STRING_TYPE));
 			}
-			sb.append(leftStr);
-			sb.append(rightBracket(STRING_TYPE));
 			break;
 
 		case ASINH:
-			switch (STRING_TYPE) {
-			case MATHML:
+			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<arcsinh/>", leftStr, null);
-				break;
-			case LATEX:
-				sb.append("\\operatorname{asinh} \\left( ");
-				break;
-
-			case MATH_PIPER:
-				sb.append("ArcSinh(");
-				break;
-
-			case PSTRICKS:
-				sb.append("ASINH(");
-				break;
-
-			default:
-				sb.append("asinh(");
+			} else {
+			switch (STRING_TYPE) {
+				case LATEX:
+					sb.append("\\operatorname{asinh} \\left( ");
+					break;
+	
+				case MATH_PIPER:
+					sb.append("ArcSinh(");
+					break;
+	
+				case PSTRICKS:
+					sb.append("ASINH(");
+					break;
+	
+				default:
+					sb.append("asinh(");
+				}
+				sb.append(leftStr);
+				sb.append(rightBracket(STRING_TYPE));
 			}
-			sb.append(leftStr);
-			sb.append(rightBracket(STRING_TYPE));
 			break;
 
 		case ATANH:
-			switch (STRING_TYPE) {
-			case MATHML:
+			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<arctanh/>", leftStr, null);
-				break;
-			case LATEX:
-				sb.append("\\operatorname{atanh} \\left( ");
-				break;
-
-			case MATH_PIPER:
-				sb.append("ArcTanh(");
-				break;
-
-			case PSTRICKS:
-				sb.append("ATANH(");
-				break;
-
-			default:
-				sb.append("atanh(");
+			} else {
+				switch (STRING_TYPE) {
+				case LATEX:
+					sb.append("\\operatorname{atanh} \\left( ");
+					break;
+	
+				case MATH_PIPER:
+					sb.append("ArcTanh(");
+					break;
+	
+				case PSTRICKS:
+					sb.append("ATANH(");
+					break;
+	
+				default:
+					sb.append("atanh(");
+				}
+				sb.append(leftStr);
+				sb.append(rightBracket(STRING_TYPE));
 			}
-			sb.append(leftStr);
-			sb.append(rightBracket(STRING_TYPE));
 			break;
 
 		case EXP:
