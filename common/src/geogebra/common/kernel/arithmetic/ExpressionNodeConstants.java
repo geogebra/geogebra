@@ -7,7 +7,7 @@ import java.util.Set;
 public interface ExpressionNodeConstants {
 
 	public enum StringType {
-		GEOGEBRA_XML, GEOGEBRA, MAXIMA, MATH_PIPER, LATEX, PSTRICKS, PGF, JASYMCA, MPREDUCE
+		GEOGEBRA_XML, GEOGEBRA, MAXIMA, MATH_PIPER, LATEX, PSTRICKS, PGF, JASYMCA, MPREDUCE, MATHML
 	}
 
 	public static final String CAS_ROW_REFERENCE_PREFIX = "$";

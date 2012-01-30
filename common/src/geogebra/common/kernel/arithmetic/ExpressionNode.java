@@ -1768,6 +1768,14 @@ public class ExpressionNode extends ValidExpression implements
 
 		case PLUS:
 			switch (STRING_TYPE) {
+			case MATHML:
+				// eg <apply><plus/><ci>x</ci><ci>1</ci></apply>
+				sb.append("<apply><plus/><ci>");
+				sb.append(leftStr);
+				sb.append("</ci><cn>");
+				sb.append(rightStr);
+				sb.append("</cn></apply>");
+				break;
 			case JASYMCA:
 			case MATH_PIPER:
 			case MAXIMA:
@@ -2181,6 +2189,17 @@ public class ExpressionNode extends ValidExpression implements
 
 		case DIVIDE:
 			switch (STRING_TYPE) {
+			case MATHML:
+				// eg <apply><divide/><ci>x</ci><ci>1</ci></apply>
+				sb.append("<apply><divide/>");
+				if (left.isLeaf()) sb.append("<ci>");
+				sb.append(leftStr);
+				if (left.isLeaf()) sb.append("</ci>");
+				if (right.isLeaf()) sb.append("<ci>");
+				sb.append(rightStr);
+				if (right.isLeaf()) sb.append("</ci>");
+				sb.append("</apply>");
+				break;
 			case LATEX:
 				sb.append("\\frac{");
 				sb.append(leftStr);
@@ -3180,6 +3199,12 @@ public class ExpressionNode extends ValidExpression implements
 
 		case SQRT:
 			switch (STRING_TYPE) {
+			case MATHML:
+			// eg <apply><root/><ci>x</ci><ci>1</ci></apply>
+			sb.append("<apply><root/>");
+			sb.append(leftStr);
+			sb.append("</apply>");
+			break;
 			case LATEX:
 				sb.append("\\sqrt{");
 				sb.append(leftStr);

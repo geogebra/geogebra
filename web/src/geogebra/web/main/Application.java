@@ -15,6 +15,7 @@ import geogebra.common.kernel.AbstractUndoManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -459,11 +460,16 @@ public class Application extends AbstractApplication {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
+	
+	DrawEquationWeb drawEquation;
 
 	@Override
     public DrawEquationInterface getDrawEquation() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
+	    if (drawEquation == null) {
+	    	drawEquation = new DrawEquationWeb();
+	    }
+	    
+	    return drawEquation;
     }
 
 	@Override
@@ -677,10 +683,10 @@ public class Application extends AbstractApplication {
     }
 	
 	public native void callNativeJavaScript(String funcname) /*-{
-		if ($wnd[funcname]) {
-			$wnd[funcname]();
-		}
-	}-*/;
+	if ($wnd[funcname]) {
+		$wnd[funcname]();
+	}
+}-*/;
 
 	public native void callNativeJavaScript(String funcname, String arg) /*-{
 		if ($wnd[funcname]) {
@@ -827,6 +833,11 @@ public class Application extends AbstractApplication {
 		// don't need to load gui jar as reset image is in main jar
 		return imageManager.getInternalImage(GuiResources.INSTANCE.navPause());
 	}
+
+	@Override
+    public StringType getFormulaRenderingType() {
+	    return StringType.MATHML;
+    }
 	
 
 

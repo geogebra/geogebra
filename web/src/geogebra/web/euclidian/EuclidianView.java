@@ -32,7 +32,7 @@ import com.google.gwt.user.client.Window;
 
 public class EuclidianView extends AbstractEuclidianView implements SettingListener{
 	
-	geogebra.web.awt.Graphics2D g2 = null;
+	public geogebra.web.awt.Graphics2D g2 = null;
 	
 	protected static final long serialVersionUID = 1L;
 	

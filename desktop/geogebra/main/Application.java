@@ -36,6 +36,7 @@ import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.Relation;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -4818,6 +4819,11 @@ public class Application extends AbstractApplication implements
 	@Override
 	public boolean isHTML5Applet() {
 		return false;
+	}
+
+	@Override
+	public StringType getFormulaRenderingType() {
+		return StringType.LATEX;
 	}
 
 	

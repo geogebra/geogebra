@@ -130,7 +130,7 @@ public class AlgoLaTeX extends AlgoElement {
     				// needed for eg Text commands eg FormulaText[Text[
     				text.setTextString(((GeoText)geo).getTextString());
     			} else {
-    				text.setTextString(geo.getFormulaString(StringType.LATEX, substitute ));   
+    				text.setTextString(geo.getFormulaString(app.getFormulaRenderingType(), substitute ));   
     			}
     		}
 

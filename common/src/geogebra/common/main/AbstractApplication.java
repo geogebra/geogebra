@@ -25,6 +25,7 @@ import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.commands.CommandProcessor;
@@ -2650,4 +2651,11 @@ public abstract class AbstractApplication {
 			boolean useTransparentCursorWhenDragging) {
 		this.useTransparentCursorWhenDragging = useTransparentCursorWhenDragging;
 	}
+
+	/*
+	 * eg StringType.LATEX for desktop (JLaTeXMath)
+	 * StringType.MATHML for web (canvasmath)
+	 */
+	public abstract StringType getFormulaRenderingType();
+
 }

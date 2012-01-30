@@ -5,6 +5,7 @@ import geogebra.common.awt.Font;
 import geogebra.common.awt.Graphics2D;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Shape;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.awt.FontRenderContext;
@@ -14,10 +15,12 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic {
 	@Override
 	protected Rectangle doDrawMultilineLaTeX(AbstractApplication app,
 	        Graphics2D tempGraphics, GeoElement geo, Graphics2D g2, Font font,
-	        Color fgColor, Color bgColor, String labelDesc, int xLabel,
-	        int yLabel, boolean serif) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return new geogebra.web.awt.Rectangle(xLabel, yLabel, 50, 50);
+	        Color fgColor, Color bgColor, String labelDesc, int x,
+	        int y, boolean serif) {
+		app.getDrawEquation().drawEquation(app, geo, g2, x, y, labelDesc, font, serif, fgColor, bgColor, false);
+		
+		// TODO: dimension
+		return new geogebra.web.awt.Rectangle(x, y, 100, 100);
 	}
 
 	private static Font getIndexFont(Font f) {
