@@ -1,5 +1,8 @@
 package geogebra.web.io;
 
+import java.io.Reader;
+import java.io.StringReader;
+
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.io.DocHandler;
 import geogebra.common.kernel.Construction;
@@ -28,33 +31,53 @@ public class MyXMLio extends geogebra.common.io.MyXMLio {
 	}
 
 	public void processXMLString(String xml, boolean clearConstruction, boolean isGgtFile) throws Exception {
+		processXMLString(xml,clearConstruction,isGgtFile,true);
+	}
+
+	public void processXMLString(String str, boolean clearAll, boolean isGGTfile, boolean settingsBatch) throws Exception {
+		doParseXML(str, clearAll, isGGTfile, clearAll, settingsBatch);
+	}
+
+	private void doParseXML(String xml, boolean clearConstruction,
+			boolean isGGTFile, boolean mayZoom,boolean settingsBatch) throws Exception {
 		boolean oldVal = kernel.isNotifyViewsActive();
-		if (!isGgtFile) {
+		boolean oldVal2 = kernel.isUsingInternalCommandNames();
+		kernel.setUseInternalCommandNames(true);
+		
+		if (!isGGTFile && mayZoom) {
 			kernel.setNotifyViewsActive(false);
 		}
 
 		if (clearConstruction) {
+			// clear construction
 			kernel.clearConstruction();
 		}
 
 		try {
-			xmlParser.parse(handler, xml);
+			kernel.setLoadingMode(true);
+			if(settingsBatch && !isGGTFile){
+				app.getSettings().beginBatch();
+				xmlParser.parse(handler, xml);
+				app.getSettings().endBatch();
+			}
+			else
+				xmlParser.parse(handler, xml);
+			//xmlParser.reset();
+			kernel.setLoadingMode(false);
+		} catch (Error e) {
+			// e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			throw e;
 		} finally {
-			if (!isGgtFile) {
+			kernel.setUseInternalCommandNames(oldVal2);
+			if (!isGGTFile && mayZoom) {
 				kernel.updateConstruction();
 				kernel.setNotifyViewsActive(oldVal);				
 			}
 		}
-
-		// handle construction step stored in XMLhandler
-		// do this only if the construction protocol navigation is showing	
-		/*AGif (!isGGTFile && oldVal &&
-				app.showConsProtNavigation()) 
-		{
-				app.getGuiManager().setConstructionStep(handler.getConsStep());
-		}*/
 	}
-	
+
 	/**
 	 * Returns XML representation of all settings and construction needed for
 	 * undo.
