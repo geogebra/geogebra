@@ -771,6 +771,10 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	
 	public void setCoordSystem(double xZero, double yZero, double xscale,
 			double yscale, boolean repaint) {
+
+		if (updatingBounds)
+			return;
+
 		if (Double.isNaN(xscale)
 				|| (xscale < Kernel.MAX_DOUBLE_PRECISION)
 				|| (xscale > Kernel.INV_MAX_DOUBLE_PRECISION)) {

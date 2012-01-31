@@ -328,8 +328,10 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 			System.gc();
 		}
 
-		//updateBackgroundImage();// commenting this out may work
-		//updateAllDrawables(true);
+		updateBackgroundImage();
+
+		if (!firstPaint) // if is here to avoid infinite loop
+			updateAllDrawables(true);
     }
 
 	private void createImage() {
