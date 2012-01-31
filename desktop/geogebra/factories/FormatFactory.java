@@ -11,13 +11,20 @@ public class FormatFactory extends geogebra.common.factories.FormatFactory{
 		return new ScientificFormat(a,b,c);
 	}
 
-	@Override
+	//@Override
 	public NumberFormatAdapter getNumberFormat() {
 		return new NumberFormatDesktop();
 	}
 
+	public NumberFormatAdapter getNumberFormat(int digits) {
+		NumberFormatDesktop ret = new NumberFormatDesktop();
+		ret.setMaximumFractionDigits(digits);
+		ret.setGroupingUsed(false);
+		return ret;
+	}
+
 	@Override
-	public NumberFormatAdapter getNumberFormat(String s) {
-		return new NumberFormatDesktop(s);
+	public NumberFormatAdapter getNumberFormat(String s, int i) {
+		return new NumberFormatDesktop(s, i);
 	}
 }

@@ -221,9 +221,29 @@ public class DrawAxis3D extends DrawLine3D {
     	double maxPix = 100; // only one tick is allowed per maxPix pixels
 		double units = maxPix / vScale;
 		
-		NumberFormatAdapter numberFormat = FormatFactory.prototype.getNumberFormat();
 		//TODO see EuclidianView::setAxesIntervals	and Kernel::axisNumberDistance	
-		double distance = getView3D().getKernel().axisNumberDistance(units, numberFormat);
+			// calc number of digits
+			int exp = (int) Math.floor(Math.log(units) / Math.log(10));
+			int maxFractionDigits = Math.max(-exp, getView3D().getKernel().getPrintDecimals());
+
+			// format the numbers
+			//numberFormat.applyPattern("###0.##");
+			//numberFormat.setMaximumFractionDigits(maxFractionDigtis);
+			NumberFormatAdapter numberFormat = FormatFactory.prototype.getNumberFormat("###0.##", maxFractionDigits);
+
+			// calc the distance
+			double pot = Math.pow(10, exp);
+			double n = units / pot;
+			double distance;
+
+			if (n > 5) {
+				distance = 5 * pot;
+			} else if (n > 2) {
+				distance = 2 * pot;
+			} else {
+				distance = pot;
+			}
+
 
 		axis.updateDecorations(distance, numberFormat, 
 				xOffset, yOffset,

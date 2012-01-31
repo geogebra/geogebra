@@ -483,7 +483,6 @@ public abstract class AbstractApplication {
 			return null;
 		}
 		if (translateCommandTable == null) {
-			AbstractApplication.debug("translation not initialized");
 			return localname;
 		}
 

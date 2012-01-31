@@ -303,7 +303,7 @@ public class Kernel {
 	// print precision
 	public static final int STANDARD_PRINT_DECIMALS = 2;
 	private double PRINT_PRECISION = 1E-2;
-	private final NumberFormatAdapter nf;
+	private NumberFormatAdapter nf;
 	private final ScientificFormatAdapter sf;
 	public boolean useSignificantFigures = false;
 
@@ -400,8 +400,8 @@ public class Kernel {
 		kernelID = kernelInstances;
 		casVariablePrefix = GGBCAS_VARIABLE_PREFIX + kernelID;
 
-		nf = FormatFactory.prototype.getNumberFormat();
-		nf.setGroupingUsed(false);
+		//nf = FormatFactory.prototype.getNumberFormat();
+		//nf.setGroupingUsed(false);
 
 		sf = FormatFactory.prototype.getScientificFormat(5, 16, false);
 
@@ -1074,6 +1074,9 @@ public class Kernel {
 			return "0";
 		}
 		// standard case
+		
+		//nf = FormatFactory.prototype.getNumberFormat(2);
+		
 		return nf.format(x);
 	}
 
@@ -1677,32 +1680,6 @@ public class Kernel {
 		// FORMAT FOR NUMBERS
 		// //////////////////////////////////////////////
 
-		public double axisNumberDistance(double units,
-				NumberFormatAdapter numberFormat) {
-
-			// calc number of digits
-			int exp = (int) Math.floor(Math.log(units) / Math.log(10));
-			int maxFractionDigtis = Math.max(-exp, getPrintDecimals());
-
-			// format the numbers
-			numberFormat.applyPattern("###0.##");
-			numberFormat.setMaximumFractionDigits(maxFractionDigtis);
-
-			// calc the distance
-			double pot = Math.pow(10, exp);
-			double n = units / pot;
-			double distance;
-
-			if (n > 5) {
-				distance = 5 * pot;
-			} else if (n > 2) {
-				distance = 2 * pot;
-			} else {
-				distance = pot;
-			}
-
-			return distance;
-		}
 
 		/**
 		 * Checks if x is close (Kernel.MIN_PRECISION) to a decimal fraction, eg
@@ -2209,7 +2186,7 @@ public class Kernel {
 	final public void setPrintDecimals(int decimals) {
 		if (decimals >= 0) {
 			useSignificantFigures = false;
-			nf.setMaximumFractionDigits(decimals);
+			nf = FormatFactory.prototype.getNumberFormat(decimals);
 			ROUND_HALF_UP_FACTOR = decimals < 15 ? ROUND_HALF_UP_FACTOR_DEFAULT
 					: 1;
 
@@ -2226,6 +2203,7 @@ public class Kernel {
 	}
 
 	final public int getPrintDecimals() {
+		if (nf == null) return 5;
 		return nf.getMaximumFractionDigits();
 	}
 

@@ -4751,7 +4751,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 		// this constructors uses US locale, so we don't have to worry about ","
 		final NumberFormatAdapter df = FormatFactory.prototype
-				.getNumberFormat("#.######");
+				.getNumberFormat("#.######", 6);
 		return df.format(number);
 	}
 

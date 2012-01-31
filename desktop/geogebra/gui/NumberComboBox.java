@@ -42,9 +42,9 @@ public class NumberComboBox extends JComboBox {
 		setEditable(true);
 		setSelectedItem(null);
 		
-		nf = FormatFactory.prototype.getNumberFormat();
-		nf.setGroupingUsed(false);
-		nf.setMaximumFractionDigits(MAX_FRAC_DIGITS);
+		nf = FormatFactory.prototype.getNumberFormat(MAX_FRAC_DIGITS);
+		//nf.setGroupingUsed(false);
+		//nf.setMaximumFractionDigits(MAX_FRAC_DIGITS);
 		
 		final Dimension dim = getPreferredSize();
 		dim.width = app.getPlainFont().getSize() * (MAX_FRAC_DIGITS+3);

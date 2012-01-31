@@ -256,10 +256,10 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 					drawLayers[k] = new DrawableList();
 				}
 				axesNumberFormat = new NumberFormatAdapter[2];
-				axesNumberFormat[0] = FormatFactory.prototype.getNumberFormat();
-				axesNumberFormat[1] = FormatFactory.prototype.getNumberFormat();
-				axesNumberFormat[0].setGroupingUsed(false);
-				axesNumberFormat[1].setGroupingUsed(false);
+				//axesNumberFormat[0] = FormatFactory.prototype.getNumberFormat();
+				//axesNumberFormat[1] = FormatFactory.prototype.getNumberFormat();
+				//axesNumberFormat[0].setGroupingUsed(false);
+				//axesNumberFormat[1].setGroupingUsed(false);
 				
 				
 				
@@ -1190,22 +1190,21 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 		// set axes number format
 		
-			NumberFormatAdapter df = axesNumberFormat[axis];
+			//NumberFormatAdapter df = axesNumberFormat[axis];
 
 			// display large and small numbers in scienctific notation
 			if ((axesNumberingDistances[axis] < 10E-6)
 					|| (axesNumberingDistances[axis] > 10E6)) {
-				df.applyPattern("0.##E0");
+				//df.applyPattern("0.##E0");
+				maxFractionDigtis = Math.min(14, maxFractionDigtis);
+				axesNumberFormat[axis] = axesNumberFormat[0] = FormatFactory.prototype.getNumberFormat("0.##E0", maxFractionDigtis);
 				// avoid 4.00000000000004E-11 due to rounding error when
 				// computing
 				// tick mark numbers
-				maxFractionDigtis = Math.min(14, maxFractionDigtis);
 			} else {
-				df.applyPattern("###0.##");
+				axesNumberFormat[axis] = axesNumberFormat[0] = FormatFactory.prototype.getNumberFormat("###0.##", maxFractionDigtis);
 			}
 		
-		axesNumberFormat[axis].setMaximumFractionDigits(maxFractionDigtis);
-
 		if (automaticGridDistance) {
 			gridDistances[axis] = axesNumberingDistances[axis]
 					* EuclidianStyleConstants.automaticGridDistanceFactor;

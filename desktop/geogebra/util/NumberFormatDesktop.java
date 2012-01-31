@@ -12,8 +12,9 @@ public class NumberFormatDesktop extends DecimalFormat implements NumberFormatAd
 		this.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
 	}
 	
-	public NumberFormatDesktop(String pattern){
+	public NumberFormatDesktop(String pattern, int i){
 		super(pattern);
+		setMaximumFractionDigits(i);
 		this.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
 	}
 }
