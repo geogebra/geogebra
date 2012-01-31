@@ -211,8 +211,11 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	
 	public void clearView() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+		//TODO: remove hotEqns?
+		resetLists();
+		//TODO: setpreferredsize setting?
+		updateBackgroundImage(); // clear traces and images
+		// resetMode();
     }
 
     @Override
