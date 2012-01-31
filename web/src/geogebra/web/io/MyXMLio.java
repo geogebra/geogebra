@@ -1,14 +1,9 @@
 package geogebra.web.io;
 
-import java.io.Reader;
-import java.io.StringReader;
-
-import geogebra.common.GeoGebraConstants;
 import geogebra.common.io.DocHandler;
 import geogebra.common.kernel.Construction;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.kernel.Kernel;
-import geogebra.web.main.Application;
 
 public class MyXMLio extends geogebra.common.io.MyXMLio {
 
@@ -28,10 +23,6 @@ public class MyXMLio extends geogebra.common.io.MyXMLio {
 		if (ggbDocHandler == null)	
 			ggbDocHandler = kernel.newMyXMLHandler(cons);
 		return ggbDocHandler;
-	}
-
-	public void processXMLString(String xml, boolean clearConstruction, boolean isGgtFile) throws Exception {
-		processXMLString(xml,clearConstruction,isGgtFile,true);
 	}
 
 	public void processXMLString(String str, boolean clearAll, boolean isGGTfile, boolean settingsBatch) throws Exception {

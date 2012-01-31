@@ -382,9 +382,7 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 		
 		System.gc();
 	}
-	public void processXMLString(String str, boolean clearAll, boolean isGGTfile) throws Exception{
-		processXMLString(str,clearAll,isGGTfile,true);
-	}
+
 	public void processXMLString(String str, boolean clearAll, boolean isGGTfile, boolean settingsBatch)
 			throws Exception {
 		StringReader rs = new StringReader(str);

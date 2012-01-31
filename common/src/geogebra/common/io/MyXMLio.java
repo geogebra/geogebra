@@ -15,7 +15,12 @@ public abstract class MyXMLio {
 	protected Construction cons;
 
 	public abstract StringBuilder getUndoXML(Construction construction);
-	public abstract void processXMLString(String xml, boolean clearConstruction, boolean isGgtFile) throws Exception;
+
+	public void processXMLString(String xml, boolean clearConstruction, boolean isGgtFile) throws Exception {
+		processXMLString(xml,clearConstruction,isGgtFile,true);
+	}
+
+	public abstract void processXMLString(String xml, boolean clearConstruction, boolean isGgtFile, boolean settingsBatch) throws Exception;
 
 
 	protected final static void addGeoGebraHeader(StringBuilder sb, boolean isMacro, String uniqueId) {
