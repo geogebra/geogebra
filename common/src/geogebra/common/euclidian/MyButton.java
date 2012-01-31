@@ -41,24 +41,15 @@ public class MyButton {
 		
 		g.setFont(font);
 		TextLayout t= geogebra.common.factories.AwtFactory.prototype.newTextLayout(geoButton.getCaption(), font, g.getFontRenderContext());
-
 		
-
-		int spareHeight = getHeight() - (int)t.getAscent();
-
-		int spareWidth = getWidth()
-				- (int)t.getAdvance();
+		width=(int)(t.getAdvance()*1.2)+12;
 		
-		if(spareWidth<10){
-			width=(int)t.getAdvance()+10;
-			spareWidth = 10;
-		}
+		height=(int)(t.getAscent()*1.2)+12;
 		
-		if(spareHeight<4){
-			width=(int)t.getAscent()+4;
-			spareHeight = 4;
-		}
+		int spareHeight = height - (int)(t.getAscent());
 
+		int spareWidth = width-(int)(t.getAdvance());
+		
 		g.setColor(view.getBackgroundCommon());
 		g.fillRect(x, y, getWidth(), getHeight());
 
