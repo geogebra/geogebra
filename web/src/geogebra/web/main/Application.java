@@ -481,7 +481,7 @@ public class Application extends AbstractApplication {
 	@Override
     public DrawEquationInterface getDrawEquation() {
 	    if (drawEquation == null) {
-	    	drawEquation = new DrawEquationWeb();
+	    	drawEquation = new DrawEquationWeb(this);
 	    }
 	    
 	    return drawEquation;

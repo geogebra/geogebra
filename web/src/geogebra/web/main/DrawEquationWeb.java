@@ -17,9 +17,13 @@ import com.google.gwt.dom.client.Document;
 
 public class DrawEquationWeb implements DrawEquationInterface {
 	
-	private boolean scriptloaded = false;
+	private static boolean scriptloaded = false;
+	private boolean needToDrawEquation = false;
+	private Application app;
 	
-	public DrawEquationWeb() {
+	public DrawEquationWeb(Application app) {
+		
+		this.app = app;
 		//Load script first
 		DynamicScriptElement script = (DynamicScriptElement) Document.get().createScriptElement();
 		script.setSrc(GWT.getModuleBaseURL()+"js/mathml_concat.js");
@@ -28,10 +32,17 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			public void onLoad() {
 				scriptloaded = true;
 				cvmBoxInit();
+				checkIfNeedToDraw();
 			}
 		});
 		Document.get().getBody().appendChild(script);
 	}
+
+	protected void checkIfNeedToDraw() {
+	  if (needToDrawEquation) {
+		  app.getEuclidianView1().repaintView();
+	  }
+    }
 
 	protected native void cvmBoxInit() /*-{
 	    $wnd.cvm.box.init();
@@ -44,18 +55,24 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	public Dimension drawEquation(AbstractApplication app, GeoElement geo,
             Graphics2D g2, int x, int y, String mathml, Font font, boolean serif,
             Color fgColor, Color bgColor, boolean useCache) {
-	    JsArrayInteger ret = drawEquation(((geogebra.web.awt.Graphics2D)g2).getCanvas().getContext2d(), mathml, x, y);
-	    
+		JsArrayInteger ret = null;
+		if (scriptloaded) {
+			ret = drawEquation(((geogebra.web.awt.Graphics2D)g2).getCanvas().getContext2d(), mathml, x, y);
+		} else {
+			needToDrawEquation  = true;
+		}
+			
 	    return new geogebra.web.awt.Dimension(ret == null ? 100 : ret.get(0),ret == null ? 100 : ret.get(1));
     }
 	
-	public static native JsArrayInteger drawEquation(Context2d ctx, String mathml, int x, int y) /*-{
-		if (this.@geogebra.web.main.DrawEquationWeb::scriptloaded) {
-			var layout = cvm.layout;
-			var mathMLParser = cvm.mathml.parser;
+	public static native JsArrayInteger drawEquation(Context2d ctx, String mathmlStr, int x, int y) /*-{
+		var script_loaded = @geogebra.web.main.DrawEquationWeb::scriptloaded;
+		if (script_loaded) {
+			var layout = $wnd.cvm.layout;
+			var mathMLParser = $wnd.cvm.mathml.parser;
 	
 			// Steal the XML parser from the browser :)
-			var domParser = new DOMParser();
+			var domParser = new $wnd.DOMParser();
 			
 			// Define some helper functions
 			var mathML2Expr = function (text) {
