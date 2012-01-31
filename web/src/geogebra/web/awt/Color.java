@@ -6,25 +6,6 @@ public class Color extends geogebra.common.awt.Color {
 		private int g;
 		private int b;
 		private int alpha;
-		public static final Color white = new Color(255,255,255);
-		public static final Color black = new Color(0, 0, 0);
-		public static final Color RED = new Color(255, 0, 0);
-		public static final Color WHITE = new Color(255, 255, 255);
-		public static final Color BLACK = new Color(0, 0, 0);
-		public static final Color BLUE = new Color(0, 0, 255);
-		public static final Color GRAY = new Color(128, 128, 128);
-		public static final Color GREEN = new Color(0, 255, 0);
-		public static final Color YELLOW = new Color(255, 255, 0);
-		public static final Color DARK_GRAY = new Color(68, 68, 68);
-		public static final Color red = new Color(255, 0, 0);
-		public static final Color yellow = new Color(255, 255, 0);
-		public static final Color green = new Color(0, 255, 0);
-		public static final Color blue = new Color(0, 0, 255);
-		public static final Color cyan = new Color(0, 255, 255);
-		public static final Color magenta = new Color(255, 0, 255);
-		public static final Color lightGray = new Color(192, 192, 192);
-		public static final Color gray = new Color(128, 128, 128);
-		public static final Color darkGray = new Color(68, 68, 68);
 		
 		private static final double FACTOR = 0.7;
 	

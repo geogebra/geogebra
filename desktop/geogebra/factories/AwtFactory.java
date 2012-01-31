@@ -27,6 +27,10 @@ import geogebra.common.awt.font.TextLayout;
 import geogebra.common.euclidian.GeneralPathClipped;
 
 public class AwtFactory extends geogebra.common.factories.AwtFactory{
+	
+	public AwtFactory(){
+		Color.initColors(this);
+	}
 	@Override
 	public Color newColor(int RGB) {
 		return new geogebra.awt.Color(RGB);

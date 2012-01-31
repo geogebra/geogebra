@@ -649,13 +649,30 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	    context.stroke();
 	    
     }
+	
+	/**
+	 * Using arc, because arc to has buggy implementation in some browsers 
+	 * @param x
+	 * @param y
+	 * @param w
+	 * @param h
+	 * @param r
+	 */
 	private void roundRect(int x,int y,int w,int h,int r){
 		context.beginPath();
-		context.moveTo(x+r, y);
-		context.arcTo(x+w, y,   x+w, y+h, r);
-		context.arcTo(x+w, y+h, x,   y+h, r);
-		context.arcTo(x,   y+h, x,   y,   r);
-		context.arcTo(x,   y,   x+w, y,   r);
+		int ey = y+h;
+		int ex = x+w;
+		float r2d = (float)Math.PI/180;
+	    context.moveTo(x+r,y);
+	    context.lineTo(ex-r,y);
+	    context.arc(ex-r,y+r,r,r2d*270,r2d*360,false);
+	    context.lineTo(ex,ey-r);
+	    context.arc(ex-r,ey-r,r,r2d*0,r2d*90,false);
+	    context.lineTo(x+r,ey);
+	    context.arc(x+r,ey-r,r,r2d*90,r2d*180,false);
+	    context.lineTo(x,y+r);
+	    context.arc(x+r,y+r,r,r2d*180,r2d*270,false);
+	    
 		context.closePath();
 	}
 

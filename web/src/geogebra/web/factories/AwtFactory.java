@@ -16,19 +16,23 @@ import geogebra.common.awt.FontRenderContext;
 import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.GradientPaint;
 import geogebra.common.awt.Line2D;
-import geogebra.common.awt.Point;
 import geogebra.common.awt.Point2D;
 import geogebra.common.awt.QuadCurve2D;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
-import geogebra.common.awt.RectangularShape;
 import geogebra.common.awt.Shape;
 import geogebra.common.awt.font.TextLayout;
-import geogebra.common.euclidian.GeneralPathClipped;
-import geogebra.common.main.AbstractApplication;
 
+/**
+ * Creates AWT wrappers for web
+ *
+ */
 public class AwtFactory extends geogebra.common.factories.AwtFactory {
 
+	public AwtFactory(){
+		Color.initColors(this);
+	}
+	
 	@Override
 	public Color newColor(int RGB) {
 		return new geogebra.web.awt.Color(RGB);
@@ -215,8 +219,7 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 	@Override
     public GradientPaint newGradientPaint(int x, int y, Color bg2, int x2,
             int i, Color bg) {
-	    // TODO Auto-generated method stub
-	    return null;
+	    return new geogebra.web.awt.GradientPaint(x,y,bg2,x2,i,bg);
     }
 
 }
