@@ -772,7 +772,7 @@ public abstract class Graphics2D {
 	public abstract Color getColor();
 	public abstract Font getFont();
 	public abstract void setFont(Font font);
-	public abstract void setPaint(Color fillColor);
+	
 	public abstract void setColor(Color selColor);
 	public abstract void fillRect(int i, int j, int k, int l);
 	public abstract void drawLine(int x1, int y1, int x2, int y2);

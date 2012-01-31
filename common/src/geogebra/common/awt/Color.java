@@ -1,6 +1,6 @@
 package geogebra.common.awt;
 
-public abstract class Color {
+public abstract class Color implements Paint{
 
 	public static Color black = null;
 	public static Color white = null;
@@ -62,5 +62,7 @@ public abstract class Color {
         }
 	public abstract geogebra.common.awt.Color darker();
 	public abstract geogebra.common.awt.Color brighter();
-
+	public static String getColorString(Color fillColor){
+		return "rgba("+fillColor.getRed()+","+fillColor.getGreen()+","+fillColor.getBlue()+","+(fillColor.getAlpha()/255d)+")";
+	}
 }

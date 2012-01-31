@@ -113,9 +113,9 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 		if(paint instanceof geogebra.awt.GradientPaint){
 			impl.setPaint(((geogebra.awt.GradientPaint)paint).getPaint());
 			return;
+		}else if(paint instanceof Color){
+			impl.setPaint(geogebra.awt.Color.getAwtColor((Color)paint));
 		}
-			
-		setPaint((geogebra.common.awt.Color)paint);
 		
 	}
 
@@ -238,11 +238,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 		return new geogebra.awt.Font(impl.getFont());
 	}
 
-	@Override
-	public void setPaint(Color fillColor) {
-		impl.setPaint(geogebra.awt.Color.getAwtColor(fillColor));
-		
-	}
+	
 
 	public static java.awt.Graphics2D getAwtGraphics(geogebra.common.awt.Graphics2D g2) {
 		return ((Graphics2D)g2).impl;

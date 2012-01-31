@@ -237,6 +237,13 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
 	@Override
     public void setPaint(Paint paint) {
+		if(paint  instanceof Color){
+			context.setFillStyle(Color.getColorString((Color)paint));	
+			context.setStrokeStyle(Color.getColorString((Color)paint));
+		}
+		else if(paint instanceof GradientPaint){
+			context.setFillStyle(((GradientPaint)paint).getGradient(context));
+		}
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 
 	}
@@ -459,13 +466,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	}
 
 	
-	@Override
-    public void setPaint(Color fillColor) {
-		context.setFillStyle("rgba("+fillColor.getRed()+","+fillColor.getGreen()+","+fillColor.getBlue()+","+(fillColor.getAlpha()/255d)+")");	
-		context.setStrokeStyle("rgba("+fillColor.getRed()+","+fillColor.getGreen()+","+fillColor.getBlue()+","+(fillColor.getAlpha()/255)+")");
-
-	}
-
+	
 	public void setCoordinateSpaceHeight(int height) {
 		canvas.setCoordinateSpaceHeight(height);
     }
@@ -644,16 +645,24 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	@Override
     public void drawRoundRect(int x, int y, int width, int height,
             int arcWidth, int arcHeight) {
-	    context.rect(x, y, width, height);
+	    roundRect(x,y,width,height,arcHeight);
 	    context.stroke();
 	    
     }
-
+	private void roundRect(int x,int y,int w,int h,int r){
+		context.beginPath();
+		context.moveTo(x+r, y);
+		context.arcTo(x+w, y,   x+w, y+h, r);
+		context.arcTo(x+w, y+h, x,   y+h, r);
+		context.arcTo(x,   y+h, x,   y,   r);
+		context.arcTo(x,   y,   x+w, y,   r);
+		context.closePath();
+	}
 
 	@Override
     public void fillRoundRect(int x, int y, int width, int height,
             int arcWidth, int arcHeight) {
-		context.rect(x, y, width, height);
+		roundRect(x,y,width,height,arcHeight);
 	    context.fill();
 	    
     }

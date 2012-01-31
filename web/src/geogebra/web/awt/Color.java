@@ -152,5 +152,6 @@ public class Color extends geogebra.common.awt.Color {
 				 Math.min((int)(getGreen()/FACTOR), 255),
 				 Math.min((int)(getBlue() /FACTOR), 255));
 	}
+	
 
 }
