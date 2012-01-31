@@ -465,6 +465,21 @@ public class PythonAPI {
 		}
 		
 		/**
+		 * @return true if object is auxiliary
+		 */
+		public boolean isAuxiliary() {
+			return geo.isAuxiliaryObject();
+		}
+		
+		/**
+		 * Set whether the Geo is auxiliary
+		 * @param b true to make the Geo auxiliary
+		 */
+		public void setAuxiliary(boolean b) {
+			geo.setAuxiliaryObject(b);
+		}
+		
+		/**
 		 * @return true if this Geo conic is really a circle
 		 */
 		public boolean keepsType() {
@@ -971,7 +986,7 @@ public class PythonAPI {
 	/* Lists */
 	
 	/**
-	 * @param geos
+	 * @param geos array of Geos to put in the list
 	 * @return new geoList
 	 */
 	public Geo geoList(Geo[] geos) {

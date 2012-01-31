@@ -129,6 +129,21 @@ class Element(GenericMethods):
         self.geo.updateRepaint()
     algebra_visible = property(_getalgebra_visible, _setalgebra_visible)
 
+    # property: auxiliary
+    def _getauxiliary(self):
+        return self.geo.isAuxiliary()
+    def _setauxiliary(self, value):
+        self.geo.setAuxiliary(bool(value))
+    auxiliary = property(_getauxiliary, _setauxiliary)
+
+    # property: trace
+    def _gettrace(self):
+        return self.geo.getTrace()
+    def _settrace(self, value):
+        self.geo.setTrace(bool(value))
+        self.geo.updateRepaint()
+    trace = property(_gettrace, _settrace)
+    
     def __geo__(self):
         return self.geo
 
