@@ -400,9 +400,6 @@ public class Kernel {
 		kernelID = kernelInstances;
 		casVariablePrefix = GGBCAS_VARIABLE_PREFIX + kernelID;
 
-		//nf = FormatFactory.prototype.getNumberFormat();
-		//nf.setGroupingUsed(false);
-
 		sf = FormatFactory.prototype.getScientificFormat(5, 16, false);
 
 		setCASPrintForm(StringType.GEOGEBRA);

@@ -11,11 +11,6 @@ public class FormatFactory extends geogebra.common.factories.FormatFactory{
 		return new ScientificFormat(a,b,c);
 	}
 
-	//@Override
-	public NumberFormatAdapter getNumberFormat() {
-		return new NumberFormatDesktop();
-	}
-
 	public NumberFormatAdapter getNumberFormat(int digits) {
 		NumberFormatDesktop ret = new NumberFormatDesktop();
 		ret.setMaximumFractionDigits(digits);
