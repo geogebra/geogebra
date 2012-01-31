@@ -266,7 +266,13 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 			app.setScrollToShow(true);
 			GeoElement[] geos;
 			try {
-				geos = app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionHandling( input, true, false, true );
+				if (input.startsWith("/")) {
+					String cmd = input.substring(1);
+					app.getPythonBridge().eval(cmd);
+					geos = new GeoElement[0];
+				} else {
+					geos = app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionHandling( input, true, false, true );
+				}
 			} catch (Exception ee) {
 				inputField.showError(ee);
 				return;
