@@ -64,7 +64,10 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class Application extends AbstractApplication {
 	
+	
+	//Internationalization constants
 	public final static String DEFAULT_LANGUAGE = "en";
+	public final static String DEFAULT_LOCALE = "default";
 
 	private FontManager fontManager;
 
@@ -186,10 +189,10 @@ public class Application extends AbstractApplication {
 	public String getLanguage() {
 		
 		String localeName = LocaleInfo.getCurrentLocale().getLocaleName();
-		if(localeName.toLowerCase().equals("default")) {
+		if(localeName.toLowerCase().equals(Application.DEFAULT_LOCALE)) {
 			return Application.DEFAULT_LANGUAGE;
 		}
-			return  localeName.substring(0,2);		
+		return  localeName.substring(0,2);
 	}
 
 	@Override
