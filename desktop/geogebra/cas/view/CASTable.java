@@ -557,6 +557,7 @@ public class CASTable extends JTable {
 	 */
 	public void setClickedRow(int clickedRow) {
 		this.clickedRow = clickedRow;
+		view.getCASStyleBar().setSelectedRow(table.getGeoCasCell(clickedRow));
 	}
 
 	/**

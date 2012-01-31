@@ -3,6 +3,7 @@ package geogebra.cas.view;
 import geogebra.common.kernel.geos.GeoCasCell;
 
 import java.awt.Component;
+import java.awt.Font;
 
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
@@ -24,7 +25,10 @@ public class CASTableCellRenderer extends CASTableCell implements
 			setValue((GeoCasCell) value);
 
 			// update font and row height
-			setFont(view.getFont());
+			if(((GeoCasCell) value).isUseAsText()){
+				setFont(view.getFont().deriveFont(((GeoCasCell) value).getFontStyle()));//, ((GeoCasCell) value).getFontSize()));
+			}else
+				setFont(view.getFont());
 			updateTableRowHeight(table, row);
 
 			// set inputPanel width to match table column width
@@ -35,3 +39,12 @@ public class CASTableCellRenderer extends CASTableCell implements
 	}
 
 }
+
+
+
+
+
+
+
+
+

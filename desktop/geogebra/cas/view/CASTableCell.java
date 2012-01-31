@@ -5,6 +5,7 @@ import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -101,8 +102,10 @@ public abstract class CASTableCell extends JPanel{
 		// set input panel
 		String input = cellValue.getInput();
 		inputPanel.setInput(input);
+		inputPanel.setCommentColor(Color.green);
+		
 		dummyField.setText(inputPanel.getInput());
-				
+		
 		// set output panel
 		boolean showOutput = cellValue.showOutput();
 		outputPanel.setVisible(showOutput);
@@ -134,6 +137,12 @@ public abstract class CASTableCell extends JPanel{
 				);
 		}	
 	}
+	
+	public void setInputColor(Color c){
+		inputPanel.setForeground(c);
+	}
+	
+
 
 	void updateTableRowHeight(JTable table, int row) {
 		if (isVisible()) {
@@ -170,8 +179,9 @@ public abstract class CASTableCell extends JPanel{
 	@Override
 	public void setFont(Font ft) {
 		super.setFont(ft);
-		if (inputPanel != null)
+		if (inputPanel != null){
 			inputPanel.setFont(ft);
+		}
 		if (dummyField != null){
 			dummyField.setFont(ft);
 		}

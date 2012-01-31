@@ -3,6 +3,7 @@ package geogebra.cas.view;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.main.Application;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -61,7 +62,7 @@ public class RowHeaderPopupMenu extends JPopupMenu implements ActionListener {
 		add(item7);
 		
 		//handle cell as Textcell
-		cbUseAsText = new JCheckBoxMenuItem("use as Text");
+		cbUseAsText = new JCheckBoxMenuItem(app.getMenu("UseAsText"));
 		cbUseAsText.setActionCommand("useAsText");
 		cbUseAsText.setIcon(app.getEmptyIcon());
 		int [] selRows2 = rowHeader.getSelectedIndices();
@@ -70,7 +71,7 @@ public class RowHeaderPopupMenu extends JPopupMenu implements ActionListener {
 			cbUseAsText.setSelected(casCell.isUseAsText());
 		}
 		cbUseAsText.addActionListener(this);
-		//add(cbUseAsText);     work for later, by dominik
+		add(cbUseAsText);  
 		
 	}
 

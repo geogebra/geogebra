@@ -101,6 +101,7 @@ public class MyXMLHandler implements DocHandler {
 	private static final int MODE_CAS_CELL_PAIR = 162;
 	private static final int MODE_CAS_INPUT_CELL = 163;
 	private static final int MODE_CAS_OUTPUT_CELL = 164;
+	private static final int MODE_CAS_TEXT_CELL = 165; 
 	private static final int MODE_PROBABILITY_CALCULATOR = 170;
 	private static final int MODE_KERNEL = 200;
 	private static final int MODE_CONSTRUCTION = 300;
@@ -2432,11 +2433,17 @@ public class MyXMLHandler implements DocHandler {
 				casMode = MODE_CAS_INPUT_CELL;
 			} else if (eName.equals("outputCell")) {
 				casMode = MODE_CAS_OUTPUT_CELL;
+			} else if (eName.equals("useAsText")) {
+				casMode = MODE_CAS_TEXT_CELL;
 			} else {
 				System.err.println("unknown tag in <cellPair>: " + eName);
 			}
 			break;
 
+		case MODE_CAS_TEXT_CELL:
+			startCellTextElement(eName, attrs);
+			break;
+			
 		case MODE_CAS_INPUT_CELL:
 			startCellInputElement(eName, attrs);
 			break;
@@ -2468,6 +2475,11 @@ public class MyXMLHandler implements DocHandler {
 			}
 			break;
 
+		case MODE_CAS_TEXT_CELL:
+			if (eName.equals("useAsText"))
+				casMode = MODE_CAS_CELL_PAIR;
+			break;
+			
 		case MODE_CAS_INPUT_CELL:
 			if (eName.equals("inputCell"))
 				casMode = MODE_CAS_CELL_PAIR;
@@ -2575,6 +2587,36 @@ public class MyXMLHandler implements DocHandler {
 
 		if (!ok)
 			System.err.println("error in <inputCell>: " + eName);
+	}
+	
+	private void startCellTextElement(String eName,
+			LinkedHashMap<String, String> attrs) {
+		if (geoCasCell == null) {
+			System.err.println("no element set for <" + eName + ">");
+			return;
+		}
+
+		geoCasCell.setUseAsText(true);
+		
+		boolean ok = true;
+
+		if (eName.equals("FontStyle")) {
+				String style = attrs.get("value");
+				geoCasCell.setFontStyle(Integer.parseInt(style));	
+		} else if (eName.equals("FontSize")) {
+				String size = attrs.get("value");
+				geoCasCell.setFontSize(Integer.parseInt(size));			
+		} else if (eName.equals("FontColor")) {
+			String r = attrs.get("r");
+			String b = attrs.get("b");
+			String g = attrs.get("g");
+			geoCasCell.setFontColor(geogebra.common.factories.AwtFactory.prototype.newColor(Integer.parseInt(r),Integer.parseInt(g),Integer.parseInt(b)));			
+		} else
+			System.err.println("unknown tag in <useAsText>: " + eName);
+
+		if (!ok)
+			System.err.println("error in <useAsText>: " + eName);
+		
 	}
 
 	private void startConstructionElement(String eName,
@@ -3442,7 +3484,9 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 	}
+	
 
+		
 	private boolean handleCasCellInput(LinkedHashMap<String, String> attrs) {
 		try {
 			String input = attrs.get("value");
@@ -3481,7 +3525,6 @@ public class MyXMLHandler implements DocHandler {
 			if (evalComment != null) {
 				geoCasCell.setEvalComment(evalComment);
 			}
-
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

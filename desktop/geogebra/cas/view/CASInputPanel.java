@@ -27,6 +27,7 @@ public class CASInputPanel extends JPanel {
 		this.app = app;
 		
 		setBackground(Color.white);
+		
 		setLayout(new BorderLayout(0,0));
 		
 		// use autocomplete text field from input bar 
@@ -108,6 +109,13 @@ public class CASInputPanel extends JPanel {
 
 		if (inputArea != null) {
 			inputArea.setFont(ft);
+		}
+		
+	}
+	
+	public void setCommentColor(Color col){
+		if(col!=null){
+			inputArea.setForeground(col);
 		}
 	}
 

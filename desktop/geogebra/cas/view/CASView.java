@@ -1,6 +1,7 @@
 package geogebra.cas.view;
 
 import geogebra.common.cas.GeoGebraCAS;
+import geogebra.cas.view.CASStyleBar;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
@@ -12,8 +13,11 @@ import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.GuiManager;
 import geogebra.gui.inputbar.InputBarHelpPanel;
 import geogebra.gui.view.Gridable;
+import geogebra.gui.view.algebra.AlgebraHelperBar;
 
 import geogebra.main.Application;
+
+import java.util.ArrayList;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -51,6 +55,8 @@ public class CASView extends JComponent implements View, Gridable {
 	private Application app;
 	final RowHeader rowHeader;
 	private boolean toolbarIsUpdatedByDockPanel;
+	
+	private CASStyleBar styleBar;
 
 	public CASView(Application app) {
 		kernel = app.getKernel();
@@ -111,8 +117,14 @@ public class CASView extends JComponent implements View, Gridable {
 
 						// table slection changed -> rowheader table selection
 						int[] selRows = consoleTable.getSelectedRows();
-						if (selRows.length > 0)
+						if (selRows.length > 0){
 							rowHeader.setSelectedIndices(selRows);
+							//update list of selected objects in the stylebar
+							ArrayList<GeoElement> targetCells= new ArrayList<GeoElement>();
+							for(int i=0; i<consoleTable.getRowCount(); i++)
+								targetCells.add(consoleTable.getGeoCasCell(selRows[0]));
+							styleBar.setSelectedRows(targetCells);
+						}
 					}
 				});
 
@@ -132,7 +144,7 @@ public class CASView extends JComponent implements View, Gridable {
 						// undoNeeded = true;
 					} else {
 						GeoCasCell cellValue = consoleTable
-								.getGeoCasCell(rows - 1);
+								.getGeoCasCell(rows - 1);								
 						if (cellValue.isEmpty()) {
 							consoleTable.startEditingRow(rows - 1);
 						} else {
@@ -509,5 +521,17 @@ public class CASView extends JComponent implements View, Gridable {
 
 	public Component[][] getPrintComponents() {
 		return new Component[][] { { rowHeader, consoleTable } };
+	}
+	
+	
+	public CASStyleBar getCASStyleBar() {
+		if (styleBar == null) {
+			styleBar = newCASStyleBar();
+		}
+		return styleBar;
+	}
+	
+	protected CASStyleBar newCASStyleBar() {
+		return new CASStyleBar(this, app);
 	}
 }

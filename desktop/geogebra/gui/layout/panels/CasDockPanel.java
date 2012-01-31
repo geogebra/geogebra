@@ -22,12 +22,18 @@ public class CasDockPanel extends DockPanel {
 			AbstractApplication.VIEW_CAS, 	// view id
 			"CAS", 					// view title phrase 
 			getDefaultToolbar(),	// toolbar string
-			false,					// style bar?
+			true,					// style bar?
 			4,						// menu order
 			'K' // ctrl-shift-K
 		);
 		
 		this.app = app;
+	}
+	
+
+	@Override
+	protected JComponent loadStyleBar() {
+		return app.getGuiManager().getCasView().getCASStyleBar();
 	}
 	
 	@Override

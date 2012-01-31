@@ -1,5 +1,6 @@
 package geogebra.common.kernel.geos;
 
+import geogebra.common.awt.Font;
 import geogebra.common.cas.CASException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -12,6 +13,9 @@ import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
+import geogebra.common.kernel.geos.GeoText;
+
+import java.awt.Color;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -56,9 +60,12 @@ public class GeoCasCell extends GeoElement {
 	
 	//use this cell as text field
 	private boolean useAsText;
+	private GeoText commentText;    //for the future, is only holding font infos at the moment
+
 
 	public GeoCasCell(Construction c) {
 		super(c);
+		
 
 		input = "";
 		localizedInput = "";
@@ -69,6 +76,11 @@ public class GeoCasCell extends GeoElement {
 		postfix = "";
 		evalCmd = "";
 		evalComment = "";
+		useAsText=false;
+		commentText = new GeoText(c, "");
+
+		//setGeoText(commentText);
+		
 	}
 
 	/**
@@ -215,11 +227,58 @@ public class GeoCasCell extends GeoElement {
 	
 	public void setUseAsText(boolean val){
 		useAsText = val;
+		//TODO: by expanding the GeoText functionality, this could become a problem
+		if(!val){
+			this.input = this.commentText.getTextString();
+		}
+		else{
+			this.commentText.setTextString(input);
+		}
 		suppressOutput = useAsText;
 		//recalc row height
 		update();              
 	}
-
+	
+	public void setFont(Font ft){
+		setFontSize(ft.getSize());
+		setFontStyle(ft.getStyle());
+	}
+	
+	public void setFontStyle(int style){
+		commentText.setFontStyle(style);
+	}
+	
+	public geogebra.common.awt.Color getFontColor(){
+		return this.getObjectColor();
+	}
+	
+	public void setFontColor(geogebra.common.awt.Color c){
+		this.setObjColor(c);
+	}
+	
+	public int getFontStyle(){
+		return commentText.getFontStyle();
+	}
+	
+	public void setFontSize(int size){
+		commentText.setFontSize(size);
+	}
+	
+	public int getFontSize(){
+		return commentText.getFontSize();
+	}
+	
+	public void setGeoText(GeoText gt){
+		if(gt!=null){
+			commentText = gt;
+			//setInput(gt.toString());
+		}
+	}
+	
+	public GeoText getGeoText(){
+		return commentText;
+	}
+	
 	public boolean isEmpty() {
 		return isInputEmpty() && isOutputEmpty();
 	}
@@ -276,11 +335,19 @@ public class GeoCasCell extends GeoElement {
 	 * @return success
 	 */
 	public boolean setInput(String inValue) {
-		suppressOutput = inValue.endsWith(";");
-
-		// parse input into valid expression
-		inputVE = parseGeoGebraCASInputAndResolveDummyVars(inValue);
-
+ 
+		
+	
+		//if the cell is used as comment, treat it as empty
+		if(useAsText){
+			suppressOutput = true;
+			inputVE = new ExpressionNode();
+			this.commentText.setTextString(inValue != null ? inValue : "");
+		}
+		else {    // parse input into valid expression
+			suppressOutput = inValue.endsWith(";");
+			inputVE = parseGeoGebraCASInputAndResolveDummyVars(inValue);
+		}
 		input = inValue != null ? inValue : ""; // remember exact user input
 		prefix = "";
 		evalVE = inputVE;
@@ -288,7 +355,7 @@ public class GeoCasCell extends GeoElement {
 		setEvalCommand("");
 		evalComment = "";
 		setError(null);
-
+		
 		// update input and output variables
 		updateInputVariables(inputVE);
 
@@ -452,8 +519,8 @@ public class GeoCasCell extends GeoElement {
 	private void updateInputVariables(ValidExpression ve) {
 		// clear var sets
 		clearInVars();
-
-		if (ve == null)
+		
+		if (ve == null || useAsText)
 			return;
 
 		// get all command names
@@ -1191,7 +1258,11 @@ public class GeoCasCell extends GeoElement {
 	 * @return success
 	 */
 	final public boolean computeOutput() {
-		return computeOutput(true);
+		//do not compute output if this cell is used as a text cell
+		if(!useAsText)
+			return computeOutput(true);
+		else
+			return true;   //simulate success
 	}
 
 	/**
@@ -1343,6 +1414,43 @@ public class GeoCasCell extends GeoElement {
 		// StringBuilder sb = new StringBuilder();
 		sb.append("\t<cellPair>\n");
 
+		//useAsText
+		if(useAsText){
+			sb.append("\t\t");
+			sb.append("<useAsText>\n");
+			sb.append("\t\t\t");
+			
+			
+			sb.append("<FontStyle");
+			sb.append(" value=\"");
+			sb.append(getFontStyle());
+			sb.append("\" ");
+			sb.append("/>\n");
+			
+			sb.append("\t\t\t");
+			sb.append("<FontSize");
+			sb.append(" value=\"");
+			sb.append(getFontSize());
+			sb.append("\" ");
+			sb.append("/>\n");
+			
+			sb.append("\t\t\t");
+			sb.append("<FontColor");
+			sb.append(" r=\"");
+			sb.append(getFontColor().getRed());
+			sb.append("\" ");
+			sb.append(" b=\"");
+			sb.append(getFontColor().getBlue());
+			sb.append("\" ");
+			sb.append(" g=\"");
+			sb.append(getFontColor().getGreen());
+			sb.append("\" ");
+			sb.append("/>\n");
+			
+			sb.append("\t\t");
+			sb.append("</useAsText>\n");
+		}
+		
 		// inputCell
 		if (!isInputEmpty()) {
 			sb.append("\t\t");
@@ -1350,27 +1458,31 @@ public class GeoCasCell extends GeoElement {
 			sb.append("\t\t\t");
 			sb.append("<expression");
 			sb.append(" value=\"");
-			sb.append(StringUtil.encodeXML(input));
-			sb.append("\" ");
-
-			if (evalVE != inputVE) {
-				if (!"".equals(prefix)) {
-					sb.append(" prefix=\"");
-					sb.append(StringUtil.encodeXML(prefix));
-					sb.append("\" ");
-				}
-
-				sb.append(" eval=\"");
-				sb.append(StringUtil.encodeXML(getEvalText()));
+			if(useAsText){
+				sb.append(StringUtil.encodeXML(commentText.getTextString()));
 				sb.append("\" ");
-
-				if (!"".equals(postfix)) {
-					sb.append(" postfix=\"");
-					sb.append(StringUtil.encodeXML(postfix));
+			}else{
+				sb.append(StringUtil.encodeXML(input));
+				sb.append("\" ");
+	
+				if (evalVE != inputVE) {
+					if (!"".equals(prefix)) {
+						sb.append(" prefix=\"");
+						sb.append(StringUtil.encodeXML(prefix));
+						sb.append("\" ");
+					}
+	
+					sb.append(" eval=\"");
+					sb.append(StringUtil.encodeXML(getEvalText()));
 					sb.append("\" ");
+	
+					if (!"".equals(postfix)) {
+						sb.append(" postfix=\"");
+						sb.append(StringUtil.encodeXML(postfix));
+						sb.append("\" ");
+					}
 				}
 			}
-
 			sb.append("/>\n");
 			sb.append("\t\t");
 			sb.append("</inputCell>\n");

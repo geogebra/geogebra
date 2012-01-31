@@ -45,7 +45,7 @@ public class CASOutputPanel extends JPanel {
 		add(centerPanel, BorderLayout.CENTER);
 	}
 	
-	public void setOutput(String output, String latexOutput, String cmd, boolean isError) {
+	public void setOutput(String output, String latexOutput, String cmd, boolean isError){
 		boolean useLaTeXpanel = latexOutput != null && !isError;
 		outputArea.setVisible(!useLaTeXpanel);
 		latexPanel.setVisible(useLaTeXpanel);		
