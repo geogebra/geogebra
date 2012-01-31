@@ -42,9 +42,9 @@ public class MyButton {
 		g.setFont(font);
 		TextLayout t= geogebra.common.factories.AwtFactory.prototype.newTextLayout(geoButton.getCaption(), font, g.getFontRenderContext());
 		
-		width=(int)(t.getAdvance()*1.2)+12;
+		width=Math.max((int)(t.getAdvance()*1.2)+12,24);
 		
-		height=(int)(t.getAscent()*1.2)+12;
+		height=Math.max((int)(t.getAscent()*1.2)+12,24);
 		
 		int spareHeight = height - (int)(t.getAscent());
 
