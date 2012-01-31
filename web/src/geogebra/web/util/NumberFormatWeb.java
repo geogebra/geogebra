@@ -12,11 +12,11 @@ import geogebra.common.util.NumberFormatAdapter;
  * <p>GWT NumberFormat class wrapped in supertype</p> 
  *
  */
-public class NumberFormat extends Format implements NumberFormatAdapter {
+public class NumberFormatWeb extends Format implements NumberFormatAdapter {
 
 	private int maximumFractionDigits;
 	 
-	public NumberFormat(String s, int digits) {
+	public NumberFormatWeb(String s, int digits) {
 		maximumFractionDigits = digits;
 	   this.nf = com.google.gwt.i18n.client.NumberFormat.getFormat(s);
     }

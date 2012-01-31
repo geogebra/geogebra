@@ -399,7 +399,7 @@ public class Kernel {
 		kernelInstances++;
 		kernelID = kernelInstances;
 		casVariablePrefix = GGBCAS_VARIABLE_PREFIX + kernelID;
-
+		nf = FormatFactory.prototype.getNumberFormat(2);
 		sf = FormatFactory.prototype.getScientificFormat(5, 16, false);
 
 		setCASPrintForm(StringType.GEOGEBRA);
