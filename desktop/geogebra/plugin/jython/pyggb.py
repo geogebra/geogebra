@@ -29,6 +29,7 @@ class Interface(PythonScriptInterface):
             'Point': objects.Point,
             'Element': objects.Element,
             'Number': objects.Numeric,
+            'Angle': objects.Angle,
             'Vector': objects.Vector,
             'Line': objects.Line,
             'Segment': objects.Segment,
@@ -124,6 +125,7 @@ class Interface(PythonScriptInterface):
     def reset(self):
         if self.pywin is not None:
             self.pywin.reset()
+        self.run(api.initScript)
     
     def addEventListener(self, evt, listener):
         self.event_listeners[evt].append(listener)

@@ -21,6 +21,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.AlgebraProcessor;
+import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoConic;
@@ -65,6 +66,8 @@ public class PythonAPI {
 	public static final Class<GeoElement> GeoElementClass = GeoElement.class;
 	@SuppressWarnings("javadoc")
 	public static final Class<GeoNumeric> GeoNumericClass = GeoNumeric.class;
+	@SuppressWarnings("javadoc")
+	public static final Class<GeoAngle> GeoAngleClass = GeoAngle.class;
 	@SuppressWarnings("javadoc")
 	public static final Class<GeoVector> GeoVectorClass = GeoVector.class;
 	@SuppressWarnings("javadoc")
@@ -447,6 +450,21 @@ public class PythonAPI {
 		}
 
 		/**
+		 * @return true if the Geo is visible in algebra view
+		 */
+		public boolean isAlgebraVisible() {
+			return geo.isAlgebraVisible();
+		}
+		
+		/**
+		 * Set the visibility of the Geo in algebra view
+		 * @param b true to make the Geo visible
+		 */
+		public void setAlgebraVisible(boolean b) {
+			geo.setAlgebraVisible(b);
+		}
+		
+		/**
 		 * @return true if this Geo conic is really a circle
 		 */
 		public boolean keepsType() {
@@ -552,6 +570,16 @@ public class PythonAPI {
 		public Geo getTextOrigin() {
 			GeoText txt = (GeoText) geo;
 			return new Geo((GeoPoint2) txt.getStartPoint());
+		}
+		
+		/* Numeric methods */
+			
+		/**
+		 * @param x the new value
+		 */
+		public void setNumericValue(double x) {
+			GeoNumeric num = (GeoNumeric) geo;
+			num.setValue(x);
 		}
 
 		/**

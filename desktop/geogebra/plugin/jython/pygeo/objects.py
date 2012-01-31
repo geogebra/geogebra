@@ -120,7 +120,15 @@ class Element(GenericMethods):
         self.geo.setEuclidianVisible(bool(value))
         self.geo.updateRepaint()
     visible = property(_getvisible, _setvisible)
-    
+
+    # property: algebra_visible
+    def _getalgebra_visible(self):
+        return self.geo.isAlgebraVisible()
+    def _setalgebra_visible(self, value):
+        self.geo.setAlgebraVisible(bool(value))
+        self.geo.updateRepaint()
+    algebra_visible = property(_getalgebra_visible, _setalgebra_visible)
+
     def __geo__(self):
         return self.geo
 
@@ -326,7 +334,16 @@ class Numeric(ExpressionElement, NumberExpression):
     
     def __float__(self):
         return self.geo.value
-    
+
+    def _setvalue(self, val):
+        self.geo.numericValue = val
+        self.geo.updateRepaint()
+    value = property(Expression._getvalue, _setvalue)
+
+
+class Angle(Numeric):
+    pass
+
 
 class Boolean(ExpressionElement, Expression):
     pass
@@ -730,6 +747,7 @@ class Geo(object):
         API.GeoVectorClass: Vector,
         API.GeoPointClass: Point,
         API.GeoNumericClass: Numeric,
+        API.GeoAngleClass: Angle,
         API.GeoBooleanClass: Boolean,
         API.GeoFunctionClass: Function,
         API.GeoTextClass: Text,
