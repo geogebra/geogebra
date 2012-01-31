@@ -233,7 +233,7 @@ var initBox = function () {
     div.style.position = "absolute";
     div.style.visibility = "hidden";
     calibrationImg = document.createElement("img");
-    calibrationImg.src = "10x1.png";
+    calibrationImg.src = "web/images/10x1.png";
     calibrationTxt = document.createElement("span");
     div.appendChild(calibrationImg);
     div.appendChild(calibrationTxt);

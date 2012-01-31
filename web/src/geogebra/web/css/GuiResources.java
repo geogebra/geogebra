@@ -25,5 +25,10 @@ public interface GuiResources extends ClientBundle {
 	
 	@Source("geogebra/resources/images/view-refresh.png")
 	ImageResource viewRefresh();
+	
+	@Source("geogebra/resources/images/10x1.png")
+	ImageResource png10x1();
+	
+	
 
 }

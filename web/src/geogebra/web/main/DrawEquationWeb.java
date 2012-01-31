@@ -7,11 +7,35 @@ import geogebra.common.awt.Graphics2D;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.helper.ScriptLoadCallback;
+import geogebra.web.html5.DynamicScriptElement;
 
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayInteger;
+import com.google.gwt.dom.client.Document;
 
 public class DrawEquationWeb implements DrawEquationInterface {
+	
+	private boolean scriptloaded = false;
+	
+	public DrawEquationWeb() {
+		//Load script first
+		DynamicScriptElement script = (DynamicScriptElement) Document.get().createScriptElement();
+		script.setSrc(GWT.getModuleBaseURL()+"js/mathml_concat.js");
+		script.addLoadHandler(new ScriptLoadCallback() {
+			
+			public void onLoad() {
+				scriptloaded = true;
+				cvmBoxInit();
+			}
+		});
+		Document.get().getBody().appendChild(script);
+	}
+
+	protected native void cvmBoxInit() /*-{
+	    $wnd.cvm.box.init();
+    }-*/;
 
 	public void setUseJavaFontsForLaTeX(AbstractApplication app, boolean b) {
 	    // not relevant for web
@@ -26,9 +50,41 @@ public class DrawEquationWeb implements DrawEquationInterface {
     }
 	
 	public static native JsArrayInteger drawEquation(Context2d ctx, String mathml, int x, int y) /*-{
-	if (typeof $wnd.ggbOnInit === 'function')
-		return $wnd.drawEquation(ctx, mathml, x, y);
-	return [50, 50];
+		if (this.@geogebra.web.main.DrawEquationWeb::scriptloaded) {
+			var layout = cvm.layout;
+			var mathMLParser = cvm.mathml.parser;
+	
+			// Steal the XML parser from the browser :)
+			var domParser = new DOMParser();
+			
+			// Define some helper functions
+			var mathML2Expr = function (text) {
+			    var mathml = domParser.parseFromString(text, "text/xml").firstChild;
+			    return mathMLParser.parse(mathml);
+			};
+			
+			var getBox = function (e) {
+			    return layout.ofExpr(e).box();
+			};
+			
+			// The mathML text of the expression to be displayed
+			//var text = "<apply><root/><apply><divide/><cn>1</cn><apply><plus/><ci>x</ci><cn>1</cn></apply></apply></apply>";
+			
+			// How to display it
+			var expression = mathML2Expr(mathmlStr);
+			
+			var box = getBox(expression);
+			
+			var height = box.ascent - box.descent;
+			
+			box.drawOnCanvas(ctx, x, y + box.ascent);
+			
+			var ret = [box.width, height];
+			
+			return ret;
+		} else {
+			return [50,50];
+		}
 	}-*/;
 
 
