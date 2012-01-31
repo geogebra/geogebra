@@ -26,7 +26,16 @@ public class NumberFormatWeb extends Format implements NumberFormatAdapter {
 	}
 	
 	public String format(double x) {
-		return nf.format(x);
+		String ret = nf.format(x);
+		
+		// "0." as the format string can give eg format(0.9)="1."
+		// so check for . on the end
+		if (ret.endsWith(".")) {
+			ret = ret.substring(0, ret.length() - 1);
+		}
+		
+		return ret;
+		
 	}
 
 	
