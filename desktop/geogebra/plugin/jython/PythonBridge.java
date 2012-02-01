@@ -33,25 +33,11 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	public PythonBridge(Application app) {
 		application = app;
 		PythonAPI.init(app);
-		//initThread = new Thread(this);
-		//initThread.start();
 	}
 	
-	/*public void run() {
-		init();
-		initThread = null;
-	}*/
-	
 	/**
-	 * Make sure the initialisation thread has done its job
-	 * @throws InterruptedException 
+	 * Initialise PythonBridge
 	 */
-	/*public void waitUntilReady() throws InterruptedException {
-		if (initThread != null) {
-			initThread.join();
-		}
-	}*/
-	
 	public synchronized void init() {
 		if (!ready) {
 			AbstractApplication.debug("Initialising Python interpreter...");
@@ -72,10 +58,6 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	public boolean isReady() {
 		return ready;
 	}
-	/*private PythonScriptInterface pyInterface {
-		init();
-		return pyInterface;
-	}*/
 	
 	/**
 	 * Open / close the Python window
