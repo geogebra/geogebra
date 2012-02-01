@@ -13,10 +13,10 @@
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.RemoveNeeded;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTextField;
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.main.Application;
 
@@ -24,15 +24,6 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
@@ -54,7 +45,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 	AutoCompleteTextField textField;
 	JLabel label;
-	ButtonListener bl;
+	//ButtonListener bl;
 	Container box = Box.createHorizontalBox();
 
 	public DrawTextField(EuclidianView view, GeoTextField geo) {
@@ -63,7 +54,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		this.geo = geo;
 
 		// action listener for checkBox
-		bl = new ButtonListener();
+//		bl = new ButtonListener();
 		textField = new AutoCompleteTextField(geo.getLength(), view.getApplication());
 		textField.showPopupSymbolButton(true);
 		textField.setAutoComplete(false);
@@ -72,10 +63,10 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		label.setLabelFor(textField);
 		textField.setVisible(true);
 		label.setVisible(true);
-		textField.addFocusListener(bl);
-		label.addMouseListener(bl);
-		label.addMouseMotionListener(bl);
-		textField.addKeyListener(bl);
+//		textField.addFocusListener(bl);
+//		label.addMouseListener(bl);
+//		label.addMouseMotionListener(bl);
+//		textField.addKeyListener(bl);
 		box.add(label);
 		box.add(textField);
 		view.add(box);
@@ -100,130 +91,130 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		update();
 	}
 
-	private class ButtonListener implements MouseListener, MouseMotionListener,
-			FocusListener, KeyListener {
-
-		private boolean dragging = false;
-		private final EuclidianController ec = ((EuclidianView)view).getEuclidianController();
-
-		public ButtonListener() {
-			// TODO Auto-generated constructor stub
-		}
-
-		/**
-		 * Handles click on check box. Changes value of GeoBoolean.
-		 */
-		@SuppressWarnings("unused")
-		public void itemStateChanged(ItemEvent e) {
-			// TODO delete?
-		}
-
-		public void mouseDragged(MouseEvent e) {
-
-			dragging = true;
-			e.translatePoint(box.getX(), box.getY());
-			ec.mouseDragged(e);
-			((EuclidianView)view).setToolTipText(null);
-		}
-
-		public void mouseMoved(MouseEvent e) {
-
-			e.translatePoint(box.getX(), box.getY());
-			ec.mouseMoved(e);
-			((EuclidianView)view).setToolTipText(null);
-		}
-
-		public void mouseClicked(MouseEvent e) {
-
-			if (e.getClickCount() > 1) {
-				return;
-			}
-
-			e.translatePoint(box.getX(), box.getY());
-			ec.mouseClicked(e);
-		}
-
-		public void mousePressed(MouseEvent e) {
-
-			// prevent textField editing on right click
-			if (Application.isRightClick(e)) {
-				e.consume();
-			}
-
-			dragging = false;
-			e.translatePoint(box.getX(), box.getY());
-			ec.mousePressed(e);
-		}
-
-		public void mouseReleased(MouseEvent e) {
-
-			// prevent textField editing on right click
-			if (Application.isRightClick(e)) {
-				e.consume();
-			}
-
-			if (!dragging && !e.isMetaDown() && !e.isPopupTrigger()
-					&& (view.getMode() == EuclidianConstants.MODE_MOVE)) {
-				// handle LEFT CLICK
-				// geoBool.setValue(!geoBool.getBoolean());
-				// geoBool.updateRepaint();
-				// geo.runScript();
-				//
-
-				// make sure itemChanged does not change
-				// the value back my faking a drag
-				dragging = true;
-			} else {
-				// handle right click and dragging
-				e.translatePoint(box.getX(), box.getY());
-				ec.mouseReleased(e);
-			}
-
-		}
-
-		public void mouseEntered(MouseEvent arg0) {
-			if (!textField.hasFocus()) {
-				hit = true;
-				((EuclidianView)view).setToolTipText(null);
-				geoButton.updateText(textField);
-			}
-		}
-		public void mouseExited(MouseEvent arg0) {
-			hit = false;
-		}
-
-		public void focusGained(FocusEvent e) {
-			((EuclidianView)view).getEuclidianController().textfieldHasFocus(true);
-			geoButton.updateText(textField);
-
-		}
-
-		public void focusLost(FocusEvent e) {
-			((EuclidianView)view).getEuclidianController().textfieldHasFocus(false);
-
-			geoButton.textObjectUpdated(textField);
-
-		}
-
-		public void keyPressed(KeyEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		public void keyReleased(KeyEvent e) {
-			if (e.getKeyChar() == '\n') {
-				((EuclidianView)view).getEuclidianController().textfieldHasFocus(false);
-				geoButton.textObjectUpdated(textField);
-			}
-
-		}
-
-		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-	}
+//	private class ButtonListener implements MouseListener, MouseMotionListener,
+//			FocusListener, KeyListener {
+//
+//		private boolean dragging = false;
+//		private final EuclidianController ec = ((EuclidianView)view).getEuclidianController();
+//
+//		public ButtonListener() {
+//			// TODO Auto-generated constructor stub
+//		}
+//
+//		/**
+//		 * Handles click on check box. Changes value of GeoBoolean.
+//		 */
+//		@SuppressWarnings("unused")
+//		public void itemStateChanged(ItemEvent e) {
+//			// TODO delete?
+//		}
+//
+//		public void mouseDragged(MouseEvent e) {
+//
+//			dragging = true;
+//			e.translatePoint(box.getX(), box.getY());
+//			ec.mouseDragged(e);
+//			((EuclidianView)view).setToolTipText(null);
+//		}
+//
+//		public void mouseMoved(MouseEvent e) {
+//
+//			e.translatePoint(box.getX(), box.getY());
+//			ec.mouseMoved(e);
+//			((EuclidianView)view).setToolTipText(null);
+//		}
+//
+//		public void mouseClicked(MouseEvent e) {
+//
+//			if (e.getClickCount() > 1) {
+//				return;
+//			}
+//
+//			e.translatePoint(box.getX(), box.getY());
+//			ec.mouseClicked(e);
+//		}
+//
+//		public void mousePressed(MouseEvent e) {
+//
+//			// prevent textField editing on right click
+//			if (Application.isRightClick(e)) {
+//				e.consume();
+//			}
+//
+//			dragging = false;
+//			e.translatePoint(box.getX(), box.getY());
+//			ec.mousePressed(e);
+//		}
+//
+//		public void mouseReleased(MouseEvent e) {
+//
+//			// prevent textField editing on right click
+//			if (Application.isRightClick(e)) {
+//				e.consume();
+//			}
+//
+//			if (!dragging && !e.isMetaDown() && !e.isPopupTrigger()
+//					&& (view.getMode() == EuclidianConstants.MODE_MOVE)) {
+//				// handle LEFT CLICK
+//				// geoBool.setValue(!geoBool.getBoolean());
+//				// geoBool.updateRepaint();
+//				// geo.runScript();
+//				//
+//
+//				// make sure itemChanged does not change
+//				// the value back my faking a drag
+//				dragging = true;
+//			} else {
+//				// handle right click and dragging
+//				e.translatePoint(box.getX(), box.getY());
+//				ec.mouseReleased(e);
+//			}
+//
+//		}
+//
+//		public void mouseEntered(MouseEvent arg0) {
+//			if (!textField.hasFocus()) {
+//				hit = true;
+//				((EuclidianView)view).setToolTipText(null);
+//				geoButton.updateText(textField);
+//			}
+//		}
+//		public void mouseExited(MouseEvent arg0) {
+//			hit = false;
+//		}
+//
+//		public void focusGained(FocusEvent e) {
+//			((EuclidianView)view).getEuclidianController().textfieldHasFocus(true);
+//			geoButton.updateText(textField);
+//
+//		}
+//
+//		public void focusLost(FocusEvent e) {
+//			((EuclidianView)view).getEuclidianController().textfieldHasFocus(false);
+//
+//			geoButton.textObjectUpdated(textField);
+//
+//		}
+//
+//		public void keyPressed(KeyEvent e) {
+//			// TODO Auto-generated method stub
+//
+//		}
+//
+//		public void keyReleased(KeyEvent e) {
+//			if (e.getKeyChar() == '\n') {
+//				((EuclidianView)view).getEuclidianController().textfieldHasFocus(false);
+//				geoButton.textObjectUpdated(textField);
+//			}
+//
+//		}
+//
+//		public void keyTyped(KeyEvent e) {
+//			// TODO Auto-generated method stub
+//
+//		}
+//
+//	}
 
 
 	private int oldLength = 0;
@@ -329,7 +320,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	 */
 	@Override
 	final public boolean hit(int x, int y) {
-		return hit;
+		return box.getBounds().contains(x, y);
 	}
 
 	@Override
