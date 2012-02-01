@@ -10,6 +10,7 @@ import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.main.AbstractApplication;
 
 import java.util.Map;
 
@@ -17,6 +18,8 @@ public abstract class AbstractCASmpreduce extends CASgeneric{
 
 	protected CasParserTools parserTools;
 	protected static StringBuilder varOrder = new StringBuilder();
+	protected int significantNumbers = -1;
+
 
 	public AbstractCASmpreduce(CASparser casParser) {
 		super(casParser);
@@ -139,6 +142,37 @@ public abstract class AbstractCASmpreduce extends CASgeneric{
 	}
 	
 	protected abstract Evaluate getMPReduce();
+	
+	@Override
+	public synchronized void reset() {
+
+		try {
+			getMPReduce().evaluate("resetreduce;");
+			getMPReduce().initialize();
+			initMyMPReduceFunctions(getMPReduce());
+		} catch (Throwable e) {
+			AbstractApplication.debug("failed to reset MPReduce");
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Sets the number of signficiant figures (digits) that should be used as
+	 * print precision for the output of Numeric[] commands.
+	 * 
+	 * @param significantNumbers
+	 */
+	@Override
+	public void setSignificantFiguresForNumeric(int significantNumbers) {
+		if (this.significantNumbers == significantNumbers)
+			return;
+		this.significantNumbers = significantNumbers;
+		try {
+			getMPReduce().evaluate("printprecision!!:=" + significantNumbers);
+		} catch (Throwable th) {
+			th.printStackTrace();
+		}
+	}
 
 	protected final synchronized void initMyMPReduceFunctions(geogebra.common.cas.Evaluate mpreduce1)
 			throws Throwable {

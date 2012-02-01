@@ -1,12 +1,9 @@
 package geogebra.web.cas.mpreduce;
 
-import java.util.concurrent.TimeoutException;
-
 import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
 import geogebra.common.cas.mpreduce.AbstractCASmpreduce;
-import geogebra.common.main.AbstractApplication;
 
 public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.cas.Evaluate {
 
@@ -73,21 +70,6 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 		}
 	}
 
-
-	@Override
-	public void reset() {
-		AbstractApplication.debug("unimplemented");
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setSignificantFiguresForNumeric(int significantNumbers) {
-		AbstractApplication.debug("unimplemented:"+significantNumbers);
-		// TODO Auto-generated method stub
-
-	}
-	
 	/*
 	 * called from JavaScript when the CAS is loaded
 	 * (non-Javadoc)

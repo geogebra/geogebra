@@ -21,8 +21,6 @@ import org.mathpiper.mpreduce.Interpreter2;
 public class CASmpreduce extends AbstractCASmpreduce {
 
 	private final static String RB_GGB_TO_MPReduce = "/geogebra/cas/mpreduce/ggb2mpreduce";
-	private int significantNumbers = -1;
-
 	// using static CAS instance as a workaround for the MPReduce deadlock with
 	// multiple application windows
 	// see http://www.geogebra.org/trac/ticket/1415
@@ -201,14 +199,7 @@ public class CASmpreduce extends AbstractCASmpreduce {
 		if (mpreduce == null)
 			return;
 
-		try {
-			getMPReduce().evaluate("resetreduce;");
-			getMPReduce().initialize();
-			initMyMPReduceFunctions(getMPReduce());
-		} catch (Throwable e) {
-			AbstractApplication.debug("failed to reset MPReduce");
-			e.printStackTrace();
-		}
+		super.reset();
 	}
 
 	@Override
@@ -256,24 +247,6 @@ public class CASmpreduce extends AbstractCASmpreduce {
 
 	}
 
-	/**
-	 * Sets the number of signficiant figures (digits) that should be used as
-	 * print precision for the output of Numeric[] commands.
-	 * 
-	 * @param significantNumbers
-	 */
-	@Override
-	public void setSignificantFiguresForNumeric(int significantNumbers) {
-		if (this.significantNumbers == significantNumbers)
-			return;
-		this.significantNumbers = significantNumbers;
-		try {
-			getMPReduce().evaluate("printprecision!!:=" + significantNumbers);
-		} catch (Throwable th) {
-			th.printStackTrace();
-		}
-	}
-	
 	@Override
 	public void evaluateGeoGebraCASAsync(final String input,
 			final boolean useCaching, final AsynchronousCommand command, final int id, 
