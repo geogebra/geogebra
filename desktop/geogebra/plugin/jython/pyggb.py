@@ -5,6 +5,8 @@ from geogebra.plugin.jython import PythonAPI as API, PythonScriptInterface
 
 from collections import defaultdict
 import sys
+from pygeo import objects
+from geogebra.awt import Color
 
 api = API.getInstance()
 ggbapi = api.ggbApi
@@ -13,14 +15,6 @@ class Interface(PythonScriptInterface):
     
     def init(self):
         global selection
-
-        # GeoGebra imports
-
-        from geogebra.awt import Color
-
-        # Python imports
-        from pygeo import objects
-
         self.pywin = None
         self.geo = objects.Geo()
         selection = self.selection = objects.Selection()
