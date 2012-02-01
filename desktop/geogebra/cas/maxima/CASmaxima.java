@@ -85,6 +85,11 @@ public class CASmaxima extends CASgeneric {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public void initCAS() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	/**
 	 * Unbinds (deletes) var in Maxima.

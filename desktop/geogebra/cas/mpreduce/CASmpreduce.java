@@ -32,9 +32,6 @@ public class CASmpreduce extends AbstractCASmpreduce {
 	// see http://www.geogebra.org/trac/ticket/1415
 	private static Interpreter2 mpreduce_static;
 	private Interpreter2 mpreduce;
-	private static StringBuilder varOrder = new StringBuilder();
-	private final CasParserTools parserTools;
-
 	// We escape any upper-letter words so Reduce doesn't switch them to
 	// lower-letter,
 	// however the following function-names should not be escaped
@@ -911,6 +908,11 @@ public class CASmpreduce extends AbstractCASmpreduce {
 			}
 		};
 		casThread.run();
+	}
+
+	public void initCAS() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

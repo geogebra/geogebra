@@ -324,4 +324,9 @@ public class CASmathpiper extends CASgeneric {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public void initCAS() {
+		// TODO Auto-generated method stub
+		
+	}
 }

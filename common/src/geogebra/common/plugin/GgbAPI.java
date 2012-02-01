@@ -469,6 +469,15 @@ public abstract class GgbAPI {
 		kernel.getConstruction().storeUndoInfo();
 	}
 
+	/*
+	 * should only be used by web
+	 */
+	public void initCAS() {
+		if (app.isHTML5Applet()) {
+			kernel.getGeoGebraCAS().getCurrentCAS().initCAS();
+		}
+	}
+
 	public void startAnimation() {
 		kernel.getAnimatonManager().startAnimation();		
 	}

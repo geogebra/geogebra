@@ -68,6 +68,10 @@ public class ScriptManager extends ScriptManagerCommon {
 			ggbAPI.@geogebra.web.main.GgbAPI::setUndoPoint()();
 		};
 
+		$wnd.ggbApplet.initCAS = function() {
+			ggbAPI.@geogebra.web.main.GgbAPI::initCAS()();
+		};
+
 		// This is not yet used in GeoGebraWeb
 		//$wnd.ggbApplet.setErrorDialogsActive = function(flag) {
 		//	ggbAPI.@geogebra.web.main.GgbAPI::setErrorDialogsActive(Z)(flag);

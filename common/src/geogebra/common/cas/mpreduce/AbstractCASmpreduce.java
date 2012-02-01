@@ -4,8 +4,12 @@ import java.util.Map;
 
 import geogebra.common.cas.CASgeneric;
 import geogebra.common.cas.CASparser;
+import geogebra.common.cas.CasParserTools;
 
 public abstract class AbstractCASmpreduce extends CASgeneric{
+
+	protected CasParserTools parserTools;
+	protected static StringBuilder varOrder = new StringBuilder();
 
 	public AbstractCASmpreduce(CASparser casParser) {
 		super(casParser);

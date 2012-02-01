@@ -16,5 +16,7 @@ public interface CASGenericInterface {
 	public Set<String> getAvailableCommandNames();
 
 	String toAssignment(GeoElement geoElement);
+	
+	public void initCAS();
 
 }
