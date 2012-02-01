@@ -771,12 +771,6 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-    public boolean hasPythonBridge() {
-	    // TODO Auto-generated method stub
-	    return false;
-    }
-
-	@Override
     public PythonBridge getPythonBridge() {
 	    // TODO Auto-generated method stub
 	    return null;

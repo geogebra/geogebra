@@ -2585,8 +2585,6 @@ public abstract class AbstractApplication {
 
 	public abstract void reset();
 
-	public abstract boolean hasPythonBridge();
-
 	public abstract PythonBridge getPythonBridge();
 
 	public abstract String getPlainTooltip(String string);
