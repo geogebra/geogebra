@@ -29,6 +29,8 @@
     <when-type-is class="geogebra.common.kernel.parser.ParseException"/>
   </replace-with>
 
+  <public path="resources" />
+
   <!-- $linker -->
 
 </module>
