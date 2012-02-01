@@ -2,6 +2,7 @@ package geogebra3D.euclidian3D;
 
 import geogebra.common.factories.FormatFactory;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.main.Application;
@@ -50,7 +51,8 @@ public class DrawAxis3D extends DrawLine3D {
 	/**
 	 * drawLabel is used here for ticks
 	 */
-    public void drawLabel(Renderer renderer){
+    @Override
+	public void drawLabel(Renderer renderer){
 
 
 
@@ -75,14 +77,17 @@ public class DrawAxis3D extends DrawLine3D {
     	
 
     
-    public void setWaitForReset(){
+    @Override
+	public void setWaitForReset(){
     	super.setWaitForReset();
     	for(DrawLabel3D label : labels.values())
     		label.setWaitForReset();
     }
 
     	
-    protected void updateLabel(){
+    @Override
+	protected void updateLabel(){
+
     	
   		//draw numbers
   		GeoAxisND axis = (GeoAxisND) getGeoElement();
@@ -93,10 +98,13 @@ public class DrawAxis3D extends DrawLine3D {
 		//Application.debug("drawMinMax="+getDrawMin()+","+getDrawMax());
 		double[] minmax = getDrawMinMax(); 
 		
-    	int iMin = (int) (minmax[0]/distance);
-    	int iMax = (int) (minmax[1]/distance);
+    	int iMin = (int) (minmax[0]/distance);    	
+    	int iMax = (int) (minmax[1]/distance);   	
+    	if (minmax[0]>0)
+    		iMin++;
+    	else if (minmax[1]<0)
+    		iMax--;
     	int nb = iMax-iMin+1;
-    	
     	//Application.debug("iMinMax="+iMin+","+iMax);
     	
     	if (nb<1){
@@ -158,9 +166,16 @@ public class DrawAxis3D extends DrawLine3D {
 
 
     
-    protected boolean updateForItSelf(){
-    	
+    @Override
+	protected boolean updateForItSelf(){
+
     	//updateColors();
+    	/*
+    	if (outsideBox){
+    		setGeometryIndex(-1);
+    		return true;
+    	}
+    	*/
     	
     	setLabelWaitForUpdate();
     	
@@ -273,12 +288,14 @@ public class DrawAxis3D extends DrawLine3D {
     }
     
     
+	@Override
 	protected void updateForView(){
 
 	}
 	
 	
 	// depth is not used in extended way
+	@Override
 	public void updateDrawMinMax(){
 		updateDrawMinMax(false);
 	}
@@ -289,18 +306,59 @@ public class DrawAxis3D extends DrawLine3D {
 	
 	
 	
+	@Override
 	public void setDrawMinMax(double drawMin, double drawMax){
 		setTime();
 		drawMinFinal = drawMin;
 		drawMaxFinal = drawMax;
 	}
 	
-	public void setDrawMinMaxImmediatly(double drawMin, double drawMax){
-		drawMinFinal = drawMin;
-		drawMaxFinal = drawMax;
+	private boolean outsideBox = false;
+	
+	/**
+	 * sets the min/max for drawing immediately
+	 * @param minMax x,y,z min/max
+	 */
+	public void setDrawMinMaxImmediatly(double[][] minMax){
+		
+		int type = ((GeoAxisND) getGeoElement()).getType();
+		
+		drawMinFinal = minMax[type][0];
+		drawMaxFinal = minMax[type][1];
+		
+		//check if outside the box
+		switch(type){
+		case GeoAxisND.X_AXIS:
+			outsideBox = 
+			(minMax[GeoAxisND.Y_AXIS][0]*minMax[GeoAxisND.Y_AXIS][1]>0)
+			||(minMax[GeoAxisND.Z_AXIS][0]*minMax[GeoAxisND.Z_AXIS][1]>0);
+			break;
+		case GeoAxisND.Y_AXIS:
+			outsideBox = 
+			(minMax[GeoAxisND.Z_AXIS][0]*minMax[GeoAxisND.Z_AXIS][1]>0)
+			||(minMax[GeoAxisND.X_AXIS][0]*minMax[GeoAxisND.X_AXIS][1]>0);
+			break;
+		case GeoAxisND.Z_AXIS:
+			outsideBox = 
+			(minMax[GeoAxisND.X_AXIS][0]*minMax[GeoAxisND.X_AXIS][1]>0)
+			||(minMax[GeoAxisND.Y_AXIS][0]*minMax[GeoAxisND.Y_AXIS][1]>0);
+			break;
+		}
+    	//if outside the box, set all labels invisible
+    	if (outsideBox)
+    		for(DrawLabel3D label : labels.values())
+        		label.setIsVisible(false);
+    	
+    	
 		super.setDrawMinMax(drawMinFinal, drawMaxFinal);
 	}
+
+	@Override
+	final protected boolean isVisible(){
+		return (!outsideBox) && super.isVisible();
+	}
 	
+	@Override
 	public double[] getDrawMinMax(){
 		long deltaT = getDeltaT();
 

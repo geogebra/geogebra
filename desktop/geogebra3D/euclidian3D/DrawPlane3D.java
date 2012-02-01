@@ -187,14 +187,20 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			brush.setAffineTexture(
 					(0f-xmin)/ydelta,
 					0.25f);
-			for(int i=(int) (ymin/dy);i<=ymax/dy;i++)
+			int i0 = (int) (ymin/dy);
+			if (ymin>0)
+				i0++;
+			for(int i=i0;i<=ymax/dy;i++)
 				brush.segment(coordsys.getPointForDrawing(xmin,i*dy), 
 						coordsys.getPointForDrawing(xmax,i*dy));	
 			//along y axis
 			brush.setAffineTexture(
 					(0f-ymin)/xdelta,
 					0.25f);
-			for(int i=(int) (xmin/dx);i<=xmax/dx;i++)
+			i0 = (int) (xmin/dx);
+			if (xmin>0)
+				i0++;
+			for(int i=i0;i<=xmax/dx;i++)
 				brush.segment(coordsys.getPointForDrawing(i*dx, ymin), 
 						coordsys.getPointForDrawing(i*dx, ymax));
 		}
@@ -233,8 +239,8 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		
 		if (checkTime)
 			return timesUpForUpdate();
-		else
-			return true;
+
+		return true;
 	}
 
 	@Override

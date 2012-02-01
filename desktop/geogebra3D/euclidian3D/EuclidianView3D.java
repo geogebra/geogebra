@@ -2730,7 +2730,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 			clippingCubeDrawable.setWaitForUpdate();
 			//update decorations and wait for update
 			for(int i=0;i<3;i++){
-				axisDrawable[i].setDrawMinMaxImmediatly(minMax[i][0], minMax[i][1]);
+				axisDrawable[i].setDrawMinMaxImmediatly(minMax);
 				axisDrawable[i].updateDecorations();
 				axisDrawable[i].setWaitForUpdate();
 			}

@@ -4,11 +4,12 @@ import geogebra.common.util.NumberFormatAdapter;
 
 public interface GeoAxisND extends GeoLineND{
 	
-	public static final int X_AXIS = 1;
-	public static final int Y_AXIS = 2;
-	public static final int X_AXIS_3D = 1;
-	public static final int Y_AXIS_3D = 2;
-	public static final int Z_AXIS_3D = 3;
+	public static final int X_AXIS = 0;
+	public static final int Y_AXIS = 1;
+	public static final int Z_AXIS = 2;
+	public static final int X_AXIS_3D = X_AXIS;
+	public static final int Y_AXIS_3D = Y_AXIS;
+	public static final int Z_AXIS_3D = Z_AXIS;
 	
 	
 	/////////////////////////////////////////
