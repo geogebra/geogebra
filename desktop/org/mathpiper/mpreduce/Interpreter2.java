@@ -33,7 +33,7 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.util.concurrent.TimeoutException;
 
-public class Interpreter2 {
+public class Interpreter2 implements geogebra.common.cas.Evaluate {
 
 	Jlisp jlisp;
 	private static Interpreter2 JlispCASInstance = null;
