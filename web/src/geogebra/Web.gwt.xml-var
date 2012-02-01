@@ -23,6 +23,7 @@
 
   <!-- Specify the paths for translatable code                    -->
   <source path='web'/>
+  <super-source path='/common/src/geogebra/jre' />
   
   <public path="resources" />
 
