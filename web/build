@@ -16,16 +16,22 @@ cleanup() {
     echo "Cleaning up: removing link: $i"
     }
    done
+  for PROJECT in Common Web; do
+   PLC=`echo $PROJECT | awk '{print tolower($1)}'`
+   echo "Cleaning up: putting back original $PROJECT.gwt.xml"
+   cd $WEBDIR/../$PLC/src/geogebra
+   mv $PROJECT.gwt.xml.orig $PROJECT.gwt.xml
+   done
   fi
  exit $LASTEXITCODE
 }
 
 speccomp() {
 echo "$0: Preparing specifing compilation settings for $1"
-cd $WEBDIR
 PROJECT=$1
 PLC=`echo $PROJECT | awk '{print tolower($1)}'`
-cd ../$PLC/src/geogebra
+cd $WEBDIR/../$PLC/src/geogebra
+cp $PROJECT.gwt.xml $PROJECT.gwt.xml.orig
 cat $PROJECT.gwt.xml-var | sed s/"\${useragents}"/"$USERAGENTS"/g \
  | sed s/"<!-- \$linker -->"/"$XS"/g > $PROJECT.gwt.xml
 }
