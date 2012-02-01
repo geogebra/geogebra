@@ -3,6 +3,7 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -20,13 +21,38 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 
 
 	
-	/** creates a pyramid regarding vertices and faces description
+	/** creates a pyramid regarding vertices
 	 * @param c construction 
 	 * @param labels labels
 	 * @param points vertices
 	 */
 	public AlgoPolyhedronPointsPyramid(Construction c, String[] labels, GeoPointND[] points) {
 		super(c,labels,points);
+
+	}
+	
+	/**
+	 * 
+	 * @param c construction
+	 * @param labels labels
+	 * @param polygon bottom face
+	 * @param point top vertex
+	 */
+	public AlgoPolyhedronPointsPyramid(Construction c, String[] labels, GeoPolygon polygon, GeoPointND point) {
+		super(c, labels, polygon, point);
+
+	}
+	
+	
+	/**
+	 * pyramid with top point over center of bottom face
+	 * @param c
+	 * @param labels
+	 * @param polygon
+	 * @param height
+	 */
+	public AlgoPolyhedronPointsPyramid(Construction c, String[] labels, GeoPolygon polygon, NumberValue height) {
+		super(c, labels, polygon, height);
 
 	}
 	
@@ -85,24 +111,60 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 	
 	@Override
 	public void compute() {
+		
+		updateInteriorPoint();
 
+		if (!preCompute()){
+			for (int i=0; i<bottomPointsLength-getShift(); i++)
+				outputPoints.getElement(i).setUndefined();
+			//bottomPointsLength=getBottom().getPointsLength();
+			return;
+		}
+		
+		
+		polyhedron.setInteriorPoint(interiorPoint);
+		//Application.debug("interior\n"+interiorPoint);
 
+	}
+
+	
+	private Coords interiorPoint = new Coords(4);
+	
+	private void updateInteriorPoint(){
 		GeoPointND[] bottomPoints = getBottomPoints();
-
-		//TODO remove this and replace with tesselation
-		Coords interiorPoint = new Coords(4);
+		
+		interiorPoint = new Coords(4);
+		//interiorPoint.set(0);
 		for (int i=0;i<bottomPoints.length;i++){
 			interiorPoint = interiorPoint.add(bottomPoints[i].getCoordsInD(3));
 		}
 		interiorPoint = interiorPoint.add(getTopPoint().getCoordsInD(3));
 		
 		interiorPoint = interiorPoint.mul((double) 1/(bottomPoints.length+1));
-		polyhedron.setInteriorPoint(interiorPoint);
-		//Application.debug("interior\n"+interiorPoint);
-
 	}
 	
+
+	@Override
+	protected void updateBottomToTop(){
+		//recompute the translation from bottom to top
+		if (height!=null){
+			Coords v = bottom.getMainDirection().normalized().mul(height.getDouble());
+			getTopPoint().setCoords(interiorPoint.add(v),true);
+		}
+		
+	}
 	
+	@Override
+	public void update() {
+
+		// compute and polyhedron
+		super.update();
+		
+		//top point
+		if (height!=null)
+			((GeoPoint3D) getTopPoint()).update();
+
+	}
 
     @Override
 	public Algos getClassName() {

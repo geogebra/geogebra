@@ -357,6 +357,26 @@ public class Manager3D implements Manager3DInterface {
 		return algo.getOutput();
 
 	}
+	
+	final public GeoElement[] Pyramid(String[] labels, GeoPolygon polygon,
+			GeoPointND point) {
+
+		AlgoPolyhedronPointsPyramid algo = new AlgoPolyhedronPointsPyramid(cons,
+				labels, polygon, point);
+
+		return algo.getOutput();
+
+	}
+	
+
+	final public GeoElement[] Pyramid(String[] labels, GeoPolygon polygon,
+			NumberValue height) {
+
+		AlgoPolyhedronPointsPyramid algo = new AlgoPolyhedronPointsPyramid(cons,
+				labels, polygon, height);
+
+		return algo.getOutput();
+	}
 
 	/** Line a x + b y + c z + d = 0 named label */
 	final public GeoPlane3D Plane3D(String label, double a, double b, double c,

@@ -387,7 +387,7 @@ public class Drawable3DLists {
 			}
 		
 		renderer.setCulling(false);
-		for(int i=Drawable3D.DRAW_TYPE_SURFACES; i<Drawable3D.DRAW_TYPE_CLOSED_SURFACES; i++)
+		for(int i=Drawable3D.DRAW_TYPE_SURFACES; i<=Drawable3D.DRAW_TYPE_CLOSED_SURFACES; i++)
 			for (Iterator<Drawable3D> iter = lists[i].iterator(); iter.hasNext();) {
 	        	Drawable3D d = iter.next();
 	        	renderer.pick(d);

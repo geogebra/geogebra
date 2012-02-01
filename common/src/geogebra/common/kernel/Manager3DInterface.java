@@ -201,6 +201,28 @@ public interface Manager3DInterface {
 	 */
 	public GeoElement[] Pyramid(String[] labels, GeoPointND[] points);
 
+	
+	/**
+	 * Pyramid with basis and top vertex
+	 * 
+	 * @param labels labels
+	 * @param polygon bottom face
+	 * @param point top vertex
+	 * @return the polyhedron
+	 */
+	public GeoElement[] Pyramid(String[] labels, GeoPolygon polygon,
+			GeoPointND point);
+	
+	/**
+	 * pyramid with top point over center of bottom face
+	 * @param labels
+	 * @param polygon
+	 * @param height
+	 */
+	public GeoElement[] Pyramid(String[] labels, GeoPolygon polygon,
+			NumberValue height);
+
+	
 	/** Line a x + b y + c z + d = 0 named label */
 	public GeoPlaneND Plane3D(String label, double a, double b, double c,
 			double d);

@@ -60,6 +60,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 	
 	
 	
+	@Override
 	protected void createPolyhedron(){
 
 		GeoPointND[] bottomPoints = getBottomPoints();
@@ -132,6 +133,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 	
 	
 
+	@Override
 	protected void updateOutput(int n, GeoPointND[] bottomPoints) {
 		
 		//current length of top points
@@ -293,6 +295,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 
 	}
 
+	@Override
 	public void update() {
 
 		// compute and polyhedron
@@ -303,10 +306,30 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 			outputPoints.getElement(i).update();
 
 	}
+	
+	private Coords uptranslation;
+	
+	/**
+	 * 
+	 * @return translation vector from bottom to top
+	 */
+	protected Coords getUpTranslation(){
+		return uptranslation;
+	}
 
+	@Override
+	protected void updateBottomToTop(){
+		//recompute the translation from bottom to top
+		if (height==null)
+			uptranslation = getTopPoint().getInhomCoordsInD(3).sub(getBottomPoints()[0].getInhomCoordsInD(3));
+		else
+			uptranslation=bottom.getMainDirection().normalized().mul(height.getDouble());		
+		
+	}
 	
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
 
     	return Algos.AlgoPrism;
 
@@ -315,6 +338,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
     
  
 
+	@Override
 	protected void updateOutput(){
 		if (isOldFileVersion()){
 			//add polyhedron's segments and polygons, without setting this algo as algoparent		

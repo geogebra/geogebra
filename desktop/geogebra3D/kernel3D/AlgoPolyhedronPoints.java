@@ -235,15 +235,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	// END OF THE CONSTRUCTION
 	////////////////////////////////////////////
 
-	private Coords uptranslation;
-	
-	/**
-	 * 
-	 * @return translation vector from bottom to top
-	 */
-	protected Coords getUpTranslation(){
-		return uptranslation;
-	}
+
 	
 	private int shift;
 	
@@ -273,19 +265,15 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		}
 		
 		
-		
-		//recompute the translation from bottom to top
-		if (height==null)
-			uptranslation = getTopPoint().getInhomCoordsInD(3).sub(getBottomPoints()[0].getInhomCoordsInD(3));
-		else
-			uptranslation=bottom.getMainDirection().normalized().mul(height.getDouble());		
-		
+		updateBottomToTop();
 
 		return true;
 	}
 	
-	
-	
+	/**
+	 * update bottom to top values
+	 */
+	abstract protected void updateBottomToTop();
 	
 	
 	
