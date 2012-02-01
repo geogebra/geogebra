@@ -1,9 +1,12 @@
 package geogebra.web.cas.mpreduce;
 
+import java.util.StringTokenizer;
+
 import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
 import geogebra.common.cas.mpreduce.AbstractCASmpreduce;
+import geogebra.common.main.AbstractApplication;
 
 public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.cas.Evaluate {
 
@@ -41,11 +44,6 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 
 
 
-	@Override
-	public String evaluateRaw(String exp) {
-		return nativeEvaluateRaw(exp);
-	}
-	
 	public static native String nativeEvaluateRaw(String exp) /*-{
 	if (typeof $wnd.callCAS === 'function')
 		return $wnd.callCAS(exp);
@@ -82,7 +80,6 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 	        e.printStackTrace();
         }
 	}
-
 	
 	public synchronized String evaluate(String send) {
 		send = send.trim();
@@ -99,7 +96,7 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 		// System.err.println("Expression for MPReduce "+send.trim());
 		
 
-		return evaluateRaw(send);
+		return nativeEvaluateRaw(send);
 	}
 
 	public String evaluate(String exp, long timeoutMilliseconds) {

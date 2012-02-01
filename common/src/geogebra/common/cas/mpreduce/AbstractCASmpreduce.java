@@ -8,17 +8,25 @@ import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
 import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.main.AbstractApplication;
 
 import java.util.Map;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 public abstract class AbstractCASmpreduce extends CASgeneric{
 
 	protected CasParserTools parserTools;
 	protected static StringBuilder varOrder = new StringBuilder();
 	protected int significantNumbers = -1;
+	// We escape any upper-letter words so Reduce doesn't switch them to
+	// lower-letter,
+	// however the following function-names should not be escaped
+	// (note: all functions here must be in lowercase!)
+	final protected Set<String> predefinedFunctions = ExpressionNodeConstants.RESERVED_FUNCTION_NAMES;
 
 
 	public AbstractCASmpreduce(CASparser casParser) {
@@ -26,6 +34,87 @@ public abstract class AbstractCASmpreduce extends CASgeneric{
 	}
 
 	public abstract String evaluateMPReduce(String exp);
+	
+	@Override
+	final public String evaluateRaw(String exp) throws Throwable {
+		// we need to escape any upper case letters and non-ascii codepoints
+		// with '!'
+		StringTokenizer tokenizer = new StringTokenizer(exp, "(),;[] ", true);
+		StringBuilder sb = new StringBuilder();
+		while (tokenizer.hasMoreElements()) {
+			String t = tokenizer.nextToken();
+			if (predefinedFunctions.contains(t.toLowerCase()))
+				sb.append(t);
+			else {
+				for (int i = 0; i < t.length(); ++i) {
+					char c = t.charAt(i);
+					if (Character.isLetter(c) && (c < 97 || c > 122)) {
+						sb.append('!');
+						sb.append(c);
+					} else {
+						switch (c) {
+						case '\'':
+							sb.append('!');
+							sb.append(c);
+							break;
+
+						case '\\':
+							if (i < (t.length() - 1))
+								sb.append(t.charAt(++i));
+							break;
+
+						default:
+							sb.append(c);
+							break;
+						}
+					}
+
+				}
+			}
+		}
+		exp = sb.toString();
+
+		System.out.println("eval with MPReduce: " + exp);
+		String result = getMPReduce().evaluate(exp, getTimeoutMilliseconds());
+
+		sb.setLength(0);
+		for (String s : result.split("\n")) {
+			s = s.trim();
+			if (s.length() == 0)
+				continue;
+			else if (s.startsWith("***")) { // MPReduce comment
+				AbstractApplication.debug("MPReduce comment: " + s);
+				continue;
+			} else if (s.startsWith("Unknown")) {
+				AbstractApplication.debug("Assumed " + s);
+				continue;
+			} else {
+				// look for any trailing $
+				int len = s.length();
+				while (len > 0 && s.charAt(len - 1) == '$')
+					--len;
+
+				// remove the !
+				for (int i = 0; i < len; ++i) {
+					char character = s.charAt(i);
+					if (character == '!') {
+						if (i + 1 < len) {
+							character = s.charAt(++i);
+						}
+					}
+					sb.append(character);
+				}
+			}
+		}
+
+		result = sb.toString();
+
+		// TODO: remove
+		System.out.println("   result: " + result);
+		return result;
+	}
+	
+
 	
 	@Override
 	final public String evaluateGeoGebraCAS(ValidExpression casInput)
