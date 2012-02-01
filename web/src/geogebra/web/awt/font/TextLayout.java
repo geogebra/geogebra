@@ -1,5 +1,8 @@
 package geogebra.web.awt.font;
 
+import com.google.gwt.canvas.dom.client.TextMetrics;
+import com.google.gwt.user.client.ui.HTML;
+
 import geogebra.common.awt.Font;
 import geogebra.common.awt.Graphics2D;
 import geogebra.common.awt.Rectangle;
@@ -24,13 +27,17 @@ public class TextLayout implements geogebra.common.awt.font.TextLayout {
 	}
 
 	public Rectangle2D getBounds() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+	    //AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return new geogebra.web.awt.Rectangle((int)getAdvance(),(int)getAscent());
     }
 
 	public float getAscent() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return font.getSize()*2;
+		HTML m_textmetrics = new HTML();
+		m_textmetrics.setHTML("<div style='font-size: " + font.getSize() + "px;	font-family: " + font.getFontName() +";'>"+str+"</div>");
+		m_textmetrics.setVisible(true);
+		float h = m_textmetrics.getOffsetHeight();
+		m_textmetrics.setVisible(false);
+		return h;
     }
 
 	public void draw(Graphics2D g2, int x, int y) {
