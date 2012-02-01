@@ -21,8 +21,9 @@ import org.python.util.PythonInterpreter;
  */
 public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge implements View, GeoElementSelectionListener {
 	private Application application;
-	private PythonInterpreter interpreter;
-	private PythonScriptInterface pyInterface;
+	private PythonInterpreter interpreter = null;
+	private PythonScriptInterface pyInterface = null;
+	private boolean ready = false;
 	
 	/**
 	 * This constructor actually starts off the python interpreter
@@ -32,20 +33,49 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	public PythonBridge(Application app) {
 		application = app;
 		PythonAPI.init(app);
-		interpreter = null;
-		init();
+		//initThread = new Thread(this);
+		//initThread.start();
 	}
 	
-	private void init() {
-		if (interpreter == null) {
+	/*public void run() {
+		init();
+		initThread = null;
+	}*/
+	
+	/**
+	 * Make sure the initialisation thread has done its job
+	 * @throws InterruptedException 
+	 */
+	/*public void waitUntilReady() throws InterruptedException {
+		if (initThread != null) {
+			initThread.join();
+		}
+	}*/
+	
+	public synchronized void init() {
+		if (!ready) {
+			AbstractApplication.debug("Initialising Python interpreter...");
 			interpreter = new PythonInterpreter();
 			interpreter.exec("import sys; sys.path.extend(['__pyclasspath__/geogebra/plugin/jython', '__pyclasspath__/Lib'])");
 			interpreter.exec("from pyggb import interface");
 			pyInterface = (PythonScriptInterface)interpreter.get("interface").__tojava__(PythonScriptInterface.class);
 			pyInterface.init();
 			application.getKernel().attach(this);
+			ready = true;
+			AbstractApplication.debug("Done Initialising Python interpreter.");
 		}
 	}
+	
+	/**
+	 * @return true if the python bridge is ready for use
+	 */
+	public boolean isReady() {
+		return ready;
+	}
+	/*private PythonScriptInterface pyInterface {
+		init();
+		return pyInterface;
+	}*/
 	
 	/**
 	 * Open / close the Python window
@@ -62,6 +92,9 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 		return pyInterface.isWindowVisible();
 	}
 	
+	private void handleEvent(String evt, GeoElement geo) {
+		pyInterface.handleEvent(evt, geo);
+	}
 	/**
 	 * This should be called when a geo is clicked.
 	 * (For now this is done in EuclidianController.switchModeForMouseReleased)
@@ -69,7 +102,7 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	 */
 	@Override
 	public void click(GeoElement geo) {
-		pyInterface.handleEvent("click", geo);
+		handleEvent("click", geo);
 	}
 	
 	/*
@@ -78,19 +111,19 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	 */
 	
 	public void add(GeoElement geo) {
-		pyInterface.handleEvent("add", geo);
+		handleEvent("add", geo);
 	}
 	
 	public void remove(GeoElement geo) {
-		pyInterface.handleEvent("remove", geo);
+		handleEvent("remove", geo);
 	}
 	
 	public void rename(GeoElement geo) {
-		pyInterface.handleEvent("rename", geo);
+		handleEvent("rename", geo);
 	}
 	
 	public void update(GeoElement geo) {
-		pyInterface.handleEvent("update", geo);
+		handleEvent("update", geo);
 	}
 	
 	public void updateVisualStyle(GeoElement geo) {
@@ -106,17 +139,11 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	}
 	
 	public void reset() {
-		if (pyInterface != null) {
-			// AbstractApplication.debug("*** reset ***");
-			pyInterface.reset();
-		}	
+		pyInterface.reset();
 	} 
 	
 	public void clearView() {
-		if (pyInterface != null) {
-			// AbstractApplication.debug("*** clearView ***");
-			pyInterface.reset();
-		}
+		pyInterface.reset();
 	}
 	
 	public void setMode(int mode) {
@@ -124,7 +151,7 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	}
 	
 	public int getViewID() {
-		return 0;
+		return 10;
 	}
 
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
@@ -146,6 +173,7 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	 * Evaluate a Python script
 	 * @param script script to evaluate
 	 */
+	@Override
 	public void eval(String script) {
 		pyInterface.execute(script);
 	}

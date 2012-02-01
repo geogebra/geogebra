@@ -523,7 +523,12 @@ public class Application extends AbstractApplication implements
 
 		// init euclidian view
 		initEuclidianViews();
-
+		
+		// create Python Bridge
+		if (!isApplet) {
+			pythonBridge = new PythonBridge(this);
+		}
+		
 		// load file on startup and set fonts
 		// set flag to avoid multiple calls of setLabels() and
 		// updateContentPane()
@@ -602,6 +607,7 @@ public class Application extends AbstractApplication implements
 
 		if (getCASVersionString() == "") {
 			setCASVersionString(getPlain("CASInitializing"));
+			
 		}
 	}
 
@@ -3743,20 +3749,16 @@ public class Application extends AbstractApplication implements
 
 		return ggbapi;
 	}
-
+	
 	public PythonBridge getPythonBridge() {
-		if (pythonBridge == null) {
-			pythonBridge = new PythonBridge(this);
+		if (!pythonBridge.isReady()) {
+			pythonBridge.init();
 		}
 		return pythonBridge;
 	}
-
-	public boolean hasPythonBridge() {
-		return pythonBridge != null;
-	}
-
+	
 	public boolean isPythonWindowVisible() {
-		if (!hasPythonBridge()) {
+		if (!pythonBridge.isReady()) {
 			return false;
 		}
 		return getPythonBridge().isWindowVisible();

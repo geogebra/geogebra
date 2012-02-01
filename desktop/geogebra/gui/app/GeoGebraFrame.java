@@ -421,6 +421,10 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 			if (!app.isApplet() && !Application.isWebstart()) {
 				checkVersion();
 			}
+			
+			if (!app.isApplet()) {
+				app.getPythonBridge();
+			}
 		}
 
 		/**
