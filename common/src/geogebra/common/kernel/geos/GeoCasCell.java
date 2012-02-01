@@ -932,15 +932,36 @@ public class GeoCasCell extends GeoElement {
 	 * Returns whether this object only depends on named GeoElements defined in
 	 * the kernel.
 	 */
-	final public boolean includesOnlyDefinedVariables() {
+	final public boolean includesOnlyDefinedVariables(){
+		return includesOnlyDefinedVariables(false);
+	}
+	/**
+	 * Same as previous function, except ignoring the undefined variables x and y to provide
+	 * definition of functions like: f: x+y=1
+	 */
+	final public boolean includesOnlyDefinedVariables(boolean ignoreUndefinedXY) {
 		if (invars == null)
 			return true;
 
 		for (String varLabel : invars) {
-			if (kernel.lookupLabel(varLabel) == null)
-				return false;
+			if(!ignoreUndefinedXY || (!varLabel.equals("x") && !varLabel.equals("y")))       //provide definitions of funktions like f: x+y = 1 //TODO: find a better way
+				if (kernel.lookupLabel(varLabel) == null)
+					return false;
 		}
 		return true;
+	}
+	/**
+	 * Returns whether this object depends on x and/or y 
+	 */
+	final public boolean includesXYVariables() {
+		if (invars == null)
+			return false;
+
+		for (String varLabel : invars) {
+			if(varLabel.equals("x") || varLabel.equals("y"))       //provide definitions of funktions like f: x+y = 1 //TODO: find a better way
+				return true;
+		}
+		return false;
 	}
 
 	/**
@@ -1089,7 +1110,10 @@ public class GeoCasCell extends GeoElement {
 	 * Creates a twinGeo using the current output
 	 */
 	private void createTwinGeo() {
-		if (!isAssignment() || isError() || !includesOnlyDefinedVariables())
+		if(isError())
+			return;
+		boolean isXY = includesXYVariables();   		//are there x and/or y in formular
+		if (!isAssignment() || !includesOnlyDefinedVariables(true))
 			return;
 
 		// check that assignment variable is not a reserved name in GeoGebra
@@ -1100,6 +1124,10 @@ public class GeoCasCell extends GeoElement {
 		// try to create twin geo for assignment, e.g. m := c + 3
 		GeoElement newTwinGeo = silentEvalInGeoGebra(outputVE);
 		if (newTwinGeo != null) {
+			if(isXY)
+				//only allow x and y for TwinGeo elements of functional type, prevents definitions like a:=x
+				if(!(newTwinGeo instanceof geogebra.common.kernel.arithmetic.Functional))   
+					return;
 			setTwinGeo(newTwinGeo);
 		}
 	}
