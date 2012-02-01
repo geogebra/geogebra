@@ -15,18 +15,18 @@
  * limitations under the License.
  */
 
-package geogebra.web.util;
+package java.text;
 
 
-public class DecimalFormatJava
-    extends NumberFormatJava
+public class DecimalFormat
+    extends NumberFormat
 {
-    public DecimalFormatJava()
+    public DecimalFormat()
     {
         super();
     }
 
-    public DecimalFormatJava( String pattern )
+    public DecimalFormat( String pattern )
     {
         applyPattern( pattern );
     }

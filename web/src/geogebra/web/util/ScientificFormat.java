@@ -3,6 +3,8 @@ package geogebra.web.util;
 import geogebra.common.util.DoubleWithError;
 import geogebra.common.util.ScientificFormatAdapter;
 
+import java.text.DecimalFormat;
+
 
 
 
@@ -29,7 +31,7 @@ public class ScientificFormat extends Format implements ScientificFormatAdapter
    private int sigDigit = 5;
    private int maxWidth = 8;
    private boolean sciNote = false;
-   private DecimalFormatJava decimalFormat;
+   private DecimalFormat decimalFormat;
    
    public ScientificFormat()
    {
@@ -168,12 +170,12 @@ public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition po
       if(errorsigdigit <1) return 1;
       return errorsigdigit;
    }
-   private static DecimalFormatJava getDecimalFormat(int sigDig)
+   private static DecimalFormat getDecimalFormat(int sigDig)
    {
       StringBuffer buffer = new StringBuffer("0.");
       for (int i=1; i<sigDig; i++) buffer.append('0');
       buffer.append("E0");
-      return new DecimalFormatJava(buffer.toString());
+      return new DecimalFormat(buffer.toString());
    }
    /**
     * Format the number using scientific notation
@@ -186,7 +188,7 @@ public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition po
    {
       // Delegate the hard part to decimalFormat
       if (decimalFormat == null) decimalFormat = getDecimalFormat(sigDigit);
-      DecimalFormatJava format = (sigDig == sigDigit) ? decimalFormat : getDecimalFormat(sigDig);
+      DecimalFormat format = (sigDig == sigDigit) ? decimalFormat : getDecimalFormat(sigDig);
       
       String preliminaryResult = format.format(d);
       if (sciNote) return preliminaryResult;

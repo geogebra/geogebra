@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package geogebra.web.util;
+package java.text;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -23,16 +23,16 @@ import java.util.Date;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 
-public class NumberFormatJava implements Serializable
+public class NumberFormat implements Serializable
 {
     private com.google.gwt.i18n.client.NumberFormat format;
 
-    protected NumberFormatJava()
+    protected NumberFormat()
     {
 
     }
 
-    protected NumberFormatJava( com.google.gwt.i18n.client.NumberFormat format )
+    protected NumberFormat( com.google.gwt.i18n.client.NumberFormat format )
     {
         applyFormat( format );
     }
@@ -42,29 +42,29 @@ public class NumberFormatJava implements Serializable
         this.format = format;
     }
 
-    public final static NumberFormatJava getCurrencyInstance()
+    public final static NumberFormat getCurrencyInstance()
     {
-        return new NumberFormatJava( com.google.gwt.i18n.client.NumberFormat.getCurrencyFormat() );
+        return new NumberFormat( com.google.gwt.i18n.client.NumberFormat.getCurrencyFormat() );
     }
 
-    public final static NumberFormatJava getInstance()
+    public final static NumberFormat getInstance()
     {
-        return new NumberFormatJava( com.google.gwt.i18n.client.NumberFormat.getDecimalFormat() );
+        return new NumberFormat( com.google.gwt.i18n.client.NumberFormat.getDecimalFormat() );
     }
 
-    public final static NumberFormatJava getIntegerInstance()
+    public final static NumberFormat getIntegerInstance()
     {
-        return new NumberFormatJava( com.google.gwt.i18n.client.NumberFormat.getDecimalFormat() );
+        return new NumberFormat( com.google.gwt.i18n.client.NumberFormat.getDecimalFormat() );
     }
 
-    public final static NumberFormatJava getNumberInstance()
+    public final static NumberFormat getNumberInstance()
     {
-        return new NumberFormatJava( com.google.gwt.i18n.client.NumberFormat.getDecimalFormat() );
+        return new NumberFormat( com.google.gwt.i18n.client.NumberFormat.getDecimalFormat() );
     }
 
-    public final static NumberFormatJava getPercentInstance()
+    public final static NumberFormat getPercentInstance()
     {
-        return new NumberFormatJava( com.google.gwt.i18n.client.NumberFormat.getPercentFormat() );
+        return new NumberFormat( com.google.gwt.i18n.client.NumberFormat.getPercentFormat() );
     }
 
     public final String format( double number )
