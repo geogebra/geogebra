@@ -2741,9 +2741,14 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			// draw background image (with axes and/or grid)
 			if (bgImage == null) {
 				if (firstPaint) {
-					updateSize();
-					g2.drawImage(bgImage, 0, 0, null);
-					firstPaint = false;
+				//	if ((getWidth() > 0) && (getHeight() > 0)) {
+				//		// only set firstPaint to false if the bgImage was generated
+						updateSize();
+						g2.drawImage(bgImage, 0, 0, null);
+						firstPaint = false;
+				//	} else {
+				//		drawBackgroundWithImages(g2);
+				//	}
 				} else {
 					drawBackgroundWithImages(g2);
 				}
