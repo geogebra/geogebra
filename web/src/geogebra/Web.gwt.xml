@@ -2,6 +2,7 @@
 <module rename-to='web'>
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name='com.google.gwt.user.User'/>
+  <inherits name="com.google.gwt.webworker.WebWorker" />
 
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->
@@ -18,7 +19,7 @@
   <entry-point class='geogebra.web.Web'/>
 
   <!-- compile only for some browsers: reduces permutation time -->
-  <set-property name="user.agent" value="gecko1_8,safari" />
+  <set-property name="user.agent" value="gecko1_8,safari, ie9, opera" />
 
   <!-- Specify the paths for translatable code                    -->
   <source path='web'/>
