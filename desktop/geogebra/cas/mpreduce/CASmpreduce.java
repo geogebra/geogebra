@@ -180,7 +180,10 @@ public class CASmpreduce extends AbstractCASmpreduce {
 				CASAsyncFinished(inVE, result,useCaching, null, command, id, oldDigits,input);
 			}
 		};
-		casThread.run();
+		if(AsynchronousCommand.USE_ASYNCHRONOUS)
+			casThread.start();
+		else
+			casThread.run();
 	}
 
 	public void initCAS() {

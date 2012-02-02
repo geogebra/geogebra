@@ -83,6 +83,7 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand{
 			outNum.setUndefined();
 			return;
 		}
+		outNum.setUndefined();
 		kernel.evaluateGeoGebraCASAsync(limitString, true, this, 0);
 	}
 	/**
@@ -102,8 +103,10 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand{
 	public void handleCASoutput(String output, int requestID) {
 		
 		NumberValue nv = kernel.getAlgebraProcessor().evaluateToNumeric(
-					output, false);
+					output, true);
 		outNum.setValue(nv.getDouble());
+		if(USE_ASYNCHRONOUS)
+			outNum.updateCascade();
 		
 	}
 

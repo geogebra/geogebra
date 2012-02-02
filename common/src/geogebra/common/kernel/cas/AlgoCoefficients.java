@@ -81,6 +81,7 @@ public class AlgoCoefficients extends AlgoElement implements AsynchronousCommand
 		sb.append(",");
 		sb.append(funVarStr[1]); // function variable
 		sb.append(")");
+		g.setUndefined();
 		kernel.evaluateGeoGebraCASAsync(sb.toString(),true,this,0);			
 
 	}
@@ -96,6 +97,8 @@ public class AlgoCoefficients extends AlgoElement implements AsynchronousCommand
 		}else{
 			g.set(kernel.getAlgebraProcessor().evaluateToList(output));
 			g.setDefined(true);
+			if(USE_ASYNCHRONOUS)
+				g.updateCascade();
 		}
 		
 	}
