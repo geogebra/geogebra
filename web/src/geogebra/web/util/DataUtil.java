@@ -3,26 +3,43 @@ package geogebra.web.util;
 
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.web.html5.View;
 import geogebra.web.jso.JsUint8Array;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.core.client.JsArrayString;
+import com.google.gwt.webworker.client.ErrorEvent;
+import com.google.gwt.webworker.client.ErrorHandler;
+import com.google.gwt.webworker.client.MessageEvent;
+import com.google.gwt.webworker.client.MessageHandler;
 import com.google.gwt.webworker.client.Worker;
 
 public final class DataUtil {
 	
-	private static boolean installed;
+	static boolean installed;
+	static View view = null;
+	static JavaScriptObject zipped = null;
 	
-	public static Map<String, String> unzip(JsUint8Array zippedContent) {
+	public static void unzip(JsUint8Array zippedContent, View v) {
 		ensureInstall();
-		return prepareContent(nativeUnzip(zippedContent));
+		view = v;
+		zipped = zippedContent;
+		doUnzip(zippedContent);
 	}
 	
+	private static void doUnzip(JsUint8Array zippedContent) {
+		if (worker != null && !workerError) {
+			worker.postMessage(JSON.stringify(zippedContent));
+		} else {
+			view.maybeLoadFile(prepareContent(nativeUnzip(zippedContent)));
+		}
+    }
+
 	public static String utf8Decode(String content) {
 		ensureInstall();
 		return nativeUtf8Decode(content);
@@ -33,16 +50,37 @@ public final class DataUtil {
 		return nativeBase64Encode(content);
 	}
 	
+	private static Worker worker = null;
+
+	protected static boolean workerError = false;
+	
 	// Private Methods
 	private static void ensureInstall() {
 		//check if workers supported:
 		if (!installed) {
-			Worker worker = Worker.create(GeoGebraConstants.GGB_LOAD_WORKER_URL);
+			worker = Worker.create(GeoGebraConstants.GGB_LOAD_WORKER_URL);
 			if (worker != null) {
 				GWT.log("worker supported");
+				worker.setOnError(new ErrorHandler() {	
+					public void onError(ErrorEvent event) {
+						GWT.log("error in worker "+event.getMessage());
+						workerError  = true;
+						nativeInstall();
+						installed = true;
+						view.maybeLoadFile(prepareContent(nativeUnzip(zipped)));;
+					}
+				});
+				worker.setOnMessage(new MessageHandler() {
+					
+					public void onMessage(MessageEvent event) {
+						GWT.log(event.getDataAsString());
+					}
+				});
+				worker.postMessage("hello worker");
+			} else {
+				nativeInstall();
+				installed = true;
 			}
-			nativeInstall();
-			installed = true;
 		}
 	}
 	
@@ -71,7 +109,7 @@ public final class DataUtil {
 	}-*/;	
 	
 	// Install
-	private static native void nativeInstall() /*-{		
+	static native void nativeInstall() /*-{		
 		//====JSXGRAPH UTIL CLASS THANKS FOR THE UNZIPPING FUNCTIONALITY======//
 		$wnd.ggm = {};
 		$wnd.ggm.JXG = {};
@@ -1034,13 +1072,27 @@ public final class DataUtil {
 	    return result.toByteArray();
 	  }
 
-	public static Map<String, String> unzip(JsArrayInteger jsBytes) {
+	public static void unzip(JsArrayInteger jsBytes, View v) {
 		ensureInstall();
-		return prepareContent(nativeUnzip(jsBytes));
+		view = v;
+		zipped = jsBytes;
+		doUnzip(jsBytes);
+    }
+
+	private static void doUnzip(JsArrayInteger jsBytes) {
+		if (worker != null && !workerError) {
+			worker.postMessage(JSON.stringify(jsBytes));
+		} else {
+			view.maybeLoadFile(prepareContent(nativeUnzip(jsBytes)));
+		}
     }
 
 	private static native JsArray<JsArrayString> nativeUnzip(JsArrayInteger jsBytes) /*-{
 		return (new $wnd.ggm.JXG.Util.Unzip(jsBytes)).unzip();
     }-*/;
+	
+	private static native JsArray<JsArrayString> nativeUnzip(JavaScriptObject jsObj) /*-{
+	return (new $wnd.ggm.JXG.Util.Unzip(jsObj)).unzip();
+}-*/;
 	
 }

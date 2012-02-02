@@ -55,8 +55,7 @@ public class View extends Widget {
 	}
 	
 	public void fileContentLoaded(JsUint8Array zippedContent) {
-		archiveContent = DataUtil.unzip(zippedContent);
-		maybeLoadFile();	    
+		DataUtil.unzip(zippedContent,this);    
     }
 	
 	private void maybeLoadFile() {
@@ -82,8 +81,12 @@ public class View extends Widget {
     }
 
 	public void fileContentLoaded(JsArrayInteger jsBytes) {
-		archiveContent = DataUtil.unzip(jsBytes);
-		maybeLoadFile();   
+		DataUtil.unzip(jsBytes,this); 
+    }
+
+	public void maybeLoadFile(Map<String, String> archiveCont) {
+	    archiveContent = archiveCont;
+	    maybeLoadFile();
     }
 
 }
