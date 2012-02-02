@@ -25,5 +25,5 @@
   <!--<add-linker name="xs"/>  -->
   <!-- Specify the paths for translatable code                    -->
   <source path='web'/>
-  <super-source path='/common/src/desktop' />
+  <super-source path='/common/src/geogebra/jre' />
 </module>
