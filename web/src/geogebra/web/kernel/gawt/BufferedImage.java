@@ -28,8 +28,10 @@ public class BufferedImage {
 		nc.setCoordinateSpaceHeight(height);
 
 		Context2d c2d = nc.getContext2d();
-		c2d.setStrokeStyle("#ffffff");
-		c2d.setFillStyle("#ffffff");
+		c2d.setStrokeStyle("rgba(255,255,255,255)");
+		c2d.setFillStyle("rgba(255,255,255,255)");
+		c2d.setGlobalCompositeOperation(Composite.SOURCE_OVER);
+		c2d.setGlobalAlpha(1.0);
 		c2d.fillRect(0, 0, width, height);
 		*/
 

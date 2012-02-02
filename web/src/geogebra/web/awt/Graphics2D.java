@@ -519,8 +519,8 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
     @Override
     public void setColor(Color fillColor) {
-    	context.setStrokeStyle("rgba("+fillColor.getRed()+","+fillColor.getGreen()+","+fillColor.getBlue()+","+(fillColor.getAlpha()/255d)+")");
-    	context.setFillStyle("rgba("+fillColor.getRed()+","+fillColor.getGreen()+","+fillColor.getBlue()+","+(fillColor.getAlpha()/255d)+")");
+    	context.setStrokeStyle("rgba("+fillColor.getRed()+","+fillColor.getGreen()+","+fillColor.getBlue()+","+fillColor.getAlpha()+")");
+    	context.setFillStyle("rgba("+fillColor.getRed()+","+fillColor.getGreen()+","+fillColor.getBlue()+","+fillColor.getAlpha()+")");
     	this.color=fillColor;
     }
 

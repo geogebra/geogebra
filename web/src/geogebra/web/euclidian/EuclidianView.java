@@ -32,7 +32,7 @@ import com.google.gwt.user.client.Window;
 
 public class EuclidianView extends AbstractEuclidianView implements SettingListener{
 	
-	public geogebra.web.awt.Graphics2D g2 = null;
+	public geogebra.web.awt.Graphics2D g2p = null;
 	
 	protected static final long serialVersionUID = 1L;
 	
@@ -45,7 +45,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		super(euclidiancontroller, settings);
 		evNo = 1;
 	    // TODO Auto-generated constructor stub
-		this.g2 = new geogebra.web.awt.Graphics2D(canvas);
+		this.g2p = new geogebra.web.awt.Graphics2D(canvas);
 		setAxesColor(geogebra.common.awt.Color.black);
 		updateFonts();
 		setStandardCoordSystem();
@@ -153,12 +153,12 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
     }
 	
 	public void setCoordinateSpaceSize(int width, int height) {
-		g2.setCoordinateSpaceWidth(width);
-		g2.setCoordinateSpaceHeight(height);
+		g2p.setCoordinateSpaceWidth(width);
+		g2p.setCoordinateSpaceHeight(height);
 	}
 	
 	public void synCanvasSize() {
-		setCoordinateSpaceSize(g2.getOffsetWidth(), g2.getOffsetHeight());
+		setCoordinateSpaceSize(g2p.getOffsetWidth(), g2p.getOffsetHeight());
 	}
 	
 	/**
@@ -167,7 +167,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	 * @return the logical width
 	 */
 	public int getWidth() {
-		return g2.getCoordinateSpaceWidth();
+		return g2p.getCoordinateSpaceWidth();
 	}
 
 	/**
@@ -176,7 +176,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	 * @return the logical height
 	 */
 	public int getHeight() {
-		return g2.getCoordinateSpaceHeight();
+		return g2p.getCoordinateSpaceHeight();
 	}
 	
 	/**
@@ -185,7 +185,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	 * @return the physical width in pixels
 	 */
 	public int getPhysicalWidth() {
-		return g2.getOffsetWidth();
+		return g2p.getOffsetWidth();
 	}
 	
 	/**
@@ -194,15 +194,15 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	 * @return the physical height in pixels
 	 */
 	public int getPhysicalHeight() {
-		return g2.getOffsetHeight();
+		return g2p.getOffsetHeight();
 	}
 	
 	public int getAbsoluteTop() {
-		return g2.getAbsoluteTop();
+		return g2p.getAbsoluteTop();
 	}
 	
 	public int getAbsoluteLeft() {
-		return g2.getAbsoluteLeft();
+		return g2p.getAbsoluteLeft();
 	}
 
 	public EuclidianController getEuclidianController() {
@@ -261,7 +261,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	
     public void repaint() {
-	    paint(g2);
+	    paint(g2p);
     }
 
 	@Override
@@ -305,8 +305,8 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 					return false;
 				}
 
-				return kernel.needToShowAnimationButton() && (e.getX() - g2.getAbsoluteLeft() + Window.getScrollLeft() <= 20)
-						&& (e.getY() - g2.getAbsoluteTop() + Window.getScrollTop() >= (getHeight() - 20));
+				return kernel.needToShowAnimationButton() && (e.getX() - g2p.getAbsoluteLeft() + Window.getScrollLeft() <= 20)
+						&& (e.getY() - g2p.getAbsoluteTop() + Window.getScrollTop() >= (getHeight() - 20));
     }
 
 
@@ -441,7 +441,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     public void setPreferredSize(Dimension preferredSize) {
-	    g2.setPreferredSize(preferredSize);
+	    g2p.setPreferredSize(preferredSize);
     }
 
 	public void setDragCursor() {
