@@ -73,7 +73,7 @@ public final class DataUtil {
 				worker.setOnMessage(new MessageHandler() {
 					
 					public void onMessage(MessageEvent event) {
-						GWT.log(event.getDataAsString());
+						view.maybeLoadFile(prepareContent((JsArray<JsArrayString>) event.getDataAsJSO()));
 					}
 				});
 				worker.postMessage("hello worker");
@@ -84,7 +84,7 @@ public final class DataUtil {
 		}
 	}
 	
-	private static Map<String, String> prepareContent(JsArray<JsArrayString> unzipped) {
+	static Map<String, String> prepareContent(JsArray<JsArrayString> unzipped) {
 		Map<String, String> archiveContent = new HashMap<String, String>();
 
 		for (int i = 0; i < unzipped.length(); i++) {
