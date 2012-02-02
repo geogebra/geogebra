@@ -473,9 +473,11 @@ public abstract class GgbAPI {
 	 * should only be used by web
 	 */
 	public void initCAS() {
-		if (app.isHTML5Applet()) {
-			kernel.getGeoGebraCAS().getCurrentCAS().initCAS();
-		}
+ 		if (app.isHTML5Applet()) {
+ 			kernel.getGeoGebraCAS().getCurrentCAS().initCAS();
+			kernel.refreshCASCommands();
+			app.getActiveEuclidianView().repaintView();
+ 		}
 	}
 
 	public void startAnimation() {

@@ -22,6 +22,7 @@ import geogebra.common.kernel.barycentric.AlgoKimberling;
 import geogebra.common.kernel.barycentric.AlgoTriangleCubic;
 import geogebra.common.kernel.barycentric.AlgoTriangleCurve;
 import geogebra.common.kernel.barycentric.AlgoTrilinear;
+import geogebra.common.kernel.cas.AlgoCasBase;
 import geogebra.common.kernel.cas.AlgoCoefficients;
 import geogebra.common.kernel.cas.AlgoDegree;
 import geogebra.common.kernel.cas.AlgoDependentCasCell;
@@ -214,6 +215,7 @@ import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Stack;
@@ -9911,5 +9913,49 @@ public class Kernel {
 	public double getXminForFunctions() {
 		return (((2 * getXmin()) - getXmax()) + getYmin()) - getYmax();
 	}
+	
+	/**
+	 * clear cache (needed in web when CAS loaded)
+	 */
+	public void clearCasCache() {
+		if (ggbCasCache != null) {
+			ggbCasCache.clear();
+		}
+	}
+
+	/*
+	 * used by web once CAS is loaded
+	 */
+	public void refreshCASCommands() {
+
+		clearCasCache();
+
+		TreeSet<GeoElement> treeset = getConstruction().getGeoSetConstructionOrder();
+
+		ArrayList<GeoElement> al = new ArrayList<GeoElement>();
+
+		Iterator<GeoElement> it = treeset.iterator();
+
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+
+			if (geo.isGeoFunction()) {
+				((GeoFunction)geo).getFunction().clearCasEvalMap("");
+			} else if (geo.isGeoFunctionNVar()) {
+				((GeoFunctionNVar)geo).getFunction().clearCasEvalMap("");
+			}
+
+			AlgoElement algo = geo.getParentAlgorithm();
+
+			if (algo instanceof AlgoCasBase) {
+				((AlgoCasBase)algo).compute();
+			}
+
+			al.add(geo);
+		}
+
+		GeoElement.updateCascade(al, new TreeSet<AlgoElementInterface>(), true);
+	}
+
 
 }

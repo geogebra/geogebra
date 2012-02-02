@@ -548,27 +548,13 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		return casEvalMap.get(casString);
 	}
 
-	// /**
-	// * Clears those entries in the function cache which contain this label
-	// * or clear everything if the label is null (called by clearConstruction)
-	// * @param label
-	// */
-	// public void clearCasEvalMap(String label) {
-	// if (casEvalMap == null) return;
-	//
-	// if (label == null) {
-	// casEvalMap.clear();
-	// } else {
-	// Set<String> keyset = getCasEvalMap().keySet();
-	// Iterator<String> it = keyset.iterator();
-	// String actual = null;
-	// while (it.hasNext()) {
-	// actual = it.next();
-	// if (actual.indexOf(label) != -1)
-	// casEvalMap.remove(actual);
-	// }
-	// }
-	// }
+	/**
+	* Clears the cache (needed in Web when the CAS loads)
+	*/
+	public void clearCasEvalMap(String label) {
+		if (casEvalMap == null) return;
+		casEvalMap.clear();
+	} 
 
 	private final static int MAX_CAS_EVAL_MAP_SIZE = 100;
 	private MaxSizeHashMap<String, FunctionNVar> casEvalMap;
