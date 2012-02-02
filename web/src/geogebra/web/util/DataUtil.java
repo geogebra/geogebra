@@ -2,14 +2,17 @@ package geogebra.web.util;
 
 
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.web.jso.JsUint8Array;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.core.client.JsArrayString;
+import com.google.gwt.webworker.client.Worker;
 
 public final class DataUtil {
 	
@@ -32,7 +35,12 @@ public final class DataUtil {
 	
 	// Private Methods
 	private static void ensureInstall() {
+		//check if workers supported:
 		if (!installed) {
+			Worker worker = Worker.create(GeoGebraConstants.GGB_LOAD_WORKER_URL);
+			if (worker != null) {
+				GWT.log("worker supported");
+			}
 			nativeInstall();
 			installed = true;
 		}

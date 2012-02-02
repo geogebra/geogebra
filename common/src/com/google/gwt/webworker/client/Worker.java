@@ -26,7 +26,11 @@ import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 public class Worker extends AbstractWorker {
 
   public static native Worker create(String url) /*-{
-    return new Worker(url);
+  	if (typeof Worker !== 'undefined') {
+    	return new Worker(url);
+  	} else {
+  		return null;
+  	}
   }-*/;
 
   /**
