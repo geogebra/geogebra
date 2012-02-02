@@ -1,17 +1,26 @@
 package geogebra.web.cas.mpreduce;
 
-import java.util.StringTokenizer;
-
 import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
 import geogebra.common.cas.mpreduce.AbstractCASmpreduce;
+import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.cas.AsynchronousCommand;
 import geogebra.common.main.AbstractApplication;
 
+/**
+ * Web implementation of MPReduce CAS
+ * @author Michael Borcherds, based on desktop version
+ *
+ */
 public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.cas.Evaluate {
 
-
-	public CASmpreduce(CASparser casParser, CasParserTools t) {
+	/**
+	 * Creates new CAS
+	 * @param casParser parser
+	 * @param parserTools scientific notation convertor
+	 */
+	public CASmpreduce(CASparser casParser, CasParserTools parserTools) {
 		super(casParser);
 		this.parserTools = parserTools;
     }
@@ -24,15 +33,15 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 	@Override
 	public String evaluateMPReduce(String exp) {
 		try {
-			exp = casParser.replaceIndices(exp);
-			String ret = evaluateRaw(exp);
+			String processedExp = casParser.replaceIndices(exp);
+			String ret = evaluateRaw(processedExp);
 			ret = casParser.insertSpecialChars(ret); // undo special character
 														// handling
 
 			// convert MPReduce's scientific notation from e.g. 3.24e-4 to
 			// 3.2E-4
 			AbstractApplication.debug("TODO: convertScientificFloatNotation()");
-			//ret = parserTools.convertScientificFloatNotation(ret);
+			ret = parserTools.convertScientificFloatNotation(ret);
 
 			return ret;
 		//} catch (TimeoutException toe) {
@@ -44,7 +53,11 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 	}
 
 
-
+	/**
+	 * Evaluates the processed expression in CAS
+	 * @param exp expression
+	 * @return MPReduce string representation of result
+	 */
 	public static native String nativeEvaluateRaw(String exp) /*-{
 	if (typeof $wnd.callCAS === 'function')
 		return $wnd.callCAS(exp);
@@ -82,8 +95,8 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
         }
 	}
 	
-	public synchronized String evaluate(String send) {
-		send = send.trim();
+	public synchronized String evaluate(String sendRaw) {
+		String send = sendRaw.trim();
 		if (((send.endsWith(";")) || (send.endsWith("$"))) != true)
 			send = send + ";\n";
 		
@@ -107,8 +120,25 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 	public void initialize() {
 	    // just needed for Desktop
     }
-
-
-
-
+	
+	/**
+	 * TODO: Current implementation for web is actually SYNCHRONOUS
+	 */
+	@Override
+	public void evaluateGeoGebraCASAsync(final String input,
+			final boolean useCaching, final AsynchronousCommand command, final int id, 
+			final boolean oldDigits) {
+		
+		
+				String result;
+				ValidExpression inVE = null;
+				try{
+					inVE = casParser.parseGeoGebraCASInput(input);
+					result = evaluateGeoGebraCAS(inVE);
+				}catch(Throwable exception){
+					result ="";
+					CASAsyncFinished(inVE, result,useCaching, exception, command, id, oldDigits,input);
+				}
+				CASAsyncFinished(inVE, result,useCaching, null, command, id, oldDigits,input);
+			}
 }
