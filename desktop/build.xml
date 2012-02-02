@@ -84,7 +84,7 @@ office@geogebra.org
 	<!-- compiles grammar, javacc path is hardcoded now for simplicity -->
 	<target name="compile-grammar">
 		<javacc
-		   target="../common/src/geogebra/common/kernel/parser/Parser.jj"
+		   target="../common/src/common/kernel/parser/Parser.jj"
 		   javacchome="${src.dir}/lib/build/javacc"
 		   static="false"
 		/>
@@ -96,10 +96,10 @@ office@geogebra.org
 
 	<target name="compile-grammar-clean">
 		<delete followsymlinks="false">
-			<fileset dir="../common/src/geogebra/common/kernel" includes="**/*.class" />
+			<fileset dir="../common/src/common/kernel" includes="**/*.class" />
 		</delete>
 		<delete followsymlinks="false">
-			<fileset dir="../common/src/geogebra/common/kernel/parser"
+			<fileset dir="../common/src/common/kernel/parser"
 			    includes="*.java" excludes="ParserInterface.java"/>
 		</delete>
 	</target>
@@ -236,10 +236,10 @@ office@geogebra.org
 
 	<!-- geogebra_main.jar includes all basic classes to run the application and applet  -->
 	<target name="ggb-main-jar" depends="clean" description="create unsigned geogebra_main.jar">
-		<!--symlink link="${src.dir}/geogebra/common" resource="${src.dir}/../common/src/geogebra/common"/-->
+		<!--symlink link="${src.dir}/geogebra/common" resource="${src.dir}/../common/src/common"/-->
 		<mkdir dir="${src.dir}/geogebra/common"/>
 		<copy todir="${src.dir}/geogebra/common">
-			<fileset dir="${src.dir}/../common/src/geogebra/common">
+			<fileset dir="${src.dir}/../common/src/common">
 				<include name="**/*" />
 			</fileset>
 		</copy>
@@ -337,7 +337,7 @@ office@geogebra.org
 
 	<target name="ggb-algos-jar" depends="clean" description="create unsigned geogebra_algos.jar">
 		<copy todir="${src.dir}/org/apache">
-			<fileset dir="${src.dir}/../common/src/org/apache">
+			<fileset dir="${src.dir}/../common/src/desktop/org/apache">
 				<include name="**/*.class" />
 			</fileset>
 		</copy>

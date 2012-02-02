@@ -43,7 +43,7 @@
 
   <target name="javac" depends="libs" description="Compile java source to bytecode">
     <mkdir dir="war/WEB-INF/classes"/>
-    <javac srcdir="src" excludes="geogebra/common/kernel/parser/ParseException.java" encoding="utf-8"
+    <javac srcdir="src" excludes="common/geogebra/kernel/parser/ParseException.java" encoding="utf-8"
         destdir="war/WEB-INF/classes"
         source="1.5" target="1.5" nowarn="true"
         debug="true" debuglevel="lines,vars,source">

@@ -2,7 +2,7 @@
 <module rename-to='web'>
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name='com.google.gwt.user.User'/>
-  <inherits name="com.google.gwt.webworker.WebWorker" />
+  <inherits name="com.google.gwt.resources.Resources" />
 
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->
@@ -28,5 +28,7 @@
   <public path="resources" />
 
   <!-- $linker -->
+
+  <super-source path='/common/src/geogebra/jre' />
 
 </module>

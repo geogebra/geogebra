@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="geogebra/jre/|geogebra/webapache/" kind="src" path="src"/>
+	<classpathentry excluding="desktop/|web/" kind="src" path="src"/>
 	<classpathentry kind="src" output="test-classes" path="test"/>
 	<classpathentry kind="src" path="war/WEB-INF/lib"/>
-	<classpathentry excluding="java/|geogebra/common/kernel/parser/|geogebra/common/kernel/|geogebra/common/|geogebra/" kind="src" path="src/geogebra/jre"/>
-	<classpathentry excluding="org/" kind="src" path="src/geogebra/webapache"/>
+	<classpathentry excluding="java/|common/geogebra/kernel/parser/|common/geogebra/kernel/|common/geogebra|common/" kind="src" path="src/desktop"/>
+	<classpathentry excluding="desktop/org/" kind="src" path="src/web/org/apache"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>

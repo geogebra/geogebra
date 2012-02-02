@@ -2,7 +2,8 @@
 <module rename-to='common'>
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name='com.google.gwt.user.User'/>
-  <inherits name="com.google.gwt.webworker.WebWorker" /> 
+  <inherits name="com.google.gwt.resources.Resources" />
+
 
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->
@@ -19,8 +20,8 @@
 
   <!-- Specify the paths for translatable code                    -->
   <source path='common'/>
-  <super-source path='jre' />
-  <super-source path='webapache' />
+  <!--super-source path='jre' /-->
+  <super-source path='org/apache' />
 
   <!-- compile only for some browsers: reduces permutation time -->
   <set-property name="user.agent" value="gecko1_8,safari,ie9,opera" />
@@ -30,5 +31,6 @@
   </replace-with>
 
   <public path="resources" />
+  <super-source path='/common/src/desktop' />
 
 </module>
