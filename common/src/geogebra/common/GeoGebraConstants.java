@@ -50,6 +50,6 @@ public interface GeoGebraConstants {
 	public static final String PROXY_SERVING_LOCATION = "proxy";
 	public static final String GGM_CLASS_NAME = "geogebraweb";
 	//public static final String GGB_LOAD_WORKER_URL = "../ggbloadworker/ggbloadworker.nocache.js";
-	public static final String GGB_LOAD_WORKER_URL = "ggbloadworker/ggbloadworker.nocache.js";
+	public static final String GGB_LOAD_WORKER_URL = "../ggbloadworker/ggbloadworker.nocache.js";
 
 }

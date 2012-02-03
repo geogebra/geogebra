@@ -56,6 +56,7 @@ import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
 import com.google.gwt.canvas.dom.client.Context2d.TextBaseline;
 import com.google.gwt.canvas.dom.client.TextMetrics;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.i18n.client.LocaleInfo;
@@ -861,6 +862,10 @@ public class Application extends AbstractApplication {
     public StringType getFormulaRenderingType() {
 	    return StringType.MATHML;
     }
+
+	public static native void console(JavaScriptObject dataAsJSO) /*-{
+		$wnd.console.log(dataAsJSO);
+    }-*/;
 	
 
 

@@ -68,7 +68,15 @@ public class LoadFilePresenter extends BasePresenter {
 	
 	private final FileLoadCallback fileLoadCallback = new FileLoadCallback() {
 		public void onSuccess(JsUint8Array zippedContent) {
-			getView().fileContentLoaded(zippedContent);
+			JsArrayInteger jsBytes = JsArrayInteger.createArray().cast();
+			jsBytes.setLength(zippedContent.getLength());
+			for (int i = 0; i < zippedContent.getLength(); i++) {
+				int x = zippedContent.get(i);
+				if (x < 0) x += 256;
+				
+				jsBytes.set(i, x);
+			}
+		   getView().fileContentLoaded(jsBytes);
 		}
 		
 		public void onError(String errorMessage) {

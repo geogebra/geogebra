@@ -5,6 +5,7 @@ package geogebra.web.util;
 import geogebra.common.GeoGebraConstants;
 import geogebra.web.html5.View;
 import geogebra.web.jso.JsUint8Array;
+import geogebra.web.main.Application;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -65,7 +66,6 @@ public final class DataUtil {
 					public void onError(ErrorEvent event) {
 						GWT.log("error in worker "+event.getMessage());
 						workerError  = true;
-						nativeInstall();
 						installed = true;
 						view.maybeLoadFile(prepareContent(nativeUnzip(zipped)));;
 					}
@@ -73,18 +73,28 @@ public final class DataUtil {
 				worker.setOnMessage(new MessageHandler() {
 					
 					public void onMessage(MessageEvent event) {
-						GWT.log(event.getDataAsString());
-						//view.maybeLoadFile(prepareContent((JsArray<JsArrayString>) event.getDataAsJSO()));
+						view.maybeLoadFile(prepareContent(JSON.parse(event.getDataAsString())));
 					}
 				});
-				worker.postMessage("hello worker");
-			} else {
-				nativeInstall();
-				installed = true;
 			}
-		}
+			//we need that for utf8decode anyway..later tidy it up :-)
+			nativeInstall();
+			installed = true;
+			}
 	}
 	
+	protected static Map<String, String> prepareContent(JavaScriptObject parse) {
+		Application.console(parse);
+		Map<String, String> archiveContent = new HashMap<String, String>();
+		JsArray<JsArrayString> strArray = parse.cast();
+		for (int i = 0; i < strArray.length(); i++) {
+			String name = strArray.get(i).get(1);
+			String content = strArray.get(i).get(0);
+			archiveContent.put(name, content);
+		}
+		return archiveContent;
+    }
+
 	static Map<String, String> prepareContent(JsArray<JsArrayString> unzipped) {
 		Map<String, String> archiveContent = new HashMap<String, String>();
 
@@ -1093,7 +1103,7 @@ public final class DataUtil {
     }-*/;
 	
 	private static native JsArray<JsArrayString> nativeUnzip(JavaScriptObject jsObj) /*-{
-	return (new $wnd.ggm.JXG.Util.Unzip(jsObj)).unzip();
-}-*/;
+		return (new $wnd.ggm.JXG.Util.Unzip(jsObj)).unzip();
+	}-*/;
 	
 }

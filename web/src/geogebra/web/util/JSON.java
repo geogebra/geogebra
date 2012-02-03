@@ -11,13 +11,7 @@ public class JSON {
 		return $wnd.JSON.stringify(obj); 
     }-*/;
 
-	public static native String stringify(JsUint8Array array) /*-{
-		//$wnd.console.log(array.length);
-	    return ""+array.length;//FIXME	$wnd.JSON.stringify(array.length);
-    }-*/;
-
-	public static native String stringify(JsArrayInteger array) /*-{
-		//$wnd.console.log(array.length);
-    	return ""+array.length;//FIXME	$wnd.JSON.stringify(array.length);
+	public static native JavaScriptObject parse(String obj) /*-{
+		return $wnd.JSON.parse(obj);
 	}-*/;
 }
