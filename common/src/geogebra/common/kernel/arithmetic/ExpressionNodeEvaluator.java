@@ -29,8 +29,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	/**
 	 * Evaluates the ExpressionNode described by the parameters
 	 * 
-	 * @param expressionNode
-	 *            ExpressionNode to evaluate
+	 * @param expressionNode       ExpressionNode to evaluate
 	 * @return corresponding ExpressionValue
 	 */
 	public ExpressionValue evaluate(ExpressionValue expressionValue) {
@@ -42,7 +41,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			return left.evaluate(); // for wrapping ExpressionValues as
 			// ValidExpression
 		}
-
+		String[] str;
 		Kernel kernel = expressionNode.kernel;
 		ExpressionValue right = expressionNode.right;
 		Operation operation = expressionNode.operation;
@@ -181,7 +180,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			}
 
 			else {
-				String[] str = { "IllegalBoolean", strNOT, lt.toString() };
+				str = new String[]{ "IllegalBoolean", strNOT, lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -195,7 +194,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			}
 
 			else {
-				String[] str = { "IllegalBoolean", lt.toString(), strOR,
+				str = new String[]{ "IllegalBoolean", lt.toString(), strOR,
 						rt.toString() };
 				throw new MyError(app, str);
 			}
@@ -210,7 +209,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			}
 
 			else {
-				String[] str = { "IllegalBoolean", lt.toString(), strAND,
+				str = new String[]{ "IllegalBoolean", lt.toString(), strAND,
 						rt.toString() };
 				throw new MyError(app, str);
 			}
@@ -222,7 +221,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		case EQUAL_BOOLEAN: {
 			MyBoolean b = evalEquals(kernel, lt, rt);
 			if (b == null) {
-				String[] str = { "IllegalComparison", lt.toString(),
+				str = new String[]{ "IllegalComparison", lt.toString(),
 						strEQUAL_BOOLEAN, rt.toString() };
 				throw new MyError(app, str);
 			} else {
@@ -233,7 +232,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		case NOT_EQUAL: {
 			MyBoolean b = evalEquals(kernel, lt, rt);
 			if (b == null) {
-				String[] str = { "IllegalComparison", lt.toString(),
+				str = new String[]{ "IllegalComparison", lt.toString(),
 						strNOT_EQUAL, rt.toString() };
 				throw new MyError(app, str);
 			} else {
@@ -248,7 +247,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return new MyBoolean(kernel, MyList.isElementOf(lt,
 						((ListValue) rt).getMyList()));
 			} else {
-				String[] str = { "IllegalListOperation", lt.toString(),
+				str = new String[]{ "IllegalListOperation", lt.toString(),
 						strIS_ELEMENT_OF, rt.toString() };
 				throw new MyError(app, str);
 			}
@@ -260,7 +259,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						((ListValue) rt).getMyList(),
 						((ListValue) lt).getMyList()));
 			} else {
-				String[] str = { "IllegalListOperation", lt.toString(),
+				str = new String[]{ "IllegalListOperation", lt.toString(),
 						strIS_SUBSET_OF, rt.toString() };
 				throw new MyError(app, str);
 			}
@@ -272,7 +271,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						((ListValue) rt).getMyList(),
 						((ListValue) lt).getMyList()));
 			} else {
-				String[] str = { "IllegalListOperation", lt.toString(),
+				str = new String[]{ "IllegalListOperation", lt.toString(),
 						strIS_SUBSET_OF_STRICT, rt.toString() };
 				throw new MyError(app, str);
 			}
@@ -284,7 +283,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						((ListValue) lt).getMyList(),
 						((ListValue) rt).getMyList());
 			} else {
-				String[] str = { "IllegalListOperation", lt.toString(),
+				str = new String[]{ "IllegalListOperation", lt.toString(),
 						strSET_DIFFERENCE, rt.toString() };
 				throw new MyError(app, str);
 			}
@@ -297,7 +296,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						((NumberValue) rt).getDouble(),
 						((NumberValue) lt).getDouble()));
 			} else {
-				String[] str = { "IllegalComparison", lt.toString(), "<",
+				str = new String[]{ "IllegalComparison", lt.toString(), "<",
 						rt.toString() };
 				throw new MyError(app, str);
 			}
@@ -310,7 +309,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						((NumberValue) lt).getDouble(),
 						((NumberValue) rt).getDouble()));
 			} else {
-				String[] str = { "IllegalComparison", lt.getClass().getName(),
+				str = new String[]{ "IllegalComparison", lt.getClass().getName(),
 						lt.toString(), ">", rt.toString(),
 						rt.getClass().getName() };
 				throw new MyError(app, str);
@@ -322,11 +321,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return new MyBoolean(kernel, Kernel.isGreaterEqual(
 						((NumberValue) rt).getDouble(),
 						((NumberValue) lt).getDouble()));
-			} else {
-				String[] str = { "IllegalComparison", lt.toString(),
-						strLESS_EQUAL, rt.toString() };
-				throw new MyError(app, str);
 			}
+			str = new String[]{ "IllegalComparison", lt.toString(),
+					strLESS_EQUAL, rt.toString() };
+			throw new MyError(app, str);
 
 		case GREATER_EQUAL:
 			// number >= number
@@ -334,33 +332,30 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return new MyBoolean(kernel, Kernel.isGreaterEqual(
 						((NumberValue) lt).getDouble(),
 						((NumberValue) rt).getDouble()));
-			} else {
-				String[] str = { "IllegalComparison", lt.toString(),
-						strGREATER_EQUAL, rt.toString() };
-				throw new MyError(app, str);
 			}
+			str = new String[]{ "IllegalComparison", lt.toString(),
+					strGREATER_EQUAL, rt.toString() };
+			throw new MyError(app, str);
 
 		case PARALLEL:
 			// line parallel to line
 			if ((lt instanceof GeoLine) && (rt instanceof GeoLine)) {
 				return new MyBoolean(kernel,
 						((GeoLine) lt).isParallel((GeoLine) rt));
-			} else {
-				String[] str = { "IllegalComparison", lt.toString(),
-						strPARALLEL, rt.toString() };
-				throw new MyError(app, str);
 			}
+			str = new String[]{ "IllegalComparison", lt.toString(),
+					strPARALLEL, rt.toString() };
+			throw new MyError(app, str);
 
 		case PERPENDICULAR:
 			// line perpendicular to line
 			if ((lt instanceof GeoLine) && (rt instanceof GeoLine)) {
 				return new MyBoolean(kernel,
 						((GeoLine) lt).isPerpendicular((GeoLine) rt));
-			} else {
-				String[] str = { "IllegalComparison", lt.toString(),
-						strPERPENDICULAR, rt.toString() };
-				throw new MyError(app, str);
 			}
+			str = new String[]{ "IllegalComparison", lt.toString(),
+					strPERPENDICULAR, rt.toString() };
+			throw new MyError(app, str);
 
 			/*
 			 * ARITHMETIC operations
@@ -462,7 +457,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				poly.add((Polynomial) rt);
 				return poly;
 			} else {
-				String[] str = { "IllegalAddition", lt.toString(), "+",
+				str = new String[]{ "IllegalAddition", lt.toString(), "+",
 						rt.toString() };
 				throw new MyError(app, str);
 			}
@@ -516,7 +511,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				poly.sub((Polynomial) rt);
 				return poly;
 			} else {
-				String[] str = { "IllegalSubtraction", lt.toString(), "-",
+				str = new String[]{ "IllegalSubtraction", lt.toString(), "-",
 						rt.toString() };
 				throw new MyError(app, str);
 			}
@@ -579,7 +574,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				 * ((NumberValue)lt).getDouble(), vec3D); return vec3D; }
 				 */
 				else {
-					String[] str = { "IllegalMultiplication", lt.toString(),
+					str = new String[]{ "IllegalMultiplication", lt.toString(),
 							"*", rt.toString() };
 					throw new MyError(app, str);
 				}
@@ -627,7 +622,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				}
 
 				else {
-					String[] str = { "IllegalMultiplication", lt.toString(),
+					str = new String[]{ "IllegalMultiplication", lt.toString(),
 							"*", rt.toString() };
 					throw new MyError(app, str);
 				}
@@ -665,7 +660,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				}
 				return msb;
 			} else {
-				String[] str = { "IllegalMultiplication", lt.toString(), "*",
+				str = new String[]{ "IllegalMultiplication", lt.toString(), "*",
 						rt.toString() };
 				throw new MyError(app, str);
 			}
@@ -694,7 +689,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				 * return vec3D; }
 				 */
 				else {
-					String[] str = { "IllegalDivision", lt.toString(), "/",
+					str = new String[]{ "IllegalDivision", lt.toString(), "/",
 							rt.toString() };
 					throw new MyError(app, str);
 				}
@@ -703,7 +698,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()) {
 				// the divisor must be a polynom of degree 0
 				if (((Polynomial) rt).degree() != 0) {
-					String[] str = { "DivisorMustBeConstant", lt.toString(),
+					str = new String[]{ "DivisorMustBeConstant", lt.toString(),
 							"/", rt.toString() };
 					throw new MyError(app, str);
 				}
@@ -734,7 +729,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return GeoFunction.applyNumberSymb(Operation.DIVIDE,
 						(GeoFunction) rt, left, false);
 			} else {
-				String[] str = { "IllegalDivision", lt.toString(), "/",
+				str = new String[]{ "IllegalDivision", lt.toString(), "/",
 						rt.toString() };
 				throw new MyError(app, str);
 			}
@@ -746,11 +741,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				num = new MyDouble(kernel);
 				GeoVec2D.vectorProduct(vec, vec2, num);
 				return num;
-			} else {
-				String[] str2 = { "IllegalMultiplication", lt.toString(),
-						strVECTORPRODUCT, rt.toString() };
-				throw new MyError(app, str2);
 			}
+			String[] str2 = { "IllegalMultiplication", lt.toString(),
+					strVECTORPRODUCT, rt.toString() };
+			throw new MyError(app, str2);
 
 		case POWER:
 			// number ^ number
@@ -830,7 +824,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			// vector ^ 2 (inner product)
 			else if (lt.isVectorValue() && rt.isNumberValue()) {
 				// if (!rt.isConstant()) {
-				// String [] str = { "ExponentMustBeConstant", lt.toString(),
+				// String [] str = new String[]{ "ExponentMustBeConstant", lt.toString(),
 				// "^", rt.toString() };
 				// throw new MyError(app, str);
 				// }
@@ -844,23 +838,20 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					GeoVec2D.complexPower(vec, num, vec);
 					return vec;
 
-				} else {
-					// inner/scalar/dot product
-					if (num.getDouble() == 2.0) {
-						GeoVec2D.inner(vec, vec, num);
-						return num;
-					} else {
-						num.set(Double.NaN);
-						return num;
-						// String [] str = { "IllegalExponent", lt.toString(),
-						// "^", rt.toString() };
-						// throw new MyError(app, str);
-					}
 				}
-				// complex number ^ complex number
+				// inner/scalar/dot product
+				if (num.getDouble() == 2.0) {
+					GeoVec2D.inner(vec, vec, num);
+					return num;
+				}
+				num.set(Double.NaN);
+				return num;
+				// String [] str = new String[]{ "IllegalExponent", lt.toString(),
+				// "^", rt.toString() };
+				// throw new MyError(app, str);
 			} else if (lt.isVectorValue() && rt.isVectorValue()) {
 				// if (!rt.isConstant()) {
-				// String [] str = { "ExponentMustBeConstant", lt.toString(),
+				// String [] str = new String[]{ "ExponentMustBeConstant", lt.toString(),
 				// "^", rt.toString() };
 				// throw new MyError(app, str);
 				// }
@@ -874,7 +865,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 			} else if (lt.isNumberValue() && rt.isVectorValue()) {
 				// if (!rt.isConstant()) {
-				// String [] str = { "ExponentMustBeConstant", lt.toString(),
+				// String [] str = new String[]{ "ExponentMustBeConstant", lt.toString(),
 				// "^", rt.toString() };
 				// throw new MyError(app, str);
 				// }
@@ -891,7 +882,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()) {
 				// the exponent must be a number
 				if (((Polynomial) rt).degree() != 0) {
-					String[] str = { "ExponentMustBeInteger", lt.toString(),
+					str = new String[]{ "ExponentMustBeInteger", lt.toString(),
 							"^", rt.toString() };
 					throw new MyError(app, str);
 				}
@@ -911,7 +902,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 				// number is not a base
 				if (!rt.isConstant()) {
-					String[] str = { "ExponentMustBeConstant", lt.toString(),
+					str = new String[]{ "ExponentMustBeConstant", lt.toString(),
 							"^", rt.toString() };
 					throw new MyError(app, str);
 				}
@@ -922,15 +913,14 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					poly = new Polynomial(kernel, (Polynomial) lt);
 					poly.power((int) exponent);
 					return poly;
-				} else {
-					String[] str = { "ExponentMustBeInteger", lt.toString(),
-							"^", rt.toString() };
-					throw new MyError(app, str);
 				}
+				str = new String[]{ "ExponentMustBeInteger", lt.toString(),
+						"^", rt.toString() };
+				throw new MyError(app, str);
 			} else {
 				AbstractApplication.debug("power: lt :" + lt.getClass()
 						+ ", rt: " + rt.getClass());
-				String[] str = { "IllegalExponent", lt.toString(), "^",
+				str = new String[]{ "IllegalExponent", lt.toString(), "^",
 						rt.toString() };
 				throw new MyError(app, str);
 			}
@@ -946,7 +936,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new Term(kernel, new ExpressionNode(kernel, lt,
 								Operation.COS, null), ""));
 			} else {
-				String[] str = { "IllegalArgument", "cos", lt.toString() };
+				str = new String[]{ "IllegalArgument", "cos", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -961,7 +951,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new Term(kernel, new ExpressionNode(kernel, lt,
 								Operation.SIN, null), ""));
 			} else {
-				String[] str = { "IllegalArgument", "sin", lt.toString() };
+				str = new String[]{ "IllegalArgument", "sin", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1007,11 +997,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 				return new MyDouble(kernel, ret);
 
-			} else {
-				String[] str = { "IllegalArgument", "freehand", lt.toString() };
-				AbstractApplication.debug(lt.getClass() + " " + rt.getClass());
-				throw new MyError(app, str);
 			}
+			str = new String[]{ "IllegalArgument", "freehand", lt.toString() };
+			AbstractApplication.debug(lt.getClass() + " " + rt.getClass());
+			throw new MyError(app, str);
 
 		case TAN:
 			// tan(number)
@@ -1024,7 +1013,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new Term(kernel, new ExpressionNode(kernel, lt,
 								Operation.TAN, null), ""));
 			} else {
-				String[] str = { "IllegalArgument", "tan", lt.toString() };
+				str = new String[]{ "IllegalArgument", "tan", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1039,7 +1028,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new ExpressionNode(kernel, lt, Operation.ARCCOS, null),
 						""));
 			} else {
-				String[] str = { "IllegalArgument", "arccos", lt.toString() };
+				str = new String[]{ "IllegalArgument", "arccos", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1054,7 +1043,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new ExpressionNode(kernel, lt, Operation.ARCSIN, null),
 						""));
 			} else {
-				String[] str = { "IllegalArgument", "arcsin", lt.toString() };
+				str = new String[]{ "IllegalArgument", "arcsin", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1069,7 +1058,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new ExpressionNode(kernel, lt, Operation.ARCTAN, null),
 						""));
 			} else {
-				String[] str = { "IllegalArgument", "arctan", lt.toString() };
+				str = new String[]{ "IllegalArgument", "arctan", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1078,11 +1067,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			if (lt.isNumberValue() && rt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().atan2((NumberValue) rt)
 						.getNumber();
-			} else {
-				String[] str = { "IllegalArgument", "arctan2", lt.toString(),
-						rt.toString() };
-				throw new MyError(app, str);
 			}
+			str = new String[]{ "IllegalArgument", "arctan2", lt.toString(),
+					rt.toString() };
+			throw new MyError(app, str);
 
 		case COSH:
 			// cosh(number)
@@ -1095,7 +1083,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new ExpressionNode(kernel, lt, Operation.COSH, null),
 						""));
 			} else {
-				String[] str = { "IllegalArgument", "cosh", lt.toString() };
+				str = new String[]{ "IllegalArgument", "cosh", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1110,7 +1098,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new ExpressionNode(kernel, lt, Operation.SINH, null),
 						""));
 			} else {
-				String[] str = { "IllegalArgument", "sinh", lt.toString() };
+				str = new String[]{ "IllegalArgument", "sinh", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1125,7 +1113,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new ExpressionNode(kernel, lt, Operation.TANH, null),
 						""));
 			} else {
-				String[] str = { "IllegalArgument", "tanh", lt.toString() };
+				str = new String[]{ "IllegalArgument", "tanh", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1140,7 +1128,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new ExpressionNode(kernel, lt, Operation.ACOSH, null),
 						""));
 			} else {
-				String[] str = { "IllegalArgument", "acosh", lt.toString() };
+				str = new String[]{ "IllegalArgument", "acosh", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1155,7 +1143,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new ExpressionNode(kernel, lt, Operation.ASINH, null),
 						""));
 			} else {
-				String[] str = { "IllegalArgument", "asinh", lt.toString() };
+				str = new String[]{ "IllegalArgument", "asinh", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1170,7 +1158,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new ExpressionNode(kernel, lt, Operation.ATANH, null),
 						""));
 			} else {
-				String[] str = { "IllegalArgument", "atanh", lt.toString() };
+				str = new String[]{ "IllegalArgument", "atanh", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1185,7 +1173,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new Term(kernel, new ExpressionNode(kernel, lt,
 								Operation.CSC, null), ""));
 			} else {
-				String[] str = { "IllegalArgument", "csc", lt.toString() };
+				str = new String[]{ "IllegalArgument", "csc", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1200,7 +1188,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new Term(kernel, new ExpressionNode(kernel, lt,
 								Operation.SEC, null), ""));
 			} else {
-				String[] str = { "IllegalArgument", "sec", lt.toString() };
+				str = new String[]{ "IllegalArgument", "sec", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1215,7 +1203,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new Term(kernel, new ExpressionNode(kernel, lt,
 								Operation.COT, null), ""));
 			} else {
-				String[] str = { "IllegalArgument", "cot", lt.toString() };
+				str = new String[]{ "IllegalArgument", "cot", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1230,7 +1218,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new ExpressionNode(kernel, lt, Operation.CSCH, null),
 						""));
 			} else {
-				String[] str = { "IllegalArgument", "csch", lt.toString() };
+				str = new String[]{ "IllegalArgument", "csch", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1245,7 +1233,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new ExpressionNode(kernel, lt, Operation.SECH, null),
 						""));
 			} else {
-				String[] str = { "IllegalArgument", "sech", lt.toString() };
+				str = new String[]{ "IllegalArgument", "sech", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1260,7 +1248,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new ExpressionNode(kernel, lt, Operation.COTH, null),
 						""));
 			} else {
-				String[] str = { "IllegalArgument", "coth", lt.toString() };
+				str = new String[]{ "IllegalArgument", "coth", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1283,7 +1271,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return vec;
 
 			} else {
-				String[] str = { "IllegalArgument", "exp", lt.toString() };
+				str = new String[]{ "IllegalArgument", "exp", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1306,7 +1294,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return vec;
 
 			} else {
-				String[] str = { "IllegalArgument", "log", lt.toString() };
+				str = new String[]{ "IllegalArgument", "log", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1315,7 +1303,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			if (lt.isNumberValue() && rt.isNumberValue()) {
 				return ((NumberValue) rt).getNumber().log((NumberValue) lt);
 			} else {
-				String[] str = { "IllegalArgument", "log", lt.toString(),
+				str = new String[]{ "IllegalArgument", "log", lt.toString(),
 						rt.toString() };
 				throw new MyError(app, str);
 			}
@@ -1326,7 +1314,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return ((NumberValue) rt).getNumber().gammaIncomplete(
 						(NumberValue) lt);
 			} else {
-				String[] str = { "IllegalArgument", "gammaIncomplete",
+				str = new String[]{ "IllegalArgument", "gammaIncomplete",
 						lt.toString(), rt.toString() };
 				throw new MyError(app, str);
 			}
@@ -1337,7 +1325,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return ((NumberValue) rt).getNumber()
 						.gammaIncompleteRegularized((NumberValue) lt);
 			} else {
-				String[] str = { "IllegalArgument",
+				str = new String[]{ "IllegalArgument",
 						"gammaIncompleteRegularized", lt.toString(),
 						rt.toString() };
 				throw new MyError(app, str);
@@ -1348,7 +1336,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			if (lt.isNumberValue() && rt.isNumberValue()) {
 				return ((NumberValue) rt).getNumber().beta((NumberValue) lt);
 			} else {
-				String[] str = { "IllegalArgument", "beta", lt.toString(),
+				str = new String[]{ "IllegalArgument", "beta", lt.toString(),
 						rt.toString() };
 				throw new MyError(app, str);
 			}
@@ -1359,7 +1347,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return ((NumberValue) rt).getNumber().betaIncomplete(
 						(VectorValue) lt);
 			} else {
-				String[] str = { "IllegalArgument", "betaIncomplete",
+				str = new String[]{ "IllegalArgument", "betaIncomplete",
 						lt.toString(), rt.toString() };
 				throw new MyError(app, str);
 			}
@@ -1370,7 +1358,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return ((NumberValue) rt).getNumber()
 						.betaIncompleteRegularized((VectorValue) lt);
 			} else {
-				String[] str = { "IllegalArgument",
+				str = new String[]{ "IllegalArgument",
 						"betaIncompleteRegularized", lt.toString(),
 						rt.toString() };
 				throw new MyError(app, str);
@@ -1381,7 +1369,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().erf();
 			} else {
-				String[] str = { "IllegalArgument", "erf", lt.toString() };
+				str = new String[]{ "IllegalArgument", "erf", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1390,7 +1378,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().psi();
 			} else {
-				String[] str = { "IllegalArgument", "erf", lt.toString() };
+				str = new String[]{ "IllegalArgument", "erf", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1400,7 +1388,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return ((NumberValue) rt).getNumber().polygamma(
 						(NumberValue) lt);
 			} else {
-				String[] str = { "IllegalArgument", "polygamma", lt.toString(),
+				str = new String[]{ "IllegalArgument", "polygamma", lt.toString(),
 						rt.toString() };
 				throw new MyError(app, str);
 			}
@@ -1416,7 +1404,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new ExpressionNode(kernel, lt, Operation.LOG10, null),
 						""));
 			} else {
-				String[] str = { "IllegalArgument", "lg", lt.toString() };
+				str = new String[]{ "IllegalArgument", "lg", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1431,7 +1419,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new ExpressionNode(kernel, lt, Operation.LOG2, null),
 						""));
 			} else {
-				String[] str = { "IllegalArgument", "ld", lt.toString() };
+				str = new String[]{ "IllegalArgument", "ld", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1453,7 +1441,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return vec;
 
 			} else {
-				String[] str = { "IllegalArgument", "sqrt", lt.toString() };
+				str = new String[]{ "IllegalArgument", "sqrt", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1475,7 +1463,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return vec;
 
 			} else {
-				String[] str = { "IllegalArgument", "cbrt", lt.toString() };
+				str = new String[]{ "IllegalArgument", "cbrt", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1491,7 +1479,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return vec;
 
 			} else {
-				String[] str = { "IllegalArgument", "cbrt", lt.toString() };
+				str = new String[]{ "IllegalArgument", "cbrt", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1506,7 +1494,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return new MyDouble(kernel,
 						((NumberValue) lt).getDouble() < 0 ? Math.PI : 0);
 			} else {
-				String[] str = { "IllegalArgument", "arg", lt.toString() };
+				str = new String[]{ "IllegalArgument", "arg", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1529,7 +1517,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return new MyDouble(kernel, GeoVec2D.complexAbs(vec));
 
 			} else {
-				String[] str = { "IllegalArgument", "abs", lt.toString() };
+				str = new String[]{ "IllegalArgument", "abs", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1544,7 +1532,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new Term(kernel, new ExpressionNode(kernel, lt,
 								Operation.SGN, null), ""));
 			} else {
-				String[] str = { "IllegalArgument", "sgn", lt.toString() };
+				str = new String[]{ "IllegalArgument", "sgn", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1559,7 +1547,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new ExpressionNode(kernel, lt, Operation.FLOOR, null),
 						""));
 			} else {
-				String[] str = { "IllegalArgument", "floor", lt.toString() };
+				str = new String[]{ "IllegalArgument", "floor", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1574,7 +1562,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new ExpressionNode(kernel, lt, Operation.CEIL, null),
 						""));
 			} else {
-				String[] str = { "IllegalArgument", "ceil", lt.toString() };
+				str = new String[]{ "IllegalArgument", "ceil", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1589,7 +1577,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new ExpressionNode(kernel, lt, Operation.ROUND, null),
 						""));
 			} else {
-				String[] str = { "IllegalArgument", "round", lt.toString() };
+				str = new String[]{ "IllegalArgument", "round", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1604,7 +1592,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new ExpressionNode(kernel, lt, Operation.FACTORIAL,
 								null), ""));
 			} else {
-				String[] str = { "IllegalArgument", lt.toString(), " !" };
+				str = new String[]{ "IllegalArgument", lt.toString(), " !" };
 				throw new MyError(app, str);
 			}
 
@@ -1619,7 +1607,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new ExpressionNode(kernel, lt, Operation.GAMMA, null),
 						""));
 			} else {
-				String[] str = { "IllegalArgument", "gamma", lt.toString() };
+				str = new String[]{ "IllegalArgument", "gamma", lt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1646,7 +1634,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt instanceof GeoLine) {
 				return new MyDouble(kernel, ((GeoLine) lt).x);
 			} else {
-				String[] str = { "IllegalArgument", "x(", lt.toString(), ")" };
+				str = new String[]{ "IllegalArgument", "x(", lt.toString(), ")" };
 				throw new MyError(app, str);
 			}
 
@@ -1667,7 +1655,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt instanceof GeoLine) {
 				return new MyDouble(kernel, ((GeoLine) lt).y);
 			} else {
-				String[] str = { "IllegalArgument", "y(", lt.toString(), ")" };
+				str = new String[]{ "IllegalArgument", "y(", lt.toString(), ")" };
 				throw new MyError(app, str);
 			}
 
@@ -1723,7 +1711,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			{
 				// Application.debug("FUNCTION lt: " + lt + ", " + lt.getClass()
 				// + " rt: " + rt + ", " + rt.getClass());
-				String[] str = { "IllegalArgument", rt.toString() };
+				str = new String[]{ "IllegalArgument", rt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1769,7 +1757,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else {
 				// Application.debug("FUNCTION lt: " + lt + ", " + lt.getClass()
 				// + " rt: " + rt + ", " + rt.getClass());
-				String[] str = { "IllegalArgument", rt.toString() };
+				str = new String[]{ "IllegalArgument", rt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1866,7 +1854,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else {
 				// Application.debug("lt: " + lt.getClass() + " rt: " +
 				// rt.getClass());
-				String[] str = { "IllegalArgument", rt.toString() };
+				str = new String[]{ "IllegalArgument", rt.toString() };
 				throw new MyError(app, str);
 			}
 
@@ -1891,7 +1879,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 								Operation.DERIVATIVE, rt), ""));
 			}
 			// error if we get here
-			String[] str = { "IllegalArgument", rt.toString() };
+			str = new String[]{ "IllegalArgument", rt.toString() };
 			throw new MyError(app, str);
 
 		default:

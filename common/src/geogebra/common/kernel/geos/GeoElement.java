@@ -3320,6 +3320,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	@Override
+	@Deprecated
 	public final String toString() {
 		return toString(kernel.getStringTemplate());
 	}

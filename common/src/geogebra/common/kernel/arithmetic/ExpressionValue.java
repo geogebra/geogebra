@@ -49,12 +49,16 @@ public interface ExpressionValue {
 	public ExpressionValue deepCopy(Kernel kernel);
     public ExpressionValue evaluate();
     public HashSet<GeoElement> getVariables();   
+    @Deprecated
     public String toValueString();
+    @Deprecated
+    public String toString();
     public String toOutputValueString();
     public String toLaTeXString(boolean symbolic);   
     public void resolveVariables();
 	public String toRealString();
 	public Kernel getKernel();
 	public String toString(StringTemplate tpl);
+	public String toValueString(StringTemplate tpl);
 }
 
