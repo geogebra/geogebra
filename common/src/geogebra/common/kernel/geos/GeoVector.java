@@ -28,6 +28,7 @@ import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoDependentVector;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -67,18 +68,22 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		//setEuclidianVisible(false);
 	}
 
+	@Override
 	public String getClassName() {
 		return "GeoVector";
 	}
 
+	@Override
 	public String getTypeString() {
 		return "Vector";
 	}
 
+	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.VECTOR;
 	}   
 
+	@Override
 	final public boolean isCasEvaluableObject() {
 		return true;
 	}
@@ -96,6 +101,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		//setEuclidianVisible(false);
 	}
 
+	@Override
 	final public void setCoords(double x, double y, double z) {
 		this.x = x;
 		this.y = y;
@@ -106,12 +112,14 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		setCoords(c[0],c[1],c[2]);
 	}  
 
+	@Override
 	final public void setCoords(GeoVec3D v) {
 		x = v.x;
 		y = v.y;
 		z = v.z;
 	} 
 
+	@Override
 	public void set(GeoElement geo) {
 		super.set(geo);	
 		if (!geo.isGeoVector()) return;
@@ -139,6 +147,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		}		
 	}
 
+	@Override
 	public GeoElement copy() {
 		return new GeoVector(this);        
 	} 
@@ -263,6 +272,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		waitingForStartPoint = true;
 	}
 
+	@Override
 	public void doRemove() {
 		super.doRemove();
 		// tell startPoint	
@@ -273,14 +283,17 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		return !isInfinite();
 	}
 
+	@Override
 	final public boolean isInfinite() {
 		return Double.isInfinite(x) || Double.isInfinite(y);  
 	}
 
+	@Override
 	final protected boolean showInEuclidianView() {               
 		return isDefined() && !isInfinite();
 	}    
 
+	@Override
 	public final boolean showInAlgebraView() {
 		// independent or defined
 		// return isIndependent() || isDefined();
@@ -292,6 +305,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 	 * those of vector v. Infinite points are checked for linear dependency.
 	 */
 	// Michael Borcherds 2008-05-01
+	@Override
 	final public boolean isEqual(GeoElement geo) {        
 
 		if (!geo.isGeoVector()) return false;
@@ -354,7 +368,8 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 
 	/*********************************************************************/   
 
-	final public String toString() {            
+	@Override
+	final public String toString(StringTemplate tpl) {            
 		sbToString.setLength(0);
 		sbToString.append(label);
 
@@ -371,10 +386,11 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 			sbToString.append(" = ");
 		}
 
-		sbToString.append(buildValueString());
+		sbToString.append(buildValueString(tpl));
 		return sbToString.toString();
 	}
 
+	@Override
 	final public String toStringMinimal() {            
 		sbToString.setLength(0);
 		sbToString.append(regrFormat(x) + " " + regrFormat(y));
@@ -384,14 +400,15 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 	
 	private StringBuilder sbToString = new StringBuilder(50); 
 
-	final public String toValueString() {
-		return buildValueString().toString();
+	@Override
+	final public String toValueString(StringTemplate tpl) {
+		return buildValueString(tpl).toString();
 	}
 
-	private StringBuilder buildValueString() {
+	private StringBuilder buildValueString(StringTemplate tpl) {
 		sbBuildValueString.setLength(0);
 
-		switch (kernel.getCASPrintForm()) {
+		switch (tpl.getStringType()) {
 		case MATH_PIPER:
 			sbBuildValueString.append("{");
 			sbBuildValueString.append(getInhomVec().x);
@@ -462,14 +479,17 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		return ret;
 	}        
 
+	@Override
 	public boolean isConstant() {
 		return false;
 	}
 
+	@Override
 	public boolean isLeaf() {
 		return true;
 	}
 
+	@Override
 	public HashSet<GeoElement> getVariables() {
 		HashSet<GeoElement> varset = new HashSet<GeoElement>();        
 		varset.add(this);        
@@ -480,11 +500,13 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 	/** POLAR or CARTESIAN */
 
 
+	@Override
 	public ExpressionValue evaluate() { return this; }
 
 	/**
 	 * returns all class-specific xml tags for saveXML
 	 */
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 		//	line thickness and type  
@@ -511,18 +533,22 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 
 	}   
 
+	@Override
 	public boolean isNumberValue() {
 		return false;
 	}
 
+	@Override
 	public boolean isVectorValue() {
 		return true;
 	}
 
+	@Override
 	public boolean isPolynomialInstance() {
 		return false;
 	}   
 
+	@Override
 	public boolean isTextValue() {
 		return false;
 	}   
@@ -564,6 +590,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		return pathSegment.isOnPath(P, eps);
 	}
 
+	@Override
 	public boolean isPath() {
 		return true;
 	}
@@ -615,6 +642,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		pathSegment.calcLength(); 
 	}
 
+	@Override
 	public boolean isGeoVector() {
 		return true;
 	}
@@ -623,16 +651,19 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		return false;
 	}
 
+	@Override
 	public boolean isVector3DValue() {
 		return false;		
 	}
 
+	@Override
 	public boolean isMatrixTransformable() {
 		return true;
 	}
 
 	private StringBuilder sb;
 
+	@Override
 	public String toLaTeXString(boolean symbolic) {
 		if (sb == null) sb = new StringBuilder();
 		else sb.setLength(0);
@@ -708,6 +739,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 	}
 
 
+	@Override
 	public boolean hasDrawable3D(){
 		return true;
 	}
@@ -733,10 +765,12 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 
 	}
 	
+	@Override
 	public  boolean isLaTeXDrawableGeo(String latexStr) {
 		return true;
 	}
 	
+	@Override
 	public ArrayList<String> getColumnHeadings() {
 		if (spreadsheetColumnHeadings == null) {
 			spreadsheetColumnHeadings = new ArrayList<String>();
@@ -750,6 +784,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		return spreadsheetColumnHeadings;
 	}
 	
+	@Override
 	public ArrayList<GeoNumeric> getSpreadsheetTraceList() {
 		if (spreadsheetTraceList == null) {
 			spreadsheetTraceList = new ArrayList<GeoNumeric>();

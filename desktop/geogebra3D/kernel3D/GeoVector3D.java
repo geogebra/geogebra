@@ -6,6 +6,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Locateable;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
@@ -186,11 +187,11 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
 	// TO STRING
 	// /////////////////////////////////////////////
 
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(label);
 
-		switch (((Kernel) kernel).getCoordStyle()) {
+		switch (kernel.getCoordStyle()) {
 		case Kernel.COORD_STYLE_FRENCH:
 			// no equal sign
 			sbToString.append(": ");
@@ -209,7 +210,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
 
 	private StringBuilder sbToString = new StringBuilder(50);
 
-	final public String toValueString() {
+	final public String toValueString(StringTemplate tpl) {
 		return buildValueString().toString();
 	}
 

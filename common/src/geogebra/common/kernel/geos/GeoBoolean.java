@@ -15,6 +15,7 @@ package geogebra.common.kernel.geos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyBoolean;
@@ -209,8 +210,8 @@ AbsoluteScreenLocateable {
 	}
 	
 	@Override
-	final public String toValueString() {
-		switch (kernel.getCASPrintForm()) {
+	final public String toValueString(StringTemplate tpl) {
+		switch (tpl.getStringType()) {
 			case MATH_PIPER:
 				return value ? "True" : "False";							
 		
@@ -220,12 +221,12 @@ AbsoluteScreenLocateable {
 	}
 	
 	@Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
 		StringBuilder sbToString = getSbToString();
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(" = ");
-		sbToString.append(toValueString());
+		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
 	}
 	

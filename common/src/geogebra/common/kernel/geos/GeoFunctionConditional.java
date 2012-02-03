@@ -14,6 +14,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -312,7 +313,7 @@ public class GeoFunctionConditional extends GeoFunction {
 
 	
 	@Override
-	public final String toString() {
+	public final String toString(StringTemplate tpl) {
 		sbToString.setLength(0);
 		if (isLabelSet()) {
 			sbToString.append(label);
@@ -324,28 +325,28 @@ public class GeoFunctionConditional extends GeoFunction {
 	private StringBuilder sbToString = new StringBuilder(80);
 	
 	@Override
-	final public String toValueString() {					
-		return toString(false);
+	final public String toValueString(StringTemplate tpl) {					
+		return toString(tpl,false);
 	}	
 	
 	@Override
 	final public String toSymbolicString() {					
-		return toString(true);
+		return toString(kernel.getStringTemplate(),true);
 	}
 	
 	@Override
 	public String getCASString(boolean symbolic) {
-		return toString(symbolic);
+		return toString(kernel.getStringTemplate(),symbolic);
 	}
 	
-	private String toString(boolean symbolic) {		
+	private String toString(StringTemplate tpl,boolean symbolic) {		
 		if (!isDefined())
 			return app.getPlain("undefined");
 		
 		// for CAS, translate to CAS format :)
-		if (kernel.getCASPrintForm() .equals(StringType.MATH_PIPER)
-				|| kernel.getCASPrintForm() .equals(StringType.MAXIMA)
-				|| kernel.getCASPrintForm() .equals(StringType.MPREDUCE)) {
+		if (tpl.hasType(StringType.MATH_PIPER)
+				|| tpl.hasType(StringType.MAXIMA)
+				|| tpl.hasType(StringType.MPREDUCE)) {
 			//TODO: implement if in mpreduce
 			CASGenericInterface cas = kernel.getGeoGebraCAS().getCurrentCAS();
 			String cmd = cas.getTranslatedCASCommand(elseFun == null ? "If.2" : "If.3");
@@ -393,7 +394,7 @@ public class GeoFunctionConditional extends GeoFunction {
 	
 	@Override
 	final public String toLaTeXString(boolean symbolic) {	
-		return toString(symbolic);
+		return toString(kernel.getStringTemplate(),symbolic);
 	}
 
 	@Override

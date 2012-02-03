@@ -22,6 +22,7 @@ import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.RegionParameters;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.TransformMirror;
 import geogebra.common.kernel.Matrix.CoordNearest;
 import geogebra.common.kernel.Matrix.Coords;
@@ -331,18 +332,18 @@ implements LimitedPath, NumberValue, LineProperties {
 	}
 	
     @Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(" = ");
-		sbToString.append(toValueString());			     
+		sbToString.append(toValueString(tpl));			     
         return sbToString.toString();
     }
     
 	private StringBuilder sbToString = new StringBuilder(50);
 	
 	@Override
-	final public String toValueString() {
+	final public String toValueString(StringTemplate tpl) {
 		if(value_defined)
 			return kernel.format(value);
 		return kernel.format(Double.NaN);

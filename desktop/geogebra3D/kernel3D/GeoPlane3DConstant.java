@@ -1,6 +1,7 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra3D.euclidian3D.EuclidianView3D;
 
 public class GeoPlane3DConstant extends GeoPlane3D {
@@ -60,7 +61,7 @@ public class GeoPlane3DConstant extends GeoPlane3D {
 		return true;
 	}
 	
-	public String toValueString() {
+	public String toValueString(StringTemplate tpl) {
 		return label;
 	}
 	

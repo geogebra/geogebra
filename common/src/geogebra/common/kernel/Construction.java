@@ -1011,7 +1011,7 @@ public class Construction {
 
 		// change kernel settings temporarily
 		int oldCoordStlye = kernel.getCoordStyle();
-		StringType oldPrintForm = kernel.getCASPrintForm();
+		StringType oldPrintForm = kernel.getStringTemplate().getStringType();
 		boolean oldValue = kernel.isPrintLocalizedCommandNames();
 		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
 		kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
@@ -1065,7 +1065,7 @@ public class Construction {
 
 		// change kernel settings temporarily
 		int oldCoordStlye = kernel.getCoordStyle();
-		StringType oldPrintForm = kernel.getCASPrintForm();
+		StringType oldPrintForm = kernel.getStringTemplate().getStringType();
 		boolean oldValue = kernel.isPrintLocalizedCommandNames();
 		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
 		// kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
@@ -1115,7 +1115,7 @@ public class Construction {
 
 		// change kernel settings temporarily
 		int oldCoordStlye = kernel.getCoordStyle();
-		StringType oldPrintForm = kernel.getCASPrintForm();
+		StringType oldPrintForm = kernel.getStringTemplate().getStringType();
 		boolean oldValue = kernel.isPrintLocalizedCommandNames();
 		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
 		kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
@@ -1435,7 +1435,7 @@ public class Construction {
 
 		// change kernel settings temporarily
 		int oldCoordStlye = kernel.getCoordStyle();
-		StringType oldPrintForm = kernel.getCASPrintForm();
+		StringType oldPrintForm = kernel.getStringTemplate().getStringType();
 		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
 		kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
 

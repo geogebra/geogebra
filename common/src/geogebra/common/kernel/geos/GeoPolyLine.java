@@ -18,6 +18,7 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -157,7 +158,7 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path, Tracea
 	}
 
 	
-   final public String toString() {
+   final public String toString(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(" = ");
@@ -166,7 +167,7 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path, Tracea
    }      
    private StringBuilder sbToString = new StringBuilder(50);
    
-   final public String toValueString() {
+   final public String toValueString(StringTemplate tpl) {
 	   return kernel.format(getLength());
    }
 

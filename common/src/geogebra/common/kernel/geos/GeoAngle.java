@@ -21,6 +21,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.Kernel;
@@ -384,7 +385,7 @@ public class GeoAngle extends GeoNumeric {
 	// Michael Borcherds 2007-10-21 END	
 
 	@Override
-	final public String toValueString() {
+	final public String toValueString(StringTemplate tpl) {
 		return isEuclidianVisible() ? kernel.formatAngle(value, 1/getAnimationStep()).toString() : kernel.formatAngle(value).toString();
 	}
 

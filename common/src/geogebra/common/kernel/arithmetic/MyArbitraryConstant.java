@@ -2,6 +2,7 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 
 public class MyArbitraryConstant extends MyDouble {
 	
@@ -48,8 +49,8 @@ public class MyArbitraryConstant extends MyDouble {
 	}
 	
 	@Override
-	public String toString() {
-		switch (kernel.getCASPrintForm()) {						
+	public String toString(StringTemplate tpl) {
+		switch (kernel.getStringTemplate().getStringType()) {						
 			case LATEX:
 				// return e.g. "k_1" 
 				return latexString;

@@ -75,7 +75,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
     }
  
     public void generateAllCode() {
-    	StringType oldCASPrintform = kernel.getCASPrintForm();
+    	StringType oldCASPrintform = kernel.getStringTemplate().getStringType();
 		kernel.setCASPrintForm(StringType.PGF);
 
 		format=frame.getFormat();

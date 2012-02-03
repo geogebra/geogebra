@@ -1,6 +1,7 @@
 package geogebra.common.kernel.kernelND;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -131,7 +132,7 @@ public abstract class GeoCurveCartesianND extends GeoElement{
 
 	
 	
-	public String toString() {
+	public String toString(StringTemplate tpl) {
 		if (sbToString == null) {
 			sbToString = new StringBuilder(80);
 		}
@@ -142,7 +143,7 @@ public abstract class GeoCurveCartesianND extends GeoElement{
 			sbToString.append(fun[0].getFunctionVariables()[0].toString());
 			sbToString.append(") = ");					
 		}		
-		sbToString.append(toValueString());
+		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
 	}
 	protected StringBuilder sbToString;
@@ -150,7 +151,7 @@ public abstract class GeoCurveCartesianND extends GeoElement{
 	
 	
 
-	public String toValueString() {		
+	public String toValueString(StringTemplate tpl) {		
 		if (isDefined) {
 			if (sbTemp == null) {
 				sbTemp = new StringBuilder(80);
@@ -159,7 +160,7 @@ public abstract class GeoCurveCartesianND extends GeoElement{
 			sbTemp.append('(');
 			
 			for (int i=0; i< fun.length;i++){
-			sbTemp.append(fun[i].toValueString());
+			sbTemp.append(fun[i].toValueString(tpl));
 			if (i<fun.length-1)
 				sbTemp.append(", ");
 			}

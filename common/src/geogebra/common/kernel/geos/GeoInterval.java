@@ -1,6 +1,7 @@
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
@@ -96,7 +97,7 @@ public class GeoInterval extends GeoFunction {
 	private StringBuilder sbToString2;
 
 	@Override
-	public String toString() {
+	public String toString(StringTemplate tpl) {
 		if (sbToString2 == null)
 			sbToString2 = new StringBuilder();
 		else
@@ -110,7 +111,7 @@ public class GeoInterval extends GeoFunction {
 	}
 
 	@Override
-	public String toValueString() {
+	public String toValueString(StringTemplate tpl) {
 		return toString(false);
 	}
 

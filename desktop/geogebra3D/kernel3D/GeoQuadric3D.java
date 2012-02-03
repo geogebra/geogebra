@@ -3,6 +3,7 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.RegionParameters;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
@@ -270,13 +271,13 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		return true;
 	}
 
-	protected StringBuilder buildValueString() {
+	protected StringBuilder buildValueString(StringTemplate tpl) {
 
 		sbToValueString().setLength(0);
 
 		switch (type) {
 		case QUADRIC_SPHERE:
-			buildSphereNDString();
+			buildSphereNDString(tpl);
 			break;
 		case QUADRIC_CONE:
 		case QUADRIC_CYLINDER:

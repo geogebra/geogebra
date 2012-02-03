@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 
@@ -413,7 +414,7 @@ public class Polynomial extends ValidExpression implements Serializable
 	}
 
 	@Override
-	public String toString() {
+	public String toString(StringTemplate tpl) {
 		int size = terms.size();
 		if (size == 0)
 			return null;
@@ -443,8 +444,8 @@ public class Polynomial extends ValidExpression implements Serializable
 		return sb.toString();
 	}
 
-	public String toValueString() {
-		return toString();
+	public String toValueString(StringTemplate tpl) {
+		return toString(tpl);
 	}
 
 	final public String toLaTeXString(boolean symbolic) {

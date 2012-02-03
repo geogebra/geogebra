@@ -539,7 +539,7 @@ public class CopyPaste {
 		beforeSavingToXML(geoslocal, geostohide, false);
 		// change kernel settings temporarily
 		int oldCoordStlye = kernel.getCoordStyle();
-		StringType oldPrintForm = kernel.getCASPrintForm();
+		StringType oldPrintForm = kernel.getStringTemplate().getStringType();
 		boolean oldValue = kernel.isPrintLocalizedCommandNames();
 		boolean saveScriptsToXML = kernel.getSaveScriptsToXML();
 		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);

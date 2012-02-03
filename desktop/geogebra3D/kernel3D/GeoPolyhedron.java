@@ -2,6 +2,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionElementCycle;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoElement;
@@ -919,7 +920,7 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 	}
 
 	@Override
-	public String toValueString() {
+	public String toValueString(StringTemplate tpl) {
 		// TODO Auto-generated method stub
 		return "todo-GeoPolyhedron";
 	}

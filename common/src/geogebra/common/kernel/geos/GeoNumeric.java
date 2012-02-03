@@ -22,6 +22,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -391,12 +392,12 @@ implements NumberValue, AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 		return -1;
 	}
 
-	public String toString() {
+	public String toString(StringTemplate tpl) {
 		if(sbToString == null)return null;
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(" = ");
-		sbToString.append(toValueString());
+		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
 	}
 
@@ -415,7 +416,7 @@ implements NumberValue, AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 	private ArrayList<GeoNumeric> minMaxListeners;
 	private boolean randomSlider = false;
 
-	public String toValueString() {
+	public String toValueString(StringTemplate tpl) {
 		return kernel.format(value);
 	}
 

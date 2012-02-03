@@ -1,6 +1,7 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.plugin.GeoClass;
@@ -77,7 +78,7 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		return GeoClass.AXIS3D;
 	}
 		
-	public String toValueString() {
+	public String toValueString(StringTemplate tpl) {
 		return label;
 	}
 		

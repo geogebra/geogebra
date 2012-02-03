@@ -3,6 +3,7 @@ package geogebra.common.kernel.geos;
 import geogebra.common.awt.Font;
 import geogebra.common.cas.CASException;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -1578,8 +1579,8 @@ public class GeoCasCell extends GeoElement {
 	}
 
 	@Override
-	public String toValueString() {
-		return toString();
+	public String toValueString(StringTemplate tpl) {
+		return toString(tpl);
 	}
 
 	@Override
@@ -1622,7 +1623,7 @@ public class GeoCasCell extends GeoElement {
 
 		// row reference like $5
 		StringBuilder sb = new StringBuilder();
-		switch (kernel.getCASPrintForm()) {
+		switch (kernel.getStringTemplate().getStringType()) {
 		// send output to underlying CAS
 		case MPREDUCE:
 		case MAXIMA:
@@ -1643,7 +1644,7 @@ public class GeoCasCell extends GeoElement {
 	}
 
 	@Override
-	public String toString() {
+	public String toString(StringTemplate tpl) {
 		return getInput();
 	}
 

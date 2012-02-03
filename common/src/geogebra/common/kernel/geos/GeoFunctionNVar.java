@@ -18,6 +18,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.RegionParameters;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -92,15 +93,18 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		setLabel(label);		
 	}
 	
+	@Override
 	public String getClassName() {
 		return "GeoFunctionNVar";
 	}
 	
+	@Override
 	public String getTypeString() {
 		return isInequality ? "Inequality":"FunctionNVar";
 	}
 	
-    public GeoClass getGeoClassType() {
+    @Override
+	public GeoClass getGeoClassType() {
     	return GeoClass.FUNCTION_NVAR;
     }
 
@@ -111,10 +115,12 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		set(f);
 	}
 
+	@Override
 	public GeoElement copy() {
 		return new GeoFunctionNVar(this);
 	}
 	
+	@Override
 	public void set(GeoElement geo) {
 		GeoFunctionNVar geoFun = (GeoFunctionNVar) geo;				
 						
@@ -221,10 +227,12 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	
 
 	
+	@Override
 	public ExpressionValue evaluate() {
 		return this;
 	}
 	
+	@Override
 	public boolean isDefined() {
 		return isDefined && fun != null;
 	}
@@ -236,14 +244,17 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		isDefined = defined;
 	}
 
+	@Override
 	public void setUndefined() {
 		isDefined = false;
 	}
 
+	@Override
 	public boolean showInAlgebraView() {
 		return true;
 	}
 
+	@Override
 	protected boolean showInEuclidianView() {
 		return isDefined() && (!isBooleanFunction() || isInequality);
 	}
@@ -262,6 +273,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		return sbToString.toString();
 	}
 	
+	@Override
 	public String getAssignmentLHS(){
 		sbToString.setLength(0);
 		sbToString.append(label);
@@ -273,7 +285,8 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	/**
 	 * @return function description as f(x,y)=... for real and e.g. f:x>4*y for bool
 	 */
-	public String toString() {	
+	@Override
+	public String toString(StringTemplate tpl) {	
 		if (isLabelSet() && !isBooleanFunction())
 			return toXMLString();
 		sbToString.setLength(0);
@@ -281,12 +294,13 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			sbToString.append(label);
 			sbToString.append(": ");
 		}
-		sbToString.append(toValueString());
+		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
 	}
 	
 	private StringBuilder sbToString = new StringBuilder(80);
-	public String toValueString() {			
+	@Override
+	public String toValueString(StringTemplate tpl) {			
 		if (isDefined())
 			return fun.toValueString();
 		else
@@ -300,6 +314,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			return app.getPlain("undefined");
 	}
 	
+	@Override
 	public String toLaTeXString(boolean symbolic) {
 		if (isDefined())
 			return fun.toLaTeXString(symbolic);
@@ -315,6 +330,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	/**
 	 * save object in xml format
 	 */ 
+	@Override
 	public final void getXML(StringBuilder sb) {
 
 		// an indpendent function needs to add
@@ -344,22 +360,27 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		sb.append("</element>\n");
 	}
 
+	@Override
 	final public boolean isCasEvaluableObject() {
 		return true;
 	}
 
+	@Override
 	public boolean isNumberValue() {
 		return false;		
 	}
 
+	@Override
 	public boolean isVectorValue() {
 		return false;
 	}
 
+	@Override
 	public boolean isPolynomialInstance() {
 		return false;
 	}   
 
+	@Override
 	public boolean isTextValue() {
 		return false;
 	}
@@ -391,6 +412,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 
 	
     // Michael Borcherds 2009-02-15
+	@Override
 	public boolean isEqual(GeoElement geo) {
 		if (!(geo instanceof GeoFunctionNVar))
 			return false;
@@ -398,6 +420,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			return isDifferenceZeroInCAS(geo);		
 	}
 	
+	@Override
 	public boolean isVector3DValue() {
 		return false;
 	}
@@ -406,6 +429,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	 * Returns a representation of geo in currently used CAS syntax.
 	 * For example, "a*x^2 + b*y"
 	 */
+	@Override
 	public String getCASString(boolean symbolic) {
 		return fun.getExpression().getCASstring(symbolic);
 	}
@@ -508,17 +532,20 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 
 		 //will be drawn as a surface if can be interpreted as (x,y)->z function
 		 //or implicit f(x,y,z)=0 function
-		 public boolean hasDrawable3D() {  		
+		 @Override
+		public boolean hasDrawable3D() {  		
 			 return getVarNumber()==2 || getVarNumber()==3;
 		 }
 
 	  	
+		@Override
 		public Coords getLabelPosition(){
 			return new Coords(0, 0, 0, 1); //TODO
 		}
 
 	    
 		/** to be able to fill it with an alpha value */
+		@Override
 		public boolean isFillable() {
 			if(fun==null)return true;
 			return hasDrawable3D();
@@ -541,11 +568,13 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			return fun.getIneqs();
 		}
 				
+		@Override
 		public void update(){
 			if(fun.isBooleanFunction())
 				isInequality = fun.updateIneqs();
 			super.update();
 		}
+		@Override
 		public boolean isRegion() {
 			return isBooleanFunction();
 		}
@@ -674,6 +703,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		 * Return the geo
 		 * @return geo element
 		 */
+		@Override
 		public GeoElement toGeoElement(){
 			return this;
 		}
@@ -681,6 +711,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		 * Returns true if the element is translateable
 		 * @return true
 		 */
+		@Override
 		public boolean isTranslateable(){
 			return true;
 		
@@ -756,14 +787,17 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			fun.matrixTransform(a00, a01, a02, a10, a11, a12, a20, a21, a22);
 			
 		}
+		@Override
 		public boolean isGeoFunctionNVar(){
 			return true;
 		}
 		
+		@Override
 		public  boolean isLaTeXDrawableGeo(String latexStr) {
 			return isLaTeXneeded(latexStr);
 		}
 		
+		@Override
 		protected void getXMLtags(StringBuilder sb) {
 			super.getXMLtags(sb);
 			

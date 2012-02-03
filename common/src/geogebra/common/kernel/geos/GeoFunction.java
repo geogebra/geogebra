@@ -20,6 +20,7 @@ import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.RegionParameters;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
@@ -569,7 +570,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 * @return function description as f(x)=... for real and e.g. f:x>4 for bool
 	 */
 	@Override
-	public String toString() {		
+	public String toString(StringTemplate tpl) {		
 		sbToString.setLength(0);
 		if(isLabelSet()) {
 			sbToString.append(label);
@@ -591,7 +592,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	private boolean showOnAxis;
 	
 	@Override
-	public String toValueString() {	
+	public String toValueString(StringTemplate tpl) {	
 
 		if (fun != null && isDefined())
 			return fun.toValueString();
@@ -1718,7 +1719,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	public String getFormulaString(StringType ExpressionNodeType, boolean substituteNumbers)
 	{
 
-		StringType tempCASPrintForm = kernel.getCASPrintForm();
+		StringType tempCASPrintForm = kernel.getStringTemplate().getStringType();
 		
 
 		String ret="";

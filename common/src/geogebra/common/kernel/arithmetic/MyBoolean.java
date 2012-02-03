@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 
 import java.util.HashSet;
@@ -37,7 +38,7 @@ public class MyBoolean extends ValidExpression implements BooleanValue {
     }
        
     @Override
-	public String toString() {    	
+	public String toString(StringTemplate tpl) {    	
         return value ? "true" : "false";
     }
 
@@ -84,8 +85,8 @@ public class MyBoolean extends ValidExpression implements BooleanValue {
         return null;
     }
 
-    final public String toValueString() {
-        return toString();
+    final public String toValueString(StringTemplate tpl) {
+        return toString(tpl);
     }
     
     final public String toLaTeXString(boolean symbolic) {

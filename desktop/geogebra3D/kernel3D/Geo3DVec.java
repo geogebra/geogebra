@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ListValue;
@@ -450,7 +451,7 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
 		return !(Double.isNaN(x) || Double.isNaN( y));
 	}
     
-    final public String toString() {          
+    final public String toString(StringTemplate tpl) {          
 		sbToString.setLength(0);
 		sbToString.append('(');
 		sbToString.append(kernel.format(x));
@@ -488,7 +489,7 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
         this.mode = mode;
     }
 
-	final public String toValueString() {
+	final public String toValueString(StringTemplate tpl) {
 		return toString();
 	}  
 	

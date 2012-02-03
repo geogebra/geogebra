@@ -20,6 +20,7 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
@@ -481,7 +482,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	// TODO remove and use super method (funX and funY should be removed in
 	// fun[])
 	@Override
-	public String toString() {
+	public String toString(StringTemplate tpl) {
 		if (sbToString == null) {
 			sbToString = new StringBuilder(80);
 		}
@@ -494,7 +495,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			// changed to ':' to make LaTeX output better
 			sbToString.append(':');
 		}
-		sbToString.append(toValueString());
+		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
 	}
 
@@ -504,7 +505,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	// TODO remove and use super method (funX and funY should be removed in
 	// fun[])
 	@Override
-	public String toValueString() {
+	public String toValueString(StringTemplate tpl) {
 
 		if (isDefined) {
 			if (sbTemp == null) {
@@ -512,7 +513,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			}
 			sbTemp.setLength(0);
 			sbTemp.append('(');
-			sbTemp.append(funX.toValueString());
+			sbTemp.append(funX.toValueString(tpl));
 			sbTemp.append(", ");
 			sbTemp.append(funY.toValueString());
 			sbTemp.append(')');

@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.util.Unicode;
 
@@ -105,7 +106,7 @@ public class MySpecialDouble extends MyDouble {
 	}
 
 	@Override
-	public String toString() {
+	public String toString(StringTemplate tpl) {
 		if (!isLetterConstant) {
 			if (keepOriginalString) {
 				if (scientificNotation) {
@@ -120,7 +121,7 @@ public class MySpecialDouble extends MyDouble {
 		}
 
 		// letter constants for pi, e, or degree character
-		StringType printForm = kernel.getCASPrintForm();
+		StringType printForm = tpl.getStringType();
 		switch (printForm) {
 		// case JASYMCA:
 		case MATH_PIPER:

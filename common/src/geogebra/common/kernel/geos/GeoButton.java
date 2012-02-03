@@ -14,6 +14,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.plugin.GeoClass;
 
 import geogebra.common.awt.Font;
@@ -125,12 +126,12 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	}
 	
 	@Override
-	public String toValueString() {
+	public String toValueString(StringTemplate tpl) {
 		return "";
 	}
 	
 	@Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
 		return label;
 	}
 	

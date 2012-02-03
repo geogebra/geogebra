@@ -19,6 +19,7 @@
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
@@ -570,8 +571,8 @@ public class MyList extends ValidExpression implements ListValue,
 	 * null; }
 	 */
 
-	public String toValueString() {
-		return toString(); // Michael Borcherds 2008-06-05
+	public String toValueString(StringTemplate tpl) {
+		return toString(tpl); // Michael Borcherds 2008-06-05
 		/*
 		 * int size = listElements.size(); for (int i=0; i < size; i++) {
 		 * ((ExpressionValue) listElements.get(i)).evaluate(); }
@@ -625,15 +626,15 @@ public class MyList extends ValidExpression implements ListValue,
 	// Michael Borcherds 2008-02-04
 	// adapted from GeoList
 	@Override
-	public String toString() {
+	public String toString(StringTemplate tpl) {
 
 		StringBuilder sb = new StringBuilder();
-		if (kernel.getCASPrintForm().equals(StringType.MAXIMA)) {
+		if (kernel.getStringTemplate().getStringType().equals(StringType.MAXIMA)) {
 			if (isMatrix())
 				sb.append("matrix(");
 			else
 				sb.append("[");
-		} else if (kernel.getCASPrintForm().equals(StringType.MPREDUCE)) {
+		} else if (kernel.getStringTemplate().getStringType().equals(StringType.MPREDUCE)) {
 			if (isMatrix())
 				sb.append("mat(");
 			else
@@ -655,12 +656,12 @@ public class MyList extends ValidExpression implements ListValue,
 			sb.append(exp.toString());
 		}
 
-		if (kernel.getCASPrintForm().equals(StringType.MAXIMA)) {
+		if (kernel.getStringTemplate().getStringType().equals(StringType.MAXIMA)) {
 			if (isMatrix())
 				sb.append(")");
 			else
 				sb.append("]");
-		} else if (kernel.getCASPrintForm().equals(StringType.MPREDUCE)) {
+		} else if (kernel.getStringTemplate().getStringType().equals(StringType.MPREDUCE)) {
 			sb.append(')');
 			if (isMatrix()) {
 				int index1;

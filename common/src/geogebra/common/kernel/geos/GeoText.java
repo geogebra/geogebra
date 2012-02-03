@@ -4,6 +4,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Locateable;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoSequence;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
@@ -266,7 +267,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 		str = null;
 	}
 
-	public String toValueString() {		
+	public String toValueString(StringTemplate tpl) {		
 		return str;		
 	}
 	
@@ -274,7 +275,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	 * Returns quoted text value string.
 	 */
 	public String toOutputValueString() {	
-		StringType printForm = kernel.getCASPrintForm();
+		StringType printForm = kernel.getStringTemplate().getStringType();
 		
 		sbToString.setLength(0);
 		if (printForm .equals(StringType.LATEX))
@@ -290,7 +291,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 		return sbToString.toString();	
 	}
 	
-	public String toString() {		
+	public String toString(StringTemplate tpl) {		
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(" = ");

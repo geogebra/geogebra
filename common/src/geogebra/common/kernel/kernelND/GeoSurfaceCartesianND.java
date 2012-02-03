@@ -1,6 +1,7 @@
 package geogebra.common.kernel.kernelND;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -127,7 +128,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 
 	
 	
-	public String toString() {
+	public String toString(StringTemplate tpl) {
 		if (sbToString == null) {
 			sbToString = new StringBuilder(80);
 		}
@@ -148,7 +149,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 	
 	
 
-	public String toValueString() {		
+	public String toValueString(StringTemplate tpl) {		
 		if (isDefined) {
 			if (sbTemp == null) {
 				sbTemp = new StringBuilder(80);

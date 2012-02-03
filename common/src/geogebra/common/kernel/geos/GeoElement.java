@@ -31,6 +31,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Locateable;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
@@ -587,7 +588,12 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	public abstract void setUndefined();
 
-	public abstract String toValueString();
+	public abstract String toValueString(StringTemplate tpl);
+	
+	@Deprecated
+	public final String toValueString(){
+		return toValueString(kernel.getStringTemplate());
+	}
 
 	private EuclidianViewInterfaceSlim viewForValueString;
 
@@ -1999,7 +2005,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			return null;
 		}
 
-		final StringType oldType = kernel.getCASPrintForm();
+		final StringType oldType = kernel.getStringTemplate().getStringType();
 		kernel.setCASPrintForm(type);
 		String retval;
 
@@ -3314,8 +3320,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	@Override
-	public String toString() {
-		return label;
+	public final String toString() {
+		return toString(kernel.getStringTemplate());
 	}
 
 	public String toRealString() {
@@ -5479,7 +5485,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	public String getFormulaString(final StringType ExpressionNodeType,
 			final boolean substituteNumbers) {
 
-		final StringType tempCASPrintForm = kernel.getCASPrintForm();
+		final StringType tempCASPrintForm = kernel.getStringTemplate().getStringType();
 		kernel.setCASPrintForm(ExpressionNodeType);
 
 		String ret = "";
@@ -6408,6 +6414,10 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 
 		return spreadsheetTraceList;
+	}
+
+	public String toString(StringTemplate tpl) {
+		return label;
 	}
 
 }

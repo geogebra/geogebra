@@ -1,6 +1,7 @@
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 
 /**
  * Dummy GeoElement to be used for symbolic variable resolving
@@ -19,13 +20,13 @@ public class GeoDummyVariable extends GeoNumeric {
 	}
 	
 	@Override
-	public String toString() {
+	public String toString(StringTemplate tpl) {
 		return kernel.printVariableName(varName);
 	}		
 	
 	@Override
-	public String toValueString() {
-		return toString();	
+	public String toValueString(StringTemplate tpl) {
+		return toString(tpl);	
 	}		
 
 }

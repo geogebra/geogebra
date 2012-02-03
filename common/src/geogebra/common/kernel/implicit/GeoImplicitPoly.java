@@ -23,6 +23,7 @@ import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoClosestPoint;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -301,18 +302,18 @@ Dilateable, Transformable, EuclidianViewCE {
 		return true;
 	}
 
-	private void addPow(StringBuilder sb, int i){
+	private void addPow(StringBuilder sb, int i,StringTemplate tpl){
 		if (i>1){
-			if (kernel.getCASPrintForm().equals(StringType.LATEX)){
+			if (tpl.getStringType().equals(StringType.LATEX)){
 				sb.append('^');
 				sb.append('{');
 				sb.append(i);
 				sb.append('}');
-			}else if ((kernel.getCASPrintForm().equals(StringType.JASYMCA))||
-						(kernel.getCASPrintForm().equals(StringType.GEOGEBRA_XML))||
-						(kernel.getCASPrintForm().equals(StringType.MATH_PIPER))||
-						(kernel.getCASPrintForm().equals(StringType.MAXIMA))||
-						(kernel.getCASPrintForm().equals(StringType.MPREDUCE))){
+			}else if ((tpl.getStringType().equals(StringType.JASYMCA))||
+						(tpl.getStringType().equals(StringType.GEOGEBRA_XML))||
+						(tpl.getStringType().equals(StringType.MATH_PIPER))||
+						(tpl.getStringType().equals(StringType.MAXIMA))||
+						(tpl.getStringType().equals(StringType.MPREDUCE))){
 				sb.append('^');
 				sb.append(i);
 			}else{
@@ -334,7 +335,7 @@ Dilateable, Transformable, EuclidianViewCE {
 	}
 	
 	@Override
-	protected String toRawValueString() {
+	protected String toRawValueString(StringTemplate tpl) {
 		if (coeff==null)
 			return "";		
 		StringBuilder sb=new StringBuilder();
@@ -344,7 +345,7 @@ Dilateable, Transformable, EuclidianViewCE {
 				if (i==0&&j==0){
 					if (first)
 						sb.append("0");
-					if (kernel.getCASPrintForm() .equals(StringType.MATH_PIPER)) 
+					if (tpl.getStringType() .equals(StringType.MATH_PIPER)) 
 						sb.append("== ");
 					else
 						sb.append("= ");
@@ -374,14 +375,14 @@ Dilateable, Transformable, EuclidianViewCE {
 						if (i>0){
 							sb.append('x');
 						}
-						addPow(sb,i);
+						addPow(sb,i,tpl);
 						if (j>0){
 							if (i>0){ //insert blank after x^i
 								sb.append(' ');
 							}
 							sb.append('y');
 						}
-						addPow(sb,j);
+						addPow(sb,j,tpl);
 						sb.append(' ');
 					}
 				}

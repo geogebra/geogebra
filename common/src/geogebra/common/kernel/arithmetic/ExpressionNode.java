@@ -21,6 +21,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
@@ -1159,7 +1160,7 @@ public class ExpressionNode extends ValidExpression implements
 	 *         CAS
 	 */
 	final public String getCASstring(StringType STRING_TYPE, boolean symbolic) {
-		StringType oldPrintForm = kernel.getCASPrintForm();
+		StringType oldPrintForm = kernel.getStringTemplate().getStringType();
 		kernel.setCASPrintForm(STRING_TYPE);
 
 		String ret = printCASstring(symbolic);
@@ -1175,7 +1176,7 @@ public class ExpressionNode extends ValidExpression implements
 	 * @return GeoGebra CAS string representation of this node
 	 */
 	final public String getCASstring(boolean symbolic) {
-		return getCASstring(kernel.getCASPrintForm(), symbolic);
+		return getCASstring(kernel.getStringTemplate().getStringType(), symbolic);
 	}
 
 	public boolean containsMyStringBuffer() {
@@ -1303,7 +1304,7 @@ public class ExpressionNode extends ValidExpression implements
 	 * Returns a string representation of this node.
 	 */
 	@Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
 		if (leaf) { // leaf is GeoElement or not
 			if (left.isGeoElement()) {
 				return ((GeoElement) left).getLabel();
@@ -1330,7 +1331,8 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/** like toString() but with current values of variables */
-	final public String toValueString() {
+	@Override
+	final public String toValueString(StringTemplate tpl) {
 		if (isLeaf()) { // leaf is GeoElement or not
 			if (left != null) {
 				return left.toValueString();
@@ -1398,7 +1400,7 @@ public class ExpressionNode extends ValidExpression implements
 		}
 
 		// build latex string
-		StringType oldPrintForm = kernel.getCASPrintForm();
+		StringType oldPrintForm = kernel.getStringTemplate().getStringType();
 		kernel.setCASPrintForm(StringType.LATEX);
 		String ret = operationToString(leftStr, rightStr, !symbolic);
 		kernel.setCASPrintForm(oldPrintForm);
@@ -1418,7 +1420,7 @@ public class ExpressionNode extends ValidExpression implements
 		ExpressionValue leftEval;
 		StringBuilder sb = new StringBuilder();
 
-		StringType STRING_TYPE = kernel.getCASPrintForm();
+		StringType STRING_TYPE = kernel.getStringTemplate().getStringType();
 
 		switch (operation) {
 		case NOT:

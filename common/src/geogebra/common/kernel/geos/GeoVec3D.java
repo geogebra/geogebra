@@ -20,6 +20,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 
@@ -377,7 +378,7 @@ implements Traceable {
     }       
     
     @Override
-	public String toString() {
+	public String toString(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append('(');
 		sbToString.append(x);

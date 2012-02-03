@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyParseError;
@@ -137,12 +138,12 @@ public class Variable extends ValidExpression {
 	}
 
 	@Override
-	public String toString() {
+	public String toString(StringTemplate tpl) {
 		return kernel.printVariableName(name);
 	}
 
-	public String toValueString() {
-		return toString();
+	public String toValueString(StringTemplate tpl) {
+		return toString(tpl);
 	}
 
 	final public String toLaTeXString(boolean symbolic) {

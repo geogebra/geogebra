@@ -23,6 +23,7 @@ import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.PathOrPoint;
 import geogebra.common.kernel.PathParameter;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoDependentListInterface;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
@@ -637,11 +638,11 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	}
 
 	@Override
-	public String toString() {
+	public String toString(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(" = ");
-		sbToString.append(buildValueString());
+		sbToString.append(buildValueString(tpl));
 		return sbToString.toString();
 	}
 
@@ -674,21 +675,21 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	StringBuilder sbToString = new StringBuilder(50);
 
 	@Override
-	public String toValueString() {
-		return buildValueString().toString();
+	public String toValueString(StringTemplate tpl) {
+		return buildValueString(tpl).toString();
 	}
 
-	private StringBuilder buildValueString() {
+	private StringBuilder buildValueString(StringTemplate tpl) {
 		sbBuildValueString.setLength(0);
 		if (!isDefined) {
 			sbBuildValueString.append("?");
 			return sbBuildValueString;
 		}
 
-		if (kernel.getCASPrintForm().equals(StringType.LATEX)) {
+		if (tpl.getStringType().equals(StringType.LATEX)) {
 			sbBuildValueString.append("\\left\\");
 		}
-		if (kernel.getCASPrintForm().equals(StringType.MPREDUCE)) {
+		if (tpl.getStringType().equals(StringType.MPREDUCE)) {
 			sbBuildValueString.append("list(");
 		} else {
 			sbBuildValueString.append(STR_OPEN);
@@ -707,10 +708,10 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			final GeoElement geo = geoList.get(lastIndex);
 			sbBuildValueString.append(geo.toOutputValueString());
 		}
-		if (kernel.getCASPrintForm().equals(StringType.LATEX)) {
+		if (tpl.getStringType().equals(StringType.LATEX)) {
 			sbBuildValueString.append("\\right\\");
 		}
-		if (kernel.getCASPrintForm().equals(StringType.MPREDUCE)) {
+		if (tpl.getStringType().equals(StringType.MPREDUCE)) {
 			sbBuildValueString.append(")");
 		} else {
 			sbBuildValueString.append(STR_CLOSE);
@@ -1692,7 +1693,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 		// isMatrix() is rather expensive, and we only need it
 		// if we're using Maxima, so test for that first
-		final StringType casPrinttype = kernel.getCASPrintForm();
+		final StringType casPrinttype = kernel.getStringTemplate().getStringType();
 		if ((!casPrinttype.equals(StringType.MAXIMA) && !casPrinttype
 				.equals(StringType.MPREDUCE)) || !isMatrix()) {
 			return super.getCASString(symbolic);

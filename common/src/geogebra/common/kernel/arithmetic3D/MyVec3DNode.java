@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic3D;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ReplaceableValue;
@@ -112,7 +113,7 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 	}
 
 	@Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append('(');
@@ -125,8 +126,8 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		return sb.toString();
 	}
 
-	public String toValueString() {
-		return toString();
+	public String toValueString(StringTemplate tpl) {
+		return toString(tpl);
 	}
 
 	final public String toLaTeXString(boolean symbolic) {

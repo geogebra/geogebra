@@ -2,6 +2,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.plugin.GeoClass;
@@ -62,7 +63,7 @@ public class GeoTextField extends GeoButton {
 	
 
 	protected String text = null;
-	public String toValueString() {
+	public String toValueString(StringTemplate tpl) {
 		if (linkedGeo == null) return "";
 		return text;
 	}

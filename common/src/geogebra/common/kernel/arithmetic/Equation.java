@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.Operation;
@@ -373,7 +374,7 @@ public class Equation extends ValidExpression implements ReplaceableValue {
         return sb.toString();
 	}
 
-	final public String toValueString() {
+	final public String toValueString(StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
         
         if (lhs != null) 
@@ -382,7 +383,7 @@ public class Equation extends ValidExpression implements ReplaceableValue {
         	sb.append('0');
         
         // equal sign
-        switch (kernel.getCASPrintForm()){
+        switch (kernel.getStringTemplate().getStringType()){
 			case MATH_PIPER:
 		        sb.append(" == ");
 		        break;
@@ -398,7 +399,7 @@ public class Equation extends ValidExpression implements ReplaceableValue {
 	}
 	
 	@Override
-	public String toString() {
+	public String toString(StringTemplate tpl) {
         StringBuilder sb = new StringBuilder();
         
         // left hand side
@@ -408,7 +409,7 @@ public class Equation extends ValidExpression implements ReplaceableValue {
         	sb.append('0');
         
         // equal sign
-        switch (kernel.getCASPrintForm()){
+        switch (kernel.getStringTemplate().getStringType()){
 			case MATH_PIPER:
 		        sb.append(" == ");
 		        break;

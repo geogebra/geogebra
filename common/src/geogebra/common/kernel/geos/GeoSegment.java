@@ -17,6 +17,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -242,7 +243,7 @@ GeoSegmentND {
 		return startPoint.isEqual(s.startPoint) && endPoint.isEqual(s.endPoint);
 	}
 	
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(" = ");
@@ -261,7 +262,7 @@ GeoSegmentND {
 
    private boolean forceSimpleTransform;
    
-   final public String toValueString() {
+   final public String toValueString(StringTemplate tpl) {
 	   return kernel.format(length);
    }
    

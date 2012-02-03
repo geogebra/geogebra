@@ -1,6 +1,7 @@
 package geogebra.common.kernel.kernelND;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -345,12 +346,12 @@ public abstract class GeoQuadricND extends GeoElement implements GeoQuadricNDCon
 	 * in implicit mode: a x\u00b2 + b xy + c y\u00b2 + d x + e y + f = 0. 
 	 * in specific mode: y\u00b2 = ...  , (x - m)\u00b2 + (y - n)\u00b2 = r\u00b2, ...
 	 */
-	public String toString() {	
+	public String toString(StringTemplate tpl) {	
 		getSbToString();
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(": ");
-		sbToString.append(buildValueString().toString()); 
+		sbToString.append(buildValueString(tpl).toString()); 
 		return sbToString.toString();
 	}
 		
@@ -361,18 +362,18 @@ public abstract class GeoQuadricND extends GeoElement implements GeoQuadricNDCon
 		return sbToString;
 	}
 	
-	public String toValueString() {
-		return buildValueString().toString();	
+	public String toValueString(StringTemplate tpl) {
+		return buildValueString(tpl).toString();	
 	}	
 	
-	abstract protected StringBuilder buildValueString();
+	abstract protected StringBuilder buildValueString(StringTemplate tpl);
 	
 	
 	
 	
-	protected void buildSphereNDString(){
+	protected void buildSphereNDString(StringTemplate tpl){
 		String squared;
-		switch (kernel.getCASPrintForm()) {
+		switch (tpl.getStringType()) {
 			case LATEX:
 				squared = "^{2}";
 				break;

@@ -337,7 +337,7 @@ public class Kernel {
 	private static final double ROUND_HALF_UP_FACTOR_DEFAULT = 1.0 + 1E-15;
 	private double ROUND_HALF_UP_FACTOR = ROUND_HALF_UP_FACTOR_DEFAULT;
 
-	private String casPrintFormPI; // for pi
+	//private String stringTemplate.getPi(); // for pi
 	private boolean useTempVariablePrefix;
 
 	// before May 23, 2005 the function acos(), asin() and atan()
@@ -865,7 +865,7 @@ public class Kernel {
 		sbBuildImplicitEquation.append((CharSequence)buildImplicitVarPart(numbers, vars,
 				KEEP_LEADING_SIGN || (op == '='), CANCEL_DOWN).toString());
 
-		if (getCASPrintForm().equals(StringType.MATH_PIPER) && (op == '=')) {
+		if (getStringTemplate().getStringType().equals(StringType.MATH_PIPER) && (op == '=')) {
 			sbBuildImplicitEquation.append(" == ");
 		} else {
 			sbBuildImplicitEquation.append(' ');
@@ -910,7 +910,7 @@ public class Kernel {
 	final public String formatPiERaw(double x, NumberFormatAdapter numF) {
 		// PI
 		if (x == Math.PI) {
-			return casPrintFormPI;
+			return stringTemplate.getPi();
 		}
 
 		// MULTIPLES OF PI/2
@@ -927,22 +927,22 @@ public class Kernel {
 				return "0";
 
 			case 1: // pi/2
-				sbFormat.append(casPrintFormPI);
+				sbFormat.append(stringTemplate.getPi());
 				sbFormat.append("/2");
 				return sbFormat.toString();
 
 			case -1: // -pi/2
 				sbFormat.append('-');
-				sbFormat.append(casPrintFormPI);
+				sbFormat.append(stringTemplate.getPi());
 				sbFormat.append("/2");
 				return sbFormat.toString();
 
 			case 2: // 2pi/2 = pi
-				return casPrintFormPI;
+				return stringTemplate.getPi();
 
 			case -2: // -2pi/2 = -pi
 				sbFormat.append('-');
-				sbFormat.append(casPrintFormPI);
+				sbFormat.append(stringTemplate.getPi());
 				return sbFormat.toString();
 
 			default:
@@ -951,19 +951,19 @@ public class Kernel {
 				if (aint == (2 * half)) {
 					// half * pi
 					sbFormat.append(half);
-					if (!getCASPrintForm().equals(StringType.GEOGEBRA)) {
+					if (!getStringTemplate().getStringType().equals(StringType.GEOGEBRA)) {
 						sbFormat.append("*");
 					}
-					sbFormat.append(casPrintFormPI);
+					sbFormat.append(stringTemplate.getPi());
 					return sbFormat.toString();
 				}
 				// odd
 				// aint * pi/2
 				sbFormat.append(aint);
-				if (!getCASPrintForm().equals(StringType.GEOGEBRA)) {
+				if (!getStringTemplate().getStringType().equals(StringType.GEOGEBRA)) {
 					sbFormat.append("*");
 				}
-				sbFormat.append(casPrintFormPI);
+				sbFormat.append(stringTemplate.getPi());
 				sbFormat.append("/2");
 				return sbFormat.toString();
 			}
@@ -983,7 +983,7 @@ public class Kernel {
 
 	/**
 	 * Formats the value of x using the currently set NumberFormat or
-	 * ScientificFormat. This method also takes getCasPrintForm() into account.
+	 * ScientificFormat. This method also takes getStringTemplate().getStringType() into account.
 	 */
 	final public String formatRaw(double x) {
 
@@ -993,7 +993,7 @@ public class Kernel {
 		if ((x == rounded) && (x >= Long.MIN_VALUE) && (x < Long.MAX_VALUE)) {
 			isLongInteger = true;
 		}
-		StringType casPrintForm = getCASPrintForm();
+		StringType casPrintForm = getStringTemplate().getStringType();
 		switch (casPrintForm) {
 		// number formatting for XML string output
 		case GEOGEBRA_XML:
@@ -1038,7 +1038,7 @@ public class Kernel {
 			} else if (Double.isInfinite(x)) {
 				return (x > 0) ? "\u221e" : "-\u221e"; // infinity
 			} else if (x == Math.PI) {
-				return casPrintFormPI;
+				return stringTemplate.getPi();
 			}
 
 			// ROUNDING hack
@@ -1083,7 +1083,7 @@ public class Kernel {
 
 	/**
 	 * Formats the value of x using the currently set NumberFormat or
-	 * ScientificFormat. This method also takes getCasPrintForm() into account.
+	 * ScientificFormat. This method also takes getStringTemplate().getStringType() into account.
 	 * 
 	 * converts to localised digits if appropriate
 	 */
@@ -1505,7 +1505,7 @@ public class Kernel {
 			}
 		} else {
 			String numberStr = format(x);
-			switch (getCASPrintForm()) {
+			switch (getStringTemplate().getStringType()) {
 			case MATH_PIPER:
 			case MAXIMA:
 			case MPREDUCE:
@@ -1520,7 +1520,7 @@ public class Kernel {
 
 	public final StringBuilder buildExplicitLineEquation(double[] numbers,
 			String[] vars, char op) {
-		StringType casPrintForm = getCASPrintForm();
+		StringType casPrintForm = getStringTemplate().getStringType();
 		double d, dabs, q = numbers[1];
 		sbBuildExplicitLineEquation.setLength(0);
 
@@ -1726,44 +1726,17 @@ public class Kernel {
 		return formatAngle(phi, 10);
 	}
 
-	private StringType casPrintForm;
-
-	final public String getPiString() {
-		return casPrintFormPI;
+	//private StringType casPrintForm;
+	private StringTemplate stringTemplate;
+	public StringTemplate getStringTemplate(){
+		return stringTemplate;
 	}
-
-	public StringType getCASPrintForm() {
-		return casPrintForm;
-	}
+	/*public StringType getStringTemplate().getStringType() {
+		return stringTemplate.getStringType();
+	}*/
 
 	final public void setCASPrintForm(StringType type) {
-		casPrintForm = type;
-
-		switch (casPrintForm) {
-		case MATH_PIPER:
-			casPrintFormPI = "Pi";
-			break;
-
-		case MAXIMA:
-			casPrintFormPI = "%pi";
-			break;
-
-		case JASYMCA:
-		case GEOGEBRA_XML:
-			casPrintFormPI = "pi";
-			break;
-
-		case MPREDUCE:
-			casPrintFormPI = "pi";
-			break;
-
-		case LATEX:
-			casPrintFormPI = "\\pi";
-			break;
-
-		default:
-			casPrintFormPI = Unicode.PI_STRING;
-		}
+		stringTemplate = StringTemplate.get(type);
 	}
 
 	/**
@@ -1776,7 +1749,7 @@ public class Kernel {
 		for (int i = 0; i < scientificStr.length(); i++) {
 			char ch = scientificStr.charAt(i);
 			if (ch == 'E') {
-				if (casPrintForm.equals(StringType.LATEX)) {
+				if (stringTemplate.hasType(StringType.LATEX)) {
 					sb.append(" \\cdot 10^{");
 				} else {
 					sb.append("*10^(");
@@ -1787,7 +1760,7 @@ public class Kernel {
 			}
 		}
 		if (Efound) {
-			if (casPrintForm.equals(StringType.LATEX)) {
+			if (stringTemplate.hasType(StringType.LATEX)) {
 				sb.append("}");
 			} else {
 				sb.append(")");
@@ -1799,7 +1772,7 @@ public class Kernel {
 
 	final public StringBuilder formatAngle(double phi, double precision) {
 		sbFormatAngle.setLength(0);
-		switch (casPrintForm) {
+		switch (stringTemplate.getStringType()) {
 		case MATH_PIPER:
 		case JASYMCA:
 		case MPREDUCE:
@@ -1847,7 +1820,7 @@ public class Kernel {
 				sbFormatAngle
 						.append(format(checkDecimalFraction(phi, precision)));
 
-				if (casPrintForm.equals(StringType.GEOGEBRA_XML)) {
+				if (stringTemplate.hasType(StringType.GEOGEBRA_XML)) {
 					sbFormatAngle.append("*");
 				}
 
@@ -1860,7 +1833,7 @@ public class Kernel {
 				// RADIANS
 				sbFormatAngle.append(format(phi));
 
-				if (!casPrintForm.equals(StringType.GEOGEBRA_XML)) {
+				if (!stringTemplate.hasType(StringType.GEOGEBRA_XML)) {
 					sbFormatAngle.append(" rad");
 				}
 				return sbFormatAngle;
@@ -2037,7 +2010,7 @@ public class Kernel {
 
 	/**
 	 * Retuns variable label depending on isUseTempVariablePrefix() and
-	 * kernel.getCASPrintForm(). A label may be prefixed here by
+	 * kernel.getStringTemplate().getStringType(). A label may be prefixed here by
 	 * ExpressionNode.TMP_VARIABLE_PREFIX or
 	 * 
 	 * @param label
@@ -2047,7 +2020,7 @@ public class Kernel {
 		if (isUseTempVariablePrefix()) {
 			return addTempVariablePrefix(label);
 		} else {
-			return printVariableName(getCASPrintForm(), label);
+			return printVariableName(getStringTemplate().getStringType(), label);
 		}
 	}
 
@@ -2058,7 +2031,7 @@ public class Kernel {
 	 * ExpressionNodeConstants.GGBCAS_VARIABLE_PREFIX.
 	 * 
 	 * @param printForm
-	 * @return label depending on kernel.getCASPrintForm()
+	 * @return label depending on kernel.getStringTemplate().getStringType()
 	 */
 	final public String printVariableName(StringType printForm, String label) {
 		switch (printForm) {

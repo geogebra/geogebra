@@ -3,6 +3,7 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.PathMover;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.TransformInterface;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -142,7 +143,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND,
 		return isDefined();
 	}
 
-	public String toValueString() {
+	public String toValueString(StringTemplate tpl) {
 
 		return kernel.format(getLength());
 	}
@@ -153,7 +154,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND,
 	 * @return the length of the segment as a string
 	 * 
 	 */
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
 
 		StringBuilder sbToString = getSbToString();
 		sbToString.setLength(0);

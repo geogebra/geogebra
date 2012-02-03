@@ -17,6 +17,7 @@ import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathParameter;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.PathMoverLocus;
 import geogebra.common.kernel.algos.AlgoLocusSliderInterface;
@@ -86,7 +87,7 @@ public class GeoLocus extends GeoElement implements Path, Traceable{
 		return myPointList;
 	}
 	
-	public String toString() {		
+	public String toString(StringTemplate tpl) {		
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(" = ");
@@ -138,7 +139,7 @@ public class GeoLocus extends GeoElement implements Path, Traceable{
 		defined = false;		
 	}
 
-	public String toValueString() {
+	public String toValueString(StringTemplate tpl) {
 		return "";
 	}
 

@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 
 /**
  * @author Markus Hohenwarter
@@ -47,7 +48,7 @@ public class FunctionVariable extends MyDouble {
 	}
 	
 	@Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
 		return kernel.printVariableName(varStr);
 	}
 

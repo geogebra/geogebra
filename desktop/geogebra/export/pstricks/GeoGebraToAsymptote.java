@@ -119,7 +119,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
      * generateAllCode: generate Asymptote output by assembling snippets and sanitizing
      */
     public void generateAllCode() {
-    	StringType oldCASPrintform = kernel.getCASPrintForm();
+    	StringType oldCASPrintform = kernel.getStringTemplate().getStringType();
         kernel.setCASPrintForm(StringType.PSTRICKS);
         
         // reset global variables

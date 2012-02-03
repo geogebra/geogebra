@@ -3,6 +3,7 @@ package geogebra3D.kernel3D;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
@@ -191,14 +192,14 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 		return true;
 	}
 
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
 
 		StringBuilder sbToString = getSbToString();
 		sbToString.setLength(0);
 		sbToString.append(label);
 
 		sbToString.append(": ");
-		sbToString.append(buildValueString());
+		sbToString.append(buildValueString(tpl));
 		return sbToString.toString();
 	}
 
@@ -206,7 +207,7 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 		return true;
 	}
 
-	protected StringBuilder buildValueString() {
+	protected StringBuilder buildValueString(StringTemplate tpl) {
 
 		if (!(getViewForValueString() instanceof EuclidianView))
 			return new StringBuilder("todo-GeoConic3D");
@@ -240,7 +241,7 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 
 		translateMatrix(matrix, M.getX(), M.getY());
 
-		return buildValueString(matrix);
+		return buildValueString(tpl,matrix);
 	}
 
 	@Override

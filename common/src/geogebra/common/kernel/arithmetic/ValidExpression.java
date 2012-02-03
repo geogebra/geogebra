@@ -16,6 +16,8 @@ the Free Software Foundation.
  */
 package geogebra.common.kernel.arithmetic;
 
+import geogebra.common.kernel.StringTemplate;
+
 import java.util.Set;
 import java.util.Vector;
 
@@ -173,5 +175,18 @@ public abstract class ValidExpression implements ExpressionValue {
 	public void setKeepInputUsed(boolean keepInputUsed) {
 		this.keepInputUsed = keepInputUsed;
 	}
+	
+	public final String toString(){
+		return toString(getKernel().getStringTemplate());
+	}
+	
+	public final String toValueString(){
+		return toString(getKernel().getStringTemplate());
+	}
+
+	public abstract String toString(StringTemplate tpl);
+	
+	public abstract String toValueString(StringTemplate tpl);
+
 
 }

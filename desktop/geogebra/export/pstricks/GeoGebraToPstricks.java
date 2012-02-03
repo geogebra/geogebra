@@ -85,7 +85,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	 
     public void generateAllCode() {
     	
-    	StringType oldCASPrintform = kernel.getCASPrintForm();
+    	StringType oldCASPrintform = kernel.getStringTemplate().getStringType();
 		kernel.setCASPrintForm(StringType.PSTRICKS);
     	
        	format=((ExportFrame)frame).getFormat();

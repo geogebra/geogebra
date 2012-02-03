@@ -1,6 +1,7 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.plugin.GeoClass;
@@ -52,7 +53,7 @@ public class GeoClippingCube3D extends GeoElement3D {
 	public void setUndefined() { }
 
 	@Override
-	public String toValueString() {
+	public String toValueString(StringTemplate tpl) {
 		// TODO Auto-generated method stub
 		return null;
 	}

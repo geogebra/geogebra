@@ -29,6 +29,7 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.RegionParameters;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
@@ -731,7 +732,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		return isDefined;
 	}
 
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
 
 		StringBuilder sbToString = getSbToString();
 		sbToString.setLength(0);
@@ -747,7 +748,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		return true;
 	}
 
-	public String toValueString() {
+	public String toValueString(StringTemplate tpl) {
 		if (isInfinite())
 			return app.getPlain("undefined");
 

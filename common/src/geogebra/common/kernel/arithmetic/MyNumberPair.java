@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 
 /** 
  * 
@@ -39,11 +40,11 @@ public class MyNumberPair extends MyVecNode {
     
 
     @Override
-	final public String toString() {         
+	final public String toString(StringTemplate tpl) {         
         StringBuilder sb = new StringBuilder();  
-				sb.append(x.toString());
+				sb.append(x.toString(tpl));
 				sb.append(", ");
-				sb.append(y.toString());
+				sb.append(y.toString(tpl));
 		        
 		 return sb.toString();      
     }    

@@ -20,6 +20,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MatrixTransformable;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ListValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -556,9 +557,9 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 		return !(Double.isNaN(x) || Double.isNaN( y));
 	}
     
-    final public String toString() {
+    final public String toString(StringTemplate tpl) {
     	if (isImaginaryUnit()){
-    		switch (kernel.getCASPrintForm()){
+    		switch (tpl.getStringType()){
     			case MPREDUCE:
     				return "i";
     				
@@ -612,7 +613,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
         this.mode = mode;
     }
 
-	final public String toValueString() {
+	final public String toValueString(StringTemplate tpl) {
 		return toString();
 	}  
 	

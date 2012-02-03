@@ -8,6 +8,7 @@ import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.RegionParameters;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
@@ -130,7 +131,8 @@ Translateable, GeoConicNDConstants
 	 * @param i
 	 * @return eigen vector in dimension 3
 	 */
-	 abstract public Coords getEigenvec3D(int i);
+	 @Override
+	abstract public Coords getEigenvec3D(int i);
 
 	 /**
 	  * If 2D conic, return identity (xOy plane)
@@ -182,6 +184,7 @@ Translateable, GeoConicNDConstants
 	/**
 	 * @return the matrix representation of the conic in its 2D sub space
 	 */
+	@Override
 	protected CoordMatrix getSymetricMatrix(double[] vals){
 		CoordMatrix ret = new CoordMatrix(3, 3);
 		
@@ -223,6 +226,7 @@ Translateable, GeoConicNDConstants
 	
 	
 	
+	@Override
 	public void setSphereND(GeoPointND M, double r) {
 		defined = ((GeoElement) M).isDefined() && !M.isInfinite(); // check midpoint
 		setSphereND(M.getInhomCoordsInD(2), r);
@@ -235,7 +239,8 @@ Translateable, GeoConicNDConstants
 	// PATH INTERFACE
 	//////////////////////////////////////
 	
-	 public boolean isPath(){
+	 @Override
+	public boolean isPath(){
 		 return true;
 	 }
 	 
@@ -876,6 +881,7 @@ Translateable, GeoConicNDConstants
 	
 	
 	
+	@Override
 	public boolean isFillable() {
 		return true;
 	}
@@ -892,6 +898,7 @@ Translateable, GeoConicNDConstants
 	 * sets the matrix values from the symmetric matrix m
 	 * @param m
 	 */
+	@Override
 	final public void setMatrix(CoordMatrix m) {
 		
 		double[] coeffs = new double[6];			
@@ -951,6 +958,7 @@ Translateable, GeoConicNDConstants
 	/** geo is expected to be a conic. make deep copy of
 	 * member vars of geo.
 	 */
+	@Override
 	public void set(GeoElement geo) {
 		GeoConicND co =(GeoConicND) geo;
 	
@@ -997,6 +1005,7 @@ Translateable, GeoConicNDConstants
 	 * Updates this conic. If the transform has changed, we call makePathParametersInvalid()
 	 * to force an update of all path parameters of all points on this conic.
 	 */
+	@Override
 	public void update() {			
 		makePathParametersInvalid();
 		super.update();        				
@@ -1137,10 +1146,12 @@ Translateable, GeoConicNDConstants
 		return true;
 	}
 
+	@Override
 	final protected boolean showInEuclidianView() {
 		return defined && (type != CONIC_EMPTY);
 	}
 
+	@Override
 	public final boolean showInAlgebraView() {
 		//return defined;
 		return true;
@@ -1222,10 +1233,12 @@ Translateable, GeoConicNDConstants
 		classifyConic();
 	}
 
+	@Override
 	public String toValueStringMinimal() {
 		return getXMLtagsMinimal();
 	}
 
+	@Override
 	public String toStringMinimal() {
 		return getXMLtagsMinimal();
 	}	
@@ -1249,8 +1262,9 @@ Translateable, GeoConicNDConstants
 
 	private double[] coeffs = new double[6];	
 	
-	protected StringBuilder buildValueString() {
-		return buildValueString(matrix);
+	@Override
+	protected StringBuilder buildValueString(StringTemplate tpl) {
+		return buildValueString(tpl,matrix);
 	}
 	
 	/**
@@ -1258,7 +1272,7 @@ Translateable, GeoConicNDConstants
 	 * @param matrix
 	 * @return the value string regarding the given matrix (used for views)
 	 */
-	protected StringBuilder buildValueString(double[] matrix) {
+	protected StringBuilder buildValueString(StringTemplate tpl,double[] matrix) {
 		sbToValueString().setLength(0);
 	       if (!isDefined()) {
 	    	   sbToValueString.append("?");
@@ -1281,7 +1295,7 @@ Translateable, GeoConicNDConstants
 		
 		String squared;
 		String [] myVars;
-		switch (kernel.getCASPrintForm()) {
+		switch (tpl.getStringType()) {
 			case LATEX:
 				squared = "^{2}";
 				myVars = varsLateX;
@@ -1306,7 +1320,7 @@ Translateable, GeoConicNDConstants
 				
 				switch (type) {					
 					case CONIC_CIRCLE :		
-						buildSphereNDString();
+						buildSphereNDString(tpl);
 						return sbToValueString;
 
 					case CONIC_ELLIPSE :					
@@ -1489,6 +1503,7 @@ Translateable, GeoConicNDConstants
 		return transform;
 	}
 
+	@Override
 	final protected void setAffineTransform() {	
 		AffineTransform transform = getAffineTransform();	
 		
@@ -1633,6 +1648,7 @@ Translateable, GeoConicNDConstants
 	
 	
 	
+	@Override
 	public void setSphereND(GeoPointND M, GeoSegmentND segment){
 		setCircle((GeoPoint2) M, (GeoSegment) segment);
 	}
@@ -1665,6 +1681,7 @@ Translateable, GeoConicNDConstants
 	}
 
 	
+	@Override
 	public void setSphereND(GeoPointND M, GeoPointND P){
 		setCircle((GeoPoint2) M, (GeoPoint2) P);
 	}
@@ -1786,6 +1803,7 @@ Translateable, GeoConicNDConstants
 		updateDegenerates(); // for degenerate conics            
 	}
 	
+	@Override
 	final public boolean isTranslateable() {
 		return true;
 	}
@@ -1860,6 +1878,7 @@ Translateable, GeoConicNDConstants
 		updateDegenerates(); // for degenerate conics
 	}
 
+	@Override
 	public boolean isMatrixTransformable() {
 		return true;
 	}
@@ -2020,11 +2039,13 @@ Translateable, GeoConicNDConstants
 	private boolean eigenvectorsSetOnLoad = false;
 	
 	
+	@Override
 	protected void setFirstEigenvector(double[] coords){
 		eigenvecX = coords[0];
 		eigenvecY = coords[1];
 	}
 	
+	@Override
 	final protected void setEigenvectors() {
 		// newly calculated first eigenvector = (eigenvecX, eigenvecY)
 		// old eigenvectors: eigenvec[0], eigenvec[1]        
@@ -2266,6 +2287,7 @@ Translateable, GeoConicNDConstants
 		}
 	}
 
+	@Override
 	final protected void singlePoint() {
 		type = GeoConic.CONIC_SINGLE_POINT;
 
@@ -2690,6 +2712,7 @@ Translateable, GeoConicNDConstants
 	 * return wheter this conic represents the same conic as c 
 	 * (this = lambda * c).
 	 */
+	@Override
 	public boolean isEqual(GeoElement geo) {
 
 		if (!geo.isGeoConic()) return false;
@@ -2796,6 +2819,7 @@ Translateable, GeoConicNDConstants
 	/**
 	 * returns all class-specific xml tags for saveXML
 	 */
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 		//	line thickness and type  
@@ -2883,36 +2907,44 @@ Translateable, GeoConicNDConstants
 	
 
 	
+	@Override
 	public boolean isNumberValue() {
 		return false;
 	}
 
+	@Override
 	public boolean isVectorValue() {
 		return false;
 	}
 
+	@Override
 	public boolean isPolynomialInstance() {
 		return false;
 	}   
 	
+	@Override
 	public boolean isTextValue() {
 		return false;
 	}
 	
+	@Override
 	final public boolean isGeoConic() {
 		return true;
 	}
 	
+	@Override
 	public void setZero() {
 		setCoeffs(1,0,1,0,0,0);
 	}
 
+	@Override
 	public boolean isVector3DValue() {
 		return false;
 	}
 	
 	
 	
+	@Override
 	protected void setMidpoint(double[] coords){
 		b.x = coords[0];
 		b.y = coords[1];
@@ -2932,6 +2964,7 @@ Translateable, GeoConicNDConstants
 	* Region interface implementation
 	*/
 		
+	@Override
 	public boolean isRegion() {
 		return true;
 	}
@@ -3183,7 +3216,8 @@ Translateable, GeoConicNDConstants
     /** Calculates the euclidian distance between this GeoConic and GeoPoint P.
      * used for compound paths
      */
-    public double distance(GeoPoint2 p) {                        
+    @Override
+	public double distance(GeoPoint2 p) {                        
         //if (!isCircle()) return Double.POSITIVE_INFINITY;
         
         /*
@@ -3216,7 +3250,8 @@ Translateable, GeoConicNDConstants
     }
     
     
-    public String getTypeString() { 
+    @Override
+	public String getTypeString() { 
 		switch (type) {
 			case GeoConic.CONIC_CIRCLE: 
 				return "Circle";
@@ -3301,6 +3336,7 @@ Translateable, GeoConicNDConstants
 		return isEndOfQuadric;
 	}
 	
+	@Override
 	public void doRemove() {
 		
 		if (pointsOnConic!=null) {

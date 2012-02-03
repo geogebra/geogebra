@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -132,7 +133,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	}
 
 	@Override
-	public String toString() {
+	public String toString(StringTemplate tpl) {
 		if (isAngle) {
 			// convert to angle value first, see issue 87
 			// http://code.google.com/p/geogebra/issues/detail?id=87
@@ -142,8 +143,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return kernel.format(val);
 	}
 
-	final public String toValueString() {
-		return toString();
+	final public String toValueString(StringTemplate tpl) {
+		return toString(tpl);
 	}
 
 	final public String toLaTeXString(boolean symbolic) {

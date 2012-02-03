@@ -18,6 +18,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.MatrixTransformable;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -402,12 +403,12 @@ implements Locateable, AbsoluteScreenLocateable,
 	}
 
 	@Override
-	public String toValueString() {
+	public String toValueString(StringTemplate tpl) {
 		return toString();
 	}
 	
 	@Override
-	public String toString() {				
+	public String toString(StringTemplate tpl) {				
 		return label == null ? app.getPlain("Image") : label;
 	}	
 

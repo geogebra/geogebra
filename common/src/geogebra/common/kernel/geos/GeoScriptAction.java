@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdScriptingInterface;
 import geogebra.common.plugin.GeoClass;
@@ -68,7 +69,7 @@ public class GeoScriptAction extends GeoElement  {
 	}
 
 	@Override
-	public String toValueString() {
+	public String toValueString(StringTemplate tpl) {
 		// TODO Auto-generated method stub
 		return null;
 	}

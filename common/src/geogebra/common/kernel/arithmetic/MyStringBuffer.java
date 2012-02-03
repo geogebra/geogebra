@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 
 import java.util.HashSet;
@@ -53,7 +54,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 	}
 
 	@Override
-	public String toString() {
+	public String toString(StringTemplate tpl) {
 		StringBuilder temp = new StringBuilder();
 		temp.append("\"");
 		temp.append((CharSequence)sb);
@@ -104,7 +105,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		return null;
 	}
 
-	final public String toValueString() {
+	final public String toValueString(StringTemplate tpl) {
 		return sb.toString();
 	}
 

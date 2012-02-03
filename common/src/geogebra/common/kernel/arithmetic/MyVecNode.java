@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.MyParseError;
@@ -127,11 +128,11 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 	}
 
 	@Override
-	public String toString() {
+	public String toString(StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
 		double[] coords;
 
-		switch (kernel.getCASPrintForm()) {
+		switch (tpl.getStringType()) {
 		case MATH_PIPER:
 			coords = getCoords();
 			sb.append("{");
@@ -187,8 +188,8 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 		return sb.toString();
 	}
 
-	public String toValueString() {
-		return toString();
+	public String toValueString(StringTemplate tpl) {
+		return toString(tpl);
 	}
 
 	final public String toLaTeXString(boolean symbolic) {

@@ -3,6 +3,7 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.RegionParameters;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
@@ -321,21 +322,21 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		return true;
 	}
 
-	public String toValueString() {
-		return buildValueString().toString();
+	public String toValueString(StringTemplate tpl) {
+		return buildValueString(tpl).toString();
 	}
 
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
 
 		StringBuilder sbToString = getSbToString();
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(": "); // TODO use kernel property
-		sbToString.append(buildValueString());
+		sbToString.append(buildValueString(tpl));
 		return sbToString.toString();
 	}
 
-	private StringBuilder buildValueString() {
+	private StringBuilder buildValueString(StringTemplate tpl) {
 
 		return kernel.buildImplicitEquation(getCoordSys().getEquationVector()
 				.get(), VAR_STRING, KEEP_LEADING_SIGN, false, '=');

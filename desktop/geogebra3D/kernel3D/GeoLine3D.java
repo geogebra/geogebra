@@ -2,6 +2,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.PathMover;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -55,21 +56,21 @@ public class GeoLine3D extends GeoCoordSys1D {
 		return true;
 	}
 
-	public String toValueString() {
-		return buildValueString().toString();
+	public String toValueString(StringTemplate tpl) {
+		return buildValueString(tpl).toString();
 	}
 	
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
 
     	StringBuilder sbToString = getSbToString();
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(": ");  //TODO use kernel property
-		sbToString.append(buildValueString());
+		sbToString.append(buildValueString(tpl));
 		return sbToString.toString();   
 	}
 
-	private StringBuilder buildValueString() {	
+	private StringBuilder buildValueString(StringTemplate tpl) {	
 		String parameter = "\u03bb";
 		Coords O = coordsys.getOrigin();//TODO inhom coords
 		Coords V = coordsys.getVx();

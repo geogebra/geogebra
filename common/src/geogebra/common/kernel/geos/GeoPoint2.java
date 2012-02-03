@@ -35,6 +35,7 @@ import geogebra.common.kernel.PathOrPoint;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.RegionParameters;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoDependentPoint;
@@ -936,7 +937,7 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
 /***********************************************************/
     
     @Override
-	final public String toString() {     
+	final public String toString(StringTemplate tpl) {     
     	sbToString.setLength(0);                               
 		sbToString.append(label);	
 		
@@ -957,7 +958,7 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
 			}
 		}
 		
-		sbToString.append(buildValueString().toString());       
+		sbToString.append(buildValueString(tpl).toString());       
         return sbToString.toString();
     }
     
@@ -971,8 +972,8 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
     private StringBuilder sbToString = new StringBuilder(50);        
     
     @Override
-	final public String toValueString() {
-    	return buildValueString().toString();	
+	final public String toValueString(StringTemplate tpl) {
+    	return buildValueString(tpl).toString();	
     }       
     
 	@Override
@@ -987,10 +988,10 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
 		return sbBuildValueString.toString();
 	} 
     
-	private StringBuilder buildValueString() { 
+	private StringBuilder buildValueString(StringTemplate tpl) { 
 		sbBuildValueString.setLength(0);
 		
-		switch (kernel.getCASPrintForm()) {
+		switch (tpl.getStringType()) {
 			case MATH_PIPER:
 				sbBuildValueString.append("{");
 				sbBuildValueString.append(getInhomX());

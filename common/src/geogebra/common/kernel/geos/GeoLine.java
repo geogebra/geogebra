@@ -24,6 +24,7 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.Coords;
@@ -727,7 +728,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	/** output depends on mode: PARAMETRIC or EQUATION */
 	@Override
-	public String toString() {
+	public String toString(StringTemplate tpl) {
 		StringBuilder sbToString = getSbToString();
 		sbToString.setLength(0);
 		sbToString.append(label);
@@ -745,7 +746,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	@Override
-	public String toValueString() {
+	public String toValueString(StringTemplate tpl) {
 		return buildValueString().toString();
 	}
 

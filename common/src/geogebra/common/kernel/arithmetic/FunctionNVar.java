@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -396,11 +397,11 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	}
 
 	@Override
-	public String toString() {
-		return expression.toString();
+	public String toString(StringTemplate tpl) {
+		return expression.toString(tpl);
 	}
 
-	final public String toValueString() {
+	final public String toValueString(StringTemplate tpl) {
 		return expression.toValueString();
 	}
 

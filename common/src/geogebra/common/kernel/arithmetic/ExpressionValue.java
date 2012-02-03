@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 
 
@@ -54,5 +55,6 @@ public interface ExpressionValue {
     public void resolveVariables();
 	public String toRealString();
 	public Kernel getKernel();
+	public String toString(StringTemplate tpl);
 }
 

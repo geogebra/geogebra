@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 
 
@@ -59,15 +60,15 @@ public abstract class GeoUserInputElement extends GeoElement {
 		userInput=input;
 	}
 
-	public String toString(){
-		return label+": "+toValueString();
+	public String toString(StringTemplate tpl){
+		return label+": "+toValueString(tpl);
 	}
 	
-	public String toValueString(){
+	public String toValueString(StringTemplate tpl){
 		if (validInputForm&&inputForm&&userInput!=null)
-			return userInput.toValueString();
+			return userInput.toValueString(tpl);
 		
-		return toRawValueString();
+		return toRawValueString(tpl);
 		
 	}
 	
@@ -91,7 +92,7 @@ public abstract class GeoUserInputElement extends GeoElement {
 		sb.append("\" />\n");
 	}
 	
-	protected abstract String toRawValueString();
+	protected abstract String toRawValueString(StringTemplate tpl);
 	
 	public void setValidInputForm(boolean b){
 		validInputForm=b;

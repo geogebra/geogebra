@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.AbstractApplication;
@@ -149,11 +150,11 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 	}
 
 	@Override
-	public String toString() {
+	public String toString(StringTemplate tpl) {
 		return toString(true, false);
 	}
 
-	public String toValueString() {
+	public String toValueString(StringTemplate tpl) {
 		return toString(false, false);
 	}
 
@@ -162,7 +163,7 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 	}
 
 	private String toString(boolean symbolic, boolean LaTeX) {
-		switch (kernel.getCASPrintForm()) {
+		switch (kernel.getStringTemplate().getStringType()) {
 		case MATH_PIPER:
 		case MAXIMA:
 		case MPREDUCE:

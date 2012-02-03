@@ -599,7 +599,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 
 		// get coefficients as strings
 		boolean oldUseTempVarPrefix = kernel.isUseTempVariablePrefix();
-		StringType oldPrintForm = kernel.getCASPrintForm();
+		StringType oldPrintForm = kernel.getStringTemplate().getStringType();
 		kernel.setUseTempVariablePrefix(true);
 		kernel.setCASPrintForm(StringType.MPREDUCE);
 		String function, var;
