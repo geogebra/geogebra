@@ -6,6 +6,7 @@ import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasExpressionFactory;
 import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
@@ -133,7 +134,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric{
 		}
 
 		// convert parsed input to MPReduce string
-		String mpreduceInput = translateToCAS(casInput, StringType.MPREDUCE);
+		String mpreduceInput = translateToCAS(casInput, StringTemplate.get(StringType.MPREDUCE));
 
 		// tell MPReduce whether it should use the keep input flag,
 		// e.g. important for Substitute

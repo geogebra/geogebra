@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
@@ -606,7 +607,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 
 		// See #1322
 		try {
-			function = node.getCASstring(StringType.MPREDUCE, symbolic);
+			function = node.getCASstring(StringTemplate.get(StringType.MPREDUCE), symbolic);
 			var = fVars[0].toString();
 		} catch (NullPointerException e) {
 			// this is not a valid polynomial
@@ -808,7 +809,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		StringBuilder sb = new StringBuilder();
 		// Derivative( y, t )
 		sb.append("Derivative(");
-		sb.append(funY.expression.getCASstring(StringType.GEOGEBRA, symbolic));
+		sb.append(funY.expression.getCASstring(StringTemplate.get(StringType.GEOGEBRA), symbolic));
 		sb.append(",");
 		sb.append(varStr);
 		sb.append(")");

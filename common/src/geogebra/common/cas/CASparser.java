@@ -13,6 +13,7 @@
 package geogebra.common.cas;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -118,7 +119,7 @@ public class CASparser implements CASParserInterface{
 	 */
 	public String toGeoGebraString(ExpressionValue ev) throws CASException {
 		try {
-			return toString(ev, StringType.GEOGEBRA);
+			return toString(ev, StringTemplate.get(StringType.GEOGEBRA));
 		} catch (Throwable e) {
 			e.printStackTrace();
 			throw new CASException(e);
@@ -129,7 +130,7 @@ public class CASparser implements CASParserInterface{
 	 * Tries to convert the given CAS string to the given syntax.
 	 * @param STRING_TYPE one of StringType.GEOGEBRA, STRING_TYPE_GEOGEBRA_XML
 	 */
-	public String toString(ExpressionValue ev, StringType STRING_TYPE) {
+	public String toString(ExpressionValue ev, StringTemplate STRING_TYPE) {
 		String GeoGebraString;
 		
 		if (!ev.isExpressionNode()) {

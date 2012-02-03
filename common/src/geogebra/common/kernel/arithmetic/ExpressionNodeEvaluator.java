@@ -1,6 +1,7 @@
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoListElement;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
@@ -32,8 +33,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * @param expressionNode       ExpressionNode to evaluate
 	 * @return corresponding ExpressionValue
 	 */
-	public ExpressionValue evaluate(ExpressionValue expressionValue) {
-		ExpressionNode expressionNode = (ExpressionNode) expressionValue;
+	public ExpressionValue evaluate(ExpressionNode expressionNode,StringTemplate tpl) {
 		boolean leaf = expressionNode.leaf;
 		ExpressionValue left = expressionNode.left;
 

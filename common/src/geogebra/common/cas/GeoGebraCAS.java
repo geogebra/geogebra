@@ -2,6 +2,7 @@ package geogebra.common.cas;
 
 import geogebra.common.cas.mpreduce.AbstractCASmpreduce;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
@@ -473,13 +474,13 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		try {
 			// current input
 			String input1normalized = casParser.toString(inputVE,
-					StringType.GEOGEBRA_XML);
+					StringTemplate.get(StringType.GEOGEBRA_XML));
 
 			// new input
 			ValidExpression ve2 = casParser
 					.parseGeoGebraCASInputAndResolveDummyVars(localizedInput);
 			String input2normalized = casParser.toString(ve2,
-					StringType.GEOGEBRA_XML);
+					StringTemplate.get(StringType.GEOGEBRA_XML));
 
 			// compare if the parsed expressions are equal
 			return input1normalized.equals(input2normalized);

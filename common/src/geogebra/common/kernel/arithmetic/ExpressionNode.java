@@ -364,14 +364,32 @@ public class ExpressionNode extends ValidExpression implements
 	/**
 	 * interface ExpressionValue implementation
 	 */
-
+	@Deprecated
 	public ExpressionValue evaluate() {
-		return kernel.getExpressionNodeEvaluator().evaluate(this);
+		return kernel.getExpressionNodeEvaluator().evaluate(this,StringTemplate.get(StringType.GEOGEBRA));
+	}
+	/**
+	 * Evaluates this expression
+	 * @param tpl template (needed for possible string concatenation)
+	 * @return value
+	 */
+	public ExpressionValue evaluate(StringTemplate tpl) {
+		return kernel.getExpressionNodeEvaluator().evaluate(this,tpl);
+	}
+	/**
+	 * Evaluates to number (if not numeric, returns undefined MyDouble)
+	 * @return number or undefined double
+	 */
+	public NumberValue evaluateNum() {
+		ExpressionValue ev = kernel.getExpressionNodeEvaluator().evaluate(this,StringTemplate.get(StringType.GEOGEBRA));
+		if(ev instanceof NumberValue)
+			return (NumberValue)ev;
+		return new MyDouble(kernel,Double.NaN);
 	}
 
-	public ExpressionValue evaluate(boolean cache) {
+	/*public ExpressionValue evaluate(boolean cache) {
 		return kernel.getExpressionNodeEvaluator().evaluate(this);
-	}
+	}*/
 
 	/**
 	 * look for Variable objects in the tree and replace them by their resolved
@@ -1159,11 +1177,11 @@ public class ExpressionNode extends ValidExpression implements
 	 * @return string representation of this node that can be used with given
 	 *         CAS
 	 */
-	final public String getCASstring(StringType STRING_TYPE, boolean symbolic) {
+	final public String getCASstring(StringTemplate tpl, boolean symbolic) {
 		StringType oldPrintForm = kernel.getStringTemplate().getStringType();
-		kernel.setCASPrintForm(STRING_TYPE);
+		kernel.setCASPrintForm(tpl.getStringType());
 
-		String ret = printCASstring(symbolic);
+		String ret = printCASstring(symbolic,tpl);
 
 		kernel.setCASPrintForm(oldPrintForm);
 		return ret;
@@ -1176,9 +1194,12 @@ public class ExpressionNode extends ValidExpression implements
 	 * @return GeoGebra CAS string representation of this node
 	 */
 	final public String getCASstring(boolean symbolic) {
-		return getCASstring(kernel.getStringTemplate().getStringType(), symbolic);
+		return getCASstring(kernel.getStringTemplate(), symbolic);
 	}
 
+	/**
+	 * @return true iff this node contains MyStringBuffer as subnode
+	 */
 	public boolean containsMyStringBuffer() {
 
 		if ((left instanceof MyStringBuffer)
@@ -1204,7 +1225,7 @@ public class ExpressionNode extends ValidExpression implements
 	 * printCASstring()
 	 */
 
-	private String printCASstring(boolean symbolic) {
+	private String printCASstring(boolean symbolic,StringTemplate tpl) {
 		String ret = null;
 
 		kernel.setTemporaryPrintFigures(15);
@@ -1221,9 +1242,9 @@ public class ExpressionNode extends ValidExpression implements
 				if (symbolic && left.isGeoElement()) {
 					ret = ((GeoElement) left).getLabel();
 				} else if (left.isExpressionNode()) {
-					ret = ((ExpressionNode) left).printCASstring(symbolic);
+					ret = ((ExpressionNode) left).printCASstring(symbolic,tpl);
 				} else {
-					ret = symbolic ? left.toString() : left.toValueString();
+					ret = symbolic ? left.toString(tpl) : left.toValueString(tpl);
 				}
 			}
 
@@ -1234,9 +1255,9 @@ public class ExpressionNode extends ValidExpression implements
 				if (symbolic && left.isGeoElement()) {
 					leftStr = ((GeoElement) left).getLabel();
 				} else if (left.isExpressionNode()) {
-					leftStr = ((ExpressionNode) left).printCASstring(symbolic);
+					leftStr = ((ExpressionNode) left).printCASstring(symbolic,tpl);
 				} else {
-					leftStr = symbolic ? left.toString() : left.toValueString();
+					leftStr = symbolic ? left.toString(tpl) : left.toValueString(tpl);
 				}
 
 				if (right != null) {
@@ -1244,10 +1265,10 @@ public class ExpressionNode extends ValidExpression implements
 						rightStr = ((GeoElement) right).getLabel();
 					} else if (right.isExpressionNode()) {
 						rightStr = ((ExpressionNode) right)
-								.printCASstring(symbolic);
+								.printCASstring(symbolic,tpl);
 					} else {
-						rightStr = symbolic ? right.toString() : right
-								.toValueString();
+						rightStr = symbolic ? right.toString(tpl) : right
+								.toValueString(tpl);
 					}
 				}
 				ret = operationToString(leftStr, rightStr, !symbolic);

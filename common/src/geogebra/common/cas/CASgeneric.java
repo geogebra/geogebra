@@ -1,6 +1,7 @@
 package geogebra.common.cas;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
@@ -138,10 +139,10 @@ public abstract class CASgeneric implements CASGenericInterface,
 	 *            one of StringType.{MAXIMA, MPREDUCE, MATH_PIPER}
 	 * @return the translated String.
 	 */
-	protected String translateToCAS(ValidExpression ve, StringType casStringType) {
+	protected String translateToCAS(ValidExpression ve, StringTemplate casStringType) {
 		Kernel kernel = ve.getKernel();
 		StringType oldPrintForm = kernel.getStringTemplate().getStringType();
-		kernel.setCASPrintForm(casStringType);
+		kernel.setCASPrintForm(casStringType.getStringType());
 
 		try {
 			ValidExpression tmp = ve;
@@ -156,7 +157,7 @@ public abstract class CASgeneric implements CASGenericInterface,
 			if (label != null) { // is an assignment or a function declaration
 				// make sure to escape labels to avoid problems with reserved
 				// CAS labels
-				label = kernel.printVariableName(casStringType, label);
+				label = kernel.printVariableName(casStringType.getStringType(), label);
 				if (ve instanceof FunctionNVar) {
 					FunctionNVar fun = (FunctionNVar) ve;
 					return translateFunctionDeclaration(label,
