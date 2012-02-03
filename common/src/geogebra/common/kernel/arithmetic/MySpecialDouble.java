@@ -117,7 +117,7 @@ public class MySpecialDouble extends MyDouble {
 				return strToString;
 			}
 			// format double value using kernel settings
-			return super.toString();
+			return super.toString(tpl);
 		}
 
 		// letter constants for pi, e, or degree character
