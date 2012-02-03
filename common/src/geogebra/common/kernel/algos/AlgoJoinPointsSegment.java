@@ -121,7 +121,9 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
     	P=A;
     	Q=B;   	
     	s.setPoints(P, Q);
-    	setInputOutput();   	
+    	setInputOutput(); 
+    	
+    	compute();
     	
     }
 

@@ -174,10 +174,11 @@ public class AlgoJoinPoints3D extends AlgoElement3D {
     		input[i].removeAlgorithm(this);
     	
     	P=A;
-    	Q=B;   	
-    	compute();
+    	Q=B;  
+    	cs.setCoord(P,Q);
     	setInputOutput();   	
-    	
+
+    	compute();
     }
     
 	public Algos getClassName() {
