@@ -11,12 +11,13 @@ public class GgbLoaderWorker extends DedicatedWorkerEntryPoint {
 	@Override
 	public void onWorkerLoad() {
 		
-		importScript("../web/js/jsxgraph_unzip.js");
+		//importScript("../web/js/jsxgraph_unzip.js");
 		
 		this.setOnMessage(new MessageHandler() {
 			
 			public void onMessage(MessageEvent event) {
-				postMessage(stringify(unzip(event.getDataAsString())));
+				postMessage("worker msg"+event.getDataAsString()); 
+				//postMessage(stringify(unzip(event.getDataAsString())));
 			}
 		});
 	}

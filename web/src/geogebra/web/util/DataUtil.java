@@ -73,7 +73,8 @@ public final class DataUtil {
 				worker.setOnMessage(new MessageHandler() {
 					
 					public void onMessage(MessageEvent event) {
-						view.maybeLoadFile(prepareContent((JsArray<JsArrayString>) event.getDataAsJSO()));
+						GWT.log(event.getDataAsString());
+						//view.maybeLoadFile(prepareContent((JsArray<JsArrayString>) event.getDataAsJSO()));
 					}
 				});
 				worker.postMessage("hello worker");
