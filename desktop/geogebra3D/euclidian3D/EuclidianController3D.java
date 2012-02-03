@@ -844,8 +844,10 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
     	//if the resulting point is defined, but is not around the mouse, discard it. (2011/8/8 Tam)
     	Coords picked = view3D.getPickPoint(mouseLoc.x, mouseLoc.y);
     	Coords toScreenCoords = view3D.getToScreenMatrix().mul(point.getCoords().getCoordsLast1()).getInhomCoords();
+    	/*
     	Application.debug("X: "+Math.abs(picked.getX() - toScreenCoords.getX()) + "\n" +
     			"Y: "+Math.abs(picked.getY() - toScreenCoords.getY()));
+    	*/
     	if ( 	Math.abs(picked.getX() - toScreenCoords.getX()) > 15 ||
     			Math.abs(picked.getY() - toScreenCoords.getY()) > 15 ) {
     		return null;

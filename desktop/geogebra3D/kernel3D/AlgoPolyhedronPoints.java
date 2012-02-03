@@ -2,6 +2,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoPolygonRegular;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -86,7 +87,6 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		
 		createPolyhedron();
 
-		update();
 		
 		// input : inputPoints or list of faces
 		input = new GeoElement[2];
@@ -100,6 +100,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		setOutput(); 
         
         setLabels(labels);
+        
+
+		update();
         
 	}
 	
@@ -141,7 +144,28 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	 * augment the output size if needed (in case of undefined but labelled outputs)
 	 * @param length labels length
 	 */
-	abstract protected void augmentOutputSize(int length);
+	protected void augmentOutputSize(int length){
+		int n = getSideLengthFromLabelsLength(length);
+		
+		//Application.debug("n="+n+",length="+length);
+		
+		if (n>outputSegmentsSide.size()){
+			GeoPointND[] bottomPoints1;
+			if (getBottom().getParentAlgorithm() instanceof AlgoPolygonRegular){
+				AlgoPolygonRegular algo = (AlgoPolygonRegular) getBottom().getParentAlgorithm();
+				bottomPoints1 = algo.getPoints();
+			}else
+				bottomPoints1 = getBottomPoints();
+			updateOutput(n,bottomPoints1);
+		}
+	}
+	
+	/**
+	 * 
+	 * @param length labels length
+	 * @return side segments length
+	 */
+	abstract protected int getSideLengthFromLabelsLength(int length);
 	
 
 	
@@ -164,7 +188,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		polyhedron.addPointCreated((GeoPoint3D) topPoint);
 		createPolyhedron();
 		
-		update();
+		
 		
 		// input : inputPoints or list of faces
 		input = new GeoElement[2];
@@ -189,6 +213,8 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		}
       
 		setLabels(labels);
+		
+		update();
 	}
 
     
@@ -200,7 +226,12 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	 */
 	protected abstract void createPolyhedron();
 	
-	protected abstract void updateOutput(int n, GeoPointND[] bottomPoints);
+	/**
+	 * update output
+	 * @param newBottomPointsLength new bottom points length
+	 * @param bottomPoints current bottom points
+	 */
+	protected abstract void updateOutput(int newBottomPointsLength, GeoPointND[] bottomPoints);
 	
 	/**
 	 * sets the bottom of the polyhedron

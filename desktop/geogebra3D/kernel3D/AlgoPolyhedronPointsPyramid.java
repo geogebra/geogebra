@@ -2,11 +2,13 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoPolygonRegular;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.main.Application;
 
 import java.util.Collection;
 
@@ -97,10 +99,84 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 	
 	
 	@Override
-	protected void updateOutput(int n, GeoPointND[] bottomPoints) {
+	protected void updateOutput(int newBottomPointsLength, GeoPointND[] bottomPoints) {
+		//current length
+		int nOld = outputSegmentsSide.size();
+		
+		/*
+		Application.printStacktrace("nOld:"+nOld
+				+"\nbottomPointsLength:"+bottomPointsLength
+				+"\nnewBottomPointsLength:"+newBottomPointsLength
+				+"\noutputSegmentsSide:"+outputSegmentsSide.size());
+				*/
+		
+		if (newBottomPointsLength>nOld){
+			//int length=newBottomPointsLength-nOld;
+			for (int i=nOld; i<newBottomPointsLength; i++){
+				polyhedron.startNewFace();
+				polyhedron.addPointToCurrentFace(bottomPoints[i]);
+				polyhedron.addPointToCurrentFace(bottomPoints[(i+1)%newBottomPointsLength]);
+				polyhedron.addPointToCurrentFace(getTopPoint());
+				polyhedron.endCurrentFace();
+				GeoPolygon3D polygon = polyhedron.createPolygon(i);
+				outputPolygonsSide.addOutput(polygon, false);
+				outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[2],false);
+			}
+			outputSegmentsSide.setLabels(null);	
+			
+			refreshOutput();
+		}else if (newBottomPointsLength<nOld){
+			
+			
+			//update last side
+			GeoPolygon polygon = outputPolygonsSide.getElement(newBottomPointsLength-1);
+			GeoPointND[] p = new GeoPointND[3];
+			p[0] = bottomPoints[newBottomPointsLength-1];
+			p[1] = bottomPoints[0];
+			p[2] = getTopPoint();
+			polygon.setPoints(p,null,false); //don't create segments
+			GeoSegmentND[] s = new GeoSegmentND[3];
+			s[0] = getBottom().getSegments()[newBottomPointsLength];
+			s[1] = outputSegmentsSide.getElement(newBottomPointsLength);
+			s[2] = outputSegmentsSide.getElement(0);
+			polygon.setSegments(s);
+			polygon.calcArea();  
+			
+			
+		}
+		
+		/*
+		Application.debug("nOld:"+nOld
+				+"\nbottomPointsLength:"+bottomPointsLength
+				+"\nnewBottomPointsLength:"+newBottomPointsLength
+				+"\noutputSegmentsSide:"+outputSegmentsSide.size());
+		*/
+		
+		if (bottomPointsLength<newBottomPointsLength){
+			//update last sides
+			for(int i=bottomPointsLength; i<newBottomPointsLength; i++)
+				updateSide(i,bottomPoints);
+		}
+		
+		
+		bottomPointsLength=newBottomPointsLength;
 		
 	}
-	
+
+	private void updateSide(int index, GeoPointND[] bottomPoints){
+		GeoPolygon polygon = outputPolygonsSide.getElement(index-1);
+		GeoPointND[] p = new GeoPointND[3];
+		p[0] = bottomPoints[index-1];
+		p[1] = bottomPoints[index];
+		p[2] = getTopPoint();
+		polygon.setPoints(p,null,false); //don't create segments
+		GeoSegmentND[] s = new GeoSegmentND[3];
+		s[0] = getBottom().getSegments()[index];
+		s[1] = outputSegmentsSide.getElement(index);
+		s[2] = outputSegmentsSide.getElement(index-1);
+		polygon.setSegments(s);
+		polygon.calcArea();  
+	}
 	
 	/////////////////////////////////////////////
 	// END OF THE CONSTRUCTION
@@ -115,9 +191,8 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 		updateInteriorPoint();
 
 		if (!preCompute()){
-			for (int i=0; i<bottomPointsLength-getShift(); i++)
-				outputPoints.getElement(i).setUndefined();
-			//bottomPointsLength=getBottom().getPointsLength();
+			if (height!=null)
+				((GeoPoint3D) getTopPoint()).setUndefined();
 			return;
 		}
 		
@@ -177,6 +252,8 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 
 	@Override
 	protected void updateOutput(){
+		//Application.printStacktrace("");
+		
 		if (isOldFileVersion()){
 			//add polyhedron's segments and polygons, without setting this algo as algoparent		
 			int index = 0;
@@ -196,6 +273,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 
 		}else{
 			Collection<GeoPolygon3D> faces = polyhedron.getFacesCollection();
+			//Application.debug(faces.size());
 			int step = 1;
 			for (GeoPolygon polygon : faces){
 				GeoSegmentND[] segments = polygon.getSegments();
@@ -208,18 +286,27 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 					outputPolygonsSide.addOutput((GeoPolygon3D) polygon, false);
 					outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[2],false);		
 					step++;
+					//Application.debug(outputSegmentsSide.size());
 				}
 			}
 		}
 		
 
 		
+		
 		refreshOutput();
 		
 	}
 
 	@Override
-	protected void augmentOutputSize(int length){
+	protected int getSideLengthFromLabelsLength(int length){
 		
+		//Application.debug("bottomAsInput="+bottomAsInput+",shift="+getShift());
+
+		if (bottomAsInput)
+			return (length + getShift() -2)/2;
+
+		return (length + getShift() - 3)/3;	
+
 	}
 }
