@@ -49,7 +49,7 @@ public class FunctionVariable extends MyDouble {
 	
 	@Override
 	final public String toString(StringTemplate tpl) {
-		return kernel.printVariableName(varStr);
+		return kernel.printVariableName(varStr,tpl);
 	}
 
 	/*

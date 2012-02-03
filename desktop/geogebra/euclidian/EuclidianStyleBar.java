@@ -4,6 +4,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoTableText;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -1826,7 +1827,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 			cmdText.setLength(0);
 			cmdText.append("TableText[");
 			cmdText.append(((GeoList) input[0]).getFormulaString(
-					StringType.GEOGEBRA, false));
+					StringTemplate.get(StringType.GEOGEBRA), false));
 			cmdText.append(",\"");
 			cmdText.append(arg);
 			cmdText.append("\"]");

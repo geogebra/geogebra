@@ -4,6 +4,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ConstructionDefaults;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -718,7 +719,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 
 				it = geos.iterator();
 				while (it.hasNext()) {
-					sb.append(it.next().getFormulaString(StringType.GEOGEBRA,
+					sb.append(it.next().getFormulaString(StringTemplate.get(StringType.GEOGEBRA),
 							false));
 					if (it.hasNext())
 						sb.append(",");

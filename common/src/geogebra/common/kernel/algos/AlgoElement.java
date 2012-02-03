@@ -21,6 +21,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -1019,7 +1020,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	}
 
 	public String getCommandDescription(boolean real) {
-		String cmdname = getCommandName();
+		String cmdname = getCommandName(kernel.getStringTemplate());
 
 		// command name
 		if (cmdname.equals("Expression")) {
@@ -1086,7 +1087,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * 
 	 * @return internal command name
 	 */
-	public String getCommandName() {
+	public String getCommandName(StringTemplate tpl) {
 		String cmdname;
 		Algos classname;
 		// get class name
@@ -1100,7 +1101,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 				// e.g. Element[list, 1] becomes ggbtmpvarElement[list, 1] to
 				// make sure that the CAS does not evaluate this command, see
 				// #1447
-				cmdname = kernel.printVariableName(cmdname);
+				cmdname = kernel.printVariableName(cmdname,tpl);
 			}
 		}
 		return cmdname;
@@ -1161,7 +1162,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 
 		try {
 			// command
-			String cmdname = getCommandName();
+			String cmdname = getCommandName(kernel.getStringTemplate());
 			if (cmdname.equals("Expression")) {
 				sb.append(getExpXML());
 			} else {

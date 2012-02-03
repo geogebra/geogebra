@@ -14,6 +14,8 @@ package geogebra.gui;
 
 import geogebra.common.factories.FormatFactory;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.main.Application;
 
@@ -52,7 +54,7 @@ public class NumberComboBox extends JComboBox {
 	}
 	
 	public void setValue(final double val) {	
-		setSelectedItem(kernel.formatPiE(val, nf));			
+		setSelectedItem(kernel.formatPiE(val, nf,StringTemplate.get(StringType.GEOGEBRA)));			
 	}
 	
 	public double getValue() {

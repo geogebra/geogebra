@@ -859,13 +859,13 @@ public class Kernel {
 
 	public final StringBuilder buildImplicitEquation(double[] numbers,
 			String[] vars, boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN,
-			char op) {
+			char op,StringTemplate tpl) {
 
 		sbBuildImplicitEquation.setLength(0);
 		sbBuildImplicitEquation.append((CharSequence)buildImplicitVarPart(numbers, vars,
-				KEEP_LEADING_SIGN || (op == '='), CANCEL_DOWN).toString());
+				KEEP_LEADING_SIGN || (op == '='), CANCEL_DOWN,tpl).toString());
 
-		if (getStringTemplate().getStringType().equals(StringType.MATH_PIPER) && (op == '=')) {
+		if (tpl.hasType(StringType.MATH_PIPER) && (op == '=')) {
 			sbBuildImplicitEquation.append(" == ");
 		} else {
 			sbBuildImplicitEquation.append(' ');
@@ -907,7 +907,7 @@ public class Kernel {
 
 	private final StringBuilder sbFormatSigned = new StringBuilder(40);
 
-	final public String formatPiERaw(double x, NumberFormatAdapter numF) {
+	final private String formatPiERaw(double x, NumberFormatAdapter numF,StringTemplate tpl) {
 		// PI
 		if (x == Math.PI) {
 			return stringTemplate.getPi();
@@ -1155,14 +1155,14 @@ public class Kernel {
 	/**
 	 * calls formatPiERaw() and converts to localised digits if appropriate
 	 */
-	final public String formatPiE(double x, NumberFormatAdapter numF) {
+	final public String formatPiE(double x, NumberFormatAdapter numF,StringTemplate tpl) {
 		if (AbstractApplication.unicodeZero != '0') {
 
-			String num = formatPiERaw(x, numF);
+			String num = formatPiERaw(x, numF,tpl);
 
 			return internationalizeDigits(num);
 		}
-		return formatPiERaw(x, numF);
+		return formatPiERaw(x, numF,tpl);
 	}
 
 	private final StringBuilder sbBuildImplicitEquation = new StringBuilder(80);
@@ -1271,10 +1271,10 @@ public class Kernel {
 
 	// lhs of lhs = 0
 	final public StringBuilder buildLHS(double[] numbers, String[] vars,
-			boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN) {
+			boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN,StringTemplate tpl) {
 		sbBuildLHS.setLength(0);
 		sbBuildLHS.append((CharSequence)buildImplicitVarPart(numbers, vars,
-				KEEP_LEADING_SIGN, CANCEL_DOWN));
+				KEEP_LEADING_SIGN, CANCEL_DOWN,tpl));
 
 		// add constant coeff
 		double coeff = temp[vars.length];
@@ -1318,7 +1318,7 @@ public class Kernel {
 
 	// lhs of implicit equation without constant coeff
 	final private StringBuilder buildImplicitVarPart(double[] numbers,
-			String[] vars, boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN) {
+			String[] vars, boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN,StringTemplate tpl) {
 
 		temp = new double[numbers.length];
 
@@ -1364,7 +1364,7 @@ public class Kernel {
 		// BUILD EQUATION STRING
 		// valid left hand side
 		// leading coefficient
-		String strCoeff = formatCoeff(temp[leadingNonZero]);
+		String strCoeff = formatCoeff(temp[leadingNonZero],tpl);
 		sbBuildImplicitVarPart.append(strCoeff);
 		sbBuildImplicitVarPart.append(vars[leadingNonZero]);
 
@@ -1382,7 +1382,7 @@ public class Kernel {
 
 			if ((abs >= PRINT_PRECISION) || useSignificantFigures) {
 				sbBuildImplicitVarPart.append(sign);
-				sbBuildImplicitVarPart.append(formatCoeff(abs));
+				sbBuildImplicitVarPart.append(formatCoeff(abs,tpl));
 				sbBuildImplicitVarPart.append(vars[i]);
 			}
 		}
@@ -1393,13 +1393,13 @@ public class Kernel {
 
 	// form: y��� = f(x) (coeff of y = 0)
 	public final StringBuilder buildExplicitConicEquation(double[] numbers,
-			String[] vars, int pos, boolean KEEP_LEADING_SIGN) {
+			String[] vars, int pos, boolean KEEP_LEADING_SIGN,StringTemplate tpl) {
 		// y���-coeff is 0
 		double d, dabs, q = numbers[pos];
 		// coeff of y��� is 0 or coeff of y is not 0
 		if (isZero(q)) {
 			return buildImplicitEquation(numbers, vars, KEEP_LEADING_SIGN,
-					true, '=');
+					true, '=',getStringTemplate());
 		}
 
 		int i, leadingNonZero = numbers.length;
@@ -1427,7 +1427,7 @@ public class Kernel {
 		} else {
 			// leading coeff
 			d = -numbers[leadingNonZero] / q;
-			sbBuildExplicitConicEquation.append(formatCoeff(d));
+			sbBuildExplicitConicEquation.append(formatCoeff(d,tpl));
 			sbBuildExplicitConicEquation.append(vars[leadingNonZero]);
 
 			// other coeffs
@@ -1439,7 +1439,7 @@ public class Kernel {
 						sbBuildExplicitConicEquation.append(' ');
 						sbBuildExplicitConicEquation.append(sign(d));
 						sbBuildExplicitConicEquation.append(' ');
-						sbBuildExplicitConicEquation.append(formatCoeff(dabs));
+						sbBuildExplicitConicEquation.append(formatCoeff(dabs,tpl));
 						sbBuildExplicitConicEquation.append(vars[i]);
 					}
 				}
@@ -1496,7 +1496,7 @@ public class Kernel {
 	private StringBuilder sbFormatSF;
 
 	/** doesn't show 1 or -1 */
-	final public String formatCoeff(double x) { // TODO make private
+	final private String formatCoeff(double x,StringTemplate tpl) { // TODO make private
 		if (Math.abs(x) == 1.0) {
 			if (x > 0.0) {
 				return "";
@@ -1505,7 +1505,7 @@ public class Kernel {
 			}
 		} else {
 			String numberStr = format(x);
-			switch (getStringTemplate().getStringType()) {
+			switch (tpl.getStringType()) {
 			case MATH_PIPER:
 			case MAXIMA:
 			case MPREDUCE:
@@ -1519,8 +1519,8 @@ public class Kernel {
 	}
 
 	public final StringBuilder buildExplicitLineEquation(double[] numbers,
-			String[] vars, char op) {
-		StringType casPrintForm = getStringTemplate().getStringType();
+			String[] vars, char op,StringTemplate tpl) {
+		StringType casPrintForm = tpl.getStringType();
 		double d, dabs, q = numbers[1];
 		sbBuildExplicitLineEquation.setLength(0);
 
@@ -1563,7 +1563,7 @@ public class Kernel {
 		d = -numbers[0] / q;
 		dabs = Math.abs(d);
 		if ((dabs >= PRINT_PRECISION) || useSignificantFigures) {
-			sbBuildExplicitLineEquation.append(formatCoeff(d));
+			sbBuildExplicitLineEquation.append(formatCoeff(d,tpl));
 			sbBuildExplicitLineEquation.append('x');
 
 			// constant
@@ -2016,11 +2016,11 @@ public class Kernel {
 	 * @param label
 	 * @return
 	 */
-	public String printVariableName(String label) {
+	public String printVariableName(String label,StringTemplate tpl) {
 		if (isUseTempVariablePrefix()) {
 			return addTempVariablePrefix(label);
 		} else {
-			return printVariableName(getStringTemplate().getStringType(), label);
+			return printVariableName(tpl.getStringType(), label);
 		}
 	}
 

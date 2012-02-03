@@ -1,5 +1,6 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoFunctionable;
@@ -260,12 +261,12 @@ public class RegressionPanel extends JPanel implements  ActionListener, StatPane
 			// linear 
 			else if(statDialog.getRegressionMode() == StatDialog.REG_LINEAR){
 				((GeoLine)statDialog.getRegressionModel()).setToExplicit();	
-				eqn = statDialog.getRegressionModel().getFormulaString(StringType.LATEX, true);
+				eqn = statDialog.getRegressionModel().getFormulaString(StringTemplate.get(StringType.LATEX), true);
 			}
 
 			// nonlinear
 			else{
-				eqn = "y = " + statDialog.getRegressionModel().getFormulaString(StringType.LATEX, true);		
+				eqn = "y = " + statDialog.getRegressionModel().getFormulaString(StringTemplate.get(StringType.LATEX), true);		
 			}
 			
 			

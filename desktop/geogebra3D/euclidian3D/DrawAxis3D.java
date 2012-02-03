@@ -1,7 +1,9 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.factories.FormatFactory;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.util.NumberFormatAdapter;
@@ -124,7 +126,7 @@ public class DrawAxis3D extends DrawLine3D {
     		Coords origin = ((GeoAxisND) getGeoElement()).getPointInD(3,val);
     		
     		//draw numbers
-    		String strNum = getView3D().getKernel().formatPiE(val,numberFormat);
+    		String strNum = getView3D().getKernel().formatPiE(val,numberFormat,StringTemplate.get(StringType.GEOGEBRA));
 
     		//check if the label already exists
     		DrawLabel3D label = labels.get(strNum);

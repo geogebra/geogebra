@@ -433,7 +433,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			}
 			return algoParent.getCommandDescription();
 		}
-		return kernel.printVariableName(label);
+		return kernel.printVariableName(label,kernel.getStringTemplate());
 	}
 
 	public void copyLabel(final GeoElement c) {
@@ -1984,7 +1984,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	public String toLaTeXString(final boolean symbolic) {
-		return getFormulaString(StringType.LATEX, !symbolic);
+		return getFormulaString(StringTemplate.get(StringType.LATEX), !symbolic);
 		// if (symbolic)
 		// return toString();
 		// else
@@ -3620,7 +3620,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (algoParent == null) {
 			return "";
 		} else {
-			return indicesToHTML(algoParent.getCommandName(), addHTMLtag);
+			return indicesToHTML(algoParent.getCommandName(kernel.getStringTemplate()), addHTMLtag);
 		}
 	}
 
@@ -4025,13 +4025,13 @@ public abstract class GeoElement extends ConstructionElement implements
 			// handle non-GeoText prefixed with ":", e.g. "a: x = 3"
 		} else if ((algebraDesc.indexOf(":") > -1) & !geo.isGeoText()) {
 			sb.append(algebraDesc.split(":")[0] + ": \\,");
-			sb.append(geo.getFormulaString(StringType.LATEX, substituteNumbers));
+			sb.append(geo.getFormulaString(StringTemplate.get(StringType.LATEX), substituteNumbers));
 		}
 
 		// now handle non-GeoText prefixed with "="
 		else if ((algebraDesc.indexOf("=") > -1) && !geo.isGeoText()) {
 			sb.append(algebraDesc.split("=")[0] + "\\, = \\,");
-			sb.append(geo.getFormulaString(StringType.LATEX, substituteNumbers));
+			sb.append(geo.getFormulaString(StringTemplate.get(StringType.LATEX), substituteNumbers));
 		}
 
 		// handle GeoText with LaTeX
@@ -5457,9 +5457,9 @@ public abstract class GeoElement extends ConstructionElement implements
 		// use CAS to check f - g = 0
 		try {
 			final StringBuilder diffSb = new StringBuilder();
-			diffSb.append(getFormulaString(StringType.GEOGEBRA, true));
+			diffSb.append(getFormulaString(StringTemplate.get(StringType.GEOGEBRA), true));
 			diffSb.append("-(");
-			diffSb.append(f.getFormulaString(StringType.GEOGEBRA, true));
+			diffSb.append(f.getFormulaString(StringTemplate.get(StringType.GEOGEBRA), true));
 			diffSb.append(")");
 			final String diff = kernel.evaluateGeoGebraCAS(diffSb.toString());
 			return (Double.valueOf(diff) == 0d);
@@ -5482,11 +5482,11 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param substituteNumbers
 	 * @return formula string
 	 */
-	public String getFormulaString(final StringType ExpressionNodeType,
+	public String getFormulaString(final StringTemplate tpl,
 			final boolean substituteNumbers) {
 
 		final StringType tempCASPrintForm = kernel.getStringTemplate().getStringType();
-		kernel.setCASPrintForm(ExpressionNodeType);
+		kernel.setCASPrintForm(tpl.getStringType());
 
 		String ret = "";
 
@@ -5494,25 +5494,25 @@ public abstract class GeoElement extends ConstructionElement implements
 		// only inequalities call this
 
 		// matrices
-		if (isGeoList() && ExpressionNodeType.equals(StringType.LATEX)
+		if (isGeoList() && tpl.hasType(StringType.LATEX)
 				&& ((GeoList) this).isMatrix()) {
 			ret = toLaTeXString(!substituteNumbers);
 		}
 		// vectors
-		else if (isGeoVector() && ExpressionNodeType.equals(StringType.LATEX)) {
+		else if (isGeoVector() && tpl.hasType(StringType.LATEX)) {
 			ret = toLaTeXString(!substituteNumbers);
 		} // curves
 		else if (isGeoCurveCartesian()
-				&& ExpressionNodeType.equals(StringType.LATEX)) {
+				&& tpl.hasType(StringType.LATEX)) {
 			ret = toLaTeXString(!substituteNumbers);
 		} else {
-			ret = substituteNumbers ? toValueString() : getCommandDescription();
+			ret = substituteNumbers ? toValueString(tpl) : getCommandDescription();
 		}
 
 		// GeoNumeric eg a=1
 		if ("".equals(ret) && isGeoNumeric() && !substituteNumbers
 				&& isLabelSet()) {
-			ret = kernel.printVariableName(label);
+			ret = kernel.printVariableName(label,tpl);
 		}
 		if ("".equals(ret) && !isGeoText()) {
 			// eg Text[ (1,2), false]
@@ -5526,7 +5526,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		kernel.setCASPrintForm(tempCASPrintForm);
 
-		if (ExpressionNodeType.equals(StringType.LATEX)) {
+		if (tpl.hasType(StringType.LATEX)) {
 			if ("?".equals(ret)) {
 				ret = app.getPlain("undefined");
 			} else if ((Unicode.Infinity + "").equals(ret)) {
@@ -5554,7 +5554,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		// GeoNumeric eg a=1
 		if ("".equals(ret) && isGeoNumeric() && !substituteNumbers
 				&& isLabelSet()) {
-			ret = kernel.printVariableName(label);
+			ret = kernel.printVariableName(label,StringTemplate.get(ExpressionNodeType));
 		}
 		if ("".equals(ret) && !isGeoText()) {
 			// eg Text[ (1,2), false]

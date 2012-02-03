@@ -1288,7 +1288,7 @@ Translateable, GeoConicNDConstants
 						
 		
 		if (type == CONIC_LINE) {
-			sbToValueString.append((CharSequence)lines[0].toStringLHS());
+			sbToValueString.append((CharSequence)lines[0].toStringLHS(tpl));
 			sbToValueString.append(" = 0");
 			return sbToValueString;
 		}
@@ -1316,7 +1316,8 @@ Translateable, GeoConicNDConstants
 		switch (toStringMode) {
 			case EQUATION_SPECIFIC :
 				if (!isSpecificPossible())
-					return kernel.buildImplicitEquation(coeffs, myVars, KEEP_LEADING_SIGN, true, '=');						
+					return kernel.buildImplicitEquation(coeffs, myVars, 
+							KEEP_LEADING_SIGN, true, '=',tpl);						
 				
 				switch (type) {					
 					case CONIC_CIRCLE :		
@@ -1366,7 +1367,7 @@ Translateable, GeoConicNDConstants
 							return kernel.buildImplicitEquation(								
 								coeffs,
 								myVars, 
-								KEEP_LEADING_SIGN, true, '=');
+								KEEP_LEADING_SIGN, true, '=',tpl);
 
 					case CONIC_HYPERBOLA :
 						if (Kernel.isZero(coeffs[1])) { // xy coeff = 0	
@@ -1421,7 +1422,7 @@ Translateable, GeoConicNDConstants
 								coeffs,
 								myVars,
 								KEEP_LEADING_SIGN,
-								true, '=');
+								true, '=',tpl);
 
 					case CONIC_PARABOLA :
 						if (!Kernel.isZero(coeffs[2]))
@@ -1429,23 +1430,23 @@ Translateable, GeoConicNDConstants
 								coeffs,
 								myVars,
 								2,
-								KEEP_LEADING_SIGN);
+								KEEP_LEADING_SIGN,tpl);
 						else if (!Kernel.isZero(coeffs[0]))
 							return kernel.buildExplicitConicEquation(
 								coeffs,
 								myVars,
 								0,
-								KEEP_LEADING_SIGN);
+								KEEP_LEADING_SIGN,tpl);
 						else
 							return kernel.buildImplicitEquation(
 								coeffs,
 								myVars,
 								KEEP_LEADING_SIGN,
-								true, '=');
+								true, '=',tpl);
 
 					case CONIC_DOUBLE_LINE :
 						sbToValueString.append('(');
-						sbToValueString.append((CharSequence)lines[0].toStringLHS());
+						sbToValueString.append((CharSequence)lines[0].toStringLHS(tpl));
 						sbToValueString.append(")");
 						sbToValueString.append(squared);
 						sbToValueString.append(" = 0");
@@ -1454,9 +1455,9 @@ Translateable, GeoConicNDConstants
 					case CONIC_PARALLEL_LINES :
 					case CONIC_INTERSECTING_LINES :
 						sbToValueString.append('(');
-						sbToValueString.append((CharSequence)lines[0].toStringLHS());
+						sbToValueString.append((CharSequence)lines[0].toStringLHS(tpl));
 						sbToValueString.append(") (");
-						sbToValueString.append((CharSequence)lines[1].toStringLHS());
+						sbToValueString.append((CharSequence)lines[1].toStringLHS(tpl));
 						sbToValueString.append(") = 0");
 						return sbToValueString;
 						
@@ -1464,10 +1465,10 @@ Translateable, GeoConicNDConstants
 				
 			case EQUATION_EXPLICIT:
 				if (isExplicitPossible())
-					return kernel.buildExplicitConicEquation(coeffs, myVars, 4, KEEP_LEADING_SIGN); 
+					return kernel.buildExplicitConicEquation(coeffs, myVars, 4, KEEP_LEADING_SIGN,tpl); 
 
 			default : //implicit
-				return kernel.buildImplicitEquation(coeffs, myVars, KEEP_LEADING_SIGN, true, '=');
+				return kernel.buildImplicitEquation(coeffs, myVars, KEEP_LEADING_SIGN, true, '=',tpl);
 		}
 	}
 	

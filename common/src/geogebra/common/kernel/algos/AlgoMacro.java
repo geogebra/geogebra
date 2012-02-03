@@ -15,6 +15,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.Macro;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -114,7 +115,7 @@ implements AlgoMacroInterface {
 	}
 	
 	@Override
-	public String getCommandName() {
+	public String getCommandName(StringTemplate tpl) {
 		return macro.getCommandName();
 	}
     

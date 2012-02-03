@@ -733,7 +733,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(": ");
-		sbToString.append(buildValueString().toString());
+		sbToString.append(buildValueString(tpl).toString());
 		return sbToString.toString();
 	}
 
@@ -747,7 +747,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		return buildValueString().toString();
+		return buildValueString(tpl).toString();
 	}
 
 	@Override
@@ -758,7 +758,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return sbToString.toString();
 	}
 
-	private StringBuilder buildValueString() {
+	private StringBuilder buildValueString(StringTemplate tpl) {
 		double[] P = new double[2];
 		double[] g = new double[3];
 
@@ -767,7 +767,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			g[0] = x;
 			g[1] = y;
 			g[2] = z;
-			return kernel.buildExplicitLineEquation(g, vars, op);
+			return kernel.buildExplicitLineEquation(g, vars, op,tpl);
 
 		case PARAMETRIC:
 			getInhomPointOnLine(P); // point
@@ -791,20 +791,20 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			g[1] = y;
 			g[2] = z;
 			if (Kernel.isZero(x) || Kernel.isZero(y)) {
-				return kernel.buildExplicitLineEquation(g, vars, op);
+				return kernel.buildExplicitLineEquation(g, vars, op,tpl);
 			}
 			return kernel.buildImplicitEquation(g, vars, KEEP_LEADING_SIGN,
-					false, op);
+					false, op,tpl);
 
 		default: // EQUATION_IMPLICIT
 			g[0] = x;
 			g[1] = y;
 			g[2] = z;
 			if (Kernel.isZero(x) || Kernel.isZero(y)) {
-				return kernel.buildExplicitLineEquation(g, vars, op);
+				return kernel.buildExplicitLineEquation(g, vars, op,tpl);
 			}
 			return kernel.buildImplicitEquation(g, vars, KEEP_LEADING_SIGN,
-					true, op);
+					true, op,tpl);
 		}
 	}
 
@@ -821,14 +821,14 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * 
 	 * @return left hand side as ax + by + c
 	 */
-	final public StringBuilder toStringLHS() {
+	final public StringBuilder toStringLHS(StringTemplate tpl) {
 		double[] g = new double[3];
 
 		if (isDefined()) {
 			g[0] = x;
 			g[1] = y;
 			g[2] = z;
-			return kernel.buildLHS(g, vars, KEEP_LEADING_SIGN, true);
+			return kernel.buildLHS(g, vars, KEEP_LEADING_SIGN, true,tpl);
 		}
 		return sbToStringLHS;
 	}

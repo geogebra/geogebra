@@ -961,7 +961,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	
 	public String getVarString() {	
 		if (fun == null) {
-			return kernel.printVariableName("x");
+			return kernel.printVariableName("x",kernel.getStringTemplate());
 		} else {
 			return fun.getVarString();
 		}
@@ -1716,7 +1716,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	}
 	
 	@Override
-	public String getFormulaString(StringType ExpressionNodeType, boolean substituteNumbers)
+	public String getFormulaString(StringTemplate tpl, boolean substituteNumbers)
 	{
 
 		StringType tempCASPrintForm = kernel.getStringTemplate().getStringType();
@@ -1724,23 +1724,23 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 
 		String ret="";
 		if (this.isGeoFunctionConditional()) {
-			kernel.setCASPrintForm(ExpressionNodeType);
+			kernel.setCASPrintForm(tpl.getStringType());
 			GeoFunctionConditional geoFun = (GeoFunctionConditional)this;
-			if (ExpressionNodeType .equals(StringType.MATH_PIPER)) {
+			if (tpl.hasType(StringType.MATH_PIPER)) {
 
 			// get in form If(x<3, etc
 			ret = geoFun.toSymbolicString();
 			//Application.debug(ret);
-			} else if (ExpressionNodeType .equals(StringType.LATEX)) {
+			} else if (tpl.hasType(StringType.LATEX)) {
 				ret = geoFun.conditionalLaTeX(substituteNumbers);								
 			}
 
 		} else if (this.isGeoFunction()) {
-			kernel.setCASPrintForm(ExpressionNodeType);
+			kernel.setCASPrintForm(tpl.getStringType());
 			
 
 	 		if (isIndependent()) {
-	 			ret = toValueString();
+	 			ret = toValueString(tpl);
 	 		} else {
 	 			
 	 			if (getFunction() == null) {
@@ -1751,11 +1751,11 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		 					getFunction().toString();
 	 		}
 		}
-		else return super.getFormulaString(ExpressionNodeType, substituteNumbers);
+		else return super.getFormulaString(tpl, substituteNumbers);
 		
 		// GeoNumeric eg a=1
 		if ("".equals(ret) && this.isGeoNumeric() && !substituteNumbers && isLabelSet()) {
-			ret = kernel.printVariableName(label);
+			ret = kernel.printVariableName(label,tpl);
 		}
 		if ("".equals(ret) && !this.isGeoText()) {
 			// eg Text[ (1,2), false]
@@ -1767,7 +1767,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		
 		kernel.setCASPrintForm(tempCASPrintForm);
 
-		if (ExpressionNodeType .equals(StringType.LATEX)) {
+		if (tpl.hasType(StringType.LATEX)) {
 			if ("?".equals(ret)) ret = app.getPlain("undefined");
 			else if ((Unicode.Infinity+"").equals(ret)) ret = "\\infty";
 			else if ((Unicode.MinusInfinity+"").equals(ret)) ret = "-\\infty";
@@ -1780,19 +1780,19 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	@Override
 	public String getRealFormulaString(StringType ExpressionNodeType, boolean substituteNumbers)
 	{
-
+		StringTemplate tpl = StringTemplate.get(ExpressionNodeType);
 
 
 		String ret="";
 		if (this.isGeoFunctionConditional()) {
 			kernel.setCASPrintForm(ExpressionNodeType);
 			GeoFunctionConditional geoFun = (GeoFunctionConditional)this;
-			if (ExpressionNodeType .equals(StringType.MATH_PIPER)) {
+			if (tpl.hasType(StringType.MATH_PIPER)) {
 
 			// get in form If(x<3, etc
 			ret = geoFun.toSymbolicString();
 			//Application.debug(ret);
-			} else if (ExpressionNodeType .equals(StringType.LATEX)) {
+			} else if (tpl.hasType(StringType.LATEX)) {
 				ret = geoFun.conditionalLaTeX(substituteNumbers);								
 			}
 
@@ -1801,7 +1801,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 			
 
 	 		if (isIndependent()) {
-	 			ret = toValueString();
+	 			ret = toValueString(tpl);
 	 		} else {
 	 			ret = substituteNumbers ?
 	 					getFunction().toValueString():
@@ -1813,7 +1813,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		else return super.getRealFormulaString(ExpressionNodeType, substituteNumbers);
 		// GeoNumeric eg a=1
 		if ("".equals(ret) && this.isGeoNumeric() && !substituteNumbers && isLabelSet()) {
-			ret = kernel.printVariableName(label);
+			ret = kernel.printVariableName(label,tpl);
 		}
 		if ("".equals(ret) && !this.isGeoText()) {
 			// eg Text[ (1,2), false]

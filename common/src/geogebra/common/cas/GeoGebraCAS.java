@@ -393,7 +393,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 			// standard case: add ggbcasvar prefix to name for CAS
 			if (!handled)
-				sbCASCommand.append(app.getKernel().printVariableName(name));
+				sbCASCommand.append(app.getKernel().printVariableName(name,app.getKernel().getStringTemplate()));
 
 			sbCASCommand.append('(');
 			for (int i = 0; i < args.size(); i++) {

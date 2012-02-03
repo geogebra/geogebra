@@ -506,9 +506,9 @@ public class GeoFunctionConditional extends GeoFunction {
 		StringBuilder sb = new StringBuilder();
 		
 		if (getElseFunction() == null && !ifFun.isGeoFunctionConditional()) {
-			sb.append(getIfFunction().getFormulaString(StringType.LATEX, substituteNumbers));
+			sb.append(getIfFunction().getFormulaString(StringTemplate.get(StringType.LATEX), substituteNumbers));
 			sb.append(" \\;\\;\\;\\; \\left(");
-			sb.append(getCondFunction().getFormulaString(StringType.LATEX, substituteNumbers));
+			sb.append(getCondFunction().getFormulaString(StringTemplate.get(StringType.LATEX), substituteNumbers));
 			sb.append(" \\right)");
 			
 		} else {			

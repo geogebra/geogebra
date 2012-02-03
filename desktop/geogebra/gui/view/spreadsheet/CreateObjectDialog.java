@@ -1,6 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.gui.view.spreadsheet.CellRange;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
@@ -610,7 +611,7 @@ implements ListSelectionListener, FocusListener, WindowFocusListener{
 			ImageIcon latexIcon = new ImageIcon();
 			//String latexStr = newGeo.getLaTeXAlgebraDescription(true);
 
-			String latexStr = newGeo.getFormulaString(StringType.LATEX, true);
+			String latexStr = newGeo.getFormulaString(StringTemplate.get(StringType.LATEX), true);
 
 
 			//System.out.println(latexStr);

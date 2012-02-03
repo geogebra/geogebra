@@ -1,6 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -271,14 +272,14 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 			boolean isSerif = false;
 			if (geo.isDefined() && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 
-				latexStr = geo.getFormulaString(StringType.LATEX, true);
+				latexStr = geo.getFormulaString(StringTemplate.get(StringType.LATEX), true);
 				if (geo.isLaTeXDrawableGeo(latexStr)) {
 					try {
 						if(geo.isGeoText())
 							isSerif = ((GeoText)geo).isSerifFont();
 						//System.out.println(latexStr);
 						drawLatexImageIcon(latexIcon, latexStr, getFont(), isSerif,
-								geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getAlgebraColor()), bgColor);
+								geogebra.awt.Color.getAwtColor(geo.getAlgebraColor()), bgColor);
 						setIcon(latexIcon);
 						setText("");
 

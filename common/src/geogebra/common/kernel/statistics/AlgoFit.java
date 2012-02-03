@@ -13,6 +13,7 @@ package geogebra.common.kernel.statistics;
  */
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -193,7 +194,8 @@ public class AlgoFit extends AlgoElement {
 		for(int i=0;i<functionsize;i++){
 			sb.append(P.getEntry(i,0));
 			sb.append('*');
-			sb.append(((GeoFunction)functionlist.get(i)).getFormulaString(StringType.GEOGEBRA, true));
+			sb.append(((GeoFunction)functionlist.get(i)).getFormulaString(
+					StringTemplate.get(StringType.GEOGEBRA), true));
 			if (i != functionsize - 1) {
 				sb.append('+');
 			}

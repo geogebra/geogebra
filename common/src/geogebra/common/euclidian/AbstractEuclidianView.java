@@ -22,6 +22,7 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.FormatFactory;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
@@ -30,6 +31,7 @@ import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.AlgoIntegralFunctions;
 import geogebra.common.kernel.algos.AlgoSlope;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
@@ -3059,7 +3061,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 		private double getLabelLength(double rw, FontRenderContext frc) {
 			TextLayout layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(
-					kernel.formatPiE(rw, axesNumberFormat[0])
+					kernel.formatPiE(rw, axesNumberFormat[0],StringTemplate.get(StringType.GEOGEBRA))
 							+ ((axesUnitLabels[0] != null) && !piAxisUnit[0] ? axesUnitLabels[0]
 									: ""), getFontAxes(), frc);
 			return layout.getAdvance();
@@ -3198,12 +3200,12 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 					if (pix <= maxX) {
 						if (showAxesNumbers[0]) {
 							String strNum = kernel.formatPiE(rw,
-									axesNumberFormat[0]);
+									axesNumberFormat[0],StringTemplate.get(StringType.GEOGEBRA));
 
 							// flag to handle drawing a label at axis crossing point
 							boolean zero = strNum.equals(""
 									+ kernel.formatPiE(axisCross[1],
-											axesNumberFormat[0]));
+											axesNumberFormat[0],StringTemplate.get(StringType.GEOGEBRA)));
 							if ((labelno % unitsPerLabelX) == 0) {
 								sb.setLength(0);
 								sb.append(strNum);
@@ -3361,12 +3363,12 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 					if (pix >= maxY) {
 						if (showAxesNumbers[1]) {
 							String strNum = kernel.formatPiE(rw,
-									axesNumberFormat[1]);
+									axesNumberFormat[1],StringTemplate.get(StringType.GEOGEBRA));
 
 							// flag for handling label at axis cross point
 							boolean zero = strNum.equals(""
 									+ kernel.formatPiE(axisCross[0],
-											axesNumberFormat[0]));
+											axesNumberFormat[0],StringTemplate.get(StringType.GEOGEBRA)));
 							if ((labelno % unitsPerLabelY) == 0) {
 								sb.setLength(0);
 								sb.append(strNum);
@@ -3445,10 +3447,10 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 					// uper left corner
 					sb.setLength(0);
 					sb.append('(');
-					sb.append(kernel.formatPiE(getXmin(), axesNumberFormat[0]));
+					sb.append(kernel.formatPiE(getXmin(), axesNumberFormat[0],StringTemplate.get(StringType.GEOGEBRA)));
 					sb.append(AbstractApplication.unicodeComma);
 					sb.append(" ");
-					sb.append(kernel.formatPiE(getYmax(), axesNumberFormat[1]));
+					sb.append(kernel.formatPiE(getYmax(), axesNumberFormat[1],StringTemplate.get(StringType.GEOGEBRA)));
 					sb.append(')');
 
 					int textHeight = 2 + getFontAxes().getSize();
@@ -3458,10 +3460,10 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 					// lower right corner
 					sb.setLength(0);
 					sb.append('(');
-					sb.append(kernel.formatPiE(getXmax(), axesNumberFormat[0]));
+					sb.append(kernel.formatPiE(getXmax(), axesNumberFormat[0],StringTemplate.get(StringType.GEOGEBRA)));
 					sb.append(AbstractApplication.unicodeComma);
 					sb.append(" ");
-					sb.append(kernel.formatPiE(getYmin(), axesNumberFormat[1]));
+					sb.append(kernel.formatPiE(getYmin(), axesNumberFormat[1],StringTemplate.get(StringType.GEOGEBRA)));
 					sb.append(')');
 
 					TextLayout layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(sb.toString(), getFontAxes(), frc);
@@ -3779,7 +3781,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			for (; pix <= yAxisHeight; rw -= axesNumberingDistances[1], pix += axesStep) {
 				if (pix <= maxY) {
 					if (showAxesNumbers[1]) {
-						String strNum = kernel.formatPiE(rw, axesNumberFormat[1]);
+						String strNum = kernel.formatPiE(rw, axesNumberFormat[1],StringTemplate.get(StringType.GEOGEBRA));
 
 						sb.setLength(0);
 						sb.append(strNum);

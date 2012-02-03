@@ -139,7 +139,7 @@ public class Variable extends ValidExpression {
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return kernel.printVariableName(name);
+		return kernel.printVariableName(name,tpl);
 	}
 
 	public String toValueString(StringTemplate tpl) {

@@ -174,7 +174,7 @@ public class GeoTextField extends GeoButton {
 				// y=m x + c
 				boolean substituteNos = linkedGeo.isGeoNumeric()
 						&& linkedGeo.isIndependent();
-				text = linkedGeo.getFormulaString(StringType.GEOGEBRA,
+				text = linkedGeo.getFormulaString(StringTemplate.get(StringType.GEOGEBRA),
 						substituteNos);
 			}
 
