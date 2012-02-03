@@ -9,6 +9,8 @@
 
 </head>
 <body>
+<form style="margin-left: 40px;" name="inputform" onkeyup="keyup()" action="" onsubmit="check();return false;" autocomplete="Off">Input:<span style="font-weight: bold;"></span> <input name="textfield" size="20" type="text"> <input value="OK" onclick="check();" type="button"> 
+</form>
 
 <table cellspacing="1" cellpadding="1" border="1" align="center">
     <tbody>
@@ -205,6 +207,15 @@ for (var i = 0 ; i <= 73 ; i++) {
 document.getElementById('cell'+i).innerHTML='<input type="button" value="'+names[i]+'" onclick="ggbApplet.setMode('+i+')">';
 }
 
+function keyup() {
+}
+
+function check() {
+    window.document.inputform.textfield.select();
+	
+	var exp=document.inputform.textfield.value;
+alert(ggbApplet.evalCommand(exp));
+}
 </script>
 
 <textarea id="tt" name="tt" rows="10" cols="80" readonly="readonly">

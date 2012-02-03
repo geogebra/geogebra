@@ -7,6 +7,7 @@ import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.GuiManager;
+import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
@@ -35,6 +36,7 @@ import geogebra.common.util.AbstractImageManager;
 import geogebra.web.css.GuiResources;
 import geogebra.web.euclidian.EuclidianController;
 import geogebra.web.euclidian.EuclidianView;
+import geogebra.web.gui.DialogManagerWeb;
 import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLio;
 import geogebra.web.kernel.AnimationManager;
@@ -102,46 +104,46 @@ public class Application extends AbstractApplication {
 	@Override
 	public String getPlain(String cmdName) {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return null;
+		return cmdName;
 	}
 
 	@Override
 	public String getPlain(String cmdName, String param) {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return null;
+		return cmdName + param;
 	}
 
 	@Override
 	public String getPlain(String cmdName, String param, String param2) {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return null;
+		return cmdName + param + param2;
 	}
 
 	@Override
 	public String getPlain(String cmdName, String param, String param2,
 	        String param3) {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return null;
+		return cmdName + param + param2 + param3;
 	}
 
 	@Override
 	public String getPlain(String cmdName, String param, String param2,
 	        String param3, String param4) {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return null;
+		return cmdName + param + param2 + param3 + param4;
 	}
 
 	@Override
 	public String getPlain(String cmdName, String param, String param2,
 	        String param3, String param4, String param5) {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return null;
+		return cmdName + param + param2 + param3 + param4 + param5;
 	}
 
 	@Override
 	public String getMenu(String cmdName) {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return null;
+		return cmdName;
 	}
 
 	@Override
@@ -172,7 +174,7 @@ public class Application extends AbstractApplication {
 	@Override
 	public boolean isUsingFullGui() {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return false;
+		return guiManager != null;
 	}
 
 	@Override
@@ -478,6 +480,7 @@ public class Application extends AbstractApplication {
     }
 	
 	DrawEquationWeb drawEquation;
+	private geogebra.web.gui.GuiManager guiManager;
 
 	@Override
     public DrawEquationInterface getDrawEquation() {
@@ -520,8 +523,12 @@ public class Application extends AbstractApplication {
 
 	@Override
     public GuiManager getGuiManager() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
+	    if (guiManager == null) {
+	    	//TODO: add getGuiManager(), see #1783
+	    	//guiManager = new geogebra.web.gui.GuiManager();
+	    }
+	    
+	    return guiManager;
     }
 
 	@Override
@@ -826,6 +833,7 @@ public class Application extends AbstractApplication {
 	// random id to identify ggb files
 	// eg so that GeoGebraTube can notice it's a version of the same file
 	private String uniqueId = null;//FIXME: generate new UUID: + UUID.randomUUID();
+	private geogebra.web.gui.DialogManagerWeb dialogManager;
 
 	public String getUniqueId() {
 		return uniqueId;
@@ -866,7 +874,17 @@ public class Application extends AbstractApplication {
 	public static native void console(JavaScriptObject dataAsJSO) /*-{
 		$wnd.console.log(dataAsJSO);
     }-*/;
-	
+
+	@Override
+	public geogebra.common.gui.dialog.DialogManager getDialogManager() {
+    	AbstractApplication.debug("TODO: move getDialogManager() to GuiManager, see #1783");
+
+		if (dialogManager == null) {
+			dialogManager = new DialogManagerWeb();
+		}
+		return dialogManager;
+	}
+
 
 
 }

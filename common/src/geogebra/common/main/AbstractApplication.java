@@ -10,6 +10,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.GuiManager;
+import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
@@ -1448,6 +1449,8 @@ public abstract class AbstractApplication {
 	public abstract AbstractImageManager getImageManager();
 	
 	public abstract GuiManager getGuiManager();
+	
+	public abstract DialogManager getDialogManager();
 
 	protected void initGuiManager() { }
 

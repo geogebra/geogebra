@@ -4069,8 +4069,7 @@ public abstract class AbstractEuclidianController {
 	
 		if (selPoints() == 2) {
 			GeoPoint2[] points = getSelectedPoints();
-			app.getGuiManager()
-					.getDialogManager()
+			app.getDialogManager()
 					.showNumberInputDialogRegularPolygon(
 							app.getMenu(getKernel().getModeText(mode)),
 							points[0], points[1]);

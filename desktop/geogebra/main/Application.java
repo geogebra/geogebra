@@ -23,6 +23,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.io.layout.DockPanelData;
@@ -4823,6 +4824,14 @@ public class Application extends AbstractApplication implements
 	@Override
 	public StringType getFormulaRenderingType() {
 		return StringType.LATEX;
+	}
+
+	@Override
+	public DialogManager getDialogManager() {
+		
+		if (getGuiManager() == null) return null;
+		
+		return getGuiManager().getDialogManager();
 	}
 
 	
