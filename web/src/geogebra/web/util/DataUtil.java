@@ -24,7 +24,7 @@ public final class DataUtil {
 	
 	static boolean installed;
 	static View view = null;
-	static JavaScriptObject zipped = null;
+	public static JavaScriptObject zipped = null;
 	
 	public static void unzip(JsUint8Array zippedContent, View v) {
 		ensureInstall();

@@ -32,7 +32,7 @@ public class GeoGebraFrame extends VerticalPanel {
 	private static ArrayList<GeoGebraFrame> instances = new ArrayList<GeoGebraFrame>();
 	private static GeoGebraFrame activeInstance;
 
-	private static LoadFilePresenter fileLoader = new LoadFilePresenter(
+	public static LoadFilePresenter fileLoader = new LoadFilePresenter(
 			new UrlFetcherImpl(
 					XhrFactory.getSupportedXhr(),
 					GeoGebraConstants.URL_PARAM_GGB_FILE,

@@ -8,6 +8,10 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.JavaScriptAPI;
 
+import geogebra.web.gui.app.GeoGebraFrame;
+import geogebra.web.util.DataUtil;
+import geogebra.web.jso.JsUint8Array;
+
 public class GgbAPI  extends geogebra.common.plugin.GgbAPI implements JavaScriptAPI {
 
 	public GgbAPI(Application app) {
@@ -112,8 +116,16 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI implements JavaScript
 
 
     public String getBase64() {
-	    // TODO Auto-generated method stub
-	    return null;
+    	String ret = GeoGebraFrame.fileLoader.getView().getDataParamBase64String();
+    	if (!ret.equals(""))
+    		return ret;
+
+    	if (!GeoGebraFrame.fileLoader.getView().getDataParamFileName().equals("") ||
+    		GeoGebraFrame.fileLoader.isGgbFileParameterSpecified())
+    		if (DataUtil.zipped != null)
+    			return DataUtil.base64Encode(((JsUint8Array)DataUtil.zipped).getString());
+
+    	return null;
     }
 
 

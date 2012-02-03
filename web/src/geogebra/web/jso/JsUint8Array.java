@@ -17,5 +17,11 @@ public class JsUint8Array extends JavaScriptObject {
 	public final native void set(int index, short byteValue) /*-{
 		this[index] = byteValue;
 	}-*/;
-	
+
+	public final native String getString() /*-{
+		var ret = "";
+		for (i = 0; i < this.length; i++)
+			ret += String.fromCharCode(this[i]);
+		return ret;
+	}-*/;
 }

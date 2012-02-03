@@ -30,6 +30,10 @@ public class LoadFilePresenter extends BasePresenter {
 		}
 	}
 
+	public boolean isGgbFileParameterSpecified() {
+		return urlFetcher.isGgbFileParameterSpecified();
+	}
+
 	private void process(String dataParamBase64String) {
 		byte[] bytes = DataUtil.decode(dataParamBase64String);
 		JsArrayInteger jsBytes = JsArrayInteger.createArray().cast();
