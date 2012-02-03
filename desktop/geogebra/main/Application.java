@@ -616,6 +616,7 @@ public class Application extends AbstractApplication implements
 		geogebra.common.factories.FormatFactory.prototype = new geogebra.factories.FormatFactory();
 		geogebra.common.factories.LaTeXFactory.prototype = new geogebra.factories.LaTeXFactory();
 		geogebra.common.factories.CASFactory.prototype = new geogebra.factories.CASFactory();
+		geogebra.common.factories.SwingFactory.prototype = new geogebra.factories.SwingFactory();
 		geogebra.common.util.StringUtil.prototype = new geogebra.util.StringUtil();
 		// TODO: probably there is better way
 		geogebra.common.awt.Color.black = geogebra.awt.Color.black;

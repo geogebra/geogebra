@@ -1,4 +1,7 @@
 package geogebra.gui.inputfield;
+import geogebra.common.awt.Color;
+import geogebra.common.awt.Font;
+import geogebra.common.javax.swing.JLabel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.commands.MyException;
 import geogebra.common.kernel.geos.GeoElement;
@@ -28,7 +31,8 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class AutoCompleteTextField extends MathTextField implements 
-AutoComplete, GeoElementSelectionListener, TextObject {
+AutoComplete, GeoElementSelectionListener, TextObject,
+geogebra.common.gui.inputfield.AutoCompleteTextField {
 
 	private static final long serialVersionUID = 1L;
 
@@ -974,6 +978,24 @@ AutoComplete, GeoElementSelectionListener, TextObject {
 	 */
 	public void showError(MyError e) {
 		app.showError(e);
+	}
+
+	public void setFont(Font font) {
+		super.setFont(geogebra.awt.Font.getAwtFont(font));
+	}
+
+	public void setForeground(Color color) {
+		super.setForeground(geogebra.awt.Color.getAwtColor(color));
+		
+	}
+
+	public void setBackground(Color color) {
+		super.setBackground(geogebra.awt.Color.getAwtColor(color));
+		
+	}
+
+	public void setLabel(JLabel label) {
+		((geogebra.javax.swing.JLabel)label).getImpl().setLabelFor(this);
 	}
 
 }

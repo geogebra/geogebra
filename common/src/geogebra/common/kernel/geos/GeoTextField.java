@@ -1,5 +1,6 @@
 package geogebra.common.kernel.geos;
 
+import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -200,5 +201,7 @@ public class GeoTextField extends GeoButton {
 		runScripts(textField.getText());
 		
 	}
+	
+
 
 }
