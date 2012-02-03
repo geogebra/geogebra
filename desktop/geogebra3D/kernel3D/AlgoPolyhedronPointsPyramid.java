@@ -229,6 +229,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 		
 	}
 	
+	/*
 	@Override
 	public void update() {
 
@@ -240,7 +241,8 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 			((GeoPoint3D) getTopPoint()).update();
 
 	}
-
+*/
+	
     @Override
 	public Algos getClassName() {
 

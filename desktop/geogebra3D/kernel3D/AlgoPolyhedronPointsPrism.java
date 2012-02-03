@@ -147,6 +147,8 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 			int length=newBottomPointsLength-nOld;
 			outputPoints.augmentOutputSize(length);
 			outputPoints.setLabels(null);
+			
+			//updateOutputPoints();
 
 			//new sides of the prism		
 			int l = nOld+length;
@@ -171,6 +173,8 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 			for(int i=newBottomPointsLength; i<bottomPointsLength; i++){
     			outputPoints.getElement(i-getShift()).setUndefined();
     		}
+			
+			//updateOutputPoints();
 			
 			//update top side
 			outputSegmentsTop.getElement(newBottomPointsLength-1).modifyInputPoints(getTopPoint(newBottomPointsLength-1),getTopPoint());			
@@ -201,7 +205,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 			polygon.calcArea();  
 			
 			
-		}
+		}//else updateOutputPoints();
 		
 		
 		
@@ -262,8 +266,21 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 	// END OF THE CONSTRUCTION
 	////////////////////////////////////////////
 
-	
-	
+	/*
+	 * translate all output points
+	 * @param bottomPoints bottom points
+	 * @param v translation
+	 *
+	private void updateOutputPoints(){
+		GeoPointND[] bottomPoints = getBottomPoints();
+
+		//translation from bottom to top
+		Coords v = getUpTranslation();
+		for (int i=0;i<outputPoints.size();i++)
+			outputPoints.getElement(i).setCoords(bottomPoints[i+getShift()].getInhomCoordsInD(3).add(v),true);
+
+	}
+	*/
 	
 	@Override
 	public void compute() {
@@ -284,6 +301,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		for (int i=0;i<bottomPointsLength-getShift();i++)
 			outputPoints.getElement(i).setCoords(bottomPoints[i+getShift()].getInhomCoordsInD(3).add(v),true);
 
+		
 		//TODO remove this and replace with tesselation
 		Coords interiorPoint = new Coords(4);
 		for (int i=0;i<bottomPoints.length;i++){
@@ -295,6 +313,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 
 	}
 
+	/*
 	@Override
 	public void update() {
 
@@ -302,10 +321,12 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		super.update();
 		
 		//output points
+		
 		for (int i=0;i<outputPoints.size();i++)
 			outputPoints.getElement(i).update();
 
 	}
+	*/
 	
 	private Coords uptranslation;
 	

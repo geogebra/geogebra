@@ -113,6 +113,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 		return new OutputHandler<GeoSegment3D>(new elementFactory<GeoSegment3D>() {
 			public GeoSegment3D newElement() {
 				GeoSegment3D s=new GeoSegment3D(cons);
+				//s.setParentAlgorithm(AlgoPolyhedron.this);
 				return s;
 			}
 		});
@@ -132,6 +133,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 		return new OutputHandler<GeoPolygon3D>(new elementFactory<GeoPolygon3D>() {
 			public GeoPolygon3D newElement() {
 				GeoPolygon3D p=new GeoPolygon3D(cons);
+				//p.setParentAlgorithm(AlgoPolyhedron.this);
 				return p;
 			}
 		});
@@ -166,8 +168,9 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 
 	
 	
-	
-    public void update() {
+	/*
+    @Override
+	public void update() {
     	
         // compute output from input
         compute();
@@ -178,7 +181,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 
     }
     
-  
+  */
     
 	
 	

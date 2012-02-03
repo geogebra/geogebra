@@ -1169,7 +1169,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	@Override
 	public void update(GeoElement geo) {
 		
-		//String s = geo.toString(); if (s.startsWith("b")) Application.printStacktrace(s);
+		//String s = geo.toString(); if (s.startsWith("F")) Application.debug(s);
 		
 		if (geo.hasDrawable3D()){
 			Drawable3D d = drawable3DMap.get(geo);
