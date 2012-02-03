@@ -3,7 +3,6 @@ package geogebra.common.gui.inputfield;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Font;
 import geogebra.common.javax.swing.JLabel;
-import geogebra.common.javax.swing.JTextField;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.util.TextObject;
 
