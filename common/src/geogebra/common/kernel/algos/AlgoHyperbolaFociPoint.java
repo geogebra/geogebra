@@ -20,6 +20,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -113,7 +114,8 @@ public class AlgoHyperbolaFociPoint extends AlgoElement {
     }
 
     @Override
-	final public String toString() {
-        return app.getPlain("HyperbolaWithFociABPassingThroughC",A.getLabel(),B.getLabel(),C.getLabel());               
+	final public String toString(StringTemplate tpl) {
+        return app.getPlain("HyperbolaWithFociABPassingThroughC",A.getLabel(tpl),
+        		B.getLabel(tpl),C.getLabel(tpl));               
     }
 }

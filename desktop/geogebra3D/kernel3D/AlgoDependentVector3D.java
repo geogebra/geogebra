@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
@@ -79,7 +80,7 @@ public class AlgoDependentVector3D extends AlgoElement3D {
 	    }    
     }   
     
-    final public String toString() {         
-            return root.toString();
+    final public String toString(StringTemplate tpl) {         
+            return root.toString(tpl);
     }
 }

@@ -22,6 +22,7 @@ import geogebra.common.awt.Color;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -392,8 +393,8 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
 	}
 
 	@Override
-	public String toString() {
-        return app.getPlain("IntersectionPathsOfAB",((GeoElement) g).getLabel(),p.getLabel());
+	public String toString(StringTemplate tpl) {
+        return app.getPlain("IntersectionPathsOfAB",((GeoElement) g).getLabel(tpl),p.getLabel(tpl));
     }
 	
 	String labelPrefix = null;

@@ -325,7 +325,7 @@ public class CASView extends JComponent implements View, Gridable {
 	 * cell has no output string, the input string of this cell is returned.
 	 */
 	public String getRowInputValue(int n) {
-		return consoleTable.getGeoCasCell(n).getInput();
+		return consoleTable.getGeoCasCell(n).getInput(kernel.getStringTemplate());
 	}
 
 	/**

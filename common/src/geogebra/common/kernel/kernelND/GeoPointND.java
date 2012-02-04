@@ -3,6 +3,7 @@ package geogebra.common.kernel.kernelND;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -31,7 +32,7 @@ public interface GeoPointND {
 
 	public boolean isLabelSet();
 
-	public String getLabel();
+	public String getLabel(StringTemplate tpl);
 
 	public boolean isInfinite();
 

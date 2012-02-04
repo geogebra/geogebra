@@ -18,6 +18,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -142,10 +143,10 @@ public class AlgoIncircle extends AlgoElement {
     }
 
     @Override
-	public String toString() {
+	public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("IncircleOfTriangleABC", A.getLabel(), B.getLabel(), C.getLabel());
+        return app.getPlain("IncircleOfTriangleABC", A.getLabel(tpl), B.getLabel(tpl), C.getLabel(tpl));
     }
 }
 

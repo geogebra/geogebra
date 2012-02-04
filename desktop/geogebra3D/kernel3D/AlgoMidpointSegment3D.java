@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -71,8 +72,8 @@ public class AlgoMidpointSegment3D extends AlgoMidpoint3D {
     }
 
     
-    final public String toString() {
-        return app.getPlain("MidpointOfA",((GeoElement) segment).getLabel());
+    final public String toString(StringTemplate tpl) {
+        return app.getPlain("MidpointOfA",((GeoElement) segment).getLabel(tpl));
 
     }
 

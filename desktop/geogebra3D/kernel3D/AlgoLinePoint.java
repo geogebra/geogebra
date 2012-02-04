@@ -15,6 +15,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -73,7 +74,7 @@ public abstract class AlgoLinePoint extends AlgoElement3D {
 
     abstract protected Coords getDirection();
     
-    final public String toString() {
-    	return app.getPlain("LineThroughAParallelToB",point.getLabel(),inputParallel.getLabel());
+    final public String toString(StringTemplate tpl) {
+    	return app.getPlain("LineThroughAParallelToB",point.getLabel(tpl),inputParallel.getLabel(tpl));
     }
 }

@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
@@ -143,7 +144,7 @@ public class AlgoDependentList extends AlgoElement implements AlgoDependentListI
 	private StringBuilder sb; 
 	
     @Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
 
         if (sb == null) sb = new StringBuilder();
         else sb.setLength(0);
@@ -151,10 +152,10 @@ public class AlgoDependentList extends AlgoElement implements AlgoDependentListI
     	
     	if(input.length > 0) { // Florian Sonner 2008-07-12
 	    	for (int i=0; i < input.length - 1; i++) {
-	    		sb.append(input[i].getLabel());
+	    		sb.append(input[i].getLabel(tpl));
 	    		sb.append(", ");
 	    	}    	
-	    	sb.append(input[input.length-1].getLabel());
+	    	sb.append(input[input.length-1].getLabel(tpl));
     	}
     	sb.append("}");    		    	    	
         return sb.toString();

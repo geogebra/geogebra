@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -193,21 +194,22 @@ public class AlgoJoinPoints3D extends AlgoElement3D {
     	return null;
 	}
 	
-    final public String toString() {
+    final public String toString(StringTemplate tpl) {
         StringBuilder sb = new StringBuilder();
 
         switch(geoClassType){
     	case SEGMENT3D:
     		if (poly!=null)
-                sb.append(app.getPlain("SegmentABofC",P.getLabel(),Q.getLabel(),poly.getNameDescription()));
+                sb.append(app.getPlain("SegmentABofC",P.getLabel(tpl),Q.getLabel(tpl),
+                		poly.getNameDescription()));
     		else
-    			sb.append(app.getPlain("SegmentAB",((GeoElement) P).getLabel(),((GeoElement) Q).getLabel()));
+    			sb.append(app.getPlain("SegmentAB",((GeoElement) P).getLabel(tpl),((GeoElement) Q).getLabel(tpl)));
     		break;
     	case LINE3D:
-    		sb.append(app.getPlain("LineThroughAB",((GeoElement) P).getLabel(),((GeoElement) Q).getLabel()));
+    		sb.append(app.getPlain("LineThroughAB",((GeoElement) P).getLabel(tpl),((GeoElement) Q).getLabel(tpl)));
     		break;
     	case RAY3D:
-    		sb.append(app.getPlain("RayThroughAB",((GeoElement) P).getLabel(),((GeoElement) Q).getLabel()));
+    		sb.append(app.getPlain("RayThroughAB",((GeoElement) P).getLabel(tpl),((GeoElement) Q).getLabel(tpl)));
     		break;
     	}	
 

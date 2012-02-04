@@ -20,6 +20,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
@@ -81,7 +82,7 @@ public class AlgoAngleConic extends AlgoElement {
     }
 
     @Override
-	public final String toString() {
-    	return app.getPlain("AngleOfA",c.getLabel());
+	public final String toString(StringTemplate tpl) {
+    	return app.getPlain("AngleOfA",c.getLabel(tpl));
     }
 }

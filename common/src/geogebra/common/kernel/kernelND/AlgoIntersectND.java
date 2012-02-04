@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.kernelND;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -136,10 +137,10 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
     	return didSetIntersectionPoint != null && didSetIntersectionPoint[index];
     }
 
-    public String toString() {      
+    public String toString(StringTemplate tpl) {      
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("IntersectionPointOfAB",input[0].getLabel(),input[1].getLabel());
+        return app.getPlain("IntersectionPointOfAB",input[0].getLabel(tpl),input[1].getLabel(tpl));
     }
 
     public void remove() {

@@ -132,7 +132,7 @@ public class GeoCasCell extends GeoElement {
 	 * kernel.isPrintLocalizedCommandNames() is true, otherwise internal command
 	 * names are used.
 	 */
-	public String getInput() {
+	public String getInput(StringTemplate tpl) {
 		if (kernel.isPrintLocalizedCommandNames()) {
 			// input with localized command names
 			if (currentLanguage == null
@@ -1645,7 +1645,7 @@ public class GeoCasCell extends GeoElement {
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return getInput();
+		return getInput(tpl);
 	}
 
 	@Override

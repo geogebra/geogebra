@@ -17,6 +17,7 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathAlgo;
 import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.PathParameter;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -130,10 +131,10 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo {
     }
 
     @Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation        
-        return app.getPlain("PointOnA", input[0].getLabel());
+        return app.getPlain("PointOnA", input[0].getLabel(tpl));
     }
     
 	public boolean isChangeable() {

@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -182,7 +183,7 @@ public class AlgoPolyLine extends AlgoElement {
     StringBuilder sb;
     
     @Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
 
         if (sb == null) sb = new StringBuilder();
         else sb.setLength(0);
@@ -192,17 +193,17 @@ public class AlgoPolyLine extends AlgoElement {
         
         //G.Sturr: get label from geoList  (2010-3-15)
 		if (geoList != null) {
-			sb.append(geoList.getLabel());
+			sb.append(geoList.getLabel(tpl));
 			
 		} else {
 		// use point labels
 			 
 			int last = points.length - 1;
 			for (int i = 0; i < last; i++) {
-				sb.append(points[i].getLabel());
+				sb.append(points[i].getLabel(tpl));
 				sb.append(", ");
 			}
-			sb.append(points[last].getLabel());
+			sb.append(points[last].getLabel(tpl));
 		}
               
         return  sb.toString();

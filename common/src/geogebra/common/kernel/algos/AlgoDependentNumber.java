@@ -23,6 +23,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 
 /**
  * Algorithm for dependent numbers, e.g. c = a + b.
@@ -94,10 +95,10 @@ public class AlgoDependentNumber extends AlgoElement {
     }   
     
     @Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
         // was defined as e.g.  r = 5a - 3b
         // return 5a - 3b
-        return root.toString();
+        return root.toString(tpl);
     }
     
     @Override

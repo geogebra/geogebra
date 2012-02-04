@@ -14,6 +14,7 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -63,8 +64,8 @@ public abstract class AlgoPlaneThroughPoint extends AlgoElement3D {
     
     abstract protected GeoElement getSecondInput();
 
-    public String toString() {
-    	return app.getPlain("PlaneThroughAParallelToB",point.getLabel(),getSecondInput().getLabel());
+    public String toString(StringTemplate tpl) {
+    	return app.getPlain("PlaneThroughAParallelToB",point.getLabel(tpl),getSecondInput().getLabel(tpl));
 
     }
 }

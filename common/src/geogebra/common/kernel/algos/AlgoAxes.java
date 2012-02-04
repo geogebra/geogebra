@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -111,9 +112,9 @@ public class AlgoAxes extends AlgoElement {
     }
 
     @Override
-	public final String toString() {
+	public final String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("AxisOfA",c.getLabel());
+        return app.getPlain("AxisOfA",c.getLabel(tpl));
     }
 }

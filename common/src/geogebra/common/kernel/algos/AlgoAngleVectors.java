@@ -20,6 +20,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVector;
@@ -93,10 +94,10 @@ public class AlgoAngleVectors extends AlgoElement {
     }
 
     @Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("AngleBetweenAB",v.getLabel(),w.getLabel());
+        return app.getPlain("AngleBetweenAB",v.getLabel(tpl),w.getLabel(tpl));
 
     }
 }

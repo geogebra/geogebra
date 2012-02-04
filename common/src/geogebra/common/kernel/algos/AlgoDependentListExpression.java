@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyBoolean;
@@ -275,9 +276,9 @@ public class AlgoDependentListExpression extends AlgoElement {
     }   
     
     @Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
         // was defined as e.g.  L = 3 * {a, b, c}  
-        return root.toString();
+        return root.toString(tpl);
     }
     
     @Override

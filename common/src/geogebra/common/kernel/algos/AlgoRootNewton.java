@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -176,10 +177,10 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
     }
 
     @Override
-	public String toString() {
+	public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("RootOfAWithInitialValueB",f.getLabel(),startGeo.getLabel());
+        return app.getPlain("RootOfAWithInitialValueB",f.getLabel(tpl),startGeo.getLabel(tpl));
 
     }
 }

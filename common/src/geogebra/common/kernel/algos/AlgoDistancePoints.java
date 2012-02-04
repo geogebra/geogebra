@@ -23,6 +23,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 
 
 /**
@@ -93,10 +94,10 @@ public class AlgoDistancePoints extends AlgoElement {
     }
 
     @Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("DistanceOfAandB",P.getLabel(),Q.getLabel());
+        return app.getPlain("DistanceOfAandB",P.getLabel(tpl),Q.getLabel(tpl));
 
     }
 }

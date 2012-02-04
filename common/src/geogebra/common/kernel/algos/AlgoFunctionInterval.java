@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -132,10 +133,11 @@ public class AlgoFunctionInterval extends AlgoElement {
     private ExpressionNode exp, exp2; // current expression of f (needed to notice change of f)  
 
     @Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("FunctionAonIntervalBC",f.getLabel(),ageo.getLabel(),bgeo.getLabel());
+        return app.getPlain("FunctionAonIntervalBC",f.getLabel(tpl),
+        		ageo.getLabel(tpl),bgeo.getLabel(tpl));
 
     }
 

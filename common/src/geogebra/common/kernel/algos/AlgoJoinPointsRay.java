@@ -24,6 +24,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 
 
 /**
@@ -91,11 +92,11 @@ public class AlgoJoinPointsRay extends AlgoElement {
     }   
     
     @Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
         
         // Michael Borcherds 2008-03-31
         // simplified to allow better translation
-    	return app.getPlain("RayThroughAB",P.getLabel(),Q.getLabel());
+    	return app.getPlain("RayThroughAB",P.getLabel(tpl),Q.getLabel(tpl));
 
     }
 }

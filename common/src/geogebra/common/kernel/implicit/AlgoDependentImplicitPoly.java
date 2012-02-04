@@ -1,6 +1,7 @@
 package geogebra.common.kernel.implicit;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.Equation;
@@ -278,8 +279,8 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 //			return null;
 	}
 	
-	public final String toString() {
-        return equation.toString();
+	public final String toString(StringTemplate tpl) {
+        return equation.toString(tpl);
     }
 	
 	public final String toRealString() {
@@ -287,8 +288,8 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
     }
 
 	@Override
-	protected String toExpString() {
-		return geoElement.getLabel()+": "+equation.toString();
+	protected String toExpString(StringTemplate tpl) {
+		return geoElement.getLabel(tpl)+": "+equation.toString(tpl);
 	}
 	
 

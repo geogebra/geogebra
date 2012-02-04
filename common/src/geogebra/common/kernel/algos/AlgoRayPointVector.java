@@ -19,6 +19,7 @@ import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 
 /**
  * Creates ray from point and direction vector
@@ -112,10 +113,10 @@ public class AlgoRayPointVector extends AlgoElement {
     }
 
     @Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("RayThroughAWithDirectionB",P.getLabel(),v.getLabel());
+        return app.getPlain("RayThroughAWithDirectionB",P.getLabel(tpl),v.getLabel(tpl));
     }
 
 }

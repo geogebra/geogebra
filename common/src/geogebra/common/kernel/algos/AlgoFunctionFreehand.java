@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -91,7 +92,7 @@ public class AlgoFunctionFreehand extends AlgoElement {
     }
     
     @Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
     	if (inputList.size() < 4 || !inputList.getElementType().equals(GeoClass.NUMERIC)) return app.getPlain("undefined");
         return app.getPlain("FreehandFunctionOnIntervalAB",kernel.format(((GeoNumeric)inputList.get(0)).getDouble()), kernel.format(((GeoNumeric)inputList.get(1)).getDouble()));
     }

@@ -1,5 +1,6 @@
 package geogebra.common.kernel.cas;
 
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoCasCell;
@@ -135,16 +136,16 @@ public class AlgoDependentCasCell extends AlgoElement {
 	
 	
     @Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
         // return input string, e.g. "m := c + 3"
-        return casCell.getInput();
+        return casCell.getInput(tpl);
     }	
     
     /**
      * Returns <cellPair> tag instead of <expression> XML
      */
     @Override
-	protected String getExpXML() {   
+	protected String getExpXML(StringTemplate tpl) {   
     	return casCell.getXML();
     }
     

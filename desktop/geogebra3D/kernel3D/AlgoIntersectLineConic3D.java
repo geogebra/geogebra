@@ -21,6 +21,7 @@ package geogebra3D.kernel3D;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoIntersectLineConic;
@@ -154,8 +155,8 @@ public class AlgoIntersectLineConic3D extends AlgoIntersect3D {
     GeoConicND getConic() { return c; }
     
     
-    public final String toString() {
-    	return app.getPlain("IntersectionPointOfAB",c.getLabel(),((GeoElement) g).getLabel());
+    public final String toString(StringTemplate tpl) {
+    	return app.getPlain("IntersectionPointOfAB",c.getLabel(tpl),((GeoElement) g).getLabel(tpl));
     }
 
     

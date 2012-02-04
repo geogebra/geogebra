@@ -15,6 +15,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -125,10 +126,11 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
     }
 
     @Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-31
         // simplified to allow better translation
-        return app.getPlain("IntersectionPointOfABWithInitialValueC",input[0].getLabel(),input[1].getLabel(),startPoint.getLabel());
+        return app.getPlain("IntersectionPointOfABWithInitialValueC",input[0].getLabel(tpl),
+        		input[1].getLabel(tpl),startPoint.getLabel(tpl));
 
     }   
 }

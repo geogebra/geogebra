@@ -21,6 +21,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
@@ -199,16 +200,16 @@ public class AlgoAnglePoints extends AlgoElement implements
 	}
 
 	@Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
 
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
 		if (algoAnglePoly != null) {
-			return app.getPlain("AngleBetweenABCofD", An.getLabel(), Bn
-					.getLabel(), Cn.getLabel(), algoAnglePoly.getPolygon()
+			return app.getPlain("AngleBetweenABCofD", An.getLabel(tpl), Bn
+					.getLabel(tpl), Cn.getLabel(tpl), algoAnglePoly.getPolygon()
 					.getNameDescription());
 		}
-		return app.getPlain("AngleBetweenABC", An.getLabel(),
-				Bn.getLabel(), Cn.getLabel());
+		return app.getPlain("AngleBetweenABC", An.getLabel(tpl),
+				Bn.getLabel(tpl), Cn.getLabel(tpl));
 	}
 }

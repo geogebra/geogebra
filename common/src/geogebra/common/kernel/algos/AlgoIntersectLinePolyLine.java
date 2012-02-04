@@ -21,6 +21,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -187,8 +188,9 @@ public class AlgoIntersectLinePolyLine extends AlgoElement{
     }
 
 	@Override
-	final public String toString() {
-        return app.getPlain("IntersectionPointOfAB",((GeoElement) g).getLabel(),((GeoElement)pi).getLabel());
+	final public String toString(StringTemplate tpl) {
+        return app.getPlain("IntersectionPointOfAB",((GeoElement) g).getLabel(tpl),
+        		((GeoElement)pi).getLabel(tpl));
     }  
     
 }

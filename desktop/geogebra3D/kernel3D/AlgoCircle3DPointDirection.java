@@ -14,6 +14,7 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.Algos;
@@ -137,8 +138,9 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
     }
 
 
-    final public String toString() {
-    	return app.getPlain(getCommandString(),((GeoElement) point).getLabel(),secondInput.getLabel(),((GeoElement) forAxis).getLabel());
+    final public String toString(StringTemplate tpl) {
+    	return app.getPlain(getCommandString(),((GeoElement) point).getLabel(tpl),
+    			secondInput.getLabel(tpl),((GeoElement) forAxis).getLabel(tpl));
     }
     
     /**

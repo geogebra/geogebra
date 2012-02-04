@@ -20,6 +20,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -138,10 +139,10 @@ public class AlgoAngleLines extends AlgoElement  implements AlgoDrawInformation,
     }
 
     @Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("AngleBetweenAB",g.getLabel(),h.getLabel());
+        return app.getPlain("AngleBetweenAB",g.getLabel(tpl),h.getLabel(tpl));
 
     }
 }

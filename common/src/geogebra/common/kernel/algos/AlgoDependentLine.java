@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -110,8 +111,8 @@ public class AlgoDependentLine extends AlgoElement {
     }   
           
     @Override
-	final public String toString() { 
-    	return equation.toString();
+	final public String toString(StringTemplate tpl) { 
+    	return equation.toString(tpl);
     }
     
     @Override

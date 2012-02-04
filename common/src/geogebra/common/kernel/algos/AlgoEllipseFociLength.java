@@ -20,6 +20,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoPoint2;
 
@@ -51,10 +52,11 @@ public class AlgoEllipseFociLength extends AlgoConicFociLength {
     
 	
 	 @Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("EllipseWithFociABandFirstAxisLengthC",A.getLabel(),B.getLabel(),a.toGeoElement().getLabel());	        	      
+        return app.getPlain("EllipseWithFociABandFirstAxisLengthC",A.getLabel(tpl),
+        		B.getLabel(tpl),a.toGeoElement().getLabel(tpl));	        	      
     }
 
 }

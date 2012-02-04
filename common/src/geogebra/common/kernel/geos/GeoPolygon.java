@@ -29,6 +29,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.AlgoPolygonRegularInterface;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -321,11 +322,11 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
      * is created.
      */
     private static void setLabel(GeoSegmentND s, GeoPointND p) {
-        if (!p.isLabelSet() || p.getLabel() == null) {
+        if (!p.isLabelSet() || p.getLabel(StringTemplate.get(StringType.GEOGEBRA)) == null) {
         	s.setLabel(null);
         } else {
         	// use lower case of point label as segment label
-        	String lowerCaseLabel = ((GeoElement)p).getFreeLabel(p.getLabel().toLowerCase());
+        	String lowerCaseLabel = ((GeoElement)p).getFreeLabel(p.getLabel(StringTemplate.get(StringType.GEOGEBRA)).toLowerCase());
         	s.setLabel(lowerCaseLabel);
         }
     }

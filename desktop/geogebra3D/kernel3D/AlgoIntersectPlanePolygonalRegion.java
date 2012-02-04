@@ -1,6 +1,7 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -45,8 +46,8 @@ public class AlgoIntersectPlanePolygonalRegion extends AlgoIntersectLinePolygona
 		setDependencies();
 	}
 	
-	public String toString() {
-        return app.getPlain("IntersectionPathsOfAB",((GeoElement) plane).getLabel(),p.getLabel());
+	public String toString(StringTemplate tpl) {
+        return app.getPlain("IntersectionPathsOfAB",((GeoElement) plane).getLabel(tpl),p.getLabel(tpl));
     }
 	
 

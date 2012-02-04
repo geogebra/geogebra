@@ -21,6 +21,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVector;
@@ -90,9 +91,9 @@ public class AlgoOrthoVectorVector extends AlgoElement {
     }   
     
     @Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-    	return app.getPlain("VectorPerpendicularToA",v.getLabel());
+    	return app.getPlain("VectorPerpendicularToA",v.getLabel(tpl));
     }
 }

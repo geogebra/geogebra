@@ -170,7 +170,7 @@ public class AlgoCellRange extends AlgoElement {
     }
     
     @Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
     	return toStringOutput;
     }        
     

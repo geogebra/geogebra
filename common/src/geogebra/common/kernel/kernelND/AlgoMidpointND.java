@@ -20,6 +20,7 @@ package geogebra.common.kernel.kernelND;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
@@ -159,10 +160,10 @@ public abstract class AlgoMidpointND extends AlgoElement {
         return Q;
     }
 
-    public String toString() {
+    public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-    	return app.getPlain("MidpointOfAB",P.getLabel(),Q.getLabel());
+    	return app.getPlain("MidpointOfAB",P.getLabel(tpl),Q.getLabel(tpl));
 
     }
 }

@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -83,9 +84,9 @@ public class AlgoAxisSecondLength extends AlgoElement {
 	}
 
 	@Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return app.getPlain("SecondAxisLengthOfA", c.getLabel());
+		return app.getPlain("SecondAxisLengthOfA", c.getLabel(tpl));
 	}
 }

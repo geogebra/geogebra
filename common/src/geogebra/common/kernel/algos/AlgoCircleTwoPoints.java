@@ -20,6 +20,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -78,11 +79,11 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints {
 	 */
 
 	@Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
 
 		return app.getPlain("CircleThroughAwithCenterB",
-				((GeoElement) getP()).getLabel(),
-				((GeoElement) getM()).getLabel());
+				((GeoElement) getP()).getLabel(tpl),
+				((GeoElement) getM()).getLabel(tpl));
 
 	}
 }

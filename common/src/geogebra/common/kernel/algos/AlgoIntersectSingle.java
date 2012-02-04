@@ -2,6 +2,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -213,15 +214,15 @@ public class AlgoIntersectSingle extends AlgoIntersect {
 	}
 
 	@Override
-	public String toString() {
+	public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
 		if (refPoint == null) {
-			return app.getPlain("IntersectionPointOfAB", input[0].getLabel(),
-					input[1].getLabel());
+			return app.getPlain("IntersectionPointOfAB", input[0].getLabel(tpl),
+					input[1].getLabel(tpl));
 		}
-		return app.getPlain("IntersectionPointOfABNearC", input[0].getLabel(),
-				input[1].getLabel(), input[2].getLabel());
+		return app.getPlain("IntersectionPointOfABNearC", input[0].getLabel(tpl),
+				input[1].getLabel(tpl), input[2].getLabel(tpl));
 	}
 
 }

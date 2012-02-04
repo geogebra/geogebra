@@ -24,6 +24,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 
 /**
  *
@@ -102,8 +103,8 @@ public class AlgoDependentPoint extends AlgoElement {
     }   
     
     @Override
-	final public String toString() {              
-        return root.toString();
+	final public String toString(StringTemplate tpl) {              
+        return root.toString(tpl);
     }
     
     @Override

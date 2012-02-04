@@ -14,6 +14,7 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -76,8 +77,8 @@ public class AlgoPlaneThroughPointAndLine extends AlgoPlaneThroughPoint {
     }
     
     
-    final public String toString() {
-    	return app.getPlain("PlaneThroughAB",getPoint().getLabel(),getSecondInput().getLabel());
+    final public String toString(StringTemplate tpl) {
+    	return app.getPlain("PlaneThroughAB",getPoint().getLabel(tpl),getSecondInput().getLabel(tpl));
 
     }
 

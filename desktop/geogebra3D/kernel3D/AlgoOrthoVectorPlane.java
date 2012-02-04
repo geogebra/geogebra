@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
@@ -123,8 +124,8 @@ public class AlgoOrthoVectorPlane extends AlgoElement3D {
 	
 	
 	
-    final public String toString() {
-        return app.getPlain("VectorPerpendicularToA", ((GeoElement) plane).getLabel());
+    final public String toString(StringTemplate tpl) {
+        return app.getPlain("VectorPerpendicularToA", ((GeoElement) plane).getLabel(tpl));
 
     }  
   

@@ -14,6 +14,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Region;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
@@ -95,11 +96,11 @@ public class AlgoPoint3DInRegion extends AlgoElement3D {
     	
     }
 
-    final public String toString() {
+    final public String toString(StringTemplate tpl) {
         StringBuilder sb = new StringBuilder();
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        sb.append(app.getPlain("PointInA",input[0].getLabel()));
+        sb.append(app.getPlain("PointInA",input[0].getLabel(tpl)));
         
         return sb.toString();
     }

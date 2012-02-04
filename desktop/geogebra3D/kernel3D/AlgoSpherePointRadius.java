@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoSphereNDPointRadius;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -87,7 +88,7 @@ public class AlgoSpherePointRadius extends AlgoSphereNDPointRadius {
 
 
 
-    final public String toString() {
-        return app.getPlain("SphereWithCenterAandRadiusB",getM().getLabel(),getRGeo().getLabel());
+    final public String toString(StringTemplate tpl) {
+        return app.getPlain("SphereWithCenterAandRadiusB",getM().getLabel(tpl),getRGeo().getLabel(tpl));
     }
 }

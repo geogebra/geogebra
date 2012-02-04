@@ -14,6 +14,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -87,11 +88,11 @@ public class AlgoPoint3DOnPath extends AlgoElement3D {
     	
     }
 
-    final public String toString() {
+    final public String toString(StringTemplate tpl) {
         StringBuilder sb = new StringBuilder();
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        sb.append(app.getPlain("PointOnA",input[0].getLabel()));
+        sb.append(app.getPlain("PointOnA",input[0].getLabel(tpl)));
         
         return sb.toString();
     }

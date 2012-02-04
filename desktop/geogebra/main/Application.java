@@ -468,7 +468,7 @@ public class Application extends AbstractApplication implements
 		
 		OS = System.getProperty("os.name").toLowerCase(
 				Locale.US);
-
+		
 		if (args != null) {
 			handleHelpVersionArgs(args);
 		}

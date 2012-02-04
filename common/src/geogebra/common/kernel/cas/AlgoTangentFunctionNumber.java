@@ -20,6 +20,7 @@ package geogebra.common.kernel.cas;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -111,10 +112,10 @@ public class AlgoTangentFunctionNumber extends AlgoUsingTempCASalgo {
 	}
 
 	@Override
-	public final String toString() {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return app.getPlain("TangentToAatB", f.getLabel(),
-				"x = " + ngeo.getLabel());
+		return app.getPlain("TangentToAatB", f.getLabel(tpl),
+				"x = " + ngeo.getLabel(tpl));
 	}
 }

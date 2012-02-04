@@ -2,6 +2,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -75,8 +76,9 @@ public class AlgoCylinderAxisRadius extends AlgoQuadric {
 		return axis.getPointInD(3, 1).sub(axis.getPointInD(3, 0));
 	}
 
-	final public String toString() {
-		return app.getPlain("CylinderWithAxisARadiusB",((GeoElement) axis).getLabel(),getNumber().getLabel());
+	final public String toString(StringTemplate tpl) {
+		return app.getPlain("CylinderWithAxisARadiusB",
+				((GeoElement) axis).getLabel(tpl),getNumber().getLabel(tpl));
 
 	}
 	

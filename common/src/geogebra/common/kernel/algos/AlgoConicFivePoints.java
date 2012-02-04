@@ -20,6 +20,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -252,9 +253,10 @@ public class AlgoConicFivePoints extends AlgoElement {
     }
 
     @Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("ConicThroughABCDE",P[0].getLabel(),P[1].getLabel(),P[2].getLabel(),P[3].getLabel(),P[4].getLabel());
+        return app.getPlain("ConicThroughABCDE",P[0].getLabel(tpl),
+        		P[1].getLabel(tpl),P[2].getLabel(tpl),P[3].getLabel(tpl),P[4].getLabel(tpl));
     }
 }

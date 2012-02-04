@@ -21,6 +21,7 @@ package geogebra3D.kernel3D;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
@@ -146,8 +147,8 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
     GeoQuadricND getQuadric() { return q; }
     
     
-    public final String toString() {
-    	return app.getPlain("IntersectionPointOfAB",q.getLabel(),((GeoElement) g).getLabel());
+    public final String toString(StringTemplate tpl) {
+    	return app.getPlain("IntersectionPointOfAB",q.getLabel(tpl),((GeoElement) g).getLabel(tpl));
     }
 
     // INTERSECTION TYPES

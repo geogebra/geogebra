@@ -1081,7 +1081,11 @@ public abstract class AlgoElement extends ConstructionElement implements
 	public String toRealString() {
 		return toString();
 	}
-
+	
+	public final String toString(){
+		return "TODO tostring";
+	}
+ 
 	/**
 	 * translate class name to internal command name GeoGebra File Format
 	 * 
@@ -1164,7 +1168,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 			// command
 			String cmdname = getCommandName(kernel.getStringTemplate());
 			if (cmdname.equals("Expression")) {
-				sb.append(getExpXML());
+				sb.append(getExpXML(kernel.getStringTemplate()));
 			} else {
 				sb.append(getCmdXML(cmdname));
 			}
@@ -1242,7 +1246,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 
 	// Expressions should be shown as out = expression
 	// e.g. <expression label="u" exp="a + 7 b"/>
-	protected String getExpXML() {
+	protected String getExpXML(StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<expression");
 		// add label
@@ -1250,13 +1254,13 @@ public abstract class AlgoElement extends ConstructionElement implements
 		if (/* output != null && */getOutputLength() == 1) {
 			if (getOutput(0).isLabelSet()) {
 				sb.append(" label=\"");
-				labelStr = StringUtil.encodeXML(getOutput(0).getLabel());
+				labelStr = StringUtil.encodeXML(getOutput(0).getLabel(tpl));
 				sb.append(labelStr);
 				sb.append("\"");
 			}
 		}
 		// add expression
-		String expStr = StringUtil.encodeXML(toExpString());
+		String expStr = StringUtil.encodeXML(toExpString(tpl));
 		sb.append(" exp=\"");
 		sb.append(expStr);
 		sb.append("\"");
@@ -1430,8 +1434,8 @@ public abstract class AlgoElement extends ConstructionElement implements
 		return getCommandDescription(tpl);
 	}
 
-	protected String toExpString() {
-		return toString();
+	protected String toExpString(StringTemplate tpl) {
+		return toString(tpl);
 	}
 
 	final boolean doStopUpdateCascade() {

@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoSphereNDTwoPoints;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
@@ -64,12 +65,12 @@ public class AlgoSphereTwoPoints extends AlgoSphereNDTwoPoints {
         return (GeoQuadric3D) getSphereND();
     }
 
-    final public String toString() {
+    final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("SphereThroughAwithCenterB",
-        		((GeoElement) getP()).getLabel(),
-        		((GeoElement) getM()).getLabel());
+        		getP().getLabel(tpl),
+        		getM().getLabel(tpl));
 
     }
 }

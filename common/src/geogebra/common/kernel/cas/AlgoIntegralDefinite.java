@@ -14,6 +14,7 @@ package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -300,11 +301,11 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 	}
 
 	@Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return app.getPlain("IntegralOfAfromBtoC", f.getLabel(),
-				ageo.getLabel(), bgeo.getLabel());
+		return app.getPlain("IntegralOfAfromBtoC", f.getLabel(tpl),
+				ageo.getLabel(tpl), bgeo.getLabel(tpl));
 	}
 
 	public AlgoDrawInformation copy() {

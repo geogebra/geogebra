@@ -1,5 +1,7 @@
 package geogebra.cas.view;
 
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.Application;
@@ -100,7 +102,7 @@ public abstract class CASTableCell extends JPanel{
 
 	public void setValue(GeoCasCell cellValue) {		
 		// set input panel
-		String input = cellValue.getInput();
+		String input = cellValue.getInput(StringTemplate.get(StringType.GEOGEBRA));
 		inputPanel.setInput(input);
 		inputPanel.setCommentColor(Color.green);
 		

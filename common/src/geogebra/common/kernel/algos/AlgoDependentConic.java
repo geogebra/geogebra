@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -105,8 +106,8 @@ public class AlgoDependentConic extends AlgoElement {
     }   
 
     @Override
-	public final String toString() {
-        return equation.toString();
+	public final String toString(StringTemplate tpl) {
+        return equation.toString(tpl);
     }
     
     @Override

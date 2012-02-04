@@ -1,6 +1,7 @@
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.geos.GeoInterval;
 
@@ -32,7 +33,7 @@ public class AlgoDependentInterval extends AlgoDependentFunction {
     }
     
     @Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
     	return f.toSymbolicString();
     }
 

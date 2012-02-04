@@ -16,6 +16,7 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -159,9 +160,10 @@ public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
 	
 	
 	
-    final public String toString() {
+    final public String toString(StringTemplate tpl) {
 
-    	return app.getPlain(getIntersectionTypeString(),getCS1().getLabel(),getCS2().getLabel());
+    	return app.getPlain(getIntersectionTypeString(),getCS1().getLabel(tpl),
+    			getCS2().getLabel(tpl));
        
     } 
     

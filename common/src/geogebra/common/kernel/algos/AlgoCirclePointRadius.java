@@ -25,6 +25,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 
 /**
  * 
@@ -82,10 +83,10 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements Al
 	}
 
 	@Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return app.getPlain("CircleWithCenterAandRadiusB", getM().getLabel(),
-				getRGeo().getLabel());
+		return app.getPlain("CircleWithCenterAandRadiusB", getM().getLabel(tpl),
+				getRGeo().getLabel(tpl));
 	}
 }

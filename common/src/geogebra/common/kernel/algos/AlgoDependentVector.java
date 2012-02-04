@@ -23,6 +23,7 @@ import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 
 /**
  * 
@@ -87,8 +88,8 @@ public class AlgoDependentVector extends AlgoElement {
 	}
 
 	@Override
-	final public String toString() {
-		return root.toString();
+	final public String toString(StringTemplate tpl) {
+		return root.toString(tpl);
 	}
 
 	@Override

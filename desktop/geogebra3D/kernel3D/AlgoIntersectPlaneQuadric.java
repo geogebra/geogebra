@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
@@ -145,10 +146,10 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
 	
 	
 	
-    final public String toString() {
+    final public String toString(StringTemplate tpl) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(app.getPlain("IntersectionCurveOfAB",plane.getLabel(),quadric.getLabel()));
+        sb.append(app.getPlain("IntersectionCurveOfAB",plane.getLabel(tpl),quadric.getLabel(tpl)));
         
         return sb.toString();
     }   

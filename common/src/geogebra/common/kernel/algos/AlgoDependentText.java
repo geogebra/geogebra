@@ -20,6 +20,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.geos.GeoText;
 
@@ -109,10 +110,10 @@ public class AlgoDependentText extends AlgoElement {
     }   
     
     @Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
         // was defined as e.g.  text0 = "Radius: " + r
     	if (root == null) return "";
-        return root.toString();
+        return root.toString(tpl);
     }
     
     @Override

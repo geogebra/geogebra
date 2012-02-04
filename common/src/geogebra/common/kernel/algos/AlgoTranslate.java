@@ -20,6 +20,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -128,11 +129,11 @@ public class AlgoTranslate extends AlgoTransformation {
 	}
 
 	@Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
 
 		// Michael Borcherds 2008-03-24 simplified code!
 		return app
-				.getPlain("TranslationOfAbyB", inGeo.getLabel(), v.getLabel());
+				.getPlain("TranslationOfAbyB", inGeo.getLabel(tpl), v.getLabel(tpl));
 	}
 
 	@Override

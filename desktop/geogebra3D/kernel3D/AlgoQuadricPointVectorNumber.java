@@ -1,6 +1,7 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -28,8 +29,9 @@ public abstract class AlgoQuadricPointVectorNumber extends AlgoQuadricPointNumbe
 		return ((GeoVectorND) getSecondInput()).getCoordsInD(3);
 	}
 	
-    final public String toString() {
-    	return app.getPlain(getPlainName(),getOrigin().getLabel(),getSecondInput().getLabel(),getNumber().getLabel());
+    final public String toString(StringTemplate tpl) {
+    	return app.getPlain(getPlainName(),getOrigin().getLabel(tpl),
+    			getSecondInput().getLabel(tpl),getNumber().getLabel(tpl));
 
     }
 

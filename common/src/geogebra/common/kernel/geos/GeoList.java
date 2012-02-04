@@ -1569,7 +1569,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			// so check == 0 is OK, just need to set n = size() - 1
 			if (check != 0.0) {
 				AbstractApplication.debug("problem with path param "
-						+ PI.getLabel());
+						+ PI.getLabel(StringTemplate.get(StringType.GEOGEBRA)));
 			}
 			n = (n < 0) ? 0 : size() - 1;
 		}

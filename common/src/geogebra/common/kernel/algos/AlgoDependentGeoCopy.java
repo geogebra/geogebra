@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -80,9 +81,9 @@ public class AlgoDependentGeoCopy extends AlgoElement {
     }   
     
     @Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
     	// we use the expression as it may add $ signs 
     	// to the label like $A$1
-    	return origGeoNode.toString();
+    	return origGeoNode.toString(tpl);
     }
 }

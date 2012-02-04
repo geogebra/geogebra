@@ -20,6 +20,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
@@ -120,10 +121,10 @@ public class AlgoRotate extends AlgoTransformation {
     
        
     @Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("ARotatedByAngleB",inGeo.getLabel(),angleGeo.getLabel());
+        return app.getPlain("ARotatedByAngleB",inGeo.getLabel(tpl),angleGeo.getLabel(tpl));
     }
     
     @Override

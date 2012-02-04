@@ -15,6 +15,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathAlgo;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 
@@ -76,8 +77,8 @@ public class AlgoClosestPoint extends AlgoElement implements PathAlgo {
     }
 
     @Override
-	final public String toString() {
-        return app.getPlain("PointOnAClosestToB", input[0].getLabel(), input[1].getLabel());
+	final public String toString(StringTemplate tpl) {
+        return app.getPlain("PointOnAClosestToB", input[0].getLabel(tpl), input[1].getLabel(tpl));
     }
 
 	public boolean isChangeable() {

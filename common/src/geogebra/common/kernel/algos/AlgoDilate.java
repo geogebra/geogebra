@@ -20,6 +20,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
@@ -147,13 +148,13 @@ public class AlgoDilate extends AlgoTransformation {
 	}
 
 	@Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		String sLabel = S == null ? cons.getOrigin().toValueString() : S
-				.getLabel();
-		return app.getPlain("ADilatedByFactorBfromC", inGeo.getLabel(),
-				rgeo.getLabel(), sLabel);
+		String sLabel = S == null ? cons.getOrigin().toValueString(tpl) : S
+				.getLabel(tpl);
+		return app.getPlain("ADilatedByFactorBfromC", inGeo.getLabel(tpl),
+				rgeo.getLabel(tpl), sLabel);
 
 	}
 

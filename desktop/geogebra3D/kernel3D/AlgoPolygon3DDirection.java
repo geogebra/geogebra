@@ -1,6 +1,7 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoPolygon;
@@ -32,7 +33,8 @@ public class AlgoPolygon3DDirection extends AlgoPolygon {
 	}
 	
 
-    protected GeoElement [] createEfficientInput(){
+    @Override
+	protected GeoElement [] createEfficientInput(){
 
     	GeoElement [] efficientInput;
 
@@ -58,12 +60,14 @@ public class AlgoPolygon3DDirection extends AlgoPolygon {
      * create the polygon
      * @param createSegments says if the polygon has to creates its edges (3D only)
      */
-    protected void createPolygon(boolean createSegments){
+    @Override
+	protected void createPolygon(boolean createSegments){
     	poly = new GeoPolygon3D(cons, points, (CoordSys) cs2D, createSegments);
     }
 	
 
-    public void compute() { 
+    @Override
+	public void compute() { 
     	
     	CoordSys coordsys = poly.getCoordSys();
     	
@@ -83,12 +87,13 @@ public class AlgoPolygon3DDirection extends AlgoPolygon {
     	
     }
 
-    protected void createStringBuilder(){
-    	super.createStringBuilder();
+    @Override
+	protected void createStringBuilder(StringTemplate tpl){
+    	super.createStringBuilder(tpl);
         sb.append(' ');
         sb.append(app.getPlain("parallelTo"));
         sb.append(' ');
-        sb.append(((GeoElement) direction).getLabel());
+        sb.append(((GeoElement) direction).getLabel(tpl));
     }
     
     

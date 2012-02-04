@@ -17,10 +17,12 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Locateable;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import geogebra.common.kernel.algos.AlgoSlope;
 import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.common.kernel.geos.GeoTextField;
@@ -2922,7 +2924,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 					GeoPointND p = (GeoPointND) it.next();
 
 					for (int k = 0; k < 3; k++) {
-						cbModel[k].addElement(p.getLabel());
+						cbModel[k].addElement(p.getLabel(StringTemplate.get(StringType.GEOGEBRA)));
 					}
 				}
 			}

@@ -1,5 +1,7 @@
 package geogebra.cas.view;
 
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoCasCell;
 
 import java.awt.Component;
@@ -43,7 +45,7 @@ public class CASTableCellEditor extends CASTableCell implements TableCellEditor,
 			// set CASTableCell value
 			this.cellValue = (GeoCasCell) value;
 			this.table = table;
-			inputOnEditingStart = cellValue.getInput();
+			inputOnEditingStart = cellValue.getInput(StringTemplate.get(StringType.GEOGEBRA));
 			setValue(cellValue);				
 							
 			// update font and row height
@@ -212,7 +214,7 @@ public class CASTableCellEditor extends CASTableCell implements TableCellEditor,
 				// insert input of previous row
 				if (editingRow > 0 && text.length() == 0) {
 					GeoCasCell selCellValue = view.getConsoleTable().getGeoCasCell(editingRow - 1);				
-					inputArea.setText(selCellValue.getInput());
+					inputArea.setText(selCellValue.getInput(StringTemplate.get(StringType.GEOGEBRA)));
 					e.consume();
 				}
 				break;

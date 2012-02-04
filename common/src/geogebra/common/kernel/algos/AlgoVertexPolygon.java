@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -160,8 +161,8 @@ public class AlgoVertexPolygon extends AlgoElement {
 	}
 
 	@Override
-	public final String toString() {
-		return app.getPlain("VertexOfA", ((GeoElement)p).getLabel());
+	public final String toString(StringTemplate tpl) {
+		return app.getPlain("VertexOfA", ((GeoElement)p).getLabel(tpl));
 
 	}
 

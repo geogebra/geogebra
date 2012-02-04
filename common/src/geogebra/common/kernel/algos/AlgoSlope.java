@@ -24,6 +24,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 
 
 /**
@@ -105,10 +106,10 @@ public class AlgoSlope extends AlgoElement implements AlgoDrawInformation{
     }
 
     @Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-    	return app.getPlain("SlopeOfA",g.getLabel());
+    	return app.getPlain("SlopeOfA",g.getLabel(tpl));
     }
 
 	public AlgoDrawInformation copy() {		

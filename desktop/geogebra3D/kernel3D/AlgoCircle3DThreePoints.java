@@ -1,6 +1,7 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
@@ -119,7 +120,8 @@ public class AlgoCircle3DThreePoints extends AlgoCircleThreePoints {
     }
     
     
-    public String toString() {
-    	return app.getPlain("CircleThroughABC",points[0].getLabel(),points[1].getLabel(),points[2].getLabel());
+    public String toString(StringTemplate tpl) {
+    	return app.getPlain("CircleThroughABC",points[0].getLabel(tpl),
+    			points[1].getLabel(tpl),points[2].getLabel(tpl));
     }
 }

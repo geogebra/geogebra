@@ -22,6 +22,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -137,9 +138,9 @@ public class AlgoOrthoLinePointConic extends AlgoElement {
     }
 
     @Override
-	public final String toString() {
+	public final String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return app.getPlain("LineThroughAPerpendicularToB",P.getLabel(),l.toGeoElement().getLabel());
+        return app.getPlain("LineThroughAPerpendicularToB",P.getLabel(tpl),l.toGeoElement().getLabel(tpl));
     }
 }

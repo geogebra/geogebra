@@ -14,6 +14,7 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -59,7 +60,7 @@ public abstract class AlgoOrtho extends AlgoElement3D {
     }
 
 
-    final public String toString() {
-    	return app.getPlain("LineThroughAPerpendicularToB",point.getLabel(),inputOrtho.getLabel());
+    final public String toString(StringTemplate tpl) {
+    	return app.getPlain("LineThroughAPerpendicularToB",point.getLabel(tpl),inputOrtho.getLabel(tpl));
     }
 }

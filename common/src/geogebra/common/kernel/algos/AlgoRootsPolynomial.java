@@ -15,6 +15,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EquationSolverInterface;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.geos.GeoElement;
@@ -602,10 +603,10 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	}
 
 	@Override
-	public String toString() {
+	public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return app.getPlain("RootOfA", f.getLabel());
+		return app.getPlain("RootOfA", f.getLabel(tpl));
 	}
 
 }
