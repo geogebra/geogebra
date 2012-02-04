@@ -9,14 +9,14 @@
 cleanup() {
  LASTEXITCODE=$?
  test -r $WEBDIR/src/geogebra/Web.gwt.xml.orig && {
-  echo "Cleaning up: putting back original Web.gwt.xml"
+  echo "* Cleaning up: putting back original Web.gwt.xml"
   cd $WEBDIR/src/geogebra
   mv Web.gwt.xml.orig Web.gwt.xml
   }
  cd $WEBDIR/src/geogebra
  for i in *; do
   test -L $i && {
-   echo "Clieaning up: removing link to $i"
+   echo "* Cleaning up: removing link to $i"
    rm $i
    }
   done
@@ -46,26 +46,6 @@ $GWTDIR/gwt-dev.jar:\
 `l $GWTDIR/validation-api-*.GA.jar`:\
 $GGDIR/common/test-classes:\
 $GGDIR/common/war/WEB-INF/classes:\
-`l $GAEDIR/lib/shared/jsp/repackaged-appengine-ant-*.jar`:\
-`l $GAEDIR/lib/shared/jsp/repackaged-appengine-ant-launcher-*.jar`:\
-`l $GAEDIR/lib/shared/jsp/repackaged-appengine-jasper-*.jar`:\
-`l $GAEDIR/lib/shared/jsp/repackaged-appengine-jasper-el-*.jar`:\
-`l $GAEDIR/lib/shared/jsp/repackaged-appengine-tomcat-juli-*.jar`:\
-$GAEDIR/lib/shared/appengine-local-runtime-shared.jar:\
-$GAEDIR/lib/shared/el-api.jar:\
-$GAEDIR/lib/shared/jsp-api.jar:\
-$GAEDIR/lib/shared/servlet-api.jar:\
-`l $GAEDIR/lib/user/orm/datanucleus-appengine-*.final.jar`:\
-`l $GAEDIR/lib/user/orm/datanucleus-core-*.jar`:\
-`l $GAEDIR/lib/user/orm/datanucleus-jpa-*.jar`:\
-`l $GAEDIR/lib/user/orm/geronimo-jpa_*_spec-*.jar`:\
-`l $GAEDIR/lib/user/orm/geronimo-jta_*_spec-*.jar`:\
-`l $GAEDIR/lib/user/orm/jdo2-api-*-eb.jar`:\
-`l $GAEDIR/lib/user/appengine-api-*-sdk-*.jar`:\
-`l $GAEDIR/lib/user/appengine-api-labs-*.jar`:\
-`l $GAEDIR/lib/user/appengine-jsr*cache-*.jar`:\
-`l $GAEDIR/lib/user/jsr*cache-*.jar`:\
-$GAEDIR/lib/appengine-tools-api.jar:\
 $GWTDIR/gwt-dev.jar
 
 export CLASSPATH
@@ -80,7 +60,7 @@ if [ "$XML" = "" ]; then
  fi
 GGDIR=`cd ..; pwd`
 
-test -r autobuild.conf && . ./autobuild.conf && echo "Using autobuild.conf for overriding defaults"
+test -r autobuild.conf && . ./autobuild.conf && echo "* Using autobuild.conf for overriding defaults"
 
 # 2. Setting defaults
 if [ "$SVNDIR" = "" ]; then
@@ -100,6 +80,7 @@ INSTALLDIR=""
 XS=0
 STYLE=OBFUSCATED
 OTHEROPTS=""
+JAVAC_CLEANUP=""
 
 trap "cleanup" EXIT 2 9 15
 
@@ -113,13 +94,13 @@ while [ $# -gt 0 ]; do
    echo " Where options can be (defaults in parentheses):"
    echo "  -h, -help, --help   This help"
    echo "  -u [useragents]     Comma separated list of user agents to compile ($USERAGENTS)"
-   echo "  -i [directory]      If set, installs GeoGebraWeb into the given directory"
+   echo "  -i [directory]      If set, installs GeoGebraWeb into the given directory (first deletes!)"
    echo "  -x                  XS compilation"
+   echo "  -c                  Do a cleanup before javac compilation"
    echo "  -s [style]          Compilation style: OBFUSCATED, PRETTY or DETAILED ($STYLE)"
    echo "  -g [directory]      Use GWT SDK from the given directory ($GWTDIR)"
-   echo "  -gae [directory]    Use GAE SDK from the given directory ($GAEDIR)"
    echo "  -X [path]           Use XMLStarlet from the given path ($XML)"
-   echo "  -v, --verbose       Be verbose whenever possible"
+   echo "  -v, --verbose       Be verbose whenever possible (see the -H option as well)"
    echo "  -- [options]        Forward the rest options directly to the GWT Compiler"
    echo "  -H                  Show extra options for the GWT Compiler"
    echo
@@ -146,6 +127,10 @@ while [ $# -gt 0 ]; do
    XS=1
    ;;
 
+  -c)
+   JAVAC_CLEANUP=clean
+   ;;
+
   -s)
    shift
    STYLE="$1"
@@ -154,11 +139,6 @@ while [ $# -gt 0 ]; do
   -g)
    shift
    GWTDIR="$1"
-   ;;
-
-  -gae)
-   shift
-   GAEDIR="$1"
    ;;
 
   -v | --verbose)
@@ -196,23 +176,17 @@ else
 
 # 4. Testing configuration
 test -d $GWTDIR || {
- echo "No GWT SDK directory exists at $GWTDIR"
+ echo "Error: No GWT SDK directory exists at $GWTDIR"
  exit 4
 }
-test -d $GAEDIR || {
- echo "No GAE SDK directory exists at $GAEDIR"
- exit 4
- }
 test -x $XML || {
- echo "No XMLStarlet executable exists at $XML"
+ echo "Error: No XMLStarlet executable exists at $XML"
  exit 4
  }
 
-echo "GWT SDK directory is set to $GWTDIR"
-echo "GAE SDK directory is set to $GAEDIR"
-echo "User agents: $USERAGENTS"
-echo "Compilation style: $STYLE"
-echo
+echo "* GWT SDK directory is set to $GWTDIR"
+echo "* User agents: $USERAGENTS"
+echo "* Compilation style: $STYLE"
 
 # 5. (Re)creating parser
 cd ../desktop
@@ -225,7 +199,7 @@ ln -s ../../../common/src/geogebra/common
 ln -s ../../../common/src/geogebra/webapache
 
 cd $WEBDIR
-$ANT javac || exit 6
+$ANT $JAVAC_CLEANUP javac || exit 6
 
 # 7. Preparing specific compilation
 cd ../web/src/geogebra
@@ -247,6 +221,9 @@ mv $GWTXML-b $GWTXML
 
 # 8. Compiling web with GWT Compiler
 classpath
+if [ $VERBOSE = 1 ]; then
+ echo "Classpath for GWT Compiler is $CLASSPATH"
+ fi
 java -Xmx512m com.google.gwt.dev.Compiler\
  -style $STYLE -war $GGDIR/web/war -strict $OTHEROPTS geogebra.Web || exit 8
 
@@ -255,13 +232,12 @@ if [ "$INSTALLDIR" = "" ]; then
  echo "GeoGebraWeb compilation finished. Insert this URL into your browser to test it:"
  echo "file:///$WEBDIR/war/Web.html"
 else
- echo "Trying to (re)create $INSTALLDIR..."
+ echo "Trying to remove and create $INSTALLDIR..."
+ rm -fR $INSTALLDIR
  mkdir -p $INSTALLDIR || exit 9
  cp -a $WEBDIR/war/* $INSTALLDIR
- for i in .svn WEB-INF; do
-  rm -fR $INSTALLDIR/$i
-  done
- echo "GeoGebraWeb compilation finished. Insert this URL into your browser to test it:"
+ find $INSTALLDIR -name .svn -or -name WEB-INF | xargs rm -fR
+ echo "GeoGebraWeb compilation and installation finished. Insert this URL into your browser:"
  echo "file:///$INSTALLDIR/Web.html"
  fi
 
