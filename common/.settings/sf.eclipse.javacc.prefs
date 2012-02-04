@@ -1,13 +1,11 @@
-#Sat Feb 04 16:44:05 CET 2012
+#Sun Feb 05 00:20:04 CET 2012
 CLEAR_CONSOLE=true
-JAVACC_OPTIONS=
+JAVACC_OPTIONS=-STATIC\=false
 JJDOC_OPTIONS=
 JJTREE_OPTIONS=
-JJ_NATURE=false
+JJ_NATURE=true
 JTB_OPTIONS=-ia -jd -tk
 RUNTIME_JAR=
-RUNTIME_JJJAR=/home/kovzol/eclipse/plugins/sf.eclipse.javacc_1.5.24/javacc.jar
-RUNTIME_JTBJAR=/home/kovzol/eclipse/plugins/sf.eclipse.javacc_1.5.24/jtb-1.4.4.jar
 SHOW_CONSOLE=true
 SUPPRESS_WARNINGS=false
 eclipse.preferences.version=1
