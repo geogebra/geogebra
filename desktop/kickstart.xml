@@ -216,7 +216,7 @@ instructions.
 	<target name="mpreduce-geogebra">
 	<get 
 	    src="http://www.geogebra.org/download/lib/build/mpreduce/default.img-20120201"
-	    dest="default.img" usetimestamp="false"/>
+	    dest="default.img" usetimestamp="true"/> <!-- Please set this back to false if you revert to an older version! -->
 	</target>
 	
 	<!-- download proguard -->
