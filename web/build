@@ -225,7 +225,7 @@ if [ $VERBOSE = 1 ]; then
  echo "Classpath for GWT Compiler is $CLASSPATH"
  fi
 java -Xmx512m com.google.gwt.dev.Compiler\
- -style $STYLE -war $GGDIR/web/war -strict $OTHEROPTS geogebra.Web || exit 8
+ -style $STYLE -war $GGDIR/web/war -strict $OTHEROPTS geogebra.Web geogebra.web.ggbloaderworker.GgbLoaderWorker || exit 8
 
 # 9. Done!
 if [ "$INSTALLDIR" = "" ]; then
