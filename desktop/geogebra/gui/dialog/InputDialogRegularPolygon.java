@@ -50,6 +50,9 @@ public class InputDialogRegularPolygon extends InputDialog{
 	
 	private boolean processInput() {
 		
+		return DialogManager.makeRegularPolygon(app, inputPanel.getText(), geoPoint1, geoPoint2);
+		
+		/*
 		// avoid labeling of num
 		Construction cons = kernel.getConstruction();
 		boolean oldVal = cons.isSuppressLabelsActive();
@@ -70,7 +73,7 @@ public class InputDialogRegularPolygon extends InputDialog{
 		}
 
 		return ret;
-		
+		*/
 	}
 
 	@Override
