@@ -13,6 +13,14 @@ cleanup() {
   cd $WEBDIR/src/geogebra
   mv Web.gwt.xml.orig Web.gwt.xml
   }
+ cd $WEBDIR/src/geogebra
+ for i in *; do
+  test -L $i && {
+   echo "Clieaning up: removing link to $i"
+   rm $i
+   }
+  done
+  
  exit $LASTEXITCODE
 }
 
@@ -186,20 +194,19 @@ else
  ANT="ant"
  fi
 
-# Testing configuration
+# 4. Testing configuration
 test -d $GWTDIR || {
  echo "No GWT SDK directory exists at $GWTDIR"
- exit 1
+ exit 4
 }
 test -d $GAEDIR || {
  echo "No GAE SDK directory exists at $GAEDIR"
- exit 1
+ exit 4
  }
 test -x $XML || {
  echo "No XMLStarlet executable exists at $XML"
- exit 1
+ exit 4
  }
-
 
 echo "GWT SDK directory is set to $GWTDIR"
 echo "GAE SDK directory is set to $GAEDIR"
@@ -207,11 +214,20 @@ echo "User agents: $USERAGENTS"
 echo "Compilation style: $STYLE"
 echo
 
-# 2. (Re)creating parser
+# 5. (Re)creating parser
 cd ../desktop
-$ANT compile-grammar-cl || exit 2
+$ANT compile-grammar-cl || exit 5
 
-# 3. Preparing specific compilation
+# 6. Compiling web with javac
+cd ../web/src/geogebra
+ln -s ../../../common/src/com
+ln -s ../../../common/src/geogebra/common
+ln -s ../../../common/src/geogebra/webapache
+
+cd $WEBDIR
+$ANT javac || exit 6
+
+# 7. Preparing specific compilation
 cd ../web/src/geogebra
 GWTXML=Web.gwt.xml
 cp $GWTXML $GWTXML.orig
@@ -229,18 +245,18 @@ if [ "$XS" = "1" ]; then
 
 mv $GWTXML-b $GWTXML
 
-# 4. Compiling web
+# 8. Compiling web with GWT Compiler
 classpath
 java -Xmx512m com.google.gwt.dev.Compiler\
- -style $STYLE -war $GGDIR/web/war -strict $OTHEROPTS geogebra.Web || exit 4
+ -style $STYLE -war $GGDIR/web/war -strict $OTHEROPTS geogebra.Web || exit 8
 
-# 5. Done!
+# 9. Done!
 if [ "$INSTALLDIR" = "" ]; then
  echo "GeoGebraWeb compilation finished. Insert this URL into your browser to test it:"
  echo "file:///$WEBDIR/war/Web.html"
 else
  echo "Trying to (re)create $INSTALLDIR..."
- mkdir -p $INSTALLDIR || exit 5
+ mkdir -p $INSTALLDIR || exit 9
  cp -a $WEBDIR/war/* $INSTALLDIR
  for i in .svn WEB-INF; do
   rm -fR $INSTALLDIR/$i
