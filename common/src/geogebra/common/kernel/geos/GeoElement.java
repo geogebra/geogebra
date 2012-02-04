@@ -2012,11 +2012,12 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		final StringType oldType = kernel.getStringTemplate().getStringType();
 		kernel.setCASPrintForm(type);
+		StringTemplate tpl = StringTemplate.get(type);
 		String retval;
 
 		try {
 			if (type.equals(StringType.GEOGEBRA)) {
-				final String body = toValueString();
+				final String body = toValueString(tpl);
 				retval = getAssignmentLHS() + " := " + body;
 			} else {
 
@@ -3330,8 +3331,8 @@ public abstract class GeoElement extends ConstructionElement implements
 		return toString(kernel.getStringTemplate());
 	}
 
-	public String toRealString() {
-		return getRealLabel();
+	public String toRealString(StringTemplate tpl) {
+		return getRealLabel(tpl);
 	}
 
 	/*
@@ -5546,21 +5547,21 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	}
 
-	public String getRealFormulaString(final StringType ExpressionNodeType,
+	public String getRealFormulaString(final StringTemplate tpl,
 			final boolean substituteNumbers) {
-
+		StringType ExpressionNodeType = tpl.getStringType();
 		String ret = "";
 
 		// matrices
 
 		if (getParentAlgorithm() != null) {
-			ret = getParentAlgorithm().getCommandDescription(true);
+			ret = getParentAlgorithm().getCommandDescription(tpl,true);
 		}
 
 		// GeoNumeric eg a=1
 		if ("".equals(ret) && isGeoNumeric() && !substituteNumbers
 				&& isLabelSet()) {
-			ret = kernel.printVariableName(label,StringTemplate.get(ExpressionNodeType));
+			ret = kernel.printVariableName(label,tpl);
 		}
 		if ("".equals(ret) && !isGeoText()) {
 			// eg Text[ (1,2), false]
@@ -6117,9 +6118,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return label of this geo, or label of a real geo in case this one is
 	 *         formal
 	 */
-	public String getRealLabel() {
+	public String getRealLabel(StringTemplate tpl) {
 		if ((realLabel == null) || realLabel.equals("")) {
-			return label;
+			return getLabel(tpl);
 		}
 		return realLabel;
 	}

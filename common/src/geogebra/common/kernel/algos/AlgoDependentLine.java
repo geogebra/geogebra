@@ -116,8 +116,8 @@ public class AlgoDependentLine extends AlgoElement {
     }
     
     @Override
-	final public String toRealString() { 
-    	return equation.toRealString();
+	final public String toRealString(StringTemplate tpl) { 
+    	return equation.toRealString(tpl);
     } 
     
 }

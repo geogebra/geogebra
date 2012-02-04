@@ -151,19 +151,19 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return toString(true, false);
+		return toString(true, false,tpl);
 	}
 
 	public String toValueString(StringTemplate tpl) {
-		return toString(false, false);
+		return toString(false, false,tpl);
 	}
 
 	public String toLaTeXString(boolean symbolic) {
-		return toString(symbolic, true);
+		return toString(symbolic, true,kernel.getStringTemplate());
 	}
 
-	private String toString(boolean symbolic, boolean LaTeX) {
-		switch (kernel.getStringTemplate().getStringType()) {
+	private String toString(boolean symbolic, boolean LaTeX,StringTemplate tpl) {
+		switch (tpl.getStringType()) {
 		case MATH_PIPER:
 		case MAXIMA:
 		case MPREDUCE:

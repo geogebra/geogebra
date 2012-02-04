@@ -16,6 +16,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.main.AbstractApplication;
 
 /**
@@ -230,9 +231,9 @@ public class AlgoListElement extends AlgoElement {
 	}
 	
 	@Override
-	public String getCommandDescription(boolean real) {
+	public String getCommandDescription(StringTemplate tpl,boolean real) {
 		
-			return super.getCommandDescription(real);
+			return super.getCommandDescription(tpl,real);
         /*      
         	TODO re enable this for shortSyntax flag true for 5.0
             sb.setLength(0);

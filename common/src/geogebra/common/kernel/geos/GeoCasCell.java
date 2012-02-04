@@ -1615,7 +1615,7 @@ public class GeoCasCell extends GeoElement {
 	 * underlying CAS.
 	 */
 	@Override
-	public String getLabel() {
+	public String getLabel(StringTemplate tpl) {
 		// standard case: assignment
 //		if (assignmentVar != null) {
 //			return kernel.printVariableName(assignmentVar);
@@ -1623,12 +1623,12 @@ public class GeoCasCell extends GeoElement {
 
 		// row reference like $5
 		StringBuilder sb = new StringBuilder();
-		switch (kernel.getStringTemplate().getStringType()) {
+		switch (tpl.getStringType()) {
 		// send output to underlying CAS
 		case MPREDUCE:
 		case MAXIMA:
 			sb.append(" (");
-			sb.append(outputVE == null ? "?" : outputVE.toString());
+			sb.append(outputVE == null ? "?" : outputVE.toString(tpl));
 			sb.append(") ");
 			break;
 

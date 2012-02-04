@@ -111,7 +111,7 @@ public class AlgoDependentConic extends AlgoElement {
     }
     
     @Override
-	public final String toRealString() {
-        return equation.toRealString();
+	public final String toRealString(StringTemplate tpl) {
+        return equation.toRealString(tpl);
     }           
 }

@@ -86,8 +86,8 @@ public class AlgoDependentBoolean extends AlgoElement {
     }
     
     @Override
-	final public String toRealString() {
+	final public String toRealString(StringTemplate tpl) {
         // was defined as e.g.  c = a & b
-        return root.toRealString();
+        return root.toRealString(tpl);
     }
 }

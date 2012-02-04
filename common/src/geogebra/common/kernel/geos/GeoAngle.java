@@ -386,7 +386,8 @@ public class GeoAngle extends GeoNumeric {
 
 	@Override
 	final public String toValueString(StringTemplate tpl) {
-		return isEuclidianVisible() ? kernel.formatAngle(value, 1/getAnimationStep()).toString() : kernel.formatAngle(value).toString();
+		return isEuclidianVisible() ? kernel.formatAngle(value, 1/getAnimationStep(),tpl).toString() : 
+			kernel.formatAngle(value,tpl).toString();
 	}
 
 	// overwrite

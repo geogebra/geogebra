@@ -93,7 +93,7 @@ public class AlgoDependentVector extends AlgoElement {
 	}
 
 	@Override
-	final public String toRealString() {
-		return root.toRealString();
+	final public String toRealString(StringTemplate tpl) {
+		return root.toRealString(tpl);
 	}
 }

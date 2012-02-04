@@ -115,17 +115,17 @@ public class AlgoDependentFunctionNVar extends AlgoElement {
     }
     
     @Override
-	public String toRealString() {
+	public String toRealString(StringTemplate tpl) {
     	AbstractApplication.printStacktrace("wrong string");
         if (sb == null) sb = new StringBuilder();
         else sb.setLength(0);
         if (f.isLabelSet() && !f.isBooleanFunction()) {
-            sb.append(f.getRealLabel());
+            sb.append(f.getRealLabel(tpl));
             sb.append("(");
-			sb.append(f.getVarString(kernel.getStringTemplate()));
+			sb.append(f.getVarString(tpl));
 			sb.append(") = ");
         }  
-        sb.append(fun.getExpression().toRealString());
+        sb.append(fun.getExpression().toRealString(tpl));
         return sb.toString();
     }
     

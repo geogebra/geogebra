@@ -283,8 +283,8 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
         return equation.toString(tpl);
     }
 	
-	public final String toRealString() {
-        return equation.toRealString();
+	public final String toRealString(StringTemplate tpl) {
+        return equation.toRealString(tpl);
     }
 
 	@Override

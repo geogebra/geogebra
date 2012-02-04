@@ -4,6 +4,13 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.util.Unicode;
 
 public class StringTemplate {
+	
+	private static StringTemplate defaultTemplate = new StringTemplate();
+	static {
+		defaultTemplate.casPrintFormPI=Unicode.PI_STRING;
+		defaultTemplate.internationalizeDigits = true;
+		defaultTemplate.stringType=StringType.GEOGEBRA;
+	}
 	private StringType stringType;
 	private boolean internationalizeDigits;
 	private String casPrintFormPI;

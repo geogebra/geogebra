@@ -1016,15 +1016,15 @@ public abstract class AlgoElement extends ConstructionElement implements
 
 	@Override
 	public String getCommandDescription(StringTemplate tpl) {
-		return getCommandDescription(false);
+		return getCommandDescription(tpl,false);
 	}
 
-	public String getCommandDescription(boolean real) {
-		String cmdname = getCommandName(kernel.getStringTemplate());
+	public String getCommandDescription(StringTemplate tpl,boolean real) {
+		String cmdname = getCommandName(tpl);
 
 		// command name
 		if (cmdname.equals("Expression")) {
-			return real ? toRealString() : toString();
+			return real ? toRealString(tpl) : toString(tpl);
 		}
 		sbAE.setLength(0);
 		if (kernel.isPrintLocalizedCommandNames()) {
@@ -1038,7 +1038,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		sbAE.append("[");
 		// input
 		if (length > 0) {
-			sbAE.append(real ? input[0].getRealLabel() : input[0].getLabel()); // Michael
+			sbAE.append(real ? input[0].getRealLabel(tpl) : input[0].getLabel(tpl)); // Michael
 																				// Borcherds
 																				// 2008-05-15
 																				// added
@@ -1048,7 +1048,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		}
 		for (int i = 1; i < length; ++i) {
 			sbAE.append(", ");
-			appendCheckVector(sbAE, input[i], real);
+			appendCheckVector(sbAE, input[i], real,tpl);
 		}
 		sbAE.append("]");
 		return sbAE.toString();
@@ -1059,8 +1059,8 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * see #1377 g:X = (-5, 5) + t (4, -3)
 	 */
 	private void appendCheckVector(StringBuilder sb, GeoElement geo,
-			boolean real) {
-		String cmd = real ? geo.getRealLabel() : geo.getLabel();
+			boolean real,StringTemplate tpl) {
+		String cmd = real ? geo.getRealLabel(tpl) : geo.getLabel(tpl);
 		if (geo.isGeoVector()) {
 			String vectorCommand = app.getCommand("Vector") + "[";
 			boolean needsWrapping = !geo.isLabelSet()
@@ -1077,13 +1077,18 @@ public abstract class AlgoElement extends ConstructionElement implements
 			sb.append(cmd);
 		}
 	}
-
-	public String toRealString() {
+	@Deprecated
+	public final String toRealString() {
 		return toString();
 	}
 	
+	public String toRealString(StringTemplate tpl) {
+		return toString(tpl);
+	}
+	
+	@Deprecated
 	public final String toString(){
-		return "TODO tostring";
+		return toString(kernel.getStringTemplate());
 	}
  
 	/**

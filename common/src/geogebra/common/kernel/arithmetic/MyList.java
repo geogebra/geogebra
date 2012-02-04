@@ -629,12 +629,12 @@ public class MyList extends ValidExpression implements ListValue,
 	public String toString(StringTemplate tpl) {
 
 		StringBuilder sb = new StringBuilder();
-		if (kernel.getStringTemplate().getStringType().equals(StringType.MAXIMA)) {
+		if (tpl.hasType(StringType.MAXIMA)) {
 			if (isMatrix())
 				sb.append("matrix(");
 			else
 				sb.append("[");
-		} else if (kernel.getStringTemplate().getStringType().equals(StringType.MPREDUCE)) {
+		} else if (tpl.hasType(StringType.MPREDUCE)) {
 			if (isMatrix())
 				sb.append("mat(");
 			else
@@ -647,21 +647,21 @@ public class MyList extends ValidExpression implements ListValue,
 		if (lastIndex > -1) {
 			for (int i = 0; i < lastIndex; i++) {
 				ExpressionValue exp = listElements.get(i);
-				sb.append(exp.toString()); // .toOutputValueString());
+				sb.append(exp.toString(tpl)); // .toOutputValueString());
 				sb.append(", ");
 			}
 
 			// last element
 			ExpressionValue exp = listElements.get(lastIndex);
-			sb.append(exp.toString());
+			sb.append(exp.toString(tpl));
 		}
 
-		if (kernel.getStringTemplate().getStringType().equals(StringType.MAXIMA)) {
+		if (tpl.hasType(StringType.MAXIMA)) {
 			if (isMatrix())
 				sb.append(")");
 			else
 				sb.append("]");
-		} else if (kernel.getStringTemplate().getStringType().equals(StringType.MPREDUCE)) {
+		} else if (tpl.hasType(StringType.MPREDUCE)) {
 			sb.append(')');
 			if (isMatrix()) {
 				int index1;

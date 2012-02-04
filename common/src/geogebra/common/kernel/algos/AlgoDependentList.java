@@ -162,7 +162,7 @@ public class AlgoDependentList extends AlgoElement implements AlgoDependentListI
     }        
     
     @Override
-	final public String toRealString() {
+	final public String toRealString(StringTemplate tpl) {
 
         if (sb == null) sb = new StringBuilder();
         else sb.setLength(0);
@@ -170,10 +170,10 @@ public class AlgoDependentList extends AlgoElement implements AlgoDependentListI
     	
     	if(input.length > 0) { // Florian Sonner 2008-07-12
 	    	for (int i=0; i < input.length - 1; i++) {
-	    		sb.append(input[i].getRealLabel());
+	    		sb.append(input[i].getRealLabel(tpl));
 	    		sb.append(", ");
 	    	}    	
-	    	sb.append(input[input.length-1].getRealLabel());
+	    	sb.append(input[input.length-1].getRealLabel(tpl));
     	}
     	sb.append("}");    		    	    	
         return sb.toString();

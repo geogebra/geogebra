@@ -440,7 +440,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 			sbBuildValueString.append("(");		
 			sbBuildValueString.append(kernel.format(MyMath.length(x, y)));
 			sbBuildValueString.append("; ");
-			sbBuildValueString.append((CharSequence)kernel.formatAngle(Math.atan2(y, x)));
+			sbBuildValueString.append((CharSequence)kernel.formatAngle(Math.atan2(y, x),tpl));
 			sbBuildValueString.append(")");
 			break;
 
@@ -673,7 +673,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 			sb.append("(");		
 			sb.append(kernel.format(MyMath.length(x, y)));
 			sb.append("; ");
-			sb.append((CharSequence)kernel.formatAngle(Math.atan2(y, x)));
+			sb.append((CharSequence)kernel.formatAngle(Math.atan2(y, x),kernel.getStringTemplate()));
 			sb.append(")");
 			break;
 

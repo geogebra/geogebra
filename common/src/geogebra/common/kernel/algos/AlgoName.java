@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
@@ -86,13 +87,13 @@ public class AlgoName extends AlgoElement {
 	@Override
 	public final void compute() {
 
-		String returnLabel = geo.getRealLabel();
+		String returnLabel = geo.getRealLabel(StringTemplate.get(StringType.GEOGEBRA));
 		if (returnLabel != null) {
 			text.setTextString(returnLabel);
 		} else {
 			// eg Name[a+3]
 			text.setTextString(geo.getRealFormulaString(
-					StringType.GEOGEBRA, false));
+					StringTemplate.get(StringType.GEOGEBRA), false));
 		}
 	}
 }

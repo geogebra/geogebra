@@ -910,7 +910,7 @@ public class Kernel {
 	final private String formatPiERaw(double x, NumberFormatAdapter numF,StringTemplate tpl) {
 		// PI
 		if (x == Math.PI) {
-			return stringTemplate.getPi();
+			return tpl.getPi();
 		}
 
 		// MULTIPLES OF PI/2
@@ -927,22 +927,22 @@ public class Kernel {
 				return "0";
 
 			case 1: // pi/2
-				sbFormat.append(stringTemplate.getPi());
+				sbFormat.append(tpl.getPi());
 				sbFormat.append("/2");
 				return sbFormat.toString();
 
 			case -1: // -pi/2
 				sbFormat.append('-');
-				sbFormat.append(stringTemplate.getPi());
+				sbFormat.append(tpl.getPi());
 				sbFormat.append("/2");
 				return sbFormat.toString();
 
 			case 2: // 2pi/2 = pi
-				return stringTemplate.getPi();
+				return tpl.getPi();
 
 			case -2: // -2pi/2 = -pi
 				sbFormat.append('-');
-				sbFormat.append(stringTemplate.getPi());
+				sbFormat.append(tpl.getPi());
 				return sbFormat.toString();
 
 			default:
@@ -951,19 +951,19 @@ public class Kernel {
 				if (aint == (2 * half)) {
 					// half * pi
 					sbFormat.append(half);
-					if (!getStringTemplate().getStringType().equals(StringType.GEOGEBRA)) {
+					if (!tpl.hasType(StringType.GEOGEBRA)) {
 						sbFormat.append("*");
 					}
-					sbFormat.append(stringTemplate.getPi());
+					sbFormat.append(tpl.getPi());
 					return sbFormat.toString();
 				}
 				// odd
 				// aint * pi/2
 				sbFormat.append(aint);
-				if (!getStringTemplate().getStringType().equals(StringType.GEOGEBRA)) {
+				if (!tpl.hasType(StringType.GEOGEBRA)) {
 					sbFormat.append("*");
 				}
-				sbFormat.append(stringTemplate.getPi());
+				sbFormat.append(tpl.getPi());
 				sbFormat.append("/2");
 				return sbFormat.toString();
 			}
@@ -985,7 +985,7 @@ public class Kernel {
 	 * Formats the value of x using the currently set NumberFormat or
 	 * ScientificFormat. This method also takes getStringTemplate().getStringType() into account.
 	 */
-	final public String formatRaw(double x) {
+	final public String formatRaw(double x,StringTemplate tpl) {
 
 		// format integers without significant figures
 		boolean isLongInteger = false;
@@ -993,7 +993,7 @@ public class Kernel {
 		if ((x == rounded) && (x >= Long.MIN_VALUE) && (x < Long.MAX_VALUE)) {
 			isLongInteger = true;
 		}
-		StringType casPrintForm = getStringTemplate().getStringType();
+		StringType casPrintForm = tpl.getStringType();
 		switch (casPrintForm) {
 		// number formatting for XML string output
 		case GEOGEBRA_XML:
@@ -1028,7 +1028,7 @@ public class Kernel {
 				}
 				// convert scientific notation 1.0E-20 to 1*10^(-20)
 				String scientificStr = Double.toString(x);
-				return convertScientificNotation(scientificStr);
+				return convertScientificNotation(scientificStr,tpl);
 			}
 
 			// number formatting for screen output
@@ -1038,7 +1038,7 @@ public class Kernel {
 			} else if (Double.isInfinite(x)) {
 				return (x > 0) ? "\u221e" : "-\u221e"; // infinity
 			} else if (x == Math.PI) {
-				return stringTemplate.getPi();
+				return tpl.getPi();
 			}
 
 			// ROUNDING hack
@@ -1089,7 +1089,7 @@ public class Kernel {
 	 */
 	final public String format(double x) {
 
-		String ret = formatRaw(x);
+		String ret = formatRaw(x,getStringTemplate());
 
 		if (AbstractApplication.unicodeZero != '0') {
 			ret = internationalizeDigits(ret);
@@ -1399,7 +1399,7 @@ public class Kernel {
 		// coeff of y��� is 0 or coeff of y is not 0
 		if (isZero(q)) {
 			return buildImplicitEquation(numbers, vars, KEEP_LEADING_SIGN,
-					true, '=',getStringTemplate());
+					true, '=',tpl);
 		}
 
 		int i, leadingNonZero = numbers.length;
@@ -1720,10 +1720,10 @@ public class Kernel {
 		}
 	}
 
-	final public StringBuilder formatAngle(double phi) {
+	final public StringBuilder formatAngle(double phi,StringTemplate tpl) {
 		// STANDARD_PRECISION * 10 as we need a little leeway as we've converted
 		// from radians
-		return formatAngle(phi, 10);
+		return formatAngle(phi, 10,tpl);
 	}
 
 	//private StringType casPrintForm;
@@ -1743,13 +1743,13 @@ public class Kernel {
 	 * Converts 5.1E-20 to 5.1*10^(-20) or 5.1 \cdot 10^{-20} depending on
 	 * current print form
 	 */
-	public String convertScientificNotation(String scientificStr) {
+	public String convertScientificNotation(String scientificStr,StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder(scientificStr.length() * 2);
 		boolean Efound = false;
 		for (int i = 0; i < scientificStr.length(); i++) {
 			char ch = scientificStr.charAt(i);
 			if (ch == 'E') {
-				if (stringTemplate.hasType(StringType.LATEX)) {
+				if (tpl.hasType(StringType.LATEX)) {
 					sb.append(" \\cdot 10^{");
 				} else {
 					sb.append("*10^(");
@@ -1760,7 +1760,7 @@ public class Kernel {
 			}
 		}
 		if (Efound) {
-			if (stringTemplate.hasType(StringType.LATEX)) {
+			if (tpl.hasType(StringType.LATEX)) {
 				sb.append("}");
 			} else {
 				sb.append(")");
@@ -1770,9 +1770,9 @@ public class Kernel {
 		return sb.toString();
 	}
 
-	final public StringBuilder formatAngle(double phi, double precision) {
+	final public StringBuilder formatAngle(double phi, double precision,StringTemplate tpl) {
 		sbFormatAngle.setLength(0);
-		switch (stringTemplate.getStringType()) {
+		switch (tpl.getStringType()) {
 		case MATH_PIPER:
 		case JASYMCA:
 		case MPREDUCE:
@@ -1820,7 +1820,7 @@ public class Kernel {
 				sbFormatAngle
 						.append(format(checkDecimalFraction(phi, precision)));
 
-				if (stringTemplate.hasType(StringType.GEOGEBRA_XML)) {
+				if (tpl.hasType(StringType.GEOGEBRA_XML)) {
 					sbFormatAngle.append("*");
 				}
 
@@ -1833,7 +1833,7 @@ public class Kernel {
 				// RADIANS
 				sbFormatAngle.append(format(phi));
 
-				if (!stringTemplate.hasType(StringType.GEOGEBRA_XML)) {
+				if (!tpl.hasType(StringType.GEOGEBRA_XML)) {
 					sbFormatAngle.append(" rad");
 				}
 				return sbFormatAngle;

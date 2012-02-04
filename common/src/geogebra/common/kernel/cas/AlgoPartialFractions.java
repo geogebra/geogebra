@@ -14,6 +14,7 @@ package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 
@@ -30,7 +31,7 @@ public class AlgoPartialFractions extends AlgoCasBase {
 	}
 
 	@Override
-	protected void applyCasCommand() {
+	protected void applyCasCommand(StringTemplate tpl) {
 
 		// f.getVarString() can return a number in wrong alphabet (need ASCII)
 		boolean internationalizeDigits = Kernel.internationalizeDigits;
@@ -40,7 +41,7 @@ public class AlgoPartialFractions extends AlgoCasBase {
 		// e.g. "x" becomes "ggbtmpvarx" here
 		boolean isUseTempVariablePrefix = kernel.isUseTempVariablePrefix();
 		kernel.setUseTempVariablePrefix(true);
-		String varStr = f.getVarString(kernel.getStringTemplate());
+		String varStr = f.getVarString(tpl);
 		kernel.setUseTempVariablePrefix(isUseTempVariablePrefix);
 
 		Kernel.internationalizeDigits = internationalizeDigits;

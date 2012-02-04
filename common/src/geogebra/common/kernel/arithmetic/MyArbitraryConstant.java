@@ -50,7 +50,7 @@ public class MyArbitraryConstant extends MyDouble {
 	
 	@Override
 	public String toString(StringTemplate tpl) {
-		switch (kernel.getStringTemplate().getStringType()) {						
+		switch (tpl.getStringType()) {						
 			case LATEX:
 				// return e.g. "k_1" 
 				return latexString;

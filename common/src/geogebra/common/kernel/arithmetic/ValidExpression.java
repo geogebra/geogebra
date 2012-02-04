@@ -27,7 +27,7 @@ public abstract class ValidExpression implements ExpressionValue {
 	private boolean inTree; // used by ExpressionNode
 	private boolean keepInputUsed; // flag used by GeoGebraCAS
 
-	public String toRealString() {
+	public String toRealString(StringTemplate tpl) {
 		return toString();
 	}
 

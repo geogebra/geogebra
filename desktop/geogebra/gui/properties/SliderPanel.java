@@ -1,8 +1,10 @@
 package geogebra.gui.properties;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -226,9 +228,9 @@ public class SliderPanel
 		if (equalMin){
 			GeoElement min0 = num0.getIntervalMinObject();
 			if (onlyAngles && (min0 == null ||(!min0.isLabelSet() && min0.isIndependent()))){				
-				tfMin.setText(kernel.formatAngle(num0.getIntervalMin()).toString());			
+				tfMin.setText(kernel.formatAngle(num0.getIntervalMin(),StringTemplate.get(StringType.GEOGEBRA)).toString());			
 			}else
-				tfMin.setText(min0.getLabel());
+				tfMin.setText(min0.getLabel(StringTemplate.get(StringType.GEOGEBRA)));
 		} else {
 			tfMin.setText("");
 		}
@@ -236,7 +238,7 @@ public class SliderPanel
 		if (equalMax){
 			GeoElement max0 = num0.getIntervalMaxObject();
 			if (onlyAngles &&  (max0 == null ||(!max0.isLabelSet() && max0.isIndependent()) ))
-				tfMax.setText(kernel.formatAngle(num0.getIntervalMax()).toString());
+				tfMax.setText(kernel.formatAngle(num0.getIntervalMax(),StringTemplate.get(StringType.GEOGEBRA)).toString());
 			else
 				tfMax.setText(max0.getLabel());
 		} else {

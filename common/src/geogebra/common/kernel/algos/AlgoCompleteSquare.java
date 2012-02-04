@@ -2,7 +2,9 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -45,7 +47,7 @@ public class AlgoCompleteSquare extends AlgoElement {
 	public void compute() {
 		int degInt;
 		GeoList coefs = null;
-		fv.setVarString(f.getVarString(kernel.getStringTemplate()));
+		fv.setVarString(f.getVarString(StringTemplate.get(StringType.GEOGEBRA)));
 		//px^2+qx+r; p+q+r=s;
 		double r = f.evaluate(0);
 		double s = f.evaluate(1);		

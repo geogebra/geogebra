@@ -404,12 +404,12 @@ public class Equation extends ValidExpression implements ReplaceableValue {
         
         // left hand side
         if (lhs != null) 
-        	sb.append(lhs.toString());
+        	sb.append(lhs.toString(tpl));
         else 
         	sb.append('0');
         
         // equal sign
-        switch (kernel.getStringTemplate().getStringType()){
+        switch (tpl.getStringType()){
 			case MATH_PIPER:
 		        sb.append(" == ");
 		        break;

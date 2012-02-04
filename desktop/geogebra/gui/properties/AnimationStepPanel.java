@@ -1,7 +1,9 @@
 package geogebra.gui.properties;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.AngleTextField;
 import geogebra.gui.SetLabels;
@@ -96,9 +98,9 @@ public class AnimationStepPanel
         	GeoElement stepGeo = geo0.getAnimationStepObject();
 			if (onlyAngles && (stepGeo == null ||(!stepGeo.isLabelSet() && stepGeo.isIndependent())))
 				tfAnimStep.setText(
-					kernel.formatAngle(geo0.getAnimationStep()).toString());
+					kernel.formatAngle(geo0.getAnimationStep(),StringTemplate.get(StringType.GEOGEBRA)).toString());
 			else
-				tfAnimStep.setText(stepGeo.getLabel());
+				tfAnimStep.setText(stepGeo.getLabel(StringTemplate.get(StringType.GEOGEBRA)));
         }
 		else
 			tfAnimStep.setText("");

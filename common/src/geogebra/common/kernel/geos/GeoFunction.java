@@ -1078,7 +1078,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 			HashMap<String, FunctionVariable> varMap,Kernel kernel) {
 		if(lt instanceof GeoFunction)
 			return new ExpressionNode(kernel,(GeoFunction)lt,
-					Operation.FUNCTION,varMap.get(lt.getVarString(kernel.getStringTemplate())));
+					Operation.FUNCTION,varMap.get(lt.getVarString(StringTemplate.get(StringType.GEOGEBRA))));
 		if(lt instanceof GeoFunctionNVar){
 			MyList varList = new MyList(kernel);
 			for(int i=0;i<lt.getFunction().getVarNumber();i++){
@@ -1747,8 +1747,8 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 				ret = app.getPlain("undefined");
 	 			} else	 			
 		 			ret = substituteNumbers ?
-		 					getFunction().toValueString():
-		 					getFunction().toString();
+		 					getFunction().toValueString(tpl):
+		 					getFunction().toString(tpl);
 	 		}
 		}
 		else return super.getFormulaString(tpl, substituteNumbers);
@@ -1778,9 +1778,9 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	}
 	
 	@Override
-	public String getRealFormulaString(StringType ExpressionNodeType, boolean substituteNumbers)
+	public String getRealFormulaString(StringTemplate tpl, boolean substituteNumbers)
 	{
-		StringTemplate tpl = StringTemplate.get(ExpressionNodeType);
+		StringType ExpressionNodeType = tpl.getStringType();
 
 
 		String ret="";
@@ -1804,13 +1804,13 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 			ret = toValueString(tpl);
 	 		} else {
 	 			ret = substituteNumbers ?
-	 					getFunction().toValueString():
-	 					getFunction().toRealString();
+	 					getFunction().toValueString(tpl):
+	 					getFunction().toRealString(tpl);
 	 		}
 		}
 		// matrices
 
-		else return super.getRealFormulaString(ExpressionNodeType, substituteNumbers);
+		else return super.getRealFormulaString(tpl, substituteNumbers);
 		// GeoNumeric eg a=1
 		if ("".equals(ret) && this.isGeoNumeric() && !substituteNumbers && isLabelSet()) {
 			ret = kernel.printVariableName(label,tpl);

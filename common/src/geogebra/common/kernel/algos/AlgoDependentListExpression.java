@@ -282,8 +282,8 @@ public class AlgoDependentListExpression extends AlgoElement {
     }
     
     @Override
-	final public String toRealString() {
+	final public String toRealString(StringTemplate tpl) {
         // was defined as e.g.  L = 3 * {a, b, c}  
-        return root.toRealString();
+        return root.toRealString(tpl);
     }
 }

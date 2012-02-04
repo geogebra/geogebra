@@ -21,6 +21,7 @@ import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
@@ -263,13 +264,13 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	/**
 	 * @return function description as f(x)=...
 	 */
-	private String toXMLString(){
+	private String toXMLString(StringTemplate tpl){
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append("(");
-		sbToString.append(getVarString(kernel.getStringTemplate()));
+		sbToString.append(getVarString(tpl));
 		sbToString.append(") = ");
-		sbToString.append(toValueString());
+		sbToString.append(tpl);
 		return sbToString.toString();
 	}
 	
@@ -288,7 +289,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	@Override
 	public String toString(StringTemplate tpl) {	
 		if (isLabelSet() && !isBooleanFunction())
-			return toXMLString();
+			return toXMLString(tpl);
 		sbToString.setLength(0);
 		if(isLabelSet()) {
 			sbToString.append(label);
@@ -341,7 +342,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			sb.append(" label =\"");
 			sb.append(label);
 			sb.append("\" exp=\"");
-			sb.append(StringUtil.encodeXML(toXMLString()));
+			sb.append(StringUtil.encodeXML(toXMLString(StringTemplate.get(StringType.GEOGEBRA_XML))));
 			// expression   
 			sb.append("\"/>\n");
 		}

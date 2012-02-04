@@ -4335,27 +4335,27 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	@Override
-	public String toRealString() {
+	public String toRealString(StringTemplate tpl) {
 		if (leaf) { // leaf is GeoElement or not
 			if (left.isGeoElement()) {
-				return ((GeoElement) left).getRealLabel();
+				return ((GeoElement) left).getRealLabel(tpl);
 			}
-			return left.toRealString();
+			return left.toRealString(tpl);
 		}
 
 		// expression node
 		String leftStr = null, rightStr = null;
 		if (left.isGeoElement()) {
-			leftStr = ((GeoElement) left).getRealLabel();
+			leftStr = ((GeoElement) left).getRealLabel(tpl);
 		} else {
-			leftStr = left.toRealString();
+			leftStr = left.toRealString(tpl);
 		}
 
 		if (right != null) {
 			if (right.isGeoElement()) {
-				rightStr = ((GeoElement) right).getRealLabel();
+				rightStr = ((GeoElement) right).getRealLabel(tpl);
 			} else {
-				rightStr = right.toRealString();
+				rightStr = right.toRealString(tpl);
 			}
 		}
 		return operationToString(leftStr, rightStr, false);

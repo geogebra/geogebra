@@ -111,7 +111,7 @@ public class MySpecialDouble extends MyDouble {
 			if (keepOriginalString) {
 				if (scientificNotation) {
 					// change 5.1E-20 to 5.1*10^(-20) or 5.1 \cdot 10^{-20}
-					return kernel.convertScientificNotation(strToString);
+					return kernel.convertScientificNotation(strToString,tpl);
 				}
 				// keep original string
 				return strToString;

@@ -138,7 +138,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 			// convert to angle value first, see issue 87
 			// http://code.google.com/p/geogebra/issues/detail?id=87
 			double angleVal = Kernel.convertToAngleValue(val);
-			return kernel.formatAngle(angleVal).toString();
+			return kernel.formatAngle(angleVal,tpl).toString();
 		}
 		return kernel.format(val);
 	}

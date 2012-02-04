@@ -117,9 +117,9 @@ public class AlgoDependentText extends AlgoElement {
     }
     
     @Override
-	final public String toRealString() {
+	final public String toRealString(StringTemplate tpl) {
         // was defined as e.g.  text0 = "Radius: " + r
     	if (root == null) return "";
-        return root.toRealString();
+        return root.toRealString(tpl);
     }
 }

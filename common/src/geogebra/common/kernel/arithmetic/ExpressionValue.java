@@ -56,7 +56,7 @@ public interface ExpressionValue {
     public String toOutputValueString();
     public String toLaTeXString(boolean symbolic);   
     public void resolveVariables();
-	public String toRealString();
+	public String toRealString(StringTemplate tpl);
 	public Kernel getKernel();
 	public String toString(StringTemplate tpl);
 	public String toValueString(StringTemplate tpl);
