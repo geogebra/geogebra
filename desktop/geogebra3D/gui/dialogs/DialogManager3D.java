@@ -47,7 +47,7 @@ public class DialogManager3D extends DialogManager {
 	 */
 	public void showNumberInputDialogCirclePointDirectionRadius(String title, GeoPointND geoPoint, GeoDirectionND forAxis) {
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
-		InputDialog id = new InputDialogCirclePointDirectionRadius(app, title, handler, geoPoint, forAxis, app.getKernel());
+		InputDialog id = new InputDialogCirclePointDirectionRadius((Application) app, title, handler, geoPoint, forAxis, app.getKernel());
 		id.setVisible(true);
 	}
 	
@@ -58,7 +58,7 @@ public class DialogManager3D extends DialogManager {
 	 */
 	public void showNumberInputDialogSpherePointRadius(String title, GeoPointND geoPoint) {
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
-		InputDialog id = new InputDialogSpherePointRadius(app, title, handler, geoPoint, app.getKernel());
+		InputDialog id = new InputDialogSpherePointRadius((Application) app, title, handler, geoPoint, app.getKernel());
 		id.setVisible(true);
 	}
 	

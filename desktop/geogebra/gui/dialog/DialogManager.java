@@ -50,11 +50,6 @@ import geogebra.main.MyResourceBundle;
  */
 public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	/**
-	 * Application instance.
-	 */
-	protected Application app;
-
-	/**
 	 * The option dialog where the user can change all application settings.
 	 */
 	private OptionsDialog optionsDialog;
@@ -97,8 +92,8 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	 */
 	private Locale currentLocale;
 
-	public DialogManager(Application app) {
-		this.app = app;
+	public DialogManager(AbstractApplication app) {
+		super(app);
 	}
 
 	/**
@@ -106,7 +101,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	 */
 	public synchronized void initPropertiesDialog() {
 		if (propDialog == null) {
-			propDialog = new PropertiesDialog(app);
+			propDialog = new PropertiesDialog((Application) app);
 		}
 	}
 
@@ -118,7 +113,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 			propDialog.setVisible(false);
 
 		propDialog = null;
-		propDialog = new PropertiesDialog(app);
+		propDialog = new PropertiesDialog((Application) app);
 
 	}
 
@@ -137,12 +132,12 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 			reinitPropertiesDialog(); // was propDialog.initGUI();
 
 		if (optionsDialog != null) {
-			GuiManager.setFontRecursive(optionsDialog, app.getPlainFont());
+			GuiManager.setFontRecursive(optionsDialog, ((Application) app).getPlainFont());
 			SwingUtilities.updateComponentTreeUI(optionsDialog);
 		}
 
 		if (fileChooser != null) {
-			fileChooser.setFont(app.getPlainFont());
+			fileChooser.setFont(((Application) app).getPlainFont());
 			SwingUtilities.updateComponentTreeUI(fileChooser);
 		}
 	}
@@ -177,7 +172,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	 */
 	public void showOptionsDialog(int tabIndex) {
 		if (optionsDialog == null)
-			optionsDialog = optionsDialogFactory.create(app);
+			optionsDialog = optionsDialogFactory.create(((Application) app));
 		else
 			optionsDialog.updateGUI();
 
@@ -191,7 +186,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	 * Displays the properties dialog for geos
 	 */
 	public void showPropertiesDialog(ArrayList<GeoElement> geos) {
-		if (!app.letShowPropertiesDialog())
+		if (!((Application) app).letShowPropertiesDialog())
 			return;
 
 		// save the geos list: it will be cleared by setMoveMode()
@@ -232,7 +227,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	 */
 	public void showToolbarConfigDialog() {
 		app.getActiveEuclidianView().resetMode();
-		ToolbarConfigDialog dialog = new ToolbarConfigDialog(app);
+		ToolbarConfigDialog dialog = new ToolbarConfigDialog(((Application) app));
 		dialog.setVisible(true);
 	}
 
@@ -251,7 +246,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 
 		// Michael Borcherds 2008-03-25
 		// a Chinese friendly version
-		InputDialog id = new InputDialog(app, "<html>"
+		InputDialog id = new InputDialog(((Application) app), "<html>"
 				+ app.getPlain("NewNameForA", "<b>" + geo.getNameDescription()
 						+ "</b>") + // eg New name for <b>Segment a</b>
 				"</html>", app.getPlain("Rename"), initText, false, handler,
@@ -281,9 +276,9 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 
 		String str = geo.getRedefineString(false, true);
 
-		InputHandler handler = new RedefineInputHandler(app, geo, str);
+		InputHandler handler = new RedefineInputHandler(((Application) app), geo, str);
 
-		InputDialog id = new InputDialog(app, geo.getNameDescription(),
+		InputDialog id = new InputDialog(((Application) app), geo.getNameDescription(),
 				app.getPlain("Redefine"), str, true, handler, geo);
 		id.showSymbolTablePopup(true);
 		id.setVisible(true);
@@ -319,7 +314,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 
 	public JDialog createTextDialog(GeoText text, GeoPointND startPoint) {
 		boolean isTextMode = app.getMode() == EuclidianConstants.MODE_TEXT;
-		TextInputDialog id = new TextInputDialog(app, app.getPlain("Text"),
+		TextInputDialog id = new TextInputDialog(((Application) app), app.getPlain("Text"),
 				text, startPoint, 30, 6, isTextMode);
 		return id;
 	}
@@ -333,7 +328,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 
 		try {
 			if (functionInspector == null) {
-				functionInspector = new FunctionInspector(app, function);
+				functionInspector = new FunctionInspector(((Application) app), function);
 			} else {
 				functionInspector.insertGeoElement(function);
 			}
@@ -351,7 +346,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	 */
 	public void showBooleanCheckboxCreationDialog(geogebra.common.awt.Point loc, GeoBoolean bool) {
 		Point location = new Point(loc.x, loc.y);
-		CheckboxCreationDialog d = new CheckboxCreationDialog(app, location, bool);
+		CheckboxCreationDialog d = new CheckboxCreationDialog(((Application) app), location, bool);
 		d.setVisible(true);
 	}
 
@@ -367,7 +362,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		InputDialog id = new InputDialog(app, message, title, initText, false,
+		InputDialog id = new InputDialog(((Application) app), message, title, initText, false,
 				handler, true, false, null);
 		id.setVisible(true);
 
@@ -387,7 +382,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 
 		NumberChangeSignInputHandler handler = new NumberChangeSignInputHandler(
 				app.getKernel().getAlgebraProcessor());
-		NumberChangeSignInputDialog id = new NumberChangeSignInputDialog(app,
+		NumberChangeSignInputDialog id = new NumberChangeSignInputDialog(((Application) app),
 				message, title, initText, handler, changingSign, checkBoxText);
 		id.setVisible(true);
 
@@ -401,7 +396,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		InputDialog id = new InputDialogRegularPolygon(app, title, handler,
+		InputDialog id = new InputDialogRegularPolygon(((Application) app), title, handler,
 				geoPoint1, geoPoint2, app.getKernel());
 		id.setVisible(true);
 
@@ -412,7 +407,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		InputDialog id = new InputDialogCirclePointRadius(app, title, handler,
+		InputDialog id = new InputDialogCirclePointRadius(((Application) app), title, handler,
 				(GeoPoint2) geoPoint1, app.getKernel());
 		id.setVisible(true);
 
@@ -423,7 +418,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		InputDialog id = new InputDialogRotate(app, title, handler, polys,
+		InputDialog id = new InputDialogRotate(((Application) app), title, handler, polys,
 				points, selGeos, app.getKernel());
 		id.setVisible(true);
 
@@ -434,7 +429,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		InputDialog id = new InputDialogAngleFixed(app, title, handler,
+		InputDialog id = new InputDialogAngleFixed(((Application) app), title, handler,
 				segments, points, selGeos, app.getKernel());
 		id.setVisible(true);
 
@@ -445,7 +440,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		InputDialog id = new InputDialogDilate(app, title, handler, points,
+		InputDialog id = new InputDialogDilate(((Application) app), title, handler, points,
 				selGeos, app.getKernel());
 		id.setVisible(true);
 
@@ -456,7 +451,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		InputDialog id = new InputDialogSegmentFixed(app, title, handler,
+		InputDialog id = new InputDialogSegmentFixed(((Application) app), title, handler,
 				geoPoint1, app.getKernel());
 		id.setVisible(true);
 
@@ -476,7 +471,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		AngleInputDialog id = new AngleInputDialog(app, message, title,
+		AngleInputDialog id = new AngleInputDialog(((Application) app), message, title,
 				initText, false, handler, true);
 		id.setVisible(true);
 
@@ -512,7 +507,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	public boolean showSliderCreationDialog(int x, int y) {
 		app.setWaitCursor();
 
-		SliderDialog dialog = new SliderDialog(app, x, y);
+		SliderDialog dialog = new SliderDialog(((Application) app), x, y);
 		dialog.setVisible(true);
 
 		app.setDefaultCursor();
@@ -526,7 +521,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	 * @return whether a new slider (number) was create or not
 	 */
 	public boolean showButtonCreationDialog(int x, int y, boolean textfield) {
-		ButtonDialog dialog = new ButtonDialog(app, x, y, textfield);
+		ButtonDialog dialog = new ButtonDialog(((Application) app), x, y, textfield);
 		dialog.setVisible(true);
 		return true;
 	}
@@ -550,8 +545,8 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	public synchronized void initFileChooser() {
 		if (fileChooser == null) {
 			try {
-				setFileChooser(new GeoGebraFileChooser(app,
-						app.getCurrentImagePath())); // non-restricted
+				setFileChooser(new GeoGebraFileChooser(((Application) app),
+						((Application) app).getCurrentImagePath())); // non-restricted
 				// Added for Intergeo File Format (Yves Kreis) -->
 				fileChooser.addPropertyChangeListener(
 						JFileChooser.FILE_FILTER_CHANGED_PROPERTY,
@@ -564,8 +559,8 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 				// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6544857
 				AbstractApplication
 						.debug("Error creating GeoGebraFileChooser - using fallback option");
-				setFileChooser(new GeoGebraFileChooser(app,
-						app.getCurrentImagePath(), true)); // restricted version
+				setFileChooser(new GeoGebraFileChooser(((Application) app),
+						((Application) app).getCurrentImagePath(), true)); // restricted version
 			}
 
 			updateJavaUILanguage();
@@ -579,11 +574,11 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	 */
 	private void updateJavaUILanguage() {
 		// load properties jar file
-		if (currentLocale == app.getLocale())
+		if (currentLocale == ((Application) app).getLocale())
 			return;
 
 		// update locale
-		currentLocale = app.getLocale();
+		currentLocale = ((Application) app).getLocale();
 		String lang = currentLocale.getLanguage();
 		boolean deleteKeys = false;
 

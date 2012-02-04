@@ -18,6 +18,10 @@ import java.util.ArrayList;
 
 public class DialogManagerWeb extends DialogManager {
 
+	public DialogManagerWeb(AbstractApplication app) {
+	    super(app);
+    }
+
 	@Override
     public boolean showFunctionInspector(GeoFunction geoFunction) {
 	    // TODO Auto-generated method stub
@@ -83,32 +87,9 @@ public class DialogManagerWeb extends DialogManager {
 	public void showNumberInputDialogRegularPolygon(String menu,
 			GeoPoint2 geoPoint1, GeoPoint2 geoPoint2) {
 		
-		Kernel kernel = geoPoint1.getKernel();
-		AbstractApplication app = kernel.getApplication();
-		
 		String inputString = prompt(menu + " " + app.getPlain("Points"), "4");
 		
-		if (inputString == null || "".equals(inputString) ) {
-			return;
-		}
-		
-	    GeoElement[] result = kernel.getAlgebraProcessor().processAlgebraCommand(inputString, false);
-	    
-	    boolean success = result != null && result[0].isNumberValue();
-	    
-	    if (!success) {
-	    	return;
-	    }
-
-
-		GeoElement[] geos = kernel.RegularPolygon(null, geoPoint1, geoPoint2, (NumberValue) result[0]);
-		GeoElement[] onlypoly = { null };
-		if (geos != null) {
-			onlypoly[0] = geos[0];
-			app.storeUndoInfo();
-			app.getActiveEuclidianView().getEuclidianController().memorizeJustCreatedGeos(onlypoly);
-		}
-
+		makeRegularPolygon(inputString, geoPoint1, geoPoint2);
 	}
 
 	public static native String prompt(String question, String def) /*-{

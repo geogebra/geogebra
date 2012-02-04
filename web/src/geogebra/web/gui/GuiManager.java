@@ -9,6 +9,7 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.main.Application;
 
 import java.util.ArrayList;
 
@@ -33,7 +34,8 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	@Override
 	public DialogManager getDialogManager() {
 		if (dialogManager == null) {
-			dialogManager = new DialogManagerWeb();
+			Application.debug("unimplemented");
+			//dialogManager = new DialogManagerWeb(app);
 		}
 		return dialogManager;
 	}

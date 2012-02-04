@@ -1,9 +1,8 @@
 package geogebra.common.gui.dialog;
 
-import java.util.ArrayList;
-
 import geogebra.common.awt.Point;
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -12,8 +11,23 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.AbstractApplication;
+
+import java.util.ArrayList;
 
 public abstract class DialogManager {
+	
+	protected AbstractApplication app;
+	protected Kernel kernel;
+
+	public DialogManager() {
+	}
+	
+	public DialogManager(AbstractApplication app) {
+		this.app = app;
+		this.kernel = app.getKernel();
+		
+	}
 
 	public abstract boolean showFunctionInspector(GeoFunction geoFunction);
 
@@ -55,5 +69,29 @@ public abstract class DialogManager {
 			String initText);
 
 	public abstract boolean showButtonCreationDialog(int x, int y, boolean textfield);
+	
+	final protected void makeRegularPolygon(String inputString, GeoPoint2 geoPoint1, GeoPoint2 geoPoint2) {
+		if (inputString == null || "".equals(inputString) ) {
+			return;
+		}
+		
+	    GeoElement[] result = kernel.getAlgebraProcessor().processAlgebraCommand(inputString, false);
+	    
+	    boolean success = result != null && result[0].isNumberValue();
+	    
+	    if (!success) {
+	    	return;
+	    }
+
+
+		GeoElement[] geos = kernel.RegularPolygon(null, geoPoint1, geoPoint2, (NumberValue) result[0]);
+		GeoElement[] onlypoly = { null };
+		if (geos != null) {
+			onlypoly[0] = geos[0];
+			app.storeUndoInfo();
+			app.getActiveEuclidianView().getEuclidianController().memorizeJustCreatedGeos(onlypoly);
+		}
+
+	}
 
 }
