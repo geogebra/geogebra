@@ -155,7 +155,7 @@ public class GeoInterval extends GeoFunction {
 					sbToString.append(' ');
 					sbToString.append(leftInequality);
 					sbToString.append(' ');
-					sbToString.append(getVarString());
+					sbToString.append(getVarString(kernel.getStringTemplate()));
 					sbToString.append(' ');
 					sbToString.append(rightInequality);
 					sbToString.append(' ');

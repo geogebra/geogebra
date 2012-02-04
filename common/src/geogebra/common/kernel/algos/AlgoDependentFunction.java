@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
@@ -230,7 +231,7 @@ public class AlgoDependentFunction extends AlgoElement {
 	StringBuilder sb;
 
 	@Override
-	public String toString() {
+	public String toString(StringTemplate tpl) {
 		if (sb == null)
 			sb = new StringBuilder();
 		else
@@ -238,10 +239,10 @@ public class AlgoDependentFunction extends AlgoElement {
 		if (f.isLabelSet() && !f.isBooleanFunction()) {
 			sb.append(f.label);
 			sb.append("(");
-			sb.append(f.getVarString());
+			sb.append(f.getVarString(tpl));
 			sb.append(") = ");
 		}
-		sb.append(fun.toString());
+		sb.append(fun.toString(tpl));
 		return sb.toString();
 	}
 
@@ -254,7 +255,7 @@ public class AlgoDependentFunction extends AlgoElement {
 		if (f.isLabelSet() && !f.isBooleanFunction()) {
 			sb.append(f.getRealLabel());
 			sb.append("(");
-			sb.append(f.getVarString());
+			sb.append(f.getVarString(kernel.getStringTemplate()));
 			sb.append(") = ");
 		}
 		sb.append(fun.getExpression().toRealString());

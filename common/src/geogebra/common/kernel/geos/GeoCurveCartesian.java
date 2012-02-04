@@ -551,7 +551,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			}
 			sbTemp.setLength(0);
 
-			String param = getVarString();
+			String param = getVarString(kernel.getStringTemplate());
 
 			if (!hideRangeInFormula)
 				sbTemp.append("\\left.");
@@ -788,8 +788,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		return true;
 	}
 
-	public String getVarString() {
-		return funX.getVarString();
+	public String getVarString(StringTemplate tpl) {
+		return funX.getVarString(tpl);
 	}
 
 	final public boolean isFunctionInX() {

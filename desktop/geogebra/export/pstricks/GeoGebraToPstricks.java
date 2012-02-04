@@ -964,7 +964,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		fx=killSpace(StringUtil.toLaTeXString(fx,true));
 		String fy=geo.getFunY();
 		fy=killSpace(StringUtil.toLaTeXString(fy,true));
-		String variable=geo.getVarString();
+		String variable=geo.getVarString(geo.kernel.getStringTemplate());
 		boolean warning=!(variable.equals("t"));
 		startBeamer(code);
 		if(warning) code.append("% WARNING: You have to use the special variable t in parametric plot");

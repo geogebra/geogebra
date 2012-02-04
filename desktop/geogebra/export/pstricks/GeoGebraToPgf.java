@@ -1274,7 +1274,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		String fy=geo.getFunY();
 		fy=killSpace(StringUtil.toLaTeXString(fy,true));
 		fy=fy.replaceAll("\\^", "**");
-		String variable=geo.getVarString();		
+		String variable=geo.getVarString(geo.kernel.getStringTemplate());		
 		boolean warning=!(variable.equals("t"));
 		if(warning) code.append("% WARNING: You have to use the special variable t in parametric plot");
 		startBeamer(sb);

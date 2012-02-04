@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
+import geogebra.common.kernel.StringTemplate;
+
 /**
  * Interface to unify object types that allow evaluation with CAS commands,
  * like getting the derivative of a GeoFunction or GeoCurveCartesian.
@@ -29,6 +31,6 @@ public interface CasEvaluableFunction {
 	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f, boolean symbolic);
 		
 	public String toSymbolicString();
-	public String getVarString();
+	public String getVarString(StringTemplate tpl);
 	public GeoElement toGeoElement();
 }

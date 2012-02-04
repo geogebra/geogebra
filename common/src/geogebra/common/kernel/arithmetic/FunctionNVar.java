@@ -216,13 +216,13 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	 * 
 	 * @return variable names separated by ", "
 	 */
-	public String getVarString() {
+	public String getVarString(StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < fVars.length - 1; i++) {
-			sb.append(fVars[i].toString());
+			sb.append(fVars[i].toString(tpl));
 			sb.append(", ");
 		}
-		sb.append(fVars[fVars.length - 1].toString());
+		sb.append(fVars[fVars.length - 1].toString(tpl));
 		return sb.toString();
 	}
 
@@ -497,7 +497,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 			// parse CAS result back into GeoGebra
 			sb.setLength(0);
 			sb.append("f("); // this name is never used, just needed for parsing
-			sb.append(getVarString());
+			sb.append(getVarString(kernel.getStringTemplate()));
 			sb.append(") = ");
 			sb.append(result);
 
@@ -645,7 +645,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		// function, e.g. f(x) := 2*x
 		sb.append(getLabel());
 		sb.append("(");
-		sb.append(getVarString());
+		sb.append(getVarString(kernel.getStringTemplate()));
 		sb.append(")");
 		return sb.toString();
 	}

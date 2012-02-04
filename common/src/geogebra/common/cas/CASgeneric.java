@@ -122,9 +122,9 @@ public abstract class CASgeneric implements CASGenericInterface,
 
 	public final String toAssignment(GeoElement ge) {
 		String body = ge.getCASString(false);
-		String casLabel = ge.getLabel();
+		String casLabel = ge.getLabel(StringTemplate.get(StringType.MPREDUCE));
 		if (ge instanceof FunctionalNVar) {
-			String params = ((FunctionalNVar) ge).getFunction().getVarString();
+			String params = ((FunctionalNVar) ge).getFunction().getVarString(StringTemplate.get(StringType.MPREDUCE));
 			return translateFunctionDeclaration(casLabel, params, body);
 		}
 		return translateAssignment(casLabel, body);
@@ -161,7 +161,7 @@ public abstract class CASgeneric implements CASGenericInterface,
 				if (ve instanceof FunctionNVar) {
 					FunctionNVar fun = (FunctionNVar) ve;
 					return translateFunctionDeclaration(label,
-							fun.getVarString(), body);
+							fun.getVarString(casStringType), body);
 				}
 				return translateAssignment(label, body);
 			}

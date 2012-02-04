@@ -112,11 +112,11 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	}
 
 	@Override
-	final public String getVarString() {
+	final public String getVarString(StringTemplate tpl) {
 		if (fVars == null) {
-			return kernel.printVariableName("x",kernel.getStringTemplate());
+			return kernel.printVariableName("x",tpl);
 		}
-		return fVars[0].toString();
+		return fVars[0].toString(tpl);
 
 	}
 

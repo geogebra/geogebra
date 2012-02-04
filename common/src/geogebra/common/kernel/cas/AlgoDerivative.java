@@ -14,6 +14,7 @@ package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
@@ -90,7 +91,7 @@ public class AlgoDerivative extends AlgoCasBase {
 		// e.g. "x" becomes "ggbtmpvarx" here
 		boolean isUseTempVariablePrefix = kernel.isUseTempVariablePrefix();
 		kernel.setUseTempVariablePrefix(true);
-		String varStr = var != null ? var.getLabel() : f.getVarString();
+		String varStr = var != null ? var.getLabel() : f.getVarString(kernel.getStringTemplate());
 		kernel.setUseTempVariablePrefix(isUseTempVariablePrefix);
 
 		Kernel.internationalizeDigits = internationalizeDigits;
@@ -109,7 +110,7 @@ public class AlgoDerivative extends AlgoCasBase {
 	}
   
     @Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
     	StringBuilder sb = new StringBuilder();
         
         if (var != null) {
@@ -118,7 +119,7 @@ public class AlgoDerivative extends AlgoCasBase {
         } else {
         	// 2. Derivative of a x^2
 	        if (order != null) {
-	        	String orderStr = order.toGeoElement().getLabel();
+	        	String orderStr = order.toGeoElement().getLabel(tpl);
 	        	char firstCh = orderStr.charAt(0);
 	        	if (firstCh >= '0' && firstCh <= '9') {
 	        		// numeric, convert 3 -> 3rd (in current locale)
@@ -128,18 +129,18 @@ public class AlgoDerivative extends AlgoCasBase {
 	        		orderStr = app.getPlain("Ath", orderStr); 
 	        	}
 
-	        	sb.append(app.getPlain("ADerivativeOfB", orderStr, f.toGeoElement().getLabel()));
+	        	sb.append(app.getPlain("ADerivativeOfB", orderStr, f.toGeoElement().getLabel(tpl)));
 	        } else {
-	        	sb.append(app.getPlain("DerivativeOfA",f.toGeoElement().getLabel()));
+	        	sb.append(app.getPlain("DerivativeOfA",f.toGeoElement().getLabel(tpl)));
 	        }
         }
         
         
         if (!f.toGeoElement().isIndependent()) { // show the symbolic representation too
             sb.append(": ");
-            sb.append(g.toGeoElement().getLabel());
+            sb.append(g.toGeoElement().getLabel(tpl));
             sb.append('(');
-            sb.append(g.getVarString());
+            sb.append(g.getVarString(tpl));
             sb.append(") = ");
     		sb.append(g.toSymbolicString());            
         } 

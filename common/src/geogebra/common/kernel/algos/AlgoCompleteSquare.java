@@ -45,7 +45,7 @@ public class AlgoCompleteSquare extends AlgoElement {
 	public void compute() {
 		int degInt;
 		GeoList coefs = null;
-		fv.setVarString(f.getVarString());
+		fv.setVarString(f.getVarString(kernel.getStringTemplate()));
 		//px^2+qx+r; p+q+r=s;
 		double r = f.evaluate(0);
 		double s = f.evaluate(1);		
@@ -99,7 +99,7 @@ public class AlgoCompleteSquare extends AlgoElement {
 			square.getFunction().setExpression(squareE);
 		}
 		lastDeg = degInt;
-		fv.setVarString(f.getVarString());				
+		fv.setVarString(f.getVarString(kernel.getStringTemplate()));				
 		
 		//if one is undefined, others are as well
 		square.setDefined(!Double.isNaN(r));

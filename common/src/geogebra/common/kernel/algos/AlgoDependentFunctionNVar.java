@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 //import geogebra.main.Application;
@@ -100,16 +101,16 @@ public class AlgoDependentFunctionNVar extends AlgoElement {
     
     private StringBuilder sb;
     @Override
-	public String toString() {    	
+	public String toString(StringTemplate tpl) {    	
         if (sb == null) sb = new StringBuilder();
         else sb.setLength(0);
         if (f.isLabelSet() && !f.isBooleanFunction()) {
             sb.append(f.label);
             sb.append("(");
-			sb.append(f.getVarString());
+			sb.append(f.getVarString(tpl));
 			sb.append(") = ");
         }  
-        sb.append(fun.toString());
+        sb.append(fun.toString(tpl));
         return sb.toString();
     }
     
@@ -121,7 +122,7 @@ public class AlgoDependentFunctionNVar extends AlgoElement {
         if (f.isLabelSet() && !f.isBooleanFunction()) {
             sb.append(f.getRealLabel());
             sb.append("(");
-			sb.append(f.getVarString());
+			sb.append(f.getVarString(kernel.getStringTemplate()));
 			sb.append(") = ");
         }  
         sb.append(fun.getExpression().toRealString());

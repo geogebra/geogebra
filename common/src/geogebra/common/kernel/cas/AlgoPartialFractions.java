@@ -40,7 +40,7 @@ public class AlgoPartialFractions extends AlgoCasBase {
 		// e.g. "x" becomes "ggbtmpvarx" here
 		boolean isUseTempVariablePrefix = kernel.isUseTempVariablePrefix();
 		kernel.setUseTempVariablePrefix(true);
-		String varStr = f.getVarString();
+		String varStr = f.getVarString(kernel.getStringTemplate());
 		kernel.setUseTempVariablePrefix(isUseTempVariablePrefix);
 
 		Kernel.internationalizeDigits = internationalizeDigits;

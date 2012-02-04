@@ -578,11 +578,11 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 				sbToString.append(": ");
 			else{
 				sbToString.append("(");
-				sbToString.append(getVarString());
+				sbToString.append(getVarString(tpl));
 				sbToString.append(") = ");
 			}
 		}
-		sbToString.append(toValueString());
+		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
 	}
 	
@@ -595,7 +595,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	public String toValueString(StringTemplate tpl) {	
 
 		if (fun != null && isDefined())
-			return fun.toValueString();
+			return fun.toValueString(tpl);
 		else
 			return app.getPlain("undefined");
 	}	
@@ -716,7 +716,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	
 	private void pointChangedBoolean(boolean b, GeoPoint2 P) {
 		double px;
-		boolean yfun = getVarString().equals("y");
+		boolean yfun = getVarString(kernel.getStringTemplate()).equals("y");
 		if (yfun) {
 			if (b)
 				P.setX(0.0);
@@ -757,7 +757,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 			return isDefined &&	Math.abs(fun.evaluate(P.getInhomX()) - P.getInhomY()) <= eps;
 		}
 		else{
-			double px = getVarString().equals("y") ? P.getY() :P.getX();
+			double px = getVarString(kernel.getStringTemplate()).equals("y") ? P.getY() :P.getX();
 			if (P.getZ() != 1.0) {
 					px = px / P.getZ();		
 			}
@@ -887,7 +887,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append("(");
-		sbToString.append(getVarString());
+		sbToString.append(getVarString(kernel.getStringTemplate()));
 		sbToString.append(")");
 		return sbToString.toString();
 	}
@@ -959,11 +959,11 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		return new GeoVec2D(kernel, t, evaluate(t));
 	}
 	
-	public String getVarString() {	
+	public String getVarString(StringTemplate tpl) {	
 		if (fun == null) {
-			return kernel.printVariableName("x",kernel.getStringTemplate());
+			return kernel.printVariableName("x",tpl);
 		} else {
-			return fun.getVarString();
+			return fun.getVarString(tpl);
 		}
 	}
 
@@ -1078,7 +1078,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 			HashMap<String, FunctionVariable> varMap,Kernel kernel) {
 		if(lt instanceof GeoFunction)
 			return new ExpressionNode(kernel,(GeoFunction)lt,
-					Operation.FUNCTION,varMap.get(lt.getVarString()));
+					Operation.FUNCTION,varMap.get(lt.getVarString(kernel.getStringTemplate())));
 		if(lt instanceof GeoFunctionNVar){
 			MyList varList = new MyList(kernel);
 			for(int i=0;i<lt.getFunction().getVarNumber();i++){
@@ -1567,7 +1567,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		 String [] ret = 
 		 {
 			   getCASString(symbolic),
-			   getVarString()
+			   getVarString(kernel.getStringTemplate())
 		 };
 		 kernel.setUseTempVariablePrefix(oldUseTempVariablePrefix);
 		 return ret;
@@ -1636,7 +1636,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	}
 
 	public boolean isInRegion(double x0, double y0) {
-		if(getVarString().equals("y"))
+		if(getVarString(kernel.getStringTemplate()).equals("y"))
 			return evaluateBoolean(y0);	
 		return evaluateBoolean(x0);
 	}

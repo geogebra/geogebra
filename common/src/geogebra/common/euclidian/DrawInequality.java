@@ -75,7 +75,7 @@ public class DrawInequality extends Drawable {
 		updateRecursive(function.getIneqs());
 		labelDesc = geo.getLabelDescription();
 		if ((geo instanceof GeoFunction) && ((GeoFunction) geo).showOnAxis()
-				&& !"y".equals(((GeoFunction) geo).getVarString())) {
+				&& !"y".equals(((GeoFunction) geo).getVarString(geo.kernel.getStringTemplate()))) {
 			TreeSet<Double> zeros = new TreeSet<Double>();
 			((GeoFunction) geo).getIneqs().getZeros(zeros);
 			// radius of the dots
@@ -280,7 +280,7 @@ public class DrawInequality extends Drawable {
 		double[] coords = new double[] { view.toRealWorldCoordX(x),
 				view.toRealWorldCoordY(y) };
 		if (geo instanceof GeoFunction
-				&& ((GeoFunction) geo).getVarString().equals("y"))
+				&& ((GeoFunction) geo).getVarString(geo.kernel.getStringTemplate()).equals("y"))
 			return ((GeoFunction) geo).getFunction().evaluateBoolean(coords[1]);
 		return ((FunctionalNVar) geo).getFunction().evaluateBoolean(coords);
 

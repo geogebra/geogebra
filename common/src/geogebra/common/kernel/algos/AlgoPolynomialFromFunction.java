@@ -77,7 +77,7 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
         StringType oldPrintForm = kernel.getStringTemplate().getStringType();
         kernel.setCASPrintForm(StringType.MPREDUCE);
         String function = f.getCASString(false);    		
-        String var = f.getVarString();
+        String var = f.getVarString(kernel.getStringTemplate());
         kernel.setCASPrintForm(oldPrintForm);
         
         // expand expression and get polynomial coefficients

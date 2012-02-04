@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
+import geogebra.common.kernel.StringTemplate;
+
 
 /**
  * Interface for GeoFunction and GeoFunctionNVar
@@ -40,5 +42,5 @@ public interface FunctionalNVar {
 	 */
 	public boolean isBooleanFunction();
 	//public GeoFunctionNVar getGeoDerivative(int order, int nvar);
-	public String getVarString();
+	public String getVarString(StringTemplate tpl);
 }

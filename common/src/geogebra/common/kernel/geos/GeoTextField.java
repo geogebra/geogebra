@@ -142,7 +142,7 @@ public class GeoTextField extends GeoButton {
 			// string like f(x,y)=x^2
 			// or f(\theta) = \theta
 			defineText = linkedGeo.getLabel() + "("
-					+ ((FunctionalNVar) linkedGeo).getVarString()
+					+ ((FunctionalNVar) linkedGeo).getVarString(kernel.getStringTemplate())
 					+ ")=" + defineText;
 		}
 

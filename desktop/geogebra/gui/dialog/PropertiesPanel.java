@@ -2196,7 +2196,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 					return false;
 				GeoFunction gfun = (GeoFunction) geos[i];
 				if (!gfun.isBooleanFunction()
-						|| gfun.getVarString().equals("y"))
+						|| gfun.getVarString(kernel.getStringTemplate()).equals("y"))
 					return false;
 			}
 			return true;

@@ -14,6 +14,7 @@ package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
@@ -77,7 +78,7 @@ public class AlgoIntegral extends AlgoCasBase {
 		// e.g. "x" becomes "ggbtmpvarx" here
 		boolean isUseTempVariablePrefix = kernel.isUseTempVariablePrefix();
 		kernel.setUseTempVariablePrefix(true);
-		String varStr = var != null ? var.getLabel() : f.getVarString();
+		String varStr = var != null ? var.getLabel() : f.getVarString(kernel.getStringTemplate());
 		kernel.setUseTempVariablePrefix(isUseTempVariablePrefix);
 		Kernel.internationalizeDigits = internationalizeDigits;
 
@@ -92,7 +93,7 @@ public class AlgoIntegral extends AlgoCasBase {
 	}
 
 	@Override
-	final public String toString() {
+	final public String toString(StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
 
 		if (var != null) {
@@ -101,16 +102,16 @@ public class AlgoIntegral extends AlgoCasBase {
 		} else {
 			// Michael Borcherds 2008-03-30
 			// simplified to allow better Chinese translation
-			sb.append(app.getPlain("IntegralOfA", f.toGeoElement().getLabel()));
+			sb.append(app.getPlain("IntegralOfA", f.toGeoElement().getLabel(tpl)));
 		}
 
 		if (!f.toGeoElement().isIndependent()) { // show the symbolic
 													// representation too
 			sb.append(": ");
-			sb.append(g.toGeoElement().getLabel());
+			sb.append(g.toGeoElement().getLabel(tpl));
 			if (g.toGeoElement() instanceof GeoFunction) {
 				sb.append('(');
-				sb.append(((GeoFunction) g.toGeoElement()).getVarString());
+				sb.append(((GeoFunction) g.toGeoElement()).getVarString(tpl));
 				sb.append(')');
 			}
 			sb.append(" = ");

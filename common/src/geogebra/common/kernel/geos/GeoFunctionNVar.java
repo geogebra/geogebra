@@ -267,7 +267,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append("(");
-		sbToString.append(getVarString());
+		sbToString.append(getVarString(kernel.getStringTemplate()));
 		sbToString.append(") = ");
 		sbToString.append(toValueString());
 		return sbToString.toString();
@@ -278,7 +278,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append("(");
-		sbToString.append(getVarString());
+		sbToString.append(getVarString(kernel.getStringTemplate()));
 		sbToString.append(")");
 		return sbToString.toString();
 	}
@@ -405,8 +405,8 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		return fun == null ? "" : fun.getVarString(i);
 	}
 
-	public String getVarString() {	
-		return fun == null ? "" : fun.getVarString();
+	public String getVarString(StringTemplate tpl) {	
+		return fun == null ? "" : fun.getVarString(tpl);
 	}
 	
 
@@ -438,7 +438,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		StringBuilder sb = new StringBuilder();
 		sb.append(getLabel());
 		sb.append("(" );
-		sb.append(fun.getVarString());
+		sb.append(fun.getVarString(kernel.getStringTemplate()));
 		sb.append(")");
 		return sb.toString();
 	 }

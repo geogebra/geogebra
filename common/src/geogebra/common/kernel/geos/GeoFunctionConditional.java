@@ -524,7 +524,7 @@ public class GeoFunctionConditional extends GeoFunction {
 					sb.append(app.getPlain("otherwise"));
 					sb.append("}");
 				} else {
-					sb.append(conditions.get(i).toLaTeXString(!substituteNumbers,getVarString()));
+					sb.append(conditions.get(i).toLaTeXString(!substituteNumbers,getVarString(kernel.getStringTemplate())));
 					if(i!=cases.size()-1)sb.append("\\\\ ");
 				}
 			}
