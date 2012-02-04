@@ -89,7 +89,7 @@ public class DialogManagerWeb extends DialogManager {
 		
 		String inputString = prompt(menu + " " + app.getPlain("Points"), "4");
 		
-		makeRegularPolygon(inputString, geoPoint1, geoPoint2);
+		makeRegularPolygon(app, inputString, geoPoint1, geoPoint2);
 	}
 
 	public static native String prompt(String question, String def) /*-{

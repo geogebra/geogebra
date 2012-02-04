@@ -2,6 +2,7 @@ package geogebra.common.gui.dialog;
 
 import geogebra.common.awt.Point;
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -18,14 +19,12 @@ import java.util.ArrayList;
 public abstract class DialogManager {
 	
 	protected AbstractApplication app;
-	protected Kernel kernel;
 
 	public DialogManager() {
 	}
 	
 	public DialogManager(AbstractApplication app) {
 		this.app = app;
-		this.kernel = app.getKernel();
 		
 	}
 
@@ -70,17 +69,27 @@ public abstract class DialogManager {
 
 	public abstract boolean showButtonCreationDialog(int x, int y, boolean textfield);
 	
-	final protected void makeRegularPolygon(String inputString, GeoPoint2 geoPoint1, GeoPoint2 geoPoint2) {
+	public static boolean makeRegularPolygon(AbstractApplication app, String inputString, GeoPoint2 geoPoint1, GeoPoint2 geoPoint2) {
 		if (inputString == null || "".equals(inputString) ) {
-			return;
+			return false;
 		}
 		
+		Kernel kernel = app.getKernel();
+		Construction cons = kernel.getConstruction();
+
+		// avoid labeling of num
+		boolean oldVal = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+
 	    GeoElement[] result = kernel.getAlgebraProcessor().processAlgebraCommand(inputString, false);
+
+		cons.setSuppressLabelCreation(oldVal);
+		
 	    
 	    boolean success = result != null && result[0].isNumberValue();
 	    
 	    if (!success) {
-	    	return;
+	    	return false;
 	    }
 
 
@@ -91,6 +100,8 @@ public abstract class DialogManager {
 			app.storeUndoInfo();
 			app.getActiveEuclidianView().getEuclidianController().memorizeJustCreatedGeos(onlypoly);
 		}
+		
+		return true;
 
 	}
 
