@@ -3,7 +3,9 @@
 
 # Where is your GWT SDK installed? If you use Eclipse and followed
 # the SetUp page in the GeoGebra wiki, then you already have it somewhere, probably here:
-# GWTDIR=~/eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.4.0.relr37v201110112027/gwt-2.4.0
+GWTDIR=~/eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.4.0.relr37v201110112027/gwt-2.4.0
+GAEDIR=~/eclipse/plugins/com.google.appengine.eclipse.sdkbundle_1.5.5.r37v201110112027/appengine-java-sdk-1.5.5
+JAVA_HOME=/usr/lib/jvm/java-6-sun-1.6.0.26
 
 # If you used "ant -f kickstart.xml geogebraweb-developer-commandline", then you
 # have GWT SDK in a different directory:
