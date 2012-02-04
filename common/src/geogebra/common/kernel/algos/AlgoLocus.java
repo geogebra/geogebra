@@ -21,6 +21,7 @@ import geogebra.common.kernel.MacroKernel;
 import geogebra.common.kernel.MacroKernelInterface;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -237,8 +238,8 @@ public class AlgoLocus extends AlgoElement {
 	}
 
 	@Override
-	final public String toString() {
-		return getCommandDescription();
+	final public String toString(StringTemplate tpl) {
+		return getCommandDescription(tpl);
 	}
 
 	/**

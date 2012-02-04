@@ -13,7 +13,9 @@ package geogebra.gui.dialog;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -562,7 +564,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 				if (geo.getKernel().lookupLabel(initString) != null)
 					initString = "\"" + initString + "\"";
 			} else
-				initString = geo.getCommandDescription();
+				initString = geo.getCommandDescription(StringTemplate.get(StringType.GEOGEBRA));
 			isLaTeX = geo.isLaTeX();
 		}
 		// ----------------------------------------------

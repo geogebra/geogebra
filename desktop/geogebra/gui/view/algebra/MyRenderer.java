@@ -68,7 +68,7 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 
 		if (ob instanceof GeoElement) {	
 			GeoElement geo = (GeoElement) ob;	
-			setForeground(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getAlgebraColor()));
+			setForeground(geogebra.awt.Color.getAwtColor(geo.getAlgebraColor()));
 
 			String text = null;
 			if (geo.isIndependent()) {
@@ -84,7 +84,7 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 					break;
 
 				case Kernel.ALGEBRA_STYLE_COMMAND:
-					text = geo.addLabelTextOrHTML(geo.getCommandDescription());
+					text = geo.addLabelTextOrHTML(geo.getCommandDescription(kernel.getStringTemplate()));
 					break;
 				}	
 			}

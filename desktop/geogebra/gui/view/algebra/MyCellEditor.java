@@ -3,6 +3,8 @@
  */
 package geogebra.gui.view.algebra;
 
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
@@ -38,11 +40,11 @@ public class MyCellEditor extends DefaultCellEditor {
             Object ob = node.getUserObject();
             if (ob instanceof GeoElement) {
                 GeoElement geo = (GeoElement) ob;
-                
+                StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
                 if (geo.isChangeable()) {
-                    str = geo.toString();
+                    str = geo.toString(tpl);
                 } else {
-                    str = geo.getCommandDescription();
+                    str = geo.getCommandDescription(tpl);
                 } 
             }
         }

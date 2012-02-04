@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
@@ -102,8 +103,8 @@ public class AlgoPolynomialMod extends AlgoElement {
 	}
 
 	@Override
-	final public String toString() {
-		return getCommandDescription();
+	final public String toString(StringTemplate tpl) {
+		return getCommandDescription(tpl);
 	}
 
 }

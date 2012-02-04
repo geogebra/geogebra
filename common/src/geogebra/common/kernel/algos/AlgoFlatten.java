@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
@@ -86,8 +87,8 @@ public class AlgoFlatten extends AlgoElement {
 	}
 	
 	@Override
-	final public String toString(){
-		return getCommandDescription();
+	final public String toString(StringTemplate tpl){
+		return getCommandDescription(tpl);
 	}
 
 }

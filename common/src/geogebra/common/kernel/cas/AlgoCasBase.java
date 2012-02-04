@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
@@ -74,8 +75,8 @@ public abstract class AlgoCasBase extends AlgoElement {
 	protected abstract void applyCasCommand();
 
 	@Override
-	public String toString() {
-		return getCommandDescription();
+	public String toString(StringTemplate tpl) {
+		return getCommandDescription(tpl);
 	}
 
 }

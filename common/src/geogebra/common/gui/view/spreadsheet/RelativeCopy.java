@@ -4,6 +4,8 @@ import geogebra.common.awt.Point;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -364,13 +366,13 @@ public class RelativeCopy {
 
 		// make sure a/0.001 doesn't become a/0
 		kernel.setTemporaryPrintFigures(15);
-
+		StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
 		if (value.isPointOnPath() || value.isPointInRegion()) {
-			text = value.getCommandDescription();
+			text = value.getCommandDescription(tpl);
 		} else if (value.isChangeable()) {
-			text = value.toValueString();
+			text = value.toValueString(tpl);
 		} else {
-			text = value.getCommandDescription();
+			text = value.getCommandDescription(tpl);
 		}
 
 		// handle GeoText source value
@@ -417,9 +419,9 @@ public class RelativeCopy {
 		String boolText = null, oldBoolText = null;
 		if (bool != null) {
 			if (bool.isChangeable()) {
-				oldBoolText = bool.toValueString();
+				oldBoolText = bool.toValueString(tpl);
 			} else {
-				oldBoolText = bool.getCommandDescription();
+				oldBoolText = bool.getCommandDescription(tpl);
 			}
 		}
 
@@ -432,9 +434,9 @@ public class RelativeCopy {
 		String colorText = null, oldColorText = null;
 		if (dynamicColorList != null) {
 			if (dynamicColorList.isChangeable()) {
-				oldColorText = dynamicColorList.toValueString();
+				oldColorText = dynamicColorList.toValueString(tpl);
 			} else {
-				oldColorText = dynamicColorList.getCommandDescription();
+				oldColorText = dynamicColorList.getCommandDescription(tpl);
 			}
 		}
 

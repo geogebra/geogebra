@@ -372,7 +372,7 @@ public class TextPreviewPanel extends EuclidianView {
 					inputValue = "\"" + inputValue + "\"";
 				}
 			} else {
-				inputValue = previewGeoIndependent.getCommandDescription();
+				inputValue = previewGeoIndependent.getCommandDescription(kernel.getStringTemplate());
 			}
 		}
 

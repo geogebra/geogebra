@@ -9,7 +9,9 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -691,7 +693,7 @@ public abstract class GgbAPI {
 	public synchronized String getCommandString(String objName) {		
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null) return "";		
-		return geo.getCommandDescription();
+		return geo.getCommandDescription(StringTemplate.get(StringType.GEOGEBRA));
 	}
 	
 	/**

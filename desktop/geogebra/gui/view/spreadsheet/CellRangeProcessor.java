@@ -6,11 +6,13 @@ import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoDependentList;
 import geogebra.common.kernel.algos.AlgoDependentPoint;
 import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.algos.AlgoSort;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
@@ -784,7 +786,7 @@ public class CellRangeProcessor {
 		for(CellRange cr : rangeList){
 			for(int col=cr.getMinColumn(); col<=cr.getMaxColumn(); col++){
 				tempGeo = createListFromColumn(col, copyByValue, false, false, GeoClass.NUMERIC);
-				sb.append(tempGeo.getCommandDescription());
+				sb.append(tempGeo.getCommandDescription(StringTemplate.get(StringType.GEOGEBRA)));
 				sb.append(",");
 				tempGeo.remove();
 			}

@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 
@@ -186,7 +187,7 @@ public abstract class ConstructionElement implements
 	 * Returns command that defines this construction element (e.g.
 	 * "Line[A, B]"). Note: may return ""
 	 */
-	public abstract String getCommandDescription();
+	
 
 	/**
 	 * Returns name of class. This is needed to allow code obfuscation.
@@ -246,4 +247,8 @@ public abstract class ConstructionElement implements
 		// TODO Auto-generated method stub
 		return super.hashCode();
 	}
+
+	public abstract String getCommandDescription(StringTemplate tpl);
+
+	public abstract String toString(StringTemplate tpl);
 }

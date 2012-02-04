@@ -2,6 +2,7 @@ package geogebra.common.kernel.implicit;
 
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.Equation;
@@ -72,8 +73,8 @@ public class AlgoImplicitPolyFunction extends AlgoElement {
 		return implicitPoly;
 	}
 	
-	public String toString(){
-		return getCommandDescription();
+	public String toString(StringTemplate tpl){
+		return getCommandDescription(tpl);
 	}
 
 }

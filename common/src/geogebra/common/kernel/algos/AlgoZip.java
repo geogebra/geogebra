@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -353,7 +354,7 @@ public class AlgoZip extends AlgoElement {
 	}
 
 	@Override
-	final public String toString() {
-		return getCommandDescription();
+	final public String toString(StringTemplate tpl) {
+		return getCommandDescription(tpl);
 	}
 }

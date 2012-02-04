@@ -1015,7 +1015,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	}
 
 	@Override
-	public String getCommandDescription() {
+	public String getCommandDescription(StringTemplate tpl) {
 		return getCommandDescription(false);
 	}
 
@@ -1426,8 +1426,8 @@ public abstract class AlgoElement extends ConstructionElement implements
 	}
 
 	@Override
-	public String toString() {
-		return getCommandDescription();
+	public String toString(StringTemplate tpl) {
+		return getCommandDescription(tpl);
 	}
 
 	protected String toExpString() {

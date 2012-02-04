@@ -19,6 +19,7 @@ import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.MacroKernelInterface;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.SliderMover;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -237,8 +238,8 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 	}
 
 	@Override
-	final public String toString() {
-		return getCommandDescription();
+	final public String toString(StringTemplate tpl) {
+		return getCommandDescription(tpl);
 	}
 
 	/**

@@ -426,14 +426,19 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @return geo's label if set, command description otherwise
 	 */
+	@Deprecated
 	public String getLabel() {
+		return getLabel(kernel.getStringTemplate());
+	}
+	
+	public String getLabel(StringTemplate tpl) {
 		if (!labelSet && !localVarLabelSet) {
 			if (algoParent == null) {
 				return toOutputValueString();
 			}
-			return algoParent.getCommandDescription();
+			return algoParent.getCommandDescription(tpl);
 		}
-		return kernel.printVariableName(label,kernel.getStringTemplate());
+		return kernel.printVariableName(label,tpl);
 	}
 
 	public void copyLabel(final GeoElement c) {
@@ -645,7 +650,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			ret = useOutputValueString ? toOutputValueString()
 					: toValueString();
 		} else {
-			ret = getCommandDescription();
+			ret = getCommandDescription(kernel.getStringTemplate());
 		}
 
 		if (increasePrecision) {
@@ -676,7 +681,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		final boolean increasePrecision = kernel
 				.ensureTemporaryPrintAccuracy(MIN_EDITING_PRINT_PRECISION);
 
-		String inputBarStr = getCommandDescription();
+		String inputBarStr = getCommandDescription(StringTemplate.get(StringType.GEOGEBRA));
 		if (!inputBarStr.equals("")) {
 
 			// check needed for eg f(x) = g(x) + h(x), f(x) = sin(x)
@@ -2038,7 +2043,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return representation of this geo for CAS
 	 */
 	public String getCASString(final boolean symbolic) {
-		return symbolic && !isIndependent() ? getCommandDescription()
+		return symbolic && !isIndependent() ? getCommandDescription(kernel.getStringTemplate())
 				: toValueString();
 	}
 
@@ -3601,11 +3606,11 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	@Override
-	public String getCommandDescription() {
+	public String getCommandDescription(StringTemplate tpl) {
 		if (algoParent == null) {
 			return "";
 		} else {
-			return algoParent.getCommandDescription();
+			return algoParent.getCommandDescription(tpl);
 		}
 	}
 
@@ -3613,7 +3618,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (algoParent == null) {
 			return "";
 		} else {
-			return indicesToHTML(algoParent.getCommandDescription(), addHTMLtag);
+			return indicesToHTML(algoParent.getCommandDescription(kernel.getStringTemplate()), addHTMLtag);
 		}
 	}
 
@@ -5507,7 +5512,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				&& tpl.hasType(StringType.LATEX)) {
 			ret = toLaTeXString(!substituteNumbers);
 		} else {
-			ret = substituteNumbers ? toValueString(tpl) : getCommandDescription();
+			ret = substituteNumbers ? toValueString(tpl) : getCommandDescription(tpl);
 		}
 
 		// GeoNumeric eg a=1

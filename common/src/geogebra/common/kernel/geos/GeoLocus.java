@@ -91,7 +91,7 @@ public class GeoLocus extends GeoElement implements Path, Traceable{
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(" = ");
-		sbToString.append(getCommandDescription());
+		sbToString.append(getCommandDescription(tpl));
 		return sbToString.toString();
 	}
 	private StringBuilder sbToString = new StringBuilder(80);

@@ -20,6 +20,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -92,20 +93,22 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
     	return new GeoSurfaceCartesian3D(cons, fun);
     }
     
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoSurfaceCartesian;
 	}
     
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
         input = new GeoElement[coords.length+3*localVar.length];
         
         for (int i=0;i<coords.length;i++)
-        	input[i] = (GeoElement)coords[i].toGeoElement();
+        	input[i] = coords[i].toGeoElement();
         for (int i=0;i<localVar.length;i++){
         	input[coords.length+3*i] = localVar[i];
-        	input[coords.length+3*i+1] = (GeoElement)from[i].toGeoElement();
-        	input[coords.length+3*i+2] = (GeoElement)to[i].toGeoElement(); 
+        	input[coords.length+3*i+1] = from[i].toGeoElement();
+        	input[coords.length+3*i+2] = to[i].toGeoElement(); 
         }
         
         output = new GeoElement[1];        
@@ -115,7 +118,8 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
     
     public GeoSurfaceCartesianND getSurface() { return surface; }        
     
-    public final void compute() {    
+    @Override
+	public final void compute() {    
     	// the coord-functions don't have to be updated,
     	// so we only set the interval
     	double[] min = new double[from.length];
@@ -127,7 +131,8 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
     	surface.setIntervals(min,max);
     }   
     
-    final public String toString() {
-        return getCommandDescription();
+    @Override
+    final public String toString(StringTemplate tpl) {
+        return getCommandDescription(tpl);
     }
 }

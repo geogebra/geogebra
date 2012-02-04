@@ -1259,7 +1259,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 						.getDefinitionDescription();
 			case 4:
 				return rowList.get(nRow).geo
-						.getCommandDescription();
+						.getCommandDescription(kernel.getStringTemplate());
 			case 5:
 				return rowList.get(nRow).geo
 						.getAlgebraDescription();

@@ -146,8 +146,8 @@ implements AlgoMacroInterface {
     }   
     
     @Override
-	final public String toString() {    	
-        return getCommandDescription();
+	final public String toString(StringTemplate tpl) {    	
+        return getCommandDescription(tpl);
     }	         
     
     /**

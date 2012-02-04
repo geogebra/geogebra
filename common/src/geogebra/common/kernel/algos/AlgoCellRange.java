@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.awt.Point;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -164,7 +165,7 @@ public class AlgoCellRange extends AlgoElement {
     }   
     
     @Override
-	final public String getCommandDescription() {
+	final public String getCommandDescription(StringTemplate tpl) {
     	return toStringOutput;
     }
     
