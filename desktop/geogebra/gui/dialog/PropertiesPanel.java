@@ -6163,19 +6163,8 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 
 	private boolean checkGeos(Object[] geos) {
 
-		if (!app.hasEuclidianView2())
-			return false;
-
-		/*
-		 * for (int i=0; i < geos.length; i++) {
-		 * 
-		 * 
-		 * GeoElement geo = (GeoElement) geos[i]; if
-		 * (!geo.isEuclidianShowable()) return false;
-		 * 
-		 * }
-		 */
-
+		// always show this option, nothing to check
+		
 		return true;
 	}
 
