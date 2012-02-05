@@ -497,7 +497,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 			// parse CAS result back into GeoGebra
 			sb.setLength(0);
 			sb.append("f("); // this name is never used, just needed for parsing
-			sb.append(getVarString(StringTemplate.get(StringType.MPREDUCE)));
+			sb.append(getVarString(StringTemplate.get(StringType.GEOGEBRA)));
 			sb.append(") = ");
 			sb.append(result);
 
