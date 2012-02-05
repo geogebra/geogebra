@@ -6353,7 +6353,11 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * used in eg CAS and Spreadsheet Views to decide if the LaTeX renderer is
 	 * neccesary by checking for eg ^2, \frac
 	 */
-	public static boolean isLaTeXneeded(final String latex) {
+	public static boolean isLaTeXneeded(String latex) {
+
+		// Unicode is fine to render these:
+		latex = latex.replace("\\leq", "");
+		latex = latex.replace("\\geq", "");
 
 		for (int i = 0; i < latex.length(); i++) {
 			final char ch = latex.charAt(i);
