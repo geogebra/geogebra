@@ -774,15 +774,15 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			StringBuilder sbBuildValueString = getSbBuildValueString();
 			sbBuildValueString.setLength(0);
 			sbBuildValueString.append("X = (");
-			sbBuildValueString.append(kernel.format(P[0]));
+			sbBuildValueString.append(kernel.format(P[0],tpl));
 			sbBuildValueString.append(", ");
-			sbBuildValueString.append(kernel.format(P[1]));
+			sbBuildValueString.append(kernel.format(P[1],tpl));
 			sbBuildValueString.append(") + ");
 			sbBuildValueString.append(parameter);
 			sbBuildValueString.append(" (");
-			sbBuildValueString.append(kernel.format(y));
+			sbBuildValueString.append(kernel.format(y,tpl));
 			sbBuildValueString.append(", ");
-			sbBuildValueString.append(kernel.format(-x));
+			sbBuildValueString.append(kernel.format(-x,tpl));
 			sbBuildValueString.append(")");
 			return sbBuildValueString;
 

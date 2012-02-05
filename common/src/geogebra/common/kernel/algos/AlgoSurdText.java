@@ -14,6 +14,8 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
@@ -64,13 +66,17 @@ public class AlgoSurdText extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
+    /**
+     * Returns resulting text
+     * @return resulting text
+     */
     public GeoText getResult() {
         return text;
     }
 
     @Override
 	public void compute() {   	
-    	
+    	StringTemplate tpl = StringTemplate.get(app.getFormulaRenderingType());
 		if (input[0].isDefined()) {
 			
 			sb.setLength(0);
@@ -78,13 +84,13 @@ public class AlgoSurdText extends AlgoElement {
 			double decimal = num.getDouble();
 			
 			if ( Kernel.isEqual(decimal - Math.round(decimal) , 0.0, Kernel.MAX_PRECISION)) {
-				sb.append(kernel.format(Math.round(decimal)));
+				sb.append(kernel.format(Math.round(decimal),tpl));
 			} else {
 				/*double[] frac = AlgoFractionText.DecimalToFraction(decimal, AbstractKernel.EPSILON);
 				if (frac[1]<10000)
 					Fractionappend(sb, (int)frac[0], (int)frac[1]);
 				else*/
-					PSLQappend(sb, decimal);
+					PSLQappend(sb, decimal, tpl);
 			}
 						
 			text.setTextString(sb.toString());
@@ -95,27 +101,27 @@ public class AlgoSurdText extends AlgoElement {
 		}			
 	}
     
-    protected void Fractionappend(StringBuilder sb, int numer, int denom) {
+    private void Fractionappend(StringBuilder sb, int numer, int denom,StringTemplate tpl) {
 		if (denom<0) {
 			denom= -denom;
 			numer= -numer;
 		}
 		
 		if (denom == 1) { // integer
-			sb.append(kernel.format(numer));				
+			sb.append(kernel.format(numer,tpl));				
 		} else if (denom == 0) { // 1 / 0 or -1 / 0
 			sb.append( numer < 0 ? "-"+Unicode.Infinity : ""+Unicode.Infinity);				
 		} else {
 	    	sb.append("{\\frac{");
-	    	sb.append(kernel.format(numer));
+	    	sb.append(kernel.format(numer,tpl));
 	    	sb.append("}{");
-	    	sb.append(kernel.format(denom));
+	    	sb.append(kernel.format(denom,tpl));
 	    	sb.append("}}");
 	    	
 		}
     }
     
-    protected void PSLQappend(StringBuilder sb, double num) {
+    protected void PSLQappend(StringBuilder sb, double num,StringTemplate tpl) {
 		double[] numPowers = {num * num, num, 1.0};
 		int[] coeffs = PSLQ(numPowers,Kernel.STANDARD_PRECISION,10);
 		
@@ -125,7 +131,7 @@ public class AlgoSurdText extends AlgoElement {
 			//coeffs[1]: denominator;  coeffs[2]: numerator
 			int denom = coeffs[1];
 			int numer = -coeffs[2];
-			Fractionappend(sb, numer, denom);
+			Fractionappend(sb, numer, denom,tpl);
 			
 		} else {
 			
@@ -185,7 +191,7 @@ public class AlgoSurdText extends AlgoElement {
 			//when fraction is needed
 			if (c!=1) sb.append("\\frac{");
 			
-			if (a!=0) sb.append(kernel.format(a));
+			if (a!=0) sb.append(kernel.format(a,tpl));
 			
 			//when the radical is surd
 			if (b2!=0) {
@@ -196,16 +202,16 @@ public class AlgoSurdText extends AlgoElement {
 				}
 				
 				if (b1!=1)
-					sb.append(kernel.format(b1));
+					sb.append(kernel.format(b1,tpl));
 				sb.append("\\sqrt{");
-				sb.append(kernel.format(b2));
+				sb.append(kernel.format(b2,tpl));
 				sb.append("}");
 			}
 			
 			//when fraction is needed
 			if (c!=1) {
 				sb.append("}{");
-				sb.append(kernel.format(c));
+				sb.append(kernel.format(c,tpl));
 		    	sb.append("}");
 			}
 		}
@@ -215,7 +221,7 @@ public class AlgoSurdText extends AlgoElement {
     /*	Algorithm PSLQ
 	* from Ferguson and Bailey (1992)
      */
-	private int[] PSLQ(double[] x, double AccuracyFactor, int bound) {
+	private static int[] PSLQ(double[] x, double AccuracyFactor, int bound) {
 		
 		int n = x.length;
 		int[] coeffs = new int[n];
@@ -514,7 +520,7 @@ public class AlgoSurdText extends AlgoElement {
 
 	
 	
-	double frobNormSq(double[][] matrix, int m, int n) {
+	private static double frobNormSq(double[][] matrix, int m, int n) {
 		//m is number of rows; n is number of columns
 		double ret = 0;
 		

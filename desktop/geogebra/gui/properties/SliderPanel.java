@@ -191,7 +191,7 @@ public class SliderPanel
 		coSliderHorizontal.removeActionListener(this);
 		cbSliderFixed.removeActionListener(this);
 		cbRandom.removeActionListener(this);
-
+		StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
 		// check if properties have same values
 		GeoNumeric temp, num0 = (GeoNumeric) geos[0];
 		boolean equalMax = true;
@@ -240,13 +240,13 @@ public class SliderPanel
 			if (onlyAngles &&  (max0 == null ||(!max0.isLabelSet() && max0.isIndependent()) ))
 				tfMax.setText(kernel.formatAngle(num0.getIntervalMax(),StringTemplate.get(StringType.GEOGEBRA)).toString());
 			else
-				tfMax.setText(max0.getLabel());
+				tfMax.setText(max0.getLabel(tpl));
 		} else {
 			tfMax.setText("");
 		}
 		
 		if (equalWidth){
-			tfWidth.setText(kernel.format(num0.getSliderWidth()));
+			tfWidth.setText(kernel.format(num0.getSliderWidth(),tpl));
 		} else {
 			tfMax.setText("");
 		}

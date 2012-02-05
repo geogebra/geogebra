@@ -1,5 +1,7 @@
 package geogebra.gui.util;
 
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.main.Application;
 
 import java.awt.event.ActionEvent;
@@ -64,7 +66,7 @@ public class SpecialNumberFormat implements ActionListener {
 	 * Converts number to string using the currently selected format 
 	 */
 	public String format(double x){
-
+		StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
 		// override the default decimal place setting
 		if(printDecimals >= 0)
 			app.getKernel().setTemporaryPrintDecimals(printDecimals);
@@ -72,7 +74,7 @@ public class SpecialNumberFormat implements ActionListener {
 			app.getKernel().setTemporaryPrintFigures(printFigures);
 
 		// get the formatted string
-		String result = app.getKernel().format(x);
+		String result = app.getKernel().format(x,tpl);
 
 		// restore the default decimal place setting
 		app.getKernel().restorePrintAccuracy();

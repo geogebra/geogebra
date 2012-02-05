@@ -303,14 +303,14 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	@Override
 	public String toValueString(StringTemplate tpl) {			
 		if (isDefined())
-			return fun.toValueString();
+			return fun.toValueString(tpl);
 		else
 			return app.getPlain("undefined");
 	}	
 	
-	public String toSymbolicString() {	
+	public String toSymbolicString(StringTemplate tpl) {	
 		if (isDefined())
-			return fun.toString();
+			return fun.toString(tpl);
 		else
 			return app.getPlain("undefined");
 	}

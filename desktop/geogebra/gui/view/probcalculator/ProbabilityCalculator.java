@@ -4,6 +4,7 @@ import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
@@ -21,6 +22,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -1870,7 +1872,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 	 * Formats a number string using local format settings
 	 */
 	public String format(double x){
-
+		StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
 		// override the default decimal place setting
 		if(printDecimals >= 0)
 			kernel.setTemporaryPrintDecimals(printDecimals);
@@ -1878,7 +1880,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			kernel.setTemporaryPrintFigures(printFigures);
 
 		// get the formatted string
-		String result = kernel.format(x);
+		String result = kernel.format(x,tpl);
 
 		// restore the default decimal place setting
 		kernel.restorePrintAccuracy();

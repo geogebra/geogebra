@@ -78,19 +78,19 @@ public class GeoLine3D extends GeoCoordSys1D {
 		StringBuilder sbToString = getSbBuildValueString();
 		sbToString.setLength(0);
 		sbToString.append("X = (");
-		sbToString.append(kernel.format(O.get(1)));
+		sbToString.append(kernel.format(O.get(1),tpl));
 		sbToString.append(", ");
-		sbToString.append(kernel.format(O.get(2)));
+		sbToString.append(kernel.format(O.get(2),tpl));
 		sbToString.append(", ");
-		sbToString.append(kernel.format(O.get(3)));
+		sbToString.append(kernel.format(O.get(3),tpl));
 		sbToString.append(") + ");
 		sbToString.append(parameter);
 		sbToString.append(" (");
-		sbToString.append(kernel.format(V.get(1)));
+		sbToString.append(kernel.format(V.get(1),tpl));
 		sbToString.append(", ");
-		sbToString.append(kernel.format(V.get(2)));
+		sbToString.append(kernel.format(V.get(2),tpl));
 		sbToString.append(", ");
-		sbToString.append(kernel.format(V.get(3)));
+		sbToString.append(kernel.format(V.get(3),tpl));
 		sbToString.append(")");
 		
 		return sbToString;  

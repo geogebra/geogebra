@@ -145,7 +145,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND,
 
 	public String toValueString(StringTemplate tpl) {
 
-		return kernel.format(getLength());
+		return kernel.format(getLength(),tpl);
 	}
 
 	/**

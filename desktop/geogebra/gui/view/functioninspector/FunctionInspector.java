@@ -16,6 +16,7 @@ import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoCurvature;
 import geogebra.common.kernel.algos.AlgoDependentFunction;
@@ -33,6 +34,7 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.AlgoDerivative;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.cas.AlgoLengthFunction;
@@ -697,14 +699,14 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 				}
 			}
 		}
-
+		StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
 		switch (count) {
 		case 0: 
 			value.add(app.getPlain("fncInspector.NoRoots"));
 			value2.add(null);
 			break;
 		case 1: 
-			value.add(kernel.format(root));
+			value.add(kernel.format(root,tpl));
 			Double[] r = {root};
 			value2.add(r);
 			break;

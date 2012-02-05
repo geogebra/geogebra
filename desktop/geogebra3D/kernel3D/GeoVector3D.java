@@ -204,17 +204,17 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
 			sbToString.append(" = ");
 		}
 
-		sbToString.append(buildValueString());
+		sbToString.append(buildValueString(tpl));
 		return sbToString.toString();
 	}
 
 	private StringBuilder sbToString = new StringBuilder(50);
 
 	final public String toValueString(StringTemplate tpl) {
-		return buildValueString().toString();
+		return buildValueString(tpl).toString();
 	}
 
-	private StringBuilder buildValueString() {
+	private StringBuilder buildValueString(StringTemplate tpl) {
 		sbBuildValueString.setLength(0);
 
 		/*
@@ -244,11 +244,11 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
 		 */
 
 		sbBuildValueString.append("(");
-		sbBuildValueString.append(kernel.format(getX()));
+		sbBuildValueString.append(kernel.format(getX(),tpl));
 		setCoordSep();
-		sbBuildValueString.append(kernel.format(getY()));
+		sbBuildValueString.append(kernel.format(getY(),tpl));
 		setCoordSep();
-		sbBuildValueString.append(kernel.format(getZ()));
+		sbBuildValueString.append(kernel.format(getZ(),tpl));
 		sbBuildValueString.append(")");
 
 		return sbBuildValueString;

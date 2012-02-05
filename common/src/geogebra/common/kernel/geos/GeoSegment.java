@@ -263,7 +263,7 @@ GeoSegmentND {
    private boolean forceSimpleTransform;
    
    final public String toValueString(StringTemplate tpl) {
-	   return kernel.format(length);
+	   return kernel.format(length,tpl);
    }
    
 	 /**

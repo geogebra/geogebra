@@ -115,7 +115,7 @@ public class AlgoIntegral extends AlgoCasBase {
 				sb.append(')');
 			}
 			sb.append(" = ");
-			sb.append(g.toSymbolicString());
+			sb.append(g.toSymbolicString(tpl));
 		}
 
 		return sb.toString();

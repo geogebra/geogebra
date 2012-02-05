@@ -345,8 +345,8 @@ implements LimitedPath, NumberValue, LineProperties {
 	@Override
 	final public String toValueString(StringTemplate tpl) {
 		if(value_defined)
-			return kernel.format(value);
-		return kernel.format(Double.NaN);
+			return kernel.format(value,tpl);
+		return kernel.format(Double.NaN,tpl);
 	} 
 	
 	public boolean allowOutlyingIntersections() {

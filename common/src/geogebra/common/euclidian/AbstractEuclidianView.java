@@ -2812,6 +2812,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		}
 
 		final protected void drawMouseCoords(geogebra.common.awt.Graphics2D g2) {
+			StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
 			if (euclidianController.mouseLoc == null) {
 				return;
 			}
@@ -2820,14 +2821,14 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			sb.setLength(0);
 			sb.append('(');
 			sb.append(kernel.format(Kernel
-					.checkDecimalFraction(euclidianController.xRW)));
+					.checkDecimalFraction(euclidianController.xRW),tpl));
 			if (kernel.getCoordStyle() == Kernel.COORD_STYLE_AUSTRIAN) {
 				sb.append(" | ");
 			} else {
 				sb.append(", ");
 			}
 			sb.append(kernel.format(Kernel
-					.checkDecimalFraction(euclidianController.yRW)));
+					.checkDecimalFraction(euclidianController.yRW),tpl));
 			sb.append(')');
 
 			g2.setColor(geogebra.common.awt.Color.darkGray);

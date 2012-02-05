@@ -1342,24 +1342,24 @@ Translateable, GeoConicNDConstants
 								sbToValueString.append(squared);
 							} else {
 								sbToValueString.append("(x ");
-								sbToValueString.append((CharSequence)kernel.formatSigned(-b.x));
+								sbToValueString.append((CharSequence)kernel.formatSigned(-b.x,tpl));
 								sbToValueString.append(")");
 								sbToValueString.append(squared);
 							}
 							sbToValueString.append(" / ");
-							sbToValueString.append(kernel.format(coeff0 * coeff0));
+							sbToValueString.append(kernel.format(coeff0 * coeff0,tpl));
 							sbToValueString.append(" + ");
 							if (Kernel.isZero(b.y)) {
 								sbToValueString.append("y");
 								sbToValueString.append(squared);
 							} else {
 								sbToValueString.append("(y ");
-								sbToValueString.append((CharSequence)kernel.formatSigned(-b.y));
+								sbToValueString.append((CharSequence)kernel.formatSigned(-b.y,tpl));
 								sbToValueString.append(")");
 								sbToValueString.append(squared);
 							}
 							sbToValueString.append(" / ");
-							sbToValueString.append(kernel.format(coeff1 * coeff1));
+							sbToValueString.append(kernel.format(coeff1 * coeff1,tpl));
 							sbToValueString.append(" = 1");
 													
 							return sbToValueString;
@@ -1394,12 +1394,12 @@ Translateable, GeoConicNDConstants
 								sbToValueString.append('(');
 								sbToValueString.append(firstVar);
 								sbToValueString.append(' ');
-								sbToValueString.append((CharSequence)kernel.formatSigned(-b1));
+								sbToValueString.append((CharSequence)kernel.formatSigned(-b1,tpl));
 								sbToValueString.append(")");
 								sbToValueString.append(squared);
 							}
 							sbToValueString.append(" / ");
-							sbToValueString.append(kernel.format(halfAxes[0] * halfAxes[0]));
+							sbToValueString.append(kernel.format(halfAxes[0] * halfAxes[0],tpl));
 							sbToValueString.append(" - ");
 							if (Kernel.isZero(b2)) {
 								sbToValueString.append(secondVar);
@@ -1408,12 +1408,12 @@ Translateable, GeoConicNDConstants
 								sbToValueString.append('(');
 								sbToValueString.append(secondVar);
 								sbToValueString.append(' ');
-								sbToValueString.append((CharSequence)kernel.formatSigned(-b2));
+								sbToValueString.append((CharSequence)kernel.formatSigned(-b2,tpl));
 								sbToValueString.append(")");
 								sbToValueString.append(squared);
 							}
 							sbToValueString.append(" / ");
-							sbToValueString.append(kernel.format(halfAxes[1] * halfAxes[1]));
+							sbToValueString.append(kernel.format(halfAxes[1] * halfAxes[1],tpl));
 							sbToValueString.append(" = 1");													
 							
 							return sbToValueString;

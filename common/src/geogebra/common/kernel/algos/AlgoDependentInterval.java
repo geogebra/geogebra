@@ -34,7 +34,7 @@ public class AlgoDependentInterval extends AlgoDependentFunction {
     
     @Override
 	final public String toString(StringTemplate tpl) {
-    	return f.toSymbolicString();
+    	return f.toSymbolicString(tpl);
     }
 
 }

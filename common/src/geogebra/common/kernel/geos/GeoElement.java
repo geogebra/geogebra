@@ -2255,10 +2255,12 @@ public abstract class GeoElement extends ConstructionElement implements
 	public String getCaptionNoReplace() {
 		return caption;
 	}
-
 	public String getCaption() {
+		return getCaption(kernel.getStringTemplate());
+	}
+	public String getCaption(StringTemplate tpl) {
 		if (caption == null) {
-			return getLabel();
+			return getLabel(tpl);
 		}
 
 		// for speed, check first for a %
@@ -2281,18 +2283,18 @@ public abstract class GeoElement extends ConstructionElement implements
 				ch = caption.charAt(i);
 				switch (ch) {
 				case 'v':
-					captionSB.append(toValueString());
+					captionSB.append(toValueString(tpl));
 					break;
 				case 'n':
-					captionSB.append(getLabel());
+					captionSB.append(getLabel(tpl));
 					break;
 				case 'x':
 					if (isGeoPoint()) {
 						captionSB.append(kernel.format(((GeoPointND) this)
-								.getInhomCoords().getX()));
+								.getInhomCoords().getX(),tpl));
 					} else if (isGeoLine()) {
 						captionSB
-								.append(kernel.format(((GeoLine) this).getX()));
+								.append(kernel.format(((GeoLine) this).getX(),tpl));
 					} else {
 						captionSB.append("%x");
 					}
@@ -2301,10 +2303,10 @@ public abstract class GeoElement extends ConstructionElement implements
 				case 'y':
 					if (isGeoPoint()) {
 						captionSB.append(kernel.format(((GeoPointND) this)
-								.getInhomCoords().getY()));
+								.getInhomCoords().getY(),tpl));
 					} else if (isGeoLine()) {
 						captionSB
-								.append(kernel.format(((GeoLine) this).getY()));
+								.append(kernel.format(((GeoLine) this).getY(),tpl));
 					} else {
 						captionSB.append("%y");
 					}
@@ -2312,10 +2314,10 @@ public abstract class GeoElement extends ConstructionElement implements
 				case 'z':
 					if (isGeoPoint()) {
 						captionSB.append(kernel.format(((GeoPointND) this)
-								.getInhomCoords().getZ()));
+								.getInhomCoords().getZ(),tpl));
 					} else if (isGeoLine()) {
 						captionSB
-								.append(kernel.format(((GeoLine) this).getZ()));
+								.append(kernel.format(((GeoLine) this).getZ(),tpl));
 					} else {
 						captionSB.append("%z");
 					}
@@ -2334,7 +2336,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	public String getRawCaption() {
 		if (caption == null) {
-			return getLabel();
+			return "";
 		} else {
 			return caption;
 		}

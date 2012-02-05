@@ -438,22 +438,22 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		switch (toStringMode) {
 		case Kernel.COORD_POLAR:                	
 			sbBuildValueString.append("(");		
-			sbBuildValueString.append(kernel.format(MyMath.length(x, y)));
+			sbBuildValueString.append(kernel.format(MyMath.length(x, y),tpl));
 			sbBuildValueString.append("; ");
 			sbBuildValueString.append((CharSequence)kernel.formatAngle(Math.atan2(y, x),tpl));
 			sbBuildValueString.append(")");
 			break;
 
 		case Kernel.COORD_COMPLEX:              	
-			sbBuildValueString.append(kernel.format(x));
+			sbBuildValueString.append(kernel.format(x,tpl));
 			sbBuildValueString.append(" ");
-			sbBuildValueString.append((CharSequence)kernel.formatSigned(y));
+			sbBuildValueString.append((CharSequence)kernel.formatSigned(y,tpl));
 			sbBuildValueString.append(Unicode.IMAGINARY);
 			break;                                
 
 		default: // CARTESIAN
 			sbBuildValueString.append("(");		
-			sbBuildValueString.append(kernel.format(x));
+			sbBuildValueString.append(kernel.format(x,tpl));
 			switch (kernel.getCoordStyle()) {
 			case Kernel.COORD_STYLE_AUSTRIAN:
 				sbBuildValueString.append(" | ");
@@ -462,7 +462,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 			default:
 				sbBuildValueString.append(", ");												
 			}
-			sbBuildValueString.append(kernel.format(y));
+			sbBuildValueString.append(kernel.format(y,tpl));
 			sbBuildValueString.append(")");
 			break;       
 		}
@@ -680,7 +680,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		case Kernel.COORD_COMPLEX:              	
 			sb.append(kernel.format(x));
 			sb.append(" ");
-			sb.append((CharSequence)kernel.formatSigned(y));
+			sb.append((CharSequence)kernel.formatSigned(y,kernel.getStringTemplate()));
 			sb.append(Unicode.IMAGINARY);
 			break;                                
 

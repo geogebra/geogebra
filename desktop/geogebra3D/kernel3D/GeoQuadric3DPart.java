@@ -86,7 +86,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements NumberValue {
 	public String toValueString(StringTemplate tpl) {
 		switch (type) {
 		case QUADRIC_CYLINDER:
-			return kernel.format(area);
+			return kernel.format(area,tpl);
 
 		}
 

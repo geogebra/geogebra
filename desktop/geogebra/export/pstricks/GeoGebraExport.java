@@ -7,6 +7,7 @@ import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -19,6 +20,7 @@ import geogebra.common.kernel.algos.AlgoSumLower;
 import geogebra.common.kernel.algos.AlgoSumRectangle;
 import geogebra.common.kernel.algos.AlgoSumTrapezoidal;
 import geogebra.common.kernel.algos.AlgoSumUpper;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoConic;
@@ -83,6 +85,10 @@ public abstract class GeoGebraExport implements ActionListener {
 
 	public Application getApp() {
 		return app;
+	}
+	
+	protected String format(double d){
+		return kernel.format(d, StringTemplate.get(StringType.GEOGEBRA));
 	}
 
 	// Functions added to access and modify xmin, xmax, ymin and ymax

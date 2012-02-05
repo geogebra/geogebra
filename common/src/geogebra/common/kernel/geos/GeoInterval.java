@@ -106,13 +106,13 @@ public class GeoInterval extends GeoFunction {
 			sbToString2.append(label);
 			sbToString2.append(": ");
 		}
-		sbToString2.append(toSymbolicString());
+		sbToString2.append(toSymbolicString(tpl));
 		return sbToString2.toString();
 	}
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		return toString(false);
+		return toString(false,tpl);
 	}
 
 	private double rightBound = Double.NaN;
@@ -129,7 +129,7 @@ public class GeoInterval extends GeoFunction {
 	 *            true for symbolic, false for numeric
 	 * @return string description of the interval
 	 */
-	private String toString(boolean symbolic) {
+	private String toString(boolean symbolic,StringTemplate tpl) {
 
 		// output as nice string eg 3 < x < 5
 
@@ -151,16 +151,16 @@ public class GeoInterval extends GeoFunction {
 						&& leftBound <= rightBound) {
 					sbToString.setLength(0);
 					sbToString.append(symbolic ? leftStr : kernel
-							.format(leftBound));
+							.format(leftBound,tpl));
 					sbToString.append(' ');
 					sbToString.append(leftInequality);
 					sbToString.append(' ');
-					sbToString.append(getVarString(kernel.getStringTemplate()));
+					sbToString.append(getVarString(tpl));
 					sbToString.append(' ');
 					sbToString.append(rightInequality);
 					sbToString.append(' ');
 					sbToString.append(symbolic ? rightStr : kernel
-							.format(rightBound));
+							.format(rightBound,tpl));
 					return sbToString.toString();
 					// return kernel.format(leftBound)
 					// +leftInequality+" x "+rightInequality+kernel.format(rightBound);
@@ -170,14 +170,14 @@ public class GeoInterval extends GeoFunction {
 
 		// eg x<3 && x>10
 		// Application.debug("fall through");
-		return symbolic ? super.toSymbolicString() : super.toValueString();
+		return symbolic ? super.toSymbolicString(tpl) : super.toValueString(tpl);
 
 	}
 
 	@Override
-	public String toSymbolicString() {
+	public String toSymbolicString(StringTemplate tpl) {
 		if (isDefined()) {
-			return toString(true);
+			return toString(true,tpl);
 		}
 		return app.getPlain("undefined");
 	}

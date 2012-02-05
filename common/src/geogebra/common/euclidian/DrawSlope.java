@@ -18,7 +18,9 @@ package geogebra.common.euclidian;
 
 import geogebra.common.awt.Graphics2D;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoSlope;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -108,6 +110,7 @@ public class DrawSlope extends Drawable {
 
 			// label position
 			labelVisible = geo.isLabelVisible();
+			StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
 			if (labelVisible) {
 				if (slopeTriangleSize > 1) {
 					StringBuilder sb = new StringBuilder();
@@ -115,19 +118,19 @@ public class DrawSlope extends Drawable {
 					case GeoElement.LABEL_NAME_VALUE:
 						sb.append(slopeTriangleSize);
 						sb.append(' ');
-						sb.append(geo.getLabel());
+						sb.append(geo.getLabel(tpl));
 						sb.append(" = ");
-						sb.append(kernel.format(rwHeight));
+						sb.append(kernel.format(rwHeight,tpl));
 						break;
 
 					case GeoElement.LABEL_VALUE:
-						sb.append(kernel.format(rwHeight));
+						sb.append(kernel.format(rwHeight,tpl));
 						break;
 
 					default: // case GeoElement.LABEL_NAME:
 						sb.append(slopeTriangleSize);
 						sb.append(' ');
-						sb.append(geo.getLabel());
+						sb.append(geo.getLabel(tpl));
 						break;
 					}
 					labelDesc = sb.toString();

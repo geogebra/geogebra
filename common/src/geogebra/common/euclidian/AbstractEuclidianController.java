@@ -10,6 +10,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -19,6 +20,7 @@ import geogebra.common.kernel.algos.AlgoVector;
 import geogebra.common.kernel.algos.AlgoVectorPoint;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -5803,7 +5805,8 @@ public abstract class AbstractEuclidianController {
 					// preview just for fixed sliders
 					if (((GeoNumeric) hit).isSliderFixed()) {
 						sliderValue = kernel
-								.format(getSliderValue((GeoNumeric) hit));
+								.format(getSliderValue((GeoNumeric) hit),
+										StringTemplate.get(StringType.GEOGEBRA));
 					}
 				}
 			}

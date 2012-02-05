@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoText;
@@ -68,17 +69,17 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 
     @Override
 	public final void compute() {
-    	  	
+    	StringTemplate tpl = StringTemplate.get(app.getFormulaRenderingType());
 		if (input[0].isDefined()) {
 			
 			sb.setLength(0);
 			sb.append(" \\left( ");
 			AbstractApplication.debug(sb.toString());
-			PSLQappend(sb, p.inhomX);
+			PSLQappend(sb, p.inhomX,tpl);
 			AbstractApplication.debug(sb.toString());
 			sb.append(" , ");
 			AbstractApplication.debug(sb.toString());
-			PSLQappend(sb, p.inhomY);
+			PSLQappend(sb, p.inhomY,tpl);
 			AbstractApplication.debug(sb.toString());
 			sb.append(" \\right) ");
 			

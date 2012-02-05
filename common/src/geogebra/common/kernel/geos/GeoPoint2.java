@@ -1035,7 +1035,7 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
         switch (toStringMode) {
         case Kernel.COORD_POLAR:                                            
     		sbBuildValueString.append('(');    
-			sbBuildValueString.append(kernel.format(MyMath.length(getInhomX(), getInhomY())));
+			sbBuildValueString.append(kernel.format(MyMath.length(getInhomX(), getInhomY()),tpl));
 			sbBuildValueString.append("; ");
 			sbBuildValueString.append((CharSequence)kernel.formatAngle(Math.atan2(getInhomY(), 
 					getInhomX()),tpl));
@@ -1044,16 +1044,16 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
                         
         case Kernel.COORD_COMPLEX:                    
         	//if (!isI) { // return just "i" for special i
-				sbBuildValueString.append(kernel.format(getInhomX()));
+				sbBuildValueString.append(kernel.format(getInhomX(),tpl));
 				sbBuildValueString.append(" ");
-				sbBuildValueString.append(kernel.formatSignedCoefficient(getInhomY()));
+				sbBuildValueString.append(kernel.formatSignedCoefficient(getInhomY(),tpl));
         	//}
 			sbBuildValueString.append(Unicode.IMAGINARY);
             break;                                
                         
            default: // CARTESIAN                
        			sbBuildValueString.append('(');    
-				sbBuildValueString.append(kernel.format(getInhomX()));
+				sbBuildValueString.append(kernel.format(getInhomX(),tpl));
 				switch (kernel.getCoordStyle()) {
 					case Kernel.COORD_STYLE_AUSTRIAN:
 						sbBuildValueString.append(" | ");
@@ -1063,7 +1063,7 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
 						sbBuildValueString.append(AbstractApplication.unicodeComma);												
 						sbBuildValueString.append(" ");												
 				}
-				sbBuildValueString.append(kernel.format(getInhomY()));                                
+				sbBuildValueString.append(kernel.format(getInhomY(),tpl));                                
 				sbBuildValueString.append(')');
         }        
 		return sbBuildValueString;

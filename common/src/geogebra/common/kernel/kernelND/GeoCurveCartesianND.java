@@ -171,7 +171,7 @@ public abstract class GeoCurveCartesianND extends GeoElement{
 			return app.getPlain("undefined");
 	}	
 	
-	public String toSymbolicString() {	
+	public String toSymbolicString(StringTemplate tpl) {	
 		if (isDefined) {
 			if (sbTemp == null) {
 				sbTemp = new StringBuilder(80);
@@ -180,15 +180,15 @@ public abstract class GeoCurveCartesianND extends GeoElement{
 			sbTemp.append('(');
 			
 			for (int i=0; i< fun.length;i++){
-			sbTemp.append(fun[i].toString());
+			sbTemp.append(fun[i].toString(tpl));
 			if (i<fun.length-1)
 				sbTemp.append(", ");
 			}
 			
 			sbTemp.append(')');
 			return sbTemp.toString();
-		} else
-			return app.getPlain("undefined");
+		} 
+		return app.getPlain("undefined");
 	}
 	
 	public String toLaTeXString(boolean symbolic) {

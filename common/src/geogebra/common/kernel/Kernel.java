@@ -874,14 +874,14 @@ public class Kernel {
 		}
 
 		// temp is set by buildImplicitVarPart
-		sbBuildImplicitEquation.append(format(-temp[vars.length]));
+		sbBuildImplicitEquation.append(format(-temp[vars.length],tpl));
 
 		return sbBuildImplicitEquation;
 	}
 
 	private StringBuilder sbFormat;
 
-	final public String formatSignedCoefficient(double x) {
+	final public String formatSignedCoefficient(double x,StringTemplate tpl) {
 		if (x == -1.0) {
 			return "- ";
 		}
@@ -889,19 +889,19 @@ public class Kernel {
 			return "+ ";
 		}
 
-		return formatSigned(x).toString();
+		return formatSigned(x,tpl).toString();
 	}
 
-	final public StringBuilder formatSigned(double x) {
+	final public StringBuilder formatSigned(double x,StringTemplate tpl) {
 		sbFormatSigned.setLength(0);
 
 		if (x >= 0.0d) {
 			sbFormatSigned.append("+ ");
-			sbFormatSigned.append(format(x));
+			sbFormatSigned.append(format(x,tpl));
 			return sbFormatSigned;
 		}
 		sbFormatSigned.append("- ");
-		sbFormatSigned.append(format(-x));
+		sbFormatSigned.append(format(-x,tpl));
 		return sbFormatSigned;
 	}
 
@@ -1295,7 +1295,7 @@ public class Kernel {
 			sbBuildLHS.append(' ');
 			sbBuildLHS.append(sign(coeff));
 			sbBuildLHS.append(' ');
-			sbBuildLHS.append(format(Math.abs(coeff)));
+			sbBuildLHS.append(format(Math.abs(coeff),tpl));
 		}
 		return sbBuildLHS;
 	}
@@ -1435,7 +1435,7 @@ public class Kernel {
 		} else if (leadingNonZero == (numbers.length - 1)) {
 			// only constant coeff
 			d = -numbers[leadingNonZero] / q;
-			sbBuildExplicitConicEquation.append(format(d));
+			sbBuildExplicitConicEquation.append(format(d,tpl));
 			return sbBuildExplicitConicEquation;
 		} else {
 			// leading coeff
@@ -1465,7 +1465,7 @@ public class Kernel {
 				sbBuildExplicitConicEquation.append(' ');
 				sbBuildExplicitConicEquation.append(sign(d));
 				sbBuildExplicitConicEquation.append(' ');
-				sbBuildExplicitConicEquation.append(format(dabs));
+				sbBuildExplicitConicEquation.append(format(dabs,tpl));
 			}
 
 			// Application.debug(sbBuildExplicitConicEquation.toString());
@@ -1517,7 +1517,7 @@ public class Kernel {
 				return "-";
 			}
 		} else {
-			String numberStr = format(x);
+			String numberStr = format(x,tpl);
 			switch (tpl.getStringType()) {
 			case MATH_PIPER:
 			case MAXIMA:
@@ -1555,7 +1555,7 @@ public class Kernel {
 			}
 
 			sbBuildExplicitLineEquation
-					.append(format(-numbers[2] / numbers[0]));
+					.append(format(-numbers[2] / numbers[0],tpl));
 			return sbBuildExplicitLineEquation;
 		}
 
@@ -1586,11 +1586,11 @@ public class Kernel {
 				sbBuildExplicitLineEquation.append(' ');
 				sbBuildExplicitLineEquation.append(sign(d));
 				sbBuildExplicitLineEquation.append(' ');
-				sbBuildExplicitLineEquation.append(format(dabs));
+				sbBuildExplicitLineEquation.append(format(dabs,tpl));
 			}
 		} else {
 			// only constant
-			sbBuildExplicitLineEquation.append(format(-numbers[2] / q));
+			sbBuildExplicitLineEquation.append(format(-numbers[2] / q,tpl));
 		}
 		return sbBuildExplicitLineEquation;
 	}
@@ -1799,7 +1799,7 @@ public class Kernel {
 				sbFormatAngle.append("\u00b0");
 				sbFormatAngle.append(")");
 			} else {
-				sbFormatAngle.append(format(phi));
+				sbFormatAngle.append(format(phi,tpl));
 			}
 			return sbFormatAngle;
 
@@ -1831,7 +1831,7 @@ public class Kernel {
 				// STANDARD_PRECISION * 10 as we need a little leeway as we've
 				// converted from radians
 				sbFormatAngle
-						.append(format(checkDecimalFraction(phi, precision)));
+						.append(format(checkDecimalFraction(phi, precision),tpl));
 
 				if (tpl.hasType(StringType.GEOGEBRA_XML)) {
 					sbFormatAngle.append("*");
@@ -1844,7 +1844,7 @@ public class Kernel {
 				return sbFormatAngle;
 			} else {
 				// RADIANS
-				sbFormatAngle.append(format(phi));
+				sbFormatAngle.append(format(phi,tpl));
 
 				if (!tpl.hasType(StringType.GEOGEBRA_XML)) {
 					sbFormatAngle.append(" rad");
@@ -8273,7 +8273,7 @@ public class Kernel {
 
 		a.makeUnitVector();
 		b.makeUnitVector();
-
+		StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
 		for (int i = 2; i < points.length; i++) {
 
 			double xC = points[i].inhomX;
@@ -8285,22 +8285,22 @@ public class Kernel {
 			// make string like this
 			// A+3.76UnitVector[Segment[A,B]]+-1.74UnitPerpendicularVector[Segment[A,B]]
 			sb.setLength(0);
-			sb.append(points[0].getLabel());
+			sb.append(points[0].getLabel(tpl));
 			sb.append('+');
-			sb.append(format(a.inner(d)));
+			sb.append(format(a.inner(d),tpl));
 
 			// use internal command name
 			sb.append("UnitVector[Segment[");
-			sb.append(points[0].getLabel());
+			sb.append(points[0].getLabel(tpl));
 			sb.append(',');
-			sb.append(points[1].getLabel());
+			sb.append(points[1].getLabel(tpl));
 			sb.append("]]+");
-			sb.append(format(b.inner(d)));
+			sb.append(format(b.inner(d),tpl));
 			// use internal command name
 			sb.append("UnitOrthogonalVector[Segment[");
-			sb.append(points[0].getLabel());
+			sb.append(points[0].getLabel(tpl));
 			sb.append(',');
-			sb.append(points[1].getLabel());
+			sb.append(points[1].getLabel(tpl));
 			sb.append("]]");
 
 			restorePrintAccuracy();

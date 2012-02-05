@@ -330,8 +330,8 @@ public class GeoFunctionConditional extends GeoFunction {
 	}	
 	
 	@Override
-	final public String toSymbolicString() {					
-		return toString(kernel.getStringTemplate(),true);
+	final public String toSymbolicString(StringTemplate tpl) {					
+		return toString(tpl,true);
 	}
 	
 	@Override
@@ -351,15 +351,15 @@ public class GeoFunctionConditional extends GeoFunction {
 			CASGenericInterface cas = kernel.getGeoGebraCAS().getCurrentCAS();
 			String cmd = cas.getTranslatedCASCommand(elseFun == null ? "If.2" : "If.3");
 			if (symbolic) {
-				cmd = cmd.replace("%0", condFun.toSymbolicString());
-				cmd = cmd.replace("%1", ifFun.toSymbolicString());
+				cmd = cmd.replace("%0", condFun.toSymbolicString(tpl));
+				cmd = cmd.replace("%1", ifFun.toSymbolicString(tpl));
 				if (elseFun != null)
-					cmd = cmd.replace("%2", elseFun.toSymbolicString());
+					cmd = cmd.replace("%2", elseFun.toSymbolicString(tpl));
 			} else {
-				cmd = cmd.replace("%0", condFun.toValueString());
-				cmd = cmd.replace("%1", ifFun.toValueString());
+				cmd = cmd.replace("%0", condFun.toValueString(tpl));
+				cmd = cmd.replace("%1", ifFun.toValueString(tpl));
 				if (elseFun != null)
-					cmd = cmd.replace("%2", elseFun.toValueString());
+					cmd = cmd.replace("%2", elseFun.toValueString(tpl));
 			}
 				
 			return cmd;
@@ -370,21 +370,21 @@ public class GeoFunctionConditional extends GeoFunction {
 		sb.append('[');
 		
 		if (symbolic) {
-			sb.append(condFun.toSymbolicString());
+			sb.append(condFun.toSymbolicString(tpl));
 			sb.append(", ");	
-			sb.append(ifFun.toSymbolicString());
+			sb.append(ifFun.toSymbolicString(tpl));
 		} else {
-			sb.append(condFun.toValueString());
+			sb.append(condFun.toValueString(tpl));
 			sb.append(", ");
-			sb.append(ifFun.toValueString());
+			sb.append(ifFun.toValueString(tpl));
 		}
 			
 		if (elseFun != null) {
 			sb.append(", ");
 			if (symbolic)
-				sb.append(elseFun.toSymbolicString());
+				sb.append(elseFun.toSymbolicString(tpl));
 			else
-				sb.append(elseFun.toValueString());
+				sb.append(elseFun.toValueString(tpl));
 		}
 		sb.append(']');
 		
@@ -502,7 +502,7 @@ public class GeoFunctionConditional extends GeoFunction {
 		}
 	}
 
-	public String conditionalLaTeX(boolean substituteNumbers) {		
+	public String conditionalLaTeX(boolean substituteNumbers,StringTemplate tpl) {		
 		StringBuilder sb = new StringBuilder();
 		
 		if (getElseFunction() == null && !ifFun.isGeoFunctionConditional()) {
@@ -524,7 +524,7 @@ public class GeoFunctionConditional extends GeoFunction {
 					sb.append(app.getPlain("otherwise"));
 					sb.append("}");
 				} else {
-					sb.append(conditions.get(i).toLaTeXString(!substituteNumbers,getVarString(kernel.getStringTemplate())));
+					sb.append(conditions.get(i).toLaTeXString(!substituteNumbers,getVarString(tpl),tpl));
 					if(i!=cases.size()-1)sb.append("\\\\ ");
 				}
 			}
@@ -605,17 +605,18 @@ public class GeoFunctionConditional extends GeoFunction {
 			return b;
 		}
 
-		public Object toLaTeXString(boolean b,String varString) {
+		public Object toLaTeXString(boolean b,String varString,StringTemplate tpl) {
 			String ret = null;
 			if(upper == null && lower!= null)
-				ret = varString+" "+(lowerSharp?">":Unicode.GREATER_EQUAL)+" "+kernel.format(lower);
+				ret = varString+" "+(lowerSharp?">":Unicode.GREATER_EQUAL)+" "+kernel.format(lower,tpl);
 			else if(lower == null && upper != null)
-				ret = varString+" "+(upperSharp?"<":Unicode.LESS_EQUAL)+" "+kernel.format(upper);
+				ret = varString+" "+(upperSharp?"<":Unicode.LESS_EQUAL)+" "+kernel.format(upper,tpl);
 			else if(lower!=null && upper!=null){				
 				if(Kernel.isEqual(lower,upper) && !lowerSharp && !upperSharp)
-					ret=varString+" = "+kernel.format(lower);
+					ret=varString+" = "+kernel.format(lower,tpl);
 				else
-					ret = kernel.format(lower)+" "+(lowerSharp?"<":Unicode.LESS_EQUAL)+" "+varString+" "+(upperSharp?"<":Unicode.LESS_EQUAL)+" "+kernel.format(upper);
+					ret = kernel.format(lower,tpl)+" "+(lowerSharp?"<":Unicode.LESS_EQUAL)+" "+
+				varString+" "+(upperSharp?"<":Unicode.LESS_EQUAL)+" "+kernel.format(upper,tpl);
 			}
 			if(condition!=null && ret == null)
 				return condition.toLaTeXString(b);

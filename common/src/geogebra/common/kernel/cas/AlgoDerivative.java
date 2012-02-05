@@ -142,7 +142,7 @@ public class AlgoDerivative extends AlgoCasBase {
             sb.append('(');
             sb.append(g.getVarString(tpl));
             sb.append(") = ");
-    		sb.append(g.toSymbolicString());            
+    		sb.append(g.toSymbolicString(tpl));            
         } 
         
         return sb.toString();

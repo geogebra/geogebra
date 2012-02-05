@@ -1240,7 +1240,7 @@ public class ExpressionNode extends ValidExpression implements
 				 */
 
 				if (symbolic && left.isGeoElement()) {
-					ret = ((GeoElement) left).getLabel();
+					ret = ((GeoElement) left).getLabel(tpl);
 				} else if (left.isExpressionNode()) {
 					ret = ((ExpressionNode) left).printCASstring(symbolic,tpl);
 				} else {
@@ -1253,7 +1253,7 @@ public class ExpressionNode extends ValidExpression implements
 				// expression node
 				String leftStr = null, rightStr = null;
 				if (symbolic && left.isGeoElement()) {
-					leftStr = ((GeoElement) left).getLabel();
+					leftStr = ((GeoElement) left).getLabel(tpl);
 				} else if (left.isExpressionNode()) {
 					leftStr = ((ExpressionNode) left).printCASstring(symbolic,tpl);
 				} else {
@@ -1262,7 +1262,7 @@ public class ExpressionNode extends ValidExpression implements
 
 				if (right != null) {
 					if (symbolic && right.isGeoElement()) {
-						rightStr = ((GeoElement) right).getLabel();
+						rightStr = ((GeoElement) right).getLabel(tpl);
 					} else if (right.isExpressionNode()) {
 						rightStr = ((ExpressionNode) right)
 								.printCASstring(symbolic,tpl);
@@ -1271,7 +1271,7 @@ public class ExpressionNode extends ValidExpression implements
 								.toValueString(tpl);
 					}
 				}
-				ret = operationToString(leftStr, rightStr, !symbolic);
+				ret = operationToString(leftStr, rightStr, !symbolic,tpl);
 			}
 		} finally {
 			kernel.restorePrintAccuracy();
@@ -1328,27 +1328,27 @@ public class ExpressionNode extends ValidExpression implements
 	final public String toString(StringTemplate tpl) {
 		if (leaf) { // leaf is GeoElement or not
 			if (left.isGeoElement()) {
-				return ((GeoElement) left).getLabel();
+				return ((GeoElement) left).getLabel(tpl);
 			}
-			return left.toString();
+			return left.toString(tpl);
 		}
 
 		// expression node
 		String leftStr = null, rightStr = null;
 		if (left.isGeoElement()) {
-			leftStr = ((GeoElement) left).getLabel();
+			leftStr = ((GeoElement) left).getLabel(tpl);
 		} else {
-			leftStr = left.toString();
+			leftStr = left.toString(tpl);
 		}
 
 		if (right != null) {
 			if (right.isGeoElement()) {
-				rightStr = ((GeoElement) right).getLabel();
+				rightStr = ((GeoElement) right).getLabel(tpl);
 			} else {
-				rightStr = right.toString();
+				rightStr = right.toString(tpl);
 			}
 		}
-		return operationToString(leftStr, rightStr, false);
+		return operationToString(leftStr, rightStr, false,tpl);
 	}
 
 	/** like toString() but with current values of variables */
@@ -1356,19 +1356,19 @@ public class ExpressionNode extends ValidExpression implements
 	final public String toValueString(StringTemplate tpl) {
 		if (isLeaf()) { // leaf is GeoElement or not
 			if (left != null) {
-				return left.toValueString();
+				return left.toValueString(tpl);
 			}
 		}
 
 		// expression node
-		String leftStr = left.toValueString();
+		String leftStr = left.toValueString(tpl);
 
 		String rightStr = null;
 		if (right != null) {
-			rightStr = right.toValueString();
+			rightStr = right.toValueString(tpl);
 		}
 
-		return operationToString(leftStr, rightStr, true);
+		return operationToString(leftStr, rightStr, true,tpl);
 	}
 
 	final public String toOutputValueString() {
@@ -1386,7 +1386,7 @@ public class ExpressionNode extends ValidExpression implements
 			rightStr = right.toOutputValueString();
 		}
 
-		return operationToString(leftStr, rightStr, true);
+		return operationToString(leftStr, rightStr, true,kernel.getStringTemplate());
 	}
 
 	/**
@@ -1423,7 +1423,7 @@ public class ExpressionNode extends ValidExpression implements
 		// build latex string
 		StringType oldPrintForm = kernel.getStringTemplate().getStringType();
 		kernel.setCASPrintForm(StringType.LATEX);
-		String ret = operationToString(leftStr, rightStr, !symbolic);
+		String ret = operationToString(leftStr, rightStr, !symbolic,kernel.getStringTemplate());
 		kernel.setCASPrintForm(oldPrintForm);
 
 		return ret;
@@ -1436,7 +1436,7 @@ public class ExpressionNode extends ValidExpression implements
 	 * 
 	 */
 	final private String operationToString(String leftStr, String rightStr,
-			boolean valueForm) {
+			boolean valueForm,StringTemplate tpl) {
 
 		ExpressionValue leftEval;
 		StringBuilder sb = new StringBuilder();
@@ -4295,17 +4295,17 @@ public class ExpressionNode extends ValidExpression implements
 		case MULTIPLY:
 			if (!getRightTree().containsFunctionVariable()) {
 				return lc
-						* ((NumberValue) getRightTree().evaluate()).getDouble();
+						* getRightTree().evaluateNum().getDouble();
 			} else if (!getLeftTree().containsFunctionVariable()) {
 				return rc
-						* ((NumberValue) getLeftTree().evaluate()).getDouble();
+						* getLeftTree().evaluateNum().getDouble();
 			}
 			break;
 
 		case DIVIDE:
 			if (!getRightTree().containsFunctionVariable()) {
 				return lc
-						/ ((NumberValue) getRightTree().evaluate()).getDouble();
+						/ getRightTree().evaluateNum().getDouble();
 			}
 			break;
 		}
@@ -4358,7 +4358,7 @@ public class ExpressionNode extends ValidExpression implements
 				rightStr = right.toRealString(tpl);
 			}
 		}
-		return operationToString(leftStr, rightStr, false);
+		return operationToString(leftStr, rightStr, false,tpl);
 	}
 
 	public ExpressionNode plus(ExpressionValue v2) {

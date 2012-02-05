@@ -382,7 +382,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	public double evaluate(double x) {
 		if (fun == null)
 			return Double.NaN;
-		else {
+		
 			/*if (geoFunctionType == FUNCTION_COMPOSITE_IPOLY_FUNCS) {
 				double evalX = substituteFunctions[0].evaluate(x);
 				double evalY = substituteFunctions[1].evaluate(x);
@@ -390,7 +390,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 			}
 			else*/
 				return fun.evaluate(x);
-		}
+		
 	}
 	
 	/**
@@ -617,9 +617,9 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 			return app.getPlain("undefined");
 	}	
 	
-	public String toSymbolicString() {	
+	public String toSymbolicString(StringTemplate tpl) {	
 		if (fun != null && isDefined())
-			return fun.toString();
+			return fun.toString(tpl);
 		else
 			return app.getPlain("undefined");
 	}
@@ -1729,10 +1729,10 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 			if (tpl.hasType(StringType.MATH_PIPER)) {
 
 			// get in form If(x<3, etc
-			ret = geoFun.toSymbolicString();
+			ret = geoFun.toSymbolicString(tpl);
 			//Application.debug(ret);
 			} else if (tpl.hasType(StringType.LATEX)) {
-				ret = geoFun.conditionalLaTeX(substituteNumbers);								
+				ret = geoFun.conditionalLaTeX(substituteNumbers,tpl);								
 			}
 
 		} else if (this.isGeoFunction()) {
@@ -1790,10 +1790,10 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 			if (tpl.hasType(StringType.MATH_PIPER)) {
 
 			// get in form If(x<3, etc
-			ret = geoFun.toSymbolicString();
+			ret = geoFun.toSymbolicString(tpl);
 			//Application.debug(ret);
 			} else if (tpl.hasType(StringType.LATEX)) {
-				ret = geoFun.conditionalLaTeX(substituteNumbers);								
+				ret = geoFun.conditionalLaTeX(substituteNumbers,tpl);								
 			}
 
 		}

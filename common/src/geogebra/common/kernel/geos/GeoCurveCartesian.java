@@ -524,21 +524,21 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 	// TODO remove and use super method (funX and funY should be removed in
 	// fun[])
-	@Override
-	public String toSymbolicString() {
+	
+	public String toSymbolicString(StringTemplate tpl) {
 		if (isDefined) {
 			if (sbTemp == null) {
 				sbTemp = new StringBuilder(80);
 			}
 			sbTemp.setLength(0);
 			sbTemp.append('(');
-			sbTemp.append(funX.toString());
+			sbTemp.append(funX.toString(tpl));
 			sbTemp.append(", ");
-			sbTemp.append(funY.toString());
+			sbTemp.append(funY.toString(tpl));
 			sbTemp.append(')');
 			return sbTemp.toString();
-		} else
-			return app.getPlain("undefined");
+		}
+		return app.getPlain("undefined");
 	}
 
 	// TODO remove and use super method (funX and funY should be removed in

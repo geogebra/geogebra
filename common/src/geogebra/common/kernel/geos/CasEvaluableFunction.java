@@ -30,7 +30,7 @@ public interface CasEvaluableFunction {
 	 */
 	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f, boolean symbolic);
 		
-	public String toSymbolicString();
+	public String toSymbolicString(StringTemplate tpl);
 	public String getVarString(StringTemplate tpl);
 	public GeoElement toGeoElement();
 }

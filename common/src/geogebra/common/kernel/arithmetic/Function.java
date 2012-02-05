@@ -147,7 +147,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		}
 		// NumberValue
 		fVars[0].set(x);
-		return ((NumberValue) expression.evaluate()).getDouble();
+		return expression.evaluateNum().getDouble();
 
 	}
 

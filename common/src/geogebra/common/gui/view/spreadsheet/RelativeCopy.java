@@ -398,7 +398,7 @@ public class RelativeCopy {
 		// even though it's a GeoFunction
 		if (value.isGeoFunction() && text.equals("")) {
 			// we need the definition without A1(x)= on the front
-			text = ((GeoFunction) value).toSymbolicString();
+			text = ((GeoFunction) value).toSymbolicString(tpl);
 		}
 
 		boolean freeImage = false;

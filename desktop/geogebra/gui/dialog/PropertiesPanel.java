@@ -6344,7 +6344,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 															// currentGeo.isGeoBoolean();
 		if (showCaption) {
 			tfCaption.removeActionListener(this);
-			tfCaption.setText(getCaptionText(currentGeo));
+			tfCaption.setText(currentGeo.getRawCaption());
 			tfCaption.addActionListener(this);
 		}
 		// captionLabel.setVisible(showCaption);
@@ -6396,7 +6396,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 			String strCaption = tfCaption.getText();
 			currentGeo.setCaption(strCaption);
 
-			strCaption = getCaptionText(currentGeo);
+			strCaption = currentGeo.getRawCaption();
 			if (!strCaption.equals(tfCaption.getText().trim())) {
 				tfCaption.setText(strCaption);
 				tfCaption.requestFocus();
@@ -6423,14 +6423,6 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 		 * geo.getCommandDescription();
 		 */
 		return geo.getRedefineString(false, true);
-	}
-
-	private String getCaptionText(GeoElement geo) {
-		String strCap = currentGeo.getRawCaption();
-		if (strCap.equals(currentGeo.getLabel()))
-			return "";
-		else
-			return strCap;
 	}
 
 }
