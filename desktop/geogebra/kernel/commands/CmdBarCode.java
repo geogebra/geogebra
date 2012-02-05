@@ -134,7 +134,7 @@ public class CmdBarCode extends CommandProcessor {
 			if (i < arg.length && arg[i].isTextValue()) {
 				TextValue format = (TextValue) arg[i];
 				try {
-					formatText = format.getText().toValueString()
+					formatText = format.getText().toValueString(StringTemplate.get(StringType.GEOGEBRA))
 							.toUpperCase(Locale.US);
 					barcodeFormat = BarcodeFormat.valueOf(formatText);
 					checksumNeeded = formatText.startsWith("EAN")

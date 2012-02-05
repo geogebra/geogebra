@@ -1095,8 +1095,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         double start = geo.getMinParameter(),
                  end = geo.getMaxParameter();
 //      boolean isClosed=geo.isClosedPath();
-        String fx = parseFunction(geo.getFunX());
-        String fy = parseFunction(geo.getFunY());
+        String fx = parseFunction(geo.getFunX(getStringTemplate()));
+        String fy = parseFunction(geo.getFunY(getStringTemplate()));
         String variable = parseFunction(geo.getVarString(getStringTemplate()));
         // boolean warning=!(variable.equals("t"));
         

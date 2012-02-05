@@ -15,6 +15,8 @@ package geogebra.euclidian;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.RemoveNeeded;
 import geogebra.common.factories.SwingFactory;
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.AbstractApplication;
@@ -247,7 +249,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		// show hide label by setting text
 		if (geo.isLabelVisible()) {
 			// get caption to show r
-			String caption = geo.getCaption();
+			String caption = geo.getCaption(StringTemplate.get(StringType.GEOGEBRA));
 			if (!caption.equals(oldCaption)) {
 				oldCaption = caption;
 				labelDesc = GeoElement.indicesToHTML(caption, true);

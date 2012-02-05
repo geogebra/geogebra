@@ -955,9 +955,9 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		double start=geo.getMinParameter();
 		double end=geo.getMaxParameter();
 //		boolean isClosed=geo.isClosedPath();
-		String fx=geo.getFunX();
+		String fx=geo.getFunX(getStringTemplate());
 		fx=killSpace(StringUtil.toLaTeXString(fx,true));
-		String fy=geo.getFunY();
+		String fy=geo.getFunY(getStringTemplate());
 		fy=killSpace(StringUtil.toLaTeXString(fy,true));
 		String variable=geo.getVarString(getStringTemplate());
 		boolean warning=!(variable.equals("t"));

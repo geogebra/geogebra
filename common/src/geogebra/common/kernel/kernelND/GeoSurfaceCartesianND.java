@@ -158,7 +158,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 			sbTemp.append('(');
 			
 			for (int i=0; i< fun.length;i++){
-			sbTemp.append(fun[i].toValueString());
+			sbTemp.append(fun[i].toValueString(tpl));
 			if (i<fun.length-1)
 				sbTemp.append(", ");
 			}

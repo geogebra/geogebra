@@ -3916,7 +3916,7 @@ public class ExpressionNode extends ValidExpression implements
 					if (!STRING_TYPE.equals(StringType.LATEX)) {
 						sb.append(leftBracket(STRING_TYPE));
 					}
-					sb.append(en.toValueString());
+					sb.append(en.toValueString(tpl));
 					if (!STRING_TYPE.equals(StringType.LATEX)) {
 						sb.append(rightBracket(STRING_TYPE));
 					}
@@ -3928,7 +3928,7 @@ public class ExpressionNode extends ValidExpression implements
 			} else {
 				// multivariate functions
 				if (left.isGeoElement()) {
-					sb.append(((GeoElement) left).getLabel());
+					sb.append(((GeoElement) left).getLabel(tpl));
 				} else {
 					sb.append(leftStr);
 				}
@@ -4146,8 +4146,8 @@ public class ExpressionNode extends ValidExpression implements
 			return Kernel.isEqual(((NumberValue) ev1).getDouble(),
 					((NumberValue) ev2).getDouble(), Kernel.EPSILON);
 		} else if (ev1.isTextValue() && ev2.isTextValue()) {
-			return ((TextValue) ev1).toValueString().equals(
-					((TextValue) ev2).toValueString());
+			return ((TextValue) ev1).toValueString(StringTemplate.get(StringType.GEOGEBRA)).equals(
+					((TextValue) ev2).toValueString(StringTemplate.get(StringType.GEOGEBRA)));
 		} else if (ev1.isVectorValue() && ev2.isVectorValue()) {
 			return ((VectorValue) ev1).getVector().equals(
 					((VectorValue) ev2).getVector());

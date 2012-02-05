@@ -12,6 +12,8 @@
 
 package geogebra.common.euclidian;
 
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -80,7 +82,7 @@ public final class DrawBoolean extends Drawable {
 		// show hide label by setting text
 		if (geo.isLabelVisible()) {
 			// get caption to show r
-			String caption = geoBool.getCaption();
+			String caption = geoBool.getCaption(StringTemplate.get(StringType.GEOGEBRA));
 			if (!caption.equals(oldCaption)) {
 				oldCaption = caption;
 				labelDesc = caption; //GeoElement.indicesToHTML(caption, true);

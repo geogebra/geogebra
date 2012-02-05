@@ -1558,6 +1558,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	public String getTooltipText(final boolean colored, final boolean alwaysOn) {
 		// sbToolTipDesc.append(geo.getLongDescriptionHTML(colored, false));
+		StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
 		switch (tooltipMode) {
 		default:
 		case TOOLTIP_ALGEBRAVIEW_SHOWING:
@@ -1582,7 +1583,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			return getCaption();
 		case TOOLTIP_NEXTCELL: // tooltip is the next cell to the right
 								// (spreadsheet objects only)
-			String label = getLabel();
+			String label = getLabel(tpl);
 			final Point coords = geoElementSpreadsheet
 					.dogetSpreadsheetCoordsForLabel(label);
 			if (coords == null) {
@@ -1595,7 +1596,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				return "";
 			}
 			final GeoElement geo = kernel.lookupLabel(label);
-			return (geo == null) ? "" : geo.toValueString();
+			return (geo == null) ? "" : geo.toValueString(tpl);
 		}
 
 	}

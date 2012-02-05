@@ -13,6 +13,8 @@
 package geogebra.common.euclidian;
 
 import geogebra.common.awt.Rectangle;
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
@@ -137,7 +139,7 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 			return;
 
 		// get caption to show r
-		String caption = geo.getCaption();
+		String caption = geo.getCaption(StringTemplate.get(StringType.GEOGEBRA));
 		if (!caption.equals(oldCaption)) {
 			oldCaption = caption;
 			labelDesc = GeoElement.indicesToHTML(caption, true);

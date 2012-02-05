@@ -294,15 +294,15 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	/**
 	 * @return value string x-coord function
 	 */
-	final public String getFunX() {
-		return funX.toValueString();
+	final public String getFunX(StringTemplate tpl) {
+		return funX.toValueString(tpl);
 	}
 
 	/**
 	 * @return value string y-coord function
 	 */
-	final public String getFunY() {
-		return funY.toValueString();
+	final public String getFunY(StringTemplate tpl) {
+		return funY.toValueString(tpl);
 	}
 
 	// end Loic Le Coq
@@ -515,7 +515,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			sbTemp.append('(');
 			sbTemp.append(funX.toValueString(tpl));
 			sbTemp.append(", ");
-			sbTemp.append(funY.toValueString());
+			sbTemp.append(funY.toValueString(tpl));
 			sbTemp.append(')');
 			return sbTemp.toString();
 		} else
