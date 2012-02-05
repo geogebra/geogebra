@@ -7,8 +7,8 @@ the Free Software Foundation.
  */
 
 package geogebra.export.pstricks;
+import geogebra.awt.Color;
 import geogebra.common.euclidian.DrawPoint;
-import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
@@ -20,17 +20,17 @@ import geogebra.common.kernel.algos.AlgoAngleVector;
 import geogebra.common.kernel.algos.AlgoAngleVectors;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.AlgoIntegralFunctions;
 import geogebra.common.kernel.algos.AlgoSlope;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -48,15 +48,11 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.euclidian.EuclidianView;
-import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
-import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.main.Application;
-import geogebra.util.Util;
 
-import geogebra.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.geom.AffineTransform;
@@ -231,7 +227,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         // Clip frame
         codeEndDoc.append("\nclip((xmin,ymin)--(xmin,ymax)--(xmax,ymax)--(xmax,ymin)--cycle); ");
         // Background color
-        if(!euclidianView.getBackground().equals(Color.WHITE)) {
+        if(!euclidianView.getBackgroundCommon().equals(Color.WHITE)) {
             if(!compact)
                 codeEndDoc.append("\n");
             codeEndDoc.append("shipout(bbox(");

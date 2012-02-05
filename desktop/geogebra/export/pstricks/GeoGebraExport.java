@@ -1,12 +1,12 @@
 package geogebra.export.pstricks;
 
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.DrawAngle;
 import geogebra.common.euclidian.DrawLine;
 import geogebra.common.euclidian.DrawPoint;
-import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
@@ -43,15 +43,10 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.util.MyMath;
-import geogebra.euclidian.EuclidianView;
+import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.Application;
 
-import java.awt.Color;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.StringTokenizer;
 
 /*
@@ -59,7 +54,7 @@ import java.util.StringTokenizer;
  import org.mozilla.javascript.Scriptable;
  import org.mozilla.javascript.ScriptableObject;
  */
-public abstract class GeoGebraExport implements ActionListener {
+public abstract class GeoGebraExport  {
 	protected int beamerSlideNumber = 1;
 	protected final double PRECISION_XRANGE_FUNCTION = 0.00001;
 	protected StringBuilder code, codePoint, codePreamble, codeFilledObject,
@@ -67,7 +62,7 @@ public abstract class GeoGebraExport implements ActionListener {
 	protected Application app;
 	protected Kernel kernel;
 	protected Construction construction;
-	protected EuclidianView euclidianView;
+	protected EuclidianViewND euclidianView;
 	protected ExportFrame frame;
 	protected HashMap<geogebra.common.awt.Color, String> CustomColor;
 	protected double xunit, yunit, xmin, xmax, ymin, ymax;
@@ -79,7 +74,7 @@ public abstract class GeoGebraExport implements ActionListener {
 		this.app = app;
 		this.kernel = app.getKernel();
 		this.construction = kernel.getConstruction();
-		this.euclidianView = ((EuclidianView) this.app.getActiveEuclidianView());
+		this.euclidianView = app.getActiveEuclidianView();
 		initGui();
 	}
 
@@ -159,7 +154,7 @@ public abstract class GeoGebraExport implements ActionListener {
 		// Changes to make xmin,xmax,ymin,ymax be defined by the selection
 		// rectangle
 		// when this one is defined.
-		Rectangle rect = geogebra.awt.Rectangle.getAWTRectangle(this.euclidianView.getSelectionRectangle());
+		geogebra.common.awt.Rectangle rect = this.euclidianView.getSelectionRectangle();
 		if (rect != null) {
 			xmin = euclidianView.toRealWorldCoordX(rect.getMinX());
 			xmax = euclidianView.toRealWorldCoordX(rect.getMaxX());
@@ -177,10 +172,8 @@ public abstract class GeoGebraExport implements ActionListener {
 	/**
 	 * When The Button "generate Code" has been clicked
 	 */
-	public void actionPerformed(ActionEvent e) {
-		isBeamer = frame.isBeamer();
-		generateAllCode();
-
+	public void setBeamer(boolean beamer) {
+		isBeamer = beamer;
 	}
 
 	/**

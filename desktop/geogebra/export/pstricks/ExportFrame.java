@@ -65,9 +65,9 @@ abstract public class ExportFrame extends JFrame{
 	//to be sure that everything is allright even though xmin is set
 	//to a higher value than xmax
 	//then the width is changed.
-	public ExportFrame(GeoGebraExport ggb,String action){
+	public ExportFrame(final GeoGebraExport ggb,String action){
 		this.ggb=ggb;
-		this.app=ggb.getApp();
+		this.app= ggb.getApp();
 		width=ggb.getXmax()-ggb.getXmin();
 		height=ggb.getYmax()-ggb.getYmin();
 		listenKey=new ListenKey(this);
@@ -133,7 +133,12 @@ abstract public class ExportFrame extends JFrame{
 		comboFontSize=new JComboBox(msg);
 		jcbPointSymbol.setSelected(true);
 		jcbGrayscale.setSelected(false);
-		button.addActionListener(ggb);
+		button.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				ggb.setBeamer(isBeamer());
+				ggb.generateAllCode();
+			}
+		});
 		button_copy.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 					textarea.copy();
