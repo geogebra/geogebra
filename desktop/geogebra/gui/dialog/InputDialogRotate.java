@@ -71,6 +71,11 @@ public class InputDialogRotate extends AngleInputDialog implements KeyListener {
 	}
 
 	private boolean processInput() {
+		
+		defaultRotateAngle = DialogManager.rotateObject(app, inputPanel.getText(), rbClockWise.isSelected(), polys, points, selGeos);
+		
+		return true;
+		/*
 
 		// avoid labeling of num
 		Construction cons = kernel.getConstruction();
@@ -134,7 +139,7 @@ public class InputDialogRotate extends AngleInputDialog implements KeyListener {
 			return true;
 		}
 
-		return false;
+		return false; */
 	}
 
 	@Override

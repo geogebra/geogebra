@@ -13,10 +13,13 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
 
 public class DialogManagerWeb extends DialogManager {
+
+	private String defaultAngle = "45" + Unicode.degree;
 
 	public DialogManagerWeb(AbstractApplication app) {
 	    super(app);
@@ -71,7 +74,9 @@ public class DialogManagerWeb extends DialogManager {
     public void showNumberInputDialogRotate(String menu,
             GeoPolygon[] selectedPolygons, GeoPoint2[] selectedPoints,
             GeoElement[] selGeos) {
-	    // TODO Auto-generated method stub
+		String inputString = prompt(menu + " " + app.getPlain("Angle"), defaultAngle);
+		
+		defaultAngle = rotateObject(app, inputString, false, selectedPolygons, selectedPoints, selGeos);
 	    
     }
 

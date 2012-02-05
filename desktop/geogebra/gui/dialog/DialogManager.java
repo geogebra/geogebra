@@ -698,4 +698,5 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 			return dialogManager;
 		}
 	}
+
 }

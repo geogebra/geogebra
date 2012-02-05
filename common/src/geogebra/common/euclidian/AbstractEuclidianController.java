@@ -3520,8 +3520,7 @@ public abstract class AbstractEuclidianController {
 	
 			GeoElement[] selGeos = getSelectedGeos();
 	
-			app.getGuiManager()
-					.getDialogManager()
+			app.getDialogManager()
 					.showNumberInputDialogRotate(
 							app.getMenu(getKernel().getModeText(mode)),
 							getSelectedPolygons(), getSelectedPoints(), selGeos);
