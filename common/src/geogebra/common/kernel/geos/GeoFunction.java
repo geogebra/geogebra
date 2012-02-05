@@ -1564,7 +1564,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	final public String [] getTempVarCASString(boolean symbolic) {
 		 boolean oldUseTempVariablePrefix = kernel.isUseTempVariablePrefix();
 		 kernel.setUseTempVariablePrefix(true);
-		 StringTemplate tpl = StringTemplate.get(StringType.MPREDUCE);
+		 StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
 		 String [] ret = 
 		 {
 			   getCASString(tpl,symbolic),
