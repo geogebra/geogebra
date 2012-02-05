@@ -434,7 +434,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	public String getLabel(StringTemplate tpl) {
 		if (!labelSet && !localVarLabelSet) {
 			if (algoParent == null) {
-				return toOutputValueString();
+				return toOutputValueString(tpl);
 			}
 			return algoParent.getCommandDescription(tpl);
 		}
@@ -642,15 +642,15 @@ public abstract class GeoElement extends ConstructionElement implements
 			final boolean useOutputValueString) {
 		final boolean increasePrecision = kernel
 				.ensureTemporaryPrintAccuracy(MIN_EDITING_PRINT_PRECISION);
-
+		StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
 		String ret = null;
 		final boolean isIndependent = !isPointOnPath() && useChangeable ? isChangeable()
 				: isIndependent();
 		if (isIndependent) {
-			ret = useOutputValueString ? toOutputValueString()
-					: toValueString();
+			ret = useOutputValueString ? toOutputValueString(tpl)
+					: toValueString(tpl);
 		} else {
-			ret = getCommandDescription(kernel.getStringTemplate());
+			ret = getCommandDescription(tpl);
 		}
 
 		if (increasePrecision) {
@@ -709,11 +709,12 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return value for input field
 	 */
 	public String getValueForInputBar() {
+		StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
 		final boolean increasePrecision = kernel
 				.ensureTemporaryPrintAccuracy(MIN_EDITING_PRINT_PRECISION);
 
 		// copy into text field
-		final String ret = toOutputValueString();
+		final String ret = toOutputValueString(tpl);
 
 		if (increasePrecision) {
 			kernel.restorePrintAccuracy();
@@ -734,11 +735,11 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * needed for texts that need to be quoted in lists and as command
 	 * arguments.
 	 */
-	public String toOutputValueString() {
+	public String toOutputValueString(StringTemplate tpl) {
 		if (isLocalVariable()) {
 			return label;
 		}
-		return toValueString();
+		return toValueString(tpl);
 	}
 
 	public void setConstructionDefaults() {
@@ -1988,8 +1989,8 @@ public abstract class GeoElement extends ConstructionElement implements
 		return false;
 	}
 
-	public String toLaTeXString(final boolean symbolic) {
-		return getFormulaString(StringTemplate.get(StringType.LATEX), !symbolic);
+	public String toLaTeXString(final boolean symbolic,StringTemplate tpl) {
+		return getFormulaString(tpl, !symbolic);
 		// if (symbolic)
 		// return toString();
 		// else
@@ -2005,35 +2006,32 @@ public abstract class GeoElement extends ConstructionElement implements
 	 *            StringType.MAXIMA, STRING_TYPE_MATHPIPER
 	 * @return String in the format of the current CAS.
 	 */
-	public String toCasAssignment(final StringType type) {
+	public String toCasAssignment(final StringTemplate tpl) {
 		if (!labelSet) {
 			return null;
 		}
-
-		final StringType oldType = kernel.getStringTemplate().getStringType();
-		kernel.setCASPrintForm(type);
-		StringTemplate tpl = StringTemplate.get(type);
+		
 		String retval;
 
 		try {
-			if (type.equals(StringType.GEOGEBRA)) {
+			if (tpl.hasType(StringType.GEOGEBRA)) {
 				final String body = toValueString(tpl);
-				retval = getAssignmentLHS() + " := " + body;
+				retval = getAssignmentLHS(tpl) + " := " + body;
 			} else {
 
 				final CASGenericInterface cas = kernel.getGeoGebraCAS()
 						.getCurrentCAS();
-				retval = cas.toAssignment(this);
+				retval = cas.toAssignment(this,tpl);
 			}
 		} finally {
-			kernel.setCASPrintForm(oldType);
+			// do nothing
 		}
 
 		return retval;
 	}
 
-	public String getAssignmentLHS() {
-		return getLabel();
+	public String getAssignmentLHS(StringTemplate tpl) {
+		return getLabel(tpl);
 	}
 
 	/**
@@ -2043,9 +2041,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param symbolic
 	 * @return representation of this geo for CAS
 	 */
-	public String getCASString(final boolean symbolic) {
-		return symbolic && !isIndependent() ? getCommandDescription(kernel.getStringTemplate())
-				: toValueString();
+	public String getCASString(StringTemplate tpl,final boolean symbolic) {
+		return symbolic && !isIndependent() ? getCommandDescription(tpl)
+				: toValueString(tpl);
 	}
 
 	/* *******************************************************
@@ -3112,7 +3110,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		try {
 			final GeoGebraCasInterface cas = kernel.getGeoGebraCAS();
-			final String geoStr = toCasAssignment(cas.getCurrentCASstringType());
+			final String geoStr = toCasAssignment(StringTemplate.get(cas.getCurrentCASstringType()));
 			if (geoStr != null) {
 				// TODO: remove
 				System.out.println("sendValueToCAS: " + geoStr);
@@ -3621,7 +3619,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (algoParent == null) {
 			return "";
 		} else {
-			return indicesToHTML(algoParent.getCommandDescription(kernel.getStringTemplate()), addHTMLtag);
+			return indicesToHTML(algoParent.getCommandDescription(StringTemplate.get(StringType.GEOGEBRA)), addHTMLtag);
 		}
 	}
 
@@ -3629,7 +3627,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (algoParent == null) {
 			return "";
 		} else {
-			return indicesToHTML(algoParent.getCommandName(kernel.getStringTemplate()), addHTMLtag);
+			return indicesToHTML(algoParent.getCommandName(StringTemplate.get(StringType.GEOGEBRA)), addHTMLtag);
 		}
 	}
 
@@ -3859,7 +3857,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			return getAlgebraDescription();
 
 		case LABEL_VALUE:
-			return toDefinedValueString();
+			return toDefinedValueString(StringTemplate.get(StringType.GEOGEBRA));
 
 		case LABEL_CAPTION: // Michael Borcherds 2008-02-18
 			return getCaption();
@@ -3867,7 +3865,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		default: // case LABEL_NAME:
 			// return label;
 			// Mathieu Blossier - 2009-06-30
-			return getLabel();
+			return getLabel(StringTemplate.get(StringType.GEOGEBRA));
 		}
 	}
 
@@ -3877,9 +3875,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @return eithe value string or "undefined"
 	 */
-	final public String toDefinedValueString() {
+	final public String toDefinedValueString(StringTemplate tpl) {
 		if (isDefined()) {
-			return toValueString();
+			return toValueString(tpl);
 		} else {
 			return app.getPlain("undefined");
 		}
@@ -3985,13 +3983,13 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	public String toStringMinimal() {
-		return toString();
+		return toString(StringTemplate.get(StringType.GEOGEBRA));
 	}
 
 	public String getLaTeXdescription() {
 		if (strLaTeXneedsUpdate) {
 			if (isDefined() && !isInfinite()) {
-				strLaTeX = toLaTeXString(false);
+				strLaTeX = toLaTeXString(false,StringTemplate.get(StringType.LATEX));
 			} else {
 				strLaTeX = app.getPlain("undefined");
 			}
@@ -4147,7 +4145,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	public String getNameDescription() {
 		final StringBuilder sbNameDescription = new StringBuilder();
 
-		final String label = getLabel();
+		final String label = getLabel(StringTemplate.get(StringType.GEOGEBRA));
 		final String typeString = translatedTypeString();
 
 		if (app.isReverseNameDescriptionLanguage()) {
@@ -5494,9 +5492,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	public String getFormulaString(final StringTemplate tpl,
 			final boolean substituteNumbers) {
 
-		final StringType tempCASPrintForm = kernel.getStringTemplate().getStringType();
-		kernel.setCASPrintForm(tpl.getStringType());
-
 		String ret = "";
 
 		// Functions override this, no need to care about them
@@ -5505,15 +5500,15 @@ public abstract class GeoElement extends ConstructionElement implements
 		// matrices
 		if (isGeoList() && tpl.hasType(StringType.LATEX)
 				&& ((GeoList) this).isMatrix()) {
-			ret = toLaTeXString(!substituteNumbers);
+			ret = toLaTeXString(!substituteNumbers,tpl);
 		}
 		// vectors
 		else if (isGeoVector() && tpl.hasType(StringType.LATEX)) {
-			ret = toLaTeXString(!substituteNumbers);
+			ret = toLaTeXString(!substituteNumbers,tpl);
 		} // curves
 		else if (isGeoCurveCartesian()
 				&& tpl.hasType(StringType.LATEX)) {
-			ret = toLaTeXString(!substituteNumbers);
+			ret = toLaTeXString(!substituteNumbers,tpl);
 		} else {
 			ret = substituteNumbers ? toValueString(tpl) : getCommandDescription(tpl);
 		}
@@ -5525,15 +5520,13 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 		if ("".equals(ret) && !isGeoText()) {
 			// eg Text[ (1,2), false]
-			ret = toOutputValueString();
+			ret = toOutputValueString(tpl);
 		}
 
 		/*
 		 * we don't want to deal with list bracess in here since
 		 * GeoList.toOutputValueString() takes care of it
 		 */
-
-		kernel.setCASPrintForm(tempCASPrintForm);
 
 		if (tpl.hasType(StringType.LATEX)) {
 			if ("?".equals(ret)) {
@@ -5567,7 +5560,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 		if ("".equals(ret) && !isGeoText()) {
 			// eg Text[ (1,2), false]
-			ret = toOutputValueString();
+			ret = toOutputValueString(tpl);
 		}
 
 		return ret;

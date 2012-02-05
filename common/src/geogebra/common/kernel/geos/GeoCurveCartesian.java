@@ -544,29 +544,29 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	// TODO remove and use super method (funX and funY should be removed in
 	// fun[])
 	@Override
-	public String toLaTeXString(boolean symbolic) {
+	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
 		if (isDefined) {
 			if (sbTemp == null) {
 				sbTemp = new StringBuilder(80);
 			}
 			sbTemp.setLength(0);
 
-			String param = getVarString(kernel.getStringTemplate());
+			String param = getVarString(tpl);
 
 			if (!hideRangeInFormula)
 				sbTemp.append("\\left.");
 			sbTemp.append("\\begin{array}{ll} x = ");
-			sbTemp.append(funX.toLaTeXString(symbolic));
+			sbTemp.append(funX.toLaTeXString(symbolic,tpl));
 			sbTemp.append("\\\\ y = ");
-			sbTemp.append(funY.toLaTeXString(symbolic));
+			sbTemp.append(funY.toLaTeXString(symbolic,tpl));
 			sbTemp.append(" \\end{array}");
 			if (!hideRangeInFormula) {
 				sbTemp.append("\\right} \\; ");
-				sbTemp.append(kernel.format(startParam));
+				sbTemp.append(kernel.format(startParam,tpl));
 				sbTemp.append(" \\le ");
 				sbTemp.append(param);
 				sbTemp.append(" \\le ");
-				sbTemp.append(kernel.format(endParam));
+				sbTemp.append(kernel.format(endParam,tpl));
 			}
 			return sbTemp.toString();
 		} else

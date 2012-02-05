@@ -158,8 +158,8 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 		return toString(false, false,tpl);
 	}
 
-	public String toLaTeXString(boolean symbolic) {
-		return toString(symbolic, true,kernel.getStringTemplate());
+	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
+		return toString(symbolic, true,tpl);
 	}
 
 	private String toString(boolean symbolic, boolean LaTeX,StringTemplate tpl) {
@@ -169,7 +169,7 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 		case MPREDUCE:
 			// MathPiper command syntax
 			return (kernel.getGeoGebraCAS())
-					.getCASCommand(name, args, symbolic);
+					.getCASCommand(name, args, symbolic,tpl);
 
 		default:
 			if (sbToString == null)
@@ -185,7 +185,7 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 			sbToString.append('[');
 			int size = args.size();
 			for (int i = 0; i < size; i++) {
-				sbToString.append(toString(args.get(i), symbolic, LaTeX));
+				sbToString.append(toString(args.get(i), symbolic, LaTeX,tpl));
 				sbToString.append(',');
 			}
 			sbToString.setCharAt(sbToString.length() - 1, ']');
@@ -197,11 +197,11 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 	private StringBuilder sbToString;
 
 	private static String toString(ExpressionValue ev, boolean symbolic,
-			boolean LaTeX) {
+			boolean LaTeX,StringTemplate tpl) {
 		if (LaTeX) {
-			return ev.toLaTeXString(symbolic);
+			return ev.toLaTeXString(symbolic,tpl);
 		}
-		return symbolic ? ev.toString() : ev.toValueString();
+		return symbolic ? ev.toString(tpl) : ev.toValueString(tpl);
 	}
 
 	public GeoElement[] evaluateMultiple() {
@@ -378,8 +378,8 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 		return this;
 	}
 
-	public String toOutputValueString() {
-		return toValueString();
+	public String toOutputValueString(StringTemplate tpl) {
+		return toValueString(tpl);
 	}
 
 	public ExpressionValue replace(ExpressionValue oldOb, ExpressionValue newOb) {

@@ -17,6 +17,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 
 import java.util.Set;
 import java.util.Vector;
@@ -146,13 +147,13 @@ public abstract class ValidExpression implements ExpressionValue {
 
 	public String toAssignmentLaTeXString() {
 		if (labels == null) {
-			return toLaTeXString(true);
+			return toLaTeXString(true,StringTemplate.get(StringType.LATEX));
 		}
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(getLabelForAssignment());
 		sb.append(getAssignmentOperatorLaTeX());
-		sb.append(toLaTeXString(true));
+		sb.append(toLaTeXString(true,StringTemplate.get(StringType.LATEX)));
 		return sb.toString();
 	}
 
@@ -185,6 +186,7 @@ public abstract class ValidExpression implements ExpressionValue {
 	public final String toValueString(){
 		return toValueString(getKernel().getStringTemplate());
 	}
+
 
 	public abstract String toString(StringTemplate tpl);
 	

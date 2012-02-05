@@ -101,7 +101,7 @@ public class AlgoCompleteSquare extends AlgoElement {
 			square.getFunction().setExpression(squareE);
 		}
 		lastDeg = degInt;
-		fv.setVarString(f.getVarString(kernel.getStringTemplate()));				
+		fv.setVarString(f.getVarString(StringTemplate.get(StringType.GEOGEBRA)));				
 		
 		//if one is undefined, others are as well
 		square.setDefined(!Double.isNaN(r));

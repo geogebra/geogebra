@@ -13,6 +13,8 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
@@ -360,7 +362,7 @@ public class AlgoTableText extends AlgoElement {
 			GeoElement geo1 = geoLists[c].get(r);
 
 			// replace " " and "" with a hard space (allow blank columns/rows)
-			String text = geo1.toLaTeXString(false);
+			String text = geo1.toLaTeXString(false,StringTemplate.get(StringType.LATEX));
 			if (" ".equals(text) || "".equals(text))
 				text = "\\;"; // problem with JLaTeXMath, was "\u00a0";
 			if (geo1.isTextValue()) {
@@ -380,7 +382,7 @@ public class AlgoTableText extends AlgoElement {
 			GeoElement geo1 = geoLists[c].get(r);
 
 			// replace " " and "" with a hard space (allow blank columns/rows)
-			String text = geo1.toLaTeXString(false);
+			String text = geo1.toLaTeXString(false,StringTemplate.get(StringType.MATHML));
 			if (text.startsWith("<apply>")) {
 				sb.append(text);
 			} else if (StringUtil.isNumber(text)) {

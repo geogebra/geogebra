@@ -1178,23 +1178,8 @@ public class ExpressionNode extends ValidExpression implements
 	 *         CAS
 	 */
 	final public String getCASstring(StringTemplate tpl, boolean symbolic) {
-		StringType oldPrintForm = kernel.getStringTemplate().getStringType();
-		kernel.setCASPrintForm(tpl.getStringType());
-
 		String ret = printCASstring(symbolic,tpl);
-
-		kernel.setCASPrintForm(oldPrintForm);
 		return ret;
-	}
-
-	/**
-	 * Returns a string representation of this node that can be used with the
-	 * GeoGebraCAS.
-	 * 
-	 * @return GeoGebra CAS string representation of this node
-	 */
-	final public String getCASstring(boolean symbolic) {
-		return getCASstring(kernel.getStringTemplate(), symbolic);
 	}
 
 	/**
@@ -1371,22 +1356,22 @@ public class ExpressionNode extends ValidExpression implements
 		return operationToString(leftStr, rightStr, true,tpl);
 	}
 
-	final public String toOutputValueString() {
+	final public String toOutputValueString(StringTemplate tpl) {
 		if (isLeaf()) { // leaf is GeoElement or not
 			if (left != null) {
-				return left.toOutputValueString();
+				return left.toOutputValueString(tpl);
 			}
 		}
 
 		// expression node
-		String leftStr = left.toOutputValueString();
+		String leftStr = left.toOutputValueString(tpl);
 
 		String rightStr = null;
 		if (right != null) {
-			rightStr = right.toOutputValueString();
+			rightStr = right.toOutputValueString(tpl);
 		}
 
-		return operationToString(leftStr, rightStr, true,kernel.getStringTemplate());
+		return operationToString(leftStr, rightStr, true,tpl);
 	}
 
 	/**
@@ -1398,18 +1383,18 @@ public class ExpressionNode extends ValidExpression implements
 	 * @param symbolic
 	 *            true for variable names, false for values of variables
 	 */
-	final public String toLaTeXString(boolean symbolic) {
+	final public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
 		if (isLeaf()) { // leaf is GeoElement or not
 			if (left != null) {
-				return left.toLaTeXString(symbolic);
+				return left.toLaTeXString(symbolic,tpl);
 			}
 		}
 
 		// expression node
-		String leftStr = left.toLaTeXString(symbolic);
+		String leftStr = left.toLaTeXString(symbolic,tpl);
 		String rightStr = null;
 		if (right != null) {
-			rightStr = right.toLaTeXString(symbolic);
+			rightStr = right.toLaTeXString(symbolic,tpl);
 			if (((operation == Operation.FUNCTION_NVAR) || (operation == Operation.ELEMENT_OF))
 					&& (right instanceof MyList)) {
 				// 1 character will be taken from the left and right
@@ -1421,10 +1406,8 @@ public class ExpressionNode extends ValidExpression implements
 		}
 
 		// build latex string
-		StringType oldPrintForm = kernel.getStringTemplate().getStringType();
-		kernel.setCASPrintForm(StringType.LATEX);
-		String ret = operationToString(leftStr, rightStr, !symbolic,kernel.getStringTemplate());
-		kernel.setCASPrintForm(oldPrintForm);
+		String ret = operationToString(leftStr, rightStr, !symbolic,tpl);
+		
 
 		return ret;
 	}
@@ -1441,7 +1424,7 @@ public class ExpressionNode extends ValidExpression implements
 		ExpressionValue leftEval;
 		StringBuilder sb = new StringBuilder();
 
-		StringType STRING_TYPE = kernel.getStringTemplate().getStringType();
+		StringType STRING_TYPE = tpl.getStringType();
 
 		switch (operation) {
 		case NOT:
@@ -3747,14 +3730,14 @@ public class ExpressionNode extends ValidExpression implements
 		case XCOORD:
 			if (valueForm && (leftEval = left.evaluate()).isVectorValue()) {
 				sb.append(kernel.format(((VectorValue) leftEval).getVector()
-						.getX()));
+						.getX(),tpl));
 			} else if (valueForm
 					&& (leftEval = left.evaluate()).isVector3DValue()) {
 				sb.append(kernel.format(((PointConvertibleToDouble) leftEval)
-						.getPointAsDouble()[0]));
+						.getPointAsDouble()[0],tpl));
 			} else if (valueForm
 					&& ((leftEval = left.evaluate()) instanceof GeoLine)) {
-				sb.append(kernel.format(((GeoLine) leftEval).getX()));
+				sb.append(kernel.format(((GeoLine) leftEval).getX(),tpl));
 			} else {
 				switch (STRING_TYPE) {
 				case LATEX:
@@ -3785,14 +3768,14 @@ public class ExpressionNode extends ValidExpression implements
 		case YCOORD:
 			if (valueForm && (leftEval = left.evaluate()).isVectorValue()) {
 				sb.append(kernel.format(((VectorValue) leftEval).getVector()
-						.getY()));
+						.getY(),tpl));
 			} else if (valueForm
 					&& (leftEval = left.evaluate()).isVector3DValue()) {
 				sb.append(kernel.format(((PointConvertibleToDouble) leftEval)
-						.getPointAsDouble()[1]));
+						.getPointAsDouble()[1],tpl));
 			} else if (valueForm
 					&& ((leftEval = left.evaluate()) instanceof GeoLine)) {
-				sb.append(kernel.format(((GeoLine) leftEval).getY()));
+				sb.append(kernel.format(((GeoLine) leftEval).getY(),tpl));
 			} else {
 				switch (STRING_TYPE) {
 				case LATEX:
@@ -3823,10 +3806,10 @@ public class ExpressionNode extends ValidExpression implements
 		case ZCOORD:
 			if (valueForm && (leftEval = left.evaluate()).isVector3DValue()) {
 				sb.append(kernel.format(((PointConvertibleToDouble) leftEval)
-						.getPointAsDouble()[2]));
+						.getPointAsDouble()[2],tpl));
 			} else if (valueForm
 					&& ((leftEval = left.evaluate()) instanceof GeoLine)) {
-				sb.append(kernel.format(((GeoLine) leftEval).getZ()));
+				sb.append(kernel.format(((GeoLine) leftEval).getZ(),tpl));
 			} else {
 				switch (STRING_TYPE) {
 				case LATEX:

@@ -5,6 +5,7 @@ import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoAngleLines;
 import geogebra.common.kernel.algos.AlgoAnglePoints;
@@ -75,8 +76,6 @@ public class GeoGebraToPgf extends GeoGebraExport {
     }
  
     public void generateAllCode() {
-    	StringType oldCASPrintform = kernel.getStringTemplate().getStringType();
-		kernel.setCASPrintForm(StringType.PGF);
 
 		format=frame.getFormat();
        	forceGnuplot=((PgfFrame)frame).getGnuplot();
@@ -205,7 +204,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
         code.insert(0,codePreamble+"");
 		frame.write(code);
 		
-		kernel.setCASPrintForm(oldCASPrintform);
+		
 
 	}	    	
     
@@ -1274,7 +1273,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		String fy=geo.getFunY();
 		fy=killSpace(StringUtil.toLaTeXString(fy,true));
 		fy=fy.replaceAll("\\^", "**");
-		String variable=geo.getVarString(geo.kernel.getStringTemplate());		
+		String variable=geo.getVarString(getStringTemplate());		
 		boolean warning=!(variable.equals("t"));
 		if(warning) code.append("% WARNING: You have to use the special variable t in parametric plot");
 		startBeamer(sb);
@@ -2583,4 +2582,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	protected void drawGeoInequalities(GeoFunctionNVar g) {
 		// TODO Auto-generated method stub
 	}
+	
+	protected StringTemplate getStringTemplate(){
+    	return StringTemplate.get(StringType.PGF);
+    }
 }

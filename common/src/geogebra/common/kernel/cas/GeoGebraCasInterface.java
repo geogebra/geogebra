@@ -2,6 +2,7 @@ package geogebra.common.kernel.cas;
 
 import java.util.ArrayList;
 
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -35,7 +36,7 @@ public interface GeoGebraCasInterface {
 	public void setSignificantFiguresForNumeric(int figures);
 
 	public String getCASCommand(String name, ArrayList<?> args,
-			boolean symbolic);
+			boolean symbolic,StringTemplate tpl);
 
 	public CasType getCurrentCASType();
 

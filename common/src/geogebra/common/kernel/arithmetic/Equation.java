@@ -359,17 +359,17 @@ public class Equation extends ValidExpression implements ReplaceableValue {
         rhs.resolveVariables();		
 	}
 
-	public String toLaTeXString(boolean symbolic) {
+	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
 	        
         if (lhs != null) 
-        	sb.append(lhs.toLaTeXString(symbolic));
+        	sb.append(lhs.toLaTeXString(symbolic,tpl));
         else 
         	sb.append('0');
         sb.append(" = ");
         
         if (rhs != null) 
-        	sb.append(rhs.toLaTeXString(symbolic));
+        	sb.append(rhs.toLaTeXString(symbolic,tpl));
         else sb.append('0');
         return sb.toString();
 	}
@@ -378,12 +378,12 @@ public class Equation extends ValidExpression implements ReplaceableValue {
 		StringBuilder sb = new StringBuilder();
         
         if (lhs != null) 
-        	sb.append(lhs.toValueString());
+        	sb.append(lhs.toValueString(tpl));
         else 
         	sb.append('0');
         
         // equal sign
-        switch (kernel.getStringTemplate().getStringType()){
+        switch (tpl.getStringType()){
 			case MATH_PIPER:
 		        sb.append(" == ");
 		        break;
@@ -393,7 +393,7 @@ public class Equation extends ValidExpression implements ReplaceableValue {
         }
         
         if (rhs != null) 
-        	sb.append(rhs.toValueString());
+        	sb.append(rhs.toValueString(tpl));
         else sb.append('0');
         return sb.toString();
 	}
@@ -442,8 +442,8 @@ public class Equation extends ValidExpression implements ReplaceableValue {
 		return false;
 	}
 	
-	public String toOutputValueString() {
-		return toValueString();
+	public String toOutputValueString(StringTemplate tpl) {
+		return toValueString(tpl);
 	}
 
 	public ExpressionValue replace(ExpressionValue oldOb, ExpressionValue newOb) {

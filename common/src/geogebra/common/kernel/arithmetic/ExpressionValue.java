@@ -53,8 +53,8 @@ public interface ExpressionValue {
     public String toValueString();
     @Deprecated
     public String toString();
-    public String toOutputValueString();
-    public String toLaTeXString(boolean symbolic);   
+    public String toOutputValueString(StringTemplate tpl);
+    public String toLaTeXString(boolean symbolic,StringTemplate tpl);   
     public void resolveVariables();
 	public String toRealString(StringTemplate tpl);
 	public Kernel getKernel();

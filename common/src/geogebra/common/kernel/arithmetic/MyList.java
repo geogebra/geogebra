@@ -579,7 +579,7 @@ public class MyList extends ValidExpression implements ListValue,
 		 */
 	}
 
-	public String toLaTeXString(boolean symbolic) {
+	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
 		StringBuilder toLaTeXString = new StringBuilder();
 		if (size() == 0) {
 			// in schools the emptyset symbol is typically not used, see #
@@ -592,11 +592,11 @@ public class MyList extends ValidExpression implements ListValue,
 				ListValue singleValue = (ListValue) getListElement(i)
 						.evaluate();
 				toLaTeXString.append(singleValue.getMyList().getListElement(0)
-						.toLaTeXString(symbolic));
+						.toLaTeXString(symbolic,tpl));
 				for (int j = 1; j < singleValue.size(); j++) {
 					toLaTeXString.append("&");
 					toLaTeXString.append(singleValue.getMyList()
-							.getListElement(j).toLaTeXString(symbolic));
+							.getListElement(j).toLaTeXString(symbolic,tpl));
 				}
 				toLaTeXString.append("\\\\");
 			}
@@ -609,13 +609,13 @@ public class MyList extends ValidExpression implements ListValue,
 			if (lastIndex > -1) {
 				for (int i = 0; i < lastIndex; i++) {
 					ExpressionValue exp = listElements.get(i);
-					toLaTeXString.append(exp.toLaTeXString(symbolic));
+					toLaTeXString.append(exp.toLaTeXString(symbolic,tpl));
 					toLaTeXString.append(", ");
 				}
 
 				// last element
 				ExpressionValue exp = listElements.get(lastIndex);
-				toLaTeXString.append(exp.toLaTeXString(symbolic));
+				toLaTeXString.append(exp.toLaTeXString(symbolic,tpl));
 			}
 
 			toLaTeXString.append(" \\} ");
@@ -937,8 +937,8 @@ public class MyList extends ValidExpression implements ListValue,
 
 	}
 
-	public String toOutputValueString() {
-		return toValueString();
+	public String toOutputValueString(StringTemplate tpl) {
+		return toValueString(tpl);
 	}
 
 	public ExpressionValue replace(ExpressionValue oldOb, ExpressionValue newOb) {

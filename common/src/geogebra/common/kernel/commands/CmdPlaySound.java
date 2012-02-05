@@ -1,7 +1,9 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -39,7 +41,7 @@ public class CmdPlaySound extends CmdScripting {
 
 			// play a midi file
 			if (arg[0].isGeoText()) {
-				sm.playMidiFile(( ((GeoText) arg[0]).toValueString()));
+				sm.playMidiFile(( ((GeoText) arg[0]).toValueString(StringTemplate.get(StringType.GEOGEBRA))));
 				return;
 			}
 			// pause/resume current sound

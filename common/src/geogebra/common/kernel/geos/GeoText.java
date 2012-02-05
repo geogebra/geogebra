@@ -81,10 +81,12 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 		set(text);
 	}
 
+	@Override
 	public GeoElement copy() {
 		return new GeoText(this);
 	}
 
+	@Override
 	public void set(GeoElement geo) {
 		GeoText gt = (GeoText) geo;	
 		// macro output: don't set start point
@@ -122,6 +124,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 		}		
 	}
 	
+	@Override
 	public void setVisualStyle(GeoElement geo) {
 		super.setVisualStyle(geo);		
 		if (!geo.isGeoText()) return;
@@ -211,6 +214,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	
 	
 	
+	@Override
 	public void doRemove() {
 		super.doRemove();
 		// tell startPoint	
@@ -242,6 +246,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	}
 		
 	
+	@Override
 	public void update() {
 
 		super.update();
@@ -256,6 +261,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	/**
 	 * always returns true
 	*/
+	@Override
 	public boolean isDefined() {
 		return str != null && (startPoint == null || startPoint.isDefined());
 	}
@@ -263,10 +269,12 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	/**
 	 * doesn't do anything
  	*/
+	@Override
 	public void setUndefined() {
 		str = null;
 	}
 
+	@Override
 	public String toValueString(StringTemplate tpl) {		
 		return str;		
 	}
@@ -274,8 +282,9 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	/**
 	 * Returns quoted text value string.
 	 */
-	public String toOutputValueString() {	
-		StringType printForm = kernel.getStringTemplate().getStringType();
+	@Override
+	public String toOutputValueString(StringTemplate tpl) {	
+		StringType printForm = tpl.getStringType();
 		
 		sbToString.setLength(0);
 		if (printForm .equals(StringType.LATEX))
@@ -291,6 +300,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 		return sbToString.toString();	
 	}
 	
+	@Override
 	public String toString(StringTemplate tpl) {		
 		sbToString.setLength(0);
 		sbToString.append(label);
@@ -303,30 +313,37 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	}
 	private StringBuilder sbToString = new StringBuilder(80);
 
+	@Override
 	public boolean showInAlgebraView() {
 		return true;
 	}
 
+	@Override
 	protected boolean showInEuclidianView() {		
 		return isDefined();
 	}
 
+	@Override
 	public String getClassName() {
 		return "GeoText";
 	}
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_TEXT;
     }
 	
-    public String getTypeString() {
+    @Override
+	public String getTypeString() {
 		return "Text";
 	}
 
+	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.TEXT;
 	}    
 	
+	@Override
 	public boolean isMoveable() {
 		
 		if (alwaysFixed) return false;
@@ -342,6 +359,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 		this.isTextCommand = isCommand;
 	}
 	
+	@Override
 	public boolean isTextCommand() {
 
 		// check for eg If[ a==1 , "hello", "bye"] first
@@ -357,6 +375,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 		return getParentAlgorithm().isLaTeXTextCommand();
 	}
 	
+	@Override
 	public void setAlgoMacroOutput(boolean isAlgoMacroOutput) {
 		super.setAlgoMacroOutput(true);
 		setIsTextCommand(true);
@@ -370,6 +389,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 		this.alwaysFixed = alwaysFixed;
 	}
 
+	@Override
 	public boolean isFixable() {
 		
 		// workaround for Text["text",(1,2)]
@@ -378,22 +398,27 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 		return true;
 	}
 
+	@Override
 	public boolean isNumberValue() {
 		return false;
 	}
 
+	@Override
 	public boolean isVectorValue() {
 		return false;
 	}
 
+	@Override
 	public boolean isPolynomialInstance() {
 		return false;
 	}
 	
+	@Override
 	public boolean isTextValue() {
 		return true;
 	}
 	
+	@Override
 	public boolean isGeoText() {
 		return true;
 	}
@@ -408,6 +433,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	/**
 	  * save object in XML format
 	  */ 
+	@Override
 	public final void getXML(StringBuilder sb) {
 
 		// an independent text needs to add
@@ -418,7 +444,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 			sb.append(" label=\"");
 			sb.append(StringUtil.encodeXML(label));
 			sb.append("\" exp=\"");
-			sb.append(StringUtil.encodeXML(toOutputValueString()));
+			sb.append(StringUtil.encodeXML(toOutputValueString(StringTemplate.get(StringType.GEOGEBRA_XML))));
 			// expression   
 			sb.append("\"/>\n");
 		}
@@ -440,6 +466,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	/**
 	* returns all class-specific xml tags for getXML
 	*/
+		@Override
 		protected void getXMLtags(StringBuilder sb) {
 	   	getXMLvisualTags(sb, false);			
 		
@@ -512,6 +539,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
    		return sb.toString();
    	}
 
+	@Override
 	public void setAllVisualProperties(GeoElement geo, boolean keepAdvanced) {
 		super.setAllVisualProperties(geo, keepAdvanced);
 		
@@ -617,6 +645,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 		return hasAbsoluteScreenLocation;
 	}
 	
+	@Override
 	public boolean isAbsoluteScreenLocateable() {
 		return true;
 	}
@@ -777,11 +806,13 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	}
 
 	// Michael Borcherds 2008-04-30
+	@Override
 	final public boolean isEqual(GeoElement geo) {
 		// return false if it's a different type
 		if (str == null) return false;
 		if (geo.isGeoText()) return str.equals(((GeoText)geo).str); else return false;
 	}
+	@Override
 	public void setZero() {
 		str="";
 	}
@@ -830,11 +861,13 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 		return alwaysFixed;
 	}
 
+	@Override
 	public boolean isVector3DValue() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 	
+	@Override
 	final public boolean isAuxiliaryObjectByDefault() {
 		return true;
 	}
@@ -843,6 +876,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 		return false;
 	}
 	
+	@Override
 	public boolean isRedefineable() {
 		return true;
 	}
@@ -854,7 +888,8 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	}
 	
 
- 	public boolean hasDrawable3D() {
+ 	@Override
+	public boolean hasDrawable3D() {
 		return true;
 	}
  	

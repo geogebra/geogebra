@@ -120,11 +120,11 @@ public abstract class CASgeneric implements CASGenericInterface,
 	
 	public abstract Map<String,String> initTranslationMap();
 
-	public final String toAssignment(GeoElement ge) {
-		String body = ge.getCASString(false);
-		String casLabel = ge.getLabel(StringTemplate.get(StringType.MPREDUCE));
+	public final String toAssignment(GeoElement ge,StringTemplate tpl) {
+		String body = ge.getCASString(tpl,false);
+		String casLabel = ge.getLabel(tpl);
 		if (ge instanceof FunctionalNVar) {
-			String params = ((FunctionalNVar) ge).getFunction().getVarString(StringTemplate.get(StringType.MPREDUCE));
+			String params = ((FunctionalNVar) ge).getFunction().getVarString(tpl);
 			return translateFunctionDeclaration(casLabel, params, body);
 		}
 		return translateAssignment(casLabel, body);
@@ -141,8 +141,6 @@ public abstract class CASgeneric implements CASGenericInterface,
 	 */
 	protected String translateToCAS(ValidExpression ve, StringTemplate casStringType) {
 		Kernel kernel = ve.getKernel();
-		StringType oldPrintForm = kernel.getStringTemplate().getStringType();
-		kernel.setCASPrintForm(casStringType.getStringType());
 
 		try {
 			ValidExpression tmp = ve;
@@ -167,7 +165,7 @@ public abstract class CASgeneric implements CASGenericInterface,
 			}
 			return body;
 		} finally {
-			kernel.setCASPrintForm(oldPrintForm);
+			//do nothing
 		}
 	}
 

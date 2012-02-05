@@ -45,6 +45,7 @@ public abstract class GeoCurveCartesianND extends GeoElement{
 	}	
 	
 
+	@Override
 	public boolean isGeoCurveCartesian() {
 		return true;
 	}	
@@ -103,6 +104,7 @@ public abstract class GeoCurveCartesianND extends GeoElement{
 	/**
 	* returns all class-specific xml tags for getXML
 	*/
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
 	   super.getXMLtags(sb);
 	 
@@ -112,12 +114,14 @@ public abstract class GeoCurveCartesianND extends GeoElement{
    }
 	
 
+	@Override
 	public boolean isPath() {
 		return true;
 	}
 	
 	
 
+	@Override
 	final public boolean isDefined() {
 		return isDefined;
 	}
@@ -126,12 +130,14 @@ public abstract class GeoCurveCartesianND extends GeoElement{
 		isDefined = defined;
 	}
 
+	@Override
 	public void setUndefined() {
 		isDefined = false;
 	}
 
 	
 	
+	@Override
 	public String toString(StringTemplate tpl) {
 		if (sbToString == null) {
 			sbToString = new StringBuilder(80);
@@ -151,6 +157,7 @@ public abstract class GeoCurveCartesianND extends GeoElement{
 	
 	
 
+	@Override
 	public String toValueString(StringTemplate tpl) {		
 		if (isDefined) {
 			if (sbTemp == null) {
@@ -191,7 +198,8 @@ public abstract class GeoCurveCartesianND extends GeoElement{
 		return app.getPlain("undefined");
 	}
 	
-	public String toLaTeXString(boolean symbolic) {
+	@Override
+	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
 		if (isDefined) {
 			if (sbTemp == null) {
 				sbTemp = new StringBuilder(80);
@@ -200,7 +208,7 @@ public abstract class GeoCurveCartesianND extends GeoElement{
 			sbTemp.append("\\left(\\begin{array}{c}");
 			
 			for (int i=0; i< fun.length;i++){
-				sbTemp.append(fun[i].toLaTeXString(symbolic));
+				sbTemp.append(fun[i].toLaTeXString(symbolic,tpl));
 				if (i<fun.length-1)
 					sbTemp.append("\\\\");
 				}

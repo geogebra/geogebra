@@ -2,6 +2,8 @@ package geogebra.gui.view.spreadsheet.statdialog;
 
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.GeoGebraColorConstants;
@@ -226,7 +228,7 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 
 			dataModel = new DefaultTableModel(dataArray.size(),1);
 			for (int row = 0; row < dataArray.size(); ++row){
-				dataModel.setValueAt(dataArray.get(row).toDefinedValueString(),row,0);
+				dataModel.setValueAt(dataArray.get(row).toDefinedValueString(StringTemplate.get(StringType.GEOGEBRA)),row,0);
 			}
 
 			dataTable.setModel(dataModel);

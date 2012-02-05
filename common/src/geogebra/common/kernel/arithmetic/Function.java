@@ -599,22 +599,20 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		}
 
 		// get coefficients as strings
-		boolean oldUseTempVarPrefix = kernel.isUseTempVariablePrefix();
-		StringType oldPrintForm = kernel.getStringTemplate().getStringType();
+		
+		
 		kernel.setUseTempVariablePrefix(true);
-		kernel.setCASPrintForm(StringType.MPREDUCE);
 		String function, var;
-
+		StringTemplate tpl = StringTemplate.get(StringType.MPREDUCE);
 		// See #1322
 		try {
-			function = node.getCASstring(StringTemplate.get(StringType.MPREDUCE), symbolic);
-			var = fVars[0].toString();
+			function = node.getCASstring(tpl, symbolic);
+			var = fVars[0].toString(tpl);
 		} catch (NullPointerException e) {
 			// this is not a valid polynomial
 			return null;
 		} finally {
-			kernel.setCASPrintForm(oldPrintForm);
-			kernel.setUseTempVariablePrefix(oldUseTempVarPrefix);
+			//do nothing
 		}
 
 		String[] strCoeffs = kernel.getPolynomialCoeffs(function, var);

@@ -85,10 +85,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	 
     public void generateAllCode() {
     	
-    	StringType oldCASPrintform = kernel.getStringTemplate().getStringType();
-		kernel.setCASPrintForm(StringType.PSTRICKS);
-    	
-       	format=((ExportFrame)frame).getFormat();
+    	format=((ExportFrame)frame).getFormat();
     	// init unit variables
     	try{	
     		xunit=frame.getXUnit();
@@ -182,8 +179,6 @@ public class GeoGebraToPstricks extends GeoGebraExport {
  	    	code.append("\\end{frame}\n");
  		}
         code.append("\\end{document}");		
-		
-		kernel.setCASPrintForm(oldCASPrintform);
 		
 		frame.write(code);
 
@@ -964,7 +959,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		fx=killSpace(StringUtil.toLaTeXString(fx,true));
 		String fy=geo.getFunY();
 		fy=killSpace(StringUtil.toLaTeXString(fy,true));
-		String variable=geo.getVarString(geo.kernel.getStringTemplate());
+		String variable=geo.getVarString(getStringTemplate());
 		boolean warning=!(variable.equals("t"));
 		startBeamer(code);
 		if(warning) code.append("% WARNING: You have to use the special variable t in parametric plot");

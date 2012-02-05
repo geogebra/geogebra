@@ -426,13 +426,13 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			else if (lt.isTextValue()) {
 				msb = ((TextValue) lt).getText();
 				if (holdsLaTeXtext) {
-					msb.append(rt.toLaTeXString(false));
+					msb.append(rt.toLaTeXString(false,tpl));
 				} else {
 					if (rt.isGeoElement()) {
 						GeoElement geo = (GeoElement) rt;
-						msb.append(geo.toDefinedValueString());
+						msb.append(geo.toDefinedValueString(tpl));
 					} else {
-						msb.append(rt.toValueString());
+						msb.append(rt.toValueString(tpl));
 					}
 				}
 				return msb;
@@ -440,13 +440,13 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			else if (rt.isTextValue()) {
 				msb = ((TextValue) rt).getText();
 				if (holdsLaTeXtext) {
-					msb.insert(0, lt.toLaTeXString(false));
+					msb.insert(0, lt.toLaTeXString(false,tpl));
 				} else {
 					if (lt.isGeoElement()) {
 						GeoElement geo = (GeoElement) lt;
-						msb.insert(0, geo.toDefinedValueString());
+						msb.insert(0, geo.toDefinedValueString(tpl));
 					} else {
-						msb.insert(0, lt.toValueString());
+						msb.insert(0, lt.toValueString(tpl));
 					}
 				}
 				return msb;
@@ -521,13 +521,13 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			if (lt.isTextValue()) {
 				msb = ((TextValue) lt).getText();
 				if (holdsLaTeXtext) {
-					msb.append(rt.toLaTeXString(false));
+					msb.append(rt.toLaTeXString(false,tpl));
 				} else {
 					if (rt.isGeoElement()) {
 						GeoElement geo = (GeoElement) rt;
-						msb.append(geo.toDefinedValueString());
+						msb.append(geo.toDefinedValueString(tpl));
 					} else {
-						msb.append(rt.toValueString());
+						msb.append(rt.toValueString(tpl));
 					}
 				}
 				return msb;
@@ -535,13 +535,13 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			else if (rt.isTextValue()) {
 				msb = ((TextValue) rt).getText();
 				if (holdsLaTeXtext) {
-					msb.insert(0, lt.toLaTeXString(false));
+					msb.insert(0, lt.toLaTeXString(false,tpl));
 				} else {
 					if (lt.isGeoElement()) {
 						GeoElement geo = (GeoElement) lt;
-						msb.insert(0, geo.toDefinedValueString());
+						msb.insert(0, geo.toDefinedValueString(tpl));
 					} else {
-						msb.insert(0, lt.toValueString());
+						msb.insert(0, lt.toValueString(tpl));
 					}
 				}
 				return msb;
@@ -635,13 +635,13 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (lt.isTextValue()) {
 				msb = ((TextValue) lt).getText();
 				if (holdsLaTeXtext) {
-					msb.append(rt.toLaTeXString(false));
+					msb.append(rt.toLaTeXString(false,tpl));
 				} else {
 					if (rt.isGeoElement()) {
 						GeoElement geo = (GeoElement) rt;
-						msb.append(geo.toDefinedValueString());
+						msb.append(geo.toDefinedValueString(tpl));
 					} else {
-						msb.append(rt.toValueString());
+						msb.append(rt.toValueString(tpl));
 					}
 				}
 				return msb;
@@ -649,13 +649,13 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			else if (rt.isTextValue()) {
 				msb = ((TextValue) rt).getText();
 				if (holdsLaTeXtext) {
-					msb.insert(0, lt.toLaTeXString(false));
+					msb.insert(0, lt.toLaTeXString(false,tpl));
 				} else {
 					if (lt.isGeoElement()) {
 						GeoElement geo = (GeoElement) lt;
-						msb.insert(0, geo.toDefinedValueString());
+						msb.insert(0, geo.toDefinedValueString(tpl));
 					} else {
-						msb.insert(0, lt.toValueString());
+						msb.insert(0, lt.toValueString(tpl));
 					}
 				}
 				return msb;
@@ -1907,9 +1907,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					((NumberValue) lt).getDouble(),
 					((NumberValue) rt).getDouble()));
 		} else if (lt.isTextValue() && rt.isTextValue()) {
-
-			String strL = ((TextValue) lt).toValueString();
-			String strR = ((TextValue) rt).toValueString();
+			StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
+			String strL = ((TextValue) lt).toValueString(tpl);
+			String strR = ((TextValue) rt).toValueString(tpl);
 
 			// needed for eg Sequence[If[Element[list1,i]=="b",0,1],i,i,i]
 			if ((strL == null) || (strR == null)) {

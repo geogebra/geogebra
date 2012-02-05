@@ -664,23 +664,23 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 	private StringBuilder sb;
 
 	@Override
-	public String toLaTeXString(boolean symbolic) {
+	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
 		if (sb == null) sb = new StringBuilder();
 		else sb.setLength(0);
 
 		switch (toStringMode) {
 		case Kernel.COORD_POLAR:                	
 			sb.append("(");		
-			sb.append(kernel.format(MyMath.length(x, y)));
+			sb.append(kernel.format(MyMath.length(x, y),tpl));
 			sb.append("; ");
-			sb.append((CharSequence)kernel.formatAngle(Math.atan2(y, x),kernel.getStringTemplate()));
+			sb.append((CharSequence)kernel.formatAngle(Math.atan2(y, x),tpl));
 			sb.append(")");
 			break;
 
 		case Kernel.COORD_COMPLEX:              	
-			sb.append(kernel.format(x));
+			sb.append(kernel.format(x,tpl));
 			sb.append(" ");
-			sb.append((CharSequence)kernel.formatSigned(y,kernel.getStringTemplate()));
+			sb.append((CharSequence)kernel.formatSigned(y,tpl));
 			sb.append(Unicode.IMAGINARY);
 			break;                                
 
@@ -689,12 +689,12 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 			String[] inputs;
 			if (symbolic && getParentAlgorithm() instanceof AlgoDependentVector) {
 				AlgoDependentVector algo = (AlgoDependentVector)getParentAlgorithm();
-				String symbolicStr = algo.toString();
+				String symbolicStr = algo.toString(tpl);
 				inputs = symbolicStr.substring(1, symbolicStr.length() - 1).split(",");
 			} else {
 				inputs = new String[2];
-				inputs[0] = kernel.format(x);
-				inputs[1] = kernel.format(y);
+				inputs[0] = kernel.format(x,tpl);
+				inputs[1] = kernel.format(y,tpl);
 			}
 
 			boolean alignOnDecimalPoint = true;

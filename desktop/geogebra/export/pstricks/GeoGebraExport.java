@@ -1233,4 +1233,8 @@ public abstract class GeoGebraExport implements ActionListener {
 		}
 		return new String(sb);
 	}
+	
+	protected StringTemplate getStringTemplate(){
+    	return StringTemplate.get(StringType.PSTRICKS);
+    }
 }

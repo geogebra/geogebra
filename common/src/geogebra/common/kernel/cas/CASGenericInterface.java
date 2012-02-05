@@ -1,5 +1,6 @@
 package geogebra.common.kernel.cas;
 
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 
 import java.util.Set;
@@ -15,7 +16,7 @@ public interface CASGenericInterface {
 
 	public Set<String> getAvailableCommandNames();
 
-	String toAssignment(GeoElement geoElement);
+	String toAssignment(GeoElement geoElement,StringTemplate tpl);
 	
 	public void initCAS();
 

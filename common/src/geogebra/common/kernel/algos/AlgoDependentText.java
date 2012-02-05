@@ -22,6 +22,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoText;
 
 /**
@@ -92,13 +93,14 @@ public class AlgoDependentText extends AlgoElement {
     	
     	try {    	
 	    	boolean latex = text.isLaTeX();
+	    	StringTemplate tpl = StringTemplate.get(latex?StringType.LATEX:StringType.GEOGEBRA);
 	    	root.setHoldsLaTeXtext(latex);
 	    	
 	    	String str;
 	    	if (latex) {
-	    		str = root.evaluate().toLaTeXString(false);
+	    		str = root.evaluate(tpl).toLaTeXString(false,tpl);
 	    	} else {
-	    		str = root.evaluate().toValueString();
+	    		str = root.evaluate(tpl).toValueString(tpl);
 	    	}
 	    	
 	        text.setTextString(str);	        

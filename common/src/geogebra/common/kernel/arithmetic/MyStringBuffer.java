@@ -109,7 +109,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		return sb.toString();
 	}
 
-	final public String toOutputValueString() {
+	final public String toOutputValueString(StringTemplate tpl) {
 		StringBuffer sb2 = new StringBuffer(sb.length() + 2);
 		sb2.append('"');
 		sb2.append((CharSequence)sb);
@@ -117,7 +117,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		return sb2.toString();
 	}
 
-	final public String toLaTeXString(boolean symbolic) {
+	final public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
 		return sb.toString();
 	}
 

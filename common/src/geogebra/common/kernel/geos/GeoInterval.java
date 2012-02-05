@@ -183,9 +183,9 @@ public class GeoInterval extends GeoFunction {
 	}
 
 	@Override
-	public String toLaTeXString(boolean symbolic) {
+	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
 		if (isDefined()) {
-			return fun.toLaTeXString(symbolic);
+			return fun.toLaTeXString(symbolic,tpl);
 		}
 		return app.getPlain("undefined");
 	}
@@ -331,8 +331,8 @@ public class GeoInterval extends GeoFunction {
 	}
 
 	@Override
-	public String toOutputValueString() {
-		return toValueString();
+	public String toOutputValueString(StringTemplate tpl) {
+		return toValueString(tpl);
 	}
 
 }

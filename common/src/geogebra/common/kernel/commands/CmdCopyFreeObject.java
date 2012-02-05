@@ -1,9 +1,11 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 
 /**
  *CopyFreeObject
@@ -33,12 +35,12 @@ public class CmdCopyFreeObject extends CommandProcessor {
 				String command = label == null ? "" : label + "="; 
 
 				kernelA.setTemporaryPrintFigures(15); 
-				command += arg[0].toOutputValueString(); 
+				command += arg[0].toOutputValueString(StringTemplate.get(StringType.GEOGEBRA)); 
 				kernelA.restorePrintAccuracy(); 
 
 				try { 
 
-					GeoElement[] ret = (GeoElement[])kernelA.getAlgebraProcessor() 
+					GeoElement[] ret = kernelA.getAlgebraProcessor() 
 							.processAlgebraCommandNoExceptions(command, true); 
 
 					ret[0].setVisualStyle(arg[0]); 

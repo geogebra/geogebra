@@ -89,8 +89,8 @@ public class MyBoolean extends ValidExpression implements BooleanValue {
         return toString(tpl);
     }
     
-    final public String toLaTeXString(boolean symbolic) {
-    	return toString();
+    final public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
+    	return toString(tpl);
     }
     
     final public boolean isExpressionNode() {
@@ -126,8 +126,8 @@ public class MyBoolean extends ValidExpression implements BooleanValue {
 		return value ? 1 : 0;
 	}
 	
-	public String toOutputValueString() {
-		return toValueString();
+	public String toOutputValueString(StringTemplate tpl) {
+		return toValueString(tpl);
 	}
 
 	public Kernel getKernel() {

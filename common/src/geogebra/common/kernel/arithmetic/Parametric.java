@@ -128,8 +128,8 @@ public class Parametric extends ValidExpression {
 		v.resolveVariables();
 	}
 
-	public String toLaTeXString(boolean symbolic) {
-		return toString();
+	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
+		return toString(tpl);
 	}
 
 	public String toValueString(StringTemplate tpl) {
@@ -141,8 +141,8 @@ public class Parametric extends ValidExpression {
 		return false;
 	}
 
-	public String toOutputValueString() {
-		return toValueString();
+	public String toOutputValueString(StringTemplate tpl) {
+		return toValueString(tpl);
 	}
 
 	public Kernel getKernel() {

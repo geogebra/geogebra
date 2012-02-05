@@ -808,7 +808,7 @@ public class CellRangeProcessor {
 		GeoElement v2;
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
-
+		StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
 		if(!transpose){
 			for (int j = row1; j <= row2; ++ j) {
 				sb.append("{");
@@ -816,9 +816,9 @@ public class CellRangeProcessor {
 					v2 = RelativeCopy.getValue(app, i, j);
 					if (v2 != null) {
 						if(copyByValue){
-							sb.append(v2.toDefinedValueString());
+							sb.append(v2.toDefinedValueString(tpl));
 						}else{
-							sb.append(v2.getLabel());
+							sb.append(v2.getLabel(tpl));
 						}
 						sb.append(',');
 					}
@@ -839,9 +839,9 @@ public class CellRangeProcessor {
 					v2 = RelativeCopy.getValue(app, j, i);
 					if (v2 != null) {
 						if(copyByValue){
-							sb.append(v2.toDefinedValueString());
+							sb.append(v2.toDefinedValueString(tpl));
 						}else{
-							sb.append(v2.getLabel());
+							sb.append(v2.getLabel(tpl));
 						}
 						sb.append(',');
 					}

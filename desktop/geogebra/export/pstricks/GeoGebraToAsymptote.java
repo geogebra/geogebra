@@ -121,8 +121,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
      * generateAllCode: generate Asymptote output by assembling snippets and sanitizing
      */
     public void generateAllCode() {
-    	StringType oldCASPrintform = kernel.getStringTemplate().getStringType();
-        kernel.setCASPrintForm(StringType.PSTRICKS);
+    	
         
         // reset global variables
         parabolaCount     = 0; 
@@ -280,7 +279,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         // code to temporarily remove pi from code, other unicode issues
         convertUnicodeToText(code);
         
-        kernel.setCASPrintForm(oldCASPrintform);
+        
         frame.write(code);
     }   
     
@@ -1098,7 +1097,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 //      boolean isClosed=geo.isClosedPath();
         String fx = parseFunction(geo.getFunX());
         String fy = parseFunction(geo.getFunY());
-        String variable = parseFunction(geo.getVarString(geo.kernel.getStringTemplate()));
+        String variable = parseFunction(geo.getVarString(getStringTemplate()));
         // boolean warning=!(variable.equals("t"));
         
         int indexFunc = -1;
@@ -3373,4 +3372,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 
         return new String(sb);
     }    
+    
+    protected StringTemplate getStringTemplate(){
+    	return StringTemplate.get(StringType.PSTRICKS);
+    }
 }

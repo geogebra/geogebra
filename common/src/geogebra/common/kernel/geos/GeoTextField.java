@@ -113,6 +113,7 @@ public class GeoTextField extends GeoButton {
 	 */
 	public void updateLinkedGeo(String inputText) {
 		String defineText = inputText;
+		StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
 		if (linkedGeo.isGeoLine()) {
 
 			// not y=
@@ -124,7 +125,7 @@ public class GeoTextField extends GeoButton {
 				defineText = "y=" + defineText;
 			}
 
-			String prefix = linkedGeo.getLabel() + ":";
+			String prefix = linkedGeo.getLabel(tpl) + ":";
 			// need a: in front of
 			// X = (-0.69, 0) + \lambda (1, -2)
 			if (!defineText.startsWith(prefix)) {
@@ -141,8 +142,8 @@ public class GeoTextField extends GeoButton {
 		} else if (linkedGeo instanceof FunctionalNVar) {
 			// string like f(x,y)=x^2
 			// or f(\theta) = \theta
-			defineText = linkedGeo.getLabel() + "("
-					+ ((FunctionalNVar) linkedGeo).getVarString(kernel.getStringTemplate())
+			defineText = linkedGeo.getLabel(tpl) + "("
+					+ ((FunctionalNVar) linkedGeo).getVarString(tpl)
 					+ ")=" + defineText;
 		}
 

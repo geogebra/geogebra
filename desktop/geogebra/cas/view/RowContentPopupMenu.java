@@ -1,5 +1,7 @@
 package geogebra.cas.view;
 
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.main.Application;
 
@@ -61,7 +63,7 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 		Transferable data = null;
 		
 		if (ac.equals("copy")) {
-			data = new StringSelection(value.toOutputValueString());
+			data = new StringSelection(value.toOutputValueString(StringTemplate.get(StringType.GEOGEBRA)));
 		} else if (ac.equals("copyToLaTeX")) {
 			data = new StringSelection(value.getLaTeXOutput());
 		} 

@@ -1,6 +1,8 @@
 package geogebra.common.euclidian;
 
 import geogebra.common.awt.Point;
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.IneqTree;
 import geogebra.common.kernel.arithmetic.Inequality;
@@ -75,7 +77,7 @@ public class DrawInequality extends Drawable {
 		updateRecursive(function.getIneqs());
 		labelDesc = geo.getLabelDescription();
 		if ((geo instanceof GeoFunction) && ((GeoFunction) geo).showOnAxis()
-				&& !"y".equals(((GeoFunction) geo).getVarString(geo.kernel.getStringTemplate()))) {
+				&& !"y".equals(((GeoFunction) geo).getVarString(StringTemplate.get(StringType.GEOGEBRA)))) {
 			TreeSet<Double> zeros = new TreeSet<Double>();
 			((GeoFunction) geo).getIneqs().getZeros(zeros);
 			// radius of the dots
@@ -280,7 +282,7 @@ public class DrawInequality extends Drawable {
 		double[] coords = new double[] { view.toRealWorldCoordX(x),
 				view.toRealWorldCoordY(y) };
 		if (geo instanceof GeoFunction
-				&& ((GeoFunction) geo).getVarString(geo.kernel.getStringTemplate()).equals("y"))
+				&& ((GeoFunction) geo).getVarString(StringTemplate.get(StringType.GEOGEBRA)).equals("y"))
 			return ((GeoFunction) geo).getFunction().evaluateBoolean(coords[1]);
 		return ((FunctionalNVar) geo).getFunction().evaluateBoolean(coords);
 

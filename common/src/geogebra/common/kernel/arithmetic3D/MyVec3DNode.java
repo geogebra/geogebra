@@ -130,8 +130,8 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		return toString(tpl);
 	}
 
-	final public String toLaTeXString(boolean symbolic) {
-		return toString();
+	final public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
+		return toString(tpl);
 	}
 
 	/**
@@ -215,8 +215,8 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 				((NumberValue) z.evaluate()).getDouble());
 	}
 
-	public String toOutputValueString() {
-		return toValueString();
+	public String toOutputValueString(StringTemplate tpl) {
+		return toValueString(tpl);
 	}
 
 	public ExpressionValue replace(ExpressionValue oldOb, ExpressionValue newOb) {

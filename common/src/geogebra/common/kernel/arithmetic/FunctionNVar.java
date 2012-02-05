@@ -402,15 +402,15 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	}
 
 	final public String toValueString(StringTemplate tpl) {
-		return expression.toValueString();
+		return expression.toValueString(tpl);
 	}
 
-	final public String toOutputValueString() {
-		return expression.toOutputValueString();
+	final public String toOutputValueString(StringTemplate tpl) {
+		return expression.toOutputValueString(tpl);
 	}
 
-	final public String toLaTeXString(boolean symbolic) {
-		return expression.toLaTeXString(symbolic);
+	final public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
+		return expression.toLaTeXString(symbolic,tpl);
 	}
 
 	/* ***************
@@ -645,7 +645,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		// function, e.g. f(x) := 2*x
 		sb.append(getLabel());
 		sb.append("(");
-		sb.append(getVarString(kernel.getStringTemplate()));
+		sb.append(getVarString(StringTemplate.get(StringType.MPREDUCE)));
 		sb.append(")");
 		return sb.toString();
 	}

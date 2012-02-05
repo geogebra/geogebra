@@ -2,9 +2,11 @@ package geogebra.kernel.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.TextValue;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
@@ -114,7 +116,7 @@ public class CmdBarCode extends CommandProcessor {
 			String text;
 
 			if (arg[0].isTextValue() && arg[0].isDefined()) {
-				text = ((TextValue) arg[0]).toValueString();
+				text = ((TextValue) arg[0]).toValueString(StringTemplate.get(StringType.GEOGEBRA));
 			} else if (arg[0].isNumberValue() && arg[0].isDefined()) {
 				text = (Math.round(((NumberValue) arg[0]).getDouble())) + "";
 			} else {

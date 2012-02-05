@@ -1011,10 +1011,9 @@ public class Construction {
 
 		// change kernel settings temporarily
 		int oldCoordStlye = kernel.getCoordStyle();
-		StringType oldPrintForm = kernel.getStringTemplate().getStringType();
+
 		boolean oldValue = kernel.isPrintLocalizedCommandNames();
 		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
-		kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
 		kernel.setPrintLocalizedCommandNames(false);
 
 		try {
@@ -1048,7 +1047,7 @@ public class Construction {
 			e.printStackTrace();
 		} finally {
 			kernel.setCoordStyle(oldCoordStlye);
-			kernel.setCASPrintForm(oldPrintForm);
+			
 			kernel.setPrintLocalizedCommandNames(oldValue);
 		}
 
@@ -1065,11 +1064,9 @@ public class Construction {
 
 		// change kernel settings temporarily
 		int oldCoordStlye = kernel.getCoordStyle();
-		StringType oldPrintForm = kernel.getStringTemplate().getStringType();
 		boolean oldValue = kernel.isPrintLocalizedCommandNames();
 		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
 		// kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
-		kernel.setCASPrintForm(StringType.GEOGEBRA);
 		kernel.setPrintLocalizedCommandNames(false);
 		kernel.setTemporaryPrintDecimals(6);
 		kernel.setTemporaryPrintFigures(6);
@@ -1086,7 +1083,7 @@ public class Construction {
 					((GeoElement) ce).getXMLtagsMinimal(sb);
 
 				} else if (ce instanceof AlgoElement) {
-					sb.append(((AlgoElement) ce).getCommandDescription(kernel.getStringTemplate()));
+					sb.append(((AlgoElement) ce).getCommandDescription(StringTemplate.get(StringType.GEOGEBRA)));
 					sb.append(" == ");
 					sb.append(((AlgoElement) ce).getAlgebraDescriptionRegrOut());
 				}
@@ -1096,7 +1093,6 @@ public class Construction {
 			sb.append(e.getMessage());
 		} finally {
 			kernel.setCoordStyle(oldCoordStlye);
-			kernel.setCASPrintForm(oldPrintForm);
 			kernel.setPrintLocalizedCommandNames(oldValue);
 		}
 
@@ -1115,10 +1111,8 @@ public class Construction {
 
 		// change kernel settings temporarily
 		int oldCoordStlye = kernel.getCoordStyle();
-		StringType oldPrintForm = kernel.getStringTemplate().getStringType();
 		boolean oldValue = kernel.isPrintLocalizedCommandNames();
 		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
-		kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
 		kernel.setPrintLocalizedCommandNames(false);
 
 		try {
@@ -1150,7 +1144,6 @@ public class Construction {
 		}
 
 		kernel.setCoordStyle(oldCoordStlye);
-		kernel.setCASPrintForm(oldPrintForm);
 		kernel.setPrintLocalizedCommandNames(oldValue);
 
 	}
@@ -1435,9 +1428,9 @@ public class Construction {
 
 		// change kernel settings temporarily
 		int oldCoordStlye = kernel.getCoordStyle();
-		StringType oldPrintForm = kernel.getStringTemplate().getStringType();
+		//StringType oldPrintForm = kernel.getStringTemplate().getStringType();
 		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
-		kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
+		
 
 		// set label to get replaceable XML
 		if (newGeo.isLabelSet()) { // newGeo already exists in construction
@@ -1460,6 +1453,7 @@ public class Construction {
 				try {
 					newGeo.set(oldGeo);
 				} catch (Exception e) {
+					//do nothing
 				}
 			}
 
@@ -1476,7 +1470,7 @@ public class Construction {
 
 		// restore old kernel settings
 		kernel.setCoordStyle(oldCoordStlye);
-		kernel.setCASPrintForm(oldPrintForm);
+		//kernel.setCASPrintForm(oldPrintForm);
 
 		// replace Strings: oldXML by newXML in consXML
 		// Application.debug("cons=\n"+consXML+"\nold=\n"+oldXML+"\nnew=\n"+newXML);

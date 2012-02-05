@@ -335,8 +335,8 @@ public class GeoFunctionConditional extends GeoFunction {
 	}
 	
 	@Override
-	public String getCASString(boolean symbolic) {
-		return toString(kernel.getStringTemplate(),symbolic);
+	public String getCASString(StringTemplate tpl,boolean symbolic) {
+		return toString(tpl,symbolic);
 	}
 	
 	private String toString(StringTemplate tpl,boolean symbolic) {		
@@ -393,8 +393,8 @@ public class GeoFunctionConditional extends GeoFunction {
 
 	
 	@Override
-	final public String toLaTeXString(boolean symbolic) {	
-		return toString(kernel.getStringTemplate(),symbolic);
+	final public String toLaTeXString(boolean symbolic,StringTemplate tpl) {	
+		return toString(tpl,symbolic);
 	}
 
 	@Override
@@ -421,8 +421,8 @@ public class GeoFunctionConditional extends GeoFunction {
 		GeoFunctionConditional geoFun = (GeoFunctionConditional)geo;
 		
 		// TODO better CAS checking for condFun
-		
-		return 		condFun.toValueString().equals(geoFun.condFun.toValueString())
+		StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
+		return 		condFun.toValueString(tpl).equals(geoFun.condFun.toValueString(tpl))
 					&& ifFun.isEqual(geoFun.ifFun)
 					&& ( elseFun != null && elseFun.isEqual(geoFun.elseFun));		
 
@@ -517,7 +517,7 @@ public class GeoFunctionConditional extends GeoFunction {
 			boolean complete = collectCases(cases,conditions,new Bounds());
 			sb.append("\\left\\{\\begin{array}{ll} ");
 			for(int i=0;i<cases.size();i++){
-				sb.append(cases.get(i).toLaTeXString(!substituteNumbers));
+				sb.append(cases.get(i).toLaTeXString(!substituteNumbers,tpl));
 				sb.append("& : ");				
 				if(i==cases.size()-1 && complete){										
 					sb.append("\\text{");
@@ -619,9 +619,9 @@ public class GeoFunctionConditional extends GeoFunction {
 				varString+" "+(upperSharp?"<":Unicode.LESS_EQUAL)+" "+kernel.format(upper,tpl);
 			}
 			if(condition!=null && ret == null)
-				return condition.toLaTeXString(b);
+				return condition.toLaTeXString(b,tpl);
 			else if(condition!=null)
-				ret="("+ret+")\\wedge \\left("+condition.toLaTeXString(b)+"\\right)";			
+				ret="("+ret+")\\wedge \\left("+condition.toLaTeXString(b,tpl)+"\\right)";			
 			return ret;
 		}
 	}
@@ -641,8 +641,8 @@ public class GeoFunctionConditional extends GeoFunction {
 	}
 
 	@Override
-	public String toOutputValueString() {
-		return toValueString();
+	public String toOutputValueString(StringTemplate tpl) {
+		return toValueString(tpl);
 		
 	}	
 

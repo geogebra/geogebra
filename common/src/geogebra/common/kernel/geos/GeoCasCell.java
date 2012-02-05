@@ -319,7 +319,7 @@ public class GeoCasCell extends GeoElement {
 		if (twinGeo != null && twinGeo.isIndependent() && twinGeo.isLabelSet()) {
 			// Update ASSIGNMENT of twin geo
 			// e.g. m = 8 changed in GeoGebra should set cell to m := 8
-			String assignmentStr = twinGeo.toCasAssignment(StringType.GEOGEBRA);
+			String assignmentStr = twinGeo.toCasAssignment(StringTemplate.get(StringType.GEOGEBRA));
 			if (suppressOutput)
 				assignmentStr = assignmentStr + ";";
 			if (setInput(assignmentStr)) {

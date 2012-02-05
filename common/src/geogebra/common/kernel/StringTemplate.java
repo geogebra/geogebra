@@ -28,6 +28,9 @@ public class StringTemplate {
 	}
 	
 	public static StringTemplate get(StringType t){
+		if(t==null||t.equals(StringType.GEOGEBRA)){
+			return defaultTemplate; 
+		}
 		StringTemplate tpl = new StringTemplate();
 		tpl.stringType = t;
 

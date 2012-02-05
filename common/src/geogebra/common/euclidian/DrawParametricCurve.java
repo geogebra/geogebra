@@ -19,6 +19,7 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.VarString;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.ParametricCurve;
@@ -145,12 +146,13 @@ public class DrawParametricCurve extends Drawable {
 			// don't return here to make sure that getBounds() works for
 			// offscreen points too
 		}
-		StringTemplate tpl = geo.getKernel().getStringTemplate();
+		
 		if (labelPoint != null) {
 			xLabel = labelPoint.x;
 			yLabel = labelPoint.y;
 			switch (geo.labelMode) {
 			case GeoElement.LABEL_NAME_VALUE:
+				StringTemplate tpl = StringTemplate.get(StringType.LATEX);
 				labelSB.setLength(0);
 				labelSB.append('$');
 				labelSB.append(geo.getLabel(tpl));

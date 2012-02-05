@@ -192,8 +192,8 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 		return toString(tpl);
 	}
 
-	final public String toLaTeXString(boolean symbolic) {
-		return toString();
+	final public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
+		return toString(tpl);
 	}
 
 	/**
@@ -281,8 +281,8 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 		return false;
 	}
 
-	public String toOutputValueString() {
-		return toValueString();
+	public String toOutputValueString(StringTemplate tpl) {
+		return toValueString(tpl);
 	}
 
 	public Kernel getKernel() {

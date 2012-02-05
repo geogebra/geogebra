@@ -614,11 +614,11 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
     }
 
 	final public String toValueString(StringTemplate tpl) {
-		return toString();
+		return toString(tpl);
 	}  
 	
-	public String toLaTeXString(boolean symbolic) {
-		return toString();
+	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
+		return toString(tpl);
 	}    
     
     
@@ -773,8 +773,8 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 			return false;
 		}
 		
-		public String toOutputValueString() {
-			return toValueString();
+		public String toOutputValueString(StringTemplate tpl) {
+			return toValueString(tpl);
 		}
 
 		public void matrixTransform(double a00, double a01, double a02,

@@ -490,11 +490,11 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
     }
 
 	final public String toValueString(StringTemplate tpl) {
-		return toString();
+		return toString(tpl);
 	}  
 	
-	public String toLaTeXString(boolean symbolic) {
-		return toString();
+	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
+		return toString(tpl);
 	}    
     
     
@@ -632,8 +632,8 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
 			return this;
 		}
 		
-		public String toOutputValueString() {
-			return toValueString();
+		public String toOutputValueString(StringTemplate tpl) {
+			return toValueString(tpl);
 		}
 		
 		public Kernel getKernel() {

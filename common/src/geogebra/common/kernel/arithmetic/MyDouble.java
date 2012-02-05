@@ -147,8 +147,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return toString(tpl);
 	}
 
-	final public String toLaTeXString(boolean symbolic) {
-		return toString();
+	final public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
+		return toString(tpl);
 	}
 
 	public void setAngle() {
@@ -722,8 +722,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return this;
 	}
 
-	public String toOutputValueString() {
-		return toValueString();
+	public String toOutputValueString(StringTemplate tpl) {
+		return toValueString(tpl);
 	}
 
 	public Kernel getKernel() {

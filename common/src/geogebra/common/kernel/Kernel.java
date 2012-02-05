@@ -403,8 +403,6 @@ public class Kernel {
 		casVariablePrefix = GGBCAS_VARIABLE_PREFIX + kernelID;
 		nf = FormatFactory.prototype.getNumberFormat(2);
 		sf = FormatFactory.prototype.getScientificFormat(5, 16, false);
-
-		setCASPrintForm(StringType.GEOGEBRA);
 	}
 
 	/**
@@ -1087,17 +1085,6 @@ public class Kernel {
 	 * 
 	 * converts to localised digits if appropriate
 	 */
-	@Deprecated
-	final public String format(double x) {
-
-		String ret = formatRaw(x,getStringTemplate());
-
-		if (AbstractApplication.unicodeZero != '0') {
-			ret = internationalizeDigits(ret);
-		}
-
-		return ret;
-	}
 	
 	final public String format(double x,StringTemplate tpl) {
 
@@ -1740,16 +1727,16 @@ public class Kernel {
 	}
 
 	//private StringType casPrintForm;
-	private StringTemplate stringTemplate;
+	
 	public StringTemplate getStringTemplate(){
-		return stringTemplate;
+		return StringTemplate.get(StringType.GEOGEBRA);
 	}
 	/*public StringType getStringTemplate().getStringType() {
 		return stringTemplate.getStringType();
 	}*/
 
 	final public void setCASPrintForm(StringType type) {
-		stringTemplate = StringTemplate.get(type);
+		//stringTemplate = StringTemplate.get(type);
 	}
 
 	/**

@@ -189,7 +189,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 			return app.getPlain("undefined");
 	}
 	
-	public String toLaTeXString(boolean symbolic) {
+	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
 		if (isDefined) {
 			if (sbTemp == null) {
 				sbTemp = new StringBuilder(80);
@@ -198,7 +198,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 			sbTemp.append("\\left(\\begin{array}{c}");
 			
 			for (int i=0; i< fun.length;i++){
-				sbTemp.append(fun[i].toLaTeXString(symbolic));
+				sbTemp.append(fun[i].toLaTeXString(symbolic,tpl));
 				if (i<fun.length-1)
 					sbTemp.append("\\\\");
 				}

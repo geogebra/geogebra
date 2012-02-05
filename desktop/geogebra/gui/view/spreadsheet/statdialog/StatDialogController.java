@@ -5,7 +5,9 @@ import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -292,9 +294,9 @@ public class StatDialogController {
 		case StatDialog.MODE_ONEVAR:
 
 			title = new String[1];		
-
+			StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
 			if(dataSource instanceof GeoList){
-				title[0] = ((GeoList) dataSource).getLabel();
+				title[0] = ((GeoList) dataSource).getLabel(tpl);
 
 			}else{
 
@@ -302,7 +304,7 @@ public class StatDialogController {
 				if(range.isColumn()) {
 					GeoElement geo = RelativeCopy.getValue(app, range.getMinColumn(), range.getMinRow());
 					if(geo != null && geo.isGeoText())
-						title[0] = geo.toDefinedValueString();
+						title[0] = geo.toDefinedValueString(tpl);
 					else
 						title[0]= app.getCommand("Column") + " " + 
 						GeoElementSpreadsheet.getSpreadsheetColumnName(range.getMinColumn());		

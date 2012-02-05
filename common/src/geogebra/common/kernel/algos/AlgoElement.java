@@ -23,6 +23,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -1171,11 +1172,12 @@ public abstract class AlgoElement extends ConstructionElement implements
 
 		try {
 			// command
-			String cmdname = getCommandName(kernel.getStringTemplate());
+			StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA_XML);
+			String cmdname = getCommandName(tpl);
 			if (cmdname.equals("Expression")) {
-				sb.append(getExpXML(kernel.getStringTemplate()));
+				sb.append(getExpXML(tpl));
 			} else {
-				sb.append(getCmdXML(cmdname));
+				sb.append(getCmdXML(cmdname,tpl));
 			}
 
 			if (includeOutputGeos) {// && output != null) {
@@ -1296,7 +1298,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	}
 
 	// standard command has cmdname, output, input
-	private String getCmdXML(String cmdname) {
+	private String getCmdXML(String cmdname,StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<command name=\"");
 		sb.append(cmdname);
@@ -1319,7 +1321,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 				// attribute name is input No.
 				sb.append("=\"");
 
-				String cmd = StringUtil.encodeXML(input[i].getLabel());
+				String cmd = StringUtil.encodeXML(input[i].getLabel(tpl));
 
 				// ensure a vector stays a vector!
 				// eg g:X = (-5, 5) + t (4, -3)
@@ -1351,7 +1353,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 				// attribute name is output No.
 				sb.append("=\"");
 				if (getOutput(i).isLabelSet()) {
-					sb.append(StringUtil.encodeXML(getOutput(i).getLabel()));
+					sb.append(StringUtil.encodeXML(getOutput(i).getLabel(tpl)));
 				}
 				sb.append("\"");
 			}

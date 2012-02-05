@@ -34,6 +34,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements NumberValue {
 		super(quadric);
 	}
 
+	@Override
 	public void set(GeoElement geo) {
 		super.set(geo);
 		GeoQuadric3DPart quadric = (GeoQuadric3DPart) geo;
@@ -52,6 +53,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements NumberValue {
 		this.max = max;
 	}
 
+	@Override
 	public double getMinParameter(int index) {
 
 		if (index == 1)
@@ -60,6 +62,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements NumberValue {
 			return super.getMinParameter(index);
 	}
 
+	@Override
 	public double getMaxParameter(int index) {
 		if (index == 1)
 			return max;
@@ -79,10 +82,12 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements NumberValue {
 		}
 	}
 
+	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.QUADRIC_PART;
 	}
 
+	@Override
 	public String toValueString(StringTemplate tpl) {
 		switch (type) {
 		case QUADRIC_CYLINDER:
@@ -93,10 +98,12 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements NumberValue {
 		return "todo-GeoQuadric3DPart";
 	}
 
-	protected StringBuilder buildValueString() {
-		return new StringBuilder(toValueString());
+	@Override
+	protected StringBuilder buildValueString(StringTemplate tpl) {
+		return new StringBuilder(toValueString(tpl));
 	}
 
+	@Override
 	public GeoElement copy() {
 		return new GeoQuadric3DPart(this);
 	}
@@ -105,6 +112,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements NumberValue {
 	// REGION
 	// ////////////////////////
 
+	@Override
 	protected Coords getNormalProjectionParameters(Coords coords) {
 
 		Coords parameters = super.getNormalProjectionParameters(coords);
@@ -154,6 +162,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements NumberValue {
 		return getArea();
 	}
 
+	@Override
 	public boolean isNumberValue() {
 		return true;
 	}

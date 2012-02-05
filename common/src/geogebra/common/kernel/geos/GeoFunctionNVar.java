@@ -275,11 +275,11 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	}
 	
 	@Override
-	public String getAssignmentLHS(){
+	public String getAssignmentLHS(StringTemplate tpl){
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append("(");
-		sbToString.append(getVarString(kernel.getStringTemplate()));
+		sbToString.append(getVarString(tpl));
 		sbToString.append(")");
 		return sbToString.toString();
 	}
@@ -316,9 +316,9 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	}
 	
 	@Override
-	public String toLaTeXString(boolean symbolic) {
+	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
 		if (isDefined())
-			return fun.toLaTeXString(symbolic);
+			return fun.toLaTeXString(symbolic,tpl);
 		else
 			return app.getPlain("undefined");
 	}
@@ -431,18 +431,18 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	 * For example, "a*x^2 + b*y"
 	 */
 	@Override
-	public String getCASString(boolean symbolic) {
-		return fun.getExpression().getCASstring(symbolic);
+	public String getCASString(StringTemplate tpl,boolean symbolic) {
+		return fun.getExpression().getCASstring(tpl,symbolic);
 	}
     
-	 public String getLabelForAssignment() {
+	/* public String getLabelForAssignment() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(getLabel());
 		sb.append("(" );
 		sb.append(fun.getVarString(kernel.getStringTemplate()));
 		sb.append(")");
 		return sb.toString();
-	 }
+	 }*/
 
 	 
 	 

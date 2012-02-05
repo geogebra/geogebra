@@ -1291,7 +1291,7 @@ public class CASInputHandler {
 	/**
 	 * Evaluates expression with GeoGebra and returns the resulting string.
 	 */
-	private synchronized String evalInGeoGebra(String casInput)
+	/*private synchronized String evalInGeoGebra(String casInput)
 			throws Throwable {
 		GeoElement[] ggbEval = kernel.getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(casInput, false,
@@ -1309,5 +1309,5 @@ public class CASInputHandler {
 		}
 		sb.append('}');
 		return sb.toString();
-	}
+	}*/
 }

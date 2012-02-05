@@ -142,12 +142,13 @@ public class Variable extends ValidExpression {
 		return kernel.printVariableName(name,tpl);
 	}
 
+	@Override
 	public String toValueString(StringTemplate tpl) {
 		return toString(tpl);
 	}
 
-	final public String toLaTeXString(boolean symbolic) {
-		return toString();
+	final public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
+		return toString(tpl);
 	}
 
 	public boolean isNumberValue() {
@@ -191,8 +192,8 @@ public class Variable extends ValidExpression {
 		return false;
 	}
 
-	public String toOutputValueString() {
-		return toValueString();
+	public String toOutputValueString(StringTemplate tpl) {
+		return toValueString(tpl);
 	}
 
 	public Kernel getKernel() {

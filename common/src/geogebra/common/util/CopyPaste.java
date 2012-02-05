@@ -539,11 +539,11 @@ public class CopyPaste {
 		beforeSavingToXML(geoslocal, geostohide, false);
 		// change kernel settings temporarily
 		int oldCoordStlye = kernel.getCoordStyle();
-		StringType oldPrintForm = kernel.getStringTemplate().getStringType();
+		//StringType oldPrintForm = kernel.getStringTemplate().getStringType();
 		boolean oldValue = kernel.isPrintLocalizedCommandNames();
 		boolean saveScriptsToXML = kernel.getSaveScriptsToXML();
 		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
-		kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
+		
 		kernel.setPrintLocalizedCommandNames(false);
 		kernel.setSaveScriptsToXML(false);
 		try {
@@ -565,7 +565,7 @@ public class CopyPaste {
 		}
 		// restore kernel settings
 		kernel.setCoordStyle(oldCoordStlye);
-		kernel.setCASPrintForm(oldPrintForm);
+		//kernel.setCASPrintForm(oldPrintForm);
 		kernel.setPrintLocalizedCommandNames(oldValue);
 		kernel.setSaveScriptsToXML(saveScriptsToXML);
 		afterSavingToXML(geoslocal, geostohide);
@@ -574,7 +574,6 @@ public class CopyPaste {
 		// SECOND XML SAVE
 		beforeSavingToXML(geoslocalsw, geostohidesw, true);
 		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
-		kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
 		kernel.setPrintLocalizedCommandNames(false);
 		kernel.setSaveScriptsToXML(false);
 		try {
@@ -596,7 +595,7 @@ public class CopyPaste {
 		}
 		// restore kernel settings
 		kernel.setCoordStyle(oldCoordStlye);
-		kernel.setCASPrintForm(oldPrintForm);
+		//kernel.setCASPrintForm(oldPrintForm);
 		kernel.setPrintLocalizedCommandNames(oldValue);
 		kernel.setSaveScriptsToXML(saveScriptsToXML);
 		afterSavingToXML(geoslocalsw, geostohidesw);

@@ -269,7 +269,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
 
 	private StringBuilder sb;
 
-	public String toLaTeXString(boolean symbolic) {
+	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
 		if (sb == null)
 			sb = new StringBuilder();
 		else
@@ -278,14 +278,14 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
 		String[] inputs;
 		if (symbolic && getParentAlgorithm() instanceof AlgoDependentVector) {
 			AlgoDependentVector algo = (AlgoDependentVector) getParentAlgorithm();
-			String symbolicStr = algo.toString();
+			String symbolicStr = algo.toString(tpl);
 			inputs = symbolicStr.substring(1, symbolicStr.length() - 1).split(
 					",");
 		} else {
 			inputs = new String[3];
-			inputs[0] = kernel.format(getX());
-			inputs[1] = kernel.format(getY());
-			inputs[2] = kernel.format(getZ());
+			inputs[0] = kernel.format(getX(),tpl);
+			inputs[1] = kernel.format(getY(),tpl);
+			inputs[2] = kernel.format(getZ(),tpl);
 		}
 
 		boolean alignOnDecimalPoint = true;
