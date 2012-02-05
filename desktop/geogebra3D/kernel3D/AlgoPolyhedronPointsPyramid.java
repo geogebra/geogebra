@@ -100,6 +100,9 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 	
 	@Override
 	protected void updateOutput(int newBottomPointsLength, GeoPointND[] bottomPoints) {
+		
+		updateOutputPoints();
+		
 		//current length
 		int nOld = outputSegmentsSide.size();
 		
@@ -182,13 +185,35 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 	// END OF THE CONSTRUCTION
 	////////////////////////////////////////////
 
+	private Coords interiorPoint = new Coords(4);
+	private Coords bottomCenter = new Coords(4);
 	
+	@Override
+	protected void updateOutputPoints(){
+		
+		GeoPointND[] bottomPoints = getBottomPoints();
+		
+		Coords bottomCenter1 = new Coords(4);
+		//interiorPoint.set(0);
+		for (int i=0;i<bottomPoints.length;i++){
+			bottomCenter1 = bottomCenter1.add(bottomPoints[i].getCoordsInD(3));
+		}
+		
+		bottomCenter = bottomCenter1.mul((double) 1/(bottomPoints.length));
+		
+		if (height!=null){
+			Coords v = bottom.getMainDirection().normalized().mul(height.getDouble());
+			getTopPoint().setCoords(bottomCenter.add(v),true);
+		}
+		
+		interiorPoint=(bottomCenter1.add(getTopPoint().getInhomCoordsInD(3))).mul((double) 1/(bottomPoints.length+1));
+	}
 	
 	
 	@Override
 	public void compute() {
 		
-		updateInteriorPoint();
+		//updateInteriorPoint();
 
 		if (!preCompute()){
 			if (height!=null)
@@ -203,32 +228,8 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 	}
 
 	
-	private Coords interiorPoint = new Coords(4);
-	
-	private void updateInteriorPoint(){
-		GeoPointND[] bottomPoints = getBottomPoints();
-		
-		interiorPoint = new Coords(4);
-		//interiorPoint.set(0);
-		for (int i=0;i<bottomPoints.length;i++){
-			interiorPoint = interiorPoint.add(bottomPoints[i].getCoordsInD(3));
-		}
-		interiorPoint = interiorPoint.add(getTopPoint().getCoordsInD(3));
-		
-		interiorPoint = interiorPoint.mul((double) 1/(bottomPoints.length+1));
-	}
 	
 
-	@Override
-	protected void updateBottomToTop(){
-		//recompute the translation from bottom to top
-		if (height!=null){
-			Coords v = bottom.getMainDirection().normalized().mul(height.getDouble());
-			getTopPoint().setCoords(interiorPoint.add(v),true);
-		}
-		
-	}
-	
 	/*
 	@Override
 	public void update() {

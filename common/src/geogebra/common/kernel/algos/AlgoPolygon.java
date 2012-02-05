@@ -177,6 +177,8 @@ public class AlgoPolygon extends AlgoElement {
     	poly.setPoints(points,null,false); //don't recreate segments
     	setInputOutput();   	
     	
+    	compute();
+    	
     }
     
     // for AlgoElement

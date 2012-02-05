@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.awt.Color;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionElementCycle;
 import geogebra.common.kernel.StringTemplate;
@@ -12,7 +13,6 @@ import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.GeoClass;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -657,6 +657,7 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 		}
 	}
 
+	@Override
 	public void setEuclidianVisible(boolean visible) {
 
 		super.setEuclidianVisible(visible);
@@ -678,33 +679,35 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 		}
 	}
 
+	@Override
 	public void setObjColor(Color color) {
 
-		super.setObjColor(new geogebra.awt.Color(color));
+		super.setObjColor(color);
 
 		for (GeoPolygon3D polygon : polygons.values()) {
-			polygon.setObjColor(new geogebra.awt.Color(color));
+			polygon.setObjColor(color);
 			polygon.updateVisualStyle();
 		}
 
 		for (GeoPolygon polygon : polygonsLinked) {
-			polygon.setObjColor(new geogebra.awt.Color(color));
+			polygon.setObjColor(color);
 			polygon.updateVisualStyle();
 		}
 
 		for (GeoSegment3D segment : segments.values()) {
-			segment.setObjColor(new geogebra.awt.Color(color));
+			segment.setObjColor(color);
 			segment.updateVisualStyle();
 		}
 
 		for (GeoSegmentND segment : segmentsLinked.values()) {
-			segment.setObjColor(new geogebra.awt.Color(color));
+			segment.setObjColor(color);
 			segment.updateVisualStyle();
 		}
 
 		getKernel().notifyRepaint();
 	}
 
+	@Override
 	public void setLineType(int type) {
 		super.setLineType(type);
 
@@ -733,6 +736,7 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 
 	}
 
+	@Override
 	public void setLineTypeHidden(int type) {
 		super.setLineTypeHidden(type);
 
@@ -761,6 +765,7 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 
 	}
 
+	@Override
 	public void setLineThickness(int th) {
 		super.setLineThickness(th);
 
@@ -788,6 +793,7 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 		}
 	}
 
+	@Override
 	public void setAlphaValue(float alpha) {
 
 		super.setAlphaValue(alpha);
@@ -833,18 +839,22 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 	 * }
 	 */
 
+	@Override
 	public GeoElement copy() {
 		return new GeoPolyhedron(this);
 	}
 
+	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.POLYHEDRON;
 	}
 
+	@Override
 	public String getTypeString() {
 		return "Polyhedron";
 	}
 
+	@Override
 	public boolean isDefined() {
 
 		return isDefined;
@@ -856,6 +866,7 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 		return false;
 	}
 
+	@Override
 	public void set(GeoElement geo) {
 		if (geo instanceof GeoPolyhedron) {
 			GeoPolyhedron polyhedron = (GeoPolyhedron) geo;
@@ -885,6 +896,7 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 
 	private boolean isDefined = true;
 
+	@Override
 	public void setUndefined() {
 		isDefined = false;
 
@@ -925,15 +937,18 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 		return "todo-GeoPolyhedron";
 	}
 
+	@Override
 	public String getClassName() {
 		return "GeoPolyhedron";
 	}
 
 	/** to be able to fill it with an alpha value */
+	@Override
 	public boolean isFillable() {
 		return true;
 	}
 
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		getLineStyleXML(sb);
 		super.getXMLtags(sb);
@@ -942,6 +957,7 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 	// /////////////////////////////////////////
 	// GeoElement3DInterface
 
+	@Override
 	public Coords getLabelPosition() {
 		return new Coords(4); // TODO
 	}
@@ -982,10 +998,12 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 	 * return null; }
 	 */
 
+	@Override
 	public boolean isPath() {
 		return true;
 	}
 
+	@Override
 	public void remove() {
 
 		// prevent from removing this when redefine a prism (see

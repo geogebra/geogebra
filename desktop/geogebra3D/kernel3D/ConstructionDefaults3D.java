@@ -275,7 +275,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		// polyhedron
 		GeoPolyhedron polyhedron = new GeoPolyhedron(cons);	
 		polyhedron.setLocalVariableLabel("Polyhedron");
-		polyhedron.setObjColor(colPolyhedron);
+		polyhedron.setObjColor(new geogebra.awt.Color(colPolyhedron));
 		polyhedron.setAlphaValue(DEFAULT_POLYGON3D_ALPHA);
 		defaultGeoElements.put(DEFAULT_POLYHEDRON, polyhedron);
 		

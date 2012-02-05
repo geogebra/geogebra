@@ -148,7 +148,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 			outputPoints.augmentOutputSize(length);
 			outputPoints.setLabels(null);
 			
-			//updateOutputPoints();
+			updateOutputPoints();
 
 			//new sides of the prism		
 			int l = nOld+length;
@@ -174,7 +174,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
     			outputPoints.getElement(i-getShift()).setUndefined();
     		}
 			
-			//updateOutputPoints();
+			updateOutputPoints();
 			
 			//update top side
 			outputSegmentsTop.getElement(newBottomPointsLength-1).modifyInputPoints(getTopPoint(newBottomPointsLength-1),getTopPoint());			
@@ -205,7 +205,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 			polygon.calcArea();  
 			
 			
-		}//else updateOutputPoints();
+		}else updateOutputPoints();
 		
 		
 		
@@ -266,21 +266,34 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 	// END OF THE CONSTRUCTION
 	////////////////////////////////////////////
 
-	/*
-	 * translate all output points
-	 * @param bottomPoints bottom points
-	 * @param v translation
-	 *
-	private void updateOutputPoints(){
+	private Coords uptranslation, interiorPoint;
+	
+	
+	@Override
+	protected void updateOutputPoints(){
+		
+		if (height==null)
+			uptranslation = getTopPoint().getInhomCoordsInD(3).sub(getBottomPoints()[0].getInhomCoordsInD(3));
+		else
+			uptranslation=bottom.getMainDirection().normalized().mul(height.getDouble());		
+
+		
 		GeoPointND[] bottomPoints = getBottomPoints();
 
 		//translation from bottom to top
-		Coords v = getUpTranslation();
-		for (int i=0;i<outputPoints.size();i++)
-			outputPoints.getElement(i).setCoords(bottomPoints[i+getShift()].getInhomCoordsInD(3).add(v),true);
+		for (int i=0;i<outputPoints.size() && i+getShift()<bottomPoints.length;i++)
+			outputPoints.getElement(i).setCoords(bottomPoints[i+getShift()].getInhomCoordsInD(3).add(uptranslation),true);
 
+		
+		
+		//TODO remove this and replace with tesselation
+		interiorPoint = new Coords(4);
+		for (int i=0;i<bottomPoints.length;i++){
+			interiorPoint = interiorPoint.add(bottomPoints[i].getInhomCoordsInD(3));
+		}
+		interiorPoint = interiorPoint.mul((double) 1/(bottomPoints.length)).add(uptranslation.mul(0.5));
 	}
-	*/
+	
 	
 	@Override
 	public void compute() {
@@ -292,61 +305,15 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 			return;
 		}
 
-		GeoPointND[] bottomPoints = getBottomPoints();
 
-		//translation from bottom to top
-		Coords v = getUpTranslation();
-		
-		//translate all output points
-		for (int i=0;i<bottomPointsLength-getShift();i++)
-			outputPoints.getElement(i).setCoords(bottomPoints[i+getShift()].getInhomCoordsInD(3).add(v),true);
-
-		
-		//TODO remove this and replace with tesselation
-		Coords interiorPoint = new Coords(4);
-		for (int i=0;i<bottomPoints.length;i++){
-			interiorPoint = interiorPoint.add(bottomPoints[i].getInhomCoordsInD(3));
-		}
-		interiorPoint = interiorPoint.mul((double) 1/(bottomPoints.length));
-		polyhedron.setInteriorPoint(interiorPoint.add(v.mul(0.5)));
+		polyhedron.setInteriorPoint(interiorPoint);
 
 
 	}
 
-	/*
-	@Override
-	public void update() {
-
-		// compute and polyhedron
-		super.update();
-		
-		//output points
-		
-		for (int i=0;i<outputPoints.size();i++)
-			outputPoints.getElement(i).update();
-
-	}
-	*/
 	
-	private Coords uptranslation;
 	
-	/**
-	 * 
-	 * @return translation vector from bottom to top
-	 */
-	protected Coords getUpTranslation(){
-		return uptranslation;
-	}
 
-	@Override
-	protected void updateBottomToTop(){
-		//recompute the translation from bottom to top
-		if (height==null)
-			uptranslation = getTopPoint().getInhomCoordsInD(3).sub(getBottomPoints()[0].getInhomCoordsInD(3));
-		else
-			uptranslation=bottom.getMainDirection().normalized().mul(height.getDouble());		
-		
-	}
 	
 
     @Override

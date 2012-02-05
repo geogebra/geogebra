@@ -95,14 +95,14 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		addAlgoToInput();
 		
 
-		
+		updateOutputPoints();	
 		createFaces();
 		setOutput(); 
         
         setLabels(labels);
         
 
-		update();
+		compute();
         
 	}
 	
@@ -189,15 +189,17 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		createPolyhedron();
 		
 		
-		
 		// input : inputPoints or list of faces
 		input = new GeoElement[2];
 		input[0]=bottom;
 		input[1]=(GeoElement) height;
 		addAlgoToInput();
 		
+		updateOutputPoints();	
 		createFaces();
 		setOutput(); 
+		
+
 		
 		if (height instanceof GeoNumeric){
 			if (((GeoNumeric) height).isIndependent()){
@@ -211,12 +213,17 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 				//getTopFace().setCoordParentDirector(bottom);
 			}
 		}
-      
-		setLabels(labels);
+
 		
-		update();
+		setLabels(labels);
+
+		compute();
 	}
 
+	/**
+	 * translate all output points
+	 */
+	abstract protected void updateOutputPoints();
     
 	
 	
@@ -284,6 +291,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	 * @return true if the polyhedron is defined
 	 */
 	public boolean preCompute() {
+
 		
 		//check if bottom points length has changed (e.g. with regular polygon)
 		if (bottomAsInput){
@@ -296,15 +304,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		}
 		
 		
-		updateBottomToTop();
 
 		return true;
 	}
-	
-	/**
-	 * update bottom to top values
-	 */
-	abstract protected void updateBottomToTop();
 	
 	
 	
