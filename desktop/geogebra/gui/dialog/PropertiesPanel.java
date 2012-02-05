@@ -59,6 +59,7 @@ import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.dialog.handler.RedefineInputHandler;
 import geogebra.gui.dialog.handler.RenameInputHandler;
 import geogebra.gui.inputfield.AutoCompleteTextField;
+import geogebra.gui.inputfield.GeoGebraComboBoxEditor;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.properties.AnimationSpeedPanel;
 import geogebra.gui.properties.AnimationStepPanel;
@@ -2735,7 +2736,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			label.setLabelFor(cbLocation);
 			cbLocation.addActionListener(this);
 			cbLocation.addFocusListener(this);
-
+			cbLocation.setEditor(new GeoGebraComboBoxEditor(app, 10));
 			// put it all together
 			setLayout(new FlowLayout(FlowLayout.LEFT));
 			add(label);
@@ -2879,12 +2880,18 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				labelLocation[i].setLabelFor(cbLocation[i]);
 				cbLocation[i].addActionListener(this);
 				cbLocation[i].addFocusListener(this);
+				cbLocation[i].setEditor(new GeoGebraComboBoxEditor(app, 10));
 
 				JPanel locPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 				locPanel.add(labelLocation[i]);
 				locPanel.add(cbLocation[i]);
 				add(locPanel);
 			}
+			
+			labelLocation[0].setIcon(app.getImageIcon("corner1.png"));
+			labelLocation[1].setIcon(app.getImageIcon("corner2.png"));
+			labelLocation[2].setIcon(app.getImageIcon("corner4.png"));
+			
 		}
 
 		public void setLabels() {
