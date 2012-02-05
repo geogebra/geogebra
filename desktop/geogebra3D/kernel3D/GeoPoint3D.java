@@ -769,12 +769,12 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 
 		sbToString.setLength(0);
 		sbToString.append("(");
-		sbToString.append(kernel.format(p.getX()));
+		sbToString.append(kernel.format(p.getX(),tpl));
 		sbToString.append(", ");
-		sbToString.append(kernel.format(p.getY()));
+		sbToString.append(kernel.format(p.getY(),tpl));
 		if (!isVisibleInView2D) {
 			sbToString.append(", ");
-			sbToString.append(kernel.format(p.getZ()));
+			sbToString.append(kernel.format(p.getZ(),tpl));
 		}
 		sbToString.append(")");
 

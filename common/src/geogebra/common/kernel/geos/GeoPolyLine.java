@@ -162,13 +162,13 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path, Tracea
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(" = ");
-		sbToString.append(kernel.format( getLength() ));
+		sbToString.append(kernel.format( getLength(),tpl ));
 	    return sbToString.toString();
    }      
    private StringBuilder sbToString = new StringBuilder(50);
    
    final public String toValueString(StringTemplate tpl) {
-	   return kernel.format(getLength());
+	   return kernel.format(getLength(),tpl);
    }
 
 	 /**

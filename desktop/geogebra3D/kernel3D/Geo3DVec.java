@@ -454,9 +454,9 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
     final public String toString(StringTemplate tpl) {          
 		sbToString.setLength(0);
 		sbToString.append('(');
-		sbToString.append(kernel.format(x));
+		sbToString.append(kernel.format(x,tpl));
 		sbToString.append(", ");
-		sbToString.append(kernel.format(y));
+		sbToString.append(kernel.format(y,tpl));
 		sbToString.append(')');         
         return sbToString.toString();
     }         

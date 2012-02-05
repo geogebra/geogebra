@@ -417,7 +417,7 @@ implements NumberValue, AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 	private boolean randomSlider = false;
 
 	public String toValueString(StringTemplate tpl) {
-		return kernel.format(value);
+		return kernel.format(value,tpl);
 	}
 
 	/**

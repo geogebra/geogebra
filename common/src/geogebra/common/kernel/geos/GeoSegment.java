@@ -247,7 +247,7 @@ GeoSegmentND {
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(" = ");
-		sbToString.append(kernel.format(length));
+		sbToString.append(kernel.format(length,tpl));
 		return sbToString.toString();
 	}
 

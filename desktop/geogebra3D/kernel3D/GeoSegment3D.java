@@ -161,7 +161,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND,
 		sbToString.append(label);
 		sbToString.append(" = "); // TODO use kernel property
 
-		sbToString.append(kernel.format(getLength()));
+		sbToString.append(kernel.format(getLength(),tpl));
 
 		return sbToString.toString();
 	}
@@ -187,7 +187,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND,
 	public GeoElement getGeoElement2D() {
 
 		if (!hasGeoElement2D()) {
-			AlgoTo2D algo = new AlgoTo2D((Construction)cons, this);
+			AlgoTo2D algo = new AlgoTo2D(cons, this);
 			setGeoElement2D(algo.getOut());
 		}
 		return super.getGeoElement2D();

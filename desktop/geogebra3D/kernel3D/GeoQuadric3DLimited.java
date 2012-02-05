@@ -433,9 +433,9 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements NumberValue {
 		switch (type) {
 		case QUADRIC_CYLINDER:
 		case QUADRIC_CONE:
-			return kernel.format(volume);
+			return kernel.format(volume,tpl);
 		case QUADRIC_EMPTY:
-			return kernel.format(0);
+			return kernel.format(0,tpl);
 		}
 
 		return "todo-GeoQuadric3DLimited";

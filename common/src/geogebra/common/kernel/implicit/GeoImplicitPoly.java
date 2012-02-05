@@ -349,9 +349,9 @@ Dilateable, Transformable, EuclidianViewCE {
 						sb.append("== ");
 					else
 						sb.append("= ");
-					sb.append(kernel.format(-coeff[0][0]));
+					sb.append(kernel.format(-coeff[0][0],tpl));
 				}else{
-					String number=kernel.format(coeff[i][j]);
+					String number=kernel.format(coeff[i][j],tpl);
 					boolean pos=true;
 					if (number.charAt(0)=='-'){
 						pos=false;

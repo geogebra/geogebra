@@ -427,7 +427,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return geo's label if set, command description otherwise
 	 */
 	@Deprecated
-	public String getLabel() {
+	public final String getLabel() {
 		return getLabel(kernel.getStringTemplate());
 	}
 	

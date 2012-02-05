@@ -819,7 +819,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(" = ");
-		sbToString.append(kernel.format( getArea() ));
+		sbToString.append(kernel.format( getArea(),tpl ));
 	    return sbToString.toString();
    }      
 
@@ -832,7 +832,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
    private StringBuilder sbToString = new StringBuilder(50);
 
    final public String toValueString(StringTemplate tpl) {
-	   return kernel.format(getArea());
+	   return kernel.format(getArea(),tpl);
    }
 
 	

@@ -1087,6 +1087,7 @@ public class Kernel {
 	 * 
 	 * converts to localised digits if appropriate
 	 */
+	@Deprecated
 	final public String format(double x) {
 
 		String ret = formatRaw(x,getStringTemplate());
@@ -1097,6 +1098,18 @@ public class Kernel {
 
 		return ret;
 	}
+	
+	final public String format(double x,StringTemplate tpl) {
+
+		String ret = formatRaw(x,tpl);
+
+		if (AbstractApplication.unicodeZero != '0') {
+			ret = internationalizeDigits(ret);
+		}
+
+		return ret;
+	}
+
 
 	// needed so that can be turned off
 	public static boolean internationalizeDigits = true;
@@ -1781,7 +1794,7 @@ public class Kernel {
 				// STANDARD_PRECISION * 10 as we need a little leeway as we've
 				// converted from radians
 				sbFormatAngle.append(format(checkDecimalFraction(
-						Math.toDegrees(phi), precision)));
+						Math.toDegrees(phi), precision),tpl));
 				sbFormatAngle.append("*");
 				sbFormatAngle.append("\u00b0");
 				sbFormatAngle.append(")");

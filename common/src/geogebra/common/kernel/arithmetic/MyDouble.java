@@ -140,7 +140,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 			double angleVal = Kernel.convertToAngleValue(val);
 			return kernel.formatAngle(angleVal,tpl).toString();
 		}
-		return kernel.format(val);
+		return kernel.format(val,tpl);
 	}
 
 	final public String toValueString(StringTemplate tpl) {
