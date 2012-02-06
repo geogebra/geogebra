@@ -77,8 +77,8 @@ public class SliderDialog extends JDialog
 		
 		number = new GeoNumeric(cons);
 		angle = new GeoAngle(cons);
-		setFromDefault(number,false);
-		setFromDefault(angle,true);
+		DialogManager.setSliderFromDefault(number,false);
+		DialogManager.setSliderFromDefault(angle,true);
 		number.setValue(1);
 		angle.setValue(45 * Math.PI/180);
 			
@@ -92,18 +92,6 @@ public class SliderDialog extends JDialog
 		createGUI();	
 	}			
 	
-	private void setFromDefault(GeoNumeric num, boolean isAngle) {
-		GeoNumeric defaultNum = app.getKernel().getDefaultNumber(isAngle);		
-		num.setSliderFixed(defaultNum.isSliderFixed());		
-		num.setEuclidianVisible(true);
-		num.setIntervalMin((GeoNumeric)defaultNum.getIntervalMinObject());
-		num.setIntervalMax((GeoNumeric)defaultNum.getIntervalMaxObject());
-		num.setAbsoluteScreenLocActive(true);
-		num.setAnimationType(defaultNum.getAnimationType());
-		num.setSliderWidth(defaultNum.getSliderWidth());
-		num.setRandom(defaultNum.isRandom());
-	}
-
 	private void createGUI() {
 		setTitle(app.getPlain("Slider"));
 		setResizable(false);		

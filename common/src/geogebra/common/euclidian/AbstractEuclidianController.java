@@ -3047,7 +3047,7 @@ public abstract class AbstractEuclidianController {
 
 	protected final boolean slider() {
 		if (!selectionPreview && (mouseLoc != null)) {
-			app.getGuiManager().getDialogManager()
+			app.getDialogManager()
 					.showSliderCreationDialog(mouseLoc.x, mouseLoc.y);
 		}
 		return false;

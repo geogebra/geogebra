@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -697,6 +698,16 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 			dialogManager.setOptionsDialogFactory(new OptionsDialog.Factory());
 			return dialogManager;
 		}
+	}
+
+	@Override
+	protected String prompt(String message, String def) {
+		return JOptionPane.showInputDialog(message);
+	}
+
+	@Override
+	protected boolean confirm(String string) {
+		return JOptionPane.showConfirmDialog(null, string) == JOptionPane.OK_CANCEL_OPTION;
 	}
 
 }

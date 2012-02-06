@@ -19,8 +19,6 @@ import java.util.ArrayList;
 
 public class DialogManagerWeb extends DialogManager {
 
-	private String defaultAngle = "45" + Unicode.degree;
-
 	public DialogManagerWeb(AbstractApplication app) {
 	    super(app);
     }
@@ -65,22 +63,6 @@ public class DialogManagerWeb extends DialogManager {
     }
 
 	@Override
-    public boolean showSliderCreationDialog(int x, int y) {
-	    // TODO Auto-generated method stub
-	    return false;
-    }
-
-	@Override
-    public void showNumberInputDialogRotate(String menu,
-            GeoPolygon[] selectedPolygons, GeoPoint2[] selectedPoints,
-            GeoElement[] selGeos) {
-		String inputString = prompt(menu + " " + app.getPlain("Angle"), defaultAngle);
-		
-		defaultAngle = rotateObject(app, inputString, false, selectedPolygons, selectedPoints, selGeos);
-	    
-    }
-
-	@Override
     public void showNumberInputDialogDilate(String menu,
             GeoPolygon[] selectedPolygons, GeoPoint2[] selectedPoints,
             GeoElement[] selGeos) {
@@ -88,18 +70,13 @@ public class DialogManagerWeb extends DialogManager {
 	    
     }
 
-	@Override
-	public void showNumberInputDialogRegularPolygon(String menu,
-			GeoPoint2 geoPoint1, GeoPoint2 geoPoint2) {
-		
-		String inputString = prompt(menu + " " + app.getPlain("Points"), "4");
-		
-		makeRegularPolygon(app, inputString, geoPoint1, geoPoint2);
-	}
+	public static native String promptNative(String question, String def) /*-{
+	return $wnd.prompt(question, def);
+}-*/;
 
-	public static native String prompt(String question, String def) /*-{
-		return $wnd.prompt(question, def);
-	}-*/;
+	public static native boolean confirmNative(String question) /*-{
+	return $wnd.confirm(question);
+}-*/;
 
 
 	@Override
@@ -134,5 +111,16 @@ public class DialogManagerWeb extends DialogManager {
 	    // TODO Auto-generated method stub
 	    return false;
     }
+
+	@Override
+    protected String prompt(String message, String def) {
+	    return promptNative(message, def);
+    }
+
+	@Override
+    protected boolean confirm(String string) {
+	    return confirmNative(string);
+    }
+
 
 }

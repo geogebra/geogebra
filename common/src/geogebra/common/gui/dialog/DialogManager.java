@@ -8,17 +8,21 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public abstract class DialogManager {
+
+	private String defaultAngle = "45" + Unicode.degree;
 
 	protected AbstractApplication app;
 
@@ -45,18 +49,57 @@ public abstract class DialogManager {
 
 	public abstract void showTextCreationDialog(GeoPointND loc);
 
-	public abstract boolean showSliderCreationDialog(int x, int y);
+    public boolean showSliderCreationDialog(int x, int y) {
+		Kernel kernel = app.getKernel();
+		boolean isAngle = !confirm("OK for number, Cancel for angle");
+		GeoNumeric slider = setSliderFromDefault(new GeoNumeric(kernel.getConstruction()), isAngle);
 
-	public abstract void showNumberInputDialogRotate(String menu,
-			GeoPolygon[] selectedPolygons, GeoPoint2[] selectedPoints,
-			GeoElement[] selGeos);
+		NumberValue min = getNumber(kernel, "Enter minimum", slider.getIntervalMin()+"");
+		NumberValue max = getNumber(kernel, "Enter maximum", slider.getIntervalMax()+"");
+		NumberValue increment = getNumber(kernel, "Enter increment", slider.getAnimationStep()+"");
+		
+		if (min != null) slider.setIntervalMin(min);
+		if (max != null) slider.setIntervalMax(max);
+		if (increment != null) slider.setAnimationStep(increment);
+		
+		slider.setLabel(null);
+		slider.setValue(isAngle ? 45 * Math.PI/180 : 1);
+		slider.setSliderLocation(x, y, true);
+		slider.setEuclidianVisible(true);
+		
+		slider.setLabelMode(GeoElement.LABEL_NAME_VALUE);
+		slider.setLabelVisible(true);
+		slider.update();
+		//slider.setRandom(cbRandom.isSelected());
+
+		app.storeUndoInfo();
+
+		return true;
+    }
+
+
+    protected abstract boolean confirm(String string);
+
+	public void showNumberInputDialogRotate(String menu,
+            GeoPolygon[] selectedPolygons, GeoPoint2[] selectedPoints,
+            GeoElement[] selGeos) {
+		String inputString = prompt(menu + " " + app.getPlain("Angle"), defaultAngle);
+		
+		defaultAngle = rotateObject(app, inputString, false, selectedPolygons, selectedPoints, selGeos);
+	    
+    }
 
 	public abstract void showNumberInputDialogDilate(String menu,
 			GeoPolygon[] selectedPolygons, GeoPoint2[] selectedPoints,
 			GeoElement[] selGeos);
 
-	public abstract void showNumberInputDialogRegularPolygon(String menu,
-			GeoPoint2 geoPoint2, GeoPoint2 geoPoint22);
+	public void showNumberInputDialogRegularPolygon(String menu,
+			GeoPoint2 geoPoint1, GeoPoint2 geoPoint2) {
+		
+		String inputString = prompt(menu + " " + app.getPlain("Points"), "4");
+		
+		makeRegularPolygon(app, inputString, geoPoint1, geoPoint2);
+	}
 
 	public abstract void showBooleanCheckboxCreationDialog(Point loc, GeoBoolean bool);
 
@@ -177,5 +220,36 @@ public abstract class DialogManager {
 		return true;
 
 	}
+	
+	protected NumberValue getNumber(Kernel kernel, String message, String def) {
+		
+		Construction cons = kernel.getConstruction();
+		boolean oldVal = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+		
+		String str = prompt(message, def);
+
+		NumberValue result = kernel.getAlgebraProcessor().evaluateToNumeric(str, true);
+
+		cons.setSuppressLabelCreation(oldVal);
+		
+		return result;
+    }
+
+	protected abstract String prompt(String message, String def);
+
+	public static GeoNumeric setSliderFromDefault(GeoNumeric num, boolean isAngle) {
+		GeoNumeric defaultNum = num.getKernel().getDefaultNumber(isAngle);		
+		num.setSliderFixed(defaultNum.isSliderFixed());		
+		num.setEuclidianVisible(true);
+		num.setIntervalMin((GeoNumeric)defaultNum.getIntervalMinObject());
+		num.setIntervalMax((GeoNumeric)defaultNum.getIntervalMaxObject());
+		num.setAbsoluteScreenLocActive(true);
+		num.setAnimationType(defaultNum.getAnimationType());
+		num.setSliderWidth(defaultNum.getSliderWidth());
+		num.setRandom(defaultNum.isRandom());
+		return num;
+	}
+
 
 }
