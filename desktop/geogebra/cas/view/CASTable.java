@@ -45,7 +45,6 @@ public class CASTable extends JTable {
 	protected Kernel kernel;
 	protected Application app;
 	private CASView view;
-	private CASTable table;
 
 	private CASTableCellEditor editor;
 	private CASTableCellRenderer renderer;
@@ -53,14 +52,14 @@ public class CASTable extends JTable {
 	private boolean rightClick = false;
 	private int clickedRow;
 
-	public static final Color SELECTED_BACKGROUND_COLOR_HEADER = new Color(185,
-			185, 210);
-
+	/**
+	 * Constructs a <code>CASTable</code> that displays CAS cells
+	 * @param view CASView that accommodates the table
+	 */
 	public CASTable(final CASView view) {
 		this.view = view;
 		app = view.getApp();
 		kernel = app.getKernel();
-		this.setTable(this);
 
 		setShowGrid(true);
 		setGridColor(geogebra.awt.Color
@@ -557,22 +556,14 @@ public class CASTable extends JTable {
 	 */
 	public void setClickedRow(int clickedRow) {
 		this.clickedRow = clickedRow;
-		view.getCASStyleBar().setSelectedRow(table.getGeoCasCell(clickedRow));
+		view.getCASStyleBar().setSelectedRow(this.getGeoCasCell(clickedRow));
 	}
 
 	/**
 	 * @return the table
 	 */
 	public CASTable getTable() {
-		return table;
-	}
-
-	/**
-	 * @param table
-	 *            the table to set
-	 */
-	public void setTable(CASTable table) {
-		this.table = table;
+		return this;
 	}
 
 	/**

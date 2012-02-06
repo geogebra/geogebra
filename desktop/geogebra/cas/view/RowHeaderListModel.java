@@ -34,15 +34,12 @@ public class RowHeaderListModel extends AbstractListModel implements TableModelL
 		size = rowCount;		
 		
 		if (rowCount > oldSize) {
-//			Application.printStacktrace("RowHeaderListModel.fireIntervalAdded " + firstRow + " " + lastRow);	
 			fireIntervalAdded(this, firstRow, lastRow);								
 		}
 		else if (rowCount < oldSize) {
-//			Application.printStacktrace("RowHeaderListModel.fireIntervalRemoved " + firstRow + " " + lastRow);
 			fireIntervalRemoved(this, firstRow, lastRow);	
 		}
 		else {
-//			Application.printStacktrace("RowHeaderListModel.fireContentsChanged " + firstRow + " " + lastRow);
 			fireContentsChanged(this, firstRow, lastRow);	
 		}					
 	}
