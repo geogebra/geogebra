@@ -238,30 +238,30 @@ public abstract class CASgeneric implements CASGenericInterface,
 		return cmdSet;
 	}
 
-	public void evaluateGeoGebraCASAsync(String input,
-			 AsynchronousCommand c, int id) {
+	public void evaluateGeoGebraCASAsync(AsynchronousCommand c) {
 		AbstractApplication.debug("Only MPReduce supports async calls");
 		
 	}
 	
 	public void CASAsyncFinished(ValidExpression exp,String result2,
 			Throwable exception,AsynchronousCommand c,
-			int id,String input){
+			String input){
 		String result=result2;
-
+		// pass on exception
+		if (exception != null){
+			c.handleException(exception,input.hashCode());
+			return;
+		}
 		// check if keep input command was successful
 		// e.g. for KeepInput[Substitute[...]]
 		// otherwise return input
 		if (exp.isKeepInputUsed()
-				&& (exception != null || "?".equals(result))) {
+				&& ("?".equals(result))) {
 			// return original input
-			c.handleCASoutput(exp.toString(), id);
+			c.handleCASoutput(exp.toString(), input.hashCode());
 		}
 
-		// pass on exception
-		if (exception != null){
-			c.handleException(exception,id);
-		}
+		
 
 		// success
 		if (result2 != null) {
@@ -271,8 +271,8 @@ public abstract class CASgeneric implements CASGenericInterface,
 			result = casParser.getKernel().removeCASVariablePrefix(result, " ");
 		}
 
-		c.handleCASoutput(result,id);
-		if(c.useCacheing(id))
+		c.handleCASoutput(result,input.hashCode());
+		if(c.useCacheing())
 			casParser.getKernel().putToCasCache(input, result);
 	}
 

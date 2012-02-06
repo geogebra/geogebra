@@ -10,6 +10,9 @@ import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.cas.AsynchronousCommand;
 import geogebra.common.main.AbstractApplication;
 
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.concurrent.TimeoutException;
@@ -158,32 +161,51 @@ public class CASmpreduce extends AbstractCASmpreduce {
 		return sb.toString();
 
 	}
-
+	List<AsynchronousCommand> queue =new LinkedList<AsynchronousCommand>();
+	
+	private Thread casThread;
 	@Override
-	public void evaluateGeoGebraCASAsync(final String input,
-			 final AsynchronousCommand command, final int id 
+	public void evaluateGeoGebraCASAsync(
+			 final AsynchronousCommand cmd 
 			) {
+		AbstractApplication.debug("about to start some thread");
+		if(!queue.contains(cmd))
+			queue.add(cmd);
 		
-		Thread casThread = new Thread(){
+		if(casThread == null || !casThread.isAlive()){
+		casThread = new Thread(){
 			@Override
 			public void run(){
-				String result;
-				ValidExpression inVE = null;
-				AbstractApplication.debug("thread is running");
-				try{
-					inVE = casParser.parseGeoGebraCASInput(input);
-					result = evaluateGeoGebraCAS(inVE);
-				}catch(Throwable exception){
-					result ="";
-					CASAsyncFinished(inVE, result,exception, command, id, input);
+				AbstractApplication.debug("thread is starting");
+				while(queue.size()>0){
+					AsynchronousCommand command = queue.get(0);
+					String input = command.getCasInput();
+					String result;
+					ValidExpression inVE = null;
+					//remove before evaluating to ensure we don't ignore new requests meanwhile
+					if(queue.size()>0)
+						queue.remove(0);					
+					try{
+						inVE = casParser.parseGeoGebraCASInput(input);
+						result = evaluateGeoGebraCAS(inVE);
+						CASAsyncFinished(inVE, result, null, command,  input);
+					}catch(Throwable exception){
+						AbstractApplication.debug("exception handling ...");
+						exception.printStackTrace();
+						result ="";
+						CASAsyncFinished(inVE, result,exception, command, input);
+					}
+					
 				}
-				CASAsyncFinished(inVE, result, null, command, id, input);
+				AbstractApplication.debug("thread is quiting");
 			}
 		};
-		if(AsynchronousCommand.USE_ASYNCHRONOUS)
+		}
+		if(AsynchronousCommand.USE_ASYNCHRONOUS  && !casThread.isAlive()){
 			casThread.start();
-		else
+		}else
 			casThread.run();
+		
 	}
 
 	public void initCAS() {

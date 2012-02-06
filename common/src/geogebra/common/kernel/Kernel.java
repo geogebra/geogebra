@@ -2388,23 +2388,24 @@ public class Kernel {
 	}
 	
 	
-	public void evaluateGeoGebraCASAsync(String exp,AsynchronousCommand c,int id)
+	public void evaluateGeoGebraCASAsync(AsynchronousCommand c)
 			 {
 		String result = null;
-		if (c.useCacheing(id) && hasCasCache()) {
+		String exp=c.getCasInput();
+		if (c.useCacheing() && hasCasCache()) {
 			result = getCasCache().get(exp);
 			if (result != null) {
 				// caching worked
 				// TODO: remove
 				System.out
 						.println("used ggbCasCache: " + exp + " -> " + result);
-				c.handleCASoutput(result, id);
+				c.handleCASoutput(result, exp.hashCode());
 				return;
 			}
 		}
 
 		// evaluate in GeoGebraCAS
-		getGeoGebraCAS().evaluateGeoGebraCASAsync(exp,c,id);
+		getGeoGebraCAS().evaluateGeoGebraCASAsync(c);
 	}
 	
 	public void putToCasCache(String exp,String result){

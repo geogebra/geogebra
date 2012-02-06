@@ -6,6 +6,8 @@ public interface AsynchronousCommand {
 
 	public void handleException(Throwable exception, int requestID);
 	
-	public boolean useCacheing(int requestID);
+	public boolean useCacheing();
+
+	public String getCasInput();
 
 }

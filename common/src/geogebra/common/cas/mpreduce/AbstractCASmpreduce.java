@@ -118,7 +118,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric{
 
 	
 	@Override
-	final public String evaluateGeoGebraCAS(ValidExpression casInput)
+	final public synchronized String evaluateGeoGebraCAS(ValidExpression casInput)
 	        throws CASException {
 		// KeepInput[] command should set flag keepinput!!:=1
 		// so that commands like Substitute can work accordingly

@@ -33,6 +33,7 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand{
 	protected GeoNumeric outNum; // output
 
 	protected StringBuilder sb = new StringBuilder();
+	private String limitString;
 
 	public AlgoLimit(Construction cons, String label, GeoFunction f,
 			NumberValue num) {
@@ -79,13 +80,17 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand{
 			outNum.setUndefined();
 			return;
 		}
-		String limitString = f.getLimit(num.getDouble(), getDirection());
+		limitString = f.getLimit(num.getDouble(), getDirection());
 		if(f==null){
 			outNum.setUndefined();
 			return;
 		}
 		outNum.setUndefined();
-		kernel.evaluateGeoGebraCASAsync(limitString, this, 0);
+		kernel.evaluateGeoGebraCASAsync(this);
+	}
+	
+	public String getCasInput(){
+		return limitString;
 	}
 	/**
 	 * 
@@ -116,7 +121,7 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand{
 		
 	}
 
-	public boolean useCacheing(int requestID) {
+	public boolean useCacheing() {
 		return true;
 	}
 

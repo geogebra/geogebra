@@ -493,9 +493,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return currentCAS;
 	}
 
-	public void evaluateGeoGebraCASAsync(String exp, 
-			AsynchronousCommand c, int id) {
-		getCurrentCAS().evaluateGeoGebraCASAsync(exp,c,id);
+	public void evaluateGeoGebraCASAsync(AsynchronousCommand c) {
+		getCurrentCAS().evaluateGeoGebraCASAsync(c);
 	}
 	
 

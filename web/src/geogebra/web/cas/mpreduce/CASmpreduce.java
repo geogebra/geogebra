@@ -125,11 +125,11 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 	 * TODO: Current implementation for web is actually SYNCHRONOUS
 	 */
 	@Override
-	public void evaluateGeoGebraCASAsync(final String input,
-			 final AsynchronousCommand command, final int id 
+	public void evaluateGeoGebraCASAsync(
+			 final AsynchronousCommand command 
 			) {
 		
-		
+				String input = command.getCasInput();
 				String result;
 				ValidExpression inVE = null;
 				try{
@@ -137,8 +137,8 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 					result = evaluateGeoGebraCAS(inVE);
 				}catch(Throwable exception){
 					result ="";
-					CASAsyncFinished(inVE, result, exception, command, id, input);
+					CASAsyncFinished(inVE, result, exception, command, input);
 				}
-				CASAsyncFinished(inVE, result, null, command, id, input);
+				CASAsyncFinished(inVE, result, null, command, input);
 			}
 }

@@ -29,6 +29,7 @@ public class AlgoCoefficients extends AlgoElement implements AsynchronousCommand
 
 	private GeoFunction f; // input
 	private GeoList g; // output
+	private String casInput;
 
 	public AlgoCoefficients(Construction cons, String label, GeoFunction f) {
 		this(cons, f);
@@ -83,8 +84,13 @@ public class AlgoCoefficients extends AlgoElement implements AsynchronousCommand
 		sb.append(funVarStr[1]); // function variable
 		sb.append(")");
 		g.setUndefined();
-		kernel.evaluateGeoGebraCASAsync(sb.toString(),this,0);			
+		casInput = sb.toString();
+		kernel.evaluateGeoGebraCASAsync(this);			
 
+	}
+	
+	public String getCasInput(){
+		return casInput;
 	}
 
 	@Override
@@ -109,7 +115,7 @@ public class AlgoCoefficients extends AlgoElement implements AsynchronousCommand
 		
 	}
 
-	public boolean useCacheing(int requestID) {
+	public boolean useCacheing() {
 		return true;
 	}
 
