@@ -2,6 +2,8 @@ package geogebra.web.main;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Document;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
@@ -9,6 +11,8 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.JavaScriptAPI;
 
 import geogebra.web.gui.app.GeoGebraFrame;
+import geogebra.web.helper.ScriptLoadCallback;
+import geogebra.web.html5.DynamicScriptElement;
 import geogebra.web.util.DataUtil;
 import geogebra.web.jso.JsUint8Array;
 
@@ -19,6 +23,15 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI implements JavaScript
 		this.kernel = app.getKernel();
 		this.algebraprocessor=kernel.getAlgebraProcessor();
         this.construction=kernel.getConstruction();
+
+		DynamicScriptElement script = (DynamicScriptElement) Document.get().createScriptElement();
+		script.setSrc(GWT.getModuleBaseURL()+"js/jszip.js");
+		script.addLoadHandler(new ScriptLoadCallback() {
+
+			public void onLoad() {
+			}
+		});
+		Document.get().getBody().appendChild(script);
 	}
 
     public byte[] getGGBfile() {
@@ -114,19 +127,31 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI implements JavaScript
 		((GeoImage)ge).clearFillImage();
     }
 
+    public native String getBase64() /*-{
 
-    public String getBase64() {
-    	String ret = GeoGebraFrame.fileLoader.getView().getDataParamBase64String();
-    	if (!ret.equals(""))
-    		return ret;
+		var xmlstr = this.@geogebra.web.main.GgbAPI::getApplication()().@geogebra.common.main.AbstractApplication::getXML()();
+		var jsstr = this.@geogebra.web.main.GgbAPI::getKernel()().@geogebra.common.kernel.Kernel::getLibraryJavaScript()();
+		var pystr = this.@geogebra.web.main.GgbAPI::getKernel()().@geogebra.common.kernel.Kernel::getLibraryPythonScript()();
 
-    	if (!GeoGebraFrame.fileLoader.getView().getDataParamFileName().equals("") ||
-    		GeoGebraFrame.fileLoader.isGgbFileParameterSpecified())
-    		if (DataUtil.zipped != null)
-    			return DataUtil.base64Encode(((JsUint8Array)DataUtil.zipped).getString());
+    	var zip = new $wnd.JSZip();
+    	zip.add("geogebra_python.py", pystr);
+    	zip.add("geogebra_javascript.js", jsstr);
+    	zip.add("geogebra.xml", xmlstr);
 
-    	return null;
-    }
+		return zip.generate();
+    }-*/;
 
+	/* This is just the Base64 of the original file 
+	String ret = GeoGebraFrame.fileLoader.getView().getDataParamBase64String();
+	if (!ret.equals(""))
+		return ret;
+
+	if (!GeoGebraFrame.fileLoader.getView().getDataParamFileName().equals("") ||
+		GeoGebraFrame.fileLoader.isGgbFileParameterSpecified())
+		if (DataUtil.zipped != null)
+			return DataUtil.base64Encode(((JsUint8Array)DataUtil.zipped).getString());
+
+	return null;
+	*/
 
 }
