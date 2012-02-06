@@ -645,7 +645,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		// function, e.g. f(x) := 2*x
 		sb.append(getLabel());
 		sb.append("(");
-		sb.append(getVarString(StringTemplate.get(StringType.MPREDUCE)));
+		sb.append(getVarString(StringTemplate.get(StringType.GEOGEBRA)));
 		sb.append(")");
 		return sb.toString();
 	}
