@@ -1115,25 +1115,28 @@ final public class DrawConic extends Drawable implements Previewable {
 			return false;
 		// set a flag that says if the point is on the filling
 		boolean isOnFilling = false;
+		double realX = view.toRealWorldCoordX(x);
+		double realY = view.toRealWorldCoordY(y);
+		double  threshold = 0.707d * AbstractEuclidianView.getCapturingThreshold();
+		double x3 = view.toRealWorldCoordX(threshold) - view.toRealWorldCoordX(0);
+		double y3 = view.toRealWorldCoordY(threshold) - view.toRealWorldCoordY(0);
+		int insideNeigbors = (conic.isInRegion(realX, realY) ? 1 : 0)
+				+ (conic.isInRegion(realX - x3, realY - y3) ? 1 : 0)
+				+ (conic.isInRegion(realX + x3, realY - y3) ? 1 : 0)
+				+ (conic.isInRegion(realX - x3, realY + y3) ? 1 : 0)
+				+ (conic.isInRegion(realX + x3, realY + y3) ? 1 : 0);
+		
+		boolean isOnBoundary = false;
+
 		if ((geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled())
 				&& type != GeoConicNDConstants.CONIC_SINGLE_POINT
 				&& type != GeoConicNDConstants.CONIC_DOUBLE_LINE) {
-			double realX = view.toRealWorldCoordX(x);
-			double realY = view.toRealWorldCoordY(y);
-			double x3 = view.toRealWorldCoordX(3) - view.toRealWorldCoordX(0);
-			double y3 = view.toRealWorldCoordY(3) - view.toRealWorldCoordY(0);
-			int insideNeigbors = (conic.isInRegion(realX, realY) ? 1 : 0)
-					+ (conic.isInRegion(realX - x3, realY - y3) ? 1 : 0)
-					+ (conic.isInRegion(realX + x3, realY - y3) ? 1 : 0)
-					+ (conic.isInRegion(realX - x3, realY + y3) ? 1 : 0)
-					+ (conic.isInRegion(realX + x3, realY + y3) ? 1 : 0);
 			if (conic.isInverseFill())
 				isOnFilling = (insideNeigbors < 5);
 			else
 				isOnFilling = (insideNeigbors > 0);
 		}
 		// set a flag to say if point is on the boundary
-		boolean isOnBoundary = false;
 		switch (type) {
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
 			isOnBoundary = drawPoint.hit(x, y);
@@ -1149,25 +1152,11 @@ final public class DrawConic extends Drawable implements Previewable {
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 		case GeoConicNDConstants.CONIC_PARABOLA:
-			if (strokedShape == null) {
-				strokedShape = objStroke.createStrokedShape( shape);
-			}
-			isOnBoundary = strokedShape.intersects(x - hitThreshold, y
-					- hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
-			break;
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
-			if (strokedShape == null) {
-				strokedShape = objStroke.createStrokedShape(hypLeft);
-				strokedShape2 = objStroke.createStrokedShape(hypRight);
-			}
-			isOnBoundary = strokedShape.intersects(x - hitThreshold, y
-					- hitThreshold, 2 * hitThreshold, 2 * hitThreshold)
-					|| strokedShape2.intersects(x - hitThreshold, y
-							- hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
+			isOnBoundary = (insideNeigbors > 0 && insideNeigbors < 5);
 			break;
 		}
 
-		// Application.debug("isOnFilling="+isOnFilling+"\nisOnBoundary="+isOnBoundary);
 		if (isOnFilling) {
 			if (isOnBoundary) {
 				conic.setLastHitType(GeoConicND.HIT_TYPE_ON_BOUNDARY);
@@ -1178,7 +1167,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		}
 		if (isOnBoundary) {
 			conic.setLastHitType(GeoConicND.HIT_TYPE_ON_BOUNDARY);
-			return true;
+			return true; 
 		}
 		conic.setLastHitType(GeoConicND.HIT_TYPE_NONE);
 		return false;
