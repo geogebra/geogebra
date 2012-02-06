@@ -2537,12 +2537,6 @@ public class Application extends AbstractApplication implements
 
 	}
 
-	public void doAfterRedefine(GeoElement geo) {
-		if (guiManager != null) {
-			getGuiManager().doAfterRedefine(geo);
-		}
-	}
-
 	/*
 	 * private methods for display
 	 */

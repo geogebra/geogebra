@@ -5,8 +5,8 @@ import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -29,6 +29,8 @@ public abstract class DialogManager {
 
 	protected AbstractApplication app;
 
+	private Object oldString;
+
 	public DialogManager() {
 	}
 
@@ -41,7 +43,32 @@ public abstract class DialogManager {
 
 	public abstract void showPropertiesDialog(ArrayList<GeoElement> geos);
 
-	public abstract void showRedefineDialog(GeoElement geoElement, boolean b);
+	public void showRedefineDialog(GeoElement geo, boolean allowTextDialog) {
+		
+		/* TODO
+		if (allowTextDialog && geo.isGeoText() && !geo.isTextCommand()) {
+			showTextDialog((GeoText) geo);
+			return;
+		} */
+
+		String str = geo.getRedefineString(false, true);
+		
+		String inputValue = prompt(app.getPlain("Redefine") +" "+geo.getNameDescription(), str);
+		
+		if (inputValue.equals(this.oldString)) return; // Michael Borcherds 2007-12-31
+		try {
+			GeoElement newGeo = app.getKernel().getAlgebraProcessor().changeGeoElement(
+					geo, inputValue, true, true);
+			app.getKernel().clearJustCreatedGeosInViews();
+			app.doAfterRedefine(newGeo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return;
+			
+
+	}
 
 	public abstract void showNumberInputDialogSegmentFixed(String menu,
 			GeoPoint2 geoPoint2);

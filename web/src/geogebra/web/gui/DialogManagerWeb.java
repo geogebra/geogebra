@@ -36,12 +36,6 @@ public class DialogManagerWeb extends DialogManager {
     }
 
 	@Override
-    public void showRedefineDialog(GeoElement geoElement, boolean b) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
     public void showNumberInputDialogSegmentFixed(String menu,
             GeoPoint2 geoPoint2) {
 	    // TODO Auto-generated method stub

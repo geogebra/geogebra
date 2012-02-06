@@ -2371,7 +2371,7 @@ public abstract class AbstractEuclidianController {
 		if (selFunctions() == 1) {
 			GeoFunction[] functions = getSelectedFunctions();
 	
-			app.getGuiManager().getDialogManager()
+			app.getDialogManager()
 					.showFunctionInspector(functions[0]);
 			app.setMoveMode();
 		}
@@ -2896,8 +2896,7 @@ public abstract class AbstractEuclidianController {
 		// we got the point
 		if (selPoints() == 1) {
 			// get length of segment
-			app.getGuiManager()
-					.getDialogManager()
+			app.getDialogManager()
 					.showNumberInputDialogSegmentFixed(
 							app.getMenu(getKernel().getModeText(mode)),
 							getSelectedPoints()[0]);
@@ -2924,8 +2923,7 @@ public abstract class AbstractEuclidianController {
 	
 			GeoElement[] selGeos = getSelectedGeos();
 	
-			app.getGuiManager()
-					.getDialogManager()
+			app.getDialogManager()
 					.showNumberInputDialogAngleFixed(
 							app.getMenu(getKernel().getModeText(mode)),
 							getSelectedSegments(), getSelectedPoints(), selGeos);
@@ -3030,7 +3028,7 @@ public abstract class AbstractEuclidianController {
 	
 		// got location
 		if (loc != null) {
-			app.getGuiManager().getDialogManager().showTextCreationDialog(loc);
+			app.getDialogManager().showTextCreationDialog(loc);
 			return true;
 		}
 	
@@ -3559,8 +3557,7 @@ public abstract class AbstractEuclidianController {
 	
 			GeoElement[] selGeos = getSelectedGeos();
 	
-			app.getGuiManager()
-					.getDialogManager()
+			app.getDialogManager()
 					.showNumberInputDialogDilate(
 							app.getMenu(getKernel().getModeText(mode)),
 							getSelectedPolygons(), getSelectedPoints(), selGeos);
@@ -4288,7 +4285,7 @@ public abstract class AbstractEuclidianController {
 			return false;
 		}
 	
-		app.getGuiManager().getDialogManager()
+		app.getDialogManager()
 				.showBooleanCheckboxCreationDialog(mouseLoc, null);
 		return false;
 	}
@@ -4427,8 +4424,7 @@ public abstract class AbstractEuclidianController {
 	
 		// we got the center point
 		if (selPoints() == 1) {
-			app.getGuiManager()
-					.getDialogManager()
+			app.getDialogManager()
 					.showNumberInputDialogCirclePointRadius(
 							app.getMenu(getKernel().getModeText(mode)),
 							getSelectedPointsND()[0], (AbstractEuclidianView) view);
@@ -4716,7 +4712,6 @@ public abstract class AbstractEuclidianController {
 				// maybe we need a number
 				if (macroInput[index].equals(Test.GEONUMERIC)) {
 					NumberValue num = app
-							.getGuiManager()
 							.getDialogManager()
 							.showNumberInputDialog(
 									macro.getToolOrCommandName(),
@@ -4736,7 +4731,6 @@ public abstract class AbstractEuclidianController {
 				// maybe we need an angle
 				else if (macroInput[index].equals(GeoAngle.class.getName())) {
 					Object[] ob = app
-							.getGuiManager()
 							.getDialogManager()
 							.showAngleInputDialog(macro.getToolOrCommandName(),
 									app.getPlain("Angle"), "45\u00b0");
@@ -4771,8 +4765,7 @@ public abstract class AbstractEuclidianController {
 
 	protected final boolean button(boolean textfield) {
 		if (!selectionPreview && (mouseLoc != null)) {
-			app.getGuiManager()
-					.getDialogManager()
+			app.getDialogManager()
 					.showButtonCreationDialog(mouseLoc.x, mouseLoc.y, textfield);
 		}
 		return false;
@@ -5974,9 +5967,9 @@ public abstract class AbstractEuclidianController {
 			return;
 		}
 		setMouseLocation(event);
-	
+		
 		// double-click on object selects MODE_MOVE and opens redefine dialog
-		if (event.getClickCount() == 2) {
+		if (event.getClickCount() == 2 || event.isAltDown()) {
 			if (app.isApplet() || app.isControlDown(event)) {
 				return;
 			}
@@ -5990,19 +5983,19 @@ public abstract class AbstractEuclidianController {
 				view.setMode(EuclidianConstants.MODE_MOVE);
 				GeoElement geo0 = hits.get(0);
 
-				if (app.isUsingFullGui() && app.getGuiManager() != null) {
+				//if (app.isUsingFullGui() && app.getGuiManager() != null) {
 					if (geo0.isGeoNumeric() && ((GeoNumeric) geo0).isSlider()) {
 						// double-click slider -> Object Properties
-						app.getGuiManager().getDialogManager()
+						app.getDialogManager()
 								.showPropertiesDialog(hits);
 					} else if (!geo0.isFixed()
 							&& !(geo0.isGeoBoolean() && geo0.isIndependent())
 							&& !(geo0.isGeoImage() && geo0.isIndependent())
 							&& !geo0.isGeoButton()) {
-						app.getGuiManager().getDialogManager()
+						app.getDialogManager()
 								.showRedefineDialog(hits.get(0), true);
 					}
-				}
+				//}
 			}
 		}
 

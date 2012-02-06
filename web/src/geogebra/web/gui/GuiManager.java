@@ -20,14 +20,14 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	@Override
 	public void removeSpreadsheetTrace(GeoElement recordObject) {
 		// TODO Auto-generated method stub
-		AbstractApplication.debug("implemented method");
+		AbstractApplication.debug("unimplemented method");
 
 	}
 
 	@Override
 	public void updateMenubarSelection() {
 		// TODO Auto-generated method stub
-		AbstractApplication.debug("implemented method");
+		AbstractApplication.debug("unimplemented method");
 
 	}
 
@@ -45,55 +45,55 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	        EuclidianViewInterfaceCommon euclidianViewInterfaceCommon,
 	        Point mouseLoc) {
 		// TODO Auto-generated method stub
-		AbstractApplication.debug("implemented method");
+		AbstractApplication.debug("unimplemented method");
 
 	}
 
 	@Override
 	public void setFocusedPanel(AbstractEvent event) {
 		// TODO Auto-generated method stub
-		AbstractApplication.debug("implemented method");
+		AbstractApplication.debug("unimplemented method");
 
 	}
 
 	@Override
 	public void loadImage(GeoPoint2 loc, Object object, boolean altDown) {
 		// TODO Auto-generated method stub
-		AbstractApplication.debug("implemented method");
+		AbstractApplication.debug("unimplemented method");
 
 	}
 
 	@Override
 	public void updateFonts() {
 		// TODO Auto-generated method stub
-		AbstractApplication.debug("implemented method");
+		AbstractApplication.debug("unimplemented method");
 
 	}
 
 	@Override
 	public boolean isInputFieldSelectionListener() {
 		// TODO Auto-generated method stub
-		AbstractApplication.debug("implemented method");
+		AbstractApplication.debug("unimplemented method");
 		return false;
 	}
 
 	@Override
 	public void addSpreadsheetTrace(GeoElement tracegeo) {
 		// TODO Auto-generated method stub
-		AbstractApplication.debug("implemented method");
+		AbstractApplication.debug("unimplemented method");
 
 	}
 
 	@Override
 	public boolean isPropertiesDialogSelectionListener() {
-		AbstractApplication.debug("implemented method");
+		AbstractApplication.debug("unimplemented method");
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public JTextComponent getAlgebraInputTextField() {
-		AbstractApplication.debug("implemented method");
+		AbstractApplication.debug("unimplemented method");
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -102,71 +102,78 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	public void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
 	        Point mouseLoc) {
 		// TODO Auto-generated method stub
-		AbstractApplication.debug("implemented method");
+		AbstractApplication.debug("unimplemented method");
 
 	}
 
 	@Override
 	public boolean hasSpreadsheetView() {
 		// TODO Auto-generated method stub
-		AbstractApplication.debug("implemented method");
+		AbstractApplication.debug("unimplemented method");
 		return false;
 	}
 
 	@Override
 	public void attachSpreadsheetView() {
 		// TODO Auto-generated method stub
-		AbstractApplication.debug("implemented method");
+		AbstractApplication.debug("unimplemented method");
 
 	}
 
 	@Override
 	public void setShowView(boolean b, int viewSpreadsheet) {
 		// TODO Auto-generated method stub
-		AbstractApplication.debug("implemented method");
+		AbstractApplication.debug("unimplemented method");
 
 	}
 
 	@Override
 	public boolean showView(int viewSpreadsheet) {
-		AbstractApplication.debug("implemented method");
+		AbstractApplication.debug("unimplemented method");
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public View getConstructionProtocolData() {
-		AbstractApplication.debug("implemented method");
+		AbstractApplication.debug("unimplemented method");
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public View getCasView() {
-		AbstractApplication.debug("implemented method");
+		AbstractApplication.debug("unimplemented method");
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public View getSpreadsheetView() {
-		AbstractApplication.debug("implemented method");
+		AbstractApplication.debug("unimplemented method");
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public View getProbabilityCalculator() {
-		AbstractApplication.debug("implemented method");
+		AbstractApplication.debug("unimplemented method");
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public View getPlotPanelView(int id) {
-		AbstractApplication.debug("implemented method");
+		AbstractApplication.debug("unimplemented method");
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+    public void doAfterRedefine(GeoElement geo) {
+	    // TODO Auto-generated method stub
+		AbstractApplication.debug("unimplemented method");
+	    
+    }
 
 }

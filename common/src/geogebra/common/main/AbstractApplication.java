@@ -2640,4 +2640,11 @@ public abstract class AbstractApplication {
 	 * StringType.MATHML for web (canvasmath)
 	 */
 	public abstract StringType getFormulaRenderingType();
+
+	public void doAfterRedefine(GeoElement geo) {
+		if (getGuiManager() != null) {
+			getGuiManager().doAfterRedefine(geo);
+		}
+	}
+
 }
