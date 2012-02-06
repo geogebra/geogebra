@@ -3,6 +3,7 @@ package geogebra.web.css;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.TextResource;
 
 public interface GuiResources extends ClientBundle {
 	
@@ -28,6 +29,9 @@ public interface GuiResources extends ClientBundle {
 	
 	@Source("geogebra/resources/images/10x1.png")
 	ImageResource png10x1();
+	
+	@Source("geogebra/resources/images/splash-ggb4.svg")
+	TextResource ggb4Splash();
 	
 	
 

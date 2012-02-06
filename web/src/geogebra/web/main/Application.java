@@ -33,6 +33,7 @@ import geogebra.common.plugin.ScriptManagerCommon;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
+import geogebra.web.Web;
 import geogebra.web.css.GuiResources;
 import geogebra.web.euclidian.EuclidianController;
 import geogebra.web.euclidian.EuclidianView;
@@ -357,6 +358,7 @@ public class Application extends AbstractApplication {
 		loadFile(archiveContent);
 		((EuclidianView) euclidianView).setDisableRepaint(false);
 		euclidianView.repaintView();
+		Web.splash.hide();
 	}
 
 	public static void log(String message) {
@@ -803,7 +805,8 @@ public class Application extends AbstractApplication {
     }
 
 	public void showLoadingAnimation(boolean go) {
-		showSplashImageOnCanvas();
+		//showSplashImageOnCanvas();
+		
     }
 
 	public static native void alert(String string) /*-{
