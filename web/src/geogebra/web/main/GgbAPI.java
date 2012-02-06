@@ -26,12 +26,11 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI implements JavaScript
 
 		DynamicScriptElement script = (DynamicScriptElement) Document.get().createScriptElement();
 		script.setSrc(GWT.getModuleBaseURL()+"js/jszip.js");
-		script.addLoadHandler(new ScriptLoadCallback() {
-
-			public void onLoad() {
-			}
-		});
 		Document.get().getBody().appendChild(script);
+
+		DynamicScriptElement script2 = (DynamicScriptElement) Document.get().createScriptElement();
+		script2.setSrc(GWT.getModuleBaseURL()+"js/jszip-deflate.js");
+		Document.get().getBody().appendChild(script2);
 	}
 
     public byte[] getGGBfile() {
@@ -133,25 +132,11 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI implements JavaScript
 		var jsstr = this.@geogebra.web.main.GgbAPI::getKernel()().@geogebra.common.kernel.Kernel::getLibraryJavaScript()();
 		var pystr = this.@geogebra.web.main.GgbAPI::getKernel()().@geogebra.common.kernel.Kernel::getLibraryPythonScript()();
 
-    	var zip = new $wnd.JSZip();
+    	var zip = new $wnd.JSZip("DEFLATE");
     	zip.add("geogebra_python.py", pystr);
     	zip.add("geogebra_javascript.js", jsstr);
     	zip.add("geogebra.xml", xmlstr);
 
 		return zip.generate();
     }-*/;
-
-	/* This is just the Base64 of the original file 
-	String ret = GeoGebraFrame.fileLoader.getView().getDataParamBase64String();
-	if (!ret.equals(""))
-		return ret;
-
-	if (!GeoGebraFrame.fileLoader.getView().getDataParamFileName().equals("") ||
-		GeoGebraFrame.fileLoader.isGgbFileParameterSpecified())
-		if (DataUtil.zipped != null)
-			return DataUtil.base64Encode(((JsUint8Array)DataUtil.zipped).getString());
-
-	return null;
-	*/
-
 }
