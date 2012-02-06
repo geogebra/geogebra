@@ -42,7 +42,7 @@ public class View extends Widget {
 		GWT.log("View.hide called");
     }
 
-	public void showLoadAnimation(String absoluteUrl) {
+	public void showLoadAnimation() {
 	  	app.showLoadingAnimation(true); 
     }
 

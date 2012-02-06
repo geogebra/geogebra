@@ -33,5 +33,21 @@ public class ImageWrapper {
 	public ImageElement getElement() {
 		return img;
 	}
+	
+	
+	private static native void nativeon(ImageElement img, String event, ImageLoadCallback callback) /*-{
+		img.addEventListener(event,function() {
+			callback.@geogebra.web.helper.ImageLoadCallback::onLoad()();
+		});	
+	}-*/;
+	
+	/**
+	 * Native event hanlder
+	 * @param event
+	 * @param callback
+	 */
+	public void on(String event, ImageLoadCallback callback) {
+		nativeon(getElement(), event, callback);
+	}
 
 }

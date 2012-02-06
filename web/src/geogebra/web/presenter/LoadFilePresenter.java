@@ -35,6 +35,7 @@ public class LoadFilePresenter extends BasePresenter {
 	}
 
 	private void process(String dataParamBase64String) {
+		getView().showLoadAnimation();
 		byte[] bytes = DataUtil.decode(dataParamBase64String);
 		JsArrayInteger jsBytes = JsArrayInteger.createArray().cast();
 		jsBytes.setLength(bytes.length);
@@ -66,7 +67,7 @@ public class LoadFilePresenter extends BasePresenter {
 		
 	// Private Methods
 	private void fetch(String absoluteUrl) {
-		getView().showLoadAnimation(absoluteUrl);
+		getView().showLoadAnimation();
 		urlFetcher.fetchGgbFileFrom(absoluteUrl, fileLoadCallback);
 	}
 	
