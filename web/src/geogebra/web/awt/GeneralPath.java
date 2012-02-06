@@ -9,7 +9,13 @@ import geogebra.common.awt.Rectangle2D;
 public class GeneralPath extends geogebra.common.awt.GeneralPath implements
         Shape {
 	
-	private geogebra.web.openjdk.awt.geom.GeneralPath impl = new geogebra.web.openjdk.awt.geom.GeneralPath();
+    static final byte SEG_MOVETO  = (byte) PathIterator.SEG_MOVETO;
+    static final byte SEG_LINETO  = (byte) PathIterator.SEG_LINETO;
+    static final byte SEG_QUADTO  = (byte) PathIterator.SEG_QUADTO;
+    static final byte SEG_CUBICTO = (byte) PathIterator.SEG_CUBICTO;
+    static final byte SEG_CLOSE   = (byte) PathIterator.SEG_CLOSE;
+
+    private geogebra.web.openjdk.awt.geom.GeneralPath impl = new geogebra.web.openjdk.awt.geom.GeneralPath();
 
 	public GeneralPath() {
 		impl = new geogebra.web.openjdk.awt.geom.GeneralPath();
