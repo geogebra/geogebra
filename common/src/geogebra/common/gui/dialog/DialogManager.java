@@ -4,7 +4,10 @@ import geogebra.common.awt.Point;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -52,11 +55,22 @@ public abstract class DialogManager {
     public boolean showSliderCreationDialog(int x, int y) {
 		Kernel kernel = app.getKernel();
 		boolean isAngle = !confirm("OK for number, Cancel for angle");
-		GeoNumeric slider = setSliderFromDefault(new GeoNumeric(kernel.getConstruction()), isAngle);
+		GeoNumeric slider = setSliderFromDefault(isAngle ? new GeoAngle(kernel.getConstruction()) :  new GeoNumeric(kernel.getConstruction()), isAngle);
 
-		NumberValue min = getNumber(kernel, "Enter minimum", slider.getIntervalMin()+"");
-		NumberValue max = getNumber(kernel, "Enter maximum", slider.getIntervalMax()+"");
-		NumberValue increment = getNumber(kernel, "Enter increment", slider.getAnimationStep()+"");
+		StringTemplate tmpl = StringTemplate.get(StringType.GEOGEBRA);
+		
+		// convert to degrees (angle only)
+		String minStr = isAngle ? kernel.format(Math.toDegrees(slider.getIntervalMin()),tmpl)+Unicode.degree
+				: kernel.format(slider.getIntervalMin(), tmpl);
+		String maxStr = isAngle ? kernel.format(Math.toDegrees(slider.getIntervalMax()),tmpl)+Unicode.degree
+				: kernel.format(slider.getIntervalMax(), tmpl);
+		String incStr = isAngle ? kernel.format(Math.toDegrees(slider.getAnimationStep()),tmpl)+Unicode.degree
+				: kernel.format(slider.getAnimationStep(), tmpl);
+		
+		// get input from user
+		NumberValue min = getNumber(kernel, "Enter minimum", minStr);
+		NumberValue max = getNumber(kernel, "Enter maximum", maxStr);
+		NumberValue increment = getNumber(kernel, "Enter increment", incStr);
 		
 		if (min != null) slider.setIntervalMin(min);
 		if (max != null) slider.setIntervalMax(max);
