@@ -118,12 +118,12 @@ public class AlgoDependentFunction extends AlgoElement {
 
 			try { // needed for eg f(x)=floor(x) f'(x)
 
-				boolean internationalizeDigits = Kernel.internationalizeDigits;
-				Kernel.internationalizeDigits = false;
-
+				//boolean internationalizeDigits = Kernel.internationalizeDigits;
+				//Kernel.internationalizeDigits = false;
+				//TODO: seems that we never read internationalize digits flag here ...
 				ev = expandFunctionDerivativeNodes(expression.deepCopy(kernel));
 
-				Kernel.internationalizeDigits = internationalizeDigits;
+				//Kernel.internationalizeDigits = internationalizeDigits;
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -178,7 +178,7 @@ public class AlgoDependentFunction extends AlgoElement {
 						&& ((GeoElement) leftValue).isGeoFunctionConditional())
 					return node;
 
-				Function fun = (Function) ((Functional) leftValue)
+				Function fun =  ((Functional) leftValue)
 						.getFunction();
 				FunctionVariable x = fun.getFunctionVariable();
 				// don't destroy the function

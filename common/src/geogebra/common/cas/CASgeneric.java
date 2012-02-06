@@ -239,16 +239,14 @@ public abstract class CASgeneric implements CASGenericInterface,
 	}
 
 	public void evaluateGeoGebraCASAsync(String input,
-			boolean useCaching, AsynchronousCommand c, int id, boolean oldDigits) {
+			 AsynchronousCommand c, int id) {
 		AbstractApplication.debug("Only MPReduce supports async calls");
 		
 	}
 	
 	public void CASAsyncFinished(ValidExpression exp,String result2,
-			boolean useCaching,
 			Throwable exception,AsynchronousCommand c,
-			int id,boolean oldDigits,String input){
-		Kernel.internationalizeDigits = oldDigits;
+			int id,String input){
 		String result=result2;
 
 		// check if keep input command was successful
@@ -274,7 +272,7 @@ public abstract class CASgeneric implements CASGenericInterface,
 		}
 
 		c.handleCASoutput(result,id);
-		if(useCaching)
+		if(c.useCacheing(id))
 			casParser.getKernel().putToCasCache(input, result);
 	}
 

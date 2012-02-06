@@ -24,6 +24,7 @@ import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.MacroInterface;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -1327,8 +1328,8 @@ public abstract class AbstractApplication {
 		// For Persian and Arabic.
 		private boolean rightToLeftDigits = false;
 
-		final public boolean isRightToLeftDigits() {
-			if (!Kernel.internationalizeDigits) {
+		final public boolean isRightToLeftDigits(StringTemplate tpl) {
+			if (!tpl.internationalizeDigits()) {
 				return false;
 			}
 			return rightToLeftDigits;

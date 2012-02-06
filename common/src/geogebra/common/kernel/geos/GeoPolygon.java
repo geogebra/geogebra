@@ -1516,7 +1516,7 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 			name = app.getPlain("Name.polygon");
 		do {
 			counter++;			
-			str = name + kernel.internationalizeDigits(counter+"");
+			str = name + kernel.internationalizeDigits(counter+"",StringTemplate.get(StringType.GEOGEBRA));
 		} while (!cons.isFreeLabel(str));
 		return str;
 	}

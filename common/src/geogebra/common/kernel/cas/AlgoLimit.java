@@ -85,7 +85,7 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand{
 			return;
 		}
 		outNum.setUndefined();
-		kernel.evaluateGeoGebraCASAsync(limitString, true, this, 0);
+		kernel.evaluateGeoGebraCASAsync(limitString, this, 0);
 	}
 	/**
 	 * 
@@ -114,6 +114,10 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand{
 	public void handleException(Throwable exception,int id) {
 		outNum.setUndefined();
 		
+	}
+
+	public boolean useCacheing(int requestID) {
+		return true;
 	}
 
 }

@@ -66,4 +66,10 @@ public class StringTemplate {
 	public boolean hasType(StringType t){
 		return stringType.equals(t);
 	}
+
+	public static StringTemplate get(StringType mpreduce, boolean b) {
+		StringTemplate tpl = get(mpreduce);
+		tpl.internationalizeDigits=b;
+		return tpl;
+	}
 }

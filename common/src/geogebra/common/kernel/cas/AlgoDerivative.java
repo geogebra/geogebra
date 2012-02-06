@@ -84,8 +84,6 @@ public class AlgoDerivative extends AlgoCasBase {
 	protected void applyCasCommand(StringTemplate tpl) {
 		
 		// var.getLabel() can return a number in wrong alphabet (need ASCII)
-		boolean internationalizeDigits = Kernel.internationalizeDigits;
-		Kernel.internationalizeDigits = false;
 		
 		// get variable string with tmp prefix, 
 		// e.g. "x" becomes "ggbtmpvarx" here
@@ -94,8 +92,7 @@ public class AlgoDerivative extends AlgoCasBase {
 		String varStr = var != null ? var.getLabel(tpl) : f.getVarString(tpl);
 		kernel.setUseTempVariablePrefix(isUseTempVariablePrefix);
 
-		Kernel.internationalizeDigits = internationalizeDigits;
-
+		
 		 sbAE.setLength(0);
 		 sbAE.append("Derivative(%");
 		 sbAE.append(",");

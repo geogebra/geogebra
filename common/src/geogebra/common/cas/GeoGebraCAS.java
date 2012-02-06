@@ -161,8 +161,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 */
 	public String evaluateGeoGebraCAS(ValidExpression casInput)
 			throws CASException {
-		boolean oldDigits = Kernel.internationalizeDigits;
-		Kernel.internationalizeDigits = false;
 
 		String result = null;
 		CASException exception = null;
@@ -171,7 +169,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		} catch (CASException ce) {
 			exception = ce;
 		} finally {
-			Kernel.internationalizeDigits = oldDigits;
+			//do nothing
 		}
 
 		// check if keep input command was successful
@@ -495,11 +493,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return currentCAS;
 	}
 
-	public void evaluateGeoGebraCASAsync(String exp, boolean useCaching,
+	public void evaluateGeoGebraCASAsync(String exp, 
 			AsynchronousCommand c, int id) {
-		boolean oldDigits = Kernel.internationalizeDigits;
-		Kernel.internationalizeDigits = false;
-		getCurrentCAS().evaluateGeoGebraCASAsync(exp,useCaching,c,id,oldDigits);
+		getCurrentCAS().evaluateGeoGebraCASAsync(exp,c,id);
 	}
 	
 

@@ -161,8 +161,8 @@ public class CASmpreduce extends AbstractCASmpreduce {
 
 	@Override
 	public void evaluateGeoGebraCASAsync(final String input,
-			final boolean useCaching, final AsynchronousCommand command, final int id, 
-			final boolean oldDigits) {
+			 final AsynchronousCommand command, final int id 
+			) {
 		
 		Thread casThread = new Thread(){
 			@Override
@@ -175,9 +175,9 @@ public class CASmpreduce extends AbstractCASmpreduce {
 					result = evaluateGeoGebraCAS(inVE);
 				}catch(Throwable exception){
 					result ="";
-					CASAsyncFinished(inVE, result,useCaching, exception, command, id, oldDigits,input);
+					CASAsyncFinished(inVE, result,exception, command, id, input);
 				}
-				CASAsyncFinished(inVE, result,useCaching, null, command, id, oldDigits,input);
+				CASAsyncFinished(inVE, result, null, command, id, input);
 			}
 		};
 		if(AsynchronousCommand.USE_ASYNCHRONOUS)

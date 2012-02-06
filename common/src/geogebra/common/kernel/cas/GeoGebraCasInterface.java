@@ -40,6 +40,6 @@ public interface GeoGebraCasInterface {
 
 	public CasType getCurrentCASType();
 
-	public void evaluateGeoGebraCASAsync(String exp, boolean useCaching,
+	public void evaluateGeoGebraCASAsync(String exp,
 			AsynchronousCommand c, int id);
 }

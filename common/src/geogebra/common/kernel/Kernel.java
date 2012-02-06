@@ -1091,22 +1091,18 @@ public class Kernel {
 		String ret = formatRaw(x,tpl);
 
 		if (AbstractApplication.unicodeZero != '0') {
-			ret = internationalizeDigits(ret);
+			ret = internationalizeDigits(ret,tpl);
 		}
 
 		return ret;
 	}
 
-
-	// needed so that can be turned off
-	public static boolean internationalizeDigits = true;
-
 	/*
 	 * swaps the digits in num to the current locale's
 	 */
-	public String internationalizeDigits(String num) {
+	public String internationalizeDigits(String num,StringTemplate tpl) {
 
-		if (!internationalizeDigits) {
+		if (!tpl.internationalizeDigits()) {
 			return num;
 		}
 
@@ -1118,7 +1114,7 @@ public class Kernel {
 
 		// make sure minus sign works in Arabic
 		boolean reverseOrder = (num.charAt(0) == '-')
-				&& getApplication().isRightToLeftDigits();
+				&& getApplication().isRightToLeftDigits(tpl);
 
 		if (reverseOrder) {
 			formatSB.append(Unicode.RightToLeftMark);
@@ -1160,7 +1156,7 @@ public class Kernel {
 
 			String num = formatPiERaw(x, numF,tpl);
 
-			return internationalizeDigits(num);
+			return internationalizeDigits(num,tpl);
 		}
 		return formatPiERaw(x, numF,tpl);
 	}
@@ -1800,7 +1796,7 @@ public class Kernel {
 			}
 
 			if (getAngleUnit() == ANGLE_DEGREE) {
-				boolean rtl = getApplication().isRightToLeftDigits();
+				boolean rtl = getApplication().isRightToLeftDigits(tpl);
 				if (rtl) {
 					sbFormatAngle.append(Unicode.degreeChar);
 				}
@@ -2392,10 +2388,10 @@ public class Kernel {
 	}
 	
 	
-	public void evaluateGeoGebraCASAsync(String exp, boolean useCaching,AsynchronousCommand c,int id)
+	public void evaluateGeoGebraCASAsync(String exp,AsynchronousCommand c,int id)
 			 {
 		String result = null;
-		if (useCaching && hasCasCache()) {
+		if (c.useCacheing(id) && hasCasCache()) {
 			result = getCasCache().get(exp);
 			if (result != null) {
 				// caching worked
@@ -2408,7 +2404,7 @@ public class Kernel {
 		}
 
 		// evaluate in GeoGebraCAS
-		getGeoGebraCAS().evaluateGeoGebraCASAsync(exp,useCaching,c,id);
+		getGeoGebraCAS().evaluateGeoGebraCASAsync(exp,c,id);
 	}
 	
 	public void putToCasCache(String exp,String result){

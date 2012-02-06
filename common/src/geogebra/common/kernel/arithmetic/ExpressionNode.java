@@ -2058,7 +2058,7 @@ public class ExpressionNode extends ValidExpression implements
 						.charAt(1) == (AbstractApplication.unicodeZero + 1)))))
 						|| rightStr.equals(Unicode.degree)) {
 
-					boolean rtl = app.isRightToLeftDigits();
+					boolean rtl = app.isRightToLeftDigits(tpl);
 
 					if (rtl) {
 						sb.append(Unicode.degree);

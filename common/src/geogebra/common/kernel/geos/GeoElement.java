@@ -2693,7 +2693,7 @@ public abstract class GeoElement extends ConstructionElement implements
 					do {
 						counter++;
 						str = name
-								+ kernel.internationalizeDigits(counter + "");
+								+ kernel.internationalizeDigits(counter + "",StringTemplate.get(StringType.GEOGEBRA));
 					} while (!cons.isFreeLabel(str));
 					return str;
 				} else {
@@ -2770,7 +2770,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		do {
 			counter++;
 			str = app.getPlain(plainKey)
-					+ kernel.internationalizeDigits(counter + "");
+					+ kernel.internationalizeDigits(counter + "",StringTemplate.get(StringType.GEOGEBRA));
 			;
 		} while (!cons.isFreeLabel(str));
 		return str;
@@ -4283,8 +4283,8 @@ public abstract class GeoElement extends ConstructionElement implements
 		kernel.setPrintLocalizedCommandNames(false);
 
 		// make sure numbers are not put in XML in eg Arabic
-		final boolean oldI8NValue = Kernel.internationalizeDigits;
-		Kernel.internationalizeDigits = false;
+		//final boolean oldI8NValue = Kernel.internationalizeDigits;
+		//Kernel.internationalizeDigits = false;
 
 		getElementOpenTagXML(sb);
 
@@ -4294,7 +4294,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		getElementCloseTagXML(sb);
 
 		kernel.setPrintLocalizedCommandNames(oldValue);
-		Kernel.internationalizeDigits = oldI8NValue;
+		//Kernel.internationalizeDigits = oldI8NValue;
 	}
 
 	protected void getElementOpenTagXML(final StringBuilder sb) {

@@ -1163,8 +1163,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		}
 
 		// turn off eg Arabic digits
-		boolean oldDigitsSetting = Kernel.internationalizeDigits;
-		Kernel.internationalizeDigits = false;
+		
 
 		// USE INTERNAL COMMAND NAMES IN EXPRESSION
 		boolean oldValue = kernel.isPrintLocalizedCommandNames();
@@ -1172,7 +1171,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 
 		try {
 			// command
-			StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA_XML);
+			StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA_XML,false);
 			String cmdname = getCommandName(tpl);
 			if (cmdname.equals("Expression")) {
 				sb.append(getExpXML(tpl));
@@ -1189,7 +1188,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 
 		kernel.setPrintLocalizedCommandNames(oldValue);
 
-		Kernel.internationalizeDigits = oldDigitsSetting;
+		
 	}
 
 	/**

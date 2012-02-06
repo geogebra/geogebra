@@ -71,17 +71,14 @@ public class AlgoIntegral extends AlgoCasBase {
 	protected void applyCasCommand(StringTemplate tpl) {
 
 		// var.getLabel() can return a number in wrong alphabet (need ASCII)
-		boolean internationalizeDigits = Kernel.internationalizeDigits;
-		Kernel.internationalizeDigits = false;
-
+		
 		// get variable string with tmp prefix,
 		// e.g. "x" becomes "ggbtmpvarx" here
 		boolean isUseTempVariablePrefix = kernel.isUseTempVariablePrefix();
 		kernel.setUseTempVariablePrefix(true);
 		String varStr = var != null ? var.getLabel(tpl) : f.getVarString(tpl);
 		kernel.setUseTempVariablePrefix(isUseTempVariablePrefix);
-		Kernel.internationalizeDigits = internationalizeDigits;
-
+		
 		sbAE.setLength(0);
 		sbAE.append("Integral(%");
 		sbAE.append(",");

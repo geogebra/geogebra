@@ -134,7 +134,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric{
 		}
 
 		// convert parsed input to MPReduce string
-		String mpreduceInput = translateToCAS(casInput, StringTemplate.get(StringType.MPREDUCE));
+		String mpreduceInput = translateToCAS(casInput, StringTemplate.get(StringType.MPREDUCE,false));
 
 		// tell MPReduce whether it should use the keep input flag,
 		// e.g. important for Substitute
