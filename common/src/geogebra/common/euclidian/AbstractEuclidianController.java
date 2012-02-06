@@ -5775,7 +5775,8 @@ public abstract class AbstractEuclidianController {
 		// hits = view.getTopHits(hits);
 	
 		hits = hits.getTopHits();
-		
+		if(sliderValue!=null)
+			repaintNeeded = true;
 		sliderValue = null;
 		if (hits.size() == 1) {
 			GeoElement hit = hits.get(0);
@@ -5796,13 +5797,17 @@ public abstract class AbstractEuclidianController {
 	
 					// preview just for fixed sliders
 					if (((GeoNumeric) hit).isSliderFixed()) {
-						sliderValue = kernel
+						sliderValue = hit.isGeoAngle()? kernel
+								.formatAngle(getSliderValue((GeoNumeric) hit),
+										StringTemplate.get(StringType.GEOGEBRA)).toString():kernel
 								.format(getSliderValue((GeoNumeric) hit),
 										StringTemplate.get(StringType.GEOGEBRA));
 					}
 				}
 			}
 		}
+		
+		
 		
 		if (!hits.isEmpty()) {
 			boolean alwaysOn = false;
