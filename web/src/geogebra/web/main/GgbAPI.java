@@ -9,6 +9,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.JavaScriptAPI;
+import geogebra.common.io.MyXMLio;
 
 import geogebra.web.gui.app.GeoGebraFrame;
 import geogebra.web.helper.ScriptLoadCallback;
@@ -128,22 +129,38 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI implements JavaScript
 
     public native String getBase64() /*-{
 
-		var xmlstr = this.@geogebra.web.main.GgbAPI::getApplication()().@geogebra.common.main.AbstractApplication::getXML()();
-		var mxmlstr = this.@geogebra.web.main.GgbAPI::getApplication()().@geogebra.common.main.AbstractApplication::getMacroXMLorEmpty()();
-		var jsstr = this.@geogebra.web.main.GgbAPI::getKernel()().@geogebra.common.kernel.Kernel::getLibraryJavaScript()();
-		var pystr = this.@geogebra.web.main.GgbAPI::getKernel()().@geogebra.common.kernel.Kernel::getLibraryPythonScript()();
+		var isSaving = this.@geogebra.web.main.GgbAPI::getKernel()().@geogebra.common.kernel.Kernel::isSaving()();
+		this.@geogebra.web.main.GgbAPI::getKernel()().@geogebra.common.kernel.Kernel::setSaving(Z)(true);
 
-    	var zip = new $wnd.JSZip("DEFLATE");
-    	if (mxmlstr != "") {
-    		zip.add("geogebra_macro.xml", mxmlstr);
-    	}
+		var ret = "";
 
-    	if (pystr != "") {
-    		zip.add("geogebra_python.py", pystr);
-    	}
-    	zip.add("geogebra_javascript.js", jsstr);
-    	zip.add("geogebra.xml", xmlstr);
+		try {
+			var xmlstr = this.@geogebra.web.main.GgbAPI::getApplication()().@geogebra.common.main.AbstractApplication::getXML()();
+			var mxmlstr = this.@geogebra.web.main.GgbAPI::getApplication()().@geogebra.common.main.AbstractApplication::getMacroXMLorEmpty()();
+			var jsstr = this.@geogebra.web.main.GgbAPI::getKernel()().@geogebra.common.kernel.Kernel::getLibraryJavaScript()();
+			var pystr = this.@geogebra.web.main.GgbAPI::getKernel()().@geogebra.common.kernel.Kernel::getLibraryPythonScript()();
 
-		return zip.generate();
+			var XML_FILE_MACRO = @geogebra.common.io.MyXMLio::XML_FILE_MACRO;
+			var PYTHON_FILE = @geogebra.common.io.MyXMLio::PYTHON_FILE;
+			var JAVASCRIPT_FILE = @geogebra.common.io.MyXMLio::JAVASCRIPT_FILE;
+			var XML_FILE = @geogebra.common.io.MyXMLio::XML_FILE;
+
+    		var zip = new $wnd.JSZip("DEFLATE");
+    		if (mxmlstr != "") {
+    			zip.add(XML_FILE_MACRO, mxmlstr);
+    		}
+
+    		if (pystr != "") {
+    			zip.add(PYTHON_FILE, pystr);
+    		}
+    		zip.add(JAVASCRIPT_FILE, jsstr);
+    		zip.add(XML_FILE, xmlstr);
+
+			ret = zip.generate();
+		} catch (err) {
+		} finally {
+			this.@geogebra.web.main.GgbAPI::getKernel()().@geogebra.common.kernel.Kernel::setSaving(Z)(isSaving);
+			return ret;
+		}
     }-*/;
 }

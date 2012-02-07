@@ -61,38 +61,6 @@ import javax.imageio.ImageIO;
  */
 public class MyXMLio extends geogebra.common.io.MyXMLio{
 
-	// All xml output is zipped. The created zip archive contains
-	// an entry named XML_FILE for the construction
-	final private static String XML_FILE = "geogebra.xml";
-	// Added for Intergeo File Format (Yves Kreis) -->
-	final private static String I2G_FILE = "construction/intergeo.xml";
-	// <-- Added for Intergeo File Format (Yves Kreis)
-
-	// All xml output is zipped. The created zip archive contains
-	// an entry named XML_FILE_MACRO for the macros
-	final private static String XML_FILE_MACRO = "geogebra_macro.xml";
-
-	// library javascript available to GeoJavaScriptButton objects
-	final private static String JAVASCRIPT_FILE = "geogebra_javascript.js";
-	final private static String PYTHON_FILE = "geogebra_python.py";
-
-	// All xml output is zipped. The created zip archive *may* contain
-	// an entry named XML_FILE_THUMBNAIL for the construction
-	final private static String XML_FILE_THUMBNAIL = "geogebra_thumbnail.png";
-	// Added for Intergeo File Format (Yves Kreis) -->
-	final private static String I2G_FILE_THUMBNAIL = "construction/preview.png";
-	// <-- Added for Intergeo File Format (Yves Kreis)
-	final public static double THUMBNAIL_PIXELS_X = 200.0; // max no of
-															// horizontal pixels
-	final public static double THUMBNAIL_PIXELS_Y = 200.0; // max no of
-															// vertical pixels
-
-	// Added for Intergeo File Format (Yves Kreis) -->
-	final private static String I2G_IMAGES = "resources/images/";
-	final private static String I2G_PRIVATE = "private/org.geogebra/";
-	final private static String I2G_PRIVATE_IMAGES = "private/org.geogebra/images/";
-	// <-- Added for Intergeo File Format (Yves Kreis)
-
 	// Use the default (non-validating) parser
 	// private static XMLReaderFactory factory;
 
