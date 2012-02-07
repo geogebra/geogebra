@@ -172,7 +172,7 @@ implements ActionListener {
     }
     
     protected void showOptionsDialog(){
-    	app.getGuiManager().getDialogManager().showOptionsDialog(OptionsDialog.TAB_EUCLIDIAN);
+    	app.getDialogManager().showOptionsDialog(OptionsDialog.TAB_EUCLIDIAN);
 		//app.getGuiManager().showDrawingPadPropertiesDialog();
     }
     

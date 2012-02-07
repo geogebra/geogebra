@@ -3556,7 +3556,7 @@ public class Application extends AbstractApplication implements
 
 	public void startDispatchingEventsTo(JComponent comp) {
 		if (guiManager != null) {
-			getGuiManager().getDialogManager().closeAll();
+			getDialogManager().closeAll();
 		}
 
 		if (glassPaneListener == null) {
@@ -4528,6 +4528,8 @@ public class Application extends AbstractApplication implements
 
 
 	protected SpreadsheetTraceManager traceManager;
+
+	private DialogManager dialogManager;
 	
 	public void setShowInputHelpToggle(boolean flag) {
 		if (showInputHelpToggle == flag) {
@@ -4818,9 +4820,15 @@ public class Application extends AbstractApplication implements
 	@Override
 	public DialogManager getDialogManager() {
 		
-		if (getGuiManager() == null) return null;
+		if (dialogManager == null) {
+			if (getGuiManager() == null) {
+				dialogManager = new DialogManagerMinimal(this);
+			} else {
+				dialogManager = getGuiManager().getDialogManager();
+			}
+		}
 		
-		return getGuiManager().getDialogManager();
+		return dialogManager;
 	}
 
 	

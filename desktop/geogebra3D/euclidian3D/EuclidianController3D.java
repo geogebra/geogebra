@@ -934,7 +934,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 
 		// we got the center point
 		if (selPoints() == 1) {	
-			((DialogManager3D)((Application)app).getGuiManager().getDialogManager()).showNumberInputDialogSpherePointRadius(((Application)app).getMenu(getKernel().getModeText(mode)),
+			((DialogManager3D)((Application)app).getDialogManager()).showNumberInputDialogSpherePointRadius(((Application)app).getMenu(getKernel().getModeText(mode)),
 					getSelectedPointsND()[0]);
 			return true;
 		}
@@ -1030,7 +1030,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 
 
 		if (selPoints() == 1 && selDirections() == 1) {
-			((DialogManager3D) ((Application)app).getGuiManager().getDialogManager()).showNumberInputDialogCirclePointDirectionRadius(((Application)app).getMenu(getKernel().getModeText(mode)),
+			((DialogManager3D) ((Application)app).getDialogManager()).showNumberInputDialogCirclePointDirectionRadius(((Application)app).getMenu(getKernel().getModeText(mode)),
 					getSelectedPointsND()[0],getSelectedDirections()[0]);
 
 			return true;

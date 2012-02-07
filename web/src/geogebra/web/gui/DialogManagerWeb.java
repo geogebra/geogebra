@@ -11,6 +11,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.Unicode;
@@ -114,6 +115,50 @@ public class DialogManagerWeb extends DialogManager {
 	@Override
     protected boolean confirm(String string) {
 	    return confirmNative(string);
+    }
+
+	@Override
+    public void closeAll() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void showRenameDialog(GeoElement geo, boolean b, String label,
+            boolean c) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void showTextDialog(GeoText geo) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void showOptionsDialog(int tabEuclidian) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void showPropertiesDialog() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void showToolbarConfigDialog() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public NumberValue showNumberInputDialog(String menu, String plain,
+            Object object, boolean b, String plain2) {
+	    // just needed for 3D
+	    return null;
     }
 
 

@@ -123,7 +123,7 @@ class ToolsMenu extends BaseMenu {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				app.getGuiManager().getDialogManager().showToolbarConfigDialog();
+				app.getDialogManager().showToolbarConfigDialog();
 			}
 		};
 

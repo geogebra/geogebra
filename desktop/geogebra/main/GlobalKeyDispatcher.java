@@ -144,8 +144,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 							(DrawTextField) app.getActiveEuclidianView().getDrawableFor(geo);
 					dt.setFocus(ch+"");
 				} else {
-					app.getGuiManager()
-							.getDialogManager()
+					app.getDialogManager()
 							.showRenameDialog(geo, true,
 									Character.toString(ch), false);
 				}
@@ -373,7 +372,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 
 			// Ctrl + E: open object properties (needed here for spreadsheet)
 			case KeyEvent.VK_E:
-				app.getGuiManager().getDialogManager().showPropertiesDialog();
+				app.getDialogManager().showPropertiesDialog();
 				consumed = true;
 				break;
 

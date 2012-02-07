@@ -702,12 +702,21 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 
 	@Override
 	protected String prompt(String message, String def) {
-		return JOptionPane.showInputDialog(message);
+		Application.debug("Shouldn't ever be called");
+		return null;
 	}
 
 	@Override
 	protected boolean confirm(String string) {
-		return JOptionPane.showConfirmDialog(null, string) == JOptionPane.OK_CANCEL_OPTION;
+		Application.debug("Shouldn't ever be called");
+		return false;
+	}
+
+	@Override
+	public NumberValue showNumberInputDialog(String menu, String plain,
+			Object object, boolean b, String plain2) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

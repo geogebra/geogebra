@@ -15,6 +15,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
@@ -292,5 +293,20 @@ public abstract class DialogManager {
 		return num;
 	}
 
+	public abstract void closeAll();
+
+	public abstract void showRenameDialog(GeoElement geo, boolean b, String label,
+			boolean c);
+
+	public abstract void showTextDialog(GeoText geo);
+
+	public abstract void showOptionsDialog(int tabEuclidian);
+
+	public abstract void showPropertiesDialog();
+
+	public abstract void showToolbarConfigDialog();
+
+	public abstract NumberValue showNumberInputDialog(String menu, String plain,
+			Object object, boolean b, String plain2);
 
 }

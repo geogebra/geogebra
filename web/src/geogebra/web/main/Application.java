@@ -886,8 +886,6 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public geogebra.common.gui.dialog.DialogManager getDialogManager() {
-    	AbstractApplication.debug("TODO: move getDialogManager() to GuiManager, see #1783");
-
 		if (dialogManager == null) {
 			dialogManager = new DialogManagerWeb(this);
 		}
