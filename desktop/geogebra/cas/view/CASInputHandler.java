@@ -1,5 +1,7 @@
 package geogebra.cas.view;
 
+import java.util.ArrayList;
+
 import geogebra.common.cas.CASException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -76,6 +78,21 @@ public class CASInputHandler {
 		int selStart = cellEditor.getInputSelectionStart();
 		int selEnd = cellEditor.getInputSelectionEnd();
 		String selRowInput = cellEditor.getInput();
+		
+//		if (selRowInput == null || selRowInput.length() == 0) {
+//		    // experimental
+//			int[] selectedIndices2 = casView.getRowHeader().getSelectedIndices();
+//			int selectedIndices = consoleTable.getSelectedRow();
+//			System.out.println(consoleTable.hasFocus());
+//			if(selectedIndices < 0)
+//				return;
+//			GeoCasCell selCellValue = consoleTable.getGeoCasCell(selectedIndices2[0]);
+//			selRowInput = selCellValue.getInputVE().toString();
+//			consoleTable.setRowSelectionInterval(selectedIndices2[0], selectedIndices2[0]);
+//
+//		}
+		
+
 		if (selRowInput == null || selRowInput.length() == 0) {
 			if (consoleTable.getSelectedRow() != -1) {
 				consoleTable.startEditingRow(consoleTable.getSelectedRow());
@@ -280,16 +297,32 @@ public class CASInputHandler {
 		int[] selectedIndices = casView.getRowHeader().getSelectedIndices();
 		int nrEquations;
 		int lastRowSelected;
+		
+		// remove empty cells because empty cells' inputVE vars are null
+				ArrayList<Integer> l = new ArrayList<Integer>();
+				for(int i = 0; i < selectedIndices.length; i++) {
+					GeoCasCell selCellValue1 = consoleTable
+							.getGeoCasCell(selectedIndices[i]);
+					if(selCellValue1.getInputVE() != null) {
+						l.add(i);
+					
+					}
+				}
+				selectedIndices = new int[l.size()];
+				for(int i = 0; i < l.size(); i++) {
+					selectedIndices[i] = l.get(i);
+				}
+				
 		if (selectedIndices.length <= 1) {
-			selectedIndices = new int[1];
-			selectedIndices[0] = selRow;
 			oneRowOnly = true;
 			nrEquations = 1;
 			lastRowSelected = selectedIndices[nrEquations - 1];
 		} else {
 			nrEquations = selectedIndices.length;
-			currentRow = 1 + (lastRowSelected = selectedIndices[nrEquations - 1]);
+			lastRowSelected = selectedIndices[nrEquations - 1];
+			currentRow = 1 + (lastRowSelected);
 		}
+		
 
 		GeoCasCell cellValue;
 		try {
