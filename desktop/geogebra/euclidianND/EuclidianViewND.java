@@ -96,10 +96,18 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 		evjpanel.add(comp);
 	}
 	
+	public void add(geogebra.common.javax.swing.Box box){
+		evjpanel.add(((geogebra.javax.swing.Box)box).getImpl());
+	}
+	
 	public void remove(Component comp) {
 		evjpanel.remove(comp);
 	}
 
+	public void remove(geogebra.common.javax.swing.Box box) {
+		evjpanel.remove(((geogebra.javax.swing.Box)box).getImpl());
+	}
+	
 	public JPanel getJPanel() {
 		return evjpanel;
 	}

@@ -20,6 +20,7 @@ import geogebra.common.awt.font.TextLayout;
 import geogebra.common.euclidian.DrawableList.DrawableIterator;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.FormatFactory;
+import geogebra.common.javax.swing.Box;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -4507,5 +4508,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		public geogebra.common.awt.Color getGridColor() {
 			return gridColor;
 		}
+
+		public abstract void add(Box box);
 
 }

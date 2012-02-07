@@ -1,6 +1,7 @@
 package geogebra.common.factories;
 
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
+import geogebra.common.javax.swing.Box;
 import geogebra.common.javax.swing.JLabel;
 import geogebra.common.main.AbstractApplication;
 
@@ -12,4 +13,6 @@ public abstract class SwingFactory {
 			AbstractApplication application);
 
 	public abstract JLabel newJLabel(String string);
+
+	public abstract Box createHorizontalBox();
 }

@@ -11,6 +11,7 @@ import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.GetViewId;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.javax.swing.Box;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
@@ -483,6 +484,12 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	public boolean hasFocus() {
 	    // TODO Auto-generated method stub
 	    return true;
+    }
+
+	@Override
+    public void add(Box box) {
+	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+	    
     }
 
 }

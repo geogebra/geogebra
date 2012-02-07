@@ -12,30 +12,27 @@
 
 package geogebra.euclidian;
 
+import geogebra.common.awt.Color;
+import geogebra.common.awt.Dimension;
+import geogebra.common.awt.Font;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.RemoveNeeded;
 import geogebra.common.factories.SwingFactory;
+import geogebra.common.gui.inputfield.AutoCompleteTextField;
+import geogebra.common.javax.swing.Box;
+import geogebra.common.javax.swing.JLabel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.AbstractApplication;
-import geogebra.common.gui.inputfield.AutoCompleteTextField;
-import geogebra.main.Application;
 
-import geogebra.common.awt.Color;
-
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import geogebra.common.awt.Font;
-import javax.swing.Box;
-import geogebra.common.javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 /**
@@ -56,9 +53,9 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	AutoCompleteTextField textField;
 	JLabel label;
 	ButtonListener bl;
-	Container box = Box.createHorizontalBox();
+	Box box = SwingFactory.prototype.createHorizontalBox();
 
-	public DrawTextField(EuclidianView view, GeoTextField geo) {
+	public DrawTextField(AbstractEuclidianView view, GeoTextField geo) {
 		this.view = view;
 		this.geoButton = geo;
 		this.geo = geo;
@@ -80,8 +77,9 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 //		label.addMouseListener(bl);
 //		label.addMouseMotionListener(bl);
 		((geogebra.gui.inputfield.AutoCompleteTextField) textField).addKeyListener(bl);
-		box.add(((geogebra.javax.swing.JLabel)label).getImpl());
-		box.add((Component) textField);
+		box.add((geogebra.javax.swing.JLabel)label);
+		box.add(textField);
+		
 		view.add(box);
 
 		// Add mouse listeners to textField so that it becomes draggable
@@ -263,7 +261,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		}
 
 		int fontSize = view.getFontSize() + geoButton.getFontSize();
-		Application app = ((EuclidianView)view).getApplication();
+		AbstractApplication app = view.getApplication();
 
 		Font vFont = view.getFont();
 		Font font = app.getFontCanDisplay(textField.getText(), false,
@@ -289,9 +287,9 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;
 		Dimension prefSize = box.getPreferredSize();
-		labelRectangle.setBounds(xLabel, yLabel, prefSize.width,
-				prefSize.height);
-		box.setBounds(geogebra.awt.Rectangle.getAWTRectangle(labelRectangle));
+		labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth(),
+				prefSize.getHeight());
+		box.setBounds(labelRectangle);
 	}
 
 	@SuppressWarnings("unused")
