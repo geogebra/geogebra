@@ -1775,10 +1775,9 @@ public abstract class AbstractApplication {
 		return myXMLio.getFullMacroXML(macros);
 	}
 
-	public String getMacroXMLorNull() {
+	public String getMacroXMLorEmpty() {
 		ArrayList<MacroInterface> macros = kernel.getAllMacros();
-		if (macros.isEmpty())
-			return null;
+		if (macros.isEmpty()) return "";
 		return myXMLio.getFullMacroXML(macros);
 	}
 
