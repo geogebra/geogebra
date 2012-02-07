@@ -315,7 +315,7 @@ public class PythonAPI {
 		 * @return the caption of the Geo
 		 */
 		public String getCaption() {
-			return geo.getCaption(StringTemplate.get(StringType.GEOGEBRA));
+			return geo.getCaption(StringTemplate.defaultTemplate);
 		}
 		
 		/**

@@ -1083,7 +1083,7 @@ public class Construction {
 					((GeoElement) ce).getXMLtagsMinimal(sb);
 
 				} else if (ce instanceof AlgoElement) {
-					sb.append(((AlgoElement) ce).getCommandDescription(StringTemplate.get(StringType.GEOGEBRA)));
+					sb.append(((AlgoElement) ce).getCommandDescription(StringTemplate.xmlTemplate));
 					sb.append(" == ");
 					sb.append(((AlgoElement) ce).getAlgebraDescriptionRegrOut());
 				}

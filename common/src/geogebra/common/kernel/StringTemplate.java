@@ -5,21 +5,39 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
 import geogebra.common.util.Unicode;
-
+/**
+ * StringTemplate provides a container for all settings we might need
+ * when serializing ExpressionValues to screen / XML / CAS input / export.
+ * @author Zbynek Koneecny
+ */
 public class StringTemplate {
 	
+	/**
+	 * GeoGebra string type, internationalize digits
+	 */
 	public static StringTemplate defaultTemplate = new StringTemplate();
+	
+	/**
+	 * MPReduce string type, do not internationalize digits
+	 */
+	public static StringTemplate casTemplate = new StringTemplate();
 	static {
-		defaultTemplate.casPrintFormPI=Unicode.PI_STRING;
-		defaultTemplate.internationalizeDigits = true;
-		defaultTemplate.stringType=StringType.GEOGEBRA;
-		
+		casTemplate.internationalizeDigits = false;
+		casTemplate.setType(StringType.MPREDUCE);
 	}
+	/**
+	 * XML string type, do not internationalize digits
+	 */
+	public static StringTemplate xmlTemplate = new StringTemplate();
+	static {
+		casTemplate.internationalizeDigits = false;
+		casTemplate.setType(StringType.GEOGEBRA_XML);
+	}
+	/**
+	 * for input bar; same as default, but increases precision to MIN_EDITING_PRINT_PRECISION
+	 */
 	public static StringTemplate editTemplate = new StringTemplate();
 	static {
-		editTemplate.casPrintFormPI=Unicode.PI_STRING;
-		editTemplate.internationalizeDigits = true;
-		editTemplate.stringType=StringType.GEOGEBRA;
 		editTemplate.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(GeoElement.MIN_EDITING_PRINT_PRECISION,20,false);
 		editTemplate.nf = geogebra.common.factories.FormatFactory.prototype.getNumberFormat(GeoElement.MIN_EDITING_PRINT_PRECISION);
 	}
@@ -28,15 +46,32 @@ public class StringTemplate {
 	private String casPrintFormPI;
 	private ScientificFormatAdapter sf;
 	private NumberFormatAdapter nf;
-	private StringTemplate(){}
-	
+	/**
+	 * Creates default string template
+	 */
+	protected StringTemplate(){
+		internationalizeDigits = true;
+		setType(StringType.GEOGEBRA);
+	}
+	/**
+	 * Returns string type of resulting text
+	 * @return string type
+	 */
 	public StringType getStringType(){
 		return this.stringType;
 	}
+	/**
+	 * Disables international digits, e.g. for CAS and XML
+	 * @return true if we want to allow e.g. arabic digits in output
+	 */
 	public boolean internationalizeDigits(){
 		return this.internationalizeDigits;
 	}
 	
+	/**
+	 * 
+	 * @return string representation of PI in this template
+	 */
 	public String getPi(){
 		return casPrintFormPI;
 	}
@@ -46,44 +81,76 @@ public class StringTemplate {
 			return defaultTemplate; 
 		}
 		StringTemplate tpl = new StringTemplate();
-		tpl.stringType = t;
+		tpl.setType(t);
+		return tpl;
+	}
+	
+	private void setType(StringType t) {
+		stringType = t;
 
 		switch (t) {
 		case MATH_PIPER:
-			tpl.casPrintFormPI = "Pi";
+			casPrintFormPI = "Pi";
 			break;
 
 		case MAXIMA:
-			tpl.casPrintFormPI = "%pi";
+			casPrintFormPI = "%pi";
 			break;
 
 		case JASYMCA:
 		case GEOGEBRA_XML:
-			tpl.casPrintFormPI = "pi";
+			casPrintFormPI = "pi";
 			break;
 
 		case MPREDUCE:
-			tpl.casPrintFormPI = "pi";
+			casPrintFormPI = "pi";
 			break;
 
 		case LATEX:
-			tpl.casPrintFormPI = "\\pi";
+			casPrintFormPI = "\\pi";
 			break;
 
 		default:
-			tpl.casPrintFormPI = Unicode.PI_STRING;
+			casPrintFormPI = Unicode.PI_STRING;
 		}
 
-		return tpl;
+
+		
+	}
+
+	public boolean useScientific(boolean defau){
+		return defau;
 	}
 	
 	public boolean hasType(StringType t){
 		return stringType.equals(t);
 	}
 
-	public static StringTemplate get(StringType mpreduce, boolean b) {
-		StringTemplate tpl = get(mpreduce);
-		tpl.internationalizeDigits=b;
+	
+	/**
+	 * @param type string type
+	 * @param decimals number of decimal places
+	 * @return template
+	 */
+	public static StringTemplate printDecimals(StringType type, int decimals) {
+		StringTemplate tpl = new StringTemplate(){
+			public boolean useScientific(boolean defau){
+				return false;
+			}
+		};
+		tpl.setType(type);
+		geogebra.common.factories.FormatFactory.prototype.getNumberFormat(decimals);
+		return tpl;
+	}
+	
+	public static StringTemplate printFigures(StringType mpreduce, int decimals) {
+		StringTemplate tpl = new StringTemplate(){
+			public boolean useScientific(boolean defau){
+				return true;
+			}
+		};
+		tpl.setType(mpreduce);
+		geogebra.common.factories.FormatFactory.prototype.getScientificFormat(decimals,20,false);
 		return tpl;
 	}
 

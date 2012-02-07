@@ -444,7 +444,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 			sb.append(" label=\"");
 			sb.append(StringUtil.encodeXML(label));
 			sb.append("\" exp=\"");
-			sb.append(StringUtil.encodeXML(toOutputValueString(StringTemplate.get(StringType.GEOGEBRA_XML))));
+			sb.append(StringUtil.encodeXML(toOutputValueString(StringTemplate.xmlTemplate)));
 			// expression   
 			sb.append("\"/>\n");
 		}

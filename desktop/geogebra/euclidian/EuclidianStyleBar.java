@@ -1827,7 +1827,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 			cmdText.setLength(0);
 			cmdText.append("TableText[");
 			cmdText.append(((GeoList) input[0]).getFormulaString(
-					StringTemplate.get(StringType.GEOGEBRA), false));
+					StringTemplate.defaultTemplate, false));
 			cmdText.append(",\"");
 			cmdText.append(arg);
 			cmdText.append("\"]");

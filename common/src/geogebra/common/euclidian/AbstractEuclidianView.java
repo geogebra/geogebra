@@ -2812,7 +2812,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		}
 
 		final protected void drawMouseCoords(geogebra.common.awt.Graphics2D g2) {
-			StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
+			StringTemplate tpl = StringTemplate.defaultTemplate;
 			if (euclidianController.mouseLoc == null) {
 				return;
 			}
@@ -3062,7 +3062,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 		private double getLabelLength(double rw, FontRenderContext frc) {
 			TextLayout layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(
-					kernel.formatPiE(rw, axesNumberFormat[0],StringTemplate.get(StringType.GEOGEBRA))
+					kernel.formatPiE(rw, axesNumberFormat[0],StringTemplate.defaultTemplate)
 							+ ((axesUnitLabels[0] != null) && !piAxisUnit[0] ? axesUnitLabels[0]
 									: ""), getFontAxes(), frc);
 			return layout.getAdvance();
@@ -3201,12 +3201,12 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 					if (pix <= maxX) {
 						if (showAxesNumbers[0]) {
 							String strNum = kernel.formatPiE(rw,
-									axesNumberFormat[0],StringTemplate.get(StringType.GEOGEBRA));
+									axesNumberFormat[0],StringTemplate.defaultTemplate);
 
 							// flag to handle drawing a label at axis crossing point
 							boolean zero = strNum.equals(""
 									+ kernel.formatPiE(axisCross[1],
-											axesNumberFormat[0],StringTemplate.get(StringType.GEOGEBRA)));
+											axesNumberFormat[0],StringTemplate.defaultTemplate));
 							if ((labelno % unitsPerLabelX) == 0) {
 								sb.setLength(0);
 								sb.append(strNum);
@@ -3364,12 +3364,12 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 					if (pix >= maxY) {
 						if (showAxesNumbers[1]) {
 							String strNum = kernel.formatPiE(rw,
-									axesNumberFormat[1],StringTemplate.get(StringType.GEOGEBRA));
+									axesNumberFormat[1],StringTemplate.defaultTemplate);
 
 							// flag for handling label at axis cross point
 							boolean zero = strNum.equals(""
 									+ kernel.formatPiE(axisCross[0],
-											axesNumberFormat[0],StringTemplate.get(StringType.GEOGEBRA)));
+											axesNumberFormat[0],StringTemplate.defaultTemplate));
 							if ((labelno % unitsPerLabelY) == 0) {
 								sb.setLength(0);
 								sb.append(strNum);
@@ -3448,10 +3448,10 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 					// uper left corner
 					sb.setLength(0);
 					sb.append('(');
-					sb.append(kernel.formatPiE(getXmin(), axesNumberFormat[0],StringTemplate.get(StringType.GEOGEBRA)));
+					sb.append(kernel.formatPiE(getXmin(), axesNumberFormat[0],StringTemplate.defaultTemplate));
 					sb.append(AbstractApplication.unicodeComma);
 					sb.append(" ");
-					sb.append(kernel.formatPiE(getYmax(), axesNumberFormat[1],StringTemplate.get(StringType.GEOGEBRA)));
+					sb.append(kernel.formatPiE(getYmax(), axesNumberFormat[1],StringTemplate.defaultTemplate));
 					sb.append(')');
 
 					int textHeight = 2 + getFontAxes().getSize();
@@ -3461,10 +3461,10 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 					// lower right corner
 					sb.setLength(0);
 					sb.append('(');
-					sb.append(kernel.formatPiE(getXmax(), axesNumberFormat[0],StringTemplate.get(StringType.GEOGEBRA)));
+					sb.append(kernel.formatPiE(getXmax(), axesNumberFormat[0],StringTemplate.defaultTemplate));
 					sb.append(AbstractApplication.unicodeComma);
 					sb.append(" ");
-					sb.append(kernel.formatPiE(getYmin(), axesNumberFormat[1],StringTemplate.get(StringType.GEOGEBRA)));
+					sb.append(kernel.formatPiE(getYmin(), axesNumberFormat[1],StringTemplate.defaultTemplate));
 					sb.append(')');
 
 					TextLayout layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(sb.toString(), getFontAxes(), frc);
@@ -3782,7 +3782,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			for (; pix <= yAxisHeight; rw -= axesNumberingDistances[1], pix += axesStep) {
 				if (pix <= maxY) {
 					if (showAxesNumbers[1]) {
-						String strNum = kernel.formatPiE(rw, axesNumberFormat[1],StringTemplate.get(StringType.GEOGEBRA));
+						String strNum = kernel.formatPiE(rw, axesNumberFormat[1],StringTemplate.defaultTemplate);
 
 						sb.setLength(0);
 						sb.append(strNum);

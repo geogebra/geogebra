@@ -381,7 +381,7 @@ public class ExpressionNode extends ValidExpression implements
 	 * @return number or undefined double
 	 */
 	public NumberValue evaluateNum() {
-		ExpressionValue ev = kernel.getExpressionNodeEvaluator().evaluate(this,StringTemplate.get(StringType.GEOGEBRA));
+		ExpressionValue ev = kernel.getExpressionNodeEvaluator().evaluate(this,StringTemplate.defaultTemplate);
 		if(ev instanceof NumberValue)
 			return (NumberValue)ev;
 		return new MyDouble(kernel,Double.NaN);

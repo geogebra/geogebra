@@ -45,7 +45,7 @@ public class CASTableCellEditor extends CASTableCell implements TableCellEditor,
 			// set CASTableCell value
 			this.cellValue = (GeoCasCell) value;
 			this.table = table;
-			inputOnEditingStart = cellValue.getInput(StringTemplate.get(StringType.GEOGEBRA));
+			inputOnEditingStart = cellValue.getInput(StringTemplate.defaultTemplate);
 			setValue(cellValue);				
 							
 			// update font and row height
@@ -214,7 +214,7 @@ public class CASTableCellEditor extends CASTableCell implements TableCellEditor,
 				// insert input of previous row
 				if (editingRow > 0 && text.length() == 0) {
 					GeoCasCell selCellValue = view.getConsoleTable().getGeoCasCell(editingRow - 1);				
-					inputArea.setText(selCellValue.getInput(StringTemplate.get(StringType.GEOGEBRA)));
+					inputArea.setText(selCellValue.getInput(StringTemplate.defaultTemplate));
 					e.consume();
 				}
 				break;

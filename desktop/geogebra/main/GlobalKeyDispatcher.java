@@ -1,5 +1,6 @@
 package geogebra.main;
 
+import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Kernel;
@@ -623,22 +624,22 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 				case KeyEvent.VK_PAGE_UP:
 					ev.rememberOrigins();
 					ev.setCoordSystemFromMouseMove(0, (int) (height * base),
-							EuclidianController.MOVE_VIEW);
+							AbstractEuclidianController.MOVE_VIEW);
 					return true;
 				case KeyEvent.VK_PAGE_DOWN:
 					ev.rememberOrigins();
 					ev.setCoordSystemFromMouseMove(0, -(int) (height * base),
-							EuclidianController.MOVE_VIEW);
+							AbstractEuclidianController.MOVE_VIEW);
 					return true;
 				case KeyEvent.VK_INSERT:
 					ev.rememberOrigins();
 					ev.setCoordSystemFromMouseMove((int) (height * base), 0,
-							EuclidianController.MOVE_VIEW);
+							AbstractEuclidianController.MOVE_VIEW);
 					return true;
 				case KeyEvent.VK_HOME:
 					ev.rememberOrigins();
 					ev.setCoordSystemFromMouseMove(-(int) (height * base), 0,
-							EuclidianController.MOVE_VIEW);
+							AbstractEuclidianController.MOVE_VIEW);
 					return true;
 				case KeyEvent.VK_DOWN:
 					if (app.isUsingFullGui()
@@ -646,7 +647,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 						ev.rememberOrigins();
 						ev.setCoordSystemFromMouseMove(0,
 								(int) (height / 100.0 * base),
-								EuclidianController.MOVE_VIEW);
+								AbstractEuclidianController.MOVE_VIEW);
 						return true;
 					}
 				case KeyEvent.VK_UP:
@@ -655,20 +656,20 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 						ev.rememberOrigins();
 						ev.setCoordSystemFromMouseMove(0,
 								-(int) (height / 100.0 * base),
-								EuclidianController.MOVE_VIEW);
+								AbstractEuclidianController.MOVE_VIEW);
 						return true;
 					}
 				case KeyEvent.VK_LEFT:
 					ev.rememberOrigins();
 					ev.setCoordSystemFromMouseMove(
 							-(int) (width / 100.0 * base), 0,
-							EuclidianController.MOVE_VIEW);
+							AbstractEuclidianController.MOVE_VIEW);
 					return true;
 				case KeyEvent.VK_RIGHT:
 					ev.rememberOrigins();
 					ev.setCoordSystemFromMouseMove(
 							(int) (width / 100.0 * base), 0,
-							EuclidianController.MOVE_VIEW);
+							AbstractEuclidianController.MOVE_VIEW);
 					return true;
 				}
 
@@ -719,7 +720,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 
 				it = geos.iterator();
 				while (it.hasNext()) {
-					sb.append(it.next().getFormulaString(StringTemplate.get(StringType.GEOGEBRA),
+					sb.append(it.next().getFormulaString(StringTemplate.defaultTemplate,
 							false));
 					if (it.hasNext())
 						sb.append(",");

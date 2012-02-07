@@ -342,7 +342,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			sb.append(" label =\"");
 			sb.append(label);
 			sb.append("\" exp=\"");
-			sb.append(StringUtil.encodeXML(toXMLString(StringTemplate.get(StringType.GEOGEBRA_XML))));
+			sb.append(StringUtil.encodeXML(toXMLString(StringTemplate.xmlTemplate)));
 			// expression   
 			sb.append("\"/>\n");
 		}

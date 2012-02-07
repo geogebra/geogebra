@@ -2199,7 +2199,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 					return false;
 				GeoFunction gfun = (GeoFunction) geos[i];
 				if (!gfun.isBooleanFunction()
-						|| gfun.getVarString(StringTemplate.get(StringType.GEOGEBRA)).equals("y"))
+						|| gfun.getVarString(StringTemplate.defaultTemplate).equals("y"))
 					return false;
 			}
 			return true;
@@ -2931,7 +2931,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 					GeoPointND p = (GeoPointND) it.next();
 
 					for (int k = 0; k < 3; k++) {
-						cbModel[k].addElement(p.getLabel(StringTemplate.get(StringType.GEOGEBRA)));
+						cbModel[k].addElement(p.getLabel(StringTemplate.defaultTemplate));
 					}
 				}
 			}
@@ -2953,7 +2953,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				// set location textfield
 				GeoPoint2 p = geo0.getCorner(k);
 				if (equalLocation && p != null) {
-					cbLocation[k].setSelectedItem(p.getLabel());
+					cbLocation[k].setSelectedItem(p.getLabel(StringTemplate.defaultTemplate));
 				} else
 					cbLocation[k].setSelectedItem(null);
 

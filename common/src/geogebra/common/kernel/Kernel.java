@@ -1052,7 +1052,7 @@ public class Kernel {
 				x = x * ROUND_HALF_UP_FACTOR;
 			}
 			
-			if (useSignificantFigures) {
+			if (tpl.useScientific(useSignificantFigures)) {
 				return formatSF(x,tpl);
 			}
 			return formatNF(x,tpl);

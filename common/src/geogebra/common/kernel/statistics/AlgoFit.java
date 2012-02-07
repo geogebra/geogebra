@@ -195,7 +195,7 @@ public class AlgoFit extends AlgoElement {
 			sb.append(P.getEntry(i,0));
 			sb.append('*');
 			sb.append(((GeoFunction)functionlist.get(i)).getFormulaString(
-					StringTemplate.get(StringType.GEOGEBRA), true));
+					StringTemplate.defaultTemplate, true));
 			if (i != functionsize - 1) {
 				sb.append('+');
 			}
@@ -253,29 +253,28 @@ public class AlgoFit extends AlgoElement {
     	ExpressionNode n=null;
     	if(ev==null){
     		return;
-    	}else{
-    		if(ev.isExpressionNode()){
-    			n=(ExpressionNode)ev;
-    			walk(n.left);    			walk(n.right);
-    			System.out.println("  Op: "+n.getOperation().toString());
-    			System.out.println();
-    		}else if(ev.isGeoElement()){
-    			GeoElement geo=(GeoElement)ev;
-    			System.out.print("   geo.label "+geo.toString());
-    		}else if(ev.isVariable()){
-    			System.out.print("   var: ");
-    		}else if(ev.isNumberValue()){
-    			NumberValue nv=(NumberValue)ev;
-    			System.out.print("   number: "+nv.getDouble());
-    		}else if(ev.isConstant()){
-    			NumberValue nv=(NumberValue)ev;
-    			System.out.print("   const: "+nv.getDouble());
-    		
-    		}else{
-    			System.out.print("   type??");
-    			
-    		}//if right type
-    	}//if
+    	}
+		if(ev.isExpressionNode()){
+			n=(ExpressionNode)ev;
+			walk(n.left);    			walk(n.right);
+			System.out.println("  Op: "+n.getOperation().toString());
+			System.out.println();
+		}else if(ev.isGeoElement()){
+			GeoElement geo=(GeoElement)ev;
+			System.out.print("   geo.label "+geo.toString());
+		}else if(ev.isVariable()){
+			System.out.print("   var: ");
+		}else if(ev.isNumberValue()){
+			NumberValue nv=(NumberValue)ev;
+			System.out.print("   number: "+nv.getDouble());
+		}else if(ev.isConstant()){
+			NumberValue nv=(NumberValue)ev;
+			System.out.print("   const: "+nv.getDouble());
+		
+		}else{
+			System.out.print("   type??");
+			
+		}//if right type
     }//walk node tree
     
  

@@ -421,7 +421,7 @@ public class GeoFunctionConditional extends GeoFunction {
 		GeoFunctionConditional geoFun = (GeoFunctionConditional)geo;
 		
 		// TODO better CAS checking for condFun
-		StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
+		StringTemplate tpl = StringTemplate.defaultTemplate;
 		return 		condFun.toValueString(tpl).equals(geoFun.condFun.toValueString(tpl))
 					&& ifFun.isEqual(geoFun.ifFun)
 					&& ( elseFun != null && elseFun.isEqual(geoFun.elseFun));		

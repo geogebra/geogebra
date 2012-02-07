@@ -1171,7 +1171,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 
 		try {
 			// command
-			StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA_XML,false);
+			StringTemplate tpl = StringTemplate.xmlTemplate;
 			String cmdname = getCommandName(tpl);
 			if (cmdname.equals("Expression")) {
 				sb.append(getExpXML(tpl));

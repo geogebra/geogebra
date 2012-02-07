@@ -70,7 +70,7 @@ public abstract class AlgoCasBase extends AlgoElement {
 			return;
 		}
 
-		applyCasCommand(StringTemplate.get(StringType.MPREDUCE,false));
+		applyCasCommand(StringTemplate.casTemplate);
 	}
 
 	protected abstract void applyCasCommand(StringTemplate tpl);

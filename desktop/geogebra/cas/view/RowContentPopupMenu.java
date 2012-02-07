@@ -63,7 +63,7 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 		Transferable data = null;
 		
 		if (ac.equals("copy")) {
-			data = new StringSelection(value.toOutputValueString(StringTemplate.get(StringType.GEOGEBRA)));
+			data = new StringSelection(value.toOutputValueString(StringTemplate.defaultTemplate));
 		} else if (ac.equals("copyToLaTeX")) {
 			data = new StringSelection(value.getLaTeXOutput());
 		} 

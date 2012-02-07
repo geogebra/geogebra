@@ -83,7 +83,7 @@ public abstract class GeoGebraExport  {
 	}
 	
 	protected String format(double d){
-		return kernel.format(d, StringTemplate.get(StringType.GEOGEBRA));
+		return kernel.format(d, getStringTemplate());
 	}
 
 	// Functions added to access and modify xmin, xmax, ymin and ymax

@@ -1545,7 +1545,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	public String getTooltipText(final boolean colored, final boolean alwaysOn) {
 		// sbToolTipDesc.append(geo.getLongDescriptionHTML(colored, false));
-		StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
+		StringTemplate tpl = StringTemplate.defaultTemplate;
 		switch (tooltipMode) {
 		default:
 		case TOOLTIP_ALGEBRAVIEW_SHOWING:
@@ -2680,7 +2680,7 @@ public abstract class GeoElement extends ConstructionElement implements
 					do {
 						counter++;
 						str = name
-								+ kernel.internationalizeDigits(counter + "",StringTemplate.get(StringType.GEOGEBRA));
+								+ kernel.internationalizeDigits(counter + "",StringTemplate.defaultTemplate);
 					} while (!cons.isFreeLabel(str));
 					return str;
 				} else {
@@ -2757,7 +2757,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		do {
 			counter++;
 			str = app.getPlain(plainKey)
-					+ kernel.internationalizeDigits(counter + "",StringTemplate.get(StringType.GEOGEBRA));
+					+ kernel.internationalizeDigits(counter + "",StringTemplate.defaultTemplate);
 			;
 		} while (!cons.isFreeLabel(str));
 		return str;
@@ -3607,7 +3607,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (algoParent == null) {
 			return "";
 		} else {
-			return indicesToHTML(algoParent.getCommandDescription(StringTemplate.get(StringType.GEOGEBRA)), addHTMLtag);
+			return indicesToHTML(algoParent.getCommandDescription(StringTemplate.defaultTemplate), addHTMLtag);
 		}
 	}
 
@@ -3615,7 +3615,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (algoParent == null) {
 			return "";
 		} else {
-			return indicesToHTML(algoParent.getCommandName(StringTemplate.get(StringType.GEOGEBRA)), addHTMLtag);
+			return indicesToHTML(algoParent.getCommandName(StringTemplate.defaultTemplate), addHTMLtag);
 		}
 	}
 
@@ -3845,7 +3845,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			return getAlgebraDescription();
 
 		case LABEL_VALUE:
-			return toDefinedValueString(StringTemplate.get(StringType.GEOGEBRA));
+			return toDefinedValueString(StringTemplate.defaultTemplate);
 
 		case LABEL_CAPTION: // Michael Borcherds 2008-02-18
 			return getCaption();
@@ -3853,7 +3853,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		default: // case LABEL_NAME:
 			// return label;
 			// Mathieu Blossier - 2009-06-30
-			return getLabel(StringTemplate.get(StringType.GEOGEBRA));
+			return getLabel(StringTemplate.defaultTemplate);
 		}
 	}
 
@@ -3971,7 +3971,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	public String toStringMinimal() {
-		return toString(StringTemplate.get(StringType.GEOGEBRA));
+		return toString(StringTemplate.defaultTemplate);
 	}
 
 	public String getLaTeXdescription() {
@@ -4133,7 +4133,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	public String getNameDescription() {
 		final StringBuilder sbNameDescription = new StringBuilder();
 
-		final String label = getLabel(StringTemplate.get(StringType.GEOGEBRA));
+		final String label = getLabel(StringTemplate.defaultTemplate);
 		final String typeString = translatedTypeString();
 
 		if (app.isReverseNameDescriptionLanguage()) {
@@ -5452,9 +5452,9 @@ public abstract class GeoElement extends ConstructionElement implements
 		// use CAS to check f - g = 0
 		try {
 			final StringBuilder diffSb = new StringBuilder();
-			diffSb.append(getFormulaString(StringTemplate.get(StringType.GEOGEBRA), true));
+			diffSb.append(getFormulaString(StringTemplate.defaultTemplate, true));
 			diffSb.append("-(");
-			diffSb.append(f.getFormulaString(StringTemplate.get(StringType.GEOGEBRA), true));
+			diffSb.append(f.getFormulaString(StringTemplate.defaultTemplate, true));
 			diffSb.append(")");
 			final String diff = kernel.evaluateGeoGebraCAS(diffSb.toString());
 			return (Double.valueOf(diff) == 0d);
