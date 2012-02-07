@@ -487,16 +487,16 @@ public class AlgebraProcessor {
 			list = (GeoList) temp[0];
 		} catch (CircularDefinitionException e) {
 			AbstractApplication.debug("CircularDefinition");
-			app.showError("CircularDefinition");
+			//app.showError("CircularDefinition");
 		} catch (Exception e) {
 			e.printStackTrace();
-			app.showError("InvalidInput", str);
+			//app.showError("InvalidInput", str);
 		} catch (MyError e) {
 			e.printStackTrace();
-			app.showError(e);
+			//app.showError(e);
 		} catch (Error e) {
 			e.printStackTrace();
-			app.showError("InvalidInput", str);
+			//app.showError("InvalidInput", str);
 		}
 
 		cons.setSuppressLabelCreation(oldMacroMode);

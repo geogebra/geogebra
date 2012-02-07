@@ -640,9 +640,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public String getRedefineString(final boolean useChangeable,
 			final boolean useOutputValueString) {
-		final boolean increasePrecision = kernel
-				.ensureTemporaryPrintAccuracy(MIN_EDITING_PRINT_PRECISION);
-		StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
+		
+				
+		StringTemplate tpl = StringTemplate.editTemplate;
 		String ret = null;
 		final boolean isIndependent = !isPointOnPath() && useChangeable ? isChangeable()
 				: isIndependent();
@@ -653,9 +653,6 @@ public abstract class GeoElement extends ConstructionElement implements
 			ret = getCommandDescription(tpl);
 		}
 
-		if (increasePrecision) {
-			kernel.restorePrintAccuracy();
-		}
 		return ret;
 	}
 
@@ -678,16 +675,14 @@ public abstract class GeoElement extends ConstructionElement implements
 		// for expressions like "3 = 2 A2 - A1"
 		// getAlgebraDescription() returns "3 = 5"
 		// so we need to use getCommandDescription() in those cases
-		final boolean increasePrecision = kernel
-				.ensureTemporaryPrintAccuracy(MIN_EDITING_PRINT_PRECISION);
 
-		String inputBarStr = getCommandDescription(StringTemplate.get(StringType.GEOGEBRA));
+		String inputBarStr = getCommandDescription(StringTemplate.editTemplate);
 		if (!inputBarStr.equals("")) {
 
 			// check needed for eg f(x) = g(x) + h(x), f(x) = sin(x)
 			final char delimiter = getLabelDelimiter();
 			if (inputBarStr.indexOf(delimiter) < 0) {
-				inputBarStr = getLabel()
+				inputBarStr = getLabel(StringTemplate.editTemplate)
 						+ (delimiter == '=' ? " =" : delimiter) + " "
 						+ inputBarStr;
 			}
@@ -695,9 +690,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			inputBarStr = getAlgebraDescription();
 		}
 
-		if (increasePrecision) {
-			kernel.restorePrintAccuracy();
-		}
+		
 
 		return inputBarStr;
 	}
@@ -709,16 +702,10 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return value for input field
 	 */
 	public String getValueForInputBar() {
-		StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
-		final boolean increasePrecision = kernel
-				.ensureTemporaryPrintAccuracy(MIN_EDITING_PRINT_PRECISION);
+		StringTemplate tpl = StringTemplate.editTemplate;
 
 		// copy into text field
 		final String ret = toOutputValueString(tpl);
-
-		if (increasePrecision) {
-			kernel.restorePrintAccuracy();
-		}
 
 		return ret;
 	}

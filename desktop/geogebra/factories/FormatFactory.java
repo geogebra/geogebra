@@ -7,8 +7,8 @@ import geogebra.util.ScientificFormat;
 
 public class FormatFactory extends geogebra.common.factories.FormatFactory{
 	@Override
-	public ScientificFormatAdapter getScientificFormat(int a, int b, boolean c) {
-		return new ScientificFormat(a,b,c);
+	public ScientificFormatAdapter getScientificFormat(int sigDigit, int maxWidth, boolean sciNote) {
+		return new ScientificFormat(sigDigit,maxWidth,sciNote);
 	}
 
 	public NumberFormatAdapter getNumberFormat(int digits) {

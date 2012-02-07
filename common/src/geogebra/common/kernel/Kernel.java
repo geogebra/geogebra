@@ -1051,18 +1051,18 @@ public class Kernel {
 				// increase abs(x) slightly to round up
 				x = x * ROUND_HALF_UP_FACTOR;
 			}
-
+			
 			if (useSignificantFigures) {
-				return formatSF(x);
+				return formatSF(x,tpl);
 			}
-			return formatNF(x);
+			return formatNF(x,tpl);
 		}
 	}
 
 	/**
 	 * Uses current NumberFormat nf to format a number.
 	 */
-	final private String formatNF(double x) {
+	final private String formatNF(double x,StringTemplate tpl) {
 		// "<=" catches -0.0000000000000005
 		// should be rounded to -0.000000000000001 (15 d.p.)
 		// but nf.format(x) returns "-0"
@@ -1073,8 +1073,8 @@ public class Kernel {
 		// standard case
 		
 		//nf = FormatFactory.prototype.getNumberFormat(2);
-		
-		return nf.format(x);
+		NumberFormatAdapter nfa = tpl.getNF()==null?nf:tpl.getNF();
+		return nfa.format(x);
 	}
 
 	private StringBuilder formatSB;
@@ -1461,23 +1461,23 @@ public class Kernel {
 	 * Uses current ScientificFormat sf to format a number. Makes sure ".123" is
 	 * returned as "0.123".
 	 */
-	final private String formatSF(double x) {
+	final private String formatSF(double x,StringTemplate tpl) {
 		if (sbFormatSF == null) {
 			sbFormatSF = new StringBuilder();
 		} else {
 			sbFormatSF.setLength(0);
 		}
-
+		ScientificFormatAdapter sfa = tpl.getSF()==null?sf:tpl.getSF();
 		// get scientific format
 		String absStr;
 		if (x == 0) {
 			// avoid output of "-0.00"
-			absStr = sf.format(0);
+			absStr = sfa.format(0);
 		} else if (x > 0) {
-			absStr = sf.format(x);
+			absStr = sfa.format(x);
 		} else {
 			sbFormatSF.append('-');
-			absStr = sf.format(-x);
+			absStr = sfa.format(-x);
 		}
 
 		// make sure ".123" is returned as "0.123".
