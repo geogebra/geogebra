@@ -1770,6 +1770,18 @@ public abstract class AbstractApplication {
 		return macro;
 	}
 
+	public String getMacroXML() {
+		ArrayList<MacroInterface> macros = kernel.getAllMacros();
+		return myXMLio.getFullMacroXML(macros);
+	}
+
+	public String getMacroXMLorNull() {
+		ArrayList<MacroInterface> macros = kernel.getAllMacros();
+		if (macros.isEmpty())
+			return null;
+		return myXMLio.getFullMacroXML(macros);
+	}
+
 	private int labelingStyle = ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY;
 
 	public boolean hasEuclidianView2() {

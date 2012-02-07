@@ -129,11 +129,15 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI implements JavaScript
     public native String getBase64() /*-{
 
 		var xmlstr = this.@geogebra.web.main.GgbAPI::getApplication()().@geogebra.common.main.AbstractApplication::getXML()();
+		var mxmlstr = this.@geogebra.web.main.GgbAPI::getApplication()().@geogebra.common.main.AbstractApplication::getMacroXMLorNull()();
 		var jsstr = this.@geogebra.web.main.GgbAPI::getKernel()().@geogebra.common.kernel.Kernel::getLibraryJavaScript()();
 		var pystr = this.@geogebra.web.main.GgbAPI::getKernel()().@geogebra.common.kernel.Kernel::getLibraryPythonScript()();
 
     	var zip = new $wnd.JSZip("DEFLATE");
-    	zip.add("geogebra_python.py", pystr);
+    	if (mxmlstr != null)
+    		zip.add("geogebra_macro.xml", mxmlstr);
+    	if (pystr != "")
+    		zip.add("geogebra_python.py", pystr);
     	zip.add("geogebra_javascript.js", jsstr);
     	zip.add("geogebra.xml", xmlstr);
 

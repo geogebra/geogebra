@@ -3341,11 +3341,6 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
-	public String getMacroXML() {
-		ArrayList<MacroInterface> macros = kernel.getAllMacros();
-		return myXMLio.getFullMacroXML(macros);
-	}
-
 	@Override
 	public void setXML(String xml, boolean clearAll) {
 		if (clearAll) {
