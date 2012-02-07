@@ -58,13 +58,7 @@ public class InputDialogSegmentFixed extends InputDialog{
 		cons.setSuppressLabelCreation(oldVal);
 
 		if (ret) { 
-			GeoElement[] segment = kernel.Segment(null, geoPoint1, ((NumberInputHandler)inputHandler).getNum());
-			GeoElement[] onlysegment = { null };
-			if (segment != null) {
-				onlysegment[0] = segment[0];
-				app.storeUndoInfo();
-				kernel.getApplication().getActiveEuclidianView().getEuclidianController().memorizeJustCreatedGeos(onlysegment);
-			}
+			DialogManager.doSegmentFixed(kernel, geoPoint1, ((NumberInputHandler)inputHandler).getNum());
 		}
 
 		return ret;

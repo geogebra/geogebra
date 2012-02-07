@@ -37,30 +37,7 @@ public class DialogManagerWeb extends DialogManager {
     }
 
 	@Override
-    public void showNumberInputDialogSegmentFixed(String menu,
-            GeoPoint2 geoPoint2) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void showNumberInputDialogAngleFixed(String menu,
-            GeoSegment[] selectedSegments, GeoPoint2[] selectedPoints,
-            GeoElement[] selGeos) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
     public void showTextCreationDialog(GeoPointND loc) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void showNumberInputDialogDilate(String menu,
-            GeoPolygon[] selectedPolygons, GeoPoint2[] selectedPoints,
-            GeoElement[] selGeos) {
 	    // TODO Auto-generated method stub
 	    
     }
@@ -76,13 +53,6 @@ public class DialogManagerWeb extends DialogManager {
 
 	@Override
     public void showBooleanCheckboxCreationDialog(Point loc, GeoBoolean bool) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    public void showNumberInputDialogCirclePointRadius(String menu,
-            GeoPointND geoPointND, AbstractEuclidianView view) {
 	    // TODO Auto-generated method stub
 	    
     }

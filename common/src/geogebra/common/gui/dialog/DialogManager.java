@@ -9,6 +9,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
+import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -71,12 +72,43 @@ public abstract class DialogManager {
 
 	}
 
-	public abstract void showNumberInputDialogSegmentFixed(String menu,
-			GeoPoint2 geoPoint2);
+	public void showNumberInputDialogSegmentFixed(String menu,
+			GeoPoint2 geoPoint2) {
+		doSegmentFixed(app.getKernel(), geoPoint2, getNumber(app.getKernel(), menu + " " + app.getPlain("Length"), ""));
+	}
 
-	public abstract void showNumberInputDialogAngleFixed(String menu,
+	public void showNumberInputDialogAngleFixed(String menu,
 			GeoSegment[] selectedSegments, GeoPoint2[] selectedPoints,
-			GeoElement[] selGeos);
+			GeoElement[] selGeos) {
+		doAngleFixed(app.getKernel(), selectedSegments, selectedPoints, selGeos, getNumber(app.getKernel(), menu + " " + app.getPlain("Length"), ""), false);
+		
+	}
+
+	public static void doAngleFixed(Kernel kernel, GeoSegment[] segments,
+			GeoPoint2[] points, GeoElement[] selGeo2s, NumberValue num, boolean clockWise) {
+		//GeoElement circle = kernel.Circle(null, geoPoint1, ((NumberInputHandler)inputHandler).getNum());
+		//geogebra.gui.AngleInputDialog dialog = (geogebra.gui.AngleInputDialog) ob[1];
+		//String angleText = getText();
+
+		GeoAngle angle;
+		
+		if (points.length == 2) {
+			angle = (GeoAngle) kernel.Angle(null, points[0], points[1], num, !clockWise)[0];			
+		} else {
+			angle = (GeoAngle) kernel.Angle(null, segments[0].getEndPoint(), segments[0].getStartPoint(), num, !clockWise)[0];
+		}			
+
+		// make sure that we show angle value
+		if (angle.isLabelVisible()) 
+			angle.setLabelMode(GeoElement.LABEL_NAME_VALUE);
+		else 
+			angle.setLabelMode(GeoElement.LABEL_VALUE);
+		angle.setLabelVisible(true);		
+		angle.updateRepaint();
+		
+		kernel.getApplication().storeUndoInfo();
+		
+	}
 
 	public abstract void showTextCreationDialog(GeoPointND loc);
 
@@ -131,9 +163,11 @@ public abstract class DialogManager {
 	    
     }
 
-	public abstract void showNumberInputDialogDilate(String menu,
+	public  void showNumberInputDialogDilate(String menu,
 			GeoPolygon[] selectedPolygons, GeoPoint2[] selectedPoints,
-			GeoElement[] selGeos);
+			GeoElement[] selGeos) {
+		doDilate(app.getKernel(), getNumber(app.getKernel(), menu + " " + app.getPlain("Numeric"), ""), selectedPoints, selGeos);
+	}
 
 	public void showNumberInputDialogRegularPolygon(String menu,
 			GeoPoint2 geoPoint1, GeoPoint2 geoPoint2) {
@@ -145,8 +179,20 @@ public abstract class DialogManager {
 
 	public abstract void showBooleanCheckboxCreationDialog(Point loc, GeoBoolean bool);
 
-	public abstract void showNumberInputDialogCirclePointRadius(String menu,
-			GeoPointND geoPointND, AbstractEuclidianView view);
+	public void showNumberInputDialogCirclePointRadius(String menu,
+			GeoPointND geoPointND, AbstractEuclidianView view) {
+		
+		Kernel kernel = geoPointND.getKernel();
+		
+		NumberValue num = getNumber(kernel, menu, "");
+		
+		GeoConic circle = geoPointND.getKernel().Circle(null, (GeoPoint2) geoPointND, num);
+		
+		GeoElement[] geos = { circle };
+		app.storeUndoInfo();
+		app.getActiveEuclidianView().getEuclidianController().memorizeJustCreatedGeos(geos);
+
+	}
 
 	public abstract NumberValue showNumberInputDialog(String title, String message,
 			String initText);
@@ -308,5 +354,38 @@ public abstract class DialogManager {
 
 	public abstract NumberValue showNumberInputDialog(String menu, String plain,
 			Object object, boolean b, String plain2);
+	
+	public static boolean doDilate(Kernel kernel, NumberValue num, GeoPoint2[] points, GeoElement[] selGeos) {
+
+		if (selGeos.length > 0) {					
+			// mirror all selected geos
+			//GeoElement [] selGeos = getSelectedGeos();
+			GeoPoint2 point = points[0];
+			ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+			for (int i=0; i < selGeos.length; i++) {				
+				if (selGeos[i] != point) {
+					if ((selGeos[i] instanceof Transformable) || selGeos[i].isGeoList())
+						ret.addAll(Arrays.asList(kernel.Dilate(null,  selGeos[i], num, point)));
+				}
+			}
+			if (!ret.isEmpty()) {
+				kernel.getApplication().getActiveEuclidianView().getEuclidianController().memorizeJustCreatedGeos(ret);
+				kernel.getApplication().storeUndoInfo();
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static void doSegmentFixed(Kernel kernel, GeoPoint2 geoPoint1, NumberValue num) {
+		GeoElement[] segment = kernel.Segment(null, geoPoint1, num);
+		GeoElement[] onlysegment = { null };
+		if (segment != null) {
+			onlysegment[0] = segment[0];
+			kernel.getApplication().storeUndoInfo();
+			kernel.getApplication().getActiveEuclidianView().getEuclidianController().memorizeJustCreatedGeos(onlysegment);
+		}
+	}
+
 
 }

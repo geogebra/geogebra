@@ -1,6 +1,7 @@
 package geogebra.common.kernel.kernelND;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.StringTemplate;
@@ -176,6 +177,8 @@ public interface GeoPointND {
 	public boolean isIndependent();
 
 	public AlgoElement getParentAlgorithm();
+
+	public Kernel getKernel();
 
 	
 	//private boolean movePointMode = MOVE_POINT_MODE_XY;

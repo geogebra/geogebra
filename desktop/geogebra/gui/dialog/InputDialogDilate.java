@@ -76,6 +76,23 @@ public class InputDialogDilate extends InputDialog {
 		cons.setSuppressLabelCreation(oldVal);
 		
 		if (success) {
+			return DialogManager.doDilate(kernel, ((NumberInputHandler)inputHandler).getNum(), points, selGeos);
+		}
+		
+		return false;
+		
+		/*
+		
+		// avoid labeling of num
+		Construction cons = kernel.getConstruction();
+		boolean oldVal = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+
+		boolean success = inputHandler.processInput(inputPanel.getText());
+
+		cons.setSuppressLabelCreation(oldVal);
+		
+		if (success) {
 			NumberValue num = ((NumberInputHandler)inputHandler).getNum();
 
 			if (selGeos.length > 0) {					
@@ -96,8 +113,10 @@ public class InputDialogDilate extends InputDialog {
 				return true;
 			}			
 		}
-	
 		return false;	
+		
+		*/
+	
 	}
 
 	@Override

@@ -22,13 +22,14 @@ import javax.swing.text.JTextComponent;
 
 public class InputDialogAngleFixed extends AngleInputDialog implements KeyListener {
 	
+	private static String defaultRotateAngle = "45\u00b0"; // 45 degrees
+
 	private GeoPoint2 geoPoint1;
 	GeoSegment[] segments;
 	GeoPoint2[] points;
 	GeoElement[] selGeos;
 
 	private Kernel kernel;
-	private static String defaultRotateAngle = "45\u00b0"; // 45 degrees
 		
 	public InputDialogAngleFixed(Application app, String title, InputHandler handler, GeoSegment[] segments, GeoPoint2[] points, GeoElement[] selGeos, Kernel kernel) {
 		super(app, app.getPlain("Angle"), title, defaultRotateAngle, false, handler, false);
@@ -85,33 +86,14 @@ public class InputDialogAngleFixed extends AngleInputDialog implements KeyListen
 		
 		
 		if (success) {
-			//GeoElement circle = kernel.Circle(null, geoPoint1, ((NumberInputHandler)inputHandler).getNum());
-			NumberValue num = ((NumberInputHandler)inputHandler).getNum();
-			//geogebra.gui.AngleInputDialog dialog = (geogebra.gui.AngleInputDialog) ob[1];
 			String angleText = getText();
-
 			// keep angle entered if it ends with 'degrees'
 			if (angleText.endsWith("\u00b0") ) defaultRotateAngle = angleText;
 			else defaultRotateAngle = "45"+"\u00b0";
 
-			GeoAngle angle;
-			
-			if (points.length == 2) {
-				angle = (GeoAngle) kernel.Angle(null, points[0], points[1], num, !rbClockWise.isSelected())[0];			
-			} else {
-				angle = (GeoAngle) kernel.Angle(null, segments[0].getEndPoint(), segments[0].getStartPoint(), num, !rbClockWise.isSelected())[0];
-			}			
 
-			// make sure that we show angle value
-			if (angle.isLabelVisible()) 
-				angle.setLabelMode(GeoElement.LABEL_NAME_VALUE);
-			else 
-				angle.setLabelMode(GeoElement.LABEL_VALUE);
-			angle.setLabelVisible(true);		
-			angle.updateRepaint();
-			
-			app.storeUndoInfo();
-			
+			DialogManager.doAngleFixed(kernel, segments, points, selGeos, ((NumberInputHandler)inputHandler).getNum(), rbClockWise.isSelected());
+
 			return true;
 		}
 
