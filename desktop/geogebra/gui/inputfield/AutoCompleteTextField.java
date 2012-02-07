@@ -22,6 +22,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -747,118 +748,241 @@ geogebra.common.gui.inputfield.AutoCompleteTextField {
 		completions = null;
 	}
 
-	/**
-	 * Ticket #1167 Autocompletes input; It will keep already entered parameters
-	 * and merge them in order. If chosen command has less it will output:
-	 * command_name[<original parameter list>][<command parameter list>]
-	 * 
-	 * e.g.: Input: der Choose: Derivative[ <Function> ] Output: Derivative[
-	 * <Function> ]
-	 * 
-	 * Input: derivative[x^2] Choose: Derivative[ <Function> ] Output:
-	 * Derivative[x^2]
-	 * 
-	 * Input: derivative[x^2] Choose: Derivative[ <Function>, <Number> ] Output:
-	 * Derivative[x^2, <Number> ]
-	 * 
-	 * Input: derivative[x^2, <Number> ] Choose: Derivative[ <Function>,
-	 * <Number> ] Output: Derivative[x^2, <Number> ]
-	 * 
-	 * Input: inde[x, <Number> ] Choose: IndexOf[ <Object>, <List>, <Start
-	 * Index> ] Output: IndexOf[x^2, <Number> , <Start Index> ]
-	 * 
-	 * @param index
-	 *            index of the chosen command in the completions list
-	 * @return false if completions list is null or index < 0 or index >
-	 *         completions.size()
-	 */
-	public boolean validateAutoCompletion(int index) {
-		if (completions == null || index < 0 || index >= completions.size()) {
-			return false;
-		}
-		String command = completions.get(index);
-		String text = getText();
-		StringBuilder sb = new StringBuilder();
-		int commandBracketLeft = command.indexOf('[');
-		int commandCommaIndex = command.indexOf(',', commandBracketLeft);
+  /**
+   * Ticket #1167 Auto-completes input; It will keep already entered parameters<br>
+   * and merge them in order. If chosen command has less it will output:<br>
+   * command_name[&lt;original parameter list&gt;]<br>
+   * <br>
+   * e.g.:<br>
+   * Input: der <br>
+   * Choose: Derivative[ &lt;Function&gt; ]<br>
+   * Output: Derivative[ &lt;Function&gt; ]<br>
+   * <br>
+   * Input: derivative[x^2]<br>
+   * Choose: Derivative[ &lt;Function&gt; ]<br>
+   * Output: Derivative[x^2]<br>
+   * <br>
+   * Input: derivative[x^2]<br>
+   * Choose: Derivative[ &lt;Function>, &lt;Number&gt; ]<br>
+   * Output: Derivative[x^2, &lt;Number&gt; ]<br>
+   * <br>
+   * Input: derivative[x^2, &lt;Number&gt; ]<br>
+   * Choose: Derivative[ &lt;Function&gt;, &lt;Number&gt; ]<br>
+   * Output: Derivative[x^2, &lt;Number&gt; ]<br>
+   * <br>
+   * Input: inde[x, &lt;Number&gt; ]<br>
+   * Choose: IndexOf[ &lt;Object&gt;, &lt;List&gt;, &lt;StartIndex&gt; ]<br>
+   * Output: IndexOf[x, &lt;Number&gt; , &lt;StartIndex&gt; ]<br>
+   * <br>
+   * 
+   * @param index
+   *          index of the chosen command in the completions list
+   * @return false if completions list is null or index < 0 or index >
+   *         completions.size()
+   * @author Lucas Binter
+   */
+  public boolean validateAutoCompletion(int index) {
+    if (completions == null || index < 0 || index >= completions.size()) {
+      return false;
+    }
+    String command = completions.get(index);
+    StringBuilder sb = new StringBuilder();
 
-		// Ticket #1167
-		// Lucas Binter
-		// check if original Text already contains a parameter ( e.g.:
-		// Derivative[x^2])
-		int textBracketLeft = text.indexOf('[', curWordStart);// + 1;
-		int textBracketRight = text.indexOf(']', textBracketLeft);
-		int textCommaIndex = text.indexOf(',', textBracketLeft);
-		if (textBracketLeft != -1 && textBracketRight != -1
-				&& textBracketLeft + 1 != textBracketRight) { // Original Input
-																// already
-																// contains a
-																// parameter
-			sb.append(text.substring(0, curWordStart));
-			sb.append(command.substring(0, commandBracketLeft));
-			if (commandCommaIndex != -1) { // multiple parameter command
-				int countCommaCommand = 0;
-				int lastIndex = commandCommaIndex;
-				do {
-					lastIndex = command.indexOf(',', lastIndex + 1);
-					countCommaCommand++;
-				} while (lastIndex != -1);
-				if (textCommaIndex != -1) { // input already contains multiple
-											// parameters
-					int countCommaText = 0;
-					lastIndex = textCommaIndex;
-					do {
-						lastIndex = text.indexOf(',', lastIndex + 1);
-						countCommaText++;
-					} while (lastIndex != -1);
-					sb.append(text.substring(curWordStart + curWord.length(),
-							textBracketRight)); // Keep already entered
-												// parameters
-					if (countCommaCommand > countCommaText) { // Append missing
-																// command
-																// parameters
-						lastIndex = commandCommaIndex;
-						int count = 1;
-						while (count <= countCommaText) {
-							lastIndex = command.indexOf(',', lastIndex + 1);
-							count++;
-						}
-						sb.append(command.substring(lastIndex));
-					} else if (countCommaCommand < countCommaText) {
-						sb.append(']');
-						sb.append(command.substring(commandBracketLeft));
-					} else if (countCommaCommand == countCommaText) {
-						sb.append(']');
-					}
-				} else { // multiple parameter Function but only 1 parameter
-							// found
-					// Replace first from command keep rest from command
-					sb.append(text.substring(textBracketLeft, textBracketRight)); 
-					sb.append(command.substring(commandCommaIndex));
-				}
-			} else { // single parameter command
-				sb.append(text.substring(curWordStart + curWord.length()));
-			}
-			setText(sb.toString());
-			setCaretPosition(curWordStart + sb.length());
-		} else {
-			sb.append(text.substring(0, curWordStart));
-			sb.append(command);
-			sb.append(text.substring(curWordStart + curWord.length()));
-			setText(sb.toString());
-			setCaretPosition(curWordStart + commandBracketLeft);
-		}
+    int carPos = 0;
 
-		// Application.debug("----- selected command: " + command +
-		// "\n-----    original text: " + text +
-		// "\n----- inserted command: " + sb.toString() +
-		// "\n-----          curWord: " + curWord +
-		// "\n-----     curWordStart: " + curWordStart);
+    // Generate Input Tokens
+    char[] tArray = getText().toCharArray();
+    ArrayList<String> textTokens = new ArrayList<String>();
+    int textBLPos = -1; // position of left most [
+    int textBRPos = -1; // position of right most ]
+    int textFirstComma = -1; // position of first comma
+    int textBLCount = 0; // count of [
+    sb = new StringBuilder();
+    for (int i = 0; i < tArray.length; i++) {
+      switch (tArray[i]) {
+        case '[':
+          textTokens.add(sb.toString());
+          sb = new StringBuilder();
+          textTokens.add("[");
+          if (textBLPos == -1) {
+            textBLPos = textTokens.size() - 1;
+          }
+          textBLCount++;
+          break;
+        case ']':
+          textTokens.add(sb.toString());
+          sb = new StringBuilder();
+          textTokens.add("]");
+          if (textBRPos == -1) {
+            textBRPos = textTokens.size() - 1;
+          }
+          break;
+        case ',':
+          textTokens.add(sb.toString());
+          sb = new StringBuilder();
+          textTokens.add(",");
+          if (textFirstComma == -1) {
+            textFirstComma = textTokens.size() - 1;
+          }
+          break;
+        default:
+          sb.append(tArray[i]);
+      }
+      if (i == tArray.length - 1 && sb.length() != 0) {
+        textTokens.add(sb.toString());
+        sb = new StringBuilder();
+      }
+    }
+    sb = new StringBuilder();
 
-		moveToNextArgument(false);
-		return true;
-	}
+    // Generate Command Tokens
+    System.out.println("\nCommand: " + command);
+    char[] cArray = command.toCharArray();
+    ArrayList<String> commandTokens = new ArrayList<String>();
+    sb = new StringBuilder();
+    int commandBLPos = -1;
+    int commandParams = 0; // parameter count
+    for (int i = 0; i < cArray.length; i++) {
+      switch (cArray[i]) {
+        case '[':
+          commandTokens.add(sb.toString());
+          sb = new StringBuilder();
+          commandTokens.add("[");
+          commandBLPos = commandTokens.size() - 1;
+          break;
+        case ']':
+          commandTokens.add(sb.toString());
+          sb = new StringBuilder();
+          commandParams++;
+          commandTokens.add("]");
+          break;
+        case ',':
+          commandTokens.add(sb.toString());
+          sb = new StringBuilder();
+          commandParams++;
+          commandTokens.add(",");
+          break;
+        default:
+          if (!Character.isWhitespace(cArray[i])) {
+            sb.append(cArray[i]);
+          }
+      }
+      if (i == cArray.length - 1 && sb.length() != 0) {
+        commandTokens.add(sb.toString());
+        sb = new StringBuilder();
+      }
+    }
+    sb = new StringBuilder();
 
+    // determine start token
+    int startPos = 0;
+    int length = 0;
+    Iterator<String> iterator = textTokens.iterator();
+    while (iterator.hasNext()) {
+      length += iterator.next().length();
+      if (length > curWordStart) {
+        break;
+      }
+      startPos++;
+    }
+    iterator = null;
+
+    // Build new String
+
+    // Append everything before start token
+    String current;
+    for (int i = 0; i < startPos; i++) {
+      sb.append(textTokens.get(i).trim());
+    }
+
+    // Append the command
+    sb.append(commandTokens.get(0));
+
+    if (textBLCount == 0) {
+      // original input does not contain any parameters
+      sb.append("[");
+      carPos = sb.length();
+      for (int i = commandBLPos + 1; i < commandTokens.size(); i++) {
+        sb.append(commandTokens.get(i).trim());
+      }
+    } else {
+      // original input does contain parameters
+      if (startPos + 1 < textTokens.size()) {
+        if (textTokens.get(startPos + 1).trim().equals(",")
+            || textTokens.get(startPos + 1).trim().equals("]")) {
+          // new command is a parameter itself
+          // append rest of command
+          for (int i = 1; i < commandTokens.size(); i++) {
+            current = commandTokens.get(i).trim();
+            if (current.equals("[")) {
+              carPos = sb.length();
+            }
+            sb.append(current);
+          }
+          // append the rest of original input
+          for (int i = startPos + 1; i < textTokens.size(); i++) {
+            sb.append(textTokens.get(i).trim());
+          }
+        } else if (textTokens.get(startPos + 1).trim().equals("[")) {
+          // parameter comparison is needed
+          int openBrackets = 0;
+          int params = 0;
+          // appends all preexisting params
+          int lastIndex = 0;
+          carPos = sb.length();
+          for (int i = startPos + 1; i < textTokens.size(); i++) {
+            current = textTokens.get(i).trim();
+            if (current.equals("[")) {
+              openBrackets++;
+              sb.append('[');
+            } else if (current.equals("]")) {
+              if (openBrackets == 1) {
+                params++;
+              } else {
+                sb.append(']');
+              }
+              openBrackets--;
+              if (openBrackets == 0) {
+                lastIndex = i + 1;
+                break;
+              }
+            } else if (current.equals(",")) {
+              sb.append(',');
+              if (openBrackets == 1) {
+                params++;
+              }
+            } else {
+              sb.append(current);
+            }
+          }
+          if (params < commandParams) {
+            // append missing
+            sb.append(',');
+            carPos = sb.length();
+            for (int i = 2 + 2 * params; i < commandTokens.size(); i++) {
+              sb.append(commandTokens.get(i).trim());
+            }
+          }else{
+            sb.append(']');
+          }
+          for (int i = lastIndex; i < textTokens.size(); i++) {
+            sb.append(textTokens.get(i).trim());
+          }
+        }
+      } else {
+        // should never happen
+        // because [ cannot be the start token and startPos cannot be the last
+        // token if textBLCount > 0
+      }
+    }
+
+    setText(sb.toString());
+    setCaretPosition(carPos);
+
+    moveToNextArgument(false);
+    return true;
+  }
+  
 	/**
 	 * Adds string to input textfield's history
 	 * @param str
