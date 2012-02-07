@@ -855,7 +855,7 @@ public class CASInputHandler {
 			boolean startOfReferenceNumber = false;
 			boolean needOutput = true;
 
-			// -1 means reference without a number (to the last row)
+			// -1 means reference without a number (to the previous row)
 			int referenceNumber = -1;
 
 			for (int i = 0; i < str.length(); i++) {
@@ -929,8 +929,7 @@ public class CASInputHandler {
 				reference = casView.getRowOutputValue(referenceNumber - 1);
 			} else {
 				// a # (or $) with a following number and the same delimiter
-				// again
-				// is in the the input (for example #3#)
+				// again is in the the input (for example #3#)
 				reference = casView.getRowInputValue(referenceNumber - 1);
 			}
 
