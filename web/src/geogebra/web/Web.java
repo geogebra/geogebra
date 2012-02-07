@@ -47,15 +47,11 @@ public class Web implements EntryPoint {
 		}
 		return articleNodes;
 	}
-	
-	public static SplashDialog splash = new SplashDialog();
 
 	public void onModuleLoad() {
 		//for debug
 		//DebugPrinterWeb.DEBUG_IN_PRODUCTION = true;
 		//show splash
-		splash.center();
-		splash.show();
 		startGeoGebra(getGeoGebraMobileTags());
 	}
 	

@@ -3,6 +3,7 @@ package geogebra.web.gui.app;
 import geogebra.common.GeoGebraConstants;
 import geogebra.web.css.CssWeb;
 import geogebra.web.css.GuiResources;
+import geogebra.web.gui.SplashDialog;
 import geogebra.web.helper.RequestTemplateXhr2;
 import geogebra.web.helper.UrlFetcherImpl;
 import geogebra.web.helper.XhrFactory;
@@ -62,10 +63,16 @@ public class GeoGebraFrame extends VerticalPanel {
 	        GeoGebraFrame inst = new GeoGebraFrame();
 	        Application app = inst.createApplication();
 	        inst.app = app;
+	        inst.createSplash();
 	        inst.add(app.buildApplicationPanel());
 	        RootPanel.get(articleElement.getId()).add(inst); 
 	        handleLoadFile(articleElement,app);
         }
+    }
+
+	private void createSplash() {
+	    this.app.splash = new SplashDialog();
+	    add(this.app.splash);
     }
 
 	private static void handleLoadFile(ArticleElement articleElement, Application app) {

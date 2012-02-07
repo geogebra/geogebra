@@ -3,14 +3,16 @@ package geogebra.web.gui;
 import geogebra.common.GeoGebraConstants;
 import geogebra.web.css.GuiResources;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 
-public class SplashDialog extends PopupPanel {
+public class SplashDialog extends SimplePanel {
 	
-	static boolean appLoaded = false;
-	static boolean timerEllapsed = false;
+	boolean appLoaded = false;
+	boolean timerEllapsed = false;
 	
 	private Timer t = new Timer() {
 		@Override
@@ -26,7 +28,10 @@ public class SplashDialog extends PopupPanel {
 	    HTML svg = new HTML(GuiResources.INSTANCE.ggb4Splash().getText());
 	    add(svg);
 	    t.schedule(GeoGebraConstants.SPLASH_DIALOG_DELAY);
-	    
+    }
+
+	protected void hide() {
+	    this.removeFromParent();
     }
 
 	public void canNowHide() {

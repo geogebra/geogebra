@@ -38,6 +38,7 @@ import geogebra.web.css.GuiResources;
 import geogebra.web.euclidian.EuclidianController;
 import geogebra.web.euclidian.EuclidianView;
 import geogebra.web.gui.DialogManagerWeb;
+import geogebra.web.gui.SplashDialog;
 import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLio;
 import geogebra.web.kernel.AnimationManager;
@@ -302,6 +303,10 @@ public class Application extends AbstractApplication {
 		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.web.euclidian.HatchingHandler();
 		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.web.euclidian.EuclidianStatic();
 		this.canvas = canvas;
+		canvas.setWidth("1px");
+		canvas.setHeight("1px");
+		canvas.setCoordinateSpaceHeight(1);
+		canvas.setCoordinateSpaceWidth(1);
 
 	    registerCanvasHelpers();
 
@@ -358,7 +363,7 @@ public class Application extends AbstractApplication {
 		loadFile(archiveContent);
 		((EuclidianView) euclidianView).setDisableRepaint(false);
 		euclidianView.repaintView();
-		Web.splash.canNowHide();
+		splash.canNowHide();
 	}
 
 	public static void log(String message) {
@@ -837,6 +842,7 @@ public class Application extends AbstractApplication {
 	// eg so that GeoGebraTube can notice it's a version of the same file
 	private String uniqueId = null;//FIXME: generate new UUID: + UUID.randomUUID();
 	private geogebra.web.gui.DialogManagerWeb dialogManager;
+	public SplashDialog splash;
 
 	public String getUniqueId() {
 		return uniqueId;
