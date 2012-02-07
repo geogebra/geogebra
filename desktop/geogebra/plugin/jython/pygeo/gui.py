@@ -3,8 +3,10 @@ from __future__ import division, with_statement
 # Standard Library imports
 import re, sys, traceback
 
-from geogebra.plugin.jython import PythonAPI as API
-api = API.getInstance()
+# FLAT
+#from geogebra.plugin.jython import PythonFlatAPI as API
+#api = API.getInstance()
+from apiproxy import API
 
 from pyggb import interface
 
@@ -579,7 +581,8 @@ class MyStream(object):
 
 class InteractivePane(ActionListener, DocumentListener):
 
-    def __init__(self):
+    def __init__(self, api):
+        self.api = api
         self.component = JPanel(BorderLayout())
         
         scrollpane = JScrollPane()
@@ -664,7 +667,8 @@ class InteractivePane(ActionListener, DocumentListener):
 
 class ScriptPane(ActionListener):
 
-    def __init__(self):
+    def __init__(self, api):
+        self.api = api
         self.component = JPanel(BorderLayout())
 
         # Create editor pane
@@ -691,16 +695,17 @@ class ScriptPane(ActionListener):
         self.script_area.dedent_selection()
 
     def reset(self):
-        self.script_area.input = api.initScript
+        self.script_area.input = self.api.getInitScript()
     
     def actionPerformed(self, evt):
         # 'Save' button was clicked
-        api.initScript = self.script_area.input
+        self.api.setInitScript(self.script_area.input)
 
         
 class EventsPane(ActionListener):
     
-    def __init__(self):
+    def __init__(self, api):
+        self.api = api
         self.component = JPanel(BorderLayout())
 
         # Create editor pane
@@ -737,9 +742,11 @@ class EventsPane(ActionListener):
 
     def update_geos(self):
         self.objects_box.removeAllItems()
-        self.geos = api.allGeos
+        self.geos = self.api.getAllGeos()
         for geo in self.geos:
-            self.objects_box.addItem(geo.typeString + " " + geo.label)
+            tp = API.Geo.getTypeString(geo)
+            label = API.Geo.getLabel(geo)
+            self.objects_box.addItem(tp + " " + label)
         self.objects_box.repaint()
 
     def event_listener(self, evt, target):
@@ -750,14 +757,16 @@ class EventsPane(ActionListener):
             return
         geo, evt = self.current
         script = self.script_area.input
-        setattr(geo, evt + "Script", script)
+        setter = "set" + evt.capitalize() + "Script"
+        getattr(API.Geo, setter)(geo, script)
             
     def update_script_area(self):
         self.save_current_script()
         geo = self.geos[self.objects_box.selectedIndex]
         evt = self.events_box.selectedItem
         self.current = geo, evt
-        self.script_area.input = getattr(geo, evt + "Script")
+        getter = "get" + evt.capitalize() + "Script"
+        self.script_area.input = getattr(API.Geo, getter)(geo)
 
     def reset(self):
         self.current=None
@@ -770,14 +779,15 @@ class EventsPane(ActionListener):
 
 class PythonWindow(ActionListener, ChangeListener):
     
-    def __init__(self):
+    def __init__(self, api):
+        self.api = api
         self.frame = JFrame("Python Window")
 
         tabs = JTabbedPane()
 
-        self.interactive_pane = InteractivePane()
-        self.script_pane = ScriptPane()
-        self.events_pane = EventsPane()
+        self.interactive_pane = InteractivePane(api)
+        self.script_pane = ScriptPane(api)
+        self.events_pane = EventsPane(api)
         
         tabs.addTab("Interactive", self.interactive_pane.component)
         tabs.addTab("Script", self.script_pane.component)

@@ -21,6 +21,7 @@ import org.python.util.PythonInterpreter;
  */
 public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge implements View, GeoElementSelectionListener {
 	private Application application;
+	private PythonFlatAPI api;
 	private PythonInterpreter interpreter = null;
 	private PythonScriptInterface pyInterface = null;
 	private boolean ready = false;
@@ -32,7 +33,8 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	 */
 	public PythonBridge(Application app) {
 		application = app;
-		PythonAPI.init(app);
+		// FLAT
+		api = new PythonFlatAPI(app);
 	}
 	
 	/**
@@ -45,7 +47,7 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 			interpreter.exec("import sys; sys.path.extend(['__pyclasspath__/geogebra/plugin/jython', '__pyclasspath__/Lib'])");
 			interpreter.exec("from pyggb import interface");
 			pyInterface = (PythonScriptInterface)interpreter.get("interface").__tojava__(PythonScriptInterface.class);
-			pyInterface.init();
+			pyInterface.init(api);
 			application.getKernel().attach(this);
 			ready = true;
 			AbstractApplication.debug("Done Initialising Python interpreter.");

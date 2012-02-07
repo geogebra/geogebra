@@ -1,55 +1,53 @@
 # Make division novice-friendly :)
 from __future__ import division, with_statement
 
-from geogebra.plugin.jython import PythonAPI as API, PythonScriptInterface
+# FLAT
+# from geogebra.plugin.jython import PythonFlatAPI as API
+from geogebra.plugin.jython import PythonScriptInterface
 
 from collections import defaultdict
-import sys
-from pygeo import objects
-from geogebra.awt import Color
+import sys, time
+# FLAT
+from pygeo import objects_flat as objects
+from pygeo.apiproxy import (
+    API, APIProxy, start_new_thread, run_in_main_thread,
+    in_new_thread, in_main_thread,
+)
 
-api = API.getInstance()
-ggbapi = api.ggbApi
+from geogebra.awt import Color
 
 class Interface(PythonScriptInterface):
     
-    def init(self):
+    def init(self, api):
         global selection
+        self.api = api = APIProxy(api)
         self.pywin = None
-        self.geo = objects.Geo()
-        selection = self.selection = objects.Selection()
+        factory = self.factory = objects.ElementFactory(api)
+        functions = Functions(api, factory)
+        self.geo = objects.GeoNamespace(self.factory)
+        #selection = self.selection = objects.Selection()
         self.namespace = {
             'Color': Color,
-            'Point': objects.Point,
-            'Element': objects.Element,
-            'Number': objects.Numeric,
-            'Angle': objects.Angle,
-            'Vector': objects.Vector,
-            'Line': objects.Line,
-            'Segment': objects.Segment,
-            'Ray': objects.Ray,
-            'Function': objects.Function,
-            'Conic': objects.Conic,
-            'Circle': objects.Circle,
-            'Ellipse': objects.Ellipse,
-            'Hyperbola': objects.Hyperbola,
-            'Parabola': objects.Parabola,
-            'Locus': objects.Locus,
-            'Text': objects.Text,
-            'Button': objects.Button,
-            'List': objects.List,
-            'Intersect': objects.Intersect,
-            'ggbApplet': ggbapi,
+            'ggbApplet': api.ggbApi,
             'geo': self.geo,
-            'selection': self.selection,
-            'pointlist': objects.pointlist,
-            'interactive': interactive,
-            'input': input,
-            'debug': debug,
-            'alert': alert,
+            #'selection': self.selection,
+            #'interactive': interactive,
+            'input': functions.input,
+            'debug': functions.debug,
+            'alert': functions.alert,
+            'command': functions.command,
+            'sleep': time.sleep,
+            'in_new_thread': in_new_thread,
+            'in_main_thread': in_main_thread,
+            'start_new_thread': start_new_thread,
+            'run_in_main_thread': run_in_main_thread,
+            '__factory__': factory,
             '__api__': api,
         }
-        self.namespace.update(objects.unary_functions)
+        for obj in objects.__objects__:
+            self.namespace[obj.__name__] = getattr(factory, obj.__name__)
+        self.namespace['Intersect'] = factory.Intersect
+        self.namespace.update(objects.unary_functions(self.factory))
         self.handling_event = False
         self.event_listeners = defaultdict(list)
 
@@ -59,10 +57,10 @@ class Interface(PythonScriptInterface):
     def handleEvent(self, evt_type, target):
         for listener in self.event_listeners[evt_type]:
             listener(evt_type, target)
-        target = API.Geo(target)
+        # target = API.Geo(target)
         if self.handling_event:
             return
-        element = self.geo._get_element(target)
+        element = self.factory.get_element(target)
         try:
             action = getattr(element, "on" + evt_type)
         except AttributeError:
@@ -78,9 +76,9 @@ class Interface(PythonScriptInterface):
             self.handling_event = False
         
     def notifySelected(self, geo, add):
-        geo = API.Geo(geo)
+        # geo = API.Geo(geo)
         if self.selection_listener:
-            el = self.geo._get_element(geo)
+            el = self.factory.get_element(geo)
             self.selection_listener.send(el, add)
             if self.selection_listener.done:
                 self.remove_selection_listener()
@@ -91,15 +89,15 @@ class Interface(PythonScriptInterface):
     def toggleWindow(self):
         if self.pywin is None:
             from pygeo import gui
-            self.pywin = gui.PythonWindow()
+            self.pywin = gui.PythonWindow(self.api)
         self.pywin.toggle_visibility()
     
     def isWindowVisible(self):
         return self.pywin is not None and self.pywin.frame.visible
 
     def setEventListener(self, geo, evt, code):
-        geo = API.Geo(geo)
-        el = self.geo._get_element(geo)
+        # geo = API.Geo(geo)
+        el = self.factory.get_element(geo)
         if not code.strip():
             # print "deleting %s listener for %s" % (evt, el)
             try:
@@ -119,7 +117,9 @@ class Interface(PythonScriptInterface):
     def reset(self):
         if self.pywin is not None:
             self.pywin.reset()
-        self.run(api.initScript)
+        print "*** resetting, running initScript:"
+        print self.api.initScript
+        self.run(self.api.initScript)
     
     def addEventListener(self, evt, listener):
         self.event_listeners[evt].append(listener)
@@ -152,10 +152,10 @@ class Interface(PythonScriptInterface):
         source = self.format_source(source)
         try:
             code = self.compileinteractive(source)
-        except SyntaxError, e:
+        except SyntaxError:
             try:
                 code = self.compilemodule(source)
-            except SyntaxError:
+            except SyntaxError, e:
                 raise e
         return code
     
@@ -195,15 +195,25 @@ class interactive(object):
             self.f(*self.objs)
 
 
-def debug(s):
-    ggbapi.debug(s)
-def alert(s):
-    ggbapi.alert(s)
-def input(s, t = ""):
-    ret = ggbapi.prompt(s, t)
-    if ret is None:
-        return ""
-    return ret
+class Functions(object):
+    def __init__(self, api, factory):
+        self.api = api
+        self.factory = factory
+        self.ggbapi = api.ggbApi
+    def input(self, s, t=""):
+        return self.ggbapi.prompt(s, t) or ""
+    def alert(self, s):
+        self.ggbapi.alert(s)
+    def debug(self, s):
+        self.ggbapi.debug(s)
+    def command(self, cmd):
+        try:
+            geos = self.api.evalCommand(cmd)
+        except Exception:
+            raise ValueError
+        if geos is None:
+            return None
+        return map(self.factory.get_element, geos)
 
 
 # This is to update the atime of the modules I want to keep in the jython jar

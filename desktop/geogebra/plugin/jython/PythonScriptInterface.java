@@ -1,7 +1,6 @@
 package geogebra.plugin.jython;
 
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.main.Application;
 
 /**
  * @author arno
@@ -11,9 +10,9 @@ import geogebra.main.Application;
 public interface PythonScriptInterface {
 	
 	/**
-	 * @param app the application object
+	 * @param api the api instance
 	 */
-	public void init();
+	public void init(PythonFlatAPI api);
 	
 	/**
 	 * This method is called every time an event is triggered on a GeoElement
