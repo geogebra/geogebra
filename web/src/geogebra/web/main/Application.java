@@ -358,7 +358,7 @@ public class Application extends AbstractApplication {
 		loadFile(archiveContent);
 		((EuclidianView) euclidianView).setDisableRepaint(false);
 		euclidianView.repaintView();
-		Web.splash.hide();
+		Web.splash.canNowHide();
 	}
 
 	public static void log(String message) {
