@@ -8,7 +8,7 @@ import geogebra.common.util.Unicode;
 /**
  * StringTemplate provides a container for all settings we might need
  * when serializing ExpressionValues to screen / XML / CAS input / export.
- * @author Zbynek Koneecny
+ * @author Zbynek Konecny
  */
 public class StringTemplate {
 	
@@ -30,8 +30,8 @@ public class StringTemplate {
 	 */
 	public static StringTemplate xmlTemplate = new StringTemplate();
 	static {
-		casTemplate.internationalizeDigits = false;
-		casTemplate.setType(StringType.GEOGEBRA_XML);
+		xmlTemplate.internationalizeDigits = false;
+		xmlTemplate.setType(StringType.GEOGEBRA_XML);
 	}
 	/**
 	 * for input bar; same as default, but increases precision to MIN_EDITING_PRINT_PRECISION
