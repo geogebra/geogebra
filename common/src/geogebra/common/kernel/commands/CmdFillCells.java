@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.MyPoint;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoCellRange;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -66,7 +67,7 @@ public class CmdFillCells extends CommandProcessor {
 
 				// Application.debug(minCol+" "+maxCol+" "+minRow+" "+maxRow);
 
-				GeoElement geo = (GeoElement) arg[1];
+				GeoElement geo = arg[1];
 				GeoElement[] ret = {};
 
 				if (geo.isGeoLocus()) {
@@ -145,9 +146,10 @@ public class CmdFillCells extends CommandProcessor {
 				app.setScrollToShow(true);
 				return ret;
 
-			} else {
+			} 
+			{
 
-				if (app.getKernel().getGeoElementSpreadsheet().isSpreadsheetLabel(arg[0].getLabel())) {
+				if (app.getKernel().getGeoElementSpreadsheet().isSpreadsheetLabel(arg[0].getLabelSimple())) {
 
 					if (!arg[1].isGeoList()) {
 						app.setScrollToShow(true);
@@ -157,7 +159,7 @@ public class CmdFillCells extends CommandProcessor {
 					GeoList list = (GeoList) arg[1];
 
 					MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
-							.exec(arg[0].getLabel());
+							.exec(arg[0].getLabel(StringTemplate.defaultTemplate));
 					int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
 					int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 

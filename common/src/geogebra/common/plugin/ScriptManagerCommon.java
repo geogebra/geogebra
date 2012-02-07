@@ -1,5 +1,6 @@
 package geogebra.common.plugin;
 
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
@@ -258,7 +259,7 @@ public abstract class ScriptManagerCommon {
 		 */
 		public void add(GeoElement geo) {
 			if (addListeners.size()>0 && geo.isLabelSet()) { 	
-				Object [] args = { geo.getLabel() };
+				Object [] args = { geo.getLabel(StringTemplate.defaultTemplate) };
 				notifyListeners(addListeners, args);
 			}
 		}

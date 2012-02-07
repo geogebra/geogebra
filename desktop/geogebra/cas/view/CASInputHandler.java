@@ -2,6 +2,7 @@ package geogebra.cas.view;
 
 import geogebra.common.cas.CASException;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -267,7 +268,7 @@ public class CASInputHandler {
 	 *            the list of parameters
 	 */
 	private void processMultipleRows(String ggbcmd, String[] params) {
-
+		StringTemplate tpl = StringTemplate.defaultTemplate;
 		// get current row and input text
 		consoleTable.stopEditing();
 		int selRow = consoleTable.getSelectedRow();
@@ -319,7 +320,7 @@ public class CASInputHandler {
 			if (selectedIndices[i] == selRow) {
 				cellText = consoleTable.getEditor().getInput();
 			} else {
-				cellText = selCellValue.getInputVE().toString();
+				cellText = selCellValue.getInputVE().toString(tpl);
 			}
 			cellText = resolveCASrowReferences(cellText, selectedIndices[i],
 					ROW_REFERENCE_STATIC, false);
@@ -354,13 +355,13 @@ public class CASInputHandler {
 			if (assignedVariable != null) {
 				references[counter] = assignedVariable;
 				equations[counter++] = resolveCASrowReferences(selCellValue
-						.getInputVE().toString(), selectedIndices[i],
+						.getInputVE().toString(tpl), selectedIndices[i],
 						ROW_REFERENCE_STATIC, false);
 			} else {
 				if (selectedIndices[i] == selRow) {
 					cellText = consoleTable.getEditor().getInput();
 				} else {
-					cellText = selCellValue.getInputVE().toString();
+					cellText = selCellValue.getInputVE().toString(tpl);
 				}
 				cellText = resolveCASrowReferences(cellText,
 						selectedIndices[i], ROW_REFERENCE_STATIC, false);
@@ -422,11 +423,11 @@ public class CASInputHandler {
 			if (v.getAssignmentVariable() != null) {
 				references[i] = v.getAssignmentVariable();
 			}
-			equations[i] = v.getInputVE().toString();
+			equations[i] = v.getInputVE().toString(tpl);
 			GeoElement geoVar = kernel.lookupLabel(equations[i]);
 			if (geoVar != null) {
 				equationsVariablesResolved
-						.append(", " + geoVar.toValueString());
+						.append(", " + geoVar.toValueString(tpl));
 			} else {
 				equationsVariablesResolved.append(", " + equations[i]);
 			}
@@ -555,8 +556,8 @@ public class CASInputHandler {
 	/**
 	 * Processes given row.
 	 * 
-	 * @param selRow
-	 * @param startEditing
+	 * @param selRow row index
+	 * @param startEditing start editing
 	 * @return success
 	 */
 	public boolean processRowThenEdit(int selRow, boolean startEditing) {

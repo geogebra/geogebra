@@ -61,7 +61,7 @@ public class AlgoAnglePolygon extends AlgoElement implements AngleAlgo {
         } else {
         	
         	outputAngles.setLabels(labels);
-        	outputAngles.setIndexLabels(outputAngles.getElement(0).getLabel());
+        	outputAngles.setIndexLabels(outputAngles.getElement(0).getLabel(StringTemplate.defaultTemplate));
         }	
     }
 

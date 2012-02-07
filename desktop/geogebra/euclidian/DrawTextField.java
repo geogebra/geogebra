@@ -247,7 +247,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		// show hide label by setting text
 		if (geo.isLabelVisible()) {
 			// get caption to show r
-			String caption = geo.getCaption(StringTemplate.get(StringType.GEOGEBRA));
+			String caption = geo.getCaption(StringTemplate.defaultTemplate);
 			if (!caption.equals(oldCaption)) {
 				oldCaption = caption;
 				labelDesc = GeoElement.indicesToHTML(caption, true);

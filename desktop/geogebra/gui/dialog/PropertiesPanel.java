@@ -2766,7 +2766,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				int count = 0;
 				while (it.hasNext() || ++count > MAX_COMBOBOX_ENTRIES) {
 					GeoElement p = it.next();
-					cbModel.addElement(p.getLabel());
+					cbModel.addElement(p.getLabel(StringTemplate.editTemplate));
 				}
 			}
 
@@ -2787,7 +2787,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			// set location textfield
 			GeoElement p = (GeoElement) geo0.getStartPoint();
 			if (equalLocation && p != null) {
-				cbLocation.setSelectedItem(p.getLabel());
+				cbLocation.setSelectedItem(p.getLabel(StringTemplate.editTemplate));
 			} else
 				cbLocation.setSelectedItem(null);
 
@@ -5647,14 +5647,14 @@ class ShowConditionPanel extends JPanel implements ActionListener,
 		GeoElement geo0 = (GeoElement) geos[0];
 		GeoBoolean cond = geo0.getShowObjectCondition();
 		if (cond != null) {
-			strCond = cond.getLabel();
+			strCond = cond.getLabel(StringTemplate.editTemplate);
 		}
 
 		for (int i = 0; i < geos.length; i++) {
 			GeoElement geo = (GeoElement) geos[i];
 			cond = geo.getShowObjectCondition();
 			if (cond != null) {
-				String strCondGeo = cond.getLabel();
+				String strCondGeo = cond.getLabel(StringTemplate.editTemplate);
 				if (!strCond.equals(strCondGeo))
 					strCond = "";
 			}
@@ -5932,11 +5932,11 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 		GeoElement geo0 = (GeoElement) geos[0];
 		GeoList colorList = geo0.getColorFunction();
 		if (colorList != null) {
-			strRed = colorList.get(0).getLabel();
-			strGreen = colorList.get(1).getLabel();
-			strBlue = colorList.get(2).getLabel();
+			strRed = colorList.get(0).getLabel(StringTemplate.editTemplate);
+			strGreen = colorList.get(1).getLabel(StringTemplate.editTemplate);
+			strBlue = colorList.get(2).getLabel(StringTemplate.editTemplate);
 			if (colorList.size() == 4)
-				strAlpha = colorList.get(3).getLabel();
+				strAlpha = colorList.get(3).getLabel(StringTemplate.editTemplate);
 		}
 		
 		// set the selected color space and labels to match the first geo's color space
@@ -5951,12 +5951,12 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 			geo = (GeoElement) geos[i];
 			GeoList colorListTemp = geo.getColorFunction();
 			if (colorListTemp != null) {
-				String strRedTemp = colorListTemp.get(0).getLabel();
-				String strGreenTemp = colorListTemp.get(1).getLabel();
-				String strBlueTemp = colorListTemp.get(2).getLabel();
+				String strRedTemp = colorListTemp.get(0).getLabel(StringTemplate.editTemplate);
+				String strGreenTemp = colorListTemp.get(1).getLabel(StringTemplate.editTemplate);
+				String strBlueTemp = colorListTemp.get(2).getLabel(StringTemplate.editTemplate);
 				String strAlphaTemp = "";
 				if (colorListTemp.size() == 4)
-					strAlphaTemp = colorListTemp.get(3).getLabel();
+					strAlphaTemp = colorListTemp.get(3).getLabel(StringTemplate.editTemplate);
 				if (!strRed.equals(strRedTemp))
 					strRed = "";
 				if (!strGreen.equals(strGreenTemp))
@@ -6311,7 +6311,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 
 		// take name of first geo
 		GeoElement geo0 = (GeoElement) geos[0];
-		tfName.setText(geo0.getLabel());
+		tfName.setText(geo0.getLabel(StringTemplate.editTemplate));
 
 		currentGeo = geo0;
 		nameInputHandler.setGeoElement(geo0);

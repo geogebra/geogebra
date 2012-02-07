@@ -285,7 +285,7 @@ public class PythonAPI {
 		 * @return the label of the wrapped Geo
 		 */
 		public String getLabel() {
-			return geo.getLabel();
+			return geo.getLabelSimple();
 		}
 		
 		/**

@@ -792,7 +792,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		Kernel kernel = funX.kernel;
 		boolean isUseTempVariablePrefix = kernel.isUseTempVariablePrefix();
 		kernel.setUseTempVariablePrefix(true);
-		String varStr = funX.fVars[0].toString();
+		String varStr = funX.fVars[0].toString(StringTemplate.defaultTemplate);
 
 		// should we try to get a symbolic derivative?
 		// for multi-variate functions we need to ensure value form,
@@ -807,7 +807,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		StringBuilder sb = new StringBuilder();
 		// Derivative( y, t )
 		sb.append("Derivative(");
-		sb.append(funY.expression.getCASstring(StringTemplate.get(StringType.GEOGEBRA), symbolic));
+		sb.append(funY.expression.getCASstring(StringTemplate.defaultTemplate, symbolic));
 		sb.append(",");
 		sb.append(varStr);
 		sb.append(")");

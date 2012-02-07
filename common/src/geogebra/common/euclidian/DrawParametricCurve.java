@@ -152,7 +152,7 @@ public class DrawParametricCurve extends Drawable {
 			yLabel = labelPoint.y;
 			switch (geo.labelMode) {
 			case GeoElement.LABEL_NAME_VALUE:
-				StringTemplate tpl = StringTemplate.get(StringType.LATEX);
+				StringTemplate tpl = StringTemplate.latexTemplate;
 				labelSB.setLength(0);
 				labelSB.append('$');
 				labelSB.append(geo.getLabel(tpl));

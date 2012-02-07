@@ -195,11 +195,11 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 		//===============================================
 		String text = null;
 		if (geo.isIndependent()) {
-			text = geo.toValueString();
+			text = geo.toValueString(StringTemplate.defaultTemplate);
 		} else {
 			switch (kernel.getAlgebraStyle()) {
 			case Kernel.ALGEBRA_STYLE_VALUE:
-				text = geo.toValueString();
+				text = geo.toValueString(StringTemplate.defaultTemplate);
 				break;
 
 			case Kernel.ALGEBRA_STYLE_DEFINITION:
@@ -272,7 +272,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 			boolean isSerif = false;
 			if (geo.isDefined() && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 
-				latexStr = geo.getFormulaString(StringTemplate.get(StringType.LATEX), true);
+				latexStr = geo.getFormulaString(StringTemplate.latexTemplate, true);
 				if (geo.isLaTeXDrawableGeo(latexStr)) {
 					try {
 						if(geo.isGeoText())
@@ -362,7 +362,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 			if (value != null) {
 				GeoElement geo = (GeoElement) value;
 				if(geo.isGeoText())
-					setText(geo.toValueString());
+					setText(geo.toValueString(StringTemplate.defaultTemplate));
 				else
 					setText(geo.getLabel());
 			} else

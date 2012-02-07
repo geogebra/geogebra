@@ -2,6 +2,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.awt.Point;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 
@@ -62,6 +63,8 @@ public class GeoElementSpreadsheet {
 
 	// Michael Borcherds
 	public boolean isSpreadsheetLabel(String str) {
+		if(str==null)
+			return false;
 		//Matcher matcher = spreadsheetPattern.matcher(str);
 		 MatchResult matcher = spreadsheetPattern.exec(str);
 			//if (matcher.matches()) {
@@ -138,7 +141,7 @@ public class GeoElementSpreadsheet {
 		// getLabel() returns algoParent.getCommandDescription() or
 		// toValueString()
 		// if there's no label (eg {1,2})
-		String label = cellGeo.getLabel();
+		String label = cellGeo.getLabel(StringTemplate.defaultTemplate);
 
 		// need an = for B3=B4
 		// need a : for B2:x^2 + y^2 = 2

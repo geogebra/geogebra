@@ -102,7 +102,7 @@ public abstract class CASTableCell extends JPanel{
 
 	public void setValue(GeoCasCell cellValue) {		
 		// set input panel
-		String input = cellValue.getInput(StringTemplate.get(StringType.GEOGEBRA));
+		String input = cellValue.getInput(StringTemplate.defaultTemplate);
 		inputPanel.setInput(input);
 		inputPanel.setCommentColor(Color.green);
 		

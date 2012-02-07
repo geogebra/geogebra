@@ -812,7 +812,7 @@ public class AlgebraProcessor {
 						// now all objects have changed
 						// get the new object with same label as our result
 						String newLabel = newGeo.isLabelSet() ? newGeo
-								.getLabel() : replaceable.getLabel();
+								.getLabelSimple() : replaceable.getLabelSimple();
 						ret[0] = kernel.lookupLabel(newLabel, false);
 					}
 				} catch (CircularDefinitionException e) {

@@ -41,7 +41,7 @@ public class CmdPlaySound extends CmdScripting {
 
 			// play a midi file
 			if (arg[0].isGeoText()) {
-				sm.playMidiFile(( ((GeoText) arg[0]).toValueString(StringTemplate.get(StringType.GEOGEBRA))));
+				sm.playMidiFile(( ((GeoText) arg[0]).toValueString(StringTemplate.defaultTemplate)));
 				return;
 			}
 			// pause/resume current sound
@@ -70,7 +70,7 @@ public class CmdPlaySound extends CmdScripting {
 			else if ((ok[0] = arg[0].isGeoText()) 
 					&& (ok[1] = arg[1].isGeoNumeric())) {
 				// play a sequence string
-				sm.playSequenceFromString(((String) ((GeoText) arg[0]).toValueString()),
+				sm.playSequenceFromString(( ((GeoText) arg[0]).toValueString(StringTemplate.defaultTemplate)),
 						(int) ((GeoNumeric) arg[1]).getDouble());
 				return;
 			}

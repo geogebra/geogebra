@@ -3994,9 +3994,9 @@ public abstract class AbstractEuclidianController {
 					mouseCoords);
 			if (conic.isLabelSet()) {
 				area.setLabel(removeUnderscores(app.toLowerCase(app.getCommand("Area"))
-						+ conic.getLabel()));
+						+ conic.getLabelSimple()));
 				text.setLabel(removeUnderscores(app.getPlain("Text")
-						+ conic.getLabel()));
+						+ conic.getLabelSimple()));
 			}
 			GeoElement[] ret = { text };
 			return ret;
@@ -4012,7 +4012,7 @@ public abstract class AbstractEuclidianController {
 					poly[0], mouseLoc);
 			if (poly[0].isLabelSet()) {
 				text.setLabel(removeUnderscores(app.getPlain("Text")
-						+ poly[0].getLabel()));
+						+ poly[0].getLabelSimple()));
 			}
 			GeoElement[] ret = { text };
 			return ret;
@@ -4036,7 +4036,7 @@ public abstract class AbstractEuclidianController {
 			boolean allLabelsSet = true;
 			for (int i = 0; i < points.length; i++) {
 				if (points[i].isLabelSet()) {
-					descText = descText + " + Name[" + points[i].getLabel()
+					descText = descText + " + Name[" + points[i].getLabel(StringTemplate.defaultTemplate)
 							+ "]";
 				} else {
 					allLabelsSet = false;
@@ -5799,9 +5799,9 @@ public abstract class AbstractEuclidianController {
 					if (((GeoNumeric) hit).isSliderFixed()) {
 						sliderValue = hit.isGeoAngle()? kernel
 								.formatAngle(getSliderValue((GeoNumeric) hit),
-										StringTemplate.get(StringType.GEOGEBRA)).toString():kernel
+										StringTemplate.defaultTemplate).toString():kernel
 								.format(getSliderValue((GeoNumeric) hit),
-										StringTemplate.get(StringType.GEOGEBRA));
+										StringTemplate.defaultTemplate);
 					}
 				}
 			}
@@ -7739,7 +7739,7 @@ public abstract class AbstractEuclidianController {
 				StringBuilder sb = new StringBuilder();
 				sb.append(" {");
 				for (int i = 0; i < hits.size(); i++) {
-					sb.append(hits.get(i).getLabel());
+					sb.append(hits.get(i).getLabel(StringTemplate.defaultTemplate));
 					if (i < (hits.size() - 1)) {
 						sb.append(", ");
 					}

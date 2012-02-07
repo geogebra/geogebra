@@ -1862,8 +1862,8 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
 				spreadsheetColumnHeadings.clear();
 			}
 
-			spreadsheetColumnHeadings.add("x("+getLabel()+')');
-			spreadsheetColumnHeadings.add("y("+getLabel()+')');
+			spreadsheetColumnHeadings.add("x("+getLabel(StringTemplate.defaultTemplate)+')');
+			spreadsheetColumnHeadings.add("y("+getLabel(StringTemplate.defaultTemplate)+')');
 			
 			return spreadsheetColumnHeadings;
 		}

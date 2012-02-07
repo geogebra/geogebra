@@ -3888,6 +3888,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		 * @param asPreference
 		 */
 		public void getXML(StringBuilder sb, boolean asPreference) {
+			StringTemplate tpl = StringTemplate.xmlTemplate;
 			sb.append("<euclidianView>\n");
 			if (evNo >= 2) {
 				sb.append("\t<viewNumber ");
@@ -3910,16 +3911,16 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			if (!isZoomable() && !asPreference) {
 				sb.append("\t<coordSystem");
 				sb.append(" xMin=\"");
-				sb.append(((GeoNumeric) xminObject).getLabel());
+				sb.append(((GeoNumeric) xminObject).getLabel(tpl));
 				sb.append("\"");
 				sb.append(" xMax=\"");
-				sb.append(((GeoNumeric) xmaxObject).getLabel());
+				sb.append(((GeoNumeric) xmaxObject).getLabel(tpl));
 				sb.append("\"");
 				sb.append(" yMin=\"");
-				sb.append(((GeoNumeric) yminObject).getLabel());
+				sb.append(((GeoNumeric) yminObject).getLabel(tpl));
 				sb.append("\"");
 				sb.append(" yMax=\"");
-				sb.append(((GeoNumeric) ymaxObject).getLabel());
+				sb.append(((GeoNumeric) ymaxObject).getLabel(tpl));
 				sb.append("\"");
 				sb.append("/>\n");
 			} else {

@@ -1508,7 +1508,7 @@ public class WorksheetExportDialog extends JDialog {
 				// for each GeoElement with a JavaScript, create a function call
 				// with the same name as the geo's label (prefixed by ggb)
 				sb.append("function ggb");
-				sb.append(geo.getLabel());
+				sb.append(geo.getLabelSimple());
 				appendWithLineBreak(sb, "() {");
 				appendWithLineBreak(sb, "var ggbApplet = document.ggbApplet;");
 				appendWithLineBreak(sb, script);

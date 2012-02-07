@@ -313,7 +313,7 @@ implements NumberValue, AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 			} else if (isInfinite()) {
 				if (value >= 0) strLaTeX = "\\infty"; else strLaTeX = "-\\infty";
 			} else {				
-				strLaTeX = toLaTeXString(false,StringTemplate.get(StringType.LATEX));
+				strLaTeX = toLaTeXString(false,StringTemplate.latexTemplate);
 			}
 		}
 		return strLaTeX;		
@@ -525,16 +525,16 @@ implements NumberValue, AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 		if (!isSliderable())
 			return;
 		
-
+		StringTemplate tpl =StringTemplate.xmlTemplate;
 		sb.append("\t<slider");
 		if (intervalMinActive) {
 			sb.append(" min=\"");
-			sb.append(StringUtil.encodeXML(getIntervalMinObject().getLabel()));
+			sb.append(StringUtil.encodeXML(getIntervalMinObject().getLabel(tpl)));
 			sb.append("\"");
 		}
 		if (intervalMaxActive) {
 			sb.append(" max=\"");
-			sb.append(StringUtil.encodeXML(getIntervalMaxObject().getLabel()));
+			sb.append(StringUtil.encodeXML(getIntervalMaxObject().getLabel(tpl)));
 			sb.append("\"");
 		}
 		

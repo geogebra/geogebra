@@ -121,7 +121,7 @@ public class AnimationSpeedPanel
 
 		// set trace visible checkbox
 		
-		StringTemplate highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, PropertiesDialog.TEXT_FIELD_FRACTION_DIGITS);
+		StringTemplate highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, PropertiesDialog.TEXT_FIELD_FRACTION_DIGITS,false);
         
         if (equalSpeed) {
         	GeoElement speedObj = geo0.getAnimationSpeedObject();

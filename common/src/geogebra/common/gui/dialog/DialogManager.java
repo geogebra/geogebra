@@ -85,7 +85,7 @@ public abstract class DialogManager {
 		boolean isAngle = !confirm("OK for number, Cancel for angle");
 		GeoNumeric slider = setSliderFromDefault(isAngle ? new GeoAngle(kernel.getConstruction()) :  new GeoNumeric(kernel.getConstruction()), isAngle);
 
-		StringTemplate tmpl = StringTemplate.get(StringType.GEOGEBRA);
+		StringTemplate tmpl = StringTemplate.defaultTemplate;
 		
 		// convert to degrees (angle only)
 		String minStr = isAngle ? kernel.format(Math.toDegrees(slider.getIntervalMin()),tmpl)+Unicode.degree

@@ -3898,7 +3898,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (strAlgebraDescriptionHTMLneedsUpdate) {
 
 			if (isGeoText()) {
-				strAlgebraDescriptionHTML = indicesToHTML(toValueString(),
+				strAlgebraDescriptionHTML = indicesToHTML(toValueString(StringTemplate.defaultTemplate),
 						false);
 			} else {
 				strAlgebraDescriptionHTML = indicesToHTML(
@@ -3977,7 +3977,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	public String getLaTeXdescription() {
 		if (strLaTeXneedsUpdate) {
 			if (isDefined() && !isInfinite()) {
-				strLaTeX = toLaTeXString(false,StringTemplate.get(StringType.LATEX));
+				strLaTeX = toLaTeXString(false,StringTemplate.latexTemplate);
 			} else {
 				strLaTeX = app.getPlain("undefined");
 			}
@@ -4020,13 +4020,13 @@ public abstract class GeoElement extends ConstructionElement implements
 			// handle non-GeoText prefixed with ":", e.g. "a: x = 3"
 		} else if ((algebraDesc.indexOf(":") > -1) & !geo.isGeoText()) {
 			sb.append(algebraDesc.split(":")[0] + ": \\,");
-			sb.append(geo.getFormulaString(StringTemplate.get(StringType.LATEX), substituteNumbers));
+			sb.append(geo.getFormulaString(StringTemplate.latexTemplate, substituteNumbers));
 		}
 
 		// now handle non-GeoText prefixed with "="
 		else if ((algebraDesc.indexOf("=") > -1) && !geo.isGeoText()) {
 			sb.append(algebraDesc.split("=")[0] + "\\, = \\,");
-			sb.append(geo.getFormulaString(StringTemplate.get(StringType.LATEX), substituteNumbers));
+			sb.append(geo.getFormulaString(StringTemplate.latexTemplate, substituteNumbers));
 		}
 
 		// handle GeoText with LaTeX
@@ -4545,21 +4545,21 @@ public abstract class GeoElement extends ConstructionElement implements
 			sb.append(getAlphaValue());
 
 			sb.append("\"");
-
+			StringTemplate tpl =StringTemplate.xmlTemplate;
 			if ((colFunction != null) && kernel.getSaveScriptsToXML()) {
 				sb.append(" dynamicr=\"");
-				sb.append(StringUtil.encodeXML(colFunction.get(0).getLabel()));
+				sb.append(StringUtil.encodeXML(colFunction.get(0).getLabel(tpl)));
 				sb.append('\"');
 				sb.append(" dynamicg=\"");
-				sb.append(StringUtil.encodeXML(colFunction.get(1).getLabel()));
+				sb.append(StringUtil.encodeXML(colFunction.get(1).getLabel(tpl)));
 				sb.append('\"');
 				sb.append(" dynamicb=\"");
-				sb.append(StringUtil.encodeXML(colFunction.get(2).getLabel()));
+				sb.append(StringUtil.encodeXML(colFunction.get(2).getLabel(tpl)));
 				sb.append('\"');
 				if (colFunction.size() == 4) {
 					sb.append(" dynamica=\"");
 					sb.append(StringUtil.encodeXML(colFunction.get(3)
-							.getLabel()));
+							.getLabel(tpl)));
 					sb.append('\"');
 				}
 				sb.append(" colorSpace=\"");
@@ -4670,14 +4670,15 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	public void getXMLanimationTags(final StringBuilder sb) {// package private
+		StringTemplate tpl =StringTemplate.xmlTemplate;
 		// animation step width
 		if (isChangeable()) {
 			sb.append("\t<animation");
 			final String animStep = animationIncrement == null ? "1"
-					: getAnimationStepObject().getLabel();
+					: getAnimationStepObject().getLabel(tpl);
 			sb.append(" step=\"" + StringUtil.encodeXML(animStep) + "\"");
 			final String animSpeed = animationSpeedObj == null ? "1"
-					: getAnimationSpeedObject().getLabel();
+					: getAnimationSpeedObject().getLabel(tpl);
 			sb.append(" speed=\"" + StringUtil.encodeXML(animSpeed) + "\"");
 			sb.append(" type=\"" + animationType + "\"");
 			sb.append(" playing=\"");
@@ -4735,7 +4736,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * (default implementation, may be overridden in certain subclasses)
 	 */
 	protected String toValueStringMinimal() {
-		return toValueString();
+		return toValueString(StringTemplate.xmlTemplate);
 	}
 
 	/**
@@ -6378,7 +6379,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 
 		spreadsheetColumnHeadings.clear();
-		spreadsheetColumnHeadings.add(getLabel());
+		spreadsheetColumnHeadings.add(getLabel(StringTemplate.defaultTemplate));
 
 		return spreadsheetColumnHeadings;
 	}

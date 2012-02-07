@@ -92,7 +92,7 @@ public class AnimationStepPanel
 		// set trace visible checkbox
 		//int oldDigits = kernel.getMaximumFractionDigits();
 		//kernel.setMaximumFractionDigits(PropertiesDialog.TEXT_FIELD_FRACTION_DIGITS);
-		StringTemplate highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, PropertiesDialog.TEXT_FIELD_FRACTION_DIGITS);
+		StringTemplate highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, PropertiesDialog.TEXT_FIELD_FRACTION_DIGITS,false);
 
         if (equalStep){
         	GeoElement stepGeo = geo0.getAnimationStepObject();

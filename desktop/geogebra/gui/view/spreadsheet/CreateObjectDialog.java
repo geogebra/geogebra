@@ -611,7 +611,7 @@ implements ListSelectionListener, FocusListener, WindowFocusListener{
 			ImageIcon latexIcon = new ImageIcon();
 			//String latexStr = newGeo.getLaTeXAlgebraDescription(true);
 
-			String latexStr = newGeo.getFormulaString(StringTemplate.get(StringType.LATEX), true);
+			String latexStr = newGeo.getFormulaString(StringTemplate.latexTemplate, true);
 
 
 			//System.out.println(latexStr);

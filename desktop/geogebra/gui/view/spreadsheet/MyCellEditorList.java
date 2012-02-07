@@ -1,5 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
@@ -100,7 +101,7 @@ public class MyCellEditorList extends DefaultCellEditor implements ActionListene
 			if (value != null) {
 				GeoElement geo = (GeoElement) value;
 				if(geo.isGeoText())
-					setText(geo.toValueString());
+					setText(geo.toValueString(StringTemplate.defaultTemplate));
 				else
 					setText(geo.getLabel());
 			} else

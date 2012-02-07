@@ -163,7 +163,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric{
 		// convert result back into GeoGebra syntax
 		if (casInput instanceof FunctionNVar) {
 			// function definition f(x) := x^2 should return x^2
-			String ret = casInput.toString(StringTemplate.get(StringType.GEOGEBRA));
+			String ret = casInput.toString(StringTemplate.defaultTemplate);
 			return ret;
 		}
 		// standard case

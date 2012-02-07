@@ -1840,7 +1840,7 @@ public class MyTable extends JTable implements FocusListener
 		boolean success = true;
 
 		// Get the targetCell label and the selected cell range
-		String targetCellLabel = targetCell.getLabel();
+		String targetCellLabel = targetCell.getLabelSimple();
 		String cellRangeString = getCellRangeProcessor().getCellRangeString(cr);
 
 		// Create a String expression for the new autofunction command geo

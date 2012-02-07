@@ -1,5 +1,6 @@
 package geogebra.gui;
 
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoDependentText;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -210,18 +211,19 @@ public class DynamicTextInputPane extends JTextPane {
 	public void splitString(ExpressionNode en,TextInputDialog id) {
 		ExpressionValue left = en.getLeft();
 		ExpressionValue right = en.getRight();
+		StringTemplate tpl = StringTemplate.defaultTemplate;
 		if (en.isLeaf()) { 
 
 			if (left.isGeoElement()) {
-				Document d = insertDynamicText(((GeoElement) left).getLabel(), -1, id);
+				Document d = insertDynamicText(((GeoElement) left).getLabel(tpl), -1, id);
 				d.addDocumentListener(id);
 			}
 			else if (left.isExpressionNode())
 				splitString((ExpressionNode) left, id);
 			else if (left instanceof MyStringBuffer) {
-				insertString(-1, left.toString().replaceAll("\"", ""), null);				
+				insertString(-1, left.toString(tpl).replaceAll("\"", ""), null);				
 			} else {
-				insertDynamicText(left.toString(), -1, id);
+				insertDynamicText(left.toString(tpl), -1, id);
 			}
 
 		}
@@ -232,35 +234,35 @@ public class DynamicTextInputPane extends JTextPane {
 			if (right != null && !en.containsMyStringBuffer()) {
 				// neither left nor right are free texts, eg a+3 in (a+3)+"hello"
 				// so no splitting needed
-				insertDynamicText(en.toString(), -1, id);
+				insertDynamicText(en.toString(tpl), -1, id);
 				return;
 			}
 			
 			
 			// expression node
 			if (left.isGeoElement()) {
-				Document d = insertDynamicText(((GeoElement) left).getLabel(), -1, id);
+				Document d = insertDynamicText(((GeoElement) left).getLabel(tpl), -1, id);
 				d.addDocumentListener(id);
 			}
 			else if (left.isExpressionNode())
 				this.splitString((ExpressionNode)left, id);
 			else if (left instanceof MyStringBuffer) {
-				insertString(-1, left.toString().replaceAll("\"", ""), null);				
+				insertString(-1, left.toString(tpl).replaceAll("\"", ""), null);				
 			} else {
-				insertDynamicText(left.toString(), -1, id);
+				insertDynamicText(left.toString(tpl), -1, id);
 			}
 
 			if (right != null) {
 				if (right.isGeoElement()) {
-					Document d = insertDynamicText(((GeoElement) right).getLabel(), -1, id);
+					Document d = insertDynamicText(((GeoElement) right).getLabel(tpl), -1, id);
 					d.addDocumentListener(id);
 				}
 				else if (right.isExpressionNode())
 					this.splitString((ExpressionNode)right, id);
 				else if (right instanceof MyStringBuffer) {
-					insertString(-1, right.toString().replaceAll("\"", ""), null);				
+					insertString(-1, right.toString(tpl).replaceAll("\"", ""), null);				
 				} else {
-					insertDynamicText(right.toString(), -1, id);
+					insertDynamicText(right.toString(tpl), -1, id);
 				}
 			}
 		}

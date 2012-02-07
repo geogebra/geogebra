@@ -522,7 +522,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 
 		AbstractAction action;
 
-		action = new AbstractAction(app.getPlain("CreateNew2DViewFromA", geo.getLabel())) {
+		action = new AbstractAction(app.getPlain("CreateNew2DViewFromA", geo.getLabelSimple())) {
 			/**
 			 * 
 			 */
@@ -845,7 +845,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {
-					app.getDialogManager().showRenameDialog(geo, true, geo.getLabel(), true);
+					app.getDialogManager().showRenameDialog(geo, true, geo.getLabelSimple(), true);
 				}
 			});
 		}

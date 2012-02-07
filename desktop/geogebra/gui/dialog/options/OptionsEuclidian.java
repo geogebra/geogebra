@@ -14,6 +14,7 @@ package geogebra.gui.dialog.options;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Unicode;
@@ -483,10 +484,10 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
         tfMinY.removeActionListener(this);
 	 	tfMaxY.removeActionListener(this);	
 	 		view.updateBoundObjects();
-	 		tfMinX.setText(view.getXminObject().getLabel());
-	 		tfMaxX.setText(view.getXmaxObject().getLabel());
-	 		tfMinY.setText(view.getYminObject().getLabel());
-	 		tfMaxY.setText(view.getYmaxObject().getLabel());
+	 		tfMinX.setText(view.getXminObject().getLabel(StringTemplate.editTemplate));
+	 		tfMaxX.setText(view.getXmaxObject().getLabel(StringTemplate.editTemplate));
+	 		tfMinY.setText(view.getYminObject().getLabel(StringTemplate.editTemplate));
+	 		tfMaxY.setText(view.getYmaxObject().getLabel(StringTemplate.editTemplate));
 	 	tfMinX.addActionListener(this);
 	 	tfMaxX.addActionListener(this);
 	 	tfMinY.addActionListener(this);

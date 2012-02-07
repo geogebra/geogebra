@@ -739,7 +739,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		sbToString.append(label);
 		sbToString.append(" = ");
 
-		sbToString.append(toValueString());
+		sbToString.append(toValueString(tpl));
 
 		return sbToString.toString();
 	}
@@ -1063,9 +1063,9 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		} else {
 			spreadsheetColumnHeadings.clear();
 		}
-		spreadsheetColumnHeadings.add("x("+getLabel()+')');
-		spreadsheetColumnHeadings.add("y("+getLabel()+')');
-		spreadsheetColumnHeadings.add("z("+getLabel()+')');
+		spreadsheetColumnHeadings.add("x("+getLabel(StringTemplate.defaultTemplate)+')');
+		spreadsheetColumnHeadings.add("y("+getLabel(StringTemplate.defaultTemplate)+')');
+		spreadsheetColumnHeadings.add("z("+getLabel(StringTemplate.defaultTemplate)+')');
 		
 		return spreadsheetColumnHeadings;
 	}

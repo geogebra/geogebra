@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVector;
@@ -75,7 +76,7 @@ public class AlgoDefined extends AlgoElement {
     		return;
     	}
     	else if (inputGeo.isGeoFunction()) {
-    		if (inputGeo.toValueString().equals("?")){
+    		if (inputGeo.toValueString(StringTemplate.defaultTemplate).equals("?")){
     			outputBoolean.setValue(false);
         		return;
     		}

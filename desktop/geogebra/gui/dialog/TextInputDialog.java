@@ -403,7 +403,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		while (iter.hasNext()) {
 			GeoElement g = iter.next();
 			if (g.isLabelSet() && !g.equals(editGeo)) {
-				list.add(g.getLabel());
+				list.add(g.getLabelSimple());
 			}
 		}
 		String[] geoArray = new String[list.size()];
@@ -564,7 +564,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 				if (geo.getKernel().lookupLabel(initString) != null)
 					initString = "\"" + initString + "\"";
 			} else
-				initString = geo.getCommandDescription(StringTemplate.get(StringType.GEOGEBRA));
+				initString = geo.getCommandDescription(StringTemplate.defaultTemplate);
 			isLaTeX = geo.isLaTeX();
 		}
 		// ----------------------------------------------

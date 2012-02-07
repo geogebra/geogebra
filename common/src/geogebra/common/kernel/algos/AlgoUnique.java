@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -92,7 +93,7 @@ public class AlgoUnique extends AlgoElement {
 		f.clear();
 		for (int i=0 ; i < dataList.size(); i++) {
 			if(dataList.getElementType() .equals(GeoClass.TEXT))
-				f.addValue(((GeoText)dataList.get(i)).toValueString());
+				f.addValue(((GeoText)dataList.get(i)).toValueString(StringTemplate.defaultTemplate));
 			if(dataList.getElementType() .equals(GeoClass.NUMERIC))
 				f.addValue(new MyDouble(kernel, ((GeoNumeric)dataList.get(i)).getDouble()));
 		}

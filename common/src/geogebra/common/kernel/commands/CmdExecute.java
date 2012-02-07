@@ -1,11 +1,13 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 
 /**
  * Execute[<list of commands>]
@@ -39,7 +41,7 @@ public class CmdExecute extends CommandProcessor {
 			try {
 				String cmdText = ((GeoText) list.get(i)).getTextString();
 				for(int k=1;k<n;k++)
-					cmdText = cmdText.replace("%"+k, arg[k].getLabel());
+					cmdText = cmdText.replace("%"+k, arg[k].getLabel(StringTemplate.maxPrecision));
 				kernelA.getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionHandling(cmdText
 								, false,

@@ -20,6 +20,7 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.AbstractApplication;
@@ -108,9 +109,9 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 			// return its name to use as local variable name
 			GeoElement geo = ((GeoElement) ev);
 			if (geo.isLabelSet())
-				return ((GeoElement) ev).getLabel();
+				return ((GeoElement) ev).getLabelSimple();
 		} else if (ev instanceof Function) {
-			String str = ev.toString();
+			String str = ev.toString(StringTemplate.defaultTemplate);
 			if (str.length() == 1 && Character.isLetter(str.charAt(0)))
 				return str;
 		} else if (ev instanceof GeoVec2D) {

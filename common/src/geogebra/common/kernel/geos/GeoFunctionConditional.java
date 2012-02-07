@@ -319,7 +319,7 @@ public class GeoFunctionConditional extends GeoFunction {
 			sbToString.append(label);
 			sbToString.append("(x) = ");
 		}		
-		sbToString.append(toValueString());
+		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
 	}
 	private StringBuilder sbToString = new StringBuilder(80);
@@ -506,9 +506,9 @@ public class GeoFunctionConditional extends GeoFunction {
 		StringBuilder sb = new StringBuilder();
 		
 		if (getElseFunction() == null && !ifFun.isGeoFunctionConditional()) {
-			sb.append(getIfFunction().getFormulaString(StringTemplate.get(StringType.LATEX), substituteNumbers));
+			sb.append(getIfFunction().getFormulaString(StringTemplate.latexTemplate, substituteNumbers));
 			sb.append(" \\;\\;\\;\\; \\left(");
-			sb.append(getCondFunction().getFormulaString(StringTemplate.get(StringType.LATEX), substituteNumbers));
+			sb.append(getCondFunction().getFormulaString(StringTemplate.latexTemplate, substituteNumbers));
 			sb.append(" \\right)");
 			
 		} else {			

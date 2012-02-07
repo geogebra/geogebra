@@ -116,7 +116,7 @@ public class CmdBarCode extends CommandProcessor {
 			String text;
 
 			if (arg[0].isTextValue() && arg[0].isDefined()) {
-				text = ((TextValue) arg[0]).toValueString(StringTemplate.get(StringType.GEOGEBRA));
+				text = ((TextValue) arg[0]).toValueString(StringTemplate.defaultTemplate);
 			} else if (arg[0].isNumberValue() && arg[0].isDefined()) {
 				text = (Math.round(((NumberValue) arg[0]).getDouble())) + "";
 			} else {
@@ -134,7 +134,7 @@ public class CmdBarCode extends CommandProcessor {
 			if (i < arg.length && arg[i].isTextValue()) {
 				TextValue format = (TextValue) arg[i];
 				try {
-					formatText = format.getText().toValueString(StringTemplate.get(StringType.GEOGEBRA))
+					formatText = format.getText().toValueString(StringTemplate.defaultTemplate)
 							.toUpperCase(Locale.US);
 					barcodeFormat = BarcodeFormat.valueOf(formatText);
 					checksumNeeded = formatText.startsWith("EAN")

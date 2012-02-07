@@ -808,7 +808,7 @@ public class CellRangeProcessor {
 		GeoElement v2;
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
-		StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
+		StringTemplate tpl = StringTemplate.defaultTemplate;
 		if(!transpose){
 			for (int j = row1; j <= row2; ++ j) {
 				sb.append("{");
@@ -990,7 +990,7 @@ public class CellRangeProcessor {
 				GeoElement geo = RelativeCopy.getValue(app, x, y);
 				if (geo == null) continue;
 
-				MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern.exec(geo.getLabel());
+				MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern.exec(geo.getLabelSimple());
 				int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
 				int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 				column += 1;
@@ -1024,7 +1024,7 @@ public class CellRangeProcessor {
 					GeoElement geo = RelativeCopy.getValue(app, x, y);
 					if (geo == null) continue;
 
-					MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern.exec(geo.getLabel());
+					MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern.exec(geo.getLabelSimple());
 					int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
 					int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 					column += 1;
@@ -1056,7 +1056,7 @@ public class CellRangeProcessor {
 				GeoElement geo = RelativeCopy.getValue(app, x, y);
 				if (geo == null) continue;
 
-				MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern.exec(geo.getLabel());
+				MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern.exec(geo.getLabelSimple());
 				int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
 				int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 				row += 1;
@@ -1088,7 +1088,7 @@ public class CellRangeProcessor {
 				for (int x = 0; x < columns; ++ x) {
 					GeoElement geo = RelativeCopy.getValue(app, x, y);
 					if (geo == null) continue;
-					MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern.exec(geo.getLabel());
+					MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern.exec(geo.getLabelSimple());
 					int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
 					int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 					row += 1;

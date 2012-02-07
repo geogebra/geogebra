@@ -40,7 +40,7 @@ import geogebra.common.kernel.StringTemplate;
 					if (arg[2].isGeoFunction() && ((GeoFunction)arg[2]).toString(StringTemplate.defaultTemplate).equals("x")) {
 										
 						// needed for eg Normal[1, 0.001, x] 
-						StringTemplate highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, 15);
+						StringTemplate highPrecision = StringTemplate.maxPrecision;
 						String a = arg[0].getLabel(highPrecision);
 						String b = arg[1].getLabel(highPrecision);
 						
@@ -59,7 +59,7 @@ import geogebra.common.kernel.StringTemplate;
 					} else if (arg[2].isNumberValue()) 
 					{
 						// needed for eg Normal[1, 0.001, x] 
-						StringTemplate highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, 15);
+						StringTemplate highPrecision = StringTemplate.maxPrecision;
 						String a = arg[0].getLabel(highPrecision);
 						String b = arg[1].getLabel(highPrecision);
 						String x = arg[2].getLabel(highPrecision);

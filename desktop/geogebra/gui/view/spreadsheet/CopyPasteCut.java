@@ -6,6 +6,8 @@ import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
@@ -127,7 +129,7 @@ public class CopyPasteCut {
 			for (int column = column1; column <= column2; ++ column) {
 				GeoElement value = RelativeCopy.getValue(app, column, row);
 				if (value != null) {
-					cellBufferStr += value.toValueString();
+					cellBufferStr += value.toValueString(StringTemplate.maxPrecision);
 				}
 				if (column != column2) {
 					cellBufferStr += "\t";

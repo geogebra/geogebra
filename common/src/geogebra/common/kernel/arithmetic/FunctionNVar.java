@@ -453,7 +453,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 			casEvalExpression = expression;
 			if (symbolic) {
 				casEvalStringSymbolic = expression.getCASstring(
-						StringTemplate.get(StringType.GEOGEBRA), true);
+						StringTemplate.defaultTemplate, true);
 			}
 
 			// caching should only be done if the expression doesn't contain
@@ -467,7 +467,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 
 		// build command string for CAS
 		String expString = symbolic ? casEvalStringSymbolic : expression
-				.getCASstring(StringTemplate.get(StringType.GEOGEBRA), false);
+				.getCASstring(StringTemplate.defaultTemplate, false);
 
 		// set back kernel
 		kernel.setUseTempVariablePrefix(oldTempVariableValue);
@@ -497,7 +497,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 			// parse CAS result back into GeoGebra
 			sb.setLength(0);
 			sb.append("f("); // this name is never used, just needed for parsing
-			sb.append(getVarString(StringTemplate.get(StringType.GEOGEBRA)));
+			sb.append(getVarString(StringTemplate.defaultTemplate));
 			sb.append(") = ");
 			sb.append(result);
 
@@ -645,7 +645,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		// function, e.g. f(x) := 2*x
 		sb.append(getLabel());
 		sb.append("(");
-		sb.append(getVarString(StringTemplate.get(StringType.GEOGEBRA)));
+		sb.append(getVarString(StringTemplate.defaultTemplate));
 		sb.append(")");
 		return sb.toString();
 	}

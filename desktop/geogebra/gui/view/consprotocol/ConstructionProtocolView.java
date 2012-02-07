@@ -13,6 +13,7 @@ the Free Software Foundation.
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoElement;
@@ -920,7 +921,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		
 		public void updateAlgebraAndName() {
 			if (geo instanceof GeoText)
-				algebra = "\""+geo.toValueString()+"\"";
+				algebra = "\""+geo.toValueString(StringTemplate.defaultTemplate)+"\"";
 			else
 				algebra = geo.getAlgebraDescriptionTextOrHTML();
 			// name description changes if type changes, e.g. ellipse becomes
@@ -970,7 +971,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			//algebra = geo.getRedefineString(true, true);
 			//algebra = geo.toOutputValueString();
 			if (geo instanceof GeoText)
-				algebra = "\""+geo.toValueString()+"\"";
+				algebra = "\""+geo.toValueString(StringTemplate.defaultTemplate)+"\"";
 			else algebra = geo.getAlgebraDescriptionTextOrHTML();
 			definition = geo.getDefinitionDescriptionHTML(true);
 			command = geo.getCommandDescriptionHTML(true);

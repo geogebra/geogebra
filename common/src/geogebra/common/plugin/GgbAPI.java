@@ -263,7 +263,7 @@ public abstract class GgbAPI {
 		Iterator<GeoElement> it = geoSet.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			objNames[i] = geo.getLabel();
+			objNames[i] = geo.getLabelSimple();
 			i++;
 		}
 		return objNames;

@@ -362,7 +362,7 @@ public class AlgoTableText extends AlgoElement {
 			GeoElement geo1 = geoLists[c].get(r);
 
 			// replace " " and "" with a hard space (allow blank columns/rows)
-			String text = geo1.toLaTeXString(false,StringTemplate.get(StringType.LATEX));
+			String text = geo1.toLaTeXString(false,StringTemplate.latexTemplate);
 			if (" ".equals(text) || "".equals(text))
 				text = "\\;"; // problem with JLaTeXMath, was "\u00a0";
 			if (geo1.isTextValue()) {

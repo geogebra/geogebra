@@ -1,10 +1,12 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 
 /**
  *SlowPlot
@@ -43,14 +45,14 @@ public class CmdSlowPlot extends CommandProcessor {
 				var.setAnimationStep(0.01);
 				var.setAnimationType(GeoElement.ANIMATION_INCREASING);
 				var.update();
-
+				StringTemplate tpl = StringTemplate.maxPrecision;
 				StringBuilder sb = new StringBuilder();
 				sb.append("Function[");
-				sb.append(arg[0].getLabel());
+				sb.append(arg[0].getLabel(tpl));
 				sb.append(",x(Corner[1]), x(Corner[1]) (1-");
-				sb.append(var.getLabel());
+				sb.append(var.getLabel(tpl));
 				sb.append(") + x(Corner(2)) ");
-				sb.append(var.getLabel());
+				sb.append(var.getLabel(tpl));
 				sb.append("]");
 
 				kernelA.getAnimatonManager().startAnimation();

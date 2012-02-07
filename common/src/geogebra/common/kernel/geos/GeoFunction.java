@@ -716,7 +716,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	
 	private void pointChangedBoolean(boolean b, GeoPoint2 P) {
 		double px;
-		boolean yfun = getVarString(StringTemplate.get(StringType.GEOGEBRA)).equals("y");
+		boolean yfun = isFunctionOfY();
 		if (yfun) {
 			if (b)
 				P.setX(0.0);
@@ -757,7 +757,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 			return isDefined &&	Math.abs(fun.evaluate(P.getInhomX()) - P.getInhomY()) <= eps;
 		}
 		else{
-			double px = getVarString(StringTemplate.get(StringType.GEOGEBRA)).equals("y") ? P.getY() :P.getX();
+			double px = isFunctionOfY() ? P.getY() :P.getX();
 			if (P.getZ() != 1.0) {
 					px = px / P.getZ();		
 			}
@@ -1564,7 +1564,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	final public String [] getTempVarCASString(boolean symbolic) {
 		 boolean oldUseTempVariablePrefix = kernel.isUseTempVariablePrefix();
 		 kernel.setUseTempVariablePrefix(true);
-		 StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
+		 StringTemplate tpl = StringTemplate.defaultTemplate;
 		 String [] ret = 
 		 {
 			   getCASString(tpl,symbolic),
@@ -1637,9 +1637,13 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	}
 
 	public boolean isInRegion(double x0, double y0) {
-		if(getVarString(StringTemplate.get(StringType.GEOGEBRA)).equals("y"))
+		if(isFunctionOfY())
 			return evaluateBoolean(y0);	
 		return evaluateBoolean(x0);
+	}
+	
+	public boolean isFunctionOfY(){
+		return getVarString(StringTemplate.defaultTemplate).equals("y");
 	}
 
 	public void pointChangedForRegion(GeoPointND PI) {

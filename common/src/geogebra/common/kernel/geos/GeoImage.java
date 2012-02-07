@@ -560,7 +560,7 @@ implements Locateable, AbsoluteScreenLocateable,
 			sb.append(" exp=\"");
 			boolean oldValue = kernel.isPrintLocalizedCommandNames();
 			kernel.setPrintLocalizedCommandNames(false);
-			sb.append(StringUtil.encodeXML(corners[number].getLabel()));
+			sb.append(StringUtil.encodeXML(corners[number].getLabel(StringTemplate.xmlTemplate)));
 			kernel.setPrintLocalizedCommandNames(oldValue);
 			sb.append("\"");			    	
     	}

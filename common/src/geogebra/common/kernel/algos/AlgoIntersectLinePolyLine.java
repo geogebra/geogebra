@@ -92,7 +92,7 @@ public class AlgoIntersectLinePolyLine extends AlgoElement{
         } else {
         	
         	outputPoints.setLabels(labels);
-        	outputPoints.setIndexLabels(outputPoints.getElement(0).getLabel());
+        	outputPoints.setIndexLabels(outputPoints.getElement(0).getLabel(StringTemplate.defaultTemplate));
         }	
     }
     

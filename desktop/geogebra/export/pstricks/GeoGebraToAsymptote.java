@@ -418,7 +418,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         String sa = format(a),
                sb = format(b);
         // String Expression of f and g
-        String valueF = f.toValueString(), valueG = g.toValueString();
+        String valueF = f.toValueString(getStringTemplate()), valueG = g.toValueString(getStringTemplate());
         valueF = parseFunction(valueF);
         valueG = parseFunction(valueG);
         // String expressions for f(a) and g(b) 
@@ -479,7 +479,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         GeoFunction f = algo.getFunction(); // function f between a and b
         String a = format(algo.getA().getDouble());
         String b = format(algo.getB().getDouble());    
-        String value = f.toValueString();
+        String value = f.toValueString(getStringTemplate());
         value = parseFunction(value);
         
         int indexFunc = -1;
@@ -1144,7 +1144,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         
         Function f = geo.getFunction();
         if (f == null) return;
-        String value = f.toValueString();
+        String value = f.toValueString(getStringTemplate());
         value = parseFunction(value);
         value = value.replaceAll("\\\\pi", "pi");
         double a = xmin;

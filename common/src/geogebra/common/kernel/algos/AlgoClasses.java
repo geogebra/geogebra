@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -122,10 +123,10 @@ public class AlgoClasses extends AlgoElement {
 			}
 
 		} else {
-			minGeoString = ((GeoText) dataList.get(0)).toValueString();
-			maxGeoString = ((GeoText) dataList.get(0)).toValueString();
+			minGeoString = ((GeoText) dataList.get(0)).toValueString(StringTemplate.defaultTemplate);
+			maxGeoString = ((GeoText) dataList.get(0)).toValueString(StringTemplate.defaultTemplate);
 			for (int i = 1; i < dataList.size(); i++) {
-				String geoString = ((GeoText) dataList.get(i)).toValueString();
+				String geoString = ((GeoText) dataList.get(i)).toValueString(StringTemplate.defaultTemplate);
 				if (geoString.compareTo(minGeoString) < 0)
 					minGeoString = geoString;
 				if (geoString.compareTo(maxGeoString) < 0)

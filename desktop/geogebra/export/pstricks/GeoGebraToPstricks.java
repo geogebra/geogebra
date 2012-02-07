@@ -350,9 +350,9 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	String sa = format(a);
     String sb = format(b);
     // String Expression of f and g
-    String valueF=f.toValueString();
+    String valueF=f.toValueString(getStringTemplate());
 	valueF=killSpace(StringUtil.toLaTeXString(valueF,true));
-    String valueG=g.toValueString();
+    String valueG=g.toValueString(getStringTemplate());
 	valueG=killSpace(StringUtil.toLaTeXString(valueG,true));
 	// String expressions for f(a) and g(b) 
 	String fa=format(f.evaluate(a));
@@ -392,7 +392,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
     	// between a and b
     	String a = format(algo.getA().getDouble());
         String b = format(algo.getB().getDouble());    
-    	String value=f.toValueString();
+    	String value=f.toValueString(getStringTemplate());
     	value=killSpace(StringUtil.toLaTeXString(value,true));
 		startBeamer(codeFilledObject);
     	codeFilledObject.append("\\pscustom");

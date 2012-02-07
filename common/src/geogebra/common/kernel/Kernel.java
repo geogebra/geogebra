@@ -1073,7 +1073,7 @@ public class Kernel {
 		// standard case
 		
 		//nf = FormatFactory.prototype.getNumberFormat(2);
-		NumberFormatAdapter nfa = tpl.getNF()==null?nf:tpl.getNF();
+		NumberFormatAdapter nfa = tpl.getNF(nf);
 		return nfa.format(x);
 	}
 
@@ -1467,7 +1467,7 @@ public class Kernel {
 		} else {
 			sbFormatSF.setLength(0);
 		}
-		ScientificFormatAdapter sfa = tpl.getSF()==null?sf:tpl.getSF();
+		ScientificFormatAdapter sfa = tpl.getSF(sf);
 		// get scientific format
 		String absStr;
 		if (x == 0) {
@@ -8260,7 +8260,7 @@ public class Kernel {
 
 		a.makeUnitVector();
 		b.makeUnitVector();
-		StringTemplate tpl = StringTemplate.printFigures(StringType.GEOGEBRA, 15);
+		StringTemplate tpl = StringTemplate.maxPrecision;
 		for (int i = 2; i < points.length; i++) {
 
 			double xC = points[i].inhomX;

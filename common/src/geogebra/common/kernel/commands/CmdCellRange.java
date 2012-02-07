@@ -23,8 +23,8 @@ public class CmdCellRange extends CommandProcessor {
 		case 2:						
 			arg = resArgs(c);
 			// both geos need to have valid spreadsheet coordinates
-			if ((ok[0] = kernelA.getGeoElementSpreadsheet().isSpreadsheetLabel(arg[0].getLabel())) &&
-				(ok[1] = kernelA.getGeoElementSpreadsheet().isSpreadsheetLabel(arg[1].getLabel()))) 
+			if ((ok[0] = kernelA.getGeoElementSpreadsheet().isSpreadsheetLabel(arg[0].getLabelSimple())) &&
+				(ok[1] = kernelA.getGeoElementSpreadsheet().isSpreadsheetLabel(arg[1].getLabelSimple()))) 
 			{
 				GeoElement[] ret = { 
 						kernelA.CellRange(c.getLabel(), arg[0], arg[1]) };

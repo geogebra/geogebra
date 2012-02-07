@@ -54,7 +54,7 @@ public class NumberComboBox extends JComboBox {
 	}
 	
 	public void setValue(final double val) {	
-		setSelectedItem(kernel.formatPiE(val, nf,StringTemplate.get(StringType.GEOGEBRA)));			
+		setSelectedItem(kernel.formatPiE(val, nf,StringTemplate.defaultTemplate));			
 	}
 	
 	public double getValue() {

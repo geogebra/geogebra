@@ -319,7 +319,7 @@ public class GeoCasCell extends GeoElement {
 		if (twinGeo != null && twinGeo.isIndependent() && twinGeo.isLabelSet()) {
 			// Update ASSIGNMENT of twin geo
 			// e.g. m = 8 changed in GeoGebra should set cell to m := 8
-			String assignmentStr = twinGeo.toCasAssignment(StringTemplate.get(StringType.GEOGEBRA));
+			String assignmentStr = twinGeo.toCasAssignment(StringTemplate.defaultTemplate);
 			if (suppressOutput)
 				assignmentStr = assignmentStr + ";";
 			if (setInput(assignmentStr)) {
@@ -1349,7 +1349,7 @@ public class GeoCasCell extends GeoElement {
 				// GeoElement evalGeo = silentEvalInGeoGebra(evalVE);
 				if (geos != null) {
 					success = true;
-					StringTemplate highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, 15);
+					StringTemplate highPrecision = StringTemplate.maxPrecision;
 					result = geos[0].toValueString(highPrecision);
 					AlgoElement parentAlgo = geos[0].getParentAlgorithm();
 					// cons.removeFromConstructionList(parentAlgo);

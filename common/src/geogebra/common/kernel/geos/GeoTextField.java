@@ -91,7 +91,7 @@ public class GeoTextField extends GeoButton {
 		if (linkedGeo != null) {
    	
 			sb.append("\t<linkedGeo exp=\"");
-			sb.append(StringUtil.encodeXML(linkedGeo.getLabel()));
+			sb.append(StringUtil.encodeXML(linkedGeo.getLabel(StringTemplate.xmlTemplate)));
 			sb.append("\"");			    		    	
 			sb.append("/>\n");
 		}
@@ -113,7 +113,7 @@ public class GeoTextField extends GeoButton {
 	 */
 	public void updateLinkedGeo(String inputText) {
 		String defineText = inputText;
-		StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
+		StringTemplate tpl = StringTemplate.defaultTemplate;
 		if (linkedGeo.isGeoLine()) {
 
 			// not y=
@@ -175,7 +175,7 @@ public class GeoTextField extends GeoButton {
 				// y=m x + c
 				boolean substituteNos = linkedGeo.isGeoNumeric()
 						&& linkedGeo.isIndependent();
-				text = linkedGeo.getFormulaString(StringTemplate.get(StringType.GEOGEBRA),
+				text = linkedGeo.getFormulaString(StringTemplate.defaultTemplate,
 						substituteNos);
 			}
 

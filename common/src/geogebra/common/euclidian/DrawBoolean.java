@@ -82,7 +82,7 @@ public final class DrawBoolean extends Drawable {
 		// show hide label by setting text
 		if (geo.isLabelVisible()) {
 			// get caption to show r
-			String caption = geoBool.getCaption(StringTemplate.get(StringType.GEOGEBRA));
+			String caption = geoBool.getCaption(StringTemplate.defaultTemplate);
 			if (!caption.equals(oldCaption)) {
 				oldCaption = caption;
 				labelDesc = caption; //GeoElement.indicesToHTML(caption, true);

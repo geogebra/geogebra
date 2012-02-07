@@ -5,6 +5,8 @@ import geogebra.main.Application;
 import geogebra.util.AlgebraViewTransferHandler;
 
 import geogebra.common.awt.Point;
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
@@ -285,9 +287,9 @@ public class SpreadsheetViewDnD implements DragGestureListener, DragSourceListen
 					
 					for(int k = 0; k < tempList.size(); k ++){
 						if(isCopyByValue)
-							currentRow.add(tempList.get(k).toValueString());
+							currentRow.add(tempList.get(k).toValueString(StringTemplate.defaultTemplate));
 						else
-							currentRow.add("=Element[" + tempList.getLabel() + "," + (k+1) + "]");
+							currentRow.add("=Element[" + tempList.getLabel(StringTemplate.defaultTemplate) + "," + (k+1) + "]");
 					}
 					dataList.add(currentRow);
 				}
@@ -303,9 +305,9 @@ public class SpreadsheetViewDnD implements DragGestureListener, DragSourceListen
 						columnCount = Math.max(columnCount,tempList.size());
 						for(int col = 0; col < tempList.size(); col ++){
 							if(isCopyByValue)
-								currentRow.add(tempList.get(col).toValueString());
+								currentRow.add(tempList.get(col).toValueString(StringTemplate.defaultTemplate));
 							else
-								currentRow.add("=Element[" + tempMatrix.getLabel() + "," + (row +1) + "," + (col+1) + "]");
+								currentRow.add("=Element[" + tempMatrix.getLabel(StringTemplate.defaultTemplate) + "," + (row +1) + "," + (col+1) + "]");
 						}
 						dataList.add(currentRow);
 					}						
@@ -315,7 +317,7 @@ public class SpreadsheetViewDnD implements DragGestureListener, DragSourceListen
 				else{
 					ArrayList<String> currentRow = new ArrayList<String>();
 					if(isCopyByValue)
-						currentRow.add(geoArray[geoIndex].toValueString());
+						currentRow.add(geoArray[geoIndex].toValueString(StringTemplate.maxPrecision));
 					else
 						currentRow.add("=" + geoArray[geoIndex].label);
 					dataList.add(currentRow);

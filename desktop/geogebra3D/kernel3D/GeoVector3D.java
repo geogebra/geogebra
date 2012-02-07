@@ -462,9 +462,9 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
 			spreadsheetColumnHeadings.clear();
 		}
 		
-		spreadsheetColumnHeadings.add("x("+getLabel()+')');
-		spreadsheetColumnHeadings.add("y("+getLabel()+')');
-		spreadsheetColumnHeadings.add("z("+getLabel()+')');
+		spreadsheetColumnHeadings.add("x("+getLabel(StringTemplate.defaultTemplate)+')');
+		spreadsheetColumnHeadings.add("y("+getLabel(StringTemplate.defaultTemplate)+')');
+		spreadsheetColumnHeadings.add("z("+getLabel(StringTemplate.defaultTemplate)+')');
 			
 		return spreadsheetColumnHeadings;
 	}

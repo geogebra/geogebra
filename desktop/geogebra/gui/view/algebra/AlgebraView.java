@@ -745,7 +745,7 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 			int middle = (left + right) / 2;
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) parent
 					.getChildAt(middle);
-			String nodeLabel = ((GeoElement) node.getUserObject()).getLabel();
+			String nodeLabel = ((GeoElement) node.getUserObject()).getLabelSimple();
 
 			int compare = GeoElement.compareLabels(geoLabel, nodeLabel,geoElementSpreadsheet);
 			if (compare < 0)

@@ -40,7 +40,7 @@ public class MyCellEditor extends DefaultCellEditor {
             Object ob = node.getUserObject();
             if (ob instanceof GeoElement) {
                 GeoElement geo = (GeoElement) ob;
-                StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
+                StringTemplate tpl = StringTemplate.defaultTemplate;
                 if (geo.isChangeable()) {
                     str = geo.toString(tpl);
                 } else {

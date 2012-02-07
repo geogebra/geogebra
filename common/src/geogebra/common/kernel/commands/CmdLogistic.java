@@ -43,7 +43,7 @@ public class CmdLogistic extends CommandProcessor {
 				if (arg[2].isGeoFunction() && ((GeoFunction)arg[2]).toString(StringTemplate.defaultTemplate).equals("x")) {
 									
 					// needed for eg Normal[1, 0.001, x] 
-					StringTemplate highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, 15);
+					StringTemplate highPrecision = StringTemplate.maxPrecision;
 					String m = arg[0].getLabel(highPrecision);
 					String s = arg[1].getLabel(highPrecision);
 					
@@ -61,7 +61,7 @@ public class CmdLogistic extends CommandProcessor {
 				} else if (arg[2].isNumberValue()) 
 				{
 					// needed for eg Normal[1, 0.001, x] 
-					StringTemplate highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, 15);
+					StringTemplate highPrecision = StringTemplate.maxPrecision;
 					String m = arg[0].getLabel(highPrecision);
 					String s = arg[1].getLabel(highPrecision);
 					String x = arg[2].getLabel(highPrecision);

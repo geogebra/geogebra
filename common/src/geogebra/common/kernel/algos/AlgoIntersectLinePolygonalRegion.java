@@ -403,7 +403,7 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
 	
 		if (outputPoints.size()>0){
 			outputPoints.setLabels(null);
-			labelPrefix = outputPoints.getElement(0).getLabel().toLowerCase();
+			labelPrefix = outputPoints.getElement(0).getLabelSimple().toLowerCase();
 		}	
 		
 		if (labels!=null &&

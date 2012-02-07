@@ -370,7 +370,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	double fa=f.evaluate(a);
 	double gb=g.evaluate(b);
 	
-    String value=f.toValueString();
+    String value=f.toValueString(getStringTemplate());
 	value=killSpace(StringUtil.toLaTeXString(value,true));
 	boolean plotWithGnuplot=warningFunc(value,"tan(")||warningFunc(value,"cosh(")||warningFunc(value,"acosh(")
 					||warningFunc(value,"asinh(")||warningFunc(value,"atanh(")||warningFunc(value,"sinh(")
@@ -410,7 +410,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	codeFilledObject.append("} -- ");
 	writePoint(b,gb,codeFilledObject);
 	codeFilledObject.append(" {");
-    value=g.toValueString();
+    value=g.toValueString(getStringTemplate());
 	value=killSpace(StringUtil.toLaTeXString(value,true));
 	plotWithGnuplot=warningFunc(value,"tan(")||warningFunc(value,"cosh(")||warningFunc(value,"acosh(")
 					||warningFunc(value,"asinh(")||warningFunc(value,"atanh(")||warningFunc(value,"sinh(")
@@ -460,7 +460,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
     	// between a and b
     	double a = algo.getA().getDouble();
         double b = algo.getB().getDouble();
-		String value=f.toValueString();
+		String value=f.toValueString(getStringTemplate());
 		value=killSpace(StringUtil.toLaTeXString(value,true));
 		boolean plotWithGnuplot=warningFunc(value,"tan(")||warningFunc(value,"cosh(")||warningFunc(value,"acosh(")
 						||warningFunc(value,"asinh(")||warningFunc(value,"atanh(")||warningFunc(value,"sinh(")
@@ -1191,7 +1191,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	private void drawFunction(GeoFunction geo,StringBuilder sb){
 		Function f=geo.getFunction();
 		if (null==f) return;
-		String value=f.toValueString();
+		String value=f.toValueString(getStringTemplate());
 		value=killSpace(StringUtil.toLaTeXString(value,true));
 		boolean plotWithGnuplot=warningFunc(value,"tan(")||warningFunc(value,"cosh(")||warningFunc(value,"acosh(")
 						||warningFunc(value,"asinh(")||warningFunc(value,"atanh(")||warningFunc(value,"sinh(")

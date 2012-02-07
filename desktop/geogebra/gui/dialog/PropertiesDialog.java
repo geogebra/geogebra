@@ -15,6 +15,7 @@ package geogebra.gui.dialog;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ConstructionDefaults;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
@@ -650,7 +651,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 			if (typeNode == null)
 				return null;
 
-			int pos = AlgebraView.binarySearchGeo(typeNode, geo.getLabel(),
+			int pos = AlgebraView.binarySearchGeo(typeNode, geo.getLabelSimple(),
 					kernel.getGeoElementSpreadsheet());
 			if (pos == -1) {
 				return null;
@@ -718,7 +719,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 
 			// check if already present in type node
 			int pos = AlgebraView
-					.binarySearchGeo(typeNode, geo.getLabel(), ges);
+					.binarySearchGeo(typeNode, geo.getLabelSimple(), ges);
 			if (pos >= 0)
 				return;
 
@@ -768,8 +769,8 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 					.getGeoElementSpreadsheet();
 
 			int pos = binarySearch ? AlgebraView.binarySearchGeo(typeNode,
-					geo.getLabel(), ges) : AlgebraView.linearSearchGeo(
-					typeNode, geo.getLabel());
+					geo.getLabelSimple(), ges) : AlgebraView.linearSearchGeo(
+					typeNode, geo.getLabelSimple());
 			if (pos > -1) {
 				DefaultMutableTreeNode child = (DefaultMutableTreeNode) typeNode
 						.getChildAt(pos);

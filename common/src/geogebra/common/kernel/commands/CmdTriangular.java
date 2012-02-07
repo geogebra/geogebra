@@ -36,7 +36,7 @@ public class CmdTriangular extends CommandProcessor {
 				if (arg[3].isGeoFunction() && ((GeoFunction)arg[3]).toString(StringTemplate.defaultTemplate).equals("x")) {
 									
 					// needed for eg Normal[1, 0.001, x] 
-					StringTemplate highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, 15);
+					StringTemplate highPrecision = StringTemplate.maxPrecision;
 					String a = arg[0].getLabel(highPrecision);
 					String b = arg[1].getLabel(highPrecision);
 					String c = arg[2].getLabel(highPrecision);
@@ -54,7 +54,7 @@ public class CmdTriangular extends CommandProcessor {
 				} else if (arg[3].isNumberValue()) 
 				{
 					// needed for eg Normal[1, 0.001, x] 
-					StringTemplate highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, 15);
+					StringTemplate highPrecision = StringTemplate.maxPrecision;
 					String a = arg[0].getLabel(highPrecision);
 					String b = arg[1].getLabel(highPrecision);
 					String c = arg[2].getLabel(highPrecision);

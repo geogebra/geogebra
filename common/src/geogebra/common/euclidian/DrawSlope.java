@@ -110,7 +110,7 @@ public class DrawSlope extends Drawable {
 
 			// label position
 			labelVisible = geo.isLabelVisible();
-			StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
+			StringTemplate tpl = StringTemplate.defaultTemplate;
 			if (labelVisible) {
 				if (slopeTriangleSize > 1) {
 					StringBuilder sb = new StringBuilder();

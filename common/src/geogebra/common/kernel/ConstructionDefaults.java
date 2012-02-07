@@ -385,8 +385,6 @@ public class ConstructionDefaults {
 	 */
 	public String getCDXML() {	
 		
-		cons.getKernel().setTemporaryPrintFigures(15);
-		
 		StringBuilder sb = new StringBuilder();
 		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		sb.append("<geogebra format=\"" + GeoGebraConstants.XML_FILE_FORMAT + "\">\n");
@@ -396,8 +394,6 @@ public class ConstructionDefaults {
 		}
 		sb.append("</construction>\n");
 		sb.append("</geogebra>\n");
-		
-		cons.getKernel().restorePrintAccuracy();
 
 		return sb.toString();
 	}

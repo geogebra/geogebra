@@ -1,7 +1,7 @@
 package geogebra.common.euclidian;
 
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.*;
-import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.*;
 
 import java.util.ArrayList;
@@ -631,7 +631,7 @@ public class Hits extends ArrayList<GeoElement> {
 		GeoElement geo;
 		for (int i = 0; i < size(); i++) {
 			geo = get(i);
-			s+="\n hits("+i+") = "+geo.getLabel();
+			s+="\n hits("+i+") = "+geo.getLabel(StringTemplate.defaultTemplate);
 		}
 		return s;
 	}

@@ -699,7 +699,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 				}
 			}
 		}
-		StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
+		StringTemplate tpl = StringTemplate.defaultTemplate;
 		switch (count) {
 		case 0: 
 			value.add(app.getPlain("fncInspector.NoRoots"));

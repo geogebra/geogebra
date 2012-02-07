@@ -21,7 +21,7 @@ public class CmdColumn extends CommandProcessor {
 		switch (n) {
 		case 1:
 			arg = resArgs(c);			
-			if (arg[0].getLabel() != null && kernelA.getGeoElementSpreadsheet().isSpreadsheetLabel(arg[0].getLabel())) {
+			if (arg[0].getLabelSimple() != null && kernelA.getGeoElementSpreadsheet().isSpreadsheetLabel(arg[0].getLabelSimple())) {
 
 				GeoElement[] ret = { kernelA.Column(c.getLabel(),
 						arg[0]) };

@@ -366,7 +366,7 @@ public class RelativeCopy {
 
 		// make sure a/0.001 doesn't become a/0
 		
-		StringTemplate highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, 15);;
+		StringTemplate highPrecision = StringTemplate.maxPrecision;
 		if (value.isPointOnPath() || value.isPointInRegion()) {
 			text = value.getCommandDescription(highPrecision);
 		} else if (value.isChangeable()) {
@@ -540,7 +540,7 @@ public class RelativeCopy {
 		dependents = dependents2;
 		dependents[dependents.length - 1] = value;
 		for (int i = 0; i < dependents.length; ++i) {
-			String name = dependents[i].getLabel();
+			String name = dependents[i].getLabel(StringTemplate.defaultTemplate);
 			MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
 					.exec(name);
 			int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);

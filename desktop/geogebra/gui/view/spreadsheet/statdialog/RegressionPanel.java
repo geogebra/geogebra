@@ -248,9 +248,9 @@ public class RegressionPanel extends JPanel implements  ActionListener, StatPane
 			StringTemplate highPrecision;
 			// temporarily override the default decimal place setting
 			if(statDialog.getPrintDecimals() >= 0)
-				highPrecision = StringTemplate.printDecimals(StringType.LATEX, statDialog.getPrintDecimals());
+				highPrecision = StringTemplate.printDecimals(StringType.LATEX, statDialog.getPrintDecimals(),false);
 			else
-				highPrecision = StringTemplate.printFigures(StringType.LATEX,statDialog.getPrintFigures());
+				highPrecision = StringTemplate.printFigures(StringType.LATEX,statDialog.getPrintFigures(),false);
 			
 
 			// no regression 

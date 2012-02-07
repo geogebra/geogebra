@@ -103,6 +103,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 	/**
 	* returns all class-specific xml tags for getXML
 	*/
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
 	   super.getXMLtags(sb);
 	 
@@ -114,6 +115,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 
 	
 
+	@Override
 	final public boolean isDefined() {
 		return isDefined;
 	}
@@ -122,12 +124,14 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 		isDefined = defined;
 	}
 
+	@Override
 	public void setUndefined() {
 		isDefined = false;
 	}
 
 	
 	
+	@Override
 	public String toString(StringTemplate tpl) {
 		if (sbToString == null) {
 			sbToString = new StringBuilder(80);
@@ -136,12 +140,12 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 		if (isLabelSet()) {
 			sbToString.append(label);
 			sbToString.append('(');
-			sbToString.append(fun[0].getFunctionVariables()[0].toString());
+			sbToString.append(fun[0].getFunctionVariables()[0].toString(tpl));
 			sbToString.append(',');
-			sbToString.append(fun[0].getFunctionVariables()[1].toString());
+			sbToString.append(fun[0].getFunctionVariables()[1].toString(tpl));
 			sbToString.append(") = ");					
 		}		
-		sbToString.append(toValueString());
+		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
 	}
 	protected StringBuilder sbToString;
@@ -149,6 +153,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 	
 	
 
+	@Override
 	public String toValueString(StringTemplate tpl) {		
 		if (isDefined) {
 			if (sbTemp == null) {
@@ -189,6 +194,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 			return app.getPlain("undefined");
 	}
 	
+	@Override
 	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
 		if (isDefined) {
 			if (sbTemp == null) {

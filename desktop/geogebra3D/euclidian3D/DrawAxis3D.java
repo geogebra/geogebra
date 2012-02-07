@@ -126,7 +126,7 @@ public class DrawAxis3D extends DrawLine3D {
     		Coords origin = ((GeoAxisND) getGeoElement()).getPointInD(3,val);
     		
     		//draw numbers
-    		String strNum = getView3D().getKernel().formatPiE(val,numberFormat,StringTemplate.get(StringType.GEOGEBRA));
+    		String strNum = getView3D().getKernel().formatPiE(val,numberFormat,StringTemplate.defaultTemplate);
 
     		//check if the label already exists
     		DrawLabel3D label = labels.get(strNum);

@@ -20,6 +20,14 @@ public class StringTemplate {
 	/**
 	 * MPReduce string type, do not internationalize digits
 	 */
+	public static StringTemplate latexTemplate = new StringTemplate();
+	static {
+		latexTemplate.setType(StringType.LATEX);
+	}
+	
+	/**
+	 * MPReduce string type, do not internationalize digits
+	 */
 	public static StringTemplate casTemplate = new StringTemplate();
 	static {
 		casTemplate.internationalizeDigits = false;
@@ -32,6 +40,7 @@ public class StringTemplate {
 	static {
 		xmlTemplate.internationalizeDigits = false;
 		xmlTemplate.setType(StringType.GEOGEBRA_XML);
+		xmlTemplate.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
 	}
 	/**
 	 * for input bar; same as default, but increases precision to MIN_EDITING_PRINT_PRECISION
@@ -40,12 +49,19 @@ public class StringTemplate {
 	static {
 		editTemplate.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(GeoElement.MIN_EDITING_PRINT_PRECISION,20,false);
 		editTemplate.nf = geogebra.common.factories.FormatFactory.prototype.getNumberFormat(GeoElement.MIN_EDITING_PRINT_PRECISION);
+		editTemplate.allowMore = true;
+	}
+	public static StringTemplate maxPrecision = new StringTemplate();
+	static {
+		maxPrecision.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
 	}
 	private StringType stringType;
 	private boolean internationalizeDigits;
 	private String casPrintFormPI;
 	private ScientificFormatAdapter sf;
 	private NumberFormatAdapter nf;
+
+	private boolean allowMore;
 	/**
 	 * Creates default string template
 	 */
@@ -132,33 +148,35 @@ public class StringTemplate {
 	 * @param decimals number of decimal places
 	 * @return template
 	 */
-	public static StringTemplate printDecimals(StringType type, int decimals) {
+	public static StringTemplate printDecimals(StringType type, int decimals,boolean allowMore) {
 		StringTemplate tpl = new StringTemplate(){
 			public boolean useScientific(boolean defau){
 				return false;
 			}
 		};
+		tpl.allowMore = allowMore;
 		tpl.setType(type);
 		geogebra.common.factories.FormatFactory.prototype.getNumberFormat(decimals);
 		return tpl;
 	}
 	
-	public static StringTemplate printFigures(StringType mpreduce, int decimals) {
+	public static StringTemplate printFigures(StringType mpreduce, int decimals,boolean allowMore) {
 		StringTemplate tpl = new StringTemplate(){
 			public boolean useScientific(boolean defau){
 				return true;
 			}
 		};
+		tpl.allowMore = allowMore;
 		tpl.setType(mpreduce);
 		geogebra.common.factories.FormatFactory.prototype.getScientificFormat(decimals,20,false);
 		return tpl;
 	}
 
-	public ScientificFormatAdapter getSF() {
-		return sf;
+	public ScientificFormatAdapter getSF(ScientificFormatAdapter sfk) {
+		return sf==null || (allowMore && sfk.getSigDigits()>sf.getSigDigits())?sfk:sf;
 	}
 	
-	public NumberFormatAdapter getNF() {
-		return nf;
+	public NumberFormatAdapter getNF(NumberFormatAdapter nfk) {
+		return nf==null|| (allowMore && nfk.getMaximumFractionDigits()>nf.getMaximumFractionDigits())?nfk:nf;
 	}
 }

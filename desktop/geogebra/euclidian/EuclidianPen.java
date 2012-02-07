@@ -432,7 +432,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			// we want to clear the points before notifyDraw throws potential
 			// exception
 			penPoints.clear();
-			app.getScriptManager().notifyDraw(lastPenImage.getLabel(), x, y);
+			app.getScriptManager().notifyDraw(lastPenImage.getLabelSimple(), x, y);
 		} else
 			penPoints.clear();
 

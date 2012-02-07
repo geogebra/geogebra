@@ -71,9 +71,9 @@ public class SpecialNumberFormat implements ActionListener {
 		StringTemplate highPrecision;
 		// override the default decimal place setting
 		if(printDecimals >= 0)
-			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, printDecimals);
+			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, printDecimals,false);
 		else
-			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, printFigures);
+			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, printFigures,false);
 
 		// get the formatted string
 		String result = app.getKernel().format(x,highPrecision);

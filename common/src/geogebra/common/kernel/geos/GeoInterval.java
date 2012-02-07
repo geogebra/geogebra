@@ -285,17 +285,17 @@ public class GeoInterval extends GeoFunction {
 	private void setLeftBound(ExpressionValue nv) {
 		leftBound = ((NumberValue) nv.evaluate()).getDouble();
 		if (nv.isGeoElement())
-			leftStr = ((GeoElement) nv).getLabel();
+			leftStr = ((GeoElement) nv).getLabel(StringTemplate.defaultTemplate);
 		else
-			leftStr = nv.toString();
+			leftStr = nv.toString(StringTemplate.defaultTemplate);
 	}
 
 	private void setRightBound(ExpressionValue nv) {
 		rightBound = ((NumberValue) nv.evaluate()).getDouble();
 		if (nv.isGeoElement())
-			rightStr = ((GeoElement) nv).getLabel();
+			rightStr = ((GeoElement) nv).getLabel(StringTemplate.defaultTemplate);
 		else
-			rightStr = nv.toString();
+			rightStr = nv.toString(StringTemplate.defaultTemplate);
 	}
 
 	/**

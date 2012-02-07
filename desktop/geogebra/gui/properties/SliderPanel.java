@@ -224,7 +224,7 @@ public class SliderPanel
 		}
 
 		
-		StringTemplate highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, PropertiesDialog.TEXT_FIELD_FRACTION_DIGITS);
+		StringTemplate highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, PropertiesDialog.TEXT_FIELD_FRACTION_DIGITS,false);
 		if (equalMin){
 			GeoElement min0 = num0.getIntervalMinObject();
 			if (onlyAngles && (min0 == null ||(!min0.isLabelSet() && min0.isIndependent()))){				
