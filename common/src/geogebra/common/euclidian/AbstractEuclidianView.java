@@ -1168,9 +1168,17 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 		if (automaticAxesNumberingDistances[axis]) {
 			// force same unit if scales are same, see #1082
-			if ((axis == 1) && automaticAxesNumberingDistances[0]
-					&& Kernel.isEqual(getXscale(), getYscale())) {
-				axesNumberingDistances[1] = axesNumberingDistances[0];
+			if ((axis == 1) && automaticAxesNumberingDistances[0] && Kernel.isEqual(xscale, yscale)) {
+				
+				if (piAxisUnit[0] == piAxisUnit[1]) {
+					axesNumberingDistances[1] = axesNumberingDistances[0];					
+				} else if (piAxisUnit[0]) {
+					axesNumberingDistances[1] = axesNumberingDistances[0] / Math.PI;										
+				} else if (piAxisUnit[1]) {
+					axesNumberingDistances[1] = axesNumberingDistances[0] * Math.PI;										
+				}
+				
+				
 			} else if (piAxisUnit[axis]) {
 				axesNumberingDistances[axis] = Math.PI;
 			} else {
