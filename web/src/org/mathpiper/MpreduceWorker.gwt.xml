@@ -1,7 +1,9 @@
  <module rename-to="mpreduceworker">
    <inherits name="com.google.gwt.core.Core" />
 	<inherits name="com.google.gwt.webworker.WebWorker" />
-    <source path="mpreduce" />
+    <source path="mpreduce">
+    	<exclude name="InterpreterJs.java" />
+    </source>
     <entry-point class="org.mathpiper.mpreduce.Interpreter" />
     
     <define-property name="user.agent" values="safari" />

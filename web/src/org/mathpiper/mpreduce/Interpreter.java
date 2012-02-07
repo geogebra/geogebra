@@ -55,10 +55,10 @@ import org.mathpiper.mpreduce.special.SpecialFunction;
 import org.mathpiper.mpreduce.symbols.Symbol;
 import org.mathpiper.mpreduce.zip.GZIPInputStream;
 
-public class Interpreter extends DedicatedWorkerEntryPoint {
+public class Interpreter extends DedicatedWorkerEntryPoint implements Interpretable {
 
     Jlisp jlisp;
-    private static Interpreter InterpreterInstance = null;
+    private static Interpretable InterpreterInstance = null;
     private String startMessage;
     private String prompt;
     private String sendString = null;
@@ -166,11 +166,11 @@ public class Interpreter extends DedicatedWorkerEntryPoint {
 
         private ArrayList expressions = new ArrayList();
         private Iterator expressionsIterator;
-        private Interpreter interpreter;
+        private Interpretable interpreter;
         public int pos, len;
         private String result;
 
-        InterpreterInputStream(Interpreter interpreter) {
+        InterpreterInputStream(Interpretable interpreter) {
             this.interpreter = interpreter;
 
             sendString = null;
@@ -298,7 +298,7 @@ public class Interpreter extends DedicatedWorkerEntryPoint {
 
     }
 
-    public static String version() {
+    public String version() {
         return Jlisp.version;
     }
 
