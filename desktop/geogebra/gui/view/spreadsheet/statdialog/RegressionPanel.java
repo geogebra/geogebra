@@ -245,12 +245,12 @@ public class RegressionPanel extends JPanel implements  ActionListener, StatPane
 		//GeoElement geoRegression = statDialog.getRegressionModel();
 
 		try {
-			
+			StringTemplate highPrecision;
 			// temporarily override the default decimal place setting
 			if(statDialog.getPrintDecimals() >= 0)
-				app.getKernel().setTemporaryPrintDecimals(statDialog.getPrintDecimals());
+				highPrecision = StringTemplate.printDecimals(StringType.LATEX, statDialog.getPrintDecimals());
 			else
-				app.getKernel().setTemporaryPrintFigures(statDialog.getPrintFigures());
+				highPrecision = StringTemplate.printFigures(StringType.LATEX,statDialog.getPrintFigures());
 			
 
 			// no regression 
@@ -261,17 +261,13 @@ public class RegressionPanel extends JPanel implements  ActionListener, StatPane
 			// linear 
 			else if(statDialog.getRegressionMode() == StatDialog.REG_LINEAR){
 				((GeoLine)statDialog.getRegressionModel()).setToExplicit();	
-				eqn = statDialog.getRegressionModel().getFormulaString(StringTemplate.get(StringType.LATEX), true);
+				eqn = statDialog.getRegressionModel().getFormulaString(highPrecision, true);
 			}
 
 			// nonlinear
 			else{
-				eqn = "y = " + statDialog.getRegressionModel().getFormulaString(StringTemplate.get(StringType.LATEX), true);		
+				eqn = "y = " + statDialog.getRegressionModel().getFormulaString(highPrecision, true);		
 			}
-			
-			
-			// restore the default decimal place setting
-			app.getKernel().restorePrintAccuracy();
 			
 		}
 

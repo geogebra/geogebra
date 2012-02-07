@@ -1,8 +1,10 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -34,7 +36,7 @@ public class CmdChiSquared extends CommandProcessor {
 		switch (n) {
 		case 3:
 			
-			if (!arg[1].isGeoFunction() || !((GeoFunction)arg[1]).toString().equals("x")) {
+			if (!arg[1].isGeoFunction() || !((GeoFunction)arg[1]).toString(StringTemplate.defaultTemplate).equals("x")) {
 				throw argErr(app, c.getName(), arg[1]);
 			}
 			
@@ -46,13 +48,13 @@ public class CmdChiSquared extends CommandProcessor {
 			// fall through
 		case 2:			
 			if ((ok[0] = arg[0].isNumberValue()) ) {
-				if (arg[1].isGeoFunction() && ((GeoFunction)arg[1]).toString().equals("x")) {
+				if (arg[1].isGeoFunction() && ((GeoFunction)arg[1]).toString(StringTemplate.defaultTemplate).equals("x")) {
 
 					// needed for eg Normal[1, 0.001, x] 
-					kernelA.setTemporaryPrintFigures(15);
-					String k = arg[0].getLabel();
+					StringTemplate highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, 15);
+					String k = arg[0].getLabel(highPrecision);
 					String command = null;
-					kernelA.restorePrintAccuracy();
+
 					
 					if (cumulative) {
 						command = "If[x<0,0,gamma(("+k+")/2,x/2)/gamma(("+k+")/2)]";
@@ -61,7 +63,7 @@ public class CmdChiSquared extends CommandProcessor {
 					}
 					
 					
-					GeoElement[] ret = (GeoElement[])kernelA.getAlgebraProcessor().processAlgebraCommand(command, true);
+					GeoElement[] ret = kernelA.getAlgebraProcessor().processAlgebraCommand(command, true);
 					return ret;
 
 

@@ -191,7 +191,7 @@ public class SliderPanel
 		coSliderHorizontal.removeActionListener(this);
 		cbSliderFixed.removeActionListener(this);
 		cbRandom.removeActionListener(this);
-		StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
+		
 		// check if properties have same values
 		GeoNumeric temp, num0 = (GeoNumeric) geos[0];
 		boolean equalMax = true;
@@ -224,13 +224,13 @@ public class SliderPanel
 		}
 
 		
-        kernel.setTemporaryPrintDecimals(PropertiesDialog.TEXT_FIELD_FRACTION_DIGITS);
+		StringTemplate highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, PropertiesDialog.TEXT_FIELD_FRACTION_DIGITS);
 		if (equalMin){
 			GeoElement min0 = num0.getIntervalMinObject();
 			if (onlyAngles && (min0 == null ||(!min0.isLabelSet() && min0.isIndependent()))){				
-				tfMin.setText(kernel.formatAngle(num0.getIntervalMin(),StringTemplate.get(StringType.GEOGEBRA)).toString());			
+				tfMin.setText(kernel.formatAngle(num0.getIntervalMin(),highPrecision).toString());			
 			}else
-				tfMin.setText(min0.getLabel(StringTemplate.get(StringType.GEOGEBRA)));
+				tfMin.setText(min0.getLabel(highPrecision));
 		} else {
 			tfMin.setText("");
 		}
@@ -238,21 +238,18 @@ public class SliderPanel
 		if (equalMax){
 			GeoElement max0 = num0.getIntervalMaxObject();
 			if (onlyAngles &&  (max0 == null ||(!max0.isLabelSet() && max0.isIndependent()) ))
-				tfMax.setText(kernel.formatAngle(num0.getIntervalMax(),StringTemplate.get(StringType.GEOGEBRA)).toString());
+				tfMax.setText(kernel.formatAngle(num0.getIntervalMax(),highPrecision).toString());
 			else
-				tfMax.setText(max0.getLabel(tpl));
+				tfMax.setText(max0.getLabel(highPrecision));
 		} else {
 			tfMax.setText("");
 		}
 		
 		if (equalWidth){
-			tfWidth.setText(kernel.format(num0.getSliderWidth(),tpl));
+			tfWidth.setText(kernel.format(num0.getSliderWidth(),highPrecision));
 		} else {
 			tfMax.setText("");
 		}
-		
-		//kernel.setMaximumFractionDigits(oldDigits);
-		kernel.restorePrintAccuracy();
 
 		if (equalSliderFixed)
 			cbSliderFixed.setSelected(num0.isSliderFixed());

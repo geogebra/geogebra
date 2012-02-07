@@ -1,8 +1,10 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -44,15 +46,13 @@ public class CmdNormal extends CommandProcessor {
 			// fall through
 		case 3:			
 			if ((ok = arg[0].isNumberValue()) && (arg[1].isNumberValue())) {
-				if (arg[2].isGeoFunction() && ((GeoFunction)arg[2]).toString().equals("x")) {
+				if (arg[2].isGeoFunction() && ((GeoFunction)arg[2]).toString(StringTemplate.defaultTemplate).equals("x")) {
 									
 					// needed for eg Normal[1, 0.001, x] 
-					kernelA.setTemporaryPrintFigures(15);
+					StringTemplate highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, 15);
 					
-					String mean = arg[0].getLabel();
-					String sd = arg[1].getLabel();
-					
-					kernelA.restorePrintAccuracy();
+					String mean = arg[0].getLabel(highPrecision);
+					String sd = arg[1].getLabel(highPrecision);
 					
 					if (cumulative) {
 						return kernelA.getAlgebraProcessor().processAlgebraCommand( "(erf((x-("+mean+"))/(sqrt(2)*abs("+sd+"))) + 1)/2", true );
@@ -67,7 +67,8 @@ public class CmdNormal extends CommandProcessor {
 					
 				}  else
 					throw argErr(app, c.getName(), arg[2]);
-		} else throw argErr(app, c.getName(), ok ? arg[1] : arg[0]);
+		} 
+			throw argErr(app, c.getName(), ok ? arg[1] : arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

@@ -64,20 +64,19 @@ public class SpecialNumberFormat implements ActionListener {
 	
 	/**
 	 * Converts number to string using the currently selected format 
+	 * @param x number
+	 * @return formated string
 	 */
 	public String format(double x){
-		StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
+		StringTemplate highPrecision;
 		// override the default decimal place setting
 		if(printDecimals >= 0)
-			app.getKernel().setTemporaryPrintDecimals(printDecimals);
+			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, printDecimals);
 		else
-			app.getKernel().setTemporaryPrintFigures(printFigures);
+			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, printFigures);
 
 		// get the formatted string
-		String result = app.getKernel().format(x,tpl);
-
-		// restore the default decimal place setting
-		app.getKernel().restorePrintAccuracy();
+		String result = app.getKernel().format(x,highPrecision);
 
 		return result;
 	}

@@ -365,14 +365,14 @@ public class RelativeCopy {
 		String text = null;
 
 		// make sure a/0.001 doesn't become a/0
-		kernel.setTemporaryPrintFigures(15);
-		StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
+		
+		StringTemplate highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, 15);;
 		if (value.isPointOnPath() || value.isPointInRegion()) {
-			text = value.getCommandDescription(tpl);
+			text = value.getCommandDescription(highPrecision);
 		} else if (value.isChangeable()) {
-			text = value.toValueString(tpl);
+			text = value.toValueString(highPrecision);
 		} else {
-			text = value.getCommandDescription(tpl);
+			text = value.getCommandDescription(highPrecision);
 		}
 
 		// handle GeoText source value
@@ -398,7 +398,7 @@ public class RelativeCopy {
 		// even though it's a GeoFunction
 		if (value.isGeoFunction() && text.equals("")) {
 			// we need the definition without A1(x)= on the front
-			text = ((GeoFunction) value).toSymbolicString(tpl);
+			text = ((GeoFunction) value).toSymbolicString(highPrecision);
 		}
 
 		boolean freeImage = false;
@@ -419,9 +419,9 @@ public class RelativeCopy {
 		String boolText = null, oldBoolText = null;
 		if (bool != null) {
 			if (bool.isChangeable()) {
-				oldBoolText = bool.toValueString(tpl);
+				oldBoolText = bool.toValueString(highPrecision);
 			} else {
-				oldBoolText = bool.getCommandDescription(tpl);
+				oldBoolText = bool.getCommandDescription(highPrecision);
 			}
 		}
 
@@ -434,9 +434,9 @@ public class RelativeCopy {
 		String colorText = null, oldColorText = null;
 		if (dynamicColorList != null) {
 			if (dynamicColorList.isChangeable()) {
-				oldColorText = dynamicColorList.toValueString(tpl);
+				oldColorText = dynamicColorList.toValueString(highPrecision);
 			} else {
-				oldColorText = dynamicColorList.getCommandDescription(tpl);
+				oldColorText = dynamicColorList.getCommandDescription(highPrecision);
 			}
 		}
 
@@ -450,7 +450,6 @@ public class RelativeCopy {
 			text = "\"\"";
 		}
 
-		kernel.restorePrintAccuracy();
 
 		// make sure that non-GeoText elements are copied when the
 		// equalsRequired option is set
@@ -463,7 +462,7 @@ public class RelativeCopy {
 
 		// create the new cell geo
 		MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
-				.exec(value.getLabel());
+				.exec(value.getLabel(StringTemplate.defaultTemplate));
 		int column0 = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
 		int row0 = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 		GeoElement value2;

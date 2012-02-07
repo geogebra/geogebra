@@ -1,11 +1,13 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.Kernel;;
+import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 
 	public class CmdUniform extends CommandProcessor {
 
@@ -35,21 +37,21 @@ import geogebra.common.kernel.Kernel;;
 				// fall through
 			case 3:			
 				if ((ok = arg[0].isNumberValue()) && (arg[1].isNumberValue())) {
-					if (arg[2].isGeoFunction() && ((GeoFunction)arg[2]).toString().equals("x")) {
+					if (arg[2].isGeoFunction() && ((GeoFunction)arg[2]).toString(StringTemplate.defaultTemplate).equals("x")) {
 										
 						// needed for eg Normal[1, 0.001, x] 
-						kernelA.setTemporaryPrintFigures(15);
-						String a = arg[0].getLabel();
-						String b = arg[1].getLabel();
-						kernelA.restorePrintAccuracy();
+						StringTemplate highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, 15);
+						String a = arg[0].getLabel(highPrecision);
+						String b = arg[1].getLabel(highPrecision);
+						
 						
 						if (cumulative) {
-							GeoElement[] ret = (GeoElement[])kernelA.getAlgebraProcessor().processAlgebraCommand( "If[x<Min["+a+","+b+"],0,If[x>Max["+a+","+b+"],1,(x-Min["+a+","+b+"])/abs("+b+"-("+a+"))]]", true );
+							GeoElement[] ret = kernelA.getAlgebraProcessor().processAlgebraCommand( "If[x<Min["+a+","+b+"],0,If[x>Max["+a+","+b+"],1,(x-Min["+a+","+b+"])/abs("+b+"-("+a+"))]]", true );
 							
 							return ret;
 							
 						} else {
-							GeoElement[] ret = (GeoElement[])kernelA.getAlgebraProcessor().processAlgebraCommand( "If[x<Min["+a+","+b+"],0,If[x>Max["+a+","+b+"],0,1/abs("+b+"-("+a+"))]]", true );
+							GeoElement[] ret = kernelA.getAlgebraProcessor().processAlgebraCommand( "If[x<Min["+a+","+b+"],0,If[x>Max["+a+","+b+"],0,1/abs("+b+"-("+a+"))]]", true );
 							
 							return ret;
 						}
@@ -57,12 +59,12 @@ import geogebra.common.kernel.Kernel;;
 					} else if (arg[2].isNumberValue()) 
 					{
 						// needed for eg Normal[1, 0.001, x] 
-						kernelA.setTemporaryPrintFigures(15);
-						String a = arg[0].getLabel();
-						String b = arg[1].getLabel();
-						String x = arg[2].getLabel();
-						kernelA.restorePrintAccuracy();
-						GeoElement[] ret = (GeoElement[])kernelA.getAlgebraProcessor().processAlgebraCommand( "If["+x+"<Min["+a+","+b+"],0,If["+x+">Max["+a+","+b+"],1,("+x+"-Min["+a+","+b+"])/abs("+b+"-("+a+"))]]", true );
+						StringTemplate highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, 15);
+						String a = arg[0].getLabel(highPrecision);
+						String b = arg[1].getLabel(highPrecision);
+						String x = arg[2].getLabel(highPrecision);
+						
+						GeoElement[] ret = kernelA.getAlgebraProcessor().processAlgebraCommand( "If["+x+"<Min["+a+","+b+"],0,If["+x+">Max["+a+","+b+"],1,("+x+"-Min["+a+","+b+"])/abs("+b+"-("+a+"))]]", true );
 						return ret;
 						
 					}  else

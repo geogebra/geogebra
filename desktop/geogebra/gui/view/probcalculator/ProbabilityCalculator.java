@@ -1872,18 +1872,15 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 	 * Formats a number string using local format settings
 	 */
 	public String format(double x){
-		StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
+		StringTemplate highPrecision;
 		// override the default decimal place setting
 		if(printDecimals >= 0)
-			kernel.setTemporaryPrintDecimals(printDecimals);
+			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, printDecimals);
 		else
-			kernel.setTemporaryPrintFigures(printFigures);
+			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, printFigures);
 
 		// get the formatted string
-		String result = kernel.format(x,tpl);
-
-		// restore the default decimal place setting
-		kernel.restorePrintAccuracy();
+		String result = kernel.format(x,highPrecision);
 
 		return result;
 	}

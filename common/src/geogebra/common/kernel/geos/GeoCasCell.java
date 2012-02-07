@@ -1349,9 +1349,8 @@ public class GeoCasCell extends GeoElement {
 				// GeoElement evalGeo = silentEvalInGeoGebra(evalVE);
 				if (geos != null) {
 					success = true;
-					kernel.setTemporaryPrintFigures(15);
-					result = geos[0].toValueString();
-					kernel.restorePrintAccuracy();
+					StringTemplate highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, 15);
+					result = geos[0].toValueString(highPrecision);
 					AlgoElement parentAlgo = geos[0].getParentAlgorithm();
 					// cons.removeFromConstructionList(parentAlgo);
 					if (parentAlgo != null)

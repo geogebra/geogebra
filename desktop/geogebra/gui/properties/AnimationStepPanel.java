@@ -83,7 +83,7 @@ public class AnimationStepPanel
 		for (int i = 0; i < geos.length; i++) {
 			temp = (GeoElement) geos[i];
 			// same object visible value
-			if (geo0.getAnimationStep() != temp.getAnimationStep())
+			if (!Kernel.isEqual(geo0.getAnimationStep(), temp.getAnimationStep()))
 				equalStep = false;
 			if (!(temp.isGeoAngle()))
 				onlyAngles = false;
@@ -92,21 +92,20 @@ public class AnimationStepPanel
 		// set trace visible checkbox
 		//int oldDigits = kernel.getMaximumFractionDigits();
 		//kernel.setMaximumFractionDigits(PropertiesDialog.TEXT_FIELD_FRACTION_DIGITS);
-		kernel.setTemporaryPrintDecimals(PropertiesDialog.TEXT_FIELD_FRACTION_DIGITS);
+		StringTemplate highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, PropertiesDialog.TEXT_FIELD_FRACTION_DIGITS);
 
         if (equalStep){
         	GeoElement stepGeo = geo0.getAnimationStepObject();
 			if (onlyAngles && (stepGeo == null ||(!stepGeo.isLabelSet() && stepGeo.isIndependent())))
 				tfAnimStep.setText(
-					kernel.formatAngle(geo0.getAnimationStep(),StringTemplate.get(StringType.GEOGEBRA)).toString());
+					kernel.formatAngle(geo0.getAnimationStep(),highPrecision).toString());
 			else
-				tfAnimStep.setText(stepGeo.getLabel(StringTemplate.get(StringType.GEOGEBRA)));
+				tfAnimStep.setText(stepGeo.getLabel(highPrecision));
         }
 		else
 			tfAnimStep.setText("");
         
-		//kernel.setMaximumFractionDigits(oldDigits);
-        kernel.restorePrintAccuracy();
+		
 
 		tfAnimStep.addActionListener(this);
 		return this;

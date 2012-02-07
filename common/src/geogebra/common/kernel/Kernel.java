@@ -8260,7 +8260,7 @@ public class Kernel {
 
 		a.makeUnitVector();
 		b.makeUnitVector();
-		StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
+		StringTemplate tpl = StringTemplate.printFigures(StringType.GEOGEBRA, 15);
 		for (int i = 2; i < points.length; i++) {
 
 			double xC = points[i].inhomX;
@@ -8268,7 +8268,7 @@ public class Kernel {
 
 			GeoVec2D d = new GeoVec2D(this, xC - xA, yC - yA); // vector AC
 
-			setTemporaryPrintFigures(15);
+			
 			// make string like this
 			// A+3.76UnitVector[Segment[A,B]]+-1.74UnitPerpendicularVector[Segment[A,B]]
 			sb.setLength(0);
@@ -8290,7 +8290,7 @@ public class Kernel {
 			sb.append(points[1].getLabel(tpl));
 			sb.append("]]");
 
-			restorePrintAccuracy();
+			
 
 			// Application.debug(sb.toString());
 

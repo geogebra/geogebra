@@ -34,9 +34,8 @@ public class CmdCopyFreeObject extends CommandProcessor {
 			if (arg[0].isGeoFunctionConditional()|| arg[0].isGeoFunctionNVar() || arg[0].isGeoFunction()) {
 				String command = label == null ? "" : label + "="; 
 
-				kernelA.setTemporaryPrintFigures(15); 
-				command += arg[0].toOutputValueString(StringTemplate.get(StringType.GEOGEBRA)); 
-				kernelA.restorePrintAccuracy(); 
+				StringTemplate highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, 15);
+				command += arg[0].toOutputValueString(highPrecision); 
 
 				try { 
 

@@ -1,7 +1,9 @@
 package geogebra.gui.properties;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -118,19 +120,17 @@ public class AnimationSpeedPanel
 			animationModeCB.setSelectedItem(null);
 
 		// set trace visible checkbox
-		//int oldDigits = kernel.getMaximumFractionDigits();
-		//kernel.setMaximumFractionDigits(PropertiesDialog.TEXT_FIELD_FRACTION_DIGITS);
-        kernel.setTemporaryPrintDecimals(PropertiesDialog.TEXT_FIELD_FRACTION_DIGITS);
+		
+		StringTemplate highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, PropertiesDialog.TEXT_FIELD_FRACTION_DIGITS);
         
         if (equalSpeed) {
         	GeoElement speedObj = geo0.getAnimationSpeedObject();
         	GeoNumeric num = kernel.getDefaultNumber(geo0.isAngle());
-			tfAnimSpeed.setText(speedObj == null ? num.getAnimationSpeedObject().getLabel() : speedObj.getLabel());
+			tfAnimSpeed.setText(speedObj == null ? num.getAnimationSpeedObject().getLabel(highPrecision) : speedObj.getLabel(highPrecision));
         } else
 			tfAnimSpeed.setText("");
         
-		//kernel.setMaximumFractionDigits(oldDigits);
-        kernel.restorePrintAccuracy();
+		
 
 		tfAnimSpeed.addActionListener(this);
 		animationModeCB.addActionListener(this);
