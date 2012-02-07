@@ -265,19 +265,19 @@ public class Equation extends ValidExpression implements ReplaceableValue {
      * or (rhs is "+1y" and lhs does not contain y)
      */
     public boolean isExplicit(String var) {  
-        Polynomial lhs = leftPoly;
-        Polynomial rhs = rightPoly;
+        Polynomial lhsp = leftPoly;
+        Polynomial rhsp = rightPoly;
         
         // var = ... || ... = var
-        return (    lhs.length() == 1 && 
-                    ((NumberValue)lhs.getCoefficient(var).evaluate()).getDouble() 
+        return (    lhsp.length() == 1 && 
+                    ((NumberValue)lhsp.getCoefficient(var).evaluate()).getDouble() 
                         == 1 && 
-                    !rhs.contains(var)                  ) 
+                    !rhsp.contains(var)                  ) 
                 || 
-               (    rhs.length() == 1 && 
-                    ((NumberValue)rhs.getCoefficient(var).evaluate()).getDouble() 
+               (    rhsp.length() == 1 && 
+                    ((NumberValue)rhsp.getCoefficient(var).evaluate()).getDouble() 
                         == 1 && 
-                    !lhs.contains(var)                  ) ;
+                    !lhsp.contains(var)                  ) ;
     }
     
     /**
@@ -420,7 +420,7 @@ public class Equation extends ValidExpression implements ReplaceableValue {
         
         // right hand side
         if (rhs != null) 
-        	sb.append(rhs.toString());
+        	sb.append(rhs.toString(tpl));
         else
         	sb.append('0');
         
