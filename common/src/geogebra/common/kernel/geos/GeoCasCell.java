@@ -945,7 +945,7 @@ public class GeoCasCell extends GeoElement {
 			return true;
 
 		for (String varLabel : invars) {
-			if(!ignoreUndefinedXY || (!varLabel.equals("x") && !varLabel.equals("y")))       //provide definitions of funktions like f: x+y = 1 //TODO: find a better way
+			if(!(ignoreUndefinedXY && (varLabel.equals("x") || varLabel.equals("y"))))       //provide definitions of funktions like f: x+y = 1 //TODO: find a better way
 				if (kernel.lookupLabel(varLabel) == null)
 					return false;
 		}

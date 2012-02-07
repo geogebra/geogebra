@@ -3015,6 +3015,9 @@ public class Kernel {
 
 		case EuclidianConstants.MODE_CAS_SOLVE:
 			return "Solve";
+			
+		case EuclidianConstants.MODE_CAS_NUMERICAL_SOLVE:
+			return "NSolve";
 
 		case EuclidianConstants.MODE_CAS_DERIVATIVE:
 			return "Derivative";

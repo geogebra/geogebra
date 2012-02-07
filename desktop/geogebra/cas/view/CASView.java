@@ -414,6 +414,7 @@ public class CASView extends JComponent implements View, Gridable {
 
 		case EuclidianConstants.MODE_CAS_SOLVE:
 		case EuclidianConstants.MODE_CAS_DERIVATIVE:
+		case EuclidianConstants.MODE_CAS_NUMERICAL_SOLVE:
 		case EuclidianConstants.MODE_CAS_INTEGRAL:
 			// use first variable in expression as parameter
 			processInput(command, new String[] { "%0" });

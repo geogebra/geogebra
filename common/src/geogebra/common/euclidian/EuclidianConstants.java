@@ -204,6 +204,7 @@ public final class EuclidianConstants {
 	public static final int MODE_CAS_SOLVE = 1007;
 	public static final int MODE_CAS_DERIVATIVE = 1008;
 	public static final int MODE_CAS_INTEGRAL = 1009;
+	public static final int MODE_CAS_NUMERICAL_SOLVE = 1010;
 
 	
 	// SpreadsheetView modes

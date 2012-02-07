@@ -41,7 +41,7 @@ public class CASInputHandler {
 		// get editor
 		CASTableCellEditor cellEditor = consoleTable.getEditor();
 
-		if (ggbcmd.equalsIgnoreCase("Solve")) {
+		if (ggbcmd.equalsIgnoreCase("Solve") || ggbcmd.equalsIgnoreCase("NSolve")) {
 			if (casView.getRowHeader().getSelectedIndices().length > 1) {
 				processMultipleRows(ggbcmd, params);
 				return;
