@@ -26,7 +26,6 @@ import geogebra.web.kernel.gawt.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
-import java.util.zip.ZipOutputStream;
 
 public class GgbAPI  extends geogebra.common.plugin.GgbAPI implements JavaScriptAPI {
 
@@ -249,7 +248,6 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI implements JavaScript
     }
 
     private native void writeImageToZip(JavaScriptObject jszip, String filename, String base64img) /*-{
-    	var filename2 = filename.replace(/\\/g,"_");
     	// chop data part of PNG data url
     	jszip.add(filename, base64img.substring(22), {base64: true});
     }-*/;
