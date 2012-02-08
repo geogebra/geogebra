@@ -2661,4 +2661,8 @@ public abstract class AbstractApplication {
 		}
 	}
 
+	public abstract String getLocaleStr();
+
+	public abstract void showURLinBrowser(String string);
+
 }

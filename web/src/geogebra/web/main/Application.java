@@ -192,13 +192,17 @@ public class Application extends AbstractApplication {
 	 */
 	@Override
 	public String getLanguage() {
-		
+		return  getLocaleStr().substring(0,2);
+	}
+
+	@Override
+    public String getLocaleStr() {
 		String localeName = LocaleInfo.getCurrentLocale().getLocaleName();
 		if(localeName.toLowerCase().equals(Application.DEFAULT_LOCALE)) {
 			return Application.DEFAULT_LANGUAGE;
 		}
 		return  localeName.substring(0,2);
-	}
+    }
 
 	@Override
 	public boolean letRedefine() {
@@ -892,6 +896,15 @@ public class Application extends AbstractApplication {
 		return dialogManager;
 	}
 
+	@Override
+    public void showURLinBrowser(String string) {
+		showURLinBrowserNative(string);
+	    
+    }
+
+	public static native void showURLinBrowserNative(String string) /*-{
+		$wnd.show(string);
+	}-*/;
 
 
 }

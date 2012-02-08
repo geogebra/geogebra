@@ -4831,6 +4831,17 @@ public class Application extends AbstractApplication implements
 		return dialogManager;
 	}
 
+	@Override
+	public String getLocaleStr() {
+		return getLocale().toString();
+	}
+
+	@Override
+	public void showURLinBrowser(String strURL) {
+		getGuiManager().showURLinBrowser(strURL);
+		
+	}
+
 	
 
 

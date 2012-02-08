@@ -887,6 +887,9 @@ public abstract class GgbAPI {
     final public AbstractApplication getApplication() {
 	    return app;
     }
+
+	public abstract String getBase64(boolean includeThumbnail);
+	public abstract String getBase64();
 	
 
 }

@@ -3,14 +3,8 @@ package geogebra.export;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,19 +12,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 
 /**
  * Export GeoGebra worksheet to GeoGebraTube.
  * 
  * @author Florian Sonner
  */
-public class GeoGebraTubeExport {
+public abstract class GeoGebraTubeExport {
 	/**
 	 * URL of the webpage to call if a file should be uploaded.
 	 */
@@ -39,34 +27,14 @@ public class GeoGebraTubeExport {
 	/**
 	 * Application instance.
 	 */
-	private Application app;
-	
-	/**
-	 * Progress bar dialog.
-	 */
-	private JDialog progressDialog;
-	
-	/**
-	 * Progress bar.
-	 */
-	private JProgressBar progressBar;
-	
-	/**
-	 * Status label.
-	 */
-	private JLabel statusLabel;
-	
-	/** 
-	 * Abort button.
-	 */
-	private JButton abortButton;
+	protected AbstractApplication app;
 	
 	/**
 	 * Constructs a new instance of the GeoGebraTube exporter.
 	 * 
 	 * @param app
 	 */
-	public GeoGebraTubeExport(Application app) {
+	public GeoGebraTubeExport(AbstractApplication app) {
 		this.app = app;
 	}
 	
@@ -82,7 +50,7 @@ public class GeoGebraTubeExport {
 		    DataOutputStream printout;
 		    BufferedReader input;
 
-		    progressBar.setIndeterminate(true);
+		    setIndeterminate(true);
 		    
 			url = new URL(uploadURL);
 			
@@ -93,7 +61,7 @@ public class GeoGebraTubeExport {
 
 			// content type
 			urlConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-			urlConn.setRequestProperty("Accept-Language", app.getLocale().toString());
+			urlConn.setRequestProperty("Accept-Language", app.getLocaleStr());
 			
 			// send output
 			try {
@@ -123,9 +91,9 @@ public class GeoGebraTubeExport {
 				urlConn.setChunkedStreamingMode(1000);
 				urlConn.connect();*/
 				
-				progressBar.setIndeterminate(false);
-				progressBar.setMinimum(0);
-				progressBar.setMaximum(requestLength);
+				setIndeterminate(false);
+				setMinimum(0);
+				setMaximum(requestLength);
 
 				// send data in chunks
 				int start = 0;
@@ -144,7 +112,7 @@ public class GeoGebraTubeExport {
 					printout.flush();
 					
 					// track progress 
-					progressBar.setValue(end);
+					setValue(end);
 				}
 				
 				printout.close();
@@ -180,17 +148,17 @@ public class GeoGebraTubeExport {
 					final UploadResults results = new UploadResults(output.toString());
 					
 					if(results.HasError()) {
-						statusLabel.setText(app.getPlain("UploadError"));
-						progressBar.setEnabled(false);
+						statusLabelSetText(app.getPlain("UploadError"));
+						setEnabled(false);
 						
 						AbstractApplication.debug("Upload failed. Response: " + output.toString());
 					} else {
-						app.getGuiManager().showURLinBrowser(uploadURL + "/" + results.getUID());
+						app.showURLinBrowser(uploadURL + "/" + results.getUID());
 						hideDialog();
 					}
 					
-					progressDialog.pack();
-				} else {
+					pack();
+					} else {
 					AbstractApplication.debug("Upload failed. Response: #" + responseCode + " - " + responseMessage);
 					
 					BufferedReader errors = new BufferedReader(new InputStreamReader(urlConn.getErrorStream()));
@@ -204,80 +172,51 @@ public class GeoGebraTubeExport {
 					
 					AbstractApplication.debug(errorBuffer.toString());
 					
-					statusLabel.setText(app.getPlain("UploadError", Integer.toString(responseCode)));
-					progressBar.setEnabled(false);
-					progressDialog.pack();
+					statusLabelSetText(app.getPlain("UploadError", Integer.toString(responseCode)));
+					setEnabled(false);
+					pack();
 				}
 			} catch (IOException e) {
-				statusLabel.setText(app.getPlain("UploadError", Integer.toString(500)));
-				progressBar.setEnabled(false);
-				progressDialog.pack();
+				statusLabelSetText(app.getPlain("UploadError", Integer.toString(500)));
+				setEnabled(false);
+				pack();
 				
 				AbstractApplication.debug(e.getMessage());
 			}
 		} catch (IOException e) {
-			statusLabel.setText(app.getPlain("UploadError", Integer.toString(400)));
-			progressBar.setEnabled(false);
-			progressDialog.pack();
+			statusLabelSetText(app.getPlain("UploadError", Integer.toString(400)));
+			setEnabled(false);
+			pack();
 			
 			AbstractApplication.debug(e.getMessage());
 		}
 	}
 	
+
+	protected abstract void statusLabelSetText(String plain);
+
+	protected abstract void pack();
+
+	/**
+	 * Hides progress dialog.
+	 */
+	public abstract void hideDialog();
+	
+
+
 	/**
 	 * Append a base64 encoded .ggb file to the passed string buffer. 
 	 * 
 	 * @throws IOException
 	 */
 	private String getBase64String() throws IOException {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		app.getXMLio().writeGeoGebraFile(baos, true);
-		return geogebra.common.util.Base64.encode(baos.toByteArray(), 0);
+		return app.getGgbApi().getBase64(true);
 	}
 	
 	/**
 	 * Shows a small dialog with a progress bar. 
 	 */
-	private void showDialog() {
-		// initialize components
-		progressBar = new JProgressBar();
-		statusLabel = new JLabel(app.getPlain("UploadPrepare") + " ...");
-		
-		// setup buttons
-		abortButton = new JButton(app.getMenu("Close"));
-		abortButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				hideDialog();
-			}
-		});
-		
-		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
-		buttonPanel.add(abortButton);
-		
-		// main panel
-		JPanel panel = new JPanel(new BorderLayout(10, 10));
-		panel.add(statusLabel, BorderLayout.NORTH);
-		panel.add(progressBar, BorderLayout.CENTER);
-		panel.add(buttonPanel, BorderLayout.SOUTH);
-		panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-		
-		// dialog options
-		progressDialog = new JDialog();
-		progressDialog.setTitle(app.getMenu("UploadGeoGebraTube"));
-		progressDialog.setResizable(false);
-		progressDialog.add(panel);
-		
-		progressDialog.pack();
-		progressDialog.setVisible(true);
-		progressDialog.setLocationRelativeTo(null); // center
-	}
-	
-	/**
-	 * Hides progress dialog.
-	 */
-	public void hideDialog() {
-		progressDialog.setVisible(false);
-	}
+	protected abstract void showDialog();
 	
 	/**
 	 * Storage container for uploading results.
@@ -320,4 +259,14 @@ public class GeoGebraTubeExport {
 		public String getUID() { return uid; }
 		public String getErrorMessage() { return errorMessage; }
 	}
+	
+	protected abstract void setMaximum(int i);
+
+	protected abstract void setMinimum(int i);
+
+	protected abstract void setIndeterminate(boolean b);
+
+	protected abstract void setValue(int end);
+
+	protected abstract void setEnabled(boolean b);
 }

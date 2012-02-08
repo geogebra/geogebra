@@ -251,7 +251,7 @@ public class WorksheetExportDialog extends JDialog {
 								break;
 							}
 						} else {
-							GeoGebraTubeExport ggtExport = new GeoGebraTubeExport(app);
+							GeoGebraTubeExportGUI ggtExport = new GeoGebraTubeExportGUI(app);
 							ggtExport.uploadWorksheet();
 						}
 					}
