@@ -79,19 +79,6 @@ public class CASInputHandler {
 		int selEnd = cellEditor.getInputSelectionEnd();
 		String selRowInput = cellEditor.getInput();
 		
-//		if (selRowInput == null || selRowInput.length() == 0) {
-//		    // experimental
-//			int[] selectedIndices2 = casView.getRowHeader().getSelectedIndices();
-//			int selectedIndices = consoleTable.getSelectedRow();
-//			System.out.println(consoleTable.hasFocus());
-//			if(selectedIndices < 0)
-//				return;
-//			GeoCasCell selCellValue = consoleTable.getGeoCasCell(selectedIndices2[0]);
-//			selRowInput = selCellValue.getInputVE().toString();
-//			consoleTable.setRowSelectionInterval(selectedIndices2[0], selectedIndices2[0]);
-//
-//		}
-		
 
 		if (selRowInput == null || selRowInput.length() == 0) {
 			if (consoleTable.getSelectedRow() != -1) {
@@ -306,11 +293,8 @@ public class CASInputHandler {
 		// remove empty cells because empty cells' inputVE vars are null
 		ArrayList<Integer> l = new ArrayList<Integer>();
 		for(int i = 0; i < selectedIndices.length; i++) {
-			GeoCasCell selCellVal = consoleTable
-					.getGeoCasCell(selectedIndices[i]);
-			if(selCellVal.getInputVE() != null) {
+			if(!consoleTable.isRowEmpty(i))
 				l.add(i);
-			}
 		}
 		selectedIndices = new int[l.size()];
 		for(int i = 0; i < l.size(); i++) {
@@ -335,6 +319,7 @@ public class CASInputHandler {
 			cellValue = null;
 		}
 
+		// insert new row if the row below the last selected row is not empty
 		if (cellValue != null) {
 			if (!cellValue.isEmpty() && !oneRowOnly) {
 				cellValue = new GeoCasCell(kernel.getConstruction());
