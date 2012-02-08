@@ -3,6 +3,7 @@
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name='com.google.gwt.user.User'/>
   <inherits name="com.google.gwt.resources.Resources" />
+   <inherits name="com.google.gwt.webworker.WebWorker" />	
 
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->
