@@ -1,7 +1,10 @@
 package geogebra.common.euclidian;
 
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.geos.*;
+
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.*;
 
 import java.util.ArrayList;
