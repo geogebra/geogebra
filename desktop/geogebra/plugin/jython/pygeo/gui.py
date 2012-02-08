@@ -665,7 +665,7 @@ class InteractivePane(ActionListener, DocumentListener):
             self.history.reset_position()
 
 
-class ScriptPane(ActionListener):
+class ScriptPane(object):
 
     def __init__(self, api):
         self.api = api
@@ -681,14 +681,6 @@ class ScriptPane(ActionListener):
 
         self.reset()
         
-        # Create Selection pane
-        select_pane = JPanel()
-        save_btn = JButton("Save")
-        select_pane.add(save_btn)
-        self.component.add(select_pane, BorderLayout.PAGE_START)
-
-        save_btn.addActionListener(self)
-
     def indent_selection(self):
         self.script_area.indent_selection()
     def dedent_selection(self):
@@ -696,11 +688,10 @@ class ScriptPane(ActionListener):
 
     def reset(self):
         self.script_area.input = self.api.getInitScript()
-    
-    def actionPerformed(self, evt):
-        # 'Save' button was clicked
-        self.api.setInitScript(self.script_area.input)
 
+    def save_script(self):
+        self.api.setInitScript(self.script_area.input)
+    
         
 class EventsPane(ActionListener):
     
@@ -882,7 +873,6 @@ class PythonWindow(ActionListener, ChangeListener):
                          mod=ActionEvent.ALT_MASK)
         shellmenu.add(item)
 
-
         self.frame.setJMenuBar(menubar)
 
     def reset(self):
@@ -893,6 +883,8 @@ class PythonWindow(ActionListener, ChangeListener):
     
     def toggle_visibility(self):
         self.frame.visible = not self.frame.visible
+    def get_current_script(self):
+        return self.script_pane.script_area.input
     def add_component(self, c):
         self.remove_component()
         self.frame.add(c, BorderLayout.PAGE_START)

@@ -427,7 +427,7 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 			
 			// Do the same with Python file
 			zip.putNextEntry(new ZipEntry(PYTHON_FILE));
-			osw.write(kernel.getLibraryPythonScript());
+			osw.write(((Application) app).getCurrentPythonScript());
 			osw.flush();
 			zip.closeEntry();
 			

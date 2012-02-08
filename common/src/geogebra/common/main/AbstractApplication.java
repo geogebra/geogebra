@@ -2604,7 +2604,9 @@ public abstract class AbstractApplication {
 	public abstract void reset();
 
 	public abstract PythonBridge getPythonBridge();
-
+	
+	public abstract String getCurrentPythonScript();
+	
 	public abstract String getPlainTooltip(String string);
 
 	public GeoElementSelectionListener getCurrentSelectionListener() {

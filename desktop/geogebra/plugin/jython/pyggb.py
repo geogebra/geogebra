@@ -117,9 +117,12 @@ class Interface(PythonScriptInterface):
     def reset(self):
         if self.pywin is not None:
             self.pywin.reset()
-        print "*** resetting, running initScript:"
-        print self.api.initScript
         self.run(self.api.initScript)
+
+    def getCurrentInitScript(self):
+        if self.pywin is None:
+            return None
+        return self.pywin.get_current_script()
     
     def addEventListener(self, evt, listener):
         self.event_listeners[evt].append(listener)

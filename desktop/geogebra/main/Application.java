@@ -3748,6 +3748,14 @@ public class Application extends AbstractApplication implements
 		return pythonBridge;
 	}
 	
+	public String getCurrentPythonScript() {
+		String script = pythonBridge.getCurrentPythonScript();
+		if (script == null) {
+			return kernel.getLibraryPythonScript();
+		}
+		return script;
+	}
+	
 	public boolean isPythonWindowVisible() {
 		if (!pythonBridge.isReady()) {
 			return false;
@@ -4841,8 +4849,5 @@ public class Application extends AbstractApplication implements
 		getGuiManager().showURLinBrowser(strURL);
 		
 	}
-
-	
-
 
 }
