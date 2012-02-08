@@ -2605,7 +2605,7 @@ public abstract class AbstractApplication {
 
 	public abstract PythonBridge getPythonBridge();
 	
-	public abstract String getCurrentPythonScript();
+	//public abstract String getCurrentPythonScript();
 	
 	public abstract String getPlainTooltip(String string);
 
