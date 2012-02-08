@@ -73,11 +73,7 @@
   <extend-property name='locale' values='ms' />
   <extend-property name='locale' values='ne' />
   <extend-property name='locale' values='nl' />
-  -->
-  <!--
-  <extend-property name='locale' values='no_NO_NY' />
-  -->
-  <!-- 
+  <extend-property name='locale' values='nn' />
   <extend-property name='locale' values='no_NO' />
   <extend-property name='locale' values='no' />
   <extend-property name='locale' values='pl' />
