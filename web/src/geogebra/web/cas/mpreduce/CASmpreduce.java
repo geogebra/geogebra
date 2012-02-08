@@ -1,5 +1,12 @@
 package geogebra.web.cas.mpreduce;
 
+import org.mathpiper.mpreduce.Interpretable;
+import org.mathpiper.mpreduce.InterpreterJs;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.core.client.Scheduler.RepeatingCommand;
+
 import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
@@ -20,6 +27,39 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 	 * @param casParser parser
 	 * @param parserTools scientific notation convertor
 	 */
+	
+	private static Interpretable mpreduce_static = new Interpretable() {
+		
+		public String evaluate(String exp, long timeoutMilliseconds)
+		        throws Throwable {
+			// TODO Auto-generated method stub
+			return "?";
+		}
+		
+		public String version() {
+			// TODO Auto-generated method stub
+			return "?";
+		}
+		
+		public void initialize() {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		public RepeatingCommand getInitializationExecutor() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+		public String evaluate(String send) {
+			// TODO Auto-generated method stub
+			return "?";
+		}
+	};
+	private static boolean asyncstarted = false;
+	private static boolean casLoaded = false;
+	private Interpretable mpreduce;
+	
 	public CASmpreduce(CASparser casParser, CasParserTools parserTools) {
 		super(casParser);
 		this.parserTools = parserTools;
@@ -27,7 +67,50 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 	
 	@Override
 	protected synchronized Evaluate getMPReduce() {
-		return this;
+		//return this;
+		if (mpreduce == null) {
+			// create mpreduce as a private reference to mpreduce_static
+			mpreduce = getStaticInterpreter(this);
+
+			try {
+				// make sure to call initMyMPReduceFunctions() for each
+				// CASmpreduce instance
+				// because it depends on the current kernel's ggbcasvar prefix,
+				// see #1443
+				//dont do this here
+				//initMyMPReduceFunctions((Evaluate)mpreduce);
+			} catch (Throwable e) {
+				e.printStackTrace();
+			}
+		}
+
+		return (Evaluate)mpreduce;
+	}
+	
+	/**
+	 * @param caSmpreduce 
+	 * @return Static MPReduce interpreter shared by all CASmpreduce instances.
+	 */
+	public static synchronized Interpretable getStaticInterpreter(final CASmpreduce casInstance) {
+		if (!asyncstarted ) {
+			asyncstarted = true;
+			GWT.runAsync(new RunAsyncCallback() {
+				
+				public void onSuccess() {
+					//just let the constructor run (until callback we can't do anything wit cas anyway, let dummy cas work
+					new InterpreterJs();
+					
+					//this will be hard. 1; First async: we got CAS here. But we must load Lisp image.
+					InterpreterJs.casLoadImage(casInstance);
+	                    
+				}
+				
+				public void onFailure(Throwable reason) {
+					AbstractApplication.debug(reason);
+				}
+			});
+		}
+		return mpreduce_static;
 	}
 
 	@Override
@@ -58,7 +141,9 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 	 * @param exp expression
 	 * @return MPReduce string representation of result
 	 */
-	public static native String nativeEvaluateRaw(String exp) /*-{
+ 
+	
+	/*public static native String nativeEvaluateRaw(String exp) /*-{
 	if (typeof $wnd.callCAS === 'function')
 		return $wnd.callCAS(exp);
 	}-*/;
@@ -113,6 +198,13 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 		return nativeEvaluateRaw(send);
 	}
 
+	private String nativeEvaluateRaw(String send) {
+	    String ret = mpreduce.evaluate(send);
+	    if (ret.length() > 3)
+	    	ret = ret.substring(0, ret.length()-2);
+	    return ret;
+    }
+
 	public String evaluate(String exp, long timeoutMilliseconds) {
 	    return evaluate(exp);
     }
@@ -141,4 +233,18 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 				}
 				CASAsyncFinished(inVE, result, null, command, input);
 			}
+
+	public void lispImageLoaded() {
+		//now we have REAL cas
+		mpreduce_static = InterpreterJs.getInstance();
+		mpreduce = mpreduce_static;
+		//2; Second callback: when Lips image loaded :-)
+		try {
+	        initMyMPReduceFunctions((Evaluate) mpreduce);
+        } catch (Throwable e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+        }
+        casParser.getKernel().getApplication().getGgbApi().initCAS();
+    }
 }

@@ -4,6 +4,8 @@
   <inherits name='com.google.gwt.user.User'/>
   <inherits name="com.google.gwt.resources.Resources" />
    <inherits name="com.google.gwt.webworker.WebWorker" />	
+   
+   
 
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->
@@ -16,12 +18,15 @@
   <!-- Other module inherits        -->
   <inherits name='com.google.gwt.xml.XML' /> 
   <inherits name='geogebra.Common'/>
+  <!-- CAS -->
+  <inherits name='org.mathpiper.MpreduceJs' />
   
   <!-- Specify the app entry point class.                         -->
   <entry-point class='geogebra.web.Web'/>
 
   <!-- compile only for Firefox / Chrome / Safari - choose one: reduces permutation time --> 
- <set-property name="user.agent" value="safari, ie9, opera, gecko1_8" />
+  <set-property name="user.agent" value="safari, ie9, opera, gecko1_8" />
+  <!--<set-property name="user.agent" value="safari, gecko1_8" />-->
   <!--  uncomment it if we want to go to production (cross - site js) -->
   <!--<add-linker name="xs"/>  -->
   <!-- Specify the paths for translatable code                    -->

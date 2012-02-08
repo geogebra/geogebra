@@ -1,5 +1,8 @@
 package org.mathpiper.mpreduce;
 
+import geogebra.common.cas.Evaluate;
+import geogebra.web.cas.mpreduce.CASmpreduce;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +29,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 
-public class InterpreterJs implements EntryPoint, Interpretable {
+public class InterpreterJs implements EntryPoint, Interpretable, Evaluate {
 	 	
 		Jlisp jlisp;
 	    private static Interpretable InterpreterInstance = null;
@@ -42,10 +45,17 @@ public class InterpreterJs implements EntryPoint, Interpretable {
 	        InterpreterInstance = this;
 
 	    }//end constructor.
+	    
+	    public static Interpretable getInstance() {
+	    	return InterpreterInstance;
+	    }
+	    
+	    //hack to get interface working
+	    static String initializeResult = "";
 
-	    public String initialize() {
+	    public void initialize() {
 
-	        String result = "";
+	        initializeResult = "";
 
 	        jlisp = new Jlisp();
 
@@ -61,16 +71,14 @@ public class InterpreterJs implements EntryPoint, Interpretable {
 
 	            jlisp.initialize();
 
-	            result = evaluate("off int; on errcont;");
+	            initializeResult  = evaluate("off int; on errcont;");
 
 
 	        } catch (Throwable t) {
 	            t.printStackTrace();
 
-	            result = t.getMessage();
+	            initializeResult = t.getMessage();
 
-	        } finally {
-	            return result;
 	        }
 	    }
 
@@ -226,11 +234,12 @@ public class InterpreterJs implements EntryPoint, Interpretable {
 
 	//---------
 	    public static String casInitialize() {
-	        String result = InterpreterInstance.initialize();
+	        InterpreterInstance.initialize();
+	        
+	        casToCallback.lispImageLoaded();
+	        //callCasLoaded();
 
-	        callCasLoaded();
-
-	        return result;
+	        return initializeResult;
 	    }
 
 
@@ -240,8 +249,10 @@ public class InterpreterJs implements EntryPoint, Interpretable {
 	    }-*/;
 	    //---------
 	    static JavaScriptObject callBackFunction = null;
+		private static CASmpreduce casToCallback = null;
 
-	    public static void casLoadImage() {
+	    public static void casLoadImage(CASmpreduce casInstance) {
+	    	casToCallback  = casInstance;
 	        try {
 
 	            Scheduler.get().scheduleIncremental(InterpreterInstance.getInitializationExecutor());
@@ -260,11 +271,11 @@ public class InterpreterJs implements EntryPoint, Interpretable {
 	//---------
 	    public void onModuleLoad() {
 
-	        exportCasVersionMethod();
+	        //exportCasVersionMethod();
 
-	        exportEvaluateMethod();
+	        //exportEvaluateMethod();
 	        
-	        casLoadImage();
+	        //casLoadImage();
 
 	    }
 
@@ -532,4 +543,9 @@ public class InterpreterJs implements EntryPoint, Interpretable {
 	        }*/
 
 	    }
+
+		public String evaluate(String exp, long timeoutMilliseconds)
+                throws Throwable {
+	        return evaluate(exp);
+        }
 }

@@ -71,10 +71,12 @@ public class Interpreter extends DedicatedWorkerEntryPoint implements Interpreta
         InterpreterInstance = this;
 
     }//end constructor.
+    
+    static String initializeResult = "";
 
-    public String initialize() {
+    public void initialize() {
 
-        String result = "";
+        initializeResult = "";
 
         jlisp = new Jlisp();
 
@@ -90,16 +92,13 @@ public class Interpreter extends DedicatedWorkerEntryPoint implements Interpreta
 
             jlisp.initialize();
 
-            result = evaluate("off int; on errcont;");
+            initializeResult = evaluate("off int; on errcont;");
 
 
         } catch (Throwable t) {
             t.printStackTrace();
 
-            result = t.getMessage();
-
-        } finally {
-            return result;
+            initializeResult = t.getMessage();
         }
     }
 
@@ -255,11 +254,11 @@ public class Interpreter extends DedicatedWorkerEntryPoint implements Interpreta
 
 //---------
     public static String casInitialize() {
-        String result = InterpreterInstance.initialize();
+        InterpreterInstance.initialize();
 
         callCasLoaded();
 
-        return result;
+        return initializeResult;
     }
 
 
@@ -564,6 +563,11 @@ public class Interpreter extends DedicatedWorkerEntryPoint implements Interpreta
 
 
 
+    }
+
+	public String evaluate(String exp, long timeoutMilliseconds)
+            throws Throwable {
+	    return this.evaluate(exp);
     }
 }//end class.
 
