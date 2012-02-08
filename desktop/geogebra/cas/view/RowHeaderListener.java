@@ -35,6 +35,17 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener {
 		}
 
 		rowHeader.requestFocusInWindow();
+		Object[] vals = rowHeader.getSelectedValues();
+		Integer[] s = new Integer[vals.length];
+		for(int i = 0; i < vals.length; i++)
+			s[i] = new Integer(vals[i].toString());
+		java.util.Arrays.sort( s );
+		//table.getSelectionModel().setSelectionInterval(s[0], s[s.length - 1]);
+		table.setRowSelectionInterval(s[0] - 1, s[s.length - 1] - 1);
+		//table.changeSelection(s[0]-1, 0, false, false);
+		table.stopEditing();
+		CASTableCellEditor cellEditor = table.getEditor();
+		cellEditor.clearInputSelectionText();
 	}
 
 	public void mouseDragged(MouseEvent e) {

@@ -96,7 +96,11 @@ public class CASInputHandler {
 		if (selRowInput == null || selRowInput.length() == 0) {
 			if (consoleTable.getSelectedRow() != -1) {
 				consoleTable.startEditingRow(consoleTable.getSelectedRow());
+				GeoCasCell cellValue = consoleTable.getGeoCasCell(consoleTable.getSelectedRow());
+				if(cellValue.getInputVE() != null)
+				selRowInput = cellValue.toString();
 			}
+			if(selRowInput.length() == 0)
 			return;
 		}
 
@@ -108,6 +112,7 @@ public class CASInputHandler {
 		if (selRow < 0)
 			selRow = consoleTable.getRowCount() - 1;
 		GeoCasCell cellValue = consoleTable.getGeoCasCell(selRow);
+		
 
 		/*
 		 * // DIRECT MathPiper use: line starts with "MathPiper:" if
@@ -299,19 +304,18 @@ public class CASInputHandler {
 		int lastRowSelected;
 		
 		// remove empty cells because empty cells' inputVE vars are null
-				ArrayList<Integer> l = new ArrayList<Integer>();
-				for(int i = 0; i < selectedIndices.length; i++) {
-					GeoCasCell selCellValue1 = consoleTable
-							.getGeoCasCell(selectedIndices[i]);
-					if(selCellValue1.getInputVE() != null) {
-						l.add(i);
-					
-					}
-				}
-				selectedIndices = new int[l.size()];
-				for(int i = 0; i < l.size(); i++) {
-					selectedIndices[i] = l.get(i);
-				}
+		ArrayList<Integer> l = new ArrayList<Integer>();
+		for(int i = 0; i < selectedIndices.length; i++) {
+			GeoCasCell selCellVal = consoleTable
+					.getGeoCasCell(selectedIndices[i]);
+			if(selCellVal.getInputVE() != null) {
+				l.add(i);
+			}
+		}
+		selectedIndices = new int[l.size()];
+		for(int i = 0; i < l.size(); i++) {
+			selectedIndices[i] = l.get(i);
+		}
 				
 		if (selectedIndices.length <= 1) {
 			oneRowOnly = true;

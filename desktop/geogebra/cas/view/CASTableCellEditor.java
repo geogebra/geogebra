@@ -87,6 +87,10 @@ public class CASTableCellEditor extends CASTableCell implements TableCellEditor,
 		getInputArea().replaceSelection(text);
 		//getInputArea().requestFocusInWindow();
 	}
+	
+	public void clearInputSelectionText() {
+		getInputArea().setText(null);
+	}
 		
 	public boolean stopCellEditing() {	
 		// update cellValue's input using editor content
