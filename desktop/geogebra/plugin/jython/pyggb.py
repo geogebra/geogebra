@@ -4,6 +4,7 @@ from __future__ import division, with_statement
 # FLAT
 # from geogebra.plugin.jython import PythonFlatAPI as API
 from geogebra.plugin.jython import PythonScriptInterface
+from java.lang import Exception as JavaException
 
 from collections import defaultdict
 import sys, time
@@ -117,7 +118,7 @@ class Interface(PythonScriptInterface):
     def reset(self):
         if self.pywin is not None:
             self.pywin.reset()
-        self.run(self.api.initScript)
+        self.run(self.api.getInitScript())
 
     def getCurrentInitScript(self):
         if self.pywin is None:
@@ -212,7 +213,7 @@ class Functions(object):
     def command(self, cmd):
         try:
             geos = self.api.evalCommand(cmd)
-        except Exception:
+        except JavaException:
             raise ValueError
         if geos is None:
             return None

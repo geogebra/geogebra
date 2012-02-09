@@ -1167,6 +1167,6 @@ public class PythonFlatAPI {
 	 * @throws Exception if it goes wrong!
 	 */
 	public GeoElement[] evalCommand(String cmd) throws Exception {
-		return algProcessor.processAlgebraCommandNoExceptionHandling(cmd, false, true, false);
+		return algProcessor.processAlgebraCommandNoExceptionHandling(cmd, false, false, false);
 	}
 }
