@@ -140,10 +140,6 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 		}
 	}
 
-	public String getBase64() {
-		return getBase64(false);
-	}
-
 	/**
 	 * Returns current construction in Base64 format. May be used for saving.
 	 */

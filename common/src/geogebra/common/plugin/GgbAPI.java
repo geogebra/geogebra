@@ -889,7 +889,11 @@ public abstract class GgbAPI {
     }
 
 	public abstract String getBase64(boolean includeThumbnail);
-	public abstract String getBase64();
+	
+	final public String getBase64() {
+		return getBase64(false);
+	}
+
 	
 
 }

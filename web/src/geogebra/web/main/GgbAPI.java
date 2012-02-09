@@ -49,12 +49,6 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI implements JavaScript
 	    return null;
     }
 
-	
-    public String getBase64(boolean includeThumbnail) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
     public Context2d getContext2D() {
 	    return ((Application)app).getCanvas().getContext2d();
     }
@@ -141,7 +135,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI implements JavaScript
      * This method does something like geogebra.io.MyXMLio.writeGeoGebraFile,
      * just in base64 in Web.
      */
-    public native String getBase64() /*-{
+    public native String getBase64(boolean includeThumbnail) /*-{
 
 		var isSaving = this.@geogebra.web.main.GgbAPI::getKernel()().@geogebra.common.kernel.Kernel::isSaving()();
 		this.@geogebra.web.main.GgbAPI::getKernel()().@geogebra.common.kernel.Kernel::setSaving(Z)(true);

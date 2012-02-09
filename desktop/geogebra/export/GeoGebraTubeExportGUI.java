@@ -3,14 +3,12 @@ package geogebra.export;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -30,7 +28,7 @@ import javax.swing.JProgressBar;
  * 
  * @author Florian Sonner
  */
-public class GeoGebraTubeExportGUI  extends GeoGebraTubeExport {
+public class GeoGebraTubeExportGUI  extends geogebra.common.export.GeoGebraTubeExport {
 	
 	public GeoGebraTubeExportGUI(AbstractApplication app) {
 		super(app);
@@ -79,6 +77,160 @@ public class GeoGebraTubeExportGUI  extends GeoGebraTubeExport {
 		progressBar.setEnabled(b);
 		
 	}
+	
+	/**
+	 * Upload the current worksheet to GeoGebraTube.
+	 */
+	public void uploadWorksheet() {
+	showDialog();
+	
+	try {
+		URL url;
+	    HttpURLConnection urlConn;
+	    DataOutputStream printout;
+	    BufferedReader input;
+
+	    setIndeterminate(true);
+	    
+		url = new URL(uploadURL);
+		
+		urlConn = (HttpURLConnection)url.openConnection();
+		urlConn.setDoInput(true);
+		urlConn.setDoOutput(true);
+		urlConn.setUseCaches(false);
+
+		// content type
+		urlConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+		urlConn.setRequestProperty("Accept-Language", app.getLocaleStr());
+		
+		// send output
+		try {
+			printout = new DataOutputStream(urlConn.getOutputStream());
+
+			Construction cons = app.getKernel().getConstruction();
+			
+			// build post query
+			StringBuffer stringBuffer = new StringBuffer();
+			stringBuffer.append("data=");
+			stringBuffer.append(URLEncoder.encode(getBase64String(), "UTF-8"));
+
+			stringBuffer.append("&title=");
+			stringBuffer.append(URLEncoder.encode(cons.getTitle(), "UTF-8"));
+			
+			stringBuffer.append("&pretext=");
+			stringBuffer.append(URLEncoder.encode(cons.getWorksheetText(0), "UTF-8"));
+			
+			stringBuffer.append("&posttext=");
+			stringBuffer.append(URLEncoder.encode(cons.getWorksheetText(1), "UTF-8"));
+			
+			stringBuffer.append("&version=");
+			stringBuffer.append(URLEncoder.encode(GeoGebraConstants.VERSION_STRING, "UTF-8"));
+
+			int requestLength = stringBuffer.length();
+			/*urlConn.disconnect();
+			urlConn.setChunkedStreamingMode(1000);
+			urlConn.connect();*/
+			
+			setIndeterminate(false);
+			setMinimum(0);
+			setMaximum(requestLength);
+
+			// send data in chunks
+			int start = 0;
+			int end = 0;
+			
+			// chunking is senseless at the moment as input buffering is activated
+			while(end != requestLength) {
+				start = end;
+				end += 5000;
+				
+				if(end > requestLength) {
+					end = requestLength;
+				}
+				
+				printout.writeBytes(stringBuffer.substring(start, end));
+				printout.flush();
+				
+				// track progress 
+				setValue(end);
+			}
+			
+			printout.close();
+			
+			stringBuffer = null;
+			
+			int responseCode; String responseMessage;
+			
+			try {
+				responseCode = urlConn.getResponseCode();
+				responseMessage = urlConn.getResponseMessage();
+			} catch (IOException e) {
+				// if we can't even get the response code something failed anyway
+				responseCode = -1;
+				responseMessage = e.getMessage();
+			}
+			
+			// URL ok
+			if(responseCode == HttpURLConnection.HTTP_OK) {
+				// get response and read it into a string buffer 
+				input = new BufferedReader(new InputStreamReader(urlConn
+						.getInputStream()));
+				
+				StringBuffer output = new StringBuffer();
+				
+				String line;
+				while (null != ((line = input.readLine()))) {
+					output.append(line);
+				}
+				
+				input.close();
+
+				final UploadResults results = new UploadResults(output.toString());
+				
+				if(results.HasError()) {
+					statusLabelSetText(app.getPlain("UploadError"));
+					setEnabled(false);
+					
+					AbstractApplication.debug("Upload failed. Response: " + output.toString());
+				} else {
+					app.showURLinBrowser(uploadURL + "/" + results.getUID());
+					hideDialog();
+				}
+				
+				pack();
+				} else {
+				AbstractApplication.debug("Upload failed. Response: #" + responseCode + " - " + responseMessage);
+				
+				BufferedReader errors = new BufferedReader(new InputStreamReader(urlConn.getErrorStream()));
+				StringBuffer errorBuffer = new StringBuffer();
+				
+				String line;
+				while (null != ((line = errors.readLine()))) {
+					errorBuffer.append(line);
+				}
+				errors.close();
+				
+				AbstractApplication.debug(errorBuffer.toString());
+				
+				statusLabelSetText(app.getPlain("UploadError", Integer.toString(responseCode)));
+				setEnabled(false);
+				pack();
+			}
+		} catch (IOException e) {
+			statusLabelSetText(app.getPlain("UploadError", Integer.toString(500)));
+			setEnabled(false);
+			pack();
+			
+			AbstractApplication.debug(e.getMessage());
+		}
+	} catch (IOException e) {
+		statusLabelSetText(app.getPlain("UploadError", Integer.toString(400)));
+		setEnabled(false);
+		pack();
+		
+		AbstractApplication.debug(e.getMessage());
+	}
+}
 	
 	/**
 	 * Shows a small dialog with a progress bar. 

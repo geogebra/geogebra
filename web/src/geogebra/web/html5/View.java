@@ -1,17 +1,15 @@
 package geogebra.web.html5;
 
-import java.util.Map;
-
-import geogebra.common.main.AbstractApplication;
 import geogebra.web.jso.JsUint8Array;
 import geogebra.web.main.Application;
+import geogebra.web.main.GeoGebraTubeExportWeb;
 import geogebra.web.util.DataUtil;
+
+import java.util.Map;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
 public class View extends Widget {
@@ -73,6 +71,11 @@ public class View extends Widget {
 		onSyncCanvasSizeWithApplication();
 
 		app.getScriptManager().ggbOnInit();// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
+		
+		// just for testing
+		//GeoGebraTubeExportWeb ggbtube = new GeoGebraTubeExportWeb(app);
+		//ggbtube.uploadWorksheet();
+		
 	}
 
 	private void onSyncCanvasSizeWithApplication() {
