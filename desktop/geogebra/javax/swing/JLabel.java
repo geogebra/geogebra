@@ -5,7 +5,7 @@ import geogebra.common.awt.Font;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 
 public class JLabel extends geogebra.common.javax.swing.JLabel{
-	static javax.swing.JLabel impl;
+	private javax.swing.JLabel impl;
 
 	public JLabel(String string) {
 		impl = new javax.swing.JLabel(string);
