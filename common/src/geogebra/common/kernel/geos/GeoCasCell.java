@@ -133,12 +133,12 @@ public class GeoCasCell extends GeoElement {
 	 * names are used.
 	 */
 	public String getInput(StringTemplate tpl) {
-		if (kernel.isPrintLocalizedCommandNames()) {
+		if (tpl.isPrintLocalizedCommandNames()) {
 			// input with localized command names
 			if (currentLanguage == null
 					|| !currentLanguage.equals(kernel.getApplication()
 							.getLanguage())) {
-				updateLocalizedInput();
+				updateLocalizedInput(tpl);
 			}
 			return localizedInput;
 		} 
@@ -149,9 +149,9 @@ public class GeoCasCell extends GeoElement {
 	/**
 	 * Returns the output of this row.
 	 */
-	public String getOutput() {
+	public String getOutput(StringTemplate tpl) {
 		if (error != null) {
-			if (kernel.isPrintLocalizedCommandNames()) {
+			if (tpl.isPrintLocalizedCommandNames()) {
 				return kernel.getApplication().getError(error);
 			}
 			return error;
@@ -160,7 +160,7 @@ public class GeoCasCell extends GeoElement {
 		if (outputVE == null) {
 			return "";
 		}
-		return outputVE.toAssignmentString();
+		return outputVE.toAssignmentString(tpl);
 	}
 
 	public String getPrefix() {
@@ -364,7 +364,7 @@ public class GeoCasCell extends GeoElement {
 		internalizeInput();
 
 		// for efficiency: input with localized command names
-		updateLocalizedInput();
+		updateLocalizedInput(StringTemplate.defaultTemplate);
 
 		// make sure cmputeOutput() knows that input has changed
 		firstComputeOutput = true;
@@ -376,10 +376,10 @@ public class GeoCasCell extends GeoElement {
 		return true;
 	}
 
-	private void updateLocalizedInput() {
+	private void updateLocalizedInput(StringTemplate tpl) {
 		// for efficiency: localized input with local command names
 		currentLanguage = cons.getApplication().getLanguage();
-		localizedInput = localizeInput(input);
+		localizedInput = localizeInput(input,tpl);
 	}
 
 	/**
@@ -411,12 +411,12 @@ public class GeoCasCell extends GeoElement {
 
 		// inputVE will print the correct label, e.g. $4 for
 		// the row reference
-		boolean oldValue = kernel.isPrintLocalizedCommandNames();
-		kernel.setPrintLocalizedCommandNames(false);
-		input = inputVE.toAssignmentString();
-		kernel.setPrintLocalizedCommandNames(oldValue);
+		
+		
+		input = inputVE.toAssignmentString(StringTemplate.noLocalDefault);
 
-		updateLocalizedInput();
+		//TODO this always translates input.
+		updateLocalizedInput(StringTemplate.defaultTemplate);
 	}
 
 	/**
@@ -611,9 +611,9 @@ public class GeoCasCell extends GeoElement {
 	/**
 	 * Returns the input using command names in the current language.
 	 */
-	private String localizeInput(String input) {
+	private String localizeInput(String input,StringTemplate tpl) {
 		// replace all internal command names in input by local command names
-		if (kernel.isPrintLocalizedCommandNames()) {
+		if (tpl.isPrintLocalizedCommandNames()) {
 			// internal commands -> local commands
 			return translate(input, true);
 		} 
@@ -1343,14 +1343,13 @@ public class GeoCasCell extends GeoElement {
 				// process inputExp in GeoGebra
 				GeoElement[] geos = kernel.getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionHandling(
-								evalVE.toAssignmentString(), false, false,
+								evalVE.toAssignmentString(StringTemplate.maxPrecision), false, false,
 								false);
 
 				// GeoElement evalGeo = silentEvalInGeoGebra(evalVE);
 				if (geos != null) {
 					success = true;
-					StringTemplate highPrecision = StringTemplate.maxPrecision;
-					result = geos[0].toValueString(highPrecision);
+					result = geos[0].toValueString(StringTemplate.maxPrecision);
 					AlgoElement parentAlgo = geos[0].getParentAlgorithm();
 					// cons.removeFromConstructionList(parentAlgo);
 					if (parentAlgo != null)
@@ -1524,7 +1523,7 @@ public class GeoCasCell extends GeoElement {
 			sb.append("<expression");
 
 			sb.append(" value=\"");
-			sb.append(StringUtil.encodeXML(getOutput()));
+			sb.append(StringUtil.encodeXML(getOutput(StringTemplate.defaultTemplate)));
 			sb.append("\"");
 			if (isError()) {
 				sb.append(" error=\"true\"");

@@ -16,6 +16,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.NameDescriptionComparator;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoElementSelectionListener;
@@ -443,7 +444,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 		namePanel.setIconFileName(macro.getIconFileName());
 		for (int i = 0; i < macro.getMacroInput().length; i++) {
 			GeoElement el = app.getKernel().lookupLabel(
-					macro.getMacroInput()[i].getLabel());
+					macro.getMacroInput()[i].getLabel(StringTemplate.defaultTemplate));
 			if (el != null)
 				this.inputList.add(0, el);
 		}

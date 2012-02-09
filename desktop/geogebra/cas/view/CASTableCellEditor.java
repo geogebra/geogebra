@@ -201,7 +201,7 @@ public class CASTableCellEditor extends CASTableCell implements TableCellEditor,
 				// insert output of previous row (not in parentheses)
 				if (editingRow > 0 && text.length() == 0) {
 					GeoCasCell selCellValue = view.getConsoleTable().getGeoCasCell(editingRow - 1);				
-					inputArea.setText(selCellValue.getOutput() + " ");
+					inputArea.setText(selCellValue.getOutput(StringTemplate.defaultTemplate) + " ");
 				}
 				break;
 				
@@ -209,7 +209,7 @@ public class CASTableCellEditor extends CASTableCell implements TableCellEditor,
 				// insert output of previous row in parentheses		
 				if (editingRow > 0 && text.length() == 0) {
 					GeoCasCell selCellValue = view.getConsoleTable().getGeoCasCell(editingRow - 1);				
-					String prevOutput = selCellValue.getOutput();
+					String prevOutput = selCellValue.getOutput(StringTemplate.defaultTemplate);
 					inputArea.setText("(" +  prevOutput);
 				}
 				break;		

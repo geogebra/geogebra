@@ -869,10 +869,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 			sb.append(" w=\"" + getCoords().get(4) + "\"");
 		} else {
 			sb.append("exp=\"");
-			boolean oldValue = kernel.isPrintLocalizedCommandNames();
-			kernel.setPrintLocalizedCommandNames(false);
-			sb.append(StringUtil.encodeXML(getLabel()));
-			kernel.setPrintLocalizedCommandNames(oldValue);
+			sb.append(StringUtil.encodeXML(getLabel(StringTemplate.xmlTemplate)));
 			sb.append("\"");
 		}
 		sb.append("/>\n");

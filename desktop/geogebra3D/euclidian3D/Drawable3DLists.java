@@ -1,5 +1,6 @@
 package geogebra3D.euclidian3D;
 
+import geogebra.common.kernel.StringTemplate;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.Renderer;
 
@@ -31,7 +32,7 @@ public class Drawable3DLists {
 			for (Drawable3D d: this){
 				sb.append(d);
 				sb.append(" -- ");
-				sb.append(d.getGeoElement().getLabel());
+				sb.append(d.getGeoElement().getLabel(StringTemplate.defaultTemplate));
 				sb.append("\n");
 			}
 			return sb.toString();

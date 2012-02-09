@@ -1,7 +1,7 @@
 package geogebra3D.kernel3D;
 
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -45,8 +45,8 @@ public class AlgoFunctionNVarND extends AlgoElement3D {
 	/**
 	 * Construct a function
 	 * 
-	 * @param cons 
-	 * @param label 
+	 * @param cons construction
+	 * @param label label
 	 * @param coords description of the function
 	 * @param localVar var of the function
 	 * @param from "from" values for each var
@@ -66,14 +66,14 @@ public class AlgoFunctionNVarND extends AlgoElement3D {
     	FunctionVariable[] funVar = new FunctionVariable[localVar.length];
     	for (int i=0;i<localVar.length; i++){
     		funVar[i] = new FunctionVariable(kernel);
-    		funVar[i].setVarString(localVar[i].getLabel());
+    		funVar[i].setVarString(localVar[i].getLabel(StringTemplate.defaultTemplate));
     	}
 		
 		ExpressionNode[] exp = new ExpressionNode[coords.length];
 		FunctionNVar[] fun = new FunctionNVar[coords.length];
 
 		for (int i=0;i<coords.length;i++){
-			exp[i]= ((Kernel) kernel).convertNumberValueToExpressionNode(coords[i]);
+			exp[i]= kernel.convertNumberValueToExpressionNode(coords[i]);
 			for (int j=0;j<localVar.length; j++)
 				exp[i].replaceAndWrap(localVar[j], funVar[j]);
 			fun[i] = new FunctionNVar(exp[i], funVar);
@@ -93,8 +93,8 @@ public class AlgoFunctionNVarND extends AlgoElement3D {
 	/**
 	 * Construct a function
 	 * 
-	 * @param cons 
-	 * @param label 
+	 * @param cons construction
+	 * @param label label
 	 * @param f (x,y) function
 	 * @param from "from" values for each var
 	 * @param to "to" values for each var
@@ -130,34 +130,34 @@ public class AlgoFunctionNVarND extends AlgoElement3D {
 			inputLength+=1; //for the function
 		if (localVar!=null)
 			inputLength+=localVar.length;
-		GeoElement[] input = new GeoElement[inputLength];
+		GeoElement[] inputElements = new GeoElement[inputLength];
 		
 		int index = 0;
 		
 		if(coords!=null)
 			for (int i=0;i<coords.length;i++){
-				input[index]=(GeoElement) coords[i];
+				inputElements[index]=(GeoElement) coords[i];
 				index++;
 			}
 		else{
-			input[index]=inputFunction;
+			inputElements[index]=inputFunction;
 			index++;
 		}
 		
 		for (int i=0;i<from.length;i++){
 			if (localVar!=null){
-				input[index]=(GeoElement) localVar[i];
+				inputElements[index] = localVar[i];
 				index++;
 			}
-			input[index]=(GeoElement) from[i];
+			inputElements[index]=(GeoElement) from[i];
 			index++;
-			input[index]=(GeoElement) to[i];
+			inputElements[index]=(GeoElement) to[i];
 			index++;		
 		}
 		
 		
 		super.setInputOutput(
-				input, 
+				inputElements, 
 				new GeoElement[] {function});
 		
 		   
@@ -173,6 +173,7 @@ public class AlgoFunctionNVarND extends AlgoElement3D {
 	
 	
 
+	@Override
 	public void compute() {
 
 		
@@ -189,7 +190,7 @@ public class AlgoFunctionNVarND extends AlgoElement3D {
 		
 	}
 	
-	private double[] getDouble(NumberValue[] values){
+	private static double[] getDouble(NumberValue[] values){
 		double[] ret = new double[values.length];
 		for (int i=0; i<values.length; i++){
 			ret[i]=values[i].getDouble();
@@ -198,6 +199,7 @@ public class AlgoFunctionNVarND extends AlgoElement3D {
 		return ret;
 	}
 
+	@Override
 	public Algos getClassName() {
 		
 		return Algos.AlgoFunctionInterval;

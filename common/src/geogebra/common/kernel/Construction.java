@@ -1012,9 +1012,7 @@ public class Construction {
 		// change kernel settings temporarily
 		int oldCoordStlye = kernel.getCoordStyle();
 
-		boolean oldValue = kernel.isPrintLocalizedCommandNames();
 		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
-		kernel.setPrintLocalizedCommandNames(false);
 
 		try {
 			// save construction elements
@@ -1047,8 +1045,6 @@ public class Construction {
 			e.printStackTrace();
 		} finally {
 			kernel.setCoordStyle(oldCoordStlye);
-			
-			kernel.setPrintLocalizedCommandNames(oldValue);
 		}
 
 	}
@@ -1064,9 +1060,7 @@ public class Construction {
 
 		// change kernel settings temporarily
 		int oldCoordStlye = kernel.getCoordStyle();
-		boolean oldValue = kernel.isPrintLocalizedCommandNames();
 		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
-		kernel.setPrintLocalizedCommandNames(false);
 		StringTemplate tpl = StringTemplate.regression;
 		try {
 			ConstructionElement ce;
@@ -1090,7 +1084,6 @@ public class Construction {
 			sb.append(e.getMessage());
 		} finally {
 			kernel.setCoordStyle(oldCoordStlye);
-			kernel.setPrintLocalizedCommandNames(oldValue);
 		}
 
 	}
@@ -1108,9 +1101,7 @@ public class Construction {
 
 		// change kernel settings temporarily
 		int oldCoordStlye = kernel.getCoordStyle();
-		boolean oldValue = kernel.isPrintLocalizedCommandNames();
 		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
-		kernel.setPrintLocalizedCommandNames(false);
 
 		try {
 			ConstructionElement ce;
@@ -1141,7 +1132,6 @@ public class Construction {
 		}
 
 		kernel.setCoordStyle(oldCoordStlye);
-		kernel.setPrintLocalizedCommandNames(oldValue);
 
 	}
 

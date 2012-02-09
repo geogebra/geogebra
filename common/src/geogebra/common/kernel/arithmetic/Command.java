@@ -177,7 +177,7 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 			sbToString.setLength(0);
 
 			// GeoGebra command syntax
-			if (kernel.isPrintLocalizedCommandNames()) {
+			if (tpl.isPrintLocalizedCommandNames()) {
 				sbToString.append(app.getCommand(name));
 			} else {
 				sbToString.append(name);

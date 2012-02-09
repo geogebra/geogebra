@@ -4,6 +4,7 @@ import geogebra.common.cas.GeoGebraCAS;
 import geogebra.cas.view.CASStyleBar;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoCasCell;
@@ -315,9 +316,9 @@ public class CASView extends JComponent implements View, Gridable {
 
 		// if we don't have an outputVE, we let GeoCasCell deal with it :)
 		if (outVE == null) {
-			return consoleTable.getGeoCasCell(n).getOutput();
+			return consoleTable.getGeoCasCell(n).getOutput(StringTemplate.defaultTemplate);
 		}
-		return outVE.toString();
+		return outVE.toString(StringTemplate.defaultTemplate);
 	}
 
 	/**
@@ -325,7 +326,7 @@ public class CASView extends JComponent implements View, Gridable {
 	 * cell has no output string, the input string of this cell is returned.
 	 */
 	public String getRowInputValue(int n) {
-		return consoleTable.getGeoCasCell(n).getInput(kernel.getStringTemplate());
+		return consoleTable.getGeoCasCell(n).getInput(StringTemplate.defaultTemplate);
 	}
 
 	/**

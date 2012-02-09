@@ -23,6 +23,7 @@ import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.Transform;
 import geogebra.common.kernel.TransformMirror;
 import geogebra.common.kernel.Matrix.CoordNearest;
 import geogebra.common.kernel.Matrix.Coords;
@@ -33,7 +34,6 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.TransformInterface;
 import geogebra.common.kernel.algos.AlgoConicPartCircle;
 import geogebra.common.kernel.algos.AlgoConicPartConicParameters;
 import geogebra.common.kernel.algos.AlgoConicPartConicPoints;
@@ -707,7 +707,7 @@ implements LimitedPath, NumberValue, LineProperties {
 	}
 
 	
-	public GeoElement [] createTransformedObject(TransformInterface t,String label) {				
+	public GeoElement [] createTransformedObject(Transform t,String label) {				
 		if (keepTypeOnGeometricTransform) {
 			algoParent = getParentAlgorithm();			
 		}	

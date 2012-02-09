@@ -173,14 +173,14 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 
 		default: // continue below
 			sb.append('(');
-			sb.append(x.isGeoElement() ? ((GeoElement) x).getLabel() : x
-					.toString());
+			sb.append(x.isGeoElement() ? ((GeoElement) x).getLabel(tpl) : x
+					.toString(tpl));
 			if (mode == Kernel.COORD_CARTESIAN)
 				sb.append(", ");
 			else
 				sb.append("; ");
-			sb.append(y.isGeoElement() ? ((GeoElement) y).getLabel() : y
-					.toString());
+			sb.append(y.isGeoElement() ? ((GeoElement) y).getLabel(tpl) : y
+					.toString(tpl));
 			sb.append(')');
 			break;
 		}

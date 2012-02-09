@@ -1156,10 +1156,8 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
 			sb.append(" z=\"" + z + "\"");			
     	} else {
 			sb.append("exp=\"");
-			boolean oldValue = kernel.isPrintLocalizedCommandNames();
-			kernel.setPrintLocalizedCommandNames(false);
-			sb.append(StringUtil.encodeXML(getLabel()));
-			kernel.setPrintLocalizedCommandNames(oldValue);
+			sb.append(StringUtil.encodeXML(getLabel(StringTemplate.xmlTemplate)));
+			
 			sb.append("\"");			    	
     	}
 		sb.append("/>\n");

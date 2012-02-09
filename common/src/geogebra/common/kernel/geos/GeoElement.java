@@ -429,7 +429,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	@Deprecated
 	public final String getLabel() {
-		return getLabel(kernel.getStringTemplate());
+		return getLabel(StringTemplate.defaultTemplate);
 	}
 	
 	public String getLabel(StringTemplate tpl) {
@@ -1219,6 +1219,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				try {
 					setShowObjectCondition(geo.getShowObjectCondition());
 				} catch (final Exception e) {
+					//do nothing
 				}
 
 			}
@@ -1317,6 +1318,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		try {
 			setShowObjectCondition(geo.getShowObjectCondition());
 		} catch (final Exception e) {
+			//CircularException, we ignore it
 		}
 	}
 
@@ -1341,7 +1343,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param x
 	 * @param y
 	 */
-	public void setLabelOffset(int x, int y) {
+	public void setLabelOffset(int xcoord, int ycoord) {
+		int x = xcoord;
+		int y = ycoord;
 		final double len = MyMath.length(x, y);
 		if (len > MAX_LABEL_OFFSET) {
 			final double factor = MAX_LABEL_OFFSET / len;
@@ -2128,7 +2132,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @throws MyError
 	 *             : if new label is already in use
 	 */
-	public boolean rename(String newLabel) {
+	public boolean rename(String labelNew) {
+		String newLabel = labelNew;
 		if (!isRenameable()) {
 			return false;
 		}
@@ -2140,9 +2145,9 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (newLabel.length() == 0) {
 			return false;
 		}
-		final String oldLabel = label;
+		final String labelOld = label;
 
-		if (newLabel.equals(oldLabel)) {
+		if (newLabel.equals(labelOld)) {
 			return false;
 		} else if (cons.isFreeLabel(newLabel)) {
 			setLabel(newLabel); // now we rename
@@ -2677,8 +2682,8 @@ public abstract class GeoElement extends ConstructionElement implements
 		return getDefaultLabel(null, false);
 	}
 
-	protected String getDefaultLabel(char[] chars, final boolean isInteger) {
-
+	protected String getDefaultLabel(char[] chars2, final boolean isInteger) {
+		char [] chars = chars2;
 		if (chars == null) {
 			if (isGeoPoint()) {
 				// Michael Borcherds 2008-02-23
@@ -3266,12 +3271,12 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @param geos
 	 * 
-	 * @param tempSet
+	 * @param tempSet2
 	 *            a temporary set that is used to collect all algorithms that
 	 *            need to be updated
 	 */
 	final static public void updateCascadeUntil(final ArrayList<?> geos,
-			final TreeSet<AlgoElementInterface> tempSet,
+			final TreeSet<AlgoElementInterface> tempSet2,
 			final AlgoElement lastAlgo) {
 		// only one geo: call updateCascade()
 		if (geos.size() == 1) {
@@ -3284,7 +3289,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		// build update set of all algorithms in construction element order
 		// clear temp set
-		tempSet.clear();
+		tempSet2.clear();
 
 		final int size = geos.size();
 		for (int i = 0; i < size; i++) {
@@ -3297,14 +3302,14 @@ public abstract class GeoElement extends ConstructionElement implements
 						&& (geo.algoUpdateSet != null)) {
 					// add all dependent algos of geo to the overall algorithm
 					// set
-					geo.algoUpdateSet.addAllToCollection(tempSet);
+					geo.algoUpdateSet.addAllToCollection(tempSet2);
 				}
 			}
 		}
 
 		// now we have one nice algorithm set that we can update
-		if (tempSet.size() > 0) {
-			final Iterator<AlgoElementInterface> it = tempSet.iterator();
+		if (tempSet2.size() > 0) {
+			final Iterator<AlgoElementInterface> it = tempSet2.iterator();
 			while (it.hasNext()) {
 				final AlgoElement algo = (AlgoElement) it.next();
 
@@ -3346,7 +3351,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	@Override
 	@Deprecated
 	public final String toString() {
-		return toString(kernel.getStringTemplate());
+		return toString(StringTemplate.defaultTemplate);
 	}
 
 	public String toRealString(StringTemplate tpl) {
@@ -3742,7 +3747,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 		final StringBuilder sbLongDescHTML = new StringBuilder();
 
-		final String label = getLabel(StringTemplate.defaultTemplate);
+		final String formatedLabel = getLabel(StringTemplate.defaultTemplate);
 		final String typeString = translatedTypeString();
 
 		// html string
@@ -3765,7 +3770,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			sbLongDescHTML.append(StringUtil.toHexString(colorAdapter));
 			sbLongDescHTML.append("\">");
 		}
-		sbLongDescHTML.append(indicesToHTML(label, false));
+		sbLongDescHTML.append(indicesToHTML(formatedLabel, false));
 		if (colored) {
 			sbLongDescHTML.append("</font></b>");
 		}
@@ -4220,7 +4225,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			sbNameDescriptionHTML.append("<html>");
 		}
 
-		final String label = getLabel();
+		final String label = getLabel(StringTemplate.defaultTemplate);
 		final String typeString = translatedTypeString();
 
 		final boolean reverseOrder = app.isReverseNameDescriptionLanguage();
@@ -4282,9 +4287,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	@Override
 	public void getXML(final StringBuilder sb) {
-		final boolean oldValue = kernel.isPrintLocalizedCommandNames();
-		kernel.setPrintLocalizedCommandNames(false);
-
+		
 		// make sure numbers are not put in XML in eg Arabic
 		//final boolean oldI8NValue = Kernel.internationalizeDigits;
 		//Kernel.internationalizeDigits = false;
@@ -4296,8 +4299,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		getElementCloseTagXML(sb);
 
-		kernel.setPrintLocalizedCommandNames(oldValue);
-		//Kernel.internationalizeDigits = oldI8NValue;
+		
 	}
 
 	protected void getElementOpenTagXML(final StringBuilder sb) {
@@ -4409,9 +4411,8 @@ public abstract class GeoElement extends ConstructionElement implements
 			sb.append(StringUtil.encodeXML(caption));
 			sb.append("\"/>\n");
 			return sb.toString();
-		} else {
-			return "";
 		}
+		return "";
 	}
 
 	/**
@@ -4419,9 +4420,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	@Override
 	public void getI2G(final StringBuilder sb, final int mode) {
-		final boolean oldValue = kernel.isPrintLocalizedCommandNames();
-		kernel.setPrintLocalizedCommandNames(false);
-
 		final String type = getI2GtypeString();
 
 		if (mode == CONSTRAINTS) {
@@ -4468,8 +4466,6 @@ public abstract class GeoElement extends ConstructionElement implements
 			sb.append(type);
 			sb.append(">\n");
 		}
-
-		kernel.setPrintLocalizedCommandNames(oldValue);
 	}
 
 	public final void getAuxiliaryXML(final StringBuilder sb) {// package

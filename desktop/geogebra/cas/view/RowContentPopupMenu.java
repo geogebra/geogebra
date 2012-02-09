@@ -1,7 +1,6 @@
 package geogebra.cas.view;
 
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.main.Application;
 

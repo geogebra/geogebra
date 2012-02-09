@@ -133,27 +133,27 @@ public abstract class ValidExpression implements ExpressionValue {
 	 * 
 	 * @return
 	 */
-	public String toAssignmentString() {
+	public String toAssignmentString(StringTemplate tpl) {
 		if (labels == null) {
-			return toString();
+			return toString(tpl);
 		}
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(getLabelForAssignment());
 		sb.append(getAssignmentOperator());
-		sb.append(toString());
+		sb.append(toString(tpl));
 		return sb.toString();
 	}
 
 	public String toAssignmentLaTeXString() {
 		if (labels == null) {
-			return toLaTeXString(true,StringTemplate.get(StringType.LATEX));
+			return toLaTeXString(true,StringTemplate.latexTemplate);
 		}
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(getLabelForAssignment());
 		sb.append(getAssignmentOperatorLaTeX());
-		sb.append(toLaTeXString(true,StringTemplate.get(StringType.LATEX)));
+		sb.append(toLaTeXString(true,StringTemplate.latexTemplate));
 		return sb.toString();
 	}
 
@@ -179,7 +179,7 @@ public abstract class ValidExpression implements ExpressionValue {
 	
 	@Deprecated
 	public final String toString(){
-		return toString(getKernel().getStringTemplate());
+		return toString(StringTemplate.defaultTemplate);
 	}
 
 	public abstract String toString(StringTemplate tpl);

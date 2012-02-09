@@ -1028,7 +1028,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 			return real ? toRealString(tpl) : toString(tpl);
 		}
 		sbAE.setLength(0);
-		if (kernel.isPrintLocalizedCommandNames()) {
+		if (tpl.isPrintLocalizedCommandNames()) {
 			sbAE.append(app.getCommand(cmdname));
 		} else {
 			sbAE.append(cmdname);
@@ -1089,7 +1089,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	
 	@Deprecated
 	public final String toString(){
-		return toString(kernel.getStringTemplate());
+		return toString(StringTemplate.defaultTemplate);
 	}
  
 	/**
@@ -1166,9 +1166,6 @@ public abstract class AlgoElement extends ConstructionElement implements
 		
 
 		// USE INTERNAL COMMAND NAMES IN EXPRESSION
-		boolean oldValue = kernel.isPrintLocalizedCommandNames();
-		kernel.setPrintLocalizedCommandNames(false);
-
 		try {
 			// command
 			StringTemplate tpl = StringTemplate.xmlTemplate;
@@ -1186,9 +1183,6 @@ public abstract class AlgoElement extends ConstructionElement implements
 			e.printStackTrace();
 		}
 
-		kernel.setPrintLocalizedCommandNames(oldValue);
-
-		
 	}
 
 	/**
@@ -1222,9 +1216,6 @@ public abstract class AlgoElement extends ConstructionElement implements
 		}
 
 		// USE INTERNAL COMMAND NAMES IN EXPRESSION
-		boolean oldValue = kernel.isPrintLocalizedCommandNames();
-		kernel.setPrintLocalizedCommandNames(false);
-
 		try {
 			if (mode == CONSTRAINTS) {
 				// command
@@ -1246,8 +1237,6 @@ public abstract class AlgoElement extends ConstructionElement implements
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		kernel.setPrintLocalizedCommandNames(oldValue);
 	}
 
 	// Expressions should be shown as out = expression
@@ -1377,7 +1366,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		for (int i = 0; i < getOutputLength(); i++) {
 			type = getXMLtypeString(getOutput(i));
 			sb.append("\t\t\t<" + type + " out=\"true\">");
-			sb.append(StringUtil.encodeXML(getOutput(i).getLabel()));
+			sb.append(StringUtil.encodeXML(getOutput(i).getLabel(StringTemplate.xmlTemplate)));
 			sb.append("</" + type + ">\n");
 		}
 		// }
@@ -1389,17 +1378,17 @@ public abstract class AlgoElement extends ConstructionElement implements
 							.equals("line_perpendicular_to_line_through_point")) {
 				type = getXMLtypeString(input[1]);
 				sb.append("\t\t\t<" + type + ">");
-				sb.append(StringUtil.encodeXML(input[1].getLabel()));
+				sb.append(StringUtil.encodeXML(input[1].getLabel(StringTemplate.xmlTemplate)));
 				sb.append("</" + type + ">\n");
 				type = getXMLtypeString(input[0]);
 				sb.append("\t\t\t<" + type + ">");
-				sb.append(StringUtil.encodeXML(input[0].getLabel()));
+				sb.append(StringUtil.encodeXML(input[0].getLabel(StringTemplate.xmlTemplate)));
 				sb.append("</" + type + ">\n");
 			} else {
 				for (int i = 0; i < input.length; i++) {
 					type = getXMLtypeString(input[i]);
 					sb.append("\t\t\t<" + type + ">");
-					sb.append(StringUtil.encodeXML(input[i].getLabel()));
+					sb.append(StringUtil.encodeXML(input[i].getLabel(StringTemplate.xmlTemplate)));
 					sb.append("</" + type + ">\n");
 				}
 			}

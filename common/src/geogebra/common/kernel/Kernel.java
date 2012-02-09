@@ -1722,19 +1722,6 @@ public class Kernel {
 		return formatAngle(phi, 10,tpl);
 	}
 
-	//private StringType casPrintForm;
-	
-	public StringTemplate getStringTemplate(){
-		return StringTemplate.get(StringType.GEOGEBRA);
-	}
-	/*public StringType getStringTemplate().getStringType() {
-		return stringTemplate.getStringType();
-	}*/
-
-	final public void setCASPrintForm(StringType type) {
-		//stringTemplate = StringTemplate.get(type);
-	}
-
 	/**
 	 * Converts 5.1E-20 to 5.1*10^(-20) or 5.1 \cdot 10^{-20} depending on
 	 * current print form
@@ -2172,27 +2159,7 @@ public class Kernel {
 	}
 
 
-	/**
-	 * Returns whether localized command names are printed.
-	 * 
-	 * @return true for localized command names and false for internal command
-	 *         names
-	 */
-	public boolean isPrintLocalizedCommandNames() {
-		return translateCommandName;
-	}
-
-	/**
-	 * Sets whether localized command names are printed.
-	 * 
-	 * @param b
-	 *            true to print localized command names and false to print
-	 *            internal command names
-	 */
-	public void setPrintLocalizedCommandNames(boolean b) {
-		translateCommandName = b;
-	}
-
+	
 	/**
 	 * Returns whether the parser should read internal command names and not
 	 * translate them.

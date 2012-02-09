@@ -18,6 +18,7 @@ import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.Transform;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -25,11 +26,8 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
-import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.TransformInterface;
 import geogebra.common.plugin.GeoClass;
 
-import geogebra.common.awt.Color;
 import java.util.HashSet;
 
 /**
@@ -481,7 +479,7 @@ GeoSegmentND {
 	/**
 	 * creates new transformed segment
 	 */
-    public GeoElement [] createTransformedObject(TransformInterface t,String label) {	
+    public GeoElement [] createTransformedObject(Transform t,String label) {	
 
 		if (keepTypeOnGeometricTransform && t.isAffine()) {			
 			// mirror endpoints

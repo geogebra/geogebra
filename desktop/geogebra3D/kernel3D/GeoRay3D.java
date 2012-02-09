@@ -2,7 +2,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.TransformInterface;
+import geogebra.common.kernel.Transform;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
@@ -98,7 +98,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 		keepTypeOnGeometricTransform = flag;
 	}
 
-	public GeoElement[] createTransformedObject(TransformInterface t, String label) {
+	public GeoElement[] createTransformedObject(Transform t, String label) {
 		AlgoElement algoParent = keepTypeOnGeometricTransform ? getParentAlgorithm()
 				: null;
 
@@ -109,7 +109,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 			GeoPointND[] points = { algo.getP(), algo.getQ() };
 			points = t.transformPoints(points);
 			// if(t.isAffine()){
-			GeoElement ray = (GeoElement) ((Kernel) kernel).getManager3D().Ray3D(label,
+			GeoElement ray = (GeoElement) kernel.getManager3D().Ray3D(label,
 					points[0], points[1]);
 			ray.setVisualStyleForTransformations(this);
 			GeoElement[] geos = { ray, (GeoElement) points[0],

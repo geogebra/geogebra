@@ -73,7 +73,7 @@ public class GeoAxis extends GeoLine implements GeoAxisND{
 	
 	@Override
 	public String getLabel(StringTemplate tpl) {
-		if (kernel.isPrintLocalizedCommandNames()) {
+		if (tpl.isPrintLocalizedCommandNames()) {
 			return app.getPlain(label);
 		} 
 			return label;

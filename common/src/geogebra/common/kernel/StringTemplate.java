@@ -12,6 +12,11 @@ import geogebra.common.util.Unicode;
  */
 public class StringTemplate {
 	
+	public static final StringTemplate noLocalDefault = new StringTemplate();
+	static{
+		noLocalDefault.localizeCmds = false;
+	}
+
 	/**
 	 * GeoGebra string type, internationalize digits
 	 */
@@ -41,6 +46,7 @@ public class StringTemplate {
 	static {
 		xmlTemplate.internationalizeDigits = false;
 		xmlTemplate.setType(StringType.GEOGEBRA_XML);
+		xmlTemplate.localizeCmds = false;
 		xmlTemplate.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
 	}
 	/**
@@ -69,11 +75,14 @@ public class StringTemplate {
 	private NumberFormatAdapter nf;
 
 	private boolean allowMore;
+
+	private boolean localizeCmds;
 	/**
 	 * Creates default string template
 	 */
 	protected StringTemplate(){
 		internationalizeDigits = true;
+		localizeCmds = true;
 		setType(StringType.GEOGEBRA);
 	}
 	/**
@@ -185,5 +194,8 @@ public class StringTemplate {
 	
 	public NumberFormatAdapter getNF(NumberFormatAdapter nfk) {
 		return nf==null|| (allowMore && nfk.getMaximumFractionDigits()>nf.getMaximumFractionDigits())?nfk:nf;
+	}
+	public boolean isPrintLocalizedCommandNames() {
+		return localizeCmds;
 	}
 }

@@ -15,7 +15,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  * @author kondr
  * 
  */
-public abstract class Transform extends TransformInterface {
+public abstract class Transform {
 
 	/**
 	 * Creates label for transformed geo by appending '. No more than three 's
@@ -28,7 +28,7 @@ public abstract class Transform extends TransformInterface {
 	public static String transformedGeoLabel(GeoElement geo) {
 		if (geo.isGeoFunction()) {
 			if (geo.isLabelSet() && !geo.hasIndexLabel())
-				return geo.getFreeLabel(geo.getLabel());
+				return geo.getFreeLabel(geo.getLabel(StringTemplate.defaultTemplate));
 			return null;
 		}
 
@@ -45,7 +45,7 @@ public abstract class Transform extends TransformInterface {
 	 * @param geo
 	 * @return transformed geo
 	 */
-	@Override
+	
 	public GeoElement doTransform(GeoElement geo) {
 		return getTransformAlgo(geo).getResult();
 	}
@@ -69,7 +69,7 @@ public abstract class Transform extends TransformInterface {
 	 * @param geo
 	 * @return transformed geo
 	 */
-	@Override
+	
 	public GeoElement[] transform(GeoElement geo, String label) {
 		// for polygons we transform
 		if (geo instanceof GeoPolyLineInterface && this.isAffine()) {
@@ -162,7 +162,7 @@ public abstract class Transform extends TransformInterface {
 	 * @param points
 	 * @return array of transformed points
 	 */
-	@Override
+	
 	public GeoPointND[] transformPoints(GeoPointND[] points) {
 		// dilate all points
 		GeoPointND[] newPoints = new GeoPointND[points.length];
@@ -182,7 +182,7 @@ public abstract class Transform extends TransformInterface {
 	 * @param conic
 	 * @return transformed conic
 	 */
-	@Override
+	
 	public GeoConic getTransformedConic(GeoConic conic) {
 		GeoConic ret = (GeoConic) doTransform(conic);
 		ret.setVisualStyleForTransformations(conic);
@@ -195,7 +195,7 @@ public abstract class Transform extends TransformInterface {
 	 * @param line
 	 * @return transformed line
 	 */
-	@Override
+	
 	public GeoElement getTransformedLine(GeoLineND line) {
 		GeoElement ret = doTransform((GeoElement) line);
 		ret.setVisualStyleForTransformations((GeoElement) line);
@@ -207,7 +207,7 @@ public abstract class Transform extends TransformInterface {
 	 * 
 	 * @return true by default, overriden e.g. for circle inverse
 	 */
-	@Override
+	
 	public boolean isAffine() {
 		return true;
 	}
@@ -217,7 +217,7 @@ public abstract class Transform extends TransformInterface {
 	 * 
 	 * @return true iff similar
 	 */
-	@Override
+	
 	public boolean isSimilar() {
 		return true;
 	}
@@ -227,7 +227,7 @@ public abstract class Transform extends TransformInterface {
 	 * 
 	 * @return true iff changes orientation of objects
 	 */
-	@Override
+	
 	public boolean changesOrientation() {
 		return false;
 	}

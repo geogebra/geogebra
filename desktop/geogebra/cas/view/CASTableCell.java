@@ -132,7 +132,7 @@ public abstract class CASTableCell extends JPanel{
 			}
 			
 			outputPanel.setOutput(
-					cellValue.getOutput(), 
+					cellValue.getOutput(StringTemplate.defaultTemplate), 
 					cellValue.getLaTeXOutput(), 
 					evalCmdLocal, 
 					cellValue.isError()
