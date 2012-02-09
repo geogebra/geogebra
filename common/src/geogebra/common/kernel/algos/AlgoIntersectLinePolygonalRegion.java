@@ -394,7 +394,7 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
 
 	@Override
 	public String toString(StringTemplate tpl) {
-        return app.getPlain("IntersectionPathsOfAB",((GeoElement) g).getLabel(tpl),p.getLabel(tpl));
+        return app.getPlain("IntersectionOfAandB",((GeoElement) g).getLabel(tpl),p.getLabel(tpl));
     }
 	
 	String labelPrefix = null;
