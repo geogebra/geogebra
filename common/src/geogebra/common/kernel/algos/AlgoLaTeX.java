@@ -24,6 +24,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.main.AbstractApplication;
 
 import java.util.ArrayList;
 
@@ -117,7 +118,7 @@ public class AlgoLaTeX extends AlgoElement {
     		boolean substitute = substituteVars == null ? true : substituteVars.getBoolean();
     		boolean show = showName == null ? false : showName.getBoolean();
     		
-    		
+    		text.setLaTeX(true, false);
     		
     		//Application.debug(geo.getFormulaString(StringType.LATEX, substitute ));
     		if(show){

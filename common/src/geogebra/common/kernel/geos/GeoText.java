@@ -595,7 +595,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 		if (b == isLaTeX) return;
 		
 		isLaTeX = b;
-	
+		updateTemplate();
 		// update parent algorithm if it's not a sequence
 		if (updateParentAlgo) {
 			AlgoElement parent = getParentAlgorithm();
