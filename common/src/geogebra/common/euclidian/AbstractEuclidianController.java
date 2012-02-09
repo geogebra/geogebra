@@ -5794,9 +5794,12 @@ public abstract class AbstractEuclidianController {
 	
 					startPoint.setLocation(((GeoNumeric) hit).getSliderX(),
 							((GeoNumeric) hit).getSliderY());
+					
+					boolean valueShowing = hit.isLabelVisible()
+							&& (hit.getLabelMode() == GeoElement.LABEL_NAME_VALUE || hit.getLabelMode() == GeoElement.LABEL_VALUE);
 	
-					// preview just for fixed sliders
-					if (((GeoNumeric) hit).isSliderFixed()) {
+					// preview just for fixed sliders (with value showing)
+					if (((GeoNumeric) hit).isSliderFixed() && valueShowing) {
 						sliderValue = hit.isGeoAngle()? kernel
 								.formatAngle(getSliderValue((GeoNumeric) hit),
 										StringTemplate.defaultTemplate).toString():kernel
