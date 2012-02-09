@@ -4,7 +4,7 @@ import geogebra.gui.inputfield.AutoCompleteTextField;
 
 public class JTextComponent extends geogebra.common.javax.swing.JTextComponent {
 	
-	static javax.swing.text.JTextComponent impl = null; 
+	public javax.swing.text.JTextComponent impl = null; 
 	
 	private JTextComponent(javax.swing.text.JTextComponent impl) {
 		this.impl = impl;
@@ -16,8 +16,7 @@ public class JTextComponent extends geogebra.common.javax.swing.JTextComponent {
 	}
 
 	public static JTextComponent wrap(javax.swing.text.JTextComponent textField) {
-		impl = textField;
-		return new JTextComponent(impl);
+		return new JTextComponent(textField);
 	}
 	
 	public javax.swing.text.JTextComponent getImpl() {
