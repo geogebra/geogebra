@@ -411,7 +411,7 @@ geogebra.common.gui.inputfield.AutoCompleteTextField {
 		char charPressed = e.getKeyChar();  
 
 		if ((isLetterOrDigit(charPressed) || modifierKeyPressed) && 
-				!(ctrlC && Application.MAC_OS) && !(e.getKeyCode() == KeyEvent.VK_A && Application.MAC_OS)) {
+				!(ctrlC && (Application.MAC_OS || Application.LINUX)) && !(e.getKeyCode() == KeyEvent.VK_A && Application.MAC_OS)) {
 			clearSelection();
 		}     
 

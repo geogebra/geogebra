@@ -4808,7 +4808,8 @@ public class Application extends AbstractApplication implements
 	// don't pull these up to common, use the non static methods isWindows(), isMacOS(), isWindowsVistaOrLater() instead
 	private static String OS = System.getProperty("os.name").toLowerCase(Locale.US);
 	public static boolean MAC_OS = OS.startsWith("mac"); 
-	public static boolean WINDOWS = OS.startsWith("windows"); 
+	public static boolean WINDOWS = OS.startsWith("windows");
+	public static boolean LINUX = OS.startsWith("linux");
 	// make sure still works in the future on eg Windows 9 
 	public static boolean WINDOWS_VISTA_OR_LATER = WINDOWS 
 			&& !OS.startsWith("windows 2000") && !OS.startsWith("windows 95") 
