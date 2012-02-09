@@ -99,8 +99,7 @@ StatPanelInterface{
 	
 	private GeoElement[] boxPlotTitles;
 	private GeoElement histogram, dotPlot, frequencyPolygon, normalCurve, 
-	scatterPlot, scatterPlotLine, residualPlot;
-;
+	scatterPlot, scatterPlotLine, residualPlot, nqPlot, boxPlot;
 	
 
 	// display panels 	
@@ -653,9 +652,12 @@ StatPanelInterface{
 			break;	
 
 		case PLOT_BOXPLOT:
-			if(doCreate)
-				plotGeoList.add(statGeo.createBoxPlot( dataListSelected));
-
+			if(doCreate){
+				if(boxPlot != null)
+					boxPlot.remove();
+				boxPlot = statGeo.createBoxPlot( dataListSelected);
+				plotGeoList.add(boxPlot);
+			}
 			statGeo.getBoxPlotSettings( dataListSelected, settings);
 			plotPanel.updateSettings(settings);
 			((CardLayout)displayCardPanel.getLayout()).show(displayCardPanel, "plotPanel");
@@ -687,7 +689,10 @@ StatPanelInterface{
 
 		case PLOT_NORMALQUANTILE:
 			if(doCreate){
-				plotGeoList.add(statGeo.createNormalQuantilePlot( dataListSelected));
+				if(nqPlot != null)
+					nqPlot.remove();
+				nqPlot = statGeo.createNormalQuantilePlot( dataListSelected);
+				plotGeoList.add(nqPlot);
 			}
 			statGeo.updateNormalQuantilePlot(dataListSelected, settings);
 			plotPanel.updateSettings(settings);
@@ -1004,95 +1009,103 @@ StatPanelInterface{
 	 */
 	public void exportGeosToEV(int euclidianViewID){
 
+		// TODO:
+		// in multivar mode create dynamic boxplots linked to separate lists
+
 		app.setWaitCursor();
+		//app.storeUndoInfo();	
+		GeoElement regressionCopy = null;
 		AbstractEuclidianView targetEV  = (AbstractEuclidianView) app.getView(euclidianViewID);
-		
+
 		try {
-			app.storeUndoInfo();
 
-			// prepare the data list to display in the EV (e.g. set labels, auxiliary = false)
-			GeoList dataListSelected = statDialog.getStatDialogController().getDataSelected();
-			prepareGeoForEV(dataListSelected, euclidianViewID);
-			
+			// =================================================================
+			// Step 1:
+			// Update the plot geos with the reomoveFromConstruction
+			// flag set to false. This ensures that the display geos have been
+			// put in the construction list and will be saved to xml.
+			// =================================================================
 
-			// update the plot to get a new set of geos that exist in the construction
 			statGeo.setRemoveFromConstruction(false);
 			updatePlot(true);
 
+			// =================================================================
+			// Step 2:
+			// Prepare the geos for display in the currently active EV
+			// (set labels, make visible, etc). 
+			// =================================================================
+
 			// remove the histogram from the plot geo list if it is not showing
-			if(histogram != null && settings.showHistogram == false){
+			if (histogram != null && settings.showHistogram == false) {
 				plotGeoList.remove(histogram);
 				histogram.remove();
 				histogram = null;
 			}
 
-			// prepare the new geos to display in the EV (e.g. set labels, auxiliary = false)
-			for(GeoElement geo: plotGeoList){
+			// prepare all display geos to appear in the EV
+			for (GeoElement geo : plotGeoList) {
 				prepareGeoForEV(geo, euclidianViewID);
 			}
-			
-			GeoElement regressionCopy = null;
-			if(statDialog.getMode() == StatDialog.MODE_REGRESSION 
-					&& statDialog.getRegressionMode() != StatDialog.REG_NONE)
-			{
-				regressionCopy = statGeo.createRegressionPlot(dataListSelected,
-						statDialog.getRegressionMode(), statDialog.getRegressionOrder(), false);
+
+			// the regression geo is maintained by StatDialog, so we create a
+			// copy and prepare this for the EV
+			if (statDialog.getMode() == StatDialog.MODE_REGRESSION
+					&& statDialog.getRegressionMode() != StatDialog.REG_NONE) {
+				
+				regressionCopy = statGeo.createRegressionPlot(
+						(GeoList) scatterPlot, statDialog.getRegressionMode(),
+						statDialog.getRegressionOrder(), false);
 				prepareGeoForEV(regressionCopy, euclidianViewID);
 			}
 
-			// set the window dimensions of the target EV to match the plotPanel dimensions
-			
-			targetEV.setRealWorldCoordSystem(settings.xMin, settings.xMax, settings.yMin, settings.yMax);
-			targetEV.setAutomaticAxesNumberingDistance(settings.xAxesIntervalAuto, 0);
-			targetEV.setAutomaticAxesNumberingDistance(settings.yAxesIntervalAuto, 1);
+			// =================================================================
+			// Step 3:
+			// Adjust the target EV window to match the plotPanel dimensions
+			// =================================================================
 
-			if(!settings.xAxesIntervalAuto){
+			targetEV.setRealWorldCoordSystem(settings.xMin, settings.xMax,
+					settings.yMin, settings.yMax);
+			targetEV.setAutomaticAxesNumberingDistance(
+					settings.xAxesIntervalAuto, 0);
+			targetEV.setAutomaticAxesNumberingDistance(
+					settings.yAxesIntervalAuto, 1);
+			if (!settings.xAxesIntervalAuto) {
 				targetEV.setAxesNumberingDistance(settings.xAxesInterval, 0);
 			}
-			if(!settings.yAxesIntervalAuto){
+			if (!settings.yAxesIntervalAuto) {
 				targetEV.setAxesNumberingDistance(settings.yAxesInterval, 1);
 			}
-			targetEV.updateBackground();			
-						
+			targetEV.updateBackground();
 
-			// null our display geos and clear the plotGeoList to unlink the new geos
+			// =================================================================
+			// Step 4:
+			// Dereference the geos from fields in this class and the StatDialog
+			// =================================================================
+
+			// null the display geos
 			boxPlotTitles = null;
 			histogram = null;
 			dotPlot = null;
 			frequencyPolygon = null;
-			normalCurve = null; 
+			normalCurve = null;
 			scatterPlotLine = null;
-			
-			if(scatterPlot != null){
-				scatterPlot.remove(); // dataListSelected already gives the scatterplot 
-				scatterPlot = null;
-			}
-			
-			if(residualPlot != null){
-				residualPlot = null;
-				regressionCopy.remove();
-				dataListSelected.setEuclidianVisible(false); // hide the dataListSelected scatterplot 
-				dataListSelected.updateRepaint();				
-			}
-			
-			
-			//TODO: in multivar mode create dynamic boxplots linked to separate lists
-			if(statDialog.getMode() == StatDialog.MODE_MULTIVAR){
-				dataListSelected.remove();
-			}
-			
-			
-			plotGeoList.clear();
+			scatterPlot = null;
+			nqPlot = null;
+			boxPlot = null;
 
-			
 			statDialog.getStatDialogController().removeRegressionGeo();
 			statDialog.getStatDialogController().removeDataListSelected();
+			plotGeoList.clear();
+		
+			// =================================================================
+			// Step 5:
+			// Reload the data and create new display geos that are not
+			// in the construction list.
+			// =================================================================
+		
 			statDialog.getStatDialogController().loadDataLists();
-			
-			//update the plot in removeFromConstruction mode to get a new set of geos for our plot
 			statGeo.setRemoveFromConstruction(true);
 			updatePlot(true);
-
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1103,7 +1116,7 @@ StatPanelInterface{
 		app.storeUndoInfo();
 	}
 
-	
+
 	/**
 	 * Prepares the specified GeoElement for visibility in a target
 	 * EuclidianView.

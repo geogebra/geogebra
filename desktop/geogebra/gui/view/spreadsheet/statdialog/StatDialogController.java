@@ -225,7 +225,7 @@ public class StatDialogController {
 
 			case StatDialog.MODE_MULTIVAR:
 					cons.setSuppressLabelCreation(true);
-					dataSelected = crProcessor.createCollectionList((ArrayList<CellRange>)dataSource, true); 
+					dataSelected = crProcessor.createCollectionList((ArrayList<CellRange>)dataSource, true, false); 
 					cons.setSuppressLabelCreation(false);
 					break;
 

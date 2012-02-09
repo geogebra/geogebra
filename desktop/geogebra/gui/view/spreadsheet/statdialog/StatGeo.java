@@ -4,6 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
 import geogebra.common.kernel.algos.AlgoClasses;
+import geogebra.common.kernel.algos.AlgoDependentList;
 import geogebra.common.kernel.algos.AlgoDependentListExpression;
 import geogebra.common.kernel.algos.AlgoDotPlot;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -45,6 +46,7 @@ import geogebra.common.plugin.Operation;
 import geogebra.main.Application;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 /**
  * 
@@ -128,6 +130,11 @@ public class StatGeo   {
 	}
 	private void getDataBounds(GeoList dataList, boolean isPointList, boolean isMatrix){
 
+		// construction elements created by this method should always be
+		// removed from the construction
+		boolean currentRemoveFromConstructionStatus = removeFromConstruction;
+		removeFromConstruction = true;
+				
 		//String label = dataList.getLabel();
 		dataBounds = new double[4];
 
@@ -214,6 +221,9 @@ public class StatGeo   {
 		xMaxData = dataBounds[1];
 		yMinData = dataBounds[2];
 		yMaxData = dataBounds[3];
+		
+		// restore the removeFromConstruction flag 
+		removeFromConstruction = currentRemoveFromConstructionStatus;
 
 	}
 
@@ -576,13 +586,15 @@ public class StatGeo   {
 	public GeoElement createScatterPlot(GeoList dataList){
 
 		// copy the dataList geo
-		GeoList geo = new GeoList(cons);
-		geo.setAuxiliaryObject(true);
-
+		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
 		for(int i=0; i<dataList.size(); ++i)
-			geo.add(dataList.get(i));	
-
+			list.add(dataList.get(i));	
+		AlgoDependentList dl = new AlgoDependentList(cons, list, false);
+		removeFromConstructionList(dl);
+		GeoList geo = dl.getGeoList();
+		
 		// set visibility
+		geo.setAuxiliaryObject(true);
 		geo.setEuclidianVisible(true);	
 		geo.setAuxiliaryObject(true);
 		geo.setLabelVisible(false);	
