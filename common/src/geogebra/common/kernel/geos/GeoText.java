@@ -50,6 +50,10 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	// for absolute screen location
 	private boolean hasAbsoluteScreenLocation = false;
 	
+	/**
+	 * Creates new text
+	 * @param c construction
+	 */
 	public GeoText(Construction c) {
 		super(c);
 		
@@ -97,7 +101,8 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 			else
 				gt.setPrintFigures(printFigures > -1 ? printFigures :  kernel.getPrintFigures(),true);				
 			str = gt.str;
-			isLaTeX = gt.isLaTeX;		
+			isLaTeX = gt.isLaTeX;	
+			updateTemplate();
 			return;
 		}
 		
@@ -122,6 +127,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 		catch (CircularDefinitionException e) {
 			AbstractApplication.debug("set GeoText: CircularDefinitionException");
 		}		
+		updateTemplate();
 	}
 	
 	@Override
@@ -134,12 +140,13 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 		fontStyle = text.fontStyle;
 		fontSize = text.fontSize;
 		printDecimals = text.printDecimals;	
-		printFigures = text.printFigures;	
+		printFigures = text.printFigures;
 		useSignificantFigures = text.useSignificantFigures;
+		updateTemplate();
 	}
 	
-	final public void setTextString(String text) {
-		
+	final public void setTextString(String text2) {
+		String text = text2;
 		// Michael Borcherds 2008-05-11
 		// remove trailing linefeeds (FreeHEP EMF export doesn't like them)
 		while (text.length() > 1 && text.charAt(text.length()-1) == '\n') {
@@ -355,6 +362,10 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	* to stop it being editable */
 	public boolean isTextCommand = false;
 	
+	/**
+	 * 
+	 * @param isCommand new value of isTextCommand
+	 */
 	public void setIsTextCommand(boolean isCommand) {
 		this.isTextCommand = isCommand;
 	}
@@ -368,6 +379,9 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 		return isTextCommand;
 	}
 	
+	/**
+	 * @return true if this text was produced by algo with LaTeX output
+	 */
 	public boolean isLaTeXTextCommand() {
 
 		if (!isTextCommand || getParentAlgorithm() == null) return false;
@@ -384,7 +398,12 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	/** used for eg Text["text",(1,2)]
 	 * to stop it being draggable */
 	boolean alwaysFixed = false;
+	private StringTemplate tpl;
 	
+	/**
+	 * 
+	 * @param alwaysFixed flag to prevent movement of Text["whee",(1,2)]
+	 */
 	public void setAlwaysFixed(boolean alwaysFixed) {
 		this.alwaysFixed = alwaysFixed;
 	}
@@ -725,6 +744,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 			this.printDecimals = printDecimals;
 			printFigures = -1;
 			useSignificantFigures = false;
+			updateTemplate();
 			algo.update();
 		}			
 	}
@@ -734,6 +754,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 			this.printFigures = printFigures;
 			printDecimals = -1;
 			useSignificantFigures = true;
+			updateTemplate();
 			algo.update();
 		}			
 	}
@@ -810,7 +831,8 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	final public boolean isEqual(GeoElement geo) {
 		// return false if it's a different type
 		if (str == null) return false;
-		if (geo.isGeoText()) return str.equals(((GeoText)geo).str); else return false;
+		if (geo.isGeoText()) return str.equals(((GeoText)geo).str); 
+		return false;
 	}
 	@Override
 	public void setZero() {
@@ -843,18 +865,15 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	
 	private static Comparator<GeoText> comparator;
 	
-		public void setTemporaryPrintAccuracy() {
+		public void updateTemplate() {
+		StringType type = isLaTeX?app.getFormulaRenderingType():StringType.GEOGEBRA;
 		if (useSignificantFigures()) {
-			kernel.setTemporaryPrintFigures(printFigures);
+			tpl= StringTemplate.printFigures(type,printFigures,false);
 		}
 		else
 		{
-			kernel.setTemporaryPrintDecimals(printDecimals);
+			tpl =StringTemplate.printDecimals(type,printDecimals,false);
 		}
-	}
-	
-	public void restorePrintAccuracy() {
-		kernel.restorePrintAccuracy();
 	}
 
 	public boolean isAlwaysFixed() {
@@ -897,5 +916,14 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	public boolean hasBackgroundColor() {
 		return true;
 	}
+
+	/**
+	 * String template; contains both string type and precision 
+	 * @return template
+	 */
+	public StringTemplate getStringTemplate() {
+		return tpl;
+	}
+
 
 }

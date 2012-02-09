@@ -2118,39 +2118,7 @@ public class Kernel {
 		}
 	}
 
-	/**
-	 * Sets the print accuracy to at least the given decimals or significant
-	 * figures. If the current accuracy is already higher, nothing is changed.
-	 * 
-	 * @param decimalsOrFigures
-	 * @return whether the print accuracy was changed
-	 */
-	public boolean ensureTemporaryPrintAccuracy(int decimalsOrFigures) {
-		if (useSignificantFigures) {
-			if (sf.getSigDigits() < decimalsOrFigures) {
-				setTemporaryPrintFigures(decimalsOrFigures);
-				return true;
-			}
-		} else {
-			// decimals
-			if (nf.getMaximumFractionDigits() < decimalsOrFigures) {
-				setTemporaryPrintDecimals(decimalsOrFigures);
-				return true;
-			}
-		}
-		return false;
-	}
-
-	final public void setTemporaryPrintFigures(int figures) {
-		storeTemporaryRoundingInfoInList();
-		setPrintFigures(figures);
-	}
-
-	final public void setTemporaryPrintDecimals(int decimals) {
-		storeTemporaryRoundingInfoInList();
-		setPrintDecimals(decimals);
-	}
-
+	
 	final public void setPrintDecimals(int decimals) {
 		if (decimals >= 0) {
 			useSignificantFigures = false;
@@ -2203,22 +2171,6 @@ public class Kernel {
 				.getMaximumFractionDigits()));
 	}
 
-	/**
-	 * gets previous values of print acuracy from stacks
-	 */
-	final public void restorePrintAccuracy() {
-		useSignificantFigures = useSignificantFiguresList.pop().booleanValue();
-		int sigFigures = noOfSignificantFiguresList.pop().intValue();
-		int decDigits = noOfDecimalPlacesList.pop().intValue();
-
-		if (useSignificantFigures) {
-			setPrintFigures(sigFigures);
-		} else {
-			setPrintDecimals(decDigits);
-		}
-
-		// Application.debug("list size"+noOfSignificantFiguresList.size());
-	}
 
 	/**
 	 * Returns whether localized command names are printed.

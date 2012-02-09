@@ -757,7 +757,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 				boolean isSelected, int rowIndex, int columnIndex) {
 			
 			geo = data.getGeoElement(rowIndex);
-			String val = geo.getCaptionDescription();		
+			String val = geo.getCaptionDescription(StringTemplate.defaultTemplate);		
 			inputPanel = new InputPanel("", app, 20,false);				
 			inputPanel.setText(val);
 			inputPanel.setEnabled(true);
@@ -923,7 +923,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			if (geo instanceof GeoText)
 				algebra = "\""+geo.toValueString(StringTemplate.defaultTemplate)+"\"";
 			else
-				algebra = geo.getAlgebraDescriptionTextOrHTML();
+				algebra = geo.getAlgebraDescriptionTextOrHTML(StringTemplate.defaultTemplate);
 			// name description changes if type changes, e.g. ellipse becomes
 			// hyperbola
 			name = geo.getNameDescriptionTextOrHTML();
@@ -931,7 +931,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		}
 
 		public void updateCaption(){
-			caption = geo.getCaptionDescriptionHTML(true);
+			caption = geo.getCaptionDescriptionHTML(true,StringTemplate.defaultTemplate);
 		}
 		
 		public void updateAll() {
@@ -972,7 +972,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			//algebra = geo.toOutputValueString();
 			if (geo instanceof GeoText)
 				algebra = "\""+geo.toValueString(StringTemplate.defaultTemplate)+"\"";
-			else algebra = geo.getAlgebraDescriptionTextOrHTML();
+			else algebra = geo.getAlgebraDescriptionTextOrHTML(StringTemplate.defaultTemplate);
 			definition = geo.getDefinitionDescriptionHTML(true);
 			command = geo.getCommandDescriptionHTML(true);
 			updateCaption();
@@ -1257,13 +1257,13 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 				return rowList.get(nRow).geo.getNameDescription();
 			case 3:
 				return rowList.get(nRow).geo
-						.getDefinitionDescription();
+						.getDefinitionDescription(StringTemplate.defaultTemplate);
 			case 4:
 				return rowList.get(nRow).geo
-						.getCommandDescription(kernel.getStringTemplate());
+						.getCommandDescription(StringTemplate.defaultTemplate);
 			case 5:
 				return rowList.get(nRow).geo
-						.getAlgebraDescription();
+						.getAlgebraDescription(StringTemplate.defaultTemplate);
 			case 7:
 				return rowList.get(nRow).consProtocolVisible
 						.toString();
@@ -1367,11 +1367,11 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 						.getCommandDescriptionHTML(false);
 			case 5:
 				return rowList.get(nRow).geo
-						.getAlgebraDescriptionHTML(false);
+						.getAlgebraDescriptionHTML(false,StringTemplate.defaultTemplate);
 		
 			case 6:
 				return rowList.get(nRow).geo
-						.getCaptionDescriptionHTML(false);			
+						.getCaptionDescriptionHTML(false,StringTemplate.defaultTemplate);			
 				
 			case 7:
 				return rowList.get(nRow).consProtocolVisible

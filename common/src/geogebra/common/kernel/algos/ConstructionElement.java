@@ -175,13 +175,13 @@ public abstract class ConstructionElement implements
 	 * Returns algebraic representation (e.g. coordinates, equation) of this
 	 * construction element.
 	 */
-	public abstract String getAlgebraDescription();
+	public abstract String getAlgebraDescription(StringTemplate tpl);
 
 	/**
 	 * Returns textual description of the definition of this construction
 	 * element (e.g. "Line through A and B"). Note: may return ""
 	 */
-	public abstract String getDefinitionDescription();
+	public abstract String getDefinitionDescription(StringTemplate tpl);
 
 	/**
 	 * Returns command that defines this construction element (e.g.

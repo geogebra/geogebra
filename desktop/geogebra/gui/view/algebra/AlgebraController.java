@@ -22,6 +22,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.main.Application;
@@ -343,7 +344,7 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 			StringBuilder sb = new StringBuilder();
 			sb.append("\\fbox{\\begin{array}{l}"); 
 			for(GeoElement geo:app.getSelectedGeos()){
-				sb.append(geo.getLaTeXAlgebraDescription(true));
+				sb.append(geo.getLaTeXAlgebraDescription(true,StringTemplate.latexTemplate));
 				sb.append("\\\\");
 			}
 			sb.append("\\end{array}}");

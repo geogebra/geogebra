@@ -408,7 +408,7 @@ implements Traceable {
     }
 
 	@Override
-	public void getXMLtagsMinimal(StringBuilder sb) {
+	public void getXMLtagsMinimal(StringBuilder sb,StringTemplate tpl) {
 		sb.append(regrFormat(x) + " " + regrFormat(y) + " " + regrFormat(z));
 	}
 	

@@ -203,11 +203,11 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 				break;
 
 			case Kernel.ALGEBRA_STYLE_DEFINITION:
-				text = GeoElement.convertIndicesToHTML(geo.getDefinitionDescription());
+				text = GeoElement.convertIndicesToHTML(geo.getDefinitionDescription(StringTemplate.defaultTemplate));
 				break;
 
 			case Kernel.ALGEBRA_STYLE_COMMAND:
-				text = GeoElement.convertIndicesToHTML(geo.getCommandDescription(kernel.getStringTemplate()));
+				text = GeoElement.convertIndicesToHTML(geo.getCommandDescription(StringTemplate.defaultTemplate));
 				break;
 			}	
 		}

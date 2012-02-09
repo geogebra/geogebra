@@ -963,9 +963,9 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
     }
     
     @Override
-	final public String toStringMinimal() {
+	final public String toStringMinimal(StringTemplate tpl) {
     	sbToString.setLength(0);
-    	sbToString.append(toValueStringMinimal());
+    	sbToString.append(toValueStringMinimal(tpl));
     	return sbToString.toString();
     }
     
@@ -977,7 +977,7 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
     }       
     
 	@Override
-	final public String toValueStringMinimal() {
+	final public String toValueStringMinimal(StringTemplate tpl) {
 		sbBuildValueString.setLength(0);
 		if (isInfinite()) {
 			sbBuildValueString.append(app.getPlain("undefined"));

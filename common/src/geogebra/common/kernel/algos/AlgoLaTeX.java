@@ -117,13 +117,13 @@ public class AlgoLaTeX extends AlgoElement {
     		boolean substitute = substituteVars == null ? true : substituteVars.getBoolean();
     		boolean show = showName == null ? false : showName.getBoolean();
     		
-    		text.setTemporaryPrintAccuracy();
+    		
     		
     		//Application.debug(geo.getFormulaString(StringType.LATEX, substitute ));
     		if(show){
-    			text.setTextString(geo.getLaTeXAlgebraDescription(substitute));
+    			text.setTextString(geo.getLaTeXAlgebraDescription(substitute,text.getStringTemplate()));
     			if(text.getTextString() == null){
-    				text.setTextString(geo.getAlgebraDescriptionTextOrHTML());
+    				text.setTextString(geo.getAlgebraDescriptionTextOrHTML(text.getStringTemplate()));
     				useLaTeX = false;
     			}
     		}else{
@@ -131,11 +131,11 @@ public class AlgoLaTeX extends AlgoElement {
     				// needed for eg Text commands eg FormulaText[Text[
     				text.setTextString(((GeoText)geo).getTextString());
     			} else {
-    				text.setTextString(geo.getFormulaString(StringTemplate.get(app.getFormulaRenderingType()), substitute ));   
+    				text.setTextString(geo.getFormulaString(text.getStringTemplate(), substitute ));   
     			}
     		}
 
-    		text.restorePrintAccuracy();
+    		
 		}	
     	
     	text.setLaTeX(useLaTeX, false);

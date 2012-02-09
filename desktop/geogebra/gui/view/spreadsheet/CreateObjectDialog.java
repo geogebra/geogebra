@@ -623,7 +623,7 @@ implements ListSelectionListener, FocusListener, WindowFocusListener{
 				drawLatexImageIcon(latexIcon, latexStr, latexFont, false, Color.black, null );
 				lblPreview.setText(" ");
 			}else{
-				lblPreview.setText(newGeo.getAlgebraDescriptionTextOrHTML());
+				lblPreview.setText(newGeo.getAlgebraDescriptionTextOrHTML(StringTemplate.defaultTemplate));
 			}
 			lblPreview.setIcon(latexIcon);
 

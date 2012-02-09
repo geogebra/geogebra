@@ -20,6 +20,7 @@ package geogebra.gui.view.algebra;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.LayerView;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.AbstractApplication;
@@ -737,7 +738,7 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 			String geoLabel,GeoElementSpreadsheet geoElementSpreadsheet) {
 		int left = 0;
 		int right = parent.getChildCount() - 1;
-		if (right == -1)
+		if (right == -1 || geoLabel == null)
 			return -1;
 
 		// binary search for geo's label
@@ -766,12 +767,14 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 	 */
 	final public static int linearSearchGeo(DefaultMutableTreeNode parent,
 			String geoLabel) {
+		if(geoLabel == null)
+			return -1;
 		int childCount = parent.getChildCount();
 		for (int i = 0; i < childCount; i++) {
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) parent
 					.getChildAt(i);
 			GeoElement g = (GeoElement) node.getUserObject();
-			if (geoLabel.equals(g.getLabel()))
+			if (geoLabel.equals(g.getLabel(StringTemplate.defaultTemplate)))
 				return i;
 		}
 		return -1;

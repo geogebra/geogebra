@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.BooleanValue;
@@ -1421,7 +1422,7 @@ public class AlgebraProcessor {
 
 		if (isIndependent) {
 			MyStringBuffer eval = ((TextValue) evaluate).getText();
-			ret[0] = kernel.Text(label, eval.toValueString());
+			ret[0] = kernel.Text(label, eval.toValueString(StringTemplate.defaultTemplate));
 		} else
 			ret[0] = kernel.DependentText(label, n);
 		return ret;

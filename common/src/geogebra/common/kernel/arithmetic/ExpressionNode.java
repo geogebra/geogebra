@@ -1213,7 +1213,6 @@ public class ExpressionNode extends ValidExpression implements
 	private String printCASstring(boolean symbolic,StringTemplate tpl) {
 		String ret = null;
 
-		kernel.setTemporaryPrintFigures(15);
 		try {
 
 			if (leaf) { // leaf is GeoElement or not
@@ -1259,7 +1258,7 @@ public class ExpressionNode extends ValidExpression implements
 				ret = operationToString(leftStr, rightStr, !symbolic,tpl);
 			}
 		} finally {
-			kernel.restorePrintAccuracy();
+			// do nothing
 		}
 
 		return ret;

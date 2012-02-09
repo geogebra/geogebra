@@ -212,7 +212,7 @@ public class AlgoDependentListExpression extends AlgoElement {
 					
 					// the cached element is a point: set value
 					if (cachedGeo.isGeoText()) {
-						((GeoText) cachedGeo).setTextString(str.toValueString());
+						((GeoText) cachedGeo).setTextString(str.toValueString(StringTemplate.defaultTemplate));
 						geo = cachedGeo;
 					}     			
 				}
@@ -220,7 +220,7 @@ public class AlgoDependentListExpression extends AlgoElement {
 				// no cached point: create new one
 				if (geo == null) {
 					GeoText text = new GeoText(cons);
-					text.setTextString(str.toValueString());
+					text.setTextString(str.toValueString(StringTemplate.defaultTemplate));
 					geo = text;
 				}
 				

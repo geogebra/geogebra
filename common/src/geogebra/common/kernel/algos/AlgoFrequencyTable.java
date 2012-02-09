@@ -132,9 +132,9 @@ public class AlgoFrequencyTable extends AlgoElement {
 					.getCommand("Frequency") : app.getMenu("Count"));
 			sb.append(" \\\\\\hline ");
 			for (int i = 0; i < length; i++) {
-				sb.append(va.get(i).toValueString());
+				sb.append(va.get(i).toValueString(table.getStringTemplate()));
 				sb.append("&");
-				sb.append(fr.get(i).toValueString());
+				sb.append(fr.get(i).toValueString(table.getStringTemplate()));
 				sb.append("\\\\");
 			}
 
@@ -149,11 +149,11 @@ public class AlgoFrequencyTable extends AlgoElement {
 					.getMenu("Frequency") : app.getMenu("Count"));
 			sb.append(" \\\\\\hline ");
 			for (int i = 0; i < length; i++) {
-				sb.append(classList.get(i).toValueString());
+				sb.append(classList.get(i).toValueString(table.getStringTemplate()));
 				sb.append("\\text{ -- }");
-				sb.append(classList.get(i + 1).toValueString());
+				sb.append(classList.get(i + 1).toValueString(table.getStringTemplate()));
 				sb.append("&");
-				sb.append(fr.get(i).toValueString());
+				sb.append(fr.get(i).toValueString(table.getStringTemplate()));
 				sb.append("\\\\");
 			}
 		}

@@ -74,6 +74,7 @@ import java.util.TreeSet;
  * @author Markus
  * @version 2011-12-02
  */
+@SuppressWarnings("javadoc")
 public abstract class GeoElement extends ConstructionElement implements
 		ExpressionValue {
 
@@ -236,11 +237,9 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	// =================================
 	// G.Sturr new fill options
-	protected GeoElementGraphicsAdapter graphicsadapter; // substitute for
-															// imageFileName and
-															// image - Arpad
-															// Fekete;
-															// 2011-12-01
+	/** substitute for imageFileName and image - Arpad Fekete;
+	// 2011-12-01 */
+	protected GeoElementGraphicsAdapter graphicsadapter; 
 	public static final int FILL_STANDARD = 0;
 	public static final int FILL_HATCH = 1;
 	public static final int FILL_IMAGE = 2;
@@ -273,8 +272,10 @@ public abstract class GeoElement extends ConstructionElement implements
 	public void setDefaultGeoType(final int defaultGT) {
 		defaultGeoType = defaultGT;
 	}
-
-	public int labelOffsetX = 0, labelOffsetY = 0;
+	/** offset for label in EV*/ 
+	public int labelOffsetX = 0; 
+			/** offset for label in EV*/
+	public int	labelOffsetY = 0;
 	private boolean auxiliaryObject = false;
 	private boolean selectionAllowed = true;
 	// on change: see setVisualValues()
@@ -589,16 +590,18 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public abstract void set(GeoElement geo);
 
+	/**
+	 * Returns false for undefined objects
+	 * @return false when undefined
+	 */
 	public abstract boolean isDefined();
 
+	/**
+	 * Makes object undefined, some objects lose their internally stored value when this is called
+	 */
 	public abstract void setUndefined();
 
 	public abstract String toValueString(StringTemplate tpl);
-	
-	@Deprecated
-	public final String toValueString(){
-		return toValueString(kernel.getStringTemplate());
-	}
 
 	private EuclidianViewInterfaceSlim viewForValueString;
 
@@ -687,7 +690,7 @@ public abstract class GeoElement extends ConstructionElement implements
 						+ inputBarStr;
 			}
 		} else {
-			inputBarStr = getAlgebraDescription();
+			inputBarStr = getAlgebraDescription(StringTemplate.editTemplate);
 		}
 
 		
@@ -728,7 +731,9 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 		return toValueString(tpl);
 	}
-
+	/**
+	 * Set visual style from defaults
+	 */
 	public void setConstructionDefaults() {
 		if (useVisualDefaults) {
 			final ConstructionDefaults consDef = cons.getConstructionDefaults();
@@ -738,6 +743,10 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 	}
 
+	/**
+	 * 
+	 * @param color new color for this object
+	 */
 	public void setObjColor(final Color color) {
 		isColorSet = true;
 
@@ -904,7 +913,10 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 
 	}
-
+	/**
+	 * 
+	 * @return color of object for selection
+	 */
 	// Michael Borcherds 2008-04-02
 	public Color getSelColor() {
 		if (colFunction == null) {
@@ -912,7 +924,10 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 		return getRGBFromList(100);
 	}
-
+	/**
+	 * 
+	 * @return color of fill
+	 */
 	// Michael Borcherds 2008-04-02
 	public Color getFillColor() {
 		if (colFunction == null) {
@@ -931,6 +946,10 @@ public abstract class GeoElement extends ConstructionElement implements
 		return col.equals(Color.white) ? Color.black : col;
 	}
 
+	/**
+	 * 
+	 * @return color of label
+	 */
 	// Michael Borcherds 2008-04-01
 	public Color getLabelColor() {
 		if (colFunction == null) {
@@ -938,20 +957,32 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 		return getObjectColor();
 	}
-
+	/**
+	 * 
+	 * @param color new color for label
+	 */
 	// Michael Borcherds 2008-04-01
 	public void setLabelColor(final Color color) {
 		labelColor = color;
 	}
-
+	/**
+	 * 
+	 * @return color of background
+	 */
 	public Color getBackgroundColor() {
 		return bgColor;
 	}
-
+	/**
+	 * 
+	 * @param bgCol new background color
+	 */
 	public void setBackgroundColor(final Color bgCol) {
 		bgColor = bgCol;
 	}
-
+	/**
+	 * 
+	 * @return current color for this object
+	 */
 	// Michael Borcherds 2008-04-02
 	public Color getObjectColor() {
 		Color col = objColor;
@@ -974,8 +1005,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param layer
 	 *            layer from 0 to 9
 	 */
-	public void setLayer(int layer) {
-
+	public void setLayer(int layer2) {
+		int newlayer = layer2;
 		// Application.printStacktrace("layer="+layer);
 
 		if (layer == this.layer
@@ -985,15 +1016,15 @@ public abstract class GeoElement extends ConstructionElement implements
 		) {
 			return;
 		}
-		if (layer > EuclidianStyleConstants.MAX_LAYERS) {
-			layer = EuclidianStyleConstants.MAX_LAYERS;
-		} else if (layer < 0) {
-			layer = 0;
+		if (newlayer > EuclidianStyleConstants.MAX_LAYERS) {
+			newlayer = EuclidianStyleConstants.MAX_LAYERS;
+		} else if (newlayer < 0) {
+			newlayer = 0;
 		}
 
-		kernel.notifyChangeLayer(this, this.layer, layer);
+		kernel.notifyChangeLayer(this, this.layer, newlayer);
 
-		this.layer = layer;
+		this.layer = newlayer;
 	}
 
 	// Michael Borcherds 2008-02-23
@@ -1003,7 +1034,10 @@ public abstract class GeoElement extends ConstructionElement implements
 	public int getLayer() {
 		return layer;
 	}
-
+	/**
+	 * 
+	 * @return drawing priority (lower = drawn first)
+	 */
 	// Michael Borcherds 2008-02-23
 	public long getDrawingPriority() {
 
@@ -1343,9 +1377,8 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		if (condShowObject == null) {
 			return euclidianVisible;
-		} else {
-			return condShowObject.getBoolean();
 		}
+		return condShowObject.getBoolean();
 	}
 
 	public void setEuclidianVisible(final boolean visible) {
@@ -1387,9 +1420,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	public GeoElement[] getSiblings() {
 		if (algoParent != null) {
 			return algoParent.getOutput();
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	public boolean isDrawable() {
@@ -1530,9 +1562,8 @@ public abstract class GeoElement extends ConstructionElement implements
 			if (!(app.isUsingFullGui() && app
 					.showView(AbstractApplication.VIEW_ALGEBRA))) {
 				return false;
-			} else {
-				return isAlgebraVisible(); // old behaviour
 			}
+			return isAlgebraVisible(); // old behaviour
 		case TOOLTIP_OFF:
 			return false;
 		case TOOLTIP_ON:
@@ -2219,20 +2250,21 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 	}
 
-	public boolean setCaption(String caption) {
-		if ((caption == null) || caption.equals(label)) {
+	public boolean setCaption(String caption1) {
+		String caption2 = caption1;
+		if ((caption2 == null) || caption2.equals(label)) {
 			this.caption = null;
 			return false;
 		}
 
-		caption = caption.trim();
+		caption2 = caption2.trim();
 
-		if (caption.trim().length() == 0) {
+		if (caption2.trim().length() == 0) {
 			this.caption = null;
 			return true;
 		}
 
-		this.caption = caption.trim();
+		this.caption = caption2.trim();
 		return true;
 	}
 
@@ -2241,8 +2273,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	public String getCaptionNoReplace() {
 		return caption;
 	}
+	@Deprecated
 	public String getCaption() {
-		return getCaption(kernel.getStringTemplate());
+		return getCaption(StringTemplate.defaultTemplate);
 	}
 	public String getCaption(StringTemplate tpl) {
 		if (caption == null) {
@@ -2323,17 +2356,15 @@ public abstract class GeoElement extends ConstructionElement implements
 	public String getRawCaption() {
 		if (caption == null) {
 			return "";
-		} else {
-			return caption;
 		}
+		return caption;
 	}
 
-	public String getCaptionDescription() {
+	public String getCaptionDescription(StringTemplate tpl) {
 		if (caption == null) {
 			return "";
-		} else {
-			return getCaption();
 		}
+		return getCaption(tpl);
 	}
 
 	/**
@@ -2758,7 +2789,6 @@ public abstract class GeoElement extends ConstructionElement implements
 			counter++;
 			str = app.getPlain(plainKey)
 					+ kernel.internationalizeDigits(counter + "",StringTemplate.defaultTemplate);
-			;
 		} while (!cons.isFreeLabel(str));
 		return str;
 	}
@@ -3353,26 +3383,25 @@ public abstract class GeoElement extends ConstructionElement implements
 	public ArrayList<GeoNumeric> getRandomNumberPredecessorsWithoutLabels() {
 		if (isIndependent()) {
 			return null;
-		} else {
-			ArrayList<GeoNumeric> randNumbers = null;
+		}
+		ArrayList<GeoNumeric> randNumbers = null;
 
-			final TreeSet<GeoElement> pred = getAllPredecessors();
-			final Iterator<GeoElement> it = pred.iterator();
-			while (it.hasNext()) {
-				final GeoElement geo = it.next();
-				if (geo.isGeoNumeric()) {
-					final GeoNumeric num = (GeoNumeric) geo;
-					if (num.isRandomGeo() && !num.isLabelSet()) {
-						if (randNumbers == null) {
-							randNumbers = new ArrayList<GeoNumeric>();
-						}
-						randNumbers.add(num);
+		final TreeSet<GeoElement> pred = getAllPredecessors();
+		final Iterator<GeoElement> it = pred.iterator();
+		while (it.hasNext()) {
+			final GeoElement geo = it.next();
+			if (geo.isGeoNumeric()) {
+				final GeoNumeric num = (GeoNumeric) geo;
+				if (num.isRandomGeo() && !num.isLabelSet()) {
+					if (randNumbers == null) {
+						randNumbers = new ArrayList<GeoNumeric>();
 					}
+					randNumbers.add(num);
 				}
 			}
-
-			return randNumbers;
 		}
+
+		return randNumbers;
 	}
 
 	/**
@@ -3471,9 +3500,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	public boolean isChildOf(final GeoElement geo) {
 		if ((geo == null) || isIndependent()) {
 			return false;
-		} else {
-			return geo.isParentOf(this);
 		}
+		return geo.isParentOf(this);
 	}
 
 	/**
@@ -3534,9 +3562,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	public int getConstructionIndex() {
 		if (algoParent == null) {
 			return super.getConstructionIndex();
-		} else {
-			return algoParent.getConstructionIndex();
 		}
+		return algoParent.getConstructionIndex();
 	}
 
 	/**
@@ -3547,9 +3574,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	public int getMinConstructionIndex() {
 		if (algoParent == null) {
 			return 0;
-		} else {
-			return algoParent.getMinConstructionIndex();
 		}
+		return algoParent.getMinConstructionIndex();
 	}
 
 	/**
@@ -3570,62 +3596,55 @@ public abstract class GeoElement extends ConstructionElement implements
 				}
 			}
 			return min - 1;
-		} else {
-			// dependent object
-			return algoParent.getMaxConstructionIndex();
 		}
+		// dependent object
+		return algoParent.getMaxConstructionIndex();
 	}
 
 	@Override
-	public String getDefinitionDescription() {
+	public String getDefinitionDescription(StringTemplate tpl) {
 		if (algoParent == null) {
 			return "";
-		} else {
-			return algoParent.toString();
 		}
+		return algoParent.toString(tpl);
 	}
 
 	public String getDefinitionDescriptionHTML(final boolean addHTMLtag) {
 		if (algoParent == null) {
 			return "";
-		} else {
-			return indicesToHTML(app.translationFix(algoParent.toString()),
-					addHTMLtag);
 		}
+		return indicesToHTML(app.translationFix(algoParent.toString(StringTemplate.defaultTemplate)),
+				addHTMLtag);
 	}
 
 	@Override
 	public String getCommandDescription(StringTemplate tpl) {
 		if (algoParent == null) {
 			return "";
-		} else {
-			return algoParent.getCommandDescription(tpl);
 		}
+		return algoParent.getCommandDescription(tpl);
 	}
 
 	public String getCommandDescriptionHTML(final boolean addHTMLtag) {
 		if (algoParent == null) {
 			return "";
-		} else {
-			return indicesToHTML(algoParent.getCommandDescription(StringTemplate.defaultTemplate), addHTMLtag);
 		}
+		return indicesToHTML(algoParent.getCommandDescription(StringTemplate.defaultTemplate), addHTMLtag);
 	}
 
 	public String getCommandNameHTML(final boolean addHTMLtag) {
 		if (algoParent == null) {
 			return "";
-		} else {
-			return indicesToHTML(algoParent.getCommandName(StringTemplate.defaultTemplate), addHTMLtag);
 		}
+		return indicesToHTML(algoParent.getCommandName(StringTemplate.defaultTemplate), addHTMLtag);
 	}
 
 	@Override
 	public int getRelatedModeID() {
 		if (algoParent == null) {
 			return -1;
-		} else {
-			return algoParent.getRelatedModeID();
 		}
+		return algoParent.getRelatedModeID();
 	}
 
 	/**
@@ -3638,9 +3657,8 @@ public abstract class GeoElement extends ConstructionElement implements
 		// check for index
 		if (text.indexOf('_') > -1) {
 			return indicesToHTML(text, true);
-		} else {
-			return text;
 		}
+		return text;
 	}
 
 	public String addLabelTextOrHTML(final String desc) {
@@ -3667,9 +3685,9 @@ public abstract class GeoElement extends ConstructionElement implements
 		return convertIndicesToHTML(ret);
 	}
 
-	final public String getCaptionDescriptionHTML(final boolean addHTMLtag) {
+	final public String getCaptionDescriptionHTML(final boolean addHTMLtag,StringTemplate tpl) {
 
-		return indicesToHTML(getCaptionDescription(), addHTMLtag);
+		return indicesToHTML(getCaptionDescription(tpl), addHTMLtag);
 	}
 
 	/**
@@ -3700,14 +3718,13 @@ public abstract class GeoElement extends ConstructionElement implements
 	final public String getLongDescription() {
 		if (algoParent == null) {
 			return getNameDescription();
-		} else {
-			final StringBuilder sbLongDesc = new StringBuilder();
-			sbLongDesc.append(getNameDescription());
-			// add dependency information
-			sbLongDesc.append(": ");
-			sbLongDesc.append(algoParent.toString());
-			return sbLongDesc.toString();
 		}
+		final StringBuilder sbLongDesc = new StringBuilder();
+		sbLongDesc.append(getNameDescription());
+		// add dependency information
+		sbLongDesc.append(": ");
+		sbLongDesc.append(algoParent.toString(StringTemplate.defaultTemplate));
+		return sbLongDesc.toString();
 	}
 
 	/**
@@ -3722,71 +3739,70 @@ public abstract class GeoElement extends ConstructionElement implements
 			final boolean addHTMLtag) {
 		if ((algoParent == null) || isTextValue()) {
 			return getNameDescriptionHTML(colored, addHTMLtag);
-		} else {
-			final StringBuilder sbLongDescHTML = new StringBuilder();
-
-			final String label = getLabel();
-			final String typeString = translatedTypeString();
-
-			// html string
-			if (addHTMLtag) {
-				sbLongDescHTML.append("<html>");
-			}
-
-			final boolean reverseOrder = app.isReverseNameDescriptionLanguage();
-			if (!reverseOrder) {
-				// standard order: "point A"
-				sbLongDescHTML.append(typeString);
-				sbLongDescHTML.append(' ');
-			}
-
-			if (colored) {
-				final Color colorAdapter = AwtFactory.prototype.newColor(
-						getAlgebraColor().getRed(), getAlgebraColor()
-								.getGreen(), getAlgebraColor().getBlue());
-				sbLongDescHTML.append("<b><font color=\"#");
-				sbLongDescHTML.append(StringUtil.toHexString(colorAdapter));
-				sbLongDescHTML.append("\">");
-			}
-			sbLongDescHTML.append(indicesToHTML(label, false));
-			if (colored) {
-				sbLongDescHTML.append("</font></b>");
-			}
-
-			if (reverseOrder) {
-				// reverse order: "A point"
-				sbLongDescHTML.append(' ');
-				// For Hungarian, the standard is to lowercase the type.
-				// I don't know if this is OK for Basque as well. -- Zoltan
-				sbLongDescHTML.append(typeString.toLowerCase());
-			}
-
-			// add dependency information
-			if (algoParent != null) {
-				// Guy Hed, 25.8.2008
-				// In order to present the text correctly in Hebrew and Arabic:
-				final boolean rightToLeft = app.isRightToLeftReadingOrder();
-				if (rightToLeft) {
-					// sbLongDescHTML.append("\u200e\u200f: \u200e");
-					sbLongDescHTML.append(Unicode.LeftToRightMark);
-					sbLongDescHTML.append(Unicode.RightToLeftMark);
-					sbLongDescHTML.append(": ");
-					sbLongDescHTML.append(Unicode.LeftToRightMark);
-				} else {
-					sbLongDescHTML.append(": ");
-				}
-				sbLongDescHTML.append(indicesToHTML(
-						app.translationFix(algoParent.toString()), false));
-				if (rightToLeft) {
-					// sbLongDescHTML.append("\u200e");
-					sbLongDescHTML.append(Unicode.LeftToRightMark);
-				}
-			}
-			if (addHTMLtag) {
-				sbLongDescHTML.append("</html>");
-			}
-			return sbLongDescHTML.toString();
 		}
+		final StringBuilder sbLongDescHTML = new StringBuilder();
+
+		final String label = getLabel(StringTemplate.defaultTemplate);
+		final String typeString = translatedTypeString();
+
+		// html string
+		if (addHTMLtag) {
+			sbLongDescHTML.append("<html>");
+		}
+
+		final boolean reverseOrder = app.isReverseNameDescriptionLanguage();
+		if (!reverseOrder) {
+			// standard order: "point A"
+			sbLongDescHTML.append(typeString);
+			sbLongDescHTML.append(' ');
+		}
+
+		if (colored) {
+			final Color colorAdapter = AwtFactory.prototype.newColor(
+					getAlgebraColor().getRed(), getAlgebraColor()
+							.getGreen(), getAlgebraColor().getBlue());
+			sbLongDescHTML.append("<b><font color=\"#");
+			sbLongDescHTML.append(StringUtil.toHexString(colorAdapter));
+			sbLongDescHTML.append("\">");
+		}
+		sbLongDescHTML.append(indicesToHTML(label, false));
+		if (colored) {
+			sbLongDescHTML.append("</font></b>");
+		}
+
+		if (reverseOrder) {
+			// reverse order: "A point"
+			sbLongDescHTML.append(' ');
+			// For Hungarian, the standard is to lowercase the type.
+			// I don't know if this is OK for Basque as well. -- Zoltan
+			sbLongDescHTML.append(typeString.toLowerCase());
+		}
+
+		// add dependency information
+		if (algoParent != null) {
+			// Guy Hed, 25.8.2008
+			// In order to present the text correctly in Hebrew and Arabic:
+			final boolean rightToLeft = app.isRightToLeftReadingOrder();
+			if (rightToLeft) {
+				// sbLongDescHTML.append("\u200e\u200f: \u200e");
+				sbLongDescHTML.append(Unicode.LeftToRightMark);
+				sbLongDescHTML.append(Unicode.RightToLeftMark);
+				sbLongDescHTML.append(": ");
+				sbLongDescHTML.append(Unicode.LeftToRightMark);
+			} else {
+				sbLongDescHTML.append(": ");
+			}
+			sbLongDescHTML.append(indicesToHTML(
+					app.translationFix(algoParent.toString(StringTemplate.defaultTemplate)), false));
+			if (rightToLeft) {
+				// sbLongDescHTML.append("\u200e");
+				sbLongDescHTML.append(Unicode.LeftToRightMark);
+			}
+		}
+		if (addHTMLtag) {
+			sbLongDescHTML.append("</html>");
+		}
+		return sbLongDescHTML.toString();
 	}
 
 	static StringBuilder sbToolTipDesc = new StringBuilder();
@@ -3842,7 +3858,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	public String getLabelDescription() {
 		switch (labelMode) {
 		case LABEL_NAME_VALUE:
-			return getAlgebraDescription();
+			return getAlgebraDescription(StringTemplate.defaultTemplate);
 
 		case LABEL_VALUE:
 			return toDefinedValueString(StringTemplate.defaultTemplate);
@@ -3878,9 +3894,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @return algebraic representation of this GeoElement as Text
 	 */
-	final public String getAlgebraDescriptionTextOrHTML() {
+	final public String getAlgebraDescriptionTextOrHTML(StringTemplate tpl) {
 		if (strAlgebraDescTextOrHTMLneedsUpdate) {
-			final String algDesc = getAlgebraDescription();
+			final String algDesc = getAlgebraDescription(tpl);
 			// convertion to html is only needed if indices are found
 			if (hasIndexLabel()) {
 				strAlgebraDescTextOrHTML = indicesToHTML(algDesc, true);
@@ -3894,15 +3910,15 @@ public abstract class GeoElement extends ConstructionElement implements
 		return strAlgebraDescTextOrHTML;
 	}
 
-	final public String getAlgebraDescriptionHTML(final boolean addHTMLtag) {
+	final public String getAlgebraDescriptionHTML(final boolean addHTMLtag,StringTemplate tpl) {
 		if (strAlgebraDescriptionHTMLneedsUpdate) {
 
 			if (isGeoText()) {
-				strAlgebraDescriptionHTML = indicesToHTML(toValueString(StringTemplate.defaultTemplate),
+				strAlgebraDescriptionHTML = indicesToHTML(toValueString(tpl),
 						false);
 			} else {
 				strAlgebraDescriptionHTML = indicesToHTML(
-						getAlgebraDescription(), false);
+						getAlgebraDescription(tpl), false);
 			}
 			strAlgebraDescriptionHTMLneedsUpdate = false;
 		}
@@ -3929,10 +3945,10 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * Returns algebraic representation of this GeoElement.
 	 */
 	@Override
-	final public String getAlgebraDescription() {
+	final public String getAlgebraDescription(StringTemplate tpl) {
 		if (strAlgebraDescriptionNeedsUpdate) {
 			if (isDefined()) {
-				strAlgebraDescription = toString();
+				strAlgebraDescription = toString(tpl);
 			} else {
 				final StringBuilder sbAlgebraDesc = new StringBuilder();
 				sbAlgebraDesc.append(label);
@@ -3952,10 +3968,10 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @return sumplifiedrepresentation for regression test
 	 */
-	final public String getAlgebraDescriptionRegrOut() {
+	final public String getAlgebraDescriptionRegrOut(StringTemplate tpl) {
 		if (strAlgebraDescriptionNeedsUpdate) {
 			if (isDefined()) {
-				strAlgebraDescription = toStringMinimal();
+				strAlgebraDescription = toStringMinimal(tpl);
 			} else {
 				final StringBuilder sbAlgebraDesc = new StringBuilder();
 				sbAlgebraDesc.append(app.getPlain("undefined"));
@@ -3964,14 +3980,14 @@ public abstract class GeoElement extends ConstructionElement implements
 
 			strAlgebraDescriptionNeedsUpdate = false;
 		} else {
-			strAlgebraDescription = toStringMinimal();
+			strAlgebraDescription = toStringMinimal(tpl);
 		}
 
 		return strAlgebraDescription;
 	}
 
-	public String toStringMinimal() {
-		return toString(StringTemplate.defaultTemplate);
+	public String toStringMinimal(StringTemplate tpl) {
+		return toString(tpl);
 	}
 
 	public String getLaTeXdescription() {
@@ -3993,16 +4009,16 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param substituteNumbers
 	 * @return string used to render a LaTeX form of the geo's algebra
 	 *         description.
-	 * 
+	 * TODO: add templatehere as well
 	 */
-	public String getLaTeXAlgebraDescription(final boolean substituteNumbers) {
-		return getLaTeXAlgebraDescription(this, substituteNumbers);
+	public String getLaTeXAlgebraDescription(final boolean substituteNumbers,StringTemplate tpl) {
+		return getLaTeXAlgebraDescription(this, substituteNumbers,tpl);
 	}
 
 	private String getLaTeXAlgebraDescription(final GeoElement geo,
-			final boolean substituteNumbers) {
+			final boolean substituteNumbers,StringTemplate tpl) {
 
-		final String algebraDesc = geo.getAlgebraDescription();
+		final String algebraDesc = geo.getAlgebraDescription(tpl);
 		final StringBuilder sb = new StringBuilder();
 
 		if (geo.isGeoList()
@@ -4020,13 +4036,13 @@ public abstract class GeoElement extends ConstructionElement implements
 			// handle non-GeoText prefixed with ":", e.g. "a: x = 3"
 		} else if ((algebraDesc.indexOf(":") > -1) & !geo.isGeoText()) {
 			sb.append(algebraDesc.split(":")[0] + ": \\,");
-			sb.append(geo.getFormulaString(StringTemplate.latexTemplate, substituteNumbers));
+			sb.append(geo.getFormulaString(tpl, substituteNumbers));
 		}
 
 		// now handle non-GeoText prefixed with "="
 		else if ((algebraDesc.indexOf("=") > -1) && !geo.isGeoText()) {
 			sb.append(algebraDesc.split("=")[0] + "\\, = \\,");
-			sb.append(geo.getFormulaString(StringTemplate.latexTemplate, substituteNumbers));
+			sb.append(geo.getFormulaString(tpl, substituteNumbers));
 		}
 
 		// handle GeoText with LaTeX
@@ -4727,16 +4743,16 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @param sb
 	 */
-	public void getXMLtagsMinimal(final StringBuilder sb) {
-		sb.append(toValueStringMinimal());
+	public void getXMLtagsMinimal(final StringBuilder sb,StringTemplate tpl) {
+		sb.append(toValueStringMinimal(tpl));
 	}
 
 	/**
 	 * returns class-specific value string for getConstructionRegressionOut
 	 * (default implementation, may be overridden in certain subclasses)
 	 */
-	protected String toValueStringMinimal() {
-		return toValueString(StringTemplate.xmlTemplate);
+	protected String toValueStringMinimal(StringTemplate tpl) {
+		return toValueString(tpl);
 	}
 
 	/**
@@ -4764,6 +4780,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param sb
 	 */
 	protected void getI2Gtags(final StringBuilder sb) {
+		//do nothing
 	}
 
 	/**
@@ -5241,10 +5258,10 @@ public abstract class GeoElement extends ConstructionElement implements
 
 			// round to decimal fraction, e.g. 2.800000000001 to 2.8
 			if (Math.abs(rwTransVec.getX()) > Kernel.MIN_PRECISION) {
-				x = kernel.checkDecimalFraction(x);
+				x = Kernel.checkDecimalFraction(x);
 			}
 			if (Math.abs(rwTransVec.getY()) > Kernel.MIN_PRECISION) {
-				y = kernel.checkDecimalFraction(y);
+				y = Kernel.checkDecimalFraction(y);
 			}
 
 			// set translated point coords
@@ -5351,13 +5368,13 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param endPosition
 	 * @param viewDirection
 	 * @param updateGeos
-	 * @param tempMoveObjectList
+	 * @param tempMoveObjectList1
 	 * @return false if not moveable this way
 	 */
 	public boolean moveFromChangeableCoordParentNumbers(
 			final Coords rwTransVec, final Coords endPosition,
 			final Coords viewDirection, final ArrayList<GeoElement> updateGeos,
-			final ArrayList<GeoElement> tempMoveObjectList) {
+			final ArrayList<GeoElement> tempMoveObjectList1) {
 		return false;
 	}
 
@@ -5374,7 +5391,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * record values when mouse pressed
 	 */
 	public void recordChangeableCoordParentNumbers() {
-
+		//do nothing
 	}
 
 	/**
@@ -5382,21 +5399,22 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @param number
 	 * @param updateGeos
-	 * @param tempMoveObjectList
+	 * @param tempMoveObjectList1
 	 */
 	protected void addChangeableCoordParentNumberToUpdateList(
 			final GeoElement number, final ArrayList<GeoElement> updateGeos,
-			ArrayList<GeoElement> tempMoveObjectList) {
+			ArrayList<GeoElement> tempMoveObjectList1) {
 		if (updateGeos != null) {
 			// add number to update list
 			updateGeos.add(number);
 		} else {
 			// update number right now
-			if (tempMoveObjectList == null) {
-				tempMoveObjectList = new ArrayList<GeoElement>();
+			ArrayList<GeoElement> tempMoveObjectList2 = tempMoveObjectList1;
+			if (tempMoveObjectList1 == null) {
+				tempMoveObjectList2 = new ArrayList<GeoElement>();
 			}
-			tempMoveObjectList.add(number);
-			updateCascade(tempMoveObjectList, getTempSet(), false);
+			tempMoveObjectList2.add(number);
+			updateCascade(tempMoveObjectList2, getTempSet(), false);
 		}
 	}
 
@@ -5903,19 +5921,19 @@ public abstract class GeoElement extends ConstructionElement implements
 			if (app.isApplet() && app.useBrowserForJavaScript() && !update) {
 				if (arg == null) {
 					final Object[] args = {};
-					app.callAppletJavaScript("ggb" + getLabel(), args);
+					app.callAppletJavaScript("ggb" + getLabel(StringTemplate.defaultTemplate), args);
 				} else {
 					final Object[] args = { arg };
-					app.callAppletJavaScript("ggb" + getLabel(), args);
+					app.callAppletJavaScript("ggb" + getLabel(StringTemplate.defaultTemplate), args);
 				}
 			} else if (app.isHTML5Applet()) {
 				String functionPrefix = update ? "ggbUpdate" : "ggb";
 				if (arg == null) {
 					final Object[] args = {};
-					app.callAppletJavaScript(functionPrefix + getLabel(), args);
+					app.callAppletJavaScript(functionPrefix + getLabel(StringTemplate.defaultTemplate), args);
 				} else {
 					final Object[] args = { arg };
-					app.callAppletJavaScript(functionPrefix + getLabel(), args);
+					app.callAppletJavaScript(functionPrefix + getLabel(StringTemplate.defaultTemplate), args);
 				}
 			}else {
 				app.evalScript(app, update ? updateScript : clickScript, arg);
@@ -6199,9 +6217,10 @@ public abstract class GeoElement extends ConstructionElement implements
 		mainDirection = direction;
 	}
 
-	/*
+	/**
 	 * gets shortest distance to point p overridden in eg GeoPoint, GeoLine for
 	 * compound paths
+	 * @param p
 	 */
 	public double distance(final GeoPoint2 p) {
 		return Double.POSITIVE_INFINITY;
@@ -6337,8 +6356,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * used in eg CAS and Spreadsheet Views to decide if the LaTeX renderer is
 	 * neccesary by checking for eg ^2, \frac
 	 */
-	public static boolean isLaTeXneeded(String latex) {
-
+	public static boolean isLaTeXneeded(String latex2) {
+		String latex = latex2;
 		// Unicode is fine to render these:
 		latex = latex.replace("\\leq", "");
 		latex = latex.replace("\\geq", "");

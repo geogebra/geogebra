@@ -455,7 +455,7 @@ public class GeoAngle extends GeoNumeric {
 	 * returns some class-specific xml tags for getConstructionRegressionOut
 	 */
     @Override
-	public void getXMLtagsMinimal(StringBuilder sb) {
+	public void getXMLtagsMinimal(StringBuilder sb,StringTemplate tpl) {
     	sb.append(regrFormat(rawValue));
     	if (isDrawable() || isSliderable()) {
     		sb.append(" " + regrFormat(arcSize));

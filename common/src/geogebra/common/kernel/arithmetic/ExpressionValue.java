@@ -50,8 +50,6 @@ public interface ExpressionValue {
     public ExpressionValue evaluate();
     public HashSet<GeoElement> getVariables();   
     @Deprecated
-    public String toValueString();
-    @Deprecated
     public String toString();
     public String toOutputValueString(StringTemplate tpl);
     public String toLaTeXString(boolean symbolic,StringTemplate tpl);   

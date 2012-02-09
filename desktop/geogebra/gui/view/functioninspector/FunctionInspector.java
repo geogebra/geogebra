@@ -489,8 +489,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 
 		if(selectedGeo == null)
 			return app.getMenu("SelectObject");
-		else
-			return selectedGeo.getAlgebraDescription();          
+		return selectedGeo.getAlgebraDescription(StringTemplate.defaultTemplate);
 	}
 
 

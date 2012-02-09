@@ -1234,12 +1234,12 @@ Translateable, GeoConicNDConstants
 	}
 
 	@Override
-	public String toValueStringMinimal() {
+	public String toValueStringMinimal(StringTemplate tpl) {
 		return getXMLtagsMinimal();
 	}
 
 	@Override
-	public String toStringMinimal() {
+	public String toStringMinimal(StringTemplate tpl) {
 		return getXMLtagsMinimal();
 	}	
 	

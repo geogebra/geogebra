@@ -4,6 +4,7 @@ import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoDependentText;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -189,7 +190,7 @@ public class TextPreviewPanel extends EuclidianView {
 				text = getApplication().getError("InvalidInput");
 			} else if (eval != null) {
 				MyStringBuffer eval2 = ((TextValue) eval).getText();
-				text = eval2.toValueString();
+				text = eval2.toValueString(StringTemplate.defaultTemplate);
 			}
 			previewGeoIndependent.setTextString(text);
 

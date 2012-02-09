@@ -29,7 +29,7 @@ public abstract class ValidExpression implements ExpressionValue {
 	private boolean keepInputUsed; // flag used by GeoGebraCAS
 
 	public String toRealString(StringTemplate tpl) {
-		return toString();
+		return toString(tpl);
 	}
 
 	public void addLabel(String label) {
@@ -181,12 +181,6 @@ public abstract class ValidExpression implements ExpressionValue {
 	public final String toString(){
 		return toString(getKernel().getStringTemplate());
 	}
-	
-	@Deprecated
-	public final String toValueString(){
-		return toValueString(getKernel().getStringTemplate());
-	}
-
 
 	public abstract String toString(StringTemplate tpl);
 	

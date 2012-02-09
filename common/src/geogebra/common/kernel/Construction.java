@@ -1066,11 +1066,8 @@ public class Construction {
 		int oldCoordStlye = kernel.getCoordStyle();
 		boolean oldValue = kernel.isPrintLocalizedCommandNames();
 		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
-		// kernel.setCASPrintForm(StringType.GEOGEBRA_XML);
 		kernel.setPrintLocalizedCommandNames(false);
-		kernel.setTemporaryPrintDecimals(6);
-		kernel.setTemporaryPrintFigures(6);
-
+		StringTemplate tpl = StringTemplate.regression;
 		try {
 			ConstructionElement ce;
 			int size = ceList.size();
@@ -1080,12 +1077,12 @@ public class Construction {
 
 				if (ce instanceof GeoElement) {
 					// sb.append(((GeoElement) ce).toValueString());
-					((GeoElement) ce).getXMLtagsMinimal(sb);
+					((GeoElement) ce).getXMLtagsMinimal(sb,tpl);
 
 				} else if (ce instanceof AlgoElement) {
-					sb.append(((AlgoElement) ce).getCommandDescription(StringTemplate.xmlTemplate));
+					sb.append(((AlgoElement) ce).getCommandDescription(tpl));
 					sb.append(" == ");
-					sb.append(((AlgoElement) ce).getAlgebraDescriptionRegrOut());
+					sb.append(((AlgoElement) ce).getAlgebraDescriptionRegrOut(tpl));
 				}
 				sb.append("\n");
 			}

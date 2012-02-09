@@ -19,14 +19,13 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.Unicode;
-import geogebra.common.kernel.MacroInterface;
 
 import java.util.ArrayList;
 import java.util.HashSet;

@@ -647,7 +647,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	}
 
 	@Override
-	public String toStringMinimal() {
+	public String toStringMinimal(StringTemplate tpl) {
 		sbBuildValueString.setLength(0);
 		if (!isDefined) {
 			sbBuildValueString.append("?");
@@ -660,13 +660,13 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			for (int i = 0; i < lastIndex; i++) {
 				final GeoElement geo = geoList.get(i);
 
-				sbBuildValueString.append(geo.getAlgebraDescriptionRegrOut());
+				sbBuildValueString.append(geo.getAlgebraDescriptionRegrOut(tpl));
 				sbBuildValueString.append(" ");
 			}
 
 			// last element
 			final GeoElement geo = geoList.get(lastIndex);
-			sbBuildValueString.append(geo.getAlgebraDescriptionRegrOut());
+			sbBuildValueString.append(geo.getAlgebraDescriptionRegrOut(tpl));
 		}
 
 		return sbBuildValueString.toString();

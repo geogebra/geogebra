@@ -32,6 +32,7 @@ public class StringTemplate {
 	static {
 		casTemplate.internationalizeDigits = false;
 		casTemplate.setType(StringType.MPREDUCE);
+		casTemplate.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
 	}
 	/**
 	 * XML string type, do not internationalize digits
@@ -50,6 +51,12 @@ public class StringTemplate {
 		editTemplate.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(GeoElement.MIN_EDITING_PRINT_PRECISION,20,false);
 		editTemplate.nf = geogebra.common.factories.FormatFactory.prototype.getNumberFormat(GeoElement.MIN_EDITING_PRINT_PRECISION);
 		editTemplate.allowMore = true;
+	}
+	public static StringTemplate regression = new StringTemplate();
+	static {
+		regression.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(6,20,false);
+		regression.nf = geogebra.common.factories.FormatFactory.prototype.getNumberFormat(6);
+		regression.setType(StringType.GEOGEBRA_XML);
 	}
 	public static StringTemplate maxPrecision = new StringTemplate();
 	static {

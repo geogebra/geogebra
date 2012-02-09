@@ -980,39 +980,39 @@ public abstract class AlgoElement extends ConstructionElement implements
 	}
 
 	@Override
-	public String getAlgebraDescription() {
+	public String getAlgebraDescription(StringTemplate tpl) {
 		sbAE.setLength(0);
 
 		if (getOutput(0).isLabelSet()) {
-			sbAE.append(getOutput(0).getAlgebraDescription());
+			sbAE.append(getOutput(0).getAlgebraDescription(tpl));
 		}
 		for (int i = 1; i < getOutputLength(); ++i) {
 			if (getOutput(i).isLabelSet()) {
 				sbAE.append("\n");
-				sbAE.append(getOutput(i).getAlgebraDescription());
+				sbAE.append(getOutput(i).getAlgebraDescription(tpl));
 			}
 		}
 		return sbAE.toString();
 	}
 
-	public String getAlgebraDescriptionRegrOut() {
+	public String getAlgebraDescriptionRegrOut(StringTemplate tpl) {
 		sbAE.setLength(0);
 
 		if (getOutput(0).isLabelSet()) {
-			sbAE.append(getOutput(0).getAlgebraDescriptionRegrOut());
+			sbAE.append(getOutput(0).getAlgebraDescriptionRegrOut(tpl));
 		}
 		for (int i = 1; i < getOutputLength(); ++i) {
 			if (getOutput(i).isLabelSet()) {
 				sbAE.append("\n");
-				sbAE.append(getOutput(i).getAlgebraDescriptionRegrOut());
+				sbAE.append(getOutput(i).getAlgebraDescriptionRegrOut(tpl));
 			}
 		}
 		return sbAE.toString();
 	}
-
+	
 	@Override
-	public String getDefinitionDescription() {
-		return toString();
+	public String getDefinitionDescription(StringTemplate tpl) {
+		return toString(tpl);
 	}
 
 	@Override

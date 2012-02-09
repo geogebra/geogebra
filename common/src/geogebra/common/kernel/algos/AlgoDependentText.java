@@ -89,11 +89,9 @@ public class AlgoDependentText extends AlgoElement {
     @Override
 	public final void compute() {	
     	
-    	text.setTemporaryPrintAccuracy();
-    	
     	try {    	
 	    	boolean latex = text.isLaTeX();
-	    	StringTemplate tpl = StringTemplate.get(latex?StringType.LATEX:StringType.GEOGEBRA);
+	    	StringTemplate tpl = text.getStringTemplate();
 	    	root.setHoldsLaTeXtext(latex);
 	    	
 	    	String str;
@@ -108,7 +106,6 @@ public class AlgoDependentText extends AlgoElement {
 	    	text.setUndefined();
 	    }
 	    
-	    text.restorePrintAccuracy();
     }   
     
     @Override

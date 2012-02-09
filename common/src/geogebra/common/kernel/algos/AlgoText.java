@@ -137,7 +137,7 @@ public class AlgoText extends AlgoElement {
 			return;
 		}
 		
-		text.setTemporaryPrintAccuracy();
+		
 		
 		// standard case: set text
 		boolean bool = substituteVars == null ? true : substituteVars.getBoolean();
@@ -146,12 +146,11 @@ public class AlgoText extends AlgoElement {
 			// needed for eg Text commands eg Text[Text[
 			text.setTextString(((GeoText)geo).getTextString());
 		} else {
-			text.setTextString(geo.getFormulaString(StringTemplate.get(StringType.GEOGEBRA), bool));				
+			text.setTextString(geo.getFormulaString(text.getStringTemplate(), bool));				
 		}
 		text.setLaTeX(formula, false);
 		text.update();
-		
-		text.restorePrintAccuracy();
+
 		
 		// update startpoint position of text
 		if (startPointCopy != null) {

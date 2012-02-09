@@ -1,6 +1,7 @@
 package geogebra.gui.view.algebra;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.euclidian.DrawEquation;
 import geogebra.main.Application;
@@ -80,11 +81,11 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 					break;
 
 				case Kernel.ALGEBRA_STYLE_DEFINITION:
-					text = geo.addLabelTextOrHTML(geo.getDefinitionDescription());
+					text = geo.addLabelTextOrHTML(geo.getDefinitionDescription(StringTemplate.defaultTemplate));
 					break;
 
 				case Kernel.ALGEBRA_STYLE_COMMAND:
-					text = geo.addLabelTextOrHTML(geo.getCommandDescription(kernel.getStringTemplate()));
+					text = geo.addLabelTextOrHTML(geo.getCommandDescription(StringTemplate.defaultTemplate));
 					break;
 				}	
 			}
@@ -108,7 +109,7 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 			// if enabled, render with LaTeX
 			if(view.isRenderLaTeX()  && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE){
 				latexFont = new Font(app.getBoldFont().getName(), app.getBoldFont().getStyle(), app.getFontSize() - 1);
-				latexStr = geo.getLaTeXAlgebraDescription(true);
+				latexStr = geo.getLaTeXAlgebraDescription(true,StringTemplate.latexTemplate);
 				if(latexStr != null && geo.isLaTeXDrawableGeo(latexStr)){
 					latexStr = "\\;" + latexStr; // add a little space for the icon
 					drawLatexImageIcon(latexIcon, latexStr, latexFont, false, getForeground(), this.getBackground() );
@@ -160,7 +161,7 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 	 * @return algebra description of the geo
 	 */
 	protected static String getAlgebraDescriptionTextOrHTML(GeoElement geo){
-		return geo.getAlgebraDescriptionTextOrHTML();
+		return geo.getAlgebraDescriptionTextOrHTML(StringTemplate.defaultTemplate);
 	}
 
 

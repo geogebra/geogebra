@@ -152,7 +152,7 @@ public class CmdBarCode extends CommandProcessor {
 
 			if (i < arg.length && arg[i].isTextValue()) {
 				TextValue error = (TextValue) arg[i];
-				String errorStr = error.getText().toValueString()
+				String errorStr = error.getText().toValueString(StringTemplate.defaultTemplate)
 						.toUpperCase(Locale.US);
 				if (errorStr.length() > 0) {
 					switch (errorStr.charAt(0)) {

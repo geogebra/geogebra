@@ -391,7 +391,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 	}
 
 	@Override
-	final public String toStringMinimal() {            
+	final public String toStringMinimal(StringTemplate tpl) {            
 		sbToString.setLength(0);
 		sbToString.append(regrFormat(x) + " " + regrFormat(y));
 		return sbToString.toString();

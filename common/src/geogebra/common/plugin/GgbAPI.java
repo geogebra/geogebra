@@ -675,7 +675,7 @@ public abstract class GgbAPI {
 		if (geo.isGeoText())
 			return ((GeoText)geo).getTextString();
 		
-		return geo.getAlgebraDescription();
+		return geo.getAlgebraDescription(StringTemplate.defaultTemplate);
 	}
 	
 	/**
@@ -684,7 +684,7 @@ public abstract class GgbAPI {
 	public synchronized String getDefinitionString(String objName) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null) return "";		
-		return geo.getDefinitionDescription();
+		return geo.getDefinitionDescription(StringTemplate.defaultTemplate);
 	}
 	
 	/**
@@ -693,7 +693,7 @@ public abstract class GgbAPI {
 	public synchronized String getCommandString(String objName) {		
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null) return "";		
-		return geo.getCommandDescription(StringTemplate.get(StringType.GEOGEBRA));
+		return geo.getCommandDescription(StringTemplate.defaultTemplate);
 	}
 	
 	/**

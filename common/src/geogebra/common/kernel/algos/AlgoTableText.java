@@ -238,26 +238,24 @@ public class AlgoTableText extends AlgoElement {
 			// throw new MyError(app, app.getError("InvalidInput"));
 		}
 
-		text.setTemporaryPrintAccuracy();
+		
 
 		sb.setLength(0);
 		
 		switch (app.getFormulaRenderingType()) {
 		case MATHML:
-			mathml();
+			mathml(text.getStringTemplate());
 			break;
 		case LATEX:
-			latex();
+			latex(text.getStringTemplate());
 			break;
 		}
-
-		text.restorePrintAccuracy();
 		// Application.debug(sb.toString());
 		text.setTextString(sb.toString());
 		text.setLaTeX(true, false);
 	}
 
-	private void mathml() {
+	private void mathml(StringTemplate tpl) {
 		if (alignment == VERTICAL) {
 
 
@@ -265,7 +263,7 @@ public class AlgoTableText extends AlgoElement {
 			for (int r = 0; r < rows; r++) {
 				sb.append("<matrixrow>");
 				for (int c = 0; c < columns; c++) {
-					addCellMathML(c, r);
+					addCellMathML(c, r, tpl);
 				}
 				sb.append("</matrixrow>"); 
 			}
@@ -279,7 +277,7 @@ public class AlgoTableText extends AlgoElement {
 			for (int c = 0; c < columns; c++) {
 				sb.append("<matrixrow>");
 				for (int r = 0; r < rows; r++) {
-					addCellMathML(c, r);
+					addCellMathML(c, r, tpl);
 				}
 				sb.append("</matrixrow>");
 			}
@@ -288,7 +286,7 @@ public class AlgoTableText extends AlgoElement {
 		
 	}
 
-	private void latex() {
+	private void latex(StringTemplate tpl) {
 		// surround in { } to make eg this work:
 		// FormulaText["\bgcolor{ff0000}"+TableText[matrix1]]
 		sb.append('{');
@@ -313,7 +311,7 @@ public class AlgoTableText extends AlgoElement {
 			for (int r = 0; r < rows; r++) {
 				for (int c = 0; c < columns; c++) {
 					boolean finalCell = (c == columns - 1);
-					addCellLaTeX(c, r, finalCell);
+					addCellLaTeX(c, r, finalCell,tpl);
 				}
 				sb.append(" \\\\ "); // newline in LaTeX ie \\
 				if (horizontalLines)
@@ -339,7 +337,7 @@ public class AlgoTableText extends AlgoElement {
 			for (int c = 0; c < columns; c++) {
 				for (int r = 0; r < rows; r++) {
 					boolean finalCell = (r == rows - 1);
-					addCellLaTeX(c, r, finalCell);
+					addCellLaTeX(c, r, finalCell,tpl);
 				}
 				sb.append(" \\\\ "); // newline in LaTeX ie \\
 				if (horizontalLines) {
@@ -356,13 +354,13 @@ public class AlgoTableText extends AlgoElement {
 		sb.append('}');
 		}
 
-	private void addCellLaTeX(int c, int r, boolean finalCell) {
+	private void addCellLaTeX(int c, int r, boolean finalCell,StringTemplate tpl) {
 		if (geoLists[c].size() > r) { // check list has an element at this
 										// position
 			GeoElement geo1 = geoLists[c].get(r);
 
 			// replace " " and "" with a hard space (allow blank columns/rows)
-			String text = geo1.toLaTeXString(false,StringTemplate.latexTemplate);
+			String text = geo1.toLaTeXString(false,tpl);
 			if (" ".equals(text) || "".equals(text))
 				text = "\\;"; // problem with JLaTeXMath, was "\u00a0";
 			if (geo1.isTextValue()) {
@@ -376,13 +374,13 @@ public class AlgoTableText extends AlgoElement {
 			sb.append("&"); // separate columns
 	}
 
-	private void addCellMathML(int c, int r) {
+	private void addCellMathML(int c, int r,StringTemplate tpl) {
 		if (geoLists[c].size() > r) { // check list has an element at this
 										// position
 			GeoElement geo1 = geoLists[c].get(r);
 
 			// replace " " and "" with a hard space (allow blank columns/rows)
-			String text = geo1.toLaTeXString(false,StringTemplate.get(StringType.MATHML));
+			String text = geo1.toLaTeXString(false,tpl);
 			if (text.startsWith("<apply>")) {
 				sb.append(text);
 			} else if (StringUtil.isNumber(text)) {

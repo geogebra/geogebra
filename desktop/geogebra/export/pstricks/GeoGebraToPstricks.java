@@ -986,7 +986,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	protected void drawFunction(GeoFunction geo){
 		Function f=geo.getFunction();
 		if (null==f) return;
-		String value=f.toValueString();
+		String value=f.toValueString(getStringTemplate());
 		value=killSpace(StringUtil.toLaTeXString(value,true));
 		double a=xmin;
 		double b=xmax;
