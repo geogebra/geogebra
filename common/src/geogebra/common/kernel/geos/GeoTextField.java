@@ -1,11 +1,9 @@
 package geogebra.common.kernel.geos;
 
-import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.TextObject;
@@ -64,12 +62,18 @@ public class GeoTextField extends GeoButton {
 	
 
 	protected String text = null;
+	
 	public String toValueString(StringTemplate tpl) {
 		if (linkedGeo == null) return "";
 		return text;
 	}
+	
 	public void setText(String text2) {
 		text = text2;		
+	}
+	
+	public String getText() {
+		return text;
 	}
 	
 	public boolean isGeoTextField(){
@@ -198,6 +202,8 @@ public class GeoTextField extends GeoButton {
 		if (linkedGeo != null) {
 			updateLinkedGeo(textField.getText());
 			updateText(textField);
+		} else {
+			setText(textField.getText());
 		}
 		runScripts(textField.getText());
 		
