@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -28,9 +29,9 @@ import javax.swing.JProgressBar;
  * 
  * @author Florian Sonner
  */
-public class GeoGebraTubeExportGUI  extends geogebra.common.export.GeoGebraTubeExport {
+public class GeoGebraTubeExportDesktop  extends geogebra.common.export.GeoGebraTubeExport {
 	
-	public GeoGebraTubeExportGUI(AbstractApplication app) {
+	public GeoGebraTubeExportDesktop(AbstractApplication app) {
 		super(app);
 	}
 
@@ -107,26 +108,9 @@ public class GeoGebraTubeExportGUI  extends geogebra.common.export.GeoGebraTubeE
 		try {
 			printout = new DataOutputStream(urlConn.getOutputStream());
 
-			Construction cons = app.getKernel().getConstruction();
+			StringBuffer postData = getPostData();
 			
-			// build post query
-			StringBuffer stringBuffer = new StringBuffer();
-			stringBuffer.append("data=");
-			stringBuffer.append(URLEncoder.encode(getBase64String(), "UTF-8"));
-
-			stringBuffer.append("&title=");
-			stringBuffer.append(URLEncoder.encode(cons.getTitle(), "UTF-8"));
-			
-			stringBuffer.append("&pretext=");
-			stringBuffer.append(URLEncoder.encode(cons.getWorksheetText(0), "UTF-8"));
-			
-			stringBuffer.append("&posttext=");
-			stringBuffer.append(URLEncoder.encode(cons.getWorksheetText(1), "UTF-8"));
-			
-			stringBuffer.append("&version=");
-			stringBuffer.append(URLEncoder.encode(GeoGebraConstants.VERSION_STRING, "UTF-8"));
-
-			int requestLength = stringBuffer.length();
+			int requestLength = postData.length();
 			/*urlConn.disconnect();
 			urlConn.setChunkedStreamingMode(1000);
 			urlConn.connect();*/
@@ -148,7 +132,7 @@ public class GeoGebraTubeExportGUI  extends geogebra.common.export.GeoGebraTubeE
 					end = requestLength;
 				}
 				
-				printout.writeBytes(stringBuffer.substring(start, end));
+				printout.writeBytes(postData.substring(start, end));
 				printout.flush();
 				
 				// track progress 
@@ -157,7 +141,7 @@ public class GeoGebraTubeExportGUI  extends geogebra.common.export.GeoGebraTubeE
 			
 			printout.close();
 			
-			stringBuffer = null;
+			postData = null;
 			
 			int responseCode; String responseMessage;
 			
@@ -283,6 +267,16 @@ public class GeoGebraTubeExportGUI  extends geogebra.common.export.GeoGebraTubeE
 	protected void statusLabelSetText(String plain) {
 		statusLabel.setText(plain);
 		}
+
+	@Override
+	protected String encode(String str) {
+		try {
+			return URLEncoder.encode(str, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			AbstractApplication.debug("error from GeoGebraTubeExport.encode()");
+			return str;
+		}
+	}
 
 
 

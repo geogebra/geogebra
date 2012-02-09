@@ -1,8 +1,12 @@
 package geogebra.common.export;
 
+import geogebra.common.GeoGebraConstants;
+import geogebra.common.kernel.Construction;
 import geogebra.common.main.AbstractApplication;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 
 /**
@@ -105,6 +109,33 @@ public abstract class GeoGebraTubeExport {
 		public String getErrorMessage() { return errorMessage; }
 	}
 	
+	protected StringBuffer getPostData() throws IOException {
+		Construction cons = app.getKernel().getConstruction();
+		
+		// build post query
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append("data=");
+		stringBuffer.append(encode(getBase64String()));
+
+		stringBuffer.append("&title=");
+		stringBuffer.append(encode(cons.getTitle()));
+		
+		stringBuffer.append("&pretext=");
+		stringBuffer.append(encode(cons.getWorksheetText(0)));
+		
+		stringBuffer.append("&posttext=");
+		stringBuffer.append(encode(cons.getWorksheetText(1)));
+		
+		stringBuffer.append("&version=");
+		stringBuffer.append(encode(GeoGebraConstants.VERSION_STRING));
+		
+		return stringBuffer;
+	}
+
+
+	
+	protected abstract String encode(String str);
+
 	protected abstract void setMaximum(int i);
 
 	protected abstract void setMinimum(int i);

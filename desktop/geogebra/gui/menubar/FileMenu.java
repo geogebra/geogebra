@@ -482,8 +482,8 @@ class FileMenu extends BaseMenu {
 								app.clearSelectedGeos();
 								
 								// create new exporter
-								geogebra.export.GeoGebraTubeExportGUI exporter
-									= new geogebra.export.GeoGebraTubeExportGUI(app);
+								geogebra.export.GeoGebraTubeExportDesktop exporter
+									= new geogebra.export.GeoGebraTubeExportDesktop(app);
 								
 								exporter.uploadWorksheet();
 								

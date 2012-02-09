@@ -20,158 +20,153 @@ import com.google.gwt.http.client.URL;
  * @author Florian Sonner
  */
 public class GeoGebraTubeExportWeb extends geogebra.common.export.GeoGebraTubeExport {
-	
+
 	public GeoGebraTubeExportWeb(AbstractApplication app) {
-	    super(app);
-    }
+		super(app);
+	}
 
 	/**
 	 * URL of the webpage to call if a file should be uploaded.
 	 */
 	private static final String uploadURL = "http://www.geogebratube.org/upload";
-	
-	
+
+
 	/**
 	 * Upload the current worksheet to GeoGebraTube.
 	 */
-	public void uploadWorksheet() {
+	@Override
+    public void uploadWorksheet() {
 		showDialog();
-		
+
 		Construction cons = app.getKernel().getConstruction();
-		
+
 		try {
-			
+
 			RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, uploadURL);
 			rb.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 			//rb.setHeader("Accept-Language", "app.getLocaleStr()");
 
-			// build post query
-			StringBuffer stringBuffer = new StringBuffer();
-			stringBuffer.append("data=");
-			stringBuffer.append(encode(getBase64String()));
+			String postData = getPostData().toString();
 
-			stringBuffer.append("&title=");
-			stringBuffer.append(encode(cons.getTitle()));
-			
-			stringBuffer.append("&pretext=");
-			stringBuffer.append(encode(cons.getWorksheetText(0)));
-			
-			stringBuffer.append("&posttext=");
-			stringBuffer.append(encode(cons.getWorksheetText(1)));
-			
-			stringBuffer.append("&version=");
-			stringBuffer.append(encode(GeoGebraConstants.VERSION_STRING));
-
-			String postData = stringBuffer.toString();
-			
 			AbstractApplication.debug(postData);
-			
+
 			try {
-			Request response = rb.sendRequest(postData, new RequestCallback()
-			{
+				Request response = rb.sendRequest(postData, new RequestCallback()
+				{
 
-			public void onError(Request request, Throwable exception) {
-				AbstractApplication.debug("onError: " + request.toString() + " " + exception.toString());
-			}
-			public void onResponseReceived(Request request, Response response) {
-
-				if (response.getStatusCode() == Response.SC_OK) {
-
-					AbstractApplication.debug("result from server: "+response.getText());
-
-					final UploadResults results = new UploadResults(response.getText());
-
-					if(results.HasError()) {
-						statusLabelSetText(app.getPlain("UploadError"));
-						setEnabled(false);
-
-						AbstractApplication.debug("Upload failed. Response: " + response.getText());
-					} else {
-						app.showURLinBrowser(uploadURL + "/" + results.getUID());
-						hideDialog();
+					public void onError(Request request, Throwable exception) {
+						AbstractApplication.debug("onError: " + request.toString() + " " + exception.toString());
 					}
-				} else { // not 
-					AbstractApplication.debug("Upload failed. Response: #" + response.getStatusCode() + " - " + response.getStatusText());
+					public void onResponseReceived(Request request, Response response) {
 
-					AbstractApplication.debug(response.getText());
+						if (response.getStatusCode() == Response.SC_OK) {
 
-					statusLabelSetText(app.getPlain("UploadError", Integer.toString(response.getStatusCode())));
-					setEnabled(false);
-					pack();
+							AbstractApplication.debug("result from server: "+response.getText());
 
-				}
+							final UploadResults results = new UploadResults(response.getText());
 
-			}});
+							if(results.HasError()) {
+								statusLabelSetText(app.getPlain("UploadError"));
+								setEnabled(false);
+
+								AbstractApplication.debug("Upload failed. Response: " + response.getText());
+							} else {
+								app.showURLinBrowser(uploadURL + "/" + results.getUID());
+								hideDialog();
+							}
+						} else { // not Response.SC_OK
+							AbstractApplication.debug("Upload failed. Response: #" + response.getStatusCode() + " - " + response.getStatusText());
+
+							AbstractApplication.debug(response.getText());
+
+							statusLabelSetText(app.getPlain("UploadError", Integer.toString(response.getStatusCode())));
+							setEnabled(false);
+							pack();
+
+						}
+
+					}});
 			}
 			catch (RequestException e) {
 				statusLabelSetText(app.getPlain("UploadError", Integer.toString(500)));
 				setEnabled(false);
 				pack();
-				
+
 				AbstractApplication.debug(e.getMessage());
 			}
 		} catch (Exception e) {
 			statusLabelSetText(app.getPlain("UploadError", Integer.toString(400)));
 			setEnabled(false);
 			pack();
-			
+
 			AbstractApplication.debug(e.getMessage());
 
 		}
-			
+
 
 	}	
 
-	private String encode(String str) {
+	@Override
+	protected String encode(String str) {
 		if (str != null) {
 			return URL.encode(str);
-		} else {
-			AbstractApplication.printStacktrace("passed null");
-			return "";
-		}
-    }
-	
-	protected  void setMaximum(int i){
+		} 
+		
+		AbstractApplication.printStacktrace("passed null");
+		return "";
+
+	}
+
+	@Override
+    protected  void setMaximum(int i){
 		AbstractApplication.debug("Unimplemented");
 	}
 
-	protected  void setMinimum(int i){
+	@Override
+    protected  void setMinimum(int i){
 		AbstractApplication.debug("Unimplemented");
 	}
 
-	protected  void setIndeterminate(boolean b){
+	@Override
+    protected  void setIndeterminate(boolean b){
 		AbstractApplication.debug("Unimplemented");
 	}
 
-	protected  void setValue(int end){
+	@Override
+    protected  void setValue(int end){
 		AbstractApplication.debug("Unimplemented");
 	}
 
-	protected  void setEnabled(boolean b){
+	@Override
+    protected  void setEnabled(boolean b){
 		AbstractApplication.debug("Unimplemented");
 	}
-	
+
 	/**
 	 * Shows a small dialog with a progress bar. 
 	 */
-	protected void showDialog(){
+	@Override
+    protected void showDialog(){
 		AbstractApplication.debug("Unimplemented");
 	}
-	
-	protected void statusLabelSetText(String plain) {
+
+	@Override
+    protected void statusLabelSetText(String plain) {
 		AbstractApplication.debug("Unimplemented: "+plain);
 	}
 
-	protected  void pack() {
+	@Override
+    protected  void pack() {
 		AbstractApplication.debug("Unimplemented");
 	}
 
 	/**
 	 * Hides progress dialog.
 	 */
-	public void hideDialog(){
+	@Override
+    public void hideDialog(){
 		AbstractApplication.debug("Unimplemented");
 	}
-	
+
 
 }
