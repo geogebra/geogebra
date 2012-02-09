@@ -529,7 +529,7 @@ public class PythonFlatAPI {
 		 * Set the end point of the wrapped GeoLine
 		 * @param point the new end point
 		 */
-		public void setEndPoint(GeoLine geo, GeoPoint2 point) {
+		public static void setEndPoint(GeoLine geo, GeoPoint2 point) {
 			geo.setEndPoint(point);
 		}
 
@@ -540,7 +540,7 @@ public class PythonFlatAPI {
 		/**
 		 * @return the origin point of the wrapped GeoText
 		 */
-		public GeoPointND getTextOrigin(GeoText geo) {
+		public static GeoPointND getTextOrigin(GeoText geo) {
 			return geo.getStartPoint();
 		}
 		
@@ -549,7 +549,7 @@ public class PythonFlatAPI {
 		/**
 		 * @param x the new value
 		 */
-		public void setNumericValue(GeoNumeric geo, double x) {
+		public static void setNumericValue(GeoNumeric geo, double x) {
 			geo.setValue(x);
 		}
 
@@ -558,14 +558,14 @@ public class PythonFlatAPI {
 		 * @param start the new start point
 		 * @throws CircularDefinitionException (dont' know)
 		 */
-		public void setTextOrigin(GeoText geo, GeoPointND start) throws CircularDefinitionException {
+		public static void setTextOrigin(GeoText geo, GeoPointND start) throws CircularDefinitionException {
 			geo.setStartPoint(start);
 		}
 
 		/**
 		 * remove the start point of the wrapped GeoText
 		 */
-		public void removeTextOrigin(GeoText geo) {
+		public static void removeTextOrigin(GeoText geo) {
 			geo.removeStartPoint(geo.getStartPoint());
 		}
 	}

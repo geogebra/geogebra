@@ -906,7 +906,8 @@ geo2element = {}
 for obj in __objects__:
     setattr(ElementFactory, obj.__name__, obj)
     try:
-        geo2element[getattr(API, 'Geo%sClass' % obj.__name__)] = obj
+        geo_class = getattr(API, 'Geo%sClass' % obj.__name__)
+        geo2element[geo_class] = obj
     except AttributeError:
         pass
 

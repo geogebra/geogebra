@@ -203,7 +203,7 @@ class Functions(object):
     def __init__(self, api, factory):
         self.api = api
         self.factory = factory
-        self.ggbapi = api.ggbApi
+        self.ggbapi = api.getGgbApi()
     def input(self, s, t=""):
         return self.ggbapi.prompt(s, t) or ""
     def alert(self, s):

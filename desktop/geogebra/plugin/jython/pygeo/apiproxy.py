@@ -2,7 +2,7 @@ from geogebra.plugin.jython import PythonFlatAPI as PythonAPI
 import threading
 from functools import partial
 
-from java.lang import Runnable
+from java.lang import Runnable, Error as JavaError
 from javax.swing import SwingUtilities
 
 __all__ = [
@@ -12,6 +12,12 @@ __all__ = [
 ]
 
 thread_locals = threading.local()
+thread_locals.async = False
+thread_locals.main_thread = False
+
+def init_main_thread():
+    thread_locals.async = False
+    thread_locals.main_thread = True
 
 class Runner(Runnable):
     def __init__(self, f, args=(), kwargs={}):
@@ -26,22 +32,24 @@ def invoke(f, *args, **kwargs):
     SwingUtilities.invokeAndWait(runner)
     return runner.result
 
+try:
+    invoke(init_main_thread)
+except JavaError:
+    # We're in the main thread already
+    init_main_thread()
+
 class APIProxy(object):
     def __init__(self, api):
         self._api = api
     def __getattr__(self, attr):
-        if asynchronous():
-            return partial(invoke, getattr(self._api, attr))
-        else:
+        if thread_locals.main_thread or thread_locals.async:
             return getattr(self._api, attr)
+        else:
+            return partial(invoke, getattr(self._api, attr))
 
 def asynchronous(value=None):
     if value is None:
-        try:
-            return thread_locals.async
-        except AttributeError:
-            thread_locals.async = False
-            return False
+        return thread_locals.async
     else:
         thread_locals.async = value
         return value
@@ -51,7 +59,8 @@ def start_new_thread(f, *args, **kwargs):
     Run f(*args, **kwargs) in a new thread, sychronizing API calls.
     """
     def run():
-        asynchronous(True)
+        thread_locals.async = False
+        thread_locals.main_thread = False
         f(*args, **kwargs)
     thread = threading.Thread(target=run)
     thread.start()
@@ -64,7 +73,7 @@ def run_in_main_thread(f, *args, **kwargs):
     This is useful when main API calls are needed as they will all be
     executed together, thus speeding things up.
     """
-    if asynchronous():
+    if thread_locals.main_thread:
         return f(*args, **kwargs)
     else:
         return invoke(f, *args, **kwargs)
@@ -85,3 +94,6 @@ def in_main_thread(f):
 API = APIProxy(PythonAPI)
 API.Geo = APIProxy(PythonAPI.Geo)
 API.Expression = APIProxy(PythonAPI.Expression)
+for name in dir(PythonAPI):
+    if name.endswith("Class"):
+        setattr(API, name, getattr(PythonAPI, name))
