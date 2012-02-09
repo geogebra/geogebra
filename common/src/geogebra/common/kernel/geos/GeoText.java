@@ -398,7 +398,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	/** used for eg Text["text",(1,2)]
 	 * to stop it being draggable */
 	boolean alwaysFixed = false;
-	private StringTemplate tpl;
+	private StringTemplate tpl = StringTemplate.defaultTemplate;
 	
 	/**
 	 * 
@@ -445,8 +445,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	public MyStringBuffer getText() {
 		if (str != null)
 			return new MyStringBuffer(kernel, str);
-		else
-			return new MyStringBuffer(kernel, "");
+		return new MyStringBuffer(kernel, "");
 	}	
 
 	/**
@@ -868,11 +867,13 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 		public void updateTemplate() {
 		StringType type = isLaTeX?app.getFormulaRenderingType():StringType.GEOGEBRA;
 		if (useSignificantFigures()) {
-			tpl= StringTemplate.printFigures(type,printFigures,false);
+			if(printFigures > -1)
+				tpl= StringTemplate.printFigures(type,printFigures,false);
 		}
 		else
-		{
-			tpl =StringTemplate.printDecimals(type,printDecimals,false);
+		{	
+			if(printDecimals > -1)
+				tpl =StringTemplate.printDecimals(type,printDecimals,false);
 		}
 	}
 

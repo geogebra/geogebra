@@ -183,7 +183,7 @@ public class StringTemplate {
 		};
 		tpl.allowMoreDigits = allowMore;
 		tpl.setType(type);
-		geogebra.common.factories.FormatFactory.prototype.getNumberFormat(decimals);
+		tpl.nf=geogebra.common.factories.FormatFactory.prototype.getNumberFormat(decimals);
 		return tpl;
 	}
 	
@@ -196,7 +196,7 @@ public class StringTemplate {
 		};
 		tpl.allowMoreDigits = allowMore;
 		tpl.setType(mpreduce);
-		geogebra.common.factories.FormatFactory.prototype.getScientificFormat(decimals,20,false);
+		tpl.sf=geogebra.common.factories.FormatFactory.prototype.getScientificFormat(decimals,20,false);
 		return tpl;
 	}
 
