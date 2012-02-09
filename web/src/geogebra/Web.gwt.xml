@@ -21,6 +21,9 @@
   <!-- CAS -->
   <inherits name='org.mathpiper.MpreduceJs' />
   
+  <!-- GeoGebraTube upload -->
+  <inherits name="com.google.gwt.http.HTTP"/>  
+  
   <!-- Specify the app entry point class.                         -->
   <entry-point class='geogebra.web.Web'/>
 
