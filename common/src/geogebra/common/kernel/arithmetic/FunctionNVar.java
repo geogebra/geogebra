@@ -443,9 +443,8 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		// e.g. a in Derivative[a*x^2,x] needs to be renamed temporarily when a
 		// exists in GeoGebra
 		// see http://www.geogebra.org/trac/ticket/929
-		boolean oldTempVariableValue = kernel.isUseTempVariablePrefix();
-		kernel.setUseTempVariablePrefix(true);
-
+		
+		StringTemplate tpl = StringTemplate.prefixedDefault;
 		// did expression change since last time?
 		// or did symbolic falg change?
 		if (casEvalExpression != expression || 
@@ -453,7 +452,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 			casEvalExpression = expression;
 			if (symbolic) {
 				casEvalStringSymbolic = expression.getCASstring(
-						StringTemplate.defaultTemplate, true);
+						tpl, true);
 			}
 
 			// caching should only be done if the expression doesn't contain
@@ -467,10 +466,8 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 
 		// build command string for CAS
 		String expString = symbolic ? casEvalStringSymbolic : expression
-				.getCASstring(StringTemplate.defaultTemplate, false);
-
-		// set back kernel
-		kernel.setUseTempVariablePrefix(oldTempVariableValue);
+				.getCASstring(tpl, false);
+		
 
 		// substitute % by expString in ggbCasCmd
 		String casString = ggbCasCmd.replaceAll("%", expString);
@@ -503,10 +500,10 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 
 			// parse result
 			if (getVarNumber() == 1) {
-				resultFun = (Function) (kernel.getParser().parseFunction(sb
+				resultFun = (kernel.getParser().parseFunction(sb
 						.toString()));
 			} else {
-				resultFun = (FunctionNVar) (kernel.getParser()
+				resultFun = (kernel.getParser()
 						.parseFunctionNVar(sb.toString()));
 			}
 
@@ -700,7 +697,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 			return initIneqs(leftTree, functional, tree, !negate);
 		} else if (op.equals(Operation.FUNCTION_NVAR)) {
 			FunctionalNVar nv = (FunctionalNVar) leftTree.getLeft();
-			IneqTree otherTree = (IneqTree) nv.getIneqs();
+			IneqTree otherTree = nv.getIneqs();
 			if (otherTree == null || otherTree.getSize() == 0) {
 				return false;
 			}

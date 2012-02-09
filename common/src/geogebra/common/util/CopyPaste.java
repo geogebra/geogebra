@@ -538,10 +538,8 @@ public class CopyPaste {
 		// // FIRST XML SAVE
 		beforeSavingToXML(geoslocal, geostohide, false);
 		// change kernel settings temporarily
-		int oldCoordStlye = kernel.getCoordStyle();
 		//StringType oldPrintForm = kernel.getStringTemplate().getStringType();
 		boolean saveScriptsToXML = kernel.getSaveScriptsToXML();
-		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
 		kernel.setSaveScriptsToXML(false);
 		try {
 			// step 5
@@ -561,7 +559,6 @@ public class CopyPaste {
 			copiedXML = new StringBuilder();
 		}
 		// restore kernel settings
-		kernel.setCoordStyle(oldCoordStlye);
 		//kernel.setCASPrintForm(oldPrintForm);
 		kernel.setSaveScriptsToXML(saveScriptsToXML);
 		afterSavingToXML(geoslocal, geostohide);
@@ -569,7 +566,6 @@ public class CopyPaste {
 
 		// SECOND XML SAVE
 		beforeSavingToXML(geoslocalsw, geostohidesw, true);
-		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
 		kernel.setSaveScriptsToXML(false);
 		try {
 			// step 5
@@ -589,7 +585,6 @@ public class CopyPaste {
 			copiedXMLforSameWindow = new StringBuilder();
 		}
 		// restore kernel settings
-		kernel.setCoordStyle(oldCoordStlye);
 		//kernel.setCASPrintForm(oldPrintForm);
 		kernel.setSaveScriptsToXML(saveScriptsToXML);
 		afterSavingToXML(geoslocalsw, geostohidesw);

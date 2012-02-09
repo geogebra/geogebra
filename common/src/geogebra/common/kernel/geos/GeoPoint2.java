@@ -944,7 +944,7 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
 		if (toStringMode==Kernel.COORD_COMPLEX) {
 			sbToString.append(" = ");
 		} else {
-			switch (kernel.getCoordStyle()) {
+			switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
 			case Kernel.COORD_STYLE_FRENCH:
 				// no equal sign
 				sbToString.append(": ");
@@ -1054,7 +1054,7 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
            default: // CARTESIAN                
        			sbBuildValueString.append('(');    
 				sbBuildValueString.append(kernel.format(getInhomX(),tpl));
-				switch (kernel.getCoordStyle()) {
+				switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
 					case Kernel.COORD_STYLE_AUSTRIAN:
 						sbBuildValueString.append(" | ");
 						break;

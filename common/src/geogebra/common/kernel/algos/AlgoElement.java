@@ -1106,7 +1106,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		cmdname = getCommandString(classname);
 		// dependent algorithm is an "Expression"
 		if(!cmdname.equals("Expression")) {
-			if (kernel.isUseTempVariablePrefix()) {
+			if (tpl.isUseTempVariablePrefix()) {
 				// protect GeoGebra commands when sent to CAS
 				// e.g. Element[list, 1] becomes ggbtmpvarElement[list, 1] to
 				// make sure that the CAS does not evaluate this command, see

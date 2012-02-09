@@ -373,7 +373,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		sbToString.setLength(0);
 		sbToString.append(label);
 
-		switch (kernel.getCoordStyle()) {
+		switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
 		case Kernel.COORD_STYLE_FRENCH:
 			// no equal sign
 			sbToString.append(": ");
@@ -454,7 +454,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		default: // CARTESIAN
 			sbBuildValueString.append("(");		
 			sbBuildValueString.append(kernel.format(x,tpl));
-			switch (kernel.getCoordStyle()) {
+			switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
 			case Kernel.COORD_STYLE_AUSTRIAN:
 				sbBuildValueString.append(" | ");
 				break;

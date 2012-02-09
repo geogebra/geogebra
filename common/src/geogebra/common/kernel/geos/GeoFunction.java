@@ -1562,15 +1562,12 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 	 * For example, f(x) = a x^2 returns {"ggbtmpvara ggbtmpvarx^2", "ggbtmpvarx"}
 	 */
 	final public String [] getTempVarCASString(boolean symbolic) {
-		 boolean oldUseTempVariablePrefix = kernel.isUseTempVariablePrefix();
-		 kernel.setUseTempVariablePrefix(true);
-		 StringTemplate tpl = StringTemplate.defaultTemplate;
+		 StringTemplate tpl = StringTemplate.prefixedDefault;
 		 String [] ret = 
 		 {
 			   getCASString(tpl,symbolic),
 			   getVarString(tpl)
 		 };
-		 kernel.setUseTempVariablePrefix(oldUseTempVariablePrefix);
 		 return ret;
 	}
     

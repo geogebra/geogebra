@@ -74,10 +74,7 @@ public class AlgoIntegral extends AlgoCasBase {
 		
 		// get variable string with tmp prefix,
 		// e.g. "x" becomes "ggbtmpvarx" here
-		boolean isUseTempVariablePrefix = kernel.isUseTempVariablePrefix();
-		kernel.setUseTempVariablePrefix(true);
 		String varStr = var != null ? var.getLabel(tpl) : f.getVarString(tpl);
-		kernel.setUseTempVariablePrefix(isUseTempVariablePrefix);
 		
 		sbAE.setLength(0);
 		sbAE.append("Integral(%");

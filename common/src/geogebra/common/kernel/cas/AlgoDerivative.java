@@ -69,14 +69,14 @@ public class AlgoDerivative extends AlgoCasBase {
         
         input = new GeoElement[length];
         length = 0;
-        input[0] = (GeoElement)f.toGeoElement();
+        input[0] = f.toGeoElement();
         if (var != null)
             input[++length] = var;
         if (order != null)
-            input[++length] = (GeoElement)order.toGeoElement();
+            input[++length] = order.toGeoElement();
 
         setOutputLength(1);
-        setOutput(0, (GeoElement)g.toGeoElement());
+        setOutput(0, g.toGeoElement());
         setDependencies(); // done by AlgoElement
     }  
     
@@ -87,10 +87,7 @@ public class AlgoDerivative extends AlgoCasBase {
 		
 		// get variable string with tmp prefix, 
 		// e.g. "x" becomes "ggbtmpvarx" here
-		boolean isUseTempVariablePrefix = kernel.isUseTempVariablePrefix();
-		kernel.setUseTempVariablePrefix(true);
 		String varStr = var != null ? var.getLabel(tpl) : f.getVarString(tpl);
-		kernel.setUseTempVariablePrefix(isUseTempVariablePrefix);
 
 		
 		 sbAE.setLength(0);

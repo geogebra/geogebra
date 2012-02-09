@@ -1009,11 +1009,6 @@ public class Construction {
 	 */
 	public void getConstructionXML(StringBuilder sb) {
 
-		// change kernel settings temporarily
-		int oldCoordStlye = kernel.getCoordStyle();
-
-		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
-
 		try {
 			// save construction elements
 			sb.append("<construction title=\"");
@@ -1043,10 +1038,7 @@ public class Construction {
 			sb.append("</construction>\n");
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			kernel.setCoordStyle(oldCoordStlye);
-		}
-
+		} 
 	}
 
 	/**
@@ -1059,8 +1051,6 @@ public class Construction {
 	public void getConstructionRegressionOut(StringBuilder sb) {
 
 		// change kernel settings temporarily
-		int oldCoordStlye = kernel.getCoordStyle();
-		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
 		StringTemplate tpl = StringTemplate.regression;
 		try {
 			ConstructionElement ce;
@@ -1082,9 +1072,7 @@ public class Construction {
 			}
 		} catch (Exception e) {
 			sb.append(e.getMessage());
-		} finally {
-			kernel.setCoordStyle(oldCoordStlye);
-		}
+		} 
 
 	}
 
@@ -1100,9 +1088,6 @@ public class Construction {
 	public void getConstructionI2G(StringBuilder sb, int mode) {
 
 		// change kernel settings temporarily
-		int oldCoordStlye = kernel.getCoordStyle();
-		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
-
 		try {
 			ConstructionElement ce;
 			int size = ceList.size();
@@ -1130,9 +1115,6 @@ public class Construction {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		kernel.setCoordStyle(oldCoordStlye);
-
 	}
 
 	private boolean undoEnabled = true;
@@ -1414,11 +1396,6 @@ public class Construction {
 		// change kernel settings temporarily
 
 		// change kernel settings temporarily
-		int oldCoordStlye = kernel.getCoordStyle();
-		//StringType oldPrintForm = kernel.getStringTemplate().getStringType();
-		kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);
-		
-
 		// set label to get replaceable XML
 		if (newGeo.isLabelSet()) { // newGeo already exists in construction
 			// oldGeo is replaced by newGeo, so oldGeo get's newGeo's label
@@ -1456,8 +1433,6 @@ public class Construction {
 		}
 
 		// restore old kernel settings
-		kernel.setCoordStyle(oldCoordStlye);
-		//kernel.setCASPrintForm(oldPrintForm);
 
 		// replace Strings: oldXML by newXML in consXML
 		// Application.debug("cons=\n"+consXML+"\nold=\n"+oldXML+"\nnew=\n"+newXML);

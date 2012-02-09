@@ -37,10 +37,7 @@ public class AlgoPartialFractions extends AlgoCasBase {
 		
 		// get variable string with tmp prefix,
 		// e.g. "x" becomes "ggbtmpvarx" here
-		boolean isUseTempVariablePrefix = kernel.isUseTempVariablePrefix();
-		kernel.setUseTempVariablePrefix(true);
 		String varStr = f.getVarString(tpl);
-		kernel.setUseTempVariablePrefix(isUseTempVariablePrefix);
 
 		sbAE.setLength(0);
 		sbAE.append("PartialFractions(%");

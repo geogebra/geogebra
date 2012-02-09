@@ -601,9 +601,9 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		// get coefficients as strings
 		
 		
-		kernel.setUseTempVariablePrefix(true);
+		
 		String function, var;
-		StringTemplate tpl = StringTemplate.get(StringType.MPREDUCE);
+		StringTemplate tpl = StringTemplate.casTemplate;
 		// See #1322
 		try {
 			function = node.getCASstring(tpl, symbolic);
@@ -640,8 +640,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		try {
 			PolyFunction polyFun = new PolyFunction(degree);
 			for (int i = 0; i < strCoeffs.length; i++) {
-				polyFun.coeffs[i] = ((NumberValue) evaluateToExpressionNode(
-						strCoeffs[i]).evaluate()).getDouble();
+				polyFun.coeffs[i] = (evaluateToExpressionNode(
+						strCoeffs[i]).evaluateNum()).getDouble();
 			}
 			return polyFun;
 		} catch (Exception e) {
@@ -755,10 +755,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	final Function getDerivative(int n, boolean keepFractions) {
 		// get variable string with tmp prefix,
 		// e.g. "x" becomes "ggbtmpvarx" here
-		boolean isUseTempVariablePrefix = kernel.isUseTempVariablePrefix();
-		kernel.setUseTempVariablePrefix(true);
-		String varStr = fVars[0].toString();
-		kernel.setUseTempVariablePrefix(isUseTempVariablePrefix);
+		String varStr = fVars[0].toString(StringTemplate.prefixedDefault);
+		
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("Derivative(");
@@ -790,9 +788,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		// get variable string with tmp prefix,
 		// e.g. "t" becomes "ggbtmpvart" here
 		Kernel kernel = funX.kernel;
-		boolean isUseTempVariablePrefix = kernel.isUseTempVariablePrefix();
-		kernel.setUseTempVariablePrefix(true);
-		String varStr = funX.fVars[0].toString(StringTemplate.defaultTemplate);
+		
+		String varStr = funX.fVars[0].toString(StringTemplate.prefixedDefault);
 
 		// should we try to get a symbolic derivative?
 		// for multi-variate functions we need to ensure value form,
@@ -807,7 +804,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		StringBuilder sb = new StringBuilder();
 		// Derivative( y, t )
 		sb.append("Derivative(");
-		sb.append(funY.expression.getCASstring(StringTemplate.defaultTemplate, symbolic));
+		sb.append(funY.expression.getCASstring(StringTemplate.prefixedDefault, symbolic));
 		sb.append(",");
 		sb.append(varStr);
 		sb.append(")");
@@ -822,7 +819,6 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		sb.append(varStr);
 		sb.append(")");
 		String casString = sb.toString();
-		kernel.setUseTempVariablePrefix(isUseTempVariablePrefix);
 
 		// eval cas string "Derivative( <funY>, t ) / Derivative( %, t)"
 		return (Function) funX.evalCasCommand(casString, symbolic);

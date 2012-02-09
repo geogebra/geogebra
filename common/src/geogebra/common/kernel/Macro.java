@@ -371,11 +371,7 @@ public class Macro implements MacroInterface {
 	 * @return XML string of macro construction
 	 */
 	 public static String buildMacroXML(Kernel kernel, Set<ConstructionElement> macroConsElements) {	
-		// change kernel settings temporarily
-		int oldCoordStlye = kernel.getCoordStyle();
 		
-	    kernel.setCoordStyle(Kernel.COORD_STYLE_DEFAULT);                 		
-	    
 		 
     	// get the XML for all macro construction elements
     	StringBuilder macroConsXML = new StringBuilder(500);
@@ -399,10 +395,6 @@ public class Macro implements MacroInterface {
     	macroConsXML.append("</construction>\n");
     	macroConsXML.append("</geogebra>");
     	   	
-    	 // restore old kernel settings
-        kernel.setCoordStyle(oldCoordStlye);   
-        
-    	
     	return macroConsXML.toString();
 	 }
     	
