@@ -124,7 +124,8 @@ public class CASView extends JComponent implements View, Gridable {
 							ArrayList<GeoElement> targetCells= new ArrayList<GeoElement>();
 							for(int i=0; i<consoleTable.getRowCount(); i++)
 								targetCells.add(consoleTable.getGeoCasCell(selRows[0]));
-							styleBar.setSelectedRows(targetCells);
+							if(styleBar != null)
+								styleBar.setSelectedRows(targetCells);
 						}
 					}
 				});
