@@ -834,22 +834,32 @@ public class AutoCompleteTextField extends MathTextField implements
     int textBRPos = -1; // position of right most ]
     int textFirstComma = -1; // position of first comma
     int textBLCount = 0; // count of [
+    int textParams = 0;
     sb = new StringBuilder();
+    String lastToken = "";
     for (int i = 0; i < tArray.length; i++) {
       switch (tArray[i]) {
         case '[':
           textTokens.add(sb.toString());
           sb = new StringBuilder();
           textTokens.add("[");
+          lastToken = "[";
           if (textBLPos == -1) {
             textBLPos = textTokens.size() - 1;
           }
           textBLCount++;
           break;
         case ']':
-          textTokens.add(sb.toString());
-          sb = new StringBuilder();
+          if (!lastToken.equals("[")
+              || (lastToken.equals("[") && sb.toString().trim().length() != 0)) {
+            textParams++;
+          }
+          if (sb.length() > 0) {
+            textTokens.add(sb.toString());
+            sb = new StringBuilder();
+          }
           textTokens.add("]");
+          lastToken = "]";
           if (textBRPos == -1) {
             textBRPos = textTokens.size() - 1;
           }
@@ -858,9 +868,11 @@ public class AutoCompleteTextField extends MathTextField implements
           textTokens.add(sb.toString());
           sb = new StringBuilder();
           textTokens.add(",");
+          lastToken = ",";
           if (textFirstComma == -1) {
             textFirstComma = textTokens.size() - 1;
           }
+          textParams++;
           break;
         default:
           sb.append(tArray[i]);
@@ -884,19 +896,27 @@ public class AutoCompleteTextField extends MathTextField implements
           commandTokens.add(sb.toString());
           sb = new StringBuilder();
           commandTokens.add("[");
+          lastToken = "[";
           commandBLPos = commandTokens.size() - 1;
           break;
         case ']':
-          commandTokens.add(sb.toString());
-          sb = new StringBuilder();
-          commandParams++;
+          if (!lastToken.equals("[")
+              || (lastToken.equals("[") && sb.toString().trim().length() != 0)) {
+            commandParams++;
+          }
+          if (sb.length() > 0) {
+            commandTokens.add(sb.toString());
+            sb = new StringBuilder();
+          }
           commandTokens.add("]");
+          lastToken = "]";
           break;
         case ',':
           commandTokens.add(sb.toString());
           sb = new StringBuilder();
           commandParams++;
           commandTokens.add(",");
+          lastToken = ",";
           break;
         default:
           if (!Character.isWhitespace(cArray[i])) {
@@ -930,33 +950,43 @@ public class AutoCompleteTextField extends MathTextField implements
     for (int i = 0; i < startPos; i++) {
       current = textTokens.get(i).trim();
       if (current.equals("[")) {
-        sb.append("[ ");
+        sb.append('[');
+        if (i + 1 < textTokens.size() && !textTokens.get(i + 1).equals("]")) {
+          sb.append(' ');
+        }
       } else if (current.equals("]")) {
-        sb.append(" ]");
+        if (i - 1 >= 0 && !textTokens.get(i - 1).equals("[")) {
+          sb.append(' ');
+        }
+        sb.append(']');
       } else if (current.equals(",")) {
         sb.append(", ");
       } else {
         sb.append(current);
       }
     }
-
+    
     // Append the command
     sb.append(commandTokens.get(0));
 
     if (textBLCount == 0) {
       // original input does not contain any parameters
-      sb.append("[ ");
-      carPos = sb.length();
-      for (int i = commandBLPos + 1; i < commandTokens.size(); i++) {
-        current = commandTokens.get(i);
-        if (current.equals("[")) {
-          sb.append("[ ");
-        } else if (current.equals("]")) {
-          sb.append(" ]");
-        } else if (current.equals(",")) {
-          sb.append(", ");
-        } else {
-          sb.append(current);
+      if (commandParams == 0) {
+        sb.append("[]");
+      } else {
+        sb.append("[ ");
+        carPos = sb.length();
+        for (int i = commandBLPos + 1; i < commandTokens.size(); i++) {
+          current = commandTokens.get(i);
+          if (current.equals("[")) {
+            sb.append("[ ");
+          } else if (current.equals("]")) {
+            sb.append(" ]");
+          } else if (current.equals(",")) {
+            sb.append(", ");
+          } else {
+            sb.append(current);
+          }
         }
       }
     } else {
@@ -966,26 +996,37 @@ public class AutoCompleteTextField extends MathTextField implements
             || textTokens.get(startPos + 1).trim().equals("]")) {
           // new command is a parameter itself
           // append rest of command
-          for (int i = 1; i < commandTokens.size(); i++) {
-            current = commandTokens.get(i).trim();
-            if (current.equals("[")) {
-              carPos = sb.length();
-              sb.append("[ ");
-            } else if (current.equals("]")) {
-              sb.append(" ]");
-            } else if (current.equals(",")) {
-              sb.append(", ");
-            } else {
-              sb.append(current);
+          if (commandParams == 0) {
+            sb.append("[]");
+          } else {
+            for (int i = 1; i < commandTokens.size(); i++) {
+              current = commandTokens.get(i).trim();
+              if (current.equals("[")) {
+                carPos = sb.length();
+                sb.append("[ ");
+              } else if (current.equals("]")) {
+                sb.append(" ]");
+              } else if (current.equals(",")) {
+                sb.append(", ");
+              } else {
+                sb.append(current);
+              }
             }
           }
           // append the rest of original input
           for (int i = startPos + 1; i < textTokens.size(); i++) {
             current = textTokens.get(i).trim();
             if (current.equals("[")) {
-              sb.append("[ ");
+              sb.append('[');
+              if (i + 1 < textTokens.size()
+                  && !textTokens.get(i + 1).equals("]")) {
+                sb.append(' ');
+              }
             } else if (current.equals("]")) {
-              sb.append(" ]");
+              if (i - 1 >= 0 && !textTokens.get(i - 1).equals("[")) {
+                sb.append(' ');
+              }
+              sb.append(']');
             } else if (current.equals(",")) {
               sb.append(", ");
             } else {
@@ -1003,12 +1044,19 @@ public class AutoCompleteTextField extends MathTextField implements
             current = textTokens.get(i).trim();
             if (current.equals("[")) {
               openBrackets++;
-              sb.append("[ ");
+              sb.append('[');
+              if (i + 1 < textTokens.size()
+                  && !textTokens.get(i + 1).equals("]")) {
+                sb.append(' ');
+              }
             } else if (current.equals("]")) {
               if (openBrackets == 1) {
                 params++;
               } else {
-                sb.append(" ]");
+                if (i - 1 >= 0 && !textTokens.get(i - 1).equals("[")) {
+                  sb.append(' ');
+                }
+                sb.append(']');
               }
               openBrackets--;
               if (openBrackets == 0) {
@@ -1042,15 +1090,26 @@ public class AutoCompleteTextField extends MathTextField implements
               }
             }
           } else {
-            sb.append(']');
+            if (commandParams == 0) {
+              sb.append(']');
+            } else {
+              sb.append(" ]");
+            }
           }
           for (int i = lastIndex; i < textTokens.size(); i++) {
             current = textTokens.get(i).trim();
             if (current.equals("[")) {
               carPos = sb.length();
-              sb.append("[ ");
+              sb.append('[');
+              if (i + 1 < textTokens.size()
+                  && !textTokens.get(i + 1).equals("]")) {
+                sb.append(' ');
+              }
             } else if (current.equals("]")) {
-              sb.append(" ]");
+              if (i - 1 >= 0 && !textTokens.get(i - 1).equals("[")) {
+                sb.append(' ');
+              }
+              sb.append(']');
             } else if (current.equals(",")) {
               sb.append(", ");
             } else {
@@ -1063,6 +1122,10 @@ public class AutoCompleteTextField extends MathTextField implements
         // because [ cannot be the start token and startPos cannot be the last
         // token if textBLCount > 0
       }
+    }
+
+    if (textParams + commandParams == 0) {
+      carPos = sb.length();
     }
 
     setText(sb.toString());
