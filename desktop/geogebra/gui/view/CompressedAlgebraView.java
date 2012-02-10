@@ -48,7 +48,7 @@ public class CompressedAlgebraView extends AlgebraView implements
 	}
 
 	@Override
-	public void update(GeoElement geo) {
+	final public void update(GeoElement geo) {
 		if (updateTimer.isRunning()) {
 			lock.lock();
 			updateSet.add(geo);
@@ -56,11 +56,31 @@ public class CompressedAlgebraView extends AlgebraView implements
 		} else {
 			updateTimer.start();
 			updateNow(geo);
+	    repaintNow();
 		}
 	}
 
 	public void updateNow(GeoElement geo) {
 		super.update(geo);
 	}
+	
+	@Override
+	final public void updateVisualStyle(GeoElement geo) {
+	  update(geo);
+  }
+	
+	@Override
+	final public void repaintView() {
+	  repaint();
+  }
+	
+  final public void repaintNow(){
+    super.repaint();
+  }
+  
+  @Override
+  final public void repaint(){
+    // do nothing
+  }
 
 }

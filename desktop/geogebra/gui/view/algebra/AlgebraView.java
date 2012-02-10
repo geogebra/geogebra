@@ -824,7 +824,7 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 		}
 	}
 
-	final public void repaintView() {
+	public void repaintView() {
 		repaint();
 	}
 
@@ -932,7 +932,7 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 		}
 	}
 
-	final public void updateVisualStyle(GeoElement geo) {
+	public void updateVisualStyle(GeoElement geo) {
 		update(geo);
 	}
 
