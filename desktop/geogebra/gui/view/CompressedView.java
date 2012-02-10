@@ -23,12 +23,21 @@ public interface CompressedView extends View {
   /**
    * Calls the original repaint() function
    * You need to overwrite the repaint function with an empty one to get the desired effect
-   *
-   * e.g.:
-   * @Override
-   *           final public void repaint(){
-   *           // do nothing
-   *           }
+   * 
    */
   public void repaintNow();
+
+  /**
+   * e.g.:
+   * 
+   * @Override
+   *           final public void repaint() {
+   *           if (!repaintTimer.isRunning()) {
+   *           repaintNow();
+   *           }else{
+   *           repaintTimer.start();
+   *           }
+   *           }
+   */
+  public void repaint();
 }

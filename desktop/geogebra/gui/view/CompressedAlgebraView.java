@@ -20,67 +20,95 @@ import geogebra.gui.view.algebra.AlgebraView;
  * @author Lucas Binter
  */
 public class CompressedAlgebraView extends AlgebraView implements
-		CompressedView {
-	private static final long serialVersionUID = 6383245533545749844L;
+    CompressedView {
+  private static final long serialVersionUID = 6383245533545749844L;
 
-	private int ups;
-	private Timer updateTimer;
-	private Set<GeoElement> updateSet;
-	private ActionListener updateListener;
+  private int ups;
+  private Timer updateTimer;
+  private Set<GeoElement> updateSet;
+  private ActionListener updateListener;
 
-	private final ReentrantLock lock = new ReentrantLock();
+  private final ReentrantLock lock = new ReentrantLock();
 
-	/**
-	 * @param algCtrl
-	 *            the Algebra Controller for the extended AlgebraView
-	 * @param updatesPerSecond
-	 *            the updates per second handled down to the extended
-	 *            AlgebraView
-	 */
-	public CompressedAlgebraView(AlgebraController algCtrl, int updatesPerSecond) {
-		super(algCtrl);
-		ups = updatesPerSecond;
-		updateTimer = new Timer(1000 / ups, null);
-		updateSet = new HashSet<GeoElement>();
-		updateListener = new CompressedUpdateListener(this, updateTimer,
-				updateSet, lock);
-		updateTimer.addActionListener(updateListener);
-	}
+  private int rps;
+  private Timer repaintTimer;
+  private ActionListener repaintListener;
 
-	@Override
-	final public void update(GeoElement geo) {
-		if (updateTimer.isRunning()) {
-			lock.lock();
-			updateSet.add(geo);
-			lock.unlock();
-		} else {
-			updateTimer.start();
-			updateNow(geo);
-	    repaintNow();
-		}
-	}
-
-	public void updateNow(GeoElement geo) {
-		super.update(geo);
-	}
-	
-	@Override
-	final public void updateVisualStyle(GeoElement geo) {
-	  update(geo);
+  /**
+   * @param algCtrl
+   *          the Algebra Controller for the extended AlgebraView
+   * @param updatesPerSecond
+   *          the updates per second handled down to the extended
+   *          AlgebraView
+   */
+  public CompressedAlgebraView(AlgebraController algCtrl, int updatesPerSecond) {
+    this(algCtrl, updatesPerSecond, updatesPerSecond);
   }
-	
-	@Override
-	final public void repaintView() {
-	  repaint();
+
+  /**
+   * @param algCtrl
+   *          the Algebra Controller for the extended AlgebraView
+   * @param updatesPerSecond
+   *          the updates per second handled down to the extended
+   *          AlgebraView
+   * @param repaintsPerSecond
+   *          the maximum repaints per second rate
+   */
+  public CompressedAlgebraView(AlgebraController algCtrl, int updatesPerSecond,
+      int repaintsPerSecond) {
+    super(algCtrl);
+    ups = updatesPerSecond;
+    rps = repaintsPerSecond;
+    updateTimer = new Timer(1000 / ups, null);
+    repaintTimer = new Timer(1000 / rps, null);
+    updateSet = new HashSet<GeoElement>();
+    updateListener = new CompressedUpdateListener(this, updateTimer, updateSet,
+        lock);
+    updateTimer.addActionListener(updateListener);
+    repaintListener = new CompressedRepaintListener(this, repaintTimer);
+    repaintTimer.addActionListener(repaintListener);
   }
-	
-  final public void repaintNow(){
+
+  @Override
+  final public void update(GeoElement geo) {
+    if (updateTimer.isRunning()) {
+      lock.lock();
+      updateSet.add(geo);
+      lock.unlock();
+    } else {
+      updateTimer.start();
+      updateNow(geo);
+    }
+  }
+
+  public void updateNow(GeoElement geo) {
+    super.update(geo);
+  }
+
+  @Override
+  final public void updateVisualStyle(GeoElement geo) {
+    update(geo);
+  }
+
+  @Override
+  final public void repaintView() {
+    repaint();
+  }
+
+  final public void repaintNow() {
     super.repaint();
   }
-  
+
   @Override
-  final public void repaint(){
-    // do nothing
+  final public void repaint() {
+    if (repaintTimer == null) {
+      repaintNow();
+      return;
+    }
+    if (!repaintTimer.isRunning()) {
+      repaintTimer.start();
+      repaintNow();
+    }
   }
 
 }

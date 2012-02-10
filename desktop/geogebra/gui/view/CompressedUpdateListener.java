@@ -66,7 +66,6 @@ public class CompressedUpdateListener implements ActionListener {
     for (GeoElement geo : work) {
       view.updateNow(geo);
     }
-    view.repaintNow();
     isWorking = false;
   }
 
