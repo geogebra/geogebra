@@ -1102,7 +1102,7 @@ public class Kernel {
 	 */
 	public String internationalizeDigits(String num,StringTemplate tpl) {
 
-		if (!tpl.internationalizeDigits()) {
+		if (!tpl.internationalizeDigits()||!app.isUsingLocalizedDigits()) {
 			return num;
 		}
 
