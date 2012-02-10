@@ -185,6 +185,8 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 						kernel.getConstruction().removeFromConstructionList(algo);
 						value = ((GeoNumeric)algo.getGeoElements()[0]).getDouble();
 						model.setValueAt(statDialog.format(value), row, 0);
+					}else{
+						model.setValueAt("", row, 0);
 					}
 				}
 				else if(statMap[row].length == 3){
@@ -193,6 +195,8 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 						kernel.getConstruction().removeFromConstructionList(algo);
 						value = ((GeoNumeric)algo.getGeoElements()[0]).getDouble();
 						model.setValueAt(statDialog.format(value), row, 0);
+					}else{
+						model.setValueAt("", row, 0);
 					}
 				}
 

@@ -255,9 +255,13 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 				1);
 		if (!plotSettings.xAxesIntervalAuto) {
 			setAxesNumberingDistance(plotSettings.xAxesInterval, 0);
+		}else{
+			plotSettings.xAxesInterval = getAxesNumberingDistances()[0];
 		}
 		if (!plotSettings.yAxesIntervalAuto) {
 			setAxesNumberingDistance(plotSettings.yAxesInterval, 1);
+		}else{
+			plotSettings.yAxesInterval = getAxesNumberingDistances()[1];
 		}
 
 		setPointCapturing(plotSettings.pointCaptureStyle);

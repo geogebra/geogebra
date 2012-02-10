@@ -294,27 +294,32 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 		fldXMin = new MyTextField(app,fieldWidth);
 		fldXMin.setEditable(true);
 		fldXMin.addActionListener(this);
+		fldXMin.addFocusListener(this);
 		
 		lblXMax = new JLabel();
 		fldXMax = new MyTextField(app,fieldWidth);
 		fldXMax.addActionListener(this);
+		fldXMax.addFocusListener(this);
 		
 		lblYMin = new JLabel();
 		fldYMin = new MyTextField(app,fieldWidth);
 		fldYMin.addActionListener(this);
+		fldYMin.addFocusListener(this);
 		
 		lblYMax = new JLabel();
 		fldYMax = new MyTextField(app,fieldWidth);
 		fldYMax.addActionListener(this);
+		fldYMax.addFocusListener(this);
 		
 		lblXInterval = new JLabel();
 		fldXInterval = new MyTextField(app,fieldWidth);
 		fldXInterval.addActionListener(this);
+		fldXInterval.addFocusListener(this);
 		
 		lblYInterval = new JLabel();
 		fldYInterval = new MyTextField(app,fieldWidth);
 		fldYInterval.addActionListener(this);
-	
+		fldYInterval.addFocusListener(this);
 		
 		// create graph options panel
 		JPanel graphOptionsPanel = new JPanel(new GridBagLayout());
@@ -503,8 +508,11 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 		if(ckAutoWindow.isSelected()){
 			fldXMin.setText("" + statDialog.format(settings.xMin));
 			fldXMax.setText("" + statDialog.format(settings.xMax));
+			fldXInterval.setText("" + statDialog.format(settings.xAxesInterval));
+			
 			fldYMin.setText("" + statDialog.format(settings.yMin));
 			fldYMax.setText("" + statDialog.format(settings.yMax));
+			fldYInterval.setText("" + statDialog.format(settings.yAxesInterval));
 			
 		}
 
@@ -594,6 +602,9 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 		}
 		else if(source == ckAutoWindow){
 			settings.isAutomaticWindow = ckAutoWindow.isSelected();
+			
+			settings.xAxesIntervalAuto = ckAutoWindow.isSelected();
+			settings.yAxesIntervalAuto = ckAutoWindow.isSelected();
 			firePropertyChange("settings", true, false);
 		}
 		else if(source == ckShowFrequencyTable){
@@ -632,7 +643,10 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 	}
 
 
-	public void focusLost(FocusEvent arg0) {
+	public void focusLost(FocusEvent e) {
+		if(e.getSource() instanceof JTextField){
+			doTextFieldActionPerformed((JTextField)(e.getSource()));
+		}
 	}
 
 
