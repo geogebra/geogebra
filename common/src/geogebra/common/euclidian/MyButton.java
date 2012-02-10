@@ -5,6 +5,7 @@ import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.font.TextLayout;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoButton;
+import geogebra.common.main.AbstractApplication;
 
 
 //import java.awt.Color;
@@ -43,13 +44,15 @@ public class MyButton {
 		g.setFont(font);
 		TextLayout t= geogebra.common.factories.AwtFactory.prototype.newTextLayout(geoButton.getCaption(StringTemplate.defaultTemplate), font, g.getFontRenderContext());
 		
-		width=Math.max((int)(t.getAdvance()*1.2)+12,24);
+		float textHeight = t.getAscent() + t.getDescent();
 		
-		height=Math.max((int)(t.getAscent()*1.2)+12,24);
+		width=Math.max((int)(t.getAdvance() * 1.05),24);
 		
-		int spareHeight = height - (int)(t.getAscent());
+		height=Math.max((int)(textHeight * 1.05),24);
+		
+		int spareHeight = height - (int)(textHeight);
 
-		int spareWidth = width-(int)(t.getAdvance());
+		int spareWidth = width - (int)(t.getAdvance());
 		
 		g.setColor(view.getBackgroundCommon());
 		g.fillRect(x, y, getWidth(), getHeight());
@@ -94,8 +97,8 @@ public class MyButton {
 		this.setForeground(geogebra.common.awt.Color.white);
 
 		// center the label on the button
-		g.drawString(geoButton.getCaption(StringTemplate.defaultTemplate), x+spareWidth / 2,
-				y+t.getAscent() + spareHeight / 2);
+		g.drawString(geoButton.getCaption(StringTemplate.defaultTemplate), x + spareWidth / 2,
+				y + t.getAscent() + spareHeight / 2);
 	}
 
 

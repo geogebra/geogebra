@@ -13,4 +13,6 @@ public interface TextLayout {
 
 	void draw(Graphics2D g2, int i, int j);
 
+	float getDescent();
+
 }

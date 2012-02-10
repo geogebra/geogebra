@@ -39,6 +39,10 @@ public class TextLayout implements geogebra.common.awt.font.TextLayout {
 		m_textmetrics.setVisible(false);
 		return h;
     }
+	
+	public float getDescent() {
+		return 0;
+	}
 
 	public void draw(Graphics2D g2, int x, int y) {
 		Font tempFont = g2.getFont();

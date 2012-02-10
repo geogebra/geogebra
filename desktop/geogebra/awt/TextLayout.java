@@ -3,6 +3,7 @@ package geogebra.awt;
 import geogebra.common.awt.Font;
 import geogebra.common.awt.Graphics2D;
 import geogebra.common.awt.Rectangle;
+import geogebra.common.main.AbstractApplication;
 
 public class TextLayout implements geogebra.common.awt.font.TextLayout {
 	private java.awt.font.TextLayout impl;
@@ -22,6 +23,10 @@ public class TextLayout implements geogebra.common.awt.font.TextLayout {
 
 	public float getAscent() {
 		return impl.getAscent();
+	}
+
+	public float getDescent() {
+		return impl.getDescent();
 	}
 
 	public void draw(Graphics2D g2, int x, int y) {
