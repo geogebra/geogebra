@@ -132,6 +132,9 @@ public class Kernel3D extends Kernel {
 
 		case EuclidianConstants.MODE_RIGHT_PRISM:
 			return "RightPrism";
+			
+		case EuclidianConstants.MODE_PYRAMID:
+			return "Pyramid";
 
 		case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:
 			return "SpherePointRadius";

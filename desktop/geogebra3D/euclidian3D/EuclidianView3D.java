@@ -1845,26 +1845,28 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		
 	}
 	
-	@SuppressWarnings("rawtypes")
-	public Previewable createPreviewSegment(ArrayList selectedPoints){
+	public Previewable createPreviewSegment(ArrayList<GeoPointND> selectedPoints){
 		return new DrawSegment3D(this, selectedPoints);
 	}	
 	
-	@SuppressWarnings("rawtypes")
-	public Previewable createPreviewRay(ArrayList selectedPoints){
+	public Previewable createPreviewRay(ArrayList<GeoPointND> selectedPoints){
 		return new DrawRay3D(this, selectedPoints);
 	}	
 	
 
-	@SuppressWarnings("rawtypes")
-	public Previewable createPreviewVector(ArrayList selectedPoints){
+	public Previewable createPreviewVector(ArrayList<GeoPointND> selectedPoints){
 		return new DrawVector3D(this, selectedPoints);
 	}
 	
-	@SuppressWarnings("rawtypes")
-	public Previewable createPreviewPolygon(ArrayList selectedPoints){
+	public Previewable createPreviewPolygon(ArrayList<GeoPointND> selectedPoints){
 		return new DrawPolygon3D(this, selectedPoints);
-	}	
+	}
+	
+	public Previewable createPreviewPyramid(ArrayList<GeoPointND> selectedPoints){
+		return new DrawPolygon3D(this, selectedPoints);
+	}
+	
+	
 	
 	public Previewable createPreviewConic(int mode, ArrayList<GeoPointND> selectedPoints){
 		return null;

@@ -1527,5 +1527,17 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
 		AlgoPolygon algo = (AlgoPolygon) getParentAlgorithm();
 		algo.modifyInputPoints(newPoints);
 	}
+
+	/** interior point for oriented surfaces */
+	// TODO remove this and replace with tesselation
+	protected Coords interiorPoint = null;
+
+	/**
+	 * sets the interior point 
+	 * @param point (interior point)
+	 */
+	public void setInteriorPoint(Coords point) {
+		interiorPoint = point;
+	}
 }
 

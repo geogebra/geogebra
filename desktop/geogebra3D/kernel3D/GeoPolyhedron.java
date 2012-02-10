@@ -642,13 +642,17 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 
 	// TODO remove this and replace with tessellation
 	public void setInteriorPoint(Coords point) {
+		
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setInteriorPoint(point);
 		}
+		
 		/*
-		 * TODO for (GeoPolygon polygon : polygonsLinked){
-		 * polygon.setInteriorPoint(point); }
-		 */
+		for (GeoPolygon polygon : polygonsLinked){
+		 polygon.setInteriorPoint(point); 
+		}
+		*/
+		 
 	}
 
 	public void setReverseNormals() {

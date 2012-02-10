@@ -199,8 +199,14 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	}	
 
 	
-	
+	private boolean freezePreview = false;
 
+	/**
+	 * no more update for the preview
+	 */
+	public void freezePreview(){
+		freezePreview = true;
+	}
 
 
 
@@ -218,6 +224,8 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void updatePreview() {
 		
+		if (freezePreview)
+			return;
 		
 
 		int index =0;

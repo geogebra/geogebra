@@ -179,13 +179,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 			return vn;
 	}
 
-	/** interior point for oriented surfaces */
-	// TODO remove this and replace with tesselation
-	private Coords interiorPoint = null;
 
-	public void setInteriorPoint(Coords point) {
-		interiorPoint = point;
-	}
 
 	private boolean reverseNormal = false;
 

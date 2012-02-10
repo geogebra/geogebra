@@ -1150,12 +1150,6 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	 */
 	final protected boolean rightPrism(Hits hits) {
 		
-		/*
-		String s=hits.toString();
-		s+="\nselectedPolygons=\n";
-		for (int i=0;i<selectedPolygons.size();i++)
-			s+=selectedPolygons.get(i)+"\n";
-		*/
 		
 		if (hits.isEmpty())
 			return false;
@@ -1192,6 +1186,91 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			}
 		}
 		return false;
+	}
+	
+	
+	
+	private GeoPointND[] pyramidBasis = null;
+	
+	
+	/** get basis and top point;
+	 * create pyramid
+	 * 
+	 * @param hits hits
+	 * @return true if a prism has been created
+	 */
+	final protected boolean pyramid(Hits hits) {
+		
+		//if (pyramidBasis!=null) Application.debug(pyramidBasis.length);
+		
+		if (hits.isEmpty())
+			return false;
+
+		if (pyramidBasis==null){ //try to find/create a polygon
+			
+			if (selPoints() < 2) //already two points : not a polygon for basis
+				addSelectedPolygon(hits, 1, false);
+
+			if (selPolygons() == 0) { //try to create a polygon
+				// if the first point is clicked again, we create a polygon
+				if (selPoints() > 2) {
+					// check if first point was clicked again
+					boolean finished = !selectionPreview
+							&& hits.contains(selectedPoints.get(0));
+					if (finished) {
+						// store basis 
+						((DrawPolygon3D) view3D.getPreviewDrawable()).freezePreview();
+						pyramidBasis = getSelectedPointsND();
+						return false;
+					}
+				}
+
+				addSelectedPoint(hits, GeoPolygon.POLYGON_MAX_POINTS, false);
+				return false; //no polygon
+			}
+			
+
+			// there is 1 polygon, look for top point
+			addSelectedPoint(hits, 1, false);
+			
+			if (selPoints() == 1) {
+				// fetch selected point and vector
+				GeoPolygon[] basis = getSelectedPolygons();
+				GeoPointND[] points = getSelectedPointsND();
+				// create new pyramid
+				getKernel().getManager3D().Pyramid(null, basis[0], points[0]);
+				return true;
+			}
+			
+			
+			
+		}else{ //there are points for basis
+			
+			addSelectedPoint(hits, 1, false);
+			
+			if (selPoints() == 1) {
+				// fetch selected point and vector
+				GeoPointND[] points = new GeoPointND[pyramidBasis.length+1];
+				for (int i=0; i<pyramidBasis.length; i++)
+					points[i]=pyramidBasis[i];
+				points[pyramidBasis.length] = getSelectedPointsND()[0];
+				// create new pyramid
+				getKernel().getManager3D().Pyramid(null, points);
+				pyramidBasis=null;
+				return true;
+			}
+			
+			return false;
+		}
+			
+		
+		
+		
+
+		
+		
+		return false;
+		
 	}
 	
 	
@@ -1342,6 +1421,10 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			
 		case EuclidianConstants.MODE_RIGHT_PRISM:
 			previewDrawable = view3D.createPreviewRightPrism(selectedPolygons);
+			break;
+			
+		case EuclidianConstants.MODE_PYRAMID:
+			previewDrawable = view3D.createPreviewPyramid(selectedPoints);
 			break;
 			
 		case EuclidianConstants.MODE_INTERSECTION_CURVE: // line through two points
@@ -1529,6 +1612,10 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			changedKernel = rightPrism(hits);
 			break;
 			
+		case EuclidianConstants.MODE_PYRAMID:
+			changedKernel = pyramid(hits);
+			break;
+			
 		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:	
 			changedKernel = (circleOrSphere2(hits, mode) != null);
 			break;
@@ -1574,6 +1661,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			((Hits3D) hits).removePolygonsIfNotOnlyCS2D();
 			break;
 		case EuclidianConstants.MODE_RIGHT_PRISM:
+		case EuclidianConstants.MODE_PYRAMID:
 			//String s = hits.toString();
 			hits.removeAllPolygonsButOne();
 			//s+="\nAprès:\n"+hits.toString();
@@ -1668,6 +1756,14 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			view3D.updatePreviewable();
 			break;
 			
+		case EuclidianConstants.MODE_PYRAMID:
+			view.setHits(mouseLoc);
+			hits = view.getHits();
+			switchModeForRemovePolygons(hits);
+			createNewPoint(hits, true, false, false, true, false);
+			break;
+			
+			
 		case EuclidianConstants.MODE_ROTATEVIEW:
 			startLoc = mouseLoc; 
 			view.rememberOrigins();
@@ -1707,6 +1803,12 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			//view3D.setPreview(null);//remove current previewable
 			//view3D.setPreview(view3D.createPreviewRightPrism(selectedPolygons));//init new one	
 			return true;
+			
+			
+		case EuclidianConstants.MODE_PYRAMID:
+			return true;
+			
+			
 		case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
 			//Application.debug("hop");
 			//TODO implement choose geo
@@ -2551,6 +2653,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
 			case EuclidianConstants.MODE_PLANE_THREE_POINTS:
 			case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
+			case EuclidianConstants.MODE_PYRAMID:
 				
 			case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
 				return true;

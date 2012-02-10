@@ -742,13 +742,15 @@ public class Toolbar extends JToolBar {
 				+ EuclidianConstants.MODE_INTERSECTION_CURVE
 				+ " || "
 				+ EuclidianConstants.MODE_PLANE_THREE_POINTS
-				+ " , "
+				+ " "
 				+ EuclidianConstants.MODE_PLANE_POINT_LINE
 				+ " | "
 				+ EuclidianConstants.MODE_ORTHOGONAL_PLANE
-				+ " , "
+				+ " "
 				+ EuclidianConstants.MODE_PARALLEL_PLANE
 				+ " || "
+				+EuclidianConstants.MODE_PYRAMID
+				+" , "
 				+ EuclidianConstants.MODE_RIGHT_PRISM
 				// +" , "
 				// +EuclidianConstants.MODE_PRISM
