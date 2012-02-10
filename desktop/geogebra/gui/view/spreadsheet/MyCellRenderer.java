@@ -65,7 +65,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 	private JCheckBox checkBox;
 	private JButton button;
 	private JComboBox comboBox;
-	private DefaultComboBoxModel<GeoElement> cbModel;
+	private DefaultComboBoxModel cbModel;
 	private Color bgColor;
 
 
