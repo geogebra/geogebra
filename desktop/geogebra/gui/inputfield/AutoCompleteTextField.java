@@ -1,6 +1,7 @@
 package geogebra.gui.inputfield;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Font;
+import geogebra.common.euclidian.Drawable;
 import geogebra.common.javax.swing.JLabel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.commands.MyException;
@@ -11,6 +12,7 @@ import geogebra.common.main.MyError;
 import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.Korean;
 import geogebra.common.util.TextObject;
+import geogebra.euclidian.DrawTextField;
 import geogebra.gui.autocompletion.CommandCompletionListCellRenderer;
 import geogebra.gui.autocompletion.CompletionsPopup;
 import geogebra.gui.util.GeoGebraIcon;
@@ -55,6 +57,7 @@ geogebra.common.gui.inputfield.AutoCompleteTextField {
 
 	private HistoryPopup historyPopup;
 
+	private DrawTextField drawTextField = null; 
 
 	/**
 	 * Flag to determine if text must start with "=" to activate autoComplete;
@@ -107,7 +110,16 @@ geogebra.common.gui.inputfield.AutoCompleteTextField {
 		// setDictionary(app.getAllCommandsDictionary());
 	}
 
+	public AutoCompleteTextField(int columns, AbstractApplication app, Drawable drawTextField){
+		this(columns, app);
+		this.drawTextField = (DrawTextField)drawTextField;
+	}
+	
 
+	public DrawTextField getDrawTextField(){
+		return drawTextField;
+	}
+	
 	public ArrayList<String> getHistory() {
 		return history;
 	}

@@ -1,5 +1,6 @@
 package geogebra.factories;
 
+import geogebra.common.euclidian.Drawable;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.Box;
 import geogebra.common.javax.swing.JLabel;
@@ -10,8 +11,8 @@ public class SwingFactory extends geogebra.common.factories.SwingFactory {
 	// TODO: find another place for this function
 	@Override
 	public AutoCompleteTextField newAutoCompleteTextField(int length,
-			AbstractApplication application) {
-		return new geogebra.gui.inputfield.AutoCompleteTextField(length, application);
+			AbstractApplication application, Drawable drawTextField) {
+		return new geogebra.gui.inputfield.AutoCompleteTextField(length, application, drawTextField);
 	}
 
 	@Override

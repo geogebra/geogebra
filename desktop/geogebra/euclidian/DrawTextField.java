@@ -23,15 +23,11 @@ import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.Box;
 import geogebra.common.javax.swing.JLabel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.AbstractApplication;
-
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.swing.SwingUtilities;
 
@@ -43,7 +39,7 @@ import javax.swing.SwingUtilities;
  */
 public final class DrawTextField extends Drawable implements RemoveNeeded {
 
-	final GeoTextField geoButton;
+	final GeoTextField geoTextField;
 
 	private boolean isVisible;
 
@@ -57,12 +53,12 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 	public DrawTextField(AbstractEuclidianView view, GeoTextField geo) {
 		this.view = view;
-		this.geoButton = geo;
+		this.geoTextField = geo;
 		this.geo = geo;
 
 		// action listener for checkBox
 		bl = new ButtonListener();
-		textField = SwingFactory.prototype.newAutoCompleteTextField(geo.getLength(), view.getApplication());
+		textField = SwingFactory.prototype.newAutoCompleteTextField(geo.getLength(), view.getApplication(), this);
 		textField.showPopupSymbolButton(true);
 		textField.setAutoComplete(false);
 		textField.enableColoring(false);
@@ -73,11 +69,11 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		
 		textField.setVisible(true);
 		label.setVisible(true);
-//		textField.addFocusListener(bl);
+		((geogebra.gui.inputfield.AutoCompleteTextField) textField).addFocusListener(bl);
 //		label.addMouseListener(bl);
 //		label.addMouseMotionListener(bl);
-		((geogebra.gui.inputfield.AutoCompleteTextField) textField).addKeyListener(bl);
-		box.add((geogebra.javax.swing.JLabel)label);
+		//((geogebra.gui.inputfield.AutoCompleteTextField) textField).addKeyListener(bl);
+		box.add(label);
 		box.add(textField);
 		
 		view.add(box);
@@ -103,15 +99,15 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	}
 
 	private class ButtonListener implements //MouseListener, MouseMotionListener,
-			FocusListener, KeyListener {
-//
-//		private boolean dragging = false;
-//		private final EuclidianController ec = ((EuclidianView)view).getEuclidianController();
-//
-//		public ButtonListener() {
-//			// TODO Auto-generated constructor stub
-//		}
-//
+			FocusListener/*, KeyListener*/ {
+
+		private boolean dragging = false;
+		private final EuclidianController ec = ((EuclidianView)view).getEuclidianController();
+
+		public ButtonListener() {
+			// TODO Auto-generated constructor stub
+		}
+
 //		/**
 //		 * Handles click on check box. Changes value of GeoBoolean.
 //		 */
@@ -196,38 +192,48 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 //
 		public void focusGained(FocusEvent e) {
 			((EuclidianView)view).getEuclidianController().textfieldHasFocus(true);
-			geoButton.updateText(textField);
+			geoTextField.updateText(textField);
 
 		}
 
 		public void focusLost(FocusEvent e) {
 			((EuclidianView)view).getEuclidianController().textfieldHasFocus(false);
 
-			geoButton.textObjectUpdated(textField);
-
-		}
-
-		public void keyPressed(KeyEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		public void keyReleased(KeyEvent e) {
-			if (e.getKeyChar() == '\n') {
-				((EuclidianView)view).getEuclidianController().textfieldHasFocus(false);
-				geoButton.textObjectUpdated(textField);
-			}
-
-		}
-
-		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
+			geoTextField.textObjectUpdated(textField);
 
 		}
 //
+//		public void keyPressed(KeyEvent e) {
+//			// TODO Auto-generated method stub
+//
+//		}
+//
+//		public void keyReleased(KeyEvent e) {
+//			if (e.getKeyChar() == '\n') {
+//				((EuclidianView)view).getEuclidianController().textfieldHasFocus(false);
+//				geoTextField.textObjectUpdated(textField);
+//			}
+//
+//		}
+//
+//		public void keyTyped(KeyEvent e) {
+//			// TODO Auto-generated method stub
+//
+//		}
 	}
 
 
+	/**
+	 * @param keyChar
+	 */
+	public void keyReleased(char keyChar) {
+		if (keyChar == '\n') {
+			((EuclidianView)view).getEuclidianController().textfieldHasFocus(false);
+			geoTextField.textObjectUpdated(textField);
+		}
+
+	}
+	
 	private int oldLength = 0;
 	@Override
 	final public void update() {
@@ -235,7 +241,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		// textField.setVisible(isVisible);
 		// label.setVisible(isVisible);
 		box.setVisible(isVisible);
-		int length = geoButton.getLength();
+		int length = geoTextField.getLength();
 		if(length!=oldLength){
 			textField.setColumns(length);
 			textField.showPopupSymbolButton(length>8);
@@ -260,7 +266,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 			label.setText("   ");
 		}
 
-		int fontSize = view.getFontSize() + geoButton.getFontSize();
+		int fontSize = view.getFontSize() + geoTextField.getFontSize();
 		AbstractApplication app = view.getApplication();
 
 		Font vFont = view.getFont();
@@ -278,7 +284,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 		textField.setFocusable(true);
 		textField.setEditable(true);
-		geoButton.updateText(textField);
+		geoTextField.updateText(textField);
 		// set checkbox state
 		// jButton.removeItemListener(bl);
 		// jButton.setSelected(geo.getBoolean());

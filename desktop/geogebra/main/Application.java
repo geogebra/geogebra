@@ -22,8 +22,10 @@ import geogebra.GeoGebra;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.dialog.DialogManager;
+import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.io.layout.DockPanelData;
@@ -55,6 +57,7 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.DrawEquation;
+import geogebra.euclidian.DrawTextField;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianStatic;
 import geogebra.euclidian.EuclidianView;
@@ -3629,7 +3632,20 @@ public class Application extends AbstractApplication implements
 		if (e.isConsumed()) {
 			return true;
 		}
-
+		
+		//text changed in inputfield?
+		if((e.getComponent() instanceof AutoCompleteTextField)&&
+				(e.getID() == KeyEvent.KEY_RELEASED)){
+			DrawTextField drawTF =
+					((geogebra.gui.inputfield.AutoCompleteTextField)e.getComponent()).
+					getDrawTextField();
+			if (drawTF != null){
+				drawTF.keyReleased(e.getKeyChar());
+			}
+			
+			
+		}
+		
 		controlDown = isControlDown(e);
 		shiftDown = e.isShiftDown();
 		
