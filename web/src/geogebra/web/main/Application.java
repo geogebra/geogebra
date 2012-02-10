@@ -403,7 +403,7 @@ public class Application extends AbstractApplication implements KeyDownHandler{
 			myXMLio.processXMLString(construction, true, false);		
 		} else {
 		//on images do nothing here: wait for callback when images loaded.
-			imageManager.triggerImageLoading(construction,(MyXMLio) myXMLio);
+			imageManager.triggerImageLoading(DataUtil.utf8Decode(construction),(MyXMLio) myXMLio);
 		}
 	}
 	
