@@ -166,8 +166,7 @@ public class MySpecialDouble extends MyDouble {
 			case Unicode.degreeChar:
 				return "^{\\circ}";
 			case Unicode.eulerChar:
-				return Unicode.EULER_STRING; // TODO: find better Latex
-												// rendering for "e"
+				return Unicode.EULER_STRING; 
 			}
 			break;
 		}
