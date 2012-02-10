@@ -1,3 +1,14 @@
+/* 
+GeoGebra - Dynamic Mathematics for Everyone
+http://www.geogebra.org
+
+This file is part of GeoGebra.
+
+This program is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by 
+the Free Software Foundation.
+
+ */
 package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
@@ -21,64 +32,89 @@ import geogebra.common.awt.Font;
 import geogebra.common.awt.Rectangle2D;
 import java.util.Comparator;
 
-public class GeoText extends GeoElement
-implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoTextInterface {
+/**
+ * Geometrical element for holding text
+ *
+ */
+public class GeoText extends GeoElement implements Locateable,
+		AbsoluteScreenLocateable, TextValue, TextProperties, GeoTextInterface {
 
-	private String str; 	
+	private String str;
 	private GeoPointND startPoint; // location of Text on screen
 	private boolean isLaTeX; // text is a LaTeX formula
 	// corners of the text Michael Borcherds 2007-11-26, see AlgoTextCorner
-	private Rectangle2D boundingBox; 
+	private Rectangle2D boundingBox;
 	private boolean needsUpdatedBoundingBox = false;
-	
+
 	// font options
 	private boolean serifFont;
 	private int fontStyle;
-	private int fontSize = 0; // must be zero, as that is the value NOT saved to XML
+	private int fontSize = 0; // must be zero, as that is the value NOT saved to
+								// XML
 	private int printDecimals = -1;
 	private int printFigures = -1;
 	private boolean useSignificantFigures = false;
 	
+	/** index of exra small  modifier */
 	final public static int FONTSIZE_EXTRA_SMALL = 0;
+	/** index of very small  modifier */
 	final public static int FONTSIZE_VERY_SMALL = 1;
+	/** index of small  modifier */
 	final public static int FONTSIZE_SMALL = 2;
+	/** index of medium  modifier */
 	final public static int FONTSIZE_MEDIUM = 3;
+	/** index of large  modifier */
 	final public static int FONTSIZE_LARGE = 4;
+	/** index of very large  modifier */
 	final public static int FONTSIZE_VERY_LARGE = 5;
+	/** index of exra large  modifier */
 	final public static int FONTSIZE_EXTRA_LARGE = 6;
-	
+
 	// for absolute screen location
 	private boolean hasAbsoluteScreenLocation = false;
-	
+
 	/**
 	 * Creates new text
-	 * @param c construction
+	 * 
+	 * @param c
+	 *            construction
 	 */
 	public GeoText(Construction c) {
 		super(c);
-		
+
 		// moved from GeoElement's constructor
 		// must be called from the subclass, see
-		//http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
+		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
 		setConstructionDefaults(); // init visual settings
 
-		// don't show in algebra view	
-		//setAlgebraVisible(false); 
+		// don't show in algebra view
+		// setAlgebraVisible(false);
 		setAuxiliaryObject(true);
-	}  
-	
+	}
+	/**
+	 * Creates new geo text
+	 * @param c constructino
+	 * @param label label
+	 * @param value value of thisforrmula
+	 */
 	public GeoText(Construction c, String label, String value) {
 		this(c, value);
 		setLabel(label);
-	}  
-	
+	}
+
+	/**
+	 * Creates new GeoText
+	 * @param c construction
+	 * @param value text
+	 */
 	public GeoText(Construction c, String value) {
 		this(c);
 		setTextString(value);
-	}  
-	
+	}
+
 	/**
 	 * Copy constructor
+	 * @param text text to copy
 	 */
 	public GeoText(GeoText text) {
 		this(text.cons);
@@ -92,182 +128,191 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 
 	@Override
 	public void set(GeoElement geo) {
-		GeoText gt = (GeoText) geo;	
+		GeoText gt = (GeoText) geo;
 		// macro output: don't set start point
 		// but update to desired number format
-		if (cons != geo.cons && isAlgoMacroOutput()){
-			if(!useSignificantFigures)
-				gt.setPrintDecimals(printDecimals > -1 ? printDecimals :  kernel.getPrintDecimals(), true);	
+		if (cons != geo.cons && isAlgoMacroOutput()) {
+			if (!useSignificantFigures)
+				gt.setPrintDecimals(
+						printDecimals > -1 ? printDecimals : kernel
+								.getPrintDecimals(), true);
 			else
-				gt.setPrintFigures(printFigures > -1 ? printFigures :  kernel.getPrintFigures(),true);				
+				gt.setPrintFigures(
+						printFigures > -1 ? printFigures : kernel
+								.getPrintFigures(), true);
 			str = gt.str;
-			isLaTeX = gt.isLaTeX;	
+			isLaTeX = gt.isLaTeX;
 			updateTemplate();
 			return;
 		}
-		
+
 		str = gt.str;
 		isLaTeX = gt.isLaTeX;
-			
-		
+
 		// needed for Corner[Element[text
-		setBoundingBox(gt.getBoundingBox());
-	
+		boundingBox = gt.getBoundingBox();
+
 		try {
 			if (gt.startPoint != null) {
 				if (gt.hasAbsoluteLocation()) {
-					//	create new location point	
+					// create new location point
 					setStartPoint(gt.startPoint.copy());
 				} else {
-					//	take existing location point	
+					// take existing location point
 					setStartPoint(gt.startPoint);
 				}
 			}
+		} catch (CircularDefinitionException e) {
+			AbstractApplication
+					.debug("set GeoText: CircularDefinitionException");
 		}
-		catch (CircularDefinitionException e) {
-			AbstractApplication.debug("set GeoText: CircularDefinitionException");
-		}		
 		updateTemplate();
 	}
-	
+
 	@Override
 	public void setVisualStyle(GeoElement geo) {
-		super.setVisualStyle(geo);		
-		if (!geo.isGeoText()) return;
-		
-		GeoText text = (GeoText) geo;		
+		super.setVisualStyle(geo);
+		if (!geo.isGeoText())
+			return;
+
+		GeoText text = (GeoText) geo;
 		serifFont = text.serifFont;
 		fontStyle = text.fontStyle;
 		fontSize = text.fontSize;
-		printDecimals = text.printDecimals;	
+		printDecimals = text.printDecimals;
 		printFigures = text.printFigures;
 		useSignificantFigures = text.useSignificantFigures;
 		updateTemplate();
 	}
-	
+
+	/**
+	 * Sets the text contained in this object
+	 * @param text2 text
+	 */
 	final public void setTextString(String text2) {
 		String text = text2;
 		// Michael Borcherds 2008-05-11
 		// remove trailing linefeeds (FreeHEP EMF export doesn't like them)
-		while (text.length() > 1 && text.charAt(text.length()-1) == '\n') {
-			text = text.substring(0, text.length()-1);
+		while (text.length() > 1 && text.charAt(text.length() - 1) == '\n') {
+			text = text.substring(0, text.length() - 1);
 		}
-		
+
 		if (isLaTeX) {
-			//TODO: check greek letters of latex string
+			// TODO: check greek letters of latex string
 			str = StringUtil.toLaTeXString(text, false);
 		} else {
 			// replace "\\n" with a proper newline
 			// for eg Text["Hello\\nWorld",(1,1)]
 			str = text.replaceAll("\\\\\\\\n", "\n");
-		}		
-		
+		}
+
 	}
-	
+
 	final public String getTextString() {
 		return str;
 	}
-	
+
 	/**
-	 * Sets the startpoint without performing any checks.
-	 * This is needed for macros.	 
+	 * Sets the startpoint without performing any checks. This is needed for
+	 * macros.
 	 */
 	public void initStartPoint(GeoPointND p, int number) {
-		startPoint = (GeoPoint2) p;
+		startPoint = p;
 	}
-	
-	public void setStartPoint(GeoPointND p, int number)  throws CircularDefinitionException {
+
+	public void setStartPoint(GeoPointND p, int number)
+			throws CircularDefinitionException {
 		setStartPoint(p);
 	}
-	
-	public void removeStartPoint(GeoPointND p) {    
+
+	public void removeStartPoint(GeoPointND p) {
 		if (startPoint == p) {
 			try {
 				setStartPoint(null);
-			} catch(Exception e) {}
+			} catch (Exception e) {
+				//cannot happen
+			}
 		}
 	}
-			
-	public void setStartPoint(GeoPointND p) throws CircularDefinitionException { 
+
+	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {
 		// don't allow this if it's eg Text["hello",(2,3)]
-		if (alwaysFixed) return;				
+		if (alwaysFixed)
+			return;
 		// macro output uses initStartPoint() only
-		//if (isAlgoMacroOutput()) return; 
-		
+		// if (isAlgoMacroOutput()) return;
+
 		// check for circular definition
 		if (isParentOf((GeoElement) p))
-			throw new CircularDefinitionException();		
-		
+			throw new CircularDefinitionException();
+
 		// remove old dependencies
-		if (startPoint != null) startPoint.getLocateableList().unregisterLocateable(this);	
-		
-		// set new location	
+		if (startPoint != null)
+			startPoint.getLocateableList().unregisterLocateable(this);
+
+		// set new location
 		if (p == null) {
-			if (startPoint != null) // copy old startPoint			
+			if (startPoint != null) // copy old startPoint
 				startPoint = startPoint.copy();
-			else 
-				startPoint = null; 
+			else
+				startPoint = null;
 			labelOffsetX = 0;
-			labelOffsetY = 0;					
+			labelOffsetY = 0;
 		} else {
 			startPoint = p;
-			//	add new dependencies
+			// add new dependencies
 			startPoint.getLocateableList().registerLocateable(this);
-			
+
 			// absolute screen position should be deactivated
 			setAbsoluteScreenLocActive(false);
-		}											
+		}
 	}
-	
-	
-	
+
 	@Override
 	public void doRemove() {
 		super.doRemove();
-		// tell startPoint	
-		if (startPoint != null) startPoint.getLocateableList().unregisterLocateable(this);
+		// tell startPoint
+		if (startPoint != null)
+			startPoint.getLocateableList().unregisterLocateable(this);
 	}
-	
+
 	public GeoPointND getStartPoint() {
 		return startPoint;
 	}
-	
-	
-	public GeoPointND [] getStartPoints() {
+
+	public GeoPointND[] getStartPoints() {
 		if (startPoint == null)
 			return null;
-	
-		GeoPointND [] ret = new GeoPointND[1];
+
+		GeoPointND[] ret = new GeoPointND[1];
 		ret[0] = startPoint;
-		return ret;			
+		return ret;
 	}
-	
+
 	public boolean hasAbsoluteLocation() {
 		return startPoint == null || startPoint.isAbsoluteStartPoint();
 	}
-	
+
 	public void setWaitForStartPoint() {
-		// this can be ignored for a text 
+		// this can be ignored for a text
 		// as the position of its startpoint
 		// is irrelevant for the rest of the construction
 	}
-		
-	
+
 	@Override
 	public void update() {
 
 		super.update();
-		
-		
-//		if (needsUpdatedBoundingBox) {
-//			kernel.notifyUpdate(this);
-//		}
-				
+
+		// if (needsUpdatedBoundingBox) {
+		// kernel.notifyUpdate(this);
+		// }
+
 	}
 
 	/**
 	 * always returns true
-	*/
+	 */
 	@Override
 	public boolean isDefined() {
 		return str != null && (startPoint == null || startPoint.isDefined());
@@ -275,49 +320,50 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 
 	/**
 	 * doesn't do anything
- 	*/
+	 */
 	@Override
 	public void setUndefined() {
 		str = null;
 	}
 
 	@Override
-	public String toValueString(StringTemplate tpl) {		
-		return str;		
+	public String toValueString(StringTemplate tpl1) {
+		return str;
 	}
-	
+
 	/**
 	 * Returns quoted text value string.
 	 */
 	@Override
-	public String toOutputValueString(StringTemplate tpl) {	
-		StringType printForm = tpl.getStringType();
-		
+	public String toOutputValueString(StringTemplate tpl1) {
+		StringType printForm = tpl1.getStringType();
+
 		sbToString.setLength(0);
-		if (printForm .equals(StringType.LATEX))
+		if (printForm.equals(StringType.LATEX))
 			sbToString.append("\\text{``");
 		else
 			sbToString.append('\"');
 		if (str != null)
 			sbToString.append(str);
-		if (printForm .equals(StringType.LATEX))
+		if (printForm.equals(StringType.LATEX))
 			sbToString.append("''}");
 		else
 			sbToString.append('\"');
-		return sbToString.toString();	
+		return sbToString.toString();
 	}
-	
+
 	@Override
-	public String toString(StringTemplate tpl) {		
+	public String toString(StringTemplate tpl1) {
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(" = ");
 		sbToString.append('\"');
 		if (str != null)
 			sbToString.append(str);
-		sbToString.append('\"');	
+		sbToString.append('\"');
 		return sbToString.toString();
 	}
+
 	private StringBuilder sbToString = new StringBuilder(80);
 
 	@Override
@@ -326,7 +372,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	}
 
 	@Override
-	protected boolean showInEuclidianView() {		
+	protected boolean showInEuclidianView() {
 		return isDefined();
 	}
 
@@ -335,12 +381,12 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 		return "GeoText";
 	}
 
-    @Override
+	@Override
 	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_TEXT;
-    }
-	
-    @Override
+		return EuclidianConstants.MODE_TEXT;
+	}
+
+	@Override
 	public String getTypeString() {
 		return "Text";
 	}
@@ -348,61 +394,69 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.TEXT;
-	}    
-	
+	}
+
 	@Override
 	public boolean isMoveable() {
-		
-		if (alwaysFixed) return false;
-		
+
+		if (alwaysFixed)
+			return false;
+
 		return !isFixed();
 	}
-	
-	/** used for eg Text["text",(1,2)]
-	* to stop it being editable */
+
+	/**
+	 * used for eg Text["text",(1,2)] to stop it being editable
+	 */
 	public boolean isTextCommand = false;
-	
+
 	/**
 	 * 
-	 * @param isCommand new value of isTextCommand
+	 * @param isCommand
+	 *            new value of isTextCommand
 	 */
 	public void setIsTextCommand(boolean isCommand) {
 		this.isTextCommand = isCommand;
 	}
-	
+
 	@Override
 	public boolean isTextCommand() {
 
 		// check for eg If[ a==1 , "hello", "bye"] first
-		if (!(getParentAlgorithm() == null) && !(getParentAlgorithm() instanceof AlgoDependentText)) return true;
+		if (!(getParentAlgorithm() == null)
+				&& !(getParentAlgorithm() instanceof AlgoDependentText))
+			return true;
 
 		return isTextCommand;
 	}
-	
+
 	/**
 	 * @return true if this text was produced by algo with LaTeX output
 	 */
 	public boolean isLaTeXTextCommand() {
 
-		if (!isTextCommand || getParentAlgorithm() == null) return false;
+		if (!isTextCommand || getParentAlgorithm() == null)
+			return false;
 
 		return getParentAlgorithm().isLaTeXTextCommand();
 	}
-	
+
 	@Override
 	public void setAlgoMacroOutput(boolean isAlgoMacroOutput) {
 		super.setAlgoMacroOutput(true);
 		setIsTextCommand(true);
 	}
-	
-	/** used for eg Text["text",(1,2)]
-	 * to stop it being draggable */
+
+	/**
+	 * used for eg Text["text",(1,2)] to stop it being draggable
+	 */
 	boolean alwaysFixed = false;
 	private StringTemplate tpl = StringTemplate.defaultTemplate;
-	
+
 	/**
 	 * 
-	 * @param alwaysFixed flag to prevent movement of Text["whee",(1,2)]
+	 * @param alwaysFixed
+	 *            flag to prevent movement of Text["whee",(1,2)]
 	 */
 	public void setAlwaysFixed(boolean alwaysFixed) {
 		this.alwaysFixed = alwaysFixed;
@@ -410,9 +464,10 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 
 	@Override
 	public boolean isFixable() {
-		
+
 		// workaround for Text["text",(1,2)]
-		if (alwaysFixed) return false;
+		if (alwaysFixed)
+			return false;
 
 		return true;
 	}
@@ -431,26 +486,26 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	public boolean isPolynomialInstance() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isTextValue() {
 		return true;
 	}
-	
+
 	@Override
 	public boolean isGeoText() {
 		return true;
 	}
-	
+
 	public MyStringBuffer getText() {
 		if (str != null)
 			return new MyStringBuffer(kernel, str);
 		return new MyStringBuffer(kernel, "");
-	}	
+	}
 
 	/**
-	  * save object in XML format
-	  */ 
+	 * save object in XML format
+	 */
 	@Override
 	public final void getXML(StringBuilder sb) {
 
@@ -462,12 +517,13 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 			sb.append(" label=\"");
 			sb.append(StringUtil.encodeXML(label));
 			sb.append("\" exp=\"");
-			sb.append(StringUtil.encodeXML(toOutputValueString(StringTemplate.xmlTemplate)));
-			// expression   
+			sb.append(StringUtil
+					.encodeXML(toOutputValueString(StringTemplate.xmlTemplate)));
+			// expression
 			sb.append("\"/>\n");
 		}
 
-		sb.append("<element"); 
+		sb.append("<element");
 		sb.append(" type=\"text\"");
 		sb.append(" label=\"");
 		sb.append(StringUtil.encodeXML(label));
@@ -482,18 +538,18 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	}
 
 	/**
-	* returns all class-specific xml tags for getXML
-	*/
-		@Override
-		protected void getXMLtags(StringBuilder sb) {
-	   	getXMLvisualTags(sb, false);			
-		
-	   	getXMLfixedTag(sb);
-		
+	 * returns all class-specific xml tags for getXML
+	 */
+	@Override
+	protected void getXMLtags(StringBuilder sb) {
+		getXMLvisualTags(sb, false);
+
+		getXMLfixedTag(sb);
+
 		if (isLaTeX) {
-			sb.append("\t<isLaTeX val=\"true\"/>\n");	
+			sb.append("\t<isLaTeX val=\"true\"/>\n");
 		}
-		
+
 		// font settings
 		if (serifFont || fontSize != 0 || fontStyle != 0 || isLaTeX) {
 			sb.append("\t<font serif=\"");
@@ -504,95 +560,107 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 			sb.append(fontStyle);
 			sb.append("\"/>\n");
 		}
-		
+
 		// print decimals
 		if (printDecimals >= 0 && !useSignificantFigures) {
 			sb.append("\t<decimals val=\"");
 			sb.append(printDecimals);
 			sb.append("\"/>\n");
 		}
-						
+
 		// print significant figures
 		if (printFigures >= 0 && useSignificantFigures) {
 			sb.append("\t<significantfigures val=\"");
 			sb.append(printFigures);
 			sb.append("\"/>\n");
 		}
-						
+
 		getBreakpointXML(sb);
-		
+
 		getAuxiliaryXML(sb);
 
 		// store location of text (and possible labelOffset)
-		sb.append(getXMLlocation());			
+		sb.append(getXMLlocation());
 		getScriptTags(sb);
 
-   	}
-   	
-   	/**
-   	 * Returns startPoint of this text in XML notation.  	 
-   	 */
-   	private String getXMLlocation() {   		
-   		StringBuilder sb = new StringBuilder();   				
-   		
-   		if (hasAbsoluteScreenLocation) {
-   			sb.append("\t<absoluteScreenLocation ");			
-   				sb.append(" x=\""); 	sb.append( labelOffsetX ); 	sb.append("\"");
-   				sb.append(" y=\""); 	sb.append( labelOffsetY ); 	sb.append("\"");
-			sb.append("/>\n");	
-   		} 
-   		else {   			
+	}
+
+	/**
+	 * Returns startPoint of this text in XML notation.
+	 */
+	private String getXMLlocation() {
+		StringBuilder sb = new StringBuilder();
+
+		if (hasAbsoluteScreenLocation) {
+			sb.append("\t<absoluteScreenLocation ");
+			sb.append(" x=\"");
+			sb.append(labelOffsetX);
+			sb.append("\"");
+			sb.append(" y=\"");
+			sb.append(labelOffsetY);
+			sb.append("\"");
+			sb.append("/>\n");
+		} else {
 			// location of text
 			if (startPoint != null) {
 				sb.append(startPoint.getStartPointXML());
-	
+
 				if (labelOffsetX != 0 || labelOffsetY != 0) {
-					sb.append("\t<labelOffset");			
-						sb.append(" x=\""); 	sb.append( labelOffsetX ); 	sb.append("\"");
-						sb.append(" y=\""); 	sb.append( labelOffsetY ); 	sb.append("\"");
-					sb.append("/>\n");	  	
-				}	
+					sb.append("\t<labelOffset");
+					sb.append(" x=\"");
+					sb.append(labelOffsetX);
+					sb.append("\"");
+					sb.append(" y=\"");
+					sb.append(labelOffsetY);
+					sb.append("\"");
+					sb.append("/>\n");
+				}
 			}
-   		}
-   		return sb.toString();
-   	}
+		}
+		return sb.toString();
+	}
 
 	@Override
 	public void setAllVisualProperties(GeoElement geo, boolean keepAdvanced) {
 		super.setAllVisualProperties(geo, keepAdvanced);
-		
+
 		// start point of text
 		if (geo instanceof GeoText) {
-			GeoText text = (GeoText) geo;									
+			GeoText text = (GeoText) geo;
 			setSameLocation(text);
 			setLaTeX(text.isLaTeX, true);
-		}		
-	}	
-	
+		}
+	}
+
 	private void setSameLocation(GeoText text) {
 		if (text.hasAbsoluteScreenLocation) {
 			setAbsoluteScreenLocActive(true);
-			setAbsoluteScreenLoc(text.getAbsoluteScreenLocX(), 
-								 text.getAbsoluteScreenLocY());
-		} 
-		else {
+			setAbsoluteScreenLoc(text.getAbsoluteScreenLocX(),
+					text.getAbsoluteScreenLocY());
+		} else {
 			if (text.startPoint != null) {
 				try {
 					setStartPoint(text.startPoint);
-				} catch (Exception e) {				
+				} catch (Exception e) {
+					//Circular definition, do nothing
 				}
 			}
-		}						
+		}
 	}
-
 
 	public boolean isLaTeX() {
 		return isLaTeX;
 	}
 
+	/**
+	 * Changes type of this object to math rendering type (LaTeX or MATHML)
+	 * @param b true for math rendering
+	 * @param updateParentAlgo when true, parent is recomputed
+	 */
 	public void setLaTeX(boolean b, boolean updateParentAlgo) {
-		if (b == isLaTeX) return;
-		
+		if (b == isLaTeX)
+			return;
+
 		isLaTeX = b;
 		updateTemplate();
 		// update parent algorithm if it's not a sequence
@@ -601,58 +669,60 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 			if (parent != null && !(parent instanceof AlgoSequence)) {
 				parent.update();
 			}
-		}			
-	}		
+		}
+	}
 
 	public void setAbsoluteScreenLoc(int x, int y) {
 		labelOffsetX = x;
-		labelOffsetY = y;		
+		labelOffsetY = y;
 	}
 
-	public int getAbsoluteScreenLocX() {	
+	public int getAbsoluteScreenLocX() {
 		return labelOffsetX;
 	}
 
-	public int getAbsoluteScreenLocY() {		
+	public int getAbsoluteScreenLocY() {
 		return labelOffsetY;
 	}
-	
+
 	public double getRealWorldLocX() {
 		if (startPoint == null)
 			return 0;
-		else
-			return startPoint.getInhomCoords().getX();
+		return startPoint.getInhomCoords().getX();
 	}
-	
+
 	public double getRealWorldLocY() {
 		if (startPoint == null)
 			return 0;
-		else
-			return startPoint.getInhomCoords().getY();
+		return startPoint.getInhomCoords().getY();
 	}
-	
+
 	public void setRealWorldLoc(double x, double y) {
 		GeoPoint2 loc = (GeoPoint2) getStartPoint();
 		if (loc == null) {
-			loc = new GeoPoint2(cons);	
-			try {setStartPoint(loc); }
-			catch(Exception e){}
+			loc = new GeoPoint2(cons);
+			try {
+				setStartPoint(loc);
+			} catch (Exception e) {
+				//circular definition, do nothing
+			}
 		}
 		loc.setCoords(x, y, 1.0);
 		labelOffsetX = 0;
-		labelOffsetY = 0;	
+		labelOffsetY = 0;
 	}
 
 	public void setAbsoluteScreenLocActive(boolean flag) {
-		if (flag == hasAbsoluteScreenLocation) return;
-		
-		hasAbsoluteScreenLocation = flag;			
+		if (flag == hasAbsoluteScreenLocation)
+			return;
+
+		hasAbsoluteScreenLocation = flag;
 		if (flag) {
 			// remove startpoint
 			if (startPoint != null) {
-				startPoint.getLocateableList().unregisterLocateable(this);				
+				startPoint.getLocateableList().unregisterLocateable(this);
 				startPoint = null;
-			}			
+			}
 		} else {
 			labelOffsetX = 0;
 			labelOffsetY = 0;
@@ -662,7 +732,7 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	public boolean isAbsoluteScreenLocActive() {
 		return hasAbsoluteScreenLocation;
 	}
-	
+
 	@Override
 	public boolean isAbsoluteScreenLocateable() {
 		return true;
@@ -671,7 +741,11 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	public int getFontSize() {
 		return fontSize;
 	}
-	
+	/**
+	 * 
+	 * @param index index of size in the settings
+	 * @return additive size modifier
+	 */
 	public static int getRelativeFontSize(int index) {
 		switch (index) {
 		case FONTSIZE_EXTRA_SMALL: // extra small
@@ -691,7 +765,12 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 			return 128;
 		}
 	}
-	
+
+	/**
+	 * 
+	 * @param relativeFontSize font size  modifier 
+	 * @return corresponding index
+	 */
 	public static int getFontSizeIndex(int relativeFontSize) {
 		switch (relativeFontSize) {
 		case -12: // extra small
@@ -714,30 +793,35 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 			return FONTSIZE_EXTRA_LARGE;
 		}
 	}
-	
+
 	public void setFontSize(int size) {
 		fontSize = size;
 	}
+
 	public int getFontStyle() {
 		return fontStyle;
 	}
+
 	public void setFontStyle(int fontStyle) {
 		this.fontStyle = fontStyle;
-		
+
 		// needed for eg \sqrt in latex
 		if ((fontStyle & Font.BOLD) != 0)
 			lineThickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS * 2;
 		else
 			lineThickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
-			
+
 	}
+
 	final public int getPrintDecimals() {
 		return printDecimals;
 	}
+
 	final public int getPrintFigures() {
 		return printFigures;
 	}
-	public void setPrintDecimals(int printDecimals, boolean update) {		
+
+	public void setPrintDecimals(int printDecimals, boolean update) {
 		AlgoElement algo = getParentAlgorithm();
 		if (algo != null && update) {
 			this.printDecimals = printDecimals;
@@ -745,9 +829,10 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 			useSignificantFigures = false;
 			updateTemplate();
 			algo.update();
-		}			
+		}
 	}
-	public void setPrintFigures(int printFigures, boolean update) {		
+
+	public void setPrintFigures(int printFigures, boolean update) {
 		AlgoElement algo = getParentAlgorithm();
 		if (algo != null && update) {
 			this.printFigures = printFigures;
@@ -755,72 +840,92 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 			useSignificantFigures = true;
 			updateTemplate();
 			algo.update();
-		}			
+		}
 	}
+
 	public boolean useSignificantFigures() {
 		return useSignificantFigures;
 
 	}
+
 	public boolean isSerifFont() {
 		return serifFont;
 	}
+
 	public void setSerifFont(boolean serifFont) {
 		this.serifFont = serifFont;
 	}
-	public void calculateCornerPoint(GeoPoint2 result, int n) {	
+
+	/**
+	 * @param result point for storing result
+	 * @param n index of corner (1 for lower left, then anticlockwise)
+	 */
+	public void calculateCornerPoint(GeoPoint2 result, int n) {
 		// adapted from GeoImage by Michael Borcherds 2007-11-26
 		if (hasAbsoluteScreenLocation || boundingBox == null) {
 			result.setUndefined();
 			return;
-		}					
-	
+		}
+
 		switch (n) {
-			case 4: // top left
-				result.setCoords(boundingBox.getX(),boundingBox.getY(),1.0);
-				break;
-			
-			case 3: // top right
-				result.setCoords(boundingBox.getX()+boundingBox.getWidth(),boundingBox.getY(),1.0);
-				break;
-				
-			case 2: // bottom right
-				result.setCoords(boundingBox.getX()+boundingBox.getWidth(),boundingBox.getY()+boundingBox.getHeight(),1.0);
-				break;
-				
-			case 1: // bottom left
-				result.setCoords(boundingBox.getX(),boundingBox.getY()+boundingBox.getHeight(),1.0);
-				break;
-				
-			default:
-				result.setUndefined();
-		}	
+		case 4: // top left
+			result.setCoords(boundingBox.getX(), boundingBox.getY(), 1.0);
+			break;
+
+		case 3: // top right
+			result.setCoords(boundingBox.getX() + boundingBox.getWidth(),
+					boundingBox.getY(), 1.0);
+			break;
+
+		case 2: // bottom right
+			result.setCoords(boundingBox.getX() + boundingBox.getWidth(),
+					boundingBox.getY() + boundingBox.getHeight(), 1.0);
+			break;
+
+		case 1: // bottom left
+			result.setCoords(boundingBox.getX(), boundingBox.getY()
+					+ boundingBox.getHeight(), 1.0);
+			break;
+
+		default:
+			result.setUndefined();
+		}
 	}
-	
-	public Rectangle2D getBoundingBox() 
-	{ 
+
+	/**
+	 * @return Bounding box of this text
+	 */
+	public Rectangle2D getBoundingBox() {
 		return boundingBox;
 	}
 
-	public void setBoundingBox(Rectangle2D rect) 
-	{ 
-		boundingBox = rect;
-	}
+	/**
+	 * @param x x coord
+	 * @param y y coord
+	 * @param w width
+	 * @param h height
+	 */
+	public void setBoundingBox(double x, double y, double w, double h) {
 
-	public void setBoundingBox(double x, double y, double w, double h) 
-	{ 
-		
 		boolean firstTime = boundingBox == null;
 		if (firstTime) {
-			boundingBox = geogebra.common.factories.AwtFactory.prototype.newRectangle2D();
+			boundingBox = geogebra.common.factories.AwtFactory.prototype
+					.newRectangle2D();
 		}
-		
+
 		boundingBox.setRect(x, y, w, h);
 	}
 
+	/**
+	 * @return tue if bounding box is not  correct anymore
+	 */
 	public final boolean isNeedsUpdatedBoundingBox() {
 		return needsUpdatedBoundingBox;
 	}
 
+	/**
+	 * @param needsUpdatedBoundingBox true to make sure this object upates itself
+	 */
 	public final void setNeedsUpdatedBoundingBox(boolean needsUpdatedBoundingBox) {
 		this.needsUpdatedBoundingBox = needsUpdatedBoundingBox;
 	}
@@ -829,51 +934,56 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	@Override
 	final public boolean isEqual(GeoElement geo) {
 		// return false if it's a different type
-		if (str == null) return false;
-		if (geo.isGeoText()) return str.equals(((GeoText)geo).str); 
+		if (str == null)
+			return false;
+		if (geo.isGeoText())
+			return str.equals(((GeoText) geo).str);
 		return false;
 	}
+
 	@Override
 	public void setZero() {
-		str="";
+		str = "";
 	}
-	
-	
+
 	/**
-	 * Returns a comparator for GeoText objects.
-	 * If equal, doesn't return zero (otherwise TreeSet deletes duplicates)
+	 * Returns a comparator for GeoText objects. If equal, doesn't return zero
+	 * (otherwise TreeSet deletes duplicates)
+	 * @return comparator
 	 */
 	public static Comparator<GeoText> getComparator() {
 		if (comparator == null) {
 			comparator = new Comparator<GeoText>() {
-			      public int compare(GeoText itemA, GeoText itemB) {
+				public int compare(GeoText itemA, GeoText itemB) {
 
-				        int comp = itemA.getTextString().compareTo(itemB.getTextString());
-				        
-				        
-				        if (comp == 0) 
-				        	// if we return 0 for equal strings, the TreeSet deletes the equal one
-				        	return itemA.getConstructionIndex() > itemB.getConstructionIndex() ? -1 : 1;
-				        return comp;
-				      }
+					int comp = itemA.getTextString().compareTo(
+							itemB.getTextString());
+
+					if (comp == 0)
+						// if we return 0 for equal strings, the TreeSet deletes
+						// the equal one
+						return itemA.getConstructionIndex() > itemB
+								.getConstructionIndex() ? -1 : 1;
+					return comp;
+				}
 			};
 		}
-		
+
 		return comparator;
 	}
-	
+
 	private static Comparator<GeoText> comparator;
-	
-		public void updateTemplate() {
-		StringType type = isLaTeX?app.getFormulaRenderingType():StringType.GEOGEBRA;
-		if (useSignificantFigures()) {
-			if(printFigures > -1)
-				tpl= StringTemplate.printFigures(type,printFigures,false);
-		}
-		else
-		{	
-			if(printDecimals > -1)
-				tpl =StringTemplate.printDecimals(type,printDecimals,false);
+
+	private void updateTemplate() {
+		StringType type = isLaTeX ? app.getFormulaRenderingType()
+				: StringType.GEOGEBRA;
+
+		if (useSignificantFigures() && printFigures > -1) {
+			tpl = StringTemplate.printFigures(type, printFigures, false);
+		} else if (!useSignificantFigures && printDecimals > -1) {
+			tpl = StringTemplate.printDecimals(type, printDecimals, false);
+		} else {
+			tpl = StringTemplate.get(type);
 		}
 	}
 
@@ -882,12 +992,6 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	}
 
 	@Override
-	public boolean isVector3DValue() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-	@Override
 	final public boolean isAuxiliaryObjectByDefault() {
 		return true;
 	}
@@ -895,36 +999,36 @@ implements Locateable, AbsoluteScreenLocateable, TextValue, TextProperties, GeoT
 	public boolean justFontSize() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isRedefineable() {
 		return true;
 	}
-	
-	@Override
-	public  boolean isLaTeXDrawableGeo(String latexStr) {
-		
-		return isLaTeX() || (getTextString() != null && getTextString().indexOf('_') != -1);
-	}
-	
 
- 	@Override
+	@Override
+	public boolean isLaTeXDrawableGeo(String latexStr) {
+
+		return isLaTeX()
+				|| (getTextString() != null && getTextString().indexOf('_') != -1);
+	}
+
+	@Override
 	public boolean hasDrawable3D() {
 		return true;
 	}
- 	
+
 	@Override
 	public boolean hasBackgroundColor() {
 		return true;
 	}
 
 	/**
-	 * String template; contains both string type and precision 
+	 * String template; contains both string type and precision
+	 * 
 	 * @return template
 	 */
 	public StringTemplate getStringTemplate() {
 		return tpl;
 	}
-
 
 }
