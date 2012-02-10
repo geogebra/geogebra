@@ -3,7 +3,7 @@ import threading
 from functools import partial
 
 from java.lang import Runnable, Error as JavaError
-from javax.swing import SwingUtilities
+from javax.swing.SwingUtilities import invokeAndWait, isEventDispatchThread
 
 __all__ = [
     'API', 'APIProxy', 'asynchronous',
@@ -13,11 +13,6 @@ __all__ = [
 
 thread_locals = threading.local()
 thread_locals.async = False
-thread_locals.main_thread = False
-
-def init_main_thread():
-    thread_locals.async = False
-    thread_locals.main_thread = True
 
 class Runner(Runnable):
     def __init__(self, f, args=(), kwargs={}):
@@ -29,20 +24,14 @@ class Runner(Runnable):
 
 def invoke(f, *args, **kwargs):
     runner = Runner(f, args, kwargs)
-    SwingUtilities.invokeAndWait(runner)
+    invokeAndWait(runner)
     return runner.result
-
-try:
-    invoke(init_main_thread)
-except JavaError:
-    # We're in the main thread already
-    init_main_thread()
 
 class APIProxy(object):
     def __init__(self, api):
         self._api = api
     def __getattr__(self, attr):
-        if thread_locals.main_thread or thread_locals.async:
+        if isEventDispatchThread() or thread_locals.async:
             return getattr(self._api, attr)
         else:
             return partial(invoke, getattr(self._api, attr))
@@ -60,7 +49,6 @@ def start_new_thread(f, *args, **kwargs):
     """
     def run():
         thread_locals.async = False
-        thread_locals.main_thread = False
         f(*args, **kwargs)
     thread = threading.Thread(target=run)
     thread.start()
@@ -73,7 +61,7 @@ def run_in_main_thread(f, *args, **kwargs):
     This is useful when main API calls are needed as they will all be
     executed together, thus speeding things up.
     """
-    if thread_locals.main_thread:
+    if isEventDispatchThread():
         return f(*args, **kwargs)
     else:
         return invoke(f, *args, **kwargs)
