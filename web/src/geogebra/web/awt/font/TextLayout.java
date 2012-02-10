@@ -1,13 +1,10 @@
 package geogebra.web.awt.font;
 
-import com.google.gwt.canvas.dom.client.TextMetrics;
-import com.google.gwt.user.client.ui.HTML;
-
 import geogebra.common.awt.Font;
 import geogebra.common.awt.Graphics2D;
-import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.util.Unicode;
 import geogebra.web.awt.FontRenderContext;
 
 public class TextLayout implements geogebra.common.awt.font.TextLayout {
@@ -15,11 +12,22 @@ public class TextLayout implements geogebra.common.awt.font.TextLayout {
 	Font font;
 	String str;
 	FontRenderContext frc;
+	boolean containsLowerCase = false;
 
 	public TextLayout(String str, geogebra.common.awt.Font font, FontRenderContext frc) {
 	   this.font = font;
 	   this.str = str;
 	   this.frc = frc;
+	   
+	   if (str.length() > 0) {
+		   for (int i = 0 ; i < str.length() ; i++) {
+			   if (Unicode.charactersWithDescenders.indexOf(str.charAt(i)) > -1) {
+				   containsLowerCase = true;
+				   break;
+			   }
+		   }	
+	   }
+	   //containsLowerCase = str.indexOf('g') > -1 || str.indexOf('y') > -1 || str.indexOf('j') > -1 || str.indexOf('f') > -1;
     }
 
 	public float getAdvance() {
@@ -32,16 +40,17 @@ public class TextLayout implements geogebra.common.awt.font.TextLayout {
     }
 
 	public float getAscent() {
-		HTML m_textmetrics = new HTML();
-		m_textmetrics.setHTML("<div style='font-size: " + font.getSize() + "px;	font-family: " + font.getFontName() +";'>"+str+"</div>");
-		m_textmetrics.setVisible(true);
-		float h = m_textmetrics.getOffsetHeight();
-		m_textmetrics.setVisible(false);
-		return h;
+		if (containsLowerCase) {
+			return font.getSize() * 0.75f;
+		}
+		return font.getSize() * 0.80f;
     }
 	
 	public float getDescent() {
-		return 0;
+		if (containsLowerCase) {
+			return font.getSize() * 0.25f;
+		}
+		return font.getSize() * 0.20f;
 	}
 
 	public void draw(Graphics2D g2, int x, int y) {

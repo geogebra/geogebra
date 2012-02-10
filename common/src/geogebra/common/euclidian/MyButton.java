@@ -46,9 +46,9 @@ public class MyButton {
 		
 		float textHeight = t.getAscent() + t.getDescent();
 		
-		width=Math.max((int)(t.getAdvance() * 1.05),24);
+		width=Math.max((int)(t.getAdvance() * 1.1),24);
 		
-		height=Math.max((int)(textHeight * 1.05),24);
+		height=Math.max((int)(textHeight * 1.1),24);
 		
 		int spareHeight = height - (int)(textHeight);
 
