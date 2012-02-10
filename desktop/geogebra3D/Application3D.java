@@ -232,8 +232,7 @@ public class Application3D extends Application {
 		getEuclidianView3D().toggleGrid();
 	}
 
-	@Override
-	public void setShowAxesSelected(JCheckBoxMenuItem cb) {
+	public void setShowAxesSelected3D(JCheckBoxMenuItem cb) {
 		cb.setSelected(getEuclidianView3D().axesAreAllVisible());
 	}
 
@@ -252,8 +251,7 @@ public class Application3D extends Application {
 	 * 
 	 * @param cb
 	 */
-	@Override
-	public void setShowGridSelected(JCheckBoxMenuItem cb) {
+	public void setShowGridSelected3D(JCheckBoxMenuItem cb) {
 		GeoPlane3D p = getEuclidianView3D().getxOyPlane();
 		cb.setSelected(p.isGridVisible());
 	}

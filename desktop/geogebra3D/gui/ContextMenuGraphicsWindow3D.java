@@ -38,13 +38,13 @@ public class ContextMenuGraphicsWindow3D extends ContextMenuGraphicsWindow {
         // checkboxes for axes and grid
         JCheckBoxMenuItem cbShowAxes = new JCheckBoxMenuItem(((GuiManager3D) app.getGuiManager()).getShowAxes3DAction());
         //cbShowAxes.setSelected(ev.getShowXaxis() && ev.getShowYaxis());
-        app.setShowAxesSelected(cbShowAxes);
+        ((Application3D) app).setShowAxesSelected3D(cbShowAxes);
         cbShowAxes.setBackground(getBackground());
         add(cbShowAxes);
         
         JCheckBoxMenuItem cbShowGrid = new JCheckBoxMenuItem(((GuiManager3D) app.getGuiManager()).getShowGrid3DAction());
         //cbShowGrid.setSelected(ev.getShowGrid());
-        app.setShowGridSelected(cbShowGrid);
+        ((Application3D) app).setShowGridSelected3D(cbShowGrid);
         cbShowGrid.setBackground(getBackground());
         add(cbShowGrid);
 
