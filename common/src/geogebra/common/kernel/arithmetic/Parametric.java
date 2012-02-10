@@ -76,10 +76,6 @@ public class Parametric extends ValidExpression {
 				parameter);
 	}
 
-	public ExpressionValue evaluate() {
-		return null;
-	}
-
 	public HashSet<GeoElement> getVariables() {
 		HashSet<GeoElement> vars = new HashSet<GeoElement>();
 		vars.addAll(P.getVariables());

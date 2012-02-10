@@ -504,10 +504,6 @@ public class Polynomial extends ValidExpression implements Serializable
 		return true;
 	}
 
-	public ExpressionValue evaluate() {
-		return this;
-	}
-
 	final public boolean isNumberValue() {
 		return false;
 	}

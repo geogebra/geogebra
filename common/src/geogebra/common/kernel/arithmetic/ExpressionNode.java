@@ -361,13 +361,7 @@ public class ExpressionNode extends ValidExpression implements
 	 * v.evaluate(); }
 	 */
 
-	/**
-	 * interface ExpressionValue implementation
-	 */
-	@Deprecated
-	public ExpressionValue evaluate() {
-		return kernel.getExpressionNodeEvaluator().evaluate(this,StringTemplate.get(StringType.GEOGEBRA));
-	}
+
 	/**
 	 * Evaluates this expression
 	 * @param tpl template (needed for possible string concatenation)

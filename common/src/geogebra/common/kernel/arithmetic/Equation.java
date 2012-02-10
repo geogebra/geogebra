@@ -295,13 +295,14 @@ public class Equation extends ValidExpression implements ReplaceableValue {
 		return new Equation(kernel, lhs.getCopy(kernel), rhs.getCopy(kernel));
 	}
 
-	public ExpressionValue evaluate() {		
+	public ExpressionValue evaluate(StringTemplate tpl) {		
 		boolean oldFlag = kernel.getConstruction().isSuppressLabelsActive();
 		kernel.getConstruction().setSuppressLabelCreation(true);
 		GeoElement ge = kernel.getAlgebraProcessor().processEquation(this)[0];
 		kernel.getConstruction().setSuppressLabelCreation(oldFlag);
 		return ge;
 	}
+
 
 	public HashSet<GeoElement> getVariables() {
 		HashSet<GeoElement> leftVars = lhs.getVariables();

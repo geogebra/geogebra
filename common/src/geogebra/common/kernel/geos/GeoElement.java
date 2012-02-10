@@ -3369,7 +3369,11 @@ public abstract class GeoElement extends ConstructionElement implements
 		return true;
 	}
 
-	public ExpressionValue evaluate() {
+	public final ExpressionValue evaluate() {
+		return this;
+	}
+	
+	public final ExpressionValue evaluate(StringTemplate tpl) {
 		return this;
 	}
 

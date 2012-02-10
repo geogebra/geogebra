@@ -177,6 +177,14 @@ public abstract class ValidExpression implements ExpressionValue {
 		this.keepInputUsed = keepInputUsed;
 	}
 	
+	public ExpressionValue evaluate(StringTemplate tpl){
+		return this;
+	}
+	
+	public final ExpressionValue evaluate(){
+		return evaluate(StringTemplate.defaultTemplate);
+	}
+	
 	@Deprecated
 	public final String toString(){
 		return toString(StringTemplate.defaultTemplate);

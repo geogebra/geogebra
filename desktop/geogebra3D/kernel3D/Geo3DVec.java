@@ -480,9 +480,7 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
     final public int getMode() {
         return  mode;
     }        
-    
-    final public ExpressionValue evaluate() { return this; }
-    
+
     final public HashSet<GeoElement> getVariables() { return null; }
     
     final public void setMode(int mode) {

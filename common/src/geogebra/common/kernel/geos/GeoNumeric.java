@@ -446,9 +446,6 @@ implements NumberValue, AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 		return varset;
 	}
 
-	final public ExpressionValue evaluate() {
-		return this;
-	}
 
 	public void setAllVisualProperties(GeoElement geo, boolean keepAdvanced) {
 		super.setAllVisualProperties(geo, keepAdvanced);

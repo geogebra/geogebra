@@ -447,11 +447,7 @@ CasEvaluableFunction, ParametricCurve, LineProperties, RealRootFunction, Dilatea
 		return derivGeoFun;					
 	}
 	private GeoFunction derivGeoFun;
-	
-	@Override
-	public ExpressionValue evaluate() {
-		return this;
-	}
+
 	
 	/**
 	 * translate function by vector v

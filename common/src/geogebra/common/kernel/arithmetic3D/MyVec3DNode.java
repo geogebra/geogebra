@@ -150,10 +150,6 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		return true;
 	}
 
-	public ExpressionValue evaluate() {
-		return this;
-	}
-
 	/** returns all GeoElement objects in the both coordinate subtrees */
 	public HashSet<GeoElement> getVariables() {
 		HashSet<GeoElement> temp, varset = x.getVariables();

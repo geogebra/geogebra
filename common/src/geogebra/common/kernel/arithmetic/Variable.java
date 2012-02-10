@@ -60,10 +60,6 @@ public class Variable extends ValidExpression {
 		return true;
 	}
 
-	public ExpressionValue evaluate() {
-		return this;
-	}
-
 	/**
 	 * Looks up the name of this variable in the kernel and returns the
 	 * according GeoElement object.

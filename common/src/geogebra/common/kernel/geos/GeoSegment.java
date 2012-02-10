@@ -289,7 +289,6 @@ GeoSegmentND {
         return varset;          
     }                   
     
-    final public ExpressionValue evaluate() { return this; }    
 
 	public boolean isNumberValue() {
 		return true;

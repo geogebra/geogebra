@@ -257,11 +257,6 @@ AbsoluteScreenLocateable {
 		varset.add(this);
 		return varset;
 	}
-
-	@Override
-	final public ExpressionValue evaluate() {
-		return this;
-	}			
 	
 	/**
 	 * returns all class-specific xml tags for saveXML

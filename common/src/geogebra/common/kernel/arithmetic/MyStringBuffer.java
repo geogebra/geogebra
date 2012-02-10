@@ -97,10 +97,6 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		return getText();
 	}
 
-	public ExpressionValue evaluate() {
-		return this;
-	}
-
 	public HashSet<GeoElement> getVariables() {
 		return null;
 	}

@@ -860,8 +860,6 @@ MatrixTransformable,Mirrorable,Translateable,Dilateable,GeoCoordSys2D,GeoPolyLin
         varset.add(this);        
         return varset;          
     }                   
-    
-    final public ExpressionValue evaluate() { return this; }	
 
 	protected boolean showInEuclidianView() {
 		return defined;

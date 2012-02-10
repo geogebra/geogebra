@@ -603,7 +603,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
         return  mode;
     }        
     
-    final public ExpressionValue evaluate() { 
+    final public ExpressionValue evaluate(StringTemplate tpl) { 
     	return getVector(); 
     }
     

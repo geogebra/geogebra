@@ -1097,11 +1097,7 @@ GeoPointND, Animatable, Transformable, SpreadsheetTraceable {
     }
         
     
-    /** POLAR or CARTESIAN */
-  
-    @Override
-	public ExpressionValue evaluate() { return this; }
-      
+    /** POLAR or CARTESIAN */ 
     
     /**
      * returns all class-specific xml tags for saveXML

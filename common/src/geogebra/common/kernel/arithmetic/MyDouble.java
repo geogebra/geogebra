@@ -548,10 +548,6 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return true;
 	}
 
-	final public ExpressionValue evaluate() {
-		return this;
-	}
-
 	final public double getDouble() {
 		return val;
 	}

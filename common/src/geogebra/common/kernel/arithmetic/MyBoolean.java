@@ -77,10 +77,6 @@ public class MyBoolean extends ValidExpression implements BooleanValue {
         return new MyBoolean(kernel1, value);
     }
 
-    public ExpressionValue evaluate() {
-        return this;
-    }
-
     public HashSet<GeoElement> getVariables() {
         return null;
     }

@@ -48,6 +48,7 @@ public interface ExpressionValue {
 	public boolean contains(ExpressionValue ev);
 	public ExpressionValue deepCopy(Kernel kernel);
     public ExpressionValue evaluate();
+    public ExpressionValue evaluate(StringTemplate tpl);
     public HashSet<GeoElement> getVariables();   
     @Deprecated
     public String toString();

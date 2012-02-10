@@ -229,11 +229,6 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 
 	
 	@Override
-	public ExpressionValue evaluate() {
-		return this;
-	}
-	
-	@Override
 	public boolean isDefined() {
 		return isDefined && fun != null;
 	}

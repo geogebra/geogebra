@@ -352,10 +352,6 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		return true;
 	}
 
-	public ExpressionValue evaluate() {
-		return this;
-	}
-
 	/**
 	 * Returns this function's value at position.
 	 * 

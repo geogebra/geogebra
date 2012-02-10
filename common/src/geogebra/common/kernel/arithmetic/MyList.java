@@ -710,9 +710,6 @@ public class MyList extends ValidExpression implements ListValue,
 	 * public String toString() { }
 	 */
 
-	public ExpressionValue evaluate() {
-		return this;
-	}
 
 	public boolean isConstant() {
 		return getVariables().size() == 0;

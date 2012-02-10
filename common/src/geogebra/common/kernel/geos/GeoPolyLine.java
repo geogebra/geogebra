@@ -202,9 +202,7 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path, Tracea
         return varset;          
     }                   
     
-    final public ExpressionValue evaluate() { return this; }	
-
-	protected boolean showInEuclidianView() {
+    protected boolean showInEuclidianView() {
 		return defined;
 	}    
 	

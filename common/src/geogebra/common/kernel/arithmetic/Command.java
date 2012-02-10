@@ -210,7 +210,7 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 		return geos;
 	}
 
-	public ExpressionValue evaluate() {
+	public ExpressionValue evaluate(StringTemplate tpl) {
 		// not yet evaluated: process command
 		if (evalGeos == null)
 			evalGeos = evaluateMultiple();

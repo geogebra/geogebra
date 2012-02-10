@@ -38,7 +38,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		ExpressionValue left = expressionNode.left;
 
 		if (leaf) {
-			return left.evaluate(); // for wrapping ExpressionValues as
+			return left.evaluate(tpl); // for wrapping ExpressionValues as
 			// ValidExpression
 		}
 		String[] str;
@@ -57,11 +57,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		MyStringBuffer msb;
 		Polynomial poly;
 
-		lt = left.evaluate(); // left tree
+		lt = left.evaluate(tpl); // left tree
 		if (operation.equals(Operation.NO_OPERATION)) {
 			return lt;
 		}
-		rt = right.evaluate(); // right tree
+		rt = right.evaluate(tpl); // right tree
 
 		// handle list operations first
 

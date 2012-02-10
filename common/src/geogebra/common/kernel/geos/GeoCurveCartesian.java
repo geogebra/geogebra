@@ -315,11 +315,6 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		return funY;
 	}
 
-	@Override
-	public ExpressionValue evaluate() {
-		return this;
-	}
-
 	/**
 	 * translate function by vector v
 	 */
