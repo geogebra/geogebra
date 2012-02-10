@@ -1063,7 +1063,10 @@ public abstract class AlgoElement extends ConstructionElement implements
 			boolean real,StringTemplate tpl) {
 		String cmd = real ? geo.getRealLabel(tpl) : geo.getLabel(tpl);
 		if (geo.isGeoVector()) {
-			String vectorCommand = "Vector["; //in XML, do not translate
+			String vectorCommand = "Vector[";
+			if(tpl.isPrintLocalizedCommandNames())
+				vectorCommand = app.getCommand("Vector") + "["; // want it translated eg for redefine
+																	// dialog
 			boolean needsWrapping = !geo.isLabelSet()
 					&& !cmd.startsWith(vectorCommand);
 
