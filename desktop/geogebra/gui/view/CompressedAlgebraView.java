@@ -65,7 +65,7 @@ public class CompressedAlgebraView extends AlgebraView implements
     updateListener = new CompressedUpdateListener(this, updateTimer, updateSet,
         lock);
     updateTimer.addActionListener(updateListener);
-    repaintListener = new CompressedRepaintListener(this, repaintTimer);
+    repaintListener = new CompressedRepaintListener(this);
     repaintTimer.addActionListener(repaintListener);
   }
 
@@ -102,6 +102,7 @@ public class CompressedAlgebraView extends AlgebraView implements
   @Override
   final public void repaint() {
     if (repaintTimer == null) {
+      // needed because of null pointer error (Constructor)
       repaintNow();
       return;
     }
