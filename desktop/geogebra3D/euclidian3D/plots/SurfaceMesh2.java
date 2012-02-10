@@ -1,6 +1,5 @@
 package geogebra3D.euclidian3D.plots;
 
-import geogebra.common.euclidian.DrawList;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import geogebra3D.euclidian3D.BucketAssigner;
@@ -9,13 +8,13 @@ import geogebra3D.euclidian3D.OctreeCollection;
 import geogebra3D.euclidian3D.TriList;
 import geogebra3D.euclidian3D.TriListElem;
 import geogebra3D.euclidian3D.TriangleOctree;
-import geogebra3D.euclidian3D.opengl.Manager;
-import geogebra3D.kernel3D.GeoCurveCartesian3D;
 import geogebra3D.kernel3D.GeoSurfaceCartesian3D;
 
 import java.nio.FloatBuffer;
 import java.util.Iterator;
 import java.util.LinkedList;
+
+import com.kenai.jffi.Function;
 
 /**
  * An element in a CurveMesh.
@@ -39,6 +38,11 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 	/** vertex normal */
 	private Coords normal;
 
+	boolean alt0 = false;
+	boolean alt1 = false;
+
+	Coords alt = null;
+
 	// OTHER DIAMONDS
 	/** the other two corners */
 	SurfaceDiamond2[] ancestors = new SurfaceDiamond2[2];
@@ -61,17 +65,11 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 	 * @param version
 	 *            The current version of the mesh - changes when the function
 	 *            changes
-	 * @param splitQueue
-	 *            Reference to split queue
-	 * @param mergeQueue
-	 *            Reference to merge queue
 	 */
 	public SurfaceDiamond2(SurfaceMesh2 mesh, int level, double pa1,
-			double pa2, boolean isClipped, int version,
-			FastBucketPQ splitQueue, FastBucketPQ mergeQueue) {
-		super(mesh, level, isClipped,
-				version);
-		
+			double pa2, boolean isClipped, int version) {
+		super(mesh, level, isClipped, version);
+
 		params[0] = pa1;
 		params[1] = pa2;
 		vertex = calcVertex(pa1, pa2);
@@ -101,12 +99,11 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 	 *            The current version of the mesh - changes when the function
 	 *            changes
 	 */
-	SurfaceDiamond2(SurfaceMesh2 mesh, SurfaceDiamond2 parent0,
-			int index0, SurfaceDiamond2 parent1, int index1,
-			SurfaceDiamond2 ancestor0, SurfaceDiamond2 ancestor1, int level,
-			int version) {
-		super(mesh, level,
-				ancestor0.ignoreFlag || (parent0.ignoreFlag && parent1.ignoreFlag), version);
+	SurfaceDiamond2(SurfaceMesh2 mesh, SurfaceDiamond2 parent0, int index0,
+			SurfaceDiamond2 parent1, int index1, SurfaceDiamond2 ancestor0,
+			SurfaceDiamond2 ancestor1, int level, int version) {
+		super(mesh, level, ancestor0.ignoreFlag
+				|| (parent0.ignoreFlag && parent1.ignoreFlag), version);
 
 		parents[0] = parent0;
 		parents[1] = parent1;
@@ -116,7 +113,7 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 		ancestors[1] = ancestor1;
 		params[0] = (ancestor0.params[0] + ancestor1.params[0]) * 0.5;
 		params[1] = (ancestor0.params[1] + ancestor1.params[1]) * 0.5;
-		vertex = calcVertex(params[0], params[1]);
+		vertex = calcMainVertex(params[0], params[1]);
 		normal = approxNormal(params[0], params[1]);
 
 		init();
@@ -129,7 +126,7 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 		setBoundingBox();
 		setArea();
 		generateError();
-//		checkSingular();
+		// checkSingular();
 	}
 
 	/**
@@ -146,6 +143,123 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 		Coords dx = calcVertex(u + SurfaceMesh2.normalDelta, v);
 		Coords dy = calcVertex(u, v + SurfaceMesh2.normalDelta);
 		return dx.sub(vertex).crossProduct(dy.sub(vertex)).normalized();
+	}
+
+	Coords calcMainVertex(double u, double v) {
+		final SurfaceEvaluable function = ((SurfaceMesh2) mesh).getFunction();
+		Coords f = function.evaluatePoint(u, v);
+//		final SurfaceDiamond2 a0 = ancestors[0];
+//		final SurfaceDiamond2 a1 = ancestors[1];
+//		final boolean v2def = ancestors[0].vertex.isDefined();
+//		final boolean v3def = ancestors[1].vertex.isDefined();
+//
+//		if ((v2def != v3def)) {
+//			// // perform binary search for edge
+//			// double ui = u;
+//			// double vi = v;
+//			// double du = (a1.params[0] - a0.params[0]) * 0.25;
+//			// double dv = (a1.params[1] - a0.params[1]) * 0.25;
+//			// final boolean dir = v2def;
+//			// alt0 = v2def;
+//			// alt1 = !v2def;
+//			// Coords t;
+//			// ui += (f.isDefined() ^ dir ? -du : du);
+//			// vi += (f.isDefined() ^ dir ? -dv : dv);
+//			// for (int i = 0; i < 10; i++) {
+//			// du *= 0.5;
+//			// dv *= 0.5;
+//			// t = function.evaluatePoint(ui, vi);
+//			// if (t.isDefined()) {
+//			// params[0] = ui;
+//			// params[1] = vi;
+//			// f = t;
+//			// } else {
+//			// alt = t;
+//			// }
+//			// ui += (t.isDefined() ^ dir ? -du : du);
+//			// vi += (t.isDefined() ^ dir ? -dv : dv);
+//			// }
+//			// golden section search
+//			final double lambda = 0.5 * (sqrt5 - 1.0);
+//			final double mu = 0.5 * (3.0 - sqrt5); // = 1 - lambda
+//
+//			// Find first two internal points and evaluate
+//			// the function at the two internal points.
+//
+//			double x0 = a0.params[0];
+//			double dx = a1.params[0] - x0;
+//			double y0 = a0.params[1];
+//			double dy = a1.params[1] - y0;
+//			double b = 1;
+//			double a = 0;
+//			double x1 = b - lambda * (b - a);
+//			double x2 = a + lambda * (b - a);
+//			boolean fx1 = function.evaluatePoint(x0 + x1 * dx, y0 + x1 * dy).isDefined();
+//			boolean fx2 = function.evaluatePoint(x0 + x2 * dx, y0 + x2 * dy).isDefined();
+//
+//			// Verify that the tolerance is an acceptable number
+//
+//			// if (tolerance <= 0.0) tolerance = sqrt(DBL_EPSILON) * (b - a);
+//
+//			// Loop by exluding segments from current endpoints a, b
+//			// to current internal points x1, x2 and then calculating
+//			// a new internal point until the length of the interval
+//			// is less than or equal to the tolerance.
+//
+//			while (!Stopping_Rule(a, b, tolerance)) {
+//				if (fx1 > fx2) {
+//					a = x1;
+//					fa = fx1;
+//					if (Stopping_Rule(a, b, tolerance))
+//						break;
+//					x1 = x2;
+//					fx1 = fx2;
+//					x2 = b - mu * (b - a);
+//					fx2 = function.evaluatePoint(x0 + x2 * dx, y0 + x2 * dy);
+//				} else {
+//					b = x2;
+//					fb = fx2;
+//					if (Stopping_Rule(a, b, tolerance))
+//						break;
+//					x2 = x1;
+//					fx2 = fx1;
+//					x1 = a + mu * (b - a);
+//					fx1 = function.evaluatePoint(x0 + x1 * dx, y0 + x1 * dy);
+//				}
+//			}
+//		} else {
+
+			// if infinite, attempt to move in some direction
+			float d = 1e-6f;
+			if (!f.isFinite() || !f.isDefined()) {
+				f = function.evaluatePoint(u + d, v);
+				if (!f.isFinite() || !f.isDefined()) {
+					f = function.evaluatePoint(u, v + d);
+					if (!f.isFinite() || !f.isDefined()) {
+						f = function.evaluatePoint(u - d, v);
+						if (!f.isFinite() || !f.isDefined())
+							f = function.evaluatePoint(u, v - d);
+					}
+				}
+			}
+//		}
+		return f;
+	}
+
+	static final double sqrt5 = 2.236067977499789696;
+
+	void Min_Search_Golden_Section(double a, double fa, double b, double fb,
+			double tolerance) {
+		
+		return;
+	}
+
+	static boolean Stopping_Rule(double x0, double x1, double tolerance) {
+		double xm = 0.5 * Math.abs(x1 + x0);
+
+		if (xm <= 1.0)
+			return (Math.abs(x1 - x0) < tolerance);
+		return (Math.abs(x1 - x0) < tolerance * xm);
 	}
 
 	/**
@@ -166,16 +280,15 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 		float d = 1e-6f;
 		if (!f.isFinite() || !f.isDefined()) {
 			f = function.evaluatePoint(u + d, v);
-			if (f.isSingular()) {
+			if (!f.isFinite() || !f.isDefined()) {
 				f = function.evaluatePoint(u, v + d);
-				if (f.isSingular()) {
+				if (!f.isFinite() || !f.isDefined()) {
 					f = function.evaluatePoint(u - d, v);
-					if (f.isSingular())
+					if (!f.isFinite() || !f.isDefined())
 						f = function.evaluatePoint(u, v - d);
 				}
 			}
 		}
-		
 		return f;
 	}
 
@@ -224,8 +337,8 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 			children[i] = new SurfaceDiamond2((SurfaceMesh2) mesh, otherParent,
 					otherIndex, this, i, a0, a1, level + 1, lastVersion);
 		else
-			children[i] = new SurfaceDiamond2((SurfaceMesh2) mesh, this, i, otherParent,
-					otherIndex, a0, a1, level + 1, lastVersion);
+			children[i] = new SurfaceDiamond2((SurfaceMesh2) mesh, this, i,
+					otherParent, otherIndex, a0, a1, level + 1, lastVersion);
 
 		if (otherParent != null)
 			(otherParent).setChild(otherIndex, children[i]);
@@ -233,27 +346,27 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 
 	@Override
 	protected void cullChildren() {
-		if(!isSplit()){
+		if (!isSplit()) {
 			return;
 		}
-		
-		//cull quadtree children
-        for (int i=0; i<4; i+=2) {
-        	SurfaceDiamond2 child = (SurfaceDiamond2)getChild(i);
-            if (child!=null) {
-                if (this==child.getParent(0)) {
-                    if(child.childCreated(0))
-                    	child.getChild(0).updateCullInfo();
-                    if(child.childCreated(1))
-                    	child.getChild(1).updateCullInfo();
-                }else{
-                    if (child.childCreated(2))
-                    	child.getChild(2).updateCullInfo();
-                    if (child.childCreated(3))
-                    	child.getChild(3).updateCullInfo();
-                }
-            }
-        }
+
+		// cull quadtree children
+		for (int i = 0; i < 4; i += 2) {
+			SurfaceDiamond2 child = (SurfaceDiamond2) getChild(i);
+			if (child != null) {
+				if (this == child.getParent(0)) {
+					if (child.childCreated(0))
+						child.getChild(0).updateCullInfo();
+					if (child.childCreated(1))
+						child.getChild(1).updateCullInfo();
+				} else {
+					if (child.childCreated(2))
+						child.getChild(2).updateCullInfo();
+					if (child.childCreated(3))
+						child.getChild(3).updateCullInfo();
+				}
+			}
+		}
 	}
 
 	/**
@@ -277,37 +390,26 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 		Coords a0 = (ancestors[0]).vertex;
 		Coords a1 = (ancestors[1]).vertex;
 
-		Coords v0 = a1.sub(p0);
-		Coords v1 = a0.sub(p0);
-		Coords v2 = a0.sub(p1);
-		Coords v3 = a1.sub(p1);
+		Coords v0 = a0.sub(vertex);
+		Coords v1 = a1.sub(vertex);
+		Coords v2 = p0.sub(vertex);
+		Coords v3 = p1.sub(vertex);
 
-		Coords n0 = v0.crossProduct(v1);
-		Coords n1 = v2.crossProduct(v3);
+		Coords n = v0.crossProduct(v1);
 
-		n0.normalize();
-		n1.normalize();
+		double vol0 = Math.abs(v2.dotproduct(n));
+		double vol1 = Math.abs(v3.dotproduct(n));
 
-		Coords o0 = vertex.sub(p0);
-		Coords o1 = vertex.sub(p1);
-
-		double d0 = Math.abs(n0.dotproduct(o0));
-		double d1 = Math.abs(n1.dotproduct(o1));
-
-		// vol is proportional to actual volume
-		double vol1 = d0 * n0.norm();
-		double vol2 = d1 * n1.norm();
-
-		if (Double.isNaN(vol1) || Double.isInfinite(vol1))
+		if (Double.isNaN(vol0) || Double.isInfinite(vol0))
 			// use a different error measure for infinite points
 			// namely the base area times some constant
-			errors[0] = area * ((SurfaceMesh2)mesh).undefErrorConst;
+			errors[0] = area * SurfaceMesh2.undefErrorConst;
 		else
-			errors[0] = vol1;
-		if (Double.isNaN(vol2) || Double.isInfinite(vol1))
-			errors[1] = area * ((SurfaceMesh2)mesh).undefErrorConst;
+			errors[0] = vol0;
+		if (Double.isNaN(vol1) || Double.isInfinite(vol1))
+			errors[1] = area * SurfaceMesh2.undefErrorConst;
 		else
-			errors[1] = vol2;
+			errors[1] = vol1;
 
 		int fac = 0;
 		if (!p0.isDefined())
@@ -320,9 +422,10 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 			fac++;
 		if (fac == 4)
 			errors[0] = errors[1] = 0;
-		else if (fac > 2)
+		else if (fac > 2) {
 			errors[0] *= 2.0;
-		errors[1] *= 2.0;
+			errors[1] *= 2.0;
+		}
 	}
 
 	/**
@@ -353,13 +456,6 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 		return parents[0];
 	}
 
-	@Override
-	protected CullInfo2 getParentCull() {
-		if (parents[0] != null)
-			return parents[0].cullInfo;
-		return null;
-	}
-
 	/**
 	 * @param j
 	 *            triangle index < 2
@@ -376,6 +472,13 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 		return vertex;
 	}
 
+	public Coords getVertex(int i) {
+		if (i == 0)
+			return alt0 ? alt : vertex;
+		else
+			return alt1 ? alt : vertex;
+	}
+
 	/**
 	 * Only move to merge if neither parent is split
 	 */
@@ -386,7 +489,7 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 
 	@Override
 	public boolean recalculate(int currentVersion, boolean recurse) {
-		
+
 		if (lastVersion == currentVersion)
 			return false;
 
@@ -400,8 +503,8 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 		parents[1].recalculate(currentVersion, false);
 		ancestors[0].recalculate(currentVersion, false);
 		ancestors[1].recalculate(currentVersion, false);
-		
-		vertex = calcVertex(params[0], params[1]);
+
+		vertex = calcMainVertex(params[0], params[1]);
 
 		normal = approxNormal(params[0], params[1]);
 
@@ -564,11 +667,11 @@ public class SurfaceMesh2 extends DynamicMesh2 implements OctreeCollection {
 	public static final double normalDelta = 1e-6;
 
 	/**
-	 * scaling constant used for setting the error of diamonds where
-	 * one or more vertices are undefined
+	 * scaling constant used for setting the error of diamonds where one or more
+	 * vertices are undefined
 	 */
-	public double undefErrorConst = 0.001;
-	
+	public static final double undefErrorConst = 100;
+
 	/** Current level of detail setting */
 	public double levelOfDetail = 0.1;
 
@@ -600,11 +703,8 @@ public class SurfaceMesh2 extends DynamicMesh2 implements OctreeCollection {
 				new FastBucketPQ(new SurfaceSplitBucketAssigner2(), false),
 				new SurfaceTriList2(100, 0), 2, 4, maxLevel);
 		this.function = function;
-		/*
-		if(function instanceof GeoCurveCartesian3D)
-			((GeoSurfaceCartesian3D)function).setLevelOfDetail(2);
-		setLevelOfDetail(2);
-		*/
+
+		setLevelOfDetail(5);
 
 		setCullingBox(cullingBox);
 
@@ -613,14 +713,16 @@ public class SurfaceMesh2 extends DynamicMesh2 implements OctreeCollection {
 		splitQueue.add(root);
 		drawList.add(root);
 
-		for (int i = 0; i < 200; i++)
+		for (int i = 0; i < 5; i++)
 			split(splitQueue.forcePoll());
 	}
 
 	@Override
 	protected String getDebugInfo(long time) {
-		return function + ":\tupdate time: " + time + "ms\ttriangles: "
-				+ drawList.getTriAmt();
+		return function + ":\tupdate time: " + time + "ms"
+		+ "\t triangles: " + drawList.getTriAmt()
+		+ "\t max error: " + (float) splitQueue.peek().getError()
+		+ "\t error threshold: " + (float) desiredMaxError;
 	}
 
 	/**
@@ -629,9 +731,9 @@ public class SurfaceMesh2 extends DynamicMesh2 implements OctreeCollection {
 	public int getVisibleChunks() {
 		return drawList.getChunkAmt();
 	}
-	
+
 	/**
-	 * @return the function being rendered 
+	 * @return the function being rendered
 	 * */
 	public SurfaceEvaluable getFunction() {
 		return function;
@@ -667,14 +769,13 @@ public class SurfaceMesh2 extends DynamicMesh2 implements OctreeCollection {
 				x = xMin + (i - 0.5) * dx;
 				y = yMin + (j - 0.5) * dy;
 				base0[j][i] = new SurfaceDiamond2(this, 0, x, y,
-						!(i == 1 && j == 1), currentVersion, splitQueue,
-						mergeQueue);
+						!(i == 1 && j == 1), currentVersion);
 
 				x = xMin + (i - 1) * dx;
 				y = yMin + (j - 1) * dy;
 				base1[j][i] = t = new SurfaceDiamond2(this,
 						((i ^ j) & 1) != 0 ? -1 : -2, x, y, false,
-						currentVersion, splitQueue, mergeQueue);
+						currentVersion);
 				t.setSplit(true);
 			}
 
@@ -712,6 +813,7 @@ public class SurfaceMesh2 extends DynamicMesh2 implements OctreeCollection {
 				t.parents[1] = base1[j][(i + 1) % 4];
 			}
 		root = base0[1][1];
+		root.vertex = root.calcMainVertex(root.params[0], root.params[1]);
 		root.setBoundingBox();
 		root.setArea();
 		root.generateError();
@@ -725,24 +827,28 @@ public class SurfaceMesh2 extends DynamicMesh2 implements OctreeCollection {
 		wy = bb[5] - bb[4];
 		wz = bb[3] - bb[2];
 		maxWidth = wx > wy ? (wx > wz ? wx : wz) : (wy > wz ? wy : wz);
-		//update maxErrorCoeff
-		if(function instanceof GeoSurfaceCartesian3D)
-			setLevelOfDetail(((GeoSurfaceCartesian3D)function).getLevelOfDetail()/10.0);
+		// update maxErrorCoeff
+		if (function instanceof GeoSurfaceCartesian3D)
+			setLevelOfDetail(((GeoSurfaceCartesian3D) function)
+					.getLevelOfDetail());
 		desiredMaxError = maxErrorCoeff * maxWidth;
 	}
-	
+
 	/**
 	 * Sets the desired level of detail
-	 * @param l any value greater than or equal to zero, typically less than one
+	 * 
+	 * @param l
+	 *            any value greater than or equal to zero, typically less than
+	 *            one
 	 */
 	public void setLevelOfDetail(double l) {
-		if(l<0)
+		if (l < 0)
 			throw new RuntimeException();
-		
+
 		levelOfDetail = l;
-		maxErrorCoeff = 1/(Math.pow(10, 1+l*5));
+		maxErrorCoeff = 1 / (Math.pow(10, 1.6 + l * 0.15));
 	}
-	
+
 	/**
 	 * 
 	 * @return current level of detail - typically in [0,1]
@@ -760,7 +866,7 @@ public class SurfaceMesh2 extends DynamicMesh2 implements OctreeCollection {
 	@Override
 	protected void updateCullingInfo() {
 		root.updateCullInfo();
-		
+
 		if (root.childCreated(0))
 			root.getChild(0).updateCullInfo();
 		if (root.childCreated(1))
@@ -828,6 +934,16 @@ class SurfaceTriList2 extends TriList implements DynamicMeshTriList2 {
 
 	private int currentVersion;
 
+	static final private double asymptoteThreshold = 0;
+
+	// FLAGS
+	/** the element contains at least one singular vertex - do not draw */
+	static final char FLAGS_SINGULAR = 0x1;
+	/** the element contains an asymptote - do not draw */
+	static final char FLAGS_ASYMPTOTE = FLAGS_SINGULAR << 1;
+
+	static final char MASK_IGNORE = FLAGS_SINGULAR | FLAGS_ASYMPTOTE;
+
 	/**
 	 * @param capacity
 	 *            the goal amount of triangles available
@@ -853,43 +969,81 @@ class SurfaceTriList2 extends TriList implements DynamicMeshTriList2 {
 	 */
 	public void add(DynamicMeshElement2 e, int j) {
 		SurfaceDiamond2 s = (SurfaceDiamond2) e;
+
+		if (Math.abs(s.vertex.getX() - 0.16) < 0.03
+				&& Math.abs(s.vertex.getY() - 1.0) < 0.1)
+			System.err.print("");
+
 		// handle clipping
 		if (s.ignoreFlag || ((SurfaceDiamond2) s.parents[j]).ignoreFlag)
 			return;
-
-		if (s.isSingular()) {
-			// create an empty TriListElem to show that
-			// the element has been 'added' to the list
-			TriListElem g = new TriListElem();
-			g.setOwner(s);
-			s.setTriangle(j, g);
-			return;
-		}
 
 		float[] v = new float[9];
 		float[] n = new float[9];
 
 		calcFloats(s, j, v, n);
-		TriListElem lm = add(v, n);
+		char flags = getFlags(v, n);
+
+		boolean ignore = (flags & MASK_IGNORE) != 0;
+
+		TriListElem lm = ignore ? new TriListElem(flags) : add(v, n);
+
 		lm.setOwner(s);
 		s.setTriangle(j, lm);
-		
-		if(e.cullInfo==CullInfo2.OUT){
-			hide(s,j);
+
+		if (!ignore && e.cullInfo == CullInfo2.OUT) {
+			hide(s, j);
 		}
-		
-		return;
+	}
+
+	private char getFlags(float[] v, float[] n) {
+
+		char ret = 0;
+
+		if (Double.isNaN(v[0]) || Double.isInfinite(v[0]) || Double.isNaN(v[1])
+				|| Double.isInfinite(v[1]) || Double.isNaN(v[2])
+				|| Double.isInfinite(v[2]) || Double.isNaN(v[3])
+				|| Double.isInfinite(v[3]) || Double.isNaN(v[4])
+				|| Double.isInfinite(v[4]) || Double.isNaN(v[5])
+				|| Double.isInfinite(v[5]) || Double.isNaN(v[6])
+				|| Double.isInfinite(v[6]) || Double.isNaN(v[7])
+				|| Double.isInfinite(v[7]) || Double.isNaN(v[8])
+				|| Double.isInfinite(v[8])) {
+			ret |= FLAGS_SINGULAR;
+		}
+
+		double x1 = v[3] - v[0];
+		double y1 = v[4] - v[1];
+		double z1 = v[5] - v[2];
+		double x2 = v[6] - v[0];
+		double y2 = v[7] - v[1];
+		double z2 = v[8] - v[2];
+
+		// triangle normal
+		double nx = y1 * z2 - y2 * z1;
+		double ny = x2 * z1 - x1 * z2;
+		double nz = x1 * y2 - x2 * y1;
+
+		if (true // Math.abs(v[2]) > 4.0 && Math.abs(v[5]) > 4.0 &&
+					// Math.abs(v[8]) > 4.0
+				&& nx * n[0] + ny * n[1] + nz * n[2] < asymptoteThreshold
+				&& nx * n[3] + ny * n[4] + nz * n[5] < asymptoteThreshold
+				&& nx * n[6] + ny * n[7] + nz * n[8] < asymptoteThreshold) {
+			ret |= FLAGS_ASYMPTOTE;
+		}
+
+		return ret;
 	}
 
 	private void calcFloats(SurfaceDiamond2 d, int j, float[] v, float[] n) {
 		SurfaceDiamond2 t[] = new SurfaceDiamond2[3];
 		t[1] = (SurfaceDiamond2) d.getParent(j);
-		if (j != 0) {
-			t[0] = d.ancestors[1];
-			t[2] = d.ancestors[0];
-		} else {
+		if (j == 0) {
 			t[0] = d.ancestors[0];
 			t[2] = d.ancestors[1];
+		} else {
+			t[0] = d.ancestors[1];
+			t[2] = d.ancestors[0];
 		}
 		for (int i = 0, c = 0; i < 3; i++, c += 3) {
 			Coords vertex = t[i].getVertex();
@@ -897,9 +1051,16 @@ class SurfaceTriList2 extends TriList implements DynamicMeshTriList2 {
 			v[c] = (float) vertex.getX();
 			v[c + 1] = (float) vertex.getY();
 			v[c + 2] = (float) vertex.getZ();
+			if (Double.isNaN(v[c + 2]))
+				v[c + 2] = 0;
 			n[c] = (float) normal.getX();
 			n[c + 1] = (float) normal.getY();
 			n[c + 2] = (float) normal.getZ();
+			if (Double.isNaN(n[c]) || Double.isNaN(n[c + 1])
+					|| Double.isNaN(n[c + 2])) {
+				n[c] = n[c + 1] = 0;
+				n[c + 2] = 1;
+			}
 		}
 	}
 
@@ -917,14 +1078,8 @@ class SurfaceTriList2 extends TriList implements DynamicMeshTriList2 {
 	 * @return true if successful, otherwise false
 	 */
 	public boolean hide(SurfaceDiamond2 d, int j) {
-
-		if (d.isSingular() && d.getTriangle(j) != null
-				&& d.getTriangle(j).getIndex() != -1) {
-			return true;
-		} else if (hide(d.getTriangle(j))) {
-			return true;
-		}
-		return false;
+		TriListElem t = d.getTriangle(j);
+		return (t != null && (t.flags & MASK_IGNORE) != 0) || hide(t);
 	}
 
 	public boolean show(DynamicMeshElement2 t) {
@@ -942,27 +1097,24 @@ class SurfaceTriList2 extends TriList implements DynamicMeshTriList2 {
 	 */
 	public boolean show(DynamicMeshElement2 e, int j) {
 		SurfaceDiamond2 d = (SurfaceDiamond2) e;
-		
-		reinsert(d,currentVersion);
-		
-		if (d.isSingular() && d.getTriangle(j) != null
-				&& d.getTriangle(j).getIndex() == -1)
-			return true;
-		else if (show(d.getTriangle(j)))
-				return true;
 
-		return false;
+		reinsert(d, currentVersion);
+
+		TriListElem t = d.getTriangle(j);
+		return (t != null && (t.flags & MASK_IGNORE) != 0) || show(t);
 	}
 
 	/**
 	 * Recalculates and reinserts an element into the list.
-	 * @param a the element to reinsert
+	 * 
+	 * @param a
+	 *            the element to reinsert
 	 */
 	public void reinsert(DynamicMeshElement2 a, int version) {
 		SurfaceDiamond2 s = (SurfaceDiamond2) a;
 		s.recalculate(version, true);
-		
-		if(s.updateInDrawList){
+
+		if (s.updateInDrawList) {
 			s.updateInDrawList = false;
 			TriListElem e0 = s.getTriangle(0);
 			TriListElem e1 = s.getTriangle(1);
@@ -970,7 +1122,9 @@ class SurfaceTriList2 extends TriList implements DynamicMeshTriList2 {
 				float[] v0 = new float[9];
 				float[] n0 = new float[9];
 				calcFloats(s, 0, v0, n0);
-				if(e0.getIndex() != -1) {
+				char flags = getFlags(v0, n0);
+				// TODO: handle flags
+				if (e0.getIndex() != -1) {
 					setVertices(e0, v0);
 					setNormals(e0, n0);
 				} else {
@@ -982,19 +1136,21 @@ class SurfaceTriList2 extends TriList implements DynamicMeshTriList2 {
 				float[] v1 = new float[9];
 				float[] n1 = new float[9];
 				calcFloats(s, 1, v1, n1);
-				if(e1.getIndex() != -1) {
+				char flags = getFlags(v1, n1);
+				// TODO: handle flags
+				if (e1.getIndex() != -1) {
 					setVertices(e1, v1);
 					setNormals(e1, n1);
 				} else {
 					e1.pushVertices(v1);
-					e1.pushNormals(n1);				
+					e1.pushNormals(n1);
 				}
 			}
-			
+
 			s.reinsertInQueue();
 		}
 	}
-	
+
 	public boolean remove(DynamicMeshElement2 e) {
 		boolean b = false;
 		b |= remove(e, 0);

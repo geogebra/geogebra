@@ -310,7 +310,12 @@ class CurveTriListElem extends TriListElem {
 	private void genPoints(float[] cosines, float[] sines, int index, float[] tangent) {
 		Coords t = new Coords(tangent[0], tangent[1], tangent[2]);
 		t.normalize();
-		Coords c = new Coords(v0[0], v0[1], v0[2]);
+		Coords c;
+		if(index==0){
+			c = new Coords(v0[0], v0[1], v0[2]);
+		} else {
+			c = new Coords(v1[0], v1[1], v1[2]);
+		}
 		Coords[] v = t.completeOrthonormal();
 
 		// create midpoints

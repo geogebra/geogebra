@@ -115,7 +115,7 @@ public class CursorableLinkedList <E> extends AbstractLinkedList<E> implements S
      * list, an event is fired to all active cursors enabling them to adjust to the
      * change in the list.
      * <p/>
-     * When the "current" (i.e., last returned by {@link ListIterator#next}
+     * When the "current" (i.e., last returned by {@link ListIterator#bucket_next}
      * or {@link ListIterator#previous}) element of the list is removed,
      * the cursor automatically adjusts to the change (invalidating the
      * last returned value such that it cannot be removed).
@@ -134,7 +134,7 @@ public class CursorableLinkedList <E> extends AbstractLinkedList<E> implements S
      * list, an event is fired to all active cursors enabling them to adjust to the
      * change in the list.
      * <p/>
-     * When the "current" (i.e., last returned by {@link ListIterator#next}
+     * When the "current" (i.e., last returned by {@link ListIterator#bucket_next}
      * or {@link ListIterator#previous}) element of the list is removed,
      * the cursor automatically adjusts to the change (invalidating the
      * last returned value such that it cannot be removed).
@@ -159,7 +159,7 @@ public class CursorableLinkedList <E> extends AbstractLinkedList<E> implements S
      * list, an event is fired to all active cursors enabling them to adjust to the
      * change in the list.
      * <p/>
-     * When the "current" (i.e., last returned by {@link ListIterator#next}
+     * When the "current" (i.e., last returned by {@link ListIterator#bucket_next}
      * or {@link ListIterator#previous}) element of the list is removed,
      * the cursor automatically adjusts to the change (invalidating the
      * last returned value such that it cannot be removed).
@@ -187,7 +187,7 @@ public class CursorableLinkedList <E> extends AbstractLinkedList<E> implements S
      * list, an event is fired to all active cursors enabling them to adjust to the
      * change in the list.
      * <p/>
-     * When the "current" (i.e., last returned by {@link ListIterator#next}
+     * When the "current" (i.e., last returned by {@link ListIterator#bucket_next}
      * or {@link ListIterator#previous}) element of the list is removed,
      * the cursor automatically adjusts to the change (invalidating the
      * last returned value such that it cannot be removed).

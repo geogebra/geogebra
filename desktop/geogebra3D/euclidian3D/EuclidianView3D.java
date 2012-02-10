@@ -583,7 +583,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 				GeoFunctionNVar geoFun = (GeoFunctionNVar) geo;
 				switch(geoFun.getVarNumber()){
 				case 2:
-					d = new DrawFunction2Var(this, geoFun);
+					d = new DrawSurface3D(this, geoFun);
 					break;
 				case 3:
 					d = new DrawImplicitFunction3Var(this, geoFun);

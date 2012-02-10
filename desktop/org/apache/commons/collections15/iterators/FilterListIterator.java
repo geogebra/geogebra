@@ -70,7 +70,7 @@ public class FilterListIterator <E> implements ListIterator<E> {
     private boolean previousObjectSet = false;
 
     /**
-     * The index of the element that would be returned by {@link #next}.
+     * The index of the element that would be returned by {@link #bucket_next}.
      */
     private int nextIndex = 0;
     

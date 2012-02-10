@@ -1,6 +1,5 @@
 package geogebra3D.euclidian3D;
 
-import geogebra.common.kernel.Matrix.Coords;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.euclidian3D.plots.CurveTree;
@@ -10,197 +9,153 @@ import geogebra3D.kernel3D.GeoCurveCartesian3D;
 /**
  * @author ggb3D
  * 
- * Drawable for GeoCurveCartesian3D
- *
+ *         Drawable for GeoCurveCartesian3D
+ * 
  */
 public class DrawCurve3D extends Drawable3DCurves {
-	private final boolean useOldCurves = true;
+	private final boolean useOldCurves = false;
 
 	private CurveMesh mesh;
 	private CurveTree tree;
-	
-	
+
 	/** handle to the curve */
 	private GeoCurveCartesian3D curve;
-	
-	private double savedRadius;
-	
-	private double[] cullingBox;
-	
-	private final double radiusMaxFactor = 1.1;
-	private final double radiusMinFactor = 0.9;
-	
-	
+
+	/** current domain for the function on the format {umin, umax} */
+	private double[] domain = new double[2];
+
+	/** Current culling box - set to view3d.(x|y|z)(max|min) */
+	private double[] cullingBox = new double[6];
+
 	/**
-	 * @param a_view3d the 3D view where the curve is drawn
-	 * @param curve the 3D curve to draw
+	 * @param a_view3d
+	 *            the 3D view where the curve is drawn
+	 * @param curve
+	 *            the 3D curve to draw
 	 */
 	public DrawCurve3D(EuclidianView3D a_view3d, GeoCurveCartesian3D curve) {
-		super(a_view3d,curve);
-		this.curve=curve;
-		if(useOldCurves)
+		super(a_view3d, curve);
+		this.curve = curve;
+		if (useOldCurves)
 			tree = new CurveTree(curve, a_view3d);
 		else {
-			updateRadius();
-			mesh = new CurveMesh(curve, cullingBox,(float)a_view3d.getScale());
+			updateDomain();
+			updateCullingBox();
+			mesh = new CurveMesh(curve, cullingBox, (float) a_view3d.getScale());
 		}
 	}
-	
 
 	public void drawGeometry(Renderer renderer) {
-		
+
 		renderer.getGeometryManager().draw(getGeometryIndex());
-		
+
 	}
-	
+
 	/**
-	 * Decides if the curve should be redrawn or not depending on how the view changes
+	 * Decides if the curve should be redrawn or not depending on how the view
+	 * changes
+	 * 
 	 * @return
 	 */
-	private boolean needRedraw(){
-		double currRad = currentRadius();
-		if(currRad>savedRadius*radiusMaxFactor || currRad< savedRadius*radiusMinFactor){
-			savedRadius=currRad;
-			return true;
-		}
-		return false;
-	}
-	
-	/** gets the viewing radius based on the viewing frustum 
-	 */
-	private void updateRadius() {
-		EuclidianView3D view = getView3D();
-		Renderer temp = view.getRenderer();
-		double x1 = temp.getLeft();
-		double x2 = temp.getRight();
-		double y1 = temp.getTop();
-		double y2 = temp.getBottom();
-		double z1 = temp.getFront(true);
-		double z2 = temp.getBack(true);
-		Coords [] v = new Coords[8];
-		v[0] = new Coords(x1,y1,z1,0);
-		v[1] = new Coords(x1,y2,z1,0);
-		v[2] = new Coords(x1,y1,z2,0);
-		v[3] = new Coords(x1,y2,z2,0);
-		v[4] = new Coords(x2,y1,z1,0);
-		v[5] = new Coords(x2,y2,z1,0);
-		v[6] = new Coords(x2,y1,z2,0);
-		v[7] = new Coords(x2,y2,z2,0);
+	// private boolean needRedraw(){
+	// double currRad = currentRadius();
+	// if(currRad>savedRadius*radiusMaxFactor || currRad<
+	// savedRadius*radiusMinFactor){
+	// savedRadius=currRad;
+	// return true;
+	// }
+	// return false;
+	// }
 
-		savedRadius=0;
-		double norm;
-		for(int i = 0; i < 8; i++){
-			view.toSceneCoords3D(v[i]);
-			norm = v[i].norm();
-			if(norm>savedRadius)
-				savedRadius=norm;
+	private boolean updateDomain() {
+		boolean changed = false;
+
+		double t = curve.getMinParameter();
+		if (t != domain[0]) {
+			changed = true;
+			domain[0] = t;
 		}
+		t = curve.getMaxParameter();
+		if (t != domain[1]) {
+			changed = true;
+			domain[1] = t;
+		}
+
+		return changed;
 	}
-	
-	/** gets the viewing radius based on the viewing frustum 
+
+	/**
+	 * gets the viewing radius based on the viewing frustum
 	 */
-	private double currentRadius() {
+	private void updateCullingBox() {
 		EuclidianView3D view = getView3D();
-		Renderer temp = view.getRenderer();
-		double x1 = temp.getLeft();
-		double x2 = temp.getRight();
-		double y1 = temp.getTop();
-		double y2 = temp.getBottom();
-		double z1 = temp.getFront(true);
-		double z2 = temp.getBack(true);
-		Coords [] v = new Coords[8];
-		v[0] = new Coords(x1,y1,z1,1);
-		v[1] = new Coords(x1,y2,z1,1);
-		v[2] = new Coords(x1,y1,z2,1);
-		v[3] = new Coords(x1,y2,z2,1);
-		v[4] = new Coords(x2,y1,z1,1);
-		v[5] = new Coords(x2,y2,z1,1);
-		v[6] = new Coords(x2,y1,z2,1);
-		v[7] = new Coords(x2,y2,z2,1);
-		
-		double radius=0;
-		for(int i = 0; i < 8; i++){
-			view.toSceneCoords3D(v[i]);
-			if(v[i].norm()>radius)
-				radius=v[i].norm();
-		}
-		return radius;
+		cullingBox[0] = view.getXMinMax()[0];
+		cullingBox[1] = view.getXMinMax()[1];
+		cullingBox[2] = view.getYMinMax()[0];
+		cullingBox[3] = view.getYMinMax()[1];
+		cullingBox[4] = view.getZMinMax()[0];
+		cullingBox[5] = view.getZMinMax()[1];
 	}
-	
-	protected boolean updateForItSelf(){
+
+	protected boolean updateForItSelf() {
 
 		boolean ret = true;
-		
 
+		// updateColors();
 
-		
-		//updateColors();
-
-		if(useOldCurves){
-			Renderer renderer = getView3D().getRenderer();
-		
-			if (!curve.isEuclidianVisible() || !curve.isDefined()){
-				setGeometryIndex(-1);
-			
-			}else{
-				
-
-			
-				needRedraw();
-				tree = new CurveTree(curve, getView3D());
-			
-				PlotterBrush brush = renderer.getGeometryManager().getBrush();
-
-				brush.setThickness(getGeoElement().getLineThickness(),(float) getView3D().getScale());
-
-				brush.start(8);
-			
-				brush.draw(tree,savedRadius);
-
-				setGeometryIndex(brush.end());
-			}
+		if (useOldCurves) {
+//			Renderer renderer = getView3D().getRenderer();
+//
+//			if (!curve.isEuclidianVisible() || !curve.isDefined()) {
+//				setGeometryIndex(-1);
+//			} else {
+//				needRedraw();
+//				tree = new CurveTree(curve, getView3D());
+//
+//				PlotterBrush brush = renderer.getGeometryManager().getBrush();
+//
+//				brush.setThickness(getGeoElement().getLineThickness(),
+//						(float) getView3D().getScale());
+//
+//				brush.start(8);
+//
+//				brush.draw(tree, savedRadius);
+//
+//				setGeometryIndex(brush.end());
+//			}
 		} else {
-			
-			if(elementHasChanged){
-				elementHasChanged = false;
-				mesh.updateParameters();
+			if (elementHasChanged) {
+//				if (updateDomain()) {
+//					//domain has changed - create a new mesh
+//					mesh = new CurveMesh(curve, cullingBox, scale);
+//				} else {
+					//otherwise, update the surface
+					elementHasChanged = false;
+					mesh.updateParameters();
+//				}
 			}
-			
+
 			Renderer renderer = getView3D().getRenderer();
-//			mesh.setRadius(savedRadius);
-//			ret = mesh.optimize();
-				
-		
+			mesh.setCullingBox(cullingBox);
+			ret = mesh.optimize();
+
 			PlotterBrush brush = renderer.getGeometryManager().getBrush();
 			brush.start(8);
-			brush.draw(mesh,savedRadius);
+			brush.draw(mesh);
 
 			setGeometryIndex(brush.end());
 		}
-		return ret;
+		return false;
 	}
-	
-	
-	protected void updateForView(){
-		if (!getView3D().viewChanged())
-			return;
-		
-		if(!useOldCurves){
-			EuclidianView3D view = getView3D();
-//			mesh.updateScale((float)view.getScale());
-		}
-		
-		if(needRedraw()){
-			updateForItSelf();
-		}
+
+	protected void updateForView() {
+		updateCullingBox();
+		EuclidianView3D view = getView3D();
+		mesh.updateScale((float)view.getScale());
 	}
-	
-	
-	
+
 	public int getPickOrder() {
 		return DRAW_PICK_ORDER_1D;
 	}
-
-	
 
 }

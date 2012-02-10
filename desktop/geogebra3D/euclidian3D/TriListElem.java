@@ -12,6 +12,14 @@ public class TriListElem{
 	protected float[] vertices;
 	protected float[] normals;
 	
+	public char flags = 0;
+	
+	public TriListElem() {}
+	
+	public TriListElem(char flags) {
+		this.flags = flags;
+	}
+	
 	/** an (optional) reference to the object associated with the element*/
 	protected Object owner;
 	

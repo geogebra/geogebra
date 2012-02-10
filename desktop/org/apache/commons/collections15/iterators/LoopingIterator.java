@@ -102,10 +102,10 @@ public class LoopingIterator <E> implements ResettableIterator<E> {
      * {@link Collection#iterator iterator} method returns an implementation
      * that supports it.
      * <p/>
-     * This method can only be called after at least one {@link #next} method call.
+     * This method can only be called after at least one {@link #bucket_next} method call.
      * After a removal, the remove method may not be called again until another
      * next has been performed. If the {@link #reset} is called, then remove may
-     * not be called until {@link #next} is called again.
+     * not be called until {@link #bucket_next} is called again.
      */
     public void remove() {
         iterator.remove();

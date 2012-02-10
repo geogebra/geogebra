@@ -25,7 +25,7 @@ import java.util.*;
  * a collection of ordered Iterators.
  * <p/>
  * Given two ordered {@link Iterator} instances <code>A</code> and <code>B</code>,
- * the {@link #next} method on this iterator will return the lesser of
+ * the {@link #bucket_next} method on this iterator will return the lesser of
  * <code>A.next()</code> and <code>B.next()</code>.
  *
  * @author Rodney Waldhoff
@@ -46,7 +46,7 @@ public class CollatingIterator <E> implements Iterator<E> {
     private ArrayList<Iterator<? extends E>> iterators = null;
 
     /**
-     * {@link Iterator#next Next} objects peeked from each iterator.
+     * {@link Iterator#bucket_next Next} objects peeked from each iterator.
      */
     private ArrayList<E> values = null;
 

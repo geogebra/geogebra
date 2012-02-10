@@ -1,7 +1,5 @@
 package geogebra3D.euclidian3D.plots;
 
-import geogebra3D.euclidian3D.TriList;
-
 import java.nio.FloatBuffer;
 import java.util.Date;
 
@@ -223,11 +221,6 @@ abstract class DynamicMeshElement2 {
 	public boolean isSingular() {
 		return isSingular;
 	}
-
-	/**
-	 * @return the culling info of the relevant parent
-	 */
-	abstract protected CullInfo2 getParentCull();
 
 	/**
 	 * Hides/shows the element
@@ -508,7 +501,7 @@ public abstract class DynamicMesh2 {
 	protected void split(DynamicMeshElement2 t) {
 		if (t == null)
 			return;
-
+		
 		// don't split an element that has already been split
 		if (t.isSplit())
 			return;

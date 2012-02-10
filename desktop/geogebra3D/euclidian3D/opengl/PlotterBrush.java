@@ -679,7 +679,7 @@ public class PlotterBrush {
 		tree.drawEndPointIfVisible(this);
 	}
 	
-	public void draw(CurveMesh mesh, double radius){
+	public void draw(CurveMesh mesh){
  		FloatBuffer b1 = mesh.getVertices();
 		FloatBuffer b2 = mesh.getNormals();
 		int cnt = mesh.getVisibleChunks();

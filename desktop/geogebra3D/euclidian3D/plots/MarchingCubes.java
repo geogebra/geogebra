@@ -319,11 +319,6 @@ class MCTriangle extends DynamicMeshElement2 {
 	}
 
 	@Override
-	protected CullInfo2 getParentCull() {
-		return null;
-	}
-
-	@Override
 	protected void setHidden(boolean val) {
 		// TODO Auto-generated method stub
 
