@@ -290,7 +290,7 @@ public abstract class AbstractApplication {
 		for (Commands comm:Commands.values()) {
 			String internal = comm.toString();
 			// Application.debug(internal);
-			if (!internal.equals("Command")) {
+			if (tableVisible(comm.getTable())) {
 				String local = getScriptingCommand(internal);
 				if (local != null) {
 					local = local.trim();
