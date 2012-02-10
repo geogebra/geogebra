@@ -13,6 +13,7 @@ package geogebra.gui.dialog;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GeoElementSelectionListener;
@@ -128,7 +129,7 @@ public class CheckboxCreationDialog extends JDialog implements
 
 		// create caption panel
 		JLabel captionLabel = new JLabel(app.getMenu("Button.Caption") + ":");
-		String initString = geoBoolean == null ? "" : geoBoolean.getCaption();
+		String initString = geoBoolean == null ? "" : geoBoolean.getCaption(StringTemplate.defaultTemplate);
 		InputPanel ip = new InputPanel(initString, app, 1, 15, true);
 		tfCaption = ip.getTextComponent();
 		if (tfCaption instanceof AutoCompleteTextField) {

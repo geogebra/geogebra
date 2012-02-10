@@ -23,7 +23,7 @@ public class PolyFunction implements RealRootDerivFunction {
 	
 	private PolyFunction derivative; 
 	
-	private double [] ret = new double[2]; // for value and derivative's value
+	//private double []  // for value and derivative's value
 
 	public PolyFunction(int degree) {
 		this.degree = degree;
@@ -89,7 +89,8 @@ public class PolyFunction implements RealRootDerivFunction {
 	/**
 	 * Evaluates polynomial and its derivative 
 	 */		 
-	final public double [] evaluateDerivFunc(double x){		
+	final public double [] evaluateDerivFunc(double x){
+		double[] ret = new double[2];
 		ret[0] = coeffs[degree];
 		ret[1] = 0;
 		for (int i=degree-1; i >= 0; i--) {

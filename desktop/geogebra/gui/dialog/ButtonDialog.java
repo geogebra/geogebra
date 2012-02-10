@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.gui.dialog;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
@@ -103,7 +104,7 @@ public class ButtonDialog extends JDialog
 		
 		// create caption panel
 		JLabel captionLabel = new JLabel(app.getMenu("Button.Caption")+":");
-		String initString = button == null ? "" : button.getCaption();
+		String initString = button == null ? "" : button.getCaption(StringTemplate.defaultTemplate);
 		InputPanel ip = new InputPanel(initString, app, 1, 15, true);				
 		tfCaption = ip.getTextComponent();
 		if (tfCaption instanceof AutoCompleteTextField) {

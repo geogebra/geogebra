@@ -3,6 +3,7 @@ package geogebra.common.euclidian;
 import geogebra.common.awt.Font;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.font.TextLayout;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoButton;
 
 
@@ -40,7 +41,7 @@ public class MyButton {
 		view.setAntialiasing(g);
 		
 		g.setFont(font);
-		TextLayout t= geogebra.common.factories.AwtFactory.prototype.newTextLayout(geoButton.getCaption(), font, g.getFontRenderContext());
+		TextLayout t= geogebra.common.factories.AwtFactory.prototype.newTextLayout(geoButton.getCaption(StringTemplate.defaultTemplate), font, g.getFontRenderContext());
 		
 		width=Math.max((int)(t.getAdvance()*1.2)+12,24);
 		
@@ -93,7 +94,7 @@ public class MyButton {
 		this.setForeground(geogebra.common.awt.Color.white);
 
 		// center the label on the button
-		g.drawString(geoButton.getCaption(), x+spareWidth / 2,
+		g.drawString(geoButton.getCaption(StringTemplate.defaultTemplate), x+spareWidth / 2,
 				y+t.getAscent() + spareHeight / 2);
 	}
 

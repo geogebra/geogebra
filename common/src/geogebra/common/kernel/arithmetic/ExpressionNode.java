@@ -472,7 +472,7 @@ public class ExpressionNode extends ValidExpression implements
 
 		// left wing
 		if (left instanceof GeoDummyVariable) {
-			if (var.equals(((GeoDummyVariable) left).toString())) {
+			if (var.equals(((GeoDummyVariable) left).toString(StringTemplate.defaultTemplate))) {
 				left = newOb;
 				didReplacement = true;
 			}
@@ -490,7 +490,7 @@ public class ExpressionNode extends ValidExpression implements
 		// right wing
 		if (right != null) {
 			if (right instanceof GeoDummyVariable) {
-				if (var.equals(((GeoDummyVariable) right).toString())) {
+				if (var.equals(((GeoDummyVariable) right).toString(StringTemplate.defaultTemplate))) {
 					right = newOb;
 					didReplacement = true;
 				}
@@ -556,14 +556,14 @@ public class ExpressionNode extends ValidExpression implements
 		if (left.isExpressionNode()) {
 			((ExpressionNode) left).getPolynomialVars(vars);
 		} else if (left.isPolynomialInstance()) {
-			vars.add(left.toString());
+			vars.add(left.toString(StringTemplate.defaultTemplate));
 		}
 
 		if (right != null) {
 			if (right.isExpressionNode()) {
 				((ExpressionNode) right).getPolynomialVars(vars);
 			} else if (right.isPolynomialInstance()) {
-				vars.add(right.toString());
+				vars.add(right.toString(StringTemplate.defaultTemplate));
 				// changed to avoid deepcopy in MyList.getMyList() eg
 				// Sequence[f(Element[GP,k]),k,1,NP]
 				// } else if (right.isListValue()){ //to get polynomial vars in
@@ -3835,7 +3835,7 @@ public class ExpressionNode extends ValidExpression implements
 			if (left instanceof GeoFunction) {
 				GeoFunction geo = (GeoFunction) left;
 				if (geo.isLabelSet()) {
-					sb.append(geo.getLabel());
+					sb.append(geo.getLabel(tpl));
 					sb.append(leftBracket(STRING_TYPE));
 					sb.append(rightStr);
 					sb.append(rightBracket(STRING_TYPE));
@@ -3843,9 +3843,9 @@ public class ExpressionNode extends ValidExpression implements
 					// inline function: replace function var by right side
 					FunctionVariable var = geo.getFunction()
 							.getFunctionVariable();
-					String oldVarStr = var.toString();
+					String oldVarStr = var.toString(tpl);
 					var.setVarString(rightStr);
-					sb.append(geo.getLabel());
+					sb.append(geo.getLabel(tpl));
 					var.setVarString(oldVarStr);
 				}
 			} else if (valueForm && left.isExpressionNode()) {
@@ -3883,12 +3883,12 @@ public class ExpressionNode extends ValidExpression implements
 			sb.append(app.getCommand("Element"));
 			sb.append('[');
 			if (left.isGeoElement()) {
-				sb.append(((GeoElement) left).getLabel());
+				sb.append(((GeoElement) left).getLabel(tpl));
 			} else {
 				sb.append(leftStr);
 			}
 			sb.append(", ");
-			sb.append(((MyList) right).getListElement(0).toString());
+			sb.append(((MyList) right).getListElement(0).toString(tpl));
 			sb.append(']');
 			break;
 
@@ -3942,7 +3942,7 @@ public class ExpressionNode extends ValidExpression implements
 			// GeoCurveCartesian should not be expanded
 			if (left.isGeoElement()
 					&& ((GeoElement) left).isGeoCurveCartesian()) {
-				sb.append(((GeoElement) left).getLabel());
+				sb.append(((GeoElement) left).getLabel(tpl));
 			} else {
 				sb.append(leftStr);
 			}
@@ -3954,7 +3954,7 @@ public class ExpressionNode extends ValidExpression implements
 		case DERIVATIVE: // e.g. f''
 			// labeled GeoElements should not be expanded
 			if (left.isGeoElement() && ((GeoElement) left).isLabelSet()) {
-				sb.append(((GeoElement) left).getLabel());
+				sb.append(((GeoElement) left).getLabel(tpl));
 			} else {
 				sb.append(leftStr);
 			}
@@ -4246,7 +4246,7 @@ public class ExpressionNode extends ValidExpression implements
 	 */
 	public Double getCoefficient(FunctionVariable fv) {
 		if (this.isLeaf()) {
-			if (this.toString().equals(fv.toString())) {
+			if (this.toString(StringTemplate.defaultTemplate).equals(fv.toString(StringTemplate.defaultTemplate))) {
 				return 1.0;
 			}
 

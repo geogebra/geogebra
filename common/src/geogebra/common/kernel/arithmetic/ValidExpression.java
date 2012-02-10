@@ -17,7 +17,6 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 
 import java.util.Set;
 import java.util.Vector;
@@ -78,7 +77,7 @@ public abstract class ValidExpression implements ExpressionValue {
 		}
 		return ret;
 	}
-
+	
 	public String getLabel() {
 		return getLabel(0);
 	}
@@ -130,8 +129,9 @@ public abstract class ValidExpression implements ExpressionValue {
 	/**
 	 * Includes the label and assignment operator. E.g. while toString() would
 	 * return x^2, this method would return f(x) := x^2
+	 * @param tpl String template
 	 * 
-	 * @return
+	 * @return assignment in the form L:=R
 	 */
 	public String toAssignmentString(StringTemplate tpl) {
 		if (labels == null) {
@@ -144,7 +144,10 @@ public abstract class ValidExpression implements ExpressionValue {
 		sb.append(toString(tpl));
 		return sb.toString();
 	}
-
+	/**
+	 * 
+	 * @return assignment in LaTeX
+	 */
 	public String toAssignmentLaTeXString() {
 		if (labels == null) {
 			return toLaTeXString(true,StringTemplate.latexTemplate);
@@ -156,11 +159,15 @@ public abstract class ValidExpression implements ExpressionValue {
 		sb.append(toLaTeXString(true,StringTemplate.latexTemplate));
 		return sb.toString();
 	}
-
+	/**
+	 * @return operator for assignment
+	 */
 	public String getAssignmentOperator() {
 		return " := ";
 	}
-
+	/**
+	 * @return operator for assignment in LaTeX form
+	 */
 	public String getAssignmentOperatorLaTeX() {
 		return " \\, :=  \\, ";
 	}
@@ -185,6 +192,7 @@ public abstract class ValidExpression implements ExpressionValue {
 		return evaluate(StringTemplate.defaultTemplate);
 	}
 	
+	@Override
 	@Deprecated
 	public final String toString(){
 		return toString(StringTemplate.defaultTemplate);

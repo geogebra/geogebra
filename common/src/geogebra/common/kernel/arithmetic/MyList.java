@@ -175,8 +175,8 @@ public class MyList extends ValidExpression implements ListValue,
 	 *            operation
 	 * @author Markus Hohenwarter
 	 */
-	final public void applyRight(Operation operation, ExpressionValue value) {
-		apply(operation, value, true);
+	final public void applyRight(Operation operation, ExpressionValue value,StringTemplate tpl) {
+		apply(operation, value, true,tpl);
 	}
 
 	/**
@@ -190,8 +190,8 @@ public class MyList extends ValidExpression implements ListValue,
 	 *            operation
 	 * @author Markus Hohenwarter
 	 */
-	final public void applyLeft(Operation operation, ExpressionValue value) {
-		apply(operation, value, false);
+	final public void applyLeft(Operation operation, ExpressionValue value,StringTemplate tpl) {
+		apply(operation, value, false,tpl);
 	}
 
 	boolean isDefined = true;
@@ -260,7 +260,7 @@ public class MyList extends ValidExpression implements ListValue,
 	 *            <operation> <this>
 	 * @author Markus Hohenwarter
 	 */
-	private void apply(Operation operation, ExpressionValue value, boolean right) {
+	private void apply(Operation operation, ExpressionValue value, boolean right,StringTemplate tpl) {
 		int size = size();
 
 		// if (!right)
@@ -571,6 +571,7 @@ public class MyList extends ValidExpression implements ListValue,
 	 * null; }
 	 */
 
+	@Override
 	public String toValueString(StringTemplate tpl) {
 		return toString(tpl); // Michael Borcherds 2008-06-05
 		/*

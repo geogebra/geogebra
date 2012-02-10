@@ -1,5 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -45,7 +46,7 @@ public class MyCellEditorButton extends AbstractCellEditor implements TableCellE
 			// show hide label by setting text
 			if (editGeo.isLabelVisible()) {
 				// get caption to show r
-				String caption = editGeo.getCaption();
+				String caption = editGeo.getCaption(StringTemplate.defaultTemplate);
 				caption = GeoElement.indicesToHTML(caption, true);				
 				delegate.setText(caption);
 			} else {
@@ -55,7 +56,7 @@ public class MyCellEditorButton extends AbstractCellEditor implements TableCellE
 			delegate.setOpaque(true);
 			delegate.setHorizontalAlignment(SwingConstants.CENTER);
 		//	delegate.setFont(view.fontPoint);
-			delegate.setForeground(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) editGeo.getObjectColor()));
+			delegate.setForeground(geogebra.awt.Color.getAwtColor(editGeo.getObjectColor()));
 		  
 	    return delegate;
 	  }

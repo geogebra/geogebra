@@ -1,8 +1,8 @@
 package geogebra.gui.view.spreadsheet;
 
+import geogebra.common.awt.Point;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
@@ -13,10 +13,8 @@ import geogebra.main.Application;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import geogebra.common.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
@@ -67,7 +65,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 	private JCheckBox checkBox;
 	private JButton button;
 	private JComboBox comboBox;
-	private DefaultComboBoxModel cbModel;
+	private DefaultComboBoxModel<GeoElement> cbModel;
 	private Color bgColor;
 
 
@@ -169,8 +167,8 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 			if(geo.isGeoButton()){
 				//button.setBackground(table.getBackground());
 				button.setHorizontalAlignment(CENTER);
-				button.setText(geo.getCaption());
-				button.setForeground(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getObjectColor()));
+				button.setText(geo.getCaption(StringTemplate.defaultTemplate));
+				button.setForeground(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
 				return button;
 			}
 
@@ -229,7 +227,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 		// Set foreground and background color
 		//===============================================
 		if (geo.getBackgroundColor() != null) {
-			bgColor = geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getBackgroundColor());
+			bgColor = geogebra.awt.Color.getAwtColor( geo.getBackgroundColor());
 		}
 
 		if (geo.doHighlighting()) {
@@ -240,7 +238,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 			}
 		}
 		setBackground(bgColor);
-		setForeground(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) geo.getLabelColor()));
+		setForeground(geogebra.awt.Color.getAwtColor(geo.getLabelColor()));
 
 
 

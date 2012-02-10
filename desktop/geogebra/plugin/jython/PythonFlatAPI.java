@@ -8,6 +8,7 @@ import geogebra.common.awt.Color;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoDependentPoint;
 import geogebra.common.kernel.algos.AlgoDependentVector;
@@ -273,7 +274,7 @@ public class PythonFlatAPI {
 		 * @return the caption of the Geo
 		 */
 		public static String getCaption(GeoElement geo) {
-			return geo.getCaption();
+			return geo.getCaption(StringTemplate.defaultTemplate);
 		}
 		
 		/**

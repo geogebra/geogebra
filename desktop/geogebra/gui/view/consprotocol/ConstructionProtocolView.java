@@ -1367,7 +1367,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 						.getCommandDescriptionHTML(false);
 			case 5:
 				return rowList.get(nRow).geo
-						.getAlgebraDescriptionHTML(false,StringTemplate.defaultTemplate);
+						.getAlgebraDescriptionHTML(StringTemplate.defaultTemplate);
 		
 			case 6:
 				return rowList.get(nRow).geo
