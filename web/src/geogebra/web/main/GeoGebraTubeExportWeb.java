@@ -48,8 +48,10 @@ public class GeoGebraTubeExportWeb extends geogebra.common.export.GeoGebraTubeEx
 
 			String postData = getPostData().toString();
 
-			AbstractApplication.debug(postData);
-
+			// encode '+'
+			// for some reason encode(postData) doesn't work
+			postData = postData.replace("+", "%2B");
+			
 			try {
 				Request response = rb.sendRequest(postData, new RequestCallback()
 				{
