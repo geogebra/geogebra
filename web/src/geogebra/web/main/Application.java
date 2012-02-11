@@ -7,7 +7,6 @@ import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.GuiManager;
-import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
@@ -33,12 +32,12 @@ import geogebra.common.plugin.ScriptManagerCommon;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
-import geogebra.web.Web;
 import geogebra.web.css.GuiResources;
 import geogebra.web.euclidian.EuclidianController;
 import geogebra.web.euclidian.EuclidianView;
 import geogebra.web.gui.DialogManagerWeb;
 import geogebra.web.gui.SplashDialog;
+import geogebra.web.gui.app.GeoGebraFrame;
 import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLio;
 import geogebra.web.kernel.AnimationManager;
@@ -47,10 +46,7 @@ import geogebra.web.util.DataUtil;
 import geogebra.web.util.DebugPrinterWeb;
 import geogebra.web.util.ImageManager;
 
-import java.awt.Component;
-import java.awt.Image;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -58,14 +54,19 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
 import com.google.gwt.canvas.dom.client.Context2d.TextBaseline;
-import com.google.gwt.canvas.dom.client.TextMetrics;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Document;
+import com.google.gwt.core.client.JsArrayInteger;
+import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -96,6 +97,78 @@ public class Application extends AbstractApplication implements KeyDownHandler{
 
 
 		getScriptManager();//.ggbOnInit();//this is not called here because we have to delay it until the canvas is first drawn
+
+		registerFileDropHandlers((CanvasElement)canvas.getElement().cast());
+	}
+
+	/**
+	 * Register file drop handlers for the canvas of this application
+	 */
+	private native void registerFileDropHandlers(CanvasElement ce) /*-{
+
+		var appl = this;
+		var canvas = ce;
+
+		if (canvas) {
+			canvas.addEventListener("dragover", function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				canvas.style.borderColor = "#ff0000";
+			}, false);
+			canvas.addEventListener("dragenter", function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+			}, false);
+			canvas.addEventListener("drop", function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				canvas.style.borderColor = "#000000";
+				var dt = e.dataTransfer;
+				if (dt.files.length) {
+					var fileToHandle = dt.files[0];
+					//console.log(fileToHandle.name);
+					var reader = new FileReader();
+					reader.onloadend = function(ev) {
+						if (reader.readyState === reader.DONE) {
+							var fileStr = reader.result;
+							appl.@geogebra.web.main.Application::registerFileDropHandlers_onDrop(Ljava/lang/String;)(fileStr);
+						}
+					};
+					reader.readAsBinaryString(fileToHandle);
+				}
+			}, false);
+		}
+		$doc.body.addEventListener("dragover", function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			if (canvas)
+				canvas.style.borderColor = "#000000";
+		}, false);
+		$doc.body.addEventListener("drop", function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+		}, false);
+	}-*/;
+
+
+	private void registerFileDropHandlers_onDrop(String fileStr) {
+
+		byte[] ju8 = fileStr.getBytes();
+
+		JsArrayInteger jsBytes = JsArrayInteger.createArray().cast();
+		jsBytes.setLength(ju8.length);
+		for (int i = 0; i < ju8.length; i++) {
+			int x = ju8[i];
+			if (x < 0) x += 256;
+			jsBytes.set(i, x);
+		}
+		GeoGebraFrame.fileLoader.getView().fileContentLoaded(jsBytes);
+
+		/*
+		JsFileList jfl = JsFileList.from(event.getDataTransfer());
+		FileReader frr = new FileReaderImpl();
+		frr.readSingleGgbFile(jfl, GeoGebraFrame.fileLoader.getFileLoadCallback());
+		*/
 	}
 
 	@Override
@@ -904,14 +977,24 @@ public class Application extends AbstractApplication implements KeyDownHandler{
     }
 
 	@Override
-    public void showURLinBrowser(String string) {
-		showURLinBrowserNative(string);
-	    
-    }
+    public void showURLinBrowser(final String pageUrl) {
+		//Window.open(pageUrl, "_blank", "");	  
+		debug("opening: "+pageUrl);
+		Button openWindow = new Button("Open Window");
+	    openWindow.addClickHandler(new ClickHandler() {
 
-	public static native void showURLinBrowserNative(String string) /*-{
-		$wnd.show(string);
-	}-*/;
+	        public void onClick(final ClickEvent clickEvent) {
+	            Window.open(pageUrl, "_blank", null);
+	        }
+	    });
+	    RootPanel.get().add(openWindow);
+    }
+	
+	@Override
+	public void uploadToGeoGebraTube() {
+ 		GeoGebraTubeExportWeb ggbtube = new GeoGebraTubeExportWeb(this);
+ 		ggbtube.uploadWorksheet();
+	}
 
 
 }

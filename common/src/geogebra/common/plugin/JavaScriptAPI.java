@@ -22,6 +22,8 @@ public interface JavaScriptAPI {
 	public  String getBase64();
 	public  String getBase64(boolean includeThumbnail);
 	
+	public abstract void uploadToGeoGebraTube();
+	
 	/**
 	 * Returns the GeoGebra XML string for the given GeoElement object, 
 	 * i.e. only the <element> tag is returned. 

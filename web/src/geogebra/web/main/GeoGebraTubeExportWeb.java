@@ -71,6 +71,7 @@ public class GeoGebraTubeExportWeb extends geogebra.common.export.GeoGebraTubeEx
 
 								AbstractApplication.debug("Upload failed. Response: " + response.getText());
 							} else {
+								AbstractApplication.debug("Opening URL: " + uploadURL + "/" + results.getUID());
 								app.showURLinBrowser(uploadURL + "/" + results.getUID());
 								hideDialog();
 							}
@@ -119,27 +120,27 @@ public class GeoGebraTubeExportWeb extends geogebra.common.export.GeoGebraTubeEx
 
 	@Override
     protected  void setMaximum(int i){
-		AbstractApplication.debug("Unimplemented");
+		AbstractApplication.debug("Unimplemented " + i);
 	}
 
 	@Override
     protected  void setMinimum(int i){
-		AbstractApplication.debug("Unimplemented");
+		AbstractApplication.debug("Unimplemented " + i);
 	}
 
 	@Override
     protected  void setIndeterminate(boolean b){
-		AbstractApplication.debug("Unimplemented");
+		AbstractApplication.debug("Unimplemented " + b);
 	}
 
 	@Override
     protected  void setValue(int end){
-		AbstractApplication.debug("Unimplemented");
+		AbstractApplication.debug("Unimplemented " + end );
 	}
 
 	@Override
     protected  void setEnabled(boolean b){
-		AbstractApplication.debug("Unimplemented");
+		AbstractApplication.debug("Unimplemented " + b);
 	}
 
 	/**

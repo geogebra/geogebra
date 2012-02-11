@@ -1428,4 +1428,9 @@ public class AppletImplementation implements AppletImplementationInterface {
 		ggbApi.clearImage(label);
 	}
 
+	public void uploadToGeoGebraTube() {
+		app.uploadToGeoGebraTube();
+		
+	}
+
 }

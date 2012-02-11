@@ -23,7 +23,7 @@ public abstract class GeoGebraTubeExport {
 	/**
 	 * Application instance.
 	 */
-	protected AbstractApplication app;
+	public AbstractApplication app;
 	
 	/**
 	 * Constructs a new instance of the GeoGebraTube exporter.

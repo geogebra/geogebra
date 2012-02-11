@@ -22,7 +22,6 @@ import geogebra.GeoGebra;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
@@ -37,10 +36,8 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.Relation;
-import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -49,7 +46,6 @@ import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
-import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.Settings;
@@ -62,6 +58,7 @@ import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianStatic;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidianND.EuclidianViewND;
+import geogebra.export.GeoGebraTubeExportDesktop;
 import geogebra.export.GraphicExportDialog;
 import geogebra.export.WorksheetExportDialog;
 import geogebra.gui.GuiManager;
@@ -135,12 +132,10 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.UUID;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
@@ -4865,6 +4860,12 @@ public class Application extends AbstractApplication implements
 	public void showURLinBrowser(String strURL) {
 		getGuiManager().showURLinBrowser(strURL);
 		
+	}
+
+	@Override
+	public void uploadToGeoGebraTube() {
+ 		GeoGebraTubeExportDesktop ggbtube = new GeoGebraTubeExportDesktop(this);
+ 		ggbtube.uploadWorksheet();
 	}
 
 }

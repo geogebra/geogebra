@@ -1,17 +1,11 @@
 package geogebra.common.plugin;
 
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.TreeSet;
-
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -23,6 +17,10 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.main.AbstractApplication;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 
 public abstract class GgbAPI {
@@ -481,6 +479,12 @@ public abstract class GgbAPI {
 			app.getActiveEuclidianView().repaintView();
  		}
 	}
+	
+	public void uploadToGeoGebraTube() {
+		app.uploadToGeoGebraTube();
+	}
+	
+	
 
 	public void startAnimation() {
 		kernel.getAnimatonManager().startAnimation();		

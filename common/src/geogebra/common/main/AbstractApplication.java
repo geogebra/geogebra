@@ -2667,4 +2667,6 @@ public abstract class AbstractApplication {
 
 	public abstract void showURLinBrowser(String string);
 
+	public abstract void uploadToGeoGebraTube();
+
 }

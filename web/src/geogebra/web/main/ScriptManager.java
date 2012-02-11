@@ -75,6 +75,12 @@ public class ScriptManager extends ScriptManagerCommon {
 		$wnd.ggbApplet.initCAS = function() {
 			ggbAPI.@geogebra.web.main.GgbAPI::initCAS()();
 		};
+		
+		$wnd.ggbApplet.uploadToGeoGebraTube = function() {
+			ggbAPI.@geogebra.web.main.GgbAPI::uploadToGeoGebraTube()();
+		};
+		
+		
 
 		// This is not yet used in GeoGebraWeb
 		//$wnd.ggbApplet.setErrorDialogsActive = function(flag) {

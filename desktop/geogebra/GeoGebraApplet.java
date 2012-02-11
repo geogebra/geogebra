@@ -603,4 +603,9 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	public void unregisterPenListener(String JSFunctionName) {
 		getAppletImplementation().unregisterPenListener(JSFunctionName);		
 	}
+
+	public void uploadToGeoGebraTube() {
+		getAppletImplementation().uploadToGeoGebraTube();
+		
+	}
 }
