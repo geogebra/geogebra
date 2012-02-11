@@ -68,10 +68,18 @@ public class GeoTextField extends GeoButton {
 		return text;
 	}
 	
-	public void setText(String text2) {
-		text = text2;		
+	/**
+	 * Set the text
+	 * @param newText new text value
+	 */
+	public void setText(String newText) {
+		text = newText;		
 	}
 	
+	/**
+	 * Get the text (used for scripting)
+	 * @return the text
+	 */
 	public String getText() {
 		return text;
 	}
@@ -165,6 +173,10 @@ public class GeoTextField extends GeoButton {
 		
 	}
 	
+	/**
+	 * Called by a Drawable for this object when it is updated
+	 * @param textField the Drawable's text field
+	 */
 	public void updateText(TextObject textField){
 		
 		if (linkedGeo != null) {
@@ -200,6 +212,10 @@ public class GeoTextField extends GeoButton {
 		setText(textField.getText());
 	
 	}
+	/**
+	 * Called by a Drawable when its text object is updated
+	 * @param textField the Drawable's text field
+	 */
 	public void textObjectUpdated(TextObject textField) {
 		if (linkedGeo != null) {
 			updateLinkedGeo(textField.getText());
