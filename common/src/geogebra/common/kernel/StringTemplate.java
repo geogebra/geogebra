@@ -17,8 +17,10 @@ public class StringTemplate {
 		noLocalDefault.localizeCmds = false;
 	}
 	public static final StringTemplate prefixedDefault = new StringTemplate();
-	static{ 
+	static {
+		prefixedDefault.forceSF = true;
 		prefixedDefault.usePrefix = true;
+		prefixedDefault.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
 	}
 	/**
 	 * GeoGebra string type, internationalize digits
@@ -40,6 +42,7 @@ public class StringTemplate {
 	static {
 		casTemplate.internationalizeDigits = false;
 		casTemplate.usePrefix = true;
+		casTemplate.forceSF = true;
 		casTemplate.setType(StringType.MPREDUCE);
 		casTemplate.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
 	}
@@ -53,6 +56,7 @@ public class StringTemplate {
 		}
 	};
 	static {
+		xmlTemplate.forceSF=true;
 		xmlTemplate.internationalizeDigits = false;
 		xmlTemplate.setType(StringType.GEOGEBRA_XML);
 		xmlTemplate.localizeCmds = false;
@@ -82,7 +86,8 @@ public class StringTemplate {
 	private String casPrintFormPI;
 	private ScientificFormatAdapter sf;
 	private NumberFormatAdapter nf;
-
+	private boolean forceSF;
+	private boolean forceNF;
 	private boolean allowMoreDigits;
 
 	private boolean localizeCmds;
@@ -160,8 +165,8 @@ public class StringTemplate {
 		
 	}
 
-	public boolean useScientific(boolean defau){
-		return defau;
+	public boolean useScientific(boolean kernelUsesSF){
+		return forceSF || (kernelUsesSF && !forceNF);
 	}
 	
 	public boolean hasType(StringType t){
@@ -175,12 +180,8 @@ public class StringTemplate {
 	 * @return template
 	 */
 	public static StringTemplate printDecimals(StringType type, int decimals,boolean allowMore) {
-		StringTemplate tpl = new StringTemplate(){
-			@Override
-			public boolean useScientific(boolean defau){
-				return false;
-			}
-		};
+		StringTemplate tpl = new StringTemplate();
+		tpl.forceNF = true;
 		tpl.allowMoreDigits = allowMore;
 		tpl.setType(type);
 		tpl.nf=geogebra.common.factories.FormatFactory.prototype.getNumberFormat(decimals);
@@ -188,12 +189,8 @@ public class StringTemplate {
 	}
 	
 	public static StringTemplate printFigures(StringType mpreduce, int decimals,boolean allowMore) {
-		StringTemplate tpl = new StringTemplate(){
-			@Override
-			public boolean useScientific(boolean defau){
-				return true;
-			}
-		};
+		StringTemplate tpl = new StringTemplate();
+		tpl.forceSF = true;
 		tpl.allowMoreDigits = allowMore;
 		tpl.setType(mpreduce);
 		tpl.sf=geogebra.common.factories.FormatFactory.prototype.getScientificFormat(decimals,20,false);
