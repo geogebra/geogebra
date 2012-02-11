@@ -4691,7 +4691,7 @@ public abstract class AbstractEuclidianController {
 		}
 	
 		// only one point needed: try to create it
-		if (!objectFound && macroInput[index].equals(GeoPoint2.class.getName())) {
+		if (!objectFound && (macroInput[index].equals(Test.GEOPOINT2)||macroInput[index].equals(Test.GEOPOINTND))) {
 			if (createNewPoint(hits, true, true, false)) {
 				// take movedGeoPoint which is the newly created point
 				selectedGeos.add(getMovedGeoPoint());
@@ -4703,7 +4703,7 @@ public abstract class AbstractEuclidianController {
 	
 		// object found in handleAddSelected()
 		if (objectFound || macroInput[index].equals(Test.GEONUMERIC)
-				|| macroInput[index].equals(GeoAngle.class.getName())) {
+				|| macroInput[index].equals(Test.GEOANGLE)) {
 			if (!objectFound) {
 				index--;
 			}
@@ -4729,7 +4729,7 @@ public abstract class AbstractEuclidianController {
 				}
 	
 				// maybe we need an angle
-				else if (macroInput[index].equals(GeoAngle.class.getName())) {
+				else if (macroInput[index].equals(Test.GEOANGLE)) {
 					Object[] ob = app
 							.getDialogManager()
 							.showAngleInputDialog(macro.getToolOrCommandName(),
