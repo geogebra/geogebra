@@ -670,6 +670,15 @@ class Text(Element):
 class Button(Element):
     pass
 
+class TextField(Button):
+
+    def _gettext(self):
+        return API.Geo.getText(self.geo)
+    def _settext(self, text):
+        API.Geo.setText(self.geo, text)
+        self.update()
+    text = property(_gettext, _settext)
+
 
 class Conic(Path):
 
@@ -894,7 +903,7 @@ __objects__ = [
     Line, Segment, Ray,
     Conic, Circle, Parabola, Ellipse, Hyperbola,
     Locus, Function, ImplicitPoly,
-    Button, List, Text
+    Button, List, Text, TextField,
 ]
 
 __expressions__ = [

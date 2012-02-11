@@ -193,6 +193,8 @@ public class GeoTextField extends GeoButton {
 				textField.setText(text);
 			}
 
+		} else {
+			textField.setText(text);
 		}
 
 		setText(textField.getText());
