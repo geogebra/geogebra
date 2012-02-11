@@ -678,7 +678,8 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 
 		default: // alphabetical
 
-			return GeoElement.compareLabels(geo1.getLabel(), geo2.getLabel(),geoElementSpreadsheet) > 0;
+			return GeoElement.compareLabels(geo1.getLabel(StringTemplate.defaultTemplate),
+					geo2.getLabel(StringTemplate.defaultTemplate),geoElementSpreadsheet) > 0;
 
 		}
 

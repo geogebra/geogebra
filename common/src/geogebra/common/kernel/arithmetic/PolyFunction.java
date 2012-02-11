@@ -18,18 +18,25 @@ import geogebra.common.kernel.roots.RealRootDerivFunction;
  * Fast polynomial evaluation of Function
  */
 public class PolyFunction implements RealRootDerivFunction {
-	public double [] coeffs;
+	/** coefficients */
+	protected double [] coeffs;
 	private int degree; 
 	
 	private PolyFunction derivative; 
 	
 	//private double []  // for value and derivative's value
-
+	/**
+	 * 
+	 * @param degree degree
+	 */
 	public PolyFunction(int degree) {
 		this.degree = degree;
 		coeffs = new double[degree + 1];
 	}
-	
+	/**
+	 * 
+	 * @param c coefficients
+	 */
 	public PolyFunction(double [] c) {
 		coeffs = new double[c.length];
 		for (int i=0; i < c.length; i++) {
@@ -38,15 +45,27 @@ public class PolyFunction implements RealRootDerivFunction {
 		degree = coeffs.length - 1;
 	}
 	
+	/**
+	 * Copy constructor
+	 * @param pf function to copy
+	 */
 	public PolyFunction(PolyFunction pf) {
 		degree = pf.degree;
 		coeffs = pf.getCoeffsCopy();
 	}
 	
+	/**
+	 * 
+	 * @return array of coefficients
+	 */
 	public double [] getCoeffs() {
 		return coeffs;
 	}
 	
+	/**
+	 * 
+	 * @return copy of coefficients array
+	 */
 	public double [] getCoeffsCopy() {
 		double [] ret = new double[coeffs.length];
 		for (int i=0; i < coeffs.length; i++) {
@@ -56,17 +75,26 @@ public class PolyFunction implements RealRootDerivFunction {
 	}
 	
 	/**
-	 * Returns true. This method is overwritten by the subclass SymbolicPolyFunction.	 
+	 * Returns true. This method is overwritten by the subclass SymbolicPolyFunction.
+	 * @return true if coeffs were updated	 
 	 */
 	public boolean updateCoeffValues() {
 		// nothing to do here, see SymbolicPolyFunction
 		return true;
 	}
 	
+	/**
+	 * 
+	 * @return degree of polynomial
+	 */
 	public int getDegree() {
 		return degree;
 	}
 	
+	/**
+	 * 
+	 * @return first derivative
+	 */
 	final public PolyFunction getDerivative() {
 		if (derivative == null) {
 			derivative = buildDerivative();
@@ -117,7 +145,7 @@ public class PolyFunction implements RealRootDerivFunction {
 	
 	/**
 	 * This routine evaluates this polynomial and its first order derivatives at x. 
-	 * @param x
+	 * @param x point for function evaluation
 	 * @param order of highest derivative
 	 * @return array a with polynomial value as a[0] and nd derivatives as a[1..order].
 	 */

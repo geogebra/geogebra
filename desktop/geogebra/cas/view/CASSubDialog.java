@@ -1,5 +1,6 @@
 package geogebra.cas.view;
 
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.inputfield.MathTextField;
@@ -61,14 +62,14 @@ public class CASSubDialog extends JDialog implements ActionListener {
 	/**
 	 * Substitute dialog for CAS.
 	 * 
-	 * @param casView
+	 * @param casView view
 	 * @param prefix
 	 *            before selection, not effected by the substitution
 	 * @param evalText
 	 *            the String which will be substituted
 	 * @param postfix
 	 *            after selection, not effected by the substitution
-	 * @param editRow
+	 * @param editRow row to edit
 	 */
 	public CASSubDialog(CASView casView, String prefix, String evalText,
 			String postfix, int editRow) {
@@ -106,7 +107,7 @@ public class CASSubDialog extends JDialog implements ActionListener {
 			while (iter.hasNext()) {
 				row = new Vector<String>(2);
 				GeoElement var = iter.next();
-				String nextVar = var.getLabel();
+				String nextVar = var.getLabel(StringTemplate.defaultTemplate);
 				int i = 0;
 				for (i = 0; i < data.size(); i++) {
 					if (data.get(i).firstElement().compareTo(nextVar) >= 0) {
@@ -273,7 +274,7 @@ public class CASSubDialog extends JDialog implements ActionListener {
 	/**
 	 * if editing insert inStr at current caret position
 	 * 
-	 * @param inStr
+	 * @param inStr string to insert
 	 */
 	public void insertText(String inStr) {
 		if (inStr == null)

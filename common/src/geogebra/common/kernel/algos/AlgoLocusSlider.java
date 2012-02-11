@@ -265,7 +265,7 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 			ConstructionElement ce = it.next();
 			if (ce.isGeoElement()) {
 				GeoElement geo = (GeoElement) ce;
-				macroKernel.addReservedLabel(geo.getLabel());
+				macroKernel.addReservedLabel(geo.getLabel(StringTemplate.defaultTemplate));
 			}
 		}
 

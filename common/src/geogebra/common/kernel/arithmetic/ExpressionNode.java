@@ -22,6 +22,7 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
@@ -44,7 +45,6 @@ import java.util.TreeSet;
  * Tree node for expressions like "3*a - b/5"
  * 
  * @author Markus
- * @version
  */
 public class ExpressionNode extends ValidExpression implements
 		ReplaceableValue, ExpressionNodeConstants {
@@ -170,25 +170,25 @@ public class ExpressionNode extends ValidExpression implements
 		return new ExpressionNode(kernel, right);
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel) {
-		return getCopy(kernel);
+	public ExpressionValue deepCopy(Kernel kernel1) {
+		return getCopy(kernel1);
 	}
 
 	/** copy the whole tree structure except leafs */
-	public ExpressionNode getCopy(Kernel kernel) {
+	public ExpressionNode getCopy(Kernel kernel1) {
 		// Application.debug("getCopy() input: " + this);
 		ExpressionNode newNode = null;
 		ExpressionValue lev = null, rev = null;
 
 		if (left != null) {
-			lev = copy(left, kernel);
+			lev = copy(left, kernel1);
 		}
 		if (right != null) {
-			rev = copy(right, kernel);
+			rev = copy(right, kernel1);
 		}
 
 		if (lev != null) {
-			newNode = new ExpressionNode(kernel, lev, operation, rev);
+			newNode = new ExpressionNode(kernel1, lev, operation, rev);
 			newNode.leaf = leaf;
 		} else {
 			// something went wrong
@@ -367,6 +367,7 @@ public class ExpressionNode extends ValidExpression implements
 	 * @param tpl template (needed for possible string concatenation)
 	 * @return value
 	 */
+	@Override
 	public ExpressionValue evaluate(StringTemplate tpl) {
 		return kernel.getExpressionNodeEvaluator().evaluate(this,tpl);
 	}
@@ -578,7 +579,7 @@ public class ExpressionNode extends ValidExpression implements
 					if (elem.isExpressionNode()) {
 						((ExpressionNode) elem).getPolynomialVars(vars);
 					} else if (elem.isPolynomialInstance()) {
-						vars.add(elem.toString());
+						vars.add(elem.toString(StringTemplate.defaultTemplate));
 					}
 				}
 			}
@@ -649,6 +650,8 @@ public class ExpressionNode extends ValidExpression implements
 	 * Replaces all Variable objects with the given varName in tree by the given
 	 * FunctionVariable object.
 	 * 
+	 * Only works if the varName is inserted without CAS prefix
+	 * 
 	 * @return number of replacements done
 	 */
 	public final int replaceVariables(String varName, FunctionVariable fVar) {
@@ -667,12 +670,12 @@ public class ExpressionNode extends ValidExpression implements
 			}
 		}
 		if (left instanceof GeoDummyVariable) {
-			if (varName.equals(((GeoDummyVariable) left).toString())) {
+			if (varName.equals(((GeoDummyVariable) left).toString(StringTemplate.defaultTemplate))) {
 				left = fVar;
 				replacements++;
 			}
 		} else if (left instanceof FunctionVariable) {
-			if (varName.equals(((FunctionVariable) left).toString())) {
+			if (varName.equals(((FunctionVariable) left).toString(StringTemplate.defaultTemplate))) {
 				left = fVar;
 				replacements++;
 			}
@@ -692,12 +695,12 @@ public class ExpressionNode extends ValidExpression implements
 					replacements++;
 				}
 			} else if (right instanceof GeoDummyVariable) {
-				if (varName.equals(((GeoDummyVariable) right).toString())) {
+				if (varName.equals(((GeoDummyVariable) right).toString(StringTemplate.defaultTemplate))) {
 					right = fVar;
 					replacements++;
 				}
 			} else if (right instanceof FunctionVariable) {
-				if (varName.equals(((FunctionVariable) right).toString())) {
+				if (varName.equals(((FunctionVariable) right).toString(StringTemplate.defaultTemplate))) {
 					right = fVar;
 					replacements++;
 				}
@@ -722,7 +725,7 @@ public class ExpressionNode extends ValidExpression implements
 		} else if (left instanceof MyList) {
 			replacements += ((MyList) left).replacePolynomials(x);
 		} else if (left.isPolynomialInstance()
-				&& x.toString().equals(left.toString())) {
+				&& x.toString(StringTemplate.defaultTemplate).equals(left.toString(StringTemplate.defaultTemplate))) {
 			left = x;
 			replacements++;
 		}
@@ -734,7 +737,7 @@ public class ExpressionNode extends ValidExpression implements
 			} else if (right instanceof MyList) {
 				replacements += ((MyList) right).replacePolynomials(x);
 			} else if (right.isPolynomialInstance()
-					&& x.toString().equals(right.toString())) {
+					&& x.toString(StringTemplate.defaultTemplate).equals(right.toString(StringTemplate.defaultTemplate))) {
 				right = x;
 				replacements++;
 			}
@@ -3726,7 +3729,7 @@ public class ExpressionNode extends ValidExpression implements
 						.getX(),tpl));
 			} else if (valueForm
 					&& (leftEval = left.evaluate()).isVector3DValue()) {
-				sb.append(kernel.format(((PointConvertibleToDouble) leftEval)
+				sb.append(kernel.format(((Vector3DValue) leftEval)
 						.getPointAsDouble()[0],tpl));
 			} else if (valueForm
 					&& ((leftEval = left.evaluate()) instanceof GeoLine)) {
@@ -3764,7 +3767,7 @@ public class ExpressionNode extends ValidExpression implements
 						.getY(),tpl));
 			} else if (valueForm
 					&& (leftEval = left.evaluate()).isVector3DValue()) {
-				sb.append(kernel.format(((PointConvertibleToDouble) leftEval)
+				sb.append(kernel.format(((Vector3DValue) leftEval)
 						.getPointAsDouble()[1],tpl));
 			} else if (valueForm
 					&& ((leftEval = left.evaluate()) instanceof GeoLine)) {
@@ -3798,7 +3801,7 @@ public class ExpressionNode extends ValidExpression implements
 
 		case ZCOORD:
 			if (valueForm && (leftEval = left.evaluate()).isVector3DValue()) {
-				sb.append(kernel.format(((PointConvertibleToDouble) leftEval)
+				sb.append(kernel.format(((Vector3DValue) leftEval)
 						.getPointAsDouble()[2],tpl));
 			} else if (valueForm
 					&& ((leftEval = left.evaluate()) instanceof GeoLine)) {
@@ -4028,11 +4031,11 @@ public class ExpressionNode extends ValidExpression implements
 		return sb.toString();
 	}
 	
-	private void mathml(StringBuilder sb, String op, String leftStr, String rightStr) {
+	private static void mathml(StringBuilder sb, String op, String leftStr, String rightStr) {
 		mathml(sb, op, "", leftStr, "", "", rightStr, "");
 	}
 
-	private void mathml(StringBuilder sb, String op, String preL, String leftStr, String postL, String preR,
+	private static void mathml(StringBuilder sb, String op, String preL, String leftStr, String postL, String preR,
 			String rightStr, String postR) {
 		sb.append("<apply>");
 		sb.append(op);
@@ -4130,8 +4133,8 @@ public class ExpressionNode extends ValidExpression implements
 	/**
 	 * Returns true iff ev1 and ev2 are equal
 	 * 
-	 * @param ev1
-	 * @param ev2
+	 * @param ev1 first value to compare
+	 * @param ev2 second value to compare
 	 * @return true iff ev1 and ev2 are equal
 	 */
 	public static boolean isEqual(ExpressionValue ev1, ExpressionValue ev2) {
@@ -4139,8 +4142,8 @@ public class ExpressionNode extends ValidExpression implements
 			return Kernel.isEqual(((NumberValue) ev1).getDouble(),
 					((NumberValue) ev2).getDouble(), Kernel.EPSILON);
 		} else if (ev1.isTextValue() && ev2.isTextValue()) {
-			return ((TextValue) ev1).toValueString(StringTemplate.get(StringType.GEOGEBRA)).equals(
-					((TextValue) ev2).toValueString(StringTemplate.get(StringType.GEOGEBRA)));
+			return ((TextValue) ev1).toValueString(StringTemplate.defaultTemplate).equals(
+					((TextValue) ev2).toValueString(StringTemplate.defaultTemplate));
 		} else if (ev1.isVectorValue() && ev2.isVectorValue()) {
 			return ((VectorValue) ev1).getVector().equals(
 					((VectorValue) ev2).getVector());

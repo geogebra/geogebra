@@ -14,7 +14,6 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
@@ -50,7 +49,6 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	/** kernel */
 	protected Kernel kernel;
 
-	private StringBuilder sb = new StringBuilder(80);
 
 	/**
 	 * Creates new Function from expression. Note: call initFunction() after
@@ -132,8 +130,8 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		return kernel;
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel) {
-		return new FunctionNVar(this, kernel);
+	public ExpressionValue deepCopy(Kernel kernel1) {
+		return new FunctionNVar(this, kernel1);
 	}
 
 	/**
@@ -294,11 +292,11 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		// get function variables for x, y, z
 		FunctionVariable xVar = null, yVar = null, zVar = null;
 		for (FunctionVariable fVar : fVars) {
-			if ("x".equals(fVar.toString()))
+			if ("x".equals(fVar.toString(StringTemplate.defaultTemplate)))
 				xVar = fVar;
-			else if ("y".equals(fVar.toString()))
+			else if ("y".equals(fVar.toString(StringTemplate.defaultTemplate)))
 				yVar = fVar;
-			else if ("z".equals(fVar.toString()))
+			else if ("z".equals(fVar.toString(StringTemplate.defaultTemplate)))
 				zVar = fVar;
 		}
 
@@ -316,7 +314,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 			fVars = ((FunctionNVar) ev).getFunctionVariables();
 		} else {
 			AbstractApplication.debug("InvalidFunction:"
-					+ expression.toString() + " " + ev.toString()
+					+ expression.toString(StringTemplate.defaultTemplate) + " " + ev.toString(StringTemplate.defaultTemplate)
 					+ ev.getClass().getName());
 			throw new MyError(kernel.getApplication(), "InvalidFunction");
 		}
@@ -397,6 +395,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		return expression.toString(tpl);
 	}
 
+	@Override
 	final public String toValueString(StringTemplate tpl) {
 		return expression.toValueString(tpl);
 	}
@@ -426,6 +425,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	 * @return resulting function
 	 */
 	final public FunctionNVar evalCasCommand(String ggbCasCmd, boolean symbolic) {
+		StringBuilder sb = new StringBuilder(80);
 		// remember expression and its CAS string
 		boolean useCaching = true;
 
@@ -750,7 +750,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	 */
 	public double evaluate(GeoPoint2 pti) {
 		GeoVec3D pt = pti;
-		if (fVars.length == 1 && "y".equals(fVars[0].toString()))
+		if (fVars.length == 1 && "y".equals(fVars[0].toString(StringTemplate.defaultTemplate)))
 			return evaluate(new double[] { pt.y / pt.z });
 		return evaluate(new double[] { pt.x / pt.z, pt.y / pt.z });
 	}

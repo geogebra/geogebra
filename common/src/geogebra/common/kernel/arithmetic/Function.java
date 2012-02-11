@@ -14,7 +14,6 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.roots.RealRootDerivFunction;
@@ -83,8 +82,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	}
 
 	@Override
-	public ExpressionValue deepCopy(Kernel kernel) {
-		return new Function(this, kernel);
+	public ExpressionValue deepCopy(Kernel kernel1) {
+		return new Function(this, kernel1);
 	}
 
 	/**
@@ -266,8 +265,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	}
 
 	// node for (x - vx)
-	final private ExpressionNode shiftXnode(double vx) {
-
+	final private ExpressionNode shiftXnode(double xShift) {
+		double vx = xShift;
 		vx = Kernel.checkDecimalFraction(vx);
 
 		ExpressionNode node;
@@ -658,7 +657,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		ExpressionValue[][] coeff = null;
 		int terms = -1;
 		ExpressionNode replaced = 
-				((ExpressionNode) expression.deepCopy(kernel)).replaceAndWrap(fVars[0], xVar);
+				((ExpressionNode) ev.deepCopy(kernel)).replaceAndWrap(fVars[0], xVar);
 				
 		Equation equ=new Equation(kernel,replaced,new MyDouble(kernel,0));				
 		try{
@@ -667,7 +666,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			terms = coeff.length;
 		}
 		catch(Throwable t){
-			AbstractApplication.debug(expression+" couldn't be transformed to polynomial");
+			AbstractApplication.debug(ev+" couldn't be transformed to polynomial");
 		}
 		if(terms == -1)
 			return null;
@@ -787,8 +786,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 
 		// get variable string with tmp prefix,
 		// e.g. "t" becomes "ggbtmpvart" here
-		Kernel kernel = funX.kernel;
-		
+
 		String varStr = funX.fVars[0].toString(StringTemplate.prefixedDefault);
 
 		// should we try to get a symbolic derivative?

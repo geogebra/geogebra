@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.plugin.Operation;
 
@@ -32,67 +33,115 @@ public class Term implements Comparable<Object>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	ExpressionValue coefficient; // hast to evaluate() to NumberValue
+	/** coefficient */
+	ExpressionValue coefficient; // has to evaluate() to NumberValue
 	private StringBuilder variables;
 	private Kernel kernel;
 
+	/**
+	 * @param kernel kernel
+	 * @param coeff coefficient
+	 * @param vars variables string, eg. "xxy"
+	 */
 	public Term(Kernel kernel, ExpressionValue coeff, String vars) {
 		this(kernel, coeff, new StringBuilder(vars));
 	}
 
+	/**
+	 * @param kernel kernel
+	 * @param coeff coefficient
+	 * @param vars variables string, eg. "xxy"
+	 */
 	public Term(Kernel kernel, double coeff, String vars) {
 		this(kernel, new MyDouble(kernel, coeff), new StringBuilder(vars));
 	}
 
+	/**
+	 * @param kernel kernel
+	 * @param coeff coefficient
+	 * @param vars variables StringBuilder
+	 */
 	public Term(Kernel kernel, ExpressionValue coeff, StringBuilder vars) {
 		this.kernel = kernel;
 		coefficient = coeff;
 		variables = vars;
 	}
 
+	/**
+	 * Copy constructor
+	 * @param t term to copy
+	 */
 	public Term(Term t) {
 		kernel = t.kernel;
 		variables = new StringBuilder(t.variables.toString());
 		coefficient = ExpressionNode.copy(t.coefficient, kernel);
 	}
 
+	/**
+	 * @return coefficient
+	 */
 	public ExpressionValue getCoefficient() {
 		return coefficient;
 	}
 
+	/**
+	 * @param coeff changes coefficient
+	 */
 	void setCoefficient(ExpressionValue coeff) {
 		coefficient = coeff;
 	}
 
+	/**
+	 * @return variables
+	 */
 	String getVars() {
 		return variables.toString();
 	}
 
+	/**
+	 * @param vars new variables string, eg. "xxy"
+	 */
 	void setVariables(String vars) {
 		variables.setLength(0);
 		variables.append(vars);
 	}
 
+	/**
+	 * @param vars new variables as string
+	 */
+	@SuppressWarnings("cast")
 	void setVariables(StringBuilder vars) {
 		variables.setLength(0);
 		variables.append((CharSequence)vars);
 	}
 
+	/**
+	 * @return true if this has no variables
+	 */
 	boolean hasNoVars() {
 		return (variables.length() == 0);
 	}
 
+	/**
+	 * @return true if coeff is integer
+	 */
 	boolean hasIntegerCoeff() {
 		return Kernel.isInteger(((NumberValue) coefficient.evaluate())
 				.getDouble());
 	}
 
+	/**
+	 * Total degree of this term
+	 * @return degree
+	 */
 	int degree() {
 		return variables.length();
 	}
 
-	/*
+	/**
 	 * degree of eg x xxxyy returns 3 for x, 2 for y
+	 * @param var term whose degree we want
+	 * @return degree
 	 */
 	int degree(char var) {
 		int count = 0;
@@ -105,13 +154,14 @@ public class Term implements Comparable<Object>, Serializable {
 
 	/**
 	 * add a number to this term's coefficient
+	 * @param number number to add
 	 */
 	void addToCoefficient(ExpressionValue number) {
 		coefficient = add(coefficient, number);
 	}
 
 	// return a + b
-	ExpressionValue add(ExpressionValue a, ExpressionValue b) {
+	private ExpressionValue add(ExpressionValue a, ExpressionValue b) {
 		boolean aconst = a.isConstant();
 		boolean bconst = b.isConstant();
 		double aval, bval;
@@ -146,19 +196,24 @@ public class Term implements Comparable<Object>, Serializable {
 			return new ExpressionNode(kernel, a, Operation.PLUS, b);
 	}
 
-	ExpressionValue sub(ExpressionValue a, ExpressionValue b) {
+	private ExpressionValue sub(ExpressionValue a, ExpressionValue b) {
 		return add(a, multiply(new MyDouble(kernel, -1.0d), b));
 	}
 
 	/**
 	 * multiply this term with another term
+	 * @param t multiplier
 	 */
+	@SuppressWarnings("cast")
 	void multiply(Term t) {
 		coefficient = multiply(coefficient, t.coefficient);
 		variables.append((CharSequence)t.variables);
 		sort(variables);
 	}
-
+	/**
+	 * Multiplies current value with d
+	 * @param d double to multiply with
+	 */
 	void multiply(double d) {
 		multiply(new MyDouble(kernel, d));
 	}
@@ -175,13 +230,14 @@ public class Term implements Comparable<Object>, Serializable {
 
 	/**
 	 * multiply this term with a number
+	 * @param number multiplier
 	 */
 	void multiply(ExpressionValue number) {
 		coefficient = multiply(coefficient, number);
 	}
 
 	// c = a * b
-	ExpressionValue multiply(ExpressionValue a, ExpressionValue b) {
+	private ExpressionValue multiply(ExpressionValue a, ExpressionValue b) {
 
 		// multiply constant?
 		boolean aconst = a.isConstant();
@@ -226,13 +282,14 @@ public class Term implements Comparable<Object>, Serializable {
 
 	/**
 	 * divide this term with a number
+	 * @param number divisor
 	 */
 	void divide(ExpressionValue number) {
 		coefficient = divide(coefficient, number);
 	}
 
 	// c = a / b
-	ExpressionValue divide(ExpressionValue a, ExpressionValue b) {
+	private ExpressionValue divide(ExpressionValue a, ExpressionValue b) {
 		// divide constants
 		boolean aconst = a.isConstant();
 		boolean bconst = b.isConstant();
@@ -296,6 +353,10 @@ public class Term implements Comparable<Object>, Serializable {
 		return 42; // any arbitrary constant will do
 	}
 
+	/**
+	 * @param var var name
+	 * @return True if contins given variable
+	 */
 	boolean contains(String var) {
 		return (variables.toString().indexOf(var) >= 0);
 	}
@@ -306,7 +367,16 @@ public class Term implements Comparable<Object>, Serializable {
 	}
 
 	@Override
-	public String toString() {
+	@Deprecated
+	public String toString(){
+		return toString(StringTemplate.defaultTemplate);
+	}
+	/**
+	 * Serialize to string according to given template
+	 * @param tpl template
+	 * @return string representation
+	 */
+	public String toString(StringTemplate tpl) {
 		if (ExpressionNode.isEqualString(coefficient, 0, true))
 			return "0";
 		if (ExpressionNode.isEqualString(coefficient, 1, true)) {
@@ -323,7 +393,7 @@ public class Term implements Comparable<Object>, Serializable {
 			sb.append('-');
 			sb.append(var);
 		} else {
-			sb.append(coeffString(coefficient));
+			sb.append(coeffString(coefficient,tpl));
 			if (var != null) {
 				sb.append(' ');
 				sb.append(var);
@@ -332,23 +402,23 @@ public class Term implements Comparable<Object>, Serializable {
 		return sb.toString();
 	}
 
-	private String coeffString(ExpressionValue ev) {
+	private String coeffString(ExpressionValue ev,StringTemplate tpl) {
 		if (ev instanceof GeoElement)
-			return ((GeoElement) ev).getLabel();
+			return ((GeoElement) ev).getLabel(tpl);
 		else if (ev instanceof ExpressionNode) {
 			ExpressionNode n = (ExpressionNode) ev;
 			if (n.isLeaf()
 					|| ExpressionNode.opID(n) >= Operation.MULTIPLY.ordinal()
 					|| variables.length() == 0) {
-				return n.toString();
+				return n.toString(tpl);
 			}
 			StringBuilder sb = new StringBuilder();
 			sb.append('(');
-			sb.append(n.toString());
+			sb.append(n.toString(tpl));
 			sb.append(')');
 			return sb.toString();
 		} else
-			return ev.toString();
+			return ev.toString(tpl);
 	}
 
 	private String variableString() {

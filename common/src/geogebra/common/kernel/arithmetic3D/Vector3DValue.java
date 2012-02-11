@@ -20,17 +20,22 @@ package geogebra.common.kernel.arithmetic3D;
 
 
 import geogebra.common.kernel.arithmetic.ExpressionValue;
-import geogebra.common.kernel.arithmetic.PointConvertibleToDouble;
 import geogebra.common.adapters.Geo3DVec;
 
 /**
  *
  * @author  Markus + ggb3D
- * @version 
  */
-public interface Vector3DValue extends ExpressionValue, PointConvertibleToDouble { 
+public interface Vector3DValue extends ExpressionValue { 
+	/** 
+	 * Converts vector to array of coords 
+	 * @return array of coords
+	 */
     public double[] getPointAsDouble();    
     //public int getMode(); // POLAR or CARTESIAN
     //public void setMode(int mode);       
+    /** converts vector to GeoVec3D 
+     * @return vector
+     */
 	public Geo3DVec get3DVec();
 }

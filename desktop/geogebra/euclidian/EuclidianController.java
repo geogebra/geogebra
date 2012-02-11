@@ -87,7 +87,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		return (Application) app;
 	}
 
-	protected void setView(EuclidianViewInterfaceCommon view) {
+	protected void setView(AbstractEuclidianView view) {
 		// void setView(EuclidianView view) {
 		this.view = view;
 	}

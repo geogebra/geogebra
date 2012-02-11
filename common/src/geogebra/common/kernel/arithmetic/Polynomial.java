@@ -56,8 +56,8 @@ public class Polynomial extends ValidExpression implements Serializable
 		// Application.debug("poly copy constructor output: " + this);
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel) {
-		return new Polynomial(kernel, this);
+	public ExpressionValue deepCopy(Kernel kernel1) {
+		return new Polynomial(kernel1, this);
 	}
 
 	public Term getTerm(int i) {
@@ -313,7 +313,7 @@ public class Polynomial extends ValidExpression implements Serializable
 
 				if (!ti.coefficient.evaluate().isNumberValue())
 					throw new MyError(kernel.getApplication(), ti.coefficient
-							.evaluate().toString());
+							.evaluate().toString(StringTemplate.defaultTemplate));
 
 				// add simplified term to list
 				if (!ti.coefficient.isConstant()
@@ -424,7 +424,7 @@ public class Polynomial extends ValidExpression implements Serializable
 		boolean first = true;
 
 		for (int i = 0; i < size; i++) {
-			termStr = terms.get(i).toString();
+			termStr = terms.get(i).toString(tpl);
 			if (termStr != null && termStr.length() > 0) {
 				if (first) {
 					sb.append(termStr);
@@ -444,6 +444,7 @@ public class Polynomial extends ValidExpression implements Serializable
 		return sb.toString();
 	}
 
+	@Override
 	public String toValueString(StringTemplate tpl) {
 		return toString(tpl);
 	}

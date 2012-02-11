@@ -276,7 +276,7 @@ public class AlgoDependentFunction extends AlgoElement {
 
 					GeoElement geo = (GeoElement) enL.getLeft();
 
-					if (geo.getLabel() != null) {
+					if (geo.isLabelSet()) {
 
 						ExpressionValue evR = (enL.getRight());
 
@@ -287,7 +287,7 @@ public class AlgoDependentFunction extends AlgoElement {
 							if (val > 0d && Kernel.isInteger(val)) {
 
 								// eg f''' if val == 3
-								return geo.getLabel()
+								return geo.getLabelSimple()
 										+ StringUtil.string("'", (int) val); // eg
 																				// f''''
 
