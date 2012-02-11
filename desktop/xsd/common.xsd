@@ -205,7 +205,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 				<xs:element name="value" minOccurs="0">
 					<xs:complexType>
 						<xs:attribute name="val" type="doubleOrBool" use="required"/>
-						<xs:attribute name="random" type="xs:bool"/>
+						<xs:attribute name="random" type="xs:boolean"/>
 					</xs:complexType>
 				</xs:element>
 			</xs:all>
@@ -579,5 +579,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 			<xs:pattern value="cartesian|polar|complex"/>
 		</xs:restriction>
 	</xs:simpleType>
-
+	<xs:element name="expression">
+		<xs:complexType>
+			<xs:attribute name="value" type="xs:string"/>
+			<xs:attribute name="error" type="xs:boolean"/>
+			<xs:attribute name="evalCommand" type="xs:string"/>
+			<xs:attribute name="evalComment" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

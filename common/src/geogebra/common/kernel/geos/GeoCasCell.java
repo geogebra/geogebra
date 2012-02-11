@@ -1523,7 +1523,7 @@ public class GeoCasCell extends GeoElement {
 			sb.append("<expression");
 
 			sb.append(" value=\"");
-			sb.append(StringUtil.encodeXML(getOutput(StringTemplate.defaultTemplate)));
+			sb.append(StringUtil.encodeXML(getOutput(StringTemplate.xmlTemplate)));
 			sb.append("\"");
 			if (isError()) {
 				sb.append(" error=\"true\"");
