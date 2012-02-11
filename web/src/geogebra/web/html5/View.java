@@ -72,10 +72,6 @@ public class View extends Widget {
 
 		app.getScriptManager().ggbOnInit();// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
 		
-		// just for testing
-		//GeoGebraTubeExportWeb ggbtube = new GeoGebraTubeExportWeb(app);
-		//ggbtube.uploadWorksheet();
-		
 	}
 
 	private void onSyncCanvasSizeWithApplication() {
