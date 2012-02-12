@@ -33,6 +33,7 @@ public interface GeoGebraConstants {
 	// pre-releases and I2G
 	public static final boolean DISABLE_I2G = !IS_PRE_RELEASE;
 	// URLs
+	public static final String GEOGEBRA_HTML5_BASE = "http://www.geogebra.org/web/4.2/web/web.nocache.js";
 	public final static String GEOGEBRA_ONLINE_ARCHIVE_BASE = "http://jars.geogebra.org/webstart/"
 			+ SHORT_VERSION_STRING + "/";
 	public final static String GEOGEBRA_ONLINE_WEBSTART_BASE = "http://www.geogebra.org/webstart/"
