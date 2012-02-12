@@ -29,6 +29,7 @@ class Interface(PythonScriptInterface):
         #selection = self.selection = objects.Selection()
         self.namespace = {
             'Color': Color,
+            # Below we must assume that the GgbApi is already created.
             'ggbApplet': APIProxy(raw_api.getGgbApi()),
             'geo': self.geo,
             #'selection': self.selection,
@@ -203,6 +204,7 @@ class Functions(object):
     def __init__(self, api, factory):
         self.api = api
         self.factory = factory
+    @property
     def ggbapi(self):
         return self.api.getGgbApi()
     def input(self, s, t=""):
