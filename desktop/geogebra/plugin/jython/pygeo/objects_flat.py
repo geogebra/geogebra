@@ -653,6 +653,7 @@ class Text(Element):
         self.geo = self._api.geoText(value)
         API.Geo.updateRepaint(self.geo)
 
+    # property: origin
     def _setorigin(self, point):
         if isinstance(point, Point):
             API.Geo.setTextOrigin(self.geo, point.geo)
@@ -666,6 +667,14 @@ class Text(Element):
         API.Geo.updateRepaint(self.geo)
     origin = property(_getorigin, _setorigin, _delorigin)
 
+    # property: text
+    def _gettext(self):
+        return API.Geo.getTextString(self.geo)
+    def _settext(self, text):
+        API.Geo.setTextString(self.geo, text)
+        self.update()
+    text = property(_gettext, _settext)
+    
 
 class Button(Element):
     pass

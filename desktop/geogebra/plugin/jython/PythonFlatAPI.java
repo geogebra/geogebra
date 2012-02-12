@@ -549,6 +549,24 @@ public class PythonFlatAPI {
 			return geo.getStartPoint();
 		}
 		
+		/**
+		 * Get the text string of a GeoText
+		 * @param geo the GeoText
+		 * @return the text value of the GeoText
+		 */
+		public static String getTextString(GeoText geo) {
+			return geo.getTextString();
+		}
+		
+		/**
+		 * Set the text string of a GeoText
+		 * @param geo the GeoText object
+		 * @param text the new text string
+		 */
+		public static void setTextString(GeoText geo, String text) {
+			geo.setTextString(text);
+		}
+		
 		/* Numeric methods */
 			
 		/**
