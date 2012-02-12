@@ -17,8 +17,8 @@ import lexing
 from java.lang import Runnable
 
 from javax.swing import (
-    JFrame, JPanel, JTextArea, JScrollPane, BoxLayout, JButton, JList,
-    DefaultListModel, ListCellRenderer, BorderFactory, JTextPane,
+    JFrame, JPanel, JScrollPane, JButton,
+    BorderFactory, JTextPane,
     JMenuBar, JMenu, JMenuItem, JFileChooser,
     KeyStroke,
     JTabbedPane, JComboBox,
@@ -30,7 +30,7 @@ from javax.swing.text import (
 from javax.swing.event import DocumentListener, ChangeListener
 
 from java.awt import (
-    Toolkit, Component, BorderLayout, Color as awtColor, GridLayout, Font
+    Toolkit, BorderLayout, Color as awtColor, GridLayout, Font
 )
 from java.awt.event import KeyListener, ActionListener, KeyEvent, ActionEvent
 
@@ -451,6 +451,12 @@ class InputPane(KeyListener, DocumentListener):
         # self.nocheck = LockManager()
         self.doc.addDocumentListener(self)
 
+    # Moving the caret
+    def moveCaretToStart(self):
+        self.component.setCaretPosition(0)
+    def moveCaretToEnd(self):
+        self.component.setCaretPosition(self.doc.length)
+    
     def _getinput(self):
         return self.doc.getText(0, self.doc.length)
     def _setinput(self, input):
@@ -574,6 +580,7 @@ class LockManager(object):
     def __nonzero__(self):
         return bool(self.lock)
 
+
 class MyStream(object):
     def __init__(self, write):
         self.write = write
@@ -617,7 +624,7 @@ class InteractivePane(ActionListener, DocumentListener):
         with StdStreams(self.stdout, self.stderr):
             try:
                 code = interface.compile_im(text)
-            except Exception, e:
+            except Exception:
                 self.show_traceback()
                 return False
             text = text.strip()
@@ -626,8 +633,9 @@ class InteractivePane(ActionListener, DocumentListener):
             self.add(text + "\n")
             try:
                 interface.run(code)
-            except Exception, e:
+            except Exception:
                 self.show_traceback()
+                return False
         return True
 
     def indent_selection(self):
@@ -653,6 +661,7 @@ class InteractivePane(ActionListener, DocumentListener):
         try:
             with self.check_disabled:
                 self.input.input = self.history.back()
+                self.input.moveCaretToEnd()
         except InputHistory.OutOfBounds:
             pass
     def history_forward(self):
@@ -660,8 +669,10 @@ class InteractivePane(ActionListener, DocumentListener):
         try:
             with self.check_disabled:
                 self.input.input = self.history.forward()
+                self.input.moveCaretToEnd()
         except InputHistory.OutOfBounds:
             self.input.input = self.current_text
+            self.input.moveCaretToEnd()
             self.history.reset_position()
 
 
@@ -812,7 +823,7 @@ class PythonWindow(ActionListener, ChangeListener):
         filemenu = JMenu("File")
         menubar.add(filemenu)
 
-        fm = self.file_manager = FileManager(self)
+        self.file_manager = FileManager(self)
         
         item = new_item("Run Python File...", "load", KeyEvent.VK_L)
         filemenu.add(item)
