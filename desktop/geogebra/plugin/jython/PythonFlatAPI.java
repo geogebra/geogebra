@@ -567,6 +567,24 @@ public class PythonFlatAPI {
 			geo.setTextString(text);
 		}
 		
+		/**
+		 * Find whether a GeoText is LaTeX
+		 * @param geo the GeoText object
+		 * @return true if the GeoText is interpreted as a LaTeX formula
+		 */
+		public static boolean isLatex(GeoText geo) {
+			return geo.isLaTeX();
+		}
+		
+		/**
+		 * Set whether a GeoText is LaTeX
+		 * @param geo the GeoText object
+		 * @param val true if the GeoText is LaTeX
+		 */
+		public static void setLatex(GeoText geo, boolean val) {
+			geo.setLaTeX(val, false);
+		}
+		
 		/* Numeric methods */
 			
 		/**

@@ -674,7 +674,15 @@ class Text(Element):
         API.Geo.setTextString(self.geo, text)
         self.update()
     text = property(_gettext, _settext)
-    
+
+    # property: latex
+    def _getlatex(self):
+        return API.Geo.isLatex(self.geo)
+    def _setlatex(self, value):
+        API.Geo.setLatex(self.geo, bool(value))
+        self.update()
+    latex = property(_getlatex, _setlatex)
+
 
 class Button(Element):
     pass
