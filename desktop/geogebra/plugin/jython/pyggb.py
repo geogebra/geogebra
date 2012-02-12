@@ -19,9 +19,9 @@ from geogebra.awt import Color
 
 class Interface(PythonScriptInterface):
     
-    def init(self, api):
+    def init(self, raw_api):
         global selection
-        self.api = api = APIProxy(api)
+        self.api = api = APIProxy(raw_api)
         self.pywin = None
         factory = self.factory = objects.ElementFactory(api)
         functions = Functions(api, factory)
@@ -29,7 +29,7 @@ class Interface(PythonScriptInterface):
         #selection = self.selection = objects.Selection()
         self.namespace = {
             'Color': Color,
-            'ggbApplet': api.ggbApi,
+            'ggbApplet': APIProxy(raw_api.getGgbApi()),
             'geo': self.geo,
             #'selection': self.selection,
             #'interactive': interactive,
@@ -132,11 +132,11 @@ class Interface(PythonScriptInterface):
         self.event_listeners[evt].remove(listener)
         
     def set_selection_listener(self, sl):
-        api.startSelectionListener()
+        self.api.startSelectionListener()
         self.selection_listener = sl
     
     def remove_selection_listener(self):
-        api.stopSelectionListener();
+        self.api.stopSelectionListener();
         self.selection_listener = None
 
     def format_source(self, source):
@@ -203,7 +203,8 @@ class Functions(object):
     def __init__(self, api, factory):
         self.api = api
         self.factory = factory
-        self.ggbapi = api.getGgbApi()
+    def ggbapi(self):
+        return self.api.getGgbApi()
     def input(self, s, t=""):
         return self.ggbapi.prompt(s, t) or ""
     def alert(self, s):
@@ -218,7 +219,6 @@ class Functions(object):
         if geos is None:
             return None
         return map(self.factory.get_element, geos)
-
 
 # This is to update the atime of the modules I want to keep in the jython jar
 def do_protected_imports():
