@@ -4,12 +4,14 @@ import geogebra.common.awt.Point;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.util.Unicode;
 import geogebra.main.Application;
 
 import java.awt.AlphaComposite;
@@ -43,6 +45,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	private GeoImage lastPenImage = null;
 	private boolean penWritingToExistingImage = false;
 	private ArrayList<Point> penPoints = new ArrayList<Point>();
+	private ArrayList<Point> temp = null;
 	int minX = Integer.MAX_VALUE, maxX = Integer.MIN_VALUE;
 	double CIRCLE_MIN_DET=0.95;
 	double CIRCLE_MAX_SCORE=0.10;
@@ -411,7 +414,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			score=this.score_circle(0,penPoints.size()-1,s);
 			if(score<CIRCLE_MAX_SCORE)
 			{
-				System.out.println("current stroke is a circle");
+				this.makeACircle(this.center_x(s), this.center_y(s), this.I_rad(s));
 			}
 		}
 		// if (lastPenImage != null) penImage = lastPenImage.getImage();
@@ -834,14 +837,17 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		}
 		return sum/(s.mass*r0);
 	}
+	
 	double center_x(Inertia s)
 	{
 		return s.sx/s.mass;
 	}
+	
 	double center_y(Inertia s)
 	{
 		return s.sy/s.mass;
 	}
+	
 	double I_rad(Inertia s)
 	{
 		double ixx=this.I_xx(s);
@@ -850,4 +856,67 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			return 0.;
 		return Math.sqrt(ixx+iyy);
 	}
+	
+	void makeACircle(double x, double y, double r)
+	{
+		temp = new ArrayList<Point>();
+		int npts, i=0;
+		npts = (int)(2*r);
+		if (npts<12) 
+			npts = 12;
+		Point p;
+		for(i=0; i<=npts; i++)
+		{			
+			p = new Point();
+			p.x = (int) (x + r*Math.cos((2*i*Math.PI)/npts));
+			p.y = (int) (y + r*Math.sin((2*i*Math.PI)/npts));
+			temp.add(p);
+		}
+		int size=temp.size();
+		String equation=null;
+		double x1=view.toRealWorldCoordX(temp.get(0).x);
+		double y1=view.toRealWorldCoordY(temp.get(0).y);
+		double x2=view.toRealWorldCoordX(temp.get(size/3).x);
+		double y2=view.toRealWorldCoordY(temp.get(size/3).y);
+		double x3=view.toRealWorldCoordX(temp.get(2*size/3).x);
+		double y3=view.toRealWorldCoordY(temp.get(2*size/3).y);
+		double m1=(y2-y1)/(x2-x1);
+		double m2=(y3-y2)/(x3-x2); 
+		if(x2 == x1)
+		{
+			x1=view.toRealWorldCoordX(temp.get(size/4).x);
+			y1=view.toRealWorldCoordY(temp.get(size/4).y);
+			m1=(y2-y1)/(x2-x1);
+		}
+		if(x2 == x3)
+		{
+			x3=view.toRealWorldCoordX(temp.get(11*size/12).x);
+			y3=view.toRealWorldCoordY(temp.get(11*size/12).y);
+			m2=(y3-y2)/(x3-x2);
+		}
+		double x_center=(((m1*m2)*(y1-y3)) + (m2*(x1+x2)) - (m1*(x2+x3)))/(2*(m2-m1));
+		double y_center=((-1/m2)*(x_center-((x2+x3)/2))) + ((y2 + y3)/2);
+		double rad = ((x_center - x2)*(x_center - x2)) + ((y_center - y2)*(y_center - y2));
+		if(x_center>0 && y_center>0)
+			equation = "(x - " + x_center + ")" + Unicode.Superscript_2 + "+ " + "(y - " + y_center + ")" + Unicode.Superscript_2  + "= " + rad;
+		if(x_center<0 && y_center>0)
+			equation = "(x + " + -x_center + ")" + Unicode.Superscript_2 + "+ " + "(y - " + y_center + ")" + Unicode.Superscript_2  + "= " + rad;
+		if(x_center<0 && y_center<0)
+			equation = "(x + " + -x_center + ")" + Unicode.Superscript_2 +  "+ " + "(y + " + -y_center + ")" + Unicode.Superscript_2  + "= " + rad;
+		if(x_center>0 && y_center<0)
+			equation = "(x - " + x_center + ")" + Unicode.Superscript_2 + "+ " + "(y + " + -y_center + ")" + Unicode.Superscript_2  + "= " + rad;
+		GeoPoint2 p1 = new GeoPoint2(app.getKernel().getConstruction(), x1, y1, 1.0);
+	    GeoPoint2 q = new GeoPoint2(app.getKernel().getConstruction(), x2, y2, 1.0);
+	    GeoPoint2 z = new GeoPoint2(app.getKernel().getConstruction(), x3, y3, 1.0);
+		AlgoCircleThreePoints algo=new AlgoCircleThreePoints(app.getKernel().getConstruction() , equation, p1, q, z);
+		
+		GeoElement circle = algo.getGeoElements()[0];
+		circle.setLineThickness(penSize * 2);
+		circle.setLineType(penLineStyle);
+		circle.setObjColor(new geogebra.awt.Color(penColor));
+		circle.setLayer(1);
+		circle.updateRepaint();
+		
+	}
+
 }
