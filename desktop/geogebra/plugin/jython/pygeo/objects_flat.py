@@ -1,4 +1,4 @@
-from geogebra.awt import Color
+# from geogebra.awt import Color
 from geogebra.common.plugin import GeoClass
 from geogebra.common.plugin import Operation as OP
 from geogebra.common.plugin import EuclidianStyleConstants as STYLE
@@ -282,7 +282,7 @@ class Expression:
         else:
             # TODO add other types of expressions
             # Fall back to generic expression type
-            return Expression(self._factory, node)
+            return Expression(factory, node)
     
     def __hash__(self):
         return hash(self.geo)
@@ -453,7 +453,7 @@ class Numeric(ExpressionElement, NumberExpression):
     # TODO Tidy this up
     @specmethod.__init__
     @sign(ElementFactory, Expression)
-    def initfromexpr(self, e):
+    def initfromexpr(self, factory, e):
         self.geo = factory.api.geoNumber(e.expr)
         self._factory = factory
         self._api = factory.api
@@ -524,7 +524,7 @@ class Vector(VectorOrPoint):
     @sign(VectorThing)
     def initfromexpr(self, e):
         self.geo = self._api.geoVector(self._factory.expression(e).expr)
-        self._setattrs(kwargs)
+
     @specmethod.rawinit
     @sign(Number, Number)
     def initfromnumbercoords(self, x, y):
@@ -628,14 +628,14 @@ class Segment(Line, ExpressionElement, NumberExpression):
     def _getstartpoint(self):
         return self._factory.get_element(API.Geo.getStartPoint(self.geo))
     def _setstartpoint(self, p):
-        API.Geo.setStartPoint(self.geo, element(p).geo)
+        API.Geo.setStartPoint(self.geo, self._factory.element(p).geo)
     startpoint = property(_getstartpoint, _setstartpoint)
     
     # property: endpoint
     def _getendpoint(self):
         return self._factory.get_element(API.Geo.getEndPoint(self.geo))
-    def _setendpoint(self):
-        API.Geo.setEndPoint(self.geo, element(p).geo)
+    def _setendpoint(self, p):
+        API.Geo.setEndPoint(self.geo, self._factory.element(p).geo)
     endpoint = property(_getendpoint, _setendpoint)
 
 
@@ -780,7 +780,7 @@ class Locus(Path):
     def get_point(self, param):
         if param < 0 or param > 1:
             raise ValueError("param must be between 0 and 1")
-        return self._api.geoPointOnPath(self.geo, element(param).geo)
+        return self._api.geoPointOnPath(self.geo, self._factory.element(param).geo)
 
 
 class ImplicitPoly(Path):
@@ -807,7 +807,7 @@ class Function(Element):
                 f(*map(factory.Expression, xs)).expr, xs)
     
     def __call__(self, *args):
-        args = map(expr, args)
+        args = map(self._factory.expression, args)
         
     def _getimplicitcurve(self):
         if self.nargs != 2:
