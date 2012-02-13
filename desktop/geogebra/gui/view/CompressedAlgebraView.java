@@ -119,6 +119,7 @@ public class CompressedAlgebraView extends AlgebraView implements
       needRepaint = true;
     } else {
       repaintTimer.start();
+      needRepaint = true;
       repaintNow();
     }
   }
