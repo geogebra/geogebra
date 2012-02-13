@@ -131,7 +131,11 @@ public class Application extends AbstractApplication implements KeyDownHandler{
 					reader.onloadend = function(ev) {
 						if (reader.readyState === reader.DONE) {
 							var fileStr = reader.result;
-							appl.@geogebra.web.main.Application::registerFileDropHandlers_onDrop(Ljava/lang/String;)(fileStr);
+							var intArr = new Array();
+							for (lv = 0; lv < fileStr.length; lv++)
+								intArr.push(fileStr.charCodeAt(lv));
+							appl.@geogebra.web.main.Application::registerFileDropHandlers_onDrop(Lcom/google/gwt/core/client/JsArrayInteger;)(intArr);
+							
 						}
 					};
 					reader.readAsBinaryString(fileToHandle);
@@ -150,25 +154,8 @@ public class Application extends AbstractApplication implements KeyDownHandler{
 		}, false);
 	}-*/;
 
-
-	private void registerFileDropHandlers_onDrop(String fileStr) {
-
-		byte[] ju8 = fileStr.getBytes();
-
-		JsArrayInteger jsBytes = JsArrayInteger.createArray().cast();
-		jsBytes.setLength(ju8.length);
-		for (int i = 0; i < ju8.length; i++) {
-			int x = ju8[i];
-			if (x < 0) x += 256;
-			jsBytes.set(i, x);
-		}
+	private void registerFileDropHandlers_onDrop(JsArrayInteger jsBytes) {
 		GeoGebraFrame.fileLoader.getView().fileContentLoaded(jsBytes);
-
-		/*
-		JsFileList jfl = JsFileList.from(event.getDataTransfer());
-		FileReader frr = new FileReaderImpl();
-		frr.readSingleGgbFile(jfl, GeoGebraFrame.fileLoader.getFileLoadCallback());
-		*/
 	}
 
 	@Override
