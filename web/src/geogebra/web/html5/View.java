@@ -5,7 +5,7 @@ import geogebra.web.main.Application;
 import geogebra.web.main.GeoGebraTubeExportWeb;
 import geogebra.web.util.DataUtil;
 
-import java.util.Map;
+import java.util.HashMap;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayInteger;
@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class View extends Widget {
 	
-	private Map<String, String> archiveContent;
+	private HashMap<String, String> archiveContent;
 	
 	private Element container;
 	private Application app;
@@ -83,7 +83,7 @@ public class View extends Widget {
 		DataUtil.unzip(jsBytes,this); 
     }
 
-	public void maybeLoadFile(Map<String, String> archiveCont) {
+	public void maybeLoadFile(HashMap<String, String> archiveCont) {
 	    archiveContent = archiveCont;
 	    maybeLoadFile();
     }

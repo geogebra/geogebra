@@ -83,9 +83,9 @@ public final class DataUtil {
 			}
 	}
 	
-	protected static Map<String, String> prepareContent(JavaScriptObject parse) {
+	protected static HashMap<String, String> prepareContent(JavaScriptObject parse) {
 		Application.console(parse);
-		Map<String, String> archiveContent = new HashMap<String, String>();
+		HashMap<String, String> archiveContent = new HashMap<String, String>();
 		JsArray<JsArrayString> strArray = parse.cast();
 		for (int i = 0; i < strArray.length(); i++) {
 			String name = strArray.get(i).get(1);
@@ -95,8 +95,8 @@ public final class DataUtil {
 		return archiveContent;
     }
 
-	static Map<String, String> prepareContent(JsArray<JsArrayString> unzipped) {
-		Map<String, String> archiveContent = new HashMap<String, String>();
+	static HashMap<String, String> prepareContent(JsArray<JsArrayString> unzipped) {
+		HashMap<String, String> archiveContent = new HashMap<String, String>();
 
 		for (int i = 0; i < unzipped.length(); i++) {
 			String name = unzipped.get(i).get(1);

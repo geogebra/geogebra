@@ -47,7 +47,9 @@ import geogebra.web.util.DebugPrinterWeb;
 import geogebra.web.util.ImageManager;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.Map.Entry;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -86,7 +88,9 @@ public class Application extends AbstractApplication implements KeyDownHandler{
 
 	private Canvas canvas;
 	private geogebra.common.plugin.GgbAPI ggbapi;
-	
+	private HashMap<String, String> currentFile = null;
+	private static LinkedList<Map<String, String>> fileList = new LinkedList<Map<String, String>>();
+
 	public Application(){
 		dbg = new DebugPrinterWeb();
 		this.init(Canvas.createIfSupported());
@@ -134,7 +138,7 @@ public class Application extends AbstractApplication implements KeyDownHandler{
 							var intArr = new Array();
 							for (lv = 0; lv < fileStr.length; lv++)
 								intArr.push(fileStr.charCodeAt(lv));
-							appl.@geogebra.web.main.Application::registerFileDropHandlers_onDrop(Lcom/google/gwt/core/client/JsArrayInteger;)(intArr);
+							appl.@geogebra.web.main.Application::loadGgbFileAgain(Lcom/google/gwt/core/client/JsArrayInteger;)(intArr);
 							
 						}
 					};
@@ -153,10 +157,6 @@ public class Application extends AbstractApplication implements KeyDownHandler{
 			e.stopPropagation();
 		}, false);
 	}-*/;
-
-	private void registerFileDropHandlers_onDrop(JsArrayInteger jsBytes) {
-		GeoGebraFrame.fileLoader.getView().fileContentLoaded(jsBytes);
-	}
 
 	@Override
 	public String getCommand(String cmdName) {
@@ -424,19 +424,24 @@ public class Application extends AbstractApplication implements KeyDownHandler{
 
 	}-*/;
 
-	public void loadGgbFile(Map<String, String> archiveContent) throws Exception {
+	public void loadGgbFile(HashMap<String, String> archiveContent) throws Exception {
 		((EuclidianView) euclidianView).setDisableRepaint(true);
-		loadFile(archiveContent);
+		loadFile((HashMap<String, String>)archiveContent.clone());
 		((EuclidianView) euclidianView).setDisableRepaint(false);
 		euclidianView.repaintView();
+		setCurrentFile(archiveContent);// This should be done in loadFile, because it has callbacks
 		splash.canNowHide();
+	}
+
+	public void loadGgbFileAgain(JsArrayInteger jsBytes) {
+		GeoGebraFrame.fileLoader.getView().fileContentLoaded(jsBytes);
 	}
 
 	public static void log(String message) {
 	   GWT.log(message);
     }
 	
-	private void loadFile(Map<String, String> archive) throws Exception {
+	private void loadFile(HashMap<String, String> archive) throws Exception {
 		// Handling of construction and macro file
 		String construction = archive.remove("geogebra.xml");
 		String macros = archive.remove("geogebra_macro.xml");
@@ -460,7 +465,7 @@ public class Application extends AbstractApplication implements KeyDownHandler{
 		if (!imageManager.hasImages()) {
 			// Process Construction
 			construction = DataUtil.utf8Decode(construction);
-			myXMLio.processXMLString(construction, true, false);		
+			myXMLio.processXMLString(construction, true, false);
 		} else {
 		//on images do nothing here: wait for callback when images loaded.
 			imageManager.triggerImageLoading(DataUtil.utf8Decode(construction),(MyXMLio) myXMLio);
@@ -634,9 +639,9 @@ public class Application extends AbstractApplication implements KeyDownHandler{
 
 	@Override
 	public void setXML(String xml, boolean clearAll) {
-		//AR if (clearAll) {
-			//AR setCurrentFile(null);
-		//AR }
+		if (clearAll) {
+			setCurrentFile(null);
+		}
 
 		try {
 			// make sure objects are displayed in the correct View
@@ -835,10 +840,57 @@ public class Application extends AbstractApplication implements KeyDownHandler{
 	    
     }
 
+	public Map<String, String> getCurrentFile() {
+		return currentFile;
+	}
+
+	public void setCurrentFile(HashMap<String, String> file) {
+		if (currentFile == file) {
+			return;
+		}
+
+		currentFile = file;
+		if (currentFile != null) {
+			addToFileList(currentFile);
+		}
+
+		//if (!isIniting() && isUsingFullGui()) {
+		//	updateTitle();
+		//	getGuiManager().updateMenuWindow();
+		//}
+	}
+
+	public static void addToFileList(Map<String, String> file) {
+		if (file == null) {
+			return;
+		}
+		// add or move fileName to front of list
+		fileList.remove(file);
+		fileList.addFirst(file);
+	}
+
+	public static Map<String, String> getFromFileList(int i) {
+		if (fileList.size() > i) {
+			return fileList.get(i);
+		}
+		return null;
+	}
+
+	public static int getFileListSize() {
+		return fileList.size();
+	}
+
 	@Override
     public void reset() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    clearConstruction();
+		if (currentFile != null) {
+			try {
+				loadGgbFile(currentFile);
+			} catch (Exception e) {
+				clearConstruction();
+			}
+		} else {
+			clearConstruction();
+		}
     }
 
 	public void clearConstruction() {
@@ -846,7 +898,7 @@ public class Application extends AbstractApplication implements KeyDownHandler{
 		kernel.clearConstruction();
 
 		kernel.initUndoInfo();
-	//	setCurrentFile(null);
+		setCurrentFile(null);
 		setMoveMode();
 	//}
 	}

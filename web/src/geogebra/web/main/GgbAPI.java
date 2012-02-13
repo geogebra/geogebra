@@ -65,12 +65,9 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI implements JavaScript
 	    
     }
 
-	
     public void reset() {
-	    // TODO Auto-generated method stub
-	    
+    	app.reset();
     }
-
 
     public void refreshViews() {
     	app.refreshViews();
