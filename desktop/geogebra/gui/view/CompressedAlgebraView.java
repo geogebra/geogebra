@@ -34,6 +34,8 @@ public class CompressedAlgebraView extends AlgebraView implements
   private Timer repaintTimer;
   private ActionListener repaintListener;
 
+  private boolean needRepaint;
+
   /**
    * @param algCtrl
    *          the Algebra Controller for the extended AlgebraView
@@ -60,13 +62,16 @@ public class CompressedAlgebraView extends AlgebraView implements
     ups = updatesPerSecond;
     rps = repaintsPerSecond;
     updateTimer = new Timer(1000 / ups, null);
+    updateTimer.setRepeats(false);
     repaintTimer = new Timer(1000 / rps, null);
+    repaintTimer.setRepeats(false);
     updateSet = new HashSet<GeoElement>();
     updateListener = new CompressedUpdateListener(this, updateTimer, updateSet,
         lock);
     updateTimer.addActionListener(updateListener);
     repaintListener = new CompressedRepaintListener(this);
     repaintTimer.addActionListener(repaintListener);
+    needRepaint = false;
   }
 
   @Override
@@ -96,7 +101,10 @@ public class CompressedAlgebraView extends AlgebraView implements
   }
 
   final public void repaintNow() {
-    super.repaint();
+    if (needRepaint) {
+      super.repaint();
+    }
+    needRepaint = false;
   }
 
   @Override
@@ -106,7 +114,10 @@ public class CompressedAlgebraView extends AlgebraView implements
       repaintNow();
       return;
     }
-    if (!repaintTimer.isRunning()) {
+    
+    if (repaintTimer.isRunning()) {
+      needRepaint = true;
+    } else {
       repaintTimer.start();
       repaintNow();
     }
