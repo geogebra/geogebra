@@ -1,5 +1,6 @@
 package geogebra.web.main;
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Font;
@@ -7,6 +8,7 @@ import geogebra.common.awt.Graphics2D;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.css.GuiResources;
 import geogebra.web.helper.ScriptLoadCallback;
 import geogebra.web.html5.DynamicScriptElement;
 
@@ -14,6 +16,7 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.ImageElement;
 
 public class DrawEquationWeb implements DrawEquationInterface {
 	
@@ -22,21 +25,29 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	private Application app;
 	
 	public DrawEquationWeb(Application app) {
-		
+		//export module base url;
+		exportGetModuleBaseUrl();
 		this.app = app;
 		//Load script first
 		DynamicScriptElement script = (DynamicScriptElement) Document.get().createScriptElement();
-		script.setSrc(GWT.getModuleBaseURL()+"js/mathml_concat.js");
+		script.setSrc(GWT.getModuleBaseURL()+GeoGebraConstants.MATHML_URL);
 		script.addLoadHandler(new ScriptLoadCallback() {
 			
 			public void onLoad() {
 				scriptloaded = true;
-				cvmBoxInit();
+				cvmBoxInit(GWT.getModuleBaseURL());
 				checkIfNeedToDraw();
 			}
 		});
 		Document.get().getBody().appendChild(script);
 	}
+
+	private native void exportGetModuleBaseUrl() /*-{
+	   if (!$wnd.ggw) {
+	   		$wnd.ggw = {};
+	   }
+	   $wnd.ggw.getGWTModuleBaseURL = $entry(@com.google.gwt.core.client.GWT::getModuleBaseURL());
+    }-*/;
 
 	protected void checkIfNeedToDraw() {
 	  if (needToDrawEquation) {
@@ -44,8 +55,8 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	  }
     }
 
-	protected native void cvmBoxInit() /*-{
-	    $wnd.cvm.box.init();
+	protected native void cvmBoxInit(String moduleBaseURL) /*-{
+	    $wnd.cvm.box.init(moduleBaseURL);
     }-*/;
 
 	public void setUseJavaFontsForLaTeX(AbstractApplication app, boolean b) {
@@ -90,13 +101,14 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			// How to display it
 			var expression = mathML2Expr(mathmlStr);
 			
+			
 			var box = getBox(expression);
 			
 			var height = box.ascent - box.descent;
 			
 			box.drawOnCanvas(ctx, x, y + box.ascent);
 			
-			var ret = [box.width, height];
+			var ret = [$wnd.parseInt(box.width,10), $wnd.parseInt(height,10)];
 			
 			return ret;
 		} else {

@@ -3,6 +3,7 @@ package geogebra.web.util;
 
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.main.AbstractApplication;
 import geogebra.web.html5.View;
 import geogebra.web.jso.JsUint8Array;
 import geogebra.web.main.Application;
@@ -59,32 +60,37 @@ public final class DataUtil {
 	private static void ensureInstall() {
 		//check if workers supported:
 		if (!installed) {
-			worker = Worker.create(GeoGebraConstants.GGB_LOAD_WORKER_URL);
-			if (worker != null) {
-				GWT.log("worker supported");
-				worker.setOnError(new ErrorHandler() {	
-					public void onError(ErrorEvent event) {
-						GWT.log("error in worker "+event.getMessage());
-						workerError  = true;
-						installed = true;
-						view.maybeLoadFile(prepareContent(nativeUnzip(zipped)));;
-					}
-				});
-				worker.setOnMessage(new MessageHandler() {
-					
-					public void onMessage(MessageEvent event) {
-						view.maybeLoadFile(prepareContent(JSON.parse(event.getDataAsString())));
-					}
-				});
+			try {
+				worker = Worker.create(GWT.getModuleBaseURL()+GeoGebraConstants.GGB_LOAD_WORKER_URL);
+				if (worker != null) {
+					GWT.log("worker supported");
+					AbstractApplication.console("worker supported");
+					worker.setOnError(new ErrorHandler() {	
+						public void onError(ErrorEvent event) {
+							GWT.log("error in worker "+event.getMessage());
+							workerError  = true;
+							installed = true;
+							view.maybeLoadFile(prepareContent(nativeUnzip(zipped)));;
+						}
+					});
+					worker.setOnMessage(new MessageHandler() {
+						
+						public void onMessage(MessageEvent event) {
+							view.maybeLoadFile(prepareContent(JSON.parse(event.getDataAsString())));
+						}
+					});
+				} 
+			} catch (Exception e) {
+					AbstractApplication.console("error in worker "+e.getLocalizedMessage());
+					workerError  = true;
 			}
-			//we need that for utf8decode anyway..later tidy it up :-)
-			nativeInstall();
-			installed = true;
-			}
+		//we need that for utf8decode anyway..later tidy it up :-)
+		nativeInstall();
+		installed = true;
+		}	
 	}
 	
 	protected static HashMap<String, String> prepareContent(JavaScriptObject parse) {
-		Application.console(parse);
 		HashMap<String, String> archiveContent = new HashMap<String, String>();
 		JsArray<JsArrayString> strArray = parse.cast();
 		for (int i = 0; i < strArray.length(); i++) {

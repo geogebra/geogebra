@@ -1,5 +1,6 @@
 package geogebra.web.ggbloaderworker.client;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
@@ -12,7 +13,7 @@ public class GgbLoaderWorker extends DedicatedWorkerEntryPoint {
 	@Override
 	public void onWorkerLoad() {
 		
-		importScript("../web/js/jsxgraph_unzip.js");
+		importScript(GWT.getModuleBaseURL()+"../web/js/jsxgraph_unzip.js");
 		
 		this.setOnMessage(new MessageHandler() {
 			

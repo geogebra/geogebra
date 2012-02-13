@@ -35,6 +35,7 @@ import com.google.gwt.user.client.ui.Widget;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class Web implements EntryPoint {
+
 	public void t(String s,AlgebraProcessor ap) throws Exception{
 		ap.processAlgebraCommandNoExceptionHandling(s, false,false, true);
 	}

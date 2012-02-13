@@ -233,7 +233,8 @@ var initBox = function () {
     div.style.position = "absolute";
     div.style.visibility = "hidden";
     calibrationImg = document.createElement("img");
-    calibrationImg.src = "web/images/10x1.png";
+    //dirty hack, but no other idea :-)
+    calibrationImg.src = window.ggw.getGWTModuleBaseURL()+"images/10x1.png";
     calibrationTxt = document.createElement("span");
     div.appendChild(calibrationImg);
     div.appendChild(calibrationTxt);
