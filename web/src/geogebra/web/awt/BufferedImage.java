@@ -23,28 +23,20 @@ public class BufferedImage implements geogebra.common.awt.BufferedImage {
 	}
 
 	public BufferedImage(geogebra.common.awt.BufferedImage fillImage) {
-		impl2 = getCanvasImage(fillImage);
 	    impl = getGawtImage(fillImage);
-
-	    if (impl == null)
+	    if (impl == null) {
 			Application.debug("BufferedImage (web) called with empty BufferedImage (web)");
+	    	return;
+	    }
+	    impl = impl.cloneDeep();
     }
 
 	public BufferedImage(ImageElement imageElement) {
 		if (imageElement != null)
-			impl = new geogebra.web.kernel.gawt.BufferedImage(imageElement);
+			impl = new geogebra.web.kernel.gawt.BufferedImage((ImageElement)imageElement.cloneNode(true));
 		else
 			Application.debug("BufferedImage (web) called with null ImageElement");
     }
-
-	public BufferedImage(Canvas cv) {
-		if (cv != null) {
-			impl2 = cv;
-			impl = new geogebra.web.kernel.gawt.BufferedImage(cv);
-		} else {
-			Application.debug("BufferedImage (web) called with null Canvas");
-		}
-	}
 
 	private void syncImplementations() {
 		if (impl2 == null)
@@ -58,7 +50,6 @@ public class BufferedImage implements geogebra.common.awt.BufferedImage {
 		return impl.getWidth();
 	}
 
-	
 	public int getHeight() {
 		// because impl2 and impl are always the same size, syncing is not needed here
 		//syncImplementations();
@@ -66,15 +57,7 @@ public class BufferedImage implements geogebra.common.awt.BufferedImage {
 	}
 
 	public Graphics2D createGraphics() {
-		if (impl2 == null) {
-			Canvas cv = Canvas.createIfSupported();
-			cv.setCoordinateSpaceWidth(impl.getWidth());
-			cv.setCoordinateSpaceHeight(impl.getHeight());
-			Context2d c2d = cv.getContext2d();
-			c2d.drawImage(impl.getImageElement(),0,0);
-			impl2 = cv;
-		}
-		return new geogebra.web.awt.Graphics2D(impl2);
+		return new geogebra.web.awt.Graphics2D(getCanvas(this));
     }
 
 	public BufferedImage getSubimage(int xInt, int yInt, int xInt2, int yInt2) {
@@ -89,9 +72,18 @@ public class BufferedImage implements geogebra.common.awt.BufferedImage {
 		return ((BufferedImage)img).impl;
     }
 
-	public static Canvas getCanvasImage(geogebra.common.awt.BufferedImage img) {
+	public static Canvas getCanvas(geogebra.common.awt.BufferedImage img) {
 		if(!(img instanceof BufferedImage))
 			return null;
+
+		if (((BufferedImage)img).impl2 == null) {
+			Canvas cv = Canvas.createIfSupported();
+			cv.setCoordinateSpaceWidth(((BufferedImage)img).impl.getWidth());
+			cv.setCoordinateSpaceHeight(((BufferedImage)img).impl.getHeight());
+			Context2d c2d = cv.getContext2d();
+			c2d.drawImage(((BufferedImage)img).impl.getImageElement(),0,0);
+			((BufferedImage)img).impl2 = cv;
+		}
 		return ((BufferedImage)img).impl2;
 	}
 }

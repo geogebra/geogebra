@@ -18,8 +18,8 @@ public class BufferedImage {
 		img.setWidth(width);
 		img.setHeight(height);
 
-		/*
-		if (opaque) {
+		
+		/*if (opaque) {
 			Canvas nc = Canvas.createIfSupported();
 			nc.setCoordinateSpaceWidth(width);
 			nc.setCoordinateSpaceHeight(height);
@@ -75,6 +75,8 @@ public class BufferedImage {
 	public ImageElement getImageElement() {
 	   return img;
     }
-	
-	
+
+	public BufferedImage cloneDeep() {
+		return new BufferedImage((ImageElement)img.cloneNode(true));
+	}
 }
