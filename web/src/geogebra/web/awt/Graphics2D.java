@@ -31,6 +31,7 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayNumber;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.user.client.Element;
 
 public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
@@ -49,9 +50,19 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	    this.canvas = canvas;
 	    this.context = canvas.getContext2d();
 	    savedTransform = new geogebra.web.awt.AffineTransform();
+	    preventContextMenu (canvas.getElement());
     }
 
 	
+	private native void preventContextMenu (Element canvas) /*-{
+	    canvas.addEventListener("contextmenu",function(e) {
+	    	e.preventDefault();
+	    	e.stopPropagation();
+	    	return false;
+	    });
+    }-*/;
+
+
 	@Override
     public void draw3DRect(int x, int y, int width, int height, boolean raised) {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
