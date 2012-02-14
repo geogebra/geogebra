@@ -38,11 +38,10 @@ public class GeoElementGraphicsAdapter extends
 		if (fileName.startsWith("/geogebra")) { // internal image
 			ImageElement im = ((ImageManager) app
 					.getImageManager()).getImageResource(imageFileName);
-			image = new geogebra.web.awt.BufferedImage(ImageManager.toBufferedImage(im));
+			image = ImageManager.toBufferedImage(im);
 
 		} else {
-			image = app
-					.getExternalImageAdapter(fileName);
+			image = app.getExternalImageAdapter(fileName);
 		}
     }
 
