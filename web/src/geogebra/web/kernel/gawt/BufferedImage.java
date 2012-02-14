@@ -10,7 +10,7 @@ public class BufferedImage {
 	
 	ImageElement img = null;
 
-	public BufferedImage(int width, int height, int imageType) {
+	public BufferedImage(int width, int height, int imageType, boolean opaque) {
 
 		img = ImageElement.as(DOM.createImg());
 		img.setWidth(width);
@@ -20,22 +20,33 @@ public class BufferedImage {
 		nc.setWidth(width);
 		nc.setHeight(height);
 
-		/* The above three lines are not working, only the below lines,
-		   but I have commented this out as currently everything was traced
-		   not just the trace geos... Arpad Fekete, 2012-02-01
+		/* Problem: how to create transparent/opaque canvas
+
 		Canvas nc = Canvas.createIfSupported();
 		nc.setCoordinateSpaceWidth(width);
 		nc.setCoordinateSpaceHeight(height);
 
-		Context2d c2d = nc.getContext2d();
-		c2d.setStrokeStyle("rgba(255,255,255,255)");
-		c2d.setFillStyle("rgba(255,255,255,255)");
-		c2d.setGlobalCompositeOperation(Composite.SOURCE_OVER);
-		c2d.setGlobalAlpha(1.0);
-		c2d.fillRect(0, 0, width, height);
+		if (opaque) {
+			Context2d c2d = nc.getContext2d();
+			c2d.setStrokeStyle("rgba(255,255,255,1.0)");
+			c2d.setFillStyle("rgba(255,255,255,1.0)");
+			c2d.fillRect(0, 0, width, height);
+		} else {
+			Context2d c2d = nc.getContext2d();
+			c2d.setStrokeStyle("rgba(255,255,255,0.0)");
+			c2d.setFillStyle("rgba(255,255,255,0.0)");
+			c2d.setGlobalCompositeOperation(Context2d.Composite.COPY);
+			//c2d.setGlobalAlpha(0.0);
+			c2d.fillRect(0, 0, width, height);
+			c2d.setGlobalCompositeOperation(Context2d.Composite.SOURCE_OVER);
+		}
 		*/
 
-		img.setSrc(nc.toDataUrl());//TODO: imageType
+		img.setSrc(nc.toDataUrl());
+	}
+
+	public BufferedImage(int width, int height, int imageType) {
+		this(width, height, imageType, false);
     }
 
 	public BufferedImage(ImageElement imageElement) {

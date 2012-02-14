@@ -336,7 +336,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
     }
 
 	private void createImage() {
-		bgImage = new geogebra.web.awt.BufferedImage(getWidth(), getHeight(), 0);
+		bgImage = new geogebra.web.awt.BufferedImage(getWidth(), getHeight(), 0, true);
 		bgGraphics = bgImage.createGraphics();
 		if (antiAliasing) {
 			setAntialiasing(bgGraphics);

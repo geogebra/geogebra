@@ -10,7 +10,11 @@ import geogebra.common.main.AbstractApplication;
 public class BufferedImage implements geogebra.common.awt.BufferedImage {
 	
 	private geogebra.web.kernel.gawt.BufferedImage impl;
-	
+
+	public BufferedImage(int width, int height, int imageType, boolean opaque) {
+		impl = new geogebra.web.kernel.gawt.BufferedImage(width,height,imageType, opaque);
+	}
+
 	public BufferedImage(int width, int height, int imageType) {
 		impl = new geogebra.web.kernel.gawt.BufferedImage(width,height,imageType);
 	}
