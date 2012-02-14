@@ -223,10 +223,14 @@ public class GeoTextField extends GeoButton {
 		} else {
 			setText(textField.getText());
 		}
-		runScripts(textField.getText());
-		
 	}
 	
-
+	/**
+	 * Called by a Drawable when the input is submitted
+	 * (e.g. by pressing ENTER)
+	 */
+	public void textSubmitted() {
+		runScripts(getText());
+	}
 
 }
