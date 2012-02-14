@@ -248,9 +248,21 @@ public abstract class CommandProcessor {
 			sb = new StringBuilder();
 		else
 			sb.setLength(0);
-		sb.append(app.getCommand("Command"));
-		sb.append(' ');
-		sb.append(localName);
+
+		final boolean reverseOrder = app.isReverseNameDescriptionLanguage();
+		if (!reverseOrder) {
+			// standard order: "Command ..."
+			sb.append(app.getCommand("Command"));
+			sb.append(' ');
+			sb.append(localName);
+			}
+		else {
+			// reverse order: "... command"
+			sb.append(localName);
+			sb.append(' ');
+			sb.append(app.getCommand("Command").toLowerCase());
+			}
+		
 		sb.append(":\n");
 		sb.append(app.getError("IllegalArgument"));
 		sb.append(": ");
@@ -295,9 +307,21 @@ public abstract class CommandProcessor {
 	 */
 	public static void getCommandSyntax(StringBuilder sb,
 			AbstractApplication app, String cmd, int argNumber) {
-		sb.append(app.getCommand("Command"));
-		sb.append(' ');
-		sb.append(app.getCommand(cmd));
+
+		final boolean reverseOrder = app.isReverseNameDescriptionLanguage();
+		if (!reverseOrder) {
+			// standard order: "Command ..."
+			sb.append(app.getCommand("Command"));
+			sb.append(' ');
+			sb.append(app.getCommand(cmd));
+		}
+		else {
+			// reverse order: "... command"
+			sb.append(app.getCommand(cmd));
+			sb.append(' ');
+			sb.append(app.getCommand("Command").toLowerCase());
+		}
+
 		if (argNumber > -1) {
 			sb.append(":\n");
 			sb.append(app.getError("IllegalArgumentNumber"));
