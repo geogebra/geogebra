@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MatrixTransformable;
@@ -20,21 +19,20 @@ import geogebra.common.kernel.Region;
 import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.IneqTree;
 import geogebra.common.kernel.arithmetic.Inequality;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.LevelOfDetail;
 import geogebra.common.kernel.kernelND.SurfaceEvaluable;
-import geogebra.common.util.StringUtil;
-import geogebra.common.kernel.algos.AlgoMacroInterface;
-import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.plugin.GeoClass;
+import geogebra.common.util.StringUtil;
 
 /**
  * Explicit function in multiple variables, e.g. f(a, b, c) := a^2 + b - 3c. 
@@ -46,7 +44,7 @@ import geogebra.common.plugin.GeoClass;
  */
 public class GeoFunctionNVar extends GeoElement
 implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translateable, MatrixTransformable,
- Dilateable, PointRotateable, Mirrorable, SurfaceEvaluable {
+ Dilateable, PointRotateable, Mirrorable, SurfaceEvaluable, GeoLevelOfDetail {
 
 	private static final double STRICT_INEQ_OFFSET = 4*Kernel.MIN_PRECISION;
 	private static final int SEARCH_SAMPLES = 70;
@@ -81,6 +79,10 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		fun = f;
 		if(fun != null)
 			isInequality = fun.initIneqs(this.getFunctionExpression(),this);
+
+		
+		if (hasLevelOfDetail())
+			levelOfDetail = new LevelOfDetail();
 	}
 
 	/**
@@ -802,6 +804,30 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 				getLineStyleXML(sb);
 			}
 			
+			// level of detail
+			if (hasLevelOfDetail()){
+				sb.append("\t<levelOfDetail val=\"");
+				sb.append(getLevelOfDetail().getValue());
+				sb.append("\"/>\n");
+			}
+			
+		}
+		
+
+
+		// /////////////////////////
+		// LEVEL OF DETAIL
+		
+		private LevelOfDetail levelOfDetail;
+
+		public LevelOfDetail getLevelOfDetail() {
+			return levelOfDetail;
+		}
+		
+
+		@Override
+		public boolean hasLevelOfDetail() {
+			return (fun!=null) && (fun.getVarNumber()==2);
 		}
 
 }

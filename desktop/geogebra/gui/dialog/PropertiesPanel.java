@@ -46,6 +46,7 @@ import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.LevelOfDetail;
@@ -5217,8 +5218,8 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			slider.removeChangeListener(this);
 
 			// set value to first point's size
-			LevelOfDetail geo0 = (LevelOfDetail) geos[0];
-			slider.setValue(geo0.getLevelOfDetail());
+			GeoLevelOfDetail geo0 = (GeoLevelOfDetail) geos[0];
+			slider.setValue(geo0.getLevelOfDetail().getValue());
 
 			slider.addChangeListener(this);
 			return this;
@@ -5227,7 +5228,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		private boolean checkGeos(Object[] geos) {
 			boolean geosOK = true;
 			for (int i = 0; i < geos.length; i++) {
-				if (!(geos[i] instanceof LevelOfDetail)) {
+				if (!((GeoElement) geos[i]).hasLevelOfDetail()) {
 					geosOK = false;
 					break;
 				}
@@ -5241,10 +5242,10 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		public void stateChanged(ChangeEvent e) {
 			if (!slider.getValueIsAdjusting()) {
 				int lod = slider.getValue();
-				LevelOfDetail geo;
+				GeoLevelOfDetail geo;
 				for (int i = 0; i < geos.length; i++) {
-					geo = (LevelOfDetail) geos[i];
-					geo.setLevelOfDetail(lod);
+					geo = (GeoLevelOfDetail) geos[i];
+					geo.getLevelOfDetail().setValue(lod);
 					((GeoElement) geo).updateRepaint();
 				}
 			}

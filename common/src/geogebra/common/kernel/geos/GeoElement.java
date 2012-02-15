@@ -4890,6 +4890,12 @@ public abstract class GeoElement extends ConstructionElement implements
 	public boolean hasDrawable3D() {
 		return isGeoElement3D();
 	}
+	
+	public boolean hasLevelOfDetail() {
+		return false;
+	}
+	
+	
 
 	public boolean isGeoAngle() {
 		return false;

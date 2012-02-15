@@ -8,6 +8,7 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.Functional2Var;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import geogebra.common.kernel.kernelND.LevelOfDetail;
 import geogebra.common.kernel.kernelND.SurfaceEvaluable;
@@ -21,7 +22,7 @@ import geogebra3D.euclidian3D.Drawable3D;
  * 
  */
 public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
-		GeoElement3DInterface, Functional2Var, SurfaceEvaluable, LevelOfDetail {
+		GeoElement3DInterface, Functional2Var, SurfaceEvaluable, GeoLevelOfDetail {
 
 	/** link with drawable3D */
 	private Drawable3D drawable3D = null;
@@ -207,27 +208,24 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 		// level of detail
 		sb.append("\t<levelOfDetail val=\"");
-		sb.append(getLevelOfDetail());
+		sb.append(getLevelOfDetail().getValue());
 		sb.append("\"/>\n");
 
 	}
 
 	// /////////////////////////
 	// LEVEL OF DETAIL
-
-	/**
-	 * default level of detail
-	 */
-	public static int LEVEL_OF_DETAIL_DEFAULT = 5;
 	
-	private int levelOfDetail = LEVEL_OF_DETAIL_DEFAULT;
+	private LevelOfDetail levelOfDetail = new LevelOfDetail();
 
-	public void setLevelOfDetail(int val) {
-		levelOfDetail = val;
-	}
-
-	public int getLevelOfDetail() {
+	public LevelOfDetail getLevelOfDetail() {
 		return levelOfDetail;
+	}
+	
+
+	@Override
+	public boolean hasLevelOfDetail() {
+		return true;
 	}
 
 }

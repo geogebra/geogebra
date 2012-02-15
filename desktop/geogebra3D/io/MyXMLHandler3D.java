@@ -4,6 +4,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.LevelOfDetail;
@@ -185,7 +186,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	private boolean handleLevelOfDetail(LinkedHashMap<String, String> attrs) {
 		try {
 			int lod = Integer.parseInt((String) attrs.get("val"));			
-			((LevelOfDetail) geo).setLevelOfDetail(lod);			
+			((GeoLevelOfDetail) geo).getLevelOfDetail().setValue(lod);
 			return true;
 		} catch (Exception e) {
 			return false;
