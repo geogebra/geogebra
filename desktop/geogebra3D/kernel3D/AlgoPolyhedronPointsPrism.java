@@ -304,6 +304,9 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 			//bottomPointsLength=getBottom().getPointsLength();
 			return;
 		}
+		
+		if (!bottomAsInput)
+			updateOutputPoints();
 
 
 		polyhedron.setInteriorPoint(interiorPoint);

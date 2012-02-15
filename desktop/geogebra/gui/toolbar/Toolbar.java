@@ -751,6 +751,8 @@ public class Toolbar extends JToolBar {
 				+ " || "
 				+EuclidianConstants.MODE_PYRAMID
 				+" , "
+				+EuclidianConstants.MODE_PRISM
+				+" , "
 				+ EuclidianConstants.MODE_RIGHT_PRISM
 				// +" , "
 				// +EuclidianConstants.MODE_PRISM

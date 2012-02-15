@@ -301,7 +301,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 			}
 			polyhedron.setDefined();
 			updateOutput(bottom.getPointsLength(),getBottomPoints());
-		}
+		}//else updateOutputPoints();
 		
 		
 

@@ -1199,7 +1199,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	 * @param hits hits
 	 * @return true if a prism has been created
 	 */
-	final protected boolean pyramid(Hits hits) {
+	final protected boolean pyramidOrPrism(Hits hits) {
 		
 		//if (pyramidBasis!=null) Application.debug(pyramidBasis.length);
 		
@@ -1237,8 +1237,15 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 				// fetch selected point and vector
 				GeoPolygon[] basis = getSelectedPolygons();
 				GeoPointND[] points = getSelectedPointsND();
-				// create new pyramid
-				getKernel().getManager3D().Pyramid(null, basis[0], points[0]);
+				// create new pyramid or prism
+				switch (mode){
+				case EuclidianConstants.MODE_PYRAMID:
+					getKernel().getManager3D().Pyramid(null, basis[0], points[0]);
+					break;
+				case EuclidianConstants.MODE_PRISM:
+					getKernel().getManager3D().Prism(null, basis[0], points[0]);
+					break;
+				}
 				return true;
 			}
 			
@@ -1254,8 +1261,15 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 				for (int i=0; i<pyramidBasis.length; i++)
 					points[i]=pyramidBasis[i];
 				points[pyramidBasis.length] = getSelectedPointsND()[0];
-				// create new pyramid
-				getKernel().getManager3D().Pyramid(null, points);
+				// create new pyramid or prism
+				switch (mode){
+				case EuclidianConstants.MODE_PYRAMID:
+					getKernel().getManager3D().Pyramid(null, points);
+					break;
+				case EuclidianConstants.MODE_PRISM:
+					getKernel().getManager3D().Prism(null, points);
+					break;
+				}				
 				pyramidBasis=null;
 				return true;
 			}
@@ -1424,6 +1438,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			break;
 			
 		case EuclidianConstants.MODE_PYRAMID:
+		case EuclidianConstants.MODE_PRISM:
 			previewDrawable = view3D.createPreviewPyramid(selectedPoints);
 			break;
 			
@@ -1613,7 +1628,8 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			break;
 			
 		case EuclidianConstants.MODE_PYRAMID:
-			changedKernel = pyramid(hits);
+		case EuclidianConstants.MODE_PRISM:
+			changedKernel = pyramidOrPrism(hits);
 			break;
 			
 		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:	
@@ -1662,6 +1678,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			break;
 		case EuclidianConstants.MODE_RIGHT_PRISM:
 		case EuclidianConstants.MODE_PYRAMID:
+		case EuclidianConstants.MODE_PRISM:
 			//String s = hits.toString();
 			hits.removeAllPolygonsButOne();
 			//s+="\nAprès:\n"+hits.toString();
@@ -1757,6 +1774,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			break;
 			
 		case EuclidianConstants.MODE_PYRAMID:
+		case EuclidianConstants.MODE_PRISM:
 			view.setHits(mouseLoc);
 			hits = view.getHits();
 			switchModeForRemovePolygons(hits);
@@ -1806,6 +1824,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			
 			
 		case EuclidianConstants.MODE_PYRAMID:
+		case EuclidianConstants.MODE_PRISM:
 			return true;
 			
 			
@@ -2654,6 +2673,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			case EuclidianConstants.MODE_PLANE_THREE_POINTS:
 			case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
 			case EuclidianConstants.MODE_PYRAMID:
+			case EuclidianConstants.MODE_PRISM:
 				
 			case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
 				return true;
