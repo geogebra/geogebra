@@ -19,13 +19,15 @@ public class BufferedImage {
 		img = ImageElement.as(DOM.createImg());
 		img.setWidth(width);
 		img.setHeight(height);
-		
+
 		/*if (opaque) {
 			Canvas nc = Canvas.createIfSupported();
 			nc.setCoordinateSpaceWidth(width);
 			nc.setCoordinateSpaceHeight(height);
+			nc.setWidth(width+"px");
+			nc.setHeight(height+"px");
 
-			Context2d c2d = nc.getContext2d();
+			/*Context2d c2d = nc.getContext2d();
 			com.google.gwt.canvas.dom.client.FillStrokeStyle fss = c2d.getStrokeStyle();
 			com.google.gwt.canvas.dom.client.FillStrokeStyle fsf = c2d.getFillStyle();
 			c2d.setStrokeStyle("rgba(255,255,255,1.0)");
@@ -60,6 +62,8 @@ public class BufferedImage {
 			canv = Canvas.createIfSupported();
 			canv.setCoordinateSpaceWidth(cv.getCoordinateSpaceWidth());
 			canv.setCoordinateSpaceHeight(cv.getCoordinateSpaceHeight());
+			canv.setWidth(cv.getCanvasElement().getWidth()+"px");
+			canv.setHeight(cv.getCanvasElement().getHeight()+"px");
 			Context2d c2d = canv.getContext2d();
 			c2d.putImageData(
 					cv.getContext2d().getImageData(0, 0,
@@ -75,15 +79,15 @@ public class BufferedImage {
 	public int getWidth() {
 		if (canv == null)
 			return img.getWidth();
-		else
-			return canv.getCoordinateSpaceWidth();
+		return canv.getCoordinateSpaceWidth();
+		// programmers should make sure that
+		// canv.getCoordinateSpaceWidth() == canv.getCanvasElement().getWidth() 
     }
 
 	public int getHeight() {
 		if (canv == null)
 			return img.getHeight();
-		else
-			return canv.getCoordinateSpaceHeight();
+		return canv.getCoordinateSpaceHeight();
 	}
 
 	public ImageElement getImageElement() {
@@ -97,11 +101,9 @@ public class BufferedImage {
     }
 
 	public BufferedImage cloneDeep() {
-		if (canv != null) {
+		if (canv != null)
 			return new BufferedImage(canv);
-		} else {
-			return new BufferedImage((ImageElement)img.cloneNode(true));
-		}
+		return new BufferedImage((ImageElement)img.cloneNode(true));
 	}
 
 	public Canvas getCanvas() {
@@ -109,6 +111,8 @@ public class BufferedImage {
 			canv = Canvas.createIfSupported();
 			canv.setCoordinateSpaceWidth(getWidth());
 			canv.setCoordinateSpaceHeight(getHeight());
+			canv.setWidth(getWidth()+"px");
+			canv.setHeight(getWidth()+"px");
 			Context2d c2d = canv.getContext2d();
 			c2d.drawImage(img,0,0);
 		}
