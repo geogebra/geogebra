@@ -10,7 +10,7 @@ import geogebra.web.main.Application;
 
 public class BufferedImage implements geogebra.common.awt.BufferedImage {
 	
-	private geogebra.web.kernel.gawt.BufferedImage impl = null;
+	private geogebra.web.kernel.gawt.BufferedImage impl;
 
 	private Canvas impl2 = null; // this is used when drawn on the BufferedImage by a Graphics2D
 
@@ -32,10 +32,12 @@ public class BufferedImage implements geogebra.common.awt.BufferedImage {
     }
 
 	public BufferedImage(ImageElement imageElement) {
-		if (imageElement != null)
-			impl = new geogebra.web.kernel.gawt.BufferedImage((ImageElement)imageElement.cloneNode(true));
-		else
+		if (imageElement != null) {
+			impl = new geogebra.web.kernel.gawt.BufferedImage(imageElement);
+		} else {
+			impl = null;
 			Application.debug("BufferedImage (web) called with null ImageElement");
+		}
     }
 
 	private void syncImplementations() {
@@ -47,12 +49,16 @@ public class BufferedImage implements geogebra.common.awt.BufferedImage {
 	public int getWidth() {
 		// because impl2 and impl are always the same size, syncing is not needed here
 		//syncImplementations();
+		if (impl == null)
+			return 0;
 		return impl.getWidth();
 	}
 
 	public int getHeight() {
 		// because impl2 and impl are always the same size, syncing is not needed here
 		//syncImplementations();
+		if (impl == null)
+			return 0;
 		return impl.getHeight();
 	}
 
@@ -78,10 +84,11 @@ public class BufferedImage implements geogebra.common.awt.BufferedImage {
 
 		if (((BufferedImage)img).impl2 == null) {
 			Canvas cv = Canvas.createIfSupported();
-			cv.setCoordinateSpaceWidth(((BufferedImage)img).impl.getWidth());
-			cv.setCoordinateSpaceHeight(((BufferedImage)img).impl.getHeight());
+			cv.setCoordinateSpaceWidth(((BufferedImage)img).getWidth());
+			cv.setCoordinateSpaceHeight(((BufferedImage)img).getHeight());
 			Context2d c2d = cv.getContext2d();
-			c2d.drawImage(((BufferedImage)img).impl.getImageElement(),0,0);
+			if (((BufferedImage)img).impl != null)
+				c2d.drawImage(((BufferedImage)img).impl.getImageElement(),0,0);
 			((BufferedImage)img).impl2 = cv;
 		}
 		return ((BufferedImage)img).impl2;
