@@ -9,15 +9,16 @@ import com.google.gwt.user.client.DOM;
 import geogebra.web.main.Application;
 
 public class BufferedImage {
-	
-	ImageElement img = null;
+
+	ImageElement img = null; // necessary
+
+	Canvas canv = null; // not necessary, but if present, this is the main one
 
 	public BufferedImage(int width, int height, int imageType, boolean opaque) {
 
 		img = ImageElement.as(DOM.createImg());
 		img.setWidth(width);
 		img.setHeight(height);
-
 		
 		/*if (opaque) {
 			Canvas nc = Canvas.createIfSupported();
@@ -53,30 +54,64 @@ public class BufferedImage {
 			Application.debug("BufferedImage (gawt) called with null");
     }
 
+	// this clones this bufferedimage!
 	public BufferedImage(Canvas cv) {
 		if (cv != null) {// This should not called with null
-			img = ImageElement.as(DOM.createImg());
-			img.setWidth(cv.getCoordinateSpaceWidth());
-			img.setHeight(cv.getCoordinateSpaceHeight());
-			img.setSrc(cv.toDataUrl());
+			canv = Canvas.createIfSupported();
+			canv.setCoordinateSpaceWidth(cv.getCoordinateSpaceWidth());
+			canv.setCoordinateSpaceHeight(cv.getCoordinateSpaceHeight());
+			Context2d c2d = canv.getContext2d();
+			c2d.putImageData(
+					cv.getContext2d().getImageData(0, 0,
+							cv.getCoordinateSpaceWidth(),
+							cv.getCoordinateSpaceHeight()),
+					0,0);
+			img = getImageElement();
 		} else {
-			Application.debug("BufferedImage (gawt) called with null");
+			Application.debug("BufferedImage (gawt) called with null Canvas");
 		}
 	}
 
 	public int getWidth() {
-	   return img.getWidth();
+		if (canv == null)
+			return img.getWidth();
+		else
+			return canv.getCoordinateSpaceWidth();
     }
-	
+
 	public int getHeight() {
-		return img.getHeight();
+		if (canv == null)
+			return img.getHeight();
+		else
+			return canv.getCoordinateSpaceHeight();
 	}
 
 	public ImageElement getImageElement() {
-	   return img;
+		if (canv != null) {
+			img = ImageElement.as(DOM.createImg());
+			img.setWidth(canv.getCoordinateSpaceWidth());
+			img.setHeight(canv.getCoordinateSpaceHeight());
+			img.setSrc(canv.toDataUrl());
+		}
+		return img;
     }
 
 	public BufferedImage cloneDeep() {
-		return new BufferedImage((ImageElement)img.cloneNode(true));
+		if (canv != null) {
+			return new BufferedImage(canv);
+		} else {
+			return new BufferedImage((ImageElement)img.cloneNode(true));
+		}
+	}
+
+	public Canvas getCanvas() {
+		if (canv == null) {
+			canv = Canvas.createIfSupported();
+			canv.setCoordinateSpaceWidth(getWidth());
+			canv.setCoordinateSpaceHeight(getHeight());
+			Context2d c2d = canv.getContext2d();
+			c2d.drawImage(img,0,0);
+		}
+		return canv;
 	}
 }
