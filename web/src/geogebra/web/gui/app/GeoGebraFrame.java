@@ -55,10 +55,7 @@ public class GeoGebraFrame extends VerticalPanel {
 	
 
 	private static void init(ArrayList<ArticleElement> geoGebraMobileTags) {
-		
-		GuiResources.INSTANCE.getCssWeb().ensureInjected();
-		
-	   
+
 		for (ArticleElement articleElement : geoGebraMobileTags) {
 	        GeoGebraFrame inst = new GeoGebraFrame();
 	        Application app = inst.createApplication();

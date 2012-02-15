@@ -1,37 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module rename-to='web'>
   <!-- Inherit the core Web Toolkit stuff.                        -->
+  <!-- Priority matters! Latter definitions override former (even in former xml-s -->
   <inherits name='com.google.gwt.user.User'/>
   <inherits name="com.google.gwt.resources.Resources" />
    <inherits name="com.google.gwt.webworker.WebWorker" />	
-   
-   
-
-  <!-- Inherit the default GWT style sheet.  You can change       -->
-  <!-- the theme of your GWT application by uncommenting          -->
-  <!-- any one of the following lines.                            -->
-  <inherits name='com.google.gwt.user.theme.clean.Clean'/>
-  <!-- <inherits name='com.google.gwt.user.theme.standard.Standard'/> -->
-  <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
-  <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
-
-  <!-- Other module inherits        -->
+   <!-- Other module inherits        -->
+    <!-- GeoGebraTube upload -->
+  <inherits name="com.google.gwt.http.HTTP"/>  
   <inherits name='com.google.gwt.xml.XML' /> 
   <inherits name='geogebra.Common'/>
   <!-- CAS -->
   <inherits name='org.mathpiper.MpreduceJs' />
   
-  <!-- GeoGebraTube upload -->
-  <inherits name="com.google.gwt.http.HTTP"/>  
-  
+ 
+   
+   
+
+  <!-- Inherit the default GWT style sheet.  You can change       -->
+  <!-- the theme of your GWT application by uncommenting          -->
+  <!-- any one of the following lines.    -->
+  <!--Changed to our Own THEME, that is basically the Clean theme-->
+  <inherits name='geogebra.theme.Clean'/>
+  <!-- <inherits name='com.google.gwt.user.theme.standard.Standard'/> -->
+  <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
+  <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
+
+ 
   <!-- Specify the app entry point class.                         -->
   <entry-point class='geogebra.web.Web'/>
 
   <!-- compile only for Firefox / Chrome / Safari - choose one: reduces permutation time --> 
   <set-property name="user.agent" value="safari, ie9, opera, gecko1_8" />
   <!--<set-property name="user.agent" value="safari, gecko1_8" />-->
-  <!--  uncomment it if we want to go to production (cross - site js) -->
-<add-linker name="xsiframe" />
+  <add-linker name="xsiframe" />
   <!-- Specify the paths for translatable code                    -->
   <source path='web'/>
   <super-source path='/common/src/geogebra/jre' />
@@ -111,5 +113,8 @@
   <set-property-fallback name="locale" value="en"/>
   -->
   
+  <!-- Images, js-es will be copied from here.
+  You can reference them by GWT.getModuleBaseUrl()+"js/file.js" -->
+  <public path="resources" />
   
 </module>
