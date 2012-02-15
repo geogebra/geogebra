@@ -25,7 +25,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractFontManager;
 import geogebra.common.main.GeoElementSelectionListener;
-import geogebra.common.main.GlobalKeyDispatcher;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.ScriptManagerCommon;
@@ -731,12 +730,21 @@ public class Application extends AbstractApplication implements KeyDownHandler{
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return false;
     }
+	
+
+	private GlobalKeyDispatcher globalKeyDispatcher;
 
 	@Override
-    public GlobalKeyDispatcher getGlobalKeyDispatcher() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
-    }
+	final public GlobalKeyDispatcher getGlobalKeyDispatcher() {
+		if (globalKeyDispatcher == null) {
+			globalKeyDispatcher = newGlobalKeyDispatcher();
+		}
+		return globalKeyDispatcher;
+	}
+
+	protected GlobalKeyDispatcher newGlobalKeyDispatcher() {
+		return new GlobalKeyDispatcher(this);
+	}
 
 	@Override
     public AbstractSpreadsheetTableModel getSpreadsheetTableModel() {
