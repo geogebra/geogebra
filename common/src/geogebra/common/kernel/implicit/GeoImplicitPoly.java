@@ -279,7 +279,19 @@ Dilateable, Transformable, EuclidianViewCE {
 			return;
 		super.set(geo);
 		setCoeff(((GeoImplicitPoly)geo).getCoeff(),false);
-		locus.set((GeoElement)((GeoImplicitPoly)geo).locus);
+		List<Integer> list=geo.getViewSet();
+		boolean needsNewLocus=false;
+		for (int i=0;i<list.size();i++){
+			if (!isVisibleInView(list.get(i))){
+				needsNewLocus=true;
+				break;
+			}
+		}
+		if (needsNewLocus){
+			updatePath();
+		}else{
+			locus.set((GeoElement)((GeoImplicitPoly)geo).locus);
+		}
 		this.defined=((GeoImplicitPoly)geo).getDefined();
 	}
 

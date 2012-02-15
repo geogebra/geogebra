@@ -6052,6 +6052,12 @@ public abstract class GeoElement extends ConstructionElement implements
 		setVisibility(viewId, false);
 		// viewSet.remove(view);
 	}
+	
+	public void setViewFlags(List<Integer> flags){
+		viewFlags.clear();
+		viewFlags.addAll(flags);
+		// Collections.copy(list, viewFlags);
+	}
 
 	// public boolean isVisibleInView(int view){
 	// // if no views are set, add geo to both by default

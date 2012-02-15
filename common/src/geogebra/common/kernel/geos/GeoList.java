@@ -39,6 +39,7 @@ import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * List of GeoElements
@@ -434,6 +435,22 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		}
 	}
 
+	@Override
+	public void setVisibility(int viewId, boolean setVisible) {
+		super.setVisibility(viewId, setVisible);
+		if ((geoList == null) || (geoList.size() == 0)) {
+			return;
+		}
+
+		final int size = geoList.size();
+		for (int i = 0; i < size; i++) {
+			final GeoElement geo = get(i);
+			if (!geo.isLabelSet()) {
+				geo.setVisibility(viewId, setVisible);
+			}
+		}
+	}
+
 	/**
 	 * Returns this GeoList as a MyList object.
 	 */
@@ -544,8 +561,9 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 		// set visual style of this list
 		applyVisualStyle(geo);
-		// if (!geo.isLabelSet())
-		// geo.setVisualStyle(this);
+		if (!geo.isLabelSet()){
+			geo.setViewFlags(getViewSet());
+		}
 
 	}
 
