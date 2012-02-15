@@ -27,12 +27,20 @@ from javax.swing import (
 from javax.swing.text import (
     StyleContext, StyleConstants, SimpleAttributeSet, TabStop, TabSet
 )
-from javax.swing.event import DocumentListener, ChangeListener
+from javax.swing.event import (
+    DocumentListener, ChangeListener, UndoableEditListener
+)
+
+from javax.swing.undo import (
+    UndoManager, CannotUndoException, CannotRedoException
+)
 
 from java.awt import (
     Toolkit, BorderLayout, Color as awtColor, GridLayout, Font
 )
-from java.awt.event import KeyListener, ActionListener, KeyEvent, ActionEvent
+from java.awt.event import (
+    KeyListener, ActionListener, KeyEvent, ActionEvent, FocusListener
+)
 
 try:
     from javax.swing.filechooser import FileNameExtensionFilter
@@ -451,10 +459,13 @@ class InputPane(KeyListener, DocumentListener):
         # self.nocheck = LockManager()
         self.doc.addDocumentListener(self)
 
+        # This hack to prevent styling to be recorded
+        self.changing_styles = False
+    
     # Moving the caret
     def moveCaretToStart(self):
         self.component.setCaretPosition(0)
-    def moveCaretToEnd(self):
+    def move_caret_to_end(self):
         self.component.setCaretPosition(self.doc.length)
     
     def _getinput(self):
@@ -514,6 +525,7 @@ class InputPane(KeyListener, DocumentListener):
         @later
         def do_change_styles(start=start, state=PyState()):
             pos = 0
+            self.changing_styles = True
             while True:
                 try:
                     for tok in PyLexer.scan(text, pos):
@@ -530,6 +542,7 @@ class InputPane(KeyListener, DocumentListener):
                 except lexing.Error:
                     pos += 1
                     start += 1
+            self.changing_styles = False
     def set_line_style(self, offset):
         start, end = self.getline(offset)
         self.change_styles(start, end)  
@@ -661,7 +674,7 @@ class InteractivePane(ActionListener, DocumentListener):
         try:
             with self.check_disabled:
                 self.input.input = self.history.back()
-                self.input.moveCaretToEnd()
+                self.input.move_caret_to_end()
         except InputHistory.OutOfBounds:
             pass
     def history_forward(self):
@@ -669,16 +682,17 @@ class InteractivePane(ActionListener, DocumentListener):
         try:
             with self.check_disabled:
                 self.input.input = self.history.forward()
-                self.input.moveCaretToEnd()
+                self.input.move_caret_to_end()
         except InputHistory.OutOfBounds:
             self.input.input = self.current_text
-            self.input.moveCaretToEnd()
+            self.input.move_caret_to_end()
             self.history.reset_position()
 
 
-class ScriptPane(object):
+class ScriptPane(UndoableEditListener, FocusListener):
 
-    def __init__(self, api):
+    def __init__(self, window, api):
+        self.window = window
         self.api = api
         self.component = JPanel(BorderLayout())
 
@@ -689,7 +703,9 @@ class ScriptPane(object):
         scrollpane.viewport.view = self.script_area.component
         scrollpane.rowHeaderView = line_numbers.component
         self.component.add(scrollpane, BorderLayout.CENTER)
-
+        self.undo = UndoManager()
+        self.script_area.doc.addUndoableEditListener(self)
+        self.script_area.component.addFocusListener(self)
         self.reset()
         
     def indent_selection(self):
@@ -699,11 +715,27 @@ class ScriptPane(object):
 
     def reset(self):
         self.script_area.input = self.api.getInitScript()
-
+        self.undo.discardAllEdits()
+        if self.window.undo is self.undo:
+            self.window.update_undo_state(self.undo)
+    
     def save_script(self):
         self.api.setInitScript(self.script_area.input)
-    
+
+    # Implementation of UndoableEditListener
+    def undoableEditHappened(self, evt):
+        if self.script_area.changing_styles:
+            return
+        self.undo.addEdit(evt.edit)
+        self.window.update_undo_state(self.undo)
         
+    # Implementation of FocusListener
+    def focusGained(self, evt):
+        self.window.update_undo_state(self.undo)
+    def focusLost(self, evt):
+        self.window.update_undo_state(None)
+
+
 class EventsPane(ActionListener):
     
     def __init__(self, api):
@@ -787,8 +819,11 @@ class PythonWindow(ActionListener, ChangeListener):
 
         tabs = JTabbedPane()
 
+        self.make_menubar()
+        self.update_undo_state(None)
+        
         self.interactive_pane = InteractivePane(api)
-        self.script_pane = ScriptPane(api)
+        self.script_pane = ScriptPane(self, api)
         self.events_pane = EventsPane(api)
         
         tabs.addTab("Interactive", self.interactive_pane.component)
@@ -806,7 +841,6 @@ class PythonWindow(ActionListener, ChangeListener):
         self.frame.size = 500, 600
         self.frame.visible = False
         self.component = None
-        self.make_menubar()
 
     def update_geos(self, geos):
         self.events_pane.update_geos(geos)
@@ -850,6 +884,16 @@ class PythonWindow(ActionListener, ChangeListener):
         editmenu = JMenu("Edit")
         menubar.add(editmenu)
 
+        item = new_item("Undo", "undo", KeyEvent.VK_Z)
+        editmenu.add(item)
+        self.undo_menuitem = item
+        item = new_item("Redo", "redo", KeyEvent.VK_Z,
+                        mod=shortcut + ActionEvent.SHIFT_MASK)
+        editmenu.add(item)
+        self.redo_menuitem = item
+        
+        editmenu.addSeparator()
+        
         editmenu.add(new_item("Cut", "cut", KeyEvent.VK_X))
         editmenu.add(new_item("Copy", "copy", KeyEvent.VK_C))
         editmenu.add(new_item("Paste", "paste", KeyEvent.VK_V))
@@ -905,6 +949,21 @@ class PythonWindow(ActionListener, ChangeListener):
             self.frame.remove(self.component)
             self.component = None
 
+    def update_undo_state(self, undo):
+        self.undo = undo
+        if undo is not None and undo.canUndo():
+            self.undo_menuitem.enabled = True
+            self.undo_menuitem.text = undo.undoPresentationName
+        else:
+            self.undo_menuitem.enabled = False
+            self.undo_menuitem.text = "Undo"
+        if undo is not None and undo.canRedo():
+            self.redo_menuitem.enabled = True
+            self.redo_menuitem.text = undo.redoPresentationName
+        else:
+            self.redo_menuitem.enabled = False
+            self.redo_menuitem.text = "Redo"
+    
     # Code execution methods
     def runcode(self, source):
         self.interactive_pane.runcode(source)
@@ -969,3 +1028,18 @@ class PythonWindow(ActionListener, ChangeListener):
     def action_reload(self, evt):
         self.file_manager.reload_script()
 
+    # Edit actions
+    def action_undo(self, evt):
+        try:
+            self.undo.undo()
+        except CannotUndoException:
+            print "Can't undo"
+        else:
+            self.update_undo_state(self.undo)
+    def action_redo(self, evt):
+        try:
+            self.undo.redo()
+        except CannotRedoException:
+            print "Can't redo"
+        else:
+            self.update_undo_state(self.undo)
