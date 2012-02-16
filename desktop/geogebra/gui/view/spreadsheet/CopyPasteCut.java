@@ -26,17 +26,21 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.net.URL;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.parser.ParserDelegator;
+
+import au.com.bytecode.opencsv.CSVParser;
 
 public class CopyPasteCut {
 
@@ -73,6 +77,10 @@ public class CopyPasteCut {
 	private Object [] constructionIndexes;
 	
 	
+	/**
+	 * Parser for CSV data files
+	 */
+	private CSVParser csvParser;
 
 
 
@@ -207,11 +215,12 @@ public class CopyPasteCut {
 		// extract a String from the Transferable 
 		String transferString = getTransferString(contents); 
 
-
-		// test if the transfer string is the same as the internal cell copy string,
-		// if true, then we have a tab-delimited list of cell geos and can paste them with relative cell references
-		boolean doInternalPaste = transferString != null && cellBufferStr != null && transferString.equals(cellBufferStr);
-
+		// test if the transfer string is the same as the internal cell copy
+		// string. If true, then we have a tab-delimited list of cell geos and
+		// can paste them with relative cell references
+		boolean doInternalPaste = transferString != null
+			&& cellBufferStr != null
+				&& transferString.equals(cellBufferStr);
 
 
 		// create new geos from cellBufferStr and then paste them into the 
@@ -357,6 +366,8 @@ public class CopyPasteCut {
 				boolean firstInRow = true;
 				boolean firstColumn = true;
 				boolean finished = false;
+				
+				@Override
 				public void handleText(char[] data, int pos) {
 
 					if (foundTable && !finished) {
@@ -369,32 +380,15 @@ public class CopyPasteCut {
 
 						if (containsComma && (data[0] != '"' || data[data.length-1] != '"'))
 							appendQuotes = true;
-
-						if (containsComma) {
-							boolean isNumber = true;
-							int noOfCommas = 0;
-							for (int i = 0 ; i < data.length ; i++) {
-								if (data[i] == ',') noOfCommas++;
-								else if (data[i] < '0' || data[i] > '9') isNumber = false;
-							}
-
-							// check for European-style decimal comma
-							if (isNumber && noOfCommas == 1)
-								for (int i = 0 ; i < data.length ; i++)
-									if (data[i] == ',') {
-										//Application.debug("replacing , with .");
-										data[i] = '.';
-									}
-						}
-
+	
 						if (appendQuotes) sbHTML.append('"');
 						for (int i = 0 ; i < data.length ; i++)
 							sbHTML.append(data[i]);
 						if (appendQuotes) sbHTML.append('"');
 					}
-					//System.out.println(data);
 				}
 
+				@Override
 				public void handleStartTag(HTML.Tag tag, 
 						MutableAttributeSet attrSet, int pos) {
 					if (tag == HTML.Tag.TABLE) {
@@ -574,103 +568,6 @@ public class CopyPasteCut {
 
 
 
-
-
-
-	//protected static Pattern pattern = Pattern.compile("\\s*(\\\"([^\\\"]+)\\\")|([^,\\t\\\"]+)");
-	//protected static Pattern pattern = Pattern.compile("\\s*(\\\"([^\\\"]+)\\\")|([^\\t\\\"]+)");
-	
-	protected static Pattern pattern1 = Pattern.compile("((\\\"([^\\\"]+)\\\")|([^\\t\\\"\\(]+)|(\\([^)]+\\)))?(\\t|$)");
-	protected static Pattern pattern2 = Pattern.compile("((\\\"([^\\\"]+)\\\")|([^,\\\"\\(]+)|(\\([^)]+\\)))?(,|$)");
-
-	public static String[][] parseData(String input) {
-
-		//Application.debug("parse data: "+input);
-
-		String[] lines = input.split("\\r*\\n", -1);
-		String[][] data = new String[lines.length][];
-		for (int i = 0; i < lines.length; ++ i) {
-
-			// trim() removes tabs which we need
-			lines[i] = StringUtil.trimSpaces(lines[i]);
-			LinkedList list = new LinkedList();
-
-			int firstCommaIndex = lines[i].indexOf(",");
-			int lastCommaIndex = lines[i].lastIndexOf(",");
-			int firstBracketIndex = lines[i].indexOf("[");
-			int lastBracketIndex = lines[i].lastIndexOf("]");
-			int firstTabIndex = lines[i].indexOf("\t");
-			
-			// no commas, brackets or tabs, so add entire line
-			if (firstCommaIndex == -1 && firstBracketIndex == -1 && firstTabIndex == -1)
-					list.addLast(lines[i]);	
-			
-			// brackets enclose the expression, so assume it's a GeoGebra command and add entire line
-			else if (firstCommaIndex > firstBracketIndex && lastCommaIndex < lastBracketIndex) {
-				list.addLast(lines[i]);
-				
-			// otherwise split on commas and tabs	
-			} else {
-
-				Matcher matcher = null;
-				if (firstTabIndex != -1) {
-					matcher = pattern1.matcher(lines[i]);
-				}
-				else {
-					matcher = pattern2.matcher(lines[i]);
-				}
-
-				while (matcher.find()) {
-					String data1 = matcher.group(3);
-					String data2 = matcher.group(4);
-					String data3 = matcher.group(5);
-
-					//Application.debug("data1: "+data1);
-					//Application.debug("data2: "+data2);
-					//Application.debug("data3: "+data3);
-
-					if (data1 != null) {
-						data1 = data1.trim();
-						data1 = checkDecimalComma(data1); // allow decimal comma
-						list.addLast(data1);
-					}
-					else if (data2 != null) {
-						data2 = data2.trim();
-						data2 = checkDecimalComma(data2); // allow decimal comma
-						list.addLast(data2);
-					}
-					else if (data3 != null) {
-						data3 = data3.trim();
-						list.addLast(data3);
-					}
-					else {
-						list.addLast("");
-					}
-				}
-			}
-			if (list.size() > 0 && list.getLast().equals("")) {
-				list.removeLast();
-			}
-			data[i] = (String[])list.toArray(new String[0]);
-		}
-		return data;		
-	}
-
-
-	/*
-	 * change 3,4 to 3.4
-	 * leave {3,4,5} alone
-	 */
-	private static String checkDecimalComma(String str) {
-		if (str.indexOf("{") == -1 && str.indexOf(",") == str.lastIndexOf(",")) {
-			str = str.replaceAll(",", "."); // allow decimal comma
-		}
-
-		return str;
-	}
-
-
-
 	private boolean pasteExternalMultiple(String buf,int column1, int row1, int column2, int row2) {
 		/*
 		int newlineIndex = buf.indexOf("\n");
@@ -714,6 +611,41 @@ public class CopyPasteCut {
 
 		return succ;
 
+	}
+	
+
+	
+	/** Paste data from String[][] using a cell range target */
+	private boolean pasteExternalMultipleFromArray(String[][] data, CellRange cr) {
+		return pasteExternalMultipleFromArray(data, cr.getMinColumn(),cr.getMinRow(),cr.getMaxColumn(),cr.getMaxRow());
+	}
+	
+	/** Paste data from String[][] */
+	private boolean pasteExternalMultipleFromArray(String[][] data,int column1, int row1, int column2, int row2) {
+		
+		boolean succ = true;
+		int rowStep = data.length;
+		int columnStep = data[0].length;
+
+		if (columnStep == 0) return false;
+
+		int maxColumn = column2;
+		int maxRow = row2;
+
+		// paste all data if just one cell selected
+		// ie overflow selection rectangle 
+		if (row2 == row1 && column2 == column1)
+		{
+			maxColumn = column1 + columnStep;
+			maxRow = row1 + rowStep;
+		}
+
+		// paste data multiple times to fill in the selection rectangle (and maybe overflow a bit)
+		for (int c = column1 ; c <= column2 ; c += columnStep)
+			for (int r = row1 ; r <= row2 ; r+= rowStep)
+				succ = succ && pasteExternal(data, c, r, maxColumn, maxRow);
+
+		return succ;
 	}
 
 	/**
@@ -884,6 +816,143 @@ public class CopyPasteCut {
 
 
 
+	//==================================================================
+	//              Parse Data String
+	//==================================================================
+	
+	private String[][] parseExternalData(String buf, boolean isCSV) {
+
+		String[][] data;
+
+		if (isCSV) {
+			// convert the given CSV file string into a 2D string array
+			data = parseCSVdata(buf);
+		} else {
+			// convert the given string into a 2D array defined by tab or
+			// comma delimiters (auto-detected)
+			data = parseData(buf);
+		}
+
+		// traverse the 2D array to prepare strings for the spreadsheet
+		for (int i = 0; i < data.length; i++) {
+			for (int k = 0; k < data[i].length; k++) {
+
+				// prevent empty string conversion to "null"
+				if (data[i][k].length() == 0) {
+					data[i][k] = " ";
+				}
+
+				// remove localized number formatting
+				// e.g. 3,400 ---> 3400 or 3,400 --> 3.400 depending on locale
+				data[i][k] = adjustNumberString(data[i][k], app.getLocale());
+			}
+		}
+
+		return data;
+
+	}
+	
+	private String[][] parseCSVdata(String input) {
+		
+		String[] lines = input.split("\\r*\\n", -1);
+		String[][] data = new String[lines.length][];
+		
+		if(csvParser == null){
+			csvParser = new CSVParser();
+		}
+
+		for (int i = 0; i < lines.length; ++i) {
+			try {
+				data[i] = csvParser.parseLineMulti(lines[i]);
+			} catch (IOException e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+
+		return data;
+	}
+
+
+	//protected static Pattern pattern = Pattern.compile("\\s*(\\\"([^\\\"]+)\\\")|([^,\\t\\\"]+)");
+	//protected static Pattern pattern = Pattern.compile("\\s*(\\\"([^\\\"]+)\\\")|([^\\t\\\"]+)");
+	
+	protected static Pattern pattern1 = Pattern.compile("((\\\"([^\\\"]+)\\\")|([^\\t\\\"\\(]+)|(\\([^)]+\\)))?(\\t|$)");
+	protected static Pattern pattern2 = Pattern.compile("((\\\"([^\\\"]+)\\\")|([^,\\\"\\(]+)|(\\([^)]+\\)))?(,|$)");
+
+	public static String[][] parseData(String input) {
+
+		//Application.debug("parse data: "+input);
+
+		String[] lines = input.split("\\r*\\n", -1);
+		String[][] data = new String[lines.length][];
+		for (int i = 0; i < lines.length; ++ i) {
+
+			// trim() removes tabs which we need
+			lines[i] = StringUtil.trimSpaces(lines[i]);
+			LinkedList list = new LinkedList();
+
+			int firstCommaIndex = lines[i].indexOf(",");
+			int lastCommaIndex = lines[i].lastIndexOf(",");
+			int firstBracketIndex = lines[i].indexOf("[");
+			int lastBracketIndex = lines[i].lastIndexOf("]");
+			int firstTabIndex = lines[i].indexOf("\t");
+			
+			// no commas, brackets or tabs, so add entire line
+			if (firstCommaIndex == -1 && firstBracketIndex == -1 && firstTabIndex == -1)
+					list.addLast(lines[i]);	
+			
+			// brackets enclose the expression, so assume it's a GeoGebra command and add entire line
+			else if (firstCommaIndex > firstBracketIndex && lastCommaIndex < lastBracketIndex) {
+				list.addLast(lines[i]);
+				
+			// otherwise split on commas and tabs	
+			} else {
+
+				Matcher matcher = null;
+				if (firstTabIndex != -1) {
+					matcher = pattern1.matcher(lines[i]);
+				}
+				else {
+					matcher = pattern2.matcher(lines[i]);
+				}
+
+				while (matcher.find()) {
+					String data1 = matcher.group(3);
+					String data2 = matcher.group(4);
+					String data3 = matcher.group(5);
+
+					//Application.debug("data1: "+data1);
+					//Application.debug("data2: "+data2);
+					//Application.debug("data3: "+data3);
+
+					if (data1 != null) {
+						data1 = data1.trim();
+						list.addLast(data1);
+					}
+					else if (data2 != null) {
+						data2 = data2.trim();
+						list.addLast(data2);
+					}
+					else if (data3 != null) {
+						data3 = data3.trim();
+						list.addLast(data3);
+					}
+					else {
+						list.addLast("");
+					}
+				}
+			}
+			if (list.size() > 0 && list.getLast().equals("")) {
+				list.removeLast();
+			}
+			data[i] = (String[])list.toArray(new String[0]);
+		}
+		return data;		
+	}
+
+
+	
 
 	//====================================================
 	//   File and URL 
@@ -904,6 +973,11 @@ public class CopyPasteCut {
 		// read file 
 		StringBuilder contents = new StringBuilder();
 
+		boolean oldEqualsSetting = getView().isEqualsRequired();
+		view.setEqualsRequired(true);
+		
+		boolean isCSV = getExtension(url.getFile()).equals("csv");
+		
 		try {				
 			InputStream is = url.openStream();
 			BufferedReader input = new BufferedReader(new InputStreamReader(is));
@@ -924,25 +998,67 @@ public class CopyPasteCut {
 
 		//System.out.println(dataFile.getName() + ": " + contents.capacity());
 
-		// copy file contents to clipboard		
-		StringSelection stringSelection = new StringSelection(contents.toString());
-		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-		Transferable oldContent = clipboard.getContents(null);
-		clipboard.setContents(stringSelection, null);
-
-
-		// paste from clipboard into spreadsheet
-		if(clearSpreadsheet){
-			deleteAll();
+	
+		boolean succ = true;
+		
+		String[][] data  = parseExternalData(contents.toString(), isCSV); 
+		
+		if(data != null){
+			if(clearSpreadsheet) deleteAll();
+			succ = pasteExternalMultipleFromArray(data, targetRange);
+		}else{
+			succ = false;
 		}
-
-		boolean oldEqualsSetting = getView().isEqualsRequired();
-		getView().setEqualsRequired(true);
-		boolean succ = paste(targetRange);
-		clipboard.setContents(oldContent, null);
+		
 		getView().setEqualsRequired(oldEqualsSetting);
 
 		return succ;
+
+	}
+	
+	
+	/**
+	 * Return the extension portion of the file's name.
+	 * 
+	 * @param f
+	 * @return "ext" for file "filename.ext"
+	 */
+	private String getExtension(String filename) {
+		if (filename != null) {
+			int i = filename.lastIndexOf('.');
+			if (i > 0 && i < filename.length() - 1)
+				return filename.substring(i + 1).toLowerCase(Locale.US);
+		}
+		return null;
+	}
+
+	/**
+	 * Tests if a given string represents a number. If true then an unformatted
+	 * string representation of the number is returned (e.g. 3,200 --> 3200).
+	 * Otherwise the original string is returned.
+	 * 
+	 * The method uses java's NumberFormat class to test for a number by parsing
+	 * the string using format rules for the current locale.
+	 * 
+	 */
+	private static String adjustNumberString(String s, Locale locale) {
+
+		boolean isNumber;
+
+		// attempt to parse the number using NumberFormat with current locale
+		NumberFormat nf = NumberFormat.getInstance(locale);
+		ParsePosition pp = new ParsePosition(0);
+		Number n = nf.parse(s, pp);
+
+		// test: string is a number if parser uses the entire string
+		isNumber = (s.length() == pp.getIndex());
+
+		// if the string is a number return it without formatting
+		if (isNumber)
+			return n + "";
+
+		// otherwise return the string
+		return s;
 
 	}
 
