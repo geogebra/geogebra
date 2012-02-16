@@ -27,6 +27,14 @@ public class ImageManager extends AbstractImageManager {
 	private static HashMap<String, ImageElement> externalImageTable = new HashMap<String, ImageElement>();
 	private static HashMap<String, String> externalImageSrcs = new HashMap<String, String>();
 
+	public void reset() {
+		externalImageTable = new HashMap<String, ImageElement>();
+		externalImageSrcs = new HashMap<String, String>();
+		imagesLoaded = 0;
+		construction = null;
+		myXMLio = null;
+	}
+
 	@Override
 	public String createImage(String filename, AbstractApplication app) {
 		// TODO Auto-generated method stub

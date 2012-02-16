@@ -433,6 +433,7 @@ public class Application extends AbstractApplication implements KeyDownHandler{
 	}
 
 	public void loadGgbFileAgain(JsArrayInteger jsBytes) {
+		imageManager.reset();
 		GeoGebraFrame.fileLoader.getView().fileContentLoaded(jsBytes);
 	}
 
