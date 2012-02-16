@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.geos;
 
@@ -25,128 +25,145 @@ import geogebra.common.plugin.GeoClass;
 
 import java.util.ArrayList;
 
-public class GeoLocus extends GeoElement implements Path, Traceable{
+public class GeoLocus extends GeoElement implements Path, Traceable {
 
 	public static final int MAX_PATH_RUNS = 10;
-				
-	private boolean defined;		
-	
+
+	private boolean defined;
+
 	// coords of points on locus
-	private ArrayList<MyPoint> myPointList;		
-	
+	private ArrayList<MyPoint> myPointList;
+
 	public GeoLocus(Construction c) {
-		super(c);				
-		
+		super(c);
+
 		// moved from GeoElement's constructor
 		// must be called from the subclass, see
-		//http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
+		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
 		setConstructionDefaults(); // init visual settings
 
-		myPointList = new ArrayList<MyPoint>(500);		
-		//setAlgebraVisible(false);
+		myPointList = new ArrayList<MyPoint>(500);
+		// setAlgebraVisible(false);
 		setAuxiliaryObject(true);
-	}  
-			
+	}
+
+	@Override
 	public GeoElement copy() {
 		GeoLocus ret = new GeoLocus(cons);
 		ret.set(this);
-		return ret; 
+		return ret;
 	}
 
+	@Override
 	public void set(GeoElement geo) {
-		GeoLocus locus = (GeoLocus) geo;			
-		defined = locus.defined;		
-		
+		GeoLocus locus = (GeoLocus) geo;
+		defined = locus.defined;
+
 		myPointList.clear();
 		myPointList.addAll(locus.myPointList);
 	}
-		
+
 	/**
 	 * Number of valid points in x and y arrays.
+	 * 
 	 * @return
 	 */
 	final public int getPointLength() {
 		return myPointList.size();
-	}	
-	
-	public void clearPoints() {		
-		myPointList.clear();				
 	}
-	
+
+	public void clearPoints() {
+		myPointList.clear();
+	}
+
 	/**
-	 * Adds a new point (x,y) to the end of the point list of this locus.	 
+	 * Adds a new point (x,y) to the end of the point list of this locus.
+	 * 
 	 * @param x
 	 * @param y
-	 * @param lineTo true to draw a line to (x,y); false to only move to (x,y)
+	 * @param lineTo
+	 *            true to draw a line to (x,y); false to only move to (x,y)
 	 */
-	public void insertPoint(double x, double y, boolean lineTo) { 
-		myPointList.add(new MyPoint(x, y, lineTo));	
+	public void insertPoint(double x, double y, boolean lineTo) {
+		myPointList.add(new MyPoint(x, y, lineTo));
 	}
-	
+
 	public ArrayList<MyPoint> getMyPointList() {
 		return myPointList;
 	}
-	
-	public String toString(StringTemplate tpl) {		
+
+	@Override
+	public String toString(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(" = ");
 		sbToString.append(getCommandDescription(tpl));
 		return sbToString.toString();
 	}
+
 	private StringBuilder sbToString = new StringBuilder(80);
 
+	@Override
 	public boolean showInAlgebraView() {
 		return true;
 	}
 
+	@Override
 	public String getClassName() {
 		return "GeoLocus";
 	}
-	
+
+	@Override
 	public String getTypeString() {
 		return "Locus";
 	}
-    
-    public GeoClass getGeoClassType() {
-    	return GeoClass.LOCUS;
-    }
-	
+
+	@Override
+	public GeoClass getGeoClassType() {
+		return GeoClass.LOCUS;
+	}
+
 	/**
-	* returns all class-specific xml tags for getXML
-	*/
+	 * returns all class-specific xml tags for getXML
+	 */
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
-	   	super.getXMLtags(sb);		
-	   	getLineStyleXML(sb);
-   	}
+		super.getXMLtags(sb);
+		getLineStyleXML(sb);
+	}
 
 	public void setMode(int mode) {
 	}
 
-	public int getMode() {	
+	public int getMode() {
 		return 0;
 	}
 
+	@Override
 	public boolean isDefined() {
 		return defined;
 	}
-	
+
 	public void setDefined(boolean flag) {
 		defined = flag;
 	}
 
+	@Override
 	public void setUndefined() {
-		defined = false;		
+		defined = false;
 	}
 
+	@Override
 	public String toValueString(StringTemplate tpl) {
 		return "";
 	}
 
+	@Override
 	protected boolean showInEuclidianView() {
 		return isDefined();
-	}	
-	
+	}
+
+	@Override
 	public boolean isGeoLocus() {
 		return true;
 	}
@@ -155,113 +172,116 @@ public class GeoLocus extends GeoElement implements Path, Traceable{
 		return new PathMoverLocus(this);
 	}
 
-	public double getMaxParameter() {		
+	public double getMaxParameter() {
 		return myPointList.size() - 1;
 	}
 
-	public double getMinParameter() {		
+	public double getMinParameter() {
 		return 0;
 	}
 
 	public boolean isClosedPath() {
 		if (myPointList.size() > 0) {
-			MyPoint first = (MyPoint) myPointList.get(0);
-			MyPoint last = (MyPoint) myPointList.get(myPointList.size() - 1);
+			MyPoint first = myPointList.get(0);
+			MyPoint last = myPointList.get(myPointList.size() - 1);
 			return first.isEqual(last.x, last.y);
-		} else
-			return false;
+		}
+		return false;
 	}
 
 	public boolean isOnPath(GeoPointND PI, double eps) {
-		
+
 		GeoPoint2 P = (GeoPoint2) PI;
-		
+
 		MyPoint closestPoint = getClosestPoint(P);
 		if (closestPoint != null) {
 			return Math.sqrt(closestPointDist) < eps;
-		} else
-			return false;
+		}
+		return false;
 	}
-	
+
 	private MyPoint getClosestPoint(GeoPoint2 P) {
 		GeoLine l = getClosestLine(P);
-		
+
 		boolean temp = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 		GeoSegment closestSegment = new GeoSegment(cons);
 		cons.setSuppressLabelCreation(temp);
-		
-		if (closestPointIndex == -1) return null;
-		
-		MyPoint locusPoint = (MyPoint) myPointList.get(closestPointIndex);
-		MyPoint locusPoint2 = (MyPoint) myPointList.get(closestPointIndex + 1);
-		
+
+		if (closestPointIndex == -1)
+			return null;
+
+		MyPoint locusPoint = myPointList.get(closestPointIndex);
+		MyPoint locusPoint2 = myPointList.get(closestPointIndex + 1);
+
 		closestSegment.setCoords(l.x, l.y, l.z);
-		
+
 		cons.setSuppressLabelCreation(true);
 		closestSegment.setStartPoint(locusPoint.getGeoPoint(cons));
 		closestSegment.setEndPoint(locusPoint2.getGeoPoint(cons));
 		cons.setSuppressLabelCreation(temp);
-		
-		closestPointParameter = closestSegment.getParameter(P.x/P.z, P.y/P.z);
-		
-		if (closestPointParameter < 0) closestPointParameter = 0;
-		else if (closestPointParameter > 1) closestPointParameter = 1;
 
-		return new MyPoint((1 - closestPointParameter) * locusPoint.x + closestPointParameter * locusPoint2.x, (1 - closestPointParameter) * locusPoint.y + closestPointParameter * locusPoint2.y, false);		
+		closestPointParameter = closestSegment.getParameter(P.x / P.z, P.y
+				/ P.z);
+
+		if (closestPointParameter < 0)
+			closestPointParameter = 0;
+		else if (closestPointParameter > 1)
+			closestPointParameter = 1;
+
+		return new MyPoint((1 - closestPointParameter) * locusPoint.x
+				+ closestPointParameter * locusPoint2.x,
+				(1 - closestPointParameter) * locusPoint.y
+						+ closestPointParameter * locusPoint2.y, false);
 	}
-	
+
 	/**
-	 * Returns the point of this locus that is closest
-	 * to GeoPoint P.
+	 * Returns the point of this locus that is closest to GeoPoint P.
 	 */
-	private GeoLine getClosestLine(GeoPoint2 P) {		
+	private GeoLine getClosestLine(GeoPoint2 P) {
 		int size = myPointList.size();
 		if (size == 0)
 			return null;
-		
-		// can't use P.inhomX, P.inhomY in path updating yet, so compute them
-		//double px = P.x/P.z;
-		//double py = P.y/P.z;
-		
-		P.updateCoords();
-		
 
-		
+		// can't use P.inhomX, P.inhomY in path updating yet, so compute them
+		// double px = P.x/P.z;
+		// double py = P.y/P.z;
+
+		P.updateCoords();
+
 		// search for closest point on path
-		//MyPoint closestPoint  = null;
+		// MyPoint closestPoint = null;
 		closestPointDist = Double.MAX_VALUE;
 		closestPointIndex = -1;
-		
+
 		// make a segment and points to reuse
 		GeoSegment segment = new GeoSegment(cons);
 		GeoPoint2 p1 = new GeoPoint2(cons);
 		GeoPoint2 p2 = new GeoPoint2(cons);
 		segment.setStartPoint(p1);
 		segment.setEndPoint(p2);
-		
+
 		double closestx = 0, closesty = 0, closestz = 0;
-		
-		// search for closest point		
-		for (int i=0; i < size - 1; i++) {
-			MyPoint locusPoint = (MyPoint) myPointList.get(i);
-			MyPoint locusPoint2 = (MyPoint) myPointList.get(i+1);
-			
+
+		// search for closest point
+		for (int i = 0; i < size - 1; i++) {
+			MyPoint locusPoint = myPointList.get(i);
+			MyPoint locusPoint2 = myPointList.get(i + 1);
+
 			// not a line, just a move (eg Voronoi Diagram)
-			if (!locusPoint2.lineTo) continue;
-			
+			if (!locusPoint2.lineTo)
+				continue;
+
 			double x1 = locusPoint.x;
 			double x2 = locusPoint2.x;
 			double y1 = locusPoint.y;
 			double y2 = locusPoint2.y;
-			
-			
+
 			// line thro' 2 points
 			segment.setCoords(y1 - y2, x2 - x1, x1 * y2 - y1 * x2);
 			p1.setCoords(x1, y1, 1.0);
 			p2.setCoords(x2, y2, 1.0);
-			
-			
+
 			double dist = segment.distance(P);
 			if (dist < closestPointDist) {
 				closestPointDist = dist;
@@ -271,11 +291,12 @@ public class GeoLocus extends GeoElement implements Path, Traceable{
 				closestz = segment.z;
 			}
 		}
-		
+
 		segment.setCoords(closestx, closesty, closestz);
-		
+
 		return segment;
 	}
+
 	private double closestPointDist;
 	private int closestPointIndex;
 	private double closestPointParameter;
@@ -283,9 +304,10 @@ public class GeoLocus extends GeoElement implements Path, Traceable{
 	public boolean trace;
 
 	public void pathChanged(GeoPointND PI) {
-		
-		//if kernel doesn't use path/region parameters, do as if point changed its coords
-		if(!getKernel().usePathAndRegionParameters()){
+
+		// if kernel doesn't use path/region parameters, do as if point changed
+		// its coords
+		if (!getKernel().usePathAndRegionParameters()) {
 			pointChanged(PI);
 			return;
 		}
@@ -295,86 +317,93 @@ public class GeoLocus extends GeoElement implements Path, Traceable{
 			pointChanged(PI);
 			return;
 		}
-		
+
 		// new method
 		// keep point on same segment, the same proportion along it
 		// better for loci with very few segments eg from ShortestDistance[ ]
 		GeoPoint2 P = (GeoPoint2) PI;
 		PathParameter pp = P.getPathParameter();
-					
-		int n = (int)Math.floor(pp.t);
-		
+
+		int n = (int) Math.floor(pp.t);
+
 		double t = pp.t - n; // between 0 and 1
-		
+
 		// check n and n+1 are in a sensible range
 		// might occur if locus has changed no of segments/points
-		if (n+1 >= myPointList.size() || n < 0) {
+		if (n + 1 >= myPointList.size() || n < 0) {
 			n = (n < 0) ? 0 : myPointList.size() - 2;
 		}
-		
-		MyPoint locusPoint = (MyPoint) myPointList.get(n);
-		MyPoint locusPoint2 = (MyPoint) myPointList.get(n + 1);
-		
+
+		MyPoint locusPoint = myPointList.get(n);
+		MyPoint locusPoint2 = myPointList.get(n + 1);
+
 		P.x = (1 - t) * locusPoint.x + t * locusPoint2.x;
 		P.y = (1 - t) * locusPoint.y + t * locusPoint2.y;
-		P.z = 1.0;		
-
+		P.z = 1.0;
 
 	}
 
 	public void pointChanged(GeoPointND PI) {
-		
+
 		GeoPoint2 P = (GeoPoint2) PI;
 
 		// this updates closestPointParameter and closestPointIndex
 		MyPoint closestPoint = getClosestPoint(P);
-		
+
 		PathParameter pp = P.getPathParameter();
-		//Application.debug(pp.t);
+		// Application.debug(pp.t);
 		if (closestPoint != null) {
-			P.x = closestPoint.x;//(1 - closestPointParameter) * locusPoint.x + closestPointParameter * locusPoint2.x;
-			P.y = closestPoint.y;//(1 - closestPointParameter) * locusPoint.y + closestPointParameter * locusPoint2.y;
+			P.x = closestPoint.x;// (1 - closestPointParameter) * locusPoint.x +
+									// closestPointParameter * locusPoint2.x;
+			P.y = closestPoint.y;// (1 - closestPointParameter) * locusPoint.y +
+									// closestPointParameter * locusPoint2.y;
 			P.z = 1.0;
-			pp.t = closestPointIndex + closestPointParameter;					
-		}		
+			pp.t = closestPointIndex + closestPointParameter;
+		}
 	}
-	
+
+	@Override
 	public boolean isPath() {
 		return true;
 	}
-	
-    // Michael Borcherds 2008-04-30
+
+	// Michael Borcherds 2008-04-30
+	@Override
 	final public boolean isEqual(GeoElement geo) {
 		// return false if it's a different type, otherwise use equals() method
 		return false;
 		// TODO?
-		//if (geo.isGeoLocus()) return xxx else return false;
+		// if (geo.isGeoLocus()) return xxx else return false;
 	}
 
+	@Override
 	public boolean isVector3DValue() {
 		return false;
 	}
+
 	/**
-	 * Returns whether the value (e.g. equation) should be shown
-	 * as part of the label description
+	 * Returns whether the value (e.g. equation) should be shown as part of the
+	 * label description
 	 */
+	@Override
 	final public boolean isLabelValueShowable() {
 		return false;
 	}
 
 	public void setPoints(ArrayList<MyPoint> al) {
 		myPointList = al;
-		
+
 	}
-	
+
 	public ArrayList<MyPoint> getPoints() {
 		return myPointList;
 	}
-	
+
+	@Override
 	final public boolean isAuxiliaryObjectByDefault() {
 		return true;
 	}
-	
+
 	public void setTrace(boolean trace) {
 		this.trace = trace;
 	}
@@ -382,11 +411,13 @@ public class GeoLocus extends GeoElement implements Path, Traceable{
 	public boolean getTrace() {
 		return trace;
 	}
-    
+
+	@Override
 	public boolean isTraceable() {
 		return true;
 	}
-    
+
+	@Override
 	public boolean isFillable() {
 		return true;
 	}
@@ -395,7 +426,5 @@ public class GeoLocus extends GeoElement implements Path, Traceable{
 	public boolean isInverseFillable() {
 		return isFillable();
 	}
-
-
 
 }

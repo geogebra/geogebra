@@ -39,7 +39,6 @@ import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * List of GeoElements
@@ -207,12 +206,11 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		if (geo.isLabelSet()) {
 			// take original element
 			return geo;
-		} else {
-			// create a copy of geo
-			final GeoElement ret = geo.copyInternal(cons);
-			ret.setParentAlgorithm(getParentAlgorithm());
-			return ret;
 		}
+		// create a copy of geo
+		final GeoElement ret = geo.copyInternal(cons);
+		ret.setParentAlgorithm(getParentAlgorithm());
+		return ret;
 	}
 
 	private void applyVisualStyle(final GeoElement geo) {
@@ -561,7 +559,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 		// set visual style of this list
 		applyVisualStyle(geo);
-		if (!geo.isLabelSet()){
+		if (!geo.isLabelSet()) {
 			geo.setViewFlags(getViewSet());
 		}
 
@@ -678,7 +676,8 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			for (int i = 0; i < lastIndex; i++) {
 				final GeoElement geo = geoList.get(i);
 
-				sbBuildValueString.append(geo.getAlgebraDescriptionRegrOut(tpl));
+				sbBuildValueString
+						.append(geo.getAlgebraDescriptionRegrOut(tpl));
 				sbBuildValueString.append(" ");
 			}
 
@@ -763,7 +762,8 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			sb.append(" label =\"");
 			sb.append(StringUtil.encodeXML(label));
 			sb.append("\" exp=\"");
-			sb.append(StringUtil.encodeXML(toValueString(StringTemplate.xmlTemplate)));
+			sb.append(StringUtil
+					.encodeXML(toValueString(StringTemplate.xmlTemplate)));
 			sb.append("\"/>\n");
 		}
 
@@ -1139,9 +1139,8 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 																// to cope with
 																// lists of
 																// lists
-		} else {
-			return this;
 		}
+		return this;
 	}
 
 	/*
@@ -1158,28 +1157,23 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			final int length = ((GeoList) geo0).size();
 			if (length == 0) {
 				return false;
-			} else {
-				if (size() > 0) {
-					for (int i = 0; i < size(); i++) {
-						final GeoElement geoi = get(i);
-						// Application.debug(((GeoList)geoi).get(0).getGeoClassType()+"");
-						if (!get(i).isGeoList()
-								|| (((GeoList) geoi).size() == 0)
-								|| (((GeoList) geoi).size() != length)) {
+			}
+			if (size() > 0) {
+				for (int i = 0; i < size(); i++) {
+					final GeoElement geoi = get(i);
+					// Application.debug(((GeoList)geoi).get(0).getGeoClassType()+"");
+					if (!get(i).isGeoList() || (((GeoList) geoi).size() == 0)
+							|| (((GeoList) geoi).size() != length)) {
+						return false;
+					}
+					for (int j = 0; j < ((GeoList) geoi).size(); j++) {
+						final GeoElement geoij = ((GeoList) geoi).get(j);
+						if (!geoij.getGeoClassType().equals(GeoClass.NUMERIC)
+								&& !geoij.getGeoClassType().equals(
+										GeoClass.FUNCTION)
+								&& !geoij.getGeoClassType().equals(
+										GeoClass.FUNCTION_NVAR)) {
 							return false;
-						} else {
-							for (int j = 0; j < ((GeoList) geoi).size(); j++) {
-								final GeoElement geoij = ((GeoList) geoi)
-										.get(j);
-								if (!geoij.getGeoClassType().equals(
-										GeoClass.NUMERIC)
-										&& !geoij.getGeoClassType().equals(
-												GeoClass.FUNCTION)
-										&& !geoij.getGeoClassType().equals(
-												GeoClass.FUNCTION_NVAR)) {
-									return false;
-								}
-							}
 						}
 					}
 				}
@@ -1381,7 +1375,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	}
 
 	@Override
-	public String toLaTeXString(final boolean symbolic,StringTemplate tpl) {
+	public String toLaTeXString(final boolean symbolic, StringTemplate tpl) {
 
 		if (isMatrix()) {
 
@@ -1398,7 +1392,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			for (int i = 0; i < size(); i++) {
 				final GeoList geo = (GeoList) get(i);
 				for (int j = 0; j < geo.size(); j++) {
-					sb.append(geo.get(j).toLaTeXString(symbolic,tpl));
+					sb.append(geo.get(j).toLaTeXString(symbolic, tpl));
 					if (j < (geo.size() - 1)) {
 						sb.append("&");
 					}
@@ -1410,7 +1404,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			// return "\\begin{array}{ll}1&2 \\\\ 3&4 \\\\ \\end{array}";
 		}
 
-		return super.toLaTeXString(symbolic,tpl);
+		return super.toLaTeXString(symbolic, tpl);
 
 	}
 
@@ -1467,9 +1461,8 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	public GeoElement getSelectedElement() {
 		if ((selectedIndex > -1) && (selectedIndex < size())) {
 			return get(selectedIndex);
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	public void setTrace(final boolean trace) {
@@ -1707,14 +1700,14 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	}
 
 	@Override
-	public String getCASString(StringTemplate tpl,final boolean symbolic) {
+	public String getCASString(StringTemplate tpl, final boolean symbolic) {
 
 		// isMatrix() is rather expensive, and we only need it
 		// if we're using Maxima, so test for that first
 		final StringType casPrinttype = tpl.getStringType();
 		if ((!casPrinttype.equals(StringType.MAXIMA) && !casPrinttype
 				.equals(StringType.MPREDUCE)) || !isMatrix()) {
-			return super.getCASString(tpl,symbolic);
+			return super.getCASString(tpl, symbolic);
 		}
 
 		final StringBuilder sb = new StringBuilder();
@@ -1724,7 +1717,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 				final GeoList geo = (GeoList) get(i);
 				sb.append('[');
 				for (int j = 0; j < geo.size(); j++) {
-					sb.append(geo.get(j).getCASString(tpl,symbolic));
+					sb.append(geo.get(j).getCASString(tpl, symbolic));
 					if (j != (geo.size() - 1)) {
 						sb.append(',');
 					}
@@ -1741,7 +1734,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 				final GeoList geo = (GeoList) get(i);
 				sb.append("(");
 				for (int j = 0; j < geo.size(); j++) {
-					sb.append(geo.get(j).getCASString(tpl,symbolic));
+					sb.append(geo.get(j).getCASString(tpl, symbolic));
 					if (j != (geo.size() - 1)) {
 						sb.append(',');
 					}
@@ -1829,13 +1822,13 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 	public int performScriptActions() {
 		int actions = 0;
-		for(int i=0;i<size();i++){
-			if(get(i) instanceof GeoScriptAction){
+		for (int i = 0; i < size(); i++) {
+			if (get(i) instanceof GeoScriptAction) {
 				((GeoScriptAction) get(i)).perform();
 				actions++;
 			}
-			if(get(i) instanceof GeoList)
-				actions+=((GeoList) get(i)).performScriptActions();
+			if (get(i) instanceof GeoList)
+				actions += ((GeoList) get(i)).performScriptActions();
 		}
 		return actions;
 	}

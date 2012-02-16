@@ -8,11 +8,10 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.awt.Color;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoAxisND;
@@ -21,47 +20,47 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.NumberFormatAdapter;
 
-public class GeoAxis extends GeoLine implements GeoAxisND{
-	
+public class GeoAxis extends GeoLine implements GeoAxisND {
+
 	private GeoPoint2 origin;
 	private int type;
-	
+
 	private String axisLabel;
 
 	public GeoAxis(Construction cons, int type) {
 		super(cons);
 		this.type = type;
 		origin = new GeoPoint2(cons);
-		origin.setCoords(0,0,1);
+		origin.setCoords(0, 0, 1);
 		setStartPoint(origin);
-		
+
 		switch (type) {
-			case X_AXIS:
-				setCoords(0, 1, 0);
-				label = "xAxis";
-				setAxisLabel("x");
-				setObjColor(AwtFactory.prototype.newColor(255, 0, 0));//will be Color.RED
-				break;
-			
-			case Y_AXIS:
-				setCoords(-1, 0, 0);
-				label = "yAxis";
-				setAxisLabel("y");
-				setObjColor(AwtFactory.prototype.newColor(0,0.5f,0));
-				break;
+		case X_AXIS:
+			setCoords(0, 1, 0);
+			label = "xAxis";
+			setAxisLabel("x");
+			setObjColor(AwtFactory.prototype.newColor(255, 0, 0));// will be
+																	// Color.RED
+			break;
+
+		case Y_AXIS:
+			setCoords(-1, 0, 0);
+			label = "yAxis";
+			setAxisLabel("y");
+			setObjColor(AwtFactory.prototype.newColor(0, 0.5f, 0));
+			break;
 		}
 		setFixed(true);
 		setLabelVisible(false);
 	}
-	
+
 	public int getType() {
 		return type;
 	}
-	
+
 	/**
-	 * Returns whether this object is available at
-	 * the given construction step (this depends on
-	 * this object's construction index).
+	 * Returns whether this object is available at the given construction step
+	 * (this depends on this object's construction index).
 	 */
 	@Override
 	public boolean isAvailableAtConstructionStep(int step) {
@@ -70,44 +69,46 @@ public class GeoAxis extends GeoLine implements GeoAxisND{
 		// in empty constructions too (for step == -1)
 		return true;
 	}
-	
+
 	@Override
 	public String getLabel(StringTemplate tpl) {
 		if (tpl.isPrintLocalizedCommandNames()) {
 			return app.getPlain(label);
-		} 
-			return label;
-		
+		}
+		return label;
+
 	}
-	
+
 	/**
 	 * Returns whether str is equal to this axis' label.
-	 * @param str string for comparsion
+	 * 
+	 * @param str
+	 *            string for comparsion
 	 * @return whether str is equal to this axis' label.
 	 */
 	public boolean equalsLabel(String str) {
-		if (str == null) return false;
-		return str.equals(label) ||    
-					str.equals(app.getPlain(label));		
+		if (str == null)
+			return false;
+		return str.equals(label) || str.equals(app.getPlain(label));
 	}
-	
+
 	public String typeString() {
 		return "Line";
 	}
-	
-    @Override
-	public GeoClass getGeoClassType() {
-    	return GeoClass.AXIS;
-    }
-    
-    ///////////////////////////////////////
-    // GEOAXISND INTERFACE
-    ///////////////////////////////////////
 
-	public void setAxisLabel(String label){
+	@Override
+	public GeoClass getGeoClassType() {
+		return GeoClass.AXIS;
+	}
+
+	// /////////////////////////////////////
+	// GEOAXISND INTERFACE
+	// /////////////////////////////////////
+
+	public void setAxisLabel(String label) {
 		axisLabel = label;
 	}
-	
+
 	public String getAxisLabel() {
 		return axisLabel;
 	}
@@ -121,23 +122,17 @@ public class GeoAxis extends GeoLine implements GeoAxisND{
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
+
 	public boolean getShowNumbers() {
 		// TODO Auto-generated method stub
 		return true;
 	}
-	
-	
-	
-	
-	
+
 	// for numbers and ticks
 	private NumberFormatAdapter numberFormat;
 	private double numbersDistance;
 	private int numbersXOffset, numbersYOffset;
-	private int ticksize = 5; //TODO
-	
-	
+	private int ticksize = 5; // TODO
 
 	public NumberFormatAdapter getNumberFormat() {
 		return numberFormat;
@@ -151,9 +146,9 @@ public class GeoAxis extends GeoLine implements GeoAxisND{
 		return ticksize;
 	}
 
-	public void updateDecorations(double distance, NumberFormatAdapter numberFormat,
-			int xOffset, int yOffset,
-			int labelXOffset, int labelYOffset){
+	public void updateDecorations(double distance,
+			NumberFormatAdapter numberFormat, int xOffset, int yOffset,
+			int labelXOffset, int labelYOffset) {
 		this.numbersDistance = distance;
 		this.numberFormat = numberFormat;
 		this.numbersXOffset = xOffset;
@@ -170,19 +165,20 @@ public class GeoAxis extends GeoLine implements GeoAxisND{
 		return numbersYOffset;
 	}
 
-	
 	/**
-	 * overrides GeoElement method : this is a "constant" element, so the label is set
+	 * overrides GeoElement method : this is a "constant" element, so the label
+	 * is set
 	 */
+	@Override
 	public boolean isLabelSet() {
 		return true;
-	}	
-	
+	}
 
+	@Override
 	public Coords getDirectionInD3() {
-		if(type==X_AXIS)
+		if (type == X_AXIS)
 			return new Coords(1, 0, 0, 0);
-		
+
 		return new Coords(0, 1, 0, 0);
 	}
 }

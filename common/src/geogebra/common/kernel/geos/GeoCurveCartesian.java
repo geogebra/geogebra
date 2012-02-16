@@ -16,7 +16,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.ParametricCurveDistanceFunction;
-import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
@@ -25,7 +24,6 @@ import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
-import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -47,10 +45,9 @@ import java.util.ArrayList;
  * @author Markus Hohenwarter
  */
 public class GeoCurveCartesian extends GeoCurveCartesianND implements
-		Transformable, VarString, Path, Translateable, Rotateable,
-		PointRotateable, Mirrorable, Dilateable, MatrixTransformable,
-		Traceable, CasEvaluableFunction, ParametricCurve, LineProperties,
-		ConicMirrorable {
+		Transformable, VarString, Translateable, PointRotateable, Mirrorable,
+		Dilateable, MatrixTransformable, CasEvaluableFunction, ParametricCurve,
+		LineProperties, ConicMirrorable {
 
 	// samples to find interval with closest parameter position to given point
 	private static final int CLOSEST_PARAMETER_SAMPLES = 100;
@@ -513,13 +510,14 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			sbTemp.append(funY.toValueString(tpl));
 			sbTemp.append(')');
 			return sbTemp.toString();
-		} else
-			return app.getPlain("undefined");
+		}
+		return app.getPlain("undefined");
 	}
 
 	// TODO remove and use super method (funX and funY should be removed in
 	// fun[])
-	
+
+	@Override
 	public String toSymbolicString(StringTemplate tpl) {
 		if (isDefined) {
 			if (sbTemp == null) {
@@ -539,7 +537,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	// TODO remove and use super method (funX and funY should be removed in
 	// fun[])
 	@Override
-	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
+	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		if (isDefined) {
 			if (sbTemp == null) {
 				sbTemp = new StringBuilder(80);
@@ -551,21 +549,21 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			if (!hideRangeInFormula)
 				sbTemp.append("\\left.");
 			sbTemp.append("\\begin{array}{ll} x = ");
-			sbTemp.append(funX.toLaTeXString(symbolic,tpl));
+			sbTemp.append(funX.toLaTeXString(symbolic, tpl));
 			sbTemp.append("\\\\ y = ");
-			sbTemp.append(funY.toLaTeXString(symbolic,tpl));
+			sbTemp.append(funY.toLaTeXString(symbolic, tpl));
 			sbTemp.append(" \\end{array}");
 			if (!hideRangeInFormula) {
 				sbTemp.append("\\right} \\; ");
-				sbTemp.append(kernel.format(startParam,tpl));
+				sbTemp.append(kernel.format(startParam, tpl));
 				sbTemp.append(" \\le ");
 				sbTemp.append(param);
 				sbTemp.append(" \\le ");
-				sbTemp.append(kernel.format(endParam,tpl));
+				sbTemp.append(kernel.format(endParam, tpl));
 			}
 			return sbTemp.toString();
-		} else
-			return app.getPlain("undefined");
+		}
+		return app.getPlain("undefined");
 	}
 
 	/*
@@ -598,9 +596,10 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	}
 
 	public void pathChanged(GeoPointND PI) {
-		
-		//if kernel doesn't use path/region parameters, do as if point changed its coords
-		if(!getKernel().usePathAndRegionParameters()){
+
+		// if kernel doesn't use path/region parameters, do as if point changed
+		// its coords
+		if (!getKernel().usePathAndRegionParameters()) {
 			pointChanged(PI);
 			return;
 		}
@@ -668,7 +667,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		// to find minimum
 		double left = Math.max(startParam, minParam - step);
 		double right = Math.min(endParam, minParam + step);
-		ExtremumFinder extFinder= kernel.getExtremumFinder();
+		ExtremumFinder extFinder = kernel.getExtremumFinder();
 		double sampleResult = extFinder.findMinimum(left, right, distFun,
 				Kernel.MIN_PRECISION);
 
@@ -819,7 +818,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 			// Mirror point in circle
 			double r = c.getHalfAxes()[0];
-			GeoVec2D midpoint = (GeoVec2D) c.getTranslationVector();
+			GeoVec2D midpoint = c.getTranslationVector();
 			double a = midpoint.x;
 			double b = midpoint.y;
 			this.translate(-a, -b);
@@ -848,9 +847,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 */
 	@Override
 	public double distance(GeoPoint2 p) {
-		double t = getClosestParameter((GeoPoint2)p, 0);
-		return MyMath.length(funX.evaluate(t) - ((GeoPoint2)p).getX(),
-				funY.evaluate(t) - ((GeoPoint2)p).getY());
+		double t = getClosestParameter(p, 0);
+		return MyMath.length(funX.evaluate(t) - p.getX(),
+				funY.evaluate(t) - p.getY());
 	}
 
 	public void matrixTransform(double a00, double a01, double a02, double a10,
@@ -875,10 +874,10 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 				.plus(ma12);
 		ExpressionNode transZ = exprX.multiply(ma20).plus(exprY.multiply(ma21))
 				.plus(ma22);
-		funX.setExpression(new ExpressionNode(kernel, transX,
-				Operation.DIVIDE, transZ));
-		funY.setExpression(new ExpressionNode(kernel, transY,
-				Operation.DIVIDE, transZ));
+		funX.setExpression(new ExpressionNode(kernel, transX, Operation.DIVIDE,
+				transZ));
+		funY.setExpression(new ExpressionNode(kernel, transY, Operation.DIVIDE,
+				transZ));
 
 	}
 
@@ -897,8 +896,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			int pointIndex = i >= points.length ? 0 : i;
 			ExpressionNode greater = new ExpressionNode(kernel,
 					new ExpressionNode(kernel, fv, Operation.MINUS,
-							new MyDouble(kernel, i - 1)), Operation.ABS,
-					null);
+							new MyDouble(kernel, i - 1)), Operation.ABS, null);
 			coef = 0.5 * ((GeoPoint2) points[pointIndex]).getX() - 0.5
 					* ((GeoPoint2) points[i - 1]).getX() - cumulative;
 			coefY = 0.5 * ((GeoPoint2) points[pointIndex]).getY() - 0.5

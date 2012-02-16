@@ -11,12 +11,9 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 import geogebra.common.kernel.geos.GeoText;
-
-import java.awt.Color;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -58,15 +55,14 @@ public class GeoCasCell extends GeoElement {
 
 	private String evalCmd, evalComment;
 	private int row = -1; // for CAS view, set by Construction
-	
-	//use this cell as text field
-	private boolean useAsText;
-	private GeoText commentText;    //for the future, is only holding font infos at the moment
 
+	// use this cell as text field
+	private boolean useAsText;
+	private GeoText commentText; // for the future, is only holding font infos
+									// at the moment
 
 	public GeoCasCell(Construction c) {
 		super(c);
-		
 
 		input = "";
 		localizedInput = "";
@@ -77,11 +73,11 @@ public class GeoCasCell extends GeoElement {
 		postfix = "";
 		evalCmd = "";
 		evalComment = "";
-		useAsText=false;
+		useAsText = false;
 		commentText = new GeoText(c, "");
 
-		//setGeoText(commentText);
-		
+		// setGeoText(commentText);
+
 	}
 
 	/**
@@ -141,7 +137,7 @@ public class GeoCasCell extends GeoElement {
 				updateLocalizedInput(tpl);
 			}
 			return localizedInput;
-		} 
+		}
 		// input with internal command names
 		return input;
 	}
@@ -221,65 +217,65 @@ public class GeoCasCell extends GeoElement {
 
 		return latex;
 	}
-	
-	public boolean isUseAsText(){
+
+	public boolean isUseAsText() {
 		return useAsText;
 	}
-	
-	public void setUseAsText(boolean val){
+
+	public void setUseAsText(boolean val) {
 		useAsText = val;
-		//TODO: by expanding the GeoText functionality, this could become a problem
-		if(!val){
+		// TODO: by expanding the GeoText functionality, this could become a
+		// problem
+		if (!val) {
 			this.input = this.commentText.getTextString();
-		}
-		else{
+		} else {
 			this.commentText.setTextString(input);
 		}
 		suppressOutput = useAsText;
-		//recalc row height
-		update();              
+		// recalc row height
+		update();
 	}
-	
-	public void setFont(Font ft){
+
+	public void setFont(Font ft) {
 		setFontSize(ft.getSize());
 		setFontStyle(ft.getStyle());
 	}
-	
-	public void setFontStyle(int style){
+
+	public void setFontStyle(int style) {
 		commentText.setFontStyle(style);
 	}
-	
-	public geogebra.common.awt.Color getFontColor(){
+
+	public geogebra.common.awt.Color getFontColor() {
 		return this.getObjectColor();
 	}
-	
-	public void setFontColor(geogebra.common.awt.Color c){
+
+	public void setFontColor(geogebra.common.awt.Color c) {
 		this.setObjColor(c);
 	}
-	
-	public int getFontStyle(){
+
+	public int getFontStyle() {
 		return commentText.getFontStyle();
 	}
-	
-	public void setFontSize(int size){
+
+	public void setFontSize(int size) {
 		commentText.setFontSize(size);
 	}
-	
-	public int getFontSize(){
+
+	public int getFontSize() {
 		return commentText.getFontSize();
 	}
-	
-	public void setGeoText(GeoText gt){
-		if(gt!=null){
+
+	public void setGeoText(GeoText gt) {
+		if (gt != null) {
 			commentText = gt;
-			//setInput(gt.toString());
+			// setInput(gt.toString());
 		}
 	}
-	
-	public GeoText getGeoText(){
+
+	public GeoText getGeoText() {
 		return commentText;
 	}
-	
+
 	public boolean isEmpty() {
 		return isInputEmpty() && isOutputEmpty();
 	}
@@ -319,7 +315,8 @@ public class GeoCasCell extends GeoElement {
 		if (twinGeo != null && twinGeo.isIndependent() && twinGeo.isLabelSet()) {
 			// Update ASSIGNMENT of twin geo
 			// e.g. m = 8 changed in GeoGebra should set cell to m := 8
-			String assignmentStr = twinGeo.toCasAssignment(StringTemplate.defaultTemplate);
+			String assignmentStr = twinGeo
+					.toCasAssignment(StringTemplate.defaultTemplate);
 			if (suppressOutput)
 				assignmentStr = assignmentStr + ";";
 			if (setInput(assignmentStr)) {
@@ -336,16 +333,13 @@ public class GeoCasCell extends GeoElement {
 	 * @return success
 	 */
 	public boolean setInput(String inValue) {
- 
-		
-	
-		//if the cell is used as comment, treat it as empty
-		if(useAsText){
+
+		// if the cell is used as comment, treat it as empty
+		if (useAsText) {
 			suppressOutput = true;
 			inputVE = new ExpressionNode();
 			this.commentText.setTextString(inValue != null ? inValue : "");
-		}
-		else {    // parse input into valid expression
+		} else { // parse input into valid expression
 			suppressOutput = inValue.endsWith(";");
 			inputVE = parseGeoGebraCASInputAndResolveDummyVars(inValue);
 		}
@@ -356,7 +350,7 @@ public class GeoCasCell extends GeoElement {
 		setEvalCommand("");
 		evalComment = "";
 		setError(null);
-		
+
 		// update input and output variables
 		updateInputVariables(inputVE);
 
@@ -379,7 +373,7 @@ public class GeoCasCell extends GeoElement {
 	private void updateLocalizedInput(StringTemplate tpl) {
 		// for efficiency: localized input with local command names
 		currentLanguage = cons.getApplication().getLanguage();
-		localizedInput = localizeInput(input,tpl);
+		localizedInput = localizeInput(input, tpl);
 	}
 
 	/**
@@ -411,11 +405,10 @@ public class GeoCasCell extends GeoElement {
 
 		// inputVE will print the correct label, e.g. $4 for
 		// the row reference
-		
-		
+
 		input = inputVE.toAssignmentString(StringTemplate.noLocalDefault);
 
-		//TODO this always translates input.
+		// TODO this always translates input.
 		updateLocalizedInput(StringTemplate.defaultTemplate);
 	}
 
@@ -520,7 +513,7 @@ public class GeoCasCell extends GeoElement {
 	private void updateInputVariables(ValidExpression ve) {
 		// clear var sets
 		clearInVars();
-		
+
 		if (ve == null || useAsText)
 			return;
 
@@ -611,12 +604,12 @@ public class GeoCasCell extends GeoElement {
 	/**
 	 * Returns the input using command names in the current language.
 	 */
-	private String localizeInput(String input,StringTemplate tpl) {
+	private String localizeInput(String input, StringTemplate tpl) {
 		// replace all internal command names in input by local command names
 		if (tpl.isPrintLocalizedCommandNames()) {
 			// internal commands -> local commands
 			return translate(input, true);
-		} 
+		}
 		// keep internal commands
 		return input;
 	}
@@ -675,7 +668,7 @@ public class GeoCasCell extends GeoElement {
 
 		// replace commands with (
 		regexSb.setLength(0);
-		regexSb.append((CharSequence)regexPrefix);
+		regexSb.append(regexPrefix);
 		regexSb.append(oldCmd);
 		regexSb.append("[\\(]");
 		newCmdSb.setLength(0);
@@ -799,8 +792,7 @@ public class GeoCasCell extends GeoElement {
 		return inGeos;
 	}
 
-	private TreeSet<GeoElement> updateInputGeoElements(
-			TreeSet<String> inputVars) {
+	private TreeSet<GeoElement> updateInputGeoElements(TreeSet<String> inputVars) {
 		if (inputVars == null || inputVars.isEmpty())
 			return null;
 
@@ -815,7 +807,8 @@ public class GeoCasCell extends GeoElement {
 			if (geo == null) {
 				// try row reference lookup
 				// $ for previous row
-				if (varLabel.equals(ExpressionNodeConstants.CAS_ROW_REFERENCE_PREFIX)) {
+				if (varLabel
+						.equals(ExpressionNodeConstants.CAS_ROW_REFERENCE_PREFIX)) {
 					geo = row > 0 ? cons.getCasCell(row - 1) : cons
 							.getLastCasCell();
 				} else {
@@ -875,7 +868,8 @@ public class GeoCasCell extends GeoElement {
 				if (!success) {
 					// try $ row reference
 					node.replaceGeoDummyVariables(
-							ExpressionNodeConstants.CAS_ROW_REFERENCE_PREFIX, inGeo);
+							ExpressionNodeConstants.CAS_ROW_REFERENCE_PREFIX,
+							inGeo);
 				}
 			}
 		}
@@ -933,33 +927,43 @@ public class GeoCasCell extends GeoElement {
 	 * Returns whether this object only depends on named GeoElements defined in
 	 * the kernel.
 	 */
-	final public boolean includesOnlyDefinedVariables(){
+	final public boolean includesOnlyDefinedVariables() {
 		return includesOnlyDefinedVariables(false);
 	}
+
 	/**
-	 * Same as previous function, except ignoring the undefined variables x and y to provide
-	 * definition of functions like: f: x+y=1
+	 * Same as previous function, except ignoring the undefined variables x and
+	 * y to provide definition of functions like: f: x+y=1
 	 */
 	final public boolean includesOnlyDefinedVariables(boolean ignoreUndefinedXY) {
 		if (invars == null)
 			return true;
 
 		for (String varLabel : invars) {
-			if(!(ignoreUndefinedXY && (varLabel.equals("x") || varLabel.equals("y"))))       //provide definitions of funktions like f: x+y = 1 //TODO: find a better way
+			if (!(ignoreUndefinedXY && (varLabel.equals("x") || varLabel
+					.equals("y")))) // provide definitions of funktions like f:
+									// x+y = 1 //TODO: find a better way
 				if (kernel.lookupLabel(varLabel) == null)
 					return false;
 		}
 		return true;
 	}
+
 	/**
-	 * Returns whether this object depends on x and/or y 
+	 * Returns whether this object depends on x and/or y
 	 */
 	final public boolean includesXYVariables() {
 		if (invars == null)
 			return false;
 
 		for (String varLabel : invars) {
-			if(varLabel.equals("x") || varLabel.equals("y"))       //provide definitions of funktions like f: x+y = 1 //TODO: find a better way
+			if (varLabel.equals("x") || varLabel.equals("y")) // provide
+																// definitions
+																// of funktions
+																// like f: x+y =
+																// 1 //TODO:
+																// find a better
+																// way
 				return true;
 		}
 		return false;
@@ -1111,9 +1115,10 @@ public class GeoCasCell extends GeoElement {
 	 * Creates a twinGeo using the current output
 	 */
 	private void createTwinGeo() {
-		if(isError())
+		if (isError())
 			return;
-		boolean isXY = includesXYVariables();   		//are there x and/or y in formular
+		boolean isXY = includesXYVariables(); // are there x and/or y in
+												// formular
 		if (!isAssignment() || !includesOnlyDefinedVariables(true))
 			return;
 
@@ -1125,9 +1130,10 @@ public class GeoCasCell extends GeoElement {
 		// try to create twin geo for assignment, e.g. m := c + 3
 		GeoElement newTwinGeo = silentEvalInGeoGebra(outputVE);
 		if (newTwinGeo != null) {
-			if(isXY)
-				//only allow x and y for TwinGeo elements of functional type, prevents definitions like a:=x
-				if(!(newTwinGeo instanceof geogebra.common.kernel.arithmetic.Functional))   
+			if (isXY)
+				// only allow x and y for TwinGeo elements of functional type,
+				// prevents definitions like a:=x
+				if (!(newTwinGeo instanceof geogebra.common.kernel.arithmetic.Functional))
 					return;
 			setTwinGeo(newTwinGeo);
 		}
@@ -1287,11 +1293,11 @@ public class GeoCasCell extends GeoElement {
 	 * @return success
 	 */
 	final public boolean computeOutput() {
-		//do not compute output if this cell is used as a text cell
-		if(!useAsText)
+		// do not compute output if this cell is used as a text cell
+		if (!useAsText) {
 			return computeOutput(true);
-		else
-			return true;   //simulate success
+		}
+		return true; // simulate success
 	}
 
 	/**
@@ -1306,8 +1312,9 @@ public class GeoCasCell extends GeoElement {
 		// check for circular definition before we do anything
 		if (isCircularDefinition) {
 			setError("CircularDefinition");
-			if (doTwinGeoUpdate)
+			if (doTwinGeoUpdate) {
 				updateTwinGeo();
+			}
 			return false;
 		}
 
@@ -1341,10 +1348,11 @@ public class GeoCasCell extends GeoElement {
 
 			try {
 				// process inputExp in GeoGebra
-				GeoElement[] geos = kernel.getAlgebraProcessor()
+				GeoElement[] geos = kernel
+						.getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionHandling(
-								evalVE.toAssignmentString(StringTemplate.maxPrecision), false, false,
-								false);
+								evalVE.toAssignmentString(StringTemplate.maxPrecision),
+								false, false, false);
 
 				// GeoElement evalGeo = silentEvalInGeoGebra(evalVE);
 				if (geos != null) {
@@ -1389,8 +1397,9 @@ public class GeoCasCell extends GeoElement {
 		}
 
 		// update twinGeo
-		if (doTwinGeoUpdate)
+		if (doTwinGeoUpdate) {
 			updateTwinGeo();
+		}
 
 		// set back firstComputeOutput, see setInput()
 		firstComputeOutput = false;
@@ -1441,26 +1450,25 @@ public class GeoCasCell extends GeoElement {
 		// StringBuilder sb = new StringBuilder();
 		sb.append("\t<cellPair>\n");
 
-		//useAsText
-		if(useAsText){
+		// useAsText
+		if (useAsText) {
 			sb.append("\t\t");
 			sb.append("<useAsText>\n");
 			sb.append("\t\t\t");
-			
-			
+
 			sb.append("<FontStyle");
 			sb.append(" value=\"");
 			sb.append(getFontStyle());
 			sb.append("\" ");
 			sb.append("/>\n");
-			
+
 			sb.append("\t\t\t");
 			sb.append("<FontSize");
 			sb.append(" value=\"");
 			sb.append(getFontSize());
 			sb.append("\" ");
 			sb.append("/>\n");
-			
+
 			sb.append("\t\t\t");
 			sb.append("<FontColor");
 			sb.append(" r=\"");
@@ -1473,11 +1481,11 @@ public class GeoCasCell extends GeoElement {
 			sb.append(getFontColor().getGreen());
 			sb.append("\" ");
 			sb.append("/>\n");
-			
+
 			sb.append("\t\t");
 			sb.append("</useAsText>\n");
 		}
-		
+
 		// inputCell
 		if (!isInputEmpty()) {
 			sb.append("\t\t");
@@ -1485,24 +1493,24 @@ public class GeoCasCell extends GeoElement {
 			sb.append("\t\t\t");
 			sb.append("<expression");
 			sb.append(" value=\"");
-			if(useAsText){
+			if (useAsText) {
 				sb.append(StringUtil.encodeXML(commentText.getTextString()));
 				sb.append("\" ");
-			}else{
+			} else {
 				sb.append(StringUtil.encodeXML(input));
 				sb.append("\" ");
-	
+
 				if (evalVE != inputVE) {
 					if (!"".equals(prefix)) {
 						sb.append(" prefix=\"");
 						sb.append(StringUtil.encodeXML(prefix));
 						sb.append("\" ");
 					}
-	
+
 					sb.append(" eval=\"");
 					sb.append(StringUtil.encodeXML(getEvalText()));
 					sb.append("\" ");
-	
+
 					if (!"".equals(postfix)) {
 						sb.append(" postfix=\"");
 						sb.append(StringUtil.encodeXML(postfix));
@@ -1523,7 +1531,8 @@ public class GeoCasCell extends GeoElement {
 			sb.append("<expression");
 
 			sb.append(" value=\"");
-			sb.append(StringUtil.encodeXML(getOutput(StringTemplate.xmlTemplate)));
+			sb.append(StringUtil
+					.encodeXML(getOutput(StringTemplate.xmlTemplate)));
 			sb.append("\"");
 			if (isError()) {
 				sb.append(" error=\"true\"");

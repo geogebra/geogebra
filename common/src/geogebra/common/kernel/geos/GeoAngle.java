@@ -534,6 +534,7 @@ public class GeoAngle extends GeoNumeric {
 		return true;
 	}	
 	
+	@Override
 	public boolean canHaveClickScript() {
 		return isDrawable();
 	}
