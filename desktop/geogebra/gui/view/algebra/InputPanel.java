@@ -132,13 +132,7 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 	 * Hide/show line numbering in the text component
 	 */
 	public void setShowLineNumbering(boolean showLineNumbers) {
-		
-		// TODO: line numbering temporarily turned off
-		// see ticket # 1756
-		// (line numbering with wrap around lines is locking up ggb)
-		showLineNumbers = false;
-		
-		
+			
 		if (showLineNumbers) {
 			scrollPane.setRowHeaderView(new TextLineNumber(textComponent));
 		} 

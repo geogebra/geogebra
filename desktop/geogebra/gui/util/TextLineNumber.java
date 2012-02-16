@@ -1,5 +1,6 @@
 package geogebra.gui.util;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
 
 import java.awt.Color;
@@ -52,7 +53,7 @@ DocumentListener, PropertyChangeListener {
 	public final static float CENTER = 0.5f;
 	public final static float RIGHT = 1.0f;
 
-	private final static Border OUTER = new MatteBorder(0, 0, 0, 2, Color.GRAY);
+	private final static Border OUTER = new MatteBorder(0, 0, 0, 1, Color.GRAY);
 
 	private final static int HEIGHT = Integer.MAX_VALUE - 1000000;
 
@@ -100,8 +101,7 @@ DocumentListener, PropertyChangeListener {
 	public TextLineNumber(JTextComponent component, int minimumDisplayDigits) {
 		this.component = component;
 
-		setFont(component.getFont().deriveFont(Font.ITALIC));
-
+		setFont(component.getFont());
 		setBorderGap(5);
 		setDigitAlignment(RIGHT);
 		setMinimumDisplayDigits(minimumDisplayDigits);
@@ -109,9 +109,9 @@ DocumentListener, PropertyChangeListener {
 		setCurrentLineForeground(geogebra.awt.Color
 				.getAwtColor(GeoGebraColorConstants.BLACK));
 		this.setForeground(geogebra.awt.Color
-				.getAwtColor(GeoGebraColorConstants.GRAY5));
+				.getAwtColor(GeoGebraColorConstants.GRAY6));
 		this.setBackground(geogebra.awt.Color
-				.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
+				.getAwtColor(GeoGebraColorConstants.GRAY1));
 
 		component.getDocument().addDocumentListener(this);
 		component.addCaretListener(this);
@@ -277,8 +277,7 @@ DocumentListener, PropertyChangeListener {
 				.viewToModel(new Point(0, clip.y + clip.height));
 
 
-		int currentY = 0;
-		int currentLineNumber = 0;
+		
 		while (rowStartOffset <= endOffset) {
 			try {
 				if (isCurrentLine(rowStartOffset))
@@ -288,40 +287,22 @@ DocumentListener, PropertyChangeListener {
 
 				// Get the line number as a string and then determine the
 				// "X" and "Y" offsets for drawing the string.
-
 				String lineNumber = getTextLineNumber(rowStartOffset);
-				int stringWidth = fontMetrics.stringWidth(lineNumber);
-				int x = getOffsetX(availableWidth, stringWidth) + insets.left;
-				int y = getOffsetY(rowStartOffset, fontMetrics);
-				g.drawString(lineNumber, x, y);
-
-				currentY = y;
-				currentLineNumber = Integer.parseInt(lineNumber);
+				if(lineNumber != null){
+					int stringWidth = fontMetrics.stringWidth(lineNumber);
+					int x = getOffsetX(availableWidth, stringWidth) + insets.left;
+					int y = getOffsetY(rowStartOffset, fontMetrics);
+					g.drawString(lineNumber, x, y);
+				}
 
 				// Move to the next row
 				rowStartOffset = Utilities.getRowEnd(component, rowStartOffset) + 1;
 
 			} catch (Exception e) 
-			{   //do nothing
+			{   
+				AbstractApplication.debug(e.getMessage());
 			}
 		}
-
-		//TODO remove this?
-		/*
-		// add 50 extra line numbers to prevent empty lines (little bit of a hack)
-		int lineHeight = fontMetrics.getHeight();
-		g.setColor(getForeground());
-		for(int i=0; i<0; i++){
-			currentLineNumber ++;
-			currentY = currentY + lineHeight;
-			String lineNumber = "" + currentLineNumber;
-			int stringWidth = fontMetrics.stringWidth(lineNumber);
-			int x = getOffsetX(availableWidth, stringWidth) + insets.left;
-			g.drawString(lineNumber, x, currentY);
-		}
-		 */
-
-
 	}
 
 	/*
@@ -339,9 +320,10 @@ DocumentListener, PropertyChangeListener {
 			return false;
 	}
 
+	
 	/*
-	 * Get the line number to be drawn. The empty string will be returned when a
-	 * line of text has wrapped.
+	 * Get the line number to be drawn. A null string is returned when a line of
+	 * text has wrapped.
 	 */
 	protected String getTextLineNumber(int rowStartOffset) {
 		Element root = component.getDocument().getDefaultRootElement();
@@ -351,7 +333,7 @@ DocumentListener, PropertyChangeListener {
 		if (line.getStartOffset() == rowStartOffset)
 			return String.valueOf(index + 1);
 		else
-			return "";
+			return null;
 	}
 
 	/*
