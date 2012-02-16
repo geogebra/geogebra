@@ -21,7 +21,9 @@ import geogebra.common.awt.QuadCurve2D;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
 import geogebra.common.awt.Shape;
+import geogebra.common.awt.event.FocusListener;
 import geogebra.common.awt.font.TextLayout;
+import geogebra.common.main.AbstractApplication;
 
 /**
  * Creates AWT wrappers for web
@@ -220,6 +222,12 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
     public GradientPaint newGradientPaint(int x, int y, Color bg2, int x2,
             int i, Color bg) {
 	    return new geogebra.web.awt.GradientPaint(x,y,bg2,x2,i,bg);
+    }
+
+	@Override
+    public FocusListener newFocusListener(Object listener) {
+	    AbstractApplication.debug("Implementation needed"); // TODO Auto-generated method stub
+	    return null;
     }
 
 }

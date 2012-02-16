@@ -21,6 +21,7 @@ import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Arc2D;
 import geogebra.common.awt.Shape;
+import geogebra.common.awt.event.FocusListener;
 import geogebra.common.awt.font.TextLayout;
 
 public abstract class AwtFactory {
@@ -66,5 +67,6 @@ public abstract class AwtFactory {
 	public abstract GradientPaint newGradientPaint(int x, int y,
 			geogebra.common.awt.Color bg2, int x2, int i,
 			geogebra.common.awt.Color bg);
+	public abstract FocusListener newFocusListener(Object listener);
 	
 }

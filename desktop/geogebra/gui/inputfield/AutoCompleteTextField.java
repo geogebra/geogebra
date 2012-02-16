@@ -2,6 +2,8 @@ package geogebra.gui.inputfield;
 
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Font;
+import geogebra.common.awt.event.FocusListener;
+import geogebra.common.euclidian.DrawTextField;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.javax.swing.JLabel;
 import geogebra.common.kernel.Macro;
@@ -13,7 +15,6 @@ import geogebra.common.main.MyError;
 import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.Korean;
 import geogebra.common.util.TextObject;
-import geogebra.euclidian.DrawTextField;
 import geogebra.gui.autocompletion.CommandCompletionListCellRenderer;
 import geogebra.gui.autocompletion.CompletionsPopup;
 import geogebra.gui.util.GeoGebraIcon;
@@ -1284,5 +1285,9 @@ public class AutoCompleteTextField extends MathTextField implements
   public void setLabel(JLabel label) {
     ((geogebra.javax.swing.JLabel) label).getImpl().setLabelFor(this);
   }
+
+public void addFocusListener(FocusListener focusListener) {
+	super.addFocusListener((geogebra.awt.event.FocusListener) focusListener);
+}
 
 }

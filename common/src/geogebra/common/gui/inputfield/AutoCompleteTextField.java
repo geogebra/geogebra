@@ -2,6 +2,7 @@ package geogebra.common.gui.inputfield;
 
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Font;
+import geogebra.common.awt.event.FocusListener;
 import geogebra.common.javax.swing.JLabel;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.util.TextObject;
@@ -42,5 +43,7 @@ public interface AutoCompleteTextField extends GeoElementSelectionListener, Text
 	void setVisible(boolean b);
 
 	void setColumns(int length);
+
+	void addFocusListener(FocusListener focusListener);
 
 }

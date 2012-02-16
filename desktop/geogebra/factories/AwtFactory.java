@@ -23,6 +23,7 @@ import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.Rectangle2D;
 import geogebra.common.awt.RectangularShape;
 import geogebra.common.awt.Shape;
+import geogebra.common.awt.event.FocusListener;
 import geogebra.common.awt.font.TextLayout;
 import geogebra.common.euclidian.GeneralPathClipped;
 
@@ -223,6 +224,10 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	public GradientPaint newGradientPaint(int x, int y, Color bg2, int x2,
 			int i, Color bg) {
 		return new geogebra.awt.GradientPaint(x, y, bg2, x2, i, bg);
+	}
+	@Override
+	public FocusListener newFocusListener(Object listener) {
+		return new geogebra.awt.event.FocusListener(listener);
 	}
 
 	

@@ -2118,7 +2118,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 		case TEXTFIELD:
 
-			d = newDrawTextField((GeoTextField) geo);
+			d = new DrawTextField(this, (GeoTextField) geo);
 			break;
 
 		case POINT:
@@ -2284,8 +2284,6 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 		return d;
 	}
-
-	public abstract Drawable newDrawTextField(GeoTextField geo);
 
 
 	final public static boolean usesSelectionAsInput(int mode) {
@@ -4520,4 +4518,5 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 		public abstract void add(Box box);
 
+		public abstract void remove(Box box);
 }

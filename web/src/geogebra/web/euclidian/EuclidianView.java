@@ -241,7 +241,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	@Override
     public Font getFont() {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
+	    return g2dtemp.getFont();
     }
 
     public geogebra.common.awt.Color getBackgroundCommon() {
@@ -429,13 +429,6 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	    
     }
 
-
-	@Override
-    public Drawable newDrawTextField(GeoTextField geo) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
-    }
-
 	@Override
     public void setBackground(geogebra.common.awt.Color bgColor) {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
@@ -491,6 +484,17 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	@Override
     public void add(Box box) {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+	    getApplication().getEuclidianViewpanel().add(
+	    		geogebra.web.javax.swing.Box.getImpl((geogebra.web.javax.swing.Box) box),
+	    		(int)box.getBounds().getX(), (int)box.getBounds().getY());
+	    
+    }
+
+	@Override
+    public void remove(Box box) {
+		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+	    getApplication().getEuclidianViewpanel().remove(
+	    		geogebra.web.javax.swing.Box.getImpl((geogebra.web.javax.swing.Box) box));
 	    
     }
 

@@ -16,6 +16,7 @@ import geogebra.common.awt.Font;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.DrawButton;
+import geogebra.common.euclidian.DrawTextField;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.GetViewId;
@@ -625,12 +626,6 @@ public class EuclidianView extends EuclidianViewND implements
 
 		return !((getApplication().getGuiManager() != null) && (this.getViewID() != evp
 				.getViewId()));
-	}
-
-
-	@Override
-	public Drawable newDrawTextField(GeoTextField geo) {
-		return new DrawTextField(this,geo);
 	}
 
 

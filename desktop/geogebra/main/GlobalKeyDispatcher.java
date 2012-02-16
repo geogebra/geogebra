@@ -1,6 +1,7 @@
 package geogebra.main;
 
 import geogebra.common.euclidian.AbstractEuclidianController;
+import geogebra.common.euclidian.DrawTextField;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Kernel;
@@ -18,7 +19,6 @@ import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.CopyPaste;
-import geogebra.euclidian.DrawTextField;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;

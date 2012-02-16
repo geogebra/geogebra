@@ -66,6 +66,7 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -85,6 +86,7 @@ public class Application extends AbstractApplication implements KeyDownHandler{
 	
 	protected ImageManager imageManager;
 
+	private AbsolutePanel euclidianViewPanel;
 	private Canvas canvas;
 	private geogebra.common.plugin.GgbAPI ggbapi;
 	private HashMap<String, String> currentFile = null;
@@ -367,6 +369,7 @@ public class Application extends AbstractApplication implements KeyDownHandler{
 		geogebra.common.factories.AwtFactory.prototype = new geogebra.web.factories.AwtFactory();
 		geogebra.common.factories.FormatFactory.prototype = new geogebra.web.factories.FormatFactory();
 		geogebra.common.factories.CASFactory.prototype = new geogebra.web.factories.CASFactory();
+		geogebra.common.factories.SwingFactory.prototype = new geogebra.web.factories.SwingFactory();
 		geogebra.common.util.StringUtil.prototype = new geogebra.common.util.StringUtil();
 		// TODO: probably there is better way
 		geogebra.common.awt.Color.black = geogebra.web.awt.Color.black;
@@ -378,7 +381,10 @@ public class Application extends AbstractApplication implements KeyDownHandler{
 		
 		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.web.euclidian.HatchingHandler();
 		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.web.euclidian.EuclidianStatic();
+		
+		euclidianViewPanel = new AbsolutePanel();
 		this.canvas = canvas;
+		euclidianViewPanel.add(this.canvas);
 		canvas.setWidth("1px");
 		canvas.setHeight("1px");
 		canvas.setCoordinateSpaceHeight(1);
@@ -423,6 +429,10 @@ public class Application extends AbstractApplication implements KeyDownHandler{
 		return canvas;
 	}
 
+	public AbsolutePanel getEuclidianViewpanel(){
+		return euclidianViewPanel;
+	}
+	
 	public void loadGgbFile(HashMap<String, String> archiveContent) throws Exception {
 		((EuclidianView) euclidianView).setDisableRepaint(true);
 		loadFile((HashMap<String, String>)archiveContent.clone());
@@ -932,10 +942,11 @@ public class Application extends AbstractApplication implements KeyDownHandler{
 
 	
 
-	public Widget buildApplicationPanel() {
-	    return canvas;
+	public Widget buildApplicationPanel() {	
+	    return euclidianViewPanel;
     }
 
+	
 	public void showLoadingAnimation(boolean go) {
 		//showSplashImageOnCanvas();
 		
