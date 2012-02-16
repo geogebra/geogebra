@@ -1,0 +1,187 @@
+package geogebra.web.main;
+
+public interface MyKeyCodes {
+	
+	/**
+	 * Contains the native key codes previously defined in
+	 * {@link com.google.gwt.user.client.ui.KeyboardListener}. When converting
+	 * keyboard listener instances, developers can use the following static import
+	 * to access these constants:
+	 * 
+	 * <pre> import static com.google.gwt.event.dom.client.KeyCodes.*; </pre>
+	 * 
+	 * These constants are defined with an int data type in order to be compatible
+	 * with the constants defined in
+	 * {@link com.google.gwt.user.client.ui.KeyboardListener}.
+	 * 
+	 * @author gabor
+	 * Because the original KeyCodes class has a private constructor, cant be extended,
+	 * so I must create an own one.
+	 */
+	
+	  /**
+	   * Alt key code.
+	   */
+	  public static final int KEY_ALT = 18;
+
+	  /**
+	   * Backspace key code.
+	   */
+	  public static final int KEY_BACKSPACE = 8;
+	  /**
+	   * Control key code.
+	   */
+	  public static final int KEY_CTRL = 17;
+
+	  /**
+	   * Delete key code.
+	   */
+	  public static final int KEY_DELETE = 46;
+
+	  /**
+	   * Down arrow code.
+	   */
+	  public static final int KEY_DOWN = 40;
+
+	  /**
+	   * End key code.
+	   */
+	  public static final int KEY_END = 35;
+
+	  /**
+	   * Enter key code.
+	   */
+	  public static final int KEY_ENTER = 13;
+	  /**
+	   * Escape key code.
+	   */
+	  public static final int KEY_ESCAPE = 27;
+	  /**
+	   * Home key code.
+	   */
+	  public static final int KEY_HOME = 36;
+	  /**
+	   * Left key code.
+	   */
+	  public static final int KEY_LEFT = 37;
+	  /**
+	   * Page down key code.
+	   */
+	  public static final int KEY_PAGEDOWN = 34;
+	  /**
+	   * Page up key code.
+	   */
+	  public static final int KEY_PAGEUP = 33;
+	  /**
+	   * Right arrow key code.
+	   */
+	  public static final int KEY_RIGHT = 39;
+	  /**
+	   * Shift key code.
+	   */
+	  public static final int KEY_SHIFT = 16;
+
+	  /**
+	   * Tab key code.
+	   */
+	  public static final int KEY_TAB = 9;
+	  /**
+	   * Up Arrow key code.
+	   */
+	  public static final int KEY_UP = 38;	  
+	  /**
+	   * Space key
+	   */
+	  public static final int KEY_SPACE = 32;
+	  
+	  /**
+	   * F9
+	   */
+	  public static final int KEY_F9 = 120;
+	  /**
+	   * 0-9
+	   */
+	  public static final int KEY_0 = 48;
+	  
+	  public static final int KEY_1 = 49;
+	  
+	  public static final int KEY_2 = 50;
+	  
+	  public static final int KEY_3 = 51;
+	  
+	  public static final int KEY_4 = 52;
+	  
+	  public static final int KEY_5 = 53;
+	  
+	  public static final int KEY_6 = 54;
+	  
+	  public static final int KEY_7 = 55;
+	  
+	  public static final int KEY_8 = 56;
+	  
+	  public static final int KEY_9 = 57;
+	  /**
+	   * NUMPAD_X
+	   */
+	  public static final int KEY_NUMPAD0 = 96;
+	  
+	  public static final int KEY_NUMPAD1 = 97;
+
+	  public static final int KEY_NUMPAD2 = 98;
+	  
+	  public static final int KEY_NUMPAD3 = 99;
+	  
+	  public static final int KEY_NUMPAD4 = 100;
+	  
+	  public static final int KEY_NUMPAD5 = 101;
+	  
+	  public static final int KEY_NUMPAD6 = 102;
+	  
+	  public static final int KEY_NUMPAD7 = 103;
+	  
+	  public static final int KEY_NUMPAD8 = 104;
+	  
+	  public static final int KEY_NUMPAD9 = 105;
+
+	  public static final int KEY_C = 67;
+	  
+	  public static final int KEY_D = 68;
+	  
+	  public static final int KEY_E = 69;
+	  
+	  public static final int KEY_F = 70;
+	  
+	  public static final int KEY_G = 71;
+	  
+	  public static final int KEY_H = 72;
+	  
+	  public static final int KEY_J = 74;
+	  
+	  public static final int KEY_M = 77;
+	  
+	  public static final int KEY_N = 78;
+	  
+	  public static final int KEY_Q = 81;
+	  
+	  public static final int KEY_R = 82;
+	  
+	  public static final int KEY_PLUS = 107;
+	  
+	  public static final int KEY_MINUS = 109;
+	    
+	  public static final int KEY_EQUALS = 187;
+	  
+	  public static final int KEY_S = 83;
+	  
+	  public static final int KEY_V = 86;
+	  
+	  public static final int KEY_Y = 89;
+	  
+	  public static final int KEY_Z = 90;
+	  
+	  
+	  
+	  
+	  
+	  
+}

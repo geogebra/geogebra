@@ -91,4 +91,8 @@ public class GeoGebraFrame extends VerticalPanel {
 		return new Application();
 	}
 
+	public static ArrayList<GeoGebraFrame> getInstances() {
+	    return instances;
+    }
+
 }
