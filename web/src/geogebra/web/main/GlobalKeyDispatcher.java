@@ -22,7 +22,21 @@ public class GlobalKeyDispatcher extends
 	}
 
 	public void onKeyPress(KeyPressEvent event) {
-	    GWT.log(event.getCharCode()+"");
+		//no it is private, but can be public, also it is void, but can return boolean as in desktop, if needed
+	    dispatchEvent(event);
+    }
+
+	private void dispatchEvent(KeyPressEvent event) {
+	    //we ust find out somethinkg here to identify the component that fired this, like class names for example,
+		//id-s or data-param-attributes
+		
+		//we have keypress here only
+		handleKeyPressed(event);
+	    
+    }
+
+	private void handleKeyPressed(KeyPressEvent event) {
+	    
     }
 
 }

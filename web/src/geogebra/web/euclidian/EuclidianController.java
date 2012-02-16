@@ -160,6 +160,8 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	}
 
 	public void onMouseWheel(MouseWheelEvent event) {
+		//don't want to roll the scrollbar
+		 event.preventDefault();
 		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),event.getDeltaY());
 		 wrapMouseWheelMoved(e);
 		 e.release();
