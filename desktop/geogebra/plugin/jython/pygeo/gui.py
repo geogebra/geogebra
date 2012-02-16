@@ -761,13 +761,14 @@ class ScriptPane(object):
 
 class EventsPane(ActionListener):
     
-    def __init__(self, api):
+    def __init__(self, window, api):
         self.api = api
         self.component = JPanel(BorderLayout())
 
         # Create editor pane
         scrollpane = JScrollPane()
-        self.script_area = InputPane()
+        self.script_area = InputPane(window)
+        self.script_area.undo = UndoManager()
         line_numbers = LineNumbering(self.script_area.component)
         scrollpane.viewport.view = self.script_area.component
         scrollpane.rowHeaderView = line_numbers.component
@@ -791,21 +792,56 @@ class EventsPane(ActionListener):
         self.update_geos()
         interface.addEventListener("add", self.event_listener)
         interface.addEventListener("remove", self.event_listener)
-    
+        interface.addEventListener("rename", self.event_listener)
+        
+        # Hack to be able to change the objects_box
+        self.building_objects_box = False
+        
     def indent_selection(self):
         return self.script_area.indent_selection()
     def dedent_selection(self):
         return self.script_area.dedent_selection()
 
     def update_geos(self):
-        self.objects_box.removeAllItems()
-        self.geos = self.api.getAllGeos()
-        for geo in self.geos:
-            tp = API.Geo.getTypeString(geo)
-            label = API.Geo.getLabel(geo)
-            self.objects_box.addItem(tp + " " + label)
+        try:
+            self.building_objects_box = True
+            self.objects_box.removeAllItems()
+            self.geos = self.api.getAllGeos()
+            for geo in self.geos:
+                tp = API.Geo.getTypeString(geo)
+                label = API.Geo.getLabel(geo)
+                self.objects_box.addItem(tp + " " + label)
+        finally:
+            self.building_objects_box = False
+        
+        if not self.geos:
+            self.current = None
+            self.objects_box.enabled = False
+            self.events_box.enabled = False
+            self.script_area.input = ""
+            self.script_area.component.enabled = False
+        else:
+            changed = False
+            if self.current is None:
+                index, event = 0, 'click'
+                changed = True
+            else:
+                geo, event = self.current
+                try:
+                    index = self.geos.index(geo)
+                except ValueError:
+                    index, event = 0, 'click'
+                    changed = True
+            self.events_box.selectedItem = event
+            self.objects_box.selectedIndex = index
+            self.events_box.enabled = True
+            self.objects_box.enabled = True
+            self.script_area.component.enabled = True
+            if changed:
+                self.update_script_area()
         self.objects_box.repaint()
-
+        self.events_box.repaint()
+    
     def event_listener(self, evt, target):
         self.update_geos()
     
@@ -824,14 +860,16 @@ class EventsPane(ActionListener):
         self.current = geo, evt
         getter = "get" + evt.capitalize() + "Script"
         self.script_area.input = getattr(API.Geo, getter)(geo)
-
+        self.script_area.reset_undo()
+        
     def reset(self):
         self.current=None
         self.update_geos()
     
     # Implementation of ActionEvent
     def actionPerformed(self, evt):
-        self.update_script_area()
+        if not self.building_objects_box:
+            self.update_script_area()
 
 
 class PythonWindow(ActionListener, ChangeListener):
@@ -847,7 +885,7 @@ class PythonWindow(ActionListener, ChangeListener):
         
         self.interactive_pane = InteractivePane(self, api)
         self.script_pane = ScriptPane(self, api)
-        self.events_pane = EventsPane(api)
+        self.events_pane = EventsPane(self, api)
         
         tabs.addTab("Interactive", self.interactive_pane.component)
         tabs.addTab("Script", self.script_pane.component)
