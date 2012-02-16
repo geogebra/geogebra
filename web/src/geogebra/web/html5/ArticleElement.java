@@ -20,6 +20,10 @@ public final class ArticleElement extends Element {
 		return (ArticleElement) element;
 	}
 
+	protected ArticleElement() {
+
+	}
+
 	public void add(Widget w) {
 		this.appendChild(w.getElement());
 	}
