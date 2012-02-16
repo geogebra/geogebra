@@ -14,7 +14,7 @@
 
 import os, shutil, sys, tarfile, tempfile
 if len(sys.argv) != 8:
-	print("Error: Eight arguments are expected.")
+	print("Error: Seven arguments are expected.")
 	sys.exit(1)
 if not os.path.exists(sys.argv[2]):
 	print("Error: "+sys.argv[2]+" does not exist.")
@@ -98,7 +98,7 @@ try:
 		print("Error: "+java_filename+" does not create expected folder.")
 		sys.exit(1)
 	with open("geogebra-portable", "w") as start_script_geogebra_portable_file:
-		start_script_geogebra_portable_file_lines = ["#!/bin/bash\n", "#---------------------------------------------\n", "# Script to start GeoGebra-Portable\n", "#---------------------------------------------\n", "\n", "#---------------------------------------------\n", "# Export name of this script\n", "\n", "export GG_SCRIPTNAME=$(basename $0)\n", "\n", "#---------------------------------------------\n", "# Find out path of this script\n", "\n", "GG_PATH=\"${BASH_SOURCE[0]}\"\n", "if [ -h \"${GG_PATH}\" ]; then\n", "\twhile [ -h \"${GG_PATH}\" ]; do\n", "\t\tGG_PATH=`readlink \"${GG_PATH}\"`\n", "\tdone\n", "fi\n", "pushd . > /dev/null\n", "cd `dirname ${GG_PATH}` > /dev/null\n", "GG_PATH=`pwd`\n", "popd > /dev/null\n", "\n", "#---------------------------------------------\n", "# Export Java Command\n", "\n", "export JAVACMD=\"$GG_PATH/"+jre_dir+"/bin/java\"\n", "\n", "#---------------------------------------------\n", "# Run\n", "\n", "exec \"$GG_PATH/geogebra/geogebra\" --settingsfile=\"$GG_PATH/geogebra.properties\" \"$@\"\n"]
+		start_script_geogebra_portable_file_lines = ["#!/bin/bash\n", "#---------------------------------------------\n", "# Script to start GeoGebra-Portable\n", "#---------------------------------------------\n", "\n", "#---------------------------------------------\n", "# Export name of this script\n", "\n", "export GG_SCRIPTNAME=$(basename $0)\n", "\n", "#---------------------------------------------\n", "# Find out path of this script\n", "\n", "GG_PATH=\"${BASH_SOURCE[0]}\"\n", "if [ -h \"${GG_PATH}\" ]; then\n", "\twhile [ -h \"${GG_PATH}\" ]; do\n", "\t\tGG_PATH=`readlink \"${GG_PATH}\"`\n", "\tdone\n", "fi\n", "pushd . > /dev/null\n", "cd `dirname ${GG_PATH}` > /dev/null\n", "GG_PATH=`pwd`\n", "popd > /dev/null\n", "\n", "#---------------------------------------------\n", "# Export Java Command\n", "\n", "export JAVACMD=\"$GG_PATH/"+jre_dir+"/bin/java\"\n", "\n", "#---------------------------------------------\n", "# Export path of directory containing .$GG_SCRIPTNAME/geogebra.conf\n", "\n", "export GG_CONFIG_PATH=\"$GG_PATH\"\n", "\n", "#---------------------------------------------\n", "# Run\n", "\n", "exec \"$GG_PATH/geogebra/geogebra\" --settingsfile=\"$GG_PATH/geogebra.properties\" \"$@\"\n"]
 		start_script_geogebra_portable_file.writelines(start_script_geogebra_portable_file_lines)
 	os.chmod("geogebra-portable",0o755)
 	with open("readme.txt", "w") as readme_file:
