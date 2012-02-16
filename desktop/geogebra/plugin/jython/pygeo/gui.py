@@ -391,8 +391,9 @@ class LineNumbering(DocumentListener):
         self.resize(document_linecount(evt.document))
 
 
-class InputPane(KeyListener, DocumentListener):
-    def __init__(self):
+class InputPane(KeyListener, DocumentListener, FocusListener, UndoableEditListener):
+    def __init__(self, window=None):
+        self.window = window
         self.component = NoWrapJTextPane(
             border=BorderFactory.createEmptyBorder(5, 5, 5, 5)
         )
@@ -461,6 +462,10 @@ class InputPane(KeyListener, DocumentListener):
 
         # This hack to prevent styling to be recorded
         self.changing_styles = False
+        self._undo = None
+        if self.window:
+            self.component.addFocusListener(self)
+            self.doc.addUndoableEditListener(self)
     
     # Moving the caret
     def moveCaretToStart(self):
@@ -475,6 +480,19 @@ class InputPane(KeyListener, DocumentListener):
         self.doc.insertString(0, input, self.parent_style)
         self.component.setCaretPosition(0)
     input = property(_getinput, _setinput)
+
+    def reset_undo(self):
+        if self._undo is not None:
+            self._undo.discardAllEdits()
+            self.window.update_undo_state(self._undo)
+
+    def _getundo(self):
+        return self._undo
+    def _setundo(self, undo):
+        if self.window.undo is self._undo:
+            self.window.update_undo_state(undo)
+        self._undo = undo
+    undo = property(_getundo, _setundo)
 
     def getline(self, offset):
         """Return the start and end offsets of the line at offset"""
@@ -560,10 +578,24 @@ class InputPane(KeyListener, DocumentListener):
     def removeUpdate(self, evt):
         self.set_line_style(evt.offset - 1)
 
+    # Implementation of FocusListener
+    def focusGained(self, evt):
+        self.window.update_undo_state(self._undo)
+    def focusLost(self, evt):
+        self.window.update_undo_state(None)
+
+    # Implementation of UndoableEditListener
+    def undoableEditHappened(self, evt):
+        if self.changing_styles:
+            return
+        if self._undo is not None:
+            self._undo.addEdit(evt.edit)
+            self.window.update_undo_state(self._undo)
+
 
 class InteractiveInput(InputPane):
-    def __init__(self, checks_disabled, runcode):
-        InputPane.__init__(self)
+    def __init__(self, window, checks_disabled, runcode):
+        InputPane.__init__(self, window)
         self.checks_disabled = checks_disabled
         self.runcode = runcode
     def keyTyped(self, evt):
@@ -601,7 +633,7 @@ class MyStream(object):
 
 class InteractivePane(ActionListener, DocumentListener):
 
-    def __init__(self, api):
+    def __init__(self, window, api):
         self.api = api
         self.component = JPanel(BorderLayout())
         
@@ -609,7 +641,12 @@ class InteractivePane(ActionListener, DocumentListener):
         inputPanel = JPanel()
         inputPanel.layout = GridLayout(1, 1)
         self.check_disabled = LockManager()
-        self.input = InteractiveInput(self.check_disabled, self.runcode)
+        self.input = InteractiveInput(
+            window,
+            self.check_disabled,
+            self.runcode
+        )
+        self.input.undo = UndoManager()
         self.input.component.document.addDocumentListener(self)
         inputPanel.add(self.input.component)
         self.outputpane = OutputPane()
@@ -674,6 +711,7 @@ class InteractivePane(ActionListener, DocumentListener):
         try:
             with self.check_disabled:
                 self.input.input = self.history.back()
+                self.input.reset_undo()
                 self.input.move_caret_to_end()
         except InputHistory.OutOfBounds:
             pass
@@ -682,30 +720,30 @@ class InteractivePane(ActionListener, DocumentListener):
         try:
             with self.check_disabled:
                 self.input.input = self.history.forward()
+                self.input.reset_undo()
                 self.input.move_caret_to_end()
         except InputHistory.OutOfBounds:
             self.input.input = self.current_text
+            self.input.reset_undo()
             self.input.move_caret_to_end()
             self.history.reset_position()
 
 
-class ScriptPane(UndoableEditListener, FocusListener):
+class ScriptPane(object):
 
     def __init__(self, window, api):
-        self.window = window
         self.api = api
         self.component = JPanel(BorderLayout())
 
         # Create editor pane
         scrollpane = JScrollPane()
-        self.script_area = InputPane()
+        self.script_area = InputPane(window)
         line_numbers = LineNumbering(self.script_area.component)
         scrollpane.viewport.view = self.script_area.component
         scrollpane.rowHeaderView = line_numbers.component
         self.component.add(scrollpane, BorderLayout.CENTER)
-        self.undo = UndoManager()
-        self.script_area.doc.addUndoableEditListener(self)
-        self.script_area.component.addFocusListener(self)
+        
+        self.script_area.undo = UndoManager()
         self.reset()
         
     def indent_selection(self):
@@ -715,25 +753,10 @@ class ScriptPane(UndoableEditListener, FocusListener):
 
     def reset(self):
         self.script_area.input = self.api.getInitScript()
-        self.undo.discardAllEdits()
-        if self.window.undo is self.undo:
-            self.window.update_undo_state(self.undo)
-    
+        self.script_area.reset_undo()
+        
     def save_script(self):
         self.api.setInitScript(self.script_area.input)
-
-    # Implementation of UndoableEditListener
-    def undoableEditHappened(self, evt):
-        if self.script_area.changing_styles:
-            return
-        self.undo.addEdit(evt.edit)
-        self.window.update_undo_state(self.undo)
-        
-    # Implementation of FocusListener
-    def focusGained(self, evt):
-        self.window.update_undo_state(self.undo)
-    def focusLost(self, evt):
-        self.window.update_undo_state(None)
 
 
 class EventsPane(ActionListener):
@@ -822,7 +845,7 @@ class PythonWindow(ActionListener, ChangeListener):
         self.make_menubar()
         self.update_undo_state(None)
         
-        self.interactive_pane = InteractivePane(api)
+        self.interactive_pane = InteractivePane(self, api)
         self.script_pane = ScriptPane(self, api)
         self.events_pane = EventsPane(api)
         
@@ -934,7 +957,6 @@ class PythonWindow(ActionListener, ChangeListener):
         """This is called when a new file is loaded"""
         self.script_pane.reset()
         self.events_pane.reset()
-        print "resetting..."
     
     def toggle_visibility(self):
         self.frame.visible = not self.frame.visible
