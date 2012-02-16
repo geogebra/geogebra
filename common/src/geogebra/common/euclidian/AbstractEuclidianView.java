@@ -2737,6 +2737,8 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 			return true;
 		}
+
+		public abstract void paintBackground(geogebra.common.awt.Graphics2D g2);
 		
 		//@Override
 		final public void paint(geogebra.common.awt.Graphics2D g2) {
@@ -2753,10 +2755,8 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 					if ((getWidth() > 1) && (getHeight() > 1)) {
 						// only set firstPaint to false if the bgImage was generated
 						updateSize();
-						if (bgImage.isLoaded())
-							g2.drawImage(bgImage, 0, 0, null);
-						else
-							drawBackgroundWithImages(g2);
+						paintBackground(g2);
+						//g2.drawImage(bgImage, 0, 0, null);
 						firstPaint = false;
 					} else {
 						drawBackgroundWithImages(g2);
@@ -2765,11 +2765,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 					drawBackgroundWithImages(g2);
 				}
 			} else {
-				if (bgImage.isLoaded())
-					// draw background image
-					g2.drawImage(bgImage, 0, 0, null);
-				else
-					drawBackgroundWithImages(g2);
+				paintBackground(g2);
 			}
 
 			/*

@@ -33,8 +33,4 @@ public class BufferedImage implements geogebra.common.awt.BufferedImage {
 		return new geogebra.awt.Graphics2D((java.awt.Graphics2D)impl.getGraphics());
 	}
 
-	// this is important in the Web version
-	public boolean isLoaded() {
-		return true;
-	}
 }

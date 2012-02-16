@@ -91,7 +91,11 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 	public void repaint() {
 		evjpanel.repaint();
 	}
-	
+
+	public void paintBackground(geogebra.common.awt.Graphics2D g2) {
+		g2.drawImage(bgImage, 0, 0, null);
+	}
+
 	public void add(Component comp) {
 		evjpanel.add(comp);
 	}

@@ -554,7 +554,15 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
     	context.drawImage(bi.getImageElement(), x, y);
     }
 
-	
+    public void drawGraphics(geogebra.web.awt.Graphics2D gother, int x, int y,
+            BufferedImageOp op) {
+
+    	if (gother==null)
+    		return;
+
+    	context.drawImage(gother.getCanvas().getCanvasElement(), x, y);
+    }
+
     @Override
     public void fillRect(int x, int y, int w, int h) {
     	context.fillRect(x, y, w, h);

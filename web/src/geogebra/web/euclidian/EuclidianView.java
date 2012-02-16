@@ -85,6 +85,11 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		bgGraphics = null;
 	}
 
+	public void paintBackground(geogebra.common.awt.Graphics2D g2) {
+		((geogebra.web.awt.Graphics2D)g2).drawGraphics(
+				(geogebra.web.awt.Graphics2D)bgGraphics, 0, 0, null);
+	}
+
 	// STROKES
 	protected static MyBasicStroke standardStroke = new MyBasicStroke(1.0f);
 
