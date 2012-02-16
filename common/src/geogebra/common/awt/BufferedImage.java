@@ -7,6 +7,8 @@ public interface BufferedImage {
 	int getWidth();
 
 	int getHeight();
+	
+	boolean isLoaded();
 
 	geogebra.common.awt.Graphics2D createGraphics();
 

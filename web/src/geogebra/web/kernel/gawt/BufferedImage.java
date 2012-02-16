@@ -17,40 +17,26 @@ public class BufferedImage {
 
 	public BufferedImage(int width, int height, int imageType, boolean opaque) {
 
-		/* I think the error is somewhere else
-
 		canv = Canvas.createIfSupported();
 		canv.setCoordinateSpaceWidth(width);
 		canv.setCoordinateSpaceHeight(height);
 		canv.setWidth(width+"px");
 		canv.setHeight(height+"px");
 
-		/*Context2d c2d = nc.getContext2d();
-		//com.google.gwt.canvas.dom.client.FillStrokeStyle fss = c2d.getStrokeStyle();
-		//com.google.gwt.canvas.dom.client.FillStrokeStyle fsf = c2d.getFillStyle();
-		c2d.setGlobalCompositeOperation(Context2d.Composite.COPY);
-		c2d.setStrokeStyle(CssColor.make("rgba(255,255,255,0.0)"));
-		c2d.setFillStyle(CssColor.make("rgba(255,255,255,0.0)"));
-		c2d.fillRect(0, 0, width, height);
-		c2d.fill();
-		//c2d.setStrokeStyle(fss);
-		//c2d.setFillStyle(fsf);
+		if (opaque) {
+			Context2d c2d = canv.getContext2d();
+			//com.google.gwt.canvas.dom.client.FillStrokeStyle fss = c2d.getStrokeStyle();
+			//com.google.gwt.canvas.dom.client.FillStrokeStyle fsf = c2d.getFillStyle();
+			c2d.setGlobalCompositeOperation(Context2d.Composite.COPY);
+			c2d.setStrokeStyle(CssColor.make("rgba(255,255,255,1.0)"));
+			c2d.setFillStyle(CssColor.make("rgba(255,255,255,1.0)"));
+			c2d.fillRect(0, 0, width, height);
+			c2d.fill();
+			//c2d.setStrokeStyle(fss);
+			//c2d.setFillStyle(fsf);
+		}
 
 		img = getImageElement();
-
-
-		/* This throws an exception, this way GeoGebraWeb works but tracing doesn't
-		 * should not be used anyway...*/
-
-		img = ImageElement.as(DOM.createImg());
-		img.setWidth(width);
-		img.setHeight(height);
-
-		CanvasElement nc = CanvasElement.createObject().cast();
-		nc.setWidth(width);
-		nc.setHeight(height);
-		img.setSrc(nc.toDataUrl());
-		/**/
 	}
 
 	public BufferedImage(int width, int height, int imageType) {
@@ -125,5 +111,9 @@ public class BufferedImage {
 			c2d.drawImage(img,0,0);
 		}
 		return canv;
+	}
+
+	public boolean isLoaded() {
+		return img.getPropertyBoolean("complete");
 	}
 }

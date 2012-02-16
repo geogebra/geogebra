@@ -79,6 +79,11 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		}
     }
 
+	public void reInit() {
+		firstPaint = true;
+		bgImage = null;
+		bgGraphics = null;
+	}
 
 	// STROKES
 	protected static MyBasicStroke standardStroke = new MyBasicStroke(1.0f);
@@ -259,12 +264,11 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
-	
-	
 
-	
+
     public void repaint() {
-	    paint(g2p);
+    	if (!disableRepaint)
+    		paint(g2p);
     }
 
 	@Override
@@ -338,7 +342,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
     }
 
 	private void createImage() {
-		bgImage = new geogebra.web.awt.BufferedImage(getWidth(), getHeight(), 0, true);
+		bgImage = new geogebra.web.awt.BufferedImage(getWidth(), getHeight(), 0, false);
 		bgGraphics = bgImage.createGraphics();
 		if (antiAliasing) {
 			setAntialiasing(bgGraphics);

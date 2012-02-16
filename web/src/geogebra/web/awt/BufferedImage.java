@@ -64,4 +64,8 @@ public class BufferedImage implements geogebra.common.awt.BufferedImage {
 			return null;
 		return ((BufferedImage)img).impl;
     }
+
+	public boolean isLoaded() {
+		return impl.isLoaded();
+	}
 }
