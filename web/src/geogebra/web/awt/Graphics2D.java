@@ -275,19 +275,19 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 				jsarrn.setLength(dasharr.length);
 				for (int i = 0; i < dasharr.length; i++)
 					jsarrn.set(i, dasharr[i]);
-				setStrokeDash( jsarrn );
+				setStrokeDash( context, jsarrn );
 			} else {
-				setStrokeDash(null);
+				setStrokeDash( context, null );
 			}
 			dash_array = dasharr;
 		}
 	}
 
-	public native void setStrokeDash(JsArrayNumber dasharray) /*-{
-		if (typeof $wnd.canvasHelpers.context.mozDash != 'undefined') {
-			$wnd.canvasHelpers.context.mozDash = dasharray;
-		} else if (typeof $wnd.canvasHelpers.context.webkitLineDash != 'undefined') {
-			$wnd.canvasHelpers.context.webkitLineDash = dasharray;
+	public native void setStrokeDash(Context2d ctx, JsArrayNumber dasharray) /*-{
+		if (typeof ctx.mozDash != 'undefined') {
+			ctx.mozDash = dasharray;
+		} else if (typeof ctx.webkitLineDash != 'undefined') {
+			ctx.webkitLineDash = dasharray;
 		}
 	}-*/;
 

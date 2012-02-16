@@ -25,7 +25,7 @@ public class BufferedImage {
 		canv.setWidth(width+"px");
 		canv.setHeight(height+"px");
 
-		Context2d c2d = nc.getContext2d();
+		/*Context2d c2d = nc.getContext2d();
 		//com.google.gwt.canvas.dom.client.FillStrokeStyle fss = c2d.getStrokeStyle();
 		//com.google.gwt.canvas.dom.client.FillStrokeStyle fsf = c2d.getFillStyle();
 		c2d.setGlobalCompositeOperation(Context2d.Composite.COPY);
@@ -37,7 +37,7 @@ public class BufferedImage {
 		//c2d.setFillStyle(fsf);
 
 		img = getImageElement();
-		*/
+
 
 		/* This throws an exception, this way GeoGebraWeb works but tracing doesn't
 		 * should not be used anyway...*/

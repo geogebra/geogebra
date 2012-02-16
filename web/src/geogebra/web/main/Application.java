@@ -384,8 +384,6 @@ public class Application extends AbstractApplication implements KeyDownHandler{
 		canvas.setCoordinateSpaceHeight(1);
 		canvas.setCoordinateSpaceWidth(1);
 
-	    registerCanvasHelpers();
-
 		kernel = new Kernel(this);
 
 		// init settings
@@ -424,15 +422,6 @@ public class Application extends AbstractApplication implements KeyDownHandler{
 	public Canvas getCanvas() {
 		return canvas;
 	}
-
-	public native void registerCanvasHelpers() /*-{
-
-		$wnd.canvasHelpers = {};
-		$wnd.canvasHelpers.imageData = {};
-		$wnd.canvasHelpers.canvas = this.@geogebra.web.main.Application::getCanvas()().@com.google.gwt.canvas.client.Canvas::getElement()();
-		$wnd.canvasHelpers.context = $wnd.canvasHelpers.canvas.getContext("2d");
-
-	}-*/;
 
 	public void loadGgbFile(HashMap<String, String> archiveContent) throws Exception {
 		((EuclidianView) euclidianView).setDisableRepaint(true);
