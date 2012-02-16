@@ -228,10 +228,21 @@ public class Application extends AbstractApplication implements KeyDownHandler{
 		return false;
 	}
 
+
 	@Override
 	public void storeUndoInfo() {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		if (isUndoActive()) {
+			kernel.storeUndoInfo();
+			//isSaved = false;
+		}
+	}
 
+	public void restoreCurrentUndoInfo() {
+		if (isUndoActive()) {
+			kernel.restoreCurrentUndoInfo();
+			//isSaved = false;
+		}
 	}
 
 	@Override
