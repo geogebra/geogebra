@@ -69,7 +69,8 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		canvas.addGestureChangeHandler((EuclidianController)euclidiancontroller);
 		canvas.addGestureEndHandler((EuclidianController)euclidiancontroller);
 		
-		canvas.addKeyPressHandler(getApplication().getGlobalKeyDispatcher());
+		canvas.addKeyUpHandler(getApplication().getGlobalKeyDispatcher());
+		
 		
 		
 		if ((evNo == 1) || (evNo == 2)) {

@@ -15,12 +15,16 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.web.gui.app.GeoGebraFrame;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 
 public class GlobalKeyDispatcher extends
-        geogebra.common.main.GlobalKeyDispatcher implements KeyPressHandler {
+        geogebra.common.main.GlobalKeyDispatcher implements KeyUpHandler {
 
 	private Application app;
 
@@ -34,12 +38,14 @@ public class GlobalKeyDispatcher extends
 
 	}
 
-	public void onKeyPress(KeyPressEvent event) {
+	public void onKeyUp(KeyUpEvent event) {
+		event.preventDefault();
+		event.stopPropagation();
 		//no it is private, but can be public, also it is void, but can return boolean as in desktop, if needed
 	    dispatchEvent(event);
     }
 
-	private void dispatchEvent(KeyPressEvent event) {
+	private void dispatchEvent(KeyUpEvent event) {
 	    //we ust find out somethinkg here to identify the component that fired this, like class names for example,
 		//id-s or data-param-attributes
 		
@@ -48,7 +54,7 @@ public class GlobalKeyDispatcher extends
 	    
     }
 
-	private boolean handleKeyPressed(KeyPressEvent event) {
+	private boolean handleKeyPressed(KeyUpEvent event) {
 		// GENERAL KEYS:
 		// handle ESC, function keys, zooming with Ctrl +, Ctrl -, etc.
 		if (handleGeneralKeys(event)) {
@@ -57,11 +63,11 @@ public class GlobalKeyDispatcher extends
 		return false;
     }
 
-	private boolean handleGeneralKeys(KeyPressEvent event) {
+	private boolean handleGeneralKeys(KeyUpEvent event) {
 		boolean consumed = false;
 
 		// ESC and function keys
-		switch (event.getCharCode()) {
+		switch (event.getNativeKeyCode()) {
 		case MyKeyCodes.KEY_ESCAPE:
 			// ESC: set move mode
 			app.setMoveMode();
@@ -144,7 +150,7 @@ public class GlobalKeyDispatcher extends
 			break;
 		}
 
-		int keyCode = event.getCharCode();
+		int keyCode = event.getNativeKeyCode();
 
 		// make sure Ctrl-1/2/3 works on the Numeric Keypad even with Numlock
 		// off
