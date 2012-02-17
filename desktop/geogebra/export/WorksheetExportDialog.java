@@ -1564,7 +1564,7 @@ public class WorksheetExportDialog extends JDialog {
 			appendWithLineBreak(sb,	"<script type=\"text/javascript\" language=\"javascript\" src=\"");
 			sb.append(GeoGebraConstants.GEOGEBRA_HTML5_BASE);
 			sb.append("\"></script>");
-			appendWithLineBreak(sb,	"<article class=\"geogebraweb\" style=\"border: 1px solid black; display:inline-block;\" ");
+			appendWithLineBreak(sb,	"<article class=\"geogebraweb\" data-param-width=\""+width+"\" data-param-height=\""+height+"\" ");
 		    sb.append("data-param-ggbbase64=\"");
 		    appendBase64(app, sb);
 		    appendWithLineBreak(sb, "\"></article>");
