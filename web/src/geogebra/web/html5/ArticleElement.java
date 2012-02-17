@@ -1,5 +1,6 @@
 package geogebra.web.html5;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.TagName;
 import com.google.gwt.user.client.ui.Widget;
@@ -72,4 +73,19 @@ public final class ArticleElement extends Element {
 		        .getAttribute("data-param-ggbbase64") : "";
 	}
 
+	/**
+	 * @return integer value of the data-param-width, 0 if not present
+	 */
+	public int getDataParamWidth() {
+		String width = this.getAttribute("data-param-width");
+	    return (width != null && !width.equals("")) ? Integer.parseInt(width, 10)  : 0; 
+    }
+
+	/**
+	 * @return integer value of the data-param-height, 0 if not present
+	 */
+	public int getDataParamHeight() {
+		String height = this.getAttribute("data-param-height");
+		return (height != null && !height.equals("")) ? Integer.parseInt(height, 10)  : 0; 
+	}
 }

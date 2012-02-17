@@ -13,8 +13,16 @@
  */
  .geogebraweb {
 	display:inline-block;
-	border:1px solid black;
-}
+  }
+
+ .geogebraweb .jsloaded {
+ 	border:1px solid black;
+ 	position:relative;
+  }
+  
+ .geogebraweb .splash {
+  	position:absolute;
+  }
  
 /*not let user select the canvas*/
 .geogebraweb canvas {

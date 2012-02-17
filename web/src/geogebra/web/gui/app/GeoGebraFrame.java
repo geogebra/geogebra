@@ -11,6 +11,7 @@ import geogebra.web.presenter.LoadFilePresenter;
 
 import java.util.ArrayList;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -48,6 +49,7 @@ public class GeoGebraFrame extends VerticalPanel {
         init(geoGebraMobileTags);
     }
 
+
     private static void init(ArrayList<ArticleElement> geoGebraMobileTags) {
 
         for (ArticleElement articleElement : geoGebraMobileTags) {
@@ -55,16 +57,31 @@ public class GeoGebraFrame extends VerticalPanel {
             Application app = inst.createApplication(articleElement
                     .getDataParamGui());
             inst.app = app;
-            inst.createSplash();
+            inst.createSplash(articleElement);
             inst.add(app.buildApplicationPanel());
             RootPanel.get(articleElement.getId()).add(inst);
             handleLoadFile(articleElement, app);
+
         }
     }
 
-    private void createSplash() {
-        app.splash = new SplashDialog();
-        add(app.splash);
+
+	private void createSplash(ArticleElement article) {
+		this.app.splash = new SplashDialog();
+		int splashWidth = 427;
+		int splashHeight = 120;
+		int width = article.getDataParamWidth();
+	    int height = article.getDataParamHeight();
+	    if (width > 0 && height > 0) {
+	    	setWidth(width+"px");
+	    	setHeight(height+"px");
+	    	this.app.splash.addStyleName("splash");
+	    	this.app.splash.getElement().getStyle().setTop((height/2)-(splashHeight/2), Unit.PX);
+	    	this.app.splash.getElement().getStyle().setLeft((width/2)-(splashWidth/2), Unit.PX);
+	    	
+	    }
+	    addStyleName("jsloaded");
+	    add(this.app.splash);
     }
 
     private static void handleLoadFile(ArticleElement articleElement,
@@ -72,7 +89,6 @@ public class GeoGebraFrame extends VerticalPanel {
         View view = new View(articleElement, app);
         fileLoader.setView(view);
         fileLoader.onPageLoad();
-
     }
 
     /**
