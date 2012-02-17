@@ -31,7 +31,7 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 		this.secondPoint=secondPoint;
 		this.radius=r;
 		
-		quadric=new GeoQuadric3DLimited(c,origin,secondPoint);
+		quadric=new GeoQuadric3DLimited(c);//,origin,secondPoint);
 		quadric.setType(type);
 
 		input = new GeoElement[] {(GeoElement) origin,(GeoElement) secondPoint,(GeoElement) r};
@@ -57,7 +57,7 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 		//output = new GeoElement[] {quadric,bottom,top,side};
 		setOutput();
 		
-		quadric.initLabels(labels);
+		quadric.initLabelsIncludingBottom(labels);
 		quadric.updatePartsVisualStyle();			
 	}
 	

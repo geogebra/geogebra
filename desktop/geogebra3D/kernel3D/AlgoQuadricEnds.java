@@ -34,7 +34,11 @@ public class AlgoQuadricEnds extends AlgoElement3D {
     private GeoConic3D section1, section2; // output       
     private CoordSys coordsys1, coordsys2;
 
-    
+    /**
+     * 
+     * @param cons construction
+     * @param quadric quadric
+     */
     public AlgoQuadricEnds(Construction cons, GeoQuadric3DLimited quadric) {
         super(cons);
         
@@ -48,7 +52,7 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 		section2.setCoordSys(coordsys2);
 		section2.setIsEndOfQuadric(true);
 		
-		setInputOutput(new GeoElement[] {(GeoElement) quadric},  new GeoElement[] {section1, section2});
+		setInputOutput(new GeoElement[] {quadric},  new GeoElement[] {section1, section2});
 
 		compute();
 

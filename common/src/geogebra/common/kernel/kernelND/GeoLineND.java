@@ -78,4 +78,6 @@ public interface GeoLineND extends GeoDirectionND{
 
 	public boolean isFromPolyhedron();
 
+	public void removePointOnLine(GeoPointND point);
+
 }

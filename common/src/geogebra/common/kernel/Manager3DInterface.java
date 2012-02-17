@@ -293,6 +293,9 @@ public interface Manager3DInterface {
 
 	public GeoElement[] CylinderLimited(String[] labels, GeoPointND origin,
 			GeoPointND secondPoint, NumberValue r);
+	
+	public GeoElement[] CylinderLimited(String[] labels, GeoConicND bottom,
+			NumberValue height);
 
 	/**
 	 * Limited quadrics

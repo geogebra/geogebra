@@ -149,12 +149,12 @@ public class DialogManagerMinimal extends DialogManager {
 		// TODO Auto-generated method stub
 		
 	}
-
 	@Override
-	public NumberValue showNumberInputDialog(String menu, String plain,
-			Object object, boolean b, String plain2) {
+	public NumberValue showNumberInputDialog(String title, String message,
+			String initText, boolean changingSign, String checkBoxText) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }

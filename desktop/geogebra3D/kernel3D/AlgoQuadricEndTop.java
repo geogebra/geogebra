@@ -14,16 +14,23 @@ public class AlgoQuadricEndTop extends AlgoQuadricEnd {
 	public AlgoQuadricEndTop(Construction cons, String label, GeoQuadric3DLimited quadric) {
 		super(cons, label, quadric);
 	}
+	
+	public AlgoQuadricEndTop(Construction cons, GeoQuadric3DLimited quadric) {
+		super(cons, quadric);
+	}
 
+	@Override
 	protected Coords getOrigin(Coords o1, Coords o2) {
 		return o2;
 	}
 
+	@Override
 	protected Coords getV1(Coords v1) {
 		return v1;
 	}
 
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoQuadricEndTop;
 	}

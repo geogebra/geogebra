@@ -196,6 +196,9 @@ public abstract class DialogManager {
 
 	public abstract NumberValue showNumberInputDialog(String title, String message,
 			String initText);
+	
+	public abstract NumberValue showNumberInputDialog(String title, String message,
+			String initText, boolean changingSign, String checkBoxText);
 
 	public abstract Object[] showAngleInputDialog(String title, String message,
 			String initText);
@@ -352,9 +355,6 @@ public abstract class DialogManager {
 
 	public abstract void showToolbarConfigDialog();
 
-	public abstract NumberValue showNumberInputDialog(String menu, String plain,
-			Object object, boolean b, String plain2);
-	
 	public static boolean doDilate(Kernel kernel, NumberValue num, GeoPoint2[] points, GeoElement[] selGeos) {
 
 		if (selGeos.length > 0) {					

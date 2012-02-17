@@ -1360,7 +1360,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * @param p
 	 *            Point to be removed
 	 */
-	public final void removePointOnLine(GeoPoint2 p) {
+	public final void removePointOnLine(GeoPointND p) {
 		if (pointsOnLine != null)
 			pointsOnLine.remove(p);
 	}

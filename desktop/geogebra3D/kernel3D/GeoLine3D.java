@@ -133,5 +133,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 		return false;
 	}
 	
-	
+	public final void removePointOnLine(GeoPointND p) {
+		//TODO
+	}
 }

@@ -516,6 +516,16 @@ public class Manager3D implements Manager3DInterface {
 		algo.update();// ensure volume is correctly computed
 		return algo.getOutput();
 	}
+	
+	
+	final public GeoElement[] CylinderLimited(String[] labels, GeoConicND bottom,
+			NumberValue height){
+		AlgoQuadricLimitedConicHeightCylinder algo = new AlgoQuadricLimitedConicHeightCylinder(
+				cons, labels, bottom, height);
+		algo.update();// ensure volume is correctly computed
+		return algo.getOutput();
+	}
+	
 
 	final public GeoQuadric3DPart QuadricSide(String label, GeoQuadricND quadric) {
 		AlgoQuadric algo = new AlgoQuadricSide(cons, label,

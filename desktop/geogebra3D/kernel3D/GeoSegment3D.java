@@ -479,4 +479,9 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND,
 		AlgoJoinPoints3D algo = (AlgoJoinPoints3D) getParentAlgorithm();
 		algo.modifyInputPoints(P,Q);
 	}
+	
+
+	public final void removePointOnLine(GeoPointND p) {
+		//TODO
+	}
 }

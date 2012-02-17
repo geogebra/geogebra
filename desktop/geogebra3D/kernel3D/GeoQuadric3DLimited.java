@@ -1,17 +1,18 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.awt.Color;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.plugin.GeoClass;
 
-import java.awt.Color;
 
 /**
  * Class for limited quadrics (e.g. limited cones, cylinders, ...)
@@ -24,27 +25,32 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements NumberValue {
 	/** side of the quadric */
 	private GeoQuadric3DPart side;
 	/** bottom and top of the quadric */
-	private GeoConic3D bottom, top;
+	private GeoConicND bottom;
+	private GeoConic3D top;
 
-	private GeoPointND bottomPoint, topPoint;
+	//private GeoPointND bottomPoint, topPoint;
 
 	private double min, max;
 
-	/**
+	/*
 	 * constructor
 	 * 
 	 * @param c
-	 */
+	 *
 	public GeoQuadric3DLimited(Construction c) {
 		this(c, null, null);
 	}
+	*/
 
-	public GeoQuadric3DLimited(Construction c, GeoPointND bottomPoint,
-			GeoPointND topPoint) {
+	/**
+	 * 
+	 * @param c construction
+	 */
+	public GeoQuadric3DLimited(Construction c){//, GeoPointND bottomPoint, GeoPointND topPoint) {
 
 		super(c, 3);
 
-		setPoints(bottomPoint, topPoint);
+		//setPoints(bottomPoint, topPoint);
 
 		// TODO merge with GeoQuadricND
 		eigenvecND = new Coords[3];
@@ -58,30 +64,18 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements NumberValue {
 
 	}
 
+	/*
 	public void setPoints(GeoPointND bottomPoint, GeoPointND topPoint) {
 		this.bottomPoint = bottomPoint;
 		this.topPoint = topPoint;
 	}
+	*/
 
-	/*
-	 * 
-	 * public void setParts(){
-	 * 
-	 * AlgoQuadricSide algo = new AlgoQuadricSide(cons, bottomPoint, topPoint,
-	 * this); cons.removeFromConstructionList(algo); side = (GeoQuadric3DPart)
-	 * algo.getQuadric();
-	 * 
-	 * AlgoQuadricEnds algo2 = new AlgoQuadricEnds(cons, this, bottomPoint,
-	 * topPoint); cons.removeFromConstructionList(algo2); bottom =
-	 * algo2.getSection1(); top = algo2.getSection2();
-	 * 
-	 * }
-	 */
 
-	public void setParts(GeoQuadric3DPart side, GeoConic3D bottom,
+	public void setParts(GeoQuadric3DPart side, GeoConicND bottom2,
 			GeoConic3D top) {
 		this.side = side;
-		this.bottom = bottom;
+		this.bottom = bottom2;
 		this.top = top;
 	}
 
@@ -94,7 +88,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements NumberValue {
 		set(quadric);
 	}
 
-	public GeoConic3D getBottom() {
+	public GeoConicND getBottom() {
 		return bottom;
 	}
 
@@ -115,11 +109,11 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements NumberValue {
 	}
 
 	/**
-	 * inits the labels
+	 * init the labels
 	 * 
 	 * @param labels
 	 */
-	public void initLabels(String[] labels) {
+	public void initLabelsIncludingBottom(String[] labels) {
 
 		if (cons.isSuppressLabelsActive()) { // for redefine
 			return;
@@ -144,6 +138,35 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements NumberValue {
 			bottom.setLabel(labels[1]);
 			top.setLabel(labels[2]);
 			side.setLabel(labels[3]);
+		}
+
+	}
+	
+	/**
+	 * init the labels
+	 * 
+	 * @param labels
+	 */
+	public void initLabelsNoBottom(String[] labels) {
+
+		if (cons.isSuppressLabelsActive()) { // for redefine
+			return;
+		}
+
+		if (labels == null || labels.length == 0) {
+			labels = new String[1];
+		}
+
+		setLabel(labels[0]);
+
+		if (labels.length < 3) {
+			if (top != null)
+				top.setLabel(null);
+			side.setLabel(null);
+			return;
+		} else {
+			top.setLabel(labels[1]);
+			side.setLabel(labels[2]);
 		}
 
 	}
@@ -253,14 +276,15 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements NumberValue {
 	// GEOELEMENT
 	// ///////////////////////
 
+	@Override
 	public void setObjColor(Color color) {
-		super.setObjColor(new geogebra.awt.Color(color));
+		super.setObjColor(color);
 		if (bottom == null)
 			return;
-		bottom.setObjColor(new geogebra.awt.Color(color));
+		bottom.setObjColor(color);
 		if (top != null)
-			top.setObjColor(new geogebra.awt.Color(color));
-		side.setObjColor(new geogebra.awt.Color(color));
+			top.setObjColor(color);
+		side.setObjColor(color);
 
 	}
 

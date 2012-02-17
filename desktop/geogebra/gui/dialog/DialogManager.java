@@ -712,12 +712,6 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 		return false;
 	}
 
-	@Override
-	public NumberValue showNumberInputDialog(String menu, String plain,
-			Object object, boolean b, String plain2) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 }

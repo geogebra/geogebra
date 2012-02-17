@@ -18,13 +18,13 @@ import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.main.Application;
 
 
 /**
  * Compute one end of a limited quadric
  *
  * @author  matthieu
- * @version 
  */
 public abstract class AlgoQuadricEnd extends AlgoElement3D {
 
@@ -33,8 +33,12 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
     private GeoConic3D section; // output       
     private CoordSys coordsys;
 
-    
-    public AlgoQuadricEnd(Construction cons, String label, GeoQuadric3DLimited quadric) {
+    /**
+     * 
+     * @param cons construction
+     * @param quadric quadric
+     */
+    public AlgoQuadricEnd(Construction cons, GeoQuadric3DLimited quadric) {
         super(cons);
         
         this.quadric = quadric;
@@ -43,15 +47,28 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 		section.setCoordSys(coordsys);
 		section.setIsEndOfQuadric(true);
 		
-		setInputOutput(new GeoElement[] {(GeoElement) quadric},  new GeoElement[] {section});
+		setInputOutput(new GeoElement[] {quadric},  new GeoElement[] {section});
 
 		compute();
 		
+    }
+		
+    /**
+     * 
+     * @param cons construction
+     * @param label label
+     * @param quadric quadric
+     */
+	public AlgoQuadricEnd(Construction cons, String label, GeoQuadric3DLimited quadric) {
+		this(cons, quadric);
 		section.setLabel(label);
-
     }
 
 
+    /**
+     * 
+     * @return section
+     */
     public GeoConic3D getSection() {
         return section;
     }
@@ -59,7 +76,8 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 
 
     
-    public final void compute() {
+    @Override
+	public final void compute() {
     	
     	
     	if (!quadric.isDefined()){
@@ -71,10 +89,11 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
     	
     	CoordMatrix qm = quadric.getSymetricMatrix();
     	CoordMatrix pm = new CoordMatrix(4,3);
-    	Coords o1 = quadric.getMidpoint3D().add(quadric.getEigenvec3D(2).mul(quadric.getMin()));//point.getInhomCoordsInD(3);
-    	Coords o2 = quadric.getMidpoint3D().add(quadric.getEigenvec3D(2).mul(quadric.getMax()));//pointThrough.getInhomCoordsInD(3);
+    	Coords d = quadric.getEigenvec3D(2);
+    	Coords o1 = quadric.getMidpoint3D().add(d.mul(quadric.getMin()));   	
+    	Coords o2 =quadric.getMidpoint3D().add(d.mul(quadric.getMax()));
     	pm.setOrigin(o1);
-    	Coords[] v = o2.sub(o1).completeOrthonormal();  	
+    	Coords[] v = d.completeOrthonormal();  	
     	pm.setVx(v[0]);
     	pm.setVy(v[1]);
     	CoordMatrix pmt = pm.transposeCopy();

@@ -5,6 +5,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
@@ -29,7 +30,14 @@ public class CmdCylinder extends CommandProcessor{
 	    
 	    case 2 :
 	    	arg = resArgs(c);
+	    	
 	    	if (
+	    			(ok[0] = (arg[0] instanceof GeoConicND ) )
+	    			&& (ok[1] = (arg[1] .isNumberValue() )) 
+	    	) {
+	    		return kernelA.getManager3D().CylinderLimited(
+	    				c.getLabels(),(GeoConicND) arg[0], (NumberValue) arg[1]);
+	    	}else if (
 	    			(ok[0] = (arg[0] instanceof GeoLineND ) )
 	    			&& (ok[1] = (arg[1] .isNumberValue() )) 
 	    	) {

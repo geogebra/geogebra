@@ -48,6 +48,7 @@ import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -1705,9 +1706,9 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 			incidenceList.remove(geo);
 
 		if (geo.isGeoConic())
-			((GeoConic) geo).removePointOnConic(this);// GeoConicND
+			((GeoConicND) geo).removePointOnConic(this);
 		else if (geo.isGeoLine())
-			((GeoLine) geo).removePointOnLine(this);
+			((GeoLineND) geo).removePointOnLine(this);
 		// TODO: if geo instanceof GeoPoint...
 	}
 
