@@ -1,10 +1,7 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.web.css.CssWeb;
-import geogebra.web.css.GuiResources;
 import geogebra.web.gui.SplashDialog;
-import geogebra.web.helper.RequestTemplateXhr2;
 import geogebra.web.helper.UrlFetcherImpl;
 import geogebra.web.helper.XhrFactory;
 import geogebra.web.html5.ArticleElement;
@@ -14,85 +11,101 @@ import geogebra.web.presenter.LoadFilePresenter;
 
 import java.util.ArrayList;
 
-import com.gargoylesoftware.htmlunit.html.HtmlAttributeChangeEvent;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+/**
+ * The main frame containing every view / menu bar / ....
+ */
 public class GeoGebraFrame extends VerticalPanel {
-	
-	private static ArrayList<GeoGebraFrame> instances = new ArrayList<GeoGebraFrame>();
-	private static GeoGebraFrame activeInstance;
 
-	public static LoadFilePresenter fileLoader = new LoadFilePresenter(
-			new UrlFetcherImpl(
-					XhrFactory.getSupportedXhr(),
-					GeoGebraConstants.URL_PARAM_GGB_FILE,
-					GeoGebraConstants.URL_PARAM_PROXY,
-					GeoGebraConstants.PROXY_SERVING_LOCATION
-					));
-	
-	protected Application app;
-	
-	public GeoGebraFrame() {
-		super();
-		instances.add(this);
-		activeInstance = this;
-	}
+    private static ArrayList<GeoGebraFrame> instances = new ArrayList<GeoGebraFrame>();
+    private static GeoGebraFrame activeInstance;
 
-	public static void main(ArrayList<ArticleElement> geoGebraMobileTags) {
-		init(geoGebraMobileTags);
+    /** Loads file into active GeoGebraFrame */
+    public static LoadFilePresenter fileLoader = new LoadFilePresenter(
+            new UrlFetcherImpl(XhrFactory.getSupportedXhr(),
+                    GeoGebraConstants.URL_PARAM_GGB_FILE,
+                    GeoGebraConstants.URL_PARAM_PROXY,
+                    GeoGebraConstants.PROXY_SERVING_LOCATION));
+
+    /** The application */
+    protected Application app;
+
+    /** Creates new GeoGebraFrame */
+    public GeoGebraFrame() {
+        super();
+        instances.add(this);
+        activeInstance = this;
     }
-	
 
-	private static void init(ArrayList<ArticleElement> geoGebraMobileTags) {
+    /**
+     * Main entry points called by geogebra.web.Web.startGeoGebra()
+     * @param geoGebraMobileTags
+     *            list of &lt;article&gt; elements of the web page
+     */
+    public static void main(ArrayList<ArticleElement> geoGebraMobileTags) {
+        init(geoGebraMobileTags);
+    }
 
-		for (ArticleElement articleElement : geoGebraMobileTags) {
-	        GeoGebraFrame inst = new GeoGebraFrame();
-	        Application app = inst.createApplication();
-	        inst.app = app;
-	        inst.createSplash();
-	        inst.add(app.buildApplicationPanel());
-	        RootPanel.get(articleElement.getId()).add(inst); 
-	        handleLoadFile(articleElement,app);
+    private static void init(ArrayList<ArticleElement> geoGebraMobileTags) {
+
+        for (ArticleElement articleElement : geoGebraMobileTags) {
+            GeoGebraFrame inst = new GeoGebraFrame();
+            Application app = inst.createApplication(articleElement
+                    .getDataParamGui());
+            inst.app = app;
+            inst.createSplash();
+            inst.add(app.buildApplicationPanel());
+            RootPanel.get(articleElement.getId()).add(inst);
+            handleLoadFile(articleElement, app);
         }
     }
 
-	private void createSplash() {
-	    this.app.splash = new SplashDialog();
-	    add(this.app.splash);
+    private void createSplash() {
+        app.splash = new SplashDialog();
+        add(app.splash);
     }
 
-	private static void handleLoadFile(ArticleElement articleElement, Application app) {
-		View view = new View(articleElement,app);
-	    fileLoader.setView(view);
-	    fileLoader.onPageLoad();
-	    
+    private static void handleLoadFile(ArticleElement articleElement,
+            Application app) {
+        View view = new View(articleElement, app);
+        fileLoader.setView(view);
+        fileLoader.onPageLoad();
+
     }
 
-	public Application getApplication() {
-    	return app;
+    /**
+     * @return the application
+     */
+    public Application getApplication() {
+        return app;
     }
 
-	public void setApplication(Application app) {
-    	this.app = app;
+    /**
+     * Sets the Application of the GeoGebraFrame
+     * @param app
+     *            the application
+     */
+    public void setApplication(Application app) {
+        this.app = app;
     }
-	
-	protected Application createApplication() {
-		return new Application();
-	}
 
-	public static ArrayList<GeoGebraFrame> getInstances() {
-	    return instances;
+    /**
+     * @param useFullGui
+     *            if false only one euclidianView will be available (without
+     *            menus / ...)
+     * @return the newly created instance of Application
+     */
+    protected Application createApplication(boolean useFullGui) {
+        return new Application(useFullGui);
+    }
+
+    /**
+     * @return list of instances of GeogebraFrame
+     */
+    public static ArrayList<GeoGebraFrame> getInstances() {
+        return instances;
     }
 
 }
