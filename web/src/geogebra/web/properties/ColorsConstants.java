@@ -1,4 +1,4 @@
-package geogebra.resources.properties;
+package geogebra.web.properties;
 
 import com.google.gwt.i18n.client.ConstantsWithLookup;
 
