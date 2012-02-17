@@ -41,6 +41,7 @@ import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLio;
 import geogebra.web.kernel.AnimationManager;
 import geogebra.web.kernel.UndoManager;
+import geogebra.web.properties.ColorsConstants;
 import geogebra.web.util.DataUtil;
 import geogebra.web.util.DebugPrinterWeb;
 import geogebra.web.util.ImageManager;
@@ -83,6 +84,15 @@ public class Application extends AbstractApplication implements KeyDownHandler {
     private boolean showGrid = false;
 
     protected ImageManager imageManager;
+	
+	/*
+	 * Internationalization member variables
+	 */
+	private ColorsConstants colorConstants;
+	
+	private void initColorConstants() {
+		colorConstants = GWT.create(ColorsConstants.class);
+	}
 
     private AbsolutePanel euclidianViewPanel;
     private Canvas canvas;
@@ -552,9 +562,43 @@ public class Application extends AbstractApplication implements KeyDownHandler {
     }
 
     @Override
-    public String getColor(String string) {
-        AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-        return null;
+    public String getColor(String key) {
+		
+		if (key == null) {
+			return "";
+		}
+		
+		//To be completed later when Plain is implemented
+				
+//		if ((key.length() == 5)
+//				&& toLowerCase(key).startsWith("gray")) {
+//			switch (key.charAt(4)) {
+//			case '0':
+//				return getColor("white");
+//			case '1':
+//				return getPlain("AGray", Unicode.fraction1_8);
+//			case '2':
+//				return getPlain("AGray", Unicode.fraction1_4); // silver
+//			case '3':
+//				return getPlain("AGray", Unicode.fraction3_8);
+//			case '4':
+//				return getPlain("AGray", Unicode.fraction1_2);
+//			case '5':
+//				return getPlain("AGray", Unicode.fraction5_8);
+//			case '6':
+//				return getPlain("AGray", Unicode.fraction3_4);
+//			case '7':
+//				return getPlain("AGray", Unicode.fraction7_8);
+//			default:
+//				return getColor("black");
+//			}
+//		}
+//
+		if (colorConstants == null) {
+			initColorConstants();
+		}
+
+		return colorConstants.getString(toLowerCase(key));
     }
 
     @Override
