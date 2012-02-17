@@ -831,6 +831,7 @@ public class Construction {
 		for (int i = 0; i < algoList.size(); ++i) {
 			AlgoElement algo = algoList.get(i);
 			algo.update();
+			//AbstractApplication.debug("#"+i+" : "+algo);
 		}
 	}
 

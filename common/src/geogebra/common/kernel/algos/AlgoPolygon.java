@@ -23,6 +23,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.GeoClass;
 
 
@@ -79,6 +80,11 @@ public class AlgoPolygon extends AlgoElement {
         this.cs2D = cs2D;
         this.polyhedron = polyhedron;
         this.direction = direction;
+
+        // make sure that this helper algorithm is updated right after its parent polygon
+        if (polyhedron != null) {
+        	setUpdateAfterAlgo(polyhedron.getParentAlgorithm());    		    		
+        }
           
         //poly = new GeoPolygon(cons, points);
         createPolygon(createSegments);  
@@ -260,6 +266,9 @@ public class AlgoPolygon extends AlgoElement {
        
     @Override
 	public void compute() { 
+    	
+    	//AbstractApplication.printStacktrace("");
+    	
     	if (geoList != null) {
     		updatePointArray(geoList);
     	}

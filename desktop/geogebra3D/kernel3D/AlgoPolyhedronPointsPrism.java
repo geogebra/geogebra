@@ -205,7 +205,8 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 			polygon.calcArea();  
 			
 			
-		}else updateOutputPoints();
+		}else 
+			updateOutputPoints();
 		
 		
 		
@@ -271,6 +272,8 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 	
 	@Override
 	protected void updateOutputPoints(){
+		
+		//Application.printStacktrace("");
 		
 		if (height==null)
 			uptranslation = getTopPoint().getInhomCoordsInD(3).sub(getBottomPoints()[0].getInhomCoordsInD(3));

@@ -82,7 +82,11 @@ public class AlgoJoinPoints3D extends AlgoElement3D {
     AlgoJoinPoints3D(Construction cons, 
     		GeoPointND P, GeoPointND Q, GeoElement poly, GeoClass geoClassType) {
     	super(cons);
-
+    	
+    	if (poly!=null)
+    		setUpdateAfterAlgo(poly.getParentAlgorithm()); 
+		
+    	
     	this.P = P;
     	this.Q = Q;
     	this.poly = poly;
@@ -92,8 +96,7 @@ public class AlgoJoinPoints3D extends AlgoElement3D {
     	case SEGMENT3D:
     		cs = new GeoSegment3D(cons, P, Q);
     		if (poly!=null){
-    			((GeoSegment3D) cs).setGeoParent(poly);
-    			setUpdateAfterAlgo(poly.getParentAlgorithm());  
+    			((GeoSegment3D) cs).setGeoParent(poly);	 
     		}
     		break;
     	case LINE3D:

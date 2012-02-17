@@ -33,6 +33,8 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 	
 	protected AlgoPolyhedron(Construction c){
 		super(c);
+		
+		cons.addToAlgorithmList(this);
 
 		setIsOldFileVersion();
 
@@ -154,7 +156,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 	protected void setOutput(){
 		
 		updateOutput();
-        ((Construction) cons).addToAlgorithmList(this);  
+        //cons.addToAlgorithmList(this);  
 		
 	}
 	

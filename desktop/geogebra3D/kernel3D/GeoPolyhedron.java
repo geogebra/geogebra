@@ -287,8 +287,8 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 	public GeoPolygon3D createPolygon(GeoPointND[] points) {
 		GeoPolygon3D polygon;
 
-		AlgoPolygon3D algo = new AlgoPolygon3D((Construction) cons, null, points, false, this);
-		((Construction) cons).removeFromConstructionList(algo);
+		AlgoPolygon3D algo = new AlgoPolygon3D(cons, null, points, false, this);
+		cons.removeFromConstructionList(algo);
 
 		polygon = (GeoPolygon3D) algo.getPoly();
 		// refresh color to ensure segments have same color as polygon:
