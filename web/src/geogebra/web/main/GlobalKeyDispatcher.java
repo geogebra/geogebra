@@ -24,7 +24,7 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 
 public class GlobalKeyDispatcher extends
-        geogebra.common.main.GlobalKeyDispatcher implements KeyUpHandler {
+        geogebra.common.main.GlobalKeyDispatcher implements KeyUpHandler, KeyDownHandler {
 
 	private Application app;
 
@@ -587,5 +587,11 @@ public class GlobalKeyDispatcher extends
 			geo.setObjColor(Color.BLACK);
 		}
 	}
+
+	public void onKeyDown(KeyDownEvent event) {
+	    event.preventDefault();
+	    event.stopPropagation();
+    }
+	
 
 }
