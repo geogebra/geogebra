@@ -311,6 +311,8 @@ public abstract class DynamicMesh2 {
 
 	/** current version of the mesh - increments when the function is changed */
 	protected int currentVersion = 0;
+	
+	protected boolean noUpdate = false;
 
 	/** used in optimizeSub() */
 	protected enum Side {
@@ -361,6 +363,7 @@ public abstract class DynamicMesh2 {
 	 */
 	public void setCullingBox(double[] cullingBox) {
 		this.cullingBox = cullingBox;
+		noUpdate = false;
 	}
 
 	/**
@@ -400,25 +403,36 @@ public abstract class DynamicMesh2 {
 		long t1 = new Date().getTime();
 
 		updateCullingInfo();
+		
+		if(noUpdate)
+			return false;
 
 		Side side = tooCoarse();
-		Side prevSide;
+		Side prevSide = null;
+		
+		boolean switched = false;
 
 		do {
 			if (side == Side.MERGE)
 				merge(mergeQueue.poll());
 			else
 				split(splitQueue.poll());
+			
+			if(prevSide != side) {
+				if(switched) {
+//					noUpdate = true;
+//					break;
+				}
+				switched = true;
+			}
+			
 			prevSide = side;
 			side = tooCoarse();
 			count++;
-		} while (side != Side.NONE && count < maxCount && prevSide == side);
+		} while (side != Side.NONE && count < maxCount);
 
 		if (debugInfo)
 			System.out.println(getDebugInfo(new Date().getTime() - t1));
-
-		if (side != prevSide) // this only happens if the LoD
-			return true; // is at the desired level
 
 		return false;
 	}
@@ -462,12 +476,11 @@ public abstract class DynamicMesh2 {
 
 		// mark as merged
 		t.setSplit(false);
-
+		
 		// handle children
 		for (int i = 0; i < nChildren; i++) {
 			DynamicMeshElement2 c = t.getChild(i);
 			if (c.readyForMerge(t)) {
-
 				splitQueue.remove(c);
 
 				if (c.isSplit())
@@ -551,6 +564,8 @@ public abstract class DynamicMesh2 {
 	 */
 	public void updateParameters() {
 		currentVersion++;
+		
+		noUpdate = false;
 
 		// update all elements currently in draw list
 		drawList.recalculate(currentVersion);

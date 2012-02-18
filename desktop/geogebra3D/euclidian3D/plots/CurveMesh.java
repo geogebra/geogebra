@@ -4,6 +4,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra3D.euclidian3D.BucketAssigner;
 import geogebra3D.euclidian3D.CurveTriList;
 import geogebra3D.euclidian3D.TriListElem;
+import geogebra3D.euclidian3D.plots.DynamicMesh2.Side;
 import geogebra3D.kernel3D.GeoCurveCartesian3D;
 
 import java.util.Iterator;
@@ -29,6 +30,7 @@ class CurveSegment extends DynamicMeshElement2 {
 
 	/** positions at the start/end of the sement */
 	Coords[] vertices = new Coords[3];
+	Coords alt = null;
 
 	/** tangents at start, middle and end positions */
 	public Coords[] tangents = new Coords[3];
@@ -107,21 +109,37 @@ class CurveSegment extends DynamicMeshElement2 {
 		// if segment appears partly undefined, project vertex onto border
 		final boolean v0def = vertices[0].isDefined();
 		final boolean v2def = vertices[2].isDefined();
-		if((v0def != v2def) && (level > 5)) {
+		if(v0def != v2def) {
 			// perform binary search for edge
-			double p = u;
-			double diff = (params[2]-params[0])*0.25;
+			double ui = u;
+			double delta = (params[2] - params[0]) * 0.25;
 			final boolean dir = v0def;
-			Coords t;
-			p += (f.isDefined() ^ dir ? -diff : diff); 
-			for (int i = 0; i < 10; i++) {
-				diff *= 0.5;
-				t = curve.evaluateCurve(p);
-				if(t.isDefined())
-					f = t;
-				p += (t.isDefined() ^ dir ? -diff : diff);
+			Coords lo = vertices[0];
+			Coords hi = vertices[2];
+			if (dir ^ f.isDefined()) {
+				hi = f;
+				ui -= delta;
+			} else {
+				lo = f;
+				ui += delta;
 			}
-			params[1]=p;
+
+			f = curve.evaluateCurve(ui);
+			for (int i = 0; i < 30; i++) {
+				
+				delta *= 0.5;
+				if (dir ^ f.isDefined()) {
+					hi = f;
+					ui -= delta;
+				} else {
+					lo = f;
+					ui += delta;
+				}
+				f = curve.evaluateCurve(ui);
+			}
+			alt = hi;
+			f = lo;
+			params[1] = ui;
 		} else {
 			// if infinite, attempt to move in some direction
 			double d = 1e-8;
@@ -226,8 +244,12 @@ class CurveSegment extends DynamicMeshElement2 {
 		error = Math.sqrt(s * (s - a) * (s - b) * (s - c)) + d;
 //		System.err.println("tot: " + error + "\td: " + d);
 		// alternative error measure for singular segments
-		if (isSingular)
-			error = CurveMesh.undefErrorConst * length;
+		if (isSingular) {
+			if(vertices[0].isDefined() || vertices[1].isDefined() || vertices[2].isDefined())
+				error = CurveMesh.undefErrorConst * length;
+			else
+				error = 0;
+		}
 		else if (Double.isNaN(error)) {
 			// TODO: investigate whether it would be a good idea to
 			// attempt to calculate an error from any non-singular
@@ -244,8 +266,14 @@ class CurveSegment extends DynamicMeshElement2 {
 	 * only be called in the constructor.
 	 */
 	private Coords approxTangent(double param, Coords v) {
-		Coords d = calcVertex(param + CurveMesh.deltaParam);
-		return d.sub(v).normalized();
+		if(alt == null || alt.isDefined()) {
+			//forwards difference quotient 
+			Coords d = calcVertex(param + CurveMesh.deltaParam);
+			return d.sub(v).normalized();
+		}
+		//backwards difference quotient
+		Coords d = calcVertex(param - CurveMesh.deltaParam);
+		return v.sub(d).normalized();
 	}
 
 	@Override
@@ -282,7 +310,7 @@ class CurveSegment extends DynamicMeshElement2 {
 				params[1], vertices[0], vertices[1], tangents[0], tangents[1],
 				this, lastVersion);
 		children[1] = new CurveSegment((CurveMesh) mesh, level + 1, params[1],
-				params[2], vertices[1], vertices[2], tangents[1], tangents[2],
+				params[2], alt != null ? alt : vertices[1], vertices[2], tangents[1], tangents[2],
 				this, lastVersion);
 	}
 
@@ -319,8 +347,8 @@ class CurveSegment extends DynamicMeshElement2 {
 		// we need to reevalutate the vertices, normals, error and culling
 		GeoCurveCartesian3D curve = ((CurveMesh) mesh).curve;
 		vertices[0] = curve.evaluateCurve(params[0]);
-		vertices[1] = curve.evaluateCurve((params[0] + params[2]) * .5);
 		vertices[2] = curve.evaluateCurve(params[2]);
+		vertices[1] = calcMainVertex((params[2]+params[0])*0.5);
 		tangents[0] = approxTangent(params[0], vertices[0]);
 		tangents[1] = approxTangent(params[1], vertices[1]);
 		tangents[2] = approxTangent(params[2], vertices[2]);
@@ -523,7 +551,7 @@ public class CurveMesh extends DynamicMesh2 {
 	private static final int maxLevel = 20;
 
 	/** the parameter difference used to approximate tangents */
-	public static double deltaParam = 1e-3;
+	public static double deltaParam = 1e-5;
 
 	private static final float scalingFactor = .8f;
 
@@ -585,10 +613,12 @@ public class CurveMesh extends DynamicMesh2 {
 
 		splitQueue.add(root);
 		drawList.add(root);
+		
+		setLevelOfDetail(10);
 
 		// split the first few elements in order to avoid problems
 		// with periodic funtions
-		for (int i = 0; i < 800; i++)
+		for (int i = 0; i < 200; i++)
 			split(splitQueue.forcePoll());
 	}
 
@@ -678,7 +708,7 @@ public class CurveMesh extends DynamicMesh2 {
 			throw new RuntimeException();
 
 		levelOfDetail = l;
-		maxErrorCoeff = 1 / (Math.pow(10, 1.6 + l * 0.15));
+		maxErrorCoeff = 1 / (Math.pow(10, 5 + l * 0.15));
 	}
 
 	/**
@@ -696,8 +726,11 @@ public class CurveMesh extends DynamicMesh2 {
 
 	@Override
 	protected Side tooCoarse() {
-		return splitQueue.peek().getError() > desiredMaxError ? Side.SPLIT
-				: Side.MERGE;
+		if (splitQueue.peek().getError() > desiredMaxError)
+			return Side.SPLIT;
+		else if (mergeQueue.peek().getError() < desiredMaxError)
+			return Side.MERGE;
+		return Side.NONE;
 	}
 
 	@Override

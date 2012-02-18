@@ -41,10 +41,10 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 	/** vertex normal */
 	private Coords normal;
 
-	boolean alt0 = false;
-	boolean alt1 = false;
-
 	Coords alt = null;
+	
+	double[] ancestorDiff;
+	double[] originalParams;
 
 	// OTHER DIAMONDS
 	/** the other two corners */
@@ -116,7 +116,7 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 		ancestors[1] = ancestor1;
 		params[0] = (ancestor0.params[0] + ancestor1.params[0]) * 0.5;
 		params[1] = (ancestor0.params[1] + ancestor1.params[1]) * 0.5;
-		vertex = calcMainVertex(params[0], params[1]);
+		calcMainVertex(params[0], params[1]);
 		normal = approxNormal(params[0], params[1]);
 
 		init();
@@ -148,89 +148,55 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 		return dx.sub(vertex).crossProduct(dy.sub(vertex)).normalized();
 	}
 
-	Coords calcMainVertex(double u, double v) {
+	void calcMainVertex(double u, double v) {
 		final SurfaceEvaluable function = ((SurfaceMesh2) mesh).getFunction();
 		Coords f = function.evaluatePoint(u, v);
-//		final SurfaceDiamond2 a0 = ancestors[0];
-//		final SurfaceDiamond2 a1 = ancestors[1];
-//		final boolean v2def = ancestors[0].vertex.isDefined();
-//		final boolean v3def = ancestors[1].vertex.isDefined();
-//
-//		if ((v2def != v3def)) {
-//			// // perform binary search for edge
-//			// double ui = u;
-//			// double vi = v;
-//			// double du = (a1.params[0] - a0.params[0]) * 0.25;
-//			// double dv = (a1.params[1] - a0.params[1]) * 0.25;
-//			// final boolean dir = v2def;
-//			// alt0 = v2def;
-//			// alt1 = !v2def;
-//			// Coords t;
-//			// ui += (f.isDefined() ^ dir ? -du : du);
-//			// vi += (f.isDefined() ^ dir ? -dv : dv);
-//			// for (int i = 0; i < 10; i++) {
-//			// du *= 0.5;
-//			// dv *= 0.5;
-//			// t = function.evaluatePoint(ui, vi);
-//			// if (t.isDefined()) {
-//			// params[0] = ui;
-//			// params[1] = vi;
-//			// f = t;
-//			// } else {
-//			// alt = t;
-//			// }
-//			// ui += (t.isDefined() ^ dir ? -du : du);
-//			// vi += (t.isDefined() ^ dir ? -dv : dv);
-//			// }
-//			// golden section search
-//			final double lambda = 0.5 * (sqrt5 - 1.0);
-//			final double mu = 0.5 * (3.0 - sqrt5); // = 1 - lambda
-//
-//			// Find first two internal points and evaluate
-//			// the function at the two internal points.
-//
-//			double x0 = a0.params[0];
-//			double dx = a1.params[0] - x0;
-//			double y0 = a0.params[1];
-//			double dy = a1.params[1] - y0;
-//			double b = 1;
-//			double a = 0;
-//			double x1 = b - lambda * (b - a);
-//			double x2 = a + lambda * (b - a);
-//			boolean fx1 = function.evaluatePoint(x0 + x1 * dx, y0 + x1 * dy).isDefined();
-//			boolean fx2 = function.evaluatePoint(x0 + x2 * dx, y0 + x2 * dy).isDefined();
-//
-//			// Verify that the tolerance is an acceptable number
-//
-//			// if (tolerance <= 0.0) tolerance = sqrt(DBL_EPSILON) * (b - a);
-//
-//			// Loop by exluding segments from current endpoints a, b
-//			// to current internal points x1, x2 and then calculating
-//			// a new internal point until the length of the interval
-//			// is less than or equal to the tolerance.
-//
-//			while (!Stopping_Rule(a, b, tolerance)) {
-//				if (fx1 > fx2) {
-//					a = x1;
-//					fa = fx1;
-//					if (Stopping_Rule(a, b, tolerance))
-//						break;
-//					x1 = x2;
-//					fx1 = fx2;
-//					x2 = b - mu * (b - a);
-//					fx2 = function.evaluatePoint(x0 + x2 * dx, y0 + x2 * dy);
-//				} else {
-//					b = x2;
-//					fb = fx2;
-//					if (Stopping_Rule(a, b, tolerance))
-//						break;
-//					x2 = x1;
-//					fx2 = fx1;
-//					x1 = a + mu * (b - a);
-//					fx1 = function.evaluatePoint(x0 + x1 * dx, y0 + x1 * dy);
-//				}
-//			}
-//		} else {
+		final SurfaceDiamond2 a0 = ancestors[0];
+		final SurfaceDiamond2 a1 = ancestors[1];
+		final boolean v2def = a0.getVertex(this).isDefined();
+		final boolean v3def = a1.getVertex(this).isDefined();
+
+		if (v2def != v3def) {
+			// perform binary search for edge
+			double ui = u;
+			double vi = v;
+			double du = (a1.params[0] - a0.params[0]) * 0.25;
+			double dv = (a1.params[1] - a0.params[1]) * 0.25;
+			final boolean dir = v2def;
+			Coords lo = a0.getVertex(this);
+			Coords hi = a1.getVertex(this);
+			if (dir ^ f.isDefined()) {
+				hi = f;
+				ui -= du;
+				vi -= dv;
+			} else {
+				lo = f;
+				ui += du;
+				vi += dv;
+			}
+
+			f = function.evaluatePoint(ui, vi);
+			for (int i = 0; i < 30; i++) {
+				du *= 0.5;
+				dv *= 0.5;
+				if (dir ^ f.isDefined()) {
+					hi = f;
+					ui -= du;
+					vi -= dv;
+				} else {
+					lo = f;
+					ui += du;
+					vi += dv;
+				}
+				f = function.evaluatePoint(ui, vi);
+			}
+			alt = hi;
+			f = lo;
+			ancestorDiff = new double[] {a1.params[0]-a0.params[0], a1.params[1]-a0.params[1]};
+			params[0] = ui;
+			params[1] = vi;
+			originalParams = new double[] {u, v};
+		} else {
 
 			// if infinite, attempt to move in some direction
 			float d = 1e-6f;
@@ -245,24 +211,8 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 					}
 				}
 			}
-//		}
-		return f;
-	}
-
-	static final double sqrt5 = 2.236067977499789696;
-
-	void Min_Search_Golden_Section(double a, double fa, double b, double fb,
-			double tolerance) {
-		
-		return;
-	}
-
-	static boolean Stopping_Rule(double x0, double x1, double tolerance) {
-		double xm = 0.5 * Math.abs(x1 + x0);
-
-		if (xm <= 1.0)
-			return (Math.abs(x1 - x0) < tolerance);
-		return (Math.abs(x1 - x0) < tolerance * xm);
+		}
+		vertex = f;
 	}
 
 	/**
@@ -388,10 +338,10 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 	 * parameter area by a constant.
 	 */
 	void generateError() {
-		Coords p0 = ((SurfaceDiamond2) parents[0]).vertex;
-		Coords p1 = ((SurfaceDiamond2) parents[1]).vertex;
-		Coords a0 = (ancestors[0]).vertex;
-		Coords a1 = (ancestors[1]).vertex;
+		Coords p0 = ((SurfaceDiamond2) parents[0]).getVertex(this);
+		Coords p1 = ((SurfaceDiamond2) parents[1]).getVertex(this);
+		Coords a0 = (ancestors[0]).getVertex(this);
+		Coords a1 = (ancestors[1]).getVertex(this);
 
 		Coords v0 = a0.sub(vertex);
 		Coords v1 = a1.sub(vertex);
@@ -471,15 +421,23 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 	/**
 	 * @return the middle vertex of the diamond
 	 */
-	public Coords getVertex() {
-		return vertex;
-	}
+//	public Coords getVertex() {
+//		return vertex;
+//	}
 
-	public Coords getVertex(int i) {
-		if (i == 0)
-			return alt0 ? alt : vertex;
-		else
-			return alt1 ? alt : vertex;
+	public Coords getVertex(SurfaceDiamond2 o) {
+		if (alt == null)
+			return vertex;
+		
+		if(o.vertex == null) {
+			//check dot product for side
+			final double c = (o.params[0] - params[0]) * ancestorDiff[0] + (o.params[1] - params[1]) * ancestorDiff[1];
+			return c < 0 ? vertex : alt;			
+		}
+		
+		if(o.alt != null || o.vertex.isDefined())
+			return alt.isDefined() ? alt : vertex;
+		return alt.isDefined() ? vertex : alt;
 	}
 
 	/**
@@ -507,7 +465,7 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 		ancestors[0].recalculate(currentVersion, false);
 		ancestors[1].recalculate(currentVersion, false);
 
-		vertex = calcMainVertex(params[0], params[1]);
+		calcMainVertex(params[0], params[1]);
 
 		normal = approxNormal(params[0], params[1]);
 
@@ -545,10 +503,10 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 	 * five vertices.
 	 */
 	void setBoundingBox() {
-		final Coords v1 = ancestors[0].vertex;
-		final Coords v2 = ancestors[1].vertex;
-		final Coords v3 = ((SurfaceDiamond2) parents[0]).vertex;
-		final Coords v4 = ((SurfaceDiamond2) parents[1]).vertex;
+		final Coords v1 = ancestors[0].getVertex(this);
+		final Coords v2 = ancestors[1].getVertex(this);
+		final Coords v3 = ((SurfaceDiamond2) parents[0]).getVertex(this);
+		final Coords v4 = ((SurfaceDiamond2) parents[1]).getVertex(this);
 		final Coords v5 = vertex;
 
 		double x0, x1, y0, y1, z0, z1, x, y, z;
@@ -722,10 +680,10 @@ public class SurfaceMesh2 extends DynamicMesh2 implements OctreeCollection {
 
 	@Override
 	protected String getDebugInfo(long time) {
-		return function + ":\tupdate time: " + time + "ms"
-		+ "\t triangles: " + drawList.getTriAmt()
-		+ "\t max error: " + (float) splitQueue.peek().getError()
-		+ "\t error threshold: " + (float) desiredMaxError;
+		return function + ":\tupdate time: " + time + "ms" + "\t triangles: "
+				+ drawList.getTriAmt() + "\t max error: "
+				+ (float) splitQueue.peek().getError() + "\t error threshold: "
+				+ (float) desiredMaxError;
 	}
 
 	/**
@@ -816,7 +774,7 @@ public class SurfaceMesh2 extends DynamicMesh2 implements OctreeCollection {
 				t.parents[1] = base1[j][(i + 1) % 4];
 			}
 		root = base0[1][1];
-		root.vertex = root.calcMainVertex(root.params[0], root.params[1]);
+		root.calcMainVertex(root.params[0], root.params[1]);
 		root.setBoundingBox();
 		root.setArea();
 		root.generateError();
@@ -835,6 +793,7 @@ public class SurfaceMesh2 extends DynamicMesh2 implements OctreeCollection {
 			setLevelOfDetail(((GeoLevelOfDetail) function)
 					.getLevelOfDetail().getValue());
 		desiredMaxError = maxErrorCoeff * maxWidth;
+		noUpdate = false;
 	}
 
 	/**
@@ -862,8 +821,11 @@ public class SurfaceMesh2 extends DynamicMesh2 implements OctreeCollection {
 
 	@Override
 	protected Side tooCoarse() {
-		return splitQueue.peek().getError() > desiredMaxError ? Side.SPLIT
-				: Side.MERGE;
+		if (splitQueue.peek().getError() > desiredMaxError)
+			return Side.SPLIT;
+		else if (mergeQueue.peek().getError() < desiredMaxError)
+			return Side.MERGE;
+		return Side.NONE;
 	}
 
 	@Override
@@ -973,10 +935,6 @@ class SurfaceTriList2 extends TriList implements DynamicMeshTriList2 {
 	public void add(DynamicMeshElement2 e, int j) {
 		SurfaceDiamond2 s = (SurfaceDiamond2) e;
 
-		if (Math.abs(s.vertex.getX() - 0.16) < 0.03
-				&& Math.abs(s.vertex.getY() - 1.0) < 0.1)
-			System.err.print("");
-
 		// handle clipping
 		if (s.ignoreFlag || ((SurfaceDiamond2) s.parents[j]).ignoreFlag)
 			return;
@@ -1049,13 +1007,13 @@ class SurfaceTriList2 extends TriList implements DynamicMeshTriList2 {
 			t[2] = d.ancestors[0];
 		}
 		for (int i = 0, c = 0; i < 3; i++, c += 3) {
-			Coords vertex = t[i].getVertex();
+			Coords vertex = t[i].getVertex(d);
 			Coords normal = t[i].getNormal();
 			v[c] = (float) vertex.getX();
 			v[c + 1] = (float) vertex.getY();
 			v[c + 2] = (float) vertex.getZ();
-			if (Double.isNaN(v[c + 2]))
-				v[c + 2] = 0;
+//			if (Double.isNaN(v[c + 2]))
+//				v[c + 2] = 0;
 			n[c] = (float) normal.getX();
 			n[c + 1] = (float) normal.getY();
 			n[c + 2] = (float) normal.getZ();
