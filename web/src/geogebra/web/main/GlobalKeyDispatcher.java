@@ -11,6 +11,7 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.PointProperties;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.web.gui.app.GeoGebraFrame;
 
@@ -26,9 +27,9 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 public class GlobalKeyDispatcher extends
         geogebra.common.main.GlobalKeyDispatcher implements KeyUpHandler, KeyDownHandler {
 
-	private Application app;
+	private AbstractApplication app;
 
-	public GlobalKeyDispatcher(Application app) {
+	public GlobalKeyDispatcher(AbstractApplication app) {
 		this.app = app;
     }
 
@@ -489,7 +490,7 @@ public class GlobalKeyDispatcher extends
 	 *            whether only black should be used as a color
 	 * @return whether change was performed
 	 */
-	public static boolean changeFontsAndGeoElements(Application app,
+	public static boolean changeFontsAndGeoElements(AbstractApplication app,
 			int fontSize, boolean blackWhiteMode) {
 		if (app.isApplet())
 			return false;

@@ -348,8 +348,6 @@ public class Application extends AbstractApplication implements
 
 	// private static Color COLOR_STATUS_BACKGROUND = new Color(240, 240, 240);
 
-	private boolean useFullGui = false;
-
 	/**
 	 * The preferred size of this application. Used in case the frame size
 	 * should be updated.

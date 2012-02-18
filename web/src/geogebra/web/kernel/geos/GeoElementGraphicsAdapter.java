@@ -5,16 +5,15 @@ import com.google.gwt.dom.client.ImageElement;
 
 import geogebra.common.awt.BufferedImage;
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.main.Application;
 import geogebra.web.util.ImageManager;
 
 public class GeoElementGraphicsAdapter extends
         geogebra.common.kernel.geos.GeoElementGraphicsAdapter {
 
-	private Application app;
+	private AbstractApplication app;
 
 	public GeoElementGraphicsAdapter(AbstractApplication appl) {
-		app = (Application) appl;
+		app = (AbstractApplication) appl;
 	}
 	
 	public BufferedImage getFillImage() {

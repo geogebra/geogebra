@@ -29,7 +29,7 @@ import java.util.TreeSet;
 
 public class GgbAPI  extends geogebra.common.plugin.GgbAPI implements JavaScriptAPI {
 
-	public GgbAPI(Application app) {
+	public GgbAPI(AbstractApplication app) {
 		this.app = app;
 		this.kernel = app.getKernel();
 		this.algebraprocessor=kernel.getAlgebraProcessor();

@@ -100,8 +100,6 @@ public class Application extends AbstractApplication implements KeyDownHandler {
     private HashMap<String, String> currentFile = null;
     private static LinkedList<Map<String, String>> fileList = new LinkedList<Map<String, String>>();
 
-    private boolean useFullGui;
-
     /**
      * @param useFullGui
      *            if false only one EuclidianView
@@ -1032,8 +1030,7 @@ public class Application extends AbstractApplication implements KeyDownHandler {
     private String uniqueId = null;// FIXME: generate new UUID: + UUID.randomUUID();
     private geogebra.web.gui.DialogManagerWeb dialogManager;
     public SplashDialog splash;
-
-    public String getUniqueId() {
+	public String getUniqueId() {
         return uniqueId;
     }
 

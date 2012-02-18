@@ -1,6 +1,7 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.main.AbstractApplication;
 import geogebra.web.gui.SplashDialog;
 import geogebra.web.helper.UrlFetcherImpl;
 import geogebra.web.helper.XhrFactory;
@@ -74,6 +75,8 @@ public class GeoGebraFrame extends VerticalPanel {
 	    int height = article.getDataParamHeight();
 	    if (width > 0 && height > 0) {
 	    	setWidth(width+"px");
+	    	this.app.setDataParamWidth(width);
+	    	this.app.setDataParamHeight(height);
 	    	setHeight(height+"px");
 	    	this.app.splash.addStyleName("splash");
 	    	this.app.splash.getElement().getStyle().setTop((height/2)-(splashHeight/2), Unit.PX);
@@ -94,7 +97,7 @@ public class GeoGebraFrame extends VerticalPanel {
     /**
      * @return the application
      */
-    public Application getApplication() {
+    public AbstractApplication getApplication() {
         return app;
     }
 

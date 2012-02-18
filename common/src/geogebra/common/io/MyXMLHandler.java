@@ -1027,15 +1027,16 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private static boolean handleEvSize(EuclidianSettings ev,
+	//is there a reason why it was static?
+	private boolean handleEvSize(EuclidianSettings ev,
 			LinkedHashMap<String, String> attrs) {
 		// removed, needed to resize applet correctly
 		// if (app.isApplet())
 		// return true;
 
 		try {
-			int width = Integer.parseInt(attrs.get("width"));
-			int height = Integer.parseInt(attrs.get("height"));
+			int width = (app.getDataParamWidth() > 0 && !app.getUseFullGui()) ? app.getDataParamWidth() :  Integer.parseInt(attrs.get("width"));
+			int height = (app.getDataParamHeight() > 0 && !app.getUseFullGui()) ? app.getDataParamHeight() : Integer.parseInt(attrs.get("height"));
 			ev.setPreferredSize(geogebra.common.factories.AwtFactory.prototype
 					.newDimension(width, height));
 			return true;

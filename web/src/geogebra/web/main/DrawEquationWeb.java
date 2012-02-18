@@ -22,9 +22,9 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	
 	private static boolean scriptloaded = false;
 	private boolean needToDrawEquation = false;
-	private Application app;
+	private AbstractApplication app;
 	
-	public DrawEquationWeb(Application app) {
+	public DrawEquationWeb(AbstractApplication app) {
 		//export module base url;
 		exportGetModuleBaseUrl();
 		this.app = app;

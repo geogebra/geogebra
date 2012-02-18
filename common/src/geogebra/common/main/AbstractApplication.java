@@ -2645,6 +2645,9 @@ public abstract class AbstractApplication {
 	}
 
 	public boolean useTransparentCursorWhenDragging = false;
+	protected int dataParamWidth = 0;
+	protected int dataParamHeight = 0;
+	protected boolean useFullGui = false;
 	
 	public void setUseTransparentCursorWhenDragging(
 			boolean useTransparentCursorWhenDragging) {
@@ -2668,5 +2671,25 @@ public abstract class AbstractApplication {
 	public abstract void showURLinBrowser(String string);
 
 	public abstract void uploadToGeoGebraTube();
+
+	public void setDataParamWidth(int width) {
+		this.dataParamWidth = width;
+	}
+
+	public void setDataParamHeight(int height) {
+	    this.dataParamHeight = height;
+	}
+
+	public int getDataParamWidth() {
+		return dataParamWidth;
+	}
+	
+	public int getDataParamHeight() {
+		return dataParamHeight;
+	}
+
+	public boolean getUseFullGui() {
+		return useFullGui;
+	}
 
 }

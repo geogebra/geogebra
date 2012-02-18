@@ -1,10 +1,11 @@
 package geogebra.web.main;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.ScriptManagerCommon;
 
 public class ScriptManager extends ScriptManagerCommon {
 
-	public ScriptManager(Application app) {
+	public ScriptManager(AbstractApplication app) {
 	    this.app = app;
 	    ScriptManager.initAppletFunctions((geogebra.web.main.GgbAPI)(app.getGgbApi()));
     }

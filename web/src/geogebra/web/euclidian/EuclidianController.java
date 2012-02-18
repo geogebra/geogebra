@@ -42,13 +42,12 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.main.Application;
 
 public class EuclidianController extends geogebra.common.euclidian.AbstractEuclidianController implements MouseDownHandler, MouseUpHandler, MouseMoveHandler, MouseOutHandler, MouseOverHandler, MouseWheelHandler, ClickHandler, DoubleClickHandler, TouchStartHandler, TouchEndHandler, TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, GestureChangeHandler {
 
 	public EuclidianController(Kernel kernel) {
 		setKernel(kernel);
-		setApplication((Application) kernel.getApplication());
+		setApplication((AbstractApplication) kernel.getApplication());
 		
 		tempNum = new MyDouble(kernel);
 	}
@@ -75,7 +74,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	}
 	
 	public void setApplication(AbstractApplication app) {
-		this.app = (Application)app;
+		this.app = (AbstractApplication)app;
 	}
 	
 	public  void setView(AbstractEuclidianView view) {
