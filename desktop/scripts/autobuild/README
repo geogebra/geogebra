@@ -10,7 +10,7 @@ Usage:
    make sure that all relevant steps are run from that script). On demand
    another run can be done, it is harmless to do it again later.
 
-3. Run ./buildggb42 or ./deployggb42 to create a fresh numbered
+3. Run ./build-pack-installer or ./deployggb42 to create a fresh numbered
    version build into the test42 or 4.2 directory, respectively.
 
 For more details, please read these pages:
