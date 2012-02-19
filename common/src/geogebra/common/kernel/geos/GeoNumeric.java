@@ -44,14 +44,13 @@ import java.util.TreeSet;
 /**
  * 
  * @author Markus
- * @version
  */
 public class GeoNumeric extends GeoElement implements NumberValue,
 		AbsoluteScreenLocateable, GeoFunctionable, Animatable {
 
-	public static int DEFAULT_SLIDER_WIDTH_RW = 4;// private
-	public static int DEFAULT_SLIDER_WIDTH_PIXEL = 100;// private
-	public static int DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE = 72;// private
+	private static int DEFAULT_SLIDER_WIDTH_RW = 4;
+	private static int DEFAULT_SLIDER_WIDTH_PIXEL = 100;
+	private static int DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE = 72;
 	/** Default maximum value when displayed as slider */
 	public static double DEFAULT_SLIDER_MIN = -5;
 	/** Default minimum value when displayed as slider */
@@ -63,7 +62,7 @@ public class GeoNumeric extends GeoElement implements NumberValue,
 
 	/** value of the number or angle */
 	public double value;
-
+	/** true if drawable */
 	public boolean isDrawable = false;
 	// private boolean isRandomNumber = false;
 
@@ -93,7 +92,11 @@ public class GeoNumeric extends GeoElement implements NumberValue,
 	public GeoNumeric(Construction c) {
 		this(c, true);
 	}
-
+	/**
+	 * Creates new numeric
+	 * @param c construction
+	 * @param setDefaults true to set from defaults
+	 */
 	public GeoNumeric(Construction c, boolean setDefaults) {
 		super(c);
 
@@ -427,24 +430,6 @@ public class GeoNumeric extends GeoElement implements NumberValue,
 		return value;
 	}
 
-	/**
-	 * dummy implementation of mode
-	 * 
-	 * @param mode
-	 *            dummy parameter
-	 */
-	final public void setMode(int mode) {
-	}
-
-	/**
-	 * dummy implementation of mode
-	 * 
-	 * @return -1 (allways)
-	 */
-	final public static int getMode() {
-		return -1;
-	}
-
 	@Override
 	public String toString(StringTemplate tpl) {
 		if (sbToString == null)
@@ -455,7 +440,10 @@ public class GeoNumeric extends GeoElement implements NumberValue,
 		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
 	}
-
+	
+	/**
+	 * @return string representation for regression output
+	 */
 	final public String toStringMinimal() {
 		if (sbToString == null)
 			return null;
@@ -464,6 +452,9 @@ public class GeoNumeric extends GeoElement implements NumberValue,
 		return sbToString.toString();
 	}
 
+	/**
+	 * @return string representation of value for regression output
+	 */
 	public String toValueStringMinimal() {
 		return regrFormat(value);
 	}
@@ -843,7 +834,16 @@ public class GeoNumeric extends GeoElement implements NumberValue,
 	public void setSliderHorizontal(boolean sliderHorizontal) {
 		this.sliderHorizontal = sliderHorizontal;
 	}
-
+	/**
+	 * Sets the location of the slider for this number.
+	 * 
+	 * @param x
+	 *            x-coord of the slider
+	 * @param y
+	 *            y-coord of the slider
+	 * @param force
+	 *            when false, this method ignores fixed sliders
+	 */
 	public void setAbsoluteScreenLoc(int x, int y, boolean force) {
 		setSliderLocation(x, y, force);
 	}
@@ -952,7 +952,7 @@ public class GeoNumeric extends GeoElement implements NumberValue,
 	 * Given geo no longer depends on this one (via min or max value for slider)
 	 * and should not be updated any more
 	 * 
-	 * @param geo
+	 * @param geo slider whose min/max is this numeric
 	 */
 	public void unregisterMinMaxListener(GeoNumeric geo) {
 		if (minMaxListeners == null)
@@ -1239,7 +1239,7 @@ public class GeoNumeric extends GeoElement implements NumberValue,
 	/**
 	 * Set interval min
 	 * 
-	 * @param value
+	 * @param value new min for this slider
 	 */
 	public void setIntervalMin(double value) {
 		setIntervalMin(new MyDouble(kernel, value));
@@ -1248,7 +1248,7 @@ public class GeoNumeric extends GeoElement implements NumberValue,
 	/**
 	 * Set interval max
 	 * 
-	 * @param value
+	 * @param value new max for this slider
 	 */
 	public void setIntervalMax(double value) {
 		setIntervalMax(new MyDouble(kernel, value));
@@ -1289,7 +1289,7 @@ public class GeoNumeric extends GeoElement implements NumberValue,
 	private ArrayList<EuclidianViewInterfaceSlim> evListeners = null;
 
 	/**
-	 * @param ev
+	 * @param ev euclidian view which listens to this numeric
 	 */
 	public void addEVSizeListener(EuclidianViewInterfaceSlim ev) {
 		if (evListeners == null)
@@ -1298,7 +1298,7 @@ public class GeoNumeric extends GeoElement implements NumberValue,
 	}
 
 	/**
-	 * @param ev
+	 * @param ev euclidian view which listens to this numeric
 	 */
 	public void removeEVSizeListener(EuclidianViewInterfaceSlim ev) {
 		if (evListeners != null)
