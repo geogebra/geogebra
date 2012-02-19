@@ -83,7 +83,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	 * 
 	 * @param c
 	 *            construction
-	 * @param label
+	 * @param label label
 	 * @param fileName
 	 *            path to the image
 	 */
@@ -214,7 +214,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	/**
 	 * Tries to load the image using the given fileName.
 	 * 
-	 * @param fileName
+	 * @param fileName filename
 	 */
 	@Override
 	public void setImageFileName(String fileName) {
@@ -391,7 +391,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	/**
 	 * sets if the image want to be interpolated
 	 * 
-	 * @param flag
+	 * @param flag true to turn interpolation on
 	 */
 	final public void setInterpolate(boolean flag) {
 		interpolate = flag;
@@ -424,7 +424,7 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		return toString();
+		return toString(tpl);
 	}
 
 	@Override
@@ -966,7 +966,9 @@ public class GeoImage extends GeoElement implements Locateable,
 		}
 
 	}
-
+	/**
+	 * Clears the image
+	 */
 	public void clearFillImage() {
 		this.getGraphicsAdapter().setImageOnly(
 				geogebra.common.factories.AwtFactory.prototype

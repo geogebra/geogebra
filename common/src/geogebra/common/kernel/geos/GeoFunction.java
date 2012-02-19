@@ -120,23 +120,38 @@ public class GeoFunction extends GeoElement implements VarString,
 			throw new MyError(app, "InvalidFunction");
 		}
 	}
-
+	/**
+	 * Creates new function
+	 * @param c construction
+	 * @param f function
+	 */
 	public GeoFunction(Construction c, Function f) {
 		this(c);
 		fun = f;
 		initFunction();
 	}
-
+	/** implicit poly for composite function */
 	GeoImplicitPoly iPoly;
+	/** substitute functions for composite function */
 	GeoFunction[] substituteFunctions;
+	/** direct function */
 	static int FUNCTION_DIRECT = 1;
+	/** composite of implicit poly and functions */
 	static int FUNCTION_COMPOSITE_IPOLY_FUNCS = 3;
+	/** function type (direct or composite) */
 	int geoFunctionType = FUNCTION_DIRECT;
 
 	// Currently, the composite function is only for internal use
 	// The expression is not correct but it is not to be shown anyway.
+	/**
+	 * Creates composite function iPoly(f(x), g(x))
+	 * @param c construction 
+	 * @param iPoly polynomial
+	 * @param f function for x
+	 * @param g function for y
+	 */
 	public GeoFunction(Construction c, GeoImplicitPoly iPoly, GeoFunction f,
-			GeoFunction g) { // composite iPoly(f(x), g(x))
+			GeoFunction g) {  
 		this(c);
 		this.iPoly = iPoly;
 		geoFunctionType = FUNCTION_COMPOSITE_IPOLY_FUNCS;
@@ -261,9 +276,10 @@ public class GeoFunction extends GeoElement implements VarString,
 
 	@Override
 	public void set(GeoElement geo) {
-		Function geoFun = ((GeoFunction) geo).getFunction();
+		Function geoFun = geo == null ? null :
+			((GeoFunction) geo).getFunction();
 
-		if (geo == null || geoFun == null) {
+		if (geoFun == null) {
 			fun = null;
 			isDefined = false;
 			return;
@@ -293,7 +309,9 @@ public class GeoFunction extends GeoElement implements VarString,
 	public void setFunction(Function f) {
 		fun = f;
 	}
-
+	/**
+	 * initializes function type; if boolean, uses default styl for inequalities
+	 */
 	public void initFunction() {
 		fun.initFunction();
 		if (fun.isBooleanFunction()) {
@@ -410,7 +428,7 @@ public class GeoFunction extends GeoElement implements VarString,
 	/**
 	 * Returns this function's value at position x.
 	 * 
-	 * @param x
+	 * @param x point for evaluation
 	 * @return f(x)
 	 */
 	public double evaluate(double x) {
@@ -469,7 +487,7 @@ public class GeoFunction extends GeoElement implements VarString,
 	/**
 	 * Returns this boolean function's value at position x.
 	 * 
-	 * @param x
+	 * @param x point for evaluation
 	 * @return f(x)
 	 */
 	final public boolean evaluateBoolean(double x) {
@@ -685,46 +703,46 @@ public class GeoFunction extends GeoElement implements VarString,
 	 * save object in xml format
 	 */
 	@Override
-	public final void getXML(StringBuilder sb) {
+	public final void getXML(StringBuilder sbxml) {
 
 		// an indpendent function needs to add
 		// its expression itself
 		// e.g. f(x) = x^2 - 3x
 		if (isIndependent() && getDefaultGeoType() < 0) {
-			sb.append("<expression");
-			sb.append(" label =\"");
-			sb.append(label);
-			sb.append("\" exp=\"");
-			sb.append(StringUtil.encodeXML(toString()));
+			sbxml.append("<expression");
+			sbxml.append(" label =\"");
+			sbxml.append(label);
+			sbxml.append("\" exp=\"");
+			sbxml.append(StringUtil.encodeXML(toString(StringTemplate.xmlTemplate)));
 			// expression
-			sb.append("\"/>\n");
+			sbxml.append("\"/>\n");
 		}
 
-		sb.append("<element");
-		sb.append(" type=\"function\"");
-		sb.append(" label=\"");
-		sb.append(label);
+		sbxml.append("<element");
+		sbxml.append(" type=\"function\"");
+		sbxml.append(" label=\"");
+		sbxml.append(label);
 		if (getDefaultGeoType() >= 0) {
-			sb.append("\" default=\"");
-			sb.append(getDefaultGeoType());
+			sbxml.append("\" default=\"");
+			sbxml.append(getDefaultGeoType());
 		}
-		sb.append("\">\n");
-		getXMLtags(sb);
-		sb.append(getCaptionXML());
-		sb.append("</element>\n");
+		sbxml.append("\">\n");
+		getXMLtags(sbxml);
+		sbxml.append(getCaptionXML());
+		sbxml.append("</element>\n");
 	}
 
 	/**
 	 * returns all class-specific xml tags for getXML
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	protected void getXMLtags(StringBuilder sbxml) {
+		super.getXMLtags(sbxml);
 
 		// line thickness and type
-		getLineStyleXML(sb);
+		getLineStyleXML(sbxml);
 		if (showOnAxis()) {
-			sb.append("<showOnAxis val=\"true\" />");
+			sbxml.append("<showOnAxis val=\"true\" />");
 		}
 	}
 
@@ -1081,9 +1099,9 @@ public class GeoFunction extends GeoElement implements VarString,
 	/**
 	 * Applies an operation on first and second function and returns the result
 	 * 
-	 * @param op
-	 * @param lt
-	 * @param rt
+	 * @param op operation
+	 * @param lt left argument of op
+	 * @param rt right argument of op
 	 * @return resulting GeoFunction or GeFunctionNvar
 	 */
 	public static FunctionNVar operationSymb(Operation op, FunctionalNVar lt,
@@ -1163,15 +1181,16 @@ public class GeoFunction extends GeoElement implements VarString,
 	/**
 	 * Applies an operation on this function and number value
 	 * 
-	 * @param op
-	 * @param fun1
-	 * @param nv
+	 * @param op operation
+	 * @param fun1 function on which we want to apply this op
+	 * @param ev value to apply
 	 * @param right
 	 *            f op nv for true, nv op f for false
 	 * @return resulting function
 	 */
 	public static FunctionNVar applyNumberSymb(Operation op,
-			FunctionalNVar fun1, ExpressionValue nv, boolean right) {
+			FunctionalNVar fun1, ExpressionValue ev, boolean right) {
+		ExpressionValue nv = ev;
 		Kernel kernel = fun1.getFunction().getKernel();
 		TreeSet<String> varNames = new TreeSet<String>();
 		for (int i = 0; i < fun1.getFunction().getVarNumber(); i++)
@@ -1188,7 +1207,7 @@ public class GeoFunction extends GeoElement implements VarString,
 				((ExpressionNode) nv).replaceVariables(name, varmap.get(name));
 			}
 		else if (nv instanceof FunctionVariable)
-			nv = varmap.get(((FunctionVariable) nv).toString());
+			nv = varmap.get(((FunctionVariable) nv).toString(StringTemplate.defaultTemplate));
 
 		if (right) {
 			sum = new ExpressionNode(kernel, myExpr, op, nv);
@@ -1284,7 +1303,7 @@ public class GeoFunction extends GeoElement implements VarString,
 	 * Returns true iff x is in the interval over-ridden in
 	 * GeoFunctionConditional
 	 * 
-	 * @param x
+	 * @param x point for evaluation
 	 * @return true iff x is in the interval
 	 */
 	public boolean evaluateCondition(double x) {
@@ -1703,22 +1722,23 @@ public class GeoFunction extends GeoElement implements VarString,
 
 	final private static boolean CASError(String str, boolean allowInfinity,
 			AbstractApplication app) {
-		if (str == null || str.length() == 0)
+		String str1 = str;
+		if (str1 == null || str1.length() == 0)
 			return true;
-		if (str.equals("?"))
+		if (str1.equals("?"))
 			return true; // undefined/NaN
 		// if (str.indexOf("%i") > -1 ) return true; // complex answer
-		str = app.toLowerCase(str);
-		if (str.startsWith("'"))
+		str1 = app.toLowerCase(str1);
+		if (str1.startsWith("'"))
 			return true; // maxima error eg 'diff(
-		if (!allowInfinity && str.indexOf(Unicode.Infinity) > -1)
+		if (!allowInfinity && str1.indexOf(Unicode.Infinity) > -1)
 			return true;
-		if (str.length() > 6) {
-			if (str.startsWith("limit"))
+		if (str1.length() > 6) {
+			if (str1.startsWith("limit"))
 				return true;
-			if (str.startsWith("solve"))
+			if (str1.startsWith("solve"))
 				return true;
-			if (str.startsWith("undefined"))
+			if (str1.startsWith("undefined"))
 				return true;
 			// if (!allowInfinity && str.indexOf("Infinity") > -1) return true;
 		}
@@ -1738,6 +1758,8 @@ public class GeoFunction extends GeoElement implements VarString,
 	 * Returns geo and its function variable in currently set CAS print form
 	 * unsing temp variable prefixes. For example, f(x) = a x^2 returns
 	 * {"ggbtmpvara ggbtmpvarx^2", "ggbtmpvarx"}
+	 * @param symbolic true to keep variable names
+	 * @return {function string,var string}
 	 */
 	final public String[] getTempVarCASString(boolean symbolic) {
 		StringTemplate tpl = StringTemplate.prefixedDefault;
@@ -1809,6 +1831,9 @@ public class GeoFunction extends GeoElement implements VarString,
 		return evaluateBoolean(x0);
 	}
 
+	/**
+	 * @return true for functions of y (in 4.2 supported for ineqs only)
+	 */
 	public boolean isFunctionOfY() {
 		return getVarString(StringTemplate.defaultTemplate).equals("y");
 	}
@@ -1950,7 +1975,6 @@ public class GeoFunction extends GeoElement implements VarString,
 	@Override
 	public String getRealFormulaString(StringTemplate tpl,
 			boolean substituteNumbers) {
-		StringType ExpressionNodeType = tpl.getStringType();
 
 		String ret = "";
 		if (this.isGeoFunctionConditional()) {

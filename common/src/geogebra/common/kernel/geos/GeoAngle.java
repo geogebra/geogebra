@@ -22,7 +22,6 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AngleAlgo;
@@ -31,7 +30,6 @@ import geogebra.common.plugin.GeoClass;
 /**
  * 
  * @author Markus
- * @version
  */
 public class GeoAngle extends GeoNumeric {
 
@@ -51,10 +49,11 @@ public class GeoAngle extends GeoNumeric {
 	// Michael Borcherds 2007-10-20
 	private double rawValue;
 	/** Default minimum value when displayed as slider*/
-	final public static double DEFAULT_SLIDER_MIN = 0;
+	final public static double DEFAULT_SLIDER_MIN_ANGLE = 0;
 	/** Default maximum value when displayed as slider*/
-	final public static double DEFAULT_SLIDER_MAX = Kernel.PI_2;
-	final public static double DEFAULT_SLIDER_INCREMENT = Math.PI / 180.0;
+	final public static double DEFAULT_SLIDER_MAX_ANGLE = Kernel.PI_2;
+	/** default increment when displayed as slider */
+	final public static double DEFAULT_SLIDER_INCREMENT_ANGLE = Math.PI / 180.0;
 	/** Measure angle anticlockwise*/
 	final public static int ANGLE_ISANTICLOCKWISE = 0; // old allowReflexAngle=true
 	/** Measure angle clockwise*/
@@ -87,37 +86,41 @@ public class GeoAngle extends GeoNumeric {
 	//////////////////////////////////////////
 	// INTERVAL
 	//////////////////////////////////////////
-	
+	/** interval minima for different angle styles */
 	public static final String[] INTERVAL_MIN = {
 		"0\u00b0",
 		"0\u00b0",
 		"180\u00b0"
 	};
-	
+	/** interval maxima for different angle styles */
 	public static final String[] INTERVAL_MAX = {
 		"360\u00b0",
 		"180\u00b0",
 		"360\u00b0"
 	};
 	
-	//orders have to be changed both in following arrays
+	/** orders have to be changed both in following arrays */
 	public static final int[] INTERVAL_TO_STYLE = {
 		ANGLE_ISANTICLOCKWISE,
 		ANGLE_ISNOTREFLEX,
 		ANGLE_ISREFLEX
 	};
-
+	/** inverse of INTERVAL_TO_STYLE */
 	public static final int[] STYLE_TO_INTERVAL = {
 		0,//ANGLE_ISANTICLOCKWISE,
 		-1,
 		1,//ANGLE_ISNOTREFLEX,
 		2//ANGLE_ISREFLEX		
 	};
-
+	/**
+	 * @param index index of currently used interval
+	 */
 	public void setAngleInterval(int index){
 		setAngleStyle(INTERVAL_TO_STYLE[index]);
 	}
-	
+	/**
+	 * @return index of currently used interval
+	 */
 	public int getAngleInterval(){
 		return STYLE_TO_INTERVAL[getAngleStyle()];
 	}
@@ -309,7 +312,7 @@ public class GeoAngle extends GeoNumeric {
 
 	/**
 	 * Forces angle to be reflex or switches it to anticlockwise
-	 * @param forceReflexAngle
+	 * @param forceReflexAngle switch to reflex for true
 	 */
 	final public void setForceReflexAngle(boolean forceReflexAngle) {
 
@@ -327,28 +330,28 @@ public class GeoAngle extends GeoNumeric {
 	 * @param angleStyle clockwise, anticlockwise, (force) reflex or (force) not reflex
 	 */
 	public void setAngleStyle(int angleStyle) {
-		if (angleStyle == this.angleStyle)
+		int newAngleStyle = angleStyle;
+		if (newAngleStyle == this.angleStyle)
 			return;
 
-		this.angleStyle = angleStyle;
-		switch (angleStyle) {
+		this.angleStyle = newAngleStyle;
+		switch (newAngleStyle) {
 		case ANGLE_ISCLOCKWISE:
-			angleStyle = ANGLE_ISCLOCKWISE;
+			newAngleStyle = ANGLE_ISCLOCKWISE;
 			break;
 
 		case ANGLE_ISNOTREFLEX:
-			angleStyle = ANGLE_ISNOTREFLEX;
+			newAngleStyle = ANGLE_ISNOTREFLEX;
 			break;
 
 		case ANGLE_ISREFLEX:
-			angleStyle = ANGLE_ISREFLEX;
+			newAngleStyle = ANGLE_ISREFLEX;
 			break;
 
 		default:
-			angleStyle = ANGLE_ISANTICLOCKWISE;
+			newAngleStyle = ANGLE_ISANTICLOCKWISE;
 		}
 		// we have to reset the value of this angle
-		AlgoElement algoParent = getParentAlgorithm();
 		if (algoParent == null) {
 			// setValue(value);
 			setValue(rawValue);

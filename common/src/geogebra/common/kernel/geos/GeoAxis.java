@@ -19,14 +19,21 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.NumberFormatAdapter;
-
+/**
+ * Cartesian axis
+ * @author Markus
+ */
 public class GeoAxis extends GeoLine implements GeoAxisND {
 
 	private GeoPoint2 origin;
 	private int type;
 
 	private String axisLabel;
-
+	/**
+	 * Creates new axis
+	 * @param cons construction
+	 * @param type GeoAxisND.X_AXIS or GeoAxisND.Y_AXIS
+	 */
 	public GeoAxis(Construction cons, int type) {
 		super(cons);
 		this.type = type;
@@ -91,8 +98,9 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 			return false;
 		return str.equals(label) || str.equals(app.getPlain(label));
 	}
-
-	public String typeString() {
+	
+	@Override
+	public String getTypeString() {
 		return "Line";
 	}
 
@@ -104,7 +112,9 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 	// /////////////////////////////////////
 	// GEOAXISND INTERFACE
 	// /////////////////////////////////////
-
+	/**
+	 * @param label new label for this axis
+	 */
 	public void setAxisLabel(String label) {
 		axisLabel = label;
 	}
@@ -147,10 +157,10 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 	}
 
 	public void updateDecorations(double distance,
-			NumberFormatAdapter numberFormat, int xOffset, int yOffset,
+			NumberFormatAdapter numberFormat1, int xOffset, int yOffset,
 			int labelXOffset, int labelYOffset) {
 		this.numbersDistance = distance;
-		this.numberFormat = numberFormat;
+		this.numberFormat = numberFormat1;
 		this.numbersXOffset = xOffset;
 		this.numbersYOffset = yOffset;
 		setLabelOffset(labelXOffset, labelYOffset);

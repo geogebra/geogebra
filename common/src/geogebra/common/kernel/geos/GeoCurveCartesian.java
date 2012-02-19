@@ -238,7 +238,10 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		}
 		distFun = new ParametricCurveDistanceFunction(this);
 	}
-
+	/**
+	 * @param order order of derivative
+	 * @return derivative as curve
+	 */
 	public GeoCurveCartesian getGeoDerivative(int order) {
 		if (derivGeoFun == null) {
 			derivGeoFun = new GeoCurveCartesian(cons);
@@ -252,17 +255,18 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 	/**
 	 * Set this curve to the n-th derivative of c
+	 * @param curve curve whose derivative we want
 	 * 
 	 * @param n
 	 *            order of derivative
 	 */
-	public void setDerivative(GeoCurveCartesian c, int n) {
-		if (c.isDefined()) {
-			funX = c.funX.getDerivative(n);
-			funY = c.funY.getDerivative(n);
+	public void setDerivative(GeoCurveCartesian curve, int n) {
+		if (curve.isDefined()) {
+			funX = curve.funX.getDerivative(n);
+			funY = curve.funY.getDerivative(n);
 			isDefined = !(funX == null || funY == null);
 			if (isDefined)
-				setInterval(c.startParam, c.endParam);
+				setInterval(curve.startParam, curve.endParam);
 		} else {
 			isDefined = false;
 		}
@@ -273,14 +277,15 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 * Sets this curve to the parametric derivative of the given curve c. The
 	 * parametric derivative of a curve c(t) = (x(t), y(t)) is defined as (x(t),
 	 * y'(t)/x'(t)).
+	 * @param curve curve whose derivative we want
 	 */
-	public void setParametricDerivative(GeoCurveCartesian c) {
-		if (c.isDefined()) {
-			funX = c.funX;
-			funY = Function.getDerivativeQuotient(c.funX, c.funY);
+	public void setParametricDerivative(GeoCurveCartesian curve) {
+		if (curve.isDefined()) {
+			funX = curve.funX;
+			funY = Function.getDerivativeQuotient(curve.funX, curve.funY);
 			isDefined = !(funX == null || funY == null);
 			if (isDefined)
-				setInterval(c.startParam, c.endParam);
+				setInterval(curve.startParam, curve.endParam);
 		} else {
 			isDefined = false;
 		}
@@ -289,6 +294,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 	// added by Loic Le Coq 2009/08/12
 	/**
+	 * @param tpl string template
 	 * @return value string x-coord function
 	 */
 	final public String getFunX(StringTemplate tpl) {
@@ -296,6 +302,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	}
 
 	/**
+	 * @param tpl string template
 	 * @return value string y-coord function
 	 */
 	final public String getFunY(StringTemplate tpl) {
@@ -414,8 +421,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 * 
 	 * @param n
 	 *            number of requested points
-	 * @param startInterval
-	 * @param endInterval
+	 * @param startInterval least value of param
+	 * @param endInterval highest value of param
 	 * @return array list of points
 	 */
 	public ArrayList<GeoPoint2> getPointsOnCurve(int n, double startInterval,
@@ -629,6 +636,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 * @return optimal parameter value t
 	 */
 	public double getClosestParameter(GeoPoint2 P, double startValue) {
+		double startVal = startValue;
 		if (distFun == null)
 			distFun = new ParametricCurveDistanceFunction(this);
 		distFun.setDistantPoint(P.getX() / P.getZ(), P.getY() / P.getZ());
@@ -644,8 +652,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 			// if we don't have a startValue yet, let's take the path parameter
 			// as a guess
-			if (Double.isNaN(startValue))
-				startValue = pathParam;
+			if (Double.isNaN(startVal))
+				startVal = pathParam;
 		}
 
 		// first sample distFun to find a start intervall for ExtremumFinder
@@ -673,10 +681,10 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 		// if we have a valid startParam we try the intervall around it too
 		// however, we don't check the same intervall again
-		if (!Double.isNaN(startValue)
-				&& (startValue < left || right < startValue)) {
-			left = Math.max(startParam, startValue - step);
-			right = Math.min(endParam, startValue + step);
+		if (!Double.isNaN(startVal)
+				&& (startVal < left || right < startVal)) {
+			left = Math.max(startParam, startVal - step);
+			right = Math.min(endParam, startVal + step);
 			double startValResult = extFinder.findMinimum(left, right, distFun,
 					Kernel.MIN_PRECISION);
 			if (distFun.evaluate(startValResult) < distFun
@@ -880,7 +888,11 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 				transZ));
 
 	}
-
+	/**
+	 * 
+	 * @param points list of vertices
+	 * @param repeatLast true if we should add last-first edge
+	 */
 	public void setFromPolyLine(GeoPointND[] points, boolean repeatLast) {
 		double coef = 0, coefY = 0;
 		double cumulative = 0, cumulativeY = 0;
@@ -921,7 +933,11 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		this.setFunctionX(xFun);
 		this.setInterval(0, limit - 1);
 	}
-
+	/**
+	 * Hide range in formula -- needed when the curve is infinite and 
+	 * range is used for drawing only (e.g. rotated functions)
+	 * @param b true to hide
+	 */
 	public void setHideRangeInFormula(boolean b) {
 		hideRangeInFormula = b;
 	}

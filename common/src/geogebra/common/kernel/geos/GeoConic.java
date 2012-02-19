@@ -84,7 +84,12 @@ public class GeoConic extends GeoConicND implements Region, Traceable,
 		this(conic.cons);
 		set(conic);
 	}
-
+	/**
+	 * Creates new conic
+	 * @param c construction
+	 * @param label label 
+	 * @param coeffList list of coefficients
+	 */
 	public GeoConic(Construction c, String label, GeoList coeffList) {
 		this(c);
 
@@ -230,13 +235,13 @@ public class GeoConic extends GeoConicND implements Region, Traceable,
 	 * 
 	 * @version 2010-01-21
 	 * @author Michael Borcherds
-	 * @param c
+	 * @param mirror
 	 *            Circle used as mirror
 	 */
-	final public void mirror(GeoConic c) {
-		if (c.isCircle() && this.isCircle()) { // Mirror point in circle
-			double r1 = c.getHalfAxes()[0];
-			GeoVec2D midpoint1 = c.getTranslationVector();
+	final public void mirror(GeoConic mirror) {
+		if (mirror.isCircle() && this.isCircle()) { // Mirror point in circle
+			double r1 = mirror.getHalfAxes()[0];
+			GeoVec2D midpoint1 = mirror.getTranslationVector();
 			double x1 = midpoint1.x;
 			double y1 = midpoint1.y;
 
@@ -246,10 +251,10 @@ public class GeoConic extends GeoConicND implements Region, Traceable,
 			double y2 = midpoint2.y;
 
 			// distance between centres
-			double p = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+			double dist = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
 
 			// does circle being inverted pass through center of the other?
-			if (Kernel.isEqual(p, r2)) {
+			if (Kernel.isEqual(dist, r2)) {
 				double dx = x2 - x1;
 				double dy = y2 - y1;
 				// (x3,y3) is reflection of reflection of (x1+2dx,x1+2dy) an
@@ -272,63 +277,63 @@ public class GeoConic extends GeoConicND implements Region, Traceable,
 				return;
 			}
 
-			double x = r1 * r1 / (p - r2);
-			double y = r1 * r1 / (p + r2);
+			double x = r1 * r1 / (dist - r2);
+			double y = r1 * r1 / (dist + r2);
 
 			// radius of new circle
 			double r3 = Math.abs(y - x) / 2.0;
-			double centerX = x1 + (x2 - x1) * (Math.min(x, y) + r3) / p;
-			double centerY = y1 + (y2 - y1) * (Math.min(x, y) + r3) / p;
+			double centerX = x1 + (x2 - x1) * (Math.min(x, y) + r3) / dist;
+			double centerY = y1 + (y2 - y1) * (Math.min(x, y) + r3) / dist;
 
 			// double sf=r1*r1/((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
 			// setCoords( x1+sf*(x2-x1), y1+sf*(y2-y1) ,1.0);
-			GeoPoint2 temp = new GeoPoint2(cons, null, centerX, centerY, 1.0);
-			setCircleMatrix(temp, r3);
-			temp.removeOrSetUndefinedIfHasFixedDescendent();
-		} else if (c.isCircle()
+			GeoPoint2 tmp = new GeoPoint2(cons, null, centerX, centerY, 1.0);
+			setCircleMatrix(tmp, r3);
+			tmp.removeOrSetUndefinedIfHasFixedDescendent();
+		} else if (mirror.isCircle()
 				&& (this.getType() == GeoConicNDConstants.CONIC_LINE || this
 						.getType() == GeoConicNDConstants.CONIC_PARALLEL_LINES)) { // Mirror
 																					// point
 																					// in
 																					// circle
 
-			if (c.getType() == GeoConicNDConstants.CONIC_CIRCLE) { // Mirror
+			if (mirror.getType() == GeoConicNDConstants.CONIC_CIRCLE) { // Mirror
 																	// point in
 																	// circle
-				double r = c.getHalfAxes()[0];
-				GeoVec2D midpoint = c.getTranslationVector();
-				double a = midpoint.x;
-				double b = midpoint.y;
+				double r = mirror.getHalfAxes()[0];
+				GeoVec2D midPoint = mirror.getTranslationVector();
+				double mx = midPoint.x;
+				double my = midPoint.y;
 				double lx = (getLines()[0]).x;
 				double ly = (getLines()[0]).y;
 				double lz = (getLines()[0]).z;
 				double perpY, perpX;
 
 				if (lx == 0) {
-					perpX = a;
+					perpX = mx;
 					perpY = -lz / ly;
 				} else {
-					perpY = -(lx * ly * a - lx * lx * b + ly * lz)
+					perpY = -(lx * ly * mx - lx * lx * my + ly * lz)
 							/ (lx * lx + ly * ly);
 					perpX = (-lz - ly * perpY) / lx;
 
 				}
-				double dist2 = ((perpX - a) * (perpX - a) + (perpY - b)
-						* (perpY - b));
+				double dist2 = ((perpX - mx) * (perpX - mx) + (perpY - my)
+						* (perpY - my));
 				// if line goes through center, we keep it
 				if (!Kernel.isZero(dist2)) {
 					double sf = r * r / dist2;
 					// GeoPoint p =new GeoPoint(cons,null,a+sf*(perpX-a),
 					// b+sf*(perpY-b) ,1.0);
 					GeoPoint2 m = new GeoPoint2(cons);
-					m.setCoords(a + sf * (perpX - a) / 2, b + sf * (perpY - b)
+					m.setCoords(mx + sf * (perpX - mx) / 2, my + sf * (perpY - my)
 							/ 2, 1.0);
 					setSphereND(
 							m,
 							sf
 									/ 2
-									* Math.sqrt(((perpX - a) * (perpX - a) + (perpY - b)
-											* (perpY - b))));
+									* Math.sqrt(((perpX - mx) * (perpX - mx) + (perpY - my)
+											* (perpY - my))));
 				} else
 					type = GeoConicNDConstants.CONIC_LINE;
 			} else {
@@ -410,9 +415,9 @@ public class GeoConic extends GeoConicND implements Region, Traceable,
 		// cos(2 phi) = 2 cos sin
 		double sin2 = 2.0 * cos * sin;
 
-		double temp = diff * cos2 + 2.0 * matrix[3] * sin2;
-		double A0 = (sum + temp) / 2.0;
-		double A1 = (sum - temp) / 2.0;
+		double tmp = diff * cos2 + 2.0 * matrix[3] * sin2;
+		double A0 = (sum + tmp) / 2.0;
+		double A1 = (sum - tmp) / 2.0;
 		double A3 = -matrix[3] * cos2 + diff * cos * sin;
 		double A4 = matrix[4] * cos + matrix[5] * sin;
 		matrix[5] = -matrix[5] * cos + matrix[4] * sin;
@@ -481,37 +486,37 @@ public class GeoConic extends GeoConicND implements Region, Traceable,
 			double a11, double a12, double a20, double a21, double a22) {
 		// TODO Auto-generated method stub
 
-		double[][] b = MyMath.adjoint(a00, a01, a02, a10, a11, a12, a20, a21,
+		double[][] adj = MyMath.adjoint(a00, a01, a02, a10, a11, a12, a20, a21,
 				a22);
 		/*
 		 * ( A[0] A[3] A[4] ) matrix = ( A[3] A[1] A[5] ) ( A[4] A[5] A[2] )
 		 * P=matrix*B
 		 */
-		double p00 = matrix[0] * b[0][0] + matrix[3] * b[0][1] + matrix[4]
-				* b[0][2];
-		double p01 = matrix[0] * b[1][0] + matrix[3] * b[1][1] + matrix[4]
-				* b[1][2];
-		double p02 = matrix[0] * b[2][0] + matrix[3] * b[2][1] + matrix[4]
-				* b[2][2];
-		double p10 = matrix[3] * b[0][0] + matrix[1] * b[0][1] + matrix[5]
-				* b[0][2];
-		double p11 = matrix[3] * b[1][0] + matrix[1] * b[1][1] + matrix[5]
-				* b[1][2];
-		double p12 = matrix[3] * b[2][0] + matrix[1] * b[2][1] + matrix[5]
-				* b[2][2];
-		double p20 = matrix[4] * b[0][0] + matrix[5] * b[0][1] + matrix[2]
-				* b[0][2];
-		double p21 = matrix[4] * b[1][0] + matrix[5] * b[1][1] + matrix[2]
-				* b[1][2];
-		double p22 = matrix[4] * b[2][0] + matrix[5] * b[2][1] + matrix[2]
-				* b[2][2];
+		double p00 = matrix[0] * adj[0][0] + matrix[3] * adj[0][1] + matrix[4]
+				* adj[0][2];
+		double p01 = matrix[0] * adj[1][0] + matrix[3] * adj[1][1] + matrix[4]
+				* adj[1][2];
+		double p02 = matrix[0] * adj[2][0] + matrix[3] * adj[2][1] + matrix[4]
+				* adj[2][2];
+		double p10 = matrix[3] * adj[0][0] + matrix[1] * adj[0][1] + matrix[5]
+				* adj[0][2];
+		double p11 = matrix[3] * adj[1][0] + matrix[1] * adj[1][1] + matrix[5]
+				* adj[1][2];
+		double p12 = matrix[3] * adj[2][0] + matrix[1] * adj[2][1] + matrix[5]
+				* adj[2][2];
+		double p20 = matrix[4] * adj[0][0] + matrix[5] * adj[0][1] + matrix[2]
+				* adj[0][2];
+		double p21 = matrix[4] * adj[1][0] + matrix[5] * adj[1][1] + matrix[2]
+				* adj[1][2];
+		double p22 = matrix[4] * adj[2][0] + matrix[5] * adj[2][1] + matrix[2]
+				* adj[2][2];
 
-		matrix[0] = b[0][0] * p00 + b[0][1] * p10 + b[0][2] * p20;
-		matrix[3] = b[0][0] * p01 + b[0][1] * p11 + b[0][2] * p21;
-		matrix[4] = b[0][0] * p02 + b[0][1] * p12 + b[0][2] * p22;
-		matrix[1] = b[1][0] * p01 + b[1][1] * p11 + b[1][2] * p21;
-		matrix[5] = b[1][0] * p02 + b[1][1] * p12 + b[1][2] * p22;
-		matrix[2] = b[2][0] * p02 + b[2][1] * p12 + b[2][2] * p22;
+		matrix[0] = adj[0][0] * p00 + adj[0][1] * p10 + adj[0][2] * p20;
+		matrix[3] = adj[0][0] * p01 + adj[0][1] * p11 + adj[0][2] * p21;
+		matrix[4] = adj[0][0] * p02 + adj[0][1] * p12 + adj[0][2] * p22;
+		matrix[1] = adj[1][0] * p01 + adj[1][1] * p11 + adj[1][2] * p21;
+		matrix[5] = adj[1][0] * p02 + adj[1][1] * p12 + adj[1][2] * p22;
+		matrix[2] = adj[2][0] * p02 + adj[2][1] * p12 + adj[2][2] * p22;
 
 		this.classifyConic(false);
 	}
@@ -530,6 +535,9 @@ public class GeoConic extends GeoConicND implements Region, Traceable,
 	 * ( A[0] A[3] A[4] ) matrix = ( A[3] A[1] A[5] ) ( A[4] A[5] A[2] )
 	 */
 
+	/**
+	 * @param coeff matrix of coefficients
+	 */
 	public void setCoeffs(ExpressionValue[][] coeff) {
 
 		matrix[0] = evalCoeff(coeff, 2, 0);
@@ -555,11 +563,16 @@ public class GeoConic extends GeoConicND implements Region, Traceable,
 		}
 		return 0;
 	}
-
+	/**
+	 * @return parameter of parabola
+	 */
 	public double getP() {
 		return p;
 	}
-
+	/**
+	 * Set this conic from line (type will be CONIC_LINE)
+	 * @param line line
+	 */
 	public void fromLine(GeoLine line) {
 		lines = new GeoLine[2];
 		lines[0] = line;

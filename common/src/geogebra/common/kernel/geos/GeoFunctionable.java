@@ -12,10 +12,18 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
-
-
+/**
+ * Interface for functions convertible to GeoFunction
+ * @author Markus
+ *
+ */
 public interface GeoFunctionable {
-	
-	public GeoFunction getGeoFunction();	
+	/**
+	 * @return this as GeoFunction
+	 */
+	public GeoFunction getGeoFunction();
+	/**
+	 * @return this as GeoElement
+	 */
 	public GeoElement toGeoElement();
 }

@@ -28,7 +28,6 @@ import java.util.HashSet;
 /**
  * 
  * @author Markus
- * @version
  */
 public class GeoBoolean extends GeoElement implements BooleanValue,
 		NumberValue, AbsoluteScreenLocateable {
@@ -39,14 +38,23 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 
 	private ArrayList<GeoElement> condListenersShowObject;
 
+	/**
+	 * Creates new boolean
+	 * @param c construction
+	 */
 	public GeoBoolean(Construction c) {
 		super(c);
 		setEuclidianVisible(false);
 	}
 
-	public GeoBoolean(Construction cons, boolean b) {
+	/**
+	 * Creates new boolean
+	 * @param cons construction
+	 * @param value value
+	 */
+	public GeoBoolean(Construction cons, boolean value) {
 		this(cons);
-		value = b;
+		this.value = value;
 	}
 
 	@Override
@@ -69,6 +77,10 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		return GeoClass.BOOLEAN;
 	}
 
+	/**
+	 * Changes value of this boolean
+	 * @param val new value
+	 */
 	public void setValue(boolean val) {
 		value = val;
 	}
@@ -91,13 +103,17 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	/**
 	 * Registers geo as a listener for updates of this boolean object. If this
 	 * object is updated it calls geo.updateConditions()
+	 * @param geo geo which should use this boolean as condition to show
 	 */
 	public void registerConditionListener(GeoElement geo) {
 		if (condListenersShowObject == null)
 			condListenersShowObject = new ArrayList<GeoElement>();
 		condListenersShowObject.add(geo);
 	}
-
+	/**
+	 * Unregisters geo as a listener for updates of this boolean object.
+	 * @param geo geo which uses this boolean as condition to show
+	 */
 	public void unregisterConditionListener(GeoElement geo) {
 		if (condListenersShowObject != null) {
 			condListenersShowObject.remove(geo);
@@ -146,6 +162,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 
 	@Override
 	public void resolveVariables() {
+		//do nothing
 	}
 
 	@Override
@@ -193,6 +210,9 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		isDefined = false;
 	}
 
+	/**
+	 * Changes the defined flag of this boolean
+	 */
 	final public void setDefined() {
 		isDefined = true;
 	}
@@ -200,14 +220,6 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	@Override
 	final public boolean isDefined() {
 		return isDefined;
-	}
-
-	// dummy implementation of mode
-	final public void setMode(int mode) {
-	}
-
-	final public static int getMode() {
-		return -1;
 	}
 
 	@Override
@@ -223,20 +235,12 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		StringBuilder sbToString = getSbToString();
+		StringBuilder sbToString = new StringBuilder();
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(" = ");
 		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
-	}
-
-	private StringBuilder sbToString;
-
-	private StringBuilder getSbToString() {
-		if (sbToString == null)
-			sbToString = new StringBuilder();
-		return sbToString;
 	}
 
 	/**
@@ -340,15 +344,21 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	}
 
 	public void setAbsoluteScreenLocActive(boolean flag) {
+		//do nothing
 	}
 
 	public void setRealWorldLoc(double x, double y) {
+		//do nothing
 	}
-
+	/**
+	 * @return true for fixed checkboxes
+	 */
 	public final boolean isCheckboxFixed() {
 		return checkboxFixed;
 	}
-
+	/**
+	 * @param checkboxFixed true to fix checkbox
+	 */
 	public final void setCheckboxFixed(boolean checkboxFixed) {
 		this.checkboxFixed = checkboxFixed;
 	}

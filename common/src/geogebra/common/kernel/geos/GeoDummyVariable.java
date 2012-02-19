@@ -13,7 +13,11 @@ import geogebra.common.kernel.StringTemplate;
 public class GeoDummyVariable extends GeoNumeric {
 
 	private String varName;
-	
+	/**
+	 * Creates new dummy variable
+	 * @param c construction
+	 * @param varName variable name
+	 */
 	public GeoDummyVariable(Construction c, String varName) {
 		super(c);	
 		this.varName = varName;

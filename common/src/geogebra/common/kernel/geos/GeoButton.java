@@ -23,7 +23,6 @@ import geogebra.common.awt.Font;
 /**
  * 
  * @author Michael
- * @version
  */
 public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, TextProperties {			
 
@@ -34,6 +33,10 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 
 	private boolean serifFont = false;
 	
+	/**
+	 * Creates new button
+	 * @param c construction
+	 */
 	public GeoButton(Construction c) {
 		super(c);
 		
@@ -45,7 +48,12 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 		setEuclidianVisible(true);
 		setAuxiliaryObject(true);
 	}
-
+	/**
+	 * Creates new button
+	 * @param cons construction
+	 * @param labelOffsetX x offset
+	 * @param labelOffsetY y offset
+	 */
 	public GeoButton(Construction cons, int labelOffsetX, int labelOffsetY) {
 		this(cons);
 		this.labelOffsetX = labelOffsetX;
@@ -83,7 +91,8 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	}
 
 	@Override
-	public void resolveVariables() {     
+	public void resolveVariables() {
+		//do nothing
     }
 		
 	@Override
@@ -103,28 +112,21 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 
 	@Override
 	public void set(GeoElement geo) {
+		if(!geo.isGeoButton())
+			return;
+		setCaption(geo.getRawCaption());
 	}
 
 	@Override
 	final public void setUndefined() {
-	}
-	
-	final public void setDefined() {
+		//do nothing
 	}
 
 	@Override
 	final public boolean isDefined() {
 		return true;
 	}			
-	
-	// dummy implementation of mode
-	final public void setMode(int mode) {
-	}
 
-	final public static int getMode() {
-		return -1;
-	}
-	
 	@Override
 	public String toValueString(StringTemplate tpl) {
 		return "";
@@ -182,20 +184,29 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 		return labelOffsetY;
 	}
 
-	public void setAbsoluteScreenLocActive(boolean flag) {				
+	public void setAbsoluteScreenLocActive(boolean flag) {
+		//do nothing
 	}
 
-	public void setRealWorldLoc(double x, double y) {				
+	public void setRealWorldLoc(double x, double y){
+		//do nothing
 	}
-
+	/**
+	 * @return true for fixed buttons
+	 */
 	public final boolean isButtonFixed() {
 		return buttonFixed;
 	}
 
+	/**
+	 * @param buttonFixed true to make button fixed
+	 */
 	public final void setButtonFixed(boolean buttonFixed) {
 		this.buttonFixed = buttonFixed;
 	}
-	
+	/**
+	 * @return true for textfields, false for buttons
+	 */
 	public boolean isTextField() {
 		return false;
 	}
@@ -245,10 +256,11 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	}
 
 	public void setPrintDecimals(int printDecimals, boolean update) {
-	
+		//do nothing
 	}
 
 	public void setPrintFigures(int printFigures, boolean update) {
+		//do nothing
 	}
 
 	public boolean isSerifFont() {
