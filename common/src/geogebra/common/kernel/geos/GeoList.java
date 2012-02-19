@@ -47,9 +47,9 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		PointProperties, TextProperties, Traceable, Path, Transformable,
 		SpreadsheetTraceable {
 
-	public final static GeoClass ELEMENT_TYPE_MIXED = GeoClass.DEFAULT;
+	private final static GeoClass ELEMENT_TYPE_MIXED = GeoClass.DEFAULT;
 
-	public boolean trace;
+	private boolean trace;
 
 	private static String STR_OPEN = "{";
 	private static String STR_CLOSE = "}";
@@ -75,6 +75,10 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	private ArrayList<GeoElement> colorFunctionListener; // Michael Borcherds
 															// 2008-04-02
 
+	/**
+	 * Creates new GeoList, size defaults to 20
+	 * @param c construction
+	 */
 	public GeoList(final Construction c) {
 		this(c, 20);
 	}
@@ -97,7 +101,10 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		super.setParentAlgorithm(algo);
 		setEuclidianVisible(true);
 	}
-
+	/**
+	 * Copy constructor
+	 * @param list list to copy
+	 */
 	public GeoList(final GeoList list) {
 		this(list.cons, list.size());
 		set(list);
@@ -164,7 +171,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 * Set if the list should show all properties in the properties dialog. This
 	 * is just recommended for the default list.
 	 * 
-	 * @param showAllProperties
+	 * @param showAllProperties true to show all properties
 	 */
 	public void setShowAllProperties(final boolean showAllProperties) {
 		this.showAllProperties = showAllProperties;
@@ -262,6 +269,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			try {
 				geo.setShowObjectCondition(getShowObjectCondition());
 			} catch (final Exception e) {
+				//Circular definition -- do nothing
 			}
 
 			setElementEuclidianVisible(geo, isSetEuclidianVisible());
@@ -467,7 +475,10 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	final public boolean isDefined() {
 		return isDefined;
 	}
-
+	
+	/**
+	 * @param flag true to make this list defined
+	 */
 	public void setDefined(final boolean flag) {
 		isDefined = flag;
 
@@ -502,11 +513,14 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return true;
 	}
 
+	/**
+	 * Clear the list
+	 */
 	public final void clear() {
 		geoList.clear();
 	}
 
-	/*
+	/**
 	 * free up memory and set undefined
 	 */
 	public final void clearCache() {
@@ -523,10 +537,12 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		setUndefined();
 		System.gc();
 	}
-
-	public final void add(final GeoElement geoI) {
+	/**
+	 * Adds a geo to this list
+	 * @param geo geo to be added
+	 */
+	public final void add(final GeoElement geo) {
 		// add geo to end of list
-		final GeoElement geo = geoI;
 		geoList.add(geo);
 
 		/*
@@ -627,7 +643,11 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			return null;
 		}
 	}
-
+	
+	/**
+	 * Increases capcity of this list if necessary
+	 * @param size capcity to ensure
+	 */
 	final public void ensureCapacity(final int size) {
 		geoList.ensureCapacity(size);
 		cacheList.ensureCapacity(size);
@@ -636,7 +656,9 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	final public int size() {
 		return geoList.size();
 	}
-
+	/**
+	 * @return number of elements in this list's cache
+	 */
 	final public int getCacheSize() {
 		return cacheList.size();
 	}
@@ -655,6 +677,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 	@Override
 	public String toString(StringTemplate tpl) {
+		StringBuilder sbToString = new StringBuilder(50);
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(" = ");
@@ -689,7 +712,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return sbBuildValueString.toString();
 	}
 
-	StringBuilder sbToString = new StringBuilder(50);
+	
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
@@ -825,7 +848,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 * Registers geo as a listener for updates of this boolean object. If this
 	 * object is updated it calls geo.updateConditions()
 	 * 
-	 * @param geo
+	 * @param geo element which should use this list as dynamic color
 	 */
 	public void registerColorFunctionListener(final GeoElement geo) {
 		if (colorFunctionListener == null) {
@@ -833,7 +856,11 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		}
 		colorFunctionListener.add(geo);
 	}
-
+	/**
+	 * Unregisters geo as a listener for updates of this boolean object.
+	 * 
+	 * @param geo element which uses this list as dynamic color
+	 */
 	public void unregisterColorFunctionListener(final GeoElement geo) {
 		if (colorFunctionListener != null) {
 			colorFunctionListener.remove(geo);
@@ -1010,7 +1037,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return super.getLineType();
 	}
 
-	public int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
+	private int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
 	private int pointStyle = -1; // use global option if -1
 
 	public void setPointSize(final int size) {
@@ -1143,8 +1170,8 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return this;
 	}
 
-	/*
-	 * is this a list in the form { {1,2}, {3,4}, {5,6} } etc
+	/**
+	 * @return true iff this list is in the form { {1,2}, {3,4}, {5,6} } etc
 	 */
 	public boolean isMatrix() {
 
@@ -1189,7 +1216,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	private int fontSize = 0; // size relative to default font size
 	private int printDecimals = -1;
 	private int printFigures = -1;
-	public boolean useSignificantFigures = false;
+	private boolean useSignificantFigures = false;
 
 	public int getFontSize() {
 		return fontSize;
@@ -1331,9 +1358,10 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		}
 	}
 
-	/*
+	/**
 	 * for a list like this: {Circle[B, A], (x(A), y(A)), "text"} we want to be
 	 * able to set the line properties
+	 * @return true if all elements have line properties
 	 */
 	public boolean showLineProperties() {
 		if (showAllProperties) {
@@ -1350,9 +1378,10 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return false;
 	}
 
-	/*
+	/**
 	 * for a list like this: {Circle[B, A], (x(A), y(A)), "text"} we want to be
 	 * able to set the point properties
+	 * @return true if all elements have point properties
 	 */
 	public boolean showPointProperties() {
 		if (showAllProperties) {
@@ -1436,10 +1465,16 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 	private int closestPointIndex;
 
+	/**
+	 * @return selected index
+	 */
 	public int getSelectedIndex() {
 		return selectedIndex;
 	}
 
+	/**
+	 * @param selectedIndex0 new selected index
+	 */
 	public void setSelectedIndex(final int selectedIndex0) {
 		selectedIndex = selectedIndex0;
 	}
@@ -1454,9 +1489,10 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return true;
 	}
 
-	/*
+	/**
 	 * when list is visible (as a combobox) this returns the element selected by
 	 * the user or null if there's a problem
+	 * @return selected element
 	 */
 	public GeoElement getSelectedElement() {
 		if ((selectedIndex > -1) && (selectedIndex < size())) {
@@ -1525,6 +1561,10 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 	}
 
+	/**
+	 * Nearest point to p
+	 * @param p point
+	 */
 	public void getNearestPoint(final GeoPointND p) {
 		// Application.printStacktrace(p.inhomX+" "+p.inhomY);
 		double distance = Double.POSITIVE_INFINITY;
@@ -1749,6 +1789,12 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return sb.toString();
 	}
 
+	/**
+	 * Returns true if this list contains given geo
+	 * (check based on ==, not value equality)
+	 * @param geo geo to check
+	 * @return true if the list contains given geo
+	 */
 	public boolean listContains(final GeoElement geo) {
 		if (geoList == null) {
 			return true;
@@ -1820,6 +1866,10 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return spreadsheetTraceList;
 	}
 
+	/**
+	 * Performs all GeoScriptActions contained in this list
+	 * @return number of actions that were performed
+	 */
 	public int performScriptActions() {
 		int actions = 0;
 		for (int i = 0; i < size(); i++) {

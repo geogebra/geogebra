@@ -96,7 +96,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 		}
 
 		// draw trace
-		if (geoList.trace) {
+		if (geoList.getTrace()) {
 			isTracing = true;
 			geogebra.common.awt.Graphics2D g2 = view.getBackgroundGraphics();
 			if (g2 != null)
