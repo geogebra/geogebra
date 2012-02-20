@@ -468,12 +468,9 @@ public class GlobalKeyDispatcher extends
 
 			// Ctrl + "+", Ctrl + "-" zooms in or out in graphics view
 			case MyKeyCodes.KEY_NUMPADPLUS:
+			case MyKeyCodes.KEY_NUMPADMINUS:
 			case MyKeyCodes.KEY_MINUS:
 			case MyKeyCodes.KEY_EQUALS:
-				
-				if (event.getNativeKeyCode() == MyKeyCodes.KEY_NUMPADPLUS) AbstractApplication.debug("plus");
-				if (event.getNativeKeyCode() == MyKeyCodes.KEY_MINUS) AbstractApplication.debug("minus");
-				if (event.getNativeKeyCode() == MyKeyCodes.KEY_EQUALS) AbstractApplication.debug("equals");
 				
 				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 
@@ -940,6 +937,7 @@ public class GlobalKeyDispatcher extends
 			break;
 
 		case MyKeyCodes.KEY_MINUS:
+		case MyKeyCodes.KEY_NUMPADMINUS:
 		//case MyKeyCodes.KEY_SUBTRACT:
 		case MyKeyCodes.KEY_DOWN:
 			changeVal = -base;
