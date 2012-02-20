@@ -1,6 +1,6 @@
 package geogebra.common.kernel;
 
-import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.ToGeoElement;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -10,7 +10,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  * see GeoList.pointChanged()
  */
 
-public interface PathOrPoint {
+public interface PathOrPoint extends ToGeoElement{
 	
 	/*
 	static final int PATH_LINE = 0;
@@ -45,17 +45,11 @@ public interface PathOrPoint {
 	
 	/**
 	 * Returns true iff the given point lies on this path.
-	 * @param PI 
-	 * @param eps 
+	 * @param PI point
+	 * @param eps precision
 	 * @return true iff the given point lies on this path.
 	 */	
 	public boolean isOnPath(GeoPointND PI, double eps);
-	
-	/**
-	 * Returns this path as an object of type GeoElement.
-	 * @return this path as geo
-	 */
-	public GeoElement toGeoElement();
 	
 	/**
 	 * Returns the smallest possible parameter value for this

@@ -21,7 +21,6 @@ package geogebra.common.kernel.arithmetic;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.util.MyMath;
@@ -119,9 +118,9 @@ public class MyDouble extends ValidExpression implements NumberValue,
 
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel) {
+	public ExpressionValue deepCopy(Kernel kernel1) {
 		MyDouble ret = new MyDouble(this);
-		ret.kernel = kernel;
+		ret.kernel = kernel1;
 		return ret;
 	}
 
@@ -130,6 +129,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	}
 
 	public void resolveVariables() {
+		//do nothing
 	}
 
 	@Override
@@ -142,7 +142,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		}
 		return kernel.format(val,tpl);
 	}
-
+	@Override
 	final public String toValueString(StringTemplate tpl) {
 		return toString(tpl);
 	}

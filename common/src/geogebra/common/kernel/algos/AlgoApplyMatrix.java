@@ -74,7 +74,7 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 			outGeo = new GeoList(cons);
 		} else if (inGeo instanceof GeoFunction) {
 			out = new GeoCurveCartesian(cons);
-			outGeo = (GeoElement) out;
+			outGeo = out.toGeoElement();
 		} else {
 			out = (MatrixTransformable) inGeo.copy();
 			outGeo = out.toGeoElement();

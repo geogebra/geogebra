@@ -66,9 +66,9 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
     }    	        
     
 	private void setIncidence() {
-		A.addIncidence((GeoElement)conicPart);
-		B.addIncidence((GeoElement)conicPart);
-		C.addIncidence((GeoElement)conicPart);
+		A.addIncidence(conicPart);
+		B.addIncidence(conicPart);
+		C.addIncidence(conicPart);
 	}
 
 	@Override
@@ -100,7 +100,7 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
         input[2] = C;        
 
         super.setOutputLength(1);
-        super.setOutput(0, (GeoElement)conicPart);
+        super.setOutput(0, conicPart);
 
         setDependencies();
     }
@@ -112,7 +112,7 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
     		return;
     	}
     	
-    	conicPart.set((GeoElement)conic); 
+    	conicPart.set(conic); 
     	switch (conicPart.getType()) {
     		case GeoConicNDConstants.CONIC_PARALLEL_LINES: 	
     			computeDegenerate();

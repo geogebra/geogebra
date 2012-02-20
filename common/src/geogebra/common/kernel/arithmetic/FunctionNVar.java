@@ -16,7 +16,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.Operation;
@@ -54,7 +53,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	 * Creates new Function from expression. Note: call initFunction() after
 	 * this constructor.
 	 * 
-	 * @param expression
+	 * @param expression function expression
 	 */
 	public FunctionNVar(ExpressionNode expression) {
 		kernel = expression.getKernel();
@@ -66,8 +65,8 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	 * Creates new Function from expression where the function variables in
 	 * expression is already known.
 	 * 
-	 * @param exp
-	 * @param fVars
+	 * @param exp function expression
+	 * @param fVars variables
 	 */
 	public FunctionNVar(ExpressionNode exp, FunctionVariable[] fVars) {
 		kernel = exp.getKernel();
@@ -93,7 +92,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	 * 
 	 * @param f
 	 *            source function
-	 * @param kernel
+	 * @param kernel kernel
 	 */
 	public FunctionNVar(FunctionNVar f, Kernel kernel) {
 		expression = f.expression.getCopy(kernel);
@@ -107,7 +106,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	/**
 	 * Determine whether var is function variable of this function
 	 * 
-	 * @param var
+	 * @param var variable name
 	 * @return true if var is function variable of this function
 	 */
 	public boolean isFunctionVariable(String var) {
@@ -116,7 +115,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		}
 
 		for (int i = 0; i < fVars.length; i++) {
-			if (fVars[i].toString().equals(var)) {
+			if (fVars[i].toString(StringTemplate.defaultTemplate).equals(var)) {
 				return true;
 			}
 		}
@@ -149,7 +148,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	 * Replaces geo and all its dependent geos in this function's expression by
 	 * copies of their values.
 	 * 
-	 * @param geo
+	 * @param geo geo to be replaced
 	 */
 	public void replaceChildrenByValues(GeoElement geo) {
 		if (expression != null) {
@@ -160,7 +159,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	/**
 	 * Use this method only if you really know what you are doing.
 	 * 
-	 * @param exp
+	 * @param exp function expression
 	 */
 	public void setExpression(ExpressionNode exp) {
 		expression = exp;
@@ -169,8 +168,8 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	/**
 	 * Use this method only if you really know what you are doing.
 	 * 
-	 * @param exp
-	 * @param vars
+	 * @param exp function expression
+	 * @param vars variables
 	 */
 	public void setExpression(ExpressionNode exp, FunctionVariable[] vars) {
 		expression = exp;
@@ -193,11 +192,12 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	/**
 	 * Returns name of i-th variable
 	 * 
-	 * @param i
+	 * @param i index
+	 * @param tpl string template
 	 * @return name of i-th variable
 	 */
-	final public String getVarString(int i) {
-		return fVars[i].toString();
+	final public String getVarString(int i,StringTemplate tpl) {
+		return fVars[i].toString(tpl);
 	}
 
 	/**
@@ -353,7 +353,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	/**
 	 * Returns this function's value at position.
 	 * 
-	 * @param vals
+	 * @param vals values of variables
 	 * @return f(vals)
 	 */
 	final public double evaluate(double[] vals) {
@@ -373,7 +373,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	 * Returns this function's value at position vals. (Note: use this method if
 	 * isBooleanFunction() returns true.
 	 * 
-	 * @param vals
+	 * @param vals values of variables
 	 * @return f(vals)
 	 */
 	final public boolean evaluateBoolean(double[] vals) {
@@ -386,6 +386,10 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		return expression.getVariables();
 	}
 
+	/**
+	 * 
+	 * @return GeoElements acting as variables
+	 */
 	public GeoElement[] getGeoElementVariables() {
 		return expression.getGeoElementVariables();
 	}
@@ -419,16 +423,16 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	 * @param ggbCasCmd
 	 *            the GeoGebraCAS command needs to include % in all places where
 	 *            the function f should be substituted, e.g. "Derivative(%,x)"
-	 * @param symbolic
+	 * @param symb
 	 *            true for symbolic evaluation, false to use values of
 	 *            GeoElement variables
 	 * @return resulting function
 	 */
-	final public FunctionNVar evalCasCommand(String ggbCasCmd, boolean symbolic) {
+	final public FunctionNVar evalCasCommand(String ggbCasCmd, boolean symb) {
 		StringBuilder sb = new StringBuilder(80);
 		// remember expression and its CAS string
 		boolean useCaching = true;
-
+		boolean symbolic = symb;
 		// for multi-variate functions we need to ensure value form,
 		// i.e. f(x,m)=x^2+m, g(x)=f(x,2), Derivative[g] gets sent as
 		// Derivative[x^2+2] instead of Derivative[f(x,2)]
@@ -544,6 +548,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 
 	/**
 	* Clears the cache (needed in Web when the CAS loads)
+	* @param label not used
 	*/
 	public void clearCasEvalMap(String label) {
 		if (casEvalMap == null) return;
@@ -553,49 +558,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	private final static int MAX_CAS_EVAL_MAP_SIZE = 100;
 	private MaxSizeHashMap<String, FunctionNVar> casEvalMap;
 
-	/**
-	 * MathPiper may return something like Deriv(x) f(x). This method converts
-	 * such expressions into Derivative[f(x), x]
-	 * 
-	 * @param order
-	 * @return
-	 */
-	private static String handleDeriv(String casResult) {
-		if (casResult.indexOf("Deriv[") < 0)
-			return casResult;
-
-		StringBuilder sb = new StringBuilder();
-		try {
-			// look for "Deriv[x] f(x,y)" strings and
-			// replace them with "Derivative[f(x,y), x]"
-			String[] derivs = casResult.split("Deriv\\[");
-			sb.append(derivs[0]); // part before first "Deriv(x)"
-			for (int i = 1; i < derivs.length; i++) {
-				// we now have something like "x) f(x, y) ..."
-				// get variable part "x" before first closing )
-				int pos1 = derivs[i].indexOf(']');
-				String var = derivs[i].substring(0, pos1);
-
-				// get function part "f(x,y)" before second closing )
-				pos1 += 1;
-				int pos2 = derivs[i].indexOf(')', pos1) + 1;
-				String funPart = derivs[i].substring(pos1, pos2);
-
-				sb.append("Derivative[");
-				sb.append(funPart);
-				sb.append(",");
-				sb.append(var);
-				sb.append("] ");
-				sb.append(derivs[i].substring(pos2));
-			}
-		} catch (Exception e) {
-			// TODO : remove
-			e.printStackTrace();
-			return casResult;
-		}
-		return sb.toString();
-	}
-
+	
 	public boolean isNumberValue() {
 		return false;
 	}
@@ -684,11 +647,11 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		} else if (op.equals(Operation.AND) || op.equals(Operation.OR)
 				|| op.equals(Operation.EQUAL_BOOLEAN)
 				|| op.equals(Operation.NOT_EQUAL)) {
-			tree.operation = adjustOp(op, negate);
-			tree.left = new IneqTree();
-			tree.right = new IneqTree();
-			return initIneqs(leftTree, functional, tree.left, negate)
-					&& initIneqs(rightTree, functional, tree.right, negate);
+			tree.setOperation(adjustOp(op, negate));
+			tree.setLeft(new IneqTree());
+			tree.setRight(new IneqTree());
+			return initIneqs(leftTree, functional, tree.getLeft(), negate)
+					&& initIneqs(rightTree, functional, tree.getRight(), negate);
 		} else if (op.equals(Operation.NOT)) {
 			return initIneqs(leftTree, functional, tree, !negate);
 		} else if (op.equals(Operation.FUNCTION_NVAR)) {
@@ -697,10 +660,10 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 			if (otherTree == null || otherTree.getSize() == 0) {
 				return false;
 			}
-			tree.left = otherTree.left;
-			tree.right = otherTree.right;
-			tree.operation = otherTree.operation;
-			tree.ineq = otherTree.ineq;
+			tree.setLeft(otherTree.getLeft());
+			tree.setRight(otherTree.getRight());
+			tree.setOperation(otherTree.getOperation());
+			tree.setIneq(otherTree.getIneq());
 			return true;
 		} else
 			return false;
@@ -745,11 +708,10 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	/**
 	 * Evaluates function at given point
 	 * 
-	 * @param pt
+	 * @param pt point for evaluation
 	 * @return function value
 	 */
-	public double evaluate(GeoPoint2 pti) {
-		GeoVec3D pt = pti;
+	public double evaluate(GeoPoint2 pt) {
 		if (fVars.length == 1 && "y".equals(fVars[0].toString(StringTemplate.defaultTemplate)))
 			return evaluate(new double[] { pt.y / pt.z });
 		return evaluate(new double[] { pt.x / pt.z, pt.y / pt.z });
@@ -758,16 +720,19 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	/**
 	 * Evaluates function at given point as boolean
 	 * 
-	 * @param pt
+	 * @param pt point for evaluation
 	 * @return function value
 	 */
-	public boolean evaluateBoolean(GeoPoint2 pti) {
-		GeoVec3D pt = pti;
-		if (fVars.length == 1 && "y".equals(fVars[0].toString()))
+	public boolean evaluateBoolean(GeoPoint2 pt) {
+		if (fVars.length == 1 && "y".equals(fVars[0].toString(StringTemplate.defaultTemplate)))
 			return evaluateBoolean(new double[] { pt.y / pt.z });
 		return evaluateBoolean(new double[] { pt.x / pt.z, pt.y / pt.z });
 	}
-
+	/**
+	 * Transletes the function by (vx,vy)
+	 * @param vx x-coord of translation vector
+	 * @param vy y-coord of translation vector
+	 */
 	public void translate(double vx, double vy) {
 
 		// translate x
@@ -859,6 +824,13 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		return node;
 	}
 
+	/**
+	 * Transforms this function using matrix {{a00,a01},{a01,a11}}
+	 * @param a00 a00
+	 * @param a01 a01
+	 * @param a10 a10
+	 * @param a11 a11
+	 */
 	public void matrixTransform(double a00, double a01, double a10, double a11) {
 		ExpressionNode dummy = new ExpressionNode();
 		expression.replaceAndWrap(fVars[0], dummy);
@@ -877,7 +849,18 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		expression = expression.replaceAndWrap(dummy, newX);
 		this.initIneqs(expression, this);
 	}
-
+	/**
+	 * 
+	 * @param a00 a00
+	 * @param a01 a11
+	 * @param a02 a02
+	 * @param a10 a10
+	 * @param a11 a11
+	 * @param a12 a12
+	 * @param a20 a20
+	 * @param a21 a21
+	 * @param a22 a22
+	 */
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
 		ExpressionNode dummy = new ExpressionNode();

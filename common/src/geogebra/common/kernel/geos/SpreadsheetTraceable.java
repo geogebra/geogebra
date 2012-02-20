@@ -1,3 +1,14 @@
+/* 
+GeoGebra - Dynamic Mathematics for Everyone
+http://www.geogebra.org
+
+This file is part of GeoGebra.
+
+This program is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by 
+the Free Software Foundation.
+
+*/
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -13,10 +24,13 @@ import java.util.ArrayList;
  */
 public interface SpreadsheetTraceable extends ExpressionValue {
 	
-	/*
-	 * list containing GeoNumeric / GeoAngle
+	/**
+	 * @return list containing GeoNumeric / GeoAngle
 	 */
 	public ArrayList<GeoNumeric> getSpreadsheetTraceList();
+	/**
+	 * @return list of column headings
+	 */
 	public ArrayList<String> getColumnHeadings();
 
 }

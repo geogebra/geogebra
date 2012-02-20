@@ -101,6 +101,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		return null;
 	}
 
+	@Override
 	final public String toValueString(StringTemplate tpl) {
 		return sb.toString();
 	}

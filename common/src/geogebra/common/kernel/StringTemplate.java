@@ -43,6 +43,7 @@ public class StringTemplate {
 		casTemplate.internationalizeDigits = false;
 		casTemplate.usePrefix = true;
 		casTemplate.forceSF = true;
+		casTemplate.localizeCmds = false;
 		casTemplate.setType(StringType.MPREDUCE);
 		casTemplate.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
 	}

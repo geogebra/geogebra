@@ -19,11 +19,16 @@ import geogebra.common.kernel.geos.GeoPoint2;
 
 public class AlgoBarycenter extends AlgoElement {
 
-	public static final long serialVersionUID = 1L;
-	private GeoList poly; // input
+		private GeoList poly; // input
 	private GeoList list; // input
 	private GeoPoint2 point; // output
-	
+	/**
+	 * 
+	 * @param cons construction
+	 * @param label label
+	 * @param A list of points
+	 * @param B list of weights
+	 */
 	public AlgoBarycenter(Construction cons, String label, GeoList A, GeoList B) {
 		super(cons);
 		this.poly = A;
@@ -34,11 +39,13 @@ public class AlgoBarycenter extends AlgoElement {
 		point.setLabel(label);
 	}
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoBarycenter;
 	}
 
 	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[2];
 		input[0] = poly;
@@ -48,11 +55,15 @@ public class AlgoBarycenter extends AlgoElement {
 		setOutput(0, point);
 		setDependencies(); // done by AlgoElement
 	}
-
+	/**
+	 * Returns the resulting point
+	 * @return the resulting point
+	 */
 	public GeoPoint2 getResult() {
 		return point;
 	}
 
+	@Override
 	public final void compute() {
 		
 		int size = list.size();

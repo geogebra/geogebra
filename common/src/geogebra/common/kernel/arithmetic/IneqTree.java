@@ -12,11 +12,11 @@ import java.util.Set;
  * @author Zbynek Konecny
  * 
  */
-public class IneqTree implements IneqTreeInterface{
-	IneqTree left;
-	IneqTree right;
-	Inequality ineq;
-	Operation operation = Operation.NO_OPERATION;
+public class IneqTree {
+	private IneqTree left;
+	private IneqTree right;
+	private Inequality ineq;
+	private Operation operation = Operation.NO_OPERATION;
 
 	/**
 	 * @param right
@@ -78,10 +78,13 @@ public class IneqTree implements IneqTreeInterface{
 		return ineq;
 	}
 
+	/**
+	 * Recomputes coefficients
+	 * @return true if this tree contains valid inequalities
+	 */
 	public boolean updateCoef() {
 		if (ineq != null) {
 			ineq.updateCoef();
-			//Application.debug(ineq.getType());
 			return ineq.getType() != Inequality.INEQUALITY_INVALID;
 		}
 		if (left == null && right == null)
@@ -91,16 +94,23 @@ public class IneqTree implements IneqTreeInterface{
 			b &= left.updateCoef();
 		if (right != null)
 			b &= right.updateCoef();
-		//Application.debug("tree" + b);
 		return b;
 	}
 
 	private int size;
 
+	/**
+	 * recomputeSize needed to make this up to date
+	 * @return number of inequalities in this tree
+	 */
 	public int getSize() {
 		return size;
 	}
 
+	/**
+	 * @param i index
+	 * @return i-th inequality in the tree in left to right order
+	 */
 	public Inequality get(int i) {
 		if (ineq != null)
 			return ineq;
@@ -109,6 +119,9 @@ public class IneqTree implements IneqTreeInterface{
 		return right.get(i - left.getSize());
 	}
 
+	/**
+	 * Make suregetSize()returns correct number
+	 */
 	public void recomputeSize() {
 		if (ineq != null) {
 			size = 1;
@@ -125,7 +138,10 @@ public class IneqTree implements IneqTreeInterface{
 
 	}
 
-	public double[] getZeros(Set<Double> zeros) {
+	/**
+	 * @param zeros set to which zeros should be added
+	 */
+	public void getZeros(Set<Double> zeros) {
 		if (ineq != null) {
 			GeoPoint2[] zeroPoints = ineq.getZeros();
 			for (int i = 0; i < zeroPoints.length; i++) {
@@ -138,6 +154,5 @@ public class IneqTree implements IneqTreeInterface{
 		if (right != null) {
 			right.getZeros(zeros);
 		}
-		return null;
 	}
 }

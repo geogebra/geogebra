@@ -23,10 +23,21 @@ import geogebra.common.kernel.geos.GeoVec2D;
 /**
  *
  * @author  Markus
- * @version 
  */
 public interface VectorValue extends ExpressionValue { 
-    public GeoVec2D getVector();    
-    public int getMode(); // POLAR or CARTESIAN
+	/**
+	 * @return this vector value as GeoVec2D
+	 */
+    public GeoVec2D getVector();
+    /**
+     * Returns coord mode
+     *  POLAR, COMPLEX or CARTESIAN
+     * @return Kernel.COORD_*
+     */
+    public int getMode(); 
+    /**
+     * Sets coord mode 
+     * @param mode Kernel.COORD_*
+     */
     public void setMode(int mode);  
 }

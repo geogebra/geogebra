@@ -4,10 +4,16 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 
+/**
+ * Arbitrary constant comming from reduce
+ *
+ */
 public class MyArbitraryConstant extends MyDouble {
-	
+	/** arbitrary integer*/
 	public static final int ARB_INT = 0;
+	/** arbitrary double*/
 	public static final int ARB_CONST = 1;
+	/** arbitrary complex number*/
 	public static final int ARB_COMPLEX = 2;
 	
 	private String latexString, internalString;
@@ -15,13 +21,14 @@ public class MyArbitraryConstant extends MyDouble {
 	/**
 	 * Creates an arbitrary constant coming from Reduce using
 	 * 
-	 * @param kernel
+	 * @param kernel kernel
 	 * @param arbID ARB_INT, ARB_CONST, ARB_COMPLEX
+	 * @param numberStrRaw string representation of the number
 	 */
-	public MyArbitraryConstant(Kernel kernel, int arbID, String numberStr) {
+	public MyArbitraryConstant(Kernel kernel, int arbID, String numberStrRaw) {
 		super(kernel, 0);
 		
-		numberStr = numberStr.trim();
+		String numberStr = numberStrRaw.trim();
 		int number = 1;
 		try {
 			number = (int) Math.round(Double.parseDouble(numberStr));

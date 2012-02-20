@@ -18,7 +18,7 @@ package geogebra.common.kernel.geos;
  * Interface for GeoElements that have an absolute screen position
  * (GeoImage, GeoText, GeoNumeric)
  */
-public interface AbsoluteScreenLocateable {
+public interface AbsoluteScreenLocateable extends ToGeoElement{
 	public void setAbsoluteScreenLoc(int x, int y);	
 	public int getAbsoluteScreenLocX();
 	public int getAbsoluteScreenLocY();
@@ -31,5 +31,4 @@ public interface AbsoluteScreenLocateable {
 	public boolean isAbsoluteScreenLocActive();
 
 	public boolean isAbsoluteScreenLocateable();
-	public GeoElement toGeoElement();
 }

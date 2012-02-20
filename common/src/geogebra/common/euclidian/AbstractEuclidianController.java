@@ -1004,7 +1004,7 @@ public abstract class AbstractEuclidianController {
 	public GeoPointND createNewPoint(boolean forPreviewable, Region region, double x,
 			double y, double z, boolean complex) {
 			
-				if (((GeoElement) region).isGeoElement3D()) {
+				if (region.toGeoElement().isGeoElement3D()) {
 					return kernel.getManager3D().Point3DIn(null, region,
 							new Coords(x, y, z, 1), !forPreviewable);
 				}
@@ -1014,7 +1014,7 @@ public abstract class AbstractEuclidianController {
 	public GeoPointND createNewPoint(boolean forPreviewable, Path path, double x,
 			double y, double z, boolean complex) {
 			
-				if (((GeoElement) path).isGeoElement3D()) {
+				if (path.toGeoElement().isGeoElement3D()) {
 					return kernel.getManager3D().Point3D(null, path, x, y, z,
 							!forPreviewable);
 				}
@@ -1766,8 +1766,8 @@ public abstract class AbstractEuclidianController {
 		GeoElement[] ret = { null };
 		if (((GeoElement) points[0]).isGeoElement3D()
 				|| ((GeoElement) points[1]).isGeoElement3D()) {
-			ret[0] = (GeoElement) getKernel().getManager3D().Ray3D(null,
-					points[0], points[1]);
+			ret[0] = getKernel().getManager3D().Ray3D(null,
+					points[0], points[1]).toGeoElement();
 		} else {
 			ret[0] = getKernel().Ray(null, (GeoPoint2) points[0],
 					(GeoPoint2) points[1]);

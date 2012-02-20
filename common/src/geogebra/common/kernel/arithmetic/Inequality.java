@@ -14,12 +14,11 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoVec2D;
-import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.Operation;
@@ -95,7 +94,7 @@ public class Inequality {
 			if(!funBorder.isPolynomialFunction(false)){
 				type = INEQUALITY_INVALID;
 			}
-			else if (fv[0].toString().equals("y")) {
+			else if (fv[0].toString(StringTemplate.defaultTemplate).equals("y")) {
 				type = INEQUALITY_1VAR_Y;
 			} else
 				type = INEQUALITY_1VAR_X;
@@ -164,7 +163,7 @@ public class Inequality {
 				//conicBorder.setLabel("res");
 				conicBorder.setCoeffs(equ.getNormalForm().getCoeff());
 				type = INEQUALITY_CONIC;
-				border = (GeoElement)conicBorder;						
+				border = conicBorder;						
 				setAboveBorderFromConic();	
 			}
 			else{

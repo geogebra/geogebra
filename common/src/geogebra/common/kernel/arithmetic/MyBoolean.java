@@ -27,12 +27,20 @@ public class MyBoolean extends ValidExpression implements BooleanValue {
     
     private boolean value;
     private Kernel kernel;
-    
+    /**
+     * Creates new boolean
+     * @param kernel kernel
+     * @param value boolean value
+     */
     public MyBoolean(Kernel kernel, boolean value) {
         this.value = value;
         this.kernel = kernel;
     }
     
+    /**
+     * Sets value of this boolean
+     * @param value new value
+     */
     final public void setValue(boolean value) { 
     	this.value = value; 
     }
@@ -50,7 +58,8 @@ public class MyBoolean extends ValidExpression implements BooleanValue {
         return true;
     }
     
-    public void resolveVariables() {    	
+    public void resolveVariables() {
+    	//do nothing
     }
 
     final public boolean isNumberValue() {
@@ -81,7 +90,8 @@ public class MyBoolean extends ValidExpression implements BooleanValue {
         return null;
     }
 
-    final public String toValueString(StringTemplate tpl) {
+    @Override
+	final public String toValueString(StringTemplate tpl) {
         return toString(tpl);
     }
     

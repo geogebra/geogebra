@@ -17,17 +17,13 @@ import geogebra.common.kernel.Matrix.Coords;
  * Represents geos that can be translated 
  *
  */
-public interface Translateable {
+public interface Translateable extends ToGeoElement {
 	/**
 	 * Translate by vector
 	 * @param v translation vector
 	 */
 	public void translate(Coords v);
-	/**
-	 * Return the geo
-	 * @return geo element
-	 */
-	public GeoElement toGeoElement();
+	
 	/**
 	 * Returns true if the element is translateable
 	 * @return true

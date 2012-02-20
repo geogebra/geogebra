@@ -24,12 +24,12 @@ package geogebra.common.kernel.arithmetic;
 /**
  *
  * @author  Markus
- * @version 
  */
 public interface ListValue extends ExpressionValue {
 	
 	/**
 	 * Returns a MyList object. 
+	 * @return MyList representation of this list
 	 */
 	public MyList getMyList();
 	
@@ -39,6 +39,9 @@ public interface ListValue extends ExpressionValue {
 	 */
 	public double[] toDouble();
 	
+	/**
+	 * @return number of elements of this list
+	 */
 	public int size();
 		
 }

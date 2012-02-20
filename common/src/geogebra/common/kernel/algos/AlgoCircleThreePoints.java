@@ -85,11 +85,11 @@ public class AlgoCircleThreePoints extends AlgoElement {
 
 	private void setIncidence() {
 		if (A instanceof GeoPoint2)
-			((GeoPoint2) A).addIncidence((GeoElement) circle);
+			((GeoPoint2) A).addIncidence( circle);
 		if (B instanceof GeoPoint2)
-			((GeoPoint2) B).addIncidence((GeoElement) circle);
+			((GeoPoint2) B).addIncidence( circle);
 		if (C instanceof GeoPoint2)
-			((GeoPoint2) C).addIncidence((GeoElement) circle);
+			((GeoPoint2) C).addIncidence( circle);
 
 	}
 
@@ -137,14 +137,14 @@ public class AlgoCircleThreePoints extends AlgoElement {
 
 	protected void setInput() {
 		input = new GeoElement[3];
-		input[0] = (GeoElement) A;
-		input[1] = (GeoElement) B;
-		input[2] = (GeoElement) C;
+		input[0] =  A.toGeoElement();
+		input[1] =  B.toGeoElement();
+		input[2] =  C.toGeoElement();
 	}
 
 	protected void setOutput() {
 		super.setOutputLength(1);
-		super.setOutput(0, (GeoElement) circle);
+		super.setOutput(0,  circle);
 	}
 
 	// public GeoConicND getCircle() {

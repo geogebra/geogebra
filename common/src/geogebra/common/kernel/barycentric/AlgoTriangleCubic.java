@@ -26,11 +26,19 @@ import geogebra.common.main.MyError;
 
 public class AlgoTriangleCubic extends AlgoElement {
 
-	public static final long serialVersionUID = 1L;
+	
 	private GeoPoint2 A, B, C; // input
 	private NumberValue n;	// number of curve
 	private GeoImplicitPoly poly; // output
-
+	/**
+	 * Creates new triangle cubic algo
+	 * @param cons construction
+	 * @param label label
+	 * @param A first point
+	 * @param B second point
+	 * @param C third point
+	 * @param e index in CTC
+	 */
 	public AlgoTriangleCubic(Construction cons, String label, GeoPoint2 A, GeoPoint2 B,
 			GeoPoint2 C, NumberValue e) {
 		super(cons);
@@ -44,27 +52,33 @@ public class AlgoTriangleCubic extends AlgoElement {
 		poly.setLabel(label);
 	}
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoTriangleCubic;
 	}
 
 	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[4];
 		input[0] = A;
 		input[1] = B;
 		input[2] = C;
-		input[3] = (GeoElement)n.toGeoElement();
+		input[3] = n.toGeoElement();
 
 		setOutputLength(1);
 		setOutput(0, poly);
 		setDependencies(); // done by AlgoElement
 	}
-
+	/**
+	 * Returns the resulting curve
+	 * @return the resulting curve
+	 */
 	public GeoImplicitPoly getResult() {
 		return poly;
 	}
 
+	@Override
 	public final void compute() {
 		// Check if the points are aligned
 		double c = A.distance(B);
@@ -84,11 +98,11 @@ public class AlgoTriangleCubic extends AlgoElement {
 			poly.setUndefined();
 			return;
 		}
-		String A =  "(" + (x3-x2)/det + "*y  + "+
+		String Astr =  "(" + (x3-x2)/det + "*y  + "+
 				(y2 - y3)/det+"*x - " + ((x3-x2)*y3+(y2 - y3)*x3)/det + ")";
-		String B =  "(" + (x1-x3)/det + "*y  + "+
+		String Bstr =  "(" + (x1-x3)/det + "*y  + "+
 				(y3 - y1)/det+"*x - " + ((x1-x3)*y1+(y3 - y1)*x1)/det + ")";
-		String C =  "(" + (x2-x1)/det + "*y  + "+
+		String Cstr =  "(" + (x2-x1)/det + "*y  + "+
 				(y1 - y2)/det+"*x - " + ((x2-x1)*y2+(y1 - y2)*x2)/det + ")";
 		
 		double ab_c, a_bc, _abc;
@@ -381,20 +395,20 @@ public class AlgoTriangleCubic extends AlgoElement {
 				return;
 		}
 
-		equation = equation.replace("A", A);
-		equation = equation.replace("B", B);
-		equation = equation.replace("C", C);
+		equation = equation.replace("A", Astr);
+		equation = equation.replace("B", Bstr);
+		equation = equation.replace("C", Cstr);
 		equation = equation.replace("a", "" + a);
 		equation = equation.replace("b", "" + b);
 		equation = equation.replace("c", "" + c);
 		
-		Parser parser = (Parser) getKernel().getParser();
+		Parser parser = getKernel().getParser();
 		AlgebraProcessor algebraProcessor = getKernel().getAlgebraProcessor();
 		
 	 	ValidExpression ve = null;
 		try{ 
 		 	ve = parser.parseGeoGebraExpression(equation); 
-		 	GeoImplicitPoly result = (GeoImplicitPoly)((GeoElement) algebraProcessor.processEquation((Equation) ve)[0]); 
+		 	GeoImplicitPoly result = (GeoImplicitPoly)(algebraProcessor.processEquation((Equation) ve)[0]); 
 		 	result.remove();
 		 	poly.setCoeff(result.getCoeff());
 		 	poly.setDefined();

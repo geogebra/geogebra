@@ -24,18 +24,21 @@ import geogebra.common.kernel.StringTemplate;
 /** 
  * 
  * @author  Michael
- * @version 
  */
 public class MyNumberPair extends MyVecNode {
-    
-            
+    /**
+     * Creates new number pair
+     * @param kernel kernel
+     * @param en first number
+     * @param en2 second number
+     */
     public MyNumberPair(Kernel kernel, ExpressionValue en, ExpressionValue en2) {
 		super(kernel, en, en2);
 	}
 
     @Override
-	public ExpressionValue deepCopy(Kernel kernel) {
-        return new MyNumberPair(kernel, x.deepCopy(kernel), y.deepCopy(kernel));
+	public ExpressionValue deepCopy(Kernel kernel1) {
+        return new MyNumberPair(kernel1, x.deepCopy(kernel1), y.deepCopy(kernel1));
     }
     
 

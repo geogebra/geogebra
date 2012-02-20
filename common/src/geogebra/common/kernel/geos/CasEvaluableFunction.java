@@ -19,7 +19,7 @@ import geogebra.common.kernel.StringTemplate;
  * like getting the derivative of a GeoFunction or GeoCurveCartesian.
  * @author Markus Hohenwarter
  */
-public interface CasEvaluableFunction {
+public interface CasEvaluableFunction extends ToGeoElement {
 	
 	/**
 	 * Sets this function by applying a GeoGebraCAS command to a function.
@@ -27,10 +27,20 @@ public interface CasEvaluableFunction {
 	 * @param ggbCasCmd the GeoGebraCAS command needs to include % in all places
 	 * where the function f should be substituted, e.g. "Derivative(%,x)"
 	 * @param f the function that the CAS command is applied to
+	 * @param symbolic true to keep variable names
+	 * 
 	 */
-	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f, boolean symbolic);
-		
+	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f, 
+			boolean symbolic);
+	/**
+	 * @param tpl string template
+	 * @return string representation; variables represented by names
+	 */
 	public String toSymbolicString(StringTemplate tpl);
+	/**
+	 * 
+	 * @param tpl string template
+	 * @return comma separated list of variables
+	 */
 	public String getVarString(StringTemplate tpl);
-	public GeoElement toGeoElement();
 }

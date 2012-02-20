@@ -37,7 +37,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * Creates new Function from expression where x is the variable. Note: call
 	 * {@link #initFunction()} after this constructor.
 	 * 
-	 * @param expression
+	 * @param expression function expression
 	 */
 	public Function(ExpressionNode expression) {
 		super(expression);
@@ -47,8 +47,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * Creates new Function from expression where the function variable in
 	 * expression is already known.
 	 * 
-	 * @param exp
-	 * @param fVar
+	 * @param exp function expression
+	 * @param fVar function variable
 	 */
 	public Function(ExpressionNode exp, FunctionVariable fVar) {
 		super(exp, new FunctionVariable[] { fVar });
@@ -58,7 +58,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * Creates a Function that has no expression yet. Use setExpression() to do
 	 * this later.
 	 * 
-	 * @param kernel
+	 * @param kernel kernel
 	 */
 	public Function(Kernel kernel) {
 		super(kernel);
@@ -70,7 +70,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * 
 	 * @param f
 	 *            source function
-	 * @param kernel
+	 * @param kernel kernel
 	 */
 	public Function(Function f, Kernel kernel) {
 		super(f.expression.getCopy(kernel));
@@ -136,7 +136,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	/**
 	 * Returns this function's value at position x.
 	 * 
-	 * @param x
+	 * @param x position
 	 * @return f(x)
 	 */
 	public double evaluate(double x) {
@@ -154,7 +154,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * Returns this function's value at position x. (Note: use this method if
 	 * isBooleanFunction() returns true.
 	 * 
-	 * @param x
+	 * @param x position
 	 * @return f(x)
 	 */
 	final public boolean evaluateBoolean(double x) {
@@ -381,7 +381,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * SymbolicPolyFunction) objects is returned. Note: may return null if the
 	 * n-th derivative is no polynomial.
 	 * 
-	 * @param n
+	 * @param n derivative order
 	 * 
 	 * @param rootFindingSimplification
 	 *            for root finding factors may be simplified, e.g. sqrt(x) may
@@ -751,6 +751,12 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		return getDerivative(n, false);
 	}
 
+	/**
+	 * 
+	 * @param n derivative order
+	 * @param keepFractions true for 123/100, false for 1.23 in coefficients
+	 * @return n-th derivative
+	 */
 	final Function getDerivative(int n, boolean keepFractions) {
 		// get variable string with tmp prefix,
 		// e.g. "x" becomes "ggbtmpvarx" here
@@ -826,9 +832,9 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * Creates the difference expression (a - b) and stores the result in
 	 * Function c.
 	 * 
-	 * @param a
-	 * @param b
-	 * @param c
+	 * @param a minuend
+	 * @param b subtrahend
+	 * @param c difference
 	 */
 	final public static void difference(Function a, Function b, Function c) {
 		// copy only the second function and replace b.fVar by a.fVar
@@ -850,9 +856,9 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * Function c. This is needed for the intersection of function a and line ax
 	 * + by + c = 0. b != 0 is assumed.
 	 * 
-	 * @param f
-	 * @param line
-	 * @param c
+	 * @param f minuend
+	 * @param line subtrahend (as line)
+	 * @param c difference
 	 */
 	final public static void difference(Function f, GeoLine line, Function c) {
 		// build expression for line: ax + by + c = 0 (with b != 0)

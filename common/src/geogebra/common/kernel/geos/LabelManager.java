@@ -6,9 +6,11 @@ import geogebra.common.util.Unicode;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Set;
 
+/**
+ * Library class for labeling geos; label-related static methods should go there
+ */
 public class LabelManager {
 	private static Set<String> invalidFunctionNames = new HashSet<String>(ExpressionNodeConstants.RESERVED_FUNCTION_NAMES);
 	static
@@ -19,10 +21,11 @@ public class LabelManager {
 		/**
 		 * Checks whether name can be used as label
 		 * @param geo geo to be checked
-		 * @param name potential label
+		 * @param nameToCheck potential label
 		 * @return true for valid labels
 		 */
-		public static boolean checkName(GeoElement geo, String name) {
+		public static boolean checkName(GeoElement geo, String nameToCheck) {
+			String name = nameToCheck;
 			if (name == null) return true;
 
 			if (name.startsWith(CopyPaste.labelPrefix))

@@ -29,6 +29,4 @@ public interface ParametricCurve extends Traceable, Path {
 
 	double evaluateCurvature(double t);	
 	boolean isFunctionInX();
-    
-	GeoElement toGeoElement();
 }

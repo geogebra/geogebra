@@ -29,6 +29,10 @@ public class Parametric extends ValidExpression {
 
 	/**
 	 * Creates new Parametric P + parameter * v. (X = P + parameter * v)
+	 * @param kernel kernel
+	 * @param P start point
+	 * @param v direction vector
+	 * @param parameter parameter name
 	 */
 	public Parametric(Kernel kernel, ExpressionValue P,
 			ExpressionValue v, String parameter) {
@@ -45,15 +49,21 @@ public class Parametric extends ValidExpression {
 		this.parameter = parameter;
 		this.kernel = kernel;
 	}
-
+	/**
+	 * @return start point
+	 */
 	public ExpressionNode getP() {
 		return P;
 	}
-
+	/**
+	 * @return direction vector
+	 */
 	public ExpressionNode getv() {
 		return v;
 	}
-
+	/**
+	 * @return parameter name
+	 */
 	public String getParameter() {
 		return parameter;
 	}
@@ -71,8 +81,8 @@ public class Parametric extends ValidExpression {
 		return P.contains(ev) || v.contains(ev);
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel) {
-		return new Parametric(kernel, P.deepCopy(kernel), v.deepCopy(kernel),
+	public ExpressionValue deepCopy(Kernel kernel1) {
+		return new Parametric(kernel1, P.deepCopy(kernel1), v.deepCopy(kernel1),
 				parameter);
 	}
 
@@ -128,6 +138,7 @@ public class Parametric extends ValidExpression {
 		return toString(tpl);
 	}
 
+	@Override
 	public String toValueString(StringTemplate tpl) {
 		return toString(tpl);
 	}

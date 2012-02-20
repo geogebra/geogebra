@@ -81,8 +81,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		n = new GeoNumeric(cons); // output
 		this.a = a;
 		this.b = b;
-		ageo = (GeoElement) a.toGeoElement();
-		bgeo = (GeoElement) b.toGeoElement();
+		ageo =  a.toGeoElement();
+		bgeo =  b.toGeoElement();
 		this.evaluate = evaluate;
 
 		// create helper algorithm for symbolic integral

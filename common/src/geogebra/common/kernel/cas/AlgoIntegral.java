@@ -58,12 +58,12 @@ public class AlgoIntegral extends AlgoCasBase {
 
 		input = new GeoElement[length];
 		length = 0;
-		input[0] = (GeoElement) f.toGeoElement();
+		input[0] = f.toGeoElement();
 		if (var != null)
 			input[++length] = var;
 
 		setOutputLength(1);
-		setOutput(0, (GeoElement) g.toGeoElement());
+		setOutput(0, g.toGeoElement());
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -92,7 +92,7 @@ public class AlgoIntegral extends AlgoCasBase {
 
 		if (var != null) {
 			// Integral[ a x^2, x ]
-			sb.append(super.toString());
+			sb.append(super.toString(tpl));
 		} else {
 			// Michael Borcherds 2008-03-30
 			// simplified to allow better Chinese translation

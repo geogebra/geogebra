@@ -97,10 +97,10 @@ public class AlgoCurveCartesian extends AlgoElement {
         input = new GeoElement[coords.length+3];
         
         for (int i=0;i<coords.length;i++)
-        	input[i] = (GeoElement)coords[i].toGeoElement();
+        	input[i] = coords[i].toGeoElement();
     	input[coords.length] = localVar;
-    	input[coords.length+1] = (GeoElement)from.toGeoElement();
-    	input[coords.length+2] = (GeoElement)to.toGeoElement();    	
+    	input[coords.length+1] = from.toGeoElement();
+    	input[coords.length+2] = to.toGeoElement();    	
            
         super.setOutputLength(1);
         super.setOutput(0, curve);
@@ -117,7 +117,7 @@ public class AlgoCurveCartesian extends AlgoElement {
     	for (int i = 0; i <= 1; i++) {
     		AlgoElement algo = null;
     		if (coords[i].toGeoElement() != null)
-    			algo = ((GeoElement)coords[i].toGeoElement()).getParentAlgorithm();
+    			algo = (coords[i].toGeoElement()).getParentAlgorithm();
     		if (algo != null) {
     			for (GeoElement geo: algo.getInput()) {
     				if (!geo.isDefined()) {

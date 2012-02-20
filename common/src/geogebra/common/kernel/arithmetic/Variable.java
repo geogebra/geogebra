@@ -31,25 +31,32 @@ import java.util.HashSet;
 /**
  * 
  * @author Markus Hohenwarter
- * @version
+ * 
  */
 public class Variable extends ValidExpression {
 
 	private String name;
 	private Kernel kernel;
 
-	/** Creates new VarString */
+	/** Creates new VarString
+	 * @param kernel kernel
+	 * @param name variable name 
+	 **/
 	public Variable(Kernel kernel, String name) {
 		this.name = name;
 		this.kernel = kernel;
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel) {
-		return new Variable(kernel, name);
+	public ExpressionValue deepCopy(Kernel kernel1) {
+		return new Variable(kernel1, name);
 	}
 
-	public String getName() {
-		return toString();
+	/**
+	 * @param tpl string template
+	 * @return variable name
+	 */
+	public String getName(StringTemplate tpl) {
+		return toString(tpl);
 	}
 
 	public boolean isConstant() {
@@ -70,10 +77,12 @@ public class Variable extends ValidExpression {
 
 	/**
 	 * Looks up the name of this variable in the kernel and returns the
-	 * according GeoElement object. TODO possibly remove the public modifier
-	 * once arithmetic is in common
+	 * according GeoElement object. 
+	 * 
+	 * @param allowAutoCreateGeoElement true to allow creating new objects
+	 * @return GeoElement with same label
 	 */
-	public GeoElement resolve(boolean allowAutoCreateGeoElement) {
+	protected GeoElement resolve(boolean allowAutoCreateGeoElement) {
 		// keep bound CAS variables when resolving a CAS expression
 		if (kernel.isResolveUnkownVarsAsDummyGeos()) {
 			// resolve unknown variable as dummy geo to keep its name and
@@ -98,6 +107,9 @@ public class Variable extends ValidExpression {
 	 * according GeoElement object. For absolute spreadsheet reference names
 	 * like A$1 or $A$1 a special ExpressionNode wrapper object is returned that
 	 * preserves this special name for displaying of the expression.
+	 * 
+	 * @return GeoElement whose label is name of this variable or ExpressionNode
+	 * wrapping spreadsheet reference 
 	 */
 	final public ExpressionValue resolveAsExpressionValue() {
 		GeoElement geo = resolve();

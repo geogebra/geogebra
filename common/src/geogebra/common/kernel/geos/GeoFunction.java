@@ -115,7 +115,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		// TODO: Remove following code for 5.0 -- it's there to make sure no
 		// functions of y are created
 		if (isLabelSet() && !isBooleanFunction()
-				&& "y".equals(fun.getVarString(0))) {
+				&& this.isFunctionOfY()) {
 			this.remove();
 			throw new MyError(app, "InvalidFunction");
 		}
@@ -1109,9 +1109,9 @@ public class GeoFunction extends GeoElement implements VarString,
 		Kernel kernel = lt.getFunction().getKernel();
 		TreeSet<String> varNames = new TreeSet<String>();
 		for (int i = 0; i < lt.getFunction().getVarNumber(); i++)
-			varNames.add(lt.getFunction().getVarString(i));
+			varNames.add(lt.getFunction().getVarString(i,StringTemplate.defaultTemplate));
 		for (int i = 0; i < rt.getFunction().getVarNumber(); i++)
-			varNames.add(rt.getFunction().getVarString(i));
+			varNames.add(rt.getFunction().getVarString(i,StringTemplate.defaultTemplate));
 		HashMap<String, FunctionVariable> varmap = new HashMap<String, FunctionVariable>();
 		for (String name : varNames) {
 			varmap.put(name, new FunctionVariable(kernel, name));
@@ -1162,7 +1162,7 @@ public class GeoFunction extends GeoElement implements VarString,
 			MyList varList = new MyList(kernel);
 			for (int i = 0; i < lt.getFunction().getVarNumber(); i++) {
 				varList.addListElement(varMap.get(lt.getFunction()
-						.getVarString(i)));
+						.getVarString(i,StringTemplate.defaultTemplate)));
 			}
 			return new ExpressionNode(kernel, (GeoFunctionNVar) lt,
 					Operation.FUNCTION_NVAR, varList);
@@ -1172,7 +1172,7 @@ public class GeoFunction extends GeoElement implements VarString,
 			for (int i = 0; i < ((FunctionNVar) lt).getVarNumber(); i++)
 				ret = ret.replaceAndWrap(
 						((FunctionNVar) lt).getFunctionVariables()[i],
-						varMap.get(((FunctionNVar) lt).getVarString(i)));
+						varMap.get(((FunctionNVar) lt).getVarString(i,StringTemplate.defaultTemplate)));
 			return ret;
 		}
 		return null;
@@ -1194,7 +1194,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		Kernel kernel = fun1.getFunction().getKernel();
 		TreeSet<String> varNames = new TreeSet<String>();
 		for (int i = 0; i < fun1.getFunction().getVarNumber(); i++)
-			varNames.add(fun1.getFunction().getVarString(i));
+			varNames.add(fun1.getFunction().getVarString(i,StringTemplate.defaultTemplate));
 		HashMap<String, FunctionVariable> varmap = new HashMap<String, FunctionVariable>();
 		for (String name : varNames) {
 			varmap.put(name, new FunctionVariable(kernel, name));

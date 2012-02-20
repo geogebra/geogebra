@@ -96,7 +96,7 @@ public class AlgoAnglePoints extends AlgoElement implements
 	}
 
 	public AlgoAnglePoints(GeoPointND A, GeoPointND B, GeoPointND C) {
-		super(((GeoElement) A).cons, false);
+		super(A.toGeoElement().cons, false);
 		this.An = A;
 		this.Bn = B;
 		this.Cn = C;

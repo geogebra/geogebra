@@ -18,11 +18,21 @@ import geogebra.common.kernel.geos.GeoPoint2;
 
 public class AlgoTrilinear extends AlgoElement {
 
-	public static final long serialVersionUID = 1L;
 	private GeoPoint2 P1, P2, P3; // input
 	private NumberValue v1, v2, v3; // input
 	private GeoPoint2 point; // output
 	
+	/**
+	 * Creates new trilinear algo
+	 * @param cons construction
+	 * @param label label
+	 * @param A first point
+	 * @param B second point
+	 * @param C third point
+	 * @param a first trilinear coord
+	 * @param b second trilinear coord
+	 * @param c third trilinear coord
+	 */
 	public AlgoTrilinear(Construction cons, String label, GeoPoint2 A, GeoPoint2 B, GeoPoint2 C,
 			NumberValue a, NumberValue b, NumberValue c) {
 		super(cons);
@@ -39,29 +49,35 @@ public class AlgoTrilinear extends AlgoElement {
 		point.setLabel(label);
 	}
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoTrilinear;
 	}
 
 	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[6];
 		input[0] = P1;
 		input[1] = P2;
 		input[2] = P3;
-		input[3] = (GeoElement)v1.toGeoElement();
-		input[4] = (GeoElement)v2.toGeoElement();
-		input[5] = (GeoElement)v3.toGeoElement();
+		input[3] = v1.toGeoElement();
+		input[4] = v2.toGeoElement();
+		input[5] = v3.toGeoElement();
 		
 		setOutputLength(1);
 		setOutput(0, point);
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting point
+	 */
 	public GeoPoint2 getResult() {
 		return point;
 	}
 
+	@Override
 	public final void compute() {
 		
 		double p1 = P2.distance(P3);

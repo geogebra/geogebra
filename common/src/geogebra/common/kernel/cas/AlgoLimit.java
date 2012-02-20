@@ -62,7 +62,7 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand{
 	protected void setInputOutput() {
 		input = new GeoElement[2];
 		input[0] = f;
-		input[1] = (GeoElement) num.toGeoElement();
+		input[1] =  num.toGeoElement();
 
 		setOutputLength(1);
 		setOutput(0, outNum);

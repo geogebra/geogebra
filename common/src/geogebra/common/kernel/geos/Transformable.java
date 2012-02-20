@@ -6,5 +6,5 @@ package geogebra.common.kernel.geos;
  *
  */
 public interface Transformable {
-	
+	//tagging interface only
 }

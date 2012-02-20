@@ -18,18 +18,28 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
+import geogebra.common.kernel.geos.ToGeoElement;
 
 /**
- *
+ * Interface for elements with numeric value (numerics, segments, polygons, ...)
+ * and their counterparts from geogebra.common.kernel.arithmetic (MyDouble)
  * @author  Markus
- * @version 
  */
-public interface NumberValue extends SpreadsheetTraceable { 
+public interface NumberValue extends SpreadsheetTraceable, ToGeoElement {
+	/**
+	 * @return MyDouble whose value equals #getDouble()
+	 */
     public MyDouble getNumber();
+    /**
+     * 
+     * @return true for angles
+     */
     public boolean isAngle();
+    /**
+     * 
+     * @return value of this number
+     */
     public double getDouble(); 
-    public GeoElement toGeoElement();
 }
 

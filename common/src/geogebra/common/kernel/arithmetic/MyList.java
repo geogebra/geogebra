@@ -126,7 +126,7 @@ public class MyList extends ValidExpression implements ListValue,
 				replacements += ((ExpressionNode) element).replaceVariables(
 						varName, fVar);
 			} else if (element instanceof Variable) {
-				if (varName.equals(((Variable) element).getName())) {
+				if (varName.equals(((Variable) element).getName(StringTemplate.defaultTemplate))) {
 					listElements.set(i, fVar);
 					replacements++;
 				}
@@ -258,6 +258,7 @@ public class MyList extends ValidExpression implements ListValue,
 	 * @param right
 	 *            true for <this> <operation> <value>, false for <value>
 	 *            <operation> <this>
+	 * @param tpl string template in case we do string concatenation here
 	 * @author Markus Hohenwarter
 	 */
 	private void apply(Operation operation, ExpressionValue value, boolean right,StringTemplate tpl) {

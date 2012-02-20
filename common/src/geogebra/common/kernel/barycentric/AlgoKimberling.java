@@ -14,17 +14,25 @@ import geogebra.common.kernel.geos.GeoPoint2;
  * for creating a perl script which was used to create this class.
  * @version 30-09-2011
  * 
- *  This class calculates n-th Kimberling point of a triangle. 
+ *  This class calculates n-th Kimberling center of a triangle. 
  *          
  */
 
 public class AlgoKimberling extends AlgoElement {
 
-	public static final long serialVersionUID = 1L;
+	
 	private GeoPoint2 A, B, C; // input
 	private GeoPoint2 M; // output
 	private NumberValue n;
-
+	/**
+	 * Creates new algo for triangle center
+	 * @param cons construction
+	 * @param label label
+	 * @param A first point
+	 * @param B second point
+	 * @param C third point
+	 * @param n index in ETC
+	 */
 	public AlgoKimberling(Construction cons, String label, GeoPoint2 A, GeoPoint2 B,
 			GeoPoint2 C, NumberValue n) {
 		super(cons);
@@ -38,33 +46,38 @@ public class AlgoKimberling extends AlgoElement {
 		M.setLabel(label);
 	}
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoKimberling;
 	}
 
 	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[4];
 		input[0] = A;
 		input[1] = B;
 		input[2] = C;
-		input[3] = (GeoElement)n.toGeoElement();
+		input[3] = n.toGeoElement();
 
 		setOutputLength(1);
 		setOutput(0, M);
 		setDependencies(); // done by AlgoElement
 	}
-
+	/**
+	 * @return resulting point
+	 */
 	public GeoPoint2 getResult() {
 		return M;
 	}
 
-	private double p(double a,double b){
+	private static double p(double a,double b){
 		return Math.pow(a,b);
 	}
-	private double u(double a){
+	private static double u(double a){
 		return Math.sqrt(a);
 	}
+	@Override
 	public final void compute() {
 		// Check if the points are aligned
 		double c = A.distance(B);
@@ -86,7 +99,7 @@ public class AlgoKimberling extends AlgoElement {
 				(A.y / A.z * wA + B.y / B.z * wB + C.y / C.z * wC) / w, 1);		
 	}
 
-	private double weight(int k, double a, double b, double c) {
+	private static double weight(int k, double a, double b, double c) {
 		if(k<1000)
 			return weight0to1000(k,a,b,c);
 		if(k<1500)
@@ -99,7 +112,7 @@ public class AlgoKimberling extends AlgoElement {
 			return weight2500to2799(k,a,b,c);
 		return weight2800plus(k,a,b,c);
 	}
-	private double weight0to1000(int k, double a, double b, double c) {
+	private static double weight0to1000(int k, double a, double b, double c) {
 		double   
 		a2 = a * a,a3=a*a2,a4=a*a3,a5=a*a4,a6=a*a5,a7=a*a6,a8=a*a7,a9=a*a8,a10=a*a9,
 		b2 = b * b,b3=b*b2,b4=b*b3,b5=b*b4,b6=b*b5,b7=b*b6,b8=b*b7,b9=b*b8,b10=b*b9,		
@@ -2107,7 +2120,7 @@ public class AlgoKimberling extends AlgoElement {
 			return Double.NaN;
 		}
 	}
-	private double weight1000to1499(int k, double a, double b, double c) {
+	private static double weight1000to1499(int k, double a, double b, double c) {
 				double   
 				a2 = a * a,a3=a*a2,a4=a*a3,a5=a*a4,a6=a*a5,a7=a*a6,a8=a*a7,a9=a*a8,a10=a*a9,
 				b2 = b * b,b3=b*b2,b4=b*b3,b5=b*b4,b6=b*b5,b7=b*b6,b8=b*b7,		
@@ -3121,7 +3134,7 @@ public class AlgoKimberling extends AlgoElement {
 			return Double.NaN;
 				}
 		}
-		private double weight1500to1999(int k, double a, double b, double c) {
+		private static double weight1500to1999(int k, double a, double b, double c) {
 					double   
 					a2 = a * a,a3=a*a2,a4=a*a3,a5=a*a4,a6=a*a5,a7=a*a6,a8=a*a7,a9=a*a8,a10=a*a9,
 					b2 = b * b,b3=b*b2,b4=b*b3,b5=b*b4,b6=b*b5,b7=b*b6,b8=b*b7,b9=b*b8,b10=b*b9,		
@@ -4136,7 +4149,7 @@ public class AlgoKimberling extends AlgoElement {
 			return Double.NaN;
 				}
 	}
-	private double weight2000to2500(int k, double a, double b, double c) {
+	private static double weight2000to2500(int k, double a, double b, double c) {
 				double   
 				a2 = a * a,a3=a*a2,a4=a*a3,a5=a*a4,a6=a*a5,a7=a*a6,a8=a*a7,a9=a*a8,a10=a*a9,
 				b2 = b * b,b3=b*b2,b4=b*b3,b5=b*b4,b6=b*b5,b7=b*b6,b8=b*b7,b9=b*b8,b10=b*b9,		
@@ -5148,7 +5161,7 @@ public class AlgoKimberling extends AlgoElement {
 		default: return Double.NaN;	
 				}				
 		}
-		private double weight2500to2799(int k, double a, double b, double c) {
+		private static double weight2500to2799(int k, double a, double b, double c) {
 					double   
 					a2 = a * a,a3=a*a2,a4=a*a3,a5=a*a4,a6=a*a5,a7=a*a6,a8=a*a7,a9=a*a8,a10=a*a9,
 					b2 = b * b,b3=b*b2,b4=b*b3,b5=b*b4,b6=b*b5,b7=b*b6,b8=b*b7,b9=b*b8,b10=b*b9,		
@@ -5759,7 +5772,7 @@ public class AlgoKimberling extends AlgoElement {
 		default: return Double.NaN;
 					}
 		}
-		private double weight2800plus(int k, double a, double b, double c) {
+		private static double weight2800plus(int k, double a, double b, double c) {
 				double   
 				a2 = a * a,a3=a*a2,a4=a*a3,a5=a*a4,a6=a*a5,a7=a*a6,a8=a*a7,a9=a*a8,a10=a*a9,
 				b2 = b * b,b3=b*b2,b4=b*b3,b5=b*b4,b6=b*b5,b7=b*b6,b8=b*b7,b9=b*b8,b10=b*b9,		

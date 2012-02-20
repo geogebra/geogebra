@@ -34,7 +34,6 @@ import java.util.Set;
 /**
  * 
  * @author Markus
- * @version
  */
 public class Command extends AbstractCommand implements ReplaceableValue {
 
@@ -48,7 +47,15 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 	private MacroInterface macro; // command may correspond to a macro
 	private boolean allowEvaluationForTypeCheck = true;
 
-	/** Creates new Command */
+	/**
+	 * Creates a new command object.
+	 * 
+	 * @param kernel kernel
+	 * @param name internal name or translated name
+	 * @param translateName
+	 *            true to translate name to internal
+	 * 
+	 */
 	public Command(Kernel kernel, String name, boolean translateName) {
 		this(kernel, name, translateName, true);
 	}
@@ -56,9 +63,10 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 	/**
 	 * Creates a new command object.
 	 * 
-	 * @param kernel
-	 * @param name
+	 * @param kernel kernel
+	 * @param name internal name or translated name
 	 * @param translateName
+	 *            true to translate name to internal
 	 * @param allowEvaluationForTypeCheck
 	 *            whether this command is allowed to be evaluated in type checks
 	 *            like isTextValue()
@@ -87,6 +95,9 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 		return kernel;
 	}
 
+	/**
+	 * @param arg argument to add
+	 */
 	public void addArgument(ExpressionNode arg) {
 		args.add(arg);
 	}
@@ -94,6 +105,8 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 	/**
 	 * Returns the name of the variable at the specified argument position. If
 	 * there is no variable name at this position, null is returned.
+	 * @param i position
+	 * @return name of the variable at the specified argument position
 	 */
 	public String getVariableName(int i) {
 		if (i >= args.size())
@@ -101,7 +114,7 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 
 		ExpressionValue ev = args.get(i).getLeft();
 		if (ev instanceof Variable)
-			return ((Variable) ev).getName();
+			return ((Variable) ev).getName(StringTemplate.defaultTemplate);
 		else if (ev instanceof GeoElement) {
 			// XML Handler looks up labels of GeoElements
 			// so we may end up having a GeoElement object here
@@ -126,6 +139,9 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 		return null;
 	}
 
+	/**
+	 * @return array of arguments
+	 */
 	public ExpressionNode[] getArguments() {
 		return args.toArray(new ExpressionNode[0]);
 	}
@@ -135,6 +151,10 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 		return args.get(i);
 	}
 
+	/**
+	 * @param i index
+	 * @param en argument
+	 */
 	public void setArgument(int i, ExpressionNode en) {
 		args.set(i, en);
 	}
@@ -154,6 +174,7 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 		return toString(true, false,tpl);
 	}
 
+	@Override
 	public String toValueString(StringTemplate tpl) {
 		return toString(false, false,tpl);
 	}
@@ -204,12 +225,16 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 		return symbolic ? ev.toString(tpl) : ev.toValueString(tpl);
 	}
 
+	/**
+	 * @return array of resulting geos
+	 */
 	public GeoElement[] evaluateMultiple() {
 		GeoElement[] geos = null;
 		geos = kernel.getAlgebraProcessor().processCommand(this, false);
 		return geos;
 	}
 
+	@Override
 	public ExpressionValue evaluate(StringTemplate tpl) {
 		// not yet evaluated: process command
 		if (evalGeos == null)
@@ -284,12 +309,12 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 		return allowEvaluationForTypeCheck && evaluate().isTextValue();
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel) {
-		Command c = new Command(kernel, name, false);
+	public ExpressionValue deepCopy(Kernel kernel1) {
+		Command c = new Command(kernel1, name, false);
 		// copy arguments
 		int size = args.size();
 		for (int i = 0; i < size; i++) {
-			c.addArgument(args.get(i).getCopy(kernel));
+			c.addArgument(args.get(i).getCopy(kernel1));
 		}
 		return c;
 	}
@@ -356,10 +381,16 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 		return false;
 	}
 
+	/**
+	 * @return macro macro associated with this command
+	 */
 	public final MacroInterface getMacro() {
 		return macro;
 	}
 
+	/**
+	 * @param macro macro associated with this command
+	 */
 	public final void setMacro(MacroInterface macro) {
 		this.macro = macro;
 	}

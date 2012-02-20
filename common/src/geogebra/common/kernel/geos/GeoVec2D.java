@@ -41,6 +41,7 @@ import org.apache.commons.math.complex.Complex;
  * @author  Markus
  * @version 
  */
+@SuppressWarnings("javadoc")
 final public class GeoVec2D extends ValidExpression implements MatrixTransformable, VectorValue {        
 
     public double x = Double.NaN;
@@ -83,11 +84,12 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
     	return mode == Kernel.COORD_COMPLEX && x == 0 && y == 1;
     }
     
-	public ExpressionValue deepCopy(Kernel kernel) {
+	public ExpressionValue deepCopy(Kernel kernel2) {
 		return new GeoVec2D(this);
 	}   
 	
-    public void resolveVariables() {     
+    public void resolveVariables() {
+    	//do nothing
     }
             
     /** Creates new GeoVec2D as vector between Points P and Q */
@@ -557,7 +559,8 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 		return !(Double.isNaN(x) || Double.isNaN( y));
 	}
     
-    final public String toString(StringTemplate tpl) {
+    @Override
+	final public String toString(StringTemplate tpl) {
     	if (isImaginaryUnit()){
     		switch (tpl.getStringType()){
     			case MPREDUCE:
@@ -587,8 +590,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
     final public GeoVec2D getVector() {
     	if (this.isImaginaryUnit()) 
     		return new GeoVec2D(this);
-    	else 
-    		return this;
+    	return this;
     }        
         
     final public boolean isConstant() {
@@ -603,7 +605,8 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
         return  mode;
     }        
     
-    final public ExpressionValue evaluate(StringTemplate tpl) { 
+    @Override
+	final public ExpressionValue evaluate(StringTemplate tpl) { 
     	return getVector(); 
     }
     
@@ -613,6 +616,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
         this.mode = mode;
     }
 
+	@Override
 	final public String toValueString(StringTemplate tpl) {
 		return toString(tpl);
 	}  
@@ -724,7 +728,7 @@ final public class GeoVec2D extends ValidExpression implements MatrixTransformab
 				yy = p.y;
 				zz = p.z;
 			} else if (rt.isVectorValue()) {
-				GeoVec2D v = (GeoVec2D) ((VectorValue)rt).getVector();
+				GeoVec2D v = ((VectorValue)rt).getVector();
 				xx = v.x;
 				yy = v.y;
 				

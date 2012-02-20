@@ -664,7 +664,7 @@ public class ExpressionNode extends ValidExpression implements
 		} else if (left instanceof MyList) {
 			replacements += ((MyList) left).replaceVariables(varName, fVar);
 		} else if (left instanceof Variable) {
-			if (varName.equals(((Variable) left).getName())) {
+			if (varName.equals(((Variable) left).getName(StringTemplate.defaultTemplate))) {
 				left = fVar;
 				replacements++;
 			}
@@ -690,7 +690,7 @@ public class ExpressionNode extends ValidExpression implements
 				replacements += ((MyList) right)
 						.replaceVariables(varName, fVar);
 			} else if (right instanceof Variable) {
-				if (varName.equals(((Variable) right).getName())) {
+				if (varName.equals(((Variable) right).getName(StringTemplate.defaultTemplate))) {
 					right = fVar;
 					replacements++;
 				}

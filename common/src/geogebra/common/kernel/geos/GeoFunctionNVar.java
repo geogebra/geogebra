@@ -386,21 +386,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	public boolean isBooleanFunction() {
 		if (fun != null)
 			return fun.isBooleanFunction();
-		else
-			return false;
-	}
-
-
-//	public boolean isGeoDeriveable() {
-//		return true;
-//	}
-	/** 
-	 * Returns name of i-th variable
-	 * @param i index of variable
-	 * @return name of i-th variable
-	 */
-	public String getVarString(int i) {	
-		return fun == null ? "" : fun.getVarString(i);
+		return false;
 	}
 
 	public String getVarString(StringTemplate tpl) {	

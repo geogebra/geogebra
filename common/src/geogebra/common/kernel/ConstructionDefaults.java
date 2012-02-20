@@ -320,9 +320,9 @@ public class ConstructionDefaults {
 		angle.setArcSize(angleSize);
 		/*we have to set min/max/increment/speed here because 
 		SetEuclideanVisible takes these from default geo*/
-		angle.setIntervalMax(GeoAngle.DEFAULT_SLIDER_MAX);
-		angle.setIntervalMin(GeoAngle.DEFAULT_SLIDER_MIN);
-		angle.setAnimationStep(GeoAngle.DEFAULT_SLIDER_INCREMENT);
+		angle.setIntervalMax(GeoAngle.DEFAULT_SLIDER_MAX_ANGLE);
+		angle.setIntervalMin(GeoAngle.DEFAULT_SLIDER_MIN_ANGLE);
+		angle.setAnimationStep(GeoAngle.DEFAULT_SLIDER_INCREMENT_ANGLE);
 		angle.setAnimationSpeed(GeoNumeric.DEFAULT_SLIDER_SPEED);
 		angle.setDefaultGeoType(DEFAULT_ANGLE);
 		angle.setLineTypeHidden(EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN);

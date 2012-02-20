@@ -13,8 +13,8 @@ public interface Functional2Var {
 
 	
 	/** return point for parameters (u,v)
-	 * @param u
-	 * @param v
+	 * @param u x-coord for evaluation
+	 * @param v y-coord for evaluation
 	 * @return point for parameters (u,v)
 	 */
 	public Coords evaluatePoint(double u, double v);
@@ -22,8 +22,8 @@ public interface Functional2Var {
 	
 	/** return normal vector at parameters (u,v)
 	 * (return null if none)
-	 * @param u
-	 * @param v
+	 * @param u x-coord for evaluation
+	 * @param v y-coord for evaluation
 	 * @return normal vector at parameters (u,v)
 	 */
 	public Coords evaluateNormal(double u, double v);

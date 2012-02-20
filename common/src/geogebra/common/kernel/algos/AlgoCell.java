@@ -61,8 +61,8 @@ public class AlgoCell extends AlgoElement {
 	protected void setInputOutput() {	
 		// input is the text
 		input = new GeoElement[2];
-		input[0] = (GeoElement)a.toGeoElement();
-		input[1] = (GeoElement)b.toGeoElement();
+		input[0] = a.toGeoElement();
+		input[1] = b.toGeoElement();
 		
 		// input for updateSet propagation is text and reference object
 		inputForUpdateSetPropagation = new GeoElement[3];

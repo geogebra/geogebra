@@ -27,13 +27,24 @@ import geogebra.common.plugin.Operation;
 
 public class AlgoTriangleCurve extends AlgoElement implements ExpressionNodeConstants{
 
-	public static final long serialVersionUID = 1L;
+	
 	private GeoPoint2 A, B, C; // input
 	private GeoImplicitPoly n;	// number of curve
 	private GeoElement poly; // output
 	private Equation eq;
 	private GeoNumeric[] xcoef,ycoef,constant;
 	private AlgoDependentImplicitPoly dd;
+	/**
+	 * @param cons construction
+	 * @param label label
+	 * @param A first point
+	 * @param B second point
+	 * @param C third point
+	 * @param e equation in A,B,C
+	 * @param a variable "A"
+	 * @param b variable "B"
+	 * @param c variable "C"
+	 */
 	public AlgoTriangleCurve(Construction cons, String label, GeoPoint2 A, GeoPoint2 B,
 			GeoPoint2 C, GeoImplicitPoly e, GeoNumeric a,GeoNumeric b,GeoNumeric c) {
 		super(cons);
@@ -85,11 +96,13 @@ public class AlgoTriangleCurve extends AlgoElement implements ExpressionNodeCons
 		
 	}
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoTriangleCurve;
 	}
 
 	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[4];
 		input[0] = A;
@@ -101,11 +114,14 @@ public class AlgoTriangleCurve extends AlgoElement implements ExpressionNodeCons
 		setOutput(0, poly);
 		setDependencies(); // done ycoef[1] AlgoElement
 	}
-
+	/**
+	 * @return resulting implicit polynomial
+	 */
 	public GeoElement getResult() {
 		return poly;
 	}
 
+	@Override
 	public final void compute() {
 		// Check if the points are aligned
 		

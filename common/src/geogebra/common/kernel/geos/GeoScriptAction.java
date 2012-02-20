@@ -26,10 +26,19 @@ public class GeoScriptAction extends GeoElement  {
 	
 	private CmdScriptingInterface action;
 	private Command command;
+	/**
+	 * Creates new script action
+	 * @param c construction
+	 */
 	public GeoScriptAction(Construction c) {
 		super(c);
-		// TODO Auto-generated constructor stub
 	}
+	/**
+	 * Creates new script action
+	 * @param cons construction
+	 * @param cmdScripting command processor to be used 
+	 * @param command command to be processed
+	 */
 	public GeoScriptAction(Construction cons, CmdScriptingInterface cmdScripting,Command command) {
 		this(cons);
 		action = cmdScripting;
@@ -101,6 +110,10 @@ public class GeoScriptAction extends GeoElement  {
 	public String getClassName() {
 		return "GeoScriptAction";
 	}
+	
+	/**
+	 * Perform the command
+	 */
 	public void perform() {
 		if(action!=null)
 			action.perform(command);

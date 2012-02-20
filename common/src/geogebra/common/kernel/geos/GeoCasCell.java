@@ -172,7 +172,7 @@ public class GeoCasCell extends GeoElement {
 		if (evalVE == null) {
 			return "";
 		}
-		return evalVE.toString();
+		return evalVE.toString(StringTemplate.casTemplate);
 	}
 
 	/**
@@ -417,23 +417,25 @@ public class GeoCasCell extends GeoElement {
 	 * by this method, so you need to call setInput() first. Make sure that
 	 * input = prefix + eval without wrapper command + postfix.
 	 * 
-	 * @param prefix
+	 * @param prefix1
 	 *            beginning part that should NOT be evaluated, e.g. "25a +"
 	 * @param eval
 	 *            part of the input that needs to be evaluated, e.g.
 	 *            "Expand[(a+b)^2]"
-	 * @param postfix
+	 * @param postfix1
 	 *            end part that should NOT be evaluated, e.g. " + "5 (c+d)"
 	 */
 	public void setProcessingInformation(String prefix, String eval,
 			String postfix) {
+		String postfix1 = postfix;
+		String prefix1 = prefix;
 		setEvalCommand("");
 		evalComment = "";
-		if (prefix == null) {
-			prefix = "";
+		if (prefix1 == null) {
+			prefix1 = "";
 		}
-		if (postfix == null) {
-			postfix = "";
+		if (postfix1 == null) {
+			postfix1 = "";
 		}
 
 		// stop if input is assignment
@@ -461,8 +463,8 @@ public class GeoCasCell extends GeoElement {
 				// extract command from eval
 				setEvalCommand(evalVE.getTopLevelCommand().getName());
 			}
-			this.prefix = prefix;
-			this.postfix = postfix;
+			this.prefix = prefix1;
+			this.postfix = postfix1;
 		} else {
 			evalVE = inputVE;
 			this.prefix = "";
@@ -559,7 +561,7 @@ public class GeoCasCell extends GeoElement {
 		HashSet<GeoElement> geoVars = ve.getVariables();
 		if (geoVars != null) {
 			for (GeoElement geo : geoVars) {
-				String var = geo.getLabel();
+				String var = geo.getLabel(StringTemplate.defaultTemplate);
 
 				// local function variables are NOT input variables
 				if (isFunction && ((FunctionNVar) ve).isFunctionVariable(var)) {
@@ -604,14 +606,14 @@ public class GeoCasCell extends GeoElement {
 	/**
 	 * Returns the input using command names in the current language.
 	 */
-	private String localizeInput(String input, StringTemplate tpl) {
+	private String localizeInput(String input1, StringTemplate tpl) {
 		// replace all internal command names in input by local command names
 		if (tpl.isPrintLocalizedCommandNames()) {
 			// internal commands -> local commands
-			return translate(input, true);
+			return translate(input1, true);
 		}
 		// keep internal commands
-		return input;
+		return input1;
 	}
 
 	/**
@@ -651,6 +653,7 @@ public class GeoCasCell extends GeoElement {
 	 */
 	private static String replaceAllCommands(String expression, String oldCmd,
 			String newCmd) {
+		String expression1 = expression;
 		// build regex to find local command names
 		StringBuilder regexPrefix = new StringBuilder();
 		regexPrefix.append("(?i)"); // ignore case
@@ -663,7 +666,7 @@ public class GeoCasCell extends GeoElement {
 		regexSb.append("[\\[]");
 		StringBuilder newCmdSb = new StringBuilder(newCmd);
 		newCmdSb.append("[");
-		expression = expression.replaceAll(regexSb.toString(),
+		expression1 = expression1.replaceAll(regexSb.toString(),
 				newCmdSb.toString());
 
 		// replace commands with (
@@ -674,7 +677,7 @@ public class GeoCasCell extends GeoElement {
 		newCmdSb.setLength(0);
 		newCmdSb.append(newCmd);
 		newCmdSb.append("(");
-		return expression.replaceAll(regexSb.toString(), newCmdSb.toString());
+		return expression1.replaceAll(regexSb.toString(), newCmdSb.toString());
 	}
 
 	/**
@@ -840,7 +843,7 @@ public class GeoCasCell extends GeoElement {
 	 * important for row references and renaming of inGeos to work.
 	 */
 	private ValidExpression resolveInputReferences(ValidExpression ve,
-			TreeSet<GeoElement> inGeos) {
+			TreeSet<GeoElement> inputGeos) {
 		if (ve == null)
 			return ve;
 
@@ -861,10 +864,11 @@ public class GeoCasCell extends GeoElement {
 		}
 
 		// replace GeoDummyVariable occurances for each geo
-		if (inGeos != null) {
-			for (GeoElement inGeo : inGeos) {
+		if (inputGeos != null) {
+			for (GeoElement inGeo : inputGeos) {
+				//replacement uses default template
 				boolean success = node.replaceGeoDummyVariables(
-						inGeo.getLabel(), inGeo);
+						inGeo.getLabel(StringTemplate.defaultTemplate), inGeo);
 				if (!success) {
 					// try $ row reference
 					node.replaceGeoDummyVariables(
@@ -907,10 +911,10 @@ public class GeoCasCell extends GeoElement {
 	 * Replaces GeoDummyVariable objects in outputVE by GeoElements from kernel
 	 * that are not GeoCasCells.
 	 */
-	private void resolveGeoElementReferences(ValidExpression outputVE) {
-		if (invars == null || !(outputVE instanceof FunctionNVar))
+	private void resolveGeoElementReferences(ValidExpression outVE) {
+		if (invars == null || !(outVE instanceof FunctionNVar))
 			return;
-		FunctionNVar fun = (FunctionNVar) outputVE;
+		FunctionNVar fun = (FunctionNVar) outVE;
 
 		// replace function variables in tree
 		for (String varLabel : invars) {

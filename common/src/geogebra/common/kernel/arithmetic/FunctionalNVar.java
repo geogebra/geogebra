@@ -23,7 +23,7 @@ import geogebra.common.kernel.StringTemplate;
  */
 public interface FunctionalNVar {
 	/**
-	 * @param vals
+	 * @param vals values of variables
 	 * @return value at vals
 	 */
 	public double evaluate(double[] vals);
@@ -42,5 +42,9 @@ public interface FunctionalNVar {
 	 */
 	public boolean isBooleanFunction();
 	//public GeoFunctionNVar getGeoDerivative(int order, int nvar);
+	/**
+	 * @param tpl string template
+	 * @return comma separated variable names
+	 */
 	public String getVarString(StringTemplate tpl);
 }

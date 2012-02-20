@@ -9,6 +9,7 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.ToGeoElement;
 import geogebra.common.kernel.LocateableList;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.RegionParameters;
@@ -23,7 +24,7 @@ import geogebra.common.kernel.RegionParameters;
  *
  */
 
-public interface GeoPointND {
+public interface GeoPointND extends ToGeoElement{
 
 	
 	/** Returns whether this point has changeable numbers as coordinates */

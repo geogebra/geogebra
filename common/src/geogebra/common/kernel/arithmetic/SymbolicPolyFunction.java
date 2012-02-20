@@ -25,16 +25,25 @@ public class SymbolicPolyFunction extends PolyFunction {
 	// used to recalc the coefficients of this polynomial
 	private ExpressionNode [] symbCoeffs; 
 	
+	/**
+	 * Creates new symbolicpolynomial  function
+	 * @param degree degree of polynomial
+	 */
 	public SymbolicPolyFunction(int degree) {
 		super(degree);
 		symbCoeffs = new ExpressionNode[degree + 1];		
 	}
-	
+	/**
+	 * Creates new polynomial function
+	 * @param coeff array of coefficients
+	 */
 	public SymbolicPolyFunction(ExpressionNode[] coeff) {
 		super(coeff.length-1);
 		symbCoeffs = coeff;		
 	}
-	
+	/**
+	 * @return array of coefficients
+	 */
 	public ExpressionNode [] getSymbolicCoeffs() {
 		return symbCoeffs;
 	}

@@ -22,10 +22,19 @@ public class FunctionVariable extends MyDouble {
 	
 	private String varStr = "x";
 	
+	/**
+	 * Creates new function variable
+	 * @param kernel kernel
+	 */
 	public FunctionVariable(Kernel kernel) {
 		super(kernel);
 	}
 	
+	/**
+	 * Creates new function variable
+	 * @param kernel kernel
+	 * @param varStr variable name
+	 */
 	public FunctionVariable(Kernel kernel, String varStr) {
 		super(kernel);
 		setVarString(varStr);
@@ -39,10 +48,17 @@ public class FunctionVariable extends MyDouble {
 		return false;
 	}
 	
+	/**
+	 * Changes variable name
+	 * @param varStr new variable name
+	 */
 	public void setVarString(String varStr) {
 		this.varStr = varStr;
 	}
 	
+	/**
+	 * @return variable name
+	 */
 	public String getSetVarString() {
 		return varStr;
 	}
