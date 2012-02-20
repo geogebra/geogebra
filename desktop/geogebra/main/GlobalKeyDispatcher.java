@@ -50,8 +50,6 @@ import javax.swing.text.JTextComponent;
  */
 public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatcher implements KeyEventDispatcher {
 
-	protected Application app;
-
 	public GlobalKeyDispatcher(Application app) {
 		this.app = app;
 	}
@@ -180,16 +178,16 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 			if (!(event.getSource() instanceof JTable)) {
 
 				// ENTER: set focus to input field
-				if (app.isUsingFullGui() && app.getGuiManager().noMenusOpen()) {
+				if (app.isUsingFullGui() && ((Application)app).getGuiManager().noMenusOpen()) {
 					if (app.showAlgebraInput()
-							&& !app.getGuiManager().getAlgebraInput()
+							&& !((Application)app).getGuiManager().getAlgebraInput()
 									.hasFocus()) {
 						// focus this frame (needed for external view windows)
-						if (!app.isApplet() && app.getFrame() != null) {
-							app.getFrame().toFront();
+						if (!app.isApplet() && ((Application)app).getFrame() != null) {
+							((Application)app).getFrame().toFront();
 						}
 
-						app.getGuiManager().getAlgebraInput().requestFocus();
+						((Application)app).getGuiManager().getAlgebraInput().requestFocus();
 
 						consumed = true;
 					}
@@ -222,12 +220,12 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 		case KeyEvent.VK_TAB:
 			if (event.isControlDown() && app.isUsingFullGui()) {
 				consumed = true;
-				GuiManager gui = app.getGuiManager();
+				GuiManager gui = ((Application)app).getGuiManager();
 				gui.getLayout().getDockManager()
 						.moveFocus(!event.isShiftDown());
 
 			} else if (app.getActiveEuclidianView().hasFocus()
-					|| app.getGuiManager().getAlgebraView().hasFocus()) {
+					|| ((Application)app).getGuiManager().getAlgebraView().hasFocus()) {
 				if (event.isShiftDown())
 					app.selectLastGeo();
 				else
@@ -339,14 +337,14 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 				// Ctrl-shift-c: copy graphics view to clipboard
 				// should also work in applets with no menubar
 				if (event.isShiftDown()) {
-					app.copyGraphicsViewToClipboard();
+					((Application)app).copyGraphicsViewToClipboard();
 					consumed = true;
 				} else {
 					// check not spreadsheet
 					if (!(event.getSource() instanceof JTable)
-							&& !(app.getGuiManager().getSpreadsheetView()
+							&& !(((Application)app).getGuiManager().getSpreadsheetView()
 									.hasFocus())
-							&& !(((AlgebraInput) app.getGuiManager()
+							&& !(((AlgebraInput) ((Application)app).getGuiManager()
 									.getAlgebraInput()).getTextField()
 									.hasFocus())) {
 
@@ -384,10 +382,10 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 
 			case KeyEvent.VK_M:
 				if (!app.isApplet() && event.isShiftDown()) {
-					app.exportToLMS();
+					((Application)app).exportToLMS();
 					consumed = true;
 				} else if (!app.isApplet() || app.isRightClickEnabled()) {
-					app.setStandardView();
+					((Application)app).setStandardView();
 					consumed = true;
 				}
 				break;
@@ -404,19 +402,19 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 						// load next file in folder
 
 						// ask if OK to discard current file
-						if (app.isSaved() || app.saveCurrentFile()) {
+						if (((Application)app).isSaved() || ((Application)app).saveCurrentFile()) {
 
 							MyFileFilter fileFilter = new MyFileFilter();
 							fileFilter.addExtension("ggb");
 
-							File[] options = app.getCurrentPath().listFiles(
+							File[] options = ((Application)app).getCurrentPath().listFiles(
 									fileFilter);
 
 							// no current file, just load the first file in the
 							// folder
-							if (app.getCurrentFile() == null) {
+							if (((Application)app).getCurrentFile() == null) {
 								if (options.length > 0) {
-									app.getGuiManager().loadFile(options[0],
+									((Application)app).getGuiManager().loadFile(options[0],
 											false);
 									consumed = true;
 								}
@@ -430,7 +428,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 									sortedSet.add(options[i]);
 							}
 
-							String currentFile = app.getCurrentFile().getName();
+							String currentFile = ((Application)app).getCurrentFile().getName();
 
 							Iterator<File> iterator = sortedSet.iterator();
 							File fileToLoad = null;
@@ -445,7 +443,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 								}
 							}
 
-							app.getGuiManager().loadFile(fileToLoad, false);
+							((Application)app).getGuiManager().loadFile(fileToLoad, false);
 
 							break;
 						}
@@ -474,7 +472,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 			// needed for detached views and MacOS
 			// Cmd + Y: Redo
 			case KeyEvent.VK_Y:
-				app.getGuiManager().redo();
+				((Application)app).getGuiManager().redo();
 				consumed = true;
 				break;
 
@@ -482,18 +480,18 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 			// Ctrl + Z: Undo
 			case KeyEvent.VK_Z:
 				if (event.isShiftDown())
-					app.getGuiManager().redo();
+					((Application)app).getGuiManager().redo();
 				else
-					app.getGuiManager().undo();
+					((Application)app).getGuiManager().undo();
 				consumed = true;
 				break;
 
 			case KeyEvent.VK_V:
 				// check not spreadsheet, not inputbar
 				if (!(event.getSource() instanceof JTable)
-						&& !(app.getGuiManager().getSpreadsheetView()
+						&& !(((Application)app).getGuiManager().getSpreadsheetView()
 								.hasFocus())
-						&& !(((AlgebraInput) app.getGuiManager()
+						&& !(((AlgebraInput) ((Application)app).getGuiManager()
 								.getAlgebraInput()).getTextField().hasFocus())) {
 
 					app.setWaitCursor();
@@ -544,7 +542,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 				if (app.getActiveEuclidianView().getMode() != EuclidianConstants.MODE_PEN
 						|| app.getActiveEuclidianView().getMode() != EuclidianConstants.MODE_FREEHAND) {
 
-					boolean spanish = app.getLocale().toString()
+					boolean spanish = ((Application)app).getLocale().toString()
 							.startsWith("es");
 
 					// AltGr+ on Spanish keyboard is ] so
@@ -609,7 +607,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 				Point p = MouseInfo.getPointerInfo().getLocation();
 				p.translate(-comp.getLocationOnScreen().x,
 						-comp.getLocationOnScreen().y);
-				app.getGuiManager().toggleDrawingPadPopup(comp, p);
+				((Application)app).getGuiManager().toggleDrawingPadPopup(comp, p);
 				return true;
 			}
 
@@ -642,7 +640,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 					return true;
 				case KeyEvent.VK_DOWN:
 					if (app.isUsingFullGui()
-							&& app.getGuiManager().noMenusOpen()) {
+							&& ((Application)app).getGuiManager().noMenusOpen()) {
 						ev.rememberOrigins();
 						ev.setCoordSystemFromMouseMove(0,
 								(int) (height / 100.0 * base),
@@ -651,7 +649,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 					}
 				case KeyEvent.VK_UP:
 					if (app.isUsingFullGui()
-							&& app.getGuiManager().noMenusOpen()) {
+							&& ((Application)app).getGuiManager().noMenusOpen()) {
 						ev.rememberOrigins();
 						ev.setCoordSystemFromMouseMove(0,
 								-(int) (height / 100.0 * base),
@@ -684,7 +682,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 			Point p = MouseInfo.getPointerInfo().getLocation();
 			p.translate(-comp.getLocationOnScreen().x,
 					-comp.getLocationOnScreen().y);
-			app.getGuiManager().togglePopupMenu(geos, comp, p);
+			((Application)app).getGuiManager().togglePopupMenu(geos, comp, p);
 			// } else {
 			// app.getGuiManager().showPropertiesDialog(app.getSelectedGeos());
 			// }
@@ -744,7 +742,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 
 		case KeyEvent.VK_DELETE:
 			// G.Sturr 2010-5-2: let the spreadsheet handle delete
-			if (app.getGuiManager().getSpreadsheetView().hasFocus())
+			if (((Application)app).getGuiManager().getSpreadsheetView().hasFocus())
 				return false;
 			// DELETE selected objects
 			if (!app.isApplet() || app.isRightClickEnabled()) {
@@ -754,7 +752,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 
 		case KeyEvent.VK_BACK_SPACE:
 			// G.Sturr 2010-5-2: let the spreadsheet handle delete
-			if (app.getGuiManager().getSpreadsheetView().hasFocus())
+			if (((Application)app).getGuiManager().getSpreadsheetView().hasFocus())
 				return false;
 			// DELETE selected objects
 			// Note: ctrl-h generates a KeyEvent.VK_BACK_SPACE event, so check
@@ -771,7 +769,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 		// allow start editing, moving etc
 		if (event.getSource() instanceof JTable
 				|| (app.isUsingFullGui()
-						&& app.getGuiManager().hasSpreadsheetView() && app
+						&& ((Application)app).getGuiManager().hasSpreadsheetView() && ((Application)app)
 						.getGuiManager().getSpreadsheetView().hasFocus())) {
 			return false;
 		}
@@ -783,7 +781,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 		case KeyEvent.VK_UP:
 
 			// make sure arrow keys work in menus
-			if (app.isUsingFullGui() && !app.getGuiManager().noMenusOpen())
+			if (((Application)app).isUsingFullGui() && !((Application)app).getGuiManager().noMenusOpen())
 				return false;
 
 			changeVal = base;
@@ -793,7 +791,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 		case KeyEvent.VK_DOWN:
 
 			// make sure arrow keys work in menus
-			if (app.isUsingFullGui() && !app.getGuiManager().noMenusOpen())
+			if (app.isUsingFullGui() && !((Application)app).getGuiManager().noMenusOpen())
 				return false;
 
 			changeVal = -base;
@@ -803,7 +801,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 		case KeyEvent.VK_RIGHT:
 
 			// make sure arrow keys work in menus
-			if (app.isUsingFullGui() && !app.getGuiManager().noMenusOpen())
+			if (app.isUsingFullGui() && !((Application)app).getGuiManager().noMenusOpen())
 				return false;
 
 			changeVal = base;
@@ -813,7 +811,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 		case KeyEvent.VK_LEFT:
 
 			// make sure arrow keys work in menus
-			if (app.isUsingFullGui() && !app.getGuiManager().noMenusOpen())
+			if (app.isUsingFullGui() && !((Application)app).getGuiManager().noMenusOpen())
 				return false;
 
 			changeVal = -base;
@@ -842,7 +840,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 		case KeyEvent.VK_F2:
 			// handle F2 key to start editing first selected element
 			if (app.isUsingFullGui()) {
-				app.getGuiManager().startEditing(geos.get(0));
+				((Application)app).getGuiManager().startEditing(geos.get(0));
 				return true;
 			}
 			break;
@@ -952,15 +950,6 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 		return false;
 	}
 
-	private TreeSet<AlgoElementInterface> tempSet;
-
-	private TreeSet<AlgoElementInterface> getTempSet() {
-		if (tempSet == null) {
-			tempSet = new TreeSet<AlgoElementInterface>();
-		}
-		return tempSet;
-	}
-
 	/**
 	 * Handles function key for given GeoElement: F3: copy definition to input
 	 * field F4: copy value to input field F5: copy name to input field
@@ -993,66 +982,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 		textComponent.requestFocusInWindow();
 	}
 
-	/**
-	 * Tries to move the given objects after pressing an arrow key on the
-	 * keyboard.
-	 * 
-	 * @param keyCode
-	 *            VK_UP, VK_DOWN, VK_RIGHT, VK_LEFT
-	 * @return whether any object was moved
-	 */
-	private boolean handleArrowKeyMovement(ArrayList<GeoElement> geos,
-			double xdiff, double ydiff, double zdiff) {
-		GeoElement geo = geos.get(0);
 
-		boolean allSliders = true;
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geoi = geos.get(i);
-			if (!geoi.isGeoNumeric() || !geoi.isChangeable()) {
-				allSliders = false;
-				continue;
-			}
-		}
-
-		// don't move sliders, they will be handled later
-		if (allSliders) {
-			return false;
-		}
-
-		// set translation vector
-		if (tempVec == null)
-			tempVec = new Coords(4); // 4 coords for 3D
-		double xd = geo.getAnimationStep() * xdiff;
-		double yd = geo.getAnimationStep() * ydiff;
-		double zd = geo.getAnimationStep() * zdiff;
-		tempVec.setX(xd);
-		tempVec.setY(yd);
-		tempVec.setZ(zd);
-
-		// move objects
-		boolean moved = GeoElement.moveObjects(geos, tempVec, null, null);
-
-		// nothing moved
-		if (!moved) {
-			for (int i = 0; i < geos.size(); i++) {
-				geo = geos.get(i);
-				// toggle boolean value
-				if (geo.isChangeable() && geo.isGeoBoolean()) {
-					GeoBoolean bool = (GeoBoolean) geo;
-					bool.setValue(!bool.getBoolean());
-					bool.updateCascade();
-					moved = true;
-				}
-			}
-		}
-
-		if (moved)
-			app.getKernel().notifyRepaint();
-
-		return moved;
-	}
-
-	private Coords tempVec;
 
 	/**
 	 * Changes the font size of the user interface and construction element
@@ -1065,7 +995,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 	 *            whether only black should be used as a color
 	 * @return whether change was performed
 	 */
-	public static boolean changeFontsAndGeoElements(Application app,
+	public static boolean changeFontsAndGeoElements(AbstractApplication app,
 			int fontSize, boolean blackWhiteMode) {
 		if (app.isApplet())
 			return false;

@@ -101,4 +101,6 @@ public abstract class GuiManager {
 
 	abstract public void doAfterRedefine(GeoElement geo);
 
+	public abstract void updateSpreadsheetColumnWidths();
+
 }

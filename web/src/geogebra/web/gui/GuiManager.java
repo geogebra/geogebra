@@ -176,4 +176,10 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	    
     }
 
+	@Override
+    public void updateSpreadsheetColumnWidths() {
+	    // TODO Auto-generated method stub
+		Application.debug("unimplemented");	    
+    }
+
 }

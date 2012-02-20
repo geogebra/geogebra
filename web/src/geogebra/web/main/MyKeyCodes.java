@@ -80,6 +80,10 @@ public interface MyKeyCodes {
 	   * Shift key code.
 	   */
 	  public static final int KEY_SHIFT = 16;
+	  /**
+	   * Insert key code.
+	   */
+	  public static final int KEY_INSERT = 45;
 
 	  /**
 	   * Tab key code.
