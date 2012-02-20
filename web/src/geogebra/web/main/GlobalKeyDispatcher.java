@@ -1,26 +1,26 @@
 package geogebra.web.main;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import geogebra.common.awt.Color;
-import geogebra.common.euclidian.DrawTextField;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.util.CopyPaste;
+import geogebra.web.euclidian.EuclidianView;
 import geogebra.web.gui.app.GeoGebraFrame;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.KeyEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -42,7 +42,7 @@ public class GlobalKeyDispatcher extends
 	}
 
 	public void onKeyUp(KeyUpEvent event) {
-		AbstractApplication.debug("onkeyup");
+		//AbstractApplication.debug("onkeyup");
 		event.preventDefault();
 		event.stopPropagation();
 		//no it is private, but can be public, also it is void, but can return boolean as in desktop, if needed
@@ -259,7 +259,7 @@ public class GlobalKeyDispatcher extends
 						*/
 						// Copy selected geos
 						app.setWaitCursor();
-						//TCO CopyPaste.copyToXML(app, app.getSelectedGeos());
+						CopyPaste.copyToXML(app, app.getSelectedGeos());
 						app.updateMenubar();
 						app.setDefaultCursor();
 						consumed = true;
@@ -381,21 +381,31 @@ public class GlobalKeyDispatcher extends
 			// needed for detached views and MacOS
 			// Cmd + Y: Redo
 			case MyKeyCodes.KEY_Y:
-				//TCO app.getGuiManager().redo();
+				app.setWaitCursor();
+				app.getKernel().redo();
 				consumed = true;
+				app.setDefaultCursor();
 				break;
 
 			// needed for detached views and MacOS
 			// Ctrl + Z: Undo
 			case MyKeyCodes.KEY_Z:
-				/*TOC if (event.isShiftKeyDown())
-					app.getGuiManager().redo();
+				app.setWaitCursor();
+				if (event.isShiftKeyDown())
+					app.getKernel().redo();
 				else
-					app.getGuiManager().undo();
-				consumed = true;*/
+					app.getKernel().undo();
+				app.setDefaultCursor();
+				consumed = true;
 				break;
 
 			case MyKeyCodes.KEY_V:
+				
+				app.setWaitCursor();
+				CopyPaste.pasteFromXML(app);
+				consumed = true;
+				app.setDefaultCursor();
+				
 				// check not spreadsheet, not inputbar
 				/*TCO if (!(event.getSource() instanceof JTable)
 						&& !(app.getGuiManager().getSpreadsheetView()
@@ -446,23 +456,25 @@ public class GlobalKeyDispatcher extends
 			case MyKeyCodes.KEY_PLUS:
 			case MyKeyCodes.KEY_MINUS:
 			case MyKeyCodes.KEY_EQUALS:
+				
+				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 
 				// disable zooming in PEN mode
-				if (app.getActiveEuclidianView().getMode() != EuclidianConstants.MODE_PEN
-						|| app.getActiveEuclidianView().getMode() != EuclidianConstants.MODE_FREEHAND) {
+				if (ev.getMode() != EuclidianConstants.MODE_PEN
+						|| ev.getMode() != EuclidianConstants.MODE_FREEHAND) {
 
-					/*TCO boolean spanish = app.getLocale().toString()
-							.startsWith("es");
+					//TCO boolean spanish = app.getLocale().toString()
+					//		.startsWith("es");
 					// AltGr+ on Spanish keyboard is ] so
 					// allow <Ctrl>+ (zoom) but not <Ctrl><Alt>+ (fast zoom)
 					// from eg Input Bar
-					if (!spanish || !event.isAltKeyDown()
-							|| (event.getSource() instanceof EuclidianView)) {
-						((EuclidianView) app.getActiveEuclidianView())
-								.getEuclidianController().zoomInOut(event);
+					//if (!spanish || !event.isAltKeyDown()
+					//		|| (event.getSource() instanceof EuclidianView)) {
+						((EuclidianView) ev)
+								.getEuclidianController().zoomInOut(event.isAltKeyDown(), event.getNativeKeyCode() == MyKeyCodes.KEY_MINUS );
 						app.setUnsaved();
 						consumed = true;
-					}*/
+					//}
 				}
 				break;
 
@@ -594,14 +606,14 @@ public class GlobalKeyDispatcher extends
 	}
 
 	public void onKeyDown(KeyDownEvent event) {
-		AbstractApplication.debug("onkeydown");
+		//AbstractApplication.debug("onkeydown");
 	    event.preventDefault();
 	    event.stopPropagation();
     }
 
 	public void onKeyPress(KeyPressEvent event) {
 		
-		Application.debug("keypressevent");
+		//Application.debug("keypressevent");
 //		char ch = event.getCharCode();
 //			GeoElement geo;
 //			if (app.selectedGeosSize() == 1) {

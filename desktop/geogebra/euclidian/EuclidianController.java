@@ -248,40 +248,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		event.release();
 	}
 
-	public void zoomInOut(KeyEvent event) {
-		boolean allowZoom = !((Application)app).isApplet()
-				|| (mode == EuclidianConstants.MODE_ZOOM_IN)
-				|| (mode == EuclidianConstants.MODE_ZOOM_OUT)
-				|| (((Application) app).isShiftDragZoomEnabled());
-		if (!allowZoom) {
-			return;
-		}
-		double px, py;
-		if (mouseLoc != null) {
-			px = mouseLoc.x;
-			py = mouseLoc.y;
-		} else {
-			px = view.getWidth() / 2;
-			py = view.getHeight() / 2;
-		}
-
-		double factor = event.getKeyCode() == KeyEvent.VK_MINUS ? 1d / AbstractEuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
-				: AbstractEuclidianView.MOUSE_WHEEL_ZOOM_FACTOR;
-
-		// accelerated zoom
-		if (event.isAltDown()) {
-			factor *= event.getKeyCode() == KeyEvent.VK_MINUS ? 2d / 3d : 1.5;
-		}
-
-		// make zooming a little bit smoother by having some steps
-		view.setAnimatedCoordSystem(
-		// px + dx * factor,
-		// py + dy * factor,
-				px, py, factor, view.getXscale() * factor, 4, false);
-		// view.yscale * factor);
-		((Application)app).setUnsaved();
-
-	}
 
 	
 

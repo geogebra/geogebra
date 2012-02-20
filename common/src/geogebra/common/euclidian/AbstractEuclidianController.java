@@ -8475,4 +8475,39 @@ public abstract class AbstractEuclidianController {
 		return null;
 	}
 	
+	public void zoomInOut(boolean altPressed, boolean minusPressed) {
+		boolean allowZoom = !app.isApplet()
+				|| (mode == EuclidianConstants.MODE_ZOOM_IN)
+				|| (mode == EuclidianConstants.MODE_ZOOM_OUT)
+				|| app.isShiftDragZoomEnabled();
+		if (!allowZoom) {
+			return;
+		}
+		double px, py;
+		if (mouseLoc != null) {
+			px = mouseLoc.x;
+			py = mouseLoc.y;
+		} else {
+			px = view.getWidth() / 2;
+			py = view.getHeight() / 2;
+		}
+
+		double factor = minusPressed ? 1d / AbstractEuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
+				: AbstractEuclidianView.MOUSE_WHEEL_ZOOM_FACTOR;
+
+		// accelerated zoom
+		if (altPressed) {
+			factor *= minusPressed ? 2d / 3d : 1.5;
+		}
+
+		// make zooming a little bit smoother by having some steps
+		view.setAnimatedCoordSystem(
+		// px + dx * factor,
+		// py + dy * factor,
+				px, py, factor, view.getXscale() * factor, 4, false);
+		// view.yscale * factor);
+		app.setUnsaved();
+
+	}
+	
 }

@@ -2,6 +2,7 @@ package geogebra.web.kernel;
 
 import geogebra.common.kernel.AbstractUndoManager;
 import geogebra.common.kernel.Construction;
+import geogebra.common.main.AbstractApplication;
 import geogebra.web.io.MyXMLio;
 
 public class UndoManager extends AbstractUndoManager {
@@ -23,18 +24,18 @@ public class UndoManager extends AbstractUndoManager {
 	@Override
 	public void storeUndoInfoAfterPasteOrAdd() {
 		// TODO Auto-generated method stub
-
+		AbstractApplication.debug("unimplemented method");
 	}
 
 	@Override
 	public void storeUndoInfo(boolean b) {
 		// TODO Auto-generated method stub
-
+		AbstractApplication.debug("unimplemented method");
 	}
 
 	@Override
 	protected void loadUndoInfo(AppState state) {
 		// TODO Auto-generated method stub
-
+		AbstractApplication.debug("unimplemented method");
 	}
 }

@@ -553,7 +553,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 					if (!spanish || !event.isAltDown()
 							|| (event.getSource() instanceof EuclidianView)) {
 						((EuclidianView) app.getActiveEuclidianView())
-								.getEuclidianController().zoomInOut(event);
+								.getEuclidianController().zoomInOut(event.isAltDown(), event.getKeyCode() == KeyEvent.VK_MINUS);
 						app.setUnsaved();
 						consumed = true;
 					}
