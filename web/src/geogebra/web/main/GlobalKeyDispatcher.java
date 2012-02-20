@@ -486,7 +486,7 @@ public class GlobalKeyDispatcher extends
 					//if (!spanish || !event.isAltKeyDown()
 					//		|| (event.getSource() instanceof EuclidianView)) {
 						((EuclidianView) ev)
-								.getEuclidianController().zoomInOut(event.isAltKeyDown(), event.getNativeKeyCode() == MyKeyCodes.KEY_MINUS );
+								.getEuclidianController().zoomInOut(event.isAltKeyDown(), event.getNativeKeyCode() == MyKeyCodes.KEY_MINUS || event.getNativeKeyCode() == MyKeyCodes.KEY_NUMPADMINUS );
 						app.setUnsaved();
 						consumed = true;
 					//}
