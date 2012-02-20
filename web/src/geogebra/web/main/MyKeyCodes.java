@@ -185,7 +185,8 @@ public interface MyKeyCodes {
 	  public static final int KEY_Y = 89;
 	  public static final int KEY_Z = 90;
 	  
-	  public static final int KEY_PLUS = 107;
+	  public static final int KEY_NUMPADPLUS = 107;
+	  public static final int KEY_NUMPADMINUS = 109;
 	  
 	  public static final int KEY_MINUS = 189;
 	    

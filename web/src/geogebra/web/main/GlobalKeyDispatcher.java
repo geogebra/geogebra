@@ -467,11 +467,11 @@ public class GlobalKeyDispatcher extends
 				break;
 
 			// Ctrl + "+", Ctrl + "-" zooms in or out in graphics view
-			case MyKeyCodes.KEY_PLUS:
+			case MyKeyCodes.KEY_NUMPADPLUS:
 			case MyKeyCodes.KEY_MINUS:
 			case MyKeyCodes.KEY_EQUALS:
 				
-				if (event.getNativeKeyCode() == MyKeyCodes.KEY_PLUS) AbstractApplication.debug("plus");
+				if (event.getNativeKeyCode() == MyKeyCodes.KEY_NUMPADPLUS) AbstractApplication.debug("plus");
 				if (event.getNativeKeyCode() == MyKeyCodes.KEY_MINUS) AbstractApplication.debug("minus");
 				if (event.getNativeKeyCode() == MyKeyCodes.KEY_EQUALS) AbstractApplication.debug("equals");
 				
@@ -927,7 +927,7 @@ public class GlobalKeyDispatcher extends
 			}
 			break;
 
-		case MyKeyCodes.KEY_PLUS:
+		case MyKeyCodes.KEY_NUMPADPLUS:
 		//case MyKeyCodes.KEY_ADD: // can be own key on some keyboard
 		case MyKeyCodes.KEY_EQUALS: // same key as plus (on most keyboards)
 		case MyKeyCodes.KEY_UP:
