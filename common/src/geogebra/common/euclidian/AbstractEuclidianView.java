@@ -2739,7 +2739,18 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		}
 
 		public abstract void paintBackground(geogebra.common.awt.Graphics2D g2);
-		
+
+		// reIniting is used by GeoGebraWeb
+		private boolean reIniting = false;
+		public void setReIniting(boolean reiniting) {
+			reIniting = reiniting;
+			if (reiniting) {
+				firstPaint = true;
+				bgImage = null;
+				bgGraphics = null;
+			}
+		}
+
 		//@Override
 		final public void paint(geogebra.common.awt.Graphics2D g2) {
 			//Graphics2D g2 = (Graphics2D) g;
@@ -2752,7 +2763,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			// draw background image (with axes and/or grid)
 			if (bgImage == null) {
 				if (firstPaint) {
-					if ((getWidth() > 1) && (getHeight() > 1)) {
+					if ((getWidth() > 1) && (getHeight() > 1) && (!reIniting)) {
 						// only set firstPaint to false if the bgImage was generated
 						updateSize();
 						paintBackground(g2);

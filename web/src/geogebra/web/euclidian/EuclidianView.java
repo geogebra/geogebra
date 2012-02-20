@@ -80,12 +80,6 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		}
     }
 
-	public void reInit() {
-		firstPaint = true;
-		bgImage = null;
-		bgGraphics = null;
-	}
-
 	public void paintBackground(geogebra.common.awt.Graphics2D g2) {
 		((geogebra.web.awt.Graphics2D)g2).drawGraphics(
 				(geogebra.web.awt.Graphics2D)bgGraphics, 0, 0, null);
@@ -170,11 +164,11 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		g2p.setCoordinateSpaceWidth(width);
 		g2p.setCoordinateSpaceHeight(height);
 	}
-	
+
 	public void synCanvasSize() {
 		setCoordinateSpaceSize(g2p.getOffsetWidth(), g2p.getOffsetHeight());
 	}
-	
+
 	/**
 	 * Gets the coordinate space width of the &lt;canvas&gt;.
 	 * 
@@ -261,8 +255,10 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     protected void setHeight(int h) {
+		// what should this method do in Web and in Desktop?
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+	    //g2p.setCoordinateSpaceWidth(h);
+	    //g2p.setWidth(h);
     }
 
 	@Override
@@ -448,6 +444,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	@Override
     public void setPreferredSize(Dimension preferredSize) {
 	    g2p.setPreferredSize(preferredSize);
+	    setReIniting(false);
     }
 
 	public void setDragCursor() {

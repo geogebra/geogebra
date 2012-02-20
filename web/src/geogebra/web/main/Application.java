@@ -448,6 +448,7 @@ public class Application extends AbstractApplication implements KeyDownHandler {
     public void loadGgbFile(HashMap<String, String> archiveContent)
             throws Exception {
         ((EuclidianView) euclidianView).setDisableRepaint(true);
+        euclidianView.setReIniting(true);
         loadFile((HashMap<String, String>) archiveContent.clone());
         ((EuclidianView) euclidianView).setDisableRepaint(false);
         euclidianView.repaintView();
@@ -456,13 +457,6 @@ public class Application extends AbstractApplication implements KeyDownHandler {
     }
 
     public void loadGgbFileAgain(JsArrayInteger jsBytes) {
-        canvas.setWidth("1px");
-        canvas.setHeight("1px");
-        canvas.setCoordinateSpaceHeight(1);
-        canvas.setCoordinateSpaceWidth(1);
-        ((EuclidianView) euclidianView).synCanvasSize();
-        ((EuclidianView) euclidianView).setDisableRepaint(true);
-        ((EuclidianView) euclidianView).reInit();
         imageManager.reset();
         GeoGebraFrame.fileLoader.getView().fileContentLoaded(jsBytes);
     }
