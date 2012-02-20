@@ -535,6 +535,8 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 
 			// Ctrl + "+", Ctrl + "-" zooms in or out in graphics view
 			case KeyEvent.VK_PLUS:
+			case KeyEvent.VK_ADD:
+			case KeyEvent.VK_SUBTRACT:
 			case KeyEvent.VK_MINUS:
 			case KeyEvent.VK_EQUALS:
 
@@ -551,7 +553,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 					if (!spanish || !event.isAltDown()
 							|| (event.getSource() instanceof EuclidianView)) {
 						((EuclidianView) app.getActiveEuclidianView())
-								.getEuclidianController().zoomInOut(event.isAltDown(), event.getKeyCode() == KeyEvent.VK_MINUS);
+								.getEuclidianController().zoomInOut(event.isAltDown(), event.getKeyCode() == KeyEvent.VK_MINUS || event.getKeyCode() == KeyEvent.VK_SUBTRACT);
 						app.setUnsaved();
 						consumed = true;
 					}
