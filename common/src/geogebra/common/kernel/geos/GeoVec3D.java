@@ -27,15 +27,25 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 /**
  *
  * @author  Markus
- * @version 
  */
 public abstract class GeoVec3D extends GeoElement 
 implements Traceable {
-       
-    public double x, y, z = Double.NaN;
-	public boolean trace, spreadsheetTrace;		 
+    /** x coordinate*/
+    public double x =  Double.NaN;
+    /** y coordinate*/
+    public double y =  Double.NaN;
+    /** z coordinate*/
+    public double z =  Double.NaN;
+    
+	private boolean trace;		 
+	/**
+	 * For backward compatibility
+	 */
 	public boolean hasUpdatePrevilege = false;
     
+    /**
+     * @param c construction
+     */
     public GeoVec3D(Construction c) {
     	super(c);
 	
@@ -45,13 +55,19 @@ implements Traceable {
 		setConstructionDefaults(); // init visual settings
     }  
     
-    /** Creates new GeoVec3D with coordinates (x,y,z) and label */
+    /** Creates new GeoVec3D with coordinates (x,y,z) and label 
+     * @param c construction
+     * @param x x-coord
+     * @param y y-coord
+     * @param z z-coord*/
     public GeoVec3D(Construction c, double x, double y, double z) {    	
     	this(c);    	
        setCoords(x, y, z);
     }                 
     
-    /** Copy constructor */
+    /** Copy constructor 
+     * @param c construction
+     * @param v vector to copy*/
     public GeoVec3D(Construction c, GeoVec3D v) {   
     	this(c); 	
         set(v);
@@ -90,17 +106,41 @@ implements Traceable {
         setCoords(v.x, v.y, v.z);        
     }         
     
+	/**
+	 * @param x x-coord
+	 * @param y y-coord
+	 * @param z z-coord
+	 */
 	public abstract void setCoords(double x, double y, double z);
+	/**
+	 * Set coords from source vector
+	 * @param v source vector
+	 */
 	public abstract void setCoords(GeoVec3D v) ;
    
+    /**
+     * @return x-coord
+     */
     final public double getX() { return x; }
+    /**
+     * @return y-coord
+     */
     final public double getY() { return y; }
+    /**
+     * @return z-coord
+     */
     final public double getZ() { return z; } 
+    /**
+     * @param ret array to store coords
+     */
     final public void getCoords(double[] ret) {
         ret[0] = x;
         ret[1] = y;
         ret[2] = z;        
     }             
+    /**
+     * @return this vector as coords
+     */
     final public Coords getCoords() {
     	Coords coords = new Coords(3);
     	coords.setX(x);
@@ -111,6 +151,7 @@ implements Traceable {
     
     /** 
      * Writes x and y to the array res.
+     * @param res array to store x and y
      */
     public void getInhomCoords(double [] res) {       
         res[0] = x;
@@ -118,14 +159,33 @@ implements Traceable {
     }
     
     // POLAR or CARTESIAN mode    
+    /**
+     * @return true if using POLAR style
+     */
     final public boolean isPolar() { return toStringMode == Kernel.COORD_POLAR; }
+    /** 
+     * @return currently used coordstyle
+     */
     public int getMode() { return toStringMode;  }
+    /**
+     * Sets the coord style
+     * @param mode new coord style
+     */
     public void setMode(int mode ) {
         toStringMode = mode;
     }        
     
+    /**
+     * Changes coord style to POLAR
+     */
     public void setPolar() { toStringMode = Kernel.COORD_POLAR; }
+    /**
+     * Changes coord style to CARTESIAN
+     */
     public void setCartesian() { toStringMode = Kernel.COORD_CARTESIAN; }
+    /**
+     * Changes coord style to COMPLEX
+     */
     public void setComplex() { toStringMode = Kernel.COORD_COMPLEX; }     
     
 	@Override
@@ -162,6 +222,8 @@ implements Traceable {
     /** Yields true if this vector and v are linear dependent 
      * This is done by calculating the cross product
      * of this vector an v: this lin.dep. v <=> this.cross(v) = nullvector.
+     * @param v other vector
+     * @return true if this and other vector are linear dependent
      */
     final public boolean linDep(GeoVec3D v) {
         // v lin.dep this  <=>  cross(v,w) = o            
@@ -170,6 +232,9 @@ implements Traceable {
 			&& Kernel.isEqual(x * v.y, y * v.x);       
     }
     
+    /**
+     * @return tue if all coords are zero
+     */
     final public boolean isZero() {
         return Kernel.isZero(x) && Kernel.isZero(y) && Kernel.isZero(z);
     }
@@ -185,6 +250,9 @@ implements Traceable {
     
     /** Calculates the cross product of vectors u and v.
      * The result is stored in w.
+     * @param u vector u
+     * @param v vector v
+     * @param w vector to store u x v
      */
     final public static void cross(GeoVec3D u, GeoVec3D v, GeoVec3D w) {                
         w.setCoords( u.y * v.z - u.z * v.y, 
@@ -194,8 +262,8 @@ implements Traceable {
     
     
     /** Calculates the cross product of vectors u and v.
-     * @param u 
-     * @param v 
+     * @param u vector u
+     * @param v vector v
      * @return the cross product of vectors u and v.
      */
     final public static Coords cross(GeoVec3D u, GeoVec3D v){
@@ -210,6 +278,9 @@ implements Traceable {
     
     /** Calculates the line through the points A and B.
      * The result is stored in g.
+     * @param A first point
+     * @param B second point
+     * @param g line to store the result
      */
     final public static void lineThroughPoints(GeoPoint2 A, GeoPoint2 B, GeoLine g) {
     	// note: this could be done simply using cross(A, B, g)
@@ -249,6 +320,9 @@ implements Traceable {
     
     /** Calculates the line through the points A and B.
      * The result is stored in g.
+     * @param A first point
+     * @param B second point
+     * @param g line to store result
      */
     final public static void lineThroughPointsCoords(Coords A, Coords B, GeoLine g) {
     	// note: this could be done simply using cross(A, B, g)
@@ -298,6 +372,9 @@ implements Traceable {
     
     /** Calculates the line through the point A with direction v.
      * The result is stored in g.
+     * @param A start point
+     * @param v direction vector
+     * @param g line to store result
      */
     final public static void lineThroughPointVector(GeoPoint2 A, GeoVec3D v, GeoLine g) {
     	// note: this could be done simply using cross(A, v, g)
@@ -317,6 +394,11 @@ implements Traceable {
     
     /** Calculates the cross product of vectors u and v.
      * The result is stored in w.
+     * @param u vector u
+     * @param vx x(v)
+     * @param vy y(v)
+     * @param vz z(v)
+     * @param w vector to store u * v
      */
     final public static void cross(GeoVec3D u, 
                                    double vx, double vy, double vz, GeoVec3D w) {
@@ -327,6 +409,13 @@ implements Traceable {
     
     /** Calculates the cross product of vectors u and v.
      * The result is stored in w.
+     * @param ux x(u)
+     * @param uy y(u)
+     * @param uz z(u)
+     * @param vx x(v)
+     * @param vy y(v)
+     * @param vz z(v)
+     * @param w vector to store u*v
      */
     final public static void cross(double ux, double uy, double uz, 
                                    double vx, double vy, double vz, GeoVec3D w) {
@@ -336,6 +425,8 @@ implements Traceable {
     }
     
      /** Calculates the inner product of this vector and vector v.
+      * @param v other vector
+      * @return inner product
      */
     final public double inner(GeoVec3D v) {
         return x * v.x + y * v.y + z * v.z;
@@ -360,7 +451,11 @@ implements Traceable {
 //        return res;
 //    }    
         
-    /** c = a + b */
+    /** c = a + b 
+     * @param a vector a
+     * @param b vector b
+     * @param c vector to store a+b
+     **/
     final public static void add(GeoVec3D a, GeoVec3D b, GeoVec3D c) {                
         c.setCoords(a.x + b.x, a.y + b.y, a.z + b.z);    
     }
@@ -372,7 +467,10 @@ implements Traceable {
 //        return res;
 //    }
     
-    /** c = a - b */
+    /** c = a - b 
+     * @param a vector a
+     * @param b vector b
+     * @param c vector to store a-b*/
     final public static void sub(GeoVec3D a, GeoVec3D b, GeoVec3D c) {
 		c.setCoords(a.x - b.x, a.y - b.y, a.z - b.z);         
     }       
@@ -450,6 +548,9 @@ implements Traceable {
 		z=0;
 	}
 	
+	/**
+	 * @param phi angle of rotation
+	 */
 	protected void rotateXY(NumberValue phi){
 		double ph = phi.getDouble();
         double cos = Math.cos(ph);
@@ -464,6 +565,7 @@ implements Traceable {
      * mirror transform with angle phi
      *  [ cos(phi)       sin(phi)   ]
      *  [ sin(phi)      -cos(phi)   ]  
+	 * @param phi parameter of mirror transform
      */
     protected final void mirrorXY(double phi) {
         double cos = Math.cos(phi);

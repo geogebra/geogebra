@@ -38,12 +38,16 @@ import java.util.ArrayList;
  */
 public class GeoFunctionConditional extends GeoFunction {
 
-	private boolean isDefined = true;
+	//private boolean isDefined = true;
 
 	private GeoFunction condFun, ifFun, elseFun;
 
 	private Function uncondFun;
 
+	/**
+	 * Creates new conditional function
+	 * @param c construction
+	 */
 	public GeoFunctionConditional(Construction c) {
 		super(c);
 	}
@@ -51,13 +55,13 @@ public class GeoFunctionConditional extends GeoFunction {
 	/**
 	 * Creates a new GeoFunctionConditional object.
 	 * 
-	 * @param c
+	 * @param c construction
 	 * @param condFun
 	 *            a GeoFunction that evaluates to a boolean value (i.e.
 	 *            isBooleanFunction() returns true)
-	 * @param ifFun
-	 * @param elseFun
-	 *            may be null
+	 * @param ifFun function for the if branch
+	 * @param elseFun function for the else branch
+	 *            (may be null)
 	 */
 	public GeoFunctionConditional(Construction c, GeoFunction condFun,
 			GeoFunction ifFun, GeoFunction elseFun) {
@@ -70,7 +74,7 @@ public class GeoFunctionConditional extends GeoFunction {
 	/**
 	 * Copy constructor
 	 * 
-	 * @param geo
+	 * @param geo function to copy
 	 */
 	public GeoFunctionConditional(GeoFunctionConditional geo) {
 		super(geo.cons);
@@ -192,7 +196,7 @@ public class GeoFunctionConditional extends GeoFunction {
 	/**
 	 * Set this function to the n-th derivative of f
 	 * 
-	 * @param f
+	 * @param f function
 	 * @param n
 	 *            order of derivative
 	 */
@@ -207,7 +211,7 @@ public class GeoFunctionConditional extends GeoFunction {
 	/**
 	 * Returns this function's value at position x.
 	 * 
-	 * @param x
+	 * @param x position
 	 * @return f(x) = condition(x) ? ifFun(x) : elseFun(x)
 	 */
 	@Override
@@ -324,8 +328,6 @@ public class GeoFunctionConditional extends GeoFunction {
 		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
 	}
-
-	private StringBuilder sbToString = new StringBuilder(80);
 
 	@Override
 	final public String toValueString(StringTemplate tpl) {
@@ -519,6 +521,11 @@ public class GeoFunctionConditional extends GeoFunction {
 		}
 	}
 
+	/**
+	 * @param substituteNumbers true to replace names by values
+	 * @param tpl string template
+	 * @return LaTeX description of this function
+	 */
 	public String conditionalLaTeX(boolean substituteNumbers, StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
 
@@ -580,11 +587,21 @@ public class GeoFunctionConditional extends GeoFunction {
 		return complete;
 	}
 
+	/**
+	 * Container for condition tripples (upper bound, lower bound, other conditions)
+	 * @author kondr
+	 *
+	 */
 	class Bounds {
 		private boolean lowerSharp, upperSharp;
 		private Double lower, upper;
 		private ExpressionNode condition;
 
+		/**
+		 * Adds restrictions from the expression to current bounds
+		 * @param e expression
+		 * @return new bounds
+		 */
 		public Bounds addRestriction(ExpressionNode e) {
 			if (e.getOperation().equals(Operation.AND)) {
 				return addRestriction(e.getLeftTree()).addRestriction(
@@ -665,7 +682,13 @@ public class GeoFunctionConditional extends GeoFunction {
 			return b;
 		}
 
-		public Object toLaTeXString(boolean b, String varString,
+		/**
+		 * @param symbolic true to keep variable names
+		 * @param varString variable string
+		 * @param tpl string template
+		 * @return LaTeX string
+		 */
+		public String toLaTeXString(boolean symbolic, String varString,
 				StringTemplate tpl) {
 			String ret = null;
 			if (upper == null && lower != null)
@@ -686,10 +709,10 @@ public class GeoFunctionConditional extends GeoFunction {
 							+ kernel.format(upper, tpl);
 			}
 			if (condition != null && ret == null)
-				return condition.toLaTeXString(b, tpl);
+				return condition.toLaTeXString(symbolic, tpl);
 			else if (condition != null)
 				ret = "(" + ret + ")\\wedge \\left("
-						+ condition.toLaTeXString(b, tpl) + "\\right)";
+						+ condition.toLaTeXString(symbolic, tpl) + "\\right)";
 			return ret;
 		}
 	}

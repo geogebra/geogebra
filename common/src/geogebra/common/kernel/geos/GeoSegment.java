@@ -21,9 +21,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Transform;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
-import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.plugin.GeoClass;
@@ -33,8 +31,7 @@ import java.util.HashSet;
 /**
  * @author Markus Hohenwarter
  */
-final public class GeoSegment extends GeoLine implements LimitedPath, NumberValue, LineProperties,
-GeoSegmentND {
+final public class GeoSegment extends GeoLine implements GeoSegmentND {
 
 	// GeoSegment is constructed by AlgoJoinPointsSegment 
 	//private GeoPoint A, B;
@@ -81,6 +78,7 @@ GeoSegmentND {
 	//end		
 	
 //	 Michael Borcherds 2007-11-20
+	@Override
 	public void setDecorationType(int type) {
 		if (type>=getDecoTypes().length || type<0)
 			decorationType=DECORATION_NONE;
@@ -102,7 +100,7 @@ GeoSegmentND {
 	
 	/**
 	 * common constructor
-	 * @param c
+	 * @param c construction
 	 */
 	public GeoSegment(Construction c){
 		super(c);
@@ -110,8 +108,8 @@ GeoSegmentND {
 	
 	/**
 	 * sets start and end points
-	 * @param A
-	 * @param B
+	 * @param A start point
+	 * @param B end point
 	 */
 	public void setPoints(GeoPoint2 A, GeoPoint2 B){
 		setStartPoint(A);
@@ -125,14 +123,17 @@ GeoSegmentND {
 		calcLength();
 	}
 	
+	@Override
 	public String getClassName() {	
 		return "GeoSegment";
  	}
 	
+	@Override
 	public String getTypeString() {
 		return "Segment";
 	}
 	 
+	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.SEGMENT;
 	}
@@ -146,14 +147,15 @@ GeoSegmentND {
 	}   */     
 	 
 	@Override
-	public GeoElement copyInternal(Construction cons) {
-		GeoSegment seg = new GeoSegment(cons, 
-										(GeoPoint2) startPoint.copyInternal(cons), 
-										(GeoPoint2) endPoint.copyInternal(cons));
+	public GeoElement copyInternal(Construction cons1) {
+		GeoSegment seg = new GeoSegment(cons1, 
+										(GeoPoint2) startPoint.copyInternal(cons1), 
+										(GeoPoint2) endPoint.copyInternal(cons1));
 		seg.set(this);
 		return seg;
 	}		
 	
+	@Override
 	public void set(GeoElement geo) {
 		super.set(geo);		
 		if (!geo.isGeoSegment()) return;
@@ -167,6 +169,11 @@ GeoSegmentND {
     	endPoint.set((GeoElement) seg.endPoint);    	
 	}   
 
+	/**
+	 * @param s start point
+	 * @param e end point
+	 * @param line line
+	 */
 	public void set(GeoPoint2 s, GeoPoint2 e, GeoVec3D line) {
 		super.set(line);		
 	
@@ -176,6 +183,7 @@ GeoSegmentND {
 	}   
 
 	
+	@Override
 	public void setVisualStyle(GeoElement geo) {
 		super.setVisualStyle(geo);
 		
@@ -208,22 +216,26 @@ GeoSegmentND {
 	/*
 	 * overwrite GeoLine methods
 	 */
+	@Override
 	public boolean isDefined() {
 		return defined;
 	}	
 	
+	@Override
 	public void setUndefined() {
 		super.setUndefined();
 		length = Double.NaN;
 		defined = false;
 	}
         
-   public final boolean showInAlgebraView() {	   
+   @Override
+public final boolean showInAlgebraView() {	   
 	  // return defined;
 	   return true;
    }
    
-   protected boolean showInEuclidianView() {
+   @Override
+protected boolean showInEuclidianView() {
 	   // segments of polygons can have thickness 0
 	   return defined && lineThickness != 0;
    }
@@ -234,6 +246,7 @@ GeoSegmentND {
 	* startpoint and endpoint of this segment.
 	*/
 	// Michael Borcherds 2008-05-01
+	@Override
 	final public boolean isEqual(GeoElement geo) {
 		if (!geo.isGeoSegment())
 			return false;
@@ -241,6 +254,7 @@ GeoSegmentND {
 		return startPoint.isEqual(s.startPoint) && endPoint.isEqual(s.endPoint);
 	}
 	
+	@Override
 	final public String toString(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(label);
@@ -249,7 +263,8 @@ GeoSegmentND {
 		return sbToString.toString();
 	}
 
-	final public String toStringMinimal() {
+	@Override
+	final public String toStringMinimal(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(regrFormat(length));
 		return sbToString.toString();
@@ -260,7 +275,8 @@ GeoSegmentND {
 
    private boolean forceSimpleTransform;
    
-   final public String toValueString(StringTemplate tpl) {
+   @Override
+final public String toValueString(StringTemplate tpl) {
 	   return kernel.format(length,tpl);
    }
    
@@ -275,29 +291,35 @@ GeoSegmentND {
         return getLength();
     }
         
-    final public boolean isConstant() {
+    @Override
+	final public boolean isConstant() {
         return false;
     }
     
-    final public boolean isLeaf() {
+    @Override
+	final public boolean isLeaf() {
         return true;
     }
     
-    final public HashSet<GeoElement> getVariables() {
+    @Override
+	final public HashSet<GeoElement> getVariables() {
         HashSet<GeoElement> varset = new HashSet<GeoElement>();        
         varset.add(this);        
         return varset;          
     }                   
     
 
+	@Override
 	public boolean isNumberValue() {
 		return true;
 	}
 
+	@Override
 	public boolean isVectorValue() {
 		return false;
 	}
 
+	@Override
 	public boolean isPolynomialInstance() {
 		return false;
 	}   
@@ -318,15 +340,16 @@ GeoSegmentND {
 		keepTypeOnGeometricTransform = flag;
 	}
 	
+	@Override
 	final public boolean isLimitedPath() {
 		return true;
 	}
 	
-    public boolean isIntersectionPointIncident(GeoPoint2 p, double eps) {
+    @Override
+	public boolean isIntersectionPointIncident(GeoPoint2 p, double eps) {
     	if (allowOutlyingIntersections)
 			return isOnFullLine(p, eps);
-		else
-			return isOnPath(p, eps);
+		return isOnPath(p, eps);
     }
     
     
@@ -355,7 +378,8 @@ GeoSegmentND {
 	/* 
 	 * Path interface
 	 */	     	
-    public void pointChanged(GeoPointND P) {
+    @Override
+	public void pointChanged(GeoPointND P) {
 			
 		PathParameter pp = P.getPathParameter();
 		
@@ -385,6 +409,7 @@ GeoSegmentND {
 		}
 	}
 
+	@Override
 	public void pathChanged(GeoPointND P) {
 		
 		//if kernel doesn't use path/region parameters, do as if point changed its coords
@@ -422,6 +447,7 @@ GeoSegmentND {
 	 * path.
 	 * @return smallest possible parameter
 	 */
+	@Override
 	public double getMinParameter() {
 		return 0;
 	}
@@ -431,10 +457,12 @@ GeoSegmentND {
 	 * path.
 	 * @return largest possible parameter
 	 */
+	@Override
 	public double getMaxParameter() {
 		return 1;
 	}
 	
+	@Override
 	public PathMover createPathMover() {
 		return new PathMoverGeneric(this);
 	}	
@@ -442,6 +470,7 @@ GeoSegmentND {
 	/**
      * returns all class-specific xml tags for saveXML
      */
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
         super.getXMLtags(sb);
 		
@@ -461,7 +490,8 @@ GeoSegmentND {
      * returns all class-specific i2g tags for saveI2G
      * Intergeo File Format (Yves Kreis)
      */
-    public void getI2Gtags(StringBuilder sb) {//protected
+    @Override
+	public void getI2Gtags(StringBuilder sb) {//protected
     	GeoPoint2 point;
     	
     	point = getStartPoint();
@@ -471,6 +501,7 @@ GeoSegmentND {
     	point.getI2Gtags(sb);
     }
     
+	@Override
 	public String getI2GtypeString() {
 		return "line_segment";
 	}
@@ -478,14 +509,14 @@ GeoSegmentND {
 	/**
 	 * creates new transformed segment
 	 */
-    public GeoElement [] createTransformedObject(Transform t,String label) {	
+    public GeoElement [] createTransformedObject(Transform t,String transformedLabel) {	
 
 		if (keepTypeOnGeometricTransform && t.isAffine()) {			
 			// mirror endpoints
 			GeoPointND [] points = {getStartPoint(), getEndPoint()};
 			points = t.transformPoints(points);	
 			// create SEGMENT
-			GeoElement segment = (GeoElement) kernel.SegmentND(label, points[0], points[1]);
+			GeoElement segment = (GeoElement) kernel.SegmentND(transformedLabel, points[0], points[1]);
 			segment.setVisualStyleForTransformations(this);
 			GeoElement [] geos = {segment, (GeoElement) points[0], (GeoElement) points[1]};	
 			return geos;	
@@ -497,24 +528,26 @@ GeoSegmentND {
 			//cons.setSuppressLabelCreation(true);
 			
 			this.forceSimpleTransform = true;
-			GeoElement [] geos = {t.transform(this, label)[0]};
+			GeoElement [] geos = {t.transform(this, transformedLabel)[0]};
 			return geos;	
 		} 
 		else {
 			//	create LINE
 			GeoElement transformedLine = t.getTransformedLine(this);
-			transformedLine.setLabel(label);
+			transformedLine.setLabel(transformedLabel);
 			transformedLine.setVisualStyleForTransformations(this);
 			GeoElement [] geos = {transformedLine};
 			return geos;
 		}							
 	}
 	
+	@Override
 	public boolean isGeoSegment() {
 		return true;
 	}	
 	
-    public void setZero() {
+    @Override
+	public void setZero() {
     	setCoords(0, 1, 0);
     }
     
@@ -524,15 +557,18 @@ GeoSegmentND {
 	// 3D stuff
 	//////////////////////////////////////
 	
-  	public boolean hasDrawable3D() {
+  	@Override
+	public boolean hasDrawable3D() {
 		return true;
 	}
     
-  	public Coords getLabelPosition(){
+  	@Override
+	public Coords getLabelPosition(){
 		return new Coords(getPointX(0.5), getPointY(0.5), 0, 1);
 	}
   	
-  	public Coords getPointInD(int dimension, double lambda){
+  	@Override
+	public Coords getPointInD(int dimension, double lambda){
 
 		switch(dimension){
 		case 3:
@@ -547,11 +583,13 @@ GeoSegmentND {
   	/**
   	 * returns the paramter for the closest point to P on the Segment (extrapolated)
   	 * so answers can be returned outside the range [0,1]
-  	 * @param px 
-  	 * @param py 
+  	 * @param ptx point x-coord
+  	 * @param pty point y-coord
   	 * @return closest parameter
   	 */
-  	final public double getParameter(double px, double py){
+  	final public double getParameter(double ptx, double pty){
+  		double px=ptx;
+  		double py=pty;
 		// project P on line
 		// param of projection point on perpendicular line
 		double t = -(z + x*px + y*py) / (x*x + y*y); 
@@ -562,10 +600,8 @@ GeoSegmentND {
 		// calculate parameter
 		if (Math.abs(x) <= Math.abs(y)) {	
 			return (startPoint.z * px - startPoint.x) / (y * startPoint.z);								
-		} 
-		else {		
-			return (startPoint.y - startPoint.z * py) / (x * startPoint.z);			
 		}
+		return (startPoint.y - startPoint.z * py) / (x * startPoint.z);
   		
   	}
   	
@@ -573,7 +609,8 @@ GeoSegmentND {
      * 
      * returns distance from endpoints if appropriate
      */
-    final public double distance(GeoPoint2 p) {     
+    @Override
+	final public double distance(GeoPoint2 p) {     
 
     	double t = getParameter(p.inhomX, p.inhomY);
 
@@ -598,7 +635,8 @@ GeoSegmentND {
     }
     
     
-    public boolean isOnPath(Coords Pnd, double eps) {    
+    @Override
+	public boolean isOnPath(Coords Pnd, double eps) {    
     	Coords P2d = Pnd.getCoordsIn2DView();
     	if  (!super.isOnPath(P2d, eps))
     		return false;
@@ -607,7 +645,8 @@ GeoSegmentND {
     	   	
     }
     
-    public boolean respectLimitedPath(Coords Pnd, double eps) {    	
+    @Override
+	public boolean respectLimitedPath(Coords Pnd, double eps) {    	
     	Coords P2d = Pnd.getCoordsIn2DView();	
     	PathParameter pp = getTempPathParameter();
     	doPointChanged(P2d,pp);
@@ -618,12 +657,12 @@ GeoSegmentND {
     
     /**
      * exact calculation for checking if point is on Segment[segStart,segEnd]
-     * @param segStart
-     * @param segEnd
-     * @param point
+     * @param segStart start coords
+     * @param segEnd end coords
+     * @param point point to be checked
      * @param checkOnFullLine - if true, do extra calculation to make sure.
-     * @param eps
-     * @return
+     * @param eps precision
+     * @return true if point belongs to segment
      */
     public static boolean checkOnPath(Coords segStart, Coords segEnd,
     		Coords point, boolean checkOnFullLine, double eps) {
@@ -644,13 +683,11 @@ GeoSegmentND {
        		
        		if (y1-eps <= y2 && y2 <= y1 + eps) {
        			return true;
-       		} else {
-       			return y1-eps<=y && y<=y2+eps || y2-eps<=y && y<=y1+eps;
        		}
+			return y1-eps<=y && y<=y2+eps || y2-eps<=y && y<=y1+eps;
        		
-   		} else {
-   			return x1-eps <=x && x<=x2+eps || x2-eps<=x && x<=x1+eps;
    		}
+		return x1-eps <=x && x<=x2+eps || x2-eps<=x && x<=x1+eps;
     }
 
 	public boolean isAllEndpointsLabelsSet() {

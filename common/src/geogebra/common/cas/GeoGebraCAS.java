@@ -3,7 +3,7 @@ package geogebra.common.cas;
 import geogebra.common.cas.mpreduce.AbstractCASmpreduce;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.AbstractCommand;
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -440,7 +440,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 *            command with name and number of arguments
 	 * @return whether command is available
 	 */
-	final public boolean isCommandAvailable(AbstractCommand cmd) {
+	final public boolean isCommandAvailable(Command cmd) {
 		StringBuilder sbCASCommand = new StringBuilder();
 		sbCASCommand.append(cmd.getName());
 		sbCASCommand.append(".");

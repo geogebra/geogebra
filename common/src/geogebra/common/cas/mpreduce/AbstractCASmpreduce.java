@@ -7,8 +7,7 @@ import geogebra.common.cas.CasExpressionFactory;
 import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.AbstractCommand;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.ValidExpression;
@@ -23,11 +22,12 @@ public abstract class AbstractCASmpreduce extends CASgeneric{
 	protected CasParserTools parserTools;
 	protected static StringBuilder varOrder = new StringBuilder();
 	protected int significantNumbers = -1;
-	// We escape any upper-letter words so Reduce doesn't switch them to
-	// lower-letter,
-	// however the following function-names should not be escaped
-	// (note: all functions here must be in lowercase!)
-	final protected Set<String> predefinedFunctions = ExpressionNodeConstants.RESERVED_FUNCTION_NAMES;
+	/** We escape any upper-letter words so Reduce doesn't switch them to
+	/ lower-letter,
+	/ however the following function-names should not be escaped
+	/ (note: all functions here must be in lowercase!)*/
+	final protected Set<String> predefinedFunctions = 
+			ExpressionNodeConstants.RESERVED_FUNCTION_NAMES;
 
 
 	public AbstractCASmpreduce(CASparser casParser) {
@@ -125,7 +125,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric{
 		boolean keepInput = casInput.isKeepInputUsed();
 		if (keepInput) {
 			// remove KeepInput[] command and take argument
-			AbstractCommand cmd = casInput.getTopLevelCommand();
+			Command cmd = casInput.getTopLevelCommand();
 			if (cmd != null && cmd.getName().equals("KeepInput")) {
 				// use argument of KeepInput as casInput
 				if (cmd.getArgumentNumber() > 0)

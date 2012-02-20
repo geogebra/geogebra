@@ -280,7 +280,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     }   
     
     protected void drawLocus(GeoLocus geo){
-        ArrayList<MyPoint> ll = geo.getMyPointList();
+        ArrayList<MyPoint> ll = geo.getPoints();
         Iterator<MyPoint> it = ll.iterator();
         boolean first = true, first2 = true;  // whether to write join operators afterwards
         

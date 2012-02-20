@@ -3,7 +3,7 @@ package geogebra.common.kernel.cas;
 import java.util.ArrayList;
 
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.AbstractCommand;
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.main.AbstractApplication.CasType;
@@ -25,7 +25,7 @@ public interface GeoGebraCasInterface {
 	
 	public void setCurrentCAS(CasType c);		
 
-	public boolean isCommandAvailable(AbstractCommand cmd);
+	public boolean isCommandAvailable(Command cmd);
 
 	public String[] getPolynomialCoeffs(String exp, String variable);
 

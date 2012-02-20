@@ -2,6 +2,7 @@ package geogebra.common.kernel.kernelND;
 
 import geogebra.common.awt.Color;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.LimitedPath;
 
@@ -11,7 +12,7 @@ import geogebra.common.kernel.geos.LimitedPath;
  * @author ggb3D
  *
  */
-public interface GeoSegmentND extends GeoLineND, LimitedPath {
+public interface GeoSegmentND extends GeoLineND, LimitedPath, NumberValue {
 
 
 	void setLabel(String string);

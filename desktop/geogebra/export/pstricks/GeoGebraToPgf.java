@@ -209,7 +209,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	}	    	
     
     protected void drawLocus(GeoLocus g){
-    	ArrayList<MyPoint> ll=g.getMyPointList();
+    	ArrayList<MyPoint> ll=g.getPoints();
     	Iterator<MyPoint> it=ll.iterator();
 		startBeamer(code);
     	code.append("\\draw");

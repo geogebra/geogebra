@@ -43,7 +43,7 @@ public class DrawLocus extends Drawable {
 		if (!isVisible)
 			return;
 
-		buildGeneralPath(locus.getMyPointList());
+		buildGeneralPath(locus.getPoints());
 
 		// line on screen?
 		if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())) {

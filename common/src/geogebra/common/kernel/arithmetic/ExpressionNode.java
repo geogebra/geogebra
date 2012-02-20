@@ -217,7 +217,7 @@ public class ExpressionNode extends ValidExpression implements
 		}
 		// deep copy
 		else if (ev.isPolynomialInstance() || ev.isConstant()
-				|| (ev instanceof AbstractCommand)) {
+				|| (ev instanceof Command)) {
 			ret = ev.deepCopy(kernel);
 		} else {
 			ret = ev;
@@ -262,15 +262,15 @@ public class ExpressionNode extends ValidExpression implements
 
 		if (left.isExpressionNode()) {
 			((ExpressionNode) left).simplifyAndEvalCommands();
-		} else if (left instanceof AbstractCommand) {
-			left = ((AbstractCommand) left).evaluate();
+		} else if (left instanceof Command) {
+			left = ((Command) left).evaluate();
 		}
 
 		if (right != null) {
 			if (right.isExpressionNode()) {
 				((ExpressionNode) right).simplifyAndEvalCommands();
-			} else if (right instanceof AbstractCommand) {
-				right = ((AbstractCommand) right).evaluate();
+			} else if (right instanceof Command) {
+				right = ((Command) right).evaluate();
 			}
 		}
 	}
@@ -477,8 +477,8 @@ public class ExpressionNode extends ValidExpression implements
 				left = newOb;
 				didReplacement = true;
 			}
-		} else if (left instanceof AbstractCommand) {
-			didReplacement = ((AbstractCommand) left).replaceGeoDummyVariables(
+		} else if (left instanceof Command) {
+			didReplacement = ((Command) left).replaceGeoDummyVariables(
 					var, newOb);
 		} else if (left instanceof Equation) {
 			didReplacement = ((Equation) left).replaceGeoDummyVariables(var,
@@ -495,8 +495,8 @@ public class ExpressionNode extends ValidExpression implements
 					right = newOb;
 					didReplacement = true;
 				}
-			} else if (right instanceof AbstractCommand) {
-				didReplacement = ((AbstractCommand) right)
+			} else if (right instanceof Command) {
+				didReplacement = ((Command) right)
 						.replaceGeoDummyVariables(var, newOb);
 			} else if (right instanceof Equation) {
 				didReplacement = ((Equation) right).replaceGeoDummyVariables(
@@ -862,8 +862,8 @@ public class ExpressionNode extends ValidExpression implements
 			((ExpressionNode) left).replaceChildrenByValues(geo);
 		}
 		// handle command arguments
-		else if (left instanceof AbstractCommand) {
-			((AbstractCommand) left).replaceChildrenByValues(geo);
+		else if (left instanceof Command) {
+			((Command) left).replaceChildrenByValues(geo);
 		}
 
 		// right tree
@@ -877,8 +877,8 @@ public class ExpressionNode extends ValidExpression implements
 				((ExpressionNode) right).replaceChildrenByValues(geo);
 			}
 			// handle command arguments
-			else if (right instanceof AbstractCommand) {
-				((AbstractCommand) right).replaceChildrenByValues(geo);
+			else if (right instanceof Command) {
+				((Command) right).replaceChildrenByValues(geo);
 			}
 		}
 	}
@@ -1114,15 +1114,15 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	@Override
-	public void addCommands(Set<AbstractCommand> commands) {
-		if (left instanceof AbstractCommand) {
-			((AbstractCommand) left).addCommands(commands);
+	public void addCommands(Set<Command> commands) {
+		if (left instanceof Command) {
+			((Command) left).addCommands(commands);
 		} else if (left instanceof ExpressionNode) {
 			((ExpressionNode) left).addCommands(commands);
 		}
 
-		if (right instanceof AbstractCommand) {
-			((AbstractCommand) right).addCommands(commands);
+		if (right instanceof Command) {
+			((Command) right).addCommands(commands);
 		} else if (right instanceof ExpressionNode) {
 			((ExpressionNode) right).addCommands(commands);
 		}
@@ -4203,13 +4203,13 @@ public class ExpressionNode extends ValidExpression implements
 
 	@Override
 	public boolean isTopLevelCommand() {
-		return isLeaf() && (left instanceof AbstractCommand);
+		return isLeaf() && (left instanceof Command);
 	}
 
 	@Override
-	public AbstractCommand getTopLevelCommand() {
+	public Command getTopLevelCommand() {
 		if (isTopLevelCommand()) {
-			return (AbstractCommand) left;
+			return (Command) left;
 		}
 		return null;
 	}

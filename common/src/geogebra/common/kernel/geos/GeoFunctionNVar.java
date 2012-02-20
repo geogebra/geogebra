@@ -58,7 +58,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 
 	/**
 	 * Creates new GeoFunction
-	 * @param c
+	 * @param c construction
 	 */
 	public GeoFunctionNVar(Construction c) {
 		super(c);
@@ -71,7 +71,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	
 	/**
 	 * Creates new GeoFunction from Function
-	 * @param c
+	 * @param c construction
 	 * @param f function to be wrapped
 	 */
 	public GeoFunctionNVar(Construction c, FunctionNVar f) {
@@ -87,8 +87,8 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 
 	/**
 	 * Creates labeled GeoFunction from Function
-	 * @param c
-	 * @param label
+	 * @param c construction
+	 * @param label label
 	 * @param f function to be wrapped
 	 */
 	public GeoFunctionNVar(Construction c, String label, FunctionNVar f) {
@@ -131,10 +131,9 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			fun = null;
 			isDefined = false;
 			return;
-		} else {
-			isDefined = geoFun.isDefined;
-			fun = new FunctionNVar(geoFun.fun, kernel);
-		}			
+		}
+		isDefined = geoFun.isDefined;
+		fun = new FunctionNVar(geoFun.fun, kernel);			
 	
 		// macro OUTPUT
 		if (geo.cons != cons && isAlgoMacroOutput()) {								
@@ -150,7 +149,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	
 
 	/**
-	 * @param f
+	 * @param f new function
 	 */
 	public void setFunction(FunctionNVar f) {
 		fun = f;
@@ -166,14 +165,13 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	final public ExpressionNode getFunctionExpression() {
 		if (fun == null)
 			return null;
-		else 
-			return fun.getExpression();
+		return fun.getExpression();
 	}	
 	
 	 /**
      * Replaces geo and all its dependent geos in this function's
      * expression by copies of their values.
-	 * @param geo 
+	 * @param geo geo to be replaced
      */
     public void replaceChildrenByValues(GeoElement geo) {     	
     	if (fun != null) {
@@ -183,31 +181,38 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
     
     /**
      * Returns this function's value at position.    
-     * @param vals
+     * @param vals variable values
      * @return f(vals)
      */
 	public double evaluate(double[] vals) {
 		//Application.printStacktrace("");
 		if (fun == null)
 			return Double.NaN;
-		else 
-			return fun.evaluate(vals);
+		return fun.evaluate(vals);
 	}
 	
+	/**
+	 * @param vals variable values
+	 * @return value at vals
+	 */
 	public Coords evaluatePoint(double[] vals) {
 		//Application.printStacktrace("");
 		if (fun == null)
 			return null;
-		else 
-			return new Coords(vals[0],vals[1],fun.evaluate(vals));
+		return new Coords(vals[0],vals[1],fun.evaluate(vals));
 	}
 	
+	/**
+	 * @param x x
+	 * @param y y
+	 * @param z z
+	 * @return value at (x,y,z)
+	 */
 	public double evaluate(double x, double y, double z) {
 		//Application.printStacktrace("");
 		if (fun == null)
 			return Double.NaN;
-		else 
-			return fun.evaluate(new double[]{x,y,z});
+		return fun.evaluate(new double[]{x,y,z});
 	}	
 	
 	/**
@@ -236,7 +241,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	}
 
 	/**
-	 * @param defined
+	 * @param defined true to make this defined
 	 */
 	public void setDefined(boolean defined) {
 		isDefined = defined;
@@ -301,23 +306,20 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	public String toValueString(StringTemplate tpl) {			
 		if (isDefined())
 			return fun.toValueString(tpl);
-		else
-			return app.getPlain("undefined");
+		return app.getPlain("undefined");
 	}	
 	
 	public String toSymbolicString(StringTemplate tpl) {	
 		if (isDefined())
 			return fun.toString(tpl);
-		else
-			return app.getPlain("undefined");
+		return app.getPlain("undefined");
 	}
 	
 	@Override
 	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
 		if (isDefined())
 			return fun.toLaTeXString(symbolic,tpl);
-		else
-			return app.getPlain("undefined");
+		return app.getPlain("undefined");
 	}
 	
 	@Override
@@ -400,8 +402,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	public boolean isEqual(GeoElement geo) {
 		if (!(geo instanceof GeoFunctionNVar))
 			return false;
-		else
-			return isDifferenceZeroInCAS(geo);		
+		return isDifferenceZeroInCAS(geo);		
 	}
 	
 	@Override
@@ -472,8 +473,8 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 
 		/** 
 		 * Sets the start and end parameters values of this function.
-		 * @param from
-		 * @param to
+		 * @param from start param
+		 * @param to end param
 		 */
 		public void setInterval(double[] from, double[] to) {
 			
@@ -489,9 +490,10 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		/////////////////////////////////////////
 		
 	 /** used if 2-var function, for plotting 
-	 * @param u 
-	 * @param v 
-	 * @return coords of the point (u,v,f(u,v)) */
+	 * @param u x-coord 
+	 * @param v y-coord
+	 * @return coords of the point (u,v,f(u,v)) 
+	 */
 		 public Coords evaluatePoint(double u, double v){
 
 			 Coords p = new Coords(3);
@@ -650,6 +652,9 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			
 		}
 
+		/**
+		 * @return true if this function consists of valid inequalities
+		 */
 		public boolean isInequality() {
 			return isInequality;
 		}
@@ -716,10 +721,6 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			fun.translate(S.getX(),S.getY());
 			
 		}
-		
-		public void dilate(NumberValue r){
-			matrixTransform(r.getDouble(),0,0,r.getDouble());
-		}
 
 		public void rotate(NumberValue phi) {
 			double cosPhi = Math.cos(phi.getDouble());
@@ -735,7 +736,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		}
 
 		public void mirror(GeoPoint2 Q) {
-			dilate(new MyDouble(kernel,-1.0),(GeoPoint2)Q);
+			dilate(new MyDouble(kernel,-1.0),Q);
 			
 		}
 

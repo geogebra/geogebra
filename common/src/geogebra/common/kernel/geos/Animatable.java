@@ -27,7 +27,7 @@ public interface Animatable {
 	 */
 	public boolean doAnimationStep(double frameRate);
 	/**
-	 * @returntrue when animation is on
+	 * @return true when animation is on
 	 */
 	public boolean isAnimating();
 

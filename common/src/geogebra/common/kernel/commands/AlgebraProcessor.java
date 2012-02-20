@@ -5,7 +5,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.arithmetic.AbstractCommand;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.Equation;
@@ -102,9 +101,9 @@ public class AlgebraProcessor {
 		return cmdDispatcher.isCommandAvailable(cmd);
 	}
 
-	final public GeoElement[] processCommand(AbstractCommand c,
+	final public GeoElement[] processCommand(Command c,
 			boolean labelOutput) throws MyError {
-		return cmdDispatcher.processCommand((Command) c, labelOutput);
+		return cmdDispatcher.processCommand( c, labelOutput);
 	}
 
 	/**

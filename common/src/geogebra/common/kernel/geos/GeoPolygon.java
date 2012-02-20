@@ -890,8 +890,8 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	/**
 	 * set the line thickness (and eventually the segments)
 	 * 
-	 * @param th
-	 * @param updateSegments
+	 * @param th new thickness
+	 * @param updateSegments true to apply this setting to segments as well
 	 */
 	public void setLineThickness(int th, boolean updateSegments) {
 		super.setLineThickness(th);

@@ -23,9 +23,9 @@ public class GeoInterval extends GeoFunction {
 	/**
 	 * Creates new GeoInterval
 	 * 
-	 * @param c
-	 * @param label
-	 * @param f
+	 * @param c construction
+	 * @param label label
+	 * @param f boolean function
 	 */
 	public GeoInterval(Construction c, String label, Function f) {
 		super(c, label, f);
@@ -34,7 +34,7 @@ public class GeoInterval extends GeoFunction {
 	/**
 	 * Copy constructor
 	 * 
-	 * @param geoInterval
+	 * @param geoInterval interval to copy
 	 */
 	public GeoInterval(GeoInterval geoInterval) {
 		super(geoInterval.cons);
@@ -44,7 +44,7 @@ public class GeoInterval extends GeoFunction {
 	/**
 	 * Creates new unlabeled interval
 	 * 
-	 * @param cons
+	 * @param cons construction
 	 */
 	public GeoInterval(Construction cons) {
 		super(cons);

@@ -4042,11 +4042,11 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 
 		// handle GeoText with LaTeX
-		else if (geo.isGeoText() && ((GeoTextInterface) geo).isLaTeX()) {
+		else if (geo.isGeoText() && ((GeoText) geo).isLaTeX()) {
 			sb.append(algebraDesc.split("=")[0]);
 			sb.append("\\, = \\,");
 			sb.append("\\text{``"); // left quote
-			sb.append(((GeoTextInterface) geo).getTextString());
+			sb.append(((GeoText) geo).getTextString());
 			sb.append("''}"); // right quote
 		}
 
@@ -5321,7 +5321,7 @@ public abstract class GeoElement extends ConstructionElement implements
 					}
 				} else if (isGeoText()) {
 					// check for GeoText with unlabeled start point
-					final GeoTextInterface movedGeoText = (GeoTextInterface) this;
+					final GeoText movedGeoText = (GeoText) this;
 					if (movedGeoText.hasAbsoluteLocation()) {
 						// absolute location: change location
 						final GeoPoint2 loc = (GeoPoint2) movedGeoText

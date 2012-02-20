@@ -118,7 +118,7 @@ public abstract class ValidExpression implements ExpressionValue {
 		return false;
 	}
 
-	public AbstractCommand getTopLevelCommand() {
+	public Command getTopLevelCommand() {
 		return null;
 	}
 
@@ -172,7 +172,7 @@ public abstract class ValidExpression implements ExpressionValue {
 		return " \\, :=  \\, ";
 	}
 
-	public void addCommands(Set<AbstractCommand> cmds) {
+	public void addCommands(Set<Command> cmds) {
 		// do nothing, see Command, ExpressionNode classes
 	}
 

@@ -5,7 +5,7 @@ import geogebra.common.cas.CASException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.arithmetic.AbstractCommand;
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -47,7 +47,7 @@ public class GeoCasCell extends GeoElement {
 	private boolean ignoreTwinGeoUpdate;
 
 	// internal command names used in the input expression
-	private HashSet<AbstractCommand> commands;
+	private HashSet<Command> commands;
 	private String assignmentVar;
 	private boolean includesRowReferences;
 	private boolean includesNumericCommand;
@@ -520,12 +520,12 @@ public class GeoCasCell extends GeoElement {
 			return;
 
 		// get all command names
-		commands = new HashSet<AbstractCommand>();
+		commands = new HashSet<Command>();
 		ve.addCommands(commands);
 		if (commands.isEmpty()) {
 			commands = null;
 		} else {
-			for (AbstractCommand cmd : commands) {
+			for (Command cmd : commands) {
 				String cmdName = cmd.getName();
 				// Numeric used
 				includesNumericCommand = includesNumericCommand
@@ -629,7 +629,7 @@ public class GeoCasCell extends GeoElement {
 			return exp;
 
 		String translatedExp = exp;
-		Iterator<AbstractCommand> it = commands.iterator();
+		Iterator<Command> it = commands.iterator();
 		while (it.hasNext()) {
 			String internalCmd = it.next().getName();
 			String localCmd = cons.getApplication().getCommand(internalCmd);

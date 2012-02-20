@@ -9,38 +9,60 @@ import geogebra.common.util.StringUtil;
 import geogebra.common.util.TextObject;
 import geogebra.common.util.Unicode;
 
+/**
+ * Input box for user input
+ * @author Michael
+ *
+ */
 public class GeoTextField extends GeoButton {
 	private static int defaultLength = 20;
 	private int length;
+	/**
+	 * Creates new text field
+	 * @param c construction
+	 */
 	public GeoTextField(Construction c) {
 		super(c);
 		length = defaultLength;
 	}
+	/**
+	 * @param cons construction
+	 * @param labelOffsetX x offset
+	 * @param labelOffsetY y offset
+	 */
 	public GeoTextField(Construction cons, int labelOffsetX, int labelOffsetY) {
 		this(cons);
 		this.labelOffsetX = labelOffsetX;
 		this.labelOffsetY = labelOffsetY;
 	}
 
+	@Override
 	public String getClassName() {
 		return "GeoTextField";
 	}
+	@Override
 	public boolean isChangeable(){
 		return true;
 	}
 	
+	@Override
 	public String getTypeString() {
 		return "TextField";
 	}
     
-    public GeoClass getGeoClassType() {
+    @Override
+	public GeoClass getGeoClassType() {
     	return GeoClass.TEXTFIELD;
     }
     
+	@Override
 	public boolean isTextField() {
 		return true;
 	}
 	
+	/**
+	 * @param geo new linked geo
+	 */
 	public void setLinkedGeo(GeoElement geo) {
 		linkedGeo = geo;
 		text = geo.getValueForInputBar();
@@ -54,15 +76,19 @@ public class GeoTextField extends GeoButton {
 		}
 	}
 	
+	/**
+	 * Returns the linked geo
+	 * @return linked geo
+	 */
 	public GeoElement getLinkedGeo() {
 		return linkedGeo;
 	}
 
-	protected GeoElement linkedGeo = null;
-	
+	private GeoElement linkedGeo = null;
 
-	protected String text = null;
+	private String text = null;
 	
+	@Override
 	public String toValueString(StringTemplate tpl) {
 		if (linkedGeo == null) return "";
 		return text;
@@ -84,19 +110,28 @@ public class GeoTextField extends GeoButton {
 		return text;
 	}
 	
+	@Override
 	public boolean isGeoTextField(){
 		return true;
 	}
 
+	/**
+	 * Sets length of the input box
+	 * @param l new length
+	 */
 	public void setLength(int l){
 		length = l;
 		this.updateVisualStyle();
 	}
 
+	/**
+	 * @return length of the input box
+	 */
 	public int getLength() {
 		return length;
 	}
 
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
 
 		super.getXMLtags(sb);
@@ -181,28 +216,28 @@ public class GeoTextField extends GeoButton {
 		
 		if (linkedGeo != null) {
 
-			String text;
+			String linkedText;
 
 			if (linkedGeo.isGeoText()) {
-				text = ((GeoText) linkedGeo).getTextString();
+				linkedText = ((GeoText) linkedGeo).getTextString();
 			} else {
 
 				// want just a number for eg a=3 but we want variables for eg
 				// y=m x + c
 				boolean substituteNos = linkedGeo.isGeoNumeric()
 						&& linkedGeo.isIndependent();
-				text = linkedGeo.getFormulaString(StringTemplate.defaultTemplate,
+				linkedText = linkedGeo.getFormulaString(StringTemplate.defaultTemplate,
 						substituteNos);
 			}
 
-			if (linkedGeo.isGeoText() && (text.indexOf("\n") > -1)) {
+			if (linkedGeo.isGeoText() && (linkedText.indexOf("\n") > -1)) {
 				// replace linefeed with \\n
-				while (text.indexOf("\n") > -1) {
-					text = text.replaceAll("\n", "\\\\\\\\n");
+				while (linkedText.indexOf("\n") > -1) {
+					linkedText = linkedText.replaceAll("\n", "\\\\\\\\n");
 				}
 			}
-			if (!textField.getText().equals(text)) { // avoid redraw error
-				textField.setText(text);
+			if (!textField.getText().equals(linkedText)) { // avoid redraw error
+				textField.setText(linkedText);
 			}
 
 		} else {

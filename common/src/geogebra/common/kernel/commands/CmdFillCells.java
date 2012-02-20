@@ -80,7 +80,7 @@ public class CmdFillCells extends CommandProcessor {
 
 					GeoLocus locus = (GeoLocus) geo;
 
-					ArrayList<MyPoint> al = locus.getMyPointList();
+					ArrayList<MyPoint> al = locus.getPoints();
 
 					int length = Math.min(al.size(), maxRow - minRow);
 

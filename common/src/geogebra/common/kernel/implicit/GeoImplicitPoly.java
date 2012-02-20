@@ -49,7 +49,6 @@ import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.geos.GeoLocusInterface;
 import geogebra.common.plugin.GeoClass;
 
 import java.util.ArrayList;
@@ -221,7 +220,7 @@ Dilateable, Transformable, EuclidianViewCE {
 	}
 	
 	public boolean isOnScreen(){
-		return defined && locus.isDefined() && locus.getMyPointList().size() > 0;
+		return defined && locus.isDefined() && locus.getPoints().size() > 0;
 	}
 	
 	public boolean getDefined() {
@@ -1602,7 +1601,7 @@ Dilateable, Transformable, EuclidianViewCE {
 					lastGradY=Double.POSITIVE_INFINITY;
 
 					/* we reached end for the first time and now save the points into the locus */
-					ArrayList<MyPoint> pointList=locus.getMyPointList();
+					ArrayList<MyPoint> pointList=locus.getPoints();
 					if (firstDirPoints.size()>0){
 						MyPoint lastPoint=firstDirPoints.get(firstDirPoints.size()-1);
 						lastPoint.lineTo=false;

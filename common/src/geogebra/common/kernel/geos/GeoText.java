@@ -37,7 +37,7 @@ import java.util.Comparator;
  *
  */
 public class GeoText extends GeoElement implements Locateable,
-		AbsoluteScreenLocateable, TextValue, TextProperties, GeoTextInterface {
+		AbsoluteScreenLocateable, TextValue, TextProperties {
 
 	private String str;
 	private GeoPointND startPoint; // location of Text on screen
@@ -207,7 +207,10 @@ public class GeoText extends GeoElement implements Locateable,
 		}
 
 	}
-
+	/**
+	 * Returns the string wrapped in this text
+	 * @return the string wrapped in this text
+	 */
 	final public String getTextString() {
 		return str;
 	}
@@ -647,7 +650,10 @@ public class GeoText extends GeoElement implements Locateable,
 			}
 		}
 	}
-
+	/**
+	 * Returns true for LaTeX texts
+	 * @return true for LaTeX texts
+	 */
 	public boolean isLaTeX() {
 		return isLaTeX;
 	}

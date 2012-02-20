@@ -35,7 +35,7 @@ import java.util.Set;
  * 
  * @author Markus
  */
-public class Command extends AbstractCommand implements ReplaceableValue {
+public class Command extends ValidExpression implements ReplaceableValue {
 
 	// list of arguments
 	private ArrayList<ExpressionNode> args = new ArrayList<ExpressionNode>();
@@ -146,7 +146,11 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 		return args.toArray(new ExpressionNode[0]);
 	}
 
-	@Override
+	
+	/**
+	 * @param i index
+	 * @return i-th argument
+	 */
 	public ExpressionNode getArgument(int i) {
 		return args.get(i);
 	}
@@ -159,21 +163,29 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 		args.set(i, en);
 	}
 
-	@Override
+	
+	/**
+	 * @return number of arguments
+	 */
 	public int getArgumentNumber() {
 		return args.size();
 	}
 
-	@Override
+	
+	/**
+	 * @return internal command name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	
 	@Override
 	public String toString(StringTemplate tpl) {
 		return toString(true, false,tpl);
 	}
 
+	
 	@Override
 	public String toValueString(StringTemplate tpl) {
 		return toString(false, false,tpl);
@@ -234,6 +246,7 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 		return geos;
 	}
 
+	
 	@Override
 	public ExpressionValue evaluate(StringTemplate tpl) {
 		// not yet evaluated: process command
@@ -322,8 +335,9 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 	/**
 	 * Replaces geo and all its dependent geos in this tree by copies of their
 	 * values.
+	 * @param geo geo to replace
 	 */
-	@Override
+	
 	public void replaceChildrenByValues(GeoElement geo) {
 		int size = args.size();
 		for (int i = 0; i < size; i++) {
@@ -334,10 +348,12 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 	/**
 	 * Looks for GeoDummyVariable objects that hold String var in the tree and
 	 * replaces them by their newOb.
+	 * @param var variable name
+	 * @param newOb object to be used as replacement
 	 * 
 	 * @return whether replacement was done
 	 */
-	@Override
+	
 	public boolean replaceGeoDummyVariables(String var, ExpressionValue newOb) {
 		int size = args.size();
 		boolean didReplacement = false;
@@ -359,8 +375,9 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 		return set;
 	}
 
+	
 	@Override
-	public void addCommands(Set<AbstractCommand> commands) {
+	public void addCommands(Set<Command> commands) {
 		commands.add(this);
 
 		int size = args.size();
@@ -399,13 +416,15 @@ public class Command extends AbstractCommand implements ReplaceableValue {
 		return false;
 	}
 
+	
 	@Override
 	public boolean isTopLevelCommand() {
 		return true;
 	}
 
+	
 	@Override
-	public AbstractCommand getTopLevelCommand() {
+	public Command getTopLevelCommand() {
 		return this;
 	}
 

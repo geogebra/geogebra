@@ -185,7 +185,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	}	
 
     protected void drawLocus(GeoLocus g){
-    	ArrayList<MyPoint> ll=g.getMyPointList();
+    	ArrayList<MyPoint> ll=g.getPoints();
     	Iterator<MyPoint> it=ll.iterator();
 		startBeamer(code);
     	code.append("\\pscustom");

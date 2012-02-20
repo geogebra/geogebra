@@ -51,7 +51,7 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path,
 	 * 
 	 * @param cons
 	 *            the construction
-	 * @param label
+	 * @param label label
 	 * @param points
 	 *            vertices
 	 */
@@ -61,8 +61,8 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path,
 	}
 
 	/**
-	 * @param cons
-	 * @param points
+	 * @param cons construction
+	 * @param points vertices
 	 */
 	public GeoPolyLine(Construction cons, GeoPointND[] points) {
 		super(cons);
@@ -411,7 +411,11 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path,
 	public GeoPointND[] getPointsND() {
 		return points;
 	}
-
+	/**
+	 * Returns i-th vertex
+	 * @param i index
+	 * @return i-th vertex
+	 */
 	public GeoPointND getPointND(int i) {
 		return points[i];
 	}

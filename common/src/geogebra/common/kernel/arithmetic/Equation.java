@@ -28,13 +28,13 @@ import java.util.Set;
  */
 public class Equation extends ValidExpression implements ReplaceableValue {
 
-    protected ExpressionNode lhs;
-    protected ExpressionNode rhs;
+    private ExpressionNode lhs;
+    private ExpressionNode rhs;
     
     private Polynomial leftPoly, rightPoly; // polynomial in normalForm   
     private Polynomial normalForm; // polynomial in normalForm
     private boolean isFunctionDependent; //Equation depends (non-constant) on functions (set in InitEquation)
-    protected Kernel kernel;
+    private Kernel kernel;
    
     /** check whether ExpressionNodes are evaluable to instances of Polynomial
      * or NumberValue and build an Equation out of them

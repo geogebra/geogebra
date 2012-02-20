@@ -12,16 +12,16 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
-
-
 /**
- *
+ * Boolean values
  * @author  Markus
- * @version 
  */
-public interface BooleanValue extends ExpressionValue { 
+public interface BooleanValue extends ExpressionValue {
+	/** @return this boolean as MyBoolean */
     public MyBoolean getMyBoolean();
+    /** @return boolean value */
     public boolean getBoolean();
+    /** @return double value (1 for true, 0 for false)*/
 	public double getDouble();   
 }
 

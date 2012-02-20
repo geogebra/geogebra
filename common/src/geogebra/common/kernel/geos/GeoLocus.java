@@ -25,8 +25,13 @@ import geogebra.common.plugin.GeoClass;
 
 import java.util.ArrayList;
 
+/**
+ * Locus of points
+ * @author Markus
+ */
 public class GeoLocus extends GeoElement implements Path, Traceable {
 
+	/** maximal number of runs through the path when computing */
 	public static final int MAX_PATH_RUNS = 10;
 
 	private boolean defined;
@@ -34,6 +39,10 @@ public class GeoLocus extends GeoElement implements Path, Traceable {
 	// coords of points on locus
 	private ArrayList<MyPoint> myPointList;
 
+	/**
+	 * Creates new locus
+	 * @param c construction
+	 */
 	public GeoLocus(Construction c) {
 		super(c);
 
@@ -66,12 +75,15 @@ public class GeoLocus extends GeoElement implements Path, Traceable {
 	/**
 	 * Number of valid points in x and y arrays.
 	 * 
-	 * @return
+	 * @return number of valid points in x and y arrays.
 	 */
 	final public int getPointLength() {
 		return myPointList.size();
 	}
 
+	/**
+	 * Clears list of points defining this locus
+	 */
 	public void clearPoints() {
 		myPointList.clear();
 	}
@@ -79,8 +91,8 @@ public class GeoLocus extends GeoElement implements Path, Traceable {
 	/**
 	 * Adds a new point (x,y) to the end of the point list of this locus.
 	 * 
-	 * @param x
-	 * @param y
+	 * @param x x-coord
+	 * @param y y-coord
 	 * @param lineTo
 	 *            true to draw a line to (x,y); false to only move to (x,y)
 	 */
@@ -88,7 +100,10 @@ public class GeoLocus extends GeoElement implements Path, Traceable {
 		myPointList.add(new MyPoint(x, y, lineTo));
 	}
 
-	public ArrayList<MyPoint> getMyPointList() {
+	/**
+	 * @return list of points that define this locus
+	 */
+	public ArrayList<MyPoint> getPoints() {
 		return myPointList;
 	}
 
@@ -132,18 +147,14 @@ public class GeoLocus extends GeoElement implements Path, Traceable {
 		getLineStyleXML(sb);
 	}
 
-	public void setMode(int mode) {
-	}
-
-	public int getMode() {
-		return 0;
-	}
-
 	@Override
 	public boolean isDefined() {
 		return defined;
 	}
 
+	/**
+	 * @param flag true to make this locus defined
+	 */
 	public void setDefined(boolean flag) {
 		defined = flag;
 	}
@@ -301,7 +312,7 @@ public class GeoLocus extends GeoElement implements Path, Traceable {
 	private int closestPointIndex;
 	private double closestPointParameter;
 
-	public boolean trace;
+	private boolean trace;
 
 	public void pathChanged(GeoPointND PI) {
 
@@ -390,14 +401,15 @@ public class GeoLocus extends GeoElement implements Path, Traceable {
 		return false;
 	}
 
+	/**
+	 * @param al list of points that definr this locus
+	 */
 	public void setPoints(ArrayList<MyPoint> al) {
 		myPointList = al;
 
 	}
 
-	public ArrayList<MyPoint> getPoints() {
-		return myPointList;
-	}
+	
 
 	@Override
 	final public boolean isAuxiliaryObjectByDefault() {
