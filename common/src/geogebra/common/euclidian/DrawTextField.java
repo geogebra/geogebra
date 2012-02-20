@@ -289,8 +289,8 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 			label.setText(labelDesc);
 			box.setVisible(true);
 		} else {
-			//spaces make the textfield draggable even if label is invisible
-			label.setText("   ");
+			// put back to "" from "   " so that the position is the same in ggb40 and ggb42
+			label.setText("");
 		}
 
 		int fontSize = view.getFontSize() + geoTextField.getFontSize();
