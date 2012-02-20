@@ -112,6 +112,9 @@ public class Application extends AbstractApplication implements KeyDownHandler {
         setFontSize(12);
         //setLabelDragsEnabled(false);
         AbstractEuclidianView.setCapturingThreshold(20);
+        
+        // make sure undo allowed
+        hasFullPermissions = true;
 
         getScriptManager();// .ggbOnInit();//this is not called here because we have to delay it
                            // until the canvas is first drawn

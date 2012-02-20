@@ -39,8 +39,10 @@ public abstract class AbstractUndoManager {
 	 * Loads previous construction state from undo info list.
 	 */
 	public synchronized void undo() {
+		AbstractApplication.debug("undo");
 
 		if (undoPossible()) {
+			AbstractApplication.debug("undopossible");
 			iterator.previous();
 			loadUndoInfo(iterator.previous());
 			iterator.next();

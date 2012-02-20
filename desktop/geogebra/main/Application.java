@@ -411,7 +411,6 @@ public class Application extends AbstractApplication implements
 	private boolean isErrorDialogsActive = true;
 	private boolean isErrorDialogShowing = false;
 	private static LinkedList<File> fileList = new LinkedList<File>();
-	private boolean isSaved = true;
 	// private int guiFontSize;
 	// private int axesFontSize;
 	// private int euclidianFontSize;
@@ -2902,28 +2901,6 @@ public class Application extends AbstractApplication implements
 		return showMenuBar;
 	}
 
-	public void setUndoActive(boolean flag) {
-		// don't allow undo when running with restricted permissions
-		if (flag && !hasFullPermissions) {
-			flag = false;
-		}
-
-		if (kernel.isUndoActive() == flag) {
-			return;
-		}
-
-		kernel.setUndoActive(flag);
-		if (flag) {
-			kernel.initUndoInfo();
-		}
-
-		if (guiManager != null) {
-			getGuiManager().updateActions();
-		}
-
-		isSaved = true;
-	}
-
 	/**
 	 * Enables or disables right clicking in this application. This is useful
 	 * for applets.
@@ -3475,7 +3452,6 @@ public class Application extends AbstractApplication implements
 	}
 
 	private static URL codebase;
-	private static boolean hasFullPermissions = false;
 	private static boolean runningFromJar = false;
 
 	private static void initCodeBase() {

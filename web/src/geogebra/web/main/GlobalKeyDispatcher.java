@@ -70,6 +70,8 @@ public class GlobalKeyDispatcher extends
 
 	private boolean handleGeneralKeys(KeyUpEvent event) {
 		boolean consumed = false;
+		
+		//AbstractApplication.debug("key: "+event.getNativeKeyCode());
 
 		// ESC and function keys
 		switch (event.getNativeKeyCode()) {
@@ -457,6 +459,10 @@ public class GlobalKeyDispatcher extends
 			case MyKeyCodes.KEY_MINUS:
 			case MyKeyCodes.KEY_EQUALS:
 				
+				if (event.getNativeKeyCode() == MyKeyCodes.KEY_PLUS) AbstractApplication.debug("plus");
+				if (event.getNativeKeyCode() == MyKeyCodes.KEY_MINUS) AbstractApplication.debug("minus");
+				if (event.getNativeKeyCode() == MyKeyCodes.KEY_EQUALS) AbstractApplication.debug("equals");
+				
 				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 
 				// disable zooming in PEN mode
@@ -480,7 +486,7 @@ public class GlobalKeyDispatcher extends
 
 			// Ctrl + D: toggles algebra style: value, definition, command
 			case MyKeyCodes.KEY_D:
-			//??case KeyEvent.VK_BACK_QUOTE:
+			case MyKeyCodes.KEY_BACK_QUOTE:
 				if (!event.isShiftKeyDown()) {
 					Kernel kernel = app.getKernel();
 					kernel.setAlgebraStyle((kernel.getAlgebraStyle() + 1) % 3);

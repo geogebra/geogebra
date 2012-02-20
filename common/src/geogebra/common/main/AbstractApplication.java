@@ -61,6 +61,9 @@ public abstract class AbstractApplication {
 	protected ScriptManagerCommon scriptManager = null;
 	public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loading.gif";
 
+	protected static boolean hasFullPermissions = false;
+	protected boolean isSaved = true;
+
 	public static final String WIKI_OPERATORS = "Predefined Functions and Operators";
 	public static final String WIKI_MANUAL = "Manual:Main Page";
 	public static final String WIKI_TUTORIAL = "Tutorial:Main Page";
@@ -2691,5 +2694,28 @@ public abstract class AbstractApplication {
 	public boolean getUseFullGui() {
 		return useFullGui;
 	}
+	
+	public void setUndoActive(boolean flag) {
+		// don't allow undo when running with restricted permissions
+		if (flag && !hasFullPermissions) {
+			flag = false;
+		}
+
+		if (kernel.isUndoActive() == flag) {
+			return;
+		}
+
+		kernel.setUndoActive(flag);
+		if (flag) {
+			kernel.initUndoInfo();
+		}
+
+		if (getGuiManager() != null) {
+			getGuiManager().updateActions();
+		}
+
+		isSaved = true;
+	}
+
 
 }

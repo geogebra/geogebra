@@ -35,8 +35,7 @@ public class LoadFilePresenter extends BasePresenter {
 		}
 		
 		Application app = view.getApplication();
-
-		//app.setUndoActive(undoActive);			
+		
 		//app.setUseBrowserForJavaScript(useBrowserForJavaScript);
 		//app.setRightClickEnabled(enableRightClick);
 		//app.setChooserPopupsEnabled(enableChooserPopups);
@@ -45,10 +44,18 @@ public class LoadFilePresenter extends BasePresenter {
 		//	app.getGuiManager().setToolBarDefinition(customToolBar);
 		//app.setMaxIconSize(maxIconSize);
 
-		//app.setShowMenuBar(view.getDataParamShowMenuBar());
+		boolean showToolBar = view.getDataParamShowToolBar();
+		boolean showMenuBar = view.getDataParamShowMenuBar();
+		//app.setShowMenuBar(showMenuBar);
 		//app.setShowAlgebraInput(view.getDataParamShowAlgebraInput(), true);
-		//app.setShowToolBar(view.getDataParamShowToolBar(), view.getDataParamShowToolBarHelp());	
+		//app.setShowToolBar(showToolBar, view.getDataParamShowToolBarHelp());	
 		
+		
+		// TODO boolean undoActive = (showToolBar || showMenuBar);
+		boolean undoActive = true;
+
+		app.setUndoActive(undoActive);			
+
 		String language = view.getDataParamLanguage();
 		if (language != null) {
 			String country = view.getDataParamCountry();
