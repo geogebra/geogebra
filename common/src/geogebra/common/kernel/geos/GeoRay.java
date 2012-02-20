@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
@@ -49,18 +48,25 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 		setStartPoint(A);
 	}
 	
+	/**
+	 * Creates new ray
+	 * @param c construction
+	 */
 	public GeoRay(Construction c) {
 		super(c);
 	}
 
+	@Override
 	public String getClassName() {	
 		return "GeoRay";
  	}
 	
+	@Override
 	public String getTypeString() {
 		return "Ray";
 	}
 
+	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.RAY;
 	}
@@ -74,12 +80,14 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 	}*/
 	 
 	
-	public GeoElement copyInternal(Construction cons) {
-		GeoRay ray = new GeoRay(cons, (GeoPoint2) startPoint.copyInternal(cons));
+	@Override
+	public GeoElement copyInternal(Construction cons1) {
+		GeoRay ray = new GeoRay(cons1, (GeoPoint2) startPoint.copyInternal(cons1));
 		ray.set(this);
 		return ray;
 	}
 	
+	@Override
 	public void set(GeoElement geo) {
 		super.set(geo);	
 		if (!geo.isGeoRay()) return;
@@ -90,11 +98,17 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 		startPoint.set((GeoElement) ray.startPoint);		
 	}
 	
+	/**
+	 * Sets this ray using direction line and start point
+	 * @param s start point
+	 * @param direction line
+	 */
 	public void set(GeoPoint2 s, GeoVec3D direction) {
 		super.set(direction);
 		setStartPoint(s);
 	}
 	
+	@Override
 	public void setVisualStyle(GeoElement geo) {
 		super.setVisualStyle(geo);
 		
@@ -107,6 +121,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 	/* 
 	 * Path interface
 	 */	 
+	@Override
 	public void pointChanged(GeoPointND P) {
 		super.pointChanged(P);
 		
@@ -120,6 +135,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 		} 
 	}
 
+	@Override
 	public void pathChanged(GeoPointND PI) {
 		
 		//if kernel doesn't use path/region parameters, do as if point changed its coords
@@ -157,15 +173,16 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 		keepTypeOnGeometricTransform = flag;
 	}
 	
+	@Override
 	final public boolean isLimitedPath() {
 		return true;
 	}
 	
-    public boolean isIntersectionPointIncident(GeoPoint2 p, double eps) {
+    @Override
+	public boolean isIntersectionPointIncident(GeoPoint2 p, double eps) {
     	if (allowOutlyingIntersections)
 			return isOnFullLine(p, eps);
-		else
-			return isOnPath(p, eps);
+		return isOnPath(p, eps);
     }
       	
 	/**
@@ -173,6 +190,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 	 * path (may be Double.NEGATIVE_INFINITY)
 	 * @return smallest possible parameter
 	 */
+	@Override
 	public double getMinParameter() {
 		return 0;
 	}
@@ -182,10 +200,12 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 	 * path (may be Double.POSITIVE_INFINITY)
 	 * @return largest possible parameter
 	 */
+	@Override
 	public double getMaxParameter() {
 		return Double.POSITIVE_INFINITY;
 	}
 	
+	@Override
 	public PathMover createPathMover() {
 		return new PathMoverGeneric(this);
 	}
@@ -193,6 +213,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 	/**
      * returns all class-specific xml tags for saveXML
      */
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
         super.getXMLtags(sb);
 		
@@ -214,18 +235,18 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
      * @param t transform
      */
 
-	public GeoElement [] createTransformedObject(Transform t,String label) {	
-		AlgoElement algoParent = keepTypeOnGeometricTransform ?
+	public GeoElement [] createTransformedObject(Transform t,String transformedLabel) {	
+		AlgoElement parent = keepTypeOnGeometricTransform ?
 				getParentAlgorithm() : null;				
 		
 		// CREATE RAY
-		if (algoParent instanceof AlgoJoinPointsRay) {	
+		if (parent instanceof AlgoJoinPointsRay) {	
 			//	transform points
-			AlgoJoinPointsRay algo = (AlgoJoinPointsRay) algoParent;
+			AlgoJoinPointsRay algo = (AlgoJoinPointsRay) parent;
 			GeoPointND [] points = {algo.getP(), algo.getQ()};
 			points = t.transformPoints(points);	
 			if(t.isAffine()){
-				GeoElement ray = (GeoElement) kernel.RayND(label, points[0], points[1]);
+				GeoElement ray = (GeoElement) kernel.RayND(transformedLabel, points[0], points[1]);
 				ray.setVisualStyleForTransformations(this);
 				GeoElement [] geos = {ray, (GeoElement) points[0], (GeoElement) points[1]};
 			return geos;
@@ -241,7 +262,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 			GeoElement [] geos = {arc, (GeoElement) points[0], (GeoElement) points[1]};
 			return geos;
 		}
-		else if (algoParent instanceof AlgoRayPointVector) {			
+		else if (parent instanceof AlgoRayPointVector) {			
 			// transform startpoint
 			GeoPointND [] points = {getStartPoint()};
 			points = t.transformPoints(points);					
@@ -257,7 +278,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 				cons.setSuppressLabelCreation(oldSuppressLabelCreation);
 				
 				// ray through transformed point with direction of transformed line
-				GeoElement ray = (GeoRay)kernel.Ray(label, (GeoPoint2) points[0], direction);
+				GeoElement ray = kernel.Ray(transformedLabel, (GeoPoint2) points[0], direction);
 				ray.setVisualStyleForTransformations(this);
 				GeoElement [] geos = new GeoElement[] {ray, (GeoElement) points[0]};
 				return geos;
@@ -285,16 +306,18 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 		} else {
 			//	create LINE	
 			GeoElement transformedLine = t.getTransformedLine(this);
-			transformedLine.setLabel(label);
+			transformedLine.setLabel(transformedLabel);
 			GeoElement [] ret = { transformedLine };
 			return ret;
 		}	
 	}		
 	
+	@Override
 	public boolean isGeoRay() {
 		return true;
 	}
     // Michael Borcherds 2008-04-30
+	@Override
 	final public boolean isEqual(GeoElement geo) {
 		// return false if it's a different type, otherwise check direction and start point
 		if (!geo.isGeoRay()) return false;
@@ -305,7 +328,8 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 	
 	
 	
-    public boolean isOnPath(Coords Pnd, double eps) {    	
+    @Override
+	public boolean isOnPath(Coords Pnd, double eps) {    	
     	Coords P2d = Pnd.getCoordsIn2DView();
     	if  (!super.isOnPath(P2d, eps))
     		return false;
@@ -314,7 +338,8 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 	   	
     }
     
-    public boolean respectLimitedPath(Coords Pnd, double eps) {    	
+    @Override
+	public boolean respectLimitedPath(Coords Pnd, double eps) {    	
     	Coords P2d = Pnd.getCoordsIn2DView();
     	PathParameter pp = getTempPathParameter();
     	doPointChanged(P2d,pp);
@@ -326,20 +351,5 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
     public boolean isAllEndpointsLabelsSet() {
 		return startPoint.isLabelSet();		
 	} 
-    
-    public GeoPoint2 getInnerPoint(){    	
-    	
-    	double nx = startPoint.x+y;
-    	double ny = startPoint.y-x;
-    	GeoPoint2 ret = new GeoPoint2(cons);
-    	ret.setCoords(nx, ny, 1);
-    	if(!isOnPath(ret, Kernel.EPSILON)){
-    		nx = startPoint.x-y;
-        	ny = startPoint.y+x;
-        	ret.setCoords(nx, ny, 1);
-    	}
-    	return ret;
-    }
- 
-	
+
 }

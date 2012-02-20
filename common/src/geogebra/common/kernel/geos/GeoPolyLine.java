@@ -109,9 +109,9 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path,
 	}
 
 	@Override
-	public GeoElement copyInternal(Construction cons) {
-		GeoPolyLine ret = new GeoPolyLine(cons, null);
-		ret.points = GeoElement.copyPoints(cons, points);
+	public GeoElement copyInternal(Construction cons1) {
+		GeoPolyLine ret = new GeoPolyLine(cons1, null);
+		ret.points = GeoElement.copyPoints(cons1, points);
 		ret.set(this);
 
 		return ret;

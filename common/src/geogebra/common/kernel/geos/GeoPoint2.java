@@ -68,7 +68,6 @@ import java.util.TreeSet;
  * 2D Point
  * 
  * @author Markus
- * @version
  */
 final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		PathOrPoint, Translateable, PointRotateable, Mirrorable, Dilateable,

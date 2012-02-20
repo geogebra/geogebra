@@ -134,7 +134,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	 *            GeoCoordSys2D
 	 */
 	public void setCoordSys(CoordSys cs) {
-
+		//3D only
 	}
 
 	@Override
@@ -256,7 +256,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	 * for polygon itself, labels[1..n] for segments, labels[n+1..2n-2] for
 	 * points (only used for regular polygon)
 	 * 
-	 * @param labels
+	 * @param labels labels of points and segments
 	 */
 	public void initLabels(String[] labels) {
 		if (cons.isSuppressLabelsActive())
@@ -428,7 +428,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	 *            the start point
 	 * @param endPoint
 	 *            the end point
-	 * @param euclidianVisible
+	 * @param euclidianVisible true to make the segment visible
 	 * @return the segment
 	 */
 	public GeoSegmentND createSegment(GeoPointND startPoint,
@@ -444,8 +444,8 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	/**
 	 * ends the creation of the segment
 	 * 
-	 * @param segment
-	 * @param euclidianVisible
+	 * @param segment segment
+	 * @param euclidianVisible true to make the segment visible
 	 * @return the segment modified
 	 */
 	protected GeoSegmentND createSegment(GeoSegmentND segment,
@@ -460,6 +460,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 				((GeoElement) segment)
 						.setShowObjectCondition(getShowObjectCondition());
 			} catch (Exception e) {
+				//circular definition
 			}
 		}
 
@@ -478,20 +479,29 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	}
 
 	@Override
-	public GeoElement copyInternal(Construction cons) {
-		GeoPolygon ret = newGeoPolygon(cons);
-		ret.points = copyPoints(cons);
+	public GeoElement copyInternal(Construction cons1) {
+		GeoPolygon ret = newGeoPolygon(cons1);
+		ret.points = copyPoints(cons1);
 		ret.set(this);
 
 		return ret;
 	}
 
-	protected GeoPolygon newGeoPolygon(Construction cons) {
+	/**
+	 * Factory method for polygons, overridden in 3D
+	 * @param cons1 construction
+	 * @return new polygon
+	 */
+	protected GeoPolygon newGeoPolygon(Construction cons1) {
 		return new GeoPolygon(cons, null);
 	}
 
-	protected GeoPointND[] copyPoints(Construction cons) {
-		return GeoElement.copyPoints(cons, points);
+	/**
+	 * @param cons1 construction
+	 * @return array of copied vertices
+	 */
+	protected GeoPointND[] copyPoints(Construction cons1) {
+		return GeoElement.copyPoints(cons1, points);
 	}
 
 	/**
@@ -563,7 +573,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	/**
 	 * Returns i-th vertex of this polygon
 	 * 
-	 * @param i
+	 * @param i index
 	 * @return i-th pointt
 	 */
 	public GeoPointND getPointND(int i) {
@@ -671,7 +681,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	 * centroid Michael Borcherds 2008-01-26 TODO Does not work if polygon is
 	 * self-entrant
 	 * 
-	 * @param points2
+	 * @param points2 array of points
 	 * @return directed area
 	 */
 	final static public double calcAreaWithSign(GeoPointND[] points2) {
@@ -703,7 +713,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	 * http://local.wasp.uwa.edu.au/~pbourke/geometry/polyarea/ TODO Does not
 	 * work if polygon is self-entrant
 	 * 
-	 * @param centroid
+	 * @param centroid point to store result
 	 */
 	public void calcCentroid(GeoPoint2 centroid) {
 		if (!defined) {
@@ -846,8 +856,8 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	/**
 	 * set the line type (and eventually the segments)
 	 * 
-	 * @param type
-	 * @param updateSegments
+	 * @param type line type
+	 * @param updateSegments true to apply this setting to segments
 	 */
 	public void setLineType(int type, boolean updateSegments) {
 		super.setLineType(type);
@@ -868,8 +878,8 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	/**
 	 * set the hidden line type (and eventually the segments)
 	 * 
-	 * @param type
-	 * @param updateSegments
+	 * @param type line type for hidden lines
+	 * @param updateSegments true to apply this setting to segments
 	 */
 	public void setLineTypeHidden(int type, boolean updateSegments) {
 		super.setLineTypeHidden(type);
@@ -914,7 +924,8 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 		return sbToString.toString();
 	}
 
-	final public String toStringMinimal() {
+	@Override
+	final public String toStringMinimal(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(regrFormat(getArea()));
 		return sbToString.toString();
@@ -1095,6 +1106,11 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 		return true;
 	}
 
+	/**
+	 * @param PI point
+	 * @param update TODO unused even in 3D 
+	 * @return true if PI is in this polygon
+	 */
 	public boolean isInRegion(GeoPointND PI, boolean update) {
 
 		Coords coords = PI.getCoordsInD(2);
@@ -1226,10 +1242,15 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 		}
 	}
 
-	final public void updateRegionCS(GeoPoint2 p0, GeoPoint2 p1, GeoPoint2 p2) {
-		this.p0 = p0;
-		this.p1 = p1;
-		this.p2 = p2;
+	/**
+	 * @param newp0 new 1st point for region coords
+	 * @param newp1 new 2nd point for region coords
+	 * @param newp2 new 3rd point for region coords
+	 */
+	final public void updateRegionCS(GeoPoint2 newp0, GeoPoint2 newp1, GeoPoint2 newp2) {
+		this.p0 = newp0;
+		this.p1 = newp1;
+		this.p2 = newp2;
 		numCS = 3;
 	}
 
@@ -1299,8 +1320,8 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	 * 
 	 * Segments lying entirely on y=0 are ignored, unless they go through (0,0).
 	 * */
-	private static int intersectOx(double x1, double y1, double x2, double y2) {
-
+	private static int intersectOx(double px1, double py1, double px2, double py2) {
+		double x1=px1,x2=px2,y1=py1,y2=py2;
 		double eps = Kernel.STANDARD_PRECISION;
 
 		if (Kernel.isZero(y1)) { // first point on (Ox)
@@ -1468,7 +1489,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	/**
 	 * sets the parent number for changing coords
 	 * 
-	 * @param geo
+	 * @param geo parent number
 	 */
 	final public void setCoordParentNumber(GeoNumeric geo) {
 		changeableCoordNumber = geo;
@@ -1477,7 +1498,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	/**
 	 * sets the parent director for changing coords
 	 * 
-	 * @param geo
+	 * @param geo parent director
 	 */
 	final public void setCoordParentDirector(GeoElement geo) {
 		changeableCoordDirector = geo;
@@ -1630,6 +1651,9 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 		curve.setFromPolyLine(points, true);
 	}
 
+	/**
+	 * @return true for polyhedral faces
+	 */
 	public boolean isFromPolyhedron() {
 		return false;
 	}
