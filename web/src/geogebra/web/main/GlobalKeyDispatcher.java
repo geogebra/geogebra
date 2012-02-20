@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import geogebra.common.awt.Color;
+import geogebra.common.euclidian.DrawTextField;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -25,7 +27,7 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 
 public class GlobalKeyDispatcher extends
-        geogebra.common.main.GlobalKeyDispatcher implements KeyUpHandler, KeyDownHandler {
+        geogebra.common.main.GlobalKeyDispatcher implements KeyUpHandler, KeyDownHandler, KeyPressHandler {
 
 	private AbstractApplication app;
 
@@ -40,6 +42,7 @@ public class GlobalKeyDispatcher extends
 	}
 
 	public void onKeyUp(KeyUpEvent event) {
+		AbstractApplication.debug("onkeyup");
 		event.preventDefault();
 		event.stopPropagation();
 		//no it is private, but can be public, also it is void, but can return boolean as in desktop, if needed
@@ -61,6 +64,7 @@ public class GlobalKeyDispatcher extends
 		if (handleGeneralKeys(event)) {
 					return true;
 		}
+		
 		return false;
     }
 
@@ -590,9 +594,39 @@ public class GlobalKeyDispatcher extends
 	}
 
 	public void onKeyDown(KeyDownEvent event) {
+		AbstractApplication.debug("onkeydown");
 	    event.preventDefault();
 	    event.stopPropagation();
     }
-	
+
+	public void onKeyPress(KeyPressEvent event) {
+		
+		Application.debug("keypressevent");
+//		char ch = event.getCharCode();
+//			GeoElement geo;
+//			if (app.selectedGeosSize() == 1) {
+//				// selected geo
+//				geo = app.getSelectedGeos().get(0);
+//			} else {
+//				// last created geo
+//				geo = app.getLastCreatedGeoElement();
+//			}
+//
+//			// open rename dialog
+//			if (geo != null) {
+//
+//				if (geo instanceof GeoTextField) {
+//					DrawTextField dt =
+//							(DrawTextField) app.getActiveEuclidianView().getDrawableFor(geo);
+//					dt.setFocus(ch+"");
+//				} else {
+////					app.getDialogManager()
+////							.showRenameDialog(geo, true,
+////									Character.toString(ch), false);
+//				}
+//				
+//			}
+		}
+
 
 }

@@ -94,7 +94,7 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 		colorConstants = GWT.create(ColorsConstants.class);
 	}
 
-    private AbsolutePanel euclidianViewPanel;
+    private EuclidianViewPanel euclidianViewPanel;
     private Canvas canvas;
     private geogebra.common.plugin.GgbAPI ggbapi;
     private HashMap<String, String> currentFile = null;
@@ -107,7 +107,7 @@ public class Application extends AbstractApplication implements KeyDownHandler {
     public Application(boolean useFullGui) {
         this.useFullGui = useFullGui;
         dbg = new DebugPrinterWeb();
-        this.init(Canvas.createIfSupported());
+        this.init();
         fontManager = new FontManager();
         setFontSize(12);
         setLabelDragsEnabled(false);
@@ -371,35 +371,35 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 
     }
 
-    /**
-     * @param canvas
-     *            Canvas
-     *            Initializes the application, seeds factory prototypes, creates Kernel and MyXXMLIO
-     */
-    public void init(Canvas canvas) {
-        geogebra.common.factories.AwtFactory.prototype = new geogebra.web.factories.AwtFactory();
-        geogebra.common.factories.FormatFactory.prototype = new geogebra.web.factories.FormatFactory();
-        geogebra.common.factories.CASFactory.prototype = new geogebra.web.factories.CASFactory();
-        geogebra.common.factories.SwingFactory.prototype = new geogebra.web.factories.SwingFactory();
-        geogebra.common.util.StringUtil.prototype = new geogebra.common.util.StringUtil();
-        // TODO: probably there is better way
-        geogebra.common.awt.Color.black = geogebra.web.awt.Color.black;
-        geogebra.common.awt.Color.white = geogebra.web.awt.Color.white;
-        geogebra.common.awt.Color.blue = geogebra.web.awt.Color.blue;
-        geogebra.common.awt.Color.gray = geogebra.web.awt.Color.gray;
-        geogebra.common.awt.Color.lightGray = geogebra.web.awt.Color.lightGray;
-        geogebra.common.awt.Color.darkGray = geogebra.web.awt.Color.darkGray;
 
-        geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.web.euclidian.HatchingHandler();
-        geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.web.euclidian.EuclidianStatic();
-
-        euclidianViewPanel = new AbsolutePanel();
-        this.canvas = canvas;
-        euclidianViewPanel.add(this.canvas);
-        canvas.setWidth("1px");
-        canvas.setHeight("1px");
-        canvas.setCoordinateSpaceHeight(1);
-        canvas.setCoordinateSpaceWidth(1);
+	/**
+	 * Initializes the application, seeds factory prototypes, creates Kernel and MyXXMLIO
+	 */
+	public void init() {
+		geogebra.common.factories.AwtFactory.prototype = new geogebra.web.factories.AwtFactory();
+		geogebra.common.factories.FormatFactory.prototype = new geogebra.web.factories.FormatFactory();
+		geogebra.common.factories.CASFactory.prototype = new geogebra.web.factories.CASFactory();
+		geogebra.common.factories.SwingFactory.prototype = new geogebra.web.factories.SwingFactory();
+		geogebra.common.util.StringUtil.prototype = new geogebra.common.util.StringUtil();
+		// TODO: probably there is better way
+		geogebra.common.awt.Color.black = geogebra.web.awt.Color.black;
+		geogebra.common.awt.Color.white = geogebra.web.awt.Color.white;
+		geogebra.common.awt.Color.blue = geogebra.web.awt.Color.blue;
+		geogebra.common.awt.Color.gray = geogebra.web.awt.Color.gray;
+		geogebra.common.awt.Color.lightGray = geogebra.web.awt.Color.lightGray;
+		geogebra.common.awt.Color.darkGray = geogebra.web.awt.Color.darkGray;
+		
+		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.web.euclidian.HatchingHandler();
+		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.web.euclidian.EuclidianStatic();
+		
+		this.canvas = Canvas.createIfSupported();
+		euclidianViewPanel = new EuclidianViewPanel();
+		euclidianViewPanel.add(this.canvas); //canvas must be the 1rst widget in the euclidianViewPanel
+											//because we will use euclidianViewPanel.getWidget(0) later
+		canvas.setWidth("1px");
+		canvas.setHeight("1px");
+		canvas.setCoordinateSpaceHeight(1);
+		canvas.setCoordinateSpaceWidth(1);
 
         kernel = new Kernel(this);
 
@@ -441,7 +441,7 @@ public class Application extends AbstractApplication implements KeyDownHandler {
         return canvas;
     }
 
-    public AbsolutePanel getEuclidianViewpanel() {
+    public EuclidianViewPanel getEuclidianViewpanel() {
         return euclidianViewPanel;
     }
 
@@ -776,7 +776,7 @@ public class Application extends AbstractApplication implements KeyDownHandler {
     @Override
     protected AbstractEuclidianView newEuclidianView(boolean[] showAxes,
             boolean showGrid) {
-        return euclidianView = new EuclidianView(canvas, euclidianController,
+        return euclidianView = new EuclidianView(euclidianViewPanel, euclidianController,
                 showAxes, showGrid, getSettings().getEuclidian(1));
     }
 

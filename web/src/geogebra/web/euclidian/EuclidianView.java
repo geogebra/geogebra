@@ -25,10 +25,28 @@ import geogebra.common.main.settings.SettingListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.web.awt.BasicStroke;
 import geogebra.web.main.Application;
+import geogebra.web.main.EuclidianViewPanel;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.GestureChangeEvent;
+import com.google.gwt.event.dom.client.GestureEndEvent;
+import com.google.gwt.event.dom.client.GestureStartEvent;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseWheelEvent;
+import com.google.gwt.event.dom.client.TouchCancelEvent;
+import com.google.gwt.event.dom.client.TouchEndEvent;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 
 
 public class EuclidianView extends AbstractEuclidianView implements SettingListener{
@@ -40,10 +58,11 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	protected ImageElement resetImage, playImage, pauseImage, upArrowImage,
 	downArrowImage;
 
-	public EuclidianView(Canvas canvas,
+	public EuclidianView(EuclidianViewPanel euclidianViewPanel,
             AbstractEuclidianController euclidiancontroller, boolean[] showAxes,
             boolean showGrid, EuclidianSettings settings) {		
 		super(euclidiancontroller, settings);
+		Canvas canvas = (Canvas)(euclidianViewPanel.getWidget(0));
 		evNo = 1;
 	    // TODO Auto-generated constructor stub
 		this.g2p = new geogebra.web.awt.Graphics2D(canvas);
@@ -53,25 +72,65 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		attachView();
 		
 		((EuclidianController)euclidiancontroller).setView(this);
-		canvas.addClickHandler((EuclidianController)euclidiancontroller);	
-		canvas.addMouseMoveHandler((EuclidianController)euclidiancontroller);
-		canvas.addMouseOverHandler((EuclidianController)euclidiancontroller);
-		canvas.addMouseOutHandler((EuclidianController)euclidiancontroller);
-		canvas.addMouseDownHandler((EuclidianController)euclidiancontroller);
-		canvas.addMouseUpHandler((EuclidianController)euclidiancontroller);
-		canvas.addMouseWheelHandler((EuclidianController)euclidiancontroller);
+//		canvas.addClickHandler((EuclidianController)euclidiancontroller);	
+//		canvas.addMouseMoveHandler((EuclidianController)euclidiancontroller);
+//		canvas.addMouseOverHandler((EuclidianController)euclidiancontroller);
+//		canvas.addMouseOutHandler((EuclidianController)euclidiancontroller);
+//		canvas.addMouseDownHandler((EuclidianController)euclidiancontroller);
+//		canvas.addMouseUpHandler((EuclidianController)euclidiancontroller);
+//		canvas.addMouseWheelHandler((EuclidianController)euclidiancontroller);
+//		
+//		canvas.addTouchStartHandler((EuclidianController)euclidiancontroller);
+//		canvas.addTouchEndHandler((EuclidianController)euclidiancontroller);
+//		canvas.addTouchMoveHandler((EuclidianController)euclidiancontroller);
+//		canvas.addTouchCancelHandler((EuclidianController)euclidiancontroller);
+//		canvas.addGestureStartHandler((EuclidianController)euclidiancontroller);
+//		canvas.addGestureChangeHandler((EuclidianController)euclidiancontroller);
+//		canvas.addGestureEndHandler((EuclidianController)euclidiancontroller);
 		
-		canvas.addTouchStartHandler((EuclidianController)euclidiancontroller);
-		canvas.addTouchEndHandler((EuclidianController)euclidiancontroller);
-		canvas.addTouchMoveHandler((EuclidianController)euclidiancontroller);
-		canvas.addTouchCancelHandler((EuclidianController)euclidiancontroller);
-		canvas.addGestureStartHandler((EuclidianController)euclidiancontroller);
-		canvas.addGestureChangeHandler((EuclidianController)euclidiancontroller);
-		canvas.addGestureEndHandler((EuclidianController)euclidiancontroller);
+//		canvas.addKeyDownHandler(getApplication().getGlobalKeyDispatcher());
+//		canvas.addKeyUpHandler(getApplication().getGlobalKeyDispatcher());
+
+//		euclidianViewPanel.addClickHandler((EuclidianController)euclidiancontroller);	
+//		euclidianViewPanel.addMouseMoveHandler((EuclidianController)euclidiancontroller);
+//		euclidianViewPanel.addMouseOverHandler((EuclidianController)euclidiancontroller);
+//		euclidianViewPanel.addMouseOutHandler((EuclidianController)euclidiancontroller);
+//		euclidianViewPanel.addMouseDownHandler((EuclidianController)euclidiancontroller);
+//		euclidianViewPanel.addMouseUpHandler((EuclidianController)euclidiancontroller);
+//		euclidianViewPanel.addMouseWheelHandler((EuclidianController)euclidiancontroller);
+//		
+//		euclidianViewPanel.addTouchStartHandler((EuclidianController)euclidiancontroller);
+//		euclidianViewPanel.addTouchEndHandler((EuclidianController)euclidiancontroller);
+//		euclidianViewPanel.addTouchMoveHandler((EuclidianController)euclidiancontroller);
+//		euclidianViewPanel.addTouchCancelHandler((EuclidianController)euclidiancontroller);
+//		euclidianViewPanel.addGestureStartHandler((EuclidianController)euclidiancontroller);
+//		euclidianViewPanel.addGestureChangeHandler((EuclidianController)euclidiancontroller);
+//		euclidianViewPanel.addGestureEndHandler((EuclidianController)euclidiancontroller);
+//		
+//		euclidianViewPanel.addKeyDownHandler(getApplication().getGlobalKeyDispatcher());
+//		euclidianViewPanel.addKeyUpHandler(getApplication().getGlobalKeyDispatcher());
+
 		
-		canvas.addKeyDownHandler(getApplication().getGlobalKeyDispatcher());
-		canvas.addKeyUpHandler(getApplication().getGlobalKeyDispatcher());
+		euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, ClickEvent.getType());
+		euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, MouseMoveEvent.getType());
+		euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, MouseOverEvent.getType());
+		euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, MouseOutEvent.getType());
+		euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, MouseDownEvent.getType());
+		euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, MouseUpEvent.getType());
+		euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, MouseWheelEvent.getType());
 		
+		euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, TouchStartEvent.getType());
+		euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, TouchEndEvent.getType());
+		euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, TouchMoveEvent.getType());
+		euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, TouchCancelEvent.getType());
+		euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, GestureStartEvent.getType());
+		euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, GestureChangeEvent.getType());
+		euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, GestureEndEvent.getType());
+		
+		//euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, KeyPressEvent.getType());
+		euclidianViewPanel.addKeyDownHandler(getApplication().getGlobalKeyDispatcher());
+		euclidianViewPanel.addKeyUpHandler(getApplication().getGlobalKeyDispatcher());
+		euclidianViewPanel.addKeyPressHandler(getApplication().getGlobalKeyDispatcher());
 		
 		if ((evNo == 1) || (evNo == 2)) {
 			EuclidianSettings es = getApplication().getSettings().getEuclidian(evNo);
@@ -79,6 +138,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 			es.addListener(this);
 		}
     }
+
 
 	public void paintBackground(geogebra.common.awt.Graphics2D g2) {
 		((geogebra.web.awt.Graphics2D)g2).drawGraphics(
@@ -255,10 +315,10 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     protected void setHeight(int h) {
-		// what should this method do in Web and in Desktop?
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    //g2p.setCoordinateSpaceWidth(h);
-	    //g2p.setWidth(h);
+	    // what should this method do in Web and in Desktop? 
+	 	AbstractApplication.debug("implementation needed"); // TODO Auto-generated 
+	 	//g2p.setCoordinateSpaceWidth(h); 
+	 	//g2p.setWidth(h); 
     }
 
 	@Override
