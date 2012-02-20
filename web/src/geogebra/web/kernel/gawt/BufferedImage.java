@@ -4,6 +4,7 @@ import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.CssColor;
+import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.DOM;
 
@@ -69,6 +70,15 @@ public class BufferedImage {
 			Application.debug("BufferedImage (gawt) called with null Canvas");
 		}
 	}
+
+	public BufferedImage(ImageData imageData) {
+		canv = Canvas.createIfSupported();
+		canv.setCoordinateSpaceWidth(imageData.getWidth());
+		canv.setCoordinateSpaceHeight(imageData.getHeight());
+		canv.setWidth(imageData.getWidth()+"px");
+		canv.setHeight(imageData.getHeight()+"px");
+		img = getImageElement();
+    }
 
 	public int getWidth() {
 		if (canv == null)

@@ -3,6 +3,7 @@ package geogebra.web.awt;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.canvas.dom.client.ImageData;
 
 import geogebra.common.awt.Graphics2D;
 import geogebra.common.main.AbstractApplication;
@@ -38,6 +39,10 @@ public class BufferedImage implements geogebra.common.awt.BufferedImage {
 			Application.debug("BufferedImage (web) called with null ImageElement");
     }
 
+	public BufferedImage(ImageData imageData) {
+	    impl = new geogebra.web.kernel.gawt.BufferedImage(imageData);
+    }
+
 	public int getWidth() {
 		if (impl == null)
 			return 0;
@@ -55,8 +60,9 @@ public class BufferedImage implements geogebra.common.awt.BufferedImage {
     }
 
 	public BufferedImage getSubimage(int xInt, int yInt, int xInt2, int yInt2) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
+	    Context2d ctx = impl.getCanvas().getContext2d(); // TODO Auto-generated
+	    ImageData imageData = ctx.getImageData(xInt, yInt, xInt2, yInt2);
+	    return new BufferedImage(imageData);
     }
 
 	public static geogebra.web.kernel.gawt.BufferedImage getGawtImage(geogebra.common.awt.BufferedImage img) {
@@ -67,5 +73,9 @@ public class BufferedImage implements geogebra.common.awt.BufferedImage {
 
 	public boolean isLoaded() {
 		return impl.isLoaded();
+	}
+	
+	public ImageElement getImageElement() {
+		return impl.getImageElement();
 	}
 }

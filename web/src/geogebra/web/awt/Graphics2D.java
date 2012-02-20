@@ -27,11 +27,14 @@ import geogebra.web.openjdk.awt.geom.Shape;
 import java.util.Map;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.CanvasPattern;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.canvas.dom.client.Context2d.Repetition;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayNumber;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.Element;
+import com.ibm.icu.impl.TextTrieMap;
 
 public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
@@ -256,8 +259,10 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 		}
 		else if(paint instanceof GradientPaint){
 			context.setFillStyle(((GradientPaint)paint).getGradient(context));
+		} else if (paint instanceof TexturePaint) {
+			CanvasPattern ptr = context.createPattern(((TexturePaint)paint).getImg(), Repetition.REPEAT);
+			context.setFillStyle(ptr);
 		}
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 
 	}
 

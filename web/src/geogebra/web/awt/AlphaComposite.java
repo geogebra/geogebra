@@ -5,7 +5,7 @@ import geogebra.common.main.AbstractApplication;
 
 public class AlphaComposite implements geogebra.common.awt.AlphaComposite  {
 
-	public static Composite Src;
+	public static AlphaComposite Src = new AlphaComposite(SRC, 1.0f);
 	private int srcOver;
 	private float alpha;
 
