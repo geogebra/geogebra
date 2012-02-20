@@ -49,6 +49,16 @@ public class LoadFilePresenter extends BasePresenter {
 		//app.setShowAlgebraInput(view.getDataParamShowAlgebraInput(), true);
 		//app.setShowToolBar(view.getDataParamShowToolBar(), view.getDataParamShowToolBarHelp());	
 		
+		String language = view.getDataParamLanguage();
+		if (language != null) {
+			String country = view.getDataParamCountry();
+			if (country == null) {
+				app.setLanguage(language);
+			} else {
+				app.setLanguage(language, country);
+			}
+		}
+		
 		app.setLabelDragsEnabled(view.getDataParamEnableLabelDrags());
 		app.setShiftDragZoomEnabled(view.getDataParamShiftDragZoomEnabled());
 		app.setShowResetIcon(view.getDataParamShowResetIcon());

@@ -292,6 +292,17 @@ public class Application extends AbstractApplication implements KeyDownHandler {
         return localeName.substring(0, 2);
     }
 
+	public void setLanguage(String language) {
+	    // TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed");
+	    
+    }
+
+	public void setLanguage(String language, String country) {
+	    // TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed");
+    }
+	
     @Override
     public boolean letRedefine() {
         AbstractApplication.debug("implementation needed"); // TODO Auto-generated
@@ -1099,5 +1110,6 @@ public class Application extends AbstractApplication implements KeyDownHandler {
         GeoGebraTubeExportWeb ggbtube = new GeoGebraTubeExportWeb(this);
         ggbtube.uploadWorksheet();
     }
+
 
 }

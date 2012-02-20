@@ -53,6 +53,14 @@ public class View extends Widget {
 		return ((ArticleElement) container).getDataParamBase64String();
 	}
 	
+	public String getDataParamLanguage() {
+		return ((ArticleElement) container).getDataParamLanguage();
+    }
+
+	public String getDataParamCountry() {
+		return ((ArticleElement) container).getDataParamCountry();
+    }
+	
 	public boolean getDataParamEnableLabelDrags() {
 		return ((ArticleElement) container).getDataParamEnableLabelDrags();
 	}
@@ -127,6 +135,7 @@ public class View extends Widget {
 	public Application getApplication() {
 	    return app;
     }
+
 
 
 
