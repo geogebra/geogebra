@@ -110,7 +110,7 @@ public class Application extends AbstractApplication implements KeyDownHandler {
         this.init();
         fontManager = new FontManager();
         setFontSize(12);
-        setLabelDragsEnabled(false);
+        //setLabelDragsEnabled(false);
         AbstractEuclidianView.setCapturingThreshold(20);
 
         getScriptManager();// .ggbOnInit();//this is not called here because we have to delay it

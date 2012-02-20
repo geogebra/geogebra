@@ -50,18 +50,26 @@ public final class ArticleElement extends Element {
 	 * @return the data-param-filename article attribute as String if set else empty String
 	 */
 	public String getDataParamFileName() {
-		return (this.getAttribute("data-param-filename") != null) ? this
-		        .getAttribute("data-param-filename") : "";
+		String ret = this.getAttribute("data-param-filename");
+		return (ret != null) ? ret : "";
 	}
 
 	/**
 	 * Determines if the "data-param-gui" article attribute is set to true
 	 * 
-	 * @return true if "data-param-gui" is set to true else false
+	 * @return the data-param-gui (default: false)
 	 */
 	public boolean getDataParamGui() {
-		return (this.getAttribute("data-param-gui") != null) ? this
-		        .getAttribute("data-param-gui").equals("true") : false;
+		return ("true".equals(this.getAttribute("data-param-gui")));
+	}
+
+	/**
+	 * Determines if the "data-param-gui" article attribute is set to true
+	 * 
+	 * @return the data-param-gui (default: true)
+	 */
+	public boolean getDataParamEnableLabelDrags() {
+		return (!"false".equals(this.getAttribute("data-param-enableLabelDrags")));
 	}
 
 
@@ -69,9 +77,82 @@ public final class ArticleElement extends Element {
 	 * @return the data-param-ggbbase64 article attribute as String if set else empty String
 	 */
 	public String getDataParamBase64String() {
-		return (this.getAttribute("data-param-ggbbase64") != null) ? this
-		        .getAttribute("data-param-ggbbase64") : "";
+		String ret = this.getAttribute("data-param-ggbbase64");
+		return ( ret != null) ? ret : "";
 	}
+	
+	/**
+	 * @return the data-param-showMenuBar (default: false)
+	 */
+	public boolean getDataParamShowMenuBar() {
+		return ("true".equals(this.getAttribute("data-param-showMenuBar")));
+	}
+	
+	/**
+	 * @return the data-param-showToolBar (default: false)
+	 */
+	public boolean getDataParamShowToolBar() {
+		return ("true".equals(this.getAttribute("data-param-showToolBar")));
+	}
+	
+	/**
+	 * 
+	 * @return the data-param-customToolBar (default: null)
+	 */
+	public String getDataParamCustomToolBar() {
+		return this.getAttribute("data-param-customToolBar");
+	}
+	
+	/**
+	 * @return the data-param-showAlgebraInput (default: false)
+	 */
+	public boolean getDataParamShowAlgebraInput() {
+		return ("true".equals(this.getAttribute("data-param-showAlgebraInput")));
+	}
+	
+	/**
+	 * @return the data-param-showResetIcon (default: false)
+	 */
+	public boolean getDataParamShowResetIcon() {
+		return ("true".equals(this.getAttribute("data-param-showResetIcon")));
+	}
+	
+	/**
+	 * eg "de"
+	 * 
+	 * @return the data-param-showResetIcon (default: null)
+	 */
+	public String getDataParamLanguage() {
+		return this.getAttribute("data-param-language");
+	}
+	
+	/**
+	 * 
+	 * eg "AT"
+	 * 
+	 * @return the data-param-showResetIcon (default: null)
+	 */
+	public String getDataParamCountry() {
+		return this.getAttribute("data-param-country");
+	}
+	
+	/**
+	 * 
+	 * @return the data-param-showResetIcon (default: null)
+	 */
+	public String getDataParamGgbOnInitParam() {
+		return this.getAttribute("data-param-ggbOnInitParam");
+	}
+	
+	
+	
+	/**
+	 * @return the data-param-enableShiftDragZoom (default: true)
+	 */
+	public boolean getDataParamShiftDragZoomEnabled() {
+		return (!"false".equals(this.getAttribute("data-param-enableShiftDragZoom")));
+	}
+	
 
 	/**
 	 * @return integer value of the data-param-width, 0 if not present
@@ -88,4 +169,5 @@ public final class ArticleElement extends Element {
 		String height = this.getAttribute("data-param-height");
 		return (height != null && !height.equals("")) ? Integer.parseInt(height, 10)  : 0; 
 	}
+
 }

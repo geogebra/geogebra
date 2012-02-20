@@ -1,5 +1,6 @@
 package geogebra.web.html5;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.web.jso.JsUint8Array;
 import geogebra.web.main.Application;
 import geogebra.web.main.GeoGebraTubeExportWeb;
@@ -52,8 +53,39 @@ public class View extends Widget {
 		return ((ArticleElement) container).getDataParamBase64String();
 	}
 	
+	public boolean getDataParamEnableLabelDrags() {
+		return ((ArticleElement) container).getDataParamEnableLabelDrags();
+	}
+	
+	public boolean getDataParamShowMenuBar() {
+		return ((ArticleElement) container).getDataParamShowMenuBar();
+    }
+
+	public boolean getDataParamShowAlgebraInput() {
+		return ((ArticleElement) container).getDataParamShowAlgebraInput();
+    }
+
+	public boolean getDataParamShowToolBar() {
+		return ((ArticleElement) container).getDataParamShowToolBar();
+    }
+
+	public boolean getDataParamShowToolBarHelp() {
+		//return ((ArticleElement) container).getDataParamShowToolBarHelp();
+		return false;
+    }
+
+	public boolean getDataParamShiftDragZoomEnabled() {
+		return ((ArticleElement) container).getDataParamShiftDragZoomEnabled();
+    }
+
+	public boolean getDataParamShowResetIcon() {
+		return ((ArticleElement) container).getDataParamShowResetIcon();
+    }	
+	
 	public void fileContentLoaded(JsUint8Array zippedContent) {
+		AbstractApplication.debug("start unzip");
 		DataUtil.unzip(zippedContent,this);    
+		AbstractApplication.debug("end unzip");
     }
 	
 	private void maybeLoadFile() {
@@ -72,6 +104,8 @@ public class View extends Widget {
 
 		app.getScriptManager().ggbOnInit();// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
 		
+		AbstractApplication.debug("file loaded");
+		
 	}
 
 	private void onSyncCanvasSizeWithApplication() {
@@ -80,12 +114,20 @@ public class View extends Widget {
     }
 
 	public void fileContentLoaded(JsArrayInteger jsBytes) {
+		AbstractApplication.debug("start unzip");
 		DataUtil.unzip(jsBytes,this); 
+		AbstractApplication.debug("end unzip");
     }
 
 	public void maybeLoadFile(HashMap<String, String> archiveCont) {
 	    archiveContent = archiveCont;
 	    maybeLoadFile();
     }
+
+	public Application getApplication() {
+	    return app;
+    }
+
+
 
 }

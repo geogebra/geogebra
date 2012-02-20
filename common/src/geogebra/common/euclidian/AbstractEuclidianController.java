@@ -8123,6 +8123,13 @@ public abstract class AbstractEuclidianController {
 				|| (mode == EuclidianConstants.MODE_ZOOM_OUT)
 				|| (app.isShiftDragZoomEnabled() && (event.isControlDown()
 						|| event.isMetaDown() || event.isShiftDown()));
+		
+		if (app.isHTML5Applet()) {
+			allowMouseWheel = mode == EuclidianConstants.MODE_ZOOM_IN
+					|| mode == EuclidianConstants.MODE_ZOOM_OUT
+					|| app.isShiftDragZoomEnabled();
+		}
+		
 		if (!allowMouseWheel) {
 			return;
 		}

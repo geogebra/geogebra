@@ -1,13 +1,13 @@
 package geogebra.web.presenter;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JsArrayInteger;
-import com.google.gwt.dev.js.ast.JsArrayAccess;
-
 import geogebra.web.helper.FileLoadCallback;
 import geogebra.web.helper.UrlFetcher;
+import geogebra.web.html5.View;
 import geogebra.web.jso.JsUint8Array;
+import geogebra.web.main.Application;
 import geogebra.web.util.DataUtil;
+
+import com.google.gwt.core.client.JsArrayInteger;
 
 public class LoadFilePresenter extends BasePresenter {
 	
@@ -19,15 +19,40 @@ public class LoadFilePresenter extends BasePresenter {
 	}
 	
 	public void onPageLoad() {
-		if (!getView().getDataParamFileName().equals("")) {
-			fetch(getView().getDataParamFileName());
-		} else if (!getView().getDataParamBase64String().equals("")) {
-			process(getView().getDataParamBase64String());
+		
+		View view = getView();
+		String filename = view.getDataParamFileName();
+		String base64String;
+		
+		if (!"".equals(filename)) {
+			fetch(filename);
+		} else if (!"".equals((base64String = view.getDataParamBase64String()))) {
+			process(base64String);
 		} else if (urlFetcher.isGgbFileParameterSpecified()) {
 			fetch(urlFetcher.getAbsoluteGgbFileUrlFromParameter());
 		} else {
-			getView().promptUserForGgbFile();
+			view.promptUserForGgbFile();
 		}
+		
+		Application app = view.getApplication();
+
+		//app.setUndoActive(undoActive);			
+		//app.setUseBrowserForJavaScript(useBrowserForJavaScript);
+		//app.setRightClickEnabled(enableRightClick);
+		//app.setChooserPopupsEnabled(enableChooserPopups);
+		//app.setErrorDialogsActive(errorDialogsActive);
+		//if (customToolBar != null && customToolBar.length() > 0 && showToolBar)
+		//	app.getGuiManager().setToolBarDefinition(customToolBar);
+		//app.setMaxIconSize(maxIconSize);
+
+		//app.setShowMenuBar(view.getDataParamShowMenuBar());
+		//app.setShowAlgebraInput(view.getDataParamShowAlgebraInput(), true);
+		//app.setShowToolBar(view.getDataParamShowToolBar(), view.getDataParamShowToolBarHelp());	
+		
+		app.setLabelDragsEnabled(view.getDataParamEnableLabelDrags());
+		app.setShiftDragZoomEnabled(view.getDataParamShiftDragZoomEnabled());
+		app.setShowResetIcon(view.getDataParamShowResetIcon());
+		
 	}
 
 	public boolean isGgbFileParameterSpecified() {
