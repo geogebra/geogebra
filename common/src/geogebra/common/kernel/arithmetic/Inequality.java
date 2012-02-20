@@ -167,7 +167,8 @@ public class Inequality {
 				setAboveBorderFromConic();	
 			}
 			else{
-				throw new MyError(kernel.getApplication(), "InvalidEquation");
+				type = INEQUALITY_INVALID;
+				return;
 			}
 			//TODO implicit ineq	
 			/*if (newBorder.isGeoLine()) {
