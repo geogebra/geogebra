@@ -4,10 +4,12 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.LevelOfDetail;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.main.Application;
 import geogebra3D.Application3D;
@@ -119,7 +121,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	@Override
 	protected void startGeoElement(String eName, LinkedHashMap<String, String> attrs) {
 		if (geo == null) {
-			System.err.println("no element set for <" + eName + ">");
+			AbstractApplication.debug("no element set for <" + eName + ">");
 			return;
 		}
 
@@ -141,21 +143,21 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		}
 
 		if (!ok) {
-			System.err.println("error in <element>: " + eName);
+			AbstractApplication.debug("error in <element>: " + eName);
 		}
 	}
 	
 	private static boolean handleCoordSystem3D(EuclidianView3D ev, LinkedHashMap<String, String> attrs) {
 		try {
-			double xZero = Double.parseDouble((String) attrs.get("xZero"));
-			double yZero = Double.parseDouble((String) attrs.get("yZero"));
-			double zZero = Double.parseDouble((String) attrs.get("zZero"));
+			double xZero = Double.parseDouble(attrs.get("xZero"));
+			double yZero = Double.parseDouble(attrs.get("yZero"));
+			double zZero = Double.parseDouble(attrs.get("zZero"));
 			
-			double scale = Double.parseDouble((String) attrs.get("scale"));
+			double scale = Double.parseDouble(attrs.get("scale"));
 			// TODO yScale, zScale
 
-			double xAngle = Double.parseDouble((String) attrs.get("xAngle"));
-			double zAngle = Double.parseDouble((String) attrs.get("zAngle"));
+			double xAngle = Double.parseDouble(attrs.get("xAngle"));
+			double zAngle = Double.parseDouble(attrs.get("zAngle"));
 			
 
 			ev.setScale(scale);
@@ -175,7 +177,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	
 	private boolean handleFading(LinkedHashMap<String, String> attrs) {
 		try {
-			float fading = Float.parseFloat((String) attrs.get("val"));			
+			float fading = Float.parseFloat(attrs.get("val"));			
 			((GeoPlaneND) geo).setFading(fading);			
 			return true;
 		} catch (Exception e) {
@@ -185,7 +187,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 
 	private boolean handleLevelOfDetail(LinkedHashMap<String, String> attrs) {
 		try {
-			int lod = Integer.parseInt((String) attrs.get("val"));			
+			int lod = Integer.parseInt(attrs.get("val"));			
 			((GeoLevelOfDetail) geo).getLevelOfDetail().setValue(lod);
 			return true;
 		} catch (Exception e) {
@@ -227,7 +229,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	 */
 	protected boolean handlePlate(EuclidianView3D ev, LinkedHashMap<String, String> attrs) {
 		try {
-			String strShowPlate = (String) attrs.get("show");
+			String strShowPlate = attrs.get("show");
 
 			// show the plane
 			if (strShowPlate != null) {
@@ -248,7 +250,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	 */
 	protected boolean handleGrid(EuclidianView3D ev, LinkedHashMap<String, String> attrs) {
 		try {
-			String strShowGrid = (String) attrs.get("show");
+			String strShowGrid = attrs.get("show");
 
 			// show the plane
 			if (strShowGrid != null) {
@@ -269,12 +271,12 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	 */
 	protected boolean handleClipping(EuclidianView3D ev, LinkedHashMap<String, String> attrs) {
 		try {
-			String strUseClipping = (String) attrs.get("use");
+			String strUseClipping = attrs.get("use");
 			if (strUseClipping != null) {
 				boolean useClipping = parseBoolean(strUseClipping);
 				ev.setUseClippingCube(useClipping);
 			}
-			String strShowClipping = (String) attrs.get("show");
+			String strShowClipping = attrs.get("show");
 			if (strShowClipping != null) {
 				boolean showClipping = parseBoolean(strShowClipping);
 				ev.setShowClippingCube(showClipping);
@@ -290,12 +292,22 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	/** create absolute start point (coords expected) */
 	@Override
 	protected GeoPointND handleAbsoluteStartPoint(LinkedHashMap<String, String> attrs) {
-		double x = Double.parseDouble((String) attrs.get("x"));
-		double y = Double.parseDouble((String) attrs.get("y"));
-		double z = Double.parseDouble((String) attrs.get("z"));
-		double w = Double.parseDouble((String) attrs.get("w"));
-		GeoPoint3D p = new GeoPoint3D(cons);
-		p.setCoords(x, y, z, w);
+		double x = Double.parseDouble(attrs.get("x"));
+		double y = Double.parseDouble(attrs.get("y"));
+		double z = Double.parseDouble(attrs.get("z"));
+		
+		String wStr = attrs.get("w");
+		GeoPointND p;
+		if (wStr != null) {		
+			// 3D
+			double w = Double.parseDouble(wStr);
+			p = new GeoPoint3D(cons);
+			p.setCoords(x, y, z, w);
+		} else {
+			// 2D
+			p = new GeoPoint2(cons);
+			p.setCoords(x, y, z);			
+		}
 		return p;
 	}
 	
@@ -312,9 +324,9 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	
 	private static geogebra.common.awt.Color handleColorAttrs(LinkedHashMap<String, String> attrs) {
 		try {
-			int red = Integer.parseInt((String) attrs.get("r"));
-			int green = Integer.parseInt((String) attrs.get("g"));
-			int blue = Integer.parseInt((String) attrs.get("b"));
+			int red = Integer.parseInt(attrs.get("r"));
+			int green = Integer.parseInt(attrs.get("g"));
+			int blue = Integer.parseInt(attrs.get("b"));
 			return new geogebra.awt.Color(red, green, blue);
 		} catch (Exception e) {
 			return null;
@@ -326,11 +338,11 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		Application.debug("TODO: remove this");
 		
 		try {
-			int axis = Integer.parseInt((String) attrs.get("id"));
-			String strShowAxis = (String) attrs.get("show");
-			String label = (String) attrs.get("label");
-			String unitLabel = (String) attrs.get("unitLabel");
-			boolean showNumbers = parseBoolean((String) attrs.get("showNumbers"));
+			int axis = Integer.parseInt(attrs.get("id"));
+			String strShowAxis = attrs.get("show");
+			String label = attrs.get("label");
+			String unitLabel = attrs.get("unitLabel");
+			boolean showNumbers = parseBoolean(attrs.get("showNumbers"));
 
 			// show this axis
 			if (strShowAxis != null) {
@@ -364,14 +376,14 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			*/
 
 			// check if tickDistance is given
-			String strTickDist = (String) attrs.get("tickDistance");
+			String strTickDist = attrs.get("tickDistance");
 			if (strTickDist != null) {
 				double tickDist = Double.parseDouble(strTickDist);
 				ev.setAxesNumberingDistance(tickDist, axis);
 			}
 
 			// tick style
-			String strTickStyle = (String) attrs.get("tickStyle");
+			String strTickStyle = attrs.get("tickStyle");
 			if (strTickStyle != null) {
 				int tickStyle = Integer.parseInt(strTickStyle);
 				//ev.getAxesTickStyles()[axis] = tickStyle;
@@ -384,14 +396,14 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			
 			
 			// axis crossing
-			String axisCross = (String) attrs.get("axisCross");
+			String axisCross = attrs.get("axisCross");
 			if (axisCross != null) {
 				double ac = Double.parseDouble(axisCross);
 				ev.setAxisCross(axis,ac);
 			}
 
 			// positive direction only
-			String posAxis = (String) attrs.get("positiveAxis");
+			String posAxis = attrs.get("positiveAxis");
 			if (posAxis != null) {
 				boolean isPositive = Boolean.parseBoolean(posAxis);
 				ev.setPositiveAxis(axis,isPositive);
