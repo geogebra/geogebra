@@ -24,11 +24,6 @@ cleanup() {
  exit $LASTEXITCODE
 }
 
-# Lists the newest file according to the $1 pattern
-l() {
- ls -1 -t $1 | tail -1
- }
-
 # Sets the classpath. This must be fine tuned
 # and maybe tidied up a bit, FIXME
 classpath() {
@@ -42,8 +37,8 @@ $GGDIR/common/src/geogebra/webapache:\
 $GGDIR/web/war/WEB-INF/classes:\
 $GWTDIR/gwt-user.jar:\
 $GWTDIR/gwt-dev.jar:\
-`l $GWTDIR/validation-api-*.GA-sources.jar`:\
-`l $GWTDIR/validation-api-*.GA.jar`:\
+$GWTDIR/validation-api-1.0.0.GA.jar:\
+$GWTDIR/validation-api-1.0.0.GA-sources.jar:\
 $GGDIR/common/test-classes:\
 $GGDIR/common/war/WEB-INF/classes:\
 $GWTDIR/gwt-dev.jar
@@ -183,6 +178,8 @@ test -x $XML || {
  echo "Error: No XMLStarlet executable exists at $XML"
  exit 4
  }
+
+GWTDIR=`cd $GWTDIR; pwd` # Making it absolute path
 
 echo "* GWT SDK directory is set to $GWTDIR"
 echo "* User agents: $USERAGENTS"
