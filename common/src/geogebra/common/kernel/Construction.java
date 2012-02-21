@@ -16,12 +16,10 @@ import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.AlgoDependentCasCell;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoCasCell;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -36,6 +34,11 @@ import geogebra.common.plugin.Operation;
 import geogebra.common.util.StringUtil;
 import geogebra.common.kernel.algos.AlgoDistancePoints;
 
+/**
+ * Manages construction elements
+ * @author Markus
+ *
+ */
 public class Construction {
 
 	/**
@@ -108,54 +111,51 @@ public class Construction {
 	/** default elements */
 	protected ConstructionDefaults consDefaults;
 	// TODO: make private once we port ClearConstruction
-	protected String title, author, date;
+	private String title, author, date;
 	// text for dynamic worksheets: 0 .. above, 1 .. below
-	protected String[] worksheetText = new String[2];
+	private String[] worksheetText = new String[2];
 
 	// showOnlyBreakpoints in construction protocol
 	private boolean showOnlyBreakpoints;
 
-	// construction belongs to kernel
+	/** construction belongs to kernel */
 	protected Kernel kernel;
 
 	// current construction step (-1 ... ceList.size() - 1)
 	// step == -1 shows empty construction
-	// TODO: make private again
-	protected int step;
+	private int step;
 
 	// in macro mode no new labels or construction elements
 	// can be added
-	// TODO: make private again
-	protected boolean supressLabelCreation = false;
+	private boolean supressLabelCreation = false;
 
 	// a map for sets with all labeled GeoElements in alphabetical order of
 	// specific types
 	// (points, lines, etc.)
-	// TODO private
-	protected HashMap<GeoClass, TreeSet<GeoElement>> geoSetsTypeMap;
+	// 
+	private HashMap<GeoClass, TreeSet<GeoElement>> geoSetsTypeMap;
 
 	// ConstructionElement List (for objects of type ConstructionElement)
-	protected ArrayList<ConstructionElement> ceList;
+	private ArrayList<ConstructionElement> ceList;
 
 	// AlgoElement List (for objects of type AlgoElement)
-	protected ArrayList<AlgoElement> algoList; // used in updateConstruction()
+	private ArrayList<AlgoElement> algoList; // used in updateConstruction()
 
 	/** Table for (label, GeoElement) pairs, contains global variables */
 	protected HashMap<String, GeoElement> geoTable;
 
 	// list of algorithms that need to be updated when EuclidianView changes
-	// TODO: make private
-	protected ArrayList<EuclidianViewCE> euclidianViewCE;
+	private ArrayList<EuclidianViewCE> euclidianViewCE;
 
 	/** Table for (label, GeoElement) pairs, contains local variables */
 	protected HashMap<String, GeoElement> localVariableTable;
 
 	// set with all labeled GeoElements in ceList order
-	protected TreeSet<GeoElement> geoSetConsOrder;
+	private TreeSet<GeoElement> geoSetConsOrder;
 
 	// set with all labeled GeoElements in alphabetical order
-	protected TreeSet<GeoElement> geoSetLabelOrder;
-	protected TreeSet<GeoElement> geoSetWithCasCells;
+	private TreeSet<GeoElement> geoSetLabelOrder;
+	private TreeSet<GeoElement> geoSetWithCasCells;
 
 	// list of random numbers or lists
 	private TreeSet<GeoElement> randomElements;
@@ -168,11 +168,13 @@ public class Construction {
 
 	// collect replace() requests to improve performance
 	// when many cells in the spreadsheet are redefined at once
-	// TODO: private again
-	protected boolean collectRedefineCalls = false;
-	protected HashMap<GeoElement, GeoElement> redefineMap;
+	private boolean collectRedefineCalls = false;
+	private HashMap<GeoElement, GeoElement> redefineMap;
 	private GeoElement keepGeo;
 
+	/**
+	 * @return geo temporarily kept inside this construction
+	 */
 	public GeoElement getKeepGeo() {
 		return keepGeo;
 	}
@@ -461,6 +463,7 @@ public class Construction {
 	 * Adds the given GeoCasCell object to the construction list so that it
 	 * becomes the n-th GeoCasCell in the list. Other cas cells are shifted
 	 * right.
+	 * @param casCell CAS cell to be added to construction list
 	 * 
 	 * @param n
 	 *            number starting at 0
@@ -582,7 +585,7 @@ public class Construction {
 		if (updateAlgos != null) {
 			AbstractApplication app = kernel.getApplication();
 			if (app.isUsingFullGui() && app.getGuiManager() != null)
-				app.updateConstructionProtocol();
+				app.getGuiManager().updateConstructionProtocol();
 		}
 
 		return updateAlgos != null;
@@ -592,8 +595,8 @@ public class Construction {
 	 * Adds the given Construction Element to this Construction at position
 	 * index
 	 * 
-	 * @param ce
-	 * @param index
+	 * @param ce element to be added
+	 * @param index index
 	 */
 	public void addToConstructionList(ConstructionElement ce, int index) {
 
@@ -642,7 +645,7 @@ public class Construction {
 			if (ce instanceof GeoCasCell) {
 				int row = ((GeoCasCell) ce).getRowNumber();
 				System.out.println("Row " + row + ": "
-						+ ((GeoCasCell) ce).toString());
+						+ ((GeoCasCell) ce).toString(StringTemplate.defaultTemplate));
 				counter++;
 			} else if (ce instanceof AlgoDependentCasCell) {
 				int row = ((AlgoDependentCasCell) ce).getCasCell()
@@ -652,7 +655,7 @@ public class Construction {
 								+ row
 								+ ": "
 								+ (((AlgoDependentCasCell) ce).getCasCell())
-										.toString());
+										.toString(StringTemplate.defaultTemplate));
 				counter++;
 			}
 		}
@@ -793,6 +796,8 @@ public class Construction {
 	/**
 	 * Moves geo to given position toIndex in this construction. Note: if ce (or
 	 * its parent algorithm) is not in the construction list nothing is done.
+	 * @param geo element to bemoved
+	 * @param toIndex new index
 	 * 
 	 * @return whether construction list was changed or not.
 	 */
@@ -1047,7 +1052,7 @@ public class Construction {
 	 * suggested to use the logic from getConstructionXML for this method. --
 	 * Zoltan, 2011-07-26
 	 * 
-	 * @param sb
+	 * @param sb string builder
 	 */
 	public void getConstructionRegressionOut(StringBuilder sb) {
 
@@ -1120,10 +1125,16 @@ public class Construction {
 
 	private boolean undoEnabled = true;
 
+	/**
+	 * @return true if undo is enabled
+	 */
 	public boolean isUndoEnabled() {
 		return undoEnabled;
 	}
 
+	/**
+	 * @param b true to enable undo
+	 */
 	public void setUndoEnabled(boolean b) {
 		undoEnabled = b;
 
@@ -1209,7 +1220,7 @@ public class Construction {
 	 *            Geo to be replaced.
 	 * @param newGeo
 	 *            Geo to be used instead.
-	 * @throws Exception
+	 * @throws Exception i.e. for circular definition
 	 */
 	public void replace(GeoElement oldGeo, GeoElement newGeo) throws Exception {
 		if (oldGeo == null || newGeo == null || oldGeo == newGeo)
@@ -1305,7 +1316,7 @@ public class Construction {
 				&& app.getSelectedGeos().size() > 0;
 		String oldSelection = null;
 		if (moveMode) {
-			oldSelection = app.getSelectedGeos().get(0).getLabel();
+			oldSelection = app.getSelectedGeos().get(0).getLabel(StringTemplate.defaultTemplate);
 		}
 		// get current construction XML
 		StringBuilder consXML = getCurrentUndoXML();
@@ -1328,7 +1339,7 @@ public class Construction {
 	 * Processes all collected redefine calls as a batch to improve performance.
 	 * 
 	 * @see #startCollectingRedefineCalls()
-	 * @throws Exception
+	 * @throws Exception i.e. for circular definition
 	 */
 	public void processCollectedRedefineCalls() throws Exception {
 		collectRedefineCalls = false;
@@ -1369,7 +1380,7 @@ public class Construction {
 	 * 
 	 * @param casCell
 	 *            casCell to be changed
-	 * @throws Exception
+	 * @throws Exception in case of malformed XML
 	 */
 	public void changeCasCell(GeoCasCell casCell) throws Exception {
 		// move all predecessors of casCell to the left of casCell in
@@ -1386,6 +1397,9 @@ public class Construction {
 
 	/**
 	 * Replaces oldGeo by newGeo in consXML.
+	 * @param consXML string builder
+	 * @param oldGeo old element
+	 * @param newGeo replacement
 	 */
 	protected void doReplaceInXML(StringBuilder consXML, GeoElement oldGeo,
 			GeoElement newGeo) {
@@ -1521,8 +1535,7 @@ public class Construction {
 	 * @see #removeLabel(GeoElement)
 	 * @see #lookupLabel(String)
 	 */
-	public void putLabel(GeoElement geoI) {
-		GeoElement geo = geoI;
+	public void putLabel(GeoElement geo) {
 		if (supressLabelCreation || geo.label == null)
 			return;
 
@@ -1538,8 +1551,7 @@ public class Construction {
 	 *            GeoElement to be removed
 	 * @see #putLabel(GeoElement)
 	 */
-	public void removeLabel(GeoElement geoI) {
-		GeoElement geo = geoI;
+	public void removeLabel(GeoElement geo) {
 		geo.unbindVariableInCAS();
 		geoTable.remove(geo.label);
 		removeFromGeoSets(geo);
@@ -1630,6 +1642,7 @@ public class Construction {
 	 * 
 	 * @param geoCasCell
 	 *            GeoElement to be added, must have assignment variable
+	 * @param label label for CAS cell
 	 * @see #removeCasCellLabel(String)
 	 * @see #lookupCasCellLabel(String)
 	 */
@@ -1657,6 +1670,7 @@ public class Construction {
 	/**
 	 * Removes given GeoCasCell from the CAS variable table and if wanted from
 	 * the underlying CAS too.
+	 * @param variable variable name
 	 * 
 	 * @param unbindInCAS
 	 *            whether variable should be removed from underlying CAS too.
@@ -1742,18 +1756,19 @@ public class Construction {
 	 */
 	public GeoElement lookupLabel(String label, boolean allowAutoCreate) {// package
 																			// private
-		if (label == null)
+		String label1 = label;
+		if (label1 == null)
 			return null;
 
 		// local var handling
 		if (localVariableTable != null) {
-			GeoElement localGeo = localVariableTable.get(label);
+			GeoElement localGeo = localVariableTable.get(label1);
 			if (localGeo != null)
 				return localGeo;
 		}
 
 		// global var handling
-		GeoElement geo = geoTableVarLookup(label);
+		GeoElement geo = geoTableVarLookup(label1);
 
 		// STANDARD CASE: variable name found
 		if (geo != null) {
@@ -1765,8 +1780,8 @@ public class Construction {
 		/*
 		 * CAS VARIABLE HANDLING e.g. ggbtmpvara for a
 		 */
-		label = kernel.removeCASVariablePrefix(label);
-		geo = geoTableVarLookup(label);
+		label1 = kernel.removeCASVariablePrefix(label1);
+		geo = geoTableVarLookup(label1);
 		if (geo != null) {
 			// geo found for name that starts with TMP_VARIABLE_PREFIX or
 			// GGBCAS_VARIABLE_PREFIX
@@ -1778,10 +1793,10 @@ public class Construction {
 		 * like "A$1" for the "A1" to deal with absolute references. Let's
 		 * remove all "$" signs from label and try again.
 		 */
-		if (label.indexOf('$') > -1) {
-			StringBuilder labelWithout$ = new StringBuilder(label.length());
-			for (int i = 0; i < label.length(); i++) {
-				char ch = label.charAt(i);
+		if (label1.indexOf('$') > -1) {
+			StringBuilder labelWithout$ = new StringBuilder(label1.length());
+			for (int i = 0; i < label1.length(); i++) {
+				char ch = label1.charAt(i);
 				if (ch != '$')
 					labelWithout$.append(ch);
 			}
@@ -1796,12 +1811,12 @@ public class Construction {
 
 		// try upper case version for spreadsheet label like a1
 		if (allowAutoCreate) {
-			if (Character.isLetter(label.charAt(0)) // starts with letter
-					&& Character.isDigit(label.charAt(label.length() - 1))) // ends
+			if (Character.isLetter(label1.charAt(0)) // starts with letter
+					&& Character.isDigit(label1.charAt(label1.length() - 1))) // ends
 																			// with
 																			// digit
 			{
-				String upperCaseLabel = label.toUpperCase();
+				String upperCaseLabel = label1.toUpperCase();
 				geo = geoTableVarLookup(upperCaseLabel);
 				if (geo != null) {
 					return checkConstructionStep(geo);
@@ -1812,7 +1827,7 @@ public class Construction {
 		// if we get here, nothing worked:
 		// possibly auto-create new GeoElement with that name
 		if (allowAutoCreate) {
-			return autoCreateGeoElement(label);
+			return autoCreateGeoElement(label1);
 		}
 		return null;
 	}
@@ -1906,6 +1921,7 @@ public class Construction {
 	/**
 	 * Makes sure that geoCasCell comes after all its predecessors in the
 	 * construction list.
+	 * @param casCell CAS cell
 	 * 
 	 * @return whether construction list order was changed
 	 */
@@ -1966,6 +1982,10 @@ public class Construction {
 	// 1) remove all brothers and sisters of oldGeo
 	// 2) move all predecessors of newGeo to the left of oldGeo in construction
 	// list
+	/**
+	 * @param oldGeo old element
+	 * @param newGeo replacement
+	 */
 	protected void prepareReplace(GeoElement oldGeo, GeoElement newGeo) {
 		AlgoElement oldGeoAlgo = oldGeo.getParentAlgorithm();
 		AlgoElement newGeoAlgo = newGeo.getParentAlgorithm();
@@ -2006,6 +2026,7 @@ public class Construction {
 	/**
 	 * Adds the given GeoCasCell to a set with all labeled GeoElements and CAS
 	 * cells needed for notifyAll().
+	 * @param geoCasCell CAS cell to be added
 	 */
 	public void addToGeoSetWithCasCells(GeoCasCell geoCasCell) {
 		geoSetWithCasCells.add(geoCasCell);
@@ -2014,6 +2035,7 @@ public class Construction {
 	/**
 	 * Removes the given GeoCasCell from a set with all labeled GeoElements and
 	 * CAS cells needed for notifyAll().
+	 * @param geoCasCell CAS cell to be removed
 	 */
 	public void removeFromGeoSetWithCasCells(GeoCasCell geoCasCell) {
 		geoSetWithCasCells.remove(geoCasCell);
@@ -2123,20 +2145,20 @@ public class Construction {
 	 * yet used in the geoTable of this construction. This is done for e.g.
 	 * point i = (0,1), number e = Math.E, empty spreadsheet cells
 	 * 
-	 * @param label
-	 * @see #willAutoCreateGeoElement()
+	 * @param labelNew label for new element
+	 * @return created element
 	 */
-	protected GeoElement autoCreateGeoElement(String label) {
+	protected GeoElement autoCreateGeoElement(String labelNew) {
 		GeoElement createdGeo = null;
 		boolean fix = true;
 		boolean auxilliary = true;
-
+		String newLabel = labelNew;
 		// expression like AB, autocreate AB=Distance[A,B] or AB = A * B
 		// according to whether A,B are points or numbers
-		if (label.length() == 2) {
-			GeoElement geo1 = kernel.lookupLabel(label.charAt(0) + "");
+		if (newLabel.length() == 2) {
+			GeoElement geo1 = kernel.lookupLabel(newLabel.charAt(0) + "");
 			if (geo1 != null && geo1.isGeoPoint()) {
-				GeoElement geo2 = kernel.lookupLabel(label.charAt(1) + "");
+				GeoElement geo2 = kernel.lookupLabel(newLabel.charAt(1) + "");
 				if (geo2 != null && geo2.isGeoPoint()) {
 					AlgoDistancePoints dist = new AlgoDistancePoints(this,
 							null, (GeoPointND) geo1, (GeoPointND) geo2);
@@ -2144,7 +2166,7 @@ public class Construction {
 					fix = false;
 				}
 			} else if (geo1 != null && geo1.isNumberValue()) {
-				GeoElement geo2 = kernel.lookupLabel(label.charAt(1) + "");
+				GeoElement geo2 = kernel.lookupLabel(newLabel.charAt(1) + "");
 				if (geo2 != null && geo2.isNumberValue()) {
 					ExpressionNode node = new ExpressionNode(kernel,
 							((NumberValue) geo1).evaluate(),
@@ -2156,177 +2178,177 @@ public class Construction {
 				}
 			}
 
-		} else if (label.length() == 3) {
-			if (label.equals("lnx")) {
+		} else if (newLabel.length() == 3) {
+			if (newLabel.equals("lnx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"ln(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
 			}
-		} else if (label.length() == 4) {
-			if (label.equals("sinx")) {
+		} else if (newLabel.length() == 4) {
+			if (newLabel.equals("sinx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"sin(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
-			} else if (label.equals("cosx")) {
+			} else if (newLabel.equals("cosx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"cos(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
-			} else if (label.equals("tanx")) {
+			} else if (newLabel.equals("tanx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"tan(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
-			} else if (label.equals("secx")) {
+			} else if (newLabel.equals("secx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"sec(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
-			} else if (label.equals("cscx")) {
+			} else if (newLabel.equals("cscx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"csc(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
-			} else if (label.equals("cotx")) {
+			} else if (newLabel.equals("cotx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"cot(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
-			} else if (label.equals("logx")) {
+			} else if (newLabel.equals("logx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"log(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
 			}
-		} else if (label.length() == 5) {
-			if (label.equals("sinhx")) {
+		} else if (newLabel.length() == 5) {
+			if (newLabel.equals("sinhx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"sinh(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
-			} else if (label.equals("coshx")) {
+			} else if (newLabel.equals("coshx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"cosh(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
-			} else if (label.equals("tanhx")) {
+			} else if (newLabel.equals("tanhx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"tanh(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
-			} else if (label.equals("sechx")) {
+			} else if (newLabel.equals("sechx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"sech(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
-			} else if (label.equals("cothx")) {
+			} else if (newLabel.equals("cothx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"coth(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
-			} else if (label.equals("acosx")) {
+			} else if (newLabel.equals("acosx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"acos(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
-			} else if (label.equals("asinx")) {
+			} else if (newLabel.equals("asinx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"asin(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
-			} else if (label.equals("atanx")) {
+			} else if (newLabel.equals("atanx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"atan(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
 			}
-		} else if (label.length() == 6) {
-			if (label.equals("cosecx")) {
+		} else if (newLabel.length() == 6) {
+			if (newLabel.equals("cosecx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"cosec(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
-			} else if (label.equals("arcosx")) {
+			} else if (newLabel.equals("arcosx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"acos(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
-			} else if (label.equals("asinhx")) {
+			} else if (newLabel.equals("asinhx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"asinh(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
-			} else if (label.equals("acoshx")) {
+			} else if (newLabel.equals("acoshx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"acosh(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
-			} else if (label.equals("atanhx")) {
+			} else if (newLabel.equals("atanhx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"atanh(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
 			}
-		} else if (label.length() == 7) {
-			if (label.equals("arccosx")) {
+		} else if (newLabel.length() == 7) {
+			if (newLabel.equals("arccosx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"acos(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
-			} else if (label.equals("arcsinx")) {
+			} else if (newLabel.equals("arcsinx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"asin(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
-			} else if (label.equals("arctanx")) {
+			} else if (newLabel.equals("arctanx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"atan(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
 			}
-		} else if (label.length() == 8) {
-			if (label.equals("arccoshx")) {
+		} else if (newLabel.length() == 8) {
+			if (newLabel.equals("arccoshx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"acosh(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
-			} else if (label.equals("arcsinhx")) {
+			} else if (newLabel.equals("arcsinhx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"asinh(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
-			} else if (label.equals("arctanhx")) {
+			} else if (newLabel.equals("arctanhx")) {
 				createdGeo = kernel.getAlgebraProcessor().evaluateToFunction(
 						"atanh(x)", true);
-				label = createdGeo.getDefaultLabel();
+				newLabel = createdGeo.getDefaultLabel();
 				auxilliary = false;
 				fix = false;
 			}
@@ -2341,7 +2363,7 @@ public class Construction {
 			// setSuppressLabelCreation(false);
 
 			createdGeo.setAuxiliaryObject(auxilliary);
-			createdGeo.setLabel(label);
+			createdGeo.setLabel(newLabel);
 			createdGeo.setFixed(fix);
 
 			// revert to previous label creation state
@@ -2352,7 +2374,7 @@ public class Construction {
 		// check spreadsheet cells
 		// for missing spreadsheet cells, create object
 		// of same type as above
-		createdGeo = kernel.getGeoElementSpreadsheet().autoCreate(label, this);
+		createdGeo = kernel.getGeoElementSpreadsheet().autoCreate(newLabel, this);
 
 		return createdGeo;
 	}
@@ -2547,6 +2569,9 @@ public class Construction {
 	private MyXMLio xmlio;
 	private GeoElement outputGeo;
 
+	/**
+	 * @param xmlio XMLio object
+	 */
 	public void setXMLio(MyXMLio xmlio) {
 		this.xmlio = xmlio;
 	}
@@ -2590,8 +2615,9 @@ public class Construction {
 		return undoManager;
 	}
 	
-	/*
+	/**
 	 * used by commands Element[] and Cell[] as they need to know their output type in advance
+	 * @param type type generated by getXMLTypeString()
 	 */
 	public void setOutputGeo(String type) {
 		if (type == null) {
@@ -2601,9 +2627,10 @@ public class Construction {
 		this.outputGeo = kernel.createGeoElement(this, type);
 	}
 
-	/*
+	/**
 	 * used by commands Element[] and Cell[] as they need to know their output type in advance
 	 * default: return new GeoNumeric(this)
+	 * @return output of command currently parsed from XML
 	 */
 	public GeoElement getOutputGeo() {
 		return outputGeo == null ? new GeoNumeric(this) : outputGeo;
