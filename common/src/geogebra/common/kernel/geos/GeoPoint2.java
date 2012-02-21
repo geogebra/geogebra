@@ -13,7 +13,7 @@ the Free Software Foundation.
 /*
  * GeoPoint.java
  *
- * The point (x,y) has homogenous coordinates (x,y,1)
+ * The point (x,y) has homogeneous coordinates (x,y,1)
  *
  * Created on 30. August 2001, 17:39
  */
@@ -78,7 +78,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	// setConstructionDefaults()
 	// in GeoElement constructor
 	// public int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
-	public int pointSize;
+	private int pointSize;
 	private int pointStyle;
 
 	private double animationValue;
@@ -93,8 +93,10 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	/** equals y/z when updated */
 	private double y2D = 0;
 
-	// temp
-	public double inhomX, inhomY;
+	/** inhomogeneous x-coord */
+	public double inhomX;
+	/** inhomogeneous y-coord*/
+	public double inhomY;
 	private boolean isInfinite, isDefined;
 	private boolean showUndefinedInAlgebraView = true;
 
@@ -105,7 +107,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	/**
 	 * create an undefined GeoPoint
 	 * 
-	 * @param c
+	 * @param c construction
 	 */
 	public GeoPoint2(Construction c) {
 		super(c);
@@ -117,28 +119,45 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	/**
 	 * Creates new GeoPoint
 	 * 
-	 * @param c
-	 * @param label
-	 * @param x
-	 * @param y
-	 * @param z
+	 * @param c construction
+	 * @param label label
+	 * @param x homogeneous x-coord
+	 * @param y homogeneous y-coord
+	 * @param z homogeneous z-coord
 	 */
 	public GeoPoint2(Construction c, String label, double x, double y, double z) {
 		this(c, x, y, z);
 		setLabel(label);
 	}
 
+	/**
+	 * Creates new GeoPoint
+	 * 
+	 * @param c construction
+	 * @param x homogeneous x-coord
+	 * @param y homogeneous y-coord
+	 * @param z homogeneous z-coord
+	 */
 	public GeoPoint2(Construction c, double x, double y, double z) {
 		super(c, x, y, z); // GeoVec3D constructor
 		setAnimationType(ANIMATION_INCREASING);
 	}
-
+	/**
+	 * Creates point on path
+	 * @param c construction
+	 * @param path path
+	 */
 	public GeoPoint2(Construction c, Path path) {
 		super(c);
 		setAnimationType(ANIMATION_INCREASING);
 		this.path = path;
 	}
 
+	/**
+	 * Creates point in region 
+	 * @param c construction
+	 * @param region region
+	 */
 	public GeoPoint2(Construction c, Region region) {
 		super(c);
 		this.region = region;
@@ -148,7 +167,9 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	public void setZero() {
 		setCoords(0, 0, 1);
 	}
-
+	/**
+	 * Sets path parameter to null
+	 */
 	final public void clearPathParameter() {
 		pathParameter = null;
 	}
@@ -189,6 +210,10 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		return GeoClass.POINT;
 	}
 
+	/**
+	 * Copy constructor
+	 * @param point point to copy
+	 */
 	public GeoPoint2(GeoPoint2 point) {
 		super(point.cons);
 		set((GeoElement) point);
@@ -226,16 +251,10 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	 * void initSetLabelVisible() { setLabelVisible(true); }
 	 */
 
-	/**
-	 * @param i
-	 */
 	public void setPointSize(int i) {
 		pointSize = i;
 	}
 
-	/**
-	 * @return
-	 */
 	public int getPointSize() {
 		return pointSize;
 	}
@@ -282,10 +301,10 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 
 	@Override
 	public boolean moveFromChangeableCoordParentNumbers(Coords rwTransVec,
-			Coords endPosition, Coords viewDirection,
+			Coords targetPosition, Coords viewDirection,
 			ArrayList<GeoElement> updateGeos,
 			ArrayList<GeoElement> tempMoveObjectList) {
-
+		Coords endPosition = targetPosition;
 		if (!hasChangeableCoordParentNumbers())
 			return false;
 
@@ -295,9 +314,9 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 
 		// translate x and y coordinates by changing the parent coords
 		// accordingly
-		ArrayList<GeoNumeric> changeableCoordNumbers = getCoordParentNumbers();
-		GeoNumeric xvar = changeableCoordNumbers.get(0);
-		GeoNumeric yvar = changeableCoordNumbers.get(1);
+		ArrayList<GeoNumeric> freeCoordNumbers = getCoordParentNumbers();
+		GeoNumeric xvar = freeCoordNumbers.get(0);
+		GeoNumeric yvar = freeCoordNumbers.get(1);
 
 		// polar coords (r; phi)
 		if (hasPolarParentNumbers()) {
@@ -439,7 +458,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	private boolean hasPolarParentNumbers = false;
 
 	/**
-	 * Returns whether getCoordParentNumbers() returns polar variables (r; phi).
+	 * @return whether getCoordParentNumbers() returns polar variables (r; phi).
 	 */
 	public boolean hasPolarParentNumbers() {
 		return hasPolarParentNumbers;
@@ -456,8 +475,8 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		// simple variable "a"
 		if (ev.isLeaf()) {
 			GeoElement geo = kernel.lookupLabel(
-					ev.isGeoElement() ? ((GeoElement) ev).getLabel() : ev
-							.toString(), false);
+					ev.isGeoElement() ? ((GeoElement) ev).getLabel(StringTemplate.defaultTemplate) : ev
+							.toString(StringTemplate.defaultTemplate), false);
 			if (geo != null && geo.isGeoNumeric()) {
 				return (GeoNumeric) geo;
 			}
@@ -518,6 +537,9 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		return path;
 	}
 
+	/**
+	 * @param p path restricting this point
+	 */
 	public void setPath(Path p) {
 		path = p;
 
@@ -529,10 +551,13 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 			((GeoConic) geo).addPointOnConic(this);// GeoConicND
 		}
 	}
-
+	/**
+	 * Increments path parameter
+	 * @param a increment
+	 */
 	public void addToPathParameter(double a) {
-		PathParameter pathParameter = getPathParameter();
-		pathParameter.t += a;
+		PathParameter parameter = getPathParameter();
+		parameter.t += a;
 
 		// update point relative to path
 		path.pathChanged(this);
@@ -607,8 +632,8 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		// so updateCoords() is called afterwards
 		if (path != null) {
 			// remember path parameter for undefined case
-			PathParameter tempPathParameter = getTempPathparameter();
-			tempPathParameter.set(getPathParameter());
+			PathParameter tempParameter = getTempPathparameter();
+			tempParameter.set(getPathParameter());
 			path.pointChanged(this);
 
 			// make sure animation starts from the correct place
@@ -628,9 +653,9 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 
 		// undefined and on path: remember old path parameter
 		if (!isDefined && path != null) {
-			PathParameter pathParameter = getPathParameter();
-			PathParameter tempPathParameter = getTempPathparameter();
-			pathParameter.set(tempPathParameter);
+			PathParameter parameter = getPathParameter();
+			PathParameter tempParameter = getTempPathparameter();
+			parameter.set(tempParameter);
 		}
 
 	}
@@ -695,6 +720,10 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		}
 	}
 
+	/**
+	 * @param r radius
+	 * @param phi phase
+	 */
 	final public void setPolarCoords(double r, double phi) {
 		setCoords(r * Math.cos(phi), r * Math.sin(phi), 1.0d);
 	}
@@ -704,12 +733,16 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		setCoords(v.x, v.y, v.z);
 	}
 
+	/**
+	 * Sets coords to (x,y,1)
+	 * @param v vector (x,y)
+	 */
 	final public void setCoords(GeoVec2D v) {
 		setCoords(v.x, v.y, 1.0);
 	}
 
 	/**
-	 * Yields true if the inhomogenous coordinates of this point are equal to
+	 * Yields true if the inhomogeneous coordinates of this point are equal to
 	 * those of point P. Infinite points are checked for linear dependency.
 	 */
 	// Michael Borcherds 2008-04-30
@@ -743,15 +776,24 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		res[1] = inhomY;
 	}
 
+	/**
+	 * Gets polar coords of this point
+	 * @param res array to store results
+	 */
 	final public void getPolarCoords(double[] res) {
 		res[0] = MyMath.length(inhomX, inhomY);
 		res[1] = Math.atan2(inhomY, inhomX);
 	}
 
+	/**
+	 * @return inhomogeneous X
+	 */
 	final public double getInhomX() {
 		return inhomX;
 	}
-
+	/**
+	 * @return inhomogeneous Y
+	 */
 	final public double getInhomY() {
 		return inhomY;
 	}
@@ -777,6 +819,8 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	/**
 	 * returns the square distance of this point and P (may return infinty or
 	 * NaN).
+	 * @param P other point
+	 * @return square distance to other point
 	 */
 	final public double distanceSqr(GeoPoint2 P) {
 		double vx = P.inhomX - inhomX;
@@ -785,7 +829,10 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	}
 
 	/**
-	 * Returns whether the three points A, B and C are collinear.
+	 * @param A first point
+	 * @param B second point
+	 * @param C third point
+	 * @return whether the three points A, B and C are collinear.
 	 */
 	public static boolean collinear(GeoPoint2 A, GeoPoint2 B, GeoPoint2 C) {
 		// A, B, C are collinear iff det(ABC) == 0
@@ -808,6 +855,9 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	/**
 	 * Calcs determinant of P and Q. Note: no test for defined or infinite is
 	 * done here.
+	 * @param P first point
+	 * @param Q second point
+	 * @return determinant
 	 */
 	public static final double det(GeoPoint2 P, GeoPoint2 Q) {
 		return (P.x * Q.y - Q.x * P.y) / (P.z * Q.z);
@@ -817,6 +867,10 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	 * Returns the affine ratio for three collinear points A, B and C. The ratio
 	 * is lambda with C = A + lambda * AB, i.e. lambda = AC/AB. Note: the
 	 * collinearity is not checked in this method.
+	 * @param A A
+	 * @param B B
+	 * @param C C
+	 * @return lambda = AC/AB.
 	 */
 	public static final double affineRatio(GeoPoint2 A, GeoPoint2 B, GeoPoint2 C) {
 		double ABx = B.inhomX - A.inhomX;
@@ -1143,7 +1197,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 
 		// point size
 		sb.append("\t<pointSize val=\"");
-		sb.append(pointSize);
+		sb.append(getPointSize());
 		sb.append("\"/>\n");
 
 		// point style, Florian Sonner 2008-07-17
@@ -1296,7 +1350,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	public void setVisualStyle(GeoElement geo) {
 		super.setVisualStyle(geo);
 		if (geo.isGeoPoint()) {
-			pointSize = ((GeoPointND) geo).getPointSize();
+			setPointSize(((GeoPointND) geo).getPointSize());
 			pointStyle = ((GeoPointND) geo).getPointStyle();
 		} else if (geo instanceof PointProperties) {
 			setPointSize(((PointProperties) geo).getPointSize());
@@ -1365,6 +1419,9 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		return region;
 	}
 
+	/**
+	 * @param a_region region restricting this point
+	 */
 	public void setRegion(Region a_region) {
 		region = a_region;
 	}
@@ -1389,6 +1446,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 
 	// only used for 3D stuff
 	public void updateCoordsFrom2D(boolean doPathOrRegion, CoordSys coordsys) {
+		//3D only
 	}
 
 	public Coords getInhomCoords() {
@@ -1574,7 +1632,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	// ///////////////////////////////////////
 
 	public void switchMoveMode() {
-
+		//3D only
 	}
 
 	public int getMoveMode() {
@@ -1618,6 +1676,9 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 
 	}
 
+	/**
+	 * Remove path restricting this point
+	 */
 	public void removePath() {
 		path = null;
 		pathParameter = null;
@@ -1625,6 +1686,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 
 	// needed for GeoPointND interface for 3D, do nothing
 	public void setCoords(double x, double y, double z, double w) {
+		//3D only
 	}
 
 	@Override
@@ -1649,12 +1711,25 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	// lines: line by two point, intersect lines, line/conic, point on line
 	// TODO: parallel line, perpenticular line
 	private ArrayList<GeoElement> incidenceList;
-	public ArrayList<GeoElement> nonIncidenceList;
+	private ArrayList<GeoElement> nonIncidenceList;
 
+	/**
+	 * @return list of objects incident by construction
+	 */
 	public ArrayList<GeoElement> getIncidenceList() {
 		return incidenceList;
 	}
+	
+	/**
+	 * @return list of objects NOT incident by construction
+	 */
+	public ArrayList<GeoElement> getNonIncidenceList() {
+		return nonIncidenceList;
+	}
 
+	/**
+	 * @param list list of objects incident by construction
+	 */
 	public void setIncidenceList(ArrayList<GeoElement> list) {
 		incidenceList = new ArrayList<GeoElement>(list);
 	}
@@ -1667,7 +1742,9 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		incidenceList = new ArrayList<GeoElement>();
 		incidenceList.add(this);
 	}
-
+	/**
+	 * Resets the list of object that are not incident by construction
+	 */
 	public void createNonIncidenceList() {
 		nonIncidenceList = new ArrayList<GeoElement>();
 	}
@@ -1676,7 +1753,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	 * add geo to incidenceList of this, and also add this to pointsOnConic
 	 * (when geo is a conic) or to pointsOnLine (when geo is a line)
 	 * 
-	 * @param geo
+	 * @param geo incident object
 	 */
 	public void addIncidence(GeoElement geo) {
 		if (incidenceList == null)
@@ -1693,6 +1770,10 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		// TODO: if geo instanceof GeoPoint...
 	}
 
+	/**
+	 * Add non-incident object
+	 * @param geo object thatisnot incident by construction
+	 */
 	public void addNonIncidence(GeoElement geo) {
 		if (nonIncidenceList == null)
 			createNonIncidenceList();
@@ -1700,6 +1781,9 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 			nonIncidenceList.add(geo);
 	}
 
+	/**
+	 * @param geo incident geo tobe removed
+	 */
 	public final void removeIncidence(GeoElement geo) {
 		if (incidenceList != null)
 			incidenceList.remove(geo);
@@ -1711,6 +1795,10 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		// TODO: if geo instanceof GeoPoint...
 	}
 
+	/**
+	 * @param geo possibly incident geo
+	 * @return true iff incident
+	 */
 	public boolean addIncidenceWithProbabilisticChecking(GeoElement geo) {
 		boolean incident = false;
 
@@ -1723,7 +1811,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 			// get all "randomizable" predecessors of this and geo
 			TreeSet<GeoElement> pred = this.getAllRandomizablePredecessors();
 			ArrayList<GeoElement> predList = new ArrayList<GeoElement>();
-			TreeSet<AlgoElementInterface> tempSet = new TreeSet<AlgoElementInterface>();
+			TreeSet<AlgoElementInterface> tmpSet = new TreeSet<AlgoElementInterface>();
 
 			predList.addAll(pred);
 			pred.addAll(geo.getAllRandomizablePredecessors());
@@ -1771,7 +1859,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 			while (it.hasNext()) {
 				GeoElement predGeo = it.next();
 				if (!predGeo.isIndependent()) {
-					GeoElement.updateCascadeUntil(predList, tempSet,
+					GeoElement.updateCascadeUntil(predList, tmpSet,
 							predGeo.algoParent);
 				}
 				predGeo.recoverFromClone();
@@ -1783,7 +1871,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 			// if (!geo.isFixed())
 			// geo.updateCascade();
 
-			GeoElement.updateCascade(predList, tempSet, false);
+			GeoElement.updateCascade(predList, tmpSet, false);
 
 			// if all of the cases are good, add incidence
 			if (incident)
@@ -1806,6 +1894,9 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 				* z, z);
 	}
 
+	/**
+	 * Randomizes coordinates
+	 */
 	public void randomizeForErrorEstimation() {
 		setCoords(x + (Math.random() * 2 - 1) * Kernel.EPSILON_SQRT * z,// TODO:
 																		// record
@@ -1829,16 +1920,25 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		return super.movePoint(a, b);
 	}
 
+	/**
+	 * @param x homegenous x-coord
+	 */
 	public void setX(double x) {
 		this.x = x;
 
 	}
 
+	/**
+	 * @param y homogeneous y-coord
+	 */
 	public void setY(double y) {
 		this.y = y;
 
 	}
 
+	/**
+	 * @param z homogeneous z-coord
+	 */
 	public void setZ(double z) {
 		this.z = z;
 	}

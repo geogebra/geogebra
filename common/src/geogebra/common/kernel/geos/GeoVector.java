@@ -31,7 +31,6 @@ import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoDependentVector;
-import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -48,7 +47,6 @@ import java.util.Iterator;
 /**
  *
  * @author  Markus
- * @version 
  */
 final public class GeoVector extends GeoVec3D
 implements Path, VectorValue, Locateable, Translateable, PointRotateable, Mirrorable, Dilateable, MatrixTransformable, 
@@ -62,7 +60,9 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 	private boolean waitingForStartPoint = false;
 	private HashSet<GeoPointND> waitingPointSet;
 
-	/** Creates new GeoVector */
+	/** Creates new GeoVector 
+	 * @param c construction
+	 */
 	public GeoVector(Construction c) {
 		super(c); 
 		//setEuclidianVisible(false);
@@ -88,13 +88,22 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		return true;
 	}
 
-	/** Creates new GeoVector */
+	/** Creates new GeoVector 
+	 * @param c construction
+	 * @param label label
+	 * @param x x-coord
+	 * @param y y-coord
+	 * @param z z-coord*/
 	public GeoVector(Construction c, String label, double x, double y, double z) {
 		super(c, x, y, z); // GeoVec3D constructor                 
 		setLabel(label); 
 		//setEuclidianVisible(false);
 	}
 
+	/**
+	 * Copy constructor
+	 * @param vector vector to copy
+	 */
 	public GeoVector(GeoVector vector) {
 		super(vector.cons);
 		set(vector);
@@ -152,22 +161,30 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		return new GeoVector(this);        
 	} 
 
+	/**
+	 * @param r radius
+	 * @param phi phase
+	 */
 	final public void setPolarCoords(double r, double phi) {
 		// convert angle to radiant              
 		x = r * Math.cos( phi );
 		y = r * Math.sin( phi );        
 		z = 0.0d;        
 	}
-
+	/**
+	 * Sets coords to (x,y,0)
+	 * @param v vector (x,y)
+	 */
 	final public void setCoords(GeoVec2D v) {
 		x = v.x;
 		y = v.y;
 		z = 0.0d;
 	}      
 
-	/** Converts the homogenous coordinates (x,y,z)
-	 * of this GeoVec3D to the inhomogenous coordinates (x/z, y/z)
+	/** Converts the homogeneous coordinates (x,y,z)
+	 * of this GeoVec3D to the inhomogeneous coordinates (x/z, y/z)
 	 * of a new GeoVec2D.
+	 * @return vector containing inhomogeneous coords
 	 */
 	final public GeoVec2D getInhomVec() {
 		return new GeoVec2D(kernel, x, y);
@@ -209,7 +226,9 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		if (startPoint == p) {
 			try {
 				setStartPoint(null);
-			} catch(Exception e) {}
+			} catch(Exception e) {
+				//ignore circular definition here
+			}
 		}
 	}
 
@@ -312,8 +331,8 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 
 		GeoVector v = (GeoVector)geo;
 
-		if (!(isFinite() && v.isFinite())) return false;                                        
-		else return Kernel.isEqual(x, v.x) && Kernel.isEqual(y, v.y);                                            
+		if (!(isFinite() && v.isFinite())) return false;
+		return Kernel.isEqual(x, v.x) && Kernel.isEqual(y, v.y);                                            
 	}
 
 
@@ -332,7 +351,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 	 * Called when transforming Ray[point,direction] -- doesn't do anything.
 	 */
 	public void translate(Coords v) {
-
+		//do nothing
 	}
 
 	public void rotate(NumberValue r, GeoPoint2 S) {
@@ -503,28 +522,28 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 	 * returns all class-specific xml tags for saveXML
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	protected void getXMLtags(StringBuilder xmlsb) {
+		super.getXMLtags(xmlsb);
 		//	line thickness and type  
-		getLineStyleXML(sb);
+		getLineStyleXML(xmlsb);
 
 		// polar or cartesian coords
 		switch(toStringMode) {
 		case Kernel.COORD_POLAR:
-			sb.append("\t<coordStyle style=\"polar\"/>\n");
+			xmlsb.append("\t<coordStyle style=\"polar\"/>\n");
 			break;
 
 		case Kernel.COORD_COMPLEX:
-			sb.append("\t<coordStyle style=\"complex\"/>\n");
+			xmlsb.append("\t<coordStyle style=\"complex\"/>\n");
 			break;
 
 		default:
-			sb.append("\t<coordStyle style=\"cartesian\"/>\n");
+			xmlsb.append("\t<coordStyle style=\"cartesian\"/>\n");
 		}
 
 		//	startPoint of vector
 		if (startPoint != null) {
-			sb.append(startPoint.getStartPointXML());
+			xmlsb.append(startPoint.getStartPointXML());
 		}
 
 	}   
@@ -591,20 +610,10 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		return true;
 	}
 
-	/**
-	 * Returns the smallest possible parameter value for this
-	 * path (may be Double.NEGATIVE_INFINITY)
-	 * @return
-	 */
 	public double getMinParameter() {
 		return 0;
 	}
 
-	/**
-	 * Returns the largest possible parameter value for this
-	 * path (may be Double.POSITIVE_INFINITY)
-	 * @return
-	 */
 	public double getMaxParameter() {
 		return 1;
 	}
@@ -743,8 +752,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 
 	//only used for 3D
 	public void updateStartPointPosition() {
-
-
+		//3D only
 	}
 
 

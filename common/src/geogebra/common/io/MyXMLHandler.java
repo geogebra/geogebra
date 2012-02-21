@@ -535,7 +535,7 @@ public class MyXMLHandler implements DocHandler {
 				if (startAnimation) {
 					if (app.isApplet())
 						// start later, in initInBackground()
-						kernel.setWantAnimationStarted(true);
+						kernel.setWantAnimationStarted();
 					else
 						kernel.getAnimatonManager().startAnimation();
 				}

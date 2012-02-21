@@ -106,7 +106,7 @@ public class AlgoPolygonRegular extends AlgoElement implements AlgoPolygonRegula
 				newPoint.setCoords(0, 0, 1);
 				newPoint.setParentAlgorithm(AlgoPolygonRegular.this);
 				newPoint.setAuxiliaryObject(true);		
-				newPoint.setPointSize(A.pointSize);
+				newPoint.setPointSize(A.getPointSize());
 				newPoint.setEuclidianVisible(A.isEuclidianVisible() || B.isEuclidianVisible());
 				newPoint.setAuxiliaryObject(true);
 				newPoint.setLabelVisible(showNewPointsLabels);

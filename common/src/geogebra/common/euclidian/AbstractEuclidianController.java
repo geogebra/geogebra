@@ -4298,14 +4298,13 @@ public abstract class AbstractEuclidianController {
 					tempArrayList.add(centerPoint);
 					addToHighlightedList(selectedPoints, tempArrayList, 3);
 					return null;
-				} else {
-					// three points: center, distance between two points
-					GeoElement circle = kernel.Circle(null, centerPoint,
-							points[0], points[1], true);
-					GeoElement[] ret = { circle };
-					clearSelections();
-					return ret;
 				}
+				// three points: center, distance between two points
+				GeoElement circle = kernel.CircleCompasses(null, centerPoint,
+						points[0], points[1]);
+				GeoElement[] ret = { circle };
+				clearSelections();
+				return ret;
 			}
 		}
 	

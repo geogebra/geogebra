@@ -349,7 +349,7 @@ public abstract class GeoGebraExport  {
 					point.copyLabel(geo);
 					point.setObjColor(geo.getObjectColor());
 					point.setLabelColor(geo.getLabelColor());
-					point.pointSize = geo.lineThickness;
+					point.setPointSize(geo.lineThickness);
 					point.setLabelOffset(geo.labelOffsetX, geo.labelOffsetY);
 					DrawPoint drawPoint = new DrawPoint(euclidianView, point);
 					drawPoint.setGeoElement(geo);

@@ -812,7 +812,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         String label=StringUtil.toLaTeXString(geo.getLabelDescription(),true);
         geoPoint.setLabel(label);
         double param =  (value - min) / (max - min);
-        geoPoint.pointSize = 2 + (geo.lineThickness+1) / 3;  
+        geoPoint.setPointSize(2 + (geo.lineThickness+1) / 3);  
         geoPoint.setLabelVisible(geo.isLabelVisible());
         if (horizontal) geoPoint.setCoords(x+width*param, y, 1.0);
         else geoPoint.setCoords(x, y+width* param, 1.0);
@@ -825,7 +825,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             }
             else {
                 drawPoint.xLabel += 5;
-                drawPoint.yLabel += 2*geoPoint.pointSize + 4;   
+                drawPoint.yLabel += 2*geoPoint.getPointSize() + 4;   
             }
         }
         drawGeoPoint(geoPoint);

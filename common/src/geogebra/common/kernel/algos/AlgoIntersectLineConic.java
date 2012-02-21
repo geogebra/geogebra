@@ -274,7 +274,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
 	    					
 	    				//existingIntersection = p;
     					break;
-    				} else if ( !(p.nonIncidenceList!=null && p.nonIncidenceList.contains(g))
+    				} else if ( !(p.getNonIncidenceList()!=null && p.getNonIncidenceList().contains(g))
     						&& p.addIncidenceWithProbabilisticChecking(g)) {
     					existingIntersection = p;
     					break;

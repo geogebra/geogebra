@@ -55,7 +55,7 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
         cons.removeFromConstructionList(algo);		
         conic = (GeoConic) algo.getCircle(); 
         
-        conicPart = kernel.newGeoConicPart(cons, type);
+        conicPart = new GeoConicPart(cons, type);
         conicPart.addPointOnConic(A);
         conicPart.addPointOnConic(B);
         conicPart.addPointOnConic(C);

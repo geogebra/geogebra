@@ -92,7 +92,7 @@ public class DrawSlider extends Drawable {
 			double min = number.getIntervalMin();
 			double max = number.getIntervalMax();
 			double param = (number.getValue() - min) / (max - min);
-			geoPoint.pointSize = 2 + (number.lineThickness + 1) / 3;
+			geoPoint.setPointSize(2 + (number.lineThickness + 1) / 3);
 			labelVisible = geo.isLabelVisible();
 			geoPoint.setLabelVisible(labelVisible);
 
@@ -117,7 +117,7 @@ public class DrawSlider extends Drawable {
 				drawPoint.update();
 				if (labelVisible) {
 					drawPoint.xLabel += 5;
-					drawPoint.yLabel += 2 * geoPoint.pointSize + 4;
+					drawPoint.yLabel += 2 * geoPoint.getPointSize() + 4;
 				}
 
 				// vertical line

@@ -19,7 +19,6 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.main.MyError;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.Operation;
 
@@ -203,7 +202,7 @@ public class Inequality {
 		cons.setSuppressLabelCreation(true);
 		funBorder = new GeoFunction(cons);
 		funBorder.setFunction(new Function(normal, fv[varIndex]));		
-		zeros = kernel.RootMultiple(null, funBorder);
+		zeros = Kernel.RootMultiple(funBorder);
 		/*for(int i=0;i<zeros.length;i++){
 			Application.debug(zeros[i]);
 		}*/

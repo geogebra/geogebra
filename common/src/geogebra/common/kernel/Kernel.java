@@ -218,9 +218,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Stack;
 import java.util.TreeSet;
-
+@SuppressWarnings("javadoc")
 public class Kernel {
 
 	// if these are increased above 32000, you need to change traceRow to an int[]
@@ -338,7 +337,7 @@ public class Kernel {
 	private double ROUND_HALF_UP_FACTOR = ROUND_HALF_UP_FACTOR_DEFAULT;
 
 	//private String stringTemplate.getPi(); // for pi
-	private boolean useTempVariablePrefix;
+	
 
 	// before May 23, 2005 the function acos(), asin() and atan()
 	// had an angle as result. Now the result is a number.
@@ -349,7 +348,6 @@ public class Kernel {
 	 * GeoNumeric
 	 **/
 
-	private boolean translateCommandName = true;
 	private boolean useInternalCommandNames = false;
 
 	private boolean notifyConstructionProtocolViewAboutAddRemoveActive = true;
@@ -371,10 +369,7 @@ public class Kernel {
 	// setResolveUnkownVarsAsDummyGeos
 	private boolean resolveUnkownVarsAsDummyGeos = false;
 
-	// used to store info when rounding is temporarily changed
-	private Stack<Boolean> useSignificantFiguresList;
-	private Stack<Integer> noOfSignificantFiguresList;
-	private Stack<Integer> noOfDecimalPlacesList;
+	
 	private final StringBuilder sbBuildExplicitLineEquation = new StringBuilder(
 			50);
 
@@ -473,8 +468,8 @@ public class Kernel {
 	 *            construction used in MyXMLHandler constructor
 	 * @return a new MyXMLHandler
 	 */
-	public MyXMLHandler newMyXMLHandler(Construction cons) {
-		return newMyXMLHandler(this, cons);
+	public MyXMLHandler newMyXMLHandler(Construction cons1) {
+		return newMyXMLHandler(this, cons1);
 	}
 
 	/**
@@ -484,8 +479,8 @@ public class Kernel {
 	 * @param cons
 	 * @return a new MyXMLHandler
 	 */
-	public MyXMLHandler newMyXMLHandler(Kernel kernel, Construction cons) {
-		return new MyXMLHandler(kernel, cons);
+	public MyXMLHandler newMyXMLHandler(Kernel kernel, Construction cons1) {
+		return new MyXMLHandler(kernel, cons1);
 	}
 
 	final public AbstractApplication getApplication() {
@@ -715,7 +710,8 @@ public class Kernel {
 		}
 	}
 
-	private int getNextBreakpoint(int step) {
+	private int getNextBreakpoint(int initStep) {
+		int step = initStep;
 		int lastStep = getLastConstructionStep();
 		// go to next breakpoint
 		while (step <= lastStep) {
@@ -743,7 +739,8 @@ public class Kernel {
 		}
 	}
 
-	private int getPreviousBreakpoint(int step) {
+	private int getPreviousBreakpoint(int initStep) {
+		int step = initStep;
 		// go to previous breakpoint
 		while (step >= 0) {
 			if (cons.getConstructionElement(step).isConsProtocolBreakpoint()) {
@@ -983,8 +980,8 @@ public class Kernel {
 	 * Formats the value of x using the currently set NumberFormat or
 	 * ScientificFormat. This method also takes getStringTemplate().getStringType() into account.
 	 */
-	final public String formatRaw(double x,StringTemplate tpl) {
-
+	final public String formatRaw(double number,StringTemplate tpl) {
+		double x = number;
 		// format integers without significant figures
 		boolean isLongInteger = false;
 		long rounded = Math.round(x);
@@ -1269,7 +1266,7 @@ public class Kernel {
 	final public StringBuilder buildLHS(double[] numbers, String[] vars,
 			boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN,StringTemplate tpl) {
 		sbBuildLHS.setLength(0);
-		sbBuildLHS.append((CharSequence)buildImplicitVarPart(numbers, vars,
+		sbBuildLHS.append(buildImplicitVarPart(numbers, vars,
 				KEEP_LEADING_SIGN, CANCEL_DOWN,tpl));
 
 		// add constant coeff
@@ -1496,26 +1493,25 @@ public class Kernel {
 		if (Math.abs(x) == 1.0) {
 			if (x > 0.0) {
 				return "";
-			} else {
-				return "-";
 			}
-		} else {
-			String numberStr = format(x,tpl);
-			switch (tpl.getStringType()) {
-			case MATH_PIPER:
-			case MAXIMA:
-			case MPREDUCE:
-				return numberStr + "*";
+			return "-";
+		}
+		String numberStr = format(x,tpl);
+		switch (tpl.getStringType()) {
+		case MATH_PIPER:
+		case MAXIMA:
+		case MPREDUCE:
+			return numberStr + "*";
 
-			default:
-				// standard case
-				return numberStr;
-			}
+		default:
+			// standard case
+			return numberStr;
 		}
 	}
 
 	public final StringBuilder buildExplicitLineEquation(double[] numbers,
-			String[] vars, char op,StringTemplate tpl) {
+			String[] vars, char opDefault,StringTemplate tpl) {
+		char op = opDefault;
 		StringType casPrintForm = tpl.getStringType();
 		double d, dabs, q = numbers[1];
 		sbBuildExplicitLineEquation.setLength(0);
@@ -1524,7 +1520,7 @@ public class Kernel {
 		// special case
 		// y-coeff is 0: form x = constant
 		if (isZero(q)) {
-			sbBuildExplicitLineEquation.append("x");
+			sbBuildExplicitLineEquation.append(vars[0]);
 
 			if (casPrintForm.equals(StringType.MATH_PIPER)) {
 				sbBuildExplicitLineEquation.append(" == ");
@@ -1543,7 +1539,7 @@ public class Kernel {
 		}
 
 		// standard case: y-coeff not 0
-		sbBuildExplicitLineEquation.append("y");
+		sbBuildExplicitLineEquation.append(vars[1]);
 		if (casPrintForm.equals(StringType.MATH_PIPER)) {
 			sbBuildExplicitLineEquation.append(" == ");
 		} else {
@@ -1560,7 +1556,7 @@ public class Kernel {
 		dabs = Math.abs(d);
 		if ((dabs >= PRINT_PRECISION) || useSignificantFigures) {
 			sbBuildExplicitLineEquation.append(formatCoeff(d,tpl));
-			sbBuildExplicitLineEquation.append('x');
+			sbBuildExplicitLineEquation.append(vars[0]);
 
 			// constant
 			d = -numbers[2] / q;
@@ -1584,9 +1580,8 @@ public class Kernel {
 	final public static double chop(double x) {
 		if (isZero(x)) {
 			return 0.0d;
-		} else {
-			return x;
 		}
+		return x;
 	}
 
 	/** is abs(x) < epsilon ? */
@@ -1606,9 +1601,8 @@ public class Kernel {
 	final public static boolean isInteger(double x) {
 		if (x > 1E17) {
 			return true;
-		} else {
-			return isEqual(x, Math.round(x));
 		}
+		return isEqual(x, Math.round(x));
 	}
 
 	/**
@@ -1619,17 +1613,15 @@ public class Kernel {
 	final public static boolean isEqual(double x, double y) {
 		if (x == y) {
 			return true;
-		} else {
-			return ((x - EPSILON) <= y) && (y <= (x + EPSILON));
 		}
+		return ((x - EPSILON) <= y) && (y <= (x + EPSILON));
 	}
 
 	final public static boolean isEqual(double x, double y, double eps) {
 		if (x == y) {
 			return true;
-		} else {
-			return ((x - eps) < y) && (y < (x + eps));
 		}
+		return ((x - eps) < y) && (y < (x + eps));
 	}
 
 	/**
@@ -1683,20 +1675,20 @@ public class Kernel {
 		 */
 
 	final public static double checkDecimalFraction(double x, double precision) {
-
+		
+		double prec = precision;
 		// Application.debug(precision+" ");
-		precision = Math.pow(10,
-				Math.floor(Math.log(Math.abs(precision)) / Math.log(10)));
+		prec = Math.pow(10,
+				Math.floor(Math.log(Math.abs(prec)) / Math.log(10)));
 
 		double fracVal = x * INV_MIN_PRECISION;
 		double roundVal = Math.round(fracVal);
 		// Application.debug(precision+" "+x+" "+fracVal+" "+roundVal+" "+isEqual(fracVal,
 		// roundVal, precision)+" "+roundVal / INV_MIN_PRECISION);
-		if (isEqual(fracVal, roundVal, STANDARD_PRECISION * precision)) {
+		if (isEqual(fracVal, roundVal, STANDARD_PRECISION * prec)) {
 			return roundVal / INV_MIN_PRECISION;
-		} else {
-			return x;
 		}
+		return x;
 	}
 
 	final public static double checkDecimalFraction(double x) {
@@ -1711,9 +1703,8 @@ public class Kernel {
 		double roundVal = Math.round(x);
 		if (Math.abs(x - roundVal) < EPSILON) {
 			return roundVal;
-		} else {
-			return x;
 		}
+		return x;
 	}
 
 	final public StringBuilder formatAngle(double phi,StringTemplate tpl) {
@@ -1753,7 +1744,8 @@ public class Kernel {
 		return sb.toString();
 	}
 
-	final public StringBuilder formatAngle(double phi, double precision,StringTemplate tpl) {
+	final public StringBuilder formatAngle(double alpha, double precision,StringTemplate tpl) {
+		double phi = alpha;
 		sbFormatAngle.setLength(0);
 		switch (tpl.getStringType()) {
 		case MATH_PIPER:
@@ -1812,15 +1804,14 @@ public class Kernel {
 				}
 
 				return sbFormatAngle;
-			} else {
-				// RADIANS
-				sbFormatAngle.append(format(phi,tpl));
-
-				if (!tpl.hasType(StringType.GEOGEBRA_XML)) {
-					sbFormatAngle.append(" rad");
-				}
-				return sbFormatAngle;
 			}
+			// RADIANS
+			sbFormatAngle.append(format(phi,tpl));
+
+			if (!tpl.hasType(StringType.GEOGEBRA_XML)) {
+				sbFormatAngle.append(" rad");
+			}
+			return sbFormatAngle;
 		}
 
 	}
@@ -1987,9 +1978,8 @@ public class Kernel {
 	public String printVariableName(String label,StringTemplate tpl) {
 		if (tpl.isUseTempVariablePrefix()) {
 			return addTempVariablePrefix(label);
-		} else {
-			return printVariableName(tpl.getStringType(), label);
 		}
+		return printVariableName(tpl.getStringType(), label);
 	}
 
 	/**
@@ -2042,13 +2032,12 @@ public class Kernel {
 	private String addCASVariablePrefix(String label) {
 		if (label.startsWith(TMP_VARIABLE_PREFIX)) {
 			return label;
-		} else {
-			// casVariablePrefix + label
-			StringBuilder sb = new StringBuilder();
-			sb.append(casVariablePrefix); // GGBCAS_VARIABLE_PREFIX + kernelID
-			sb.append(label);
-			return sb.toString();
 		}
+		// casVariablePrefix + label
+		StringBuilder sb = new StringBuilder();
+		sb.append(casVariablePrefix); // GGBCAS_VARIABLE_PREFIX + kernelID
+		sb.append(label);
+		return sb.toString();
 	}
 
 	final public String removeCASVariablePrefix(String str) {
@@ -2125,24 +2114,7 @@ public class Kernel {
 		return sf.getSigDigits();
 	}
 
-	/*
-	 * stores information about the current no of decimal places/sig figures
-	 * used for when it is (temporarily changed) needs to be in a list as it can
-	 * be nested
-	 */
-	private void storeTemporaryRoundingInfoInList() {
-		if (useSignificantFiguresList == null) {
-			useSignificantFiguresList = new Stack<Boolean>();
-			noOfSignificantFiguresList = new Stack<Integer>();
-			noOfDecimalPlacesList = new Stack<Integer>();
-		}
-
-		useSignificantFiguresList.push(Boolean.valueOf(useSignificantFigures));
-		noOfSignificantFiguresList.push(new Integer(sf.getSigDigits()));
-		noOfDecimalPlacesList.push(Integer.valueOf(nf
-				.getMaximumFractionDigits()));
-	}
-
+	
 
 	
 	/**
@@ -2405,9 +2377,9 @@ public class Kernel {
 
 	/**
 	 * 
-	 * {@linkplain #getViewBoundsForGeo(GeoElement)}
+	 * {@linkplain #getViewBoundsForGeo}
 	 * 
-	 * @see #getViewBoundsForGeo(GeoElement)
+	 * @see #getViewBoundsForGeo
 	 * @param geo
 	 * @return
 	 */
@@ -2462,17 +2434,15 @@ public class Kernel {
 	public double getXmax() {
 		if (graphicsView2showing) {
 			return Math.max(xmax, xmax2);
-		} else {
-			return xmax;
 		}
+		return xmax;
 	}
 
 	public double getXmin() {
 		if (graphicsView2showing) {
 			return Math.min(xmin, xmin2);
-		} else {
-			return xmin;
 		}
+		return xmin;
 	}
 
 	public double getXscale() {
@@ -2480,26 +2450,23 @@ public class Kernel {
 			// xscale = pixel per unit
 			// higher xscale means more pixels per unit, i.e. higher precision
 			return Math.max(xscale, xscale2);
-		} else {
-			return xscale;
 		}
+		return xscale;
 
 	}
 
 	public double getYmax() {
 		if (graphicsView2showing) {
 			return Math.max(ymax, ymax2);
-		} else {
-			return ymax;
 		}
+		return ymax;
 	}
 
 	public double getYmin() {
 		if (graphicsView2showing) {
 			return Math.min(ymin, ymin2);
-		} else {
-			return ymin;
 		}
+		return ymin;
 	}
 
 	public double getYscale() {
@@ -2507,9 +2474,8 @@ public class Kernel {
 			// yscale = pixel per unit
 			// higher xscale means more pixels per unit, i.e. higher precision
 			return Math.max(yscale, yscale2);
-		} else {
-			return yscale;
 		}
+		return yscale;
 	}
 
 
@@ -2591,9 +2557,8 @@ public class Kernel {
 		case 'b': // angle
 			if (type.equals("boolean")) {
 				return GeoClass.BOOLEAN;
-			} else {
-				return GeoClass.BUTTON; // "button"
 			}
+			return GeoClass.BUTTON; // "button"
 
 		case 'c': // conic
 			if (type.equals("conic")) {
@@ -2657,9 +2622,8 @@ public class Kernel {
 		case 't':
 			if (type.equals("text")) {
 				return GeoClass.TEXT; // text
-			} else {
-				return GeoClass.TEXTFIELD; // textfield
 			}
+			return GeoClass.TEXTFIELD; // textfield
 
 		case 'v': // vector
 			return GeoClass.VECTOR;
@@ -3478,16 +3442,6 @@ public class Kernel {
 		this.insertLineBreaks = insertLineBreaks;
 	}
 
-	public GeoConicPart newGeoConicPart(Construction cons, int type) {// temporary
-		return new GeoConicPart(cons, type);
-	}
-
-	public GeoImplicitPoly newGeoImplicitPoly(Construction cons) {
-		return new GeoImplicitPoly(cons);
-	}
-
-
-	// temporary methods just while moving things
 
 	final public ExpressionNode handleTrigPower(String image,
 			ExpressionNode en, Operation type) {
@@ -3509,9 +3463,8 @@ public class Kernel {
 					throw new Error("Inverse not supported for trig function"); // eg
 																				// csc^-1(x)
 				}
-			} else {
-				throw new Error("Bad index for trig function"); // eg sin^-2(x)
 			}
+			throw new Error("Bad index for trig function"); // eg sin^-2(x)
 		}
 
 		return new ExpressionNode(this,
@@ -3812,6 +3765,9 @@ public class Kernel {
 		return g;
 	}
 
+	/**
+	 * @param direction  
+	 */
 	public GeoLineND OrthogonalLine(String label, GeoPointND P, GeoLineND l,
 			GeoDirectionND direction) {
 		return OrthogonalLine(label, (GeoPoint2) P, (GeoLine) l);
@@ -3939,11 +3895,10 @@ public class Kernel {
 			}
 			list.setLabel(label);
 			return list;
-		} else {
-			AlgoDependentList algoList = new AlgoDependentList(cons, label,
-					geoElementList);
-			return algoList.getGeoList();
 		}
+		AlgoDependentList algoList = new AlgoDependentList(cons, label,
+				geoElementList);
+		return algoList.getGeoList();
 	}
 
 	/**
@@ -4122,7 +4077,7 @@ public class Kernel {
 
 		// return segment and new point
 		GeoElement[] ret = {
-				(GeoElement) Segment(segmentLabel, A, algoPoint.getP()),
+				 Segment(segmentLabel, A, algoPoint.getP()),
 				algoPoint.getP() };
 		return ret;
 	}
@@ -4262,7 +4217,7 @@ public class Kernel {
 			NumberValue a, NumberValue b) {
 		AlgoConicPartConicParameters algo = new AlgoConicPartConicParameters(
 				cons, label, conic, a, b, GeoConicPart.CONIC_PART_ARC);
-		return (GeoConicPart) algo.getConicPart();
+		return algo.getConicPart();
 	}
 
 	/**
@@ -4272,7 +4227,7 @@ public class Kernel {
 			GeoPoint2 P, GeoPoint2 Q) {
 		AlgoConicPartConicPoints algo = new AlgoConicPartConicPoints(cons,
 				label, conic, P, Q, GeoConicPart.CONIC_PART_ARC);
-		return (GeoConicPart) algo.getConicPart();
+		return algo.getConicPart();
 	}
 
 	/**
@@ -4282,7 +4237,7 @@ public class Kernel {
 			NumberValue a, NumberValue b) {
 		AlgoConicPartConicParameters algo = new AlgoConicPartConicParameters(
 				cons, label, conic, a, b, GeoConicPart.CONIC_PART_SECTOR);
-		return (GeoConicPart) algo.getConicPart();
+		return algo.getConicPart();
 	}
 
 	/**
@@ -4292,7 +4247,7 @@ public class Kernel {
 			GeoPoint2 P, GeoPoint2 Q) {
 		AlgoConicPartConicPoints algo = new AlgoConicPartConicPoints(cons,
 				label, conic, P, Q, GeoConicPart.CONIC_PART_SECTOR);
-		return (GeoConicPart) algo.getConicPart();
+		return algo.getConicPart();
 	}
 
 	/**
@@ -4302,7 +4257,7 @@ public class Kernel {
 			GeoPoint2 B, GeoPoint2 C) {
 		AlgoConicPartCircumcircle algo = new AlgoConicPartCircumcircle(cons,
 				label, A, B, C, GeoConicPart.CONIC_PART_ARC);
-		return (GeoConicPart) algo.getConicPart();
+		return algo.getConicPart();
 	}
 
 	/**
@@ -4312,7 +4267,7 @@ public class Kernel {
 			GeoPoint2 B, GeoPoint2 C) {
 		AlgoConicPartCircumcircle algo = new AlgoConicPartCircumcircle(cons,
 				label, A, B, C, GeoConicPart.CONIC_PART_SECTOR);
-		return (GeoConicPart) algo.getConicPart();
+		return algo.getConicPart();
 	}
 
 	/**
@@ -4322,7 +4277,7 @@ public class Kernel {
 			GeoPoint2 C) {
 		AlgoConicPartCircle algo = new AlgoConicPartCircle(cons, label, A, B,
 				C, GeoConicPart.CONIC_PART_ARC);
-		return (GeoConicPart) algo.getConicPart();
+		return algo.getConicPart();
 	}
 
 	/**
@@ -4332,7 +4287,7 @@ public class Kernel {
 			GeoPoint2 B, GeoPoint2 C) {
 		AlgoConicPartCircle algo = new AlgoConicPartCircle(cons, label, A, B,
 				C, GeoConicPart.CONIC_PART_SECTOR);
-		return (GeoConicPart) algo.getConicPart();
+		return algo.getConicPart();
 	}
 
 	/**
@@ -4426,9 +4381,9 @@ public class Kernel {
 	/**
 	 * circle with midpoint M and radius BC Michael Borcherds 2008-03-14
 	 */
-	final public GeoConic Circle(
+	final public GeoConic CircleCompasses(
 	// this is actually a macro
-			String label, GeoPoint2 A, GeoPoint2 B, GeoPoint2 C, boolean dummy) {
+			String label, GeoPoint2 A, GeoPoint2 B, GeoPoint2 C) {
 
 		AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment(cons, B,
 				C, null);
@@ -4493,8 +4448,8 @@ public class Kernel {
 	 * semicircle with midpoint M through point P
 	 */
 	final public GeoConicPart Semicircle(String label, GeoPoint2 M, GeoPoint2 P) {
-		AlgoSemicircle algo = new AlgoSemicircle(cons, label, (GeoPoint2) M,
-				(GeoPoint2) P);
+		AlgoSemicircle algo = new AlgoSemicircle(cons, label, M,
+				P);
 		return algo.getSemicircle();
 	}
 
@@ -4805,8 +4760,7 @@ public class Kernel {
 	public String getMacroXML(ArrayList<MacroInterface> macros) {
 		if (hasMacros())
 			return MacroManager.getMacroXML(macros);
-		else
-			return "";
+		return "";
 	}
 
 	/**
@@ -4824,8 +4778,7 @@ public class Kernel {
 	public int getMacroNumber() {
 		if (macroManager == null)
 			return 0;
-		else
-			return macroManager.getMacroNumber();
+		return macroManager.getMacroNumber();
 	}
 
 	/**
@@ -4862,7 +4815,7 @@ public class Kernel {
 	 * @param type
 	 *            String as produced by GeoElement.getXMLtypeString()
 	 */
-	public GeoElement createGeoElement(Construction cons, String type)
+	public GeoElement createGeoElement(Construction cons1, String type)
 			throws MyError {
 		// the type strings are the classnames in lowercase without the
 		// beginning "geo"
@@ -4872,96 +4825,96 @@ public class Kernel {
 		switch (type.charAt(0)) {
 		case 'a': // angle
 			if (type.equals("angle"))
-				return new GeoAngle(cons);
-			else return new GeoAxis(cons, 1);
+				return new GeoAngle(cons1);
+			return new GeoAxis(cons1, 1);
 
 		case 'b': // angle
 			if (type.equals("boolean")) {
-				return new GeoBoolean(cons);
+				return new GeoBoolean(cons1);
 			}
-			return new GeoButton(cons); // "button"
+			return new GeoButton(cons1); // "button"
 
 		case 'c': // conic
 			if (type.equals("conic"))
-				return new GeoConic(cons);
+				return new GeoConic(cons1);
 			else if (type.equals("conicpart"))
-				return new GeoConicPart(cons, 0);
+				return new GeoConicPart(cons1, 0);
 		    else if (type.equals("curvecartesian"))
-		    	return new GeoCurveCartesian(cons);
+		    	return new GeoCurveCartesian(cons1);
 		    else if (type.equals("cascell"))
-		    	return new GeoCasCell(cons);
+		    	return new GeoCasCell(cons1);
 			else if (type.equals("circle")) { // bug in GeoGebra 2.6c
-				return new GeoConic(cons);
+				return new GeoConic(cons1);
 			}
 
 		case 'd': // doubleLine // bug in GeoGebra 2.6c
-			return new GeoConic(cons);
+			return new GeoConic(cons1);
 
 		case 'e': // ellipse, emptyset // bug in GeoGebra 2.6c
-			return new GeoConic(cons);
+			return new GeoConic(cons1);
 
 		case 'f': // function
 			if (type.equals("function")) {
-				return new GeoFunction(cons);
+				return new GeoFunction(cons1);
 			} else if (type.equals("functionconditional")) {
-				return new GeoFunctionConditional(cons);
+				return new GeoFunctionConditional(cons1);
 			} else {
-				return new GeoFunctionNVar(cons);
+				return new GeoFunctionNVar(cons1);
 			}
 
 		case 'h': // hyperbola // bug in GeoGebra 2.6c
-			return new GeoConic(cons);
+			return new GeoConic(cons1);
 
 		case 'i': // image,implicitpoly
 			if (type.equals("image"))
-				return new GeoImage(cons);
+				return new GeoImage(cons1);
 			else if (type.equals("intersectinglines")) // bug in GeoGebra 2.6c
-				return new GeoConic(cons);
+				return new GeoConic(cons1);
 			else if (type.equals("implicitpoly"))
-				return new GeoImplicitPoly(cons);
+				return new GeoImplicitPoly(cons1);
 			else if (type.equals("interval")) {
-				return new GeoInterval(cons);
+				return new GeoInterval(cons1);
 			} 
 			
 		case 'l': // line, list, locus
 			if (type.equals("line"))
-				return new GeoLine(cons);
+				return new GeoLine(cons1);
 			else if (type.equals("list"))
-				return new GeoList(cons);
+				return new GeoList(cons1);
 			else
-				return new GeoLocus(cons);
+				return new GeoLocus(cons1);
 
 		case 'n': // numeric
-			return new GeoNumeric(cons);
+			return new GeoNumeric(cons1);
 
 		case 'p': // point, polygon
 			if (type.equals("point"))
-				return new GeoPoint2(cons);
+				return new GeoPoint2(cons1);
 			else if (type.equals("polygon"))
-				return new GeoPolygon(cons, null);
+				return new GeoPolygon(cons1, null);
 			else if (type.equals("polyline"))
-				return new GeoPolyLine(cons, null);
+				return new GeoPolyLine(cons1, null);
 			else
 				// parabola, parallelLines, point // bug in GeoGebra 2.6c
-				return new GeoConic(cons);
+				return new GeoConic(cons1);
 
 		case 'r': // ray
-			return new GeoRay(cons, null);
+			return new GeoRay(cons1, null);
 
 		case 's': // segment
-			return new GeoSegment(cons, null, null);
+			return new GeoSegment(cons1, null, null);
 
 		case 't':
 			if (type.equals("text")) {
-				return new GeoText(cons); // text
+				return new GeoText(cons1); // text
 			}
-			return new GeoTextField(cons); // textfield
+			return new GeoTextField(cons1); // textfield
 
 		case 'v': // vector
-			return new GeoVector(cons);
+			return new GeoVector(cons1);
 
 		default:
-			throw new MyError(cons.getApplication(),
+			throw new MyError(cons1.getApplication(),
 					"Kernel: GeoElement of type " + type
 							+ " could not be created.");
 		}
@@ -4972,7 +4925,7 @@ public class Kernel {
 	/*
 	 * used to delay animation start until everything loaded
 	 */
-	public void setWantAnimationStarted(boolean b) {
+	public void setWantAnimationStarted() {
 		wantAnimationStarted = true;
 	}
 
@@ -4984,15 +4937,14 @@ public class Kernel {
 	 * Converts a NumberValue object to an ExpressionNode object.
 	 */
 	public ExpressionNode convertNumberValueToExpressionNode(NumberValue nv) {
-		GeoElement geo = (GeoElement) nv.toGeoElement();
+		GeoElement geo =  nv.toGeoElement();
 		AlgoElement algo = geo.getParentAlgorithm();
 
 		if (algo != null && algo instanceof AlgoDependentNumber) {
 			AlgoDependentNumber algoDep = (AlgoDependentNumber) algo;
 			return algoDep.getExpression().getCopy(this);
-		} else {
-			return new ExpressionNode(this, geo);
 		}
+		return new ExpressionNode(this, geo);
 	}
 
 
@@ -5864,7 +5816,7 @@ public class Kernel {
 	final public GeoNumeric BoxPlot(String label, NumberValue a, NumberValue b,
 			NumberValue min, NumberValue Q1, NumberValue median,
 			NumberValue Q3, NumberValue max) {
-		AlgoBoxPlot algo = new AlgoBoxPlot((Construction) cons, label, a, b,
+		AlgoBoxPlot algo = new AlgoBoxPlot( cons, label, a, b,
 				min, Q1, median, Q3, max);
 		GeoNumeric sum = algo.getSum();
 		return sum;
@@ -5892,7 +5844,7 @@ public class Kernel {
 		 * (NumberValue)(max.getMax()));
 		 */
 
-		AlgoBoxPlot algo = new AlgoBoxPlot((Construction) cons, label, a, b,
+		AlgoBoxPlot algo = new AlgoBoxPlot( cons, label, a, b,
 				rawData);
 
 		GeoNumeric sum = algo.getSum();
@@ -5911,7 +5863,7 @@ public class Kernel {
 		 */
 	final public GeoPoint2[] PointsFromList(String[] labels, GeoList list) {
 
-		AlgoPointsFromList algo = new AlgoPointsFromList((Construction) cons,
+		AlgoPointsFromList algo = new AlgoPointsFromList( cons,
 				labels, true, list);
 		GeoPoint2[] g = algo.getPoints();
 		return g;
@@ -5922,7 +5874,7 @@ public class Kernel {
 	 */
 
 	final public GeoList Flatten(String label, GeoList list) {
-		AlgoFlatten algo = new AlgoFlatten((Construction) cons, label, list);
+		AlgoFlatten algo = new AlgoFlatten( cons, label, list);
 		GeoList list2 = algo.getResult();
 		return list2;
 	}
@@ -5931,7 +5883,7 @@ public class Kernel {
 	 * ToFraction[number] Michael Borcherds
 	 */
 	final public GeoText FractionText(String label, GeoNumeric num) {
-		AlgoFractionText algo = new AlgoFractionText((Construction) cons,
+		AlgoFractionText algo = new AlgoFractionText( cons,
 				label, num);
 		GeoText text = algo.getResult();
 		return text;
@@ -5943,7 +5895,7 @@ public class Kernel {
 	final public GeoPolyLine FrequencyPolygon(String label, GeoList list1,
 			GeoList list2) {
 		AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon(
-				(Construction) cons, label, list1, list2);
+				 cons, label, list1, list2);
 		GeoPolyLine result = algo.getResult();
 		return result;
 	}
@@ -5954,7 +5906,7 @@ public class Kernel {
 	final public GeoPolyLine FrequencyPolygon(String label, GeoList list1,
 			GeoList list2, GeoBoolean useDensity, GeoNumeric density) {
 		AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon(
-				(Construction) cons, label, null, list1, list2, useDensity,
+				 cons, label, null, list1, list2, useDensity,
 				density);
 		GeoPolyLine result = algo.getResult();
 		return result;
@@ -5967,7 +5919,7 @@ public class Kernel {
 			GeoBoolean isCumulative, GeoList list1, GeoList list2,
 			GeoBoolean useDensity) {
 		AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon(
-				(Construction) cons, label, isCumulative, list1, list2,
+				 cons, label, isCumulative, list1, list2,
 				useDensity, null);
 		GeoPolyLine result = algo.getResult();
 		return result;
@@ -5980,7 +5932,7 @@ public class Kernel {
 			GeoBoolean isCumulative, GeoList list1, GeoList list2,
 			GeoBoolean useDensity, GeoNumeric density) {
 		AlgoFrequencyPolygon algo = new AlgoFrequencyPolygon(
-				(Construction) cons, label, isCumulative, list1, list2,
+				 cons, label, isCumulative, list1, list2,
 				useDensity, density);
 		GeoPolyLine result = algo.getResult();
 		return result;
@@ -5992,7 +5944,7 @@ public class Kernel {
 	final public GeoFunction Function(String label, GeoFunction f,
 			NumberValue a, NumberValue b) {
 		AlgoFunctionInterval algo = new AlgoFunctionInterval(
-				(Construction) cons, label, f, a, b);
+				 cons, label, f, a, b);
 		GeoFunction g = algo.getFunction();
 		return g;
 	}
@@ -6002,14 +5954,14 @@ public class Kernel {
 	 */
 	final public GeoFunction Function(String label, GeoList f) {
 		AlgoFunctionFreehand algo = new AlgoFunctionFreehand(
-				(Construction) cons, label, f);
+				 cons, label, f);
 		GeoFunction g = algo.getFunction();
 		return g;
 	}
 
 	final public GeoNumeric Gamma(String label, NumberValue a, NumberValue b,
 			NumberValue c) {
-		AlgoGamma algo = new AlgoGamma((Construction) cons, label, a, b, c);
+		AlgoGamma algo = new AlgoGamma( cons, label, a, b, c);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
@@ -6018,7 +5970,7 @@ public class Kernel {
 	 * GCD[list] Michael Borcherds
 	 */
 	final public GeoNumeric GCD(String label, GeoList list) {
-		AlgoListGCD algo = new AlgoListGCD((Construction) cons, label, list);
+		AlgoListGCD algo = new AlgoListGCD( cons, label, list);
 		GeoNumeric num = algo.getGCD();
 		return num;
 	}
@@ -6027,7 +5979,7 @@ public class Kernel {
 	 * GCD[a, b] Michael Borcherds
 	 */
 	final public GeoNumeric GCD(String label, NumberValue a, NumberValue b) {
-		AlgoGCD algo = new AlgoGCD((Construction) cons, label, a, b);
+		AlgoGCD algo = new AlgoGCD( cons, label, a, b);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
@@ -6037,7 +5989,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric Histogram(String label, GeoList list1,
 			GeoList list2, boolean right) {
-		AlgoHistogram algo = new AlgoHistogram((Construction) cons, label,
+		AlgoHistogram algo = new AlgoHistogram( cons, label,
 				list1, list2, right);
 		GeoNumeric sum = algo.getSum();
 		return sum;
@@ -6049,7 +6001,7 @@ public class Kernel {
 	final public GeoNumeric Histogram(String label, GeoList list1,
 			GeoList list2, GeoBoolean useDensity, GeoNumeric density,
 			boolean right) {
-		AlgoHistogram algo = new AlgoHistogram((Construction) cons, label,
+		AlgoHistogram algo = new AlgoHistogram( cons, label,
 				null, list1, list2, useDensity, density, right);
 		GeoNumeric sum = algo.getSum();
 		return sum;
@@ -6060,7 +6012,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric Histogram(String label, GeoBoolean isCumulative,
 			GeoList list1, GeoList list2, GeoBoolean useDensity, boolean right) {
-		AlgoHistogram algo = new AlgoHistogram((Construction) cons, label,
+		AlgoHistogram algo = new AlgoHistogram( cons, label,
 				isCumulative, list1, list2, useDensity, null, right);
 		GeoNumeric sum = algo.getSum();
 		return sum;
@@ -6072,7 +6024,7 @@ public class Kernel {
 	final public GeoNumeric Histogram(String label, GeoBoolean isCumulative,
 			GeoList list1, GeoList list2, GeoBoolean useDensity,
 			GeoNumeric density, boolean right) {
-		AlgoHistogram algo = new AlgoHistogram((Construction) cons, label,
+		AlgoHistogram algo = new AlgoHistogram( cons, label,
 				isCumulative, list1, list2, useDensity, density, right);
 		GeoNumeric sum = algo.getSum();
 		return sum;
@@ -6090,7 +6042,7 @@ public class Kernel {
 		 * geoElse.isNumberValue() ||
 		 * geoIf.getTypeString().equals(geoElse.getTypeString())) {
 		 */
-		AlgoIf algo = new AlgoIf((Construction) cons, label, condition, geoIf,
+		AlgoIf algo = new AlgoIf( cons, label, condition, geoIf,
 				geoElse);
 		return algo.getGeoElement();
 		/*
@@ -6105,7 +6057,7 @@ public class Kernel {
 	final public GeoFunction If(String label, GeoFunction boolFun,
 			GeoFunction ifFun, GeoFunction elseFun) {
 
-		AlgoIfFunction algo = new AlgoIfFunction((Construction) cons, label,
+		AlgoIfFunction algo = new AlgoIfFunction( cons, label,
 				boolFun, ifFun, elseFun);
 		return algo.getGeoFunction();
 	}
@@ -6113,14 +6065,14 @@ public class Kernel {
 	/** Implicit Polynomial through points */
 	final public GeoImplicitPoly ImplicitPoly(String label, GeoList points) {
 		AlgoImplicitPolyThroughPoints algo = new AlgoImplicitPolyThroughPoints(
-				(Construction) cons, label, points);
+				 cons, label, points);
 		GeoImplicitPoly implicitPoly = algo.getImplicitPoly();
 		return implicitPoly;
 	}
 
 	final public GeoImplicitPoly ImplicitPoly(String label, GeoFunctionNVar func) {
 		AlgoImplicitPolyFunction algo = new AlgoImplicitPolyFunction(
-				(Construction) cons, label, func);
+				 cons, label, func);
 		GeoImplicitPoly implicitPoly = algo.getImplicitPoly();
 		return implicitPoly;
 	}
@@ -6130,7 +6082,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric IndexOf(String label, GeoText needle,
 			GeoText haystack) {
-		AlgoIndexOf algo = new AlgoIndexOf((Construction) cons, label, needle,
+		AlgoIndexOf algo = new AlgoIndexOf( cons, label, needle,
 				haystack);
 		GeoNumeric index = algo.getResult();
 		return index;
@@ -6141,7 +6093,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric IndexOf(String label, GeoText needle,
 			GeoText haystack, NumberValue start) {
-		AlgoIndexOf algo = new AlgoIndexOf((Construction) cons, label, needle,
+		AlgoIndexOf algo = new AlgoIndexOf( cons, label, needle,
 				haystack, start);
 		GeoNumeric index = algo.getResult();
 		return index;
@@ -6151,7 +6103,7 @@ public class Kernel {
 	 * IndexOf[object,list]
 	 */
 	final public GeoNumeric IndexOf(String label, GeoElement geo, GeoList list) {
-		AlgoIndexOf algo = new AlgoIndexOf((Construction) cons, label, geo,
+		AlgoIndexOf algo = new AlgoIndexOf( cons, label, geo,
 				list);
 		GeoNumeric index = algo.getResult();
 		return index;
@@ -6162,7 +6114,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric IndexOf(String label, GeoElement geo, GeoList list,
 			NumberValue nv) {
-		AlgoIndexOf algo = new AlgoIndexOf((Construction) cons, label, geo,
+		AlgoIndexOf algo = new AlgoIndexOf( cons, label, geo,
 				list, nv);
 		GeoNumeric index = algo.getResult();
 		return index;
@@ -6182,7 +6134,7 @@ public class Kernel {
 			GeoNumeric localVar, NumberValue from, NumberValue to,
 			NumberValue step) {
 
-		AlgoSequence algo = new AlgoSequence((Construction) cons, label,
+		AlgoSequence algo = new AlgoSequence( cons, label,
 				expression, localVar, from, to, step);
 		return algo.getOutput();
 	}
@@ -6191,7 +6143,7 @@ public class Kernel {
 	 * Name of geo.
 	 */
 	final public GeoText Name(String label, GeoElement geo) {
-		AlgoName algo = new AlgoName((Construction) cons, label, geo);
+		AlgoName algo = new AlgoName( cons, label, geo);
 		GeoText t = algo.getGeoText();
 		return t;
 	}
@@ -6200,7 +6152,7 @@ public class Kernel {
 	 * Object from name
 	 */
 	final public GeoElement Object(String label, GeoText text) {
-		AlgoObject algo = new AlgoObject((Construction) cons, label, text);
+		AlgoObject algo = new AlgoObject( cons, label, text);
 		GeoElement ret = algo.getResult();
 		return ret;
 	}
@@ -6210,7 +6162,7 @@ public class Kernel {
 	 */
 	final public GeoText LaTeX(String label, GeoElement geo,
 			GeoBoolean substituteVars, GeoBoolean showName) {
-		AlgoLaTeX algo = new AlgoLaTeX((Construction) cons, label, geo,
+		AlgoLaTeX algo = new AlgoLaTeX( cons, label, geo,
 				substituteVars, showName);
 		GeoText t = algo.getGeoText();
 		return t;
@@ -6220,7 +6172,7 @@ public class Kernel {
 	 * LaTeX of geo.
 	 */
 	final public GeoText LaTeX(String label, GeoElement geo) {
-		AlgoLaTeX algo = new AlgoLaTeX((Construction) cons, label, geo);
+		AlgoLaTeX algo = new AlgoLaTeX( cons, label, geo);
 		GeoText t = algo.getGeoText();
 		return t;
 	}
@@ -6229,7 +6181,7 @@ public class Kernel {
 	 * Text of geo.
 	 */
 	final public GeoText Text(String label, GeoElement geo) {
-		AlgoText algo = new AlgoText((Construction) cons, label, geo);
+		AlgoText algo = new AlgoText( cons, label, geo);
 		GeoText t = algo.getGeoText();
 		return t;
 	}
@@ -6239,7 +6191,7 @@ public class Kernel {
 	 */
 	final public GeoText Text(String label, GeoElement geo,
 			GeoBoolean substituteVars) {
-		AlgoText algo = new AlgoText((Construction) cons, label, geo,
+		AlgoText algo = new AlgoText( cons, label, geo,
 				substituteVars);
 		GeoText t = algo.getGeoText();
 		return t;
@@ -6250,7 +6202,7 @@ public class Kernel {
 	 */
 	final public GeoText Text(String label, GeoElement geo, GeoPoint2 p,
 			GeoBoolean substituteVars) {
-		AlgoText algo = new AlgoText((Construction) cons, label, geo, p,
+		AlgoText algo = new AlgoText( cons, label, geo, p,
 				substituteVars);
 		GeoText t = algo.getGeoText();
 		return t;
@@ -6261,7 +6213,7 @@ public class Kernel {
 	 */
 	final public GeoText Text(String label, GeoElement geo, GeoPoint2 p,
 			GeoBoolean substituteVars, GeoBoolean latex) {
-		AlgoText algo = new AlgoText((Construction) cons, label, geo, p,
+		AlgoText algo = new AlgoText( cons, label, geo, p,
 				substituteVars, latex);
 		GeoText t = algo.getGeoText();
 		return t;
@@ -6271,7 +6223,7 @@ public class Kernel {
 	 * Text of geo.
 	 */
 	final public GeoText Text(String label, GeoElement geo, GeoPoint2 p) {
-		AlgoText algo = new AlgoText((Construction) cons, label, geo, p);
+		AlgoText algo = new AlgoText( cons, label, geo, p);
 		GeoText t = algo.getGeoText();
 		return t;
 	}
@@ -6289,7 +6241,7 @@ public class Kernel {
 	 * ToNumber
 	 */
 	final public GeoNumeric LetterToUnicode(String label, GeoText geo) {
-		AlgoLetterToUnicode algo = new AlgoLetterToUnicode((Construction) cons,
+		AlgoLetterToUnicode algo = new AlgoLetterToUnicode( cons,
 				label, geo);
 		GeoNumeric ret = algo.getResult();
 		return ret;
@@ -6299,7 +6251,7 @@ public class Kernel {
 	 * ToNumbers
 	 */
 	final public GeoList TextToUnicode(String label, GeoText geo) {
-		AlgoTextToUnicode algo = new AlgoTextToUnicode((Construction) cons,
+		AlgoTextToUnicode algo = new AlgoTextToUnicode( cons,
 				label, geo);
 		GeoList ret = algo.getResult();
 		return ret;
@@ -6309,7 +6261,7 @@ public class Kernel {
 	 * ToText(number)
 	 */
 	final public GeoText UnicodeToLetter(String label, NumberValue a) {
-		AlgoUnicodeToLetter algo = new AlgoUnicodeToLetter((Construction) cons,
+		AlgoUnicodeToLetter algo = new AlgoUnicodeToLetter( cons,
 				label, a);
 		GeoText text = algo.getResult();
 		return text;
@@ -6319,7 +6271,7 @@ public class Kernel {
 	 * ToText(list)
 	 */
 	final public GeoText UnicodeToText(String label, GeoList geo) {
-		AlgoUnicodeToText algo = new AlgoUnicodeToText((Construction) cons,
+		AlgoUnicodeToText algo = new AlgoUnicodeToText( cons,
 				label, geo);
 		GeoText ret = algo.getResult();
 		return ret;
@@ -6329,7 +6281,7 @@ public class Kernel {
 	 * Ordinal(list)
 	 */
 	final public GeoText Ordinal(String label, GeoNumeric geo) {
-		AlgoOrdinal algo = new AlgoOrdinal((Construction) cons, label, geo);
+		AlgoOrdinal algo = new AlgoOrdinal( cons, label, geo);
 		GeoText ret = algo.getResult();
 		return ret;
 	}
@@ -6343,7 +6295,7 @@ public class Kernel {
 			cons.setSuppressLabelCreation(true);
 
 		}
-		AlgoPointInRegion algo = new AlgoPointInRegion((Construction) cons,
+		AlgoPointInRegion algo = new AlgoPointInRegion( cons,
 				label, region, x, y);
 		// Application.debug("PointIn - \n x="+x+"\n y="+y);
 		GeoPoint2 p = algo.getP();
@@ -6379,7 +6331,7 @@ public class Kernel {
 	 * Midpoint M = (P + Q)/2
 	 */
 	final public GeoPoint2 Midpoint(String label, GeoPoint2 P, GeoPoint2 Q) {
-		AlgoMidpoint algo = new AlgoMidpoint((Construction) cons, label, P, Q);
+		AlgoMidpoint algo = new AlgoMidpoint( cons, label, P, Q);
 		GeoPoint2 M = algo.getPoint();
 		return M;
 	}
@@ -6401,7 +6353,7 @@ public class Kernel {
 	 * Midpoint of segment
 	 */
 	final public GeoPoint2 Midpoint(String label, GeoSegment s) {
-		AlgoMidpointSegment algo = new AlgoMidpointSegment((Construction) cons,
+		AlgoMidpointSegment algo = new AlgoMidpointSegment( cons,
 				label, s);
 		GeoPoint2 M = algo.getPoint();
 		return M;
@@ -6412,7 +6364,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric Midpoint(String label, GeoInterval s) {
 		AlgoIntervalMidpoint algo = new AlgoIntervalMidpoint(
-				(Construction) cons, label, s);
+				 cons, label, s);
 		GeoNumeric n = algo.getResult();
 		return n;
 	}
@@ -6421,7 +6373,7 @@ public class Kernel {
 	 * Min of interval
 	 */
 	final public GeoNumeric Min(String label, GeoInterval s) {
-		AlgoIntervalMin algo = new AlgoIntervalMin((Construction) cons, label,
+		AlgoIntervalMin algo = new AlgoIntervalMin( cons, label,
 				s);
 		GeoNumeric n = algo.getResult();
 		return n;
@@ -6431,7 +6383,7 @@ public class Kernel {
 	 * Max of interval
 	 */
 	final public GeoNumeric Max(String label, GeoInterval s) {
-		AlgoIntervalMax algo = new AlgoIntervalMax((Construction) cons, label,
+		AlgoIntervalMax algo = new AlgoIntervalMax( cons, label,
 				s);
 		GeoNumeric n = algo.getResult();
 		return n;
@@ -6441,7 +6393,7 @@ public class Kernel {
 	 * DotPlot G.Sturr 2010-8-10
 	 */
 	final public GeoList DotPlot(String label, GeoList list) {
-		AlgoDotPlot algo = new AlgoDotPlot((Construction) cons, label, list);
+		AlgoDotPlot algo = new AlgoDotPlot( cons, label, list);
 		GeoList list2 = algo.getResult();
 		return list2;
 	}
@@ -6451,7 +6403,7 @@ public class Kernel {
 	 */
 	final public GeoList ResidualPlot(String label, GeoList list,
 			GeoFunction function) {
-		AlgoResidualPlot algo = new AlgoResidualPlot((Construction) cons,
+		AlgoResidualPlot algo = new AlgoResidualPlot( cons,
 				label, list, function);
 		GeoList result = algo.getResult();
 		return result;
@@ -6462,7 +6414,7 @@ public class Kernel {
 	 */
 	final public GeoList NormalQuantilePlot(String label, GeoList list) {
 		AlgoNormalQuantilePlot algo = new AlgoNormalQuantilePlot(
-				(Construction) cons, label, list);
+				 cons, label, list);
 		GeoList list2 = algo.getResult();
 		return list2;
 	}
@@ -6472,7 +6424,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric UpperSum(String label, GeoFunction f,
 			NumberValue a, NumberValue b, NumberValue n) {
-		AlgoSumUpper algo = new AlgoSumUpper((Construction) cons, label, f, a,
+		AlgoSumUpper algo = new AlgoSumUpper( cons, label, f, a,
 				b, n);
 		GeoNumeric sum = algo.getSum();
 		return sum;
@@ -6483,7 +6435,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric TrapezoidalSum(String label, GeoFunction f,
 			NumberValue a, NumberValue b, NumberValue n) {
-		AlgoSumTrapezoidal algo = new AlgoSumTrapezoidal((Construction) cons,
+		AlgoSumTrapezoidal algo = new AlgoSumTrapezoidal( cons,
 				label, f, a, b, n);
 		GeoNumeric sum = algo.getSum();
 		return sum;
@@ -6494,7 +6446,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric LowerSum(String label, GeoFunction f,
 			NumberValue a, NumberValue b, NumberValue n) {
-		AlgoSumLower algo = new AlgoSumLower((Construction) cons, label, f, a,
+		AlgoSumLower algo = new AlgoSumLower( cons, label, f, a,
 				b, n);
 		GeoNumeric sum = algo.getSum();
 		return sum;
@@ -6505,7 +6457,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric LeftSum(String label, GeoFunction f, NumberValue a,
 			NumberValue b, NumberValue n) {
-		AlgoSumLeft algo = new AlgoSumLeft((Construction) cons, label, f, a, b,
+		AlgoSumLeft algo = new AlgoSumLeft( cons, label, f, a, b,
 				n);
 		GeoNumeric sum = algo.getSum();
 		return sum;
@@ -6516,7 +6468,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric RectangleSum(String label, GeoFunction f,
 			NumberValue a, NumberValue b, NumberValue n, NumberValue d) {
-		AlgoSumRectangle algo = new AlgoSumRectangle((Construction) cons,
+		AlgoSumRectangle algo = new AlgoSumRectangle( cons,
 				label, f, a, b, n, d);
 		GeoNumeric sum = algo.getSum();
 		return sum;
@@ -6529,7 +6481,7 @@ public class Kernel {
 	final public GeoNumeric SumSquaredErrors(String label, GeoList list,
 			GeoFunctionable function) {
 		AlgoSumSquaredErrors algo = new AlgoSumSquaredErrors(
-				(Construction) cons, label, list, function);
+				 cons, label, list, function);
 		GeoNumeric sse = algo.getsse();
 		return sse;
 	}
@@ -6539,7 +6491,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric RSquare(String label, GeoList list,
 			GeoFunctionable function) {
-		AlgoRSquare algo = new AlgoRSquare((Construction) cons, label, list,
+		AlgoRSquare algo = new AlgoRSquare( cons, label, list,
 				function);
 		GeoNumeric r2 = algo.getRSquare();
 		return r2;
@@ -6550,7 +6502,7 @@ public class Kernel {
 	 */
 	final public GeoList ResidualPlot(String label, GeoList list,
 			GeoFunctionable function) {
-		AlgoResidualPlot algo = new AlgoResidualPlot((Construction) cons,
+		AlgoResidualPlot algo = new AlgoResidualPlot( cons,
 				label, list, function);
 		GeoList result = algo.getResult();
 		return result;
@@ -6560,7 +6512,7 @@ public class Kernel {
 	 * unit vector of line g
 	 */
 	final public GeoVector UnitVector(String label, GeoLine g) {
-		AlgoUnitVectorLine algo = new AlgoUnitVectorLine((Construction) cons,
+		AlgoUnitVectorLine algo = new AlgoUnitVectorLine( cons,
 				label, g);
 		GeoVector v = algo.getVector();
 		return v;
@@ -6571,7 +6523,7 @@ public class Kernel {
 	 */
 	final public GeoVector UnitVector(String label, GeoVector v) {
 		AlgoUnitVectorVector algo = new AlgoUnitVectorVector(
-				(Construction) cons, label, v);
+				 cons, label, v);
 		GeoVector u = algo.getVector();
 		return u;
 	}
@@ -6580,7 +6532,7 @@ public class Kernel {
 	 * orthogonal vector of line g
 	 */
 	final public GeoVector OrthogonalVector(String label, GeoLine g) {
-		AlgoOrthoVectorLine algo = new AlgoOrthoVectorLine((Construction) cons,
+		AlgoOrthoVectorLine algo = new AlgoOrthoVectorLine( cons,
 				label, g);
 		GeoVector n = algo.getVector();
 		return n;
@@ -6591,7 +6543,7 @@ public class Kernel {
 	 */
 	final public GeoVector OrthogonalVector(String label, GeoVector v) {
 		AlgoOrthoVectorVector algo = new AlgoOrthoVectorVector(
-				(Construction) cons, label, v);
+				 cons, label, v);
 		GeoVector n = algo.getVector();
 		return n;
 	}
@@ -6601,7 +6553,7 @@ public class Kernel {
 	 */
 	final public GeoVector UnitOrthogonalVector(String label, GeoLine g) {
 		AlgoUnitOrthoVectorLine algo = new AlgoUnitOrthoVectorLine(
-				(Construction) cons, label, g);
+				 cons, label, g);
 		GeoVector n = algo.getVector();
 		return n;
 	}
@@ -6611,7 +6563,7 @@ public class Kernel {
 	 */
 	final public GeoVector UnitOrthogonalVector(String label, GeoVector v) {
 		AlgoUnitOrthoVectorVector algo = new AlgoUnitOrthoVectorVector(
-				(Construction) cons, label, v);
+				 cons, label, v);
 		GeoVector n = algo.getVector();
 		return n;
 	}
@@ -6620,7 +6572,7 @@ public class Kernel {
 	 * Length named label of vector v
 	 */
 	final public GeoNumeric Length(String label, GeoVec3D v) {
-		AlgoLengthVector algo = new AlgoLengthVector((Construction) cons,
+		AlgoLengthVector algo = new AlgoLengthVector( cons,
 				label, v);
 		GeoNumeric num = algo.getLength();
 		return num;
@@ -6630,7 +6582,7 @@ public class Kernel {
 	 * Length named label of segment seg
 	 */
 	final public GeoNumeric Length(String label, GeoSegmentND seg) {
-		AlgoLengthSegment algo = new AlgoLengthSegment((Construction) cons,
+		AlgoLengthSegment algo = new AlgoLengthSegment( cons,
 				label, seg);
 		GeoNumeric num = algo.getLength();
 		return num;
@@ -6640,7 +6592,7 @@ public class Kernel {
 	 * Mod[a, b]
 	 */
 	final public GeoNumeric Mod(String label, NumberValue a, NumberValue b) {
-		AlgoMod algo = new AlgoMod((Construction) cons, label, a, b);
+		AlgoMod algo = new AlgoMod( cons, label, a, b);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
@@ -6649,7 +6601,7 @@ public class Kernel {
 	 * Mod[a, b] Polynomial remainder
 	 */
 	final public GeoFunction Mod(String label, GeoFunction a, GeoFunction b) {
-		AlgoPolynomialMod algo = new AlgoPolynomialMod((Construction) cons,
+		AlgoPolynomialMod algo = new AlgoPolynomialMod( cons,
 				label, a, b);
 		GeoFunction f = algo.getResult();
 		return f;
@@ -6659,7 +6611,7 @@ public class Kernel {
 	 * Min[a, b]
 	 */
 	final public GeoNumeric Min(String label, NumberValue a, NumberValue b) {
-		AlgoMin algo = new AlgoMin((Construction) cons, label, a, b);
+		AlgoMin algo = new AlgoMin( cons, label, a, b);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
@@ -6668,7 +6620,7 @@ public class Kernel {
 	 * Min[list]
 	 */
 	final public GeoNumeric Min(String label, GeoList list) {
-		AlgoListMin algo = new AlgoListMin((Construction) cons, label, list);
+		AlgoListMin algo = new AlgoListMin( cons, label, list);
 		GeoNumeric num = algo.getMin();
 		return num;
 	}
@@ -6679,7 +6631,7 @@ public class Kernel {
 	 */
 	final public GeoPoint2 Min(String label, GeoFunction f, NumberValue a,
 			NumberValue b) {
-		AlgoFunctionMin algo = new AlgoFunctionMin((Construction) cons, label,
+		AlgoFunctionMin algo = new AlgoFunctionMin( cons, label,
 				f, a, b);
 		GeoPoint2 minpoint = algo.getPoint();
 		return minpoint;
@@ -6689,7 +6641,7 @@ public class Kernel {
 	 * Max[a, b]
 	 */
 	final public GeoNumeric Max(String label, NumberValue a, NumberValue b) {
-		AlgoMax algo = new AlgoMax((Construction) cons, label, a, b);
+		AlgoMax algo = new AlgoMax( cons, label, a, b);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
@@ -6698,7 +6650,7 @@ public class Kernel {
 	 * Max[list]
 	 */
 	final public GeoNumeric Max(String label, GeoList list) {
-		AlgoListMax algo = new AlgoListMax((Construction) cons, label, list);
+		AlgoListMax algo = new AlgoListMax( cons, label, list);
 		GeoNumeric num = algo.getMax();
 		return num;
 	}
@@ -6709,7 +6661,7 @@ public class Kernel {
 	 */
 	final public GeoPoint2 Max(String label, GeoFunction f, NumberValue a,
 			NumberValue b) {
-		AlgoFunctionMax algo = new AlgoFunctionMax((Construction) cons, label,
+		AlgoFunctionMax algo = new AlgoFunctionMax( cons, label,
 				f, a, b);
 		GeoPoint2 maxpoint = algo.getPoint();
 		return maxpoint;
@@ -6719,7 +6671,7 @@ public class Kernel {
 	 * LCM[a, b] Michael Borcherds
 	 */
 	final public GeoNumeric LCM(String label, NumberValue a, NumberValue b) {
-		AlgoLCM algo = new AlgoLCM((Construction) cons, label, a, b);
+		AlgoLCM algo = new AlgoLCM( cons, label, a, b);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
@@ -6728,7 +6680,7 @@ public class Kernel {
 	 * LCM[list] Michael Borcherds
 	 */
 	final public GeoNumeric LCM(String label, GeoList list) {
-		AlgoListLCM algo = new AlgoListLCM((Construction) cons, label, list);
+		AlgoListLCM algo = new AlgoListLCM( cons, label, list);
 		GeoNumeric num = algo.getLCM();
 		return num;
 	}
@@ -6737,7 +6689,7 @@ public class Kernel {
 	 * SigmaXY[list] Michael Borcherds
 	 */
 	final public GeoNumeric SigmaXY(String label, GeoList list) {
-		AlgoListSigmaXY algo = new AlgoListSigmaXY((Construction) cons, label,
+		AlgoListSigmaXY algo = new AlgoListSigmaXY( cons, label,
 				list);
 		GeoNumeric num = algo.getResult();
 		return num;
@@ -6747,7 +6699,7 @@ public class Kernel {
 	 * SigmaYY[list] Michael Borcherds
 	 */
 	final public GeoNumeric SigmaYY(String label, GeoList list) {
-		AlgoListSigmaYY algo = new AlgoListSigmaYY((Construction) cons, label,
+		AlgoListSigmaYY algo = new AlgoListSigmaYY( cons, label,
 				list);
 		GeoNumeric num = algo.getResult();
 		return num;
@@ -6757,7 +6709,7 @@ public class Kernel {
 	 * Spearman[list] G. Sturr
 	 */
 	final public GeoNumeric Spearman(String label, GeoList list) {
-		AlgoSpearman algo = new AlgoSpearman((Construction) cons, label, list);
+		AlgoSpearman algo = new AlgoSpearman( cons, label, list);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
@@ -6766,7 +6718,7 @@ public class Kernel {
 	 * Spearman[list, list] G. Sturr
 	 */
 	final public GeoNumeric Spearman(String label, GeoList list, GeoList list2) {
-		AlgoSpearman algo = new AlgoSpearman((Construction) cons, label, list,
+		AlgoSpearman algo = new AlgoSpearman( cons, label, list,
 				list2);
 		GeoNumeric num = algo.getResult();
 		return num;
@@ -6777,7 +6729,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric SigmaXY(String label, GeoList listX, GeoList listY) {
 		AlgoDoubleListSigmaXY algo = new AlgoDoubleListSigmaXY(
-				(Construction) cons, label, listX, listY);
+				 cons, label, listX, listY);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
@@ -6787,7 +6739,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric SigmaXX(String label, GeoList listX, GeoList listY) {
 		AlgoDoubleListSigmaXX algo = new AlgoDoubleListSigmaXX(
-				(Construction) cons, label, listX, listY);
+				 cons, label, listX, listY);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
@@ -6797,7 +6749,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric SigmaYY(String label, GeoList listX, GeoList listY) {
 		AlgoDoubleListSigmaYY algo = new AlgoDoubleListSigmaYY(
-				(Construction) cons, label, listX, listY);
+				 cons, label, listX, listY);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
@@ -6806,7 +6758,7 @@ public class Kernel {
 	 * FitLineY[list of coords] Michael Borcherds
 	 */
 	final public GeoLine FitLineY(String label, GeoList list) {
-		AlgoFitLineY algo = new AlgoFitLineY((Construction) cons, label, list);
+		AlgoFitLineY algo = new AlgoFitLineY( cons, label, list);
 		GeoLine line = algo.getFitLineY();
 		return line;
 	}
@@ -6815,7 +6767,7 @@ public class Kernel {
 	 * FitLineX[list of coords] Michael Borcherds
 	 */
 	final public GeoLine FitLineX(String label, GeoList list) {
-		AlgoFitLineX algo = new AlgoFitLineX((Construction) cons, label, list);
+		AlgoFitLineX algo = new AlgoFitLineX( cons, label, list);
 		GeoLine line = algo.getFitLineX();
 		return line;
 	}
@@ -6825,7 +6777,7 @@ public class Kernel {
 	 */
 	final public GeoFunction FitPoly(String label, GeoList list,
 			NumberValue degree) {
-		AlgoFitPoly algo = new AlgoFitPoly((Construction) cons, label, list,
+		AlgoFitPoly algo = new AlgoFitPoly( cons, label, list,
 				degree);
 		GeoFunction function = algo.getFitPoly();
 		return function;
@@ -6835,7 +6787,7 @@ public class Kernel {
 	 * FitExp[list of coords] Hans-Petter Ulven
 	 */
 	final public GeoFunction FitExp(String label, GeoList list) {
-		AlgoFitExp algo = new AlgoFitExp((Construction) cons, label, list);
+		AlgoFitExp algo = new AlgoFitExp( cons, label, list);
 		GeoFunction function = algo.getFitExp();
 		return function;
 	}
@@ -6844,7 +6796,7 @@ public class Kernel {
 	 * FitLog[list of coords] Hans-Petter Ulven
 	 */
 	final public GeoFunction FitLog(String label, GeoList list) {
-		AlgoFitLog algo = new AlgoFitLog((Construction) cons, label, list);
+		AlgoFitLog algo = new AlgoFitLog( cons, label, list);
 		GeoFunction function = algo.getFitLog();
 		return function;
 	}
@@ -6853,7 +6805,7 @@ public class Kernel {
 	 * FitPow[list of coords] Hans-Petter Ulven
 	 */
 	final public GeoFunction FitPow(String label, GeoList list) {
-		AlgoFitPow algo = new AlgoFitPow((Construction) cons, label, list);
+		AlgoFitPow algo = new AlgoFitPow( cons, label, list);
 		GeoFunction function = algo.getFitPow();
 		return function;
 	}
@@ -6862,7 +6814,7 @@ public class Kernel {
 	 * FitSin[list of coords] Hans-Petter Ulven
 	 */
 	final public GeoFunction FitSin(String label, GeoList list) {
-		AlgoFitSin algo = new AlgoFitSin((Construction) cons, label, list);
+		AlgoFitSin algo = new AlgoFitSin( cons, label, list);
 		GeoFunction function = algo.getFitSin();
 		return function;
 	}
@@ -6871,7 +6823,7 @@ public class Kernel {
 	 * FitLogistic[list of coords] Hans-Petter Ulven
 	 */
 	final public GeoFunction FitLogistic(String label, GeoList list) {
-		AlgoFitLogistic algo = new AlgoFitLogistic((Construction) cons, label,
+		AlgoFitLogistic algo = new AlgoFitLogistic( cons, label,
 				list);
 		GeoFunction function = algo.getFitLogistic();
 		return function;
@@ -6881,7 +6833,7 @@ public class Kernel {
 	 * Fit[list of points,list of functions] Hans-Petter Ulven
 	 */
 	final public GeoFunction Fit(String label, GeoList ptslist, GeoList funclist) {
-		AlgoFit algo = new AlgoFit((Construction) cons, label, ptslist,
+		AlgoFit algo = new AlgoFit( cons, label, ptslist,
 				funclist);
 		GeoFunction function = algo.getFit();
 		return function;
@@ -6893,7 +6845,7 @@ public class Kernel {
 	 */
 	final public GeoFunction Fit(String label, GeoList ptslist,
 			GeoFunction function) {
-		AlgoFitNL algo = new AlgoFitNL((Construction) cons, label, ptslist,
+		AlgoFitNL algo = new AlgoFitNL( cons, label, ptslist,
 				function);
 		GeoFunction geofunction = algo.getFitNL();
 		return geofunction;
@@ -6903,7 +6855,7 @@ public class Kernel {
 	 * 'FitGrowth[<List of Points>] Hans-Petter Ulven
 	 */
 	final public GeoFunction FitGrowth(String label, GeoList list) {
-		AlgoFitGrowth algo = new AlgoFitGrowth((Construction) cons, label, list);
+		AlgoFitGrowth algo = new AlgoFitGrowth( cons, label, list);
 		GeoFunction function = algo.getFitGrowth();
 		return function;
 	}
@@ -6912,7 +6864,7 @@ public class Kernel {
 	 * RandomPoisson[lambda] Michael Borcherds
 	 */
 	final public GeoNumeric RandomPoisson(String label, NumberValue a) {
-		AlgoRandomPoisson algo = new AlgoRandomPoisson((Construction) cons,
+		AlgoRandomPoisson algo = new AlgoRandomPoisson( cons,
 				label, a);
 		GeoNumeric num = algo.getResult();
 		return num;
@@ -6923,7 +6875,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric InverseNormal(String label, NumberValue a,
 			NumberValue b, NumberValue c) {
-		AlgoInverseNormal algo = new AlgoInverseNormal((Construction) cons,
+		AlgoInverseNormal algo = new AlgoInverseNormal( cons,
 				label, a, b, c);
 		GeoNumeric num = algo.getResult();
 		return num;
@@ -6934,7 +6886,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric Normal(String label, NumberValue a, NumberValue b,
 			NumberValue c) {
-		AlgoNormal algo = new AlgoNormal((Construction) cons, label, a, b, c);
+		AlgoNormal algo = new AlgoNormal( cons, label, a, b, c);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
@@ -6944,7 +6896,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric TDistribution(String label, NumberValue a,
 			NumberValue b) {
-		AlgoTDistribution algo = new AlgoTDistribution((Construction) cons,
+		AlgoTDistribution algo = new AlgoTDistribution( cons,
 				label, a, b);
 		GeoNumeric num = algo.getResult();
 		return num;
@@ -6953,7 +6905,7 @@ public class Kernel {
 	final public GeoNumeric InverseTDistribution(String label, NumberValue a,
 			NumberValue b) {
 		AlgoInverseTDistribution algo = new AlgoInverseTDistribution(
-				(Construction) cons, label, a, b);
+				 cons, label, a, b);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
@@ -6961,7 +6913,7 @@ public class Kernel {
 	final public GeoNumeric InverseChiSquared(String label, NumberValue a,
 			NumberValue b) {
 		AlgoInverseChiSquared algo = new AlgoInverseChiSquared(
-				(Construction) cons, label, a, b);
+				 cons, label, a, b);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
@@ -6969,7 +6921,7 @@ public class Kernel {
 	final public GeoNumeric InverseExponential(String label, NumberValue a,
 			NumberValue b) {
 		AlgoInverseExponential algo = new AlgoInverseExponential(
-				(Construction) cons, label, a, b);
+				 cons, label, a, b);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
@@ -6977,14 +6929,14 @@ public class Kernel {
 	final public GeoNumeric InverseFDistribution(String label, NumberValue a,
 			NumberValue b, NumberValue c) {
 		AlgoInverseFDistribution algo = new AlgoInverseFDistribution(
-				(Construction) cons, label, a, b, c);
+				 cons, label, a, b, c);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
 
 	final public GeoNumeric InverseGamma(String label, NumberValue a,
 			NumberValue b, NumberValue c) {
-		AlgoInverseGamma algo = new AlgoInverseGamma((Construction) cons,
+		AlgoInverseGamma algo = new AlgoInverseGamma( cons,
 				label, a, b, c);
 		GeoNumeric num = algo.getResult();
 		return num;
@@ -6992,7 +6944,7 @@ public class Kernel {
 
 	final public GeoNumeric InverseCauchy(String label, NumberValue a,
 			NumberValue b, NumberValue c) {
-		AlgoInverseCauchy algo = new AlgoInverseCauchy((Construction) cons,
+		AlgoInverseCauchy algo = new AlgoInverseCauchy( cons,
 				label, a, b, c);
 		GeoNumeric num = algo.getResult();
 		return num;
@@ -7000,14 +6952,14 @@ public class Kernel {
 
 	final public GeoNumeric Weibull(String label, NumberValue a, NumberValue b,
 			NumberValue c) {
-		AlgoWeibull algo = new AlgoWeibull((Construction) cons, label, a, b, c);
+		AlgoWeibull algo = new AlgoWeibull( cons, label, a, b, c);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
 
 	final public GeoNumeric InverseWeibull(String label, NumberValue a,
 			NumberValue b, NumberValue c) {
-		AlgoInverseWeibull algo = new AlgoInverseWeibull((Construction) cons,
+		AlgoInverseWeibull algo = new AlgoInverseWeibull( cons,
 				label, a, b, c);
 		GeoNumeric num = algo.getResult();
 		return num;
@@ -7015,14 +6967,14 @@ public class Kernel {
 
 	final public GeoNumeric Zipf(String label, NumberValue a, NumberValue b,
 			NumberValue c, GeoBoolean isCumulative) {
-		AlgoZipf algo = new AlgoZipf((Construction) cons, label, a, b, c,
+		AlgoZipf algo = new AlgoZipf( cons, label, a, b, c,
 				isCumulative);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
 
 	final public GeoNumeric Zipf(String label, NumberValue a, NumberValue b) {
-		AlgoZipfBarChart algo = new AlgoZipfBarChart((Construction) cons,
+		AlgoZipfBarChart algo = new AlgoZipfBarChart( cons,
 				label, a, b);
 		GeoNumeric num = algo.getSum();
 		return num;
@@ -7030,7 +6982,7 @@ public class Kernel {
 
 	final public GeoNumeric Zipf(String label, NumberValue a, NumberValue b,
 			GeoBoolean cumulative) {
-		AlgoZipfBarChart algo = new AlgoZipfBarChart((Construction) cons,
+		AlgoZipfBarChart algo = new AlgoZipfBarChart( cons,
 				label, a, b, cumulative);
 		GeoNumeric num = algo.getSum();
 		return num;
@@ -7038,7 +6990,7 @@ public class Kernel {
 
 	final public GeoNumeric InverseZipf(String label, NumberValue a,
 			NumberValue b, NumberValue c) {
-		AlgoInverseZipf algo = new AlgoInverseZipf((Construction) cons, label,
+		AlgoInverseZipf algo = new AlgoInverseZipf( cons, label,
 				a, b, c);
 		GeoNumeric num = algo.getResult();
 		return num;
@@ -7047,7 +6999,7 @@ public class Kernel {
 	/** Pascal[] probability */
 	final public GeoNumeric Pascal(String label, NumberValue a, NumberValue b,
 			NumberValue c, GeoBoolean isCumulative) {
-		AlgoPascal algo = new AlgoPascal((Construction) cons, label, a, b, c,
+		AlgoPascal algo = new AlgoPascal( cons, label, a, b, c,
 				isCumulative);
 		GeoNumeric num = algo.getResult();
 		return num;
@@ -7055,7 +7007,7 @@ public class Kernel {
 
 	/** Pascal[] bar chart */
 	final public GeoNumeric Pascal(String label, NumberValue a, NumberValue b) {
-		AlgoPascalBarChart algo = new AlgoPascalBarChart((Construction) cons,
+		AlgoPascalBarChart algo = new AlgoPascalBarChart( cons,
 				label, a, b);
 		GeoNumeric num = algo.getSum();
 		return num;
@@ -7064,7 +7016,7 @@ public class Kernel {
 	/** Pascal[] bar chart with cumulative option */
 	final public GeoNumeric Pascal(String label, NumberValue a, NumberValue b,
 			GeoBoolean isCumulative) {
-		AlgoPascalBarChart algo = new AlgoPascalBarChart((Construction) cons,
+		AlgoPascalBarChart algo = new AlgoPascalBarChart( cons,
 				label, a, b, isCumulative);
 		GeoNumeric num = algo.getSum();
 		return num;
@@ -7072,7 +7024,7 @@ public class Kernel {
 
 	final public GeoNumeric InversePascal(String label, NumberValue a,
 			NumberValue b, NumberValue c) {
-		AlgoInversePascal algo = new AlgoInversePascal((Construction) cons,
+		AlgoInversePascal algo = new AlgoInversePascal( cons,
 				label, a, b, c);
 		GeoNumeric num = algo.getResult();
 		return num;
@@ -7081,7 +7033,7 @@ public class Kernel {
 	/** Poisson[] probability */
 	final public GeoNumeric Poisson(String label, NumberValue a, NumberValue b,
 			GeoBoolean isCumulative) {
-		AlgoPoisson algo = new AlgoPoisson((Construction) cons, label, a, b,
+		AlgoPoisson algo = new AlgoPoisson( cons, label, a, b,
 				isCumulative);
 		GeoNumeric num = algo.getResult();
 		return num;
@@ -7089,7 +7041,7 @@ public class Kernel {
 
 	/** Poisson[] bar chart */
 	final public GeoNumeric Poisson(String label, NumberValue a) {
-		AlgoPoissonBarChart algo = new AlgoPoissonBarChart((Construction) cons,
+		AlgoPoissonBarChart algo = new AlgoPoissonBarChart( cons,
 				label, a);
 		GeoNumeric num = algo.getSum();
 		return num;
@@ -7098,7 +7050,7 @@ public class Kernel {
 	/** Poisson[] bar chart with cumulative option */
 	final public GeoNumeric Poisson(String label, NumberValue a,
 			GeoBoolean isCumulative) {
-		AlgoPoissonBarChart algo = new AlgoPoissonBarChart((Construction) cons,
+		AlgoPoissonBarChart algo = new AlgoPoissonBarChart( cons,
 				label, a, isCumulative);
 		GeoNumeric num = algo.getSum();
 		return num;
@@ -7106,7 +7058,7 @@ public class Kernel {
 
 	final public GeoNumeric InversePoisson(String label, NumberValue a,
 			NumberValue b) {
-		AlgoInversePoisson algo = new AlgoInversePoisson((Construction) cons,
+		AlgoInversePoisson algo = new AlgoInversePoisson( cons,
 				label, a, b);
 		GeoNumeric num = algo.getResult();
 		return num;
@@ -7115,7 +7067,7 @@ public class Kernel {
 	/** HyperGeometric[] probability */
 	final public GeoNumeric HyperGeometric(String label, NumberValue a,
 			NumberValue b, NumberValue c, NumberValue d, GeoBoolean isCumulative) {
-		AlgoHyperGeometric algo = new AlgoHyperGeometric((Construction) cons,
+		AlgoHyperGeometric algo = new AlgoHyperGeometric( cons,
 				label, a, b, c, d, isCumulative);
 		GeoNumeric num = algo.getResult();
 		return num;
@@ -7125,7 +7077,7 @@ public class Kernel {
 	final public GeoNumeric HyperGeometric(String label, NumberValue a,
 			NumberValue b, NumberValue c) {
 		AlgoHyperGeometricBarChart algo = new AlgoHyperGeometricBarChart(
-				(Construction) cons, label, a, b, c);
+				 cons, label, a, b, c);
 		GeoNumeric num = algo.getSum();
 		return num;
 	}
@@ -7134,7 +7086,7 @@ public class Kernel {
 	final public GeoNumeric HyperGeometric(String label, NumberValue a,
 			NumberValue b, NumberValue c, GeoBoolean isCumulative) {
 		AlgoHyperGeometricBarChart algo = new AlgoHyperGeometricBarChart(
-				(Construction) cons, label, a, b, c, isCumulative);
+				 cons, label, a, b, c, isCumulative);
 		GeoNumeric num = algo.getSum();
 		return num;
 	}
@@ -7142,7 +7094,7 @@ public class Kernel {
 	final public GeoNumeric InverseHyperGeometric(String label, NumberValue a,
 			NumberValue b, NumberValue c, NumberValue d) {
 		AlgoInverseHyperGeometric algo = new AlgoInverseHyperGeometric(
-				(Construction) cons, label, a, b, c, d);
+				 cons, label, a, b, c, d);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
@@ -7150,7 +7102,7 @@ public class Kernel {
 	/** Binomial[] probability */
 	final public GeoNumeric BinomialDist(String label, NumberValue a,
 			NumberValue b, NumberValue c, GeoBoolean isCumulative) {
-		AlgoBinomialDist algo = new AlgoBinomialDist((Construction) cons,
+		AlgoBinomialDist algo = new AlgoBinomialDist( cons,
 				label, a, b, c, isCumulative);
 		GeoNumeric num = algo.getResult();
 		return num;
@@ -7159,7 +7111,7 @@ public class Kernel {
 	public GeoNumeric Bernoulli(String label, NumberValue probability,
 			GeoBoolean cumulative) {
 		AlgoBernoulliBarChart algo = new AlgoBernoulliBarChart(
-				(Construction) cons, label, probability, cumulative);
+				 cons, label, probability, cumulative);
 		GeoNumeric num = algo.getSum();
 		return num;
 	}
@@ -7168,7 +7120,7 @@ public class Kernel {
 	final public GeoNumeric BinomialDist(String label, NumberValue a,
 			NumberValue b) {
 		AlgoBinomialDistBarChart algo = new AlgoBinomialDistBarChart(
-				(Construction) cons, label, a, b);
+				 cons, label, a, b);
 		GeoNumeric num = algo.getSum();
 		return num;
 	}
@@ -7177,14 +7129,14 @@ public class Kernel {
 	final public GeoNumeric BinomialDist(String label, NumberValue a,
 			NumberValue b, GeoBoolean isCumulative) {
 		AlgoBinomialDistBarChart algo = new AlgoBinomialDistBarChart(
-				(Construction) cons, label, a, b, isCumulative);
+				 cons, label, a, b, isCumulative);
 		GeoNumeric num = algo.getSum();
 		return num;
 	}
 
 	final public GeoNumeric InverseBinomial(String label, NumberValue a,
 			NumberValue b, NumberValue c) {
-		AlgoInverseBinomial algo = new AlgoInverseBinomial((Construction) cons,
+		AlgoInverseBinomial algo = new AlgoInverseBinomial( cons,
 				label, a, b, c);
 		GeoNumeric num = algo.getResult();
 		return num;
@@ -7192,7 +7144,7 @@ public class Kernel {
 
 	/** ANOVATest[] */
 	final public GeoList ANOVATest(String label, GeoList dataArrayList) {
-		AlgoANOVA algo = new AlgoANOVA((Construction) cons, label,
+		AlgoANOVA algo = new AlgoANOVA( cons, label,
 				dataArrayList);
 		GeoList result = algo.getResult();
 		return result;
@@ -7201,7 +7153,7 @@ public class Kernel {
 	/** TTest[] with sample data */
 	final public GeoList TTest(String label, GeoList sampleList,
 			GeoNumeric hypMean, GeoText tail) {
-		AlgoTTest algo = new AlgoTTest((Construction) cons, label, sampleList,
+		AlgoTTest algo = new AlgoTTest( cons, label, sampleList,
 				hypMean, tail);
 		GeoList result = algo.getResult();
 		return result;
@@ -7210,7 +7162,7 @@ public class Kernel {
 	/** TTest[] with sample statistics */
 	final public GeoList TTest(String label, GeoNumeric mean, GeoNumeric sd,
 			GeoNumeric n, GeoNumeric hypMean, GeoText tail) {
-		AlgoTTest algo = new AlgoTTest((Construction) cons, label, mean, sd, n,
+		AlgoTTest algo = new AlgoTTest( cons, label, mean, sd, n,
 				hypMean, tail);
 		GeoList result = algo.getResult();
 		return result;
@@ -7219,7 +7171,7 @@ public class Kernel {
 	/** TTestPaired[] */
 	final public GeoList TTestPaired(String label, GeoList sampleList1,
 			GeoList sampleList2, GeoText tail) {
-		AlgoTTestPaired algo = new AlgoTTestPaired((Construction) cons, label,
+		AlgoTTestPaired algo = new AlgoTTestPaired( cons, label,
 				sampleList1, sampleList2, tail);
 		GeoList result = algo.getResult();
 		return result;
@@ -7228,7 +7180,7 @@ public class Kernel {
 	/** TTest2[] with sample data */
 	final public GeoList TTest2(String label, GeoList sampleList1,
 			GeoList sampleList2, GeoText tail, GeoBoolean pooled) {
-		AlgoTTest2 algo = new AlgoTTest2((Construction) cons, label,
+		AlgoTTest2 algo = new AlgoTTest2( cons, label,
 				sampleList1, sampleList2, tail, pooled);
 		GeoList result = algo.getResult();
 		return result;
@@ -7238,7 +7190,7 @@ public class Kernel {
 	final public GeoList TTest2(String label, GeoNumeric mean1, GeoNumeric sd1,
 			GeoNumeric n1, GeoNumeric mean2, GeoNumeric sd2, GeoNumeric n2,
 			GeoText tail, GeoBoolean pooled) {
-		AlgoTTest2 algo = new AlgoTTest2((Construction) cons, label, mean1,
+		AlgoTTest2 algo = new AlgoTTest2( cons, label, mean1,
 				mean2, sd1, sd2, n1, n2, tail, pooled);
 		GeoList result = algo.getResult();
 		return result;
@@ -7247,7 +7199,7 @@ public class Kernel {
 	/** TMeanEstimate[] with sample data */
 	final public GeoList TMeanEstimate(String label, GeoList sampleList,
 			GeoNumeric level) {
-		AlgoTMeanEstimate algo = new AlgoTMeanEstimate((Construction) cons,
+		AlgoTMeanEstimate algo = new AlgoTMeanEstimate( cons,
 				label, sampleList, level);
 		GeoList resultList = algo.getResult();
 		return resultList;
@@ -7256,7 +7208,7 @@ public class Kernel {
 	/** TMeanEstimate[] with sample statistics */
 	final public GeoList TMeanEstimate(String label, GeoNumeric mean,
 			GeoNumeric sd, GeoNumeric n, GeoNumeric level) {
-		AlgoTMeanEstimate algo = new AlgoTMeanEstimate((Construction) cons,
+		AlgoTMeanEstimate algo = new AlgoTMeanEstimate( cons,
 				label, mean, sd, n, level);
 		GeoList resultList = algo.getResult();
 		return resultList;
@@ -7265,7 +7217,7 @@ public class Kernel {
 	/** TMean2Estimate[] with sample data */
 	final public GeoList TMean2Estimate(String label, GeoList sampleList1,
 			GeoList sampleList2, GeoNumeric level, GeoBoolean pooled) {
-		AlgoTMean2Estimate algo = new AlgoTMean2Estimate((Construction) cons,
+		AlgoTMean2Estimate algo = new AlgoTMean2Estimate( cons,
 				label, sampleList1, sampleList2, level, pooled);
 		GeoList resultList = algo.getResult();
 		return resultList;
@@ -7275,7 +7227,7 @@ public class Kernel {
 	final public GeoList TMean2Estimate(String label, GeoNumeric mean1,
 			GeoNumeric sd1, GeoNumeric n1, GeoNumeric mean2, GeoNumeric sd2,
 			GeoNumeric n2, GeoNumeric level, GeoBoolean pooled) {
-		AlgoTMean2Estimate algo = new AlgoTMean2Estimate((Construction) cons,
+		AlgoTMean2Estimate algo = new AlgoTMean2Estimate( cons,
 				label, mean1, sd1, n1, mean2, sd2, n2, level, pooled);
 		GeoList resultList = algo.getResult();
 		return resultList;
@@ -7285,7 +7237,7 @@ public class Kernel {
 	 * Sort[list] Michael Borcherds
 	 */
 	final public GeoList Sort(String label, GeoList list) {
-		AlgoSort algo = new AlgoSort((Construction) cons, label, list);
+		AlgoSort algo = new AlgoSort( cons, label, list);
 		GeoList list2 = algo.getResult();
 		return list2;
 	}
@@ -7294,7 +7246,7 @@ public class Kernel {
 	 * OrdinalRank[list] Michael Borcherds
 	 */
 	final public GeoList OrdinalRank(String label, GeoList list) {
-		AlgoOrdinalRank algo = new AlgoOrdinalRank((Construction) cons, label,
+		AlgoOrdinalRank algo = new AlgoOrdinalRank( cons, label,
 				list);
 		GeoList list2 = algo.getResult();
 		return list2;
@@ -7304,7 +7256,7 @@ public class Kernel {
 	 * TiedRank[list]
 	 */
 	final public GeoList TiedRank(String label, GeoList list) {
-		AlgoTiedRank algo = new AlgoTiedRank((Construction) cons, label, list);
+		AlgoTiedRank algo = new AlgoTiedRank( cons, label, list);
 		GeoList list2 = algo.getResult();
 		return list2;
 	}
@@ -7314,7 +7266,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric Percentile(String label, GeoList list,
 			GeoNumeric value) {
-		AlgoPercentile algo = new AlgoPercentile((Construction) cons, label,
+		AlgoPercentile algo = new AlgoPercentile( cons, label,
 				list, value);
 		GeoNumeric result = algo.getResult();
 		return result;
@@ -7324,7 +7276,7 @@ public class Kernel {
 	 * Shuffle[list] Michael Borcherds
 	 */
 	final public GeoList Shuffle(String label, GeoList list) {
-		AlgoShuffle algo = new AlgoShuffle((Construction) cons, label, list);
+		AlgoShuffle algo = new AlgoShuffle( cons, label, list);
 		GeoList list2 = algo.getResult();
 		return list2;
 	}
@@ -7333,7 +7285,7 @@ public class Kernel {
 	 * PointList[list] Michael Borcherds
 	 */
 	final public GeoList PointList(String label, GeoList list) {
-		AlgoPointList algo = new AlgoPointList((Construction) cons, label, list);
+		AlgoPointList algo = new AlgoPointList( cons, label, list);
 		GeoList list2 = algo.getResult();
 		return list2;
 	}
@@ -7342,7 +7294,7 @@ public class Kernel {
 	 * RootList[list] Michael Borcherds
 	 */
 	final public GeoList RootList(String label, GeoList list) {
-		AlgoRootList algo = new AlgoRootList((Construction) cons, label, list);
+		AlgoRootList algo = new AlgoRootList( cons, label, list);
 		GeoList list2 = algo.getResult();
 		return list2;
 	}
@@ -7351,7 +7303,7 @@ public class Kernel {
 	 * Last[string,n] Michael Borcherds
 	 */
 	final public GeoText Last(String label, GeoText list, GeoNumeric n) {
-		AlgoLastString algo = new AlgoLastString((Construction) cons, label,
+		AlgoLastString algo = new AlgoLastString( cons, label,
 				list, n);
 		GeoText list2 = algo.getResult();
 		return list2;
@@ -7362,7 +7314,7 @@ public class Kernel {
 	 */
 	final public GeoText Take(String label, GeoText list, GeoNumeric m,
 			GeoNumeric n) {
-		AlgoTakeString algo = new AlgoTakeString((Construction) cons, label,
+		AlgoTakeString algo = new AlgoTakeString( cons, label,
 				list, m, n);
 		GeoText list2 = algo.getResult();
 		return list2;
@@ -7372,7 +7324,7 @@ public class Kernel {
 	 * Last[list,n] Michael Borcherds
 	 */
 	final public GeoList Last(String label, GeoList list, GeoNumeric n) {
-		AlgoLast algo = new AlgoLast((Construction) cons, label, list, n);
+		AlgoLast algo = new AlgoLast( cons, label, list, n);
 		GeoList list2 = algo.getResult();
 		return list2;
 	}
@@ -7382,7 +7334,7 @@ public class Kernel {
 	 */
 	final public GeoList Take(String label, GeoList list, GeoNumeric m,
 			GeoNumeric n) {
-		AlgoTake algo = new AlgoTake((Construction) cons, label, list, m, n);
+		AlgoTake algo = new AlgoTake( cons, label, list, m, n);
 		GeoList list2 = algo.getResult();
 		return list2;
 	}
@@ -7391,7 +7343,7 @@ public class Kernel {
 	 * Join[list,list] Michael Borcherds
 	 */
 	final public GeoList Join(String label, GeoList list) {
-		AlgoJoin algo = new AlgoJoin((Construction) cons, label, list);
+		AlgoJoin algo = new AlgoJoin( cons, label, list);
 		GeoList list2 = algo.getResult();
 		return list2;
 	}
@@ -7400,7 +7352,7 @@ public class Kernel {
 	 * Union[list,list] Michael Borcherds
 	 */
 	final public GeoList Union(String label, GeoList list, GeoList list1) {
-		AlgoUnion algo = new AlgoUnion((Construction) cons, label, list, list1);
+		AlgoUnion algo = new AlgoUnion( cons, label, list, list1);
 		GeoList list2 = algo.getResult();
 		return list2;
 	}
@@ -7409,7 +7361,7 @@ public class Kernel {
 	 * Intersection[list,list] Michael Borcherds
 	 */
 	final public GeoList Intersection(String label, GeoList list, GeoList list1) {
-		AlgoIntersection algo = new AlgoIntersection((Construction) cons,
+		AlgoIntersection algo = new AlgoIntersection( cons,
 				label, list, list1);
 		GeoList list2 = algo.getResult();
 		return list2;
@@ -7420,7 +7372,7 @@ public class Kernel {
 	 */
 	final public GeoList Insert(String label, GeoElement geo, GeoList list,
 			GeoNumeric n) {
-		AlgoInsert algo = new AlgoInsert((Construction) cons, label, geo, list,
+		AlgoInsert algo = new AlgoInsert( cons, label, geo, list,
 				n);
 		GeoList list2 = algo.getResult();
 		return list2;
@@ -7430,7 +7382,7 @@ public class Kernel {
 	 * RemoveUndefined[list] Michael Borcherds
 	 */
 	final public GeoList RemoveUndefined(String label, GeoList list) {
-		AlgoRemoveUndefined algo = new AlgoRemoveUndefined((Construction) cons,
+		AlgoRemoveUndefined algo = new AlgoRemoveUndefined( cons,
 				label, list);
 		GeoList list2 = algo.getResult();
 		return list2;
@@ -7440,7 +7392,7 @@ public class Kernel {
 	 * Keep[boolean condition, list] Michael Borcherds
 	 */
 	final public GeoList KeepIf(String label, GeoFunction boolFun, GeoList list) {
-		AlgoKeepIf algo = new AlgoKeepIf((Construction) cons, label, boolFun,
+		AlgoKeepIf algo = new AlgoKeepIf( cons, label, boolFun,
 				list);
 		GeoList list2 = algo.getResult();
 		return list2;
@@ -7450,7 +7402,7 @@ public class Kernel {
 	 * IsInteger[number] Michael Borcherds
 	 */
 	final public GeoBoolean IsInteger(String label, GeoNumeric geo) {
-		AlgoIsInteger algo = new AlgoIsInteger((Construction) cons, label, geo);
+		AlgoIsInteger algo = new AlgoIsInteger( cons, label, geo);
 		GeoBoolean result = algo.getResult();
 		return result;
 	}
@@ -7459,7 +7411,7 @@ public class Kernel {
 	 * Mode[list] Michael Borcherds
 	 */
 	final public GeoList Mode(String label, GeoList list) {
-		AlgoMode algo = new AlgoMode((Construction) cons, label, list);
+		AlgoMode algo = new AlgoMode( cons, label, list);
 		GeoList list2 = algo.getResult();
 		return list2;
 	}
@@ -7468,7 +7420,7 @@ public class Kernel {
 	 * PrimeFactors[list] Michael Borcherds
 	 */
 	final public GeoList PrimeFactors(String label, NumberValue num) {
-		AlgoPrimeFactors algo = new AlgoPrimeFactors((Construction) cons,
+		AlgoPrimeFactors algo = new AlgoPrimeFactors( cons,
 				label, num);
 		GeoList list2 = algo.getResult();
 		return list2;
@@ -7478,7 +7430,7 @@ public class Kernel {
 	 * Invert[matrix] Michael Borcherds
 	 */
 	final public GeoList Invert(String label, GeoList list) {
-		AlgoInvert algo = new AlgoInvert((Construction) cons, label, list);
+		AlgoInvert algo = new AlgoInvert( cons, label, list);
 		GeoList list2 = algo.getResult();
 		return list2;
 	}
@@ -7487,7 +7439,7 @@ public class Kernel {
 	 * Transpose[matrix] Michael Borcherds
 	 */
 	final public GeoList Transpose(String label, GeoList list) {
-		AlgoTranspose algo = new AlgoTranspose((Construction) cons, label, list);
+		AlgoTranspose algo = new AlgoTranspose( cons, label, list);
 		GeoList list2 = algo.getResult();
 		return list2;
 	}
@@ -7497,7 +7449,7 @@ public class Kernel {
 	 */
 	final public GeoList ReducedRowEchelonForm(String label, GeoList list) {
 		AlgoReducedRowEchelonForm algo = new AlgoReducedRowEchelonForm(
-				(Construction) cons, label, list);
+				 cons, label, list);
 		GeoList list2 = algo.getResult();
 		return list2;
 	}
@@ -7506,7 +7458,7 @@ public class Kernel {
 	 * Transpose[matrix] Michael Borcherds
 	 */
 	final public GeoNumeric Determinant(String label, GeoList list) {
-		AlgoDeterminant algo = new AlgoDeterminant((Construction) cons, label,
+		AlgoDeterminant algo = new AlgoDeterminant( cons, label,
 				list);
 		GeoNumeric num = algo.getResult();
 		return num;
@@ -7516,7 +7468,7 @@ public class Kernel {
 	 * Reverse[list] Michael Borcherds
 	 */
 	final public GeoList Reverse(String label, GeoList list) {
-		AlgoReverse algo = new AlgoReverse((Construction) cons, label, list);
+		AlgoReverse algo = new AlgoReverse( cons, label, list);
 		GeoList list2 = algo.getResult();
 		return list2;
 	}
@@ -7525,7 +7477,7 @@ public class Kernel {
 	 * Product[list] Michael Borcherds
 	 */
 	final public GeoNumeric Product(String label, GeoList list) {
-		AlgoProduct algo = new AlgoProduct((Construction) cons, label, list);
+		AlgoProduct algo = new AlgoProduct( cons, label, list);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
@@ -7534,7 +7486,7 @@ public class Kernel {
 	 * Product[list,n] Zbynek Konecny
 	 */
 	final public GeoNumeric Product(String label, GeoList list, GeoNumeric n) {
-		AlgoProduct algo = new AlgoProduct((Construction) cons, label, list, n);
+		AlgoProduct algo = new AlgoProduct( cons, label, list, n);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
@@ -7543,7 +7495,7 @@ public class Kernel {
 	 * Sum[list] Michael Borcherds
 	 */
 	final public GeoElement Sum(String label, GeoList list) {
-		AlgoSum algo = new AlgoSum((Construction) cons, label, list);
+		AlgoSum algo = new AlgoSum( cons, label, list);
 		GeoElement ret = algo.getResult();
 		return ret;
 	}
@@ -7552,7 +7504,7 @@ public class Kernel {
 	 * Sum[list,n] Michael Borcherds
 	 */
 	final public GeoElement Sum(String label, GeoList list, GeoNumeric n) {
-		AlgoSum algo = new AlgoSum((Construction) cons, label, list, n);
+		AlgoSum algo = new AlgoSum( cons, label, list, n);
 		GeoElement ret = algo.getResult();
 		return ret;
 	}
@@ -7561,7 +7513,7 @@ public class Kernel {
 	 * Sum[list of functions] Michael Borcherds
 	 */
 	final public GeoElement SumFunctions(String label, GeoList list) {
-		AlgoSumFunctions algo = new AlgoSumFunctions((Construction) cons,
+		AlgoSumFunctions algo = new AlgoSumFunctions( cons,
 				label, list);
 		GeoElement ret = algo.getResult();
 		return ret;
@@ -7572,7 +7524,7 @@ public class Kernel {
 	 */
 	final public GeoElement SumFunctions(String label, GeoList list,
 			GeoNumeric num) {
-		AlgoSumFunctions algo = new AlgoSumFunctions((Construction) cons,
+		AlgoSumFunctions algo = new AlgoSumFunctions( cons,
 				label, list, num);
 		GeoElement ret = algo.getResult();
 		return ret;
@@ -7582,7 +7534,7 @@ public class Kernel {
 	 * Sum[list of points] Michael Borcherds
 	 */
 	final public GeoElement SumPoints(String label, GeoList list) {
-		AlgoSumPoints algo = new AlgoSumPoints((Construction) cons, label, list);
+		AlgoSumPoints algo = new AlgoSumPoints( cons, label, list);
 		GeoElement ret = algo.getResult();
 		return ret;
 	}
@@ -7591,7 +7543,7 @@ public class Kernel {
 	 * Sum[list of points,n] Michael Borcherds
 	 */
 	final public GeoElement SumPoints(String label, GeoList list, GeoNumeric num) {
-		AlgoSumPoints algo = new AlgoSumPoints((Construction) cons, label,
+		AlgoSumPoints algo = new AlgoSumPoints( cons, label,
 				list, num);
 		GeoElement ret = algo.getResult();
 		return ret;
@@ -7601,7 +7553,7 @@ public class Kernel {
 	 * Sum[list of points] Michael Borcherds
 	 */
 	final public GeoElement SumText(String label, GeoList list) {
-		AlgoSumText algo = new AlgoSumText((Construction) cons, label, list);
+		AlgoSumText algo = new AlgoSumText( cons, label, list);
 		GeoText ret = algo.getResult();
 		return ret;
 	}
@@ -7610,7 +7562,7 @@ public class Kernel {
 	 * Sum[list of text,n] Michael Borcherds
 	 */
 	final public GeoElement SumText(String label, GeoList list, GeoNumeric num) {
-		AlgoSumText algo = new AlgoSumText((Construction) cons, label, list,
+		AlgoSumText algo = new AlgoSumText( cons, label, list,
 				num);
 		GeoText ret = algo.getResult();
 		return ret;
@@ -7620,7 +7572,7 @@ public class Kernel {
 	 * Sample[list,n] Michael Borcherds
 	 */
 	final public GeoElement Sample(String label, GeoList list, NumberValue n) {
-		AlgoSample algo = new AlgoSample((Construction) cons, label, list, n,
+		AlgoSample algo = new AlgoSample( cons, label, list, n,
 				null);
 		GeoElement ret = algo.getResult();
 		return ret;
@@ -7631,7 +7583,7 @@ public class Kernel {
 	 */
 	final public GeoElement Sample(String label, GeoList list, NumberValue n,
 			GeoBoolean withReplacement) {
-		AlgoSample algo = new AlgoSample((Construction) cons, label, list, n,
+		AlgoSample algo = new AlgoSample( cons, label, list, n,
 				withReplacement);
 		GeoElement ret = algo.getResult();
 		return ret;
@@ -7641,7 +7593,7 @@ public class Kernel {
 	 * Table[list] Michael Borcherds
 	 */
 	final public GeoText TableText(String label, GeoList list, GeoText args) {
-		AlgoTableText algo = new AlgoTableText((Construction) cons, label,
+		AlgoTableText algo = new AlgoTableText( cons, label,
 				list, args);
 		GeoText text = algo.getResult();
 		return text;
@@ -7651,7 +7603,7 @@ public class Kernel {
 	 * Frequency[dataList] G. Sturr
 	 */
 	final public GeoList Frequency(String label, GeoList dataList) {
-		AlgoFrequency algo = new AlgoFrequency((Construction) cons, label,
+		AlgoFrequency algo = new AlgoFrequency( cons, label,
 				null, null, dataList);
 		GeoList list = algo.getResult();
 		return list;
@@ -7662,7 +7614,7 @@ public class Kernel {
 	 */
 	final public GeoList Frequency(String label, GeoBoolean isCumulative,
 			GeoList dataList) {
-		AlgoFrequency algo = new AlgoFrequency((Construction) cons, label,
+		AlgoFrequency algo = new AlgoFrequency( cons, label,
 				isCumulative, null, dataList);
 		GeoList list = algo.getResult();
 		return list;
@@ -7673,7 +7625,7 @@ public class Kernel {
 	 */
 	final public GeoList Frequency(String label, GeoList classList,
 			GeoList dataList) {
-		AlgoFrequency algo = new AlgoFrequency((Construction) cons, label,
+		AlgoFrequency algo = new AlgoFrequency( cons, label,
 				null, classList, dataList);
 		GeoList list = algo.getResult();
 		return list;
@@ -7684,7 +7636,7 @@ public class Kernel {
 	 */
 	final public GeoList Frequency(String label, GeoList classList,
 			GeoList dataList, GeoBoolean useDensity) {
-		AlgoFrequency algo = new AlgoFrequency((Construction) cons, label,
+		AlgoFrequency algo = new AlgoFrequency( cons, label,
 				null, classList, dataList, useDensity, null);
 		GeoList list = algo.getResult();
 		return list;
@@ -7695,7 +7647,7 @@ public class Kernel {
 	 */
 	final public GeoList Frequency(String label, GeoList classList,
 			GeoList dataList, GeoBoolean useDensity, GeoNumeric scaleFactor) {
-		AlgoFrequency algo = new AlgoFrequency((Construction) cons, label,
+		AlgoFrequency algo = new AlgoFrequency( cons, label,
 				null, classList, dataList, useDensity, scaleFactor);
 		GeoList list = algo.getResult();
 		return list;
@@ -7706,7 +7658,7 @@ public class Kernel {
 	 */
 	final public GeoList Frequency(String label, GeoBoolean isCumulative,
 			GeoList classList, GeoList dataList) {
-		AlgoFrequency algo = new AlgoFrequency((Construction) cons, label,
+		AlgoFrequency algo = new AlgoFrequency( cons, label,
 				isCumulative, classList, dataList, null, null);
 		GeoList list = algo.getResult();
 		return list;
@@ -7717,7 +7669,7 @@ public class Kernel {
 	 */
 	final public GeoList Frequency(String label, GeoBoolean isCumulative,
 			GeoList classList, GeoList dataList, GeoBoolean useDensity) {
-		AlgoFrequency algo = new AlgoFrequency((Construction) cons, label,
+		AlgoFrequency algo = new AlgoFrequency( cons, label,
 				isCumulative, classList, dataList, useDensity, null);
 		GeoList list = algo.getResult();
 		return list;
@@ -7730,7 +7682,7 @@ public class Kernel {
 	final public GeoList Frequency(String label, GeoBoolean isCumulative,
 			GeoList classList, GeoList dataList, GeoBoolean useDensity,
 			GeoNumeric scaleFactor) {
-		AlgoFrequency algo = new AlgoFrequency((Construction) cons, label,
+		AlgoFrequency algo = new AlgoFrequency( cons, label,
 				isCumulative, classList, dataList, useDensity, scaleFactor);
 		GeoList list = algo.getResult();
 		return list;
@@ -7740,7 +7692,7 @@ public class Kernel {
 	 * FrequencyTable[dataList] Zbynek Konecny
 	 */
 	final public GeoText FrequencyTable(String label, GeoList dataList) {
-		AlgoFrequencyTable algo = new AlgoFrequencyTable((Construction) cons,
+		AlgoFrequencyTable algo = new AlgoFrequencyTable( cons,
 				label, null, null, dataList);
 		GeoText table = algo.getResult();
 		return table;
@@ -7751,7 +7703,7 @@ public class Kernel {
 	 */
 	final public GeoText FrequencyTable(String label, GeoBoolean isCumulative,
 			GeoList dataList) {
-		AlgoFrequencyTable algo = new AlgoFrequencyTable((Construction) cons,
+		AlgoFrequencyTable algo = new AlgoFrequencyTable( cons,
 				label, isCumulative, null, dataList);
 		GeoText table = algo.getResult();
 		return table;
@@ -7762,7 +7714,7 @@ public class Kernel {
 	 */
 	final public GeoText FrequencyTable(String label, GeoList classList,
 			GeoList dataList) {
-		AlgoFrequencyTable algo = new AlgoFrequencyTable((Construction) cons,
+		AlgoFrequencyTable algo = new AlgoFrequencyTable( cons,
 				label, null, classList, dataList);
 		GeoText table = algo.getResult();
 		return table;
@@ -7773,7 +7725,7 @@ public class Kernel {
 	 */
 	final public GeoText FrequencyTable(String label, GeoList classList,
 			GeoList dataList, GeoBoolean useDensity) {
-		AlgoFrequencyTable algo = new AlgoFrequencyTable((Construction) cons,
+		AlgoFrequencyTable algo = new AlgoFrequencyTable( cons,
 				label, null, classList, dataList, useDensity, null);
 		GeoText table = algo.getResult();
 		return table;
@@ -7785,7 +7737,7 @@ public class Kernel {
 	 */
 	final public GeoText FrequencyTable(String label, GeoList classList,
 			GeoList dataList, GeoBoolean useDensity, GeoNumeric scaleFactor) {
-		AlgoFrequencyTable algo = new AlgoFrequencyTable((Construction) cons,
+		AlgoFrequencyTable algo = new AlgoFrequencyTable( cons,
 				label, null, classList, dataList, useDensity, scaleFactor);
 		GeoText table = algo.getResult();
 		return table;
@@ -7796,7 +7748,7 @@ public class Kernel {
 	 */
 	final public GeoText FrequencyTable(String label, GeoBoolean isCumulative,
 			GeoList classList, GeoList dataList) {
-		AlgoFrequencyTable algo = new AlgoFrequencyTable((Construction) cons,
+		AlgoFrequencyTable algo = new AlgoFrequencyTable( cons,
 				label, isCumulative, classList, dataList, null, null);
 		GeoText table = algo.getResult();
 		return table;
@@ -7808,7 +7760,7 @@ public class Kernel {
 	 */
 	final public GeoText FrequencyTable(String label, GeoBoolean isCumulative,
 			GeoList classList, GeoList dataList, GeoBoolean useDensity) {
-		AlgoFrequencyTable algo = new AlgoFrequencyTable((Construction) cons,
+		AlgoFrequencyTable algo = new AlgoFrequencyTable( cons,
 				label, isCumulative, classList, dataList, useDensity, null);
 		GeoText table = algo.getResult();
 		return table;
@@ -7821,7 +7773,7 @@ public class Kernel {
 	final public GeoText FrequencyTable(String label, GeoBoolean isCumulative,
 			GeoList classList, GeoList dataList, GeoBoolean useDensity,
 			GeoNumeric scaleFactor) {
-		AlgoFrequencyTable algo = new AlgoFrequencyTable((Construction) cons,
+		AlgoFrequencyTable algo = new AlgoFrequencyTable( cons,
 				label, isCumulative, classList, dataList, useDensity,
 				scaleFactor);
 		GeoText table = algo.getResult();
@@ -7832,7 +7784,7 @@ public class Kernel {
 	 * Unique[dataList] G. Sturr
 	 */
 	final public GeoList Unique(String label, GeoList dataList) {
-		AlgoUnique algo = new AlgoUnique((Construction) cons, label, dataList);
+		AlgoUnique algo = new AlgoUnique( cons, label, dataList);
 		GeoList list = algo.getResult();
 		return list;
 	}
@@ -7841,7 +7793,7 @@ public class Kernel {
 	 * SurdText[number] Kai Chung Tam
 	 */
 	final public GeoText SurdText(String label, GeoNumeric num) {
-		AlgoSurdText algo = new AlgoSurdText((Construction) cons, label, num);
+		AlgoSurdText algo = new AlgoSurdText( cons, label, num);
 		GeoText text = algo.getResult();
 		return text;
 	}
@@ -7850,7 +7802,7 @@ public class Kernel {
 	 * SurdText[Point]
 	 */
 	final public GeoText SurdText(String label, GeoPoint2 p) {
-		AlgoSurdTextPoint algo = new AlgoSurdTextPoint((Construction) cons,
+		AlgoSurdTextPoint algo = new AlgoSurdTextPoint( cons,
 				label, p);
 		GeoText text = algo.getResult();
 		return text;
@@ -7860,20 +7812,20 @@ public class Kernel {
 	 * Mean[list] Michael Borcherds
 	 */
 	final public GeoNumeric Mean(String label, GeoList list) {
-		AlgoMean algo = new AlgoMean((Construction) cons, label, list);
+		AlgoMean algo = new AlgoMean( cons, label, list);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
 
 	final public GeoText VerticalText(String label, GeoText args) {
-		AlgoVerticalText algo = new AlgoVerticalText((Construction) cons,
+		AlgoVerticalText algo = new AlgoVerticalText( cons,
 				label, args);
 		GeoText text = algo.getResult();
 		return text;
 	}
 
 	final public GeoText RotateText(String label, GeoText args, GeoNumeric angle) {
-		AlgoRotateText algo = new AlgoRotateText((Construction) cons, label,
+		AlgoRotateText algo = new AlgoRotateText( cons, label,
 				args, angle);
 		GeoText text = algo.getResult();
 		return text;
@@ -7883,7 +7835,7 @@ public class Kernel {
 	 * Variance[list] Michael Borcherds
 	 */
 	final public GeoNumeric Variance(String label, GeoList list) {
-		AlgoVariance algo = new AlgoVariance((Construction) cons, label, list);
+		AlgoVariance algo = new AlgoVariance( cons, label, list);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
@@ -7892,7 +7844,7 @@ public class Kernel {
 	 * SampleVariance[list] Michael Borcherds
 	 */
 	final public GeoNumeric SampleVariance(String label, GeoList list) {
-		AlgoSampleVariance algo = new AlgoSampleVariance((Construction) cons,
+		AlgoSampleVariance algo = new AlgoSampleVariance( cons,
 				label, list);
 		GeoNumeric num = algo.getResult();
 		return num;
@@ -7903,7 +7855,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric StandardDeviation(String label, GeoList list) {
 		AlgoStandardDeviation algo = new AlgoStandardDeviation(
-				(Construction) cons, label, list);
+				 cons, label, list);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
@@ -7913,7 +7865,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric SampleStandardDeviation(String label, GeoList list) {
 		AlgoSampleStandardDeviation algo = new AlgoSampleStandardDeviation(
-				(Construction) cons, label, list);
+				 cons, label, list);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
@@ -7925,10 +7877,10 @@ public class Kernel {
 		GeoNumeric num;
 		GeoElement geo = list.get(0);
 		if (geo.isNumberValue()) { // list of numbers
-			AlgoSigmaXX algo = new AlgoSigmaXX((Construction) cons, label, list);
+			AlgoSigmaXX algo = new AlgoSigmaXX( cons, label, list);
 			num = algo.getResult();
 		} else { // (probably) list of points
-			AlgoListSigmaXX algo = new AlgoListSigmaXX((Construction) cons,
+			AlgoListSigmaXX algo = new AlgoListSigmaXX( cons,
 					label, list);
 			num = algo.getResult();
 		}
@@ -7939,7 +7891,7 @@ public class Kernel {
 	 * Median[list] Michael Borcherds
 	 */
 	final public GeoNumeric Median(String label, GeoList list) {
-		AlgoMedian algo = new AlgoMedian((Construction) cons, label, list);
+		AlgoMedian algo = new AlgoMedian( cons, label, list);
 		GeoNumeric num = algo.getMedian();
 		return num;
 	}
@@ -7948,7 +7900,7 @@ public class Kernel {
 	 * Q1[list] lower quartile Michael Borcherds
 	 */
 	final public GeoNumeric Q1(String label, GeoList list) {
-		AlgoQ1 algo = new AlgoQ1((Construction) cons, label, list);
+		AlgoQ1 algo = new AlgoQ1( cons, label, list);
 		GeoNumeric num = algo.getQ1();
 		return num;
 	}
@@ -7957,7 +7909,7 @@ public class Kernel {
 	 * Q3[list] upper quartile Michael Borcherds
 	 */
 	final public GeoNumeric Q3(String label, GeoList list) {
-		AlgoQ3 algo = new AlgoQ3((Construction) cons, label, list);
+		AlgoQ3 algo = new AlgoQ3( cons, label, list);
 		GeoNumeric num = algo.getQ3();
 		return num;
 	}
@@ -7966,7 +7918,7 @@ public class Kernel {
 	 * GeometricMean[list] G. Sturr
 	 */
 	final public GeoNumeric GeometricMean(String label, GeoList list) {
-		AlgoGeometricMean algo = new AlgoGeometricMean((Construction) cons,
+		AlgoGeometricMean algo = new AlgoGeometricMean( cons,
 				label, list);
 		GeoNumeric num = algo.getResult();
 		return num;
@@ -7976,7 +7928,7 @@ public class Kernel {
 	 * HarmonicMean[list] G. Sturr
 	 */
 	final public GeoNumeric HarmonicMean(String label, GeoList list) {
-		AlgoHarmonicMean algo = new AlgoHarmonicMean((Construction) cons,
+		AlgoHarmonicMean algo = new AlgoHarmonicMean( cons,
 				label, list);
 		GeoNumeric num = algo.getResult();
 		return num;
@@ -7989,7 +7941,7 @@ public class Kernel {
 	 * @return
 	 */
 	final public GeoNumeric RootMeanSquare(String label, GeoList list) {
-		AlgoRootMeanSquare algo = new AlgoRootMeanSquare((Construction) cons,
+		AlgoRootMeanSquare algo = new AlgoRootMeanSquare( cons,
 				label, list);
 		GeoNumeric num = algo.getResult();
 		return num;
@@ -8000,7 +7952,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric Iteration(String label, GeoFunction f,
 			NumberValue start, NumberValue n) {
-		AlgoIteration algo = new AlgoIteration((Construction) cons, label, f,
+		AlgoIteration algo = new AlgoIteration( cons, label, f,
 				start, n);
 		GeoNumeric num = algo.getResult();
 		return num;
@@ -8011,7 +7963,7 @@ public class Kernel {
 	 */
 	final public GeoList IterationList(String label, GeoFunction f,
 			NumberValue start, NumberValue n) {
-		AlgoIterationList algo = new AlgoIterationList((Construction) cons,
+		AlgoIterationList algo = new AlgoIterationList( cons,
 				label, f, start, n);
 		return algo.getResult();
 	}
@@ -8020,7 +7972,7 @@ public class Kernel {
 	 * RandomElement[list]
 	 */
 	final public GeoElement RandomElement(String label, GeoList list) {
-		AlgoRandomElement algo = new AlgoRandomElement((Construction) cons,
+		AlgoRandomElement algo = new AlgoRandomElement( cons,
 				label, list);
 		GeoElement geo = algo.getElement();
 		return geo;
@@ -8030,7 +7982,7 @@ public class Kernel {
 	 * SelectedElement[list]
 	 */
 	final public GeoElement SelectedElement(String label, GeoList list) {
-		AlgoSelectedElement algo = new AlgoSelectedElement((Construction) cons,
+		AlgoSelectedElement algo = new AlgoSelectedElement( cons,
 				label, list);
 		GeoElement geo = algo.getElement();
 		return geo;
@@ -8040,7 +7992,7 @@ public class Kernel {
 	 * SelectedElement[list]
 	 */
 	final public GeoElement SelectedIndex(String label, GeoList list) {
-		AlgoSelectedIndex algo = new AlgoSelectedIndex((Construction) cons,
+		AlgoSelectedIndex algo = new AlgoSelectedIndex( cons,
 				label, list);
 		GeoElement geo = algo.getElement();
 		return geo;
@@ -8050,7 +8002,7 @@ public class Kernel {
 	 * Length[list]
 	 */
 	final public GeoNumeric Length(String label, GeoList list) {
-		AlgoListLength algo = new AlgoListLength((Construction) cons, label,
+		AlgoListLength algo = new AlgoListLength( cons, label,
 				list);
 		return algo.getLength();
 	}
@@ -8059,7 +8011,7 @@ public class Kernel {
 	 * Length[locus]
 	 */
 	final public GeoNumeric Length(String label, GeoLocus locus) {
-		AlgoLengthLocus algo = new AlgoLengthLocus((Construction) cons, label,
+		AlgoLengthLocus algo = new AlgoLengthLocus( cons, label,
 				locus);
 		return algo.getLength();
 	}
@@ -8068,7 +8020,7 @@ public class Kernel {
 	 * Element[text, number]
 	 */
 	final public GeoElement Element(String label, GeoText text, NumberValue n) {
-		AlgoTextElement algo = new AlgoTextElement((Construction) cons, label,
+		AlgoTextElement algo = new AlgoTextElement( cons, label,
 				text, n);
 		GeoElement geo = algo.getText();
 		return geo;
@@ -8078,7 +8030,7 @@ public class Kernel {
 	 * Length[text]
 	 */
 	final public GeoNumeric Length(String label, GeoText text) {
-		AlgoTextLength algo = new AlgoTextLength((Construction) cons, label,
+		AlgoTextLength algo = new AlgoTextLength( cons, label,
 				text);
 		return algo.getLength();
 	}
@@ -8089,7 +8041,7 @@ public class Kernel {
 	 * Path Parameter for eg point on circle
 	 */
 	final public GeoNumeric PathParameter(String label, GeoPoint2 p) {
-		AlgoPathParameter algo = new AlgoPathParameter((Construction) cons,
+		AlgoPathParameter algo = new AlgoPathParameter( cons,
 				label, p);
 		return algo.getResult();
 	}
@@ -8101,7 +8053,7 @@ public class Kernel {
 	 * segments
 	 */
 	final public GeoElement[] Polygon(String[] labels, GeoPointND[] P) {
-		AlgoPolygon algo = new AlgoPolygon((Construction) cons, labels, P);
+		AlgoPolygon algo = new AlgoPolygon( cons, labels, P);
 		return algo.getOutput();
 	}
 
@@ -8111,7 +8063,7 @@ public class Kernel {
 	 * are not labeled
 	 */
 	final public GeoElement[] Polygon(String[] labels, GeoList pointList) {
-		AlgoPolygon algo = new AlgoPolygon((Construction) cons, labels,
+		AlgoPolygon algo = new AlgoPolygon( cons, labels,
 				pointList);
 		return algo.getOutput();
 	}
@@ -8123,12 +8075,12 @@ public class Kernel {
 	 * segments
 	 */
 	final public GeoElement[] PolyLine(String[] labels, GeoPointND[] P) {
-		AlgoPolyLine algo = new AlgoPolyLine((Construction) cons, labels, P);
+		AlgoPolyLine algo = new AlgoPolyLine( cons, labels, P);
 		return algo.getOutput();
 	}
 
 	final public GeoElement[] PolyLine(String[] labels, GeoList pointList) {
-		AlgoPolyLine algo = new AlgoPolyLine((Construction) cons, labels,
+		AlgoPolyLine algo = new AlgoPolyLine( cons, labels,
 				pointList);
 		return algo.getOutput();
 	}
@@ -8141,10 +8093,10 @@ public class Kernel {
 				new MyDouble(this, points[0].distance(points[1])));
 		cons.setSuppressLabelCreation(oldMacroMode);
 
-		GeoPoint2 p = Point(null, (Path) circle, points[1].inhomX,
+		GeoPoint2 p = Point(null, circle, points[1].inhomX,
 				points[1].inhomY, true, false);
 		try {
-			((Construction) cons).replace(points[1], p);
+			( cons).replace(points[1], p);
 			points[1] = p;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -8202,7 +8154,7 @@ public class Kernel {
 					sb.toString(), true);
 
 			try {
-				((Construction) cons).replace(points[i], pp);
+				( cons).replace(points[i], pp);
 				points[i] = pp;
 				points[i].setEuclidianVisible(false);
 				points[i].update();
@@ -8223,7 +8175,7 @@ public class Kernel {
 	 */
 	final public GeoElement[] RegularPolygon(String[] labels, GeoPoint2 A,
 			GeoPoint2 B, NumberValue n) {
-		AlgoPolygonRegular algo = new AlgoPolygonRegular((Construction) cons,
+		AlgoPolygonRegular algo = new AlgoPolygonRegular( cons,
 				labels, A, B, n);
 		return algo.getOutput();
 	}
@@ -8256,18 +8208,19 @@ public class Kernel {
 
 			GeoNumeric nx = new GeoNumeric(cons, null, xC - xA);
 			GeoNumeric ny = new GeoNumeric(cons, null, yC - yA);
-
+			//TODO max precision ?
+			StringTemplate tpl =  StringTemplate.defaultTemplate;
 			// make string like this
 			// (a+x(A),b+y(A))
 			sb.setLength(0);
 			sb.append('(');
-			sb.append(nx.getLabel());
+			sb.append(nx.getLabel(tpl));
 			sb.append("+x(");
-			sb.append(points[0].getLabel());
+			sb.append(points[0].getLabel(tpl));
 			sb.append("),");
-			sb.append(ny.getLabel());
+			sb.append(ny.getLabel(tpl));
 			sb.append("+y(");
-			sb.append(points[0].getLabel());
+			sb.append(points[0].getLabel(tpl));
 			sb.append("))");
 
 			// Application.debug(sb.toString());
@@ -8294,7 +8247,7 @@ public class Kernel {
 	 * IntersectLines yields intersection point named label of lines g, h
 	 */
 	public GeoPointND IntersectLines(String label, GeoLineND g, GeoLineND h) {
-		AlgoIntersectLines algo = new AlgoIntersectLines((Construction) cons,
+		AlgoIntersectLines algo = new AlgoIntersectLines( cons,
 				label, (GeoLine) g, (GeoLine) h);
 		GeoPoint2 S = algo.getPoint();
 		return S;
@@ -8306,7 +8259,7 @@ public class Kernel {
 	final public GeoElement[] IntersectLinePolyLine(String[] labels, GeoLine g,
 			GeoPolyLine p) {
 		AlgoIntersectLinePolyLine algo = new AlgoIntersectLinePolyLine(
-				(Construction) cons, labels, g, p);
+				 cons, labels, g, p);
 		return algo.getOutput();
 	}
 
@@ -8317,7 +8270,7 @@ public class Kernel {
 	final public GeoElement[] IntersectLinePolygonalRegion(String[] labels,
 			GeoLine g, GeoPolygon p) {
 		AlgoIntersectLinePolygonalRegion algo = new AlgoIntersectLinePolygonalRegion(
-				(Construction) cons, labels, g, p);
+				 cons, labels, g, p);
 		return algo.getOutput();
 	}
 
@@ -8328,7 +8281,7 @@ public class Kernel {
 	final public GeoLine[] IntersectLineConicRegion(String[] labels, GeoLine g,
 			GeoConic c) {
 		AlgoIntersectLineConicRegion algo = new AlgoIntersectLineConicRegion(
-				(Construction) cons, labels, g, c);
+				 cons, labels, g, c);
 
 		GeoLine[] lines = algo.getIntersectionLines();
 
@@ -8342,7 +8295,7 @@ public class Kernel {
 	final public GeoElement[] IntersectLinePolygon(String[] labels, GeoLine g,
 			GeoPolygon p) {
 		AlgoIntersectLinePolyLine algo = new AlgoIntersectLinePolyLine(
-				(Construction) cons, labels, g, p);
+				 cons, labels, g, p);
 		return algo.getOutput();
 	}
 
@@ -8352,7 +8305,7 @@ public class Kernel {
 	final public GeoPoint2 IntersectFunctions(String label, GeoFunction f,
 			GeoFunction g, GeoPoint2 A) {
 		AlgoIntersectFunctionsNewton algo = new AlgoIntersectFunctionsNewton(
-				(Construction) cons, label, f, g, A);
+				 cons, label, f, g, A);
 		GeoPoint2 S = algo.getIntersectionPoint();
 		return S;
 	}
@@ -8364,7 +8317,7 @@ public class Kernel {
 			GeoLine l, GeoPoint2 A) {
 
 		AlgoIntersectFunctionLineNewton algo = new AlgoIntersectFunctionLineNewton(
-				(Construction) cons, label, f, l, A);
+				 cons, label, f, l, A);
 		GeoPoint2 S = algo.getIntersectionPoint();
 		return S;
 	}
@@ -8375,7 +8328,7 @@ public class Kernel {
 	final public GeoPoint2[] IntersectFunctions(String[] labels, GeoFunction f,
 			GeoFunction g, NumberValue left, NumberValue right) {
 		AlgoIntersectFunctions algo = new AlgoIntersectFunctions(
-				(Construction) cons, labels, f, g, left, right);
+				 cons, labels, f, g, left, right);
 		GeoPoint2[] S = algo.getIntersectionPoints();
 		return S;
 	}// IntersectFunctions(label,f,g,left,right)
@@ -8386,7 +8339,7 @@ public class Kernel {
 	final public GeoLocus Locus(String label, GeoPoint2 Q, GeoPoint2 P) {
 		if (P.getPath() == null || Q.getPath() != null || !P.isParentOf(Q))
 			return null;
-		AlgoLocus algo = new AlgoLocus((Construction) cons, label, Q, P);
+		AlgoLocus algo = new AlgoLocus( cons, label, Q, P);
 		return algo.getLocus();
 	}
 
@@ -8400,7 +8353,7 @@ public class Kernel {
 																	// ||
 				Q.getPath() != null || !P.isParentOf(Q))
 			return null;
-		AlgoLocusSlider algo = new AlgoLocusSlider((Construction) cons, label,
+		AlgoLocusSlider algo = new AlgoLocusSlider( cons, label,
 				Q, P);
 		return algo.getLocus();
 	}
@@ -8446,7 +8399,7 @@ public class Kernel {
 			// we must check that getLabels() didn't return null
 			String label = labels == null ? null : labels[0];
 			AlgoIntersectFunctionsNewton algo = new AlgoIntersectFunctionsNewton(
-					(Construction) cons, label, a, b, A);
+					 cons, label, a, b, A);
 			GeoPoint2[] ret = { algo.getIntersectionPoint() };
 			return ret;
 		}
@@ -8508,7 +8461,7 @@ public class Kernel {
 			// we must check that getLabels() didn't return null
 			String label = labels == null ? null : labels[0];
 			AlgoIntersectFunctionLineNewton algo = new AlgoIntersectFunctionLineNewton(
-					(Construction) cons, label, f, l, A);
+					 cons, label, f, l, A);
 			GeoPoint2[] ret = { algo.getIntersectionPoint() };
 			return ret;
 
@@ -8849,7 +8802,7 @@ public class Kernel {
 
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectPolynomialConic algo = new AlgoIntersectPolynomialConic(
-				(Construction) cons, f, c);
+				 cons, f, c);
 		algo.setPrintedInXML(false);
 		intersectionAlgos.add(algo); // remember this algorithm
 		return algo;
@@ -8863,7 +8816,7 @@ public class Kernel {
 
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectLineConic algo = new AlgoIntersectLineConic(
-				(Construction) cons, g, c);
+				 cons, g, c);
 		algo.setPrintedInXML(false);
 		intersectionAlgos.add(algo); // remember this algorithm
 		return algo;
@@ -8876,7 +8829,7 @@ public class Kernel {
 			return (AlgoIntersectConics) existingAlgo;
 
 		// we didn't find a matching algorithm, so create a new one
-		AlgoIntersectConics algo = new AlgoIntersectConics((Construction) cons,
+		AlgoIntersectConics algo = new AlgoIntersectConics( cons,
 				a, b);
 		algo.setPrintedInXML(false);
 		intersectionAlgos.add(algo); // remember this algorithm
@@ -8892,7 +8845,7 @@ public class Kernel {
 
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectPolynomials algo = new AlgoIntersectPolynomials(
-				(Construction) cons, a, b);
+				 cons, a, b);
 		algo.setPrintedInXML(false);
 		intersectionAlgos.add(algo); // remember this algorithm
 		return algo;
@@ -8907,7 +8860,7 @@ public class Kernel {
 
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectPolynomialLine algo = new AlgoIntersectPolynomialLine(
-				(Construction) cons, a, l);
+				 cons, a, l);
 		algo.setPrintedInXML(false);
 		intersectionAlgos.add(algo); // remember this algorithm
 		return algo;
@@ -8922,7 +8875,7 @@ public class Kernel {
 
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectImplicitpolyParametric algo = new AlgoIntersectImplicitpolyParametric(
-				(Construction) cons, p, l);
+				 cons, p, l);
 		algo.setPrintedInXML(false);
 		intersectionAlgos.add(algo); // remember this algorithm
 		return algo;
@@ -8937,7 +8890,7 @@ public class Kernel {
 
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectImplicitpolyParametric algo = new AlgoIntersectImplicitpolyParametric(
-				(Construction) cons, p, f);
+				 cons, p, f);
 		algo.setPrintedInXML(false);
 		intersectionAlgos.add(algo); // remember this algorithm
 		return algo;
@@ -8952,7 +8905,7 @@ public class Kernel {
 
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectImplicitpolys algo = new AlgoIntersectImplicitpolys(
-				(Construction) cons, p1, p2);
+				 cons, p1, p2);
 		algo.setPrintedInXML(false);
 		intersectionAlgos.add(algo); // remember this algorithm
 		return algo;
@@ -8966,7 +8919,7 @@ public class Kernel {
 
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectImplicitpolys algo = new AlgoIntersectImplicitpolys(
-				(Construction) cons, p1, c1);
+				 cons, p1, c1);
 		algo.setPrintedInXML(false);
 		intersectionAlgos.add(algo); // remember this algorithm
 		return algo;
@@ -8977,7 +8930,7 @@ public class Kernel {
 		int size = intersectionAlgos.size();
 		AlgoElement algo;
 		for (int i = 0; i < size; i++) {
-			algo = (AlgoElement) intersectionAlgos.get(i);
+			algo = intersectionAlgos.get(i);
 			GeoElement[] input = algo.getInput();
 			if (a == input[0] && b == input[1] || a == input[1]
 					&& b == input[0])
@@ -8991,7 +8944,7 @@ public class Kernel {
 	 * tangents to c through P
 	 */
 	final public GeoLine[] Tangent(String[] labels, GeoPoint2 P, GeoConic c) {
-		AlgoTangentPoint algo = new AlgoTangentPoint((Construction) cons,
+		AlgoTangentPoint algo = new AlgoTangentPoint( cons,
 				labels, P, c);
 		GeoLine[] tangents = algo.getTangents();
 		return tangents;
@@ -9002,7 +8955,7 @@ public class Kernel {
 	 */
 	final public GeoLine[] CommonTangents(String[] labels, GeoConic c1,
 			GeoConic c2) {
-		AlgoCommonTangents algo = new AlgoCommonTangents((Construction) cons,
+		AlgoCommonTangents algo = new AlgoCommonTangents( cons,
 				labels, c1, c2);
 		GeoLine[] tangents = algo.getTangents();
 		return tangents;
@@ -9012,7 +8965,7 @@ public class Kernel {
 	 * tangents to c parallel to g
 	 */
 	final public GeoLine[] Tangent(String[] labels, GeoLine g, GeoConic c) {
-		AlgoTangentLine algo = new AlgoTangentLine((Construction) cons, labels,
+		AlgoTangentLine algo = new AlgoTangentLine( cons, labels,
 				g, c);
 		GeoLine[] tangents = algo.getTangents();
 		return tangents;
@@ -9023,7 +8976,7 @@ public class Kernel {
 	 */
 	final public GeoLine Tangent(String label, NumberValue a, GeoFunction f) {
 		AlgoTangentFunctionNumber algo = new AlgoTangentFunctionNumber(
-				(Construction) cons, label, a, f);
+				 cons, label, a, f);
 		GeoLine t = algo.getTangent();
 		t.setToExplicit();
 		t.update();
@@ -9036,7 +8989,7 @@ public class Kernel {
 	 */
 	final public GeoLine Tangent(String label, GeoPoint2 P, GeoFunction f) {
 		AlgoTangentFunctionPoint algo = new AlgoTangentFunctionPoint(
-				(Construction) cons, label, P, f);
+				 cons, label, P, f);
 		GeoLine t = algo.getTangent();
 		t.setToExplicit();
 		t.update();
@@ -9050,7 +9003,7 @@ public class Kernel {
 	final public GeoLine[] Tangent(String[] labels, GeoPoint2 R,
 			GeoImplicitPoly p) {
 		AlgoTangentImplicitpoly algo = new AlgoTangentImplicitpoly(
-				(Construction) cons, labels, p, R);
+				 cons, labels, p, R);
 		algo.setLabels(labels);
 		GeoLine[] tangents = algo.getTangents();
 		return tangents;
@@ -9061,7 +9014,7 @@ public class Kernel {
 	 */
 	final public GeoLine[] Tangent(String[] labels, GeoLine g, GeoImplicitPoly p) {
 		AlgoTangentImplicitpoly algo = new AlgoTangentImplicitpoly(
-				(Construction) cons, labels, p, g);
+				 cons, labels, p, g);
 		algo.setLabels(labels);
 		GeoLine[] tangents = algo.getTangents();
 		return tangents;
@@ -9071,7 +9024,7 @@ public class Kernel {
 	 * second axis of c
 	 */
 	final public GeoLine SecondAxis(String label, GeoConic c) {
-		AlgoAxisSecond algo = new AlgoAxisSecond((Construction) cons, label, c);
+		AlgoAxisSecond algo = new AlgoAxisSecond( cons, label, c);
 		GeoLine axis = algo.getAxis();
 		return axis;
 	}
@@ -9081,7 +9034,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric SecondAxisLength(String label, GeoConic c) {
 		AlgoAxisSecondLength algo = new AlgoAxisSecondLength(
-				(Construction) cons, label, c);
+				 cons, label, c);
 		GeoNumeric length = algo.getLength();
 		return length;
 	}
@@ -9091,7 +9044,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric Parameter(String label, GeoConic c) {
 		AlgoParabolaParameter algo = new AlgoParabolaParameter(
-				(Construction) cons, label, c);
+				 cons, label, c);
 		GeoNumeric length = algo.getParameter();
 		return length;
 	}
@@ -9100,7 +9053,7 @@ public class Kernel {
 	 * (circle) radius of c
 	 */
 	final public GeoNumeric Radius(String label, GeoConic c) {
-		AlgoRadius algo = new AlgoRadius((Construction) cons, label, c);
+		AlgoRadius algo = new AlgoRadius( cons, label, c);
 		GeoNumeric length = algo.getRadius();
 		return length;
 	}
@@ -9109,7 +9062,7 @@ public class Kernel {
 	 * StemPlot[list] Michael Borcherds
 	 */
 	final public GeoText StemPlot(String label, GeoList list) {
-		AlgoStemPlot algo = new AlgoStemPlot((Construction) cons, label, list,
+		AlgoStemPlot algo = new AlgoStemPlot( cons, label, list,
 				null);
 		GeoText text = algo.getResult();
 		return text;
@@ -9119,7 +9072,7 @@ public class Kernel {
 	 * StemPlot[list, number] Michael Borcherds
 	 */
 	final public GeoText StemPlot(String label, GeoList list, GeoNumeric num) {
-		AlgoStemPlot algo = new AlgoStemPlot((Construction) cons, label, list,
+		AlgoStemPlot algo = new AlgoStemPlot( cons, label, list,
 				num);
 		GeoText text = algo.getResult();
 		return text;
@@ -9131,7 +9084,7 @@ public class Kernel {
 	final public GeoPoint2 CornerOfDrawingPad(String label, NumberValue number,
 			NumberValue ev) {
 		AlgoDrawingPadCorner algo = new AlgoDrawingPadCorner(
-				(Construction) cons, label, number, ev);
+				 cons, label, number, ev);
 		return algo.getCorner();
 	}
 
@@ -9144,7 +9097,7 @@ public class Kernel {
 	 */
 	final public GeoElement[] Translate(String label, GeoElement geoTrans,
 			GeoVec3D v) {
-		Transform t = new TransformTranslate((Construction) cons, v);
+		Transform t = new TransformTranslate( cons, v);
 		return t.transform(geoTrans, label);
 	}
 
@@ -9153,7 +9106,7 @@ public class Kernel {
 	 * has A as startPoint
 	 */
 	final public GeoVector Translate(String label, GeoVec3D v, GeoPoint2 A) {
-		AlgoTranslateVector algo = new AlgoTranslateVector((Construction) cons,
+		AlgoTranslateVector algo = new AlgoTranslateVector( cons,
 				label, v, A);
 		GeoVector vec = algo.getTranslatedVector();
 		return vec;
@@ -9164,7 +9117,7 @@ public class Kernel {
 	 */
 	final public GeoElement[] Rotate(String label, GeoElement geoRot,
 			NumberValue phi) {
-		Transform t = new TransformRotate((Construction) cons, phi);
+		Transform t = new TransformRotate( cons, phi);
 		return t.transform(geoRot, label);
 	}
 
@@ -9173,7 +9126,7 @@ public class Kernel {
 	 */
 	final public GeoElement[] Rotate(String label, GeoElement geoRot,
 			NumberValue phi, GeoPoint2 Q) {
-		Transform t = new TransformRotate((Construction) cons, phi, Q);
+		Transform t = new TransformRotate( cons, phi, Q);
 		return t.transform(geoRot, label);
 	}
 
@@ -9182,7 +9135,7 @@ public class Kernel {
 	 */
 	final public GeoElement[] Mirror(String label, GeoElement geoMir,
 			GeoPoint2 Q) {
-		Transform t = new TransformMirror((Construction) cons, Q);
+		Transform t = new TransformMirror( cons, Q);
 		return t.transform(geoMir, label);
 	}
 
@@ -9190,7 +9143,7 @@ public class Kernel {
 	 * mirror (invert) element Q in circle Michael Borcherds 2008-02-10
 	 */
 	final public GeoElement[] Mirror(String label, GeoElement Q, GeoConic conic) {
-		Transform t = new TransformMirror((Construction) cons, conic);
+		Transform t = new TransformMirror( cons, conic);
 		return t.transform(Q, label);
 	}
 
@@ -9199,7 +9152,7 @@ public class Kernel {
 	 */
 	final public GeoElement[] Shear(String label, GeoElement Q, GeoVec3D l,
 			GeoNumeric num) {
-		Transform t = new TransformShearOrStretch((Construction) cons, l, num,
+		Transform t = new TransformShearOrStretch( cons, l, num,
 				true);
 		return t.transform(Q, label);
 	}
@@ -9209,7 +9162,7 @@ public class Kernel {
 	 */
 	final public GeoElement[] Stretch(String label, GeoElement Q, GeoVec3D l,
 			GeoNumeric num) {
-		Transform t = new TransformShearOrStretch((Construction) cons, l, num,
+		Transform t = new TransformShearOrStretch( cons, l, num,
 				false);
 		return t.transform(Q, label);
 	}
@@ -9218,7 +9171,7 @@ public class Kernel {
 	 * mirror geoMir at line g
 	 */
 	final public GeoElement[] Mirror(String label, GeoElement geoMir, GeoLine g) {
-		Transform t = new TransformMirror((Construction) cons, g);
+		Transform t = new TransformMirror( cons, g);
 		return t.transform(geoMir, label);
 
 	}
@@ -9232,7 +9185,7 @@ public class Kernel {
 	 */
 	final public GeoFunction PolynomialFunction(String label, GeoFunction f) {
 		AlgoPolynomialFromFunction algo = new AlgoPolynomialFromFunction(
-				(Construction) cons, label, f);
+				 cons, label, f);
 		return algo.getPolynomial();
 	}
 
@@ -9242,17 +9195,17 @@ public class Kernel {
 	 */
 	final public GeoFunction PolynomialFunction(String label, GeoList list) {
 		AlgoPolynomialFromCoordinates algo = new AlgoPolynomialFromCoordinates(
-				(Construction) cons, label, list);
+				 cons, label, list);
 		return algo.getPolynomial();
 	}
 
 	final public GeoElement Simplify(String label, CasEvaluableFunction func) {
-		AlgoSimplify algo = new AlgoSimplify((Construction) cons, label, func);
+		AlgoSimplify algo = new AlgoSimplify( cons, label, func);
 		return algo.getResult();
 	}
 
 	final public GeoElement SolveODE(String label, CasEvaluableFunction func) {
-		AlgoSolveODECas algo = new AlgoSolveODECas((Construction) cons, label,
+		AlgoSolveODECas algo = new AlgoSolveODECas( cons, label,
 				func);
 		return algo.getResult();
 	}
@@ -9263,7 +9216,7 @@ public class Kernel {
 	 * @author Michael Borcherds
 	 */
 	final public GeoElement Simplify(String label, GeoText text) {
-		AlgoSimplifyText algo = new AlgoSimplifyText((Construction) cons,
+		AlgoSimplifyText algo = new AlgoSimplifyText( cons,
 				label, text);
 		return algo.getGeoText();
 	}
@@ -9272,7 +9225,7 @@ public class Kernel {
 	 * Numerator Michael Borcherds
 	 */
 	final public GeoFunction Numerator(String label, GeoFunction func) {
-		AlgoNumerator algo = new AlgoNumerator((Construction) cons, label, func);
+		AlgoNumerator algo = new AlgoNumerator( cons, label, func);
 		return algo.getResult();
 	}
 
@@ -9281,7 +9234,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric Limit(String label, GeoFunction func,
 			NumberValue num) {
-		AlgoLimit algo = new AlgoLimit((Construction) cons, label, func, num);
+		AlgoLimit algo = new AlgoLimit( cons, label, func, num);
 		return algo.getResult();
 	}
 
@@ -9290,7 +9243,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric LimitBelow(String label, GeoFunction func,
 			NumberValue num) {
-		AlgoLimitBelow algo = new AlgoLimitBelow((Construction) cons, label,
+		AlgoLimitBelow algo = new AlgoLimitBelow( cons, label,
 				func, num);
 		return algo.getResult();
 	}
@@ -9300,7 +9253,7 @@ public class Kernel {
 	 */
 	final public GeoNumeric LimitAbove(String label, GeoFunction func,
 			NumberValue num) {
-		AlgoLimitAbove algo = new AlgoLimitAbove((Construction) cons, label,
+		AlgoLimitAbove algo = new AlgoLimitAbove( cons, label,
 				func, num);
 		return algo.getResult();
 	}
@@ -9311,7 +9264,7 @@ public class Kernel {
 	final public GeoElement PartialFractions(String label,
 			CasEvaluableFunction func) {
 		AlgoPartialFractions algo = new AlgoPartialFractions(
-				(Construction) cons, label, func);
+				 cons, label, func);
 		return algo.getResult();
 	}
 
@@ -9321,7 +9274,7 @@ public class Kernel {
 	final public GeoFunction TaylorSeries(String label, GeoFunction f,
 			NumberValue a, NumberValue n) {
 
-		AlgoTaylorSeries algo = new AlgoTaylorSeries((Construction) cons,
+		AlgoTaylorSeries algo = new AlgoTaylorSeries( cons,
 				label, f, a, n);
 		return algo.getPolynomial();
 	}
@@ -9331,7 +9284,7 @@ public class Kernel {
 	 */
 	final public GeoElement Integral(String label, CasEvaluableFunction f,
 			GeoNumeric var) {
-		AlgoIntegral algo = new AlgoIntegral((Construction) cons, label, f, var);
+		AlgoIntegral algo = new AlgoIntegral( cons, label, f, var);
 		return algo.getResult();
 	}
 
@@ -9341,7 +9294,7 @@ public class Kernel {
 	final public GeoNumeric Integral(String label, GeoFunction f,
 			NumberValue a, NumberValue b) {
 		AlgoIntegralDefinite algo = new AlgoIntegralDefinite(
-				(Construction) cons, label, f, a, b);
+				 cons, label, f, a, b);
 		GeoNumeric n = algo.getIntegral();
 		return n;
 	}
@@ -9353,7 +9306,7 @@ public class Kernel {
 	final public GeoNumeric Integral(String label, GeoFunction f,
 			NumberValue a, NumberValue b, GeoBoolean evaluate) {
 		AlgoIntegralDefinite algo = new AlgoIntegralDefinite(
-				(Construction) cons, label, f, a, b, evaluate);
+				 cons, label, f, a, b, evaluate);
 		GeoNumeric n = algo.getIntegral();
 		return n;
 	}
@@ -9364,7 +9317,7 @@ public class Kernel {
 	final public GeoNumeric Integral(String label, GeoFunction f,
 			GeoFunction g, NumberValue a, NumberValue b) {
 		AlgoIntegralFunctions algo = new AlgoIntegralFunctions(
-				(Construction) cons, label, f, g, a, b);
+				 cons, label, f, g, a, b);
 		GeoNumeric num = algo.getIntegral();
 		return num;
 	}
@@ -9376,7 +9329,7 @@ public class Kernel {
 	final public GeoNumeric Integral(String label, GeoFunction f,
 			GeoFunction g, NumberValue a, NumberValue b, GeoBoolean evaluate) {
 		AlgoIntegralFunctions algo = new AlgoIntegralFunctions(
-				(Construction) cons, label, f, g, a, b, evaluate);
+				 cons, label, f, g, a, b, evaluate);
 		GeoNumeric num = algo.getIntegral();
 		return num;
 	}
@@ -9390,18 +9343,18 @@ public class Kernel {
 		if (!f.isPolynomialFunction(true))
 			return null;
 
-		AlgoRootsPolynomial algo = new AlgoRootsPolynomial((Construction) cons,
+		AlgoRootsPolynomial algo = new AlgoRootsPolynomial( cons,
 				labels, f);
 		GeoPoint2[] g = algo.getRootPoints();
 		return g;
 	}
 
-	final public GeoPoint2[] RootMultiple(String[] labels, GeoFunction f) {
+	final public static GeoPoint2[] RootMultiple(GeoFunction f) {
 		// allow functions that can be simplified to factors of polynomials
 		if (!f.isPolynomialFunction(true))
 			return null;
 
-		AlgoRootsPolynomial algo = new AlgoRootsPolynomial((GeoFunction) f);
+		AlgoRootsPolynomial algo = new AlgoRootsPolynomial(f);
 		GeoPoint2[] g = algo.getRootPoints();
 		return g;
 	}
@@ -9411,7 +9364,7 @@ public class Kernel {
 	 * derivative of f exists)
 	 */
 	final public GeoPoint2 Root(String label, GeoFunction f, NumberValue a) {
-		AlgoRootNewton algo = new AlgoRootNewton((Construction) cons, label, f,
+		AlgoRootNewton algo = new AlgoRootNewton( cons, label, f,
 				a);
 		GeoPoint2 p = algo.getRootPoint();
 		return p;
@@ -9422,7 +9375,7 @@ public class Kernel {
 	 */
 	final public GeoPoint2 Root(String label, GeoFunction f, NumberValue a,
 			NumberValue b) {
-		AlgoRootInterval algo = new AlgoRootInterval((Construction) cons,
+		AlgoRootInterval algo = new AlgoRootInterval( cons,
 				label, f, a, b);
 		GeoPoint2 p = algo.getRootPoint();
 		return p;
@@ -9433,7 +9386,7 @@ public class Kernel {
 	 */
 	final public GeoPoint2[] Roots(String[] labels, GeoFunction f,
 			NumberValue a, NumberValue b) {
-		AlgoRoots algo = new AlgoRoots((Construction) cons, labels, f, a, b);
+		AlgoRoots algo = new AlgoRoots( cons, labels, f, a, b);
 		GeoPoint2[] pts = algo.getRootPoints();
 		return pts;
 	}// Roots(label,f,a,b)
@@ -9445,7 +9398,7 @@ public class Kernel {
 	 */
 	final public GeoElement Maximize(String label, GeoElement dep,
 			GeoNumeric indep) {
-		AlgoMaximize algo = new AlgoMaximize((Construction) cons, label, dep,
+		AlgoMaximize algo = new AlgoMaximize( cons, label, dep,
 				indep);
 		/*
 		 * GeoElement[] geo=new GeoElement[1]; geo[0]=algo.getMaximized(); //All
@@ -9461,7 +9414,7 @@ public class Kernel {
 	 */
 	final public GeoElement Minimize(String label, GeoElement dep,
 			GeoNumeric indep) {
-		AlgoMinimize algo = new AlgoMinimize((Construction) cons, label, dep,
+		AlgoMinimize algo = new AlgoMinimize( cons, label, dep,
 				indep); // true: minimize
 		/*
 		 * GeoElement geo=algo.getMaximized(); //All variants return array...
@@ -9478,7 +9431,7 @@ public class Kernel {
 			return null;
 
 		AlgoTurningPointPolynomial algo = new AlgoTurningPointPolynomial(
-				(Construction) cons, labels, f);
+				 cons, labels, f);
 		GeoPoint2[] g = algo.getRootPoints();
 		return g;
 	}
@@ -9491,7 +9444,7 @@ public class Kernel {
 			GeoFunction f) {
 
 		AlgoOsculatingCircle algo = new AlgoOsculatingCircle(
-				(Construction) cons, label, A, f);
+				 cons, label, A, f);
 		GeoConic circle = algo.getCircle();
 		return circle;
 
@@ -9505,7 +9458,7 @@ public class Kernel {
 			GeoCurveCartesian f) {
 
 		AlgoOsculatingCircleCurve algo = new AlgoOsculatingCircleCurve(
-				(Construction) cons, label, A, f);
+				 cons, label, A, f);
 		GeoConic circle = algo.getCircle();
 		return circle;
 
@@ -9519,7 +9472,7 @@ public class Kernel {
 	final public GeoNumeric FunctionLength(String label, GeoFunction f,
 			GeoNumeric A, GeoNumeric B) {
 
-		AlgoLengthFunction algo = new AlgoLengthFunction((Construction) cons,
+		AlgoLengthFunction algo = new AlgoLengthFunction( cons,
 				label, f, A, B);
 		GeoNumeric length = algo.getLength();
 		return length;
@@ -9535,7 +9488,7 @@ public class Kernel {
 			GeoPoint2 A, GeoPoint2 B) {
 
 		AlgoLengthFunction2Points algo = new AlgoLengthFunction2Points(
-				(Construction) cons, label, f, A, B);
+				 cons, label, f, A, B);
 		GeoNumeric length = algo.getLength();
 		return length;
 
@@ -9550,7 +9503,7 @@ public class Kernel {
 	final public GeoNumeric CurveLength(String label, GeoCurveCartesian c,
 			GeoNumeric t0, GeoNumeric t1) {
 
-		AlgoLengthCurve algo = new AlgoLengthCurve((Construction) cons, label,
+		AlgoLengthCurve algo = new AlgoLengthCurve( cons, label,
 				c, t0, t1);
 		GeoNumeric length = algo.getLength();
 		return length;
@@ -9564,7 +9517,7 @@ public class Kernel {
 	final public GeoNumeric CurveLength2Points(String label,
 			GeoCurveCartesian c, GeoPoint2 A, GeoPoint2 B) {
 		AlgoLengthCurve2Points algo = new AlgoLengthCurve2Points(
-				(Construction) cons, label, c, A, B);
+				 cons, label, c, A, B);
 		GeoNumeric length = algo.getLength();
 		return length;
 	}
@@ -9573,7 +9526,7 @@ public class Kernel {
 	 * tangent to Curve f in point P: (b'(t), -a'(t), a'(t)*b(t)-a(t)*b'(t))
 	 */
 	final public GeoLine Tangent(String label, GeoPoint2 P, GeoCurveCartesian f) {
-		AlgoTangentCurve algo = new AlgoTangentCurve((Construction) cons,
+		AlgoTangentCurve algo = new AlgoTangentCurve( cons,
 				label, P, f);
 		GeoLine t = algo.getTangent();
 		t.setToExplicit();
@@ -9590,14 +9543,14 @@ public class Kernel {
 
 	final public GeoPoint2 Kimberling(String label, GeoPoint2 A, GeoPoint2 B,
 			GeoPoint2 C, NumberValue v) {
-		AlgoKimberling algo = new AlgoKimberling((Construction) cons, label, A,
+		AlgoKimberling algo = new AlgoKimberling( cons, label, A,
 				B, C, v);
 		GeoPoint2 P = algo.getResult();
 		return P;
 	}
 
 	final public GeoPoint2 Barycenter(String label, GeoList A, GeoList B) {
-		AlgoBarycenter algo = new AlgoBarycenter((Construction) cons, label, A,
+		AlgoBarycenter algo = new AlgoBarycenter( cons, label, A,
 				B);
 		GeoPoint2 P = algo.getResult();
 		return P;
@@ -9605,7 +9558,7 @@ public class Kernel {
 
 	final public GeoPoint2 Trilinear(String label, GeoPoint2 A, GeoPoint2 B,
 			GeoPoint2 C, NumberValue a, NumberValue b, NumberValue c) {
-		AlgoTrilinear algo = new AlgoTrilinear((Construction) cons, label, A,
+		AlgoTrilinear algo = new AlgoTrilinear( cons, label, A,
 				B, C, a, b, c);
 		GeoPoint2 P = algo.getResult();
 		return P;
@@ -9613,7 +9566,7 @@ public class Kernel {
 
 	final public GeoImplicitPoly TriangleCubic(String label, GeoPoint2 A,
 			GeoPoint2 B, GeoPoint2 C, NumberValue v) {
-		AlgoTriangleCubic algo = new AlgoTriangleCubic((Construction) cons,
+		AlgoTriangleCubic algo = new AlgoTriangleCubic( cons,
 				label, A, B, C, v);
 		GeoImplicitPoly poly = algo.getResult();
 		return poly;
@@ -9622,7 +9575,7 @@ public class Kernel {
 	final public GeoElement TriangleCubic(String label, GeoPoint2 A,
 			GeoPoint2 B, GeoPoint2 C, GeoImplicitPoly v, GeoNumeric a,
 			GeoNumeric b, GeoNumeric c) {
-		AlgoTriangleCurve algo = new AlgoTriangleCurve((Construction) cons,
+		AlgoTriangleCurve algo = new AlgoTriangleCurve( cons,
 				label, A, B, C, v, a, b, c);
 		GeoElement poly = algo.getResult();
 

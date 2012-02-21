@@ -28,6 +28,10 @@ public abstract class GeoUserInputElement extends GeoElement {
 	private boolean inputForm;
 	private boolean validInputForm;
 
+	/**
+	 * Creates new element with user input
+	 * @param c construction
+	 */
 	public GeoUserInputElement(Construction c) {
 		super(c);
 		
@@ -39,31 +43,50 @@ public abstract class GeoUserInputElement extends GeoElement {
 		validInputForm=true;
 	}
 	
+	/**
+	 * Creates new element with user input
+	 * @param c construction
+	 * @param userInput input defining this element
+	 */
 	public GeoUserInputElement(Construction c,ValidExpression userInput) {
 		this(c);
 		this.userInput=userInput;
 	}
 	
+	/**
+	 * If possible, switches input form on
+	 */
 	public void setInputForm(){
 		inputForm=true&&validInputForm;
 	}
 	
+	/**
+	 * Switches input form off
+	 */
 	public void setExtendedForm(){
 		inputForm=false;
 	}
 	
+	/**
+	 * @return true iff input form is active
+	 */
 	public boolean isInputForm() {
 		return inputForm;
 	}
 	
+	/**
+	 * @param input user input
+	 */
 	public void setUserInput(ValidExpression input){
 		userInput=input;
 	}
 
+	@Override
 	public String toString(StringTemplate tpl){
 		return label+": "+toValueString(tpl);
 	}
 	
+	@Override
 	public String toValueString(StringTemplate tpl){
 		if (validInputForm&&inputForm&&userInput!=null)
 			return userInput.toValueString(tpl);
@@ -72,6 +95,7 @@ public abstract class GeoUserInputElement extends GeoElement {
 		
 	}
 	
+	@Override
 	public void set(GeoElement geo){
 		if (!(geo instanceof GeoUserInputElement))
 			return;
@@ -92,8 +116,15 @@ public abstract class GeoUserInputElement extends GeoElement {
 		sb.append("\" />\n");
 	}
 	
+	/**
+	 * @param tpl string template
+	 * @return raw string
+	 */
 	protected abstract String toRawValueString(StringTemplate tpl);
 	
+	/**
+	 * @param b true iff input should be considered valid
+	 */
 	public void setValidInputForm(boolean b){
 		validInputForm=b;
 		if (!validInputForm){
@@ -101,6 +132,10 @@ public abstract class GeoUserInputElement extends GeoElement {
 		}
 	}
 
+	/**
+	 * 
+	 * @return true iff input is valid
+	 */
 	public boolean isValidInputForm() {
 		return validInputForm;
 	}
