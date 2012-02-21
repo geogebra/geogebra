@@ -226,10 +226,14 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 
 		// Set foreground and background color
 		//===============================================
-		if (geo.getBackgroundColor() != null) {
+		
+		// use geo bgColor if there is no format bgColor
+		if (geo.getBackgroundColor() != null && !isCustomBGColor) {
 			bgColor = geogebra.awt.Color.getAwtColor( geo.getBackgroundColor());
+			isCustomBGColor = true;
 		}
 
+		// adjust selection color when there is a bgColor 
 		if (geo.doHighlighting()) {
 			if(isCustomBGColor){
 				bgColor = bgColor.darker();
