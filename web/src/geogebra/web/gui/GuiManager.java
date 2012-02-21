@@ -20,6 +20,8 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	public Application app;
 	protected Kernel kernel;
+	private int width;
+	private int height;
 
 	public GuiManager(Application app) {
 		this.app = app;
@@ -207,4 +209,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		Application.debug("unimplemented");	    
     }
 
+	public void resize(int width, int height){
+		
+	}
 }
