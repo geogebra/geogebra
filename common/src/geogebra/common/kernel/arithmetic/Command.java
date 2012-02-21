@@ -19,7 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.MacroInterface;
+import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec2D;
@@ -44,7 +44,7 @@ public class Command extends ValidExpression implements ReplaceableValue {
 	private Kernel kernel;
 	private AbstractApplication app;
 	private GeoElement[] evalGeos; // evaluated Elements
-	private MacroInterface macro; // command may correspond to a macro
+	private Macro macro; // command may correspond to a macro
 	private boolean allowEvaluationForTypeCheck = true;
 
 	/**
@@ -401,14 +401,14 @@ public class Command extends ValidExpression implements ReplaceableValue {
 	/**
 	 * @return macro macro associated with this command
 	 */
-	public final MacroInterface getMacro() {
+	public final Macro getMacro() {
 		return macro;
 	}
 
 	/**
 	 * @param macro macro associated with this command
 	 */
-	public final void setMacro(MacroInterface macro) {
+	public final void setMacro(Macro macro) {
 		this.macro = macro;
 	}
 

@@ -38,13 +38,11 @@ public class CmdAngularBisector extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoLine()))) {
 				return kernelA.AngularBisector(c.getLabels(), (GeoLine) arg[0],
 						(GeoLine) arg[1]);
-			} else {
-				if (!ok[0]) {
-					throw argErr(app, c.getName(), arg[0]);
-				} else {
-					throw argErr(app, c.getName(), arg[1]);
-				}
 			}
+			if (!ok[0]) {
+				throw argErr(app, c.getName(), arg[0]);
+			}
+			throw argErr(app, c.getName(), arg[1]);
 
 		case 3:
 			arg = resArgs(c);
@@ -58,16 +56,12 @@ public class CmdAngularBisector extends CommandProcessor {
 						(GeoPoint2) arg[2]) };
 				return ret;
 			}
-
-			// syntax error
-			else {
-				if (!ok[0]) {
-					throw argErr(app, c.getName(), arg[0]);
-				} else if (!ok[1]) {
-					throw argErr(app, c.getName(), arg[1]);
-				} else {
-					throw argErr(app, c.getName(), arg[2]);
-				}
+			if (!ok[0]) {
+				throw argErr(app, c.getName(), arg[0]);
+			} else if (!ok[1]) {
+				throw argErr(app, c.getName(), arg[1]);
+			} else {
+				throw argErr(app, c.getName(), arg[2]);
 			}
 
 		default:

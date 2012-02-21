@@ -14,6 +14,7 @@ public class CmdFitSin extends CmdOneListFunction{
 
     public CmdFitSin(Kernel kernel) {super(kernel);}
     
+	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
 		return kernelA.FitSin(a, b);

@@ -1,10 +1,19 @@
+/* 
+GeoGebra - Dynamic Mathematics for Everyone
+http://www.geogebra.org
+
+This file is part of GeoGebra.
+
+This program is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by 
+the Free Software Foundation.
+
+*/
+
 package geogebra.common.kernel.commands;
 @SuppressWarnings("javadoc")
 public enum Commands implements CommandsConstants{
 	
-	// Please put each command to its appropriate place only!
-	// Please do not change the first command in a subtable,
-	// only change it if you change it in the initCmdTable as well!
 	// Subtables are separated by comment lines here. 
 
    	//=================================================================

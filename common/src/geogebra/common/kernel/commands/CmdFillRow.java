@@ -6,7 +6,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.Kernel;
 
 /**
  *FillRow
@@ -23,6 +22,7 @@ public class CmdFillRow extends CommandProcessor {
 		super(kernel);
 	}
 
+	@Override
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];

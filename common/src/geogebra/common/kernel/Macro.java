@@ -16,7 +16,6 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.algos.ConstructionElement;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Test;
@@ -124,12 +123,12 @@ public class Macro implements MacroInterface {
 
 	/**
 	 * Initiates macro
-	 * @param macroCons macro onstruction
+	 * @param macroCons1 macro construction
 	 * @param inputLabels labels for input
 	 * @param outputLabels labels for output
 	 */
-	public void initMacro(Construction macroCons, String [] inputLabels, String [] outputLabels) {				
-		this.macroCons = macroCons;
+	public void initMacro(Construction macroCons1, String [] inputLabels, String [] outputLabels) {				
+		this.macroCons = macroCons1;
 		//this.macroConsXML = macroCons.getConstructionXML();
 		this.macroInputLabels = inputLabels;
 		this.macroOutputLabels = outputLabels;	
@@ -145,7 +144,7 @@ public class Macro implements MacroInterface {
 		// after initing we turn global variable lookup on again, 
     	// so we can use for example functions with parameters in macros too.
     	// Such parameters are global variables
-		((MacroConstruction) macroCons).setGlobalVariableLookup(true);   				
+		((MacroConstruction) macroCons1).setGlobalVariableLookup(true);   				
 	}	
 	
 	private void initInputOutput() {
@@ -406,7 +405,7 @@ public class Macro implements MacroInterface {
 	  */
 	 private Construction createMacroConstruction(String macroConsXML) throws Exception {		 
     	// build macro construction
-    	MacroKernelInterface mk = kernel.newMacroKernel();   
+    	MacroKernel mk = kernel.newMacroKernel();   
     	mk.setContinuous(false);
     	
     	// during initing we turn global variable lookup off, so we can be sure

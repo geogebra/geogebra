@@ -10,11 +10,13 @@ public class CmdSXY extends CmdOneOrTwoListsFunction {
 		super(kernel);
 	}
 
+	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
 		return kernelA.SXY(a, b);
 	}
 
+	@Override
 	final protected GeoElement doCommand(String a, GeoList b, GeoList c)
 	{
 		return kernelA.SXY(a, b, c);

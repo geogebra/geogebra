@@ -14,7 +14,8 @@ public class CmdIncircle extends CommandProcessor {
     public CmdIncircle(Kernel kernel) {
 	super(kernel);
     }
-    public GeoElement[] process(Command c) throws MyError {
+    @Override
+	public GeoElement[] process(Command c) throws MyError {
 	int n = c.getArgumentNumber();
 	boolean[] ok = new boolean[n];
 	GeoElement[] arg;

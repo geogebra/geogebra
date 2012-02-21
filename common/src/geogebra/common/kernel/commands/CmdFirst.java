@@ -9,17 +9,23 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
 
-/*
+/**
  * First[ <List>,n ]
  * Michael Borcherds
  * 2008-03-04
  */
 public class CmdFirst extends CommandProcessor {
-
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdFirst(Kernel kernel) {
 		super(kernel);
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;

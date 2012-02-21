@@ -56,9 +56,8 @@ public class CmdArea extends CommandProcessor {
 			for (int i = 0; i < n; i++) {
 				if (!(arg[i].isGeoPoint())) {
 					throw argErr(app, c.getName(), arg[i]);
-				} else {
-					points[i] = (GeoPoint2) arg[i];
 				}
+				points[i] = (GeoPoint2) arg[i];
 			}
 			// everything ok
 			GeoElement[] ret = { kernelA.Area(c.getLabel(), points) };

@@ -10,6 +10,7 @@ public class CmdSYY extends CmdOneListFunction {
 		super(kernel);
 	}
 
+	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
 		return kernelA.SYY(a, b);

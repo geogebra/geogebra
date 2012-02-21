@@ -30,6 +30,7 @@ public class CmdTranslate extends CommandProcessor {
 		super(kernel);
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError,
 			CircularDefinitionException {
 		String label = c.getLabel();

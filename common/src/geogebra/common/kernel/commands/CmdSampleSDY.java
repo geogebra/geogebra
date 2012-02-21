@@ -10,11 +10,13 @@ public class CmdSampleSDY extends CmdOneOrTwoListsFunction {
 		super(kernel);
 	}
 
+	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
 		return kernelA.SampleSDY(a, b);
 	}
 
+	@Override
 	final protected GeoElement doCommand(String a, GeoList b, GeoList c)
 	{
 		return null;

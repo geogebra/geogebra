@@ -27,7 +27,8 @@ public class CmdSumSquaredErrors extends CommandProcessor{
 
     public CmdSumSquaredErrors(Kernel kernel) {super(kernel);}
     
-    public GeoElement[] process(Command c) throws MyError {
+    @Override
+	public GeoElement[] process(Command c) throws MyError {
         int n=c.getArgumentNumber();
         GeoElement[] arg=resArgs(c);;
         switch(n) {

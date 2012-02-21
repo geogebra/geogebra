@@ -14,6 +14,7 @@ public class CmdReducedRowEchelonForm extends CmdOneListFunction {
 		super(kernel);
 	}
 
+	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
 		return kernelA.ReducedRowEchelonForm(a, b);

@@ -19,6 +19,7 @@ public class CmdDotPlot extends CmdOneListFunction {
 		super(kernel);
 	}
 
+	@Override
 	final protected GeoElement doCommand(String a, GeoList b) {
 		return kernelA.DotPlot(a, b);
 	}

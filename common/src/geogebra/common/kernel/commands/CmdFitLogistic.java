@@ -14,6 +14,7 @@ public class CmdFitLogistic extends CmdOneListFunction{
 
     public CmdFitLogistic(Kernel kernel) {super(kernel);}
     
+	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
 		return kernelA.FitLogistic(a, b);

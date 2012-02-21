@@ -21,6 +21,7 @@ public class CmdFocus extends CommandProcessor {
 		super(kernel);
 	}
 
+	@Override
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];

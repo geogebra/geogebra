@@ -10,6 +10,7 @@ public class CmdDelauneyTriangulation extends CmdOneListFunction {
 		super(kernel);
 	}
 
+	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
 		return kernelA.DelauneyTriangulation(a, b);

@@ -21,6 +21,7 @@ public class CmdApplyMatrix extends CommandProcessor {
 		super(kernel);
 	}
 
+	@Override
 	final public GeoElement[] process(Command c) throws MyError {
 		String label = c.getLabel();
 		int n = c.getArgumentNumber();
@@ -38,10 +39,10 @@ public class CmdApplyMatrix extends CommandProcessor {
 						|| arg[1].isGeoPolygon() || arg[0].isGeoList()) {
 					ret = kernelA.ApplyMatrix(label, arg[1], (GeoList) arg[0]);
 					return ret;
-				} else
-					throw argErr(app, c.getName(), arg[1]);
-			} else
-				throw argErr(app, c.getName(), arg[0]);
+				}
+				throw argErr(app, c.getName(), arg[1]);
+			}
+			throw argErr(app, c.getName(), arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

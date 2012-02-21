@@ -22,6 +22,7 @@ public class CmdMod extends CommandProcessor {
 		super(kernel);
 	}
 
+	@Override
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
@@ -43,8 +44,7 @@ public class CmdMod extends CommandProcessor {
 			} else {
 				if (!ok[0])
 					throw argErr(app, c.getName(), arg[0]);
-				else
-					throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c.getName(), arg[1]);
 			}
 
 		default:

@@ -21,6 +21,7 @@ public class CmdANOVA extends CommandProcessor {
 		super(kernel);
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
@@ -30,7 +31,8 @@ public class CmdANOVA extends CommandProcessor {
 		switch (n) {
 
 		case 1: // list of lists, result of XML conversion
-			if ((ok[0] = (arg[0].isGeoList()))) {
+			ok[0] = (arg[0].isGeoList());
+			if (ok[0]) {
 				GeoList list = (GeoList) arg[0];
 
 				if (list.size() == 0)
@@ -41,9 +43,8 @@ public class CmdANOVA extends CommandProcessor {
 							(GeoList) arg[0]) };
 					return ret;
 
-				} else {
-					throw argErr(app, c.getName(), arg[0]);
 				}
+				throw argErr(app, c.getName(), arg[0]);
 			}
 
 		default:
@@ -52,16 +53,14 @@ public class CmdANOVA extends CommandProcessor {
 				GeoElement[] ret = { kernelA.ANOVATest(c.getLabel(), list) };
 				return ret;
 			}
-			else{
-				// null ret should mean that an arg is not a GeoList
-				// so find the bad one
-				for(int i = 0; i <= n; i++){
-					if(!arg[i].isGeoList())
-						throw argErr(app, c.getName(), arg[i]);
-				}
-				// throw error for any other reason ... 
-				throw argErr(app, c.getName(), arg[0]);
+			// null ret should mean that an arg is not a GeoList
+			// so find the bad one
+			for(int i = 0; i <= n; i++){
+				if(!arg[i].isGeoList())
+					throw argErr(app, c.getName(), arg[i]);
 			}
+			// throw error for any other reason ... 
+			throw argErr(app, c.getName(), arg[0]);
 		}
 	}
 }

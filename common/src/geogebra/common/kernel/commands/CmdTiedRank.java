@@ -13,6 +13,7 @@ public class CmdTiedRank extends CmdOneListFunction {
 		super(kernel);
 	}
 
+	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
 		return kernelA.TiedRank(a, b);

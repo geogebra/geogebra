@@ -10,6 +10,7 @@ public class CmdVoronoi extends CmdOneListFunction {
 		super(kernel);
 	}
 
+	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
 		return kernelA.Voronoi(a, b);

@@ -832,7 +832,7 @@ public class PythonAPI {
 	 */
 	public Geo geoFunction(Expression f, Expression x) {
 		Function func = new Function(getNode(f.expr), (FunctionVariable) x.expr);
-		GeoElement[] geos = algProcessor.processFunction(null, func);
+		GeoElement[] geos = algProcessor.processFunction(func);
 		return new Geo(geos[0]);
 	}
 
@@ -848,7 +848,7 @@ public class PythonAPI {
 			vars[i] = (FunctionVariable) xs[i].expr;
 		}
 		FunctionNVar func = new FunctionNVar(getNode(f.expr), vars);
-		GeoElement[] geos = algProcessor.processFunctionNVar(null, func);
+		GeoElement[] geos = algProcessor.processFunctionNVar(func);
 		return new Geo(geos[0]);
 	}
 

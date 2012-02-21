@@ -20,6 +20,7 @@ public class CmdSelectObjects extends CmdScripting {
 		super(kernel);
 	}
 
+	@Override
 	final public void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;

@@ -26,7 +26,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.Macro;
-import geogebra.common.kernel.MacroKernelInterface;
+import geogebra.common.kernel.MacroKernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -406,7 +406,7 @@ public class MyXMLHandler implements DocHandler {
 
 					if (ggbFileFormat < 3.0) {
 						// before V3.0 the kernel had continuity always on
-						if (!(kernel instanceof MacroKernelInterface))
+						if (!(kernel instanceof MacroKernel))
 							kernel.setContinuous(true);
 
 						// before V3.0 the automaticGridDistanceFactor was 0.5
@@ -2379,7 +2379,7 @@ public class MyXMLHandler implements DocHandler {
 					: parseBoolean(strShowInToolBar);
 			macro.setShowInToolBar(showTool);
 
-			MacroKernelInterface macroKernel = kernel.newMacroKernel();
+			MacroKernel macroKernel = kernel.newMacroKernel();
 			macroKernel.setContinuous(false);
 
 			// we have to change the construction object temporarily so

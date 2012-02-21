@@ -41,8 +41,8 @@ implements Comparable<ConstructionElementCycle>{
 	
 	
 	/** return the cycle constituted of P1 and P2
-	 * @param P1
-	 * @param P2
+	 * @param P1 first element
+	 * @param P2 second element
 	 * @return the cycle constituted of P1 and P2
 	 */
 	static final public ConstructionElementCycle SegmentDescription(GeoElement P1, GeoElement P2){

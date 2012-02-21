@@ -14,6 +14,7 @@ public class CmdQ1 extends CmdOneListFunction {
 		super(kernel);
 	}
 
+	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
 		return kernelA.Q1(a, b);

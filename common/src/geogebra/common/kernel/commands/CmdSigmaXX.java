@@ -14,6 +14,7 @@ public class CmdSigmaXX extends CmdOneListFunction {
 		super(kernel);
 	}
 
+	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
 		return kernelA.SigmaXX(a, b);

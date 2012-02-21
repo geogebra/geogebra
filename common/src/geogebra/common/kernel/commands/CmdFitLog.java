@@ -15,6 +15,7 @@ public class CmdFitLog extends CmdOneListFunction{
 
     public CmdFitLog(Kernel kernel) {super(kernel);}
     
+	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
 		return kernelA.FitLog(a, b);

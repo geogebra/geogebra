@@ -22,6 +22,7 @@ public class CmdExtremum extends CommandProcessor {
 		super(kernel);
 	}
 
+	@Override
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
@@ -30,11 +31,11 @@ public class CmdExtremum extends CommandProcessor {
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
-			if (ok[0] = (arg[0].isGeoFunctionable()))
+			ok[0] = arg[0].isGeoFunctionable();
+			if (ok[0])
 				return kernelA.Extremum(c.getLabels(),
 						((GeoFunctionable) arg[0]).getGeoFunction());
-			else
-				throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c.getName(), arg[0]);
 		case 3: // Ulven 04.02.2011 for Extremum[f,start-x,end-x]
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoFunctionable()))
@@ -42,14 +43,13 @@ public class CmdExtremum extends CommandProcessor {
 					&& (ok[2] = (arg[2].isNumberValue()))
 
 			)
-				return kernelA.Extremum(c.getLabels(), 
+			return kernelA.Extremum(c.getLabels(), 
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						(NumberValue) arg[1],
 						(NumberValue) arg[2]
 						);
-			else
-				throw argErr(app, c.getName(), n);
-
+			
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

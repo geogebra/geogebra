@@ -77,8 +77,8 @@ public class AlgebraProcessor {
 	 * @return a new command dispatcher (used for 3D)
 	 */
 	protected CommandDispatcher newCommandDispatcher(
-			Kernel kernel) {
-		return new CommandDispatcher(kernel);
+			Kernel kernel1) {
+		return new CommandDispatcher(kernel1);
 	}
 
 	public Set<String> getPublicCommandSet() {
@@ -246,7 +246,7 @@ public class AlgebraProcessor {
 		GeoElement[] result;
 
 		try {
-			oldLabel = geo.getLabel();
+			oldLabel = geo.getLabel(StringTemplate.defaultTemplate);
 			newLabel = newValue.getLabel();
 
 			if (newLabel == null) {
@@ -878,12 +878,12 @@ public class AlgebraProcessor {
 
 		// explicit Function in one variable
 		else if (ve instanceof Function) {
-			ret = processFunction(null, (Function) ve);
+			ret = processFunction((Function) ve);
 		}
 
 		// explicit Function in multiple variables
 		else if (ve instanceof FunctionNVar) {
-			ret = processFunctionNVar(null, (FunctionNVar) ve);
+			ret = processFunctionNVar((FunctionNVar) ve);
 		}
 
 		// Parametric Line
@@ -899,7 +899,7 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
-	public GeoElement[] processFunction(ExpressionNode funNode, Function fun) {
+	public final GeoElement[] processFunction(Function fun) {
 		fun.initFunction();
 
 		String label = fun.getLabel();
@@ -1018,8 +1018,7 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
-	public GeoElement[] processFunctionNVar(ExpressionNode funNode,
-			FunctionNVar fun) {
+	public GeoElement[] processFunctionNVar(FunctionNVar fun) {
 		fun.initFunction();
 
 		String label = fun.getLabel();
@@ -1056,7 +1055,7 @@ public class AlgebraProcessor {
 			switch (equ.degree()) {
 			// linear equation -> LINE
 			case 1:
-				return processLine(equ, false);
+				return processLine(equ);
 
 				// quadratic equation -> CONIC
 			case 2:
@@ -1064,11 +1063,11 @@ public class AlgebraProcessor {
 
 			default:
 				// test for "y= <rhs>" here as well
-				if (equ.getLHS().toString().trim().equals("y")) {
+				if (equ.getLHS().toString(StringTemplate.defaultTemplate).trim().equals("y")) {
 					Function fun = new Function(equ.getRHS());
 					// try to use label of equation
 					fun.setLabel(equ.getLabel());
-					return processFunction(null, fun);
+					return processFunction(fun);
 				}
 				return processImplicitPoly(equ);
 			}
@@ -1076,7 +1075,7 @@ public class AlgebraProcessor {
 			eqnError.printStackTrace();
 
 			// invalid equation: maybe a function of form "y = <rhs>"?
-			String lhsStr = equ.getLHS().toString().trim();
+			String lhsStr = equ.getLHS().toString(StringTemplate.defaultTemplate).trim();
 			if (lhsStr.equals("y")) {
 				try {
 					// try to create function from right hand side
@@ -1084,7 +1083,7 @@ public class AlgebraProcessor {
 
 					// try to use label of equation
 					fun.setLabel(equ.getLabel());
-					return processFunction(null, fun);
+					return processFunction(fun);
 				} catch (MyError funError) {
 					funError.printStackTrace();
 				}
@@ -1105,7 +1104,7 @@ public class AlgebraProcessor {
 			throw new MyError(app, "InvalidEquation");
 	}
 
-	protected GeoElement[] processLine(Equation equ, boolean inequality) {
+	protected GeoElement[] processLine(Equation equ) {
 		double a = 0, b = 0, c = 0;
 		GeoLine line;
 		GeoElement[] ret = new GeoElement[1];
@@ -1175,7 +1174,7 @@ public class AlgebraProcessor {
 		if (isIndependent) {
 			poly = kernel.ImplicitPoly(label, lhs);
 			poly.setUserInput(equ);
-			geo = (GeoElement) poly;
+			geo = poly;
 		} else {
 			geo = kernel.DependentImplicitPoly(label, equ); // might also return
 															// Line or Conic
@@ -1190,7 +1189,7 @@ public class AlgebraProcessor {
 	}
 
 	private GeoElement[] processParametric(Parametric par)
-			throws CircularDefinitionException {
+			throws MyError {
 
 		/*
 		 * ExpressionValue temp = P.evaluate(); if (!temp.isVectorValue()) {
@@ -1253,11 +1252,11 @@ public class AlgebraProcessor {
 			} else if (leaf instanceof Function) {
 				Function fun = (Function) leaf;
 				fun.setLabels(n.getLabels());
-				return processFunction(n, fun);
+				return processFunction(fun);
 			} else if (leaf instanceof FunctionNVar) {
 				FunctionNVar fun = (FunctionNVar) leaf;
 				fun.setLabels(n.getLabels());
-				return processFunctionNVar(n, fun);
+				return processFunctionNVar(fun);
 			}
 
 		}
@@ -1306,10 +1305,10 @@ public class AlgebraProcessor {
 		else if (eval instanceof MyList) {
 			return processList(n, (MyList) eval);
 		} else if (eval instanceof Function) {
-			return processFunction(n, (Function) eval);
+			return processFunction((Function) eval);
 		} else if (eval instanceof FunctionNVar) {
 
-			return processFunctionNVar(n, (FunctionNVar) eval);
+			return processFunctionNVar((FunctionNVar) eval);
 		}
 		// we have to process list in case list=matrix1(1), but not when
 		// list=list2
@@ -1349,9 +1348,9 @@ public class AlgebraProcessor {
 		GeoElement[] ret = new GeoElement[1];
 		String label = n.getLabel();
 		boolean isIndependent = n.isConstant();
-		MyDouble eval = ((NumberValue) evaluate).getNumber();
-		boolean isAngle = eval.isAngle();
-		double value = eval.getDouble();
+		MyDouble val = ((NumberValue) evaluate).getNumber();
+		boolean isAngle = val.isAngle();
+		double value = val.getDouble();
 
 		if (isIndependent) {
 			if (isAngle)
@@ -1420,8 +1419,8 @@ public class AlgebraProcessor {
 		boolean isIndependent = n.isConstant();
 
 		if (isIndependent) {
-			MyStringBuffer eval = ((TextValue) evaluate).getText();
-			ret[0] = kernel.Text(label, eval.toValueString(StringTemplate.defaultTemplate));
+			MyStringBuffer val = ((TextValue) evaluate).getText();
+			ret[0] = kernel.Text(label, val.toValueString(StringTemplate.defaultTemplate));
 		} else
 			ret[0] = kernel.DependentText(label, n);
 		return ret;

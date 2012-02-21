@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.MacroInterface;
+import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -26,14 +26,19 @@ import geogebra.common.main.MyError;
  */
 public class MacroProcessor extends CommandProcessor {
 	
+	/**
+	 * Creates new macro processor
+	 * @param kernel kernel
+	 */
 	public MacroProcessor(Kernel kernel) {
 		super(kernel);
 	}	
-		
+	
+	@Override
 	public GeoElement[] process(Command c) throws MyError {        						 							
 		// resolve command arguments
 		GeoElement [] arg = resArgs(c);
-		MacroInterface macro = c.getMacro();
+		Macro macro = c.getMacro();
 				
 		Test[] macroInputTypes = macro.getInputTypes();		
 		

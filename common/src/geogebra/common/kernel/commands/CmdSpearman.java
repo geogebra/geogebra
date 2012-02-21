@@ -10,11 +10,13 @@ public class CmdSpearman extends CmdOneOrTwoListsFunction {
 		super(kernel);
 	}
 
+	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
 		return kernelA.Spearman(a, b);
 	}
 
+	@Override
 	final protected GeoElement doCommand(String a, GeoList b, GeoList c)
 	{
 		return kernelA.Spearman(a, b, c);

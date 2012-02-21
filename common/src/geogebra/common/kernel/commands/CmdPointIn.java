@@ -26,6 +26,7 @@ public class CmdPointIn extends CommandProcessor {
 	 * Checks correctness of inputs and runs the command.
 	 * Last change: correct error messages (2010-05-17), Zbynek Konecny 
 	 */
+	@Override
 	public  GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];

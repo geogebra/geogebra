@@ -24,6 +24,7 @@ public class CmdZoomOut extends CmdScripting {
 		super(kernel);
 	}
 
+	@Override
 	final public void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
@@ -50,8 +51,8 @@ public class CmdZoomOut extends CmdScripting {
 				
 				return;
 
-			} else
-				throw argErr(app, c.getName(), arg[0]);
+			}
+			throw argErr(app, c.getName(), arg[0]);
 
 		case 2:
 			arg = resArgs(c);
@@ -75,8 +76,8 @@ public class CmdZoomOut extends CmdScripting {
 				
 				return;
 
-			} else
-				throw argErr(app, c.getName(), ok0 ? arg[1] : arg[0]);
+			}
+			throw argErr(app, c.getName(), ok0 ? arg[1] : arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

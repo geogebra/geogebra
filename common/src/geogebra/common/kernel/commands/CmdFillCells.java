@@ -34,6 +34,7 @@ public class CmdFillCells extends CommandProcessor {
 		super(kernel);
 	}
 
+	@Override
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
@@ -149,7 +150,8 @@ public class CmdFillCells extends CommandProcessor {
 			} 
 			{
 
-				if (app.getKernel().getGeoElementSpreadsheet().isSpreadsheetLabel(arg[0].getLabelSimple())) {
+				app.getKernel().getGeoElementSpreadsheet();
+				if (GeoElementSpreadsheet.isSpreadsheetLabel(arg[0].getLabelSimple())) {
 
 					if (!arg[1].isGeoList()) {
 						app.setScrollToShow(true);

@@ -23,6 +23,7 @@ public class CmdBarChart extends CommandProcessor {
 		super(kernel);
 	}
 
+	@Override
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
@@ -75,8 +76,8 @@ public class CmdBarChart extends CommandProcessor {
 						(GeoNumeric) arg[3], (NumberValue) arg[4],
 						(NumberValue) arg[5], null) };
 				return ret;
-			} else
-				throw argErr(app, c.getName(), null);
+			}
+			throw argErr(app, c.getName(), null);
 
 		case 7:
 			// create local variable at position 3 and resolve arguments
@@ -93,8 +94,8 @@ public class CmdBarChart extends CommandProcessor {
 						(GeoNumeric) arg[3], (NumberValue) arg[4],
 						(NumberValue) arg[5], (NumberValue) arg[6]) };
 				return ret;
-			} else
-				throw argErr(app, c.getName(), null);
+			}
+			throw argErr(app, c.getName(), null);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

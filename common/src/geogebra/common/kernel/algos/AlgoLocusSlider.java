@@ -16,7 +16,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
-import geogebra.common.kernel.MacroKernelInterface;
+import geogebra.common.kernel.MacroKernel;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.SliderMover;
 import geogebra.common.kernel.StringTemplate;
@@ -72,7 +72,7 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 	private boolean foundDefined;
 	private boolean maxTimeExceeded;
 	private Construction macroCons;
-	private MacroKernelInterface macroKernel;
+	private MacroKernel macroKernel;
 	// private AlgorithmSet macroConsAlgoSet;
 	// list with all original elements used for the macro construction
 	private TreeSet<ConstructionElement> locusConsOrigElements;

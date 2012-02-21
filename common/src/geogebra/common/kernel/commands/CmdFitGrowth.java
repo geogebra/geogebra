@@ -14,6 +14,7 @@ public class CmdFitGrowth extends CmdOneListFunction{
 
     public CmdFitGrowth(Kernel kernel) {super(kernel);}
     
+	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
 		return kernelA.FitGrowth(a, b);

@@ -13,6 +13,7 @@ public class CmdLetterToUnicode extends CommandProcessor {
 		super(kernel);
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;

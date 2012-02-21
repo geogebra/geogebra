@@ -11,6 +11,7 @@ public class CmdSetBackgroundColor extends CmdSetColor {
 		background = true;
 	}
 
+	@Override
 	final public void perform(Command c) throws MyError {
 		super.perform(c);
 	}

@@ -10,9 +10,9 @@ import geogebra.common.kernel.geos.GeoElement;
 public interface LayerView extends View{
 	/**
 	 * Called when layer is being changed
-	 * @param g
-	 * @param oldLayer
-	 * @param newLayer
+	 * @param g element that changed layer
+	 * @param oldLayer old layer
+	 * @param newLayer new layer
 	 */
 	public void changeLayer(GeoElement g, int oldLayer,int newLayer);
 

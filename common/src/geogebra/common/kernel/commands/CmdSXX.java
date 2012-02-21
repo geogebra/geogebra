@@ -10,11 +10,13 @@ public class CmdSXX extends CmdOneOrTwoListsFunction {
 		super(kernel);
 	}
 
+	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
 		return kernelA.SXX(a, b);
 	}
 
+	@Override
 	final protected GeoElement doCommand(String a, GeoList b, GeoList c)
 	{
 		return kernelA.SXX(a, b, c);

@@ -5,15 +5,21 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 
-/*
+/**
  * Name[ <GeoElement> ]
  */
 public class CmdName extends CommandProcessor {
-
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdName(Kernel kernel) {
 		super(kernel);
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;

@@ -15,6 +15,7 @@ public class CmdTriangular extends CommandProcessor {
 		super(kernel);
 	}
 
+	@Override
 	public GeoElement[] process(Command c2) throws MyError {
 		int n = c2.getArgumentNumber();
 		boolean ok, ok2 = true;

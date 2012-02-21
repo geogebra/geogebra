@@ -29,8 +29,8 @@ public class MacroConstruction extends Construction {
 	 * Creates new macro construction
 	 * @param kernel Kernel
 	 */
-	public MacroConstruction(MacroKernelInterface kernel) {
-		super((Kernel)kernel, kernel.getParentKernel().getConstruction());
+	public MacroConstruction(MacroKernel kernel) {
+		super(kernel, kernel.getParentKernel().getConstruction());
 		parentCons = kernel.getParentKernel().getConstruction();
 		reservedLabels = new HashSet<String>();
 	}		   
@@ -38,7 +38,7 @@ public class MacroConstruction extends Construction {
 	/**
 	 * Set construction via XML string.	 
 	 * @param xmlString XML string of the construction
-	 * @throws Exception
+	 * @throws Exception if there is a problem while reading XML
 	 */
 	public void loadXML(String xmlString) throws Exception {
 		if (undoManager == null)
@@ -50,7 +50,7 @@ public class MacroConstruction extends Construction {
 	/**
 	 * Adds label to the list of reserved labels. Such labels
 	 * will not be looked up in the parent construction in lookup();
-	 * @param label
+	 * @param label reserved label
 	 */
 	public void addReservedLabel(String label) {
 		if (label != null) {			

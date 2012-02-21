@@ -10,11 +10,13 @@ public class CmdSigmaXY extends CmdOneOrTwoListsFunction {
 		super(kernel);
 	}
 
+	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
 		return kernelA.SigmaXY(a, b);
 	}
 
+	@Override
 	final protected GeoElement doCommand(String a, GeoList b, GeoList c)
 	{
 		return kernelA.SigmaXY(a, b, c);

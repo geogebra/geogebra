@@ -12,6 +12,7 @@ public class CmdMeanX extends CmdOneOrTwoListsFunction {
 		super(kernel);
 	}
 	
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
@@ -32,11 +33,13 @@ public class CmdMeanX extends CmdOneOrTwoListsFunction {
 		}
 	}
 
+	@Override
 	final protected GeoElement doCommand(String a, GeoList b)
 	{
 		return kernelA.MeanX(a, b);
 	}
 
+	@Override
 	final protected GeoElement doCommand(String a, GeoList b, GeoList c)
 	{
 		throw argErr(app, a, b);

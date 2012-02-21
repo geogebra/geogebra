@@ -20,6 +20,7 @@ public class CmdObject extends CommandProcessor {
 		super(kernel);
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
@@ -28,13 +29,13 @@ public class CmdObject extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			if ((ok[0] = (arg[0].isGeoText()))) {
+			ok[0] = arg[0].isGeoText();
+			if (ok[0]) {
 				GeoElement[] ret = { kernelA.Object(c.getLabel(),
 						(GeoText) arg[0]) };
 				return ret;
-			} else {
-				throw argErr(app, c.getName(), arg[0]);
 			}
+			throw argErr(app, c.getName(), arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

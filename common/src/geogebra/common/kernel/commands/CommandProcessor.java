@@ -15,8 +15,10 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MySpecialDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Variable;
@@ -63,8 +65,8 @@ public abstract class CommandProcessor {
 	 * @param c
 	 *            command
 	 * @return list of resulting geos
-	 * @throws MyError
-	 * @throws CircularDefinitionException
+	 * @throws MyError for wrong number / type of parameters
+	 * @throws CircularDefinitionException if circular definition occurs
 	 */
 	public abstract GeoElement[] process(Command c) throws MyError,
 			CircularDefinitionException;
@@ -72,9 +74,9 @@ public abstract class CommandProcessor {
 	/**
 	 * Resolves arguments. When argument produces mor geos, only first is taken.
 	 * 
-	 * @param c
+	 * @param c command
 	 * @return array of arguments
-	 * @throws MyError
+	 * @throws MyError if processing of some argument causes error (i.e. wrong syntax of subcommand)
 	 */
 	protected final GeoElement[] resArgs(Command c) throws MyError {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
@@ -100,9 +102,9 @@ public abstract class CommandProcessor {
 	/**
 	 * Resolves argument
 	 * 
-	 * @param arg
+	 * @param arg argument
 	 * @return array of arguments
-	 * @throws MyError
+	 * @throws MyError if processing argument causes error (i.e. wrong syntax of subcommand)
 	 */
 	protected final GeoElement[] resArg(ExpressionNode arg) throws MyError {
 		GeoElement[] geos = algProcessor.processExpressionNode(arg);
@@ -110,7 +112,7 @@ public abstract class CommandProcessor {
 		if (geos != null) {
 			return geos;
 		}
-		String[] str = { "IllegalArgument", arg.toString() };
+		String[] str = { "IllegalArgument", arg.toString(StringTemplate.defaultTemplate) };
 		throw new MyError(app, str);
 	}
 
@@ -119,9 +121,9 @@ public abstract class CommandProcessor {
 	 * position varPos. Initializes the variable with the NumberValue at
 	 * initPos.
 	 * 
-	 * @param c
-	 * @param varPos
-	 * @param initPos
+	 * @param c command
+	 * @param varPos position of variable
+	 * @param initPos position of initial value
 	 * @return Array of arguments
 	 */
 	protected final GeoElement[] resArgsLocalNumVar(Command c, int varPos,
@@ -179,7 +181,7 @@ public abstract class CommandProcessor {
 	 * at the position varPos. Initializes the variable with the NumberValue at
 	 * initPos.
 	 * 
-	 * @param c
+	 * @param c command
 	 * @param varPos
 	 *            positions of local variables
 	 * @param initPos
@@ -236,23 +238,23 @@ public abstract class CommandProcessor {
 	/**
 	 * Creates wrong argument error
 	 * 
-	 * @param app
-	 * @param cmd
-	 * @param arg
+	 * @param app1 application
+	 * @param cmd command name
+	 * @param arg faulty argument
 	 * @return wrong argument error
 	 */
-	protected final MyError argErr(AbstractApplication app, String cmd,
-			Object arg) {
-		String localName = app.getCommand(cmd);
+	protected final MyError argErr(AbstractApplication app1, String cmd,
+			ExpressionValue arg) {
+		String localName = app1.getCommand(cmd);
 		if (sb == null)
 			sb = new StringBuilder();
 		else
 			sb.setLength(0);
 
-		final boolean reverseOrder = app.isReverseNameDescriptionLanguage();
+		final boolean reverseOrder = app1.isReverseNameDescriptionLanguage();
 		if (!reverseOrder) {
 			// standard order: "Command ..."
-			sb.append(app.getCommand("Command"));
+			sb.append(app1.getCommand("Command"));
 			sb.append(' ');
 			sb.append(localName);
 			}
@@ -260,48 +262,48 @@ public abstract class CommandProcessor {
 			// reverse order: "... command"
 			sb.append(localName);
 			sb.append(' ');
-			sb.append(app.getCommand("Command").toLowerCase());
+			sb.append(app1.getCommand("Command").toLowerCase());
 			}
 		
 		sb.append(":\n");
-		sb.append(app.getError("IllegalArgument"));
+		sb.append(app1.getError("IllegalArgument"));
 		sb.append(": ");
 		if (arg instanceof GeoElement)
 			sb.append(((GeoElement) arg).getNameDescription());
 		else if (arg != null)
-			sb.append(arg.toString());
+			sb.append(arg.toString(StringTemplate.defaultTemplate));
 		sb.append("\n\n");
-		sb.append(app.getPlain("Syntax"));
+		sb.append(app1.getPlain("Syntax"));
 		sb.append(":\n");
-		sb.append(app.getCommandSyntax(cmd));
-		return new MyError(app, sb.toString(), cmd);
+		sb.append(app1.getCommandSyntax(cmd));
+		return new MyError(app1, sb.toString(), cmd);
 	}
 
 	/**
 	 * Creates wrong parameter count error
 	 * 
-	 * @param app
-	 * @param cmd
+	 * @param app1 application
+	 * @param cmd command name
 	 * @param argNumber
 	 *            (-1 for just show syntax)
 	 * @return wrong parameter count error
 	 */
-	protected final MyError argNumErr(AbstractApplication app, String cmd,
+	protected final MyError argNumErr(AbstractApplication app1, String cmd,
 			int argNumber) {
 		if (sb == null)
 			sb = new StringBuilder();
 		else
 			sb.setLength(0);
-		getCommandSyntax(sb, app, cmd, argNumber);
-		return new MyError(app, sb.toString(), cmd);
+		getCommandSyntax(sb, app1, cmd, argNumber);
+		return new MyError(app1, sb.toString(), cmd);
 	}
 
 	/**
 	 * Copies error syntax into a StringBuilder
 	 * 
-	 * @param sb
-	 * @param app
-	 * @param cmd
+	 * @param sb string builder to store result
+	 * @param app application
+	 * @param cmd command name (internal)
 	 * @param argNumber
 	 *            (-1 for just show syntax)
 	 */
@@ -338,21 +340,21 @@ public abstract class CommandProcessor {
 	/**
 	 * Creates change dependent error
 	 * 
-	 * @param app
-	 * @param geo
+	 * @param app1 application
+	 * @param geo dependent geo
 	 * @return change dependent error
 	 */
-	final static MyError chDepErr(AbstractApplication app, GeoElement geo) {
+	final static MyError chDepErr(AbstractApplication app1, GeoElement geo) {
 		String[] strs = { "ChangeDependent", geo.getLongDescription() };
-		return new MyError(app, strs);
+		return new MyError(app1, strs);
 	}
 
 	/**
 	 * Returns bad argument (according to ok array) and throws error if no was
 	 * found.
 	 * 
-	 * @param ok
-	 * @param arg
+	 * @param ok array of "bad" flags
+	 * @param arg array of arguments
 	 * @return bad argument
 	 */
 	protected static GeoElement getBadArg(boolean[] ok, GeoElement[] arg) {
@@ -367,14 +369,14 @@ public abstract class CommandProcessor {
 	 * Creates a dependent list with all GeoElement objects from the given
 	 * array.
 	 * 
-	 * @param args
+	 * @param args array of arguments
 	 * @param type
 	 *            -1 for any GeoElement object type; GeoElement.GEO_CLASS_ANGLE,
 	 *            etc. for specific types
 	 * @return null if GeoElement objects did not have the correct type
 	 * @author Markus Hohenwarter
-	 * @param kernel
-	 * @param length
+	 * @param kernel kernel
+	 * @param length number of arguments
 	 * @date Jan 26, 2008
 	 */
 	public static GeoList wrapInList(Kernel kernel, GeoElement[] args,

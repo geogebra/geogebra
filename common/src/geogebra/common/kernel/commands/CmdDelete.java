@@ -20,6 +20,7 @@ public class CmdDelete extends CmdScripting {
 		super(kernel);
 	}
 
+	@Override
 	final public void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
@@ -28,14 +29,15 @@ public class CmdDelete extends CmdScripting {
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
-			if (ok[0] = (arg[0].isGeoElement())) {
-				GeoElement geo = (GeoElement) arg[0];
+			ok[0] = arg[0].isGeoElement();
+			if (ok[0]) {
+				GeoElement geo = arg[0];
 				
 				// delete object
 				geo.removeOrSetUndefinedIfHasFixedDescendent();
 				return;
-			} else
-				throw argErr(app, c.getName(), arg[0]);
+			}
+			throw argErr(app, c.getName(), arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

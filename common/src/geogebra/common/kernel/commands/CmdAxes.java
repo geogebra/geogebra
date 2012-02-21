@@ -21,6 +21,7 @@ public class CmdAxes extends CommandProcessor {
 		super(kernel);
 	}
 
+	@Override
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
@@ -32,8 +33,7 @@ public class CmdAxes extends CommandProcessor {
 			// asymptotes to conic
 			if (arg[0].isGeoConic())
 				return kernelA.Axes(c.getLabels(), (GeoConic) arg[0]);
-			else
-				throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c.getName(), arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

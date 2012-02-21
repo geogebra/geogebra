@@ -22,6 +22,7 @@ public class CmdSequence extends CommandProcessor {
 	}
 
 	
+@Override
 final public  GeoElement[] process(Command c) throws MyError {
     int n = c.getArgumentNumber();
     

@@ -2122,11 +2122,11 @@ public abstract class AbstractApplication {
 	abstract protected AbstractEuclidianView newEuclidianView(boolean[] showAxes,boolean showGrid);
 	abstract protected AbstractEuclidianController newEuclidianController(Kernel kernel);
 	/**
-	 * @deprecated
+	 * 
 	 * @param cons
 	 * @return undo manager
 	 */
-	@Deprecated
+	
 	public abstract AbstractUndoManager getUndoManager(Construction cons);
 
 	public abstract AbstractAnimationManager newAnimationManager(Kernel kernel2);

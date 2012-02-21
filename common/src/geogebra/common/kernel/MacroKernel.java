@@ -25,11 +25,15 @@ import java.util.LinkedHashMap;
 /**
  * Kernel with its own construction for macros.
  */
-public class MacroKernel extends Kernel implements MacroKernelInterface {
+public class MacroKernel extends Kernel {
 
 	private Kernel parentKernel;
 	private MacroConstruction macroCons;
 
+	/**
+	 * Creates new kernel for macro
+	 * @param parentKernel kernel of construction in which we want to use this macro
+	 */
 	public MacroKernel(Kernel parentKernel) {
 		this.parentKernel = parentKernel;
 
@@ -48,7 +52,9 @@ public class MacroKernel extends Kernel implements MacroKernelInterface {
 	public final boolean isMacroKernel() {
 		return true;
 	}
-
+	/**
+	 * @return kernel for construction using this macro
+	 */
 	public Kernel getParentKernel() {
 		return parentKernel;
 	}
@@ -61,17 +67,24 @@ public class MacroKernel extends Kernel implements MacroKernelInterface {
 	// useTempVariablePrefix = flag;
 	// super.setUseTempVariablePrefix(flag);
 	// }
-
+	/**
+	 * @param label reserved label
+	 */
 	public void addReservedLabel(String label) {
 		macroCons.addReservedLabel(label);
 	}
 
+	/**
+	 * @param flag when true, variables are looked up in parent construction as well
+	 */
 	public void setGlobalVariableLookup(boolean flag) {
 		macroCons.setGlobalVariableLookup(flag);
 	}
 
 	/**
 	 * Sets macro construction of this kernel via XML string.
+	 * @param xmlString XML representation of the construction
+	 * @throws Exception if reading XML fails
 	 */
 	public void loadXML(String xmlString) throws Exception {
 		macroCons.loadXML(xmlString);
@@ -129,8 +142,8 @@ public class MacroKernel extends Kernel implements MacroKernelInterface {
 	// //////////////////////////////////////
 
 	@Override
-	public MyXMLHandler newMyXMLHandler(Construction cons) {
-		return parentKernel.newMyXMLHandler(this, cons);
+	public MyXMLHandler newMyXMLHandler(Construction cons1) {
+		return parentKernel.newMyXMLHandler(this, cons1);
 	}
 
 	@Override
@@ -144,9 +157,9 @@ public class MacroKernel extends Kernel implements MacroKernelInterface {
 	}
 
 	@Override
-	public GeoElement createGeoElement(Construction cons, String type)
+	public GeoElement createGeoElement(Construction cons1, String type)
 			throws MyError {
-		return parentKernel.createGeoElement(cons, type);
+		return parentKernel.createGeoElement(cons1, type);
 	}
 
 	@Override
