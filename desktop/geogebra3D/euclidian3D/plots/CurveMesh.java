@@ -7,6 +7,7 @@ import geogebra3D.euclidian3D.TriListElem;
 import geogebra3D.euclidian3D.plots.DynamicMesh2.Side;
 import geogebra3D.kernel3D.GeoCurveCartesian3D;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -31,9 +32,11 @@ class CurveSegment extends DynamicMeshElement2 {
 	/** positions at the start/end of the sement */
 	Coords[] vertices = new Coords[3];
 	Coords alt = null;
+	Coords altDer = null;
+	double altParam;
 
 	/** tangents at start, middle and end positions */
-	public Coords[] tangents = new Coords[3];
+	public Coords[] derivs = new Coords[3];
 
 	/** triangle list element */
 	public TriListElem triListElem;
@@ -65,8 +68,8 @@ class CurveSegment extends DynamicMeshElement2 {
 
 		Coords v1 = mesh.curve.evaluateCurve(pa1);
 		Coords v2 = mesh.curve.evaluateCurve(pa2);
-		Coords t1 = approxTangent(pa1, v1);
-		Coords t2 = approxTangent(pa2, v2);
+		Coords t1 = approxDeriv(pa1, v1);
+		Coords t2 = approxDeriv(pa2, v2);
 
 		init(pa1, pa2, v1, v2, t1, t2);
 	}
@@ -88,23 +91,25 @@ class CurveSegment extends DynamicMeshElement2 {
 		vertices[0] = v1;
 		vertices[2] = v2;
 
-		tangents[0] = t1;
-		tangents[2] = t2;
+		derivs[0] = t1;
+		derivs[2] = t2;
 
 		length = Math.abs(pa2 - pa1);
 
 		// generate middle point
 		params[1] = (pa1 + pa2) * 0.5;
 		vertices[1] = calcMainVertex(params[1]);
-		tangents[1] = approxTangent(params[1], vertices[1]);
+//		approxMainTangent();
 
 		setBoundingBox();
 		generateError();
 	}
 	
+	private static final double discontThreshold = 0.5;
+	private static final double warpedDiscontThreshold = Math.cos(Math.atan(discontThreshold));
+	
 	private Coords calcMainVertex(double u) {
-		GeoCurveCartesian3D curve = ((CurveMesh) mesh).curve;
-		Coords f = curve.evaluateCurve(u);
+		Coords f = calcVertex(u);
 		
 		// if segment appears partly undefined, project vertex onto border
 		final boolean v0def = vertices[0].isDefined();
@@ -114,48 +119,173 @@ class CurveSegment extends DynamicMeshElement2 {
 			double ui = u;
 			double delta = (params[2] - params[0]) * 0.25;
 			final boolean dir = v0def;
+			double lop = params[0];
+			double hip = params[2];
 			Coords lo = vertices[0];
 			Coords hi = vertices[2];
 			if (dir ^ f.isDefined()) {
 				hi = f;
+				hip = ui;
 				ui -= delta;
 			} else {
 				lo = f;
+				lop = ui;
 				ui += delta;
 			}
 
-			f = curve.evaluateCurve(ui);
+			f = calcVertex(ui);
 			for (int i = 0; i < 30; i++) {
 				
 				delta *= 0.5;
 				if (dir ^ f.isDefined()) {
 					hi = f;
+					hip = ui;
 					ui -= delta;
 				} else {
 					lo = f;
+					lop = ui;
 					ui += delta;
 				}
-				f = curve.evaluateCurve(ui);
+				f = calcVertex(ui);
 			}
 			alt = hi;
 			f = lo;
-			params[1] = ui;
+			params[1] = lop;
+			altParam = hip;
 		} else {
 			// if infinite, attempt to move in some direction
-			double d = 1e-8;
+			final double d = 1e-8;
+			Coords deriv;
 			if (!f.isFinite() || !f.isDefined()) {
-				f = curve.evaluateCurve(u + d);
+				f = calcVertex(u + d);
+				params[1] = u+d;
 				if (!f.isFinite() || !f.isDefined()) {
-					f = curve.evaluateCurve(u - d);
+					f = calcVertex(u - d);
+					params[1] = u-d;
+					deriv = f.sub(calcVertex(u - d - CurveMesh.deltaParam)).mul(CurveMesh.invDeltaParam);
+				} else {
+					deriv = calcVertex(u + d + CurveMesh.deltaParam).sub(f).mul(CurveMesh.invDeltaParam);
+				}
+			} else {
+				deriv = calcVertex(u + CurveMesh.deltaParam).sub(f).mul(CurveMesh.invDeltaParam);
+			}
+			
+			//perform discontinuity check
+			Coords f0 = f;
+			
+			boolean discontinuous = false;
+			Coords lo = vertices[0];	// point at start of interval
+			Coords hi = vertices[2];	// point at end of interval
+			Coords loder = derivs[0];	// derivative at start of interval
+			Coords hider = derivs[2];	// derivative at end of interval
+			double lop = params[0];		// parameter at start of interval
+			double hip = params[2];		// parameter at end of interval
+			double ui = u;				// current parameter
+			Coords expl = deriv.add(loder).mul(0.5*(ui-lop)); // projected difference left
+			Coords expr = deriv.add(hider).mul(0.5*(hip-ui)); // projected difference right
+			Coords tll = f.sub(lo);				// actual difference left
+			Coords trr = hi.sub(f);				// actual difference right
+			double ldot = tll.dotproduct(expl);	// dot product precomputed for efficiency
+			double rdot = trr.dotproduct(expr); // dot product precomputed for efficiency
+			boolean c1, c2;				// whether or not left and right segments appear continuous
+			
+			// attempt to estimate continuity by comparing angle or vector difference
+			if (ldot < expl.squareNorm())
+				c1 = ldot/(expl.norm() * tll.norm()) > warpedDiscontThreshold;
+			else
+				c1 = tll.sub(expl).norm()/expl.norm() < discontThreshold;
+			if (rdot < expr.squareNorm())
+				c2 = rdot/(expr.norm() * trr.norm()) > warpedDiscontThreshold;
+			else
+				c2 = trr.sub(expr).norm()/expr.norm() < discontThreshold;
+			
+			if (c1 ^ c2) {
+				discontinuous = true;
+				//probable discontinuity detected - perform binary search
+				double delta = (params[2] - params[0]) * 0.25;
+				if (c2) {
+					if (f.isFinite()) {
+						hi = f;
+						hip = ui;
+						hider = deriv;
+						ui -= delta;
+					}
+				} else {
+					if (f.isFinite()) {
+						lo = f;
+						lop = ui;
+						loder = deriv;
+						ui += delta;
+					}
+				}
+
+				f = calcVertex(ui);
+				for (int i = 0; i < 15; i++) {
+					tll = f.sub(lo);
+					trr = hi.sub(f);
+					
+					deriv = calcVertex(ui + CurveMesh.deltaParam).sub(f).mul(CurveMesh.invDeltaParam);
+					
+					expl = deriv.add(loder).mul(0.5*(ui-lop)); // projected difference left
+					expr = deriv.add(hider).mul(0.5*(hip-ui)); // projected difference right
+					ldot = tll.dotproduct(expl);			   // actual difference left
+					rdot = trr.dotproduct(expr);			   // actual difference right
+					
+					if (ldot < expl.squareNorm())
+						c1 = ldot/(expl.norm() * tll.norm()) > warpedDiscontThreshold; 
+					else
+						c1 = tll.sub(expl).norm()/expl.norm() < discontThreshold;
+					if (rdot < expr.squareNorm())
+						c2 = rdot/(expr.norm() * trr.norm()) > warpedDiscontThreshold;
+					else
+						c2 = trr.sub(expr).norm()/expr.norm() < discontThreshold;
+					
+					delta *= 0.5;
+					if(c2 && c1) {
+						discontinuous = false;
+						break;
+					}
+					
+					if (c2) {
+						if(f.isFinite()){
+							hi = f;
+							hip = ui;
+							hider = deriv;
+							ui -= delta;
+						}
+					} else {
+						if(f.isFinite()){
+							lo = f;
+							lop = ui;
+							loder = deriv;
+							ui += delta;
+						}
+					}
+					f = calcVertex(ui);
 				}
 			}
+			
+			if(discontinuous) {
+				alt = hi;
+				f = lo;
+				derivs[1] = loder;
+				altDer=hider;
+				params[1] = lop;
+				altParam = hip;
+			} else {
+				f = f0;
+				derivs[1] = deriv;
+			}
 		}
-
 		return f;
 	}
 
 	private Coords calcVertex(double u) {
-		GeoCurveCartesian3D curve = ((CurveMesh) mesh).curve;
+		final CurveMesh m = (CurveMesh) mesh;
+		final GeoCurveCartesian3D curve = m.curve;
+		if(m.precalcVertices.containsKey(u))
+			return m.precalcVertices.get(u);
+
 		Coords f = curve.evaluateCurve(u);
 
 		// if infinite, attempt to move in some direction
@@ -166,7 +296,7 @@ class CurveSegment extends DynamicMeshElement2 {
 				f = curve.evaluateCurve(u - d);
 			}
 		}
-
+		m.precalcVertices.put(u, f);
 		return f;
 	}
 
@@ -227,22 +357,47 @@ class CurveSegment extends DynamicMeshElement2 {
 	}
 
 	private void generateError() {
-		// Heron's formula:
-		double a = vertices[2].distance(vertices[0]);
-		double b = vertices[1].distance(vertices[0]);
-		double c = vertices[2].distance(vertices[1]);
-
-		// coefficient based on endpoint tangent difference
-		double d = 0;// a * (1 - tangents[0].dotproduct(tangents[2]));
-
-		Coords tan = vertices[2].sub(vertices[0]);
-//		d += a
-//				* (tan.dotproduct(tangents[0]) + tan.dotproduct(tangents[1]) + tan
-//						.dotproduct(tangents[2]));
+		// use Heron's formula twice:
+		final Coords v0 = calcVertex(0.5*(params[0]+params[1]));
+		final Coords v1 = calcVertex(0.5*(params[1]+params[2]));
+		final Coords v2 = vertices[2].add(vertices[0]).mul(0.5);
+		
+		double a = v2.distance(vertices[0]);
+		double b = v0.distance(vertices[0]);
+		double c = v2.distance(v0);
 
 		double s = 0.5 * (a + b + c);
-		error = Math.sqrt(s * (s - a) * (s - b) * (s - c)) + d;
-//		System.err.println("tot: " + error + "\td: " + d);
+		error = Math.sqrt(s * (s - a) * (s - b) * (s - c));
+		
+		a = vertices[2].distance(v2);
+		b = v1.distance(v2);
+		c = vertices[2].distance(v1);
+
+		s = 0.5 * (a + b + c);
+		error += Math.sqrt(s * (s - a) * (s - b) * (s - c));
+		
+		a = v2.distance(vertices[1]);
+		b = v0.distance(v2);
+		c = vertices[1].distance(v0);
+		
+		s = 0.5 * (a + b + c);
+		error += Math.sqrt(s * (s - a) * (s - b) * (s - c));
+		
+		a = v2.distance(vertices[1]);
+		b = v1.distance(v2);
+		c = vertices[1].distance(v1);
+		
+		s = 0.5 * (a + b + c);
+		error += Math.sqrt(s * (s - a) * (s - b) * (s - c));
+		
+		if (error==0) {
+			// the error should only be zero if the vertices are in line - verify this
+			if(Math.abs(vertices[2].sub(vertices[0]).normalized().dotproduct(vertices[1].sub(vertices[0]).normalized())) < 0.99) {
+				//otherwise use longest distance
+				error = a > b ? a > c ? a : c : b > c ? b : c;
+			}
+		}
+
 		// alternative error measure for singular segments
 		if (isSingular) {
 			if(vertices[0].isDefined() || vertices[1].isDefined() || vertices[2].isDefined())
@@ -251,29 +406,29 @@ class CurveSegment extends DynamicMeshElement2 {
 				error = 0;
 		}
 		else if (Double.isNaN(error)) {
-			// TODO: investigate whether it would be a good idea to
-			// attempt to calculate an error from any non-singular
-			// dimensions
-			d = params[1] - params[0];
-			d /= 2;
-			d *= d;
-			error = d * 1.5;
+			//shouldn't happen
+			error = (params[1] - params[0])*0.75;
+			error = error*error;
 		}
 	}
-
+	
 	/**
 	 * Approximates the tangent by a simple forward difference quotient. Should
 	 * only be called in the constructor.
 	 */
-	private Coords approxTangent(double param, Coords v) {
-		if(alt == null || alt.isDefined()) {
-			//forwards difference quotient 
-			Coords d = calcVertex(param + CurveMesh.deltaParam);
-			return d.sub(v).normalized();
+	private Coords approxDeriv(double param, Coords v) {
+		
+		//forwards difference quotient 
+		Coords d = calcVertex(param + CurveMesh.deltaParam);
+		d = d.sub(v).mul(CurveMesh.invDeltaParam);
+		
+		if(!d.isDefined()) {
+			//backwards difference quotient
+			d = calcVertex(param - CurveMesh.deltaParam);
+			d = v.sub(d).mul(CurveMesh.invDeltaParam);
 		}
-		//backwards difference quotient
-		Coords d = calcVertex(param - CurveMesh.deltaParam);
-		return v.sub(d).normalized();
+		
+		return d;
 	}
 
 	@Override
@@ -307,10 +462,10 @@ class CurveSegment extends DynamicMeshElement2 {
 	protected void createChild(int i) {
 		// generate both children at once
 		children[0] = new CurveSegment((CurveMesh) mesh, level + 1, params[0],
-				params[1], vertices[0], vertices[1], tangents[0], tangents[1],
+				params[1], vertices[0], vertices[1], derivs[0], derivs[1],
 				this, lastVersion);
-		children[1] = new CurveSegment((CurveMesh) mesh, level + 1, params[1],
-				params[2], alt != null ? alt : vertices[1], vertices[2], tangents[1], tangents[2],
+		children[1] = new CurveSegment((CurveMesh) mesh, level + 1, alt != null ? altParam : params[1],
+				params[2], alt != null ? alt : vertices[1], vertices[2], altDer != null ? altDer : derivs[1], derivs[2],
 				this, lastVersion);
 	}
 
@@ -349,9 +504,9 @@ class CurveSegment extends DynamicMeshElement2 {
 		vertices[0] = curve.evaluateCurve(params[0]);
 		vertices[2] = curve.evaluateCurve(params[2]);
 		vertices[1] = calcMainVertex((params[2]+params[0])*0.5);
-		tangents[0] = approxTangent(params[0], vertices[0]);
-		tangents[1] = approxTangent(params[1], vertices[1]);
-		tangents[2] = approxTangent(params[2], vertices[2]);
+		derivs[0] = approxDeriv(params[0], vertices[0]);
+		derivs[1] = approxDeriv(params[1], vertices[1]);
+		derivs[2] = approxDeriv(params[2], vertices[2]);
 
 		length = Math.abs(params[2] - params[1]);
 
@@ -407,8 +562,8 @@ class CurveMeshTriList extends CurveTriList implements DynamicMeshTriList2 {
 			return;
 		}
 
-		TriListElem lm = add(s.vertices[0], s.vertices[2], s.tangents[0],
-				s.tangents[2], s.cullInfo != CullInfo2.OUT);
+		TriListElem lm = add(s.vertices[0], s.vertices[2], s.derivs[0],
+				s.derivs[2], s.cullInfo != CullInfo2.OUT);
 
 		s.triListElem = lm;
 		lm.setOwner(s);
@@ -477,7 +632,7 @@ class CurveMeshTriList extends CurveTriList implements DynamicMeshTriList2 {
 				if (l.getIndex() != -1) {
 					remove(s);
 					TriListElem lm = add(s.vertices[0], s.vertices[2],
-							s.tangents[0], s.tangents[2],
+							s.derivs[0], s.derivs[2],
 							s.cullInfo != CullInfo2.OUT);
 					s.triListElem = lm;
 					lm.setOwner(s);
@@ -485,7 +640,7 @@ class CurveMeshTriList extends CurveTriList implements DynamicMeshTriList2 {
 					CullInfo2 c = s.cullInfo;
 					s.cullInfo = CullInfo2.ALLIN;
 					TriListElem lm = add(s.vertices[0], s.vertices[2],
-							s.tangents[0], s.tangents[2],
+							s.derivs[0], s.derivs[2],
 							s.cullInfo != CullInfo2.OUT);
 					s.triListElem = lm;
 					lm.setOwner(s);
@@ -551,7 +706,8 @@ public class CurveMesh extends DynamicMesh2 {
 	private static final int maxLevel = 20;
 
 	/** the parameter difference used to approximate tangents */
-	public static double deltaParam = 1e-5;
+	public static double deltaParam = 1e-10;
+	public static double invDeltaParam = 1/deltaParam;
 
 	private static final float scalingFactor = .8f;
 
@@ -580,6 +736,8 @@ public class CurveMesh extends DynamicMesh2 {
 
 	/** reference to the curve being drawn */
 	GeoCurveCartesian3D curve;
+	
+	HashMap<Double, Coords> precalcVertices = new HashMap<Double, Coords>();
 
 	/**
 	 * @param curve
@@ -618,8 +776,11 @@ public class CurveMesh extends DynamicMesh2 {
 
 		// split the first few elements in order to avoid problems
 		// with periodic funtions
-		for (int i = 0; i < 200; i++)
+		for (int i = 0; i < 200; i++) {
+//			if(i==100)
+//				System.err.print("");
 			split(splitQueue.forcePoll());
+		}
 	}
 
 	@Override
@@ -708,7 +869,7 @@ public class CurveMesh extends DynamicMesh2 {
 			throw new RuntimeException();
 
 		levelOfDetail = l;
-		maxErrorCoeff = 1 / (Math.pow(10, 5 + l * 0.15));
+		maxErrorCoeff = 1 / (Math.pow(10, 1.5 + l * 0.15));
 	}
 
 	/**
@@ -728,7 +889,7 @@ public class CurveMesh extends DynamicMesh2 {
 	protected Side tooCoarse() {
 		if (splitQueue.peek().getError() > desiredMaxError)
 			return Side.SPLIT;
-		else if (mergeQueue.peek().getError() < desiredMaxError)
+		else if (mergeQueue.peek() != null && mergeQueue.peek().getError() < desiredMaxError)
 			return Side.MERGE;
 		return Side.NONE;
 	}

@@ -674,7 +674,7 @@ public class SurfaceMesh2 extends DynamicMesh2 implements OctreeCollection {
 		splitQueue.add(root);
 		drawList.add(root);
 
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 100; i++)
 			split(splitQueue.forcePoll());
 	}
 

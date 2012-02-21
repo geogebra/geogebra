@@ -523,6 +523,9 @@ public abstract class DynamicMesh2 {
 		splitQueue.remove(t);
 		mergeQueue.add(t);
 
+//		if(((CurveSegment)t).vertices[0].getX()==7.03125)
+//			System.err.print("");
+		
 		// mark as split
 		t.setSplit(true);
 
