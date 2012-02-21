@@ -104,15 +104,7 @@ public class ScriptManager extends geogebra.common.plugin.ScriptManagerCommon {
 
 		}
 	}
-	
-	public void disableListeners() {
-		listenersEnabled = false;
-	}
 
-	public void enableListeners() {
-		listenersEnabled = true;
-	}
-	
 	USBFunctions usb = null;
 	
 	public USBFunctions getUSBFunctions() {

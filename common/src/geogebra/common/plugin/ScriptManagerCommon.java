@@ -23,6 +23,13 @@ public abstract class ScriptManagerCommon {
 	protected ArrayList<String>	penListeners  = new ArrayList<String>();
 	protected JavaToJavaScriptView javaToJavaScriptView;
 
+	public void disableListeners() {
+		listenersEnabled = false;
+	}
+
+	public void enableListeners() {
+		listenersEnabled = true;
+	}
 
 	/*
 	 * needed for eg File -> New

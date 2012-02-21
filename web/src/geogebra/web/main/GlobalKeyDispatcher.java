@@ -396,7 +396,7 @@ public class GlobalKeyDispatcher extends
 			// Cmd + Y: Redo
 			case MyKeyCodes.KEY_Y:
 				app.setWaitCursor();
-				app.getKernel().redo();
+				app.getKernel().redo();//FIXME: write this instead after GuiManager is ready: app.getGuiManager().redo();
 				consumed = true;
 				app.setDefaultCursor();
 				break;
@@ -406,9 +406,9 @@ public class GlobalKeyDispatcher extends
 			case MyKeyCodes.KEY_Z:
 				app.setWaitCursor();
 				if (event.isShiftKeyDown())
-					app.getKernel().redo();
+					app.getKernel().redo();//FIXME: write this instead after GuiManager is ready: app.getGuiManager().redo();
 				else
-					app.getKernel().undo();
+					app.getKernel().undo();//FIXME: write this instead after GuiManager is ready: app.getGuiManager().undo();
 				app.setDefaultCursor();
 				consumed = true;
 				break;

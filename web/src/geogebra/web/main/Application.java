@@ -100,11 +100,18 @@ public class Application extends AbstractApplication implements KeyDownHandler {
     private HashMap<String, String> currentFile = null;
     private static LinkedList<Map<String, String>> fileList = new LinkedList<Map<String, String>>();
 
+    // convenience method
+    public Application(boolean useFullGui) {
+    	this(useFullGui, true);
+    }
+
     /**
      * @param useFullGui
      *            if false only one EuclidianView
+     * @param undoActive
+     *            if true you can undo by CTRL+Z and redo by CTRL+Y
      */
-    public Application(boolean useFullGui) {
+    public Application(boolean useFullGui, boolean undoActive) {
         this.useFullGui = useFullGui;
         dbg = new DebugPrinterWeb();
         this.init();
@@ -119,8 +126,31 @@ public class Application extends AbstractApplication implements KeyDownHandler {
         getScriptManager();// .ggbOnInit();//this is not called here because we have to delay it
                            // until the canvas is first drawn
 
+		setUndoActive(undoActive);
         registerFileDropHandlers((CanvasElement) canvas.getElement().cast());
     }
+
+	public void setUndoActive(boolean flag) {
+		// don't allow undo when running with restricted permissions
+		/*if (flag && !hasFullPermissions) {
+			flag = false;
+		}*/
+
+		if (kernel.isUndoActive() == flag) {
+			return;
+		}
+
+		kernel.setUndoActive(flag);
+		if (flag) {
+			kernel.initUndoInfo();
+		}
+
+		if (guiManager != null) {
+			getGuiManager().updateActions();
+		}
+
+		// isSaved = true;
+	}
 
     /**
      * Register file drop handlers for the canvas of this application

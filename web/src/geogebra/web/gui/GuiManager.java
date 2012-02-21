@@ -5,6 +5,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.javax.swing.JTextComponent;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -16,6 +17,30 @@ import java.util.ArrayList;
 public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	private DialogManagerWeb dialogManager;
+
+	public Application app;
+	protected Kernel kernel;
+
+	public GuiManager(Application app) {
+		this.app = app;
+		this.kernel = app.getKernel();
+	}
+
+	public void redo() {
+		app.setWaitCursor();
+		kernel.redo();
+		updateActions();
+		app.setDefaultCursor();
+		System.gc();
+	}
+
+	public void undo() {
+		app.setWaitCursor();
+		kernel.undo();
+		updateActions();
+		app.setDefaultCursor();
+		System.gc();
+	}
 
 	@Override
 	public void removeSpreadsheetTrace(GeoElement recordObject) {
