@@ -262,6 +262,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 		} else if (paint instanceof TexturePaint) {
 			CanvasPattern ptr = context.createPattern(((TexturePaint)paint).getImg(), Repetition.REPEAT);
 			context.setFillStyle(ptr);
+			//why we get null here sometimes?
 		}
 
 	}

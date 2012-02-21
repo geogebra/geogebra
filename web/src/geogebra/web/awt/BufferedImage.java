@@ -1,6 +1,7 @@
 package geogebra.web.awt;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.ImageData;
@@ -78,4 +79,8 @@ public class BufferedImage implements geogebra.common.awt.BufferedImage {
 	public ImageElement getImageElement() {
 		return impl.getImageElement();
 	}
+
+	public CanvasElement getCanvasElement() {
+	    return impl.getCanvas().getCanvasElement();
+    }
 }

@@ -54,9 +54,9 @@ public class HatchingHandler extends geogebra.common.euclidian.HatchingHandler {
 		int currentHeight = bufferedImage == null ? 0 : bufferedImage
 				.getHeight();
 
-		if (bufferedImage == null || currentWidth < xInt * 3
-				|| currentHeight < yInt * 3)
-			bufferedImage = new BufferedImage(Math.max(currentWidth, xInt * 3),
+		//if (bufferedImage == null || currentWidth < xInt * 3
+		//		|| currentHeight < yInt * 3) //somewhy we get null on createPattern...
+		bufferedImage = new BufferedImage(Math.max(currentWidth, xInt * 3),
 					Math.max(currentHeight, yInt * 3),
 					BufferedImage.TYPE_INT_ARGB);
 
@@ -105,8 +105,9 @@ public class HatchingHandler extends geogebra.common.euclidian.HatchingHandler {
 		Rectangle rect = new Rectangle(0, 0, xInt, yInt);
 
 		// use the middle square of our 3 x 3 grid to fill with
-		g2.setPaint(new TexturePaint(bufferedImage.getSubimage(xInt, yInt,
-				xInt, yInt), rect));
+		g2.setPaint(new TexturePaint(bufferedImage, rect));
+		//should be implementedg2.setPaint(new TexturePaint(bufferedImage.getSubimage(xInt, yInt,
+				//xInt, yInt), rect));
 
 
 	}
