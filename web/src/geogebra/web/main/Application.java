@@ -581,12 +581,6 @@ public class Application extends AbstractApplication implements KeyDownHandler {
     }
 
     @Override
-    public void updateConstructionProtocol() {
-        AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-
-    }
-
-    @Override
     public AbstractImageManager getImageManager() {
         return imageManager;
     }

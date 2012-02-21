@@ -39,14 +39,6 @@ public class EquationSolver implements EquationSolverInterface {
 		// extrFinder = kernel.getExtremumFinder();
 	}
 
-	/**
-	 * Computes all roots of a polynomial using Laguerre's method for degrees >
-	 * 3. The roots are polished and only distinct roots are returned.
-	 * 
-	 * @param roots
-	 *            array with the coefficients of the polynomial
-	 * @return number of realRoots found
-	 */
 	final public int polynomialRoots(double[] roots, boolean multiple) {
 		int realRoots;
 

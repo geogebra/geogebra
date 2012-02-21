@@ -108,4 +108,9 @@ public abstract class GuiManager {
 
 	public abstract void updateSpreadsheetColumnWidths();
 
+	public void updateConstructionProtocol() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -1650,12 +1650,6 @@ public abstract class AbstractApplication {
 		return this.createEuclidianView().getMode();
 	}
 
-	/**
-	 * @deprecated added when refactoring
-	 */
-	@Deprecated
-	public abstract void updateConstructionProtocol();
-
 	public int getCurrentLabelingStyle() {
 		if (getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC) {
 			if (isUsingFullGui()) {
