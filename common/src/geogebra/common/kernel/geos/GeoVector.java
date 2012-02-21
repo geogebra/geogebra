@@ -424,6 +424,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		return buildValueString(tpl).toString();
 	}
 
+	@SuppressWarnings("cast")
 	private StringBuilder buildValueString(StringTemplate tpl) {
 		sbBuildValueString.setLength(0);
 
@@ -668,6 +669,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 
 	private StringBuilder sb;
 
+	@SuppressWarnings("cast")
 	@Override
 	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
 		if (sb == null) sb = new StringBuilder();

@@ -8367,7 +8367,7 @@ public class Kernel {
 		AlgoIntersectLineConic algo = getIntersectionAlgorithm(g, c);
 		algo.setPrintedInXML(true);
 		GeoPoint2[] points = algo.getIntersectionPoints();
-		GeoElement.setLabels(labels, points, getGeoElementSpreadsheet());
+		GeoElement.setLabels(labels, points);
 		return points;
 	}
 
@@ -8381,7 +8381,7 @@ public class Kernel {
 				(GeoConic) b);
 		algo.setPrintedInXML(true);
 		GeoPoint2[] points = algo.getIntersectionPoints();
-		GeoElement.setLabels(labels, points, getGeoElementSpreadsheet());
+		GeoElement.setLabels(labels, points);
 		return points;
 	}
 

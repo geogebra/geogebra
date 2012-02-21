@@ -26,6 +26,7 @@ import java.util.TreeSet;
  * 
  * @author Markus Hohenwarter
  */
+@SuppressWarnings("javadoc")
 public class GeoCasCell extends GeoElement {
 
 	private ValidExpression inputVE, evalVE, outputVE;

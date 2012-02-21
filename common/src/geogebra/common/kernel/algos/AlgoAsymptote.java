@@ -46,12 +46,12 @@ public class AlgoAsymptote extends AlgoElement implements AlgoAsymptoteInterface
     /** Creates new AlgoJoinPoints */
     AlgoAsymptote(Construction cons, String label, GeoConic c) {
         this(cons, c);
-        GeoElement.setLabels(label, asymptotes,kernel.getGeoElementSpreadsheet());
+        GeoElement.setLabels(label, asymptotes);
     }
 
     public AlgoAsymptote(Construction cons, String[] labels, GeoConic c) {
         this(cons, c);
-        GeoElement.setLabels(labels, asymptotes,kernel.getGeoElementSpreadsheet());
+        GeoElement.setLabels(labels, asymptotes);
     }
 
     @Override

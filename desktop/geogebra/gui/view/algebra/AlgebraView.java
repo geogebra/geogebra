@@ -579,7 +579,7 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 			parent = getParentNode(geo);
 
 			// add node to model (alphabetically ordered)
-			int pos = getInsertPosition(parent, geo, treeMode,kernel.getGeoElementSpreadsheet());
+			int pos = getInsertPosition(parent, geo, treeMode);
 
 			model.insertNodeInto(node, parent, pos);
 			nodeTable.put(geo, node);
@@ -668,8 +668,7 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 		return parent;
 	}
 
-	private static boolean compare(GeoElement geo1, GeoElement geo2, SortMode mode,
-			GeoElementSpreadsheet geoElementSpreadsheet) {
+	private static boolean compare(GeoElement geo1, GeoElement geo2, SortMode mode) {
 		switch (mode) {
 
 		case ORDER:
@@ -679,7 +678,7 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 		default: // alphabetical
 
 			return GeoElement.compareLabels(geo1.getLabel(StringTemplate.defaultTemplate),
-					geo2.getLabel(StringTemplate.defaultTemplate),geoElementSpreadsheet) > 0;
+					geo2.getLabel(StringTemplate.defaultTemplate)) > 0;
 
 		}
 
@@ -692,7 +691,7 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 	 * @param mode 
 	 */
 	final public static int getInsertPosition(DefaultMutableTreeNode parent,
-			GeoElement newGeo, SortMode mode,GeoElementSpreadsheet ges) {
+			GeoElement newGeo, SortMode mode) {
 		// label of inserted geo
 		//String newLabel = newGeo.getLabel();
 
@@ -707,7 +706,7 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 				.getLastChild();
 		//String nodeLabel = ((GeoElement) node.getUserObject()).getLabel();
 		GeoElement geo2 = ((GeoElement) node.getUserObject());
-		if (compare(newGeo, geo2, mode, ges))
+		if (compare(newGeo, geo2, mode))
 			return right;
 
 		// binary search
@@ -717,7 +716,7 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 			//nodeLabel = ((GeoElement) node.getUserObject()).getLabel();
 			geo2 = ((GeoElement) node.getUserObject());
 
-			if (!compare(newGeo, geo2, mode,ges)) {
+			if (!compare(newGeo, geo2, mode)) {
 				right = middle;
 			} else {
 				left = middle + 1;
@@ -736,7 +735,7 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 	 * @return -1 when not found
 	 */
 	final public static int binarySearchGeo(DefaultMutableTreeNode parent,
-			String geoLabel,GeoElementSpreadsheet geoElementSpreadsheet) {
+			String geoLabel) {
 		int left = 0;
 		int right = parent.getChildCount() - 1;
 		if (right == -1 || geoLabel == null)
@@ -749,7 +748,7 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 					.getChildAt(middle);
 			String nodeLabel = ((GeoElement) node.getUserObject()).getLabelSimple();
 
-			int compare = GeoElement.compareLabels(geoLabel, nodeLabel,geoElementSpreadsheet);
+			int compare = GeoElement.compareLabels(geoLabel, nodeLabel);
 			if (compare < 0)
 				right = middle - 1;
 			else if (compare > 0)

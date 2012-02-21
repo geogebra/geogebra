@@ -47,7 +47,7 @@ public class AlgoCommonTangents extends AlgoElement {
                        GeoConic c,
                        GeoConic c2) {
         this(cons, c, c2);
-        GeoElement.setLabels(labels, tangents,kernel.getGeoElementSpreadsheet());
+        GeoElement.setLabels(labels, tangents);
     }
 
     AlgoCommonTangents(Construction cons, GeoConic c, GeoConic c2) {

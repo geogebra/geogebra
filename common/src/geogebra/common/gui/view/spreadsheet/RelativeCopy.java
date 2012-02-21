@@ -870,8 +870,7 @@ public class RelativeCopy {
 				}
 			}
 
-			GeoElement.setLabels(name, newValues,
-					kernel.getGeoElementSpreadsheet()); // set names to be D1,
+			GeoElement.setLabels(name, newValues); // set names to be D1,
 														// E1,
 			// F1, etc for multiple
 			// objects

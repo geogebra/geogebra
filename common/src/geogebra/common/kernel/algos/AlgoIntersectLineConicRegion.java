@@ -310,7 +310,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
         
 	}
     private void setLabelsForPointsAndLines() {
-        GeoElement.setLabels(new String[] {null}, outputPoints,kernel.getGeoElementSpreadsheet());
+        GeoElement.setLabels(new String[] {null}, outputPoints);
         
         
         if ( (labelPrefixForLines==null || labelPrefixForLines == "") &&
@@ -318,7 +318,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
     				labelPrefixForLines = ((GeoElement)P[0]).getFreeLabel(P[0].getLabel(StringTemplate.defaultTemplate).toLowerCase());
         
        
-        GeoElement.setLabels(labelPrefixForLines,outputLines,kernel.getGeoElementSpreadsheet());
+        GeoElement.setLabels(labelPrefixForLines,outputLines);
 	}
 
 	@Override

@@ -357,7 +357,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	/** set of all dependent algos sorted in topological order */
 	protected AlgorithmSet algoUpdateSet;
 
-	private final GeoElementSpreadsheet geoElementSpreadsheet;
 
 	/********************************************************/
 
@@ -371,7 +370,6 @@ public abstract class GeoElement extends ConstructionElement implements
 		super(c);
 
 		graphicsadapter = app.newGeoElementGraphicsAdapter();
-		geoElementSpreadsheet = kernel.getGeoElementSpreadsheet();
 		// this.geoID = geoCounter++;
 
 		// moved to subclasses, see
@@ -1601,13 +1599,13 @@ public abstract class GeoElement extends ConstructionElement implements
 		case TOOLTIP_NEXTCELL: // tooltip is the next cell to the right
 								// (spreadsheet objects only)
 			String cellLabel = getLabel(tpl);
-			final Point coords = geoElementSpreadsheet
-					.dogetSpreadsheetCoordsForLabel(cellLabel);
+			final Point coords = GeoElementSpreadsheet
+					.getSpreadsheetCoordsForLabel(cellLabel);
 			if (coords == null) {
 				return "";
 			}
 			coords.x++;
-			cellLabel = geoElementSpreadsheet.dogetSpreadsheetCellName(coords.x,
+			cellLabel = GeoElementSpreadsheet.getSpreadsheetCellName(coords.x,
 					coords.y);
 			if (cellLabel == null) {
 				return "";
@@ -2438,8 +2436,8 @@ public abstract class GeoElement extends ConstructionElement implements
 
 			// we need to also support wrapped GeoElements like
 			// $A4 that are implemented as dependent geos (using ExpressionNode)
-			final Point p = geoElementSpreadsheet
-					.dospreadsheetIndices(getLabel());
+			final Point p = GeoElementSpreadsheet
+					.spreadsheetIndices(getLabel());
 
 			if ((p.x >= 0) && (p.y >= 0)) {
 				spreadsheetCoords.setLocation(p.x, p.y);
@@ -2465,8 +2463,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public String getSpreadsheetLabelWithDollars(final boolean col$,
 			final boolean row$) {
-		final String colName = geoElementSpreadsheet
-				.dogetSpreadsheetColumnName(spreadsheetCoords.x);
+		final String colName = GeoElementSpreadsheet
+				.getSpreadsheetColumnName(spreadsheetCoords.x);
 		final String rowName = Integer.toString(spreadsheetCoords.y + 1);
 
 		final StringBuilder sb = new StringBuilder(label.length() + 2);
@@ -2486,15 +2484,14 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * eg A1, A2, A10 not A1, A10, A2
 	 */
 	final public static int compareLabels(final String label1,
-			final String label2,
-			final GeoElementSpreadsheet geoElementSpreadsheet) {
+			final String label2) {
 
-		if (geoElementSpreadsheet.doisSpreadsheetLabel(label1)
-				&& geoElementSpreadsheet.doisSpreadsheetLabel(label2)) {
-			final Point p1 = geoElementSpreadsheet
-					.dogetSpreadsheetCoordsForLabel(label1);
-			final Point p2 = geoElementSpreadsheet
-					.dogetSpreadsheetCoordsForLabel(label2);
+		if (GeoElementSpreadsheet.isSpreadsheetLabel(label1)
+				&& GeoElementSpreadsheet.isSpreadsheetLabel(label2)) {
+			final Point p1 = GeoElementSpreadsheet
+					.getSpreadsheetCoordsForLabel(label1);
+			final Point p2 = GeoElementSpreadsheet
+					.getSpreadsheetCoordsForLabel(label2);
 			// Application.debug(label1+" "+p1.x+" "+p1.y+" "+label2+" "+p2.x+" "+p2.y);
 			if (p1.x != p2.x) {
 				return p1.x - p2.x;
@@ -2553,8 +2550,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param geos
 	 */
 	public static void setLabels(final String labelPrefix,
-			final GeoElement[] geos,
-			final GeoElementSpreadsheet geoElementSpreadsheet) {
+			final GeoElement[] geos) {
 		if (geos == null) {
 			return;
 		}
@@ -2581,16 +2577,16 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		default:
 			// is this a spreadsheet label?
-			final Point p = geoElementSpreadsheet
-					.dospreadsheetIndices(labelPrefix);
+			final Point p = GeoElementSpreadsheet
+					.spreadsheetIndices(labelPrefix);
 			if ((p.x >= 0) && (p.y >= 0)) {
 				// more than one visible geo and it's a spreadsheet cell
 				// use D1, E1, F1, etc as names
 				final int col = p.x;
 				final int row = p.y;
 				for (int i = 0; i < geos.length; i++) {
-					geos[i].setLabel(geos[i].getFreeLabel(geoElementSpreadsheet
-							.dogetSpreadsheetCellName(col + i, row)));
+					geos[i].setLabel(geos[i].getFreeLabel(GeoElementSpreadsheet
+							.getSpreadsheetCellName(col + i, row)));
 				}
 			} else { // more than one visible geo: use indices if we got a
 						// prefix
@@ -2610,18 +2606,16 @@ public abstract class GeoElement extends ConstructionElement implements
 	 *            array of geos
 	 */
 	public static void setLabels(final String[] labels,
-			final GeoElement[] geos,
-			final GeoElementSpreadsheet geoElementSpreadsheet) {
-		setLabels(labels, geos, false, geoElementSpreadsheet);
+			final GeoElement[] geos) {
+		setLabels(labels, geos, false);
 	}
 
 	static void setLabels(final String[] labels, final GeoElement[] geos,
-			final boolean indexedOnly,
-			final GeoElementSpreadsheet geoElementSpreadsheet) {
+			final boolean indexedOnly) {
 		final int labelLen = (labels == null) ? 0 : labels.length;
 
 		if ((labelLen == 1) && (labels[0] != null) && !labels[0].equals("")) {
-			setLabels(labels[0], geos, geoElementSpreadsheet);
+			setLabels(labels[0], geos);
 			return;
 		}
 

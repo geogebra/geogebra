@@ -9,8 +9,12 @@ import geogebra.common.main.AbstractApplication;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 
+/**
+ * Collection of methods for handling spreadsheet cell names
+ *
+ */
 public class GeoElementSpreadsheet {
-	/*
+	/**
 	 * match A1, ABG1, A123 but not A0, A000, A0001 etc
 	 */
 	public static final RegExp spreadsheetPattern = RegExp
@@ -18,9 +22,13 @@ public class GeoElementSpreadsheet {
 
 	//public static final RegExp spreadsheetPatternGlobal = RegExp
 	//		.compile("\\$?([A-Z]+)\\$?([1-9][0-9]*)", "g");
-
-	public static String getSpreadsheetColumnName(int i) {
-		++i;
+	/**
+	 * Converts column number to name
+	 * @param column column number
+	 * @return column name
+	 */
+	public static String getSpreadsheetColumnName(int column) {
+		int i = column +1;
 		String col = "";
 		while (i > 0) {
 			col = (char) ('A' + (i - 1) % 26) + col;
@@ -29,6 +37,11 @@ public class GeoElementSpreadsheet {
 		return col;
 	}
 
+	/**
+	 * Extracts column from cell name
+	 * @param label cell label
+	 * @return column name
+	 */
 	public static String getSpreadsheetColumnName(String label) {
 		MatchResult matcher = spreadsheetPattern.exec(label);
 		if (matcher == null)
@@ -36,10 +49,15 @@ public class GeoElementSpreadsheet {
 		return matcher.getGroup(1);
 	}
 
-	// Cong Liu
+	/**
+	 * Converts coordinates into cell name
+	 * @param column cell column
+	 * @param row cell row
+	 * @return cell name
+	 * @author Cong Liu
+	 */
 	public static String getSpreadsheetCellName(int column, int row) {
-		++row;
-		return getSpreadsheetColumnName(column) + row;
+		return getSpreadsheetColumnName(column) + (row+1);
 	}
 
 	/**
@@ -61,8 +79,13 @@ public class GeoElementSpreadsheet {
 		return new Point(column, row);
 	}
 
-	// Michael Borcherds
-	public boolean isSpreadsheetLabel(String str) {
+	/**
+	 * Checks whether str is valid cell name
+	 * @param str label
+	 * @return true if label is valid cell name
+	 * @author Michael Borcherds
+	 */
+	public static boolean isSpreadsheetLabel(String str) {
 		if(str==null)
 			return false;
 		//Matcher matcher = spreadsheetPattern.matcher(str);
@@ -74,6 +97,10 @@ public class GeoElementSpreadsheet {
 		return false;
 	}
 
+	/**
+	 * @param matcher matcher
+	 * @return column matching the matcher
+	 */
 	public static int getSpreadsheetColumn(MatchResult matcher) {
 		//if (!matcher.matches())
 		//	return -1;
@@ -90,8 +117,12 @@ public class GeoElementSpreadsheet {
 		// Application.debug(column);
 		return column - 1;
 	}
-
-	// Cong Liu
+	/**
+	 * Returns row number based on matcher, which was obtained using spreadsheetPattern
+	 * @author Cong Liu 
+	 * @param matcher matcher
+	 * @return row number
+	 */
 	public static int getSpreadsheetRow(MatchResult matcher) {
 		if (matcher == null)
 			return -1;
@@ -121,13 +152,17 @@ public class GeoElementSpreadsheet {
 
 	private static StringBuilder sb;
 
-	/*
+	/**
 	 * used to set a cell to another geo used by FillCells[] etc
+	 * @param app application
+	 * @param row destination row
+	 * @param col destination column
+	 * @param cellGeo source element
 	 */
 	
 	public void setSpreadsheetCell(AbstractApplication app, int row, int col,
 			GeoElement cellGeo) {
-		String cellName = dogetSpreadsheetCellName(col, row);
+		String cellName = getSpreadsheetCellName(col, row);
 
 		if (sb == null)
 			sb = new StringBuilder();
@@ -170,40 +205,13 @@ public class GeoElementSpreadsheet {
 		}
 
 	}
-
 	
-	public Point dospreadsheetIndices(String labelPrefix) {
-		return spreadsheetIndices(labelPrefix);
-	}
-
-	
-	public String dogetSpreadsheetCellName(int i, int row) {
-		return getSpreadsheetCellName(i, row);
-	}
-
-	
-	public boolean doisSpreadsheetLabel(String label2) {
-		// TODO Auto-generated method stub
-		return isSpreadsheetLabel(label2);
-	}
-
-	
-	public String dogetSpreadsheetColumnName(int x) {
-		return getSpreadsheetColumnName(x);
-	}
-
-	
-	public String dogetSpreadsheetColumnName(String s) {
-		return getSpreadsheetColumnName(s);
-	}
-
-	
-	public Point dogetSpreadsheetCoordsForLabel(String label) {
-		return getSpreadsheetCoordsForLabel(label);
-	}
-
-	
-	public GeoElement autoCreate(String label, Construction cons) {
+	/**
+	 * @param label label
+	 * @param cons construction
+	 * @return created geo or null
+	 */
+	public static GeoElement autoCreate(String label, Construction cons) {
 		MatchResult cellNameMatcher = spreadsheetPattern
 				.exec(label);
 		if (cellNameMatcher != null) {
@@ -215,8 +223,8 @@ public class GeoElementSpreadsheet {
 			if (neighbourCell == null) // look below
 				neighbourCell = cons.geoTableVarLookup(col + (row + 1));
 
-			label = col + row;
-			return cons.createSpreadsheetGeoElement(neighbourCell, label);
+			String label1 = col + row;
+			return cons.createSpreadsheetGeoElement(neighbourCell, label1);
 		}
 		return null;
 	}

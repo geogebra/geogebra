@@ -21,6 +21,7 @@ import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVector;
@@ -1239,8 +1240,7 @@ public class Construction {
 				AlgoElement parentAlgo = newGeo.getParentAlgorithm();
 				addToConstructionList(parentAlgo, true);
 				// make sure all output objects get labels, see #218
-				GeoElement.setLabels(oldGeoLabel, parentAlgo.getOutput(),
-						kernel.getGeoElementSpreadsheet());
+				GeoElement.setLabels(oldGeoLabel, parentAlgo.getOutput());
 			}
 
 			// copy formatting of oldGeo to newGeo
@@ -1589,8 +1589,7 @@ public class Construction {
 			GeoElement geo1 = ob1;
 			GeoElement geo2 = ob2;
 
-			return GeoElement.compareLabels(geo1.label, geo2.label,
-					kernel.getGeoElementSpreadsheet());
+			return GeoElement.compareLabels(geo1.label, geo2.label);
 		}
 	}
 
@@ -2374,7 +2373,7 @@ public class Construction {
 		// check spreadsheet cells
 		// for missing spreadsheet cells, create object
 		// of same type as above
-		createdGeo = kernel.getGeoElementSpreadsheet().autoCreate(newLabel, this);
+		createdGeo = GeoElementSpreadsheet.autoCreate(newLabel, this);
 
 		return createdGeo;
 	}

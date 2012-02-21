@@ -48,7 +48,7 @@ public class AlgoTangentPoint extends AlgoElement implements TangentAlgo {
         GeoPoint2 P,
         GeoConic c) {
         this(cons, P, c);
-        GeoElement.setLabels(labels, tangents,kernel.getGeoElementSpreadsheet());
+        GeoElement.setLabels(labels, tangents);
     }
 
     AlgoTangentPoint(Construction cons, GeoPoint2 P, GeoConic c) {

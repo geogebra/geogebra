@@ -84,7 +84,7 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
      */
     AlgoIntersectConics3D(Construction cons, String label, GeoConicND A, GeoConicND B) {
         this(cons, A,B);
-        GeoElement.setLabels(label, P,kernel.getGeoElementSpreadsheet());            
+        GeoElement.setLabels(label, P);            
     }
     
     /**
@@ -96,7 +96,7 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
      */
     AlgoIntersectConics3D(Construction cons, String [] labels, GeoConicND A, GeoConicND B) {
         this(cons, A,B);
-        GeoElement.setLabels(labels, P,kernel.getGeoElementSpreadsheet());            
+        GeoElement.setLabels(labels, P);            
     }
     
     public Algos getClassName() {

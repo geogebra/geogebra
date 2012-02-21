@@ -57,7 +57,7 @@ public class AlgoAngularBisectorLines extends AlgoElement {
         GeoLine g,
         GeoLine h) {
         this(cons, g, h);
-        GeoElement.setLabels(label, bisector,kernel.getGeoElementSpreadsheet());
+        GeoElement.setLabels(label, bisector);
     }
 
     public AlgoAngularBisectorLines(
@@ -66,7 +66,7 @@ public class AlgoAngularBisectorLines extends AlgoElement {
         GeoLine g,
         GeoLine h) {
         this(cons, g, h);
-        GeoElement.setLabels(labels, bisector,kernel.getGeoElementSpreadsheet());
+        GeoElement.setLabels(labels, bisector);
     }
 
     @Override

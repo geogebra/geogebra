@@ -90,7 +90,7 @@ implements AlgoMacroInterface {
     		cons.registerEuclidianViewCE(this);
     	}
         
-        GeoElement.setLabels(labels, getOutput(),kernel.getGeoElementSpreadsheet());     
+        GeoElement.setLabels(labels, getOutput());     
         
         //we hide objects that are hidden in macro construction, but
         //we want to do this only with 4.0 macros

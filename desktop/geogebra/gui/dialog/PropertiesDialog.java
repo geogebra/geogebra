@@ -651,8 +651,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 			if (typeNode == null)
 				return null;
 
-			int pos = AlgebraView.binarySearchGeo(typeNode, geo.getLabelSimple(),
-					kernel.getGeoElementSpreadsheet());
+			int pos = AlgebraView.binarySearchGeo(typeNode, geo.getLabelSimple());
 			if (pos == -1) {
 				return null;
 			}
@@ -719,14 +718,14 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 
 			// check if already present in type node
 			int pos = AlgebraView
-					.binarySearchGeo(typeNode, geo.getLabelSimple(), ges);
+					.binarySearchGeo(typeNode, geo.getLabelSimple());
 			if (pos >= 0)
 				return;
 
 			// add geo to type node
 			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(geo);
 			pos = AlgebraView.getInsertPosition(typeNode, geo,
-					AlgebraView.SortMode.DEPENDENCY, ges);
+					AlgebraView.SortMode.DEPENDENCY);
 			treeModel.insertNodeInto(newNode, typeNode, pos);
 
 			// make sure something is selected
@@ -769,7 +768,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 					.getGeoElementSpreadsheet();
 
 			int pos = binarySearch ? AlgebraView.binarySearchGeo(typeNode,
-					geo.getLabelSimple(), ges) : AlgebraView.linearSearchGeo(
+					geo.getLabelSimple()) : AlgebraView.linearSearchGeo(
 					typeNode, geo.getLabelSimple());
 			if (pos > -1) {
 				DefaultMutableTreeNode child = (DefaultMutableTreeNode) typeNode
@@ -796,8 +795,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 				return null;
 
 			// find pos of geo
-			int pos = AlgebraView.binarySearchGeo(typeNode, geo.getLabel(),
-					kernel.getGeoElementSpreadsheet());
+			int pos = AlgebraView.binarySearchGeo(typeNode, geo.getLabel(StringTemplate.defaultTemplate));
 			if (pos == -1)
 				return null;
 

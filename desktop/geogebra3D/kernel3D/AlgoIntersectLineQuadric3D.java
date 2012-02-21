@@ -57,7 +57,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
      */
     AlgoIntersectLineQuadric3D(Construction cons, String label, GeoLineND g, GeoQuadric3D q) {
         this(cons, g,q);
-        GeoElement.setLabels(label, Q,kernel.getGeoElementSpreadsheet());            //TODO change to P
+        GeoElement.setLabels(label, Q);            //TODO change to P
     }
     
     /**
@@ -69,7 +69,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
      */
     AlgoIntersectLineQuadric3D(Construction cons, String [] labels, GeoLineND g, GeoQuadric3D q) {
         this(cons, g,q);
-        GeoElement.setLabels(labels, Q,kernel.getGeoElementSpreadsheet());       //TODO change to P      
+        GeoElement.setLabels(labels, Q);       //TODO change to P      
     }
     
     public Algos getClassName() {
