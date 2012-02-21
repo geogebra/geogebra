@@ -1083,7 +1083,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 				sbBuildValueString.append(getInhomY());
 				sbBuildValueString.append(")");
 			} else {
-				sbBuildValueString.append("list(");
+				sbBuildValueString.append("myvect(");
 				sbBuildValueString.append(getInhomX());
 				sbBuildValueString.append(",");
 				sbBuildValueString.append(getInhomY());

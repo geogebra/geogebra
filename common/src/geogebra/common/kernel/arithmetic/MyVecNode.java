@@ -158,15 +158,15 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 			 */
 			if (mode == Kernel.COORD_POLAR) {
 				sb.append("polartopoint!\u00a7(");
-				sb.append(x.toString());
+				sb.append(x.toString(tpl));
 				sb.append(", ");
-				sb.append(y.toString());
+				sb.append(y.toString(tpl));
 				sb.append(')');
 			} else {
-				sb.append("list(");
-				sb.append(x.toString());
+				sb.append("myvect(");
+				sb.append(x.toString(tpl));
 				sb.append(", ");
-				sb.append(y.toString());
+				sb.append(y.toString(tpl));
 				sb.append(')');
 			}
 			break;

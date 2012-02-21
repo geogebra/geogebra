@@ -33,8 +33,12 @@ public class Ggb2MPReduce {
 		p("Covariance.2",
 				"<<begin scalar ret, tmpmean1, tmpmean2, tmplength, list1!!, list2!!; list1!!:=(%0); list2!!:=(%1); ret:=0$ tmpmean1:=0$ tmpmean2:=0$ tmplength:=length(list1!!)$ tmpmean1:=1/tmplength*for i:=1:tmplength sum part(list1!!,i) $ tmpmean2:=1/tmplength*for i:=1:tmplength sum part(list2!!,i)$  return 1/tmplength*for i:=1:tmplength sum (part(list1!!,i)-tmpmean1)*(part(list2!!,i)-tmpmean2) end>>");
 		p("Covariance.1",
-				"<<begin scalar ret, tmpmean1, tmpmean2, tmplength, input!!; input!!:=mattolistoflists(%0); ret:=0$ tmpmean1:=0$ tmpmean2:=0$ tmplength:=length(input!!)$ tmpmean1:=1/tmplength*for i:=1:tmplength sum part(part(input!!,i),1) $ tmpmean2:=1/tmplength*for i:=1:tmplength sum part(part(input!!,i),2)$ return 1/tmplength*for i:=1:tmplength sum (part(part(input!!,i),1)-tmpmean1)*(part(part(input!!,i),2)-tmpmean2) end>>");
-		p("Cross.2", "cross(%0,%1)");
+				"<<" +
+				"begin scalar ret, tmpmean1, tmpmean2, tmplength, input!!;" +
+				"input!!:=%0; ret:=0; tmpmean1:=0; tmpmean2:=0; clear tmp;" +
+				"tmplength:=length(input!!);" +
+				"tmpmean1:=1/tmplength* for each element!! in input!! sum <<tmp:=element!!;tmp[0]>> $ tmpmean2:=1/tmplength*for each element!! in input!! sum <<tmp:=element!!;tmp[1]>>$ return 1/tmplength*for each element!! in input!! sum <<tmp:=element!!;(tmp[0]-tmpmean1)*(tmp[1]-tmpmean2)>> end>>");
+		p("Cross.2", "mycross(%0,%1)");
 		p("CSolutions.1",
 				"<<begin scalar input!!; input!!:=(%0); on complex$ return flattenlist(for each element!! in mycsolve(input!!,mymainvar(input!!)) collect map(rhs,element!!)) end>>");
 		p("CSolutions.2",
@@ -53,7 +57,7 @@ public class Ggb2MPReduce {
 		p("Derivative.2", "df(%0,%1)");
 		p("Derivative.3", "df(%0,%1,%2)");
 		p("Determinant.1", "<<tmpmat!!:=(%0); det(tmpmat!!)>>");
-		p("Dimension.1", "length(%0)");
+		p("Dimension.1", "<<begin scalar input!!; input!!:=%0; return if myvecp input!! then dim input!! else length(input!!) end>>");
 		p("Div.2", "div(%0,%1)");
 		p("Division.2", "list(div(%0,%1),mod!!(%0,%1))");
 		p("Divisors.1",
@@ -62,7 +66,7 @@ public class Ggb2MPReduce {
 				"<<off combinelogs$ if numberp(%0) then if %0=1 then list(1) else <<begin scalar divlist!!, return!!; divlist!!:=for each x in factorize(%0) collect for i:=0:part(x,2) collect part(x,1)^i; return!!:=part(divlist!!,1); for i:=2:length(divlist!!) do return!!:=for each x in part(divlist!!,i) join for each y in return!! collect x*y; return mysort(return!!) end>> else \\'? >>");
 		p("DivisorsSum.1",
 				"<<off combinelogs$ if numberp(%0) then if %0=1 then 1 else for each x in factorize(%0) product (part(x,1)^(part(x,2)+1)-1)/(part(x,1)-1) else \\'? >>");
-		p("Dot.2", "dot(%0,%1)");
+		p("Dot.2", "mydot(%0,%1)");
 		p("erf.1", "myerf(%0)");
 		p("Element.2", "part(%0,%1)");
 		p("Element.3",
@@ -184,7 +188,7 @@ public class Ggb2MPReduce {
 		p("Numeric.2",
 				"<<numeric!!:=1; on rounded, roundall, numval$ if %1<=16 then <<print\\_precision(%1)$ %0>> else <<precision(%1)$ print\\_precision(%1)$ %0 >> >>");
 		p("OrthogonalVector.1",
-				"if arglength(%0)>-1 and part(%0,0)=\\'list then list(-part(%0,2),part(%0,1)) else if arglength(%0)>-1 and part(%0,0)=\\'mat then part mat((0,-1),(1,0))*(%0)");
+				"if myvecp then perpendicular %0 else if arglength(%0)>-1 and part(%0,0)=\\'mat then part mat((0,-1),(1,0))*(%0) else '?");
 		p("PartialFractions.1",
 				"<<begin scalar input!!; input!!:=(%0); return part(pf(input!!,mymainvar(input!!)),0):=+ end>>");
 		p("PartialFractions.2", "part(pf(%0,%1),0):=+");
@@ -274,13 +278,13 @@ public class Ggb2MPReduce {
 		p("TDistribution.2",
 				"<<begin scalar t!!,n!!; n!!:=(%0); t!!:=(%1) ;beta!Regularized(((t!!+sqrt(t!!^2+n!!)/(2*sqrt(t!!^2+n!!)),n!!/2,n!!/2)");
 		p("ToComplex.1",
-				"<<begin scalar list!!; list!!:=(%0); return part(list!!,1)+i*part(list!!,2) end >>");
+				"<<begin scalar list!!; list!!:=(%0); return if myvecp list!! then get(list!!,0)+i*get(list!!,1) else part(list!!,1)+i*part(list!!,2) end >>");
 		p("ToExponential.1",
 				"<< begin scalar real!!, imag!!, input!!, mag!!, phi!!; input!!:=(%0); if arglength(input!!)>-1 and part(input!!,0)=\\'list then <<real!!:= part(input!!,1); imag!!:=part(input!!,2)>> else <<real!!:= repart(input!!); imag!!:=impart(input!!)>>;mag!!:=sqrt(real!!^2+imag!!^2); phi!!:=myatan2(imag!!,real!!); return if mag!!=0 then 0 else if phi!!=0 then mag!! else if mag!!=1 then part(list(i*phi!!),0):=exp else part(list(mag!!,part(list(i*phi!!),0):=exp),0):=* end>>");
 		p("ToPolar.1",
 				"<< begin scalar input!!; input!!:=(%0); return if arglength(input!!)>-1 and part(input!!,0)=\\'list then if length(input!!)=2 then part(list(sqrt(part(input!!,1)^2+part(input!!,2)^2),myatan2(part(input!!,2),part(input!!,1))),0):=polartopoint!\u00a7 else \\'? else part(list(sqrt(repart(input!!)^2+impart(input!!)^2),myatan2(impart(input!!),repart(input!!))),0):=polartopoint!\u00a7 end >>");
 		p("ToPoint.1",
-				"<< begin scalar input!!; input!!:=(%0); return part(if arglength(input!!)>-1 and part(input!!,0)=\\'list then input!! else list(repart(input!!),impart(input!!)),0):=point!\u00a7 end >>");
+				"<< begin scalar input!!; input!!:=(%0); return if arglength(input!!)>-1 and part(input!!,0)=\\'list then listtomyvect input!! else myvect(repart(input!!),impart(input!!)) end >>");
 		p("Transpose.1", "tp(<<listofliststomat(%0)>>)");
 		// http://reduce-algebra.com/docs/trigsimp.pdf
 		p("TrigExpand.1",
@@ -299,9 +303,9 @@ public class Ggb2MPReduce {
 				"sub(list(x=currentx!!),trigsimp(sub(list(currentx!!=x),%0),part(%1,0),combine))");
 		p("Unique.1", "mkset(%0)");
 		p("UnitOrthogonalVector.1",
-				"<<begin; clear mat!!,norm!!; input!!:=(%0);return if arglength(input!!)>-1 and part(input!!,0)=\\'list then if length(input!!) neq 2 then \\'? else <<norm!!:=sqrt(<<for each i in input!! sum i^2>>); list(-part(input!!,2)/norm!!,part(input!!,1)/norm!!) >> else if length(input!!)=list(2,1) then <<norm!!:=sqrt(<<for i:=1:row\\_dim(input!!) sum input!!(i,1)^2>>); norm!!*mat((0,-1),(1,0))*input!! >> else if length(input!!)=list(1,2) then <<norm!!:=sqrt(<<for i:=1:column\\_dim(input!!) sum input!!(1,i)^2>>); norm!!*input!!*mat((0,-1),(1,0)) >> else \\'? end >>");
+				"<<begin; clear mat!!,norm!!; input!!:=(%0);return if myvecp input!! then unitperpendicular input!! else if length(input!!)=list(2,1) then <<norm!!:=sqrt(<<for i:=1:row\\_dim(input!!) sum input!!(i,1)^2>>); norm!!*mat((0,-1),(1,0))*input!! >> else if length(input!!)=list(1,2) then <<norm!!:=sqrt(<<for i:=1:column\\_dim(input!!) sum input!!(1,i)^2>>); norm!!*input!!*mat((0,-1),(1,0)) >> else \\'? end >>");
 		p("UnitVector.1",
-				"<<begin; clear input!!; input!!:=(%0); return if arglength(input!!)>-1 and part(input!!,0)=\\'list then map(~w/sqrt(<<for each i in input!! sum i^2>>),input!!) else input!!/sqrt(<<for i:=1:row\\_dim(input!!) sum input!!(i,1)^2>>) end>>");
+				"<<begin; clear input!!; input!!:=(%0); return if myvecp input!! then unitvector input!! else input!!/sqrt(<<for i:=1:row\\_dim(input!!) sum input!!(i,1)^2>>) end>>");
 		p("Variance.1",
 				"<<begin scalar x!!,n!!,xd!!; x!!:=(%0)$ n!!:=length(x!!)$ xd!!:=1/n!!*for each i in x!! sum i; return 1/n!!* for each i in x!! sum (i-xd!!)**2 end>>");
 		p("Weibull.3", "1-exp(-(%0)*(%2)^(%1))");

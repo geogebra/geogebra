@@ -446,7 +446,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 			return sbBuildValueString;
 
 		case MPREDUCE:
-			sbBuildValueString.append("list(");
+			sbBuildValueString.append("myvect(");
 			sbBuildValueString.append(getInhomVec().x);
 			sbBuildValueString.append(",");
 			sbBuildValueString.append(getInhomVec().y);
