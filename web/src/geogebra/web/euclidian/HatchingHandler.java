@@ -105,7 +105,7 @@ public class HatchingHandler extends geogebra.common.euclidian.HatchingHandler {
 		Rectangle rect = new Rectangle(0, 0, xInt, yInt);
 
 		// use the middle square of our 3 x 3 grid to fill with
-		g2.setPaint(new TexturePaint(bufferedImage, rect));
+		g2.setPaint(new TexturePaint(bufferedImage.getSubimage(xInt, yInt, xInt, yInt), rect));
 		//should be implementedg2.setPaint(new TexturePaint(bufferedImage.getSubimage(xInt, yInt,
 				//xInt, yInt), rect));
 

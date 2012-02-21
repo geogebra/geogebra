@@ -77,6 +77,7 @@ public class BufferedImage {
 		canv.setCoordinateSpaceHeight(imageData.getHeight());
 		canv.setWidth(imageData.getWidth()+"px");
 		canv.setHeight(imageData.getHeight()+"px");
+		canv.getContext2d().putImageData(imageData, 0, 0);
 		img = getImageElement();
     }
 
