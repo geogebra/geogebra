@@ -104,4 +104,9 @@ public class AutoCompleteTextField extends TextBox implements geogebra.common.gu
 	    
     }
 
+	public void wrapSetText(String s) {
+		AbstractApplication.debug("implementation needed"); //TODO Auto-generated
+	    
+    }
+
 }

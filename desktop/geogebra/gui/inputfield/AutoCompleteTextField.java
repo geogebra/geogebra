@@ -1286,8 +1286,17 @@ public class AutoCompleteTextField extends MathTextField implements
     ((geogebra.javax.swing.JLabel) label).getImpl().setLabelFor(this);
   }
 
-public void addFocusListener(FocusListener focusListener) {
+  public void addFocusListener(FocusListener focusListener) {
 	super.addFocusListener((geogebra.awt.event.FocusListener) focusListener);
-}
+  }
+
+  public void wrapSetText(final String s) {
+	SwingUtilities.invokeLater(new Runnable() {
+		public void run() {
+			setText(s);
+		}
+	});
+	
+  }
 
 }
