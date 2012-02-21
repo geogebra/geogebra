@@ -205,6 +205,17 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener{
 			Color bgCol = geogebra.awt.Color.getAwtColor(btnBgColor.getSelectedColor());
 			formatHandler.setFormat(selectedCells, CellFormat.FORMAT_BGCOLOR, bgCol);
 
+			// set color for the actual geos
+			for (int i = 0 ; i < selectedCells.size() ; i++) {
+				CellRange cr = selectedCells.get(i);
+				ArrayList<GeoElement> ar = cr.toGeoList();
+				for (int j = 0 ; j < ar.size() ; j++) {
+					GeoElement geo = ar.get(i);
+					geo.setBackgroundColor(new geogebra.awt.Color(bgCol));
+					geo.updateRepaint();
+				}
+			}
+
 		}
 
 		else if (source == btnBorderStyle) {
