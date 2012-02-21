@@ -71,7 +71,7 @@ public class AlgoNumerator extends AlgoElement {
         }    
         
         ExpressionNode root = f.getFunctionExpression();
-        if (root.operation != Operation.DIVIDE) {
+        if (root.getOperation() != Operation.DIVIDE) {
         	g.setUndefined();
     		return;
     	}    
@@ -103,7 +103,7 @@ public class AlgoNumerator extends AlgoElement {
      * over-ridden in AlgoDenominator
      */
     protected ExpressionValue getPart(ExpressionNode node) {
-    	return node.left;
+    	return node.getLeft();
     }
     
     

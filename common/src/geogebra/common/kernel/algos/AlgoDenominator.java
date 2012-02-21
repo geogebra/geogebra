@@ -26,7 +26,12 @@ public class AlgoDenominator extends AlgoNumerator {
 
     
 
-
+	/**
+	 * Creates new algo for computing denominator
+	 * @param cons construction
+	 * @param label label
+	 * @param f rational function
+	 */
 	public AlgoDenominator(Construction cons, String label, GeoFunction f) {
 		super(cons, label, f);
 	}
@@ -36,7 +41,7 @@ public class AlgoDenominator extends AlgoNumerator {
      */
 	@Override
     protected ExpressionValue getPart(ExpressionNode node) {
-    	return node.right;
+    	return node.getRight();
     }
 
     @Override

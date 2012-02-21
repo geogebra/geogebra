@@ -139,9 +139,9 @@ public class GeoInterval extends GeoFunction {
 		// return "3 < x < 5";//fun.toValueString();
 
 		ExpressionNode en = fun.getExpression();
-		if (en.operation.equals(Operation.AND)) {
-			ExpressionValue left = en.left;
-			ExpressionValue right = en.right;
+		if (en.getOperation().equals(Operation.AND)) {
+			ExpressionValue left = en.getLeft();
+			ExpressionValue right = en.getRight();
 
 			if (left.isExpressionNode() && right.isExpressionNode()) {
 
@@ -197,19 +197,19 @@ public class GeoInterval extends GeoFunction {
 
 	private void updateBoundaries() {
 		ExpressionNode en = fun.getExpression();
-		if (en.operation.equals(Operation.AND)) {
-			ExpressionValue left = en.left;
-			ExpressionValue right = en.right;
+		if (en.getOperation().equals(Operation.AND)) {
+			ExpressionValue left = en.getLeft();
+			ExpressionValue right = en.getRight();
 			ExpressionNode enLeft = (ExpressionNode) left;
 			ExpressionNode enRight = (ExpressionNode) right;
 
-			Operation opLeft = enLeft.operation;
-			Operation opRight = enRight.operation;
+			Operation opLeft = enLeft.getOperation();
+			Operation opRight = enRight.getOperation();
 
-			ExpressionValue leftLeft = enLeft.left;
-			ExpressionValue leftRight = enLeft.right;
-			ExpressionValue rightLeft = enRight.left;
-			ExpressionValue rightRight = enRight.right;
+			ExpressionValue leftLeft = enLeft.getLeft();
+			ExpressionValue leftRight = enLeft.getRight();
+			ExpressionValue rightLeft = enRight.getLeft();
+			ExpressionValue rightRight = enRight.getRight();
 
 			if ((opLeft.equals(Operation.LESS) || opLeft
 					.equals(Operation.LESS_EQUAL))) {

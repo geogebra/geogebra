@@ -912,21 +912,21 @@ public class AlgebraProcessor {
 		// check for interval
 
 		ExpressionNode en = fun.getExpression();
-		if (en.operation.equals(Operation.AND)) {
-			ExpressionValue left = en.left;
-			ExpressionValue right = en.right;
+		if (en.getOperation().equals(Operation.AND)) {
+			ExpressionValue left = en.getLeft();
+			ExpressionValue right = en.getRight();
 
 			if (left.isExpressionNode() && right.isExpressionNode()) {
 				ExpressionNode enLeft = (ExpressionNode) left;
 				ExpressionNode enRight = (ExpressionNode) right;
 
-				Operation opLeft = enLeft.operation;
-				Operation opRight = enRight.operation;
+				Operation opLeft = enLeft.getOperation();
+				Operation opRight = enRight.getOperation();
 
-				ExpressionValue leftLeft = enLeft.left;
-				ExpressionValue leftRight = enLeft.right;
-				ExpressionValue rightLeft = enRight.left;
-				ExpressionValue rightRight = enRight.right;
+				ExpressionValue leftLeft = enLeft.getLeft();
+				ExpressionValue leftRight = enLeft.getRight();
+				ExpressionValue rightLeft = enRight.getLeft();
+				ExpressionValue rightRight = enRight.getRight();
 
 				// directions of inequalities, need one + and one - for an
 				// interval
@@ -997,9 +997,9 @@ public class AlgebraProcessor {
 			// AbstractApplication.debug(left.getClass()+"");
 			// AbstractApplication.debug(right.getClass()+"");
 			// AbstractApplication.debug("");
-		} else if (en.operation.equals(Operation.FUNCTION)) {
-			ExpressionValue left = en.left;
-			ExpressionValue right = en.right;
+		} else if (en.getOperation().equals(Operation.FUNCTION)) {
+			ExpressionValue left = en.getLeft();
+			ExpressionValue right = en.getRight();
 			if (left.isLeaf() && left.isGeoElement() && right.isLeaf()
 					&& right.isNumberValue() && !isIndependent) {
 				f = (GeoFunction) kernel.DependentGeoCopy(label,
@@ -1271,7 +1271,7 @@ public class AlgebraProcessor {
 			myNode = myNode.getLeftTree();
 		// leaf (no new label specified): just return the existing GeoElement
 		if (eval.isGeoElement() && n.getLabel() == null
-				&& !(n.operation.equals(Operation.ELEMENT_OF))) {
+				&& !(n.getOperation().equals(Operation.ELEMENT_OF))) {
 			// take care of spreadsheet $ names: don't loose the wrapper
 			// ExpressionNode here
 			// check if we have a Variable

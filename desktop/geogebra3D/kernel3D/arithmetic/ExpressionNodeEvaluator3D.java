@@ -9,7 +9,6 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
-import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.plugin.Operation;
 import geogebra3D.kernel3D.Geo3DVec;
 
@@ -25,11 +24,11 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 	@Override
 	public ExpressionValue evaluate(ExpressionNode expressionNode,StringTemplate tpl) {
 
-		Kernel kernel = expressionNode.kernel;
+		Kernel kernel = expressionNode.getKernel();
 		boolean leaf = expressionNode.leaf;
-		ExpressionValue left = expressionNode.left;
-		ExpressionValue right = expressionNode.right;
-		Operation operation = expressionNode.operation;
+		ExpressionValue left = expressionNode.getLeft();
+		ExpressionValue right = expressionNode.getRight();
+		Operation operation = expressionNode.getOperation();
 		// Application app = expressionNode.app;
 		// boolean holdsLaTeXtext = expressionNode.holdsLaTeXtext;
 

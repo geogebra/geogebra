@@ -36,17 +36,17 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 */
 	public ExpressionValue evaluate(ExpressionNode expressionNode,StringTemplate tpl) {
 		boolean leaf = expressionNode.leaf;
-		ExpressionValue left = expressionNode.left;
+		ExpressionValue left = expressionNode.getLeft();
 
 		if (leaf) {
 			return left.evaluate(tpl); // for wrapping ExpressionValues as
 			// ValidExpression
 		}
 		String[] str;
-		Kernel kernel = expressionNode.kernel;
-		ExpressionValue right = expressionNode.right;
-		Operation operation = expressionNode.operation;
-		AbstractApplication app = expressionNode.app;
+		Kernel kernel = expressionNode.getKernel();
+		ExpressionValue right = expressionNode.getRight();
+		Operation operation = expressionNode.getOperation();
+		AbstractApplication app = kernel.getApplication();
 		boolean holdsLaTeXtext = expressionNode.holdsLaTeXtext;
 
 		// Application.debug(operation+"");
@@ -746,13 +746,13 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				// x^(a/b) := (x^a)^(1/b)
 				if ((base < 0) && right.isExpressionNode()) {
 					ExpressionNode node = (ExpressionNode) right;
-					if (node.operation.equals(Operation.DIVIDE)) {
+					if (node.getOperation().equals(Operation.DIVIDE)) {
 						// check if we have a/b with a and b integers
-						double a = ((NumberValue) node.left.evaluate())
+						double a = ((NumberValue) node.getLeft().evaluate())
 								.getDouble();
 						long al = Math.round(a);
 						if (Kernel.isEqual(a, al)) { // a is integer
-							double b = ((NumberValue) node.right.evaluate())
+							double b = ((NumberValue) node.getRight().evaluate())
 									.getDouble();
 							long bl = Math.round(b);
 							if (b == 0) {

@@ -14,6 +14,7 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
@@ -31,7 +32,7 @@ import java.util.HashSet;
  * @author Markus Hohenwarter + mathieu
  */
 public class FunctionNVar extends ValidExpression implements ReplaceableValue,
-		FunctionalNVar {
+		FunctionalNVar, VarString {
 
 	/** function expression */
 	protected ExpressionNode expression;
@@ -209,11 +210,6 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		return fVars.length;
 	}
 
-	/**
-	 * Returns variable names separated by ", "
-	 * 
-	 * @return variable names separated by ", "
-	 */
 	public String getVarString(StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < fVars.length - 1; i++) {

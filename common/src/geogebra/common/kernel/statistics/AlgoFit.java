@@ -256,7 +256,8 @@ public class AlgoFit extends AlgoElement {
     	}
 		if(ev.isExpressionNode()){
 			n=(ExpressionNode)ev;
-			walk(n.left);    			walk(n.right);
+			walk(n.getLeft());
+			walk(n.getRight());
 			System.out.println("  Op: "+n.getOperation().toString());
 			System.out.println();
 		}else if(ev.isGeoElement()){

@@ -496,7 +496,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			boolean rootFindingSimplification) {
 		if (ev.isExpressionNode()) {
 			ExpressionNode node = (ExpressionNode) ev;
-			switch (node.operation) {
+			switch (node.getOperation()) {
 			case MULTIPLY:
 				return addPolynomialFactors(node.getLeft(), l, symbolic,
 						rootFindingSimplification)
@@ -526,7 +526,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 						e.printStackTrace();
 						return false;
 					}
-					if (node.operation.equals(Operation.POWER)) {
+					if (node.getOperation().equals(Operation.POWER)) {
 						if (Kernel.isZero(rightVal))
 							// left^0 = 1
 							return addPolynomialFactors(

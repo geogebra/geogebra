@@ -179,7 +179,7 @@ public class Term implements Comparable<Object>, Serializable {
 			if (b.isExpressionNode()) {
 				ExpressionNode ben = (ExpressionNode) b;
 				if (ben.getLeft().isConstant()) {
-					switch (ben.operation) {
+					switch (ben.getOperation()) {
 					// a + (b.left + b.right) = (a + b.left) + b.right
 					case PLUS:
 						return add(add(a, ben.getLeft()), ben.getRight());
@@ -259,7 +259,7 @@ public class Term implements Comparable<Object>, Serializable {
 				if (b instanceof ExpressionNode) {
 					ExpressionNode ben = (ExpressionNode) b;
 					if (ben.getLeft().isConstant()) {
-						switch (ben.operation) {
+						switch (ben.getOperation()) {
 						// a * (b.left * b.right) = (a * b.left) * b.right
 						case MULTIPLY:
 							return multiply(multiply(a, ben.getLeft()),
@@ -306,7 +306,7 @@ public class Term implements Comparable<Object>, Serializable {
 			}
 			if (b instanceof ExpressionNode) {
 				ExpressionNode ben = (ExpressionNode) b;
-				switch (ben.operation) {
+				switch (ben.getOperation()) {
 				// a / (b.left / b.right) = (a / b.left) * b.right
 				case DIVIDE:
 					return multiply(divide(a, ben.getLeft()), ben.getRight());

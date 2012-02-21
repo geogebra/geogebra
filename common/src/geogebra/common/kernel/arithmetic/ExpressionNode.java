@@ -49,22 +49,29 @@ import java.util.TreeSet;
 public class ExpressionNode extends ValidExpression implements
 		ReplaceableValue, ExpressionNodeConstants {
 
-	public AbstractApplication app;
-	public Kernel kernel;
-	public ExpressionValue left, right;
-	public Operation operation = Operation.NO_OPERATION;
-	public boolean forceVector = false, forcePoint = false,
+	private AbstractApplication app;
+	private Kernel kernel;
+	private ExpressionValue left, right;
+	private Operation operation = Operation.NO_OPERATION;
+	private boolean forceVector = false, forcePoint = false,
 			forceFunction = false;
-
+	/** true if this holds text and the text is in LaTeX format */
 	public boolean holdsLaTeXtext = false;
 
-	// for leaf mode
+	/** for leaf mode */
 	public boolean leaf = false;
-
+	/**
+	 * Creates dummy expression node
+	 */
 	public ExpressionNode() {
 	}
 
-	/** Creates new ExpressionNode */
+	/** Creates new ExpressionNode 
+	 * @param kernel kernel
+	 * @param left left subexpression
+	 * @param operation operation
+	 * @param right right subexpression 
+	 * */
 	public ExpressionNode(Kernel kernel, ExpressionValue left,
 			Operation operation, ExpressionValue right) {
 		this.kernel = kernel;
@@ -115,28 +122,46 @@ public class ExpressionNode extends ValidExpression implements
 	public Kernel getKernel() {
 		return kernel;
 	}
-
+	/**
+	 * @return current operation
+	 */
 	final public Operation getOperation() {
 		return operation;
 	}
 
+	/**
+	 * @param op new operation
+	 */
 	public void setOperation(Operation op) {
 		operation = op;
 	}
 
+	/**
+	 * @param flag true if holds LaTeX text
+	 */
 	public void setHoldsLaTeXtext(boolean flag) {
 		holdsLaTeXtext = flag;
 	}
 
+	/**
+	 * @return left subexpression
+	 */
 	final public ExpressionValue getLeft() {
 		return left;
 	}
 
+	/**
+	 * @param l left subexpression
+	 */
 	final public void setLeft(ExpressionValue l) {
 		left = l;
 		left.setInTree(true); // needed fot list operations eg k=2 then k {1,2}
 	}
 
+	/**
+	 * Result is never null; for leaves, left is packed in ExpressionNode in result.
+	 * @return left subtree
+	 */
 	public ExpressionNode getLeftTree() {
 		if (left.isExpressionNode()) {
 			return (ExpressionNode) left;
@@ -144,10 +169,15 @@ public class ExpressionNode extends ValidExpression implements
 		return new ExpressionNode(kernel, left);
 	}
 
+	/**
+	 * @return right subexpression
+	 */
 	final public ExpressionValue getRight() {
 		return right;
 	}
-
+	/**
+	 * @param r new right subexpression
+	 */
 	final public void setRight(ExpressionValue r) {
 		right = r;
 		if (right != null) {
@@ -158,7 +188,9 @@ public class ExpressionNode extends ValidExpression implements
 													// by
 		// default
 	}
-
+	/**
+	 * @return right subtree
+	 */
 	public ExpressionNode getRightTree() {
 		if (right == null) {
 			return null;
@@ -174,7 +206,10 @@ public class ExpressionNode extends ValidExpression implements
 		return getCopy(kernel1);
 	}
 
-	/** copy the whole tree structure except leafs */
+	/** copy the whole tree structure except leafs 
+	 * @param kernel1 kernel
+	 * @return copy of this node 
+	 * */
 	public ExpressionNode getCopy(Kernel kernel1) {
 		// Application.debug("getCopy() input: " + this);
 		ExpressionNode newNode = null;
@@ -203,7 +238,11 @@ public class ExpressionNode extends ValidExpression implements
 		return newNode;
 	}
 
-	/** deep copy except for GeoElements */
+	/** deep copy except for GeoElements 
+	 * @param ev value to copy
+	 * @param kernel kernel
+	 * @return copy of value 
+	 */
 	public static ExpressionValue copy(ExpressionValue ev, Kernel kernel) {
 		if (ev == null) {
 			return null;
@@ -465,6 +504,8 @@ public class ExpressionNode extends ValidExpression implements
 	/**
 	 * Looks for GeoDummyVariable objects that hold String var in the tree and
 	 * replaces them by their newOb.
+	 * @param var variable name
+	 * @param newOb replacement object
 	 * 
 	 * @return whether replacement was done
 	 */
@@ -530,7 +571,7 @@ public class ExpressionNode extends ValidExpression implements
 	 */
 
 	/**
-	 * returns true if there is at least one Polynomial in the tree
+	 * @return true if there is at least one Polynomial in the tree
 	 */
 	public boolean includesPolynomial() {
 		return getPolynomialVars().size() > 0;
@@ -590,6 +631,7 @@ public class ExpressionNode extends ValidExpression implements
 	 * Returns whether this ExpressionNode should evaluate to a GeoVector. This
 	 * method returns true when all GeoElements in this tree are GeoVectors and
 	 * there are no other constanct VectorValues (i.e. constant points)
+	 * @return true if this should evaluate to GeoVector
 	 */
 	public boolean shouldEvaluateToGeoVector() {
 		boolean evalToVector = false;
@@ -620,6 +662,8 @@ public class ExpressionNode extends ValidExpression implements
 
 	/**
 	 * Returns true if this tree includes a division by val
+	 * @param val possible divisor
+	 * @return true iff contains division by val
 	 */
 	final public boolean includesDivisionBy(ExpressionValue val) {
 		if (operation == Operation.DIVIDE) {
@@ -651,6 +695,8 @@ public class ExpressionNode extends ValidExpression implements
 	 * FunctionVariable object.
 	 * 
 	 * Only works if the varName is inserted without CAS prefix
+	 * @param varName variable name
+	 * @param fVar replacement variable
 	 * 
 	 * @return number of replacements done
 	 */
@@ -711,12 +757,12 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
-	 * Replaces all Polynomials in tree by function variable TODO possibly
-	 * remove the public modifier once arithmetic is in common
+	 * Replaces all Polynomials in tree by function variable 
+	 * @param x replacement variable
 	 * 
 	 * @return number of replacements done
 	 */
-	public int replacePolynomials(FunctionVariable x) {
+	protected int replacePolynomials(FunctionVariable x) {
 		int replacements = 0;
 
 		// left tree
@@ -751,10 +797,13 @@ public class ExpressionNode extends ValidExpression implements
 	 * x(x+1) becomes x*(x+1). The given function variables for "x", "y", "z"
 	 * are used in this process. TODO possibly remove the public modifier once
 	 * arithmetic is in common
+	 * @param xVar variable x
+	 * @param yVar variable y
+	 * @param zVar variable z
 	 * 
 	 * @return number of replacements done
 	 */
-	public int replaceXYZnodes(FunctionVariable xVar, FunctionVariable yVar,
+	protected int replaceXYZnodes(FunctionVariable xVar, FunctionVariable yVar,
 			FunctionVariable zVar) {
 		if ((xVar == null) && ((yVar == null) & (zVar == null))) {
 			return 0;
@@ -807,6 +856,8 @@ public class ExpressionNode extends ValidExpression implements
 	/**
 	 * Replaces every oldOb by newOb in this ExpressionNode tree and makes sure
 	 * that the result is again an ExpressionNode object.
+	 * @param oldOb old object
+	 * @param newOb new object
 	 * 
 	 * @return resulting ExpressionNode
 	 */
@@ -850,6 +901,7 @@ public class ExpressionNode extends ValidExpression implements
 	/**
 	 * Replaces geo and all its dependent geos in this tree by copies of their
 	 * values.
+	 * @param geo geo to be replaced
 	 */
 	public void replaceChildrenByValues(GeoElement geo) {
 		// left tree
@@ -894,7 +946,7 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
-	 * Returns true when the given object is found in this expression tree.
+	 * @return true when function variable is found in this expression tree.
 	 */
 	final public boolean containsFunctionVariable() {
 		if ((left instanceof FunctionVariable)
@@ -914,6 +966,9 @@ public class ExpressionNode extends ValidExpression implements
 		return false;
 	}
 
+	/**
+	 * @return true if contains CAS evaluable function
+	 */
 	final public boolean containsCasEvaluableFunction() {
 		if ((left instanceof CasEvaluableFunction)
 				|| (right instanceof CasEvaluableFunction)) {
@@ -932,6 +987,9 @@ public class ExpressionNode extends ValidExpression implements
 		return false;
 	}
 
+	/**
+	 * @return true when the FunctionNVar is found in this expression tree.
+	 */
 	final public boolean containsGeoFunctionNVar() {
 		if ((left instanceof GeoFunctionNVar)
 				|| (right instanceof GeoFunctionNVar)) {
@@ -954,6 +1012,7 @@ public class ExpressionNode extends ValidExpression implements
 	 * transfers every non-polynomial in this tree to a polynomial. This is
 	 * needed to enable polynomial simplification by evaluate() TODO possibly
 	 * remove the public modifier once arithmetic is in common
+	 * @param equ equation
 	 */
 	public final void makePolynomialTree(Equation equ) {
 
@@ -1050,36 +1109,54 @@ public class ExpressionNode extends ValidExpression implements
 
 		return shouldEvaluateToGeoVector();
 	}
-
+	/**
+	 * Force this to evaluate to vector
+	 */
 	public void setForceVector() {
 		// this expression should be considered as a vector, not a point
 		forceVector = true;
 	}
 
+	/**
+	 * @return true if forced to evaluate to vector
+	 */
 	final public boolean isForcedVector() {
 		return forceVector;
 	}
 
+	/**
+	 * 
+	 */
 	public void setForcePoint() {
 		// this expression should be considered as a point, not a vector
 		forcePoint = true;
 	}
 
+	/**
+	 * @return true iff forced to evaluate to point
+	 */
 	final public boolean isForcedPoint() {
 		return forcePoint;
 	}
 
+	/**
+	 * Force to evaluate to function
+	 */
 	public void setForceFunction() {
 		// this expression should be considered as a point, not a vector
 		forceFunction = true;
 	}
 
+	/**
+	 * @return true iff forced to be a function
+	 */
 	final public boolean isForcedFunction() {
 		return forceFunction;
 	}
 
 	/**
 	 * Returns whether this tree has any operations
+	 * @return true iff this tree has any operations
 	 */
 	final public boolean hasOperations() {
 		if (leaf) {
@@ -1128,6 +1205,9 @@ public class ExpressionNode extends ValidExpression implements
 		}
 	}
 
+	/**
+	 * @return GeoElement variables
+	 */
 	final public GeoElement[] getGeoElementVariables() {
 		HashSet<GeoElement> varset = getVariables();
 		if (varset == null) {
@@ -1146,18 +1226,29 @@ public class ExpressionNode extends ValidExpression implements
 		return leaf; // || operation == NO_OPERATION;
 	}
 
+	/**
+	 * @return true if this is leaf containing only GeoElement
+	 */
 	final public boolean isSingleGeoElement() {
 		return leaf && left.isGeoElement();
 	}
 
+	/**
+	 * @return left subexpression as GeoElement
+	 */
 	final public GeoElement getSingleGeoElement() {
 		return (GeoElement) left;
 	}
 
+	/**
+	 * @return true if this is leaf containing only Variable
+	 */
 	public boolean isSingleVariable() {
 		return (isLeaf() && (left instanceof Variable));
 	}
-
+	/**
+	 * @return true if this is leaf containing only imaginary unit
+	 */
 	public boolean isImaginaryUnit() {
 		return (isLeaf() && (left instanceof GeoVec2D) && ((GeoVec2D) left)
 				.isImaginaryUnit());
@@ -1169,8 +1260,8 @@ public class ExpressionNode extends ValidExpression implements
 	 * 
 	 * @param symbolic
 	 *            true for variable names, false for values of variables
-	 * @param STRING_TYPE
-	 *            e.g. StringType.JASYMCA
+	 * @param tpl
+	 *            String template
 	 * @return string representation of this node that can be used with given
 	 *         CAS
 	 */
@@ -4077,9 +4168,9 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
-	 * return operation number
-	 * 
-	 * @param ev
+	 * return operation number for expression nodes
+	 * and -1 for other expression values
+	 * @param ev expression value
 	 * @return operation number
 	 */
 	static public int opID(ExpressionValue ev) {
@@ -4168,8 +4259,8 @@ public class ExpressionNode extends ValidExpression implements
 	 * @param symbolic
 	 *            whether we should use the value (true) or the label (false) of
 	 *            ev when it is a GeoElement
-	 * @param val
-	 * @param ev
+	 * @param val numeric value
+	 * @param ev expression value to compare with val
 	 * @return true iff output of ev and val are the same
 	 */
 	final public static boolean isEqualString(ExpressionValue ev, double val,
@@ -4244,7 +4335,7 @@ public class ExpressionNode extends ValidExpression implements
 	 * If the expression is linear in fv, returns the corresponding coefficient.
 	 * Otherwise returns null.
 	 * 
-	 * @param fv
+	 * @param fv variable whose coefficient we want
 	 * @return coefficient or null
 	 */
 	public Double getCoefficient(FunctionVariable fv) {
@@ -4340,26 +4431,48 @@ public class ExpressionNode extends ValidExpression implements
 		return operationToString(leftStr, rightStr, false,tpl);
 	}
 
+	/**
+	 * @param v2 value to add
+	 * @return result of addition
+	 */
 	public ExpressionNode plus(ExpressionValue v2) {
 		return new ExpressionNode(kernel, this, Operation.PLUS, v2);
 	}
 
+	/**
+	 * @param v2 coefficient
+	 * @return result of multiplication
+	 */
 	public ExpressionNode multiply(ExpressionValue v2) {
 		return new ExpressionNode(kernel, v2, Operation.MULTIPLY, this);
 	}
 
+	/**
+	 * @param v2 exponent
+	 * @return resulting power
+	 */
 	public ExpressionNode power(ExpressionValue v2) {
 		return new ExpressionNode(kernel, this, Operation.POWER, v2);
 	}
 
+	/**
+	 * @param v2 divisor
+	 * @return result of division
+	 */
 	public ExpressionNode divide(ExpressionValue v2) {
 		return new ExpressionNode(kernel, this, Operation.DIVIDE, v2);
 	}
 
+	/**
+	 * @param v2 clause
+	 * @return result of conjuction
+	 */
 	public ExpressionNode and(ExpressionValue v2) {
 		return new ExpressionNode(kernel, this, Operation.AND, v2);
 	}
-
+	/**
+	 * @return negation of this expression (optimizes negation of >,<,=>,<=)
+	 */
 	public ExpressionNode negation() {
 		switch (this.operation) {
 		case GREATER:
