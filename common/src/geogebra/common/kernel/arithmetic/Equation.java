@@ -58,12 +58,20 @@ public class Equation extends ValidExpression implements ReplaceableValue {
     	return rhs;
     }
     
+    public void setRHS(ExpressionNode rhs){
+    	if(rhs != null)
+    		this.rhs = rhs;
+    }
+    
     public ExpressionNode getLHS() {
     	return lhs;
     }
     
-    
-    
+    public void setLHS(ExpressionNode lhs){
+    	if(lhs != null)
+    		this.lhs = lhs;
+    }
+      
     private boolean forcePlane = false, forceLine = false;
     private boolean forceConic = false, forceImplicitPoly = false ;
  

@@ -1332,7 +1332,7 @@ public class GeoCasCell extends GeoElement {
 				if (evalVE == null) {
 					throw new CASException("Invalid input (evalVE is null)");
 				}
-				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(evalVE);
+				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(evalVE); 
 				success = result != null;
 			} catch (CASException e) {
 				System.err.println("GeoCasCell.computeOutput(), CAS eval: "

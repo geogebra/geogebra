@@ -506,7 +506,7 @@ public class CASInputHandler {
 		StringBuilder sb = new StringBuilder();
 		sb.append(ggbcmd);
 		sb.append("[");
-		sb.append(cellTextS);
+		sb.append(cellTextS); 
 		sb.append(", {");
 
 		StringBuilder paramSB = new StringBuilder();

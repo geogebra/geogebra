@@ -203,11 +203,14 @@ public abstract class AbstractCASmpreduce extends CASgeneric{
 			throws CASException {
 		ValidExpression ve = casParser.parseMPReduce(mpreduceString);
 		
-		// replace rational exponents by roots if needed
-		if(ve.getKernel().getApplication().getSettings().getCasSettings().getShowExpAsRoots()){
-			CasExpressionFactory factory = new CasExpressionFactory(ve);
+		// replace rational exponents by roots or vice versa
+		CasExpressionFactory factory = new CasExpressionFactory(ve);
+		if(ve.getKernel().getApplication().getSettings().getCasSettings().getShowExpAsRoots())
 			factory.replaceExpByRoots();
-		}
+		else
+			factory.replaceRootsByExp();
+		
+		
 		return casParser.toGeoGebraString(ve);
 	}
 
