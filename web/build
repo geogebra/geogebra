@@ -72,7 +72,6 @@ WEBDIR=`pwd`
 VERBOSE=0
 USERAGENTS=gecko1_8,safari,ie9,opera
 INSTALLDIR=""
-XS=0
 STYLE=OBFUSCATED
 OTHEROPTS=""
 JAVAC_CLEANUP=""
@@ -90,7 +89,6 @@ while [ $# -gt 0 ]; do
    echo "  -h, -help, --help   This help"
    echo "  -u [useragents]     Comma separated list of user agents to compile ($USERAGENTS)"
    echo "  -i [directory]      If set, installs GeoGebraWeb into the given directory (first deletes!)"
-   echo "  -x                  XS compilation"
    echo "  -c                  Do a cleanup before javac compilation"
    echo "  -s [style]          Compilation style: OBFUSCATED, PRETTY or DETAILED ($STYLE)"
    echo "  -g [directory]      Use GWT SDK from the given directory ($GWTDIR)"
@@ -116,10 +114,6 @@ while [ $# -gt 0 ]; do
   -X)
    shift
    XML="$1"
-   ;;
-
-  -x)
-   XS=1
    ;;
 
   -c)
@@ -205,14 +199,6 @@ cp $GWTXML $GWTXML.orig
 
 cat $GWTXML | \
  $XML ed -u "/module/set-property[@name='user.agent']/@value" -v "$USERAGENTS" > $GWTXML-b
-
-if [ "$XS" = "1" ]; then
- cat $GWTXML-b | \
-  $XML ed -d /module/add-linker |\
-  $XML ed -s /module -t elem -n "add-linker" -v "" |\
-  $XML ed -i /module/add-linker -t attr -n name -v xs > $GWTXML-b2
- mv $GWTXML-b2 $GWTXML-b
- fi
 
 mv $GWTXML-b $GWTXML
 
