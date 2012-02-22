@@ -71,14 +71,16 @@ public class GenericShape implements geogebra.web.awt.Shape {
 
 
 	public static geogebra.web.openjdk.awt.geom.Shape getGawtShape(Shape shape) {
+		if (shape == null)
+			return null;
 		Shape shapeCommon = shape instanceof GeneralPathClipped ?
-				((GeneralPathClipped)shape).getGeneralPath() : shape;
+			((GeneralPathClipped)shape).getGeneralPath() : shape;
 				
-				if((shapeCommon instanceof geogebra.web.awt.Shape)){
-					return ((geogebra.web.awt.Shape)shapeCommon).getGawtShape();
-				}
-				AbstractApplication.debug("unimplemented class in GenericShape.getGawtShape() "+shapeCommon.getClass());
-				return null;
+		if((shapeCommon instanceof geogebra.web.awt.Shape)){
+			return ((geogebra.web.awt.Shape)shapeCommon).getGawtShape();
+		}
+		AbstractApplication.debug("unimplemented class in GenericShape.getGawtShape() "+shapeCommon.getClass());
+		return null;
 	}
 
 

@@ -442,9 +442,18 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 		);
 	}
 
-	public void clip(Shape s) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+	public void clip(Shape shape2) {
 
+		if (shape2 == null) {
+			// for simple clip, no null is allowed
+			clipShape = null;
+			GWT.log("Error in Graphics2D.setClip");
+			return;
+		}
+		clipShape = new geogebra.web.awt.GenericShape(shape2);
+		doDrawShape(shape2);
+		context.save();
+		context.clip();
 	}
 
 	
@@ -525,13 +534,23 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
     }
 
 	@Override
-    public void clip(geogebra.common.awt.Shape s) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+    public void clip(geogebra.common.awt.Shape shape) {
+		if (shape == null) {
+			GWT.log("Error in Graphics2D.clip");
+			return;
+		}
+		clipShape = shape;
+		Shape shape2 = geogebra.web.awt.GenericShape.getGawtShape(shape);
+		if (shape2 == null) {
+			GWT.log("Error in Graphics2D.clip");
+			return;
+		}
+		doDrawShape(shape2);
+		context.save();
+		context.clip();
     }
 
 
-	
     @Override
     public void drawImage(geogebra.common.awt.BufferedImage img, int x, int y,
             BufferedImageOp op) {
@@ -594,17 +613,25 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	@Override
     public void setClip(geogebra.common.awt.Shape shape) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    /*
-		clipShape = shape;//TODO: clone
+		clipShape = shape;
+		if (shape == null) {
+			// this may be an intentional call to restore the context
+			context.restore();
+			return;
+		}
 		Shape shape2 = geogebra.web.awt.GenericShape.getGawtShape(shape);
 		if (shape2 == null) {
 			GWT.log("Error in Graphics2D.setClip");
 			return;
 		}
 		doDrawShape(shape2);
+		if (clipShape != null) {
+			// we should call this only if no clip was set or just after another clip to overwrite
+			// in this case we don't want to double-clip something so let's restore the context
+			context.restore();
+		}
+		context.save();
 		context.clip();
-		*/
     }
 
 
@@ -619,13 +646,11 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 		fill(geogebra.web.awt.GenericShape.getGawtShape(s));
     }
 
-
 	@Override
     public geogebra.common.awt.Shape getClip() {
-		//return clipShape;
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return null;
+		return clipShape;
     }
+
 	@Override
 	public void drawRect(int x, int y, int width, int height) {
 	   context.rect(x, y, width, height);
@@ -633,11 +658,9 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	@Override
 	public void setClip(int x, int y, int width, int height) {
-		//geogebra.common.awt.Shape sh = AwtFactory.prototype.newRectangle(x, y, width, height);
-		//setClip(sh);
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		geogebra.common.awt.Shape sh = AwtFactory.prototype.newRectangle(x, y, width, height);
+		setClip(sh);
 	}
-
 
 	public void setWidth(int w) {
 	    canvas.setWidth(w+"px");

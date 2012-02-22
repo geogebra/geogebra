@@ -5,10 +5,14 @@ import geogebra.common.awt.PathIterator;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
 
-public class Ellipse2DFloat implements geogebra.common.awt.Ellipse2DFloat {
+public class Ellipse2DFloat implements geogebra.common.awt.Ellipse2DFloat, geogebra.web.awt.Shape {
 
 	private geogebra.web.openjdk.awt.geom.Ellipse2D.Float impl;
-	
+
+	public Ellipse2DFloat(int i, int j, int k, int l) {
+		impl = new geogebra.web.openjdk.awt.geom.Ellipse2D.Float(i, j, k, l);
+	}
+
 	public Ellipse2DFloat(){
 		impl = new geogebra.web.openjdk.awt.geom.Ellipse2D.Float();
 	}
@@ -54,5 +58,9 @@ public class Ellipse2DFloat implements geogebra.common.awt.Ellipse2DFloat {
 	
 	public boolean intersects(Rectangle2D r) {
 		return impl.intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+	}
+
+	public geogebra.web.openjdk.awt.geom.Shape getGawtShape() {
+		return impl;
 	}
 }

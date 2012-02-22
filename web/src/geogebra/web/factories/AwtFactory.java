@@ -144,7 +144,7 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 
 	@Override
     public Ellipse2DFloat newEllipse2DFloat(int i, int j, int k, int l) {
-		return new geogebra.web.awt.Ellipse2DFloat();
+		return new geogebra.web.awt.Ellipse2DFloat(i, j, k, l);
     }
 
 	@Override
