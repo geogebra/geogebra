@@ -20,7 +20,7 @@ import geogebra.common.kernel.StringTemplate;
 
 import java.util.Set;
 import java.util.Vector;
-
+@SuppressWarnings("javadoc")
 public abstract class ValidExpression implements ExpressionValue {
 
 	private Vector<String> labels;
@@ -172,6 +172,9 @@ public abstract class ValidExpression implements ExpressionValue {
 		return " \\, :=  \\, ";
 	}
 
+	/**
+	 * @param cmds  
+	 */
 	public void addCommands(Set<Command> cmds) {
 		// do nothing, see Command, ExpressionNode classes
 	}
@@ -192,6 +195,7 @@ public abstract class ValidExpression implements ExpressionValue {
 		return evaluate(StringTemplate.defaultTemplate);
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	@Deprecated
 	public final String toString(){

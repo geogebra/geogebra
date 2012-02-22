@@ -33,37 +33,53 @@ import java.util.HashSet;
 /**
  * 
  * @author Markus Hohenwarter
- * @version
  */
+
 public class MyDouble extends ValidExpression implements NumberValue,
 		Comparable<Object> {
 
 	private double val;
 	private boolean isAngle = false;
 
+	/**
+	 * kernel
+	 */
 	protected Kernel kernel;
 
+	/**
+	 * Do not use integer operations beyond this bound
+	 */
 	public static double LARGEST_INTEGER = 9007199254740992.0; // 0x020000000000000
 
+	/**
+	 * @param kernel kernel
+	 */
 	public MyDouble(Kernel kernel) {
 		this(kernel, 0.0);
 	}
 
-	/** Creates new MyDouble */
+	/** Creates new MyDouble 
+	 * @param kernel kernel
+	 * @param x value*/
 	public MyDouble(Kernel kernel, double x) {
 		this.kernel = kernel;
 		val = x;
 	}
 
+	/**
+	 * @param d MyDouble to copy
+	 */
 	public MyDouble(MyDouble d) {
 		kernel = d.kernel;
 		val = d.val;
 		isAngle = d.isAngle;
 	}
 
-	/*
+	/**
 	 * called from the parser power must be a string of unicode superscript
 	 * digits
+	 * @param kernel kernel
+	 * @param power superscript power
 	 */
 	public MyDouble(Kernel kernel, String power) {
 		this.kernel = kernel;
@@ -124,6 +140,9 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return ret;
 	}
 
+	/**
+	 * @param x new value
+	 */
 	final public void set(double x) {
 		val = x;
 	}
@@ -151,6 +170,9 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return toString(tpl);
 	}
 
+	/**
+	 * Switches to angle mode (to use degrees)
+	 */
 	public void setAngle() {
 		isAngle = true;
 	}
@@ -159,19 +181,28 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return isAngle;
 	}
 
+	/**
+	 * @return random MyDouble
+	 */
 	final public MyDouble random() {
 		val = Math.random();
 		isAngle = false;
 		return this;
 	}
 
-	/** c = a + b */
+	/** c = a + b 
+	 * @param a 1st summand
+	 * @param b 2nd summand 
+	 * @param c result*/
 	final public static void add(MyDouble a, MyDouble b, MyDouble c) {
 		c.isAngle = a.isAngle && b.isAngle;
 		c.set(a.val + b.val);
 	}
 
-	/** c = a - b */
+	/** c = a - b 
+	 * @param a subtrahend
+	 * @param b minuend
+	 * @param c result*/
 	final public static void sub(MyDouble a, MyDouble b, MyDouble c) {
 		c.isAngle = a.isAngle && b.isAngle;
 		c.set(a.val - b.val);
@@ -181,6 +212,9 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * c = a * b
 	 * http://functions.wolfram.com/Constants/ComplexInfinity/introductions
 	 * /Symbols/ShowAll.html
+	 * @param a 1st factor
+	 * @param b 2nd factor
+	 * @param c result
 	 * */
 	final public static void mult(MyDouble a, MyDouble b, MyDouble c) {
 		c.isAngle = a.isAngle || b.isAngle;
@@ -206,6 +240,9 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * c = a * b
 	 * http://functions.wolfram.com/Constants/ComplexInfinity/introductions
 	 * /Symbols/ShowAll.html
+	 * @param a 1st factor
+	 * @param b 2nd factor
+	 * @param c result
 	 * */
 	final public static void mult(MyDouble a, double b, MyDouble c) {
 		c.isAngle = a.isAngle;
@@ -227,25 +264,35 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		c.set(a.val * b);
 	}
 
-	/** c = a / b */
+	/** c = a / b 
+	 * @param a dividend
+	 * @param b divisor
+	 * @param c result*/
 	final public static void div(MyDouble a, MyDouble b, MyDouble c) {
 		c.isAngle = a.isAngle && !b.isAngle;
 		c.set(a.val / b.val);
 	}
 
-	/** c = pow(a,b) */
+	/** c = pow(a,b) 
+	 * @param a base
+	 * @param b exponent
+	 * @param c result*/
 	final public static void pow(MyDouble a, MyDouble b, MyDouble c) {
 		c.isAngle = a.isAngle && !b.isAngle;
 		c.set(Math.pow(a.val, b.val));
 	}
-
+	/**
+	 * @return cos(this)
+	 */
 	final public MyDouble cos() {
 		val = Math.cos(val);
 		isAngle = false;
 		checkZero();
 		return this;
 	}
-
+	/**
+	 * @return sin(this)
+	 */
 	final public MyDouble sin() {
 		val = Math.sin(val);
 		isAngle = false;
@@ -279,96 +326,131 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @return acos(this)
+	 */
 	final public MyDouble acos() {
 		isAngle = kernel.getInverseTrigReturnsAngle();
 		set(Math.acos(val));
 		return this;
 	}
-
+	/**
+	 * @return asin(this)
+	 */
 	final public MyDouble asin() {
 		isAngle = kernel.getInverseTrigReturnsAngle();
 		set(Math.asin(val));
 		return this;
 	}
-
+	/**
+	 * @return atan(this)
+	 */
 	final public MyDouble atan() {
 		isAngle = kernel.getInverseTrigReturnsAngle();
 		set(Math.atan(val));
 		return this;
 	}
-
+	/**
+	 * @param y y
+	 * @return atan2(this,y)
+	 */
 	final public MyDouble atan2(NumberValue y) {
 		isAngle = kernel.getInverseTrigReturnsAngle();
 		set(Math.atan2(val, y.getDouble()));
 		return this;
 	}
-
+	/**
+	 * @return log(this)
+	 */
 	final public MyDouble log() {
 		val = Math.log(val);
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @param base logarithm base
+	 * @return log_base(this)
+	 */
 	final public MyDouble log(NumberValue base) {
 		val = Math.log(val) / Math.log(base.getDouble());
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @return erf(this)
+	 */
 	final public MyDouble erf() {
 		val = MyMath2.erf(0.0, 1.0, val);
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @param order order
+	 * @return polygamma(this,order)
+	 */
 	final public MyDouble polygamma(NumberValue order) {
 		val = MyMath2.polyGamma(order, val);
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @return psi(this)
+	 */
 	final public MyDouble psi() {
 		val = MyMath2.psi(val);
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @return log_10(this)
+	 */
 	final public MyDouble log10() {
 		val = Math.log(val) / MyMath.LOG10;
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @return log_2(this)
+	 */
 	final public MyDouble log2() {
 		val = Math.log(val) / MyMath.LOG2;
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @return exp(this)
+	 */
 	final public MyDouble exp() {
 		val = Math.exp(val);
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @return sqrt(this)
+	 */
 	final public MyDouble sqrt() {
 		val = Math.sqrt(val);
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @return cbrt(this)
+	 */
 	final public MyDouble cbrt() {
 		val = MyMath.cbrt(val);
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @return abs(this)
+	 */
 	final public MyDouble abs() {
 		val = Math.abs(val);
 		return this;
 	}
-
+	/**
+	 * @return floor(this)
+	 */
 	final public MyDouble floor() {
 		// angle in degrees
 		// kernel.checkInteger() needed otherwise floor(60�) gives 59�
@@ -382,7 +464,9 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		}
 		return this;
 	}
-
+	/**
+	 * @return ceil(this)
+	 */
 	final public MyDouble ceil() {
 		// angle in degrees
 		// kernel.checkInteger() needed otherwise ceil(241�) fails
@@ -396,7 +480,9 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		}
 		return this;
 	}
-
+	/**
+	 * @return round(this)
+	 */
 	final public MyDouble round() {
 		// angle in degrees
 		if (isAngle && kernel.getAngleUnit() == Kernel.ANGLE_DEGREE) {
@@ -409,10 +495,10 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return this;
 	}
 
-	/*
+	/**
 	 * Java quirk/bug Round(NaN) = 0
 	 */
-	final public static double round(double x) {
+	final private static double round(double x) {
 		// if (!(Double.isInfinite(x) || Double.isNaN(x)))
 
 		// changed from Math.round(x) as it uses (long) so fails for large
@@ -424,97 +510,133 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		// return x;
 
 	}
-
+	/**
+	 * @return sgn(this)
+	 */
 	final public MyDouble sgn() {
 		val = MyMath.sgn(kernel, val);
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @return cosh(this)
+	 */
 	final public MyDouble cosh() {
 		val = MyMath.cosh(val);
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @return sinh(this)
+	 */
 	final public MyDouble sinh() {
 		val = MyMath.sinh(val);
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @return tanh(this)
+	 */
 	final public MyDouble tanh() {
 		val = MyMath.tanh(val);
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @return acosh(this)
+	 */
 	final public MyDouble acosh() {
 		val = MyMath.acosh(val);
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @return asinh(this)
+	 */
 	final public MyDouble asinh() {
 		val = MyMath.asinh(val);
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @return csc(this)
+	 */
 	final public MyDouble csc() {
 		val = MyMath.csc(val);
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @return sec(this)
+	 */
 	final public MyDouble sec() {
 		val = MyMath.sec(val);
 		isAngle = false;
 		return this;
 	}
 
+	/**
+	 * @return cot(this)
+	 */
 	final public MyDouble cot() {
 		val = MyMath.cot(val);
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @return csch(this)
+	 */
 	final public MyDouble csch() {
 		val = MyMath.csch(val);
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @return sech(this)
+	 */
 	final public MyDouble sech() {
 		val = MyMath.sech(val);
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @return coth(this)
+	 */
 	final public MyDouble coth() {
 		val = MyMath.coth(val);
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @return atanh(this)
+	 */
 	final public MyDouble atanh() {
 		val = MyMath.atanh(val);
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @return this!
+	 */
 	final public MyDouble factorial() {
 		val = MyMath2.factorial(val);
 		isAngle = false;
 		return this;
 	}
 
+	/**
+	 * @return gamma(this)
+	 */
 	final public MyDouble gamma() {
 		val = MyMath2.gamma(val, kernel);
 		isAngle = false;
 		return this;
 	}
 
+	/**
+	 * @param lt function to evaluate
+	 * @return value of lt(this)
+	 */
 	final public MyDouble apply(Evaluatable lt) {
 		val = lt.evaluate(val);
 		isAngle = false; // want function to return numbers eg f(x) = sin(x),
@@ -593,8 +715,10 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return false;
 	}
 
-	/*
+	/**
 	 * parse eg 3.45645% -> 3.45645/100
+	 * @param str string representation ending with %
+	 * @return value as fraction
 	 */
 	public static double parsePercentage(String str) {
 		return parseDouble(str.substring(0, str.length() - 1)) / 100;
@@ -602,8 +726,10 @@ public class MyDouble extends ValidExpression implements NumberValue,
 
 	private static StringBuilder sb = new StringBuilder();
 
-	/*
+	/**
 	 * extension of Double.parseDouble() to cope with unicode digits eg Arabic
+	 * @param str string to be parsed
+	 * @return value
 	 */
 	public static double parseDouble(String str) {
 		sb.setLength(0);
@@ -683,33 +809,48 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		 */
 
 	}
-
+	/**
+	 * @param lt lt
+	 * @return gammaIncompleteRegularized(lt,this)
+	 */
 	public ExpressionValue gammaIncompleteRegularized(NumberValue lt) {
 		val = MyMath2.gammaIncompleteRegularized(lt.getDouble(),
 				val);
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @param lt lt
+	 * @return gammaIncomplete(lt,this)
+	 */
 	public ExpressionValue gammaIncomplete(NumberValue lt) {
 		val = MyMath2.gammaIncomplete(lt.getDouble(), val, kernel);
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @param lt lt
+	 * @return beta(lt,this)
+	 */
 	public ExpressionValue beta(NumberValue lt) {
 		val = MyMath2.beta(val, lt.getDouble());
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @param lt lt
+	 * @return betaIncomplete(lt,this)
+	 */
 	public ExpressionValue betaIncomplete(VectorValue lt) {
 		GeoVec2D vec = lt.getVector();
 		val = MyMath2.betaIncomplete(vec.getX(), vec.getY(), val);
 		isAngle = false;
 		return this;
 	}
-
+	/**
+	 * @param lt lt
+	 * @return betaIncompleteRegularized(lt,this)
+	 */
 	public ExpressionValue betaIncompleteRegularized(VectorValue lt) {
 		GeoVec2D vec = lt.getVector();
 		val = MyMath2.betaIncompleteRegularized(vec.getX(),

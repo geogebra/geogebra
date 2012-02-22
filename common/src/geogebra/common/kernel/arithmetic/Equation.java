@@ -38,6 +38,9 @@ public class Equation extends ValidExpression implements ReplaceableValue {
    
     /** check whether ExpressionNodes are evaluable to instances of Polynomial
      * or NumberValue and build an Equation out of them
+     * @param kernel kernel
+     * @param lhs LHS
+     * @param rhs RHS
      */
     public Equation(Kernel kernel, ExpressionValue lhs, ExpressionValue rhs) {
     	if (lhs.isExpressionNode())
@@ -54,19 +57,31 @@ public class Equation extends ValidExpression implements ReplaceableValue {
     	isFunctionDependent=false;
     }  
     
+    /**
+     * @return RHS of this equation
+     */
     public ExpressionNode getRHS() {
     	return rhs;
     }
     
+    /**
+     * @param rhs new RHS 
+     */
     public void setRHS(ExpressionNode rhs){
     	if(rhs != null)
     		this.rhs = rhs;
     }
     
+    /**
+     * @return LHS of this equation
+     */
     public ExpressionNode getLHS() {
     	return lhs;
     }
     
+    /**
+     * @param lhs new LHS
+     */
     public void setLHS(ExpressionNode lhs){
     	if(lhs != null)
     		this.lhs = lhs;
@@ -76,42 +91,69 @@ public class Equation extends ValidExpression implements ReplaceableValue {
     private boolean forceConic = false, forceImplicitPoly = false ;
  
 
+    /**
+     * Force this to evaluate to line
+     */
     public void setForceLine() {
         // this expression should be considered as a line, not a plane
         forceLine = true;
     }
     
+    /**
+     * @return true if this is forced to evaluate to line
+     */
     final public boolean isForcedLine() {
     	return forceLine;
     }    
     
+    /**
+     * Force this to evaluate to plane
+     */
     public void setForcePlane() {
         // this expression should be considered as a plane, not a line
         forcePlane = true;
     }
     
+    /**
+     * @return true if this is forced to evaluate to plane
+     */
     final public boolean isForcedPlane() {
     	return forcePlane;
     }
     
+    /**
+     * @return true if this is forced to evaluate to conic
+     */
     public boolean isForcedConic() {
 		return forceConic;
 	}
 
+	/**
+	 * Force this to evaluate to conic
+	 */
 	public void setForceConic() {
 		this.forceConic = true;
 	}
 	
-	 public boolean isForcedImplicitPoly() {
+	 /**
+	 * @return true if this is forced to evaluate to implicit poly
+	 */
+	public boolean isForcedImplicitPoly() {
 			return forceImplicitPoly;
 	}
 
+	/**
+	 * Force this to evaluate to implicit poly
+	 */
 	public void setForceImplicitPoly() {
 		this.forceImplicitPoly = true;
 	}
 
 	/**
      * Adds/subtracts/muliplies/divides ev to this equation to get lhs + ev = rhs = ev
+	 * @param operation operation to apply
+	 * @param ev  other operand
+	 * @param switchOrder true to compute other * this
      */
     public void applyOperation(Operation operation, ExpressionValue ev, boolean switchOrder) {
     	ExpressionValue left, right;
@@ -194,20 +236,29 @@ public class Equation extends ValidExpression implements ReplaceableValue {
         normalForm.add(leftPoly);             		   		   
     }
     
+    /**
+     * @param isFunctionDependent true iff contains functions
+     */
     public void setFunctionDependent(boolean isFunctionDependent) {
 		this.isFunctionDependent = isFunctionDependent;
 	}
 
+	/**
+	 * @return true iff contains functions
+	 */
 	public boolean isFunctionDependent() {
 		return isFunctionDependent;
 	}
 
+	/**
+	 * @return LHS-RHS
+	 */
 	public Polynomial getNormalForm() {        
         return normalForm;
     }           
                 
     /**
-     *  returns the degree of the equation's normalform
+     *  @return the degree of the equation's normalform
      *  (max length of variables in a Term of the normalform)
      */
     public int degree() {        
@@ -215,16 +266,23 @@ public class Equation extends ValidExpression implements ReplaceableValue {
     } 
     
     /**
-     *  returns the max degree on a single var, eg 3 for x^3 y^2
+     * @return the max degree on a single var, eg 3 for x^3 y^2
      */
     public int singleDegree() {        
         return normalForm.singleDegree();
     } 
-    
+    /**
+     * @param variables variable string
+     * @return coefficient
+     */
     public ExpressionValue getCoefficient(String variables) {         
         return normalForm.getCoefficient(variables);        
     }
     
+    /**
+     * @param variables variable string
+     * @return coefficient
+     */
     public double getCoeffValue(String variables) { 
         ExpressionValue ev = getCoefficient(variables);
         
@@ -237,6 +295,9 @@ public class Equation extends ValidExpression implements ReplaceableValue {
         }
     }
     
+    /**
+     * @return GeoElement variables
+     */
     final public GeoElement [] getGeoElementVariables() {
         Set<GeoElement> varSet;
         Set<GeoElement> leftVars = lhs.getVariables();
@@ -262,15 +323,12 @@ public class Equation extends ValidExpression implements ReplaceableValue {
         return ret;
     }
     
-    final public boolean isIndependent() {
-        GeoElement [] vars = getGeoElementVariables();
-        return (vars == null || vars.length == 0);
-    }
-     
+    
     /**
-     * returns true if this Equation is explicit
-     * (lhs is "+1y" and rhs does not contain y)
-     * or (rhs is "+1y" and lhs does not contain y)
+     * @param var variable in which this could be explicit
+     * @return true if this Equation is explicit
+     * (lhs is "+1var" and rhs does not contain var)
+     * or (rhs is "+1var" and lhs does not contain var)
      */
     public boolean isExplicit(String var) {  
         Polynomial lhsp = leftPoly;
@@ -289,7 +347,7 @@ public class Equation extends ValidExpression implements ReplaceableValue {
     }
     
     /**
-     * returns true if this Equation is implicit (not explicit)
+     * @return true if this Equation is implicit (not explicit)
      */
     public boolean isImplicit() {
         return !isExplicit("x") && !isExplicit("y") && !isExplicit("z");
@@ -299,10 +357,11 @@ public class Equation extends ValidExpression implements ReplaceableValue {
 		return lhs.contains(ev) || rhs.contains(ev);
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel) {
-		return new Equation(kernel, lhs.getCopy(kernel), rhs.getCopy(kernel));
+	public ExpressionValue deepCopy(Kernel kernel1) {
+		return new Equation(kernel1, lhs.getCopy(kernel1), rhs.getCopy(kernel1));
 	}
 
+	@Override
 	public ExpressionValue evaluate(StringTemplate tpl) {		
 		boolean oldFlag = kernel.getConstruction().isSuppressLabelsActive();
 		kernel.getConstruction().setSuppressLabelCreation(true);
@@ -383,6 +442,7 @@ public class Equation extends ValidExpression implements ReplaceableValue {
         return sb.toString();
 	}
 
+	@Override
 	final public String toValueString(StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
         
@@ -464,6 +524,8 @@ public class Equation extends ValidExpression implements ReplaceableValue {
 	/**
 	 * Looks for GeoDummyVariable objects that hold String var in the tree and replaces
 	 * them by their newOb.
+	 * @param var variable name
+	 * @param newOb replacement object
 	 * @return whether replacement was done
 	 */
 	public boolean replaceGeoDummyVariables(String var, ExpressionValue newOb) {

@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.Algos;
@@ -26,7 +25,7 @@ import geogebra.common.util.Cloner;
  * @version 2011-06-21
  */
 
-public class AlgoPoissonBarChart extends AlgoFunctionAreaSums implements EuclidianViewCE{
+public class AlgoPoissonBarChart extends AlgoFunctionAreaSums {
 
 	private static final long serialVersionUID = 1L;
 
@@ -49,7 +48,8 @@ public class AlgoPoissonBarChart extends AlgoFunctionAreaSums implements Euclidi
         super(mean, null, null, isCumulative, AlgoFunctionAreaSums.TYPE_BARCHART_POISSON,a,b,vals,borders,N);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoPoissonBarChart;
     }
 

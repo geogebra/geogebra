@@ -52,7 +52,7 @@ public class MyList extends ValidExpression implements ListValue,
 	/**
 	 * Creates new MyList
 	 * 
-	 * @param kernel
+	 * @param kernel kernel
 	 */
 	public MyList(Kernel kernel) {
 		this(kernel, 20);
@@ -61,7 +61,7 @@ public class MyList extends ValidExpression implements ListValue,
 	/**
 	 * Creates new MyList of given length
 	 * 
-	 * @param kernel
+	 * @param kernel kernel
 	 * @param size
 	 *            length of the list
 	 */
@@ -70,6 +70,11 @@ public class MyList extends ValidExpression implements ListValue,
 		listElements = new ArrayList<ExpressionValue>(size);
 	}
 
+	/**
+	 * Create new MyList
+	 * @param kernel kernel
+	 * @param isFlatList true for flat lists, false for matrices etc.
+	 */
 	public MyList(Kernel kernel, boolean isFlatList) {
 		this(kernel);
 
@@ -83,7 +88,7 @@ public class MyList extends ValidExpression implements ListValue,
 	/**
 	 * Adds expression value to the list
 	 * 
-	 * @param arg
+	 * @param arg element to add
 	 */
 	public void addListElement(ExpressionValue arg) {
 		listElements.add(arg);
@@ -113,8 +118,8 @@ public class MyList extends ValidExpression implements ListValue,
 	 * Replaces all Variable objects with the given varName in this list by the
 	 * given FunctionVariable object.
 	 * 
-	 * @param varName
-	 * @param fVar
+	 * @param varName variable name
+	 * @param fVar replacement variable
 	 * @return number of replacements done
 	 */
 	public int replaceVariables(String varName, FunctionVariable fVar) {
@@ -140,7 +145,7 @@ public class MyList extends ValidExpression implements ListValue,
 	 * Replaces all Polynomial objects with the name fVar.toString() in this
 	 * list by the given FunctionVariable object.
 	 * 
-	 * @param fVar
+	 * @param fVar replacement variable
 	 * @return number of replacements done
 	 */
 	public int replacePolynomials(FunctionVariable fVar) {
@@ -154,7 +159,8 @@ public class MyList extends ValidExpression implements ListValue,
 			}
 			if (element instanceof Polynomial) {
 				if (isPolynomialInstance()
-						&& fVar.toString().equals(element.toString())) {
+						&& fVar.toString(StringTemplate.defaultTemplate).
+						equals(element.toString(StringTemplate.defaultTemplate))) {
 					listElements.set(i, fVar);
 					replacements++;
 				}
@@ -174,6 +180,7 @@ public class MyList extends ValidExpression implements ListValue,
 	 *            value that should be applied to this list using the given
 	 *            operation
 	 * @author Markus Hohenwarter
+	 * @param tpl string template in case of concatenation
 	 */
 	final public void applyRight(Operation operation, ExpressionValue value,StringTemplate tpl) {
 		apply(operation, value, true,tpl);
@@ -189,12 +196,13 @@ public class MyList extends ValidExpression implements ListValue,
 	 *            value that should be applied to this list using the given
 	 *            operation
 	 * @author Markus Hohenwarter
+	 * @param tpl string template in case of string concatenation
 	 */
 	final public void applyLeft(Operation operation, ExpressionValue value,StringTemplate tpl) {
 		apply(operation, value, false,tpl);
 	}
 
-	boolean isDefined = true;
+	private boolean isDefined = true;
 
 	final private void matrixMultiply(MyList LHlist, MyList RHlist) {
 		int LHcols = LHlist.getMatrixCols(), LHrows = LHlist.getMatrixRows();
@@ -460,6 +468,10 @@ public class MyList extends ValidExpression implements ListValue,
 
 	}
 
+	/**
+	 * Inverts matrix (doesn't do any internal changes)
+	 * @return inversion of this
+	 */
 	public MyList invert() {
 		GgbMat g = new GgbMat(this);
 		g.inverseImmediate();
@@ -475,6 +487,9 @@ public class MyList extends ValidExpression implements ListValue,
 		return isMatrix(this);
 	}
 
+	/**
+	 * Removes all elements from this list
+	 */
 	public void clear() {
 		listElements.clear();
 	}
@@ -545,9 +560,9 @@ public class MyList extends ValidExpression implements ListValue,
 
 	// Michael Borcherds 2008-04-15
 	/**
-	 * @param list
-	 * @param row
-	 * @param col
+	 * @param list matrix
+	 * @param row row number (starts with 0)
+	 * @param col col number (starts with 0)
 	 * @return cell of a list at given position
 	 */
 	public static ExpressionValue getCell(MyList list, int row, int col) {
@@ -701,7 +716,7 @@ public class MyList extends ValidExpression implements ListValue,
 	}
 
 	/**
-	 * @param i
+	 * @param i index
 	 * @return i-th element of the list
 	 */
 	public ExpressionValue getListElement(int i) {
@@ -743,13 +758,13 @@ public class MyList extends ValidExpression implements ListValue,
 		return false;
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel) {
+	public ExpressionValue deepCopy(Kernel kernel1) {
 		// copy arguments
 		int size = listElements.size();
-		MyList c = new MyList(kernel, size());
+		MyList c = new MyList(kernel1, size());
 
 		for (int i = 0; i < size; i++) {
-			c.addListElement(listElements.get(i).deepCopy(kernel));
+			c.addListElement(listElements.get(i).deepCopy(kernel1));
 		}
 		return c;
 	}
@@ -792,8 +807,8 @@ public class MyList extends ValidExpression implements ListValue,
 	}
 
 	/**
-	 * @param a
-	 * @param myList
+	 * @param a needle
+	 * @param myList haystack
 	 * @return true iff myList contains a
 	 */
 	public static boolean isElementOf(ExpressionValue a, MyList myList) {
@@ -817,8 +832,8 @@ public class MyList extends ValidExpression implements ListValue,
 	}
 
 	/**
-	 * @param list1
-	 * @param list2
+	 * @param list1 haystack
+	 * @param list2 list of needles
 	 * @return true iff list2 is subset of list1
 	 */
 	public static boolean listContains(MyList list1, MyList list2) {
@@ -849,8 +864,8 @@ public class MyList extends ValidExpression implements ListValue,
 	}
 
 	/**
-	 * @param list1
-	 * @param list2
+	 * @param list1 haystack
+	 * @param list2 list of needles
 	 * @return true iff list2 is proper subset of list1
 	 */
 	public static boolean listContainsStrict(MyList list1, MyList list2) {
@@ -902,9 +917,9 @@ public class MyList extends ValidExpression implements ListValue,
 	}
 
 	/**
-	 * @param kernel
-	 * @param list1
-	 * @param list2
+	 * @param kernel kernel
+	 * @param list1 minuend
+	 * @param list2 subtrahend
 	 * @return set difference of the lists
 	 */
 	public static MyList setDifference(Kernel kernel, MyList list1,
@@ -951,6 +966,11 @@ public class MyList extends ValidExpression implements ListValue,
 		return this;
 	}
 
+	/**
+	 * Computes vector product of this and other list,
+	 * the result is stored in this list
+	 * @param list other list
+	 */
 	public void vectorProduct(MyList list) {
 		// tempX/Y needed because a and c can be the same variable
 		ExpressionValue ax = getListElement(0);
@@ -999,6 +1019,9 @@ public class MyList extends ValidExpression implements ListValue,
 		return kernel;
 	}
 
+	/**
+	 * @return true iff this list is defined (not result of e.g. singular matrix inverse)
+	 */
 	public boolean isDefined() {
 		return isDefined;
 	}

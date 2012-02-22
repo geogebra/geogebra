@@ -30,6 +30,7 @@ import java.util.HashSet;
  * @author  Markus
  * @version 
  */
+@SuppressWarnings("javadoc")
 public interface ExpressionValue {      
     public boolean isConstant();    
     public boolean isLeaf();

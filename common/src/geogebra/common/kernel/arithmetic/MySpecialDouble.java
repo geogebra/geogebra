@@ -28,16 +28,23 @@ import java.math.BigDecimal;
  */
 public class MySpecialDouble extends MyDouble {
 
-	protected String strToString;
+	private String strToString;
 	private boolean keepOriginalString;
 	private boolean isLetterConstant; // for Pi, Euler, or Degree constant
 	private boolean scientificNotation = false;
 
 	private static MySpecialDouble eulerConstant;
 
-	public MySpecialDouble(Kernel kernel, double val, String strToString) {
+	/**
+	 * @param kernel kernel
+	 * @param val value
+	 * @param str string representation 
+	 */
+	public MySpecialDouble(Kernel kernel, double val, String str) {
 		super(kernel, val);
-
+		strToString = str;
+		if(strToString == null)
+			strToString = "0";
 		// check if this is a letter constant, e.g. Pi or Euler number
 		char firstChar = strToString.charAt(0);
 		isLetterConstant = Character.isLetter(firstChar)
@@ -63,12 +70,11 @@ public class MySpecialDouble extends MyDouble {
 				scientificNotation = strToString.indexOf("E") > 0;
 			}
 		}
-
-		this.strToString = strToString;
 	}
 
 	/**
 	 * Copy constructor.
+	 * @param sd special double to copy
 	 */
 	public MySpecialDouble(MySpecialDouble sd) {
 		super(sd);
@@ -80,19 +86,26 @@ public class MySpecialDouble extends MyDouble {
 	}
 
 	@Override
-	public ExpressionValue deepCopy(Kernel kernel) {
+	public ExpressionValue deepCopy(Kernel kernel1) {
 		if (isEulerConstant())
-			return getEulerConstant(kernel);
+			return getEulerConstant(kernel1);
 
 		MySpecialDouble ret = new MySpecialDouble(this);
-		ret.kernel = kernel;
+		ret.kernel = kernel1;
 		return ret;
 	}
 
+	/**
+	 * Force this number to keep original input 
+	 */
 	public void setKeepOriginalString() {
 		keepOriginalString = true;
 	}
 
+	/**
+	 * @param kernel kernel
+	 * @return E as MySpecialDouble
+	 */
 	public static MySpecialDouble getEulerConstant(Kernel kernel) {
 		if (eulerConstant == null) {
 			eulerConstant = new MySpecialDouble(kernel, Math.E,
@@ -101,6 +114,9 @@ public class MySpecialDouble extends MyDouble {
 		return eulerConstant;
 	}
 
+	/**
+	 * @return true if this equals E (no tolerance)
+	 */
 	public boolean isEulerConstant() {
 		return getDouble() == Math.E;
 	}

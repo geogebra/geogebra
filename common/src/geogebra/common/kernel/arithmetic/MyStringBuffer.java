@@ -53,6 +53,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		sb.insert(pos, str);
 	}
 
+	@SuppressWarnings("cast")
 	@Override
 	public String toString(StringTemplate tpl) {
 		StringBuilder temp = new StringBuilder();
@@ -106,6 +107,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		return sb.toString();
 	}
 
+	@SuppressWarnings("cast")
 	final public String toOutputValueString(StringTemplate tpl) {
 		StringBuffer sb2 = new StringBuffer(sb.length() + 2);
 		sb2.append('"');

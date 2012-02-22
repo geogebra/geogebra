@@ -25,6 +25,7 @@ import java.util.Iterator;
 /**
  * An Polynomial is a list of Terms
  */
+@SuppressWarnings("javadoc")
 public class Polynomial extends ValidExpression implements Serializable
 		{
 

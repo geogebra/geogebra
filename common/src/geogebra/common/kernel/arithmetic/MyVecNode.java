@@ -30,17 +30,24 @@ import java.util.HashSet;
 /**
  * 
  * @author Markus
- * @version
  */
 public class MyVecNode extends ValidExpression implements VectorValue,
 		ReplaceableValue {
 
+	/**
+	 * x coordinate
+	 */
 	protected ExpressionValue x;
+	/**
+	 * y coordinate
+	 */
 	protected ExpressionValue y;
 	private int mode = Kernel.COORD_CARTESIAN;
-	protected Kernel kernel;
+	private Kernel kernel;
 
-	/** Creates new MyVec2D */
+	/** Creates new MyVec2D 
+	 * @param kernel kernel
+	 */
 	public MyVecNode(Kernel kernel) {
 		this.kernel = kernel;
 	}
@@ -48,14 +55,17 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 	/**
 	 * Creates new MyVec2D with coordinates (x,y) as ExpresssionNodes. Both
 	 * nodes must evaluate to NumberValues.
+	 * @param kernel kernel
+	 * @param x x-coord
+	 * @param y y-coord
 	 */
 	public MyVecNode(Kernel kernel, ExpressionValue x, ExpressionValue y) {
 		this(kernel);
 		setCoords(x, y);
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel) {
-		return new MyVecNode(kernel, x.deepCopy(kernel), y.deepCopy(kernel));
+	public ExpressionValue deepCopy(Kernel kernel1) {
+		return new MyVecNode(kernel1, x.deepCopy(kernel1), y.deepCopy(kernel1));
 	}
 
 	public void resolveVariables() {
@@ -63,10 +73,16 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 		y.resolveVariables();
 	}
 
+	/**
+	 * @return x-coord
+	 */
 	public ExpressionValue getX() {
 		return x;
 	}
 
+	/**
+	 * @return y-coord
+	 */
 	public ExpressionValue getY() {
 		return y;
 	}
@@ -87,11 +103,18 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 		return this;
 	}
 
+	/**
+	 * @param r radius
+	 * @param phi phase
+	 */
 	public void setPolarCoords(ExpressionValue r, ExpressionValue phi) {
 		setCoords(r, phi);
 		mode = Kernel.COORD_POLAR;
 	}
 
+	/**
+	 * @return true if uses polar coordinates
+	 */
 	public boolean hasPolarCoords() {
 		return mode == Kernel.COORD_POLAR;
 	}
@@ -101,16 +124,19 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 		this.y = y;
 	}
 
+	/**
+	 * @return array of coordinates
+	 */
 	final public double[] getCoords() {
 		// check if both ExpressionNodes represent NumberValues
 		ExpressionValue evx = x.evaluate();
 		if (!evx.isNumberValue()) {
-			String[] str = { "NumberExpected", evx.toString() };
+			String[] str = { "NumberExpected", evx.toString(StringTemplate.defaultTemplate) };
 			throw new MyParseError(kernel.getApplication(), str);
 		}
 		ExpressionValue evy = y.evaluate();
 		if (!evy.isNumberValue()) {
-			String[] str = { "NumberExpected", evy.toString() };
+			String[] str = { "NumberExpected", evy.toString(StringTemplate.defaultTemplate) };
 			throw new MyParseError(kernel.getApplication(), str);
 		}
 
@@ -156,6 +182,7 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 			 * coords = getCoords(); sb.append("list("); sb.append(coords[0]);
 			 * sb.append(", "); sb.append(coords[1]); sb.append(")"); break;
 			 */
+			
 			if (mode == Kernel.COORD_POLAR) {
 				sb.append("polartopoint!\u00a7(");
 				sb.append(x.toString(tpl));
@@ -188,6 +215,7 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 		return sb.toString();
 	}
 
+	@Override
 	public String toValueString(StringTemplate tpl) {
 		return toString(tpl);
 	}
@@ -237,10 +265,6 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 
 	// could be vector or point
 	public boolean isVectorValue() {
-		return true;
-	}
-
-	public boolean isPoint() {
 		return true;
 	}
 
