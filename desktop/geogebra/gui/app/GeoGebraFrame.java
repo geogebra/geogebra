@@ -25,6 +25,7 @@ import geogebra.euclidian.DrawEquation;
 import geogebra.gui.FileDropTargetListener;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
+import geogebra.util.HttpRequest;
 import geogebra.util.Util;
 
 import java.awt.Color;
@@ -459,10 +460,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 			if (checkNeeded) {
 				String newestVersion = null;
 				try {
-					URL u = new URL(VERSION_URL);
-					BufferedReader in = new BufferedReader(
-							new InputStreamReader(u.openStream()));
-					newestVersion = in.readLine();
+					HttpRequest r = new HttpRequest();
+					newestVersion = r.getResponse(VERSION_URL);
 					newestVersion = newestVersion.replaceAll("-", ".");
 					Long newestVersionL = versionToLong(newestVersion);
 					Long currentVersionL = versionToLong(GeoGebraConstants.VERSION_STRING);
