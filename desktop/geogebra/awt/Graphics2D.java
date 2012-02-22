@@ -297,7 +297,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 	}
 
 	@Override
-	public void setClip(Object shape) {
+	public void setClip(geogebra.common.awt.Shape shape) {
 		if (shape == null){
 			impl.setClip(null);
 		} else if (shape instanceof geogebra.common.awt.Shape){
