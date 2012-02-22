@@ -570,7 +570,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String BackgroundImage();
 
 	@DefaultStringValue("3x3 matrix")
-	String threex3Matrix();
+	String _3x3Matrix();
 
 	@DefaultStringValue("Horizontal")
 	String horizontal();
@@ -906,7 +906,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String IntersectionPointOfABNearC();
 
 	@DefaultStringValue("2x2 matrix")
-	String twox2Matrix();
+	String _2x2Matrix();
 
 	@DefaultStringValue("Tangent to %0 parallel to %1")
 	String TangentToAParallelToB();
