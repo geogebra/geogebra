@@ -21,7 +21,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String AandBareNotEqual();
 
 	@DefaultStringValue("poly")
-	String NamePolygon();
+	String Name_polygon();
 
 	@DefaultStringValue("Show Numbers")
 	String ShowAxisNumbers();
@@ -51,7 +51,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String Point();
 
 	@DefaultStringValue("Hide or show horizontal lines")
-	String stylebarHorizontalLine();
+	String stylebar_HorizontalLine();
 
 	@DefaultStringValue("Centroid of %0")
 	String CentroidOfA();
@@ -90,7 +90,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String AintersectsWithBTwice();
 
 	@DefaultStringValue("Set text size")
-	String stylebarTextSize();
+	String stylebar_TextSize();
 
 	@DefaultStringValue("(a x + b y + c)² = 0")
 	String DoubleLineEquation();
@@ -117,13 +117,13 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String ParameterOfA();
 
 	@DefaultStringValue("Show tangent line")
-	String fncInspectorShowTangent();
+	String fncInspector_showTangent();
 
 	@DefaultStringValue("Dependent Objects")
 	String DependentObjects();
 
 	@DefaultStringValue("File: SCORM")
-	String FileSCORM();
+	String File_SCORM();
 
 	@DefaultStringValue("Tooltips")
 	String Tooltips();
@@ -132,7 +132,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String XMLTagANotFound();
 
 	@DefaultStringValue("Set point style")
-	String stylebarPointStyle();
+	String stylebar_PointStyle();
 
 	@DefaultStringValue("Root of %0 on interval [%1, %2]")
 	String RootOfAonIntervalBC();
@@ -141,7 +141,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String FocusOfA();
 
 	@DefaultStringValue("Show Area")
-	String fncInspectorShowArea();
+	String fncInspector_ShowArea();
 
 	@DefaultStringValue("Caption")
 	String Caption();
@@ -180,7 +180,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String ParallelLines();
 
 	@DefaultStringValue("Show osculating circle")
-	String fncInspectorShowOscCircle();
+	String fncInspector_showOscCircle();
 
 	@DefaultStringValue("Tangent to %0 through %1")
 	String TangentToAThroughB();
@@ -249,7 +249,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String Line();
 
 	@DefaultStringValue("File: html")
-	String FileHTML();
+	String File_HTML();
 
 	@DefaultStringValue("Reverse mouse wheel")
 	String ReverseMouseWheel();
@@ -264,7 +264,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String pdf();
 
 	@DefaultStringValue("list")
-	String NameList();
+	String Name_list();
 
 	@DefaultStringValue("Freehand function on interval [%0, %1]")
 	String FreehandFunctionOnIntervalAB();
@@ -279,7 +279,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String Conics();
 
 	@DefaultStringValue("Multiple Roots")
-	String fncInspectorMultipleRoots();
+	String fncInspector_MultipleRoots();
 
 	@DefaultStringValue("Increasing (Once)")
 	String IncreasingOnce();
@@ -303,7 +303,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String TextBeforeConstruction();
 
 	@DefaultStringValue("Set color")
-	String stylebarColor();
+	String stylebar_Color();
 
 	@DefaultStringValue("Angle bisector of %0, %1, %2")
 	String AngleBisectorOfABC();
@@ -324,7 +324,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String EllipseWithFociABPassingThroughC();
 
 	@DefaultStringValue("Clipboard: Blackboard")
-	String ClipboardBlackboard();
+	String Clipboard_Blackboard();
 
 	@DefaultStringValue("Algebra")
 	String AlgebraWindow();
@@ -438,10 +438,10 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String allowOutlyingIntersections();
 
 	@DefaultStringValue("Interval")
-	String fncInspectorInterval();
+	String fncInspector_Interval();
 
 	@DefaultStringValue("Set label style")
-	String stylebarLabel();
+	String stylebar_Label();
 
 	@DefaultStringValue("off")
 	String off();
@@ -516,16 +516,16 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String SystemInformationMessage();
 
 	@DefaultStringValue("Add a column")
-	String fncInspectorAddColumn();
+	String fncInspector_addColumn();
 
 	@DefaultStringValue("Show table of points")
-	String fncInspectorShowTable();
+	String fncInspector_showTable();
 
 	@DefaultStringValue("Latex help")
 	String LaTeXHelp();
 
 	@DefaultStringValue("inputBox")
-	String NameTextfield();
+	String Name_textfield();
 
 	@DefaultStringValue("Major axis of %0")
 	String FirstAxisOfA();
@@ -543,7 +543,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String Animation();
 
 	@DefaultStringValue("Copy visual style")
-	String stylebarCopyVisualStyle();
+	String stylebar_CopyVisualStyle();
 
 	@DefaultStringValue("Allow Reflex Angle")
 	String allowReflexAngle();
@@ -564,7 +564,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String ystep();
 
 	@DefaultStringValue("2nd Derivative")
-	String fncInspectorDerivative2();
+	String fncInspector_Derivative2();
 
 	@DefaultStringValue("Background Image")
 	String BackgroundImage();
@@ -576,7 +576,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String horizontal();
 
 	@DefaultStringValue("Sunday")
-	String Day1();
+	String Day_1();
 
 	@DefaultStringValue("Standard Object")
 	String StandardObject();
@@ -600,31 +600,31 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String ConstructionProtocolButton();
 
 	@DefaultStringValue("Friday")
-	String Day6();
+	String Day_6();
 
 	@DefaultStringValue("Saturday")
-	String Day7();
+	String Day_7();
 
 	@DefaultStringValue("Wednesday")
-	String Day4();
+	String Day_4();
 
 	@DefaultStringValue("Plane through %0 parallel to %1")
 	String PlaneThroughAParallelToB();
 
 	@DefaultStringValue("Thursday")
-	String Day5();
+	String Day_5();
 
 	@DefaultStringValue("Monday")
-	String Day2();
+	String Day_2();
 
 	@DefaultStringValue("Tuesday")
-	String Day3();
+	String Day_3();
 
 	@DefaultStringValue("OK")
 	String OK();
 
 	@DefaultStringValue("face")
-	String NameFace();
+	String Name_face();
 
 	@DefaultStringValue("Implicit Curve")
 	String ImplicitPoly();
@@ -651,7 +651,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String polar();
 
 	@DefaultStringValue("Grayscale")
-	String PGFExportGrayscale();
+	String PGFExport_Grayscale();
 
 	@DefaultStringValue("Cylinder with axis %0 and radius %1")
 	String CylinderWithAxisARadiusB();
@@ -660,7 +660,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String PlaneThroughAB();
 
 	@DefaultStringValue("Set bracket style")
-	String stylebarBracket();
+	String stylebar_Bracket();
 
 	@DefaultStringValue("Points")
 	String Points();
@@ -696,7 +696,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String DeleteRowA();
 
 	@DefaultStringValue("Hide or show vertical lines")
-	String stylebarVerticalLine();
+	String stylebar_VerticalLine();
 
 	@DefaultStringValue("Show Trace")
 	String ShowTrace();
@@ -729,13 +729,13 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String AngleBetween();
 
 	@DefaultStringValue("Clipboard: Moodle")
-	String ClipboardMoodle();
+	String Clipboard_Moodle();
 
 	@DefaultStringValue("matrix")
-	String NameMatrix();
+	String Name_matrix();
 
 	@DefaultStringValue("low")
-	String StemPlotLow();
+	String StemPlot_low();
 
 	@DefaultStringValue("%0 intersects with %1 once")
 	String AintersectsWithBOnce();
@@ -750,22 +750,22 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String ParabolaEquation();
 
 	@DefaultStringValue("Set border")
-	String stylebarBorder();
+	String stylebar_Border();
 
 	@DefaultStringValue("October")
-	String Month10();
+	String Month_10();
 
 	@DefaultStringValue("Altitude")
 	String Altitude();
 
 	@DefaultStringValue("November")
-	String Month11();
+	String Month_11();
 
 	@DefaultStringValue("Clipboard: html")
-	String ClipboardHTML();
+	String Clipboard_HTML();
 
 	@DefaultStringValue("December")
-	String Month12();
+	String Month_12();
 
 	@DefaultStringValue("dilated by factor")
 	String dilatedByFactor();
@@ -813,7 +813,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String SubstituteForAinB();
 
 	@DefaultStringValue("loc")
-	String NameLocus();
+	String Name_locus();
 
 	@DefaultStringValue("counter clockwise")
 	String counterClockwise();
@@ -837,7 +837,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String AandBareLinearlyIndependent();
 
 	@DefaultStringValue("Draw with pen")
-	String stylebarPen();
+	String stylebar_Pen();
 
 	@DefaultStringValue("Point on %0")
 	String PointOnA();
@@ -852,7 +852,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String Italic();
 
 	@DefaultStringValue("Hidden")
-	String stylebarHidden();
+	String stylebar_Hidden();
 
 	@DefaultStringValue("Vector")
 	String Vector();
@@ -945,7 +945,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String Automatic();
 
 	@DefaultStringValue("Difference")
-	String fncInspectorDifference();
+	String fncInspector_Difference();
 
 	@DefaultStringValue("Graphics")
 	String DrawingPad();
@@ -981,7 +981,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String AxisLabel();
 
 	@DefaultStringValue("Clipboard: Google Gadget")
-	String ClipboardGoogle();
+	String Clipboard_Google();
 
 	@DefaultStringValue("Directrix of %0")
 	String DirectrixOfA();
@@ -1002,7 +1002,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String InfiniteCylinderPointsABNumberC();
 
 	@DefaultStringValue("Value")
-	String fncInspectorValue();
+	String fncInspector_Value();
 
 	@DefaultStringValue("CAS Timeout (in seconds)")
 	String CasTimeout();
@@ -1029,7 +1029,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String xOyPlane();
 
 	@DefaultStringValue("Center")
-	String stylebarAlignCenter();
+	String stylebar_AlignCenter();
 
 	@DefaultStringValue("Show trimmed intersection lines")
 	String ShowTrimmed();
@@ -1047,7 +1047,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String xmin();
 
 	@DefaultStringValue("Set font style to bold")
-	String stylebarBold();
+	String stylebar_Bold();
 
 	@DefaultStringValue("%0 does not lie on the perimeter of %1")
 	String AdoesNotLieOnThePerimeterOfB();
@@ -1068,10 +1068,10 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String SegmentABofC();
 
 	@DefaultStringValue("Points")
-	String fncInspectorPoints();
+	String fncInspector_Points();
 
 	@DefaultStringValue("pic")
-	String NamePicture();
+	String Name_picture();
 
 	@DefaultStringValue("Geometric objects")
 	String GeometricObjects();
@@ -1086,13 +1086,13 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String SecondAxisOfA();
 
 	@DefaultStringValue("Align Right")
-	String stylebarAlignRight();
+	String stylebar_AlignRight();
 
 	@DefaultStringValue("This is a Java Applet created using GeoGebra from www.geogebra.org - it looks like you don't have Java installed, please go to www.java.com")
 	String NoJavaMessage();
 
 	@DefaultStringValue("\"\\overline{\" + %0 + %1 + \"} \\, = \\, \" + %2")
-	String DistanceABLaTeX();
+	String DistanceAB_LaTeX();
 
 	@DefaultStringValue("Point on")
 	String PointOn();
@@ -1125,7 +1125,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String Scripting();
 
 	@DefaultStringValue("Set horizontal alignment")
-	String stylebarAlign();
+	String stylebar_Align();
 
 	@DefaultStringValue("Choose one object")
 	String ChooseObject();
@@ -1137,7 +1137,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String Ellipse();
 
 	@DefaultStringValue("Set caption style")
-	String stylebarCaption();
+	String stylebar_Caption();
 
 	@DefaultStringValue("Picture")
 	String Picture();
@@ -1179,7 +1179,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String Esc();
 
 	@DefaultStringValue("high")
-	String StemPlotHigh();
+	String StemPlot_high();
 
 	@DefaultStringValue("%0 and %1")
 	String AandB();
@@ -1197,10 +1197,10 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String LineThroughAPerpendicularToB();
 
 	@DefaultStringValue("Show or hide the grid")
-	String stylebarGrid();
+	String stylebar_Grid();
 
 	@DefaultStringValue("button")
-	String NameButton();
+	String Name_button();
 
 	@DefaultStringValue("Double Click Opens GeoGebra Window")
 	String DoubleClickToOpen();
@@ -1224,7 +1224,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String InputForm();
 
 	@DefaultStringValue("Erase pen stroke")
-	String stylebarEraser();
+	String stylebar_Eraser();
 
 	@DefaultStringValue("Upload")
 	String Upload();
@@ -1254,7 +1254,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String RadiusOfA();
 
 	@DefaultStringValue("Set font style to italic")
-	String stylebarItalic();
+	String stylebar_Italic();
 
 	@DefaultStringValue("Untitled Construction")
 	String UntitledConstruction();
@@ -1278,7 +1278,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String LengthOfA();
 
 	@DefaultStringValue("Key: %0 means %1")
-	String StemPlotKeyAMeansB();
+	String StemPlot_KeyAMeansB();
 
 	@DefaultStringValue("GeoGebra to PGF Export")
 	String TitleExportPgf();
@@ -1296,7 +1296,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String PreviewUnavailable();
 
 	@DefaultStringValue("text")
-	String NameText();
+	String Name_text();
 
 	@DefaultStringValue("Show zAxis")
 	String Showzaxis();
@@ -1356,10 +1356,10 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String RayThroughAB();
 
 	@DefaultStringValue("Curvature")
-	String fncInspectorCurvature();
+	String fncInspector_Curvature();
 
 	@DefaultStringValue("Set line style")
-	String stylebarLineStyle();
+	String stylebar_LineStyle();
 
 	@DefaultStringValue("Point on %0 closest to %1")
 	String PointOnAClosestToB();
@@ -1383,10 +1383,10 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String SegmentAB();
 
 	@DefaultStringValue("Set point capture style")
-	String stylebarCapture();
+	String stylebar_Capture();
 
 	@DefaultStringValue("Set text color")
-	String stylebarTextColor();
+	String stylebar_TextColor();
 
 	@DefaultStringValue("Webpage")
 	String html();
@@ -1449,7 +1449,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String EllipseEquation();
 
 	@DefaultStringValue("Show x,y position lines")
-	String fncInspectorShowXYLines();
+	String fncInspector_showXYLines();
 
 	@DefaultStringValue("Input Box Length")
 	String TextfieldLength();
@@ -1470,7 +1470,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String GeneratePstricks();
 
 	@DefaultStringValue("Step size for x values")
-	String fncInspectorStep();
+	String fncInspector_step();
 
 	@DefaultStringValue("Syntax Error: %0 is not a list")
 	String SyntaxErrorAisNotAList();
@@ -1479,7 +1479,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String ConicLinesEquation();
 
 	@DefaultStringValue("No.")
-	String No();
+	String No_();
 
 	@DefaultStringValue("Enhanced Metafile")
 	String emf();
@@ -1506,10 +1506,10 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String LinkedObject();
 
 	@DefaultStringValue("Clipboard: <iframe>")
-	String ClipboardIframe();
+	String Clipboard_iframe();
 
 	@DefaultStringValue("edge")
-	String NameEdge();
+	String Name_edge();
 
 	@DefaultStringValue("GeoGebra to PSTricks Export")
 	String TitleExportPstricks();
@@ -1545,7 +1545,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String DrawingPadAsPSTricks();
 
 	@DefaultStringValue("Property")
-	String fncInspectorProperty();
+	String fncInspector_Property();
 
 	@DefaultStringValue("Extra Large")
 	String ExtraLarge();
@@ -1554,7 +1554,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String xAxis();
 
 	@DefaultStringValue("No Roots")
-	String fncInspectorNoRoots();
+	String fncInspector_NoRoots();
 
 	@DefaultStringValue("Linear inequality")
 	String LinearInequality();
@@ -1563,15 +1563,15 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String min();
 
 	@DefaultStringValue("Set Color and Transparency")
-	String stylebarColorTransparency();
+	String stylebar_ColorTransparency();
 
 	@DefaultStringValue("Remove last column")
-	String fncInspectorRemoveColumn();
+	String fncInspector_removeColumn();
 
 	@DefaultStringValue("Tangent to %0 at %1")
 	String TangentToAatB();
 
-	@DefaultStringValue("A newer version of GeoGebra is available. \nWould you like to get GeoGebra %0 now?")
+	@DefaultStringValue("A newer version of GeoGebra is available.\nWould you like to get GeoGebra %0 now?")
 	String NewerVersionA();
 
 	@DefaultStringValue("Include jar Files")
@@ -1584,10 +1584,10 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String ExtendedForm();
 
 	@DefaultStringValue("Show or hide the axes")
-	String stylebarAxes();
+	String stylebar_Axes();
 
 	@DefaultStringValue("Clipboard: MediaWiki")
-	String ClipboardMediaWiki();
+	String Clipboard_MediaWiki();
 
 	@DefaultStringValue("Very Small")
 	String VerySmall();
@@ -1623,16 +1623,16 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String ConstructionOrder();
 
 	@DefaultStringValue("February")
-	String Month2();
+	String Month_2();
 
 	@DefaultStringValue("March")
-	String Month3();
+	String Month_3();
 
 	@DefaultStringValue("April")
-	String Month4();
+	String Month_4();
 
 	@DefaultStringValue("May")
-	String Month5();
+	String Month_5();
 
 	@DefaultStringValue("Alt")
 	String Alt();
@@ -1644,13 +1644,13 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String AdoesNothaveTheSameLengthAsB();
 
 	@DefaultStringValue("January")
-	String Month1();
+	String Month_1();
 
 	@DefaultStringValue("Extra Small")
 	String ExtraSmall();
 
 	@DefaultStringValue("June")
-	String Month6();
+	String Month_6();
 
 	@DefaultStringValue("Function %0 on interval [%1, %2]")
 	String FunctionAonIntervalBC();
@@ -1662,19 +1662,19 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String Oscillating();
 
 	@DefaultStringValue("July")
-	String Month7();
+	String Month_7();
 
 	@DefaultStringValue("August")
-	String Month8();
+	String Month_8();
 
 	@DefaultStringValue("September")
-	String Month9();
+	String Month_9();
 
 	@DefaultStringValue("Circle of axis %0 through %1")
 	String CircleOfAxisAThroughB();
 
 	@DefaultStringValue("Set background color")
-	String stylebarBgColor();
+	String stylebar_BgColor();
 
 	@DefaultStringValue("Dynamic Worksheet as Webpage")
 	String DynamicWorksheetAsWebpage();
@@ -1692,7 +1692,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String MidpointOfAB();
 
 	@DefaultStringValue("Derivative")
-	String fncInspectorDerivative();
+	String fncInspector_Derivative();
 
 	@DefaultStringValue("Export Text as Shapes")
 	String ExportTextAsShapes();
@@ -1818,7 +1818,7 @@ public interface PlainConstants extends ConstantsWithLookup {
 	String Decoration();
 
 	@DefaultStringValue("Align Left")
-	String stylebarAlignLeft();
+	String stylebar_AlignLeft();
 
 	@DefaultStringValue("Not Available")
 	String NotAvailable();
@@ -1868,5 +1868,5 @@ public interface PlainConstants extends ConstantsWithLookup {
 	@DefaultStringValue("Angle of %0")
 	String AngleOfA();
 
-	
+
 }
