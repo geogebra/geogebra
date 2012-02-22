@@ -495,6 +495,7 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 		((EuclidianView) euclidianView).setDisableRepaint(true);
 		euclidianView.setReIniting(true);
 		loadFile((HashMap<String, String>) archiveContent.clone());
+		kernel.initUndoInfo();
 		((EuclidianView) euclidianView).setDisableRepaint(false);
 		euclidianView.repaintView();
 		setCurrentFile(archiveContent);// This should be done in loadFile, because it has callbacks
