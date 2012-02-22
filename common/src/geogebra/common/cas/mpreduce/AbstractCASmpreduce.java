@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-public abstract class AbstractCASmpreduce extends CASgeneric{
+public abstract class AbstractCASmpreduce extends CASgeneric {
 
 	protected CasParserTools parserTools;
 	protected static StringBuilder varOrder = new StringBuilder(
@@ -28,20 +28,19 @@ public abstract class AbstractCASmpreduce extends CASgeneric{
 					+ "ggbtmpvarq, ggbtmpvarr, ggbtmpvars, ggbtmpvart, ggbtmpvaru, "
 					+ "ggbtmpvarv, ggbtmpvarw");
 	protected int significantNumbers = -1;
-	/** We escape any upper-letter words so Reduce doesn't switch them to
-	/ lower-letter,
-	/ however the following function-names should not be escaped
-	/ (note: all functions here must be in lowercase!)*/
-	final protected Set<String> predefinedFunctions = 
-			ExpressionNodeConstants.RESERVED_FUNCTION_NAMES;
-
+	/**
+	 * We escape any upper-letter words so Reduce doesn't switch them to /
+	 * lower-letter, / however the following function-names should not be
+	 * escaped / (note: all functions here must be in lowercase!)
+	 */
+	final protected Set<String> predefinedFunctions = ExpressionNodeConstants.RESERVED_FUNCTION_NAMES;
 
 	public AbstractCASmpreduce(CASparser casParser) {
 		super(casParser);
 	}
 
 	public abstract String evaluateMPReduce(String exp);
-	
+
 	@Override
 	final public String evaluateRaw(String exp) throws Throwable {
 		// we need to escape any upper case letters and non-ascii codepoints
@@ -120,12 +119,10 @@ public abstract class AbstractCASmpreduce extends CASgeneric{
 		System.out.println("   result: " + result);
 		return result;
 	}
-	
 
-	
 	@Override
-	final public synchronized String evaluateGeoGebraCAS(ValidExpression casInput)
-	        throws CASException {
+	final public synchronized String evaluateGeoGebraCAS(
+			ValidExpression casInput) throws CASException {
 		// KeepInput[] command should set flag keepinput!!:=1
 		// so that commands like Substitute can work accordingly
 		boolean keepInput = casInput.isKeepInputUsed();
@@ -140,7 +137,8 @@ public abstract class AbstractCASmpreduce extends CASgeneric{
 		}
 
 		// convert parsed input to MPReduce string
-		String mpreduceInput = translateToCAS(casInput, StringTemplate.casTemplate);
+		String mpreduceInput = translateToCAS(casInput,
+				StringTemplate.casTemplate);
 
 		// tell MPReduce whether it should use the keep input flag,
 		// e.g. important for Substitute
@@ -175,7 +173,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric{
 		// standard case
 		return toGeoGebraString(result);
 	}
-	
+
 	@Override
 	public String translateFunctionDeclaration(String label, String parameters,
 			String body) {
@@ -190,11 +188,12 @@ public abstract class AbstractCASmpreduce extends CASgeneric{
 
 		return sb.toString();
 	}
+
 	@Override
 	public Map<String, String> initTranslationMap() {
 		return new Ggb2MPReduce().getMap();
 	}
-	
+
 	/**
 	 * Tries to parse a given MPReduce string and returns a String in GeoGebra
 	 * syntax.
@@ -208,15 +207,15 @@ public abstract class AbstractCASmpreduce extends CASgeneric{
 	final public synchronized String toGeoGebraString(String mpreduceString)
 			throws CASException {
 		ValidExpression ve = casParser.parseMPReduce(mpreduceString);
-		
+
 		// replace rational exponents by roots or vice versa
 		CasExpressionFactory factory = new CasExpressionFactory(ve);
-		if(ve.getKernel().getApplication().getSettings().getCasSettings().getShowExpAsRoots())
+		if (ve.getKernel().getApplication().getSettings().getCasSettings()
+				.getShowExpAsRoots())
 			factory.replaceExpByRoots();
 		else
 			factory.replaceRootsByExp();
-		
-		
+
 		return casParser.toGeoGebraString(ve);
 	}
 
@@ -236,9 +235,9 @@ public abstract class AbstractCASmpreduce extends CASgeneric{
 					.println("Failed to clear variable from MPReduce: " + var);
 		}
 	}
-	
+
 	protected abstract Evaluate getMPReduce();
-	
+
 	@Override
 	public synchronized void reset() {
 
@@ -270,8 +269,8 @@ public abstract class AbstractCASmpreduce extends CASgeneric{
 		}
 	}
 
-	protected final synchronized void initMyMPReduceFunctions(geogebra.common.cas.Evaluate mpreduce1)
-			throws Throwable {
+	protected final synchronized void initMyMPReduceFunctions(
+			geogebra.common.cas.Evaluate mpreduce1) throws Throwable {
 
 		// user variable ordering
 		String variableOrdering = "ggbcasvarx, ggbcasvary, ggbcasvarz, ggbcasvara, "
@@ -283,8 +282,9 @@ public abstract class AbstractCASmpreduce extends CASgeneric{
 		// make sure to use current kernel's variable prefix
 		variableOrdering = variableOrdering.replace("ggbcasvar", casParser
 				.getKernel().getCasVariablePrefix());
-		if (varOrder.length() > 0)
+		if (varOrder.length() > 0 && variableOrdering.length() > 0) {
 			varOrder.append(',');
+		}
 		varOrder.append(variableOrdering);
 		mpreduce1.evaluate("varorder!!:= list(" + varOrder + ");");
 		mpreduce1.evaluate("order varorder!!;");
@@ -301,9 +301,26 @@ public abstract class AbstractCASmpreduce extends CASgeneric{
 
 	}
 
-
-
-
-
+	/**
+	 * Returns the ordering number of a ggbtmpvar
+	 * 
+	 * @param ggbtmpvar
+	 *            The ggbtmpvar of which the ordering number is needed
+	 * @return The ordering number if the given ggbtmpvar
+	 * @throws IllegalArgumentException
+	 *             if the given {@link String} is not a valid ggbtmpvar
+	 */
+	public static int getVarOrderingNumber(String ggbtmpvar)
+			throws IllegalArgumentException {
+		String varOrderNoWhitespaces = varOrder.toString().replaceAll(" ", "");
+		String[] vars = varOrderNoWhitespaces.split(",");
+		for (int i = 0; i < vars.length; i++) {
+			if (ggbtmpvar.equals(vars[i])) {
+				return i;
+			}
+		}
+		throw new IllegalArgumentException("The given argument \"" + ggbtmpvar
+				+ "\" is not a valid ggbtmpvar.");
+	}
 
 }
