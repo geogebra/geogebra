@@ -252,21 +252,13 @@ public class Layout implements SettingListener {
 	 * @throws IllegalArgumentException If no perspective with the given name could be found.
 	 */
 	public void applyPerspective(String id) throws IllegalArgumentException {
-		for(int i = 0; i < defaultPerspectives.length; ++i) {
-			if(id.equals(defaultPerspectives[i].getId())) {
-				applyPerspective(defaultPerspectives[i]);
-				return;
-			}
-		}
+		Perspective perspective = getPerspective(id);
 		
-		for(Perspective perspective : perspectives) {
-			if(id.equals(perspective.getId())) {
-				applyPerspective(perspective);
-				return;
-			}
-		}
-		
-		throw new IllegalArgumentException("Could not find perspective with the given name.");
+		if(perspective != null) {
+			applyPerspective(perspective);
+		} else {
+			throw new IllegalArgumentException("Could not find perspective with the given name.");
+		}		
 	}
 	
 	/**
@@ -350,6 +342,26 @@ public class Layout implements SettingListener {
 			throw new IndexOutOfBoundsException();
 		
 		return perspectives.get(index);
+	}
+	
+	/**
+	 * @param id name of the perspective
+	 * @return perspective with 'id' as name or null 
+	 */
+	public Perspective getPerspective(String id) {
+		for(int i = 0; i < defaultPerspectives.length; ++i) {
+			if(id.equals(defaultPerspectives[i].getId())) {
+				return defaultPerspectives[i];
+			}
+		}
+		
+		for(Perspective perspective : perspectives) {
+			if(id.equals(perspective.getId())) {
+				return perspective;
+			}
+		}
+		
+		return null;
 	}
 	
 	/**
@@ -532,7 +544,13 @@ public class Layout implements SettingListener {
 		}
 		
 		public boolean processInput(String inputString) {
+			// tmp is reserved for the default perspective 
 			if(inputString.equals("tmp")) {
+				return false;
+			}
+			
+			// such a perspective already exists
+			if(layout.getPerspective(inputString) != null) {
 				return false;
 			}
 			
