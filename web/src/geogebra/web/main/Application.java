@@ -60,11 +60,13 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.dom.client.CanvasElement;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
@@ -497,6 +499,7 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 		euclidianView.repaintView();
 		setCurrentFile(archiveContent);// This should be done in loadFile, because it has callbacks
 		splash.canNowHide();
+		canvas.getCanvasElement().focus();
 	}
 
 	public void loadGgbFileAgain(JsArrayInteger jsBytes) {

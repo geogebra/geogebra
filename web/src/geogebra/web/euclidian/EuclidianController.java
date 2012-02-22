@@ -179,6 +179,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	}
 
 	public void onMouseMove(MouseMoveEvent event) {
+		event.preventDefault();
 		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
 		 if (!DRAGMODE_MUST_BE_SELECTED) {
 			 wrapMouseMoved(e);
@@ -190,6 +191,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 	public void onMouseUp(MouseUpEvent event) {
 		DRAGMODE_MUST_BE_SELECTED = false;
+		event.preventDefault();
 		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
 		wrapMouseReleased(e);
 		e.release();
@@ -197,6 +199,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 	public void onMouseDown(MouseDownEvent event) {
 		DRAGMODE_MUST_BE_SELECTED = true;
+		event.preventDefault();
 		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
 		wrapMousePressed(e);
 		e.release();
