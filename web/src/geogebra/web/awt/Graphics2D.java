@@ -19,6 +19,7 @@ import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.RenderableImage;
 import geogebra.common.awt.RenderedImage;
 import geogebra.common.awt.RenderingHints;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.kernel.gawt.BufferedImage;
 import geogebra.web.openjdk.awt.geom.PathIterator;
@@ -40,6 +41,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
 	protected final Canvas canvas;
 	private final Context2d context;
+	protected geogebra.common.awt.Shape clipShape = null;
 
 	private Font currentFont = new Font("normal");
 	private Color color;
@@ -91,6 +93,11 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 			GWT.log("Error in EuclidianView.draw");
 			return;
 		}
+		doDrawShape(shape);
+		context.stroke();
+	}
+
+	protected void doDrawShape(Shape shape) {
 		context.beginPath();
 		PathIterator it = shape.getPathIterator(null);
 		double[] coords = new double[6];
@@ -117,8 +124,6 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 			it.next();
 		}
 		//this.closePath();
-		context.stroke();
-
 	}
 
 	
@@ -194,31 +199,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 			AbstractApplication.printStacktrace("Error in EuclidianView.fill");
 			return;
 		}
-		context.beginPath();
-		PathIterator it = shape.getPathIterator(null);
-		double[] coords = new double[6];
-		while (!it.isDone()) {
-			int cu = it.currentSegment(coords);
-			switch (cu) {
-			case PathIterator.SEG_MOVETO:
-				context.moveTo(coords[0], coords[1]);
-				break;
-			case PathIterator.SEG_LINETO:
-				context.lineTo(coords[0], coords[1]);
-				break;
-			case PathIterator.SEG_CUBICTO: 
-				context.bezierCurveTo(coords[0], coords[1], coords[2], coords[3], coords[4], coords[5]);
-				break;
-			case PathIterator.SEG_QUADTO:			
-				context.quadraticCurveTo(coords[0], coords[1], coords[2], coords[3]);
-				break;
-			case PathIterator.SEG_CLOSE:
-				context.closePath();
-			default:
-				break;
-			}
-			it.next();
-		}
+		doDrawShape(shape);
 		context.fill();		
 	}
 
@@ -611,10 +592,19 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
     }
 
 
-
 	@Override
-    public void setClip(Object shape) {
+    public void setClip(geogebra.common.awt.Shape shape) {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+	    /*
+		clipShape = shape;//TODO: clone
+		Shape shape2 = geogebra.web.awt.GenericShape.getGawtShape(shape);
+		if (shape2 == null) {
+			GWT.log("Error in Graphics2D.setClip");
+			return;
+		}
+		doDrawShape(shape2);
+		context.clip();
+		*/
     }
 
 
@@ -632,6 +622,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	@Override
     public geogebra.common.awt.Shape getClip() {
+		//return clipShape;
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return null;
     }
@@ -642,13 +633,14 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	@Override
 	public void setClip(int x, int y, int width, int height) {
+		//geogebra.common.awt.Shape sh = AwtFactory.prototype.newRectangle(x, y, width, height);
+		//setClip(sh);
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		
 	}
 
 
 	public void setWidth(int w) {
-	    canvas.setWidth(w+"px");	    
+	    canvas.setWidth(w+"px");
     }
 
 

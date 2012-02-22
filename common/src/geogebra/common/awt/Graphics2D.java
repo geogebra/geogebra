@@ -776,7 +776,7 @@ public abstract class Graphics2D {
 	public abstract void setColor(Color selColor);
 	public abstract void fillRect(int i, int j, int k, int l);
 	public abstract void drawLine(int x1, int y1, int x2, int y2);
-	public abstract void setClip(Object shape);
+	public abstract void setClip(Shape shape);
 	public abstract Shape getClip();
 
 	public abstract void drawRect(int i, int j, int k, int l);

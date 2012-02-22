@@ -51,7 +51,7 @@ public class UndoManager extends AbstractUndoManager {
 		// this can cause a java.lang.OutOfMemoryError for very large
 		// constructions
 		final StringBuilder currentUndoXML = construction.getCurrentUndoXML();
-		AbstractApplication.debug("unimplemented method");
+
 		//Thread undoSaverThread = new Thread() {
 		//	@Override
 		//	public void run() {
@@ -65,7 +65,7 @@ public class UndoManager extends AbstractUndoManager {
 
 	@Override
 	public void storeUndoInfo(final boolean refresh) {
-		AbstractApplication.debug("unimplemented method");
+
 		// this can cause a java.lang.OutOfMemoryError for very large
 		// constructions
 		final StringBuilder currentUndoXML = construction.getCurrentUndoXML();
@@ -111,7 +111,6 @@ public class UndoManager extends AbstractUndoManager {
 
 	@Override
 	protected void loadUndoInfo(final AppState info) {
-		AbstractApplication.debug("unimplemented method");
 		try {
 			// load from file
 			String tempXML = ((AppStateWeb) info).getXML();
