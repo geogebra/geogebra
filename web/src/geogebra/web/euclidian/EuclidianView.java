@@ -216,10 +216,9 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	}
 
 	public static void setAntialiasingStatic(Graphics2D g2d) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+		// In GWT, everything is anti-aliased by default, so we don't need to do anything here.
     }
-	
+
 	public void setCoordinateSpaceSize(int width, int height) {
 		g2p.setCoordinateSpaceWidth(width);
 		g2p.setCoordinateSpaceHeight(height);
@@ -487,12 +486,10 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	    
     }
 
-	
 
 	@Override
     protected void setAntialiasing(Graphics2D g2) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+		// In GWT, everything is anti-aliased by default, so we don't need to do anything here.
     }
 
 	@Override
