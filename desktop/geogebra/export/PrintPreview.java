@@ -505,6 +505,7 @@ public class PrintPreview extends JDialog {
 	public boolean pageExists(int pageIndex) {
 		try {							
 			PageFormat pageFormat = getDefaultPageFormat();
+			pageFormat.setOrientation(m_orientation);
 			return (m_target.print(tempGraphics, pageFormat, pageIndex) ==
 										Printable.PAGE_EXISTS);
 		} catch (Exception e) {
