@@ -11,6 +11,36 @@
  *      property: rule applies to all versions of IE
  *    }
  */
+ 
+ .cursor_wait {
+ 	cursor:wait;
+ }
+ 
+ .cursor_default {
+ 	cursor:crosshair;
+ }
+ 
+ .cursor_hit {
+ 	cursor:default;
+ }
+ 
+ .cursor_drag {
+ 	cursor:pointer;
+ 	cursor:hand;
+ }
+ 
+ .cursor_resizeXAxis {
+ 	cursor:e-resize;
+ }
+ 
+ .cursor_resizeYAxis {
+ 	cursor:n-resize;
+ }
+ 
+ .cursor_move {
+ 	cursor:move;
+ }
+ 
  .geogebraweb {
 	display:inline-block;
   }

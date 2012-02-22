@@ -2156,10 +2156,7 @@ public abstract class AbstractApplication {
 		
 	}
 
-	public void setWaitCursor() {
-		// TODO Auto-generated method stub
-		
-	}
+	public abstract void setWaitCursor();
 
 	public abstract AlgoElement newAlgoShortestDistance(Construction cons,
 			String label, GeoList list, GeoPointND start, GeoPointND end,

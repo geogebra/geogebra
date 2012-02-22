@@ -47,6 +47,7 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.RootPanel;
 
 
 public class EuclidianView extends AbstractEuclidianView implements SettingListener{
@@ -334,8 +335,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     protected void initCursor() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+		setDefaultCursor();
     }
 
 	@Override
@@ -417,13 +417,15 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
     }
 
 	public void setDefaultCursor() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+		((Application)application).resetCursor();
+		g2p.getCanvas().setStyleName("");
+		g2p.getCanvas().addStyleName("cursor_default");
     }
 
 	public void setHitCursor() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+		((Application)application).resetCursor();
+		g2p.getCanvas().setStyleName("");
+		g2p.getCanvas().addStyleName("cursor_hit");
     }
 	
 	public geogebra.common.euclidian.EuclidianStyleBar getStyleBar() {
@@ -505,8 +507,9 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
     }
 
 	public void setDragCursor() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+		((Application)application).resetCursor();
+		g2p.getCanvas().setStyleName("");
+		g2p.getCanvas().addStyleName("cursor_drag");
     }
 
 	public void setToolTipText(String plainTooltip) {
@@ -515,13 +518,15 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
     }
 
 	public void setResizeXAxisCursor() {
-	    // TODO Auto-generated method stub
-	    
+		((Application)application).resetCursor();
+		g2p.getCanvas().setStyleName("");
+		g2p.getCanvas().addStyleName("cursor_resizeXAxis");
     }
 
 	public void setResizeYAxisCursor() {
-	    // TODO Auto-generated method stub
-	    
+		((Application)application).resetCursor();
+		g2p.getCanvas().setStyleName("");
+		g2p.getCanvas().addStyleName("cursor_resizeYAxis");
     }
 
 	@Override
@@ -531,8 +536,9 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
     }
 
 	public void setMoveCursor() {
-	    // TODO Auto-generated method stub
-	    
+		((Application)application).resetCursor();
+		g2p.getCanvas().setStyleName("");
+		g2p.getCanvas().addStyleName("cursor_move");
     }
 
 	@Override

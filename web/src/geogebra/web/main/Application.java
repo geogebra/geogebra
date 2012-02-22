@@ -1138,4 +1138,14 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 		ggbtube.uploadWorksheet();
 	}
 
+	@Override
+    public void setWaitCursor() {
+		RootPanel.get().setStyleName("");
+		RootPanel.get().addStyleName("cursor_wait");
+    }
+
+	public void resetCursor() {
+		RootPanel.get().setStyleName("");
+    }
+
 }
