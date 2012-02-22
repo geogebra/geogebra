@@ -20,22 +20,33 @@ import geogebra.common.main.AbstractApplication;
 
 import java.util.TreeSet;
 
+/**
+ * Element of the construction tree
+ * @author Markus
+ */
 public abstract class ConstructionElement implements
 		Comparable<ConstructionElement> {
 
-	// Added for Intergeo File Format (Yves Kreis) -->
-	// writes the <elements> part
-	public static final int ELEMENTS = 0;
-	// writes the <constraints> part
-	public static final int CONSTRAINTS = 1;
-	// writes the <display> part
-	public static final int DISPLAY = 2;
-	// <-- Added for Intergeo File Format (Yves Kreis)
+	/**
+	 * Enum for distinguishing I2Geo XML parts
+	 * @author Yves Kreis
+	 *
+	 */
+	public enum I2GeoTag{
+		/** writes the <elements> part */
+	ELEMENTS,
+	/** writes the <constraints> part */
+	 CONSTRAINTS,
+	/** writes the <display> part */
+	 DISPLAY}
 
-	public transient Construction cons; // parent construction of this element
-	public transient Kernel kernel; // parent kernel of this element
-	protected transient AbstractApplication app; // parent application of this
-													// element
+	/** parent construction of this element */
+	public transient Construction cons;
+	/** parent kernel of this element */
+	public transient Kernel kernel; 
+	/** parent application of this element */
+	protected transient AbstractApplication app; 
+
 
 	private int constIndex = -1; // index in construction list
 
@@ -43,21 +54,34 @@ public abstract class ConstructionElement implements
 	private long ceID; // creation ID of this ConstructionElement, used for
 						// sorting
 
+	/**
+	 * Creates new construction element
+	 * @param c construction
+	 */
 	public ConstructionElement(Construction c) {
 		ceID = ceIDcounter++;
 		setConstruction(c);
 	}
 
+	/**
+	 * @param c new construction
+	 */
 	public void setConstruction(Construction c) {
 		cons = c;
 		kernel = c.getKernel();
 		app = c.getApplication();
 	}
 
+	/**
+	 * @return construction this element belongs to
+	 */
 	public Construction getConstruction() {
 		return cons;
 	}
 
+	/**
+	 * @return kernel
+	 */
 	public final Kernel getKernel() {
 		return kernel;
 	}
@@ -65,17 +89,20 @@ public abstract class ConstructionElement implements
 	/**
 	 * Returns the smallest possible construction index for this object in its
 	 * construction.
+	 * @return the smallest possible construction index for this object 
 	 */
 	public abstract int getMinConstructionIndex();
 
 	/**
 	 * Returns the largest possible construction index for this object in its
 	 * construction.
+	 * @return the largest possible construction index for this object
 	 */
 	public abstract int getMaxConstructionIndex();
 
 	/**
 	 * Returns construction index in current construction.
+	 * @return construction index in current construction.
 	 */
 	public int getConstructionIndex() {
 		return constIndex;
@@ -84,6 +111,7 @@ public abstract class ConstructionElement implements
 	/**
 	 * Sets construction index in current construction. This method should only
 	 * be called from Construction.
+	 * @param index new construction index
 	 */
 	public void setConstructionIndex(int index) {
 		constIndex = index;
@@ -92,6 +120,7 @@ public abstract class ConstructionElement implements
 	/**
 	 * Returns whether this construction element is in the construction list of
 	 * its construction.
+	 * @return true for elements in construction list
 	 */
 	final public boolean isInConstructionList() {
 		return constIndex > -1;
@@ -99,12 +128,15 @@ public abstract class ConstructionElement implements
 
 	/**
 	 * Returns whether this element is a breakpoint in the construction protocol
+	 * @return whether this element is a breakpoint in the construction protocol
 	 */
 	abstract public boolean isConsProtocolBreakpoint();
 
 	/**
 	 * Returns whether this object is available at the given construction step
 	 * (this depends on this object's construction index).
+	 * @param step construction step
+	 * @return whether this object is available at the given construction step
 	 */
 	public boolean isAvailableAtConstructionStep(int step) {
 		// Note: this method is overwritten by
@@ -116,25 +148,30 @@ public abstract class ConstructionElement implements
 
 	/**
 	 * Returns true for an independent GeoElement and false otherwise.
+	 * @return true for independent GeoElement
 	 */
 	public abstract boolean isIndependent();
 
 	/**
 	 * Returns all independent predecessors (of type GeoElement) that this
 	 * object depends on. The predecessors are sorted topologically.
+	 * @return all independent predecessors (of type GeoElement)
 	 */
-	public abstract TreeSet<?> getAllIndependentPredecessors();
+	public abstract TreeSet<GeoElement> getAllIndependentPredecessors();
 
 	/**
 	 * Returns XML representation of this object. GeoGebra File Format.
+	 * @param sb string builder
 	 */
 	public abstract void getXML(StringBuilder sb);
 
 	/**
 	 * Returns I2G representation of this object. Intergeo File Format. (Yves
 	 * Kreis)
+	 * @param sb stringbulder
+	 * @param mode current tag
 	 */
-	public abstract void getI2G(StringBuilder sb, int mode);
+	public abstract void getI2G(StringBuilder sb, I2GeoTag mode);
 
 	/**
 	 * Removes this object from the current construction.
@@ -158,28 +195,38 @@ public abstract class ConstructionElement implements
 
 	/**
 	 * Returns an array with all GeoElements of this construction element.
+	 * @return an array with all GeoElements of this construction element.
 	 */
 	public abstract GeoElement[] getGeoElements();
-
+	/**
+	 * @return true for GeoElements
+	 */
 	public abstract boolean isGeoElement();
-
+	/**
+	 * @return true for AlgoElements
+	 */
 	public abstract boolean isAlgoElement();
 
 	/**
 	 * Returns type and name of this construction element (e.g. "Point A").
 	 * Note: may return ""
+	 * @return type and name of this construction element (e.g. "Point A").
 	 */
 	public abstract String getNameDescription();
 
 	/**
 	 * Returns algebraic representation (e.g. coordinates, equation) of this
 	 * construction element.
+	 * @param tpl string template
+	 * @return algebraic representation (e.g. coordinates, equation)
 	 */
 	public abstract String getAlgebraDescription(StringTemplate tpl);
 
 	/**
 	 * Returns textual description of the definition of this construction
 	 * element (e.g. "Line through A and B"). Note: may return ""
+	 * @param tpl string template
+	 * @return textual description of the definition
 	 */
 	public abstract String getDefinitionDescription(StringTemplate tpl);
 
@@ -235,20 +282,21 @@ public abstract class ConstructionElement implements
 		return ceID;
 	}
 
-	/*
-	 * added for minimal applets
-	 */
-	public boolean isAlgoDependentCasCell() {
-		return false;
-	}
-
 	@Override
 	public int hashCode() {
 		// TODO Auto-generated method stub
 		return super.hashCode();
 	}
 
+	/**
+	 * @param tpl string template
+	 * @return command description, e.g. "Midpoint[A,B]"
+	 */
 	public abstract String getCommandDescription(StringTemplate tpl);
-
+	/**
+	 * Returns string representation of this element
+	 * @param tpl string template
+	 * @return e.g. "A=(1,2)"
+	 */
 	public abstract String toString(StringTemplate tpl);
 }

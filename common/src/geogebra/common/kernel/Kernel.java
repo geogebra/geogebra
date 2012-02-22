@@ -4611,7 +4611,7 @@ public class Kernel {
 	final public GeoElement[] useMacro(String[] labels, Macro macro,
 			GeoElement[] input) {
 		try {
-			AlgoMacro algo = new AlgoMacro(cons, labels, (Macro) macro, input);
+			AlgoMacro algo = new AlgoMacro(cons, labels, macro, input);
 			return algo.getOutput();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -4796,7 +4796,7 @@ public class Kernel {
 	 */
 	public Macro getMacro(int i) {
 		try {
-			return (Macro) macroManager.getMacro(i);
+			return macroManager.getMacro(i);
 		} catch (Exception e) {
 			return null;
 		}

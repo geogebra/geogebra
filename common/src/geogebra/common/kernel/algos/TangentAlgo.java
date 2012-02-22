@@ -5,5 +5,5 @@ package geogebra.common.kernel.algos;
  *
  */
 public interface TangentAlgo {
-
+	//just tagging interface
 }

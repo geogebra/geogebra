@@ -26,13 +26,18 @@ import org.apache.commons.math.analysis.solvers.LaguerreSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolverFactory;
 import org.apache.commons.math.complex.Complex;
-
+/**
+ * Class for solving polynomial equations
+ */
 public class EquationSolver implements EquationSolverInterface {
 
 	private static final double LAGUERRE_EPS = 1E-5;
 	private LaguerreSolver laguerreSolver;
 	private UnivariateRealSolver rootFinderBrent, rootFinderNewton;
-
+	/**
+	 * Createsnew equation solver
+	 * @param kernel kernel
+	 */
 	public EquationSolver(Kernel kernel) {
 		// we need someone to polish our roots
 		// rootPolisher = new RealRoot();
@@ -129,24 +134,7 @@ public class EquationSolver implements EquationSolverInterface {
 		return solveQuadratic(eqn, eqn);
 	}
 
-	/**
-	 * Solves the quadratic whose coefficients are in the <code>eqn</code> array
-	 * and places the non-complex roots into the <code>res</code> array,
-	 * returning the number of roots. The quadratic solved is represented by the
-	 * equation:
-	 * 
-	 * <pre>
-	 *     eqn = {C, B, A};
-	 *     ax^2 + bx + c = 0
-	 * </pre>
-	 * 
-	 * A return value of <code>-1</code> is used to distinguish a constant
-	 * equation, which might be always 0 or never 0, from an equation that has
-	 * no zeroes.
-	 * 
-	 * @return the number of roots, or <code>-1</code> if the equation is a
-	 *         constant.
-	 */
+	
 	final public int solveQuadratic(double eqn[], double res[]) {
 		double a = eqn[2];
 		double b = eqn[1];
@@ -186,6 +174,11 @@ public class EquationSolver implements EquationSolverInterface {
 		return roots;
 	}
 
+	/**
+	 * @param real put coeffivients here on input, receive real parts on output
+	 * @param complex imaginary parts on output
+	 * @return number of roots
+	 */
 	final public static int solveQuadraticComplex(double real[],
 			double complex[]) {
 		double a = real[2];
@@ -375,49 +368,7 @@ public class EquationSolver implements EquationSolverInterface {
 		}
 	}// */
 
-	/**
-	 * Solve the cubic whose coefficients are in the <code>eqn</code> array and
-	 * place the non-complex roots into the <code>res</code> array, returning
-	 * the number of roots. The cubic solved is represented by the equation: eqn
-	 * = {c, b, a, d} dx^3 + ax^2 + bx + c = 0 A return value of -1 is used to
-	 * distinguish a constant equation, which may be always 0 or never 0, from
-	 * an equation which has no zeroes.
-	 * 
-	 * @return the number of roots, or -1 if the equation is a constant
-	 * 
-	 *         final public int solveCubic(double eqn[], double res[]) { // From
-	 *         Numerical Recipes, 5.6, Quadratic and Cubic Equations // case
-	 *         discriminant == 0 added by Markus Hohenwarter, 20.1.2002 // case
-	 *         a==0, b==0 added Michael Borcherds 2010-05-09
-	 * 
-	 *         double d = eqn[3]; if (Math.abs(d) < kernel.EPSILON) { // The
-	 *         cubic has degenerated to quadratic (or line or ...). return
-	 *         solveQuadratic(eqn, res); } double a = eqn[2] / d; double b =
-	 *         eqn[1] / d; double c = eqn[0] / d; int roots = 0; double Q = (a *
-	 *         a - 3.0 * b) / 9.0; double R = (2.0 * a * a * a - 9.0 * a * b +
-	 *         27.0 * c) / 54.0; double R2 = R * R; double Q3 = Q * Q * Q;
-	 *         double discriminant = R2 - Q3; a = a / 3.0;
-	 * 
-	 *         if (Math.abs(discriminant) < kernel.EPSILON) { if (Q >=
-	 *         kernel.EPSILON) { // two real solutions Q = Math.sqrt(Q); if (R <
-	 *         0) Q = -Q; res[roots++] = -2.0 * Q - a; res[roots++] = Q - a; }
-	 *         else { // Q is zero // one real solution if (Math.abs(a) <
-	 *         kernel.EPSILON && Math.abs(b) < kernel.EPSILON) res[roots++] = -
-	 *         Math.cbrt(c); else res[roots++] = -a; } } else { if (R2 < Q3) {
-	 *         // => Q3 > 0.0 double theta = Math.acos(R / Math.sqrt(Q3)); Q =
-	 *         -2.0 * Math.sqrt(Q); if (res == eqn) { // Copy the eqn so that we
-	 *         don't clobber it with the // roots. This is needed so that
-	 *         fixRoots can do its // work with the original equation. eqn = new
-	 *         double[4]; System.arraycopy(res, 0, eqn, 0, 4); } res[roots++] =
-	 *         Q * Math.cos(theta / 3.0) - a; res[roots++] = Q * Math.cos((theta
-	 *         - Math.PI * 2.0)/ 3.0) - a; res[roots++] = Q * Math.cos((theta +
-	 *         Math.PI * 2.0)/ 3.0) - a; fixRoots(res, eqn); } else { boolean
-	 *         neg = (R < 0.0); double S = Math.sqrt(discriminant); if (neg) { R
-	 *         = -R; } double A = Math.pow(R + S, 1.0 / 3.0); if (!neg) { A =
-	 *         -A; } double B = (Math.abs(A) < kernel.EPSILON) ? 0.0 : (Q / A);
-	 *         res[roots++] = (A + B) - a; } } return roots; }//
-	 */
-
+	
 	/*
 	 * This pruning step is necessary since solveCubic uses the cosine function
 	 * to calculate the roots when there are 3 of them. Since the cosine method
@@ -462,13 +413,15 @@ public class EquationSolver implements EquationSolverInterface {
 
 	private static double solveEqn(double eqn[], int order, double t) {
 		double v = eqn[order];
-		while (--order >= 0) {
-			v = v * t + eqn[order];
+		int counter = order;
+		while (--counter >= 0) {
+			v = v * t + eqn[counter];
 		}
 		return v;
 	}
 
-	private static double findZero(double t, double target, double eqn[]) {
+	private static double findZero(double init, double target, double eqn[]) {
+		double t = init;
 		double slopeqn[] = { eqn[1], 2 * eqn[2], 3 * eqn[3] };
 		double slope;
 		double origdelta = 0;
@@ -1032,6 +985,7 @@ public class EquationSolver implements EquationSolverInterface {
 	/**
 	 * Returns a comparator for Complex objects. (sorts on real part coordinate)
 	 * If equal does return zero (deletes duplicates!)
+	 * @return comparator for complex numbers
 	 */
 	public static Comparator<Complex> getComparatorReal() {
 		if (comparatorReal == null) {

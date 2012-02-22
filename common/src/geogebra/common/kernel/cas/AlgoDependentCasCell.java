@@ -5,7 +5,6 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElement;
 
 import java.util.TreeSet;
 
@@ -25,7 +24,7 @@ public class AlgoDependentCasCell extends AlgoElement {
 	/**
 	 * Creates a new algorithm to handle updates of the given cell.
 	 * 
-	 * @param outputCasCell the output cell that this algorithm should update.
+	 * @param casCell the output cell that this algorithm should update.
 	 */
 	public AlgoDependentCasCell(GeoCasCell casCell) {
 		super(casCell.getConstruction());		
@@ -110,6 +109,9 @@ public class AlgoDependentCasCell extends AlgoElement {
         setDependencies();
 	}
 	
+	/**
+	 * @return resulting CAS cell
+	 */
 	public GeoCasCell getCasCell() {
 		return casCell;
 	}
@@ -190,13 +192,5 @@ public class AlgoDependentCasCell extends AlgoElement {
 //		// in  the construction list.
 //		updateConstructionOrder(oldPred);
 //	}
-    
-	/*
-	 * added for minimal applets
-	 */
-    @Override
-	public boolean isAlgoDependentCasCell() {
-		return true;
-	}   
 
 }

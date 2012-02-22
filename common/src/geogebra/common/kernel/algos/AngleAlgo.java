@@ -6,5 +6,5 @@ package geogebra.common.kernel.algos;
  *
  */
 public interface AngleAlgo {
-
+	//just tagging interface
 }

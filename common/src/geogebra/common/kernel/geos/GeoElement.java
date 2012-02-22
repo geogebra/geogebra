@@ -4403,10 +4403,10 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * save object in i2g format Intergeo File Format (Yves Kreis)
 	 */
 	@Override
-	public void getI2G(final StringBuilder sb, final int mode) {
+	public void getI2G(final StringBuilder sb, final I2GeoTag mode) {
 		final String type = getI2GtypeString();
 
-		if (mode == CONSTRAINTS) {
+		if (mode == I2GeoTag.CONSTRAINTS) {
 			if (isIndependent() || isPointOnPath()) {
 				sb.append("\t\t<free_");
 				sb.append(type);
@@ -4425,7 +4425,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				sb.append(">\n");
 			}
 		} else {
-			if ((mode == DISPLAY)
+			if ((mode == I2GeoTag.DISPLAY)
 					&& ((caption == null) || (caption.length() == 0) || caption
 							.equals(label))) {
 				return;
@@ -4437,9 +4437,9 @@ public abstract class GeoElement extends ConstructionElement implements
 			sb.append(StringUtil.encodeXML(label));
 			sb.append("\">\n");
 
-			if (mode == ELEMENTS) {
+			if (mode == I2GeoTag.ELEMENTS) {
 				getI2Gtags(sb);
-			} else if (mode == DISPLAY) {
+			} else if (mode == I2GeoTag.DISPLAY) {
 				// caption text
 				sb.append("\t\t\t<label>");
 				sb.append(StringUtil.encodeXML(caption));

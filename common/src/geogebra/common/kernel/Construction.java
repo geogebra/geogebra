@@ -12,7 +12,9 @@ import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.algos.AlgorithmSet;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.ConstructionElement;
+import geogebra.common.kernel.algos.ConstructionElement.I2GeoTag;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -761,7 +763,8 @@ public class Construction {
 		updateConstructionIndex(pos);
 
 		// update cas row references
-		if (ce instanceof GeoCasCell || ce.isAlgoDependentCasCell())
+		if (ce instanceof GeoCasCell || 
+				(ce instanceof AlgoElement && ((AlgoElement)ce).getClassName()==Algos.AlgoDependentCasCell))
 			updateCasCellRows();
 
 		updateAllConstructionProtocolAlgorithms(); // Michael Borcherds
@@ -1103,20 +1106,20 @@ public class Construction {
 				sb.append("\t<elements>\n");
 				for (int i = 0; i < size; ++i) {
 					ce = ceList.get(i);
-					ce.getI2G(sb, ConstructionElement.ELEMENTS);
+					ce.getI2G(sb, I2GeoTag.ELEMENTS);
 				}
 				sb.append("\t</elements>\n");
 
 				sb.append("\t<constraints>\n");
 				for (int i = 0; i < size; ++i) {
 					ce = ceList.get(i);
-					ce.getI2G(sb, ConstructionElement.CONSTRAINTS);
+					ce.getI2G(sb, I2GeoTag.CONSTRAINTS);
 				}
 				sb.append("\t</constraints>\n");
 			} else if (mode == DISPLAY) {
 				for (int i = 0; i < size; ++i) {
 					ce = ceList.get(i);
-					ce.getI2G(sb, ConstructionElement.DISPLAY);
+					ce.getI2G(sb, I2GeoTag.DISPLAY);
 				}
 			}
 		} catch (Exception e) {

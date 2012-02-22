@@ -15,14 +15,18 @@ import java.util.ArrayList;
  * @author ggb3D
  *
  */
-@SuppressWarnings("serial")
+
 public class LocateableList extends ArrayList<Locateable> {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9060255316180319972L;
 	private GeoPointND point;
 
 	
 	/** constructor
-	 * @param point
+	 * @param point point
 	 */
 	public LocateableList(GeoPointND point){
 		super();
@@ -33,7 +37,7 @@ public class LocateableList extends ArrayList<Locateable> {
 	/**
 	 * Tells this point that the given Locateable has this point
 	 * as start point.
-	 * @param l 
+	 * @param l locateable
 	 */
 	public void registerLocateable(Locateable l) {	
 		if (contains(l)) return;
@@ -52,7 +56,7 @@ public class LocateableList extends ArrayList<Locateable> {
 	/**
 	 * Tells this point that the given Locatable no longer has this point
 	 * as start point.
-	 * @param l 
+	 * @param l locateable
 	 */
 	public void unregisterLocateable(Locateable l) {
 		remove(l);

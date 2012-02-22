@@ -18,12 +18,10 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -886,9 +884,11 @@ public abstract class AlgoElement extends ConstructionElement implements
 		return set;
 	}
 
-	// adds all predecessors of this object to the given list
-	// the set is kept topologically sorted
-	// @param onlyIndependent: whether only indpendent geos should be added
+	/** adds all predecessors of this object to the given list
+	* the set is kept topologically sorted
+	 * @param set set of geos to be added
+	 * @param onlyIndependent whether only indpendent geos should be added
+	 */
 	public final void addPredecessorsToSet(TreeSet<GeoElement> set,
 			boolean onlyIndependent) {
 		for (int i = 0; i < input.length; i++) {
@@ -1211,7 +1211,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * Intergeo File Format. (Yves Kreis)
 	 */
 	@Override
-	public void getI2G(StringBuilder sb, int mode) {
+	public void getI2G(StringBuilder sb, I2GeoTag mode) {
 		// this is needed for helper commands like
 		// intersect for single intersection points
 		if (!isPrintedInXML) {
@@ -1220,7 +1220,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 
 		// USE INTERNAL COMMAND NAMES IN EXPRESSION
 		try {
-			if (mode == CONSTRAINTS) {
+			if (mode == I2GeoTag.CONSTRAINTS) {
 				// command
 				String cmdname = getIntergeoName();
 				if (!cmdname.equals("Expression")) {
