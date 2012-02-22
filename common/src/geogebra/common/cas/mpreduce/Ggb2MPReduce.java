@@ -7,14 +7,21 @@ import java.util.TreeMap;
  * # Command translation table from GeoGebra to MPReduce # e.g. Expand[ 2(x+3) ]
  * is translated to ExpandBrackets( 2*(x+3) ) ###
  */
-@SuppressWarnings("javadoc")
+
 public class Ggb2MPReduce {
 	private static Map<String, String> commandMap = new TreeMap<String, String>();
 
-	public static void p(String s, String t) {
-		commandMap.put(s, t);
+	/**
+	 * @param signature GeoGebra command signature (i.e. "Element.2")
+	 * @param casSyntax CAS syntax, parameters as %0,%1
+	 */
+	public static void p(String signature, String casSyntax) {
+		commandMap.put(signature, casSyntax);
 	}
 
+	/**
+	 * @return map signature => syntax
+	 */
 	public Map<String,String> getMap() {
 		p("Binomial.2",
 				"<< begin scalar n!!, k!!, result1!!, result2!!; n!!:=(%0); k!!:=(%1); result1!!:= if numberp(n!!) and numberp(k!!) and k!!>n!! then 0 else factorial(n!!)/(factorial(k!!)*factorial(n!!-k!!)); let list(gamma(~w+1) => factorial(w)); result2!!:=result1!!; clear list(gamma(~w+1) => factorial); return result2!! end >>");

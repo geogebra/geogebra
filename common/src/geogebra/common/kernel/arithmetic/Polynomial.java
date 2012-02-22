@@ -25,7 +25,7 @@ import java.util.Iterator;
 /**
  * An Polynomial is a list of Terms
  */
-@SuppressWarnings("javadoc")
+
 public class Polynomial extends ValidExpression implements Serializable
 		{
 
@@ -34,20 +34,35 @@ public class Polynomial extends ValidExpression implements Serializable
 	private ArrayList<Term> terms = new ArrayList<Term>();
 	private Kernel kernel;
 
+	/**
+	 * @param kernel kernel
+	 */
 	public Polynomial(Kernel kernel) {
 		this.kernel = kernel;
 	}
 
+	/**
+	 * @param kernel kernel
+	 * @param t single term
+	 */
 	public Polynomial(Kernel kernel, Term t) {
 		this(kernel);
 		terms.add(t);
 	}
 
+	/**
+	 * @param kernel kernel
+	 * @param vars variables string (to create one term)
+	 */
 	public Polynomial(Kernel kernel, String vars) {
 		this(kernel);
 		terms.add(new Term(kernel, 1.0d, vars));
 	}
 
+	/**
+	 * @param kernel kernel
+	 * @param poly polynomial to copy
+	 */
 	public Polynomial(Kernel kernel, Polynomial poly) {
 		this(kernel);
 		// Application.debug("poly copy constructor input: " + poly);
@@ -61,20 +76,32 @@ public class Polynomial extends ValidExpression implements Serializable
 		return new Polynomial(kernel1, this);
 	}
 
+	/**
+	 * @param i index
+	 * @return i-th term
+	 */
 	public Term getTerm(int i) {
 		return terms.get(i);
 	}
 
+	/**
+	 * @return number of terms
+	 */
 	int length() {
 		return terms.size();
 	}
 
+	/**
+	 * @return true if there are no terms
+	 */
 	boolean isEmpty() {
 		return (terms.size() == 0);
 	}
 
 	/**
 	 * Returns true if this polynomial equals "1 var"
+	 * @param var variable name
+	 * @return true if this polynomial equals "1 var"
 	 */
 	boolean isVar(String var) {
 		if (length() != 1)
@@ -98,6 +125,7 @@ public class Polynomial extends ValidExpression implements Serializable
 
 	/**
 	 * add another Polynomial
+	 * @param e addend
 	 */
 	public void add(Polynomial e) {
 		for (int i = 0; i < e.length(); i++) {
@@ -108,6 +136,7 @@ public class Polynomial extends ValidExpression implements Serializable
 
 	/**
 	 * subtract another Polynomial
+	 * @param e subtrahend
 	 */
 	public void sub(Polynomial e) {
 		Polynomial temp = new Polynomial(kernel, e);
@@ -117,6 +146,7 @@ public class Polynomial extends ValidExpression implements Serializable
 
 	/**
 	 * add a Number
+	 * @param number constant addend
 	 */
 	public void add(ExpressionValue number) {
 		append(new Term(kernel, number, ""));
@@ -125,6 +155,7 @@ public class Polynomial extends ValidExpression implements Serializable
 
 	/**
 	 * subtract a Number
+	 * @param number constant subtrahend
 	 */
 	public void sub(ExpressionValue number) {
 		Term subTerm = new Term(kernel, number, "");
@@ -135,6 +166,7 @@ public class Polynomial extends ValidExpression implements Serializable
 
 	/**
 	 * multiply with another Polynomial store result in this Polynomial
+	 * @param e factor
 	 */
 	public void multiply(Polynomial e) {
 		ArrayList<Term> temp = new ArrayList<Term>();
@@ -157,6 +189,7 @@ public class Polynomial extends ValidExpression implements Serializable
 
 	/**
 	 * multiply every term with a double store result in this Polynomial
+	 * @param number constant factor
 	 */
 	public void multiply(ExpressionValue number) {
 		for (int i = 0; i < length(); i++) {
@@ -166,6 +199,7 @@ public class Polynomial extends ValidExpression implements Serializable
 
 	/**
 	 * divide every term with a ExpressionValue store result in this Polynomial
+	 * @param number constant divisor
 	 */
 	public void divide(ExpressionValue number) {
 		for (int i = 0; i < length(); i++) {
@@ -175,6 +209,7 @@ public class Polynomial extends ValidExpression implements Serializable
 
 	/**
 	 * divides through a polynomial's constant coefficient
+	 * @param poly polynomial
 	 */
 	public void divide(Polynomial poly) {
 		divide(poly.getConstantCoefficient());
@@ -182,6 +217,7 @@ public class Polynomial extends ValidExpression implements Serializable
 
 	/**
 	 * multiply every term with a double store result in this Polynomial
+	 * @param d constant factor
 	 */
 	public void multiply(double d) {
 		multiply(new MyDouble(kernel, d));
@@ -189,6 +225,7 @@ public class Polynomial extends ValidExpression implements Serializable
 
 	/**
 	 * compute Polynomial^power store result in this Polynomial
+	 * @param p exponent
 	 */
 	public void power(int p) {
 		if (p == 0) {
@@ -219,6 +256,7 @@ public class Polynomial extends ValidExpression implements Serializable
 
 	/**
 	 * returns true if all terms of this epression are constant
+	 * @return true if all terms of this epression are constant
 	 */
 	public boolean hasOnlyConstantCoeffs() {
 		simplify();
@@ -231,6 +269,9 @@ public class Polynomial extends ValidExpression implements Serializable
 		return isConst;
 	}
 
+	/**
+	 * @return true iff all coefficients are integer constants
+	 */
 	public boolean isInteger() {
 		boolean isInt = true;
 		Term t;
@@ -248,6 +289,7 @@ public class Polynomial extends ValidExpression implements Serializable
 	/**
 	 * returns the sum of constant numbers in this Polynomial <BR>
 	 * returns 0 if there is no constant number
+	 * @return the sum of constant numbers in this Polynomial
 	 */
 	public ExpressionValue getConstantCoefficient() {
 		// Constants are coefficients without variables
@@ -259,6 +301,8 @@ public class Polynomial extends ValidExpression implements Serializable
 	 * returns 0 if variable does not occur <BR>
 	 * example: 3x -5y getCoefficient("y") returns -5.0 <BR>
 	 * 3x -72zz +5y +3zz getCoefficient("zz") returns -69.0 <BR>
+	 * @param variables variables string
+	 * @return coefficient
 	 */
 	public ExpressionValue getCoefficient(String variables) {
 		Term t, newTerm = new Term(kernel, new MyDouble(kernel, 0.0), variables);
@@ -272,10 +316,17 @@ public class Polynomial extends ValidExpression implements Serializable
 		return newTerm.coefficient;
 	}
 
+	/**
+	 * @param variables variables string
+	 * @return coefficient value
+	 */
 	public double getCoeffValue(String variables) {
 		return ((NumberValue) getCoefficient(variables).evaluate()).getDouble();
 	}
 
+	/**
+	 * @return value of constant coefficient
+	 */
 	public double getConstantCoeffValue() {
 		return getCoeffValue("");
 	}
@@ -336,6 +387,10 @@ public class Polynomial extends ValidExpression implements Serializable
 		// Application.debug("simplified to " + this);
 	}
 
+	/**
+	 * @param var variable name
+	 * @return true iff contains var
+	 */
 	boolean contains(String var) {
 		Iterator<Term> i = terms.iterator();
 		while (i.hasNext()) {
@@ -346,7 +401,7 @@ public class Polynomial extends ValidExpression implements Serializable
 	}
 
 	/**
-	 * returns the degree of the Polynomial (max length of variables in a Term)
+	 * @return the degree of the Polynomial (max length of variables in a Term)
 	 */
 	public int degree() {
 		// a quadratic Polynomial may only have terms with one or two variables
@@ -366,8 +421,10 @@ public class Polynomial extends ValidExpression implements Serializable
 		return deg;
 	}
 
-	/*
+	/**
 	 * eg isFreeOf('z') to check no terms containing z, z^2 etc
+	 * @param var variable name
+	 * @return true if does not contain var
 	 */
 	public boolean isFreeOf(char var) {
 		if (terms.size() == 0)
@@ -385,7 +442,7 @@ public class Polynomial extends ValidExpression implements Serializable
 	}
 
 	/**
-	 * returns 3 for eg x^3 y^2
+	 * @return 3 for eg x^3 y^2
 	 */
 	public int singleDegree() {
 		// a quadratic Polynomial may only have terms with one or two variables
