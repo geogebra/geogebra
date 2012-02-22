@@ -16,5 +16,5 @@ package geogebra.common.kernel;
  * @author Markus Hohenwarter
  */
 public interface Path extends PathOrPoint {
-	
+	//just tagging interface
 }

@@ -1148,4 +1148,10 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 		RootPanel.get().setStyleName("");
     }
 
+	@Override
+    protected void initGuiManager() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
 }

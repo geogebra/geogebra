@@ -23,7 +23,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
-import geogebra.common.kernel.MacroInterface;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -56,7 +55,7 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.Set;
 import java.util.TreeSet;
-
+@SuppressWarnings("javadoc")
 public abstract class AbstractApplication {
 	protected ScriptManagerCommon scriptManager = null;
 	public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loading.gif";
@@ -492,7 +491,7 @@ public abstract class AbstractApplication {
 		}
 
 		// note: lookup lower case of command name!
-		Object value = translateCommandTable.get(localname.toLowerCase());
+		String value = translateCommandTable.get(localname.toLowerCase());
 		if (value == null) {
 			fillCommandDictScripting();
 			if (translateCommandTableScripting != null) {
@@ -502,9 +501,8 @@ public abstract class AbstractApplication {
 		}
 		if (value == null) {
 			return localname;
-		} else {
-			return (String) value;
 		}
+		return value;
 	}
 
 	
@@ -518,7 +516,7 @@ public abstract class AbstractApplication {
 			return;
 		}
 
-		ArrayList<MacroInterface> macros = kernel.getAllMacros();
+		ArrayList<Macro> macros = kernel.getAllMacros();
 		for (int i = 0; i < macros.size(); i++) {
 			String cmdName = macros.get(i).getCommandName();
 			if (!commandDict.containsValue(cmdName)) {
@@ -533,7 +531,7 @@ public abstract class AbstractApplication {
 			return;
 		}
 
-		ArrayList<MacroInterface> macros = kernel.getAllMacros();
+		ArrayList<Macro> macros = kernel.getAllMacros();
 		for (int i = 0; i < macros.size(); i++) {
 			String cmdName = macros.get(i).getCommandName();
 			commandDict.removeEntry(cmdName);
@@ -632,7 +630,8 @@ public abstract class AbstractApplication {
 	 * @author Zoltan Kovacs <zoltan@geogebra.org>
 	 */
 
-	private String translationFixHu(String text) {
+	private static String translationFixHu(String inputText) {
+		String text=inputText;
 		// Fixing affixes.
 
 		// We assume that object names are usual object names like "P", "O_1"
@@ -730,20 +729,21 @@ public abstract class AbstractApplication {
 	 *            required length for the output
 	 * @return lowercased output
 	 */
-	private String translationFixPronouncedPrevChars(String text, int match,
+	private static String translationFixPronouncedPrevChars(String text, int match,
 			int length) {
+		int pos = match;
 		String rettext = "";
 		int rettextlen = 0;
 		String thisChar;
 		String ignoredChars = "_{}";
 
-		while ((rettextlen < length) && (match > 0)) {
-			thisChar = text.substring(match - 1, match);
+		while ((rettextlen < length) && (pos > 0)) {
+			thisChar = text.substring(pos - 1, pos);
 			if (ignoredChars.indexOf(thisChar) == -1) {
 				rettext = thisChar.toLowerCase() + rettext;
 				rettextlen++;
 			}
-			match--;
+			pos--;
 		}
 		return rettext;
 	}
@@ -763,9 +763,9 @@ public abstract class AbstractApplication {
 	 * @param prevChars
 	 * @return the corrected text
 	 */
-	private String translationFixHuAffixChange(String text, int match,
+	private static String translationFixHuAffixChange(String inputText, int match,
 			String affixes, String affixForm, String prevChars) {
-
+		String text = inputText;
 		String replace = "";
 
 		if ("-ra/-re".equals(affixes)) {
@@ -851,13 +851,12 @@ public abstract class AbstractApplication {
 		if ("".equals(replace)) {
 			// No replace.
 			return text;
-		} else {
-			int affixesLength = affixes.length();
-			// Replace.
-			text = text.substring(0, match) + "-" + replace
-					+ text.substring(match + affixesLength);
-			return text;
 		}
+		int affixesLength = affixes.length();
+		// Replace.
+		text = text.substring(0, match) + "-" + replace
+				+ text.substring(match + affixesLength);
+		return text;
 	}
 
 
@@ -912,11 +911,12 @@ public abstract class AbstractApplication {
 
 	
 	public void updateMaxLayerUsed(int layer) {
+		int newLayer=layer;
 		if (layer > EuclidianStyleConstants.MAX_LAYERS) {
-			layer = EuclidianStyleConstants.MAX_LAYERS;
+			newLayer = EuclidianStyleConstants.MAX_LAYERS;
 		}
 		if (layer > maxLayerUsed) {
-			maxLayerUsed = layer;
+			maxLayerUsed = newLayer;
 		}
 	}
 	
@@ -1456,7 +1456,7 @@ public abstract class AbstractApplication {
 	
 	public abstract DialogManager getDialogManager();
 
-	protected void initGuiManager() { }
+	protected abstract void initGuiManager();
 
 	// Michael Borcherds 2008-06-22
 	public static void printStacktrace(String message) {
@@ -1670,6 +1670,11 @@ public abstract class AbstractApplication {
 
 	public abstract String getColor(String string);
 
+	/**
+	 * TODO probably we should replace thismethodby something else as images are different in web  
+	 * @param fullPath path to image
+	 * @return
+	 */
 	public int getMD5folderLength(String fullPath) {
 		return 32;
 	}
@@ -1738,21 +1743,21 @@ public abstract class AbstractApplication {
 	 * 
 	 * @author Zbynek Konecny
 	 * @version 2010-05-26
-	 * @param macro
+	 * @param editMacro
 	 *            Tool to be edited
 	 */
-	public void openMacro(Macro macro) {
+	public void openMacro(Macro editMacro) {
 		String allXml = getXML();
 		String header = allXml.substring(0, allXml.indexOf("<construction"));
 		String footer = allXml.substring(allXml.indexOf("</construction>"),
 				allXml.length());
 		StringBuilder sb = new StringBuilder();
-		macro.getXML(sb);
+		editMacro.getXML(sb);
 		String macroXml = sb.toString();
 		String newXml = header
 				+ macroXml.substring(macroXml.indexOf("<construction"),
 						macroXml.indexOf("</construction>")) + footer;
-		this.macro = macro;
+		this.macro = editMacro;
 		setXML(newXml, true);
 	}
 	
@@ -1768,14 +1773,14 @@ public abstract class AbstractApplication {
 	}
 
 	public String getMacroXML() {
-		ArrayList<MacroInterface> macros = kernel.getAllMacros();
+		ArrayList<Macro> macros = kernel.getAllMacros();
 		return myXMLio.getFullMacroXML(macros);
 	}
 
 	public String getMacroXMLorEmpty() {
 		if (!kernel.hasMacros())
 			return "";
-		ArrayList<MacroInterface> macros = kernel.getAllMacros();
+		ArrayList<Macro> macros = kernel.getAllMacros();
 		if (macros.isEmpty())
 			return "";
 		return myXMLio.getFullMacroXML(macros);
@@ -2085,7 +2090,7 @@ public abstract class AbstractApplication {
 		selectedGeos.add(geo);
 		geo.setSelected(true);
 		if (repaint) {
-			((Kernel)kernel).notifyRepaint();
+			kernel.notifyRepaint();
 		}
 		updateSelection();
 	
@@ -2098,7 +2103,7 @@ public abstract class AbstractApplication {
 			geos.get(i).setSelected(true);
 		}
 		if (repaint) {
-			((Kernel)kernel).notifyRepaint();
+			kernel.notifyRepaint();
 		}
 		updateSelection();
 	}
@@ -2686,7 +2691,8 @@ public abstract class AbstractApplication {
 		return useFullGui;
 	}
 	
-	public void setUndoActive(boolean flag) {
+	public void setUndoActive(boolean undoActive) {
+		boolean flag = undoActive;
 		// don't allow undo when running with restricted permissions
 		if (flag && !hasFullPermissions) {
 			flag = false;

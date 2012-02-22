@@ -35,7 +35,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
-import geogebra.common.kernel.MacroInterface;
+import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.Relation;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -3300,7 +3300,7 @@ public class Application extends AbstractApplication implements
 	 * 
 	 * @return true if successful
 	 */
-	final public boolean saveMacroFile(File file, ArrayList<MacroInterface> macros) {
+	final public boolean saveMacroFile(File file, ArrayList<Macro> macros) {
 		try {
 			setWaitCursor();
 			((MyXMLio)myXMLio).writeMacroFile(file, macros);

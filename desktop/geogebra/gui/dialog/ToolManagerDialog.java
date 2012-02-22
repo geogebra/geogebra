@@ -15,7 +15,7 @@ package geogebra.gui.dialog;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
-import geogebra.common.kernel.MacroInterface;
+import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.gui.ToolNameIconPanel;
@@ -173,19 +173,19 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 
 		// we need to save all selected tools and all tools
 		// that are used by the selected tools
-		LinkedHashSet<MacroInterface> tools = new LinkedHashSet<MacroInterface>();
+		LinkedHashSet<Macro> tools = new LinkedHashSet<Macro>();
 		for (int i = 0; i < sel.length; i++) {
 			Macro macro = (Macro) sel[i];
-			ArrayList<MacroInterface> macros = macro.getUsedMacros();
+			ArrayList<Macro> macros = macro.getUsedMacros();
 			if (macros != null)
 				tools.addAll(macros);
 			tools.add(macro);
 		}
 
 		// create Macro array list from tools set
-		ArrayList<MacroInterface> macros = new ArrayList<MacroInterface>(
+		ArrayList<Macro> macros = new ArrayList<Macro>(
 				tools.size());
-		Iterator<MacroInterface> it = tools.iterator();
+		Iterator<Macro> it = tools.iterator();
 		while (it.hasNext()) {
 			macros.add(it.next());
 		}

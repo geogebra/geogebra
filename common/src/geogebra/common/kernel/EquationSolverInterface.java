@@ -17,6 +17,12 @@ public interface EquationSolverInterface {
 	 */
 	int polynomialRoots(double[] roots, boolean b);
 
+	/**
+	 * Computes all roots of a polynomial using Laguerre's method for degrees >
+	 * 3. The roots are polished and only distinct roots are returned.
+	 * 
+	 * @return number of realRoots found
+	 */
 	int polynomialComplexRoots(double[] real, double[] complex);
 
 }

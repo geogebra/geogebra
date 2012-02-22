@@ -94,7 +94,7 @@ public class Construction {
 
 	// list of Macro commands used in this construction
 	// TODO: specify type once Macro is ported
-	private ArrayList<MacroInterface> usedMacros;
+	private ArrayList<Macro> usedMacros;
 	/**
 	 * Added for Intergeo File Format (Yves Kreis) --> writes the <elements> and
 	 * the <constraints> part
@@ -2510,9 +2510,9 @@ public class Construction {
 	 * @param macro
 	 *            Macro to be added
 	 */
-	public final void addUsedMacro(MacroInterface macro) {
+	public final void addUsedMacro(Macro macro) {
 		if (usedMacros == null)
-			usedMacros = new ArrayList<MacroInterface>();
+			usedMacros = new ArrayList<Macro>();
 		usedMacros.add(macro);
 	}
 
@@ -2521,7 +2521,7 @@ public class Construction {
 	 * 
 	 * @return list of macros used in this construction
 	 */
-	public ArrayList<MacroInterface> getUsedMacros() {
+	public ArrayList<Macro> getUsedMacros() {
 		return usedMacros;
 	}
 

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.MacroInterface;
+import geogebra.common.kernel.Macro;
 import geogebra.common.main.AbstractApplication;
 
 public abstract class MyXMLio {
@@ -108,7 +108,7 @@ public abstract class MyXMLio {
 	/**
 	 * Returns XML representation of given macros in the kernel.
 	 */
-	public String getFullMacroXML(ArrayList<MacroInterface> macros) {
+	public String getFullMacroXML(ArrayList<Macro> macros) {
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);
 		addGeoGebraHeader(sb, true, null);

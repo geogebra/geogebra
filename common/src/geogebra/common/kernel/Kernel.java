@@ -4608,7 +4608,7 @@ public class Kernel {
 	 * @return output of macro algorithm
 	 */
 	
-	final public GeoElement[] useMacro(String[] labels, MacroInterface macro,
+	final public GeoElement[] useMacro(String[] labels, Macro macro,
 			GeoElement[] input) {
 		try {
 			AlgoMacro algo = new AlgoMacro(cons, labels, (Macro) macro, input);
@@ -4757,7 +4757,7 @@ public class Kernel {
 	 * 
 	 * @return
 	 */
-	public String getMacroXML(ArrayList<MacroInterface> macros) {
+	public String getMacroXML(ArrayList<Macro> macros) {
 		if (hasMacros())
 			return MacroManager.getMacroXML(macros);
 		return "";
@@ -4784,7 +4784,7 @@ public class Kernel {
 	/**
 	 * Returns a list with all currently registered macros.
 	 */
-	public ArrayList<MacroInterface> getAllMacros() {
+	public ArrayList<Macro> getAllMacros() {
 		if (macroManager == null) {
 			return null;
 		}

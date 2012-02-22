@@ -9,7 +9,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Macro;
-import geogebra.common.kernel.MacroInterface;
+import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.AbstractApplication;
@@ -176,19 +176,19 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI implements JavaScript
 
 	private void writeMacroImages(JavaScriptObject jszip) {
 		if (kernel.hasMacros()) {
-			ArrayList<MacroInterface> macros = kernel.getAllMacros();
+			ArrayList<Macro> macros = kernel.getAllMacros();
 			writeMacroImages(macros, jszip, "");
 		}
 	}
 
-	private void writeMacroImages(ArrayList<MacroInterface> macros, JavaScriptObject jszip, String filePath) {
+	private void writeMacroImages(ArrayList<Macro> macros, JavaScriptObject jszip, String filePath) {
 		// <-- Modified for Intergeo File Format (Yves Kreis)
 		if (macros == null)
 			return;
 
 		for (int i = 0; i < macros.size(); i++) {
 			// save all images in macro construction
-			Macro macro = (Macro) macros.get(i);
+			Macro macro = macros.get(i);
 			// Modified for Intergeo File Format (Yves Kreis) -->
 			// writeConstructionImages(macro.getMacroConstruction(), zip);
 			writeConstructionImages(macro.getMacroConstruction(), jszip, filePath);

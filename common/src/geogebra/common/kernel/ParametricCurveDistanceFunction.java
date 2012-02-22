@@ -25,6 +25,11 @@ public class ParametricCurveDistanceFunction implements RealRootFunction {
 	private double px, py;
 	private RealRootFunction funX, funY;
 	
+	/**
+	 * Creates a function for evaluating squared distance of (px,py)
+	 * from curve (px and py must be entered using a setter)
+	 * @param curve curve
+	 */
 	public ParametricCurveDistanceFunction(ParametricCurve curve) {		
 		funX = curve.getRealRootFunctionX();
 		funY = curve.getRealRootFunctionY();
@@ -33,6 +38,8 @@ public class ParametricCurveDistanceFunction implements RealRootFunction {
 	/**
 	 * Sets the point to be used in the distance function 
 	 * (funX(t) - Px)^2 + (funY(t) - Py)^2.
+	 * @param px distant point x-coord
+	 * @param py distant point y-coord
 	 */
 	public void setDistantPoint(double px, double py) {
 		this.px = px;

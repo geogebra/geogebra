@@ -37,7 +37,7 @@ import java.util.TreeSet;
  * 
  * @author Markus Hohenwarter
  */
-public class Macro implements MacroInterface {
+public class Macro  {
 	
 	private Kernel kernel;
 	private String cmdName = "", toolName = "", toolHelp = "";
@@ -666,7 +666,7 @@ public class Macro implements MacroInterface {
 	 * Returns list of macros used by this one
 	 * @return list of macros used by this one
 	 */
-	public ArrayList<MacroInterface> getUsedMacros() {
+	public ArrayList<Macro> getUsedMacros() {
 		return macroCons.getUsedMacros();
 	}
 	

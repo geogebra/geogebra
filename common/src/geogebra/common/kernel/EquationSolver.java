@@ -81,12 +81,7 @@ public class EquationSolver implements EquationSolverInterface {
 		return Math.max(0, realRoots);
 	}
 
-	/**
-	 * Computes all roots of a polynomial using Laguerre's method for degrees >
-	 * 3. The roots are polished and only distinct roots are returned.
-	 * 
-	 * @return number of realRoots found
-	 */
+	
 	final public int polynomialComplexRoots(double[] real, double complex[]) {
 		int ret = -1;
 		switch (real.length - 1) { // degree of polynomial
