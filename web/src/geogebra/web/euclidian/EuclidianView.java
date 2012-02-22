@@ -413,8 +413,8 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     public boolean requestFocusInWindow() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return false;
+		g2p.getCanvas().getCanvasElement().focus();
+		return true;
     }
 
 	public void setDefaultCursor() {

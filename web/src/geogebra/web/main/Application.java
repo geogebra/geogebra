@@ -281,7 +281,6 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 
 	@Override
 	public void storeUndoInfo() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 		if (isUndoActive()) {
 			kernel.storeUndoInfo();
 			// isSaved = false;
