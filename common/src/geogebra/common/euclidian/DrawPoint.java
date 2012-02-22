@@ -321,7 +321,7 @@ public final class DrawPoint extends Drawable {
 
 	private void drawClippedSection(GeoElement geo2, geogebra.common.awt.Graphics2D g2) {
 
-		switch (geo.getGeoClassType()) {
+		switch (geo2.getGeoClassType()) {
 		case LINE:
 			drawable = new DrawLine(view, (GeoLine) geo2);
 			break;
