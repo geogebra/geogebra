@@ -18,7 +18,9 @@ public class SingularWebService {
 	public boolean testConnection() {
 		String command = wsHost + "/" + testConnectionCommand;
 		HttpRequest httpr = UtilFactory.prototype.newHttpRequest();
-		String response = httpr.getResponse(command);//FIXME: unimplemented in GeoGebraWeb!
+		String response = httpr.getResponse(command); // FIXME: unimplemented in GeoGebraWeb!
+		if (response == null)
+			return false;
 		if (response.equals("ok"))
 			return true;
 		return false;
