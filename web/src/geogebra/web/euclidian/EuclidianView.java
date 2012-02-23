@@ -11,6 +11,7 @@ import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.GetViewId;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.javax.swing.Box;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -495,7 +496,12 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     public void setBackground(geogebra.common.awt.Color bgColor) {
-	    AbstractApplication.debug("implementation needed really"); // TODO
+		if (bgColor != null)
+			backgroundColor = AwtFactory.prototype.newColor(
+			bgColor.getRed(),
+			bgColor.getBlue(),
+			bgColor.getGreen(),
+			bgColor.getAlpha());
     }
 
 	@Override
