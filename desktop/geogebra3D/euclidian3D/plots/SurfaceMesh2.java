@@ -808,7 +808,11 @@ public class SurfaceMesh2 extends DynamicMesh2 implements OctreeCollection {
 			throw new RuntimeException();
 		
 		levelOfDetail = l;
-		maxErrorCoeff = 1 / (Math.pow(10, 1.6 + l * 0.15));
+		//maxErrorCoeff = 1 / (Math.pow(10, 1.6 + l * 0.15));
+		//maxErrorCoeff = 1 / (Math.pow(10, 3.7 + (l-5) * 0.4));
+		maxErrorCoeff = 1 / (Math.pow(10, 1.7 + l * 0.4));
+		
+		
 	}
 
 	/**
