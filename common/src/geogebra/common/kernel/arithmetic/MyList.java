@@ -39,7 +39,7 @@ import java.util.HashSet;
  * @author Markus Hohenwarter
  */
 public class MyList extends ValidExpression implements ListValue,
-		ReplaceableValue {
+		ReplaceableValue, ReplaceChildrenByValues {
 
 	private Kernel kernel;
 	private int matrixRows = -1; // -1 means not calculated, 0 means not a
@@ -1024,6 +1024,28 @@ public class MyList extends ValidExpression implements ListValue,
 	 */
 	public boolean isDefined() {
 		return isDefined;
+	}
+
+	public void replaceChildrenByValues(GeoElement geo) {
+		for(int i=0;i<size();i++){
+			ExpressionValue insert = getListElement(i);
+			if(insert instanceof ReplaceChildrenByValues)
+				((ReplaceChildrenByValues)insert).replaceChildrenByValues(geo);
+		}
+		
+	}
+
+	/**
+	 * Same as deep copy, but doesn't deep copy elements
+	 * @param kernel2 kernel
+	 * @return copy of this list
+	 */
+	public MyList getCopy(Kernel kernel2) {
+		MyList ret = new MyList(kernel,size());
+		for(int i=0;i<size();i++){
+			ret.listElements.add(ExpressionNode.copy(listElements.get(i), kernel2));
+		}
+		return ret;
 	}
 
 }

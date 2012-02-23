@@ -47,7 +47,7 @@ import java.util.TreeSet;
  * @author Markus
  */
 public class ExpressionNode extends ValidExpression implements
-		ReplaceableValue, ExpressionNodeConstants {
+		ReplaceableValue, ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	private AbstractApplication app;
 	private Kernel kernel;
@@ -252,6 +252,10 @@ public class ExpressionNode extends ValidExpression implements
 		// Application.debug("copy ExpressionValue input: " + ev);
 		if (ev.isExpressionNode()) {
 			ExpressionNode en = (ExpressionNode) ev;
+			ret = en.getCopy(kernel);
+		}
+		else if (ev instanceof MyList) {
+			MyList en = (MyList) ev;
 			ret = en.getCopy(kernel);
 		}
 		// deep copy
@@ -898,11 +902,6 @@ public class ExpressionNode extends ValidExpression implements
 		return this;
 	}
 
-	/**
-	 * Replaces geo and all its dependent geos in this tree by copies of their
-	 * values.
-	 * @param geo geo to be replaced
-	 */
 	public void replaceChildrenByValues(GeoElement geo) {
 		// left tree
 		if (left.isGeoElement()) {
@@ -910,12 +909,8 @@ public class ExpressionNode extends ValidExpression implements
 			if ((left == geo) || treeGeo.isChildOf(geo)) {
 				left = treeGeo.copyInternal(treeGeo.getConstruction());
 			}
-		} else if (left.isExpressionNode()) {
-			((ExpressionNode) left).replaceChildrenByValues(geo);
-		}
-		// handle command arguments
-		else if (left instanceof Command) {
-			((Command) left).replaceChildrenByValues(geo);
+		} else if (left instanceof ReplaceChildrenByValues) {
+			((ReplaceChildrenByValues) left).replaceChildrenByValues(geo);
 		}
 
 		// right tree
@@ -925,12 +920,8 @@ public class ExpressionNode extends ValidExpression implements
 				if ((right == geo) || treeGeo.isChildOf(geo)) {
 					right = treeGeo.copyInternal(treeGeo.getConstruction());
 				}
-			} else if (right.isExpressionNode()) {
-				((ExpressionNode) right).replaceChildrenByValues(geo);
-			}
-			// handle command arguments
-			else if (right instanceof Command) {
-				((Command) right).replaceChildrenByValues(geo);
+			} else if (right instanceof ReplaceChildrenByValues) {
+				((ReplaceChildrenByValues) right).replaceChildrenByValues(geo);
 			}
 		}
 	}

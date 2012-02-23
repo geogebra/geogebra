@@ -35,7 +35,8 @@ import java.util.Set;
  * 
  * @author Markus
  */
-public class Command extends ValidExpression implements ReplaceableValue {
+public class Command extends ValidExpression implements ReplaceableValue,
+	ReplaceChildrenByValues{
 
 	// list of arguments
 	private ArrayList<ExpressionNode> args = new ArrayList<ExpressionNode>();
@@ -332,12 +333,6 @@ public class Command extends ValidExpression implements ReplaceableValue {
 		return c;
 	}
 
-	/**
-	 * Replaces geo and all its dependent geos in this tree by copies of their
-	 * values.
-	 * @param geo geo to replace
-	 */
-	
 	public void replaceChildrenByValues(GeoElement geo) {
 		int size = args.size();
 		for (int i = 0; i < size; i++) {
