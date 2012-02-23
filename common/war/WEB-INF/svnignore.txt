@@ -1,3 +1,2 @@
 classes
 deploy
-lib
