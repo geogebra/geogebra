@@ -350,8 +350,8 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 
 		Coords n = v0.crossProduct(v1);
 
-		double vol0 = Math.abs(v2.dotproduct(n));
-		double vol1 = Math.abs(v3.dotproduct(n));
+		double vol0 = Math.abs(v0.dotproduct(v3.crossProduct(v1)));
+		double vol1 = Math.abs(v0.dotproduct(v2.crossProduct(v1)));
 
 		if (Double.isNaN(vol0) || Double.isInfinite(vol0))
 			// use a different error measure for infinite points
