@@ -1,14 +1,16 @@
-package geogebra.web.util;
-import geogebra.common.util.AbstractHttpRequest;
+package geogebra.web.factories;
+
 import com.google.gwt.http.client.*;
 
-public class HttpRequest extends AbstractHttpRequest {
+public class UtilFactory extends geogebra.common.factories.UtilFactory {
+
 	String answer;
 	
 	/* The following code has been copied mostly from
 	 * http://code.google.com/intl/hu-HU/webtoolkit/doc/latest/DevGuideServerCommunication.html#DevGuideHttpRequests
 	 */
-    public String getResponse(String url) {
+	@Override
+	public String newHttpRequestResponse(String url) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(url));
 		
 		try {
@@ -34,4 +36,3 @@ public class HttpRequest extends AbstractHttpRequest {
     }
 
 }
-

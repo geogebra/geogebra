@@ -19,13 +19,15 @@ package geogebra.gui.app;
 
 import geogebra.CommandLineArguments;
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.cas.singularws.SingularWebService;
+import geogebra.common.factories.UtilFactory;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.DrawEquation;
 import geogebra.gui.FileDropTargetListener;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
-import geogebra.util.HttpRequest;
+import geogebra.common.factories.UtilFactory;
 import geogebra.util.Util;
 
 import java.awt.Color;
@@ -426,13 +428,23 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 			if (!app.isApplet()) {
 				app.getPythonBridge();
 			}
+			
+			// Initialize Singular webservice (not yet implemented)
+			// initSingularWS();
 		}
 
+		/**
+		 * Initializes Singular webservice.
+		 */
+		private void initSingularWS() {
+			SingularWebService sws = new SingularWebService();
+			sws.enable();
+		}
+		
 		/**
 		 * Checks if a newer version is available.
 		 * It runs every month (30 days). 
 		 */
-		
 		private void checkVersion() {
 			String lastVersionCheck = GeoGebraPreferences.getPref()
 					.loadPreference(GeoGebraPreferences.VERSION_LAST_CHECK, "");
@@ -459,9 +471,10 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 
 			if (checkNeeded) {
 				String newestVersion = null;
+				
 				try {
-					HttpRequest r = new HttpRequest();
-					newestVersion = r.getResponse(VERSION_URL);
+
+					newestVersion = UtilFactory.prototype.newHttpRequestResponse(VERSION_URL);
 					newestVersion = newestVersion.replaceAll("-", ".");
 					Long newestVersionL = versionToLong(newestVersion);
 					Long currentVersionL = versionToLong(GeoGebraConstants.VERSION_STRING);

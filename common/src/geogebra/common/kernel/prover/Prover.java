@@ -8,6 +8,10 @@ package geogebra.common.kernel.prover;
  * Thanks to Tomas Recio, Francisco Botana, Miguel A. Abanades,
  * Sergio Arbeo, Predrag Janicic and Ivan Petrovic for their
  * kind help. And Markus, of course. ;-)
+ * 
+ * Tomas' and Francisco's work has partially been supported by
+ * grants MTM2008-M04699-C03-03 and MTM2011-25816-C02-02.
+ * 
  */
 
 import geogebra.common.kernel.Construction;

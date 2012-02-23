@@ -34,7 +34,7 @@ public class Web implements EntryPoint {
 
 	public void onModuleLoad() {
 		//for debug
-		//DebugPrinterWeb.DEBUG_IN_PRODUCTION = true;
+		// DebugPrinterWeb.DEBUG_IN_PRODUCTION = true;
 		//show splash
 		startGeoGebra(getGeoGebraMobileTags());
 	}

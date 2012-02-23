@@ -409,6 +409,7 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 		geogebra.common.factories.FormatFactory.prototype = new geogebra.web.factories.FormatFactory();
 		geogebra.common.factories.CASFactory.prototype = new geogebra.web.factories.CASFactory();
 		geogebra.common.factories.SwingFactory.prototype = new geogebra.web.factories.SwingFactory();
+		geogebra.common.factories.UtilFactory.prototype = new geogebra.web.factories.UtilFactory();
 		geogebra.common.util.StringUtil.prototype = new geogebra.common.util.StringUtil();
 		// TODO: probably there is better way
 		geogebra.common.awt.Color.black = geogebra.web.awt.Color.black;

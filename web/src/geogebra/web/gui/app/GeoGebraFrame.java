@@ -1,6 +1,7 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.cas.singularws.SingularWebService;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.gui.SplashDialog;
 import geogebra.web.helper.UrlFetcherImpl;
@@ -204,5 +205,5 @@ public class GeoGebraFrame extends VerticalPanel {
 		}
 		return false;
 	}
-
+	
 }
