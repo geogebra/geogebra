@@ -499,10 +499,20 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
     }
 
 	@Override
-    public void setPreferredSize(Dimension preferredSize) {
-	    g2p.setPreferredSize(preferredSize);
-	    setReIniting(false);
-    }
+  public void setPreferredSize(Dimension preferredSize) {
+    g2p.setPreferredSize(preferredSize);
+    updateSize();
+    setReIniting(false);
+  }
+
+	/**
+	 * Updates the size of the canvas and coordinate system
+	 * @param width the new width (in pixel)
+	 * @param height the new height (in pixel)
+	 */
+	public void setPreferredSize(int width, int height) {
+		setPreferredSize(new geogebra.web.awt.Dimension(width, height));
+	}
 
 	public void setDragCursor() {
 		((Application)application).resetCursor();

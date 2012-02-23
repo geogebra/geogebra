@@ -10,9 +10,12 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.euclidian.EuclidianView;
 import geogebra.web.main.Application;
 
 import java.util.ArrayList;
+
+import com.google.gwt.user.client.ui.AbsolutePanel;
 
 public class GuiManager extends geogebra.common.gui.GuiManager {
 
@@ -20,6 +23,9 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	public Application app;
 	protected Kernel kernel;
+
+	private AbsolutePanel main;
+
 	private int width;
 	private int height;
 
@@ -62,15 +68,14 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	public DialogManager getDialogManager() {
 		if (dialogManager == null) {
 			Application.debug("unimplemented");
-			//dialogManager = new DialogManagerWeb(app);
+			// dialogManager = new DialogManagerWeb(app);
 		}
 		return dialogManager;
 	}
 
 	@Override
 	public void showPopupMenu(ArrayList<GeoElement> selectedGeos,
-	        EuclidianViewInterfaceCommon euclidianViewInterfaceCommon,
-	        Point mouseLoc) {
+			EuclidianViewInterfaceCommon euclidianViewInterfaceCommon, Point mouseLoc) {
 		// TODO Auto-generated method stub
 		AbstractApplication.debug("unimplemented method");
 
@@ -127,7 +132,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	@Override
 	public void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
-	        Point mouseLoc) {
+			Point mouseLoc) {
 		// TODO Auto-generated method stub
 		AbstractApplication.debug("unimplemented method");
 
@@ -197,19 +202,23 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	}
 
 	@Override
-    public void doAfterRedefine(GeoElement geo) {
-	    // TODO Auto-generated method stub
+	public void doAfterRedefine(GeoElement geo) {
+		// TODO Auto-generated method stub
 		AbstractApplication.debug("unimplemented method");
-	    
-    }
+
+	}
 
 	@Override
-    public void updateSpreadsheetColumnWidths() {
-	    // TODO Auto-generated method stub
-		Application.debug("unimplemented");	    
-    }
+	public void updateSpreadsheetColumnWidths() {
+		// TODO Auto-generated method stub
+		Application.debug("unimplemented");
+	}
 
-	public void resize(int width, int height){
-		
+	public void resize(int width, int height) {
+		this.width = width;
+		this.height = height;
+
+		// experimental resize of canvas
+		app.getEuclidianView1().setPreferredSize(width, height);
 	}
 }
