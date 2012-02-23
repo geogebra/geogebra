@@ -42,7 +42,7 @@ public class Box extends geogebra.common.javax.swing.Box{
 
 	@Override
     public void setBounds(Rectangle rect) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+	    AbstractApplication.debug("implementation needed - just finishing"); // TODO
 	    impl.setWidth(rect.getWidth() + "");
 	    impl.setHeight(rect.getHeight() + "");
 	    
@@ -64,7 +64,7 @@ public class Box extends geogebra.common.javax.swing.Box{
 
 	@Override
     public Rectangle getBounds() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+	    AbstractApplication.debug("implementation needed - just finishing"); // TODO
 	    return new geogebra.web.awt.Rectangle(impl.getAbsoluteLeft(), impl.getAbsoluteTop(),
 	    		impl.getOffsetWidth(), impl.getOffsetHeight());
     }

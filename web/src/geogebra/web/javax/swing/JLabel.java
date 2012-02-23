@@ -23,7 +23,7 @@ public class JLabel extends geogebra.common.javax.swing.JLabel {
 	
 	@Override
     public void setVisible(boolean b) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+	    AbstractApplication.debug("implementation needed - just finishing"); // TODO
 	    impl.setVisible(b);
     }
 
@@ -36,7 +36,6 @@ public class JLabel extends geogebra.common.javax.swing.JLabel {
 	@Override
     public void setOpaque(boolean b) {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
     }
 
 	@Override

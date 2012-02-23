@@ -359,7 +359,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
 	@Override
     public void shear(double shx, double shy) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
 //		savedTransform.concatenate(
 //				new geogebra.web.awt.AffineTransform(
 //						1, shy, shx, 1, 0, 0));
@@ -398,7 +398,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
 	@Override
     public Paint getPaint() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
 		return null;
 	}
 
@@ -430,7 +430,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	@Override
     public BasicStroke getStroke() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
 
 		return new geogebra.web.awt.BasicStroke(
 			(float) context.getLineWidth(), 

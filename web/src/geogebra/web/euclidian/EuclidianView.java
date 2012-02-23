@@ -305,7 +305,9 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     public Font getFont() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+
+		//TODO: This should return the font of the main canvas/Graphics2D
+	    AbstractApplication.debug("implementation needed really");
 	    return g2dtemp.getFont();
     }
 
@@ -315,16 +317,16 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     protected void setHeight(int h) {
-	    // what should this method do in Web and in Desktop? 
-	 	AbstractApplication.debug("implementation needed"); // TODO Auto-generated 
+	    //TODO: what should this method do in Web and in Desktop? 
+	 	AbstractApplication.debug("implementation needed really"); 
 	 	//g2p.setCoordinateSpaceWidth(h); 
 	 	//g2p.setWidth(h); 
     }
 
 	@Override
     protected void setWidth(int h) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+	    //TODO: what should this method do in Web and in Desktop? 
+	    AbstractApplication.debug("implementation needed really");
     }
 
 
@@ -340,12 +342,10 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     protected void setStyleBarMode(int mode) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+	    AbstractApplication.debug("implementation needed for GUI"); // TODO
     }
-	
-	
-	
+
+
 	private ImageElement getResetImage() {
 		if (resetImage == null) {
 			resetImage = getApplication().getRefreshViewImage();
@@ -484,8 +484,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     protected void drawActionObjects(Graphics2D g) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+	    AbstractApplication.debug("implementation needed really"); // TODO
     }
 
 
@@ -496,8 +495,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     public void setBackground(geogebra.common.awt.Color bgColor) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+	    AbstractApplication.debug("implementation needed really"); // TODO
     }
 
 	@Override
@@ -553,7 +551,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     public void add(Box box) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+	    AbstractApplication.debug("implementation needed - just finishing"); // TODO
 	    getApplication().getEuclidianViewpanel().add(
 	    		geogebra.web.javax.swing.Box.getImpl((geogebra.web.javax.swing.Box) box),
 	    		(int)box.getBounds().getX(), (int)box.getBounds().getY());
@@ -562,7 +560,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     public void remove(Box box) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed - just finishing"); // TODO
 	    getApplication().getEuclidianViewpanel().remove(
 	    		geogebra.web.javax.swing.Box.getImpl((geogebra.web.javax.swing.Box) box));
 	    

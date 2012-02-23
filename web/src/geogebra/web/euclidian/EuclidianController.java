@@ -207,13 +207,13 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 	@Override
 	protected void initToolTipManager() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
 		
 	}
 
 	@Override
 	protected GeoElement[] createCircle2ForPoints3D(GeoPointND p0, GeoPointND p1) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed for 3D"); // TODO Auto-generated
 		return null;
 	}
 

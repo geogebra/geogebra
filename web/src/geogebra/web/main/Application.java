@@ -348,13 +348,13 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 
 	@Override
 	public void showError(String s) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
 
 	}
 
 	@Override
 	public String getTraceXML(GeoElement geoElement) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
 		return null;
 	}
 
@@ -397,7 +397,7 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 
 	@Override
 	public void evalScript(AbstractApplication app, String script, String arg) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
 
 	}
 
@@ -623,19 +623,19 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 
 	@Override
 	public void showRelation(GeoElement geoElement, GeoElement geoElement2) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
 
 	}
 
 	@Override
 	public void showError(MyError e) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
 
 	}
 
 	@Override
 	public void showError(String string, String str) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
 
 	}
 
@@ -660,13 +660,13 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 
 	@Override
 	public double getWidth() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
 		return 0;
 	}
 
 	@Override
 	public double getHeight() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
 		return 0;
 	}
 
@@ -711,13 +711,13 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 	@Override
 	public AlgoElement newAlgoShortestDistance(Construction cons, String label,
 			GeoList list, GeoPointND start, GeoPointND end, GeoBoolean weighted) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
 		return null;
 	}
 
 	@Override
 	public void updateStyleBars() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed for GUI"); // TODO Auto-generated
 
 	}
 
@@ -751,13 +751,13 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 
 	@Override
 	public SoundManager getSoundManager() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed for GUI"); // TODO Auto-generated
 		return null;
 	}
 
 	@Override
 	public CommandProcessor newCmdBarCode() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
 		return null;
 	}
 
@@ -793,7 +793,7 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 
 	@Override
 	public String getScriptingCommand(String internal) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
 		return null;
 	}
 
@@ -838,7 +838,7 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 
 	@Override
 	public boolean isIniting() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
 		return false;
 	}
 
@@ -914,7 +914,7 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 
 	@Override
 	public void updateUI() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed for GUI"); // TODO Auto-generated
 
 	}
 
@@ -926,7 +926,7 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 
 	@Override
 	protected void getWindowLayoutXML(StringBuilder sb, boolean asPreference) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed for GUI"); // TODO Auto-generated
 
 	}
 
@@ -1100,7 +1100,7 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 	}
 
 	public void onKeyDown(KeyDownEvent event) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
 
 	}
 

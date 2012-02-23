@@ -35,7 +35,6 @@ public class TextLayout implements geogebra.common.awt.font.TextLayout {
 	}
 
 	public Rectangle2D getBounds() {
-	    //AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    return new geogebra.web.awt.Rectangle((int)getAdvance(),(int)getAscent());
     }
 

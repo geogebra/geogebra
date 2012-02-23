@@ -17,22 +17,22 @@ public class EuclidianStyleBar implements geogebra.common.euclidian.EuclidianSty
 	public void updateButtonPointCapture(int mode) { }
 
 	public void setMode(int mode) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+	    AbstractApplication.debug("implementation needed for GUI"); // TODO Auto-generated
 	    
     }
 
 	public void setLabels() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+	    AbstractApplication.debug("implementation needed for GUI"); // TODO Auto-generated
 	    
     }
 
 	public void restoreDefaultGeo() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+	    AbstractApplication.debug("implementation needed for GUI"); // TODO Auto-generated
 	    
     }
 
 	public void updateStyleBar() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+	    AbstractApplication.debug("implementation needed for GUI"); // TODO Auto-generated
 	    
     }
 

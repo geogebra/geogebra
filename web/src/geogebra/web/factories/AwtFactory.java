@@ -177,7 +177,7 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 	/*
 	@Override
     public Area newArea(GeneralPathClipped hypRight) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+	    AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
 	    return null;
     }
     */
@@ -226,7 +226,7 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 
 	@Override
     public FocusListener newFocusListener(Object listener) {
-	    AbstractApplication.debug("Implementation needed"); // TODO Auto-generated method stub
+	    AbstractApplication.debug("Implementation needed really"); // TODO
 	    return null;
     }
 
