@@ -70,14 +70,14 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	@Override
     public void draw3DRect(int x, int y, int width, int height, boolean raised) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed for 3D"); // TODO Auto-generated
 
 	}
 
 	
 	@Override
     public void fill3DRect(int x, int y, int width, int height, boolean raised) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed for 3D"); // TODO Auto-generated
 
 	}
 
@@ -129,7 +129,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
 	@Override
     public boolean drawImage(Image img, AffineTransform xform, ImageObserver obs) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed for beauty"); // TODO Auto-generated
 		return false;
 	}
 

@@ -38,10 +38,12 @@ public abstract class DebugPrinter {
 			print(ss,"",0);
 			return;
 		}
-		if(s.toLowerCase().equals("implementation needed")){
-			if(reportedImpls.contains(callerClassName+callerMethodName))
-				return;
-			reportedImpls.add(callerClassName+callerMethodName);
+		if(s.length() >= 21) {
+			if (s.toLowerCase().substring(0,21).equals("implementation needed")){
+				if(reportedImpls.contains(callerClassName+callerMethodName))
+					return;
+				reportedImpls.add(callerClassName+callerMethodName);
+			}
 		}
 		StringBuilder sb = new StringBuilder("*** Message from ");
 		sb.append("[");

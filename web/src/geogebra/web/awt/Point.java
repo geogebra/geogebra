@@ -41,8 +41,6 @@ public class Point extends geogebra.common.awt.Point {
 
 	
     public double distance(double x, double y) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    return 0;
+    	return impl.distance(x, y);
     }
-
 }

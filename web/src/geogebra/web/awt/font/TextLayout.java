@@ -58,8 +58,7 @@ public class TextLayout implements geogebra.common.awt.font.TextLayout {
 		g2.setFont(font);
 		g2.drawString(str, x, y);
 		g2.setFont(tempFont);
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
+	    AbstractApplication.debug("implementation needed - just finishing"); // TODO
     }
 
 }

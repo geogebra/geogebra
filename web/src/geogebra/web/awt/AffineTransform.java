@@ -105,13 +105,6 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
 	    return ((AffineTransform)at2).at;
     }
 
-	/*
-	public void transform(PathPoint p, PathPoint p2) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-	    
-    }
-    */
-
 	public void transform(Point2D p, Point2D p2) {
 		geogebra.web.openjdk.awt.geom.Point2D point = geogebra.web.awt.Point2D.getGawtPoint2D(p);
 		geogebra.web.openjdk.awt.geom.Point2D point2 = geogebra.web.awt.Point2D.getGawtPoint2D(p2); 

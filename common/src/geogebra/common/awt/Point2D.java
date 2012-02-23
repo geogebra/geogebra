@@ -41,13 +41,12 @@ public abstract class Point2D {
 
 		@Override
 		public double distance(Point2D q) {
-			// TODO Auto-generated method stub
-			return 0;
+			return Math.sqrt(Point2D.distanceSq(getX(), getY(), q.getX(), q.getY()));
 		}
 
 		@Override
 		public double distance(double x, double y) {
-			return Point2D.distanceSq(getX(), getY(), x, y);
+			return Math.sqrt(Point2D.distanceSq(getX(), getY(), x, y));
 		}
 		
 	}
