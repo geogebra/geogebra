@@ -354,7 +354,7 @@ public abstract class DynamicMesh2 {
 	 * @return false if no more updates are needed
 	 */
 	public boolean optimize() {
-		return optimizeSub(stepRefinement);
+		 return optimizeSub(stepRefinement);
 	}
 
 	/**
@@ -512,8 +512,8 @@ public abstract class DynamicMesh2 {
 	 *            the target element
 	 */
 	protected void split(DynamicMeshElement2 t) {
-		if (t == null)
-			return;
+		if (t == null || t.ignoreFlag)
+			return;		
 		
 		// don't split an element that has already been split
 		if (t.isSplit())

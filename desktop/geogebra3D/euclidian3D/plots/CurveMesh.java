@@ -4,7 +4,6 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra3D.euclidian3D.BucketAssigner;
 import geogebra3D.euclidian3D.CurveTriList;
 import geogebra3D.euclidian3D.TriListElem;
-import geogebra3D.euclidian3D.plots.DynamicMesh2.Side;
 import geogebra3D.kernel3D.GeoCurveCartesian3D;
 
 import java.util.HashMap;
@@ -27,16 +26,16 @@ class CurveSegment extends DynamicMeshElement2 {
 	private float scale;
 
 	/** parameter values at the start, middle and end of the segment */
-	double[] params = new double[3];
+	double param;
 
 	/** positions at the start/end of the sement */
-	Coords[] vertices = new Coords[3];
+	Coords vertex;
 	Coords alt = null;
 	Coords altDer = null;
 	double altParam;
 
 	/** tangents at start, middle and end positions */
-	public Coords[] derivs = new Coords[3];
+	public Coords deriv;
 
 	/** triangle list element */
 	public TriListElem triListElem;
@@ -62,44 +61,32 @@ class CurveSegment extends DynamicMeshElement2 {
 	 * @param version
 	 *            the current version of the object
 	 */
-	public CurveSegment(CurveMesh mesh, int level, double pa1, double pa2,
+	CurveSegment(CurveMesh mesh, int level, double pa,
 			int version) {
-		super(mesh, level, false, version);
-
-		Coords v1 = mesh.curve.evaluateCurve(pa1);
-		Coords v2 = mesh.curve.evaluateCurve(pa2);
-		Coords t1 = approxDeriv(pa1, v1);
-		Coords t2 = approxDeriv(pa2, v2);
-
-		init(pa1, pa2, v1, v2, t1, t2);
+		super(mesh, level, true, version);
+		param = pa;
+		setSplit(true);
+		vertex = calcVertex(pa);
+		deriv = approxDeriv(pa, vertex);
 	}
 
-	private CurveSegment(CurveMesh mesh, int level, double pa1, double pa2,
-			Coords v1, Coords v2, Coords t1, Coords t2, CurveSegment parent,
-			int version) {
+	CurveSegment(CurveMesh mesh, int level, CurveSegment p0, CurveSegment p1, int version) {
 		super(mesh, level, false, version);
-		parents[0] = parent;
-		init(pa1, pa2, v1, v2, t1, t2);
+		parents[0] = p0;
+		parents[1] = p1;
+		init();
 	}
 
-	private void init(double pa1, double pa2, Coords v1, Coords v2, Coords t1,
-			Coords t2) {
+	private void init() {
+		double pa0 = ((CurveSegment)parents[0]).getParam(0);
+		double pa1 = ((CurveSegment)parents[1]).getParam(1);
+		length = Math.abs(pa0 - pa1);
 
-		params[0] = pa1;
-		params[2] = pa2;
-
-		vertices[0] = v1;
-		vertices[2] = v2;
-
-		derivs[0] = t1;
-		derivs[2] = t2;
-
-		length = Math.abs(pa2 - pa1);
-
+		alt = altDer = null;
+		
 		// generate middle point
-		params[1] = (pa1 + pa2) * 0.5;
-		vertices[1] = calcMainVertex(params[1]);
-//		approxMainTangent();
+		param = (pa0 + pa1) * 0.5;
+		vertex = calcMainVertex(param);
 
 		setBoundingBox();
 		generateError();
@@ -109,20 +96,22 @@ class CurveSegment extends DynamicMeshElement2 {
 	private static final double warpedDiscontThreshold = Math.cos(Math.atan(discontThreshold));
 	
 	private Coords calcMainVertex(double u) {
+		final CurveSegment p0 = (CurveSegment) parents[0];
+		final CurveSegment p1 = (CurveSegment) parents[1];
 		Coords f = calcVertex(u);
 		
 		// if segment appears partly undefined, project vertex onto border
-		final boolean v0def = vertices[0].isDefined();
-		final boolean v2def = vertices[2].isDefined();
+		final boolean v0def = p0.getVertex(0).isDefined();
+		final boolean v2def = p1.getVertex(1).isDefined();
 		if(v0def != v2def) {
 			// perform binary search for edge
 			double ui = u;
-			double delta = (params[2] - params[0]) * 0.25;
 			final boolean dir = v0def;
-			double lop = params[0];
-			double hip = params[2];
-			Coords lo = vertices[0];
-			Coords hi = vertices[2];
+			double lop = p0.getParam(0);
+			double hip = p1.getParam(1);
+			double delta = (hip-lop) * 0.25;
+			Coords lo = p0.getVertex(0);
+			Coords hi = p1.getVertex(1);
 			if (dir ^ f.isDefined()) {
 				hi = f;
 				hip = ui;
@@ -150,44 +139,46 @@ class CurveSegment extends DynamicMeshElement2 {
 			}
 			alt = hi;
 			f = lo;
-			params[1] = lop;
+			param = lop;
 			altParam = hip;
 		} else {
 			// if infinite, attempt to move in some direction
 			final double d = 1e-8;
-			Coords deriv;
+			Coords der;
 			if (!f.isFinite() || !f.isDefined()) {
 				f = calcVertex(u + d);
-				params[1] = u+d;
+				param = u+d;
 				if (!f.isFinite() || !f.isDefined()) {
 					f = calcVertex(u - d);
-					params[1] = u-d;
-					deriv = f.sub(calcVertex(u - d - CurveMesh.deltaParam)).mul(CurveMesh.invDeltaParam);
+					param = u-d;
+					der = f.sub(calcVertex(u - d - CurveMesh.deltaParam)).mul(CurveMesh.invDeltaParam);
 				} else {
-					deriv = calcVertex(u + d + CurveMesh.deltaParam).sub(f).mul(CurveMesh.invDeltaParam);
+					der = calcVertex(u + d + CurveMesh.deltaParam).sub(f).mul(CurveMesh.invDeltaParam);
 				}
 			} else {
-				deriv = calcVertex(u + CurveMesh.deltaParam).sub(f).mul(CurveMesh.invDeltaParam);
+				der = calcVertex(u + CurveMesh.deltaParam).sub(f).mul(CurveMesh.invDeltaParam);
 			}
 			
 			//perform discontinuity check
 			Coords f0 = f;
+			Coords der0 = der;
 			
 			boolean discontinuous = false;
-			Coords lo = vertices[0];	// point at start of interval
-			Coords hi = vertices[2];	// point at end of interval
-			Coords loder = derivs[0];	// derivative at start of interval
-			Coords hider = derivs[2];	// derivative at end of interval
-			double lop = params[0];		// parameter at start of interval
-			double hip = params[2];		// parameter at end of interval
+			Coords lo = p0.getVertex(0);	// point at start of interval
+			Coords hi = p1.getVertex(1);	// point at end of interval
+			Coords loder = p0.getDerivative(0);	// derivative at start of interval
+			Coords hider = p1.getDerivative(1);	// derivative at end of interval
+			double lop = p0.getParam(0);		// parameter at start of interval
+			double hip = p1.getParam(1);		// parameter at end of interval
 			double ui = u;				// current parameter
-			Coords expl = deriv.add(loder).mul(0.5*(ui-lop)); // projected difference left
-			Coords expr = deriv.add(hider).mul(0.5*(hip-ui)); // projected difference right
+			Coords expl = der.add(loder).mul(0.5*(ui-lop)); // projected difference left
+			Coords expr = der.add(hider).mul(0.5*(hip-ui)); // projected difference right
 			Coords tll = f.sub(lo);				// actual difference left
 			Coords trr = hi.sub(f);				// actual difference right
 			double ldot = tll.dotproduct(expl);	// dot product precomputed for efficiency
 			double rdot = trr.dotproduct(expr); // dot product precomputed for efficiency
 			boolean c1, c2;				// whether or not left and right segments appear continuous
+			
 			
 			// attempt to estimate continuity by comparing angle or vector difference
 			if (ldot < expl.squareNorm())
@@ -202,19 +193,19 @@ class CurveSegment extends DynamicMeshElement2 {
 			if (c1 ^ c2) {
 				discontinuous = true;
 				//probable discontinuity detected - perform binary search
-				double delta = (params[2] - params[0]) * 0.25;
+				double delta = (hip - lop) * 0.25;
 				if (c2) {
 					if (f.isFinite()) {
 						hi = f;
 						hip = ui;
-						hider = deriv;
+						hider = der;
 						ui -= delta;
 					}
 				} else {
 					if (f.isFinite()) {
 						lo = f;
 						lop = ui;
-						loder = deriv;
+						loder = der;
 						ui += delta;
 					}
 				}
@@ -224,10 +215,10 @@ class CurveSegment extends DynamicMeshElement2 {
 					tll = f.sub(lo);
 					trr = hi.sub(f);
 					
-					deriv = calcVertex(ui + CurveMesh.deltaParam).sub(f).mul(CurveMesh.invDeltaParam);
+					der = calcVertex(ui + CurveMesh.deltaParam).sub(f).mul(CurveMesh.invDeltaParam);
 					
-					expl = deriv.add(loder).mul(0.5*(ui-lop)); // projected difference left
-					expr = deriv.add(hider).mul(0.5*(hip-ui)); // projected difference right
+					expl = der.add(loder).mul(0.5*(ui-lop)); // projected difference left
+					expr = der.add(hider).mul(0.5*(hip-ui)); // projected difference right
 					ldot = tll.dotproduct(expl);			   // actual difference left
 					rdot = trr.dotproduct(expr);			   // actual difference right
 					
@@ -250,14 +241,14 @@ class CurveSegment extends DynamicMeshElement2 {
 						if(f.isFinite()){
 							hi = f;
 							hip = ui;
-							hider = deriv;
+							hider = der;
 							ui -= delta;
 						}
 					} else {
 						if(f.isFinite()){
 							lo = f;
 							lop = ui;
-							loder = deriv;
+							loder = der;
 							ui += delta;
 						}
 					}
@@ -268,13 +259,13 @@ class CurveSegment extends DynamicMeshElement2 {
 			if(discontinuous) {
 				alt = hi;
 				f = lo;
-				derivs[1] = loder;
+				deriv = loder;
 				altDer=hider;
-				params[1] = lop;
+				param = lop;
 				altParam = hip;
 			} else {
 				f = f0;
-				derivs[1] = deriv;
+				deriv = der0;
 			}
 		}
 		return f;
@@ -299,14 +290,32 @@ class CurveSegment extends DynamicMeshElement2 {
 		m.precalcVertices.put(u, f);
 		return f;
 	}
+	
+	Coords getVertex(final int i) {
+		if(i == 0 && alt != null)
+			return alt;
+		return vertex;
+	}
+	
+	Coords getDerivative(final int i) {
+		if(i == 0 && alt != null)
+			return altDer;
+		return deriv;
+	}
+	
+	double getParam(final int i) {
+		if(i == 0 && alt != null)
+			return altParam;
+		return param;
+	}
 
 	/**
 	 * Calculates an axis-aligned bounding box based on the three vertices.
 	 */
 	private void setBoundingBox() {
-		final Coords v1 = vertices[0];
-		final Coords v2 = vertices[1];
-		final Coords v3 = vertices[2];
+		final Coords v1 = ((CurveSegment)parents[0]).getVertex(0);
+		final Coords v2 = vertex;
+		final Coords v3 = ((CurveSegment)parents[1]).getVertex(1);
 
 		double x0, x1, y0, y1, z0, z1, x, y, z;
 		final double[] xs = { v2.getX(), v3.getX() };
@@ -357,42 +366,49 @@ class CurveSegment extends DynamicMeshElement2 {
 	}
 
 	private void generateError() {
-		// use Heron's formula twice:
-		final Coords v0 = calcVertex(0.5*(params[0]+params[1]));
-		final Coords v1 = calcVertex(0.5*(params[1]+params[2]));
-		final Coords v2 = vertices[2].add(vertices[0]).mul(0.5);
+		CurveSegment p0 = (CurveSegment)parents[0];
+		CurveSegment p1 = (CurveSegment)parents[1];
+		final double p0p = p0.getParam(0);
+		final double p1p = p1.getParam(1);
+		final Coords p0v = p0.getVertex(0);
+		final Coords p1v = p1.getVertex(1);
 		
-		double a = v2.distance(vertices[0]);
-		double b = v0.distance(vertices[0]);
+		// use Heron's formula twice:
+		final Coords v0 = calcVertex(0.5*(p0p+param));
+		final Coords v1 = calcVertex(0.5*(param+p1p));
+		final Coords v2 = p1v.add(p0v).mul(0.5);
+		
+		double a = v2.distance(p0v);
+		double b = v0.distance(p0v);
 		double c = v2.distance(v0);
 
 		double s = 0.5 * (a + b + c);
 		error = Math.sqrt(s * (s - a) * (s - b) * (s - c));
 		
-		a = vertices[2].distance(v2);
+		a = p1v.distance(v2);
 		b = v1.distance(v2);
-		c = vertices[2].distance(v1);
+		c = p1v.distance(v1);
 
 		s = 0.5 * (a + b + c);
 		error += Math.sqrt(s * (s - a) * (s - b) * (s - c));
 		
-		a = v2.distance(vertices[1]);
+		a = v2.distance(vertex);
 		b = v0.distance(v2);
-		c = vertices[1].distance(v0);
+		c = vertex.distance(v0);
 		
 		s = 0.5 * (a + b + c);
 		error += Math.sqrt(s * (s - a) * (s - b) * (s - c));
 		
-		a = v2.distance(vertices[1]);
+		a = v2.distance(vertex);
 		b = v1.distance(v2);
-		c = vertices[1].distance(v1);
+		c = vertex.distance(v1);
 		
 		s = 0.5 * (a + b + c);
 		error += Math.sqrt(s * (s - a) * (s - b) * (s - c));
 		
 		if (error==0) {
 			// the error should only be zero if the vertices are in line - verify this
-			if(Math.abs(vertices[2].sub(vertices[0]).normalized().dotproduct(vertices[1].sub(vertices[0]).normalized())) < 0.99) {
+			if(Math.abs(p1v.sub(p0v).normalized().dotproduct(vertex.sub(p0v).normalized())) < 0.99) {
 				//otherwise use longest distance
 				error = a > b ? a > c ? a : c : b > c ? b : c;
 			}
@@ -400,14 +416,14 @@ class CurveSegment extends DynamicMeshElement2 {
 
 		// alternative error measure for singular segments
 		if (isSingular) {
-			if(vertices[0].isDefined() || vertices[1].isDefined() || vertices[2].isDefined())
+			if(p0v.isDefined() || vertex.isDefined() || p1v.isDefined())
 				error = CurveMesh.undefErrorConst * length;
 			else
 				error = 0;
 		}
 		else if (Double.isNaN(error)) {
 			//shouldn't happen
-			error = (params[1] - params[0])*0.75;
+			error = (p1p - p0p)*0.75;
 			error = error*error;
 		}
 	}
@@ -461,12 +477,8 @@ class CurveSegment extends DynamicMeshElement2 {
 	@Override
 	protected void createChild(int i) {
 		// generate both children at once
-		children[0] = new CurveSegment((CurveMesh) mesh, level + 1, params[0],
-				params[1], vertices[0], vertices[1], derivs[0], derivs[1],
-				this, lastVersion);
-		children[1] = new CurveSegment((CurveMesh) mesh, level + 1, alt != null ? altParam : params[1],
-				params[2], alt != null ? alt : vertices[1], vertices[2], altDer != null ? altDer : derivs[1], derivs[2],
-				this, lastVersion);
+		children[0] = new CurveSegment((CurveMesh) mesh, level + 1, (CurveSegment)parents[0], this, lastVersion);
+		children[1] = new CurveSegment((CurveMesh) mesh, level + 1, this, (CurveSegment)parents[1], lastVersion);
 	}
 
 	@Override
@@ -493,25 +505,24 @@ class CurveSegment extends DynamicMeshElement2 {
 
 	@Override
 	public boolean recalculate(int currentVersion, boolean recurse) {
+		
+		if(parents[0] != null)
+			parents[0].recalculate(currentVersion, false);
+		if(parents[1] != null)
+			parents[1].recalculate(currentVersion, false);
+		
 		if (lastVersion == currentVersion)
 			return false;
 
 		lastVersion = currentVersion;
-		updateInDrawList = true;
-
-		// we need to reevalutate the vertices, normals, error and culling
-		GeoCurveCartesian3D curve = ((CurveMesh) mesh).curve;
-		vertices[0] = curve.evaluateCurve(params[0]);
-		vertices[2] = curve.evaluateCurve(params[2]);
-		vertices[1] = calcMainVertex((params[2]+params[0])*0.5);
-		derivs[0] = approxDeriv(params[0], vertices[0]);
-		derivs[1] = approxDeriv(params[1], vertices[1]);
-		derivs[2] = approxDeriv(params[2], vertices[2]);
-
-		length = Math.abs(params[2] - params[1]);
-
-		setBoundingBox();
-		generateError();
+		
+		if(level >= 0) {
+			updateInDrawList = true;
+			init();
+		} else {
+			vertex = calcVertex(param);
+			deriv = approxDeriv(param, vertex);
+		}
 
 		return true;
 	}
@@ -562,8 +573,7 @@ class CurveMeshTriList extends CurveTriList implements DynamicMeshTriList2 {
 			return;
 		}
 
-		TriListElem lm = add(s.vertices[0], s.vertices[2], s.derivs[0],
-				s.derivs[2], s.cullInfo != CullInfo2.OUT);
+		TriListElem lm = add(s, s.cullInfo != CullInfo2.OUT);
 
 		s.triListElem = lm;
 		lm.setOwner(s);
@@ -631,17 +641,13 @@ class CurveMeshTriList extends CurveTriList implements DynamicMeshTriList2 {
 			if (l != null) {
 				if (l.getIndex() != -1) {
 					remove(s);
-					TriListElem lm = add(s.vertices[0], s.vertices[2],
-							s.derivs[0], s.derivs[2],
-							s.cullInfo != CullInfo2.OUT);
+					TriListElem lm = add(s, s.cullInfo != CullInfo2.OUT);
 					s.triListElem = lm;
 					lm.setOwner(s);
 				} else {
 					CullInfo2 c = s.cullInfo;
 					s.cullInfo = CullInfo2.ALLIN;
-					TriListElem lm = add(s.vertices[0], s.vertices[2],
-							s.derivs[0], s.derivs[2],
-							s.cullInfo != CullInfo2.OUT);
+					TriListElem lm = add(s, s.cullInfo != CullInfo2.OUT);
 					s.triListElem = lm;
 					lm.setOwner(s);
 					s.cullInfo = c;
@@ -649,6 +655,12 @@ class CurveMeshTriList extends CurveTriList implements DynamicMeshTriList2 {
 				s.reinsertInQueue();
 			}
 		}
+	}
+	
+	public TriListElem add(CurveSegment s, boolean visible) {
+		final CurveSegment p0 = (CurveSegment)s.parents[0];
+		final CurveSegment p1 = (CurveSegment)s.parents[1];
+		return add(p0.getVertex(0), p1.getVertex(1), p0.getDerivative(0), p1.getDerivative(1), visible);
 	}
 
 	public void add(DynamicMeshElement2 e, int i) {
@@ -750,7 +762,7 @@ public class CurveMesh extends DynamicMesh2 {
 	public CurveMesh(GeoCurveCartesian3D curve, double[] cullingBox, float scale) {
 		super(new FastBucketPQ(new CurveSplitBucketAssigner(), true),
 				new FastBucketPQ(new CurveSplitBucketAssigner(), false),
-				new CurveMeshTriList(100, 0, scale * scalingFactor), 1, 2,
+				new CurveMeshTriList(100, 0, scale * scalingFactor), 2, 2,
 				maxLevel);
 
 		setCullingBox(cullingBox);
@@ -764,8 +776,11 @@ public class CurveMesh extends DynamicMesh2 {
 	 * generates the first few segments
 	 */
 	private void initCurve() {
-		root = new CurveSegment(this, 0, curve.getMinParameter(),
-				curve.getMaxParameter(), currentVersion);
+		double min = curve.getMinParameter();
+		double max = curve.getMaxParameter();
+		CurveSegment a0 = new CurveSegment(this, -1, min, currentVersion);
+		CurveSegment a1 = new CurveSegment(this, -1, max, currentVersion);
+		root = new CurveSegment(this, 0, a0, a1, currentVersion);
 
 		root.updateCullInfo();
 
@@ -776,9 +791,9 @@ public class CurveMesh extends DynamicMesh2 {
 
 		// split the first few elements in order to avoid problems
 		// with periodic funtions
-		for (int i = 0; i < 200; i++) {
-//			if(i==100)
-//				System.err.print("");
+		for (int i = 0; i < 2; i++) {
+			if(i==100)
+				System.err.print("");
 			split(splitQueue.forcePoll());
 		}
 	}
@@ -792,6 +807,7 @@ public class CurveMesh extends DynamicMesh2 {
 		}
 
 		boolean prev = s.isSplit();
+		
 		super.split(s);
 		if (!prev && s.isSplit()) {
 			CurveSegment left = s.prevInList;
@@ -924,5 +940,11 @@ public class CurveMesh extends DynamicMesh2 {
 	 */
 	public void updateScale(float scale) {
 		((CurveTriList) drawList).rescale(scale * scalingFactor);
+	}
+
+	@Override
+	public void updateParameters() {
+		precalcVertices.clear();
+		super.updateParameters();
 	}
 }
