@@ -1029,14 +1029,13 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 								break;
 							}
 						}
-
+						
 						if (hasFillable)
 							setToolTipText(app
 									.getPlain("stylebar.ColorTransparency"));
 						else
 							setToolTipText(app.getPlain("stylebar.Color"));
 
-						getMySlider().setVisible(hasFillable);
 						setSliderValue(Math.round(alpha * 100));
 
 						updateColorTable();

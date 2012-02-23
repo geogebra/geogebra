@@ -12,6 +12,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.plugin.GeoClass;
+import geogebra.main.Application;
 
 
 /**
@@ -289,12 +290,14 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements NumberValue {
 	}
 
 	/** to be able to fill it with an alpha value */
+	@Override
 	public boolean isFillable() {
 		return true;
 	}
 
+	@Override
 	public void setEuclidianVisible(boolean visible) {
-
+		
 		super.setEuclidianVisible(visible);
 		bottom.setEuclidianVisible(visible);
 		if (top != null)
@@ -302,7 +305,13 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements NumberValue {
 		side.setEuclidianVisible(visible);
 
 	}
+	
+	@Override
+	public boolean isPath() {
+		return true;
+	}
 
+	@Override
 	public void setLineType(int type) {
 		super.setLineType(type);
 
@@ -310,11 +319,16 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements NumberValue {
 			return;
 
 		bottom.setLineType(type);
-		if (top != null)
+		bottom.update();
+
+		if (top != null){
 			top.setLineType(type);
+			top.update();
+		}
 
 	}
 
+	@Override
 	public void setLineTypeHidden(int type) {
 		super.setLineTypeHidden(type);
 
@@ -322,19 +336,30 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements NumberValue {
 			return;
 
 		bottom.setLineTypeHidden(type);
-		if (top != null)
+		bottom.update();
+
+		if (top != null){
 			top.setLineTypeHidden(type);
+			top.update();
+		}
 	}
 
+	@Override
 	public void setLineThickness(int th) {
 		super.setLineThickness(th);
 		if (bottom == null)
 			return;
+		
 		bottom.setLineThickness(th);
-		if (top != null)
+		bottom.update();
+		
+		if (top != null){
 			top.setLineThickness(th);
+			top.update();
+		}
 	}
 
+	@Override
 	public void setAlphaValue(float alpha) {
 
 		super.setAlphaValue(alpha);
@@ -355,14 +380,17 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements NumberValue {
 
 	}
 
+	@Override
 	public GeoElement copy() {
 		return new GeoQuadric3DLimited(this);
 	}
 
+	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.QUADRIC_LIMITED;
 	}
 
+	@Override
 	public String getTypeString() {
 		return side.getTypeString();
 	}
@@ -373,6 +401,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements NumberValue {
 		return false;
 	}
 
+	@Override
 	public void set(GeoElement geo) {
 
 		if (geo instanceof GeoQuadric3DLimited) {
@@ -407,14 +436,17 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements NumberValue {
 
 	}
 
+	@Override
 	public boolean showInAlgebraView() {
 		return true;
 	}
 
+	@Override
 	protected boolean showInEuclidianView() {
 		return true;
 	}
 
+	@Override
 	public String getClassName() {
 		return "GeoQuadricLimited";
 	}
@@ -453,6 +485,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements NumberValue {
 			return Double.NaN;
 	}
 
+	@Override
 	public String toValueString(StringTemplate tpl) {
 		switch (type) {
 		case QUADRIC_CYLINDER:
@@ -466,6 +499,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements NumberValue {
 
 	}
 
+	@Override
 	protected StringBuilder buildValueString(StringTemplate tpl) {
 		return new StringBuilder(toValueString(tpl));
 	}
@@ -494,6 +528,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements NumberValue {
 		return getVolume();
 	}
 
+	@Override
 	public boolean isNumberValue() {
 		return true;
 	}

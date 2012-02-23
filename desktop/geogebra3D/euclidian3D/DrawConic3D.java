@@ -6,6 +6,7 @@ import geogebra.common.kernel.arithmetic.Functional2Var;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.PlotterSurface;
@@ -51,14 +52,14 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 		GeoConicND conic = (GeoConicND) getGeoElement();
 		
 		switch(conic.getType()){
-		case GeoConic.CONIC_CIRCLE:
-		case GeoConic.CONIC_ELLIPSE:
-		case GeoConic.CONIC_HYPERBOLA:
-		case GeoConic.CONIC_PARABOLA:
-		case GeoConic.CONIC_DOUBLE_LINE:
-		case GeoConic.CONIC_INTERSECTING_LINES:
-		case GeoConic.CONIC_PARALLEL_LINES:
-		case GeoConic.CONIC_SINGLE_POINT:
+		case GeoConicNDConstants.CONIC_CIRCLE:
+		case GeoConicNDConstants.CONIC_ELLIPSE:
+		case GeoConicNDConstants.CONIC_HYPERBOLA:
+		case GeoConicNDConstants.CONIC_PARABOLA:
+		case GeoConicNDConstants.CONIC_DOUBLE_LINE:
+		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+		case GeoConicNDConstants.CONIC_SINGLE_POINT:
 			renderer.getGeometryManager().draw(getGeometryIndex());
 			break;
 		default:
@@ -119,7 +120,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 		
 		// outline
 		
-		if (conic.getType()==GeoConic.CONIC_SINGLE_POINT){
+		if (conic.getType()==GeoConicNDConstants.CONIC_SINGLE_POINT){
 			
 			PlotterSurface surface;
 
@@ -151,14 +152,14 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 			double[] minmax;
 			
 			switch(conic.getType()){
-			case GeoConic.CONIC_CIRCLE:
+			case GeoConicNDConstants.CONIC_CIRCLE:
 				updateCircle(brush);
 				//Application.debug(m.toString()+"\n2D:\n"+conic.getMidpoint2D().toString());
 				break;
-			case GeoConic.CONIC_ELLIPSE:
+			case GeoConicNDConstants.CONIC_ELLIPSE:
 				updateEllipse(brush);
 				break;
-			case GeoConic.CONIC_HYPERBOLA:
+			case GeoConicNDConstants.CONIC_HYPERBOLA:
 				m = conic.getMidpoint3D();
 				ev1 = conic.getEigenvec3D(0);
 				ev2 = conic.getEigenvec3D(1);
@@ -180,7 +181,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 				tMax=acosh(-minmax2[0])*1.1;
 				brush.quarterHyperbola(m, ev1.mul(-1), ev2, e1, e2,tMax);
 				break;
-			case GeoConic.CONIC_PARABOLA:
+			case GeoConicNDConstants.CONIC_PARABOLA:
 				m = conic.getMidpoint3D();
 				ev1 = conic.getEigenvec3D(0);
 				ev2 = conic.getEigenvec3D(1);
@@ -193,7 +194,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 				//tMax=4;
 				brush.parabola(m, ev1, ev2, p,-2*tMax,2*tMax);
 				break;
-			case GeoConic.CONIC_DOUBLE_LINE:
+			case GeoConicNDConstants.CONIC_DOUBLE_LINE:
 				d = conic.getDirection3D(0);
 				m = conic.getMidpoint3D();
 				minmax = getView3D().getRenderer().getIntervalInFrustum(
@@ -201,7 +202,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 						m, d, true);
 				brush.segment(m.add(d.mul(minmax[0])), m.add(d.mul(minmax[1])));
 				break;
-			case GeoConic.CONIC_INTERSECTING_LINES:
+			case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
 				m = conic.getMidpoint3D();
 				
 				d = conic.getDirection3D(0);
@@ -216,7 +217,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 						getView3D().getToScreenMatrix().mul(m), getView3D().getToScreenMatrix().mul(d), true);
 				brush.segment(m.add(d.mul(minmax[0])), m.add(d.mul(minmax[1])));
 				break;
-			case GeoConic.CONIC_PARALLEL_LINES:
+			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
 				m = conic.getOrigin3D(0);
 				d = conic.getDirection3D(0);
 				minmax = getView3D().getRenderer().getIntervalInFrustum(
@@ -243,10 +244,10 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 			surface.start();
 			
 			switch(conic.getType()){
-			case GeoConic.CONIC_CIRCLE:
+			case GeoConicNDConstants.CONIC_CIRCLE:
 				//surface.disc(conic.getMidpoint3D(), conic.getEigenvec3D(0), conic.getEigenvec3D(1), conic.getHalfAxis(0));
 				//break;
-			case GeoConic.CONIC_ELLIPSE:
+			case GeoConicNDConstants.CONIC_ELLIPSE:
 				surface.ellipsePart(conic.getMidpoint3D(), conic.getEigenvec3D(0), conic.getEigenvec3D(1), conic.getHalfAxis(0), conic.getHalfAxis(1),getStart(),getExtent());
 				break;
 			default:
@@ -290,17 +291,17 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	protected void updateForView(){
 		if (getView3D().viewChanged())
 			switch(((GeoConicND) getGeoElement()).getType()){
-			case GeoConic.CONIC_DOUBLE_LINE:
-			case GeoConic.CONIC_HYPERBOLA:
-			case GeoConic.CONIC_INTERSECTING_LINES:
-			case GeoConic.CONIC_LINE:
-			case GeoConic.CONIC_PARABOLA:
-			case GeoConic.CONIC_PARALLEL_LINES:
+			case GeoConicNDConstants.CONIC_DOUBLE_LINE:
+			case GeoConicNDConstants.CONIC_HYPERBOLA:
+			case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+			case GeoConicNDConstants.CONIC_LINE:
+			case GeoConicNDConstants.CONIC_PARABOLA:
+			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
 				updateForItSelf();
 				break;
-			case GeoConic.CONIC_CIRCLE:
-			case GeoConic.CONIC_ELLIPSE:
-			case GeoConic.CONIC_SINGLE_POINT:
+			case GeoConicNDConstants.CONIC_CIRCLE:
+			case GeoConicNDConstants.CONIC_ELLIPSE:
+			case GeoConicNDConstants.CONIC_SINGLE_POINT:
 				if (getView3D().viewChangedByZoom()) //update only if zoom occurred
 					updateForItSelf();
 				break;
@@ -337,8 +338,9 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
     private void drawSurfaceGeometry(Renderer renderer){
 
     	switch(((GeoConicND) getGeoElement()).getType()){
-    	case GeoConic.CONIC_CIRCLE:
-		case GeoConic.CONIC_ELLIPSE:
+    	case GeoConicNDConstants.CONIC_CIRCLE:
+		case GeoConicNDConstants.CONIC_ELLIPSE:
+			//Application.debug(getGeoElement().getLayer());
 			renderer.setLayer(getGeoElement().getLayer()); //+0f to avoid z-fighting with planes
     		renderer.getGeometryManager().draw(getSurfaceIndex());
     		renderer.setLayer(0);
