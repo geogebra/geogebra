@@ -385,7 +385,6 @@ public class Application extends AbstractApplication implements
 	// key = local name, value = internal name
 
 
-	private boolean initing = false;
 	protected boolean showAlgebraView = true;
 
 	/*
@@ -784,11 +783,6 @@ public class Application extends AbstractApplication implements
 	@Override
 	public void setUnsaved() {
 		isSaved = false;
-	}
-
-	@Override
-	public boolean isIniting() {
-		return initing;
 	}
 
 	public void fileNew() {

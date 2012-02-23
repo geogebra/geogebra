@@ -246,6 +246,8 @@ public abstract class AbstractApplication {
 	protected boolean antialiasing = true; 
 	protected final boolean[] showAxes = { true, true };
 	protected boolean showGrid = false;
+
+	protected boolean initing = false;
 	
 	protected boolean labelDragsEnabled = true;//private
 
@@ -2416,7 +2418,9 @@ public abstract class AbstractApplication {
 	}
 
 	
-	public abstract boolean isIniting();
+	public boolean isIniting() {
+		return initing;
+	}
 
 	public abstract boolean isRightClickEnabled();
 

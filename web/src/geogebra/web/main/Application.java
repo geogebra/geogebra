@@ -660,14 +660,16 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 
 	@Override
 	public double getWidth() {
-		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
-		return 0;
+		if (canvas == null)
+			return 0;
+		return canvas.getCanvasElement().getWidth();
 	}
 
 	@Override
 	public double getHeight() {
-		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
-		return 0;
+		if (canvas == null)
+			return 0;
+		return canvas.getCanvasElement().getHeight();
 	}
 
 	public Font getFontCanDisplay(String testString, boolean serif, int style,
@@ -838,7 +840,7 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 
 	@Override
 	public boolean isIniting() {
-		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
+		// this has no function in GeoGebraWeb currently
 		return false;
 	}
 
