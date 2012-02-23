@@ -52,15 +52,15 @@ to ensure availability.
 	<!-- download jdk from GeoGebra repository -->
 	<target name="jdk-geogebra" if="linux">
 	<mkdir dir="jdk"/>
-	<get src="http://www.geogebra.org/download/installer/jdk/jdk-1_5_0_22-linux-amd64.bin" dest="jdk/jdk-1_5_0_22-linux-amd64.bin" usetimestamp="true"/>
-	<get src="http://www.geogebra.org/download/installer/jdk/jdk-6u26-linux-x64.bin" dest="jdk/jdk-6u26-linux-x64.bin" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/installer/jdk/jdk-1_5_0_22-linux-amd64.bin" dest="jdk/jdk-1_5_0_22-linux-amd64.bin" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/installer/jdk/jdk-6u26-linux-x64.bin" dest="jdk/jdk-6u26-linux-x64.bin" usetimestamp="true"/>
 	</target>
 	
 	<!-- download jre from GeoGebra repository -->
 	<target name="jre-geogebra" if="linux">
 	<mkdir dir="jre"/>
-	<get src="http://www.geogebra.org/download/installer/jre/jre-6u26-linux-i586.bin" dest="jre/jre-6u26-linux-i586.bin" usetimestamp="true"/>
-	<get src="http://www.geogebra.org/download/installer/jre/jre-6u26-linux-x64.bin" dest="jre/jre-6u26-linux-x64.bin" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/installer/jre/jre-6u26-linux-i586.bin" dest="jre/jre-6u26-linux-i586.bin" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/installer/jre/jre-6u26-linux-x64.bin" dest="jre/jre-6u26-linux-x64.bin" usetimestamp="true"/>
 	</target>
 	
 	<!-- download launch4j from GeoGebra repository -->
@@ -70,9 +70,9 @@ to ensure availability.
 	<mkdir dir="launch4j/bin"/>
 	<mkdir dir="launch4j/lib"/>
 	<mkdir dir="download"/>
-	<get src="http://www.geogebra.org/download/installer/launch4j/launch4j.jar" dest="launch4j/launch4j.jar" usetimestamp="true"/>
-	<get src="http://www.geogebra.org/download/installer/launch4j/lib/xstream.jar" dest="launch4j/lib/xstream.jar" usetimestamp="true"/>
-	<get src="http://www.geogebra.org/download/installer/launch4j/launch4j-head+w32api.zip" dest="download/launch4j-head+w32api.zip" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/installer/launch4j/launch4j.jar" dest="launch4j/launch4j.jar" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/installer/launch4j/lib/xstream.jar" dest="launch4j/lib/xstream.jar" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/installer/launch4j/launch4j-head+w32api.zip" dest="download/launch4j-head+w32api.zip" usetimestamp="true"/>
 	<unzip src="download/launch4j-head+w32api.zip" dest="launch4j/">
 	</unzip>
 	</target>
@@ -83,13 +83,13 @@ to ensure availability.
 	</target>
 
 	<target name="launch4j-geogebra-mac" if="mac">
-	<get src="http://www.geogebra.org/download/installer/launch4j/bin/ld.mac" dest="launch4j/bin/ld" usetimestamp="true"/>
-	<get src="http://www.geogebra.org/download/installer/launch4j/bin/windres.mac" dest="launch4j/bin/windres" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/installer/launch4j/bin/ld.mac" dest="launch4j/bin/ld" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/installer/launch4j/bin/windres.mac" dest="launch4j/bin/windres" usetimestamp="true"/>
 	</target>
 
 	<target name="launch4j-geogebra-windows" if="windows">
-	<get src="http://www.geogebra.org/download/installer/launch4j/bin/ld.exe" dest="launch4j/bin/ld.exe" usetimestamp="true"/>
-	<get src="http://www.geogebra.org/download/installer/launch4j/bin/windres.exe" dest="launch4j/bin/windres.exe" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/installer/launch4j/bin/ld.exe" dest="launch4j/bin/ld.exe" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/installer/launch4j/bin/windres.exe" dest="launch4j/bin/windres.exe" usetimestamp="true"/>
 	</target>
 	
 	<target name="nsis-geogebra" depends="nsis-geogebra-common, nsis-geogebra-windows, nsis-geogebra-mac, nsis-geogebra-linux"/>
@@ -97,23 +97,23 @@ to ensure availability.
 	<target name="nsis-geogebra-common">
 	<mkdir dir="nsis"/>
 	<mkdir dir="download"/>
-	<get src="http://www.geogebra.org/download/installer/nsis/nsisant-1.2.jar" dest="nsisant-1.2.jar" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/installer/nsis/nsisant-1.2.jar" dest="nsisant-1.2.jar" usetimestamp="true"/>
 	</target>
 	
 	<target name="nsis-geogebra-windows" if="windows">
-	<get src="http://www.geogebra.org/download/installer/nsis/NSIS_2.46_UltraModernUI_1.00_2009-12-25.exe" dest="download/NSIS_2.46_UltraModernUI_1.00_2009-12-25.exe" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/installer/nsis/NSIS_2.46_UltraModernUI_1.00_2009-12-25.exe" dest="download/NSIS_2.46_UltraModernUI_1.00_2009-12-25.exe" usetimestamp="true"/>
 	<echo message="Please run installer/download/NSIS_2.46_UltraModernUI_1.00_2009-12-25.exe to install NSIS with UltraModernUI into installer/nsis/"/>
 	</target>
 
 	<target name="nsis-geogebra-mac" if="mac">
-	<get src="http://www.geogebra.org/download/installer/nsis/LibraryLocal.mac" dest="nsis/LibraryLocal" usetimestamp="true"/>
-	<get src="http://www.geogebra.org/download/installer/nsis/makensis.mac" dest="nsis/makensis" usetimestamp="true"/>
-	<get src="http://www.geogebra.org/download/installer/nsis/NSIS_2.46_UltraModernUI_1.00_2009-12-25.exe" dest="download/NSIS_2.46_UltraModernUI_1.00_2009-12-25.exe" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/installer/nsis/LibraryLocal.mac" dest="nsis/LibraryLocal" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/installer/nsis/makensis.mac" dest="nsis/makensis" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/installer/nsis/NSIS_2.46_UltraModernUI_1.00_2009-12-25.exe" dest="download/NSIS_2.46_UltraModernUI_1.00_2009-12-25.exe" usetimestamp="true"/>
 	<echo message="Please run installer/download/NSIS_2.46_UltraModernUI_1.00_2009-12-25.exe to install NSIS with UltraModernUI into installer/nsis/"/>
 	</target>
 
 	<target name="nsis-geogebra-linux" if="linux">
-	<get src="http://www.geogebra.org/download/installer/nsis/nsis+umui.tgz" dest="download/nsis+umui.tgz" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/installer/nsis/nsis+umui.tgz" dest="download/nsis+umui.tgz" usetimestamp="true"/>
 	<echo message="Please install nsis as a package and copy over the content of download/nsis+umui.tgz to /usr/share/nsis"/>
 	<echo message="See http://www.geogebra.org/trac/wiki/NSISonUnix#PreparingNSIS for details (the .tgz has the same content as you would have downloaded the .exe installer and run it)"/>
 	<symlink link="nsis/makensis" resource="/usr/bin/makensis" overwrite="true"/>
@@ -122,31 +122,31 @@ to ensure availability.
 	<target name="osslsigncode-geogebra" depends="osslsigncode-geogebra-windows, osslsigncode-geogebra-mac, osslsigncode-geogebra-linux"/>
 
 	<target name="osslsigncode-geogebra-linux" if="linux">
-	<get src="http://www.geogebra.org/download/installer/osslsigncode/osslsigncode-1.3.1.tar.gz" dest="download/osslsigncode-1.3.1.tar.gz" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/installer/osslsigncode/osslsigncode-1.3.1.tar.gz" dest="download/osslsigncode-1.3.1.tar.gz" usetimestamp="true"/>
 	<untar src="download/osslsigncode-1.3.1.tar.gz" dest="./" compression="gzip">
 	</untar>
 	</target>
 
 	<target name="osslsigncode-geogebra-windows" if="windows">
-	<get src="http://www.geogebra.org/download/installer/osslsigncode/signcode.exe" dest="signcode.exe" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/installer/osslsigncode/signcode.exe" dest="signcode.exe" usetimestamp="true"/>
 	</target>
 
 	<target name="osslsigncode-geogebra-mac" if="mac">
-	<get src="http://www.geogebra.org/download/installer/osslsigncode/osslsigncode.mac" dest="osslsigncode" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/installer/osslsigncode/osslsigncode.mac" dest="osslsigncode" usetimestamp="true"/>
 	</target>
 
 	<target name="winport-geogebra">
 	<mkdir dir="download"/>
-	<get src="http://www.geogebra.org/download/installer/winport/GeoGebra-Windows-Portable-4-1-x-x.zip" dest="download/GeoGebra-Windows-Portable-4-1-x-x.zip" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/installer/winport/GeoGebra-Windows-Portable-4-1-x-x.zip" dest="download/GeoGebra-Windows-Portable-4-1-x-x.zip" usetimestamp="true"/>
 	</target>
 
 	<target name="javaapplicationstub-geogebra">
-	<get src="http://www.geogebra.org/download/installer/JavaApplicationStub.mac" dest="JavaApplicationStub" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/installer/JavaApplicationStub.mac" dest="JavaApplicationStub" usetimestamp="true"/>
 	<chmod file="JavaApplicationStub" perm="755"/>
 	</target>
 
 	<target name="jarbundler-geogebra">
-	<get src="http://www.geogebra.org/download/installer/jarbundler-2.1.0.jar" dest="jarbundler-2.1.0.jar" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/installer/jarbundler-2.1.0.jar" dest="jarbundler-2.1.0.jar" usetimestamp="true"/>
 	</target>
 
 </project>

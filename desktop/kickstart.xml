@@ -113,33 +113,33 @@ instructions.
 
 	<!-- download jlatexmath from GeoGebra repository -->
 	<target name="jlatexmath-geogebra">
-	<get src="http://www.geogebra.org/download/lib/jlatexmath-2011-11-23.jar" dest="lib/jlatexmath.jar" usetimestamp="true"/>
-	<get src="http://www.geogebra.org/download/lib/jlm_cyrillic-2011-11-23.jar" dest="lib/jlm_cyrillic.jar" usetimestamp="true"/>
-	<get src="http://www.geogebra.org/download/lib/jlm_greek-2011-11-23.jar" dest="lib/jlm_greek.jar" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/lib/jlatexmath-2011-11-23.jar" dest="lib/jlatexmath.jar" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/lib/jlm_cyrillic-2011-11-23.jar" dest="lib/jlm_cyrillic.jar" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/lib/jlm_greek-2011-11-23.jar" dest="lib/jlm_greek.jar" usetimestamp="true"/>
 	</target>
 	
 	<!-- download jython from GeoGebra repository -->
 	<target name="jython-geogebra">
-	<get src="http://www.geogebra.org/download/lib/jython.jar" dest="lib/jython.jar" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/lib/jython.jar" dest="lib/jython.jar" usetimestamp="true"/>
 	</target>
 	
 	<!-- download p200ant from GeoGebra repository -->
 	<target name="p200ant-geogebra">
-	<!--get src="http://www.geogebra.org/download/lib/build/tools_p200ant_java5only.jar" dest="lib/build/tools_p200ant_java5only.jar"
+	<!--get src="http://dev.geogebra.org/download/lib/build/tools_p200ant_java5only.jar" dest="lib/build/tools_p200ant_java5only.jar"
 	    usetimestamp="true"/-->
-	<get src="http://www.geogebra.org/download/lib/build/tools_p200ant.jar" dest="lib/build/tools_p200ant.jar"
+	<get src="http://dev.geogebra.org/download/lib/build/tools_p200ant.jar" dest="lib/build/tools_p200ant.jar"
 	    usetimestamp="true"/>
 	</target>
 
 	<!-- download jsobject from GeoGebra repository -->
 	<target name="jsobject-geogebra">
-	<get src="http://www.geogebra.org/download/lib/lib_jsobject.jar" dest="lib/build/lib_jsobject.jar"
+	<get src="http://dev.geogebra.org/download/lib/lib_jsobject.jar" dest="lib/build/lib_jsobject.jar"
 	    usetimestamp="true"/>
 	</target>
 
 	<!-- download lib_mac_extensions from GeoGebra repository -->
 	<target name="mac_extensions-geogebra">
-	<get src="http://www.geogebra.org/download/lib/lib_mac_extensions.jar" dest="lib/build/lib_mac_extensions.jar"
+	<get src="http://dev.geogebra.org/download/lib/lib_mac_extensions.jar" dest="lib/build/lib_mac_extensions.jar"
 	    usetimestamp="true"/>
 	</target>
 
@@ -147,11 +147,11 @@ instructions.
 	<target name="vernier-geogebra" depends="vernier-common-geogebra, vernier-windows-geogebra"/>
 	
 	<target name="vernier-common-geogebra">
-	<get src="http://www.geogebra.org/download/lib/vernier_ccsd-macintel-static.jar" dest="lib/vernier_ccsd-macintel-static.jar"
+	<get src="http://dev.geogebra.org/download/lib/vernier_ccsd-macintel-static.jar" dest="lib/vernier_ccsd-macintel-static.jar"
 	    usetimestamp="true"/>
-	<get src="http://www.geogebra.org/download/lib/vernier_ccsd-mac-static.jar" dest="lib/vernier_ccsd-mac-static.jar"
+	<get src="http://dev.geogebra.org/download/lib/vernier_ccsd-mac-static.jar" dest="lib/vernier_ccsd-mac-static.jar"
 	    usetimestamp="true"/>
-	<get src="http://www.geogebra.org/download/lib/vernier_ccsd-win.jar" dest="lib/vernier_ccsd-win.jar"
+	<get src="http://dev.geogebra.org/download/lib/vernier_ccsd-win.jar" dest="lib/vernier_ccsd-win.jar"
 	    usetimestamp="true"/>
 	</target>
 
@@ -169,7 +169,7 @@ instructions.
 
 	<target name="jd2xx-windows-x86-geogebra" if="winnt-x86">
 	<mkdir dir="lib/download"/>
-	<get src="http://www.geogebra.org/download/lib/jd2xx-20111017.zip" dest="lib/download/jd2xx-20111017.zip"
+	<get src="http://dev.geogebra.org/download/lib/jd2xx-20111017.zip" dest="lib/download/jd2xx-20111017.zip"
 	    usetimestamp="true"/>
 	<unzip src="lib/download/jd2xx-20111017.zip" dest="./">
 	    <patternset>
@@ -181,7 +181,7 @@ instructions.
 
 	<target name="jd2xx-windows-amd64-geogebra" if="winnt-amd64">
 	<mkdir dir="lib/download"/>
-	<get src="http://www.geogebra.org/download/lib/jd2xx-dll-20111016.zip" dest="lib/download/jd2xx-dll-20111016.zip"
+	<get src="http://dev.geogebra.org/download/lib/jd2xx-dll-20111016.zip" dest="lib/download/jd2xx-dll-20111016.zip"
 	    usetimestamp="true"/>
 	<unzip src="lib/download/jd2xx-dll-20111016.zip" dest="lib/">
 	    <patternset>
@@ -201,21 +201,21 @@ instructions.
 	<target name="ecj-geogebra">
 	<mkdir dir="lib/build"/>
 	<get 
-	    src="http://www.geogebra.org/download/lib/build/ecj-3.6.2.jar"
+	    src="http://dev.geogebra.org/download/lib/build/ecj-3.6.2.jar"
 	    dest="lib/build/ecj-3.6.2.jar" usetimestamp="true"/>
 	</target>
 	
 	<target name="java150-rt">
 	<mkdir dir="lib/build"/>
 	<get 
-	    src="http://www.geogebra.org/download/lib/build/java150-rt.jar"
+	    src="http://dev.geogebra.org/download/lib/build/java150-rt.jar"
 	    dest="../java150-rt.jar" usetimestamp="true"/>
 	</target>
 	
 	<!-- download mpreduce default.img from GeoGebra repository -->
 	<target name="mpreduce-geogebra">
 	<get 
-	    src="http://www.geogebra.org/download/lib/build/mpreduce/default.img-20120221"
+	    src="http://dev.geogebra.org/download/lib/build/mpreduce/default.img-20120221"
 	    dest="default.img" usetimestamp="true"/> <!-- Please set this back to false if you revert to an older version! -->
 	</target>
 	
@@ -224,14 +224,14 @@ instructions.
 	<mkdir dir="lib/build"/>
 	<mkdir dir="lib/download"/>
 	<get 
-	    src="http://www.geogebra.org/download/lib/build/tools_proguard46.jar"
+	    src="http://dev.geogebra.org/download/lib/build/tools_proguard46.jar"
 	    dest="lib/build/tools_proguard46.jar" usetimestamp="true"/>
 	</target>
 
 	<!-- download javacc from GeoGebra repository -->
 	<target name="javacc-geogebra">
 	<mkdir dir="lib/build/javacc"/>
-	<get src="http://www.geogebra.org/download/lib/build/javacc/javacc.jar" dest="lib/build/javacc/javacc.jar"
+	<get src="http://dev.geogebra.org/download/lib/build/javacc/javacc.jar" dest="lib/build/javacc/javacc.jar"
 	    usetimestamp="true"/>
 	</target>
 
@@ -256,20 +256,20 @@ instructions.
 	<target name="openni-windows32" if="winnt-x86">
 	<mkdir dir="lib"/>
 		<get 
-		    src="http://www.geogebra.org/download/lib/kinect-OpenNI/OpenNI.jni-1-5-2-23.dll"
+		    src="http://dev.geogebra.org/download/lib/kinect-OpenNI/OpenNI.jni-1-5-2-23.dll"
 		    dest="lib/OpenNI.jni.dll" usetimestamp="true"/>
 		<get 
-		    src="http://www.geogebra.org/download/lib/kinect-OpenNI/OpenNI-1-5-2-23.dll"
+		    src="http://dev.geogebra.org/download/lib/kinect-OpenNI/OpenNI-1-5-2-23.dll"
 		    dest="lib/OpenNI.dll" usetimestamp="true"/>
 	</target>
 	
 	<target name="openni-windows64" if="winnt-amd64">
 	<mkdir dir="lib"/>
 		<get 
-		    src="http://www.geogebra.org/download/lib/kinect-OpenNI/OpenNI.jni64-1-5-2-23.dll"
+		    src="http://dev.geogebra.org/download/lib/kinect-OpenNI/OpenNI.jni64-1-5-2-23.dll"
 		    dest="lib/OpenNI.jni64.dll" usetimestamp="true"/>
 		<get 
-		    src="http://www.geogebra.org/download/lib/kinect-OpenNI/OpenNI64-1-5-2-23.dll"
+		    src="http://dev.geogebra.org/download/lib/kinect-OpenNI/OpenNI64-1-5-2-23.dll"
 		    dest="lib/OpenNI64.dll" usetimestamp="true"/>
 	</target>
 	
@@ -289,7 +289,7 @@ instructions.
 	<mkdir dir="lib/build/jogl1/jar"/>
 	<mkdir dir="lib/download"/>
 	<get 
-	    src="http://www.geogebra.org/download/lib/build/jogl1/jogl1-jar.zip"
+	    src="http://dev.geogebra.org/download/lib/build/jogl1/jogl1-jar.zip"
 	    dest="lib/download/jogl1-jar.zip" usetimestamp="true"/>
 	<unzip src="lib/download/jogl1-jar.zip" dest="lib/">
 	    <mapper type="glob" from="*" to="build/jogl1/*"/>
@@ -308,7 +308,7 @@ instructions.
 	<mkdir dir="lib/download"/>
 	<mkdir dir="lib/build/jogl1/linux-amd64"/>
 	<get 
-	    src="http://www.geogebra.org/download/lib/build/jogl1/jogl1-linux-amd64.zip"
+	    src="http://dev.geogebra.org/download/lib/build/jogl1/jogl1-linux-amd64.zip"
 	    dest="lib/download/jogl1-linux-amd64.zip" usetimestamp="true"/>
 	<unzip src="lib/download/jogl1-linux-amd64.zip" dest="lib/">
 	    <mapper type="glob" from="*" to="build/jogl1/*"/>
@@ -324,7 +324,7 @@ instructions.
 	<mkdir dir="lib/download"/>
 	<mkdir dir="lib/build/jogl1/linux-i586"/>
 	<get 
-	    src="http://www.geogebra.org/download/lib/build/jogl1/jogl1-linux-i586.zip"
+	    src="http://dev.geogebra.org/download/lib/build/jogl1/jogl1-linux-i586.zip"
 	    dest="lib/download/jogl1-linux-i586.zip" usetimestamp="true"/>
 	<unzip src="lib/download/jogl1-linux-i586.zip" dest="lib/">
 	    <mapper type="glob" from="*" to="build/jogl1/*"/>
@@ -340,7 +340,7 @@ instructions.
 	<mkdir dir="lib/build/jogl1/macosx"/>
 	<mkdir dir="lib/download"/>
 	<get 
-	    src="http://www.geogebra.org/download/lib/build/jogl1/jogl1-macosx.zip"
+	    src="http://dev.geogebra.org/download/lib/build/jogl1/jogl1-macosx.zip"
 	    dest="lib/download/jogl1-macosx.zip" usetimestamp="true"/>
 	<unzip src="lib/download/jogl1-macosx.zip" dest="lib/">
 	    <mapper type="glob" from="*" to="build/jogl1/*"/>
@@ -356,7 +356,7 @@ instructions.
 	<mkdir dir="lib/download"/>
 	<mkdir dir="lib/build/jogl1/windows-amd64"/>
 	<get 
-	    src="http://www.geogebra.org/download/lib/build/jogl1/jogl1-windows-amd64.zip"
+	    src="http://dev.geogebra.org/download/lib/build/jogl1/jogl1-windows-amd64.zip"
 	    dest="lib/download/jogl1-windows-amd64.zip" usetimestamp="true"/>
 	<unzip src="lib/download/jogl1-windows-amd64.zip" dest="lib/">
 	    <mapper type="glob" from="*" to="build/jogl1/*"/>
@@ -372,7 +372,7 @@ instructions.
 	<mkdir dir="lib/download"/>
 	<mkdir dir="lib/build/jogl1/windows-i586"/>
 	<get 
-	    src="http://www.geogebra.org/download/lib/build/jogl1/jogl1-windows-i586.zip"
+	    src="http://dev.geogebra.org/download/lib/build/jogl1/jogl1-windows-i586.zip"
 	    dest="lib/download/jogl1-windows-i586.zip" usetimestamp="true"/>
 	<unzip src="lib/download/jogl1-windows-i586.zip" dest="lib/">
 	    <mapper type="glob" from="*" to="build/jogl1/*"/>
@@ -391,14 +391,14 @@ instructions.
 	<mkdir dir="lib/download"/>
 	<mkdir dir="lib/build/jogl2/linux-amd64"/>
 	<get 
-	    src="http://www.geogebra.org/download/lib/build/jogl2/jogl2-linux-amd64.zip"
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl2-linux-amd64.zip"
 	    dest="lib/download/jogl2-linux-amd64.zip" usetimestamp="true"/>
 	<unzip src="lib/download/jogl2-linux-amd64.zip" dest="lib/">
 	    <mapper type="glob" from="*" to="build/jogl2/*"/>
 	</unzip>
 	<mkdir dir="lib/build/jogl2/linux-i586"/>
 	<get 
-	    src="http://www.geogebra.org/download/lib/build/jogl2/jogl2-linux-i586.zip"
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl2-linux-i586.zip"
 	    dest="lib/download/jogl2-linux-i586.zip" usetimestamp="true"/>
 	<unzip src="lib/download/jogl2-linux-i586.zip" dest="lib/">
 	    <mapper type="glob" from="*" to="build/jogl2/*"/>
@@ -409,7 +409,7 @@ instructions.
 	<mkdir dir="lib/build/jogl2-macosx"/>
 	<mkdir dir="lib/download"/>
 	<get 
-	    src="http://www.geogebra.org/download/lib/build/jogl2/jogl2-macosx.zip"
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl2-macosx.zip"
 	    dest="lib/download/jogl2-macosx.zip" usetimestamp="true"/>
 	<unzip src="lib/download/jogl2-macosx.zip" dest="lib/">
 	    <mapper type="glob" from="*" to="build/jogl2/*"/>
@@ -420,14 +420,14 @@ instructions.
 	<mkdir dir="lib/download"/>
 	<mkdir dir="lib/build/jogl2/windows-amd64"/>
 	<get 
-	    src="http://www.geogebra.org/download/lib/build/jogl2/jogl2-windows-amd64.zip"
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl2-windows-amd64.zip"
 	    dest="lib/download/jogl2-windows-amd64.zip" usetimestamp="true"/>
 	<unzip src="lib/download/jogl2-windows-amd64.zip" dest="lib/">
 	    <mapper type="glob" from="*" to="build/jogl2/*"/>
 	</unzip>
 	<mkdir dir="lib/build/jogl2/windows-i586"/>
 	<get 
-	    src="http://www.geogebra.org/download/lib/build/jogl2/jogl2-windows-i586.zip"
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl2-windows-i586.zip"
 	    dest="lib/download/jogl2-windows-i586.zip" usetimestamp="true"/>
 	<unzip src="lib/download/jogl2-windows-i586.zip" dest="lib/">
 	    <mapper type="glob" from="*" to="build/jogl2/*"/>
