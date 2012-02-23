@@ -76,15 +76,23 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 
 	}
 	
-	/**
-	 * sets the output
-	 */
-	abstract protected void setOutput();
 	
 	/**
 	 * create the top side
 	 */
-	abstract protected void createTop();
+	final protected void createTop(){
+		AlgoQuadricEndTop algo2 = new AlgoQuadricEndTop(cons, getQuadric());
+		cons.removeFromConstructionList(algo2);
+		top = algo2.getSection();
+
+	}
+	
+	/**
+	 * sets the output
+	 */
+	final protected void setOutput(){
+		output = new GeoElement[] {getQuadric(),getQuadric().getTop(),getQuadric().getSide()};
+	}
 	
 	@Override
 	public void compute() {

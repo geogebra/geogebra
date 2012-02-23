@@ -3281,7 +3281,9 @@ public abstract class AbstractEuclidianController {
 		refreshHighlighting(null, null);
 	}
 
-	protected final boolean attach(GeoPoint2 point, Path path) {
+	protected boolean attach(GeoPointND p, Path path) {
+		
+		GeoPoint2 point = (GeoPoint2) p;
 	
 		try {
 			Construction cons = kernel.getConstruction();
@@ -3300,8 +3302,10 @@ public abstract class AbstractEuclidianController {
 		}
 	}
 
-	protected final boolean attach(GeoPoint2 point, Region region) {
+	protected boolean attach(GeoPointND p, Region region) {
 	
+		GeoPoint2 point = (GeoPoint2) p;
+		
 		try {
 			Construction cons = kernel.getConstruction();
 			boolean oldLabelCreationFlag = cons.isSuppressLabelsActive();
@@ -3318,8 +3322,41 @@ public abstract class AbstractEuclidianController {
 			return false;
 		}
 	}
+	
+	protected boolean detach(GeoPointND point) {
+		
+		GeoPoint2 p = (GeoPoint2) point;
+		
+		getSelectedPoints();
+		getSelectedRegions();
+		getSelectedPaths();
 
-	protected final boolean attachDetach(Hits hits, AbstractEvent event) {
+		// move point (20,20) pixels when detached
+		double x = view.toScreenCoordX(p.inhomX) + 20;
+		double y = view.toScreenCoordY(p.inhomY) + 20;
+
+		try {
+			Construction cons = kernel.getConstruction();
+			boolean oldLabelCreationFlag = cons
+					.isSuppressLabelsActive();
+			cons.setSuppressLabelCreation(true);
+			GeoPoint2 newPoint = new GeoPoint2(
+					kernel.getConstruction(), null,
+					view.toRealWorldCoordX(x),
+					view.toRealWorldCoordY(y), 1.0);
+			cons.setSuppressLabelCreation(oldLabelCreationFlag);
+			cons.replace(p, newPoint);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		clearSelections();
+		return true;
+	}
+	
+	
+
+	final protected boolean attachDetach(Hits hits, AbstractEvent event) {
 		if (hits.isEmpty()) {
 			return false;
 		}
@@ -3332,35 +3369,11 @@ public abstract class AbstractEuclidianController {
 	
 		if (selectedPoints.size() == 1) {
 	
-			GeoPoint2 p = (GeoPoint2) selectedPoints.get(0);
+			GeoPointND p = selectedPoints.get(0);
 	
 			if (p.isPointOnPath() || p.isPointInRegion()) {
 	
-				getSelectedPoints();
-				getSelectedRegions();
-				getSelectedPaths();
-	
-				// move point (20,20) pixels when detached
-				double x = view.toScreenCoordX(p.inhomX) + 20;
-				double y = view.toScreenCoordY(p.inhomY) + 20;
-	
-				try {
-					Construction cons = kernel.getConstruction();
-					boolean oldLabelCreationFlag = cons
-							.isSuppressLabelsActive();
-					cons.setSuppressLabelCreation(true);
-					GeoPoint2 newPoint = new GeoPoint2(
-							kernel.getConstruction(), null,
-							view.toRealWorldCoordX(x),
-							view.toRealWorldCoordY(y), 1.0);
-					cons.setSuppressLabelCreation(oldLabelCreationFlag);
-					cons.replace(p, newPoint);
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				clearSelections();
-				return true;
+				detach(p);
 			}
 		}
 	
@@ -3369,11 +3382,11 @@ public abstract class AbstractEuclidianController {
 													// (ie inside) not path
 													// (edge)
 				Path paths[] = getSelectedPaths();
-				GeoPoint2[] points = getSelectedPoints();
+				GeoPointND[] points = getSelectedPoints();
 	
 				// Application.debug("path: "+paths[0]+"\npoint: "+points[0]);
 	
-				if (((GeoElement) paths[0]).isChildOf(points[0])) {
+				if (((GeoElement) paths[0]).isChildOf((GeoElement) points[0])) {
 					return false;
 				}
 	
@@ -3387,9 +3400,9 @@ public abstract class AbstractEuclidianController {
 	
 			} else if (selRegions() == 1) {
 				Region regions[] = getSelectedRegions();
-				GeoPoint2[] points = getSelectedPoints();
+				GeoPointND[] points = getSelectedPoints();
 	
-				if (!((GeoElement) regions[0]).isChildOf(points[0])) {
+				if (!((GeoElement) regions[0]).isChildOf((GeoElement) points[0])) {
 					return attach(points[0], regions[0]);
 				}
 	
