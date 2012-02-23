@@ -205,7 +205,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 
 	public boolean hit(Rectangle rect, Shape s, boolean onStroke) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
 		return false;
 	}
 

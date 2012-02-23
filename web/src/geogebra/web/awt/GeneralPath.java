@@ -145,4 +145,7 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements
 	    
     }
 
+	public void quadTo(float f, float g, float h, float i) {
+		impl.quadTo(f,g,h,i);
+	}
 }

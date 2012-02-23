@@ -1792,8 +1792,7 @@ public class BasicStroke implements geogebra.common.awt.BasicStroke {
                     p.lineTo(points[j], points[j + 1]);
                     break;
                 case PathIterator.SEG_QUADTO:
-                	AbstractApplication.debug("unimplemented method");
-                    //p.quadTo(points[j], points[j + 1], points[j + 2], points[j + 3]);
+                    p.quadTo(points[j], points[j + 1], points[j + 2], points[j + 3]);
                     break;
                 case PathIterator.SEG_CUBICTO:
                     p.curveTo(points[j], points[j + 1], points[j + 2], points[j + 3], points[j + 4], points[j + 5]);

@@ -711,7 +711,7 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 	@Override
 	public AlgoElement newAlgoShortestDistance(Construction cons, String label,
 			GeoList list, GeoPointND start, GeoPointND end, GeoBoolean weighted) {
-		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed or obsolete"); // TODO Auto-generated
 		return null;
 	}
 
@@ -757,7 +757,7 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 
 	@Override
 	public CommandProcessor newCmdBarCode() {
-		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed or obsolete"); // TODO Auto-generated
 		return null;
 	}
 
@@ -1100,7 +1100,7 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 	}
 
 	public void onKeyDown(KeyDownEvent event) {
-		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed or obsolete"); // TODO Auto-generated
 
 	}
 
