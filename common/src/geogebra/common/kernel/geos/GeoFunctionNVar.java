@@ -272,7 +272,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		sbToString.append("(");
 		sbToString.append(getVarString(tpl));
 		sbToString.append(") = ");
-		sbToString.append(tpl);
+		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
 	}
 	
