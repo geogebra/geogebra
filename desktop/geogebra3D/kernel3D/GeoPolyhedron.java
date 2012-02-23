@@ -855,7 +855,14 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 
 	@Override
 	public String getTypeString() {
-		return "Polyhedron";
+		switch(type){
+		case TYPE_PRISM:
+			return "Prism";
+		case TYPE_PYRAMID:
+			return "Pyramid";
+		default:
+			return "Polyhedron";
+		}
 	}
 
 	@Override

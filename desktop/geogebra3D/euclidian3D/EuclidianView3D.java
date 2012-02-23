@@ -1884,9 +1884,11 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	/**
 	 * @return a preview right prism (basis and height)
 	 */
-	@SuppressWarnings("rawtypes")
-	public Previewable createPreviewRightPrism(ArrayList selectedPolygons){
-		return new DrawPolyhedron3D(this, selectedPolygons);
+	public Previewable createPreviewExtrusion(
+			ArrayList<GeoPolygon> selectedPolygons,
+			ArrayList<GeoConicND> selectedConics
+			){
+		return new DrawExtrusion3D(this, selectedPolygons, selectedConics);
 	}	
 	
 	

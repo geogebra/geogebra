@@ -124,7 +124,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	// preview of circle (two points or three points)
 	private ArrayList<GeoPointND> prevPoints;
 	private ArrayList<GeoSegment> prevSegments;
-	private ArrayList<GeoConic> prevConics;
+	private ArrayList<GeoConicND> prevConics;
 	private GeoPoint2[] previewTempPoints;
 	private GeoNumeric previewTempRadius;
 	private int previewMode, neededPrevPoints;
@@ -200,7 +200,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	 * @param conics
 	 */
 	public DrawConic(AbstractEuclidianView view, int mode, ArrayList<GeoPointND> points,
-			ArrayList<GeoSegment> segments, ArrayList<GeoConic> conics) {
+			ArrayList<GeoSegment> segments, ArrayList<GeoConicND> conics) {
 		this.view = view;
 		prevPoints = points;
 		prevSegments = segments;
@@ -1277,7 +1277,7 @@ final public class DrawConic extends Drawable implements Previewable {
 					GeoSegment seg = prevSegments.get(0);
 					previewTempRadius.setValue(seg.getLength());
 				} else if (prevConics.size() == 1) {
-					GeoConic circle = prevConics.get(0);
+					GeoConicND circle = prevConics.get(0);
 					previewTempRadius.setValue(circle.getCircleRadius());
 				}
 				previewTempRadius.updateCascade();

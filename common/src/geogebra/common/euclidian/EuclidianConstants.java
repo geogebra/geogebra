@@ -183,7 +183,7 @@ public final class EuclidianConstants {
 	public static final int MODE_PRISM = 531;
 	
 	/** creates a prism with basis and height */
-	public static final int MODE_RIGHT_PRISM = 532;
+	public static final int MODE_EXTRUSION = 532;
 	
 	/** creates a prism with basis and top vertex */
 	public static final int MODE_PYRAMID = 533;

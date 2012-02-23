@@ -1148,7 +1148,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	 * @param hits
 	 * @return true if a prism has been created
 	 */
-	final protected boolean rightPrism(Hits hits) {
+	final protected boolean extrusion(Hits hits) {
 		
 		
 		if (hits.isEmpty())
@@ -1157,6 +1157,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 
 		
 		addSelectedPolygon(hits, 1, false);
+		addSelectedConic(hits, 1, false);
 		//hits.removePolygons();
 		//addSelectedNumberValue(hits, 1, false);
 		addSelectedNumeric(hits, 1, false);
@@ -1173,15 +1174,16 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			Application.debug(s);
 		*/
 
-
-		if (selPolygons() == 1) {
-			if (selNumbers() == 1) {
-				// fetch selected point and vector
+		if (selNumbers() == 1) {
+			if (selPolygons() == 1) {
 				GeoPolygon[] basis = getSelectedPolygons();
-				//NumberValue[] height = getSelectedNumberValues();
 				GeoNumeric[] height = getSelectedNumbers();
-				// create new plane
 				getKernel().getManager3D().Prism(null, basis[0], height[0]);
+				return true;
+			}else if (selConics() == 1) {
+				GeoConicND[] basis = getSelectedConicsND();
+				GeoNumeric[] height = getSelectedNumbers();
+				getKernel().getManager3D().CylinderLimited(null, basis[0], height[0]);
 				return true;
 			}
 		}
@@ -1433,8 +1435,8 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			previewDrawable = view3D.createPreviewSphere(selectedPoints);
 			break;
 			
-		case EuclidianConstants.MODE_RIGHT_PRISM:
-			previewDrawable = view3D.createPreviewRightPrism(selectedPolygons);
+		case EuclidianConstants.MODE_EXTRUSION:
+			previewDrawable = view3D.createPreviewExtrusion(selectedPolygons,selectedConicsND);
 			break;
 			
 		case EuclidianConstants.MODE_PYRAMID:
@@ -1623,8 +1625,8 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			changedKernel = parallelPlane(hits);
 			break;
 			
-		case EuclidianConstants.MODE_RIGHT_PRISM:
-			changedKernel = rightPrism(hits);
+		case EuclidianConstants.MODE_EXTRUSION:
+			changedKernel = extrusion(hits);
 			break;
 			
 		case EuclidianConstants.MODE_PYRAMID:
@@ -1676,7 +1678,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 		case EuclidianConstants.MODE_PARALLEL_PLANE:
 			((Hits3D) hits).removePolygonsIfNotOnlyCS2D();
 			break;
-		case EuclidianConstants.MODE_RIGHT_PRISM:
+		case EuclidianConstants.MODE_EXTRUSION:
 		case EuclidianConstants.MODE_PYRAMID:
 		case EuclidianConstants.MODE_PRISM:
 			//String s = hits.toString();
@@ -1764,12 +1766,12 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			createNewPoint(hits, true, false, false, true, false);
 			break;	
 			
-		case EuclidianConstants.MODE_RIGHT_PRISM:
+		case EuclidianConstants.MODE_EXTRUSION:
 			view.setHits(mouseLoc);
 			hits = view.getHits();
 			switchModeForRemovePolygons(hits);
 			//Application.debug(hits.toString());
-			rightPrism(hits);
+			extrusion(hits);
 			view3D.updatePreviewable();
 			break;
 			
@@ -1816,8 +1818,8 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 		switch (mode) {
 		case EuclidianConstants.MODE_PARALLEL_PLANE:
 			return true;
-		case EuclidianConstants.MODE_RIGHT_PRISM:
-			((DrawPolyhedron3D) view3D.getPreviewDrawable()).createPolyhedron();
+		case EuclidianConstants.MODE_EXTRUSION:
+			((DrawExtrusion3D) view3D.getPreviewDrawable()).createPolyhedron();
 			//view3D.setPreview(null);//remove current previewable
 			//view3D.setPreview(view3D.createPreviewRightPrism(selectedPolygons));//init new one	
 			return true;

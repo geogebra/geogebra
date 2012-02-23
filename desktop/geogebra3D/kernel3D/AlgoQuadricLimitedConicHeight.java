@@ -142,4 +142,42 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 	
 		
 	}
+	
+	
+	
+
+	
+	
+	
+    ///////////////////////////////////////////////////////
+    // FOR PREVIEWABLE   
+    ///////////////////////////////////////////////////////
+
+	public void setOutputPointsEuclidianVisible(boolean b) {
+		//		
+	}
+
+
+	public void notifyUpdateOutputPoints() {
+		// 		
+	}
+
+
+	public GeoElement getTopFace() {	
+		return top;
+	}
+
+
+	public void setOutputOtherEuclidianVisible(boolean b) {
+		side.setEuclidianVisible(b);
+		top.setEuclidianVisible(b);
+		
+	}
+
+
+	public void notifyUpdateOutputOther() {
+		getKernel().notifyUpdate(side);
+		getKernel().notifyUpdate(top);
+		
+	}
 }

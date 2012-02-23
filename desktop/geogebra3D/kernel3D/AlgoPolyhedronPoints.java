@@ -344,10 +344,10 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
     
 
 	/**
-	 * set visibility of output segments and polygons
-	 * @param visible
+	 * set visibility of output other than points
+	 * @param visible flag
 	 */
-	public void setOutputSegmentsAndPolygonsEuclidianVisible(boolean visible){
+	public void setOutputOtherEuclidianVisible(boolean visible){
 		for (int i=0; i<outputSegmentsBottom.size(); i++)
 			outputSegmentsBottom.getElement(i).setEuclidianVisible(visible);
 		for (int i=0; i<outputSegmentsSide.size(); i++)
@@ -363,9 +363,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	}
 	
 	/**
-	 * notify kernel update of output segments and polygons
+	 * notify kernel update of output other than points
 	 */
-	public void notifyUpdateOutputSegmentsAndPolygons(){
+	public void notifyUpdateOutputOther(){
 		for (int i=0; i<outputSegmentsBottom.size(); i++)
 			getKernel().notifyUpdate(outputSegmentsBottom.getElement(i));
 		for (int i=0; i<outputSegmentsSide.size(); i++)
@@ -383,7 +383,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 
 	/**
 	 * set output points invisible (use for previewable)
-	 * @param visible 
+	 * @param visible flag
 	 */
 	public void setOutputPointsEuclidianVisible(boolean visible){
 		for (int i=0; i<outputPoints.size(); i++)
@@ -429,7 +429,10 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		return ret.mul((double) 1/outputPoints.size());
 	}
 	
-	
+	/**
+	 * 
+	 * @return top face
+	 */
 	public GeoPolygon getTopFace(){
 		return outputPolygonsTop.getElement(0);
 		

@@ -195,7 +195,7 @@ public abstract class AbstractEuclidianController {
 
 	protected ArrayList<Path> selectedPaths = new ArrayList<Path>();
 
-	protected ArrayList<GeoConic> selectedConicsND = new ArrayList<GeoConic>();
+	protected ArrayList<GeoConicND> selectedConicsND = new ArrayList<GeoConicND>();
 
 	protected ArrayList<GeoImplicitPoly> selectedImplicitpoly = new ArrayList<GeoImplicitPoly>();
 
@@ -847,9 +847,9 @@ public abstract class AbstractEuclidianController {
 	protected final GeoConic[] getSelectedConics() {
 		GeoConic[] conics = new GeoConic[selectedConicsND.size()];
 		int i = 0;
-		Iterator<GeoConic> it = selectedConicsND.iterator();
+		Iterator<GeoConicND> it = selectedConicsND.iterator();
 		while (it.hasNext()) {
-			conics[i] = it.next();
+			conics[i] = (GeoConic) it.next();
 			i++;
 		}
 		clearSelection(selectedConicsND);
@@ -859,9 +859,24 @@ public abstract class AbstractEuclidianController {
 	protected final GeoConic[] getSelectedCircles() {
 		GeoConic[] circles = new GeoConic[selectedConicsND.size()];
 		int i = 0;
-		Iterator<GeoConic> it = selectedConicsND.iterator();
+		Iterator<GeoConicND> it = selectedConicsND.iterator();
 		while (it.hasNext()) {
-			GeoConic c = it.next();
+			GeoConicND c = it.next();
+			if (c.isCircle()) {
+				circles[i] = (GeoConic) c;
+				i++;
+			}
+		}
+		clearSelection(selectedConicsND);
+		return circles;
+	}
+	
+	protected final GeoConicND[] getSelectedCirclesND() {
+		GeoConicND[] circles = new GeoConicND[selectedConicsND.size()];
+		int i = 0;
+		Iterator<GeoConicND> it = selectedConicsND.iterator();
+		while (it.hasNext()) {
+			GeoConicND c = it.next();
 			if (c.isCircle()) {
 				circles[i] = c;
 				i++;
@@ -870,11 +885,11 @@ public abstract class AbstractEuclidianController {
 		clearSelection(selectedConicsND);
 		return circles;
 	}
-
+	
 	protected final GeoConicND[] getSelectedConicsND() {
 		GeoConicND[] conics = new GeoConicND[selectedConicsND.size()];
 		int i = 0;
-		Iterator<GeoConic> it = selectedConicsND.iterator();
+		Iterator<GeoConicND> it = selectedConicsND.iterator();
 		while (it.hasNext()) {
 			conics[i] = it.next();
 			i++;
@@ -4323,7 +4338,7 @@ public abstract class AbstractEuclidianController {
 	
 		// we already have a circle that defines the radius
 		else if (selConics() == 1) {
-			GeoConic circle = selectedConicsND.get(0);
+			GeoConic circle = (GeoConic) selectedConicsND.get(0);
 	
 			// check for centerPoint
 			GeoPoint2 centerPoint = (GeoPoint2) chooseGeo(hits, Test.GEOPOINT2);
@@ -4377,7 +4392,7 @@ public abstract class AbstractEuclidianController {
 	
 			// don't allow conics other than circles to be selected
 			if (selectedConicsND.size() > 0) {
-				GeoConic c = selectedConicsND.get(0);
+				GeoConic c = (GeoConic) selectedConicsND.get(0);
 				if (!c.isCircle()) {
 					selectedConicsND.remove(0);
 					clearSelections();
