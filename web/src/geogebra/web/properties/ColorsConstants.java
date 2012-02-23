@@ -2,6 +2,7 @@ package geogebra.web.properties;
 
 import com.google.gwt.i18n.client.ConstantsWithLookup;
 
+@SuppressWarnings("javadoc")
 /**
  * Colors interface
  * GWT implementation of Colors' internationalization.

@@ -2,9 +2,14 @@ package geogebra.web.properties;
 
 import com.google.gwt.i18n.client.ConstantsWithLookup;
 
+@SuppressWarnings("javadoc")
+/**
+ * ErrorConstants and interface that represents the Plain properties file
+ * @author Rana
+ *
+ */
 public interface PlainConstants extends ConstantsWithLookup {
 
-	
 	@DefaultStringValue("Point Size")
 	String PointSize();
 
@@ -569,9 +574,6 @@ public interface PlainConstants extends ConstantsWithLookup {
 	@DefaultStringValue("Background Image")
 	String BackgroundImage();
 
-	@DefaultStringValue("3x3 matrix")
-	String _3x3Matrix();
-
 	@DefaultStringValue("Horizontal")
 	String horizontal();
 
@@ -904,9 +906,6 @@ public interface PlainConstants extends ConstantsWithLookup {
 
 	@DefaultStringValue("Intersection point of %0, %1 near to point %2")
 	String IntersectionPointOfABNearC();
-
-	@DefaultStringValue("2x2 matrix")
-	String _2x2Matrix();
 
 	@DefaultStringValue("Tangent to %0 parallel to %1")
 	String TangentToAParallelToB();

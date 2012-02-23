@@ -30,6 +30,7 @@ import geogebra.common.plugin.ScriptManagerCommon;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
+import geogebra.common.util.Unicode;
 import geogebra.web.css.GuiResources;
 import geogebra.web.euclidian.EuclidianController;
 import geogebra.web.euclidian.EuclidianView;
@@ -42,6 +43,7 @@ import geogebra.web.io.MyXMLio;
 import geogebra.web.kernel.AnimationManager;
 import geogebra.web.kernel.UndoManager;
 import geogebra.web.properties.ColorsConstants;
+import geogebra.web.properties.PlainConstants;
 import geogebra.web.util.DataUtil;
 import geogebra.web.util.DebugPrinterWeb;
 import geogebra.web.util.ImageManager;
@@ -90,9 +92,14 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 	 * Internationalization member variables
 	 */
 	private ColorsConstants colorConstants;
+	private PlainConstants plainConstants;
 
 	private void initColorConstants() {
 		colorConstants = GWT.create(ColorsConstants.class);
+	}
+	
+	private void initPlainConstants() {
+		plainConstants = GWT.create(PlainConstants.class);
 	}
 
 	private EuclidianViewPanel euclidianViewPanel;
@@ -220,42 +227,19 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 	}
 
 	@Override
-	public String getPlain(String cmdName) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return cmdName;
-	}
+	public String getPlain(String key) {
+		
+		if (tooltipFlag) {
+			return getPlainTooltip(key);
+		}
 
-	@Override
-	public String getPlain(String cmdName, String param) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return cmdName + param;
-	}
+		if (plainConstants == null) {
+			initPlainConstants();
+		}
+		
+		//TODO Implementation of cross-referencing of keys is needed
 
-	@Override
-	public String getPlain(String cmdName, String param, String param2) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return cmdName + param + param2;
-	}
-
-	@Override
-	public String getPlain(String cmdName, String param, String param2,
-			String param3) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return cmdName + param + param2 + param3;
-	}
-
-	@Override
-	public String getPlain(String cmdName, String param, String param2,
-			String param3, String param4) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return cmdName + param + param2 + param3 + param4;
-	}
-
-	@Override
-	public String getPlain(String cmdName, String param, String param2,
-			String param3, String param4, String param5) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return cmdName + param + param2 + param3 + param4 + param5;
+		return plainConstants.getString(key);
 	}
 
 	@Override
@@ -600,32 +584,30 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 			return "";
 		}
 
-		// To be completed later when Plain is implemented
+		if ((key.length() == 5)
+				&& toLowerCase(key).startsWith("gray")) {
+			switch (key.charAt(4)) {
+			case '0':
+				return getColor("white");
+			case '1':
+				return getPlain("AGray", Unicode.fraction1_8);
+			case '2':
+				return getPlain("AGray", Unicode.fraction1_4); // silver
+			case '3':
+				return getPlain("AGray", Unicode.fraction3_8);
+			case '4':
+				return getPlain("AGray", Unicode.fraction1_2);
+			case '5':
+				return getPlain("AGray", Unicode.fraction5_8);
+			case '6':
+				return getPlain("AGray", Unicode.fraction3_4);
+			case '7':
+				return getPlain("AGray", Unicode.fraction7_8);
+			default:
+				return getColor("black");
+			}
+		}
 
-		// if ((key.length() == 5)
-		// && toLowerCase(key).startsWith("gray")) {
-		// switch (key.charAt(4)) {
-		// case '0':
-		// return getColor("white");
-		// case '1':
-		// return getPlain("AGray", Unicode.fraction1_8);
-		// case '2':
-		// return getPlain("AGray", Unicode.fraction1_4); // silver
-		// case '3':
-		// return getPlain("AGray", Unicode.fraction3_8);
-		// case '4':
-		// return getPlain("AGray", Unicode.fraction1_2);
-		// case '5':
-		// return getPlain("AGray", Unicode.fraction5_8);
-		// case '6':
-		// return getPlain("AGray", Unicode.fraction3_4);
-		// case '7':
-		// return getPlain("AGray", Unicode.fraction7_8);
-		// default:
-		// return getColor("black");
-		// }
-		// }
-		//
 		if (colorConstants == null) {
 			initColorConstants();
 		}

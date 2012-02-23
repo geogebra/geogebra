@@ -551,19 +551,6 @@ public abstract class AbstractApplication {
 
 	public abstract String getPlain(String cmdName);
 
-	public abstract String getPlain(String cmdName, String param);
-
-	public abstract String getPlain(String cmdName, String param, String param2);
-
-	public abstract String getPlain(String cmdName, String param,
-			String param2, String param3);
-
-	public abstract String getPlain(String cmdName, String param,
-			String param2, String param3, String param4);
-
-	public abstract String getPlain(String cmdName, String param,
-			String param2, String param3, String param4, String param5);
-
 	public abstract String getMenu(String cmdName);
 
 	public abstract String getError(String cmdName);
@@ -2713,6 +2700,76 @@ public abstract class AbstractApplication {
 
 		isSaved = true;
 	}
+	
+	// Michael Borcherds 2008-03-25
+	// replace "%0" by arg0
+	final public String getPlain(String key, String arg0) {
+		String[] ss = { arg0 };
+		return getPlain(key, ss);
+	}
+	
+	// Michael Borcherds 2008-03-25
+	// replace "%0" by arg0, "%1" by arg1
+	final public String getPlain(String key, String arg0, String arg1) {
+		String[] ss = { arg0, arg1 };
+		return getPlain(key, ss);
+	}
+	
+	// Michael Borcherds 2008-03-30
+	// replace "%0" by arg0, "%1" by arg1, "%2" by arg2
+	final public String getPlain(String key, String arg0, String arg1,
+			String arg2) {
+		String[] ss = { arg0, arg1, arg2 };
+		return getPlain(key, ss);
+	}
+	
+	// Michael Borcherds 2008-03-30
+	// replace "%0" by arg0, "%1" by arg1, "%2" by arg2, "%3" by arg3
+	final public String getPlain(String key, String arg0, String arg1,
+			String arg2, String arg3) {
+		String[] ss = { arg0, arg1, arg2, arg3 };
+		return getPlain(key, ss);
+	}
+
+	// Michael Borcherds 2008-03-30
+	// replace "%0" by arg0, "%1" by arg1, "%2" by arg2, "%3" by arg3, "%4" by
+	// arg4
+	final public String getPlain(String key, String arg0, String arg1,
+			String arg2, String arg3, String arg4) {
+		String[] ss = { arg0, arg1, arg2, arg3, arg4 };
+		return getPlain(key, ss);
+	}
+	
+	private final StringBuilder sbPlain = new StringBuilder();
+	
+	// Michael Borcherds 2008-03-25
+	// Markus Hohenwarter 2008-09-18
+	// replace "%0" by args[0], "%1" by args[1], etc
+	final public String getPlain(String key, String[] args) {
+		String str = getPlain(key);
+
+		sbPlain.setLength(0);
+		for (int i = 0; i < str.length(); i++) {
+			char ch = str.charAt(i);
+			if (ch == '%') {
+				// get number after %
+				i++;
+				int pos = str.charAt(i) - '0';
+				if ((pos >= 0) && (pos < args.length)) {
+					// success
+					sbPlain.append(args[pos]);
+				} else {
+					// failed
+					sbPlain.append(ch);
+				}
+			} else {
+				sbPlain.append(ch);
+			}
+		}
+
+		return sbPlain.toString();
+	}
+
 
 
 }
