@@ -485,6 +485,15 @@ public class Manager3D implements Manager3DInterface {
 				cons, labels, origin, secondPoint, r);
 		return algo.getOutput();
 	}
+	
+
+	final public GeoElement[] ConeLimited(String[] labels, GeoConicND bottom,
+			NumberValue height){
+		AlgoQuadricLimitedConicHeightCone algo = new AlgoQuadricLimitedConicHeightCone(
+				cons, labels, bottom, height);
+		algo.update();// ensure volume is correctly computed
+		return algo.getOutput();
+	}
 
 	/**
 	 * Cylinder

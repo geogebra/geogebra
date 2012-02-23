@@ -535,8 +535,11 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 		updateSegments();
 		defined = poly.defined;
 
-		setCoordParentNumber(poly.getCoordParentNumber());
+		if (poly.hasChangeableCoordParentNumbers())
+			setChangeableCoordParent(poly.changeableCoordParent.getNumber(),poly.changeableCoordParent.getDirector());
 	}
+
+
 
 	/**
 	 * Returns the i-th point of this polygon. Note that this array may change
@@ -1483,45 +1486,30 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	// PARENT NUMBER (HEIGHT OF A PRISM, ...)
 	// ////////////////////////////////////////////////////
 
-	private GeoNumeric changeableCoordNumber = null;
-	private GeoElement changeableCoordDirector = null;
+	private ChangeableCoordParent changeableCoordParent = null;
 
 	/**
-	 * sets the parent number for changing coords
+	 * sets the parents for changing coords
+	 * @param number number
+	 * @param direction direction
 	 * 
-	 * @param geo parent number
 	 */
-	final public void setCoordParentNumber(GeoNumeric geo) {
-		changeableCoordNumber = geo;
+	final public void setChangeableCoordParent(GeoNumeric number, GeoElement direction) {
+		changeableCoordParent = new ChangeableCoordParent(this, number, direction);
 	}
 
-	/**
-	 * sets the parent director for changing coords
-	 * 
-	 * @param geo parent director
-	 */
-	final public void setCoordParentDirector(GeoElement geo) {
-		changeableCoordDirector = geo;
-	}
-
-	final private GeoNumeric getCoordParentNumber() {
-		return changeableCoordNumber;
-	}
-
+	
+	
+	
 	@Override
 	public boolean hasChangeableCoordParentNumbers() {
-		return (getCoordParentNumber() != null);
+		return (changeableCoordParent != null);
 	}
 
-	private double startValue;
-
-	private Coords direction;
 
 	@Override
 	public void recordChangeableCoordParentNumbers() {
-		startValue = getCoordParentNumber().getValue();
-		// direction = getMainDirection().normalized();
-		this.direction = changeableCoordDirector.getMainDirection();
+		changeableCoordParent.record();
 	}
 
 	@Override
@@ -1530,31 +1518,22 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 			ArrayList<GeoElement> updateGeos,
 			ArrayList<GeoElement> tempMoveObjectList) {
 
-		GeoNumeric var = getCoordParentNumber();
+		return changeableCoordParent.move(rwTransVec, endPosition, viewDirection, updateGeos, tempMoveObjectList);
 
-		if (var == null)
-			return false;
-		if (endPosition == null) { // comes from arrows keys -- all is added
-			var.setValue(var.getValue() + rwTransVec.getX() + rwTransVec.getY()
-					+ rwTransVec.getZ());
-			addChangeableCoordParentNumberToUpdateList(var, updateGeos,
-					tempMoveObjectList);
-			return true;
-		}
-		// else: comes from mouse
-		Coords direction2 = direction.sub(viewDirection.mul(viewDirection
-				.dotproduct(direction)));
-		double ld = direction2.dotproduct(direction2);
-		if (Kernel.isZero(ld))
-			return false;
-		double val = direction2.dotproduct(rwTransVec);
-		var.setValue(startValue + val / ld);
-		addChangeableCoordParentNumberToUpdateList(var, updateGeos,
-				tempMoveObjectList);
-		return true;
 
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public void rotate(NumberValue r) {
 		for (int i = 0; i < points.length; i++)
 			((GeoPoint2) points[i]).rotate(r);

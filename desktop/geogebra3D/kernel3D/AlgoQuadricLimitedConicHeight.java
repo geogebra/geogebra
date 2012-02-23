@@ -4,6 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -64,7 +65,15 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 		setOutput();
 		
 		quadric.initLabelsNoBottom(labels);
-		quadric.updatePartsVisualStyle();			
+		quadric.updatePartsVisualStyle();	
+		
+		if (height instanceof GeoNumeric){
+			if (((GeoNumeric) height).isIndependent()){
+				side.setChangeableCoordParent((GeoNumeric) height,bottom);
+				top.setChangeableCoordParent((GeoNumeric) height,bottom);
+			}
+		}
+
 	}
 	
 	/**

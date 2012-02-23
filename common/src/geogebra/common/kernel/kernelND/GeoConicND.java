@@ -998,7 +998,9 @@ Translateable, GeoConicNDConstants
 				singlePoint = new GeoPoint2(cons);
 			singlePoint.setCoords(co.singlePoint);
 		}
-		defined = co.defined;		
+		defined = co.defined;	
+		
+		super.set(geo);
 	}		
 	
 	/**

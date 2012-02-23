@@ -1,11 +1,16 @@
 package geogebra.common.kernel.kernelND;
 
+import java.util.ArrayList;
+
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.geos.ChangeableCoordParent;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 
 
 /** Abstract class describing quadrics in n-dimension space.
@@ -78,6 +83,14 @@ public abstract class GeoQuadricND extends GeoElement implements GeoQuadricNDCon
 		halfAxes = new double[dimension];
 		midpoint = new Coords(dimension+1);
 		midpoint.set(dimension+1, 1);
+	}
+	
+	
+	@Override
+	public void set(GeoElement geo) {
+		GeoQuadricND quadric = (GeoQuadricND) geo;
+		if (quadric.hasChangeableCoordParentNumbers())
+			setChangeableCoordParent(quadric.changeableCoordParent.getNumber(),quadric.changeableCoordParent.getDirector());
 	}
 	
 	////////////////////////////////
@@ -468,5 +481,68 @@ public abstract class GeoQuadricND extends GeoElement implements GeoQuadricNDCon
 			b.y);
 			*/
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// ////////////////////////////////////////////////////
+		// PARENT NUMBER (HEIGHT OF A PRISM, ...)
+		// ////////////////////////////////////////////////////
+
+		private ChangeableCoordParent changeableCoordParent = null;
+
+		/**
+		 * sets the parents for changing coords
+		 * @param number number
+		 * @param direction direction
+		 * 
+		 */
+		final public void setChangeableCoordParent(GeoNumeric number, GeoElement direction) {
+			changeableCoordParent = new ChangeableCoordParent(this, number, direction);
+		}
+
+		
+		
+		
+		@Override
+		public boolean hasChangeableCoordParentNumbers() {
+			return (changeableCoordParent != null);
+		}
+
+
+		@Override
+		public void recordChangeableCoordParentNumbers() {
+			changeableCoordParent.record();
+		}
+
+		@Override
+		public boolean moveFromChangeableCoordParentNumbers(Coords rwTransVec,
+				Coords endPosition, Coords viewDirection,
+				ArrayList<GeoElement> updateGeos,
+				ArrayList<GeoElement> tempMoveObjectList) {
+
+			return changeableCoordParent.move(rwTransVec, endPosition, viewDirection, updateGeos, tempMoveObjectList);
+
+
+		}
+
+		
+		
+	
+	
+	
+	
+	
+	
+	
 
 }

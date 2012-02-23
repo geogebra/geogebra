@@ -5,6 +5,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoCoordSys;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -35,7 +36,23 @@ public class CmdCone extends CommandProcessor {
 	    boolean[] ok = new boolean[n];
 	    GeoElement[] arg;
 
-	    switch (n) {	    	
+	    switch (n) {	
+	    case 2 :
+	    	arg = resArgs(c);
+	    	
+	    	if (
+	    			(ok[0] = (arg[0] instanceof GeoConicND ) )
+	    			&& (ok[1] = (arg[1] .isNumberValue() )) 
+	    	) {
+	    		return kernelA.getManager3D().ConeLimited(
+	    				c.getLabels(),(GeoConicND) arg[0], (NumberValue) arg[1]);
+	    	}
+
+	    	if (!ok[0])
+	    		throw argErr(arg[0]);
+	    	throw argErr(arg[1]);
+
+	    
 	    case 3 :
 	    	arg = resArgs(c);
 	    	if (

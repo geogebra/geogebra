@@ -261,6 +261,8 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		eigenMatrix.set(quadric.eigenMatrix);
 
 		defined = quadric.defined;
+		
+		super.set(geo);
 	}
 
 	public boolean showInAlgebraView() {

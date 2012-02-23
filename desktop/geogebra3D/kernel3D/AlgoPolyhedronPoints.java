@@ -205,8 +205,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 			if (((GeoNumeric) height).isIndependent()){
 
 				for (GeoPolygon p : polyhedron.getPolygons()){
-					p.setCoordParentNumber((GeoNumeric) height);
-					p.setCoordParentDirector(bottom);
+					p.setChangeableCoordParent((GeoNumeric) height,bottom);
 				}
 				
 				//getTopFace().setCoordParentNumber((GeoNumeric) height);

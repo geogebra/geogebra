@@ -48,12 +48,12 @@ public class CmdCylinder extends CommandProcessor{
 	    						(GeoLineND) arg[0],
 	    						(NumberValue) arg[1])};
 	    		return ret;
-	    	}else{
-	    		if (!ok[0])
-	    			throw argErr(arg[0]);
-	    		else 
-	    			throw argErr(arg[1]);
 	    	}
+
+	    	if (!ok[0])
+	    		throw argErr(arg[0]); 
+	    	throw argErr(arg[1]);
+
 	    
 	    case 3 :
 	    	arg = resArgs(c);

@@ -279,6 +279,9 @@ public interface Manager3DInterface {
 
 	public GeoElement[] ConeLimited(String[] labels, GeoPointND origin,
 			GeoPointND secondPoint, NumberValue r);
+	
+	public GeoElement[] ConeLimited(String[] labels, GeoConicND bottom,
+			NumberValue height);
 
 	/**
 	 * Cylinder

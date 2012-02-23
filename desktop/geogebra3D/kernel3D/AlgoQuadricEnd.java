@@ -92,7 +92,7 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
     	Coords d = quadric.getEigenvec3D(2);
     	Coords o1 = quadric.getMidpoint3D().add(d.mul(quadric.getMin()));   	
     	Coords o2 =quadric.getMidpoint3D().add(d.mul(quadric.getMax()));
-    	pm.setOrigin(o1);
+    	pm.setOrigin(o2);
     	Coords[] v = d.completeOrthonormal();  	
     	pm.setVx(v[0]);
     	pm.setVy(v[1]);

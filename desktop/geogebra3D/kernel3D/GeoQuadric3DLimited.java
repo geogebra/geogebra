@@ -432,6 +432,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements NumberValue {
 
 			defined = quadric.defined;
 
+			super.set(geo);
 		}
 
 	}

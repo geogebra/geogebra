@@ -10,11 +10,11 @@ import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 
 
 /**
- * Algo for cylinder from a conic and a height
+ * Algo for cone from a conic and a height
  * @author mathieu
  *
  */
-public class AlgoQuadricLimitedConicHeightCylinder extends AlgoQuadricLimitedConicHeight {
+public class AlgoQuadricLimitedConicHeightCone extends AlgoQuadricLimitedConicHeight {
 
 
 	/**
@@ -24,8 +24,8 @@ public class AlgoQuadricLimitedConicHeightCylinder extends AlgoQuadricLimitedCon
 	 * @param bottom bottom side
 	 * @param height height
 	 */
-	public AlgoQuadricLimitedConicHeightCylinder(Construction c, String[] labels, GeoConicND bottom, NumberValue height) {
-		super(c, labels, bottom, height, GeoQuadricNDConstants.QUADRIC_CYLINDER);
+	public AlgoQuadricLimitedConicHeightCone(Construction c, String[] labels, GeoConicND bottom, NumberValue height) {
+		super(c, labels, bottom, height, GeoQuadricNDConstants.QUADRIC_CONE);
 	}
 
 	
@@ -47,14 +47,15 @@ public class AlgoQuadricLimitedConicHeightCylinder extends AlgoQuadricLimitedCon
 
 	@Override
 	protected void setQuadric(Coords o1, Coords o2, Coords d, double r, double min, double max){
-		getQuadric().setCylinder(o1,d,r, min, max);
+		//getQuadric().setCone(o1,d,r, min, max);
+		getQuadric().setCone(o2,d,r/max, -max, 0);
 	}
 
 	
 
 	@Override
 	public Algos getClassName() {
-		return Algos.AlgoLimitedCylinder;
+		return Algos.AlgoLimitedCone;
 	}
 	
 }
