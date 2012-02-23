@@ -221,7 +221,7 @@ else
  cp -a $WEBDIR/war/* $INSTALLDIR
  find $INSTALLDIR -name .svn -or -name WEB-INF | xargs rm -fR
  echo "GeoGebraWeb compilation and installation finished. Insert this URL into your browser:"
- echo "file:///$INSTALLDIR/Web.html"
+ echo "file:///$INSTALLDIR/degeneretaConics.html"
  fi
 
 exit 0
