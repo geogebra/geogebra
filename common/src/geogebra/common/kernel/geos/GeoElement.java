@@ -5133,7 +5133,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		// register new condition
 		if (colFunction != null) {
-			colFunction.unregisterColorFunctionListener(this);
+			colFunction.registerColorFunctionListener(this);
 		}
 	}
 

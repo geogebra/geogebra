@@ -40,6 +40,8 @@ import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
 
+import org.apache.catalina.core.ApplicationContext;
+
 /**
  * List of GeoElements
  */
@@ -873,16 +875,18 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 */
 	@Override
 	public void update() {
+
 		super.update();
 		// update all registered locatables (they have this point as start
 		// point)
 		if (colorFunctionListener != null) {
-			// Application.debug("GeoList update listeners");
+			//AbstractApplication.debug("GeoList update listeners");
 			for (int i = 0; i < colorFunctionListener.size(); i++) {
 				final GeoElement geo = colorFunctionListener.get(i);
 				// kernel.notifyUpdate(geo);
 				// geo.toGeoElement().updateCascade();
 				geo.updateVisualStyle();
+				//AbstractApplication.debug(geo);
 			}
 			// kernel.notifyRepaint();
 		}
