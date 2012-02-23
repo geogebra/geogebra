@@ -40,8 +40,6 @@ import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
 
-import org.apache.catalina.core.ApplicationContext;
-
 /**
  * List of GeoElements
  */
