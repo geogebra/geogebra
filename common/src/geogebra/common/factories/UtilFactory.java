@@ -1,5 +1,7 @@
 package geogebra.common.factories;
 
+import geogebra.common.util.HttpRequest;
+
 public abstract class UtilFactory {
 	public static UtilFactory prototype;
 
@@ -11,5 +13,5 @@ public abstract class UtilFactory {
 	 * @param url The http URL
 	 * @return The response string
 	 */
-	public abstract String newHttpRequestResponse(String url);
+	public abstract HttpRequest newHttpRequest();
 }

@@ -2,6 +2,7 @@ package geogebra.common.cas.singularws;
 
 import geogebra.common.factories.UtilFactory;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.util.HttpRequest;
 
 public class SingularWebService {
 
@@ -16,7 +17,8 @@ public class SingularWebService {
 	
 	public boolean testConnection() {
 		String command = wsHost + "/" + testConnectionCommand;
-		String response = UtilFactory.prototype.newHttpRequestResponse(command);
+		HttpRequest httpr = UtilFactory.prototype.newHttpRequest();
+		String response = httpr.getResponse(command);//FIXME: unimplemented in GeoGebraWeb!
 		if (response.equals("ok"))
 			return true;
 		return false;

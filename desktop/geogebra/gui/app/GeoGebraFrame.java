@@ -23,11 +23,11 @@ import geogebra.common.cas.singularws.SingularWebService;
 import geogebra.common.factories.UtilFactory;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.util.HttpRequest;
 import geogebra.euclidian.DrawEquation;
 import geogebra.gui.FileDropTargetListener;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
-import geogebra.common.factories.UtilFactory;
 import geogebra.util.Util;
 
 import java.awt.Color;
@@ -473,8 +473,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 				String newestVersion = null;
 				
 				try {
-
-					newestVersion = UtilFactory.prototype.newHttpRequestResponse(VERSION_URL);
+					HttpRequest httpr = UtilFactory.prototype.newHttpRequest();
+					newestVersion = httpr.getResponse(VERSION_URL);
 					newestVersion = newestVersion.replaceAll("-", ".");
 					Long newestVersionL = versionToLong(newestVersion);
 					Long currentVersionL = versionToLong(GeoGebraConstants.VERSION_STRING);

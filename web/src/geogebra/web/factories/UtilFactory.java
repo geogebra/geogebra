@@ -1,38 +1,12 @@
 package geogebra.web.factories;
 
+import geogebra.common.util.HttpRequest;
+
 import com.google.gwt.http.client.*;
 
 public class UtilFactory extends geogebra.common.factories.UtilFactory {
 
-	String answer;
-	
-	/* The following code has been copied mostly from
-	 * http://code.google.com/intl/hu-HU/webtoolkit/doc/latest/DevGuideServerCommunication.html#DevGuideHttpRequests
-	 */
-	@Override
-	public String newHttpRequestResponse(String url) {
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(url));
-		
-		try {
-			  Request request = builder.sendRequest(null, new RequestCallback() {
-			    public void onError(Request request, Throwable exception) {
-			       // Couldn't connect to server (could be timeout, SOP violation, etc.)
-			    }
-
-			    public void onResponseReceived(Request request, Response response) {
-			      if (200 == response.getStatusCode()) {
-			          // Process the response in response.getText()
-			    	  answer = response.getText();
-			      } else {
-			        // Handle the error.  Can get the status text from response.getStatusText()
-			      }
-			    }
-			  });
-			} catch (RequestException e) {
-			  // Couldn't connect to server
-			}
-		
-	    return answer;
-    }
-
+	public HttpRequest newHttpRequest() {
+		return new geogebra.web.util.HttpRequest();
+	}
 }
