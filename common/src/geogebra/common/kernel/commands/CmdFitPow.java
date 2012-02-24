@@ -11,7 +11,12 @@ import geogebra.common.kernel.geos.GeoList;
  * @version 07.04.08
  */
 public class CmdFitPow extends CmdOneListFunction{
-
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
     public CmdFitPow(Kernel kernel) {super(kernel);}
     
 	@Override

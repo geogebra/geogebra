@@ -4,12 +4,17 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.Kernel;
 
-/*
+/**
  * Determinant[ <List> ]
  * Michael Borcherds 
  */
 public class CmdDeterminant extends CmdOneListFunction {
-
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdDeterminant(Kernel kernel) {
 		super(kernel);
 	}

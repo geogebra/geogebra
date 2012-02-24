@@ -50,6 +50,7 @@ import geogebra.common.kernel.cas.AlgoTangentFunctionPoint;
 import geogebra.common.kernel.cas.AsynchronousCommand;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AlgebraProcessor;
+import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.discrete.AlgoConvexHull;
 import geogebra.common.kernel.discrete.AlgoDelauneyTriangulation;
 import geogebra.common.kernel.discrete.AlgoHull;
@@ -418,7 +419,7 @@ public class Kernel {
 	 * @return a new algebra processor (used for 3D)
 	 */
 	public AlgebraProcessor newAlgebraProcessor(Kernel kernel) {
-		return new AlgebraProcessor(kernel);
+		return new AlgebraProcessor(kernel,new CommandDispatcher(kernel));
 	}
 
 	/**

@@ -32,14 +32,14 @@ public class CmdFrequency extends CommandProcessor {
 		switch (n) {
 
 		case 1:
-			if (ok[0] = arg[0].isGeoList()) {
+			if (arg[0].isGeoList()) {
 				GeoElement[] ret = { kernelA.Frequency(c.getLabel(),
 						(GeoList) arg[0]) };
 				return ret;
 
-			} else {
-				throw argErr(app, c.getName(), arg[0]);
-			}
+			} 
+			throw argErr(app, c.getName(), arg[0]);
+			
 
 		case 2:
 

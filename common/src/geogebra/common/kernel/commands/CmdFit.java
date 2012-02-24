@@ -1,4 +1,3 @@
-package geogebra.common.kernel.commands; 
 /* 
 GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org
@@ -10,6 +9,8 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
 */
+package geogebra.common.kernel.commands; 
+
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
@@ -25,12 +26,18 @@ import geogebra.common.main.MyError;
  */
 public class CmdFit extends CommandProcessor{
 
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
     public CmdFit(Kernel kernel) {super(kernel);}
     
     @Override
 	public GeoElement[] process(Command c) throws MyError {
         int n=c.getArgumentNumber();
-        GeoElement[] arg=resArgs(c);;
+        GeoElement[] arg=resArgs(c);
         switch(n) {
             case 2:
                     if(  (arg[0].isGeoList() )&& (arg[1].isGeoList())  ){ 

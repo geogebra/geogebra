@@ -11,7 +11,12 @@ import geogebra.common.kernel.Kernel;
  * @version 2010-02-25
  */
 public class CmdFitGrowth extends CmdOneListFunction{
-
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
     public CmdFitGrowth(Kernel kernel) {super(kernel);}
     
 	@Override

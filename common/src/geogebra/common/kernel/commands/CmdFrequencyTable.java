@@ -8,6 +8,15 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
+/**
+ * FrequencyTable[ &lt;List of Raw Data L> ]
+FrequencyTable[ &lt;Boolean Cumulative C>, &lt;List of Raw Data L>]
+FrequencyTable[&lt;List of Class Boundaries C>, &lt;List of Raw Data L> ]
+FrequencyTable[ &lt;Boolean Cumulative>,&lt;List of Class Boundaries C>,&lt;List of Raw Data L>]
+FrequencyTable[&lt;List of Class Boundaries>, &lt;List of Raw Data>, &lt;Use Density> , &lt;Density Scale Factor> (optional) ]
+FrequencyTable[ &lt;Boolean Cumulative>, &lt;List of Class Boundaries>, &lt;List of Raw Data>, &lt;Use Density> , &lt;Density Scale Factor> (optional) ] 
+ *
+ */
 public class CmdFrequencyTable extends CommandProcessor {
 	/**
 	 * Create new command processor
@@ -29,14 +38,14 @@ public class CmdFrequencyTable extends CommandProcessor {
 		switch (n) {
 
 		case 1:
-			if (ok[0] = arg[0].isGeoList()) {
+			if (arg[0].isGeoList()) {
 				GeoElement[] ret = { kernelA.FrequencyTable(c.getLabel(),
 						(GeoList) arg[0]) };
 				return ret;
 
-			} else {
+			} 
 				throw argErr(app, c.getName(), arg[0]);
-			}
+			
 
 		case 2:
 

@@ -8,12 +8,17 @@ import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.main.MyError;
 
-/*
+/**
  * Perimeter[ <GeoPolygon> ]
  * Perimeter[ <Conic> ]
  */
 public class CmdPerimeter extends CommandProcessor {
-
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdPerimeter(Kernel kernel) {
 		super(kernel);
 	}

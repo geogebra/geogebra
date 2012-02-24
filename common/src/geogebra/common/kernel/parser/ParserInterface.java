@@ -5,15 +5,44 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 
+/**
+ * Interface for parser 
+ *
+ */
 public interface ParserInterface {
-	public ExpressionNode parseExpression(String parseString) throws Exception;
+	/**
+	 * @param parseString string to parse
+	 * @return expression
+	 * @throws ParseException if parsing  fails
+	 */
+	public ExpressionNode parseExpression(String parseString) throws ParseException;
 
-	public Function parseFunction(String string) throws Exception;
+	/**
+	 * @param string string to parse
+	 * @return function
+	 * @throws ParseException if parsing  fails
+	 */
+	public Function parseFunction(String string) throws ParseException;
 
+	/**
+	 * @param string string to parse
+	 * @return multivariate function
+	 * @throws ParseException if parsing fails
+	 */
 	public FunctionNVar parseFunctionNVar(String string)
-			throws Exception;
+			throws ParseException;
 
-	public ValidExpression parseGeoGebraExpression(String str) throws Exception;
+	/**
+	 * @param str string to parse
+	 * @return expression
+	 * @throws ParseException if parsing fails
+	 */
+	public ValidExpression parseGeoGebraExpression(String str) throws ParseException;
 
-	public String parseLabel(String label) throws Exception;
+	/**
+	 * @param label potential label
+	 * @return valid label
+	 * @throws ParseException if parsing fails
+	 */
+	public String parseLabel(String label) throws ParseException;
 }

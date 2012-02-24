@@ -38,18 +38,18 @@ public class CmdBoxPlot extends CommandProcessor {
 						(NumberValue) arg[0], (NumberValue) arg[1],
 						(GeoList) arg[2]) };
 				return ret;
-			} else
-				throw argErr(app, c.getName(), null);
+			}
+			throw argErr(app, c.getName(), null);
 
 		case 7:
 			arg = resArgs(c);
-			if ((ok[0] = (arg[0].isNumberValue())
+			if ((ok[0] = arg[0].isNumberValue())
 					&& (ok[1] = (arg[1].isNumberValue()))
 					&& (ok[2] = (arg[2].isNumberValue()))
 					&& (ok[3] = (arg[3].isNumberValue()))
 					&& (ok[4] = (arg[4].isNumberValue()))
 					&& (ok[5] = (arg[5].isNumberValue()))
-					&& (ok[6] = (arg[6].isNumberValue())))) {
+					&& (ok[6] = (arg[6].isNumberValue()))) {
 
 				GeoElement[] ret = { kernelA.BoxPlot(c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1],

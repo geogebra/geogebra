@@ -48,14 +48,9 @@ public class CmdDiameter extends CommandProcessor {
 						(GeoLine) arg[0], (GeoConic) arg[1]) };
 				return ret;
 			}
-
-			// syntax error
-			else {
-				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				else
-					throw argErr(app, c.getName(), arg[1]);
-			}
+			if (!ok[0])
+				throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c.getName(), arg[1]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

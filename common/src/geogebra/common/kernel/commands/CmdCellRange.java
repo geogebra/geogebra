@@ -3,13 +3,19 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.MyError;
 
-/*
+/**
  * CellRange[ <start cell>, <end cell> ], e.g. CellRange[A1, B2]
  */
 public class CmdCellRange extends CommandProcessor {
-
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdCellRange(Kernel kernel) {
 		super(kernel);
 	}
@@ -24,8 +30,8 @@ public class CmdCellRange extends CommandProcessor {
 		case 2:						
 			arg = resArgs(c);
 			// both geos need to have valid spreadsheet coordinates
-			if ((ok[0] = kernelA.getGeoElementSpreadsheet().isSpreadsheetLabel(arg[0].getLabelSimple())) &&
-				(ok[1] = kernelA.getGeoElementSpreadsheet().isSpreadsheetLabel(arg[1].getLabelSimple()))) 
+			if ((ok[0] = GeoElementSpreadsheet.isSpreadsheetLabel(arg[0].getLabelSimple())) &&
+				(ok[1] = GeoElementSpreadsheet.isSpreadsheetLabel(arg[1].getLabelSimple()))) 
 			{
 				GeoElement[] ret = { 
 						kernelA.CellRange(c.getLabel(), arg[0], arg[1]) };

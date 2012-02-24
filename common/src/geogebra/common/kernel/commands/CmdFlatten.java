@@ -38,7 +38,7 @@ public class CmdFlatten extends CommandProcessor {
 			GeoElement[] ret = { kernelA
 					.Flatten(c.getLabel(), (GeoList) arg) };
 			return ret;
-		} else
-			throw argErr(app, c.getName(), arg);
+		}
+		throw argErr(app, c.getName(), arg);
 	}
 }

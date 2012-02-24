@@ -46,8 +46,7 @@ public class CmdCurvature extends CommandProcessor {
 			} else {
 				if (!ok[0])
 					throw argErr(app, c.getName(), arg[0]);
-				else
-					throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c.getName(), arg[1]);
 			}
 
 		default:

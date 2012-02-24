@@ -4,7 +4,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -28,7 +27,7 @@ public class CmdChiSquared extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		boolean[] ok = new boolean[n];
+		
 		GeoElement[] arg;
 		
 		arg = resArgs(c);
@@ -48,7 +47,7 @@ public class CmdChiSquared extends CommandProcessor {
 
 			// fall through
 		case 2:			
-			if ((ok[0] = arg[0].isNumberValue()) ) {
+			if (arg[0].isNumberValue() ) {
 				if (arg[1].isGeoFunction() && ((GeoFunction)arg[1]).toString(StringTemplate.defaultTemplate).equals("x")) {
 
 					// needed for eg Normal[1, 0.001, x] 
@@ -75,8 +74,8 @@ public class CmdChiSquared extends CommandProcessor {
 				} else
 					throw argErr(app, c.getName(), arg[1]);
 
-				} else 
-					throw argErr(app, c.getName(), arg[0]);
+				}
+			throw argErr(app, c.getName(), arg[0]);
 				
 
 			default:

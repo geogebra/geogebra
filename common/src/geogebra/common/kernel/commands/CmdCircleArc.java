@@ -37,15 +37,9 @@ public class CmdCircleArc extends CommandProcessor {
 						.CircleArc(c.getLabel(), (GeoPoint2) arg[0],
 								(GeoPoint2) arg[1], (GeoPoint2) arg[2]) };
 				return ret;
-			} else {
-				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				else if (!ok[1])
-					throw argErr(app, c.getName(), arg[1]);
-				else
-					throw argErr(app, c.getName(), arg[2]);
 			}
-
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
+			
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

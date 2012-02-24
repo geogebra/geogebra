@@ -24,16 +24,14 @@ public class CmdFocus extends CommandProcessor {
 	@Override
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
-			if (ok[0] = (arg[0].isGeoConic()))
+			if (arg[0].isGeoConic())
 				return kernelA.Focus(c.getLabels(), (GeoConic) arg[0]);
-			else
-				throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c.getName(), arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

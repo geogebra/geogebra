@@ -7,12 +7,18 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
 
-/*
+/**
  * Element[ <list>, <n> ]
  * Element[ <point>, <n> ]
  */
 public class CmdElement extends CommandProcessor {
 
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdElement(Kernel kernel) {
 		super(kernel);
 	}
@@ -36,14 +42,9 @@ public class CmdElement extends CommandProcessor {
 						(GeoList) arg[0], (NumberValue) arg[1]) };
 				return ret;
 			}
-
-			// error
-			else {
-				for (int i = 0; i < n; i++) {
-					if (!ok[i])
-						throw argErr(app, c.getName(), arg[i]);
-				}
-			}
+			
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
+			
 		default:
 			arg = resArgs(c);
 			// list

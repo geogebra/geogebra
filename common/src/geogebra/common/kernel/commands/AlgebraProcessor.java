@@ -1,3 +1,14 @@
+/* 
+GeoGebra - Dynamic Mathematics for Everyone
+http://www.geogebra.org
+
+This file is part of GeoGebra.
+
+This program is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by 
+the Free Software Foundation.
+
+ */
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
@@ -42,6 +53,7 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.parser.ParseException;
 import geogebra.common.kernel.parser.ParserInterface;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
@@ -52,35 +64,40 @@ import geogebra.common.kernel.commands.MyException;
 import java.util.ArrayList;
 import java.util.Set;
 
+/**
+ * Processes algebra input as Strings and valid expressions into GeoElements 
+ * @author Markus
+ *
+ */
 public class AlgebraProcessor {
 
+	/** kernel */
 	protected Kernel kernel;
 	private Construction cons;
-	protected AbstractApplication app;
+	private AbstractApplication app;
 	private ParserInterface parser;
+	/** command dispatcher */
 	protected CommandDispatcher cmdDispatcher;
 
-	protected ExpressionValue eval; // ggb3D : used by AlgebraProcessor3D in
-									// extended processExpressionNode
-
-	public AlgebraProcessor(Kernel kernel) {
+	
+	/**
+	 * @param kernel kernel
+	 * @param commandDispatcher command dispatcher
+	 */
+	public AlgebraProcessor(Kernel kernel,CommandDispatcher commandDispatcher) {
 		this.kernel = kernel;
 		cons = kernel.getConstruction();
 
-		cmdDispatcher = newCommandDispatcher(kernel);
+		this.cmdDispatcher = commandDispatcher;
 		app = kernel.getApplication();
 		parser = kernel.getParser();
 	}
 
-	/**
-	 * @param kernel Kernel
-	 * @return a new command dispatcher (used for 3D)
-	 */
-	protected CommandDispatcher newCommandDispatcher(
-			Kernel kernel1) {
-		return new CommandDispatcher(kernel1);
-	}
+	
 
+	/**
+	 * @return set of all public commands (i.e. no compatibility commands)
+	 */
 	public Set<String> getPublicCommandSet() {
 		return cmdDispatcher.getPublicCommandSet();
 	}
@@ -89,6 +106,8 @@ public class AlgebraProcessor {
 	/**
 	 * Returns the localized name of a command subset. Indices are defined in
 	 * CommandDispatcher.
+	 * @param index commands subtable index
+	 * @return set of commands for given subtable
 	 */
 	public String getSubCommandSetName(int index) {
 		return cmdDispatcher.getSubCommandSetName(index);
@@ -96,11 +115,19 @@ public class AlgebraProcessor {
 
 	/**
 	 * Returns whether the given command name is supported in GeoGebra.
+	 * @param cmd command name
+	 * @return true if available
 	 */
 	public boolean isCommandAvailable(String cmd) {
 		return cmdDispatcher.isCommandAvailable(cmd);
 	}
 
+	/**
+	 * @param c command
+	 * @param labelOutput true to label output
+	 * @return resulting geos
+	 * @throws MyError e.g. on syntax error
+	 */
 	final public GeoElement[] processCommand(Command c,
 			boolean labelOutput) throws MyError {
 		return cmdDispatcher.processCommand( c, labelOutput);
@@ -109,6 +136,8 @@ public class AlgebraProcessor {
 	/**
 	 * Processes the given casCell, i.e. compute its output depending on its
 	 * input. Note that this may create an additional twin GeoElement.
+	 * @param casCell cas cell
+	 * @throws MyError e.g. on syntax error
 	 */
 	final public void processCasCell(GeoCasCell casCell) throws MyError {
 		// TODO: remove
@@ -176,6 +205,10 @@ public class AlgebraProcessor {
 
 	/**
 	 * for AlgebraView changes in the tree selection and redefine dialog
+	 * @param geo old geo
+	 * @param newValue new value
+	 * @param redefineIndependent  true to allow redefinition of free objects
+	 * @param storeUndoInfo true to make undo step 
 	 * 
 	 * @return changed geo
 	 */
@@ -193,6 +226,10 @@ public class AlgebraProcessor {
 
 	/**
 	 * for AlgebraView changes in the tree selection and redefine dialog
+	 * @param geo old geo
+	 * @param newValueVE new value
+	 * @param redefineIndependent  true to allow redefinition of free objects
+	 * @param storeUndoInfo true to make undo step 
 	 * 
 	 * @return changed geo
 	 */
@@ -212,7 +249,13 @@ public class AlgebraProcessor {
 	/**
 	 * for AlgebraView changes in the tree selection and redefine dialog
 	 * 
+	* @param geo old geo
+	 * @param newValue new value
+	 * @param redefineIndependent  true to allow redefinition of free objects
+	 * @param storeUndoInfo true to make undo step 
 	 * @return changed geo
+	 * @throws Exception e.g. parse exception or circular definition
+	 *
 	 */
 	public GeoElement changeGeoElementNoExceptionHandling(GeoElement geo,
 			String newValue, boolean redefineIndependent, boolean storeUndoInfo)
@@ -236,8 +279,13 @@ public class AlgebraProcessor {
 
 	/**
 	 * for AlgebraView changes in the tree selection and redefine dialog
+	 * @param geo old geo
+	 * @param newValue new value
+	 * @param redefineIndependent true to make sure independent are redefined instead of value change
+	 * @param storeUndoInfo true to makeundo step
 	 * 
 	 * @return changed geo
+	 * @throws Exception  circular definition
 	 */
 	public GeoElement changeGeoElementNoExceptionHandling(GeoElement geo,
 			ValidExpression newValue, boolean redefineIndependent,
@@ -302,6 +350,11 @@ public class AlgebraProcessor {
 	 * methods for processing an input string
 	 */
 	// returns non-null GeoElement array when successful
+	/**
+	 * @param cmd string to process
+	 * @param storeUndo true to make undo step
+	 * @return resulting geos
+	 */
 	public GeoElement[] processAlgebraCommand(String cmd, boolean storeUndo) {
 
 		try {
@@ -315,7 +368,13 @@ public class AlgebraProcessor {
 	}
 
 	// G.Sturr 2010-7-5
-	// normal usage ... default to show error dialog
+	// 
+	/**
+	 * normal usage ... default to show error dialog (Exceptions hidden)
+	 * @param cmd string to process
+	 * @param storeUndo true to create undo step
+	 * @return resulting geos
+	 */
 	public GeoElement[] processAlgebraCommandNoExceptions(String cmd,
 			boolean storeUndo) {
 
@@ -327,11 +386,17 @@ public class AlgebraProcessor {
 		}
 	}
 
-	public GeoElement[] processAlgebraCommandNoExceptionsOrErrors(String cmd,
+	/**
+	 * Processes the string and hides all errors
+	 * @param str string to process
+	 * @param storeUndo true to create undo step
+	 * @return resulting elements
+	 */
+	public GeoElement[] processAlgebraCommandNoExceptionsOrErrors(String str,
 			boolean storeUndo) {
 
 		try {
-			return processAlgebraCommandNoExceptionHandling(cmd, storeUndo,
+			return processAlgebraCommandNoExceptionHandling(str, storeUndo,
 					false, false);
 		} catch (Exception e) {
 			return null;
@@ -343,6 +408,14 @@ public class AlgebraProcessor {
 	// G.Sturr 2010-7-5
 	// added 'allowErrorDialog' flag to handle the case of unquoted text
 	// entries in the spreadsheet
+	/**
+	 * @param cmd string to process
+	 * @param storeUndo true to make undo step
+	 * @param allowErrorDialog true to allow dialogs
+	 * @param throwMyError true to throw MyErrors (if dialogs are not allowed)
+	 * @return resulting geos
+	 * @throws Exception e.g. circular definition or parse exception
+	 */
 	public GeoElement[] processAlgebraCommandNoExceptionHandling(String cmd,
 			boolean storeUndo, boolean allowErrorDialog, boolean throwMyError)
 			throws Exception {
@@ -407,6 +480,8 @@ public class AlgebraProcessor {
 	/**
 	 * Parses given String str and tries to evaluate it to a double. Returns
 	 * Double.NaN if something went wrong.
+	 * @param str string to process
+	 * @return result as double
 	 */
 	public double evaluateToDouble(String str) {
 		return evaluateToDouble(str, false);
@@ -415,6 +490,9 @@ public class AlgebraProcessor {
 	/**
 	 * Parses given String str and tries to evaluate it to a double. Returns
 	 * Double.NaN if something went wrong.
+	 * @param str string to process
+	 * @param suppressErrors false to show error messages (only stacktrace otherwise)
+	 * @return result as double
 	 */
 	public double evaluateToDouble(String str, boolean suppressErrors) {
 		try {
@@ -444,6 +522,8 @@ public class AlgebraProcessor {
 	/**
 	 * Parses given String str and tries to evaluate it to a GeoBoolean object.
 	 * Returns null if something went wrong.
+	 * @param str string to process
+	 * @return resulting boolean
 	 */
 	public GeoBoolean evaluateToBoolean(String str) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
@@ -475,6 +555,8 @@ public class AlgebraProcessor {
 	/**
 	 * Parses given String str and tries to evaluate it to a List object.
 	 * Returns null if something went wrong. Michael Borcherds 2008-04-02
+	 * @param str input string
+	 * @return resulting list
 	 */
 	public GeoList evaluateToList(String str) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
@@ -506,6 +588,9 @@ public class AlgebraProcessor {
 	/**
 	 * Parses given String str and tries to evaluate it to a GeoFunction Returns
 	 * null if something went wrong. Michael Borcherds 2008-04-04
+	 * @param str input string
+	 * @param suppressErrors false to show error messages (only stacktrace otherwise) 
+	 * @return resulting function
 	 */
 	public GeoFunction evaluateToFunction(String str, boolean suppressErrors) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
@@ -547,6 +632,9 @@ public class AlgebraProcessor {
 	/**
 	 * Parses given String str and tries to evaluate it to a NumberValue Returns
 	 * null if something went wrong. Michael Borcherds 2008-08-13
+	 * @param str string to parse
+	 * @param suppressErrors false to show error messages (only stacktrace otherwise)
+	 * @return resulting number
 	 */
 	public NumberValue evaluateToNumeric(String str, boolean suppressErrors) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
@@ -582,6 +670,9 @@ public class AlgebraProcessor {
 	/**
 	 * Parses given String str and tries to evaluate it to a GeoPoint. Returns
 	 * null if something went wrong.
+	 * @param str string to process
+	 * @param showErrors true to show error messages (only stacktrace otherwise) 
+	 * @return resulting point
 	 */
 	public GeoPointND evaluateToPoint(String str, boolean showErrors) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
@@ -627,6 +718,10 @@ public class AlgebraProcessor {
 	/**
 	 * Parses given String str and tries to evaluate it to a GeoText. Returns
 	 * null if something went wrong.
+	 * @param str input string
+	 * @param createLabel true to label result
+	 * @param showErrors true to show error messages (only stacktrace otherwise)
+	 * @return resulting text
 	 */
 	public GeoText evaluateToText(String str, boolean createLabel,
 			boolean showErrors) {
@@ -669,8 +764,8 @@ public class AlgebraProcessor {
 	 * Parses given String str and tries to evaluate it to a GeoImplicitPoly
 	 * object. Returns null if something went wrong.
 	 * 
-	 * @param str
-	 * @boolean showErrors if false, only stacktraces are printed
+	 * @param str stringInput
+	 * @param showErrors if false, only stacktraces are printed
 	 * @return implicit polygon or null
 	 */
 	public GeoElement evaluateToGeoElement(String str, boolean showErrors) {
@@ -705,11 +800,20 @@ public class AlgebraProcessor {
 
 	/**
 	 * Checks if label is valid.
+	 * @param label potential label
+	 * @return valid label
+	 * @throws ParseException if label is invalid
 	 */
-	public String parseLabel(String label) throws Exception {
+	public String parseLabel(String label) throws ParseException {
 		return parser.parseLabel(label);
 	}
 
+	/**
+	 * @param ve expression to process
+	 * @return resulting elements
+	 * @throws MyError e.g. for wrong syntax
+	 * @throws Exception e.g. for circular definition
+	 */
 	public GeoElement[] processValidExpression(ValidExpression ve)
 			throws MyError, Exception {
 		return processValidExpression(ve, true);
@@ -718,12 +822,12 @@ public class AlgebraProcessor {
 	/**
 	 * processes valid expression.
 	 * 
-	 * @param ve
+	 * @param ve expression to process
 	 * @param redefineIndependent
 	 *            == true: independent objects are redefined too
-	 * @throws MyError
-	 * @throws Exception
-	 * @return
+	 * @throws MyError e.g. on wrong syntax
+	 * @throws Exception e.g. for circular definition
+	 * @return resulting geos
 	 */
 	public GeoElement[] processValidExpression(ValidExpression ve,
 			boolean redefineIndependent) throws MyError, Exception {
@@ -899,6 +1003,12 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
+	/**
+	 * Wraps given function into GeoFunction, if dependent,
+	 * AlgoDependentFunction is created. 
+	 * @param fun function
+	 * @return GeoFunction
+	 */
 	public final GeoElement[] processFunction(Function fun) {
 		fun.initFunction();
 
@@ -1018,6 +1128,12 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
+	/**
+	 * Wraps given functionNVar into GeoFunctionNVar, if dependent,
+	 * AlgoDependentFunctionNVar is created. 
+	 * @param fun function
+	 * @return GeoFunctionNVar
+	 */
 	public GeoElement[] processFunctionNVar(FunctionNVar fun) {
 		fun.initFunction();
 
@@ -1035,6 +1151,11 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
+	/**
+	 * @param equ equation
+	 * @return line, conic, implicit poly or plane
+	 * @throws MyError e.g. for invalid operation
+	 */
 	public GeoElement[] processEquation(Equation equ) throws MyError {
 		// AbstractApplication.debug("EQUATION: " + equ);
 		// AbstractApplication.debug("NORMALFORM POLYNOMIAL: " +
@@ -1099,11 +1220,19 @@ public class AlgebraProcessor {
 		}
 	}
 
-	protected void checkNoTermsInZ(Equation equ) {
+	/**
+	 * @param equ equation
+	 * @throws MyError if equation contains terms in Z
+	 */
+	protected void checkNoTermsInZ(Equation equ) throws MyError{
 		if (!equ.getNormalForm().isFreeOf('z'))
 			throw new MyError(app, "InvalidEquation");
 	}
 
+	/**
+	 * @param equ equation
+	 * @return resulting line
+	 */
 	protected GeoElement[] processLine(Equation equ) {
 		double a = 0, b = 0, c = 0;
 		GeoLine line;
@@ -1130,6 +1259,10 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
+	/**
+	 * @param equ equation
+	 * @return resulting conic
+	 */
 	protected GeoElement[] processConic(Equation equ) {
 		double a = 0, b = 0, c = 0, d = 0, e = 0, f = 0;
 		GeoElement[] ret = new GeoElement[1];
@@ -1164,6 +1297,10 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
+	/**
+	 * @param equ equation
+	 * @return resulting implicit polynomial
+	 */
 	protected GeoElement[] processImplicitPoly(Equation equ) {
 		GeoElement[] ret = new GeoElement[1];
 		String label = equ.getLabel();
@@ -1237,6 +1374,11 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
+	/**
+	 * @param n expression
+	 * @return resulting geos
+	 * @throws MyError on invalid operation
+	 */
 	public GeoElement[] processExpressionNode(ExpressionNode n) throws MyError {
 		// command is leaf: process command
 		if (n.isLeaf()) {
@@ -1260,6 +1402,9 @@ public class AlgebraProcessor {
 			}
 
 		}
+		ExpressionValue eval; // ggb3D : used by AlgebraProcessor3D in
+		// extended processExpressionNode
+
 
 		// ELSE: resolve variables and evaluate expressionnode
 		n.resolveVariables();
@@ -1498,8 +1643,8 @@ public class AlgebraProcessor {
 	/**
 	 * empty method in 2D : see AlgebraProcessor3D to see implementation in 3D
 	 * 
-	 * @param n
-	 * @param evaluate
+	 * @param n 3D point expression
+	 * @param evaluate evaluated node n
 	 * @return null
 	 */
 	protected GeoElement[] processPointVector3D(ExpressionNode n,

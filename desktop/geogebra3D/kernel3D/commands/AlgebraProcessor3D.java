@@ -1,39 +1,37 @@
+/* 
+GeoGebra - Dynamic Mathematics for Everyone
+http://www.geogebra.org
+
+This file is part of GeoGebra.
+
+This program is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by 
+the Free Software Foundation.
+
+ */
 package geogebra3D.kernel3D.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
-import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.main.MyError;
-import geogebra.main.Application;
-import geogebra3D.gui.layout.panels.EuclidianDockPanel3D;
+import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.kernel3D.GeoPlane3D;
 import geogebra3D.kernel3D.GeoPoint3D;
-import geogebra3D.kernel3D.Kernel3D;
 
 
 public class AlgebraProcessor3D extends AlgebraProcessor {
 	
 	
 
-	public AlgebraProcessor3D(Kernel kernel) {
-		super(kernel);
+	public AlgebraProcessor3D(Kernel kernel,CommandDispatcher cd) {
+		super(kernel,cd);
 	}
-	
-	@Override
-	final protected CommandDispatcher newCommandDispatcher(
-			Kernel kernel) {
-		return new CommandDispatcher3D(kernel);
-	}
-	
-	
 	
 	
 	
@@ -42,6 +40,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	 * @param evaluate
 	 * @return 3D point or 3D vector
 	 */	
+	@Override
 	protected GeoElement[] processPointVector3D(
 			ExpressionNode n,
 			ExpressionValue evaluate) {
@@ -71,39 +70,45 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			double y = p[1];
 			double z = p[2];
 			if (isVector)
-				ret[0] = ((Kernel) kernel).getManager3D().Vector3D(label, x, y, z);	
+				ret[0] = kernel.getManager3D().Vector3D(label, x, y, z);	
 			else
-				ret[0] = (GeoPoint3D) ((Kernel) kernel).getManager3D().Point3D(label, x, y, z);			
+				ret[0] = kernel.getManager3D().Point3D(label, x, y, z);			
 		} else {
 			if (isVector)
-				ret[0] = ((Kernel) kernel).getManager3D().DependentVector3D(label, n);
+				ret[0] = kernel.getManager3D().DependentVector3D(label, n);
 			else
-				ret[0] = (GeoPoint3D) ((Kernel) kernel).getManager3D().DependentPoint3D(label, n);
+				ret[0] = kernel.getManager3D().DependentPoint3D(label, n);
 		}
 
 		return ret;
 	}
 
 	
+	@Override
 	protected void checkNoTermsInZ(Equation equ){
 		if (!equ.getNormalForm().isFreeOf('z'))
 			equ.setForcePlane();
 	}
 	
-	protected GeoElement[] processLine(Equation equ, boolean inequality) {
+	@Override
+	protected GeoElement[] processLine(Equation equ) {
 		
-		if (equ.isForcedLine() || inequality)
-			return super.processLine(equ); //TODO add inequalities in 3D
+		if (equ.isForcedLine())
+			return super.processLine(equ);
 		
 		//check if the equ is forced plane or if the 3D view has the focus
 		if (equ.isForcedPlane() ||
-				((Application)app).getGuiManager().getLayout().getDockManager().getFocusedEuclidianPanel() instanceof EuclidianDockPanel3D){
+				kernel.getApplication().getActiveEuclidianView() instanceof EuclidianView3D){
 			return processPlane(equ);
 		}
 		return super.processLine(equ);
 		
 	}
 
+	/**
+	 * @param equ equation to process
+	 * @return resulting plane
+	 */
 	protected GeoElement[] processPlane(Equation equ) {
 		double a = 0, b = 0, c = 0, d = 0;
 		GeoPlane3D plane = null;
@@ -119,9 +124,9 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			b = lhs.getCoeffValue("y");
 			c = lhs.getCoeffValue("z");
 			d = lhs.getCoeffValue("");
-			plane = (GeoPlane3D) ((Kernel) kernel).getManager3D().Plane3D(label, a, b, c, d);
+			plane = (GeoPlane3D) kernel.getManager3D().Plane3D(label, a, b, c, d);
 		} else
-			plane = (GeoPlane3D) ((Kernel) kernel).getManager3D().DependentPlane3D(label, equ);
+			plane = (GeoPlane3D) kernel.getManager3D().DependentPlane3D(label, equ);
 
 		ret[0] = plane;
 		return ret;

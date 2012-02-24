@@ -6,9 +6,19 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
 
+/**
+ * Barycenter[ &lt;List of points>, &lt; list of weights> ]
+ * @author Darko
+ *
+ */
 public class CmdBarycenter extends CommandProcessor 
 {
-
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdBarycenter(Kernel kernel) 
 	{
 		super(kernel);
@@ -29,11 +39,10 @@ public class CmdBarycenter extends CommandProcessor
 						(GeoList)arg[0], (GeoList)arg[1])} ;
 				return ret;
 				
-			} else{
-				if(!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				throw argErr(app, c.getName(), arg[1]);
 			}
+			if(!ok[0])
+				throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c.getName(), arg[1]);
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

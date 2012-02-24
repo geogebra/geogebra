@@ -5,13 +5,19 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 
-/*
+/**
  * Defined[ Object ]
  * Michael Borcherds
  * 2008-03-06
  */
 public class CmdDefined extends CommandProcessor {
 
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdDefined(Kernel kernel) {
 		super(kernel);
 	}

@@ -14,7 +14,7 @@ import geogebra.common.main.MyError;
 public class CmdHistogram extends CommandProcessor {
 	private boolean right;
 	/**
-	 * Create new command processor
+	 * Create new command processor for left histogram
 	 * 
 	 * @param kernel
 	 *            kernel
@@ -22,7 +22,13 @@ public class CmdHistogram extends CommandProcessor {
 	public CmdHistogram(Kernel kernel) {		
 		this(kernel,false);
 	}
-	
+	/**
+	 * Create new command processor for right/left histogram
+	 * 
+	 * @param kernel
+	 *            kernel
+	 * @param right true for right
+	 */
 	public CmdHistogram(Kernel kernel,boolean right) {
 		super(kernel);
 		this.right = right;

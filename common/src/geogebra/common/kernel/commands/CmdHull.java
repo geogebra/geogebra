@@ -25,19 +25,19 @@ public class CmdHull extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
+		boolean[] ok = new boolean[2];
 		GeoElement[] arg;
 		arg = resArgs(c);
 
 		switch (n) {
 		case 2:
 
-			if (arg[0].isGeoList() && arg[1].isGeoNumeric()) {
+			if ((ok[0]=arg[0].isGeoList()) && (ok[1]=arg[1].isGeoNumeric())) {
 				GeoElement[] ret = { kernelA.Hull(c.getLabel(),
 						(GeoList) arg[0], (GeoNumeric) arg[1]) };
 				return ret;
-			} else
-
-				throw argErr(app, c.getName(), arg[arg[0].isGeoList() ? 1 : 0]);
+			}
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

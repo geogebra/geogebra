@@ -20,6 +20,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Manager3DInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.common.kernel.commands.AlgebraProcessor;
+import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -37,6 +38,7 @@ import geogebra3D.Application3D;
 import geogebra3D.io.MyXMLHandler3D;
 import geogebra3D.kernel3D.arithmetic.ExpressionNodeEvaluator3D;
 import geogebra3D.kernel3D.commands.AlgebraProcessor3D;
+import geogebra3D.kernel3D.commands.CommandDispatcher3D;
 
 import java.util.LinkedHashMap;
 import java.util.TreeSet;
@@ -209,7 +211,8 @@ public class Kernel3D extends Kernel {
 	 */
 	@Override
 	public AlgebraProcessor newAlgebraProcessor(Kernel kernel){
-		return new AlgebraProcessor3D(kernel);
+		CommandDispatcher cd = new CommandDispatcher3D(this);
+		return new AlgebraProcessor3D(kernel,cd);
 	}
 
 	/** return all points of the current construction */

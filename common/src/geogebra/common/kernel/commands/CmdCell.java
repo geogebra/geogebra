@@ -29,13 +29,12 @@ public class CmdCell extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			if ((ok = (arg[0].isNumberValue()) && arg[1].isNumberValue())) {
+			if ((ok = arg[0].isNumberValue()) && arg[1].isNumberValue()) {
 				GeoElement[] ret = { kernelA.Cell(c.getLabel(),
 						(NumberValue) arg[0], (NumberValue) arg[1]) };
 				return ret;
-			} else {
-				throw argErr(app, c.getName(), ok ? arg[1] : arg[0]);
 			}
+			throw argErr(app, c.getName(), ok ? arg[1] : arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

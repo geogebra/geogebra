@@ -12,6 +12,12 @@ import geogebra.common.kernel.Kernel;
  */
 public class CmdFitExp extends CmdOneListFunction{
 
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
     public CmdFitExp(Kernel kernel) {super(kernel);}
     
 	@Override

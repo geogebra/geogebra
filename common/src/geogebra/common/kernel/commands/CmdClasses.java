@@ -36,9 +36,8 @@ public class CmdClasses extends CommandProcessor {
 						(GeoList) arg[0], (GeoNumeric) arg[1]) };
 				return ret;
 
-			} else {
-				throw argErr(app, c.getName(), arg[0]);
 			}
+			throw argErr(app, c.getName(), arg[0]);
 
 		case 3:
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric())
@@ -48,9 +47,8 @@ public class CmdClasses extends CommandProcessor {
 						(GeoNumeric) arg[2]) };
 				return ret;
 
-			} else {
-				throw argErr(app, c.getName(), arg[0]);
 			}
+			throw argErr(app, c.getName(), arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

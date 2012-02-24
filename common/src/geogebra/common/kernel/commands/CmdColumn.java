@@ -2,14 +2,20 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
 
-/*
+/**
  * Column[ <GeoElement> ]
  */
 public class CmdColumn extends CommandProcessor {
-
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdColumn(Kernel kernel) {
 		super(kernel);
 	}
@@ -22,16 +28,13 @@ public class CmdColumn extends CommandProcessor {
 		switch (n) {
 		case 1:
 			arg = resArgs(c);			
-			if (arg[0].getLabelSimple() != null && kernelA.getGeoElementSpreadsheet().isSpreadsheetLabel(arg[0].getLabelSimple())) {
+			if (arg[0].getLabelSimple() != null && GeoElementSpreadsheet.isSpreadsheetLabel(arg[0].getLabelSimple())) {
 
 				GeoElement[] ret = { kernelA.Column(c.getLabel(),
 						arg[0]) };
 				return ret;
 			}
-			else
-			{
-				throw argErr(app, c.getName(), arg[0]);
-			}
+			throw argErr(app, c.getName(), arg[0]);
 
 
 

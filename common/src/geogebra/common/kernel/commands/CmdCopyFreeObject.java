@@ -1,7 +1,6 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
@@ -51,12 +50,11 @@ public class CmdCopyFreeObject extends CommandProcessor {
 					e.printStackTrace(); 
 					throw argErr(app, c.getName(), arg[0]); 
 				} 
-			} else {
-				GeoElement geo = arg[0].copy();
-				geo.setLabel(label);
-				GeoElement[] ret = { geo };
-				return ret;
 			}
+			GeoElement geo = arg[0].copy();
+			geo.setLabel(label);
+			GeoElement[] ret = { geo };
+			return ret;
 
 
 			// more than one argument

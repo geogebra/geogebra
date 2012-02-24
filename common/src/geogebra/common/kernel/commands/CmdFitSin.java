@@ -11,7 +11,12 @@ import geogebra.common.kernel.geos.GeoList;
  * @version 15.11.08
  */
 public class CmdFitSin extends CmdOneListFunction{
-
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
     public CmdFitSin(Kernel kernel) {super(kernel);}
     
 	@Override

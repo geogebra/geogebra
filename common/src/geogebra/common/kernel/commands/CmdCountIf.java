@@ -35,21 +35,21 @@ public class CmdCountIf extends CommandProcessor {
 
 			// DO NOT change instanceof here (see
 			// GeoFunction.isGeoFunctionable())
-			if (ok[0] = (arg[0] instanceof GeoFunction)) {
+			if ((ok[0] = arg[0] instanceof GeoFunction)&&
+					(ok[1] = arg[1].isGeoList())) {
 				GeoFunction booleanFun = (GeoFunction) arg[0];
 				if ((ok[0] = booleanFun.isBooleanFunction())
 						&& (ok[1] = arg[1].isGeoList())) {
 
 					GeoElement[] ret = { kernelA.CountIf(c.getLabel(),
-							(GeoFunction) booleanFun, ((GeoList) arg[1])) };
+							booleanFun, ((GeoList) arg[1])) };
 					return ret;
 				}
 			}
 
 			if (!ok[0])
 				throw argErr(app, c.getName(), arg[0]);
-			else
-				throw argErr(app, c.getName(), arg[1]);
+			throw argErr(app, c.getName(), arg[1]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

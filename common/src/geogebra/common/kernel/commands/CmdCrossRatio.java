@@ -39,17 +39,10 @@ public class CmdCrossRatio extends CommandProcessor {
 						(GeoPoint2) arg[0], (GeoPoint2) arg[1],
 						(GeoPoint2) arg[2], (GeoPoint2) arg[3]) };
 				return ret;
-			} else {
-				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				if (!ok[1])
-					throw argErr(app, c.getName(), arg[1]);
-				if (!ok[2])
-					throw argErr(app, c.getName(), arg[2]);
-				else
-					throw argErr(app, c.getName(), arg[3]);
 			}
-
+			
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

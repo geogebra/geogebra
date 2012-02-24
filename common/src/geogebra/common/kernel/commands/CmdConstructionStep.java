@@ -5,13 +5,20 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
 
-/*
- * Defined[ Object ]
- * Michael Borcherds
- * 2008-03-06
+/**
+ * ConstructionStep[]
+ * ConstructionStep[ &lt;Object> ]
+ * @author Michael Borcherds
+ * @version 2008-03-06
  */
 public class CmdConstructionStep extends CommandProcessor {
 
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdConstructionStep(Kernel kernel) {
 		super(kernel);
 	}
