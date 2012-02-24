@@ -43,6 +43,7 @@ import geogebra.web.io.MyXMLio;
 import geogebra.web.kernel.AnimationManager;
 import geogebra.web.kernel.UndoManager;
 import geogebra.web.properties.ColorsConstants;
+import geogebra.web.properties.CommandConstants;
 import geogebra.web.properties.PlainConstants;
 import geogebra.web.util.DataUtil;
 import geogebra.web.util.DebugPrinterWeb;
@@ -62,13 +63,9 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.dom.client.CanvasElement;
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
@@ -93,14 +90,7 @@ public class Application extends AbstractApplication {
 	 */
 	private ColorsConstants colorConstants;
 	private PlainConstants plainConstants;
-
-	private void initColorConstants() {
-		colorConstants = GWT.create(ColorsConstants.class);
-	}
-	
-	private void initPlainConstants() {
-		plainConstants = GWT.create(PlainConstants.class);
-	}
+	private CommandConstants commandConstants;
 
 	private EuclidianViewPanel euclidianViewPanel;
 	private Canvas canvas;
@@ -138,6 +128,24 @@ public class Application extends AbstractApplication {
 		registerFileDropHandlers((CanvasElement) canvas.getElement().cast());
 	}
 
+	/**
+	 * Inernationalization: instantiation using GWT.create() properties interfaces
+	 * @author Rana
+	 */
+	private void initColorConstants() {
+		colorConstants = GWT.create(ColorsConstants.class);
+	}
+	
+	private void initPlainConstants() {
+		plainConstants = GWT.create(PlainConstants.class);
+	}
+	
+	private void initCommandConstants() {
+		commandConstants = GWT.create(CommandConstants.class);
+	}
+
+
+	
 	public void setUndoActive(boolean flag) {
 		// don't allow undo when running with restricted permissions
 		/*
@@ -220,10 +228,21 @@ public class Application extends AbstractApplication {
 	}-*/;
 
 	@Override
-	public String getCommand(String cmdName) {
-		if (cmdName.equals("CurveCartesian"))
-			return "Curve";
-		return cmdName;
+	public String getCommand(String key) {
+
+		//TODO Implement tooltip internationalization and need to solve the initTranslatedCommands() and getCommandResourceBundle()
+//		if (tooltipFlag) {
+//			return getCommandTooltip(key);
+//		}
+		
+//		initTranslatedCommands();
+
+		if(commandConstants == null) {
+			
+			initCommandConstants();
+		}
+		
+		return commandConstants.getString(key);
 	}
 
 	@Override
@@ -784,7 +803,10 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public void getCommandResourceBundle() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+//		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		if(commandConstants == null) {
+			initCommandConstants();
+		}
 
 	}
 
