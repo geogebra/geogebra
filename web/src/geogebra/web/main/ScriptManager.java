@@ -13,7 +13,7 @@ public class ScriptManager extends ScriptManagerCommon {
 	@Override
 	public void ggbOnInit() {
 		String param = ((Application)app).getArticleElement().getDataParamGgbOnInitParam();
-		if (param == null || param == "") {
+		if (param == null || "".equals(param)) {
 			Application.ggbOnInit();
 		} else {
 			Application.ggbOnInit(param);
