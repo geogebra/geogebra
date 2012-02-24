@@ -62,8 +62,7 @@ public class GeoGebraFrame extends VerticalPanel {
 
 		for (ArticleElement articleElement : geoGebraMobileTags) {
 			GeoGebraFrame inst = new GeoGebraFrame();
-			Application app = inst
-					.createApplication(articleElement.getDataParamGui());
+			Application app = inst.createApplication(articleElement);
 			inst.app = app;
 			inst.createSplash(articleElement);
 			inst.add(app.buildApplicationPanel());
@@ -124,8 +123,8 @@ public class GeoGebraFrame extends VerticalPanel {
 	 *          menus / ...)
 	 * @return the newly created instance of Application
 	 */
-	protected Application createApplication(boolean useFullGui) {
-		return new Application(useFullGui);
+	protected Application createApplication(ArticleElement ae) {
+		return new Application(ae);
 	}
 
 	/**

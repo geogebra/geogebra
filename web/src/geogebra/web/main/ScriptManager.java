@@ -9,10 +9,19 @@ public class ScriptManager extends ScriptManagerCommon {
 	    this.app = app;
 	    ScriptManager.initAppletFunctions((geogebra.web.main.GgbAPI)(app.getGgbApi()));
     }
-	
+
 	@Override
 	public void ggbOnInit() {
-		Application.ggbOnInit();
+		String param = ((Application)app).getArticleElement().getDataParamGgbOnInitParam();
+		if (param == null || param == "") {
+			Application.ggbOnInit();
+		} else {
+			Application.ggbOnInit(param);
+		}
+	}
+
+	public void ggbOnInit(String param) {
+		Application.ggbOnInit(param);
 	}
 
 

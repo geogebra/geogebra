@@ -38,6 +38,7 @@ import geogebra.web.gui.DialogManagerWeb;
 import geogebra.web.gui.GuiManager;
 import geogebra.web.gui.SplashDialog;
 import geogebra.web.gui.app.GeoGebraFrame;
+import geogebra.web.html5.ArticleElement;
 import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLio;
 import geogebra.web.kernel.AnimationManager;
@@ -98,9 +99,11 @@ public class Application extends AbstractApplication {
 	private HashMap<String, String> currentFile = null;
 	private static LinkedList<Map<String, String>> fileList = new LinkedList<Map<String, String>>();
 
+	private ArticleElement articleElement;
+
 	// convenience method
-	public Application(boolean useFullGui) {
-		this(useFullGui, true);
+	public Application(ArticleElement ae) {
+		this(ae, true);
 	}
 
 	/**
@@ -109,8 +112,9 @@ public class Application extends AbstractApplication {
 	 * @param undoActive
 	 *          if true you can undo by CTRL+Z and redo by CTRL+Y
 	 */
-	public Application(boolean useFullGui, boolean undoActive) {
-		this.useFullGui = useFullGui;
+	public Application(ArticleElement ae, boolean undoActive) {
+		this.articleElement = ae;
+		this.useFullGui = ae.getDataParamGui();
 		dbg = new DebugPrinterWeb();
 		this.init();
 		fontManager = new FontManager();
@@ -168,6 +172,10 @@ public class Application extends AbstractApplication {
 		}
 
 		// isSaved = true;
+	}
+
+	public ArticleElement getArticleElement() {
+		return articleElement;
 	}
 
 	/**
