@@ -2136,13 +2136,6 @@ public abstract class AbstractApplication {
 	}
 
 	
-
-	public boolean isEqualsRequired() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	
 	public abstract SpreadsheetTraceManager getTraceManager();
 
 	public void setDefaultCursor() {

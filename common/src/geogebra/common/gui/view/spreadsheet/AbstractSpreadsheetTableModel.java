@@ -7,10 +7,10 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 
 /**
- * Abstract class that manages spreadsheet GeoElement cells in a table model
+ * Abstract class for managing spreadsheet GeoElement cells in a table model
  * that supports the spreadsheet.
  * 
- * View is implemented so that the model can adapt when GeoElements
+ * The View interface is implemented so that the model can adapt when GeoElements
  * with spreadsheet labels (e.g. A1) are changed.
  * 
  * @author G. Sturr

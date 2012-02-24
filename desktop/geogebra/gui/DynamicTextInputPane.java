@@ -287,7 +287,7 @@ public class DynamicTextInputPane extends JTextPane {
 
 	/**
 	 * Custom caret with damage area set to a thin width. This allows the caret
-	 * to appear next to a DynamicTextField with destroying the field's border.
+	 * to appear next to a DynamicTextField without destroying the field's border.
 	 */
 	class MyCaret extends DefaultCaret {
 

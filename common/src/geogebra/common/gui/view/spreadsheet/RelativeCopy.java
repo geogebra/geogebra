@@ -453,7 +453,7 @@ public class RelativeCopy {
 
 		// make sure that non-GeoText elements are copied when the
 		// equalsRequired option is set
-		if (!value.isGeoText() && app.isEqualsRequired()) {
+		if (!value.isGeoText() && app.getSettings().getSpreadsheet().equalsRequired()) {
 			text = "=" + text;
 		}
 
@@ -991,7 +991,7 @@ public class RelativeCopy {
 		// if "=" is required before commands and text is not a number
 		// or does not begin with "=" then surround it with quotes.
 		// This will force the cell to become GeoText.
-		if (app.isEqualsRequired()) {
+		if (app.getSettings().getSpreadsheet().equalsRequired()) {
 
 			// boolean isNumber =
 			// kernel.getAlgebraProcessor().evaluateToNumeric(text, true) !=
