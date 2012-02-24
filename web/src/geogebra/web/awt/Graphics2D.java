@@ -353,14 +353,12 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
 	@Override
     public void shear(double shx, double shy) {
-		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
-//		savedTransform.concatenate(
-//				new geogebra.web.awt.AffineTransform(
-//						1, shy, shx, 1, 0, 0));
-		
+		transform(new geogebra.web.awt.AffineTransform(
+			1, shy, shx, 1, 0, 0
+		));
 	}
 
-	
+
 	@Override
     public void transform(AffineTransform Tx) {
 		context.transform(Tx.getScaleX(), Tx.getShearY(),
