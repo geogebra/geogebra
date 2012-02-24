@@ -75,7 +75,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class Application extends AbstractApplication implements KeyDownHandler {
+public class Application extends AbstractApplication {
 
 	// Internationalization constants
 	public final static String DEFAULT_LANGUAGE = "en";
@@ -714,7 +714,7 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 	@Override
 	public AlgoElement newAlgoShortestDistance(Construction cons, String label,
 			GeoList list, GeoPointND start, GeoPointND end, GeoBoolean weighted) {
-		AbstractApplication.debug("implementation needed or obsolete"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed really"); // TODO
 		return null;
 	}
 
@@ -760,7 +760,7 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 
 	@Override
 	public CommandProcessor newCmdBarCode() {
-		AbstractApplication.debug("implementation needed or obsolete"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed really"); // TODO
 		return null;
 	}
 
@@ -1100,11 +1100,6 @@ public class Application extends AbstractApplication implements KeyDownHandler {
 			dialogManager = new DialogManagerWeb(this);
 		}
 		return dialogManager;
-	}
-
-	public void onKeyDown(KeyDownEvent event) {
-		AbstractApplication.debug("implementation needed or obsolete"); // TODO Auto-generated
-
 	}
 
 	@Override
