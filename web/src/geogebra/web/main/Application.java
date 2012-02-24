@@ -13,6 +13,7 @@ import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.AbstractUndoManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Relation;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.commands.CommandProcessor;
@@ -55,6 +56,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Map.Entry;
+
+import javax.swing.JOptionPane;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -650,9 +653,9 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public void showRelation(GeoElement geoElement, GeoElement geoElement2) {
-		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
-
+	public void showRelation(GeoElement a, GeoElement b) {
+		//TODO: implement it better for GeoGebraWebGUI
+		alert(new Relation(kernel).relation(a, b));
 	}
 
 	@Override
