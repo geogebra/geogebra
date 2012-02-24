@@ -341,7 +341,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		final String modeName = app.getKernel().getModeText(mode);
 		if(modeNameLabel.getMouseListeners().length>0)
 			modeNameLabel.removeMouseListener(helpMouseAdapter);
-		if(modeName != ""){
+		if(!("".equals(modeName))){
 			helpMouseAdapter = new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
