@@ -428,7 +428,9 @@ public class Application extends AbstractApplication {
 		// Beware both of the script and the arg, as the user might access
 		// the JavaScript of the page with them; until this question is solved/answered,
 		// it is not suggested to use this function
-		evalScriptNative(script.replace("%0", "'"+arg+"'"));
+
+		Application.debug("implementation needed - just to finish");
+		//evalScriptNative(script.replace("%0", "'"+arg+"'"));
 	}
 
 	public native void evalScriptNative(String script) /*-{
