@@ -600,7 +600,7 @@ public class Application extends AbstractApplication implements
 
 		isSaved = true;
 
-		if (getCASVersionString() == "") {
+		if (getCASVersionString().equals("")) {
 			setCASVersionString(getPlain("CASInitializing"));
 			
 		}

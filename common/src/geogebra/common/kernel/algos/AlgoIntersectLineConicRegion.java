@@ -313,7 +313,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
         GeoElement.setLabels(new String[] {null}, outputPoints);
         
         
-        if ( (labelPrefixForLines==null || labelPrefixForLines == "") &&
+        if ( (labelPrefixForLines==null || "".equals(labelPrefixForLines)) &&
         		numberOfPoints!=0 && numberOfOutputLines!=0)
     				labelPrefixForLines = ((GeoElement)P[0]).getFreeLabel(P[0].getLabel(StringTemplate.defaultTemplate).toLowerCase());
         
