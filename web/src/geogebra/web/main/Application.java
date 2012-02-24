@@ -57,8 +57,6 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import javax.swing.JOptionPane;
-
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
