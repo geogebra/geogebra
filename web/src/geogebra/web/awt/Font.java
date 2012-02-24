@@ -11,7 +11,16 @@ public class Font extends geogebra.common.awt.Font{
 	private String fontSize = "12";
 	private String lineHeight = "12";
 	private String fontFamily = "sans-serif";
-	
+
+	public Font(Font otherfont) {
+		fontStyle = otherfont.getFontStyle();
+		fontVariant = otherfont.getFontVariant();
+		fontWeight = otherfont.getFontWeight();
+		fontSize = otherfont.getFontSize();
+		lineHeight = otherfont.getLineHeight();
+		fontFamily = otherfont.getFontFamily();
+	}
+
 	public Font(String fontStyle) {
 		this.setFontStyle(fontStyle);			
 		// TODO Auto-generated constructor stub

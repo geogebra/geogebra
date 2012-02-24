@@ -306,10 +306,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     public Font getFont() {
-
-		//TODO: This should return the font of the main canvas/Graphics2D
-	    AbstractApplication.debug("implementation needed really");
-	    return g2dtemp.getFont();
+		return new geogebra.web.awt.Font((geogebra.web.awt.Font)g2p.getFont());
     }
 
     public geogebra.common.awt.Color getBackgroundCommon() {
