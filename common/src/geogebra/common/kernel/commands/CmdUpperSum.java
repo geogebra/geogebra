@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.Kernel;;
+import geogebra.common.kernel.Kernel;
 
 /**
  * UpperSum[ <GeoFunction>, <Number>, <Number>, <Number> ]
@@ -40,8 +40,8 @@ public class CmdUpperSum extends CommandProcessor {
 						(NumberValue) arg[1], (NumberValue) arg[2],
 						(NumberValue) arg[3]) };
 				return ret;
-			} else
-				throw argErr(app, c.getName(), null);
+			}
+			throw argErr(app, c.getName(), null);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

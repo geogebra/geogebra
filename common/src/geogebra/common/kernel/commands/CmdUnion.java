@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.Kernel;;
+import geogebra.common.kernel.Kernel;
 
 /**
  *Union

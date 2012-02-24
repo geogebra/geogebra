@@ -15,7 +15,8 @@ import geogebra.common.kernel.Kernel;
 public class CmdShortestDistance extends CommandProcessor {
 
 	/**
-	 * @param kernel
+	 * Creates new command processor
+	 * @param kernel kernel
 	 */
 	public CmdShortestDistance(Kernel kernel) {
 		super(kernel);
@@ -38,8 +39,8 @@ public class CmdShortestDistance extends CommandProcessor {
 						(GeoList) arg[0], (GeoPointND) arg[1],
 						(GeoPointND) arg[2], (GeoBoolean) arg[3]) };
 				return ret;
-			} else
-				throw argErr(app, c.getName(), getBadArg(ok, arg));
+			}
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

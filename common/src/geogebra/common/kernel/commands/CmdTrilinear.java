@@ -6,7 +6,11 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
-
+/**
+ * 
+ * Trilinear[point,point,point,coord,coord,coord]
+ *
+ */
 public class CmdTrilinear extends CommandProcessor {
 
 	/**
@@ -39,19 +43,8 @@ public class CmdTrilinear extends CommandProcessor {
 						(NumberValue) arg[3], (NumberValue) arg[4], (NumberValue) arg[5])} ;
 				return ret;
 				
-			} else{
-				if(!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				if(!ok[1])
-					throw argErr(app, c.getName(), arg[1]);
-				if(!ok[2])
-					throw argErr(app, c.getName(), arg[2]);
-				if(!ok[3])
-					throw argErr(app, c.getName(), arg[3]);
-				if(!ok[4])
-					throw argErr(app, c.getName(), arg[4]);
-				throw argErr(app, c.getName(), arg[5]);
-			}
+			} 
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

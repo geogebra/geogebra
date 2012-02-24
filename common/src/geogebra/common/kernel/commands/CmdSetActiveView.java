@@ -11,7 +11,10 @@ import geogebra.common.kernel.Kernel;
  *SetActiveView
  */
 public class CmdSetActiveView extends CmdScripting {
-
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdSetActiveView(Kernel kernel) {
 		super(kernel);
 	}
@@ -59,8 +62,8 @@ public class CmdSetActiveView extends CmdScripting {
 				
 				return;
 
-			} else
-				throw argErr(app, c.getName(), arg[0]);
+			} 
+			throw argErr(app, c.getName(), arg[0]);
 
 
 		default:

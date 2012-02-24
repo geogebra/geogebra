@@ -37,11 +37,7 @@ public class CmdSelectedElement extends CommandProcessor {
 						(GeoList) arg[0]) };
 				return ret;
 			}
-
-			// error
-			else {
-				throw argErr(app, c.getName(), arg[0]);
-			}
+			throw argErr(app, c.getName(), arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

@@ -41,7 +41,7 @@ public class CmdSetCoords extends CmdScripting {
 				double x = ((GeoNumeric) arg[1]).getDouble();
 				double y = ((GeoNumeric) arg[2]).getDouble();
 
-				GeoElement geo = (GeoElement) arg[0];
+				GeoElement geo = arg[0];
 
 				if (geo.isGeoPoint()) {
 					((GeoPoint2) geo).setCoords(x, y, 1);

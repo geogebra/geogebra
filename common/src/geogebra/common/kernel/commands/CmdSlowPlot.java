@@ -1,7 +1,6 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
@@ -25,13 +24,13 @@ public class CmdSlowPlot extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		boolean[] ok = new boolean[n];
+		
 		GeoElement[] arg;
 		arg = resArgs(c);
 
 		switch (n) {
 		case 1:
-			if ((ok[0] = (arg[0].isGeoFunctionable()))) {
+			if (arg[0].isGeoFunctionable()) {
 
 				GeoNumeric var = new GeoNumeric(cons, 0.0);
 
@@ -58,7 +57,7 @@ public class CmdSlowPlot extends CommandProcessor {
 
 				kernelA.getAnimatonManager().startAnimation();
 				try {
-					return (GeoElement[])kernelA.getAlgebraProcessor()
+					return kernelA.getAlgebraProcessor()
 							.processAlgebraCommandNoExceptionHandling(
 									sb.toString(), true, false, true);
 				} catch (Exception e) {
@@ -68,9 +67,8 @@ public class CmdSlowPlot extends CommandProcessor {
 					e.printStackTrace();
 					throw argErr(app, c.getName(), arg[0]);
 				}
-			} else {
-				throw argErr(app, c.getName(), arg[0]);
 			}
+			throw argErr(app, c.getName(), arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

@@ -4,11 +4,14 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
-/*
- * Rank[ <List> ]
+/**
+ * TiedRank[ <List> ]
  */
 public class CmdTiedRank extends CmdOneListFunction {
-
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdTiedRank(Kernel kernel) {
 		super(kernel);
 	}

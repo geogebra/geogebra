@@ -4,13 +4,16 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.Kernel;;
+import geogebra.common.kernel.Kernel;
 
-/*
- * Max[ <Number>, <Number> ]
+/**
+ * UnicodeToText[ &lt;List of numbers> ]
  */
 public class CmdUnicodeToText extends CommandProcessor {
-
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdUnicodeToText(Kernel kernel) {
 		super(kernel);
 	}
@@ -29,8 +32,7 @@ public class CmdUnicodeToText extends CommandProcessor {
 						(GeoList) arg[0]) };
 				return ret;
 			}
-			else
-				throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c.getName(), arg[0]);
 		
 		default:
 			throw argNumErr(app, c.getName(), n);

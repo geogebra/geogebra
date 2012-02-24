@@ -8,7 +8,11 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
-
+/**
+ * TriangleCurve[Point,Point,Point,Equation in A,B,C]
+ * @author Zbynek
+ *
+ */
 public class CmdTriangleCurve extends CommandProcessor {
 
 	/**
@@ -56,20 +60,13 @@ public class CmdTriangleCurve extends CommandProcessor {
 				return ret;
 				
 			}			
-			else{
-				if(!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				if(!ok[1])
-					throw argErr(app, c.getName(), arg[1]);
-				if(!ok[2])
-					throw argErr(app, c.getName(), arg[2]);
-				throw argErr(app, c.getName(), arg[3]);
-			}
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
+			
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	protected final GeoElement resArg(Command c,int pos) throws MyError {
+	private final GeoElement resArg(Command c,int pos) throws MyError {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 

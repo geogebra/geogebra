@@ -36,12 +36,12 @@ public class CmdSetDynamicColor extends CmdScripting {
 					&& (ok[2] = arg[2].isNumberValue())
 					&& (ok[3] = arg[3].isNumberValue())) {
 
-				GeoElement geo = (GeoElement) arg[0];
+				GeoElement geo = arg[0];
 
 				ArrayList<GeoElement> listItems = new ArrayList<GeoElement>();
-				listItems.add((GeoElement) arg[1]); 
-				listItems.add((GeoElement) arg[2]); 
-				listItems.add((GeoElement) arg[3]); 
+				listItems.add(arg[1]); 
+				listItems.add(arg[2]); 
+				listItems.add(arg[3]); 
 				//listItems.add((GeoElement) arg[4]); // no opacity 
 				AlgoDependentList algo = new AlgoDependentList(cons, listItems, false);
 				kernelA.getConstruction().removeFromConstructionList(algo);
@@ -67,13 +67,13 @@ public class CmdSetDynamicColor extends CmdScripting {
 					&& (ok[3] = arg[3].isNumberValue())
 					&& (ok[4] = arg[4].isNumberValue())) {
 
-				GeoElement geo = (GeoElement) arg[0];
+				GeoElement geo = arg[0];
 				
 				ArrayList<GeoElement> listItems = new ArrayList<GeoElement>();
-				listItems.add((GeoElement) arg[1]); 
-				listItems.add((GeoElement) arg[2]); 
-				listItems.add((GeoElement) arg[3]); 
-				listItems.add((GeoElement) arg[4]); // opacity 
+				listItems.add(arg[1]); 
+				listItems.add(arg[2]); 
+				listItems.add(arg[3]); 
+				listItems.add(arg[4]); // opacity 
 				AlgoDependentList algo = new AlgoDependentList(cons, listItems, false);
 				kernelA.getConstruction().removeFromConstructionList(algo);
 				GeoList list = algo.getGeoList();

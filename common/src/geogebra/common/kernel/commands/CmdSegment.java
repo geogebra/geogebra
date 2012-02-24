@@ -9,11 +9,14 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
 
 
-	/*
+	/**
 	 * Segment[ <GeoPoint>, <GeoPoint> ] Segment[ <GeoPoint>, <Number> ]
 	 */
 public class CmdSegment extends CommandProcessor {
-		
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 		public CmdSegment(Kernel kernel) {
 			super(kernel);
 		}
@@ -51,8 +54,7 @@ public class CmdSegment extends CommandProcessor {
 				else {
 	                if (!ok[0])
 	                    throw argErr(app, c.getName(), arg[0]);
-	                else
-	                    throw argErr(app, c.getName(), arg[1]);
+					throw argErr(app, c.getName(), arg[1]);
 	            }
 
 	        case 3 : // special case for Segment[A,B,poly1] -> do nothing!

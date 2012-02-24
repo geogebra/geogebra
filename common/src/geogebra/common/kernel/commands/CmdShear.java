@@ -43,13 +43,12 @@ public class CmdShear extends CommandProcessor {
 							(GeoNumeric) arg[2]);
 					return ret;
 
-				} else
-					throw argErr(app, c.getName(), arg[0]);
-			} else {
-				if (!(arg[1] instanceof GeoVec3D))
-					throw argErr(app, c.getName(), arg[1]);
-				throw argErr(app, c.getName(), arg[2]);
+				}
+				throw argErr(app, c.getName(), arg[0]);
 			}
+			if (!(arg[1] instanceof GeoVec3D))
+				throw argErr(app, c.getName(), arg[1]);
+			throw argErr(app, c.getName(), arg[2]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

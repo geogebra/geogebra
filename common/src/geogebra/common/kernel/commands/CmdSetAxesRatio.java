@@ -8,7 +8,11 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
-
+/**
+ * SetAxesRatio[x,y]
+ * SetAxesRatio[x,y,z] for 3D
+ *
+ */
 public class CmdSetAxesRatio extends CmdScripting {
 
 	/**

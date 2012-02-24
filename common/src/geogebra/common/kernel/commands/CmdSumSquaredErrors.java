@@ -24,23 +24,27 @@ import geogebra.common.kernel.Kernel;
  * @version 2010-02-21
  */
 public class CmdSumSquaredErrors extends CommandProcessor{
-
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
     public CmdSumSquaredErrors(Kernel kernel) {super(kernel);}
     
     @Override
 	public GeoElement[] process(Command c) throws MyError {
         int n=c.getArgumentNumber();
-        GeoElement[] arg=resArgs(c);;
+        GeoElement[] arg=resArgs(c);
+        boolean[] ok = new boolean[2];
         switch(n) {
             case 2:
-            	if(  (arg[0].isGeoList() )&& (arg[1].isGeoFunctionable())  ){ 
+            	if(  (ok[0] = arg[0].isGeoList() )&& 
+            			(ok[1] = arg[1].isGeoFunctionable())  ){ 
             		GeoElement[] ret={
             				kernelA.SumSquaredErrors(c.getLabel(),(GeoList)arg[0],(GeoFunctionable) arg[1]) 
             				};
                     return ret;
-            	}else{
-            		throw argErr(app,c.getName(),arg[0]);
-                }//if args ok
+            	}
+			throw argErr(app,c.getName(),getBadArg(ok,arg));
 
             default :
     			throw argNumErr(app, c.getName(), n);

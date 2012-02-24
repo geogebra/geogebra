@@ -26,13 +26,13 @@ public class CmdToolImage extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		boolean[] ok = new boolean[n];
+		
 		GeoElement[] arg;
 		arg = resArgs(c);
 
 		switch (n) {
 		case 1:
-			if ((ok[0] = (arg[0].isGeoNumeric()))) {
+			if (arg[0].isGeoNumeric()) {
 
 				int mode = (int) ((GeoNumeric) arg[0]).getDouble();
 
@@ -56,15 +56,15 @@ public class CmdToolImage extends CommandProcessor {
 				try {
 					geoImage.setStartPoint(corner);
 				} catch (CircularDefinitionException e) {
+					e.printStackTrace();
 				}
 				geoImage.setLabel(null);
 
 				GeoElement[] ret = {};
 				return ret;
 
-			} else {
-				throw argErr(app, c.getName(), arg[0]);
 			}
+			throw argErr(app, c.getName(), arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

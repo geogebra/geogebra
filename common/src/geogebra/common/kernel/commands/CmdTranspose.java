@@ -4,12 +4,15 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
-/*
+/**
  * Transpose[ <List> ]
  * Michael Borcherds 
  */
 public class CmdTranspose extends CmdOneListFunction {
-
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdTranspose(Kernel kernel) {
 		super(kernel);
 	}

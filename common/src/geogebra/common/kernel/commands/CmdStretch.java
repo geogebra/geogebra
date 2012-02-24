@@ -45,11 +45,10 @@ public class CmdStretch extends CommandProcessor {
 							null);
 					return ret;
 
-				} else
-					throw argErr(app, c.getName(), arg[0]);
+				}
+				throw argErr(app, c.getName(), arg[0]);
 			}
-			else
-				throw argErr(app, c.getName(), arg[1]);
+			throw argErr(app, c.getName(), arg[1]);
 		case 3:
 			arg = resArgs(c);
 
@@ -62,13 +61,12 @@ public class CmdStretch extends CommandProcessor {
 							(GeoNumeric) arg[2]);
 					return ret;
 
-				} else
-					throw argErr(app, c.getName(), arg[0]);
-			} else {
-				if (!(arg[1] instanceof GeoVec3D))
-					throw argErr(app, c.getName(), arg[1]);
-				throw argErr(app, c.getName(), arg[2]);
+				}
+				throw argErr(app, c.getName(), arg[0]);
 			}
+			if (!(arg[1] instanceof GeoVec3D))
+				throw argErr(app, c.getName(), arg[1]);
+			throw argErr(app, c.getName(), arg[2]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

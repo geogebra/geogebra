@@ -7,11 +7,14 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
 
-/*
- * Name[ <GeoElement> ]
+/**
+ * Text[ <text> ]
  */
 public class CmdText extends CommandProcessor {
-
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdText(Kernel kernel) {
 		super(kernel);
 	}
@@ -50,13 +53,12 @@ public class CmdText extends CommandProcessor {
 		case 3:
 			boolean ok;
 			arg = resArgs(c);	
-			if (ok = arg[1].isGeoPoint() && arg[2].isGeoBoolean()) {
+			if ((ok = arg[1].isGeoPoint()) && arg[2].isGeoBoolean()) {
 				GeoElement[] ret2 = { kernelA.Text(c.getLabel(),
 						arg[0], (GeoPoint2)arg[1], (GeoBoolean)arg[2]) };
 				return ret2;
 			}
-			else
-				throw argErr(app, c.getName(), ok ? arg[2] : arg[1]);     
+			throw argErr(app, c.getName(), ok ? arg[2] : arg[1]);     
 
 		case 4:
 			boolean ok1 = false;
@@ -66,8 +68,7 @@ public class CmdText extends CommandProcessor {
 						arg[0], (GeoPoint2)arg[1], (GeoBoolean)arg[2], (GeoBoolean)arg[3]) };
 				return ret2;
 			}
-			else
-				throw argErr(app, c.getName(), ok ? (ok1 ? arg[3] : arg[2]) : arg[1]);     
+			throw argErr(app, c.getName(), ok ? (ok1 ? arg[3] : arg[2]) : arg[1]);     
 
 		default:
 			throw argNumErr(app, c.getName(), n);

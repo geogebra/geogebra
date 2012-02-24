@@ -25,21 +25,20 @@ public class CmdStemPlot extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		boolean[] ok = new boolean[n];
+
 		GeoElement[] arg;
 		arg = resArgs(c);
 
 		switch (n) {
 
 		case 1:
-			if ((ok[0] = (arg[0].isGeoList()))) {
+			if (((arg[0].isGeoList()))) {
 				GeoList list = (GeoList) arg[0];
 
 				GeoElement[] ret = { kernelA.StemPlot(c.getLabel(), list) };
 				return ret;
-			} else {
-				throw argErr(app, c.getName(), arg[0]);
 			}
+			throw argErr(app, c.getName(), arg[0]);
 
 		case 2:
 			if (!arg[0].isGeoList()) {

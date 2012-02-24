@@ -76,7 +76,7 @@ public class CmdSetValue extends CmdScripting {
 			}
 			return;
 		case 3:
-			if (ok = (arg[0].isGeoList() && arg[0].isIndependent()) && arg[1].isNumberValue()) {
+			if ((ok = (arg[0].isGeoList() && arg[0].isIndependent())) && arg[1].isNumberValue()) {
 				GeoList list = (GeoList) arg[0];
 				int nn = (int) ((NumberValue) arg[1]).getDouble();
 
@@ -87,7 +87,6 @@ public class CmdSetValue extends CmdScripting {
 					list.updateRepaint();
 					return;
 				}
-				else{
 				GeoElement geo = list.get(nn - 1);
 				if (geo.isIndependent()) {
 					if (geo.isGeoNumeric() && arg[2].isNumberValue()) {
@@ -115,7 +114,7 @@ public class CmdSetValue extends CmdScripting {
 							}
 						}
 					}
-				}}
+				}
 
 			} else
 				throw argErr(app, c.getName(), ok ? arg[1] : arg[0]);

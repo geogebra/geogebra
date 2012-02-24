@@ -31,15 +31,15 @@ public class CmdSetCaption extends CmdScripting {
 			arg = resArgs(c);
 			if (arg[1].isGeoText()) {
 
-				GeoElement geo = (GeoElement) arg[0];
+				GeoElement geo = arg[0];
 
 				geo.setCaption(((GeoText) arg[1]).getTextString());
 				geo.updateRepaint();
 
 				
 				return;
-			} else
-				throw argErr(app, c.getName(), arg[1]);
+			}
+			throw argErr(app, c.getName(), arg[1]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

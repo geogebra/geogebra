@@ -16,8 +16,8 @@ import geogebra.common.awt.Color;
  *SetColor
  */
 public class CmdSetColor extends CmdScripting {
-
-	boolean background = false;
+	/** true for CmdSetBackgroundColor */
+	protected boolean background = false;
 	/**
 	 * Create new command processor
 	 * 

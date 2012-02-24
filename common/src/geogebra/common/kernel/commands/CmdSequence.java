@@ -15,7 +15,7 @@ import geogebra.common.kernel.Kernel;
 public class CmdSequence extends CommandProcessor {
 	/**
 	 * Creates new sequence command
-	 * @param kernel
+	 * @param kernel kernel
 	 */
 	public CmdSequence(Kernel kernel) {
 		super(kernel);
@@ -39,7 +39,7 @@ final public  GeoElement[] process(Command c) throws MyError {
     else
     	 arg = resArgs(c);
     switch (n) {
-    	case 1:if (ok[0] = arg[0].isGeoNumeric()){
+    	case 1:if (arg[0].isGeoNumeric()){
     		return  kernelA.Sequence(c.getLabel(),(GeoNumeric) arg[0]);    		
     	}    	
     	throw argErr(app, c.getName(), arg[0]);
@@ -56,11 +56,8 @@ final public  GeoElement[] process(Command c) throws MyError {
                                 (NumberValue) arg[2],
                                 (NumberValue) arg[3],
                                 null);
-               } else {          
-               	for (int i=0; i < n; i++) {
-               		if (!ok[i]) throw argErr(app, c.getName(), arg[i]);	
-               	}            	
-               }               
+               } throw argErr(app, c.getName(), getBadArg(ok,arg));	
+               	               
     		    		
         case 5 :        	        	                           
             if ((ok[0] = arg[0].isGeoElement())
@@ -76,11 +73,10 @@ final public  GeoElement[] process(Command c) throws MyError {
                              (NumberValue) arg[2],
                              (NumberValue) arg[3],
                              (NumberValue) arg[4]);
-            } else {          
-            	for (int i=0; i < n; i++) {
-            		if (!ok[i]) throw argErr(app, c.getName(), arg[i]);	
-            	}            	
-            }           
+            } 
+            throw argErr(app, c.getName(), getBadArg(ok,arg));	
+                        	
+                       
 
         default :
             throw argNumErr(app, c.getName(), n);

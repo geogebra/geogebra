@@ -38,8 +38,8 @@ public class CmdSample extends CommandProcessor {
 						(GeoList) arg[0], (NumberValue) arg[1], null) };
 				return ret;
 
-			} else
-				throw argErr(app, c.getName(), getBadArg(ok, arg));
+			}
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		case 3:
 			arg = resArgs(c);
@@ -51,8 +51,8 @@ public class CmdSample extends CommandProcessor {
 						(GeoBoolean) arg[2]) };
 				return ret;
 
-			} else
-				throw argErr(app, c.getName(), getBadArg(ok, arg));
+			}
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

@@ -6,9 +6,14 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
 
-
+/**
+ * TextToUnicode[text]
+ */
 public class CmdTextToUnicode extends CommandProcessor {
-
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdTextToUnicode(Kernel kernel) {
 		super(kernel);
 	}
@@ -27,8 +32,8 @@ public class CmdTextToUnicode extends CommandProcessor {
 						kernelA.TextToUnicode(c.getLabel(),
 						(GeoText) arg[0] ) };
 				return ret;
-			} else
-				throw argErr(app, c.getName(), arg[0]);
+			}
+			throw argErr(app, c.getName(), arg[0]);
 		
 		default:
 			throw argNumErr(app, c.getName(), n);

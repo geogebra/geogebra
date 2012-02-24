@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPolyLineInterface;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.Kernel;;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Vertex[ <GeoConic> ]
@@ -35,11 +35,11 @@ public class CmdVertex extends CommandProcessor {
 		// Vertex[ <GeoConic> ]
 		case 1:
 			arg = resArgs(c);
-			if (ok[0] = (arg[0].isGeoConic()))
+			if (arg[0].isGeoConic())
 				return kernelA.Vertex(c.getLabels(), (GeoConic) arg[0]);
-			if (ok[0] = (arg[0] instanceof GeoPolyLineInterface))
+			if (arg[0] instanceof GeoPolyLineInterface)
 				return kernelA.Vertex(c.getLabels(), (GeoPolyLineInterface) arg[0]);
-			else if (ok[0] = (arg[0].isNumberValue())) {
+			else if (arg[0].isNumberValue()) {
 				GeoElement[] ret = { kernelA.CornerOfDrawingPad(c.getLabel(),
 						(NumberValue) arg[0], null) };
 				return ret;
@@ -75,10 +75,7 @@ public class CmdVertex extends CommandProcessor {
 				return ret;
 				
 			} else {
-				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				else
-					throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c.getName(), getBadArg(ok,arg));
 			}
 
 		default:

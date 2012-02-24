@@ -6,7 +6,11 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
-
+/**
+ * TriangleCumic[point,point,point,index]
+ * @author Darko
+ *
+ */
 public class CmdTriangleCubic extends CommandProcessor {
 
 	/**
@@ -40,15 +44,8 @@ public class CmdTriangleCubic extends CommandProcessor {
 				
 			}
 				
-			else{
-				if(!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				if(!ok[1])
-					throw argErr(app, c.getName(), arg[1]);
-				if(!ok[2])
-					throw argErr(app, c.getName(), arg[2]);
-				throw argErr(app, c.getName(), arg[3]);
-			}
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
+				
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

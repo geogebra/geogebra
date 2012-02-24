@@ -38,8 +38,8 @@ public class CmdTaylorSeries extends CommandProcessor {
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						(NumberValue) arg[1], (NumberValue) arg[2]) };
 				return ret;
-			} else
-				throw argErr(app, c.getName(), null);
+			}
+			throw argErr(app, c.getName(), null);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

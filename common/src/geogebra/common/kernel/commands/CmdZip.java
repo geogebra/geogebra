@@ -1,12 +1,13 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.Kernel;;
+import geogebra.common.kernel.Kernel;
 
 /**
  * Sequence[ <expression>, <number-var>, <from>, <to> ] Sequence[ <expression>,
@@ -16,7 +17,7 @@ public class CmdZip extends CommandProcessor {
 	/**
 	 * Creates new zip command
 	 * 
-	 * @param kernel
+	 * @param kernel kernel
 	 */
 	public CmdZip(Kernel kernel) {
 		super(kernel);
@@ -39,13 +40,9 @@ public class CmdZip extends CommandProcessor {
 
 		if ((ok[0] = arg[0].isGeoElement()) && (ok[2] = arg[2].isGeoList())) {
 			return kernelA.Zip(c.getLabel(), arg[0], vars, over);
-		} else {
-			for (int i = 0; i < n; i++) {
-				if (!ok[i])
-					throw argErr(app, c.getName(), arg[i]);
-			}
-		}
-		return null;
+		} 
+		throw argErr(app,c.getName(),getBadArg(ok,arg));
+		
 	}
 
 	private GeoElement[] vars;
@@ -55,7 +52,7 @@ public class CmdZip extends CommandProcessor {
 	 * Resolves arguments, creates local variables and fills the vars and
 	 * overlists
 	 * 
-	 * @param c
+	 * @param c zip command
 	 * @return list of arguments
 	 */
 	protected final GeoElement[] resArgsForZip(Command c) {
@@ -63,7 +60,7 @@ public class CmdZip extends CommandProcessor {
 		int numArgs = c.getArgumentNumber();
 		vars = new GeoElement[numArgs / 2];
 		over = new GeoList[numArgs / 2];
-		Construction cmdCons = (Construction)c.getKernel().getConstruction();
+		Construction cmdCons = c.getKernel().getConstruction();
 
 		for (int varPos = 1; varPos < numArgs; varPos += 2) {
 			String localVarName = c.getVariableName(varPos);
@@ -96,7 +93,7 @@ public class CmdZip extends CommandProcessor {
 		}
 		GeoElement[] arg = resArgs(c);
 		for (GeoElement localVar : vars)
-			cmdCons.removeLocalVariable(localVar.getLabel());
+			cmdCons.removeLocalVariable(localVar.getLabel(StringTemplate.defaultTemplate));
 		return arg;
 	}
 }

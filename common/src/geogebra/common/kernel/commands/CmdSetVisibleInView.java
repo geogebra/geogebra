@@ -37,7 +37,7 @@ public class CmdSetVisibleInView extends CmdScripting {
 
 			if (arg[2].isGeoBoolean()) {
 
-				GeoElement geo = (GeoElement) arg[0];
+				GeoElement geo = arg[0];
 				
 
 				int viewNo = (int)((NumberValue)arg[1]).getDouble();
@@ -71,8 +71,8 @@ public class CmdSetVisibleInView extends CmdScripting {
 				}
 
 				return;
-			} else
-				throw argErr(app, c.getName(), arg[2]);
+			}
+			throw argErr(app, c.getName(), arg[2]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

@@ -48,8 +48,8 @@ public class CmdSolveODE extends CommandProcessor {
 						(GeoNumeric) arg[2], (GeoNumeric) arg[3],
 						(GeoNumeric) arg[4]) };
 				return ret;
-			} else
-				throw argErr(app, c.getName(), getBadArg(ok, arg));
+			}
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 		case 6:
 			if ((ok[0] = arg[0] instanceof FunctionalNVar)
 					&& (ok[1] = arg[1] instanceof FunctionalNVar)
@@ -62,9 +62,8 @@ public class CmdSolveODE extends CommandProcessor {
 						(GeoNumeric) arg[2], (GeoNumeric) arg[3],
 						(GeoNumeric) arg[4], (GeoNumeric) arg[5]) };
 				return ret;
-			} else {
-				throw argErr(app, c.getName(), getBadArg(ok, arg));
 			}
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		case 8: // second order ODE
 			if ((ok[0] = arg[0].isGeoFunctionable())
@@ -81,9 +80,8 @@ public class CmdSolveODE extends CommandProcessor {
 						(GeoNumeric) arg[4], (GeoNumeric) arg[5],
 						(GeoNumeric) arg[6], (GeoNumeric) arg[7]) };
 				return ret;
-			} else {
-				throw argErr(app, c.getName(), getBadArg(ok, arg));
 			}
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 			// more than one argument
 		default:

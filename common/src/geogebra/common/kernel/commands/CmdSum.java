@@ -8,12 +8,15 @@ import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.kernel.Kernel;
 
-/*
+/**
  * Sum[ list ]
  * adapted from CmdLcm by Michael Borcherds 2008-02-16
  */
 public class CmdSum extends CommandProcessor {
-
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdSum(Kernel kernel) {
 		super(kernel);
 	}
@@ -105,8 +108,8 @@ public class CmdSum extends CommandProcessor {
 				} else {
 					throw argErr(app, c.getName(), arg[0]);
 				}
-			} else
-				throw argErr(app, c.getName(), arg[0]);
+			}
+			throw argErr(app, c.getName(), arg[0]);
 
 		default:
 			// try to create list of numbers

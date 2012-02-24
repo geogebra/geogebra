@@ -48,8 +48,8 @@ public class CmdShowLayer extends CmdScripting {
 				
 				return;
 
-			} else
-				throw argErr(app, c.getName(), null);
+			}
+			throw argErr(app, c.getName(), null);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

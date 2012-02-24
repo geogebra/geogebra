@@ -4,11 +4,15 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
-/*
+/**
  * Sort[ <List> ]
  */
 public class CmdSort extends CmdOneListFunction {
 
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdSort(Kernel kernel) {
 		super(kernel);
 	}

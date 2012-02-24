@@ -1,16 +1,22 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-
+/**
+ * Triangular[min,max,mode,value]
+ * Triangular[min,max,mode,value,cumulative]
+ * Triangular[min,max,mode,x] 
+ */
 public class CmdTriangular extends CommandProcessor {
-
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdTriangular(Kernel kernel) {
 		super(kernel);
 	}
@@ -66,7 +72,8 @@ public class CmdTriangular extends CommandProcessor {
 					
 				}  else
 					throw argErr(app, c2.getName(), arg[2]);
-		} else throw argErr(app, c2.getName(), !ok ? arg[0] : (ok2 ? arg[2] : arg[0]));
+		}
+			throw argErr(app, c2.getName(), !ok ? arg[0] : (ok2 ? arg[2] : arg[0]));
 
 		default:
 			throw argNumErr(app, c2.getName(), n);

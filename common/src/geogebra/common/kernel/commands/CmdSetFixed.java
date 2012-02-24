@@ -31,15 +31,15 @@ public class CmdSetFixed extends CmdScripting {
 			arg = resArgs(c);
 			if (arg[1].isGeoBoolean()) {
 
-				GeoElement geo = (GeoElement) arg[0];
+				GeoElement geo = arg[0];
 
 				geo.setFixed(((GeoBoolean) arg[1]).getBoolean());
 				geo.updateRepaint();
 
 				
 				return;
-			} else
-				throw argErr(app, c.getName(), arg[1]);
+			}
+			throw argErr(app, c.getName(), arg[1]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

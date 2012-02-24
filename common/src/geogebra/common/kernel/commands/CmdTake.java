@@ -8,13 +8,16 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
 
-/*
+/**
  * Take[ <List>,m,n ]
  * Michael Borcherds
  * 2008-03-04
  */
 public class CmdTake extends CommandProcessor {
-
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdTake(Kernel kernel) {
 		super(kernel);
 	}

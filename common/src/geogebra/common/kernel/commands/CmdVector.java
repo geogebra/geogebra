@@ -5,14 +5,17 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.Kernel;;
+import geogebra.common.kernel.Kernel;
 
 
-/*
+/**
  * Vector[ <GeoPoint>, <GeoPoint> ] Vector[ <GeoPoint> ]
  */
 public class CmdVector extends CommandProcessor {
-
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdVector(Kernel kernel) {
 		super(kernel);
 	}
@@ -26,7 +29,7 @@ public class CmdVector extends CommandProcessor {
 		switch (n) {
 		case 1 :
 			arg = resArgs(c);
-			if (ok[0] = (arg[0] .isGeoPoint())) {
+			if (arg[0] .isGeoPoint()) {
 				GeoElement[] ret =
 				{ kernelA.Vector(c.getLabel(), (GeoPoint2) arg[0])};
 				return ret;
@@ -38,7 +41,7 @@ public class CmdVector extends CommandProcessor {
 			 * 
 			 * @see AlgoLinePointVector.getCmdXML()
 			 */
-			else if (ok[0] = (arg[0] .isGeoVector())) {
+			else if (arg[0] .isGeoVector()) {
 				// maybe we have to set a label here
 				if (!cons.isSuppressLabelsActive() && !arg[0].isLabelSet()) {            	           
 					arg[0].setLabel(c.getLabel());
@@ -65,13 +68,10 @@ public class CmdVector extends CommandProcessor {
 								(GeoPoint2) arg[0],
 								(GeoPoint2) arg[1])};
 				return ret;
-			} else {
-				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				else
-					throw argErr(app, c.getName(), arg[1]);
 			}
-
+			
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
+			
 		default :
 			throw argNumErr(app, c.getName(), n);
 		}

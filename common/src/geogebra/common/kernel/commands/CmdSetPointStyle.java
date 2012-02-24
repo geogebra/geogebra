@@ -31,7 +31,7 @@ public class CmdSetPointStyle extends CmdScripting {
 		case 2:
 			arg = resArgs(c);
 
-			if (ok = arg[0].isGeoPoint() && arg[1].isNumberValue()) {
+			if ((ok = arg[0].isGeoPoint()) && arg[1].isNumberValue()) {
 
 				GeoPoint2 point = (GeoPoint2) arg[0];
 

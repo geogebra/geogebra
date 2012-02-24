@@ -1,16 +1,22 @@
 package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.StringTemplate;
-
+/**
+ * Uniform[min,max,x]
+ * Uniform[min,max,value]
+ * Uniform[min,max,value,cumulative]
+ */
 	public class CmdUniform extends CommandProcessor {
-
+		/**
+		 * Creates new command processor
+		 * @param kernel kernel
+		 */
 		public CmdUniform(Kernel kernel) {
 			super(kernel);
 		}
@@ -26,7 +32,7 @@ import geogebra.common.kernel.StringTemplate;
 			
 			switch (n) {
 			case 4:
-				if (!arg[2].isGeoFunction() || !((GeoFunction)arg[2]).toString().equals("x")) {
+				if (!arg[2].isGeoFunction() || !((GeoFunction)arg[2]).toString(StringTemplate.defaultTemplate).equals("x")) {
 					throw argErr(app, c.getName(), arg[1]);
 				}
 				
@@ -51,11 +57,10 @@ import geogebra.common.kernel.StringTemplate;
 							
 							return ret;
 							
-						} else {
-							GeoElement[] ret = kernelA.getAlgebraProcessor().processAlgebraCommand( "If[x<Min["+a+","+b+"],0,If[x>Max["+a+","+b+"],0,1/abs("+b+"-("+a+"))]]", true );
-							
-							return ret;
 						}
+						GeoElement[] ret = kernelA.getAlgebraProcessor().processAlgebraCommand( "If[x<Min["+a+","+b+"],0,If[x>Max["+a+","+b+"],0,1/abs("+b+"-("+a+"))]]", true );
+						
+						return ret;
 						
 					} else if (arg[2].isNumberValue()) 
 					{
@@ -70,7 +75,8 @@ import geogebra.common.kernel.StringTemplate;
 						
 					}  else
 						throw argErr(app, c.getName(), arg[2]);
-			} else throw argErr(app, c.getName(), ok ? arg[1] : arg[0]);
+			}
+				throw argErr(app, c.getName(), ok ? arg[1] : arg[0]);
 
 			default:
 				throw argNumErr(app, c.getName(), n);

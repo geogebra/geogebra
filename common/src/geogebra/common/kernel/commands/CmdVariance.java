@@ -4,12 +4,15 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
-/*
+/**
  * Variance[ list ]
  * adapted from CmdSum by Michael Borcherds 2008-02-16
  */
 public class CmdVariance extends CmdOneListFunction {
-
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdVariance(Kernel kernel) {
 		super(kernel);
 	}

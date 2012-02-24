@@ -3,9 +3,14 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-
+/**
+ * SigmaXY[ list ]
+ */
 public class CmdSigmaXY extends CmdOneOrTwoListsFunction {
-
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdSigmaXY(Kernel kernel) {
 		super(kernel);
 	}

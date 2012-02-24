@@ -15,7 +15,7 @@ package geogebra.common.kernel.geos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CmdScriptingInterface;
+import geogebra.common.kernel.commands.CmdScripting;
 import geogebra.common.plugin.GeoClass;
 
 /**
@@ -24,7 +24,7 @@ import geogebra.common.plugin.GeoClass;
 public class GeoScriptAction extends GeoElement  {
 
 	
-	private CmdScriptingInterface action;
+	private CmdScripting action;
 	private Command command;
 	/**
 	 * Creates new script action
@@ -39,7 +39,7 @@ public class GeoScriptAction extends GeoElement  {
 	 * @param cmdScripting command processor to be used 
 	 * @param command command to be processed
 	 */
-	public GeoScriptAction(Construction cons, CmdScriptingInterface cmdScripting,Command command) {
+	public GeoScriptAction(Construction cons, CmdScripting cmdScripting,Command command) {
 		this(cons);
 		action = cmdScripting;
 		this.command = command;
