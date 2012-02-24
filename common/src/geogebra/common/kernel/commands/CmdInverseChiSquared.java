@@ -36,8 +36,8 @@ public class CmdInverseChiSquared extends CommandProcessor {
 						(NumberValue) arg[0], (NumberValue) arg[1]) };
 				return ret;
 
-			} else
-				throw argErr(app, c.getName(), arg[0]);
+			}
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

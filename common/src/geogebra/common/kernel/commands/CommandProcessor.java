@@ -362,7 +362,7 @@ public abstract class CommandProcessor {
 			if (!ok[i])
 				return arg[i];
 		}
-		throw new Error("no bad arg");
+		return arg[arg.length-1];
 	}
 
 	/**

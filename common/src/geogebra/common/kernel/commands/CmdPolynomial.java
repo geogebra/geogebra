@@ -26,20 +26,20 @@ public class CmdPolynomial extends CommandProcessor {
 	@Override
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		boolean[] ok = new boolean[n];
+		
 		GeoElement[] arg;
 		arg = resArgs(c);
 
 		switch (n) {
 		case 1:
-			if (ok[0] = (arg[0].isGeoFunctionable())) {
+			if ((arg[0].isGeoFunctionable())) {
 				GeoElement[] ret = { kernelA.PolynomialFunction(c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction()) };
 				return ret;
 			}
 			// Michael Borcherds 2008-01-22 BEGIN
 			// PolynomialFromCoordinates
-			else if (ok[0] = (arg[0].isGeoList())) {
+			else if ((arg[0].isGeoList())) {
 				GeoElement[] ret = { kernelA.PolynomialFunction(c.getLabel(),
 						((GeoList) arg[0])) };
 				return ret;
@@ -60,8 +60,7 @@ public class CmdPolynomial extends CommandProcessor {
 				return ret;
 			}
 			// Markus Hohenwarter 2008-01-26 END
-			else
-				throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 }

@@ -46,8 +46,8 @@ public class CmdLineStyle extends CmdScripting {
 
 				
 				return;
-			} else
-				throw argErr(app, c.getName(), arg[1]);
+			} 
+			throw argErr(app, c.getName(), arg[1]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

@@ -3,7 +3,6 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -76,11 +75,7 @@ public class CmdPlaySound extends CmdScripting {
 				return;
 			}
 
-			else if (!ok[0])
-				throw argErr(app, c.getName(), arg[0]);
-			else if (!ok[1])
-				throw argErr(app, c.getName(), arg[1]);
-			
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
 
 		case 3:
 			arg = resArgs(c);
@@ -109,23 +104,17 @@ public class CmdPlaySound extends CmdScripting {
 			}
 			
 			
-			else if (!ok[0])
-				throw argErr(app, c.getName(), arg[0]);
-			else if (!ok[1])
-				throw argErr(app, c.getName(), arg[1]);
-			else if (!ok[2])
-				throw argErr(app, c.getName(), arg[2]);
-			
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
 			
 
 		case 5:
 			arg = resArgs(c);
 
-			if ((ok[0] = arg[0].isGeoFunction() 
+			if ((ok[0] = arg[0].isGeoFunction()) 
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())
 					&& (ok[3] = arg[3].isGeoNumeric()) 
-					&& (ok[4] = arg[4].isGeoNumeric()))) {
+					&& (ok[4] = arg[4].isGeoNumeric())) {
 
 				sm.playFunction(((GeoFunction) arg[0]), // function
 						((GeoNumeric) arg[1]).getDouble(), // min value
@@ -135,16 +124,7 @@ public class CmdPlaySound extends CmdScripting {
 				
 				return;
 			} 
-			else if (!ok[0])
-				throw argErr(app, c.getName(), arg[0]);
-			else if (!ok[1])
-				throw argErr(app, c.getName(), arg[1]);
-			else if (!ok[2])
-				throw argErr(app, c.getName(), arg[2]);
-			else if (!ok[3])
-				throw argErr(app, c.getName(), arg[3]);
-			else
-				throw argErr(app, c.getName(), arg[4]);
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
 			
 			
 		default:

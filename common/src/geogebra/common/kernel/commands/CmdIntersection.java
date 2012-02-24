@@ -7,11 +7,16 @@ import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
 
 
-/*
+/**
  * Intersection[ <GeoList>, <GeoList> ]
  */
 public class CmdIntersection extends CommandProcessor {
-	
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdIntersection(Kernel kernel) {
 		super(kernel);
 	}
@@ -32,12 +37,7 @@ public  GeoElement[] process(Command c) throws MyError {
 				return ret;
 			} 
             
-			else {
-                if (!ok[0])
-                    throw argErr(app, c.getName(), arg[0]);
-                else
-                    throw argErr(app, c.getName(), arg[1]);
-            }
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
 
 
         default :

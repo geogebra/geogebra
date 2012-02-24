@@ -11,11 +11,8 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.optimization;
 
-import geogebra.common.kernel.geos.GeoAngle;
-import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.roots.RealRootFunction;
 
 /**
@@ -34,16 +31,16 @@ import geogebra.common.kernel.roots.RealRootFunction;
  */
 public class RealRootFunctionVariable implements RealRootFunction {
 
-	private GeoElement geodep = null; // dependent variable
+	private NumberValue geodep = null; // dependent variable
 	private GeoNumeric geoindep = null; // independent variable
 
 	/**
 	 * Constructor
 	 * 
-	 * @param geodep
-	 * @param geoindep
+	 * @param geodep dependent value
+	 * @param geoindep free number
 	 */
-	public RealRootFunctionVariable(GeoElement geodep, GeoNumeric geoindep) {
+	public RealRootFunctionVariable(NumberValue geodep, GeoNumeric geoindep) {
 		this.geodep = geodep;
 		this.geoindep = geoindep;
 	}// Constructor
@@ -53,17 +50,8 @@ public class RealRootFunctionVariable implements RealRootFunction {
 		if ((geodep != null) && (geoindep != null)) {
 			geoindep.setValue(x);
 			geoindep.updateCascade();
-			if (geodep.isGeoNumeric()) {
-				result = ((GeoNumeric) geodep).getDouble();
-			} else if (geodep.isGeoPolygon()) {
-				result = ((GeoPolygon) geodep).getDouble();
-			} else if (geodep.isGeoSegment()) {
-				result = ((GeoSegment) geodep).getDouble();
-			} else if (geodep.isGeoAngle()) {
-				result = ((GeoAngle) geodep).getDouble();
-			} else {
-				result = Double.NaN;
-			}// if type
+			result = geodep.getDouble();
+			// if type
 			return result;
 		}
 		return Double.NaN;

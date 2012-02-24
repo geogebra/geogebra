@@ -4,12 +4,14 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.Kernel;
 
-/*
- * HarmonicMean[ list ]
- * adapted from CmdLcm by Michael Borcherds 2008-02-16
+/**
+ * RootMeanSquare[ list ]
  */
 public class CmdRootMeanSquare extends CmdOneListFunction {
-
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdRootMeanSquare(Kernel kernel) {
 		super(kernel);
 	}

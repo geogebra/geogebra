@@ -6,13 +6,16 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
 
-/*
+/**
  * Clean[ <List> ]
- * Michael Borcherds
- * 2008-03-06
+ * @author Michael Borcherds
+ * @version 2008-03-06
  */
 public class CmdRemoveUndefined extends CommandProcessor {
-
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdRemoveUndefined(Kernel kernel) {
 		super(kernel);
 	}
@@ -31,8 +34,8 @@ public class CmdRemoveUndefined extends CommandProcessor {
 						kernelA.RemoveUndefined(c.getLabel(),
 						(GeoList) arg[0] ) };
 				return ret;
-			} else
-				throw argErr(app, c.getName(), arg[0]);
+			}
+			throw argErr(app, c.getName(), arg[0]);
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

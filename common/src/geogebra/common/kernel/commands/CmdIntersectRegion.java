@@ -5,11 +5,17 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.main.MyError;
-
+/**
+ * IntersectRegion[<Polygon>, <Polygon> ]
+ *
+ */
 public class CmdIntersectRegion extends CommandProcessor {
 
 	/**
+	 * Create new command processor
+	 * 
 	 * @param kernel
+	 *            kernel
 	 */
 	public CmdIntersectRegion(Kernel kernel) {
 		super(kernel);
@@ -28,9 +34,8 @@ public class CmdIntersectRegion extends CommandProcessor {
 					GeoElement[] ret =  kernelA.IntersectPolygons(c.getLabels(),
 					(GeoPolygon) arg[0], (GeoPolygon)arg[1] ) ;
 					return ret;
-				} 
-				else 
-					throw argErr(app, c.getName(), ok[0]?arg[1]:arg[0]);
+				}
+			throw argErr(app, c.getName(), ok[0]?arg[1]:arg[0]);
 			default: 
 				throw argNumErr(app, c.getName(), n);
 		}

@@ -32,7 +32,7 @@ public class CmdPan extends CmdScripting {
 		switch (n) {
 		case 2:
 			arg = resArgs(c);
-			if (ok = arg[0].isGeoNumeric() && arg[1].isGeoNumeric()) {
+			if ((ok = arg[0].isGeoNumeric()) && arg[1].isGeoNumeric()) {
 
 				GeoNumeric x = (GeoNumeric) arg[0];
 				GeoNumeric y = (GeoNumeric) arg[1];

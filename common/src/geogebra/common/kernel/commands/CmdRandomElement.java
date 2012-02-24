@@ -4,11 +4,15 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.Kernel;
 
-/*
+/**
  * Shuffle[ <List> ]
  */
 public class CmdRandomElement extends CmdOneListFunction {
 
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdRandomElement(Kernel kernel) {
 		super(kernel);
 	}

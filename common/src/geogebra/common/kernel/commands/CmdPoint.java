@@ -16,7 +16,10 @@ import geogebra.common.main.MyError;
  * Point[ <Path> ] Point[ <Point>, <Vector> ]
  */
 public class CmdPoint extends CommandProcessor {
-	
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdPoint (Kernel kernel) {
 		super(kernel);
 	}
@@ -31,11 +34,12 @@ public  GeoElement[] process(Command c) throws MyError {
         case 1 :
             arg = resArgs(c);
             // need to check isGeoList first as {1,2} can be a Path but we want Point[{1,2}] to create a point
-            if (ok[0] = (arg[0].isGeoList() && ((GeoList)arg[0]).getGeoElementForPropertiesDialog().isGeoNumeric())) {
+            if ((arg[0].isGeoList() && 
+            		((GeoList)arg[0]).getGeoElementForPropertiesDialog().isGeoNumeric())) {
                 GeoElement[] ret = kernelA.PointsFromList(c.getLabels(), (GeoList) arg[0]);
             
                 return ret;
-            } else if (ok[0] = (arg[0].isPath())) {
+            } else if (arg[0].isPath()) {
                 GeoElement[] ret =
                     { kernelA.Point(c.getLabel(), (Path) arg[0])};
                 return ret;
@@ -65,9 +69,8 @@ public  GeoElement[] process(Command c) throws MyError {
                 return ret;
             } else {                
                 if (!ok[0])
-                    throw argErr(app, c.getName(), arg[0]);     
-                else
-                    throw argErr(app, c.getName(), arg[1]);
+                    throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c.getName(), arg[1]);
             }
 
         default :

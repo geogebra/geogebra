@@ -9,12 +9,15 @@ import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
 
 
-/*
- * Line[ <GeoPoint>, <GeoPoint> ] Line[ <GeoPoint>, <GeoVector> ] Line[
- * <GeoPoint>, <GeoLine> ]
+/**
+ * Ray[ <GeoPoint>, <GeoPoint> ] 
+ * Ray[ <GeoPoint>, <GeoVector> ] 
  */
 public class CmdRay extends CommandProcessor {
-
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdRay(Kernel kernel) {
 		super(kernel);
 	}
@@ -58,8 +61,7 @@ public class CmdRay extends CommandProcessor {
 			else {
 				if (!ok[0])
 					throw argErr(app, c.getName(), arg[0]);
-				else
-					throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c.getName(), arg[1]);
 			}
 
 		default :

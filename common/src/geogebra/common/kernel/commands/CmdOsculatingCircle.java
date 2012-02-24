@@ -44,13 +44,10 @@ public class CmdOsculatingCircle extends CommandProcessor {
 				GeoElement[] ret = { kernelA.OsculatingCircleCurve(c.getLabel(),
 						(GeoPoint2) arg[0], (GeoCurveCartesian) arg[1]) };
 				return ret;
-			} else {
-				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				else
-					throw argErr(app, c.getName(), arg[1]);
-			}
-
+			} 
+			
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
+			
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

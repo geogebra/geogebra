@@ -49,12 +49,8 @@ public class CmdRotate extends CommandProcessor {
 				return ret;
 			}
 
-			else {
-				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				else
-					throw argErr(app, c.getName(), arg[1]);
-			}
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
+			
 
 		case 3:
 			// ROTATION AROUND POINT
@@ -73,12 +69,8 @@ public class CmdRotate extends CommandProcessor {
 
 			// rotate polygon
 
-			else {
-				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				else
-					throw argErr(app, c.getName(), arg[1]);
-			}
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
+			
 
 		default:
 			throw argNumErr(app, c.getName(), n);

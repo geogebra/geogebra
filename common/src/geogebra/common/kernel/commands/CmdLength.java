@@ -112,12 +112,7 @@ public class CmdLength extends CommandProcessor {
 
 			else {
 
-				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				if (!ok[1])
-					throw argErr(app, c.getName(), arg[1]);
-				else
-					throw argErr(app, c.getName(), arg[2]);
+				throw argErr(app, c.getName(), getBadArg(ok,arg));
 			}
 
 			// Victor Franco 18-04-2007 (end)

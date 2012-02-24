@@ -4,11 +4,15 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 
-/*
+/**
  * Random[ <Number>, <Number> ]
  */
 public class CmdRandom extends CmdTwoNumFunction {
 
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdRandom(Kernel kernel) {
 		super(kernel);
 	}

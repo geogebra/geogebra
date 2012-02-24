@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 
 
@@ -32,9 +32,13 @@ import geogebra.common.kernel.geos.GeoNumeric;
 
 public class AlgoMinimize extends AlgoOptimize{
 
-	/** Constructor for Maximize*/
-	public AlgoMinimize(Construction cons,String label,GeoElement dep,GeoNumeric indep){
-		super(cons,label,dep,indep,AlgoOptimize.MINIMIZE);
+	/** Constructor for Minimize
+	 * @param cons construction
+	 * @param label label for output
+	 * @param dep dependent value
+	 * @param indep independent number*/
+	public AlgoMinimize(Construction cons,String label,NumberValue dep,GeoNumeric indep){
+		super(cons,label,dep,indep,OptimizationType.MINIMIZE);
 		//cons.registerEuclididanViewAlgo(this);
 	}//Constructor for Maximize
 	

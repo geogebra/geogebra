@@ -15,7 +15,7 @@ import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
 
 
-/*
+/**
  * Intersect[ <GeoLine>, <GeoLine> ] Intersect[ <GeoLine>, <GeoPolygon> ] 
  * Intersect[ <GeoLine>, <GeoConic> ]
  * Intersect[ <GeoConic>, <GeoLine> ] Intersect[ <GeoConic>, <GeoConic> ]
@@ -26,6 +26,12 @@ import geogebra.common.kernel.Kernel;
  */
 public class CmdIntersect extends CommandProcessor {
 	
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdIntersect(Kernel kernel) {
 		super(kernel);
 	}
@@ -161,10 +167,10 @@ public  GeoElement[] process(Command c) throws MyError {
 	                    c.getLabels(), (GeoImplicitPoly) arg[0],
 	                    ((GeoFunctionable) arg[1]).getGeoFunction()
 	                   );
-			else if (ok[0] = (arg[0] .isGeoFunctionable())
+			else if ((ok[0] = arg[0] .isGeoFunctionable())
 	                    //&& (ok[0]=((GeoFunctionable) arg[0]).getGeoFunction().isPolynomialFunction(false))
 						&& (ok[0] = !(arg[0].isGeoLine()))
-	                    && (ok[1] = (arg[1] .isGeoImplicitPoly())))
+	                    && (ok[1] = arg[1] .isGeoImplicitPoly()))
 					return kernelA.IntersectImplicitpolyPolynomial(
 	                    c.getLabels(), (GeoImplicitPoly) arg[1],
 	                    ((GeoFunctionable) arg[0]).getGeoFunction()
@@ -216,8 +222,7 @@ public  GeoElement[] process(Command c) throws MyError {
 			else {
                 if (!ok[0])
                     throw argErr(app, c.getName(), arg[0]);
-                else
-                    throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c.getName(), arg[1]);
             }
 
         case 3 : // only one of the intersection points: the third argument
@@ -367,7 +372,7 @@ public  GeoElement[] process(Command c) throws MyError {
 	                    c.getLabel(), (GeoImplicitPoly) arg[0],
 	                    ((GeoFunctionable) arg[1]).getGeoFunction(),(NumberValue)arg[2]
 	                   )};
-			else if (ok[0] = (arg[0] .isGeoFunctionable())
+			else if ((ok[0] =arg[0] .isGeoFunctionable())
 	                    && (ok[0]=((GeoFunctionable) arg[0]).getGeoFunction().isPolynomialFunction(false))
 	                    && (ok[1] = (arg[1] .isGeoImplicitPoly()))
 	                    && (ok[2] = (arg[2] .isNumberValue())))
@@ -486,19 +491,8 @@ public  GeoElement[] process(Command c) throws MyError {
                          );
                 return ret;
             }
-            // Syntax Error
-            else {
-                if (!ok[0])
-                    throw argErr(app, c.getName(), arg[0]);
-                else if (!ok[1])
-                    throw argErr(app, c.getName(), arg[1]);
-                else if (!ok[2])
-                    throw argErr(app, c.getName(), arg[2]);
-                else
-                	throw argErr(app, c.getName(),  arg[3]);
-            }//if
-     	
-
+		throw argErr(app, c.getName(), getBadArg(ok,arg));
+		
         default :
             throw argNumErr(app, c.getName(), n);
     }

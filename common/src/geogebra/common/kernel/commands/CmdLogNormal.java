@@ -1,7 +1,6 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -9,11 +8,16 @@ import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 
-/*
+/**
  * LogNormal distribution
  */
 public class CmdLogNormal extends CommandProcessor {
-
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdLogNormal(Kernel kernel) {
 		super(kernel);
 	}

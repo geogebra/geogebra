@@ -1,7 +1,6 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -9,11 +8,16 @@ import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 
-/*
+/**
  * Logistic Distribution
  */
 public class CmdLogistic extends CommandProcessor {
-
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdLogistic(Kernel kernel) {
 		super(kernel);
 	}
@@ -29,7 +33,7 @@ public class CmdLogistic extends CommandProcessor {
 		
 		switch (n) {
 		case 4:
-			if (!arg[2].isGeoFunction() || !((GeoFunction)arg[2]).toString().equals("x")) {
+			if (!arg[2].isGeoFunction() || !((GeoFunction)arg[2]).toString(StringTemplate.defaultTemplate).equals("x")) {
 				throw argErr(app, c.getName(), arg[2]);
 			}
 			

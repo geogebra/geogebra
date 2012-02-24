@@ -9,14 +9,19 @@ import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
 
 
-/*
+/**
  * IntersectionPaths[ <GeoLine>, <GeoPolygon> ]
  * IntersectionPaths[ <GeoLine>, <GeoConic> ]
  * IntersectionPaths[ <GeoPlane>, <GeoPolygon> ]
  * IntersectionPaths[ <GeoPlane>, <GeoQuadric> ]
  */
 public class CmdIntersectionPaths extends CommandProcessor {
-	
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdIntersectionPaths(Kernel kernel) {
 		super(kernel);
 	}
@@ -131,12 +136,7 @@ public  GeoElement[] process(Command c) throws MyError {
             
 			
             
-			else {
-                if (!ok[0])
-                    throw argErr(app, c.getName(), arg[0]);
-                else
-                    throw argErr(app, c.getName(), arg[1]);
-            }
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
 
         default :
             throw argNumErr(app, c.getName(), n);

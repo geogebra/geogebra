@@ -6,11 +6,17 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
 
-/*
- * Name[ <GeoElement> ]
+/**
+ * FormulaText[ <GeoElement> ]
  */
 public class CmdLaTeX extends CommandProcessor {
 
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdLaTeX(Kernel kernel) {
 		super(kernel);
 	}
@@ -37,8 +43,7 @@ public class CmdLaTeX extends CommandProcessor {
 									arg[0], (GeoBoolean)arg[1], null) };
 				return ret2;
 			}
-			else
-           	 	throw argErr(app, c.getName(), arg[1]);   
+			throw argErr(app, c.getName(), arg[1]);   
 			
 		case 3:
 			

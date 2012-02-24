@@ -8,9 +8,7 @@ import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
 
 /**
- * Locus[ <GeoPoint Q>, <GeoPoint P> ]
- * or
- * Locus[ <GeoPoint Q>, <GeoNumeric P> ]
+ * Locus[ <GeoPoint Q>, <GeoPoint P> ] or Locus[ <GeoPoint Q>, <GeoNumeric P> ]
  */
 public class CmdLocus extends CommandProcessor {
 
@@ -36,34 +34,27 @@ public class CmdLocus extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
-				
+
 				GeoPoint2 p1 = (GeoPoint2) arg[0];
 				GeoPoint2 p2 = (GeoPoint2) arg[1];
-				
+
 				if (p2.isPointOnPath()) {
-				
-				GeoElement[] ret = { kernelA.Locus(c.getLabel(),
-						p1, p2) };
-				return ret;
-				} else {
-					GeoElement[] ret = { kernelA.Locus(c.getLabel(),
-							p2, p1) };
+
+					GeoElement[] ret = { kernelA.Locus(c.getLabel(), p1, p2) };
 					return ret;
-					
 				}
+				GeoElement[] ret = { kernelA.Locus(c.getLabel(), p2, p1) };
+				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoNumeric()))) {
 				GeoPoint2 p1 = (GeoPoint2) arg[0];
 				GeoNumeric p2 = (GeoNumeric) arg[1];
-				
-				GeoElement[] ret = { kernelA.Locus(c.getLabel(),
-						p1, p2) };
+
+				GeoElement[] ret = { kernelA.Locus(c.getLabel(), p1, p2) };
 				return ret;
 			} else {
-				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				else
-					throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c.getName(), getBadArg(ok, arg));
+
 			}
 
 		default:

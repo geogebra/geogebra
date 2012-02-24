@@ -9,7 +9,8 @@ import geogebra.common.main.MyError;
 
 
 /**
- * LineBisector[ <GeoPoint>, <GeoPoint> ] LineBisector[ <GeoSegment> ]
+ * LineBisector[ <GeoPoint>, <GeoPoint> ] 
+ * LineBisector[ <GeoSegment> ]
  */
 public class CmdLineBisector extends CommandProcessor {
 
@@ -33,15 +34,14 @@ public class CmdLineBisector extends CommandProcessor {
 		case 1: // segment
 			arg = resArgs(c);
 			// line through point orthogonal to segment
-			if (ok[0] = (arg[0].isGeoSegment())) {
+			if (arg[0].isGeoSegment()) {
 				GeoElement[] ret = { kernelA.LineBisector(c.getLabel(),
 						(GeoSegment) arg[0]) };
 				return ret;
 			}
 
 			// syntax error
-			else
-				throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c.getName(), arg[0]);
 
 		case 2: // two points
 			arg = resArgs(c);
@@ -55,13 +55,8 @@ public class CmdLineBisector extends CommandProcessor {
 			}
 
 			// syntax error
-			else {
-				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				else
-					throw argErr(app, c.getName(), arg[1]);
-			}
-
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
+			
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

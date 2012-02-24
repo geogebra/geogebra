@@ -14,7 +14,7 @@ public class CmdRectangleSum extends CommandProcessor {
 
 	/**
 	* Create new command processor
-	* @param Kernel kernel
+	* @param kernel kernel
 	*/
 	public CmdRectangleSum (Kernel kernel) {
 		super(kernel);
@@ -44,8 +44,8 @@ public class CmdRectangleSum extends CommandProcessor {
 								(NumberValue) arg[3],								
 								(NumberValue) arg[4])};
 				return ret;
-			} else
-				throw argErr(app, c.getName(), null);
+			}
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
 
 		default :
 			throw argNumErr(app, c.getName(), n);

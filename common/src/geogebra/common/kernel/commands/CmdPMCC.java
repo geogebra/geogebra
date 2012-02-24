@@ -3,9 +3,18 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.Kernel;
-
+/**
+ * 
+ * CorrelationCoefficient[&lt;List of points>]
+ * CorrelationCoefficient[&lt;List of numbers>, &lt;List of numbers> ]
+ *
+ */
 public class CmdPMCC extends CmdOneOrTwoListsFunction {
 
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdPMCC(Kernel kernel) {
 		super(kernel);
 	}

@@ -7,11 +7,17 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
 
-/*
+/**
  * Iteration[ <function>, <start>, <n> ]
  */
 public class CmdIteration extends CommandProcessor {
 	
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdIteration(Kernel kernel) {
 		super(kernel);
 	}
@@ -36,11 +42,8 @@ final public  GeoElement[] process(Command c) throws MyError {
                                 (NumberValue) arg[1],
                                 (NumberValue) arg[2]) };
                    return ret; 
-               } else {          
-               	for (int i=0; i < n; i++) {
-               		if (!ok[i]) throw argErr(app, c.getName(), arg[i]);	
-               	}            	
-               }                   		    		     
+               }
+		throw argErr(app, c.getName(), getBadArg(ok,arg));                   		    		     
 
         default :
             throw argNumErr(app, c.getName(), n);

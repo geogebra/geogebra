@@ -33,17 +33,13 @@ public class CmdRelation extends CmdScripting {
 			// show relation string in a message dialog
 			if ((ok[0] = (arg[0].isGeoElement()))
 					&& (ok[1] = (arg[1].isGeoElement()))) {
-				app.showRelation((GeoElement) arg[0], (GeoElement) arg[1]);
+				app.showRelation(arg[0], arg[1]);
 				return;
 			}
 
 			// syntax error
-			else {
-				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				else
-					throw argErr(app, c.getName(), arg[1]);
-			}
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
+			
 
 		default:
 			throw argNumErr(app, c.getName(), n);

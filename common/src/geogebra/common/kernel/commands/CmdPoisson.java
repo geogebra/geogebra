@@ -32,13 +32,12 @@ public class CmdPoisson extends CommandProcessor {
 		
 		case 1:
 			arg = resArgs(c);
-			if ((ok[0] = arg[0].isNumberValue())) {
+			if ((arg[0].isNumberValue())) {
 				GeoElement[] ret = { kernelA.Poisson(c.getLabel(),
 						(NumberValue) arg[0]) };
 				return ret;
 			}
-			else
-				throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c.getName(), arg[0]);
 
 			
 		case 2:

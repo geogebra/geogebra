@@ -9,11 +9,16 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
 
-/*
+/**
  * Max[ <Number>, <Number> ]
  */
 public class CmdMax extends CommandProcessor {
-
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdMax(Kernel kernel) {
 		super(kernel);
 	}
@@ -50,8 +55,8 @@ public class CmdMax extends CommandProcessor {
 						(NumberValue) arg[0], (NumberValue) arg[1]) };
 				return ret;
 				
-			}  else
-				throw argErr(app, c.getName(), arg[0]);
+			}
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
 
 		case 3:		//Max[f,a,b]
 			arg=resArgs(c);
@@ -66,9 +71,9 @@ public class CmdMax extends CommandProcessor {
 						(NumberValue) arg[2])
 				};//array
 				return ret;
-			}else{
-				throw argErr(app,c.getName(),arg[0]);
-			}//if
+			}
+				throw argErr(app,c.getName(),getBadArg(ok,arg));
+			
 			
 		default:
 			throw argNumErr(app, c.getName(), n);

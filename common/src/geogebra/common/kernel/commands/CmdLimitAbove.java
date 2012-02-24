@@ -35,8 +35,8 @@ public class CmdLimitAbove extends CommandProcessor {
 				GeoElement[] ret = { kernelA.LimitAbove(c.getLabel(),
 						(GeoFunction) arg[0], (NumberValue) arg[1]) };
 				return ret;
-			} else
-				throw argErr(app, c.getName(), ok ? arg[1] : arg[0]);
+			}
+			throw argErr(app, c.getName(), ok ? arg[1] : arg[0]);
 
 			// more than one argument
 		default:

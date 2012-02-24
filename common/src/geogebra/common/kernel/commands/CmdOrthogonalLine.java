@@ -20,7 +20,7 @@ public class CmdOrthogonalLine extends CommandProcessor {
 
 	/**
 	* Create new command processor
-	* @param Kernel kernel
+	* @param kernel kernel
 	*/
 	public CmdOrthogonalLine(Kernel kernel) {
 		super(kernel);
@@ -76,8 +76,7 @@ public class CmdOrthogonalLine extends CommandProcessor {
 			else {
 				if (!ok[0])
 					throw argErr(app, c.getName(), arg[0]);
-				else
-					throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c.getName(), arg[1]);
 			}
 
 		default :

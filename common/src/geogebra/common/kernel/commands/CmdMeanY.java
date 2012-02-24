@@ -5,9 +5,16 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-
+/**
+ * MeanX[ &lt;Number of points> ]
+ */
 public class CmdMeanY extends CmdOneOrTwoListsFunction {
-
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdMeanY(Kernel kernel) {
 		super(kernel);
 	}
@@ -25,8 +32,8 @@ public class CmdMeanY extends CmdOneOrTwoListsFunction {
 						doCommand(c.getLabel(),
 						(GeoList) arg[0]) };
 				return ret;
-			} else
-				throw argErr(app, c.getName(), arg[0]);
+			}
+			throw argErr(app, c.getName(), arg[0]);
 		
 		default:
 			throw argNumErr(app, c.getName(), n);

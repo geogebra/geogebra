@@ -6,13 +6,19 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
 
-/*
- * , (NumberValue) arg[1][ <Number>, <Number>,<Number> ]
+/**
+ * InvarseNormal[ <Number>, <Number>,<Number> ]
  * 
  * adapted from CmdMax by Michael Borcherds 2008-01-20
  */
 public class CmdInverseNormal extends CommandProcessor {
 
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdInverseNormal(Kernel kernel) {
 		super(kernel);
 	}
@@ -35,8 +41,8 @@ public class CmdInverseNormal extends CommandProcessor {
 						(NumberValue) arg[0], (NumberValue) arg[1], (NumberValue) arg[2]) };
 				return ret;
 				
-			}  else
-				throw argErr(app, c.getName(), arg[0]);
+			}
+			throw argErr(app, c.getName(),getBadArg(ok,arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

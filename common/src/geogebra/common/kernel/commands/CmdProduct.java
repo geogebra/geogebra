@@ -7,12 +7,16 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
 
-/*
+/**
  * Product[ list ]
- * adapted from CmdSum by Michael Borcherds 2008-02-16
+ * @author Michael Borcherds
+ * @version 2008-02-16
  */
 public class CmdProduct extends CommandProcessor{
-
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdProduct(Kernel kernel) {
 		super(kernel);
 	}
@@ -41,8 +45,7 @@ public class CmdProduct extends CommandProcessor{
 							kernelA.Product(c.getLabel(),list) };
 					return ret;
 				}
-				else 
-					throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c.getName(), arg[0]);
 		case 2:
 			if (arg[1].isGeoNumeric()) {
 
@@ -52,10 +55,9 @@ public class CmdProduct extends CommandProcessor{
 							kernelA.Product(c.getLabel(),list,(GeoNumeric)arg[1]) };
 					return ret;
 				}
-				else 
-					throw argErr(app, c.getName(), arg[0]);
-			} else
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c.getName(), arg[0]);
+			}
+			throw argErr(app, c.getName(), arg[1]);
 		
 		default:
 			throw argNumErr(app, c.getName(), n);

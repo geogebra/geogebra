@@ -33,27 +33,23 @@ public class CmdRoot extends CommandProcessor {
 		// roots of polynomial
 		case 1:
 			arg = resArgs(c);
-			if (ok[0] = (arg[0].isGeoFunctionable()))
+			if ((arg[0].isGeoFunctionable()))
 				return kernelA.Root(c.getLabels(), ((GeoFunctionable) arg[0])
 						.getGeoFunction());
-			else
-				throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c.getName(), arg[0]);
 
 			// root with start value
 		case 2:
 			arg = resArgs(c);
-			if (ok[0] = (arg[0].isGeoFunctionable())
+			if ((ok[0] = arg[0].isGeoFunctionable())
 					&& (ok[1] = (arg[1].isNumberValue()))) {
 				GeoElement[] ret = { kernelA.Root(c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						(NumberValue) arg[1]) };
 				return ret;
-			} else {
-				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				else
-					throw argErr(app, c.getName(), arg[1]);
-			}
+			} 
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
+			
 
 			// root in interval
 		case 3:
@@ -65,14 +61,8 @@ public class CmdRoot extends CommandProcessor {
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						(NumberValue) arg[1], (NumberValue) arg[2]) };
 				return ret;
-			} else {
-				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				else if (!ok[1])
-					throw argErr(app, c.getName(), arg[1]);
-				else
-					throw argErr(app, c.getName(), arg[2]);
-			}
+			} 
+				throw argErr(app, c.getName(), getBadArg(ok,arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

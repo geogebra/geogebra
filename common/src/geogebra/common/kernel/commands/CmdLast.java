@@ -8,13 +8,18 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
 
-/*
+/**
  * Last[ <List>,n ]
- * Michael Borcherds
- * 2008-03-04
+ * @author Michael Borcherds
+ * @version 2008-03-04
  */
 public class CmdLast extends CommandProcessor {
-
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdLast(Kernel kernel) {
 		super(kernel);
 	}

@@ -4,11 +4,16 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
-/*
+/**
  * Rank[ <List> ]
  */
 public class CmdOrdinalRank extends CmdOneListFunction {
-
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdOrdinalRank(Kernel kernel) {
 		super(kernel);
 	}

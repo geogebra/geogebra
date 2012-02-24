@@ -39,14 +39,7 @@ public class CmdPolar extends CommandProcessor {
 						(GeoPoint2) arg[0], (GeoConic) arg[1]) };
 				return ret;
 			}
-
-			// syntax error
-			else {
-				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				else
-					throw argErr(app, c.getName(), arg[1]);
-			}
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

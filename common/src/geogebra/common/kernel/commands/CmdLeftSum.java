@@ -42,8 +42,8 @@ public class CmdLeftSum extends CommandProcessor {
 								(NumberValue) arg[2],
 								(NumberValue) arg[3])};
 				return ret;
-			} else
-				throw argErr(app, c.getName(), null);
+			}
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
 
 		default :
 			throw argNumErr(app, c.getName(), n);

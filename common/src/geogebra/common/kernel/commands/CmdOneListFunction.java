@@ -7,7 +7,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 
-/*
+/**
  * abstract class for Commands with one list argument eg Mean[ <List> ]
  * 
  * if more than one argument, then they are put into a list
@@ -15,7 +15,12 @@ import geogebra.common.plugin.GeoClass;
  * Michael Borcherds 2008-04-12
  */
 public abstract class CmdOneListFunction extends CommandProcessor {
-
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdOneListFunction(Kernel kernel) {
 		super(kernel);
 	}
@@ -35,8 +40,8 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 						doCommand(c.getLabel(),
 						(GeoList) arg[0]) };
 				return ret;
-			} else
-				throw argErr(app, c.getName(), arg[0]);
+			}
+			throw argErr(app, c.getName(), arg[0]);
 		
 		     // more than one argument
         default :
@@ -60,5 +65,11 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 		}
 	}
 	
-    abstract protected GeoElement doCommand(String a, GeoList b);     
+    /**
+     * Perform the actual command
+     * @param label label for output
+     * @param list input list
+     * @return resulting element
+     */
+    abstract protected GeoElement doCommand(String label, GeoList list);     
 }

@@ -10,12 +10,15 @@ import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
 
 
-/*
+/**
  * Polygon[ <GeoPoint>, ..., <GeoPoint> ]
  * Polygon[ <GeoPoint>, <GeoPoint>, <Number>] for regular polygon
  */
 public class CmdPolygon extends CommandProcessor {
-	
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdPolygon(Kernel kernel) {
 		super(kernel);
 	}
@@ -49,9 +52,7 @@ public GeoElement[] process(Command c) throws MyError {
 	        for (int i = 0; i < n; i++) {
 	            if (!(arg[i].isGeoPoint()))
 					throw argErr(app, c.getName(), arg[i]);
-				else {
-	                points[i] = (GeoPoint2) arg[i];
-	            }
+				points[i] = (GeoPoint2) arg[i];
 	        }
 	        // everything ok
 	        return kernelA.Polygon(c.getLabels(), points);

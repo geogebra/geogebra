@@ -27,17 +27,16 @@ public class CmdInsert extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
-
+		boolean[] ok = new boolean[2];
 		switch (n) {
 		case 3:
 
-			if (arg[1].isGeoList() && arg[2].isGeoNumeric()) {
+			if ((ok[0]=arg[1].isGeoList()) && (ok[1]=arg[2].isGeoNumeric())) {
 				GeoElement[] ret = { kernelA.Insert(c.getLabel(), arg[0],
 						(GeoList) arg[1], (GeoNumeric) arg[2]) };
 				return ret;
-			} else
-
-				throw argErr(app, c.getName(), arg[0]);
+			}
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

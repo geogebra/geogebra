@@ -4,12 +4,17 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.Kernel;
 
-/*
+/**
  * Mean[ list ]
  *  Michael Borcherds 2008-04-12
  */
 public class CmdMean extends CmdOneListFunction {
-
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdMean(Kernel kernel) {
 		super(kernel);
 	}

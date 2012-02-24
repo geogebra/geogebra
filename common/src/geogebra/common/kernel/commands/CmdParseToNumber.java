@@ -32,7 +32,7 @@ public class CmdParseToNumber extends CommandProcessor {
 		switch (n) {
 		case 2:
 			arg = resArgs(c);
-			if (ok = arg[0].isGeoNumeric() && arg[1].isGeoText()) {
+			if ((ok = arg[0].isGeoNumeric()) && arg[1].isGeoText()) {
 
 				GeoNumeric num = (GeoNumeric) arg[0];
 				String str = ((GeoText) arg[1]).getTextString();

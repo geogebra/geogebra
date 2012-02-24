@@ -15,7 +15,12 @@ import geogebra.common.kernel.Kernel;
  * Midpoint[ <GeoConic> ] Midpoint[ <GeoPoint>, <GeoPoint> ]
  */
 public class CmdMidpoint extends CommandProcessor {
-	
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdMidpoint(Kernel kernel) {
 		super(kernel);
 	}
@@ -29,7 +34,7 @@ public class CmdMidpoint extends CommandProcessor {
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
-			if (ok[0] = (arg[0].isGeoConic())) {
+			if (arg[0].isGeoConic()) {
 				GeoElement[] ret = { kernelA.Center(c.getLabel(),
 						(GeoConic) arg[0]) };
 				return ret;
@@ -51,13 +56,9 @@ public class CmdMidpoint extends CommandProcessor {
 				GeoElement[] ret = { kernelA.Midpoint(c.getLabel(),
 						(GeoPoint2) arg[0], (GeoPoint2) arg[1]) };
 				return ret;
-			} else {
-				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				else
-					throw argErr(app, c.getName(), arg[1]);
 			}
-
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
+			
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

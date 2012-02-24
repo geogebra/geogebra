@@ -35,9 +35,8 @@ public class CmdRotateText extends CommandProcessor {
 				GeoElement[] ret = { kernelA.RotateText(c.getLabel(),
 						(GeoText) arg[0], (GeoNumeric) arg[1]) };
 				return ret;
-			} else {
-				throw argErr(app, c.getName(), ok[0] ? arg[1] : arg[0]);
 			}
+			throw argErr(app, c.getName(), ok[0] ? arg[1] : arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

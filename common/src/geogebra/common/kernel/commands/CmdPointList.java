@@ -4,11 +4,15 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.Kernel;
 
-/*
+/**
  * PointList[ <List> ]
  */
 public class CmdPointList extends CmdOneListFunction {
 
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdPointList(Kernel kernel) {
 		super(kernel);
 	}

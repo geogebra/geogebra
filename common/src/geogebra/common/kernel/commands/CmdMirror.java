@@ -10,6 +10,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolyLineInterface;
+import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.main.MyError;
@@ -65,19 +66,20 @@ public class CmdMirror extends CommandProcessor {
 			}
 
 			// mirror object
-			if (ok[0] = true) {
-
+			if (arg[0] instanceof Transformable) {
+				ok[0] = true;
 				// GeoElement geo = p.toGeoElement();
 
 				// mirror at point
-				if (ok[1] = (arg[1].isGeoPoint())) {
+				if (arg[1].isGeoPoint()) {
+
 					GeoPoint2 Q = (GeoPoint2) arg[1];
 
 					ret = kernelA.Mirror(label, arg[0], Q);
 					return ret;
 				}
 				// mirror is line
-				else if (ok[1] = (arg[1].isGeoLine())) {
+				else if (arg[1].isGeoLine()) {
 					GeoLine line = (GeoLine) arg[1];
 
 					ret = kernelA.Mirror(label, arg[0], line);
@@ -86,12 +88,10 @@ public class CmdMirror extends CommandProcessor {
 			}
 
 			// syntax error
-			else {
-				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				else
-					throw argErr(app, c.getName(), arg[1]);
-			}
+
+			if (!ok[0])
+				throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c.getName(), arg[1]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

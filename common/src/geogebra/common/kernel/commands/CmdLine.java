@@ -10,12 +10,18 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.main.MyError;
 
 
-/*
- * Line[ <GeoPoint>, <GeoPoint> ] Line[ <GeoPoint>, <GeoVector> ] Line[
- * <GeoPoint>, <GeoLine> ]
+/**
+ * Line[ <GeoPoint>, <GeoPoint> ] 
+ * Line[ <GeoPoint>, <GeoVector> ] 
+ * Line[ <GeoPoint>, <GeoLine> ]
  */
 public class CmdLine extends CommandProcessor {
-	
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdLine(Kernel kernel) {
 		super(kernel);
 	}
@@ -70,10 +76,7 @@ public GeoElement[] process(Command c) throws MyError {
 
             // syntax error
             else {
-                if (!ok[0])
-                    throw argErr(app, c.getName(), arg[0]);
-                else
-                    throw argErr(app, c.getName(), arg[1]);
+                throw argErr(app, c.getName(), getBadArg(ok,arg));
             }
 
         default :

@@ -33,8 +33,8 @@ public class CmdPartialFractions extends CommandProcessor {
 				GeoElement[] ret = { kernelA.PartialFractions(c.getLabel(),
 						(CasEvaluableFunction) arg[0]) };
 				return ret;
-			} else
-				throw argErr(app, c.getName(), arg[0]);
+			}
+			throw argErr(app, c.getName(), arg[0]);
 
 			// more than one argument
 		default:

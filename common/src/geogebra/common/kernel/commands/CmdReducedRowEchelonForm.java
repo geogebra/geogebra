@@ -4,12 +4,15 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.Kernel;
 
-/*
+/**
  * ReducedRowEchelonForm[ <List> ]
  * Michael Borcherds 
  */
 public class CmdReducedRowEchelonForm extends CmdOneListFunction {
-
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdReducedRowEchelonForm(Kernel kernel) {
 		super(kernel);
 	}

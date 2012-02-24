@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.optimization.ExtremumFinder;
@@ -37,24 +38,33 @@ import geogebra.common.main.AbstractApplication;
  */
 
 public abstract class AlgoOptimize extends AlgoElement{
-
-	public  static final int  MINIMIZE = 0;
-	public  static final int  MAXIMIZE = 1;
-	
-	private     	Construction				cons		=	null;
+	/** optimization types */
+	protected enum OptimizationType {
+	/** minimize */
+	MINIMIZE,
+	/** maximize */
+	 MAXIMIZE
+	}
+	private     	Construction				optCons		=	null;
 	private 	 	ExtremumFinder				extrFinder	=	null;		//Uses ExtremumFinder for the dirty work
 	private 	   	RealRootFunctionVariable	i_am_not_a_real_function=null;	
 	private			GeoElement					dep			=	null;
 	private			GeoNumeric					indep		=	null;
 	private			GeoNumeric					result		=	null;
-	private			int							type		=	MINIMIZE;
+	private			OptimizationType			type		=	OptimizationType.MINIMIZE;
 	private 		boolean						isrunning	=	false;		//To stop recursive calls. Both Maximize and Minimize.
 	
-	/** Constructor for Maximize*/
-	public AlgoOptimize(Construction cons,String label,GeoElement dep,GeoNumeric indep,int type) {
+	/** Constructor for optimization algos
+	 * @param cons construction
+	 * @param label label for output
+	 * @param dep dependent value
+	 * @param indep independent number
+	 * @param type maximize or minimize
+	 * */
+	public AlgoOptimize(Construction cons,String label,NumberValue dep,GeoNumeric indep,OptimizationType type) {
 		super(cons);
-		this.cons=cons;
-		this.dep=dep;
+		this.optCons=cons;
+		this.dep=dep.toGeoElement();
 		this.indep=indep;
 		this.type=type;
     	extrFinder=new ExtremumFinder();
@@ -99,7 +109,7 @@ public abstract class AlgoOptimize extends AlgoElement{
    			result.setUndefined();
    			return;
    		}
-   		if(type==MINIMIZE) {
+   		if(type==OptimizationType.MINIMIZE) {
    			res=extrFinder.findMinimum(indep.getIntervalMin(),indep.getIntervalMax(),
     									i_am_not_a_real_function,5.0E-8);	//debug("Minimize ("+counter+") found "+res);
    		} else {
@@ -110,12 +120,15 @@ public abstract class AlgoOptimize extends AlgoElement{
    		indep.setValue(old);
 
    		//indep.updateCascade();
-   		cons.updateConstruction();  
+   		optCons.updateConstruction();  
    		isrunning=false;
    		return;
 
     }//compute()
     
+    /**
+     * @return optimal value of independent number
+     */
     public GeoElement getResult() {
     	return result;
     

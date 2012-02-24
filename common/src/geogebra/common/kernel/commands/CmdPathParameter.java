@@ -13,7 +13,8 @@ import geogebra.common.kernel.Kernel;
 public class CmdPathParameter extends CommandProcessor {
 
 	/**
-	 * @param kernel
+	 * Creates new command processor
+	 * @param kernel kernel
 	 */
 	public CmdPathParameter(Kernel kernel) {
 		super(kernel);
@@ -33,8 +34,8 @@ public class CmdPathParameter extends CommandProcessor {
 						(GeoPoint2) arg[0]) };
 				return ret;
 
-			} else
-				throw argErr(app, c.getName(), arg[0]);
+			}
+			throw argErr(app, c.getName(), arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

@@ -9397,7 +9397,7 @@ public class Kernel {
 	 * Ulven 2011-2-13
 	 * 
 	 */
-	final public GeoElement Maximize(String label, GeoElement dep,
+	final public GeoElement Maximize(String label, NumberValue dep,
 			GeoNumeric indep) {
 		AlgoMaximize algo = new AlgoMaximize( cons, label, dep,
 				indep);
@@ -9413,7 +9413,7 @@ public class Kernel {
 	 * Ulven 2011-2-13
 	 * 
 	 */
-	final public GeoElement Minimize(String label, GeoElement dep,
+	final public GeoElement Minimize(String label, NumberValue dep,
 			GeoNumeric indep) {
 		AlgoMinimize algo = new AlgoMinimize( cons, label, dep,
 				indep); // true: minimize

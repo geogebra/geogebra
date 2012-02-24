@@ -7,12 +7,16 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 import geogebra.common.kernel.Kernel;
 
-/*
+/**
  * Percentile[ <List>, <Value> ]
  * G. Sturr
  */
 public class CmdPercentile extends CommandProcessor {
 
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdPercentile(Kernel kernel) {
 		super(kernel);
 	}

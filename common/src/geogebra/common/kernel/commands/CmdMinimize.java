@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
@@ -10,7 +11,12 @@ import geogebra.common.kernel.Kernel;
  * Minimize[ <dependent variable>, <independent variable> ]
  */
 public class CmdMinimize extends CommandProcessor {
-
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdMinimize(Kernel kernel) {
 		super(kernel);
 	}
@@ -30,12 +36,12 @@ public class CmdMinimize extends CommandProcessor {
                 ret[0] =
                          kernelA.Minimize(
                             c.getLabel(),
-                            (GeoElement) arg[0],
+                            (NumberValue)arg[0],
                             (GeoNumeric) arg[1]);
 
                 return ret;
             }
-
+            throw argErr(app,c.getName(),getBadArg(ok,arg));
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

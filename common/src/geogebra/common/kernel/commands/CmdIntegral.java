@@ -41,23 +41,23 @@ public class CmdIntegral extends CommandProcessor {
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
-			if (ok[0] = (arg[0].isGeoFunctionable())) {
+			if (arg[0].isGeoFunctionable()) {
 				GeoElement[] ret = { kernelA.Integral(c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(), null) };
 				return ret;
-			} else
-				throw argErr(app, internalCommandName, arg[0]);
+			} 
+			throw argErr(app, internalCommandName, arg[0]);
 
 		case 2:
 			// Integral[ f(x,y), x]
 			arg = resArgsLocalNumVar(c, 1, 1);
-			if (arg[0] instanceof CasEvaluableFunction && arg[1].isGeoNumeric()) {
+			if ((ok[0]=arg[0] instanceof CasEvaluableFunction) && (ok[1]=arg[1].isGeoNumeric())) {
 				GeoElement[] ret = { kernelA.Integral(c.getLabel(),
 						(CasEvaluableFunction) arg[0], // function
 						(GeoNumeric) arg[1]) }; // var
 				return ret;
-			} else
-				throw argErr(app, internalCommandName, arg[0]);
+			}
+			throw argErr(app, internalCommandName, getBadArg(ok,arg));
 
 		case 3:
 			arg = resArgs(c);
@@ -68,15 +68,9 @@ public class CmdIntegral extends CommandProcessor {
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						(NumberValue) arg[1], (NumberValue) arg[2]) };
 				return ret;
-			} else {
-				if (!ok[0])
-					throw argErr(app, internalCommandName, arg[0]);
-				else if (!ok[1])
-					throw argErr(app, internalCommandName, arg[1]);
-				else
-					throw argErr(app, internalCommandName, arg[2]);
 			}
-
+			throw argErr(app, internalCommandName, getBadArg(ok,arg));
+			
 		case 4:
 			arg = resArgs(c);
 			// difference of two functions
@@ -104,14 +98,7 @@ public class CmdIntegral extends CommandProcessor {
 				return ret;
 
 			} else {
-				if (!ok[0])
-					throw argErr(app, internalCommandName, arg[0]);
-				else if (!ok[1])
-					throw argErr(app, internalCommandName, arg[1]);
-				else if (!ok[2])
-					throw argErr(app, internalCommandName, arg[2]);
-				else
-					throw argErr(app, internalCommandName, arg[3]);
+				throw argErr(app, internalCommandName, getBadArg(ok,arg));
 			}
 
 		case 5:
@@ -128,19 +115,8 @@ public class CmdIntegral extends CommandProcessor {
 						(NumberValue) arg[2], (NumberValue) arg[3],
 						(GeoBoolean) arg[4]) };
 				return ret;
-			} else {
-				if (!ok[0])
-					throw argErr(app, internalCommandName, arg[0]);
-				else if (!ok[1])
-					throw argErr(app, internalCommandName, arg[1]);
-				else if (!ok[2])
-					throw argErr(app, internalCommandName, arg[2]);
-				else if (!ok[3])
-					throw argErr(app, internalCommandName, arg[3]);
-				else
-					throw argErr(app, internalCommandName, arg[4]);
 			}
-
+			throw argErr(app, internalCommandName, getBadArg(ok,arg));
 		default:
 			throw argNumErr(app, internalCommandName, n);
 		}

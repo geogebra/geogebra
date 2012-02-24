@@ -11,14 +11,24 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
-
+/**
+ * 
+ * ImplicitPoly[ &lt;Function> ]
+ *
+ */
 public class CmdImplicitPoly extends CommandProcessor {
-
+	/**
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdImplicitPoly(Kernel kernel) {
 		super(kernel);
 	}
 
-	protected GeoElement doCommand(String a, GeoList b, Command c) {
+	
+	private GeoElement doCommand(String a, GeoList b, Command c) {
 		int n = b.size();
 		if ((n == 0)
 				|| ((int) Math.sqrt(9 + (8 * n)) != Math.sqrt(9 + (8 * n)))) {

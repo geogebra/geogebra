@@ -37,7 +37,7 @@ public class CmdIf extends CommandProcessor {
 			GeoElement geoElse = n == 3 ? arg[2] : null;
 
 			// standard case: simple boolean condition
-			if (ok[0] = arg[0].isGeoBoolean()) {
+			if (arg[0].isGeoBoolean()) {
 				GeoElement[] ret = { kernelA.If(c.getLabel(),
 						(GeoBoolean) arg[0], arg[1], geoElse) };
 				return ret;
@@ -48,7 +48,7 @@ public class CmdIf extends CommandProcessor {
 			// example: If[ x < 2, x^2, x + 2 ]
 			// DO NOT change instanceof here (see
 			// GeoFunction.isGeoFunctionable())
-			else if (ok[0] = (arg[0] instanceof GeoFunction)) {
+			else if (arg[0] instanceof GeoFunction) {
 				GeoFunction booleanFun = (GeoFunction) arg[0];
 				if ((ok[0] = booleanFun.isBooleanFunction())
 						// now that lines are functionable, need to disallow eg if[x<=40, y=20]
@@ -58,20 +58,15 @@ public class CmdIf extends CommandProcessor {
 							: ((GeoFunctionable) geoElse).getGeoFunction();
 
 					GeoElement[] ret = { kernelA.If(c.getLabel(),
-							(GeoFunction) booleanFun,
+							booleanFun,
 							((GeoFunctionable) arg[1]).getGeoFunction(),
 							elseFun) };
 					return ret;
 				}
 			}
 
-			if (!ok[0])
-				throw argErr(app, c.getName(), arg[0]);
-			else if (n == 2 || !ok[1])
-				throw argErr(app, c.getName(), arg[1]);
-			else
-				throw argErr(app, c.getName(), arg[2]);
-
+			throw argErr(app, c.getName(), getBadArg(ok,arg));
+			
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
