@@ -330,7 +330,7 @@ public abstract class Graphics2D {
 	 */
 	public abstract void fill(Shape s);
 
-	/**
+	/*//* Currently, this is not needed but the comment is left here in case it were needed
 	 * Checks whether or not the specified <code>Shape</code> intersects
 	 * the specified {@link Rectangle}, which is in device
 	 * space. If <code>onStroke</code> is false, this method checks
