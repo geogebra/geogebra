@@ -31,12 +31,12 @@ public class SingularWebService {
 	private String swsCommandResult(String command, String parameters) {
 		String getRequest = wsHost + "/?c=" + command;
 		if (parameters != null) {
-			getRequest += "&p=" + parameters;
+			URLEncoder urle = UtilFactory.prototype.newURLEncoder();
+			String encodedParameters = urle.encode(parameters);
+			getRequest += "&p=" + encodedParameters;
 		}
 		HttpRequest httpr = UtilFactory.prototype.newHttpRequest();
-		URLEncoder urle = UtilFactory.prototype.newURLEncoder();
-		String encodedGetRequest = urle.encode(getRequest);
-		String response = httpr.getResponse(encodedGetRequest); // FIXME: unimplemented in GeoGebraWeb!
+		String response = httpr.getResponse(getRequest); // FIXME: unimplemented in GeoGebraWeb!
 		return response;
 	}
 	

@@ -16,7 +16,7 @@ public class UtilFactory extends geogebra.common.factories.UtilFactory {
 
 	@Override
 	public URLEncoder newURLEncoder() {
-		return null;
+		return new geogebra.util.URLEncoder();
 	}
 
 }

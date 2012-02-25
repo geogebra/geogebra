@@ -430,7 +430,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 			}
 			
 			// Initialize Singular webservice
-			// initSingularWS();
+			initSingularWS();
 		}
 
 		/**
@@ -441,7 +441,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 			sws.enable();
 			if (sws.isAvailable()) {
 				Application.debug("SingularWS is available at " + sws.getConnectionSite());
-				// System.err.println(sws.directCommand("ring r=0,(x,y),dp;ideal I=x^2,x;groebner(I);"));
+				// System.out.println(sws.directCommand("ring r=0,(x,y),dp;ideal I=x^2,x;groebner(I);"));
 			}
 			else {
 				Application.debug("No SingularWS is available at " + sws.getConnectionSite());
