@@ -116,7 +116,8 @@ to ensure availability.
 	<get src="http://dev.geogebra.org/download/installer/nsis/nsis+umui.tgz" dest="download/nsis+umui.tgz" usetimestamp="true"/>
 	<echo message="Please install nsis as a package and copy over the content of download/nsis+umui.tgz to /usr/share/nsis"/>
 	<echo message="See http://www.geogebra.org/trac/wiki/NSISonUnix#PreparingNSIS for details (the .tgz has the same content as you would have downloaded the .exe installer and run it)"/>
-	<symlink link="nsis/makensis" resource="/usr/bin/makensis" overwrite="true"/>
+	<delete file="nsis/makensis"/>
+	<symlink link="nsis/makensis" resource="/usr/bin/makensis"/>
 	</target>
 	
 	<target name="osslsigncode-geogebra" depends="osslsigncode-geogebra-windows, osslsigncode-geogebra-mac, osslsigncode-geogebra-linux"/>
