@@ -8,8 +8,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JList;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
-public class RowHeaderListener extends MouseAdapter implements KeyListener {
+public class RowHeaderListener extends MouseAdapter implements KeyListener, ListSelectionListener {
 
 	private final CASTable table;
 	private final JList rowHeader;
@@ -21,28 +23,13 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener {
 		this.rowHeader = rowHeader;
 	}
 
+	
 	@Override
 	public void mousePressed(MouseEvent e) {
 		rightClick = Application.isRightClick(e);
-
-		e.consume();
 		table.stopEditing();
-
-		// update selection for mouse pressed
 		mousePressedRow = rowHeader.locationToIndex(e.getPoint());
-		if (!rowHeader.isSelectedIndex(mousePressedRow)) {
-			rowHeader.setSelectedIndex(mousePressedRow);
-		}
-
-		rowHeader.requestFocusInWindow();
-		Object[] vals = rowHeader.getSelectedValues();
-		Integer[] s = new Integer[vals.length];
-		for(int i = 0; i < vals.length; i++)
-			s[i] = new Integer(vals[i].toString());
-		table.setRowSelectionInterval(s[0] - 1, s[s.length - 1] - 1);
-		table.stopEditing();
-		CASTableCellEditor cellEditor = table.getEditor();
-		cellEditor.clearInputSelectionText();
+		rowHeader.requestFocus();
 	}
 
 	public void mouseDragged(MouseEvent e) {
@@ -124,22 +111,8 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener {
 
 	}
 
-	// public void valueChanged(ListSelectionEvent e) {
-	// if (e.getValueIsAdjusting()) return;
-	//
-	// Object src = e.getSource();
-	// if (src == rowHeader) {
-	// // rowheader slection changed -> update table selection
-	// int [] selRows = rowHeader.getSelectedIndices();
-	// if (selRows.length > 0)
-	// table.setRowSelectionInterval(selRows[0], selRows[selRows.length-1]);
-	// }
-	// else if (src == table) {
-	// // table slection changed -> rowheader table selection
-	// int [] selRows = table.getSelectedRows();
-	// if (selRows.length > 0)
-	// rowHeader.setSelectedIndices(selRows);
-	// }
-	// }
 
+	public void valueChanged(ListSelectionEvent e) {
+		
+	}
 }

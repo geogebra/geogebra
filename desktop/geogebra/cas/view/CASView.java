@@ -29,9 +29,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 
 import javax.swing.event.ListSelectionEvent;
@@ -51,7 +53,7 @@ public class CASView extends JComponent implements View, Gridable {
 	CASTable consoleTable;
 	private CASInputHandler casInputHandler;
 	private CASSubDialog subDialog;
-
+	private ListSelectionModel listSelModel;
 	private GeoGebraCAS cas;
 	private Application app;
 	final RowHeader rowHeader;
@@ -62,7 +64,8 @@ public class CASView extends JComponent implements View, Gridable {
 	public CASView(Application app) {
 		kernel = app.getKernel();
 		this.app = app;
-
+		listSelModel = new DefaultListSelectionModel();
+		
 		Thread initCAS = new Thread() {
 			@Override
 			public void run() {
@@ -84,9 +87,8 @@ public class CASView extends JComponent implements View, Gridable {
 		createCASTable();
 
 		// row header
-		// final JList rowHeader = new RowHeader(consoleTable);
-		rowHeader = new RowHeader(consoleTable, true);
-
+		rowHeader = new RowHeader(consoleTable, false, listSelModel);
+		consoleTable.setSelectionModel(listSelModel);
 		// init the scroll panel
 		JScrollPane scrollPane = new JScrollPane(
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -109,17 +111,15 @@ public class CASView extends JComponent implements View, Gridable {
 		add(scrollPane, BorderLayout.CENTER);
 		this.setBackground(Color.white);
 
-		// tell rowheader about selection updates in table
 		consoleTable.getSelectionModel().addListSelectionListener(
 				new ListSelectionListener() {
 					public void valueChanged(ListSelectionEvent e) {
 						if (e.getValueIsAdjusting())
 							return;
 
-						// table slection changed -> rowheader table selection
+						// table selection changed -> update stylebar
 						int[] selRows = consoleTable.getSelectedRows();
 						if (selRows.length > 0){
-							rowHeader.setSelectedIndices(selRows);
 							//update list of selected objects in the stylebar
 							ArrayList<GeoElement> targetCells= new ArrayList<GeoElement>();
 							for(int i=0; i<consoleTable.getRowCount(); i++)

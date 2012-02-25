@@ -13,12 +13,12 @@ public class RowHeader extends JList {
 	public static final int ROW_HEADER_WIDTH = 30;
 
 	public RowHeader(CASTable table) {
-		this(table, false);
+		this(table, false, null);
 	}
 
-	public RowHeader(CASTable table, boolean multipleIntervalSelection) {
+	public RowHeader(CASTable table, boolean multipleIntervalSelection, ListSelectionModel lsModel) {
 		setModel(new RowHeaderListModel(table));
-
+		setSelectionModel(lsModel);
 		if (multipleIntervalSelection) {
 			setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		} else {
@@ -37,7 +37,7 @@ public class RowHeader extends JList {
 		addMouseListener(rhl);
 		// addMouseMotionListener(rhl);
 		addKeyListener(rhl);
-
+		this.getSelectionModel().addListSelectionListener(rhl);
 		// table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		// table.getSelectionModel().addListSelectionListener(this);
 		// table.setRowSelectionAllowed(true);
