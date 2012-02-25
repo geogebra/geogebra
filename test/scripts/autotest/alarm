@@ -9,7 +9,7 @@ test -r autotest.conf || {
 test -r autotest.conf && . ./autotest.conf
 
 REVISION=`svn info | grep Revision: | awk '{print $2}'`
-REV_HTTP="http://www.geogebra.org/trac/changeset/$REVISION"
+REV_HTTP="http://dev.geogebra.org/trac/changeset/$REVISION"
 WEBDIR=$SVNDIR/geogebra/web
 
 ./simpletest

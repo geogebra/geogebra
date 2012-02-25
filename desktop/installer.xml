@@ -28,7 +28,7 @@ read the following web pages:
 	<target name="installer" depends="installer-clean, installer-windows, installer-macosx"/>
 
 	<target name="installer-clean">
-		<delete dir="${build.dir}/installer" followsymlinks="false" removeNotFollowedSymlinks="true"/>
+		<delete dir="${build.dir}/installer" followsymlinks="false"/>
 		<mkdir  dir="${build.dir}/installer"/>
 		<mkdir  dir="${build.dir}/installer/windows"/>
 		<mkdir  dir="${build.dir}/installer/windows/unsigned"/>
@@ -241,6 +241,6 @@ read the following web pages:
 			<zipfileset dir="${build.dir}/installer/macosx" excludes="GeoGebra.app/Contents/MacOS/JavaApplicationStub" />
 			<zipfileset dir="${build.dir}/installer/macosx" includes="GeoGebra.app/Contents/MacOS/JavaApplicationStub" filemode="755" />
 		</zip>
-		<delete dir="${build.dir}/installer/macosx" followsymlinks="false"/>
+		<delete dir="${build.dir}/installer/macosx"/>
 	</target>
 </project>
