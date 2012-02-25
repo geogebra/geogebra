@@ -430,7 +430,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 			}
 			
 			// Initialize Singular webservice
-			initSingularWS();
+			// initSingularWS();
 		}
 
 		/**
