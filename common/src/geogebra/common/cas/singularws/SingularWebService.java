@@ -1,10 +1,8 @@
 package geogebra.common.cas.singularws;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 import geogebra.common.factories.UtilFactory;
 import geogebra.common.util.HttpRequest;
+import geogebra.common.util.URLEncoder;
 
 /**
  * Maintains a Singular WebService.
@@ -36,7 +34,9 @@ public class SingularWebService {
 			getRequest += "&p=" + parameters;
 		}
 		HttpRequest httpr = UtilFactory.prototype.newHttpRequest();
-		String response = httpr.getResponse(getRequest); // FIXME: unimplemented in GeoGebraWeb!
+		URLEncoder urle = UtilFactory.prototype.newURLEncoder();
+		String encodedGetRequest = urle.encode(getRequest);
+		String response = httpr.getResponse(encodedGetRequest); // FIXME: unimplemented in GeoGebraWeb!
 		return response;
 	}
 	
@@ -73,15 +73,7 @@ public class SingularWebService {
 	 * @return the answer
 	 */
 	public String directCommand(String singularProgram) {
-		String encodedSingularProgram;
-		try {
-			encodedSingularProgram = URLEncoder.encode(singularProgram, "UTF-8");
-			return swsCommandResult(singularDirectCommand, encodedSingularProgram);
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+		return swsCommandResult(singularDirectCommand, singularProgram);
 	}
 
 	/** Sets the remote server being used for SingularWS.
