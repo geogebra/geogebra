@@ -261,7 +261,6 @@ find $WWWDIR -name .svn | xargs rm -fR
 if [ "$WWW_REMOTEDIR" != "" ]; then
  cd $WORKDIR/scripts/autobuild
  runstep 11 .rsyncwww "Copying all files to $WWW_REMOTEDIR" ./rsync-www
- appendlog .rsync-www
  fi
 
 log "END"
