@@ -56,11 +56,6 @@ public class CopyPasteCut {
 	 */
 	private Object[] constructionIndexes;
 
-	/**
-	 * Parser for CSV data files
-	 */
-	private static CSVParser csvParser;
-
 	/***************************************
 	 * Constructor
 	 */
@@ -167,7 +162,6 @@ public class CopyPasteCut {
 		return delete(column1, row1, column2, row2);
 	}
 
-	
 	/**
 	 * Pastes data from the clipboard into the given spreadsheet cell range.
 	 * 
@@ -223,14 +217,13 @@ public class CopyPasteCut {
 		String transferString = null;
 
 		// extract a String from the Transferable contents
-		transferString = DataImport
-				.convertTransferableToString(contents);
+		transferString = DataImport.convertTransferableToString(contents);
 		if (transferString == null)
 			return false;
 
-	//	isCSV = DataImport.hasHTMLFlavor(contents);
-		System.out.println("transfer string: " + transferString);
-		
+		// isCSV = DataImport.hasHTMLFlavor(contents);
+		//System.out.println("transfer string: " + transferString);
+
 		// test if the transfer string is the same as the internal cell copy
 		// string. If true, then we have a tab-delimited list of cell geos and
 		// can paste them with relative cell references
@@ -247,10 +240,10 @@ public class CopyPasteCut {
 
 			// use the transferString data to create and paste new geos
 			// into the target cells without relative cell references
-			
-			String[][] data = DataImport.parseExternalData(app, transferString, isCSV);			
-			succ = pasteExternalMultiple(data, column1, row1,
-					column2, row2);
+
+			String[][] data = DataImport.parseExternalData(app, transferString,
+					isCSV);
+			succ = pasteExternalMultiple(data, column1, row1, column2, row2);
 
 			// Application.debug("newline index "+buf.indexOf("\n"));
 			// Application.debug("length "+buf.length());
@@ -449,11 +442,11 @@ public class CopyPasteCut {
 		return succ;
 	}
 
-	
 	/**
 	 * Pastes data from 2D String array into a given cell range. The data may be
 	 * pasted multiple times to fill in an oversized target rectangle (and maybe
 	 * overflow a bit).
+	 * 
 	 * @param data
 	 * @param column1
 	 *            minimum target column
@@ -466,15 +459,15 @@ public class CopyPasteCut {
 	 * @return
 	 */
 	private boolean pasteExternalMultiple(String[][] data, CellRange cr) {
-		return pasteExternalMultiple(data, cr.getMinColumn(),
-				cr.getMinRow(), cr.getMaxColumn(), cr.getMaxRow());
+		return pasteExternalMultiple(data, cr.getMinColumn(), cr.getMinRow(),
+				cr.getMaxColumn(), cr.getMaxRow());
 	}
 
-	
 	/**
-	 * Pastes data from 2D String array into a given set of cells. The data may be
-	 * pasted multiple times to fill in an oversized target rectangle (and maybe
-	 * overflow a bit).
+	 * Pastes data from 2D String array into a given set of cells. The data may
+	 * be pasted multiple times to fill in an oversized target rectangle (and
+	 * maybe overflow a bit).
+	 * 
 	 * @param data
 	 * @param column1
 	 *            minimum target column
@@ -486,12 +479,13 @@ public class CopyPasteCut {
 	 *            maximum target row
 	 * @return
 	 */
-	private boolean pasteExternalMultiple(String[][] data,
-			int column1, int row1, int column2, int row2) {
+	private boolean pasteExternalMultiple(String[][] data, int column1,
+			int row1, int column2, int row2) {
 
-		boolean oldEqualsSetting = app.getSettings().getSpreadsheet().equalsRequired();
+		boolean oldEqualsSetting = app.getSettings().getSpreadsheet()
+				.equalsRequired();
 		app.getSettings().getSpreadsheet().setEqualsRequired(true);
-		Application.debug("EQUALS REQUIRED: " + Arrays.toString(data));
+		
 		boolean succ = true;
 		int rowStep = data.length;
 		int columnStep = data[0].length;
@@ -515,9 +509,8 @@ public class CopyPasteCut {
 			for (int r = row1; r <= row2; r += rowStep)
 				succ = succ && pasteExternal(data, c, r, maxColumn, maxRow);
 
-		
 		app.getSettings().getSpreadsheet().setEqualsRequired(oldEqualsSetting);
-		
+
 		return succ;
 	}
 
@@ -701,8 +694,6 @@ public class CopyPasteCut {
 
 	private static Comparator comparator;
 
-	
-
 	// ====================================================
 	// File and URL
 	// ====================================================
@@ -722,7 +713,8 @@ public class CopyPasteCut {
 		// read file
 		StringBuilder contents = new StringBuilder();
 
-		boolean oldEqualsSetting = app.getSettings().getSpreadsheet().equalsRequired();
+		boolean oldEqualsSetting = app.getSettings().getSpreadsheet()
+				.equalsRequired();
 		app.getSettings().getSpreadsheet().setEqualsRequired(true);
 
 		boolean isCSV = getExtension(url.getFile()).equals("csv");
@@ -749,7 +741,8 @@ public class CopyPasteCut {
 
 		boolean succ = true;
 
-		String[][] data = DataImport.parseExternalData(app, contents.toString(), isCSV);
+		String[][] data = DataImport.parseExternalData(app,
+				contents.toString(), isCSV);
 
 		if (data != null) {
 			if (clearSpreadsheet)
@@ -779,7 +772,5 @@ public class CopyPasteCut {
 		}
 		return null;
 	}
-
-	
 
 }
