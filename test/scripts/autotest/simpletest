@@ -29,6 +29,9 @@ if [ "$ECJERROR" != "" ]; then
  exit 4 # Compilation error (but GeoGebra started)
  fi
 
-cat $WEBDIR/.buildlog | grep --silent "BUILD FAILED" && exit 5 # Problem with GeoGebraWeb
+WEBERROR=`cat weberrors`
+if [ "$WEBERROR" != "" ]; then
+ exit 5 # Compilation error (but GeoGebra started)
+ fi
 
 exit 0 # No error
