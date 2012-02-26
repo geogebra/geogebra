@@ -356,7 +356,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		}
 		sb.append("\">\n");
 		getXMLtags(sb);
-		sb.append(getCaptionXML());
+		sb.append(sb);
 		sb.append("</element>\n");
 	}
 
@@ -688,14 +688,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		public void translate(Coords v){
 			fun.translate(v.getX(),v.getY());
 		}
-		/**
-		 * Return the geo
-		 * @return geo element
-		 */
-		@Override
-		public GeoElement toGeoElement(){
-			return this;
-		}
+
 		/**
 		 * Returns true if the element is translateable
 		 * @return true

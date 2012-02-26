@@ -27,25 +27,23 @@ import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
-//import geogebra.common.euclidian.EuclidianStatic;
-//import geogebra.euclidian.EuclidianView;
+import geogebra.common.util.MyMath;
+
 
 import java.util.ArrayList;
 
 /**
  * 
  * @author Markus
- * @version
  */
 public class DrawVector extends Drawable implements Previewable {
 
 	private GeoVectorND v;
 	private GeoPointND P;
 
-	boolean isVisible, labelVisible;
+	private boolean isVisible, labelVisible;
 	private boolean traceDrawingNeeded = false;
 
 	private Line2D line;
@@ -56,7 +54,9 @@ public class DrawVector extends Drawable implements Previewable {
 	private boolean arrowheadVisible, lineVisible;
 	private ArrayList<GeoPointND> points;
 
-	/** Creates new DrawVector */
+	/** Creates new DrawVector 
+	 * @param view view
+	 * @param v vector*/
 	public DrawVector(AbstractEuclidianView view, GeoVectorND v) {
 		this.view = view;
 		this.v = v;
@@ -65,6 +65,10 @@ public class DrawVector extends Drawable implements Previewable {
 		update();
 	}
 
+	/**
+	 * @param view view
+	 * @param points start point and end point
+	 */
 	public DrawVector(AbstractEuclidianView view, ArrayList<GeoPointND> points) {
 		this.view = view;
 		this.points = points;
@@ -153,7 +157,7 @@ public class DrawVector extends Drawable implements Previewable {
 
 		// calculate endpoint F at base of arrow
 		double factor = 12.0 + lineThickness;
-		double length = GeoVec2D.length(coordsV);
+		double length = MyMath.length(coordsV[0],coordsV[1]);
 		if (length > 0.0) {
 			coordsV[0] = (coordsV[0] * factor) / length;
 			coordsV[1] = (coordsV[1] * factor) / length;
@@ -286,7 +290,9 @@ public class DrawVector extends Drawable implements Previewable {
 	geogebra.common.awt.Point2D endPoint = 
 			geogebra.common.factories.AwtFactory.prototype.newPoint2D();
 
-	final public void updateMousePos(double xRW, double yRW) {
+	final public void updateMousePos(double xRWmouse, double yRWmouse) {
+		double xRW = xRWmouse;
+		double yRW = yRWmouse;
 		if (isVisible) {
 			// double xRW = view.toRealWorldCoordX(x);
 			// double yRW = view.toRealWorldCoordY(y);

@@ -88,10 +88,10 @@ public class AlgoDirectrix extends AlgoElement {
         if (c.type == GeoConicNDConstants.CONIC_PARABOLA) {
             // directrix has direction of second eigenvector
             // through point (b - p/2* eigenvec1)        
-            directrix.x = -eigenvec[1].y;
-            directrix.y = eigenvec[1].x;
-            double px = b.x - c.p / 2.0 * eigenvec[0].x;
-            double py = b.y - c.p / 2.0 * eigenvec[0].y;
+            directrix.x = -eigenvec[1].getY();
+            directrix.y = eigenvec[1].getX();
+            double px = b.getX() - c.p / 2.0 * eigenvec[0].getX();
+            double py = b.getY() - c.p / 2.0 * eigenvec[0].getY();
             directrix.z = - (directrix.x * px + directrix.y * py);
 
             P.setCoords(px, py, 1.0);

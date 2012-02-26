@@ -56,7 +56,7 @@ public class AlgoCurveCartesian extends AlgoElement {
 		// so let's get the expressions of xcoord and ycoord and replace
 		// the localVar by a functionVar		
 		FunctionVariable funVar = new FunctionVariable(kernel);
-		funVar.setVarString(localVar.label);
+		funVar.setVarString(localVar.getLabelSimple());
 		
 		ExpressionNode[] exp = new ExpressionNode[coords.length];
 		Function[] fun = new Function[coords.length];

@@ -182,14 +182,14 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
      /** Calculates the inner product of this vector and vector v.
      */
     final public double inner(GeoVec2D v) {
-        return x * v.x + y * v.y;
+        return x * v.getX() + y * v.getY();
     }
     
     /** Yields true if the coordinates of this vector are equal to
      * those of vector v. 
      */
     final public boolean equals(GeoVec2D v) {                   
-        return Kernel.isEqual(x, v.x) && Kernel.isEqual(y, v.y);                   
+        return Kernel.isEqual(x, v.getX()) && Kernel.isEqual(y, v.getY());                   
     }
     
     /** Yields true if this vector and v are linear dependent 
@@ -205,7 +205,7 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
      * det(u,v) = u1*v2 - u2*v1
      */
     final public static double det(GeoVec2D u, GeoVec2D v) {
-        return u.x * v.y - u.y * v.x;
+        return u.getX() * v.getY() - u.getY() * v.getX();
         /*
         // symmetric operation
         // det(u,v) = -det(v,u)
@@ -220,8 +220,8 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
      * translate this vector by vector v
      */
     final public void translate(GeoVec2D v) {
-        x += v.x;
-        y += v.y;
+        x += v.getX();
+        y += v.getY();
     }
     
     /**
@@ -274,15 +274,15 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
     
     /** c = a + b */
     final public static void add(Geo3DVec a, GeoVec2D b, Geo3DVec c) {                                       
-        c.x = a.x + b.x;
-        c.y = a.y + b.y;
+        c.x = a.x + b.getX();
+        c.y = a.y + b.getY();
         c.z = a.z;
     } 
     
     /** c = a + b */
     final public static void add(GeoVec2D a, Geo3DVec b, Geo3DVec c) {                                       
-        c.x = a.x + b.x;
-        c.y = a.y + b.y;
+        c.x = a.getX() + b.x;
+        c.y = a.getY() + b.y;
         c.z = b.z;
     } 
     
@@ -302,12 +302,12 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
     final public static void add(GeoVec2D a, NumberValue b, GeoVec2D c) {    
     	
     	if (a.getMode() == Kernel.COORD_COMPLEX) {  	
-	        c.x = a.x + b.getDouble();
-	        c.y = a.y;
+	        c.setX(a.getX() + b.getDouble());
+	        c.setY(a.getY());
           	c.setMode(Kernel.COORD_COMPLEX);
           	} else {
-            c.x = a.x + b.getDouble();
-            c.y = a.y + b.getDouble();   		
+            c.setX(a.getX() + b.getDouble());
+            c.setY(a.getY() + b.getDouble());   		
     	}
     }
     
@@ -316,8 +316,8 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
     final public static void add(GeoVec2D a, ListValue b, GeoVec2D c) {        	    	    	
     	MyList list = b.getMyList();    	
     	if (list.size() != 2) {
-    		c.x = Double.NaN;
-    		c.y = Double.NaN;
+    		c.setX(Double.NaN);
+    		c.setY(Double.NaN);
     		return;
     	}
     	
@@ -325,13 +325,13 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
     	ExpressionValue enY = list.getListElement(1).evaluate();
     	
     	if (!enX.isNumberValue() || !enY.isNumberValue()) {
-    		c.x = Double.NaN;
-    		c.y = Double.NaN;
+    		c.setX(Double.NaN);
+    		c.setY(Double.NaN);
     		return;    		
     	}
     	
-    	c.x = a.x + ((NumberValue)enX).getDouble();
-    	c.y = a.y + ((NumberValue)enY).getDouble();
+    	c.setX(a.getX() + ((NumberValue)enX).getDouble());
+    	c.setY(a.getY() + ((NumberValue)enY).getDouble());
     }
     
     /* vector - 2D list (to give another vector) 
@@ -340,8 +340,8 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
     	
     	MyList list = b.getMyList();    	
     	if (list.size() != 2) {
-    		c.x = Double.NaN;
-    		c.y = Double.NaN;
+    		c.setX(Double.NaN);
+    		c.setY(Double.NaN);
     		return;
     	}
     	
@@ -349,17 +349,17 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
     	ExpressionValue enY = list.getListElement(1).evaluate();
     	
     	if (!enX.isNumberValue() || !enY.isNumberValue()) {
-    		c.x = Double.NaN;
-    		c.y = Double.NaN;
+    		c.setX(Double.NaN);
+    		c.setY(Double.NaN);
     		return;    		
     	}
     	
     	if (reverse) {
-	    	c.x = a.x - ((NumberValue)enX).getDouble();
-	    	c.y = a.y - ((NumberValue)enY).getDouble();
+	    	c.setX(a.getX() - ((NumberValue)enX).getDouble());
+	    	c.setY(a.getY() - ((NumberValue)enY).getDouble());
     	} else {
-	    	c.x = ((NumberValue)enX).getDouble() - a.x;
-	    	c.y = ((NumberValue)enY).getDouble() - a.y;
+	    	c.setX(((NumberValue)enX).getDouble() - a.getX());
+	    	c.setY(((NumberValue)enY).getDouble() - a.getY());
     	}
     }
     
@@ -368,12 +368,12 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
      * */
     final public static void sub(NumberValue b, GeoVec2D a, GeoVec2D c) {                                       
     	if (a.getMode() == Kernel.COORD_COMPLEX) {  	
-            c.x = b.getDouble() - a.x;
-            c.y = -a.y;
+            c.setX(b.getDouble() - a.getX());
+            c.setY(-a.getY());
           	c.setMode(Kernel.COORD_COMPLEX);
     	} else {
-            c.x = b.getDouble() - a.x;
-            c.y = b.getDouble() - a.y;
+            c.setX(b.getDouble() - a.getX());
+            c.setY(b.getDouble() - a.getY());
     	}
     }
     
@@ -382,12 +382,12 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
      * */
     final public static void sub(GeoVec2D a, NumberValue b, GeoVec2D c) {                                       
     	if (a.getMode() == Kernel.COORD_COMPLEX) {  	
-            c.x = a.x - b.getDouble();
-            c.y = a.y;
+            c.setX(a.getX() - b.getDouble());
+            c.setY(a.getY());
           	c.setMode(Kernel.COORD_COMPLEX);
     	} else {
-            c.x = a.x - b.getDouble();
-            c.y = a.y - b.getDouble();
+            c.setX(a.getX() - b.getDouble());
+            c.setY(a.getY() - b.getDouble());
     	}
     }
     
@@ -407,15 +407,15 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
     
     /** c = a - b */
     final public static void sub(Geo3DVec a, GeoVec2D b, Geo3DVec c) {
-        c.x = a.x - b.x;
-        c.y = a.y - b.y;
+        c.x = a.x - b.getX();
+        c.y = a.y - b.getY();
         c.z = a.z;
     }   
     
     /** c = a - b */
     final public static void sub(GeoVec2D a, Geo3DVec b, Geo3DVec c) {
-        c.x = a.x - b.x;
-        c.y = a.y - b.y;
+        c.x = a.getX() - b.x;
+        c.y = a.getY() - b.y;
         c.z = -b.z;
     }    
         
@@ -433,7 +433,7 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
    
 
     final public static void inner(GeoVec2D a, GeoVec2D b, double c) {
-        c = a.x * b.x + a.y * b.y;        
+        c = a.getX() * b.getX() + a.getY() * b.getY();        
     }       
     
     final public static void inner(Geo3DVec a, Geo3DVec b, MyDouble c) {

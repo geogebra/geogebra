@@ -165,9 +165,9 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
 //  circle through A, B, C 
     private void computeCircle() {
     	// start angle from vector MA
-    	double alpha = Math.atan2(A.inhomY - conicPart.getTranslationVector().y, A.inhomX - conicPart.getTranslationVector().x); 
+    	double alpha = Math.atan2(A.inhomY - conicPart.getTranslationVector().getY(), A.inhomX - conicPart.getTranslationVector().getX()); 
 		// end angle from vector MC
-    	double beta = Math.atan2(C.inhomY - conicPart.getTranslationVector().y, C.inhomX - conicPart.getTranslationVector().x);
+    	double beta = Math.atan2(C.inhomY - conicPart.getTranslationVector().getY(), C.inhomX - conicPart.getTranslationVector().getX());
     	
     	// check orientation of triangle A, B, C to see
 		// whether we have to swap start and end angle

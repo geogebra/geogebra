@@ -193,7 +193,7 @@ public class AlgoMirror extends AlgoTransformation {
     	
     	if(inGeo.isRegion() && mirror == mirrorConic){
 			GeoVec2D v = mirrorConic.getTranslationVector();   
-			outGeo.setInverseFill(((Region)inGeo).isInRegion(v.x,v.y) ^ inGeo.isInverseFill());
+			outGeo.setInverseFill(((Region)inGeo).isInRegion(v.getX(),v.getY()) ^ inGeo.isInverseFill());
 		}    	
         
         if (mirror == mirrorLine) {

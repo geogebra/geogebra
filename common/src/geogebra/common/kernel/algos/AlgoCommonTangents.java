@@ -61,11 +61,11 @@ public class AlgoCommonTangents extends AlgoElement {
         // outer
         P = new GeoPoint2(cons);
         if( Math.abs(r2-r) > Kernel.MIN_PRECISION) {
-            P.setCoords((c.b.x*r2-c2.b.x*r)/(r2-r),
-                        (c.b.y*r2-c2.b.y*r)/(r2-r), 1.0d);
+            P.setCoords((c.b.getX()*r2-c2.b.getX()*r)/(r2-r),
+                        (c.b.getY()*r2-c2.b.getY()*r)/(r2-r), 1.0d);
         } else {
-            P.setCoords((c.b.x*r2-c2.b.x*r),
-                        (c.b.y*r2-c2.b.y*r), 0.0d);
+            P.setCoords((c.b.getX()*r2-c2.b.getX()*r),
+                        (c.b.getY()*r2-c2.b.getY()*r), 0.0d);
         }
         // the tangents are computed by intersecting the
         // polar line of P with c
@@ -78,8 +78,8 @@ public class AlgoCommonTangents extends AlgoElement {
 
         // inner
         P2 = new GeoPoint2(cons);
-        P2.setCoords((c.b.x*r2+c2.b.x*r)/(r2+r),
-                     (c.b.y*r2+c2.b.y*r)/(r2+r), 1.0d);
+        P2.setCoords((c.b.getX()*r2+c2.b.getX()*r)/(r2+r),
+                     (c.b.getY()*r2+c2.b.getY()*r)/(r2+r), 1.0d);
         // the tangents are computed by intersecting the
         // polar line of P with c
         polar2 = new GeoLine(cons);
@@ -197,11 +197,11 @@ public class AlgoCommonTangents extends AlgoElement {
 
         // outer
         if( Math.abs(r2-r) > Kernel.MIN_PRECISION) {
-            P.setCoords((c.b.x*r2-c2.b.x*r)/(r2-r),
-                        (c.b.y*r2-c2.b.y*r)/(r2-r), 1.0d);
+            P.setCoords((c.b.getX()*r2-c2.b.getX()*r)/(r2-r),
+                        (c.b.getY()*r2-c2.b.getY()*r)/(r2-r), 1.0d);
         } else {
-            P.setCoords((c.b.x*r2-c2.b.x*r),
-                        (c.b.y*r2-c2.b.y*r), 0.0d);
+            P.setCoords((c.b.getX()*r2-c2.b.getX()*r),
+                        (c.b.getY()*r2-c2.b.getY()*r), 0.0d);
         }
         // update polar line
         c.polarLine(P, polar);
@@ -232,8 +232,8 @@ public class AlgoCommonTangents extends AlgoElement {
         }
 
         // inner
-        P2.setCoords((c.b.x*r2+c2.b.x*r)/(r2+r),
-                     (c.b.y*r2+c2.b.y*r)/(r2+r), 1.0d);
+        P2.setCoords((c.b.getX()*r2+c2.b.getX()*r)/(r2+r),
+                     (c.b.getY()*r2+c2.b.getY()*r)/(r2+r), 1.0d);
         // update polar line
         c2.polarLine(P2, polar2);
         // if P lies on the conic, the polar is a tangent        

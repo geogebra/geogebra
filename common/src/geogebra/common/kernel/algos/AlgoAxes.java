@@ -100,15 +100,15 @@ public class AlgoAxes extends AlgoElement {
         // axes are lines with directions of eigenvectors
         // through midpoint b        
 
-        axes[0].x = -eigenvec[0].y;
-        axes[0].y = eigenvec[0].x;
-        axes[0].z = - (axes[0].x * b.x + axes[0].y * b.y);
+        axes[0].x = -eigenvec[0].getY();
+        axes[0].y = eigenvec[0].getX();
+        axes[0].z = - (axes[0].x * b.getX() + axes[0].y * b.getY());
 
-        axes[1].x = -eigenvec[1].y;
-        axes[1].y = eigenvec[1].x;
-        axes[1].z = - (axes[1].x * b.x + axes[1].y * b.y);
+        axes[1].x = -eigenvec[1].getY();
+        axes[1].y = eigenvec[1].getX();
+        axes[1].z = - (axes[1].x * b.getX() + axes[1].y * b.getY());
 
-        P.setCoords(b.x, b.y, 1.0);
+        P.setCoords(b.getX(), b.getY(), 1.0);
     }
 
     @Override

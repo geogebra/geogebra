@@ -83,11 +83,11 @@ public class AlgoAxisSecond extends AlgoElement {
         // axes are lines with directions of eigenvectors
         // through midpoint b        
         
-        axis.x = -eigenvec[1].y;
-        axis.y =  eigenvec[1].x;
-        axis.z = -(axis.x * b.x + axis.y * b.y);       
+        axis.x = -eigenvec[1].getY();
+        axis.y =  eigenvec[1].getX();
+        axis.z = -(axis.x * b.getX() + axis.y * b.getY());       
         
-        P.setCoords(b.x, b.y, 1.0);
+        P.setCoords(b.getX(), b.getY(), 1.0);
     }
     
     @Override

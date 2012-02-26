@@ -33,8 +33,8 @@ public abstract class Transform {
 		}
 
 		if (geo.isLabelSet() && !geo.hasIndexLabel()
-				&& !geo.label.endsWith("'''")) {
-			return geo.getFreeLabel(geo.label + "'");
+				&& !geo.getLabelSimple().endsWith("'''")) {
+			return geo.getFreeLabel(geo.getLabelSimple() + "'");
 		}
 		return null;
 	}

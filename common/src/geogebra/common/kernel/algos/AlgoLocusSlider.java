@@ -168,12 +168,12 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 		// Note: we have to undo this at the end of this method !!!
 		boolean isLabeledP = movingSlider.isLabelSet();
 		if (!isLabeledP) {
-			movingSlider.label = movingSlider.getDefaultLabel();
+			movingSlider.setLabelSimple(movingSlider.getDefaultLabel());
 			movingSlider.labelSet = true;
 		}
 		boolean isLabeledQ = locusPoint.isLabelSet();
 		if (!isLabeledQ) {
-			locusPoint.label = locusPoint.getDefaultLabel();
+			locusPoint.setLabelSimple(locusPoint.getDefaultLabel());
 			locusPoint.labelSet = true;
 		}
 
@@ -277,11 +277,11 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 			macroKernel.loadXML(locusConsXML);
 
 			// get the copies of P and Q from the macro kernel
-			Pcopy = (GeoNumeric) macroKernel.lookupLabel(movingSlider.label);
+			Pcopy = (GeoNumeric) macroKernel.lookupLabel(movingSlider.getLabelSimple());
 			Pcopy.setFixed(false);
 			// Pcopy.setPath(movingSlider.getPath());
 
-			Qcopy = (GeoPoint2) macroKernel.lookupLabel(locusPoint.label);
+			Qcopy = (GeoPoint2) macroKernel.lookupLabel(locusPoint.getLabelSimple());
 			macroCons = macroKernel.getConstruction();
 
 			/*
@@ -322,7 +322,7 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 				// do not copy functions, their expressions already
 				// include references to the correct other geos
 				if (!geoOrig.isGeoFunction()) {
-					GeoElement geoCopy = macroCons.lookupLabel(geoOrig.label);
+					GeoElement geoCopy = macroCons.lookupLabel(geoOrig.getLabelSimple());
 					if (geoCopy != null) {
 						try {
 							geoCopy.set(geoOrig);

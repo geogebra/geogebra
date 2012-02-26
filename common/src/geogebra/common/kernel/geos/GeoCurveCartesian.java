@@ -827,8 +827,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			// Mirror point in circle
 			double r = c.getHalfAxes()[0];
 			GeoVec2D midpoint = c.getTranslationVector();
-			double a = midpoint.x;
-			double b = midpoint.y;
+			double a = midpoint.getX();
+			double b = midpoint.getY();
 			this.translate(-a, -b);
 			ExpressionNode exprX = ((Function) funX.deepCopy(kernel))
 					.getExpression();

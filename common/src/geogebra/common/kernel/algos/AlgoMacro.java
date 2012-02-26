@@ -174,7 +174,7 @@ implements AlgoMacroInterface {
 			}catch(Exception e){
 				AbstractApplication.debug("Exception while handling vector input: "+e);
 			}
-			macroInput[i].setRealLabel(input[i].label);		
+			macroInput[i].setRealLabel(input[i].getLabelSimple());		
 			//Application.debug("SET INPUT object: " + input[i] + " => " + macroInput[i]);
     	}		
 	}
@@ -218,7 +218,7 @@ implements AlgoMacroInterface {
 			out.setUseVisualDefaults(false);
 			out.setAdvancedVisualStyle(macroOutput[i]);	
 			if(macro.isCopyCaptionsAndVisibility()){
-				out.setCaption(macroOutput[i].getCaptionNoReplace());								
+				out.setCaption(macroOutput[i].getRawCaption());								
 			}
 			out.setLayer(layer);
 			AlgoElement drawAlgo = macroOutput[i].getParentAlgorithm();

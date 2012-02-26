@@ -242,13 +242,13 @@ public class GeoConic extends GeoConicND implements Region, Traceable,
 		if (mirror.isCircle() && this.isCircle()) { // Mirror point in circle
 			double r1 = mirror.getHalfAxes()[0];
 			GeoVec2D midpoint1 = mirror.getTranslationVector();
-			double x1 = midpoint1.x;
-			double y1 = midpoint1.y;
+			double x1 = midpoint1.getX();
+			double y1 = midpoint1.getY();
 
 			double r2 = getHalfAxes()[0];
 			GeoVec2D midpoint2 = getTranslationVector();
-			double x2 = midpoint2.x;
-			double y2 = midpoint2.y;
+			double x2 = midpoint2.getX();
+			double y2 = midpoint2.getY();
 
 			// distance between centres
 			double dist = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
@@ -302,8 +302,8 @@ public class GeoConic extends GeoConicND implements Region, Traceable,
 																	// circle
 				double r = mirror.getHalfAxes()[0];
 				GeoVec2D midPoint = mirror.getTranslationVector();
-				double mx = midPoint.x;
-				double my = midPoint.y;
+				double mx = midPoint.getX();
+				double my = midPoint.getY();
 				double lx = (getLines()[0]).x;
 				double ly = (getLines()[0]).y;
 				double lz = (getLines()[0]).z;
@@ -365,7 +365,7 @@ public class GeoConic extends GeoConicND implements Region, Traceable,
 
 		// mirror translation vector b
 		b.mirror(Q);
-		setMidpoint(new double[] { b.x, b.y });
+		setMidpoint(new double[] { b.getX(), b.getY() });
 
 		setAffineTransform();
 		updateDegenerates(); // for degenerate conics
@@ -431,7 +431,7 @@ public class GeoConic extends GeoConicND implements Region, Traceable,
 		eigenvec[1].mirror(phi);
 
 		b.mirror(phi);
-		setMidpoint(new double[] { b.x, b.y });
+		setMidpoint(new double[] { b.getX(), b.getY() });
 	}
 
 	// //////////////////////////////////////

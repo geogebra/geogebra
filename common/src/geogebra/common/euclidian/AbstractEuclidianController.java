@@ -5825,11 +5825,10 @@ public abstract class AbstractEuclidianController {
 		
 		if (!hits.isEmpty()) {
 			boolean alwaysOn = false;
-			if (view instanceof AbstractEuclidianView) {
-				if (view.getAllowToolTips() == EuclidianStyleConstants.TOOLTIPS_ON) {
-					alwaysOn = true;
-				}
+			if (view.getAllowToolTips() == EuclidianStyleConstants.TOOLTIPS_ON) {
+				alwaysOn = true;
 			}
+			
 			String text = GeoElement.getToolTipDescriptionHTML(hits, true,
 					true, alwaysOn);
 			view.setToolTipText(text);
@@ -6181,7 +6180,7 @@ public abstract class AbstractEuclidianController {
 					return;
 				}
 	
-				if (sameVector && ((vec.label == null) || vec.isIndependent())) {
+				if (sameVector && ((vec.getLabelSimple() == null) || vec.isIndependent())) {
 					transformCoordsOffset[0] = xRW - vec.x;
 					transformCoordsOffset[1] = yRW - vec.y;
 					movedGeoVector = vec;

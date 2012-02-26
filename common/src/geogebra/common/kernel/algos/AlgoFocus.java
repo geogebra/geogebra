@@ -95,22 +95,22 @@ public class AlgoFocus extends AlgoElement {
 	public final void compute() {
 		switch (c.type) {
 		case GeoConicNDConstants.CONIC_CIRCLE:
-			focus[0].setCoords(b.x, b.y, 1.0);
-			focus[1].setCoords(b.x, b.y, 1.0);
+			focus[0].setCoords(b.getX(), b.getY(), 1.0);
+			focus[1].setCoords(b.getX(), b.getY(), 1.0);
 			break;
 
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
-			temp1 = c.linearEccentricity * eigenvec[0].x;
-			temp2 = c.linearEccentricity * eigenvec[0].y;
-			focus[0].setCoords(b.x - temp1, b.y - temp2, 1.0d);
-			focus[1].setCoords(b.x + temp1, b.y + temp2, 1.0d);
+			temp1 = c.linearEccentricity * eigenvec[0].getX();
+			temp2 = c.linearEccentricity * eigenvec[0].getY();
+			focus[0].setCoords(b.getX() - temp1, b.getY() - temp2, 1.0d);
+			focus[1].setCoords(b.getX() + temp1, b.getY() + temp2, 1.0d);
 			break;
 
 		case GeoConicNDConstants.CONIC_PARABOLA:
 			temp1 = c.p / 2;
-			focus[0].setCoords(b.x + temp1 * eigenvec[0].x, b.y + temp1
-					* eigenvec[0].y, 1.0);
+			focus[0].setCoords(b.getX() + temp1 * eigenvec[0].getX(), b.getY() + temp1
+					* eigenvec[0].getY(), 1.0);
 			// second focus undefined
 			focus[1].setUndefined();
 			break;

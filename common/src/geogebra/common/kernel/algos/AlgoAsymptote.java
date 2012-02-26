@@ -107,23 +107,23 @@ public class AlgoAsymptote extends AlgoElement implements AlgoAsymptoteInterface
                 // direction1 = -a * eigenvec1 + b * eigenvec2
                 // lines through midpoint b
 
-                double vec2x = halfAxes[1] * eigenvec[1].x;
-                double vec2y = halfAxes[1] * eigenvec[1].y;
-                double vec1x = halfAxes[0] * eigenvec[0].x;
-                double vec1y = halfAxes[0] * eigenvec[0].y;
+                double vec2x = halfAxes[1] * eigenvec[1].getX();
+                double vec2y = halfAxes[1] * eigenvec[1].getY();
+                double vec1x = halfAxes[0] * eigenvec[0].getX();
+                double vec1y = halfAxes[0] * eigenvec[0].getY();
 
                 asymptotes[0].x = - (vec2y + vec1y);
                 asymptotes[0].y = vec2x + vec1x;
                 asymptotes[0].z =
-                    - (asymptotes[0].x * b.x + asymptotes[0].y * b.y);
+                    - (asymptotes[0].x * b.getX() + asymptotes[0].y * b.getY());
 
                 asymptotes[1].x = - (vec2y - vec1y);
                 asymptotes[1].y = vec2x - vec1x;
                 asymptotes[1].z =
-                    - (asymptotes[1].x * b.x + asymptotes[1].y * b.y);
+                    - (asymptotes[1].x * b.getX() + asymptotes[1].y * b.getY());
 
                 // point on lines
-                P.setCoords(b.x, b.y, 1.0);
+                P.setCoords(b.getX(), b.getY(), 1.0);
                 break;
 
             default :

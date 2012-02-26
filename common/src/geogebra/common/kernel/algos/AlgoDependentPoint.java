@@ -89,10 +89,10 @@ public class AlgoDependentPoint extends AlgoElement {
 	public final void compute() {   
     	try {
 	        temp = ((VectorValue) root.evaluate()).getVector();
-	        if (Double.isInfinite(temp.x) || Double.isInfinite(temp.y)) {
+	        if (Double.isInfinite(temp.getX()) || Double.isInfinite(temp.getY())) {
 	        	P.setUndefined();
 	        } else {
-				P.setCoords( temp.x, temp.y, 1.0); 
+				P.setCoords( temp.getX(), temp.getY(), 1.0); 
 	        }		
 	        
 	        //P.setMode(temp.getMode());

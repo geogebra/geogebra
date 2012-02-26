@@ -85,7 +85,7 @@ public class AlgoCenterConic extends AlgoElement {
             case GeoConic.CONIC_HYPERBOLA :
             case GeoConic.CONIC_SINGLE_POINT :
             case GeoConic.CONIC_INTERSECTING_LINES :
-                midpoint.setCoords(c.b.x, c.b.y, 1.0d);
+                midpoint.setCoords(c.b.getX(), c.b.getY(), 1.0d);
                 break;
 
             default :

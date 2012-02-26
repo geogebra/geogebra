@@ -1331,7 +1331,7 @@ Translateable, GeoConicNDConstants
 							double coeff0, coeff1;
 							// we have to check the first eigenvector: it could be (1,0) or (0,1)
 							// if it is (0,1) we have to swap the coefficients of x^2 and y^2
-							if (eigenvec[0].y == 0.0) {
+							if (eigenvec[0].getY() == 0.0) {
 								coeff0 = halfAxes[0];
 								coeff1 = halfAxes[1];
 							} else {
@@ -1339,24 +1339,24 @@ Translateable, GeoConicNDConstants
 								coeff1 = halfAxes[0];
 							}
 							
-							if (Kernel.isZero(b.x)) {
+							if (Kernel.isZero(b.getX())) {
 								sbToValueString.append("x");
 								sbToValueString.append(squared);
 							} else {
 								sbToValueString.append("(x ");
-								sbToValueString.append((CharSequence)kernel.formatSigned(-b.x,tpl));
+								sbToValueString.append((CharSequence)kernel.formatSigned(-b.getX(),tpl));
 								sbToValueString.append(")");
 								sbToValueString.append(squared);
 							}
 							sbToValueString.append(" / ");
 							sbToValueString.append(kernel.format(coeff0 * coeff0,tpl));
 							sbToValueString.append(" + ");
-							if (Kernel.isZero(b.y)) {
+							if (Kernel.isZero(b.getY())) {
 								sbToValueString.append("y");
 								sbToValueString.append(squared);
 							} else {
 								sbToValueString.append("(y ");
-								sbToValueString.append((CharSequence)kernel.formatSigned(-b.y,tpl));
+								sbToValueString.append((CharSequence)kernel.formatSigned(-b.getY(),tpl));
 								sbToValueString.append(")");
 								sbToValueString.append(squared);
 							}
@@ -1377,16 +1377,16 @@ Translateable, GeoConicNDConstants
 							double b1, b2;
 							// we have to check the first eigenvector: it could be (1,0) or (0,1)
 							// if it is (0,1) we have to swap the x and y
-							if (eigenvec[0].y == 0.0) {
+							if (eigenvec[0].getY() == 0.0) {
 								firstVar = 'x';
 								secondVar = 'y';			
-								b1 = b.x;
-								b2 = b.y;
+								b1 = b.getX();
+								b2 = b.getY();
 							} else {
 								firstVar = 'y';
 								secondVar = 'x';
-								b1 = b.y;
-								b2 = b.x;
+								b1 = b.getY();
+								b2 = b.getX();
 							}
 							
 							if (Kernel.isZero(b1)) {		
@@ -1514,12 +1514,12 @@ Translateable, GeoConicNDConstants
 		 *      ( v1y   v2y     by )
 		 *      (  0     0      1  )   */			
 		transform.setTransform(
-			eigenvec[0].x,
-			eigenvec[0].y,
-			eigenvec[1].x,
-			eigenvec[1].y,
-			b.x,
-			b.y);
+			eigenvec[0].getX(),
+			eigenvec[0].getY(),
+			eigenvec[1].getX(),
+			eigenvec[1].getY(),
+			b.getX(),
+			b.getY());
 	}
 
 	/**
@@ -1546,12 +1546,12 @@ Translateable, GeoConicNDConstants
 	protected final void coordsEVtoRW(GeoPoint2 P) {
 		// rotate by alpha
 		double px = P.x;
-		P.x = px * eigenvec[0].x + P.y * eigenvec[1].x;
-		P.y = px * eigenvec[0].y + P.y * eigenvec[1].y; 
+		P.x = px * eigenvec[0].getX() + P.y * eigenvec[1].getX();
+		P.y = px * eigenvec[0].getY() + P.y * eigenvec[1].getY(); 
 	
 		// translate by b
-		P.x = P.x + P.z *  b.x;
-		P.y = P.y + P.z * b.y;
+		P.x = P.x + P.z *  b.getX();
+		P.y = P.y + P.z * b.getY();
 	}
 	
 	/**
@@ -1560,13 +1560,13 @@ Translateable, GeoConicNDConstants
 	 */
 	private void coordsRWtoEV(GeoPoint2 P) {
 		// translate by -b
-		P.x = P.x - P.z * b.x;
-		P.y = P.y - P.z * b.y;
+		P.x = P.x - P.z * b.getX();
+		P.y = P.y - P.z * b.getY();
 		
 		// rotate by -alpha
 		double px = P.x;	
-		P.x = px * eigenvec[0].x + P.y * eigenvec[0].y;
-		P.y = px * eigenvec[1].x + P.y * eigenvec[1].y;
+		P.x = px * eigenvec[0].getX() + P.y * eigenvec[0].getY();
+		P.y = px * eigenvec[1].getX() + P.y * eigenvec[1].getY();
 	}
 	
 	/** @return copy of flat matrix 	 */
@@ -1776,10 +1776,10 @@ Translateable, GeoConicNDConstants
 		// this is needed, so that setEigenvectors() (called by classifyConic)
 		// will surely take the right direction
 		// normalizing is not needed at this point
-		eigenvec[0].x = c1 - b1;
-		eigenvec[0].y = c2 - b2;
-		eigenvec[1].x = -eigenvec[0].y;
-		eigenvec[1].y = eigenvec[0].x;
+		eigenvec[0].setX(c1 - b1);
+		eigenvec[0].setY(c2 - b2);
+		eigenvec[1].setX(-eigenvec[0].getY());
+		eigenvec[1].setY(eigenvec[0].getX());
 		
 		classifyConic();
 		
@@ -1917,7 +1917,7 @@ Translateable, GeoConicNDConstants
 		eigenvec[0].rotate(phi);
 		eigenvec[1].rotate(phi);
 		b.rotate(phi);	
-		setMidpoint(new double[] {b.x,b.y});
+		setMidpoint(new double[] {b.getX(),b.getY()});
 	}
 	
 	/**
@@ -2033,10 +2033,10 @@ Translateable, GeoConicNDConstants
 		double y1,
 		double z1) {
 				
-		eigenvec[0].x = x0 / z0;
-		eigenvec[0].y = y0 / z0;
-		eigenvec[1].x = x1 / z1;
-		eigenvec[1].y = y1 / z1;
+		eigenvec[0].setX(x0 / z0);
+		eigenvec[0].setY(y0 / z0);
+		eigenvec[1].setX(x1 / z1);
+		eigenvec[1].setY(y1 / z1);
 		eigenvectorsSetOnLoad = true;
 	}
 	private boolean eigenvectorsSetOnLoad = false;
@@ -2064,29 +2064,29 @@ Translateable, GeoConicNDConstants
 		
 		if (kernel.isContinuous()) {		
 			// first eigenvector
-			if (eigenvec[0].x * eigenvecX < -eigenvec[0].y * eigenvecY) {
-				eigenvec[0].x = -eigenvecX;
-				eigenvec[0].y = -eigenvecY;
+			if (eigenvec[0].getX() * eigenvecX < -eigenvec[0].getY() * eigenvecY) {
+				eigenvec[0].setX(-eigenvecX);
+				eigenvec[0].setY(-eigenvecY);
 			} else {
-				eigenvec[0].x = eigenvecX;
-				eigenvec[0].y = eigenvecY;
+				eigenvec[0].setX(eigenvecX);
+				eigenvec[0].setY(eigenvecY);
 			}
 			
 			// second eigenvector (compared to normalvector (-eigenvecY, eigenvecX)
-			if (eigenvec[1].y * eigenvecX < eigenvec[1].x * eigenvecY) {
-				eigenvec[1].x = eigenvecY;
-				eigenvec[1].y = -eigenvecX;
+			if (eigenvec[1].getY() * eigenvecX < eigenvec[1].getX() * eigenvecY) {
+				eigenvec[1].setX(eigenvecY);
+				eigenvec[1].setY(-eigenvecX);
 			} else {
-				eigenvec[1].x = -eigenvecY;
-				eigenvec[1].y = eigenvecX;
+				eigenvec[1].setX(-eigenvecY);
+				eigenvec[1].setY(eigenvecX);
 			}
 		} 	
 		// non-continous
 		else if (!eigenvectorsSetOnLoad ){								
-			eigenvec[0].x = eigenvecX;
-			eigenvec[0].y = eigenvecY;
-			eigenvec[1].x = -eigenvecY;
-			eigenvec[1].y = eigenvecX;
+			eigenvec[0].setX(eigenvecX);
+			eigenvec[0].setY(eigenvecY);
+			eigenvec[1].setX(-eigenvecY);
+			eigenvec[1].setY(eigenvecX);
 		}		
 		
 		eigenvectorsSetOnLoad = false;
@@ -2108,23 +2108,23 @@ Translateable, GeoConicNDConstants
 		}
 
 		// first eigenvector
-		eigenvec[0].x = eigenvecX;
-		eigenvec[0].y = eigenvecY;
+		eigenvec[0].setX(eigenvecX);
+		eigenvec[0].setY(eigenvecY);
 
 		if (kernel.isContinuous()) {
 			// second eigenvector (compared to normalvector (-eigenvecY, eigenvecX)
-			if (eigenvec[1].y * eigenvecX < eigenvec[1].x * eigenvecY) {
-				eigenvec[1].x = eigenvecY;
-				eigenvec[1].y = -eigenvecX;
+			if (eigenvec[1].getY() * eigenvecX < eigenvec[1].getX() * eigenvecY) {
+				eigenvec[1].setX(eigenvecY);
+				eigenvec[1].setY(-eigenvecX);
 			} else {
-				eigenvec[1].x = -eigenvecY;
-				eigenvec[1].y = eigenvecX;
+				eigenvec[1].setX(-eigenvecY);
+				eigenvec[1].setY(eigenvecX);
 			}
 		} 
 		else if (!eigenvectorsSetOnLoad ){		
 			// non-continous
-			eigenvec[1].x = -eigenvecY;
-			eigenvec[1].y = eigenvecX;
+			eigenvec[1].setX(-eigenvecY);
+			eigenvec[1].setY(eigenvecX);
 		}
 		
 		eigenvectorsSetOnLoad = false;
@@ -2256,7 +2256,7 @@ Translateable, GeoConicNDConstants
 		});
 
 		// beta = a . b + alpha, where alpha = A[2]
-		double beta = matrix[4] * b.x + matrix[5] * b.y + matrix[2];
+		double beta = matrix[4] * b.getX() + matrix[5] * b.getY() + matrix[2];
 
 		// beta lets us distinguish between Ellipse, Hyperbola,
 		// single singlePoint and intersecting lines
@@ -2296,7 +2296,7 @@ Translateable, GeoConicNDConstants
 
 		if (singlePoint == null)
 			singlePoint = new GeoPoint2(cons);
-		singlePoint.setCoords(b.x, b.y, 1.0d);
+		singlePoint.setCoords(b.getX(), b.getY(), 1.0d);
 		//Application.debug("singlePoint : " + b);
 	}
 
@@ -2310,10 +2310,10 @@ Translateable, GeoConicNDConstants
 			lines[1] = new GeoLine(cons);
 		}
 		// n = T . (-mu, 1)
-		temp1 = eigenvec[0].x * mu[0];
-		temp2 = eigenvec[0].y * mu[0];
-		nx = eigenvec[1].x - temp1;
-		ny = eigenvec[1].y - temp2;
+		temp1 = eigenvec[0].getX() * mu[0];
+		temp2 = eigenvec[0].getY() * mu[0];
+		nx = eigenvec[1].getX() - temp1;
+		ny = eigenvec[1].getY() - temp2;
 
 		// take line with smallest change of direction
 		if (Math.abs(nx * lines[0].x + ny * lines[0].y)
@@ -2324,15 +2324,15 @@ Translateable, GeoConicNDConstants
 
 		lines[index].x = nx;
 		lines[index].y = ny;
-		lines[index].z = - (nx * b.x + ny * b.y);
+		lines[index].z = - (nx * b.getX() + ny * b.getY());
 
 		// n = T . (mu, 1)
-		nx = eigenvec[1].x + temp1;
-		ny = eigenvec[1].y + temp2;
+		nx = eigenvec[1].getX() + temp1;
+		ny = eigenvec[1].getY() + temp2;
 		index = 1 - index;
 		lines[index].x = nx;
 		lines[index].y = ny;
-		lines[index].z = - (nx * b.x + ny * b.y);
+		lines[index].z = - (nx * b.getX() + ny * b.getY());
 		
 		setStartPointsForLines();
 		//Application.debug("intersectingLines: " + lines[0] + ", " + lines[1]);
@@ -2449,16 +2449,16 @@ Translateable, GeoConicNDConstants
 				eigenvecY = 0.0d;	
 				// c = a . T = a, 
 				// where T is the matrix of the eigenvectors and a = (A[4], A[5])                
-				c.x = matrix[4];
-				c.y = matrix[5];
+				c.setX(matrix[4]);
+				c.setY(matrix[5]);
 			} else { // A[1] is zero                
 				lambda = matrix[0];
 				eigenvecX = 0.0d; // set first eigenvector
 				eigenvecY = 1.0d;
 				// c = a . T, 
 				// where T is the matrix of the eigenvectors and a = (A[4], A[5])                
-				c.x = matrix[5];
-				c.y = -matrix[4];
+				c.setX(matrix[5]);
+				c.setY(-matrix[4]);
 			}
 		} 
 		else { // A[3] != 0			
@@ -2471,14 +2471,14 @@ Translateable, GeoConicNDConstants
 			eigenvecY = -matrix[0] / length;
 			// c = a . T, 
 			// where T is the matrix of the eigenvectors and a = (A[4], A[5])                
-			c.x = matrix[4] * eigenvecX + matrix[5] * eigenvecY;
-			c.y = matrix[5] * eigenvecX - matrix[4] * eigenvecY;
+			c.setX(matrix[4] * eigenvecX + matrix[5] * eigenvecY);
+			c.setY(matrix[5] * eigenvecX - matrix[4] * eigenvecY);
 		}		
 
-		if (degenerate || Kernel.isZero(c.x)) {
+		if (degenerate || Kernel.isZero(c.getX())) {
 			setEigenvectors();
 			// b = T . (0, -c.y/lambda)
-			temp = c.y / lambda;
+			temp = c.getY() / lambda;
 			/*
 			b.x = temp * eigenvecY;
 			b.y = -temp * eigenvecX;
@@ -2511,11 +2511,11 @@ Translateable, GeoConicNDConstants
 			lines[0] = new GeoLine(cons);
 			lines[1] = new GeoLine(cons);
 		}
-		nx = -eigenvec[0].y;
-		ny = eigenvec[0].x;
+		nx = -eigenvec[0].getY();
+		ny = eigenvec[0].getX();
 		lines[0].x = nx;
 		lines[0].y = ny;
-		lines[0].z = - (b.x * nx + b.y * ny);
+		lines[0].z = - (b.getX() * nx + b.getY() * ny);
 
 		lines[1].x = lines[0].x;
 		lines[1].y = lines[0].y;
@@ -2581,9 +2581,9 @@ Translateable, GeoConicNDConstants
 			lines[0] = new GeoLine(cons);
 			lines[1] = new GeoLine(cons);
 		}
-		nx = -eigenvec[0].y;
-		ny = eigenvec[0].x;
-		temp1 = b.x * nx + b.y * ny;
+		nx = -eigenvec[0].getY();
+		ny = eigenvec[0].getX();
+		temp1 = b.getX() * nx + b.getY() * ny;
 		lines[0].x = nx;
 		lines[0].y = ny;
 		lines[1].x = nx;
@@ -2626,8 +2626,8 @@ Translateable, GeoConicNDConstants
 
 		// calc vertex = b
 		// b = T . ((c.y\u00b2/lambda - A2)/(2 c.x) , -c.y/lambda)
-		temp2 = c.y / lambda;
-		temp1 = (c.y * temp2 - matrix[2]) / (2 * c.x);
+		temp2 = c.getY() / lambda;
+		temp1 = (c.getY() * temp2 - matrix[2]) / (2 * c.getX());
 		/*
 		b.x = eigenvecY * temp2 + eigenvecX * temp1;
 		b.y = eigenvecY * temp1 - eigenvecX * temp2;
@@ -2639,10 +2639,10 @@ Translateable, GeoConicNDConstants
 		setParabolicEigenvectors();
 
 		// parameter p of parabola
-		p = -c.x / lambda;
+		p = -c.getX() / lambda;
 		if (p < 0) { // change orientation of first eigenvector
-			eigenvec[0].x = -eigenvec[0].x;
-			eigenvec[0].y = -eigenvec[0].y;
+			eigenvec[0].setX(-eigenvec[0].getX());
+			eigenvec[0].setY(-eigenvec[0].getY());
 			p = -p;
 		}
 
@@ -2682,7 +2682,7 @@ Translateable, GeoConicNDConstants
 	 */
 	final boolean hasPositiveEigenvectorOrientation() {
 		//return eigenvec[0].x * eigenvec[1].y - eigenvec[0].y * eigenvec[1].x > 0;
-		return eigenvec[0].x * eigenvec[1].y > eigenvec[0].y * eigenvec[1].x;
+		return eigenvec[0].getX() * eigenvec[1].getY() > eigenvec[0].getY() * eigenvec[1].getX();
 	}
 
 	/**
@@ -2691,8 +2691,8 @@ Translateable, GeoConicNDConstants
 	 */
 	final void setPositiveEigenvectorOrientation(boolean flag) {
 			if (flag != hasPositiveEigenvectorOrientation()) {
-				eigenvec[1].x = -eigenvec[1].x;
-				eigenvec[1].y = -eigenvec[1].y;
+				eigenvec[1].setX(-eigenvec[1].getX());
+				eigenvec[1].setY(-eigenvec[1].getY());
 				
 				setAffineTransform();
 			}
@@ -2769,10 +2769,10 @@ Translateable, GeoConicNDConstants
 	 */
 	public final double evaluate(GeoVec2D p) {
 		return matrix[2]
-			+ matrix[4] * p.x
-			+ matrix[5] * p.y
-			+ p.y * (matrix[5] + matrix[3] * p.x + matrix[1] * p.y)
-			+ p.x * (matrix[4] + matrix[0] * p.x + matrix[3] * p.y);
+			+ matrix[4] * p.getX()
+			+ matrix[5] * p.getY()
+			+ p.getY() * (matrix[5] + matrix[3] * p.getX() + matrix[1] * p.getY())
+			+ p.getX() * (matrix[4] + matrix[0] * p.getX() + matrix[3] * p.getY());
 	}
 
 	/**
@@ -2829,11 +2829,11 @@ Translateable, GeoConicNDConstants
 		getLineStyleXML(sb);
 
 		sb.append("\t<eigenvectors ");
-		sb.append(" x0=\"" + eigenvec[0].x + "\"");
-		sb.append(" y0=\"" + eigenvec[0].y + "\"");
+		sb.append(" x0=\"" + eigenvec[0].getX() + "\"");
+		sb.append(" y0=\"" + eigenvec[0].getY() + "\"");
 		sb.append(" z0=\"1.0\"");
-		sb.append(" x1=\"" + eigenvec[1].x + "\"");
-		sb.append(" y1=\"" + eigenvec[1].y + "\"");
+		sb.append(" x1=\"" + eigenvec[1].getX() + "\"");
+		sb.append(" y1=\"" + eigenvec[1].getY() + "\"");
 		sb.append(" z1=\"1.0\"");
 		sb.append("/>\n");
 
@@ -2949,8 +2949,8 @@ Translateable, GeoConicNDConstants
 	
 	@Override
 	protected void setMidpoint(double[] coords){
-		b.x = coords[0];
-		b.y = coords[1];
+		b.setX(coords[0]);
+		b.setY(coords[1]);
 		
 		//GeoQuadridND compatibility
 		double[] coords2D = {coords[0],coords[1]};
@@ -2998,14 +2998,14 @@ Translateable, GeoConicNDConstants
 	public double evaluateInSignificantPoint(){
 		switch (type){
 		case CONIC_INTERSECTING_LINES:
-			return evaluate(b.x+lines[0].x+lines[1].x,b.y+lines[0].y+lines[1].y);
+			return evaluate(b.getX()+lines[0].x+lines[1].x,b.getY()+lines[0].y+lines[1].y);
 		case CONIC_HYPERBOLA:
-			return -evaluate(b.x,b.y);	
+			return -evaluate(b.getX(),b.getY());	
 		case CONIC_PARABOLA:
-			return evaluate(b.x + p * eigenvec[0].x,
-					b.y + p * eigenvec[0].y);	
+			return evaluate(b.getX() + p * eigenvec[0].getX(),
+					b.getY() + p * eigenvec[0].getY());	
 		default:
-			return evaluate(b.x,b.y); 
+			return evaluate(b.getX(),b.getY()); 
 		}
 	}
 	
@@ -3116,10 +3116,10 @@ Translateable, GeoConicNDConstants
 					new MyDouble(kernel,halfAxes[1]));
 			ExpressionNode rwX = new ExpressionNode(kernel, evX,
 					Operation.PLUS,
-					new MyDouble(kernel,b.x));
+					new MyDouble(kernel,b.getX()));
 			ExpressionNode rwY = new ExpressionNode(kernel,evY,
 					Operation.PLUS,
-					new MyDouble(kernel,b.y));
+					new MyDouble(kernel,b.getY()));
 			curve.setFunctionX(new Function(rwX,fv));
 			curve.setFunctionY(new Function(rwY,fv));
 			curve.setInterval(0, 2*Math.PI);	
@@ -3162,17 +3162,17 @@ Translateable, GeoConicNDConstants
 			}
 		else return;
 		ExpressionNode rwX = new ExpressionNode(kernel,new ExpressionNode(kernel, 
-				new ExpressionNode(kernel,evX,Operation.MULTIPLY,new MyDouble(kernel,eigenvec[0].x)),
+				new ExpressionNode(kernel,evX,Operation.MULTIPLY,new MyDouble(kernel,eigenvec[0].getX())),
 				Operation.PLUS,
-				new ExpressionNode(kernel,evY,Operation.MULTIPLY,new MyDouble(kernel,eigenvec[0].y))),
+				new ExpressionNode(kernel,evY,Operation.MULTIPLY,new MyDouble(kernel,eigenvec[0].getY()))),
 				Operation.PLUS,
-				new MyDouble(kernel,b.x));
+				new MyDouble(kernel,b.getX()));
 		ExpressionNode rwY = new ExpressionNode(kernel,new ExpressionNode(kernel, 
-				new ExpressionNode(kernel,evX,Operation.MULTIPLY,new MyDouble(kernel,eigenvec[0].y)),
+				new ExpressionNode(kernel,evX,Operation.MULTIPLY,new MyDouble(kernel,eigenvec[0].getY())),
 				Operation.PLUS,
-				new ExpressionNode(kernel,evY,Operation.MULTIPLY,new MyDouble(kernel,-eigenvec[0].x))),
+				new ExpressionNode(kernel,evY,Operation.MULTIPLY,new MyDouble(kernel,-eigenvec[0].getX()))),
 				Operation.PLUS,
-				new MyDouble(kernel,b.y));
+				new MyDouble(kernel,b.getY()));
 		curve.setFunctionX(new Function(rwX,fv));
 		curve.setFunctionY(new Function(rwY,fv));
 		curve.setInterval(min, max);			

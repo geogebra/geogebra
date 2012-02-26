@@ -92,22 +92,22 @@ public class AlgoVertex extends AlgoElement {
         switch (c.type) {
             case GeoConicNDConstants.CONIC_CIRCLE:                                      
             case GeoConicNDConstants.CONIC_ELLIPSE:
-                temp1 = c.halfAxes[0] * eigenvec[0].x;
-                temp2 = c.halfAxes[0] * eigenvec[0].y;
-                vertex[0].setCoords(b.x - temp1, b.y - temp2, 1.0);
-                vertex[1].setCoords(b.x + temp1, b.y + temp2, 1.0);
+                temp1 = c.halfAxes[0] * eigenvec[0].getX();
+                temp2 = c.halfAxes[0] * eigenvec[0].getY();
+                vertex[0].setCoords(b.getX() - temp1, b.getY() - temp2, 1.0);
+                vertex[1].setCoords(b.getX() + temp1, b.getY() + temp2, 1.0);
                 
-                temp1 = c.halfAxes[1] * eigenvec[1].x;
-                temp2 = c.halfAxes[1] * eigenvec[1].y;
-                vertex[2].setCoords( b.x - temp1, b.y - temp2, 1.0);
-                vertex[3].setCoords( b.x + temp1, b.y + temp2, 1.0);   
+                temp1 = c.halfAxes[1] * eigenvec[1].getX();
+                temp2 = c.halfAxes[1] * eigenvec[1].getY();
+                vertex[2].setCoords( b.getX() - temp1, b.getY() - temp2, 1.0);
+                vertex[3].setCoords( b.getX() + temp1, b.getY() + temp2, 1.0);   
                 break;
                 
             case GeoConicNDConstants.CONIC_HYPERBOLA:
-                temp1 = c.halfAxes[0] * eigenvec[0].x;
-                temp2 = c.halfAxes[0] * eigenvec[0].y;
-                vertex[0].setCoords(b.x - temp1, b.y - temp2, 1.0d);
-                vertex[1].setCoords(b.x + temp1, b.y + temp2, 1.0d);
+                temp1 = c.halfAxes[0] * eigenvec[0].getX();
+                temp2 = c.halfAxes[0] * eigenvec[0].getY();
+                vertex[0].setCoords(b.getX() - temp1, b.getY() - temp2, 1.0d);
+                vertex[1].setCoords(b.getX() + temp1, b.getY() + temp2, 1.0d);
                 // third and fourth vertex undefined
                 vertex[2].setUndefined();
                 vertex[3].setUndefined();                
@@ -116,7 +116,7 @@ public class AlgoVertex extends AlgoElement {
             case GeoConicNDConstants.CONIC_PARABOLA:
             case GeoConicNDConstants.CONIC_PARALLEL_LINES:
             case GeoConicNDConstants.CONIC_DOUBLE_LINE:
-                vertex[0].setCoords(b.x, b.y, 1.0);
+                vertex[0].setCoords(b.getX(), b.getY(), 1.0);
 
                 // other vertex undefined
                 vertex[1].setUndefined();

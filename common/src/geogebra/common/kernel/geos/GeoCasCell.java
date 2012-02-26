@@ -1440,7 +1440,7 @@ public class GeoCasCell extends GeoElement {
 	}
 
 	/**
-	 * Appends </cascell> XML tag to StringBuilder.
+	 * Appends &lt;/cascell> XML tag to StringBuilder.
 	 */
 	@Override
 	protected void getElementCloseTagXML(StringBuilder sb) {

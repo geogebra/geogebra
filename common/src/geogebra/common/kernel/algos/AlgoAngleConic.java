@@ -78,7 +78,7 @@ public class AlgoAngleConic extends AlgoElement {
     @Override
 	public final void compute() {
         // take a look at first eigenvector
-        angle.setValue(Math.atan2(c.eigenvec[0].y, c.eigenvec[0].x));
+        angle.setValue(Math.atan2(c.eigenvec[0].getY(), c.eigenvec[0].getX()));
     }
 
     @Override

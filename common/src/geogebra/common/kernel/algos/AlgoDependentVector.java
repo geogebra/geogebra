@@ -80,8 +80,8 @@ public class AlgoDependentVector extends AlgoElement {
 	public final void compute() {
 		try {
 			temp = ((VectorValue) root.evaluate()).getVector();
-			v.x = temp.x;
-			v.y = temp.y;
+			v.x = temp.getX();
+			v.y = temp.getY();
 		} catch (Exception e) {
 			v.setUndefined();
 		}

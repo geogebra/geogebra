@@ -494,7 +494,7 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 			}
 		}
 
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) nodeTable
+		DefaultMutableTreeNode node = nodeTable
 				.get(geo);
 
 		if (node != null) {
@@ -564,6 +564,9 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 	 * adds a new node to the tree
 	 */
 	public void add(GeoElement geo) {
+		add(geo,-1);
+	}
+	private void add(GeoElement geo,int forceLayer) {
 		cancelEditing();
 
 		if (geo.isLabelSet() && geo.showInAlgebraView()
@@ -576,8 +579,8 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 
 			DefaultMutableTreeNode parent, node;
 			node = new DefaultMutableTreeNode(geo);
-			parent = getParentNode(geo);
-
+			parent = getParentNode(geo,forceLayer);
+			
 			// add node to model (alphabetically ordered)
 			int pos = getInsertPosition(parent, geo, treeMode);
 
@@ -594,7 +597,7 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 	 * @param geo
 	 * @return parent node of this geo
 	 */
-	protected DefaultMutableTreeNode getParentNode(GeoElement geo) {
+	protected DefaultMutableTreeNode getParentNode(GeoElement geo,int forceLayer) {
 		DefaultMutableTreeNode parent;
 
 		switch (treeMode) {
@@ -610,7 +613,7 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 		case TYPE:
 			// get type node
 			String typeString = geo.getObjectType();
-			parent = (DefaultMutableTreeNode) typeNodesMap.get(typeString);
+			parent = typeNodesMap.get(typeString);
 
 			// do we have to create the parent node?
 			if (parent == null) {
@@ -634,8 +637,8 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 			break;
 		case LAYER:
 			// get type node
-			int layer = geo.getLayer();
-			parent = (DefaultMutableTreeNode) layerNodesMap.get(layer);
+			int layer = forceLayer > -1 ? forceLayer:geo.getLayer();
+			parent = layerNodesMap.get(layer);
 
 			// do we have to create the parent node?
 			if (parent == null) {
@@ -863,7 +866,7 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 		switch (treeMode) {
 		case TYPE:
 			String typeString = ((GeoElement) node.getUserObject()).getObjectType();
-			DefaultMutableTreeNode parent = (DefaultMutableTreeNode) typeNodesMap.get(typeString);
+			DefaultMutableTreeNode parent = typeNodesMap.get(typeString);
 
 			// this has been the last node
 			if (parent.getChildCount() == 0) {
@@ -872,17 +875,22 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 			}
 			break;
 		case LAYER:
-			int layer = ((GeoElement) node.getUserObject()).getLayer();
-			parent = layerNodesMap.get(layer);
-
-			// this has been the last node
-			if ((parent!=null) && parent.getChildCount() == 0) {
-				layerNodesMap.remove(layer);
-				model.removeNodeFromParent(parent);
-			}
+			removeFromLayer(model,((GeoElement) node.getUserObject()).getLayer());
 
 			break;
 		}
+	}
+
+	private void removeFromLayer(DefaultTreeModel model2,
+			int i) {
+		DefaultMutableTreeNode parent = layerNodesMap.get(i);
+
+		// this has been the last node
+		if ((parent!=null) && parent.getChildCount() == 0) {
+			layerNodesMap.remove(i);
+			model.removeNodeFromParent(parent);
+		}
+		
 	}
 
 	// TODO EuclidianView#setHighlighted() doesn't exist
@@ -892,7 +900,7 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 	 * @see EuclidianView#setHighlighted()
 	 */
 	 public void update(GeoElement geo) {
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) nodeTable
+		DefaultMutableTreeNode node = nodeTable
 				.get(geo);
 
 		if (node != null) {
@@ -1176,14 +1184,17 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 
 	public void changeLayer(GeoElement g, int oldLayer, int newLayer) {
 		if(this.treeMode.equals(SortMode.LAYER)){
-			//make sure we return the object on the same layer as we got it
-			//don't presume it's on oldLayer initially
-			int layer = g.layer;
-			g.layer=oldLayer;
-			this.remove(g);
-			g.layer = newLayer;
-			this.add(g);
-			g.layer=layer;
+			DefaultMutableTreeNode node = nodeTable
+					.get(g);
+
+			if (node != null) {
+				((DefaultTreeModel) getModel()).removeNodeFromParent(node);
+				nodeTable.remove(node.getUserObject());
+				removeFromLayer(((DefaultTreeModel) getModel()), oldLayer);
+			}
+			
+			this.add(g,newLayer);
+			
 		}
 	}
 

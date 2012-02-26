@@ -319,7 +319,7 @@ public class SpreadsheetViewDnD implements DragGestureListener, DragSourceListen
 					if(isCopyByValue)
 						currentRow.add(geoArray[geoIndex].toValueString(StringTemplate.maxPrecision));
 					else
-						currentRow.add("=" + geoArray[geoIndex].label);
+						currentRow.add("=" + geoArray[geoIndex].getLabelSimple());
 					dataList.add(currentRow);
 				}
 

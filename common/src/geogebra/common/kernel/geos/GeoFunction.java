@@ -728,7 +728,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		}
 		sbxml.append("\">\n");
 		getXMLtags(sbxml);
-		sbxml.append(getCaptionXML());
+		getCaptionXML(sbxml);
 		sbxml.append("</element>\n");
 	}
 

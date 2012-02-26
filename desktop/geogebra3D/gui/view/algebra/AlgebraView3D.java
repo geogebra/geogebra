@@ -37,7 +37,7 @@ public class AlgebraView3D extends AlgebraView {
 	private DefaultMutableTreeNode rootView;
 
 	/**
-	 * @param algCtrl
+	 * @param algCtrl algebra controller
 	 */
 	public AlgebraView3D(AlgebraController algCtrl) {
 		super(algCtrl);
@@ -49,10 +49,10 @@ public class AlgebraView3D extends AlgebraView {
 	}
 	
 	@Override
-	protected DefaultMutableTreeNode getParentNode(GeoElement geo){
+	protected DefaultMutableTreeNode getParentNode(GeoElement geo,int forceLayer){
 		
 		if(!treeMode.equals(SortMode.VIEW))
-			return super.getParentNode(geo);
+			return super.getParentNode(geo,forceLayer);
 		
 		DefaultMutableTreeNode parent;
 		
@@ -67,7 +67,7 @@ public class AlgebraView3D extends AlgebraView {
 		
 		String viewString = view.getFromPlaneString();
 		
-		parent = (DefaultMutableTreeNode) viewNodesMap.get(viewString);
+		parent = viewNodesMap.get(viewString);
 
 		// do we have to create the parent node?
 		if (parent == null) {

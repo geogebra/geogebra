@@ -323,7 +323,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		// point
 		// as it may be equal to the single point. Point (b.x+1,0) differs in
 		// one coord.
-		setShape(conic.evaluate(conic.b.x + 1, 0) < 0 ? null : AwtFactory.prototype.newArea(
+		setShape(conic.evaluate(conic.b.getX() + 1, 0) < 0 ? null : AwtFactory.prototype.newArea(
 				view.getBoundingPath()));
 		shape = null;
 		if (conic.isGeoElement3D()) {// TODO implement for 3D conics
@@ -336,7 +336,7 @@ final public class DrawConic extends Drawable implements Previewable {
 			point = conic.getSinglePoint();
 			if (point == null)
 				point = new GeoPoint2(conic.getConstruction());
-			point.setCoords(conic.b.x, conic.b.y, 1.0d);
+			point.setCoords(conic.b.getX(), conic.b.getY(), 1.0d);
 			drawPoint = new DrawPoint(view, point, isPreview);
 			drawPoint.setGeoElement(conic);
 			// drawPoint.font = view.fontConic;
@@ -402,9 +402,9 @@ final public class DrawConic extends Drawable implements Previewable {
 			double val1 = conic.evaluate(view.toRealWorldCoordX(xTry[i]),
 					view.toRealWorldCoordY(yTry[i]));
 			if(conic.type == GeoConicNDConstants.CONIC_INTERSECTING_LINES)
-				val1*=conic.evaluate(conic.b.x+lines[0].x+lines[1].x,conic.b.y+lines[0].y+lines[1].y);
+				val1*=conic.evaluate(conic.b.getX()+lines[0].x+lines[1].x,conic.b.getY()+lines[0].y+lines[1].y);
 			if(conic.type == GeoConicNDConstants.CONIC_PARALLEL_LINES)
-				val1*=conic.evaluate(conic.b.x,conic.b.y);
+				val1*=conic.evaluate(conic.b.getX(),conic.b.getY());
 			if (!Kernel.isZero(val1))
 				return (val1 > 0) ^ shape.contains(xTry[i], yTry[i]);
 		}
@@ -781,10 +781,10 @@ final public class DrawConic extends Drawable implements Previewable {
 		// the drawn hyperbola must be larger than the screen
 		// get max distance from midpoint to screen edge
 		x0 = Math.max(
-				Math.max(Math.abs(midpoint.x - view.getXmin()),
-						Math.abs(midpoint.x - view.getXmax())),
-				Math.max(Math.abs(midpoint.y - view.getYmin()),
-						Math.abs(midpoint.y - view.getYmax())));
+				Math.max(Math.abs(midpoint.getX() - view.getXmin()),
+						Math.abs(midpoint.getX() - view.getXmax())),
+				Math.max(Math.abs(midpoint.getY() - view.getYmin()),
+						Math.abs(midpoint.getY() - view.getYmax())));
 		// ensure that rotated hyperbola is fully on screen:
 		x0 *= 1.5;
 
@@ -893,10 +893,10 @@ final public class DrawConic extends Drawable implements Previewable {
 			parabola = AwtFactory.prototype.newGeneralPath();
 		}
 		// calc control points coords of parabola y^2 = 2 p x
-		x0 = Math.max(Math.abs(vertex.x - view.getXmin()),
-				Math.abs(vertex.x - view.getXmax()));
-		x0 = Math.max(x0, Math.abs(vertex.y - view.getYmin()));
-		x0 = Math.max(x0, Math.abs(vertex.y - view.getYmax()));
+		x0 = Math.max(Math.abs(vertex.getX() - view.getXmin()),
+				Math.abs(vertex.getX() - view.getXmax()));
+		x0 = Math.max(x0, Math.abs(vertex.getY() - view.getYmin()));
+		x0 = Math.max(x0, Math.abs(vertex.getY() - view.getYmax()));
 
 		/*
 		 * x0 *= 2.0d; // y^2 = 2px y0 = Math.sqrt(2*c.p*x0);

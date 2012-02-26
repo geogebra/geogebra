@@ -21,7 +21,7 @@ public abstract class DrawableND {
 	
 	/**
 	 * sets that this has been created by the DrawList
-	 * @param drawList 
+	 * @param drawList true if created by DrawList
 	 */
 	public void setCreatedByDrawList(DrawableND drawList) {
 		createdByDrawList = true;
@@ -32,7 +32,7 @@ public abstract class DrawableND {
 	
 	/**
 	 * sets if this is visible when the DrawList is visible
-	 * @param flag 
+	 * @param flag true to make this visible when the DrawList is visible
 	 */
 	public void setCreatedByDrawListVisible(boolean flag) {
 		createdByDrawListVisible = flag;
@@ -84,11 +84,17 @@ public abstract class DrawableND {
 	 */
 	public abstract void update();
 
+	/**
+	 * @return x-coord of the label
+	 */
 	public double getxLabel() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	/**
+	 * @return y-coord of the label
+	 */
 	public double getyLabel() {
 		// TODO Auto-generated method stub
 		return 0;

@@ -176,8 +176,8 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 	 * @param v vector (x,y)
 	 */
 	final public void setCoords(GeoVec2D v) {
-		x = v.x;
-		y = v.y;
+		x = v.getX();
+		y = v.getY();
 		z = 0.0d;
 	}      
 
@@ -431,25 +431,25 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		switch (tpl.getStringType()) {
 		case MATH_PIPER:
 			sbBuildValueString.append("{");
-			sbBuildValueString.append(getInhomVec().x);
+			sbBuildValueString.append(getInhomVec().getX());
 			sbBuildValueString.append(", ");
-			sbBuildValueString.append(getInhomVec().y);
+			sbBuildValueString.append(getInhomVec().getY());
 			sbBuildValueString.append("}");
 			return sbBuildValueString;
 
 		case MAXIMA:
 			sbBuildValueString.append("[");
-			sbBuildValueString.append(getInhomVec().x);
+			sbBuildValueString.append(getInhomVec().getX());
 			sbBuildValueString.append(", ");
-			sbBuildValueString.append(getInhomVec().y);
+			sbBuildValueString.append(getInhomVec().getY());
 			sbBuildValueString.append("]");
 			return sbBuildValueString;
 
 		case MPREDUCE:
 			sbBuildValueString.append("myvect(");
-			sbBuildValueString.append(getInhomVec().x);
+			sbBuildValueString.append(getInhomVec().getX());
 			sbBuildValueString.append(",");
-			sbBuildValueString.append(getInhomVec().y);
+			sbBuildValueString.append(getInhomVec().getY());
 			sbBuildValueString.append(")");
 			return sbBuildValueString;
 
@@ -794,13 +794,13 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 	public ArrayList<GeoNumeric> getSpreadsheetTraceList() {
 		if (spreadsheetTraceList == null) {
 			spreadsheetTraceList = new ArrayList<GeoNumeric>();
-			GeoNumeric xx = new GeoNumeric(cons, getInhomVec().x);
+			GeoNumeric xx = new GeoNumeric(cons, getInhomVec().getX());
 			spreadsheetTraceList.add(xx);
-			GeoNumeric yy = new GeoNumeric(cons, getInhomVec().y);
+			GeoNumeric yy = new GeoNumeric(cons, getInhomVec().getY());
 			spreadsheetTraceList.add(yy);
 		} else {
-			spreadsheetTraceList.get(0).setValue(getInhomVec().x);
-			spreadsheetTraceList.get(1).setValue(getInhomVec().y);
+			spreadsheetTraceList.get(0).setValue(getInhomVec().getX());
+			spreadsheetTraceList.get(1).setValue(getInhomVec().getY());
 		}
 		
 		return spreadsheetTraceList;

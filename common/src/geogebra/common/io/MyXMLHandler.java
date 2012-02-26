@@ -4330,7 +4330,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleMatrix(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoConic()) && !(geo.isGeoCubic())) {
+		if (!geo.isGeoConic()) {
 			System.err.println("wrong element type for <matrix>: "
 					+ geo.getClass());
 			return false;

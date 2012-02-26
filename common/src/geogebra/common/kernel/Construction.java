@@ -1233,7 +1233,7 @@ public class Construction {
 		// if oldGeo does not have any children, we can simply
 		// delete oldGeo and give newGeo the name of oldGeo
 		if (!oldGeo.hasChildren()) {
-			String oldGeoLabel = oldGeo.label;
+			String oldGeoLabel = oldGeo.getLabelSimple();
 			newGeo.moveDependencies(oldGeo);
 			oldGeo.remove();
 
@@ -1417,14 +1417,14 @@ public class Construction {
 		// set label to get replaceable XML
 		if (newGeo.isLabelSet()) { // newGeo already exists in construction
 			// oldGeo is replaced by newGeo, so oldGeo get's newGeo's label
-			oldGeo.label = newGeo.label;
+			oldGeo.setLabelSimple(newGeo.getLabelSimple());
 
 			oldXML = (oldGeoAlgo == null) ? oldGeo.getXML() : oldGeoAlgo
 					.getXML();
 			newXML = ""; // remove oldGeo from construction
 		} else {
 			// newGeo doesn't exist in construction, so we take oldGeo's label
-			newGeo.label = oldGeo.label;
+			newGeo.setLabelSimple(oldGeo.getLabelSimple());
 			newGeo.labelSet = true; // to get right XML output
 			newGeo.setAllVisualProperties(oldGeo, false);
 
@@ -1539,10 +1539,10 @@ public class Construction {
 	 * @see #lookupLabel(String)
 	 */
 	public void putLabel(GeoElement geo) {
-		if (supressLabelCreation || geo.label == null)
+		if (supressLabelCreation || geo.getLabelSimple() == null)
 			return;
 
-		geoTable.put(geo.label, geo);
+		geoTable.put(geo.getLabelSimple(), geo);
 		addToGeoSets(geo);
 	}
 
@@ -1556,7 +1556,7 @@ public class Construction {
 	 */
 	public void removeLabel(GeoElement geo) {
 		geo.unbindVariableInCAS();
-		geoTable.remove(geo.label);
+		geoTable.remove(geo.getLabelSimple());
 		removeFromGeoSets(geo);
 	}
 
@@ -1592,7 +1592,7 @@ public class Construction {
 			GeoElement geo1 = ob1;
 			GeoElement geo2 = ob2;
 
-			return GeoElement.compareLabels(geo1.label, geo2.label);
+			return GeoElement.compareLabels(geo1.getLabelSimple(), geo2.getLabelSimple());
 		}
 	}
 

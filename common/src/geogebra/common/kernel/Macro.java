@@ -239,14 +239,14 @@ public class Macro  {
     	for (int i=0; i < input.length; i++) {
     		isInputLabeled[i] = input[i].isLabelSet();
     		if (!isInputLabeled[i]) {
-    			input[i].label = input[i].getDefaultLabel();
+    			input[i].setLabelSimple(input[i].getDefaultLabel());
     			input[i].labelSet = true;
         	}    		     
     		if(input[i] instanceof GeoVector){
     			startPoints[i]=((GeoVector)input[i]).getStartPoint();
     			((GeoVector)input[i]).setStartPoint(null);
     		}
-    		inputLabels[i] = input[i].label;
+    		inputLabels[i] = input[i].getLabelSimple();
     		    	
     		// add input element to macroConsOrigElements
     		// we handle some special cases for input types like segment, polygons, etc.
@@ -275,10 +275,10 @@ public class Macro  {
     	for (int i=0; i < output.length; i++) {
     		isOutputLabeled[i] = output[i].isLabelSet();
     		if (!isOutputLabeled[i]) {
-    			output[i].label = output[i].getDefaultLabel();
+    			output[i].setLabelSimple(output[i].getDefaultLabel());
     			output[i].labelSet = true;    			
         	}        		   		    		
-    		outputLabels[i] = output[i].label;
+    		outputLabels[i] = output[i].getLabelSimple();
     		
     		// add output element and its algorithm to macroConsOrigElements 
     		addDependentElement(output[i], macroConsOrigElements,usedAlgoIds); 	    		

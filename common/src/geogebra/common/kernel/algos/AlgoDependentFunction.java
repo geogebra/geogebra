@@ -237,7 +237,7 @@ public class AlgoDependentFunction extends AlgoElement {
 		else
 			sb.setLength(0);
 		if (f.isLabelSet() && !f.isBooleanFunction()) {
-			sb.append(f.label);
+			sb.append(f.getLabelSimple());
 			sb.append("(");
 			sb.append(f.getVarString(tpl));
 			sb.append(") = ");

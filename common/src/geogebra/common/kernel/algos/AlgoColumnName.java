@@ -68,7 +68,7 @@ public class AlgoColumnName extends AlgoElement {
     // calc the current value of the arithmetic tree
     @Override
 	public final void compute() {    
-    	String col = GeoElementSpreadsheet.getSpreadsheetColumnName(geo.label);
+    	String col = GeoElementSpreadsheet.getSpreadsheetColumnName(geo.getLabelSimple());
     	
     	if (col == null) text.setUndefined();
     	else text.setTextString(col);	    	

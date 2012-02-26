@@ -883,12 +883,12 @@ public class GeoConicPart extends GeoConic implements LimitedPath, NumberValue {
 	}
 
 	private double computeArg(double x0, double y0) {
-		double px = x0 - b.x;
-		double py = y0 - b.y;
+		double px = x0 - b.getX();
+		double py = y0 - b.getY();
 
 		// rotate by -alpha
-		double px2 = px * eigenvec[0].x + py * eigenvec[0].y;
-		py = px * eigenvec[1].x + py * eigenvec[1].y;
+		double px2 = px * eigenvec[0].getX() + py * eigenvec[0].getY();
+		py = px * eigenvec[1].getX() + py * eigenvec[1].getY();
 
 		// calc parameter
 

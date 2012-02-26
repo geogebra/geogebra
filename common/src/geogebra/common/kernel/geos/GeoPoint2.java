@@ -738,7 +738,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	 * @param v vector (x,y)
 	 */
 	final public void setCoords(GeoVec2D v) {
-		setCoords(v.x, v.y, 1.0);
+		setCoords(v.getX(), v.getY(), 1.0);
 	}
 
 	/**
@@ -952,8 +952,8 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 															// circle
 			double r = c.getHalfAxes()[0];
 			GeoVec2D midpoint = (c.getTranslationVector());
-			double a = midpoint.x;
-			double b = midpoint.y;
+			double a = midpoint.getX();
+			double b = midpoint.getY();
 			if (Double.isInfinite(x) || Double.isInfinite(y2D))
 				setCoords(a, b, 1.0);
 			else {
