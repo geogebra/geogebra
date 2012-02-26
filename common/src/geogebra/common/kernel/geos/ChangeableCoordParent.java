@@ -20,7 +20,7 @@ public class ChangeableCoordParent {
 	
 	/**
 	 * constructor
-	 * @param child 
+	 * @param child child
 	 * @param number number
 	 * @param director director
 	 */
@@ -72,6 +72,14 @@ public class ChangeableCoordParent {
 	}
 	
 	
+	/**
+	 * @param rwTransVec real world translation vector
+	 * @param endPosition end position
+	 * @param viewDirection view direction
+	 * @param updateGeos list of geos
+	 * @param tempMoveObjectList temporary list
+	 * @return true on success
+	 */
 	final public boolean move(Coords rwTransVec,
 			Coords endPosition, Coords viewDirection,
 			ArrayList<GeoElement> updateGeos,

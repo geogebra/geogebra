@@ -42,7 +42,7 @@ public abstract class Transform {
 	/**
 	 * Apply the transform to given element and set label for result
 	 * 
-	 * @param geo
+	 * @param geo input geo
 	 * @return transformed geo
 	 */
 	
@@ -54,8 +54,8 @@ public abstract class Transform {
 	protected Construction cons;
 
 	/**
-	 * @param label
-	 * @param poly
+	 * @param label label for transformed polygon
+	 * @param poly input polygon
 	 * @return transformed polygon
 	 */
 	final public GeoElement[] transformPoly(String label, GeoPolygon poly) {
@@ -65,12 +65,13 @@ public abstract class Transform {
 	/**
 	 * Apply the transform to given element and set label for result
 	 * 
-	 * @param label
-	 * @param geo
+	 * @param transformedLabel label for transformed geo
+	 * @param geo input geo
 	 * @return transformed geo
 	 */
 	
-	public GeoElement[] transform(GeoElement geo, String label) {
+	public GeoElement[] transform(GeoElement geo, String transformedLabel) {
+		String label = transformedLabel;
 		// for polygons we transform
 		if (geo instanceof GeoPolyLineInterface && this.isAffine()) {
 			GeoPolyLineInterface poly = (GeoPolyLineInterface) geo;
@@ -109,7 +110,7 @@ public abstract class Transform {
 	/**
 	 * Returns algo that will be used for traansforming given geo
 	 * 
-	 * @param geo
+	 * @param geo input geo
 	 * @return algo that will be used for traansforming given geo
 	 */
 	protected abstract AlgoTransformation getTransformAlgo(GeoElement geo);
@@ -159,7 +160,7 @@ public abstract class Transform {
 	/**
 	 * Applies the transform to all points
 	 * 
-	 * @param points
+	 * @param points input points
 	 * @return array of transformed points
 	 */
 	
@@ -179,7 +180,7 @@ public abstract class Transform {
 	/**
 	 * Applies the transform to a conic
 	 * 
-	 * @param conic
+	 * @param conic input conic
 	 * @return transformed conic
 	 */
 	
@@ -192,7 +193,7 @@ public abstract class Transform {
 	/**
 	 * Applies the transform to a line
 	 * 
-	 * @param line
+	 * @param line input line
 	 * @return transformed line
 	 */
 	

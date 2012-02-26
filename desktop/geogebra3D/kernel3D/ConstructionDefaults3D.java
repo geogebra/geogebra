@@ -375,10 +375,4 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		}
 	}
 
-	protected void setMaxLayerUsed(GeoElement geo, Application app){
-		//update only if  not a 3D object
-		//if (!geo.isGeoElement3D())
-			super.setMaxLayerUsed(geo, app);
-	}
-	
 }

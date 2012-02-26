@@ -23,12 +23,12 @@ import java.util.ArrayList;
 public class PathMoverLocus extends PathMoverGeneric {
 
 	private ArrayList<MyPoint> myPointList;
-	protected boolean noLineToSet, lastNoLineToSet;
+	private boolean noLineToSet, lastNoLineToSet;
 
 	/**
 	 * Creates new path mover for given locus
 	 * 
-	 * @param locus
+	 * @param locus locus
 	 */
 	public PathMoverLocus(GeoLocus locus) {
 		super(locus);
@@ -165,6 +165,10 @@ public class PathMoverLocus extends PathMoverGeneric {
 		noLineToSet = lastNoLineToSet;
 	}
 
+	/**
+	 * @param new_param param of next point
+	 * @return true if there is not continous line from cur_param to new_param
+	 */
 	protected boolean noLineTo(double new_param) {
 
 		if (new_param >= max_param || new_param <= min_param) {
@@ -191,6 +195,11 @@ public class PathMoverLocus extends PathMoverGeneric {
 		return false;
 	}
 
+	/**
+	 * @param param initial parameter
+	 * @return parameter of nearest point with line to / move to
+	 *         or min/max param if not found 
+	 */
 	protected double borderParam(double param) {
 
 		if (curr_param < param) {

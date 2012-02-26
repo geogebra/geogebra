@@ -20,7 +20,7 @@ public interface Region {
 	 * Sets coords of P  when
 	 * the coords of P have changed.
 	 * Afterwards P lies in this region.
-	 * @param P 
+	 * @param P point
 	 * 
 	 */
 	public void pointChangedForRegion(GeoPointND P);
@@ -30,7 +30,7 @@ public interface Region {
 	 * Sets coords of P 
 	 * when this region has changed.
 	 * Afterwards P lies in this region.
-	 * @param P 
+	 * @param P point
 	 * 
 	 *
 	 */

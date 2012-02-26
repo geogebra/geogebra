@@ -18,8 +18,8 @@ public class TransformApplyMatrix extends Transform {
 
 	
 	/**
-	 * @param cons 
-	 * @param matrix
+	 * @param cons construction
+	 * @param matrix transform matrix (2x2 or 3x3 for 2D)
 	 */
 	public TransformApplyMatrix(Construction cons,GeoList matrix) {
 		this.matrix = matrix;

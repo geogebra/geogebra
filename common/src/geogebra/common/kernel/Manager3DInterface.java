@@ -31,6 +31,7 @@ import geogebra.common.kernel.kernelND.GeoVectorND;
  * @author mathieu
  * 
  */
+@SuppressWarnings("javadoc")
 public interface Manager3DInterface {
 
 	/** Point3D label with cartesian coordinates (x,y,z) */

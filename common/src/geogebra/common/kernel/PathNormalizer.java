@@ -16,7 +16,7 @@ public class PathNormalizer implements Path {
 	 * Creates a normalized path with parameter range [0,1] for the given parent
 	 * path with an arbitrary parameter range.
 	 * 
-	 * @param parentPath
+	 * @param parentPath parent path
 	 */
 	public PathNormalizer(Path parentPath) {
 		this.parentPath = parentPath;
@@ -25,7 +25,7 @@ public class PathNormalizer implements Path {
 	/**
 	 * Converts path parameter value tn from range [0, 1] to [min, max].
 	 * 
-	 * @param tn
+	 * @param pn
 	 *            parameter value in [0,1]
 	 * @param min
 	 *            of range [min, max]
@@ -33,8 +33,8 @@ public class PathNormalizer implements Path {
 	 *            of range [min, max]
 	 * @return parameter value in [min, max]
 	 */
-	public static double toParentPathParameter(double tn, double min, double max) {
-
+	public static double toParentPathParameter(double pn, double min, double max) {
+		double tn=pn;
 		// for Points as Paths (min=max=0)
 		if (min == max)
 			return min;
@@ -67,7 +67,7 @@ public class PathNormalizer implements Path {
 	/**
 	 * Converts path parameter value t from range [min, max] to [0, 1].
 	 * 
-	 * @param t
+	 * @param p
 	 *            parameter to be normalized
 	 * 
 	 * @param min
@@ -76,9 +76,9 @@ public class PathNormalizer implements Path {
 	 *            of range [min, max]
 	 * @return parameter value in [0,1]
 	 */
-	public static double toNormalizedPathParameter(double t, double min,
+	public static double toNormalizedPathParameter(double p, double min,
 			double max) {
-
+		double t= p;
 		// for Points as Paths (min=max=0)
 		if (min == max) {
 			return 0;
@@ -147,7 +147,7 @@ public class PathNormalizer implements Path {
 	/**
 	 * Function t: (-1, 1) -> (-inf, +inf)
 	 * 
-	 * @param t
+	 * @param t parameter from (-1,1)
 	 * @return parameter in (-1,1) to be mapped into all reals
 	 */
 	public static double infFunction(double t) {
@@ -157,7 +157,7 @@ public class PathNormalizer implements Path {
 	/**
 	 * Function z: (-inf, +inf) -> (-1, 1)
 	 * 
-	 * @param z
+	 * @param z arbitrary parameter
 	 * @return arbitrary parameter to be mapped into (-1,1)
 	 */
 	public static double inverseInfFunction(double z) {

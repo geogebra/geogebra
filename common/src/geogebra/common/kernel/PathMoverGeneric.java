@@ -23,23 +23,57 @@ public class PathMoverGeneric implements PathMover {
 	private static final int BOUNDS_INFINITE = 2;
 	private static final int BOUNDS_FIXED_INFINITE = 3;
 	private static final int BOUNDS_INFINITE_FIXED = 4;
-
+	/**path */
 	protected Path path;
-	protected double start_param, start_paramUP, start_paramDOWN;
-	protected double curr_param, last_param, param_extent, min_param,
-			max_param, max_step_width, step_width, offset;
+	/** start parameter */
+	protected double start_param;
+	/** start param + param extent*/
+	protected double start_paramUP;
+	/** start param - param extent*/
+	protected double start_paramDOWN;
+	/** current parameter */
+	protected double curr_param;
+	/** last parameter */
+	protected double last_param; 
+	/** difference between max and min params*/
+	protected double param_extent;
+	/** minimal parameter*/
+	protected double min_param;
+	/** maximal parameter */
+	protected double max_param;
+	/** maximal step width */
+	protected double max_step_width; 
+	/** step width*/
+	protected double step_width; 
+	/** finite border in case of semi-infinite path*/
+	protected double offset;
+	/** mode (BOUNDS_INFINITE, BOUNDS_FIXED, ..) */
 	protected int mode;
+	/** positive orientation*/
 	protected boolean posOrientation;
-	protected boolean maxBorderSet, minBorderSet, lastMaxBorderSet,
-			lastMinBorderSet;
+	/** true if we just arrived at max*/
+	protected boolean maxBorderSet;
+	/** true if we just arrived at min*/
+	protected boolean minBorderSet;
+	/** true if we arrived at max in last step*/
+	protected boolean lastMaxBorderSet;
+	/** true if we just arrived at min in last step*/
+	protected boolean lastMinBorderSet;
 
 	/**
 	 * Creates new path mover for given path
 	 * 
-	 * @param path
+	 * @param path path
 	 */
 	public PathMoverGeneric(Path path) {
 		this.path = path;
+	}
+	
+	/**
+	 * Creates new path mover
+	 */
+	public PathMoverGeneric() {
+		
 	}
 
 	public void init(GeoPoint2 p) {
@@ -188,7 +222,7 @@ public class PathMoverGeneric implements PathMover {
 	/**
 	 * Updates path parameter of point p from curr_param
 	 * 
-	 * @param p
+	 * @param p point
 	 */
 	protected void calcPoint(GeoPoint2 p) {
 		double param;

@@ -17,40 +17,27 @@ import geogebra.common.kernel.geos.GeoNumeric;
 /**
  * Slider mover for GeoNumeric and AlgoLocusSlider
  */
-public class SliderMover {
-
-	public static final int MIN_STEPS = 128; // 128;
-	public static final double STEP_DECREASE_FACTOR = 0.5;
-	public static final double STEP_INCREASE_FACTOR = 2;
-
-	public static final double MIN_STEP_WIDTH = 1E-8;
-	public static final double OPEN_BORDER_OFFSET = 1E-5;
-
-	public static final int MAX_POINTS = 10000;
+public class SliderMover extends PathMoverGeneric{
 
 	private static final int BOUNDS_FIXED = 1;
 	private static final int BOUNDS_INFINITE = 2;
 	private static final int BOUNDS_FIXED_INFINITE = 3;
 	private static final int BOUNDS_INFINITE_FIXED = 4;
-
-	private GeoNumeric path;
-	protected double start_param, start_paramUP, start_paramDOWN;
-	protected double curr_param, last_param, param_extent, min_param,
-			max_param, max_step_width, step_width, offset;
-	protected int mode;
-	protected boolean posOrientation;
-	private boolean maxBorderSet, minBorderSet, lastMaxBorderSet,
-			lastMinBorderSet;
+	/** slider */
+	private GeoNumeric slider;
 
 	/**
 	 * Creates new path mover for given path
 	 * 
-	 * @param path
+	 * @param path slider
 	 */
 	public SliderMover(GeoNumeric path) {
-		this.path = path;
+		this.slider = path;
 	}
 
+	/**
+	 * @param p initial value
+	 */
 	public void init(GeoNumeric p) {
 		init(p.getValue());
 	}
@@ -58,8 +45,8 @@ public class SliderMover {
 	private void init(double param) {
 		start_param = param;
 
-		min_param = path.getIntervalMin();
-		max_param = path.getIntervalMax();
+		min_param = slider.getIntervalMin();
+		max_param = slider.getIntervalMax();
 
 		// make sure start_param is between min and max
 		if (start_param < min_param || start_param > max_param) {
@@ -121,17 +108,18 @@ public class SliderMover {
 		// System.out.println("  max_step_width : " + max_step_width);
 	}
 
-	public void resetStartParameter() {
-		curr_param = start_param;
-		last_param = start_param;
-		maxBorderSet = lastMaxBorderSet = minBorderSet = lastMinBorderSet = false;
-		step_width = max_step_width;
-	}
 
+	/**
+	 * @param p store current position to p
+	 */
 	public void getCurrentPosition(GeoNumeric p) {
 		calcPoint(p);
 	}
 
+	/**
+	 * @param p number to store result
+	 * @return true if it was possible
+	 */
 	public boolean getNext(GeoNumeric p) {
 		// check if we are in our interval
 		boolean lineTo = true;
@@ -196,7 +184,7 @@ public class SliderMover {
 	/**
 	 * Updates path parameter of point p from curr_param
 	 * 
-	 * @param p
+	 * @param p point to store result
 	 */
 	protected void calcPoint(GeoNumeric p) {
 		double param;
@@ -223,93 +211,6 @@ public class SliderMover {
 		// path.pathChanged(p);
 		// p.updateCoords();
 		p.setValue(param);
-	}
-
-	public boolean hasNext() {
-		// check if we pass the start parameter
-		// from last_param to the next parameter curr_param
-		boolean hasNext;
-
-		double next_param = curr_param + step_width;
-		if (posOrientation) {
-			hasNext = !(curr_param < start_param && next_param >= start_param || curr_param < start_paramUP
-					&& next_param >= start_paramUP);
-		} else {
-			hasNext = !(curr_param > start_param && next_param <= start_param || curr_param > start_paramDOWN
-					&& next_param <= start_paramDOWN);
-		}
-
-		return hasNext;
-	}
-
-	public double getCurrentParameter() {
-		return curr_param;
-	}
-
-	public void changeOrientation() {
-		posOrientation = !posOrientation;
-		step_width = -step_width;
-	}
-
-	public boolean hasPositiveOrientation() {
-		return posOrientation;
-	}
-
-	final public boolean smallerStep() {
-		return changeStep(step_width * STEP_DECREASE_FACTOR);
-	}
-
-	final public boolean biggerStep() {
-		return changeStep(step_width * STEP_INCREASE_FACTOR);
-	}
-
-	final public boolean setStep(double step) {
-		return changeStep(step);
-	}
-
-	final public double getStep() {
-		return step_width;
-	}
-
-	private boolean changeStep(double new_step) {
-		double abs_new_step = Math.abs(new_step);
-
-		if (abs_new_step > max_step_width) {
-			if (new_step >= 0) {
-				if (step_width == max_step_width) {
-					return false;
-				}
-				step_width = max_step_width;
-				return true;
-			}
-			if (step_width == -max_step_width) {
-				return false;
-			}
-			step_width = -max_step_width;
-			return true;
-		} else if (abs_new_step < MIN_STEP_WIDTH) {
-			if (new_step >= 0) {
-				if (step_width == MIN_STEP_WIDTH) {
-					return false;
-				}
-				step_width = MIN_STEP_WIDTH;
-				return true;
-			}
-			if (step_width == -MIN_STEP_WIDTH) {
-				return false;
-			}
-			step_width = -MIN_STEP_WIDTH;
-			return true;
-		} else {
-			step_width = new_step;
-			return true;
-		}
-	}
-
-	final public void stepBack() {
-		curr_param = last_param;
-		maxBorderSet = lastMaxBorderSet;
-		minBorderSet = lastMinBorderSet;
 	}
 
 }

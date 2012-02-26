@@ -497,7 +497,7 @@ public class Kernel {
 	final public SystemOfEquationsSolver getSystemOfEquationsSolver(
 			EquationSolverInterface eSolver) {
 		if (sysEqSolv == null)
-			sysEqSolv = new SystemOfEquationsSolver((EquationSolver) eSolver);
+			sysEqSolv = new SystemOfEquationsSolver(eSolver);
 		return sysEqSolv;
 	}
 

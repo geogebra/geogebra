@@ -12,27 +12,38 @@ import java.util.Arrays;
  * @author ddrakulic
  *
  */
-public class SystemOfEquationsSolver implements SystemOfEquationsSolverInterface{
+public class SystemOfEquationsSolver {
 	
 	private double epsilon = Kernel.STANDARD_PRECISION;
 	
-	private EquationSolver eqnSolver;
+	private EquationSolverInterface eqnSolver;
 
-	public SystemOfEquationsSolver(EquationSolver eqnSolver) {
+	/**
+	 * Creates new solver for systems of equations
+	 * @param eqnSolver equation solver
+	 */
+	public SystemOfEquationsSolver(EquationSolverInterface eqnSolver) {
 		this.eqnSolver = eqnSolver;
 	}
 	
+	/**
+	 * Set precision
+	 * @param eps precision
+	 */
 	void setEpsilon(double eps) {
     	epsilon = eps;
     }
 	
-	/*
+	/**
 	 * Solves of system of equations whose coefficients in arrays eqn1 and eqn2
 	 * and places result in two-dimensional array res.
 	 * 
 	 * Equations are represented by equations
 	 * eqn1[0]*x^2 + eqn1[1]*xy + eqn1[2]*y^2 + eqn1[3]*x + eqn1[4]*y + eqn1[5] = 0
 	 * eqn2[0]*x^2 + eqn2[1]*xy + eqn2[2]*y^2 + eqn2[3]*x + eqn2[4]*y + eqn2[5] = 0
+	 * @param eqn1 coefficients in first equation
+	 * @param eqn2 coefficients in second equation
+	 * @param res array to store result
 	 * 
 	 * @return Number of real roots or -1 if equations are equal or coefficients are invalid
 	 * 

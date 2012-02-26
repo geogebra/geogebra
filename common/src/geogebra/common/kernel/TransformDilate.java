@@ -18,8 +18,8 @@ public class TransformDilate extends Transform {
 	private GeoPoint2 center;
 
 	/**
-	 * @param cons 
-	 * @param ratio
+	 * @param cons construction
+	 * @param ratio dilation ratio
 	 */
 	public TransformDilate(Construction cons,NumberValue ratio) {
 		this.ratio = ratio;
@@ -27,9 +27,9 @@ public class TransformDilate extends Transform {
 	}
 
 	/**
-	 * @param cons 
-	 * @param ratio
-	 * @param center
+	 * @param cons construction
+	 * @param ratio dilation ratio
+	 * @param center dilation center
 	 */
 	public TransformDilate(Construction cons,NumberValue ratio, GeoPoint2 center) {
 		this.ratio = ratio;

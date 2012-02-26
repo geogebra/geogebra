@@ -5,6 +5,9 @@ import java.util.ListIterator;
 
 import geogebra.common.main.AbstractApplication;
 
+/**
+ * Undo manager common to Desktop and Web
+ */
 public abstract class AbstractUndoManager {
 	
 	/** maximum capacity of undo info list: you can undo MAX_CAPACITY - 1 steps */
@@ -16,23 +19,32 @@ public abstract class AbstractUndoManager {
 	 *
 	 */
 	protected interface AppState {
-
+		/** deletes this application state (i.e. deletes file)*/
 		void delete();
 		
 	}
 	
-	protected AbstractApplication app;
+	/** application */
+	public AbstractApplication app;
+	/** construction */
 	protected Construction construction;
+	/** list of undo steps */
 	protected LinkedList<AppState> undoInfoList;
-	protected ListIterator<AppState> iterator; // invariant: iterator.previous() is
-											// the current state
-
+	/** invariant: iterator.previous() is current state */
+	public ListIterator<AppState> iterator; 
+	/**
+	 * @param cons construction
+	*/
 	public AbstractUndoManager(Construction cons) {
 		construction = cons;
 		app = cons.getApplication();
 		undoInfoList = new LinkedList<AppState>();
 	}
-
+	/**
+	 * Processes XML
+	 * @param string XML string
+	 * @throws Exception on trouble with parsing or running commands
+	 */
 	public abstract void processXML(String string) throws Exception;
 
 	/**
@@ -58,6 +70,9 @@ public abstract class AbstractUndoManager {
 		}
 	}
 	
+	/**
+	 * Update undo/redo buttons in GUI
+	 */
 	protected void updateUndoActions() {
 		if (app.isUsingFullGui())
 			app.getGuiManager().updateActions();
@@ -75,6 +90,9 @@ public abstract class AbstractUndoManager {
 	}
 
 	
+	/**
+	 * Store undo info
+	 */
 	public void storeUndoInfo() {
 		storeUndoInfo(false);
 	}
@@ -102,6 +120,7 @@ public abstract class AbstractUndoManager {
 	
 	/**
 	 * Returns whether undo operation is possible or not.
+	 * @return whether undo operation is possible or not.
 	 */
 	public boolean undoPossible() {
 		if (!app.isUndoActive())
@@ -111,6 +130,7 @@ public abstract class AbstractUndoManager {
 
 	/**
 	 * Returns whether redo operation is possible or not.
+	 * @return whether redo operation is possible or not.
 	 */
 	public boolean redoPossible() {
 		if (!app.isUndoActive())
@@ -118,12 +138,26 @@ public abstract class AbstractUndoManager {
 		return iterator.hasNext();
 	}
 
+	/**
+	 * Stores undo info after pasting or adding new objects
+	 */
 	public abstract void storeUndoInfoAfterPasteOrAdd();
 	
-	public abstract void storeUndoInfo(boolean b);
+	/**
+	 * Stores undo info
+	 * @param refresh true to restore current
+	 */
+	public abstract void storeUndoInfo(boolean refresh);
 	
+	/**
+	 * Loads undo info
+	 * @param state stored state
+	 */
 	protected abstract void loadUndoInfo(AppState state);
 	
+	/**
+	 * Clears all undo information
+	 */
 	protected synchronized void clearUndoInfo() {
 		undoInfoList.clear();
 		iterator = undoInfoList.listIterator();

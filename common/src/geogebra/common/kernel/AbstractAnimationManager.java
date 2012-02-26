@@ -7,18 +7,30 @@ import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.geos.GeoElement;
 
+/**
+ * Updates all animated geos based on slider ticks
+ */
 public abstract class AbstractAnimationManager {
-
+	/** animation time*/
 	public final static int STANDARD_ANIMATION_TIME = 10; // secs
+	/** max frames per second*/
 	public final static int MAX_ANIMATION_FRAME_RATE = 30; // frames per second
+	/** min frames per second */
 	public final static int MIN_ANIMATION_FRAME_RATE = 2; // frames per second
+	/** kernel */
 	protected Kernel kernel;
+	/** animated geos*/
 	protected ArrayList<GeoElement> animatedGeos;
+	/** changed geos*/
 	protected ArrayList<Animatable> changedGeos;
+	/** current frame rate*/
 	protected double frameRate = MAX_ANIMATION_FRAME_RATE;
 	private boolean needToShowAnimationButton;
 	
 	
+	/**
+	 * @param kernel2 kernel
+	 */
 	public AbstractAnimationManager(Kernel kernel2) {
 		this.kernel = kernel2;
 		animatedGeos = new ArrayList<GeoElement>();
@@ -29,6 +41,7 @@ public abstract class AbstractAnimationManager {
 	 * Returns whether the animation button needs to be drawn in the graphics
 	 * view. This is only needed when there are animated geos with non-dynamic
 	 * speed.
+	 * @return true if we need to draw animation button
 	 */
 	final public boolean needToShowAnimationButton() {
 		return needToShowAnimationButton;
@@ -68,7 +81,7 @@ public abstract class AbstractAnimationManager {
 	 */
 	final public synchronized void addAnimatedGeo(GeoElement geo) {
 		if (geo.isAnimating() && !animatedGeos.contains(geo)) {
-			animatedGeos.add((GeoElement) geo);
+			animatedGeos.add(geo);
 			// if (animatedGeos.size() == 1) removed, might have geos with
 			// variable controlling speed
 			updateNeedToShowAnimationButton();
@@ -89,6 +102,9 @@ public abstract class AbstractAnimationManager {
 											// variable controlling speed
 	}
 
+	/**
+	 * Starts animation
+	 */
 	public synchronized void startAnimation() {
 		if (!isRunning() && animatedGeos.size() > 0) {
 			updateNeedToShowAnimationButton();
@@ -96,6 +112,9 @@ public abstract class AbstractAnimationManager {
 		}
 	}
 
+	/**
+	 * Stops animation
+	 */
 	public synchronized void stopAnimation() {
 		if (isRunning()) {
 			stopTimer();
@@ -106,11 +125,15 @@ public abstract class AbstractAnimationManager {
 	/**
 	 * Returns whether the animation is currently paused, i.e. the animation is
 	 * not running but there are elements with "Animation on" set.
+	 * @return true when paused
 	 */
 	public boolean isPaused() {
 		return !isRunning() && animatedGeos.size() > 0;
 	}
 	
+	/**
+	 * Empties list of animated geos
+	 */
 	public void clearAnimatedGeos() {
 		for (int i = 0; i < animatedGeos.size(); i++) {
 			GeoElement geo = animatedGeos.get(i);
@@ -161,6 +184,9 @@ public abstract class AbstractAnimationManager {
 		return tempSet;
 	}
 	
+	/**
+	 * Perform one step
+	 */
 	protected void sliderStep(){
 		// skip animation frames while kernel is saving XML
 				if (kernel.isSaving())
@@ -200,12 +226,21 @@ public abstract class AbstractAnimationManager {
 	}
 	
 	/**
-	 * Returns whether the animation is currently running.
+	 * @return whether the animation is currently running.
 	 */
 	public abstract boolean isRunning();
 	
+	/**
+	 * @param i delay in miliseconds
+	 */
 	protected abstract void setTimerDelay(int i);
+	/**
+	 * stops timer
+	 */
 	protected abstract void stopTimer();
+	/**
+	 * starts timer
+	 */
 	protected abstract void startTimer();
 
 }

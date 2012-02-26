@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package geogebra.kernel;
 
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractUndoManager;
 import geogebra.common.main.AbstractApplication;
@@ -37,11 +36,24 @@ import java.security.PrivilegedAction;
  */
 public class UndoManager extends AbstractUndoManager {
 	
+	/**
+	 * Desktop version of ap stat: wrapper for file
+	 * @author kondr
+	 *
+	 */
 	protected class AppStateDesktop implements AppState{
 		private File f;
+		/**
+		 * Wrap file into app state
+		 * @param f file
+		 */
 		AppStateDesktop(File f){
 			this.f = f;
 		}
+		/**
+		 * Unwrap the file
+		 * @return file
+		 */
 		public File getFile(){
 			return f;
 		}
@@ -57,6 +69,7 @@ public class UndoManager extends AbstractUndoManager {
 
 	/**
 	 * Creates a new UndowManager for the given Construction.
+	 * @param cons construction
 	 */
 	public UndoManager(Construction cons) {
 		super(cons);
@@ -150,8 +163,11 @@ public class UndoManager extends AbstractUndoManager {
 
 	/**
 	 * Creates a temporary file containing the zipped undoXML.
+	 * @param undoXML XML string
+	 * @return temporary file
+	 * @throws IOException on file creation problem
 	 */
-	private synchronized static File createTempFile(StringBuilder undoXML)
+	synchronized static File createTempFile(StringBuilder undoXML)
 			throws IOException {
 		// create temp file
 		File tempFile = File.createTempFile(TEMP_FILE_PREFIX, ".ggb");

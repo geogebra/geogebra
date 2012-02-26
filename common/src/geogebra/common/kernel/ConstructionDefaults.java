@@ -45,62 +45,96 @@ import java.util.Set;
  * @author Markus Hohenwarter
  */
 public class ConstructionDefaults {
+	/** default alpha for polygons*/
 	public static final float DEFAULT_POLYGON_ALPHA = 0.1f;
 	
 	// DEFAULT GeoElement types
+	/** not a default geo*/
 	public static final int DEFAULT_NONE = -1;
+	/** default free point*/
 	public static final int DEFAULT_POINT_FREE = 10;
+	/** default dependent point*/
 	public static final int DEFAULT_POINT_DEPENDENT = 11;
+	/** default point on path*/
 	public static final int DEFAULT_POINT_ON_PATH = 12;
+	/** default point in region*/
 	public static final int DEFAULT_POINT_IN_REGION = 13;
+	/** default complex point*/
 	public static final int DEFAULT_POINT_COMPLEX =  14;
 	
+	/** default line*/
 	public static final int DEFAULT_LINE = 20;			
+	/** default segment*/
 	public static final int DEFAULT_SEGMENT = 21;			
+	/** default inequality*/
 	public static final int DEFAULT_INEQUALITY = 23; 
+	/** default one variable inequality*/
 	public static final int DEFAULT_INEQUALITY_1VAR = 24;
+	/** default vector*/
 	public static final int DEFAULT_VECTOR = 30;	
+	/** default conic*/
 	public static final int DEFAULT_CONIC = 40;
+	/** default conic sector*/
 	public static final int DEFAULT_CONIC_SECTOR = 41;
 		
+	/** default number*/
 	public static final int DEFAULT_NUMBER = 50;	
+	/** default angle*/
 	public static final int DEFAULT_ANGLE = 52;			
 	
+	/** default function*/
 	public static final int DEFAULT_FUNCTION = 60;		
+	/** default polygon*/
 	public static final int DEFAULT_POLYGON = 70;
+	/** default locus*/
 	public static final int DEFAULT_LOCUS = 80;
-	
+	/** default text*/
 	public static final int DEFAULT_TEXT = 100;
+	/** default image*/
 	public static final int DEFAULT_IMAGE = 110;
+	/** default boolean*/
 	public static final int DEFAULT_BOOLEAN = 120;
 	
+	/** default */
 	public static final int DEFAULT_LIST = 130;	
 	// DEFAULT COLORs
 	// points
+	/** default color for points*/
 	public static final Color colPoint = Color.blue;
+	/** default color for dependent points*/
 	public static final Color colDepPoint = Color.darkGray;
+	/** default color for points on path*/
 	public static final Color colPathPoint = GeoGebraColorConstants.LIGHTBLUE; //new Color(125, 125, 255);
+	/** default color for points in region*/
 	public static final Color colRegionPoint = colPathPoint;
+	/** default color for complex numbers*/
 	public static final Color colComplexPoint = colPoint;
 	
 	// lines
+	/** default color for lines*/
 	private static final Color colLine = Color.black;
+	/** default color for inequalities*/
 	private static final Color colInequality= Color.blue;
 
 	// conics
 	private static final Color colConic = Color.black;
+	/** default alpha for conics*/
 	public static final float DEFAULT_CONIC_ALPHA = 0f;
 
 	// polygons
+	/** default color for polygons*/
 	protected static final Color colPolygon = GeoGebraColorConstants.BROWN; //new Color(153, 51, 0);	
-	
+	/** default alpha for inequalities*/
 	public static final float DEFAULT_INEQUALITY_ALPHA = 0.25f;
 
 	// angles
+	/** default color for angles*/
 	private static final Color colAngle = GeoGebraColorConstants.DARKGREEN; //new Color(0, 100, 0);
+	/** default alpha for angles*/
 	public static final float DEFAULT_ANGLE_ALPHA = 0.1f;
 	
 	// numbers eg integrals, barcharts
+	/** default alpha for integrals, barcharts, ..*/
 	public static final float DEFAULT_NUMBER_ALPHA = 0.1f;
 
 	// locus lines	
@@ -123,10 +157,15 @@ public class ConstructionDefaults {
 			(int) (DEFAULT_POLYGON_ALPHA * 255));	
 	
 	// label visibility
-	public static final int LABEL_VISIBLE_AUTOMATIC = 0;	
+	/** label visible automatic*/
+	public static final int LABEL_VISIBLE_AUTOMATIC = 0;
+	/** label visible for all new objects */
 	public static final int LABEL_VISIBLE_ALWAYS_ON = 1;
+	/** label visible for no new objects */
 	public static final int LABEL_VISIBLE_ALWAYS_OFF = 2;
+	/** label visible only for new points */
 	public static final int LABEL_VISIBLE_POINTS_ONLY = 3;
+	/** label visible based on default geos */
 	public static final int LABEL_VISIBLE_USE_DEFAULTS = 4;
 	
 		
@@ -146,7 +185,7 @@ public class ConstructionDefaults {
 	/**
 	 * Creates a new ConstructionDefaults object to manage the
 	 * default objects of this construction.
-	 * @param cons2
+	 * @param cons2 construction
 	 */
 	public ConstructionDefaults(Construction cons2) {
 		this.cons = cons2;
@@ -161,9 +200,11 @@ public class ConstructionDefaults {
 	public Set<Map.Entry<Integer,GeoElement>> getDefaultGeos() {
 		return defaultGeoElements.entrySet();
 	}
-	
+	/** suffix for default free point name*/
 	protected String strFree = " (free)";
+	/** suffix for default dependent point name*/
 	protected String strDependent = " (dependent)";
+	/** suffix for default intersection*/
 	protected String strIntersection = " (intersection)";
 	
 	/**
@@ -382,6 +423,7 @@ public class ConstructionDefaults {
 	/**
 	 * Returns the xml of the default geos - just used by
 	 * GeoGebraPreferences 
+	 * @return XML string
 	 */
 	public String getCDXML() {	
 		
@@ -410,8 +452,8 @@ public class ConstructionDefaults {
 	/**
 	 * Adds a key/value pair to defaultGeoElements.
 	 * (used by Euclidian.EuclidianStyleBar to restore a default geo to previous state) 
-	 * @param defaultType 
-	 * @param geo 
+	 * @param defaultType default type 
+	 * @param geo geo
 	 */
 	public void addDefaultGeo(Integer defaultType, GeoElement geo) {
 		defaultGeoElements.put(defaultType, geo);		
@@ -520,7 +562,7 @@ public class ConstructionDefaults {
 		return type;
 	}	
 	
-	protected void setMaxLayerUsed(GeoElement geo, AbstractApplication app){
+	private static void setMaxLayerUsed(GeoElement geo, AbstractApplication app){
 		if (app != null) {
 			geo.setLayer(app.getMaxLayerUsed());
 		}
@@ -533,11 +575,10 @@ public class ConstructionDefaults {
 	 * @param geo The element which needs new default visual styles
 	 * @param isReset If the visual styles should be reset
 	 */
-	final public void setDefaultVisualStyles(GeoElement geoI, boolean isReset) {
+	final public void setDefaultVisualStyles(GeoElement geo, boolean isReset) {
 		// all object types that are not specifically supported
 		// should get the default values of a line
 		//int type = DEFAULT_LINE;
-		GeoElement geo = geoI;
 		int type = getDefaultType(geo);
 			
 		
@@ -596,30 +637,26 @@ public class ConstructionDefaults {
 		}*/
 	}
 	
+	/**
+	 * @param flag true for black-white
+	 */
 	public void setBlackWhiteMode(boolean flag) {
 		blackWhiteMode = flag;
 	}
 	
+	/**
+	 * @return whether blackwhite mode is active
+	 */
 	public boolean getBlackWhiteMode() {
 		return blackWhiteMode;
 	}
 	
-	public int getLineThicknessDefault() {
-		return lineThickness;
-	}
 	
-	public int getAngleSizeDefault() {
-		return angleSize;
-	}
 	
-	public int getPointSizeDefault() {
-		return pointSize;
-	}
 	
-	public float getAlphaDefault() {
-		return filling;
-	}
-	
+	/**
+	 * Reset construction defaults
+	 */
 	public void resetDefaults() {
 		lineThickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
 		pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
@@ -632,6 +669,9 @@ public class ConstructionDefaults {
 		setDefaultFilling(filling);	
 	}
 	
+	/**
+	 * @param angleSize new default angle size
+	 */
 	public void setDefaultAngleSize(int angleSize) {
 		
 		this.angleSize = Math.max(angleSize, 1);
@@ -650,6 +690,9 @@ public class ConstructionDefaults {
 		}		
 	}
 	
+	/**
+	 * @param pointSize new default point size
+	 */
 	public void setDefaultPointSize(int pointSize) {
 			
 		this.pointSize = Math.max(pointSize, 1);
@@ -671,6 +714,9 @@ public class ConstructionDefaults {
 		}		
 	}
 	
+	/**
+	 * @param lineThickness new default thickness
+	 */
 	public void setDefaultLineThickness(int lineThickness) {
 		
 		this.lineThickness = Math.max(lineThickness, 1);
@@ -691,6 +737,9 @@ public class ConstructionDefaults {
 			}
 		}		
 	}
+	/**
+	 * @param filling new default filling
+	 */
 	public void setDefaultFilling(float filling) {
 		
 		this.filling = filling;

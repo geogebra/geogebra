@@ -500,6 +500,7 @@ public class EquationSolver implements EquationSolverInterface {
 	 * @param eqn
 	 *            coefficients of polynomial
 	 */
+	@SuppressWarnings("deprecation")
 	private int laguerreAll(double[] eqn) {
 		// for fast evaluation of polynomial (used for root polishing)
 		PolyFunction polyFunc = new PolyFunction(eqn);
@@ -646,6 +647,7 @@ public class EquationSolver implements EquationSolverInterface {
 	 * Calculates all roots of a polynomial given by eqn using Laguerres method.
 	 * Polishes roots found. The roots are stored in eqn again.
 	 */
+	@SuppressWarnings("deprecation")
 	private int laguerreAllComplex(double[] real, double[] complex) {
 
 		Complex[] complexRoots = null;

@@ -18,8 +18,8 @@ public class TransformMirror extends Transform {
 	private GeoElement mirror;
 
 	/**
-	 * @param cons 
-	 * @param mirrorPoint
+	 * @param cons construction
+	 * @param mirrorPoint mirror point
 	 */
 	public TransformMirror(Construction cons,GeoPoint2 mirrorPoint) {
 		mirror = mirrorPoint;
@@ -27,8 +27,8 @@ public class TransformMirror extends Transform {
 	}
 
 	/**
-	 * @param cons 
-	 * @param mirrorCircle
+	 * @param cons construction
+	 * @param mirrorCircle mirror circle
 	 */
 	public TransformMirror(Construction cons,GeoConic mirrorCircle) {
 		mirror = mirrorCircle;
@@ -36,8 +36,8 @@ public class TransformMirror extends Transform {
 	}
 
 	/**
-	 * @param cons 
-	 * @param mirrorLine
+	 * @param cons construction
+	 * @param mirrorLine mirror line
 	 */
 	public TransformMirror(Construction cons,GeoLine mirrorLine) {
 		mirror = mirrorLine;

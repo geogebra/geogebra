@@ -12,10 +12,18 @@ import geogebra.common.util.Unicode;
  */
 public class StringTemplate {
 	
+	/**
+	 * Default template, but do not localize commands
+	 */
 	public static final StringTemplate noLocalDefault = new StringTemplate();
 	static{
 		noLocalDefault.localizeCmds = false;
 	}
+	
+	/**
+	 * Template which prints numbers with maximal precision and adds prefix to 
+	 * variables (ggbtmpvar)
+	 */
 	public static final StringTemplate prefixedDefault = new StringTemplate();
 	static {
 		prefixedDefault.forceSF = true;
@@ -72,12 +80,19 @@ public class StringTemplate {
 		editTemplate.nf = geogebra.common.factories.FormatFactory.prototype.getNumberFormat(GeoElement.MIN_EDITING_PRINT_PRECISION);
 		editTemplate.allowMoreDigits = true;
 	}
+	/**
+	 * Template for regression: uses 6 figures or 6 sig digits based on Kernel settings,
+	 * string type is XML
+	 */
 	public static StringTemplate regression = new StringTemplate();
 	static {
 		regression.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(6,20,false);
 		regression.nf = geogebra.common.factories.FormatFactory.prototype.getNumberFormat(6);
 		regression.setType(StringType.GEOGEBRA_XML);
 	}
+	/**
+	 * Default template, just inccreases precision to max
+	 */
 	public static StringTemplate maxPrecision = new StringTemplate();
 	static {
 		maxPrecision.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
@@ -124,6 +139,11 @@ public class StringTemplate {
 		return casPrintFormPI;
 	}
 	
+	/**
+	 * Creates new string template with given type
+	 * @param t string type
+	 * @return template
+	 */
 	public static StringTemplate get(StringType t){
 		if(t==null||t.equals(StringType.GEOGEBRA)){
 			return defaultTemplate; 
@@ -165,11 +185,21 @@ public class StringTemplate {
 
 		
 	}
-
+	/**
+	 * Returns whether scientific format (sig digits) should be used
+	 * (default templates return the input)
+	 * @param kernelUsesSF kernel setting of SF
+	 * @return  whether scientific format (sig digits) should be used
+	 */
 	public boolean useScientific(boolean kernelUsesSF){
 		return forceSF || (kernelUsesSF && !forceNF);
 	}
 	
+	/**
+	 * Convenience method instead of getStringType().equals()
+	 * @param t string type
+	 * @return true if this template uses given type equals
+	 */
 	public boolean hasType(StringType t){
 		return stringType.equals(t);
 	}
@@ -178,6 +208,7 @@ public class StringTemplate {
 	/**
 	 * @param type string type
 	 * @param decimals number of decimal places
+	 * @param allowMore  true to use kernel's precision, if it's higher 
 	 * @return template
 	 */
 	public static StringTemplate printDecimals(StringType type, int decimals,boolean allowMore) {
@@ -189,11 +220,17 @@ public class StringTemplate {
 		return tpl;
 	}
 	
-	public static StringTemplate printFigures(StringType mpreduce, int decimals,boolean allowMore) {
+	/**
+	 * @param type string type
+	 * @param decimals figures
+	 * @param allowMore true to use kernel's precision, if it's higher
+	 * @return template with given parameters
+	 */
+	public static StringTemplate printFigures(StringType type, int decimals,boolean allowMore) {
 		StringTemplate tpl = new StringTemplate();
 		tpl.forceSF = true;
 		tpl.allowMoreDigits = allowMore;
-		tpl.setType(mpreduce);
+		tpl.setType(type);
 		tpl.sf=geogebra.common.factories.FormatFactory.prototype.getScientificFormat(decimals,20,false);
 		return tpl;
 	}
@@ -230,6 +267,9 @@ public class StringTemplate {
 	public int getCoordStyle(int coordStyle) {
 		return coordStyle;
 	}
+	/**
+	 * @return true if variable prefix should be used
+	 */
 	public boolean isUseTempVariablePrefix() {
 		return usePrefix;
 	}

@@ -36,17 +36,18 @@ import geogebra.common.main.AbstractApplication;
 
 /**
  * 
- * @author markus
- * @version
+ * @author Markus
  */
-public class Relation extends java.lang.Object {
+public class Relation {
 
 	private AbstractApplication app;
-	private Kernel kernel;
 	private Construction cons;
 
+	/**
+	 * Creates new relation
+	 * @param kernel kernel
+	 */
 	public Relation(Kernel kernel) {
-		this.kernel = kernel;
 		app = kernel.getApplication();
 		cons = kernel.getConstruction();
 	}
@@ -54,6 +55,9 @@ public class Relation extends java.lang.Object {
 	/**
 	 * description of the relation between two GeoElements a, b (equal,
 	 * incident, intersect, parallel, linear dependent, tangent of, ...)
+	 * @param a first geo
+	 * @param b second geo
+	 * @return string describing relation between these two
 	 */
 	final public String relation(GeoElement a, GeoElement b) {
 		// check defined state

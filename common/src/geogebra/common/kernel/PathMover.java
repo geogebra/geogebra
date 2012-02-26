@@ -14,21 +14,29 @@ package geogebra.common.kernel;
 
 import geogebra.common.kernel.geos.GeoPoint2;
 
+/**
+ * @author Markus
+ */
 public interface PathMover {
-	
+	/** minimal number of steps*/
 	public static final int MIN_STEPS = 128; // 128;
+	/** ratio for slowing down*/
 	public static final double STEP_DECREASE_FACTOR = 0.5;
+	/** ratio for speeding up*/
 	public static final double STEP_INCREASE_FACTOR = 2;
-		
+	/** minimal step width*/
 	public static final double MIN_STEP_WIDTH = 1E-8;
+	/** normalized parameter is defined on open interval,
+	 * to avoid the borders, we use this offset*/
 	public static final double OPEN_BORDER_OFFSET = 1E-5;	
-	
+	/** maximal number of points*/
 	public static final int MAX_POINTS = 10000;
 	
 	/**
 	 * Inits the path mover using a point p on the path
 	 * and sets the orientation to positive.
 	 * Note: the path parameter of p may be changed here!
+	 * @param p initial point
 	 */
 	public void init(GeoPoint2 p);	
 	
@@ -40,20 +48,21 @@ public interface PathMover {
 	
 	/**
 	 * Sets point p to the current position on the path
+	 * @param p current position
 	 */
 	public void getCurrentPosition(GeoPoint2 p);
 	
 	/**
 	 * Sets point p to the next position on the path
+	 * @param p point to be set
 	 * @return true: draw line to point p; false: move to point p
 	 */
 	public boolean getNext(GeoPoint2 p);
 	
 	/**
-	 * Returns false whenever the next call of getNext() 
+	 * @return false whenever the next call of getNext() 
      * would lead to passing the init path parameter
      * (note: there are two orientations) 
-	 * @return 
 	 */
 	public boolean hasNext();	
 	
@@ -63,7 +72,7 @@ public interface PathMover {
 	public void resetStartParameter();
 	
 	/**
-	 * @return
+	 * @return current path parameter
 	 */
 	public double getCurrentParameter();
 	
@@ -76,31 +85,32 @@ public interface PathMover {
 	/**
 	 * Returns whether the orientation of moving along the
 	 * path is positive.
-	 * @return 
+	 * @return true for positive orientation
 	 */
 	public boolean hasPositiveOrientation();	
 	
 	/**
 	 * Decreases the step width. Returns wheter this was possible. 
+	 * @return true if it was possible
 	 */
 	public boolean smallerStep();
 	
 	/**
 	 * Increases the step width. Returns whether this was possible.	 
-	 * @return 
+	 * @return true if it was possible
 	 */
 	public boolean biggerStep();
 	
 	/**
 	 * Sets step width. Returns whether this was possible.	 
-	 * @param step 
-	 * @return 
+	 * @param step step width
+	 * @return true if this was possible
 	 */
 	public boolean setStep(double step);
 	
 	/**
 	 * Get step width.	 	 
-	 * @return 
+	 * @return step
 	 */
 	public double getStep();
 	

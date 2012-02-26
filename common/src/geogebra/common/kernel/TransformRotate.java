@@ -19,8 +19,8 @@ public class TransformRotate extends Transform {
 	private NumberValue angle;
 
 	/**
-	 * @param cons 
-	 * @param angle
+	 * @param cons construction
+	 * @param angle rotation angle
 	 */
 	public TransformRotate(Construction cons,NumberValue angle) {
 		this.angle = angle;
@@ -28,9 +28,9 @@ public class TransformRotate extends Transform {
 	}
 	
 	/**
-	 * @param cons 
-	 * @param angle
-	 * @param center
+	 * @param cons construction
+	 * @param angle rotation angle
+	 * @param center rotation center
 	 */
 	public TransformRotate(Construction cons,NumberValue angle,GeoPoint2 center) {
 		this.angle = angle;

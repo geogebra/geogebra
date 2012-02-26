@@ -6,6 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
+/**
+ * Desktop version of animation manager
+ *
+ */
 public class AnimationManager extends AbstractAnimationManager implements
 		ActionListener {
 
@@ -13,6 +17,10 @@ public class AnimationManager extends AbstractAnimationManager implements
 	private Timer timer;
 	
 
+	/**
+	 * Creates new animation manager
+	 * @param kernel kernel
+	 */
 	public AnimationManager(Kernel kernel) {
 		super(kernel);
 
@@ -28,6 +36,7 @@ public class AnimationManager extends AbstractAnimationManager implements
 	}
 
 
+	@Override
 	public boolean isRunning() {
 		return timer.isRunning();
 	}

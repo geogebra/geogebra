@@ -13,10 +13,16 @@ package geogebra.common.kernel;
 public class PointPairList {
 	private PointPair head;
 
+	/**
+	 * @return whether this list is empty
+	 */
 	final public boolean isEmpty() {
 		return head == null;
 	}
 
+	/**
+	 * Clears the list
+	 */
 	public final void clear() {
 		head = null;
 	}
@@ -24,6 +30,11 @@ public class PointPairList {
 	/**
 	 * Inserts pair (indexD, indexQ) in ascending order of distance where alive
 	 * points come before others and points Q on path come before others.
+	 * @param indexD index of point in D
+	 * @param isPalive tru if point in P is alive
+	 * @param indexQ  index of point in Q
+	 * @param isQonPath true if point in Q is on path
+	 * @param distance distance between point in D and point in Q
 	 */
 	public final void insertPointPair(int indexD, boolean isPalive, int indexQ,
 			boolean isQonPath, double distance) {
@@ -94,6 +105,7 @@ public class PointPairList {
 	/**
 	 * Removes all PointPairs where indexP == pair.indexP or indexQ ==
 	 * pair.indexQ
+	 * @param pair pair such that pairs with one same point must be removed
 	 */
 	public final void removeAllPairs(PointPair pair) {
 		if (head == null)
@@ -119,6 +131,9 @@ public class PointPairList {
 		}
 	}
 
+	/**
+	 * @return first pair in the list
+	 */
 	public final PointPair getHead() {
 		return head;
 	}
