@@ -15,7 +15,7 @@
   "name": "__MSG_GeoGebraApp_name__",
   "options_page": "options.html",
   "permissions": [
-    "tabs", "http://*.geogebra.org/", "http://*.geogebratube.org/"
+    "tabs", "http://*.geogebra.org*", "http://*.geogebratube.org*"
    ],
   "version": "1.0"
 }
