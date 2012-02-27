@@ -70,6 +70,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -94,7 +95,7 @@ public class Application extends AbstractApplication {
 	private PlainConstants plainConstants;
 	private CommandConstants commandConstants;
 
-	private EuclidianViewPanel euclidianViewPanel;
+	private AbsolutePanel euclidianViewPanel;
 	private Canvas canvas;
 	private geogebra.common.plugin.GgbAPI ggbapi;
 	private HashMap<String, String> currentFile = null;
@@ -459,7 +460,7 @@ public class Application extends AbstractApplication {
 		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.web.euclidian.EuclidianStatic();
 
 		this.canvas = Canvas.createIfSupported();
-		euclidianViewPanel = new EuclidianViewPanel();
+		euclidianViewPanel = new AbsolutePanel();
 		euclidianViewPanel.add(this.canvas); // canvas must be the 1rst widget in the euclidianViewPanel
 		// because we will use euclidianViewPanel.getWidget(0) later
 		canvas.setWidth("1px");
@@ -507,7 +508,7 @@ public class Application extends AbstractApplication {
 		return canvas;
 	}
 
-	public EuclidianViewPanel getEuclidianViewpanel() {
+	public AbsolutePanel getEuclidianViewpanel() {
 		return euclidianViewPanel;
 	}
 

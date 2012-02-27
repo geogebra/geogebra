@@ -1,5 +1,7 @@
 package geogebra.web.euclidian;
 
+import java.util.ArrayList;
+
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Font;
 import geogebra.common.awt.Graphics2D;
@@ -16,6 +18,7 @@ import geogebra.common.javax.swing.Box;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoTextField;
@@ -60,7 +63,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	protected ImageElement resetImage, playImage, pauseImage, upArrowImage,
 	downArrowImage;
 
-	public EuclidianView(EuclidianViewPanel euclidianViewPanel,
+	public EuclidianView(AbsolutePanel euclidianViewPanel,
             AbstractEuclidianController euclidiancontroller, boolean[] showAxes,
             boolean showGrid, EuclidianSettings settings) {		
 		super(euclidiancontroller, settings);
@@ -90,28 +93,8 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 //		canvas.addGestureChangeHandler((EuclidianController)euclidiancontroller);
 //		canvas.addGestureEndHandler((EuclidianController)euclidiancontroller);
 		
-//		canvas.addKeyDownHandler(getApplication().getGlobalKeyDispatcher());
-//		canvas.addKeyUpHandler(getApplication().getGlobalKeyDispatcher());
-
-//		euclidianViewPanel.addClickHandler((EuclidianController)euclidiancontroller);	
-//		euclidianViewPanel.addMouseMoveHandler((EuclidianController)euclidiancontroller);
-//		euclidianViewPanel.addMouseOverHandler((EuclidianController)euclidiancontroller);
-//		euclidianViewPanel.addMouseOutHandler((EuclidianController)euclidiancontroller);
-//		euclidianViewPanel.addMouseDownHandler((EuclidianController)euclidiancontroller);
-//		euclidianViewPanel.addMouseUpHandler((EuclidianController)euclidiancontroller);
-//		euclidianViewPanel.addMouseWheelHandler((EuclidianController)euclidiancontroller);
-//		
-//		euclidianViewPanel.addTouchStartHandler((EuclidianController)euclidiancontroller);
-//		euclidianViewPanel.addTouchEndHandler((EuclidianController)euclidiancontroller);
-//		euclidianViewPanel.addTouchMoveHandler((EuclidianController)euclidiancontroller);
-//		euclidianViewPanel.addTouchCancelHandler((EuclidianController)euclidiancontroller);
-//		euclidianViewPanel.addGestureStartHandler((EuclidianController)euclidiancontroller);
-//		euclidianViewPanel.addGestureChangeHandler((EuclidianController)euclidiancontroller);
-//		euclidianViewPanel.addGestureEndHandler((EuclidianController)euclidiancontroller);
-//		
-//		euclidianViewPanel.addKeyDownHandler(getApplication().getGlobalKeyDispatcher());
-//		euclidianViewPanel.addKeyUpHandler(getApplication().getGlobalKeyDispatcher());
-
+		canvas.addKeyDownHandler(getApplication().getGlobalKeyDispatcher());
+		canvas.addKeyUpHandler(getApplication().getGlobalKeyDispatcher());
 		
 		euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, ClickEvent.getType());
 		euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, MouseMoveEvent.getType());
@@ -130,9 +113,9 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, GestureEndEvent.getType());
 		
 		//euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, KeyPressEvent.getType());
-		euclidianViewPanel.addKeyDownHandler(getApplication().getGlobalKeyDispatcher());
-		euclidianViewPanel.addKeyUpHandler(getApplication().getGlobalKeyDispatcher());
-		euclidianViewPanel.addKeyPressHandler(getApplication().getGlobalKeyDispatcher());
+//		euclidianViewPanel.addKeyDownHandler(getApplication().getGlobalKeyDispatcher());
+//		euclidianViewPanel.addKeyUpHandler(getApplication().getGlobalKeyDispatcher());
+//		euclidianViewPanel.addKeyPressHandler(getApplication().getGlobalKeyDispatcher());
 		
 		if ((evNo == 1) || (evNo == 2)) {
 			EuclidianSettings es = getApplication().getSettings().getEuclidian(evNo);

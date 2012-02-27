@@ -19,23 +19,17 @@ import geogebra.common.util.CopyPaste;
 import geogebra.web.euclidian.EuclidianView;
 import geogebra.web.gui.app.GeoGebraFrame;
 
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import javax.swing.JTable;
-import javax.swing.text.JTextComponent;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 
 public class GlobalKeyDispatcher extends
-        geogebra.common.main.GlobalKeyDispatcher implements KeyUpHandler, KeyDownHandler, KeyPressHandler {
+        geogebra.common.main.GlobalKeyDispatcher implements KeyUpHandler, KeyDownHandler {
 
 	public GlobalKeyDispatcher(AbstractApplication app) {
 		this.app = app;
@@ -52,7 +46,7 @@ public class GlobalKeyDispatcher extends
 		event.preventDefault();
 		event.stopPropagation();
 		//no it is private, but can be public, also it is void, but can return boolean as in desktop, if needed
-	    dispatchEvent(event);
+		dispatchEvent(event);
     }
 
 	private void dispatchEvent(KeyUpEvent event) {
@@ -626,34 +620,6 @@ public class GlobalKeyDispatcher extends
 	    event.stopPropagation();
     }
 
-	public void onKeyPress(KeyPressEvent event) {
-		
-		//Application.debug("keypressevent");
-//		char ch = event.getCharCode();
-//			GeoElement geo;
-//			if (app.selectedGeosSize() == 1) {
-//				// selected geo
-//				geo = app.getSelectedGeos().get(0);
-//			} else {
-//				// last created geo
-//				geo = app.getLastCreatedGeoElement();
-//			}
-//
-//			// open rename dialog
-//			if (geo != null) {
-//
-//				if (geo instanceof GeoTextField) {
-//					DrawTextField dt =
-//							(DrawTextField) app.getActiveEuclidianView().getDrawableFor(geo);
-//					dt.setFocus(ch+"");
-//				} else {
-////					app.getDialogManager()
-////							.showRenameDialog(geo, true,
-////									Character.toString(ch), false);
-//				}
-//				
-//			}
-		}
 	/**
 	 * Handle pressed key for selected GeoElements
 	 * 

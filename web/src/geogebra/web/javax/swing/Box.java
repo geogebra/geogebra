@@ -46,8 +46,6 @@ public class Box extends geogebra.common.javax.swing.Box{
 	    impl.setWidth(rect.getWidth() + "");
 	    impl.setHeight(rect.getHeight() + "");
 	    
-	    
-	    //Maybe we must work with this: AbsolutePanel.setWidgetPosition(Widget w, int left, int top) 
 	    if (impl.getParent() instanceof AbsolutePanel){
 	    	((AbsolutePanel)(impl.getParent())).
 	    		setWidgetPosition(impl, (int)rect.getMinX(), (int)rect.getMinY());
