@@ -44,7 +44,7 @@ import java.util.HashSet;
  * @version 
  */
 final public class Geo3DVec extends ValidExpression
-implements Vector3DValue, geogebra.common.adapters.Geo3DVec {        
+implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {        
 
     public double x = Double.NaN;
     public double y = Double.NaN;    
@@ -638,7 +638,7 @@ implements Vector3DValue, geogebra.common.adapters.Geo3DVec {
 			return kernel;
 		}
 
-		public boolean isEqual(geogebra.common.adapters.Geo3DVec vec) {
+		public boolean isEqual(geogebra.common.kernel.kernelND.Geo3DVec vec) {
 			Geo3DVec v= (Geo3DVec) vec;
 			return Kernel.isEqual(x, v.x) && Kernel.isEqual(y, v.y) && Kernel.isEqual(z, v.z);
 		}

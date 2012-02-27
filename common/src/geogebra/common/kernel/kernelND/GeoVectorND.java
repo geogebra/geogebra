@@ -1,6 +1,6 @@
 package geogebra.common.kernel.kernelND;
 
-import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.Matrix.Coords;
 
 /**
@@ -9,31 +9,37 @@ import geogebra.common.kernel.Matrix.Coords;
  * @author ggb3D
  *
  */
-public interface GeoVectorND extends GeoDirectionND {
+public interface GeoVectorND extends GeoDirectionND, Locateable {
 
 	void setLabel(String label);
 
-	void setStartPoint(GeoPointND p) throws CircularDefinitionException;
-
-	GeoPointND getStartPoint();
-
 	void setUndefined();
 	
+	/**
+	 * @param c coordinates as array
+	 */
 	public void setCoords(double[] c);
 	
 	
 	/**
-	 * @param dimension
+	 * @param dimension dimension of desired coordinates
 	 * @return the coords of the vector in the given dimension (extended or projected)
 	 */
 	public Coords getCoordsInD(int dimension);
 
+	/**
+	 * UPdates start point
+	 */
 	void updateStartPointPosition();
 
-	boolean getTrace();
-
+	/**
+	 * @return true if all coords are finite
+	 */
 	boolean isFinite();
 
+	/**
+	 * @param coords array to store inhomogeneous coords
+	 */
 	void getInhomCoords(double[] coords);
 
 

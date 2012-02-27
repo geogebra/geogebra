@@ -15,14 +15,10 @@ package geogebra.gui;
 import geogebra.common.factories.FormatFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.main.Application;
 
 import java.awt.Dimension;
-import java.text.NumberFormat;
-import java.util.Locale;
-
 import javax.swing.JComboBox;
 
 public class NumberComboBox extends JComboBox {

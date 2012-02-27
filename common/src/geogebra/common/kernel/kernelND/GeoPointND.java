@@ -1,18 +1,13 @@
 package geogebra.common.kernel.kernelND;
 
-import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.LocateableList;
 import geogebra.common.kernel.Path;
+import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Region;
-import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.ToGeoElement;
-import geogebra.common.kernel.LocateableList;
-import geogebra.common.kernel.PathParameter;
-import geogebra.common.kernel.RegionParameters;
+import geogebra.common.kernel.geos.PointProperties;
 
 
 
@@ -24,46 +19,62 @@ import geogebra.common.kernel.RegionParameters;
  *
  */
 
-public interface GeoPointND extends ToGeoElement{
+public interface GeoPointND extends GeoElementND, PointProperties{
 
 	
-	/** Returns whether this point has changeable numbers as coordinates */
+	/** @return whether this point has changeable numbers as coordinates */
 	public boolean hasChangeableCoordParentNumbers();
 
-	public void setLabel(String string);
-
-	public boolean isLabelSet();
-
-	public String getLabel(StringTemplate tpl);
-
-	public boolean isInfinite();
-
-	public boolean showInEuclidianView();
-
-	public void remove();
-	
-	public boolean getSpreadsheetTrace();
-
+	/**
+	 * @return region parameters if this is point in region
+	 */
 	public RegionParameters getRegionParameters();
 
+	/**
+	 * Update coords for 2D from homogeneous coords
+	 */
 	public void updateCoords2D();
 
+	/**
+	 * @return x-coord for 2D
+	 */
 	public double getX2D();
 	
+	/**
+	 * @return y-coord for 2D
+	 */
 	public double getY2D();
 
+	/**
+	 * @param b update
+	 * @param coordsys coordinate system of 2D view
+	 */
 	public void updateCoordsFrom2D(boolean b, CoordSys coordsys);
 
-	public boolean isPointOnPath();
-
+	/**
+	 * @return mode (complex / polar / cartesian)
+	 */
 	public int getMode();
 	
+	/**
+	 * @return true if all coords are finite
+	 */
 	public boolean isFinite();
 
+	/**
+	 * @param p copy algebraic properties from another point
+	 */
 	public void set(GeoPointND p);
 	
+	/**
+	 * @return string representation for XML if this is start point
+	 * for some locateable
+	 */
 	public String getStartPointXML();
 	
+	/**
+	 * @return list of locateables this is a start point of
+	 */
 	public LocateableList getLocateableList();
 
 	/** return the coordinates of the vector (this,Q) 
@@ -72,30 +83,49 @@ public interface GeoPointND extends ToGeoElement{
 	public double[] vectorTo(GeoPointND Q);
 	
 	
+	/**
+	 * @return inhomogeneous coords
+	 */
 	public Coords getInhomCoords();
 	
+	/**
+	 * @param coords homogeneous coords
+	 */
 	public void getInhomCoords(double[] coords);
-	
-	public double distance(GeoPointND P);
 
-	public boolean isPointInRegion();
-	
-	public int getPointSize();
-	
+	/**
+	 * @return true if this is point on path
+	 *TODO merge with isPointOnPath
+	 */
 	public boolean hasPath();
 	
+	/**
+	 * @return path parameter
+	 */
 	public PathParameter getPathParameter();
 	
-	//public void doPath();
-	
+	/**
+	 * @return true if this is point in region
+	 */
 	public boolean hasRegion();
 	
 	/** 
 	 * Sets homogeneous coordinates and updates
 	 * inhomogeneous coordinates
+	 * @param x first coord
+	 * @param y second coord
+	 * @param z third coord
 	 */
 	public void setCoords(double x, double y, double z);
 	
+	/**
+	 * Sets homogeneous coordinates and updates
+	 * inhomogeneous coordinates
+	 * @param x first coord
+	 * @param y second coord
+	 * @param z third coord
+	 * @param w fourth coord
+	 */
 	public void setCoords(double x, double y, double z, double w);
 	
 
@@ -110,34 +140,37 @@ public interface GeoPointND extends ToGeoElement{
     /** set 2D coords
      * @param x x-coord
      * @param y y-coord
+     * @param z z-coord
      */
     public void setCoords2D(double x, double y, double z);
     
 	
 	/**
-	 * @param dimension
+	 * @param dimension dimension
 	 * @return the coords of the point in the given dimension (extended or projected)
 	 */
 	public Coords getInhomCoordsInD(int dimension);
 	
 	/**
-	 * @param dimension
+	 * @param dimension dimension
 	 * @return the coords of the point in the given dimension (extended or projected)
 	 */
 	public Coords getCoordsInD(int dimension);
 	
 	/**
-	 * @param coordSys
+	 * @param coordSys coord system
 	 * @return the coords of the point in 2D (projected on coord sys)
 	 */
 	public Coords getCoordsInD2(CoordSys coordSys);
 
-	public int getPointStyle();
-
-	public boolean getTrace();
-
+	/**
+	 * @return path on which this point lies
+	 */
 	public Path getPath();
 
+	/**
+	 * @return region in which this point lies
+	 */
 	public Region getRegion();
 	
 	
@@ -145,9 +178,11 @@ public interface GeoPointND extends ToGeoElement{
 	// MOVING THE POINT (3D)
 	/////////////////////////////////////////
 	
-	
+	/** cannot move */
 	public static int MOVE_MODE_NONE = 0; //for intersection points and fixed points
+	/** cna move in xy directions */
 	public static int MOVE_MODE_XY = 1;
+	/** can move in z direction*/
 	public static int MOVE_MODE_Z = 2;
 	
 	/**
@@ -161,25 +196,31 @@ public interface GeoPointND extends ToGeoElement{
 	 */
 	public int getMoveMode();
 
-	public boolean isDefined();
-
+	/**
+	 * Update inhomogenous coords based on homegenous
+	 */
 	public void updateCoords();
 
-	public void setUndefined();
-
+	/**
+	 * @param b flag to show/hide this in AV when undefined
+	 */
 	public void showUndefinedInAlgebraView(boolean b);
-
+	/**
+	 * @return copy of this point
+	 */
 	public GeoPointND copy();
 
+	/**
+	 * @return tue if this is start point and 
+	 * has absolute screen position
+	 */
 	public boolean isAbsoluteStartPoint();
 
-	public GeoElement copyInternal(Construction cons);
 
-	public boolean isIndependent();
-
-	public AlgoElement getParentAlgorithm();
-
-	public Kernel getKernel();
+	/**
+	 * @return true if this can be displayed in EV
+	 */
+	public boolean showInEuclidianView();
 
 	
 	//private boolean movePointMode = MOVE_POINT_MODE_XY;

@@ -853,20 +853,20 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	/**
 	 * left hand side as String : ax + by + c
+	 * @param sb string builder
 	 * @param tpl string template
-	 * 
-	 * @return left hand side as ax + by + c
 	 */
-	final public StringBuilder toStringLHS(StringTemplate tpl) {
+	@SuppressWarnings("cast")
+	final public void toStringLHS(StringBuilder sb,StringTemplate tpl) {
 		double[] g = new double[3];
 
 		if (isDefined()) {
 			g[0] = x;
 			g[1] = y;
 			g[2] = z;
-			return kernel.buildLHS(g, vars, KEEP_LEADING_SIGN, true,tpl);
+			sb.append(kernel.buildLHS(g, vars, KEEP_LEADING_SIGN, true,tpl));
 		}
-		return sbToStringLHS;
+		sb.append((CharSequence)sbToStringLHS);
 	}
 
 	private static StringBuilder sbToStringLHS = new StringBuilder("\u221E");

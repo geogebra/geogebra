@@ -366,4 +366,11 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 	protected void doTranslate(Coords v) {
 		coordSys.translate(v);
 	}
+
+	public void matrixTransform(double a00, double a01, double a02, double a10,
+			double a11, double a12, double a20, double a21, double a22) {
+		setUndefined();
+		// TODO Auto-generated method stub
+		
+	}
 }

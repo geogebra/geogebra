@@ -23,7 +23,6 @@ package geogebra.common.kernel.geos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.CircularDefinitionException;
-import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
@@ -49,7 +48,7 @@ import java.util.Iterator;
  * @author  Markus
  */
 final public class GeoVector extends GeoVec3D
-implements Path, VectorValue, Locateable, Translateable, PointRotateable, Mirrorable, Dilateable, MatrixTransformable, 
+implements Path, VectorValue, Translateable, PointRotateable, Mirrorable, Dilateable, MatrixTransformable, 
 Transformable, GeoVectorND, SpreadsheetTraceable {
 
 	private GeoPoint2 startPoint;
@@ -467,7 +466,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		case Kernel.COORD_COMPLEX:              	
 			sbBuildValueString.append(kernel.format(x,tpl));
 			sbBuildValueString.append(" ");
-			sbBuildValueString.append((CharSequence)kernel.formatSigned(y,tpl));
+			kernel.formatSigned(y,sbBuildValueString,tpl);
 			sbBuildValueString.append(Unicode.IMAGINARY);
 			break;                                
 
@@ -687,7 +686,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		case Kernel.COORD_COMPLEX:              	
 			sb.append(kernel.format(x,tpl));
 			sb.append(" ");
-			sb.append((CharSequence)kernel.formatSigned(y,tpl));
+			kernel.formatSigned(y,sb,tpl);
 			sb.append(Unicode.IMAGINARY);
 			break;                                
 

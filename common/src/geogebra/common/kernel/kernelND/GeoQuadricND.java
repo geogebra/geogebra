@@ -3,11 +3,9 @@ package geogebra.common.kernel.kernelND;
 import java.util.ArrayList;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.geos.ChangeableCoordParent;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -283,6 +281,7 @@ public abstract class GeoQuadricND extends GeoElement implements GeoQuadricNDCon
 	
 
 	
+	@Override
 	public void setUndefined() {
 		defined = false;
 		//type = GeoConic.CONIC_EMPTY;
@@ -327,6 +326,7 @@ public abstract class GeoQuadricND extends GeoElement implements GeoQuadricNDCon
 	
 	
 	
+	@Override
 	public boolean isDefined() {
 		return defined;
 	}
@@ -359,6 +359,7 @@ public abstract class GeoQuadricND extends GeoElement implements GeoQuadricNDCon
 	 * in implicit mode: a x\u00b2 + b xy + c y\u00b2 + d x + e y + f = 0. 
 	 * in specific mode: y\u00b2 = ...  , (x - m)\u00b2 + (y - n)\u00b2 = r\u00b2, ...
 	 */
+	@Override
 	public String toString(StringTemplate tpl) {	
 		getSbToString();
 		sbToString.setLength(0);
@@ -375,6 +376,7 @@ public abstract class GeoQuadricND extends GeoElement implements GeoQuadricNDCon
 		return sbToString;
 	}
 	
+	@Override
 	public String toValueString(StringTemplate tpl) {
 		return buildValueString(tpl).toString();	
 	}	
@@ -409,7 +411,7 @@ public abstract class GeoQuadricND extends GeoElement implements GeoQuadricNDCon
 				sbToValueString.append("(");
 				sbToValueString.append(VAR_STRING[i]);
 				sbToValueString.append(" ");
-				sbToValueString.append((CharSequence)kernel.formatSigned(-getMidpoint().get(i+1),tpl).toString());
+				kernel.formatSigned(-getMidpoint().get(i+1),sbToValueString,tpl);
 				sbToValueString.append(")");
 				sbToValueString.append(squared);
 			}	

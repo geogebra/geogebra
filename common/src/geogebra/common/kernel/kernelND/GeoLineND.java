@@ -13,8 +13,8 @@ public interface GeoLineND extends GeoDirectionND{
 	
 	
 	/** returns the point at position lambda on the coord sys in the dimension given
-	 * @param dimension 
-	 * @param lambda 
+	 * @param dimension dimension of returned point
+	 * @param lambda position on the line
 	 * @return the point at position lambda on the coord sys  
 	 * */
 	public Coords getPointInD(int dimension, double lambda);
@@ -22,8 +22,7 @@ public interface GeoLineND extends GeoDirectionND{
 	public boolean getTrace();
 	
 	/**
-	 * 
-	 * @param m
+	 * @param m plane
 	 * @return the (a,b,c) equation vector that describe the line
 	 * in the plane described by the matrix m
 	 * (ie ax+by+c=0 is an equation of the line in the plane)
@@ -31,8 +30,6 @@ public interface GeoLineND extends GeoDirectionND{
 	public Coords getCartesianEquationVector(CoordMatrix m);
 	
 	/**
-	 * 
-	 * @param dimension 
 	 * @return coords of the starting point
 	 */
 	public Coords getStartInhomCoords();
@@ -54,30 +51,54 @@ public interface GeoLineND extends GeoDirectionND{
 
 	/**
 	 * 
-	 * @param p
-	 * @param minPrecision
+	 * @param p point
+	 * @param minPrecision precision
 	 * @return true if point is on the path
 	 */
 	public boolean isOnPath(GeoPointND p, double minPrecision);
 	
+	/**
+	 * @param coords point
+	 * @param eps precision
+	 * @return true if point is on path (with given precision)
+	 */
 	public boolean isOnPath(Coords coords, double eps);
 	
 	/**
 	 * when intersection point is calculated, check if not outside limited path (segment, ray)
-	 * @param coords
-	 * @param eps
+	 * @param coords point
+	 * @param eps precision
 	 * @return true if not outside
 	 */
 	public boolean respectLimitedPath(Coords coords, double eps);
 
+	/**
+	 * @param p point
+	 * @param minPrecision precision
+	 * @return true if point is on this line (ignoring limits for segment/ray)
+	 */
 	public boolean isOnFullLine(Coords p, double minPrecision);
 
+	/**
+	 * @return end point
+	 */
 	public GeoPointND getEndPoint();
 	
+	/**
+	 * @return start point
+	 */
 	public GeoPointND getStartPoint();
 
+	/**
+	 * @return true for polyhedral edges
+	 */
 	public boolean isFromPolyhedron();
 
+	/**
+	 * Removes a point from list of points that 
+	 * are registered as points on this line
+	 * @param point point to be removed
+	 */
 	public void removePointOnLine(GeoPointND point);
 
 }

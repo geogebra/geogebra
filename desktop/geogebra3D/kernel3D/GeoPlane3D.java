@@ -103,6 +103,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	// /////////////////////////////////
 	// REGION INTERFACE
 
+	@Override
 	public boolean isRegion() {
 		return true;
 	}
@@ -251,27 +252,33 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		return ret;
 	}
 
+	@Override
 	public Coords getMainDirection() {
 
 		return getCoordSys().getNormal();
 	}
 
+	@Override
 	public Coords getLabelPosition() {
 		return getCoordSys().getPoint(0.5, 0.5);
 	}
 
+	@Override
 	public String getClassName() {
 		return "GeoPlane3D";
 	}
 
+	@Override
 	public String getTypeString() {
 		return "Plane3D";
 	}
 
+	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.PLANE3D;
 	}
 
+	@Override
 	public GeoElement copy() {
 		GeoPlane3D p = new GeoPlane3D(cons);
 
@@ -286,11 +293,13 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		return p;
 	}
 
+	@Override
 	public boolean isEqual(GeoElement Geo) {
 		// TODO Raccord de méthode auto-généré
 		return false;
 	}
 
+	@Override
 	public void set(GeoElement geo) {
 
 		if (geo instanceof GeoPlane3D) {
@@ -301,6 +310,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	}
 
+	@Override
 	public void setVisualStyle(GeoElement geo) {
 		super.setVisualStyle(geo);
 		if (geo.isGeoPlane()) {
@@ -308,24 +318,29 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		}
 	}
 
+	@Override
 	public void setUndefined() {
 		// TODO Raccord de méthode auto-généré
 
 	}
 
+	@Override
 	public boolean showInAlgebraView() {
 		return true;
 	}
 
+	@Override
 	protected boolean showInEuclidianView() {
 		// TODO Raccord de méthode auto-généré
 		return true;
 	}
 
+	@Override
 	public String toValueString(StringTemplate tpl) {
 		return buildValueString(tpl).toString();
 	}
 
+	@Override
 	final public String toString(StringTemplate tpl) {
 
 		StringBuilder sbToString = getSbToString();
@@ -344,6 +359,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	}
 
 	/** to be able to fill it with an alpha value */
+	@Override
 	public boolean isFillable() {
 		return true;
 	}
@@ -380,18 +396,22 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		return coordsys;
 	}
 
+	@Override
 	public boolean isDefined() {
 		return coordsys.isDefined();
 	}
 
+	@Override
 	public boolean isMoveable() {
 		return false;
 	}
 
+	@Override
 	public String getDefaultLabel() {
 		return getDefaultLabel(Labels, false);
 	}
 
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 
@@ -420,6 +440,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	}
 
+	@Override
 	public boolean isGeoPlane() {
 		return true;
 	}
@@ -451,6 +472,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	}
 
+	@Override
 	public void update() {
 		super.update();
 		if (euclidianViewForPlane != null) {
@@ -477,6 +499,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		return getCoordSys().getNormal();
 	}
 
+	@Override
 	public double getMeasure() {
 		return Double.POSITIVE_INFINITY;
 	}
@@ -491,8 +514,14 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		getCoordSys().makeEquationVector();
 	}
 
+	@Override
 	public boolean isTranslateable() {
 		return true;
+	}
+
+	public boolean getTrace() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

@@ -20,7 +20,7 @@ package geogebra.common.kernel.arithmetic3D;
 
 
 import geogebra.common.kernel.arithmetic.ExpressionValue;
-import geogebra.common.adapters.Geo3DVec;
+import geogebra.common.kernel.kernelND.Geo3DVec;
 
 /**
  *

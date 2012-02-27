@@ -19,6 +19,10 @@ import geogebra.common.kernel.geos.GeoElement;
 
 
 
+/**
+ * Generic algo for intersection in n dimensions
+ *
+ */
 public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
 
     // gives the number of intersection algorithms
@@ -28,6 +32,9 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
     // used in setIntersectionPoint to remember all indices that have been set
     private boolean [] didSetIntersectionPoint;
 
+    /**
+     * @param c construction
+     */
     public AlgoIntersectND(Construction c) {
         super(c);
     }
@@ -43,10 +50,16 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
 	    }
 	}
     
+	/**
+	 * @return false
+	 */
 	protected boolean showUndefinedPointsInAlgebraView() {
     	return false;
     }
     
+	/**
+	 * Hide undefined points from algebra view, except first one
+	 */
 	protected void noUndefinedPointsInAlgebraView() {
     	 GeoPointND [] points = getIntersectionPoints();
     	 for (int i=1; i < points.length; i++) {
@@ -54,11 +67,15 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
     	 }
     }
     
-
+	/**
+	 * Increase number of users
+	 */
 	public void addUser() {
         numberOfUsers++;
     }
-
+	/**
+	 * Decrease number of users; if zero, remove this algo from kernel
+	 */
 	public void removeUser() {
         numberOfUsers--;
 
@@ -68,8 +85,9 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
             	kernel.removeIntersectionAlgorithm(this);
         }
     }
-
+	/** @return array of all intersection points*/
 	protected abstract GeoPointND[] getIntersectionPoints();
+	/** @return array of last defined intersection points*/
 	protected abstract GeoPointND[] getLastDefinedIntersectionPoints();
     
     /**
@@ -77,6 +95,8 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
      * This is needed when
      * loading constructions from a file to make sure the intersection points
      * remain at their saved positions.
+     * @param index index
+     * @param p point
      */
 	public final void setIntersectionPoint(int index, GeoPointND p) {  
     	GeoPointND [] points = getIntersectionPoints();
@@ -124,26 +144,30 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
     
 	/**
 	 * set destination coords equals to source coords
-	 * @param destination
-	 * @param source
+	 * @param destination destination point
+	 * @param source source point
 	 */
     abstract protected void setCoords(GeoPointND destination, GeoPointND source);
     //points[index].setCoords(p);  
     
     /**
      * Returns true if setIntersectionPoint was called for index-th point.
+     * @param index index of point
+     * @return true if setIntersectionPoint was called for index-th point.
      */
     protected boolean didSetIntersectionPoint(int index) {
     	return didSetIntersectionPoint != null && didSetIntersectionPoint[index];
     }
 
-    public String toString(StringTemplate tpl) {      
+    @Override
+	public String toString(StringTemplate tpl) {      
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("IntersectionPointOfAB",input[0].getLabel(tpl),input[1].getLabel(tpl));
     }
 
-    public void remove() {
+    @Override
+	public void remove() {
         if (numberOfUsers == 0) {
             //  this algorithm has no users and no labeled output       
             super.remove();
@@ -152,8 +176,8 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
             // there are users of this algorithm, so we keep it
             // remove only output
             // delete dependent objects        
-            for (int i = 0; i < output.length; i++) {
-                output[i].doRemove();
+            for (int i = 0; i < getOutputLength(); i++) {
+                getOutput(i).doRemove();
             }
             setPrintedInXML(false);
         }

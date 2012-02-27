@@ -15,15 +15,17 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 	
 	/** coordinates and derivative functions */
 	protected FunctionNVar[] fun;
+	/** start parameters */
+	protected double[] startParam;
+	/** end parameters */
+	protected double[] endParam;
 	
-	protected double[] startParam, endParam;
-	
-
+	/** flag for isDefined() */
 	protected boolean isDefined = true;
 
 
 	/** common constructor
-	 * @param c
+	 * @param c construction
 	 */
 	public GeoSurfaceCartesianND(Construction c) {
 		super(c);
@@ -36,8 +38,8 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 	}
 	
 	/** constructor with functions
-	 * @param c
-	 * @param fun 
+	 * @param c construction
+	 * @param fun functions
 	 */
 	public GeoSurfaceCartesianND(Construction c, FunctionNVar[] fun) {
 		this(c);
@@ -61,8 +63,8 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 	
 	/** 
 	 * Sets the start and end parameter value of this curve.
-	 * @param startParam 
-	 * @param endParam 
+	 * @param startParam start parameter
+	 * @param endParam end parameter
 	 */
 	public void setIntervals(double[] startParam, double endParam[]) {
 		
@@ -78,6 +80,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 	
 	
 	/**
+	 * @param i index of parameter
 	 * @return the ith start parameter value for this
 	 * surface (may be Double.NEGATIVE_INFINITY)
 	 * 
@@ -87,6 +90,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 	}
 	
 	/**
+	 * @param i index of parameter
 	 * @return the largest possible ith parameter value for this
 	 * surface (may be Double.POSITIVE_INFINITY)
 	 * 
@@ -120,6 +124,9 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 		return isDefined;
 	}
 
+	/**
+	 * @param defined flag to mark as defined/undefined
+	 */
 	public void setDefined(boolean defined) {
 		isDefined = defined;
 	}
@@ -133,9 +140,8 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 	
 	@Override
 	public String toString(StringTemplate tpl) {
-		if (sbToString == null) {
-			sbToString = new StringBuilder(80);
-		}
+		StringBuilder	sbToString = new StringBuilder(80);
+		
 		sbToString.setLength(0);
 		if (isLabelSet()) {
 			sbToString.append(label);
@@ -148,17 +154,15 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
 	}
-	protected StringBuilder sbToString;
-	protected StringBuilder sbTemp;
+	
 	
 	
 
 	@Override
 	public String toValueString(StringTemplate tpl) {		
 		if (isDefined) {
-			if (sbTemp == null) {
-				sbTemp = new StringBuilder(80);
-			}
+			StringBuilder sbTemp = new StringBuilder(80);
+			
 			sbTemp.setLength(0);
 			sbTemp.append('(');
 			
@@ -170,36 +174,38 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 			
 			sbTemp.append(')');
 			return sbTemp.toString();
-		} else
-			return app.getPlain("undefined");
+		}
+		return app.getPlain("undefined");
 	}	
 	
-	public String toSymbolicString() {	
+	/**
+	 * @param tpl string template
+	 * @return symbolic string representation
+	 */
+	public String toSymbolicString(StringTemplate tpl) {	
 		if (isDefined) {
-			if (sbTemp == null) {
+			StringBuilder
 				sbTemp = new StringBuilder(80);
-			}
 			sbTemp.setLength(0);
 			sbTemp.append('(');
 			
 			for (int i=0; i< fun.length;i++){
-			sbTemp.append(fun[i].toString());
+			sbTemp.append(fun[i].toString(tpl));
 			if (i<fun.length-1)
 				sbTemp.append(", ");
 			}
 			
 			sbTemp.append(')');
 			return sbTemp.toString();
-		} else
-			return app.getPlain("undefined");
+		}
+		return app.getPlain("undefined");
 	}
 	
 	@Override
 	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
 		if (isDefined) {
-			if (sbTemp == null) {
-				sbTemp = new StringBuilder(80);
-			}
+			StringBuilder	sbTemp = new StringBuilder(80);
+			
 			sbTemp.setLength(0);
 			sbTemp.append("\\left(\\begin{array}{c}");
 			
@@ -211,8 +217,8 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 			
 			sbTemp.append("\\end{array}\\right)");
 			return sbTemp.toString();
-		} else
-			return app.getPlain("undefined");		
+		}
+		return app.getPlain("undefined");		
 	}		
 	
 }

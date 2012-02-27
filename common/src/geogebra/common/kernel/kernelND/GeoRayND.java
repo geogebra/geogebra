@@ -9,6 +9,9 @@ package geogebra.common.kernel.kernelND;
 
 public interface GeoRayND extends GeoLineND{
 
+	/**
+	 * @return true if this should stay a ray after transform
+	 */
 	public boolean keepsTypeOnGeometricTransform();
 
 }

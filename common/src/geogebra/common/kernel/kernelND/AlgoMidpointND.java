@@ -29,23 +29,22 @@ import geogebra.common.kernel.geos.GeoElement;
 /**
  *
  * @author  Markus
- * @version 
  */
 public abstract class AlgoMidpointND extends AlgoElement {
 
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	public static final long serialVersionUID = 1L;
 	private GeoPointND P, Q; // input
     private GeoPointND M; // output        
 
 	
     /**
      * 
-     * @param cons
-     * @param P
-     * @param Q
+     * @param cons construction
+     * @param P first point
+     * @param Q second point
      */
     protected AlgoMidpointND(Construction cons, GeoPointND P, GeoPointND Q) {
         super(cons);
@@ -63,8 +62,8 @@ public abstract class AlgoMidpointND extends AlgoElement {
      * 
      * used for midpoint of a segment
      * 
-     * @param cons
-     * @param segment
+     * @param cons construction
+     * @param segment segment
      */
     protected AlgoMidpointND(Construction cons, GeoSegmentND segment) {
 		super(cons);
@@ -78,32 +77,35 @@ public abstract class AlgoMidpointND extends AlgoElement {
 
 	/**
      * 
-     * @param cons
+     * @param construction construction
      * @return new GeoPointND 
      */
-    protected abstract GeoPointND newGeoPoint(Construction cons);
+    protected abstract GeoPointND newGeoPoint(Construction construction);
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoMidpoint;
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_MIDPOINT;
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = (GeoElement) P;
         input[1] = (GeoElement) Q;
 
-        output = new GeoElement[1];
-        output[0] = (GeoElement) M;
+        setOnlyOutput(M);
         setDependencies(); // done by AlgoElement
     }
     
     // calc midpoint
-    public final void compute() {
+    @Override
+	public final void compute() {
     	
                 
         boolean pInf = P.isInfinite();
@@ -125,7 +127,7 @@ public abstract class AlgoMidpointND extends AlgoElement {
     
     /**
      * copy coords of the point to the output point
-     * @param point
+     * @param point input point
      */
     abstract protected void copyCoords(GeoPointND point);
     
@@ -160,7 +162,8 @@ public abstract class AlgoMidpointND extends AlgoElement {
         return Q;
     }
 
-    public String toString(StringTemplate tpl) {
+    @Override
+	public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
     	return app.getPlain("MidpointOfAB",P.getLabel(tpl),Q.getLabel(tpl));

@@ -482,9 +482,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	// fun[])
 	@Override
 	public String toString(StringTemplate tpl) {
-		if (sbToString == null) {
-			sbToString = new StringBuilder(80);
-		}
+		StringBuilder sbToString = new StringBuilder(80);
+		
 		sbToString.setLength(0);
 		if (isLabelSet()) {
 			sbToString.append(label);
@@ -507,9 +506,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	public String toValueString(StringTemplate tpl) {
 
 		if (isDefined) {
-			if (sbTemp == null) {
-				sbTemp = new StringBuilder(80);
-			}
+			StringBuilder sbTemp = new StringBuilder(80);
 			sbTemp.setLength(0);
 			sbTemp.append('(');
 			sbTemp.append(funX.toValueString(tpl));
@@ -527,9 +524,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	@Override
 	public String toSymbolicString(StringTemplate tpl) {
 		if (isDefined) {
-			if (sbTemp == null) {
-				sbTemp = new StringBuilder(80);
-			}
+			StringBuilder sbTemp = new StringBuilder(80);
 			sbTemp.setLength(0);
 			sbTemp.append('(');
 			sbTemp.append(funX.toString(tpl));
@@ -546,11 +541,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		if (isDefined) {
-			if (sbTemp == null) {
-				sbTemp = new StringBuilder(80);
-			}
-			sbTemp.setLength(0);
-
+			StringBuilder sbTemp =
+				 new StringBuilder(80);
+			
 			String param = getVarString(tpl);
 
 			if (!hideRangeInFormula)

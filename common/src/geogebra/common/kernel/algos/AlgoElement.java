@@ -25,6 +25,7 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.ToGeoElement;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.ResourceBundleAdapter;
 import geogebra.common.util.StringUtil;
@@ -86,6 +87,17 @@ public abstract class AlgoElement extends ConstructionElement implements
 		output = new GeoElement[n];
 	}
 
+	/**
+	 * initialize output list
+	 * 
+	 * @param g
+	 *            only output
+	 * 
+	 */
+	protected void setOnlyOutput(ToGeoElement g) {
+		output = new GeoElement[1];
+		output[1] = g.toGeoElement();
+	}
 	/**
 	 * set output number i
 	 * 

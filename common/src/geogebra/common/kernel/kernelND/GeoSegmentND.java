@@ -1,6 +1,5 @@
 package geogebra.common.kernel.kernelND;
 
-import geogebra.common.awt.Color;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -15,38 +14,27 @@ import geogebra.common.kernel.geos.LimitedPath;
 public interface GeoSegmentND extends GeoLineND, LimitedPath, NumberValue {
 
 
-	void setLabel(String string);
-
-	void setObjColor(Color objectColor);
-
-	void setEuclidianVisible(boolean visible);
-
+	
+	/**
+	 * Sets start point and end point
+	 * @param start start point
+	 * @param end end point
+	 */
 	void setTwoPointsCoords(Coords start, Coords end);
-	
-	void update();
 
-	void setLineType(int type);
-
-	void setLineThickness(int th);
-
-	
+	/** @return length of the segment */
 	double getLength();
 
+	/**
+	 * @return start point
+	 */
 	public GeoElement getStartPointAsGeoElement();
 
+	/**
+	 * @return end point
+	 */
 	public GeoElement getEndPointAsGeoElement();
 
-	
-	////////////////////////////////////////////////
-	// Path Interface
-	
-	boolean isOnPath(GeoPointND p, double eps);
-	
-	void pointChanged(GeoPointND p);
-	
-	public void pathChanged(GeoPointND PI);
-
-	
 	/**
 	 * return the x-coordinate of the point on the segment according to the parameter value
 	 * @param parameter the parameter
@@ -61,35 +49,17 @@ public interface GeoSegmentND extends GeoLineND, LimitedPath, NumberValue {
 	 */
 	public double getPointY(double parameter);
 
-
-	boolean isEuclidianVisible();
-
-	
-	// highlighting when segment of a polygon or polyhedron
 	/**
-	 * sets the highlighting ancestor
-	 * @param geo 
-	 * 
+	 * Sets the highlighting ancestor
+	 * @param geo ancestor (polygon)
 	 */
 	public void setHighlightingAncestor(GeoElement geo);
 	
 	/**
-	 * 
+	 * Returns highlighting ancestor (polygon)
 	 * @return the highlighting ancestor
 	 */
 	public GeoElement getHighlightingAncestor();
-
-
-	boolean isLabelVisible();
-
-
-	public GeoPointND getStartPoint();
-
-	public GeoPointND getEndPoint();
-
-	public void updateVisualStyle();
-
-	public boolean keepsTypeOnGeometricTransform();
 
 	/**
 	 * modify the input points

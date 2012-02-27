@@ -122,7 +122,7 @@ public class AlgoOrthoLinePointConic extends AlgoElement {
 	public final void compute() {
     	/*
         if(l.getType()==GeoConic.CONIC_ELLIPSE){
-        double[] params = l.getZeroGradientParams(P.getCoords());
+        double[] params = l.getPerpendicularParams(P.getCoords());
         for(int i=0;i<4;i++){
         	n[i].setValue(PathNormalizer.toNormalizedPathParameter(Math.asin(params[i]),l.getMinParameter(),l.getMaxParameter()));
         	n[i].updateCascade();        	    	

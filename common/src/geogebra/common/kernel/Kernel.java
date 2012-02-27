@@ -877,31 +877,31 @@ public class Kernel {
 
 	private StringBuilder sbFormat;
 
-	final public String formatSignedCoefficient(double x,StringTemplate tpl) {
+	final public void formatSignedCoefficient(double x,StringBuilder sb,StringTemplate tpl) {
 		if (x == -1.0) {
-			return "- ";
+			sb.append("- ");
+			return;
 		}
 		if (x == 1.0) {
-			return "+ ";
+			sb.append("+ ");
+			return;
 		}
 
-		return formatSigned(x,tpl).toString();
+		formatSigned(x,sb,tpl);
 	}
 
-	final public StringBuilder formatSigned(double x,StringTemplate tpl) {
-		sbFormatSigned.setLength(0);
+	final public void formatSigned(double x,StringBuilder sb,StringTemplate tpl) {
+		
 
 		if (x >= 0.0d) {
-			sbFormatSigned.append("+ ");
-			sbFormatSigned.append(format(x,tpl));
-			return sbFormatSigned;
+			sb.append("+ ");
+			sb.append(format(x,tpl));
+			return;
 		}
-		sbFormatSigned.append("- ");
-		sbFormatSigned.append(format(-x,tpl));
-		return sbFormatSigned;
+		sb.append("- ");
+		sb.append(format(-x,tpl));
+		return;
 	}
-
-	private final StringBuilder sbFormatSigned = new StringBuilder(40);
 
 	final private String formatPiERaw(double x, NumberFormatAdapter numF,StringTemplate tpl) {
 		// PI

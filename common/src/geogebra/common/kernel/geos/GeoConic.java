@@ -20,7 +20,6 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
@@ -40,8 +39,8 @@ import java.util.ArrayList;
  * Conics in 2D
  */
 public class GeoConic extends GeoConicND implements Region, Traceable,
-		ConicMirrorable, Transformable, PointRotateable, Mirrorable,
-		Dilateable, MatrixTransformable {
+		ConicMirrorable, Transformable, Mirrorable,
+		Dilateable {
 
 	/*
 	 * ( A[0] A[3] A[4] ) matrix = ( A[3] A[1] A[5] ) ( A[4] A[5] A[2] )

@@ -1,5 +1,8 @@
 package geogebra.common.kernel.kernelND;
 
+/**
+ * Conic types
+ */
 public interface GeoConicNDConstants extends GeoQuadricNDConstants{
 	
 	/** single point type*/    

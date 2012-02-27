@@ -12,7 +12,7 @@ public interface GeoPlaneND extends Region, GeoDirectionND{
 	
 	/**
 	 * sets the fading for the "ends" of the plane 
-	 * @param fading
+	 * @param fading fading
 	 */
 	public void setFading(float fading);
 	
@@ -28,6 +28,10 @@ public interface GeoPlaneND extends Region, GeoDirectionND{
 	public void createView2D();
 	
 	
+	/**
+	 * @param coords point
+	 * @return coords of normal projection of given point
+	 */
 	public Coords[] getNormalProjection(Coords coords);
 
 }

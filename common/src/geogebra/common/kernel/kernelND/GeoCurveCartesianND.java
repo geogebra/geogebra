@@ -13,17 +13,23 @@ import geogebra.common.kernel.geos.GeoElement;
  */
 public abstract class GeoCurveCartesianND extends GeoElement{
 	
-	/** coordinates and derivative functions */
-	protected Function[] fun, funD1, funD2;
+	/** coordinates  functions */
+	protected Function[] fun;
+	/** derivative  functions */
+	protected Function[] funD1;
+	/** second derivative  functions */
+	protected Function[] funD2;
+	/** start parameter */
+	protected double startParam;
+	/**end parameter*/
+	protected double endParam;
 	
-	protected double startParam, endParam;
-	
-
+	/** flag for isDefined()*/
 	protected boolean isDefined = true;
 
 
 	/** common constructor
-	 * @param c
+	 * @param c construction
 	 */
 	public GeoCurveCartesianND(Construction c) {
 		super(c);
@@ -36,8 +42,8 @@ public abstract class GeoCurveCartesianND extends GeoElement{
 	}
 	
 	/** constructor with functions
-	 * @param c
-	 * @param fun 
+	 * @param c construction
+	 * @param fun functions of parameter
 	 */
 	public GeoCurveCartesianND(Construction c, Function[] fun) {
 		this(c);
@@ -65,8 +71,8 @@ public abstract class GeoCurveCartesianND extends GeoElement{
 	
 	/** 
 	 * Sets the start and end parameter value of this curve.
-	 * @param startParam 
-	 * @param endParam 
+	 * @param startParam start parameter
+	 * @param endParam end parameter
 	 */
 	public void setInterval(double startParam, double endParam) {
 		
@@ -81,7 +87,7 @@ public abstract class GeoCurveCartesianND extends GeoElement{
 	/**
 	 * Returns the start parameter value for this
 	 * path (may be Double.NEGATIVE_INFINITY)
-	 * @return
+	 * @return start parameter
 	 */
 	public double getMinParameter() {
 		return startParam;
@@ -90,7 +96,7 @@ public abstract class GeoCurveCartesianND extends GeoElement{
 	/**
 	 * Returns the largest possible parameter value for this
 	 * path (may be Double.POSITIVE_INFINITY)
-	 * @return
+	 * @return end parameter
 	 */
 	public double getMaxParameter() {
 		return endParam;
@@ -126,6 +132,9 @@ public abstract class GeoCurveCartesianND extends GeoElement{
 		return isDefined;
 	}
 
+	/**
+	 * @param defined new value of defined flag
+	 */
 	public void setDefined(boolean defined) {
 		isDefined = defined;
 	}
@@ -139,30 +148,29 @@ public abstract class GeoCurveCartesianND extends GeoElement{
 	
 	@Override
 	public String toString(StringTemplate tpl) {
-		if (sbToString == null) {
-			sbToString = new StringBuilder(80);
-		}
+		StringBuilder sbToString = new StringBuilder(80);
+		
 		sbToString.setLength(0);
 		if (isLabelSet()) {
 			sbToString.append(label);
 			sbToString.append('(');
-			sbToString.append(fun[0].getFunctionVariables()[0].toString());
+			sbToString.append(fun[0].getFunctionVariables()[0].toString(tpl));
 			sbToString.append(") = ");					
 		}		
 		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
 	}
-	protected StringBuilder sbToString;
-	protected StringBuilder sbTemp;
+	
+	
+	
 	
 	
 
 	@Override
-	public String toValueString(StringTemplate tpl) {		
+	public String toValueString(StringTemplate tpl) {
 		if (isDefined) {
-			if (sbTemp == null) {
-				sbTemp = new StringBuilder(80);
-			}
+			StringBuilder sbTemp = new StringBuilder(80);
+			
 			sbTemp.setLength(0);
 			sbTemp.append('(');
 			
@@ -174,15 +182,19 @@ public abstract class GeoCurveCartesianND extends GeoElement{
 			
 			sbTemp.append(')');
 			return sbTemp.toString();
-		} else
-			return app.getPlain("undefined");
+		}
+		return app.getPlain("undefined");
 	}	
 	
-	public String toSymbolicString(StringTemplate tpl) {	
+	/**
+	 * @param tpl string template
+	 * @return symbolic string representation
+	 */
+	public String toSymbolicString(StringTemplate tpl) {
+		StringBuilder sbTemp = null;
 		if (isDefined) {
-			if (sbTemp == null) {
-				sbTemp = new StringBuilder(80);
-			}
+			sbTemp = new StringBuilder(80);
+			
 			sbTemp.setLength(0);
 			sbTemp.append('(');
 			
@@ -200,10 +212,10 @@ public abstract class GeoCurveCartesianND extends GeoElement{
 	
 	@Override
 	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
+		StringBuilder sbTemp = null;
 		if (isDefined) {
-			if (sbTemp == null) {
-				sbTemp = new StringBuilder(80);
-			}
+			sbTemp = new StringBuilder(80);
+			
 			sbTemp.setLength(0);
 			sbTemp.append("\\left(\\begin{array}{c}");
 			
@@ -215,8 +227,8 @@ public abstract class GeoCurveCartesianND extends GeoElement{
 			
 			sbTemp.append("\\end{array}\\right)");
 			return sbTemp.toString();
-		} else
-			return app.getPlain("undefined");		
+		}
+		return app.getPlain("undefined");		
 	}		
 	
 }

@@ -235,7 +235,7 @@ public final boolean showInAlgebraView() {
    }
    
    @Override
-protected boolean showInEuclidianView() {
+   public boolean showInEuclidianView() {
 	   // segments of polygons can have thickness 0
 	   return defined && lineThickness != 0;
    }

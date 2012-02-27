@@ -1114,8 +1114,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 			// if (!isI) { // return just "i" for special i
 			sbBuildValueString.append(kernel.format(getInhomX(), tpl));
 			sbBuildValueString.append(" ");
-			sbBuildValueString.append(kernel.formatSignedCoefficient(
-					getInhomY(), tpl));
+			kernel.formatSignedCoefficient(getInhomY(),sbBuildValueString, tpl);
 			// }
 			sbBuildValueString.append(Unicode.IMAGINARY);
 			break;
