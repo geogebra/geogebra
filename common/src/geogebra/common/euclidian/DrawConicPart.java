@@ -38,7 +38,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 	private GeoConicPart conicPart;
 
-	boolean isVisible, labelVisible;
+	private boolean isVisible, labelVisible;
 
 	private Arc2D arc = AwtFactory.prototype.newArc2D();
 	private Shape shape;
@@ -65,26 +65,33 @@ public class DrawConicPart extends Drawable implements Previewable {
 	private GeoPoint2[] previewTempPoints;
 	private int previewMode, neededPrevPoints;
 
+	/**
+	 * @param view view
+	 * @param conicPart conic part
+	 */
 	public DrawConicPart(AbstractEuclidianView view, GeoConicPart conicPart) {
 		this.view = view;
-		hitThreshold = view.getCapturingThreshold();
+		hitThreshold = AbstractEuclidianView.getCapturingThreshold();
 		initConicPart(conicPart);
 		update();
 	}
 
-	private void initConicPart(GeoConicPart conicPart) {
-		this.conicPart = conicPart;
-		geo = conicPart;
+	private void initConicPart(GeoConicPart initConicPart) {
+		this.conicPart = initConicPart;
+		geo = initConicPart;
 
 		// center = conicPart.getTranslationVector();
-		halfAxes = conicPart.getHalfAxes();
+		halfAxes = initConicPart.getHalfAxes();
 		// arc or sector?
-		closure = conicPart.getConicPartType() == GeoConicPart.CONIC_PART_SECTOR ? Arc2D.PIE
+		closure = initConicPart.getConicPartType() == GeoConicPart.CONIC_PART_SECTOR ? Arc2D.PIE
 				: Arc2D.OPEN;
 	}
 
 	/**
 	 * Creates a new DrawConicPart for preview.
+	 * @param view view
+	 * @param mode preview mode
+	 * @param points points
 	 */
 	public DrawConicPart(AbstractEuclidianView view, int mode, ArrayList<GeoPointND> points) {
 		this.view = view;
@@ -280,6 +287,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 		}
 	}
 
+	@Override
 	final void drawTrace(geogebra.common.awt.Graphics2D g2) {
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:

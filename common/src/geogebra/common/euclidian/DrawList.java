@@ -22,10 +22,9 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
 /**
- * Draw a list of objects
+ * Draw a GeoList containing drawable objects
  * 
  * @author Markus Hohenwarter
- * @version
  */
 public final class DrawList extends Drawable implements RemoveNeeded {
 
@@ -37,8 +36,8 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	/**
 	 * Creates new drawable list
 	 * 
-	 * @param view
-	 * @param geoList
+	 * @param view view
+	 * @param geoList list
 	 */
 	public DrawList(AbstractEuclidianView view, GeoList geoList) {
 		this.view = view;
@@ -120,18 +119,14 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	 */
 	final public void remove() {
 		for (int i = drawables.size() - 1; i >= 0; i--) {
-			GeoElement geo = drawables.get(i).getGeoElement();
-			if (!geo.isLabelSet())
-				view.remove(geo);
+			GeoElement currentGeo = drawables.get(i).getGeoElement();
+			if (!currentGeo.isLabelSet())
+				view.remove(currentGeo);
 		}
 		drawables.clear();
 	}
 
-	/**
-	 * Draws trace
-	 * 
-	 * @param g2
-	 */
+	@Override
 	final void drawTrace(geogebra.common.awt.Graphics2D g2) {
 		g2.setPaint(geo.getObjectColor());
 		g2.setStroke(objStroke);

@@ -13,7 +13,6 @@
 package geogebra.common.euclidian;
 
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -33,7 +32,6 @@ import geogebra.common.factories.AwtFactory;
  * Checkbox for free GeoBoolean object.
  * 
  * @author Markus Hohenwarter
- * @version
  */
 public final class DrawBoolean extends Drawable {
 
@@ -50,7 +48,9 @@ public final class DrawBoolean extends Drawable {
 	
 	private CheckBoxIcon checkBoxIcon;
 
-	/** Creates new DrawText */
+	/** Creates new DrawText 
+	 * @param view view
+	 * @param geoBool boolean (checkbox)*/
 	public DrawBoolean(AbstractEuclidianView view, GeoBoolean geoBool) {
 		this.view = view;
 		this.geoBool = geoBool;
@@ -202,6 +202,11 @@ public final class DrawBoolean extends Drawable {
 		this.geo = geo;
 	}
 	
+	/**
+	 * Replcement for Swing component
+	 * @author Michael
+	 *
+	 */
 	public static class CheckBoxIcon {
 		
 		// Michael Borcherds 2008-05-11
@@ -214,15 +219,28 @@ public final class DrawBoolean extends Drawable {
 		
 		//int csize = 13;
 		
-		AbstractEuclidianView ev;
+		private AbstractEuclidianView ev;
 		
+		/** background color when highlighted*/
 		public static Color highlightBackground = AwtFactory.prototype.newColor(230, 230, 230);
 		
+		/**
+		 * Creates new checkbox icon
+		 * @param ev view
+		 */
 		public CheckBoxIcon(AbstractEuclidianView ev)
 		{
 			this.ev=ev;
 		}
 		
+        /**
+         * Draws the checkbox on graphics
+         * @param checked true if checked
+         * @param highlighted true to highlight
+         * @param g graphics
+         * @param x x coordinate (left edge)
+         * @param y y coordinate (upper edge)
+         */
         public void paintIcon(boolean checked, boolean highlighted, Graphics2D g, int x, int y) {
 
             
@@ -289,12 +307,18 @@ public final class DrawBoolean extends Drawable {
             }
         }
 
+        /**
+         * @return checkbox width
+         */
         public int getIconWidth() {
      
                 return ev.getBooleanSize();
            
         }
 
+        /**
+         * @return checkbox height
+         */
         public int getIconHeight() {
                 return ev.getBooleanSize();
             

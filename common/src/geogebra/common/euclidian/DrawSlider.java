@@ -25,7 +25,6 @@ import geogebra.common.kernel.geos.GeoPoint2;
 /**
  * 
  * @author Markus Hohenwarter
- * @version
  */
 public class DrawSlider extends Drawable {
 
@@ -42,12 +41,12 @@ public class DrawSlider extends Drawable {
 	/**
 	 * Creates new drawable for slider
 	 * 
-	 * @param view
-	 * @param number
+	 * @param view view
+	 * @param number slider
 	 */
 	public DrawSlider(AbstractEuclidianView view, GeoNumeric number) {
 		this.view = view;
-		hitThreshold = view.getCapturingThreshold();
+		hitThreshold = AbstractEuclidianView.getCapturingThreshold();
 		this.number = number;
 		geo = number;
 
@@ -164,8 +163,8 @@ public class DrawSlider extends Drawable {
 	/**
 	 * Returns true iff the movable point was hit
 	 * 
-	 * @param x
-	 * @param y
+	 * @param x mouse x-coord
+	 * @param y mouse y-coord
 	 * @return true iff the movable point was hit
 	 */
 	final public boolean hitPoint(int x, int y) {
@@ -180,8 +179,8 @@ public class DrawSlider extends Drawable {
 	/**
 	 * Returns true if the slider line was hit, false for fixed sliders
 	 * 
-	 * @param x
-	 * @param y
+	 * @param x mouse x-coord
+	 * @param y mouse y-coord
 	 * @return true if the slider line was hit, false for fixed sliders
 	 */
 	public boolean hitSlider(int x, int y) {

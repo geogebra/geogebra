@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian;
 
+import geogebra.common.euclidian.DrawParametricCurve.Gap;
 import geogebra.common.kernel.algos.AlgoIntegralFunctions;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -35,8 +36,8 @@ public class DrawIntegralFunctions extends Drawable {
 	/**
 	 * Creates drawable for integral between two functions
 	 * 
-	 * @param view
-	 * @param n
+	 * @param view view
+	 * @param n integral between functions
 	 */
 	public DrawIntegralFunctions(AbstractEuclidianView view, GeoNumeric n) {
 		this.view = view;
@@ -95,9 +96,9 @@ public class DrawIntegralFunctions extends Drawable {
 		gp.reset();
 		gp.moveTo(ax, ay);
 		DrawParametricCurve.plotCurve(f, aRW, bRW, view, gp, false,
-				DrawParametricCurve.GAP_LINE_TO);
+				Gap.LINE_TO);
 		DrawParametricCurve.plotCurve(g, bRW, aRW, view, gp, false,
-				DrawParametricCurve.GAP_LINE_TO);
+				Gap.LINE_TO);
 		gp.closePath();
 
 		// gp on screen?

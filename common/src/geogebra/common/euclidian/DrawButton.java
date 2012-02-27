@@ -14,18 +14,15 @@ package geogebra.common.euclidian;
 
 import geogebra.common.awt.Rectangle;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
-import geogebra.common.awt.Point;
 
 
 /**
- * Checkbox for free GeoBoolean object.
+ * Button (for scripting)
  * 
  * @author Markus Hohenwarter
- * @version
  */
 public final class DrawButton extends Drawable implements RemoveNeeded {
 
@@ -33,14 +30,15 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 
 	private boolean isVisible;
 
-	boolean hit = false;
 	private String oldCaption;
-
-	private Point textSize = new Point(0,0);
-	
+	/** button "component" */
 	MyButton myButton;
 
 
+	/**
+	 * @param view view
+	 * @param geoButton button
+	 */
 	public DrawButton(AbstractEuclidianView view, GeoButton geoButton) {
 		this.view = view;
 		this.geoButton = geoButton;
@@ -168,14 +166,6 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 		labelRectangle.setBounds(xLabel, yLabel, myButton.getWidth(),
 				myButton.getHeight());
 		myButton.setBounds(labelRectangle);
-	}
-
-	private void updateLabel() {
-		xLabel = geo.labelOffsetX;
-		yLabel = geo.labelOffsetY;
-
-		labelRectangle.setBounds(xLabel, yLabel, ((textSize == null) ? 0
-				: textSize.x), 12);
 	}
 
 	@Override

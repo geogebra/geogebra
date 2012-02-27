@@ -41,31 +41,43 @@ public class DrawLine extends Drawable implements Previewable {
     private static final int RIGHT = 1;
     private static final int TOP = 2;
     private static final int BOTTOM = 3;  
-    
-    public static final int PREVIEW_NONE = -1;           
-    public static final int PREVIEW_LINE = 0;           
-    public static final int PREVIEW_PARALLEL = 1;           
-    public static final int PREVIEW_PERPENDICULAR = 2;           
-    public static final int PREVIEW_PERPENDICULAR_BISECTOR = 3;           
-    public static final int PREVIEW_ANGLE_BISECTOR = 4;           
-    
-    protected GeoLineND g;    
+    /** preview types*/
+    public enum PreviewType{
+    	/** none*/
+    NONE,         
+    /** line through points*/
+    LINE,           
+    /** parallel line*/
+    PARALLEL,          
+    /** perpendicular line*/
+    PERPENDICULAR,          
+    /** perpendicular bisector*/
+    PERPENDICULAR_BISECTOR,     
+    /** angle bisector*/
+    ANGLE_BISECTOR           
+    }
+    private GeoLineND g;    
     //private double [] coeffs = new double[3];
     
-    protected geogebra.common.awt.Line2D line;    
+    private geogebra.common.awt.Line2D line;
+    /** y-coord of first endpoint*/
     public double y1;
+    /** y-coord of second endpoint*/
 	public double y2;
+	/** x-coord of first endpoint*/
 	public double x1;
+	/** x-coord of second endpoint*/
 	public double x2;
-	protected double k;
-	protected double d;
-	protected double gx;
-	protected double gy;
-	protected double gz;    
+
+	private double k;
+	private double d;
+	private double gx;
+	private double gy;
+	private double gz;    
     private int labelPos = LEFT, p1Pos, p2Pos;
     private int x, y;    
-    protected boolean isVisible;
-	protected boolean labelVisible;
+    private boolean isVisible;
+	private boolean labelVisible;
     
     private ArrayList<GeoPointND> points;// for preview
     private ArrayList<GeoLineND> lines; // for preview
@@ -75,11 +87,11 @@ public class DrawLine extends Drawable implements Previewable {
     private boolean [] attr1 = new boolean[4], attr2 = new boolean[4];
     
     /** Creates new DrawLine 
-     * @param view 
-     * @param g */
+     * @param view view
+     * @param g line*/
     public DrawLine(AbstractEuclidianView view, GeoLineND g) {      
     	this.view = view;   
-    	hitThreshold = view.getCapturingThreshold();
+    	hitThreshold = AbstractEuclidianView.getCapturingThreshold();
         this.g = g;
         geo = (GeoElement) g;              
         update();
@@ -87,11 +99,11 @@ public class DrawLine extends Drawable implements Previewable {
     
 	/**
 	 * Creates a new DrawLine for preview.     
-	 * @param view 
-	 * @param points 
-	 * @param previewMode 
+	 * @param view view
+	 * @param points preview points
+	 * @param previewMode preview mode
 	 */
-	public DrawLine(AbstractEuclidianView view, ArrayList<GeoPointND> points, int previewMode) {
+	public DrawLine(AbstractEuclidianView view, ArrayList<GeoPointND> points, PreviewType previewMode) {
 		this.previewMode = previewMode;
 		this.view = view; 
 		this.points = points;
@@ -103,19 +115,19 @@ public class DrawLine extends Drawable implements Previewable {
 		updatePreview();
 	} 
 	
-	int previewMode = PREVIEW_NONE;
+	private PreviewType previewMode = PreviewType.NONE;
     
 	/**
 	 * Creates a new DrawLine for preview of parallel or perpendicular tool  
-	 * @param view 
-	 * @param points 
-	 * @param lines 
+	 * @param view view
+	 * @param points preview points
+	 * @param lines preview lines
 	 * @param parallel true for paralel, false for perpendicular
 	 */
     public DrawLine(AbstractEuclidianView view, ArrayList<GeoPointND> points,
 			ArrayList<GeoLineND> lines, boolean parallel) {
-    	if (parallel) previewMode = PREVIEW_PARALLEL;
-    	else previewMode = PREVIEW_PERPENDICULAR;
+    	if (parallel) previewMode = PreviewType.PARALLEL;
+    	else previewMode = PreviewType.PERPENDICULAR;
 		this.view = view; 
 		this.points = points;
 		this.lines = lines;
@@ -171,7 +183,7 @@ public class DrawLine extends Drawable implements Previewable {
     
     // transform line to screen coords
     // write start and endpoint into (x1,y1), (x2,y2)
-    protected final void setClippedLine() {   
+    private final void setClippedLine() {   
     // first calc two points in screen coords that are on the line
         
         // abs(slope) < 1
@@ -297,7 +309,7 @@ public class DrawLine extends Drawable implements Previewable {
     }    
     
     // set label position (xLabel, yLabel)
-    protected final void setLabelPosition() {                      
+    private final void setLabelPosition() {                      
         // choose smallest position change                
         // 1-Norm distance between old label position 
         // and point 1, point 2                
@@ -380,6 +392,7 @@ public class DrawLine extends Drawable implements Previewable {
         }
     }
         
+	@Override
 	public final void drawTrace(geogebra.common.awt.Graphics2D g2) {
 		g2.setPaint(geo.getObjectColor());
 		g2.setStroke(objStroke);  
@@ -388,18 +401,18 @@ public class DrawLine extends Drawable implements Previewable {
     
 	final public void updatePreview() {		
 		switch (previewMode) {
-		case PREVIEW_LINE:
-		case PREVIEW_PERPENDICULAR_BISECTOR:
+		case LINE:
+		case PERPENDICULAR_BISECTOR:
 			isVisible = (points.size() == 1); 
 			if (isVisible) {
 				startPoint = points.get(0);
 			}		                              			                                           
 			break;
-		case PREVIEW_PARALLEL:
-		case PREVIEW_PERPENDICULAR:
+		case PARALLEL:
+		case PERPENDICULAR:
 			isVisible = (lines.size() == 1);  
 			break;
-		case PREVIEW_ANGLE_BISECTOR:
+		case ANGLE_BISECTOR:
 			isVisible = (points.size() == 2);  
 			if (isVisible) {
 				startPoint = points.get(0);
@@ -411,15 +424,17 @@ public class DrawLine extends Drawable implements Previewable {
 	                              			                                           
 	}
 	
-	geogebra.common.awt.Point2D endPoint = geogebra.common.factories.AwtFactory.prototype.newPoint2D();
+	private geogebra.common.awt.Point2D endPoint = geogebra.common.factories.AwtFactory.prototype.newPoint2D();
 
-	public void updateMousePos(double xRW, double yRW) {	
+	public void updateMousePos(double mouseRWx, double mouseRWy) {
+		double xRW = mouseRWx;
+		double yRW = mouseRWy;
 		if (isVisible) { 	
 			
 			Coords coords;
 			
 			switch (previewMode) {
-			case PREVIEW_LINE:
+			case LINE:
 	
 				// round angle to nearest 15 degrees if alt pressed
 				if (points.size() == 1 && view.getEuclidianController().isAltDown()) {
@@ -450,28 +465,28 @@ public class DrawLine extends Drawable implements Previewable {
     
 				break;
 				
-			case PREVIEW_PARALLEL:
+			case PARALLEL:
 			    // calc the line g through (xRW,yRW) and perpendicular to l
 				GeoLineND lND = lines.get(0);
 				GeoLine l;
 				Coords equation = lND.getCartesianEquationVector(view.getMatrix());
 				GeoVec3D.cross(xRW, yRW, 1.0, equation.getY(), -equation.getX(), 0.0, ((GeoLine) g));
 				break;
-			case PREVIEW_PERPENDICULAR:
+			case PERPENDICULAR:
 			    // calc the line g through (xRW,yRW) and parallel to l
 				l = (GeoLine)lines.get(0);
 			    GeoVec3D.cross(xRW, yRW, 1.0, l.x, l.y, 0.0, ((GeoLine) g));
 	
 			    break;
-			case PREVIEW_PERPENDICULAR_BISECTOR:
+			case PERPENDICULAR_BISECTOR:
 			    // calc the perpendicular bisector
 				coords = startPoint.getInhomCoordsInD(2);
-				double x = coords.getX();
-				double y = coords.getY();
-			    GeoVec3D.cross((xRW + x)/2, (yRW + y)/2, 1.0, -yRW + y, xRW - x,  0.0, ((GeoLine) g));
+				double startx = coords.getX();
+				double starty = coords.getY();
+			    GeoVec3D.cross((xRW + startx)/2, (yRW + starty)/2, 1.0, -yRW + starty, xRW - startx,  0.0, ((GeoLine) g));
 	
 			    break;
-			case PREVIEW_ANGLE_BISECTOR:
+			case ANGLE_BISECTOR:
 				GeoLine g1 = new GeoLine(view.getKernel().getConstruction());                       
 		        GeoLine h = new GeoLine(view.getKernel().getConstruction()); 
 		        
@@ -485,11 +500,11 @@ public class DrawLine extends Drawable implements Previewable {
 		        
 		        
 		        // (gx, gy) is direction of g = B v A        
-		        double gx = g1.y;
-		        double gy = -g1.x;
-		        double lenG = MyMath.length(gx, gy);
-		        gx /= lenG;
-		        gy /= lenG;
+		        double g2x = g1.y;
+		        double g2y = -g1.x;
+		        double lenG = MyMath.length(g2x, g2y);
+		        g2x /= lenG;
+		        g2y /= lenG;
 
 		        // (hx, hy) is direction of h = B v C
 		        double hx = h.y;
@@ -503,20 +518,20 @@ public class DrawLine extends Drawable implements Previewable {
 		     
 		            // calc direction vector (wx, wy) of angular bisector
 		            // check if angle between vectors is > 90 degrees
-		            double ip = gx * hx + gy * hy;
+		            double ip = g2x * hx + g2y * hy;
 		            if (ip >= 0.0) { // angle < 90 degrees
 		                // standard case
-		                wx = gx + hx;
-		                wy = gy + hy;              
+		                wx = g2x + hx;
+		                wy = g2y + hy;              
 		            } 
 		            else { // ip <= 0.0, angle > 90 degrees            
 		                // BC - BA is a normalvector of the bisector                        
-		                wx = hy - gy;
-		                wy = gx - hx;
+		                wx = hy - g2y;
+		                wy = g2x - hx;
 		                
 		                // if angle > 180 degree change orientation of direction
 		                // det(g,h) < 0
-		                if (gx * hy < gy * hx) {
+		                if (g2x * hy < g2y * hx) {
 		                	wx = -wx;
 		                	wy = -wy;
 		                }                            
@@ -561,7 +576,8 @@ public class DrawLine extends Drawable implements Previewable {
 		}
 	}
 	
-	public void disposePreview() {	
+	public void disposePreview() {
+		//do nothing
 	}
     
 
@@ -570,8 +586,8 @@ public class DrawLine extends Drawable implements Previewable {
      * location (x,y) in screen coords)
      */
     @Override
-	final public boolean hit(int x, int y) {
-        return isVisible && line.intersects(x - hitThreshold, y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
+	final public boolean hit(int screenx, int screeny) {
+        return isVisible && line.intersects(screenx - hitThreshold, screeny - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
     }
     
     @Override

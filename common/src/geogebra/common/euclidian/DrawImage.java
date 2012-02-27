@@ -24,23 +24,17 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint2;
 
-
-
-
-
-
 /**
  * 
  * @author Markus
- * @version
  */
 public final class DrawImage extends Drawable {
 
 	private GeoImage geoImage;
-	boolean isVisible;
+	private boolean isVisible;
 	private BufferedImage image;
 
-	boolean absoluteLocation;
+	private boolean absoluteLocation;
 	private geogebra.common.awt.AlphaComposite alphaComp;
 	private float alpha = -1;
 	private boolean isInBackground = false;
@@ -50,6 +44,11 @@ public final class DrawImage extends Drawable {
 	private geogebra.common.awt.Rectangle boundingBox;
 	private geogebra.common.awt.GeneralPath highlighting;
 
+	/**
+	 * Creates new drawble image
+	 * @param view view
+	 * @param geoImage image
+	 */
 	public DrawImage(AbstractEuclidianView view, GeoImage geoImage) {
 		this.view = view;
 		this.geoImage = geoImage;
@@ -296,11 +295,20 @@ public final class DrawImage extends Drawable {
 		}
 	}
 
-	private void drawHighlighting(geogebra.common.awt.AffineTransform at2, geogebra.common.awt.Graphics2D g2) {
+	/**
+	 * Draws highligting (not implemented)
+	 * @param at2 transform
+	 * @param g2 graphics 
+	 */
+	private void drawHighlighting(geogebra.common.awt.AffineTransform at2,
+			geogebra.common.awt.Graphics2D g2) {
 		// TODO Auto-generated method stub
 
 	}
-
+	/**
+	 * Returns whether this is background image
+	 * @return true for background images
+	 */
 	boolean isInBackground() {
 		return geoImage.isInBackground();
 	}

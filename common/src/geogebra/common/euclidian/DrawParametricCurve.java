@@ -19,11 +19,11 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.VarString;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.ParametricCurve;
 import geogebra.common.kernel.roots.RealRootUtil;
+import geogebra.common.main.AbstractApplication;
 
 
 /**
@@ -54,14 +54,21 @@ public class DrawParametricCurve extends Drawable {
 
 	// the curve is sampled at least at this many positions to plot it
 	private static final int MIN_SAMPLE_POINTS = 80;
-
-	public static final int GAP_LINE_TO = 0;
-	public static final int GAP_MOVE_TO = 1;
-	public static final int GAP_RESET_XMIN = 2;
-	public static final int GAP_RESET_YMIN = 3;
-	public static final int GAP_RESET_XMAX = 4;
-	public static final int GAP_RESET_YMAX = 5;
-
+	/** ways to overcome discontinuity */
+	public enum Gap{
+	/** draw a line */
+	 LINE_TO ,
+	 /** skip it*/
+	 MOVE_TO ,
+	 /** follow along bottom of screen*/
+	 RESET_XMIN ,
+	 /** follow along left side of screen*/
+	 RESET_YMIN ,
+	 /** follow along top of screen*/
+	 RESET_XMAX ,
+	 /** follow along right side of screen*/
+	 RESET_YMAX ,
+	}
 	// low quality settings
 	// // maximum and minimum distance between two plot points in pixels
 	// private static final int MAX_PIXEL_DISTANCE = 16; // pixels
@@ -87,6 +94,13 @@ public class DrawParametricCurve extends Drawable {
 	private boolean isVisible, labelVisible, fillCurve;
 	private static int countPoints = 0;
 	private static long countEvaluations = 0;
+	
+	/**
+	 * Prints debug message
+	 */
+	public void  debug(){
+		AbstractApplication.debug("Pts: "+countPoints+"\nEvaluations: "+countEvaluations);
+	}
 
 	/**
 	 * Creates graphical representation of the curve
@@ -98,13 +112,13 @@ public class DrawParametricCurve extends Drawable {
 	 */
 	public DrawParametricCurve(AbstractEuclidianView view, ParametricCurve curve) {
 		this.view = view;
-		hitThreshold = view.getCapturingThreshold();
+		hitThreshold = AbstractEuclidianView.getCapturingThreshold();
 		this.curve = curve;
 		geo = curve.toGeoElement();
 		update();
 	}
 
-	StringBuilder labelSB = new StringBuilder();
+	private StringBuilder labelSB = new StringBuilder();
 
 	@Override
 	final public void update() {
@@ -137,7 +151,7 @@ public class DrawParametricCurve extends Drawable {
 			labelPoint = new Point((int) eval[0], (int) eval[1]);
 		} else {
 			labelPoint = plotCurve(curve, min, max, view, gp, labelVisible,
-					fillCurve ? 0 : 1);
+					fillCurve ? Gap.LINE_TO : Gap.MOVE_TO);
 		}
 
 		// gp on screen?
@@ -222,7 +236,7 @@ public class DrawParametricCurve extends Drawable {
 	 */
 	final public static Point plotCurve(ParametricCurve curve, double t1,
 			double t2, AbstractEuclidianView view, GeneralPathClipped gp,
-			boolean calcLabelPos, int moveToAllowed) {
+			boolean calcLabelPos, Gap moveToAllowed) {
 
 		countPoints = 0;
 		countEvaluations = 0;
@@ -277,7 +291,7 @@ public class DrawParametricCurve extends Drawable {
 	private static Point plotInterval(ParametricCurve curve, double t1,
 			double t2, int intervalDepth, double max_param_step,
 			AbstractEuclidianView view, GeneralPathClipped gp, boolean calcLabelPos,
-			int moveToAllowed) {
+			Gap moveToAllowed) {
 		// plot interval for t in [t1, t2]
 		// If we run into a problem, i.e. an undefined point f(t), we bisect
 		// the interval and plot both intervals [left, (left + right)/2] and
@@ -326,11 +340,11 @@ public class DrawParametricCurve extends Drawable {
 		// point (x0, y0)
 		// note: lineTo will automatically do a moveTo if this is the first gp
 		// point
-		if (moveToAllowed == GAP_MOVE_TO) {
+		if (moveToAllowed == Gap.MOVE_TO) {
 			moveTo(gp, x0, y0);
-		} else if (moveToAllowed == GAP_LINE_TO) {
+		} else if (moveToAllowed == Gap.LINE_TO) {
 			lineTo(gp, x0, y0);
-		} else if (moveToAllowed == GAP_RESET_XMIN) {
+		} else if (moveToAllowed == Gap.RESET_XMIN) {
 			double d = gp.getCurrentPoint().getY();
 			if (!Kernel.isEqual(d, y0)) {
 				lineTo(gp, -10, d);
@@ -338,7 +352,7 @@ public class DrawParametricCurve extends Drawable {
 			}
 			lineTo(gp, x0, y0);
 
-		} else if (moveToAllowed == GAP_RESET_XMAX) {
+		} else if (moveToAllowed == Gap.RESET_XMAX) {
 			double d = gp.getCurrentPoint().getY();
 			if (!Kernel.isEqual(d, y0)) {
 				lineTo(gp, view.getWidth() + 10, d);
@@ -346,14 +360,14 @@ public class DrawParametricCurve extends Drawable {
 			}
 			lineTo(gp, x0, y0);
 
-		} else if (moveToAllowed == GAP_RESET_YMIN) {
+		} else if (moveToAllowed == Gap.RESET_YMIN) {
 			double d = gp.getCurrentPoint().getX();
 			if (!Kernel.isEqual(d, x0)) {
 				lineTo(gp, d, -10);
 				lineTo(gp, x0, -10);
 			}
 			lineTo(gp, x0, y0);
-		} else if (moveToAllowed == GAP_RESET_YMAX) {
+		} else if (moveToAllowed == Gap.RESET_YMAX) {
 			double d = gp.getCurrentPoint().getX();
 			if (!Kernel.isEqual(d, x0)) {
 				lineTo(gp, gp.getCurrentPoint().getX(), view.getHeight() + 10);
@@ -372,8 +386,8 @@ public class DrawParametricCurve extends Drawable {
 		boolean onScreenStack[] = new boolean[LENGTH];
 		double divisors[] = new double[LENGTH];
 		divisors[0] = t2 - t1;
-		for (int i = 1; i < LENGTH; divisors[i] = divisors[i - 1] / 2, i++)
-			;
+		for (int i = 1; i < LENGTH; i++)
+			divisors[i] = divisors[i - 1] / 2;
 		int i = 1;
 		dyadicStack[0] = 1;
 		depthStack[0] = 0;
@@ -479,7 +493,7 @@ public class DrawParametricCurve extends Drawable {
 			// add point to general path: lineTo or moveTo?
 			boolean lineTo = true;
 			// TODO
-			if (moveToAllowed == GAP_MOVE_TO) {
+			if (moveToAllowed == Gap.MOVE_TO) {
 				if (segOffScreen) {
 					// don't draw segments that are off screen
 					lineTo = false;
@@ -558,8 +572,10 @@ public class DrawParametricCurve extends Drawable {
 	 * 
 	 * @return true when t1 and t2 get closer than Kernel.MAX_DOUBLE_PRECISION
 	 */
-	private static boolean isContinuous(ParametricCurve c, double t1,
-			double t2, int MAX_ITERATIONS) {
+	private static boolean isContinuous(ParametricCurve c, double from,
+			double to, int MAX_ITERATIONS) {
+		double t1 = from;
+		double t2 = to;
 		if (Kernel.isEqual(t1, t2, Kernel.MAX_DOUBLE_PRECISION))
 			return true;
 
@@ -694,7 +710,7 @@ public class DrawParametricCurve extends Drawable {
 	 * smaller than MAX_BEND, where MAX_BEND = tan(MAX_ANGLE).
 	 */
 	private static boolean isAngleOK(double vx, double vy, double wx,
-			double wy, double MAX_BEND) {
+			double wy, double bend) {
 		// |v| * |w| * sin(alpha) = |det(v, w)|
 		// cos(alpha) = v . w / (|v| * |w|)
 		// tan(alpha) = sin(alpha) / cos(alpha)
@@ -714,7 +730,7 @@ public class DrawParametricCurve extends Drawable {
 			// angle < 90 degrees
 			// small angle: |det(v, w)| < MAX_BEND * (v . w)
 			double det = Math.abs(vx * wy - vy * wx);
-			return det < MAX_BEND * innerProduct;
+			return det < bend * innerProduct;
 		}
 	}
 
@@ -724,7 +740,8 @@ public class DrawParametricCurve extends Drawable {
 	private static Point plotProblemInterval(ParametricCurve curve, double t1,
 			double t2, int intervalDepth, double max_param_step,
 			AbstractEuclidianView view, GeneralPathClipped gp, boolean calcLabelPos,
-			int moveToAllowed, Point labelPoint) {
+			Gap moveToAllowed, Point labelPoint) {
+		boolean calcLabel = calcLabelPos;
 		// stop recursion for too many intervals
 		if (intervalDepth > MAX_PROBLEM_BISECTIONS || t1 == t2) {
 			return labelPoint;
@@ -743,15 +760,15 @@ public class DrawParametricCurve extends Drawable {
 		boolean intervalsTooLarge = Math.abs(t1 - splitParam) > max_param_step;
 		if (intervalsTooLarge) {
 			// bisect interval
-			calcLabelPos = calcLabelPos && labelPoint == null;
+			calcLabel = calcLabel && labelPoint == null;
 			labelPoint1 = plotInterval(curve, t1, splitParam,
-					intervalDepth + 1, max_param_step, view, gp, calcLabelPos,
+					intervalDepth + 1, max_param_step, view, gp, calcLabel,
 					moveToAllowed);
 
 			// plot interval [(t1+t2)/2, t2]
-			calcLabelPos = calcLabelPos && labelPoint1 == null;
+			calcLabel = calcLabel && labelPoint1 == null;
 			labelPoint2 = plotInterval(curve, splitParam, t2,
-					intervalDepth + 1, max_param_step, view, gp, calcLabelPos,
+					intervalDepth + 1, max_param_step, view, gp, calcLabel,
 					moveToAllowed);
 		} else {
 			// look at the end points of the intervals [t1, (t1+t2)/2] and
@@ -765,16 +782,16 @@ public class DrawParametricCurve extends Drawable {
 			// plot interval [t1, (t1+t2)/2]
 			double[] eval = new double[2];
 			getDefinedInterval(curve, t1, splitParam, eval);
-			calcLabelPos = calcLabelPos && labelPoint == null;
+			calcLabel = calcLabel && labelPoint == null;
 			labelPoint1 = plotInterval(curve, eval[0], eval[1],
-					intervalDepth + 1, max_param_step, view, gp, calcLabelPos,
+					intervalDepth + 1, max_param_step, view, gp, calcLabel,
 					moveToAllowed);
 
 			// plot interval [(t1+t2)/2, t2]
 			getDefinedInterval(curve, splitParam, t2, eval);
-			calcLabelPos = calcLabelPos && labelPoint1 == null;
+			calcLabel = calcLabel && labelPoint1 == null;
 			labelPoint2 = plotInterval(curve, eval[0], eval[1],
-					intervalDepth + 1, max_param_step, view, gp, calcLabelPos,
+					intervalDepth + 1, max_param_step, view, gp, calcLabel,
 					moveToAllowed);
 		}
 
@@ -1007,12 +1024,8 @@ public class DrawParametricCurve extends Drawable {
 		}
 	}
 
-	/**
-	 * Draw trace of the curve
-	 * 
-	 * @param g2
-	 *            Graphic to be used
-	 */
+
+	@Override
 	final void drawTrace(geogebra.common.awt.Graphics2D g2) {
 		g2.setPaint(geo
 				.getObjectColor());

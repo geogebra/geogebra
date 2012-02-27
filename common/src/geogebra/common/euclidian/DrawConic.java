@@ -26,7 +26,6 @@ import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.RectangularShape;
 import geogebra.common.awt.Shape;
-import geogebra.common.awt.QuadCurve2D;
 import geogebra.common.euclidian.clipping.ClipShape;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
@@ -57,7 +56,6 @@ import java.util.ArrayList;
 /**
  * 
  * @author Markus
- * @version
  */
 final public class DrawConic extends Drawable implements Previewable {
 
@@ -132,26 +130,26 @@ final public class DrawConic extends Drawable implements Previewable {
 
 	@Override
 	public geogebra.common.awt.Area getShape() {
-		geogebra.common.awt.Area a = super.getShape() != null ? super.getShape()
+		geogebra.common.awt.Area area = super.getShape() != null ? super.getShape()
 				: (shape == null ? AwtFactory.prototype.newArea() : AwtFactory.prototype.newArea(shape));
 		if (conic.isInverseFill()) {
-			Area b = AwtFactory.prototype.newArea(view.getBoundingPath());
-			b.subtract(a);
-			return b;
+			Area complement = AwtFactory.prototype.newArea(view.getBoundingPath());
+			complement.subtract(area);
+			return complement;
 		}
-		return a;
+		return area;
 	}
 
 	/**
-	 * Creates new DrawVector
+	 * Creates new DrawConic
 	 * 
-	 * @param view
-	 * @param c
+	 * @param view view
+	 * @param c conic
 	 */
 	public DrawConic(AbstractEuclidianView view, GeoConicND c) {
 		this.view = view;
 		isPreview = false;
-		hitThreshold = view.getCapturingThreshold();
+		hitThreshold = AbstractEuclidianView.getCapturingThreshold();
 		initConic(c);
 		update();
 	}
@@ -169,9 +167,9 @@ final public class DrawConic extends Drawable implements Previewable {
 	/**
 	 * Creates a new DrawConic for preview of a circle
 	 * 
-	 * @param view
-	 * @param mode
-	 * @param points
+	 * @param view view
+	 * @param mode preview mode
+	 * @param points preview points
 	 */
 	public DrawConic(AbstractEuclidianView view, int mode, ArrayList<GeoPointND> points) {
 		this.view = view;
@@ -193,11 +191,11 @@ final public class DrawConic extends Drawable implements Previewable {
 	 * Creates a new DrawConic for preview of a compass circle (radius or
 	 * segment first, then center point)
 	 * 
-	 * @param view
-	 * @param mode
-	 * @param points
-	 * @param segments
-	 * @param conics
+	 * @param view view
+	 * @param mode preview mode
+	 * @param points preview points
+	 * @param segments  preview segments
+	 * @param conics preview conics
 	 */
 	public DrawConic(AbstractEuclidianView view, int mode, ArrayList<GeoPointND> points,
 			ArrayList<GeoSegment> segments, ArrayList<GeoConicND> conics) {
@@ -385,9 +383,9 @@ final public class DrawConic extends Drawable implements Previewable {
 			// FIXME: buggy when conic(RW(0),RW(0))=0
 
 			if (negativeColored()) {
-				geogebra.common.awt.Area b = AwtFactory.prototype.newArea(view.getBoundingPath());
-				b.subtract((geogebra.common.awt.Area)shape);
-				shape = b;
+				geogebra.common.awt.Area complement = AwtFactory.prototype.newArea(view.getBoundingPath());
+				complement.subtract((geogebra.common.awt.Area)shape);
+				shape = complement;
 
 			}
 
@@ -415,12 +413,12 @@ final public class DrawConic extends Drawable implements Previewable {
 		GeneralPathClipped gpc = new GeneralPathClipped(view);
 		boolean invert = false;
 		if (drawLine.x1 > drawLine.x2) {
-			double t = drawLine.x1;
+			double swap = drawLine.x1;
 			drawLine.x1 = drawLine.x2;
-			drawLine.x2 = t;
-			t = drawLine.y1;
+			drawLine.x2 = swap;
+			swap = drawLine.y1;
 			drawLine.y1 = drawLine.y2;
-			drawLine.y2 = t;
+			drawLine.y2 = swap;
 		}
 		gpc.moveTo(drawLine.x1, drawLine.y1);
 		gpc.lineTo(drawLine.x2, drawLine.y2);
@@ -452,12 +450,12 @@ final public class DrawConic extends Drawable implements Previewable {
 
 		}
 		gpc.closePath();
-		geogebra.common.awt.Area a = AwtFactory.prototype.newArea(gpc);
+		geogebra.common.awt.Area gpcArea = AwtFactory.prototype.newArea(gpc);
 		if (!invert)
-			return a;
-		geogebra.common.awt.Area b = AwtFactory.prototype.newArea(view.getBoundingPath());
-		b.subtract(a);
-		return b;
+			return gpcArea;
+		geogebra.common.awt.Area complement = AwtFactory.prototype.newArea(view.getBoundingPath());
+		complement.subtract(gpcArea);
+		return complement;
 
 	}
 
@@ -691,9 +689,9 @@ final public class DrawConic extends Drawable implements Previewable {
 	final private void updateEllipse() {
 		setShape(null);
 		// check for huge pixel radius
-		double xradius = halfAxes[0] * view.getXscale();
-		double yradius = halfAxes[1] * view.getYscale();
-		if (xradius > DrawConic.HUGE_RADIUS || yradius > DrawConic.HUGE_RADIUS) {
+		double xRadius = halfAxes[0] * view.getXscale();
+		double yRadius = halfAxes[1] * view.getYscale();
+		if (xRadius > DrawConic.HUGE_RADIUS || yRadius > DrawConic.HUGE_RADIUS) {
 			isVisible = false;
 			return;
 		}
@@ -728,7 +726,7 @@ final public class DrawConic extends Drawable implements Previewable {
 
 		// BIG RADIUS: larger than screen diagonal
 		int BIG_RADIUS = view.getWidth() + view.getHeight(); // > view's diagonal
-		if (xradius < BIG_RADIUS && yradius < BIG_RADIUS) {
+		if (xRadius < BIG_RADIUS && yRadius < BIG_RADIUS) {
 			shape = transform.createTransformedShape(ellipse);
 		} else {
 			// clip big arc at screen
@@ -1010,10 +1008,10 @@ final public class DrawConic extends Drawable implements Previewable {
 			if (conic.isInverseFill()) {
 				geogebra.common.awt.Area a1 = AwtFactory.prototype.newArea(hypLeft);
 				geogebra.common.awt.Area a2 = AwtFactory.prototype.newArea(hypRight);
-				geogebra.common.awt.Area b = AwtFactory.prototype.newArea(view.getBoundingPath());
-				b.subtract(a1);
-				b.subtract(a2);
-				fill(g2, b, false);
+				geogebra.common.awt.Area complement = AwtFactory.prototype.newArea(view.getBoundingPath());
+				complement.subtract(a1);
+				complement.subtract(a2);
+				fill(g2, complement, false);
 			} else {
 				if (hypLeftOnScreen)
 					fill(g2, hypLeft, true);
@@ -1069,11 +1067,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		}
 	}
 
-	/**
-	 * Draw trace of the conic
-	 * 
-	 * @param g2
-	 */
+	@Override
 	final public void drawTrace(geogebra.common.awt.Graphics2D g2) {
 		g2.setColor(conic.getObjectColor());
 		switch (type) {
@@ -1110,7 +1104,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public boolean hit(int x, int y) {
+	final public boolean hit(int hitX, int hitY) {
 		if (!isVisible)
 			return false;
 		// set a flag that says if the point is on the filling
@@ -1118,8 +1112,8 @@ final public class DrawConic extends Drawable implements Previewable {
 		if ((geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled())
 				&& type != GeoConicNDConstants.CONIC_SINGLE_POINT
 				&& type != GeoConicNDConstants.CONIC_DOUBLE_LINE) {
-			double realX = view.toRealWorldCoordX(x);
-			double realY = view.toRealWorldCoordY(y);
+			double realX = view.toRealWorldCoordX(hitX);
+			double realY = view.toRealWorldCoordY(hitY);
 			double x3 = view.toRealWorldCoordX(3) - view.toRealWorldCoordX(0);
 			double y3 = view.toRealWorldCoordY(3) - view.toRealWorldCoordY(0);
 			int insideNeigbors = (conic.isInRegion(realX, realY) ? 1 : 0)
@@ -1136,15 +1130,15 @@ final public class DrawConic extends Drawable implements Previewable {
 		boolean isOnBoundary = false;
 		switch (type) {
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
-			isOnBoundary = drawPoint.hit(x, y);
+			isOnBoundary = drawPoint.hit(hitX, hitY);
 			break;
 		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
 		case GeoConicNDConstants.CONIC_DOUBLE_LINE:
 		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-			isOnBoundary = drawLines[0].hit(x, y) || drawLines[1].hit(x, y);
+			isOnBoundary = drawLines[0].hit(hitX, hitY) || drawLines[1].hit(hitX, hitY);
 			break;
 		case GeoConicNDConstants.CONIC_LINE:
-			isOnBoundary = drawLines[0].hit(x, y);
+			isOnBoundary = drawLines[0].hit(hitX, hitY);
 			break;
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
@@ -1152,7 +1146,7 @@ final public class DrawConic extends Drawable implements Previewable {
 			if (strokedShape == null) {
 				strokedShape = objStroke.createStrokedShape( shape);
 			}
-			isOnBoundary = strokedShape.intersects(x - hitThreshold, y
+			isOnBoundary = strokedShape.intersects(hitX - hitThreshold, hitY
 					- hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
 			break;
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
@@ -1160,9 +1154,9 @@ final public class DrawConic extends Drawable implements Previewable {
 				strokedShape = objStroke.createStrokedShape(hypLeft);
 				strokedShape2 = objStroke.createStrokedShape(hypRight);
 			}
-			isOnBoundary = strokedShape.intersects(x - hitThreshold, y
+			isOnBoundary = strokedShape.intersects(hitX - hitThreshold, hitY
 					- hitThreshold, 2 * hitThreshold, 2 * hitThreshold)
-					|| strokedShape2.intersects(x - hitThreshold, y
+					|| strokedShape2.intersects(hitX - hitThreshold, hitY
 							- hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
 			break;
 		}
@@ -1277,8 +1271,8 @@ final public class DrawConic extends Drawable implements Previewable {
 					GeoSegment seg = prevSegments.get(0);
 					previewTempRadius.setValue(seg.getLength());
 				} else if (prevConics.size() == 1) {
-					GeoConicND circle = prevConics.get(0);
-					previewTempRadius.setValue(circle.getCircleRadius());
+					GeoConicND prevCircle = prevConics.get(0);
+					previewTempRadius.setValue(prevCircle.getCircleRadius());
 				}
 				previewTempRadius.updateCascade();
 			}

@@ -451,12 +451,7 @@ public final class DrawPoint extends Drawable {
 		}
 	}
 
-	/**
-	 * Draw trace of point
-	 * 
-	 * @param g2
-	 *            graphics to be used
-	 */
+	@Override
 	final void drawTrace(geogebra.common.awt.Graphics2D g2) {
 		g2.setPaint(geo.getObjectColor());
 
@@ -542,8 +537,8 @@ public final class DrawPoint extends Drawable {
 		return fillStrokes[pointSize];
 	}
 
-	private int getSelectionDiamaterMin() {
-		return view.getCapturingThreshold() + SELECTION_DIAMETER_MIN;
+	private static int getSelectionDiamaterMin() {
+		return AbstractEuclidianView.getCapturingThreshold() + SELECTION_DIAMETER_MIN;
 	}
 
 }

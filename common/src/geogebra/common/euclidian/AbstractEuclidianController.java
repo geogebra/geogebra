@@ -1234,7 +1234,6 @@ public abstract class AbstractEuclidianController {
 	
 		switch (geos.size()) {
 		case 0:
-			ret = null;
 			break;
 	
 		case 1:
@@ -1733,12 +1732,14 @@ public abstract class AbstractEuclidianController {
 						selectedCurves, Test.GEOCURVECARTESIAN);
 			}
 
-	/** only used in 3D */
+	/** only used in 3D 
+	 * @param sourcePoint */
 	protected void createNewPoint(GeoPointND sourcePoint) {
 		//3D
 	}
 
-	/** only used in 3D */
+	/** only used in 3D 
+	 * @param intersectionPoint */
 	protected void createNewPointIntersection(GeoPointND intersectionPoint) {
 		//3D
 	}
@@ -1965,9 +1966,9 @@ public abstract class AbstractEuclidianController {
 		}
 	}
 
-	protected GeoElement[] intersect(Hits hits) {
+	protected GeoElement[] intersect(Hits intersectHits) {
 		// Application.debug(selectedLines);
-	
+		Hits hits = intersectHits;
 		// obscure bug: intersection of x=0 and (x-1)^2+(y-1)^=1 can intersect
 		// x=0 and y axis sometimes
 		if (hits.size() > 2) {
@@ -2170,9 +2171,8 @@ public abstract class AbstractEuclidianController {
 					return new GeoElement[] { kernel
 							.IntersectImplicitpolysSingle(null, p[0], p[1],
 									xRW, yRW) };
-				} else {
-					return kernel.IntersectImplicitpolys(null, p[0], p[1]);
 				}
+				return kernel.IntersectImplicitpolys(null, p[0], p[1]);
 			}
 		}
 		return null;
@@ -2809,11 +2809,10 @@ public abstract class AbstractEuclidianController {
 				}
 				clearSelections();
 				return true;
-			} else {
-				// there were no appropriate selected elements
-				// set movedGeoElement
-				app.addSelectedGeo(geo);
 			}
+			// there were no appropriate selected elements
+			// set movedGeoElement
+			app.addSelectedGeo(geo);
 		} else {
 			if (geo == movedGeoElement) {
 				// deselect
@@ -5619,10 +5618,11 @@ public abstract class AbstractEuclidianController {
 		}
 	}
 
-	protected boolean switchModeForMouseReleased(int mode, Hits hits,
+	protected boolean switchModeForMouseReleased(int evMode, Hits hitsReleased,
 			boolean kernelChanged) {
+				Hits hits = hitsReleased;
 				boolean changedKernel = kernelChanged;
-				switch (mode) {
+				switch (evMode) {
 				case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
 				case EuclidianConstants.MODE_DILATE_FROM_POINT:
 				case EuclidianConstants.MODE_MIRROR_AT_POINT:
@@ -6023,8 +6023,8 @@ public abstract class AbstractEuclidianController {
 		if (event.isAltDown() && app.showAlgebraInput()) {
 			view.setHits(mouseLoc);
 			hits = view.getHits().getTopHits();
-			hits.removePolygons();
 			if ((hits != null) && (hits.size() > 0)) {
+				hits.removePolygons();
 				GeoElement geo = hits.get(0);
 	
 				// F3 key: copy definition to input bar
@@ -6805,9 +6805,8 @@ public abstract class AbstractEuclidianController {
 			}
 			if (app.isUsingFullGui() && app.getGuiManager() != null) {
 				return !app.getGuiManager().isInputFieldSelectionListener();
-			} else {
-				return sel != null;
 			}
+			return sel != null;
 	
 			// transformations
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
@@ -8271,17 +8270,14 @@ public abstract class AbstractEuclidianController {
 					GeoPoint2 c2 = ((GeoImage) geo).getCorner(1);
 					GeoPoint2 c3 = ((GeoImage) geo).getCorner(2);
 	
-					if ((c3 == null)
-							&& ((c2 == null // c2 = null -> not transformed
-							)
+					if (((c3 == null)
+							&& (c2 == null // c2 = null -> not transformed
+							))
 							// or c1 and c2 are the correct spacing for the
 							// image not to be transformed
 							// (ie image was probably created by the Pen Tool)
 							|| ((c1 != null) && (c2 != null)
-									&& (c1.inhomY == c2.inhomY) && ((view
-									.toScreenCoordX(c2.inhomX) - view
-									.toScreenCoordX(c1.inhomX)) == ((GeoImage) geo)
-									.getFillImage().getWidth())))) {
+									&& noZoomNeeded(c1,c2,(GeoImage)geo))) {
 						pen.setPenGeo((GeoImage) geo);
 					} else {
 						pen.setPenGeo(null);
@@ -8435,6 +8431,13 @@ public abstract class AbstractEuclidianController {
 		return previewDrawable;
 	}
 
+
+	private boolean noZoomNeeded(GeoPoint2 c1, GeoPoint2 c2, GeoImage geo) {
+		return (c1.inhomY == c2.inhomY) && ((view
+				.toScreenCoordX(c2.inhomX) - view
+				.toScreenCoordX(c1.inhomX)) == geo.getFillImage().getWidth());
+		
+	}
 
 	protected void initNewMode(int mode) {
 		this.mode = mode;

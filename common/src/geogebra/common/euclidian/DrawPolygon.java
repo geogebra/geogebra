@@ -31,7 +31,6 @@ import java.util.ArrayList;
 /**
  * 
  * @author Markus Hohenwarter
- * @version
  */
 public class DrawPolygon extends Drawable implements Previewable {
 
@@ -52,7 +51,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	 */
 	public DrawPolygon(AbstractEuclidianView view, GeoPolygon poly) {
 		this.view = view;
-		hitThreshold = view.getCapturingThreshold();
+		hitThreshold = AbstractEuclidianView.getCapturingThreshold();
 		this.poly = poly;
 		geo = poly;
 
@@ -114,14 +113,14 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	// return false if a point doesn't lie on the plane
-	private boolean addPointsToPath(GeoPointND[] points) {
+	private boolean addPointsToPath(GeoPointND[] pts) {
 		if (gp == null)
 			gp = new GeneralPathClipped(view);
 		else
 			gp.reset();
 
 		// first point
-		Coords v = view.getCoordsForView(points[0].getInhomCoordsInD(3));
+		Coords v = view.getCoordsForView(pts[0].getInhomCoordsInD(3));
 		if (!Kernel.isZero(v.getZ()))
 			return false;
 		coords[0] = v.getX();
@@ -133,8 +132,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 		double xsum = coords[0];
 		double ysum = coords[1];
 
-		for (int i = 1; i < points.length; i++) {
-			v = view.getCoordsForView(points[i].getInhomCoordsInD(3));
+		for (int i = 1; i < pts.length; i++) {
+			v = view.getCoordsForView(pts[i].getInhomCoordsInD(3));
 			if (!Kernel.isZero(v.getZ())) {
 				return false;
 			}
@@ -150,8 +149,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 		if (labelVisible) {
 			labelDesc = geo.getLabelDescription();
-			xLabel = (int) (xsum / points.length);
-			yLabel = (int) (ysum / points.length);
+			xLabel = (int) (xsum / pts.length);
+			yLabel = (int) (ysum / pts.length);
 			addLabelOffset();
 		}
 
@@ -207,7 +206,9 @@ public class DrawPolygon extends Drawable implements Previewable {
 	private geogebra.common.awt.Point2D endPoint = 
 			geogebra.common.factories.AwtFactory.prototype.newPoint2D();
 
-	final public void updateMousePos(double xRW, double yRW) {
+	final public void updateMousePos(double mouseRWx, double mouseRWy) {
+		double xRW = mouseRWx;
+		double yRW = mouseRWy;
 		if (isVisible) {
 			// double xRW = view.toRealWorldCoordX(mx);
 			// double yRW = view.toRealWorldCoordY(my);
@@ -311,6 +312,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	public void disposePreview() {
+		//do nothing
 	}
 
 	@Override

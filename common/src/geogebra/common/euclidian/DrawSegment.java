@@ -35,7 +35,6 @@ import java.util.ArrayList;
 /**
  * 
  * @author Markus Hohenwarter
- * @version
  */
 public class DrawSegment extends Drawable implements Previewable {
 
@@ -61,7 +60,7 @@ public class DrawSegment extends Drawable implements Previewable {
 	 */
 	public DrawSegment(AbstractEuclidianView view, GeoLineND s) {
 		this.view = view;
-		hitThreshold = view.getCapturingThreshold();
+		hitThreshold = AbstractEuclidianView.getCapturingThreshold();
 		this.s = s;
 		geo = (GeoElement) s;
 
@@ -394,11 +393,7 @@ public class DrawSegment extends Drawable implements Previewable {
 		}
 	}
 
-	/**
-	 * Draw segment's trace
-	 * 
-	 * @param g2
-	 */
+	@Override
 	final void drawTrace(geogebra.common.awt.Graphics2D g2) {
 		g2.setPaint(geo.getObjectColor());
 		g2.setStroke(objStroke);
@@ -423,8 +418,9 @@ public class DrawSegment extends Drawable implements Previewable {
 
 	private geogebra.common.awt.Point2D endPoint = geogebra.common.factories.AwtFactory.prototype.newPoint2D();
 
-	final public void updateMousePos(double xRW, double yRW) {
-
+	final public void updateMousePos(double mouseRWx, double mouseRWy) {
+		double xRW = mouseRWx;
+		double yRW = mouseRWy;
 		if (isVisible) {
 			// double xRW = view.toRealWorldCoordX(mx);
 			// double yRW = view.toRealWorldCoordY(my);
@@ -468,6 +464,7 @@ public class DrawSegment extends Drawable implements Previewable {
 	}
 
 	public void disposePreview() {
+		//do nothing
 	}
 
 	@Override

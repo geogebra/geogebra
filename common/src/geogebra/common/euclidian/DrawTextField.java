@@ -24,11 +24,8 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.AbstractApplication;
-//import java.awt.event.FocusEvent;
-//import java.awt.event.FocusListener;
 
 import geogebra.common.awt.event.FocusEvent;
-import geogebra.common.awt.event.FocusListener;
 
 
 //import javax.swing.SwingUtilities;
@@ -37,23 +34,25 @@ import geogebra.common.awt.event.FocusListener;
  * Checkbox for free GeoBoolean object.
  * 
  * @author Michael
- * @version
  */
 public final class DrawTextField extends Drawable implements RemoveNeeded {
-
+	/** textfield */
 	final GeoTextField geoTextField;
 
 	private boolean isVisible;
 
-	boolean hit = false;
 	private String oldCaption;
-
+	/** textfield component*/
 	AutoCompleteTextField textField;
-	JLabel label;
+	private JLabel label;
 	//ButtonListener bl;
-	InputFieldListener ifListener;
-	Box box = SwingFactory.prototype.createHorizontalBox();
+	private InputFieldListener ifListener;
+	private Box box = SwingFactory.prototype.createHorizontalBox();
 
+	/**
+	 * @param view view
+	 * @param geo textfield
+	 */
 	public DrawTextField(AbstractEuclidianView view, GeoTextField geo) {
 		this.view = view;
 		this.geoTextField = geo;
@@ -104,12 +103,22 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	}
 
 	
+	/**
+	 * Listens to events in this textfield
+	 * @author Michael + Judit
+	 */
 	public class InputFieldListener extends geogebra.common.awt.event.FocusListener{
 
+		/**
+		 * Creates new listener
+		 */
 		public InputFieldListener() {
 			// TODO Auto-generated constructor stub
 		}
 
+		/**
+		 * @param e focus event
+		 */
 		public void focusGained(FocusEvent e) {
 			AbstractApplication.debug("fg");
 			view.getEuclidianController().textfieldHasFocus(true);
@@ -117,6 +126,9 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	
 		}
 	
+		/**
+		 * @param e focus event
+		 */
 		public void focusLost(FocusEvent e) {
 			view.getEuclidianController().textfieldHasFocus(false);	
 			geoTextField.textObjectUpdated(textField);
@@ -250,7 +262,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 
 	/**
-	 * @param keyChar
+	 * @param keyChar character
 	 */
 	public void keyReleased(char keyChar) {
 		if (keyChar == '\n') {
@@ -390,6 +402,9 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		this.geo = geo;
 	}
 
+	/**
+	 * @param str input string
+	 */
 	public void setFocus(final String str) {
 		textField.requestFocus();
 		if (str != null) {

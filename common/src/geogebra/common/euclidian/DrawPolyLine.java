@@ -24,7 +24,6 @@ import java.util.ArrayList;
 /**
  * 
  * @author Markus Hohenwarter
- * @version
  */
 public class DrawPolyLine extends Drawable implements Previewable {
 
@@ -35,6 +34,10 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	private double[] coords = new double[2];
 	private ArrayList<?> points;
 
+	/**
+	 * @param view view 
+	 * @param poly polyline
+	 */
 	public DrawPolyLine(AbstractEuclidianView view, GeoPolyLine poly) {
 		this.view = view;
 		this.poly = poly;
@@ -45,10 +48,12 @@ public class DrawPolyLine extends Drawable implements Previewable {
 
 	/**
 	 * Creates a new DrawPolygon for preview.
+	 * @param view view
+	 * @param points preview points
 	 */
 	public DrawPolyLine(AbstractEuclidianView view, ArrayList<?> points) {
 		this.view = view;
-		hitThreshold = view.getCapturingThreshold();
+		hitThreshold = AbstractEuclidianView.getCapturingThreshold();
 		this.points = points;
 
 		updatePreview();
@@ -87,6 +92,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 
 	}
 
+	@Override
 	final void drawTrace(geogebra.common.awt.Graphics2D g2) {
 		if (isVisible) {
 			g2.setPaint(geo.getObjectColor());
@@ -95,14 +101,14 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		}
 	}
 
-	private void addPointsToPath(GeoPointND[] points) {
+	private void addPointsToPath(GeoPointND[] pts) {
 		if (gp == null)
 			gp = new GeneralPathClipped(view);
 		else
 			gp.reset();
 
 		// first point
-		points[0].getInhomCoords(coords);
+		pts[0].getInhomCoords(coords);
 		view.toScreenCoords(coords);
 		gp.moveTo(coords[0], coords[1]);
 
@@ -110,8 +116,8 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		double xsum = coords[0];
 		double ysum = coords[1];
 
-		for (int i = 1; i < points.length; i++) {
-			points[i].getInhomCoords(coords);
+		for (int i = 1; i < pts.length; i++) {
+			pts[i].getInhomCoords(coords);
 			view.toScreenCoords(coords);
 			if (labelVisible) {
 				xsum += coords[0];
@@ -122,8 +128,8 @@ public class DrawPolyLine extends Drawable implements Previewable {
 
 		if (labelVisible) {
 			labelDesc = geo.getLabelDescription();
-			xLabel = (int) (xsum / points.length);
-			yLabel = (int) (ysum / points.length);
+			xLabel = (int) (xsum / pts.length);
+			yLabel = (int) (ysum / pts.length);
 			addLabelOffset();
 		}
 	}
@@ -166,7 +172,9 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	private geogebra.common.awt.Point2D endPoint = 
 			geogebra.common.factories.AwtFactory.prototype.newPoint2D();
 
-	final public void updateMousePos(double xRW, double yRW) {
+	final public void updateMousePos(double mouseRWx, double mouseRWy) {
+		double xRW = mouseRWx;
+		double yRW = mouseRWy;
 		if (isVisible) {
 			// double xRW = view.toRealWorldCoordX(mx);
 			// double yRW = view.toRealWorldCoordY(my);
@@ -212,6 +220,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	}
 
 	public void disposePreview() {
+		//do nothing
 	}
 
 	@Override

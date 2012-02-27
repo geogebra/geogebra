@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian;
 
+import geogebra.common.euclidian.DrawParametricCurve.Gap;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
@@ -35,8 +36,8 @@ public class DrawIntegral extends Drawable {
 	/**
 	 * Creates new drawable for integral
 	 * 
-	 * @param view
-	 * @param n
+	 * @param view view
+	 * @param n integral
 	 */
 	public DrawIntegral(AbstractEuclidianView view, GeoNumeric n) {
 		this.view = view;
@@ -101,7 +102,7 @@ public class DrawIntegral extends Drawable {
 
 		gp.moveTo(ax, y0);
 		DrawParametricCurve.plotCurve(f, aRW, bRW, view, gp, false,
-				DrawParametricCurve.GAP_LINE_TO);
+				Gap.LINE_TO);
 		gp.lineTo(bx, y0);
 		gp.lineTo(ax, y0);
 

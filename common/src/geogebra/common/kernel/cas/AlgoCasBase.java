@@ -16,7 +16,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -26,7 +25,7 @@ import geogebra.common.kernel.geos.GeoElement;
  * @author Markus Hohenwarter
  */
 public abstract class AlgoCasBase extends AlgoElement {
-
+	
 	protected CasEvaluableFunction f; // input
 	protected CasEvaluableFunction g; // output
 

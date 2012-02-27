@@ -22,9 +22,8 @@ import geogebra.common.main.AbstractApplication;
 
 
 /**
- * 
+ * Drawable representation of text
  * @author Markus
- * @version
  */
 public final class DrawText extends Drawable {
 
@@ -46,8 +45,8 @@ public final class DrawText extends Drawable {
 	/**
 	 * Creates new DrawText
 	 * 
-	 * @param view
-	 * @param text
+	 * @param view view
+	 * @param text text
 	 */
 	public DrawText(AbstractEuclidianView view, GeoText text) {
 		this.view = view;

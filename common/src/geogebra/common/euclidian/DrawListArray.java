@@ -20,7 +20,7 @@ public class DrawListArray extends ArrayList<DrawableND> {
 	/**
 	 * common constructor
 	 * 
-	 * @param view
+	 * @param view view
 	 */
 	public DrawListArray(EuclidianViewInterfaceSlim view) {
 
@@ -31,10 +31,10 @@ public class DrawListArray extends ArrayList<DrawableND> {
 	/**
 	 * Add the listElement's drawable
 	 * 
-	 * @param listElement
-	 * @param drawablePos
-	 * @param oldDrawableSize
-	 * @param drawList
+	 * @param listElement element to insert
+	 * @param drawablePos position to insert
+	 * @param oldDrawableSize old size of drawable list
+	 * @param drawList list in which we might find drawable for given geo
 	 * @return false if the drawable == null
 	 */
 	public boolean addToDrawableList(GeoElement listElement, int drawablePos,
@@ -70,7 +70,7 @@ public class DrawListArray extends ArrayList<DrawableND> {
 	/**
 	 * update the drawable
 	 * 
-	 * @param d
+	 * @param d drawable to be updated
 	 */
 	protected void update(DrawableND d) {
 		d.update();
@@ -89,7 +89,7 @@ public class DrawListArray extends ArrayList<DrawableND> {
 	}
 
 	/**
-	 * @param listElement
+	 * @param listElement geo
 	 * @return the drawable create by the view for this geo
 	 */
 	protected DrawableND createDrawableND(GeoElement listElement) {

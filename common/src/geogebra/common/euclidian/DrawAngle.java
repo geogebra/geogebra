@@ -20,7 +20,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoAngleLines;
 import geogebra.common.kernel.algos.AlgoAnglePoints;
-import geogebra.common.kernel.algos.AlgoAnglePolygon;
 import geogebra.common.kernel.algos.AlgoAngleVector;
 import geogebra.common.kernel.algos.AlgoAngleVectors;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -44,7 +43,6 @@ import java.util.ArrayList;
 /**
  * 
  * @author Markus Hohenwarter, Loic De Coq
- * @version
  */
 public class DrawAngle extends Drawable implements Previewable {
 
@@ -121,8 +119,8 @@ public class DrawAngle extends Drawable implements Previewable {
 	/**
 	 * Creates a new DrawAngle for preview
 	 * 
-	 * @param view
-	 * @param points
+	 * @param view view
+	 * @param points list of points
 	 */
 	public DrawAngle(AbstractEuclidianView view, ArrayList<GeoPointND> points) {
 		this.view = view;
@@ -144,30 +142,32 @@ public class DrawAngle extends Drawable implements Previewable {
 		tempPoint.setCoords(0.0, 0.0, 1.0);
 
 		// angle defined by three points
-		if (algo instanceof AlgoAnglePoints) {
+		switch(algo.getClassName()){
+		case AlgoAnglePoints:
+		
 			angleDrawMode = DRAW_MODE_POINTS;
 			AlgoAnglePoints pa = (AlgoAnglePoints) algo;
 			vertex = pa.getB();
 			point = pa.getA();
 			point2 = pa.getC();
-		}
+			break;
 		// angle between two vectors
-		else if (algo instanceof AlgoAngleVectors) {
+		case AlgoAngleVectors:
 			angleDrawMode = DRAW_MODE_VECTORS;
 			AlgoAngleVectors va = (AlgoAngleVectors) algo;
 			GeoVector v = va.getv();
 			vector = v;
-		}
+			break;
 		// angle between two lines
-		else if (algo instanceof AlgoAngleLines) {
+		case AlgoAngleLines: 
 			angleDrawMode = DRAW_MODE_LINES;
 			AlgoAngleLines la = (AlgoAngleLines) algo;
 			line = la.getg();
 			line2 = la.geth();
 			vertex = tempPoint;
-		}
+			break;
 		// angle of a single vector or a single point
-		else if (algo instanceof AlgoAngleVector) {
+		case AlgoAngleVector:
 			AlgoAngleVector av = (AlgoAngleVector) algo;
 			GeoVec3D vec = av.getVec3D();
 			if (vec instanceof GeoVector) {
@@ -180,21 +180,26 @@ public class DrawAngle extends Drawable implements Previewable {
 			}
 			firstVec[0] = 1;
 			firstVec[1] = 0;
-		} else if (algo instanceof AlgoAnglePolygon) {
-
-		} else
+			break;
+		case AlgoAnglePolygon:
+			break;
+		default:
 			AbstractApplication.debug("missing case in DrawAngle");
+		}
 	}
 
 	/**
 	 * 
-	 * @param point
+	 * @param pt point
 	 * @return true if coords are in this view
 	 */
-	protected boolean inView(Coords point) {
+	protected boolean inView(Coords pt) {
 		return true;
 	}
 
+	/**
+	 * @return raw value (0 to 2pi) of angle
+	 */
 	protected double getRawAngle() {
 		return angle.getRawAngle();
 	}
@@ -226,8 +231,8 @@ public class DrawAngle extends Drawable implements Previewable {
 			}
 			m = v.get();
 
-			Coords coords = point.getInhomCoordsInD(3);
-			if (!inView(coords)) {
+			Coords ptCoords = point.getInhomCoordsInD(3);
+			if (!inView(ptCoords)) {
 				isVisible = false;
 				return;
 			}
@@ -238,16 +243,16 @@ public class DrawAngle extends Drawable implements Previewable {
 			}
 
 			// first vec
-			firstVec[0] = coords.getX() - m[0];
-			firstVec[1] = coords.getY() - m[1];
+			firstVec[0] = ptCoords.getX() - m[0];
+			firstVec[1] = ptCoords.getY() - m[1];
 
 			double vertexScreen[] = new double[2];
 			vertexScreen[0] = m[0];
 			vertexScreen[1] = m[1];
 
 			double firstVecScreen[] = new double[2];
-			firstVecScreen[0] = coords.getX();
-			firstVecScreen[1] = coords.getY();
+			firstVecScreen[0] = ptCoords.getX();
+			firstVecScreen[1] = ptCoords.getY();
 
 			double secondVecScreen[] = new double[2];
 			secondVecScreen[0] = coords2.getX();
@@ -717,7 +722,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	// update coords for the tick decoration
 	// tick is at distance radius and oriented towards angle
 	// id = 0,1, or 2 for tick[0],tick[1] or tick[2]
-	private void updateTick(double angle, int radius, int id) {
+	private void updateTick(double angle1, int radius, int id) {
 		// coords have to be set to screen coords of m before calling this
 		// method
 		if (tick == null) {
@@ -727,8 +732,8 @@ public class DrawAngle extends Drawable implements Previewable {
 			}
 		}
 
-		double cos = Math.cos(angle);
-		double sin = Math.sin(angle);
+		double cos = Math.cos(angle1);
+		double sin = Math.sin(angle1);
 
 		double length = 2.5 + geo.lineThickness / 4d;
 
@@ -812,5 +817,6 @@ public class DrawAngle extends Drawable implements Previewable {
 	}
 
 	public void disposePreview() {
+		//do nothing
 	}
 }

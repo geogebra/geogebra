@@ -27,10 +27,15 @@ public class DrawImplicitPoly extends DrawLocus {
 	private GeoImplicitPoly implicitPoly;
 	// private int fillSign; //0=>no filling, only curve -1=>fill the negativ part, 1=>fill positiv part
 	
+	/**
+	 * Creates new drawable for implicit polynomial
+	 * @param view view
+	 * @param implicitPoly implicit polynomial
+	 */
 	public DrawImplicitPoly(AbstractEuclidianView view,GeoImplicitPoly implicitPoly) {
 		super(view, implicitPoly.locus);
 		this.view=view;
-    	hitThreshold = view.getCapturingThreshold();
+    	hitThreshold = AbstractEuclidianView.getCapturingThreshold();
 		this.implicitPoly = implicitPoly;
 		this.geo=implicitPoly;
 		update();

@@ -35,24 +35,25 @@ import java.util.ArrayList;
 /**
  * 
  * @author Markus Hohenwarter
- * @version
  */
 public class DrawRay extends Drawable implements Previewable {
 
 	private GeoLineND ray;
 	// private GeoPoint A;
 
-	boolean isVisible, labelVisible;
+	private boolean isVisible, labelVisible;
 	private ArrayList<GeoPointND> points;
 
 	private Line2D line = AwtFactory.prototype.newLine2D();
 	private double[] a = new double[2];
 	private double[] v = new double[2];
 
-	/** Creates new DrawSegment */
+	/** Creates new DrawRay 
+	 * @param view view
+	 * @param ray ray*/
 	public DrawRay(AbstractEuclidianView view, GeoLineND ray) {
 		this.view = view;
-		hitThreshold = view.getCapturingThreshold();
+		hitThreshold = AbstractEuclidianView.getCapturingThreshold();
 		this.ray = ray;
 		geo = (GeoElement) ray;
 
@@ -62,8 +63,8 @@ public class DrawRay extends Drawable implements Previewable {
 	/**
 	 * Creates a new DrawSegment for preview.
 	 * 
-	 * @param view
-	 * @param points
+	 * @param view view
+	 * @param points preview points
 	 */
 	public DrawRay(AbstractEuclidianView view, ArrayList<GeoPointND> points) {
 		this.view = view;
@@ -77,6 +78,9 @@ public class DrawRay extends Drawable implements Previewable {
 		update(true);
 	}
 
+	/**
+	 * @param showLabel true if label should be shown
+	 */
 	public void update(boolean showLabel) {
 		isVisible = geo.isEuclidianVisible();
 		if (isVisible) {
@@ -209,10 +213,14 @@ public class DrawRay extends Drawable implements Previewable {
 		}
 	}
 
+	/**
+	 * @param objStroke stroke
+	 */
 	final public void setStroke(geogebra.common.awt.BasicStroke objStroke) {
 		this.objStroke = objStroke;
 	}
 
+	@Override
 	final public void drawTrace(geogebra.common.awt.Graphics2D g2) {
 		g2.setPaint(geo.getObjectColor());
 		g2.setStroke(objStroke);
@@ -236,8 +244,9 @@ public class DrawRay extends Drawable implements Previewable {
 	private geogebra.common.awt.Point2D endPoint = 
 			geogebra.common.factories.AwtFactory.prototype.newPoint2D();
 
-	final public void updateMousePos(double xRW, double yRW) {
-
+	final public void updateMousePos(double mouseRWx, double mouseRWy) {
+		double xRW = mouseRWx;
+		double yRW = mouseRWy;
 		if (isVisible) {
 
 			// need these as we don't want rounding when Alt pressed (nearest 15
@@ -291,6 +300,7 @@ public class DrawRay extends Drawable implements Previewable {
 	}
 
 	public void disposePreview() {
+		//do nothing
 	}
 
 	@Override

@@ -2,44 +2,57 @@ package geogebra.common.euclidian;
 
 import geogebra.common.kernel.Kernel;
 
+/**
+ * AbstractZoomer is responsible for animated zooming of Euclidian View
+ *
+ */
 public abstract class AbstractZoomer {
-	protected enum ZoomerMode{ZOOM,ZOOM_RW,AXES,MOVE}
+	private enum ZoomerMode{ZOOM,ZOOM_RW,AXES,MOVE}
+	
+	private final AbstractEuclidianView view;
+
+	private static final int MAX_STEPS = 15; // frames
+
 	/**
-	 * 
+	 * Tick of the timer
 	 */
-	protected final AbstractEuclidianView view;
-
-	static final int MAX_STEPS = 15; // frames
-
 	protected static final int DELAY = 10;
 
-	static final int MAX_TIME = 400; // millis
+	private static final int MAX_TIME = 400; // millis
 
 	
 	
-	protected ZoomerMode mode;
+	private ZoomerMode mode;
 	
-	protected double px, py; // zoom point
+	private double px, py; // zoom point
 
-	protected double factor;
+	private double factor;
 
-	protected int counter, steps;
+	private int counter, steps;
 
-	protected double oldScale, newScale, add, dx, dy;
+	private double oldScale, newScale, add, dx, dy;
 	
-	protected double x0,x1,y0,y1,xminOld,yminOld,ymaxOld,xmaxOld;
+	private double x0,x1,y0,y1,xminOld,yminOld,ymaxOld,xmaxOld;
 
-	protected long startTime;
+	private long startTime;
 
-	protected boolean storeUndo;
-
+	private boolean storeUndo;
+	/**
+	 * Creates new zoomer
+	 * @param view view
+	 */
 	public AbstractZoomer(AbstractEuclidianView view){
 		this.view = view;
 	}
 	
-	public void init(double ratio, boolean storeUndo) {
+	/**
+	 * Init this for axis ratio zooming
+	 * @param ratio y-zoom
+	 * @param doStoreUndo true to store undo
+	 */
+	public void init(double ratio, boolean doStoreUndo) {
 		// this.ratio = ratio;
-		this.storeUndo = storeUndo;
+		this.storeUndo = doStoreUndo;
 
 		// zoomFactor = ratio / scaleRatio;
 		oldScale = view.getYscale();
@@ -48,46 +61,70 @@ public abstract class AbstractZoomer {
 		mode = ZoomerMode.AXES;
 	}
 
-	public void init(double px, double py, double zoomFactor, int steps,
-			boolean storeUndo) {
-		this.px = px;
-		this.py = py;
+	/**
+	 * Init this for normal zoom
+	 * @param ptx center x-coord
+	 * @param pty center y-coord
+	 * @param zoomFactor zoom factor
+	 * @param noOfSteps number of steps
+	 * @param doStoreUndo true to store undo info
+	 */
+	public void init(double ptx, double pty, double zoomFactor, int noOfSteps,
+			boolean doStoreUndo) {
+		this.px = ptx;
+		this.py = pty;
 		// this.zoomFactor = zoomFactor;
-		this.storeUndo = storeUndo;
+		this.storeUndo = doStoreUndo;
 
 		oldScale = view.getXscale();
 		newScale = view.getXscale() * zoomFactor;
 		
-		this.steps = Math.min(MAX_STEPS, steps);
+		this.steps = Math.min(MAX_STEPS, noOfSteps);
 		mode = ZoomerMode.ZOOM;
 	}
 	
-	public void initRW(double x0, double x1, double y0, double y1, int steps,
-			boolean storeUndo) {
-		this.x0 = x0;
-		this.x1 = x1;
-		this.y0 = y0;
-		this.y1 = y1;
+	/**
+	 * @param rwx0 left x
+	 * @param rwx1 right x
+	 * @param rwy0 bottom y
+	 * @param rwy1 top y
+	 * @param noOfSteps number of steps
+	 * @param doStoreUndo true to store undo info
+	 */
+	public void initRW(double rwx0, double rwx1, double rwy0, double rwy1, int noOfSteps,
+			boolean doStoreUndo) {
+		this.x0 = rwx0;
+		this.x1 = rwx1;
+		this.y0 = rwy0;
+		this.y1 = rwy1;
 
 		xminOld = view.getXmin();
 		xmaxOld = view.getXmax();
 		yminOld = view.getYmin();
 		ymaxOld = view.getYmax();
 		// this.zoomFactor = zoomFactor;
-		this.storeUndo = storeUndo;
+		this.storeUndo = doStoreUndo;
 
-		this.steps = Math.min(MAX_STEPS, steps);
+		this.steps = Math.min(MAX_STEPS, noOfSteps);
 		mode = ZoomerMode.ZOOM_RW;
 	}
 	
-	public void init(double ox, double oy, boolean storeUndo) {
+	/**
+	 * @param ox x translation (pixels)
+	 * @param oy y translation (pixels)
+	 * @param doStoreUndo true to store undo info 
+	 */
+	public void init(double ox, double oy, boolean doStoreUndo) {
 		this.px = ox;
 		this.py = oy;
-		this.storeUndo = storeUndo;
+		this.storeUndo = doStoreUndo;
 		mode = ZoomerMode.MOVE;
 		this.steps = MAX_STEPS;
 	}
 	
+	/**
+	 * Perform one zoom step
+	 */
 	protected void step(){
 		counter++;
 		long time = System.currentTimeMillis() - startTime;
@@ -121,7 +158,7 @@ public abstract class AbstractZoomer {
 		}
 	}
 	
-	protected synchronized void stopAnimation() {
+	private synchronized void stopAnimation() {
 		stopTimer();
 		// setDrawMode(DRAW_MODE_BACKGROUND_IMAGE);
 		switch(mode){
@@ -150,6 +187,12 @@ public abstract class AbstractZoomer {
 
 	private boolean setStandard = false;
 	private double standardX, standardY;
+	
+	/**
+	 * Chain current zoom with resetting standard view
+	 * @param xzero standard xzero
+	 * @param yzero standard yzero
+	 */
 	public void setStandardViewAfter(double xzero, double yzero) {
 		setStandard = true;
 		standardX = xzero;
@@ -157,6 +200,9 @@ public abstract class AbstractZoomer {
 		
 	}
 	
+	/**
+	 * Starts the animation
+	 */
 	public synchronized void startAnimation() {
 		if (!hasTimer()) {
 			return;
@@ -184,9 +230,11 @@ public abstract class AbstractZoomer {
 		startTime = System.currentTimeMillis();
 		startTimer();
 	}
-
+	/** stop timer*/
 	protected abstract void stopTimer();
+	/** start timer */
 	protected abstract void startTimer();
+	/** @return true if timer is defined */
 	protected abstract boolean hasTimer();
 
 }

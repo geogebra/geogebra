@@ -20,7 +20,7 @@ import java.util.Iterator;
  * List to store Drawable objects for fast drawing.
  */
 public class DrawableList {
-
+	/** first drawable in the list*/
 	Link head;
 	private Link tail;
 	private int size = 0;
@@ -61,13 +61,10 @@ public class DrawableList {
 			Link cur = head;
 			Link last = head;
 
-			int count = 0;
-
 			while ((cur.d.getGeoElement().getDrawingPriority() < priority)
 					&& !cur.equals(tail)) {
 				last = cur;
 				cur = cur.next;
-				count++;
 			}
 
 			if (cur.equals(head)) {
@@ -116,7 +113,7 @@ public class DrawableList {
 	 * Inserts d at the end of the list only if the list doesn't already contain
 	 * d.
 	 * 
-	 * @param d
+	 * @param d drawable to be added
 	 */
 	public final void addUnique(Drawable d) {
 		if (!contains(d))
@@ -243,6 +240,9 @@ public class DrawableList {
 	public class DrawableIterator implements Iterator<Drawable> {
 		private Link it;
 
+		/**
+		 * Creates new drawable iterator
+		 */
 		DrawableIterator() {
 			reset();
 		}
@@ -265,7 +265,7 @@ public class DrawableList {
 		}
 
 		final public void remove() {
-
+			//do nothing
 		}
 
 	}

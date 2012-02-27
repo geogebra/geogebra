@@ -23,10 +23,10 @@ public class DrawInequality1Var extends Drawable {
 	/**
 	 * Creates new drawable inequality
 	 * 
-	 * @param view
-	 * @param geo
-	 * @param ineq
-	 * @param varIsY
+	 * @param view view
+	 * @param geo the top-level function (e.g x>1 && x<3)
+	 * @param ineq inequality
+	 * @param varIsY true if this is inequality in Y
 	 */
 	public DrawInequality1Var(Inequality ineq, AbstractEuclidianView view,
 			GeoElement geo, boolean varIsY) {

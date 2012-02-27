@@ -1,8 +1,8 @@
 package geogebra.common.euclidian;
 
 import geogebra.common.awt.Point;
+import geogebra.common.euclidian.DrawParametricCurve.Gap;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.IneqTree;
 import geogebra.common.kernel.arithmetic.Inequality;
@@ -23,6 +23,7 @@ import java.util.TreeSet;
 public class DrawInequality extends Drawable {
 
 	private boolean isVisible;
+	/** true if label is visible */
 	boolean labelVisible;
 
 	private Drawable drawable;
@@ -34,13 +35,13 @@ public class DrawInequality extends Drawable {
 	/**
 	 * Creates new drawable linear inequality
 	 * 
-	 * @param view
+	 * @param view view
 	 * @param function
 	 *            boolean 2-var function
 	 */
 	public DrawInequality(AbstractEuclidianView view, FunctionalNVar function) {
 		this.view = view;
-		hitThreshold = view.getCapturingThreshold();
+		hitThreshold = AbstractEuclidianView.getCapturingThreshold();
 		geo = (GeoElement) function;
 		this.function = function;
 		operation = function.getIneqs().getOperation();
@@ -313,13 +314,13 @@ public class DrawInequality extends Drawable {
 
 	private class DrawParametricInequality extends Drawable {
 
-		private Inequality ineq;
+		private Inequality paramIneq;
 		private GeneralPathClipped gp;
 
 		protected DrawParametricInequality(Inequality ineq, AbstractEuclidianView view,
 				GeoElement geo) {
 			this.view = view;
-			this.ineq = ineq;
+			this.paramIneq = ineq;
 			this.geo = geo;
 		}
 
@@ -329,7 +330,7 @@ public class DrawInequality extends Drawable {
 		}
 
 		GeoElement getBorder() {
-			return ineq.getBorder();
+			return paramIneq.getBorder();
 		}
 
 		@Override
@@ -383,25 +384,25 @@ public class DrawInequality extends Drawable {
 				gp = new GeneralPathClipped(view);
 			else
 				gp.reset();
-			GeoFunction border = ineq.getFunBorder();
+			GeoFunction border = paramIneq.getFunBorder();
 			border.setLineThickness(geo.lineThickness);
 			updateStrokes(border);
 			Point labelPos;
-			if (ineq.getType() == Inequality.INEQUALITY_PARAMETRIC_X) {
+			if (paramIneq.getType() == Inequality.INEQUALITY_PARAMETRIC_X) {
 				double bx = view.toRealWorldCoordY(-10);
 				double ax = view.toRealWorldCoordY(view.getHeight() + 10);				
 				double axEv = view.toScreenCoordYd(ax);				
-				if (ineq.isAboveBorder()) {					
+				if (paramIneq.isAboveBorder()) {					
 					gp.moveTo(view.getWidth() + 10, axEv);
 					labelPos = DrawParametricCurve.plotCurve(border, ax, bx, view, gp,
-							true, DrawParametricCurve.GAP_RESET_XMAX);
+							true, Gap.RESET_XMAX);
 					gp.lineTo(view.getWidth() + 10, gp.getCurrentPoint().getY());
 					gp.lineTo(view.getWidth() + 10, axEv);
 					gp.closePath();
 				} else {					
 					gp.moveTo(-10, axEv);
 					labelPos = DrawParametricCurve.plotCurve(border, ax, bx, view, gp,
-							true, DrawParametricCurve.GAP_RESET_XMIN);
+							true, Gap.RESET_XMIN);
 					gp.lineTo(-10, gp.getCurrentPoint().getY());
 					gp.lineTo(-10, axEv);
 					gp.closePath();
@@ -410,17 +411,17 @@ public class DrawInequality extends Drawable {
 				double ax = view.toRealWorldCoordX(-10);
 				double bx = view.toRealWorldCoordX(view.getWidth() + 10);				
 				double axEv = view.toScreenCoordXd(ax);				
-				if (ineq.isAboveBorder()) {
+				if (paramIneq.isAboveBorder()) {
 					gp.moveTo(axEv, -10);
 					labelPos = DrawParametricCurve.plotCurve(border, ax, bx, view, gp,
-							true, DrawParametricCurve.GAP_RESET_YMIN);
+							true, Gap.RESET_YMIN);
 					gp.lineTo(gp.getCurrentPoint().getX(), -10);
 					gp.lineTo(axEv, -10);
 					gp.closePath();
 				} else {
 					gp.moveTo(axEv, view.getHeight() + 10);
 					labelPos = DrawParametricCurve.plotCurve(border, ax, bx, view, gp,
-							true, DrawParametricCurve.GAP_RESET_YMAX);					
+							true, Gap.RESET_YMAX);					
 					gp.lineTo(gp.getCurrentPoint().getX(), view.getHeight() + 10);
 					gp.lineTo(axEv, view.getHeight() + 10);
 					gp.closePath();
@@ -437,7 +438,7 @@ public class DrawInequality extends Drawable {
 		}
 
 		boolean isXparametric() {
-			return ineq.getType() == Inequality.INEQUALITY_PARAMETRIC_X;
+			return paramIneq.getType() == Inequality.INEQUALITY_PARAMETRIC_X;
 		}
 
 	}

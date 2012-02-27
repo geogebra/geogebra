@@ -20,7 +20,6 @@ import geogebra.common.awt.Graphics2D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoSlope;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -28,7 +27,6 @@ import geogebra.common.kernel.geos.GeoNumeric;
 /**
  * 
  * @author Markus Hohenwarter
- * @version
  */
 public class DrawSlope extends Drawable {
 
@@ -46,8 +44,8 @@ public class DrawSlope extends Drawable {
 	/**
 	 * Creates new drawable for slope
 	 * 
-	 * @param view
-	 * @param slope
+	 * @param view view
+	 * @param slope slope number
 	 */
 	public DrawSlope(AbstractEuclidianView view, GeoNumeric slope) {
 		this.view = view;

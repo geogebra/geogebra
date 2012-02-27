@@ -263,6 +263,7 @@ public class DrawVector extends Drawable implements Previewable {
 		}
 	}
 
+	@Override
 	final void drawTrace(geogebra.common.awt.Graphics2D g2) {
 		g2.setPaint(((GeoElement) v)
 				.getObjectColor());
@@ -287,7 +288,7 @@ public class DrawVector extends Drawable implements Previewable {
 		}
 	}
 
-	geogebra.common.awt.Point2D endPoint = 
+	private geogebra.common.awt.Point2D endPoint = 
 			geogebra.common.factories.AwtFactory.prototype.newPoint2D();
 
 	final public void updateMousePos(double xRWmouse, double yRWmouse) {
@@ -341,6 +342,7 @@ public class DrawVector extends Drawable implements Previewable {
 	}
 
 	public void disposePreview() {
+		//do nothing
 	}
 
 	@Override

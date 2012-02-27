@@ -7,7 +7,10 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.AbstractApplication;
 
 import geogebra.common.awt.Rectangle;
-
+/**
+ * Drawable representation of box plots
+ *
+ */
 public class DrawBoxPlot extends Drawable {
 	private boolean isVisible, labelVisible;
 	private double[] coords = new double[2];
@@ -16,6 +19,10 @@ public class DrawBoxPlot extends Drawable {
 	private AlgoBoxPlot algo;
 	private NumberValue a, b;
 
+	/**
+	 * @param view view
+	 * @param n number (boxplot)
+	 */
 	public DrawBoxPlot(AbstractEuclidianView view, GeoNumeric n) {
 		this.view = view;
 		sum = n;

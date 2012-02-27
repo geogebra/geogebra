@@ -17,6 +17,7 @@ import geogebra.common.awt.Line2D;
 import geogebra.common.awt.Point;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.font.TextLayout;
+import geogebra.common.euclidian.DrawLine.PreviewType;
 import geogebra.common.euclidian.DrawableList.DrawableIterator;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.FormatFactory;
@@ -32,7 +33,6 @@ import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.AlgoIntegralFunctions;
 import geogebra.common.kernel.algos.AlgoSlope;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
@@ -73,7 +73,7 @@ import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
-
+@SuppressWarnings("javadoc")
 public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCommon {
 	
 	/** View other than EV1 and EV2 **/
@@ -790,7 +790,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		this.setyZero(yZero);
 		this.setXscale(xscale);
 		this.setYscale(yscale);
-		setScaleRatio(yscale / xscale);
+		//setScaleRatio(yscale / xscale);
 
 		// set transform for my coord system:
 		// ( xscale 0 xZero )
@@ -843,7 +843,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 	private double yscale;
 
-	private double scaleRatio = 1.0;
+	//private double scaleRatio = 1.0;
 	
 	protected double printingScale;
 
@@ -961,17 +961,17 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	}
 
 	protected String getXYscaleRatioString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("x : y = ");
+		StringBuilder ratioSb = new StringBuilder();
+		ratioSb.append("x : y = ");
 		if (getXscale() >= getYscale()) {
-			sb.append("1 : ");
-			sb.append(printScaleNF.format(getXscale() / getYscale()));
+			ratioSb.append("1 : ");
+			ratioSb.append(printScaleNF.format(getXscale() / getYscale()));
 		} else {
-			sb.append(printScaleNF.format(getYscale() / getXscale()));
-			sb.append(" : 1");
+			ratioSb.append(printScaleNF.format(getYscale() / getXscale()));
+			ratioSb.append(" : 1");
 		}
-		sb.append(' ');
-		return sb.toString();
+		ratioSb.append(' ');
+		return ratioSb.toString();
 	}
 
 	/**
@@ -1068,9 +1068,9 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		this.yZero = yZero;
 	}
 
-	void setScaleRatio(double scaleRatio) {
+	/*void setScaleRatio(double scaleRatio) {
 		this.scaleRatio = scaleRatio;
-	}
+	}*/
 
 	public void setXmin(double xmin) {
 		this.xmin = xmin;
@@ -1121,7 +1121,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		setXscale(getXscale() * zoomFactor);
 		setYscale(getYscale() * zoomFactor);
 
-		setScaleRatio(getYscale() / getXscale());
+		//setScaleRatio(getYscale() / getXscale());
 		
 		setxZero(-getXmin() * getXscale());
 		setWidth((int) ((getXmax() * getXscale()) + getxZero()));
@@ -1567,26 +1567,26 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	/**
 	 * returns array of changeable GeoElements out of hits
 	 * 
-	 * @param hits
+	 * @param hits1
 	 *            hit elements
 	 * @return array of changeable GeoElements out of hits
 	 */
 	final public ArrayList<GeoElement> getMoveableHits(
-			ArrayList<GeoElement> hits) {
-		return getMoveables(hits, TEST_MOVEABLE, null);
+			ArrayList<GeoElement> hits1) {
+		return getMoveables(hits1, TEST_MOVEABLE, null);
 	}
 
 	/**
 	 * returns array of changeable GeoElements out of hits that implement
 	 * PointRotateable
 	 * 
-	 * @param hits
+	 * @param hits1
 	 * @param rotCenter
 	 * @return array of changeable GeoElements out of hits that implement
 	 */
 	final public ArrayList<GeoElement> getPointRotateableHits(
-			ArrayList<GeoElement> hits, GeoPoint2 rotCenter) {
-		return getMoveables(hits, TEST_ROTATEMOVEABLE, rotCenter);
+			ArrayList<GeoElement> hits1, GeoPoint2 rotCenter) {
+		return getMoveables(hits1, TEST_ROTATEMOVEABLE, rotCenter);
 	}
 
 
@@ -1594,16 +1594,16 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 	protected final int TEST_ROTATEMOVEABLE = 2;
 
-	protected ArrayList<GeoElement> getMoveables(ArrayList<GeoElement> hits,
+	protected ArrayList<GeoElement> getMoveables(ArrayList<GeoElement> hits1,
 			int test, GeoPoint2 rotCenter) {
-		if (hits == null) {
+		if (hits1 == null) {
 			return null;
 		}
 
 		GeoElement geo;
 		moveableList.clear();
-		for (int i = 0; i < hits.size(); ++i) {
-			geo = hits.get(i);
+		for (int i = 0; i < hits1.size(); ++i) {
+			geo = hits1.get(i);
 			switch (test) {
 			case TEST_MOVEABLE:
 				// moveable object
@@ -1636,9 +1636,8 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		}
 		if (moveableList.size() == 0) {
 			return null;
-		} else {
-			return moveableList;
 		}
+		return moveableList;
 	}
 
 	protected ArrayList<GeoElement> moveableList = new ArrayList<GeoElement>();
@@ -1679,11 +1678,11 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	 * @param d
 	 *            drawable to be added
 	 */
-	protected void addToDrawableLists(Drawable d) {
-		if (d == null) {
+	protected void addToDrawableLists(Drawable draw) {
+		if (draw == null) {
 			return;
 		}
-
+		Drawable d = draw;
 		GeoElement geo = d.getGeoElement();
 		int layer = geo.getLayer();
 
@@ -2564,19 +2563,19 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	// previewables
 
 	public Previewable createPreviewLine(ArrayList<GeoPointND> selectedPoints) {
-		return new DrawLine(this, selectedPoints, DrawLine.PREVIEW_LINE);
+		return new DrawLine(this, selectedPoints, PreviewType.LINE);
 	}
 
 	public Previewable createPreviewPerpendicularBisector(
 			ArrayList<GeoPointND> selectedPoints) {
 		return new DrawLine(this, selectedPoints,
-				DrawLine.PREVIEW_PERPENDICULAR_BISECTOR);
+				PreviewType.PERPENDICULAR_BISECTOR);
 	}
 
 	public Previewable createPreviewAngleBisector(
 			ArrayList<GeoPointND> selectedPoints) {
 		return new DrawLine(this, selectedPoints,
-				DrawLine.PREVIEW_ANGLE_BISECTOR);
+				PreviewType.ANGLE_BISECTOR);
 	}
 
 	public Previewable createPreviewSegment(ArrayList<GeoPointND> selectedPoints) {
@@ -2591,9 +2590,9 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		return new DrawVector(this, selectedPoints);
 	}
 
-	public Previewable createPreviewConic(int mode,
+	public Previewable createPreviewConic(int mode1,
 			ArrayList<GeoPointND> selectedPoints) {
-		return new DrawConic(this, mode, selectedPoints);
+		return new DrawConic(this, mode1, selectedPoints);
 	}
 	
 	public Previewable createPreviewPolygon(ArrayList<GeoPointND> selectedPoints) {
@@ -2617,9 +2616,11 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 
 	public void mouseEntered() {
+		AbstractApplication.debug("implementation needed");
 	}
 
 	public void mouseExited() {
+		AbstractApplication.debug("implementation needed");
 	}
 
 	public Previewable createPreviewParallelLine(
@@ -3494,17 +3495,26 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			}
 		}
 
+		/**
+		 * @param g  graphics for reset icon
+		 */
 		protected void drawResetIcon(geogebra.common.awt.Graphics2D g){
-			
+			AbstractApplication.debug("implementation needed");
 		}
 		protected abstract void drawActionObjects(geogebra.common.awt.Graphics2D g);
 
+		/**
+		 * @param g2 graphics whose hints should be set 
+		 */
 		public void setDefRenderingHints(Graphics2D g2){
-			// TODO Auto-generated method stub
+			AbstractApplication.debug("implementation needed");
 		}
 
 		protected abstract void setAntialiasing(Graphics2D g2);
 		
+		/**
+		 * @param g2 graphics for the animation button 
+		 */
 		protected void drawAnimationButtons(Graphics2D g2) {
 			//it could be abstract, but mess with EuclididanView3D
 		}
@@ -3903,181 +3913,181 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		/**
 		 * returns settings in XML format
 		 * 
-		 * @param sb
+		 * @param sbxml string builder
 		 * @param asPreference
 		 */
-		public void getXML(StringBuilder sb, boolean asPreference) {
+		public void getXML(StringBuilder sbxml, boolean asPreference) {
 			StringTemplate tpl = StringTemplate.xmlTemplate;
-			sb.append("<euclidianView>\n");
+			sbxml.append("<euclidianView>\n");
 			if (evNo >= 2) {
-				sb.append("\t<viewNumber ");
-				sb.append("viewNo=\"");
-				sb.append(evNo);
-				sb.append("\"");
-				sb.append("/>\n");
+				sbxml.append("\t<viewNumber ");
+				sbxml.append("viewNo=\"");
+				sbxml.append(evNo);
+				sbxml.append("\"");
+				sbxml.append("/>\n");
 			}
 
 			if ((getWidth() > MIN_WIDTH) && (getHeight() > MIN_HEIGHT)) {
-				sb.append("\t<size ");
-				sb.append(" width=\"");
-				sb.append(getWidth());
-				sb.append("\"");
-				sb.append(" height=\"");
-				sb.append(getHeight());
-				sb.append("\"");
-				sb.append("/>\n");
+				sbxml.append("\t<size ");
+				sbxml.append(" width=\"");
+				sbxml.append(getWidth());
+				sbxml.append("\"");
+				sbxml.append(" height=\"");
+				sbxml.append(getHeight());
+				sbxml.append("\"");
+				sbxml.append("/>\n");
 			}
 			if (!isZoomable() && !asPreference) {
-				sb.append("\t<coordSystem");
-				sb.append(" xMin=\"");
-				sb.append(((GeoNumeric) xminObject).getLabel(tpl));
-				sb.append("\"");
-				sb.append(" xMax=\"");
-				sb.append(((GeoNumeric) xmaxObject).getLabel(tpl));
-				sb.append("\"");
-				sb.append(" yMin=\"");
-				sb.append(((GeoNumeric) yminObject).getLabel(tpl));
-				sb.append("\"");
-				sb.append(" yMax=\"");
-				sb.append(((GeoNumeric) ymaxObject).getLabel(tpl));
-				sb.append("\"");
-				sb.append("/>\n");
+				sbxml.append("\t<coordSystem");
+				sbxml.append(" xMin=\"");
+				sbxml.append(((GeoNumeric) xminObject).getLabel(tpl));
+				sbxml.append("\"");
+				sbxml.append(" xMax=\"");
+				sbxml.append(((GeoNumeric) xmaxObject).getLabel(tpl));
+				sbxml.append("\"");
+				sbxml.append(" yMin=\"");
+				sbxml.append(((GeoNumeric) yminObject).getLabel(tpl));
+				sbxml.append("\"");
+				sbxml.append(" yMax=\"");
+				sbxml.append(((GeoNumeric) ymaxObject).getLabel(tpl));
+				sbxml.append("\"");
+				sbxml.append("/>\n");
 			} else {
-				sb.append("\t<coordSystem");
-				sb.append(" xZero=\"");
-				sb.append(getxZero());
-				sb.append("\"");
-				sb.append(" yZero=\"");
-				sb.append(getyZero());
-				sb.append("\"");
-				sb.append(" scale=\"");
-				sb.append(getXscale());
-				sb.append("\"");
-				sb.append(" yscale=\"");
-				sb.append(getYscale());
-				sb.append("\"");
-				sb.append("/>\n");
+				sbxml.append("\t<coordSystem");
+				sbxml.append(" xZero=\"");
+				sbxml.append(getxZero());
+				sbxml.append("\"");
+				sbxml.append(" yZero=\"");
+				sbxml.append(getyZero());
+				sbxml.append("\"");
+				sbxml.append(" scale=\"");
+				sbxml.append(getXscale());
+				sbxml.append("\"");
+				sbxml.append(" yscale=\"");
+				sbxml.append(getYscale());
+				sbxml.append("\"");
+				sbxml.append("/>\n");
 			}
 			// NOTE: the attribute "axes" for the visibility state of
 			// both axes is no longer needed since V3.0.
 			// Now there are special axis tags, see below.
-			sb.append("\t<evSettings axes=\"");
-			sb.append(showAxes[0] || showAxes[1]);
-			sb.append("\" grid=\"");
-			sb.append(showGrid);
-			sb.append("\" gridIsBold=\""); //
-			sb.append(gridIsBold); // Michael Borcherds 2008-04-11
-			sb.append("\" pointCapturing=\"");
-			sb.append(getPointCapturingMode());
-			sb.append("\" rightAngleStyle=\"");
-			sb.append(getApplication().rightAngleStyle);
+			sbxml.append("\t<evSettings axes=\"");
+			sbxml.append(showAxes[0] || showAxes[1]);
+			sbxml.append("\" grid=\"");
+			sbxml.append(showGrid);
+			sbxml.append("\" gridIsBold=\""); //
+			sbxml.append(gridIsBold); // Michael Borcherds 2008-04-11
+			sbxml.append("\" pointCapturing=\"");
+			sbxml.append(getPointCapturingMode());
+			sbxml.append("\" rightAngleStyle=\"");
+			sbxml.append(getApplication().rightAngleStyle);
 			if (asPreference) {
-				sb.append("\" allowShowMouseCoords=\"");
-				sb.append(getAllowShowMouseCoords());
+				sbxml.append("\" allowShowMouseCoords=\"");
+				sbxml.append(getAllowShowMouseCoords());
 
-				sb.append("\" allowToolTips=\"");
-				sb.append(getAllowToolTips());
+				sbxml.append("\" allowToolTips=\"");
+				sbxml.append(getAllowToolTips());
 			}
 
-			sb.append("\" checkboxSize=\"");
-			sb.append(getApplication().booleanSize); // Michael Borcherds 2008-05-12
+			sbxml.append("\" checkboxSize=\"");
+			sbxml.append(getApplication().booleanSize); // Michael Borcherds 2008-05-12
 
-			sb.append("\" gridType=\"");
-			sb.append(getGridType()); // cartesian/isometric/polar
+			sbxml.append("\" gridType=\"");
+			sbxml.append(getGridType()); // cartesian/isometric/polar
 
-			sb.append("\"/>\n");
+			sbxml.append("\"/>\n");
 
 			// background color
-			sb.append("\t<bgColor r=\"");
-			sb.append(getBackgroundCommon().getRed());
-			sb.append("\" g=\"");
-			sb.append(getBackgroundCommon().getGreen());
-			sb.append("\" b=\"");
-			sb.append(getBackgroundCommon().getBlue());
-			sb.append("\"/>\n");
+			sbxml.append("\t<bgColor r=\"");
+			sbxml.append(getBackgroundCommon().getRed());
+			sbxml.append("\" g=\"");
+			sbxml.append(getBackgroundCommon().getGreen());
+			sbxml.append("\" b=\"");
+			sbxml.append(getBackgroundCommon().getBlue());
+			sbxml.append("\"/>\n");
 
 			// axes color
-			sb.append("\t<axesColor r=\"");
-			sb.append(axesColor.getRed());
-			sb.append("\" g=\"");
-			sb.append(axesColor.getGreen());
-			sb.append("\" b=\"");
-			sb.append(axesColor.getBlue());
-			sb.append("\"/>\n");
+			sbxml.append("\t<axesColor r=\"");
+			sbxml.append(axesColor.getRed());
+			sbxml.append("\" g=\"");
+			sbxml.append(axesColor.getGreen());
+			sbxml.append("\" b=\"");
+			sbxml.append(axesColor.getBlue());
+			sbxml.append("\"/>\n");
 
 			// grid color
-			sb.append("\t<gridColor r=\"");
-			sb.append(gridColor.getRed());
-			sb.append("\" g=\"");
-			sb.append(gridColor.getGreen());
-			sb.append("\" b=\"");
-			sb.append(gridColor.getBlue());
-			sb.append("\"/>\n");
+			sbxml.append("\t<gridColor r=\"");
+			sbxml.append(gridColor.getRed());
+			sbxml.append("\" g=\"");
+			sbxml.append(gridColor.getGreen());
+			sbxml.append("\" b=\"");
+			sbxml.append(gridColor.getBlue());
+			sbxml.append("\"/>\n");
 
 			// axes line style
-			sb.append("\t<lineStyle axes=\"");
-			sb.append(axesLineType);
-			sb.append("\" grid=\"");
-			sb.append(gridLineStyle);
-			sb.append("\"/>\n");
+			sbxml.append("\t<lineStyle axes=\"");
+			sbxml.append(axesLineType);
+			sbxml.append("\" grid=\"");
+			sbxml.append(gridLineStyle);
+			sbxml.append("\"/>\n");
 
 			// axis settings
 			for (int i = 0; i < 2; i++) {
-				sb.append("\t<axis id=\"");
-				sb.append(i);
-				sb.append("\" show=\"");
-				sb.append(showAxes[i]);
-				sb.append("\" label=\"");
-				sb.append(axesLabels[i] == null ? "" : StringUtil
+				sbxml.append("\t<axis id=\"");
+				sbxml.append(i);
+				sbxml.append("\" show=\"");
+				sbxml.append(showAxes[i]);
+				sbxml.append("\" label=\"");
+				sbxml.append(axesLabels[i] == null ? "" : StringUtil
 						.encodeXML(axesLabels[i]));
-				sb.append("\" unitLabel=\"");
-				sb.append(axesUnitLabels[i] == null ? "" : StringUtil
+				sbxml.append("\" unitLabel=\"");
+				sbxml.append(axesUnitLabels[i] == null ? "" : StringUtil
 						.encodeXML(axesUnitLabels[i]));
-				sb.append("\" tickStyle=\"");
-				sb.append(axesTickStyles[i]);
-				sb.append("\" showNumbers=\"");
-				sb.append(showAxesNumbers[i]);
+				sbxml.append("\" tickStyle=\"");
+				sbxml.append(axesTickStyles[i]);
+				sbxml.append("\" showNumbers=\"");
+				sbxml.append(showAxesNumbers[i]);
 
 				// the tick distance should only be saved if
 				// it isn't calculated automatically
 				if (!automaticAxesNumberingDistances[i]) {
-					sb.append("\" tickDistance=\"");
-					sb.append(axesNumberingDistances[i]);
+					sbxml.append("\" tickDistance=\"");
+					sbxml.append(axesNumberingDistances[i]);
 				}
 
 				// axis crossing values
 				if (drawBorderAxes[i]) {
-					sb.append("\" axisCrossEdge=\"");
-					sb.append(true);
+					sbxml.append("\" axisCrossEdge=\"");
+					sbxml.append(true);
 				} else if (!Kernel.isZero(axisCross[i])
 						&& !drawBorderAxes[i]) {
-					sb.append("\" axisCross=\"");
-					sb.append(axisCross[i]);
+					sbxml.append("\" axisCross=\"");
+					sbxml.append(axisCross[i]);
 				}
 
 				// positive direction only flags
 				if (positiveAxes[i]) {
-					sb.append("\" positiveAxis=\"");
-					sb.append(positiveAxes[i]);
+					sbxml.append("\" positiveAxis=\"");
+					sbxml.append(positiveAxes[i]);
 				}
 
-				sb.append("\"/>\n");
+				sbxml.append("\"/>\n");
 			}
 
 			// grid distances
 			if (!automaticGridDistance || (// compatibility to v2.7:
 					EuclidianStyleConstants.automaticGridDistanceFactor != EuclidianStyleConstants.DEFAULT_GRID_DIST_FACTOR)) {
-				sb.append("\t<grid distX=\"");
-				sb.append(gridDistances[0]);
-				sb.append("\" distY=\"");
-				sb.append(gridDistances[1]);
-				sb.append("\" distTheta=\"");
+				sbxml.append("\t<grid distX=\"");
+				sbxml.append(gridDistances[0]);
+				sbxml.append("\" distY=\"");
+				sbxml.append(gridDistances[1]);
+				sbxml.append("\" distTheta=\"");
 				// polar angle step added in v4.0
-				sb.append(gridDistances[2]);
-				sb.append("\"/>\n");
+				sbxml.append(gridDistances[2]);
+				sbxml.append("\"/>\n");
 			}
 
-			sb.append("</euclidianView>\n");
+			sbxml.append("</euclidianView>\n");
 		}
 		public void drawPoints(GeoImage ge, double[] x, double[] y) {
 			ArrayList<geogebra.common.awt.Point> ptList = new ArrayList<geogebra.common.awt.Point>();
@@ -4165,7 +4175,6 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 					noVisible++;
 				}
 			}
-			;
 
 			Rectangle rect = getBounds();
 			if (Kernel.isZero(rect.getHeight())
@@ -4268,17 +4277,15 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		public int getSelectedWidth() {
 			if (selectionRectangle == null) {
 				return getWidth();
-			} else {
-				return (int)selectionRectangle.getWidth();
 			}
+			return (int)selectionRectangle.getWidth();
 		}
 
 		public int getSelectedHeight() {
 			if (selectionRectangle == null) {
 				return getHeight();
-			} else {
-				return (int)selectionRectangle.getHeight();
 			}
+			return (int)selectionRectangle.getHeight();
 		}
 
 		public int getExportWidth() {
@@ -4435,17 +4442,17 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	 * previous animation.
 	 * 
 	 * 
-	 * @param ox
+	 * @param originX
 	 *            x coord of old origin
-	 * @param oy
+	 * @param originY
 	 *            y coord of old origin
 	 * @param newScale
 	 */
-	public void setAnimatedCoordSystem(double ox, double oy, double f,
+	public void setAnimatedCoordSystem(double originX, double originY, double f,
 			double newScale, int steps, boolean storeUndo) {
 
-		ox += (getXZero() - ox) * f;
-		oy += (getYZero() - oy) * f;
+		double ox = originX + (getXZero() - originX) * f;
+		double oy = originY +(getYZero() - originY) * f;
 
 		if (!Kernel.isEqual(getXscale(), newScale)) {
 			// different scales: zoom back to standard view

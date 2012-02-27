@@ -20,17 +20,26 @@ import geogebra.common.kernel.geos.Traceable;
 
 import java.util.ArrayList;
 
+/**
+ * Drawable representation oflocus
+ *
+ */
 public class DrawLocus extends Drawable {
 
 	private GeoLocus locus;
 
-	boolean isVisible, labelVisible;
+	private boolean isVisible, labelVisible;
 	private GeneralPathClipped gp;
 	private double[] lastPointCoords;
 
+	/**
+	 * Creates new drawable for given locus
+	 * @param view view
+	 * @param locus locus
+	 */
 	public DrawLocus(AbstractEuclidianView view, GeoLocus locus) {
 		this.view = view;
-		hitThreshold = view.getCapturingThreshold();
+		hitThreshold = AbstractEuclidianView.getCapturingThreshold();
 		this.locus = locus;
 		geo = locus;
 
@@ -81,6 +90,7 @@ public class DrawLocus extends Drawable {
 
 	}
 
+	@Override
 	final void drawTrace(geogebra.common.awt.Graphics2D g2) {
 		if (isVisible) {
 			g2.setPaint(geo
