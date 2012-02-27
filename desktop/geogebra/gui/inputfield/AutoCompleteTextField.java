@@ -501,7 +501,9 @@ public class AutoCompleteTextField extends MathTextField implements
 
     String text = getText();
 
-    if (ch == ',') {
+	// checking for isAltDown() because Alt+, prints another character on the PC
+	// TODO make this more robust - perhaps it could go in a document change listener
+    if (ch == ',' && !e.isAltDown()) {
       if (caretPos < text.length() && text.charAt(caretPos) == ',') {
         // User typed ',' just in ahead of an existing ',':
         // We may be in the position of filling in the next argument of an autocompleted command
