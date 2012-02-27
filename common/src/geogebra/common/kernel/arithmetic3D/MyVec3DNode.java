@@ -33,7 +33,6 @@ import java.util.HashSet;
 /**
  * 
  * @author Markus + ggb3D
- * @version
  */
 public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		ReplaceableValue {
@@ -42,7 +41,8 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 	// private int mode = Kernel.COORD_CARTESIAN;
 	private Kernel kernel;
 
-	/** Creates new MyVec3D */
+	/** Creates new MyVec3D 
+	 * @param kernel kernel */
 	public MyVec3DNode(Kernel kernel) {
 		this.kernel = kernel;
 	}
@@ -50,6 +50,10 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 	/**
 	 * Creates new MyPoint3DNode with coordinates (x,y,z) as ExpresssionNodes.
 	 * Both nodes must evaluate to NumberValues.
+	 * @param kernel kernel
+	 * @param x x coordinate
+	 * @param y y coordinate
+	 * @param z z coordinate
 	 */
 	public MyVec3DNode(Kernel kernel, ExpressionValue x, ExpressionValue y,
 			ExpressionValue z) {
@@ -57,9 +61,9 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		setCoords(x, y, z);
 	}
 
-	public ExpressionValue deepCopy(Kernel kernel) {
-		return new MyVec3DNode(kernel, x.deepCopy(kernel), y.deepCopy(kernel),
-				z.deepCopy(kernel));
+	public ExpressionValue deepCopy(Kernel kernel1) {
+		return new MyVec3DNode(kernel1, x.deepCopy(kernel1), y.deepCopy(kernel1),
+				z.deepCopy(kernel1));
 	}
 
 	public void resolveVariables() {
@@ -68,14 +72,23 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		z.resolveVariables();
 	}
 
+	/**
+	 * @return x coordinate
+	 */
 	public ExpressionValue getX() {
 		return x;
 	}
 
+	/**
+	 * @return y coordinate
+	 */
 	public ExpressionValue getY() {
 		return y;
 	}
 
+	/**
+	 * @return z coordinate
+	 */
 	public ExpressionValue getZ() {
 		return z;
 	}
@@ -87,21 +100,25 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		this.z = z;
 	}
 
+	/**
+	 * @return coordinates of this point as array of doubles
+	 */
 	final public double[] getCoords() {
 		// check if both ExpressionNodes represent NumberValues
+		StringTemplate errTpl = StringTemplate.defaultTemplate;
 		ExpressionValue evx = x.evaluate();
 		if (!evx.isNumberValue()) {
-			String[] str = { "NumberExpected", evx.toString() };
+			String[] str = { "NumberExpected", evx.toString(errTpl) };
 			throw new MyParseError(kernel.getApplication(), str);
 		}
 		ExpressionValue evy = y.evaluate();
 		if (!evy.isNumberValue()) {
-			String[] str = { "NumberExpected", evy.toString() };
+			String[] str = { "NumberExpected", evy.toString(errTpl) };
 			throw new MyParseError(kernel.getApplication(), str);
 		}
 		ExpressionValue evz = z.evaluate();
 		if (!evz.isNumberValue()) {
-			String[] str = { "NumberExpected", evz.toString() };
+			String[] str = { "NumberExpected", evz.toString(errTpl) };
 			throw new MyParseError(kernel.getApplication(), str);
 		}
 
@@ -128,16 +145,17 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		
 		default:
 			sb.append('(');
-			sb.append(x.toString());
+			sb.append(x.toString(tpl));
 			sb.append(", ");
-			sb.append(y.toString());
+			sb.append(y.toString(tpl));
 			sb.append(", ");
-			sb.append(z.toString());
+			sb.append(z.toString(tpl));
 			sb.append(')');
 		}
 		return sb.toString();
 	}
 
+	@Override
 	public String toValueString(StringTemplate tpl) {
 		return toString(tpl);
 	}
@@ -181,6 +199,9 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		return false;
 	}
 
+	/**
+	 * @return true for 3D point values
+	 */
 	public boolean isPoint3DValue() {
 		return true;
 	}
