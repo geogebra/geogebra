@@ -87,8 +87,9 @@ public class Font extends geogebra.common.awt.Font{
 
 	@Override
     public int canDisplayUpTo(String textString) {
-		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
-		return textString.length();// return -1 if OK
+		// Suppose that everything will work well as it is difficult to determine
+		// if a character is displayable or not
+		return -1;
 	}
 
 	public void setFontStyle(int fontStyle) {
