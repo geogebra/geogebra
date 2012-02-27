@@ -26,4 +26,13 @@ public class GradientPaint implements geogebra.common.awt.GradientPaint {
 		this.color1=color1;
 		this.color2=color2;
 	}
+
+	public GradientPaint(GradientPaint gpaint) {
+		this.x1 = gpaint.x1;
+		this.x2 = gpaint.x2;
+		this.y1 = gpaint.y1;
+		this.y2 = gpaint.y2;
+		this.color1 = gpaint.color1;
+		this.color2 = gpaint.color2;
+	}
 }

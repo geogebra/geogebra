@@ -31,6 +31,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.CanvasPattern;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.Context2d.Repetition;
+import com.google.gwt.canvas.dom.client.FillStrokeStyle;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayNumber;
 import com.google.gwt.dom.client.ImageElement;
@@ -47,6 +48,8 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	private Color color;
 	private AffineTransform savedTransform;
 	private float [] dash_array = null;
+
+	Paint currentPaint = new geogebra.web.awt.Color(255,255,255,255);
 
 	/**
 	 * @param canvas
@@ -231,10 +234,13 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 		if(paint  instanceof Color){
 			context.setFillStyle(Color.getColorString((Color)paint));	
 			context.setStrokeStyle(Color.getColorString((Color)paint));
+			currentPaint = new geogebra.web.awt.Color((geogebra.web.awt.Color)paint);
 		}
 		else if(paint instanceof GradientPaint){
 			context.setFillStyle(((GradientPaint)paint).getGradient(context));
+			currentPaint = new GradientPaint((GradientPaint)paint);
 		} else if (paint instanceof TexturePaint) {
+			currentPaint = new TexturePaint((TexturePaint)paint);
 			CanvasPattern ptr = context.createPattern(((TexturePaint)paint).getImg(), Repetition.REPEAT);
 			context.setFillStyle(ptr);
 			//why we get null here sometimes?
@@ -387,11 +393,24 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 		return ret;
 	}
 	
-	
+
 	@Override
     public Paint getPaint() {
-		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
-		return null;
+		return currentPaint;
+		/* The other possible solution would be:
+
+		// this could be an array as well, according to the documentation, so more difficult
+		FillStrokeStyle fs = context.getFillStyle();
+		Paint ret;
+		if (fs.getType() == FillStrokeStyle.TYPE_CSSCOLOR) {
+			// it is difficult to make a color out of csscolor
+			ret = new geogebra.web.awt.Color((CssColor)fs);
+		} else if (fs.getType() == FillStrokeStyle.TYPE_GRADIENT) {
+			
+		} else if (fs.getType() == FillStrokeStyle.TYPE_PATTERN) {
+			
+		}
+		*/
 	}
 
 	
@@ -523,6 +542,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
     	context.setStrokeStyle("rgba("+fillColor.getRed()+","+fillColor.getGreen()+","+fillColor.getBlue()+","+(fillColor.getAlpha()/255d)+")");
     	context.setFillStyle("rgba("+fillColor.getRed()+","+fillColor.getGreen()+","+fillColor.getBlue()+","+(fillColor.getAlpha()/255d)+")");
     	this.color=fillColor;
+    	this.currentPaint = new geogebra.web.awt.Color((geogebra.web.awt.Color)fillColor);
     }
 
 	@Override

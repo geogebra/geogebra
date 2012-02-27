@@ -8,6 +8,12 @@ public class TexturePaint implements geogebra.common.awt.Paint {
 	Rectangle anchor = null;
 	BufferedImage img = null;
 
+	public TexturePaint(TexturePaint tp) {
+		this.anchor = new Rectangle();
+		this.anchor.setRect(tp.anchor.getX(), tp.anchor.getY(), tp.anchor.getWidth(), tp.anchor.getHeight());
+		this.img = new BufferedImage((ImageElement)tp.img.getImageElement().cloneNode(true));
+	}
+
 	public TexturePaint(BufferedImage subimage, Rectangle rect) {
 	    img = subimage;
 	    anchor = rect;

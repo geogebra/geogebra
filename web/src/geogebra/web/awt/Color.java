@@ -9,7 +9,13 @@ public class Color extends geogebra.common.awt.Color {
 		
 		private static final double FACTOR = 0.7;
 	
-	
+	public Color(Color col) {
+		setRed(col.getRed());
+		setGreen(col.getGreen());
+		setBlue(col.getBlue());
+		setAlpha(col.getAlpha());
+	}
+
 	public Color() {
 		setRed(0);
 		setGreen(0);
