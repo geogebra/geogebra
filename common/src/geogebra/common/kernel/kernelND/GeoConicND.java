@@ -1,3 +1,14 @@
+/* 
+GeoGebra - Dynamic Mathematics for Everyone
+http://www.geogebra.org
+
+This file is part of GeoGebra.
+
+This program is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by 
+the Free Software Foundation.
+
+*/
 package geogebra.common.kernel.kernelND;
 
 import geogebra.common.awt.AffineTransform;
@@ -1293,7 +1304,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 	 * @return the value string regarding the given matrix (used for views)
 	 */
 	protected StringBuilder buildValueString(StringTemplate tpl,double[] matrix1) {
-		sbToValueString().setLength(0);
+		StringBuilder sbToValueString = new StringBuilder();
 	       if (!isDefined()) {
 	    	   sbToValueString.append("?");
 	    	   return sbToValueString;
@@ -1341,7 +1352,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 				
 				switch (type) {					
 					case CONIC_CIRCLE :		
-						buildSphereNDString(tpl);
+						buildSphereNDString(sbToValueString,tpl);
 						return sbToValueString;
 
 					case CONIC_ELLIPSE :					

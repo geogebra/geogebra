@@ -275,11 +275,11 @@ public class GeoQuadric3D extends GeoQuadricND implements
 
 	protected StringBuilder buildValueString(StringTemplate tpl) {
 
-		sbToValueString().setLength(0);
+		StringBuilder sbToValueString=new StringBuilder();
 
 		switch (type) {
 		case QUADRIC_SPHERE:
-			buildSphereNDString(tpl);
+			buildSphereNDString(sbToValueString,tpl);
 			break;
 		case QUADRIC_CONE:
 		case QUADRIC_CYLINDER:

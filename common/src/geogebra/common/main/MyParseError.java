@@ -23,20 +23,26 @@ import geogebra.common.main.AbstractApplication;
 /**
  *
  * @author  Markus
- * @version 
+ * 
  */
 public class MyParseError extends MyError {
 
 	private static final long serialVersionUID = 1L;
 
-	/** Creates new MyError */
+	/** Creates new MyError 
+	 * @param app application
+	 * @param errorName error name (should be a key in error.properties) 
+	 */
     public MyParseError(AbstractApplication app, String errorName) {        
         super(app, errorName);
     }
-    
-    public MyParseError(AbstractApplication app, String [] str) {
+    /**
+	 * @param app application
+	 * @param strs lines of the error
+	 */
+    public MyParseError(AbstractApplication app, String [] strs) {
         // set localized message        
-        super(app, str);
+        super(app, strs);
     }        
         
     @Override

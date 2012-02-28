@@ -170,7 +170,7 @@ public abstract class AbstractEuclidianController {
 
 	protected double rotStartAngle;
 
-	protected ArrayList translateableGeos;
+	protected ArrayList<GeoElement> translateableGeos;
 
 	protected Coords translationVec;
 
@@ -538,8 +538,8 @@ public abstract class AbstractEuclidianController {
 		return moveMode;
 	}
 
-	protected void endOfMode(int mode) {
-		switch (mode) {
+	protected void endOfMode(int endMode) {
+		switch (endMode) {
 		case EuclidianConstants.MODE_RECORD_TO_SPREADSHEET:
 			// just to be sure recordObject is set to null
 			// usually this is already done at mouseRelease
@@ -626,11 +626,11 @@ public abstract class AbstractEuclidianController {
 					return kernel.IntersectPolynomialLineSingle(null, f,
 							(GeoLine) a, xRW, yRW);
 				}
-				GeoPoint2 startPoint = new GeoPoint2(
+				GeoPoint2 initPoint = new GeoPoint2(
 						kernel.getConstruction());
-				startPoint.setCoords(xRW, yRW, 1.0);
+				initPoint.setCoords(xRW, yRW, 1.0);
 				return kernel.IntersectFunctionLine(null, f, (GeoLine) a,
-						startPoint);
+						initPoint);
 			} else {
 				return null;
 			}
@@ -656,24 +656,23 @@ public abstract class AbstractEuclidianController {
 					return kernel.IntersectPolynomialLineSingle(null, aFun,
 							(GeoLine) b, xRW, yRW);
 				}
-				GeoPoint2 startPoint = new GeoPoint2(
+				GeoPoint2 initPoint = new GeoPoint2(
 						kernel.getConstruction());
-				startPoint.setCoords(xRW, yRW, 1.0);
+				initPoint.setCoords(xRW, yRW, 1.0);
 				return kernel.IntersectFunctionLine(null, aFun,
-						(GeoLine) b, startPoint);
+						(GeoLine) b, initPoint);
 			} else if (b.isGeoFunctionable()) {
 				GeoFunction bFun = ((GeoFunctionable) b).getGeoFunction();
 				if (aFun.isPolynomialFunction(false)
 						&& bFun.isPolynomialFunction(false)) {
 					return kernel.IntersectPolynomialsSingle(null, aFun, bFun,
 							xRW, yRW);
-				} else {
-					GeoPoint2 startPoint = new GeoPoint2(
-							kernel.getConstruction());
-					startPoint.setCoords(xRW, yRW, 1.0);
-					return kernel.IntersectFunctions(null, aFun, bFun,
-							startPoint);
 				}
+				GeoPoint2 initPoint = new GeoPoint2(
+						kernel.getConstruction());
+				initPoint.setCoords(xRW, yRW, 1.0);
+				return kernel.IntersectFunctions(null, aFun, bFun,
+						initPoint);
 			} else {
 				return null;
 			}
@@ -2059,10 +2058,10 @@ public abstract class AbstractEuclidianController {
 			boolean polynomials = fun[0].isPolynomialFunction(false)
 					&& fun[1].isPolynomialFunction(false);
 			if (!polynomials) {
-				GeoPoint2 startPoint = new GeoPoint2(kernel.getConstruction());
-				startPoint.setCoords(xRW, yRW, 1.0);
+				GeoPoint2 initPoint = new GeoPoint2(kernel.getConstruction());
+				initPoint.setCoords(xRW, yRW, 1.0);
 				return new GeoElement[] { kernel.IntersectFunctions(null,
-						fun[0], fun[1], startPoint) };
+						fun[0], fun[1], initPoint) };
 			}
 			// polynomials
 			if (singlePointWanted) {
@@ -2117,10 +2116,10 @@ public abstract class AbstractEuclidianController {
 					ret = kernel.IntersectPolynomialLine(null, fun[0], line[0]);
 				}
 			} else {
-				GeoPoint2 startPoint = new GeoPoint2(kernel.getConstruction());
-				startPoint.setCoords(xRW, yRW, 1.0);
+				GeoPoint2 initPoint = new GeoPoint2(kernel.getConstruction());
+				initPoint.setCoords(xRW, yRW, 1.0);
 				ret[0] = kernel.IntersectFunctionLine(null, fun[0], line[0],
-						startPoint);
+						initPoint);
 			}
 			return ret;
 			// function and conic
@@ -2368,8 +2367,6 @@ public abstract class AbstractEuclidianController {
 		if (hits.isEmpty()) {
 			return false;
 		}
-	
-		boolean hitFunction = (addSelectedFunction(hits, 1, false) != 0);
 	
 		if (selFunctions() == 1) {
 			GeoFunction[] functions = getSelectedFunctions();
@@ -2942,10 +2939,9 @@ public abstract class AbstractEuclidianController {
 		if (((GeoElement) p0).isGeoElement3D()
 				|| ((GeoElement) p1).isGeoElement3D()) {
 			return createCircle2ForPoints3D(p0, p1);
-		} else {
-			return new GeoElement[] { kernel.Circle(null, (GeoPoint2) p0,
-					(GeoPoint2) p1) };
 		}
+		return new GeoElement[] { kernel.Circle(null, (GeoPoint2) p0,
+				(GeoPoint2) p1) };
 	}
 
 	protected GeoElement[] switchModeForCircleOrSphere2(int mode) {
@@ -2953,13 +2949,12 @@ public abstract class AbstractEuclidianController {
 		if (mode == EuclidianConstants.MODE_SEMICIRCLE) {
 			return new GeoElement[] { kernel.Semicircle(null,
 					(GeoPoint2) points[0], (GeoPoint2) points[1]) };
-		} else {
-			return createCircle2(points[0], points[1]);
 		}
+		return createCircle2(points[0], points[1]);
 	
 	}
 
-	protected final GeoElement[] circleOrSphere2(Hits hits, int mode) {
+	protected final GeoElement[] circleOrSphere2(Hits hits, int sphereMode) {
 		if (hits.isEmpty()) {
 			return null;
 		}
@@ -2968,7 +2963,7 @@ public abstract class AbstractEuclidianController {
 		addSelectedPoint(hits, 2, false);
 		if (selPoints() == 2) {
 			// fetch the three selected points
-			return switchModeForCircleOrSphere2(mode);
+			return switchModeForCircleOrSphere2(sphereMode);
 		}
 		return null;
 	}
@@ -3058,11 +3053,10 @@ public abstract class AbstractEuclidianController {
 		if (hits.isEmpty()) {
 			if (selectionPreview) {
 				return false;
-			} else {
-				// create new Point
-				loc = new GeoPoint2(kernel.getConstruction());
-				loc.setCoords(xRW, yRW, 1.0);
 			}
+			// create new Point
+			loc = new GeoPoint2(kernel.getConstruction());
+			loc.setCoords(xRW, yRW, 1.0);
 		} else {
 			// points needed
 			addSelectedPoint(hits, 1, false);
@@ -3907,7 +3901,7 @@ public abstract class AbstractEuclidianController {
 		// create text that shows length
 		try {
 			// create dynamic text
-			String dynText = "\"" + descText + " = \" + " + value.getLabel();
+			String dynText = "\"" + descText + " = \" + " + value.getLabel(StringTemplate.defaultTemplate);
 	
 			GeoText text = kernel.getAlgebraProcessor().evaluateToText(dynText,
 					true, true);
@@ -3925,7 +3919,7 @@ public abstract class AbstractEuclidianController {
 	 * Creates a text that shows the distance length between geoA and geoB at
 	 * the given startpoint.
 	 */
-	protected GeoText createDistanceText(GeoElement geoA, GeoElement geoB, GeoPoint2 startPoint,
+	protected GeoText createDistanceText(GeoElement geoA, GeoElement geoB, GeoPoint2 textCorner,
 			GeoNumeric length) {
 				StringTemplate tpl = StringTemplate.defaultTemplate;
 				// create text that shows length
@@ -3967,7 +3961,7 @@ public abstract class AbstractEuclidianController {
 						text.setLaTeX(useLabels, true);
 					}
 			
-					text.setStartPoint(startPoint);
+					text.setStartPoint(textCorner);
 					text.updateRepaint();
 					return text;
 				} catch (Exception e) {
@@ -4373,14 +4367,13 @@ public abstract class AbstractEuclidianController {
 					tempArrayList.add(centerPoint);
 					addToHighlightedList(selectedPoints, tempArrayList, 3);
 					return null;
-				} else {
-					// center point and segment
-					GeoElement circlel = kernel.Circle(null, centerPoint,
-							segment);
-					GeoElement[] ret = { circlel };
-					clearSelections();
-					return ret;
 				}
+				// center point and segment
+				GeoElement circlel = kernel.Circle(null, centerPoint,
+						segment);
+				GeoElement[] ret = { circlel };
+				clearSelections();
+				return ret;
 			}
 		}
 	
@@ -5151,7 +5144,8 @@ public abstract class AbstractEuclidianController {
 		}
 	}
 
-	public final boolean processMode(Hits hits, AbstractEvent event) {
+	public final boolean processMode(Hits processHits, AbstractEvent event) {
+		Hits hits = processHits;
 		boolean changedKernel = false;
 	
 		if (hits == null) {
@@ -5684,8 +5678,8 @@ public abstract class AbstractEuclidianController {
 				return changedKernel;
 			}
 
-	protected Hits addPointCreatedForMouseReleased(Hits hits) {
-	
+	protected Hits addPointCreatedForMouseReleased(Hits releasedHits) {
+		Hits hits = releasedHits;
 		if (hits.isEmpty()) {
 			hits = new Hits();
 			hits.add(getMovedGeoPoint());
@@ -5694,9 +5688,9 @@ public abstract class AbstractEuclidianController {
 		return hits;
 	}
 
-	protected boolean moveMode(int mode) {
-		if ((mode == EuclidianConstants.MODE_MOVE)
-				|| (mode == EuclidianConstants.MODE_VISUAL_STYLE)) {
+	protected boolean moveMode(int moveMode) {
+		if ((moveMode == EuclidianConstants.MODE_MOVE)
+				|| (moveMode == EuclidianConstants.MODE_VISUAL_STYLE)) {
 			return true;
 		}
 		return false;
@@ -6207,8 +6201,12 @@ public abstract class AbstractEuclidianController {
 						|| movedGeoElement.isGeoImage()
 						|| movedGeoElement.isGeoList()
 						|| movedGeoElement.isGeoVector()) {
-					translateableGeos = movedGeoElement
-							.getFreeInputPoints(view);
+					if(translateableGeos==null)
+						translateableGeos = new ArrayList<GeoElement>();
+					else
+						translateableGeos.clear();
+					translateableGeos.addAll(movedGeoElement
+							.getFreeInputPoints(view));
 				}
 			}
 	
@@ -6807,7 +6805,7 @@ public abstract class AbstractEuclidianController {
 			if (app.isUsingFullGui() && app.getGuiManager() != null) {
 				return !app.getGuiManager().isInputFieldSelectionListener();
 			}
-			return sel != null;
+			return true;
 	
 			// transformations
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
@@ -7178,8 +7176,8 @@ public abstract class AbstractEuclidianController {
 				// number of continuity steps <= MAX_CONTINUITY_STEPS
 				int steps = Math
 						.min((int) (1.0 / factor), MAX_CONTINUITY_STEPS);
-				int mx = mouseLoc.x;
-				int my = mouseLoc.y;
+				int mlocx = mouseLoc.x;
+				int mlocy = mouseLoc.y;
 	
 				// Application.debug("BIG drag dist: " + Math.sqrt(distsq) +
 				// ", steps: " + steps );
@@ -7192,9 +7190,9 @@ public abstract class AbstractEuclidianController {
 				}
 	
 				// set endpoint of mouse movement if we are not already there
-				if ((mouseLoc.x != mx) || (mouseLoc.y != my)) {
-					mouseLoc.x = mx;
-					mouseLoc.y = my;
+				if ((mouseLoc.x != mlocx) || (mouseLoc.y != mlocy)) {
+					mouseLoc.x = mlocx;
+					mouseLoc.y = mlocy;
 					calcRWcoords();
 				}
 			}
@@ -7219,7 +7217,7 @@ public abstract class AbstractEuclidianController {
 
 	/** right-press the mouse makes start 3D rotation */
 	protected void processRightPressFor3D() {
-	
+		//3D only
 	}
 
 	protected void createNewPointForModePoint(Hits hits, boolean complex) {
@@ -7545,17 +7543,13 @@ public abstract class AbstractEuclidianController {
 			pen.handleMousePressedForPenMode(event, hits);
 			return;
 		}
-		else{
-			
-				this.pressedButton = view.getHitButton(mouseLoc);
-				if(pressedButton!=null){
-				pressedButton.setPressed(true);
-				pressedButton.setDraggedOrContext(event.isMetaDown()
-						|| event.isPopupTrigger());
-				}
-				//TODO:repaint?
-			
+		this.pressedButton = view.getHitButton(mouseLoc);
+		if(pressedButton!=null){
+		pressedButton.setPressed(true);
+		pressedButton.setDraggedOrContext(event.isMetaDown()
+				|| event.isPopupTrigger());
 		}
+		//TODO:repaint?
 	
 		// GeoElement geo;
 		transformCoords();
@@ -7821,8 +7815,8 @@ public abstract class AbstractEuclidianController {
 		kernel.notifyRepaint();
 	}
 
-	public void showDrawingPadPopup(Point mouseLoc) {
-		app.getGuiManager().showDrawingPadPopup(view, mouseLoc);
+	public void showDrawingPadPopup(Point mouse) {
+		app.getGuiManager().showDrawingPadPopup(view, mouse);
 	}
 
 	protected void wrapMouseReleased(AbstractEvent event) {
@@ -8416,8 +8410,6 @@ public abstract class AbstractEuclidianController {
 			break;
 	
 		default:
-			previewDrawable = null;
-	
 			// macro mode?
 			if (mode1 >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
 				// get ID of macro
@@ -8440,19 +8432,19 @@ public abstract class AbstractEuclidianController {
 		
 	}
 
-	protected void initNewMode(int mode) {
-		this.mode = mode;
+	protected void initNewMode(int newMode) {
+		this.mode = newMode;
 		initShowMouseCoords();
 		// Michael Borcherds 2007-10-12
 		// clearSelections();
 		if (!TEMPORARY_MODE
-				&& !AbstractEuclidianView.usesSelectionRectangleAsInput(mode)) {
+				&& !AbstractEuclidianView.usesSelectionRectangleAsInput(newMode)) {
 			clearSelections();
 		}
 		// Michael Borcherds 2007-10-12
 		moveMode = MOVE_NONE;
 	
-		if (mode == EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) {
+		if (newMode == EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) {
 			if (!app.getGuiManager().hasSpreadsheetView()) {
 				app.getGuiManager().attachSpreadsheetView();
 			}
@@ -8463,7 +8455,7 @@ public abstract class AbstractEuclidianController {
 			}
 		}
 	
-		view.setPreview(switchPreviewableForInitNewMode(mode));
+		view.setPreview(switchPreviewableForInitNewMode(newMode));
 		toggleModeChangedKernel = false;
 	}
 

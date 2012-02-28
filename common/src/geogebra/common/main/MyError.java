@@ -21,23 +21,30 @@ package geogebra.common.main;
 /**
  * 
  * @author Markus
- * @version
  */
 public class MyError extends java.lang.Error {
 
 	private static final long serialVersionUID = 1L;
-	
+	/** application */
 	protected AbstractApplication app;
 	private String[] strs;
 	private String commandName = null;
 
-	/** Creates new MyError */
+	/** Creates new MyError 
+	 * @param app application
+	 * @param errorName error name (should be a key in error.properties)
+	 */
 	public MyError(AbstractApplication app, String errorName) {
 		// set localized message
 		super(errorName);
 		this.app = app;
 	}
 
+	/**
+	 * @param app application
+	 * @param errorName error name (should be a key in error.properties)
+	 * @param commandName associated command name
+	 */
 	public MyError(AbstractApplication app, String errorName, String commandName) {
 		// set localized message
 		super(errorName);
@@ -45,12 +52,19 @@ public class MyError extends java.lang.Error {
 		this.commandName = commandName;
 	}
 
+	/**
+	 * @param app application
+	 * @param strs lines of the error
+	 */
 	public MyError(AbstractApplication app, String[] strs) {
 		this.app = app;
 		// set localized message
 		this.strs = strs;
 	}
 
+	/**
+	 * @return associated command name
+	 */
 	public String getcommandName() {
 		return commandName;
 	}

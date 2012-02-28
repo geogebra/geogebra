@@ -194,7 +194,7 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 
 	final public String toString(StringTemplate tpl) {
 
-		StringBuilder sbToString = getSbToString();
+		StringBuilder sbToString = new StringBuilder();
 		sbToString.setLength(0);
 		sbToString.append(label);
 
