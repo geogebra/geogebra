@@ -226,8 +226,7 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 
 	@Override
     public FocusListener newFocusListener(Object listener) {
-	    AbstractApplication.debug("Implementation needed really"); // TODO
-	    return null;
+	    return new geogebra.web.awt.event.FocusListener(listener);
     }
 
 }
