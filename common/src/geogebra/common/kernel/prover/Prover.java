@@ -14,6 +14,7 @@ package geogebra.common.kernel.prover;
  * 
  */
 
+import geogebra.common.io.QDParser;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 
@@ -107,4 +108,12 @@ public class Prover {
 		}
 		return null;
 	}
+
+	private String simplifyXML(Construction cons) {
+		QDParser xmlParser;
+		xmlParser = new QDParser();
+		return null; // TOD: implementation
+	}
+
+
 }

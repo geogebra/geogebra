@@ -17,7 +17,7 @@
  * Some optimizations by Markus Hohenwarter, 19.11.2004
  */
 
-package geogebra.io;
+package geogebra.common.io;
 
 import geogebra.common.io.DocHandler;
 
@@ -34,7 +34,19 @@ public class QDParser {
 	private LinkedHashMap<String, String> attrs;
 	private Stack<Integer> stack;
 	private StringBuilder sb, etag;
+	
+	/**
+	 * List of whitespace characters for GWT portable code.
+	 */
+	private final int CHAR_SPACE = 32;
+	private final int CHAR_TAB = 9;
+	private final int CHAR_CR = 13;
+	private final int CHAR_NL = 10;
 
+	private boolean isWhitespace(char c) {
+		return (c==CHAR_SPACE || c==CHAR_TAB || c==CHAR_CR || c==CHAR_NL);
+	}
+	
 	public QDParser() {
 		attrs = new LinkedHashMap<String, String>();
 		stack = new Stack<Integer>();
@@ -307,7 +319,7 @@ public class QDParser {
 					break;
 
 				default:
-					if (Character.isWhitespace((char) c)) {
+					if (isWhitespace((char) c)) {
 						tagName = sb.toString();
 						sb.setLength(0);
 						mode = IN_TAG;
@@ -350,13 +362,13 @@ public class QDParser {
 				if (c == '"' || c == '\'') {
 					quotec = c;
 					mode = QUOTE;
-				} else if (!Character.isWhitespace((char) c)) {
+				} else if (!isWhitespace((char) c)) {
 					exc("Error in attribute processing", line, col);
 				}
 				break;
 
 			case ATTRIBUTE_LVALUE:
-				if (Character.isWhitespace((char) c)) {
+				if (isWhitespace((char) c)) {
 					lvalue = sb.toString();
 					sb.setLength(0);
 					mode = ATTRIBUTE_EQUAL;
@@ -372,7 +384,7 @@ public class QDParser {
 			case ATTRIBUTE_EQUAL:
 				if (c == '=') {
 					mode = ATTRIBUTE_RVALUE;
-				} else if (!Character.isWhitespace((char) c)) {
+				} else if (!isWhitespace((char) c)) {
 					exc("Error in attribute processing.", line, col);
 				}
 				break;
@@ -393,7 +405,7 @@ public class QDParser {
 					break;
 
 				default:
-					if (!Character.isWhitespace((char) c)) {
+					if (!isWhitespace((char) c)) {
 						mode = ATTRIBUTE_LVALUE;
 						sb.append((char) c);
 					}

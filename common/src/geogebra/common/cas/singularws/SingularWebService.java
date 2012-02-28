@@ -113,6 +113,6 @@ public class SingularWebService {
 	 */
 	public void setTimeout(int timeout) {
 		this.timeout = timeout;
-	}		
-
+	}
+	
 }

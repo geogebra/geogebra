@@ -2,7 +2,7 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.io.DocHandler;
 import geogebra.gui.dialog.InputDialog;
-import geogebra.io.QDParser;
+import geogebra.common.io.QDParser;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
