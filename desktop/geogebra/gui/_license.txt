@@ -78,10 +78,11 @@ TRANSLATORS
   * Czech: Zuzana Bouchalova, Michaela Norulakova, Marketa Tomanova,
       Marie Pokorna (Czech Republic)
   * Danish: Steen Grode (Denmark)
-  * Dutch: Beatrijs Versichel, Ivan De Winne, Pedro Tytgat,
-      Carel van de Giessen (Belgium)
+  * Dutch: Ivan De Winne, Chris Cambre, Jozef Van Remoortere,
+      Roger Van Nieuwenhuyze, Pedro Tytgat, Riggy Van de Wiele,
+      Beatrijs Versichel (Belgium)
   * English: Markus Hohenwarter, Judith Hohenwarter (Austria),
-      Yves Kreis (Luxembourg), Michael Borcherds (Great Britain)
+      Yves Kreis (Luxembourg), Michael Borcherds (UK)
   * Estonian: Jane Albre (Estonia)
   * Finnish: Juha Leino, Mikko Rahikka, Erkki Luoma-aho,
       Teemu Hinkula (Finland)
