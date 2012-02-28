@@ -8285,8 +8285,6 @@ public abstract class AbstractEuclidianController {
 					} else {
 						pen.setPenGeo(null);
 					}
-	
-					pen.setPenWritingToExistingImage(pen.getPenGeo() != null);
 				}
 			}
 	

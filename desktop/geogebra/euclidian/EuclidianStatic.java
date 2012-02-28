@@ -229,7 +229,12 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic{
 	}
 	
 	protected void doFillWithValueStrokePure(geogebra.common.awt.Shape shape, geogebra.common.awt.Graphics2D g3) {
-		fillWithValueStrokePure(geogebra.awt.GenericShape.getAwtShape(shape), geogebra.awt.Graphics2D.getAwtGraphics(g3));
+		Graphics2D awtg2 = geogebra.awt.Graphics2D.getAwtGraphics(g3);
+		Object oldHint = awtg2.getRenderingHint(RenderingHints.KEY_STROKE_CONTROL);
+		awtg2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
+				RenderingHints.VALUE_STROKE_PURE);
+		g3.fill(shape);
+		awtg2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, oldHint);
 	}
 	
 	/**
@@ -239,26 +244,13 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic{
 	final public static void doDrawWithValueStrokePure(Shape shape, geogebra.common.awt.Graphics2D g3) {
 		drawWithValueStrokePure(shape, geogebra.awt.Graphics2D.getAwtGraphics(g3));
 	}
-	
-	/**
-	 * @deprecated
-	 * @param shape
-	 * @param g2
-	 */
-	final public static void fillWithValueStrokePure(Shape shape, Graphics2D g2) {
-		Object oldHint = g2.getRenderingHint(RenderingHints.KEY_STROKE_CONTROL);
-		g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
-				RenderingHints.VALUE_STROKE_PURE);
-		g2.fill(shape);
-		g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, oldHint);
-	}
-
 
 	
 	static public java.awt.BasicStroke getDefaultStrokeAwt() {
 		return geogebra.awt.BasicStroke.getAwtStroke(geogebra.common.euclidian.EuclidianStatic.getDefaultStroke());
 	}
 
+	@Override
 	public Object doSetInterpolationHint(geogebra.common.awt.Graphics2D g3,
 			boolean needsInterpolationRenderingHint) {
 		java.awt.Graphics2D g2 = geogebra.awt.Graphics2D.getAwtGraphics(g3);

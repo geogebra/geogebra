@@ -15,26 +15,41 @@ import geogebra.common.plugin.EuclidianStyleConstants;
  *Abstract class for EuclidianStatic
  */
 public abstract class EuclidianStatic {
-	// need to clip just outside the viewing area when drawing eg vectors
-		// as a near-horizontal thick vector isn't drawn correctly otherwise
+	/** need to clip just outside the viewing area when drawing eg vectors
+ 	as a near-horizontal thick vector isn't drawn correctly otherwise*/
 		public static final int CLIP_DISTANCE = 5;
-		
+		/**
+		 * Prototype decides what implementation will be used for static methods
+		 */
 	public static EuclidianStatic prototype;
+	/** standardstroke*/
 	protected static BasicStroke standardStroke = 
 			geogebra.common.factories.AwtFactory.prototype.newMyBasicStroke(1.0f);
-
+	/** stroke for selected geos*/
 	protected static BasicStroke selStroke = 
 			geogebra.common.factories.AwtFactory.prototype.newMyBasicStroke(
 			1.0f + EuclidianStyleConstants.SELECTION_ADD);
 
+	/**
+	 * @return default stroke
+	 */
 	static public BasicStroke getDefaultStroke() {
 		return standardStroke;
 	}
+	/**
+	 * @return stroke for selected geos
+	 */
 	static public BasicStroke getDefaultSelectionStroke() {
 		return selStroke;
 	}
 	
 	// Michael Borcherds 2008-06-10
+	/**
+	 * @param str string
+	 * @param font font
+	 * @param frc rendering context
+	 * @return text width
+	 */
 	public final static float textWidth(String str, geogebra.common.awt.Font font, 
 			geogebra.common.awt.FontRenderContext frc) {
 		if (str.equals(""))
@@ -47,8 +62,8 @@ public abstract class EuclidianStatic {
 	 * Creates a stroke with thickness width, dashed according to line style
 	 * type.
 	 * 
-	 * @param width
-	 * @param type
+	 * @param width stroke width
+	 * @param type stroke type (EuclidianStyleConstants.LINE_TYPE_*)
 	 * @return stroke
 	 */
 	public static geogebra.common.awt.BasicStroke getStroke(float width, int type) {
@@ -160,11 +175,19 @@ public abstract class EuclidianStatic {
 	 * Draw a multiline LaTeX label.
 	 * 
 	 * TODO: Improve performance (caching, etc.) Florian Sonner
+	 * @param app application
+	 * @param tempGraphics temporary graphics
+	 * @param geo geo
 	 * 
-	 * @param g2
-	 * @param font
-	 * @param fgColor
-	 * @param bgColor
+	 * @param g2 graphics
+	 * @param font font
+	 * @param fgColor color
+	 * @param bgColor background color
+	 * @param labelDesc LaTeX text
+	 * @param xLabel x-coord
+	 * @param yLabel y-coord
+	 * @param serif true touseserif font
+	 * @return bounds of resulting LaTeX formula
 	 */
 	public static final geogebra.common.awt.Rectangle drawMultilineLaTeX(AbstractApplication app,
 			geogebra.common.awt.Graphics2D tempGraphics, GeoElement geo, geogebra.common.awt.Graphics2D g2, geogebra.common.awt.Font font,
@@ -172,6 +195,24 @@ public abstract class EuclidianStatic {
 			int yLabel, boolean serif) {
 		return prototype.doDrawMultilineLaTeX(app, tempGraphics, geo, g2, font, fgColor, bgColor, labelDesc, xLabel, yLabel, serif);
 	}
+	/**
+	 * Draw a multiline LaTeX label.
+	 * 
+	 * TODO: Improve performance (caching, etc.) Florian Sonner
+	 * @param app application
+	 * @param tempGraphics temporary graphics
+	 * @param geo geo
+	 * 
+	 * @param g2 graphics
+	 * @param font font
+	 * @param fgColor color
+	 * @param bgColor background color
+	 * @param labelDesc LaTeX text
+	 * @param xLabel x-coord
+	 * @param yLabel y-coord
+	 * @param serif true touseserif font
+	 * @return bounds of resulting LaTeX formula
+	 */
 	protected abstract geogebra.common.awt.Rectangle doDrawMultilineLaTeX(AbstractApplication app,
 			geogebra.common.awt.Graphics2D tempGraphics, GeoElement geo, geogebra.common.awt.Graphics2D g2, geogebra.common.awt.Font font,
 			geogebra.common.awt.Color fgColor, geogebra.common.awt.Color bgColor, String labelDesc, int xLabel,
@@ -187,9 +228,13 @@ public abstract class EuclidianStatic {
 	 * Draws a string str with possible indices to g2 at position x, y. The
 	 * indices are drawn using the given indexFont. Examples for strings with
 	 * indices: "a_1" or "s_{ab}"
+	 * @param app application
+	 * @param g3 graphics
 	 * 
-	 * @param g2
-	 * @param str
+	 * @param str input string
+	 * @param xPos x-coord
+	 * @param yPos y-coord
+	 * @param serif true to use serif font
 	 * @return additional pixel needed to draw str (x-offset, y-offset)
 	 */
 	public static geogebra.common.awt.Point drawIndexedString(AbstractApplication app, geogebra.common.awt.Graphics2D g3,
@@ -286,11 +331,28 @@ public abstract class EuclidianStatic {
 	}
 	
 	
+	/**
+	 * @param shape shape tobe filled
+	 * @param g3 graphics
+	 */
 	protected abstract  void doFillWithValueStrokePure(geogebra.common.awt.Shape shape, geogebra.common.awt.Graphics2D g3);
+	/**
+	 * @param shape shape to be filled
+	 * @param g3 graphics
+	 */
 	public static void fillWithValueStrokePure(geogebra.common.awt.Shape shape, geogebra.common.awt.Graphics2D g3){
 		prototype.doFillWithValueStrokePure(shape, g3);
 		
 	}
+	/**
+	 * @param app application
+	 * @param labelDesc text
+	 * @param xLabel x-coord
+	 * @param yLabel y-coord
+	 * @param g2 graphics
+	 * @param serif true for serif font
+	 * @return border of resulting text drawing
+	 */
 	public final static geogebra.common.awt.Rectangle drawMultiLineText(AbstractApplication app,
 			String labelDesc, int xLabel, int yLabel, geogebra.common.awt.Graphics2D g2,
 			boolean serif) {
@@ -341,25 +403,51 @@ public abstract class EuclidianStatic {
 				height + 6);
 	}
 
+	/**
+	 * @param shape shapeto be drawn
+	 * @param g2 graphics
+	 */
 	public static void drawWithValueStrokePure(geogebra.common.awt.Shape shape, Graphics2D g2) {
 		prototype.doDrawWithValueStrokePure(shape, g2);
 		
 	}
+	/**
+	 * @param shape shapeto be drawn
+	 * @param g2 graphics
+	 */
 	protected abstract void doDrawWithValueStrokePure(geogebra.common.awt.Shape shape, Graphics2D g2);
+	/**
+	 * @param g3 graphics
+	 * @param needsInterpolation true to turn interpolation on
+	 * @return hint
+	 */
 	public static Object setInterpolationHint(
 			geogebra.common.awt.Graphics2D g3,
-			boolean needsInterpolationRenderingHint) {
+			boolean needsInterpolation) {
 		
-		return prototype.doSetInterpolationHint(g3,needsInterpolationRenderingHint);
+		return prototype.doSetInterpolationHint(g3,needsInterpolation);
 	}
+	/**
+	 * @param g3 graphics
+	 * @param hint old hint value
+	 */
 	public static void resetInterpolationHint(
 			geogebra.common.awt.Graphics2D g3,
 			Object hint) {
 		
 		prototype.doResetInterpolationHint(g3,hint);
 	}
+	/**
+	 * @param g3 graphics
+	 * @param needsInterpolation true to turn interpolation on
+	 * @return hint
+	 */
 	protected abstract Object doSetInterpolationHint(Graphics2D g3,
-			boolean needsInterpolationRenderingHint);
+			boolean needsInterpolation);
+	/**
+	 * @param g3 graphics
+	 * @param hint old hint value
+	 */
 	protected abstract void doResetInterpolationHint(
 			geogebra.common.awt.Graphics2D g3,
 			Object hint);

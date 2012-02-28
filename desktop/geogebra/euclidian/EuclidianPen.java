@@ -124,17 +124,14 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	public boolean isPenWritingToExistingImage() {
 		return penWritingToExistingImage;
 	}
-
-	public void setPenWritingToExistingImage(boolean penWritingToExistingImage) {
-		this.penWritingToExistingImage = penWritingToExistingImage;
-	}
-
+	
 	public GeoImage getPenGeo() {
 		return penGeo;
 	}
 
 	public void setPenGeo(GeoImage penGeo) {
 		this.penGeo = penGeo;
+		penWritingToExistingImage = penGeo!= null;
 	}
 
 	public void resetPenOffsets() {

@@ -11,6 +11,7 @@ the Free Software Foundation.
 */
 package geogebra.common.euclidian;
 
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.StringTemplate;
 
 import geogebra.common.kernel.geos.GeoElement;
@@ -27,17 +28,15 @@ import java.util.Iterator;
  * class for hitting objects with the mouse
  * 
  * @author Markus Hohenwarter
- * @version
  */
 
 //TODO change ArrayList to TreeSet 
-
 public class Hits extends ArrayList<GeoElement> {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private int listCount;
-	protected int polyCount;
+	private int polyCount;
 	private int imageCount;
 
 	/** init the hits */
@@ -88,10 +87,16 @@ public class Hits extends ArrayList<GeoElement> {
 	}
 	
 
+	/**
+	 * @return count of hit images
+	 */
 	public int getImageCount(){
 		return imageCount;
 	}
 	
+	/**
+	 * @return count of hit lists
+	 */
 	public int getListCount(){
 		return listCount;
 	}	
@@ -117,7 +122,7 @@ public class Hits extends ArrayList<GeoElement> {
 	
 	/** absorbs new elements in hits2
 	 * Tam: 2011/5/21
-	 * @param hits2 
+	 * @param hits2 hits to be absorbed
 	 * @return the repeated elements in hits2
 	 */
 	public Hits absorb(ArrayList<GeoElement> hits2){
@@ -142,10 +147,13 @@ public class Hits extends ArrayList<GeoElement> {
 		}
 	}
 	
+	/**
+	 * Removes all transparent geos.
+	 * Transparency criteria same as in EuclidianController3D::decideHideIntersection
+	 */
 	final public void removeAllDimElements(){
 		for (int i = size() - 1 ; i >= 0 ; i-- ) {
 			GeoElement geo = get(i);
-			//transparency criteria same as in EuclidianController3D::decideHideIntersection
 			if (geo==null || 
 					geo.isRegion() && (geo.getAlphaValue() < 0.1f || geo.getLineThickness() <0.5f) ||
 					geo.isPath() && geo.getLineThickness() < 0.5f)
@@ -161,6 +169,10 @@ public class Hits extends ArrayList<GeoElement> {
 		removePolygonsDependingSidePresent(false);
 	}
 	
+	/**
+	 * Removes polygons that are in hits but none of their
+	 *  sides is hit
+	 */
 	final public void removePolygonsIfSideNotPresent(){
 		removePolygonsDependingSidePresent(true);
 	}
@@ -236,25 +248,9 @@ public class Hits extends ArrayList<GeoElement> {
 				
 	}
 	
-	/*
-	 * remove sides of polygons present
-	 *
-	final public void removeSidesOfPolygons(){
-		
-		Iterator it = this.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = (GeoElement) it.next();
-			if (geo.isGeoPolygon()) {
-				GeoSegmentND [] sides = ((GeoPolygon) geo).getSegments();
-				for (int k=0; k < sides.length; k++) 
-					this.remove(sides[k]);
-			}				
-		}				
-				
-	}
-*/
-
-	// replaces final public ArrayList getPointVectorNumericHits(Point p) {
+	/**
+	 * @return vectors and points in this hits; NOT numerics
+	 */
 	final public Hits getPointVectorNumericHits(){
 
 		Hits ret = new Hits();
@@ -287,6 +283,9 @@ public class Hits extends ArrayList<GeoElement> {
 		}
 	}
 
+	/**
+	 * Removes all polygons
+	 */
 	final public void removeAllPolygons(){
 		for (int i = size() - 1 ; i >= 0 ; i-- ) {
 			GeoElement geo = get(i);
@@ -309,15 +308,24 @@ public class Hits extends ArrayList<GeoElement> {
 		}
 	}
 	
-	//for 3D only
+
+	/**
+	 * Removes all polygonsand quadrics but one; for 3D 
+	 */
 	public void removeAllPolygonsAndQuadricsButOne(){
-
+		//for 3D
 	}
 	
+	/**
+	 * Keeps only images; for 3D
+	 */
 	final public void removeAllButImages(){
-
+		//for 3D
 	}
 	
+	/**
+	 * Removes images
+	 */
 	public void removeImages() {
 		for (int i = size() - 1 ; i >= 0 ; i-- ) {
 			GeoElement geo = get(i);
@@ -337,7 +345,7 @@ public class Hits extends ArrayList<GeoElement> {
 	*/
 
 	/**
-	 * @param view 
+	 * @param view view
 	 * @return array of changeable GeoElements out of hits
 	 */
 	final public Hits getMoveableHits(EuclidianViewInterfaceSlim view) {
@@ -346,14 +354,20 @@ public class Hits extends ArrayList<GeoElement> {
 
 	/**
 	 * PointRotateable
-	 * @param view 
-	 * @param rotCenter 
+	 * @param view view
+	 * @param rotCenter rotation center 
 	 * @return array of changeable GeoElements out of hits that implement 
 	 */
 	final public Hits getPointRotateableHits(EuclidianViewInterfaceSlim view, GeoPointND rotCenter) {
 		return getMoveables(view, Test.ROTATEMOVEABLE, rotCenter);
 	}
 
+	/**
+	 * @param view view
+	 * @param test either ROTATEMOVEABLE or MOVEABLE
+	 * @param rotCenter rotation center
+	 * @return (rotate)moveable geos 
+	 */
 	protected Hits getMoveables(EuclidianViewInterfaceSlim view, Test test, GeoPointND rotCenter) {
 
 		GeoElement geo;
@@ -411,15 +425,20 @@ public class Hits extends ArrayList<GeoElement> {
 	*/
 
 	/**
-	 * @param geoclass 
-	 * @param result 
-	 * @return array of GeoElements NOT of type geoclass out of hits 
+	 * @param geoclass test for type that
+	 * @param result hits object for result
+	 * @return array of GeoElements NOT passing test out of hits 
 	 */
 	final public Hits getOtherHits(Test geoclass,
 			Hits result) {
 		return getHits(geoclass, true, result);
 	}
 
+	/**
+	 * @param geoclass test for type
+	 * @param result hits object for result
+	 * @return array of GeoElements passing test out of hits 
+	 */
 	final public Hits getHits(Test geoclass,
 			Hits result) {
 		return getHits(geoclass, false, result);
@@ -446,10 +465,10 @@ public class Hits extends ArrayList<GeoElement> {
 
 	/**
 	 * Stores all GeoElements of type geoclass to result list.
-	 * @param geoclass 
+	 * @param geoclass test
 	 * 
 	 * @param other ==
-	 *            true: returns array of GeoElements NOT of type geoclass out of
+	 *            true: returns array of GeoElements NOT passing test out of
 	 *            hits.
 	 * @param result Hits in which the result should be stored
 	 * @return result
@@ -472,6 +491,10 @@ public class Hits extends ArrayList<GeoElement> {
 		return result;
 	}
 	
+	/**
+	 * @param result hits to store result
+	 * @return result
+	 */
 	public final Hits getRegionHits(
 			Hits result) {
 		result.clear();
@@ -486,10 +509,10 @@ public class Hits extends ArrayList<GeoElement> {
 
 	/**
 	 * Stores all GeoElements of any of type geoclasses to result list.
-	 * @param geoclasses 
+	 * @param geoclasses test
 	 * 
 	 * @param other ==
-	 *            true: returns array of GeoElements NOT of any of type geoclasses out of
+	 *            true: returns array of GeoElements NOT passing any test out of
 	 *            hits.
 	 * @param result Hits in which the result should be stored
 	 * @return result
@@ -513,7 +536,7 @@ public class Hits extends ArrayList<GeoElement> {
 	
 	/**
 	 * return first hit of given class
-	 * @param geoclass
+	 * @param geoclass test
 	 * @return first hit of given class
 	 */
 	final public GeoElement getFirstHit(Test geoclass) {
@@ -564,8 +587,8 @@ public class Hits extends ArrayList<GeoElement> {
 	 * hits is returned.
 	 * @return list of hit points
 	 * 
-	 * @see AbstractEuclidianController#mousePressed(MouseEvent)
-	 * @see AbstractEuclidianController#mouseMoved(MouseEvent)
+	 * @see AbstractEuclidianController#wrapMousePressed(AbstractEvent)
+	 * @see AbstractEuclidianController#wrapMouseMoved(AbstractEvent)
 	 */
 	public Hits getTopHits() {
 		
@@ -602,6 +625,10 @@ public class Hits extends ArrayList<GeoElement> {
 		return ret;
 	}
 
+	/**
+	 * @param nb maximal number of hits
+	 * @return first at most nb hits
+	 */
 	public Hits getHits(int nb){
 		Hits ret = createNewHits();
 		for(int i=0;i<nb && i<size(); i++)
@@ -610,14 +637,24 @@ public class Hits extends ArrayList<GeoElement> {
 		return ret;
 	}
 	
+	/**
+	 * @return creates new instance of this class 
+	 */
 	protected Hits createNewHits() {
 		return new Hits();
 	}
 
-	//for 3D only
+	/**
+	 * @param depth for 3D 
+	 * @param geoN maximal number of returned geos
+	 * @return top hits
+	 */
 	public Hits getTopHits(int depth, int geoN) {
 		return getTopHits(geoN);
 	}
+	/**
+	 * @return true if contains GeoPointND
+	 */
 	final public boolean containsGeoPoint() {
 
 		for (int i = 0; i < size(); i++) {
@@ -626,7 +663,10 @@ public class Hits extends ArrayList<GeoElement> {
 		}
 		return false;
 	}
-
+	/**
+	 * @param ret if the point is found, it is added into ret
+	 * @return true if contains GeoPointND
+	 */
 	final public boolean containsGeoPoint(Hits ret) {
 
 		GeoElement geo;

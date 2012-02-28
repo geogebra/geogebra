@@ -29,7 +29,10 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 	private boolean needClosePath;
 	private geogebra.common.awt.Rectangle bounds;
 	
-
+	/**
+	 * Creates new clipped general path
+	 * @param view view
+	 */
 	public GeneralPathClipped(EuclidianViewInterfaceSlim view) {
 		//this.view = (EuclidianView)view;
 		this.view = view;
@@ -39,6 +42,9 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 		reset();
 	}
 
+	/**
+	 * Clears all points and resets internal variables
+	 */
 	final public void reset() {
 		pathPoints.clear();
 		gp.reset();
@@ -48,10 +54,16 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 		needClosePath = false;
 	}
 
+	/**
+	 * Closes path
+	 */
 	final public void closePath() {
 		needClosePath = true;
 	}
 
+	/**
+	 * @return this as GeneralPath
+	 */
 	public geogebra.common.awt.GeneralPath getGeneralPath() {
 		if (pathPoints.size() == 0)
 			return gp;
@@ -149,7 +161,9 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 		}
 	}
 
-	private geogebra.common.awt.Point2D getPointCloseToScreen(double x, double y) {
+	private geogebra.common.awt.Point2D getPointCloseToScreen(double ptx, double pty) {
+		double x = ptx;
+		double y =pty;
 		double border = 10;
 		double right = view.getWidth() + border;
 		double bottom = view.getHeight() + border;
@@ -185,6 +199,8 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 
 	/**
 	 * Move to (x,y).
+	 * @param x x-coord
+	 * @param y y-coord
 	 */
 	final public void moveTo(double x, double y) {
 		addPoint(x, y, false);
@@ -192,6 +208,8 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 
 	/**
 	 * Line to (x,y).
+	 * @param x x-coord
+	 * @param y y-coord
 	 */
 	final public void lineTo(double x, double y) {
 		addPoint(x, y, true);
@@ -199,6 +217,9 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 
 	/**
 	 * Adds point to point list and keeps track of largest coordinate.
+	 * @param pos insert position 
+	 * @param x x-coord
+	 * @param y y-coord
 	 */
 	final public void addPoint(int pos, double x, double y) {
 		MyPoint p = new MyPoint(x, y, true);
@@ -234,6 +255,9 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 		bounds.add(p.getX(), p.getY());
 	}
 
+	/**
+	 * @return current point
+	 */
 	public geogebra.common.awt.Point2D getCurrentPoint() {
 		if (pathPoints.size() == 0) {
 			return null;
@@ -241,6 +265,10 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 		return pathPoints.get(pathPoints.size() - 1);
 	}
 
+	/**
+	 * Transforms this path
+	 * @param af transformation
+	 */
 	public void transform(geogebra.common.awt.AffineTransform af) {
 		int size = pathPoints.size();
 		for (int i = 0; i < size; i++) {
@@ -249,18 +277,33 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 		}
 	}
 
+	/**
+	 * @param p point
+	 * @return true if contains given point
+	 */
 	public boolean contains(geogebra.common.awt.Point2D p) {
 		return getGeneralPath().contains(p);
 	}
 
-	public boolean contains(geogebra.common.awt.Rectangle2D p) {
-		return getGeneralPath().contains(p);
+	/**
+	 * @param rect rectangle
+	 * @return true if contains given rectangle
+	 */
+	public boolean contains(geogebra.common.awt.Rectangle2D rect) {
+		return getGeneralPath().contains(rect);
 	}
 
 	public boolean contains(double arg0, double arg1) {
 		return getGeneralPath().contains(arg0, arg1);
 	}
 
+	/**
+	 * @param arg0 x min
+	 * @param arg1 y min
+	 * @param arg2 width
+	 * @param arg3 height
+	 * @return true if contains rectangle given by args 
+	 */
 	public boolean contains(double arg0, double arg1, double arg2, double arg3) {
 		return getGeneralPath().contains(arg0, arg1, arg2, arg3);
 	}
