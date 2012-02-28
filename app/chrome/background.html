@@ -1,0 +1,113 @@
+<html>
+<head>
+<script>
+var animationFrames = 36;
+var animationSpeed = 10; // ms
+var canvas;
+var canvasContext;
+var ggbImage;
+var pollIntervalMin = 1000 * 60;  // 1 minute
+var pollIntervalMax = 1000 * 60 * 60;  // 1 hour
+var requestFailureCount = 0;  // used for exponential backoff
+var requestTimeout = 1000 * 2;  // 5 seconds
+var alpha = 1;
+var unreadCount = -1;
+var loadingAnimation = new LoadingAnimation();
+var requestTimerId;
+
+
+function LoadingAnimation() {
+  this.timerId_ = 0;
+  this.maxCount_ = 8;  // Total number of states in animation
+  this.current_ = 0;  // Current state
+  this.maxDot_ = 4;  // Max number of dots in animation
+}
+
+LoadingAnimation.prototype.paintFrame = function() {
+  var text = "";
+  for (var i = 0; i < this.maxDot_; i++) {
+    text += (i == this.current_) ? "." : " ";
+  }
+  if (this.current_ >= this.maxDot_)
+    text += "";
+
+  chrome.browserAction.setBadgeText({text:text});
+  this.current_++;
+  if (this.current_ == this.maxCount_)
+    this.current_ = 0;
+}
+
+LoadingAnimation.prototype.start = function() {
+  if (this.timerId_)
+    return;
+
+  var self = this;
+  this.timerId_ = window.setInterval(function() {
+    self.paintFrame();
+  }, 100);
+}
+
+LoadingAnimation.prototype.stop = function() {
+  if (!this.timerId_)
+    return;
+
+  window.clearInterval(this.timerId_);
+  this.timerId_ = 0;
+}
+
+
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo) {
+    //do nothing here now
+});
+
+
+function init() {
+  canvas = document.getElementById('canvas');
+  ggbImage = document.getElementById('ggbicon');
+  canvasContext = canvas.getContext('2d');
+
+  chrome.browserAction.setBadgeBackgroundColor({color:[255, 255, 255, 255]});
+  chrome.browserAction.setIcon({path: "icon_19.png"});
+}
+
+
+function ease(x) {
+  return (1-Math.sin(Math.PI/2+x*Math.PI))/2;
+}
+
+function animateFlip() {
+  alpha += 1/animationFrames;
+  drawIconAtAlpha();
+
+  if (alpha <= 1) {
+    setTimeout("animateFlip()", animationSpeed);
+  } else {
+    alpha = 1;
+    drawIconAtAlpha();
+    chrome.browserAction.setBadgeBackgroundColor({color:[255, 255, 255, 255]});
+  }
+}
+
+function drawIconAtAlpha() {
+  //canvasContext.save();
+  canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+  canvasContext.globalAlpha = alpha;
+  canvasContext.drawImage(ggbImage,0,0);
+
+  chrome.browserAction.setIcon({imageData:canvasContext.getImageData(0, 0,
+      canvas.width,canvas.height)});
+}
+
+// Called when the user clicks on the browser action.
+chrome.browserAction.onClicked.addListener(function(tab) {
+ 	//do nothing yet
+});
+
+</script>
+</head>
+<body onload="init()">
+<img id="ggbicon" src="icon_19.png">
+<canvas id="canvas" width="19" height="19">
+</body>
+</html>
+
