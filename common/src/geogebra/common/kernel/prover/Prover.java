@@ -14,7 +14,6 @@ package geogebra.common.kernel.prover;
  * 
  */
 
-import geogebra.common.io.QDParser;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 
@@ -109,11 +108,18 @@ public class Prover {
 		return null;
 	}
 
-	private String simplifyXML(Construction cons) {
-		QDParser xmlParser;
-		xmlParser = new QDParser();
-		return null; // TOD: implementation
+	/**
+	 * A minimal version of the construction XML. Only elements/commands are preserved,
+	 * the rest is deleted. 
+	 * @param cons The construction
+	 * @return The simplified XML 
+	 */
+	// TODO: Cut even more unneeded parts to reduce unneeded traffic between OGP and GeoGebra.
+	// Maybe a third party XML library would be nice for this -- xstream?
+	private String simplifiedXML(Construction cons) {
+		StringBuilder sb = new StringBuilder();
+		cons.getConstructionElementsXML(sb);
+		return sb.toString();
 	}
-
 
 }

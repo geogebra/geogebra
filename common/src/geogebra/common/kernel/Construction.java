@@ -1038,12 +1038,7 @@ public class Construction {
 				sb.append("\"/>\n");
 			}
 
-			ConstructionElement ce;
-			int size = ceList.size();
-			for (int i = 0; i < size; ++i) {
-				ce = ceList.get(i);
-				ce.getXML(sb);
-			}
+			getConstructionElementsXML(sb);
 
 			sb.append("</construction>\n");
 		} catch (Exception e) {
@@ -1051,6 +1046,16 @@ public class Construction {
 		} 
 	}
 
+	public void getConstructionElementsXML(StringBuilder sb) {
+
+		ConstructionElement ce;
+		int size = ceList.size();
+		for (int i = 0; i < size; ++i) {
+			ce = ceList.get(i);
+			ce.getXML(sb);
+		}
+	}
+	
 	/**
 	 * Returns this construction in regression file .out format. Markus
 	 * suggested to use the logic from getConstructionXML for this method. --
