@@ -213,11 +213,11 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 	
 	@Override
 	public Application getApplication() {
-		return (Application)application;
+		return (Application)super.getApplication();
 	}
 	
 	
-	protected void initView(boolean repaint) {
+	protected void initPanel(boolean repaint) {
 		// preferred size
 		evjpanel.setPreferredSize(null);
 	}

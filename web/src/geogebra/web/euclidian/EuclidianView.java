@@ -272,7 +272,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
     @Override
     public Application getApplication() {
-    	return (Application)application;
+    	return (Application)super.getApplication();
     }
 
 	
@@ -406,13 +406,13 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
     }
 
 	public void setDefaultCursor() {
-		((Application)application).resetCursor();
+		getApplication().resetCursor();
 		g2p.getCanvas().setStyleName("");
 		g2p.getCanvas().addStyleName("cursor_default");
     }
 
 	public void setHitCursor() {
-		((Application)application).resetCursor();
+		getApplication().resetCursor();
 		g2p.getCanvas().setStyleName("");
 		g2p.getCanvas().addStyleName("cursor_hit");
     }
@@ -509,7 +509,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	}
 
 	public void setDragCursor() {
-		((Application)application).resetCursor();
+		getApplication().resetCursor();
 		g2p.getCanvas().setStyleName("");
 		g2p.getCanvas().addStyleName("cursor_drag");
     }
@@ -520,13 +520,13 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
     }
 
 	public void setResizeXAxisCursor() {
-		((Application)application).resetCursor();
+		getApplication().resetCursor();
 		g2p.getCanvas().setStyleName("");
 		g2p.getCanvas().addStyleName("cursor_resizeXAxis");
     }
 
 	public void setResizeYAxisCursor() {
-		((Application)application).resetCursor();
+		getApplication().resetCursor();
 		g2p.getCanvas().setStyleName("");
 		g2p.getCanvas().addStyleName("cursor_resizeYAxis");
     }
@@ -538,7 +538,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
     }
 
 	public void setMoveCursor() {
-		((Application)application).resetCursor();
+		getApplication().resetCursor();
 		g2p.getCanvas().setStyleName("");
 		g2p.getCanvas().addStyleName("cursor_move");
     }

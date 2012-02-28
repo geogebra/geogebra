@@ -136,9 +136,8 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		setVertices();
 		//Application.debug(xmin+","+xmax+","+ymin+","+ymax+","+zmin+","+zmax);
 		
+		view.setXYMinMax(minMax);
 		
-		view.setXmin(minMax[0][0]);view.setXmax(minMax[0][1]);
-		view.setYmin(minMax[1][0]);view.setYmax(minMax[1][1]);
 		
 		return minMax;
 	}

@@ -170,9 +170,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	}
 
 	public void onMouseOver(MouseOverEvent event) {
-		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
 		 wrapMouseEntered();
-		 e.release();
 	}
 
 	public void onMouseOut(MouseOutEvent event) {

@@ -8537,5 +8537,9 @@ public abstract class AbstractEuclidianController {
 		app.setUnsaved();
 
 	}
+
+	public AbstractApplication getApplication() {
+		return app;
+	}
 	
 }

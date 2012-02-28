@@ -117,11 +117,11 @@ public class EuclidianView extends EuclidianViewND implements
 		super(ec, settings);
 
 		evNo = evno;
-		setApplication(((EuclidianController)ec).getApplication());
+		setApplication(ec.getApplication());
 
 
-		this.showAxes[0] = showAxes[0];
-		this.showAxes[1] = showAxes[1];
+		setShowAxis(0, showAxes[0], false);
+		setShowAxis(1, showAxes[1], false);
 		this.showGrid = showGrid;
 
 		
@@ -153,42 +153,8 @@ public class EuclidianView extends EuclidianViewND implements
 
 	@Override
 	protected void initView(boolean repaint) {
+		initPanel(repaint);
 		super.initView(repaint);
-
-		// init grid's line type
-		setGridLineStyle(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
-		setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
-		setAxesColor(geogebra.common.awt.Color.black); // Michael Borcherds 2008-01-26 was darkgray
-		setGridColor(geogebra.common.awt.Color.lightGray);
-		setBackground(geogebra.common.awt.Color.white);
-
-		// showAxes = true;
-		// showGrid = false;
-		pointCapturingMode = EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
-
-		// added by Loic BEGIN
-		// app.rightAngleStyle = EuclidianView.RIGHT_ANGLE_STYLE_SQUARE;
-		// END
-
-		showAxesNumbers[0] = true;
-		showAxesNumbers[1] = true;
-		axesLabels[0] = null;
-		axesLabels[1] = null;
-		axesUnitLabels[0] = null;
-		axesUnitLabels[1] = null;
-		piAxisUnit[0] = false;
-		piAxisUnit[1] = false;
-		axesTickStyles[0] = EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR;
-		axesTickStyles[1] = EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR;
-
-		// for axes labeling with numbers
-		automaticAxesNumberingDistances[0] = true;
-		automaticAxesNumberingDistances[1] = true;
-
-		// distances between grid lines
-		automaticGridDistance = true;
-
-		setStandardCoordSystem(repaint);
 	}
 
 	public boolean hasPreferredSize() {
@@ -240,7 +206,7 @@ public class EuclidianView extends EuclidianViewND implements
 	protected void initCursor() {
 		defaultCursor = null;
 
-		switch (mode) {
+		switch (getMode()) {
 		case EuclidianConstants.MODE_ZOOM_IN:
 			defaultCursor = getCursorForImage(getApplication()
 					.getInternalImage("cursor_zoomin.gif"));
@@ -434,8 +400,8 @@ public class EuclidianView extends EuclidianViewND implements
 		g2d.scale(scale, scale);
 
 		// clipping on selection rectangle
-		if (selectionRectangle != null) {
-			Rectangle rect = selectionRectangle;
+		if (getSelectionRectangle() != null) {
+			Rectangle rect = getSelectionRectangle();
 			g2d.setClip(0, 0, (int)rect.getWidth(), (int)rect.getHeight());
 			g2d.translate(-rect.getX(), -rect.getY());
 			// Application.debug(rect.x+" "+rect.y+" "+rect.width+" "+rect.height);
