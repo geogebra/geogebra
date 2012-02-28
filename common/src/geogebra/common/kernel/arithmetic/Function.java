@@ -656,8 +656,14 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		Polynomial xVar=new Polynomial(kernel,"x");
 		ExpressionValue[][] coeff = null;
 		int terms = -1;
-		ExpressionNode replaced = 
-				((ExpressionNode) ev.deepCopy(kernel)).replaceAndWrap(fVars[0], xVar);
+		ExpressionValue evCopy=ev.deepCopy(kernel);
+		ExpressionNode replaced;
+		if (evCopy instanceof ExpressionNode){
+			replaced = 
+					((ExpressionNode) ev.deepCopy(kernel)).replaceAndWrap(fVars[0], xVar);
+		} else {
+			replaced = (new ExpressionNode(kernel,evCopy)).replaceAndWrap(fVars[0], xVar);
+		}
 				
 		Equation equ=new Equation(kernel,replaced,new MyDouble(kernel,0));				
 		try{

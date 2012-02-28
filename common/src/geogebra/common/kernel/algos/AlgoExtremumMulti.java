@@ -271,9 +271,11 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 		double pixsininterval = visiblepixs * (r - l)
 				/ (visiblemax - visiblemin);
 		// debug("Pixels in interval: "+pixsininterval);
-		int n = (int) Math.round(Math.max(
-				Math.min(pixsininterval / PIXELS_BETWEEN_SAMPLES, MAX_SAMPLES),
-				MIN_SAMPLES));
+		int n = Math.max(
+				Math.min(
+						(int) Math.round(pixsininterval
+								/ PIXELS_BETWEEN_SAMPLES), MAX_SAMPLES),
+				MIN_SAMPLES);
 
 		// debug("Samples: "+n);
 		return n;
