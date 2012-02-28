@@ -3,6 +3,7 @@ package geogebra.cas.view;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.main.Application;
+import geogebra.common.util.StringUtil;
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -64,7 +65,7 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 		if (ac.equals("copy")) {
 			data = new StringSelection(value.toOutputValueString(StringTemplate.defaultTemplate));
 		} else if (ac.equals("copyToLaTeX")) {
-			data = new StringSelection(value.getLaTeXOutput());
+			data = new StringSelection(StringUtil.toLaTeXString(value.getLaTeXOutput(), true));
 		} 
 		
 		if(data == null) {
