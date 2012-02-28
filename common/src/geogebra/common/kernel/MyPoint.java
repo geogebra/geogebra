@@ -94,7 +94,7 @@ public class MyPoint extends geogebra.common.awt.Point2D{
 	
 	@Override
 	public double getY() {
-		return x;
+		return y;
 	}
 
 	@Override
