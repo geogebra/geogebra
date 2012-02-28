@@ -23,8 +23,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Locale;
 
-import au.com.bytecode.opencsv.CSVParser;
-
 public class CopyPasteCut {
 
 	// ggb support classes
@@ -222,7 +220,7 @@ public class CopyPasteCut {
 			return false;
 
 		// isCSV = DataImport.hasHTMLFlavor(contents);
-		//System.out.println("transfer string: " + transferString);
+		// System.out.println("transfer string: " + transferString);
 
 		// test if the transfer string is the same as the internal cell copy
 		// string. If true, then we have a tab-delimited list of cell geos and
@@ -402,7 +400,7 @@ public class CopyPasteCut {
 						if (values1[ix][iy] != null) {
 
 							// just record the coordinates for pasting
-							constructionIndexes[count] = (Object) new Record(
+							constructionIndexes[count] = new Record(
 									values1[ix][iy].getConstructionIndex(), ix,
 									iy, x3 - x1, y3 - y1);
 							count++;
@@ -485,7 +483,7 @@ public class CopyPasteCut {
 		boolean oldEqualsSetting = app.getSettings().getSpreadsheet()
 				.equalsRequired();
 		app.getSettings().getSpreadsheet().setEqualsRequired(true);
-		
+
 		boolean succ = true;
 		int rowStep = data.length;
 		int columnStep = data[0].length;
@@ -764,7 +762,7 @@ public class CopyPasteCut {
 	 * @param f
 	 * @return "ext" for file "filename.ext"
 	 */
-	private String getExtension(String filename) {
+	private static String getExtension(String filename) {
 		if (filename != null) {
 			int i = filename.lastIndexOf('.');
 			if (i > 0 && i < filename.length() - 1)
