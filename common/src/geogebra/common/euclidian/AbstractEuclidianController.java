@@ -61,6 +61,7 @@ import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoConicND.HitType;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -3406,7 +3407,7 @@ public abstract class AbstractEuclidianController {
 	
 				if (((GeoElement) paths[0]).isGeoPolygon()
 						|| (((GeoElement) paths[0]).isGeoConic() && (((GeoConicND) paths[0])
-								.getLastHitType() == GeoConicND.HIT_TYPE_ON_FILLING))) {
+								.getLastHitType() == HitType.ON_FILLING))) {
 					return attach(points[0], (Region) paths[0]);
 				}
 	
@@ -4573,7 +4574,7 @@ public abstract class AbstractEuclidianController {
 									}
 								} else if (((GeoElement) region).isGeoConic()) {
 									if ((mode == EuclidianConstants.MODE_POINT_ON_OBJECT)
-											&& (((GeoConicND) region).getLastHitType() == GeoConicND.HIT_TYPE_ON_FILLING)) {
+											&& (((GeoConicND) region).getLastHitType() == HitType.ON_FILLING)) {
 										createPoint = true;
 										hits.remove(region); // conic won't be treated
 																// as a path

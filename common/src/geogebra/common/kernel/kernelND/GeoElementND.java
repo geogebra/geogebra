@@ -47,7 +47,7 @@ public interface GeoElementND extends ExpressionValue,ToGeoElement{
 
 	public void setLineThickness(int th);
 
-	public boolean getTrace();
+	
 
 	public void setLabelVisible(boolean b);
 	

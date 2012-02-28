@@ -44,6 +44,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoConicND.HitType;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
@@ -1164,17 +1165,17 @@ final public class DrawConic extends Drawable implements Previewable {
 		// Application.debug("isOnFilling="+isOnFilling+"\nisOnBoundary="+isOnBoundary);
 		if (isOnFilling) {
 			if (isOnBoundary) {
-				conic.setLastHitType(GeoConicND.HIT_TYPE_ON_BOUNDARY);
+				conic.setLastHitType(HitType.ON_BOUNDARY);
 				return true;
 			}
-			conic.setLastHitType(GeoConicND.HIT_TYPE_ON_FILLING);
+			conic.setLastHitType(HitType.ON_FILLING);
 			return true;
 		}
 		if (isOnBoundary) {
-			conic.setLastHitType(GeoConicND.HIT_TYPE_ON_BOUNDARY);
+			conic.setLastHitType(HitType.ON_BOUNDARY);
 			return true;
 		}
-		conic.setLastHitType(GeoConicND.HIT_TYPE_NONE);
+		conic.setLastHitType(HitType.NONE);
 		return false;
 	}
 

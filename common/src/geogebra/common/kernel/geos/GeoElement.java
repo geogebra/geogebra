@@ -48,6 +48,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AlgebraProcessor;
+import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
@@ -76,7 +77,7 @@ import java.util.TreeSet;
  */
 
 public abstract class GeoElement extends ConstructionElement implements
-		ExpressionValue {
+		GeoElementND {
 
 	public boolean isVector3DValue() {
 		return false;

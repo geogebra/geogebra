@@ -222,7 +222,10 @@ public interface GeoPointND extends GeoElementND, PointProperties{
 	 */
 	public boolean showInEuclidianView();
 
-	
+	/**
+	 * @return true if tracing
+	 */
+	public boolean getTrace();
 	//private boolean movePointMode = MOVE_POINT_MODE_XY;
 
 	

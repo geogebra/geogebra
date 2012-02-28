@@ -10,6 +10,7 @@ import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.PathParameter;
+import geogebra.common.kernel.Region;
 import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
@@ -47,17 +48,11 @@ import java.util.ArrayList;
  *
  */
 public abstract class GeoConicND extends GeoQuadricND implements LineProperties, Path,
-Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
+Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 {
-	
-	
-
-
-	
-	
-	
-	// avoid very large and small coefficients for numerical stability	
+	/** avoid very large and small coefficients for numerical stability */	
 	protected static final double MAX_COEFFICIENT_SIZE = 100000;
+	/** avoid very large and small coefficients for numerical stability */
 	protected static final double MIN_COEFFICIENT_SIZE = 1;
 	
 	/** mode for equations like ax^2+bxy+cy^2+dx+ey+f=0 */
@@ -66,21 +61,23 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 	public static final int EQUATION_EXPLICIT = 1;
 	/** mode for equations like (x-m)^2/a^2+(y-n)^2/b^2=1 */
 	public static final int EQUATION_SPECIFIC = 2;
-
+	/** variable strings for default output */
 	protected static String[] vars = { "x\u00b2", "x y", "y\u00b2", "x", "y" };
+	/** variable strings for LaTeX output */
 	protected static String[] varsLateX = { "x^{2}", "x y", "y^{2}", "x", "y" };
+	/** variable strings for CAS output */
 	protected static String[] varsCAS = { "x^2", "x*y", "y^2", "x", "y" };
 	
-	// enable negative sign of first coefficient in implicit equations
+	/** enable negative sign of first coefficient in implicit equations*/
 	protected static boolean KEEP_LEADING_SIGN = false;
 
-
+	/** point in case of single point degenerate conic*/
 	protected GeoPoint2 singlePoint;
 
 	/** lines of which this conic consists in case it's degenerate */
 	public GeoLine[] lines;
 	
-	// two Eigenvectors (unit vectors), set by setEigenvectors()
+	/** two Eigenvectors (unit vectors), set by setEigenvectors() */
 	public GeoVec2D[] eigenvec = { new GeoVec2D(kernel, 1, 0), new GeoVec2D(kernel, 0, 1)};
 	
 	/**
@@ -92,33 +89,40 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 	protected double eigenvecY;
 	
 	//int type = -1; // of conic
-	protected double maxCoeffAbs; // maximum absolute value of coeffs in matrix A[]
-	protected AffineTransform transform, oldTransform;
+	/** maximum absolute value of coeffs in matrix A[]*/
+	protected double maxCoeffAbs; 
+	/** eigenvector-real world transformation*/
+	protected AffineTransform transform;
+	/** old value of transform */
+	protected AffineTransform oldTransform;
 	/** true if should be traced */
 	public boolean trace;	
 
 
 	/** translation vector (midpoint, vertex) */    
 	public GeoVec2D b = new GeoVec2D(kernel);
+	/** start points for lines in degenerate cases*/
 	protected GeoPoint2 [] startPoints;
-	//private boolean defined = true;
+	/** points on this conic*/
 	protected ArrayList<GeoPoint2> pointsOnConic;
 	
 	
 	// for classification
-	transient protected double detS, length, temp, temp1, temp2, nx, ny, lambda;
-	protected int index = 0;
-	protected double[] eigenval = new double[3];
+	transient private double detS, length, temp, temp1, temp2, nx, ny, lambda;
+	private int index = 0;
+	/** eigenvalues */
+	private double[] eigenval = new double[3];
+	/**mu TODO better javadoc*/
 	protected double[] mu = new double[2];
-	protected GeoVec2D c = new GeoVec2D(kernel);	
-	
+	private GeoVec2D c = new GeoVec2D(kernel);	
+	/** error DetS*/
 	public double errDetS = Kernel.EPSILON;
 	
 	
 	
 	/**
 	 * 
-	 * @param i
+	 * @param i index of eigenvector
 	 * @return eigen vector in native dimension of the conic
 	 * 	 */
 	public Coords getEigenvec(int i){
@@ -127,7 +131,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 	
 	/**
 	 * 
-	 * @param i
+	 * @param i index of eigenvector
 	 * @return eigen vector in dimension 3
 	 */
 	 @Override
@@ -141,14 +145,14 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 	 
 	 /**
 	  * 
-	  * @param i
+	  * @param i index of line
 	  * @return the direction in case of line(s)
 	  */
 	 abstract public Coords getDirection3D(int i);
 
 	 /**
 	  * 
-	  * @param i
+	  * @param i index of line
 	  * @return the origin of lines in case of parallel lines
 	  */
 	 abstract public Coords getOrigin3D(int i);
@@ -206,8 +210,8 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 	
 	/**
 	 * makes this conic a circle with midpoint M and radius r
-	 * @param M 
-	 * @param r 
+	 * @param M center
+	 * @param r radius
 	 */
 	final public void setCircle(GeoPoint2 M, double r) {
 		
@@ -218,8 +222,8 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 	
 	/**
 	 * makes this conic a circle with midpoint M through Point P
-	 * @param M 
-	 * @param P 
+	 * @param M center
+	 * @param P point on circle
 	 */
 	abstract public void setCircle(GeoPoint2 M, GeoPoint2 P);
 	
@@ -863,9 +867,9 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 		P.setY(px * eigenvec0.getY() + py * eigenvec1.getY()); 
 	
 		// translate by b
-		Coords b = getMidpoint();
-		P.setX(P.getX() + P.getZ() * b.getX());
-		P.setY(P.getY() + P.getZ() * b.getY());
+		Coords mid = getMidpoint();
+		P.setX(P.getX() + P.getZ() * mid.getX());
+		P.setY(P.getY() + P.getZ() * mid.getY());
 	}
 	
 	/**
@@ -874,11 +878,11 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 	 */
 	private void coordsRWtoEV(Coords P) {
 
-		Coords b = getMidpoint();
+		Coords mid = getMidpoint();
 
 		// translate by -b
-		P.setX(P.getX() - P.getZ() * b.getX());
-		P.setY(P.getY() - P.getZ() * b.getY());
+		P.setX(P.getX() - P.getZ() * mid.getX());
+		P.setY(P.getY() - P.getZ() * mid.getY());
 
 		// rotate by -alpha
 		double px = P.getX();	
@@ -949,23 +953,23 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 	
 	/**
 	 * Adds a point to the list of points that this conic passes through.
-	 * @param p 
+	 * @param pt point
 	 */
-	public final void addPointOnConic(GeoPointND p) {
+	public final void addPointOnConic(GeoPointND pt) {
 		if (pointsOnConic == null)
 			pointsOnConic = new ArrayList<GeoPoint2>();
 		
-		if (!pointsOnConic.contains(p))
-			pointsOnConic.add((GeoPoint2)p);				
+		if (!pointsOnConic.contains(pt))
+			pointsOnConic.add((GeoPoint2)pt);				
 	}
 	
 	/**
 	 * Removes a point from the list of points that this conic passes through.
-	 * @param p Point to be removed
+	 * @param pt Point to be removed
 	 */
-	public final void removePointOnConic(GeoPointND p) {
+	public final void removePointOnConic(GeoPointND pt) {
 		if (pointsOnConic != null)
-			pointsOnConic.remove(p);
+			pointsOnConic.remove(pt);
 	}
 
 	/** geo is expected to be a conic. make deep copy of
@@ -982,8 +986,8 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 			matrix[i] = co.matrix[i]; // flat matrix A   
 		
 		if (co.transform != null) {
-			AffineTransform transform = getAffineTransform();
-			transform.setTransform(co.transform);
+			AffineTransform at = getAffineTransform();
+			at.setTransform(co.transform);
 		}
 		
 		eigenvec[0].setCoords(co.eigenvec[0]);
@@ -2186,7 +2190,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 													
 			int size = pointsOnConic.size();
 			for (int i=0; i < size; i++) {
-				GeoPoint2 point = (GeoPoint2) pointsOnConic.get(i);
+				GeoPoint2 point = pointsOnConic.get(i);
 				if (point.getPath() == this) {					
 					point.getPathParameter().setT(Double.NaN);				
 				}
@@ -2334,7 +2338,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 		//Application.debug("singlePoint : " + b);
 	}
 
-	final private void intersectingLines(double[] mu) {
+	final private void intersectingLines(double[] mu1) {
 		type = GeoConicNDConstants.CONIC_INTERSECTING_LINES;
 
 		// set intersecting lines
@@ -2344,8 +2348,8 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 			lines[1] = new GeoLine(cons);
 		}
 		// n = T . (-mu, 1)
-		temp1 = eigenvec[0].getX() * mu[0];
-		temp2 = eigenvec[0].getY() * mu[0];
+		temp1 = eigenvec[0].getX() * mu1[0];
+		temp2 = eigenvec[0].getY() * mu1[0];
 		nx = eigenvec[1].getX() - temp1;
 		ny = eigenvec[1].getY() - temp2;
 
@@ -2372,11 +2376,11 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 		//Application.debug("intersectingLines: " + lines[0] + ", " + lines[1]);
 	}
 
-	final private void ellipse(double[] mu) {
+	final private void ellipse(double[] mu1) {
 
 
 		// circle 
-		if (Kernel.isEqual(mu[0]/mu[1],1.0)) {
+		if (Kernel.isEqual(mu1[0]/mu1[1],1.0)) {
 			
 			//sets eigen vecs parallel to Ox and Oy
 			eigenvecX = 1;
@@ -2384,18 +2388,18 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 			setEigenvectors();
 			
 			type = GeoConicNDConstants.CONIC_CIRCLE;
-			halfAxes[0] = Math.sqrt(1.0d / mu[0]);
+			halfAxes[0] = Math.sqrt(1.0d / mu1[0]);
 			halfAxes[1] = halfAxes[0];
 			linearEccentricity = 0.0d;
 			eccentricity = 0.0d;
 			//Application.debug("circle: M = " + b + ", r = " + halfAxes[0]);    
 		} else { // elipse
 			
-			if (mu[0] > mu[1]) {
+			if (mu1[0] > mu1[1]) {
 				// swap eigenvectors and mu            
-				temp = mu[0];
-				mu[0] = mu[1];
-				mu[1] = temp;
+				temp = mu1[0];
+				mu1[0] = mu1[1];
+				mu1[1] = temp;
 
 				// rotate eigenvector 90�
 				temp = eigenvecX;
@@ -2406,12 +2410,12 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 			
 			
 			type = GeoConicNDConstants.CONIC_ELLIPSE;
-			mu[0] = 1.0d / mu[0];
-			mu[1] = 1.0d / mu[1];
-			halfAxes[0] = Math.sqrt(mu[0]);
-			halfAxes[1] = Math.sqrt(mu[1]);
-			linearEccentricity = Math.sqrt(mu[0] - mu[1]);
-			eccentricity = linearEccentricity / Math.sqrt(mu[0]);
+			mu1[0] = 1.0d / mu1[0];
+			mu1[1] = 1.0d / mu1[1];
+			halfAxes[0] = Math.sqrt(mu1[0]);
+			halfAxes[1] = Math.sqrt(mu1[1]);
+			linearEccentricity = Math.sqrt(mu1[0] - mu1[1]);
+			eccentricity = linearEccentricity / Math.sqrt(mu1[0]);
 
 			/*
 			Application.debug("Ellipse");            
@@ -2422,13 +2426,13 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 		}
 	}
 
-	final private void hyperbola(double[] mu) {
+	final private void hyperbola(double[] mu1) {
 		type = GeoConicNDConstants.CONIC_HYPERBOLA;
-		if (mu[0] < 0) {
+		if (mu1[0] < 0) {
 			// swap eigenvectors and mu            
-			temp = mu[0];
-			mu[0] = mu[1];
-			mu[1] = temp;
+			temp = mu1[0];
+			mu1[0] = mu1[1];
+			mu1[1] = temp;
 
 			// rotate eigenvector 90�
 			temp = eigenvecX;
@@ -2437,12 +2441,12 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 		}
 		setEigenvectors();
 
-		mu[0] = 1.0d / mu[0];
-		mu[1] = -1.0d / mu[1];
-		halfAxes[0] = Math.sqrt(mu[0]);
-		halfAxes[1] = Math.sqrt(mu[1]);
-		linearEccentricity = Math.sqrt(mu[0] + mu[1]);
-		eccentricity = linearEccentricity / Math.sqrt(mu[0]);
+		mu1[0] = 1.0d / mu1[0];
+		mu1[1] = -1.0d / mu1[1];
+		halfAxes[0] = Math.sqrt(mu1[0]);
+		halfAxes[1] = Math.sqrt(mu1[1]);
+		linearEccentricity = Math.sqrt(mu1[0] + mu1[1]);
+		eccentricity = linearEccentricity / Math.sqrt(mu1[0]);
 
 		/*
 		Application.debug("Hyperbola");            
@@ -2607,7 +2611,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 	}	
 
 	/**
-	 * @param mu1
+	 * @param mu1 mu
 	 */
 	protected final void parallelLines(double[] mu1) {
 		type = GeoConicNDConstants.CONIC_PARALLEL_LINES;
@@ -3025,8 +3029,8 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 	 * are used directly to avoid rounding errors.
 	 * @author Michael Borcherds
 	 * @version 2010-05-17
-	 * @param x0 
-	 * @param y0 
+	 * @param x0 x-coord
+	 * @param y0 y-coord
 	 * @return true if point (x0,y0) is inside the connic
 	 */
 	public boolean isInRegion(double x0, double y0) {
@@ -3035,6 +3039,9 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 
 	}
 	
+	/**
+	 * @return value of this quadratic form in significant point (midpoint, focus)
+	 */
 	public double evaluateInSignificantPoint(){
 		switch (type){
 		case CONIC_INTERSECTING_LINES:
@@ -3053,7 +3060,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 	/**
 	 * Point's parameters are set to its EV coordinates
 	 * @version 2010-07-30
-	 * @param PI 
+	 * @param PI point
 	 */
 	public void pointChangedForRegion(GeoPointND PI) {
 		PI.updateCoords2D();
@@ -3083,8 +3090,8 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 
 	/**
 	 * Move a point  back to region
-	 * @param pi
-	 * @param rp
+	 * @param pi point
+	 * @param rp region parameters
 	 */
 	protected void moveBackToRegion(GeoPointND pi,RegionParameters rp) {
 		pointChanged(pi);
@@ -3331,6 +3338,9 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
     
     private double area;
 
+    /**
+     * Updates area to match current definition
+     */
     public void calcArea(){
 
     	switch(type){
@@ -3362,7 +3372,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 	
 	/**
 	 * set if this is end of a quadric
-	 * @param flag
+	 * @param flag end of quadric
 	 */
 	public void setIsEndOfQuadric(boolean flag){
 		isEndOfQuadric = flag;
@@ -3381,8 +3391,8 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 		
 		if (pointsOnConic!=null) {
 			for (int i=0; i<pointsOnConic.size(); ++i) {
-				GeoPoint2 p = pointsOnConic.get(i);
-				p.removeIncidence(this);
+				GeoPoint2 pt = pointsOnConic.get(i);
+				pt.removeIncidence(this);
 			}
 		}
 		
@@ -3394,18 +3404,27 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable
 	//////////////////////////////////////////////
 	// HIT STUFF
 	//////////////////////////////////////////////
+	/** hit type (no/boundary/inside)*/
+	public enum HitType{
+	/** not hit*/
+	NONE,
+	/** boundary hit */
+	ON_BOUNDARY,
+	/** fill hit*/
+	ON_FILLING}
+	private HitType lastHitType = HitType.NONE;
 	
-
-	public static final int HIT_TYPE_NONE = 0;
-	public static final int HIT_TYPE_ON_BOUNDARY = 1;
-	public static final int HIT_TYPE_ON_FILLING = 2;
-	private int lastHitType = HIT_TYPE_NONE;
-	
-	final public void setLastHitType(int type){
+	/**
+	 * @param type hit type
+	 */
+	final public void setLastHitType(HitType type){
 		lastHitType=type;
 	}
 	
-	final public int getLastHitType(){
+	/**
+	 * @return last hit type
+	 */
+	final public HitType getLastHitType(){
 		return lastHitType;
 	}
 	

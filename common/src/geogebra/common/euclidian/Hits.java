@@ -6,6 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.*;
+import geogebra.common.kernel.kernelND.GeoConicND.HitType;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -170,7 +171,7 @@ public class Hits extends ArrayList<GeoElement> {
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			if (geo.isGeoConic()){
-				if (((GeoConicND) geo).getLastHitType()==GeoConicND.HIT_TYPE_ON_FILLING){
+				if (((GeoConicND) geo).getLastHitType()==HitType.ON_FILLING){
 					it.remove();
 				}
 			}

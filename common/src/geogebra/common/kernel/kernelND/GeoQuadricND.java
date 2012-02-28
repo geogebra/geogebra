@@ -24,18 +24,21 @@ public abstract class GeoQuadricND extends GeoElement implements GeoQuadricNDCon
 	
 	// types    
 	
-	
+	/** quadric type*/
 	public int type = -1; // of quadric
 
 
 
 	/**  flat matrix 
-	 * @see {@link GeoConic}
-	 * @see {@link GeoQuadric3D}
+	 * @see geogebra.common.kernel.geos.GeoConic
+	 * Also see GeoQuadric3D in Desktop
 	 */
 	public double[] matrix;
 	
 	
+	/**
+	 * half axes
+	 */
 	public double[] halfAxes;
 	
 
@@ -64,7 +67,7 @@ public abstract class GeoQuadricND extends GeoElement implements GeoQuadricNDCon
 	
 	
 	/** default constructor
-	 * @param c
+	 * @param c construction
 	 * @param dimension dimension of the space (2D or 3D)
 	 */
 	public GeoQuadricND(Construction c, int dimension) {
@@ -156,7 +159,7 @@ public abstract class GeoQuadricND extends GeoElement implements GeoQuadricNDCon
 
 	/**
 	 * sets the matrix values from the symmetric matrix m
-	 * @param m
+	 * @param m matrix
 	 */
 	protected void setMatrix(CoordMatrix m){
 		
@@ -332,10 +335,16 @@ public abstract class GeoQuadricND extends GeoElement implements GeoQuadricNDCon
 	}
 	
 	
+	/**
+	 * @return quadric type
+	 */
 	final public int getType() {
 		return type;
 	}
 	
+	/**
+	 * @param type quadric type
+	 */
 	final public void setType(int type) {
 		this.type = type;
 	}

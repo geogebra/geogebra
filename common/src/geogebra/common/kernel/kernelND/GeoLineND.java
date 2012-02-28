@@ -18,7 +18,9 @@ public interface GeoLineND extends GeoDirectionND{
 	 * @return the point at position lambda on the coord sys  
 	 * */
 	public Coords getPointInD(int dimension, double lambda);
-
+	/**
+	 * @return true if tracing
+	 */
 	public boolean getTrace();
 	
 	/**

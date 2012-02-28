@@ -71,7 +71,7 @@ import java.util.TreeSet;
  */
 final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		PathOrPoint, Translateable, PointRotateable, Mirrorable, Dilateable,
-		MatrixTransformable, ConicMirrorable, PointProperties, GeoPointND,
+		MatrixTransformable, ConicMirrorable, GeoPointND,
 		Animatable, Transformable, SpreadsheetTraceable {
 
 	// don't set point size here as this would overwrite
