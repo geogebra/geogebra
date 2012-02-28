@@ -5,14 +5,14 @@ import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.font.TextLayout;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoButton;
-import geogebra.common.main.AbstractApplication;
 
 
 //import java.awt.Color;
 
+/**
+ * Replaces Swing button in DrawButton
+ */
 public class MyButton {
-
-	private static final long serialVersionUID = 1L;
 
 	private GeoButton geoButton;
 	private AbstractEuclidianView view;
@@ -23,6 +23,10 @@ public class MyButton {
 	private Font font;
 
 	private boolean pressed,draggedOrContext;
+	/**
+	 * @param button geo for this button
+	 * @param view view
+	 */
 	public MyButton(GeoButton button, AbstractEuclidianView view) {
 		this.geoButton = button;
 		this.view = view;
@@ -35,6 +39,10 @@ public class MyButton {
 	
 	
 	
+	/**
+	 * Paint this on given graphics
+	 * @param g graphics
+	 */
 	protected void paintComponent(geogebra.common.awt.Graphics2D g) {
 
 		//Graphics2D g2 = geogebra.awt.Graphics2D.getAwtGraphics(g);
@@ -102,6 +110,9 @@ public class MyButton {
 	}
 
 
+	/**
+	 * @param white color 
+	 */
 	private void setForeground(geogebra.common.awt.Color white) {
 		// TODO Auto-generated method stub
 		
@@ -113,16 +124,26 @@ public class MyButton {
 	}
 
 
+	/**
+	 * @return width in pixels
+	 */
 	public int getWidth() {
 		return width;
 	}
 
 
+	/**
+	 * @return height in pixels
+	 */
 	public int getHeight() {
 		return height;
 	}
 
 
+	/**
+	 * Resizes and moves the button
+	 * @param labelRectangle new bounds
+	 */
 	public void setBounds(Rectangle labelRectangle) {
 		x=(int)labelRectangle.getMinX();
 		y=(int)labelRectangle.getMinY();
@@ -131,50 +152,64 @@ public class MyButton {
 		
 	}
 	
+	/**
+	 * @return boundsof this button
+	 */
 	public Rectangle getBounds(){
 		return geogebra.common.factories.AwtFactory.prototype.newRectangle(x,y,width,height);
 	}
 
-	public void setSelected(boolean doHighlighting) {
-		selected = doHighlighting;
+	/**
+	 * @param selected new selected flag
+	 */
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 		
 	}
 
 
+	/**
+	 * @return x-coord
+	 */
 	public int getX() {
 		return x;
 	}
 
 
+	/**
+	 * @return y-coord
+	 */
 	public int getY() {
 		return y;
 	}
 
-
-	public void setVisible(boolean isVisible) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
+	/**
+	 * @param labelDesc text for this button
+	 */
 	public void setText(String labelDesc) {
 		text = labelDesc;		
 	}
-
-
+	/**
+	 * @return text of this button
+	 */
 	public String getText() {
 		return text;
 	}
 
-
-	public void setFont(Font fontCanDisplay) {
-		this.font = fontCanDisplay;
+	/**
+	 * @param font new font
+	 */
+	public void setFont(Font font) {
+		this.font = font;
 		
 	}
 
 
 
 
+	/**
+	 * @param b new pressed flag
+	 */
 	public void setPressed(boolean b) {
 		if(b){
 			draggedOrContext = false;
@@ -187,16 +222,16 @@ public class MyButton {
 		pressed = b;
 	}
 
-
-
-
+	/**
+	 * @param b new "dragged or context menu" flag
+	 */
 	public void setDraggedOrContext(boolean b) {
 		draggedOrContext = b;
 	}
 
-
-
-
+	/**
+	 * @return "dragged or context menu" flag
+	 */
 	public boolean getDraggedOrContext() {
 		return draggedOrContext;
 	}

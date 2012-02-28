@@ -3,7 +3,6 @@ package geogebra.awt;
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.PathIterator;
 import geogebra.common.awt.Rectangle2D;
-import geogebra.common.euclidian.PathPoint;
 import geogebra.main.Application;
 
 import java.awt.Shape;

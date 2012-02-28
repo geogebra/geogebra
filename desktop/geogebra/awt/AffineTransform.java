@@ -3,7 +3,6 @@ package geogebra.awt;
 import java.awt.geom.Point2D.Double;
 
 import geogebra.common.awt.Shape;
-import geogebra.common.euclidian.PathPoint;
 
 public class AffineTransform implements geogebra.common.awt.AffineTransform {
 

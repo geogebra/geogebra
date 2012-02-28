@@ -132,7 +132,6 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
-		myButton.setVisible(isVisible);
 		if (!isVisible)
 			return;
 

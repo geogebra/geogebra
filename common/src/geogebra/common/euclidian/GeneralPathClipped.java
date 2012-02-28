@@ -3,6 +3,7 @@ package geogebra.common.euclidian;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.clipping.ClipLine;
 import geogebra.common.factories.AwtFactory;
+import geogebra.common.kernel.MyPoint;
 
 //import java.awt.Shape;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 	private static final double TOLERANCE = 0.01; // pixel distance for equal
 													// points
 
-	private ArrayList<PathPoint> pathPoints;
+	private ArrayList<MyPoint> pathPoints;
 	private geogebra.common.awt.GeneralPath gp;
 	private EuclidianViewInterfaceSlim view;
 	private double largestCoord;
@@ -32,7 +33,7 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 	public GeneralPathClipped(EuclidianViewInterfaceSlim view) {
 		//this.view = (EuclidianView)view;
 		this.view = view;
-		pathPoints = new ArrayList<PathPoint>();
+		pathPoints = new ArrayList<MyPoint>();
 		gp = AwtFactory.prototype.newGeneralPath();
 		// bounds = new Rectangle();
 		reset();
@@ -71,7 +72,7 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 	private void addSimpleSegments() {
 		int size = pathPoints.size();
 		for (int i = 0; i < size; i++) {
-			PathPoint curP = pathPoints.get(i);
+			MyPoint curP = pathPoints.get(i);
 			addToGeneralPath(curP, curP.getLineTo());
 		}
 		if (needClosePath)
@@ -84,7 +85,7 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 	 */
 	private void addClippedSegments() {
 		geogebra.common.awt.Rectangle viewRect = AwtFactory.prototype.newRectangle(0, 0, view.getWidth(), view.getHeight());
-		PathPoint curP = null, prevP;
+		MyPoint curP = null, prevP;
 
 		int size = pathPoints.size();
 		for (int i = 0; i < size; i++) {
@@ -107,7 +108,7 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 		}
 	}
 
-	private void addClippedLine(PathPoint prevP, PathPoint curP,
+	private void addClippedLine(MyPoint prevP, MyPoint curP,
 			geogebra.common.awt.Rectangle viewRect) {
 		// check if both points on screen
 		if (viewRect.contains(prevP) && viewRect.contains(curP)) {
@@ -200,7 +201,7 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 	 * Adds point to point list and keeps track of largest coordinate.
 	 */
 	final public void addPoint(int pos, double x, double y) {
-		PathPoint p = new PathPoint(x, y, true);
+		MyPoint p = new MyPoint(x, y, true);
 		updateBounds(p);
 		pathPoints.ensureCapacity(pos + 1);
 		while (pathPoints.size() <= pos) {
@@ -213,12 +214,12 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 	 * Adds point to point list and keeps track of largest coordinate.
 	 */
 	private void addPoint(double x, double y, boolean lineTo) {
-		PathPoint p = new PathPoint(x, y, lineTo);
+		MyPoint p = new MyPoint(x, y, lineTo);
 		updateBounds(p);
 		pathPoints.add(p);
 	}
 
-	private void updateBounds(PathPoint p) {
+	private void updateBounds(MyPoint p) {
 
 		if (bounds == null) {
 			bounds = AwtFactory.prototype.newRectangle();
@@ -243,7 +244,7 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 	public void transform(geogebra.common.awt.AffineTransform af) {
 		int size = pathPoints.size();
 		for (int i = 0; i < size; i++) {
-			PathPoint p = pathPoints.get(i);
+			MyPoint p = pathPoints.get(i);
 			af.transform(p, p);
 		}
 	}

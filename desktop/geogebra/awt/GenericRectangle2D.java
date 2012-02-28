@@ -6,7 +6,6 @@ import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.PathIterator;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
-import geogebra.common.euclidian.PathPoint;
 import geogebra.main.Application;
 
 public class GenericRectangle2D implements geogebra.awt.Rectangle2D{
