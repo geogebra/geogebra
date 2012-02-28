@@ -207,10 +207,10 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 	 		fullDescription = description==null ? "(" : description + " (";
 			// build the description from the extension list
 	 		
-	 		if (filters.size() > 0) fullDescription += "." + (String) filters.get(0);
+	 		if (filters.size() > 0) fullDescription += "." + filters.get(0);
 	 		
 		 		for (int i = 1 ; i < filters.size() ; i++) {
-		 			fullDescription += ", ." + (String) (String) filters.get(i);
+		 			fullDescription += ", ." + filters.get(i);
 		 		}
 		
 		 		fullDescription += ")";
@@ -274,7 +274,7 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
      * @return first extension (without ".")
      */
     public String getExtension() {
-    	return (String)filters.get(0);
+    	return filters.get(0);
     }
 }
 

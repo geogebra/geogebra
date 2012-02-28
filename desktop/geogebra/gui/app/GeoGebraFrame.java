@@ -19,18 +19,17 @@ package geogebra.gui.app;
 
 import geogebra.CommandLineArguments;
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.awt.Color;
 import geogebra.common.cas.singularws.SingularWebService;
 import geogebra.common.factories.UtilFactory;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.HttpRequest;
-import geogebra.euclidian.DrawEquation;
 import geogebra.gui.FileDropTargetListener;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
 import geogebra.util.Util;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -45,10 +44,7 @@ import java.awt.event.WindowFocusListener;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -60,14 +56,16 @@ import javax.swing.UIManager;
 /**
  * GeoGebra's main window.
  */
-public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printable {
+public class GeoGebraFrame extends JFrame implements WindowFocusListener,
+		Printable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final String VERSION_URL = "http://www.geogebra.org/download/version.txt";
 	private static final String INSTALLERS_URL = "http://www.geogebra.org/installers";
 	private static final int VERSION_CHECK_DAYS = 30;
-	// This works only for subversion numbers <= 999 (change 1000 to 10000 for 9999):
+	// This works only for subversion numbers <= 999 (change 1000 to 10000 for
+	// 9999):
 	private static final int VERSION_TO_LONG_MULTIPLIER = 1000;
 
 	private static ArrayList<GeoGebraFrame> instances = new ArrayList<GeoGebraFrame>();
@@ -129,10 +127,10 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 	public Locale getLocale() {
 		Locale defLocale = GeoGebraPreferences.getPref().getDefaultLocale();
 
-		if (defLocale == null)
+		if (defLocale == null) {
 			return super.getLocale();
-		else
-			return defLocale;
+		}
+		return defLocale;
 	}
 
 	@Override
@@ -198,7 +196,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 	}
 
 	/**
-	 * Main method to create inital GeoGebra window.
+	 * Main method to create initial GeoGebra window.
 	 * 
 	 * @param args
 	 *            file name parameter
@@ -213,11 +211,12 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 		// check java version
 		double javaVersion = Util.getJavaVersion();
 		if (javaVersion < 1.5) {
-			JOptionPane.showMessageDialog(
-				null,
-				"Sorry, GeoGebra cannot be used with your Java version "
-				+ javaVersion
-				+ "\nPlease visit http://www.java.com to get a newer version of Java.");
+			JOptionPane
+					.showMessageDialog(
+							null,
+							"Sorry, GeoGebra cannot be used with your Java version "
+									+ javaVersion
+									+ "\nPlease visit http://www.java.com to get a newer version of Java.");
 			return;
 		}
 
@@ -262,7 +261,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 	}
 
 	/**
-	 * MacOS X specific initing. Note: this method can only be run on a Mac!
+	 * MacOS X specific initialization. Note: this method can only be run on a
+	 * Mac!
 	 */
 	public static void initMacSpecifics() {
 		try {
@@ -339,31 +339,37 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 		wnd.app = app;
 		wnd.getContentPane().add(app.buildApplicationPanel());
 		dropTargetListener = new geogebra.gui.FileDropTargetListener(app);
-		wnd.setGlassPane(app.getGuiManager().getLayout().getDockManager().getGlassPane());
+		wnd.setGlassPane(app.getGuiManager().getLayout().getDockManager()
+				.getGlassPane());
 		wnd.setDropTarget(new DropTarget(wnd, dropTargetListener));
 		wnd.addWindowFocusListener(wnd);
 		updateAllTitles();
-		
+
 		// handle application args visible
 		if (args != null) {
-			if(args.containsArg("showAlgebraWindow")) {
-				boolean showAlgebraWindow = args.getBooleanValue("showAlgebraWindow", true);
-				app.getGuiManager().setShowView(showAlgebraWindow, AbstractApplication.VIEW_ALGEBRA);
+			if (args.containsArg("showAlgebraWindow")) {
+				boolean showAlgebraWindow = args.getBooleanValue(
+						"showAlgebraWindow", true);
+				app.getGuiManager().setShowView(showAlgebraWindow,
+						AbstractApplication.VIEW_ALGEBRA);
 			}
-			
-			else if(args.containsArg("showSpreadsheet")) {
-				boolean showSpreadsheet = args.getBooleanValue("showSpreadsheet", true);
-				app.getGuiManager().setShowView(showSpreadsheet, AbstractApplication.VIEW_SPREADSHEET);
+
+			else if (args.containsArg("showSpreadsheet")) {
+				boolean showSpreadsheet = args.getBooleanValue(
+						"showSpreadsheet", true);
+				app.getGuiManager().setShowView(showSpreadsheet,
+						AbstractApplication.VIEW_SPREADSHEET);
 			}
-			
-			else if(args.containsArg("showCAS")) {
+
+			else if (args.containsArg("showCAS")) {
 				boolean showCAS = args.getBooleanValue("showCAS", true);
-				app.getGuiManager().setShowView(showCAS, AbstractApplication.VIEW_CAS);
+				app.getGuiManager().setShowView(showCAS,
+						AbstractApplication.VIEW_CAS);
 			}
 		}
-		
+
 		app.updateMenubar();
-		
+
 		wnd.setVisible(true);
 
 		// init some things in the background
@@ -413,45 +419,47 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 			// see http://www.geogebra.org/trac/ticket/1565
 			// this.app.getKernel().getGeoGebraCAS();
 			geogebra.cas.mpreduce.CASmpreduce.getStaticInterpreter();
-			
+
 			// init JLaTeXMath
 			Graphics2D g2d = this.app.getEuclidianView1().getTempGraphics2D();
 			app.getDrawEquation().drawEquation(this.app, null,
 					new geogebra.awt.Graphics2D(g2d), 0, 0, "x^{2}",
-					new geogebra.awt.Font(g2d.getFont()), false, geogebra.awt.Color.BLACK, geogebra.awt.Color.WHITE, false);
+					new geogebra.awt.Font(g2d.getFont()), false, Color.BLACK,
+					Color.WHITE, false);
 
 			// check if newer version is available
 			if (!app.isApplet() && !Application.isWebstart()) {
 				checkVersion();
 			}
-			
+
 			if (!app.isApplet()) {
 				app.getPythonBridge();
 			}
-			
-			// Initialize Singular webservice
+
+			// Initialize Singular web service
 			// initSingularWS();
 		}
 
 		/**
-		 * Initializes Singular webservice.
+		 * Initializes Singular web service.
 		 */
 		private void initSingularWS() {
 			SingularWebService sws = new SingularWebService();
 			sws.enable();
 			if (sws.isAvailable()) {
-				Application.debug("SingularWS is available at " + sws.getConnectionSite());
+				AbstractApplication.debug("SingularWS is available at "
+						+ sws.getConnectionSite());
 				// System.out.println(sws.directCommand("ring r=0,(x,y),dp;ideal I=x^2,x;groebner(I);"));
+			} else {
+				AbstractApplication.debug("No SingularWS is available at "
+						+ sws.getConnectionSite());
 			}
-			else {
-				Application.debug("No SingularWS is available at " + sws.getConnectionSite());
-			}
-			
+
 		}
-		
+
 		/**
-		 * Checks if a newer version is available.
-		 * It runs every month (30 days). 
+		 * Checks if a newer version is available. It runs every month (30
+		 * days).
 		 */
 		private void checkVersion() {
 			String lastVersionCheck = GeoGebraPreferences.getPref()
@@ -461,48 +469,53 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 			boolean checkNeeded = false;
 			if (lastVersionCheck == null || lastVersionCheck.equals("")) {
 				checkNeeded = true;
-				AbstractApplication.debug("version check needed: no check was done yet");
+				AbstractApplication
+						.debug("version check needed: no check was done yet");
 			}
 
 			else {
 				Long lastVersionCheckL = Long.valueOf(lastVersionCheck);
-				if (lastVersionCheckL + 1000L * 60 * 60 * 24 * VERSION_CHECK_DAYS < nowL) {
+				if (lastVersionCheckL + 1000L * 60 * 60 * 24
+						* VERSION_CHECK_DAYS < nowL) {
 					checkNeeded = true;
-					AbstractApplication.debug("version check needed: lastVersionCheckL="
-							+ lastVersionCheckL + " nowL=" + nowL);
-				}
-				else {
-					AbstractApplication.debug("no version check needed: lastVersionCheck="
-							+ lastVersionCheckL + " nowL=" + nowL);
+					AbstractApplication
+							.debug("version check needed: lastVersionCheckL="
+									+ lastVersionCheckL + " nowL=" + nowL);
+				} else {
+					AbstractApplication
+							.debug("no version check needed: lastVersionCheck="
+									+ lastVersionCheckL + " nowL=" + nowL);
 				}
 			}
 
 			if (checkNeeded) {
 				String newestVersion = null;
-				
+
 				try {
 					HttpRequest httpr = UtilFactory.prototype.newHttpRequest();
 					newestVersion = httpr.getResponse(VERSION_URL);
 					newestVersion = newestVersion.replaceAll("-", ".");
 					Long newestVersionL = versionToLong(newestVersion);
 					Long currentVersionL = versionToLong(GeoGebraConstants.VERSION_STRING);
-					AbstractApplication.debug("current=" + currentVersionL + " newest="
-							+ newestVersionL);
+					AbstractApplication.debug("current=" + currentVersionL
+							+ " newest=" + newestVersionL);
 					if (currentVersionL < newestVersionL) {
 						String q = app.getPlain("NewerVersionA").replaceAll(
 								"%0", newestVersion);
-						String dl = app.getPlain("GoToDownloadPage"); 
+						String dl = app.getPlain("GoToDownloadPage");
 						Object[] options = { app.getMenu("Cancel"), dl };
 						Component comp = app.getMainComponent();
 						int returnVal = JOptionPane.showOptionDialog(comp, q,
-								dl,	JOptionPane.DEFAULT_OPTION,
+								dl, JOptionPane.DEFAULT_OPTION,
 								JOptionPane.WARNING_MESSAGE, null, options,
 								options[0]);
-						// store date of current check only when notification has been shown: 
+						// store date of current check only when notification
+						// has been shown:
 						GeoGebraPreferences.getPref().savePreference(
 								GeoGebraPreferences.VERSION_LAST_CHECK, nowLS);
 						if (returnVal == 1) {
-							app.getGuiManager().showURLinBrowser(INSTALLERS_URL);
+							app.getGuiManager()
+									.showURLinBrowser(INSTALLERS_URL);
 						}
 					}
 				} catch (Exception ex) {
@@ -514,18 +527,20 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 
 	/**
 	 * Converts a version string to a long value (e.g. 4.1.2.3 to 4001002003)
-	 * @param version string
+	 * 
+	 * @param version
+	 *            string
 	 * @return long value
 	 */
-	
-	private static Long versionToLong(String version) {
+
+	static Long versionToLong(String version) {
 		String[] subversions = version.split("\\.");
 		Long n = 0L;
 		int l = subversions.length;
 		for (int i = 0; i < l; ++i) {
 			String c = subversions[i];
 			n = n * VERSION_TO_LONG_MULTIPLIER + Integer.parseInt(c);
-			}
+		}
 		return n;
 	}
 
@@ -538,12 +553,12 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 	}
 
 	static GeoGebraFrame getInstance(int i) {
-		return (GeoGebraFrame) instances.get(i);
+		return instances.get(i);
 	}
 
 	public static void updateAllTitles() {
 		for (int i = 0; i < instances.size(); i++) {
-			Application app = ((GeoGebraFrame) instances.get(i)).app;
+			Application app = instances.get(i).app;
 			app.updateTitle();
 		}
 	}
@@ -562,7 +577,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 		try {
 			String absPath = file.getCanonicalPath();
 			for (int i = 0; i < instances.size(); i++) {
-				GeoGebraFrame inst = (GeoGebraFrame) instances.get(i);
+				GeoGebraFrame inst = instances.get(i);
 				Application app = inst.app;
 
 				File currFile = app.getCurrentFile();
@@ -592,22 +607,22 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener, Printa
 
 	public int print(Graphics g, PageFormat pf, int pageIndex)
 			throws PrinterException {
-		
-			if (pageIndex > 0) {
-	            return NO_SUCH_PAGE;
-	        }
 
-	        Graphics2D g2d = (Graphics2D)g;
-	        g2d.translate(pf.getImageableX(), pf.getImageableY());
-	        
-			double xScale = pf.getImageableWidth() / this.getWidth();
-			double yScale = pf.getImageableHeight() / this.getHeight();
-			double scale = Math.min(xScale, yScale);
-	        g2d.scale(scale, scale);
+		if (pageIndex > 0) {
+			return NO_SUCH_PAGE;
+		}
 
-	        this.printAll(g);
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.translate(pf.getImageableX(), pf.getImageableY());
 
-	        return PAGE_EXISTS;
+		double xScale = pf.getImageableWidth() / this.getWidth();
+		double yScale = pf.getImageableHeight() / this.getHeight();
+		double scale = Math.min(xScale, yScale);
+		g2d.scale(scale, scale);
+
+		this.printAll(g);
+
+		return PAGE_EXISTS;
 
 	}
 

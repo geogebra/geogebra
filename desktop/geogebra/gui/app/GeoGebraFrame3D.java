@@ -14,7 +14,8 @@ import javax.swing.JFrame;
  */
 public class GeoGebraFrame3D extends GeoGebraFrame {
 	
-	
+	private static final long serialVersionUID = 1L;
+
 	public static synchronized void main(CommandLineArguments args) {		
 		GeoGebraFrame.init(args,new GeoGebraFrame3D());
 	}
