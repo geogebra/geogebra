@@ -4022,6 +4022,13 @@ public class Application extends AbstractApplication implements
 			public void run() {
 				setWaitCursor();
 
+				simpleExportToClipboard(ev);
+				
+				/*
+				 * doesn't work in Win7, XP pasting into eg Paint
+				 * pasting into eg Office 2010 is OK
+				 * 
+				 * 
 				if (!WINDOWS_VISTA_OR_LATER) {
 
 					// use other method for WinXP or earlier
@@ -4041,7 +4048,7 @@ public class Application extends AbstractApplication implements
 						simpleExportToClipboard(ev);
 
 					}
-				}
+				}*/
 
 				setDefaultCursor();
 			}
@@ -4056,8 +4063,8 @@ public class Application extends AbstractApplication implements
 
 		// Windows XP clipboard has trouble with images larger than this
 		// at double scale (with scale = 2d)
-		if (size > 750000) {
-			scale = 2.0 * Math.sqrt(750000 / size);
+		if (size > 500000) {
+			scale = 2.0 * Math.sqrt(500000 / size);
 		}
 
 		// copy drawing pad to the system clipboard
