@@ -1906,7 +1906,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		if (hasMouse){
 			getEuclidianController().updateNewPoint(true, 
 				hits, 
-				true, true, true, false, //TODO doSingleHighlighting = false ? 
+				true, true, true,  //TODO doSingleHighlighting = false ? 
 				false, false);
 			
 

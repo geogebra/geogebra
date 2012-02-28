@@ -473,7 +473,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	@Override
 	protected GeoPointND getNewPoint(Hits hits,
 			boolean onPathPossible, boolean inRegionPossible, boolean intersectPossible, 
-			boolean doSingleHighlighting, boolean complex) {
+			 boolean complex) {
 				
 		GeoPoint3D point = view3D.getCursor3D();
 				
@@ -558,8 +558,8 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 		case EuclidianView3D.PREVIEW_POINT_NONE:
 		default:
 			return super.getNewPoint(hits, 
-					onPathPossible, inRegionPossible, intersectPossible, 
-					doSingleHighlighting, false);			
+					onPathPossible, inRegionPossible, intersectPossible 
+					, false);			
 
 		}
 		
@@ -1611,7 +1611,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			changedKernel = intersectionCurve(hits); 
 			break;
 		case EuclidianConstants.MODE_PLANE_THREE_POINTS:
-			changedKernel = (threePoints(hits, mode) != null);
+			changedKernel = (threePoints(hits,mode) != null);
 			break;
 		case EuclidianConstants.MODE_PLANE_POINT_LINE:
 			changedKernel = planePointLine(hits);
@@ -1693,7 +1693,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	
 	
 	@Override
-	protected GeoElement[] switchModeForThreePoints(){
+	protected GeoElement[] switchModeForThreePoints(int mode){
 		
 		switch (mode) {
 		case EuclidianConstants.MODE_PLANE_THREE_POINTS:
@@ -1702,7 +1702,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			GeoElement[] ret = { ret0 };
 			return ret;
 		default:
-			return super.switchModeForThreePoints();
+			return super.switchModeForThreePoints(mode);
 
 		}
 

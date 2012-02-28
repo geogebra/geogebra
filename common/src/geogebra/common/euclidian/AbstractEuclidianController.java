@@ -986,6 +986,9 @@ public abstract class AbstractEuclidianController {
 				|| app.isOnTheFlyPointCreationActive();
 	}
 
+	/**
+	 * @param forPreviewable in 3D we might want a preview 
+	 */
 	protected GeoPointND createNewPoint(boolean forPreviewable, boolean complex) {
 		GeoPointND ret = kernel.Point(null,
 				Kernel.checkDecimalFraction(xRW),
@@ -1010,9 +1013,9 @@ public abstract class AbstractEuclidianController {
 				return kernel.Point(null, path, x, y, !forPreviewable, complex);
 			}
 
-	protected GeoPointND createNewPoint2D(boolean forPreviewable, Region region, double x,
+	protected final GeoPointND createNewPoint2D(boolean forPreviewable, Region region, double x,
 			double y, boolean complex) {
-				GeoPointND ret = kernel.PointIn(null, region, x, y, true, complex);
+				GeoPointND ret = kernel.PointIn(null, region, x, y, !forPreviewable, complex);
 				return ret;
 			}
 
@@ -1166,7 +1169,8 @@ public abstract class AbstractEuclidianController {
 		selGeos.addAll(tempArrayList);
 	}
 
-	protected final int addToSelectionList(ArrayList selectionList, GeoElement geo,
+	@SuppressWarnings("unchecked")
+	protected final int addToSelectionList(@SuppressWarnings("rawtypes") ArrayList selectionList, GeoElement geo,
 			int max) {
 				if (geo == null) {
 					return 0;
@@ -2436,7 +2440,7 @@ public abstract class AbstractEuclidianController {
 		return null;
 	}
 
-	protected final GeoElement[] threePoints(Hits hits, int mode) {
+	protected final GeoElement[] threePoints(Hits hits, int threePointsMode) {
 	
 		if (hits.isEmpty()) {
 			return null;
@@ -2445,16 +2449,16 @@ public abstract class AbstractEuclidianController {
 		// points needed
 		addSelectedPoint(hits, 3, false);
 		if (selPoints() == 3) {
-			return switchModeForThreePoints();
+			return switchModeForThreePoints(threePointsMode);
 		}
 		return null;
 	}
 
-	protected GeoElement[] switchModeForThreePoints() {
+	protected GeoElement[] switchModeForThreePoints(int threePointsMode) {
 		// fetch the three selected points
 		GeoPointND[] points = getSelectedPointsND();
 		GeoElement[] ret = { null };
-		switch (mode) {
+		switch (threePointsMode) {
 		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
 			if (((GeoElement) points[0]).isGeoElement3D()
 					|| ((GeoElement) points[1]).isGeoElement3D()
@@ -2845,7 +2849,7 @@ public abstract class AbstractEuclidianController {
 				|| (mode == EuclidianConstants.MODE_MOVE));
 	}
 
-	protected void wrapMouseEntered(AbstractEvent event) {
+	protected final void wrapMouseEntered() {
 		if (textfieldHasFocus) {
 			return;
 		}
@@ -2944,9 +2948,9 @@ public abstract class AbstractEuclidianController {
 				(GeoPoint2) p1) };
 	}
 
-	protected GeoElement[] switchModeForCircleOrSphere2(int mode) {
+	protected GeoElement[] switchModeForCircleOrSphere2(int sphereMode) {
 		GeoPointND[] points = getSelectedPointsND();
-		if (mode == EuclidianConstants.MODE_SEMICIRCLE) {
+		if (sphereMode == EuclidianConstants.MODE_SEMICIRCLE) {
 			return new GeoElement[] { kernel.Semicircle(null,
 					(GeoPoint2) points[0], (GeoPoint2) points[1]) };
 		}
@@ -3002,7 +3006,7 @@ public abstract class AbstractEuclidianController {
 		return false;
 	}
 
-	protected final boolean text(Hits hits, int mode, boolean altDown) {
+	protected final boolean text(Hits hits) {
 		GeoPointND loc = null; // location
 	
 		if (hits.isEmpty()) {
@@ -3013,6 +3017,7 @@ public abstract class AbstractEuclidianController {
 			loc = new GeoPoint2(kernel.getConstruction());
 			loc.setCoords(xRW, yRW, 1.0);
 		} else {
+			
 			// points needed
 			addSelectedPoint(hits, 1, false);
 			if (selPoints() == 1) {
@@ -3047,7 +3052,7 @@ public abstract class AbstractEuclidianController {
 		return false;
 	}
 
-	protected final boolean image(Hits hits, int mode, boolean altDown) {
+	protected final boolean image(Hits hits) {
 		GeoPoint2 loc = null; // location
 	
 		if (hits.isEmpty()) {
@@ -3365,7 +3370,7 @@ public abstract class AbstractEuclidianController {
 	
 	
 
-	final protected boolean attachDetach(Hits hits, AbstractEvent event) {
+	final protected boolean attachDetach(Hits hits) {
 		if (hits.isEmpty()) {
 			return false;
 		}
@@ -4289,7 +4294,7 @@ public abstract class AbstractEuclidianController {
 		return null;
 	}
 
-	protected boolean showCheckBox(Hits hits) {
+	protected final boolean showCheckBox() {
 		if (selectionPreview) {
 			return false;
 		}
@@ -4444,8 +4449,8 @@ public abstract class AbstractEuclidianController {
 		return ((GeoElement) movedGeoPoint);
 	}
 
-	public GeoPointND updateNewPoint(boolean forPreviewable, Hits hits, boolean onPathPossible,
-			boolean inRegionPossible, boolean intersectPossible, boolean doSingleHighlighting, boolean chooseGeo, boolean complex) {
+	public final GeoPointND updateNewPoint(boolean forPreviewable, Hits hits, boolean onPathPossible,
+			boolean inRegionPossible, boolean intersectPossible, boolean chooseGeo, boolean complex) {
 			
 				// create hits for region
 				Hits regionHits = getRegionHits(hits);
@@ -4630,10 +4635,10 @@ public abstract class AbstractEuclidianController {
 			}
 
 	protected GeoPointND getNewPoint(Hits hits, boolean onPathPossible, boolean inRegionPossible,
-			boolean intersectPossible, boolean doSingleHighlighting, boolean complex) {
+			boolean intersectPossible, boolean complex) {
 			
 				return updateNewPoint(false, hits, onPathPossible, inRegionPossible,
-						intersectPossible, doSingleHighlighting, true, complex);
+						intersectPossible, true, complex);
 			}
 
 	protected final boolean createNewPoint(Hits hits, boolean onPathPossible,
@@ -4644,7 +4649,7 @@ public abstract class AbstractEuclidianController {
 				}
 			
 				GeoPointND point = getNewPoint(hits, onPathPossible, inRegionPossible,
-						intersectPossible, doSingleHighlighting, complex);
+						intersectPossible, complex);
 			
 				if (point != null) {
 			
@@ -4659,11 +4664,10 @@ public abstract class AbstractEuclidianController {
 					POINT_CREATED = true;
 			
 					return true;
-				} else {
-					moveMode = MOVE_NONE;
-					POINT_CREATED = false;
-					return false;
 				}
+				moveMode = MOVE_NONE;
+				POINT_CREATED = false;
+				return false;
 			}
 
 	protected final boolean createNewPoint(Hits hits, boolean onPathPossible,
@@ -4978,15 +4982,13 @@ public abstract class AbstractEuclidianController {
 		// new text
 		case EuclidianConstants.MODE_TEXT:
 			changedKernel = text(
-					hits.getOtherHits(Test.GEOIMAGE, tempArrayList), mode,
-					isAltDown()); // e.isAltDown());
+					hits.getOtherHits(Test.GEOIMAGE, tempArrayList));
 			break;
 	
 		// new image
 		case EuclidianConstants.MODE_IMAGE:
 			changedKernel = image(
-					hits.getOtherHits(Test.GEOIMAGE, tempArrayList), mode,
-					isAltDown()); // e.isAltDown());
+					hits.getOtherHits(Test.GEOIMAGE, tempArrayList)); // e.isAltDown());
 			break;
 	
 		// new slider
@@ -5009,7 +5011,7 @@ public abstract class AbstractEuclidianController {
 	
 		case EuclidianConstants.MODE_ATTACH_DETACH: // Michael Borcherds
 													// 2008-03-23
-			changedKernel = attachDetach(hits.getTopHits(), event);
+			changedKernel = attachDetach(hits.getTopHits());
 			break;
 	
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
@@ -5065,7 +5067,7 @@ public abstract class AbstractEuclidianController {
 			break;
 	
 		case EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX:
-			changedKernel = showCheckBox(hits);
+			changedKernel = showCheckBox();
 			break;
 	
 		case EuclidianConstants.MODE_BUTTON_ACTION:
@@ -5171,6 +5173,9 @@ public abstract class AbstractEuclidianController {
 		return changedKernel;
 	}
 
+	/**
+	 * @param event in 3D we need to check left/right click 
+	 */
 	protected void processReleaseForMovedGeoPoint(AbstractEvent event) {
 	
 		// deselect point after drag, but not on click
@@ -5441,36 +5446,36 @@ public abstract class AbstractEuclidianController {
 		}
 	}
 
-	protected final double getSliderValue(GeoNumeric movedGeoNumeric) {
-		double min = movedGeoNumeric.getIntervalMin();
-		double max = movedGeoNumeric.getIntervalMax();
+	protected final double getSliderValue(GeoNumeric movedSlider) {
+		double min = movedSlider.getIntervalMin();
+		double max = movedSlider.getIntervalMax();
 		double param;
-		if (movedGeoNumeric.isSliderHorizontal()) {
-			if (movedGeoNumeric.isAbsoluteScreenLocActive()) {
+		if (movedSlider.isSliderHorizontal()) {
+			if (movedSlider.isAbsoluteScreenLocActive()) {
 				param = mouseLoc.x - startPoint.x;
 			} else {
 				param = xRW - startPoint.x;
 			}
 		} else {
-			if (movedGeoNumeric.isAbsoluteScreenLocActive()) {
+			if (movedSlider.isAbsoluteScreenLocActive()) {
 				param = startPoint.y - mouseLoc.y;
 			} else {
 				param = yRW - startPoint.y;
 			}
 		}
-		param = (param * (max - min)) / movedGeoNumeric.getSliderWidth();
+		param = (param * (max - min)) / movedSlider.getSliderWidth();
 	
 		// round to animation step scale
 		param = Kernel.roundToScale(param,
-				movedGeoNumeric.getAnimationStep());
+				movedSlider.getAnimationStep());
 		double val = min + param;
 	
-		if (movedGeoNumeric.getAnimationStep() > Kernel.MIN_PRECISION) {
+		if (movedSlider.getAnimationStep() > Kernel.MIN_PRECISION) {
 			// round to decimal fraction, e.g. 2.800000000001 to 2.8
 			val = Kernel.checkDecimalFraction(val);
 		}
 	
-		if (movedGeoNumeric.isGeoAngle()) {
+		if (movedSlider.isGeoAngle()) {
 			if (val < 0) {
 				val = 0;
 			} else if (val > Kernel.PI_2) {
@@ -5486,6 +5491,9 @@ public abstract class AbstractEuclidianController {
 		return val;
 	}
 
+	/**
+	 * @param repaint TODO ignored now -- on purpose ? 
+	 */
 	protected final void moveNumeric(boolean repaint) {
 	
 		double newVal = getSliderValue(movedGeoNumeric);
@@ -5582,7 +5590,7 @@ public abstract class AbstractEuclidianController {
 	}
 
 	public void setMovedGeoPoint(GeoElement geo) {
-		movedGeoPoint = (GeoPointND) movedGeoElement;
+		movedGeoPoint = (GeoPointND) geo;
 	
 		AlgoElement algo = ((GeoElement) movedGeoPoint).getParentAlgorithm();
 		if ((algo != null) && (algo instanceof AlgoDynamicCoordinates)) {
@@ -5688,9 +5696,9 @@ public abstract class AbstractEuclidianController {
 		return hits;
 	}
 
-	protected boolean moveMode(int moveMode) {
-		if ((moveMode == EuclidianConstants.MODE_MOVE)
-				|| (moveMode == EuclidianConstants.MODE_VISUAL_STYLE)) {
+	protected boolean moveMode(int evMode) {
+		if ((evMode == EuclidianConstants.MODE_MOVE)
+				|| (evMode == EuclidianConstants.MODE_VISUAL_STYLE)) {
 			return true;
 		}
 		return false;
@@ -7300,7 +7308,7 @@ public abstract class AbstractEuclidianController {
 		}
 	}
 
-	protected void mousePressedTranslatedView(AbstractEvent e) {
+	protected final void mousePressedTranslatedView() {
 	
 		Hits hits;
 	
@@ -7504,7 +7512,7 @@ public abstract class AbstractEuclidianController {
 		// move drawing pad or axis
 		case EuclidianConstants.MODE_TRANSLATEVIEW:
 	
-			mousePressedTranslatedView(e);
+			mousePressedTranslatedView();
 	
 			break;
 	
