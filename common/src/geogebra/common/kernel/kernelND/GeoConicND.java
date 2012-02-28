@@ -372,10 +372,38 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 				hb = halfAxes[1];
 				hc_2 = ha*ha - hb*hb;
 
+				//special case handling from:
+				//http://cdserv1.wbut.ac.in/81-8147-617-4/Linux/MagicSoftware/WildMagic2/Documentation/DistancePointToEllipse2.pdf
 				if (abspx<Kernel.EPSILON) {
-					pp.setT(Math.asin(Math.max(-1,-hb*abspy/hc_2)));
+				//	pp.setT(Math.asin(Math.max(-1,-hb*abspy/hc_2)));
+					if (abspy<Kernel.EPSILON){
+						if (hb<ha){
+							pp.setT(Math.PI/2);
+						}else{
+							pp.setT(0);
+						}
+					}else{
+						if (hb<ha){
+							pp.setT(Math.PI/2);
+						}else{
+							if (abspy*hb<hc_2){
+								pp.setT(Math.asin(hb*abspy/hc_2));
+							}else{
+								pp.setT(Math.PI/2);
+							}
+						}
+					}
 				} else if (abspy<Kernel.EPSILON) {
-					pp.setT(Math.acos(Math.min(1,ha*abspx/hc_2)));
+//					pp.setT(Math.acos(Math.min(1,ha*abspx/hc_2)));
+					if (ha<hb){
+						pp.setT(0);
+					}else{						
+						if (abspx*ha<hc_2){
+							pp.setT(Math.acos(ha*abspx/hc_2));
+						}else{
+							pp.setT(0);
+						}
+					}
 				} else {	
 					//To solve (1-u^2)*(b*py + (a^2-b^2)*u)^2-a^2*px^2*u^2 = 0, where u = sin(theta)
 					double roots[] = getPerpendicularParams(abspx,abspy);
