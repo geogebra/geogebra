@@ -8,11 +8,14 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 
+/**
+ * Interface for n-dimensional Euclidian view
+ *
+ */
 public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim {
 
 	/** reference to x axis*/
@@ -29,10 +32,13 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 
 	// mode
 	/**
-	 * clears all selections and highlighting
+	 * Clears all selections and highlighting
 	 */
 	void resetMode();
 
+	/**
+	 * Repaints the whole view
+	 */
 	public void repaint();
 
 	/** remembers the origins values (xzero, ...) */
@@ -72,36 +78,62 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 
 	/**
 	 * create a previewable for conic construction
-	 * @param mode 
+	 * @param mode mode
 	 * @param selectedPoints points
 	 * @return the conic previewable
 	 */		
 	public Previewable createPreviewConic(int mode, ArrayList<GeoPointND> selectedPoints);
 
+	/**
+	 * @param selectedPoints points
+	 * @param selectedLines lines
+	 * @return preview parallel line
+	 */
 	public Previewable createPreviewParallelLine(ArrayList<GeoPointND> selectedPoints,
 			ArrayList<GeoLineND> selectedLines);
+	/**
+	 * @param selectedPoints points
+	 * @param selectedLines lines
+	 * @return preview perpendicular line
+	 */
 	public Previewable createPreviewPerpendicularLine(ArrayList<GeoPointND> selectedPoints,
 			ArrayList<GeoLineND> selectedLines);
+	/**
+	 * @param selectedPoints points
+	 * @return preview perpendicular bisector
+	 */
 	public Previewable createPreviewPerpendicularBisector(ArrayList<GeoPointND> selectedPoints);
+	/**
+	 * @param selectedPoints points
+	 * @return preview angle bisector
+	 */
 	public Previewable createPreviewAngleBisector(ArrayList<GeoPointND> selectedPoints);
 
+	/**
+	 * Called when mouse enters the view
+	 */
 	public void mouseEntered();
+	/**
+	 * Called  when mouse exits the view
+	 */
 	public void mouseExited();
 
 	/**
-	 * 
-	 * @param geo
+	 * @param geo geo
 	 * @return true if the geo is parent of the view
 	 */
 	public boolean hasForParent(GeoElement geo);
 
+	/**
+	 * @return application
+	 */
 	public AbstractApplication getApplication();
 
+	/**
+	 * @param geo geo
+	 * @return drawable for given geo
+	 */
 	public DrawableND getDrawableFor(GeoElement geo);
-
-	public DrawableND getDrawableND(GeoElement geo);
-
-	public DrawableND createDrawableND(GeoElement geo);
 
 	/**
 	 * 
@@ -116,17 +148,20 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 * @return string translated description of plane from the view was created
 	 */
 	public String getTranslatedFromPlaneString();
-
+	/**
+	 * @return whether grid distance is automatic
+	 */
 	public boolean isAutomaticGridDistance();
 
+	/**
+	 * Whether axes have automatic number distances
+	 * @return array {xauto,yauto}
+	 */
 	public boolean[] isAutomaticAxesNumberingDistance();
 
 	/**
-	 * 
-	 * @return true if this is Graphics or Graphics 2
+	 * @return whether grid ore axes are shown
 	 */
-	public boolean isDefault2D();
-
 	public boolean isGridOrAxesShown();
 
 	/**
@@ -135,152 +170,366 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 */
 	public boolean isUnitAxesRatio();
 
+	/**
+	 * @return true if bounds are not dynamic
+	 */
 	public boolean isZoomable();
 
 
+	/**
+	 * @return tooltip mode
+	 */
 	public int getAllowToolTips();
+	/**
+	 * @return whether showing mouse coords is allowed
+	 */
 	public boolean getAllowShowMouseCoords();
+	/**
+	 * @return coordinates of axes crossing
+	 */
 	public double[] getAxesCross();
+	/**
+	 * @return array with axes numbering distances
+	 */
 	public double[] getAxesNumberingDistances();
+	/**
+	 * @return array with axes labels
+	 */
 	public String[] getAxesLabels();
+	/**
+	 * @return array with axes line styles
+	 */
 	public int getAxesLineStyle();
+	/**
+	 * @return array with axes tick styles
+	 */
 	public int[] getAxesTickStyles();
+	/**
+	 * @return array with axes units
+	 */
 	public String[] getAxesUnitLabels();
+	/**
+	 * @return background color of this view
+	 */
 	public geogebra.common.awt.Color getBackgroundCommon();
+	/**
+	 * @return array of flags determining whether axes are drawn next to border
+	 */
 	public boolean[] getDrawBorderAxes();
-	public double[] getGridDistances();
+
+	/**
+	 * @param i axis index
+	 * @return grid distance in given direction
+	 */
 	public double getGridDistances(int i);
+	/**
+	 * @return true if grid is bold
+	 */
 	public boolean getGridIsBold();
+	/**
+	 * @return grid line style
+	 */
 	public int getGridLineStyle();
+	/**
+	 * @return grid type (cartesian, isometric, polar) 
+	 */
 	public int getGridType();
+	/**
+	 * @return 1/getXScale()
+	 */
 	public double getInvXscale();
+	/**
+	 * @return 1/getYScale()
+	 */
 	public double getInvYscale();
+	/**
+	 * @return mode
+	 */
 	public int getMode();
 
 	/**
-	 * Returns point capturing mode.
+	 * @return point style
 	 */
-	public int getPointCapturingMode();
-
 	public int getPointStyle();
+	/**
+	 * @return array of flags for positive direction only of axes
+	 */
 	public boolean[] getPositiveAxes(); 
+	/**
+	 * @return current previewable
+	 */
 	public Previewable getPreviewDrawable();
+	/**
+	 * @return array of flags for showing axes numbering
+	 */
 	public boolean[] getShowAxesNumbers();
+	/**
+	 * @return true if grid is shown
+	 */
 	public boolean getShowGrid();
+	/**
+	 * @return true if mouse coords are shown
+	 */
 	public boolean getShowMouseCoords();
+	/**
+	 * @param axis axis index
+	 * @return true if shown
+	 */
 	public boolean getShowAxis(int axis);
+	/**
+	 * @return true if x-axis is shown
+	 */
 	public boolean getShowXaxis();
+	/**
+	 * @return true if y-axis is shown
+	 */
 	public boolean getShowYaxis();
+	/**
+	 * @return view width
+	 */
 	public int getViewWidth();
+	/**
+	 * @return view height
+	 */
 	public int getViewHeight();
-	public double getXmin();
-	public double getXmax();
-	public double getYmin();
-	public double getYmax();
+
+	/**
+	 * @return xMin as GeoNumeric (may be dependent)
+	 */
 	public GeoNumeric getXminObject();
+	/**
+	 * @return xMax as GeoNumeric (may be dependent)
+	 */
 	public GeoNumeric getXmaxObject();
+	/**
+	 * @return yMin as geoNumeric (may be dependent)
+	 */
 	public GeoNumeric getYminObject();
+	/**
+	 * @return yMax as GeoNumeric (may be dependent)
+	 */
 	public GeoNumeric getYmaxObject();
-	public double getXscale();
-	public double getYscale();
+	/**
+	 * @return screen x-coord of origin 
+	 */
 	public double getXZero();
+	/**
+	 * @return screen y-coord of origin 
+	 */
 	public double getYZero();
 
 
-	public void setAutomaticAxesNumberingDistance(boolean b, int axis);
-	public void setAutomaticGridDistance(boolean b);
-	public void setAllowShowMouseCoords(boolean selected);
+	/**
+	 * @param automatic true for automatic numbering
+	 * @param axis axis index
+	 */
+	public void setAutomaticAxesNumberingDistance(boolean automatic, int axis);
+	/**
+	 * @param automatic automatic grid distance
+	 */
+	public void setAutomaticGridDistance(boolean automatic);
+	/**
+	 * @param allow true to allow showing mouse coords
+	 */
+	public void setAllowShowMouseCoords(boolean allow);
+	/**
+	 * @param labels array of labels
+	 */
 	public void setAxesLabels(String[] labels);
-	public void setAxesLineStyle(int selectedIndex);
+	/**
+	 * @param style axis style (full, arrow)
+	 */
+	public void setAxesLineStyle(int style);
+	/**
+	 * @param styles array of axis tick styles (minor, major, ...)
+	 */
 	public void setAxesTickStyles(int[] styles);
+	/**
+	 * @param unitLabels array of unit labels
+	 */
 	public void setAxesUnitLabels(String[] unitLabels);
+	/**
+	 * @param tickDist tick distance
+	 * @param axis axis index
+	 */
 	public void setAxesNumberingDistance(double tickDist, int axis);
 
+	/**
+	 * @param axisCross array ofcrossing values
+	 */
 	public void setAxesCross(double[] axisCross);
 
 	/** sets the axis crossing value
-	 * @param axis
-	 * @param cross
+	 * @param axis axis index
+	 * @param cross crossing value
 	 */
 	public void setAxisCross(int axis, double cross);
 
 	/**
 	 * sets the axis label to axisLabel
-	 * @param axis
-	 * @param axisLabel
+	 * @param axis axis index
+	 * @param axisLabel label
 	 */
 	public void setAxisLabel(int axis, String axisLabel);
 
 	/** sets the tickstyle of this axis
-	 * @param axis
-	 * @param tickStyle
+	 * @param axis axis index
+	 * @param tickStyle tick style 
 	 */
 	public void setAxisTickStyle(int axis, int tickStyle);
 
-	public void setCoordSystem(double x, double y, double xscale, double yscale);
+	/**
+	 * @param xZero screen x-coord of origin
+	 * @param yZero screen y-coord of origin
+	 * @param xscale x scale
+	 * @param yscale y scale
+	 */
+	public void setCoordSystem(double xZero, double yZero, double xscale, double yscale);
+	/**
+	 * @param dx mouse x movement
+	 * @param dy mouse y movement
+	 * @param mode current mode
+	 */
 	public void setCoordSystemFromMouseMove(int dx, int dy, int mode);
+	/**
+	 * @param border array of show-axis-on-border flags
+	 */
 	public void setDrawBorderAxes(boolean[] border);
+	/**
+	 * @param ticks {xdistance, ydistance}
+	 */
 	public void setGridDistances(double[] ticks);
-	public void setGridType(int selectedIndex);
-	public void setPointCapturing(int mode);
+	/**
+	 * @param type grid type (see EuclidianStyleConstants)
+	 */
+	public void setGridType(int type);
+	
+	/**
+	 * @param positiveAxis array of positive direction only flags
+	 */
 	public void setPositiveAxes(boolean[] positiveAxis); 
 
 	/** sets if the axis is drawn in the positive direction only
-	 * @param axis
-	 * @param isPositive
+	 * @param axis axis index
+	 * @param isPositive true to positive direction only
 	 */
 	public void setPositiveAxis(int axis, boolean isPositive);
 
-	public void setRealWorldCoordSystem(double min, double max, double ymin, double ymax);
+	/**
+	 * Set real world bounds of this view
+	 * @param xmin x min
+	 * @param xmax x max
+	 * @param ymin y min
+	 * @param ymax y max
+	 */
+	public void setRealWorldCoordSystem(double xmin, double xmax, double ymin, double ymax);
 
-	// selection rectangle
-	public void setSelectionRectangle(geogebra.common.awt.Rectangle selectionRectangle);
+	/**
+	 * @param b true to show axes ratio
+	 */
 	public void setShowAxesRatio(boolean b);
+	/**
+	 * @param showNums array of flags for axes numbering
+	 */
 	public void setShowAxesNumbers(boolean[] showNums);
 
 	/** sets if numbers are shown on this axis
-	 * @param axis
-	 * @param showAxisNumbers
+	 * @param axis axis index
+	 * @param showAxisNumbers true to show numbers
 	 */
 	public void setShowAxisNumbers(int axis, boolean showAxisNumbers);
 
+	/**
+	 * @param b true to show mouse coordinates in this view
+	 */
 	public void setShowMouseCoords(boolean b);
+	/**
+	 * @param minMax new xMin object
+	 */
 	public void setXminObject(NumberValue minMax);
+	/**minX
+	 * @param minMax new xMax object
+	 */
 	public void setXmaxObject(NumberValue minMax);
+	/**
+	 * @param minMax new yMin object
+	 */
 	public void setYminObject(NumberValue minMax);
+	/**
+	 * @param minMax new yMax object
+	 */
 	public void setYmaxObject(NumberValue minMax);
 
+	/**
+	 * 
+	 */
 	public void updateBackground();
-	public void updateBounds();
+	
+	/**
+	 * 
+	 */
 	public void updateBoundObjects();
 
 	// screen coordinate to real world coordinate
-	/** convert screen coordinate x to real world coordinate x */
-	public double toRealWorldCoordX(double minX);
-	/** convert screen coordinate y to real world coordinate y */	
-	public double toRealWorldCoordY(double maxY);
+	
 
-	public int toScreenCoordX(double minX);
-	public int toScreenCoordY(double maxY);
+	/**
+	 * @param rwx realworld y-coord
+	 * @return screen y-coord
+	 */
+	public int toScreenCoordX(double rwx);
+	/**
+	 * @param rwy realworld y-coord
+	 * @return screen y-coord
+	 */
+	public int toScreenCoordY(double rwy);
 
+	/**
+	 * @param event mouse event
+	 * @return true if animation button was hit
+	 */
 	public boolean hitAnimationButton(AbstractEvent event);
 
-	/** set the hits regarding to the mouse location */
+	/** 
+	 * Set the hits regarding to the mouse location 
+	 * @param mouseLoc update hits using mouse position
+	 */
 	public void setHits(Point mouseLoc);
 
-	/**get the hits recorded */
+	/**
+	 * Get the hits recorded 
+	 * @return current hits 
+	 */
 	public Hits getHits();
+	/**
+	 * @param p mouse coords
+	 * @return hit button (or null)
+	 */
 	public MyButton getHitButton(geogebra.common.awt.Point p);
+	/**
+	 * Switch to default cursor
+	 */
 	public void setDefaultCursor();
 
+	/**
+	 * Switch to hit cursor
+	 */
 	public void setHitCursor();
 
+	/**
+	 * Try to focus this view
+	 * @return true if successful
+	 */
 	public boolean requestFocusInWindow();
 	
+	/**
+	 * @return style bar
+	 */
 	public EuclidianStyleBar getStyleBar();
 
 	/**
 	 * Updates highlighting of animation buttons. 
+	 * @param b true to highlight
 	 * @return whether status was changed
 	 */
 	public boolean setAnimationButtonsHighlighted(boolean b);
@@ -291,44 +540,99 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 * @param flag show/hide
 	 * @param update update (or not) the background image
 	 */
-	public void setShowAxis(int axisX, boolean b, boolean c);
+	public void setShowAxis(int axis, boolean flag, boolean update);
 
+	/**
+	 * Change cursor to drag cursor
+	 */
 	public void setDragCursor();
 
+	/**
+	 * @return selection rectangle
+	 */
 	public Rectangle getSelectionRectangle();
 
 	/**
 	 * Sets real world coord system using min and max values for both axes in
 	 * real world values.
+	 * @param realWorldCoordX new xMin
+	 * @param realWorldCoordX2 new xMax 
+	 * @param realWorldCoordY  new yMin
+	 * @param realWorldCoordY2 new yMax
+	 * @param steps number of animation steps
+	 * @param storeUndo true to store undo info
 	 */
 	public void setAnimatedRealWorldCoordSystem(double realWorldCoordX,
 			double realWorldCoordX2, double realWorldCoordY,
-			double realWorldCoordY2, int i, boolean b);
+			double realWorldCoordY2, int steps, boolean storeUndo);
 
-	public void setHits(geogebra.common.awt.Rectangle selectionRectangle);
+	/**
+	 * Sets hits using given rectangle
+	 * @param rect rectangle
+	 */
+	public void setHits(geogebra.common.awt.Rectangle rect);
 
+	/**
+	 * @param plainTooltip sets tooltip text
+	 */
 	public void setToolTipText(String plainTooltip);
 
+	/**
+	 * @param mouseLoc mouse location
+	 * @return hit geo (or null)
+	 */
 	public GeoElement getLabelHit(Point mouseLoc);
 
+	/**
+	 * Switch to x-resize cursor
+	 */
 	public void setResizeXAxisCursor();
 
+	/**
+	 * Switch to y-resize cursor
+	 */
 	public void setResizeYAxisCursor();
 
+	/**
+	 * Updates previewable
+	 */
 	public void updatePreviewable();
 
 
+	/**
+	 * Switch to move cursor
+	 */
 	public void setMoveCursor();
 
 
+	/**
+	 * @return number of euclidian view
+	 */
 	public int getEuclidianViewNo();
 
+	/**
+	 * @param rwX real world x-coord
+	 * @return screen x-coord
+	 */
 	public double toScreenCoordXd(double rwX);
+	/**
+	 * @param rwY real world y-coord
+	 * @return screen y-coord
+	 */
 	public double toScreenCoordYd(double rwY);
 
-	/** Sets coord system from mouse move */
-	public void setAnimatedCoordSystem(double px, double py, double factor,
-			double d, int i, boolean b);
+	/** Zooms about P with given factor 
+	 * @param originX
+	 *            x coord of old origin
+	 * @param originY
+	 *            y coord of old origin
+	 * @param factor zoom factor
+	 * @param newScale
+	 * 			x scale
+	 * @param steps number of animated steps
+	 * @param storeUndo to store undo info after */
+	public void setAnimatedCoordSystem(double originX, double originY, double factor,
+			double newScale, int steps, boolean storeUndo);
 	
 	/**
 	 * sets showing flag of all axes
@@ -352,23 +656,65 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	public Previewable createPreviewPolyLine(
 			ArrayList<GeoPointND> selectedPoints);
 
+	/**
+	 * @param selectedPoints points
+	 * @return preview angle
+	 */
 	public Previewable createPreviewAngle(ArrayList<GeoPointND> selectedPoints);
 
-	public void setPreview(Previewable switchPreviewableForInitNewMode);
+	/**
+	 * @param previewable new previewable
+	 */
+	public void setPreview(Previewable previewable);
 
+	/**
+	 * @param sb string builder
+	 * @param asPreference as preference
+	 */
 	public void getXML(StringBuilder sb, boolean asPreference);
 
+	/**
+	 * @param showAxesCornerCoords true to allow showing coords in corners
+	 */
 	public void setAxesCornerCoordsVisible(boolean showAxesCornerCoords);
-	public void showGrid(boolean selected);
-	public void setGridIsBold(boolean selected);
+	/**
+	 * @param show true to show grid
+	 */
+	public void showGrid(boolean show);
+	/**
+	 * @param bold true for bold
+	 */
+	public void setGridIsBold(boolean bold);
+	/**
+	 * @param type line type (see EuclidianStyleConstants)
+	 */
 	public void setGridLineStyle(int type);
+	/**
+	 * @param geo geo
+	 * @param e click event
+	 */
 	public void clickedGeo(GeoElement geo, AbstractEvent e);
+	/**
+	 * @param geo geo that mouse moved over
+	 */
 	public void mouseMovedOver(GeoElement geo);
-	public void setBackground(geogebra.common.awt.Color showColorChooser);
-	public void setAxesColor(geogebra.common.awt.Color showColorChooser);
-	public void setGridColor(geogebra.common.awt.Color showColorChooser);
+	/**
+	 * @param bgColor new background color
+	 */
+	public void setBackground(geogebra.common.awt.Color bgColor);
+	/**
+	 * @param axesColor new axes color
+	 */
+	public void setAxesColor(geogebra.common.awt.Color axesColor);
+	/**
+	 * @param gridColor new grid color
+	 */
+	public void setGridColor(geogebra.common.awt.Color gridColor);
 	
 
+	/**
+	 * @return true if focused
+	 */
 	public boolean hasFocus();
 
 
