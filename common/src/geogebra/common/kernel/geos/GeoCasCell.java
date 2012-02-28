@@ -816,10 +816,16 @@ public class GeoCasCell extends GeoElement {
 					geo = row > 0 ? cons.getCasCell(row - 1) : cons
 							.getLastCasCell();
 				} else {
-					geo = kernel.lookupCasRowReference(varLabel);
+					try {
+						geo = kernel.lookupCasRowReference(varLabel);
+					} catch (CASException ex) {
+						this.setError(ex.getKey());
+						return null;
+					}
 				}
-				if (geo != null)
+				if (geo != null) {
 					includesRowReferences = true;
+				}
 			}
 
 			if (geo == null) {
@@ -845,8 +851,9 @@ public class GeoCasCell extends GeoElement {
 	 */
 	private ValidExpression resolveInputReferences(ValidExpression ve,
 			TreeSet<GeoElement> inputGeos) {
-		if (ve == null)
+		if (ve == null) {
 			return ve;
+		}
 
 		ValidExpression ret;
 
@@ -867,7 +874,7 @@ public class GeoCasCell extends GeoElement {
 		// replace GeoDummyVariable occurances for each geo
 		if (inputGeos != null) {
 			for (GeoElement inGeo : inputGeos) {
-				//replacement uses default template
+				// replacement uses default template
 				boolean success = node.replaceGeoDummyVariables(
 						inGeo.getLabel(StringTemplate.defaultTemplate), inGeo);
 				if (!success) {
@@ -1333,7 +1340,7 @@ public class GeoCasCell extends GeoElement {
 				if (evalVE == null) {
 					throw new CASException("Invalid input (evalVE is null)");
 				}
-				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(evalVE); 
+				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(evalVE);
 				success = result != null;
 			} catch (CASException e) {
 				System.err.println("GeoCasCell.computeOutput(), CAS eval: "

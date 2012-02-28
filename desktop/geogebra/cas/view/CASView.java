@@ -14,8 +14,6 @@ import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.GuiManager;
 import geogebra.gui.inputbar.InputBarHelpPanel;
 import geogebra.gui.view.Gridable;
-import geogebra.gui.view.algebra.AlgebraHelperBar;
-
 import geogebra.main.Application;
 
 import java.util.ArrayList;
@@ -58,14 +56,14 @@ public class CASView extends JComponent implements View, Gridable {
 	private Application app;
 	final RowHeader rowHeader;
 	private boolean toolbarIsUpdatedByDockPanel;
-	
-	private CASStyleBar styleBar;
+
+	CASStyleBar styleBar;
 
 	public CASView(Application app) {
 		kernel = app.getKernel();
 		this.app = app;
 		listSelModel = new DefaultListSelectionModel();
-		
+
 		Thread initCAS = new Thread() {
 			@Override
 			public void run() {
@@ -119,13 +117,15 @@ public class CASView extends JComponent implements View, Gridable {
 
 						// table selection changed -> update stylebar
 						int[] selRows = consoleTable.getSelectedRows();
-						if (selRows.length > 0){
-							//update list of selected objects in the stylebar
-							ArrayList<GeoElement> targetCells= new ArrayList<GeoElement>();
-							for(int i=0; i<consoleTable.getRowCount(); i++)
-								targetCells.add(consoleTable.getGeoCasCell(selRows[0]));
-							if(styleBar != null)
+						if (selRows.length > 0) {
+							// update list of selected objects in the stylebar
+							ArrayList<GeoElement> targetCells = new ArrayList<GeoElement>();
+							for (int i = 0; i < consoleTable.getRowCount(); i++)
+								targetCells.add(consoleTable
+										.getGeoCasCell(selRows[0]));
+							if (styleBar != null) {
 								styleBar.setSelectedRows(targetCells);
+							}
 						}
 					}
 				});
@@ -146,7 +146,7 @@ public class CASView extends JComponent implements View, Gridable {
 						// undoNeeded = true;
 					} else {
 						GeoCasCell cellValue = consoleTable
-								.getGeoCasCell(rows - 1);								
+								.getGeoCasCell(rows - 1);
 						if (cellValue.isEmpty()) {
 							consoleTable.startEditingRow(rows - 1);
 						} else {
@@ -317,7 +317,8 @@ public class CASView extends JComponent implements View, Gridable {
 
 		// if we don't have an outputVE, we let GeoCasCell deal with it :)
 		if (outVE == null) {
-			return consoleTable.getGeoCasCell(n).getOutput(StringTemplate.defaultTemplate);
+			return consoleTable.getGeoCasCell(n).getOutput(
+					StringTemplate.defaultTemplate);
 		}
 		return outVE.toString(StringTemplate.defaultTemplate);
 	}
@@ -327,7 +328,8 @@ public class CASView extends JComponent implements View, Gridable {
 	 * cell has no output string, the input string of this cell is returned.
 	 */
 	public String getRowInputValue(int n) {
-		return consoleTable.getGeoCasCell(n).getInput(StringTemplate.defaultTemplate);
+		return consoleTable.getGeoCasCell(n).getInput(
+				StringTemplate.defaultTemplate);
 	}
 
 	/**
@@ -525,15 +527,14 @@ public class CASView extends JComponent implements View, Gridable {
 	public Component[][] getPrintComponents() {
 		return new Component[][] { { rowHeader, consoleTable } };
 	}
-	
-	
+
 	public CASStyleBar getCASStyleBar() {
 		if (styleBar == null) {
 			styleBar = newCASStyleBar();
 		}
 		return styleBar;
 	}
-	
+
 	protected CASStyleBar newCASStyleBar() {
 		return new CASStyleBar(this, app);
 	}

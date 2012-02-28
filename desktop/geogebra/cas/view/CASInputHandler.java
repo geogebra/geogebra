@@ -44,7 +44,8 @@ public class CASInputHandler {
 		// get editor
 		CASTableCellEditor cellEditor = consoleTable.getEditor();
 
-		if (ggbcmd.equalsIgnoreCase("Solve") || ggbcmd.equalsIgnoreCase("NSolve")) {
+		if (ggbcmd.equalsIgnoreCase("Solve")
+				|| ggbcmd.equalsIgnoreCase("NSolve")) {
 			if (casView.getRowHeader().getSelectedIndices().length > 1) {
 				processMultipleRows(ggbcmd, params);
 				return;
@@ -78,17 +79,17 @@ public class CASInputHandler {
 		int selStart = cellEditor.getInputSelectionStart();
 		int selEnd = cellEditor.getInputSelectionEnd();
 		String selRowInput = cellEditor.getInput();
-		
 
 		if (selRowInput == null || selRowInput.length() == 0) {
 			if (consoleTable.getSelectedRow() != -1) {
 				consoleTable.startEditingRow(consoleTable.getSelectedRow());
-				GeoCasCell cellValue = consoleTable.getGeoCasCell(consoleTable.getSelectedRow());
-				if(cellValue.getInputVE() != null)
-				selRowInput = cellValue.toString();
+				GeoCasCell cellValue = consoleTable.getGeoCasCell(consoleTable
+						.getSelectedRow());
+				if (cellValue.getInputVE() != null)
+					selRowInput = cellValue.toString();
 			}
-			if(selRowInput.length() == 0)
-			return;
+			if (selRowInput.length() == 0)
+				return;
 		}
 
 		// save the edited value into the table model
@@ -99,7 +100,6 @@ public class CASInputHandler {
 		if (selRow < 0)
 			selRow = consoleTable.getRowCount() - 1;
 		GeoCasCell cellValue = consoleTable.getGeoCasCell(selRow);
-		
 
 		/*
 		 * // DIRECT MathPiper use: line starts with "MathPiper:" if
@@ -289,18 +289,18 @@ public class CASInputHandler {
 		int[] selectedIndices = casView.getRowHeader().getSelectedIndices();
 		int nrEquations;
 		int lastRowSelected;
-		
+
 		// remove empty cells because empty cells' inputVE vars are null
 		ArrayList<Integer> l = new ArrayList<Integer>();
-		for(int i = 0; i < selectedIndices.length; i++) {
-			if(!consoleTable.isRowEmpty(i))
+		for (int i = 0; i < selectedIndices.length; i++) {
+			if (!consoleTable.isRowEmpty(i))
 				l.add(i);
 		}
 		selectedIndices = new int[l.size()];
-		for(int i = 0; i < l.size(); i++) {
+		for (int i = 0; i < l.size(); i++) {
 			selectedIndices[i] = l.get(i);
 		}
-				
+
 		if (selectedIndices.length <= 1) {
 			oneRowOnly = true;
 			nrEquations = 1;
@@ -310,7 +310,6 @@ public class CASInputHandler {
 			lastRowSelected = selectedIndices[nrEquations - 1];
 			currentRow = 1 + (lastRowSelected);
 		}
-		
 
 		GeoCasCell cellValue;
 		try {
@@ -448,8 +447,8 @@ public class CASInputHandler {
 			equations[i] = v.getInputVE().toString(tpl);
 			GeoElement geoVar = kernel.lookupLabel(equations[i]);
 			if (geoVar != null) {
-				equationsVariablesResolved
-						.append(", " + geoVar.toValueString(tpl));
+				equationsVariablesResolved.append(", "
+						+ geoVar.toValueString(tpl));
 			} else {
 				equationsVariablesResolved.append(", " + equations[i]);
 			}
@@ -506,7 +505,7 @@ public class CASInputHandler {
 		StringBuilder sb = new StringBuilder();
 		sb.append(ggbcmd);
 		sb.append("[");
-		sb.append(cellTextS); 
+		sb.append(cellTextS);
 		sb.append(", {");
 
 		StringBuilder paramSB = new StringBuilder();
@@ -578,8 +577,10 @@ public class CASInputHandler {
 	/**
 	 * Processes given row.
 	 * 
-	 * @param selRow row index
-	 * @param startEditing start editing
+	 * @param selRow
+	 *            row index
+	 * @param startEditing
+	 *            start editing
 	 * @return success
 	 */
 	public boolean processRowThenEdit(int selRow, boolean startEditing) {
@@ -862,9 +863,14 @@ public class CASInputHandler {
 	 *            term (given by parameter str) was nothing but the reference
 	 * @return the string with resolved references.
 	 * @author Johannes Renner
+	 * @throws CASException
+	 *             if the number of the row reference is invalid (the number is
+	 *             higher than the current number of rows or the reference
+	 *             number is the number of the current row) then an
+	 *             {@link CASException} is thrown
 	 */
 	public String resolveCASrowReferences(String str, int selectedRow,
-			char delimiter, boolean noParentheses) {
+			char delimiter, boolean noParentheses) throws CASException {
 		boolean newNoParentheses = noParentheses;
 
 		StringBuilder sb = new StringBuilder();
@@ -941,7 +947,7 @@ public class CASInputHandler {
 
 	private void handleReference(StringBuilder sb, int selectedRow,
 			int referenceNumber, boolean addParentheses, boolean noParentheses,
-			boolean needOutput) {
+			boolean needOutput) throws CASException {
 
 		if (referenceNumber > 0 && referenceNumber != selectedRow + 1
 				&& referenceNumber <= casView.getRowCount()) {
@@ -1313,23 +1319,16 @@ public class CASInputHandler {
 	/**
 	 * Evaluates expression with GeoGebra and returns the resulting string.
 	 */
-	/*private synchronized String evalInGeoGebra(String casInput)
-			throws Throwable {
-		GeoElement[] ggbEval = kernel.getAlgebraProcessor()
-				.processAlgebraCommandNoExceptionHandling(casInput, false,
-						false, true);
-
-		if (ggbEval.length == 1) {
-			return ggbEval[0].toValueString();
-		}
-
-		StringBuilder sb = new StringBuilder('{');
-		for (int i = 0; i < ggbEval.length; i++) {
-			sb.append(ggbEval[i].toValueString());
-			if (i < ggbEval.length - 1)
-				sb.append(", ");
-		}
-		sb.append('}');
-		return sb.toString();
-	}*/
+	/*
+	 * private synchronized String evalInGeoGebra(String casInput) throws
+	 * Throwable { GeoElement[] ggbEval = kernel.getAlgebraProcessor()
+	 * .processAlgebraCommandNoExceptionHandling(casInput, false, false, true);
+	 * 
+	 * if (ggbEval.length == 1) { return ggbEval[0].toValueString(); }
+	 * 
+	 * StringBuilder sb = new StringBuilder('{'); for (int i = 0; i <
+	 * ggbEval.length; i++) { sb.append(ggbEval[i].toValueString()); if (i <
+	 * ggbEval.length - 1) sb.append(", "); } sb.append('}'); return
+	 * sb.toString(); }
+	 */
 }
