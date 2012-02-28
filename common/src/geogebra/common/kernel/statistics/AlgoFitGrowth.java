@@ -26,9 +26,9 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.plugin.Operation;
 
 /**
- * Fits an a*b^x to a list of points.
- * Needed for pupils who don't know about e, but in their curriculum are doing
- * mathematical models with growth (exponential) functions.
+ * Fits an a*b^x to a list of points. Needed for pupils who don't know about e,
+ * but in their curriculum are doing mathematical models with growth
+ * (exponential) functions.
  * 
  * @author Hans-Petter Ulven
  * @version 2010-02-2010
@@ -36,7 +36,6 @@ import geogebra.common.plugin.Operation;
 
 public class AlgoFitGrowth extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList geolist; // input
 	private GeoFunction geofunction; // output
 	private RegressionMath regMath;
@@ -53,15 +52,17 @@ public class AlgoFitGrowth extends AlgoElement {
 		geofunction.setLabel(label);
 	}// Constructor
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoFitGrowth;
 	}
 
+	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[1];
 		input[0] = geolist;
-		output = new GeoElement[1];
-		output[0] = geofunction;
+
+		setOnlyOutput(geofunction);
 		setDependencies();
 	}// setInputOutput()
 
@@ -69,32 +70,35 @@ public class AlgoFitGrowth extends AlgoElement {
 		return geofunction;
 	}
 
+	@Override
 	public final void compute() {
 		int size = geolist.size();
 		boolean regok = true;
-		double a, b,g;
-		if (!geolist.isDefined() || (size < 2)) { 
+		double a, b;
+		if (!geolist.isDefined() || (size < 2)) {
 			geofunction.setUndefined();
 			return;
+		}
+
+		regok = regMath.doExp(geolist);
+		if (regok) {
+			a = regMath.getP1();
+			b = regMath.getP2();
+			b = Math.exp(b);
+			MyDouble A = new MyDouble(kernel, a);
+			MyDouble B = new MyDouble(kernel, b);
+			FunctionVariable X = new FunctionVariable(kernel);
+			ExpressionValue expr = new ExpressionNode(kernel, B,
+					Operation.POWER, X);
+			ExpressionNode node = new ExpressionNode(kernel, A,
+					Operation.MULTIPLY, expr);
+			Function f = new Function(node, X);
+			geofunction.setFunction(f);
+			geofunction.setDefined(true);
 		} else {
-			regok = regMath.doExp(geolist);
-			if (regok) {
-				a = regMath.getP1();
-				b = regMath.getP2();
-				b=Math.exp(b);
-				MyDouble A = new MyDouble(kernel, a);
-				MyDouble B = new MyDouble(kernel, b);
-				FunctionVariable X = new FunctionVariable(kernel);
-				ExpressionValue expr = new ExpressionNode(kernel, B,Operation.POWER, X);
-				ExpressionNode node = new ExpressionNode(kernel, A,Operation.MULTIPLY, expr);
-				Function f = new Function(node, X);
-				geofunction.setFunction(f);
-				geofunction.setDefined(true);
-			} else {
-				geofunction.setUndefined();
-				return;
-			}// if error in regression
-		}// if error in parameters
+			geofunction.setUndefined();
+			return;
+		}// if error in regression
 	}// compute()
 
 }// class AlgoFitGrowth

@@ -12,7 +12,6 @@ package geogebra.common.kernel.statistics;
 
  */
 
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
@@ -27,7 +26,7 @@ import org.apache.commons.math.optimization.fitting.CurveFitter;
 import org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer;
 
 /**
-<pre>
+ * <pre>
  * AlgoFitNL:			(NL=NonLinear Curvefit)
  * A general curvefit:
  * 		Fit[<List of Points>,<Function>]
@@ -49,150 +48,142 @@ import org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer;
  * Uses Levenberg-Marquardt algorithm in org.apache.commons library
  * 
  * ToDo:		The gradient in FitRealFunction could be more sophisticated, but the Apache lib is quite robust :-)
-  				Some tuning of numerical precision both here and in the setup of LM-optimizer
-</pre>
- *
+ *   				Some tuning of numerical precision both here and in the setup of LM-optimizer
+ * </pre>
+ * 
  * @author Hans-Petter Ulven
  * @version 2011-03-15
  */
 public class AlgoFitNL extends AlgoElement {
-	
-	private static final boolean	DEBUG				=	false;		//false in distribution
 
-	private static final long 		serialVersionUID 	= 	1L;
-	private GeoList 				pointlist; 							// input
-	private GeoFunction				inputfunction;						// input
-	private GeoFunction 			outputfunction; 					// output
-	
-	//variables:
-	private	int 					datasize			=	0;			//rows in M and Y
-	private double[]				xdata				=	null;
-	private double[]				ydata				=	null;
-	private FitRealFunction			prfunction			=	null;		//function for Apache lib
-	private LevenbergMarquardtOptimizer LMO				=	new LevenbergMarquardtOptimizer();
-	private	CurveFitter				curvefitter			=	new CurveFitter(LMO);
-	
-	
-	
-	
-	public AlgoFitNL(Construction cons, String label, GeoList pointlist,GeoFunction inputfunction) {
+	private static final boolean DEBUG = false; // false in distribution
+
+	private GeoList pointlist; // input
+	private GeoFunction inputfunction; // input
+	private GeoFunction outputfunction; // output
+
+	// variables:
+	private int datasize = 0; // rows in M and Y
+	private double[] xdata = null;
+	private double[] ydata = null;
+	private FitRealFunction prfunction = null; // function for Apache lib
+	private LevenbergMarquardtOptimizer LMO = new LevenbergMarquardtOptimizer();
+	private CurveFitter curvefitter = new CurveFitter(LMO);
+
+	public AlgoFitNL(Construction cons, String label, GeoList pointlist,
+			GeoFunction inputfunction) {
 		super(cons);
 
 		this.pointlist = pointlist;
-		this.inputfunction=inputfunction;
+		this.inputfunction = inputfunction;
 		outputfunction = new GeoFunction(cons);
 		setInputOutput();
 		compute();
 		outputfunction.setLabel(label);
 	}// Constructor
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoFitNL;
 	}
 
+	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[2];
 		input[0] = pointlist;
-		input[1]=  inputfunction;
-		output = new GeoElement[1];
-		output[0] = outputfunction;
+		input[1] = inputfunction;
+		setOnlyOutput(outputfunction);
 		setDependencies();
 	}// setInputOutput()
-	
 
 	public GeoFunction getFitNL() {
 		return outputfunction;
-	}//getFitNL()
+	}// getFitNL()
 
+	@Override
 	public final void compute() {
-		GeoElement 	geo1	=	null;
-		GeoElement  geo2	=	null;
-		this.datasize		=	pointlist.size();				//Points in dataset
+		GeoElement geo1 = null;
+		GeoElement geo2 = null;
+		this.datasize = pointlist.size(); // Points in dataset
 
-		
-		if (!pointlist.isDefined() 		||	
-			!inputfunction.isDefined() 	||
-			(datasize<1)					//Perhaps a max restriction of functions and data?
-			)								//Even if noone would try 500 datapoints and 100 functions...
+		if (!pointlist.isDefined() || !inputfunction.isDefined()
+				|| (datasize < 1) // Perhaps a max restriction of functions and
+									// data?
+		) // Even if noone would try 500 datapoints and 100 functions...
 		{
-				outputfunction.setUndefined();
-				return;
-		} else {							//We are in business...
-			//Best to also check:
-			geo1=pointlist.get(0);
-			geo2=inputfunction;
-			if(!geo2.isGeoFunction() || !geo1.isGeoPoint()){
-				outputfunction.setUndefined();
-				return;
-			}//if wrong contents in lists
-			try{
-				makeDataArrays();					//Get points as x[] and y[] from lists
-				
-				/// --- Solve :-) --- ///
+			outputfunction.setUndefined();
+			return;
+		}
+		// We are in business...
+		// Best to also check:
+		geo1 = pointlist.get(0);
+		geo2 = inputfunction;
+		if (!geo2.isGeoFunction() || !geo1.isGeoPoint()) {
+			outputfunction.setUndefined();
+			return;
+		}// if wrong contents in lists
+		try {
+			makeDataArrays(); // Get points as x[] and y[] from lists
 
-				//prfunction makes itself a copy of inputfunction with parameters instead of GeoNumerics
-				prfunction = new FitRealFunction(inputfunction.getFunction());
-				
-				//very important:
-				curvefitter.clearObservations();
-				
-				for(int i=0;i<datasize;i++){
-						curvefitter.addObservedPoint(1.0,xdata[i],ydata[i]);
-				}//for all datapoints
-				
-				double[] result=curvefitter.fit(prfunction, prfunction.getStartValues());
-				
-				//DEBUG - to be removed:
-				int iter=LMO.getIterations();if(iter>200) errorMsg("More than 200 iterations...");
-						
-				outputfunction.setFunction(prfunction.getFunction());
-				outputfunction.setDefined(true);
-				
-			}catch(Throwable t){
-				outputfunction.setUndefined();
-				errorMsg(t.getMessage());
-				if(DEBUG){t.printStackTrace();}
-			}//try-catch
-		}//if	
+			// / --- Solve :-) --- ///
 
-	}//compute()
-	
-	//Get info from lists into matrixes and functionarray
-	private final  void makeDataArrays() throws Exception{
-		GeoElement	geo=null;
-		GeoPoint2	point=null;
-		datasize=pointlist.size();
-		xdata=new double[datasize];
-		ydata=new double[datasize];
-		
-		//Make array of datapoints
-		for(int i=0;i<datasize;i++){
-			geo=pointlist.get(i);
-			if(!geo.isGeoPoint()){
-				throw(new Exception("Not points in function list..."));
-			}//if not point
-			point=(GeoPoint2)geo;
-			xdata[i]=point.getX();
-			ydata[i]=point.getY();		
-		}//for rows (=datapoints)
-	}//makeDataArrays()
-	
+			// prfunction makes itself a copy of inputfunction with
+			// parameters instead of GeoNumerics
+			prfunction = new FitRealFunction(inputfunction.getFunction());
 
-	
-	
-	/// --- Debug --- ///
-    private final static void errorMsg(String s){
-    	AbstractApplication.debug(s);
-    }//errorMsg(String)   
-    
-  // --- SNIP --- /// *** Comment out when finished ***
- 	
-    /* Hook for plugin scripts */
-    public final void AlgoFitNL(Kernel k,String fname){
-    	
-    }//test()
- 
-  // --- SNIP --- /// 
+			// very important:
+			curvefitter.clearObservations();
+
+			for (int i = 0; i < datasize; i++) {
+				curvefitter.addObservedPoint(1.0, xdata[i], ydata[i]);
+			}// for all datapoints
+
+			double[] result = curvefitter.fit(prfunction,
+					prfunction.getStartValues());
+
+			// DEBUG - to be removed:
+			int iter = LMO.getIterations();
+			if (iter > 200) {
+				errorMsg("More than 200 iterations...");
+			}
+
+			outputfunction.setFunction(prfunction.getFunction());
+			outputfunction.setDefined(true);
+
+		} catch (Throwable t) {
+			outputfunction.setUndefined();
+			errorMsg(t.getMessage());
+			if (DEBUG) {
+				t.printStackTrace();
+			}
+		}// try-catch
+
+	}// compute()
+
+	// Get info from lists into matrixes and functionarray
+	private final void makeDataArrays() throws Exception {
+		GeoElement geo = null;
+		GeoPoint2 point = null;
+		datasize = pointlist.size();
+		xdata = new double[datasize];
+		ydata = new double[datasize];
+
+		// Make array of datapoints
+		for (int i = 0; i < datasize; i++) {
+			geo = pointlist.get(i);
+			if (!geo.isGeoPoint()) {
+				throw (new Exception("Not points in function list..."));
+			}// if not point
+			point = (GeoPoint2) geo;
+			xdata[i] = point.getX();
+			ydata[i] = point.getY();
+		}// for rows (=datapoints)
+	}// makeDataArrays()
+
+	// / --- Debug --- ///
+	private final static void errorMsg(String s) {
+		AbstractApplication.debug(s);
+	}// errorMsg(String)
 
 }// class AlgoFitNL
 

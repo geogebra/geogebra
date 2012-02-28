@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.statistics;
 
@@ -25,36 +25,32 @@ import org.apache.commons.math.distribution.ChiSquaredDistribution;
 
 public class AlgoChiSquared extends AlgoDistribution {
 
-	private static final long serialVersionUID = 1L;
-    
-    public AlgoChiSquared(Construction cons, String label, NumberValue a,NumberValue b) {
-        super(cons, label, a, b, null, null);
-    }
+	public AlgoChiSquared(Construction cons, String label, NumberValue a,
+			NumberValue b) {
+		super(cons, label, a, b, null, null);
+	}
 
-    public Algos getClassName() {
-        return Algos.AlgoChiSquared;
-    }
-    
+	@Override
+	public Algos getClassName() {
+		return Algos.AlgoChiSquared;
+	}
+
+	@Override
 	public final void compute() {
-    	
-    	
-    	if (input[0].isDefined() && input[1].isDefined()) {
-    		    double param = a.getDouble();
-    		    double val = b.getDouble();
-        		try {
-        			ChiSquaredDistribution dist = getChiSquaredDistribution(param);
-        			num.setValue(dist.cumulativeProbability(val));     // P(T <= val)
-        			
-        		}
-        		catch (Exception e) {
-        			num.setUndefined();        			
-        		}
-    	} else
-    		num.setUndefined();
-    }       
-        
-    
+
+		if (input[0].isDefined() && input[1].isDefined()) {
+			double param = a.getDouble();
+			double val = b.getDouble();
+			try {
+				ChiSquaredDistribution dist = getChiSquaredDistribution(param);
+				num.setValue(dist.cumulativeProbability(val)); // P(T <= val)
+
+			} catch (Exception e) {
+				num.setUndefined();
+			}
+		} else {
+			num.setUndefined();
+		}
+	}
+
 }
-
-
-

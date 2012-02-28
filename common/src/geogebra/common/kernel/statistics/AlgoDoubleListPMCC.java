@@ -24,13 +24,12 @@ import geogebra.common.kernel.geos.GeoList;
 
 public class AlgoDoubleListPMCC extends AlgoStats2D {
 
-	private static final long serialVersionUID = 1L;
-
 	public AlgoDoubleListPMCC(Construction cons, String label, GeoList geoListx, GeoList geoListy) {
         super(cons,label,geoListx,geoListy,AlgoStats2D.STATS_PMCC);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoDoubleListPMCC;
     }
 }

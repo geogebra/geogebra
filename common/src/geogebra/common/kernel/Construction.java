@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeSet;
 
-import com.google.appengine.api.memcache.MemcacheService.CasValues;
-
 import geogebra.common.cas.CASException;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.io.MyXMLio;

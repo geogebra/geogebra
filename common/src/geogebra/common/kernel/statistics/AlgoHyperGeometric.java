@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.statistics;
 
@@ -26,47 +26,45 @@ import org.apache.commons.math.distribution.HypergeometricDistribution;
 
 public class AlgoHyperGeometric extends AlgoDistribution {
 
-	private static final long serialVersionUID = 1L;
-    
-    public AlgoHyperGeometric(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c, NumberValue d,
-    		GeoBoolean isCumulative) {
-        super(cons, label, a, b, c, d, isCumulative);
-    }
+	public AlgoHyperGeometric(Construction cons, String label, NumberValue a,
+			NumberValue b, NumberValue c, NumberValue d, GeoBoolean isCumulative) {
+		super(cons, label, a, b, c, d, isCumulative);
+	}
 
-    public AlgoHyperGeometric(Construction cons, NumberValue a,NumberValue b, NumberValue c, NumberValue d,
-    		GeoBoolean isCumulative) {
-        super(cons, a, b, c, d, isCumulative);
-    }
+	public AlgoHyperGeometric(Construction cons, NumberValue a, NumberValue b,
+			NumberValue c, NumberValue d, GeoBoolean isCumulative) {
+		super(cons, a, b, c, d, isCumulative);
+	}
 
-    public Algos getClassName() {
-        return Algos.AlgoHyperGeometric;
-    }
-    
+	@Override
+	public Algos getClassName() {
+		return Algos.AlgoHyperGeometric;
+	}
+
+	@Override
 	public final void compute() {
-    	
-    	
-    	if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()) {
-		    int param = (int)Math.round(a.getDouble());
-		    int param2 = (int)Math.round(b.getDouble());
-		    int param3 = (int)Math.round(c.getDouble());
-    		    double val = d.getDouble();
-        		try {
-        			HypergeometricDistribution dist = getHypergeometricDistribution(param, param2, param3);
-        			if(isCumulative.getBoolean())
-    					num.setValue(dist.cumulativeProbability(val));  // P(X <= val)
-    				else
-    					num.setValue(dist.probability(val));   // P(X = val)
-        			
-        		}
-        		catch (Exception e) {
-        			num.setUndefined();        			
-        		}
-    	} else
-    		num.setUndefined();
-    }       
-        
-    
+
+		if (input[0].isDefined() && input[1].isDefined()
+				&& input[2].isDefined()) {
+			int param = (int) Math.round(a.getDouble());
+			int param2 = (int) Math.round(b.getDouble());
+			int param3 = (int) Math.round(c.getDouble());
+			double val = d.getDouble();
+			try {
+				HypergeometricDistribution dist = getHypergeometricDistribution(
+						param, param2, param3);
+				if (isCumulative.getBoolean()) {
+					num.setValue(dist.cumulativeProbability(val)); // P(X <=
+																	// val)
+				} else {
+					num.setValue(dist.probability(val)); // P(X = val)
+				}
+			} catch (Exception e) {
+				num.setUndefined();
+			}
+		} else {
+			num.setUndefined();
+		}
+	}
+
 }
-
-
-

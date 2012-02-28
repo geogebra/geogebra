@@ -29,7 +29,6 @@ import geogebra.common.kernel.geos.GeoPoint2;
 
 public class AlgoFitLineX extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList geoList; //input
     private GeoLine  g;     // output   
 
@@ -48,16 +47,17 @@ public class AlgoFitLineX extends AlgoElement {
         compute();      
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoFitLineX;
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = geoList;
 
-        output = new GeoElement[1];
-        output[0] = g;
+        setOnlyOutput(g);
         setDependencies(); // done by AlgoElement
     }
 
@@ -65,7 +65,8 @@ public class AlgoFitLineX extends AlgoElement {
         return g;
     }
 
-    public final void compute() {
+    @Override
+	public final void compute() {
     	int size = geoList.size();
     	if (!geoList.isDefined() ||  size <= 1) {
      		g.setUndefined();

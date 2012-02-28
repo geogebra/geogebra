@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.statistics;
 
@@ -27,39 +27,42 @@ import geogebra.common.util.Cloner;
 
 public class AlgoHyperGeometricBarChart extends AlgoFunctionAreaSums {
 
-	private static final long serialVersionUID = 1L;
-
-	public AlgoHyperGeometricBarChart(Construction cons, String label, 
+	public AlgoHyperGeometricBarChart(Construction cons, String label,
 			NumberValue n, NumberValue p, NumberValue sampleSize) {
-        super(cons,label, n, p, sampleSize, null , AlgoFunctionAreaSums.TYPE_BARCHART_HYPERGEOMETRIC);
-    }
-	
-	
-	public AlgoHyperGeometricBarChart(Construction cons, String label, 
-			NumberValue n, NumberValue p, NumberValue sampleSize, GeoBoolean isCumulative) {
-        super(cons,label, n, p, sampleSize, isCumulative, AlgoFunctionAreaSums.TYPE_BARCHART_HYPERGEOMETRIC);
-    }
-	
-	private AlgoHyperGeometricBarChart( 
-			NumberValue n, NumberValue p, NumberValue sampleSize, GeoBoolean isCumulative,NumberValue a,NumberValue b,double[]vals,
-			double[]borders,int N) {
-        super(n, p, sampleSize, isCumulative, AlgoFunctionAreaSums.TYPE_BARCHART_HYPERGEOMETRIC,a,b,vals,borders,N);
-    }
-	
+		super(cons, label, n, p, sampleSize, null,
+				AlgoFunctionAreaSums.TYPE_BARCHART_HYPERGEOMETRIC);
+	}
 
-    public Algos getClassName() {
-        return Algos.AlgoHyperGeometricBarChart;
-    }
+	public AlgoHyperGeometricBarChart(Construction cons, String label,
+			NumberValue n, NumberValue p, NumberValue sampleSize,
+			GeoBoolean isCumulative) {
+		super(cons, label, n, p, sampleSize, isCumulative,
+				AlgoFunctionAreaSums.TYPE_BARCHART_HYPERGEOMETRIC);
+	}
 
-	public AlgoDrawInformation copy() {		
-		GeoBoolean b = (GeoBoolean)this.getIsCumulative();
-		if(b!=null)b=(GeoBoolean)b.copy();
-		return new AlgoHyperGeometricBarChart(
-				(NumberValue)this.getP1().deepCopy(kernel),(NumberValue)this.getP2().deepCopy(kernel),
-				(NumberValue)this.getP3().deepCopy(kernel),
-				b,(NumberValue)this.getA().deepCopy(kernel),(NumberValue)this.getB().deepCopy(kernel),
-				Cloner.clone(getValues()),Cloner.clone(getLeftBorder()),getIntervals());
+	private AlgoHyperGeometricBarChart(NumberValue n, NumberValue p,
+			NumberValue sampleSize, GeoBoolean isCumulative, NumberValue a,
+			NumberValue b, double[] vals, double[] borders, int N) {
+		super(n, p, sampleSize, isCumulative,
+				AlgoFunctionAreaSums.TYPE_BARCHART_HYPERGEOMETRIC, a, b, vals,
+				borders, N);
+	}
 
+	@Override
+	public Algos getClassName() {
+		return Algos.AlgoHyperGeometricBarChart;
+	}
+
+	public AlgoDrawInformation copy() {
+		GeoBoolean b = (GeoBoolean) this.getIsCumulative();
+		if (b != null) {
+			b = (GeoBoolean) b.copy();
+		}
+		return new AlgoHyperGeometricBarChart((NumberValue) this.getP1()
+				.deepCopy(kernel), (NumberValue) this.getP2().deepCopy(kernel),
+				(NumberValue) this.getP3().deepCopy(kernel), b,
+				(NumberValue) this.getA().deepCopy(kernel), (NumberValue) this
+						.getB().deepCopy(kernel), Cloner.clone(getValues()),
+				Cloner.clone(getLeftBorder()), getIntervals());
 	}
 }
-

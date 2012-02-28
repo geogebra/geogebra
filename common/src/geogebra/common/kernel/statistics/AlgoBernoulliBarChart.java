@@ -27,11 +27,6 @@ import geogebra.common.util.Cloner;
 
 public class AlgoBernoulliBarChart extends AlgoFunctionAreaSums {
 
-	private static final long serialVersionUID = 1L;
-
-	
-	
-	
 	public AlgoBernoulliBarChart(Construction cons, String label, 
 			NumberValue p, GeoBoolean isCumulative) {
         super(cons,label, p, null, null, isCumulative, AlgoFunctionAreaSums.TYPE_BARCHART_BERNOULLI);
@@ -43,8 +38,8 @@ public class AlgoBernoulliBarChart extends AlgoFunctionAreaSums {
         super(p, null, null, isCumulative, AlgoFunctionAreaSums.TYPE_BARCHART_BERNOULLI,a,b,vals,borders,N);
     }
 	
-
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoBernoulliBarChart;
     }
 

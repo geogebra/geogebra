@@ -57,10 +57,9 @@ import org.apache.commons.math.distribution.ZipfDistributionImpl;
 
 public abstract class AlgoDistribution extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
-	protected NumberValue a,b,c,d; //input
-	protected GeoBoolean isCumulative; //input
-	protected GeoNumeric num; //output	
+	protected NumberValue a, b, c, d; // input
+	protected GeoBoolean isCumulative; // input
+	protected GeoNumeric num; // output
 	private TDistribution t = null;
 	private ChiSquaredDistribution chisquared = null;
 	private FDistribution f = null;
@@ -75,7 +74,8 @@ public abstract class AlgoDistribution extends AlgoElement {
 	private NormalDistribution normal = null;
 	private PoissonDistribution poisson = null;
 
-	public AlgoDistribution(Construction cons, String label, NumberValue a, NumberValue b, NumberValue c, NumberValue d) {
+	public AlgoDistribution(Construction cons, String label, NumberValue a,
+			NumberValue b, NumberValue c, NumberValue d) {
 		super(cons);
 		this.a = a;
 		this.b = b;
@@ -89,14 +89,14 @@ public abstract class AlgoDistribution extends AlgoElement {
 		num.setLabel(label);
 	}
 
-	public AlgoDistribution(Construction cons, String label, NumberValue a, NumberValue b, NumberValue c, 
-			GeoBoolean isCumulative) {
+	public AlgoDistribution(Construction cons, String label, NumberValue a,
+			NumberValue b, NumberValue c, GeoBoolean isCumulative) {
 		this(cons, a, b, c, isCumulative);
 		num.setLabel(label);
 	}
-	
-	public AlgoDistribution(Construction cons, NumberValue a, NumberValue b, NumberValue c, 
-			GeoBoolean isCumulative) {
+
+	public AlgoDistribution(Construction cons, NumberValue a, NumberValue b,
+			NumberValue c, GeoBoolean isCumulative) {
 		super(cons);
 		this.a = a;
 		this.b = b;
@@ -106,18 +106,17 @@ public abstract class AlgoDistribution extends AlgoElement {
 		num = new GeoNumeric(cons);
 
 		setInputOutput();
-		compute();		
+		compute();
 	}
-	
-	
-	public AlgoDistribution(Construction cons, String label, NumberValue a, NumberValue b, NumberValue c, NumberValue d,
-			GeoBoolean isCumulative) {
+
+	public AlgoDistribution(Construction cons, String label, NumberValue a,
+			NumberValue b, NumberValue c, NumberValue d, GeoBoolean isCumulative) {
 		this(cons, a, b, c, d, isCumulative);
 		num.setLabel(label);
 	}
-	
-	public AlgoDistribution(Construction cons, NumberValue a, NumberValue b, NumberValue c, NumberValue d,
-			GeoBoolean isCumulative) {
+
+	public AlgoDistribution(Construction cons, NumberValue a, NumberValue b,
+			NumberValue c, NumberValue d, GeoBoolean isCumulative) {
 		super(cons);
 		this.a = a;
 		this.b = b;
@@ -130,29 +129,30 @@ public abstract class AlgoDistribution extends AlgoElement {
 		setInputOutput();
 		compute();
 	}
-	
-	
+
 	public abstract Algos getClassName();
 
-	protected void setInputOutput(){
+	protected void setInputOutput() {
 
 		// build array list of possible arguments
 		ArrayList<GeoElement> inputList = new ArrayList<GeoElement>();
-		inputList.add((GeoElement)a.toGeoElement());
-		inputList.add((GeoElement)b.toGeoElement());
-		if(c!=null)
-		inputList.add((GeoElement)c.toGeoElement());
-		if(d!=null)
-			inputList.add((GeoElement)d.toGeoElement());		
-		if (isCumulative != null) 
+		inputList.add(a.toGeoElement());
+		inputList.add(b.toGeoElement());
+		if (c != null) {
+			inputList.add(c.toGeoElement());
+		}
+		if (d != null) {
+			inputList.add(d.toGeoElement());
+		}
+		if (isCumulative != null) {
 			inputList.add(isCumulative.toGeoElement());
+		}
 
-		// convert to array	
+		// convert to array
 		input = new GeoElement[inputList.size()];
 		inputList.toArray(input);
 
-		output = new GeoElement[1];
-		output[0] = num;
+		setOnlyOutput(num);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -160,99 +160,100 @@ public abstract class AlgoDistribution extends AlgoElement {
 		return num;
 	}
 
-	public abstract void compute();     
-
-
+	public abstract void compute();
 
 	TDistribution getTDistribution(double param) {
-		if (t == null) 
+		if (t == null) {
 			t = new TDistributionImpl(param);
-		else t.setDegreesOfFreedom(param);
+		} else {
+			t.setDegreesOfFreedom(param);
+		}
 		return t;
 	}
 
 	FDistribution getFDistribution(double param, double param2) {
-		if (f == null) 
+		if (f == null)
 			f = new FDistributionImpl(param, param2);
 		else {
-				f.setNumeratorDegreesOfFreedom(param);
-				f.setDenominatorDegreesOfFreedom(param2);
+			f.setNumeratorDegreesOfFreedom(param);
+			f.setDenominatorDegreesOfFreedom(param2);
 		}
 		return f;
 	}
 
 	GammaDistribution getGammaDistribution(double param, double param2) {
-		if (gamma == null) 
+		if (gamma == null)
 			gamma = new GammaDistributionImpl(param, param2);
 		else {
-				gamma.setAlpha(param);
-				gamma.setBeta(param2);
+			gamma.setAlpha(param);
+			gamma.setBeta(param2);
 		}
 		return gamma;
 	}
 
 	CauchyDistribution getCauchyDistribution(double param, double param2) {
-		if (cauchy == null) 
+		if (cauchy == null)
 			cauchy = new CauchyDistributionImpl(param, param2);
 		else {
-				cauchy.setMedian(param);
-				cauchy.setScale(param2);
+			cauchy.setMedian(param);
+			cauchy.setScale(param2);
 		}
 		return cauchy;
 	}
 
 	ChiSquaredDistribution getChiSquaredDistribution(double param) {
-		if (chisquared == null) 
+		if (chisquared == null)
 			chisquared = new ChiSquaredDistributionImpl(param);
 		else {
-				chisquared.setDegreesOfFreedom(param);
+			chisquared.setDegreesOfFreedom(param);
 		}
 		return chisquared;
 	}
 
 	ExponentialDistribution getExponentialDistribution(double param) {
-		if (exponential == null) 
+		if (exponential == null)
 			exponential = new ExponentialDistributionImpl(1.0 / param);
 		else {
-				exponential.setMean(1.0 / param);
+			exponential.setMean(1.0 / param);
 		}
 		return exponential;
 	}
 
-	
-	HypergeometricDistribution getHypergeometricDistribution(int param, int param2, int param3) {
-		if (hypergeometric == null) 
-			hypergeometric = new HypergeometricDistributionImpl(param, param2, param3);
+	HypergeometricDistribution getHypergeometricDistribution(int param,
+			int param2, int param3) {
+		if (hypergeometric == null)
+			hypergeometric = new HypergeometricDistributionImpl(param, param2,
+					param3);
 		else {
-				hypergeometric.setPopulationSize(param);
-				hypergeometric.setNumberOfSuccesses(param2);
-				hypergeometric.setSampleSize(param3);
+			hypergeometric.setPopulationSize(param);
+			hypergeometric.setNumberOfSuccesses(param2);
+			hypergeometric.setSampleSize(param3);
 		}
 		return hypergeometric;
 	}
 
 	PascalDistribution getPascalDistribution(int param, double param2) {
-		if (pascal == null) 
+		if (pascal == null)
 			pascal = new PascalDistributionImpl(param, param2);
 		else {
-				pascal.setNumberOfSuccesses(param);
-				pascal.setProbabilityOfSuccess(param2);
+			pascal.setNumberOfSuccesses(param);
+			pascal.setProbabilityOfSuccess(param2);
 		}
 		return pascal;
 	}
-	
+
 	PoissonDistribution getPoissonDistribution(double param) {
-		if (poisson == null) 
+		if (poisson == null)
 			poisson = new PoissonDistributionImpl(param);
 		else {
 			poisson.setMean(param);
 		}
 		return poisson;
 	}
-	
-	
-	protected BinomialDistribution getBinomialDistribution(int param, double param2) {
-		if (binomial == null) 
+
+	protected BinomialDistribution getBinomialDistribution(int param,
+			double param2) {
+		if (binomial == null)
 			binomial = new BinomialDistributionImpl(param, param2);
 		else {
 			binomial.setNumberOfTrials(param);
@@ -260,20 +261,19 @@ public abstract class AlgoDistribution extends AlgoElement {
 		}
 		return binomial;
 	}
-	
 
 	WeibullDistribution getWeibullDistribution(double param, double param2) {
-		if (weibull == null) 
+		if (weibull == null)
 			weibull = new WeibullDistributionImpl(param, param2);
 		else {
-				weibull.setShape(param);
-				weibull.setScale(param2);
+			weibull.setShape(param);
+			weibull.setScale(param2);
 		}
 		return weibull;
 	}
 
 	NormalDistribution getNormalDistribution(double param, double param2) {
-		if (normal == null) 
+		if (normal == null)
 			normal = new NormalDistributionImpl(param, param2);
 		else {
 			normal.setMean(param);
@@ -283,7 +283,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 	}
 
 	ZipfDistribution getZipfDistribution(int param, double param2) {
-		if (zipf == null) 
+		if (zipf == null)
 			zipf = new ZipfDistributionImpl(param, param2);
 		else {
 			zipf.setNumberOfElements(param);
@@ -291,9 +291,5 @@ public abstract class AlgoDistribution extends AlgoElement {
 		}
 		return zipf;
 	}
-	
-	
 
 }
-
-

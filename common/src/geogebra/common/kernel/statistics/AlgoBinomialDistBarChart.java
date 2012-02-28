@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.statistics;
 
@@ -27,38 +27,42 @@ import geogebra.common.util.Cloner;
 
 public class AlgoBinomialDistBarChart extends AlgoFunctionAreaSums {
 
-	private static final long serialVersionUID = 1L;
-
-	public AlgoBinomialDistBarChart(Construction cons, String label, 
+	public AlgoBinomialDistBarChart(Construction cons, String label,
 			NumberValue n, NumberValue p) {
-        super(cons,label, n, p, null, null, AlgoFunctionAreaSums.TYPE_BARCHART_BINOMIAL);
-    }
-	
-	
-	public AlgoBinomialDistBarChart(Construction cons, String label, 
+		super(cons, label, n, p, null, null,
+				AlgoFunctionAreaSums.TYPE_BARCHART_BINOMIAL);
+	}
+
+	public AlgoBinomialDistBarChart(Construction cons, String label,
 			NumberValue n, NumberValue p, GeoBoolean isCumulative) {
-        super(cons,label, n, p, null, isCumulative, AlgoFunctionAreaSums.TYPE_BARCHART_BINOMIAL);
-    }
-	
-	private AlgoBinomialDistBarChart( 
-			NumberValue n, NumberValue p, GeoBoolean isCumulative,NumberValue a,NumberValue b,double[]vals,
-			double[]borders,int N) {
-        super(n, p, null, isCumulative, AlgoFunctionAreaSums.TYPE_BARCHART_BINOMIAL,a,b,vals,borders,N);
-    }
-	
+		super(cons, label, n, p, null, isCumulative,
+				AlgoFunctionAreaSums.TYPE_BARCHART_BINOMIAL);
+	}
 
-    public Algos getClassName() {
-        return Algos.AlgoBinomialDistBarChart;
-    }
+	private AlgoBinomialDistBarChart(NumberValue n, NumberValue p,
+			GeoBoolean isCumulative, NumberValue a, NumberValue b,
+			double[] vals, double[] borders, int N) {
+		super(n, p, null, isCumulative,
+				AlgoFunctionAreaSums.TYPE_BARCHART_BINOMIAL, a, b, vals,
+				borders, N);
+	}
 
-	public AlgoDrawInformation copy() {		
-		GeoBoolean b = (GeoBoolean)this.getIsCumulative();
-		if(b!=null)b=(GeoBoolean)b.copy();
-		
-		return new AlgoBinomialDistBarChart(
-				(NumberValue)this.getP1().deepCopy(kernel),(NumberValue)this.getP2().deepCopy(kernel),
-				b,(NumberValue)this.getA().deepCopy(kernel),(NumberValue)this.getB().deepCopy(kernel),
-				Cloner.clone(getValues()),Cloner.clone(getLeftBorder()),getIntervals());
+	@Override
+	public Algos getClassName() {
+		return Algos.AlgoBinomialDistBarChart;
+	}
+
+	public AlgoDrawInformation copy() {
+		GeoBoolean b = (GeoBoolean) this.getIsCumulative();
+		if (b != null) {
+			b = (GeoBoolean) b.copy();
+		}
+
+		return new AlgoBinomialDistBarChart((NumberValue) this.getP1()
+				.deepCopy(kernel), (NumberValue) this.getP2().deepCopy(kernel),
+				b, (NumberValue) this.getA().deepCopy(kernel),
+				(NumberValue) this.getB().deepCopy(kernel),
+				Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
+				getIntervals());
 	}
 }
-

@@ -34,7 +34,6 @@ import geogebra.common.plugin.Operation;
  */
 public class AlgoFitExp extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList geolist; // input
 	private GeoFunction geofunction; // output
 	private RegressionMath regMath;
@@ -55,15 +54,17 @@ public class AlgoFitExp extends AlgoElement {
 		compute();
 	}// Constructor
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoFitExp;
 	}
 
+	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[1];
 		input[0] = geolist;
-		output = new GeoElement[1];
-		output[0] = geofunction;
+
+		setOnlyOutput(geofunction);
 		setDependencies();
 	}// setInputOutput()
 
@@ -71,6 +72,7 @@ public class AlgoFitExp extends AlgoElement {
 		return geofunction;
 	}
 
+	@Override
 	public final void compute() {
 		int size = geolist.size();
 		boolean regok = true;
@@ -78,30 +80,30 @@ public class AlgoFitExp extends AlgoElement {
 		if (!geolist.isDefined() || (size < 2)) { // 24.04.08:2
 			geofunction.setUndefined();
 			return;
+		}
+
+		regok = regMath.doExp(geolist);
+		if (regok) {
+			a = regMath.getP1();
+			b = regMath.getP2();
+			MyDouble A = new MyDouble(kernel, a);
+			MyDouble B = new MyDouble(kernel, b);
+			// 24.04.08: not: MyDouble E=new MyDouble(kernel,Math.E);
+			FunctionVariable X = new FunctionVariable(kernel);
+			ExpressionValue expr = new ExpressionNode(kernel, B,
+					Operation.MULTIPLY, X);
+			expr = new ExpressionNode(kernel, expr, Operation.EXP, null);
+			// 24.04.08: changed 2.71..to "e" with the null trick!
+			
+			ExpressionNode node = new ExpressionNode(kernel, A,
+					Operation.MULTIPLY, expr);
+			Function f = new Function(node, X);
+			geofunction.setFunction(f);
+			geofunction.setDefined(true);
 		} else {
-			regok = regMath.doExp(geolist);
-			if (regok) {
-				a = regMath.getP1();
-				b = regMath.getP2();
-				MyDouble A = new MyDouble(kernel, a);
-				MyDouble B = new MyDouble(kernel, b);
-				// 24.04.08: not: MyDouble E=new MyDouble(kernel,Math.E);
-				FunctionVariable X = new FunctionVariable(kernel);
-				ExpressionValue expr = new ExpressionNode(kernel, B,
-						Operation.MULTIPLY, X);
-				expr = new ExpressionNode(kernel, expr, Operation.EXP,
-						null); // 24.04.08: changed 2.71..to "e" with the null
-								// trick!
-				ExpressionNode node = new ExpressionNode(kernel, A,
-						Operation.MULTIPLY, expr);
-				Function f = new Function(node, X);
-				geofunction.setFunction(f);
-				geofunction.setDefined(true);
-			} else {
-				geofunction.setUndefined();
-				return;
-			}// if error in regression
-		}// if error in parameters
+			geofunction.setUndefined();
+			return;
+		}// if error in regression
 	}// compute()
 
 }// class AlgoFitExp

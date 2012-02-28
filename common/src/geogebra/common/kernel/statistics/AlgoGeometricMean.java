@@ -20,19 +20,15 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 
-
-
 /**
  * Returns the geometric mean for a list of numbers
  */
 
 public class AlgoGeometricMean extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
-	private GeoList inputList; //input
-	private GeoNumeric result; //output	
+	private GeoList inputList; // input
+	private GeoNumeric result; // output
 	private int size;
-
 
 	public AlgoGeometricMean(Construction cons, String label, GeoList inputList) {
 		super(cons);
@@ -44,16 +40,18 @@ public class AlgoGeometricMean extends AlgoElement {
 		result.setLabel(label);
 	}
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoGeometricMean;
 	}
 
-	protected void setInputOutput(){
+	@Override
+	protected void setInputOutput() {
 		input = new GeoElement[1];
 		input[0] = inputList;
 
 		setOutputLength(1);
-		setOutput(0,result);
+		setOutput(0, result);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -61,35 +59,35 @@ public class AlgoGeometricMean extends AlgoElement {
 		return result;
 	}
 
+	@Override
 	public final void compute() {
 
-		//==========================
+		// ==========================
 		// validation
 		size = inputList.size();
-		if (!inputList.isDefined() ||  size == 0) {
+		if (!inputList.isDefined() || size == 0) {
 			result.setUndefined();
 			return;
-		} 
+		}
 
-
-		//==========================
+		// ==========================
 		// compute result
-		//We don't use Apache's GeometricMean anymore here -- the implementation in Apache
-		//is the same as below, only uses FastMath instead of Math
-		
+		// We don't use Apache's GeometricMean anymore here -- the
+		// implementation in Apache
+		// is the same as below, only uses FastMath instead of Math
+
 		double resultLog = 0;
-		// load input value array from  geoList
-		for (int i=0; i < size; i++) {
+		// load input value array from geoList
+		for (int i = 0; i < size; i++) {
 			GeoElement geo = inputList.get(i);
 			if (!geo.isNumberValue() || Double.isNaN(resultLog)) {
 				result.setUndefined();
 				return;
-			} 
+			}
 			double val = ((NumberValue) geo).getDouble();
-			resultLog += Math.log(val);	
+			resultLog += Math.log(val);
 		}
-		result.setValue(Math.exp(resultLog/size));
+		result.setValue(Math.exp(resultLog / size));
 	}
-
 
 }

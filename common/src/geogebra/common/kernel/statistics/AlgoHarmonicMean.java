@@ -20,22 +20,16 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 
-
-
-
 /**
  * Returns the harmonic mean for a list of numbers
  */
 
 public class AlgoHarmonicMean extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
-	private GeoList inputList; //input
-	private GeoNumeric result; //output	
+	private GeoList inputList; // input
+	private GeoNumeric result; // output
 	private int size;
 	private double sum;
-
-
 
 	public AlgoHarmonicMean(Construction cons, String label, GeoList inputList) {
 		super(cons);
@@ -47,16 +41,18 @@ public class AlgoHarmonicMean extends AlgoElement {
 		result.setLabel(label);
 	}
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoHarmonicMean;
 	}
 
-	protected void setInputOutput(){
+	@Override
+	protected void setInputOutput() {
 		input = new GeoElement[1];
 		input[0] = inputList;
 
 		setOutputLength(1);
-		setOutput(0,result);
+		setOutput(0, result);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -64,36 +60,35 @@ public class AlgoHarmonicMean extends AlgoElement {
 		return result;
 	}
 
+	@Override
 	public final void compute() {
 
-		//==========================
+		// ==========================
 		// validation
 		size = inputList.size();
-		if (!inputList.isDefined() ||  size == 0) {
+		if (!inputList.isDefined() || size == 0) {
 			result.setUndefined();
 			return;
-		} 
+		}
 
-
-		//==========================
+		// ==========================
 		// compute result
 
 		sum = 0;
 
-		// load input value array from  geoList
-		for (int i=0; i < size; i++) {
+		// load input value array from geoList
+		for (int i = 0; i < size; i++) {
 			GeoElement geo = inputList.get(i);
 			if (geo.isNumberValue()) {
 				NumberValue num = (NumberValue) geo;
-				sum += 1/num.getDouble();	
+				sum += 1 / num.getDouble();
 			} else {
 				result.setUndefined();
 				return;
-			}    		    		
-		}   
+			}
+		}
 
-		result.setValue(size/sum);
+		result.setValue(size / sum);
 	}
-
 
 }
