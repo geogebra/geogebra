@@ -3,7 +3,13 @@
  * Collect links and article elements
  * 
  * */
-$(document).ready(function(){
-	var links = $('a[href^="http://www.geogebratube.org/student/"]');
-	console.log(links.length);
+var geogebratubeLinks = [];
+
+$(document).on("DOMSubtreeModified",function() {
+	$('iframe').each(function() {
+		var as = $(this).contents().find('a[href*="geogebratube.org/student/"]');
+		if (as && as.length && as.length > 0) {
+			console.log(as.length);
+		}
+	});
 });
