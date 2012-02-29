@@ -2814,7 +2814,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 				drawAxes(g);
 			}
 
-			if (getApplication().showResetIcon() && getApplication().isApplet()) {
+			if (getApplication().showResetIcon() && (getApplication().isApplet() || getApplication().isHTML5Applet())) {
 				drawResetIcon(g);
 			}
 		}

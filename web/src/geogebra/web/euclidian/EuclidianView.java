@@ -570,4 +570,11 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	    
     }
 
+	@Override
+	protected void drawResetIcon(geogebra.common.awt.Graphics2D g){
+		int w = getWidth() + 2;
+		((geogebra.web.awt.Graphics2D)g).getCanvas().getContext2d().drawImage(
+			getResetImage(), w - 18, 2);
+	}
+
 }
