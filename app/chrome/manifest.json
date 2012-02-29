@@ -5,6 +5,7 @@
   },
   "content_scripts" : [ {
     "matches" : ["http://*.google.com/*", "https://*.google.com/*"],
+    "css": ["css/application.css"],
     "js": ["js/jquery-1.7.1.min.js","application.js"]
   } ],
   "default_locale": "en",
