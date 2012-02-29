@@ -248,4 +248,10 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		
 	}
 
+	@Override
+	protected boolean hitResetIcon() {
+		return app.showResetIcon()
+				&& ((mouseLoc.y < 20) && (mouseLoc.x > (view.getViewWidth() - 18)));
+	}
+
 }

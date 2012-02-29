@@ -3429,9 +3429,8 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		/**
 		 * @param g  graphics for reset icon
 		 */
-		protected void drawResetIcon(geogebra.common.awt.Graphics2D g){
-			AbstractApplication.debug("implementation needed");
-		}
+		protected abstract void drawResetIcon(geogebra.common.awt.Graphics2D g);
+
 		/**
 		 * Draw textfields
 		 * @param g graphics
