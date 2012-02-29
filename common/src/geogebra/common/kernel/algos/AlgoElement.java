@@ -96,7 +96,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 */
 	protected void setOnlyOutput(ToGeoElement g) {
 		output = new GeoElement[1];
-		output[1] = g.toGeoElement();
+		output[0] = g.toGeoElement();
 	}
 	/**
 	 * set output number i
