@@ -96,10 +96,12 @@ public class AlgoTMean2Estimate extends AlgoElement {
 	}
 
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoTMean2Estimate;
 	}
 
+	@Override
 	protected void setInputOutput(){
 
 		if(geoList1 != null){
@@ -190,6 +192,7 @@ public class AlgoTMean2Estimate extends AlgoElement {
 
 
 
+	@Override
 	public final void compute() {
 
 		try 

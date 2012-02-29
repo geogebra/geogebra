@@ -54,11 +54,13 @@ public class AlgoRSquare extends AlgoElement {
         compute();
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoRSquare;
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[2];
         input[0] = inputList;
         input[1] = function.toGeoElement();
@@ -72,7 +74,8 @@ public class AlgoRSquare extends AlgoElement {
         return r2;
     }
 
-    public final void compute() {
+    @Override
+	public final void compute() {
     	
     	size = inputList.size();
     	if (!inputList.isDefined() ||  !function.toGeoElement().isDefined()) {

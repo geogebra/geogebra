@@ -35,7 +35,8 @@ public class AlgoProduct extends AlgoStats1D {
         super(cons,label,geoList,n,AlgoStats1D.STATS_PRODUCT);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoProduct;
     }
 }

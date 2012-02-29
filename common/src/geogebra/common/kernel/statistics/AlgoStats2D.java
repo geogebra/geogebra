@@ -14,7 +14,6 @@ package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -97,7 +96,8 @@ public abstract class AlgoStats2D extends AlgoElement {
         compute();
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[2];
         input[0] = geoListx;
         input[1] = geoListy;
@@ -112,7 +112,8 @@ public abstract class AlgoStats2D extends AlgoElement {
     }
     
 
-    final public void compute() {
+    @Override
+	final public void compute() {
     	double sumx = 0;
     	double sumy = 0;
     	double sumxx = 0;

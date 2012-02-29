@@ -31,10 +31,12 @@ public class AlgoInverseZipf extends AlgoDistribution {
         super(cons, label, a, b, c, null);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoInverseZipf;
     }
 
+	@Override
 	public final void compute() {
     	
     	

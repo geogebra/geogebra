@@ -77,10 +77,12 @@ public class AlgoTTest2 extends AlgoElement {
 	}
 
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoTTest2;
 	}
 
+	@Override
 	protected void setInputOutput(){
 
 		if(geoList0 != null){
@@ -128,6 +130,7 @@ public class AlgoTTest2 extends AlgoElement {
 	}
 
 
+	@Override
 	public final void compute() {
 
 

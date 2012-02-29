@@ -47,7 +47,8 @@ public class AlgoZipfBarChart extends AlgoFunctionAreaSums {
     }
 	
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoZipfBarChart;
     }
 

@@ -50,10 +50,12 @@ public class AlgoTiedRank extends AlgoElement {
 		outputList.setLabel(label);
 	}
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoTiedRank;
 	}
 
+	@Override
 	protected void setInputOutput(){
 		input = new GeoElement[1];
 		input[0] = inputList;
@@ -67,6 +69,7 @@ public class AlgoTiedRank extends AlgoElement {
 		return outputList;
 	}
 
+	@Override
 	public final void compute() {
 
 		size = inputList.size();

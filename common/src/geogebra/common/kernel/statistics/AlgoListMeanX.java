@@ -34,7 +34,8 @@ public class AlgoListMeanX extends AlgoStats2D {
         super(cons,geoListx,AlgoStats2D.STATS_MEANX);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoListMeanX;
     }
 }

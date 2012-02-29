@@ -69,10 +69,12 @@ public class AlgoSpearman extends AlgoElement {
 
 
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoSpearman;
 	}
 
+	@Override
 	protected void setInputOutput(){
 
 		if(geoListPts != null){
@@ -93,6 +95,7 @@ public class AlgoSpearman extends AlgoElement {
 		return result;
 	}
 
+	@Override
 	public final void compute() {
 
 		if(input.length == 1){

@@ -54,11 +54,13 @@ public class AlgoSample extends AlgoElement {
         outputList.setLabel(label);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoSample;
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[replacement == null ? 2 : 3];
         input[0] = inputList;
         input[1] = (GeoElement)num.toGeoElement();
@@ -73,7 +75,8 @@ public class AlgoSample extends AlgoElement {
         return outputList;
     }
 
-    public final void compute() {
+    @Override
+	public final void compute() {
     	
     	int size = (int) num.getDouble();
     	if (!inputList.isDefined() || num.getDouble() < 1 || num.getDouble() > SAMPLE_MAXSIZE) {

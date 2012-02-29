@@ -11,7 +11,8 @@ public class AlgoSampleVariance extends AlgoStats1D {
         super(cons,label,geoList,AlgoStats1D.STATS_SAMPLE_VARIANCE);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoSampleVariance;
     }
 }

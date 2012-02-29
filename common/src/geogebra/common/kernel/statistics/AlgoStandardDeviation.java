@@ -34,7 +34,8 @@ public class AlgoStandardDeviation extends AlgoStats1D {
         super(cons,geoList,AlgoStats1D.STATS_SD);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoStandardDeviation;
     }
 }

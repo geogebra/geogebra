@@ -34,7 +34,8 @@ public class AlgoListSXX extends AlgoStats2D {
         super(cons,geoListx,AlgoStats2D.STATS_SXX);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoListSXX;
     }
 }

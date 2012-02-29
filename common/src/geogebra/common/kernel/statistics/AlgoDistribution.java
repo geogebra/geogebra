@@ -130,8 +130,10 @@ public abstract class AlgoDistribution extends AlgoElement {
 		compute();
 	}
 
+	@Override
 	public abstract Algos getClassName();
 
+	@Override
 	protected void setInputOutput() {
 
 		// build array list of possible arguments
@@ -160,135 +162,101 @@ public abstract class AlgoDistribution extends AlgoElement {
 		return num;
 	}
 
+	@Override
 	public abstract void compute();
 
 	TDistribution getTDistribution(double param) {
-		if (t == null) {
+		if (t == null || t.getDegreesOfFreedom()!=param) 
 			t = new TDistributionImpl(param);
-		} else {
-			t.setDegreesOfFreedom(param);
-		}
 		return t;
 	}
 
 	FDistribution getFDistribution(double param, double param2) {
-		if (f == null)
+		if (f == null || f.getDenominatorDegreesOfFreedom()!=param2
+				||f.getNumeratorDegreesOfFreedom()!= param)
 			f = new FDistributionImpl(param, param2);
-		else {
-			f.setNumeratorDegreesOfFreedom(param);
-			f.setDenominatorDegreesOfFreedom(param2);
-		}
+		
 		return f;
 	}
 
 	GammaDistribution getGammaDistribution(double param, double param2) {
-		if (gamma == null)
+		if (gamma == null || gamma.getBeta()!=param2 || gamma.getAlpha()!=param)
 			gamma = new GammaDistributionImpl(param, param2);
-		else {
-			gamma.setAlpha(param);
-			gamma.setBeta(param2);
-		}
 		return gamma;
 	}
 
 	CauchyDistribution getCauchyDistribution(double param, double param2) {
-		if (cauchy == null)
+		if (cauchy == null ||cauchy.getMedian()!=param || cauchy.getScale()!=param2)
 			cauchy = new CauchyDistributionImpl(param, param2);
-		else {
-			cauchy.setMedian(param);
-			cauchy.setScale(param2);
-		}
+		
 		return cauchy;
 	}
 
 	ChiSquaredDistribution getChiSquaredDistribution(double param) {
-		if (chisquared == null)
+		if (chisquared == null || chisquared.getDegreesOfFreedom()!=param)
 			chisquared = new ChiSquaredDistributionImpl(param);
-		else {
-			chisquared.setDegreesOfFreedom(param);
-		}
+
 		return chisquared;
 	}
 
 	ExponentialDistribution getExponentialDistribution(double param) {
-		if (exponential == null)
+		if (exponential == null || exponential.getMean()!=param)
 			exponential = new ExponentialDistributionImpl(1.0 / param);
-		else {
-			exponential.setMean(1.0 / param);
-		}
+		
 		return exponential;
 	}
 
 	HypergeometricDistribution getHypergeometricDistribution(int param,
 			int param2, int param3) {
-		if (hypergeometric == null)
+		if (hypergeometric == null || hypergeometric.getNumberOfSuccesses()!=param2
+				|| hypergeometric.getPopulationSize()!=param ||
+				hypergeometric.getSampleSize()!=param3)
 			hypergeometric = new HypergeometricDistributionImpl(param, param2,
 					param3);
-		else {
-			hypergeometric.setPopulationSize(param);
-			hypergeometric.setNumberOfSuccesses(param2);
-			hypergeometric.setSampleSize(param3);
-		}
+		
 		return hypergeometric;
 	}
 
 	PascalDistribution getPascalDistribution(int param, double param2) {
-		if (pascal == null)
+		if (pascal == null ||pascal.getNumberOfSuccesses()!=param ||
+				pascal.getProbabilityOfSuccess()!=param2)
 			pascal = new PascalDistributionImpl(param, param2);
-		else {
-			pascal.setNumberOfSuccesses(param);
-			pascal.setProbabilityOfSuccess(param2);
-		}
+		
 		return pascal;
 	}
 
 	PoissonDistribution getPoissonDistribution(double param) {
-		if (poisson == null)
+		if (poisson == null || poisson.getMean()!=param)
 			poisson = new PoissonDistributionImpl(param);
-		else {
-			poisson.setMean(param);
-		}
 		return poisson;
 	}
 
 	protected BinomialDistribution getBinomialDistribution(int param,
 			double param2) {
-		if (binomial == null)
+		if (binomial == null || binomial.getNumberOfTrials() != param
+				|| binomial.getProbabilityOfSuccess()!=param2)
 			binomial = new BinomialDistributionImpl(param, param2);
-		else {
-			binomial.setNumberOfTrials(param);
-			binomial.setProbabilityOfSuccess(param2);
-		}
+		
 		return binomial;
 	}
 
 	WeibullDistribution getWeibullDistribution(double param, double param2) {
-		if (weibull == null)
+		if (weibull == null || weibull.getShape()!=param || weibull.getScale()!=param2)
 			weibull = new WeibullDistributionImpl(param, param2);
-		else {
-			weibull.setShape(param);
-			weibull.setScale(param2);
-		}
+		
 		return weibull;
 	}
 
 	NormalDistribution getNormalDistribution(double param, double param2) {
-		if (normal == null)
+		if (normal == null || normal.getMean()!=param || normal.getStandardDeviation()!=param2)
 			normal = new NormalDistributionImpl(param, param2);
-		else {
-			normal.setMean(param);
-			normal.setStandardDeviation(param2);
-		}
+		
 		return normal;
 	}
 
 	ZipfDistribution getZipfDistribution(int param, double param2) {
-		if (zipf == null)
+		if (zipf == null || zipf.getNumberOfElements()!= param || zipf.getExponent()!=param2)
 			zipf = new ZipfDistributionImpl(param, param2);
-		else {
-			zipf.setNumberOfElements(param);
-			zipf.setExponent(param2);
-		}
 		return zipf;
 	}
 

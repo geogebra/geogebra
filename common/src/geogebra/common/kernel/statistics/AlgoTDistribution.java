@@ -25,17 +25,23 @@ import org.apache.commons.math.distribution.TDistribution;
 
 public class AlgoTDistribution extends AlgoDistribution {
 
-	private static final long serialVersionUID = 1L;
     
+    /**
+     * @param cons construction
+     * @param label lavel
+     * @param a degrees of freadom
+     * @param b variable value
+     */
     public AlgoTDistribution(Construction cons, String label, NumberValue a,NumberValue b) {
         super(cons, label, a, b, null, null);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoTDistribution;
     }
 
-    @SuppressWarnings("deprecation")
+    @Override
 	public final void compute() {
     	
     	

@@ -34,7 +34,8 @@ public class AlgoListMeanY extends AlgoStats2D {
         super(cons,geoListx,AlgoStats2D.STATS_MEANY);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoListMeanY;
     }
 }

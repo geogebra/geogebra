@@ -51,16 +51,17 @@ public class AlgoMedian extends AlgoElement {
         compute();
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoMedian;
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = inputList;
 
-        output = new GeoElement[1];
-        output[0] = median;
+        setOnlyOutput(median);
         setDependencies(); // done by AlgoElement
     }
 
@@ -68,7 +69,8 @@ public class AlgoMedian extends AlgoElement {
         return median;
     }
 
-    public final void compute() {
+    @Override
+	public final void compute() {
     	
     	size = inputList.size();
     	if (!inputList.isDefined() ||  size == 0) {

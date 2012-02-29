@@ -35,11 +35,13 @@ public class AlgoInversePascal extends AlgoDistribution {
         super(cons, a, b, c, null);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoInversePascal;
     }
 
     
+	@Override
 	public final void compute() {
     	
     	

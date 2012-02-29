@@ -39,7 +39,8 @@ public class AlgoSum extends AlgoStats1D {
         super(cons,label,geoList,n,AlgoStats1D.STATS_SIGMAX);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoSum;
     }
 }

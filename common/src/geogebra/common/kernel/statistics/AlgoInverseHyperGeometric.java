@@ -31,10 +31,12 @@ public class AlgoInverseHyperGeometric extends AlgoDistribution {
         super(cons, label, a, b, c, d);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoInverseHyperGeometric;
     }
     
+	@Override
 	public final void compute() {
     	
     	

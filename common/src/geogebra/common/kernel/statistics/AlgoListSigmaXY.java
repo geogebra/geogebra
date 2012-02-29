@@ -30,7 +30,8 @@ public class AlgoListSigmaXY extends AlgoStats2D {
         super(cons,label,geoListx,AlgoStats2D.STATS_SIGMAXY);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoListSigmaXY;
     }
 }

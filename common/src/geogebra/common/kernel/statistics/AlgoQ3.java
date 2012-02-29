@@ -51,11 +51,13 @@ public class AlgoQ3 extends AlgoElement {
         compute();
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoQ3;
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = inputList;
 
@@ -68,7 +70,8 @@ public class AlgoQ3 extends AlgoElement {
         return Q3;
     }
 
-    public final void compute() {
+    @Override
+	public final void compute() {
     	
     	size = inputList.size();
     	if (!inputList.isDefined() ||  size < 2) {

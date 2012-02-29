@@ -74,10 +74,12 @@ public class AlgoTMeanEstimate extends AlgoElement {
 	}
 
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoTMeanEstimate;
 	}
 
+	@Override
 	protected void setInputOutput(){
 
 		if(geoList != null){
@@ -110,6 +112,7 @@ public class AlgoTMeanEstimate extends AlgoElement {
 		return a * sd / Math.sqrt(n);
 	}
 
+	@Override
 	public final void compute() {
 
 		try 

@@ -27,11 +27,25 @@ import org.apache.commons.math.distribution.BinomialDistribution;
 
 public class AlgoBinomialDist extends AlgoDistribution {
 
+	/**
+	 * @param cons construction
+	 * @param label label
+	 * @param a number of trials
+	 * @param b probability of success
+	 * @param c value of random variable
+	 * @param isCumulative cumulative
+	 */
 	public AlgoBinomialDist(Construction cons, String label, NumberValue a,
 			NumberValue b, NumberValue c, GeoBoolean isCumulative) {
 		super(cons, label, a, b, c, isCumulative);
 	}
-
+	/**
+	 * @param cons construction
+	 * @param a number of trials
+	 * @param b probability of success
+	 * @param c value of random variable
+	 * @param isCumulative cumulative
+	 */
 	public AlgoBinomialDist(Construction cons, NumberValue a, NumberValue b,
 			NumberValue c, GeoBoolean isCumulative) {
 		super(cons, a, b, c, isCumulative);

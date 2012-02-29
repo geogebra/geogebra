@@ -51,10 +51,12 @@ public class AlgoPercentile extends AlgoElement {
 		result.setLabel(label);
 	}
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoPercentile;
 	}
 
+	@Override
 	protected void setInputOutput(){
 		input = new GeoElement[2];
 		input[0] = inputList;
@@ -69,6 +71,7 @@ public class AlgoPercentile extends AlgoElement {
 		return result;
 	}
 
+	@Override
 	public final void compute() {
 
 		//==========================

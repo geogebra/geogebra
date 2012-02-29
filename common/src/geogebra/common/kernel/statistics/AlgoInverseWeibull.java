@@ -31,10 +31,12 @@ public class AlgoInverseWeibull extends AlgoDistribution {
         super(cons, label, a, b, c, null);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoInverseWeibull;
     }
     
+	@Override
 	public final void compute() {
     	
     	

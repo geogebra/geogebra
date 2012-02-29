@@ -33,10 +33,12 @@ public class AlgoRandom extends AlgoTwoNumFunction implements SetRandomValue {
 		cons.addRandomGeo(num);
 }
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoRandom;
 	}
 
+	@Override
 	public final void compute() {
 		if (input[0].isDefined() && input[1].isDefined()) {
 			num.setValue(random(a.getDouble(), b.getDouble()));

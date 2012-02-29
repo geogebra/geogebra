@@ -36,11 +36,13 @@ public class AlgoPascal extends AlgoDistribution {
         super(cons, a, b, c, isCumulative);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoPascal;
     }
 
-    public final void compute() {
+    @Override
+	public final void compute() {
     	
     	
     	if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()  && input[3].isDefined()) {

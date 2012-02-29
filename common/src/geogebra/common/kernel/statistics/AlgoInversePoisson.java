@@ -38,10 +38,12 @@ public class AlgoInversePoisson extends AlgoDistribution {
 	}
 	
 	
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoInversePoisson;
 	}
 	
+	@Override
 	public final void compute() {
 
 		if (input[0].isDefined() && input[1].isDefined()) {

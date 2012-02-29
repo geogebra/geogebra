@@ -30,7 +30,8 @@ public class AlgoListSDX extends AlgoStats2D {
         super(cons,label,geoListy,AlgoStats2D.STATS_SDX);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoListSDX;
     }
 }

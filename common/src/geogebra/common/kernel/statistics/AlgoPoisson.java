@@ -40,10 +40,12 @@ public class AlgoPoisson extends AlgoDistribution {
 		super(cons, a, b, null, isCumulative); 
 	}
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoPoisson;
 	}
 
+	@Override
 	@SuppressWarnings("deprecation")
 	public final void compute() {
 

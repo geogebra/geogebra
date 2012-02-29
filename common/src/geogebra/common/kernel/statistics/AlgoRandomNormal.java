@@ -33,10 +33,12 @@ public class AlgoRandomNormal extends AlgoTwoNumFunction implements SetRandomVal
 		cons.addRandomGeo(num);
 	}
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoRandomNormal;
 	}
 
+	@Override
 	public final void compute() {
 		if (input[0].isDefined() && input[1].isDefined()) {
 			if (b.getDouble() < 0)

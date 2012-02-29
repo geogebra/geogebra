@@ -47,10 +47,12 @@ public class AlgoRootMeanSquare extends AlgoElement {
 		result.setLabel(label);
 	}
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoRootMeanSquare;
 	}
 
+	@Override
 	protected void setInputOutput(){
 		input = new GeoElement[1];
 		input[0] = inputList;
@@ -64,6 +66,7 @@ public class AlgoRootMeanSquare extends AlgoElement {
 		return result;
 	}
 
+	@Override
 	public final void compute() {
 
 		//==========================

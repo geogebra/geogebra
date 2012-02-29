@@ -47,7 +47,8 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 
   
   // for AlgoElement
-  protected void setInputOutput() {
+  @Override
+protected void setInputOutput() {
       input =  new GeoElement[1];
       input[0] = (GeoElement)a.toGeoElement();
       
@@ -58,10 +59,12 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
   
   public GeoNumeric getResult() { return num; }  
   
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoRandomPoisson;
 	}
 
+	@Override
 	public final void compute() {
 		if (input[0].isDefined()) {
 			double lambda = a.getDouble();

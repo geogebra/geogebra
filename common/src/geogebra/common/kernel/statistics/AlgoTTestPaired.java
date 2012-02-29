@@ -52,10 +52,12 @@ public class AlgoTTestPaired extends AlgoElement {
 	}
 
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoTTestPaired;
 	}
 
+	@Override
 	protected void setInputOutput(){
 
 		input = new GeoElement[3];
@@ -89,6 +91,7 @@ public class AlgoTTestPaired extends AlgoElement {
 	}
 
 
+	@Override
 	public final void compute() {
 
 

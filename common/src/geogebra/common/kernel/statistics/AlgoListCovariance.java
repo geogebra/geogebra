@@ -30,7 +30,8 @@ public class AlgoListCovariance extends AlgoStats2D {
         super(cons,label,geoListx,AlgoStats2D.STATS_COVARIANCE);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoListCovariance;
     }
 }

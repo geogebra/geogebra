@@ -34,7 +34,8 @@ public class AlgoListPMCC extends AlgoStats2D {
         super(cons,geoListx,AlgoStats2D.STATS_PMCC);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoListPMCC;
     }
 }

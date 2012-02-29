@@ -27,12 +27,25 @@ import geogebra.common.util.Cloner;
 
 public class AlgoBinomialDistBarChart extends AlgoFunctionAreaSums {
 
+	/**
+	 * @param cons construction
+	 * @param label label
+	 * @param n number of trials
+	 * @param p probability of success
+	 */
 	public AlgoBinomialDistBarChart(Construction cons, String label,
 			NumberValue n, NumberValue p) {
 		super(cons, label, n, p, null, null,
 				AlgoFunctionAreaSums.TYPE_BARCHART_BINOMIAL);
 	}
 
+	/**
+	 * @param cons construction
+	 * @param label label
+	 * @param n number of trials
+	 * @param p probability of success
+	 * @param isCumulative cumulative
+	 */
 	public AlgoBinomialDistBarChart(Construction cons, String label,
 			NumberValue n, NumberValue p, GeoBoolean isCumulative) {
 		super(cons, label, n, p, null, isCumulative,

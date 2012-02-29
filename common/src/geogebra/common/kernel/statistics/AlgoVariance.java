@@ -31,7 +31,8 @@ public class AlgoVariance extends AlgoStats1D {
         super(cons,label,geoList,AlgoStats1D.STATS_VARIANCE);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoVariance;
     }
 }

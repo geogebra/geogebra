@@ -34,7 +34,8 @@ public class AlgoListSampleSDY extends AlgoStats2D {
         super(cons,geoListy,AlgoStats2D.STATS_SAMPLESDY);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoListSampleSDY;
     }
 }

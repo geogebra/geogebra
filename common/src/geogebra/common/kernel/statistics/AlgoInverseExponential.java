@@ -31,10 +31,12 @@ public class AlgoInverseExponential extends AlgoDistribution {
         super(cons, label, a, b, null, null);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoInverseExponential;
     }
     
+	@Override
 	public final void compute() {
     	
     	

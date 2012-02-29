@@ -31,11 +31,12 @@ public class AlgoWeibull extends AlgoDistribution {
         super(cons, label, a, b, c, null);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoWeibull;
     }
 
-    @SuppressWarnings("deprecation")
+    @Override
 	public final void compute() {
     	
     	

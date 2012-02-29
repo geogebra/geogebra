@@ -77,8 +77,10 @@ public abstract class AlgoStats1D extends AlgoElement {
 		this(cons, geoList, null, stat);
 	}
 
+	@Override
 	public abstract Algos getClassName();
 
+	@Override
 	protected void setInputOutput(){
 		if (Truncate == null) {
 			input = new GeoElement[1];
@@ -100,6 +102,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 	}
 
 
+	@Override
 	public final void compute() {
 
 		// TODO: remove

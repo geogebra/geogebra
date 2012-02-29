@@ -31,10 +31,12 @@ public class AlgoNormal extends AlgoDistribution {
         super(cons, label, a, b, c, null);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoNormal;
     }
 
+	@Override
 	public final void compute() {
     	
     	

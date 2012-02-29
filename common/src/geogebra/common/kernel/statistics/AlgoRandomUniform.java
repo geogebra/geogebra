@@ -33,10 +33,12 @@ public class AlgoRandomUniform extends AlgoTwoNumFunction implements SetRandomVa
 		cons.addRandomGeo(num);
 }
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoRandomUniform;
 	}
 
+	@Override
 	public final void compute() {
 		if (input[0].isDefined() && input[1].isDefined()) {
 			num.setValue(a.getDouble() + Math.random() *( b.getDouble() - a.getDouble()));

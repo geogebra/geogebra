@@ -32,10 +32,12 @@ public class AlgoZipf extends AlgoDistribution {
         super(cons, label, a, b, c, isCumulative);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoZipf;
     }
 
+	@Override
 	public final void compute() {
     	
     	

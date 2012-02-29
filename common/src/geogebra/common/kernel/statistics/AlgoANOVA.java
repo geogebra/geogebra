@@ -39,6 +39,11 @@ public class AlgoANOVA extends AlgoElement {
 	private double p, testStat;
 	private OneWayAnovaImpl anovaImpl;
 
+	/**
+	 * @param cons construction
+	 * @param label label
+	 * @param geoList list of lists of values
+	 */
 	public AlgoANOVA(Construction cons, String label, GeoList geoList) {
 		super(cons);
 		this.geoList = geoList;
@@ -64,6 +69,9 @@ public class AlgoANOVA extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting list of Pvalues and Fvalues
+	 */
 	public GeoList getResult() {
 		return result;
 	}

@@ -34,10 +34,12 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction implements SetRandomV
 		cons.addRandomGeo(num);
 	}
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoRandomBinomial;
 	}
 
+	@Override
 	public final void compute() {
 		//int frac[] = {0,0};
 		//int [] frac = DecimalToFraction(b.getDouble(),0.00000001);

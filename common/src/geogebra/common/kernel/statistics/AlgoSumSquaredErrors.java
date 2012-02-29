@@ -32,17 +32,27 @@ import geogebra.common.kernel.geos.GeoPoint2;
 
 public class AlgoSumSquaredErrors extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList inputList; //input
 	private GeoFunctionable function; //input
     private GeoNumeric sse; //output	
     private int size;
 
+    /**
+     * @param cons construction
+     * @param label label
+     * @param inputList list of points
+     * @param function function (model)
+     */
     public AlgoSumSquaredErrors(Construction cons, String label, GeoList inputList,GeoFunctionable function) {
     	this(cons, inputList,function);
         sse.setLabel(label);
     }
+    /**
+     * @param cons construction
 
+     * @param inputList list of points
+     * @param function function (model)
+     */
     public AlgoSumSquaredErrors(Construction cons, GeoList inputList,GeoFunctionable function) {
         super(cons);
         this.inputList = inputList;
@@ -54,25 +64,30 @@ public class AlgoSumSquaredErrors extends AlgoElement {
         compute();
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoSumSquaredErrors;
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[2];
         input[0] = inputList;
         input[1] = function.toGeoElement();
         
-        output = new GeoElement[1];
-        output[0] = sse;
+        setOnlyOutput(sse);
         setDependencies(); // done by AlgoElement
     }
 
+    /**
+     * @return resulting sum of errors
+     */
     public GeoNumeric getsse() {
         return sse;
     }
 
-    public final void compute() {
+    @Override
+	public final void compute() {
     	
     	size = inputList.size();
     	if (!inputList.isDefined() ||  !function.toGeoElement().isDefined()) {

@@ -47,11 +47,13 @@ public class AlgoShuffle extends AlgoElement {
         outputList.setLabel(label);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoShuffle;
     }
 
-    protected void setInputOutput(){
+    @Override
+	protected void setInputOutput(){
         input = new GeoElement[1];
         input[0] = inputList;
 
@@ -64,7 +66,8 @@ public class AlgoShuffle extends AlgoElement {
         return outputList;
     }
 
-    public final void compute() {
+    @Override
+	public final void compute() {
     	
     	size = inputList.size();
     	if (!inputList.isDefined() ||  size == 0) {

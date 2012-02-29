@@ -24,13 +24,17 @@ import geogebra.common.kernel.geos.GeoList;
 
 public class AlgoSXX extends AlgoStats1D {
 
-	private static final long serialVersionUID = 1L;
-
+	/**
+	 * @param cons construction
+	 * @param label label
+	 * @param geoList list to process
+	 */
 	public AlgoSXX(Construction cons, String label, GeoList geoList) {
         super(cons,label,geoList,AlgoStats1D.STATS_SXX);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoSXX;
     }
 }

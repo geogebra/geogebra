@@ -30,7 +30,8 @@ public class AlgoListSigmaXX extends AlgoStats2D {
         super(cons,label,geoListx,AlgoStats2D.STATS_SIGMAXX);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoListSigmaXX;
     }
 }

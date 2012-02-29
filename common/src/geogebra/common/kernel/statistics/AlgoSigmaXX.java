@@ -34,7 +34,8 @@ public class AlgoSigmaXX extends AlgoStats1D {
         super(cons,geoList,AlgoStats1D.STATS_SIGMAXX);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoSigmaXX;
     }
 }
