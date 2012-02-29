@@ -293,8 +293,8 @@ public class CASInputHandler {
 		// remove empty cells because empty cells' inputVE vars are null
 		ArrayList<Integer> l = new ArrayList<Integer>();
 		for (int i = 0; i < selectedIndices.length; i++) {
-			if (!consoleTable.isRowEmpty(i))
-				l.add(i);
+			if (!consoleTable.isRowEmpty(selectedIndices[i]))
+				l.add(selectedIndices[i]);
 		}
 		selectedIndices = new int[l.size()];
 		for (int i = 0; i < l.size(); i++) {
@@ -338,11 +338,7 @@ public class CASInputHandler {
 			String cellText;
 			GeoCasCell selCellValue = consoleTable
 					.getGeoCasCell(selectedIndices[i]);
-			if (selectedIndices[i] == selRow) {
-				cellText = consoleTable.getEditor().getInput();
-			} else {
-				cellText = selCellValue.getInputVE().toString(tpl);
-			}
+			cellText = selCellValue.getInputVE().toString(tpl);
 			cellText = resolveCASrowReferences(cellText, selectedIndices[i],
 					ROW_REFERENCE_STATIC, false);
 			int depth = 0;
@@ -379,11 +375,7 @@ public class CASInputHandler {
 						.getInputVE().toString(tpl), selectedIndices[i],
 						ROW_REFERENCE_STATIC, false);
 			} else {
-				if (selectedIndices[i] == selRow) {
-					cellText = consoleTable.getEditor().getInput();
-				} else {
-					cellText = selCellValue.getInputVE().toString(tpl);
-				}
+				cellText = selCellValue.getInputVE().toString(tpl);
 				cellText = resolveCASrowReferences(cellText,
 						selectedIndices[i], ROW_REFERENCE_STATIC, false);
 				if (!inTheSelectedRow)
