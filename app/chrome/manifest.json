@@ -5,8 +5,8 @@
   },
   "content_scripts" : [ {
     "matches" : ["http://*.google.com/*", "https://*.google.com/*"],
-    "css": ["css/application.css"],
     "js": ["js/jquery-1.7.1.min.js","application.js"]
+    // not inserted somehow..."css" : ["css/application.css"],
   } ],
   "default_locale": "en",
   "description": "__MSG_GeoGebraApp_description__",
