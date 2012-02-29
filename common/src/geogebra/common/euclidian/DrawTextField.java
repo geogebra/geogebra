@@ -155,14 +155,11 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 		public void keyReleased(KeyEvent e) {
 			if (e.getKeyChar() == '\n') {
-			view.getEuclidianController().textfieldHasFocus(false);
-			geoTextField.textObjectUpdated(textField);
-			geoTextField.textSubmitted();
+				view.getEuclidianController().textfieldHasFocus(false);
+				geoTextField.textObjectUpdated(textField);
+				geoTextField.textSubmitted();
 			}
-
-	}
-
-
+		}
 	}
 	
 	
@@ -291,19 +288,6 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 //
 //		}
 //	}
-
-
-	/**
-	 * @param keyChar character
-	 */
-	public void keyReleased(char keyChar) {
-		if (keyChar == '\n') {
-			view.getEuclidianController().textfieldHasFocus(false);
-			geoTextField.textObjectUpdated(textField);
-			geoTextField.textSubmitted();
-		}
-
-	}
 	
 	private int oldLength = 0;
 	@Override
