@@ -75,3 +75,7 @@ WWW_REMOTEDIR=www.geogebra.org:/Library/WebServer/GeoGebra/webstart/
 # Python3 is needed for some scripts.
 #PYTHON3=/Users/zoltan/src/Python-3.2/python.exe # Luxembourg server
 # If not set, the default python3 executable will be used (if exists)
+
+# GeoGebraTube remote server, account, and application.ini file
+GGT_SERVER_LOGIN=zoltan@www.geogebra.org
+GGT_APP_INI_FILE=/Library/WebServer/GeoGebraTube/application/configs/application.ini

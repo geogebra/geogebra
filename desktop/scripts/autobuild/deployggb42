@@ -6,6 +6,10 @@
 date
 echo "$0: start"
 
+# May be overridden
+GGT_SERVER_LOGIN=zoltan@www.geogebra.org
+GGT_APP_INI_FILE=/Library/WebServer/GeoGebraTube/application/configs/application.ini
+
 test -r autobuild.conf || {
  echo "$0: Cannot find autobuild.conf (make sure you edit autobuild.conf.dist first)"
  exit 1
@@ -14,7 +18,7 @@ test -r autobuild.conf || {
 cd $SVNDIR/geogebra/desktop
 
 # 2. Setting local variables
-MYVER=`cat build/unpacked/version.txt`
+export MYVER=`cat build/unpacked/version.txt`
 MYDIR=4.2
 
 umask 0002 # trying to ensure g+w rights for all created files automatically
@@ -148,6 +152,17 @@ echo -e $MAIL | mail -s "deployggb42 report" geogebra-dev@googlegroups.com 2>&1 
  # If not successful, we send it through ssh:
  echo -e $MAIL | ssh www.geogebra.org mail -s "deployggb42 report" geogebra-dev@googlegroups.com
  }
+
+# 11. Updating GeoGebraTube application.ini
+# (not very elegant, but works --- FIXME: implement it with a sed one-liner in place)
+scp $GGT_SERVER_LOGIN:$GGT_APP_INI_FILE .ggt-app.ini
+cat .ggt-app.ini | awk '{
+if ($1=="geogebra.version42")
+ print "geogebra.version42 = " ENVIRON["MYVER"]
+else
+ print $0
+}' > .ggt-app.ini.new
+scp .ggt-app.ini.new $GGT_SERVER_LOGIN:$GGT_APP_INI_FILE
 
 date
 echo "$0: end"
