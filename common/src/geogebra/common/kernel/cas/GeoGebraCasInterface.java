@@ -17,7 +17,7 @@ public interface GeoGebraCasInterface {
 
     public CASGenericInterface getCurrentCAS();
 
-	public String evaluateGeoGebraCAS(ValidExpression evalVE);
+	public String evaluateGeoGebraCAS(ValidExpression evalVE,StringTemplate tpl);
 
 	public CASParserInterface getCASparser();
 

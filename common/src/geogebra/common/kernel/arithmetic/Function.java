@@ -520,7 +520,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 				if (!symbolic || node.getRight().isConstant()) {
 					double rightVal;
 					try {
-						rightVal = ((NumberValue) node.getRight().evaluate())
+						rightVal = node.getRight().evaluateNum()
 								.getDouble();
 					} catch (Exception e) {
 						e.printStackTrace();

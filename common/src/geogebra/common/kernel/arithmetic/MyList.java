@@ -105,7 +105,7 @@ public class MyList extends ValidExpression implements ListValue,
 		try {
 			double[] valueArray = new double[listElements.size()];
 			for (int i = 0; i < valueArray.length; i++) {
-				valueArray[i] = ((NumberValue) listElements.get(i).evaluate())
+				valueArray[i] = listElements.get(i).evaluateNum()
 						.getDouble();
 			}
 			return valueArray;
@@ -509,7 +509,7 @@ public class MyList extends ValidExpression implements ListValue,
 			// Application.debug("MULT LISTS"+size);
 
 			// check LHlist is a matrix
-			ExpressionValue singleValue = LHlist.getListElement(0).evaluate();
+			ExpressionValue singleValue = LHlist.getListElement(0).evaluate(StringTemplate.defaultTemplate);
 			if (singleValue == null) {
 				matrixRows = matrixCols = 0;
 				return false;
@@ -523,7 +523,7 @@ public class MyList extends ValidExpression implements ListValue,
 														// length
 					{
 						// Application.debug(i);
-						singleValue = LHlist.getListElement(i).evaluate();
+						singleValue = LHlist.getListElement(i).evaluate(StringTemplate.defaultTemplate);
 						// Application.debug("size"+((ListValue)singleValue).getMyList().size());
 						if (singleValue.isListValue()) {
 							MyList list = ((ListValue) singleValue).getMyList();
@@ -566,10 +566,10 @@ public class MyList extends ValidExpression implements ListValue,
 	 * @return cell of a list at given position
 	 */
 	public static ExpressionValue getCell(MyList list, int row, int col) {
-		ExpressionValue singleValue = list.getListElement(col).evaluate();
+		ExpressionValue singleValue = list.getListElement(col).evaluate(StringTemplate.defaultTemplate);
 		if (singleValue.isListValue()) {
 			ExpressionValue ret = (((ListValue) singleValue).getMyList()
-					.getListElement(row)).evaluate();
+					.getListElement(row)).evaluate(StringTemplate.defaultTemplate);
 			// if (ret.isListValue()) Application.debug("isList*********");
 			return ret;
 		}
@@ -607,7 +607,7 @@ public class MyList extends ValidExpression implements ListValue,
 
 			for (int i = 0; i < size(); i++) {
 				ListValue singleValue = (ListValue) getListElement(i)
-						.evaluate();
+						.evaluate(StringTemplate.defaultTemplate);
 				toLaTeXString.append(singleValue.getMyList().getListElement(0)
 						.toLaTeXString(symbolic,tpl));
 				for (int j = 1; j < singleValue.size(); j++) {
@@ -815,7 +815,7 @@ public class MyList extends ValidExpression implements ListValue,
 		// Application.debug(a.getClass()+"");
 
 		for (int i = 0; i < myList.size(); i++) {
-			ExpressionValue ev = myList.getListElement(i).evaluate();
+			ExpressionValue ev = myList.getListElement(i).evaluate(StringTemplate.defaultTemplate);
 
 			// g:x=0, g isElementOf {x=0} gives null here
 			// see #1535
@@ -843,10 +843,10 @@ public class MyList extends ValidExpression implements ListValue,
 			return false;
 
 		for (int i = 0; i < list2.size(); i++) {
-			ExpressionValue ev2 = list2.getListElement(i).evaluate();
+			ExpressionValue ev2 = list2.getListElement(i).evaluate(StringTemplate.defaultTemplate);
 			boolean hasEqualMember = false;
 			for (int j = 0; j < list1.size(); j++) {
-				ExpressionValue ev1 = list1.getListElement(j).evaluate();
+				ExpressionValue ev1 = list1.getListElement(j).evaluate(StringTemplate.defaultTemplate);
 
 				if (ExpressionNode.isEqual(ev1, ev2)) {
 					hasEqualMember = true;
@@ -866,10 +866,11 @@ public class MyList extends ValidExpression implements ListValue,
 	/**
 	 * @param list1 haystack
 	 * @param list2 list of needles
+	 * @param tpl template (in case there are string concatenations)
 	 * @return true iff list2 is proper subset of list1
 	 */
-	public static boolean listContainsStrict(MyList list1, MyList list2) {
-
+	public static boolean listContainsStrict(MyList list1, MyList list2,StringTemplate tpl) {
+		
 		// the empty set has no strict subsets of itself
 		if (list1.size() <= list2.size())
 			return false;
@@ -877,10 +878,10 @@ public class MyList extends ValidExpression implements ListValue,
 			return true;
 
 		for (int i = 0; i < list2.size(); i++) {
-			ExpressionValue ev2 = list2.getListElement(i).evaluate();
+			ExpressionValue ev2 = list2.getListElement(i).evaluate(tpl);
 			boolean hasEqualMember = false;
 			for (int j = 0; j < list1.size(); j++) {
-				ExpressionValue ev1 = list1.getListElement(j).evaluate();
+				ExpressionValue ev1 = list1.getListElement(j).evaluate(tpl);
 
 				if (ExpressionNode.isEqual(ev1, ev2)) {
 					hasEqualMember = true;
@@ -896,10 +897,10 @@ public class MyList extends ValidExpression implements ListValue,
 
 		// now must check sets aren't equal
 		for (int i = 0; i < list1.size(); i++) {
-			ExpressionValue ev1 = list1.getListElement(i).evaluate();
+			ExpressionValue ev1 = list1.getListElement(i).evaluate(StringTemplate.defaultTemplate);
 			boolean hasEqualMember = false;
 			for (int j = 0; j < list2.size(); j++) {
-				ExpressionValue ev2 = list2.getListElement(j).evaluate();
+				ExpressionValue ev2 = list2.getListElement(j).evaluate(StringTemplate.defaultTemplate);
 				if (ExpressionNode.isEqual(ev1, ev2)) {
 					hasEqualMember = true;
 					break;
@@ -934,10 +935,10 @@ public class MyList extends ValidExpression implements ListValue,
 
 		for (int i = 0; i < list1.size(); i++) {
 			ExpressionValue ev0 = list1.getListElement(i);
-			ExpressionValue ev1 = ev0.evaluate();
+			ExpressionValue ev1 = ev0.evaluate(StringTemplate.defaultTemplate);
 			boolean addToList = true;
 			for (int j = 0; j < list2.size(); j++) {
-				ExpressionValue ev2 = list2.getListElement(j).evaluate();
+				ExpressionValue ev2 = list2.getListElement(j).evaluate(StringTemplate.defaultTemplate);
 				if (ExpressionNode.isEqual(ev1, ev2)) {
 					addToList = false;
 					break;

@@ -57,10 +57,10 @@ public class AlgoDependentLine extends AlgoElement {
    		
    		// check coefficients
         for (int i=0; i<3; i++) {
-            if (ev[i].isConstant()) ev[i] = ev[i].evaluate();
+            if (ev[i].isConstant()) ev[i] = ev[i].evaluate(StringTemplate.defaultTemplate);
                        
             // check that coefficient is a number: this may throw an exception
-            ExpressionValue eval = ev[i].evaluate();
+            ExpressionValue eval = ev[i].evaluate(StringTemplate.defaultTemplate);
             ((NumberValue) eval).getDouble();            
         }
         
@@ -98,9 +98,9 @@ public class AlgoDependentLine extends AlgoElement {
 	public final void compute() {  
     	
 	    	try {
-		        g.x = ((NumberValue) ev[0].evaluate()).getDouble();
-		        g.y = ((NumberValue) ev[1].evaluate()).getDouble();
-		        g.z = ((NumberValue) ev[2].evaluate()).getDouble();
+		        g.x = ev[0].evaluateNum().getDouble();
+		        g.y = ev[1].evaluateNum().getDouble();
+		        g.z = ev[2].evaluateNum().getDouble();
 		        
 		        // other algos might use the startPoint so we have to update it
 		        if (g.getStartPoint() != null)

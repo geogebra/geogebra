@@ -294,7 +294,7 @@ public class StatDialogController {
 		case StatDialog.MODE_ONEVAR:
 
 			title = new String[1];		
-			StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
+			StringTemplate tpl = StringTemplate.defaultTemplate;
 			if(dataSource instanceof GeoList){
 				title[0] = ((GeoList) dataSource).getLabel(tpl);
 

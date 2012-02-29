@@ -6,7 +6,6 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.util.Unicode;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.plugin.GeoClass;
@@ -283,7 +282,7 @@ public class GeoInterval extends GeoFunction {
 	}
 
 	private void setLeftBound(ExpressionValue nv) {
-		leftBound = ((NumberValue) nv.evaluate()).getDouble();
+		leftBound = nv.evaluateNum().getDouble();
 		if (nv.isGeoElement())
 			leftStr = ((GeoElement) nv).getLabel(StringTemplate.defaultTemplate);
 		else
@@ -291,7 +290,7 @@ public class GeoInterval extends GeoFunction {
 	}
 
 	private void setRightBound(ExpressionValue nv) {
-		rightBound = ((NumberValue) nv.evaluate()).getDouble();
+		rightBound = nv.evaluateNum().getDouble();
 		if (nv.isGeoElement())
 			rightStr = ((GeoElement) nv).getLabel(StringTemplate.defaultTemplate);
 		else

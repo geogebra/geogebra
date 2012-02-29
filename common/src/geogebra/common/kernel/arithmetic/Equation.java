@@ -336,12 +336,12 @@ public class Equation extends ValidExpression implements ReplaceableValue {
         
         // var = ... || ... = var
         return (    lhsp.length() == 1 && 
-                    ((NumberValue)lhsp.getCoefficient(var).evaluate()).getDouble() 
+                    lhsp.getCoefficient(var).evaluateNum().getDouble() 
                         == 1 && 
                     !rhsp.contains(var)                  ) 
                 || 
                (    rhsp.length() == 1 && 
-                    ((NumberValue)rhsp.getCoefficient(var).evaluate()).getDouble() 
+                    rhsp.getCoefficient(var).evaluateNum().getDouble() 
                         == 1 && 
                     !lhsp.contains(var)                  ) ;
     }

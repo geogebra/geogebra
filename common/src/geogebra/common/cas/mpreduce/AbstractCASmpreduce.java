@@ -122,7 +122,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 
 	@Override
 	final public synchronized String evaluateGeoGebraCAS(
-			ValidExpression casInput) throws CASException {
+			ValidExpression casInput,StringTemplate tpl) throws CASException {
 		// KeepInput[] command should set flag keepinput!!:=1
 		// so that commands like Substitute can work accordingly
 		boolean keepInput = casInput.isKeepInputUsed();
@@ -161,7 +161,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 			String keepinputVal = evaluateMPReduce("keepinput!!;");
 			boolean keepInputUsed = !"1".equals(keepinputVal);
 			if (!keepInputUsed)
-				result = casParser.toGeoGebraString(casInput);
+				result = casParser.toGeoGebraString(casInput,tpl);
 		}
 
 		// convert result back into GeoGebra syntax
@@ -171,7 +171,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 			return ret;
 		}
 		// standard case
-		return toGeoGebraString(result);
+		return toGeoGebraString(result,tpl);
 	}
 
 	@Override
@@ -204,7 +204,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 	 * @throws CASException
 	 *             Throws if the underlying CAS produces an error
 	 */
-	final public synchronized String toGeoGebraString(String mpreduceString)
+	final public synchronized String toGeoGebraString(String mpreduceString,StringTemplate tpl)
 			throws CASException {
 		ValidExpression ve = casParser.parseMPReduce(mpreduceString);
 
@@ -216,7 +216,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 		else
 			factory.replaceRootsByExp();
 
-		return casParser.toGeoGebraString(ve);
+		return casParser.toGeoGebraString(ve,tpl);
 	}
 
 	@Override

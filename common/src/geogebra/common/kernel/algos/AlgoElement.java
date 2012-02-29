@@ -27,7 +27,6 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.ToGeoElement;
 import geogebra.common.plugin.GeoClass;
-import geogebra.common.util.ResourceBundleAdapter;
 import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
@@ -39,16 +38,10 @@ import java.util.TreeSet;
  * AlgoElement is the superclass of all algorithms.
  * 
  * @author Markus
- * @version
  */
 public abstract class AlgoElement extends ConstructionElement implements
 		EuclidianViewCE, AlgoElementInterface {
-
-	private static ResourceBundleAdapter rbalgo2command;
-	// Added for Intergeo File Format (Yves Kreis) -->
-	private static ResourceBundleAdapter rbalgo2intergeo;
-	// <-- Added for Intergeo File Format (Yves Kreis)
-
+	/** input elements*/
 	public GeoElement[] input;
 	/**
 	 * list of output
@@ -63,11 +56,20 @@ public abstract class AlgoElement extends ConstructionElement implements
 
 	private boolean isPrintedInXML = true;
 	private boolean stopUpdateCascade = false;
-
+	
+	/** 
+	 * Creates new algorithm
+	 * @param c construction
+	 */
 	public AlgoElement(Construction c) {
 		this(c, true);
 	}
 
+	/**
+	 * Creates new algorithm
+	 * @param c construction
+	 * @param addToConstructionList true to add this to construction list
+	 */
 	protected AlgoElement(Construction c, boolean addToConstructionList) {
 		super(c);
 
@@ -101,8 +103,8 @@ public abstract class AlgoElement extends ConstructionElement implements
 	/**
 	 * set output number i
 	 * 
-	 * @param i
-	 * @param geo
+	 * @param i index
+	 * @param geo output geo
 	 */
 	protected void setOutput(int i, GeoElement geo) {
 		output[i] = geo;
@@ -119,8 +121,8 @@ public abstract class AlgoElement extends ConstructionElement implements
 	}
 
 	/**
-	 * @param i
-	 * @return output i
+	 * @param i index
+	 * @return output geo at position i
 	 */
 	public GeoElement getOutput(int i) {
 		return output[i];
@@ -214,6 +216,9 @@ public abstract class AlgoElement extends ConstructionElement implements
 			}
 		}
 
+		/**
+		 * Remove this from handler
+		 */
 		public void removeFromHandler() {
 			getOutputHandler().remove(this);
 		}
@@ -243,12 +248,21 @@ public abstract class AlgoElement extends ConstructionElement implements
 			}
 		}
 
+		/**
+		 * increases size of output by given number
+		 * @param size  size increment
+		 */
 		public void augmentOutputSize(int size) {
 			augmentOutputSize(size, true);
 		}
 
-		public void augmentOutputSize(int size, boolean setDependencies) {
-			size += outputList.size();
+		/**
+		 * increases size of output to given size
+		 * @param increment  new size
+		 * @param setDependencies true to set dependencies right away
+		 */
+		public void augmentOutputSize(int increment, boolean setDependencies) {
+			int size = increment + outputList.size();
 			outputList.ensureCapacity(size);
 			for (int i = outputList.size(); i < size; i++) {
 				T newGeo = fac.newElement();
@@ -267,7 +281,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		/**
 		 * add the geos list to the output
 		 * 
-		 * @param geos
+		 * @param geos geos to be added
 		 * @param setDependencies
 		 *            says if the dependencies have to be set for this output
 		 * @param refresh
@@ -283,6 +297,10 @@ public abstract class AlgoElement extends ConstructionElement implements
 			}
 		}
 
+		/**
+		 * @param geo geo to be added
+		 * @param setDependencies true to set dependencies of given geo now
+		 */
 		public void addOutput(T geo, boolean setDependencies) {
 			outputList.add(geo);
 			if (setDependencies) {
@@ -714,9 +732,9 @@ public abstract class AlgoElement extends ConstructionElement implements
 	/**
 	 * Tells this algorithm to react on the deletion of one of its outputs.
 	 * 
-	 * @param output
+	 * @param out output to be removed
 	 */
-	public void remove(GeoElement output) {
+	public void remove(GeoElement out) {
 		remove();
 	}
 
@@ -724,7 +742,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * Calls doRemove() for all output objects of this algorithm except for
 	 * keepGeo.
 	 * 
-	 * @param keepGeo
+	 * @param keepGeo geo to be kept
 	 */
 	public void removeOutputExcept(GeoElement keepGeo) {
 
@@ -1526,6 +1544,9 @@ public abstract class AlgoElement extends ConstructionElement implements
 		this.outputHandler = outputHandler;
 	}
 
+	/**
+	 * @return true for latex commands
+	 */
 	public boolean isLaTeXTextCommand() {
 		return false;
 	}

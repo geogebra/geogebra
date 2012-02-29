@@ -39,11 +39,11 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 				if (coeff[i][j]!=null){
 					// find constant parts of input and evaluate them right now
 	    			if (coeff[i][j].isConstant()){
-	    				coeff[i][j]=coeff[i][j].evaluate();
+	    				coeff[i][j]=coeff[i][j].evaluate(StringTemplate.defaultTemplate);
 	    			}
 	    			
 	    			// check that coefficient is a number: this may throw an exception
-	                ExpressionValue eval = coeff[i][j].evaluate();
+	                ExpressionValue eval = coeff[i][j].evaluate(StringTemplate.defaultTemplate);
 	                ((NumberValue) eval).getDouble(); 
 				}
     		}
@@ -190,7 +190,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 		double[] dCoeff=new double[expr.length];
 		for (int i=0;i<expr.length;i++){
 			if (expr[i]!=null){
-				dCoeff[i]=((NumberValue)expr[i].evaluate()).getDouble();
+				dCoeff[i]=expr[i].evaluateNum().getDouble();
 			}else{
 				dCoeff[i]=0;
 			}
@@ -230,7 +230,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 		double[] dCoeff=new double[expr.length];
 		for (int i=0;i<expr.length;i++){
 			if (expr[i]!=null){
-				dCoeff[i]=((NumberValue)expr[i].evaluate()).getDouble();
+				dCoeff[i]=expr[i].evaluateNum().getDouble();
 			}else{
 				dCoeff[i]=0;
 			}
@@ -248,7 +248,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 				addAllFunctionalDescendents(p, set, algos);
 			}
 			if (in[i] instanceof FunctionalNVar){
-				set.add((FunctionNVar)((FunctionalNVar)in[i]).getFunction());
+				set.add(((FunctionalNVar)in[i]).getFunction());
 			}
 		}
 	}

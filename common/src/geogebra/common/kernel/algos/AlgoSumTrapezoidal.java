@@ -50,7 +50,7 @@ public class AlgoSumTrapezoidal extends AlgoFunctionAreaSums {
 	
 	public AlgoSumTrapezoidal copy() {
 		return new AlgoSumTrapezoidal((NumberValue)this.getA().deepCopy(kernel),
-				(NumberValue)this.getB().deepCopy(kernel),(NumberValue)this.getN().copy().evaluate(),
+				(NumberValue)this.getB().deepCopy(kernel),this.getN().copy().evaluateNum(),
 				Cloner.clone(getValues()),Cloner.clone(getLeftBorder()));
 	}
 	

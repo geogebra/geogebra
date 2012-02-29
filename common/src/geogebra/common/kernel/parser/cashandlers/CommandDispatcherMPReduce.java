@@ -7,6 +7,7 @@ import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.Variable;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.Operation;
 
 /**
@@ -39,7 +40,7 @@ public class CommandDispatcherMPReduce {
 		try {
 			ExpressionValue ret = null;
 			Kernel kernel = args.getKernel();
-
+			AbstractApplication.debug(cmdName);
 			switch (commands.valueOf(cmdName)) {
 			case arbcomplex:
 				// e.g. arbcomplex(2) from MPreduce becomes next free index

@@ -128,15 +128,16 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 	 * @return array of coordinates
 	 */
 	final public double[] getCoords() {
+		StringTemplate tpl = StringTemplate.defaultTemplate;
 		// check if both ExpressionNodes represent NumberValues
-		ExpressionValue evx = x.evaluate();
+		ExpressionValue evx = x.evaluate(tpl);
 		if (!evx.isNumberValue()) {
-			String[] str = { "NumberExpected", evx.toString(StringTemplate.defaultTemplate) };
+			String[] str = { "NumberExpected", evx.toString(tpl) };
 			throw new MyParseError(kernel.getApplication(), str);
 		}
-		ExpressionValue evy = y.evaluate();
+		ExpressionValue evy = y.evaluate(tpl);
 		if (!evy.isNumberValue()) {
-			String[] str = { "NumberExpected", evy.toString(StringTemplate.defaultTemplate) };
+			String[] str = { "NumberExpected", evy.toString(tpl) };
 			throw new MyParseError(kernel.getApplication(), str);
 		}
 

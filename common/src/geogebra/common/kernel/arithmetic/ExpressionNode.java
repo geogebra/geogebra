@@ -414,16 +414,6 @@ public class ExpressionNode extends ValidExpression implements
 	public ExpressionValue evaluate(StringTemplate tpl) {
 		return kernel.getExpressionNodeEvaluator().evaluate(this,tpl);
 	}
-	/**
-	 * Evaluates to number (if not numeric, returns undefined MyDouble)
-	 * @return number or undefined double
-	 */
-	public NumberValue evaluateNum() {
-		ExpressionValue ev = kernel.getExpressionNodeEvaluator().evaluate(this,StringTemplate.defaultTemplate);
-		if(ev instanceof NumberValue)
-			return (NumberValue)ev;
-		return new MyDouble(kernel,Double.NaN);
-	}
 
 	/*public ExpressionValue evaluate(boolean cache) {
 		return kernel.getExpressionNodeEvaluator().evaluate(this);
@@ -3806,15 +3796,15 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case XCOORD:
-			if (valueForm && (leftEval = left.evaluate()).isVectorValue()) {
+			if (valueForm && (leftEval = left.evaluate(tpl)).isVectorValue()) {
 				sb.append(kernel.format(((VectorValue) leftEval).getVector()
 						.getX(),tpl));
 			} else if (valueForm
-					&& (leftEval = left.evaluate()).isVector3DValue()) {
+					&& (leftEval = left.evaluate(tpl)).isVector3DValue()) {
 				sb.append(kernel.format(((Vector3DValue) leftEval)
 						.getPointAsDouble()[0],tpl));
 			} else if (valueForm
-					&& ((leftEval = left.evaluate()) instanceof GeoLine)) {
+					&& ((leftEval = left.evaluate(tpl)) instanceof GeoLine)) {
 				sb.append(kernel.format(((GeoLine) leftEval).getX(),tpl));
 			} else {
 				switch (STRING_TYPE) {
@@ -3844,15 +3834,15 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case YCOORD:
-			if (valueForm && (leftEval = left.evaluate()).isVectorValue()) {
+			if (valueForm && (leftEval = left.evaluate(tpl)).isVectorValue()) {
 				sb.append(kernel.format(((VectorValue) leftEval).getVector()
 						.getY(),tpl));
 			} else if (valueForm
-					&& (leftEval = left.evaluate()).isVector3DValue()) {
+					&& (leftEval = left.evaluate(tpl)).isVector3DValue()) {
 				sb.append(kernel.format(((Vector3DValue) leftEval)
 						.getPointAsDouble()[1],tpl));
 			} else if (valueForm
-					&& ((leftEval = left.evaluate()) instanceof GeoLine)) {
+					&& ((leftEval = left.evaluate(tpl)) instanceof GeoLine)) {
 				sb.append(kernel.format(((GeoLine) leftEval).getY(),tpl));
 			} else {
 				switch (STRING_TYPE) {
@@ -3882,11 +3872,11 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case ZCOORD:
-			if (valueForm && (leftEval = left.evaluate()).isVector3DValue()) {
+			if (valueForm && (leftEval = left.evaluate(tpl)).isVector3DValue()) {
 				sb.append(kernel.format(((Vector3DValue) leftEval)
 						.getPointAsDouble()[2],tpl));
 			} else if (valueForm
-					&& ((leftEval = left.evaluate()) instanceof GeoLine)) {
+					&& ((leftEval = left.evaluate(tpl)) instanceof GeoLine)) {
 				sb.append(kernel.format(((GeoLine) leftEval).getZ(),tpl));
 			} else {
 				switch (STRING_TYPE) {

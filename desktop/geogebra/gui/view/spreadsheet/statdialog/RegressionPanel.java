@@ -349,7 +349,7 @@ public class RegressionPanel extends JPanel implements  ActionListener, StatPane
 				
 				double output = ((GeoFunctionable)statDialog.getRegressionModel()).getGeoFunction().evaluate(value);
 				
-				fldOutputY.setText(app.getKernel().format(output,StringTemplate.get(StringType.GEOGEBRA)));
+				fldOutputY.setText(app.getKernel().format(output,StringTemplate.defaultTemplate));
 
 			} catch (NumberFormatException e) {
 				e.printStackTrace();

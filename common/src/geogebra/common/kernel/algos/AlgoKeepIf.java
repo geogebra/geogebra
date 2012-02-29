@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyBoolean;
@@ -34,6 +35,12 @@ public class AlgoKeepIf extends AlgoElement {
 	private GeoFunction boolFun;     // input
     private int size;
 
+    /**
+     * @param cons construction
+     * @param label label 
+     * @param boolFun boolean filter
+     * @param inputList list
+     */
     public AlgoKeepIf(Construction cons, String label, GeoFunction boolFun, GeoList inputList) {
         super(cons);
         this.inputList = inputList;
@@ -62,6 +69,9 @@ public class AlgoKeepIf extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
+    /**
+     * @return resulting list
+     */
     public GeoList getResult() {
         return outputList;
     }
@@ -95,7 +105,7 @@ public class AlgoKeepIf extends AlgoElement {
 			} 
 			else {
     			ExpressionNode ex = (ExpressionNode)boolFun.getFunction().getExpression().deepCopy(kernel);
-    			ex.replaceAndWrap(var, geo.evaluate());
+    			ex.replaceAndWrap(var, geo.evaluate(StringTemplate.defaultTemplate));
     			if (((MyBoolean)ex.evaluate()).getBoolean()) outputList.add(geo.copyInternal(cons));
 			}
 				

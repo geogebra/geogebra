@@ -53,10 +53,10 @@ public class AlgoDependentConic extends AlgoElement {
         // check coefficients
         for (int i=0; i<6; i++) {
         	// find constant parts of input and evaluate them right now
-            if (ev[i].isConstant()) ev[i] = ev[i].evaluate();
+            if (ev[i].isConstant()) ev[i] = ev[i].evaluate(StringTemplate.defaultTemplate);
                  
             // check that coefficient is a number: this may throw an exception
-            ExpressionValue eval = ev[i].evaluate();
+            ExpressionValue eval = ev[i].evaluate(StringTemplate.defaultTemplate);
             ((NumberValue) eval).getDouble();  
         }  
         
@@ -93,12 +93,12 @@ public class AlgoDependentConic extends AlgoElement {
 	public final void compute() {   
     	try {
 	        conic.setCoeffs( 
-	                ((NumberValue) ev[0].evaluate()).getDouble(),
-	                ((NumberValue) ev[1].evaluate()).getDouble(),
-	                ((NumberValue) ev[2].evaluate()).getDouble(),        
-	                ((NumberValue) ev[3].evaluate()).getDouble(),        
-	                ((NumberValue) ev[4].evaluate()).getDouble(),        
-	                ((NumberValue) ev[5].evaluate()).getDouble()
+	                ev[0].evaluateNum().getDouble(),
+	                ev[1].evaluateNum().getDouble(),
+	                ev[2].evaluateNum().getDouble(),        
+	                ev[3].evaluateNum().getDouble(),        
+	                ev[4].evaluateNum().getDouble(),        
+	                ev[5].evaluateNum().getDouble()
 	                );
 	    } catch (Throwable e) {
 			conic.setUndefined();

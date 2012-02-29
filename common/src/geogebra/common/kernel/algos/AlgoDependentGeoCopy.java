@@ -31,7 +31,7 @@ public class AlgoDependentGeoCopy extends AlgoElement {
     	origGeo = origGeoNode;
     	
     	// just for the toString() method
-    	this.origGeoNode = new ExpressionNode(kernel, origGeo.evaluate());
+    	this.origGeoNode = new ExpressionNode(kernel, origGeo.evaluate(StringTemplate.defaultTemplate));
     	
         copyGeo = origGeo.copy();
         setInputOutput(); // for AlgoElement

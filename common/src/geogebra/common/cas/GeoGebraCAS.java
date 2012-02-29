@@ -159,13 +159,13 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * @return evaluation result
 	 * @throws CASException
 	 */
-	public String evaluateGeoGebraCAS(ValidExpression casInput)
+	public String evaluateGeoGebraCAS(ValidExpression casInput,StringTemplate tpl)
 			throws CASException {
 
 		String result = null;
 		CASException exception = null;
 		try {
-			result = getCurrentCAS().evaluateGeoGebraCAS(casInput);
+			result = getCurrentCAS().evaluateGeoGebraCAS(casInput,tpl);
 		} catch (CASException ce) {
 			exception = ce;
 		} finally {
@@ -206,7 +206,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	final public String evaluateGeoGebraCAS(String exp) throws CASException {
 		try {
 			ValidExpression inVE = casParser.parseGeoGebraCASInput(exp);
-			return evaluateGeoGebraCAS(inVE);
+			return evaluateGeoGebraCAS(inVE,StringTemplate.defaultTemplate);
 		} catch (Throwable t) {
 			throw new CASException(t);
 		}

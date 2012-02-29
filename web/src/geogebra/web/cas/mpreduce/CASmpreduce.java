@@ -11,6 +11,7 @@ import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
 import geogebra.common.cas.mpreduce.AbstractCASmpreduce;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.cas.AsynchronousCommand;
 import geogebra.common.main.AbstractApplication;
@@ -226,7 +227,8 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 				ValidExpression inVE = null;
 				try{
 					inVE = casParser.parseGeoGebraCASInput(input);
-					result = evaluateGeoGebraCAS(inVE);
+					//TODO: arbconst()
+					result = evaluateGeoGebraCAS(inVE,StringTemplate.defaultTemplate);
 				}catch(Throwable exception){
 					result ="";
 					CASAsyncFinished(inVE, result, exception, command, input);

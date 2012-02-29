@@ -28,37 +28,124 @@ import java.util.HashSet;
 /**
  *
  * @author  Markus
- * @version 
+ * 
  */
-@SuppressWarnings("javadoc")
+
 public interface ExpressionValue {      
+    /**
+     * @return true if this is constant
+     */
     public boolean isConstant();    
+    /**
+     * @return whether this is leaf if it occurs in ExpressionNode
+     */
     public boolean isLeaf();
+    /**
+     * @return whether this is instance of NumberValue
+     */
     public boolean isNumberValue();
+	/**
+	 * @return whether this is instance of VectorValue
+	 */
 	public boolean isVectorValue();	
+	/**
+	 * @return whether this is instance of Vector3DValue
+	 */
 	public boolean isVector3DValue();	
+	/**
+	 * @return whether this is instance of ListValue
+	 */
 	public boolean isListValue();
+	/**
+	 * @return whether this is instance of BooleanValue
+	 */
 	public boolean isBooleanValue();
+	/**
+	 * @return whether this is instance of Polynomial
+	 */
 	public boolean isPolynomialInstance();
+	/**
+	 * @return whether this is instance of TextValue
+	 */
 	public boolean isTextValue();
+	/**
+	 * @return whether this is instance of ExpressionNode
+	 */
 	public boolean isExpressionNode();
+	/**
+	 * @return whether this is instance of GeoElement
+	 */
 	public boolean isGeoElement();
+	/**
+	 * @return whether this is instance of Variable
+	 */
 	public boolean isVariable();
-	public boolean isInTree(); // used in ExpressionNode tree
+	/**
+	 * @return whether this is part of some expression node tree
+	 */
+	public boolean isInTree(); 
+	/**
+	 * @param flag whether this is part of some expression node tree
+	 */
 	public void setInTree(boolean flag);
+	/**
+	 * @param ev expression value
+	 * @return whether given value is contained in tree / list of this 
+	 */
 	public boolean contains(ExpressionValue ev);
+	/**
+	 * @param kernel kernel
+	 * @return deep copy (duplicates all ExpressionValues used for definition of this)
+	 */
 	public ExpressionValue deepCopy(Kernel kernel);
-    public ExpressionValue evaluate();
+    /**
+     * @return evaluated value
+     */
+    public NumberValue evaluateNum();
+    /**
+     * @param tpl string template (in case concatenation of strings is involved)
+     * @return evaluated value
+     */
     public ExpressionValue evaluate(StringTemplate tpl);
+    /**
+     * @return set of GeoElement variables
+     */
     public HashSet<GeoElement> getVariables();   
     @Deprecated
     public String toString();
+    /**
+     * @param tpl string template
+     * @return value string that can be re-run as GGB command
+     */
     public String toOutputValueString(StringTemplate tpl);
+    /**
+     * @param symbolic true to keep variable names
+     * @param tpl string template
+     * @return LaTeX string
+     */
     public String toLaTeXString(boolean symbolic,StringTemplate tpl);   
+    /**
+     * Resolve variables
+     */
     public void resolveVariables();
+    /**
+     * @param tpl string templates
+     * @return same as toString, but with real labels TODO: remove this
+     */
 	public String toRealString(StringTemplate tpl);
+	/**
+	 * @return kernel
+	 */
 	public Kernel getKernel();
+	/**
+	 * @param tpl string template
+	 * @return string representation of this object
+	 */
 	public String toString(StringTemplate tpl);
+	/**
+	 * @param tpl string template
+	 * @return string representation of value of this object
+	 */
 	public String toValueString(StringTemplate tpl);
 }
 

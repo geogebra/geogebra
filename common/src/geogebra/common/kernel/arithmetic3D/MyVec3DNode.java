@@ -105,20 +105,20 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 	 */
 	final public double[] getCoords() {
 		// check if both ExpressionNodes represent NumberValues
-		StringTemplate errTpl = StringTemplate.defaultTemplate;
-		ExpressionValue evx = x.evaluate();
+		StringTemplate tpl = StringTemplate.defaultTemplate;
+		ExpressionValue evx = x.evaluate(tpl);
 		if (!evx.isNumberValue()) {
-			String[] str = { "NumberExpected", evx.toString(errTpl) };
+			String[] str = { "NumberExpected", evx.toString(tpl) };
 			throw new MyParseError(kernel.getApplication(), str);
 		}
-		ExpressionValue evy = y.evaluate();
+		ExpressionValue evy = y.evaluate(tpl);
 		if (!evy.isNumberValue()) {
-			String[] str = { "NumberExpected", evy.toString(errTpl) };
+			String[] str = { "NumberExpected", evy.toString(tpl) };
 			throw new MyParseError(kernel.getApplication(), str);
 		}
-		ExpressionValue evz = z.evaluate();
+		ExpressionValue evz = z.evaluate(tpl);
 		if (!evz.isNumberValue()) {
-			String[] str = { "NumberExpected", evz.toString(errTpl) };
+			String[] str = { "NumberExpected", evz.toString(tpl) };
 			throw new MyParseError(kernel.getApplication(), str);
 		}
 
@@ -239,9 +239,9 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 	}
 
 	public Geo3DVec get3DVec() {
-		return kernel.getManager3D().newGeo3DVec( ((NumberValue) x.evaluate()).getDouble(),
-				((NumberValue) y.evaluate()).getDouble(),
-				((NumberValue) z.evaluate()).getDouble());
+		return kernel.getManager3D().newGeo3DVec( (x.evaluateNum()).getDouble(),
+				(y.evaluateNum()).getDouble(),
+				(z.evaluateNum()).getDouble());
 	}
 
 	public String toOutputValueString(StringTemplate tpl) {

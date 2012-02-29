@@ -125,7 +125,7 @@ public class PythonAPI {
 		 * @return wrapped evaluated expression
 		 */
 		public Expression evaluate() {
-			return new Expression(expr.evaluate());
+			return new Expression(expr.evaluate(StringTemplate.defaultTemplate));
 		}
 
 		/**

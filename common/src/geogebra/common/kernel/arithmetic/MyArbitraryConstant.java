@@ -57,6 +57,8 @@ public class MyArbitraryConstant extends MyDouble {
 	
 	@Override
 	public String toString(StringTemplate tpl) {
+		if(tpl.isSymbolicArbConst())
+			return latexString;
 		switch (tpl.getStringType()) {						
 			case LATEX:
 				// return e.g. "k_1" 

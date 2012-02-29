@@ -126,7 +126,7 @@ public class Term implements Comparable<Object>, Serializable {
 	 * @return true if coeff is integer
 	 */
 	boolean hasIntegerCoeff() {
-		return Kernel.isInteger(((NumberValue) coefficient.evaluate())
+		return Kernel.isInteger(coefficient.evaluateNum()
 				.getDouble());
 	}
 
@@ -168,11 +168,11 @@ public class Term implements Comparable<Object>, Serializable {
 
 		// add constant?
 		if (aconst && bconst) {
-			aval = ((NumberValue) a.evaluate()).getDouble();
-			bval = ((NumberValue) b.evaluate()).getDouble();
+			aval = a.evaluateNum().getDouble();
+			bval = b.evaluateNum().getDouble();
 			return new MyDouble(kernel, aval + bval);
 		} else if (aconst) {
-			aval = ((NumberValue) a.evaluate()).getDouble();
+			aval = a.evaluateNum().getDouble();
 			if (aval == 0.0d) {
 				return b;
 			}
@@ -245,12 +245,12 @@ public class Term implements Comparable<Object>, Serializable {
 		double aval, bval;
 
 		if (aconst && bconst) {
-			aval = ((NumberValue) a.evaluate()).getDouble();
-			bval = ((NumberValue) b.evaluate()).getDouble();
+			aval = a.evaluateNum().getDouble();
+			bval = b.evaluateNum().getDouble();
 
 			return new MyDouble(kernel, aval * bval);
 		} else if (aconst) {
-			aval = ((NumberValue) a.evaluate()).getDouble();
+			aval = a.evaluateNum().getDouble();
 			if (aval == 0.0d)
 				return new MyDouble(kernel, 0.0d);
 			else if (aval == 1.0d)
@@ -296,11 +296,11 @@ public class Term implements Comparable<Object>, Serializable {
 		double aval, bval;
 
 		if (aconst && bconst) {
-			aval = ((NumberValue) a.evaluate()).getDouble();
-			bval = ((NumberValue) b.evaluate()).getDouble();
+			aval = a.evaluateNum().getDouble();
+			bval = b.evaluateNum().getDouble();
 			return new MyDouble(kernel, aval / bval);
 		} else if (aconst) {
-			aval = ((NumberValue) a.evaluate()).getDouble();
+			aval = a.evaluateNum().getDouble();
 			if (aval == 0.0d) {
 				return new MyDouble(kernel, 0.0d);
 			}
@@ -315,7 +315,7 @@ public class Term implements Comparable<Object>, Serializable {
 			return new ExpressionNode(kernel, a, Operation.DIVIDE, b);
 
 		} else if (bconst) {
-			bval = ((NumberValue) b.evaluate()).getDouble();
+			bval = b.evaluateNum().getDouble();
 			if (bval == 1.0d) {
 				return a;
 			}

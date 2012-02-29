@@ -109,7 +109,7 @@ public class PythonFlatAPI {
 		 * @return evaluated expression
 		 */
 		public static ExpressionValue evaluate(ExpressionValue e) {
-			return e.evaluate();
+			return e.evaluate(StringTemplate.defaultTemplate);
 		}
 
 		/**

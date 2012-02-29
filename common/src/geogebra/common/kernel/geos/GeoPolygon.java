@@ -350,7 +350,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	 */
 	private static void setLabel(GeoSegmentND s, GeoPointND p) {
 		if (!p.isLabelSet()
-				|| p.getLabel(StringTemplate.get(StringType.GEOGEBRA)) == null) {
+				|| p.getLabel(StringTemplate.defaultTemplate) == null) {
 			s.setLabel(null);
 		} else {
 			// use lower case of point label as segment label

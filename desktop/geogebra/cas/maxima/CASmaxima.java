@@ -5,6 +5,7 @@ import java.util.Map;
 
 import geogebra.common.cas.CASgeneric;
 import geogebra.common.cas.CASparser;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 
 
@@ -46,7 +47,7 @@ public class CASmaxima extends CASgeneric {
 //	}
 
 	@Override
-	public String evaluateGeoGebraCAS(ValidExpression casInput) {
+	public String evaluateGeoGebraCAS(ValidExpression casInput,StringTemplate tpl) {
 		// TODO Auto-generated method stub
 		return null;
 	}

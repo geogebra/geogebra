@@ -46,7 +46,7 @@ public class AlgoSumLeft extends AlgoFunctionAreaSums {
 	
 	public AlgoSumLeft copy() {		
 		return new AlgoSumLeft( (NumberValue)this.getA().deepCopy(kernel),
-				(NumberValue)this.getB().deepCopy(kernel),(NumberValue)this.getN().copy().evaluate(),
+				(NumberValue)this.getB().deepCopy(kernel),this.getN().copy().evaluateNum(),
 				Cloner.clone(getValues()),Cloner.clone(getLeftBorder()));
 	}
 	@Override

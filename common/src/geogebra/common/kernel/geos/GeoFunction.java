@@ -1156,8 +1156,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		if (lt instanceof GeoFunction)
 			return new ExpressionNode(kernel, (GeoFunction) lt,
 					Operation.FUNCTION, varMap.get(lt
-							.getVarString(StringTemplate
-									.get(StringType.GEOGEBRA))));
+							.getVarString(StringTemplate.defaultTemplate)));
 		if (lt instanceof GeoFunctionNVar) {
 			MyList varList = new MyList(kernel);
 			for (int i = 0; i < lt.getFunction().getVarNumber(); i++) {

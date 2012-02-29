@@ -195,6 +195,17 @@ public abstract class ValidExpression implements ExpressionValue {
 		return evaluate(StringTemplate.defaultTemplate);
 	}
 	
+	/**
+	 * Evaluates to number (if not numeric, returns undefined MyDouble)
+	 * @return number or undefined double
+	 */
+	public NumberValue evaluateNum() {
+		ExpressionValue ev =evaluate(StringTemplate.defaultTemplate);
+		if(ev instanceof NumberValue)
+			return (NumberValue)ev;
+		return new MyDouble(getKernel(),Double.NaN);
+	}
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	@Deprecated

@@ -136,33 +136,33 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 
 		double a, b, c, d, e, f, g, h, i;
 		if (list.getMatrixRows() < 3) {
-			a = ((NumberValue) (MyList.getCell(list, 0, 0).evaluate()))
+			a = (MyList.getCell(list, 0, 0).evaluateNum())
 					.getDouble();
-			b = ((NumberValue) (MyList.getCell(list, 1, 0).evaluate()))
+			b = (MyList.getCell(list, 1, 0).evaluateNum())
 					.getDouble();
-			c = ((NumberValue) (MyList.getCell(list, 0, 1).evaluate()))
+			c = (MyList.getCell(list, 0, 1).evaluateNum())
 					.getDouble();
-			d = ((NumberValue) (MyList.getCell(list, 1, 1).evaluate()))
+			d = (MyList.getCell(list, 1, 1).evaluateNum())
 					.getDouble();
 			out.matrixTransform(a, b, c, d);
 		} else {
-			a = ((NumberValue) (MyList.getCell(list, 0, 0).evaluate()))
+			a = (MyList.getCell(list, 0, 0).evaluateNum())
 					.getDouble();
-			b = ((NumberValue) (MyList.getCell(list, 1, 0).evaluate()))
+			b = (MyList.getCell(list, 1, 0).evaluateNum())
 					.getDouble();
-			c = ((NumberValue) (MyList.getCell(list, 2, 0).evaluate()))
+			c = (MyList.getCell(list, 2, 0).evaluateNum())
 					.getDouble();
-			d = ((NumberValue) (MyList.getCell(list, 0, 1).evaluate()))
+			d = (MyList.getCell(list, 0, 1).evaluateNum())
 					.getDouble();
-			e = ((NumberValue) (MyList.getCell(list, 1, 1).evaluate()))
+			e = (MyList.getCell(list, 1, 1).evaluateNum())
 					.getDouble();
-			f = ((NumberValue) (MyList.getCell(list, 2, 1).evaluate()))
+			f = (MyList.getCell(list, 2, 1).evaluateNum())
 					.getDouble();
-			g = ((NumberValue) (MyList.getCell(list, 0, 2).evaluate()))
+			g = (MyList.getCell(list, 0, 2).evaluateNum())
 					.getDouble();
-			h = ((NumberValue) (MyList.getCell(list, 1, 2).evaluate()))
+			h = (MyList.getCell(list, 1, 2).evaluateNum())
 					.getDouble();
-			i = ((NumberValue) (MyList.getCell(list, 2, 2).evaluate()))
+			i = (MyList.getCell(list, 2, 2).evaluateNum())
 					.getDouble();
 			out.matrixTransform(a, b, c, d, e, f, g, h, i);
 		}

@@ -113,7 +113,7 @@ public class AlgoDependentListExpression extends AlgoElement {
 		
 		list.clear();
 		for (int i=0; i < evalListSize; i++) {
-			ExpressionValue element = myList.getListElement(i).evaluate();    			    			
+			ExpressionValue element = myList.getListElement(i).evaluate(StringTemplate.defaultTemplate);    			    			
 			GeoElement geo = null;	
 
 			// number result
@@ -193,7 +193,7 @@ public class AlgoDependentListExpression extends AlgoElement {
 				for (int j=0 ; j < myList2.size() ; j++)
 				{		
 					ExpressionValue en = myList2.getListElement(j);
-					ExpressionValue ev = en.evaluate();
+					ExpressionValue ev = en.evaluate(StringTemplate.defaultTemplate);
 					
 					if (ev instanceof MyDouble) {
 						GeoNumeric geo2 = new GeoNumeric(cons);

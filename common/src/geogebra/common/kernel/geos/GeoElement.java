@@ -3643,8 +3643,14 @@ public abstract class GeoElement extends ConstructionElement implements
 		return true;
 	}
 
-	public final ExpressionValue evaluate() {
-		return this;
+	/**
+	 * Evaluates to number (if not numeric, returns undefined MyDouble)
+	 * @return number or undefined double
+	 */
+	public NumberValue evaluateNum() {
+		if(this instanceof NumberValue)
+			return (NumberValue)this;
+		return new MyDouble(getKernel(),Double.NaN);
 	}
 	
 	public final ExpressionValue evaluate(StringTemplate tpl) {

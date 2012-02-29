@@ -60,10 +60,10 @@ public class AlgoDependentPlane3D extends AlgoElement3D {
    		
    		// check coefficients
         for (int i=0; i<4; i++) {
-            if (ev[i].isConstant()) ev[i] = ev[i].evaluate();
+            if (ev[i].isConstant()) ev[i] = ev[i].evaluate(StringTemplate.defaultTemplate);
                        
             // check that coefficient is a number: this may throw an exception
-            ExpressionValue eval = ev[i].evaluate();
+            ExpressionValue eval = ev[i].evaluate(StringTemplate.defaultTemplate);
             ((NumberValue) eval).getDouble();            
         }
         
@@ -102,10 +102,10 @@ public class AlgoDependentPlane3D extends AlgoElement3D {
 
     	try {
     		p.setEquation(
-    				((NumberValue) ev[0].evaluate()).getDouble(),
-    				((NumberValue) ev[1].evaluate()).getDouble(),
-    				((NumberValue) ev[2].evaluate()).getDouble(),
-    				((NumberValue) ev[3].evaluate()).getDouble()
+    				ev[0].evaluateNum().getDouble(),
+    				ev[1].evaluateNum().getDouble(),
+    				ev[2].evaluateNum().getDouble(),
+    				ev[3].evaluateNum().getDouble()
     		);
     	} catch (Throwable e) {
     		p.setUndefined();

@@ -33,7 +33,7 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 		// boolean holdsLaTeXtext = expressionNode.holdsLaTeXtext;
 
 		if (leaf)
-			return left.evaluate(); // for wrapping ExpressionValues as
+			return left.evaluate(tpl); // for wrapping ExpressionValues as
 									// ValidExpression
 
 		// Application.debug(operation+"");
@@ -41,8 +41,8 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 		ExpressionValue lt, rt;
 		MyDouble num;
 
-		lt = left.evaluate(); // left tree
-		rt = right.evaluate(); // right tree
+		lt = left.evaluate(tpl); // left tree
+		rt = right.evaluate(tpl); // right tree
 
 		switch (operation) {
 

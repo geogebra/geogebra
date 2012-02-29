@@ -228,7 +228,7 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 
 			dataModel = new DefaultTableModel(dataArray.size(),1);
 			for (int row = 0; row < dataArray.size(); ++row){
-				dataModel.setValueAt(dataArray.get(row).toDefinedValueString(StringTemplate.get(StringType.GEOGEBRA)),row,0);
+				dataModel.setValueAt(dataArray.get(row).toDefinedValueString(StringTemplate.defaultTemplate),row,0);
 			}
 
 			dataTable.setModel(dataModel);

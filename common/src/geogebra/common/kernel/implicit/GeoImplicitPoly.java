@@ -289,7 +289,7 @@ Dilateable, Transformable, EuclidianViewCE {
 		if (needsNewLocus){
 			updatePath();
 		}else{
-			locus.set((GeoElement)((GeoImplicitPoly)geo).locus);
+			locus.set(((GeoImplicitPoly)geo).locus);
 		}
 		this.defined=((GeoImplicitPoly)geo).getDefined();
 	}
@@ -473,7 +473,7 @@ Dilateable, Transformable, EuclidianViewCE {
 				if (ev[i][j]==null)
 					coeff[i][j]=0;
 				else
-					coeff[i][j] = ((NumberValue) ev[i][j].evaluate()).getDouble();
+					coeff[i][j] = ev[i][j].evaluateNum().getDouble();
 				if (Double.isInfinite(coeff[i][j])){
 					setUndefined();
 				}
@@ -818,7 +818,7 @@ Dilateable, Transformable, EuclidianViewCE {
 	final public double distance(GeoPoint2 p) {
 		AlgoClosestPoint algo = new AlgoClosestPoint(cons, "", this, p);
 		algo.remove();
-		GeoPoint2 pointOnCurve = (GeoPoint2) algo.getP();
+		GeoPoint2 pointOnCurve = algo.getP();
 		return p.distance(pointOnCurve);
 	}
 	
@@ -1108,11 +1108,11 @@ Dilateable, Transformable, EuclidianViewCE {
 			return;
 		}
 		double[] dir=new double[2];
-		((GeoLine)g).getDirection(dir);
+		g.getDirection(dir);
 		double dx=dir[0];
 		double dy=dir[1];
-		double x=((GeoLine)g).getStartPoint().inhomX;
-		double y=((GeoLine)g).getStartPoint().inhomY;
+		double x=g.getStartPoint().inhomX;
+		double y=g.getStartPoint().inhomY;
 		double n=1/(dx*dx+dy*dy);
 		plugInPoly(new double[][]{{2*n*dy*(x*dy-y*dx),2*n*dx*dy},{1-2*dy*dy*n,0}},new double[][]{{2*n*dx*(y*dx-x*dy),1-2*n*dx*dx},{2*n*dx*dy,0}});
 		

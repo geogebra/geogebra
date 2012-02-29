@@ -46,7 +46,8 @@ public abstract class CASgeneric implements CASGenericInterface,
 	 * @return evaluation result
 	 * @throws CASException
 	 */
-	public abstract String evaluateGeoGebraCAS(ValidExpression casInput)
+	public abstract String evaluateGeoGebraCAS(ValidExpression casInput,
+			StringTemplate tpl)
 			throws CASException;
 
 	/**

@@ -88,8 +88,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if ((operation == Operation.VECTORPRODUCT)
 					&& rt.isListValue()) {
 
-				MyList listL = ((ListValue) lt.evaluate()).getMyList();
-				MyList listR = ((ListValue) rt.evaluate()).getMyList();
+				MyList listL = ((ListValue) lt.evaluate(tpl)).getMyList();
+				MyList listR = ((ListValue) rt.evaluate(tpl)).getMyList();
 				if (((listL.size() == 3) && (listR.size() == 3))
 						|| ((listL.size() == 2) && (listR.size() == 2))) {
 					listL.vectorProduct(listR);
@@ -257,7 +257,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			if (lt.isListValue() && rt.isListValue()) {
 				return new MyBoolean(kernel, MyList.listContainsStrict(
 						((ListValue) rt).getMyList(),
-						((ListValue) lt).getMyList()));
+						((ListValue) lt).getMyList(),tpl));
 			}
 			str = new String[]{ "IllegalListOperation", lt.toString(errorTemplate),
 					strIS_SUBSET_OF_STRICT, rt.toString(errorTemplate) };
@@ -748,11 +748,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					ExpressionNode node = (ExpressionNode) right;
 					if (node.getOperation().equals(Operation.DIVIDE)) {
 						// check if we have a/b with a and b integers
-						double a = ((NumberValue) node.getLeft().evaluate())
+						double a = node.getLeft().evaluateNum()
 								.getDouble();
 						long al = Math.round(a);
 						if (Kernel.isEqual(a, al)) { // a is integer
-							double b = ((NumberValue) node.getRight().evaluate())
+							double b = node.getRight().evaluateNum()
 									.getDouble();
 							long bl = Math.round(b);
 							if (b == 0) {
@@ -1750,7 +1750,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					return lt;
 				} else if (list.size() == 1) {
 					ExpressionValue ev = list.getMyList().getListElement(0)
-							.evaluate();
+							.evaluate(tpl);
 					AbstractApplication.debug(ev.getClass());
 					if ((funN.getVarNumber() == 2) && (ev instanceof GeoPoint2)) {
 						GeoPoint2 pt = (GeoPoint2) ev;
@@ -1763,9 +1763,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 							&& (ev instanceof MyVecNode)) {
 						MyVecNode pt = (MyVecNode) ev;
 						double[] vals = new double[] {
-								((NumberValue) pt.getX().evaluate())
+								pt.getX().evaluateNum()
 										.getDouble(),
-								((NumberValue) pt.getY().evaluate())
+								pt.getY().evaluateNum()
 										.getDouble() };
 						if (funN.isBooleanFunction()) {
 							return new MyBoolean(kernel,
@@ -1774,7 +1774,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						return new MyDouble(kernel, funN.evaluate(vals));
 					} else if ((ev instanceof ListValue)
 							&& ((ListValue) ev).getMyList().getListElement(0)
-									.evaluate().isNumberValue()) {
+									.evaluate(tpl).isNumberValue()) {
 						double[] vals = ((ListValue) ev).toDouble();
 						if (vals != null) {
 							if (funN.isBooleanFunction()) {
@@ -1867,6 +1867,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 */
 	private MyBoolean evalEquals(Kernel kernel, ExpressionValue lt,
 			ExpressionValue rt) {
+		StringTemplate tpl = StringTemplate.defaultTemplate;
 		// booleans
 		if (lt.isBooleanValue() && rt.isBooleanValue()) {
 			return new MyBoolean(kernel,
@@ -1877,7 +1878,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					((NumberValue) lt).getDouble(),
 					((NumberValue) rt).getDouble()));
 		} else if (lt.isTextValue() && rt.isTextValue()) {
-			StringTemplate tpl = StringTemplate.get(StringType.GEOGEBRA);
+			
 			String strL = ((TextValue) lt).toValueString(tpl);
 			String strR = ((TextValue) rt).toValueString(tpl);
 
@@ -1899,8 +1900,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			}
 
 			for (int i = 0; i < size; i++) {
-				if (!evalEquals(kernel, list1.getListElement(i).evaluate(),
-						list2.getListElement(i).evaluate()).getBoolean()) {
+				if (!evalEquals(kernel, list1.getListElement(i).evaluate(tpl),
+						list2.getListElement(i).evaluate(tpl)).getBoolean()) {
 					return new MyBoolean(kernel, false);
 				}
 			}

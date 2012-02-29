@@ -20,11 +20,9 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.kernelND.GeoConicND;
@@ -38,7 +36,7 @@ import java.util.ArrayList;
 /**
  * Conics in 2D
  */
-public class GeoConic extends GeoConicND implements Region, Traceable,
+public class GeoConic extends GeoConicND implements Traceable,
 		ConicMirrorable, Transformable, Mirrorable,
 		Dilateable {
 
@@ -558,7 +556,7 @@ public class GeoConic extends GeoConicND implements Region, Traceable,
 
 	private static double evalCoeff(ExpressionValue[][] ev, int i, int j) {
 		if (ev.length > i && ev[i].length > j && ev[i][j] != null) {
-			return ((NumberValue) ev[i][j].evaluate()).getDouble();
+			return ev[i][j].evaluateNum().getDouble();
 		}
 		return 0;
 	}

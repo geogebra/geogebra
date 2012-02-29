@@ -97,6 +97,17 @@ public class StringTemplate {
 	static {
 		maxPrecision.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
 	}
+	/**
+	 * Default template, just better output of arbitrary constants in CAS
+	 */
+	public static StringTemplate casCellTemplate = new StringTemplate();
+
+	private boolean symbolicArbConst;
+	
+	static{
+			casCellTemplate.symbolicArbConst = true;
+	}
+	
 	private StringType stringType;
 	private boolean internationalizeDigits;
 	private String casPrintFormPI;
@@ -273,4 +284,11 @@ public class StringTemplate {
 	public boolean isUseTempVariablePrefix() {
 		return usePrefix;
 	}
+	/**
+	 * @return true if arbConst can be written as name string
+	 */
+	public boolean isSymbolicArbConst() {
+		return symbolicArbConst;
+	}
+	
 }

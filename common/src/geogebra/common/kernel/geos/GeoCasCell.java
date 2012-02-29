@@ -26,7 +26,7 @@ import java.util.TreeSet;
  * 
  * @author Markus Hohenwarter
  */
-@SuppressWarnings("javadoc")
+
 public class GeoCasCell extends GeoElement {
 
 	private ValidExpression inputVE, evalVE, outputVE;
@@ -59,8 +59,12 @@ public class GeoCasCell extends GeoElement {
 
 	// use this cell as text field
 	private boolean useAsText;
-	private GeoText commentText; // for the future, is only holding font infos
-									// at the moment
+	// for the future, is only holding font infos
+	private GeoText commentText; 
+	/**
+	 * Creates new CAS cell
+	 * @param c construction
+	 */
 
 	public GeoCasCell(Construction c) {
 		super(c);
@@ -128,6 +132,8 @@ public class GeoCasCell extends GeoElement {
 	 * Returns the input of this row. Command names are localized when
 	 * kernel.isPrintLocalizedCommandNames() is true, otherwise internal command
 	 * names are used.
+	 * @param tpl string template
+	 * @return input string
 	 */
 	public String getInput(StringTemplate tpl) {
 		if (tpl.isPrintLocalizedCommandNames()) {
@@ -145,6 +151,8 @@ public class GeoCasCell extends GeoElement {
 
 	/**
 	 * Returns the output of this row.
+	 * @param tpl string template
+	 * @return output string
 	 */
 	public String getOutput(StringTemplate tpl) {
 		if (error != null) {
@@ -160,6 +168,9 @@ public class GeoCasCell extends GeoElement {
 		return outputVE.toAssignmentString(tpl);
 	}
 
+	/**
+	 * @return prefix
+	 */
 	public String getPrefix() {
 		return prefix;
 	}
@@ -168,6 +179,7 @@ public class GeoCasCell extends GeoElement {
 	 * Returns the evaluation text (between prefix and postfix) of this row
 	 * using internal command names. This method is important to process this
 	 * row using GeoGebraCAS.
+	 * @return the evaluation text
 	 */
 	public String getEvalText() {
 		if (evalVE == null) {
@@ -179,23 +191,29 @@ public class GeoCasCell extends GeoElement {
 	/**
 	 * Returns the evaluation expression (between prefix and postfix) of this
 	 * row. This method is important to process this row using GeoGebraCAS.
+	 * @return the evaluation expression
 	 */
 	public ValidExpression getEvalVE() {
 		return evalVE;
 	}
 
+	/**
+	 * @return input expression
+	 */
 	public ValidExpression getInputVE() {
 		return inputVE;
 	}
 
+	/**
+	 * @return postfix
+	 */
 	public String getPostfix() {
 		return postfix;
 	}
 
-	// public void setAllowLaTeX(boolean flag) {
-	// allowLaTeX = flag;
-	// }
-
+	/**
+	 * @return LaTeX representation of output
+	 */
 	public String getLaTeXOutput() {
 		if (isError())
 			return null;
@@ -219,10 +237,16 @@ public class GeoCasCell extends GeoElement {
 		return latex;
 	}
 
+	/**
+	 * @return whether this cell is used as comment 
+	 */
 	public boolean isUseAsText() {
 		return useAsText;
 	}
 
+	/**
+	 * @param val true to use this cell as comment only
+	 */
 	public void setUseAsText(boolean val) {
 		useAsText = val;
 		// TODO: by expanding the GeoText functionality, this could become a
@@ -237,35 +261,59 @@ public class GeoCasCell extends GeoElement {
 		update();
 	}
 
+	/**
+	 * @param ft font
+	 */
 	public void setFont(Font ft) {
 		setFontSize(ft.getSize());
 		setFontStyle(ft.getStyle());
 	}
 
+	/**
+	 * @param style font style
+	 */
 	public void setFontStyle(int style) {
 		commentText.setFontStyle(style);
 	}
 
+	/**
+	 * @return font color
+	 */
 	public geogebra.common.awt.Color getFontColor() {
 		return this.getObjectColor();
 	}
 
+	/**
+	 * @param c font color
+	 */
 	public void setFontColor(geogebra.common.awt.Color c) {
 		this.setObjColor(c);
 	}
 
+	/**
+	 * @return font style
+	 */
 	public int getFontStyle() {
 		return commentText.getFontStyle();
 	}
 
+	/**
+	 * @param size font size
+	 */
 	public void setFontSize(int size) {
 		commentText.setFontSize(size);
 	}
 
+	/**
+	 * @return font size
+	 */
 	public int getFontSize() {
 		return commentText.getFontSize();
 	}
 
+	/**
+	 * @param gt comment text
+	 */
 	public void setGeoText(GeoText gt) {
 		if (gt != null) {
 			commentText = gt;
@@ -273,22 +321,37 @@ public class GeoCasCell extends GeoElement {
 		}
 	}
 
+	/**
+	 * @return comment text
+	 */
 	public GeoText getGeoText() {
 		return commentText;
 	}
 
+	/**
+	 * @return whether input and output are empty
+	 */
 	public boolean isEmpty() {
 		return isInputEmpty() && isOutputEmpty();
 	}
 
+	/**
+	 * @return whether input is empty
+	 */
 	public boolean isInputEmpty() {
 		return inputVE == null;
 	}
 
+	/**
+	 * @return whether output is empty
+	 */
 	public boolean isOutputEmpty() {
 		return outputVE == null && error == null;
 	}
 
+	/**
+	 * @return true if output is not empty and can be shown
+	 */
 	public boolean showOutput() {
 		return !isOutputEmpty() && !suppressOutput();
 	}
@@ -330,7 +393,7 @@ public class GeoCasCell extends GeoElement {
 	/**
 	 * Sets the input of this row.
 	 * 
-	 * @param inValue
+	 * @param inValue input value
 	 * @return success
 	 */
 	public boolean setInput(String inValue) {
@@ -380,6 +443,7 @@ public class GeoCasCell extends GeoElement {
 	/**
 	 * Sets row number for CAS view. This method should only be called by
 	 * Construction.updateCasCellRows().
+	 * @param row row number
 	 */
 	final public void setRowNumber(int row) {
 		this.row = row;
@@ -418,12 +482,12 @@ public class GeoCasCell extends GeoElement {
 	 * by this method, so you need to call setInput() first. Make sure that
 	 * input = prefix + eval without wrapper command + postfix.
 	 * 
-	 * @param prefix1
+	 * @param prefix
 	 *            beginning part that should NOT be evaluated, e.g. "25a +"
 	 * @param eval
 	 *            part of the input that needs to be evaluated, e.g.
 	 *            "Expand[(a+b)^2]"
-	 * @param postfix1
+	 * @param postfix
 	 *            end part that should NOT be evaluated, e.g. " + "5 (c+d)"
 	 */
 	public void setProcessingInformation(String prefix, String eval,
@@ -479,6 +543,8 @@ public class GeoCasCell extends GeoElement {
 
 	/**
 	 * Checks if newInput is structurally equal to the current input String.
+	 * @param newInput new input
+	 * @return whether newInput and current input have same stucture
 	 */
 	public boolean isStructurallyEqualToLocalizedInput(String newInput) {
 		if (localizedInput != null && localizedInput.equals(newInput))
@@ -766,6 +832,8 @@ public class GeoCasCell extends GeoElement {
 
 	/**
 	 * Returns the n-th input variable (in alphabetical order).
+	 * @param n index
+	 * @return n-th input variable
 	 */
 	public String getInVar(int n) {
 		if (invars == null)
@@ -938,6 +1006,7 @@ public class GeoCasCell extends GeoElement {
 	/**
 	 * Returns whether this object only depends on named GeoElements defined in
 	 * the kernel.
+	 * @return whether this object only depends on named GeoElements
 	 */
 	final public boolean includesOnlyDefinedVariables() {
 		return includesOnlyDefinedVariables(false);
@@ -946,6 +1015,8 @@ public class GeoCasCell extends GeoElement {
 	/**
 	 * Same as previous function, except ignoring the undefined variables x and
 	 * y to provide definition of functions like: f: x+y=1
+	 * @param ignoreUndefinedXY true to ignore x,y
+	 * @return  whether this object only depends on named GeoElements
 	 */
 	final public boolean includesOnlyDefinedVariables(boolean ignoreUndefinedXY) {
 		if (invars == null)
@@ -963,6 +1034,7 @@ public class GeoCasCell extends GeoElement {
 
 	/**
 	 * Returns whether this object depends on x and/or y
+	 * @return whether this object depends on x and/or y
 	 */
 	final public boolean includesXYVariables() {
 		if (invars == null)
@@ -984,6 +1056,8 @@ public class GeoCasCell extends GeoElement {
 	/**
 	 * Returns whether var is an input variable of this cell. For example, "b"
 	 * is an input variable of "c := a + b"
+	 * @param var variable name
+	 * @return whether var is an input variable of this cell
 	 */
 	final public boolean isInputVariable(String var) {
 		return invars != null && invars.contains(var);
@@ -992,6 +1066,8 @@ public class GeoCasCell extends GeoElement {
 	/**
 	 * Returns whether var is a function variable of this cell. For example, "y"
 	 * is a function variable of "f(y) := 2y + b"
+	 * @param var variable name
+	 * @return whether var is a function variable of this cell
 	 */
 	final public boolean isFunctionVariable(String var) {
 		return functionvars != null && functionvars.contains(var);
@@ -1000,6 +1076,7 @@ public class GeoCasCell extends GeoElement {
 	/**
 	 * Returns the function variable string if input is a function or null
 	 * otherwise. For example, "m" is a function variable of "f(m) := 2m + b"
+	 * @return function variable string
 	 */
 	final public String getFunctionVariable() {
 		if (functionvars != null && !functionvars.isEmpty()) {
@@ -1010,6 +1087,7 @@ public class GeoCasCell extends GeoElement {
 
 	/**
 	 * Returns whether this cell includes row references like $2.
+	 * @return whether this cell includes row references like $2.
 	 */
 	final public boolean includesRowReferences() {
 		return includesRowReferences;
@@ -1017,6 +1095,7 @@ public class GeoCasCell extends GeoElement {
 
 	/**
 	 * Returns whether this cell includes any Numeric[] commands.
+	 * @return whether this cell includes any Numeric[] commands.
 	 */
 	final public boolean includesNumericCommand() {
 		return includesNumericCommand;
@@ -1032,14 +1111,23 @@ public class GeoCasCell extends GeoElement {
 		return assignmentVar;
 	}
 
+	/**
+	 * @return true if assignment variable is defined
+	 */
 	final public boolean isAssignment() {
 		return assignmentVar != null;
 	}
 
+	/**
+	 * @return evaluated command
+	 */
 	final public String getEvalCommand() {
 		return evalCmd;
 	}
 
+	/**
+	 * @param cmd command
+	 */
 	final public void setEvalCommand(String cmd) {
 		evalCmd = cmd;
 
@@ -1048,6 +1136,9 @@ public class GeoCasCell extends GeoElement {
 		setKeepInputUsed(evalCmd != null && evalCmd.equals("KeepInput"));
 	}
 
+	/**
+	 * @param keepInputUsed true if KeepInput was used
+	 */
 	public void setKeepInputUsed(boolean keepInputUsed) {
 		if (inputVE != null)
 			inputVE.setKeepInputUsed(keepInputUsed);
@@ -1055,15 +1146,24 @@ public class GeoCasCell extends GeoElement {
 			evalVE.setKeepInputUsed(keepInputUsed);
 	}
 
+	/**
+	 * @param comment comment
+	 */
 	final public void setEvalComment(String comment) {
 		if (comment != null)
 			evalComment = comment;
 	}
 
+	/**
+	 * @return comment
+	 */
 	final public String getEvalComment() {
 		return evalComment;
 	}
 
+	/**
+	 * @param output output string (from CAS)
+	 */
 	public void setOutput(String output) {
 		error = null;
 		latex = null;
@@ -1340,7 +1440,7 @@ public class GeoCasCell extends GeoElement {
 				if (evalVE == null) {
 					throw new CASException("Invalid input (evalVE is null)");
 				}
-				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(evalVE);
+				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(evalVE,StringTemplate.casCellTemplate);
 				success = result != null;
 			} catch (CASException e) {
 				System.err.println("GeoCasCell.computeOutput(), CAS eval: "
@@ -1418,16 +1518,25 @@ public class GeoCasCell extends GeoElement {
 		return success;
 	}
 
+	/**
+	 * @param error error message
+	 */
 	public void setError(String error) {
 		this.error = error;
 		latex = null;
 		outputVE = null;
 	}
 
+	/**
+	 * @return true if this displays error
+	 */
 	public boolean isError() {
 		return error != null;
 	}
 
+	/**
+	 * @return true if this displays circular definition error
+	 */
 	public boolean isCircularDefinition() {
 		return isCircularDefinition;
 	}
@@ -1704,6 +1813,9 @@ public class GeoCasCell extends GeoElement {
 		}
 	}
 
+	/**
+	 * @return twin element
+	 */
 	public GeoElement getTwinGeo() {
 		return twinGeo;
 	}
@@ -1732,6 +1844,9 @@ public class GeoCasCell extends GeoElement {
 		}
 	}
 
+	/**
+	 * @return output value as valid expression
+	 */
 	public ValidExpression getOutputValidExpression() {
 		return outputVE;
 	}

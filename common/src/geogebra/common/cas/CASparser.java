@@ -117,9 +117,9 @@ public class CASparser implements CASParserInterface{
 	/**
 	 * Tries to convert the given MathPiper string to GeoGebra syntax.
 	 */
-	public String toGeoGebraString(ExpressionValue ev) throws CASException {
+	public String toGeoGebraString(ExpressionValue ev,StringTemplate tpl) throws CASException {
 		try {
-			return toString(ev, StringTemplate.get(StringType.GEOGEBRA));
+			return toString(ev, tpl);
 		} catch (Throwable e) {
 			e.printStackTrace();
 			throw new CASException(e);

@@ -95,7 +95,7 @@ public class CASmathpiper extends CASgeneric {
 	 * @throws CASException
 	 */
 	@Override
-	public synchronized String evaluateGeoGebraCAS(ValidExpression casInput)
+	public synchronized String evaluateGeoGebraCAS(ValidExpression casInput,StringTemplate tpl)
 			throws CASException {
 		// convert parsed input to MathPiper string
 		String MathPiperString = translateToCAS(casInput, StringTemplate.get(StringType.MATH_PIPER));
@@ -138,7 +138,7 @@ public class CASmathpiper extends CASgeneric {
 	public synchronized String toGeoGebraString(String MathPiperString)
 			throws CASException {
 		ValidExpression ve = casParser.parseMathPiper(MathPiperString);
-		return casParser.toGeoGebraString(ve);
+		return casParser.toGeoGebraString(ve,StringTemplate.defaultTemplate);
 	}
 
 	/**
