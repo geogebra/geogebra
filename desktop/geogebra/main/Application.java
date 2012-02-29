@@ -3523,18 +3523,6 @@ public class Application extends AbstractApplication implements
 			return true;
 		}
 		
-		//text changed in inputfield?
-		if((e.getComponent() instanceof AutoCompleteTextField)&&
-				(e.getID() == KeyEvent.KEY_RELEASED)){
-			DrawTextField drawTF =
-					((geogebra.gui.inputfield.AutoCompleteTextField)e.getComponent()).
-					getDrawTextField();
-			if (drawTF != null){
-				drawTF.keyReleased(e.getKeyChar());
-			}
-			
-			
-		}
 		
 		controlDown = isControlDown(e);
 		shiftDown = e.isShiftDown();

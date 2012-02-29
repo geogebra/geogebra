@@ -1292,6 +1292,10 @@ public class AutoCompleteTextField extends MathTextField implements
 	super.addFocusListener((geogebra.awt.event.FocusListener) focusListener);
   }
 
+  public void addKeyListener(geogebra.common.awt.event.KeyListener listener) {
+    super.addKeyListener((geogebra.awt.event.KeyListener) listener);
+  }
+  
   public void wrapSetText(final String s) {
 	SwingUtilities.invokeLater(new Runnable() {
 		public void run() {

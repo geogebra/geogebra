@@ -22,6 +22,7 @@ import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Arc2D;
 import geogebra.common.awt.Shape;
 import geogebra.common.awt.event.FocusListener;
+import geogebra.common.awt.event.KeyListener;
 import geogebra.common.awt.font.TextLayout;
 
 public abstract class AwtFactory {
@@ -68,5 +69,6 @@ public abstract class AwtFactory {
 			geogebra.common.awt.Color bg2, int x2, int i,
 			geogebra.common.awt.Color bg);
 	public abstract FocusListener newFocusListener(Object listener);
+	public abstract KeyListener newKeyListener(Object listener);
 	
 }

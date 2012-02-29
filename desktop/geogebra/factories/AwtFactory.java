@@ -1,6 +1,7 @@
 package geogebra.factories;
 
 import geogebra.awt.Ellipse2DDouble;
+import geogebra.awt.event.KeyListener;
 import geogebra.common.awt.AlphaComposite;
 import geogebra.common.awt.Arc2D;
 import geogebra.common.awt.Area;
@@ -228,6 +229,10 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	@Override
 	public FocusListener newFocusListener(Object listener) {
 		return new geogebra.awt.event.FocusListener(listener);
+	}
+	@Override
+	public KeyListener newKeyListener(Object listener) {
+		return new geogebra.awt.event.KeyListener(listener);
 	}
 
 	

@@ -104,6 +104,10 @@ public class AutoCompleteTextField extends TextBox implements geogebra.common.gu
 	    
     }
 
+	public void addKeyListener(geogebra.common.awt.event.KeyListener listener) {
+		super.addKeyPressHandler((geogebra.web.awt.event.KeyListener) listener);
+	}
+	
 	public void wrapSetText(String s) {
 		AbstractApplication.debug("implementation needed"); //TODO Auto-generated
 	    

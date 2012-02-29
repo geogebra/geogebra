@@ -26,6 +26,7 @@ import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.AbstractApplication;
 
 import geogebra.common.awt.event.FocusEvent;
+import geogebra.common.awt.event.KeyEvent;
 
 
 //import javax.swing.SwingUtilities;
@@ -47,6 +48,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	private JLabel label;
 	//ButtonListener bl;
 	private InputFieldListener ifListener;
+	private InputFieldKeyListener ifKeyListener;
 	private Box box = SwingFactory.prototype.createHorizontalBox();
 
 	/**
@@ -61,6 +63,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		// action listener for checkBox
 		//bl = new ButtonListener();
 		ifListener = new InputFieldListener();
+		ifKeyListener = new InputFieldKeyListener();
 		textField = SwingFactory.prototype.newAutoCompleteTextField(geo.getLength(), view.getApplication(), this);
 		textField.showPopupSymbolButton(true);
 		textField.setAutoComplete(false);
@@ -76,7 +79,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		textField.addFocusListener(AwtFactory.prototype.newFocusListener(ifListener));
 //		label.addMouseListener(bl);
 //		label.addMouseMotionListener(bl);
-		//((geogebra.gui.inputfield.AutoCompleteTextField) textField).addKeyListener(bl);
+		textField.addKeyListener(AwtFactory.prototype.newKeyListener(ifKeyListener));
 		box.add(label);
 		box.add(textField);
 		
@@ -120,7 +123,6 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		 * @param e focus event
 		 */
 		public void focusGained(FocusEvent e) {
-			AbstractApplication.debug("fg");
 			view.getEuclidianController().textfieldHasFocus(true);
 			geoTextField.updateText(textField);
 	
@@ -135,6 +137,36 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	
 		}
 	}
+	
+
+	
+	/**
+	 * Listens to key events in this textfield
+	 * @author Michael + Judit
+	 */
+	public class InputFieldKeyListener extends geogebra.common.awt.event.KeyListener{
+
+		/**
+		 * Creates new listener
+		 */
+		public InputFieldKeyListener() {
+			// TODO Auto-generated constructor stub
+		}
+
+		public void keyReleased(KeyEvent e) {
+			if (e.getKeyChar() == '\n') {
+			view.getEuclidianController().textfieldHasFocus(false);
+			geoTextField.textObjectUpdated(textField);
+			geoTextField.textSubmitted();
+			}
+
+	}
+
+
+	}
+	
+	
+	
 	
 //	private class ButtonListener implements MouseListener, MouseMotionListener,
 //			FocusListener, KeyListener {
