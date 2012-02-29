@@ -204,7 +204,13 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 
 	@Override
 	public Paint getPaint() {
-		// TODO Auto-generated method stub
+		java.awt.Paint paint = impl.getPaint();
+		if (paint instanceof java.awt.Color)
+			return new geogebra.awt.Color((java.awt.Color)paint);
+		else if (paint instanceof java.awt.GradientPaint)
+			return new geogebra.awt.GradientPaint((java.awt.GradientPaint)paint);
+
+		// other types of paint are currently not used in setPaint
 		return null;
 	}
 
