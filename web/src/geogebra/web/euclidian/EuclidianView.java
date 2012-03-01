@@ -395,7 +395,6 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
     public boolean requestFocusInWindow() {
 		if ((getHits() != null)&&(getHits().size()>0) &&
 				(getHits().getTopHits().get(0) instanceof GeoTextField)){
-			Application.debug("Request focus not in window");
 			return false;
 		}
 		

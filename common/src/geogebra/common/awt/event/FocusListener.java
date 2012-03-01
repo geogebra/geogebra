@@ -9,8 +9,6 @@ public class FocusListener {
 	private Object listenerClass;
 	
 	protected void wrapFocusGained(FocusEvent event) {
-		// TODO Auto-generated method stub
-		AbstractApplication.debug("focus gained");
 		if (listenerClass instanceof DrawTextField.InputFieldListener){
 			((DrawTextField.InputFieldListener) listenerClass).focusGained(event);
 		}
@@ -19,14 +17,21 @@ public class FocusListener {
 		}
 	}
 	
+	protected void wrapFocusGained(){
+		wrapFocusGained(null);
+	}
+	
 	protected void wrapFocusLost(FocusEvent event) {
-		AbstractApplication.debug("focus lost");
 		if (listenerClass instanceof DrawTextField.InputFieldListener){
 			((DrawTextField.InputFieldListener) listenerClass).focusLost(event);
 		}
 		else{
 			AbstractApplication.debug("other type");
 		}
+	}
+	
+	protected void wrapFocusLost(){
+		wrapFocusLost(null);
 	}
 
 	public Object getListenerClass() {

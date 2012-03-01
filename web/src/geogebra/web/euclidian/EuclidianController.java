@@ -193,13 +193,13 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	public void onMouseUp(MouseUpEvent event) {
 		DRAGMODE_MUST_BE_SELECTED = false;
 		
-		AbstractApplication.debug("hit before preventDefaults: " +
-			(view.getHits()==null ? "null" :
-				(view.getHits().getTopHits().isEmpty() ? "empty" :
-					""+view.getHits().getTopHits().get(0)
-				)
-			)
-		);
+//		AbstractApplication.debug("hit before preventDefaults: " +
+//			(view.getHits()==null ? "null" :
+//				(view.getHits().getTopHits().isEmpty() ? "empty" :
+//					""+view.getHits().getTopHits().get(0)
+//				)
+//			)
+//		);
 		if ((view.getHits() == null) || (view.getHits().size() == 0) ||				// if (we didn't click
 				!(view.getHits().getTopHits().get(0) instanceof GeoTextField)){		// into a textfield)
 	//	if (!textfieldHasFocus)
@@ -213,13 +213,13 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 	public void onMouseDown(MouseDownEvent event) {
 		DRAGMODE_MUST_BE_SELECTED = true;
-		AbstractApplication.debug("hit before preventDefaults: " +
-			(view.getHits()==null ? "null" :
-				(view.getHits().getTopHits().isEmpty() ? "empty" :
-					""+view.getHits().getTopHits().get(0)
-				)
-			)
-		);
+//		AbstractApplication.debug("hit before preventDefaults: " +
+//			(view.getHits()==null ? "null" :
+//				(view.getHits().getTopHits().isEmpty() ? "empty" :
+//					""+view.getHits().getTopHits().get(0)
+//				)
+//			)
+//		);
 		if ((view.getHits() == null) || (view.getHits().size() == 0) ||				// if (we didn't click
 				!(view.getHits().getTopHits().get(0) instanceof GeoTextField)){		// into a textfield)
 //		if (!textfieldHasFocus)
