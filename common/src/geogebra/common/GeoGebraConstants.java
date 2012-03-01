@@ -8,12 +8,12 @@ public interface GeoGebraConstants {
 	// DO NOT CHANGE the format of VERSION_STRING (or add commented out version)
 	// as it is read by the build system
 	// update lines below when this is updated
-	public static final String BUILD_DATE = "30 January 2012";
-	public static final String VERSION_STRING = "4.9.19.0"; // <- update lines
+	public static final String BUILD_DATE = "01 March 2012";
+	public static final String VERSION_STRING = "4.1.50.0"; // <- update lines
 															// below when this
 															// is updated
 	// current 3D: "4.9.18.0"
-	// current ggb42: "4.1.49.0"
+	// current ggb42: "4.1.50.0"
 
 	/** start hacks TODO remove it when release candidate */
 	public static final String PREFERENCES_ROOT = VERSION_STRING
