@@ -5,13 +5,36 @@
  * */
 //ugly hack, but css not inserted somehow...
 
-var styles = {
+var geogebraLinkStyles = {
 		"border":"1px solid #9999ff",
 		"border-radius":"3px",
 		"background":"white url("+ chrome.extension.getURL("icon_19.png")+") no-repeat right center",
 		"display":"inline-block",
 		"padding":" 2px 30px 2px 5px",
-		"color":"#666"
+		"color":"#666",
+		"position":"relative"
+}
+
+var geogebraPopUpStyles = {
+		"border":"1px solid #9999ff",
+		"border-radius":"3px",
+		"background":"white",
+		"display":"none",
+		"padding":" 2px 30px 2px 5px",
+		"color":"#666",
+		"position":"absolute",
+		"top":"10px",
+		"right":"0px"
+}
+
+var geogebraPopUp = $('<p><a title="click to render the construction here, or click on the main link to go to GeoGebraTube" href="#">Render the construction here</a></p>')
+					.css(geogebraPopUpStyles)
+					.find("a")
+					.click(grabArticleElement);
+
+function grabArticleElement() {
+	var href = $(this).parent("a").attr("href");
+	console.log(href);
 }
 
 function handleMouseOver() {
@@ -19,6 +42,8 @@ function handleMouseOver() {
 		"color" : "black",
 		"text-decoration" : "none"
 	});
+	$(this).find("a").show();
+	
 }
 
 function handleMouseOut() {
@@ -26,6 +51,7 @@ function handleMouseOut() {
 		"color" : "#666",
 		"text-decoration" : "underline"
 	});
+	$(this).find('a').hide();
 }
 
 
@@ -34,8 +60,9 @@ function decorateLinks(links) {
 	for (var i = 0, l = links.length; i < l; i++) {
 		link = $(links.get(i));
 		if (!link.hasClass("geogebraweblink")) {
-			link.addClass("geogebraweblink").css(styles)
-			.on("mouseover",handleMouseOver).on("mouseout",handleMouseOut);
+			link.addClass("geogebraweblink").css(geogebraLinkStyles)
+			.on("mouseover",handleMouseOver).on("mouseout",handleMouseOut)
+			.append(geogebraPopUp);
 		}
 	}
 }
