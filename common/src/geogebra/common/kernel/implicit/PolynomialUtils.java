@@ -23,12 +23,18 @@ import geogebra.common.kernel.polynomial.BigPolynomial;
 
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 
+/**
+ * This class provides functionality for work with polynomials.
+ * It allows one to compute degrees, leading coefficients, 
+ * polynomial division and others.
+ *
+ */
 public class PolynomialUtils {
 	
 	/**
 	 * calculates the quotient of p/d (no calculation of the remainder is done)
-	 * @param cp
-	 * @param cd
+	 * @param cp coefficients of dividend
+	 * @param cd coefficients of divisor
 	 * @return quotient of cp/cd
 	 */
 	public static double[] polynomialDivision(double[] cp,double[] cd){
@@ -47,9 +53,8 @@ public class PolynomialUtils {
 		}
 		if (cpclone.length-1<degD){ 
 			return new double[]{0};
-		}else{
-			cq=new double[cpclone.length-degD];
 		}
+		cq=new double[cpclone.length-degD];
 		double lcd=cd[degD];
 		int k=cpclone.length-1;
 		for (int i=cq.length-1;i>=0;i--){
@@ -64,18 +69,26 @@ public class PolynomialUtils {
 	
 	/**
 	 * calculates the quotient of p/d (no calculation of the remainder is done)
-	 * @param p
-	 * @param d
+	 * @param p dividend
+	 * @param d divisor
 	 * @return quotient of p/d
 	 */
 	public static PolynomialFunction polynomialDivision(PolynomialFunction p, PolynomialFunction d){
 		return new PolynomialFunction(polynomialDivision(p.getCoefficients(),d.getCoefficients()));
 	}
 	
+	/**
+	 * @param p polynomial function
+	 * @return degree of the function
+	 */
 	public static int getDegree(PolynomialFunction p){
 		return getDegree(p.getCoefficients());
 	}
 	
+	/**
+	 * @param c coefficients of polynomial
+	 * @return degree
+	 */
 	public static int getDegree(double[] c){
 		for (int i=c.length-1;i>=0;i--){
 			if (!Kernel.isZero(c[i]))
@@ -84,18 +97,29 @@ public class PolynomialUtils {
 		return -1;
 	}
 	
+	/**
+	 * @param c coefficients of polynomial
+	 * @return leading coefficient
+	 */
 	public static double getLeadingCoeff(double[] c){
 		int d=getDegree(c);
 		if (d>=0)
 			return c[d];
-		else
-			return 0;
+		return 0;
 	}
 	
+	/**
+	 * @param p polynomial function
+	 * @return leading coefficient
+	 */
 	public static double getLeadingCoeff(PolynomialFunction p){
 		return getLeadingCoeff(p.getCoefficients());
 	}
 	
+	/**
+	 * @param poly polynomial
+	 * @return degree
+	 */
 	public static int getDegree(BigPolynomial poly){
 		for (int i=poly.degree();i>=0;i--){
 			if (!Kernel.isEqual(poly.getCoeff(i).doubleValue(),0.,Kernel.MAX_DOUBLE_PRECISION))
@@ -104,6 +128,11 @@ public class PolynomialUtils {
 		return -1;
 	}
 	
+	/**
+	 * @param c coefficients of (one variable) polynomial p
+	 * @param x x
+	 * @return p(x)
+	 */
 	public static double eval(double[] c,double x){
 		if (c.length==0)
 			return 0;
@@ -115,6 +144,10 @@ public class PolynomialUtils {
 		return s;
 	}
 	
+	/**
+	 * @param coeff coefficients
+	 * @return array of arrays with minimal lengths that contains all coefficients
+	 */
 	public static double[][] coeffMinDeg(double[][] coeff){
 		double[][] newCoeffMinDeg=null;
 		for (int i=coeff.length-1;i>=0;i--){
@@ -144,14 +177,20 @@ public class PolynomialUtils {
 	/**
 	 * 
 	 * @param pair starting value for Newton's-Algorithm
-	 * @param p1 
+	 * @param p1 polynomial
 	 * @param line defined by line[0]+x*line[1]+y*line[2]=0
 	 * @return whether a common root of the polynomial and the line was found
 	 */
 	public static boolean rootPolishing(double[] pair,GeoImplicitPoly p1,double[] line){
 		return rootPolishing(pair, p1,null,line);
 	}
-	
+	/**
+	 * 
+	 * @param pair starting value for Newton's-Algorithm
+	 * @param p1 polynomial
+	 * @param p2 other polynomial
+	 * @return whether a common root of the polynomials was found
+	 */
 	public static boolean rootPolishing(double[] pair,GeoImplicitPoly p1,GeoImplicitPoly p2){
 		return rootPolishing(pair, p1, p2,null);
 	}
