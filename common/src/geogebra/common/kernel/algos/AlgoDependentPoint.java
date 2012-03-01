@@ -88,7 +88,7 @@ public class AlgoDependentPoint extends AlgoElement {
     @Override
 	public final void compute() {   
     	try {
-	        temp = ((VectorValue) root.evaluate()).getVector();
+	        temp = ((VectorValue) root.evaluate(StringTemplate.defaultTemplate)).getVector();
 	        if (Double.isInfinite(temp.getX()) || Double.isInfinite(temp.getY())) {
 	        	P.setUndefined();
 	        } else {

@@ -20,7 +20,7 @@ import java.util.HashSet;
 
 /**
  * Helper class to evaluate expressions with GeoBoolean objects in it.
- * @see ExpressionNode#evaluate()
+ * @see ExpressionNode#evaluate(StringTemplate)
  * @author Markus Hohenwarter
  */
 public class MyBoolean extends ValidExpression implements BooleanValue {

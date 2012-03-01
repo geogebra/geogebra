@@ -72,8 +72,8 @@ public class Parametric extends ValidExpression {
 	public String toString(StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(getLabel() + " : ");
-		sb.append("X = " + P.evaluate() + " + " + parameter + " "
-				+ v.evaluate());
+		sb.append("X = " + P.evaluate(tpl) + " + " + parameter + " "
+				+ v.evaluate(tpl));
 		return sb.toString();
 	}
 

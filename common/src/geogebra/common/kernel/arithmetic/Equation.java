@@ -227,8 +227,8 @@ public class Equation extends ValidExpression implements ReplaceableValue {
         rightEN.makePolynomialTree(this);		
 
         // simplify the both sides to single polynomials
-        leftPoly  = (Polynomial) leftEN.evaluate();
-        rightPoly = (Polynomial) rightEN.evaluate();	      
+        leftPoly  = (Polynomial) leftEN.evaluate(StringTemplate.defaultTemplate);
+        rightPoly = (Polynomial) rightEN.evaluate(StringTemplate.defaultTemplate);	      
         		
         // bring to normal form left - right = 0
         normalForm = new Polynomial(kernel, rightPoly);

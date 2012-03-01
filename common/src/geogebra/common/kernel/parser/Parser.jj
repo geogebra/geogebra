@@ -456,12 +456,12 @@ ValidExpression buildValidExpression() :
 			    // assignment, e.g. z = 23
 	  			if (lhs.isSingleVariable()) {                                  	               
 	                ve = rhs;
-	                ve.setLabel(((Variable)lhs.evaluate()).getName(StringTemplate.defaultTemplate));                         
+	                ve.setLabel(((Variable)lhs.evaluate(StringTemplate.defaultTemplate)).getName(StringTemplate.defaultTemplate));                         
 	            }
 	            
 				// special case: e = 2 should be an assignment
 				// but an undefined "e" has been read as the Euler constant already
-				else if (Unicode.EULER_STRING.equals(lhs.toString()))
+				else if (Unicode.EULER_STRING.equals(lhs.toString(StringTemplate.defaultTemplate)))
 				{
 				 	ve = rhs;
                   	ve.setLabel("e");  
@@ -476,7 +476,7 @@ ValidExpression buildValidExpression() :
 				}
               
 				// special case: z = 2 should be an assignment when 3D view is not present
-				else if (kernel.isZvarAllowed() && "z".equals(lhs.toString()))
+				else if (kernel.isZvarAllowed() && "z".equals(lhs.toString(StringTemplate.defaultTemplate)))
 				{
 				  ve = rhs;
                   ve.setLabel("z");  

@@ -1669,7 +1669,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					ExpressionNode ith = (ExpressionNode) lv.getMyList()
 							.getListElement(i);
 					if (ith.isConstant()) {
-						nvs[i] = (NumberValue) ith.evaluate();
+						nvs[i] = ith.evaluateNum();
 					} else {
 						AlgoDependentNumber adn = new AlgoDependentNumber(
 								kernel.getConstruction(), ith, false);

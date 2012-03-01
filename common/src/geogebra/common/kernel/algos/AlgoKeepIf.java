@@ -106,7 +106,7 @@ public class AlgoKeepIf extends AlgoElement {
 			else {
     			ExpressionNode ex = (ExpressionNode)boolFun.getFunction().getExpression().deepCopy(kernel);
     			ex.replaceAndWrap(var, geo.evaluate(StringTemplate.defaultTemplate));
-    			if (((MyBoolean)ex.evaluate()).getBoolean()) outputList.add(geo.copyInternal(cons));
+    			if (((MyBoolean)ex.evaluate(StringTemplate.defaultTemplate)).getBoolean()) outputList.add(geo.copyInternal(cons));
 			}
 				
     	}

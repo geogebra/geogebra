@@ -43,7 +43,7 @@ public class AlgoDependentGeoCopy extends AlgoElement {
     public AlgoDependentGeoCopy(Construction cons, String label, ExpressionNode origGeoNode) {
     	super(cons);
     	this.origGeoNode = origGeoNode;
-        origGeo = (GeoElement) origGeoNode.evaluate();
+        origGeo = (GeoElement) origGeoNode.evaluate(StringTemplate.defaultTemplate);
         
         copyGeo = origGeo.copy();
         setInputOutput(); // for AlgoElement

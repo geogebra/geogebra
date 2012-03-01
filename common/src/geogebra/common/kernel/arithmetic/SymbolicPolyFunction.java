@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.main.AbstractApplication;
 
 
@@ -79,7 +80,7 @@ public class SymbolicPolyFunction extends PolyFunction {
 			//	evaluate all the coefficients			
 			 double coeff;
 			 for (int i=0; i < symbCoeffs.length; i++) {				 
-				ExpressionValue eval = symbCoeffs[i].evaluate();
+				ExpressionValue eval = symbCoeffs[i].evaluate(StringTemplate.defaultTemplate);
 				coeff = ((NumberValue) eval).getDouble();
 				if (Double.isNaN(coeff) || Double.isInfinite(coeff))
 					return false; // no valid values			 	

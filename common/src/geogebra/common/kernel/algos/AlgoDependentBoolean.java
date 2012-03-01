@@ -67,7 +67,7 @@ public class AlgoDependentBoolean extends AlgoElement {
     		boolean oldLabelStatus = cons.isSuppressLabelsActive();
     		kernel.getConstruction().setSuppressLabelCreation(true);
     		
-    		ExpressionValue ev = root.evaluate();
+    		ExpressionValue ev = root.evaluate(StringTemplate.defaultTemplate);
     		kernel.getConstruction().setSuppressLabelCreation(oldLabelStatus);
     		
     		if (ev.isGeoElement())

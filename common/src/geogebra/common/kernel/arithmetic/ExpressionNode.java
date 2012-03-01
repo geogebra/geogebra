@@ -306,14 +306,14 @@ public class ExpressionNode extends ValidExpression implements
 		if (left.isExpressionNode()) {
 			((ExpressionNode) left).simplifyAndEvalCommands();
 		} else if (left instanceof Command) {
-			left = ((Command) left).evaluate();
+			left = ((Command) left).evaluate(StringTemplate.defaultTemplate);
 		}
 
 		if (right != null) {
 			if (right.isExpressionNode()) {
 				((ExpressionNode) right).simplifyAndEvalCommands();
 			} else if (right instanceof Command) {
-				right = ((Command) right).evaluate();
+				right = ((Command) right).evaluate(StringTemplate.defaultTemplate);
 			}
 		}
 	}
@@ -325,7 +325,7 @@ public class ExpressionNode extends ValidExpression implements
 		if (left.isExpressionNode()) {
 			ExpressionNode node = (ExpressionNode) left;
 			if (left.isConstant()) {
-				ExpressionValue eval = node.evaluate();
+				ExpressionValue eval = node.evaluate(StringTemplate.defaultTemplate);
 				if (eval.isNumberValue()) {
 					// we only simplify numbers that have integer values
 					if (Kernel.isInteger(((NumberValue) eval)
@@ -343,7 +343,7 @@ public class ExpressionNode extends ValidExpression implements
 		if ((right != null) && right.isExpressionNode()) {
 			ExpressionNode node = (ExpressionNode) right;
 			if (right.isConstant()) {
-				ExpressionValue eval = node.evaluate();
+				ExpressionValue eval = node.evaluate(StringTemplate.defaultTemplate);
 				if (eval.isNumberValue()) {
 					// we only simplify numbers that have integer values
 					if (Kernel.isInteger(((NumberValue) eval)
@@ -4169,15 +4169,15 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	public boolean isNumberValue() {
-		return evaluate().isNumberValue();
+		return evaluate(StringTemplate.defaultTemplate).isNumberValue();
 	}
 
 	public boolean isBooleanValue() {
-		return evaluate().isBooleanValue();
+		return evaluate(StringTemplate.defaultTemplate).isBooleanValue();
 	}
 
 	public boolean isListValue() {
-		return evaluate().isListValue();
+		return evaluate(StringTemplate.defaultTemplate).isListValue();
 	}
 
 	public boolean isPolynomialInstance() {

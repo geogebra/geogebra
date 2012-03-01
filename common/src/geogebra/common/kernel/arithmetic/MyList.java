@@ -34,7 +34,7 @@ import java.util.HashSet;
  * and to evaluate them. So a MyList object is used when a list is entered (e.g.
  * {2, 3, 7, 9}) and also when a list is used for arithmetic operations.
  * 
- * @see ExpressionNode#evaluate()
+ * @see ExpressionNode#evaluate(StringTemplate)
  * 
  * @author Markus Hohenwarter
  */
@@ -231,7 +231,7 @@ public class MyList extends ValidExpression implements ListValue,
 							Operation.MULTIPLY, rightV);
 
 					// multiply two cells...
-					ExpressionValue operationResult = tempNode.evaluate();
+					ExpressionValue operationResult = tempNode.evaluate(StringTemplate.defaultTemplate);
 
 					totalNode = new ExpressionNode(kernel, totalVal,
 							Operation.PLUS, operationResult);
@@ -240,7 +240,7 @@ public class MyList extends ValidExpression implements ListValue,
 					// totalNode.setOperation(ExpressionNode.PLUS);
 
 					// ...then add the result to a running total
-					totalVal = totalNode.evaluate();
+					totalVal = totalNode.evaluate(StringTemplate.defaultTemplate);
 
 				}
 				tempNode = new ExpressionNode(kernel, totalVal);
@@ -391,7 +391,7 @@ public class MyList extends ValidExpression implements ListValue,
 
 			// evaluate operation
 
-			ExpressionValue operationResult = tempNode.evaluate();
+			ExpressionValue operationResult = tempNode.evaluate(tpl);
 
 			// Application.debug("        tempNode : " + tempNode + ", result: "
 			// + operationResult);

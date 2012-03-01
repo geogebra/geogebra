@@ -302,15 +302,15 @@ public class Command extends ValidExpression implements ReplaceableValue,
 	}
 
 	public boolean isNumberValue() {
-		return allowEvaluationForTypeCheck && evaluate().isNumberValue();
+		return allowEvaluationForTypeCheck && evaluate(StringTemplate.defaultTemplate).isNumberValue();
 	}
 
 	public boolean isVectorValue() {
-		return allowEvaluationForTypeCheck && evaluate().isVectorValue();
+		return allowEvaluationForTypeCheck && evaluate(StringTemplate.defaultTemplate).isVectorValue();
 	}
 
 	final public boolean isBooleanValue() {
-		return allowEvaluationForTypeCheck && evaluate().isBooleanValue();
+		return allowEvaluationForTypeCheck && evaluate(StringTemplate.defaultTemplate).isBooleanValue();
 	}
 
 	public boolean isPolynomialInstance() {
@@ -320,7 +320,7 @@ public class Command extends ValidExpression implements ReplaceableValue,
 	}
 
 	public boolean isTextValue() {
-		return allowEvaluationForTypeCheck && evaluate().isTextValue();
+		return allowEvaluationForTypeCheck && evaluate(StringTemplate.defaultTemplate).isTextValue();
 	}
 
 	public ExpressionValue deepCopy(Kernel kernel1) {

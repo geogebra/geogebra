@@ -159,7 +159,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 */
 	final public boolean evaluateBoolean(double x) {
 		fVars[0].set(x);
-		return ((BooleanValue) expression.evaluate()).getBoolean();
+		return ((BooleanValue) expression.evaluate(StringTemplate.defaultTemplate)).getBoolean();
 	}
 
 	/**

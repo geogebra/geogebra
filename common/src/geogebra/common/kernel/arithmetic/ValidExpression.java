@@ -20,7 +20,12 @@ import geogebra.common.kernel.StringTemplate;
 
 import java.util.Set;
 import java.util.Vector;
-@SuppressWarnings("javadoc")
+/**
+ * Common class for objects obtained from the parser that are not yet processed to GeoElements.
+ * They may also persist in ExpressionNodes of functions
+ * @author Markus
+ *
+ */
 public abstract class ValidExpression implements ExpressionValue {
 
 	private Vector<String> labels;
@@ -31,6 +36,9 @@ public abstract class ValidExpression implements ExpressionValue {
 		return toString(tpl);
 	}
 
+	/**
+	 * @param label label to be added
+	 */
 	public void addLabel(String label) {
 		initLabels();
 		labels.add(label);
@@ -41,16 +49,17 @@ public abstract class ValidExpression implements ExpressionValue {
 			labels = new Vector<String>();
 	}
 
-	public void addNullLabel() {
-		initLabels();
-		labels.add(null);
-	}
-
+	/**
+	 * @param labellist list of labels to be added
+	 */
 	public void addLabel(Vector<String> labellist) {
 		initLabels();
 		labels.addAll(labellist);
 	}
 
+	/**
+	 * @return count of labels
+	 */
 	public int labelCount() {
 		if (labels == null) {
 			return 0;
@@ -58,6 +67,10 @@ public abstract class ValidExpression implements ExpressionValue {
 		return labels.size();
 	}
 
+	/**
+	 * @param index index
+	 * @return label
+	 */
 	public String getLabel(int index) {
 		if (index < 0 || index >= labelCount()) {
 			return null;
@@ -65,6 +78,9 @@ public abstract class ValidExpression implements ExpressionValue {
 		return labels.get(index);
 	}
 
+	/**
+	 * @return array of all labels
+	 */
 	public String[] getLabels() {
 		int size = labelCount();
 		if (size == 0) {
@@ -78,16 +94,25 @@ public abstract class ValidExpression implements ExpressionValue {
 		return ret;
 	}
 	
+	/**
+	 * @return label
+	 */
 	public String getLabel() {
 		return getLabel(0);
 	}
 
+	/**
+	 * @param label sets given label
+	 */
 	public void setLabel(String label) {
 		initLabels();
 		labels.clear();
 		labels.add(label);
 	}
 
+	/**
+	 * @param str sets all labels
+	 */
 	public void setLabels(String[] str) {
 		initLabels();
 		labels.clear();
@@ -114,14 +139,23 @@ public abstract class ValidExpression implements ExpressionValue {
 		return false;
 	}
 
+	/**
+	 * @return true if this is command and it is on top level
+	 */
 	public boolean isTopLevelCommand() {
 		return false;
 	}
 
+	/**
+	 * @return top level command of this expression
+	 */
 	public Command getTopLevelCommand() {
 		return null;
 	}
 
+	/**
+	 * @return label
+	 */
 	public String getLabelForAssignment() {
 		return getLabel();
 	}
@@ -173,16 +207,22 @@ public abstract class ValidExpression implements ExpressionValue {
 	}
 
 	/**
-	 * @param cmds  
+	 * @param cmds commands
 	 */
 	public void addCommands(Set<Command> cmds) {
 		// do nothing, see Command, ExpressionNode classes
 	}
 
+	/**
+	 * @return whether KeepInput command is part of this expression
+	 */
 	public boolean isKeepInputUsed() {
 		return keepInputUsed;
 	}
 
+	/**
+	 * @param keepInputUsed true if KeepInput command is part of this expression
+	 */
 	public void setKeepInputUsed(boolean keepInputUsed) {
 		this.keepInputUsed = keepInputUsed;
 	}
@@ -190,11 +230,7 @@ public abstract class ValidExpression implements ExpressionValue {
 	public ExpressionValue evaluate(StringTemplate tpl){
 		return this;
 	}
-	
-	public final ExpressionValue evaluate(){
-		return evaluate(StringTemplate.defaultTemplate);
-	}
-	
+
 	/**
 	 * Evaluates to number (if not numeric, returns undefined MyDouble)
 	 * @return number or undefined double

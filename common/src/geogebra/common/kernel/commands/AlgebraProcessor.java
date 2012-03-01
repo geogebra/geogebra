@@ -499,7 +499,7 @@ public class AlgebraProcessor {
 			ValidExpression ve = parser.parseExpression(str);
 			ExpressionNode en = (ExpressionNode) ve;
 			en.resolveVariables();
-			NumberValue nv = (NumberValue) en.evaluate();
+			NumberValue nv = (NumberValue) en.evaluate(StringTemplate.defaultTemplate);
 			return nv.getDouble();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1408,7 +1408,7 @@ public class AlgebraProcessor {
 
 		// ELSE: resolve variables and evaluate expressionnode
 		n.resolveVariables();
-		eval = n.evaluate();
+		eval = n.evaluate(StringTemplate.defaultTemplate);
 		boolean dollarLabelFound = false;
 
 		ExpressionNode myNode = n;

@@ -87,7 +87,7 @@ public class AlgoDependentNumber extends AlgoElement {
     @Override
 	public final void compute() {    
     	try {
-    		NumberValue nv = (NumberValue) root.evaluate();
+    		NumberValue nv = (NumberValue) root.evaluate(StringTemplate.defaultTemplate);
 	        number.setValue(nv.getDouble());
 	    } catch (Exception e) {
 	    	number.setUndefined();

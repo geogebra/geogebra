@@ -13,6 +13,7 @@ the Free Software Foundation.
 
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
@@ -155,7 +156,7 @@ public class FitRealFunction implements org.apache.commons.math.optimization.fit
 		//ExpressionNode  enf=new ExpressionNode(kernel,evf);		//System.out.println("enf(f�r replace): "+enf.toString());
 		
 		for(int i=0;i<numberOfParameters;i++){
-			enf=enf.replaceAndWrap((ExpressionValue)gliders[i], mydoubles[i].evaluate()); 
+			enf=enf.replaceAndWrap((ExpressionValue)gliders[i], mydoubles[i].evaluate(StringTemplate.defaultTemplate)); 
 																//System.out.println("Replaced: "+((NumberValue)pars[i]).toString()+"with: "+mydoubles[i].toString());
 		}//for all parameters
 																//System.out.println("enf(etter replace): "+enf.toString());

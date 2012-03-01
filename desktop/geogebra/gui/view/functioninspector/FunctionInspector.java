@@ -1363,7 +1363,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		intervalTabGeoList.add(integralGeo);
 		
 		ExpressionNode en = new ExpressionNode(kernel, selectedGeo, Operation.ABS, null);
-		AlgoDependentFunction funAlgo = new AlgoDependentFunction(cons, (Function) en.evaluate());
+		AlgoDependentFunction funAlgo = new AlgoDependentFunction(cons, (Function) en.evaluate(StringTemplate.defaultTemplate));
 		cons.removeFromConstructionList(funAlgo);
 		
 		//the antiderivative of a function containing the absolute function might be difficult to find if it exists at all. Therefore the definite integral is calculated numerically.

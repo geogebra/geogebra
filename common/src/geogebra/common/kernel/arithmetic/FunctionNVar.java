@@ -261,14 +261,14 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		// evaluate expression to find out about the type of function
 		ExpressionValue ev;
 		try {
-			ev = expression.evaluate();
+			ev = expression.evaluate(StringTemplate.defaultTemplate);
 		} catch (MyError err) {
 			// Evaluation failed: DESPERATE MODE
 			try {
 				// try to fix structure of expression and then try evaluation
 				// again
 				fixStructure();
-				ev = expression.evaluate();
+				ev = expression.evaluate(StringTemplate.defaultTemplate);
 			} catch (Throwable th) {
 				// throw original error when desperate mode failed
 				throw err;
@@ -362,7 +362,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 			// Application.debug(fVars[i].toString()+" <= "+vals[i]);
 			fVars[i].set(vals[i]);
 		}
-		return ((NumberValue) expression.evaluate()).getDouble();
+		return expression.evaluateNum().getDouble();
 	}
 
 	/**
@@ -375,7 +375,7 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	final public boolean evaluateBoolean(double[] vals) {
 		for (int i = 0; i < fVars.length; i++)
 			fVars[i].set(vals[i]);
-		return ((BooleanValue) expression.evaluate()).getBoolean();
+		return ((BooleanValue) expression.evaluate(StringTemplate.defaultTemplate)).getBoolean();
 	}
 
 	public HashSet<GeoElement> getVariables() {

@@ -80,7 +80,7 @@ public class AlgoDependentPoint3D extends AlgoElement3D {
     // calc the current value of the arithmetic tree
     public final void compute() {   
     	try {
-	        temp = ((Vector3DValue) root.evaluate()).getPointAsDouble();
+	        temp = ((Vector3DValue) root.evaluate(StringTemplate.defaultTemplate)).getPointAsDouble();
 	        if (Double.isInfinite(temp[0]) || Double.isInfinite(temp[1]) || Double.isInfinite(temp[2])) {
 	        	P.setUndefined();
 	        } else {

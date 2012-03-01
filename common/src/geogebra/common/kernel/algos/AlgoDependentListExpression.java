@@ -98,7 +98,7 @@ public class AlgoDependentListExpression extends AlgoElement {
     @Override
 	public final void compute() {    
 		// get resulting list of ExpressionNodes		    	
-    	ExpressionValue evlist = root.evaluate();
+    	ExpressionValue evlist = root.evaluate(StringTemplate.defaultTemplate);
     	MyList myList = (evlist instanceof MyList)? (MyList)evlist: ((GeoList)evlist).getMyList();
     	
     	if (!myList.isDefined()) {

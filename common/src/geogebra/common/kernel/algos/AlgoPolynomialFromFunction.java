@@ -115,7 +115,7 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
     private double evaluateToDouble(String str) {
 		try {
 			ExpressionNode en = parser.parseExpression(str);			
-			NumberValue nv = (NumberValue) en.evaluate();
+			NumberValue nv = en.evaluateNum();
 			return nv.getDouble();
 		} catch (Exception e) {
 			return Double.NaN;
