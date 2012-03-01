@@ -16,21 +16,21 @@ var geogebraLinkStyles = {
 }
 
 var geogebraPopUpStyles = {
-		"border":"1px solid #9999ff",
 		"border-radius":"3px",
-		"background":"white",
+		"background":"#9999ff",
 		"display":"none",
 		"padding":" 2px 30px 2px 5px",
 		"color":"#666",
+		"display":"none",
 		"position":"absolute",
 		"top":"10px",
-		"right":"0px"
+		"right":"-4px"
 }
 
 var geogebraPopUp = $('<p><a title="click to render the construction here, or click on the main link to go to GeoGebraTube" href="#">Render the construction here</a></p>')
 					.css(geogebraPopUpStyles)
 					.find("a")
-					.click(grabArticleElement);
+					.click(grabArticleElement).end();
 
 function grabArticleElement() {
 	var href = $(this).parent("a").attr("href");
@@ -42,7 +42,8 @@ function handleMouseOver() {
 		"color" : "black",
 		"text-decoration" : "none"
 	});
-	$(this).find("a").show();
+	$(this).find("p").show();
+	console.log($(this));
 	
 }
 
@@ -51,7 +52,8 @@ function handleMouseOut() {
 		"color" : "#666",
 		"text-decoration" : "underline"
 	});
-	$(this).find('a').hide();
+	$(this).find('p').hide("fast");
+	console.log($(this));
 }
 
 
@@ -61,8 +63,9 @@ function decorateLinks(links) {
 		link = $(links.get(i));
 		if (!link.hasClass("geogebraweblink")) {
 			link.addClass("geogebraweblink").css(geogebraLinkStyles)
-			.on("mouseover",handleMouseOver).on("mouseout",handleMouseOut)
-			.append(geogebraPopUp);
+			.on("mouseover",handleMouseOver).on("mouseout",handleMouseOut);
+			link.append(geogebraPopUp.clone(true));
+			console.log(link);
 		}
 	}
 }
