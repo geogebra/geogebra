@@ -8,33 +8,43 @@
 var geogebraLinkStyles = {
 		"border":"1px solid #9999ff",
 		"border-radius":"3px",
-		"background":"white url("+ chrome.extension.getURL("icon_19.png")+") no-repeat right center",
+		"background":"white url("+ chrome.extension.getURL("icon_19.png")+") no-repeat right 2px",
 		"display":"inline-block",
 		"padding":" 2px 30px 2px 5px",
 		"color":"#666",
-		"position":"relative"
+		"overflow":"auto"
 }
 
 var geogebraPopUpStyles = {
 		"border-radius":"3px",
-		"background":"#9999ff",
+		"background":"white",
 		"display":"none",
-		"padding":" 2px 30px 2px 5px",
 		"color":"#666",
-		"display":"none",
-		"position":"absolute",
-		"top":"10px",
-		"right":"-4px"
+		"display":"none"
 }
 
-var geogebraPopUp = $('<p><a title="click to render the construction here, or click on the main link to go to GeoGebraTube" href="#">Render the construction here</a></p>')
+var geogebraWebLoading = {
+		"background":"white url("+ chrome.extension.getURL("spinner.gif")+") no-repeat right 2px",	
+}
+
+var geogebraPopUp = $('<p class="geogebrapopup">Click to <a title="click to render the construction here" href="#">Render the construction here</a>, or click to the link above to go to GeoGebraTube</p>')
 					.css(geogebraPopUpStyles)
 					.find("a")
 					.click(grabArticleElement).end();
 
 function grabArticleElement() {
-	var href = $(this).parent("a").attr("href");
-	console.log(href);
+	var parentLink = $(this).parents("a");
+	var article;
+	if (!parentLink.hasClass("geogebraweb_loading")) {
+		parentLink.addClass("geogebraweb_loading")
+		parentLink.css(geogebraWebLoading);
+		var href = parentLink.attr("href")+"?mobile=true";
+		$.get(href,function(data) {
+			article = $(data.substring(data.indexOf("<article"),data.indexOf("</article>")+10));
+			parentLink.find(".geogebrapopup").remove();
+			parentLink.append(article)
+		});
+	}
 }
 
 function handleMouseOver() {
@@ -42,8 +52,7 @@ function handleMouseOver() {
 		"color" : "black",
 		"text-decoration" : "none"
 	});
-	$(this).find("p").show();
-	console.log($(this));
+	$(this).find("p").show("fast");
 	
 }
 
@@ -53,7 +62,6 @@ function handleMouseOut() {
 		"text-decoration" : "underline"
 	});
 	$(this).find('p').hide("fast");
-	console.log($(this));
 }
 
 
@@ -63,9 +71,8 @@ function decorateLinks(links) {
 		link = $(links.get(i));
 		if (!link.hasClass("geogebraweblink")) {
 			link.addClass("geogebraweblink").css(geogebraLinkStyles)
-			.on("mouseover",handleMouseOver).on("mouseout",handleMouseOut);
+			.on("mouseenter",handleMouseOver).on("mouseleave",handleMouseOut);
 			link.append(geogebraPopUp.clone(true));
-			console.log(link);
 		}
 	}
 }
