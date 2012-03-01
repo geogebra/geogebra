@@ -652,15 +652,12 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 			return initIneqs(leftTree, functional, tree, !negate);
 		} else if (op.equals(Operation.FUNCTION_NVAR)) {
 			FunctionalNVar nv = (FunctionalNVar) leftTree.getLeft();
-			IneqTree otherTree = nv.getIneqs();
-			if (otherTree == null || otherTree.getSize() == 0) {
-				return false;
-			}
-			tree.setLeft(otherTree.getLeft());
-			tree.setRight(otherTree.getRight());
-			tree.setOperation(otherTree.getOperation());
-			tree.setIneq(otherTree.getIneq());
-			return true;
+			ExpressionNode subExpr = nv.getFunction().getExpression().getCopy(kernel);
+			FunctionVariable[] subVars = nv.getFunction().getFunctionVariables();
+			for(int i=0;i<subVars.length;i++)
+				subExpr.replace(subVars[i], 
+						((MyList)rightTree.getLeft()).getListElement(i));
+			return initIneqs(subExpr,functional,tree,negate);
 		} else
 			return false;
 
