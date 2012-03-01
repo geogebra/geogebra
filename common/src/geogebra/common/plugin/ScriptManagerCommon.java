@@ -277,7 +277,7 @@ public abstract class ScriptManagerCommon {
 		 */
 		public void remove(GeoElement geo) {
 			if (removeListeners.size()>0 && geo.isLabelSet()) {  
-				Object [] args = { geo.getLabel() };
+				Object [] args = { geo.getLabel(StringTemplate.defaultTemplate) };
 				notifyListeners(removeListeners, args);						
 			}			
 		}
@@ -325,7 +325,7 @@ public abstract class ScriptManagerCommon {
 		 */
 		public void rename(GeoElement geo) {						
 			if (renameListeners.size()>0 && geo.isLabelSet()) {
-				Object [] args = { geo.getOldLabel(), geo.getLabel() };
+				Object [] args = { geo.getOldLabel(), geo.getLabel(StringTemplate.defaultTemplate) };
 				notifyListeners(renameListeners, args);				
 			}			
 		}
@@ -352,15 +352,15 @@ public abstract class ScriptManagerCommon {
 			if (!listenersEnabled) return;
 			// update listeners
 			if (updateListeners.size()>0 && geo.isLabelSet()) {
-				Object [] args = { geo.getLabel() };
+				Object [] args = { geo.getLabel(StringTemplate.defaultTemplate) };
 				notifyListeners(updateListeners, args);	
 			}
 
 			// updateObject listeners
 			if (updateListenerMap != null) {			
-				String jsFunction = (String) updateListenerMap.get(geo);		
+				String jsFunction = updateListenerMap.get(geo);		
 				if (jsFunction != null) {	
-					Object [] args = { geo.getLabel() };
+					Object [] args = { geo.getLabel(StringTemplate.defaultTemplate) };
 					callJavaScript(jsFunction, args);
 				}
 			}

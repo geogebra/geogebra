@@ -61,7 +61,7 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
     	FunctionVariable[] funVar = new FunctionVariable[localVar.length];
     	for (int i=0;i<localVar.length; i++){
     		funVar[i] = new FunctionVariable(kernel);
-    		funVar[i].setVarString(localVar[i].getLabel());
+    		funVar[i].setVarString(localVar[i].getLabel(StringTemplate.defaultTemplate));
     	}
 		
 		ExpressionNode[] exp = new ExpressionNode[coords.length];

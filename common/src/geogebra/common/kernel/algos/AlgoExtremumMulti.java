@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -319,7 +320,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 		int n = gpts.length;
 		System.out.println("Length: " + n);
 		for (int i = 0; i < n; i++) {
-			System.out.println("Label: " + gpts[i].getLabel() + "     pt[" + i
+			System.out.println("Label: " + gpts[i].getLabel(StringTemplate.defaultTemplate) + "     pt[" + i
 					+ "]: (" + gpts[i].x + "," + gpts[i] + ")");
 		}// for
 	}// listPoints(GeoPoint[])

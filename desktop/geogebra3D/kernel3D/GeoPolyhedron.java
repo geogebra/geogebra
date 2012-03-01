@@ -500,7 +500,7 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 	private static int usableLabel(GeoElement geo) {
 		if (!geo.isLabelSet())
 			return 2; // not usable
-		else if (geo.getLabel().contains("_"))
+		else if (geo.getLabel(StringTemplate.defaultTemplate).contains("_"))
 			return 1; // usable if only one
 		else
 			return 0; // usable
@@ -522,7 +522,7 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 				GeoElement p = (GeoElement) it.next();
 				labelUsability += usableLabel(p);
 				if (labelUsability < 2) {
-					points[i] = p.getLabel();
+					points[i] = p.getLabel(StringTemplate.defaultTemplate);
 					if (points[i]
 							.compareToIgnoreCase(points[indexFirstPointName]) < 0)
 						indexFirstPointName = i;
@@ -576,7 +576,7 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 				GeoElement p = (GeoElement) it.next();
 				labelUsability += usableLabel(p);
 				if (labelUsability < 2) {
-					points[i] = p.getLabel();
+					points[i] = p.getLabel(StringTemplate.defaultTemplate);
 					i++;
 				}
 			}

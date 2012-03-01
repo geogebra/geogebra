@@ -352,7 +352,7 @@ public class RelativeCopy {
 		if (value == null) {
 			if (oldValue != null) {
 				MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
-						.exec(oldValue.getLabel());
+						.exec(oldValue.getLabel(StringTemplate.defaultTemplate));
 				int column = GeoElementSpreadsheet
 						.getSpreadsheetColumn(matcher);
 				int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
@@ -601,9 +601,9 @@ public class RelativeCopy {
 		text = text.replace("::::", "::");
 
 		MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
-				.exec(value.getLabel());
+				.exec(value.getLabel(StringTemplate.defaultTemplate));
 		for (int i = 0; i < dependents.length; ++i) {
-			String name = dependents[i].getLabel();
+			String name = dependents[i].getLabel(StringTemplate.defaultTemplate);
 			matcher = GeoElementSpreadsheet.spreadsheetPattern.exec(name);
 			int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
 			int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
@@ -828,9 +828,9 @@ public class RelativeCopy {
 			// check if text was the label of an existing geo
 			// toUpperCase() added to fix bug A1=1, enter just 'a1' or 'A1' into
 			// cell B1 -> A1 disappears
-			if (kernel.getApplication().toLowerCase(text).equals(newValues[0].getLabel())
+			if (kernel.getApplication().toLowerCase(text).equals(newValues[0].getLabel(StringTemplate.defaultTemplate))
 			// also need eg =a to work
-					|| text.equals(newValues[0].getLabel())) {
+					|| text.equals(newValues[0].getLabel(StringTemplate.defaultTemplate))) {
 				// make sure we create a copy of this existing or auto-created
 				// geo
 				// by providing the new cell name in the beginning

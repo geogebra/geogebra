@@ -16,11 +16,19 @@ import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 
+/**
+ * Computes 
+ */
 public class AlgoImplicitPolyFunction extends AlgoElement {
 	
 	private GeoFunctionNVar function; //input
 	private GeoImplicitPoly implicitPoly; //output
 
+	/**
+	 * @param c construction
+	 * @param label label
+	 * @param func function
+	 */
 	public AlgoImplicitPolyFunction(Construction c, String label,GeoFunctionNVar func) {
 		super(c);
 		function=func;
@@ -69,6 +77,9 @@ public class AlgoImplicitPolyFunction extends AlgoElement {
 		return Algos.AlgoImplicitPolyFunction;
 	}
 	
+	/**
+	 * @return resulting polynomial
+	 */
 	public GeoImplicitPoly getImplicitPoly(){
 		return implicitPoly;
 	}

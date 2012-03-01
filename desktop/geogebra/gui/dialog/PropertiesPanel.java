@@ -6376,7 +6376,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 			nameInputHandler.processInput(strName);
 
 			// reset label if not successful
-			strName = currentGeo.getLabel();
+			strName = currentGeo.getLabel(StringTemplate.defaultTemplate);
 			if (!strName.equals(tfName.getText())) {
 				tfName.setText(strName);
 				tfName.requestFocus();

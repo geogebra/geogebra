@@ -17,6 +17,7 @@ the Free Software Foundation.
 
 package geogebra.gui.editor;
 
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
@@ -198,7 +199,7 @@ public final class GeoGebraLexer extends Lexer implements GeoGebraLexerConstants
         while (iter.hasNext()) {
         	GeoElement g = iter.next();
         	if (g.isLabelSet()) {
-        		variables.add(g.getLabel());
+        		variables.add(g.getLabel(StringTemplate.defaultTemplate));
         	}
         }
         commands = new HashSet<String>();

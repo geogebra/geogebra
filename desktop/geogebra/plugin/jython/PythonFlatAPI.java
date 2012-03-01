@@ -231,7 +231,7 @@ public class PythonFlatAPI {
 		 * @return the label of the wrapped Geo
 		 */
 		public static String getLabel(GeoElement geo) {
-			return geo.getLabel();
+			return geo.getLabel(StringTemplate.defaultTemplate);
 		}
 		
 		/**

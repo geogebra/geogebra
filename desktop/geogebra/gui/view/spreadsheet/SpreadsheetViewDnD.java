@@ -8,6 +8,7 @@ import geogebra.common.awt.Point;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoList;
 
 import java.awt.datatransfer.DataFlavor;
@@ -260,9 +261,10 @@ public class SpreadsheetViewDnD implements DragGestureListener, DragSourceListen
 			GeoElement[] geoArray = new GeoElement[list.size()];
 			for(int i=0; i < geoArray.length; i++){
 				GeoElement geo = app.getKernel().lookupLabel(list.get(i));
-				if(geo != null)
-					if(app.getKernel().getGeoElementSpreadsheet().isSpreadsheetLabel(geo.getLabel()))
+				if(geo != null) {
+					if(GeoElementSpreadsheet.isSpreadsheetLabel(geo.getLabel(StringTemplate.defaultTemplate)))
 						return false;
+				}
 					geoArray[i] = geo;
 			}
 

@@ -1,6 +1,7 @@
 package geogebra.gui.dialog.handler;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.LabelManager;
@@ -38,7 +39,7 @@ public class RenameInputHandler implements InputHandler {
 	public boolean processInput(String inputValue) {
 		GeoElement geo = this.geo;
 		
-		if (inputValue == null || inputValue.equals(geo.getLabel()))
+		if (inputValue == null || inputValue.equals(geo.getLabel(StringTemplate.defaultTemplate)))
 			return false;
 		
 		if (!LabelManager.checkName(geo, inputValue)) {

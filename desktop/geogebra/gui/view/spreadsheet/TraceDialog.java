@@ -15,7 +15,9 @@ package geogebra.gui.view.spreadsheet;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.util.SpreadsheetTraceSettings;
 import geogebra.gui.inputfield.MyTextField;
@@ -670,9 +672,10 @@ implements
 			traceGeoList.setSelectedValue(geo, true);
 			updateGUI();
 		}else{
+		app.getKernel().getGeoElementSpreadsheet();
 		if (mode == MODE_ADD 
 				&& geo.isSpreadsheetTraceable()
-				&& !app.getKernel().getGeoElementSpreadsheet().isSpreadsheetLabel(geo.getLabel())) {
+				&& !GeoElementSpreadsheet.isSpreadsheetLabel(geo.getLabel(StringTemplate.defaultTemplate))) {
 			
 				addTrace(geo);
 			}

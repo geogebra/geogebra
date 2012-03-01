@@ -501,50 +501,6 @@ public class CellRangeProcessor {
 
 	}
 
-	/**
-	 * Creates a string expression for a point.
-	 * 
-	 * @param leftCoord
-	 * @param rightCoord
-	 * @param byValue
-	 * @param leftToRight
-	 * @return
-	 */
-	private static String pointString(GeoElement leftCoord,
-			GeoElement rightCoord, boolean byValue, boolean leftToRight) {
-
-		// return null and exit if either coordinate is null or non-numeric
-		if (leftCoord == null || rightCoord == null
-				|| !leftCoord.isGeoNumeric() || !rightCoord.isGeoNumeric())
-			return null;
-
-		// set the coords to leftward or rightward orientation
-		GeoElement xCoord, yCoord;
-		xCoord = leftToRight ? leftCoord : rightCoord;
-		yCoord = leftToRight ? rightCoord : leftCoord;
-
-		String pointString = "";
-		boolean isPolar = false;
-		try {
-			// test for polar point
-			isPolar = yCoord.isAngle();
-			String separator = isPolar ? ";" : ",";
-
-			if (byValue)
-				pointString = "(" + ((GeoNumeric) xCoord).getDouble()
-						+ separator + ((GeoNumeric) yCoord).getDouble() + ")";
-			else
-				pointString = "(" + xCoord.getLabel() + separator
-						+ yCoord.getLabel() + ")";
-
-		} catch (Exception ex) {
-			AbstractApplication
-					.debug("Creating point string failed with exception: " + ex);
-		}
-
-		return pointString;
-	}
-
 	public String[] getPointListTitles(ArrayList<CellRange> rangeList,
 			boolean leftToRight) {
 
@@ -1197,7 +1153,7 @@ public class CellRangeProcessor {
 				// r) + ": " + text);
 
 				text = GeoElementSpreadsheet.getSpreadsheetCellName(c, r) + "="
-						+ fcn.getLabel() + "(";
+						+ fcn.getLabel(StringTemplate.defaultTemplate) + "(";
 				text += GeoElementSpreadsheet.getSpreadsheetCellName(c1, r);
 				text += ",";
 				text += GeoElementSpreadsheet.getSpreadsheetCellName(c, r1);

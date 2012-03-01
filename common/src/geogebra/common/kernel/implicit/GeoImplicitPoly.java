@@ -59,7 +59,7 @@ import java.util.List;
 import org.apache.commons.math.linear.DecompositionSolver;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealMatrixImpl;
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
 
 /**
  * Represents implicit bivariat polynomial equations, with degree greater than 2.
@@ -79,9 +79,12 @@ Dilateable, Transformable, EuclidianViewCE {
 	
 	private boolean trace; //for traceable interface
 	
-	public GeoLocus locus;
-	public Polynomial poly;
+	private GeoLocus locus;
 
+	/**
+	 * Creates new implicit polynomial
+	 * @param c construction
+	 */
 	public GeoImplicitPoly(Construction c) {
 		super(c);
 		degX=-1;
@@ -102,13 +105,18 @@ Dilateable, Transformable, EuclidianViewCE {
 			c.unregisterEuclidianViewCE(this);
 	}
 	
+	/**
+	 * Creates new implicitpolynomial
+	 * @param c construction
+	 * @param label label
+	 * @param coeff array of coefficients
+	 */
 	protected GeoImplicitPoly(Construction c, String label,double[][] coeff){
 		this(c,label,coeff,true);
 	}
 	
 	private GeoImplicitPoly(Construction c, String label,Polynomial poly,boolean calcPath){
 		this(c);
-		this.poly = poly;
 		setLabel(label);
 		this.calcPath=calcPath;
 		setCoeff(poly.getCoeff(),calcPath);
@@ -116,14 +124,20 @@ Dilateable, Transformable, EuclidianViewCE {
 			c.unregisterEuclidianViewCE(this);
 	}
 	
+	/**
+	 * Creates new implicit polynomial
+	 * @param c construction
+	 * @param label label
+	 * @param poly polynomial
+	 */
 	public GeoImplicitPoly(Construction c, String label,Polynomial poly){
 		this(c,label,poly,true);
 	}
 	
 	/**
 	 * 
-	 * @param c
-	 * @param coeff
+	 * @param c construction
+	 * @param coeff array of coefficients
 	 * @return a GeoImplicitPoly witch doesn't calculate it's path.
 	 */
 	public static GeoImplicitPoly createImplicitPolyWithoutPath(Construction c,double[][] coeff){
@@ -144,6 +158,10 @@ Dilateable, Transformable, EuclidianViewCE {
 	}
 	
 	
+	/**
+	 * Copy constructor
+	 * @param g implicit poly to copy
+	 */
 	public GeoImplicitPoly(GeoImplicitPoly g){
 		this(g.cons);
 		set(g);
@@ -157,7 +175,7 @@ Dilateable, Transformable, EuclidianViewCE {
 	
 	/**
 	 * Construct GeoImplicitPoly from GeoConic
-	 * @param c
+	 * @param c conic
 	 */
 	public GeoImplicitPoly(GeoConic c){
 		this(c.getConstruction());
@@ -193,6 +211,7 @@ Dilateable, Transformable, EuclidianViewCE {
 	/**
 	 * returns all class-specific xml tags for saveXML
 	 */
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 		getLineStyleXML(sb);
@@ -219,12 +238,11 @@ Dilateable, Transformable, EuclidianViewCE {
 		return defined;
 	}
 	
+	/**
+	 * @return true if this is defined and has some points on screen
+	 */
 	public boolean isOnScreen(){
 		return defined && locus.isDefined() && locus.getPoints().size() > 0;
-	}
-	
-	public boolean getDefined() {
-		return defined;
 	}
 
 	@Override
@@ -291,7 +309,7 @@ Dilateable, Transformable, EuclidianViewCE {
 		}else{
 			locus.set(((GeoImplicitPoly)geo).locus);
 		}
-		this.defined=((GeoImplicitPoly)geo).getDefined();
+		this.defined=((GeoImplicitPoly)geo).isDefined();
 	}
 
 	@Override
@@ -299,6 +317,9 @@ Dilateable, Transformable, EuclidianViewCE {
 		defined=false;
 	}
 	
+	/**
+	 * Mark this poly as defined
+	 */
 	public void setDefined(){
 		defined=true;
 	}
@@ -313,12 +334,12 @@ Dilateable, Transformable, EuclidianViewCE {
 		return true;
 	}
 
-	private void addPow(StringBuilder sb, int i,StringTemplate tpl){
-		if (i>1){
+	private static void addPow(StringBuilder sb, int exp,StringTemplate tpl){
+		if (exp>1){
 			if (tpl.getStringType().equals(StringType.LATEX)){
 				sb.append('^');
 				sb.append('{');
-				sb.append(i);
+				sb.append(exp);
 				sb.append('}');
 			}else if ((tpl.getStringType().equals(StringType.JASYMCA))||
 						(tpl.getStringType().equals(StringType.GEOGEBRA_XML))||
@@ -326,9 +347,10 @@ Dilateable, Transformable, EuclidianViewCE {
 						(tpl.getStringType().equals(StringType.MAXIMA))||
 						(tpl.getStringType().equals(StringType.MPREDUCE))){
 				sb.append('^');
-				sb.append(i);
+				sb.append(exp);
 			}else{
 				String p="";
+				int i = exp;
 				while(i>0){
 					int c=i%10;
 					switch(c){
@@ -409,6 +431,7 @@ Dilateable, Transformable, EuclidianViewCE {
 		return "GeoImplicitPoly";
 	}
 
+	@Override
 	public boolean isVector3DValue() {
 		return false;
 	}
@@ -456,7 +479,7 @@ Dilateable, Transformable, EuclidianViewCE {
 	
 	/**
 	 * @param ev assigns given coefficient-array to be the coefficients of this Polynomial.
-	 * @param calcPath 
+	 * @param calcPath true to update path
 	 */
 	public void setCoeff(ExpressionValue[][] ev,boolean calcPath){
 		isConstant=true;
@@ -493,8 +516,8 @@ Dilateable, Transformable, EuclidianViewCE {
 	public double[][] getCoeff(boolean squarefree){
 		if (squarefree&&coeffSquarefree!=null){
 			return coeffSquarefree;
-		}else
-			return coeff;
+		}
+		return coeff;
 	}
 	
 	/**
@@ -504,15 +527,32 @@ Dilateable, Transformable, EuclidianViewCE {
 		return coeff;
 	}
 	
+	/**
+	 * @param x x
+	 * @param y y
+	 * @return value of poly at (x,y)
+	 */
 	public double evalPolyAt(double x,double y){
 		return evalPolyAt(x,y,false);
 	}
 	
+	/**
+	 * @param x x
+	 * @param y y
+	 * @param squarefree TODO -- seems that coeff squarefree is not really used 
+	 * @return value of poly at (x,y)
+	 */
 	public double evalPolyAt(double x,double y,boolean squarefree){
 		return evalPolyCoeffAt(x,y,getCoeff(squarefree));
 	}
 	
-	public double evalPolyCoeffAt(double x,double y,double[][] coeff){
+	/**
+	 * @param x x
+	 * @param y y
+	 * @param coeff coefficients of evaluated poly P
+	 * @return P(x,y)
+	 */
+	public static double evalPolyCoeffAt(double x,double y,double[][] coeff){
 		double sum=0;
 		double zs=0;
 		//Evaluating Poly via the Horner-scheme
@@ -527,40 +567,62 @@ Dilateable, Transformable, EuclidianViewCE {
 		return sum;
 	}
 	
+	/**
+	 * @param x x
+	 * @param y y
+	 * @return value of dthis/dx at (x,y)
+	 */
 	public double evalDiffXPolyAt(double x,double y){
 		return evalDiffXPolyAt(x, y,false);
 	}
 	
+	/**
+	 * @param x x
+	 * @param y y
+	 * @param squarefree TODO -- seems it doesn't do anything
+	 * @return value of dthis/dx at (x,y)
+	 */
 	public double evalDiffXPolyAt(double x,double y,boolean squarefree){
 		double sum=0;
 		double zs=0;
-		double[][] coeff=getCoeff(squarefree);
+		double[][] coeff1=getCoeff(squarefree);
 		//Evaluating Poly via the Horner-scheme
-		if (coeff!=null)
-			for (int i=coeff.length-1;i>=1;i--){
+		if (coeff1!=null)
+			for (int i=coeff1.length-1;i>=1;i--){
 				zs=0;
-				for (int j=coeff[i].length-1;j>=0;j--){
-					zs=y*zs+coeff[i][j];
+				for (int j=coeff1[i].length-1;j>=0;j--){
+					zs=y*zs+coeff1[i][j];
 				}
 				sum=sum*x+i*zs;
 			}
 		return sum;
 	}
 	
+	/**
+	 * @param x x
+	 * @param y y
+	 * @return value of dthis/dy at (x,y)
+	 */
 	public double evalDiffYPolyAt(double x,double y){
 		return evalDiffYPolyAt(x, y,false);
 	}
 	
+	/**
+	 * @param x x
+	 * @param y y
+	 * @param squarefree TODO -- seems it doesn't do anything
+	 * @return value of dthis/dy at (x,y)
+	 */
 	public double evalDiffYPolyAt(double x,double y,boolean squarefree){
 		double sum=0;
 		double zs=0;
-		double[][] coeff=getCoeff(squarefree);
+		double[][] coeff1=getCoeff(squarefree);
 		//Evaluating Poly via the Horner-scheme
-		if (coeff!=null)
-			for (int i=coeff.length-1;i>=0;i--){
+		if (coeff1!=null)
+			for (int i=coeff1.length-1;i>=0;i--){
 				zs=0;
-				for (int j=coeff[i].length-1;j>=1;j--){
-					zs=y*zs+j*coeff[i][j];
+				for (int j=coeff1[i].length-1;j>=1;j--){
+					zs=y*zs+j*coeff1[i][j];
 				}
 				sum=sum*x+zs;
 			}
@@ -571,10 +633,10 @@ Dilateable, Transformable, EuclidianViewCE {
 	 * Plugs in two rational polynomials for x and y, x|->pX/qX and y|->pY/qY in the curve 
 	 * (replacing the current coefficients with the new ones)
 	 * [not yet tested for qX!=qY]
-	 * @param pX
-	 * @param pY
-	 * @param qX
-	 * @param qY
+	 * @param pX numerator of first rational poly
+	 * @param qX denominator of first rational poly
+	 * @param pY numerator of second rational poly
+	 * @param qY denominator of second rational poly
 	 */
 	public void plugInRatPoly(double[][] pX,double[][] pY,double[][] qX,double[][] qY){
 		int degXpX=pX.length-1;
@@ -771,6 +833,11 @@ Dilateable, Transformable, EuclidianViewCE {
 		}
 	}
 	
+	/**
+	 * Changes this poly to this(polyX,polyY)
+	 * @param polyX coefficients of first poly
+	 * @param polyY coefficients of cesond poly
+	 */
 	public void plugInPoly(double[][] polyX,double[][] polyY){
 		plugInRatPoly(polyX,polyY,null,null);
 	}
@@ -799,22 +866,30 @@ Dilateable, Transformable, EuclidianViewCE {
 		}
 	}
 	
+	@Override
 	public boolean isConstant() {
 		return isConstant;
 	}
 	
+	/**
+	 * @return degree in x
+	 */
 	public int getDegX() {
 		return degX;
 	}
 
+	/**
+	 * @return degree in y
+	 */
 	public int getDegY() {
 		return degY;
 	}
 	
 	private void getFactors(){
-
+		//TODO implement or delete this
 	}
 	
+	@Override
 	final public double distance(GeoPoint2 p) {
 		AlgoClosestPoint algo = new AlgoClosestPoint(cons, "", this, p);
 		algo.remove();
@@ -861,8 +936,8 @@ Dilateable, Transformable, EuclidianViewCE {
 		int degree = (int)(0.5*Math.sqrt(8*(1+points.size()))) - 1;
 		int realDegree = degree;
 		
-		RealMatrix extendMatrix = new RealMatrixImpl(points.size(), points.size()+1);
-		RealMatrix matrix = new RealMatrixImpl(points.size(), points.size());
+		RealMatrix extendMatrix = new Array2DRowRealMatrix(points.size(), points.size()+1);
+		RealMatrix matrix = new Array2DRowRealMatrix(points.size(), points.size());
 		double [][] coeffMatrix = new double[degree+1][degree+1];
 		
 		DecompositionSolver solver;
@@ -895,7 +970,7 @@ Dilateable, Transformable, EuclidianViewCE {
 					return;
 				}
 				
-				extendMatrix = new RealMatrixImpl(noPoints, noPoints+1);
+				extendMatrix = new Array2DRowRealMatrix(noPoints, noPoints+1);
 				realDegree-=1;
 				matrixRow = new double[noPoints+1];
 				
@@ -910,17 +985,17 @@ Dilateable, Transformable, EuclidianViewCE {
 					extendMatrix.setRow(i, matrixRow);
 				}
 					
-				matrix = new RealMatrixImpl(noPoints, noPoints);
+				matrix = new Array2DRowRealMatrix(noPoints, noPoints);
 				solutionColumn = 0;
 			}
 						
 			results = extendMatrix.getColumn(solutionColumn);
 			
-			for(int i=0, j=0; i<noPoints+1;i++)
+			for(int i=0, j=0; i<noPoints+1;i++) {
 				if(i==solutionColumn)
 					continue;
-				else
-					matrix.setColumn(j++, extendMatrix.getColumn(i));
+				matrix.setColumn(j++, extendMatrix.getColumn(i));
+			}
 			solutionColumn++;
 			
 			solver = new LUDecompositionImpl(matrix).getSolver();
@@ -959,6 +1034,9 @@ Dilateable, Transformable, EuclidianViewCE {
 	}
 	
 
+	/**
+	 * @param PI point
+	 */
 	protected void polishPointOnPath(GeoPointND PI){
 		PI.updateCoords2D();
 		double x=PI.getX2D();
@@ -1001,6 +1079,10 @@ Dilateable, Transformable, EuclidianViewCE {
 		}
 	}
 
+	/**
+	 * @param PI point
+	 * @return whether point is on path
+	 */
 	public boolean isOnPath(GeoPointND PI) {
 		return isOnPath(PI, Kernel.STANDARD_PRECISION);
 	}
@@ -1045,6 +1127,7 @@ Dilateable, Transformable, EuclidianViewCE {
 	
 	//traceable
 	
+	@Override
 	public boolean isTraceable() {
 		return true;
 	}
@@ -1122,6 +1205,11 @@ Dilateable, Transformable, EuclidianViewCE {
 		translate(v.getX(),v.getY());
 	}
 	
+	/**
+	 * Translates this polynomial by (vx,vy)
+	 * @param vx horizontal translation
+	 * @param vy vertical translation
+	 */
 	public void translate(double vx,double vy){
 		double a=-vx; //-translate in X-dir
 		double b=-vy; //-translate in Y-dir
@@ -1168,7 +1256,7 @@ Dilateable, Transformable, EuclidianViewCE {
 	 
 
 		public boolean euclidianViewUpdate() {
-			if (getDefined()){
+			if (isDefined()){
 				updatePath();
 				return true;
 			}
@@ -1181,17 +1269,14 @@ Dilateable, Transformable, EuclidianViewCE {
 		private List<double[]> singularitiesCollection;
 		private List<double[]> boundaryIntersectCollection;
 		
-		//Second Algorithm
-		final public static double EPS=Kernel.EPSILON;
-		
 		/**
-		 * @param x
+		 * @param x x
 		 * @return 0 if |x| &lt EPS, sgn(x) otherwise
 		 */
 		public int epsSignum(double x){
-			if (x>EPS)
+			if (x>Kernel.EPSILON)
 				return 1;
-			if (x<-EPS)
+			if (x<-Kernel.EPSILON)
 				return -1;
 			return 0;
 		}
@@ -1382,8 +1467,9 @@ Dilateable, Transformable, EuclidianViewCE {
 			return x*x/scaleX/scaleX+y*y/scaleY/scaleY;
 		}
 		
-		private void startPath(int w, int h, double x, double y,GeoLocus locus) {
-
+		private void startPath(int width, int height, double x, double y,GeoLocus loc) {
+			int w = width;
+			int h = height;
 			double sx=x;
 			double sy=y;
 			double lx=Double.NaN; //no previous point
@@ -1402,7 +1488,7 @@ Dilateable, Transformable, EuclidianViewCE {
 			int lastH=h;
 			int startW=w;
 			int startH=h;
-			int stepCount=0;
+			
 			boolean nearSing=false;
 			double lastGradX=Double.POSITIVE_INFINITY;
 			double lastGradY=Double.POSITIVE_INFINITY;
@@ -1417,9 +1503,9 @@ Dilateable, Transformable, EuclidianViewCE {
 						if (firstDirPoints!=null){
 							MyPoint firstPoint=firstDirPoints.get(0);
 							firstPoint.lineTo=false;
-							locus.getPoints().addAll(firstDirPoints);
+							loc.getPoints().addAll(firstDirPoints);
 						}
-						locus.insertPoint(x, y, true);
+						loc.insertPoint(x, y, true);
 						return;
 					}
 				}
@@ -1541,56 +1627,49 @@ Dilateable, Transformable, EuclidianViewCE {
 						if (stepSize*2<=MAX_STEP_SIZE*Math.max(scaleX, scaleY))
 							stepSize*=2;
 						break;
-					}else{
-						gradX=evalDiffXPolyAt(sx, sy,true);
-						gradY=evalDiffYPolyAt(sx, sy,true);
-						if (Math.abs(gradX)<MIN_GRAD&&Math.abs(gradY)<MIN_GRAD){ //singularity
-							stepSize/=2;
-							if (stepSize>MIN_STEP_SIZE*Math.max(scaleX, scaleY))
-								continue;
-							else{
-								singularitiesCollection.add(new double[]{sx,sy});
-								reachedEnd=true;
-								break;
-							}
-						}
-						a=Math.sqrt(gradX*gradX+gradY*gradY);
-						gradX*=stepSize/a;
-						gradY*=stepSize/a;
-						if (e>0){
-							gradX=-gradX;
-							gradY=-gradY;
-						}
-						int e1=epsSignum(evalPolyAt(sx+gradX,sy+gradY,true));
-						if (e1==0){
-							sx=sx+gradX;
-							sy=sy+gradY;
-							break;
-						}
-						if (e1!=e){
-							a=bisec(sx,sy,sx+gradX,sy+gradY);
-							sx+=a*gradX;
-							sy+=a*gradY;
-							break;
-						}else{
-							stepSize/=2;
-							if (stepSize>MIN_STEP_SIZE*Math.max(scaleX, scaleY))
-								continue;
-							else{
-								reachedEnd=true;
-								break;
-							}
-						}
 					}
+					gradX=evalDiffXPolyAt(sx, sy,true);
+					gradY=evalDiffYPolyAt(sx, sy,true);
+					if (Math.abs(gradX)<MIN_GRAD&&Math.abs(gradY)<MIN_GRAD){ //singularity
+						stepSize/=2;
+						if (stepSize>MIN_STEP_SIZE*Math.max(scaleX, scaleY))
+							continue;
+						singularitiesCollection.add(new double[]{sx,sy});
+						reachedEnd=true;
+						break;
+					}
+					a=Math.sqrt(gradX*gradX+gradY*gradY);
+					gradX*=stepSize/a;
+					gradY*=stepSize/a;
+					if (e>0){
+						gradX=-gradX;
+						gradY=-gradY;
+					}
+					int e1=epsSignum(evalPolyAt(sx+gradX,sy+gradY,true));
+					if (e1==0){
+						sx=sx+gradX;
+						sy=sy+gradY;
+						break;
+					}
+					if (e1!=e){
+						a=bisec(sx,sy,sx+gradX,sy+gradY);
+						sx+=a*gradX;
+						sy+=a*gradY;
+						break;
+					}
+					stepSize/=2;
+					if (stepSize>MIN_STEP_SIZE*Math.max(scaleX, scaleY))
+						continue;
+					reachedEnd=true;
+					break;
 				}
 				if (!reachedEnd||reachedSingularity){
 					if (reachedSingularity||((lx-sx)*(lx-sx)+(ly-sy)*(ly-sy)>minGap*minGap)){
 						if (firstDirPoints!=null){
 							firstDirPoints.add(new MyPoint(sx,sy,true));
 						}else{
-							locus.insertPoint(sx, sy, true);
+							loc.insertPoint(sx, sy, true);
 						}
-						stepCount++;
 					}
 				}
 				if (reachedEnd){
@@ -1601,7 +1680,7 @@ Dilateable, Transformable, EuclidianViewCE {
 					lastGradY=Double.POSITIVE_INFINITY;
 
 					/* we reached end for the first time and now save the points into the locus */
-					ArrayList<MyPoint> pointList=locus.getPoints();
+					ArrayList<MyPoint> pointList=loc.getPoints();
 					if (firstDirPoints.size()>0){
 						MyPoint lastPoint=firstDirPoints.get(firstDirPoints.size()-1);
 						lastPoint.lineTo=false;
@@ -1629,10 +1708,10 @@ Dilateable, Transformable, EuclidianViewCE {
 		
 		/**
 		 * 
-		 * @param x1
-		 * @param y1
-		 * @param x2
-		 * @param y2
+		 * @param x1 x1
+		 * @param y1 y1
+		 * @param x2 x2
+		 * @param y2 y2
 		 * @return a such that |f(x1+(x2-x1)*a,y1+(y2-y1)*a)| &lt eps
 		 */
 		public double bisec(double x1,double y1,double x2,double y2){
@@ -1661,6 +1740,13 @@ Dilateable, Transformable, EuclidianViewCE {
 				return (a1+a2)/2;
 			}
 			return Double.NaN;
+		}
+
+		/**
+		 * @return this as locus (for drawing)
+		 */
+		public GeoLocus getLocus() {
+			return locus;
 		}
 
 

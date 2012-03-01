@@ -154,7 +154,8 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 
 						Iterator<GeoElement> it = kernel.getConstruction().getGeoSetLabelOrder().iterator();
 
-						boolean direction = geo.getLabel().compareTo(lastSelectedGeo.getLabel()) < 0;
+						boolean direction = geo.getLabel(StringTemplate.defaultTemplate).
+								compareTo(lastSelectedGeo.getLabel(StringTemplate.defaultTemplate)) < 0;
 
 						while (it.hasNext()) {
 							GeoElement geo2 = it.next();
@@ -334,7 +335,7 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 			geoLabelList.clear();
 
 		for(GeoElement geo : app.getSelectedGeos()){
-			geoLabelList.add(geo.getLabel());
+			geoLabelList.add(geo.getLabel(StringTemplate.defaultTemplate));
 		}
 
 		// if we have something ... do the drag! 

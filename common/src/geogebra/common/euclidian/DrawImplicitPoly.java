@@ -33,7 +33,7 @@ public class DrawImplicitPoly extends DrawLocus {
 	 * @param implicitPoly implicit polynomial
 	 */
 	public DrawImplicitPoly(AbstractEuclidianView view,GeoImplicitPoly implicitPoly) {
-		super(view, implicitPoly.locus);
+		super(view, implicitPoly.getLocus());
 		this.view=view;
     	hitThreshold = AbstractEuclidianView.getCapturingThreshold();
 		this.implicitPoly = implicitPoly;

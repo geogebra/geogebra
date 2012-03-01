@@ -347,7 +347,7 @@ public class CreateObjectDialog extends InputDialog implements
 		if (newGeo == null)
 			fldName.setText("");
 		else
-			fldName.setText(newGeo.getLabel());
+			fldName.setText(newGeo.getLabel(StringTemplate.defaultTemplate));
 
 		CardLayout cl = (CardLayout) (cards.getLayout());
 		cl.show(cards, "c" + typeList.getSelectedIndex());

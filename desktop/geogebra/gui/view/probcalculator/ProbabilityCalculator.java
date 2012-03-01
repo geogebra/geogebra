@@ -2024,57 +2024,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 		try {
 			app.storeUndoInfo();
 
-
-			/*
-
-			// update the plot to get a new set of geos that exist in the construction
-			removeFromConstruction = false;
-			this.updateDistribution();
-
-			// set the EV location and auxiliary = false for all of the new geos
-			for(GeoElement geo: plotGeoList){
-				geo.setLabel(null);
-				geo.setAuxiliaryObject(false);
-				if(viewID == Application.VIEW_EUCLIDIAN){
-					geo.addView(Application.VIEW_EUCLIDIAN);
-					geo.removeView(Application.VIEW_EUCLIDIAN2);
-					geo.update();
-				}
-				if(viewID == Application.VIEW_EUCLIDIAN2){
-					geo.addView(Application.VIEW_EUCLIDIAN2);
-					geo.removeView(Application.VIEW_EUCLIDIAN);
-					geo.update();
-				}
-
-			}
-
-
-			// set the window dimensions of the target EV to match the plotPanel dimensions
-			if(viewID == Application.VIEW_EUCLIDIAN)
-				app.getEuclidianView().setRealWorldCoordSystem(plotSettings.xMin, plotSettings.xMax, 
-						plotSettings.yMin, plotSettings.yMax);
-			else if(viewID == Application.VIEW_EUCLIDIAN2)
-				app.getEuclidianView2().setRealWorldCoordSystem(plotSettings.xMin, plotSettings.xMax, 
-						plotSettings.yMin, plotSettings.yMax);
-
-
-			// null our display geos and clear the plotGeoList to unlink the new geos
-			lowPoint = null;
-			highPoint = null;
-			densityCurve = null; integral = null;
-			discreteGraph = null; discreteIntervalGraph = null;
-			discreteValueList = null; discreteProbList = null; intervalProbList=null; intervalValueList=null;
-
-			pointList.clear();
-			plotGeoList.clear();
-
-
-			//update the plot in removeFromConstruction mode to get a new set of geos for our plot
-			removeFromConstruction = true;
-			this.updateDistribution();
-
-			 */
-
+			//some commented out code removed 2012-3-1
 
 			//create low point
 			expr = "Point[" + app.getPlain("xAxis") + "]";
@@ -2092,7 +2042,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			highPointCopy.setCoords(high, 0, 1);
 			highPointCopy.setLabel(null);
 			newGeoList.add(highPointCopy);
-
+			StringTemplate tpl = StringTemplate.maxPrecision;
 
 			// create discrete bar charts and associated lists
 			if(probManager.isDiscrete(selectedDist)){
@@ -2106,34 +2056,37 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 				newGeoList.add(discreteValueList);
 				
 				if(isLineGraph)
-					expr = "BarChart[" + discreteValueListCopy.getLabel() + "," + discreteProbListCopy.getLabel() + ",0.1]";
+					expr = "BarChart[" + discreteValueListCopy.getLabel(StringTemplate.maxPrecision) + "," + 
+				discreteProbListCopy.getLabel(StringTemplate.maxPrecision) + ",0.1]";
 				else
-					expr = "BarChart[" + discreteValueListCopy.getLabel() + "," + discreteProbListCopy.getLabel() + "]" ;
+					expr = "BarChart[" + discreteValueListCopy.getLabel(StringTemplate.maxPrecision) + "," + 
+				discreteProbListCopy.getLabel(StringTemplate.maxPrecision) + "]" ;
 				
 				GeoElement discreteGraphCopy = createGeoFromString(expr,null,false);
 				discreteGraphCopy.setLabel(null);
 				discreteGraphCopy.setVisualStyle(discreteGraph);
 				newGeoList.add(discreteGraphCopy);
+				
 
 
 
 				// create interval bar chart
 				// ============================
 				double offset = 1 - ((GeoNumeric)discreteValueList.get(0)).getDouble() + 0.5;  
-				expr = "Take[" + discreteProbListCopy.getLabel()  + ", x(" 
-				+ lowPointCopy.getLabel() + ")+" + offset + ", x(" + highPointCopy.getLabel() +")+" + offset +"]";
+				expr = "Take[" + discreteProbListCopy.getLabel(tpl)  + ", x(" 
+				+ lowPointCopy.getLabel(tpl) + ")+" + offset + ", x(" + highPointCopy.getLabel(tpl) +")+" + offset +"]";
 				GeoElement intervalProbList  = (GeoList) createGeoFromString(expr, null, false);
 				newGeoList.add(intervalProbList);
 
-				expr = "Take[" + discreteValueListCopy.getLabel()  + ", x(" 
-				+ lowPointCopy.getLabel() + ")+" + offset + ", x(" + highPointCopy.getLabel() +")+" + offset +"]";
+				expr = "Take[" + discreteValueListCopy.getLabel(tpl)  + ", x(" 
+				+ lowPointCopy.getLabel(tpl) + ")+" + offset + ", x(" + highPointCopy.getLabel(tpl) +")+" + offset +"]";
 				GeoElement intervalValueList  = (GeoList) createGeoFromString(expr, null, false);
 				newGeoList.add(intervalValueList);
 
 				if(isLineGraph)
-					expr = "BarChart[" + intervalValueList.getLabel() + "," + intervalProbList.getLabel() + ",0.1]";
+					expr = "BarChart[" + intervalValueList.getLabel(tpl) + "," + intervalProbList.getLabel(tpl) + ",0.1]";
 				else
-					expr = "BarChart[" + intervalValueList.getLabel() + "," + intervalProbList.getLabel() + "]";
+					expr = "BarChart[" + intervalValueList.getLabel(tpl) + "," + intervalProbList.getLabel(tpl) + "]";
 				
 				GeoElement discreteIntervalGraphCopy  = createGeoFromString(expr, null, false);
 				discreteIntervalGraphCopy.setLabel(null);
@@ -2155,8 +2108,8 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 				//integral
 				if(!isCumulative){
-					expr = "Integral[" + densityCurveCopy.getLabel() + ", x(" + lowPointCopy.getLabel() 
-					+ "), x(" + highPointCopy.getLabel() + ") , true ]";
+					expr = "Integral[" + densityCurveCopy.getLabel(tpl) + ", x(" + lowPointCopy.getLabel(tpl) 
+					+ "), x(" + highPointCopy.getLabel(tpl) + ") , true ]";
 					GeoElement integralCopy  = createGeoFromString(expr,null, false);
 					integralCopy.setVisualStyle(integral);
 					integralCopy.setLabel(null);

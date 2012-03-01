@@ -3,6 +3,7 @@ package geogebra.common.gui.view.spreadsheet;
 
 import geogebra.common.awt.Point;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 
@@ -261,7 +262,7 @@ public class CellRange {
 						if (copyByValue)
 							list.add(geo.getValueForInputBar());
 						else
-							list.add(geo.getLabel());
+							list.add(geo.getLabel(StringTemplate.defaultTemplate));
 					}
 				}
 			}
@@ -273,7 +274,7 @@ public class CellRange {
 						if (copyByValue)
 							list.add(geo.getValueForInputBar());
 						else
-							list.add(geo.getLabel());
+							list.add(geo.getLabel(StringTemplate.defaultTemplate));
 				}
 			}
 		}

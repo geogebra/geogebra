@@ -4,9 +4,11 @@ package geogebra3D.euclidian3D;
 
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.Manager;
 import geogebra3D.euclidian3D.opengl.Renderer;
@@ -630,9 +632,9 @@ public abstract class Drawable3D extends DrawableND {
 			
 			if (DEBUG){
 				DecimalFormat df = new DecimalFormat("0.000000000");
-				Application.debug("mixed :\n"
-						+"zMin= "+df.format(this.zPickMin)+" | zMax= "+df.format(this.zPickMax)+" ("+this.getGeoElement().getLabel()+")\n"
-						+"zMin= "+df.format(d.zPickMin)+" | zMax= "+df.format(d.zPickMax)+" ("+d.getGeoElement().getLabel()+")\n");
+				AbstractApplication.debug("mixed :\n"
+						+"zMin= "+df.format(this.zPickMin)+" | zMax= "+df.format(this.zPickMax)+" ("+this.getGeoElement().getLabel(StringTemplate.defaultTemplate)+")\n"
+						+"zMin= "+df.format(d.zPickMin)+" | zMax= "+df.format(d.zPickMax)+" ("+d.getGeoElement().getLabel(StringTemplate.defaultTemplate)+")\n");
 			}
 			
 			if (checkPickOrder){
@@ -676,9 +678,13 @@ public abstract class Drawable3D extends DrawableND {
 		//says that the two objects are equal for the comparator
 		if (DEBUG){
 			DecimalFormat df = new DecimalFormat("0.000000000");
-			Application.debug("equality :\n"
-					+"zMin= "+df.format(this.zPickMin)+" | zMax= "+df.format(this.zPickMax)+" ("+this.getGeoElement().getLabel()+")\n"
-					+"zMin= "+df.format(d.zPickMin)+" | zMax= "+df.format(d.zPickMax)+" ("+d.getGeoElement().getLabel()+")\n");
+			AbstractApplication.debug("equality :\n"
+					+"zMin= "+df.format(this.zPickMin)
+					+" | zMax= "+df.format(this.zPickMax)
+					+" ("+this.getGeoElement().getLabel(StringTemplate.defaultTemplate)+")\n"
+					+"zMin= "+df.format(d.zPickMin)
+					+" | zMax= "+df.format(d.zPickMax)
+					+" ("+d.getGeoElement().getLabel(StringTemplate.defaultTemplate)+")\n");
 		}
 		return 0;
 

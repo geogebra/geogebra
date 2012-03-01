@@ -450,7 +450,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 		}
 		for (int i = 0; i < macro.getMacroOutput().length; i++) {
 			GeoElement el = app.getKernel().lookupLabel(
-					macro.getMacroOutput()[i].getLabel());
+					macro.getMacroOutput()[i].getLabel(StringTemplate.defaultTemplate));
 			if (el != null)
 				this.outputList.add(0, el);
 		}

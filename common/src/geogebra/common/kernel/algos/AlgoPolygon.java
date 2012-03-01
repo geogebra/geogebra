@@ -308,7 +308,7 @@ public class AlgoPolygon extends AlgoElement {
             sb.append(' ');
             sb.append(app.getPlain("of"));
             sb.append(' ');
-        	sb.append(polyhedron.getLabel());
+        	sb.append(polyhedron.getLabel(tpl));
         }       
     }
 

@@ -3,6 +3,7 @@ package geogebra3D.euclidianForPlane;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
@@ -229,16 +230,15 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	
 	@Override
 	public String getFromPlaneString(){
-		return ((GeoElement) plane).getLabel();
+		return plane.toGeoElement().getLabel(StringTemplate.defaultTemplate);
 	}
 
 	@Override
 	public String getTranslatedFromPlaneString(){
 		if (plane instanceof GeoPlaneND) {
-			return getApplication().getPlain("PlaneA",((GeoElement) plane).getLabel());
-		} else {
-			return getApplication().getPlain("PlaneFromA",((GeoElement) plane).getLabel());
+			return getApplication().getPlain("PlaneA",((GeoElement) plane).getLabel(StringTemplate.defaultTemplate));
 		}
+		return getApplication().getPlain("PlaneFromA",((GeoElement) plane).getLabel(StringTemplate.defaultTemplate));
 	}
 	
 	public GeoCoordSys2D getGeoElement(){

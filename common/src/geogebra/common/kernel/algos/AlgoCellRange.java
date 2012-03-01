@@ -185,8 +185,8 @@ public class AlgoCellRange extends AlgoElement {
 	}
 
 	public Point[] getRectangle() {
-		String startLabel = startCell.getLabel();
-		String endLabel = endCell.getLabel();
+		String startLabel = startCell.getLabel(StringTemplate.defaultTemplate);
+		String endLabel = endCell.getLabel(StringTemplate.defaultTemplate);
 		Point startCoords = GeoElementSpreadsheet
 				.getSpreadsheetCoordsForLabel(startLabel);
 		Point endCoords = GeoElementSpreadsheet

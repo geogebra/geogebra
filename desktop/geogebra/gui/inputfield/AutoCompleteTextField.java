@@ -7,6 +7,7 @@ import geogebra.common.euclidian.DrawTextField;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.javax.swing.JLabel;
 import geogebra.common.kernel.Macro;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.commands.MyException;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
@@ -224,7 +225,7 @@ public class AutoCompleteTextField extends MathTextField implements
 
   public void geoElementSelected(GeoElement geo, boolean add) {
     if (geo != null) {
-      replaceSelection(" " + geo.getLabel() + " ");
+      replaceSelection(" " + geo.getLabel(StringTemplate.defaultTemplate) + " ");
       requestFocusInWindow();
     }
   }

@@ -1,5 +1,6 @@
 package geogebra.util;
 
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.main.Application;
@@ -58,7 +59,7 @@ public class AlgebraViewTransferHandler extends TransferHandler implements Trans
 		if (comp instanceof AlgebraView) {
 			ArrayList<GeoElement> geos = app.getSelectedGeos();		
 			for(GeoElement geo : geos){
-				geoLabelList.add(geo.getLabel());
+				geoLabelList.add(geo.getLabel(StringTemplate.defaultTemplate));
 			}
 			return this;
 		}

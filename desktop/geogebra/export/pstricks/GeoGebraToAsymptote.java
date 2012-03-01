@@ -2019,7 +2019,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
                 double x = gp.getX(), y = gp.getY(), z = gp.getZ();
                 x /= z; y /= z;
                 String pairString = "(" + format(x) + "," + format(y) + ")";
-                String pointName = gp.getLabel();
+                String pointName = gp.getLabel(getStringTemplate());
                 boolean isVariable = true;
                 
                 // Note: if problem with point name, simply discard and move on.

@@ -103,7 +103,7 @@ public class MyCellEditorList extends DefaultCellEditor implements ActionListene
 				if(geo.isGeoText())
 					setText(geo.toValueString(StringTemplate.defaultTemplate));
 				else
-					setText(geo.getLabel());
+					setText(geo.getLabel(StringTemplate.defaultTemplate));
 			} else
 				setText(" ");
 			

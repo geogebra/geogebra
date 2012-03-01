@@ -977,7 +977,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 			break;
 
 		case 5: // F5 key: copy name to input field
-			textComponent.replaceSelection(" " + geo.getLabel() + " ");
+			textComponent.replaceSelection(" " + geo.getLabel(StringTemplate.defaultTemplate) + " ");
 			break;
 		}
 

@@ -19,16 +19,24 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ * Dependent implicit polynomial (or line / conic)
+ */
 public class AlgoDependentImplicitPoly extends AlgoElement {
 
 
-	private static final long serialVersionUID = 1L;
 	private Equation equation;
 	private ExpressionValue[][] coeff;  // input
 	private GeoElement geoElement;     // output (will be a implicitPoly, line or conic)
 //	private FunctionNVar[] dependentFromFunctions;
 	private Set<FunctionNVar> dependentFromFunctions;
     
+	/**
+	 * Creates new implicit polynomial from equation. This  algo may also return line or conic.
+	 * @param c construction
+	 * @param label label
+	 * @param equ equation
+	 */
 	public AlgoDependentImplicitPoly(Construction c,String label, Equation equ) {
 		super(c, false);
 		equation=equ;
@@ -81,19 +89,26 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 		compute(false);
 	}
 	
+	/**
+	 * Replace output element with new one; needed if changes e.g. from line to conic
+	 * @param newElem replacement element
+	 */
 	protected void replaceGeoElement(GeoElement newElem){
-		String label=geoElement.getLabel();
+		String label=geoElement.getLabel(StringTemplate.defaultTemplate);
 		geoElement.doRemove();
 		geoElement=newElem;
 		setInputOutput();
 		geoElement.setLabel(label);
 	}
 	
+	/**
+	 * @return equation
+	 */
 	public Equation getEquation(){
 		return equation;
 	}
-	
-	protected void compute(boolean first) {
+
+	private void compute(boolean first) {
 		if (!first){
 			try{
 				if (equation.isFunctionDependent()){
@@ -170,8 +185,8 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 				}
 		}
 	}
-	
-	protected void setLine(){
+
+	private void setLine(){
 		ExpressionValue[] expr=new ExpressionValue[3];
 		expr[2]=expr[1]=expr[0]=null;
 		if (coeff.length>0){
@@ -198,7 +213,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 		((GeoLine)geoElement).setCoords(dCoeff[0], dCoeff[1], dCoeff[2]);
 	}
 	
-	protected void setConic(){
+	private void setConic(){
 		ExpressionValue[] expr=new ExpressionValue[6];
 		for (int i=0;i<6;i++){
 			expr[i]=null;
@@ -239,6 +254,12 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 		((GeoConic)geoElement).setCoeffs(dCoeff);
 	}
 	
+	/**
+	 * Adds all functions from inputs of algo and its ancestors to destination set
+	 * @param algo algo whose input functions need adding
+	 * @param set destination set
+	 * @param algos set of algorithms that were already processed
+	 */
 	protected void addAllFunctionalDescendents(AlgoElement algo,Set<FunctionNVar> set,Set<AlgoElement> algos){
 		GeoElement[] in=algo.getInput();
 		for (int i=0;i<in.length;i++){
@@ -271,6 +292,9 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 		return Algos.AlgoDependentImplicitPoly;
 	}
 	
+	/**
+	 * @return resulting poly, conic or line
+	 */
 	public GeoElement getGeo(){
 		return geoElement;
 //		if (type==GeoElement.GEO_CLASS_IMPLICIT_POLY)

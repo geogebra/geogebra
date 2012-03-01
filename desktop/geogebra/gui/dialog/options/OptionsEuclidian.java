@@ -867,10 +867,10 @@ public class OptionsEuclidian extends JPanel  implements ActionListener, FocusLi
 			NumberValue minMax = kernel.getAlgebraProcessor().evaluateToNumeric(((JTextField)source).getText(), false);
 			//not parsed to number => return all
 			if(minMax == null){
-				tfMinX.setText(view.getXminObject().getLabel());
-		 		tfMaxX.setText(view.getXmaxObject().getLabel());
-		 		tfMinY.setText(view.getYminObject().getLabel());
-		 		tfMaxY.setText(view.getYmaxObject().getLabel());
+				tfMinX.setText(view.getXminObject().getLabel(StringTemplate.editTemplate));
+		 		tfMaxX.setText(view.getXmaxObject().getLabel(StringTemplate.defaultTemplate));
+		 		tfMinY.setText(view.getYminObject().getLabel(StringTemplate.defaultTemplate));
+		 		tfMaxY.setText(view.getYmaxObject().getLabel(StringTemplate.defaultTemplate));
 			}
 			else {
 				if(source == tfMinX){

@@ -849,7 +849,7 @@ public abstract class GgbAPI {
 		
 		for (int i=0; i < selGeos.size(); i++) {
 			GeoElement geo = (GeoElement) selGeos.get(i);
-			objNames[i] = geo.getLabel();
+			objNames[i] = geo.getLabel(StringTemplate.defaultTemplate);
 		}
 		return objNames;
 	}	

@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui.dialog;
 
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.util.StringUtil;
@@ -238,7 +239,7 @@ public class InputDialog extends JDialog implements ActionListener,
 	
 	public void insertGeoElement(GeoElement geo) {
 		if (geo != null)
-			insertString(" " + geo.getLabel() + " ");
+			insertString(" " + geo.getLabel(StringTemplate.defaultTemplate) + " ");
 	}
 	
 	

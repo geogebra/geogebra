@@ -366,7 +366,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 				if(geo.isGeoText())
 					setText(geo.toValueString(StringTemplate.defaultTemplate));
 				else
-					setText(geo.getLabel());
+					setText(geo.getLabel(StringTemplate.defaultTemplate));
 			} else
 				setText(" ");
 

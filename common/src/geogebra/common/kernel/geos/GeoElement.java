@@ -495,17 +495,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	/**
-	 * Returns label of GeoElement. If the label is null then
-	 * algoParent.getCommandDescription() or toValueString() is returned.
-	 * 
-	 * @return geo's label if set, command description otherwise
-	 */
-	@Deprecated
-	public final String getLabel() {
-		return getLabel(StringTemplate.defaultTemplate);
-	}
-	
-	/**
 	 * Returns label or local variable label if set,
 	 * returns output value string otherwise
 	 * @param tpl string template
@@ -2688,7 +2677,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			// we need to also support wrapped GeoElements like
 			// $A4 that are implemented as dependent geos (using ExpressionNode)
 			final Point p = GeoElementSpreadsheet
-					.spreadsheetIndices(getLabel());
+					.spreadsheetIndices(getLabel(StringTemplate.defaultTemplate));
 
 			if ((p.x >= 0) && (p.y >= 0)) {
 				spreadsheetCoords.setLocation(p.x, p.y);
@@ -4251,9 +4240,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	final public String getLabelTextOrHTML() {
 		if (strLabelTextOrHTMLUpdate) {
 			if (hasIndexLabel()) {
-				strLabelTextOrHTML = indicesToHTML(getLabel(), true);
+				strLabelTextOrHTML = indicesToHTML(getLabel(StringTemplate.defaultTemplate), true);
 			} else {
-				strLabelTextOrHTML = getLabel();
+				strLabelTextOrHTML = getLabel(StringTemplate.defaultTemplate);
 			}
 		}
 
@@ -5202,7 +5191,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		if ((condShowObject != null) && kernel.getSaveScriptsToXML()) {
 			final StringBuilder sb = new StringBuilder();
 			sb.append("\t<condition showObject=\"");
-			sb.append(StringUtil.encodeXML(condShowObject.getLabel()));
+			sb.append(StringUtil.encodeXML(condShowObject.getLabel(StringTemplate.xmlTemplate)));
 			sb.append("\"/>\n");
 			return sb.toString();
 		}
@@ -6426,7 +6415,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			}
 		} catch (final Throwable e) {
 			app.showError(app.getPlain("ErrorInScriptAtLineAFromObjectB",
-					(i + 1) + "", getLabel()) + "\n" + e.getLocalizedMessage());
+					(i + 1) + "", getLabel(StringTemplate.defaultTemplate)) + "\n" + e.getLocalizedMessage());
 			success = false;
 			if (update) {
 				app.setBlockUpdateScripts(true);
@@ -6476,7 +6465,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		} catch (final Exception e) {
 			e.printStackTrace();
 			app.showError(app.getPlain(update ? "OnUpdate" : "OnClick") + " "
-					+ getLabel() + ":\n" + app.getPlain("ErrorInJavaScript")
+					+ getLabel(StringTemplate.defaultTemplate) + ":\n" + app.getPlain("ErrorInJavaScript")
 					+ "\n" + e.getLocalizedMessage());
 			if (update) {
 				app.setBlockUpdateScripts(true);
