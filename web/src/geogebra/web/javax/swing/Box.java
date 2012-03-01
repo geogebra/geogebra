@@ -55,8 +55,6 @@ public class Box extends geogebra.common.javax.swing.Box{
 
 	@Override
     public Dimension getPreferredSize() {
-		
-	    AbstractApplication.debug("TODO: is that OK?:"+impl.getOffsetWidth() + " " + impl.getOffsetHeight());
 	    return new geogebra.web.awt.Dimension(impl.getOffsetWidth(), impl.getOffsetHeight());
     }
 

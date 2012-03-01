@@ -5980,8 +5980,9 @@ public abstract class AbstractEuclidianController {
 	
 		setAltDown(event.isAltDown());
 	
-		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
-			view.requestFocusInWindow();
+		if ((mode != EuclidianConstants.MODE_SELECTION_LISTENER)&&
+			(!textfieldHasFocus)){
+				view.requestFocusInWindow();
 		}
 	
 		if (app.isRightClick(event)) {
@@ -7905,7 +7906,9 @@ public abstract class AbstractEuclidianController {
 		movedGeoPointDragged = false;
 		movedGeoNumericDragged = false;
 	
-		view.requestFocusInWindow();
+		if(!textfieldHasFocus){
+			view.requestFocusInWindow();
+		}
 		setMouseLocation(event);
 	
 		setAltDown(event.isAltDown());
