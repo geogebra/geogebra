@@ -57,6 +57,9 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
@@ -375,10 +378,14 @@ public class Application extends AbstractApplication {
 		return null;
 	}
 
+	public void showErrorDialog(final String msg) {
+		// TODO: implement it better for GeoGebraWebGUI
+		alert(msg);
+	}
+
 	@Override
 	public void showError(String s) {
-		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
-
+		showErrorDialog(s);
 	}
 
 	@Override
@@ -672,9 +679,8 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public void showError(String string, String str) {
-		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
-
+	public void showError(String key, String error) {
+		showErrorDialog(getError(key) + ":\n" + error);
 	}
 
 	DrawEquationWeb drawEquation;
