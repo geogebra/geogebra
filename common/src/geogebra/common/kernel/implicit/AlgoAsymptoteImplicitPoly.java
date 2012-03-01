@@ -31,13 +31,17 @@ import java.util.ArrayList;
  */
 public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoImplicitPoly ip; // input
 //	private OutputHandler<GeoLine> lines;
     private GeoList g; // output
     private EquationSolverInterface solver;
     
    
+    /**
+     * @param c construction
+     * @param label label for output
+     * @param ip implicit polynomial
+     */
     public AlgoAsymptoteImplicitPoly(Construction c, String label, GeoImplicitPoly ip) {
     	super(c);
         this.ip = ip;            
@@ -63,12 +67,14 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
         
     }
     
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoAsymptoteImplicitPoly;
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = ip;
 
@@ -77,7 +83,9 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
         
         setDependencies(); // done by AlgoElement
     }
-
+    /**
+     * @return list of asymptotes
+     */
     public GeoList getResult() {
         return g;
     }
@@ -86,7 +94,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 //    	return lines.getOutput(new GeoLine[0]);
 //    }
     
-    protected void makeLines(ArrayList<Double> p,double a, double b){
+    private void makeLines(ArrayList<Double> p,double a, double b){
     	double[] tRoots=new double[p.size()];
 		for (int j=0;j<p.size();j++){
 			tRoots[j]=p.get(p.size()-1-j);
@@ -113,7 +121,8 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 		}
     }
 
-    public final void compute() {       
+    @Override
+	public final void compute() {       
         if (!ip.isDefined()) {
 //        	lines.adjustOutputSize(0);
         	g.setUndefined();

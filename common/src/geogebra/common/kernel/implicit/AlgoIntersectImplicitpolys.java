@@ -57,13 +57,23 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 	
 	private List<GeoPoint2> hints;
 
-	public AlgoIntersectImplicitpolys(Construction c) {
-		super(c);
-	}
-	
+	/**
+	 * To compute intersection of polynomial and conic
+	 * @param c construction
+	 * @param p1 polynomial
+	 * @param c1 conic
+	 */
 	public AlgoIntersectImplicitpolys(Construction c, GeoImplicitPoly p1,GeoConic c1) {
 		this(c,null,false,p1,c1);
 	}
+	/**
+	 * To compute intersection of polynomial and conic
+	 * @param c construction
+	 * @param labels labels for results
+	 * @param setLabels true to set labels
+	 * @param p1 polynomial
+	 * @param c1 conic
+	 */
 	public AlgoIntersectImplicitpolys(Construction c, String[] labels, boolean setLabels,
 			GeoImplicitPoly p1, GeoConic c1) {
 		super(c,labels,setLabels,p1,c1);
@@ -73,11 +83,25 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
         compute();               
 	}
 
+	/**
+	 * To compute intersection of two polynomials
+	 * @param c construction
+	 * @param p1 first polynomial
+	 * @param p2 second polynomial
+	 */
 	public AlgoIntersectImplicitpolys(Construction c, GeoImplicitPoly p1,GeoImplicitPoly p2) {
 		this(c,null,false,p1,p2);
 	}
 
 
+	/**
+	 * To compute intersection of two polynomials
+	 * @param c construction
+	 * @param labels labels for results
+	 * @param setLabels true to set labels
+	 * @param p1 first polynomial
+	 * @param p2 second polynomial
+	 */
 	public AlgoIntersectImplicitpolys(Construction c, String[] labels,
 			boolean setLabels,GeoImplicitPoly p1,GeoImplicitPoly p2) {
 		super(c, labels, setLabels, p1,p2);
@@ -123,6 +147,9 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 		return 0;
 	}
 
+	/**
+	 * Computes with high precision
+	 */
 	protected void computeWithHigherPrecision() {
 		if (c1!=null){
 			p2=new GeoImplicitPoly(c1);
@@ -403,6 +430,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 
 	}
 	
+	@Override
 	public void compute() {
 		if (c1!=null){
 			p2=new GeoImplicitPoly(c1);
@@ -671,12 +699,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 
 	}
 	
-	public static int getNearRoots3(double[] roots,EquationSolverInterface solver, double epsilon){
-//		solver.setMaxIterationCount(1000);
-		return getRoots(roots,solver);
-	}
-	
-	public static int getNearRoots(double[] roots,EquationSolverInterface solver, double epsilon){
+	private static int getNearRoots(double[] roots,EquationSolverInterface solver, double epsilon){
 		PolynomialFunction poly=new PolynomialFunction(roots);
 		double[] rootsDerivative=poly.polynomialDerivative().getCoefficients();
 		
@@ -875,7 +898,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
     
 	/**
 	 * adds a point which will always be tested if it's a solution
-	 * @param point
+	 * @param point point to be always tested
 	 */
 	public void addSolutionHint(GeoPoint2 point){
 		if (hints==null){

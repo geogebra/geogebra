@@ -73,6 +73,7 @@ public class AlgoImplicitPolyFunction extends AlgoElement {
 		return implicitPoly;
 	}
 	
+	@Override
 	public String toString(StringTemplate tpl){
 		return getCommandDescription(tpl);
 	}

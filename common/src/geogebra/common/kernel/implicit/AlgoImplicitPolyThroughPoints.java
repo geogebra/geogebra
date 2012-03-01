@@ -3,14 +3,22 @@ package geogebra.common.kernel.implicit;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
+/**
+ * Computes implicit polynomial through given points
+ *
+ */
 public class AlgoImplicitPolyThroughPoints extends AlgoElement 
 {
 	private GeoList P; // input points      
     private GeoImplicitPoly implicitPoly; // output 
 	
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param p points on polynomial
+	 */
 	public AlgoImplicitPolyThroughPoints(Construction cons, String label, GeoList p)
 	{
 		super(cons);
@@ -24,10 +32,16 @@ public class AlgoImplicitPolyThroughPoints extends AlgoElement
 		implicitPoly.setLabel(label);
 	}
 	
+	/**
+	 * @return resulting polynomial
+	 */
 	public GeoImplicitPoly getImplicitPoly() {
 		return implicitPoly;
 	}
 	
+	/**
+	 * @return input list of points
+	 */
 	public GeoList getP() {
 		return P;
 	}
@@ -35,8 +49,7 @@ public class AlgoImplicitPolyThroughPoints extends AlgoElement
 	@Override
 	protected void setInputOutput() {
 		input = P.getGeoElements();
-		output = new GeoElement[1];
-		output[0] = implicitPoly;
+		setOnlyOutput(implicitPoly);
 		setDependencies();
 	}
 

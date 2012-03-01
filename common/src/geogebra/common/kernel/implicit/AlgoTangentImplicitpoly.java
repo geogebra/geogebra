@@ -40,18 +40,26 @@ public class AlgoTangentImplicitpoly extends AlgoElement {
 	private String[] labels;
 	
 
-	protected AlgoTangentImplicitpoly(Construction c) {
-		super(c);
-	}
-	
+	/**
+	 * @param c construction
+	 * @param labels labels for output
+	 * @param p implicit polynomial
+	 */
 	protected AlgoTangentImplicitpoly(Construction c, String[] labels,GeoImplicitPoly p) {
-		this(c);
+		super(c);
 		this.labels=labels;
 		this.p=p;
 
 	}
 	 
 	
+	/**
+	 * To compute tangents to poly through given point
+	 * @param c construction
+	 * @param labels labels for output
+	 * @param p implicit polynomial
+	 * @param R point on tangent
+	 */
 	public AlgoTangentImplicitpoly(Construction c,String[] labels,GeoImplicitPoly p,GeoPoint2 R) {
 		this(c,labels,p);
 		this.R=R;
@@ -72,28 +80,30 @@ public class AlgoTangentImplicitpoly extends AlgoElement {
 				new AlgoImplicitPolyTangentCurve(c, p, R, null,false,false);
 			
 			GeoImplicitPoly tangentCurve=algoTangentPoly.getTangentCurve();
-			algoIntersect = new AlgoIntersectImplicitpolys((Construction)cons, p,tangentCurve);
-			((Construction) cons).removeFromConstructionList(algoIntersect);
+			algoIntersect = new AlgoIntersectImplicitpolys(cons, p,tangentCurve);
+			cons.removeFromConstructionList(algoIntersect);
 			ip = algoIntersect.getIntersectionPoints();
 		}
 
 		setInputOutput();
 	}
 	
+	/**
+	 * To compute tangents to poly in given direction
+	 * @param c construction
+	 * @param labels labels for output
+	 * @param p implicit polynomial
+	 * @param g line
+	 */
 	public AlgoTangentImplicitpoly(Construction c,String[] labels,GeoImplicitPoly p,GeoLine g) {
 		this(c,labels,p);
 		this.g=g;
 		setInputOutput();
 	}
 	
-	public AlgoTangentImplicitpoly(Construction c,GeoImplicitPoly p,GeoPoint2 R) {
-		this(c,null,p,R);
-	}
 	
-	public AlgoTangentImplicitpoly(Construction c,GeoImplicitPoly p,GeoLine g) {
-		this(c,null,p,g);
-	}
-
+	
+	
 	@Override
 	protected void setInputOutput() {
 		input=new GeoElement[2];
@@ -104,9 +114,9 @@ public class AlgoTangentImplicitpoly extends AlgoElement {
 			input[0]=R;
 		tangents=new OutputHandler<GeoLine>(new elementFactory<GeoLine>() {
 			public GeoLine newElement() {
-				GeoLine g=new GeoLine(getConstruction());
-				g.setParentAlgorithm(AlgoTangentImplicitpoly.this);
-				return g;
+				GeoLine g1=new GeoLine(getConstruction());
+				g1.setParentAlgorithm(AlgoTangentImplicitpoly.this);
+				return g1;
 			}
 		});
 		tangents.setLabels(labels);
@@ -187,16 +197,25 @@ public class AlgoTangentImplicitpoly extends AlgoElement {
     }
 
 	
+	/**
+	 * @return resulting tangents
+	 */
 	public GeoLine[] getTangents() {
 		return tangents.getOutput(new GeoLine[tangents.size()]);
 	}
 	
+	/**
+	 * @param labels set labels of tangents
+	 */
 	public void setLabels(String[] labels) {
         tangents.setLabels(labels);
 
         update();
     }
 
+	/**
+	 * @return tangent points
+	 */
 	public GeoPoint2[] getTangentPoints() {
 		return ip;
 	}

@@ -8,11 +8,10 @@ import geogebra.common.kernel.geos.GeoPoint2;
 
 public class AlgoImplicitPolyTangentCurve extends AlgoElement {
 	
-	protected GeoImplicitPoly poly;
-	protected GeoPoint2 point;
-	protected String label;
+	private GeoImplicitPoly poly;
+	private GeoPoint2 point;
 	
-	protected GeoImplicitPoly tangentPoly;
+	private GeoImplicitPoly tangentPoly;
 
 	public AlgoImplicitPolyTangentCurve(Construction c,GeoImplicitPoly poly,GeoPoint2 point,String label,boolean addToConstructionList,boolean calcPath) {
 		super(c,addToConstructionList);

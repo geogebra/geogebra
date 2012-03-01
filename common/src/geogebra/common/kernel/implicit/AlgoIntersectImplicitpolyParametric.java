@@ -46,14 +46,34 @@ public class AlgoIntersectImplicitpolyParametric extends
 	private GeoFunction f;
 	private GeoPoint2[] tangentPoints;
 
+	/**
+	 * To compute intersection of polynomial and line
+	 * @param c construction
+	 * @param p polynomial
+	 * @param l line
+	 */
 	public AlgoIntersectImplicitpolyParametric(Construction c,GeoImplicitPoly p,GeoLine l) {
 		this(c,null,false,p,l);
 	}
 	
+	/**
+	 * To compute intersection of polynomial and function
+	 * @param c construction
+	 * @param p polynomial
+	 * @param f function
+	 */
 	public AlgoIntersectImplicitpolyParametric(Construction c,GeoImplicitPoly p,GeoFunction f) {
 		this(c,null,false,p,f);
 	}
 
+	/**
+	 * To compute intersection of polynomial and line
+	 * @param c construction
+	 * @param labels labels for output
+	 * @param setLabels true to set labels
+	 * @param p polynomial
+	 * @param l line
+	 */
 	public AlgoIntersectImplicitpolyParametric(Construction c, String[] labels,
 			boolean setLabels, GeoImplicitPoly p, GeoLine l) {
 		super(c,labels,setLabels,p,l);
@@ -62,6 +82,14 @@ public class AlgoIntersectImplicitpolyParametric extends
 		compute();
 	}
 
+	/**
+	 * To compute intersection of polynomial and function
+	 * @param c construction
+	 * @param labels labels for output
+	 * @param setLabels true to set labels
+	 * @param p polynomial
+	 * @param f function
+	 */
 	public AlgoIntersectImplicitpolyParametric(Construction c, String[] labels,
 			boolean setLabels, GeoImplicitPoly p, GeoFunction f) {
 		super(c,labels,setLabels,p,f);
@@ -102,16 +130,16 @@ public class AlgoIntersectImplicitpolyParametric extends
 				
 				ker.setSilentMode(true);
 				
-				GeoFunction paramEquation = new GeoFunction((Construction)cons, p, null, f);
+				GeoFunction paramEquation = new GeoFunction(cons, p, null, f);
 				
-				AlgoRoots algo = new AlgoRoots((Construction)cons, paramEquation, 
+				AlgoRoots algo = new AlgoRoots(cons, paramEquation, 
 						new GeoNumeric(cons, f.getMinParameter()),
 						new GeoNumeric(cons, f.getMaxParameter()));
 				
-				GeoPoint2[] points = algo.getRootPoints();
+				GeoPoint2[] rootPoints = algo.getRootPoints();
 				List<double[]> valPairs=new ArrayList<double[]>();
-				for (int i=0;i<points.length;i++){
-					double t = points[i].getX();
+				for (int i=0;i<rootPoints.length;i++){
+					double t = rootPoints[i].getX();
 					valPairs.add(new double[]{t,f.evaluate(t)});
 				}
 				
@@ -226,10 +254,12 @@ public class AlgoIntersectImplicitpolyParametric extends
 		
 	}
 
+	@Override
 	public Algos getClassName() {
         return Algos.AlgoIntersectImplicitpolyParametric;
     }
 	
+	@Override
 	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_INTERSECT;
     }
