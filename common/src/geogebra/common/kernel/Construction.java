@@ -1058,6 +1058,12 @@ public class Construction {
 		}
 	}
 
+	/**
+	 * Appends minimal version of the construction XML to given string builder.
+	 * Only elements/commands are preserved,
+	 * the rest is ignored. 
+	 * @param sb String builder 
+	 */
 	public void getConstructionElementsXML(StringBuilder sb) {
 
 		ConstructionElement ce;
