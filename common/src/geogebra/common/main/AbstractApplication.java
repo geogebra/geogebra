@@ -383,7 +383,7 @@ public abstract class AbstractApplication {
 	 */
 	final public void initTranslatedCommands() {
 		if (isCommandNull() || subCommandDict == null) {
-			getCommandResourceBundle();
+			initCommand();
 			fillCommandDict();
 			kernel.updateLocalAxesNames();
 		}
@@ -393,10 +393,10 @@ public abstract class AbstractApplication {
 		return commandDict;
 	}
 	
-	public abstract void getCommandResourceBundle();
+	public abstract void initCommand();
 	
 	protected void fillCommandDict() {
-		getCommandResourceBundle();
+		initCommand();
 
 		if (!isCommandChanged()) {
 			return;

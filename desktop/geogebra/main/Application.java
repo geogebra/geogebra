@@ -2155,7 +2155,7 @@ public class Application extends AbstractApplication implements
 
 
 	@Override
-	public void getCommandResourceBundle() {
+	public void initCommand() {
 		if (rbcommand == null) {
 			rbcommand = MyResourceBundle
 					.createBundle(RB_COMMAND, currentLocale);

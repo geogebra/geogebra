@@ -820,7 +820,7 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public void getCommandResourceBundle() {
+	public void initCommand() {
 //		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 		if(commandConstants == null) {
 			initCommandConstants();
