@@ -8,14 +8,14 @@ import geogebra.common.main.AbstractApplication;
 
 public class JLabel extends geogebra.common.javax.swing.JLabel {
 
-	private com.google.gwt.user.client.ui.Label impl;
+	private com.google.gwt.user.client.ui.HTML impl;
 	
 	JLabel(){
-		impl = new com.google.gwt.user.client.ui.Label();
+		impl = new com.google.gwt.user.client.ui.HTML();
 	}
 	
 	public JLabel(String string) {
-		impl = new com.google.gwt.user.client.ui.Label(string);
+		impl = new com.google.gwt.user.client.ui.HTML(string);
     }
 
 	public static com.google.gwt.user.client.ui.Label getImpl(JLabel label){
@@ -30,7 +30,7 @@ public class JLabel extends geogebra.common.javax.swing.JLabel {
 
 	@Override
     public void setText(String text) {
-	    impl.setText(text);
+	    impl.setHTML(text);
 	    
     }
 
