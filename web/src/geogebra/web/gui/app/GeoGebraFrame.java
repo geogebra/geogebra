@@ -11,6 +11,7 @@ import geogebra.web.main.Application;
 import geogebra.web.presenter.LoadFilePresenter;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
@@ -70,6 +71,18 @@ public class GeoGebraFrame extends VerticalPanel {
 			handleLoadFile(articleElement, app);
 
 		}
+	}
+	
+	public static void renderArticleElemnt(ArticleElement element) {
+		Date creationDate = new Date();
+		element.setId(GeoGebraConstants.GGM_CLASS_NAME+creationDate.getTime());
+		GeoGebraFrame inst = new GeoGebraFrame();
+		Application app = inst.createApplication(element);
+		inst.app = app;
+		inst.createSplash(element);
+		inst.add(app.buildApplicationPanel());
+		RootPanel.get(element.getId()).add(inst);
+		handleLoadFile(element, app);
 	}
 
 	private void createSplash(ArticleElement article) {
