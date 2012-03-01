@@ -30,7 +30,6 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.kernelND.GeoConicND;
 
 //import geogebra.kernel.kernelND.GeoConicND;
 

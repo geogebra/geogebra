@@ -76,13 +76,13 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 
 		this.a = a;
 		this.b = b;
-		ageo = (GeoElement)a.toGeoElement();
-		bgeo = (GeoElement)b.toGeoElement();
-		minGeo = (GeoElement)min.toGeoElement();
-		Q1geo = (GeoElement)Q1.toGeoElement();
-		medianGeo = (GeoElement)median.toGeoElement();
-		Q3geo = (GeoElement)Q3.toGeoElement();
-		maxGeo = (GeoElement)max.toGeoElement();
+		ageo = a.toGeoElement();
+		bgeo = b.toGeoElement();
+		minGeo = min.toGeoElement();
+		Q1geo = Q1.toGeoElement();
+		medianGeo = median.toGeoElement();
+		Q3geo = Q3.toGeoElement();
+		maxGeo = max.toGeoElement();
 
 		sum = new GeoNumeric(cons); // output
 		// sum.setLabelVisible(false);
@@ -122,8 +122,8 @@ public class AlgoBoxPlot extends AlgoElement implements AlgoDrawInformation {
 
 		this.a = a;
 		this.b = b;
-		ageo = (GeoElement)a.toGeoElement();
-		bgeo = (GeoElement)b.toGeoElement();
+		ageo = a.toGeoElement();
+		bgeo = b.toGeoElement();
 		this.list1 = list1;
 
 		sum = new GeoNumeric(cons); // output

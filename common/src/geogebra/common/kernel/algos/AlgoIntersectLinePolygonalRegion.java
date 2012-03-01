@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoIntersectLines.java
@@ -37,55 +37,55 @@ import geogebra.common.kernel.kernelND.GeoSegmentND;
 //import java.awt.Color;
 import java.util.TreeMap;
 
-
 /**
  * Algo for intersection of a line with the interior of a polygon
+ * 
  * @author matthieu
- * @version 
+ * @version
  */
-public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
+public class AlgoIntersectLinePolygonalRegion extends AlgoElement {
 
-    protected GeoLineND g; // input
-	protected GeoPolygon p; //input	
-	protected OutputHandler<GeoElement> outputSegments; // output 
+	protected GeoLineND g; // input
+	protected GeoPolygon p; // input
+	protected OutputHandler<GeoElement> outputSegments; // output
 	protected OutputHandler<GeoElement> outputPoints;
-    protected int spaceDim =2;
-    
-    
-    private TreeMap<Double, Coords> newCoords;
-    private TreeMap<Double, Coords[]> newSegmentCoords;
-      
-    /** 
-     * common constructor
-     * @param c 
-     * @param labels
-     * @param g
-     * @param p
-     */
-    public AlgoIntersectLinePolygonalRegion(Construction c, String[] labels,
+	protected int spaceDim = 2;
+
+	private TreeMap<Double, Coords> newCoords;
+	private TreeMap<Double, Coords[]> newSegmentCoords;
+
+	/**
+	 * common constructor
+	 * 
+	 * @param c
+	 * @param labels
+	 * @param g
+	 * @param p
+	 */
+	public AlgoIntersectLinePolygonalRegion(Construction c, String[] labels,
 			GeoLineND g, GeoPolygon p) {
 
-    	super(c);
-        
-		outputPoints=createOutputPoints();
+		super(c);
+
+		outputPoints = createOutputPoints();
 		outputSegments = createOutputSegments();
 
-        this.g = g;
-        this.p = p;
+		this.g = g;
+		this.p = p;
 
-        newCoords = new TreeMap<Double, Coords>(Kernel.DoubleComparator(Kernel.STANDARD_PRECISION));
-        newSegmentCoords = new TreeMap<Double, Coords[]>(Kernel.DoubleComparator(Kernel.STANDARD_PRECISION));
-        
-        init();
-        setInputOutput(); // for AlgoElement 
-        
-        
-        compute();
-        
-        
-        setLabels(labels);
-        //TODO: actually no need to update
-        //update();    
+		newCoords = new TreeMap<Double, Coords>(
+				Kernel.DoubleComparator(Kernel.STANDARD_PRECISION));
+		newSegmentCoords = new TreeMap<Double, Coords[]>(
+				Kernel.DoubleComparator(Kernel.STANDARD_PRECISION));
+
+		init();
+		setInputOutput(); // for AlgoElement
+
+		compute();
+
+		setLabels(labels);
+		// TODO: actually no need to update
+		// update();
 
 	}
 
@@ -95,84 +95,85 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
 	}
 
 	/**
-     * 
-     * @return handler for output points
-     */
-    protected OutputHandler<GeoElement> createOutputPoints(){
-    	return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
+	 * 
+	 * @return handler for output points
+	 */
+	protected OutputHandler<GeoElement> createOutputPoints() {
+		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
 			public GeoPoint2 newElement() {
-				GeoPoint2 p=new GeoPoint2(cons);
+				GeoPoint2 p = new GeoPoint2(cons);
 				p.setCoords(0, 0, 1);
 				p.setParentAlgorithm(AlgoIntersectLinePolygonalRegion.this);
 				return p;
 			}
 		});
-    }
- 
-    protected OutputHandler<GeoElement> createOutputSegments(){
-    	return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
+	}
+
+	protected OutputHandler<GeoElement> createOutputSegments() {
+		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
 			public GeoSegment newElement() {
-				GeoSegment a=new GeoSegment(cons);
+				GeoSegment a = new GeoSegment(cons);
 				GeoPoint2 aS = new GeoPoint2(cons);
 				aS.setCoords(0, 0, 1);
 				GeoPoint2 aE = new GeoPoint2(cons);
 				aE.setCoords(0, 0, 1);
 				a.setPoints(aS, aE);
 				a.setParentAlgorithm(AlgoIntersectLinePolygonalRegion.this);
-				setStyle(a); //TODO move to ConstructionDefaults
+				setStyle(a); // TODO move to ConstructionDefaults
 				return a;
 			}
 		});
-    }
-    
-    @Override
+	}
+
+	@Override
 	public Algos getClassName() {
-        return Algos.AlgoIntersectLinePolygonalRegion;
-    }
+		return Algos.AlgoIntersectLinePolygonalRegion;
+	}
 
-    @Override
+	@Override
 	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_INTERSECTION_CURVE;
-    }
-    
-    // for AlgoElement
-    @Override
+		return EuclidianConstants.MODE_INTERSECTION_CURVE;
+	}
+
+	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
-        input = new GeoElement[2];
-        input[0] = (GeoElement) g;
-        input[1] = p;
-        
-        setDependencies(); // done by AlgoElement
-    }
+		input = new GeoElement[2];
+		input[0] = (GeoElement) g;
+		input[1] = p;
 
+		setDependencies(); // done by AlgoElement
+	}
 
-    protected void intersectionsCoords(GeoLineND g, GeoPolygon p, TreeMap<Double, Coords> newCoords){
-    	
-    	double min = g.getMinParameter();
-    	double max = g.getMaxParameter();
-    	
-    	for(int i=0; i<p.getSegments().length; i++){
-    		GeoSegment seg = (GeoSegment) p.getSegments()[i];
-    		Coords coords = GeoVec3D.cross((GeoLine) g, seg);
-    		if (Kernel.isZero(coords.getLast())){
-    			Coords segStart = seg.getPointInD(2, 0);
-    			Coords segEnd = seg.getPointInD(2, 1);
-    			if (((GeoLine) g).isOnPath(segStart, Kernel.EPSILON) &&
-    					((GeoLine) g).isOnPath(segEnd, Kernel.EPSILON)	) {
-    				newCoords.put(((GeoLine) g).getPossibleParameter(segStart), segStart);
-    				newCoords.put(((GeoLine) g).getPossibleParameter(segEnd), segEnd);
-    			}
-    		} else if (seg.respectLimitedPath(coords, Kernel.MIN_PRECISION)){
-       			double t = ((GeoLine) g).getPossibleParameter(coords);
-    			//Application.debug("parameter("+i+") : "+t);
-       			if (t>=min && t<=max)//TODO optimize that
-       				newCoords.put(t, coords);
-    		}
-        }
-    }
-    
+	protected void intersectionsCoords(GeoLineND g, GeoPolygon p,
+			TreeMap<Double, Coords> newCoords) {
 
-    protected void intersectionsSegments(GeoLineND g, GeoPolygon p,
+		double min = g.getMinParameter();
+		double max = g.getMaxParameter();
+
+		for (int i = 0; i < p.getSegments().length; i++) {
+			GeoSegment seg = (GeoSegment) p.getSegments()[i];
+			Coords coords = GeoVec3D.cross((GeoLine) g, seg);
+			if (Kernel.isZero(coords.getLast())) {
+				Coords segStart = seg.getPointInD(2, 0);
+				Coords segEnd = seg.getPointInD(2, 1);
+				if (((GeoLine) g).isOnPath(segStart, Kernel.EPSILON)
+						&& ((GeoLine) g).isOnPath(segEnd, Kernel.EPSILON)) {
+					newCoords.put(((GeoLine) g).getPossibleParameter(segStart),
+							segStart);
+					newCoords.put(((GeoLine) g).getPossibleParameter(segEnd),
+							segEnd);
+				}
+			} else if (seg.respectLimitedPath(coords, Kernel.MIN_PRECISION)) {
+				double t = ((GeoLine) g).getPossibleParameter(coords);
+				// Application.debug("parameter("+i+") : "+t);
+				if (t >= min && t <= max)// TODO optimize that
+					newCoords.put(t, coords);
+			}
+		}
+	}
+
+	protected void intersectionsSegments(GeoLineND g, GeoPolygon p,
 			TreeMap<Double, Coords> newCoords,
 			TreeMap<Double, Coords[]> newSegmentCoords) {
 		
@@ -225,8 +226,9 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
     	tOld = tFirst;
    		coordsOld = ((GeoLine)g).getPointInD(spaceDim, tOld);//TODO optimize it
 
-    	if (isEnteringRegion = (p.isInRegion(coordsOld.get(1),coordsOld.get(2))
-    			&& !Kernel.isEqual(tOld, maxKey))) 
+   		isEnteringRegion = (p.isInRegion(coordsOld.get(1),coordsOld.get(2))
+    			&& !Kernel.isEqual(tOld, maxKey));
+    	if (isEnteringRegion) 
     		newSegmentCoords.put(tOld,
     				new Coords[] {coordsFirst, newCoords.get(maxKey)}
     		);
@@ -331,96 +333,92 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement{
    
 	}
 
-    private Color BLUE_VIOLET= geogebra.common.factories.AwtFactory.prototype.newColor(153,0,255);
-    private int THICK_LINE_WITHIN_LINE = 4;
-    
-    @Override
+	private Color BLUE_VIOLET = geogebra.common.factories.AwtFactory.prototype
+			.newColor(153, 0, 255);
+	private int THICK_LINE_WITHIN_LINE = 4;
+
+	@Override
 	public void compute() {
-    	
-    	//clear the points map
-    	newCoords.clear();
-    	
-    	//fill a new points map
-    	intersectionsCoords(g, p, newCoords);
-    	
-    	//update and/or create points
-    	int index = 0;   	
-    	//affect new computed points
-    	outputPoints.adjustOutputSize(newCoords.size());
-    	outputPoints.updateLabels();
-    	for (Coords coords : newCoords.values()){
-    		GeoPointND point = (GeoPointND) outputPoints.getElement(index);
-    		point.setCoords(coords,false);
-    		point.updateCoords();
-    		((GeoElement)point).update(); //TODO optimize it
-    		index++;
-    	}
 
-    	//calculate segments
-    	newSegmentCoords.clear();
-    	
-    	if(newCoords.isEmpty()) {
-    		outputSegments.adjustOutputSize(1);
-    		setStyle((GeoSegmentND) outputSegments.getElement(0)); //TODO remove this
-    		outputSegments.getElement(0).setUndefined();
-    	} else {
-    	
-    	intersectionsSegments(g, p, newCoords, newSegmentCoords);
-    		
-    		
-    	//update and/or create segments
-    	int indexSegment = 0;   	
-    	//affect new computed segments
-    	outputSegments.adjustOutputSize(newSegmentCoords.size());
-    	outputSegments.updateLabels();
+		// clear the points map
+		newCoords.clear();
 
-    	for (Coords[] segmentCoords : newSegmentCoords.values()){
-    		
-    			GeoSegmentND segment = (GeoSegmentND) outputSegments.getElement(indexSegment);
-    			segment.setTwoPointsCoords(segmentCoords[0], segmentCoords[1]);
-    			((GeoElement)segment).update(); //TODO optimize it
-    			setStyle(segment);
-    			indexSegment++;
-    		}
-    	}
-    }
+		// fill a new points map
+		intersectionsCoords(g, p, newCoords);
 
+		// update and/or create points
+		int index = 0;
+		// affect new computed points
+		outputPoints.adjustOutputSize(newCoords.size());
+		outputPoints.updateLabels();
+		for (Coords coords : newCoords.values()) {
+			GeoPointND point = (GeoPointND) outputPoints.getElement(index);
+			point.setCoords(coords, false);
+			point.updateCoords();
+			((GeoElement) point).update(); // TODO optimize it
+			index++;
+		}
+
+		// calculate segments
+		newSegmentCoords.clear();
+
+		if (newCoords.isEmpty()) {
+			outputSegments.adjustOutputSize(1);
+			setStyle((GeoSegmentND) outputSegments.getElement(0)); // TODO
+																	// remove
+																	// this
+			outputSegments.getElement(0).setUndefined();
+		} else {
+
+			intersectionsSegments(g, p, newCoords, newSegmentCoords);
+
+			// update and/or create segments
+			int indexSegment = 0;
+			// affect new computed segments
+			outputSegments.adjustOutputSize(newSegmentCoords.size());
+			outputSegments.updateLabels();
+
+			for (Coords[] segmentCoords : newSegmentCoords.values()) {
+
+				GeoSegmentND segment = (GeoSegmentND) outputSegments
+						.getElement(indexSegment);
+				segment.setTwoPointsCoords(segmentCoords[0], segmentCoords[1]);
+				((GeoElement) segment).update(); // TODO optimize it
+				setStyle(segment);
+				indexSegment++;
+			}
+		}
+	}
 
 	protected void setStyle(GeoSegmentND segment) {
-		//TODO:  set styles in somewhere else
-		segment.setLineThickness(THICK_LINE_WITHIN_LINE); 
+		// TODO: set styles in somewhere else
+		segment.setLineThickness(THICK_LINE_WITHIN_LINE);
 		segment.setObjColor(BLUE_VIOLET);
 	}
 
 	@Override
 	public String toString(StringTemplate tpl) {
-        return app.getPlain("IntersectionOfAandB",((GeoElement) g).getLabel(tpl),p.getLabel(tpl));
-    }
-	
-	String labelPrefix = null;
-	protected void setLabels(String[] labels) {
-		
-	
-		if (outputPoints.size()>0){
-			outputPoints.setLabels(null);
-			labelPrefix = outputPoints.getElement(0).getLabelSimple().toLowerCase();
-		}	
-		
-		if (labels!=null &&
-				labels.length==1 &&
-				outputSegments.size() > 1 &&
-				labels[0]!=null &&
-				!labels[0].equals("")) {
-			labelPrefix = labels[0];
-			outputSegments.setIndexLabels(labels[0]);
-		}
-    	else
-    		outputSegments.setIndexLabels(labelPrefix);
-    			
+		return app.getPlain("IntersectionOfAandB",
+				((GeoElement) g).getLabel(tpl), p.getLabel(tpl));
 	}
 
+	String labelPrefix = null;
 
-    
-    
-    
+	protected void setLabels(String[] labels) {
+
+		if (outputPoints.size() > 0) {
+			outputPoints.setLabels(null);
+			labelPrefix = outputPoints.getElement(0).getLabelSimple()
+					.toLowerCase();
+		}
+
+		if (labels != null && labels.length == 1 && outputSegments.size() > 1
+				&& labels[0] != null && !labels[0].equals("")) {
+			labelPrefix = labels[0];
+			outputSegments.setIndexLabels(labels[0]);
+		} else
+			outputSegments.setIndexLabels(labelPrefix);
+
+	}
+
 }

@@ -54,7 +54,7 @@ public class AlgoClosestPoint extends AlgoElement implements PathAlgo {
     @Override
 	protected void setInputOutput() {
 		input = new GeoElement[2];
-		input[0] = (GeoElement)path.toGeoElement();
+		input[0] = path.toGeoElement();
 		input[1] = point.toGeoElement();    		
         setOutputLength(1);
         setOutput(0, P);

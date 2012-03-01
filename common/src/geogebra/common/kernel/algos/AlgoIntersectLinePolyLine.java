@@ -37,7 +37,7 @@ import java.util.TreeMap;
 
 /**
  * Algo for intersection of a line with a polyLine
- * @author  Tam
+ * @author Tam
  * @version 
  */
 public class AlgoIntersectLinePolyLine extends AlgoElement{
@@ -131,7 +131,6 @@ public class AlgoIntersectLinePolyLine extends AlgoElement{
         setDependencies(); // done by AlgoElement
     }
 
-
     protected void intersectionsCoords(GeoLineND g, GeoPolyLine p, TreeMap<Double, Coords> newCoords){
     	
     	double min = g.getMinParameter();
@@ -161,8 +160,7 @@ public class AlgoIntersectLinePolyLine extends AlgoElement{
     }
         
     @Override
-	public void compute() {
-    	
+	public void compute() { 	
     	//clear the points map
     	newCoords.clear();
     	

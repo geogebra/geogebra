@@ -24,6 +24,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
 
 /**
@@ -80,11 +81,11 @@ public class AlgoCenterConic extends AlgoElement {
         }
 
         switch (c.type) {
-            case GeoConic.CONIC_CIRCLE :
-            case GeoConic.CONIC_ELLIPSE :
-            case GeoConic.CONIC_HYPERBOLA :
-            case GeoConic.CONIC_SINGLE_POINT :
-            case GeoConic.CONIC_INTERSECTING_LINES :
+            case GeoConicNDConstants.CONIC_CIRCLE :
+            case GeoConicNDConstants.CONIC_ELLIPSE :
+            case GeoConicNDConstants.CONIC_HYPERBOLA :
+            case GeoConicNDConstants.CONIC_SINGLE_POINT :
+            case GeoConicNDConstants.CONIC_INTERSECTING_LINES :
                 midpoint.setCoords(c.b.getX(), c.b.getY(), 1.0d);
                 break;
 

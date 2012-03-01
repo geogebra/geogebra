@@ -31,7 +31,6 @@ import geogebra.common.kernel.statistics.RegressionMath;
  */
 public class AlgoFitPoly extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private GeoList geolist; // input
 	private NumberValue degree; // input
 	private GeoFunction geofunction; // output

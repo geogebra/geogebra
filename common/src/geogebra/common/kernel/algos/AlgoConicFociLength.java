@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoEllipseFociLength.java
@@ -25,66 +25,65 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 
 /**
- *
- * @author  Markus
- * @version 
+ * 
+ * @author Markus
+ * @version
  */
 public abstract class AlgoConicFociLength extends AlgoElement {
 
-    protected GeoPoint2 A, B; // input    
-    protected NumberValue a; // input     
-    private GeoElement ageo;
-    private GeoConic conic; // output             
+	protected GeoPoint2 A, B; // input
+	protected NumberValue a; // input
+	private GeoElement ageo;
+	private GeoConic conic; // output
 
-    public AlgoConicFociLength(//package private
-        Construction cons,
-        String label,
-        GeoPoint2 A,
-        GeoPoint2 B,
-        NumberValue a) {
-        super(cons);
-        this.A = A;
-        this.B = B;
-        this.a = a;
-        ageo = (GeoElement)a.toGeoElement();
-        conic = new GeoConic(cons);
-        setInputOutput(); // for AlgoElement
+	public AlgoConicFociLength(
+			// package private
+			Construction cons, String label, GeoPoint2 A, GeoPoint2 B,
+			NumberValue a) {
+		super(cons);
+		this.A = A;
+		this.B = B;
+		this.a = a;
+		ageo = a.toGeoElement();
+		conic = new GeoConic(cons);
+		setInputOutput(); // for AlgoElement
 
-        compute();
-        conic.setLabel(label);
-    }
+		compute();
+		conic.setLabel(label);
+	}
 
-    @Override
+	@Override
 	public abstract Algos getClassName();
 
-    // for AlgoElement
-    @Override
+	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
-        input = new GeoElement[3];
-        input[0] = A;
-        input[1] = B;
-        input[2] = ageo;
+		input = new GeoElement[3];
+		input[0] = A;
+		input[1] = B;
+		input[2] = ageo;
 
-        super.setOutputLength(1);
-        super.setOutput(0, conic);
-        setDependencies(); // done by AlgoElement
-    }
+		super.setOutputLength(1);
+		super.setOutput(0, conic);
+		setDependencies(); // done by AlgoElement
+	}
 
-    public GeoConic getConic() {
-        return conic;
-    }
-    GeoPoint2 getFocus1() {
-        return A;
-    }
-    GeoPoint2 getFocus2() {
-        return B;
-    }
+	public GeoConic getConic() {
+		return conic;
+	}
 
-    // compute ellipse with foci A, B and length of half axis a
-    @Override
+	GeoPoint2 getFocus1() {
+		return A;
+	}
+
+	GeoPoint2 getFocus2() {
+		return B;
+	}
+
+	// compute ellipse with foci A, B and length of half axis a
+	@Override
 	public final void compute() {
-        conic.setEllipseHyperbola(A, B, a.getDouble());
-    }
+		conic.setEllipseHyperbola(A, B, a.getDouble());
+	}
 
-   
 }

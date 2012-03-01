@@ -46,9 +46,9 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 		super(cons,h,c);
 		this.h=h;
 		this.c=c;
-	//	isLimitedPathSituation = f.isLimitedPath() || c.isLimitedPath(); 
+	// isLimitedPathSituation = f.isLimitedPath() || c.isLimitedPath(); 
 		  
-    //    initForNearToRelationship();
+    // initForNearToRelationship();
         compute();
 	}
 	

@@ -1120,6 +1120,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		return toString(tpl);
 	}
 	
+	@Override
 	@Deprecated
 	public final String toString(){
 		return toString(StringTemplate.defaultTemplate);
