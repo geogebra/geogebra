@@ -17,6 +17,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
+import geogebra.gui.editor.GeoGebraEditorPane;
 import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.gui.view.algebra.MyComboBoxListener;
@@ -105,7 +106,7 @@ public class ButtonDialog extends JDialog
 		// create caption panel
 		JLabel captionLabel = new JLabel(app.getMenu("Button.Caption")+":");
 		String initString = button == null ? "" : button.getCaption(StringTemplate.defaultTemplate);
-		InputPanel ip = new InputPanel(initString, app, 1, 15, true);				
+		InputPanel ip = new InputPanel(initString, app, 1, 25, true);				
 		tfCaption = ip.getTextComponent();
 		if (tfCaption instanceof AutoCompleteTextField) {
 			AutoCompleteTextField atf = (AutoCompleteTextField) tfCaption;
@@ -184,17 +185,26 @@ public class ButtonDialog extends JDialog
 		// create script panel
 		JLabel scriptLabel = new JLabel(app.getPlain("Script")+":");
 		initString = (button == null) ? "" : button.getClickScript();
-		InputPanel ip2 = new InputPanel(initString, app, 10, 40, false);				
+		InputPanel ip2 = new InputPanel(initString, app, 10, 40, false);
+		Dimension dim = ((GeoGebraEditorPane) ip2.getTextComponent())
+				.getPreferredSizeFromRowColumn(10, 40);
+		ip2.setPreferredSize(dim);
+		
+		ip2.setShowLineNumbering(true);
 		tfScript = ip2.getTextComponent();
+		// add a small margin
+		tfScript.setBorder(BorderFactory.createEmptyBorder(4,4,4,4));
+		
 		if (tfScript instanceof AutoCompleteTextField) {
 			AutoCompleteTextField atf = (AutoCompleteTextField) tfScript;
 			atf.setAutoComplete(false);
 		}
 		
 		scriptLabel.setLabelFor(tfScript);
-		JPanel scriptPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		scriptPanel.add(scriptLabel);
-		scriptPanel.add(ip2);
+		JPanel scriptPanel = new JPanel(new BorderLayout(5,5));
+		scriptPanel.add(scriptLabel, BorderLayout.NORTH);
+		scriptPanel.add(ip2,BorderLayout.CENTER);
+		scriptPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		JPanel linkedPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JLabel linkedLabel = new JLabel(app.getPlain("LinkedObject")+":");
