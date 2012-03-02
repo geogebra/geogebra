@@ -57,13 +57,13 @@
     <jar href="jython.jar"/>
   </resources>
     <resources os="Windows" arch="x86">
-      <nativelib href = "openni.jar" />
+      <nativelib href = "usb/openni.jar" />
     </resources>
     <resources os="Windows" arch="amd64">
-      <nativelib href = "openni64.jar" />
+      <nativelib href = "usb/openni64.jar" />
     </resources>
     <resources os="Windows" arch="x86_64">
-      <nativelib href = "openni64.jar" />
+      <nativelib href = "usb/openni64.jar" />
     </resources>
   <application-desc main-class="geogebra.GeoGebra">
   </application-desc>
