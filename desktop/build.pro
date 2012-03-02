@@ -163,6 +163,7 @@
 -keepattributes InnerClasses
 -keep class geogebra.plugin.jython.PythonAPI$Geo { <methods>; }
 -keep class geogebra.plugin.jython.PythonFlatAPI$Geo { <methods>; }
+-keep class geogebra.plugin.jython.PythonFlatAPI$Expression { <methods>; }
 
 -keep class geogebra.plugin.jython.PythonScriptInterface { <methods>; <fields>; }
 # allow eg Color.Red
