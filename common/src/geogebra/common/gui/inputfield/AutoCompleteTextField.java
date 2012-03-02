@@ -49,4 +49,8 @@ public interface AutoCompleteTextField extends GeoElementSelectionListener, Text
 
 	void addKeyListener(KeyListener newKeyListener);
 
+	int getCaretPosition();
+
+	void setCaretPosition(int caretPos);
+
 }

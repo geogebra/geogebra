@@ -23,9 +23,11 @@ import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.Box;
 import geogebra.common.javax.swing.JLabel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.util.Unicode;
 
 
 
@@ -158,6 +160,25 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 				//view.getEuclidianController().textfieldHasFocus(false);
 				geoTextField.textObjectUpdated(textField);
 				geoTextField.textSubmitted();
+			} else {
+				GeoElement linkedGeo = ((GeoTextField) geo).getLinkedGeo();
+				
+				if (linkedGeo instanceof GeoAngle) {
+					
+					String text = textField.getText();
+					
+					// return if text already contains degree symbol or variable
+					for (int i = 0 ; i < text.length() ; i++) {
+						if (!Character.isDigit(text.charAt(i))) return;
+					}
+					
+					int caretPos = textField.getCaretPosition();
+					
+					// add degree symbol to end if it's (a) a GeoText and (b) just digits
+					textField.setText(text+Unicode.degree);
+					
+					textField.setCaretPosition(caretPos);
+				}
 			}
 		}
 	}

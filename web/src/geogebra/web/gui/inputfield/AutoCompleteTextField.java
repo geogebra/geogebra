@@ -116,4 +116,14 @@ public class AutoCompleteTextField extends TextBox implements geogebra.common.gu
 	    
     }
 
+	public int getCaretPosition() {
+		AbstractApplication.debug("implementation needed"); //TODO Auto-generated
+	    return 0;
+    }
+
+	public void setCaretPosition(int caretPos) {
+		AbstractApplication.debug("implementation needed"); //TODO Auto-generated
+	    
+    }
+
 }
