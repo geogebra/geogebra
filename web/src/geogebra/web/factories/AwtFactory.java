@@ -21,9 +21,9 @@ import geogebra.common.awt.QuadCurve2D;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
 import geogebra.common.awt.Shape;
-import geogebra.common.awt.event.FocusListener;
-import geogebra.common.awt.event.KeyListener;
 import geogebra.common.awt.font.TextLayout;
+import geogebra.common.euclidian.event.FocusListener;
+import geogebra.common.euclidian.event.KeyListener;
 import geogebra.common.main.AbstractApplication;
 
 /**
@@ -227,12 +227,12 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 
 	@Override
     public FocusListener newFocusListener(Object listener) {
-	    return new geogebra.web.awt.event.FocusListener(listener);
+	    return new geogebra.web.euclidian.event.FocusListener(listener);
     }
 
 	@Override
     public KeyListener newKeyListener(Object listener) {
-	    return new geogebra.web.awt.event.KeyListener(listener);
+	    return new geogebra.web.euclidian.event.KeyListener(listener);
     }
 
 }

@@ -1,8 +1,8 @@
-package geogebra.awt.event;
+package geogebra.euclidian.event;
 
 import java.awt.event.KeyEvent;
 
-public class KeyListener extends geogebra.common.awt.event.KeyListener
+public class KeyListener extends geogebra.common.euclidian.event.KeyListener
 implements java.awt.event.KeyListener{
 
 	public KeyListener(Object listener) {
@@ -20,7 +20,7 @@ implements java.awt.event.KeyListener{
 	}
 
 	public void keyReleased(KeyEvent e) {
-		geogebra.awt.event.KeyEvent event = geogebra.awt.event.KeyEvent.wrapEvent(e);
+		geogebra.euclidian.event.KeyEvent event = geogebra.euclidian.event.KeyEvent.wrapEvent(e);
 		wrapKeyReleased(event);
 		event.release();
 		

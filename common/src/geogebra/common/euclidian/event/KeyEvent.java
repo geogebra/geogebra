@@ -1,4 +1,4 @@
-package geogebra.common.awt.event;
+package geogebra.common.euclidian.event;
 
 public abstract class KeyEvent {
 

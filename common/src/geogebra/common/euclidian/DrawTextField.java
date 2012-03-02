@@ -15,6 +15,8 @@ package geogebra.common.euclidian;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Font;
+import geogebra.common.euclidian.event.FocusEvent;
+import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.SwingFactory;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
@@ -25,8 +27,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.AbstractApplication;
 
-import geogebra.common.awt.event.FocusEvent;
-import geogebra.common.awt.event.KeyEvent;
 
 
 //import javax.swing.SwingUtilities;
@@ -110,7 +110,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	 * Listens to events in this textfield
 	 * @author Michael + Judit
 	 */
-	public class InputFieldListener extends geogebra.common.awt.event.FocusListener{
+	public class InputFieldListener extends geogebra.common.euclidian.event.FocusListener{
 
 		/**
 		 * Creates new listener
@@ -144,7 +144,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	 * Listens to key events in this textfield
 	 * @author Michael + Judit
 	 */
-	public class InputFieldKeyListener extends geogebra.common.awt.event.KeyListener{
+	public class InputFieldKeyListener extends geogebra.common.euclidian.event.KeyListener{
 
 		/**
 		 * Creates new listener

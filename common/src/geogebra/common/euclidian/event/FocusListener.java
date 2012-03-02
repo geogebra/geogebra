@@ -1,7 +1,7 @@
-package geogebra.common.awt.event;
+package geogebra.common.euclidian.event;
 
-import geogebra.common.awt.event.FocusEvent;
 import geogebra.common.euclidian.DrawTextField;
+import geogebra.common.euclidian.event.FocusEvent;
 import geogebra.common.main.AbstractApplication;
 
 public class FocusListener {

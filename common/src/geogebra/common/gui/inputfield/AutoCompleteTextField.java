@@ -2,8 +2,8 @@ package geogebra.common.gui.inputfield;
 
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Font;
-import geogebra.common.awt.event.FocusListener;
-import geogebra.common.awt.event.KeyListener;
+import geogebra.common.euclidian.event.FocusListener;
+import geogebra.common.euclidian.event.KeyListener;
 import geogebra.common.javax.swing.JLabel;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.util.TextObject;

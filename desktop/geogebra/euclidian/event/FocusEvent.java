@@ -1,11 +1,11 @@
-package geogebra.awt.event;
+package geogebra.euclidian.event;
 
 import java.util.LinkedList;
 
 import geogebra.common.main.AbstractApplication;
-import geogebra.awt.event.FocusEvent;
+import geogebra.euclidian.event.FocusEvent;
 
-public class FocusEvent extends geogebra.common.awt.event.FocusEvent{
+public class FocusEvent extends geogebra.common.euclidian.event.FocusEvent{
 
 	public static LinkedList<FocusEvent> pool = new LinkedList<FocusEvent>();
 	private java.awt.event.FocusEvent event;
@@ -15,7 +15,7 @@ public class FocusEvent extends geogebra.common.awt.event.FocusEvent{
 		this.event = e;
 	}
 	
-	public static geogebra.awt.event.FocusEvent wrapEvent(java.awt.event.FocusEvent e) {
+	public static geogebra.euclidian.event.FocusEvent wrapEvent(java.awt.event.FocusEvent e) {
 		if(!pool.isEmpty()){
 			FocusEvent wrap = pool.getLast();
 			wrap.event = e;

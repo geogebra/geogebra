@@ -2,8 +2,8 @@ package geogebra.web.gui.inputfield;
 
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Font;
-import geogebra.common.awt.event.FocusListener;
 import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.event.FocusListener;
 import geogebra.common.javax.swing.JLabel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
@@ -100,15 +100,15 @@ public class AutoCompleteTextField extends TextBox implements geogebra.common.gu
     }
 
 	public void addFocusListener(FocusListener listener) {
-		super.addFocusListener((geogebra.web.awt.event.FocusListener) listener);
+		super.addFocusListener((geogebra.web.euclidian.event.FocusListener) listener);
 		//super.addFocusHandler((geogebra.web.awt.event.FocusListener) listener);
 		//super.addBlurHandler((geogebra.web.awt.event.FocusListener) listener);
 		
 	    
     }
 
-	public void addKeyListener(geogebra.common.awt.event.KeyListener listener) {
-		super.addKeyPressHandler((geogebra.web.awt.event.KeyListener) listener);
+	public void addKeyListener(geogebra.common.euclidian.event.KeyListener listener) {
+		super.addKeyPressHandler((geogebra.web.euclidian.event.KeyListener) listener);
 	}
 	
 	public void wrapSetText(String s) {

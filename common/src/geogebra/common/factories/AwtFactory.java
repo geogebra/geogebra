@@ -21,9 +21,9 @@ import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Arc2D;
 import geogebra.common.awt.Shape;
-import geogebra.common.awt.event.FocusListener;
-import geogebra.common.awt.event.KeyListener;
 import geogebra.common.awt.font.TextLayout;
+import geogebra.common.euclidian.event.FocusListener;
+import geogebra.common.euclidian.event.KeyListener;
 
 public abstract class AwtFactory {
 	public static AwtFactory prototype = null;

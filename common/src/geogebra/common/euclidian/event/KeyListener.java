@@ -1,4 +1,4 @@
-package geogebra.common.awt.event;
+package geogebra.common.euclidian.event;
 
 import geogebra.common.euclidian.DrawTextField;
 import geogebra.common.main.AbstractApplication;

@@ -1,10 +1,10 @@
-package geogebra.awt.event;
+package geogebra.euclidian.event;
 
 import geogebra.common.main.AbstractApplication;
 
 import java.util.LinkedList;
 
-public class KeyEvent extends geogebra.common.awt.event.KeyEvent{
+public class KeyEvent extends geogebra.common.euclidian.event.KeyEvent{
 
 	public static LinkedList<KeyEvent> pool = new LinkedList<KeyEvent>();
 	private java.awt.event.KeyEvent event;
@@ -14,7 +14,7 @@ public class KeyEvent extends geogebra.common.awt.event.KeyEvent{
 		this.event = e;
 	}
 	
-	public static geogebra.awt.event.KeyEvent wrapEvent(java.awt.event.KeyEvent e) {
+	public static geogebra.euclidian.event.KeyEvent wrapEvent(java.awt.event.KeyEvent e) {
 		if(!pool.isEmpty()){
 			KeyEvent wrap = pool.getLast();
 			wrap.event = e;

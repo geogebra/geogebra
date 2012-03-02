@@ -2,9 +2,9 @@ package geogebra.gui.inputfield;
 
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Font;
-import geogebra.common.awt.event.FocusListener;
 import geogebra.common.euclidian.DrawTextField;
 import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.event.FocusListener;
 import geogebra.common.javax.swing.JLabel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.StringTemplate;
@@ -1290,11 +1290,11 @@ public class AutoCompleteTextField extends MathTextField implements
   }
 
   public void addFocusListener(FocusListener focusListener) {
-	super.addFocusListener((geogebra.awt.event.FocusListener) focusListener);
+	super.addFocusListener((geogebra.euclidian.event.FocusListener) focusListener);
   }
 
-  public void addKeyListener(geogebra.common.awt.event.KeyListener listener) {
-    super.addKeyListener((geogebra.awt.event.KeyListener) listener);
+  public void addKeyListener(geogebra.common.euclidian.event.KeyListener listener) {
+    super.addKeyListener((geogebra.euclidian.event.KeyListener) listener);
   }
   
   public void wrapSetText(final String s) {

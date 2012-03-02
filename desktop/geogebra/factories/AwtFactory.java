@@ -1,7 +1,6 @@
 package geogebra.factories;
 
 import geogebra.awt.Ellipse2DDouble;
-import geogebra.awt.event.KeyListener;
 import geogebra.common.awt.AlphaComposite;
 import geogebra.common.awt.Arc2D;
 import geogebra.common.awt.Area;
@@ -24,9 +23,10 @@ import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.Rectangle2D;
 import geogebra.common.awt.RectangularShape;
 import geogebra.common.awt.Shape;
-import geogebra.common.awt.event.FocusListener;
 import geogebra.common.awt.font.TextLayout;
 import geogebra.common.euclidian.GeneralPathClipped;
+import geogebra.common.euclidian.event.FocusListener;
+import geogebra.euclidian.event.KeyListener;
 
 public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	
@@ -228,11 +228,11 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	}
 	@Override
 	public FocusListener newFocusListener(Object listener) {
-		return new geogebra.awt.event.FocusListener(listener);
+		return new geogebra.euclidian.event.FocusListener(listener);
 	}
 	@Override
 	public KeyListener newKeyListener(Object listener) {
-		return new geogebra.awt.event.KeyListener(listener);
+		return new geogebra.euclidian.event.KeyListener(listener);
 	}
 
 	
