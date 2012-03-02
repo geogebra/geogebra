@@ -157,10 +157,12 @@
 
 # So that Jython can access GeoElement methods
 -keep class geogebra.plugin.jython.PythonAPI { <methods>; <fields>; }
+-keep class geogebra.plugin.jython.PythonFlatAPI { <methods>; <fields>; }
 
 # for the inner class 'Geo'
 -keepattributes InnerClasses
 -keep class geogebra.plugin.jython.PythonAPI$Geo { <methods>; }
+-keep class geogebra.plugin.jython.PythonFlatAPI$Geo { <methods>; }
 
 -keep class geogebra.plugin.jython.PythonScriptInterface { <methods>; <fields>; }
 # allow eg Color.Red
