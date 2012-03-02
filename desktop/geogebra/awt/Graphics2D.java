@@ -221,12 +221,12 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 
 	@Override
 	public void setBackground(Color color) {
-		impl.setColor(geogebra.awt.Color.getAwtColor(color));
+		impl.setBackground(geogebra.awt.Color.getAwtColor(color));
 	}
 
 	@Override
 	public Color getBackground() {
-		return new geogebra.awt.Color(impl.getColor());
+		return new geogebra.awt.Color(impl.getBackground());
 	}
 
 	@Override

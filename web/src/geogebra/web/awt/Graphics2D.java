@@ -45,7 +45,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	protected geogebra.common.awt.Shape clipShape = null;
 
 	private Font currentFont = new Font("normal");
-	private Color color;
+	private Color color, bgColor;
 	private AffineTransform savedTransform;
 	private float [] dash_array = null;
 
@@ -424,18 +424,18 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 //		};
 	}
 
-	
+
 	@Override
     public void setBackground(Color color) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-
+		// This method only affects Graphics2D.clearRect (if there will be present)
+		// and getBackground calls - currently Drawable.drawLabel
+		this.bgColor = new geogebra.web.awt.Color((geogebra.web.awt.Color)color);
 	}
 
-	
+
 	@Override
     public Color getBackground() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return null;
+		return bgColor;
 	}
 
 
