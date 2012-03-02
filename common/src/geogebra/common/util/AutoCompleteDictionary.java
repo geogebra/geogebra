@@ -52,5 +52,5 @@ public interface AutoCompleteDictionary {
    */
   public List<String> getCompletions(String s);
 
-public List<String> getCompletionsKorean(String cmdPrefix);
+  public List<String> getCompletionsKorean(String cmdPrefix);
 }

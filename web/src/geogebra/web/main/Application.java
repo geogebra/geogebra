@@ -93,7 +93,7 @@ public class Application extends AbstractApplication {
 	 */
 	private ColorsConstants colorConstants;
 	private PlainConstants plainConstants;
-	private CommandConstants commandConstants;
+	private CommandConstants commandConstants, commandConstantsOld = null;
 
 	private AbsolutePanel euclidianViewPanel;
 	private Canvas canvas;
@@ -245,13 +245,8 @@ public class Application extends AbstractApplication {
 //			return getCommandTooltip(key);
 //		}
 		
-//		initTranslatedCommands();
+		initTranslatedCommands();
 
-		if(commandConstants == null) {
-			
-			initCommandConstants();
-		}
-		
 		return commandConstants.getString(key);
 	}
 
@@ -804,31 +799,26 @@ public class Application extends AbstractApplication {
 		return null;
 	}
 
-	private boolean commandChanged = true;
-
 	@Override
 	protected boolean isCommandChanged() {
-		return commandChanged;
+		return commandConstantsOld != commandConstants;
 	}
 
 	@Override
 	protected void setCommandChanged(boolean b) {
-		commandChanged = b;
+		commandConstantsOld = commandConstants;
 	}
 
 	@Override
 	protected boolean isCommandNull() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return false;
+		return commandConstants == null;
 	}
 
 	@Override
 	public void initCommand() {
-//		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 		if(commandConstants == null) {
 			initCommandConstants();
 		}
-
 	}
 
 	@Override
