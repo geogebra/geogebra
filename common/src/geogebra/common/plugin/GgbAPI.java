@@ -2,6 +2,7 @@ package geogebra.common.plugin;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -22,28 +23,55 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+/** 
+<h3>GgbAPI - API for PlugLets </h3>
+<pre>
+   The Api the plugin program can use.
+</pre>
+<ul><h4>Interface:</h4>
+<li>GgbAPI(Application)      //Application owns it
+<li>getApplication()
+<li>getKernel()
+<li>getConstruction()
+<li>getAlgebraProcessor()
+<li>getPluginManager()
+<li>evalCommand(String)
+<li>and the rest of the methods from the Applet JavaScript/Java interface
+<li>...
+</ul>
+@author      H-P Ulven
+@version     31.10.08
+29.05.08:
+    Tranferred applet interface methods (the relevant ones) from GeoGebraAppletBase
+*/
 
-public abstract class GgbAPI {
+public abstract class GgbAPI implements JavaScriptAPI{
 	// /// ----- Properties ----- /////
-
+	/** kernel */
 	protected Kernel kernel = null;
+	/** construction */
 	protected Construction construction = null;
+	/** algebra processor*/
 	protected AlgebraProcessor algebraprocessor = null;
+	/** application*/
 	protected AbstractApplication app = null;
 
 	// private PluginManager pluginmanager= null;
 	// /// ----- Interface ----- /////
-	/** Returns reference to Construction */
+	/** Returns reference to Construction 
+	 * @return construction*/
 	public Construction getConstruction() {
 		return this.construction;
 	}
 
-	/** Returns reference to Kernel */
+	/** Returns reference to Kernel 
+	 * @return kernel*/
 	public Kernel getKernel() {
 		return this.kernel;
 	}
 
-	/** Returns reference to AlgebraProcessor */
+	/** Returns reference to AlgebraProcessor 
+	 * @return algebra processor*/
 	public AlgebraProcessor getAlgebraProcessor() {
 		return this.algebraprocessor;
 	}
@@ -96,6 +124,7 @@ public abstract class GgbAPI {
 	/**
 	 * Evaluates the given string as if it was entered into GeoGebra CAS's input
 	 * text field.
+	 * @param cmdString CAS command
 	 * 
 	 * @return evaluation result in GeoGebraCAS syntax
 	 */
@@ -106,6 +135,7 @@ public abstract class GgbAPI {
 	/**
 	 * Evaluates the given string as if it was entered into GeoGebra CAS's input
 	 * text field.
+	 * @param cmdString command string
 	 * 
 	 * @param debugOutput
 	 *            states whether debugging information should be printed to the
@@ -232,12 +262,15 @@ public abstract class GgbAPI {
 	}
 
 	private String[] objNames;
+	/**
+	 * Number of last geo elements
+	 */
 	public int lastGeoElementsIteratorSize = 0; // ulven 29.05.08: Had to change
 												// to public, used by applet
 
 	/**
 	 * 
-	 * @return
+	 * @return object names
 	 */
 	public String[] getObjNames() { // ulven 29.05.08: Had to change to public,
 									// used by applet
@@ -386,7 +419,8 @@ public abstract class GgbAPI {
 		return geo.getLineThickness();
 	}
 
-	public synchronized void setLineThickness(String objName, int thickness) {
+	public synchronized void setLineThickness(String objName, int lineThickness) {
+		int thickness = lineThickness;
 		if (thickness == -1)
 			thickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
 		if (thickness < 1 || thickness > 13)
@@ -469,7 +503,7 @@ public abstract class GgbAPI {
 		kernel.getConstruction().storeUndoInfo();
 	}
 
-	/*
+	/**
 	 * should only be used by web
 	 */
 	public void initCAS() {
@@ -563,8 +597,7 @@ public abstract class GgbAPI {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null) 
 			return false;
-		else
-			return geo.isMoveable();
+		return geo.isMoveable();
 	}
 	
 	/**
@@ -654,8 +687,7 @@ public abstract class GgbAPI {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null) 
 			return false;
-		else
-			return geo.isDefined();
+		return geo.isDefined();
 	}	
 	
 	/**
@@ -665,8 +697,7 @@ public abstract class GgbAPI {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null) 
 			return false;
-		else
-			return geo.isIndependent();
+		return geo.isIndependent();
 	}	
 	
 	/**
@@ -810,8 +841,8 @@ public abstract class GgbAPI {
 	 * Shows or hides the x- and y-axis of the coordinate system in the graphics window.
 	 */
 	public synchronized void setAxesVisible(boolean xVisible, boolean yVisible) {		
-		app.getEuclidianView1().setShowAxis(AbstractEuclidianView.AXIS_X, xVisible, false);
-		app.getEuclidianView1().setShowAxis(AbstractEuclidianView.AXIS_Y, yVisible, false);
+		app.getEuclidianView1().setShowAxis(EuclidianViewInterfaceCommon.AXIS_X, xVisible, false);
+		app.getEuclidianView1().setShowAxis(EuclidianViewInterfaceCommon.AXIS_Y, yVisible, false);
 		kernel.notifyRepaint();
 	}	
 	
@@ -819,6 +850,7 @@ public abstract class GgbAPI {
 	 * If the origin is off screen and the axes are visible, GeoGebra shows coordinates
 	 * of the upper-left and bottom-right screen corner. This method lets you
 	 * hide these corner coordinates.
+	 * @param showAxesCornerCoords true to show corner coordinates
 	 */
 	public synchronized void setAxesCornerCoordsVisible(boolean showAxesCornerCoords) {		
 		app.getEuclidianView1().setAxesCornerCoordsVisible(showAxesCornerCoords);
@@ -842,16 +874,17 @@ public abstract class GgbAPI {
 		
 	/**
 	 * Returns an array with the names of all selected objects.
+	 * @return an array with the names of all selected objects.
 	 */
 	public synchronized String [] getSelectedObjectNames() {			
 		ArrayList<GeoElement> selGeos = app.getSelectedGeos();
-		String [] objNames = new String[selGeos.size()];
+		String [] selObjNames = new String[selGeos.size()];
 		
 		for (int i=0; i < selGeos.size(); i++) {
-			GeoElement geo = (GeoElement) selGeos.get(i);
-			objNames[i] = geo.getLabel(StringTemplate.defaultTemplate);
+			GeoElement geo = selGeos.get(i);
+			selObjNames[i] = geo.getLabel(StringTemplate.defaultTemplate);
 		}
-		return objNames;
+		return selObjNames;
 	}	
 	
 	/**
@@ -888,6 +921,9 @@ public abstract class GgbAPI {
 		return app.getXML();
 	}
 	
+    /**
+     * @return application
+     */
     final public AbstractApplication getApplication() {
 	    return app;
     }

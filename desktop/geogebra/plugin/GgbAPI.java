@@ -14,7 +14,6 @@ import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.AbstractApplication;
-import geogebra.common.plugin.JavaScriptAPI;
 import geogebra.common.util.StringUtil;
 import geogebra.io.MyImageIO;
 import geogebra.main.Application;
@@ -60,7 +59,7 @@ import javax.swing.JOptionPane;
     Tranferred applet interface methods (the relevant ones) from GeoGebraAppletBase
 */
 
-public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptAPI {
+public class GgbAPI extends geogebra.common.plugin.GgbAPI {
 
    
    /** Constructor:
@@ -84,8 +83,13 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 //    	return this.pluginmanager;
 //    }//getPluginManager()
 
-    /** Returns reference to ClassPathManipulator*/
-    public ClassPathManipulator getClassPathManipulator(){
+    /**
+     * TODO decide whether we can remove this method 
+     * Returns reference to ClassPathManipulator
+     * @deprecated always returns null 
+     * @return null*/
+    @Deprecated
+	public ClassPathManipulator getClassPathManipulator(){
         return null;//ClassPathManipulator;
     }//getClassPathManipulator()
     
@@ -143,6 +147,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 	/**
 	 * Returns current construction in Base64 format. May be used for saving.
 	 */
+	@Override
 	public synchronized String getBase64(boolean includeThumbnail) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
@@ -308,6 +313,10 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 	
 	private static MessageDigest messageDigestMD5 = null;
 
+	/**
+	 * @return reference to MD5 algorithm
+	 * @throws NoSuchAlgorithmException if algorithm is not supported
+	 */
 	public static MessageDigest getMessageDigestMD5()
 			throws NoSuchAlgorithmException {
 		if (messageDigestMD5 == null)
@@ -326,17 +335,22 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 	 */
 	public synchronized boolean writePNGtoFile(String filename, final double exportScale, final boolean transparent, final double DPI) {
 		if (!Application.hasFullPermissions()) return false;
-		final File file = new File(filename);
-
-		if (file == null) return false;
-
+		File file1 = null;
+		try{
+		 file1 = new File(filename);
+		}
+		catch(Throwable t){
+			t.printStackTrace();
+		}
+		if (file1 == null) return false;
+		final File file = file1;
 		return (Boolean) AccessController.doPrivileged(new PrivilegedAction<Object>() {
 			public Boolean run() {
 
 				try {			
 					// draw graphics view into image
 					BufferedImage img =
-							((Application)app).getEuclidianView1().getExportImage(exportScale, transparent); 
+							((Application)getApplication()).getEuclidianView1().getExportImage(exportScale, transparent); 
 					
 					// write image to file
 					MyImageIO.write(img, "png", (float)DPI,  file);	
@@ -377,7 +391,6 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 		
 		    MyImageIO.writeImage(writer, img, DPI);
 		    
-		    byte[] image = baos.toByteArray();
 			String ret = geogebra.common.util.Base64.encode(baos.toByteArray(), 0);
 	    
 			baos.close();
@@ -394,10 +407,16 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 	
 	
 	
+	/**
+	 * @param JSFunctionName name of logger listener function
+	 */
 	public synchronized void registerLoggerListener(String JSFunctionName) {
 		((Application)app).getScriptManager().getUSBFunctions().registerLoggerListener(JSFunctionName);
 	}
 
+	/**
+	 * @param JSFunctionName name of logger listener function
+	 */
 	public synchronized void unregisterLoggerListener(String JSFunctionName) {
 		((Application)app).getScriptManager().getUSBFunctions().unregisterLoggerListener(JSFunctionName);
 	}
@@ -407,9 +426,12 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 		
 		if(ge == null){
 			ge = new GeoImage(kernel.getConstruction());
-			if(label.length()==0)
-				label = null;
-			ge.setLabel(label);
+			if(label == null || label.length()==0){
+				ge.setLabel(null);
+			}
+			else{
+				ge.setLabel(label);
+			}
 		}
 		if(!ge.isGeoImage()){
 			debug("Bad drawToImage arguments");
@@ -431,6 +453,12 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 		
 	}
 
+	/**
+	 * JavaScript-like prompt
+	 * @param value0 prompt text
+	 * @param value1 default value
+	 * @return user's response
+	 */
 	public String prompt(Object value0, Object value1) {
 		return (String)JOptionPane.showInputDialog(
 				((Application)app).getFrame(),
@@ -475,6 +503,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI implements JavaScriptA
 	/**
 	 * Returns the dimensions of the real world coordinate system in the graphics view
 	 * as [xmin, ymin, width, height]
+	 * @return dimensions of the real world coordinate system
 	 */
 	public synchronized Rectangle2D.Double getCoordSystemRectangle() {
 		AbstractEuclidianView ev = app.getEuclidianView1();
