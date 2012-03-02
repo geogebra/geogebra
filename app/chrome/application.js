@@ -32,6 +32,38 @@ var geogebraPopUp = $('<p class="geogebrapopup">Click to <a title="click to rend
 					.find("a")
 					.click(grabArticleElement).end();
 
+window.GGW_ext = {};
+
+var GEOGEBRAWEB_SCRIPT_SRC = chrome.extension.getURL("web/web.nocache.js");
+
+function renderGeoGebraWeb() {
+	if (window.GGW_ext && typeof window.GGW_ext.render !== "function") {
+
+		    var nav = navigator.userAgent.toLowerCase();
+		    var script0 = document.createElement("script");
+		    script0.type = "text/javascript";
+		    script0.src = GEOGEBRAWEB_SCRIPT_SRC;
+		    script0.onload = function(e) {
+		        /*var script = document.createElement("script");
+		        script.type = "text/javascript";
+		        if (nav.indexOf("webkit") > -1) {
+		            //chrome
+		            script.src = "http://www.geogebra.org/mobile/4.0/geogebramobile/1F6D62FB75345A82BBCEFC2574374C09.cache.js";
+		        } else if (nav.indexOf("gecko") > -1) {
+		            //firefox
+		            script.src = "http://www.geogebra.org/mobile/4.0/geogebramobile/BA3A0EA56212BEC7DEB8430132183510.cache.js";
+		        } 
+		        existingscripts[0].parentNode.appendChild(script);*/
+		    	console.log("script loaded");
+		    };
+		    var existingscripts = document.getElementsByTagName("script");
+		    existingscripts[0].parentNode.appendChild(script0);
+
+	}
+	
+	
+}
+
 function grabArticleElement() {
 	var parentLink = $(this).parents("a");
 	var article;
@@ -43,6 +75,7 @@ function grabArticleElement() {
 			article = $(data.substring(data.indexOf("<article"),data.indexOf("</article>")+10));
 			parentLink.find(".geogebrapopup").remove();
 			parentLink.append(article)
+			renderGeoGebraWeb(article);
 		});
 	}
 }
@@ -91,4 +124,8 @@ function collectLinks() {
 
 $(document).on("DOMSubtreeModified",function() {
 	collectLinks();
+});
+
+$(document).ready(function() {
+	renderGeoGebraWeb();
 });
