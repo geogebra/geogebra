@@ -8,9 +8,10 @@
      Make sure you set the GWTDIR environment variable before running this
      build file.
      
-     Do not use this script to compile the desktop version of GeoGebra.
+     Do not use this script to compile GeoGebra.
      
-     Recommended usage: "ant -f web-build.xml libs build javac"
+     Recommended usage: "ant -f web-build.xml libs build javac",
+     but this should not be done currently.
 -->
 
 <project name="Common" default="build" basedir=".">
