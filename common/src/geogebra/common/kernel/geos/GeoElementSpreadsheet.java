@@ -195,8 +195,11 @@ public class GeoElementSpreadsheet {
 		// we only sometimes need (x), eg
 		// B2(x)=f(x)
 		// B2(x)=x^2
-		if (cellGeo.isGeoFunction() && cellGeo.isLabelSet())
-			sb.append("(x)");
+		if (cellGeo instanceof FunctionalNVar && cellGeo.isLabelSet()){
+			sb.append("(");
+			sb.append(((FunctionalNVar)cellGeo).getVarString(StringTemplate.defaultTemplate));
+			sb.append(")");
+		}
 
 		// Application.debug(sb.toString());
 
