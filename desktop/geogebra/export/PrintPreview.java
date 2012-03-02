@@ -516,7 +516,10 @@ public class PrintPreview extends JDialog {
 	
 	private void setOrientation(int orientation) {
 		m_orientation = orientation;	
-				
+	
+		m_preview.removeAll();
+		initPages();
+		
 		PageFormat pageFormat = getDefaultPageFormat();
 		pageFormat.setOrientation(m_orientation);
 	
