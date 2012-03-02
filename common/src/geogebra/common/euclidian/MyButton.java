@@ -63,7 +63,9 @@ public class MyButton {
 		int spareWidth = width - (int)(t.getAdvance());
 		
 		g.setColor(view.getBackgroundCommon());
-		g.fillRect(x, y, getWidth(), getHeight());
+
+		// this was commented out to avoid corners with non-fitting colors
+		//g.fillRect(x, y, getWidth(), getHeight());
 
 		geogebra.common.awt.Paint p;
 
