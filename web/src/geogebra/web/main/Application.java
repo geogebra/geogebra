@@ -263,7 +263,7 @@ public class Application extends AbstractApplication {
 		
 		//TODO Implementation of cross-referencing of keys is needed
 
-		return plainConstants.getString(key);
+		return plainConstants.getString(key.replace(".", "_"));
 	}
 
 	@Override
