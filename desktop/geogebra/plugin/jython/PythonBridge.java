@@ -166,8 +166,6 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	 * @return the value of the currently edited script or null
 	 */
 	public String getCurrentPythonScript() {
-		if(pyInterface == null)
-			return null;
 		return pyInterface.getCurrentInitScript();
 	}
 }

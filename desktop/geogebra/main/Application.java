@@ -3643,7 +3643,7 @@ public class Application extends AbstractApplication implements
 	}
 	
 	public String getCurrentPythonScript() {
-		String script = pythonBridge.getCurrentPythonScript();
+		String script = getPythonBridge().getCurrentPythonScript();
 		if (script == null) {
 			return kernel.getLibraryPythonScript();
 		}
