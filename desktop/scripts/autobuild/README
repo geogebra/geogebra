@@ -1,12 +1,17 @@
-These files are for automated server-side builds using Subversion via HTTP
-(or the local file system).
+These files are for automated or manual server-side builds using
+Subversion via HTTP (or the local file system).
 
 Usage:
+
+If you want to compile GeoGebra for testing purposes, then you may want to
+run the ./make-vanilla-jars script only.
+
+If you want to create a GeoGebra release, then do the following:
 
 1. Copy autobuild.conf.dist to autobuild.conf and edit the latter as needed.
 
 2. Run ./checkout to create a working copy of the repository (this step
-   is needed only once, but probably it is already done --- if no,
+   is needed only once, but probably it is already done --- if not,
    make sure that all relevant steps are run from that script). On demand
    another run can be done, it is harmless to do it again later.
 
