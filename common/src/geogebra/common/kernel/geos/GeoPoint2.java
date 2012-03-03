@@ -1870,8 +1870,11 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 			// if (!geo.isFixed())
 			// geo.updateCascade();
 
-			GeoElement.updateCascade(predList, tmpSet, false);
-
+			
+			//temporary fix for #1827
+			//GeoElement.updateCascade(predList, tmpSet, false);
+			kernel.updateConstruction();
+			
 			// if all of the cases are good, add incidence
 			if (incident)
 				addIncidence(geo);
