@@ -1294,6 +1294,13 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 		if(isDiscrete){
 			high = Math.round(high);
 			low = Math.round(low);
+			
+			// make sure arrow keys move points in 1s
+			lowPoint.setAnimationStep(1);
+			highPoint.setAnimationStep(1);
+		} else {
+			lowPoint.setAnimationStep(0.1);
+			highPoint.setAnimationStep(0.1);			
 		}
 		setXAxisPoints();
 		updateIntervalProbability();
