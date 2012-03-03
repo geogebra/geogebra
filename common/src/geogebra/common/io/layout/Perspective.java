@@ -1,5 +1,7 @@
 package geogebra.common.io.layout;
 
+import geogebra.common.util.StringUtil;
+
 /**
  * Structure for a perspective which consists of the docks and the toolbar
  * definition.
@@ -247,7 +249,7 @@ public class Perspective {
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append("<perspective id=\"");
-		sb.append(getId());
+		sb.append(StringUtil.encodeXML(getId()));
 		sb.append("\">\n");
 		
 		sb.append("\t<panes>\n");
