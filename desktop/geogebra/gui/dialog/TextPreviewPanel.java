@@ -118,6 +118,8 @@ public class TextPreviewPanel extends EuclidianView {
 		// Application.printStacktrace("inputValue: " + inputValue);
 		// initialize variables
 		ValidExpression exp = null;
+		StringTemplate tpl = targetGeo == null ? StringTemplate.defaultTemplate : 
+			targetGeo.getStringTemplate();
 		ExpressionValue eval = null;
 		boolean hasParseError = false;
 		boolean showErrorMessage = false;
@@ -164,7 +166,7 @@ public class TextPreviewPanel extends EuclidianView {
 			try {
 				exp.resolveVariables();
 				isIndependent = exp.isConstant();
-				eval = exp.evaluate(targetGeo.getStringTemplate());
+				eval = exp.evaluate(tpl);
 			}
 
 			catch (Error e) {
@@ -190,7 +192,7 @@ public class TextPreviewPanel extends EuclidianView {
 				text = getApplication().getError("InvalidInput");
 			} else if (eval != null) {
 				MyStringBuffer eval2 = ((TextValue) eval).getText();
-				text = eval2.toValueString(StringTemplate.defaultTemplate);
+				text = eval2.toValueString(tpl);
 			}
 			previewGeoIndependent.setTextString(text);
 
@@ -211,8 +213,8 @@ public class TextPreviewPanel extends EuclidianView {
 			// if eg FormulaText["\sqrt{x}"] is entered, it should be displayed in the preview as LaTeX
 			// NB FormulaText[a] is displayed as-is
 			// FormulaText[a]+"" needs to have LaTeX box manually checked
-			if (exp.evaluate(targetGeo.getStringTemplate()).isGeoElement() &&
-					((GeoText)(exp.evaluate(targetGeo.getStringTemplate()))).isLaTeXTextCommand()) {
+			if (exp.evaluate(tpl).isGeoElement() &&
+					((GeoText)(exp.evaluate(tpl))).isLaTeXTextCommand()) {
 				isLaTeX = true;
 			}
 
@@ -227,6 +229,8 @@ public class TextPreviewPanel extends EuclidianView {
 			// set the display style
 			updateVisualProperties(previewGeoDependent, targetGeo, isLaTeX,
 					showErrorMessage);
+			//needed to reflect change of significant digits
+			textAlgo.update();
 		}
 
 		// hide/show the preview geos
