@@ -18,12 +18,10 @@ the Free Software Foundation.
 
 package geogebra.io;
 
-import geogebra.common.GeoGebraConstants;
 import geogebra.common.io.DocHandler;
-import geogebra.common.io.MyI2GHandler;
 import geogebra.common.io.QDParser;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
@@ -46,7 +44,6 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.TreeSet;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -63,14 +60,9 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 	// Use the default (non-validating) parser
 	// private static XMLReaderFactory factory;
 
-	// Modified for Intergeo File Format (Yves Kreis) -->
-	// private MyXMLHandler handler;
-	private DocHandler handler, ggbDocHandler, i2gDocHandler;
-	// <-- Modified for Intergeo File Format (Yves Kreis)
+	private DocHandler handler, ggbDocHandler;
 	private QDParser xmlParser;
-	// Added for Intergeo File Format (Yves Kreis) -->
 
-	// <-- Added for Intergeo File Format (Yves Kreis)
 
 	public MyXMLio(Kernel kernel, Construction cons) {
 		this.kernel = kernel;
@@ -89,13 +81,6 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 		return ggbDocHandler;
 	}
 	
-	private DocHandler getI2GHandler() {
-		if (i2gDocHandler == null)
-			i2gDocHandler = new MyI2GHandler(kernel, cons);		
-		return i2gDocHandler;
-	}
-
-
 	/**
 	 * Reads zipped file from input stream that includes the construction saved
 	 * in xml format and maybe image files.
@@ -145,20 +130,13 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 				break;
 
 			String name = entry.getName();
-			if (name.equals(XML_FILE) || name.equals(I2G_PRIVATE + XML_FILE)) {
+			if (name.equals(XML_FILE)) {
 				// load xml file into memory first
 				xmlFileBuffer = Util.loadIntoMemory(zip);
 				xmlFound = true;
 				ggbHandler = true;
-				// Added for Intergeo File Format (Yves Kreis) -->
 				handler = getGGBHandler();
-			} else if (!ggbHandler && name.equals(I2G_FILE)) {
-				// load i2g file into memory first
-				xmlFileBuffer = Util.loadIntoMemory(zip);
-				xmlFound = true;
-				handler = getI2GHandler();
-				// <-- Added for Intergeo File Format (Yves Kreis)
-			} else if (name.equals(XML_FILE_MACRO) || name.equals(I2G_PRIVATE + XML_FILE_MACRO)) {
+			} else if (name.equals(XML_FILE_MACRO)) {
 				// load macro xml file into memory first
 				macroXmlFileBuffer = Util.loadIntoMemory(zip);
 				macroXMLfound = true;
@@ -365,17 +343,10 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 		// create file
 		FileOutputStream f = new FileOutputStream(file);
 		BufferedOutputStream b = new BufferedOutputStream(f);
-		// Modified for Intergeo File Format (Yves Kreis) -->
-		// writeGeoGebraFile(b);
-		if (Application.getExtension(file)
-				.equals(Application.FILE_EXT_INTERGEO)) {
-			// File Extension for Intergeo: I2G
-			writeIntergeoFile(b, true);
-		} else {
-			// File Extension for GeoGebra: GGB or GGT
-			writeGeoGebraFile(b, true);
-		}
-		// <-- Modified for Intergeo File Format (Yves Kreis)
+
+		// File Extension for GeoGebra: GGB or GGT
+		writeGeoGebraFile(b, true);
+
 		b.close();
 		f.close();
 	}
@@ -396,12 +367,9 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 			// write construction images
 			writeConstructionImages(kernel.getConstruction(), zip);
 	
-			// Modified for Intergeo File Format (Yves Kreis) -->
 			// write construction thumbnails
-			// writeThumbnail(kernel.getConstruction(), zip);
 			if (includeThumbail)
 				writeThumbnail(kernel.getConstruction(), zip, XML_FILE_THUMBNAIL);
-			// <-- Modified for Intergeo File Format (Yves Kreis)
 	
 			// save macros
 			if (kernel.hasMacros()) {
@@ -432,70 +400,6 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 			
 			// write XML file for construction
 			zip.putNextEntry(new ZipEntry(XML_FILE));
-			osw.write(getFullXML());
-			osw.flush();
-			zip.closeEntry();
-	
-			osw.close();
-			zip.close();
-		} 
-		catch (IOException e) {
-			throw e;
-		}
-		finally {
-			kernel.setSaving(isSaving);
-		}
-	}
-
-	/**
-	 * Creates a zipped file containing the construction saved in xml and i2g
-	 * format plus all external images. Intergeo File Format (Yves Kreis)
-	 */
-	public void writeIntergeoFile(OutputStream os, boolean includeThumbail) throws IOException {
-		boolean isSaving = kernel.isSaving();
-		kernel.setSaving(true);
-		
-		try {
-			// zip stream
-			ZipOutputStream zip = new ZipOutputStream(os);
-			OutputStreamWriter osw = new OutputStreamWriter(zip, "UTF8");
-	
-			// write I2G file for construction
-			zip.putNextEntry(new ZipEntry(I2G_FILE));
-			osw.write(getFullI2G());
-			osw.flush();
-			zip.closeEntry();
-	
-			// write construction thumbnails
-			if (includeThumbail)
-				writeThumbnail(kernel.getConstruction(), zip, I2G_FILE_THUMBNAIL);
-	
-			// write construction images
-			writeConstructionImages(kernel.getConstruction(), zip, I2G_IMAGES);
-	
-			// save macros
-			if (kernel.hasMacros()) {
-				// get all registered macros from kernel
-				ArrayList<Macro> macros = kernel.getAllMacros();
-	
-				// write all images used by macros
-				writeMacroImages(macros, zip, I2G_PRIVATE_IMAGES);
-	
-				// write all macros to one special XML file in zip
-				zip.putNextEntry(new ZipEntry(I2G_PRIVATE + XML_FILE_MACRO));
-				osw.write(getFullMacroXML(macros));
-				osw.flush();
-				zip.closeEntry();
-			}
-	
-			// write library JavaScript to one special file in zip
-			zip.putNextEntry(new ZipEntry(I2G_PRIVATE + JAVASCRIPT_FILE));
-			osw.write(kernel.getLibraryJavaScript());
-			osw.flush();
-			zip.closeEntry();
-	
-			// write XML file for construction
-			zip.putNextEntry(new ZipEntry(I2G_PRIVATE + XML_FILE));
 			osw.write(getFullXML());
 			osw.flush();
 			zip.closeEntry();
@@ -553,14 +457,12 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 	/**
 	 * Writes all images used in construction to zip.
 	 */
-	// Modified for Intergeo File Format (Yves Kreis) -->
 	private void writeConstructionImages(Construction cons, ZipOutputStream zip) {
 		writeConstructionImages(cons, zip, "");
 	}
 
 	private void writeConstructionImages(Construction cons,
 			ZipOutputStream zip, String filePath) {
-		// <-- Modified for Intergeo File Format (Yves Kreis)
 		// save all GeoImage images
 		//TreeSet images = cons.getGeoSetLabelOrder(GeoElement.GEO_CLASS_IMAGE);
 		TreeSet<GeoElement> geos = cons.getGeoSetLabelOrder();
@@ -584,12 +486,10 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 	/**
 	 * Writes thumbnail to zip. Michael Borcherds 2008-04-18
 	 */
-	// Modified for Intergeo File Format (Yves Kreis) -->
 	// private void writeThumbnail(Construction cons, ZipOutputStream zip)
 	// throws IOException {
 	private void writeThumbnail(Construction cons, ZipOutputStream zip,
 			String fileName) {
-		// <-- Modified for Intergeo File Format (Yves Kreis)
 
 		
 
@@ -604,10 +504,7 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 			//BufferedImage img = app.getExportImage(exportScale);
 			BufferedImage img = ((Application)app).getExportImage(THUMBNAIL_PIXELS_X,THUMBNAIL_PIXELS_Y);
 			if (img != null)
-				// Modified for Intergeo File Format (Yves Kreis) -->
-				// writeImageToZip(zip, XML_FILE_THUMBNAIL, img);
 				writeImageToZip(zip, fileName, img);
-			// <-- Modified for Intergeo File Format (Yves Kreis)
 		} catch (Exception e) { } // catch error if size is zero
 
 	}
@@ -615,33 +512,25 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 	/**
 	 * Writes all images used in the given macros to zip.
 	 */
-	// Modified for Intergeo File Format (Yves Kreis) -->
 	private void writeMacroImages(ArrayList<Macro> macros, ZipOutputStream zip) {
 		writeMacroImages(macros, zip, "");
 	}
 
 	private void writeMacroImages(ArrayList<Macro> macros, ZipOutputStream zip,
 			String filePath) {
-		// <-- Modified for Intergeo File Format (Yves Kreis)
 		if (macros == null)
 			return;
 
 		for (int i = 0; i < macros.size(); i++) {
 			// save all images in macro construction
 			Macro macro = macros.get(i);
-			// Modified for Intergeo File Format (Yves Kreis) -->
-			// writeConstructionImages(macro.getMacroConstruction(), zip);
 			writeConstructionImages(macro.getMacroConstruction(), zip, filePath);
-			// <-- Modified for Intergeo File Format (Yves Kreis)
 
 			// save macro icon
 			String fileName = macro.getIconFileName();
 			BufferedImage img = ((Application)app).getExternalImage(fileName);
 			if (img != null)
-				// Modified for Intergeo File Format (Yves Kreis) -->
-				// writeImageToZip(zip, fileName, img);
 				writeImageToZip(zip, filePath + fileName, img);
-			// <-- Modified for Intergeo File Format (Yves Kreis)
 		}
 	}
 
@@ -708,38 +597,6 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 		}		
 		w.close();
 		z.close();
-	}
-
-	/**
-	 * Returns I2G representation of construction. Intergeo File Format.
-	 * (Yves Kreis)
-	 */
-	public String getFullI2G() {
-		StringBuilder sb = new StringBuilder();
-		//addXMLHeader(sb);
-
-		sb.append("<!--\n\tIntergeo File Format Version "
-				+ GeoGebraConstants.I2G_FILE_FORMAT + "\n\twritten by "
-				+ app.getPlain("ApplicationName") + " "
-				+ GeoGebraConstants.VERSION_STRING + " (" + GeoGebraConstants.BUILD_DATE
-				+ ")\n-->\n");
-
-		sb.append("<construction>\n");
-
-		// save construction
-		cons.getConstructionI2G(sb, Construction.CONSTRUCTION);
-
-		StringBuilder display = new StringBuilder();
-		cons.getConstructionI2G(display, Construction.DISPLAY);
-		if (!display.toString().equals("")) {
-			sb.append("\t<display>\n");
-			sb.append(display.toString());
-			sb.append("\t</display>\n");
-		}
-
-		sb.append("</construction>\n");
-
-		return sb.toString();
 	}
 
 	/**

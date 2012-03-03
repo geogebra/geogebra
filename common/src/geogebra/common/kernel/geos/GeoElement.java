@@ -4591,13 +4591,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	/**
-	 * @return type string for intergeo
-	 */
-	public String getI2GtypeString() {
-		return getXMLtypeString();
-	}
-
-	/**
 	 * @return XML of this geo as string
 	 */
 	public String getXML() {
@@ -4766,59 +4759,6 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		}
 		
-	}
-
-	/**
-	 * save object in i2g format Intergeo File Format (Yves Kreis)
-	 */
-	@Override
-	public void getI2G(final StringBuilder sb, final I2GeoTag mode) {
-		final String type = getI2GtypeString();
-
-		if (mode == I2GeoTag.CONSTRAINTS) {
-			if (isIndependent() || isPointOnPath()) {
-				sb.append("\t\t<free_");
-				sb.append(type);
-				sb.append(">\n");
-
-				sb.append("\t\t\t<");
-				sb.append(type);
-				sb.append(" out=\"true\">");
-				sb.append(StringUtil.encodeXML(label));
-				sb.append("</");
-				sb.append(type);
-				sb.append(">\n");
-
-				sb.append("\t\t</free_");
-				sb.append(type);
-				sb.append(">\n");
-			}
-		} else {
-			if ((mode == I2GeoTag.DISPLAY)
-					&& ((caption == null) || (caption.length() == 0) || caption
-							.equals(label))) {
-				return;
-			}
-
-			sb.append("\t\t<");
-			sb.append(type);
-			sb.append(" id=\"");
-			sb.append(StringUtil.encodeXML(label));
-			sb.append("\">\n");
-
-			if (mode == I2GeoTag.ELEMENTS) {
-				getI2Gtags(sb);
-			} else if (mode == I2GeoTag.DISPLAY) {
-				// caption text
-				sb.append("\t\t\t<label>");
-				sb.append(StringUtil.encodeXML(caption));
-				sb.append("</label>\n");
-			}
-
-			sb.append("\t\t</");
-			sb.append(type);
-			sb.append(">\n");
-		}
 	}
 
 	/**
@@ -5136,16 +5076,6 @@ public abstract class GeoElement extends ConstructionElement implements
 		final NumberFormatAdapter df = FormatFactory.prototype
 				.getNumberFormat("#.######", 6);
 		return df.format(number);
-	}
-
-	/**
-	 * returns all class-specific i2g tags for getI2G Intergeo File Format (Yves
-	 * Kreis)
-	 * 
-	 * @param sb string builder
-	 */
-	protected void getI2Gtags(final StringBuilder sb) {
-		//do nothing
 	}
 
 	/**

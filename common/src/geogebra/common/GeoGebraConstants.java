@@ -36,10 +36,6 @@ public interface GeoGebraConstants {
 	public static final String GGB_XSD_FILENAME = "ggb.xsd"; 
 	/** XSD for ggt (macro) files */
 	public static final String GGT_XSD_FILENAME = "ggt.xsd";
-	/** intergeo format */
-	public static final String I2G_FILE_FORMAT = "0.1.20080731";
-	/** pre-releases and I2G */
-	public static final boolean DISABLE_I2G = !IS_PRE_RELEASE;
 	// URLs
 	/** URL of GeoGebraWeb main js file*/
 	public static final String GEOGEBRA_HTML5_BASE = "http://www.geogebra.org/web/4.2/web/web.nocache.js";

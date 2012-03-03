@@ -25,7 +25,5 @@ public interface DocHandler {
   public void startDocument() throws Exception;
   public void endDocument() throws Exception;
   public void text(String str) throws Exception;
-  // Added for Intergeo File Format (Yves Kreis) -->
   public int getConsStep();
-  // <-- Added for Intergeo File Format (Yves Kreis)
 }

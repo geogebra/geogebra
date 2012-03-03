@@ -152,10 +152,7 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 		    String filename = f.getName();
 		    int i = filename.lastIndexOf('.');
 		    if(i>0 && i<filename.length()-1)
-		       	// Modified for Intergeo File Format (Yves Kreis) -->
-	//			return filename.substring(i+1).toLowerCase(Locale.US);;
 				return filename.substring(i+1).toLowerCase(Locale.US);
-			   	// <-- Modified for Intergeo File Format (Yves Kreis)
 		}
 		return null;
     }
@@ -177,11 +174,9 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 		if(filters == null) {
 		    filters = new ArrayList<String>(5);
 		}
-	   	// Added for Intergeo File Format (Yves Kreis) -->
 		if (extension.indexOf(".") > -1) {
 			extension = extension.substring(0, extension.lastIndexOf("."));
 		}
-	   	// <-- Added for Intergeo File Format (Yves Kreis)
 		filters.add(extension.toLowerCase(Locale.US));
 		fullDescription = null;
     }
@@ -270,7 +265,6 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
     /**
      * Returns the first extension contained in the extension list.
      * 
-     * Added for Intergeo File Format (Yves Kreis)
      * @return first extension (without ".")
      */
     public String getExtension() {

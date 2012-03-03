@@ -441,15 +441,6 @@ public abstract class AlgoElement extends ConstructionElement implements
 		return classname.getCommand();
 	}
 
-	// Added for Intergeo File Format (Yves Kreis) -->
-	public String getIntergeoString(Algos classname) {// it will be private
-		// init rbalgo2intergeo if needed
-		// for translation of Algo-classname to Intergeo name
-		return classname.getIntergeo();
-	}
-
-	// <-- Added for Intergeo File Format (Yves Kreis)
-
 	// in setInputOutput() the member vars input and output are set
 	abstract protected void setInputOutput();
 
@@ -1152,29 +1143,6 @@ public abstract class AlgoElement extends ConstructionElement implements
 	}
 
 	/**
-	 * translate class name to Intergeo name Intergeo File Format (Yves Kreis)
-	 * 
-	 * @return intergeo command name
-	 */
-	String getIntergeoName() {
-		String cmdname;
-		Algos classname;
-		// get class name
-		// classname = this.getClass().toString();
-		// classname = classname.substring(classname.lastIndexOf('.') + 1);
-		classname = getClassName();
-		// dependent algorithm is an "Expression"
-		if (classname.equals(Algos.AlgoPointOnPath)) {
-			AlgoPointOnPath algo1 = (AlgoPointOnPath) this;
-			cmdname = getIntergeoString(classname) + "+" + algo1.getPath().toGeoElement().getClassName();
-		} else {
-			// translate algorithm class name to Intergeo name
-			cmdname = getIntergeoString(classname);
-		}
-		return cmdname;
-	}
-
-	/**
 	 * Returns this algorithm and it's output objects (GeoElement) in XML
 	 * format. GeoGebra File Format.
 	 */
@@ -1234,42 +1202,6 @@ public abstract class AlgoElement extends ConstructionElement implements
 			if (geo.isLabelSet()) {
 				geo.getXML(sb);
 			}
-		}
-	}
-
-	/**
-	 * Returns this algorithm or it's output objects (GeoElement) in I2G format.
-	 * Intergeo File Format. (Yves Kreis)
-	 */
-	@Override
-	public void getI2G(StringBuilder sb, I2GeoTag mode) {
-		// this is needed for helper commands like
-		// intersect for single intersection points
-		if (!isPrintedInXML) {
-			return;
-		}
-
-		// USE INTERNAL COMMAND NAMES IN EXPRESSION
-		try {
-			if (mode == I2GeoTag.CONSTRAINTS) {
-				// command
-				String cmdname = getIntergeoName();
-				if (!cmdname.equals("Expression")) {
-					sb.append(getCmdI2G(cmdname));
-				}
-			} else {// if (output != null){
-				// output
-				GeoElement geo;
-				for (int i = 0; i < getOutputLength(); i++) {
-					geo = getOutput(i);
-					// save only GeoElements that have a valid label
-					if (geo.isLabelSet()) {
-						geo.getI2G(sb, mode);
-					}
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -1387,57 +1319,11 @@ public abstract class AlgoElement extends ConstructionElement implements
 		return sb.toString();
 	}
 
-	// standard command has cmdname, output, input
-	// Added for Intergeo File Format (Yves Kreis) -->
-	private String getCmdI2G(String cmdname) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("\t\t<" + cmdname + ">\n");
-
-		String type;
-
-		// add output information
-		// if (output != null) {
-		for (int i = 0; i < getOutputLength(); i++) {
-			type = getXMLtypeString(getOutput(i));
-			sb.append("\t\t\t<" + type + " out=\"true\">");
-			sb.append(StringUtil.encodeXML(getOutput(i).getLabel(StringTemplate.xmlTemplate)));
-			sb.append("</" + type + ">\n");
-		}
-		// }
-
-		// add input information
-		if (input != null) {
-			if (cmdname.equals("line_parallel_to_line_through_point")
-					|| cmdname
-							.equals("line_perpendicular_to_line_through_point")) {
-				type = getXMLtypeString(input[1]);
-				sb.append("\t\t\t<" + type + ">");
-				sb.append(StringUtil.encodeXML(input[1].getLabel(StringTemplate.xmlTemplate)));
-				sb.append("</" + type + ">\n");
-				type = getXMLtypeString(input[0]);
-				sb.append("\t\t\t<" + type + ">");
-				sb.append(StringUtil.encodeXML(input[0].getLabel(StringTemplate.xmlTemplate)));
-				sb.append("</" + type + ">\n");
-			} else {
-				for (int i = 0; i < input.length; i++) {
-					type = getXMLtypeString(input[i]);
-					sb.append("\t\t\t<" + type + ">");
-					sb.append(StringUtil.encodeXML(input[i].getLabel(StringTemplate.xmlTemplate)));
-					sb.append("</" + type + ">\n");
-				}
-			}
-		}
-
-		sb.append("\t\t</" + cmdname + ">\n");
-		return sb.toString();
-	}
-
 	final public static String getXMLtypeString(GeoElement geo) {
 		return geo.getKernel().getApplication()
 				.toLowerCase(geo.getClassName().substring(3));
 	}
 	public abstract Algos getClassName();
-	// <-- Added for Intergeo File Format (Yves Kreis)
 
 	/**
 	 * Sets whether the output of this command should be labeled. This setting

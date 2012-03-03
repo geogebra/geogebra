@@ -27,19 +27,6 @@ import java.util.TreeSet;
 public abstract class ConstructionElement implements
 		Comparable<ConstructionElement> {
 
-	/**
-	 * Enum for distinguishing I2Geo XML parts
-	 * @author Yves Kreis
-	 *
-	 */
-	public enum I2GeoTag{
-		/** writes the <elements> part */
-	ELEMENTS,
-	/** writes the <constraints> part */
-	 CONSTRAINTS,
-	/** writes the <display> part */
-	 DISPLAY}
-
 	/** parent construction of this element */
 	public transient Construction cons;
 	/** parent kernel of this element */
@@ -164,14 +151,6 @@ public abstract class ConstructionElement implements
 	 * @param sb string builder
 	 */
 	public abstract void getXML(StringBuilder sb);
-
-	/**
-	 * Returns I2G representation of this object. Intergeo File Format. (Yves
-	 * Kreis)
-	 * @param sb stringbulder
-	 * @param mode current tag
-	 */
-	public abstract void getI2G(StringBuilder sb, I2GeoTag mode);
 
 	/**
 	 * Removes this object from the current construction.

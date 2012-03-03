@@ -9,8 +9,8 @@ public enum Algos {
 	AlgoAngleVector(Commands.Angle),
 	AlgoAngleVectors(Commands.Angle),
 	AlgoAngularBisector(Commands.AngularBisector),
-	AlgoAngularBisectorLines(Commands.AngularBisector,"line_angular_bisectors_of_two_lines"),
-	AlgoAngularBisectorPoints(Commands.AngularBisector,"line_angular_bisector_of_three_points"),
+	AlgoAngularBisectorLines(Commands.AngularBisector),
+	AlgoAngularBisectorPoints(Commands.AngularBisector),
 	AlgoAreaConic(Commands.Area),
 	AlgoAreaPoints(Commands.Area),
 	AlgoAreaPolygon(Commands.Area),
@@ -75,7 +75,7 @@ public enum Algos {
 	AlgoIntersectLineConic(Commands.Intersect),
 	AlgoIntersectLineConic3D(Commands.Intersect),
 	AlgoIntersectLineConicRegion(Commands.IntersectionPaths),
-	AlgoIntersectLines(Commands.Intersect,"point_intersection_of_two_lines"),
+	AlgoIntersectLines(Commands.Intersect),
 	AlgoIntersectLinePolyLine(Commands.Intersect),
 	AlgoIntersectLinePolygon(Commands.Intersect),
 	AlgoIntersectLinePolygon3D(Commands.Intersect),
@@ -98,27 +98,27 @@ public enum Algos {
 	AlgoImplicitPolyFunction(Commands.ImplicitCurve),
 	AlgoTextCorner(Commands.Corner),
 	AlgoDrawingPadCorner(Commands.Corner),
-	AlgoJoinPoints(Commands.Line,"line_through_two_points"),
+	AlgoJoinPoints(Commands.Line),
 	AlgoJoinPointsRay(Commands.Ray),
-	AlgoJoinPointsSegment(Commands.Segment,"line_segment_by_points"),
+	AlgoJoinPointsSegment(Commands.Segment),
 	AlgoLengthSegment(Commands.Length),
 	AlgoLengthVector(Commands.Length),
 	AlgoLineBisector(Commands.LineBisector),
 	AlgoLineBisectorSegment(Commands.LineBisector),
-	AlgoLinePointLine(Commands.Line,"line_parallel_to_line_through_point"),
+	AlgoLinePointLine(Commands.Line),
 	AlgoLinePointVector(Commands.Line),
 	AlgoLocus(Commands.Locus),
 	AlgoLocusSlider(Commands.Locus),
 	AlgoMidpoint(Commands.Midpoint),
 	AlgoMidpointSegment(Commands.Midpoint),
 	AlgoMirror(Commands.Mirror),
-	AlgoOrthoLinePointLine(Commands.OrthogonalLine,"line_perpendicular_to_line_through_point"),
+	AlgoOrthoLinePointLine(Commands.OrthogonalLine),
 	AlgoOrthoLinePointVector(Commands.OrthogonalLine),
 	AlgoOrthoVectorLine(Commands.OrthogonalVector),
 	AlgoOrthoVectorVector(Commands.OrthogonalVector),
 	AlgoParabolaParameter(Commands.Parameter),
 	AlgoParabolaPointLine(Commands.Parabola),
-	AlgoPointOnPath(Commands.Point,"point_on_line"),
+	AlgoPointOnPath(Commands.Point),
 	AlgoPointVector(Commands.Point),
 	AlgoPolarLine(Commands.Polar),
 	AlgoPolygon(Commands.Polygon),
@@ -490,22 +490,14 @@ AlgoTo2D,AlgoDependentVector3D,AlgoParametricDerivative,
 	AlgoSimpleRootsPoly(Commands.Roots),
 	AlgoImplicitPolyTangentCurve(Commands.Tangent);
 	private String command;
-	private String intergeo;
 	private Algos(){
 		this.command="Expression";
 	}
 	private Algos(Commands command){
 		this.command = command.name();
 	}
-	private Algos(Commands command, String intergeo){
-		this.command = command.name();
-		this.intergeo = intergeo;
-	}
 	public String getCommand(){
 		return command;
-	}
-	public String getIntergeo(){
-		return intergeo;
 	}
 	
 }

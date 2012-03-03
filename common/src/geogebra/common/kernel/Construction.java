@@ -1,21 +1,15 @@
 package geogebra.common.kernel;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.TreeSet;
-
 import geogebra.common.cas.CASException;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.io.MyXMLio;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
+import geogebra.common.kernel.algos.AlgoDistancePoints;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.algos.AlgorithmSet;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.ConstructionElement;
-import geogebra.common.kernel.algos.ConstructionElement.I2GeoTag;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -36,7 +30,12 @@ import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.StringUtil;
-import geogebra.common.kernel.algos.AlgoDistancePoints;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 /**
  * Manages construction elements
@@ -99,17 +98,6 @@ public class Construction {
 	// list of Macro commands used in this construction
 	// TODO: specify type once Macro is ported
 	private ArrayList<Macro> usedMacros;
-	/**
-	 * Added for Intergeo File Format (Yves Kreis) --> writes the <elements> and
-	 * the <constraints> part
-	 */
-	public static final int CONSTRUCTION = 0;
-	/**
-	 * Added for Intergeo File Format (Yves Kreis) writes the <display> part
-	 * with the <display> tag
-	 */
-	public static final int DISPLAY = 1;
-
 	/** UndoManager */
 	protected AbstractUndoManager undoManager;
 
@@ -1109,47 +1097,6 @@ public class Construction {
 			sb.append(e.getMessage());
 		}
 
-	}
-
-	/**
-	 * Returns this construction in I2G format. Intergeo File Format. (Yves
-	 * Kreis)
-	 * 
-	 * @param sb
-	 *            String builder to which the XML is appended
-	 * @param mode
-	 *            output mode, either CONSTRUCTION (0) or DISPLAY (1)
-	 */
-	public void getConstructionI2G(StringBuilder sb, int mode) {
-
-		// change kernel settings temporarily
-		try {
-			ConstructionElement ce;
-			int size = ceList.size();
-
-			if (mode == CONSTRUCTION) {
-				sb.append("\t<elements>\n");
-				for (int i = 0; i < size; ++i) {
-					ce = ceList.get(i);
-					ce.getI2G(sb, I2GeoTag.ELEMENTS);
-				}
-				sb.append("\t</elements>\n");
-
-				sb.append("\t<constraints>\n");
-				for (int i = 0; i < size; ++i) {
-					ce = ceList.get(i);
-					ce.getI2G(sb, I2GeoTag.CONSTRAINTS);
-				}
-				sb.append("\t</constraints>\n");
-			} else if (mode == DISPLAY) {
-				for (int i = 0; i < size; ++i) {
-					ce = ceList.get(i);
-					ce.getI2G(sb, I2GeoTag.DISPLAY);
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	private boolean undoEnabled = true;

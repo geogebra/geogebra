@@ -1621,31 +1621,14 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 			}
 		}
 
-		// Added for Intergeo File Format (Yves Kreis) -->
 		String[] fileExtensions;
 		String[] fileDescriptions;
-		if (GeoGebraConstants.DISABLE_I2G) {
-			fileExtensions = new String[] { Application.FILE_EXT_GEOGEBRA };
-			fileDescriptions = new String[] { app.getPlain("ApplicationName")
-					+ " " + app.getMenu("Files") };
-		} else {
-			fileExtensions = new String[] { Application.FILE_EXT_GEOGEBRA,
-					Application.FILE_EXT_INTERGEO };
-			fileDescriptions = new String[] {
-					app.getPlain("ApplicationName") + " "
-							+ app.getMenu("Files"),
-					"Intergeo " + app.getMenu("Files") + " [Version "
-							+ GeoGebraConstants.I2G_FILE_FORMAT + "]" };
-		}
-		// <-- Added for Intergeo File Format (Yves Kreis)
+		fileExtensions = new String[] { Application.FILE_EXT_GEOGEBRA };
+		fileDescriptions = new String[] { app.getPlain("ApplicationName")
+				+ " " + app.getMenu("Files") };
 		File file = showSaveDialog(
-				// Modified for Intergeo File Format (Yves Kreis) -->
-				// Application.FILE_EXT_GEOGEBRA, currentFile,
-				// app.getPlain("ApplicationName") + " " +
-				// app.getMenu("Files"));
 				fileExtensions, app.getCurrentFile(), fileDescriptions, true,
 				false);
-		// <-- Modified for Intergeo File Format (Yves Kreis)
 		if (file == null)
 			return false;
 
@@ -1662,7 +1645,6 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 			selectedFile = removeExtension(app.getCurrentFile());
 		}
 
-		// Added for Intergeo File Format (Yves Kreis) -->
 		String[] fileExtensions = { fileExtension };
 		String[] fileDescriptions = { fileDescription };
 		return showSaveDialog(fileExtensions, selectedFile, fileDescriptions,
@@ -1671,17 +1653,14 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	public File showSaveDialog(String[] fileExtensions, File selectedFile,
 			String[] fileDescriptions, boolean promptOverwrite, boolean dirsOnly) {
-		// <-- Added for Intergeo File Format (Yves Kreis)
 		boolean done = false;
 		File file = null;
 
-		// Added for Intergeo File Format (Yves Kreis) -->
 		if (fileExtensions == null || fileExtensions.length == 0
 				|| fileDescriptions == null) {
 			return null;
 		}
 		String fileExtension = fileExtensions[0];
-		// <-- Added for Intergeo File Format (Yves Kreis)
 
 		getDialogManager().initFileChooser();
 		GeoGebraFileChooser fileChooser = getDialogManager().getFileChooser();
@@ -1727,14 +1706,12 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				file = fileChooser.getSelectedFile();
 
-				// Added for Intergeo File Format (Yves Kreis) -->
 				if (fileChooser.getFileFilter() instanceof geogebra.gui.app.MyFileFilter) {
 					fileFilter = (MyFileFilter) fileChooser.getFileFilter();
 					fileExtension = fileFilter.getExtension();
 				} else {
 					fileExtension = fileExtensions[0];
 				}
-				// <-- Added for Intergeo File Format (Yves Kreis)
 
 				// remove all special characters from HTML filename
 				if (fileExtension == Application.FILE_EXT_HTML) {
@@ -1779,14 +1756,12 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 				} else {
 					done = true;
 				}
-				// Modified for Intergeo File Format (Yves Kreis) -->
 			} else {
 				// } else
 				// return null;
 				file = null;
 				break;
 			}
-			// <-- Modified for Intergeo File Format (Yves Kreis)
 		}
 
 		return file;
@@ -1849,38 +1824,15 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 			fileFilter.setDescription(app.getPlain("ApplicationName") + " "
 					+ app.getMenu("Files"));
 			fileChooser.resetChoosableFileFilters();
-			// Modified for Intergeo File Format (Yves Kreis & Ingo Schandeler)
-			// -->
 			fileChooser.addChoosableFileFilter(fileFilter);
 
-			// HTML File Filter (for ggbBase64 files)
-			// MyFileFilter fileFilterHTML = new MyFileFilter();
-			// fileFilterHTML.addExtension(Application.FILE_EXT_HTML);
-			// fileFilterHTML.addExtension(Application.FILE_EXT_HTM);
-			// fileFilterHTML.setDescription(Application.FILE_EXT_HTML + " "
-			// + app.getMenu("Files"));
-			// fileChooser.addChoosableFileFilter(fileFilterHTML);
-
-			// Intergeo File Filter
-			if (!GeoGebraConstants.DISABLE_I2G) {
-				MyFileFilter i2gFileFilter = new MyFileFilter();
-				i2gFileFilter.addExtension(Application.FILE_EXT_INTERGEO);
-				i2gFileFilter.setDescription("Intergeo " + app.getMenu("Files")
-						+ " [Version " + GeoGebraConstants.I2G_FILE_FORMAT
-						+ "]");
-				fileChooser.addChoosableFileFilter(i2gFileFilter);
-			}
-			// fileChooser.setFileFilter(fileFilter);
-			if (GeoGebraConstants.DISABLE_I2G
-					|| oldCurrentFile == null
+			if (oldCurrentFile == null
 					|| Application.getExtension(oldCurrentFile).equals(
 							Application.FILE_EXT_GEOGEBRA)
 					|| Application.getExtension(oldCurrentFile).equals(
 							Application.FILE_EXT_GEOGEBRA_TOOL)) {
 				fileChooser.setFileFilter(fileFilter);
 			}
-			// <-- Modified for Intergeo File Format (Yves Kreis & Ingo
-			// Schandeler)
 
 			app.setDefaultCursor();
 			int returnVal = fileChooser.showOpenDialog(app.getMainComponent());
@@ -1890,7 +1842,6 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 				files = fileChooser.getSelectedFiles();
 			}
 
-			// Modified for Intergeo File Format (Yves Kreis) -->
 			if (fileChooser.getFileFilter() instanceof geogebra.gui.app.MyFileFilter) {
 				fileFilter = (MyFileFilter) fileChooser.getFileFilter();
 				doOpenFiles(files, true, fileFilter.getExtension());
@@ -1898,7 +1849,6 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 				// doOpenFiles(files, true);
 				doOpenFiles(files, true);
 			}
-			// <-- Modified for Intergeo File Format (Yves Kreis)
 
 			fileChooser.setMultiSelectionEnabled(false);
 		}
@@ -1906,7 +1856,6 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	public synchronized void doOpenFiles(File[] files,
 			boolean allowOpeningInThisInstance) {
-		// Added for Intergeo File Format (Yves Kreis) -->
 		doOpenFiles(files, allowOpeningInThisInstance,
 				Application.FILE_EXT_GEOGEBRA);
 	}
@@ -1915,7 +1864,6 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 			boolean allowOpeningInThisInstance, String extension) {
 		// Zbynek Konecny, 2010-05-28 (see #126)
 		htmlLoaded = false;
-		// <-- Added for Intergeo File Format (Yves Kreis)
 		// there are selected files
 		if (files != null) {
 			File file;
@@ -1924,8 +1872,6 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 				file = files[i];
 
 				if (!file.exists()) {
-					// Modified for Intergeo File Format (Yves Kreis) -->
-					// file = addExtension(file, Application.FILE_EXT_GEOGEBRA);
 					file = addExtension(file, extension);
 					if (extension.equals(Application.FILE_EXT_GEOGEBRA)
 							&& !file.exists()) {
@@ -1957,7 +1903,6 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 								JOptionPane.WARNING_MESSAGE);
 
 					}
-					// <-- Modified for Intergeo File Format (Yves Kreis)
 				}
 
 				String ext = Application.getExtension(file).toLowerCase(

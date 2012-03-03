@@ -486,26 +486,6 @@ final public String toValueString(StringTemplate tpl) {
   
     }
 	
-    /**
-     * returns all class-specific i2g tags for saveI2G
-     * Intergeo File Format (Yves Kreis)
-     */
-    @Override
-	public void getI2Gtags(StringBuilder sb) {//protected
-    	GeoPoint2 point;
-    	
-    	point = getStartPoint();
-    	point.getI2Gtags(sb);
-    	
-    	point = getEndPoint();
-    	point.getI2Gtags(sb);
-    }
-    
-	@Override
-	public String getI2GtypeString() {
-		return "line_segment";
-	}
-
 	/**
 	 * creates new transformed segment
 	 */

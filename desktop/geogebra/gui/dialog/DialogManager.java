@@ -548,11 +548,9 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 			try {
 				setFileChooser(new GeoGebraFileChooser(((Application) app),
 						((Application) app).getCurrentImagePath())); // non-restricted
-				// Added for Intergeo File Format (Yves Kreis) -->
 				fileChooser.addPropertyChangeListener(
 						JFileChooser.FILE_FILTER_CHANGED_PROPERTY,
 						new FileFilterChangedListener());
-				// <-- Added for Intergeo File Format (Yves Kreis)
 			} catch (Exception e) {
 				// fix for java.io.IOException: Could not get shell folder ID
 				// list
@@ -656,7 +654,6 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 		this.optionsDialogFactory = optionsDialogFactory;
 	}
 
-	// Added for Intergeo File Format (Yves Kreis) -->
 	/*
 	 * PropertyChangeListener implementation to handle file filter changes
 	 */

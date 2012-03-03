@@ -182,17 +182,13 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI implements JavaScript
 	}
 
 	private void writeMacroImages(ArrayList<Macro> macros, JavaScriptObject jszip, String filePath) {
-		// <-- Modified for Intergeo File Format (Yves Kreis)
 		if (macros == null)
 			return;
 
 		for (int i = 0; i < macros.size(); i++) {
 			// save all images in macro construction
 			Macro macro = macros.get(i);
-			// Modified for Intergeo File Format (Yves Kreis) -->
-			// writeConstructionImages(macro.getMacroConstruction(), zip);
 			writeConstructionImages(macro.getMacroConstruction(), jszip, filePath);
-			// <-- Modified for Intergeo File Format (Yves Kreis)
 
 			/*
 			// save macro icon

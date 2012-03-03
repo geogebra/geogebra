@@ -313,9 +313,6 @@ public class Application extends AbstractApplication implements
 
 	// file extension string
 	public static final String FILE_EXT_GEOGEBRA = "ggb";
-	// Added for Intergeo File Format (Yves Kreis) -->
-	public static final String FILE_EXT_INTERGEO = "i2g";
-	// <-- Added for Intergeo File Format (Yves Kreis)
 	public static final String FILE_EXT_GEOGEBRA_TOOL = "ggt";
 	public static final String FILE_EXT_PNG = "png";
 	public static final String FILE_EXT_EPS = "eps";
@@ -341,10 +338,6 @@ public class Application extends AbstractApplication implements
 	private static final String RB_COLORS = "/geogebra/properties/colors";
 
 	private static final String RB_SETTINGS = "/geogebra/export/settings";
-	//private static final String RB_ALGO2COMMAND = "/geogebra/kernel/algo2command";
-	// Added for Intergeo File Format (Yves Kreis) -->
-	//private static final String RB_ALGO2INTERGEO = "/geogebra/kernel/algo2intergeo";
-	// <-- Added for Intergeo File Format (Yves Kreis)
 
 	// private static Color COLOR_STATUS_BACKGROUND = new Color(240, 240, 240);
 
@@ -1853,20 +1846,6 @@ public class Application extends AbstractApplication implements
 		// so we take English
 		return Locale.ENGLISH;
 	}
-
-
-	/*@Override
-	public ResourceBundleAdapter initAlgo2CommandBundle() {
-		return MyResourceBundle.loadSingleBundleFile(RB_ALGO2COMMAND);
-	}
-
-	// Added for Intergeo File Format (Yves Kreis) -->
-	@Override
-	public ResourceBundleAdapter initAlgo2IntergeoBundle() {
-		return MyResourceBundle.loadSingleBundleFile(RB_ALGO2INTERGEO);
-	}*/
-
-	// <-- Added for Intergeo File Format (Yves Kreis)
 
 	private void updateResourceBundles() {
 		if (rbmenu != null) {

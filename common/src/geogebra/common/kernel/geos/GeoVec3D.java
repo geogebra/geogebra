@@ -510,22 +510,6 @@ implements Traceable {
 		sb.append(regrFormat(x) + " " + regrFormat(y) + " " + regrFormat(z));
 	}
 	
-    /**
-     * returns all class-specific i2g tags for saveI2G
-     * Intergeo File Format (Yves Kreis)
-     */
-    @Override
-	public void getI2Gtags(StringBuilder sb) {//protected
-        super.getI2Gtags(sb);
-
-        sb.append("\t\t\t<homogeneous_coordinates>\n");
-        		sb.append("\t\t\t\t<double>" + x + "</double>\n");
-        		sb.append("\t\t\t\t<double>" + y + "</double>\n");
-        		sb.append("\t\t\t\t<double>" + z + "</double>\n");
-        sb.append("\t\t\t</homogeneous_coordinates>\n");
-        
-    }
-    
 	@Override
 	public boolean isNumberValue() {
 		return false;

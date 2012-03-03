@@ -7,7 +7,7 @@ import geogebra.common.kernel.Kernel;
 
 public class MyXMLio extends geogebra.common.io.MyXMLio {
 
-	private DocHandler handler, ggbDocHandler;//, i2gDocHandler;
+	private DocHandler handler, ggbDocHandler;
 	private XmlParser xmlParser;
 
 	public MyXMLio(Kernel kernel, Construction cons) {
