@@ -174,7 +174,7 @@ public class AlgoTangentPoint extends AlgoElement implements TangentAlgo {
         c.polarLine(P, polar);
 
         // if P lies on the conic, the polar is a tangent        
-        if (c.isIntersectionPointIncident(P, Kernel.MIN_PRECISION)) {
+        if (c.isIntersectionPointIncident(P, Kernel.MIN_PRECISION) || P.getIncidenceList().contains(c)) {
             tangents[0].setCoords(polar);
             tangentPoints[0].setCoords(P);
 
