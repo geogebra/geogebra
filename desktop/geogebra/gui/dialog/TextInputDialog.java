@@ -847,7 +847,10 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 
 				// make sure newText is using correct LaTeX setting
 				newText.setLaTeX(isLaTeX, true);
-				newText.updateRepaint();
+				if(newText.getParentAlgorithm()!=null)
+					newText.getParentAlgorithm().update();
+				else
+					newText.updateRepaint();
 
 				app.doAfterRedefine(newText);
 				return newText != null;
