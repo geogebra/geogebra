@@ -181,7 +181,8 @@ public abstract class AbstractApplication {
 		specialLanguageNames.put("es", "Spanish / Espa\u00F1ol");
 		specialLanguageNames.put("sv", "Swedish / Svenska");
 		specialLanguageNames
-				.put("ta", "Tamil / \u0BA4\u0BAE\u0BBF\u0BB4\u0BCD");
+		.put("ta", "Tamil / \u0BA4\u0BAE\u0BBF\u0BB4\u0BCD");
+		specialLanguageNames.put("tl", "Filipino");
 		specialLanguageNames.put("th",
 				"Thai / \u0E20\u0E32\u0E29\u0E32\u0E44\u0E17\u0E22");
 		specialLanguageNames.put("tr", "Turkish / T\u00FCrk\u00E7e");

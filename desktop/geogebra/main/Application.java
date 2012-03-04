@@ -272,6 +272,9 @@ public class Application extends AbstractApplication implements
 		// supportedLocales.add(new Locale("ty")); // Tahitian
 		supportedLocales.add(new Locale("ta")); // Tamil
 
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			supportedLocales.add(new Locale("tl")); // Filipino
+		}
 		// supportedLocales.add(new Locale("te")); // Telugu
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
 			supportedLocales.add(new Locale("th")); // Thai
