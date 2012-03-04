@@ -518,17 +518,17 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		File file;
 		OutputStream os;
 		if (exportToClipboard) {
-			os = new ByteArrayOutputStream();
+			final String tempDir = DownloadManager.getTempDir(); 
+			//os = new ByteArrayOutputStream();
+			// use file to get the correct filetype (so eg pasting into Word works)
+			// NB pasting into WordPad *won't* work with this method
+			file = new File(tempDir + "geogebra.eps");
 		} else {
 			file = app.getGuiManager().showSaveDialog(Application.FILE_EXT_EPS,
 					null, app.getPlain("eps") + " " + app.getMenu("Files"),
 					true, false);
 			
-			try {
-				os = new FileOutputStream(file);
-			} catch (FileNotFoundException e) {
-				app.showError("SaveFileFailed");
-				Application.debug(e.toString());
+			if (file == null) { 
 				return false;
 			}
 		}
@@ -537,7 +537,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 			final geogebra.export.epsgraphics.EpsGraphics g = new geogebra.export.epsgraphics.EpsGraphics(
 					app.getPlain("ApplicationName") + ", "
-							+ GeoGebra.GEOGEBRA_WEBSITE, os, 0, 0, pixelWidth, pixelHeight,
+							+ GeoGebra.GEOGEBRA_WEBSITE, new FileOutputStream(file), 0, 0, pixelWidth, pixelHeight,
 					ColorMode.COLOR_RGB);
 
 			// draw to epsGraphics2D
@@ -545,16 +545,13 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			g.close();
 
 			if (exportToClipboard) {
-				Toolkit toolkit = Toolkit.getDefaultToolkit();
-				Clipboard clipboard = toolkit.getSystemClipboard();
-				clipboard.setContents(
-						new StringSelection(((ByteArrayOutputStream)os).toString("UTF-8")), null);
+				sendToClipboard(file);
 			}
 
 			return true;
 		} catch (final Exception ex) {
 			app.showError("SaveFileFailed");
-			Application.debug(ex.toString());
+			AbstractApplication.debug(ex.toString());
 			return false;
 		}
 	}
