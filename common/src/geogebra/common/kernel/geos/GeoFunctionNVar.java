@@ -807,7 +807,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 
 		@Override
 		public boolean hasLevelOfDetail() {
-			return (fun!=null) && (fun.getVarNumber()==2) && !isBooleanFunction();
+			return (fun!=null) && (fun.getVarNumber()==2) && !(levelOfDetail == null);
 		}
 
 }
