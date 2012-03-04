@@ -750,10 +750,12 @@ public class Toolbar extends JToolBar {
 				+ EuclidianConstants.MODE_PARALLEL_PLANE
 				+ " || "
 				+EuclidianConstants.MODE_PYRAMID
-				+" , "
+				+" "
 				+EuclidianConstants.MODE_PRISM
-				+" | "
+				+" , "
 				+ EuclidianConstants.MODE_EXTRUSION
+				+" | "
+				+ EuclidianConstants.MODE_CONIFY
 				// +" , "
 				// +EuclidianConstants.MODE_PRISM
 				+ " | " + EuclidianConstants.MODE_SPHERE_TWO_POINTS + " "

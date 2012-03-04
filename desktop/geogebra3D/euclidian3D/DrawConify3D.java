@@ -4,8 +4,8 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra3D.kernel3D.AlgoForExtrusion;
-import geogebra3D.kernel3D.AlgoPolyhedronPointsPrismForExtrusion;
-import geogebra3D.kernel3D.AlgoQuadricLimitedConicHeightCylinderForExtrusion;
+import geogebra3D.kernel3D.AlgoPolyhedronPointsPyramidForExtrusion;
+import geogebra3D.kernel3D.AlgoQuadricLimitedConicHeightConeForExtrusion;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * @author matthieu
  *
  */
-public class DrawExtrusion3D extends DrawExtrusionOrConify3D {
+public class DrawConify3D extends DrawExtrusionOrConify3D {
 
 	/**
 	 * constructor
@@ -23,7 +23,7 @@ public class DrawExtrusion3D extends DrawExtrusionOrConify3D {
 	 * @param selectedPolygons polygons
 	 * @param selectedConics conics
 	 */
-	public DrawExtrusion3D(EuclidianView3D a_view3D,
+	public DrawConify3D(EuclidianView3D a_view3D,
 			ArrayList<GeoPolygon> selectedPolygons,
 			ArrayList<GeoConicND> selectedConics) {
 		super(a_view3D, selectedPolygons, selectedConics);
@@ -31,7 +31,7 @@ public class DrawExtrusion3D extends DrawExtrusionOrConify3D {
 
 	@Override
 	protected AlgoForExtrusion getAlgo(GeoPolygon basis, GeoNumeric height) {
-		return new AlgoPolyhedronPointsPrismForExtrusion(
+		return new AlgoPolyhedronPointsPyramidForExtrusion(
 				getView3D().getKernel().getConstruction(),
 				null, 
 				basis, 
@@ -40,16 +40,12 @@ public class DrawExtrusion3D extends DrawExtrusionOrConify3D {
 
 	@Override
 	protected AlgoForExtrusion getAlgo(GeoConicND basis, GeoNumeric height) {
-		return new AlgoQuadricLimitedConicHeightCylinderForExtrusion(
+		return new AlgoQuadricLimitedConicHeightConeForExtrusion(
 				getView3D().getKernel().getConstruction(),
 				null, 
 				basis, 
 				height);
 	}
-	
-	
-
-	
 	
 
 }

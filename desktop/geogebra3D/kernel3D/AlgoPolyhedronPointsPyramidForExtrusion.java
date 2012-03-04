@@ -3,34 +3,35 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.kernelND.GeoConicND;
-
+import geogebra.common.kernel.geos.GeoPolygon;
 
 /**
- * Extension used for extrusion
+ * Extension of algo when used for extrusion
  * @author matthieu
  *
  */
-public class AlgoQuadricLimitedConicHeightCylinderForExtrusion extends
-		AlgoQuadricLimitedConicHeightCylinder implements AlgoForExtrusion{
-
+public class AlgoPolyhedronPointsPyramidForExtrusion extends
+		AlgoPolyhedronPointsPyramid implements AlgoForExtrusion{
+	
+	private ExtrusionComputer extrusionComputer;
+	
 
 	/**
 	 * 
 	 * @param c construction
 	 * @param labels labels
-	 * @param bottom bottom side
+	 * @param polygon polygon
 	 * @param height height
 	 */
-	public AlgoQuadricLimitedConicHeightCylinderForExtrusion(Construction c,
-			String[] labels, GeoConicND bottom, NumberValue height) {
-		super(c, labels, bottom, height);
+	public AlgoPolyhedronPointsPyramidForExtrusion(Construction c,
+			String[] labels, GeoPolygon polygon, NumberValue height) {
+		super(c, labels, polygon, height);
 	}
 	
-
-	private ExtrusionComputer extrusionComputer;
-	
-
+	/**
+	 * sets the extrusion computer
+	 * @param extrusionComputer extrusion computer
+	 */
 	public void setExtrusionComputer(ExtrusionComputer extrusionComputer){
 		this.extrusionComputer=extrusionComputer;
 	}
@@ -42,10 +43,10 @@ public class AlgoQuadricLimitedConicHeightCylinderForExtrusion extends
 		if (extrusionComputer!=null)
 			extrusionComputer.compute();
 	}
-
+	
 
 	public GeoElement getGeoToHandle() {
-		return getTopFace();
+		return outputPolygonsSide.getElement(0);
 	}
 
 }

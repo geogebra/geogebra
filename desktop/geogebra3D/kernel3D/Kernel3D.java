@@ -135,6 +135,9 @@ public class Kernel3D extends Kernel {
 		case EuclidianConstants.MODE_EXTRUSION:
 			return "Extrusion";
 			
+		case EuclidianConstants.MODE_CONIFY:
+			return "Conify";
+			
 		case EuclidianConstants.MODE_PYRAMID:
 			return "Pyramid";
 

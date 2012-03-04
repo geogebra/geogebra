@@ -11,8 +11,8 @@ import geogebra.common.kernel.kernelND.GeoConicND;
  * @author matthieu
  *
  */
-public class AlgoQuadricLimitedConicHeightCylinderForExtrusion extends
-		AlgoQuadricLimitedConicHeightCylinder implements AlgoForExtrusion{
+public class AlgoQuadricLimitedConicHeightConeForExtrusion extends
+		AlgoQuadricLimitedConicHeightCone implements AlgoForExtrusion{
 
 
 	/**
@@ -22,7 +22,7 @@ public class AlgoQuadricLimitedConicHeightCylinderForExtrusion extends
 	 * @param bottom bottom side
 	 * @param height height
 	 */
-	public AlgoQuadricLimitedConicHeightCylinderForExtrusion(Construction c,
+	public AlgoQuadricLimitedConicHeightConeForExtrusion(Construction c,
 			String[] labels, GeoConicND bottom, NumberValue height) {
 		super(c, labels, bottom, height);
 	}

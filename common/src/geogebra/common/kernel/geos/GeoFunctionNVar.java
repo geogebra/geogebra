@@ -356,7 +356,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		}
 		sb.append("\">\n");
 		getXMLtags(sb);
-		sb.append(sb);
+		//sb.append(sb);
 		sb.append("</element>\n");
 	}
 
@@ -807,7 +807,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 
 		@Override
 		public boolean hasLevelOfDetail() {
-			return (fun!=null) && (fun.getVarNumber()==2) && !(levelOfDetail == null);
+			return (fun!=null) && (fun.getVarNumber()==2) && !isInequality();
 		}
 
 }

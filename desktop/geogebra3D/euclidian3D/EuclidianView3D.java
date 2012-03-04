@@ -1882,7 +1882,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}	
 
 	/**
-	 * @return a preview right prism (basis and height)
+	 * @return a preview right prism/cylinder (basis and height)
 	 */
 	public Previewable createPreviewExtrusion(
 			ArrayList<GeoPolygon> selectedPolygons,
@@ -1890,6 +1890,17 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 			){
 		return new DrawExtrusion3D(this, selectedPolygons, selectedConics);
 	}	
+	
+	/**
+	 * @return a preview pyramid/cone (basis and height)
+	 */
+	public Previewable createPreviewConify(
+			ArrayList<GeoPolygon> selectedPolygons,
+			ArrayList<GeoConicND> selectedConics
+			){
+		return new DrawConify3D(this, selectedPolygons, selectedConics);
+	}	
+	
 	
 	
 	public void updatePreviewable(){

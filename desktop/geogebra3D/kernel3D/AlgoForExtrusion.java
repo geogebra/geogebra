@@ -59,7 +59,7 @@ public interface AlgoForExtrusion {
 	 * 
 	 * @return top face
 	 */
-	public GeoElement getTopFace();
+	public GeoElement getGeoToHandle();
 
 	/**
 	 * set visibility of output other than points

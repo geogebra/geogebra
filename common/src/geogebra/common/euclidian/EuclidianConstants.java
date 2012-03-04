@@ -258,11 +258,14 @@ public final class EuclidianConstants {
 	/** creates a prism with basis and first vertex of the second parallel face */
 	public static final int MODE_PRISM = 531;
 
-	/** creates a prism with basis and height */
+	/** creates a prism/cylinder with basis and height */
 	public static final int MODE_EXTRUSION = 532;
 
 	/** creates a prism with basis and top vertex */
 	public static final int MODE_PYRAMID = 533;
+	
+	/** creates a pyramid/cone with basis and height */
+	public static final int MODE_CONIFY = 534;
 
 	/** rotate the view */
 	public static final int MODE_ROTATEVIEW = 540;

@@ -292,7 +292,7 @@ public abstract class DynamicMesh2 {
 	protected FastBucketPQ splitQueue;
 
 	/** controls if debug info is displayed or not */
-	protected static final boolean debugInfo = true;
+	protected static final boolean debugInfo = false;
 
 	/** box to cull elements against */
 	protected double[] cullingBox;

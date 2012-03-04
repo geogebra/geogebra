@@ -338,49 +338,69 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 	 * parameter area by a constant.
 	 */
 	void generateError() {
-		Coords p0 = ((SurfaceDiamond2) parents[0]).getVertex(this);
-		Coords p1 = ((SurfaceDiamond2) parents[1]).getVertex(this);
-		Coords a0 = (ancestors[0]).getVertex(this);
-		Coords a1 = (ancestors[1]).getVertex(this);
+        Coords p0 = ((SurfaceDiamond2) parents[0]).getVertex(this);
+        Coords p1 = ((SurfaceDiamond2) parents[1]).getVertex(this);
+        Coords a0 = (ancestors[0]).getVertex(this);
+        Coords a1 = (ancestors[1]).getVertex(this);
 
-		Coords v0 = a0.sub(vertex);
-		Coords v1 = a1.sub(vertex);
-		Coords v2 = p0.sub(vertex);
-		Coords v3 = p1.sub(vertex);
+        Coords v0 = a0.sub(vertex);
+        Coords v1 = a1.sub(vertex);
+        Coords v2 = p0.sub(vertex);
+        Coords v3 = p1.sub(vertex);
 
-		Coords n = v0.crossProduct(v1);
+        double vol0 = Math.abs(v0.dotproduct(v3.crossProduct(v1)));
+        double vol1 = Math.abs(v0.dotproduct(v2.crossProduct(v1)));
 
-		double vol0 = Math.abs(v0.dotproduct(v3.crossProduct(v1)));
-		double vol1 = Math.abs(v0.dotproduct(v2.crossProduct(v1)));
+        if (vol0 == 0.0 && vol1 == 0.0) {
+                // rotate
+                vol0 = Math.abs(v2.dotproduct(v3.crossProduct(v1)));
+                vol1 = Math.abs(v2.dotproduct(v0.crossProduct(v3)));
+        }
 
-		if (Double.isNaN(vol0) || Double.isInfinite(vol0))
-			// use a different error measure for infinite points
-			// namely the base area times some constant
-			errors[0] = area * SurfaceMesh2.undefErrorConst;
-		else
-			errors[0] = vol0;
-		if (Double.isNaN(vol1) || Double.isInfinite(vol1))
-			errors[1] = area * SurfaceMesh2.undefErrorConst;
-		else
-			errors[1] = vol1;
+        if (Double.isNaN(vol0) || Double.isInfinite(vol0))
+                // use a different error measure for infinite points
+                // namely the base area times some constant
+                errors[0] = area * area * SurfaceMesh2.undefErrorConst;
+        else
+                errors[0] = vol0;
+        if (Double.isNaN(vol1) || Double.isInfinite(vol1))
+                errors[1] = area * area * SurfaceMesh2.undefErrorConst;
+        else
+                errors[1] = vol1;
 
-		int fac = 0;
-		if (!p0.isDefined())
-			fac++;
-		if (!p1.isDefined())
-			fac++;
-		if (!a0.isDefined())
-			fac++;
-		if (!a1.isDefined())
-			fac++;
-		if (fac == 4)
-			errors[0] = errors[1] = 0;
-		else if (fac > 2) {
-			errors[0] *= 2.0;
-			errors[1] *= 2.0;
-		}
+        if (errors[0] == 0.0 || errors[1] == 0.0) {
+                // sample a random point to see if we're flat
+                final double alpha = 0.123456;
+                double nu = alpha * params[0] + (1 - alpha)
+                                * ancestors[0].params[0];
+                double nv = alpha * params[1] + (1 - alpha)
+                                * ancestors[0].params[1];
+                nu = alpha * nu + (1 - alpha)
+                                * ((SurfaceDiamond2) parents[0]).params[0];
+                nv = alpha * nv + (1 - alpha)
+                                * ((SurfaceDiamond2) parents[1]).params[1];
+                Coords pt = calcVertex(nu, nv);
+                if (pt.sub(vertex).dotproduct(a0.sub(pt)) < 0.99)
+                        errors[0] = errors[1] = area * 0.1;
+        }
+
+        int fac = 0;
+        if (!p0.isDefined())
+                fac++;
+        if (!p1.isDefined())
+                fac++;
+        if (!a0.isDefined())
+                fac++;
+        if (!a1.isDefined())
+                fac++;
+        if (fac == 4)
+                errors[0] = errors[1] = 0;
+        else if (fac > 2) {
+                errors[0] *= 2.0;
+                errors[1] *= 2.0;
+        }
 	}
-
+	
 	/**
 	 * @return the area of the diamond
 	 */
