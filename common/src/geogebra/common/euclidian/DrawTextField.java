@@ -155,6 +155,10 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 			// TODO Auto-generated constructor stub
 		}
 
+		/**
+		 * Handles new chracter
+		 * @param e key event
+		 */
 		public void keyReleased(KeyEvent e) {
 			if (e.getKeyChar() == '\n') {
 				//view.getEuclidianController().textfieldHasFocus(false);
