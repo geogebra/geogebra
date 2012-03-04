@@ -359,8 +359,8 @@ public class DataImport {
 		String[] separators = new String[2];
 
 		// Get decimal and thousands separators
-		DecimalFormatSymbols dfs = DecimalFormatSymbols
-				.getInstance(((Application) app).getLocale());
+		DecimalFormatSymbols dfs = new DecimalFormatSymbols(
+				((Application) app).getLocale());
 		separators[0] = Character.toString(dfs.getDecimalSeparator());
 		separators[1] = Character.toString(dfs.getGroupingSeparator());
 
