@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoDependentNumber.java
@@ -25,99 +25,132 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.geos.GeoText;
 
 /**
- *
- * @author  Markus
- * @version 
+ * 
+ * @author Markus
  */
 public class AlgoDependentText extends AlgoElement {
 
-    private ExpressionNode root;  // input
-    private GeoText text;     // output              
-        
-    public AlgoDependentText(Construction cons, String label, ExpressionNode root) {
-    	super(cons);
-        this.root = root;  
-        
-       text = new GeoText(cons);
-       setInputOutput(); // for AlgoElement
-        
-        // compute value of dependent number
-        compute();      
-        text.setLabel(label);
-    }   
-    
-    public AlgoDependentText(Construction cons, ExpressionNode root) {
-    	super(cons);
-        this.root = root;  
-        
-       text = new GeoText(cons);
-       setInputOutput(); // for AlgoElement
-        
-        // compute value of dependent number
-        compute();
-    }   
-    
+	private ExpressionNode root; // input
+	private GeoText text; // output
+
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for result
+	 * @param root
+	 *            root element
+	 */
+	public AlgoDependentText(Construction cons, String label,
+			ExpressionNode root) {
+		super(cons);
+		this.root = root;
+
+		text = new GeoText(cons);
+		setInputOutput(); // for AlgoElement
+
+		// compute value of dependent number
+		compute();
+		text.setLabel(label);
+	}
+
+	/**
+	 * @param cons
+	 *            construction
+	 * @param root
+	 *            root element
+	 */
+	public AlgoDependentText(Construction cons, ExpressionNode root) {
+		super(cons);
+		this.root = root;
+
+		text = new GeoText(cons);
+		setInputOutput(); // for AlgoElement
+
+		// compute value of dependent number
+		compute();
+	}
+
 	@Override
 	public Algos getClassName() {
 		return Algos.AlgoDependentText;
 	}
-    
-    @Override
+
+	@Override
 	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_TEXT;
-    }
-	
-    public ExpressionNode getRoot(){
-    	return root;
-    }
-    
-    
-    // for AlgoElement
+		return EuclidianConstants.MODE_TEXT;
+	}
+
+	/**
+	 * @return root expression
+	 */
+	public ExpressionNode getRoot() {
+		return root;
+	}
+
+	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-        input = root.getGeoElementVariables();
-              
-        super.setOutputLength(1);
-        super.setOutput(0, text);
-        setDependencies(); // done by AlgoElement
-    }    
-    
-    public GeoText getGeoText() { return text; }
-    
-    // calc the current value of the arithmetic tree
-    @Override
-	public final void compute() {	
-    	
-    	try {    	
-	    	boolean latex = text.isLaTeX();
-	    	StringTemplate tpl = text.getStringTemplate();
-	    	root.setHoldsLaTeXtext(latex);
-	    	
-	    	String str;
-	    	if (latex) {
-	    		str = root.evaluate(tpl).toLaTeXString(false,tpl);
-	    	} else {
-	    		str = root.evaluate(tpl).toValueString(tpl);
-	    	}
-	    	
-	        text.setTextString(str);	        
-	    } catch (Exception e) {
-	    	text.setUndefined();
-	    }
-	    
-    }   
-    
-    @Override
+		input = root.getGeoElementVariables();
+
+		super.setOutputLength(1);
+		super.setOutput(0, text);
+		setDependencies(); // done by AlgoElement
+	}
+
+	/**
+	 * @return resulting text
+	 */
+	public GeoText getGeoText() {
+		return text;
+	}
+
+	private StringTemplate oldTpl;
+
+	// calc the current value of the arithmetic tree
+	@Override
+	public final void compute() {
+		StringTemplate tpl = text.getStringTemplate();
+		if (oldTpl != tpl) {
+			oldTpl = tpl;
+			for (int i = 0; i < input.length; i++) {
+				if (input[i].isTextCommand() && !input[i].isLabelSet()
+						&& input[i].getParentAlgorithm()!=null)
+					input[i].setVisualStyle(text);
+				input[i].getParentAlgorithm().update();
+			}
+		}
+		
+		try {
+			boolean latex = text.isLaTeX();
+			root.setHoldsLaTeXtext(latex);
+
+			String str;
+			if (latex) {
+				str = root.evaluate(tpl).toLaTeXString(false, tpl);
+			} else {
+				str = root.evaluate(tpl).toValueString(tpl);
+			}
+
+			text.setTextString(str);
+		} catch (Exception e) {
+			text.setUndefined();
+		}
+	}
+
+	@Override
 	final public String toString(StringTemplate tpl) {
-        // was defined as e.g.  text0 = "Radius: " + r
-    	if (root == null) return "";
-        return root.toString(tpl);
-    }
-    
-    @Override
+		// was defined as e.g. text0 = "Radius: " + r
+		if (root == null)
+			return "";
+		return root.toString(tpl);
+	}
+
+	@Override
 	final public String toRealString(StringTemplate tpl) {
-        // was defined as e.g.  text0 = "Radius: " + r
-    	if (root == null) return "";
-        return root.toRealString(tpl);
-    }
+		// was defined as e.g. text0 = "Radius: " + r
+		if (root == null)
+			return "";
+		return root.toRealString(tpl);
+	}
 }
