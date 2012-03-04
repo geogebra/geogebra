@@ -2371,7 +2371,8 @@ public abstract class AbstractEuclidianController {
 		if (hits.isEmpty()) {
 			return false;
 		}
-	
+		if (selFunctions() == 0)
+			this.addSelectedFunction(hits, 1, false);
 		if (selFunctions() == 1) {
 			GeoFunction[] functions = getSelectedFunctions();
 	
