@@ -58,6 +58,37 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	Inertia b=new Inertia();
 	Inertia c=new Inertia();
 	Inertia d=new Inertia();
+	/**
+     * String representation of left movement.
+     */
+	private static final String LEFT_MOVE = "L";
+    /**
+     * String representation of right movement.
+     */
+    private static final String RIGHT_MOVE = "R";
+    /**
+     * String representation of up movement.
+     */
+    private static final String UP_MOVE = "U";
+    /**
+     * String representation of down movement.
+     */
+    private static final String DOWN_MOVE = "D";
+    /**
+     * Grid size. Default is 30.
+     */
+    private int gridSize = 30;
+    private java.awt.Point startPoint = null;
+    /**
+     * String representation of gesture.
+     */
+    private StringBuffer gesture = new StringBuffer();
+    int deltaX = 0;
+    int deltaY = 0;
+    int absDeltaX = 0;
+    int absDeltaY = 0;
+    float absTangent = 0;
+
 
 	private boolean erasing = false;
 
@@ -319,6 +350,33 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			if (lastPoint.distance(newPoint) > 3)
 				penPoints.add(newPoint);
 		}
+		java.awt.Point point  = e.getPoint();
+		if (startPoint == null)
+			startPoint = e.getPoint();
+		deltaX = this.getDeltaX(startPoint, point);
+	    deltaY = this.getDeltaY(startPoint, point);
+	    absDeltaX = Math.abs(deltaX);
+	    absDeltaY = Math.abs(deltaY);
+	    absTangent = ((float) absDeltaX) / absDeltaY;
+	    if (!((absDeltaX < gridSize) && (absDeltaY < gridSize)))
+	    {
+	    	if (absTangent < 1) 
+	        {
+	    		if (deltaY < 0)
+	    			this.saveMove(UP_MOVE);
+	    		else
+	    			this.saveMove(DOWN_MOVE);
+	            startPoint = point;
+	        } 
+	        if (absTangent > 1)
+	        {
+	        	if (deltaX < 0)
+	        		this.saveMove(LEFT_MOVE);
+	            else
+	            	this.saveMove(RIGHT_MOVE);
+	            startPoint = point;
+	        }
+	    }
 	}
 
 	public void handleMouseReleasedForPenMode(MouseEvent e) {
@@ -334,6 +392,9 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 
 		app.setDefaultCursor();
 
+		String gesture = this.getGesture();
+		System.out.println(gesture);
+		this.clearTemporaryInfo();
 		Point newPoint = new Point(e.getX() - penOffsetX, e.getY() - penOffsetY);
 		penPoints.add(newPoint);
 		//System.out.println(penPoints);
@@ -915,5 +976,54 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		circle.updateRepaint();
 		
 	}
+	/**
+     * Returns delta x.
+     *
+     * @param startPoint2 First point
+     * @param point Second point
+     * @return Delta x
+     */
+    private int getDeltaX(java.awt.Point startPoint2, java.awt.Point point)
+    {
+        return point.x - startPoint2.x;
+    }
 
+    /**
+     * Returns delta y.
+     *
+     * @param startPoint2 First point
+     * @param point Second point
+     * @return Delta y
+     */
+    private int getDeltaY(java.awt.Point startPoint2, java.awt.Point point) 
+    {
+        return point.y - startPoint2.y;
+    }
+    /**
+     * Adds movement to buffer.
+     *
+     * @param move String representation of recognized movement
+     */
+    private void saveMove(String move)
+    {
+        // should not store two equal moves in succession
+        if ((gesture.length() > 0) && (gesture.charAt(gesture.length() - 1) == move.charAt(0)))
+            return;
+        gesture.append(move);
+    }
+    /**
+     * Returns string representation of mouse gesture.
+     *
+     * @return String representation of mouse gesture. "L" for left, "R" for right,
+     *         "U" for up, "D" for down movements. For example: "ULD".
+     */
+    String getGesture()
+    {
+        return gesture.toString();
+    }
+    void clearTemporaryInfo()
+    {
+        startPoint = null;
+        gesture.delete(0, gesture.length());
+    }
 }
