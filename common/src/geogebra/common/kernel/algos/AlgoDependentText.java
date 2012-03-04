@@ -114,10 +114,11 @@ public class AlgoDependentText extends AlgoElement {
 		if (oldTpl != tpl) {
 			oldTpl = tpl;
 			for (int i = 0; i < input.length; i++) {
-				if (input[i].isTextCommand() && !input[i].isLabelSet()
-						&& input[i].getParentAlgorithm()!=null)
+				if (input[i].isGeoText() && !input[i].isLabelSet()
+						&& input[i].getParentAlgorithm()!=null){
 					input[i].setVisualStyle(text);
-				input[i].getParentAlgorithm().update();
+					input[i].getParentAlgorithm().update();
+				}
 			}
 		}
 		
