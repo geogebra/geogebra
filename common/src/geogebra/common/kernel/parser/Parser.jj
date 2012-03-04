@@ -258,7 +258,7 @@ TOKEN : {
   		< VARX: "x" >
   |		< VARY: "y" >
   |		< VARZ: "z" >
-  |     < FLOAT: <INTEGER> ( <DECIMAL_POINT> <INTEGER> )? 
+  |     < FLOAT: <INTEGER> ( <DECIMAL_POINT> (<INTEGER>)? )* //deliberately trap 1.2.3.4 , 1..2 here, error thrown in MyDouble.parseDouble()
         | <DECIMAL_POINT> <INTEGER> 
         | <INTEGER> <DECIMAL_POINT>
         >
@@ -1797,12 +1797,12 @@ ExpressionValue myDouble():
 			// check if token includes "b"
     	  
     	    c.image = c.image.replaceFirst("e", "E" );
-    		val = MyDouble.parseDouble( c.image );
+    		val = MyDouble.parseDouble( app, c.image );
     	}
     |
       (c = <PERCENTAGE>) 
   		{
-    		val = MyDouble.parsePercentage( c.image );
+    		val = MyDouble.parsePercentage( app, c.image );
     	}
    )
   {
@@ -2063,7 +2063,7 @@ ExpressionNode numberFunction():
         else {
           // gamma(a+c) unchanged
           ExpressionNode plus = new ExpressionNode(kernel, ev, Operation.PLUS,
-          		new MyDouble(kernel, MyDouble.parseDouble( c.image )));
+          		new MyDouble(kernel, MyDouble.parseDouble( app, c.image )));
           return new ExpressionNode(kernel, plus, Operation.GAMMA, null);
         }
       }  

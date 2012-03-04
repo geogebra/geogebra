@@ -23,6 +23,8 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoVec2D;
+import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.MyError;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.MyMath2;
 import geogebra.common.util.Unicode;
@@ -720,8 +722,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * @param str string representation ending with %
 	 * @return value as fraction
 	 */
-	public static double parsePercentage(String str) {
-		return parseDouble(str.substring(0, str.length() - 1)) / 100;
+	public static double parsePercentage(AbstractApplication app, String str) {
+		return parseDouble(app, str.substring(0, str.length() - 1)) / 100;
 	}
 
 	private static StringBuilder sb = new StringBuilder();
@@ -731,7 +733,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * @param str string to be parsed
 	 * @return value
 	 */
-	public static double parseDouble(String str) {
+	public static double parseDouble(AbstractApplication app, String str) {
 		sb.setLength(0);
 		for (int i = 0; i < str.length(); i++) {
 			int ch = str.charAt(i);
@@ -799,7 +801,12 @@ public class MyDouble extends ValidExpression implements NumberValue,
 			}
 			sb.append(ch + "");
 		}
+		try {
 		return Double.parseDouble(sb.toString());
+		} catch (Exception e) {
+			// eg try to parse "1.2.3", "1..2"
+			throw new MyError(app, "InvalidInput");
+		}
 		/*
 		 * "\u0030"-"\u0039", "\u0660"-"\u0669", "\u06f0"-"\u06f9",
 		 * "\u0966"-"\u096f", "\u09e6"-"\u09ef", "\u0a66"-"\u0a6f",
