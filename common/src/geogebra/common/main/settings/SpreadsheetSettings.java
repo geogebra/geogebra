@@ -273,7 +273,7 @@ public class SpreadsheetSettings extends AbstractSettings {
 	public void setEqualsRequired(boolean equalsRequired) {
 		if(this.equalsRequired != equalsRequired) {
 			this.equalsRequired = equalsRequired;
-			settingChanged();
+			//settingChanged();
 		}
 	}
 

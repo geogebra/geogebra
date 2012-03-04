@@ -1263,7 +1263,10 @@ public class MyTable extends JTable implements FocusListener
 	@Override
 	public boolean editCellAt(int row, int col) {
 		Object ob = getValueAt(row, col);
-
+		
+		// prepare editor to handle equals
+		editor.setEqualsRequired(app.getSettings().getSpreadsheet().equalsRequired());
+		
 		if (ob instanceof GeoElement) {
 			GeoElement geo = (GeoElement) ob;
 			if(geo.isGeoButton()

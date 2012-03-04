@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
@@ -10,10 +10,7 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
-import java.text.NumberFormat;
-import java.text.ParsePosition;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.text.DecimalFormatSymbols;
 
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.html.HTML;
@@ -25,13 +22,11 @@ import au.com.bytecode.opencsv.CSVParser;
 /**
  * Utility class with methods to handle importing data into the spreadsheet.
  * 
- * 
  * @author G. Sturr
  * 
  */
 public class DataImport {
 
-	HashSet<String> decimalDotLocale = newHashSet("de");
 	static CSVParser commaParser, tabParser;
 
 	static DataFlavor HTMLflavor;
@@ -41,15 +36,6 @@ public class DataImport {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public static HashSet<String> newHashSet(String... strings) {
-		HashSet<String> set = new HashSet<String>();
-
-		for (String s : strings) {
-			set.add(s);
-		}
-		return set;
 	}
 
 	public static boolean hasHTMLFlavor(Transferable t) {
@@ -89,6 +75,8 @@ public class DataImport {
 				transferString = DataImport
 						.convertHTMLTableToCSV((String) contents
 								.getTransferData(HTMLflavor));
+				//transferString = (String) contents
+				//		.getTransferData(DataFlavor.stringFlavor);
 			}
 
 		} catch (UnsupportedFlavorException e) {
@@ -207,27 +195,40 @@ public class DataImport {
 	}
 
 	/**
-	 * Parses external (non-ggb) data.
+	 * Parses external non-ggb data.
 	 * 
 	 * @param app
 	 * @param source
 	 *            string to be parsed
+	 * @param separator
+	 *            separator[0] = decimal separator, separator[1] = grouping
+	 *            separator; if null then defaults for the locale will be used
 	 * @param isCSV
-	 *            flag to determine of the data should be handled as comma
-	 *            delimited
+	 *            true = comma delimited parsing, false = tab delimited parsing
 	 * @return 2D string array with values formatted for the spreadsheet.
 	 */
 	public static String[][] parseExternalData(AbstractApplication app,
-			String source, boolean isCSV) {
+			String source, String[] separator, boolean isCSV) {
+
+		String decimalSeparator, groupingSeparator;
+		if (separator == null) {
+			String[] defaultSeparator = getDefaultSeparators(app);
+			decimalSeparator = defaultSeparator[0];
+			groupingSeparator = defaultSeparator[1];
+		} else {
+			decimalSeparator = separator[0];
+			groupingSeparator = separator[1];
+		}
 
 		String[][] data;
 
 		if (isCSV) {
-			// convert the given CSV file string into a 2D string array
+			// convert the given string into a 2D array defined by comma
+			// delimiters
 			data = parseCSVdata(source);
 		} else {
-			// convert the given string into a 2D array defined by tab or
-			// comma delimiters (auto-detected)
+			// convert the given string into a 2D array defined by tab
+			// delimiters
 			data = parseTabData(source);
 		}
 
@@ -242,7 +243,8 @@ public class DataImport {
 
 				// remove localized number formatting
 				// e.g. 3,400 ---> 3400 or 3,400 --> 3.400 depending on locale
-				data[i][k] = adjustNumberString(app, data[i][k]);
+				data[i][k] = adjustNumberString(app, data[i][k],
+						decimalSeparator, groupingSeparator);
 			}
 		}
 
@@ -324,76 +326,45 @@ public class DataImport {
 	}
 
 	/**
-	 * Tests if a given string represents a number. If true then an unformatted
-	 * string representation of the number is returned (e.g. 3,200 --> 3200).
-	 * Otherwise the original string is returned.
-	 * 
-	 * The method uses java's NumberFormat class to test for a number by parsing
-	 * the string using format rules for the current locale.
-	 * 
+	 * Returns an unformatted number string (e.g. "3,200" --> "3200") if the
+	 * given string is a number that Geogebra's parser recognizes. If cannot be
+	 * parsed to a number, then the original string is returned.
 	 */
-	private static String adjustNumberString2(AbstractApplication app, String s) {
+	private static String adjustNumberString(AbstractApplication app, String s,
+			String decimalSeparator, String groupingSeparator) {
 
-		boolean isNumber;
+		if (s == null || s.equals(""))
+			return s;
 
-		// attempt to parse the number using NumberFormat with current locale
-		NumberFormat nf = NumberFormat.getInstance(((Application) app)
-				.getLocale());
-		ParsePosition pp = new ParsePosition(0);
-		Number n = nf.parse(s, pp);
+		// System.out.println("====================");
+		// System.out.println(decimalSeparator + " | " + groupingSeparator);
+		// System.out.println("test string: " + s);
+		String s2 = s.replaceAll(groupingSeparator, "");
+		if (!decimalSeparator.equals("."))
+			s2 = s2.replaceAll(decimalSeparator, ".");
 
-		// test: string is a number if parser uses the entire string
-		isNumber = (s.length() == pp.getIndex());
+		// System.out.println("converted string: " + s2);
+		// System.out.println("is number: " + RelativeCopy.isNumber(s2));
 
-		String radixMark = ",";
-		String groupingMark = " ";
+		if (RelativeCopy.isNumber(s2)) {
+			return s2;
+		}
 
-		String s2 = s.replaceAll(groupingMark, "").replaceFirst(radixMark, ".");
-
-		// if the string is a number return it without formatting
-		// if (isNumber) {
-		// return n + "";
-		// }
-
-		System.out.println("====== testing this string: " + s2);
-		Double nv = app.getKernel().getAlgebraProcessor()
-				.evaluateToDouble(s2, true);
-		System.out.println("result number: " + nv);
-
-		if (nv != Double.NaN)
-			return nv + "";
-
-		// otherwise return the string
 		return s;
 
 	}
 
-	private static String adjustNumberString(AbstractApplication app, String s) {
+	private static String[] getDefaultSeparators(AbstractApplication app) {
 
-		// set symbols for decimal point and thousands separator
-		// TODO: use locale to set these strings
-		String radixMark = ",";
-		String groupingMark = " ";
+		String[] separators = new String[2];
 
-		// remove thousands separators
-		// and replace radix symbol with dot
-		String s2 = s.replaceAll(groupingMark, "").replaceFirst(radixMark, ".");
+		// Get decimal and thousands separators
+		DecimalFormatSymbols dfs = DecimalFormatSymbols
+				.getInstance(((Application) app).getLocale());
+		separators[0] = Character.toString(dfs.getDecimalSeparator());
+		separators[1] = Character.toString(dfs.getGroupingSeparator());
 
-		// if(Character.isDigit(c) || c == '.'
-		// || c=='-' || c=='+' || c == Unicode.degreeChar || c == '\u2212') s2 =
-		// null;
-
-		// parse to number
-		NumberValue nv = app.getKernel().getAlgebraProcessor()
-				.evaluateToNumeric(s2, true);
-
-		// if we have a number return this as an unformatted string
-		if (nv != null)
-			return nv.getDouble() + "";
-
-		// otherwise return the given string
-		return s;
-
+		return separators;
 	}
 
 }

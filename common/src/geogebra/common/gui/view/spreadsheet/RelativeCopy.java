@@ -14,6 +14,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -991,22 +992,11 @@ public class RelativeCopy {
 		// if "=" is required before commands and text is not a number
 		// or does not begin with "=" then surround it with quotes.
 		// This will force the cell to become GeoText.
-		if (app.getSettings().getSpreadsheet().equalsRequired()) {
+		if (app.getSettings().getSpreadsheet().equalsRequired() && text != null) {
 
-			// boolean isNumber =
-			// kernel.getAlgebraProcessor().evaluateToNumeric(text, true) !=
-			// null;
-			boolean isNumber = true;
-			try {
-				Double.parseDouble(text);
-			} catch (Exception e) {
-				isNumber = false;
-			}
-
-			if ((text != null) && !(text.startsWith("=") || isNumber)) {
-				text = "\"" + text + "\"";
-			}
-
+				if (!(text.startsWith("=") || isNumber(text))) {
+					text = "\"" + text + "\"";
+				}
 		}
 
 		// if the cell is currently GeoText then prepare it for changes
@@ -1041,4 +1031,70 @@ public class RelativeCopy {
 		}
 	}
 
+	/**
+	 * Tests if a string represents a number. 
+	 * 
+	 * @param s
+	 * @return	true if the given string represents a number.
+	 */
+	public static boolean isNumber(String s) {
+		
+		// trim and return false if empty string
+		s = s.trim();
+		if(s == null || s.length() == 0) return false;
+		
+		// remove degree char from end of string
+		if (s.charAt(s.length() - 1) == Unicode.degreeChar) {
+			s = s.substring(0, s.length() - 1);
+		}
+		
+		// split the string using the exponentiation char
+		// and test for possible number strings
+		String[] s2 = s.split("E");
+		if (s2.length == 1) {
+			return isStandardNumber(s2[0]);
+		} else if (s2.length == 2) {
+			return isStandardNumber(s2[0]) && isStandardNumber(s2[1]);
+		} else
+			return false;
+	}
+
+	/**
+	 * Returns true if a string is a standard number, i.e not in scientific
+	 * notation
+	 * 
+	 * @param s
+	 * @return
+	 */
+	private static boolean isStandardNumber(String s) {
+
+		// return if empty string
+		if (s == null || s.length() == 0)
+			return false;
+
+		// test the first char for a digit, sign or decimal point.
+		Character c = s.charAt(0);
+		if (!(Character.isDigit(c) || c == '.' || c == '-' || c == '+' || c == '\u2212')) {
+			return false;
+		}
+
+		// test the remaining chars for digits or decimal point
+		int decimalCount = 0;
+		for (int i = 1; i < s.length(); i++) {
+			c = s.charAt(i);
+			if (Character.isDigit(c)) {
+				continue;
+			}
+			if (c == '.' && decimalCount == 0) {
+				decimalCount++;
+				continue;
+			}
+			return false;
+		}
+		return true;
+	}
+
+	
+	
+	
 }

@@ -169,10 +169,7 @@ public abstract class AbstractSpreadsheetTableModel implements View {
 		if (location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS
 				&& location.y < Kernel.MAX_SPREADSHEET_ROWS) {
 
-			if (location.x > highestUsedColumn) {
-				highestUsedColumn = location.x;
-			}
-
+			highestUsedColumn = Math.max(highestUsedColumn, location.x);
 			highestUsedRow = Math.max(highestUsedRow, location.y);
 
 			if (location.y >= getRowCount()) {

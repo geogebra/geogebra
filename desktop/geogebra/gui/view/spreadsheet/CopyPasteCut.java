@@ -27,7 +27,7 @@ public class CopyPasteCut {
 
 	// ggb support classes
 	protected Kernel kernel;
-	protected Application app;
+	protected AbstractApplication app;
 	private AbstractSpreadsheetTableModel tableModel;
 
 	private SpreadsheetView view;
@@ -67,7 +67,7 @@ public class CopyPasteCut {
 
 	private SpreadsheetView getView() {
 		if (view == null) {
-			view = app.getGuiManager().getSpreadsheetView();
+			view = (SpreadsheetView) app.getGuiManager().getSpreadsheetView();
 		}
 
 		return view;
@@ -239,7 +239,7 @@ public class CopyPasteCut {
 			// use the transferString data to create and paste new geos
 			// into the target cells without relative cell references
 
-			String[][] data = DataImport.parseExternalData(app, transferString,
+			String[][] data = DataImport.parseExternalData(app, transferString, null,
 					isCSV);
 			succ = pasteExternalMultiple(data, column1, row1, column2, row2);
 
@@ -711,10 +711,6 @@ public class CopyPasteCut {
 		// read file
 		StringBuilder contents = new StringBuilder();
 
-		boolean oldEqualsSetting = app.getSettings().getSpreadsheet()
-				.equalsRequired();
-		app.getSettings().getSpreadsheet().setEqualsRequired(true);
-
 		boolean isCSV = getExtension(url.getFile()).equals("csv");
 
 		try {
@@ -740,7 +736,7 @@ public class CopyPasteCut {
 		boolean succ = true;
 
 		String[][] data = DataImport.parseExternalData(app,
-				contents.toString(), isCSV);
+				contents.toString(), null, isCSV);
 
 		if (data != null) {
 			if (clearSpreadsheet)
@@ -749,8 +745,6 @@ public class CopyPasteCut {
 		} else {
 			succ = false;
 		}
-
-		app.getSettings().getSpreadsheet().setEqualsRequired(oldEqualsSetting);
 
 		return succ;
 
