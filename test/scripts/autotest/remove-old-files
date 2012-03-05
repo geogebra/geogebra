@@ -5,8 +5,7 @@
 NEWEST=4
 EXT=cache.js
 
-COUNT=`find . -name '*.$EXT' | wc -l`
-
+COUNT=`find . -name '*'.$EXT | wc -l`
 if [ $COUNT -gt $NEWEST ]; then
  echo "Removing .$EXT files, leaving the last $NEWEST only"
  FROM=`expr $NEWEST + 1`
