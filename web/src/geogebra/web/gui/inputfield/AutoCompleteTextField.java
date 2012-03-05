@@ -100,9 +100,9 @@ public class AutoCompleteTextField extends TextBox implements geogebra.common.gu
     }
 
 	public void addFocusListener(FocusListener listener) {
-		super.addFocusListener((geogebra.web.euclidian.event.FocusListener) listener);
-		//super.addFocusHandler((geogebra.web.awt.event.FocusListener) listener);
-		//super.addBlurHandler((geogebra.web.awt.event.FocusListener) listener);
+		//super.addFocusListener((geogebra.web.euclidian.event.FocusListener) listener);
+		super.addFocusHandler((geogebra.web.euclidian.event.FocusListener) listener);
+		super.addBlurHandler((geogebra.web.euclidian.event.FocusListener) listener);
 		
 	    
     }

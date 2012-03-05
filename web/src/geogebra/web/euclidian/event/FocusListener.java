@@ -11,8 +11,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class FocusListener extends geogebra.common.euclidian.event.FocusListener
-        implements com.google.gwt.user.client.ui.FocusListener,
-        com.google.gwt.event.dom.client.FocusHandler,
+        implements com.google.gwt.event.dom.client.FocusHandler,
         com.google.gwt.event.dom.client.BlurHandler {
 
 	public FocusListener(Object listener) {
@@ -20,26 +19,13 @@ public class FocusListener extends geogebra.common.euclidian.event.FocusListener
 	}
 
 	public void onFocus(FocusEvent event) {
-		AbstractApplication.debug("Implementation needed really"); // TODO
+		wrapFocusGained();
+		//AbstractApplication.debug("onFocus"); // TODO
 	}
 
 	public void onBlur(BlurEvent event) {
-		AbstractApplication.debug("Implementation needed really"); // TODO
+		wrapFocusLost();
+		//AbstractApplication.debug("onBlur"); // TODO
 
 	}
-
-	@Deprecated
-	//TODO: replace with onFocus(FocusEvent event) or something else method
-	public void onFocus(Widget sender) {
-		wrapFocusGained();
-	    
-    }
-
-	@Deprecated
-	//TODO: replace with onBlur(BlurEvent event) or something else method
-	public void onLostFocus(Widget sender) {
-		wrapFocusLost();
-	    
-    }
-
 }
