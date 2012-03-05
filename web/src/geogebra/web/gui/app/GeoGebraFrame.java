@@ -13,6 +13,7 @@ import geogebra.web.presenter.LoadFilePresenter;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -59,6 +60,18 @@ public class GeoGebraFrame extends VerticalPanel {
 		init(geoGebraMobileTags);
 	}
 
+	private static void useDataParamBorder(ArticleElement ae, GeoGebraFrame gf) {
+		String dpBorder = ae.getDataParamBorder();
+		if (dpBorder != null) if (dpBorder.length() == 7) if (dpBorder.charAt(0) == '#') {
+			ae.getStyle().setBorderWidth(1, Style.Unit.PX);
+			ae.getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+			ae.getStyle().setBorderColor(dpBorder);
+			gf.getStyleElement().getStyle().setBorderWidth(1, Style.Unit.PX);
+			gf.getStyleElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+			gf.getStyleElement().getStyle().setBorderColor(dpBorder);
+		}
+	}
+
 	private static void init(ArrayList<ArticleElement> geoGebraMobileTags) {
 
 		for (ArticleElement articleElement : geoGebraMobileTags) {
@@ -66,6 +79,7 @@ public class GeoGebraFrame extends VerticalPanel {
 			Application app = inst.createApplication(articleElement);
 			inst.app = app;
 			inst.createSplash(articleElement);
+			useDataParamBorder(articleElement, inst);
 			inst.add(app.buildApplicationPanel());
 			RootPanel.get(articleElement.getId()).add(inst);
 			handleLoadFile(articleElement, app);

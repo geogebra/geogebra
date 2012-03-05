@@ -170,4 +170,7 @@ public final class ArticleElement extends Element {
 		return (height != null && !height.equals("")) ? Integer.parseInt(height, 10)  : 0; 
 	}
 
+	public String getDataParamBorder() {
+		return this.getAttribute("data-param-borderColor");
+	}
 }
