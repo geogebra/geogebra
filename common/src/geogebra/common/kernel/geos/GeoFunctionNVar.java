@@ -81,7 +81,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			isInequality = fun.initIneqs(this.getFunctionExpression(),this);
 
 		
-		if (hasLevelOfDetail())
+		if (needsLevelOfDetail())
 			levelOfDetail = new LevelOfDetail();
 	}
 
