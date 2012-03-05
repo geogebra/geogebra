@@ -211,17 +211,24 @@ java -Xmx512m com.google.gwt.dev.Compiler\
  -style $STYLE -war $GGDIR/web/war -strict $OTHEROPTS geogebra.Web geogebra.web.ggbloaderworker.GgbLoaderWorker || exit 8
 
 # 9. Done!
+example () {
+ echo "Insert the following URLs into your browser to test it:"
+ echo "file:///$INSTALLDIR/degenerateConics.html"
+ echo "file:///$INSTALLDIR/ggbWebTools.html"
+}
+
 if [ "$INSTALLDIR" = "" ]; then
- echo "GeoGebraWeb compilation finished. Insert this URL into your browser to test it:"
- echo "file:///$WEBDIR/war/Web.html"
+ echo "GeoGebraWeb compilation finished."
+ INSTALLDIR=$WEBDIR/war
+ example
 else
  echo "Trying to remove and create $INSTALLDIR..."
  rm -fR $INSTALLDIR
  mkdir -p $INSTALLDIR || exit 9
  cp -a $WEBDIR/war/* $INSTALLDIR
  find $INSTALLDIR -name .svn -or -name WEB-INF | xargs rm -fR
- echo "GeoGebraWeb compilation and installation finished. Insert this URL into your browser:"
- echo "file:///$INSTALLDIR/degeneretaConics.html"
+ echo "GeoGebraWeb compilation and installation finished."
+ example
  fi
 
 exit 0

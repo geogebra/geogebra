@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!-- README: Downloading external libraries for GeoGebraWeb
+
+This build file is about to download all necessary external libraries
+from the Internet. Most files are downloaded from the GeoGebra server
+to ensure availability.
+
+For Eclipse users:
+
+Make sure you run this build file from eclipse before start your work on
+your workstation.
+
+-->
+
+<!--
+   GeoGebraWeb kickstart build script    
+   @author Zoltan Kovacs <zoltan@geogebra.org>
+-->
+
+<project default="geogebraweb-developer">
+
+	<target name="geogebraweb-developer-commandline" depends="javacc, gwt-sdk, zipjs"
+	    description="For command line developers (mostly Unix): to create GeoGebraWeb builds">
+	</target>
+
+	<target name="geogebraweb-developer" depends="zipjs"
+	    description="For Eclipse developers: to create GeoGebraWeb builds">
+	</target>
+
+	<!-- these targets should come from the GeoGebra repository (currently) -->
+	<target name="javacc" depends="javacc-geogebra"/>
+
+	<!-- download external libraries -->
+	<!-- download zipjs from GitHub -->
+	<target name="zipjs">
+	<mkdir dir="lib"/>
+	<mkdir dir="lib/download"/>
+	<get src="https://github.com/ancsing/zip.js/zipball/master/WebContent" dest="lib/download/zipjs.zip"
+	    usetimestamp="true"/>
+	<unzip src="lib/download/zipjs.zip" dest="src/geogebra/resources/js">
+	    <patternset>
+		<include name="**/WebContent/*.js"/>
+	    </patternset>
+	    <mapper type="flatten"/>
+	</unzip>
+	</target>
+
+	<!-- download javacc from GeoGebra repository -->
+	<target name="javacc-geogebra">
+	<mkdir dir="../desktop/lib/build/javacc"/>
+	<get src="http://dev.geogebra.org/download/lib/build/javacc/javacc.jar" dest="../desktop/lib/build/javacc/javacc.jar"
+	    usetimestamp="true"/>
+	</target>
+
+	<target name="gwt-sdk">
+	<mkdir dir="lib"/>
+	<mkdir dir="lib/download"/>
+	<get
+	    src="http://google-web-toolkit.googlecode.com/files/gwt-2.4.0.zip"
+	    dest="lib/download/gwt-sdk.zip" usetimestamp="true"/>
+	<unzip src="lib/download/gwt-sdk.zip" dest=".."> <!-- FIXME: Find a better place for GWT SDK -->
+	</unzip>
+	</target>
+	
+</project>
