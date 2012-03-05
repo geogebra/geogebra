@@ -631,7 +631,16 @@ class MyStream(object):
         self.write = write
 
 
-class InteractivePane(ActionListener, DocumentListener):
+class WindowPane(object):
+
+    def activate(self):
+        pass
+
+    def deactivate(self):
+        pass
+
+
+class InteractivePane(WindowPane, ActionListener, DocumentListener):
 
     def __init__(self, window, api):
         self.api = api
@@ -729,7 +738,7 @@ class InteractivePane(ActionListener, DocumentListener):
             self.history.reset_position()
 
 
-class ScriptPane(object):
+class ScriptPane(WindowPane):
 
     def __init__(self, window, api):
         self.api = api
@@ -759,7 +768,7 @@ class ScriptPane(object):
         self.api.setInitScript(self.script_area.input)
 
 
-class EventsPane(ActionListener):
+class EventsPane(WindowPane, ActionListener):
     
     def __init__(self, window, api):
         self.api = api
@@ -796,13 +805,23 @@ class EventsPane(ActionListener):
         
         # Hack to be able to change the objects_box
         self.building_objects_box = False
-        
+
+        self.active = False
+
+    def activate(self):
+        self.active = True
+        if self.must_update_geos:
+            self.update_geos()
+    def deactivate(self):
+        self.active = False
+    
     def indent_selection(self):
         return self.script_area.indent_selection()
     def dedent_selection(self):
         return self.script_area.dedent_selection()
 
     def update_geos(self):
+        self.must_update_geos = False
         try:
             self.building_objects_box = True
             self.objects_box.removeAllItems()
@@ -843,7 +862,10 @@ class EventsPane(ActionListener):
         self.events_box.repaint()
     
     def event_listener(self, evt, target):
-        self.update_geos()
+        if self.active:
+            self.update_geos()
+        else:
+            self.must_update_geos = True
     
     def save_current_script(self):
         if self.current is None:
@@ -1034,8 +1056,11 @@ class PythonWindow(ActionListener, ChangeListener):
     # Implementation of ChangeListener
     def stateChanged(self, evt):
         i = evt.source.selectedIndex
+        if self.active_pane is not None:
+            self.active_pane.deactivate()
         if 0 <= i < len(self.panes):
             self.active_pane = self.panes[i]
+            self.active_pane.activate()
         else:
             self.active_pane = None
     

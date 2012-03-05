@@ -145,6 +145,7 @@ class Interface(PythonScriptInterface):
             return source.replace("$", "geo.")
         else:
             return source
+    
     def compileinteractive(self, source):
         source = self.format_source(source)
         return compile(source, "<pyggb>", "single")
@@ -213,14 +214,19 @@ class Functions(object):
         self.ggbapi.alert(s)
     def debug(self, s):
         self.ggbapi.debug(s)
-    def command(self, cmd):
+    def command(self, cmd, *args):
         try:
-            geos = self.api.evalCommand(cmd)
+            if not args:
+                geos = self.api.evalCommand(cmd)
+            else:
+                args = [self.factory.expression(arg).expr for arg in args]
+                geos = self.api.evalCommand(cmd, args)
         except JavaException:
             raise ValueError
         if geos is None:
             return None
         return map(self.factory.get_element, geos)
+
 
 # This is to update the atime of the modules I want to keep in the jython jar
 def do_protected_imports():

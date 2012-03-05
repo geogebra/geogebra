@@ -13,6 +13,7 @@ import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoDependentPoint;
 import geogebra.common.kernel.algos.AlgoDependentVector;
 import geogebra.common.kernel.arithmetic.BooleanValue;
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
@@ -1219,5 +1220,19 @@ public class PythonFlatAPI {
 	 */
 	public GeoElement[] evalCommand(String cmd) throws Exception {
 		return algProcessor.processAlgebraCommandNoExceptionHandling(cmd, false, false, false);
+	}
+	
+	/**
+	 * Evaluate a command
+	 * @param cmdname the name of the command
+	 * @param args the commands arguments as ExpressionValue's
+	 * @return the geo elements created
+	 */
+	public GeoElement[] evalCommand(String cmdname, ExpressionValue[] args) {
+		Command cmd = new Command(kernel, cmdname, true);
+		for (int i = 0; i < args.length; i++) {
+			cmd.addArgument(getNode(args[i]));
+		}
+		return algProcessor.processCommand(cmd, true);
 	}
 }
