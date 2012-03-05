@@ -409,7 +409,10 @@ public class GeoNumeric extends GeoElement implements NumberValue,
 	 *            visibility again
 	 */
 	public void setValue(double x, boolean changeAnimationValue) {
-		if (intervalMinActive && x < getIntervalMin()) {
+		if (Double.isNaN(x)) {
+			value = Double.NaN;
+			return;
+		} else if (intervalMinActive && x < getIntervalMin()) {
 			value = getIntervalMin();
 		} else if (intervalMaxActive && x > getIntervalMax()) {
 			value = getIntervalMax();
