@@ -38,10 +38,6 @@ instructions.
 	    description="For command line developers (mostly Unix): to create GeoGebra 5 builds">
 	</target>
 	
-	<target name="geogebraweb-developer-commandline" depends="javacc, gwt-sdk"
-	    description="For command line developers (mostly Unix): to create GeoGebraWeb builds">
-	</target>
-
 	<target name="geogebra5-packager" depends="_classpath-open, geogebra5-developer, _lib-pack, _classpath-close"
 	    description="For JAR testers: to create GeoGebra 5 JAR packages">	
 	</target>
@@ -271,15 +267,6 @@ instructions.
 		<get 
 		    src="http://dev.geogebra.org/download/lib/kinect-OpenNI/OpenNI64-1-5-2-23.dll"
 		    dest="lib/OpenNI64.dll" usetimestamp="true"/>
-	</target>
-	
-	<target name="gwt-sdk">
-	<mkdir dir="lib/download"/>
-	<get
-	    src="http://google-web-toolkit.googlecode.com/files/gwt-2.4.0.zip"
-	    dest="lib/download/gwt-sdk.zip" usetimestamp="true"/>
-	<unzip src="lib/download/gwt-sdk.zip" dest=".."> <!-- FIXME: Find a better place for GWT SDK -->
-	</unzip>
 	</target>
 	
 	<!-- dowload jogl1 from GeoGebra repository -->
