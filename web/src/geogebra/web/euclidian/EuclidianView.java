@@ -33,6 +33,7 @@ import geogebra.web.main.EuclidianViewPanel;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.GestureChangeEvent;
 import com.google.gwt.event.dom.client.GestureEndEvent;
@@ -207,6 +208,12 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	public void setCoordinateSpaceSize(int width, int height) {
 		g2p.setCoordinateSpaceWidth(width);
 		g2p.setCoordinateSpaceHeight(height);
+		try {
+			g2p.getCanvas().getElement().getParentElement().getStyle().setWidth(width, Style.Unit.PX);
+			g2p.getCanvas().getElement().getParentElement().getStyle().setHeight(height, Style.Unit.PX);
+		} catch (Exception exc) {
+			Application.debug("Problem with the parent element of the canvas");
+		}
 	}
 
 	public void synCanvasSize() {
