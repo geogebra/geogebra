@@ -28,6 +28,7 @@ import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.web.awt.BasicStroke;
+import geogebra.web.gui.app.GeoGebraFrame;
 import geogebra.web.main.Application;
 import geogebra.web.main.EuclidianViewPanel;
 
@@ -53,12 +54,16 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.RootPanel;
-
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.BlurEvent; 
+import com.google.gwt.event.dom.client.FocusHandler; 
+import com.google.gwt.event.dom.client.FocusEvent; 
 
 public class EuclidianView extends AbstractEuclidianView implements SettingListener{
 	
 	public geogebra.web.awt.Graphics2D g2p = null;
-	
+	public boolean isInFocus = false;
+
 	protected static final long serialVersionUID = 1L;
 	
 	protected ImageElement resetImage, playImage, pauseImage, upArrowImage,
@@ -93,7 +98,17 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 //		canvas.addGestureStartHandler((EuclidianController)euclidiancontroller);
 //		canvas.addGestureChangeHandler((EuclidianController)euclidiancontroller);
 //		canvas.addGestureEndHandler((EuclidianController)euclidiancontroller);
-		
+
+		canvas.addBlurHandler(new BlurHandler() {
+			public void onBlur(BlurEvent be) {
+				focusLost();
+			}
+		});
+		canvas.addFocusHandler(new FocusHandler() {
+			public void onFocus(FocusEvent fe) {
+				focusGained();
+			}
+		});
 		canvas.addKeyDownHandler(getApplication().getGlobalKeyDispatcher());
 		canvas.addKeyUpHandler(getApplication().getGlobalKeyDispatcher());
 		
@@ -404,11 +419,34 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 				(getHits().getTopHits().get(0) instanceof GeoTextField)){
 			return false;
 		}
-		g2p.getCanvas().getCanvasElement().focus();
+		focus();
 		//getApplication().getEuclidianViewpanel().getElement().focus();
 		
 		return true;
     }
+
+	public void focusLost() {
+		if (isInFocus) {
+			this.isInFocus = false;
+			GeoGebraFrame.useDataParamBorder(
+				getApplication().getArticleElement(),
+				getApplication().getGeoGebraFrame());
+		}
+	}
+
+	public void focusGained() {
+		if (!isInFocus) {
+			this.isInFocus = true;
+			GeoGebraFrame.useFocusedBorder(
+				getApplication().getArticleElement(),
+				getApplication().getGeoGebraFrame());
+		}
+	}
+
+	public void focus() {
+		g2p.getCanvas().getCanvasElement().focus();
+		focusGained();
+	}
 
 	public void setDefaultCursor() {
 		getApplication().resetCursor();
@@ -554,8 +592,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
     }
 
 	public boolean hasFocus() {
-	    // TODO Auto-generated method stub
-	    return true;
+	    return isInFocus;
     }
 
 	@Override

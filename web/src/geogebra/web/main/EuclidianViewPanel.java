@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.HorizontalPanel;  //*
 import com.google.gwt.user.client.ui.Widget;
 
-public class EuclidianViewPanel extends Composite implements HasWidgets, HasAllKeyHandlers{
+public class EuclidianViewPanel extends Composite implements HasWidgets /*, HasAllKeyHandlers*/{
 
 	private AbsolutePanel evPanel;
 	private FocusPanel focusPanel;
@@ -26,7 +26,7 @@ public class EuclidianViewPanel extends Composite implements HasWidgets, HasAllK
 		initWidget(focusPanel);
 	}
 	
-	
+	/*
 	public HandlerRegistration addKeyUpHandler(KeyUpHandler handler) {
 	    return focusPanel.addKeyUpHandler(handler);
     }
@@ -37,7 +37,7 @@ public class EuclidianViewPanel extends Composite implements HasWidgets, HasAllK
 
 	public HandlerRegistration addKeyPressHandler(KeyPressHandler handler) {
 	    return focusPanel.addKeyPressHandler(handler);
-    }
+    }*/
 
 	public void add(Widget w) {
 	    evPanel.add(w);	    

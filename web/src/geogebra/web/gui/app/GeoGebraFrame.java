@@ -60,23 +60,36 @@ public class GeoGebraFrame extends VerticalPanel {
 		init(geoGebraMobileTags);
 	}
 
-	private static void useDataParamBorder(ArticleElement ae, GeoGebraFrame gf) {
+	public static void useDataParamBorder(ArticleElement ae, GeoGebraFrame gf) {
 		String dpBorder = ae.getDataParamBorder();
-		if (dpBorder != null) if (dpBorder.length() == 7) if (dpBorder.charAt(0) == '#') {
-			ae.getStyle().setBorderWidth(1, Style.Unit.PX);
-			ae.getStyle().setBorderStyle(Style.BorderStyle.SOLID);
-			ae.getStyle().setBorderColor(dpBorder);
-			gf.getStyleElement().getStyle().setBorderWidth(1, Style.Unit.PX);
-			gf.getStyleElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
-			gf.getStyleElement().getStyle().setBorderColor(dpBorder);
+		if (dpBorder == null || dpBorder.length() != 7 ||
+			(dpBorder.length() > 0 && dpBorder.charAt(0) != '#')) {
+			dpBorder = "#000000";
 		}
+		ae.getStyle().setBorderWidth(1, Style.Unit.PX);
+		ae.getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+		ae.getStyle().setBorderColor(dpBorder);
+		gf.getStyleElement().getStyle().setBorderWidth(1, Style.Unit.PX);
+		gf.getStyleElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+		gf.getStyleElement().getStyle().setBorderColor(dpBorder);
+	}
+
+	public static void useFocusedBorder(ArticleElement ae, GeoGebraFrame gf) {
+		String dpBorder = "#9999ff";
+
+		ae.getStyle().setBorderWidth(1, Style.Unit.PX);
+		ae.getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+		ae.getStyle().setBorderColor(dpBorder);
+		gf.getStyleElement().getStyle().setBorderWidth(1, Style.Unit.PX);
+		gf.getStyleElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+		gf.getStyleElement().getStyle().setBorderColor(dpBorder);
 	}
 
 	private static void init(ArrayList<ArticleElement> geoGebraMobileTags) {
 
 		for (ArticleElement articleElement : geoGebraMobileTags) {
 			GeoGebraFrame inst = new GeoGebraFrame();
-			Application app = inst.createApplication(articleElement);
+			Application app = inst.createApplication(articleElement, inst);
 			inst.app = app;
 			inst.createSplash(articleElement);
 			useDataParamBorder(articleElement, inst);
@@ -91,7 +104,7 @@ public class GeoGebraFrame extends VerticalPanel {
 		Date creationDate = new Date();
 		element.setId(GeoGebraConstants.GGM_CLASS_NAME+creationDate.getTime());
 		GeoGebraFrame inst = new GeoGebraFrame();
-		Application app = inst.createApplication(element);
+		Application app = inst.createApplication(element, inst);
 		inst.app = app;
 		inst.createSplash(element);
 		inst.add(app.buildApplicationPanel());
@@ -150,8 +163,8 @@ public class GeoGebraFrame extends VerticalPanel {
 	 *          menus / ...)
 	 * @return the newly created instance of Application
 	 */
-	protected Application createApplication(ArticleElement ae) {
-		return new Application(ae);
+	protected Application createApplication(ArticleElement ae, GeoGebraFrame gf) {
+		return new Application(ae, gf);
 	}
 
 	/**

@@ -102,10 +102,11 @@ public class Application extends AbstractApplication {
 	private static LinkedList<Map<String, String>> fileList = new LinkedList<Map<String, String>>();
 
 	private ArticleElement articleElement;
+	private GeoGebraFrame frame;
 
 	// convenience method
-	public Application(ArticleElement ae) {
-		this(ae, true);
+	public Application(ArticleElement ae, GeoGebraFrame gf) {
+		this(ae, gf, true);
 	}
 
 	/**
@@ -114,8 +115,9 @@ public class Application extends AbstractApplication {
 	 * @param undoActive
 	 *          if true you can undo by CTRL+Z and redo by CTRL+Y
 	 */
-	public Application(ArticleElement ae, boolean undoActive) {
+	public Application(ArticleElement ae, GeoGebraFrame gf, boolean undoActive) {
 		this.articleElement = ae;
+		this.frame = gf;
 		this.useFullGui = ae.getDataParamGui();
 		dbg = new DebugPrinterWeb();
 		this.init();
@@ -178,6 +180,10 @@ public class Application extends AbstractApplication {
 
 	public ArticleElement getArticleElement() {
 		return articleElement;
+	}
+
+	public GeoGebraFrame getGeoGebraFrame() {
+		return frame;
 	}
 
 	/**
@@ -521,7 +527,7 @@ public class Application extends AbstractApplication {
 		euclidianView.repaintView();
 		setCurrentFile(archiveContent);// This should be done in loadFile, because it has callbacks
 		splash.canNowHide();
-		canvas.getCanvasElement().focus();
+		((EuclidianView) euclidianView).focus();
 	}
 
 	public void loadGgbFileAgain(JsArrayInteger jsBytes) {
