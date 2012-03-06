@@ -258,10 +258,7 @@ TOKEN : {
   		< VARX: "x" >
   |		< VARY: "y" >
   |		< VARZ: "z" >
-  |     < FLOAT: <INTEGER> ( <DECIMAL_POINT> (<INTEGER>)? )* //deliberately trap 1.2.3.4 , 1..2 here, error thrown in MyDouble.parseDouble()
-        | <DECIMAL_POINT> <INTEGER> 
-        | <INTEGER> <DECIMAL_POINT>
-        >
+  |     < FLOAT:  (<INTEGER> | <DECIMAL_POINT>)+ > //deliberately trap eg 1.2.3.4 , 1..2 here, error then thrown in MyDouble.parseDouble()
   |     < EFLOAT: <FLOAT> ("E") (<PLUS> | <MINUS>)? <INTEGER> >
   |     < PERCENTAGE: <FLOAT> "%" >
   |     < INTEGER: ( <DIGIT> )+ >
