@@ -76,7 +76,14 @@ public final class DataUtil {
 					worker.setOnMessage(new MessageHandler() {
 						
 						public void onMessage(MessageEvent event) {
-							view.maybeLoadFile(prepareContent(JSON.parse(event.getDataAsString())));
+							String dataString = event.getDataAsString();
+							if(dataString.startsWith("{\"worker bootstrap error\":")){
+								AbstractApplication.debug("error in worker "+dataString);
+								workerError  = true;
+							}
+							else{
+								view.maybeLoadFile(prepareContent(JSON.parse(dataString)));
+							}
 						}
 					});
 				} 
