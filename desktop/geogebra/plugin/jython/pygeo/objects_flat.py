@@ -57,6 +57,8 @@ class ElementFactory(object):
         #    return Expression.fromnode(obj)
         elif isinstance(obj, Expression):
             return obj
+        elif isinstance(obj, Element):
+            return Expression(self, obj.geo)
         else:
             raise TypeError("Can't convert object to Expression: %r" % obj)
 
