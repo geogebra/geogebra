@@ -563,7 +563,8 @@ public class MyXMLHandler implements DocHandler {
 			mode = MODE_ALGEBRA_VIEW;
 		} else if (eName.equals("kernel")) {
 			// default value
-			kernel.setUsePathAndRegionParameters(true);
+			// (make sure old files work)
+			kernel.setUsePathAndRegionParameters(false);
 			mode = MODE_KERNEL;
 		} else if (eName.equals("spreadsheetView")) {
 			mode = MODE_SPREADSHEET_VIEW;

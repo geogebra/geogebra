@@ -282,7 +282,7 @@ public class Kernel {
 	private static int kernelInstances = 0;
 	// Continuity on or off, default: false since V3.0
 	private boolean continuous = false;
-	private boolean usePathAndRegionParameters = true;
+	private boolean usePathAndRegionParameters = false;
 	private final int kernelID;
 	private final String casVariablePrefix;
 	private GeoGebraCasInterface ggbCAS;
@@ -4631,7 +4631,7 @@ public class Kernel {
 		sb.append(isContinuous());
 		sb.append("\"/>\n");
 
-		if (!usePathAndRegionParameters()) {
+		if (usePathAndRegionParameters()) {
 			sb.append("\t<usePathAndRegionParameters val=\"");
 			sb.append(usePathAndRegionParameters());
 			sb.append("\"/>\n");
