@@ -532,22 +532,24 @@ public class Application extends AbstractApplication {
 	}
 
 	public void beforeLoadFile() {
-		((EuclidianView) euclidianView).setDisableRepaint(true);
-		euclidianView.setReIniting(true);
+		getEuclidianView1().setDisableRepaint(true);
+		getEuclidianView1().setReIniting(true);
 	}
 
 	public void afterLoadFile() {
 		kernel.initUndoInfo();
-		((EuclidianView) euclidianView).setDisableRepaint(false);
-		euclidianView.repaintView();
+		getEuclidianView1().setDisableRepaint(false);
+		getEuclidianView1().synCanvasSize();
+		getEuclidianView1().repaintView();
 		splash.canNowHide();
-		((EuclidianView) euclidianView).focus();
+		getEuclidianView1().focus();
 	}
 
 	private void loadFile(HashMap<String, String> archiveContent) throws Exception {
 
-		HashMap<String, String> archive = (HashMap<String, String>) archiveContent.clone();
 		beforeLoadFile();
+
+		HashMap<String, String> archive = (HashMap<String, String>) archiveContent.clone();
 
 		// Handling of construction and macro file
 		String construction = archive.remove("geogebra.xml");
@@ -579,7 +581,7 @@ public class Application extends AbstractApplication {
 			// on images do nothing here: wait for callback when images loaded.
 			imageManager.triggerImageLoading(DataUtil.utf8Decode(construction),
 					(MyXMLio) myXMLio, this);
-			setCurrentFile(archiveContent);
+			//setCurrentFile(archiveContent);
 		}
 	}
 

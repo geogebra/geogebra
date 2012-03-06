@@ -108,18 +108,12 @@ public class View extends Widget {
 			return;
 		}
 		archiveContent = null;
-		onSyncCanvasSizeWithApplication();
 
 		app.getScriptManager().ggbOnInit();// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
 		
 		AbstractApplication.debug("file loaded");
 		
 	}
-
-	private void onSyncCanvasSizeWithApplication() {
-	   app.getEuclidianView1().synCanvasSize();
-	   app.getActiveEuclidianView().repaintView();
-    }
 
 	public void fileContentLoaded(JsArrayInteger jsBytes) {
 		AbstractApplication.debug("start unzip");

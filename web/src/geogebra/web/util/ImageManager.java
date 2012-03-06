@@ -34,6 +34,7 @@ public class ImageManager extends AbstractImageManager {
 		imagesLoaded = 0;
 		construction = null;
 		myXMLio = null;
+		app = null;
 	}
 
 	@Override
