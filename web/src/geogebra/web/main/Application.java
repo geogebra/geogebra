@@ -581,7 +581,7 @@ public class Application extends AbstractApplication {
 			// on images do nothing here: wait for callback when images loaded.
 			imageManager.triggerImageLoading(DataUtil.utf8Decode(construction),
 					(MyXMLio) myXMLio, this);
-			//setCurrentFile(archiveContent);
+			setCurrentFile(archiveContent);
 		}
 	}
 
