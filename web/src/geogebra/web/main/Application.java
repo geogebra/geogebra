@@ -519,15 +519,7 @@ public class Application extends AbstractApplication {
 
 	public void loadGgbFile(HashMap<String, String> archiveContent)
 			throws Exception {
-		((EuclidianView) euclidianView).setDisableRepaint(true);
-		euclidianView.setReIniting(true);
-		loadFile((HashMap<String, String>) archiveContent.clone());
-		kernel.initUndoInfo();
-		((EuclidianView) euclidianView).setDisableRepaint(false);
-		euclidianView.repaintView();
-		setCurrentFile(archiveContent);// This should be done in loadFile, because it has callbacks
-		splash.canNowHide();
-		((EuclidianView) euclidianView).focus();
+		loadFile(archiveContent);
 	}
 
 	public void loadGgbFileAgain(JsArrayInteger jsBytes) {
@@ -539,7 +531,24 @@ public class Application extends AbstractApplication {
 		GWT.log(message);
 	}
 
-	private void loadFile(HashMap<String, String> archive) throws Exception {
+	public void beforeLoadFile() {
+		((EuclidianView) euclidianView).setDisableRepaint(true);
+		euclidianView.setReIniting(true);
+	}
+
+	public void afterLoadFile() {
+		kernel.initUndoInfo();
+		((EuclidianView) euclidianView).setDisableRepaint(false);
+		euclidianView.repaintView();
+		splash.canNowHide();
+		((EuclidianView) euclidianView).focus();
+	}
+
+	private void loadFile(HashMap<String, String> archiveContent) throws Exception {
+
+		HashMap<String, String> archive = (HashMap<String, String>) archiveContent.clone();
+		beforeLoadFile();
+
 		// Handling of construction and macro file
 		String construction = archive.remove("geogebra.xml");
 		String macros = archive.remove("geogebra_macro.xml");
@@ -564,10 +573,13 @@ public class Application extends AbstractApplication {
 			// Process Construction
 			construction = DataUtil.utf8Decode(construction);
 			myXMLio.processXMLString(construction, true, false);
+			setCurrentFile(archiveContent);
+			afterLoadFile();
 		} else {
 			// on images do nothing here: wait for callback when images loaded.
 			imageManager.triggerImageLoading(DataUtil.utf8Decode(construction),
-					(MyXMLio) myXMLio);
+					(MyXMLio) myXMLio, this);
+			setCurrentFile(archiveContent);
 		}
 	}
 

@@ -21,6 +21,7 @@ import geogebra.web.gui.app.GeoGebraFrame;
 import geogebra.web.helper.ImageLoadCallback;
 import geogebra.web.helper.ImageWrapper;
 import geogebra.web.io.MyXMLio;
+import geogebra.web.main.Application;
 
 public class ImageManager extends AbstractImageManager {
 	
@@ -51,10 +52,10 @@ public class ImageManager extends AbstractImageManager {
 		}
 	};
 
-
 	private String construction;
-	private MyXMLio myXMLio;	
-	
+	private MyXMLio myXMLio;
+	private Application app = null;
+
 	public void addExternalImage(String fileName, String src) {
 	   if (fileName != null && src != null) {
 		   ImageElement img = Document.get().createImageElement();
@@ -68,6 +69,7 @@ public class ImageManager extends AbstractImageManager {
 		if (imagesLoaded == externalImageSrcs.size()) {
 			try {
 				myXMLio.processXMLString(construction, true, false);
+				app.afterLoadFile();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -85,10 +87,11 @@ public class ImageManager extends AbstractImageManager {
 	public static BufferedImage toBufferedImage(ImageElement im) {
 	    return new geogebra.web.awt.BufferedImage(im);
     }
-	
-	public void triggerImageLoading(String construction, MyXMLio myXMLio) {
+
+	public void triggerImageLoading(String construction, MyXMLio myXMLio, Application app) {
 		this.construction = construction;
 		this.myXMLio = myXMLio;	
+		this.app = app;
 		if (externalImageSrcs.entrySet() != null) {
 			for (Entry<String, String> imgSrc : externalImageSrcs.entrySet()) {
 				ImageWrapper img = new ImageWrapper(externalImageTable.get(imgSrc.getKey())); 
