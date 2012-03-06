@@ -703,7 +703,7 @@ class Conic(Path):
 
     @classmethod
     def fromgeo(cls, factory, geo):
-        if geo.keepsType():
+        if API.Geo.keepsType(geo):
             conictype = cls._conic_types.get(API.Geo.getTypeString(geo), cls)
         else:
             conictype = cls
