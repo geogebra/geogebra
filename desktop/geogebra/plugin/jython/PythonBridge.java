@@ -9,7 +9,6 @@ import geogebra.main.Application;
 import org.python.util.PythonInterpreter;
 
 /**
- * @author arno
  * This class manages the Python interpreter.
  * 
  * It also listens to GeoGebra events (click, update, etc) and passes them
@@ -18,6 +17,7 @@ import org.python.util.PythonInterpreter;
  * 
  * It also listens to selection events on GeoElements and passes them on to
  * the PythonScriptInterface object as well.
+ * @author arno
  */
 public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge implements View, GeoElementSelectionListener {
 	private Application application;
@@ -43,6 +43,7 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	public synchronized void init() {
 		if (!ready) {
 			AbstractApplication.debug("Initialising Python interpreter...");
+			System.setProperty("python.cachedir.skip", "true");
 			interpreter = new PythonInterpreter();
 			interpreter.exec("import sys; sys.path.extend(['__pyclasspath__/geogebra/plugin/jython', '__pyclasspath__/Lib'])");
 			interpreter.exec("from pyggb import interface");
@@ -166,7 +167,10 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	 * @return the value of the currently edited script or null
 	 */
 	public String getCurrentPythonScript() {
-		return pyInterface.getCurrentInitScript();
+		if (isReady()) {
+			return pyInterface.getCurrentInitScript();
+		}
+		return null;
 	}
 }
 
