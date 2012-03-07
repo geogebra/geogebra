@@ -47,6 +47,10 @@ public final class DataUtil {
 		return nativeUtf8Decode(content);
 	}
 	
+	public static native String utf8BrowserDecode(String content) /*-{
+		return decodeURIComponent(escape(content));
+	}-*/;
+	
 	public static String base64Encode(String content) {
 		ensureInstall();
 		return nativeBase64Encode(content);
@@ -99,6 +103,7 @@ public final class DataUtil {
 	
 	protected static HashMap<String, String> prepareContent(JavaScriptObject parse) {
 		HashMap<String, String> archiveContent = new HashMap<String, String>();
+		Application.console(parse);
 		JsArray<JsArrayString> strArray = parse.cast();
 		for (int i = 0; i < strArray.length(); i++) {
 			String name = strArray.get(i).get(1);

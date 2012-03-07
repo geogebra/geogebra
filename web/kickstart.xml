@@ -20,11 +20,11 @@ your workstation.
 
 <project default="geogebraweb-developer">
 
-	<target name="geogebraweb-developer-commandline" depends="javacc, gwt-sdk, zipjs"
+	<target name="geogebraweb-developer-commandline" depends="javacc, gwt-sdk"
 	    description="For command line developers (mostly Unix): to create GeoGebraWeb builds">
 	</target>
 
-	<target name="geogebraweb-developer" depends="zipjs"
+	<target name="geogebraweb-developer" 
 	    description="For Eclipse developers: to create GeoGebraWeb builds">
 	</target>
 
@@ -33,19 +33,19 @@ your workstation.
 
 	<!-- download external libraries -->
 	<!-- download zipjs from GitHub -->
-	<target name="zipjs">
+	<!-- not needed right now<target name="zipjs">
 	<mkdir dir="lib"/>
 	<mkdir dir="lib/download"/>
 	<get src="https://github.com/ancsing/zip.js/zipball/master/WebContent" dest="lib/download/zipjs.zip"
 	    usetimestamp="true"/>
 	<unzip src="lib/download/zipjs.zip" dest="src/geogebra/resources/js">
 	    <patternset>
-		<include name="**/WebContent/*.js"/>
+		<include name="*.js"/>
 	    </patternset>
 	    <mapper type="flatten"/>
 	</unzip>
 	</target>
-
+	-->
 	<!-- download javacc from GeoGebra repository -->
 	<target name="javacc-geogebra">
 	<mkdir dir="../desktop/lib/build/javacc"/>

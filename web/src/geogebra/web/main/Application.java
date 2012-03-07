@@ -562,7 +562,7 @@ public class Application extends AbstractApplication {
 
 		// Macros (optional)
 		if (macros != null) {
-			macros = DataUtil.utf8Decode(macros);
+			//macros = DataUtil.utf8Decode(macros); //DataUtil.utf8Decode(macros);
 			myXMLio.processXMLString(macros, true, true);
 		}
 
@@ -573,13 +573,13 @@ public class Application extends AbstractApplication {
 		}
 		if (!imageManager.hasImages()) {
 			// Process Construction
-			construction = DataUtil.utf8Decode(construction);
+			//construction = DataUtil.utf8Decode(construction);//DataUtil.utf8Decode(construction);
 			myXMLio.processXMLString(construction, true, false);
 			setCurrentFile(archiveContent);
 			afterLoadFile();
 		} else {
 			// on images do nothing here: wait for callback when images loaded.
-			imageManager.triggerImageLoading(DataUtil.utf8Decode(construction),
+			imageManager.triggerImageLoading(/*DataUtil.utf8Decode(*/construction/*)/*DataUtil.utf8Decode(construction)*/,
 					(MyXMLio) myXMLio, this);
 			setCurrentFile(archiveContent);
 		}
@@ -608,9 +608,12 @@ public class Application extends AbstractApplication {
 		if (!IMAGE_EXTENSIONS.contains(ext)) {
 			return; // Ignore non image files
 		}
-
-		String base64 = DataUtil.base64Encode(binaryContent);
-		addExternalImage(filename, createImageSrc(ext, base64));
+		if (binaryContent.startsWith("data:image")) {
+			addExternalImage(filename, binaryContent);
+		} else {
+			String base64 = DataUtil.base64Encode(binaryContent);
+			addExternalImage(filename, createImageSrc(ext, base64));
+		}
 	}
 
 	private String createImageSrc(String ext, String base64) {

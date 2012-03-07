@@ -30,6 +30,12 @@ public interface GuiResources extends ClientBundle {
 	@Source("geogebra/resources/images/splash-ggb4.svg")
 	TextResource ggb4Splash();
 	
+	@Source("geogebra/resources/js/zipjs/dataview.js")
+	TextResource dataViewJs();
+	
+	@Source("geogebra/resources/js/zipjs/zip.js")
+	TextResource zipJs();
+	
 	
 
 }

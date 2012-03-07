@@ -1,6 +1,8 @@
 package geogebra.web.presenter;
 
+import geogebra.web.css.GuiResources;
 import geogebra.web.helper.FileLoadCallback;
+import geogebra.web.helper.JavaScriptInjector;
 import geogebra.web.helper.UrlFetcher;
 import geogebra.web.html5.View;
 import geogebra.web.jso.JsUint8Array;
@@ -77,8 +79,20 @@ public class LoadFilePresenter extends BasePresenter {
 	}
 
 	private void process(String dataParamBase64String) {
+		try {
+			JavaScriptInjector.inject(GuiResources.INSTANCE.dataViewJs().getText());
+			JavaScriptInjector.inject(GuiResources.INSTANCE.zipJs().getText());
+			getView().processBase64String(dataParamBase64String);
+	        
+        } catch (Exception e) {
+        	Application.log("fallback for old file handling"+e.getLocalizedMessage());
+        	fileHandlerFallback(dataParamBase64String);
+        }
+	}
+	
+	private void fileHandlerFallback(String base64String) {
 		getView().showLoadAnimation();
-		byte[] bytes = DataUtil.decode(dataParamBase64String);
+		byte[] bytes = DataUtil.decode(base64String);
 		JsArrayInteger jsBytes = JsArrayInteger.createArray().cast();
 		jsBytes.setLength(bytes.length);
 		for (int i = 0; i < bytes.length; i++) {
