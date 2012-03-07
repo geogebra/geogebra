@@ -577,7 +577,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		PathParameter pp = P.getPathParameter();
 		double t = getClosestParameter(P, pp.t);
 		pp.t = t;
-		pathChanged(P);
+		pathChanged(P,false);
 	}
 
 	public boolean isOnPath(GeoPointND PI, double eps) {
@@ -599,7 +599,15 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
-		if (!getKernel().usePathAndRegionParameters()) {
+		pathChanged(PI,!getKernel().usePathAndRegionParameters());
+
+	}
+	
+	private void pathChanged(GeoPointND PI,boolean changePoint) {
+
+		// if kernel doesn't use path/region parameters, do as if point changed
+		// its coords
+		if (changePoint) {
 			pointChanged(PI);
 			return;
 		}
