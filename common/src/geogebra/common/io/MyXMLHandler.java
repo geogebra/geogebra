@@ -282,6 +282,11 @@ public class MyXMLHandler implements DocHandler {
 		hasGuiElement = false;
 
 		initKernelVars();
+
+		xmin.clear();
+		xmax.clear();
+		ymin.clear();
+		ymax.clear();
 	}
 
 	private void initKernelVars() {
