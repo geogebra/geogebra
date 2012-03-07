@@ -8,6 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JList;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -29,6 +30,7 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 		rightClick = Application.isRightClick(e);
 		table.stopEditing();
 		mousePressedRow = rowHeader.locationToIndex(e.getPoint());
+//		table.startEditingRow(mousePressedRow);
 		rowHeader.requestFocus();
 	}
 
@@ -113,6 +115,10 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 
 
 	public void valueChanged(ListSelectionEvent e) {
-		
+		ListSelectionModel lsm = (ListSelectionModel)e.getSource();
+		int minIndex = lsm.getMinSelectionIndex();
+        int maxIndex = lsm.getMaxSelectionIndex();
+        if(minIndex == maxIndex)
+        	table.startEditingRow(minIndex);
 	}
 }
