@@ -1,7 +1,12 @@
 package geogebra.web.euclidian;
 
-
-import java.util.ArrayList;
+import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.AbstractApplication;
 
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Touch;
@@ -36,15 +41,6 @@ import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Window;
-
-import geogebra.common.euclidian.AbstractEuclidianView;
-import geogebra.common.euclidian.event.AbstractEvent;
-import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoTextField;
-import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
 
 public class EuclidianController extends geogebra.common.euclidian.AbstractEuclidianController implements MouseDownHandler, MouseUpHandler, MouseMoveHandler, MouseOutHandler, MouseOverHandler, MouseWheelHandler, ClickHandler, DoubleClickHandler, TouchStartHandler, TouchEndHandler, TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, GestureChangeHandler {
 
@@ -192,20 +188,8 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 	public void onMouseUp(MouseUpEvent event) {
 		DRAGMODE_MUST_BE_SELECTED = false;
-		
-//		AbstractApplication.debug("hit before preventDefaults: " +
-//			(view.getHits()==null ? "null" :
-//				(view.getHits().getTopHits().isEmpty() ? "empty" :
-//					""+view.getHits().getTopHits().get(0)
-//				)
-//			)
-//		);
-		if ((view.getHits() == null) || (view.getHits().size() == 0) ||				// if (we didn't click
-				!(view.getHits().getTopHits().get(0) instanceof GeoTextField)){		// into a textfield)
-	//	if (!textfieldHasFocus)
-			event.preventDefault();		 
-		}	
-			
+		event.preventDefault();		 
+
 		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
 		wrapMouseReleased(e);
 		e.release();
@@ -213,23 +197,13 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 	public void onMouseDown(MouseDownEvent event) {
 		DRAGMODE_MUST_BE_SELECTED = true;
-//		AbstractApplication.debug("hit before preventDefaults: " +
-//			(view.getHits()==null ? "null" :
-//				(view.getHits().getTopHits().isEmpty() ? "empty" :
-//					""+view.getHits().getTopHits().get(0)
-//				)
-//			)
-//		);
-		if ((view.getHits() == null) || (view.getHits().size() == 0) ||				// if (we didn't click
-				!(view.getHits().getTopHits().get(0) instanceof GeoTextField)){		// into a textfield)
-//		if (!textfieldHasFocus)
-			event.preventDefault();
-		}
+		if(!textfieldHasFocus) event.preventDefault();
+			
 		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
 		wrapMousePressed(e);
 		e.release();
 	}
-
+	
 	@Override
 	protected void initToolTipManager() {
 		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated

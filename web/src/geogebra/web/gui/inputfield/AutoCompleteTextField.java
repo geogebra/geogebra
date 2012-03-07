@@ -2,22 +2,36 @@ package geogebra.web.gui.inputfield;
 
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Font;
+import geogebra.common.euclidian.DrawTextField;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.event.FocusListener;
 import geogebra.common.javax.swing.JLabel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.main.Application;
 
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.ui.TextBox;
 
 public class AutoCompleteTextField extends TextBox implements geogebra.common.gui.inputfield.AutoCompleteTextField{
-
+	
 	public AutoCompleteTextField(int length, AbstractApplication application,
             Drawable drawTextField) {
 	    super();
 	    setVisibleLength(length);
+	    init();
     }
-
+	
+	private void init(){
+		addMouseUpHandler(new MouseUpHandler(){
+			public void onMouseUp(MouseUpEvent event) {
+				AutoCompleteTextField tf = ((AutoCompleteTextField)event.getSource()); 
+	            tf.setFocus(true);
+            }
+		});
+	}
+	
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 	    AbstractApplication.debug("implementation needed"); //TODO Auto-generated
 	    
@@ -80,8 +94,8 @@ public class AutoCompleteTextField extends TextBox implements geogebra.common.gu
     }
 
 	public void requestFocus() {
-	    AbstractApplication.debug("implementation needed"); //TODO Auto-generated
-	    
+	    AbstractApplication.debug("implementation needed - just finishing"); //TODO Auto-generated
+		setFocus(true);
     }
 
 	public void setLabel(JLabel label) {

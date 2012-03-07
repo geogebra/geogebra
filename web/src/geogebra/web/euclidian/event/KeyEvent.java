@@ -38,7 +38,7 @@ public class KeyEvent extends geogebra.common.euclidian.event.KeyEvent{
 		//DrawTextField.keyReleased(KeyEvent) only, which wants to know
 		//if we typed a '\n' or not.
 	    AbstractApplication.debug("implementation needed - just finishing"); // TODO
-	    if (event.getUnicodeCharCode() == 13) return '\n';
+	    if (event.getNativeEvent().getKeyCode() == 13) return '\n';
 	    return event.getCharCode();
     }
 
