@@ -3422,7 +3422,10 @@ public class MyXMLHandler implements DocHandler {
 			String strVal = attrs.get("val");
 			if (isNumber) {
 				GeoNumeric n = (GeoNumeric) geo;
-				n.setValue(Double.parseDouble(strVal));
+				if (strVal.equals("NaN"))
+					n.setValue(Double.NaN);
+				else
+					n.setValue(Double.parseDouble(strVal));
 
 				// random
 				n.setRandom("true".equals(attrs.get("random")));
