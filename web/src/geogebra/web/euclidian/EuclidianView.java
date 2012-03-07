@@ -530,8 +530,8 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		if (bgColor != null)
 			backgroundColor = AwtFactory.prototype.newColor(
 			bgColor.getRed(),
-			bgColor.getBlue(),
 			bgColor.getGreen(),
+			bgColor.getBlue(),
 			bgColor.getAlpha());
     }
 
