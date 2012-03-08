@@ -19,11 +19,37 @@ package geogebra.common.io;
 
 import java.util.LinkedHashMap;
 
+/**
+ * Event listener for MyXMLio
+ */
 public interface DocHandler {
-  public void startElement(String tag,LinkedHashMap<String, String> h) throws Exception;
-  public void endElement(String tag) throws Exception;
-  public void startDocument() throws Exception;
-  public void endDocument() throws Exception;
-  public void text(String str) throws Exception;
-  public int getConsStep();
+  /**
+ * @param tag element name
+ * @param h attributes
+ * @throws Exception if invalid
+ */
+public void startElement(String tag,LinkedHashMap<String, String> h) throws Exception;
+  /**
+ * @param tag element name
+ * @throws Exception if invalid
+ */
+public void endElement(String tag) throws Exception;
+  /**
+ * @throws Exception if invalid
+ */
+public void startDocument() throws Exception;
+  /**
+ * @throws Exception if invalid
+ */
+public void endDocument() throws Exception;
+  /**
+ * @param str string between start and end tags
+ * @throws Exception if invalid
+ */
+public void text(String str) throws Exception;
+/**
+ * For navigation bar
+ * @return current construction step
+ */
+public int getConsStep();
 }

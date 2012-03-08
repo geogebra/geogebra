@@ -47,6 +47,9 @@ public class QDParser {
 		return (c==CHAR_SPACE || c==CHAR_TAB || c==CHAR_CR || c==CHAR_NL);
 	}
 	
+	/**
+	 * Creates new parser
+	 */
 	public QDParser() {
 		attrs = new LinkedHashMap<String, String>();
 		stack = new Stack<Integer>();
@@ -54,6 +57,9 @@ public class QDParser {
 		etag = new StringBuilder();
 	}
 
+	/**
+	 * Resets the parser
+	 */
 	public void reset() {
 		attrs.clear();
 		stack.clear();
@@ -74,6 +80,11 @@ public class QDParser {
 			ATTRIBUTE_RVALUE = 10, QUOTE = 7, IN_TAG = 8, SINGLE_TAG = 12,
 			COMMENT = 13, DONE = 11, DOCTYPE = 14, PRE = 15, CDATA = 16;
 
+	/**
+	 * @param doc handler that receives document events
+	 * @param r source of XML data
+	 * @throws Exception if XML is not valid
+	 */
 	final public void parse(DocHandler doc, Reader r) throws Exception {
 		// Stack stack = new Stack();
 		stack.clear();
