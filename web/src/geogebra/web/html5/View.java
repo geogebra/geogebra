@@ -152,7 +152,7 @@ public class View extends Widget {
 	
 	private void putIntoArciveContent(String key, String value) {
 		archiveContent.put(key, value);
-		Application.console(key+" : "+value);
+		//Application.console(key+" : "+value);
 		if (archiveContent.size() == zippedLength) {
 			maybeLoadFile();
 		}
@@ -173,20 +173,25 @@ public class View extends Widget {
 		            	var filename = entry.filename;
 		                if (entry.filename.match(imageRegex)) {
 		                        $wnd.console.log(filename+" : image");
-		                        //@com.google.gwt.core.client.GWT::log(Ljava/lang/String;)(filename);
 		                        entry.getData(new $wnd.zip.Data64URIWriter("image/"+filename.split(".")[1]), function (data) {
 		                            view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,data);
-		                        	//@com.google.gwt.core.client.GWT::log(Ljava/lang/String;)(data);
 		                        });
 		                    } else {
 		                        $wnd.console.log(entry.filename+" : text");
-		                        //@com.google.gwt.core.client.GWT::log(Ljava/lang/String;)(filename);
-		                        entry.getData(new $wnd.zip.Data64URIWriter("text/plain"), function(data) {
-		                			var decoded = $wnd.atob(data.substr(data.indexOf(",")+1));
-		                          	view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decoded);
-		                            //@com.google.gwt.core.client.GWT::log(Ljava/lang/String;)(data);
-		                        });
-		                }
+		                        if ($wnd.zip.useWebWorkers === false) {
+		                        	$wnd.console.log("no worker");
+			                        entry.getData(new $wnd.zip.Data64URIWriter("text/plain"), function(data) {
+			                			var decoded = $wnd.atob(data.substr(data.indexOf(",")+1));
+			                          	view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decoded);
+			                         });
+		                        } else {
+		                        	$wnd.console.log("worker");
+		                        	entry.getData(new $wnd.zip.TextWriter(), function(text) {
+			                          	view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,text);
+			                         });
+		                        }
+		                        	
+		                	}
 	            	})(entries[i]);
 	            } 
 	            reader.close();
