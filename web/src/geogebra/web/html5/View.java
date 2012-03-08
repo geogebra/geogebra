@@ -1,9 +1,12 @@
 package geogebra.web.html5;
 
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.css.GuiResources;
+import geogebra.web.helper.JavaScriptInjector;
 import geogebra.web.jso.JsUint8Array;
 import geogebra.web.main.Application;
 import geogebra.web.main.GeoGebraTubeExportWeb;
+import geogebra.web.presenter.LoadFilePresenter;
 import geogebra.web.util.DataUtil;
 
 import java.util.HashMap;
@@ -134,13 +137,22 @@ public class View extends Widget {
 
 	public void processBase64String(String dataParamBase64String) {
 		archiveContent = new HashMap<String, String>();
-		populateArchiveContent(dataParamBase64String, GWT.getModuleBaseURL(),this);
+		String workerUrls = (GWT.getModuleBaseURL().startsWith("file") ? "false" : GWT.getModuleBaseURL()+"js/zipjs/");
+		if (!LoadFilePresenter.zipJsInserted && workerUrls.equals("false")) {
+			JavaScriptInjector.inject(GuiResources.INSTANCE.inflateJs().getText());
+		}
+		if (!LoadFilePresenter.zipJsInserted) {
+			JavaScriptInjector.inject(GuiResources.INSTANCE.dataViewJs().getText());
+			LoadFilePresenter.zipJsInserted = true;
+		}
+		populateArchiveContent(dataParamBase64String, workerUrls,this);
     }
 	
 	private int zippedLength = 0;
 	
 	private void putIntoArciveContent(String key, String value) {
 		archiveContent.put(key, value);
+		Application.console(key+" : "+value);
 		if (archiveContent.size() == zippedLength) {
 			maybeLoadFile();
 		}
@@ -148,7 +160,11 @@ public class View extends Widget {
 
 	private native void populateArchiveContent(String dpb64str, String workerUrls, View view) /*-{
 	    var imageRegex = /\.(png|jpg|jpeg|gif)$/;
-    	$wnd.zip.workerScriptsPath = workerUrls+"js/zipjs/";
+	    if (workerUrls === "false") {
+	    	$wnd.zip.useWebWorkers = false;
+	    } else {
+    		$wnd.zip.workerScriptsPath = workerUrls;
+	    }
 	    $wnd.zip.createReader(new $wnd.zip.Data64URIReader(dpb64str),function(reader) {
 	        reader.getEntries(function(entries) {
 	        	view.@geogebra.web.html5.View::zippedLength = entries.length;
@@ -160,18 +176,20 @@ public class View extends Widget {
 		                        //@com.google.gwt.core.client.GWT::log(Ljava/lang/String;)(filename);
 		                        entry.getData(new $wnd.zip.Data64URIWriter("image/"+filename.split(".")[1]), function (data) {
 		                            view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,data);
-		                        	@com.google.gwt.core.client.GWT::log(Ljava/lang/String;)(data);
+		                        	//@com.google.gwt.core.client.GWT::log(Ljava/lang/String;)(data);
 		                        });
 		                    } else {
 		                        $wnd.console.log(entry.filename+" : text");
 		                        //@com.google.gwt.core.client.GWT::log(Ljava/lang/String;)(filename);
-		                        entry.getData(new $wnd.zip.TextWriter(), function(text) {
-		                          view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,text);
-		                          @com.google.gwt.core.client.GWT::log(Ljava/lang/String;)(text);
+		                        entry.getData(new $wnd.zip.Data64URIWriter("text/plain"), function(data) {
+		                			var decoded = $wnd.atob(data.substr(data.indexOf(",")+1));
+		                          	view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decoded);
+		                            //@com.google.gwt.core.client.GWT::log(Ljava/lang/String;)(data);
 		                        });
 		                }
 	            	})(entries[i]);
 	            } 
+	            reader.close();
 	        });
 	    },
 	    function (error) {

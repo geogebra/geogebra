@@ -9,6 +9,7 @@ import geogebra.web.jso.JsUint8Array;
 import geogebra.web.main.Application;
 import geogebra.web.util.DataUtil;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayInteger;
 
 public class LoadFilePresenter extends BasePresenter {
@@ -77,11 +78,14 @@ public class LoadFilePresenter extends BasePresenter {
 	public boolean isGgbFileParameterSpecified() {
 		return urlFetcher.isGgbFileParameterSpecified();
 	}
+	
+	public static boolean zipJsInserted = false;
 
 	private void process(String dataParamBase64String) {
 		try {
-			JavaScriptInjector.inject(GuiResources.INSTANCE.dataViewJs().getText());
-			JavaScriptInjector.inject(GuiResources.INSTANCE.zipJs().getText());
+			if (!zipJsInserted) {
+				JavaScriptInjector.inject(GuiResources.INSTANCE.zipJs().getText());
+			}
 			getView().processBase64String(dataParamBase64String);
 	        
         } catch (Exception e) {
