@@ -719,6 +719,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 
 	/**
 	 * parse eg 3.45645% -> 3.45645/100
+	 * @param app application for showing errors
 	 * @param str string representation ending with %
 	 * @return value as fraction
 	 */
@@ -731,6 +732,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	/**
 	 * extension of Double.parseDouble() to cope with unicode digits eg Arabic
 	 * @param str string to be parsed
+	 * @param app application for showing errors
 	 * @return value
 	 */
 	public static double parseDouble(AbstractApplication app, String str) {
