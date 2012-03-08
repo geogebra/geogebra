@@ -11,6 +11,11 @@ public class DockSplitPaneData {
 	private double dividerLocation;
 	private int orientation;
 
+	/**
+	 * @param location location
+	 * @param dividerLocation divider position
+	 * @param orientation vertical or horizontal (JSplitPane.HORIZONTAL_SPLIT or JSplitPane.VERTICAL_SPLIT)
+	 */
 	public DockSplitPaneData(String location, double dividerLocation, int orientation)
 	{
 		this.location = location;
@@ -40,7 +45,7 @@ public class DockSplitPaneData {
 	}
 	
 	/**
-	 * @return
+	 * @return XML representation
 	 */
 	public String getXml() {
 		StringBuilder sb = new StringBuilder();

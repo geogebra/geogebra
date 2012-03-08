@@ -75,16 +75,16 @@ public class Perspective {
 	/**
 	 * Create a perspective by using all information provided below.
 	 * 
-	 * @param id
-	 * @param splitPaneInfo
-	 * @param dockPanelInfo
-	 * @param toolbarDefinition
-	 * @param showToolBar
-	 * @param showGrid
-	 * @param showAxes
-	 * @param showInputPanel
-	 * @param showInputPanelCommands
-	 * @param showInputPanelOnTop
+	 * @param id id
+	 * @param splitPaneInfo split settings
+	 * @param dockPanelInfo dock panel settings
+	 * @param toolbarDefinition toolbar string
+	 * @param showToolBar true to show toolbar
+	 * @param showGrid true to show grid
+	 * @param showAxes true to show axes
+	 * @param showInputPanel true to show input bar
+	 * @param showInputPanelCommands true to show input help
+	 * @param showInputPanelOnTop true to show input bar on top
 	 */
 	public Perspective(String id, DockSplitPaneData[] splitPaneInfo, DockPanelData[] dockPanelInfo, String toolbarDefinition, boolean showToolBar, boolean showGrid, boolean showAxes, boolean showInputPanel, boolean showInputPanelCommands, boolean showInputPanelOnTop) {
 		this.id = id;
@@ -102,7 +102,7 @@ public class Perspective {
 	/**
 	 * Create an empty perspective.
 	 * 
-	 * @param id
+	 * @param id perspective ID
 	 */
 	public Perspective(String id) {
 		this.id = id;
@@ -144,7 +144,7 @@ public class Perspective {
 	}
 	
 	/**
-	 * @param showToolBar
+	 * @param showToolBar true to show toolbar
 	 */
 	public void setShowToolBar(boolean showToolBar) {
 		this.showToolBar = showToolBar;
@@ -214,7 +214,7 @@ public class Perspective {
 	}
 	
 	/**
-	 * @param showInputPanelCommands 
+	 * @param showInputPanelCommands  true to show input help
 	 */
 	public void setShowInputPanelCommands(boolean showInputPanelCommands) {
 		this.showInputPanelCommands = showInputPanelCommands;
@@ -228,7 +228,7 @@ public class Perspective {
 	}
 	
 	/**
-	 * @param showInputPanelOnTop
+	 * @param showInputPanelOnTop true to show input bar on top
 	 */
 	public void setShowInputPanelOnTop(boolean showInputPanelOnTop) {
 		this.showInputPanelOnTop = showInputPanelOnTop;
