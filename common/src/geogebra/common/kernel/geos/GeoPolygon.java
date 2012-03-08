@@ -1043,7 +1043,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
-		if (!getKernel().usePathAndRegionParameters()) {
+		if (!getKernel().usePathAndRegionParameters(this)) {
 			pointChanged(PI);
 			return;
 		}
@@ -1163,7 +1163,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
-		if (!getKernel().usePathAndRegionParameters()) {
+		if (!getKernel().usePathAndRegionParameters(this)) {
 			pointChangedForRegion(P);
 			return;
 		}

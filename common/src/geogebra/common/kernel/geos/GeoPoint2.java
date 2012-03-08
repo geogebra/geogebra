@@ -1524,7 +1524,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
-		if (!getKernel().usePathAndRegionParameters()) {
+		if (!getKernel().usePathAndRegionParameters(this)) {
 			pointChanged(PI);
 			return;
 		}

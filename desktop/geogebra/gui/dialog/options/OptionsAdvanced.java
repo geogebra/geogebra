@@ -2,6 +2,7 @@ package geogebra.gui.dialog.options;
 
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.PathRegionHandling;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.main.settings.Settings;
@@ -79,6 +80,7 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 	/** */
 	private JRadioButton angleUnitRadioDegree, angleUnitRadioRadian,
 			continuityRadioOn, continuityRadioOff,
+			usePathAndRegionParametersRadioAuto,
 			usePathAndRegionParametersRadioOn,
 			usePathAndRegionParametersRadioOff, pointStyleRadio0,
 			pointStyleRadio1, pointStyleRadio2, pointStyleRadio3,
@@ -404,6 +406,12 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 		usePathAndRegionParametersPanel.add(usePathAndRegionParametersRadioOff);
 		usePathAndRegionParametersButtonGroup
 				.add(usePathAndRegionParametersRadioOff);
+		
+		usePathAndRegionParametersRadioAuto = new JRadioButton();
+		usePathAndRegionParametersRadioAuto.addActionListener(this);
+		usePathAndRegionParametersPanel.add(usePathAndRegionParametersRadioAuto);
+		usePathAndRegionParametersButtonGroup
+				.add(usePathAndRegionParametersRadioAuto);
 	}
 
 	/**
@@ -541,10 +549,11 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 		continuityRadioOff.setSelected(!app.getKernel().isContinuous());
 
 		usePathAndRegionParametersRadioOn.setSelected(app.getKernel()
-				.usePathAndRegionParameters());
-		usePathAndRegionParametersRadioOff.setSelected(!app.getKernel()
-				.usePathAndRegionParameters());
-
+				.usePathAndRegionParameters == PathRegionHandling.ON);
+		usePathAndRegionParametersRadioOff.setSelected(app.getKernel()
+				.usePathAndRegionParameters == PathRegionHandling.OFF);
+		usePathAndRegionParametersRadioAuto.setSelected(app.getKernel()
+				.usePathAndRegionParameters == PathRegionHandling.AUTO);
 		checkboxSizeRadioRegular.setSelected(app.getEuclidianView1()
 				.getBooleanSize() == 13);
 		checkboxSizeRadioLarge.setSelected(app.getEuclidianView1()
@@ -740,14 +749,17 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 			app.getKernel().updateConstruction();
 			app.setUnsaved();
 		} else if (source == usePathAndRegionParametersRadioOn) {
-			app.getKernel().setUsePathAndRegionParameters(true);
+			app.getKernel().setUsePathAndRegionParameters(PathRegionHandling.ON);
 			// app.getKernel().updateConstruction();
 			app.setUnsaved();
 		} else if (source == usePathAndRegionParametersRadioOff) {
-			app.getKernel().setUsePathAndRegionParameters(false);
+			app.getKernel().setUsePathAndRegionParameters(PathRegionHandling.OFF);
 			// app.getKernel().updateConstruction();
 			app.setUnsaved();
-		
+		} else if (source == usePathAndRegionParametersRadioAuto) {
+			app.getKernel().setUsePathAndRegionParameters(PathRegionHandling.AUTO);
+			// app.getKernel().updateConstruction();
+			app.setUnsaved();
 		} else if (source == coordinatesRadio1) {
 			app.getKernel().setCoordStyle(0);
 			app.getKernel().updateConstruction();
@@ -907,6 +919,7 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 				.createTitledBorder(app.getMenu("UsePathAndRegionParameters")));
 		usePathAndRegionParametersRadioOn.setText(app.getMenu("on"));
 		usePathAndRegionParametersRadioOff.setText(app.getMenu("off"));
+		usePathAndRegionParametersRadioAuto.setText(app.getMenu("Auto"));
 
 		checkboxSizePanel.setBorder(BorderFactory.createTitledBorder(app
 				.getMenu("CheckboxSize")));

@@ -412,7 +412,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	public void pathChanged(GeoPointND PI) {
 		
 		//if kernel doesn't use path/region parameters, do as if point changed its coords
-		if(!getKernel().usePathAndRegionParameters()){
+		if(!getKernel().usePathAndRegionParameters(this)){
 			pointChanged(PI);
 			return;
 		}

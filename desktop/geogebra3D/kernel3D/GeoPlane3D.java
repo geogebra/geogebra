@@ -139,7 +139,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		
 
 		//if kernel doesn't use path/region parameters, do as if point changed its coords
-		if(!getKernel().usePathAndRegionParameters()){
+		if(!getKernel().usePathAndRegionParameters(this)){
 			pointChangedForRegion(P);
 			return;
 		}

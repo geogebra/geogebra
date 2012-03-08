@@ -27,6 +27,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.MacroKernel;
+import geogebra.common.kernel.PathRegionHandling;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -569,7 +570,7 @@ public class MyXMLHandler implements DocHandler {
 		} else if (eName.equals("kernel")) {
 			// default value
 			// (make sure old files work)
-			kernel.setUsePathAndRegionParameters(false);
+			kernel.setUsePathAndRegionParameters(PathRegionHandling.AUTO);
 			mode = MODE_KERNEL;
 		} else if (eName.equals("spreadsheetView")) {
 			mode = MODE_SPREADSHEET_VIEW;
@@ -1496,7 +1497,7 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleKernelUsePathAndRegionParameters(
 			LinkedHashMap<String, String> attrs) {
 		try {
-			kernel.setUsePathAndRegionParameters(parseBoolean(attrs.get("val")));
+			kernel.setUsePathAndRegionParameters(PathRegionHandling.parse(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
 			return false;

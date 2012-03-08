@@ -575,7 +575,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 	public void pathChanged(GeoPointND P) {
 		
 		//if kernel doesn't use path/region parameters, do as if point changed its coords
-		if(!getKernel().usePathAndRegionParameters()){
+		if(!getKernel().usePathAndRegionParameters(this)){
 			pointChanged(P);
 			return;
 		}
@@ -3149,7 +3149,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 	public void regionChanged(GeoPointND PI) {
 		
 		//if kernel doesn't use path/region parameters, do as if point changed its coords
-		if(!getKernel().usePathAndRegionParameters()){
+		if(!getKernel().usePathAndRegionParameters(this)){
 			pointChangedForRegion(PI);
 			return;
 		}

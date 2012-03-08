@@ -282,7 +282,7 @@ public class Kernel {
 	private static int kernelInstances = 0;
 	// Continuity on or off, default: false since V3.0
 	private boolean continuous = false;
-	private boolean usePathAndRegionParameters = false;
+	public PathRegionHandling usePathAndRegionParameters = PathRegionHandling.AUTO;
 	private final int kernelID;
 	private final String casVariablePrefix;
 	private GeoGebraCasInterface ggbCAS;
@@ -791,14 +791,16 @@ public class Kernel {
 	/**
 	 * States whether path/region parameters are used.
 	 */
-	final public boolean usePathAndRegionParameters() {
-		return usePathAndRegionParameters;
+	final public boolean usePathAndRegionParameters(GeoElement geo) {
+		return usePathAndRegionParameters == PathRegionHandling.ON || 
+				(usePathAndRegionParameters != PathRegionHandling.OFF
+				&& !(geo.getParentAlgorithm() instanceof AlgoTransformation));
 	}
 
 	/**
 	 * Turns the using of path/region parameters on or off.
 	 */
-	public void setUsePathAndRegionParameters(boolean flag) {
+	public void setUsePathAndRegionParameters(PathRegionHandling flag) {
 		this.usePathAndRegionParameters = flag;
 	}
 
@@ -4631,11 +4633,10 @@ public class Kernel {
 		sb.append(isContinuous());
 		sb.append("\"/>\n");
 
-		if (usePathAndRegionParameters()) {
-			sb.append("\t<usePathAndRegionParameters val=\"");
-			sb.append(usePathAndRegionParameters());
-			sb.append("\"/>\n");
-		}
+		sb.append("\t<usePathAndRegionParameters val=\"");
+		sb.append(usePathAndRegionParameters);
+		sb.append("\"/>\n");
+		
 
 		if (useSignificantFigures) {
 			// significant figures
