@@ -878,6 +878,12 @@ public class AutoCompleteTextField extends MathTextField implements
           }
           textParams++;
           break;
+        case '=':
+        	textTokens.add(sb.toString());
+            sb = new StringBuilder();
+            textTokens.add("=");
+            lastToken = "=";
+        	break;
         default:
           sb.append(tArray[i]);
       }
@@ -977,9 +983,10 @@ public class AutoCompleteTextField extends MathTextField implements
       // original input does not contain any parameters
       if (commandParams == 0) {
         sb.append("[]");
-      } else {
-        sb.append("[ ");
         carPos = sb.length();
+      } else {
+        carPos = sb.length();
+        sb.append("[ ");
         for (int i = commandBLPos + 1; i < commandTokens.size(); i++) {
           current = commandTokens.get(i);
           if (current.equals("[")) {
