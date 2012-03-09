@@ -1,6 +1,7 @@
 package geogebra.web.html5;
 
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.Web;
 import geogebra.web.css.GuiResources;
 import geogebra.web.helper.JavaScriptInjector;
 import geogebra.web.jso.JsUint8Array;
@@ -137,7 +138,7 @@ public class View extends Widget {
 
 	public void processBase64String(String dataParamBase64String) {
 		archiveContent = new HashMap<String, String>();
-		String workerUrls = (GWT.getModuleBaseURL().startsWith("file") ? "false" : GWT.getModuleBaseURL()+"js/zipjs/");
+		String workerUrls = (!Web.webWorkerSupported ? "false" : GWT.getModuleBaseURL()+"js/zipjs/");
 		populateArchiveContent(dataParamBase64String, workerUrls,this);
     }
 	
