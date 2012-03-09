@@ -9,3 +9,7 @@ http://www.geogebra.org/trac/wiki/SetUp.
 
 To compile and run the "web" version, please read
 http://www.geogebra.org/trac/wiki/Web#Compilation.
+
+The "app" directory contains wrapper applications for various platforms.
+
+The "test" directory is for testing GeoGebra internals.
