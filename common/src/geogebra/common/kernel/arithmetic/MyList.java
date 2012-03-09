@@ -494,6 +494,12 @@ public class MyList extends ValidExpression implements ListValue,
 		listElements.clear();
 	}
 
+	private static boolean isEquation(ExpressionValue ex){
+		if(ex instanceof Equation || (ex instanceof ExpressionNode &&
+				((ExpressionNode)ex).getLeft() instanceof Equation) )
+			return true;
+		return false;
+	}
 	private boolean isMatrix(MyList LHlist) {
 		// check if already calculated
 		if (matrixRows > 0 && matrixCols > 0)
@@ -509,6 +515,8 @@ public class MyList extends ValidExpression implements ListValue,
 			// Application.debug("MULT LISTS"+size);
 
 			// check LHlist is a matrix
+			if(isEquation(LHlist.getListElement(0)))
+				return false;
 			ExpressionValue singleValue = LHlist.getListElement(0).evaluate(StringTemplate.defaultTemplate);
 			if (singleValue == null) {
 				matrixRows = matrixCols = 0;
@@ -523,6 +531,8 @@ public class MyList extends ValidExpression implements ListValue,
 														// length
 					{
 						// Application.debug(i);
+						if(isEquation(LHlist.getListElement(i)))
+							return false;
 						singleValue = LHlist.getListElement(i).evaluate(StringTemplate.defaultTemplate);
 						// Application.debug("size"+((ListValue)singleValue).getMyList().size());
 						if (singleValue.isListValue()) {
@@ -530,9 +540,7 @@ public class MyList extends ValidExpression implements ListValue,
 							if (list.size() != LHcols)
 								isMatrix = false;
 							else if ((list.size() > 0)
-									&& (list.getListElement(0) instanceof ExpressionNode)
-									&& (((ExpressionNode) list
-											.getListElement(0)).getLeft() instanceof Equation))
+									&& isEquation(list.getListElement(0)))
 								isMatrix = false;
 						} else
 							isMatrix = false;

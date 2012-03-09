@@ -1,6 +1,7 @@
 package geogebra.common.kernel.parser.cashandlers;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
@@ -22,7 +23,14 @@ public class CommandDispatcherMPReduce {
 	 * Enum for special commands that may be returned by MPReduce.
 	 */
 	public enum commands {
-		arbcomplex, arbconst, arbint, df
+		/** arbitrary complex number*/
+		arbcomplex,
+		/** arbitrary constant*/
+		arbconst,
+		/** arbitrary integer (comes from trig equations)*/
+		arbint,
+		/** derivative*/
+		df
 	}
 
 	/**
@@ -41,13 +49,15 @@ public class CommandDispatcherMPReduce {
 			ExpressionValue ret = null;
 			Kernel kernel = args.getKernel();
 			AbstractApplication.debug(cmdName);
+			//TODO -- template is not important for arb*, but is this correct for df?
+			StringTemplate tpl = StringTemplate.casTemplate;
 			switch (commands.valueOf(cmdName)) {
 			case arbcomplex:
 				// e.g. arbcomplex(2) from MPreduce becomes next free index
 				// label, e.g. z_5
 				ret = new MyArbitraryConstant(kernel,
 						MyArbitraryConstant.ARB_COMPLEX, args.getListElement(0)
-								.toString());
+								.toString(tpl));
 				break;
 
 			case arbconst:
@@ -55,7 +65,7 @@ public class CommandDispatcherMPReduce {
 				// e.g. c_4
 				ret = new MyArbitraryConstant(kernel,
 						MyArbitraryConstant.ARB_CONST, args.getListElement(0)
-								.toString());
+								.toString(tpl));
 				break;
 
 			case arbint:
@@ -63,13 +73,13 @@ public class CommandDispatcherMPReduce {
 				// e.g. k_3
 				ret = new MyArbitraryConstant(kernel,
 						MyArbitraryConstant.ARB_INT, args.getListElement(0)
-								.toString());
+								.toString(tpl));
 				break;
 
 			case df:
 				// e.g. df(f(var),var) from MPReduce becomes f'(var)
 				// see http://www.geogebra.org/trac/ticket/1420
-				String expStr = args.getListElement(0).toString();
+				String expStr = args.getListElement(0).toString(tpl);
 				int nameEnd = expStr.indexOf('(');
 				String funLabel = nameEnd > 0 ? expStr.substring(0, nameEnd)
 						: expStr;
