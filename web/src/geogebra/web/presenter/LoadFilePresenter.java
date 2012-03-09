@@ -1,5 +1,6 @@
 package geogebra.web.presenter;
 
+import geogebra.web.Web;
 import geogebra.web.css.GuiResources;
 import geogebra.web.helper.FileLoadCallback;
 import geogebra.web.helper.JavaScriptInjector;
@@ -78,14 +79,9 @@ public class LoadFilePresenter extends BasePresenter {
 	public boolean isGgbFileParameterSpecified() {
 		return urlFetcher.isGgbFileParameterSpecified();
 	}
-	
-	public static boolean zipJsInserted = false;
 
 	private void process(String dataParamBase64String) {
 		try {
-			if (!zipJsInserted) {
-				JavaScriptInjector.inject(GuiResources.INSTANCE.zipJs().getText());
-			}
 			getView().processBase64String(dataParamBase64String);
 	        
         } catch (Exception e) {

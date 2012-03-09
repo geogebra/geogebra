@@ -4,13 +4,18 @@ package geogebra.web;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.apache.tools.ant.taskdefs.Java;
+
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.commands.AlgebraProcessor;
+import geogebra.web.css.GuiResources;
+import geogebra.web.helper.JavaScriptInjector;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
 import geogebra.web.main.Application;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 
@@ -38,6 +43,18 @@ public class Web implements EntryPoint {
 	public void onModuleLoad() {
 		//for debug
 		// DebugPrinterWeb.DEBUG_IN_PRODUCTION = true;
+		
+		//insert zip.js
+		JavaScriptInjector.inject(GuiResources.INSTANCE.zipJs().getText());
+		if (!webWorkerSupported) {
+			JavaScriptInjector.inject(GuiResources.INSTANCE.deflateJs().getText());
+			JavaScriptInjector.inject(GuiResources.INSTANCE.inflateJs().getText());
+		}
+		JavaScriptInjector.inject(GuiResources.INSTANCE.arrayBufferJs().getText());
+		JavaScriptInjector.inject(GuiResources.INSTANCE.dataViewJs().getText());
+		JavaScriptInjector.inject(GuiResources.INSTANCE.base64Js().getText());
+		
+		
 		//we dont want to parse out of the box sometimes...
 		if (!calledFromExtension()) {
 			startGeoGebra(getGeoGebraMobileTags());
@@ -54,9 +71,23 @@ public class Web implements EntryPoint {
 	    return (typeof $wnd.GGW_ext !== "undefined");
     }-*/;
 	
+	public static boolean webWorkerSupported = chekcWorkerSupport(GWT.getModuleBaseURL());
+	
 	private void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
 	 	
 		geogebra.web.gui.app.GeoGebraFrame.main(geoGebraMobileTags);
 	    
     }
+	
+	private static native boolean chekcWorkerSupport(String workerpath) /*-{
+	    try {
+	    	var worker = new $wnd.Worker(workerpath+"js/workercheck.js");
+	    } catch (e) {
+	    	$wnd.console.log("worker not supported, fallback for simple js");
+	    	return false;
+	    }
+	    $wnd.console.log("workers are supported");
+	    worker.terminate();
+	    return true;
+    }-*/;
 }

@@ -138,13 +138,6 @@ public class View extends Widget {
 	public void processBase64String(String dataParamBase64String) {
 		archiveContent = new HashMap<String, String>();
 		String workerUrls = (GWT.getModuleBaseURL().startsWith("file") ? "false" : GWT.getModuleBaseURL()+"js/zipjs/");
-		if (!LoadFilePresenter.zipJsInserted && workerUrls.equals("false")) {
-			JavaScriptInjector.inject(GuiResources.INSTANCE.inflateJs().getText());
-		}
-		if (!LoadFilePresenter.zipJsInserted) {
-			JavaScriptInjector.inject(GuiResources.INSTANCE.dataViewJs().getText());
-			LoadFilePresenter.zipJsInserted = true;
-		}
 		populateArchiveContent(dataParamBase64String, workerUrls,this);
     }
 	
@@ -159,12 +152,68 @@ public class View extends Widget {
 	}
 
 	private native void populateArchiveContent(String dpb64str, String workerUrls, View view) /*-{
+		
+		
+		
+		// Writer for ASCII strings
+		function ASCIIWriter() {
+			var that = this, data;
+		
+			function init(callback, onerror) {
+				data = "";
+				callback();
+			}
+		
+			function writeUint8Array(array, callback, onerror) {
+				var i;
+				for (i = 0; i < array.length; i++)
+					data += $wnd.String.fromCharCode(array[i]);
+				callback();
+			}
+			
+			function getData(callback) {		
+				callback(data);
+			}
+		
+			that.init = init;
+			that.writeUint8Array = writeUint8Array;
+			that.getData = getData;
+		}
+		ASCIIWriter.prototype = new $wnd.zip.Writer();
+		ASCIIWriter.prototype.constructor = ASCIIWriter;
+		
+		function decodeUTF8(str_data) {
+			var tmp_arr = [], i = 0, ac = 0, c1 = 0, c2 = 0, c3 = 0;
+		
+			str_data += '';
+		
+			while (i < str_data.length) {
+				c1 = str_data.charCodeAt(i);
+				if (c1 < 128) {
+					tmp_arr[ac++] = String.fromCharCode(c1);
+					i++;
+				} else if (c1 > 191 && c1 < 224) {
+					c2 = str_data.charCodeAt(i + 1);
+					tmp_arr[ac++] = String.fromCharCode(((c1 & 31) << 6) | (c2 & 63));
+					i += 2;
+				} else {
+					c2 = str_data.charCodeAt(i + 1);
+					c3 = str_data.charCodeAt(i + 2);
+					tmp_arr[ac++] = String.fromCharCode(((c1 & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+					i += 3;
+				}
+			}
+	
+			return tmp_arr.join('');
+		}		
+		
 	    var imageRegex = /\.(png|jpg|jpeg|gif)$/;
 	    if (workerUrls === "false") {
 	    	$wnd.zip.useWebWorkers = false;
 	    } else {
     		$wnd.zip.workerScriptsPath = workerUrls;
 	    }
+	    
 	    $wnd.zip.createReader(new $wnd.zip.Data64URIReader(dpb64str),function(reader) {
 	        reader.getEntries(function(entries) {
 	        	view.@geogebra.web.html5.View::zippedLength = entries.length;
@@ -182,12 +231,12 @@ public class View extends Widget {
 		                        	$wnd.console.log("no worker");
 			                        entry.getData(new $wnd.zip.Data64URIWriter("text/plain"), function(data) {
 			                			var decoded = $wnd.atob(data.substr(data.indexOf(",")+1));
-			                          	view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decoded);
+			                          	view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(dedecoded));
 			                         });
 		                        } else {
 		                        	$wnd.console.log("worker");
-		                        	entry.getData(new $wnd.zip.TextWriter(), function(text) {
-			                          	view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,text);
+		                        	entry.getData(new ASCIIWriter(), function(text) {
+			                          	view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(text));
 			                         });
 		                        }
 		                        	

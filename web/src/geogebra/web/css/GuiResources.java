@@ -35,9 +35,18 @@ public interface GuiResources extends ClientBundle {
 	
 	@Source("geogebra/resources/js/zipjs/zip.js")
 	TextResource zipJs();
+	
+	@Source("geogebra/resources/js/zipjs/deflate.js")
+	TextResource deflateJs();
 
 	@Source("geogebra/resources/js/zipjs/inflate.js")
 	TextResource inflateJs();
+	
+	@Source("geogebra/resources/js/zipjs/base64.js")
+	TextResource base64Js();
+	
+	@Source("geogebra/resources/js/zipjs/arraybuffer.js")
+	TextResource arrayBufferJs();
 	
 	
 
