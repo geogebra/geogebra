@@ -9,7 +9,6 @@ test -r autotest.conf || {
 test -r autotest.conf && . ./autotest.conf
 
 MYDIR=$SVNDIR/geogebra/test/scripts/autotest
-WEBDIR=$SVNDIR/geogebra/web
 
 REVISION=`svn info | grep Revision: | awk '{print $2}'`
 

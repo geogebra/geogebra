@@ -46,9 +46,24 @@ if [ $RESULT = 5 ]; then
 
 echo $RESULT > $REVDIR/$REVISION/result
 
+# There was no problem during the simple testing...
+# Now let's do something more serious: JUnit testing!
 if [ $RESULT = 0 ]; then
- MESSAGE="Everything is OK at revision $REVISION"
- exit 0 # Not sending an email
+ ./junit-tests
+ JRESULT=$?
+ echo $JRESULT > $REVDIR/$REVISION/jresult
+
+ if [ $JRESULT = 0 ]; then
+  MESSAGE="Everything is OK at revision $REVISION"
+  exit 0 # Not sending an email
+  fi
+ if [ $JRESULT = 1 ]; then
+  MESSAGE="A JUnit build problem occurred at revision $REVISION"
+  fi
+ if [ $JRESULT = 2 ]; then
+  MESSAGE="Errors occured during JUnit tests at revision $REVISION"
+  fi
+
  fi
 
 # Sending an email to geogebra-dev:
