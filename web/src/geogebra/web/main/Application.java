@@ -542,7 +542,7 @@ public class Application extends AbstractApplication {
 		getEuclidianView1().synCanvasSize();
 		getEuclidianView1().repaintView();
 		splash.canNowHide();
-		getEuclidianView1().focus();
+		getEuclidianView1().requestFocusInWindow();
 	}
 
 	private void loadFile(HashMap<String, String> archiveContent) throws Exception {

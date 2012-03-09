@@ -51,6 +51,7 @@ import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.PointProperties;
@@ -5982,7 +5983,10 @@ public abstract class AbstractEuclidianController {
 		setAltDown(event.isAltDown());
 	
 		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER){
-			view.requestFocusInWindow();
+			if ((view.getHits() == null)||(view.getHits().size()==0)||
+					!(view.getHits().getTopHits().get(0) instanceof GeoTextField)){
+				view.requestFocusInWindow();
+			}
 		}
 	
 		if (app.isRightClick(event)) {
@@ -7906,7 +7910,10 @@ public abstract class AbstractEuclidianController {
 		movedGeoPointDragged = false;
 		movedGeoNumericDragged = false;
 	
-		view.requestFocusInWindow();
+		if ((view.getHits() == null)||(view.getHits().size()==0)||
+				!(view.getHits().getTopHits().get(0) instanceof GeoTextField)){
+			view.requestFocusInWindow();
+		}
 		
 		setMouseLocation(event);
 	

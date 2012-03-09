@@ -415,13 +415,8 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     public boolean requestFocusInWindow() {		
-		if ((getHits() != null)&&(getHits().size()>0) &&
-				(getHits().getTopHits().get(0) instanceof GeoTextField)){
-			return false;
-		}
-		focus();
-		//getApplication().getEuclidianViewpanel().getElement().focus();
-		
+		g2p.getCanvas().getCanvasElement().focus();
+		focusGained();
 		return true;
     }
 
@@ -441,11 +436,6 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 				getApplication().getArticleElement(),
 				getApplication().getGeoGebraFrame());
 		}
-	}
-
-	public void focus() {
-		g2p.getCanvas().getCanvasElement().focus();
-		focusGained();
 	}
 
 	public void setDefaultCursor() {
