@@ -232,7 +232,7 @@ public class View extends Widget {
 		                        	$wnd.console.log("no worker");
 			                        entry.getData(new $wnd.zip.Data64URIWriter("text/plain"), function(data) {
 			                			var decoded = $wnd.atob(data.substr(data.indexOf(",")+1));
-			                          	view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(dedecoded));
+			                          	view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(decoded));
 			                         });
 		                        } else {
 		                        	$wnd.console.log("worker");
