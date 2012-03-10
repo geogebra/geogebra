@@ -602,6 +602,11 @@
         function checkIfPartialSupport(nativeObject, implementation) {
             if (typeof nativeObject === "undefined") {
                 console.log("falling back to implementation");
+                //tell zip.js
+                if (global.zip) {
+                	global.zip.forceDataURIWriter = true;
+                	global.zip.useWebWorkers = false;
+                }
                 return implementation;
             }
             var nativePrototype = nativeObject.prototype;
