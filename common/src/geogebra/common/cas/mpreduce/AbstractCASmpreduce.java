@@ -80,7 +80,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 		}
 		exp = sb.toString();
 
-		System.out.println("eval with MPReduce: " + exp);
+		if(AbstractApplication.dbg!=null)System.out.println("eval with MPReduce: " + exp);
 		String result = getMPReduce().evaluate(exp, getTimeoutMilliseconds());
 
 		sb.setLength(0);
@@ -116,7 +116,8 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 		result = sb.toString();
 
 		// TODO: remove
-		System.out.println("   result: " + result);
+		if(AbstractApplication.dbg!=null)
+			System.out.println("   result: " + result);
 		return result;
 	}
 
@@ -229,9 +230,9 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 			getMPReduce().evaluate(sb.toString());
 
 			// TODO: remove
-			System.out.println("Cleared variable: " + sb.toString());
+			if(AbstractApplication.dbg!=null)System.out.println("Cleared variable: " + sb.toString());
 		} catch (Throwable e) {
-			System.err
+			if(AbstractApplication.dbg!=null)System.err
 					.println("Failed to clear variable from MPReduce: " + var);
 		}
 	}

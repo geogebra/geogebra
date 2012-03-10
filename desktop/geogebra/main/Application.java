@@ -452,7 +452,9 @@ public class Application extends AbstractApplication implements
 
 	protected Application(CommandLineArguments args, JFrame frame,
 			AppletImplementation appletImpl, Container comp, boolean undoActive) {
-		AbstractApplication.dbg = new DebugPrinterDesktop();
+		if(!args.containsArg("silent"))
+			AbstractApplication.dbg = new DebugPrinterDesktop();
+		
 
 		setFileVersion(GeoGebraConstants.VERSION_STRING);
 		
