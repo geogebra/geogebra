@@ -282,7 +282,7 @@ public class Kernel {
 	private static int kernelInstances = 0;
 	// Continuity on or off, default: false since V3.0
 	private boolean continuous = false;
-	public PathRegionHandling usePathAndRegionParameters = PathRegionHandling.AUTO;
+	public PathRegionHandling usePathAndRegionParameters = PathRegionHandling.ON;
 	private final int kernelID;
 	private final String casVariablePrefix;
 	private GeoGebraCasInterface ggbCAS;
@@ -790,15 +790,16 @@ public class Kernel {
 
 	/**
 	 * States whether path/region parameters are used.
+	 * @param geo path
+	 * @return true if given path should use path parameter
 	 */
 	final public boolean usePathAndRegionParameters(GeoElement geo) {
-		return usePathAndRegionParameters == PathRegionHandling.ON || 
-				(usePathAndRegionParameters != PathRegionHandling.OFF
-				&& !(geo.getParentAlgorithm() instanceof AlgoTransformation));
+		return usePathAndRegionParameters == PathRegionHandling.ON;
 	}
 
 	/**
 	 * Turns the using of path/region parameters on or off.
+	 * @param flag new flag for using path/region parameters
 	 */
 	public void setUsePathAndRegionParameters(PathRegionHandling flag) {
 		this.usePathAndRegionParameters = flag;

@@ -22,11 +22,13 @@ public enum PathRegionHandling {
 		return xml;
 	}
 	
+	/**
+	 * @param s XML string
+	 * @return parsed value
+	 */
 	public static PathRegionHandling parse(String s){
 		if("false".equals(s))
 			return OFF;
-		if("true".equals(s))
-			return ON;
-		return AUTO;
+		return ON;
 	}
 }
