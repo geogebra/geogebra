@@ -13,7 +13,8 @@ TESTDIR=$SVNDIR/GeoGebraTest
 
 cd $TESTDIR
 
-xvfb-run ./run-junit-tests || exit 1 # Problem running the tests
+sleep 3
+xvfb-run -w 3 ./run-junit-tests || exit 1 # Problem running the tests
 
 ERRORS=`cat .junit-tests-errors`
 
