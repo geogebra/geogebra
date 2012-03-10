@@ -127,6 +127,10 @@ class FileManager(object):
         self.pywin = pywin
         self.load_path = None
         self.script_path = None
+
+    @property
+    def script_area(self):
+        return self.pywin.script_pane.script_area
     
     def show_open_dialog(self, title):
         self.fc.dialogTitle = title
@@ -144,7 +148,7 @@ class FileManager(object):
         if self.script_path is None:
             return
         with open(self.script_path, "wb") as stream:
-            stream.write(self.pywin.script_area.input)
+            stream.write(self.script_area.input)
     
     def open_script(self):
         f = self.show_open_dialog("Select script file to open")
@@ -152,7 +156,7 @@ class FileManager(object):
             return
         self.script_path = f.absolutePath
         with open(self.script_path, "rb") as stream:
-            self.pywin.script_area.input = stream.read()
+            self.script_area.input = stream.read()
     
     def save_script_as(self):
         f = self.show_save_dialog("Select file to write script to")
