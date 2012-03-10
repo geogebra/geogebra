@@ -51,13 +51,22 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	double CIRCLE_MAX_SCORE=0.10;
 	double score=0;
 	int brk[];
+	int recognizer_queue_length = 0;
 	int MAX_POLYGON_SIDES=4;
 	double LINE_MAX_DET=0.015;
 	double SLANT_TOLERANCE=5*Math.PI/180;
-	Inertia a=new Inertia();
-	Inertia b=new Inertia();
-	Inertia c=new Inertia();
-	Inertia d=new Inertia();
+	double RECTANGLE_ANGLE_TOLERANCE = 15*Math.PI/180;
+	double RECTANGLE_LINEAR_TOLERANCE = 0.20;
+	double POLYGON_LINEAR_TOLERANCE = 0.20;
+	Inertia a = null;
+	Inertia b = null;
+	Inertia c = null;
+	Inertia d = null;
+	RecoSegment reco_queue_a = new RecoSegment();
+	RecoSegment reco_queue_b = new RecoSegment();
+	RecoSegment reco_queue_c = new RecoSegment();
+	RecoSegment reco_queue_d = new RecoSegment();
+	RecoSegment reco_queue_e = new RecoSegment();
 	/**
      * String representation of left movement.
      */
@@ -400,72 +409,170 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		//System.out.println(penPoints);
 		//if recognize_shape option is checked
 		brk=new int[5];
+		a = new Inertia();
+		b = new Inertia();
+		c = new Inertia();
+		d = new Inertia();
+		int j = 0;
+		RecoSegment rs = null;
+		Inertia ss = null;
+		RecoSegment temp = null;
 		//System.out.println(penPoints);
 		Inertia s=new Inertia();
 		this.calc_inertia(0,penPoints.size()-1,s);
 		int n=this.findPolygonal(0,penPoints.size()-1,MAX_POLYGON_SIDES,0,0);
 		//System.out.println(n);
-		if(n==1)//then stroke is a line
+		if(n > 0)
 		{
-			System.out.println("Current stroke is a line");
-			double xcenter,ycenter,x1,y1,x2,y2,x,y,z,angle;
-			xcenter=a.sx/a.mass;
-			ycenter=a.sy/a.mass;
-			x=this.I_xx(a);
-			y=this.I_xy(a);
-			z=this.I_yy(a);
-			angle=Math.atan2(2*y, x-z)/2;
-			if(Math.abs(angle)<SLANT_TOLERANCE)
+			this.optimize_polygonal(n);
+			while(n+recognizer_queue_length > MAX_POLYGON_SIDES)
 			{
-				angle=0;
-				y1=ycenter;
-				y2=ycenter;
-			}
-			if(Math.abs(angle)>Math.PI/2-SLANT_TOLERANCE)
-			{
-				x1=xcenter;
-				x2=xcenter;
-			}
-			//	line1=new Line2D();
-			double x_first=view.toRealWorldCoordX(penPoints.get(0).x);
-			double y_first=view.toRealWorldCoordY(penPoints.get(0).y);
-			double x_last=view.toRealWorldCoordX(penPoints.get(penPoints.size()-1).x);
-			double y_last=view.toRealWorldCoordY(penPoints.get(penPoints.size()-1).y);
-			String equation=null;
-			if(x_first==x_last)
-			{
-				equation="x" + "=" + (x_first);
-				System.out.println(equation);
-				GeoPoint2 p = new GeoPoint2(app.getKernel().getConstruction(), x_first, y_first, 1.0);
-			                GeoPoint2 q = new GeoPoint2(app.getKernel().getConstruction(), x_last, y_last, 1.0);
-			                AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), equation, p, q);
-			}
-			else if(y_last==y_first)
-			{
-				equation="y" + "=" + " " + (y_first);
-				System.out.println(equation);
-				GeoPoint2 p = new GeoPoint2(app.getKernel().getConstruction(), x_first, y_first, 1.0);
-			                GeoPoint2 q = new GeoPoint2(app.getKernel().getConstruction(), x_last, y_last, 1.0);
-			                AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), equation, p, q);
-			}
-			else
-			{
-				double y_diff=(y_first-y_last);
-				double x_diff=(x_last-x_first);
-				if(x_diff<0)
+				j = 1;
+				temp = reco_queue_b;
+				while(j<recognizer_queue_length && temp.startpt!=0)
 				{
-					equation=y_diff + "x" + "-" + -x_diff + "y" + "=" + ((x_diff*y_first)+(y_diff*x_first));
-					AbstractApplication.debug(equation);
+					j++;
+					if(j == 2)
+						temp = reco_queue_c;
+					if(j == 3)
+						temp = reco_queue_d;
+					if(j == 4)
+						temp = reco_queue_e;
+				}
+				int te1 = 0;
+				int te2 = j;
+				RecoSegment t1 = null;
+				RecoSegment t2 = null;
+				for(int k=0; k<recognizer_queue_length; ++k)
+				{
+					if(te1 == 0)
+						t1 = reco_queue_a;
+					if(te1 == 1)
+						t1 = reco_queue_b;
+					if(te1 == 2)
+						t1 = reco_queue_c;
+					if(te1 == 3)
+						t1 = reco_queue_d;
+					if(te1 == 4)
+						t1 = reco_queue_e;
+					if(te2 == 0)
+						t2 = reco_queue_a;
+					if(te2 == 1)
+						t2 = reco_queue_b;
+					if(te2 == 2)
+						t2 = reco_queue_c;
+					if(te2 == 3)
+						t2 = reco_queue_d;
+					if(te2 == 4)
+					t2 = reco_queue_e;
+					t1.startpt = t2.startpt;
+					t1.endpt = t2.endpt;
+					t1.xcenter = t2.xcenter;
+					t1.ycenter = t2.ycenter;
+					t1.angle = t2.angle;
+					t1.radius = t2.radius;
+					t1.x1 = t2.x1;
+					t1.x2 = t2.x2;
+					t1.y1 = t2.y2;
+					t1.y2 = t2.y2;
+					t1.reversed = t2.reversed;
+					te1++;
+					te2++;
+				}
+			}
+			int temp_reco = recognizer_queue_length; 
+			recognizer_queue_length = recognizer_queue_length + n;
+			for(j=0; j<n; ++j)
+			{
+				if(temp_reco+j == 0)
+						rs = reco_queue_a;
+				if(temp_reco+j == 1)
+					rs = reco_queue_b;
+				if(temp_reco+j == 2)
+					rs = reco_queue_c;
+				if(temp_reco+j == 3)
+					rs = reco_queue_d;
+				if(temp_reco+j == 4)
+					rs = reco_queue_e;
+				if(j == 0)
+					ss = a;
+				if(j == 1)
+					ss = b;
+				if(j == 2)
+					ss = c;
+				if(j == 3)
+					ss = d;
+				rs.startpt = brk[j];
+				rs.endpt = brk[j+1];
+				this.get_segment_geometry(brk[j], brk[j+1], ss, rs);
+			}
+			if(this.try_rectangle())
+			{
+				recognizer_queue_length = 0;
+				System.out.println("Rectangle Recognized");
+			}
+			if(n==1)//then stroke is a line
+			{
+				System.out.println("Current stroke is a line");
+				double xcenter,ycenter,x1,y1,x2,y2,x,y,z,angle;
+				xcenter=a.sx/a.mass;
+				ycenter=a.sy/a.mass;
+				x=this.I_xx(a);
+				y=this.I_xy(a);
+				z=this.I_yy(a);
+				angle=Math.atan2(2*y, x-z)/2;
+				if(Math.abs(angle)<SLANT_TOLERANCE)
+				{
+					angle=0;
+					y1=ycenter;
+					y2=ycenter;
+				}
+				if(Math.abs(angle)>Math.PI/2-SLANT_TOLERANCE)
+				{
+					x1=xcenter;
+					x2=xcenter;
+				}
+				//	line1=new Line2D();
+				double x_first=view.toRealWorldCoordX(penPoints.get(0).x);
+				double y_first=view.toRealWorldCoordY(penPoints.get(0).y);
+				double x_last=view.toRealWorldCoordX(penPoints.get(penPoints.size()-1).x);
+				double y_last=view.toRealWorldCoordY(penPoints.get(penPoints.size()-1).y);
+				String equation=null;
+				if(x_first==x_last)
+				{
+					equation="x" + "=" + (x_first);
+					System.out.println(equation);
+					GeoPoint2 p = new GeoPoint2(app.getKernel().getConstruction(), x_first, y_first, 1.0);
+					GeoPoint2 q = new GeoPoint2(app.getKernel().getConstruction(), x_last, y_last, 1.0);
+					AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), equation, p, q);
+				}
+				else if(y_last==y_first)
+				{
+					equation="y" + "=" + " " + (y_first);
+					System.out.println(equation);
+					GeoPoint2 p = new GeoPoint2(app.getKernel().getConstruction(), x_first, y_first, 1.0);
+					GeoPoint2 q = new GeoPoint2(app.getKernel().getConstruction(), x_last, y_last, 1.0);
+					AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), equation, p, q);
 				}
 				else
 				{
-					equation=y_diff + "x" + "+" + x_diff + "y" + "=" + ((x_diff*y_first)+(y_diff*x_first));
-					AbstractApplication.debug(equation);
-				}
-				GeoPoint2 p = new GeoPoint2(app.getKernel().getConstruction(), x_first, y_first, 1.0);
-			                GeoPoint2 q = new GeoPoint2(app.getKernel().getConstruction(), x_last, y_last, 1.0);
-			                AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), equation, p, q);
-			}		
+					double y_diff=(y_first-y_last);
+					double x_diff=(x_last-x_first);
+					if(x_diff<0)
+					{
+						equation=y_diff + "x" + "-" + -x_diff + "y" + "=" + ((x_diff*y_first)+(y_diff*x_first));
+						AbstractApplication.debug(equation);
+					}
+					else
+					{
+						equation=y_diff + "x" + "+" + x_diff + "y" + "=" + ((x_diff*y_first)+(y_diff*x_first));
+						AbstractApplication.debug(equation);
+					}
+					GeoPoint2 p = new GeoPoint2(app.getKernel().getConstruction(), x_first, y_first, 1.0);
+					GeoPoint2 q = new GeoPoint2(app.getKernel().getConstruction(), x_last, y_last, 1.0);
+					AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), equation, p, q);
+				}		
+			}
 		}
 		if(this.I_det(s) > CIRCLE_MIN_DET)
 		{
@@ -691,8 +798,8 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	public int findPolygonal(int start, int end, int nsides,int offset1,int offset2)
 	{
 		Inertia s=new Inertia();
-		Inertia s1=null;
-		Inertia s2=null;
+		Inertia s1=new Inertia();
+		Inertia s2=new Inertia();
 		int k, i1=0, i2=0, n1=0, n2;
 		double det1, det2;  
 		//System.out.println(start);
@@ -718,40 +825,28 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			return 0;
 		while(true)
 		{
-			double dm;
-			int temp[]=new int[4];
 			if(i1 > start)
 			{
-				s1=s;
-				temp[0]=penPoints.get(i1-1).x;
-				temp[1]=penPoints.get(i1-1).y;
-				temp[2]=penPoints.get(i1).x;
-				temp[3]=penPoints.get(i1).y;
-				dm=Math.hypot(temp[2]-temp[0],temp[1]-temp[3]);
-				s1.mass=s1.mass+dm;
-				s1.sx=s1.sx+(dm*temp[0]);
-				s1.sxx=s1.sxx+(dm*temp[0]*temp[0]);
-				s1.sxy=s1.sxy+(dm*temp[0]*temp[1]);
-				s1.sy=s1.sy+(dm*temp[1]);
-				s1.syy=s1.syy+(dm*temp[1]*temp[1]);
+				s1.mass = s.mass;
+				s1.sx = s.sx;
+				s1.sxx = s.sxx;
+				s1.sxy = s.sxy;
+				s1.syy = s.syy;
+				s1.sy = s.sy;
+				this.incr_inertia(i1-1, s1, 1);
 				det1=this.I_det(s1);
 			}
 			else
 				det1=1;
 			if(i2 < end)
 			{
-				s2=s;
-				temp[0]=penPoints.get(i2).x;
-				temp[1]=penPoints.get(i2).y;
-				temp[2]=penPoints.get(i2+1).x;
-				temp[3]=penPoints.get(i2+1).y;
-				dm=Math.hypot(temp[2]-temp[0],temp[1]-temp[3]);
-				s2.mass=s2.mass+dm;
-				s2.sx=s2.sx+(dm*temp[0]);
-				s2.sxx=s2.sxx+(dm*temp[0]*temp[0]);
-				s2.sxy=s2.sxy+(dm*temp[0]*temp[1]);
-				s2.sy=s2.sy+(dm*temp[1]);
-				s2.syy=s2.syy+(dm*temp[1]*temp[1]);
+				s2.mass = s.mass;
+				s2.sx = s.sx;
+				s2.sxx = s.sxx;
+				s2.sxy = s.sxy;
+				s2.syy = s.syy;
+				s2.sy = s.sy;
+				this.incr_inertia(i2, s2, 1);
 				det2=this.I_det(s2);
 			}
 			else
@@ -759,24 +854,29 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			if (det1<det2 && det1<LINE_MAX_DET) 
 			{
 				i1--; 
-				s=s1;
+				s.mass = s1.mass;
+				s.sx = s1.sx;
+				s.sxx = s1.sxx;
+				s.sxy = s1.sxy;
+				s.syy = s1.syy;
+				s.sy = s1.sy;
 			}
 			else if (det2<det1 && det2<LINE_MAX_DET) 
 			{ 
 				i2++; 
-				s=s2;
+				s.mass = s2.mass;
+				s.sx = s2.sx;
+				s.sxx = s2.sxx;
+				s.sxy = s2.sxy;
+				s.syy = s2.syy;
+				s.sy = s2.sy;
 			}
 			else
 				break;
 		}
 		if(i1 > start)
 		{
-			int temp;
-			if(i2==end)
-				temp=nsides-1;
-			temp=nsides-2;
-			//System.out.println(n1);
-			n1=this.findPolygonal(start, i1, temp, offset1,offset2);
+			n1=this.findPolygonal(start, i1, (i2 == end)?(nsides-1):(nsides-2), offset1,offset2);
 			if(n1==0)
 				return 0;
 		}
@@ -786,19 +886,39 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		brk[n1+1+offset1] = i2;
 		if(offset2+n1==0)
 		{
-			a=s;
+			a.mass = s.mass;
+			a.sx = s.sx;
+			a.sxx = s.sxx;
+			a.sxy = s.sxy;
+			a.syy = s.syy;
+			a.sy = s.sy;
 		}
 		if(offset2+n1==1)
 		{
-			b=s;
+			b.mass = s.mass;
+			b.sx = s.sx;
+			b.sxx = s.sxx;
+			b.sxy = s.sxy;
+			b.syy = s.syy;
+			b.sy = s.sy;
 		}
 		if(offset2+n1==2)
 		{
-			c=s;
+			c.mass = s.mass;
+			c.sx = s.sx;
+			c.sxx = s.sxx;
+			c.sxy = s.sxy;
+			c.syy = s.syy;
+			c.sy = s.sy;
 		}
 		if(offset2+n1==3)
 		{
-			d=s;
+			d.mass = s.mass;
+			d.sx = s.sx;
+			d.sxx = s.sxx;
+			d.sxy = s.sxy;
+			d.syy = s.syy;
+			d.sy = s.sy;
 		}
 		if(i2 < end)
 		{
@@ -1025,5 +1145,349 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
     {
         startPoint = null;
         gesture.delete(0, gesture.length());
+    }
+    void optimize_polygonal(int nsides)
+    {
+    	int i;
+    	double cost, newcost;
+    	boolean improved;
+    	Inertia temp1 = new Inertia();
+    	Inertia temp2 = new Inertia();
+    	for(i=1; i<nsides; ++i)
+    	{
+    		if((i-1) == 0)
+    		{
+    			temp1.mass = a.mass;
+    			temp1.sx = a.sx;
+    			temp1.sxx = a.sxx;
+    			temp1.sxy = a.sxy;
+    			temp1.sy = a.sy;
+    			temp1.syy = a.syy;
+    			temp2.mass = b.mass;
+    			temp2.sx = b.sx;
+    			temp2.sxx = b.sxx;
+    			temp2.sxy = b.sxy;
+    			temp2.sy = b.sy;
+    			temp2.syy = b.syy;
+    		}
+    		if((i-1) == 1)
+    		{
+    			temp1.mass = b.mass;
+    			temp1.sx = b.sx;
+    			temp1.sxx = b.sxx;
+    			temp1.sxy = b.sxy;
+    			temp1.sy = b.sy;
+    			temp1.syy = b.syy;
+    			temp2.mass = c.mass;
+    			temp2.sx = c.sx;
+    			temp2.sxx = c.sxx;
+    			temp2.sxy = c.sxy;
+    			temp2.sy = c.sy;
+    			temp2.syy = c.syy;
+    		}
+    		if((i-1) == 2)
+    		{
+    			temp1.mass = c.mass;
+    			temp1.sx = c.sx;
+    			temp1.sxx = c.sxx;
+    			temp1.sxy = c.sxy;
+    			temp1.sy = c.sy;
+    			temp1.syy = c.syy;
+    			temp2.mass = d.mass;
+    			temp2.sx = d.sx;
+    			temp2.sxx = d.sxx;
+    			temp2.sxy = d.sxy;
+    			temp2.sy = d.sy;
+    			temp2.syy = d.syy;
+    		}
+    		cost = this.I_det(temp1)*this.I_det(temp1) + this.I_det(temp2)*this.I_det(temp2);
+    		improved = false;
+    		while(brk[i] > brk[i-1]+1)
+    		{
+    			this.incr_inertia(brk[i]-1, temp1, -1);
+    			this.incr_inertia(brk[i]-1, temp2, 1);
+    			newcost = this.I_det(temp1)*this.I_det(temp1) + this.I_det(temp2)*this.I_det(temp2);
+    			if(newcost >= cost)
+    				break;
+    			improved = true;
+    			cost = newcost;
+    			brk[i]--;
+    			if(i-1 == 0)
+    			{
+    				a.mass = temp1.mass;
+    				a.sx = temp1.sx;
+    				a.sy = temp1.sy;
+    				a.sxx = temp1.sxx;
+    				a.sxy = temp1.sxy;
+    				a.syy = temp1.syy;
+    				b.mass = temp2.mass;
+    				b.sx = temp2.sx;
+    				b.sy = temp2.sy;
+    				b.sxx = temp2.sxx;
+    				b.sxy = temp2.sxy;
+    				b.syy = temp2.syy;
+    			}
+    			if(i-1 == 1)
+    			{
+    				b.mass = temp1.mass;
+    				b.sx = temp1.sx;
+    				b.sy = temp1.sy;
+    				b.sxx = temp1.sxx;
+    				b.sxy = temp1.sxy;
+    				b.syy = temp1.syy;
+    				c.mass = temp2.mass;
+    				c.sx = temp2.sx;
+    				c.sy = temp2.sy;
+    				c.sxx = temp2.sxx;
+    				c.sxy = temp2.sxy;
+    				c.syy = temp2.syy;
+    			}
+    			if(i-1 == 2)
+    			{
+    				c.mass = temp1.mass;
+    				c.sx = temp1.sx;
+    				c.sy = temp1.sy;
+    				c.sxx = temp1.sxx;
+    				c.sxy = temp1.sxy;
+    				c.syy = temp1.syy;
+    				d.mass = temp2.mass;
+    				d.sx = temp2.sx;
+    				d.sy = temp2.sy;
+    				d.sxx = temp2.sxx;
+    				d.sxy = temp2.sxy;
+    				d.syy = temp2.syy;
+    	  		}
+    		}
+    		if(improved)
+    			continue;
+    		if((i-1) == 0)
+    		{
+    			temp1.mass = a.mass;
+    			temp1.sx = a.sx;
+    			temp1.sxx = a.sxx;
+    			temp1.sxy = a.sxy;
+    			temp1.sy = a.sy;
+    			temp1.syy = a.syy;
+    			temp2.mass = b.mass;
+    			temp2.sx = b.sx;
+    			temp2.sxx = b.sxx;
+    			temp2.sxy = b.sxy;
+    			temp2.sy = b.sy;
+    			temp2.syy = b.syy;
+    		}
+    		if((i-1) == 1)
+    		{
+    			temp1.mass = b.mass;
+    			temp1.sx = b.sx;
+    			temp1.sxx = b.sxx;
+    			temp1.sxy = b.sxy;
+    			temp1.sy = b.sy;
+    			temp1.syy = b.syy;
+    			temp2.mass = c.mass;
+    			temp2.sx = c.sx;
+    			temp2.sxx = c.sxx;
+    			temp2.sxy = c.sxy;
+    			temp2.sy = c.sy;
+    			temp2.syy = c.syy;
+    		}
+    		if((i-1) == 2)
+    		{
+    			temp1.mass = c.mass;
+    			temp1.sx = c.sx;
+    			temp1.sxx = c.sxx;
+    			temp1.sxy = c.sxy;
+    			temp1.sy = c.sy;
+    			temp1.syy = c.syy;
+    			temp2.mass = d.mass;
+    			temp2.sx = d.sx;
+    			temp2.sxx = d.sxx;
+    			temp2.sxy = d.sxy;
+    			temp2.sy = d.sy;
+    			temp2.syy = d.syy;
+    		}
+    		while (brk[i] < brk[i+1]-1) 
+    		{
+    			this.incr_inertia(brk[i], temp1, 1);
+    			this.incr_inertia(brk[i], temp2, -1);
+    			newcost = (this.I_det(temp1)*this.I_det(temp1)) + (this.I_det(temp2)*this.I_det(temp2));
+    			if(newcost >= cost)
+    				break;
+    			cost = newcost;
+    			brk[i]++;
+    			if(i-1 == 0)
+    			{
+    				a.mass = temp1.mass;
+    				a.sx = temp1.sx;
+    				a.sy = temp1.sy;
+    				a.sxx = temp1.sxx;
+    				a.sxy = temp1.sxy;
+    				a.syy = temp1.syy;
+    				b.mass = temp2.mass;
+    				b.sx = temp2.sx;
+    				b.sy = temp2.sy;
+    				b.sxx = temp2.sxx;
+    				b.sxy = temp2.sxy;
+    				b.syy = temp2.syy;
+    			}
+    			if(i-1 == 1)
+    			{
+    				b.mass = temp1.mass;
+    				b.sx = temp1.sx;
+    				b.sy = temp1.sy;
+    				b.sxx = temp1.sxx;
+    				b.sxy = temp1.sxy;
+    				b.syy = temp1.syy;
+    				c.mass = temp2.mass;
+    				c.sx = temp2.sx;
+    				c.sy = temp2.sy;
+    				c.sxx = temp2.sxx;
+    				c.sxy = temp2.sxy;
+    				c.syy = temp2.syy;
+    			}
+    			if(i-1 == 2)
+    			{
+    				c.mass = temp1.mass;
+    				c.sx = temp1.sx;
+    				c.sy = temp1.sy;
+    				c.sxx = temp1.sxx;
+    				c.sxy = temp1.sxy;
+    				c.syy = temp1.syy;
+    				d.mass = temp2.mass;
+    				d.sx = temp2.sx;
+    				d.sy = temp2.sy;
+    				d.sxx = temp2.sxx;
+    				d.sxy = temp2.sxy;
+    				d.syy = temp2.syy;
+    	  		}
+    		}
+    	}
+    }
+    void incr_inertia(int start, Inertia s, int coeff)
+    {
+    	double pt1_x = penPoints.get(start).x;
+    	double pt1_y = penPoints.get(start).y;
+    	double pt2_x = penPoints.get(start+1).x;
+    	double pt2_y = penPoints.get(start+1).y;
+    	double dm = 0;
+    	dm = coeff*Math.hypot(pt2_x - pt1_x, pt2_y - pt1_y);
+    	s.mass = s.mass + dm;
+    	s.sx = s.sx + (dm*pt1_x);
+    	s.sy = s.sy + (dm*pt1_y);
+    	s.sxx = s.sxx + (dm*pt1_x*pt1_x);
+    	s.syy = s.syy + (dm*pt1_y*pt1_y);
+    	s.sxy = s.sxy + (dm*pt1_x*pt1_y);
+    }
+    void get_segment_geometry(int start, int end, Inertia s,RecoSegment r)
+    {
+    	double a, b, c, lmin, lmax, l;
+    	int i;
+    	r.xcenter = this.center_x(s);
+    	r.ycenter = this.center_y(s);
+    	a = this.I_xx(s);
+    	b = this.I_xy(s);
+    	c = this.I_yy(s);
+    	r.angle = Math.atan2(2*b, a-c)/2;
+    	r.radius = Math.sqrt(3*(a+c));
+    	lmin=lmax=0;
+    	for(i=start; i<=end; ++i)
+    	{
+    		l = (penPoints.get(start).x - r.xcenter)*Math.cos(r.angle) + (penPoints.get(start).y - r.ycenter)*Math.sin(r.angle);
+    		if(l < lmin)
+    			lmin = l;
+    		if(l > lmax)
+    			lmax = l;
+    		start++;
+    	}
+    	r.x1 = r.xcenter + lmin*Math.cos(r.angle);
+    	r.y1 = r.ycenter + lmin*Math.sin(r.angle);
+    	r.x2 = r.xcenter + lmax*Math.cos(r.angle);
+    	r.y2 = r.ycenter + lmax*Math.sin(r.angle);
+    }
+    boolean try_rectangle()
+    {
+    	RecoSegment rs = null;
+    	RecoSegment r1 = null;
+    	RecoSegment r2 = null;
+    	int i;
+    	double dist, avg_angle=0;
+    	if(recognizer_queue_length < 4)
+    		return false;
+    	if(recognizer_queue_length-4 == 0)
+    		rs = reco_queue_a;
+    	if(recognizer_queue_length-4 == 1)
+    		rs = reco_queue_b;
+    	if(recognizer_queue_length-4 == 2)
+    		rs = reco_queue_c;
+    	if(recognizer_queue_length-4 == 3)
+    		rs = reco_queue_d;
+    	if(recognizer_queue_length-4 == 4)
+    		rs = reco_queue_e;
+    	//System.out.println(rs.startpt);
+    	if(rs.startpt != 0)
+    		return false;
+    	for(i=0; i<=3; ++i)
+    	{
+    		if(recognizer_queue_length-4+i == 0)
+    			r1 = reco_queue_a;
+    		if(recognizer_queue_length-4+i == 1)
+    			r1 = reco_queue_b;
+    		if(recognizer_queue_length-4+i == 2)
+    			r1 = reco_queue_c;
+    		if(recognizer_queue_length-4+i == 3)
+    			r1 = reco_queue_d;
+    		if(recognizer_queue_length-4+i == 4)
+    			r1 = reco_queue_e;
+    		if(recognizer_queue_length-4+((i+1)%4) == 0)
+    			r2 = reco_queue_a;
+    		if(recognizer_queue_length-4+((i+1)%4) == 1)
+    			r2 = reco_queue_b;
+    		if(recognizer_queue_length-4+((i+1)%4) == 2)
+    			r2 = reco_queue_c;
+    		if(recognizer_queue_length-4+((i+1)%4) == 3)
+    			r2 = reco_queue_d;
+    		if(recognizer_queue_length-4+((i+1)%4) == 4)
+    			r2 = reco_queue_e;
+    		//System.out.println(Math.abs(Math.abs(r1.angle-r2.angle)-Math.PI/2) > RECTANGLE_ANGLE_TOLERANCE);
+    		if(Math.abs(Math.abs(r1.angle-r2.angle)-Math.PI/2) > RECTANGLE_ANGLE_TOLERANCE)
+    			return false;
+    		avg_angle = avg_angle + r1.angle;
+    		if(r2.angle > r1.angle)
+    			avg_angle = avg_angle + ((i+1)*Math.PI/2);
+    		else
+    			avg_angle = avg_angle - ((i+1)*Math.PI/2);
+    		r1.reversed = ((r1.x2 - r1.x1)*(r2.xcenter - r1.xcenter) + (r1.y2 - r1.y1)*(r2.ycenter - r1.ycenter)) < 0;
+    	}
+    	for(i=0; i<=3; ++i)
+    	{
+    		if(recognizer_queue_length-4+i == 0)
+    			r1 = reco_queue_a;
+    		if(recognizer_queue_length-4+i == 1)
+    			r1 = reco_queue_b;
+    		if(recognizer_queue_length-4+i == 2)
+    			r1 = reco_queue_c;
+    		if(recognizer_queue_length-4+i == 3)
+    			r1 = reco_queue_d;
+    		if(recognizer_queue_length-4+i == 4)
+    			r1 = reco_queue_e;
+    		if(recognizer_queue_length-4+((i+1)%4) == 0)
+    			r2 = reco_queue_a;
+    		if(recognizer_queue_length-4+((i+1)%4) == 1)
+    			r2 = reco_queue_b;
+    		if(recognizer_queue_length-4+((i+1)%4) == 2)
+    			r2 = reco_queue_c;
+    		if(recognizer_queue_length-4+((i+1)%4) == 3)
+    			r2 = reco_queue_d;
+    		if(recognizer_queue_length-4+((i+1)%4) == 4)
+    			r2 = reco_queue_e;
+    		dist = Math.hypot((r1.reversed?r1.x1:r1.x2) - (r2.reversed?r2.x2:r2.x1), (r1.reversed?r1.y1:r1.y2) - (r2.reversed?r2.y2:r2.y1));
+    		if(dist > RECTANGLE_LINEAR_TOLERANCE*(r1.radius+r2.radius))
+    			return false;
+    	}
+    	avg_angle = avg_angle/4;
+    	if(Math.abs(avg_angle) < SLANT_TOLERANCE)
+    		avg_angle = 0;
+    	if(Math.abs(avg_angle) > Math.PI/2-SLANT_TOLERANCE)
+    		avg_angle = Math.PI/2;
+    	return true;
     }
 }
