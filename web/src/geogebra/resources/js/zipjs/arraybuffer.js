@@ -599,6 +599,20 @@
 			return ctor;
 		}
 
+        function checkIfPartialSupport(nativeObject, implementation) {
+            if (typeof nativeObject === "undefined") {
+                console.log("falling back to implementation");
+                return implementation;
+            }
+            var nativePrototype = nativeObject.prototype;
+            var implementationPrototype = implementation.prototype;
+            if (typeof nativePrototype["subarray"] !== "function") {
+                console.log("subarray is not supported nativelly, falling back to implementation");
+                return implementation;
+            }
+            return nativeObject;
+        }
+
 		var Int8Array = makeTypedArrayConstructor(1, packInt8, unpackInt8);
 		var Uint8Array = makeTypedArrayConstructor(1, packUint8, unpackUint8);
 		var Int16Array = makeTypedArrayConstructor(2, packInt16, unpackInt16);
@@ -609,15 +623,15 @@
 		var Float64Array = makeTypedArrayConstructor(8, packFloat64, unpackFloat64);
 
 		if (USE_NATIVE_IF_AVAILABLE) {
-			global.ArrayBuffer = global.ArrayBuffer || ArrayBuffer;
-			global.Int8Array = global.Int8Array || Int8Array;
-			global.Uint8Array = global.Uint8Array || Uint8Array;
-			global.Int16Array = global.Int16Array || Int16Array;
-			global.Uint16Array = global.Uint16Array || Uint16Array;
-			global.Int32Array = global.Int32Array || Int32Array;
-			global.Uint32Array = global.Uint32Array || Uint32Array;
-			global.Float32Array = global.Float32Array || Float32Array;
-			global.Float64Array = global.Float64Array || Float64Array;
+			global.ArrayBuffer = global.ArrayBuffer || ArrayBuffer
+			global.Int8Array = checkIfPartialSupport(global.Int8Array, Int8Array);
+			global.Uint8Array = checkIfPartialSupport(global.Uint8Array, Uint8Array);
+			global.Int16Array = checkIfPartialSupport(global.Int16Array, Int16Array);
+			global.Uint16Array = checkIfPartialSupport(global.Uint16Array, Uint16Array);
+			global.Int32Array = checkIfPartialSupport(global.Int32Array, Int32Array);
+			global.Uint32Array = checkIfPartialSupport(global.Uint32Array, Uint32Array);
+			global.Float32Array = checkIfPartialSupport(global.Float32Array, Float32Array);
+			global.Float64Array = checkIfPartialSupport(global.Float64Array, Float64Array);
 		} else {
 			global.ArrayBuffer = ArrayBuffer;
 			global.Int8Array = Int8Array;
