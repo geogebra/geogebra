@@ -611,7 +611,7 @@ class Line(Path):
             return False
     
     def _getdirection(self):
-        return Vector.fromgeo(self._api.geoLineDirection(self.geo))
+        return Vector.fromgeo(self._factory, self._api.geoLineDirection(self.geo))
     direction = property(_getdirection)
 
 @Line.init.spec
@@ -663,7 +663,7 @@ class Text(Element):
             raise TypeError
         API.Geo.updateRepaint(self.geo)
     def _getorigin(self):
-        return Point.fromgeo(API.Geo.getTextOrigin(self.geo))
+        return Point.fromgeo(self._factory, API.Geo.getTextOrigin(self.geo))
     def _delorigin(self):
         API.Geo.removeTextOrigin(self.geo)
         API.Geo.updateRepaint(self.geo)
