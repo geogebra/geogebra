@@ -14,4 +14,6 @@ The simpletest script assumes that you have xvfb installed. This is
 needed for checking the Java GUI automatically (without using a
 real graphical system).
 
+The junit-tests script starts the GeoGebra JUnit subsystem via xvfb.
+
 @author Zoltan Kovacs <zoltan@geogebra.org>
