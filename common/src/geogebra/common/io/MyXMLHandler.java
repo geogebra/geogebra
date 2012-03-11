@@ -400,7 +400,7 @@ public class MyXMLHandler implements DocHandler {
 
 		case MODE_INVALID:
 			// is this a geogebra file?
-			if (eName.equals("geogebra")) {
+			if ("geogebra".equals(eName)) {
 				mode = MODE_GEOGEBRA;
 				// check file format version
 				try {
@@ -469,7 +469,7 @@ public class MyXMLHandler implements DocHandler {
 		// String eName = qName;
 		switch (mode) {
 		case MODE_EUCLIDIAN_VIEW:
-			if (eName.equals("euclidianView")) {
+			if ("euclidianView".equals(eName)) {
 				if (viewNo == 2) {
 					viewNo = 0;
 				}
@@ -477,59 +477,59 @@ public class MyXMLHandler implements DocHandler {
 			}
 			break;
 		case MODE_EUCLIDIAN_VIEW3D:
-			if (eName.equals("euclidianView3D"))
+			if ("euclidianView3D".equals(eName))
 				mode = MODE_GEOGEBRA;
 			break;
 
 		case MODE_ALGEBRA_VIEW:
-			if (eName.equals("algebraView"))
+			if ("algebraView".equals(eName))
 				mode = MODE_GEOGEBRA;
 			break;
 
 		case MODE_SPREADSHEET_VIEW:
-			if (eName.equals("spreadsheetView"))
+			if ("spreadsheetView".equals(eName))
 				mode = MODE_GEOGEBRA;
 			break;
 
 		case MODE_PROBABILITY_CALCULATOR:
-			if (eName.equals("probabilityCalculator"))
+			if ("probabilityCalculator".equals(eName))
 				mode = MODE_GEOGEBRA;
 			break;
 
 		// case MODE_CAS_VIEW:
-		// if (eName.equals("casView"))
+		// if ("casView".equals(eName))
 		// mode = MODE_GEOGEBRA;
 		// break;
 
 		case MODE_KERNEL:
-			if (eName.equals("kernel"))
+			if ("kernel".equals(eName))
 				mode = MODE_GEOGEBRA;
 			break;
 
 		case MODE_GUI:
-			if (eName.equals("gui"))
+			if ("gui".equals(eName))
 				mode = MODE_GEOGEBRA;
 			break;
 
 		case MODE_GUI_PERSPECTIVES:
-			if (eName.equals("perspectives"))
+			if ("perspectives".equals(eName))
 				mode = MODE_GUI;
 			endGuiPerspectivesElement(); // save all perspectives
 			break;
 
 		case MODE_GUI_PERSPECTIVE:
-			if (eName.equals("perspective"))
+			if ("perspective".equals(eName))
 				mode = MODE_GUI_PERSPECTIVES;
 			endGuiPerspectiveElement(); // save views & panes of the perspective
 			break;
 
 		case MODE_GUI_PERSPECTIVE_PANES:
-			if (eName.equals("panes"))
+			if ("panes".equals(eName))
 				mode = MODE_GUI_PERSPECTIVE;
 			break;
 
 		case MODE_GUI_PERSPECTIVE_VIEWS:
-			if (eName.equals("views"))
+			if ("views".equals(eName))
 				mode = MODE_GUI_PERSPECTIVE;
 			break;
 
@@ -538,14 +538,14 @@ public class MyXMLHandler implements DocHandler {
 			break;
 
 		case MODE_MACRO:
-			if (eName.equals("macro")) {
+			if ("macro".equals(eName)) {
 				endMacro();
 				mode = MODE_GEOGEBRA;
 			}
 			break;
 
 		case MODE_GEOGEBRA:
-			if (eName.equals("geogebra")) {
+			if ("geogebra".equals(eName)) {
 				// start animation if necessary
 				if (startAnimation) {
 					if (app.isApplet())
@@ -569,44 +569,44 @@ public class MyXMLHandler implements DocHandler {
 	// ====================================
 	private void startGeoGebraElement(String eName,
 			LinkedHashMap<String, String> attrs) {
-		if (eName.equals("euclidianView")) {
+		if ("euclidianView".equals(eName)) {
 			mode = MODE_EUCLIDIAN_VIEW;
 			resetEVsettingsNeeded = true;
-		} else if (eName.equals("euclidianView3D")) {
+		} else if ("euclidianView3D".equals(eName)) {
 			mode = MODE_EUCLIDIAN_VIEW3D;
-		} else if (eName.equals("algebraView")) {
+		} else if ("algebraView".equals(eName)) {
 			mode = MODE_ALGEBRA_VIEW;
-		} else if (eName.equals("kernel")) {
+		} else if ("kernel".equals(eName)) {
 			// default value
 			// (make sure old files work)
 			kernel.setUsePathAndRegionParameters(PathRegionHandling.ON);
 			mode = MODE_KERNEL;
-		} else if (eName.equals("spreadsheetView")) {
+		} else if ("spreadsheetView".equals(eName)) {
 			mode = MODE_SPREADSHEET_VIEW;
-			// } else if (eName.equals("casView")) {
+			// } else if ("casView".equals(eName)) {
 			// mode = MODE_CAS_VIEW;
-		} else if (eName.equals("scripting")) {
+		} else if ("scripting".equals(eName)) {
 			startScriptingElement(attrs);
-		} else if (eName.equals("probabilityCalculator")) {
+		} else if ("probabilityCalculator".equals(eName)) {
 			mode = MODE_PROBABILITY_CALCULATOR;
-		} else if (eName.equals("gui")) {
+		} else if ("gui".equals(eName)) {
 			mode = MODE_GUI;
 			hasGuiElement = true;
 
 			if (ggbFileFormat < 3.3)
 				tmp_perspective = new Perspective("tmp");
-		} else if (eName.equals("macro")) {
+		} else if ("macro".equals(eName)) {
 			mode = MODE_MACRO;
 			initMacro(attrs);
-		} else if (eName.equals("construction")) {
+		} else if ("construction".equals(eName)) {
 			mode = MODE_CONSTRUCTION;
 			handleConstruction(attrs);
-		} else if (eName.equals("casSession")) {
+		} else if ("casSession".equals(eName)) {
 			// old <casSession> is now <cascell> in <construction>
 			// not used anymore after 2011-08-16
 			mode = MODE_CONSTRUCTION;
 			constMode = MODE_CONST_CAS_CELL;
-		} else if (eName.equals("keyboard")) {
+		} else if ("keyboard".equals(eName)) {
 			handleKeyboard(attrs);
 		} else {
 			System.err.println("unknown tag in <geogebra>: " + eName);
@@ -635,11 +635,11 @@ public class MyXMLHandler implements DocHandler {
 
 	private void startMacroElement(String eName,
 			LinkedHashMap<String, String> attrs) {
-		if (eName.equals("macroInput")) {
+		if ("macroInput".equals(eName)) {
 			macroInputLabels = getAttributeStrings(attrs);
-		} else if (eName.equals("macroOutput")) {
+		} else if ("macroOutput".equals(eName)) {
 			macroOutputLabels = getAttributeStrings(attrs);
-		} else if (eName.equals("construction")) {
+		} else if ("construction".equals(eName)) {
 			mode = MODE_CONSTRUCTION;
 			handleConstruction(attrs);
 		} else {
@@ -671,7 +671,7 @@ public class MyXMLHandler implements DocHandler {
 		EuclidianSettings evSet = null;
 
 		// must do this first
-		if (eName.equals("viewNumber")) {
+		if ("viewNumber".equals(eName)) {
 			int number = Integer.parseInt(attrs.get("viewNo"));
 			if (number == 2) {
 				viewNo = number;
@@ -692,55 +692,55 @@ public class MyXMLHandler implements DocHandler {
 			evSet.reset();
 		}
 
-		switch (eName.charAt(0)) {
+		switch (firstChar(eName)) {
 		case 'a':
-			if (eName.equals("axesColor")) {
+			if ("axesColor".equals(eName)) {
 				ok = handleAxesColor(evSet, attrs);
 				break;
-			} else if (eName.equals("axis")) {
+			} else if ("axis".equals(eName)) {
 				ok = handleAxis(evSet, attrs);
 				break;
 			}
 
 		case 'b':
-			if (eName.equals("bgColor")) {
+			if ("bgColor".equals(eName)) {
 				ok = handleBgColor(evSet, attrs);
 				break;
 			}
 
 		case 'c':
-			if (eName.equals("coordSystem")) {
+			if ("coordSystem".equals(eName)) {
 				ok = handleCoordSystem(evSet, attrs);
 				break;
 			}
 
 		case 'e':
-			if (eName.equals("evSettings")) {
+			if ("evSettings".equals(eName)) {
 				ok = handleEvSettings(evSet, attrs);
 				break;
 			}
 
 		case 'g':
-			if (eName.equals("grid")) {
+			if ("grid".equals(eName)) {
 				ok = handleGrid(evSet, attrs);
 				break;
-			} else if (eName.equals("gridColor")) {
+			} else if ("gridColor".equals(eName)) {
 				ok = handleGridColor(evSet, attrs);
 				break;
 			}
 		case 'l':
-			if (eName.equals("lineStyle")) {
+			if ("lineStyle".equals(eName)) {
 				ok = handleLineStyle(evSet, attrs);
 				break;
 			}
 
 		case 's':
-			if (eName.equals("size")) {
+			if ("size".equals(eName)) {
 				ok = handleEvSize(evSet, attrs);
 				break;
 			}
 		case 'v':
-			if (eName.equals("viewNumber")) {
+			if ("viewNumber".equals(eName)) {
 				/*
 				 * moved earlier, must check first int number =
 				 * Integer.parseInt((String) attrs.get("viewNo"));
@@ -765,43 +765,43 @@ public class MyXMLHandler implements DocHandler {
 			LinkedHashMap<String, String> attrs) {
 		boolean ok = true;
 
-		switch (eName.charAt(0)) {
+		switch (firstChar(eName)) {
 
 		case 'l':
-			if (eName.equals("layout")) {
+			if ("layout".equals(eName)) {
 				ok = handleSpreadsheetLayout(attrs);
 				break;
 			}
 
 		case 'p':
-			if (eName.equals("prefCellSize")) {
+			if ("prefCellSize".equals(eName)) {
 				ok = handleSpreadsheetCellSize(attrs);
 				break;
 			}
 
 		case 's':
-			if (eName.equals("size")) {
+			if ("size".equals(eName)) {
 				ok = handleSpreadsheetSize(attrs);
 				break;
 			}
-			if (eName.equals("spreadsheetColumn")) {
+			if ("spreadsheetColumn".equals(eName)) {
 				ok = handleSpreadsheetColumn(attrs);
 				break;
 			}
-			if (eName.equals("spreadsheetRow")) {
+			if ("spreadsheetRow".equals(eName)) {
 				ok = handleSpreadsheetRow(attrs);
 				break;
 			}
-			if (eName.equals("selection")) {
+			if ("selection".equals(eName)) {
 				ok = handleSpreadsheetInitalSelection(attrs);
 				break;
 			}
 
-			if (eName.equals("spreadsheetBrowser")) {
+			if ("spreadsheetBrowser".equals(eName)) {
 				ok = handleSpreadsheetBrowser(attrs);
 				break;
 			}
-			if (eName.equals("spreadsheetCellFormat")) {
+			if ("spreadsheetCellFormat".equals(eName)) {
 				ok = handleSpreadsheetFormat(attrs);
 				break;
 			}
@@ -821,10 +821,10 @@ public class MyXMLHandler implements DocHandler {
 			LinkedHashMap<String, String> attrs) {
 		boolean ok = true;
 
-		switch (eName.charAt(0)) {
+		switch (firstChar(eName)) {
 
 		case 'd':
-			if (eName.equals("distribution")) {
+			if ("distribution".equals(eName)) {
 				if (app.isUsingFullGui())
 					ok = handleProbabilityDistribution(attrs);
 				break;
@@ -874,7 +874,7 @@ public class MyXMLHandler implements DocHandler {
 			LinkedHashMap<String, String> attrs) {
 		boolean ok = true;
 
-		switch (eName.charAt(0)) {
+		switch (firstChar(eName)) {
 		default:
 			System.err.println("unknown tag in <algebraView>: " + eName);
 		}
@@ -890,9 +890,9 @@ public class MyXMLHandler implements DocHandler {
 	// String> attrs) {
 	// boolean ok = true;
 	//
-	// switch (eName.charAt(0)) {
+	// switch (firstChar(eName)) {
 	// case 's':
-	// if (eName.equals("size")) {
+	// if ("size".equals(eName)) {
 	// ok = handleCASSize(app.getGuiManager().getCasView(), attrs);
 	// break;
 	// }
@@ -1392,25 +1392,25 @@ public class MyXMLHandler implements DocHandler {
 	// ====================================
 	private void startKernelElement(String eName,
 			LinkedHashMap<String, String> attrs) {
-		if (eName.equals("angleUnit")) {
+		if ("angleUnit".equals(eName)) {
 			handleAngleUnit(attrs);
-		} else if (eName.equals("algebraStyle")) { // G.Sturr 2009-10-18
+		} else if ("algebraStyle".equals(eName)) { // G.Sturr 2009-10-18
 			handleAlgebraStyle(attrs);
-		} else if (eName.equals("coordStyle")) {
+		} else if ("coordStyle".equals(eName)) {
 			handleKernelCoordStyle(attrs);
-		} else if (eName.equals("angleFromInvTrig")) {
+		} else if ("angleFromInvTrig".equals(eName)) {
 			handleKernelInvTrig(attrs);
-		} else if (eName.equals("continuous")) {
+		} else if ("continuous".equals(eName)) {
 			handleKernelContinuous(attrs);
-		} else if (eName.equals("usePathAndRegionParameters")) {
+		} else if ("usePathAndRegionParameters".equals(eName)) {
 			handleKernelUsePathAndRegionParameters(attrs);
-		} else if (eName.equals("decimals")) {
+		} else if ("decimals".equals(eName)) {
 			handleKernelDecimals(attrs);
-		} else if (eName.equals("significantfigures")) {
+		} else if ("significantfigures".equals(eName)) {
 			handleKernelFigures(attrs);
-		} else if (eName.equals("startAnimation")) {
+		} else if ("startAnimation".equals(eName)) {
 			handleKernelStartAnimation(attrs);
-		} else if (eName.equals("localization")) {
+		} else if ("localization".equals(eName)) {
 			handleKernelLocalization(attrs);
 		} else
 			System.err.println("unknown tag in <kernel>: " + eName);
@@ -1524,63 +1524,63 @@ public class MyXMLHandler implements DocHandler {
 	private void startGuiElement(String eName,
 			LinkedHashMap<String, String> attrs) {
 		boolean ok = true;
-		switch (eName.charAt(0)) {
+		switch (firstChar(eName)) {
 		case 'c':
-			if (eName.equals("consProtColumns"))
+			if ("consProtColumns".equals(eName))
 				ok = handleConsProtColumns(app, attrs);
-			else if (eName.equals("consProtocol"))
+			else if ("consProtocol".equals(eName))
 				ok = handleConsProtocol(attrs);
-			else if (eName.equals("consProtNavigationBar"))
+			else if ("consProtNavigationBar".equals(eName))
 				ok = handleConsProtNavigationBar(app, attrs);
 			break;
 
 		case 'f':
-			if (eName.equals("font"))
+			if ("font".equals(eName))
 				ok = handleFont(app, attrs);
 			break;
 
 		case 'g':
-			if (eName.equals("graphicsSettings"))
+			if ("graphicsSettings".equals(eName))
 				ok = handleGraphicsSettings(attrs);
 			break;
 
 		case 'm':
-			if (eName.equals("menuFont"))
+			if ("menuFont".equals(eName))
 				ok = handleMenuFont(app, attrs);
-			else if (eName.equals("mouse"))
+			else if ("mouse".equals(eName))
 				ok = handleMouse(app, attrs);
 			break;
 
 		case 'l':
-			if (eName.equals("labelingStyle"))
+			if ("labelingStyle".equals(eName))
 				ok = handleLabelingStyle(app, attrs);
 			break;
 
 		case 'p':
-			if (eName.equals("perspectives")) {
+			if ("perspectives".equals(eName)) {
 				mode = MODE_GUI_PERSPECTIVES;
 				tmp_perspectives.clear();
 			}
 			break;
 
 		case 's':
-			if (eName.equals("show"))
+			if ("show".equals(eName))
 				ok = handleGuiShow(app, attrs);
-			else if (eName.equals("splitDivider"))
+			else if ("splitDivider".equals(eName))
 				ok = handleSplitDivider(attrs);
-			else if (eName.equals("settings"))
+			else if ("settings".equals(eName))
 				ok = handleGuiSettings(app, attrs);
 			break;
 
 		case 't':
-			if (eName.equals("toolbar"))
+			if ("toolbar".equals(eName))
 				ok = handleToolbar(attrs);
-			else if (eName.equals("tooltipSettings"))
+			else if ("tooltipSettings".equals(eName))
 				ok = handleTooltipSettings(app, attrs);
 			break;
 
 		case 'w':
-			if (eName.equals("window"))
+			if ("window".equals(eName))
 				ok = handleWindowSize(app, attrs);
 			break;
 
@@ -2138,7 +2138,7 @@ public class MyXMLHandler implements DocHandler {
 			LinkedHashMap<String, String> attrs) {
 		boolean ok = true;
 
-		if (eName.equals("perspective"))
+		if ("perspective".equals(eName))
 			ok = handlePerspective(attrs);
 		else
 			AbstractApplication
@@ -2193,33 +2193,33 @@ public class MyXMLHandler implements DocHandler {
 			LinkedHashMap<String, String> attrs) {
 		boolean ok = true;
 
-		switch (eName.charAt(0)) {
+		switch (firstChar(eName)) {
 		case 'i':
-			if (eName.equals("input")) {
+			if ("input".equals(eName)) {
 				ok = handleAlgebraInput(attrs);
 				break;
 			}
 
 		case 'p':
-			if (eName.equals("panes")) {
+			if ("panes".equals(eName)) {
 				mode = MODE_GUI_PERSPECTIVE_PANES;
 				break;
 			}
 
 		case 's':
-			if (eName.equals("show")) {
+			if ("show".equals(eName)) {
 				ok = handleGuiShow(app, attrs);
 				break;
 			}
 
 		case 't':
-			if (eName.equals("toolbar")) {
+			if ("toolbar".equals(eName)) {
 				ok = handleToolbar(attrs);
 				break;
 			}
 
 		case 'v':
-			if (eName.equals("views")) {
+			if ("views".equals(eName)) {
 				mode = MODE_GUI_PERSPECTIVE_VIEWS;
 				break;
 			}
@@ -2262,7 +2262,7 @@ public class MyXMLHandler implements DocHandler {
 			LinkedHashMap<String, String> attrs) {
 		boolean ok = true;
 
-		if (eName.equals("view"))
+		if ("view".equals(eName))
 			ok = handleView(attrs);
 		else
 			AbstractApplication.debug("unknown tag in <views>: " + eName);
@@ -2318,7 +2318,7 @@ public class MyXMLHandler implements DocHandler {
 			LinkedHashMap<String, String> attrs) {
 		boolean ok = true;
 
-		if (eName.equals("pane"))
+		if ("pane".equals(eName))
 			ok = handlePane(attrs);
 		else
 			AbstractApplication.debug("unknown tag in <panes>: " + eName);
@@ -2439,7 +2439,7 @@ public class MyXMLHandler implements DocHandler {
 		// handle cas session mode
 		switch (casMode) {
 		case MODE_CONST_CAS_CELL:
-			if (eName.equals("cellPair")) {
+			if ("cellPair".equals(eName)) {
 				casMode = MODE_CAS_CELL_PAIR;
 				startCellPair();
 			} else {
@@ -2448,11 +2448,11 @@ public class MyXMLHandler implements DocHandler {
 			break;
 
 		case MODE_CAS_CELL_PAIR:
-			if (eName.equals("inputCell")) {
+			if ("inputCell".equals(eName)) {
 				casMode = MODE_CAS_INPUT_CELL;
-			} else if (eName.equals("outputCell")) {
+			} else if ("outputCell".equals(eName)) {
 				casMode = MODE_CAS_OUTPUT_CELL;
-			} else if (eName.equals("useAsText")) {
+			} else if ("useAsText".equals(eName)) {
 				casMode = MODE_CAS_TEXT_CELL;
 			} else {
 				System.err.println("unknown tag in <cellPair>: " + eName);
@@ -2479,7 +2479,7 @@ public class MyXMLHandler implements DocHandler {
 	private void endCasCell(String eName) {
 		switch (casMode) {
 		case MODE_CONST_CAS_CELL:
-			if (eName.equals("cascell")) {
+			if ("cascell".equals(eName)) {
 				mode = MODE_CONSTRUCTION;
 				constMode = MODE_CONSTRUCTION;
 				casMode = MODE_CONST_CAS_CELL;
@@ -2488,24 +2488,24 @@ public class MyXMLHandler implements DocHandler {
 			break;
 
 		case MODE_CAS_CELL_PAIR:
-			if (eName.equals("cellPair")) {
+			if ("cellPair".equals(eName)) {
 				casMode = MODE_CONST_CAS_CELL;
 				endCellPair(eName);
 			}
 			break;
 
 		case MODE_CAS_TEXT_CELL:
-			if (eName.equals("useAsText"))
+			if ("useAsText".equals(eName))
 				casMode = MODE_CAS_CELL_PAIR;
 			break;
 			
 		case MODE_CAS_INPUT_CELL:
-			if (eName.equals("inputCell"))
+			if ("inputCell".equals(eName))
 				casMode = MODE_CAS_CELL_PAIR;
 			break;
 
 		case MODE_CAS_OUTPUT_CELL:
-			if (eName.equals("outputCell"))
+			if ("outputCell".equals(eName))
 				casMode = MODE_CAS_CELL_PAIR;
 			break;
 
@@ -2563,9 +2563,9 @@ public class MyXMLHandler implements DocHandler {
 		}
 
 		boolean ok = true;
-		switch (eName.charAt(0)) {
+		switch (firstChar(eName)) {
 		case 'e':
-			if (eName.equals("expression")) {
+			if ("expression".equals(eName)) {
 				ok = handleCasCellOutput(attrs);
 				break;
 			}
@@ -2587,15 +2587,15 @@ public class MyXMLHandler implements DocHandler {
 		}
 
 		boolean ok = true;
-		switch (eName.charAt(0)) {
+		switch (firstChar(eName)) {
 		case 'e':
-			if (eName.equals("expression")) {
+			if ("expression".equals(eName)) {
 				ok = handleCasCellInput(attrs);
 				break;
 			}
 
 			// case 'c':
-			// if (eName.equals("color")) {
+			// if ("color".equals(eName)) {
 			// ok = handleCASPairColor(attrs);
 			// break;
 			// }
@@ -2619,13 +2619,13 @@ public class MyXMLHandler implements DocHandler {
 		
 		boolean ok = true;
 
-		if (eName.equals("FontStyle")) {
+		if ("FontStyle".equals(eName)) {
 				String style = attrs.get("value");
 				geoCasCell.setFontStyle(Integer.parseInt(style));	
-		} else if (eName.equals("FontSize")) {
+		} else if ("FontSize".equals(eName)) {
 				String size = attrs.get("value");
 				geoCasCell.setFontSize(Integer.parseInt(size));			
-		} else if (eName.equals("FontColor")) {
+		} else if ("FontColor".equals(eName)) {
 			String r = attrs.get("r");
 			String b = attrs.get("b");
 			String g = attrs.get("g");
@@ -2646,20 +2646,20 @@ public class MyXMLHandler implements DocHandler {
 
 		switch (constMode) {
 		case MODE_CONSTRUCTION:
-			if (eName.equals("element")) {
+			if ("element".equals(eName)) {
 				cons.setOutputGeo(null);
 				constMode = MODE_CONST_GEO_ELEMENT;
 				geo = getGeoElement(attrs);
-			} else if (eName.equals("command")) {
+			} else if ("command".equals(eName)) {
 				cons.setOutputGeo(null);
 				constMode = MODE_CONST_COMMAND;
 				cmd = getCommand(attrs);
-			} else if (eName.equals("expression")) {
+			} else if ("expression".equals(eName)) {
 				startExpressionElement(attrs);
-			} else if (eName.equals("cascell")) {
+			} else if ("cascell".equals(eName)) {
 				constMode = MODE_CONST_CAS_CELL;
 				casMode = MODE_CONST_CAS_CELL;
-			} else if (eName.equals("worksheetText")) {
+			} else if ("worksheetText".equals(eName)) {
 				handleWorksheetText(attrs);
 			} else {
 				System.err.println("unknown tag in <construction>: " + eName);
@@ -2686,7 +2686,7 @@ public class MyXMLHandler implements DocHandler {
 	private void endConstructionElement(String eName) {
 		switch (constMode) {
 		case MODE_CONSTRUCTION:
-			if (eName.equals("construction")) {
+			if ("construction".equals(eName)) {
 				// process start points at end of construction
 				processStartPointList();
 				processLinkedGeoList();
@@ -2709,12 +2709,12 @@ public class MyXMLHandler implements DocHandler {
 			break;
 
 		case MODE_CONST_GEO_ELEMENT:
-			if (eName.equals("element"))
+			if ("element".equals(eName))
 				constMode = MODE_CONSTRUCTION;
 			break;
 
 		case MODE_CONST_COMMAND:
-			if (eName.equals("command")) {
+			if ("command".equals(eName)) {
 				cons.setOutputGeo(null);
 				constMode = MODE_CONSTRUCTION;
 			}
@@ -2858,232 +2858,232 @@ public class MyXMLHandler implements DocHandler {
 		}
 
 		boolean ok = true;
-		switch (eName.charAt(0)) {
+		switch (firstChar(eName)) {
 		case 'a':
-			if (eName.equals("auxiliary")) {
+			if ("auxiliary".equals(eName)) {
 				ok = handleAuxiliary(attrs);
 				break;
-			} else if (eName.equals("animation")) {
+			} else if ("animation".equals(eName)) {
 				ok = handleAnimation(attrs);
 				break;
-			} else if (eName.equals("arcSize")) {
+			} else if ("arcSize".equals(eName)) {
 				ok = handleArcSize(attrs);
 				break;
-			} else if (eName.equals("allowReflexAngle")) {
+			} else if ("allowReflexAngle".equals(eName)) {
 				ok = handleAllowReflexAngle(attrs);
 				break;
-			} else if (eName.equals("absoluteScreenLocation")) {
+			} else if ("absoluteScreenLocation".equals(eName)) {
 				ok = handleAbsoluteScreenLocation(attrs);
 				break;
 			}
 
 		case 'b':
-			if (eName.equals("breakpoint")) {
+			if ("breakpoint".equals(eName)) {
 				ok = handleBreakpoint(attrs);
 				break;
-			} else if (eName.equals("bgColor")) {
+			} else if ("bgColor".equals(eName)) {
 				ok = handleBgColor(attrs);
 				break;
 			}
 
 		case 'c':
-			if (eName.equals("coords")) {
+			if ("coords".equals(eName)) {
 				ok = handleCoords(attrs);
 				break;
-			} else if (eName.equals("coordStyle")) {
+			} else if ("coordStyle".equals(eName)) {
 				ok = handleCoordStyle(attrs);
 				break;
-			} else if (eName.equals("caption")) {
+			} else if ("caption".equals(eName)) {
 				ok = handleCaption(attrs);
 				break;
-			} else if (eName.equals("condition")) {
+			} else if ("condition".equals(eName)) {
 				ok = handleCondition(attrs);
 				break;
-			} else if (eName.equals("checkbox")) {
+			} else if ("checkbox".equals(eName)) {
 				ok = handleCheckbox(attrs);
 				break;
-			} else if (eName.equals("coefficients")) {
+			} else if ("coefficients".equals(eName)) {
 				ok = handleCoefficients(attrs);
 				break;
 			}
 
 		case 'd':
-			if (eName.equals("decoration")) {
+			if ("decoration".equals(eName)) {
 				ok = handleDecoration(attrs);
 				break;
-			} else if (eName.equals("decimals")) {
+			} else if ("decimals".equals(eName)) {
 				ok = handleTextDecimals(attrs);
 				break;
 			}
 
 		case 'e':
-			if (eName.equals("eqnStyle")) {
+			if ("eqnStyle".equals(eName)) {
 				ok = handleEqnStyle(attrs);
 				break;
-			} else if (eName.equals("eigenvectors")) {
+			} else if ("eigenvectors".equals(eName)) {
 				ok = handleEigenvectors(attrs);
 				break;
-			} else if (eName.equals("emphasizeRightAngle")) {
+			} else if ("emphasizeRightAngle".equals(eName)) {
 				ok = handleEmphasizeRightAngle(attrs);
 				break;
 			}
 
 		case 'f':
-			if (eName.equals("fixed")) {
+			if ("fixed".equals(eName)) {
 				ok = handleFixed(attrs);
 				break;
-			} else if (eName.equals("file")) {
+			} else if ("file".equals(eName)) {
 				ok = handleFile(attrs);
 				break;
-			} else if (eName.equals("font")) {
+			} else if ("font".equals(eName)) {
 				ok = handleTextFont(attrs);
 				break;
 			}
 			// Michael Borcherds 2007-11-19
-			else if (eName.equals("forceReflexAngle")) {
+			else if ("forceReflexAngle".equals(eName)) {
 				ok = handleForceReflexAngle(attrs);
 				break;
 			}
 			// Michael Borcherds 2007-11-19
 
 		case 'g':
-			if (eName.equals("ggbscript")) {
+			if ("ggbscript".equals(eName)) {
 				ok = handleScript(attrs, ScriptType.GGBSCRIPT);
 				break;
 			}
 
 		case 'i':
-			if (eName.equals("isLaTeX")) {
+			if ("isLaTeX".equals(eName)) {
 				ok = handleIsLaTeX(attrs);
 				break;
-			} else if (eName.equals("inBackground")) {
+			} else if ("inBackground".equals(eName)) {
 				ok = handleInBackground(attrs);
 				break;
-			} else if (eName.equals("interpolate")) {
+			} else if ("interpolate".equals(eName)) {
 				ok = handleInterpolate(attrs);
 				break;
 			}
 
 		case 'j':
-			if (eName.equals("javascript")) {
+			if ("javascript".equals(eName)) {
 				ok = handleScript(attrs, ScriptType.JAVASCRIPT);
 				break;
 			}
 
 		case 'k':
-			if (eName.equals("keepTypeOnTransform")) {
+			if ("keepTypeOnTransform".equals(eName)) {
 				ok = handleKeepTypeOnTransform(attrs);
 				break;
 			}
 
 		case 'l':
-			if (eName.equals("lineStyle")) {
+			if ("lineStyle".equals(eName)) {
 				ok = handleLineStyle(attrs);
 				break;
-			} else if (eName.equals("labelOffset")) {
+			} else if ("labelOffset".equals(eName)) {
 				ok = handleLabelOffset(attrs);
 				break;
-			} else if (eName.equals("labelMode")) {
+			} else if ("labelMode".equals(eName)) {
 				ok = handleLabelMode(attrs);
 				break;
-			} else if (eName.equals("layer")) {
+			} else if ("layer".equals(eName)) {
 				ok = handleLayer(attrs);
 				break;
-			} else if (eName.equals("linkedGeo")) {
+			} else if ("linkedGeo".equals(eName)) {
 				ok = handleLinkedGeo(attrs);
 				break;
-			} else if (eName.equals("length")) {
+			} else if ("length".equals(eName)) {
 				ok = handleLength(attrs);
 				break;
 			}
 
 		case 'm':
-			if (eName.equals("matrix")) {
+			if ("matrix".equals(eName)) {
 				ok = handleMatrix(attrs);
 				break;
 			}
 
 		case 'o':
-			if (eName.equals("objColor")) {
+			if ("objColor".equals(eName)) {
 				ok = handleObjColor(attrs);
 				break;
-			} else if (eName.equals("outlyingIntersections")) {
+			} else if ("outlyingIntersections".equals(eName)) {
 				ok = handleOutlyingIntersections(attrs);
 				break;
 			} /*
-			 * else if (eName.equals("objCoords")) { ok =
+			 * else if ("objCoords".equals(eName)) { ok =
 			 * handleObjCoords(attrs); break; }
 			 */
 
 		case 'p':
-			if (eName.equals("pointSize")) {
+			if ("pointSize".equals(eName)) {
 				ok = handlePointSize(attrs);
 				break;
 			}
 
 			// Florian Sonner 2008-07-17
-			else if (eName.equals("pointStyle")) {
+			else if ("pointStyle".equals(eName)) {
 				ok = handlePointStyle(attrs);
 				break;
-			} else if (eName.equals("python")) {
+			} else if ("python".equals(eName)) {
 				ok = handleScript(attrs, ScriptType.PYTHON);
 				break;
 			}
 			/*
-			 * should not be needed else if (eName.equals("pathParameter")) { ok
+			 * should not be needed else if ("pathParameter".equals(eName)) { ok
 			 * = handlePathParameter(attrs); break; }
 			 */
 
 		case 's':
-			if (eName.equals("show")) {
+			if ("show".equals(eName)) {
 				ok = handleShow(attrs);
 				break;
-			} else if (eName.equals("showOnAxis")) {
+			} else if ("showOnAxis".equals(eName)) {
 				ok = handleShowOnAxis(attrs);
 				break;
-			} else if (eName.equals("startPoint")) {
+			} else if ("startPoint".equals(eName)) {
 				ok = handleStartPoint(attrs);
 				break;
-			} else if (eName.equals("slider")) {
+			} else if ("slider".equals(eName)) {
 				ok = handleSlider(attrs);
 				break;
-			} else if (eName.equals("slopeTriangleSize")) {
+			} else if ("slopeTriangleSize".equals(eName)) {
 				ok = handleSlopeTriangleSize(attrs);
 				break;
-			} else if (eName.equals("significantfigures")) {
+			} else if ("significantfigures".equals(eName)) {
 				ok = handleTextFigures(attrs);
 				break;
-			} else if (eName.equals("spreadsheetTrace")) {
+			} else if ("spreadsheetTrace".equals(eName)) {
 				ok = handleSpreadsheetTrace(attrs);
 				break;
-			} else if (eName.equals("showTrimmed")) {
+			} else if ("showTrimmed".equals(eName)) {
 				ok = handleShowTrimmed(attrs);
 				break;
-			} else if (eName.equals("selectionAllowed")) {
+			} else if ("selectionAllowed".equals(eName)) {
 				ok = handleSelectionAllowed(attrs);
 				break;
-			} else if (eName.equals("selectedIndex")) {
+			} else if ("selectedIndex".equals(eName)) {
 				ok = handleSelectedIndex(attrs);
 				break;
 			}
 
 		case 't':
-			if (eName.equals("trace")) {
+			if ("trace".equals(eName)) {
 				ok = handleTrace(attrs);
 				break;
-			} else if (eName.equals("tooltipMode")) {
+			} else if ("tooltipMode".equals(eName)) {
 				ok = handleTooltipMode(attrs);
 				break;
 			}
 
 		case 'u':
-			if (eName.equals("userinput")) {
+			if ("userinput".equals(eName)) {
 				ok = handleUserInput(attrs);
 				break;
 			}
 
 		case 'v':
-			if (eName.equals("value")) {
+			if ("value".equals(eName)) {
 				ok = handleValue(attrs);
 				break;
 			}
@@ -3095,6 +3095,12 @@ public class MyXMLHandler implements DocHandler {
 		if (!ok) {
 			System.err.println("error in <element>: " + eName);
 		}
+	}
+
+	private static char firstChar(String eName) {
+		if(eName==null || eName.isEmpty())
+		return '?';
+		return eName.charAt(0);
 	}
 
 	private boolean handleShow(LinkedHashMap<String, String> attrs) {
@@ -4521,11 +4527,11 @@ public class MyXMLHandler implements DocHandler {
 			LinkedHashMap<String, String> attrs) {
 		boolean ok = true;
 
-		if (eName.equals("input")) {
+		if ("input".equals(eName)) {
 			if (cmd == null)
 				throw new MyError(app, "no command set for <input>");
 			ok = handleCmdInput(attrs);
-		} else if (eName.equals("output")) {
+		} else if ("output".equals(eName)) {
 			ok = handleCmdOutput(attrs);
 		} else
 			System.err.println("unknown tag in <command>: " + eName);
