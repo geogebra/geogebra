@@ -7,6 +7,7 @@ import geogebra.common.javax.swing.JLabel;
 import geogebra.common.main.AbstractApplication;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
 public class Box extends geogebra.common.javax.swing.Box{
@@ -15,6 +16,7 @@ public class Box extends geogebra.common.javax.swing.Box{
 	
 	public Box(){
 		impl = new HorizontalPanel();
+		impl.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 	}
 	
 	public static HorizontalPanel getImpl(Box box){
