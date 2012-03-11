@@ -3098,8 +3098,8 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private static char firstChar(String eName) {
-		if(eName==null || eName.isEmpty())
-		return '?';
+		if(eName==null || eName.length()==0)
+			return '?';
 		return eName.charAt(0);
 	}
 
