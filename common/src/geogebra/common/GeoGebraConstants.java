@@ -15,7 +15,7 @@ public interface GeoGebraConstants {
 	// current 3D: "4.9.19.0"
 	// current ggb42: "4.1.53.0"
 
-	/** start hacks TODO remove it when release candidate */
+	/** start hacks TODO remove it when release candidate  */
 	public static final String PREFERENCES_ROOT = VERSION_STRING
 			.startsWith("4.9") ? "/geogebra50" : "/geogebra42";
 	/** File format version */
