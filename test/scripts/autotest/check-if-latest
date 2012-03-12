@@ -12,8 +12,8 @@ LATEST=`svn info $REPO | grep Revision: | awk '{print $2}'`
 THIS=`svn info | grep Revision: | awk '{print $2}'`
 echo "Latest: $LATEST, this: $THIS"
 
-if [ "$LATEST" = "$THIS" ]; then
- exit 0
+if [ "$LATEST" = "$THIS" -o "$LATEST" = "" ]; then
+ exit 0 # When $LATEST is empty, then there may be some network error --- no update is needed
 else
  exit 1
  fi

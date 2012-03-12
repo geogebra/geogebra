@@ -44,8 +44,6 @@ if [ $RESULT = 5 ]; then
  LOG=`cat $WEBDIR/.buildlog | awk '{printf("%s\\\n",$0);}'`
  fi
 
-echo $RESULT > $REVDIR/$REVISION/result
-
 # There was no problem during the simple testing...
 # Now let's do something more serious: JUnit testing!
 if [ $RESULT = 0 ]; then
@@ -59,12 +57,16 @@ if [ $RESULT = 0 ]; then
   fi
  if [ $JRESULT = 1 ]; then
   MESSAGE="A JUnit build problem occurred at revision $REVISION"
+  RESULT=11
   fi
  if [ $JRESULT = 2 ]; then
   MESSAGE="Errors occured during JUnit tests at revision $REVISION"
+  RESULT=12
   fi
 
  fi
+
+echo $RESULT > $REVDIR/$REVISION/result
 
 # Sending an email to geogebra-dev:
 LASTOK=`./which-latest-ok`
