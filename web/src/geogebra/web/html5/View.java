@@ -252,6 +252,110 @@ public class View extends Widget {
 	    });
     }-*/;
 
+	public void processFileName(String url) {
+		archiveContent = new HashMap<String, String>();
+		String workerUrls = (!Web.webWorkerSupported ? "false" : GWT.getModuleBaseURL()+"js/zipjs/");
+	    populateArchiveContentFromFile(url, workerUrls, this);
+    }
+
+	private native void populateArchiveContentFromFile(String url, String workerUrls,
+            View view) /*-{
+		// Writer for ASCII strings
+				function ASCIIWriter() {
+					var that = this, data;
+				
+					function init(callback, onerror) {
+						data = "";
+						callback();
+					}
+				
+					function writeUint8Array(array, callback, onerror) {
+						var i;
+						for (i = 0; i < array.length; i++)
+							data += $wnd.String.fromCharCode(array[i]);
+						callback();
+					}
+					
+					function getData(callback) {		
+						callback(data);
+					}
+				
+					that.init = init;
+					that.writeUint8Array = writeUint8Array;
+					that.getData = getData;
+				}
+				ASCIIWriter.prototype = new $wnd.zip.Writer();
+				ASCIIWriter.prototype.constructor = ASCIIWriter;
+				
+				function decodeUTF8(str_data) {
+					var tmp_arr = [], i = 0, ac = 0, c1 = 0, c2 = 0, c3 = 0;
+				
+					str_data += '';
+				
+					while (i < str_data.length) {
+						c1 = str_data.charCodeAt(i);
+						if (c1 < 128) {
+							tmp_arr[ac++] = String.fromCharCode(c1);
+							i++;
+						} else if (c1 > 191 && c1 < 224) {
+							c2 = str_data.charCodeAt(i + 1);
+							tmp_arr[ac++] = String.fromCharCode(((c1 & 31) << 6) | (c2 & 63));
+							i += 2;
+						} else {
+							c2 = str_data.charCodeAt(i + 1);
+							c3 = str_data.charCodeAt(i + 2);
+							tmp_arr[ac++] = String.fromCharCode(((c1 & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+							i += 3;
+						}
+					}
+			
+					return tmp_arr.join('');
+				}		
+				
+			    var imageRegex = /\.(png|jpg|jpeg|gif)$/;
+			    if (workerUrls === "false") {
+			    	$wnd.zip.useWebWorkers = false;
+			    } else {
+		    		$wnd.zip.workerScriptsPath = workerUrls;
+			    }
+			    
+			    $wnd.zip.createReader(new $wnd.zip.HttpReader(url),function(reader) {
+			        reader.getEntries(function(entries) {
+			        	view.@geogebra.web.html5.View::zippedLength = entries.length;
+			            for (var i = 0, l = entries.length; i < l; i++) {
+			            	(function(entry){
+				            	var filename = entry.filename;
+				                if (entry.filename.match(imageRegex)) {
+				                        $wnd.console.log(filename+" : image");
+				                        entry.getData(new $wnd.zip.Data64URIWriter("image/"+filename.split(".")[1]), function (data) {
+				                            view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,data);
+				                        });
+				                    } else {
+				                        $wnd.console.log(entry.filename+" : text");
+				                        if ($wnd.zip.useWebWorkers === false || (typeof $wnd.zip.forceDataURIWriter !== "undefined" && $wnd.zip.forceDataURIWriter === true)) {
+				                        	$wnd.console.log("no worker or forced dataURIWriter");
+					                        entry.getData(new $wnd.zip.Data64URIWriter("text/plain"), function(data) {
+					                			var decoded = $wnd.atob(data.substr(data.indexOf(",")+1));
+					                          	view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(decoded));
+					                         });
+				                        } else {
+				                        	$wnd.console.log("worker");
+				                        	entry.getData(new ASCIIWriter(), function(text) {
+					                          	view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(text));
+					                         });
+				                        }
+				                        	
+				                	}
+			            	})(entries[i]);
+			            } 
+			            reader.close();
+			        });
+			    },
+			    function (error) {
+			    	$wnd.console.log(error);
+			    });
+    }-*/;
+
 
 
 

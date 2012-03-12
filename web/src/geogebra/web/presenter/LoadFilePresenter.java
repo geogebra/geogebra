@@ -32,8 +32,8 @@ public class LoadFilePresenter extends BasePresenter {
 			fetch(filename);
 		} else if (!"".equals((base64String = view.getDataParamBase64String()))) {
 			process(base64String);
-		} else if (urlFetcher.isGgbFileParameterSpecified()) {
-			fetch(urlFetcher.getAbsoluteGgbFileUrlFromParameter());
+		} else if (!"".equals((filename = view.getDataParamFileName()))) {
+			fetch(filename);
 		} else {
 			view.promptUserForGgbFile();
 		}
@@ -122,9 +122,10 @@ public class LoadFilePresenter extends BasePresenter {
 	}
 		
 	// Private Methods
-	private void fetch(String absoluteUrl) {
+	private void fetch(String fileName) {
 		getView().showLoadAnimation();
-		urlFetcher.fetchGgbFileFrom(absoluteUrl, fileLoadCallback);
+		String url = fileName.startsWith("http") ? fileName : GWT.getModuleBaseURL()+"../"+fileName;
+		getView().processFileName(url);
 	}
 	
 	private final FileLoadCallback fileLoadCallback = new FileLoadCallback() {
