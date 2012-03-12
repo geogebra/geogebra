@@ -44,6 +44,8 @@ if [ $RESULT = 5 ]; then
  LOG=`cat $WEBDIR/.buildlog | awk '{printf("%s\\\n",$0);}'`
  fi
 
+echo $RESULT > $REVDIR/$REVISION/result
+
 # There was no problem during the simple testing...
 # Now let's do something more serious: JUnit testing!
 if [ $RESULT = 0 ]; then
