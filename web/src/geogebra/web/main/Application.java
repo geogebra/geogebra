@@ -219,15 +219,11 @@ public class Application extends AbstractApplication {
 									reader.onloadend = function(ev) {
 										if (reader.readyState === reader.DONE) {
 											var fileStr = reader.result;
-											var intArr = new Array();
-											for (lv = 0; lv < fileStr.length; lv++)
-												intArr.push(fileStr
-														.charCodeAt(lv));
-											appl.@geogebra.web.main.Application::loadGgbFileAgain(Lcom/google/gwt/core/client/JsArrayInteger;)(intArr);
+											appl.@geogebra.web.main.Application::loadGgbFileAgain(Ljava/lang/String;)(fileStr);
 
 										}
 									};
-									reader.readAsBinaryString(fileToHandle);
+									reader.readAsDataURL(fileToHandle);
 								}
 							}, false);
 		}
@@ -522,9 +518,9 @@ public class Application extends AbstractApplication {
 		loadFile(archiveContent);
 	}
 
-	public void loadGgbFileAgain(JsArrayInteger jsBytes) {
+	public void loadGgbFileAgain(String dataUrl) {
 		imageManager.reset();
-		GeoGebraFrame.fileLoader.getView().fileContentLoaded(jsBytes);
+		GeoGebraFrame.fileLoader.getView().processBase64String(dataUrl);
 	}
 
 	public static void log(String message) {
