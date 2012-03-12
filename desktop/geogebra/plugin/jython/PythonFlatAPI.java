@@ -24,6 +24,7 @@ import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoConic;
@@ -96,7 +97,8 @@ public class PythonFlatAPI {
 	public static final Class<GeoList> GeoListClass = GeoList.class;
 	@SuppressWarnings("javadoc")
 	public static final Class<GeoTextField> GeoTextFieldClass = GeoTextField.class;
-	
+	@SuppressWarnings("javadoc")
+	public static final Class<GeoAxis> GeoAxisClass = GeoAxis.class;
 	/**
 	 * Wrapper for various kinds of ExpressionValues
 	 * @author arno 
@@ -1121,7 +1123,36 @@ public class PythonFlatAPI {
 	public GeoPointND[] intersectConics(GeoConicND c1, GeoConicND c2) {
 		return kernel.IntersectConics(null, c1, c2);
 	}
-
+	
+	/*
+	 * Axes
+	 */
+	
+	/**
+	 * Set an axis's visibility in the Euclidian View 1
+	 * @param axis the axis object
+	 * @param visible true to make it visible
+	 */
+	public void setAxisVisible(GeoAxis axis, boolean visible) {
+		app.getEuclidianView1().setShowAxis(axis.getType(), visible, false);
+	}
+	
+	/**
+	 * Get an axis's visibility in the Euclidian View 2
+	 * @param axis the axis object
+	 * @return true if the axis is visible
+	 */
+	public boolean isAxisVisible(GeoAxis axis) {
+		return app.getEuclidianView1().getShowAxis(axis.getType());
+	}
+	
+	/**
+	 * tell kernel to tell views to repaint
+	 */
+	public void refreshViews() {
+		app.refreshViews();
+	}
+	
 	/*
 	 * Selection
 	 */

@@ -648,6 +648,15 @@ class Ray(Line):
         self.geo = self._api.geoRayPP(p.geo, q.geo)
 
 
+class Axis(Element):
+    def _getvisible(self):
+        return self._api.isAxisVisible(self.geo)
+    def _setvisible(self, visible):
+        self._api.setAxisVisible(self.geo, bool(visible))
+        self._api.refreshViews()
+    visible = property(_getvisible, _setvisible)
+
+
 class Text(Element):
     @specmethod.rawinit
     @sign(basestring)
@@ -923,6 +932,7 @@ __objects__ = [
     Conic, Circle, Parabola, Ellipse, Hyperbola,
     Locus, Function, ImplicitPoly,
     Button, List, Text, TextField,
+    Axis,
 ]
 
 __expressions__ = [
