@@ -606,6 +606,11 @@ class InputPane(KeyListener, DocumentListener, FocusListener, UndoableEditListen
 class InteractiveInput(InputPane):
     def __init__(self, window, checks_disabled, runcode):
         InputPane.__init__(self, window)
+        outside = BorderFactory.createLoweredBevelBorder()
+        self.component.border = BorderFactory.createCompoundBorder(
+            outside,
+            self.component.border
+        )
         self.checks_disabled = checks_disabled
         self.runcode = runcode
     def keyTyped(self, evt):
@@ -724,6 +729,10 @@ class InteractivePane(WindowPane, ActionListener, DocumentListener):
     def removeUpdate(self, evt):
         self.update_current_text()
 
+    def activate(self):
+        # Put the cursor in the input box
+        self.input.component.requestFocusInWindow()
+    
     def clear(self):
         """Clear the history"""
         self.outputpane.clear()
@@ -936,9 +945,13 @@ class PythonWindow(ActionListener, ChangeListener):
         tabs.addChangeListener(self)
         
         self.frame.add(tabs)
-        self.frame.size = 500, 600
         self.frame.visible = False
         self.component = None
+        # Set up the first active pane as no change event is fired up
+        # to start with - but it doesn't work!
+        self.frame.pack()
+        self.frame.size = 500, 600
+        self.active_pane.activate()
 
     def update_geos(self, geos):
         self.events_pane.update_geos(geos)
