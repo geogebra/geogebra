@@ -24,18 +24,13 @@ public class ScriptManager extends ScriptManagerCommon {
 			}
 		
 		} else {
+			AbstractApplication.debug("calling ggboninit");
 			// call only if libraryJavaScript is not the default (ie do nothing)
 			if (!app.getKernel().getLibraryJavaScript().equals(Kernel.defaultLibraryJavaScript))
 				app.evalJavaScript(app,"ggbOnInit();"+app.getKernel().getLibraryJavaScript(), null);			
 			
 		}
 	}
-
-	public void ggbOnInitxx(String param) {
-		Application.ggbOnInit(param);
-	}
-
-
 
 	@Override
     public void callJavaScript(String jsFunction, Object[] args) {

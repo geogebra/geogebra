@@ -430,6 +430,8 @@ public class Application extends AbstractApplication {
 		
 		// TODO: maybe use sandbox?
 		
+		script = "ggbApplet = document.ggbApplet;"+script;
+		
 		// add eg arg="A"; to start
 		if (arg != null) {
 			script = "arg=\""+arg+"\";"+script;
@@ -439,7 +441,7 @@ public class Application extends AbstractApplication {
 	}
 
 	public native void evalScriptNative(String script) /*-{
-		eval(script);
+		$wnd.eval(script);
 	}-*/;
 
 	/**
