@@ -35,7 +35,7 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic {
 	protected void doFillWithValueStrokePure(Shape shape, Graphics2D g2) {
 		g2.fill(shape);
 
-		AbstractApplication.debug("implementation needed really");
+		AbstractApplication.debug("implementation needed or OK");
 		// TODO can we emulate somehow the "pure stroke" behavior?
 	}
 
@@ -43,7 +43,7 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic {
 	protected void doDrawWithValueStrokePure(Shape shape, Graphics2D g2) {
 		g2.draw(shape);
 
-		AbstractApplication.debug("implementation needed really");
+		AbstractApplication.debug("implementation needed or OK");
 		// TODO can we emulate somehow the "pure stroke" behavior?
 	}
 

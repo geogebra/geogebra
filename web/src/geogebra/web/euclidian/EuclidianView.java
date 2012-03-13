@@ -321,7 +321,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	@Override
     protected void setHeight(int h) {
 	    //TODO: what should this method do in Web and in Desktop? 
-	 	AbstractApplication.debug("implementation needed really"); 
+	 	AbstractApplication.debug("implementation needed or OK"); 
 	 	//g2p.setCoordinateSpaceWidth(h); 
 	 	//g2p.setWidth(h); 
     }
@@ -329,7 +329,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	@Override
     protected void setWidth(int h) {
 	    //TODO: what should this method do in Web and in Desktop? 
-	    AbstractApplication.debug("implementation needed really");
+	    AbstractApplication.debug("implementation needed or OK");
     }
 
 
