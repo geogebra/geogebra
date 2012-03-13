@@ -118,6 +118,9 @@ class OutputPane(object):
         # Scroll down
         self.textpane.setCaretPosition(self.doc.length)
 
+    def clear(self):
+        """Remove all text"""
+        self.doc.remove(0, self.doc.length)
 
 class FileManager(object):
     
@@ -186,6 +189,9 @@ class InputHistory(object):
         pass
     
     def __init__(self):
+        self.clear()
+
+    def clear(self):
         self.history = []
         self.history_pos = 0
     
@@ -718,6 +724,11 @@ class InteractivePane(WindowPane, ActionListener, DocumentListener):
     def removeUpdate(self, evt):
         self.update_current_text()
 
+    def clear(self):
+        """Clear the history"""
+        self.outputpane.clear()
+        self.history.clear()
+    
     # Navigating history
     def history_back(self):
         """Move back in history"""
@@ -936,9 +947,10 @@ class PythonWindow(ActionListener, ChangeListener):
         shortcut = Toolkit.getDefaultToolkit().menuShortcutKeyMask
         menubar = JMenuBar()
 
-        def new_item(title, cmd, key, mod=shortcut):
+        def new_item(title, cmd, key=None, mod=shortcut):
             item = JMenuItem(title, actionCommand=cmd)
-            item.accelerator = KeyStroke.getKeyStroke(key, mod)
+            if key is not None:
+                item.accelerator = KeyStroke.getKeyStroke(key, mod)
             item.addActionListener(self)
             return item
         filemenu = JMenu("File")
@@ -1014,7 +1026,9 @@ class PythonWindow(ActionListener, ChangeListener):
         item = new_item("Next Input", "down", KeyEvent.VK_DOWN,
                          mod=ActionEvent.ALT_MASK)
         shellmenu.add(item)
-
+        item = new_item("Clear History", "clearhistory")
+        shellmenu.add(item)
+        
         self.frame.setJMenuBar(menubar)
 
     def reset(self):
@@ -1080,6 +1094,8 @@ class PythonWindow(ActionListener, ChangeListener):
         self.interactive_pane.history_back()
     def action_down(self, evt):
         self.interactive_pane.history_forward()
+    def action_clearhistory(self, evt):
+        self.interactive_pane.clear()
     
     # Script actions
     def action_runscript(self, evt):
