@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.export;
 
 import geogebra.GeoGebra;
-import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.Unicode;
@@ -32,21 +31,18 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -627,6 +623,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			return false;
 		}
 		try {
+			
+			ImageIO.scanForPlugins();
 			// export text as shapes or plaintext
 			// shapes: better representation
 			// text: smaller file size, but some unicode symbols don't export eg

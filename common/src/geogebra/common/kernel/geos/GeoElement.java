@@ -6386,7 +6386,7 @@ public abstract class GeoElement extends ConstructionElement implements
 					app.callAppletJavaScript(functionPrefix + getLabel(StringTemplate.defaultTemplate), args);
 				}
 			}else {
-				app.evalScript(app, update ? updateScript : clickScript, arg);
+				app.evalJavaScript(app, update ? updateScript : clickScript, arg);
 			}
 			// there have been no errors
 			if (update) {

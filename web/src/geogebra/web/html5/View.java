@@ -67,6 +67,10 @@ public class View extends Widget {
 		return ((ArticleElement) container).getDataParamCountry();
     }
 	
+	public boolean getDataParamUseBrowserForJS() {
+		return ((ArticleElement) container).getDataParamUseBrowserForJS();
+    }
+	
 	public boolean getDataParamEnableLabelDrags() {
 		return ((ArticleElement) container).getDataParamEnableLabelDrags();
 	}

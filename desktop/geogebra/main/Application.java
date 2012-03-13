@@ -4484,7 +4484,7 @@ public class Application extends AbstractApplication implements
 	}
 
 	@Override
-	public void evalScript(AbstractApplication app, String script, String arg) {
+	public void evalJavaScript(AbstractApplication app, String script, String arg) {
 		CallJavaScript.evalScript(app, script, arg);
 
 	}

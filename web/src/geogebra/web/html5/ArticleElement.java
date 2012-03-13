@@ -144,6 +144,14 @@ public final class ArticleElement extends Element {
 		return this.getAttribute("data-param-ggbOnInitParam");
 	}
 	
+	/**
+	 * 
+	 * @return the data-param-allowJSscripting (default: true)
+	 */
+	public boolean getDataParamUseBrowserForJS() {
+		return (!"false".equals(this.getAttribute("data-param-useBrowserForJS")));
+	}
+	
 	
 	
 	/**

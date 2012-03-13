@@ -409,7 +409,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
     }
 
     public void drawImage(BufferedImage img, BufferedImageOp op, int x, int y) {
-        drawImage(op.filter(img, null), x, y, null);
+        drawImage(img, x, y, null);
     }
 
     // NOTE: not tested yet!!!

@@ -70,6 +70,8 @@ public class LoadFilePresenter extends BasePresenter {
 			}
 		}
 		
+		app.setUseBrowserForJavaScript(view.getDataParamUseBrowserForJS());
+		
 		app.setLabelDragsEnabled(view.getDataParamEnableLabelDrags());
 		app.setShiftDragZoomEnabled(view.getDataParamShiftDragZoomEnabled());
 		app.setShowResetIcon(view.getDataParamShowResetIcon());

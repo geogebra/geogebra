@@ -374,7 +374,7 @@ public class Application extends AbstractApplication {
 
 	public void showErrorDialog(final String msg) {
 		// TODO: implement it better for GeoGebraWebGUI
-		alert(msg);
+		Window.alert(msg);
 	}
 
 	@Override
@@ -426,13 +426,11 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public void evalScript(AbstractApplication app, String script, String arg) {
-		// Beware both of the script and the arg, as the user might access
-		// the JavaScript of the page with them; until this question is solved/answered,
-		// it is not suggested to use this function
+	public void evalJavaScript(AbstractApplication app, String script, String arg) {
+		
+		// TODO: maybe use sandbox?
 
-		Application.debug("implementation needed - just to finish");
-		//evalScriptNative(script.replace("%0", "'"+arg+"'"));
+		evalScriptNative("arg=\""+arg+"\";"+script);
 	}
 
 	public native void evalScriptNative(String script) /*-{
@@ -440,7 +438,7 @@ public class Application extends AbstractApplication {
 	}-*/;
 
 	/**
-	 * Initializes the application, seeds factory prototypes, creates Kernel and MyXXMLIO
+	 * Initializes the application, seeds factory prototypes, creates Kernel and MyXMLIO
 	 */
 	public void init() {
 		geogebra.common.factories.AwtFactory.prototype = new geogebra.web.factories.AwtFactory();
@@ -680,7 +678,7 @@ public class Application extends AbstractApplication {
 	@Override
 	public void showRelation(GeoElement a, GeoElement b) {
 		//TODO: implement it better for GeoGebraWebGUI
-		alert(new Relation(kernel).relation(a, b));
+		Window.alert(new Relation(kernel).relation(a, b));
 	}
 
 	@Override
@@ -1074,10 +1072,6 @@ public class Application extends AbstractApplication {
 		// showSplashImageOnCanvas();
 
 	}
-
-	public static native void alert(String string) /*-{
-		$wnd.alert(string);
-	}-*/;
 
 	@Override
 	public boolean isHTML5Applet() {

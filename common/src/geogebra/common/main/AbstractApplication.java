@@ -883,10 +883,18 @@ public abstract class AbstractApplication {
 
 	private boolean useBrowserForJavaScript = true;
 
+	/*
+	 * desktop: determines whether Rhino will be used (false) or the browser (true)
+	 * web: determines whether JS scripting allowed (true) or not (false)
+	 */
 	public void setUseBrowserForJavaScript(boolean useBrowserForJavaScript) {
 		this.useBrowserForJavaScript = useBrowserForJavaScript;
 	}
 
+	/*
+	 * desktop: determines whether Rhino will be used (false) or the browser (true)
+	 * web: determines whether JS scripting allowed (true) or not (false)
+	 */
 	public boolean useBrowserForJavaScript() {
 		return useBrowserForJavaScript;
 	}
@@ -1576,7 +1584,7 @@ public abstract class AbstractApplication {
 		return s.toUpperCase();
 	}
 
-	public abstract void evalScript(AbstractApplication app, String script,
+	public abstract void evalJavaScript(AbstractApplication app, String script,
 			String arg);
 
 	private int[] version = null;
