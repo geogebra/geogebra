@@ -99,6 +99,7 @@ public class WorksheetExportDialog extends JDialog {
 	final private static int TYPE_MEDIAWIKI = 2;
 	final private static int TYPE_GOOGLEGADGET = 3;
 	final private static int TYPE_MOODLE = 4;
+	final private static int TYPE_GEOGEBRAWEB = 5;
 	// final private static int TYPE_JSXGRAPH = 4;
 	// final private static int TYPE_JAVASCRIPT = 5;
 
@@ -1565,6 +1566,7 @@ public class WorksheetExportDialog extends JDialog {
 			sb.append(GeoGebraConstants.GEOGEBRA_HTML5_BASE);
 			sb.append("\"></script>");
 			appendWithLineBreak(sb,	"<article class=\"geogebraweb\" data-param-width=\""+width+"\" data-param-height=\""+height+"\" ");
+			appendGgbAppletParameters(sb, TYPE_GEOGEBRAWEB);
 		    sb.append("data-param-ggbbase64=\"");
 		    appendBase64(app, sb);
 		    appendWithLineBreak(sb, "\"></article>");
@@ -1635,77 +1637,101 @@ public class WorksheetExportDialog extends JDialog {
 		return sb.toString();
 	}
 
-	private void appletParam(StringBuilder sb, String param, boolean value,
+	private void appletParam(StringBuilder sb, String[] param, boolean value,
 			int type) {
 		appletParam(sb, param, value + "", type);
 
 	}
 
-	private void appletParam(StringBuilder sb, String param, String value,
+	private void appletParam(StringBuilder sb, String[] param, String value,
 			int type) {
 
 		switch (type) {
 		case TYPE_MEDIAWIKI:
 			sb.append(' ');
-			sb.append(param);
+			sb.append(param[0]);
 			sb.append(" = \"");
 			sb.append(value);
 			sb.append('\"');
 			break;
 
 		case TYPE_GOOGLEGADGET:
-			sb.append(param);
+			sb.append(param[0]);
 			sb.append(":\"");
 			sb.append(value);
 			sb.append("\", ");
 
 			break;
 
+		case TYPE_GEOGEBRAWEB:
+			if (param[1] != null) {
+				sb.append(param[1]);
+				sb.append("=\"");
+				sb.append(value);
+				sb.append("\" ");
+			}
+
+			break;
+
 		default: // HTML file/clipboard
 			sb.append("\t<param name=\"");
-			sb.append(param);
+			sb.append(param[0]);
 			sb.append("\" value=\"");
 			sb.append(value);
 			appendWithLineBreak(sb, "\" />");
 		}
 
 	}
+	
+	final static String[] enableLabelDrags = {"enableLabelDrags", "data-param-enableLabelDrags"};
+	final static String[] showResetIcon = {"showResetIcon", "data-param-showResetIcon"};
+	final static String[] enableRightClick = {"enableRightClick", null};
+	final static String[] errorDialogsActive = {"errorDialogsActive", null};
+	final static String[] showMenuBar = {"showMenuBar", "data-param-showMenuBar"};
+	final static String[] showToolBar = {"showToolBar", "data-param-showToolBar"};
+	final static String[] showToolBarHelp = {"showToolBarHelp", null};
+	final static String[] showAlgebraInput = {"showAlgebraInput", "data-param-showAlgebraInput"};
+	final static String[] useBrowserForJS = {"useBrowserForJS", "enableLabelDrags"};
+	final static String[] allowRescaling = {"allowRescaling", null};
+	final static String[] java_arguments = {"java_arguments", null};
+	final static String[] cache_archive = {"cache_archive", null};
+	final static String[] cache_version = {"cache_version", null};
 
 	private void appendGgbAppletParameters(StringBuilder sb, int type) {
 
 		// showResetIcon
-		appletParam(sb, "showResetIcon", cbShowResetIcon.isSelected(), type);
+		appletParam(sb, showResetIcon, cbShowResetIcon.isSelected(), type);
 
 		// TODO: implement show animation controls
-		appletParam(sb, "showAnimationButton", true, type);
+		//appletParam(sb, showAnimationButton, true, type);
 
 		// enable right click
-		appletParam(sb, "enableRightClick", cbEnableRightClick.isSelected(), type);
+		appletParam(sb, enableRightClick, cbEnableRightClick.isSelected(), type);
 
 		// enable error dialogs
-		appletParam(sb, "errorDialogsActive", true, type);// sb.append(cbEnableErrorDialogs.isSelected());
+		appletParam(sb, errorDialogsActive, true, type);// sb.append(cbEnableErrorDialogs.isSelected());
 
 		// enable label drags
-		appletParam(sb, "enableLabelDrags", cbEnableLabelDrags.isSelected(), type);
+		appletParam(sb, enableLabelDrags, cbEnableLabelDrags.isSelected(), type);
 
 		// showMenuBar
-		appletParam(sb, "showMenuBar", cbShowMenuBar.isSelected(), type);
+		appletParam(sb, showMenuBar, cbShowMenuBar.isSelected(), type);
 
 		// showToolBar
-		appletParam(sb, "showToolBar", cbShowToolBar.isSelected(), type);
+		appletParam(sb, showToolBar, cbShowToolBar.isSelected(), type);
 
 		// showToolBarHelp
-		appletParam(sb, "showToolBarHelp", cbShowToolBarHelp.isSelected(), type);
+		appletParam(sb, showToolBarHelp, cbShowToolBarHelp.isSelected(), type);
 
 		// showAlgebraInput
-		appletParam(sb, "showAlgebraInput", cbShowInputField.isSelected(), type);
+		appletParam(sb, showAlgebraInput, cbShowInputField.isSelected(), type);
 
 		// Use Browser for JavaScript (eg Buttons)
-		appletParam(sb, "useBrowserForJS", cbUseBrowserForJavaScript.isSelected(),
+		appletParam(sb, useBrowserForJS, cbUseBrowserForJavaScript.isSelected(),
 				type);
 
 		// allowRescaling
-		appletParam(sb, "allowRescaling", cbAllowRescaling.isSelected(), type);
+		appletParam(sb, allowRescaling, cbAllowRescaling.isSelected(), type);
 
 	}
 
@@ -1728,7 +1754,7 @@ public class WorksheetExportDialog extends JDialog {
 
 		// sb.append("\t<param name=\"java_arguments\" value=\"" + javaArgs +
 		// "\" />");
-		appletParam(sb, "java_arguments", javaArgs, type);
+		appletParam(sb, java_arguments, javaArgs, type);
 
 		// add caching information to help JVM with faster applet loading
 		// sb.append("\t<param name=\"cache_archive\" value=\"");
@@ -1740,7 +1766,7 @@ public class WorksheetExportDialog extends JDialog {
 		}
 		// sb.append("\" />");
 
-		appletParam(sb, "cache_archive", sb2.toString(), type);
+		appletParam(sb, cache_archive, sb2.toString(), type);
 
 		// cache versions of jar files: if this version is already present on the
 		// client
@@ -1754,7 +1780,7 @@ public class WorksheetExportDialog extends JDialog {
 				sb2.append(", ");
 		}
 		// sb.append("\" />");
-		appletParam(sb, "cache_version", sb2.toString(), type);
+		appletParam(sb, cache_version, sb2.toString(), type);
 
 		appendGgbAppletParameters(sb, type);
 	}
