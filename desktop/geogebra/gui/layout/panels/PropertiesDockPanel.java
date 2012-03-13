@@ -24,7 +24,7 @@ public class PropertiesDockPanel extends DockPanel {
 			null,						// toolbar string
 			false,						// style bar?
 			7, 							// menu order
-			'B'							// menu shortcut
+			'E'							// menu shortcut
 		);
 		
 		this.app = app;
