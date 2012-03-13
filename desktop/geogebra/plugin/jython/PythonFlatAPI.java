@@ -1266,4 +1266,11 @@ public class PythonFlatAPI {
 		}
 		return algProcessor.processCommand(cmd, true);
 	}
+	
+	/**
+	 * Tell the application to update its menu bar
+	 */
+	public void updateMenubar() {
+		app.updateMenubar();
+	}
 }

@@ -39,7 +39,8 @@ from java.awt import (
     Toolkit, BorderLayout, Color as awtColor, GridLayout, Font
 )
 from java.awt.event import (
-    KeyListener, ActionListener, KeyEvent, ActionEvent, FocusListener
+    KeyListener, ActionListener, KeyEvent, ActionEvent, FocusListener,
+    WindowAdapter,
 )
 
 try:
@@ -918,6 +919,22 @@ class EventsPane(WindowPane, ActionListener):
             self.update_script_area()
 
 
+class PythonWindowAdapter(WindowAdapter):
+
+    """What to do on window events"""
+    
+    def __init__(self, pywin):
+        self.pywin = pywin
+        pywin.frame.addWindowListener(self)
+    
+    def windowClosing(self, evt):
+        # Make sure that the Python Window menu item is unchecked.
+        # The window is still visible at this point so we need to make
+        # is invisible for the benefit of updateMenubar()...
+        self.pywin.frame.visible = False
+        self.pywin.api.updateMenubar()
+
+
 class PythonWindow(ActionListener, ChangeListener):
     
     def __init__(self, api):
@@ -947,6 +964,8 @@ class PythonWindow(ActionListener, ChangeListener):
         self.frame.add(tabs)
         self.frame.visible = False
         self.component = None
+
+        self.window_adapter = PythonWindowAdapter(self)
         # Set up the first active pane as no change event is fired up
         # to start with - but it doesn't work!
         self.frame.pack()
