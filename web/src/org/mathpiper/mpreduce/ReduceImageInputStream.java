@@ -65,13 +65,13 @@ public class ReduceImageInputStream extends InputStream {
     }
 
 
-    public String[] reduceImage = splitInto2250Character(GuiResources.INSTANCE.defaultImgBase64().getText());
+    public String[] reduceImage = splitInto2280Character(GuiResources.INSTANCE.defaultImgBase64().getText());
 
     private native JsArrayString nativeSplitIntoGivenLenghtCharacter(String imgText) /*-{
 		return imgText.match(/.{1,2280}/g);;
 	}-*/;
 
-	private String[] splitInto2250Character(String imgText) {
+	private String[] splitInto2280Character(String imgText) {
 	    JsArrayString nsp  = nativeSplitIntoGivenLenghtCharacter(imgText);
 	    String[] ret = new String[nsp.length()];
 	    for (int i = 0; i < nsp.length(); i++) {
