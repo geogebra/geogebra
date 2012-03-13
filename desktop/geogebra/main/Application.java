@@ -4281,7 +4281,7 @@ public class Application extends AbstractApplication implements
 		return codeBaseFolder.substring(WINDOWS ? 6 : 5);
 	}
 
-	public void exportToLMS() {
+	public void exportToLMS(boolean ggbWeb) {
 		clearSelectedGeos();
 		WorksheetExportDialog d = new WorksheetExportDialog(this);
 
@@ -4299,7 +4299,7 @@ public class Application extends AbstractApplication implements
 
 		clipboard.setContents(
 				new StringSelection(d.getAppletTag(this, null, width, height,
-						false, true, false, false)), null);
+						false, true, ggbWeb, false)), null);
 		d.setVisible(false);
 		d.dispose();
 

@@ -333,6 +333,14 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 				}
 				break;
 
+				// export to GeoGebraWeb
+			case KeyEvent.VK_B:
+				if (!app.isApplet() && event.isShiftDown()) {
+					((Application)app).exportToLMS(true);
+					consumed = true;
+				} 
+				break;
+
 			case KeyEvent.VK_C:
 				// Ctrl-shift-c: copy graphics view to clipboard
 				// should also work in applets with no menubar
@@ -382,7 +390,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 
 			case KeyEvent.VK_M:
 				if (!app.isApplet() && event.isShiftDown()) {
-					((Application)app).exportToLMS();
+					((Application)app).exportToLMS(false);
 					consumed = true;
 				} else if (!app.isApplet() || app.isRightClickEnabled()) {
 					((Application)app).setStandardView();
