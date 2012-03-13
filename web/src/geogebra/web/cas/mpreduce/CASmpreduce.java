@@ -23,11 +23,7 @@ import geogebra.common.main.AbstractApplication;
  */
 public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.cas.Evaluate {
 
-	/**
-	 * Creates new CAS
-	 * @param casParser parser
-	 * @param parserTools scientific notation convertor
-	 */
+	
 	
 	private static Interpretable mpreduce_static = new Interpretable() {
 		
@@ -58,9 +54,14 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 		}
 	};
 	private static boolean asyncstarted = false;
-	private static boolean casLoaded = false;
+	
 	private Interpretable mpreduce;
 	
+	/**
+	 * Creates new CAS
+	 * @param casParser parser
+	 * @param parserTools scientific notation convertor
+	 */
 	public CASmpreduce(CASparser casParser, CasParserTools parserTools) {
 		super(casParser);
 		this.parserTools = parserTools;
@@ -85,11 +86,11 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 			}
 		}
 
-		return (Evaluate)mpreduce;
+		return mpreduce;
 	}
 	
 	/**
-	 * @param caSmpreduce 
+	 * @param casInstance CAS instance
 	 * @return Static MPReduce interpreter shared by all CASmpreduce instances.
 	 */
 	public static synchronized Interpretable getStaticInterpreter(final CASmpreduce casInstance) {
@@ -99,7 +100,7 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 				
 				public void onSuccess() {
 					//just let the constructor run (until callback we can't do anything wit cas anyway, let dummy cas work
-					new InterpreterJs();
+					new InterpreterJs().getStartMessage();
 					
 					//this will be hard. 1; First async: we got CAS here. But we must load Lisp image.
 					InterpreterJs.casLoadImage(casInstance);
@@ -137,7 +138,7 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 	}
 
 
-	/**
+	/*/*
 	 * Evaluates the processed expression in CAS
 	 * @param exp expression
 	 * @return MPReduce string representation of result
@@ -147,7 +148,7 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 	/*public static native String nativeEvaluateRaw(String exp) /*-{
 	if (typeof $wnd.callCAS === 'function')
 		return $wnd.callCAS(exp);
-	}-*/;
+	}-*/
 
 
 
@@ -236,13 +237,16 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 				CASAsyncFinished(inVE, result, null, command, input);
 			}
 
+	/**
+	 * Callback method; used when Lisp image is loaded
+	 */
 	public void lispImageLoaded() {
 		//now we have REAL cas
 		mpreduce_static = InterpreterJs.getInstance();
 		mpreduce = mpreduce_static;
 		//2; Second callback: when Lips image loaded :-)
 		try {
-	        initMyMPReduceFunctions((Evaluate) mpreduce);
+	        initMyMPReduceFunctions(mpreduce);
         } catch (Throwable e) {
 	        // TODO Auto-generated catch block
 	        e.printStackTrace();
