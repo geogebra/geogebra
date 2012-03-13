@@ -1,5 +1,6 @@
 package geogebra.web.main;
 
+import geogebra.common.kernel.Kernel;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.ScriptManagerCommon;
 
@@ -12,15 +13,25 @@ public class ScriptManager extends ScriptManagerCommon {
 
 	@Override
 	public void ggbOnInit() {
-		String param = ((Application)app).getArticleElement().getDataParamGgbOnInitParam();
-		if (param == null || "".equals(param)) {
-			Application.ggbOnInit();
+		
+		if (app.useBrowserForJavaScript()) {
+		
+			String param = ((Application)app).getArticleElement().getDataParamGgbOnInitParam();
+			if (param == null || "".equals(param)) {
+				Application.ggbOnInit();
+			} else {
+				Application.ggbOnInit(param);
+			}
+		
 		} else {
-			Application.ggbOnInit(param);
+			// call only if libraryJavaScript is not the default (ie do nothing)
+			if (!app.getKernel().getLibraryJavaScript().equals(Kernel.defaultLibraryJavaScript))
+				app.evalJavaScript(app,"ggbOnInit();"+app.getKernel().getLibraryJavaScript(), null);			
+			
 		}
 	}
 
-	public void ggbOnInit(String param) {
+	public void ggbOnInitxx(String param) {
 		Application.ggbOnInit(param);
 	}
 

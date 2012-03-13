@@ -429,8 +429,13 @@ public class Application extends AbstractApplication {
 	public void evalJavaScript(AbstractApplication app, String script, String arg) {
 		
 		// TODO: maybe use sandbox?
+		
+		// add eg arg="A"; to start
+		if (arg != null) {
+			script = "arg=\""+arg+"\";"+script;
+		}
 
-		evalScriptNative("arg=\""+arg+"\";"+script);
+		evalScriptNative(script);
 	}
 
 	public native void evalScriptNative(String script) /*-{

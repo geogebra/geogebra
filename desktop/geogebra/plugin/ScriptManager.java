@@ -48,7 +48,6 @@ public class ScriptManager extends geogebra.common.plugin.ScriptManagerCommon {
 	public void ggbOnInit() {
 		
 		try {
-			((Application)app).getKernel();
 			// call only if libraryJavaScript is not the default (ie do nothing)
 			if (!((Application)app).getKernel().getLibraryJavaScript().equals(Kernel.defaultLibraryJavaScript))
 				CallJavaScript.evalScript(((Application)app), "ggbOnInit();", null);
