@@ -79,7 +79,7 @@ public class Font extends geogebra.common.awt.Font{
 	}
 
 	public Font deriveFont(String fontStyle2, final int newSize) {
-		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed or OK"); // TODO Auto-generated
 		Font f = new Font(fontStyle2);
 		f.setFontSize(newSize);
 		return f;
@@ -147,13 +147,16 @@ public class Font extends geogebra.common.awt.Font{
 
 	@Override
     public geogebra.common.awt.Font deriveFont(int i) {
-	    AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
-	    return null;
+	    AbstractApplication.debug("implementation needed or OK");
+	    Font ret = new Font(fontStyle);
+	    ret.setFontStyle(i);
+	    ret.setFontSize(fontSize);
+	    return ret;
     }
 
 	@Override
     public String getFontName() {
-	    AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
+	    AbstractApplication.debug("implementation needed or OK");
 	    return fontFamily;
     }
 
