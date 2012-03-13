@@ -16,6 +16,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
@@ -308,6 +309,9 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		} else if (ev instanceof FunctionNVar) {
 			expression = ((FunctionNVar) ev).getExpression();
 			fVars = ((FunctionNVar) ev).getFunctionVariables();
+		} else if (ev instanceof GeoFunction){
+			expression = ((GeoFunction)ev).getFunctionExpression();
+			fVars =  ((GeoFunction)ev).getFunction().getFunctionVariables();
 		} else {
 			AbstractApplication.debug("InvalidFunction:"
 					+ expression.toString(StringTemplate.defaultTemplate) + " " + ev.toString(StringTemplate.defaultTemplate)

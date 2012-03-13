@@ -272,6 +272,13 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 					geos = new GeoElement[0];
 				} else {
 					geos = app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionHandling( input, true, false, true );
+					
+					// need label if we type just eg
+					// lnx
+					if (geos.length == 1 && !geos[0].labelSet) {
+						geos[0].setLabel(geos[0].getDefaultLabel());
+					}
+
 				}
 			} catch (Exception ee) {
 				inputField.showError(ee);
