@@ -253,7 +253,7 @@ class Element:
         API.Geo.setTrace(self.geo, bool(value))
         API.Geo.updateRepaint(self.geo)
     trace = property(_gettrace, _settrace)
-    
+
     def __geo__(self):
         return self.geo
 
@@ -440,7 +440,7 @@ class ExpressionElement(Element):
     def _getexpr(self):
         return self.geo
     expr = property(_getexpr)
-    
+        
 
 class Numeric(ExpressionElement, NumberExpression):
 
@@ -656,6 +656,12 @@ class Axis(Element):
         self._api.refreshViews()
     visible = property(_getvisible, _setvisible)
 
+
+class Polygon(ExpressionElement, NumberExpression):
+    pass
+
+class PolyLine(ExpressionElement, NumberExpression):
+    pass
 
 class Text(Element):
     @specmethod.rawinit
@@ -928,7 +934,7 @@ class Selection(object):
 __objects__ = [
     Vector, Point,
     Numeric, Angle, Boolean,
-    Line, Segment, Ray,
+    Line, Segment, Ray, Polygon, PolyLine,
     Conic, Circle, Parabola, Ellipse, Hyperbola,
     Locus, Function, ImplicitPoly,
     Button, List, Text, TextField,

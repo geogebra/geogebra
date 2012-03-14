@@ -36,6 +36,8 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPolyLine;
+import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
@@ -99,6 +101,11 @@ public class PythonFlatAPI {
 	public static final Class<GeoTextField> GeoTextFieldClass = GeoTextField.class;
 	@SuppressWarnings("javadoc")
 	public static final Class<GeoAxis> GeoAxisClass = GeoAxis.class;
+	@SuppressWarnings("javadoc")
+	public static final Class<GeoPolygon> GeoPolygonClass = GeoPolygon.class;
+	@SuppressWarnings("javadoc")
+	public static final Class<GeoPolyLine> GeoPolyLineClass = GeoPolyLine.class;
+	
 	/**
 	 * Wrapper for various kinds of ExpressionValues
 	 * @author arno 
@@ -622,6 +629,7 @@ public class PythonFlatAPI {
 		public static void setText(GeoTextField geo, String value) {
 			geo.setText(value);
 		}
+		
 	}
 
 	public Application app;
