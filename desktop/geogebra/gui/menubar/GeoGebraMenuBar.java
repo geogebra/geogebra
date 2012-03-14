@@ -149,7 +149,9 @@ public class GeoGebraMenuBar extends JMenuBar {
 	 * Update the file menu without being forced to updated the other menus as well.
 	 */
 	public void updateMenuFile() {
-		if(fileMenu!=null)fileMenu.update();
+		if (fileMenu!=null) {
+			fileMenu.update();
+		}
 	}
 	
 	/**
