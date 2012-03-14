@@ -1833,9 +1833,11 @@ public class Kernel {
 
 	final public static String defaultLibraryJavaScript = "function ggbOnInit() {}";
 	final public static String defaultLibraryPythonScript = "";
-
+	final public static String defaultLibraryLogoScript = "";
+	
 	String libraryJavaScript = defaultLibraryJavaScript;
 	String libraryPythonScript = defaultLibraryPythonScript;
+	String libraryLogoScript = defaultLibraryLogoScript;
 
 	public void resetLibraryJavaScript() {
 		setLibraryJavaScript(defaultLibraryJavaScript);
@@ -1848,7 +1850,11 @@ public class Kernel {
 	public void setLibraryPythonScript(String script) {
 		libraryPythonScript = script;
 	}
-
+	
+	public void setLibraryLogoScript(String script) {
+		libraryLogoScript = script;
+	}
+	
 	public void setLibraryJavaScript(String str) {
 		AbstractApplication.debug(str);
 		libraryJavaScript = str;
@@ -1870,7 +1876,10 @@ public class Kernel {
 	public String getLibraryPythonScript() {
 		return libraryPythonScript;
 	}
-
+	
+	public String getLibraryLogoScript() {
+		return libraryLogoScript;
+	}
 	/** return all points of the current construction */
 	public TreeSet<GeoElement> getPointSet() {
 		return getConstruction().getGeoSetLabelOrder(GeoClass.POINT);

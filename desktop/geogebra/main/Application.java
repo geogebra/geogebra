@@ -3627,12 +3627,22 @@ public class Application extends AbstractApplication implements
 	}
 	
 	public String getCurrentPythonScript() {
-		String script = getPythonBridge().getCurrentPythonScript();
+		String script = null;
+		if (pythonBridge.isReady()) {
+			script = pythonBridge.getCurrentPythonScript();
+		}
 		if (script == null) {
 			return kernel.getLibraryPythonScript();
 		}
 		return script;
 	}
+	
+	/*public String getCurrentLogoScript() {
+		String script = pythonBridge.getCurrentLogoScript();
+		if (script == null) {
+			return kernel.getLibraryLogoScript();
+		}
+	}*/
 	
 	public boolean isPythonWindowVisible() {
 		if (!pythonBridge.isReady()) {

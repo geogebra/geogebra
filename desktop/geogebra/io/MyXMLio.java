@@ -150,7 +150,9 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 				// load Python Script
 				kernel.setLibraryPythonScript(Util.loadIntoString(zip));
 				pythonFound= true;
-			} 
+			} else if (name.equals(LOGO_FILE)) {
+				kernel.setLibraryLogoScript(Util.loadIntoString(zip));
+			}
 			else {
 				// try to load image
 				try {
@@ -398,6 +400,12 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 			osw.flush();
 			zip.closeEntry();
 			
+			// And with Logo file
+			/*zip.putNextEntry(new ZipEntry(LOGO_FILE));
+			osw.write(((Application) app).getCurrentLogoScript());
+			osw.flush();
+			zip.closeEntry();
+			*/
 			// write XML file for construction
 			zip.putNextEntry(new ZipEntry(XML_FILE));
 			osw.write(getFullXML());
