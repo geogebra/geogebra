@@ -23,7 +23,7 @@ import geogebra.common.kernel.geos.ToGeoElement;
  * @author Zbynek
  *
  */
-public interface GeoElementND extends ExpressionValue,ToGeoElement{
+public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	/**
 	 * @param string new label
 	 */
