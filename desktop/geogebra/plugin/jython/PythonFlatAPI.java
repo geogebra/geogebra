@@ -1,7 +1,7 @@
 package geogebra.plugin.jython;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.TreeSet;
 
 import geogebra.common.awt.Color;
@@ -966,8 +966,9 @@ public class PythonFlatAPI {
 	 * @param geos array of Geos to put in the list
 	 * @return new geoList
 	 */
-	public GeoList geoList(ArrayList<GeoElement> geos) {
-		return kernel.List(null, geos, true);
+	public GeoList geoList(GeoElement[] geos) {
+		ArrayList<GeoElement> geoslist = new ArrayList<GeoElement>(Arrays.asList(geos));
+		return kernel.List(null, geoslist, true);
 	}
 	
 	/*
