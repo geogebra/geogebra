@@ -73,15 +73,14 @@
 			debug="off"
 			deprecation="on"
 			optimize="off"
-                        includeantruntime="false">
+			includeantruntime="false">
 			<classpath refid="build_classpath" />
 			<include name="mpreduce/**/*.java" />
-			<exclude name="mpreduce/Interpreter2ggb.java" />
 		</javac>
 
 	        <!-- Putting back Interpreter2.java -->
-	        <copy file="Interpreter2.java.save" tofile="Interpreter2.java" />
-		
+	        <copy file="Interpreter2.java.save" tofile="Interpreter2.java" overwrite="true" />
+        
 		<!--<copy todir="${build.classes.dir}">
 			<fileset dir="${lib.dir}/images" >
 				<include name="**/*.img" />

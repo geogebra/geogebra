@@ -11,7 +11,7 @@ load!-module 'compiler;
 
 % @srcdir := "/cygdrive/c/projects/reduce-algebra/trunk/csl/cslbase";
 
-<< m := open("$srcdir/../../src/packages/package.map", 'input);
+<< m := open("$srcdir/packages/package.map", 'input);
    oldi := rds m;
    off echo;
    packages := read();
