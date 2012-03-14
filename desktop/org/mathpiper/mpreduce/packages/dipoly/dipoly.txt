@@ -1,0 +1,24 @@
+
+The following modules comprise a complete distributive polynomial package:
+
+a2dip           Converts a prefix form to distributive polynomial
+bcoeff          Base coefficient arithmetic assuming rationals
+consel          Constructors and selectors
+dip2a           Converts distributive polynomials to distributive form
+dipoly          Distributive polynomial arithmetic
+dipprint        Distributive polynomial print routines
+dipvars         Determines distributive polynomial variables in a form
+expvec          Exponent vector arithmetic assuming generic operations
+expvec1         Exponent vector arithmetic assuming fast integers
+
+
+The following other modules are needed to complete the distributive
+polynomial package:
+
+farith  (arith) Support for fast arithmetic operators
+gcdn    (arith) Numerical gcd routine using binary division
+module  (rlisp) Support for "module", "endmodule", etc.
+sort    (util)  Sorting routines
+where   (rlisp) Support for "where" construct
+
+

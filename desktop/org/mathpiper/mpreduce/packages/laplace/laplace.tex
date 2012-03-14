@@ -1,0 +1,101 @@
+\documentclass{article}
+
+\usepackage[dvipdfm]{graphicx}
+\usepackage[dvipdfm]{color}
+\usepackage[dvipdfm]{hyperref}
+
+\setlength{\parindent}{0cm}
+
+\title{SOFIA LAPLACE AND INVERSE LAPLACE TRANSFORM PACKAGE}
+\author{C. Kazasov\and M. Spiridonova \and V. Tomov}
+\date{}
+
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\begin{tabular}{lp{10cm}}
+Reference: & {\bf Christomir Kazasov}, Laplace Transformations in REDUCE 3, Proc.
+Eurocal '87, Lecture Notes in Comp. Sci., Springer-Verlag
+(1987) 132-133.
+\end{tabular} 
+\end{center}
+\ \\
+\ \\
+Some hints on how to use to use this package: \\
+\ \\
+Syntax: \\
+\ \\
+{\tt LAPLACE($<exp>,<var-s>,<var-t>$ }) \\
+\ \\
+{\tt INVLAP($<exp>,<var-s>,<var-t>$)} \\
+\ \\
+where $<exp>$ is the expression to be transformed, $<var-s>$ is the source
+variable (in most cases $<exp>$ depends explicitly of this variable) and
+$<var-t>$ is the target variable. If $<var-t>$ is omitted, the package uses
+an internal variable lp!\& or il!\&, respectively. \\
+\ \\
+The following switches can be used to control the transformations: \\
+\begin{center}
+\begin{tabular}{lp{10cm}}
+{\tt lmon}: & If on, sin, cos, sinh and cosh are converted by {\tt LAPLACE} into
+exponentials, \\
+{\tt lhyp}: & If on, expressions $e^{\tilde{}x}$ are converted by {\tt INVLAP} into 
+hyperbolic functions sinh and cosh, \\
+{\tt ltrig}: & If on, expressions $e^{\tilde{}x}$ are converted by {\tt INVLAP} into
+trigonometric functions sin and cos. \\
+\end{tabular} 
+\end{center}
+\ \\
+The system can be extended by adding Laplace transformation rules for
+single functions by rules or rule sets.~ In such a rule the source
+variable MUST be free, the target variable MUST be il!\& for {\tt LAPLACE} and
+lp!\& for {\tt INVLAP} and the third parameter should be omitted.~ Also rules for
+transforming derivatives are entered in such a form. \\
+
+\pagebreak
+{\bf Examples:}
+\begin{verbatim}
+
+    let {laplace(log(~x),x) => -log(gam * il!&)/il!&,
+
+    invlap(log(gam * ~x)/x,x) => -log(lp!&)};
+
+
+    operator f;
+
+    let{
+
+    laplace(df(f(~x),x),x) => il!&*laplace(f(x),x) - sub(x=0,f(x)),
+
+    laplace(df(f(~x),x,~n),x) => il!&**n*laplace(f(x),x) -
+
+    for i:=n-1 step -1 until 0 sum
+
+    sub(x=0, df(f(x),x,n-1-i)) * il!&**i
+
+    when fixp n,
+
+    laplace(f(~x),x) = f(il!&)
+
+    };
+
+\end{verbatim}
+
+
+Remarks about some functions: \\
+\ \\
+The DELTA and GAMMA functions are known. \\
+ONE is the name of the unit step function. \\
+INTL is a parametrized integral function 
+\begin{center}
+{\tt intl($<expr>,<var>,0,<obj.var>$)}
+\end{center}
+which means \char`\"{}Integral of $<expr>$ wrt.~ $<var>$ taken from 0 to $<obj.var>$\char`\"{},
+e.g. {\tt intl($2{*}y^2,y,0,x$)} which is formally a function in $x$.
+\ \\
+\ \\
+We recommend reading the file LAPLACE.TST for a further introduction.
+
+\end{document}

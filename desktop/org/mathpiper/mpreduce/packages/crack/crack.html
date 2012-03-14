@@ -1,0 +1,103 @@
+crack.html
+
+<!DOCTYPE HTML PUBLIC "-//SQ//DTD HTML 2.0 + all extensions//EN"
+"hmpro3.dtd">
+<HTML>
+<HEAD>
+<TITLE></TITLE></HEAD>
+<BODY>
+<TABLE BORDER="BORDER">
+<TR>
+<TD>Authors</TD>
+<TD>Andreas Brand, Thomas Wolf</TD></TR>
+<TR>
+<TD>Title</TD>
+<TD><font face="Courier New">CRACK</font></TD></TR>
+<TR>
+<TD>Short description</TD>
+<TD>
+The package <font face="Courier New">CRACK</font> attempts to
+solve an overdetermined system of ordinary or partial
+differential equations (ODEs/PDEs) with at most polynomial
+non-linearities in the unknown functions and their derivatives.
+It can be run in automatic batch mode or interactively.
+Applications of <font face="Courier New">CRACK</font> include
+a program <a href="conlaw.html">
+<font face="Courier New">CONLAW</font></a>
+for the computation of conservation laws of DEs, 
+a program <a href="liepde.html">
+<font face="Courier New">LIEPDE</font></a>
+for the computation of infinitesimal symmetries of DEs
+and a program <a href="applysym.html">
+<font face="Courier New">APPLYSYM</font></a>
+for the computation of symmetry and similarity variables from
+infinitesimal symmetries.
+</TD></TR>
+<TR>
+<TD>Platform</TD>
+<TD>REDUCE, version 3.6 or 3.7</TD></TR>
+<TR>
+<TD>System requirements</TD>
+<TD>The memory requirements depend crucially on the
+application. For example, the test files 
+<a href="ftp://ftp.maths.qmw.ac.uk/pub/tw/crack/crack.tst">
+<font face="Courier New">crack.tst</font></a>,
+<a href="ftp://ftp.maths.qmw.ac.uk/pub/tw/applysym/applysym.tst">
+<font face="Courier New">applysym.tst</font></a>,
+have been 
+run in a 4MB session under LINUX. On the other hand, for 
+more complex examples in 
+<a href="ftp://ftp.maths.qmw.ac.uk/pub/tw/liepde/liepde.tst">
+<font face="Courier New">liepde.tst</font></a> and
+<a href="ftp://ftp.maths.qmw.ac.uk/pub/tw/conlaw/conlaw.tst">
+<font face="Courier New">conlaw.tst</font></a>
+4MB are not enough but 8MB are. <br>
+<font face="Courier New">CRACK</font>
+and related programs have been tested under the Portable Standard LISP
+(PSL) version and the Codemist Standard Lisp (CSL)
+version of REDUCE. </TD></TR>
+<TR>
+<TD>Installation</TD>
+<TD>In a running REDUCE session either do <br>
+<font face="Courier New"> &nbsp; in "crack.red"$ </font> <br>
+or, in order to speed up computation, either compile it with <br>
+<font face="Courier New"> &nbsp; on comp$ </font> <br>
+before the above command, or, generate a fast-loading compiled file once with <br>
+<font face="Courier New"> &nbsp; faslout "crack"$ </font> <br>
+<font face="Courier New"> &nbsp; in "crack.red"$ </font> <br>
+<font face="Courier New"> &nbsp; faslend$ </font> <br>
+and load that file whenever you want to run 
+<font face="Courier New">CRACK</font> with <br>
+<font face="Courier New"> &nbsp; load crack$ </font> <br>
+The above commands assume all files to be in the current directory. 
+</TD></TR>
+<TR>
+<TD>More information/updates </TD>
+<TD>There are available a 
+<a href="ftp://ftp.maths.qmw.ac.uk/pub/tw/crack/crack.tex">
+<font face="Courier New">manual</font></a>, a
+<a href="ftp://ftp.maths.qmw.ac.uk/pub/tw/crack/crack.tst">
+<font face="Courier New">test file</font></a> and a
+<a href="ftp://ftp.maths.qmw.ac.uk/pub/tw/crack/crack.rlg">
+<font face="Courier New">log file</font></a>. <br>
+<font face="Courier New"> CRACK </font> can be run from a 
+<a href="http://cathode.maths.qmw.ac.uk/demo.html">web demo</a>
+created by Francis Wright and Arrigo Triulzi
+with problems of restricted size. <br>
+The latest version is available from 
+<a href="ftp://ftp.maths.qmw.ac.uk/pub/tw/crack/">
+ftp://ftp.maths.qmw.ac.uk/pub/tw/crack/</a>. <br>
+Publications related to <font face="Courier New">CRACK</font>
+can be found 
+<a href="http://www.maths.qmw.ac.uk/~tw/public2.html#2">here</a>.
+</TD></TR>
+<TR>
+<TD>Contact</TD>
+<TD>e-mail: <a href="mailto:T.Wolf@maths.qmw.ac.uk">
+Thomas Wolf</a></TD></TR></TABLE></BODY></HTML>
+
+
+
+
+
+

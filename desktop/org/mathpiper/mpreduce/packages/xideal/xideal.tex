@@ -1,0 +1,414 @@
+\documentstyle[11pt,reduce]{article}
+
+\title{\bf XIDEAL\\
+Gr{\"o}bner Bases for Exterior Algebra}
+
+\author{
+David Hartley
+ \thanks{Postal address: GMD--SCAI, D--53754 St~Augustin, Germany.}
+ \thanks{Email: Hartley@gmd.de}				\\
+Institute for Algorithms and Scientific Computing	\\
+GMD --- German National Research Center			\\
+for Information Technology				\\
+St Augustin, Germany					\\
+\\ \and
+Philip A.~Tuckey\thanks{Email: pat@rs3.univ-fcomte.fr}	\\
+Laboratoire de Physique Moleculaire			\\
+UFR des Sciences et Techniques				\\
+Universite de Franche-Comte				\\
+25030 Besancon						\\
+France							
+}
+
+\date{Version 2.4}
+
+\begin{document}
+\maketitle
+
+\section{Description}
+
+The method of Gr{\"o}bner bases in commutative polynomial rings introduced by
+Buchberger (e.g.~\cite{Buchberger}) is a well-known and very important tool
+in polynomial ideal theory, for example in solving the ideal membership
+problem. XIDEAL extends the method to exterior algebras using
+algorithms from \cite{HT} and \cite{Apel}.
+
+There are two main departures from the commutative polynomial case. First,
+owing to the non-commutative product in exterior algebras, ideals are no
+longer automatically two-sided, and it is necessary to distinguish between
+left and right ideals. Secondly, because there are zero divisors, confluent
+reduction relations are no longer sufficient to solve the ideal membership
+problem: a unique normal form for every polynomial does not guarantee that
+all elements in the ideal reduce to zero. This leads to two possible
+definitions of Gr{\"o}bner bases as pointed out by Stokes \cite{Stokes}.
+
+XIDEAL constructs Gr{\"o}bner bases for solving the left ideal membership
+problem: Gr{\"o}bner left ideal bases or GLIBs. For graded ideals, where each
+form is homogeneous in degree, the distinction between left and right
+ideals vanishes. Furthermore, if the generating forms are all homogeneous,
+then the Gr{\"o}bner bases for the non-graded and graded ideals are
+identical. In this case, XIDEAL is able to save time by truncating the
+Gr{\"o}bner basis at some maximum degree if desired.
+
+XIDEAL uses the exterior calculus package EXCALC of E.~Schr{\"u}fer
+\cite{EXCALC} to provide the exterior algebra definitions. EXCALC is loaded
+automatically with XIDEAL.
+% The basis 1-forms for the exterior algebra
+% are automatically extracted from the input. Consequently, each expression
+% must be written in terms of these 1-forms -- $p$-form kernels with $p>1$
+% are not allowed. Similarly all distinct 1-forms in the input are assumed to
+% be linearly independent -- if a dimension has been fixed (using the EXCALC
+% \f{SPACEDIM} or \f{COFRAME} statements), then input containing more than this
+% number of distinct 1-forms will generate an error. The exterior algebra can
+% be based on either an abstract vector space or the cotangent space at some
+% fixed point on a manifold. Any functions or 0-forms are treated as constant
+% non-vanishing coefficients.
+The exterior variables may be specified explicitly, or extracted
+automatically from the input polynomials.  All distinct exterior variables
+in the input are assumed to be linearly independent -- if a dimension has
+been fixed (using the EXCALC \f{spacedim} or \f{coframe} statements), then
+input containing distinct exterior variables with degrees totaling more
+than this number will generate an error.
+
+% The term ordering used is the graded lexicographical ordering based on the
+% prevailing EXCALC kernel ordering for the basis 1-forms. This puts
+% highest degree first and then sorts terms of the same degree
+% lexicographically. The EXCALC kernel ordering can be changed with the
+% \REDUCE{} \f{KORDER} or EXCALC \f{FORDER} statements.
+
+
+
+\section{Declarations}
+
+
+\subsubsection*{xorder}
+
+\f{xorder} sets the term ordering for all other calculations. The syntax is
+\begin{verbatim}
+     xorder k
+\end{verbatim}
+where \f{k} is one of \f{lex}, \f{gradlex} or \f{deglex}. The
+lexicographical ordering \f{lex} is based on the prevailing EXCALC kernel
+ordering for the exterior variables. The EXCALC kernel ordering can be
+changed with the \REDUCE{} \f{korder} or EXCALC \f{forder} declarations. The
+graded lexicographical ordering \f{gradlex} puts terms with more factors
+first (irrespective of their exterior degrees) and sorts terms of the same
+grading lexicographically. The degree lexicographical ordering \f{deglex}
+takes account of the exterior degree of the variables, putting highest
+degree first and then sorting terms of the same degree lexicographically.
+The default ordering is \f{deglex}.
+
+
+\subsubsection*{xvars}
+
+It is possible to consider scalar and 0-form variables in exterior
+polynomials in two ways: as variables or as coefficient parameters. This
+difference is crucial for Gr{\"o}bner basis calculations. By default, all
+scalar variables which have been declared as 0-forms are treated as
+exterior variables, along with any EXCALC kernels of degree 0. This
+division can be changed with the \f{xvars} declaration. The syntax is
+\begin{verbatim}
+     xvars U,V,W,...
+\end{verbatim}
+where the arguments are either kernels or lists of kernels. All variables
+specified in the \f{xvars} declaration are treated as exterior variables in
+subsequent XIDEAL calculations with exterior polynomials, and any other
+scalars are treated as parameters. This is true whether or not the
+variables have been declared as 0-forms. The declaration
+\begin{verbatim}
+     xvars {}
+\end{verbatim}
+causes all degree 0 variables to be treated as parameters, and
+\begin{verbatim}
+     xvars nil
+\end{verbatim}
+restores the default. Of course, $p$-form kernels with $p\not=0$ are always
+considered as exterior variables. The order of the variables in an
+\f{xvars} declaration has no effect on the \REDUCE{} kernel ordering or
+XIDEAL term ordering.
+
+
+
+\section{Operators}
+
+
+\subsubsection*{xideal}
+
+\f{xideal} calculates a Gr{\"o}bner left ideal basis in
+an exterior algebra. The syntax is
+\begin{verbatim}
+     xideal(S:list of forms[,V:list of kernels][,R:integer])
+           :list of forms.
+\end{verbatim}
+\f{xideal} calculates a Gr{\"o}bner basis for the left ideal generated by
+\f{S} using the current term ordering. The resulting list can be used for
+subsequent reductions with \f{xmod} as long as the term ordering is not
+changed. Which 0-form variables are to be regarded as exterior variables
+can be specified in an optional argument \f{V} (just like an \f{xvars}
+declaration). The order of variables in \f{V} has no effect on the term
+ordering. If the set of generators \f{S} is graded, an optional parameter
+\f{R} can be given, and \f{xideal} produces a truncated basis suitable for
+reducing exterior forms of degree less than or equal to \f{R} in the left
+ideal. This can save time and space with large problems, but the result
+cannot be used for exterior forms of degree greater than \f{R}. The forms
+returned by \f{xideal} are sorted in increasing order. See also the
+switches \f{trxideal} and \f{xfullreduction}.
+
+
+\subsubsection*{xmodideal}
+
+\f{xmodideal} reduces exterior forms to their (unique) normal forms modulo
+a left ideal. The syntax is
+\begin{verbatim}
+     xmodideal(F:form, S:list of forms):form
+\end{verbatim}
+or
+\begin{verbatim}
+     xmodideal(F:list of forms, S:list of forms)
+              :list of forms.
+\end{verbatim}
+An alternative infix syntax is also available:
+\begin{verbatim}
+     F xmodideal S.
+\end{verbatim}
+\f{xmodideal(F,S)} first calculates a Gr{\"o}bner basis for the left ideal
+generated by \f{S}, and then reduces \f{F}. \f{F} may be either a single
+exterior form, or a list of forms, and \f{S} is a list of forms. If \f{F}
+is a list of forms, each element is reduced, and any which vanish are
+deleted from the result. 
+% If this operator is used more than once, and \f{S} does not change
+% between calls, then the Gr{\"o}bner basis is not recalculated. 
+If the set of generators \f{S} is graded, then a truncated Gr{\"o}bner basis
+is calculated using the degree of \f{F} (or the maximal degree in
+\f{F}). See also \f{trxmod}.
+
+
+\subsubsection*{xmod}
+
+\f{xmod} reduces exterior forms to their (not necessarily unique) normal
+forms modulo a set of exterior polynomials. The syntax is
+\begin{verbatim}
+     xmod(F:form, S:list of forms):form
+\end{verbatim}
+or
+\begin{verbatim}
+     xmod(F:list of forms, S:list of forms):list of forms.
+\end{verbatim}
+An alternative infix syntax is also available:
+\begin{verbatim}
+     F xmod S.
+\end{verbatim}
+\f{xmod(F,S)} reduces \f{F} with respect to the set of exterior polynomials
+\f{S}, which is not necessarily a Gr{\"o}bner basis. \f{F} may be either a
+single exterior form, or a list of forms, and \f{S} is a list of
+forms. This operator can be used in conjunction with \f{xideal} to produce
+the same effect as \f{xmodideal}: for a single homogeneous form \f{F} and a
+set of exterior forms \f{S}, \f{F xmodideal S} is equivalent to \f{F xmod
+xideal(S,exdegree F)}. See also \f{trxmod}.
+
+
+\subsubsection*{xauto}
+
+\f{xauto} autoreduces a set of exterior forms. The syntax is
+\begin{verbatim}
+     xauto(S:list of forms):list of forms.
+\end{verbatim}
+\f{xauto S} returns a set of exterior polynomials which generate the same
+left ideal, but which are in normal form with respect to each other. For
+linear expressions, this is equivalent to finding the reduced row echelon
+form of the coefficient matrix.
+
+
+\subsubsection*{excoeffs}
+
+The operator \f{excoeffs}, with syntax
+\begin{verbatim}
+     excoeffs(F:form):list of expressions
+\end{verbatim}
+returns the coefficients from an exterior form as a list. The coefficients
+are always scalars, but which degree 0 variables count as coefficient
+parameters is controlled by the command \f{xvars}.
+
+
+\subsubsection*{exvars}
+
+The operator \f{exvars}, with syntax
+\begin{verbatim}
+     exvars(F:form):list of kernels
+\end{verbatim}
+returns the exterior powers from an exterior form as a list. All non-scalar
+variables are returned, but which degree 0 variables count as coefficient
+parameters is controlled by the command \f{xvars}.
+
+
+\section{Switches} 
+
+
+\subsubsection*{xfullreduce}
+
+\f{on xfullreduce} allows \f{xideal} and \f{xmodideal} to calculate
+reduced, monic Gr{\"o}bner bases, which speeds up subsequent reductions, and
+guarantees a unique form for the Gr{\"o}bner basis. \f{off xfullreduce} turns
+of this feature, which may speed up calculation of some Gr{\"o}bner
+basis. \f{xfullreduce} is \f{on} by default.
+
+
+\subsubsection*{trxideal}
+
+\f{on trxideal} produces a trace of the calculations done by \f{xideal} and
+\f{xmodideal}, showing the basis polynomials and the results of the
+critical element calculations. This can generate profuse amounts of output.
+\f{trxideal} is \f{off} by default.
+
+
+\subsubsection*{trxmod}
+
+\f{on trxmod} produces a trace of reductions to normal form during
+calculations by XIDEAL operators. \f{trxmod} is \f{off} by default.
+
+
+% \subsubsection*{XSTATS}
+
+% \f{ON XSTATS} produces counting and timing information. As \f{XIDEAL} is
+% running, a hash mark (\verb.#.) is printed for each form taken from the
+% input list, followed by a sequences of carets (\verb.^.) and dollar signs
+% (\verb.$.). Each caret represents a new basis element obtained by a simple
+% wedge product, and each dollar sign represents a new basis element obtained
+% from an S-polynomial. At the end, a table is printed summarising the
+% calculation. \f{XSTATS} is \f{OFF} by default.
+
+\section{Examples}
+
+Suppose XIDEAL has been loaded, the switches are at their default settings,
+and the following exterior variables have been declared:
+
+\begin{verbatim}
+     pform x=0,y=0,z=0,t=0,f(i)=1,h=0,hx=0,ht=0;
+\end{verbatim}
+
+In a commutative polynomial ring, a single polynomial is its own Gr{\"o}bner
+basis. This is no longer true for exterior algebras because of the presence
+of zero divisors, and can lead to some surprising reductions:
+\begin{verbatim}
+     xideal {d x^d y - d z^d t};
+
+          {d t^d z + d x^d y,
+
+           d x^d y^d z,
+
+           d t^d x^d y}
+
+     f(3)^f(4)^f(5)^f(6) 
+       xmodideal {f(1)^f(2) + f(3)^f(4) + f(5)^f(6)};
+
+          0
+\end{verbatim}
+
+The heat equation, $h_{xx}=h_t$ can be represented by the following
+exterior differential system. 
+\begin{verbatim}
+     S := {d h - ht*d t - hx*d x,
+           d ht^d t + d hx^d x,
+           d hx^d t - ht*d x^d t};
+\end{verbatim}
+\f{xmodideal} can be used to check that the exterior differential system is
+closed under exterior differentiation.
+\begin{verbatim}
+     d S xmodideal S;
+
+          {}
+\end{verbatim}
+
+\f{xvars}, or a second argument to \f{xideal} can be used to change the
+division between exterior variables of degree 0 and parameters.
+\begin{verbatim}
+        xideal {a*d x+y*d y};
+
+                  d x*a + d y*y
+                {---------------}
+                        a
+
+        xvars {a};
+        xideal {a*d x+y*d y};
+ 
+                {d x*a + d y*y,d x^d y}
+ 
+        xideal({a*d x+y*d y},{a,y});
+ 
+                {d x*a + d y*y,
+ 
+                 d x^d y*y}
+ 
+        xvars {};       % all 0-forms are coefficients
+        excoeffs(d u - (a*p - q)*d y);
+        
+                {1, - a*p + q}
+        
+        exvars(d u - (a*p - q)*d y);
+
+                {d u,d y}
+
+        xvars {p,q};    % p,q are no longer coefficients
+        excoeffs(d u - (a*p - q)*d y);
+        
+                { - a,1,1}
+
+        exvars(d u - (a*p - q)*d y);
+
+                {d y*p,d y*q,d u}
+
+        xvars nil;
+\end{verbatim}
+
+
+Non-graded left and right ideals are no longer the same:
+\begin{verbatim}
+     d t^(d z+d x^d y) xmodideal {d z+d x^d y};
+
+          0
+
+     (d z+d x^d y)^d t xmodideal {d z+d x^d y};
+
+           - 2*d t^d z
+\end{verbatim}
+Any form containing a 0-form term generates the whole ideal:
+\begin{verbatim}
+     xideal {1 + f(1) + f(1)^f(2) + f(2)^f(3)^f(4)};
+
+          {1}
+\end{verbatim}
+
+
+\begin{thebibliography}{M}
+
+\bibitem{Buchberger}
+	B.~Buchberger, {\em
+	Gr{\"o}bner Bases: an algorithmic method in polynomial ideal theory,}
+	in {\em Multidimensional Systems Theory\/} ed.~N.K.~Bose
+	(Reidel, Dordrecht, 1985) chapter 6.
+\bibitem{HT}
+	D.~Hartley and P.A.~Tuckey, {\em
+	A Direct Characterisation of Gr{\"o}bner Bases in Clifford and
+	Grassmann Algebras,}
+	Preprint MPI-Ph/93--96 (1993).
+\bibitem{Apel}
+	J.~Apel, {\em A relationship between Gr{\"o}bner bases of ideals and
+	vector modules of G-algebras,}
+	Contemporary Math.~{\bf 131}(1992)195--204.
+\bibitem{Stokes}
+	T.~Stokes, {\em
+	Gr{\"o}bner bases in exterior algebra,}
+	J.~Automated Reasoning {\bf 6}(1990)233--250.
+\bibitem{EXCALC}
+	E.~Schr{\"u}fer, {\em
+	EXCALC, a system for doing calculations in the calculus of modern
+	differential geometry, User's manual,}
+	(The Rand Corporation, Santa Monica, 1986).
+
+\end{thebibliography}
+
+\end{document}
+
+
+
+

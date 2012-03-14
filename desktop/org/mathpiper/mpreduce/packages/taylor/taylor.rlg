@@ -1,0 +1,2496 @@
+comment
+        Test and demonstration file for the Taylor expansion package,
+        by Rainer M. Schoepf.  Works with version 2.2a (01-Apr-2000);
+
+
+%%% showtime;
+
+on errcont;
+
+ % disable interruption on errors
+
+comment Simple Taylor expansion;
+
+
+xx := taylor (e**x, x, 0, 4);
+
+
+               1   2    1   3    1    4      5
+xx := 1 + x + ---*x  + ---*x  + ----*x  + O(x )
+               2        6        24
+
+yy := taylor (e**y, y, 0, 4);
+
+
+               1   2    1   3    1    4      5
+yy := 1 + y + ---*y  + ---*y  + ----*y  + O(y )
+               2        6        24
+
+
+comment Basic operations, i.e. addition, subtraction, multiplication,
+        and division are possible: this is not done automatically if
+        the switch TAYLORAUTOCOMBINE is OFF.  In this case it is
+        necessary to use taylorcombine;
+
+
+taylorcombine (xx**2);
+
+
+             2    4   3    2   4      5
+1 + 2*x + 2*x  + ---*x  + ---*x  + O(x )
+                  3        3
+
+taylorcombine (ws - xx);
+
+
+     3   2    7   3    5   4      5
+x + ---*x  + ---*x  + ---*x  + O(x )
+     2        6        8
+
+taylorcombine (xx**3);
+
+
+           9   2    9   3    27   4      5
+1 + 3*x + ---*x  + ---*x  + ----*x  + O(x )
+           2        2        8
+
+
+comment The result is again a Taylor kernel;
+
+
+if taylorseriesp ws then write "OK";
+
+
+OK
+
+
+comment It is not possible to combine Taylor kernels that were
+        expanded with respect to different variables;
+
+
+taylorcombine (xx**yy);
+
+
+          1   2    1   3    1    4      5
+(1 + x + ---*x  + ---*x  + ----*x  + O(x ))
+          2        6        24
+
+            1   2    1   3    1    4      5
+**(1 + y + ---*y  + ---*y  + ----*y  + O(y ))
+            2        6        24
+
+
+comment But we can take the exponential or the logarithm
+        of a Taylor kernel;
+
+
+taylorcombine (e**xx);
+
+
+             2    5*e   3    5*e   4      5
+e + e*x + e*x  + -----*x  + -----*x  + O(x )
+                   6          8
+
+taylorcombine log ws;
+
+
+         1   2    1   3    1    4      5
+1 + x + ---*x  + ---*x  + ----*x  + O(x )
+         2        6        24
+
+
+comment A more complicated example;
+
+
+hugo := taylor(log(1/(1-x)),x,0,5);
+
+
+             1   2    1   3    1   4    1   5      6
+hugo := x + ---*x  + ---*x  + ---*x  + ---*x  + O(x )
+             2        3        4        5
+
+taylorcombine(exp(hugo/(1+hugo)));
+
+
+         1    4      6
+1 + x + ----*x  + O(x )
+         12
+
+
+comment We may try to expand about another point;
+
+
+taylor (xx, x, 1, 2);
+
+
+ 65     8             5         2            3
+---- + ---*(x - 1) + ---*(x - 1)  + O((x - 1) )
+ 24     3             4
+
+
+comment Arc tangent is one of the functions this package knows of;
+
+
+xxa := taylorcombine atan ws;
+
+
+             65      1536             2933040          2            3
+xxa := atan(----) + ------*(x - 1) - ----------*(x - 1)  + O((x - 1) )
+             24      4801             23049601
+
+
+comment The trigonometric functions;
+
+
+taylor (tan x / x, x, 0, 2);
+
+
+     1   2      3
+1 + ---*x  + O(x )
+     3
+
+
+taylorcombine sin ws;
+
+
+          cos(1)   2      3
+sin(1) + --------*x  + O(x )
+            3
+
+
+taylor (cot x / x, x, 0, 4);
+
+
+ -2    1     1    2     2    4      5
+x   - --- - ----*x  - -----*x  + O(x )
+       3     45        945
+
+
+comment The poles of these functions are correctly handled;
+
+
+taylor(tan x,x,pi/2,0);
+
+
+         pi  -1          pi
+ - (x - ----)   + O(x - ----)
+         2               2
+
+
+taylor(tan x,x,pi/2,3);
+
+
+         pi  -1    1        pi      1         pi  3           pi  4
+ - (x - ----)   + ---*(x - ----) + ----*(x - ----)  + O((x - ----) )
+         2         3        2       45        2               2
+
+
+comment Expansion with respect to more than one kernel is possible;
+
+
+xy := taylor (e**(x+y), x, 0, 2, y, 0, 2);
+
+
+               1   2                            3  3
+xy := 1 + y + ---*y  + x + y*x + (4 terms) + O(x ,y )
+               2
+
+
+taylorcombine (ws**2);
+
+
+             2                                3  3
+1 + 2*y + 2*y  + 2*x + 4*y*x + (4 terms) + O(x ,y )
+
+
+comment We take the inverse and convert back to REDUCE's standard
+        representation;
+
+
+taylorcombine (1/ws);
+
+
+             2                                3  3
+1 - 2*x + 2*x  - 2*y + 4*y*x + (4 terms) + O(x ,y )
+
+taylortostandard ws;
+
+
+   2  2      2        2        2                    2
+4*x *y  - 4*x *y + 2*x  - 4*x*y  + 4*x*y - 2*x + 2*y  - 2*y + 1
+
+
+comment Some examples of Taylor kernel divsion;
+
+
+xx1 := taylor (sin (x), x, 0, 4);
+
+
+            1   3      5
+xx1 := x - ---*x  + O(x )
+            6
+
+taylorcombine (xx/xx1);
+
+
+ -1        2       1   2      3
+x   + 1 + ---*x + ---*x  + O(x )
+           3       3
+
+taylorcombine (1/xx1);
+
+
+ -1    1         3
+x   + ---*x + O(x )
+       6
+
+
+tt1 := taylor (exp (x), x, 0, 3);
+
+
+                1   2    1   3      4
+tt1 := 1 + x + ---*x  + ---*x  + O(x )
+                2        6
+
+tt2 := taylor (sin (x), x, 0, 3);
+
+
+            1   3      4
+tt2 := x - ---*x  + O(x )
+            6
+
+tt3 := taylor (1 + tt2, x, 0, 3);
+
+
+                1   3      4
+tt3 := 1 + x - ---*x  + O(x )
+                6
+
+taylorcombine(tt1/tt2);
+
+
+ -1        2         2
+x   + 1 + ---*x + O(x )
+           3
+
+taylorcombine(tt1/tt3);
+
+
+     1   2    1   3      4
+1 + ---*x  - ---*x  + O(x )
+     2        6
+
+taylorcombine(tt2/tt1);
+
+
+     2    1   3      4
+x - x  + ---*x  + O(x )
+          3
+
+taylorcombine(tt3/tt1);
+
+
+     1   2    1   3      4
+1 - ---*x  + ---*x  + O(x )
+     2        6
+
+
+
+comment Here's what I call homogeneous expansion;
+
+
+xx := taylor (e**(x*y), {x,y}, 0, 2);
+
+
+                       3
+xx := 1 + y*x + O({x,y} )
+
+xx1 := taylor (sin (x+y), {x,y}, 0, 2);
+
+
+                      3
+xx1 := y + x + O({x,y} )
+
+xx2 := taylor (cos (x+y), {x,y}, 0, 2);
+
+
+            1   2          1   2          3
+xx2 := 1 - ---*y  - y*x - ---*x  + O({x,y} )
+            2              2
+
+temp := taylorcombine (xx/xx2);
+
+
+             1   2            1   2          3
+temp := 1 + ---*y  + 2*y*x + ---*x  + O({x,y} )
+             2                2
+
+taylorcombine (ws*xx2);
+
+
+                 3
+1 + y*x + O({x,y} )
+
+
+comment The following shows a principal difficulty:
+        since xx1 is symmetric in x and y but has no constant term
+        it is impossible to compute 1/xx1;
+
+
+taylorcombine (1/xx1);
+
+
+***** Not a unit in argument to invtaylor 
+
+
+comment Substitution in Taylor expressions is possible;
+
+
+sub (x=z, xy);
+
+
+         1   2                            3  3
+1 + y + ---*y  + z + y*z + (4 terms) + O(z ,y )
+         2
+
+
+comment Expression dependency in substitution is detected;
+
+
+sub (x=y, xy);
+
+
+***** Invalid substitution in Taylor kernel: dependent variables y y 
+
+
+comment It is possible to replace a Taylor variable by a constant;
+
+
+sub (x=4, xy);
+
+
+             13   2      3
+13 + 13*y + ----*y  + O(y )
+             2
+
+
+sub (x=4, xx1);
+
+
+           3
+4 + y + O(y )
+
+
+sub (y=0, ws);
+
+
+4
+
+
+comment This package has three switches:
+        TAYLORKEEPORIGINAL, TAYLORAUTOEXPAND, and TAYLORAUTOCOMBINE;
+
+
+on taylorkeeporiginal;
+
+
+
+temp := taylor (e**(x+y), x, 0, 5);
+
+
+                      y         y         y
+         y    y      e    2    e    3    e    4                 6
+temp := e  + e *x + ----*x  + ----*x  + ----*x  + (1 term) + O(x )
+                     2         6         24
+
+
+taylorcombine (log (temp));
+
+
+           6
+y + x + O(x )
+
+
+taylororiginal ws;
+
+
+x + y
+
+
+taylorcombine (temp * e**x);
+
+
+                  y         y         y
+ x   y    y      e    2    e    3    e    4                 6
+e *(e  + e *x + ----*x  + ----*x  + ----*x  + (1 term) + O(x ))
+                 2         6         24
+
+
+on taylorautoexpand;
+
+
+
+taylorcombine ws;
+
+
+                            y           y
+ y      y        y  2    4*e    3    2*e    4                 6
+e  + 2*e *x + 2*e *x  + ------*x  + ------*x  + (1 term) + O(x )
+                          3           3
+
+
+taylororiginal ws;
+
+
+ 2*x + y
+e
+
+
+taylorcombine (xx1 / x);
+
+
+   -1              2
+y*x   + 1 + O({x,y} )
+
+
+on taylorautocombine;
+
+
+
+xx / xx2;
+
+
+     1   2            1   2          3
+1 + ---*y  + 2*y*x + ---*x  + O({x,y} )
+     2                2
+
+
+ws * xx2;
+
+
+                 3
+1 + y*x + O({x,y} )
+
+
+comment Another example that shows truncation if Taylor kernels
+        of different expansion order are combined;
+
+
+comment First we increase the number of terms to be printed;
+
+
+taylorprintterms := all;
+
+
+taylorprintterms := all
+
+
+p := taylor (x**2 + 2, x, 0, 10);
+
+
+          2      11
+p := 2 + x  + O(x  )
+
+p - x**2;
+
+
+      2      11      2
+(2 + x  + O(x  )) - x
+
+p - taylor (x**2, x, 0, 5);
+
+
+       6
+2 + O(x )
+
+taylor (p - x**2, x, 0, 6);
+
+
+       7
+2 + O(x )
+
+off taylorautocombine;
+
+
+taylorcombine(p-x**2);
+
+
+       11
+2 + O(x  )
+
+taylorcombine(p - taylor(x**2,x,0,5));
+
+
+       6
+2 + O(x )
+
+
+comment Switch back to finite number of terms;
+
+
+taylorprintterms := 6;
+
+
+taylorprintterms := 6
+
+
+comment Some more examples;
+
+
+taylor(1/(1+y^4+x^2*y^2+x^4),{x,y},0,6);
+
+
+     4    2  2    4          7
+1 - y  - y *x  - x  + O({x,y} )
+
+
+taylor ((1 + x)**n, x, 0, 3);
+
+
+                                2
+           n*(n - 1)   2    n*(n  - 3*n + 2)   3      4
+1 + n*x + -----------*x  + ------------------*x  + O(x )
+               2                   6
+
+
+taylor (e**(-a*t) * (1 + sin(t)), t, 0, 4);
+
+
+                                         3      2
+                    a*(a - 2)   2     - a  + 3*a  - 1   3
+1 + ( - a + 1)*t + -----------*t  + ------------------*t
+                        2                   6
+
+        3      2
+    a*(a  - 4*a  + 4)   4      5
+ + -------------------*t  + O(t )
+           24
+
+
+operator f;
+
+
+
+taylor (1 + f(t), t, 0, 3);
+
+
+                                    sub(t=0,df(f(t),t,2))   2
+f(0) + 1 + sub(t=0,df(f(t),t))*t + -----------------------*t
+                                              2
+
+    sub(t=0,df(f(t),t,3))   3      4
+ + -----------------------*t  + O(t )
+              6
+
+
+taylor(f(sqrt(x^2+y^2)),x,x0,4,y,y0,4);
+
+
+         2     2                          2    2
+f(sqrt(x0  + y0 )) + sub(y=y0,df(f(sqrt(x0  + y )),y))*(y - y0)
+
+                         2    2
+    sub(y=y0,df(f(sqrt(x0  + y )),y,2))          2
+ + -------------------------------------*(y - y0)
+                     2
+
+                         2    2
+    sub(y=y0,df(f(sqrt(x0  + y )),y,3))          3
+ + -------------------------------------*(y - y0)
+                     6
+
+                         2    2
+    sub(y=y0,df(f(sqrt(x0  + y )),y,4))          4
+ + -------------------------------------*(y - y0)
+                    24
+
+                       2     2
+ + sub(x=x0,df(f(sqrt(x  + y0 )),x))*(x - x0) + (19 terms)
+
+             5         5
+ + O((x - x0) ,(y - y0) )
+
+
+clear f;
+
+
+
+taylor (sqrt(1 + a*x + sin(x)), x, 0, 3);
+
+
+                     2                     3      2
+     a + 1        - a  - 2*a - 1   2    3*a  + 9*a  + 9*a - 1   3      4
+1 + -------*x + -----------------*x  + -----------------------*x  + O(x )
+       2                8                        48
+
+
+taylorcombine (ws**2);
+
+
+                 1   3      4
+1 + (a + 1)*x - ---*x  + O(x )
+                 6
+
+
+taylor (sqrt(1 + x), x, 0, 5);
+
+
+     1       1   2    1    3     5    4     7    5      6
+1 + ---*x - ---*x  + ----*x  - -----*x  + -----*x  + O(x )
+     2       8        16        128        256
+
+
+taylor ((cos(x) - sec(x))^3, x, 0, 5);
+
+
+       6
+0 + O(x )
+
+
+taylor ((cos(x) - sec(x))^-3, x, 0, 5);
+
+
+    -6    1   -4    11    -2     347       6767    2     15377    4      6
+ - x   + ---*x   + -----*x   - ------- - --------*x  - ---------*x  + O(x )
+          2         120         15120     604800        7983360
+
+
+taylor (sqrt(1 - k^2*sin(x)^2), x, 0, 6);
+
+
+      2         2        2              2         4       2
+     k    2    k *( - 3*k  + 4)   4    k *( - 45*k  + 60*k  - 16)   6      7
+1 - ----*x  + ------------------*x  + ----------------------------*x  + O(x )
+     2                24                          720
+
+
+taylor (sin(x + y), x, 0, 3, y, 0, 3);
+
+
+     1   3        1     2    1   2      1    2  3                  4  4
+x - ---*x  + y - ---*y*x  - ---*y *x + ----*y *x  + (2 terms) + O(x ,y )
+     6            2          2          12
+
+
+taylor (e^x - 1 - x,x,0,6);
+
+
+ 1   2    1   3    1    4     1    5     1    6      7
+---*x  + ---*x  + ----*x  + -----*x  + -----*x  + O(x )
+ 2        6        24        120        720
+
+
+taylorcombine sqrt ws;
+
+
+    1              1       2        1        3         1        4
+---------*x + -----------*x  + ------------*x  + -------------*x
+ sqrt(2)       6*sqrt(2)        36*sqrt(2)        270*sqrt(2)
+
+         1         5      6
+ + --------------*x  + O(x )
+    2592*sqrt(2)
+
+
+taylor(sin(x)/x,x,1,2);
+
+
+                                       - 2*cos(1) + sin(1)         2
+sin(1) + (cos(1) - sin(1))*(x - 1) + ----------------------*(x - 1)
+                                               2
+
+            3
+ + O((x - 1) )
+
+
+taylor((sqrt(4+h)-2)/h,h,0,5);
+
+
+ 1     1         1    2      5     3      7      4      21      5      6
+--- - ----*h + -----*h  - -------*h  + --------*h  - ---------*h  + O(h )
+ 4     64       512        16384        131072        2097152
+
+
+taylor((sqrt(x)-2)/(4-x),x,4,2);
+
+
+    1     1               1          2            3
+ - --- + ----*(x - 4) - -----*(x - 4)  + O((x - 4) )
+    4     64             512
+
+
+taylor((sqrt(y+4)-2)/(-y),y,0,2);
+
+
+    1     1         1    2      3
+ - --- + ----*y - -----*y  + O(y )
+    4     64       512
+
+
+taylor(x*tanh(x)/(sqrt(1-x^2)-1),x,0,3);
+
+
+        7   2      4
+ - 2 + ---*x  + O(x )
+        6
+
+
+taylor((e^(5*x)-2*x)^(1/x),x,0,2);
+
+
+                   3
+ 3      3      73*e    2      3
+e  + 8*e *x + -------*x  + O(x )
+                 3
+
+
+taylor(sin x/cos x,x,pi/2,3);
+
+
+         pi  -1    1        pi      1         pi  3           pi  4
+ - (x - ----)   + ---*(x - ----) + ----*(x - ----)  + O((x - ----) )
+         2         3        2       45        2               2
+
+
+taylor(log x*sin(x^2)/(x*sinh x),x,0,2);
+
+
+             1   2      3
+log(x)*(1 - ---*x  + O(x ))
+             6
+
+
+taylor(1/x-1/sin x,x,0,2);
+
+
+    1         3
+ - ---*x + O(x )
+    6
+
+
+taylor(tan x/log cos x,x,pi/2,2);
+
+
+          pi  -1          pi
+  - (x - ----)   + O(x - ----)
+          2               2
+-------------------------------
+    log(pi - 2*x) - log(2)
+
+
+taylor(log(x^2/(x^2-a)),x,0,3);
+
+
+                2
+             - x
+taylor(log(--------),x,0,3)
+                 2
+            a - x
+
+
+
+comment Three more complicated examples contributed by Stan Kameny;
+
+
+zz2 := (z*(z-2*pi*i)*(z-pi*i/2)^2)/(sinh z-i);
+
+
+                 3            2       2        3
+        z*(2*i*pi  - 12*i*pi*z  - 9*pi *z + 4*z )
+zz2 := -------------------------------------------
+                     4*(sinh(z) - i)
+
+dz2 := df(zz2,z);
+
+
+                         3                      3               2  2
+dz2 := ( - 2*cosh(z)*i*pi *z + 12*cosh(z)*i*pi*z  + 9*cosh(z)*pi *z
+
+                      4                 3                    2
+         - 4*cosh(z)*z  + 2*sinh(z)*i*pi  - 36*sinh(z)*i*pi*z
+
+                        2                 3          2           3       3
+         - 18*sinh(z)*pi *z + 16*sinh(z)*z  + 18*i*pi *z - 16*i*z  + 2*pi
+
+                  2             2
+         - 36*pi*z )/(4*(sinh(z)  - 2*sinh(z)*i - 1))
+
+z0 := pi*i/2;
+
+
+       i*pi
+z0 := ------
+        2
+
+taylor(dz2,z,z0,6);
+
+
+                2
+           i*(pi  - 16)        i*pi      pi        i*pi  2
+ - 2*pi + --------------*(z - ------) + ----*(z - ------)
+                4               2        2          2
+
+              2
+    i*( - 3*pi  + 80)        i*pi  3    pi        i*pi  4
+ + -------------------*(z - ------)  - ----*(z - ------)
+           120                2         24         2
+
+           2
+    i*(5*pi  - 168)        i*pi  5                      i*pi  7
+ + -----------------*(z - ------)  + (1 term) + O((z - ------) )
+         3360               2                            2
+
+
+zz3:=(z*(z-2*pi)*(z-pi/2)^2)/(sin z-1);
+
+
+                  3       2            2      3
+        z*( - 2*pi  + 9*pi *z - 12*pi*z  + 4*z )
+zz3 := ------------------------------------------
+                     4*(sin(z) - 1)
+
+dz3 := df(zz3,z);
+
+
+                   3                2  2                 3             4
+dz3 := (2*cos(z)*pi *z - 9*cos(z)*pi *z  + 12*cos(z)*pi*z  - 4*cos(z)*z
+
+                      3               2                   2              3
+         - 2*sin(z)*pi  + 18*sin(z)*pi *z - 36*sin(z)*pi*z  + 16*sin(z)*z
+
+               3        2            2       3            2
+         + 2*pi  - 18*pi *z + 36*pi*z  - 16*z )/(4*(sin(z)  - 2*sin(z) + 1))
+
+z1 := pi/2;
+
+
+       pi
+z1 := ----
+       2
+
+taylor(dz3,z,z1,6);
+
+
+          2                                            2
+        pi  - 16        pi      pi        pi  2    3*pi  - 80        pi  3
+2*pi + ----------*(z - ----) + ----*(z - ----)  + ------------*(z - ----)
+           4            2       2         2           120            2
+
+                           2
+    pi        pi  4    5*pi  - 168        pi  5                      pi  7
+ + ----*(z - ----)  + -------------*(z - ----)  + (1 term) + O((z - ----) )
+    24        2           3360            2                          2
+
+
+taylor((sin tan x-tan sin x)/(asin atan x-atan asin x),x,0,6);
+
+
+     5   2    1313   4    2773    6      7
+1 + ---*x  + ------*x  - -------*x  + O(x )
+     3        1890        11907
+
+
+
+comment If the expansion point is not constant, it has to be taken
+        care of in differentation, as the following examples show;
+
+
+taylor(sin(x+a),x,a,8);
+
+
+                               sin(2*a)         2    cos(2*a)         3
+sin(2*a) + cos(2*a)*(x - a) - ----------*(x - a)  - ----------*(x - a)
+                                  2                     6
+
+    sin(2*a)         4    cos(2*a)         5                        9
+ + ----------*(x - a)  + ----------*(x - a)  + (3 terms) + O((x - a) )
+       24                   120
+
+df(ws,a);
+
+
+                               cos(2*a)         2    sin(2*a)         3
+cos(2*a) - sin(2*a)*(x - a) - ----------*(x - a)  + ----------*(x - a)
+                                  2                     6
+
+    cos(2*a)         4    sin(2*a)         5                        8
+ + ----------*(x - a)  - ----------*(x - a)  + (2 terms) + O((x - a) )
+       24                   120
+
+taylor(cos(x+a),x,a,7);
+
+
+                               cos(2*a)         2    sin(2*a)         3
+cos(2*a) - sin(2*a)*(x - a) - ----------*(x - a)  + ----------*(x - a)
+                                  2                     6
+
+    cos(2*a)         4    sin(2*a)         5                        8
+ + ----------*(x - a)  - ----------*(x - a)  + (2 terms) + O((x - a) )
+       24                   120
+
+
+
+comment A problem are non-analytical terms: rational powers and
+        logarithmic terms can be handled, but other types of essential
+        singularities cannot;
+
+
+taylor(sqrt(x),x,0,2);
+
+
+ 1/2      3
+x    + O(x )
+
+
+taylor(asinh(1/x),x,0,5);
+
+
+                       1   2    3    4    5    6      7
+ - log(x) + (log(2) + ---*x  - ----*x  + ----*x  + O(x ))
+                       4        32        96
+
+
+taylor(e**(1/x),x,0,2);
+
+
+        1/x
+taylor(e   ,x,0,2)
+
+
+comment Another example for non-integer powers;
+
+
+sub (y = sqrt (x), yy);
+
+
+     1/2    1       1   3/2    1    2      5/2
+1 + x    + ---*x + ---*x    + ----*x  + O(x   )
+            2       6          24
+
+
+comment Expansion about infinity is possible in principle...;
+
+
+taylor (e**(1/x), x, infinity, 5);
+
+
+     1     1   1      1   1      1    1       1    1        1
+1 + --- + ---*---- + ---*---- + ----*---- + -----*---- + O(----)
+     x     2    2     6    3     24    4     120    5        6
+               x          x           x            x        x
+
+xi := taylor (sin (1/x), x, infinity, 5);
+
+
+       1     1   1       1    1        1
+xi := --- - ---*---- + -----*---- + O(----)
+       x     6    3     120    5        6
+                 x            x        x
+
+
+y1 := taylor(x/(x-1), x, infinity, 3);
+
+
+           1     1      1        1
+y1 := 1 + --- + ---- + ---- + O(----)
+           x      2      3        4
+                 x      x        x
+
+z := df(y1, x);
+
+
+         1        1        1        1
+z :=  - ---- - 2*---- - 3*---- + O(----)
+          2        3        4        5
+         x        x        x        x
+
+
+comment ...but far from being perfect;
+
+
+taylor (1 / sin (x), x, infinity, 5);
+
+
+          1
+taylor(--------,x,infinity,5)
+        sin(x)
+
+
+clear z;
+
+
+
+comment You may access the expansion with the PART operator;
+
+
+part(yy,0);
+
+
+plus
+
+part(yy,1);
+
+
+1
+
+part(yy,4);
+
+
+  3
+ y
+----
+ 6
+
+part(yy,6);
+
+
+***** Expression taylor(1 + y + 1/2*y**2 + 1/6*y**3 + 1/24*y**4,y,0,4) 
+does not have part 6
+
+
+
+comment The template of a Taylor kernel can be extracted;
+
+
+taylortemplate yy;
+
+
+{{y,0,4}}
+
+
+taylortemplate xxa;
+
+
+{{x,1,2}}
+
+
+taylortemplate xi;
+
+
+{{x,infinity,5}}
+
+
+taylortemplate xy;
+
+
+{{x,0,2},{y,0,2}}
+
+
+taylortemplate xx1;
+
+
+{{{x,y},0,2}}
+
+
+comment Here is a slightly less trivial example;
+
+
+exp := (sin (x) * sin (y) / (x * y))**2;
+
+
+              2       2
+        sin(x) *sin(y)
+exp := -----------------
+              2  2
+             x *y
+
+
+taylor (exp, x, 0, 1, y, 0, 1);
+
+
+       2  2
+1 + O(x ,y )
+
+taylor (exp, x, 0, 2, y, 0, 2);
+
+
+     1   2    1   2    1   2  2      3  3
+1 - ---*x  - ---*y  + ---*y *x  + O(x ,y )
+     3        3        9
+
+
+tt := taylor (exp, {x,y}, 0, 2);
+
+
+           1   2    1   2          3
+tt := 1 - ---*y  - ---*x  + O({x,y} )
+           3        3
+
+
+comment An example that uses factorization;
+
+
+on factor;
+
+
+
+ff := y**5 - 1;
+
+
+        4    3    2
+ff := (y  + y  + y  + y + 1)*(y - 1)
+
+
+zz := sub (y = taylor(e**x, x, 0, 3), ff);
+
+
+                 1   2    1   3      4  4             1   2    1   3      4  3
+zz := ((1 + x + ---*x  + ---*x  + O(x ))  + (1 + x + ---*x  + ---*x  + O(x ))
+                 2        6                           2        6
+
+                    1   2    1   3      4  2             1   2    1   3      4
+        + (1 + x + ---*x  + ---*x  + O(x ))  + (1 + x + ---*x  + ---*x  + O(x ))
+                    2        6                           2        6
+
+                        1   2    1   3      4
+        + 1)*((1 + x + ---*x  + ---*x  + O(x )) - 1)
+                        2        6
+
+
+on exp;
+
+
+
+zz;
+
+
+          1   2    1   3      4  5
+(1 + x + ---*x  + ---*x  + O(x ))  - 1
+          2        6
+
+
+comment A simple example of Taylor kernel differentiation;
+
+
+hugo := taylor(e^x,x,0,5);
+
+
+                 1   2    1   3    1    4     1    5      6
+hugo := 1 + x + ---*x  + ---*x  + ----*x  + -----*x  + O(x )
+                 2        6        24        120
+
+df(hugo^2,x);
+
+
+             2    8   3    4   4      5
+2 + 4*x + 4*x  + ---*x  + ---*x  + O(x )
+                  3        3
+
+
+comment The following shows the (limited) capabilities to integrate
+        Taylor kernels. Only simple cases are supported, otherwise
+        a warning is printed and the Taylor kernels are converted to
+        standard representation;
+
+
+zz := taylor (sin x, x, 0, 5);
+
+
+           1   3     1    5      6
+zz := x - ---*x  + -----*x  + O(x )
+           6        120
+
+ww := taylor (cos y, y, 0, 5);
+
+
+           1   2    1    4      6
+ww := 1 - ---*y  + ----*y  + O(y )
+           2        24
+
+
+int (zz, x);
+
+
+ 1   2    1    4     1    6      7
+---*x  - ----*x  + -----*x  + O(x )
+ 2        24        720
+
+int (ww, x);
+
+
+     x   2    x    4      6
+x - ---*y  + ----*y  + O(y )
+     2        24
+
+int (zz + ww, x);
+
+
+  1   2    1    4     1    6      7           x   2    x    4      6
+(---*x  - ----*x  + -----*x  + O(x )) + (x - ---*y  + ----*y  + O(y ))
+  2        24        720                      2        24
+
+
+
+comment And here we present Taylor series reversion.
+        We start with the example given by Knuth for the algorithm;
+
+
+taylor (t - t**2, t, 0, 5);
+
+
+     2      6
+t - t  + O(t )
+
+
+taylorrevert (ws, t, x);
+
+
+     2      3      4       5      6
+x + x  + 2*x  + 5*x  + 14*x  + O(x )
+
+
+tan!-series := taylor (tan x, x, 0, 5);
+
+
+                   1   3    2    5      6
+tan-series := x + ---*x  + ----*x  + O(x )
+                   3        15
+
+taylorrevert (tan!-series, x, y);
+
+
+     1   3    1   5      6
+y - ---*y  + ---*y  + O(y )
+     3        5
+
+atan!-series:=taylor (atan y, y, 0, 5);
+
+
+                    1   3    1   5      6
+atan-series := y - ---*y  + ---*y  + O(y )
+                    3        5
+
+
+tmp := taylor (e**x, x, 0, 5);
+
+
+                1   2    1   3    1    4     1    5      6
+tmp := 1 + x + ---*x  + ---*x  + ----*x  + -----*x  + O(x )
+                2        6        24        120
+
+
+taylorrevert (tmp, x, y);
+
+
+         1         2    1         3    1         4    1         5            6
+y - 1 - ---*(y - 1)  + ---*(y - 1)  - ---*(y - 1)  + ---*(y - 1)  + O((y - 1) )
+         2              3              4              5
+
+
+taylor (log y, y, 1, 5);
+
+
+         1         2    1         3    1         4    1         5            6
+y - 1 - ---*(y - 1)  + ---*(y - 1)  - ---*(y - 1)  + ---*(y - 1)  + O((y - 1) )
+         2              3              4              5
+
+
+
+comment The following example calculates the perturbation expansion
+        of the root x = 20 of the following polynomial in terms of
+        EPS, in ROUNDED mode;
+
+
+poly := for r := 1 : 20 product (x - r);
+
+
+         20        19          18            17             16               15
+poly := x   - 210*x   + 20615*x   - 1256850*x   + 53327946*x   - 1672280820*x
+
+                        14                 13                   12
+         + 40171771630*x   - 756111184500*x   + 11310276995381*x
+
+                            11                     10                      9
+         - 135585182899530*x   + 1307535010540395*x   - 10142299865511450*x
+
+                              8                       7                        6
+         + 63030812099294896*x  - 311333643161390640*x  + 1206647803780373360*x
+
+                                5                        4
+         - 3599979517947607200*x  + 8037811822645051776*x
+
+                                 3                         2
+         - 12870931245150988800*x  + 13803759753640704000*x
+
+         - 8752948036761600000*x + 2432902008176640000
+
+
+on rounded;
+
+
+
+tpoly := taylor (poly, x, 20, 4);
+
+
+                                                                2
+tpoly := 1.21649393692e+17*(x - 20) + 4.31564847287e+17*(x - 20)
+
+                                      3                             4
+          + 6.68609351672e+17*(x - 20)  + 6.10115975015e+17*(x - 20)
+
+                      5
+          + O((x - 20) )
+
+
+taylorrevert (tpoly, x, eps);
+
+
+                                                  2                        3
+20 + 8.22034512178e-18*eps - 2.39726594662e-34*eps  + 1.09290580232e-50*eps
+
+                        4        5
+ - 5.97114159465e-67*eps  + O(eps )
+
+
+comment Some more examples using rounded mode;
+
+
+precision 13;
+
+
+12
+
+
+taylor(sin x/x,x,0,4);
+
+
+                     2                      4      5
+1 - 0.1666666666667*x  + 0.008333333333333*x  + O(x )
+
+
+taylor(sin x,x,pi/2,4);
+
+
+                            2                                        4
+1 - 0.5*(x - 1.570796326795)  + 0.04166666666667*(x - 1.570796326795)
+
+                         5
+ + O((x - 1.570796326795) )
+
+
+taylor(tan x,x,pi/2,4);
+
+
+                       -1
+ - (x - 1.570796326795)   + 0.3333333333333*(x - 1.570796326795)
+
+                                        3                         5
+ + 0.02222222222222*(x - 1.570796326795)  + O((x - 1.570796326795) )
+
+
+off rounded;
+
+
+
+
+comment An example that involves computing limits of type 0/0 if
+        expansion is done via differentiation;
+
+
+
+taylor(sqrt((e^x - 1)/x),x,0,15);
+
+
+     1       5    2     1    3     79     4      3     5                   16
+1 + ---*x + ----*x  + -----*x  + -------*x  + -------*x  + (10 terms) + O(x  )
+     4       96        128        92160        40960
+
+
+comment An example that involves intermediate non-analytical terms
+        which cancel entirely;
+
+
+taylor(x^(5/2)/(log(x+1)*tan(x^(3/2))),x,0,5);
+
+
+     1       1    2    7    3    139   4     67    5      6
+1 + ---*x - ----*x  - ----*x  - -----*x  + ------*x  + O(x )
+     2       12        24        720        1440
+
+
+comment Other examples involving non-analytical terms;
+
+
+taylor(log(e^x-1),x,0,5);
+
+
+           1       1    2     1     4      5
+log(x) + (---*x + ----*x  - ------*x  + O(x ))
+           2       24        2880
+
+
+taylor(e^(1/x)*(e^x-1),x,0,5);
+
+
+ 1/x       1   2    1   3    1    4     1    5      6
+e   *(x + ---*x  + ---*x  + ----*x  + -----*x  + O(x ))
+           2        6        24        120
+
+
+taylor(log(x)*x^10,x,0,5);
+
+
+         10      11
+log(x)*(x   + O(x  ))
+
+
+taylor(log(x)*x^10,x,0,11);
+
+
+         10      12
+log(x)*(x   + O(x  ))
+
+
+taylor(log(x-a)/((a-b)*(a-c)) + log(2(x-b))/((b-c)*(b-a))
+     + log(x-c)/((c-a)*(c-b)),x,infinity,2);
+
+
+           log(2)            1   1        1
+ - ---------------------- - ---*---- + O(----)
+                 2           2    2        3
+    a*b - a*c - b  + b*c         x        x
+
+
+ss := (sqrt(x^(2/5) +1) - x^(1/3)-1)/x^(1/3);
+
+
+             2/5         1/3
+       sqrt(x    + 1) - x    - 1
+ss := ---------------------------
+                  1/3
+                 x
+
+taylor(exp ss,x,0,2);
+
+
+ 1      1    1/15     1    2/15     1     1/5      1     4/15      1      1/3
+--- + -----*x     + -----*x     + ------*x    + -------*x     + --------*x
+ e     2*e           8*e           48*e          384*e           3840*e
+
+                   31/15
+ + (25 terms) + O(x     )
+
+
+taylor(exp sub(x=x^15,ss),x,0,2);
+
+
+ 1      1         1    2      3
+--- + -----*x + -----*x  + O(x )
+ e     2*e       8*e
+
+
+taylor(dilog(x),x,0,4);
+
+
+             1   2    1   3    1   4      5
+log(x)*(x + ---*x  + ---*x  + ---*x  + O(x ))
+             2        3        4
+
+       2
+     pi          1   2    1   3    1    4      5
+ + (----- - x - ---*x  - ---*x  - ----*x  + O(x ))
+      6          4        9        16
+
+
+taylor(ei(x),x,0,4);
+
+
+                        1   2    1    3    1    4      5
+log(x) - psi(1) + (x + ---*x  + ----*x  + ----*x  + O(x ))
+                        4        18        96
+
+
+comment In the following we demonstrate the possibiblity to compute the
+        expansion of a function which is given by a simple first order
+        differential equation: the function myexp(x) is exp(-x^2);
+
+
+operator myexp,myerf;
+
+
+let {df(myexp(~x),~x) => -2*x*myexp(x), myexp(0) => 1,
+     df(myerf(~x),~x) => 2/sqrt(pi)*myexp(x), myerf(0) => 0};
+
+
+taylor(myexp(x),x,0,5);
+
+
+     2    1   4      6
+1 - x  + ---*x  + O(x )
+          2
+
+taylor(myerf(x),x,0,5);
+
+
+    2               2        3        1        5      6
+----------*x - ------------*x  + ------------*x  + O(x )
+ sqrt(pi)       3*sqrt(pi)        5*sqrt(pi)
+
+clear {df(myexp(~x),~x) => -2*x*myexp(x), myexp(0) => 1,
+       df(myerf(~x),~x) => 2/sqrt(pi)*myexp(x), myerf(0) => 0};
+
+
+clear myexp,erf;
+
+
+
+%%% showtime;
+
+comment There are two special operators, implicit_taylor and
+        inverse_taylor, to compute the Taylor expansion of implicit
+        or inverse functions;
+
+
+
+implicit_taylor(x^2 + y^2 - 1,x,y,0,1,5);
+
+
+     1   2    1   4      6
+1 - ---*x  - ---*x  + O(x )
+     2        8
+
+
+implicit_taylor(x^2 + y^2 - 1,x,y,0,1,20);
+
+
+     1   2    1   4    1    6     5    8     7    10                  21
+1 - ---*x  - ---*x  - ----*x  - -----*x  - -----*x   + (5 terms) + O(x  )
+     2        8        16        128        256
+
+
+implicit_taylor(x+y^3-y,x,y,0,0,8);
+
+
+     3      5       7      9
+x + x  + 3*x  + 12*x  + O(x )
+
+
+implicit_taylor(x+y^3-y,x,y,0,1,5);
+
+
+     1       3   2    1   3    105   4    3   5      6
+1 - ---*x - ---*x  - ---*x  - -----*x  - ---*x  + O(x )
+     2       8        2        128        2
+
+
+implicit_taylor(x+y^3-y,x,y,0,-1,5);
+
+
+        1       3   2    1   3    105   4    3   5      6
+ - 1 - ---*x + ---*x  - ---*x  + -----*x  - ---*x  + O(x )
+        2       8        2        128        2
+
+
+implicit_taylor(y*e^y-x,x,y,0,0,5);
+
+
+     2    3   3    8   4    125   5      6
+x - x  + ---*x  - ---*x  + -----*x  + O(x )
+          2        3        24
+
+
+comment This is the function exp(-1/x^2), which has an essential
+        singularity at the point 0;
+
+
+implicit_taylor(x^2*log y+1,x,y,0,0,3);
+
+
+***** Computation of Taylor series of implicit function failed 
+      Input expression non-zero at given point 
+
+
+inverse_taylor(exp(x)-1,x,y,0,8);
+
+
+     1   2    1   3    1   4    1   5    1   6                  9
+y - ---*y  + ---*y  - ---*y  + ---*y  - ---*y  + (2 terms) + O(y )
+     2        3        4        5        6
+
+
+inverse_taylor(exp(x),x,y,0,5);
+
+
+         1         2    1         3    1         4    1         5            6
+y - 1 - ---*(y - 1)  + ---*(y - 1)  - ---*(y - 1)  + ---*(y - 1)  + O((y - 1) )
+         2              3              4              5
+
+
+inverse_taylor(sqrt(x),x,y,0,5);
+
+
+ 2      6
+y  + O(y )
+
+
+inverse_taylor(log(1+x),x,y,0,5);
+
+
+     1   2    1   3    1    4     1    5      6
+y + ---*y  + ---*y  + ----*y  + -----*y  + O(y )
+     2        6        24        120
+
+
+inverse_taylor((e^x-e^(-x))/2,x,y,0,5);
+
+
+     1   3    3    5      6
+y - ---*y  + ----*y  + O(y )
+     6        40
+
+
+comment In the next two cases the inverse functions have a branch
+        point, therefore the computation fails;
+
+
+inverse_taylor((e^x+e^(-x))/2,x,y,0,5);
+
+
+***** Computation of Taylor series of inverse function failed 
+
+
+inverse_taylor(exp(x^2-1),x,y,0,5);
+
+
+***** Computation of Taylor series of inverse function failed 
+
+
+inverse_taylor(exp(sqrt(x))-1,x,y,0,5);
+
+
+ 2    3    11   4    5   5      6
+y  - y  + ----*y  - ---*y  + O(y )
+           12        6
+
+
+inverse_taylor(x*exp(x),x,y,0,5);
+
+
+     2    3   3    8   4    125   5      6
+y - y  + ---*y  - ---*y  + -----*y  + O(y )
+          2        3        24
+
+
+
+%%% showtime;
+
+
+comment An application is the problem posed by Prof. Stanley:
+        we prove that the finite difference expression below
+        corresponds to the given derivative expression;
+
+
+operator diff,a,f,gg;
+
+  % We use gg to avoid conflict with high energy
+                       % physics operator.
+
+let diff(~f,~arg) => df(f,arg);
+
+
+
+derivative_expression :=
+diff(a(x,y)*diff(gg(x,y),x)*diff(gg(x,y),y)*diff(f(x,y),y),x) +
+diff(a(x,y)*diff(gg(x,y),x)*diff(gg(x,y),y)*diff(f(x,y),x),y) ;
+
+
+derivative_expression := 2*a(x,y)*df(f(x,y),x,y)*df(gg(x,y),x)*df(gg(x,y),y)
+
+ + a(x,y)*df(f(x,y),x)*df(gg(x,y),x,y)*df(gg(x,y),y)
+
+ + a(x,y)*df(f(x,y),x)*df(gg(x,y),x)*df(gg(x,y),y,2)
+
+ + a(x,y)*df(f(x,y),y)*df(gg(x,y),x,y)*df(gg(x,y),x)
+
+ + a(x,y)*df(f(x,y),y)*df(gg(x,y),x,2)*df(gg(x,y),y)
+
+ + df(a(x,y),x)*df(f(x,y),y)*df(gg(x,y),x)*df(gg(x,y),y)
+
+ + df(a(x,y),y)*df(f(x,y),x)*df(gg(x,y),x)*df(gg(x,y),y)
+
+
+finite_difference_expression :=
++a(x+dx,y+dy)*f(x+dx,y+dy)*gg(x+dx,y+dy)^2/(32*dx^2*dy^2)
++a(x+dx,y)*f(x+dx,y+dy)*gg(x+dx,y+dy)^2/(32*dx^2*dy^2)
++a(x,y+dy)*f(x+dx,y+dy)*gg(x+dx,y+dy)^2/(32*dx^2*dy^2)
++a(x,y)*f(x+dx,y+dy)*gg(x+dx,y+dy)^2/(32*dx^2*dy^2)
+-f(x,y)*a(x+dx,y+dy)*gg(x+dx,y+dy)^2/(32*dx^2*dy^2)
+-f(x,y)*a(x+dx,y)*gg(x+dx,y+dy)^2/(32*dx^2*dy^2)
+-f(x,y)*a(x,y+dy)*gg(x+dx,y+dy)^2/(32*dx^2*dy^2)
+-a(x,y)*f(x,y)*gg(x+dx,y+dy)^2/(32*dx^2*dy^2)
+-gg(x,y)*a(x+dx,y+dy)*f(x+dx,y+dy)*gg(x+dx,y+dy)/(16*dx^2*dy^2)
+-gg(x,y)*a(x+dx,y)*f(x+dx,y+dy)*gg(x+dx,y+dy)/(16*dx^2*dy^2)
+-gg(x,y)*a(x,y+dy)*f(x+dx,y+dy)*gg(x+dx,y+dy)/(16*dx^2*dy^2)
+-a(x,y)*gg(x,y)*f(x+dx,y+dy)*gg(x+dx,y+dy)/(16*dx^2*dy^2)
++f(x,y)*gg(x,y)*a(x+dx,y+dy)*gg(x+dx,y+dy)/(16*dx^2*dy^2)
++f(x,y)*gg(x,y)*a(x+dx,y)*gg(x+dx,y+dy)/(16*dx^2*dy^2)
++f(x,y)*gg(x,y)*a(x,y+dy)*gg(x+dx,y+dy)/(16*dx^2*dy^2)
++a(x,y)*f(x,y)*gg(x,y)*gg(x+dx,y+dy)/(16*dx^2*dy^2)
+-gg(x+dx,y)^2*a(x+dx,y+dy)*f(x+dx,y+dy)/(32*dx^2*dy^2)
++gg(x,y+dy)*gg(x+dx,y)*a(x+dx,y+dy)*f(x+dx,y+dy)/(16*dx^2*dy^2)
+-gg(x,y+dy)^2*a(x+dx,y+dy)*f(x+dx,y+dy)/(32*dx^2*dy^2)
++gg(x,y)^2*a(x+dx,y+dy)*f(x+dx,y+dy)/(32*dx^2*dy^2)
+-a(x+dx,y)*gg(x+dx,y)^2*f(x+dx,y+dy)/(32*dx^2*dy^2)
+-a(x,y+dy)*gg(x+dx,y)^2*f(x+dx,y+dy)/(32*dx^2*dy^2)
+-a(x,y)*gg(x+dx,y)^2*f(x+dx,y+dy)/(32*dx^2*dy^2)
++gg(x,y+dy)*a(x+dx,y)*gg(x+dx,y)*f(x+dx,y+dy)/(16*dx^2*dy^2)
++a(x,y+dy)*gg(x,y+dy)*gg(x+dx,y)*f(x+dx,y+dy)/(16*dx^2*dy^2)
++a(x,y)*gg(x,y+dy)*gg(x+dx,y)*f(x+dx,y+dy)/(16*dx^2*dy^2)
+-gg(x,y+dy)^2*a(x+dx,y)*f(x+dx,y+dy)/(32*dx^2*dy^2)
++gg(x,y)^2*a(x+dx,y)*f(x+dx,y+dy)/(32*dx^2*dy^2)
+-a(x,y+dy)*gg(x,y+dy)^2*f(x+dx,y+dy)/(32*dx^2*dy^2)
+-a(x,y)*gg(x,y+dy)^2*f(x+dx,y+dy)/(32*dx^2*dy^2)
++gg(x,y)^2*a(x,y+dy)*f(x+dx,y+dy)/(32*dx^2*dy^2)
++a(x,y)*gg(x,y)^2*f(x+dx,y+dy)/(32*dx^2*dy^2)
++f(x,y)*gg(x+dx,y)^2*a(x+dx,y+dy)/(32*dx^2*dy^2)
+-f(x,y)*gg(x,y+dy)*gg(x+dx,y)*a(x+dx,y+dy)/(16*dx^2*dy^2)
++f(x,y)*gg(x,y+dy)^2*a(x+dx,y+dy)/(32*dx^2*dy^2)
+-f(x,y)*gg(x,y)^2*a(x+dx,y+dy)/(32*dx^2*dy^2)
++a(x+dx,y-dy)*f(x+dx,y-dy)*gg(x+dx,y-dy)^2/(32*dx^2*dy^2)
++a(x+dx,y)*f(x+dx,y-dy)*gg(x+dx,y-dy)^2/(32*dx^2*dy^2)
++a(x,y-dy)*f(x+dx,y-dy)*gg(x+dx,y-dy)^2/(32*dx^2*dy^2)
++a(x,y)*f(x+dx,y-dy)*gg(x+dx,y-dy)^2/(32*dx^2*dy^2)
+-f(x,y)*a(x+dx,y-dy)*gg(x+dx,y-dy)^2/(32*dx^2*dy^2)
+-f(x,y)*a(x+dx,y)*gg(x+dx,y-dy)^2/(32*dx^2*dy^2)
+-f(x,y)*a(x,y-dy)*gg(x+dx,y-dy)^2/(32*dx^2*dy^2)
+-a(x,y)*f(x,y)*gg(x+dx,y-dy)^2/(32*dx^2*dy^2)
+-gg(x,y)*a(x+dx,y-dy)*f(x+dx,y-dy)*gg(x+dx,y-dy)/(16*dx^2*dy^2)
+-gg(x,y)*a(x+dx,y)*f(x+dx,y-dy)*gg(x+dx,y-dy)/(16*dx^2*dy^2)
+-gg(x,y)*a(x,y-dy)*f(x+dx,y-dy)*gg(x+dx,y-dy)/(16*dx^2*dy^2)
+-a(x,y)*gg(x,y)*f(x+dx,y-dy)*gg(x+dx,y-dy)/(16*dx^2*dy^2)
++f(x,y)*gg(x,y)*a(x+dx,y-dy)*gg(x+dx,y-dy)/(16*dx^2*dy^2)
++f(x,y)*gg(x,y)*a(x+dx,y)*gg(x+dx,y-dy)/(16*dx^2*dy^2)
++f(x,y)*gg(x,y)*a(x,y-dy)*gg(x+dx,y-dy)/(16*dx^2*dy^2)
++a(x,y)*f(x,y)*gg(x,y)*gg(x+dx,y-dy)/(16*dx^2*dy^2)
+-gg(x+dx,y)^2*a(x+dx,y-dy)*f(x+dx,y-dy)/(32*dx^2*dy^2)
++gg(x,y-dy)*gg(x+dx,y)*a(x+dx,y-dy)*f(x+dx,y-dy)/(16*dx^2*dy^2)
+-gg(x,y-dy)^2*a(x+dx,y-dy)*f(x+dx,y-dy)/(32*dx^2*dy^2)
++gg(x,y)^2*a(x+dx,y-dy)*f(x+dx,y-dy)/(32*dx^2*dy^2)
+-a(x+dx,y)*gg(x+dx,y)^2*f(x+dx,y-dy)/(32*dx^2*dy^2)
+-a(x,y-dy)*gg(x+dx,y)^2*f(x+dx,y-dy)/(32*dx^2*dy^2)
+-a(x,y)*gg(x+dx,y)^2*f(x+dx,y-dy)/(32*dx^2*dy^2)
++gg(x,y-dy)*a(x+dx,y)*gg(x+dx,y)*f(x+dx,y-dy)/(16*dx^2*dy^2)
++a(x,y-dy)*gg(x,y-dy)*gg(x+dx,y)*f(x+dx,y-dy)/(16*dx^2*dy^2)
++a(x,y)*gg(x,y-dy)*gg(x+dx,y)*f(x+dx,y-dy)/(16*dx^2*dy^2)
+-gg(x,y-dy)^2*a(x+dx,y)*f(x+dx,y-dy)/(32*dx^2*dy^2)
++gg(x,y)^2*a(x+dx,y)*f(x+dx,y-dy)/(32*dx^2*dy^2)
+-a(x,y-dy)*gg(x,y-dy)^2*f(x+dx,y-dy)/(32*dx^2*dy^2)
+-a(x,y)*gg(x,y-dy)^2*f(x+dx,y-dy)/(32*dx^2*dy^2)
++gg(x,y)^2*a(x,y-dy)*f(x+dx,y-dy)/(32*dx^2*dy^2)
++a(x,y)*gg(x,y)^2*f(x+dx,y-dy)/(32*dx^2*dy^2)
++f(x,y)*gg(x+dx,y)^2*a(x+dx,y-dy)/(32*dx^2*dy^2)
+-f(x,y)*gg(x,y-dy)*gg(x+dx,y)*a(x+dx,y-dy)/(16*dx^2*dy^2)
++f(x,y)*gg(x,y-dy)^2*a(x+dx,y-dy)/(32*dx^2*dy^2)
+-f(x,y)*gg(x,y)^2*a(x+dx,y-dy)/(32*dx^2*dy^2)
++f(x,y)*a(x+dx,y)*gg(x+dx,y)^2/(16*dx^2*dy^2)
++f(x,y)*a(x,y+dy)*gg(x+dx,y)^2/(32*dx^2*dy^2)
++f(x,y)*a(x,y-dy)*gg(x+dx,y)^2/(32*dx^2*dy^2)
++a(x,y)*f(x,y)*gg(x+dx,y)^2/(16*dx^2*dy^2)
+-f(x,y)*gg(x,y+dy)*a(x+dx,y)*gg(x+dx,y)/(16*dx^2*dy^2)
+-f(x,y)*gg(x,y-dy)*a(x+dx,y)*gg(x+dx,y)/(16*dx^2*dy^2)
+-f(x,y)*a(x,y+dy)*gg(x,y+dy)*gg(x+dx,y)/(16*dx^2*dy^2)
+-a(x,y)*f(x,y)*gg(x,y+dy)*gg(x+dx,y)/(16*dx^2*dy^2)
+-f(x,y)*a(x,y-dy)*gg(x,y-dy)*gg(x+dx,y)/(16*dx^2*dy^2)
+-a(x,y)*f(x,y)*gg(x,y-dy)*gg(x+dx,y)/(16*dx^2*dy^2)
++f(x,y)*gg(x,y+dy)^2*a(x+dx,y)/(32*dx^2*dy^2)
++f(x,y)*gg(x,y-dy)^2*a(x+dx,y)/(32*dx^2*dy^2)
+-f(x,y)*gg(x,y)^2*a(x+dx,y)/(16*dx^2*dy^2)
++a(x-dx,y+dy)*f(x-dx,y+dy)*gg(x-dx,y+dy)^2/(32*dx^2*dy^2)
++a(x-dx,y)*f(x-dx,y+dy)*gg(x-dx,y+dy)^2/(32*dx^2*dy^2)
++a(x,y+dy)*f(x-dx,y+dy)*gg(x-dx,y+dy)^2/(32*dx^2*dy^2)
++a(x,y)*f(x-dx,y+dy)*gg(x-dx,y+dy)^2/(32*dx^2*dy^2)
+-f(x,y)*a(x-dx,y+dy)*gg(x-dx,y+dy)^2/(32*dx^2*dy^2)
+-f(x,y)*a(x-dx,y)*gg(x-dx,y+dy)^2/(32*dx^2*dy^2)
+-f(x,y)*a(x,y+dy)*gg(x-dx,y+dy)^2/(32*dx^2*dy^2)
+-a(x,y)*f(x,y)*gg(x-dx,y+dy)^2/(32*dx^2*dy^2)
+-gg(x,y)*a(x-dx,y+dy)*f(x-dx,y+dy)*gg(x-dx,y+dy)/(16*dx^2*dy^2)
+-gg(x,y)*a(x-dx,y)*f(x-dx,y+dy)*gg(x-dx,y+dy)/(16*dx^2*dy^2)
+-gg(x,y)*a(x,y+dy)*f(x-dx,y+dy)*gg(x-dx,y+dy)/(16*dx^2*dy^2)
+-a(x,y)*gg(x,y)*f(x-dx,y+dy)*gg(x-dx,y+dy)/(16*dx^2*dy^2)
++f(x,y)*gg(x,y)*a(x-dx,y+dy)*gg(x-dx,y+dy)/(16*dx^2*dy^2)
++f(x,y)*gg(x,y)*a(x-dx,y)*gg(x-dx,y+dy)/(16*dx^2*dy^2)
++f(x,y)*gg(x,y)*a(x,y+dy)*gg(x-dx,y+dy)/(16*dx^2*dy^2)
++a(x,y)*f(x,y)*gg(x,y)*gg(x-dx,y+dy)/(16*dx^2*dy^2)
+-gg(x-dx,y)^2*a(x-dx,y+dy)*f(x-dx,y+dy)/(32*dx^2*dy^2)
++gg(x,y+dy)*gg(x-dx,y)*a(x-dx,y+dy)*f(x-dx,y+dy)/(16*dx^2*dy^2)
+-gg(x,y+dy)^2*a(x-dx,y+dy)*f(x-dx,y+dy)/(32*dx^2*dy^2)
++gg(x,y)^2*a(x-dx,y+dy)*f(x-dx,y+dy)/(32*dx^2*dy^2)
+-a(x-dx,y)*gg(x-dx,y)^2*f(x-dx,y+dy)/(32*dx^2*dy^2)
+-a(x,y+dy)*gg(x-dx,y)^2*f(x-dx,y+dy)/(32*dx^2*dy^2)
+-a(x,y)*gg(x-dx,y)^2*f(x-dx,y+dy)/(32*dx^2*dy^2)
++gg(x,y+dy)*a(x-dx,y)*gg(x-dx,y)*f(x-dx,y+dy)/(16*dx^2*dy^2)
++a(x,y+dy)*gg(x,y+dy)*gg(x-dx,y)*f(x-dx,y+dy)/(16*dx^2*dy^2)
++a(x,y)*gg(x,y+dy)*gg(x-dx,y)*f(x-dx,y+dy)/(16*dx^2*dy^2)
+-gg(x,y+dy)^2*a(x-dx,y)*f(x-dx,y+dy)/(32*dx^2*dy^2)
++gg(x,y)^2*a(x-dx,y)*f(x-dx,y+dy)/(32*dx^2*dy^2)
+-a(x,y+dy)*gg(x,y+dy)^2*f(x-dx,y+dy)/(32*dx^2*dy^2)
+-a(x,y)*gg(x,y+dy)^2*f(x-dx,y+dy)/(32*dx^2*dy^2)
++gg(x,y)^2*a(x,y+dy)*f(x-dx,y+dy)/(32*dx^2*dy^2)
++a(x,y)*gg(x,y)^2*f(x-dx,y+dy)/(32*dx^2*dy^2)
++f(x,y)*gg(x-dx,y)^2*a(x-dx,y+dy)/(32*dx^2*dy^2)
+-f(x,y)*gg(x,y+dy)*gg(x-dx,y)*a(x-dx,y+dy)/(16*dx^2*dy^2)
++f(x,y)*gg(x,y+dy)^2*a(x-dx,y+dy)/(32*dx^2*dy^2)
+-f(x,y)*gg(x,y)^2*a(x-dx,y+dy)/(32*dx^2*dy^2)
++a(x-dx,y-dy)*f(x-dx,y-dy)*gg(x-dx,y-dy)^2/(32*dx^2*dy^2)
++a(x-dx,y)*f(x-dx,y-dy)*gg(x-dx,y-dy)^2/(32*dx^2*dy^2)
++a(x,y-dy)*f(x-dx,y-dy)*gg(x-dx,y-dy)^2/(32*dx^2*dy^2)
++a(x,y)*f(x-dx,y-dy)*gg(x-dx,y-dy)^2/(32*dx^2*dy^2)
+-f(x,y)*a(x-dx,y-dy)*gg(x-dx,y-dy)^2/(32*dx^2*dy^2)
+-f(x,y)*a(x-dx,y)*gg(x-dx,y-dy)^2/(32*dx^2*dy^2)
+-f(x,y)*a(x,y-dy)*gg(x-dx,y-dy)^2/(32*dx^2*dy^2)
+-a(x,y)*f(x,y)*gg(x-dx,y-dy)^2/(32*dx^2*dy^2)
+-gg(x,y)*a(x-dx,y-dy)*f(x-dx,y-dy)*gg(x-dx,y-dy)/(16*dx^2*dy^2)
+-gg(x,y)*a(x-dx,y)*f(x-dx,y-dy)*gg(x-dx,y-dy)/(16*dx^2*dy^2)
+-gg(x,y)*a(x,y-dy)*f(x-dx,y-dy)*gg(x-dx,y-dy)/(16*dx^2*dy^2)
+-a(x,y)*gg(x,y)*f(x-dx,y-dy)*gg(x-dx,y-dy)/(16*dx^2*dy^2)
++f(x,y)*gg(x,y)*a(x-dx,y-dy)*gg(x-dx,y-dy)/(16*dx^2*dy^2)
++f(x,y)*gg(x,y)*a(x-dx,y)*gg(x-dx,y-dy)/(16*dx^2*dy^2)
++f(x,y)*gg(x,y)*a(x,y-dy)*gg(x-dx,y-dy)/(16*dx^2*dy^2)
++a(x,y)*f(x,y)*gg(x,y)*gg(x-dx,y-dy)/(16*dx^2*dy^2)
+-gg(x-dx,y)^2*a(x-dx,y-dy)*f(x-dx,y-dy)/(32*dx^2*dy^2)
++gg(x,y-dy)*gg(x-dx,y)*a(x-dx,y-dy)*f(x-dx,y-dy)/(16*dx^2*dy^2)
+-gg(x,y-dy)^2*a(x-dx,y-dy)*f(x-dx,y-dy)/(32*dx^2*dy^2)
++gg(x,y)^2*a(x-dx,y-dy)*f(x-dx,y-dy)/(32*dx^2*dy^2)
+-a(x-dx,y)*gg(x-dx,y)^2*f(x-dx,y-dy)/(32*dx^2*dy^2)
+-a(x,y-dy)*gg(x-dx,y)^2*f(x-dx,y-dy)/(32*dx^2*dy^2)
+-a(x,y)*gg(x-dx,y)^2*f(x-dx,y-dy)/(32*dx^2*dy^2)
++gg(x,y-dy)*a(x-dx,y)*gg(x-dx,y)*f(x-dx,y-dy)/(16*dx^2*dy^2)
++a(x,y-dy)*gg(x,y-dy)*gg(x-dx,y)*f(x-dx,y-dy)/(16*dx^2*dy^2)
++a(x,y)*gg(x,y-dy)*gg(x-dx,y)*f(x-dx,y-dy)/(16*dx^2*dy^2)
+-gg(x,y-dy)^2*a(x-dx,y)*f(x-dx,y-dy)/(32*dx^2*dy^2)
++gg(x,y)^2*a(x-dx,y)*f(x-dx,y-dy)/(32*dx^2*dy^2)
+-a(x,y-dy)*gg(x,y-dy)^2*f(x-dx,y-dy)/(32*dx^2*dy^2)
+-a(x,y)*gg(x,y-dy)^2*f(x-dx,y-dy)/(32*dx^2*dy^2)
++gg(x,y)^2*a(x,y-dy)*f(x-dx,y-dy)/(32*dx^2*dy^2)
++a(x,y)*gg(x,y)^2*f(x-dx,y-dy)/(32*dx^2*dy^2)
++f(x,y)*gg(x-dx,y)^2*a(x-dx,y-dy)/(32*dx^2*dy^2)
+-f(x,y)*gg(x,y-dy)*gg(x-dx,y)*a(x-dx,y-dy)/(16*dx^2*dy^2)
++f(x,y)*gg(x,y-dy)^2*a(x-dx,y-dy)/(32*dx^2*dy^2)
+-f(x,y)*gg(x,y)^2*a(x-dx,y-dy)/(32*dx^2*dy^2)
++f(x,y)*a(x-dx,y)*gg(x-dx,y)^2/(16*dx^2*dy^2)
++f(x,y)*a(x,y+dy)*gg(x-dx,y)^2/(32*dx^2*dy^2)
++f(x,y)*a(x,y-dy)*gg(x-dx,y)^2/(32*dx^2*dy^2)
++a(x,y)*f(x,y)*gg(x-dx,y)^2/(16*dx^2*dy^2)
+-f(x,y)*gg(x,y+dy)*a(x-dx,y)*gg(x-dx,y)/(16*dx^2*dy^2)
+-f(x,y)*gg(x,y-dy)*a(x-dx,y)*gg(x-dx,y)/(16*dx^2*dy^2)
+-f(x,y)*a(x,y+dy)*gg(x,y+dy)*gg(x-dx,y)/(16*dx^2*dy^2)
+-a(x,y)*f(x,y)*gg(x,y+dy)*gg(x-dx,y)/(16*dx^2*dy^2)
+-f(x,y)*a(x,y-dy)*gg(x,y-dy)*gg(x-dx,y)/(16*dx^2*dy^2)
+-a(x,y)*f(x,y)*gg(x,y-dy)*gg(x-dx,y)/(16*dx^2*dy^2)
++f(x,y)*gg(x,y+dy)^2*a(x-dx,y)/(32*dx^2*dy^2)
++f(x,y)*gg(x,y-dy)^2*a(x-dx,y)/(32*dx^2*dy^2)
+-f(x,y)*gg(x,y)^2*a(x-dx,y)/(16*dx^2*dy^2)
++f(x,y)*a(x,y+dy)*gg(x,y+dy)^2/(16*dx^2*dy^2)
++a(x,y)*f(x,y)*gg(x,y+dy)^2/(16*dx^2*dy^2)
+-f(x,y)*gg(x,y)^2*a(x,y+dy)/(16*dx^2*dy^2)
++f(x,y)*a(x,y-dy)*gg(x,y-dy)^2/(16*dx^2*dy^2)
++a(x,y)*f(x,y)*gg(x,y-dy)^2/(16*dx^2*dy^2)
+-f(x,y)*gg(x,y)^2*a(x,y-dy)/(16*dx^2*dy^2)
+-a(x,y)*f(x,y)*gg(x,y)^2/(8*dx^2*dy^2)$
+
+
+
+comment We define abbreviations for the partial derivatives;
+
+
+operator ax,ay,fx,fy,gx,gy;
+
+
+operator axx,axy,ayy,fxx,fxy,fyy,gxx,gxy,gyy;
+
+
+operator axxx,axxy,axyy,ayyy,fxxx,fxxy,fxyy,fyyy,gxxx,gxxy,gxyy,gyyy;
+
+
+operator axxxy,axxyy,axyyy,fxxxy,fxxyy,fxyyy,
+         gxxxx,gxxxy,gxxyy,gxyyy,gyyyy;
+
+
+operator axxxyy,axxyyy,fxxyyy,fxxxyy,gxxxxy,gxxxyy,gxxyyy,gxyyyy;
+
+
+operator gxxxxyy,gxxxyyy,gxxyyyy;
+
+
+
+operator_diff_rules := {
+  df(a(~x,~y),~x) => ax(x,y),
+  df(a(~x,~y),~y) => ay(x,y),
+  df(f(~x,~y),~x) => fx(x,y),
+  df(f(~x,~y),~y) => fy(x,y),
+  df(gg(~x,~y),~x) => gx(x,y),
+  df(gg(~x,~y),~y) => gy(x,y),
+
+  df(ax(~x,~y),~x) => axx(x,y),
+  df(ax(~x,~y),~y) => axy(x,y),
+  df(ay(~x,~y),~x) => axy(x,y),
+  df(ay(~x,~y),~y) => ayy(x,y),
+  df(fx(~x,~y),~x) => fxx(x,y),
+  df(fx(~x,~y),~y) => fxy(x,y),
+  df(fy(~x,~y),~x) => fxy(x,y),
+  df(fy(~x,~y),~y) => fyy(x,y),
+  df(gx(~x,~y),~x) => gxx(x,y),
+  df(gx(~x,~y),~y) => gxy(x,y),
+  df(gy(~x,~y),~x) => gxy(x,y),
+  df(gy(~x,~y),~y) => gyy(x,y),
+
+  df(axx(~x,~y),~x) => axxx(x,y),
+  df(axy(~x,~y),~x) => axxy(x,y),
+  df(ayy(~x,~y),~x) => axyy(x,y),
+  df(ayy(~x,~y),~y) => ayyy(x,y),
+  df(fxx(~x,~y),~x) => fxxx(x,y),
+  df(fxy(~x,~y),~x) => fxxy(x,y),
+  df(fxy(~x,~y),~y) => fxyy(x,y),
+  df(fyy(~x,~y),~x) => fxyy(x,y),
+  df(fyy(~x,~y),~y) => fyyy(x,y),
+  df(gxx(~x,~y),~x) => gxxx(x,y),
+  df(gxx(~x,~y),~y) => gxxy(x,y),
+  df(gxy(~x,~y),~x) => gxxy(x,y),
+  df(gxy(~x,~y),~y) => gxyy(x,y),
+  df(gyy(~x,~y),~x) => gxyy(x,y),
+  df(gyy(~x,~y),~y) => gyyy(x,y),
+
+  df(axyy(~x,~y),~x) => axxyy(x,y),
+  df(axxy(~x,~y),~x) => axxxy(x,y),
+  df(ayyy(~x,~y),~x) => axyyy(x,y),
+  df(fxxy(~x,~y),~x) => fxxxy(x,y),
+  df(fxyy(~x,~y),~x) => fxxyy(x,y),
+  df(fyyy(~x,~y),~x) => fxyyy(x,y),
+  df(gxxx(~x,~y),~x) => gxxxx(x,y),
+  df(gxxy(~x,~y),~x) => gxxxy(x,y),
+  df(gxyy(~x,~y),~x) => gxxyy(x,y),
+  df(gyyy(~x,~y),~x) => gxyyy(x,y),
+  df(gyyy(~x,~y),~y) => gyyyy(x,y),
+
+  df(axxyy(~x,~y),~x) => axxxyy(x,y),
+  df(axyyy(~x,~y),~x) => axxyyy(x,y),
+  df(fxxyy(~x,~y),~x) => fxxxyy(x,y),
+  df(fxyyy(~x,~y),~x) => fxxyyy(x,y),
+  df(gxxxy(~x,~y),~x) => gxxxxy(x,y),
+  df(gxxyy(~x,~y),~x) => gxxxyy(x,y),
+  df(gxyyy(~x,~y),~x) => gxxyyy(x,y),
+  df(gyyyy(~x,~y),~x) => gxyyyy(x,y),
+
+  df(gxxxyy(~x,~y),~x) => gxxxxyy(x,y),
+  df(gxxyyy(~x,~y),~x) => gxxxyyy(x,y),
+  df(gxyyyy(~x,~y),~x) => gxxyyyy(x,y)
+};
+
+
+operator_diff_rules := {df(a(~x,~y),~x) => ax(x,y),
+
+   df(a(~x,~y),~y) => ay(x,y),
+
+   df(f(~x,~y),~x) => fx(x,y),
+
+   df(f(~x,~y),~y) => fy(x,y),
+
+   df(gg(~x,~y),~x) => gx(x,y),
+
+   df(gg(~x,~y),~y) => gy(x,y),
+
+   df(ax(~x,~y),~x) => axx(x,y),
+
+   df(ax(~x,~y),~y) => axy(x,y),
+
+   df(ay(~x,~y),~x) => axy(x,y),
+
+   df(ay(~x,~y),~y) => ayy(x,y),
+
+   df(fx(~x,~y),~x) => fxx(x,y),
+
+   df(fx(~x,~y),~y) => fxy(x,y),
+
+   df(fy(~x,~y),~x) => fxy(x,y),
+
+   df(fy(~x,~y),~y) => fyy(x,y),
+
+   df(gx(~x,~y),~x) => gxx(x,y),
+
+   df(gx(~x,~y),~y) => gxy(x,y),
+
+   df(gy(~x,~y),~x) => gxy(x,y),
+
+   df(gy(~x,~y),~y) => gyy(x,y),
+
+   df(axx(~x,~y),~x) => axxx(x,y),
+
+   df(axy(~x,~y),~x) => axxy(x,y),
+
+   df(ayy(~x,~y),~x) => axyy(x,y),
+
+   df(ayy(~x,~y),~y) => ayyy(x,y),
+
+   df(fxx(~x,~y),~x) => fxxx(x,y),
+
+   df(fxy(~x,~y),~x) => fxxy(x,y),
+
+   df(fxy(~x,~y),~y) => fxyy(x,y),
+
+   df(fyy(~x,~y),~x) => fxyy(x,y),
+
+   df(fyy(~x,~y),~y) => fyyy(x,y),
+
+   df(gxx(~x,~y),~x) => gxxx(x,y),
+
+   df(gxx(~x,~y),~y) => gxxy(x,y),
+
+   df(gxy(~x,~y),~x) => gxxy(x,y),
+
+   df(gxy(~x,~y),~y) => gxyy(x,y),
+
+   df(gyy(~x,~y),~x) => gxyy(x,y),
+
+   df(gyy(~x,~y),~y) => gyyy(x,y),
+
+   df(axyy(~x,~y),~x) => axxyy(x,y),
+
+   df(axxy(~x,~y),~x) => axxxy(x,y),
+
+   df(ayyy(~x,~y),~x) => axyyy(x,y),
+
+   df(fxxy(~x,~y),~x) => fxxxy(x,y),
+
+   df(fxyy(~x,~y),~x) => fxxyy(x,y),
+
+   df(fyyy(~x,~y),~x) => fxyyy(x,y),
+
+   df(gxxx(~x,~y),~x) => gxxxx(x,y),
+
+   df(gxxy(~x,~y),~x) => gxxxy(x,y),
+
+   df(gxyy(~x,~y),~x) => gxxyy(x,y),
+
+   df(gyyy(~x,~y),~x) => gxyyy(x,y),
+
+   df(gyyy(~x,~y),~y) => gyyyy(x,y),
+
+   df(axxyy(~x,~y),~x) => axxxyy(x,y),
+
+   df(axyyy(~x,~y),~x) => axxyyy(x,y),
+
+   df(fxxyy(~x,~y),~x) => fxxxyy(x,y),
+
+   df(fxyyy(~x,~y),~x) => fxxyyy(x,y),
+
+   df(gxxxy(~x,~y),~x) => gxxxxy(x,y),
+
+   df(gxxyy(~x,~y),~x) => gxxxyy(x,y),
+
+   df(gxyyy(~x,~y),~x) => gxxyyy(x,y),
+
+   df(gyyyy(~x,~y),~x) => gxyyyy(x,y),
+
+   df(gxxxyy(~x,~y),~x) => gxxxxyy(x,y),
+
+   df(gxxyyy(~x,~y),~x) => gxxxyyy(x,y),
+
+   df(gxyyyy(~x,~y),~x) => gxxyyyy(x,y)}
+
+
+let operator_diff_rules;
+
+
+
+texp := taylor (finite_difference_expression, dx, 0, 1, dy, 0, 1);
+
+
+texp := a(x,y)*fx(x,y)*gx(x,y)*gyy(x,y) + a(x,y)*fx(x,y)*gxy(x,y)*gy(x,y)
+
+         + 2*a(x,y)*fxy(x,y)*gx(x,y)*gy(x,y) + a(x,y)*fy(x,y)*gx(x,y)*gxy(x,y)
+
+         + a(x,y)*fy(x,y)*gxx(x,y)*gy(x,y) + ax(x,y)*fy(x,y)*gx(x,y)*gy(x,y)
+
+                                                 2   2
+         + ay(x,y)*fx(x,y)*gx(x,y)*gy(x,y) + O(dx ,dy )
+
+
+comment You may also try to expand further but this needs a lot
+        of CPU time.  Therefore the following line is commented out;
+
+
+%texp := taylor (finite_difference_expression, dx, 0, 2, dy, 0, 2);
+
+factor dx,dy;
+
+
+
+result := taylortostandard texp;
+
+
+result := a(x,y)*fx(x,y)*gx(x,y)*gyy(x,y) + a(x,y)*fx(x,y)*gxy(x,y)*gy(x,y)
+
+           + 2*a(x,y)*fxy(x,y)*gx(x,y)*gy(x,y) + a(x,y)*fy(x,y)*gx(x,y)*gxy(x,y)
+
+           + a(x,y)*fy(x,y)*gxx(x,y)*gy(x,y) + ax(x,y)*fy(x,y)*gx(x,y)*gy(x,y)
+
+           + ay(x,y)*fx(x,y)*gx(x,y)*gy(x,y)
+
+
+derivative_expression - result;
+
+
+0
+
+
+
+clear diff(~f,~arg);
+
+
+clearrules operator_diff_rules;
+
+
+clear diff,a,f,gg;
+
+
+clear ax,ay,fx,fy,gx,gy;
+
+
+clear axx,axy,ayy,fxx,fxy,fyy,gxx,gxy,gyy;
+
+
+clear axxx,axxy,axyy,ayyy,fxxx,fxxy,fxyy,fyyy,gxxx,gxxy,gxyy,gyyy;
+
+
+clear axxxy,axxyy,axyyy,fxxxy,fxxyy,fxyyy,gxxxx,gxxxy,gxxyy,gxyyy,gyyyy;
+
+
+clear axxxyy,axxyyy,fxxyyy,fxxxyy,gxxxxy,gxxxyy,gxxyyy,gxyyyy;
+
+
+clear gxxxxyy,gxxxyyy,gxxyyyy;
+
+
+
+taylorprintterms := 5;
+
+
+taylorprintterms := 5
+
+
+off taylorautoexpand,taylorkeeporiginal;
+
+
+
+%%% showtime;
+
+comment An example provided by Alan Barnes: elliptic functions;
+
+
+% Jacobi's elliptic functions 
+%       sn(x,k),  cn(x,k), dn(x,k).
+% The modulus and complementary modulus are denoted by K and K!'
+%      usually written mathematically as k and k' respectively
+%
+% epsilon(x,k) is the incomplete elliptic integral of the second kind
+%      usually written mathematically as E(x,k)
+%
+% KK(k) is the complete elliptic integral of the first kind
+%       usually written mathematically as K(k)
+%       K(k) = arcsn(1,k)
+% KK!'(k) is the complementary complete integral
+%      usually written mathematically as K'(k)
+%      NB.  K'(k) = K(k')
+% EE(k) is the complete elliptic integral of the second kind
+%      usually written mathematically as E(k)
+% EE!'(k) is the complementary complete integral
+%      usually written mathematically as E'(k)
+%      NB.  E'(k) = E(k')
+
+operator sn, cn, dn, epsilon;
+
+
+
+elliptic_rules := {
+% Differentiation rules for basic functions
+   df(sn(~x,~k),~x)     => cn(x,k)*dn(x,k),
+   df(cn(~x,~k),~x)     => -sn(x,k)*dn(x,k),
+   df(dn(~x,~k),~x)     => -k^2*sn(x,k)*cn(x,k),
+   df(epsilon(~x,~k),~x)=> dn(x,k)^2,
+
+% k-derivatives
+% DF Lawden     Elliptic Functions & Applications    Springer (1989)
+   df(sn(~x,~k),~k)  => (k*sn(x,k)*cn(x,k)^2
+                         -epsilon(x,k)*cn(x,k)*dn(x,k)/k)/(1-k^2)
+                       + x*cn(x,k)*dn(x,k)/k,
+   df(cn(~x,~k),~k)  => (-k*sn(x,k)^2*cn(x,k)
+                         +epsilon(x,k)*sn(x,k)*dn(x,k)/k)/(1-k^2)
+                        - x*sn(x,k)*dn(x,k)/k,
+   df(dn(~x,~k),~k)  => k*(-sn(x,k)^2*dn(x,k)
+                            +epsilon(x,k)*sn(x,k)*cn(x,k))/(1-k^2)
+                          - k*x*sn(x,k)*cn(x,k),
+   df(epsilon(~x,~k),~k) => k*(sn(x,k)*cn(x,k)*dn(x,k)
+                                -epsilon(x,k)*cn(x,k)^2)/(1-k^2)
+                             -k*x*sn(x,k)^2,
+
+% parity properties
+   sn(-~x,~k) => -sn(x,k),
+   cn(-~x,~k) => cn(x,k),
+   dn(-~x,~k) => dn(x,k),
+   epsilon(-~x,~k) => -epsilon(x,k),
+   sn(~x,-~k) => sn(x,k),
+   cn(~x,-~k) => cn(x,k),
+   dn(~x,-~k) => dn(x,k),
+   epsilon(~x,-~k) => epsilon(x,k),
+
+
+% behaviour at zero
+   sn(0,~k) => 0,
+   cn(0,~k) => 1,
+   dn(0,~k) => 1,
+   epsilon(0,~k) => 0,
+
+
+% degenerate cases of modulus
+   sn(~x,0) => sin(x),
+   cn(~x,0) => cos(x),
+   dn(~x,0) => 1,
+   epsilon(~x,0) => x,
+
+   sn(~x,1) => tanh(x),
+   cn(~x,1) => 1/cosh(x),
+   dn(~x,1) => 1/cosh(x),
+   epsilon(~x,1) => tanh(x)
+};
+
+
+elliptic_rules := {df(sn(~x,~k),~x) => cn(x,k)*dn(x,k),
+
+   df(cn(~x,~k),~x) =>  - sn(x,k)*dn(x,k),
+
+                           2
+   df(dn(~x,~k),~x) =>  - k *sn(x,k)*cn(x,k),
+
+                                   2
+   df(epsilon(~x,~k),~x) => dn(x,k) ,
+
+                                         2                         dn(x,k)
+                        k*sn(x,k)*cn(x,k)  - epsilon(x,k)*cn(x,k)*---------
+                                                                      k
+   df(sn(~x,~k),~k) => -----------------------------------------------------
+                                                   2
+                                              1 - k
+
+                 dn(x,k)
+    + x*cn(x,k)*---------,
+                    k
+
+                                    2                                 dn(x,k)
+                         - k*sn(x,k) *cn(x,k) + epsilon(x,k)*sn(x,k)*---------
+                                                                         k
+   df(cn(~x,~k),~k) => --------------------------------------------------------
+                                                     2
+                                                1 - k
+
+                 dn(x,k)
+    - x*sn(x,k)*---------,
+                    k
+
+                                    2
+                           - sn(x,k) *dn(x,k) + epsilon(x,k)*sn(x,k)*cn(x,k)
+   df(dn(~x,~k),~k) => k*----------------------------------------------------
+                                                     2
+                                                1 - k
+
+    - k*x*sn(x,k)*cn(x,k),
+
+   df(epsilon(~x,~k),~k)
+
+                                                        2
+          sn(x,k)*cn(x,k)*dn(x,k) - epsilon(x,k)*cn(x,k)                2
+    => k*------------------------------------------------- - k*x*sn(x,k) ,
+                                   2
+                              1 - k
+
+   sn( - ~x,~k) =>  - sn(x,k),
+
+   cn( - ~x,~k) => cn(x,k),
+
+   dn( - ~x,~k) => dn(x,k),
+
+   epsilon( - ~x,~k) =>  - epsilon(x,k),
+
+   sn(~x, - ~k) => sn(x,k),
+
+   cn(~x, - ~k) => cn(x,k),
+
+   dn(~x, - ~k) => dn(x,k),
+
+   epsilon(~x, - ~k) => epsilon(x,k),
+
+   sn(0,~k) => 0,
+
+   cn(0,~k) => 1,
+
+   dn(0,~k) => 1,
+
+   epsilon(0,~k) => 0,
+
+   sn(~x,0) => sin(x),
+
+   cn(~x,0) => cos(x),
+
+   dn(~x,0) => 1,
+
+   epsilon(~x,0) => x,
+
+   sn(~x,1) => tanh(x),
+
+                   1
+   cn(~x,1) => ---------,
+                cosh(x)
+
+                   1
+   dn(~x,1) => ---------,
+                cosh(x)
+
+   epsilon(~x,1) => tanh(x)}
+
+
+let elliptic_rules;
+
+
+
+hugo := taylor(sn(x,k),k,0,6);
+
+
+                                2                           2
+                  cos(x)*(cos(x) *x + cos(x)*sin(x) + sin(x) *x - 2*x)   2
+hugo := sin(x) + ------------------------------------------------------*k  + (
+                                           4
+
+                 5             4         2           4
+           cos(x) *x - 2*cos(x) *sin(x)*x  + 5*cos(x) *sin(x)
+
+                       3       2             3             2       3  2
+            - 10*cos(x) *sin(x) *x + 6*cos(x) *x - 4*cos(x) *sin(x) *x
+
+                    2       3           2         2           2
+            + cos(x) *sin(x)  + 8*cos(x) *sin(x)*x  + 4*cos(x) *sin(x)
+
+                              4                     2
+            - 11*cos(x)*sin(x) *x + 30*cos(x)*sin(x) *x - 16*cos(x)*x
+
+                      5  2           3  2             2      4
+            - 2*sin(x) *x  + 8*sin(x) *x  - 8*sin(x)*x )/64*k  + (
+
+                      7  3            7              6         2
+            - 6*cos(x) *x  + 17*cos(x) *x - 99*cos(x) *sin(x)*x
+
+                       6                   5       2  3            5       2
+            + 21*cos(x) *sin(x) - 18*cos(x) *sin(x) *x  - 71*cos(x) *sin(x) *x
+
+                       5  3            5               4       3  2
+            + 36*cos(x) *x  - 18*cos(x) *x - 135*cos(x) *sin(x) *x
+
+                        4       3             4         2             4
+            - 133*cos(x) *sin(x)  + 324*cos(x) *sin(x)*x  + 172*cos(x) *sin(x)
+
+                       3       4  3            3       4
+            - 18*cos(x) *sin(x) *x  - 13*cos(x) *sin(x) *x
+
+                       3       2  3             3       2              3  3
+            + 72*cos(x) *sin(x) *x  - 156*cos(x) *sin(x) *x - 72*cos(x) *x
+
+                        3              2       5  2             2       5
+            + 160*cos(x) *x + 27*cos(x) *sin(x) *x  - 118*cos(x) *sin(x)
+
+                        2       3             2         2            2
+            + 176*cos(x) *sin(x)  - 108*cos(x) *sin(x)*x  + 32*cos(x) *sin(x)
+
+                             6  3                   6                     4  3
+            - 6*cos(x)*sin(x) *x  + 75*cos(x)*sin(x) *x + 36*cos(x)*sin(x) *x
+
+                               4                     2  3                    2
+            - 498*cos(x)*sin(x) *x - 72*cos(x)*sin(x) *x  + 888*cos(x)*sin(x) *x
+
+                         3                           7  2             5  2
+            + 48*cos(x)*x  - 384*cos(x)*x + 63*sin(x) *x  - 324*sin(x) *x
+
+                        3  2               2        6      7
+            + 540*sin(x) *x  - 288*sin(x)*x )/2304*k  + O(k )
+
+otto := taylor(cn(x,k),k,0,6);
+
+
+                                   2                           2
+                  sin(x)*( - cos(x) *x - cos(x)*sin(x) - sin(x) *x + 2*x)   2
+otto := cos(x) + ---------------------------------------------------------*k  + 
+                                             4
+
+                    5  2           4                    3       2  2
+        ( - 2*cos(x) *x  - 5*cos(x) *sin(x)*x - 4*cos(x) *sin(x) *x
+
+                    3       2           3  2           2       3
+          - 7*cos(x) *sin(x)  + 8*cos(x) *x  + 2*cos(x) *sin(x) *x
+
+                    2                           4  2                  4
+          + 2*cos(x) *sin(x)*x - 2*cos(x)*sin(x) *x  - 3*cos(x)*sin(x)
+
+                           2  2                  2             2           5
+          + 8*cos(x)*sin(x) *x  - 4*cos(x)*sin(x)  - 8*cos(x)*x  + 7*sin(x) *x
+
+                     3                      4               7  2
+          - 22*sin(x) *x + 16*sin(x)*x)/64*k  + ( - 9*cos(x) *x
+
+                      6         3            6                      5       2  2
+            + 6*cos(x) *sin(x)*x  - 71*cos(x) *sin(x)*x + 135*cos(x) *sin(x) *x
+
+                       5       2            5  2            4       3  3
+            - 66*cos(x) *sin(x)  - 36*cos(x) *x  + 18*cos(x) *sin(x) *x
+
+                    4       3              4         3            4
+            - cos(x) *sin(x) *x - 36*cos(x) *sin(x)*x  + 18*cos(x) *sin(x)*x
+
+                        3       4  2            3       4
+            + 297*cos(x) *sin(x) *x  + 61*cos(x) *sin(x)
+
+                        3       2  2             3       2             3  2
+            - 720*cos(x) *sin(x) *x  - 208*cos(x) *sin(x)  + 252*cos(x) *x
+
+                       2       5  3            2       5
+            + 18*cos(x) *sin(x) *x  + 31*cos(x) *sin(x) *x
+
+                       2       3  3            2       3
+            - 72*cos(x) *sin(x) *x  - 24*cos(x) *sin(x) *x
+
+                       2         3            2                             6  2
+            + 72*cos(x) *sin(x)*x  + 56*cos(x) *sin(x)*x + 153*cos(x)*sin(x) *x
+
+                              6                    4  2                    4
+            + 91*cos(x)*sin(x)  - 684*cos(x)*sin(x) *x  - 212*cos(x)*sin(x)
+
+                               2  2                   2               2
+            + 900*cos(x)*sin(x) *x  - 32*cos(x)*sin(x)  - 288*cos(x)*x
+
+                      7  3            7              5  3             5
+            + 6*sin(x) *x  - 39*sin(x) *x - 36*sin(x) *x  + 318*sin(x) *x
+
+                       3  3             3                3
+            + 72*sin(x) *x  - 672*sin(x) *x - 48*sin(x)*x  + 384*sin(x)*x)/2304
+
+          6      7
+        *k  + O(k )
+
+taylorcombine(hugo^2 + otto^2);
+
+
+      2         2      7
+cos(x)  + sin(x)  + O(k )
+
+
+clearrules elliptic_rules;
+
+
+
+clear sn, cn, dn, epsilon;
+
+
+
+%%% showtime;
+
+comment That's all, folks;
+
+
+end;
+

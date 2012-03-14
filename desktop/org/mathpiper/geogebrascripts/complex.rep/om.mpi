@@ -1,9 +1,0 @@
-
-
-OMDef( "Complex"  , "complex1","complex_cartesian" );
-OMDef( "Re"       , "complex1","real"              );
-OMDef( "Im"       , "complex1","imaginary"         );
-OMDef( "Conjugate", "complex1","conjugate"         );
-OMDef( "Arg"      , "complex1","argument"          );
-OMDef( "IsComplex", mathpiper,"is_complex"           );
-

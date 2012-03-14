@@ -1,0 +1,85 @@
+\chapter{SYMMETRY: Operations on symmetric matrices}
+\label{SYMMETRY}
+\typeout{{SYMMETRY: Operations on symmetric matrices}}
+
+{\footnotesize
+\begin{center}
+Karin Gatermann\\
+Konrad--Zuse--Zentrum f\"ur Informationstechnik Berlin \\
+Heilbronner Strasse 10 \\
+D--10711 Berlin--Wilmersdorf, Germany \\[0.05in]
+e--mail: gatermann@sc.zib-berlin.de
+\end{center}
+}
+\ttindex{SYMMETRY}
+
+The SYMMETRY package provides procedures
+that compute symmetry-adapted bases and block diagonal forms
+of matrices which have the symmetry of a group.
+
+\section{Operators for linear representations}
+
+The data structure for a linear representation, a {\em
+representation}, is a list consisting of the group identifier and
+equations which assign matrices to the generators of the group.
+
+{\bf Example:}
+\begin{verbatim}
+   rr:=mat((0,1,0,0),
+           (0,0,1,0),
+           (0,0,0,1),
+           (1,0,0,0));
+
+   sp:=mat((0,1,0,0),
+           (1,0,0,0),
+           (0,0,0,1),
+           (0,0,1,0));
+
+   representation:={D4,rD4=rr,sD4=sp};
+\end{verbatim}
+
+For orthogonal (unitarian) representations the following operators
+are available.
+
+{\tt canonicaldecomposition(representation);}\ttindex{canonicaldecomposition}
+
+returns an equation giving the canonical decomposition of the linear
+representation.
+
+{\tt character(representation);}\ttindex{character}
+
+computes the character of the linear representation. The result is a list
+of the group identifier and of lists consisting of a 
+list of group elements in one equivalence class and a real or complex number.
+
+{\tt symmetrybasis(representation,nr);}\ttindex{symmetrybasis}
+
+computes the basis of the isotypic component corresponding to the irreducible
+representation of type nr. If the nr-th irreducible representation is
+multidimensional, the basis is symmetry adapted. The output is a matrix.
+ 
+{\tt symmetrybasispart(representation,nr);}\ttindex{symmetrybasispart}
+
+is similar as {\tt symmetrybasis}, but for multidimensional 
+irreducible representations only the first part of the 
+symmetry adapted basis is computed.
+
+{\tt allsymmetrybases(representation);}\ttindex{allsymmetrybases}
+
+is similar as {\tt symmetrybasis} and {\tt symmetrybasispart}, 
+but the bases of all
+isotypic components are computed and thus a 
+complete coordinate transformation is returned.
+
+{\tt diagonalize(matrix,representation);}\ttindex{diagonalize}
+
+returns the block diagonal form of matrix which has the symmetry 
+of the given linear representation. Otherwise an error message occurs.
+
+
+\section{Display Operators}
+
+Access is provided to the information for a group, and for adding
+knowledge for other groups.  This is explained in detail in the
+Symmetry on-line documentation.
+

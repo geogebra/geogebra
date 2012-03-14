@@ -1,0 +1,147 @@
+% some test examples for the trigint package. If the input expression is
+% free of sin, cos or tan at the moment, then no Weierstrass substitutions
+% will be made, and the standard int operator is called.
+
+trigint(1/x,x);
+
+
+log(x)
+
+trigint(1,y);
+
+
+x
+
+trigint(sin(x),x);
+
+
+           pi + 2*x
+  - 2*tan(----------)
+              4
+----------------------
+      pi + 2*x  2
+ tan(----------)  + 1
+         4
+
+trigint(1/(cos(x)+2),x);
+
+
+                       x
+                  tan(---)
+                       2               - pi + x
+ 2*sqrt(3)*(atan(----------) + floor(-----------)*pi)
+                  sqrt(3)               2*pi
+------------------------------------------------------
+                          3
+
+trigint(1/(cos(x)-2),x);
+
+
+                            x
+                     3*tan(---)
+                            2               - pi + x
+  - 2*sqrt(3)*(atan(------------) + floor(-----------)*pi)
+                      sqrt(3)                2*pi
+-----------------------------------------------------------
+                             3
+
+trigint(1/(sin(x)),x);
+
+
+         pi + 2*x                   pi + 2*x
+log(tan(----------) - 1) - log(tan(----------) + 1)
+            4                          4
+
+trigint(1/(sin(x)+2),x);
+
+
+                         pi + 2*x
+                  3*tan(----------)
+                            4                   - pi + 2*x
+ 2*sqrt(3)*(atan(-------------------) + floor(-------------)*pi)
+                       sqrt(3)                    4*pi
+-----------------------------------------------------------------
+                                3
+
+
+trigint(15/(cos(x)*(5-4*cos(x))),x);
+
+
+              x                - pi + x                   x
+8*atan(3*tan(---)) + 8*floor(-----------)*pi - 3*log(tan(---) - 1)
+              2                 2*pi                      2
+
+              x
+ + 3*log(tan(---) + 1)
+              2
+
+
+trigint(3/(5+4*sin(x)),x);
+
+
+               pi + 2*x              - pi + 2*x
+2*(atan(3*tan(----------)) + floor(-------------)*pi)
+                  4                    4*pi
+
+trigint(3/(5-4*cos(x)),x);
+
+
+               x              - pi + x
+2*(atan(3*tan(---)) + floor(-----------)*pi)
+               2               2*pi
+
+
+trigint(tan(x),x);
+
+
+            x
+2*atan(tan(---))*tan(x)
+            2
+
+%trigint(sqrt(cos(x)),x);
+
+on tracetrig;
+
+
+trigint(1/(cos(x)-5),x);
+
+
+                          x
+                   3*tan(---)
+                          2               - pi + x
+  - sqrt(6)*(atan(------------) + floor(-----------)*pi)
+                    sqrt(6)                2*pi
+---------------------------------------------------------
+                            6
+
+trigint(1/(sqrt(sin(x))),x);
+
+
+
+failed with substitution B: system could not
+                                integrate after subs, trying A
+
+failed with A: trying C now
+
+failed with C: trying D now
+
+trying all possible substitutions
+
+           - pi + 2*x                              - pi + 2*x
+ - floor(-------------)*sign(i)*infinity + floor(-------------)*infinity
+             2*pi                                    2*pi
+
+                           2     1/4
+                         (u  + 1)
+ + sub(u=tan(x),int(----------------------,u))
+                              2
+                     sqrt(u)*u  + sqrt(u)
+ 
+
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 397 ms  plus GC time: 21 ms
+real	0m1.034s
+user	0m0.015s
+sys	0m0.122s

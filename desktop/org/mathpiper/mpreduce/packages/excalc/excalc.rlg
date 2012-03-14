@@ -1,0 +1,2294 @@
+% Problem: Calculate the PDE's for the isovector of the heat equation.
+% --------
+%         (c.f. B.K. Harrison, f.B. Estabrook, "Geometric Approach...",
+%          J. Math. Phys. 12, 653, 1971)
+
+% The heat equation @   psi = @  psi is equivalent to the set of exterior
+%                    xx        t
+
+% equations (with u=@ psi, y=@ psi):
+%                    T        x
+
+
+pform {psi,u,x,y,t}=0,a=1,{da,b}=2;
+
+
+
+a := d psi - u*d t - y*d x;
+
+
+a := d psi - d t*u - d x*y
+
+
+da := - d u^d t - d y^d x;
+
+
+da := d t^d u + d x^d y
+
+
+b := u*d x^d t - d y^d t;
+
+
+b :=  - d t^d x*u + d t^d y
+
+
+
+% Now calculate the PDE's for the isovector.
+
+tvector v;
+
+
+
+pform {vpsi,vt,vu,vx,vy}=0;
+
+
+fdomain vpsi=vpsi(psi,t,u,x,y),vt=vt(psi,t,u,x,y),vu=vu(psi,t,u,x,y),
+                               vx=vx(psi,t,u,x,y),vy=vy(psi,t,u,x,y);
+
+
+
+v := vpsi*@ psi + vt*@ t + vu*@ u + vx*@ x + vy*@ y;
+
+
+v := @   *vpsi + @ *vt + @ *vu + @ *vx + @ *vy
+      psi         t       u       x       y
+
+
+
+factor d;
+
+
+on rat;
+
+
+
+i1 := v |_ a - l*a;
+
+
+i1 := d psi*(@   vpsi - @   vt*u - @   vx*y - l)
+              psi        psi        psi
+
+       + d t*(@ vpsi - @ vt*u - @ vx*y + l*u - vu)
+               t        t        t
+
+       + d u*(@ vpsi - @ vt*u - @ vx*y)
+               u        u        u
+
+       + d x*(@ vpsi - @ vt*u - @ vx*y + l*y - vy)
+               x        x        x
+
+       + d y*(@ vpsi - @ vt*u - @ vx*y)
+               y        y        y
+
+
+pform o=1;
+
+
+
+o := ot*d t + ox*d x + ou*d u + oy*d y;
+
+
+o := d t*ot + d u*ou + d x*ox + d y*oy
+
+
+fdomain f=f(psi,t,u,x,y);
+
+
+
+i11 := v _| d a - l*a + d f;
+
+
+i11 :=  - d psi*l + d t*(l*u - vu) + d u*vt + d x*(l*y - vy) + d y*vx
+
+
+let vx=-@(f,y),vt=-@(f,u),vu=@(f,t)+u*@(f,psi),vy=@(f,x)+y*@(f,psi),
+    vpsi=f-u*@(f,u)-y*@(f,y);
+
+
+
+factor ^;
+
+
+
+i2 := v |_ b - xi*b - o^a + zeta*da;
+
+
+i2 := d psi^d t*( - @       f*y - @     f - @     f*u + ot) + d psi^d u*ou
+                     psi psi       psi x     psi y
+
+       + d psi^d x*(@     f*u + ox) + d psi^d y*( - @     f + oy)
+                     psi u                           psi u
+
+       + d t^d u*(@     f*y + @   f + @   f*u - ou*u + zeta) + d t^d x*(
+                   psi u       u x     u y
+
+         @     f*y - @   f*u + @   f*u - @ f + @   f + @   f*u + ot*y - ox*u
+          psi x       psi       t u       t     x x     x y
+
+          + u*xi)
+
+       + d t^d y*(@     f*y + @   f - @   f + @   f + @   f*u - oy*u - xi)
+                   psi y       psi     t u     x y     y y
+
+       + d u^d x*(@   f*u + ou*y) - d u^d y*@   f
+                   u u                       u u
+
+       + d x^d y*( - @   f - @   f*u - oy*y + zeta)
+                      u x     u y
+
+
+let ou=0,oy=@(f,u,psi),ox=-u*@(f,u,psi),
+    ot=@(f,x,psi)+u*@(f,y,psi)+y*@(f,psi,psi);
+
+
+
+i2;
+
+
+                                                                   2
+d t^d u*(@     f*y + @   f + @   f*u + zeta) + d t^d x*(@       f*y
+          psi u       u x     u y                        psi psi
+
+               2
+    + @     f*u  + 2*@     f*y + @     f*u*y - @   f*u + @   f*u - @ f + @   f
+       psi u          psi x       psi y         psi       t u       t     x x
+
+    + @   f*u + u*xi)
+       x y
+
+ + d t^d y*( - @     f*u + @     f*y + @   f - @   f + @   f + @   f*u - xi)
+                psi u       psi y       psi     t u     x y     y y
+
+ + d u^d x*@   f*u - d u^d y*@   f
+            u u               u u
+
+ + d x^d y*( - @     f*y - @   f - @   f*u + zeta)
+                psi u       u x     u y
+
+
+let zeta=-@(f,u,x)-@(f,u,y)*u-@(f,u,psi)*y;
+
+
+
+i2;
+
+
+                    2            2
+d t^d x*(@       f*y  + @     f*u  + 2*@     f*y + @     f*u*y - @   f*u
+          psi psi        psi u          psi x       psi y         psi
+
+          + @   f*u - @ f + @   f + @   f*u + u*xi)
+             t u       t     x x     x y
+
+ + d t^d y*( - @     f*u + @     f*y + @   f - @   f + @   f + @   f*u - xi)
+                psi u       psi y       psi     t u     x y     y y
+
+ + d u^d x*@   f*u - d u^d y*@   f - 2*d x^d y*(@     f*y + @   f + @   f*u)
+            u u               u u                psi u       u x     u y
+
+
+let xi=-@(f,t,u)-u*@(f,u,psi)+@(f,x,y)+u*@(f,y,y)+y*@(f,y,psi)+@(f,psi);
+
+
+
+i2;
+
+
+                    2
+d t^d x*(@       f*y  + 2*@     f*y + 2*@     f*u*y - @ f + @   f + 2*@   f*u
+          psi psi          psi x         psi y         t     x x       x y
+
+                   2
+          + @   f*u ) + d u^d x*@   f*u - d u^d y*@   f
+             y y                 u u               u u
+
+ - 2*d x^d y*(@     f*y + @   f + @   f*u)
+               psi u       u x     u y
+
+
+let @(f,u,u)=0;
+
+
+
+i2;
+
+
+                    2
+d t^d x*(@       f*y  + 2*@     f*y + 2*@     f*u*y - @ f + @   f + 2*@   f*u
+          psi psi          psi x         psi y         t     x x       x y
+
+                   2
+          + @   f*u ) - 2*d x^d y*(@     f*y + @   f + @   f*u)
+             y y                    psi u       u x     u y
+      % These PDE's have to be solved.
+
+
+clear a,da,b,v,i1,i11,o,i2,xi,t;
+
+
+remfdomain f,vpsi,vt,vu,vx,vy;
+
+
+clear @(f,u,u);
+
+
+
+
+% Problem:
+% --------
+% Calculate the integrability conditions for the system of PDE's:
+% (c.f. B.F. Schutz, "Geometrical Methods of Mathematical Physics"
+% Cambridge University Press, 1984, p. 156)
+
+
+% @ z /@ x + a1*z  + b1*z  = c1
+%    1           1       2
+
+% @ z /@ y + a2*z  + b2*z  = c2
+%    1           1       2
+
+% @ z /@ x + f1*z  + g1*z  = h1
+%    2           1       2
+
+% @ z /@ y + f2*z  + g2*z  = h2
+%    2           1       2      ;
+
+
+pform w(k)=1,integ(k)=4,{z(k),x,y}=0,{a,b,c,f,g,h}=1,
+      {a1,a2,b1,b2,c1,c2,f1,f2,g1,g2,h1,h2}=0;
+
+
+
+fdomain  a1=a1(x,y),a2=a2(x,y),b1=b1(x,y),b2=b2(x,y),
+         c1=c1(x,y),c2=c2(x,y),f1=f1(x,y),f2=f2(x,y),
+         g1=g1(x,y),g2=g2(x,y),h1=h1(x,y),h2=h2(x,y);
+
+
+
+
+a:=a1*d x+a2*d y$
+
+
+b:=b1*d x+b2*d y$
+
+
+c:=c1*d x+c2*d y$
+
+
+f:=f1*d x+f2*d y$
+
+
+g:=g1*d x+g2*d y$
+
+
+h:=h1*d x+h2*d y$
+
+
+
+% The equivalent exterior system:
+factor d;
+
+
+w(1) := d z(-1) + z(-1)*a + z(-2)*b - c;
+
+
+ 1
+w  := d z  + d x*(z *a1 + z *b1 - c1) + d y*(z *a2 + z *b2 - c2)
+         1         1       2                  1       2
+
+w(2) := d z(-2) + z(-1)*f + z(-2)*g - h;
+
+
+ 2
+w  := d z  + d x*(z *f1 + z *g1 - h1) + d y*(z *f2 + z *g2 - h2)
+         2         1       2                  1       2
+
+indexrange 1,2;
+
+
+factor z;
+
+
+% The integrability conditions:
+
+integ(k) := d w(k) ^ w(1) ^ w(2);
+
+     1
+integ  := d z ^d z ^d x^d y*z *( - @ a1 + @ a2 + b1*f2 - b2*f1) + 
+             1    2          1      y      x
+
+          d z ^d z ^d x^d y*z *( - @ b1 + @ b2 + a1*b2 - a2*b1 + b1*g2 - b2*g1)
+             1    2          2      y      x
+
+           + d z ^d z ^d x^d y*(@ c1 - @ c2 - a1*c2 + a2*c1 - b1*h2 + b2*h1)
+                1    2           y      x
+
+     2
+integ  := d z ^d z ^d x^d y*z *( - @ f1 + @ f2 - a1*f2 + a2*f1 - f1*g2 + f2*g1)
+             1    2          1      y      x
+
+           + d z ^d z ^d x^d y*z *( - @ g1 + @ g2 - b1*f2 + b2*f1)
+                1    2          2      y      x
+
+           + d z ^d z ^d x^d y*(@ h1 - @ h2 + c1*f2 - c2*f1 - g1*h2 + g2*h1)
+                1    2           y      x
+
+
+
+clear a,b,c,f,g,h,x,y,w(k),integ(k),z(k);
+
+
+remfdomain a1,a2,b1,c1,c2,f1,f2,g1,g2,h1,h2;
+
+
+
+% Problem:
+% --------
+% Calculate the PDE's for the generators of the d-theta symmetries of
+% the Lagrangian system of the planar Kepler problem.
+% c.f. W.Sarlet, F.Cantrijn, Siam Review 23, 467, 1981
+% Verify that time translation is a d-theta symmetry and calculate the
+% corresponding integral.
+
+pform {t,q(k),v(k),lam(k),tau,xi(k),eta(k)}=0,theta=1,f=0,
+      {l,glq(k),glv(k),glt}=0;
+
+
+
+tvector gam,y;
+
+
+
+indexrange 1,2;
+
+
+
+fdomain tau=tau(t,q(k),v(k)),xi=xi(t,q(k),v(k)),f=f(t,q(k),v(k));
+
+
+
+l := 1/2*(v(1)**2 + v(2)**2) + m/r$
+
+      % The Lagrangian.
+
+pform r=0;
+
+
+fdomain r=r(q(k));
+
+
+let @(r,q 1)=q(1)/r,@(r,q 2)=q(2)/r,q(1)**2+q(2)**2=r**2;
+
+
+
+lam(k) := -m*q(k)/r;
+
+             1
+   1      - q *m
+lam  := ---------
+            r
+
+             2
+   2      - q *m
+lam  := ---------
+            r
+
+                                % The force.
+
+gam := @ t + v(k)*@(q(k)) + lam(k)*@(v(k))$
+
+
+
+eta(k) := gam _| d xi(k) - v(k)*gam _| d tau$
+
+
+
+y  := tau*@ t + xi(k)*@(q(k)) + eta(k)*@(v(k))$
+
+     % Symmetry generator.
+
+theta := l*d t + @(l,v(k))*(d q(k) - v(k)*d t)$
+
+
+
+factor @;
+
+
+
+s := y |_ theta - d f$
+
+
+
+glq(k) := @(q k) _| s;
+
+                                                1   1                1   2
+                                        - @  (xi )*q *m      - @  (xi )*q *m
+                                            1                    2
+   1            1   1         1   2        v                    v
+glq  := 2*@  (xi )*v  + @  (xi )*v  + ------------------ + ------------------
+            1             2                   r                    r
+           q             q
+
+                1          2   2
+         + @ (xi ) + @  (xi )*v  - @  f
+            t          1             1
+                      q             q
+
+                           1 2       2 2
+            @  tau*( - 3*(v ) *r - (v ) *r + 2*m)
+              1
+             q                                               1  2
+         + --------------------------------------- - @  tau*v *v
+                             2*r                       2
+                                                      q
+
+                    1  1               2  1
+            @  tau*q *v *m     @  tau*q *v *m
+              1                  2
+             v                  v                       1
+         + ---------------- + ---------------- - @ tau*v
+                  r                  r            t
+
+                                                              2   1
+                                                      - @  (xi )*q *m
+                                                          1
+   2          1   1         2   1           2   2        v
+glq  := @  (xi )*v  + @  (xi )*v  + 2*@  (xi )*v  + ------------------
+          2             1               2                   r
+         q             q               q
+
+                     2   2
+             - @  (xi )*q *m
+                 2
+                v                    2                   1  2
+         + ------------------ + @ (xi ) - @  f - @  tau*v *v
+                   r             t          2      1
+                                           q      q
+
+                         1 2         2 2                      1  2
+            @  tau*( - (v ) *r - 3*(v ) *r + 2*m)     @  tau*q *v *m
+              2                                         1
+             q                                         v
+         + --------------------------------------- + ----------------
+                             2*r                            r
+
+                    2  2
+            @  tau*q *v *m
+              2
+             v                       2
+         + ---------------- - @ tau*v
+                  r            t
+
+
+glv(k) := @(v k) _| s;
+
+                                                         1 2       2 2
+                                            @  tau*( - (v ) *r - (v ) *r + 2*m)
+                                              1
+   1          1   1         2   2            v
+glv  := @  (xi )*v  + @  (xi )*v  - @  f + -------------------------------------
+          1             1             1                     2*r
+         v             v             v
+
+                                                         1 2       2 2
+                                            @  tau*( - (v ) *r - (v ) *r + 2*m)
+                                              2
+   2          1   1         2   2            v
+glv  := @  (xi )*v  + @  (xi )*v  - @  f + -------------------------------------
+          2             2             2                     2*r
+         v             v             v
+
+
+glt := @(t) _| s;
+
+
+                                                   1   1  1
+                                             @  (xi )*q *v *m
+                                               1
+                1    1 2         1   1  2     v
+glt :=  - @  (xi )*(v )  - @  (xi )*v *v  + ------------------
+            1                2                      r
+           q                q
+
+                 1   2  1
+           @  (xi )*q *v *m
+             2
+            v                        2   1  2         2    2 2
+        + ------------------ - @  (xi )*v *v  - @  (xi )*(v )
+                  r              1                2
+                                q                q
+
+                 2   1  2             2   2  2
+           @  (xi )*q *v *m     @  (xi )*q *v *m
+             1                    2
+            v                    v
+        + ------------------ + ------------------ - @ f
+                  r                    r             t
+
+                  1    1 2     2 2            2    1 2     2 2
+        + @  tau*v *((v )  + (v ) ) + @  tau*v *((v )  + (v ) )
+            1                           2
+           q                           q
+
+                   1      1 2     2 2              2      1 2     2 2
+           @  tau*q *m*((v )  + (v ) )     @  tau*q *m*((v )  + (v ) )
+             1                               2
+            v                               v
+        - ----------------------------- - -----------------------------
+                        r                               r
+
+                    1 2       2 2
+           @ tau*((v ) *r + (v ) *r + 2*m)         1   1    2   2
+            t                                  m*(q *xi  + q *xi )
+        + --------------------------------- - ---------------------
+                         2*r                            3
+                                                       r
+
+
+% Translation in time must generate a symmetry.
+xi(k) := 0;
+
+
+  k
+xi  := 0
+
+tau := 1;
+
+
+tau := 1
+
+
+glq k := glq k;
+
+   1
+glq  :=  - @  f
+             1
+            q
+
+   2
+glq  :=  - @  f
+             2
+            q
+
+
+glv k := glv k;
+
+   1
+glv  :=  - @  f
+             1
+            v
+
+   2
+glv  :=  - @  f
+             2
+            v
+
+
+glt;
+
+
+ - @ f
+    t
+
+
+% The corresponding integral is of course the energy.
+integ := - y _| theta;
+
+
+            1 2       2 2
+          (v ) *r + (v ) *r - 2*m
+integ := -------------------------
+                    2*r
+
+
+
+clear l,lam k,gam,eta k,y,theta,s,glq k,glv k,glt,t,q k,v k,tau,xi k;
+
+
+remfdomain r,f,tau,xi;
+
+
+
+% Problem:
+% --------
+% Calculate the "gradient" and "Laplacian" of a function and the "curl"
+% and "divergence" of a one-form in elliptic coordinates.
+
+
+coframe e u = sqrt(cosh(v)**2 - sin(u)**2)*d u,
+        e v = sqrt(cosh(v)**2 - sin(u)**2)*d v,
+        e phi = cos u*sinh v*d phi;
+
+
+
+pform f=0;
+
+
+
+fdomain f=f(u,v,phi);
+
+
+
+factor e,^;
+
+
+on rat,gcd;
+
+
+order cosh v, sin u;
+
+
+% The gradient:
+d f;
+
+
+    phi                       u                            v
+   e   *@   f                e *@ f                       e *@ f
+         phi                     u                            v
+---------------- + -------------------------- + --------------------------
+ cos(u)*sinh(v)                 2         2                  2         2
+                    sqrt(cosh(v)  - sin(u) )     sqrt(cosh(v)  - sin(u) )
+
+
+factor @;
+
+
+% The Laplacian:
+# d # d f;
+
+
+    @       f               @   f                    @ f*sin(u)
+     phi phi                 u u                      u
+------------------ + -------------------- - -----------------------------
+       2        2            2         2                    2         2
+ cos(u) *sinh(v)      cosh(v)  - sin(u)      cos(u)*(cosh(v)  - sin(u) )
+
+          @   f                    @ f*cosh(v)
+           v v                      v
+ + -------------------- + ------------------------------
+           2         2                     2         2
+    cosh(v)  - sin(u)      sinh(v)*(cosh(v)  - sin(u) )
+
+
+% Another way of calculating the Laplacian:
+-#vardf(1/2*d f^#d f,f);
+
+
+    @       f               @   f                    @ f*sin(u)
+     phi phi                 u u                      u
+------------------ + -------------------- - -----------------------------
+       2        2            2         2                    2         2
+ cos(u) *sinh(v)      cosh(v)  - sin(u)      cos(u)*(cosh(v)  - sin(u) )
+
+          @   f                    @ f*cosh(v)
+           v v                      v
+ + -------------------- + ------------------------------
+           2         2                     2         2
+    cosh(v)  - sin(u)      sinh(v)*(cosh(v)  - sin(u) )
+
+
+remfac @;
+
+
+
+% Now calculate the "curl" and the "divergence" of a one-form.
+
+pform w=1,a(k)=0;
+
+
+
+fdomain a=a(u,v,phi);
+
+
+
+w := a(-k)*e k;
+
+
+      phi         u       v
+w := e   *a    + e *a  + e *a
+           phi       u       v
+
+% The curl:
+x := # d w;
+
+
+       phi            2                 2
+x := (e   *( - cosh(v) *@ (a ) + cosh(v) *@ (a ) - cosh(v)*a *sinh(v)
+                         v  u              u  v             u
+
+                     2                2
+             + sin(u) *@ (a ) - sin(u) *@ (a ) - sin(u)*a *cos(u)))/(
+                        v  u             u  v            v
+
+                    2         2          2         2       u
+        sqrt(cosh(v)  - sin(u) )*(cosh(v)  - sin(u) )) + (e *(
+
+           cosh(v)*a   *cos(u) + cos(u)*@ (a   )*sinh(v)
+                    phi                  v  phi
+
+                          2         2                          2         2
+            - sqrt(cosh(v)  - sin(u) )*@   (a )))/(sqrt(cosh(v)  - sin(u) )
+                                        phi  v
+
+                             v
+        *cos(u)*sinh(v)) + (e *(sin(u)*a   *sinh(v) - cos(u)*@ (a   )*sinh(v)
+                                        phi                   u  phi
+
+                          2         2                          2         2
+            + sqrt(cosh(v)  - sin(u) )*@   (a )))/(sqrt(cosh(v)  - sin(u) )
+                                        phi  u
+
+        *cos(u)*sinh(v))
+
+
+factor @;
+
+
+% The divergence:
+y := # d # w;
+
+
+        @   (a   )                @ (a )                       @ (a )
+         phi  phi                  u  u                         v  v
+y := ---------------- + -------------------------- + -------------------------- 
+      cos(u)*sinh(v)                 2         2                  2         2
+                         sqrt(cosh(v)  - sin(u) )     sqrt(cosh(v)  - sin(u) )
+
+               3                    2
+     + (cosh(v) *a *cos(u) - cosh(v) *sin(u)*a *sinh(v)
+                  v                           u
+
+                         2                                      2
+         - cosh(v)*sin(u) *a *cos(u) + cosh(v)*a *cos(u)*sinh(v)
+                            v                   v
+
+                 3                              2
+         + sin(u) *a *sinh(v) - sin(u)*a *cos(u) *sinh(v))/(
+                    u                   u
+
+                    2         2                         2         2
+        sqrt(cosh(v)  - sin(u) )*cos(u)*sinh(v)*(cosh(v)  - sin(u) ))
+
+
+
+remfac @;
+
+
+clear x,y,w,u,v,phi,e k,a k;
+
+
+remfdomain a,f;
+
+
+
+
+% Problem:
+% --------
+% Calculate in a spherical coordinate system the Navier Stokes equations.
+
+coframe e r=d r, e theta =r*d theta, e phi = r*sin theta *d phi;
+
+
+frame x;
+
+
+
+fdomain v=v(t,r,theta,phi),p=p(r,theta,phi);
+
+
+
+pform v(k)=0,p=0,w=1;
+
+
+
+% We first calculate the convective derivative.
+
+w := v(-k)*e(k)$
+
+
+
+factor e;
+
+ on rat;
+
+
+
+cdv := @(w,t) + (v(k)*x(-k)) |_ w - 1/2*d(v(k)*v(-k));
+
+
+         phi
+cdv := (e   *(cos(theta)*v   *v      + @   (v   )*v
+                          phi  theta    phi  phi   phi
+
+               + @ (v   )*sin(theta)*v *r + @ (v   )*sin(theta)*r
+                  r  phi              r      t  phi
+
+               + @     (v   )*sin(theta)*v      + sin(theta)*v   *v ))/(
+                  theta  phi              theta               phi  r
+
+                            r
+          sin(theta)*r) + (e *(@   (v )*v    + @ (v )*sin(theta)*v *r
+                                phi  r   phi    r  r              r
+
+              + @ (v )*sin(theta)*r + @     (v )*sin(theta)*v
+                 t  r                  theta  r              theta
+
+                                 2                      2
+              - sin(theta)*(v   )  - sin(theta)*(v     ) ))/(sin(theta)*r) + (
+                             phi                  theta
+
+           theta                      2
+          e     *( - cos(theta)*(v   )  + @   (v     )*v
+                                  phi      phi  theta   phi
+
+              + @ (v     )*sin(theta)*v *r + @ (v     )*sin(theta)*r
+                 r  theta              r      t  theta
+
+              + @     (v     )*sin(theta)*v      + sin(theta)*v *v     ))/(
+                 theta  theta              theta               r  theta
+
+          sin(theta)*r)
+
+
+%next we calculate the viscous terms;
+
+visc := nu*(d#d# w - #d#d w) + mu*d#d# w;
+
+
+          phi               2
+visc := (e   *( - cos(theta) *v   *nu + cos(theta)*@     (v   )*sin(theta)*nu
+                               phi                  theta  phi
+
+                + cos(theta)*@   (v     )*mu + 2*cos(theta)*@   (v     )*nu
+                              phi  theta                     phi  theta
+
+                + @       (v   )*mu + @       (v   )*nu
+                   phi phi  phi        phi phi  phi
+
+                                       2     2                        2
+                + @   (v   )*sin(theta) *nu*r  + 2*@ (v   )*sin(theta) *nu*r
+                   r r  phi                         r  phi
+
+                                               2
+                + @           (v   )*sin(theta) *nu + @     (v )*sin(theta)*mu*r
+                   theta theta  phi                    phi r  r
+
+                + 2*@   (v )*sin(theta)*mu + 2*@   (v )*sin(theta)*nu
+                     phi  r                     phi  r
+
+                                                               2
+                + @         (v     )*sin(theta)*mu - sin(theta) *v   *nu))/(
+                   phi theta  theta                               phi
+
+                     2  2      r
+           sin(theta) *r ) + (e *(cos(theta)*@     (v )*sin(theta)*nu
+                                              theta  r
+
+               + cos(theta)*@ (v     )*sin(theta)*mu*r
+                             r  theta
+
+               - cos(theta)*sin(theta)*v     *mu
+                                        theta
+
+               - 2*cos(theta)*sin(theta)*v     *nu
+                                          theta
+
+               + @     (v   )*sin(theta)*mu*r - @   (v   )*sin(theta)*mu
+                  phi r  phi                     phi  phi
+
+               - 2*@   (v   )*sin(theta)*nu + @       (v )*nu
+                    phi  phi                   phi phi  r
+
+                                    2     2                      2     2
+               + @   (v )*sin(theta) *mu*r  + @   (v )*sin(theta) *nu*r
+                  r r  r                       r r  r
+
+                                    2                           2
+               + 2*@ (v )*sin(theta) *mu*r + 2*@ (v )*sin(theta) *nu*r
+                    r  r                        r  r
+
+                                            2
+               + @           (v )*sin(theta) *nu
+                  theta theta  r
+
+                                            2
+               + @       (v     )*sin(theta) *mu*r
+                  r theta  theta
+
+                                          2                                 2
+               - @     (v     )*sin(theta) *mu - 2*@     (v     )*sin(theta) *nu
+                  theta  theta                      theta  theta
+
+                             2                     2                    2  2
+               - 2*sin(theta) *v *mu - 2*sin(theta) *v *nu))/(sin(theta) *r ) + 
+                                r                     r
+
+          theta               2                       2
+        (e     *( - cos(theta) *v     *mu - cos(theta) *v     *nu
+                                 theta                   theta
+
+                  - cos(theta)*@   (v   )*mu - 2*cos(theta)*@   (v   )*nu
+                                phi  phi                     phi  phi
+
+                  + cos(theta)*@     (v     )*sin(theta)*mu
+                                theta  theta
+
+                  + cos(theta)*@     (v     )*sin(theta)*nu
+                                theta  theta
+
+                  + @         (v   )*sin(theta)*mu
+                     phi theta  phi
+
+                                           2                               2
+                  + @       (v )*sin(theta) *mu*r + 2*@     (v )*sin(theta) *mu
+                     r theta  r                        theta  r
+
+                                           2
+                  + 2*@     (v )*sin(theta) *nu + @       (v     )*nu
+                       theta  r                    phi phi  theta
+
+                                           2     2
+                  + @   (v     )*sin(theta) *nu*r
+                     r r  theta
+
+                                           2
+                  + 2*@ (v     )*sin(theta) *nu*r
+                       r  theta
+
+                                                   2
+                  + @           (v     )*sin(theta) *mu
+                     theta theta  theta
+
+                                                   2                2
+                  + @           (v     )*sin(theta) *nu - sin(theta) *v     *mu
+                     theta theta  theta                                theta
+
+                              2                        2  2
+                  - sin(theta) *v     *nu))/(sin(theta) *r )
+                                 theta
+
+
+% Finally we add the pressure term and print the components of the
+% whole equation.
+
+pform nasteq=1,nast(k)=0;
+
+
+
+nasteq := cdv - visc + 1/rho*d p$
+
+
+
+factor @;
+
+
+
+nast(-k) := x(-k) _| nasteq;
+
+           - @     (v   )*mu     @   (v   )*(mu + 2*nu)      - @       (v )*nu
+              phi r  phi          phi  phi                      phi phi  r
+nast  := -------------------- + ------------------------ + --------------------
+    r        sin(theta)*r                        2                      2  2
+                                     sin(theta)*r             sin(theta) *r
+
+             @   (v )*v                             @ (v )*(v *r - 2*mu - 2*nu)
+              phi  r   phi                           r  r    r
+          + --------------- - @   (v )*(mu + nu) + -----------------------------
+             sin(theta)*r      r r  r                            r
+
+                       - @           (v )*nu
+                          theta theta  r
+          + @ (v ) + ------------------------
+             t  r                2
+                                r
+
+             @     (v )*( - cos(theta)*nu + sin(theta)*v     *r)
+              theta  r                                  theta
+          + -----------------------------------------------------
+                                            2
+                                sin(theta)*r
+
+              - @       (v     )*mu      - @ (v     )*cos(theta)*mu
+                 r theta  theta             r  theta
+          + ------------------------ + -----------------------------
+                       r                       sin(theta)*r
+
+             @     (v     )*(mu + 2*nu)     @ p
+              theta  theta                   r
+          + ---------------------------- + ----- + (cos(theta)*v     *mu
+                          2                 rho                 theta
+                         r
+
+                                                         2
+             + 2*cos(theta)*v     *nu - sin(theta)*(v   ) *r
+                             theta                   phi
+
+                                                                            2
+             + 2*sin(theta)*v *mu + 2*sin(theta)*v *nu - sin(theta)*(v     ) *r)
+                             r                    r                   theta
+
+                       2
+         /(sin(theta)*r )
+
+               - @         (v   )*mu     @   (v   )*cos(theta)*(mu + 2*nu)
+                  phi theta  phi          phi  phi
+nast      := ------------------------ + -----------------------------------
+    theta                     2                             2  2
+                  sin(theta)*r                    sin(theta) *r
+
+                  - @       (v )*mu     2*@     (v )*(mu + nu)
+                     r theta  r            theta  r
+              + -------------------- - ------------------------
+                         r                         2
+                                                  r
+
+                  - @       (v     )*nu     @   (v     )*v
+                     phi phi  theta          phi  theta   phi
+              + ------------------------ + ------------------- - @   (v     )*nu
+                               2  2           sin(theta)*r        r r  theta
+                     sin(theta) *r
+
+                 @ (v     )*(v *r - 2*nu)
+                  r  theta    r
+              + -------------------------- + @ (v     )
+                            r                 t  theta
+
+                 @           (v     )*(mu + nu)
+                  theta theta  theta
+              - -------------------------------- + (@     (v     )
+                                2                    theta  theta
+                               r
+
+                *( - cos(theta)*mu - cos(theta)*nu + sin(theta)*v     *r))/(
+                                                                 theta
+
+                                  @     p
+                            2      theta                2
+                sin(theta)*r ) + --------- + (cos(theta) *v     *mu
+                                   r*rho                   theta
+
+                             2                                         2
+                 + cos(theta) *v     *nu - cos(theta)*sin(theta)*(v   ) *r
+                                theta                              phi
+
+                             2                         2
+                 + sin(theta) *v *v     *r + sin(theta) *v     *mu
+                                r  theta                  theta
+
+                             2                       2  2
+                 + sin(theta) *v     *nu)/(sin(theta) *r )
+                                theta
+
+               @       (v   )*(mu + nu)     @   (v   )*v
+                phi phi  phi                 phi  phi   phi
+nast    :=  - -------------------------- + ----------------- - @   (v   )*nu
+    phi                       2  2           sin(theta)*r       r r  phi
+                    sin(theta) *r
+
+               @ (v   )*(v *r - 2*nu)                 - @           (v   )*nu
+                r  phi    r                              theta theta  phi
+            + ------------------------ + @ (v   ) + --------------------------
+                         r                t  phi                 2
+                                                                r
+
+               @     (v   )*( - cos(theta)*nu + sin(theta)*v     *r)
+                theta  phi                                  theta
+            + -------------------------------------------------------
+                                               2
+                                   sin(theta)*r
+
+                - @     (v )*mu     2*@   (v )*(mu + nu)
+                   phi r  r            phi  r
+            + ------------------ - ----------------------
+                 sin(theta)*r                      2
+                                       sin(theta)*r
+
+                - @         (v     )*mu
+                   phi theta  theta
+            + --------------------------
+                                2
+                    sin(theta)*r
+
+               @   (v     )*cos(theta)*( - mu - 2*nu)          @   p
+                phi  theta                                      phi
+            + ---------------------------------------- + ------------------ + (
+                                     2  2                 sin(theta)*r*rho
+                           sin(theta) *r
+
+                              2
+              v   *(cos(theta) *nu + cos(theta)*sin(theta)*v     *r
+               phi                                          theta
+
+                              2                  2                 2  2
+                  + sin(theta) *v *r + sin(theta) *nu))/(sin(theta) *r )
+                                 r
+
+
+
+remfac @,e;
+
+
+
+clear v k,x k,nast k,cdv,visc,p,w,nasteq,e k;
+
+
+remfdomain p,v;
+
+
+
+
+% Problem:
+% --------
+% Calculate from the Lagrangian of a vibrating rod the equation of
+% motion and show that the invariance under time translation leads
+% to a conserved current.
+
+pform {y,x,t,q,j}=0,lagr=2;
+
+
+
+fdomain y=y(x,t),q=q(x),j=j(x);
+
+
+
+factor ^;
+
+
+
+lagr := 1/2*(rho*q*@(y,t)**2 - e*j*@(y,x,x)**2)*d x^d t;
+
+
+                        2              2
+         d t^d x*( - @ y *q*rho + @   y *e*j)
+                      t            x x
+lagr := --------------------------------------
+                          2
+
+
+vardf(lagr,y);
+
+
+d t^d x*(@   j*@   y*e + 2*@ j*@     y*e + @   y*q*rho + @       y*e*j)
+          x x   x x         x   x x x       t t           x x x x
+
+
+% The Lagrangian does not explicitly depend on time; therefore the
+% vector field @ t generates a symmetry. The conserved current is
+
+pform c=1;
+
+
+factor d;
+
+
+
+c := noether(lagr,y,@ t);
+
+
+c := d t*e*(@ j*@ y*@   y - @   y*@   y*j + @ y*@     y*j)
+             x   t   x x     t x   x x       t   x x x
+
+                 2              2
+         d x*(@ y *q*rho + @   y *e*j)
+               t            x x
+      - -------------------------------
+                       2
+
+
+% The exterior derivative of this must be zero or a multiple of the
+% equation of motion (weak conservation law) to be a conserved current.
+
+remfac d;
+
+
+
+d c;
+
+
+d t^d x*@ y*( - @   j*@   y*e - 2*@ j*@     y*e - @   y*q*rho - @       y*e*j)
+         t       x x   x x         x   x x x       t t           x x x x
+
+
+% i.e. it is a multiple of the equation of motion.
+
+clear lagr,c,j,y,q;
+
+
+remfdomain y,q,j;
+
+
+
+% Problem:
+% --------
+% Show that the metric structure given by Eguchi and Hanson induces a
+% self-dual curvature.
+% c.f. T. Eguchi, P.B. Gilkey, A.J. Hanson, "Gravitation, Gauge Theories
+% and Differential Geometry", Physics Reports 66, 213, 1980
+
+for all x let cos(x)**2=1-sin(x)**2;
+
+
+
+pform f=0,g=0;
+
+
+fdomain f=f(r), g=g(r);
+
+
+
+coframe   o(r) = f*d r,
+      o(theta) = (r/2)*(sin(psi)*d theta - sin(theta)*cos(psi)*d phi),
+        o(phi) = (r/2)*(-cos(psi)*d theta - sin(theta)*sin(psi)*d phi),
+        o(psi) = (r/2)*g*(d psi + cos(theta)*d phi);
+
+
+
+frame e;
+
+
+
+
+pform gamma(a,b)=1,curv2(a,b)=2;
+
+
+index_symmetries gamma(a,b),curv2(a,b): antisymmetric;
+
+
+
+factor o;
+
+
+
+gamma(-a,-b) := -(1/2)*( e(-a) _| (e(-c) _| (d o(-b)))
+		        -e(-b) _| (e(-a) _| (d o(-c)))
+		        +e(-c) _| (e(-b) _| (d o(-a))) )*o(c)$
+
+
+
+
+curv2(-a,b) := d gamma(-a,b) + gamma(-c,b)^gamma(-a,c)$
+
+
+
+let f=1/g,g=sqrt(1-(a/r)**4);
+
+
+
+pform chck(k,l)=2;
+
+
+index_symmetries chck(k,l): antisymmetric;
+
+
+
+% The following has to be zero for a self-dual curvature.
+
+chck(k,l) := 1/2*eps(k,l,m,n)*curv2(-m,-n) + curv2(k,l);
+
+    r theta
+chck        := 0
+
+    r phi
+chck      := 0
+
+    theta phi
+chck          := 0
+
+    r psi
+chck      := 0
+
+    theta psi
+chck          := 0
+
+    phi psi
+chck        := 0
+
+
+
+clear gamma(a,b),curv2(a,b),f,g,chck(a,b),o(k),e(k),r,phi,psi;
+
+
+remfdomain f,g;
+
+
+
+% Example: 6-dimensional FRW model with quadratic curvature terms in
+% -------
+% the Lagrangian (Lanczos and Gauss-Bonnet terms).
+% cf. Henriques, Nuclear Physics, B277, 621 (1986)
+
+for all x let cos(x)**2+sin(x)**2=1;
+
+
+
+pform {r,s}=0;
+
+
+fdomain r=r(t),s=s(t);
+
+
+
+coframe o(t) = d t,
+        o(1) = r*d u/(1 + k*(u**2)/4),
+        o(2) = r*u*d theta/(1 + k*(u**2)/4),
+        o(3) = r*u*sin(theta)*d phi/(1 + k*(u**2)/4),
+        o(4) = s*d v1,
+        o(5) = s*sin(v1)*d v2
+ with metric g =-o(t)*o(t)+o(1)*o(1)+o(2)*o(2)+o(3)*o(3)
+                +o(4)*o(4)+o(5)*o(5);
+
+
+
+frame e;
+
+
+
+on nero;
+
+ factor o,^;
+
+
+
+riemannconx om;
+
+
+
+pform curv(k,l)=2,{riemann(a,b,c,d),ricci(a,b),riccisc}=0;
+
+
+
+index_symmetries curv(k,l): antisymmetric,
+                 riemann(k,l,m,n): antisymmetric in {k,l},{m,n}
+                                   symmetric in {{k,l},{m,n}},
+                 ricci(k,l): symmetric;
+
+
+
+curv(k,l) := d om(k,l) + om(k,-m)^om(m,l);
+
+             t  1
+            o ^o *@   r
+    t 1            t t
+curv    := -------------
+                 r
+
+             t  2
+            o ^o *@   r
+    t 2            t t
+curv    := -------------
+                 r
+
+             1  2     2
+            o ^o *(@ r  + k)
+    1 2             t
+curv    := ------------------
+                    2
+                   r
+
+             t  3
+            o ^o *@   r
+    t 3            t t
+curv    := -------------
+                 r
+
+             1  3     2
+            o ^o *(@ r  + k)
+    1 3             t
+curv    := ------------------
+                    2
+                   r
+
+             2  3     2
+            o ^o *(@ r  + k)
+    2 3             t
+curv    := ------------------
+                    2
+                   r
+
+             t  4
+            o ^o *@   s
+    t 4            t t
+curv    := -------------
+                 s
+
+             1  4
+            o ^o *@ r*@ s
+    1 4            t   t
+curv    := ---------------
+                 r*s
+
+             2  4
+            o ^o *@ r*@ s
+    2 4            t   t
+curv    := ---------------
+                 r*s
+
+             3  4
+            o ^o *@ r*@ s
+    3 4            t   t
+curv    := ---------------
+                 r*s
+
+             t  5
+            o ^o *@   s
+    t 5            t t
+curv    := -------------
+                 s
+
+             1  5
+            o ^o *@ r*@ s
+    1 5            t   t
+curv    := ---------------
+                 r*s
+
+             2  5
+            o ^o *@ r*@ s
+    2 5            t   t
+curv    := ---------------
+                 r*s
+
+             3  5
+            o ^o *@ r*@ s
+    3 5            t   t
+curv    := ---------------
+                 r*s
+
+             4  5     2
+            o ^o *(@ s  + 1)
+    4 5             t
+curv    := ------------------
+                    2
+                   s
+
+
+
+riemann(a,b,c,d) := e(d) _| (e (c) _| curv(a,b));
+
+                    - @   r
+       t 1 t 1         t t
+riemann        := ----------
+                      r
+
+                    - @   r
+       t 2 t 2         t t
+riemann        := ----------
+                      r
+
+                      2
+                   @ r  + k
+       1 2 1 2      t
+riemann        := ----------
+                       2
+                      r
+
+                    - @   r
+       t 3 t 3         t t
+riemann        := ----------
+                      r
+
+                      2
+                   @ r  + k
+       1 3 1 3      t
+riemann        := ----------
+                       2
+                      r
+
+                      2
+                   @ r  + k
+       2 3 2 3      t
+riemann        := ----------
+                       2
+                      r
+
+                    - @   s
+       t 4 t 4         t t
+riemann        := ----------
+                      s
+
+                   @ r*@ s
+       1 4 1 4      t   t
+riemann        := ---------
+                     r*s
+
+                   @ r*@ s
+       2 4 2 4      t   t
+riemann        := ---------
+                     r*s
+
+                   @ r*@ s
+       3 4 3 4      t   t
+riemann        := ---------
+                     r*s
+
+                    - @   s
+       t 5 t 5         t t
+riemann        := ----------
+                      s
+
+                   @ r*@ s
+       1 5 1 5      t   t
+riemann        := ---------
+                     r*s
+
+                   @ r*@ s
+       2 5 2 5      t   t
+riemann        := ---------
+                     r*s
+
+                   @ r*@ s
+       3 5 3 5      t   t
+riemann        := ---------
+                     r*s
+
+                      2
+                   @ s  + 1
+       4 5 4 5      t
+riemann        := ----------
+                       2
+                      s
+
+
+
+% The rest is done in the Ricci calculus language,
+
+ricci(-a,-b) := riemann(c,-a,-d,-b)*g(-c,d);
+
+              - 3*@   r*s - 2*@   s*r
+                   t t         t t
+ricci    := --------------------------
+     t t               r*s
+
+                              2
+             @   r*r*s + 2*@ r *s + 2*@ r*@ s*r + 2*k*s
+              t t           t          t   t
+ricci    := --------------------------------------------
+     1 1                         2
+                                r *s
+
+                              2
+             @   r*r*s + 2*@ r *s + 2*@ r*@ s*r + 2*k*s
+              t t           t          t   t
+ricci    := --------------------------------------------
+     2 2                         2
+                                r *s
+
+                              2
+             @   r*r*s + 2*@ r *s + 2*@ r*@ s*r + 2*k*s
+              t t           t          t   t
+ricci    := --------------------------------------------
+     3 3                         2
+                                r *s
+
+                                          2
+             3*@ r*@ s*s + @   s*r*s + @ s *r + r
+                t   t       t t         t
+ricci    := --------------------------------------
+     4 4                        2
+                             r*s
+
+                                          2
+             3*@ r*@ s*s + @   s*r*s + @ s *r + r
+                t   t       t t         t
+ricci    := --------------------------------------
+     5 5                        2
+                             r*s
+
+
+
+riccisc := ricci(-a,-b)*g(a,b);
+
+
+                          2        2  2                            2        2  2
+riccisc := (2*(3*@   r*r*s  + 3*@ r *s  + 6*@ r*@ s*r*s + 2*@   s*r *s + @ s *r
+                  t t            t           t   t           t t          t
+
+                       2    2     2  2
+                + 3*k*s  + r ))/(r *s )
+
+
+pform {laglanc,inv1,inv2} = 0;
+
+
+
+index_symmetries riemc3(k,l),riemri(k,l),
+                 hlang(k,l),einst(k,l): symmetric;
+
+
+
+pform {riemc3(i,j),riemri(i,j)}=0;
+
+
+
+riemc3(-i,-j) := riemann(-i,-k,-l,-m)*riemann(-j,k,l,m)$
+
+
+inv1 := riemc3(-i,-j)*g(i,j);
+
+
+                   2  2  4        4  4        2    2  2  2        2    4
+inv1 := (4*(3*@   r *r *s  + 3*@ r *s  + 6*@ r *@ s *r *s  + 6*@ r *k*s
+               t t              t           t    t              t
+
+                      2  4  2      4  4        2  4      2  4    4     4  4
+             + 2*@   s *r *s  + @ s *r  + 2*@ s *r  + 3*k *s  + r ))/(r *s )
+                  t t            t           t
+
+riemri(-i,-j) := 2*riemann(-i,-k,-j,-l)*ricci(k,l)$
+
+
+inv2 := ricci(-a,-b)*ricci(a,b);
+
+
+                   2  2  4              2    4                    2  3
+inv2 := (2*(6*@   r *r *s  + 6*@   r*@ r *r*s  + 6*@   r*@ r*@ s*r *s
+               t t              t t   t             t t   t   t
+
+                              3  3                4        4  4
+             + 6*@   r*@   s*r *s  + 6*@   r*k*r*s  + 6*@ r *s
+                  t t   t t             t t              t
+
+                     3        3         2    2  2  2         2    4
+             + 12*@ r *@ s*r*s  + 15*@ r *@ s *r *s  + 12*@ r *k*s
+                   t    t             t    t               t
+
+                                3  2            3  3                     3
+             + 6*@ r*@   s*@ s*r *s  + 6*@ r*@ s *r *s + 12*@ r*@ s*k*r*s
+                  t   t t   t             t   t              t   t
+
+                          3            2  4  2              2  4
+             + 6*@ r*@ s*r *s + 3*@   s *r *s  + 2*@   s*@ s *r *s
+                  t   t            t t              t t   t
+
+                        4        4  4        2  4      2  4    4     4  4
+             + 2*@   s*r *s + @ s *r  + 2*@ s *r  + 6*k *s  + r ))/(r *s )
+                  t t          t           t
+
+laglanc := (1/2)*(inv1 - 4*inv2 + riccisc**2);
+
+
+                         2  2                                  2  2            2
+laglanc := (12*(@   r*@ r *s  + 4*@   r*@ r*@ s*r*s + @   r*@ s *r  + @   r*k*s
+                 t t   t           t t   t   t         t t   t         t t
+
+                          2        3              2                  2    2
+                 + @   r*r  + 2*@ r *@ s*s + 2*@ r *@   s*r*s + 3*@ r *@ s *r
+                    t t          t    t         t    t t           t    t
+
+                      2                      2
+                 + @ r *r + 2*@ r*@   s*@ s*r  + 2*@ r*@ s*k*s + 2*@   s*k*r*s
+                    t          t   t t   t          t   t           t t
+
+                      2               3  2
+                 + @ s *k*r + k*r))/(r *s )
+                    t
+
+
+
+pform {einst(a,b),hlang(a,b)}=0;
+
+
+
+hlang(-i,-j) := 2*(riemc3(-i,-j) - riemri(-i,-j) -
+		   2*ricci(-i,-k)*ricci(-j,K) +
+		   riccisc*ricci(-i,-j) - (1/2)*laglanc*g(-i,-j));
+
+hlang    := 
+     t t
+
+          3              2    2        2                        2
+ 12*(2*@ r *@ s*s + 3*@ r *@ s *r + @ r *r + 2*@ r*@ s*k*s + @ s *k*r + k*r)
+        t    t         t    t        t          t   t         t
+-----------------------------------------------------------------------------
+                                     3  2
+                                    r *s
+
+                                                  2
+hlang    := (4*( - 4*@   r*@ r*@ s*s - 2*@   r*@ s *r - 2*@   r*r
+     1 1              t t   t   t         t t   t          t t
+
+                        2                2    2      2
+                 - 2*@ r *@   s*s - 3*@ r *@ s  - @ r  - 4*@ r*@   s*@ s*r
+                      t    t t         t    t      t        t   t t   t
+
+                                    2           2  2
+                 - 2*@   s*k*s - @ s *k - k))/(r *s )
+                      t t         t
+
+                                                  2
+hlang    := (4*( - 4*@   r*@ r*@ s*s - 2*@   r*@ s *r - 2*@   r*r
+     2 2              t t   t   t         t t   t          t t
+
+                        2                2    2      2
+                 - 2*@ r *@   s*s - 3*@ r *@ s  - @ r  - 4*@ r*@   s*@ s*r
+                      t    t t         t    t      t        t   t t   t
+
+                                    2           2  2
+                 - 2*@   s*k*s - @ s *k - k))/(r *s )
+                      t t         t
+
+                                                  2
+hlang    := (4*( - 4*@   r*@ r*@ s*s - 2*@   r*@ s *r - 2*@   r*r
+     3 3              t t   t   t         t t   t          t t
+
+                        2                2    2      2
+                 - 2*@ r *@   s*s - 3*@ r *@ s  - @ r  - 4*@ r*@   s*@ s*r
+                      t    t t         t    t      t        t   t t   t
+
+                                    2           2  2
+                 - 2*@   s*k*s - @ s *k - k))/(r *s )
+                      t t         t
+
+                             2                                        3
+hlang    := (12*( - @   r*@ r *s - 2*@   r*@ r*@ s*r - @   r*k*s - @ r *@ s
+     4 4             t t   t          t t   t   t       t t         t    t
+
+                       2                                     3
+                  - @ r *@   s*r - @ r*@ s*k - @   s*k*r))/(r *s)
+                     t    t t       t   t       t t
+
+                             2                                        3
+hlang    := (12*( - @   r*@ r *s - 2*@   r*@ r*@ s*r - @   r*k*s - @ r *@ s
+     5 5             t t   t          t t   t   t       t t         t    t
+
+                       2                                     3
+                  - @ r *@   s*r - @ r*@ s*k - @   s*k*r))/(r *s)
+                     t    t t       t   t       t t
+
+
+
+% The complete Einstein tensor: 
+
+einst(-i,-j) := (ricci(-i,-j) - (1/2)*riccisc*g(-i,-j))*alp1 +
+		hlang(-i,-j)*alp2$
+
+
+
+alp1 := 1$
+
+
+factor alp2;
+
+
+
+einst(-i,-j) := einst(-i,-j);
+
+                           3              2    2        2
+einst    := (12*alp2*(2*@ r *@ s*s + 3*@ r *@ s *r + @ r *r + 2*@ r*@ s*k*s
+     t t                 t    t         t    t        t          t   t
+
+                      2               3  2
+                 + @ s *k*r + k*r))/(r *s )
+                    t
+
+                     2  2                      2  2        2    2
+                3*@ r *s  + 6*@ r*@ s*r*s + @ s *r  + 3*k*s  + r
+                   t           t   t         t
+             + ---------------------------------------------------
+                                       2  2
+                                      r *s
+
+                                                       2
+einst    := (4*alp2*( - 4*@   r*@ r*@ s*s - 2*@   r*@ s *r - 2*@   r*r
+     1 1                   t t   t   t         t t   t          t t
+
+                        2                2    2      2
+                 - 2*@ r *@   s*s - 3*@ r *@ s  - @ r  - 4*@ r*@   s*@ s*r
+                      t    t t         t    t      t        t   t t   t
+
+                                    2           2  2                   2
+                 - 2*@   s*k*s - @ s *k - k))/(r *s ) + ( - 2*@   r*r*s
+                      t t         t                            t t
+
+                     2  2                            2        2  2      2    2
+                - @ r *s  - 4*@ r*@ s*r*s - 2*@   s*r *s - @ s *r  - k*s  - r )/
+                   t           t   t           t t          t
+
+              2  2
+            (r *s )
+
+                                                       2
+einst    := (4*alp2*( - 4*@   r*@ r*@ s*s - 2*@   r*@ s *r - 2*@   r*r
+     2 2                   t t   t   t         t t   t          t t
+
+                        2                2    2      2
+                 - 2*@ r *@   s*s - 3*@ r *@ s  - @ r  - 4*@ r*@   s*@ s*r
+                      t    t t         t    t      t        t   t t   t
+
+                                    2           2  2                   2
+                 - 2*@   s*k*s - @ s *k - k))/(r *s ) + ( - 2*@   r*r*s
+                      t t         t                            t t
+
+                     2  2                            2        2  2      2    2
+                - @ r *s  - 4*@ r*@ s*r*s - 2*@   s*r *s - @ s *r  - k*s  - r )/
+                   t           t   t           t t          t
+
+              2  2
+            (r *s )
+
+                                                       2
+einst    := (4*alp2*( - 4*@   r*@ r*@ s*s - 2*@   r*@ s *r - 2*@   r*r
+     3 3                   t t   t   t         t t   t          t t
+
+                        2                2    2      2
+                 - 2*@ r *@   s*s - 3*@ r *@ s  - @ r  - 4*@ r*@   s*@ s*r
+                      t    t t         t    t      t        t   t t   t
+
+                                    2           2  2                   2
+                 - 2*@   s*k*s - @ s *k - k))/(r *s ) + ( - 2*@   r*r*s
+                      t t         t                            t t
+
+                     2  2                            2        2  2      2    2
+                - @ r *s  - 4*@ r*@ s*r*s - 2*@   s*r *s - @ s *r  - k*s  - r )/
+                   t           t   t           t t          t
+
+              2  2
+            (r *s )
+
+                                  2                                        3
+einst    := (12*alp2*( - @   r*@ r *s - 2*@   r*@ r*@ s*r - @   r*k*s - @ r *@ s
+     4 4                  t t   t          t t   t   t       t t         t    t
+
+                      2                                     3
+                 - @ r *@   s*r - @ r*@ s*k - @   s*k*r))/(r *s)
+                    t    t t       t   t       t t
+
+                                      2                          2
+                 - 3*@   r*r*s - 3*@ r *s - 3*@ r*@ s*r - @   s*r  - 3*k*s
+                      t t           t          t   t       t t
+             + ------------------------------------------------------------
+                                            2
+                                           r *s
+
+                                  2                                        3
+einst    := (12*alp2*( - @   r*@ r *s - 2*@   r*@ r*@ s*r - @   r*k*s - @ r *@ s
+     5 5                  t t   t          t t   t   t       t t         t    t
+
+                      2                                     3
+                 - @ r *@   s*r - @ r*@ s*k - @   s*k*r))/(r *s)
+                    t    t t       t   t       t t
+
+                                      2                          2
+                 - 3*@   r*r*s - 3*@ r *s - 3*@ r*@ s*r - @   s*r  - 3*k*s
+                      t t           t          t   t       t t
+             + ------------------------------------------------------------
+                                            2
+                                           r *s
+
+
+
+clear o(k),e(k),riemc3(i,j),riemri(i,j),curv(k,l),riemann(a,b,c,d),
+      ricci(a,b),riccisc,t,u,v1,v2,theta,phi,r,om(k,l),einst(a,b),
+      hlang(a,b);
+
+
+
+remfdomain r,s;
+
+ 
+
+% Problem:
+% --------
+% Calculate for a given coframe and given torsion the Riemannian part and
+% the torsion induced part of the connection. Calculate the curvature.
+
+% For a more elaborate example see E.Schruefer, F.W. Hehl, J.D. McCrea,
+% "Application of the REDUCE package EXCALC to the Poincare gauge field
+% theory of gravity", GRG Journal, vol. 19, (1988)  197--218
+
+pform {ff, gg}=0;
+
+
+
+fdomain ff=ff(r), gg=gg(r);
+
+
+
+coframe o(4) = d u + 2*b0*cos(theta)*d phi,
+        o(1) = ff*(d u + 2*b0*cos(theta)*d phi) + d r,
+        o(2) = gg*d theta,
+        o(3) = gg*sin(theta)*d phi
+ with metric g = -o(4)*o(1)-o(4)*o(1)+o(2)*o(2)+o(3)*o(3);
+
+
+
+frame e;
+
+
+
+pform {tor(a),gwt(a)}=2,gamma(a,b)=1,
+      {u1,u3,u5}=0;
+
+
+
+index_symmetries gamma(a,b): antisymmetric;
+
+
+
+fdomain u1=u1(r),u3=u3(r),u5=u5(r);
+
+
+
+tor(4) := 0$
+
+
+
+tor(1) := -u5*o(4)^o(1) - 2*u3*o(2)^o(3)$
+
+
+
+tor(2) := u1*o(4)^o(2) + u3*o(4)^o(3)$
+
+
+
+tor(3) := u1*o(4)^o(3) - u3*o(4)^o(2)$
+
+
+
+gwt(-a) := d o(-a) - tor(-a)$
+
+
+
+% The following is the combined connection.
+% The Riemannian part could have equally well been calculated by the
+% RIEMANNCONX statement.
+
+gamma(-a,-b) := (1/2)*( e(-b) _| (e(-c) _| gwt(-a))
+	               +e(-c) _| (e(-a) _| gwt(-b))
+                       -e(-a) _| (e(-b) _| gwt(-c)) )*o(c);
+
+             4
+gamma    := o *(@ ff - u5)
+     4 1         r
+
+                 2
+                o *(@ gg*ff + gg*u1)      3               2
+                     r                   o *( - b0*ff + gg *u3)
+gamma    :=  - ---------------------- + ------------------------
+     4 2                 gg                         2
+                                                  gg
+
+              2
+             o *@ gg         3
+                 r        - o *b0
+gamma    := --------- + ----------
+     1 2       gg            2
+                           gg
+
+                                      3
+              2            2         o *(@ gg*ff + gg*u1)
+             o *(b0*ff - gg *u3)          r
+gamma    := --------------------- - ----------------------
+     4 3               2                      gg
+                     gg
+
+                        3
+              2        o *@ gg
+             o *b0         r
+gamma    := ------- + ---------
+     1 3        2        gg
+              gg
+
+              1         3                 4              2
+             o *b0     o *cos(theta)     o *(b0*ff - 2*gg *u3)
+gamma    := ------- + --------------- + -----------------------
+     2 3        2      sin(theta)*gg                2
+              gg                                  gg
+
+
+
+pform curv(a,b)=2;
+
+
+index_symmetries curv(a,b): antisymmetric;
+
+
+factor ^;
+
+
+
+curv(-a,b) := d gamma(-a,b) + gamma(-c,b)^gamma(-a,c);
+
+      4        2  3
+curv    := (2*o ^o
+    4 
+
+                                                 2
+            *(@ ff*b0*gg - 2*@ gg*b0*ff + @ gg*gg *u3 - b0*gg*u1 - b0*gg*u5))/
+               r              r            r
+
+             3    4  1
+           gg  + o ^o *(@   ff - @ u5)
+                         r r      r
+
+             1  2           3     2
+            o ^o *(@   gg*gg  - b0 )
+      4             r r                   4  2                 3               3
+curv    := -------------------------- + (o ^o *( - @ ff*@ gg*gg  - @   gg*ff*gg
+    2                   4                           r    r          r r
+                      gg
+
+                           3        2             2        4
+                  + @ gg*gg *u5 - b0 *ff + 2*b0*gg *u3))/gg
+                     r
+
+                4  3                                       2
+               o ^o *(@ ff*b0*gg - 2*@ gg*b0*ff + 2*@ gg*gg *u3 - b0*gg*u5)
+                       r              r              r
+            + --------------------------------------------------------------
+                                             3
+                                           gg
+
+             1  3           3     2
+            o ^o *(@   gg*gg  - b0 )
+      4             r r
+curv    := --------------------------
+    3                   4
+                      gg
+
+                4  2                                          2
+               o ^o *( - @ ff*b0*gg + 2*@ gg*b0*ff - 2*@ gg*gg *u3 + b0*gg*u5)
+                          r              r              r
+            + ----------------------------------------------------------------- 
+                                               3
+                                             gg
+
+               4  3                 3               3          3        2
+           + (o ^o *( - @ ff*@ gg*gg  - @   gg*ff*gg  + @ gg*gg *u5 - b0 *ff
+                         r    r          r r             r
+
+                           2        4
+                  + 2*b0*gg *u3))/gg
+
+      1        2  3
+curv    := (2*o ^o
+    1 
+
+                                                    2
+            *( - @ ff*b0*gg + 2*@ gg*b0*ff - @ gg*gg *u3 + b0*gg*u1 + b0*gg*u5))
+                  r              r            r
+
+              3    4  1
+           /gg  + o ^o *( - @   ff + @ u5)
+                             r r      r
+
+      1      1  2                 3               3          3             4
+curv    := (o ^o *( - @ ff*@ gg*gg  - @   gg*ff*gg  - @ gg*gg *u1 - @ u1*gg
+    2                  r    r          r r             r             r
+
+                    2           2        4     1  3
+                - b0 *ff + b0*gg *u3))/gg  + (o ^o *( - @ ff*b0*gg
+                                                         r
+
+                                          2             3                3
+                  + 2*@ gg*b0*ff + @ gg*gg *u3 + @ u3*gg  + b0*gg*u1))/gg  + (
+                       r            r             r
+
+               4  2            4               2   3             3
+              o ^o *( - @ ff*gg *u1 + @   gg*ff *gg  + @ gg*ff*gg *u1
+                         r             r r              r
+
+                              3                4     2   2             2
+                  + @ gg*ff*gg *u5 + @ u1*ff*gg  - b0 *ff  + 3*b0*ff*gg *u3
+                     r                r
+
+                      4             4   2     4     4  3         2
+                  + gg *u1*u5 - 2*gg *u3 ))/gg  + (o ^o *(@ ff*gg *u3
+                                                           r
+
+                                                2
+                  - 3*@ gg*ff*gg*u3 - @ u3*ff*gg  + b0*ff*u1 + b0*ff*u5
+                       r               r
+
+                        2           2           2
+                  - 2*gg *u1*u3 - gg *u3*u5))/gg
+
+      1      1  2
+curv    := (o ^o
+    3 
+
+                                                 2             3
+            *(@ ff*b0*gg - 2*@ gg*b0*ff - @ gg*gg *u3 - @ u3*gg  - b0*gg*u1))/
+               r              r            r             r
+
+             3     1  3                 3               3          3
+           gg  + (o ^o *( - @ ff*@ gg*gg  - @   gg*ff*gg  - @ gg*gg *u1
+                             r    r          r r             r
+
+                           4     2           2        4     4  2            2
+                  - @ u1*gg  - b0 *ff + b0*gg *u3))/gg  + (o ^o *( - @ ff*gg *u3
+                     r                                                r
+
+                                                2
+                  + 3*@ gg*ff*gg*u3 + @ u3*ff*gg  - b0*ff*u1 - b0*ff*u5
+                       r               r
+
+                        2           2           2     4  3            4
+                  + 2*gg *u1*u3 + gg *u3*u5))/gg  + (o ^o *( - @ ff*gg *u1
+                                                                r
+
+                             2   3             3                3
+                  + @   gg*ff *gg  + @ gg*ff*gg *u1 + @ gg*ff*gg *u5
+                     r r              r                r
+
+                              4     2   2             2        4
+                  + @ u1*ff*gg  - b0 *ff  + 3*b0*ff*gg *u3 + gg *u1*u5
+                     r
+
+                        4   2     4
+                  - 2*gg *u3 ))/gg
+
+      2      1  2                 3               3          3             4
+curv    := (o ^o *( - @ ff*@ gg*gg  - @   gg*ff*gg  - @ gg*gg *u1 - @ u1*gg
+    4                  r    r          r r             r             r
+
+                    2           2        4     1  3
+                - b0 *ff + b0*gg *u3))/gg  + (o ^o *( - @ ff*b0*gg
+                                                         r
+
+                                          2             3                3
+                  + 2*@ gg*b0*ff + @ gg*gg *u3 + @ u3*gg  + b0*gg*u1))/gg  + (
+                       r            r             r
+
+               4  2            4               2   3             3
+              o ^o *( - @ ff*gg *u1 + @   gg*ff *gg  + @ gg*ff*gg *u1
+                         r             r r              r
+
+                              3                4     2   2             2
+                  + @ gg*ff*gg *u5 + @ u1*ff*gg  - b0 *ff  + 3*b0*ff*gg *u3
+                     r                r
+
+                      4             4   2     4     4  3         2
+                  + gg *u1*u5 - 2*gg *u3 ))/gg  + (o ^o *(@ ff*gg *u3
+                                                           r
+
+                                                2
+                  - 3*@ gg*ff*gg*u3 - @ u3*ff*gg  + b0*ff*u1 + b0*ff*u5
+                       r               r
+
+                        2           2           2
+                  - 2*gg *u1*u3 - gg *u3*u5))/gg
+
+             1  2           3     2
+            o ^o *(@   gg*gg  - b0 )
+      2             r r                   4  2                 3               3
+curv    := -------------------------- + (o ^o *( - @ ff*@ gg*gg  - @   gg*ff*gg
+    1                   4                           r    r          r r
+                      gg
+
+                           3        2             2        4
+                  + @ gg*gg *u5 - b0 *ff + 2*b0*gg *u3))/gg
+                     r
+
+                4  3                                       2
+               o ^o *(@ ff*b0*gg - 2*@ gg*b0*ff + 2*@ gg*gg *u3 - b0*gg*u5)
+                       r              r              r
+            + --------------------------------------------------------------
+                                             3
+                                           gg
+
+      2      2  3
+curv    := (o ^o
+    3 
+
+                       2      2            3          2             2        2
+            *( - 2*@ gg *ff*gg  - 2*@ gg*gg *u1 + 6*b0 *ff - 6*b0*gg *u3 + gg ))
+                    r                r
+
+                      4  1                                     3
+                   2*o ^o *(@ ff*b0*gg - 2*@ gg*b0*ff - @ u3*gg )
+              4              r              r            r
+           /gg  + ------------------------------------------------
+                                          3
+                                        gg
+
+      3      1  2
+curv    := (o ^o
+    4 
+
+                                                 2             3
+            *(@ ff*b0*gg - 2*@ gg*b0*ff - @ gg*gg *u3 - @ u3*gg  - b0*gg*u1))/
+               r              r            r             r
+
+             3     1  3                 3               3          3
+           gg  + (o ^o *( - @ ff*@ gg*gg  - @   gg*ff*gg  - @ gg*gg *u1
+                             r    r          r r             r
+
+                           4     2           2        4     4  2            2
+                  - @ u1*gg  - b0 *ff + b0*gg *u3))/gg  + (o ^o *( - @ ff*gg *u3
+                     r                                                r
+
+                                                2
+                  + 3*@ gg*ff*gg*u3 + @ u3*ff*gg  - b0*ff*u1 - b0*ff*u5
+                       r               r
+
+                        2           2           2     4  3            4
+                  + 2*gg *u1*u3 + gg *u3*u5))/gg  + (o ^o *( - @ ff*gg *u1
+                                                                r
+
+                             2   3             3                3
+                  + @   gg*ff *gg  + @ gg*ff*gg *u1 + @ gg*ff*gg *u5
+                     r r              r                r
+
+                              4     2   2             2        4
+                  + @ u1*ff*gg  - b0 *ff  + 3*b0*ff*gg *u3 + gg *u1*u5
+                     r
+
+                        4   2     4
+                  - 2*gg *u3 ))/gg
+
+             1  3           3     2
+            o ^o *(@   gg*gg  - b0 )
+      3             r r
+curv    := --------------------------
+    1                   4
+                      gg
+
+                4  2                                          2
+               o ^o *( - @ ff*b0*gg + 2*@ gg*b0*ff - 2*@ gg*gg *u3 + b0*gg*u5)
+                          r              r              r
+            + ----------------------------------------------------------------- 
+                                               3
+                                             gg
+
+               4  3                 3               3          3        2
+           + (o ^o *( - @ ff*@ gg*gg  - @   gg*ff*gg  + @ gg*gg *u5 - b0 *ff
+                         r    r          r r             r
+
+                           2        4
+                  + 2*b0*gg *u3))/gg
+
+      3      2  3
+curv    := (o ^o
+    2 
+
+                    2      2            3          2             2        2
+            *(2*@ gg *ff*gg  + 2*@ gg*gg *u1 - 6*b0 *ff + 6*b0*gg *u3 - gg ))/
+                 r                r
+
+                     4  1                                        3
+                  2*o ^o *( - @ ff*b0*gg + 2*@ gg*b0*ff + @ u3*gg )
+             4                 r              r            r
+           gg  + ---------------------------------------------------
+                                           3
+                                         gg
+
+
+
+clear o(k),e(k),curv(a,b),gamma(a,b),theta,phi,x,y,z,r,s,t,u,v,p,q,c,cs;
+
+
+remfdomain u1,u3,u5,ff,gg;
+
+
+
+showtime;
+
+
+
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 404 ms  plus GC time: 16 ms
+real	0m0.995s
+user	0m0.030s
+sys	0m0.170s

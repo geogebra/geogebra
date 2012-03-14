@@ -1,0 +1,203 @@
+% ***** Simple test 1 *****
+vars := {x, y, z};
+
+
+vars := {x,y,z}
+
+polys := {x,z};
+
+
+polys := {x,z}
+
+bibasis(polys, vars, degrevlex, t);
+
+
+{x,z}
+
+
+
+% ***** Simple test 2 *****
+vars := {x, y, z};
+
+
+vars := {x,y,z}
+
+polys := {x,z};
+
+
+polys := {x,z}
+
+bibasis(polys, vars, degrevlex, nil);
+
+
+{x,z,y*z}
+
+
+
+% ***** Simple test 3 *****
+vars := {x, y};
+
+
+vars := {x,y}
+
+polys := {x*y+x+1};
+
+
+polys := {x*y + x + 1}
+
+bibasis(polys, vars, degrevlex, t);
+
+
+{x + 1,y}
+
+
+
+% ***** Simple test 4 *****
+vars := {x0, x1, x2, x3, x4};
+
+
+vars := {x0,
+
+         x1,
+
+         x2,
+
+         x3,
+
+         x4}
+
+polys := {x0*x3+x1*x2, x2*x4+x0};
+
+
+polys := {x0*x3 + x1*x2,x0 + x2*x4}
+
+bibasis(polys, vars, degrevlex, t);
+
+
+{x0*(x1 + x3),
+
+ x0*(x2 + 1),
+
+ x1*x2 + x0*x3,
+
+ x0*(x4 + 1),
+
+ x2*x4 + x0}
+
+
+
+% ***** Simple test 5 *****
+vars := {x0, x1, x2, x3, x4};
+
+
+vars := {x0,
+
+         x1,
+
+         x2,
+
+         x3,
+
+         x4}
+
+polys := {x0*x3+x1*x2, x2*x4+x0};
+
+
+polys := {x0*x3 + x1*x2,x0 + x2*x4}
+
+bibasis(polys, vars, deglex, t);
+
+
+{x1*x2*(x3 + 1),
+
+ x1*(x0 + x2),
+
+ x0*(x2 + 1),
+
+ x0*x3 + x1*x2,
+
+ x0*(x4 + 1),
+
+ x2*x4 + x0}
+
+
+
+% ***** Simple test 6 *****
+vars := {x0, x1, x2, x3, x4};
+
+
+vars := {x0,
+
+         x1,
+
+         x2,
+
+         x3,
+
+         x4}
+
+polys := {x0*x3+x1*x2, x2*x4+x0};
+
+
+polys := {x0*x3 + x1*x2,x0 + x2*x4}
+
+bibasis(polys, vars, lex, t);
+
+
+{x0 + x2*x4,x2*(x1 + x3*x4)}
+
+
+
+% ***** life 4 *****
+vars := {x0, x1, x2, x3, x4};
+
+
+vars := {x0,
+
+         x1,
+
+         x2,
+
+         x3,
+
+         x4}
+
+polys := {x4+x0*x1+x0*x2+x1*x2+x0*x1*x2+x0*x3+x1*x3+x2*x3+x0*x1*x2*x3};
+
+
+polys := 
+
+{x0*x1*x2*x3 + x0*x1*x2 + x0*x1 + x0*x2 + x0*x3 + x1*x2 + x1*x3 + x2*x3 + x4}
+
+bibasis(polys, vars, degrevlex, t);
+
+
+{x0*x1*x2 + x0*x1 + x0*x2 + x1*x2 + x0*x4 + x1*x4 + x2*x4 + x4,
+
+ x0*x1*x3 + x0*x2 + x1*x2 + x2*x3 + x0*x4 + x1*x4 + x3*x4,
+
+ x0*x2*x3 + x0*x1 + x1*x2 + x1*x3 + x0*x4 + x2*x4 + x3*x4,
+
+ x1*x2*x3 + x0*x1 + x0*x2 + x0*x3 + x1*x4 + x2*x4 + x3*x4,
+
+ x0*x1*x4 + x0*x2 + x1*x2 + x0*x4 + x1*x4 + x2*x4 + x4,
+
+ x0*x2*x4 + x0*x1 + x1*x2 + x0*x4 + x1*x4 + x2*x4 + x4,
+
+ x1*x2*x4 + x0*x1 + x0*x2 + x0*x4 + x1*x4 + x2*x4 + x4,
+
+ x0*x3*x4 + x1*x3 + x2*x3 + x0*x4 + x1*x4 + x2*x4,
+
+ x1*x3*x4 + x0*x3 + x2*x3 + x0*x4 + x1*x4 + x2*x4,
+
+ x2*x3*x4 + x0*x3 + x1*x3 + x0*x4 + x1*x4 + x2*x4}
+
+
+
+end$
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 21 ms
+real	0m0.664s
+user	0m0.045s
+sys	0m0.138s

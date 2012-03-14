@@ -1,0 +1,48 @@
+% Regression test for a sensible error message
+
+% Added by Rainer Schöpf, 30 Aug 2011
+
+% The substitution at the end of this test file causes 0/0 to be formed.
+% This file tests that a sensible error message is printed.
+
+zz2 := (z*(z-2*pi*i)*(z-pi*i/2)^2)/(sinh z-i);
+
+
+                 3            2       2        3
+        z*(2*i*pi  - 12*i*pi*z  - 9*pi *z + 4*z )
+zz2 := -------------------------------------------
+                     4*(sinh(z) - i)
+
+
+dz2 := df(zz2,z);
+
+
+                         3                      3               2  2
+dz2 := ( - 2*cosh(z)*i*pi *z + 12*cosh(z)*i*pi*z  + 9*cosh(z)*pi *z
+
+                      4                 3                    2
+         - 4*cosh(z)*z  + 2*sinh(z)*i*pi  - 36*sinh(z)*i*pi*z
+
+                        2                 3          2           3       3
+         - 18*sinh(z)*pi *z + 16*sinh(z)*z  + 18*i*pi *z - 16*i*z  + 2*pi
+
+                  2             2
+         - 36*pi*z )/(4*(sinh(z)  - 2*sinh(z)*i - 1))
+
+
+z0 := pi*i/2;
+
+
+       i*pi
+z0 := ------
+        2
+
+
+sub(z=z0,dz2);
+
+
+***** 0/0 formed 
+
+
+end;
+

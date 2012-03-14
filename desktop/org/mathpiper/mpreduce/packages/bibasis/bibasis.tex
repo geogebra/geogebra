@@ -1,0 +1,293 @@
+\documentclass[12pt]{article}
+\textwidth 150mm
+\textheight 230mm
+\topmargin -24pt
+\oddsidemargin 0.4cm
+\evensidemargin 0.4cm
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\newcommand{\Gr}{Gr\"obner }
+\newcommand{\B}{\mathbb{B\,}}
+\newcommand{\F}{\mathbb{F}}
+
+\title{BIBASIS: A Package for Calculating Boolean Involutive Bases}
+\date{}
+\author{
+    Yuri A. Blinkov\\[0.2cm]
+    Saratov State University\\
+    Saratov, Russia\\
+    Email: BlinkovUA@info.sgu.ru\\[0.2cm]
+    and \\[0.2cm]
+    Mikhail V. Zinin\\[0.2cm]
+    Joint Institute for Nuclear Research\\
+    Dubna, Russia\\[0.2cm]
+    Email: mzinin@gmail.com}
+
+\begin{document}
+\maketitle
+
+
+\section{Introduction}
+
+Involutive polynomial bases are redundant \Gr bases of special structure with some additional useful features in comparison 
+with reduced \Gr bases~\cite{GB'98} . Apart from numerous applications of involutive bases~\cite{Seiler'10} the 
+involutive algorithms~\cite{Gerdt'05} provide an efficient method for computing reduced \Gr bases. A reduced \Gr basis 
+is a well-determined subset of an involutive basis and can be easily extracted from the latter without any extra reductions. 
+All this takes place not only in rings of commutative polynomials but also in Boolean rings.
+
+Boolean \Gr basis already have already revealed their value and usability in  practice. The first impressive demonstration
+of practicability of Boolean \Gr bases was breaking the first HFE (Hidden Fields Equations) challenge in the public
+key cryptography done in~\cite{Faugere'03} by computing a Boolean \Gr basis for the system of quadratic
+polynomials in 80 variables. Since that time the Boolean \Gr bases application area has widen drastically and nowadays there 
+is also a number of quite successful examples of using \Gr bases for solving SAT problems.
+
+During our research we had developed~\cite{ISSAC'08, PaCS'08, PCA'09} Boolean involutive algorithms based on Janet and Pommaret 
+divisions and applied them to computation of Boolean \Gr bases. Our implementation of both divisions has experimentally 
+demonstrated computational superiority of the Pommaret division implementation. This package BIBASIS is the result
+of our thorough research in the field of Boolean \Gr bases. BIBASIS implements the involutive algorithm based on Pommaret 
+division in a multivariate Boolean ring.
+
+In section 2 the Boolean ring and its peculiarities are shortly introduced. In section 3 we briefly argue  
+why the involutive algorithm and Pommaret division are good for Boolean ring while the Buhberger's algorithm is not.
+And finally in section 4 we give the full description of BIBASIS package capabilities and illustrate it by examples.
+
+\section{Boolean Ring}
+
+{\em Boolean ring} perfectly goes with its name, it is a ring of {\em Boolean functions} of $n$ variables, i.e
+mappings from $\{0,1\}^n$ to $\{0,1\}^n$. Considering these variables are $\mathbf{X}:=\{x_1,\ldots,x_n\}$ and
+$\F_2$ is the finite field of two elements $\{0,1\}$, Boolean ring can be regarded as the quotient ring
+$$
+\B[\mathbf{X}]:=\F_2[\mathbf{X}]\,/<x_1^2+x_1,\ldots,x_n^2+x_n>.
+$$
+Multiplication in $\B[\mathbf{X}]$ is {\em idempotent} and addition is {\em nilpotent}
+$$
+\forall\, b\in \B[\mathbf{X}]\ :\ \,b^2=b\,,\ b+b=0.
+$$
+Elements in $\B[\mathbf{X}]$ are {\em Boolean polynomials} and can be represented as finite sums
+$$
+\sum_j \prod_{x\in\, \Omega_j \subseteq\, \mathbf{X}} x
+$$
+of {\em Boolean monomials}. Each monomial is a conjunction. If set $\Omega$ is empty, then the corresponding
+monomial is the unity Boolean function 1. The sum of zero monomials corresponds to zero polynomial, i.e. is
+zero Boolean function 0.
+
+\section{Pommaret Involutive Algorithm}
+
+Detailed description of involutive algorithm can found in~\cite{Gerdt'05}. Here we note that result of both
+involutive and Buhberger's algorithms depend on chosen monomial ordering. At that the ordering must be
+admissible, i.e.
+$$
+\ m \neq 1 \Longleftrightarrow m \succ 1, \quad \ \ m_1 \succ m_2 \Longleftrightarrow m_1 m \succ m_2 m
+\quad \ \ \forall \ m, m_1, m_2.
+$$
+But as one can easily check the second condition of admissibility does not hold for any monomial ordering
+in Boolean ring:
+$$
+x_1\succ x_2\quad \xrightarrow{\ \ *x_1\ \ }\quad x_1*x_1\succ x_2*x_2\quad \xrightarrow{\ \ \ \ \ }\quad x_1 \prec x_1x_2
+$$
+Though $\B[\mathbf{X}]$ is a principal ideal ring, boolean singleton $\{p\}$ is not necessarily a \Gr basis of
+ideal $<p>$, for example:
+$$
+x_1,x_2\in \,<x_1x_2 + x_1 + x_2> \subset \B[x_1, x_2].
+$$
+That the reason why one cannot apply the Buhberger's algorithm directly in a Boolean ring, using instead a ring
+$\F_2[\mathbf{X}]$ and {\em the field binomials} $x_1^2+x_1,\ldots,x_n^2+x_n$.
+
+The involutive algorithm based on Janet division has the same disadvantage unlike the Pommaret division algorithm as shown 
+in~\cite{ISSAC'08}. The Pommaret division  algorithm can be applied directly in a Boolean ring and admits effective data 
+structures for monomial representation.
+
+\section{BIBASIS Package}
+
+The package BIBASIS implements the Pommaret division algorithm in a Boolean ring. The first step to using the package
+is to load it:
+\begin{verbatim}
+    1: load_package bibasis;
+\end{verbatim}
+The current version of the BIBASIS user interface consists only of 2 functions:     \texttt{bibasis} and
+\texttt{bibasis\_print\_statistics}.
+
+\vskip 1.0cm
+
+\noindent The \texttt{bibasis} is the function that performs all the computation and has the following syntax:
+\begin{center}
+    \texttt{bibasis(initial\_polynomial\_list, variables\_list, monomial\_ordering, reduce\_to\_groebner);}
+\end{center}
+Input:
+\begin{itemize}
+    \item \texttt{initial\_polynomial\_list} is the list of polynomials containing the known basis of initial
+Boolean ideal. All given polynomials are treated modulo 2. See Example 1.
+    
+    \item \texttt{variables\_list} is the list of independent variables in decreasing order.
+    
+    \item \texttt{monomial\_ordering} is a chosen monomial ordering and the supported ones are:
+        \begin{itemize}
+            \item[] \texttt{lex} -- pure lexicographical ordering;
+            \item[] \texttt{deglex} -- degree lexicographic ordering;
+            \item[] \texttt{degrevlex} -- degree reverse lexicographic.
+        \end{itemize}
+        See Examples 2---4 to check that \Gr (as well as involutive) basis depends on monomial ordering.
+        
+    \item \texttt{reduce\_to\_groebner} is a Boolean value, if it is \texttt{t} the output is the reduced
+        Boolean \Gr basis, if \texttt{nil}, then the reduced Boolean Pommaret basis. Examples 5,6 show distinctions between these two outputs.
+\end{itemize}
+Output:
+\begin{itemize}
+ \item The list of polynomials which constitute the reduced Boolean \Gr or Pommaret basis.
+\end{itemize}
+
+\vskip 1.0cm
+
+\noindent The syntax of \texttt{bibasis\_print\_statistics} is simple:
+\begin{center}
+    \texttt{bibasis\_print\_statistics();}
+\end{center}
+This function prints out a brief statistics for the last invocation of \texttt{bibasis} function. See Example 7.
+
+\section{Examples}
+
+
+Example 1:
+\begin{verbatim}
+    1: load_package bibasis;
+    2: bibasis({x+2*y}, {x,y}, lex, t);
+    {x}
+
+\end{verbatim}
+
+\noindent Example 2:
+\begin{verbatim}
+1: load_package bibasis;
+2: variables :={x0,x1,x2,x3,x4}$
+3: polynomials := {x0*x3+x1*x2,x2*x4+x0}$
+4: bibasis(polynomials, variables, lex, t);
+{x0 + x2*x4,x2*(x1 + x3*x4)}
+
+\end{verbatim}
+
+\noindent Example 3:
+\begin{verbatim}
+1: load_package bibasis;
+2: variables :={x0,x1,x2,x3,x4}$
+3: polynomials := {x0*x3+x1*x2,x2*x4+x0}$
+4: bibasis(polynomials, variables, deglex, t);
+{x1*x2*(x3 + 1),
+ x1*(x0 + x2),
+ x0*(x2 + 1),
+ x0*x3 + x1*x2,
+ x0*(x4 + 1),
+ x2*x4 + x0}
+
+\end{verbatim}
+
+\noindent Example 4:
+\begin{verbatim}
+1: load_package bibasis;
+2: variables :={x0,x1,x2,x3,x4}$
+3: polynomials := {x0*x3+x1*x2,x2*x4+x0}$
+4: bibasis(polynomials, variables, degrevlex, t);
+{x0*(x1 + x3),
+ x0*(x2 + 1),
+ x1*x2 + x0*x3,
+ x0*(x4 + 1),
+ x2*x4 + x0}
+
+\end{verbatim}
+
+\newpage
+
+\noindent Example 5:
+\begin{verbatim}
+1: load_package bibasis;
+2: variables :={x,y,z}$
+3: polinomials := {x, z}$
+4: bibasis(polinomials, variables, degrevlex, t);
+{x,z}
+
+\end{verbatim}
+
+\noindent Example 6:
+\begin{verbatim}
+1: load_package bibasis;
+2: variables :={x,y,z}$
+3: polinomials := {x, z}$
+4: bibasis(polinomials, variables, degrevlex, nil);
+{x,z,y*z}
+
+\end{verbatim}
+
+\noindent Example 7:
+\begin{verbatim}
+1: load_package bibasis;
+2: variables :={u0,u1,u2,u3,u4,u5,u6,u7,u8,u9}$
+3: polinomials := {u0*u1+u1*u2+u1+u2*u3+u3*u4+u4*u5+u5*u6+u6*u7+u7*u8+u8*u9,
+3:                 u0*u2+u1+u1*u3+u2*u4+u2+u3*u5+u4*u6+u5*u7+u6*u8+u7*u9,
+3:                 u0*u3+u1*u2+u1*u4+u2*u5+u3*u6+u3+u4*u7+u5*u8+u6*u9,
+3:                 u0*u4+u1*u3+u1*u5+u2+u2*u6+u3*u7+u4*u8+u4+u5*u9,
+3:                 u0*u5+u1*u4+u1*u6+u2*u3+u2*u7+u3*u8+u4*u9+u5,
+3:                 u0*u6+u1*u5+u1*u7+u2*u4+u2*u8+u3+u3*u9+u6,
+3:                 u0*u7+u1*u6+u1*u8+u2*u5+u2*u9+u3*u4+u7,
+3:                 u0*u8+u1*u7+u1*u9+u2*u6+u3*u5+u4+u8,
+3:                 u0+u1+u2+u3+u4+u5+u6+u7+u8+u9+1}$
+4: bibasis(polinomials, variables, degrevlex, t);
+{u3*u6,
+ u3*u7,
+ u7*(u6 + 1),
+ u3*u8,
+ u6*u8 + u6 + u7,
+ u7*u8,
+ u3*(u9 + 1),
+ u6*u9 + u7,
+ u7*(u9 + 1),
+ u8*u9 + u6 + u7 + u8,
+ u0 + u3 + u6 + u9 + 1,
+ u1 + u7,
+ u2 + u7 + u8,
+ u4 + u6 + u8,
+ u5 + u6 + u7 + u8}
+5: bibasis_print_statistics();
+        Variables order = u0 > u1 > u2 > u3 > u4 > u5 > u6 > u7 > u8 > u9
+Normal forms calculated = 216
+  Non-zero normal forms = 85
+        Reductions made = 4488
+Time: 270 ms
+GC time: 0 ms
+
+\end{verbatim}
+
+
+\begin{thebibliography}{99}
+
+\bibitem{GB'98} V.P.Gerdt and Yu.A.Blinkov. {\em Involutive Bases of Polynomial Ideals}. 
+Mathematics and Computers in Simulation, 45, 519--542, 1998; {\em Minimal Involutive Bases}, ibid. 543--560.
+ 
+\bibitem{Seiler'10} W.M.Seiler. {\em Involution: The Formal Theory of Differential Equations and its Applications 
+in Computer Algebra}. Algorithms and Computation in Mathematics, 24, Springer, 2010.  arXiv:math.AC/0501111
+
+\bibitem{Gerdt'05} Vladimir P. Gerdt. {\em Involutive Algorithms for Computing \Gr Bases}.
+Computational Commutative and Non-Commutative Algebraic Geometry. IOS Press, Amsterdam, 2005, pp.199--225.
+
+\bibitem{Faugere'03}
+J.-C.Faug\`{e}re and A.Joux. Algebraic Cryptanalysis of Hidden Field Equations
+(HFE) Using \Gr Bases. {\em LNCS} 2729, Springer-Verlag, 2003, pp.44--60.
+
+\bibitem{ISSAC'08}
+V.P.Gerdt and M.V.Zinin. A Pommaret Division Algorithm for Computing \Gr Bases in Boolean Rings.
+{\em Proceedings of ISSAC 2008}, ACM Press, 2008, pp.95--102.
+
+\bibitem{PaCS'08}
+V.P.Gerdt and M.V.Zinin. Involutive Method for Computing \Gr Bases over $F_2$.
+{\em Programming and Computer Software}, Vol.34, No. 4, 2008, 191--203.
+
+\bibitem{PCA'09}
+Vladimir Gerdt, Mikhail Zinin and Yuri Blinkov. On computation of Boolean involutive bases,
+Proceedings of International Conference Polynomial Computer Algebra 2009, pp. 17-24
+(International Euler Institute, April 7-12, 2009, St. Peterburg, Russia)
+
+
+\end{thebibliography}
+
+\end{document}
+

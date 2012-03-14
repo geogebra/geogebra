@@ -1,0 +1,104 @@
+
+                   Program "xCOLOR". User's Manual.
+                   --------------------------------
+
+                             A.Kryukov
+
+                   Institute for Nuclear Physics
+                      Moscow State University
+                      119899, Moscow, RUSSIA
+                    E-mail: kryukov@npi.msu.su
+                    Phone/Fax: (095) 939-0397
+
+
+                             Abstract
+
+       Program "xCOLOR" is intended for calculation the colour
+       factor  in  non-abelian  gauge  field  theories.  It is 
+       realized Cvitanovich algorithm [1]. In comparision with
+       "COLOR" program [2] it was  made many improvements. The
+       package was  writen by  symbolic mode.  This version is
+       faster then [2] more then 10 times.
+
+
+
+  After load the program by the following command
+
+          load xcolor;
+
+user can be able to use the next additional commands and operators.
+
+Command SUdim.
+--------------
+
+Format:  SUdim <any expression>;
+
+Set the order of SU group.
+The default value is 3, i.e. SU(3).
+
+Command SpTT.
+-------------
+
+Format:  SpTT <any expression>;
+
+Set the normalization coefficient A: Sp(TiTj) = A*Delta(i,j).
+Default value is 1/2.
+
+Operator QG.
+------------
+
+Format:  QG(inQuark,outQuark,Gluon)
+
+Describe the quark-gluon vertex. Parameters may be any identifiers.
+First and second of then must be in- and out- quarks correspondently.
+Third one is a gluon.
+
+Operator G3.
+------------
+
+Format:  G3(Gluon1,Gluon2,Gluon3)
+
+Describe the three-gluon vertex. Parameters may be any identifiers.
+The order of gluons must be clock.
+
+   In terms of QG and G3 operators you input diagram in "color" space as
+a product of these operators. For example.
+
+            Diagram:                    REDUCE expression:
+
+                e1
+            ---->---
+           /        \
+          |     e2   |
+        v1*..........*v2    <===>   QG(e3,e1,e2)*QG(e1,e3,e2)
+          |          |
+           \    e3  /
+            ----<---
+
+Here:  --->---     quark
+       .......     gluon
+
+More detail see [2].
+
+
+
+
+                      References.
+                      -----------
+
+[1] P.Cvitanovic, Phys. Rev. D14(1976), p.1536.
+[2] A.Kryukov & A.Rodionov, Comp. Phys. Comm., 48(1988), pp.327-334.
+
+   Any remarks send to
+
+                             A.Kryukov
+
+                   Institute for Nuclear Physics
+                      Moscow State University
+                      119899, Moscow, RUSSIA
+                    E-mail: kryukov@npi.msu.su
+                    Phone/Fax: (095) 939-0397
+
+
+   Good luck!
+

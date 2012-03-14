@@ -1,0 +1,362 @@
+off exp;
+
+ off mcd;
+
+
+mrv_limit(e^x,x,infinity);
+
+
+infinity
+
+
+ex:=log(log(x)+log(log(x)))-log(log(x));
+
+
+ex :=  - (log(log(x)) - log(log(log(x)) + log(x)))
+
+ex:=ex/(log(log(x)+log(log(log(x)))));
+
+
+ex := 
+
+                                                                           -1
+ - (log(log(x)) - log(log(log(x)) + log(x)))*log(log(log(log(x))) + log(x))
+
+ex:=ex*log(x);
+
+
+ex :=  - (log(log(x)) - log(log(log(x)) + log(x)))
+
+                                     -1
+      *log(log(log(log(x))) + log(x))  *log(x)
+
+
+mrv_limit(e^-x,x,infinity);
+
+
+0
+
+
+mrv_limit(log(x),x,infinity);
+
+
+infinity
+
+
+mrv_limit(1/log(x),x,infinity);
+
+
+0
+
+
+a:=e^(1/x-e^-x)-e^(1/x);
+
+
+       -1        - x
+      x      - e
+a := e   *(e         - 1)
+
+a:=a/e^(-x);
+
+
+           -1        - x
+      x + x      - e
+a := e       *(e         - 1)
+
+ 
+mrv_limit(a,x,infinity) ;
+
+
+-1
+          % all of these are correct
+mrv_limit(e^-x,x,infinity) ;
+
+
+0
+
+mrv_limit(log(x),x,infinity) ;
+
+
+infinity
+
+mrv_limit(1/log(x),x,infinity) ;
+
+
+0
+
+
+a:=e^(1/x-e^-x)-e^(1/x);
+
+
+       -1        - x
+      x      - e
+a := e   *(e         - 1)
+
+a:=a/e^(-x);
+
+
+           -1        - x
+      x + x      - e
+a := e       *(e         - 1)
+
+b:=e^x*(e^(1/x-e^-x)-e^(1/x));
+
+
+           -1        - x
+      x + x      - e
+b := e       *(e         - 1)
+
+
+%c:=e^x*(e^(1/x+e^(-x)+e^(-x^2))-e^(1/x-e^(-e^x)))
+maxi1({e^(-x^2)},{e^x});
+
+
+      2
+   - x
+{e     }
+
+
+cc:= e^(log(log(x+e^(log(x)*log(log(x)))))/log(log(log(e^x+x+log(x)))));
+
+
+                                 x   -1               log(x)
+       log(log(log(log(x) + x + e )))  *log(log(log(x)       + x))
+cc := e
+
+ 
+b:=e^x*(e^(1/x-e^-x)-e^(1/x));
+
+
+           -1        - x
+      x + x      - e
+b := e       *(e         - 1)
+
+
+c:=e^x*(e^(1/x+e^(-x)+e^(-x^2))-e^(1/x-e^(-e^x)));
+
+
+                           x         2
+              -1        - e       - x      - x
+         x + x      - e         e      + e
+c :=  - e       *(e          - e              )
+
+
+e^(log(log(x+e^(log(x)*log(log(x)))))/(log(log(log(e^x+x+log(x))))));
+
+
+                           x   -1               log(x)
+ log(log(log(log(x) + x + e )))  *log(log(log(x)       + x))
+e
+
+
+%% mrv_limit(ws,x,infinity);
+
+aa:=e^(e^(e^x));
+
+
+         x
+        e
+       e
+aa := e
+
+bb:=e^(e^(e^(x-e^(-e^x))));
+
+
+                 x
+              - e
+          - e      + x
+        e
+       e
+bb := e
+
+ex1:=(e^x)*(e^((1/x)-e^(-x))-e^(1/x));
+
+
+             -1        - x
+        x + x      - e
+ex1 := e       *(e         - 1)
+  % returns -1 correct
+
+ex2:=(e^x)*(e^((1/x)-e^(-x)-e^(-x^2))-e^((1/x)-e^(-e^x)));
+
+
+                             x            2
+                -1        - e          - x      - x
+           x + x      - e          - e      - e
+ex2 :=  - e       *(e          - e                 )
+ % returns infinity
+
+ex3:=e^(e^(x-e^-x)/(1-1/x))-e^(e^x);
+
+
+                           - x
+             x         - e     + x   -1     -1
+            e      - e            *(x   - 1)
+ex3 :=  - (e   - e                            )
+ % returns - infinity
+
+ex4:=e^(e^((e^x)/(1-1/x)))-e^(e^((e^x)/(1-1/x-(log(x))^(-log(x)))));
+
+
+                 x         - log(x)    -1     -1         x   -1     -1
+              - e *(log(x)          + x   - 1)        - e *(x   - 1)
+            e                                       e
+ex4 :=  - (e                                     - e                  )
+
+
+ex5:=(e^(e^(e^(x+e^-x))))/(e^(e^(e^x)));
+
+
+            - x
+          e     + x     x
+         e             e
+        e           - e
+ex5 := e
+
+
+ex6:=(e^(e^(e^x)))/(e^(e^(e^(x-e^(-e^x)))));
+
+
+                     x
+                  - e
+              - e      + x     x
+            e                 e
+         - e               + e
+ex6 := e
+   
+
+ex7:=(e^(e^(e^x)))/(e^(e^(e^(x-e^(e^x)))));
+
+
+                  x
+                 e
+              - e   + x     x
+            e              e
+         - e            + e
+ex7 := e
+       
+
+ex8:=(e^(e^x))/(e^(e^(x-e^(-e^(e^x)))));
+
+
+                     x
+                    e
+                 - e
+             - e       + x    x
+         - e               + e
+ex8 := e
+
+
+ex9:=((log(x)^2)*e^(sqrt(log(x))*((log(log(x)))^2)*e^((sqrt(log(log(x))))*(log(log(log(x)))^3))))/sqrt(x);
+
+
+ex9 := 
+
+                                            3
+          sqrt(log(log(x)))*log(log(log(x)))                          2
+  - 1/2  e                                   *sqrt(log(x))*log(log(x))        2
+x      *e                                                              *log(x)
+
+
+ex10:=((x*log(x))*(log(x*e^x-x^2))^2)/(log(log(x^2+2*e^(3*x^3*log(x)))));
+
+
+                      3
+                   3*x     2  -1       x        2
+ex10 := log(log(2*x     + x ))  *log((e  - x)*x) *log(x)*x
+
+
+misc1:=1/(e^(-x+e^-x))-e^x;
+
+
+                   - x
+          x    - e
+misc1 := e *(e         - 1)
+ % returns -1 correct
+
+misc2:=(e^(1/x-e^-x)-e^(1/x))/(e^-x);
+
+
+               -1        - x
+          x + x      - e
+misc2 := e       *(e         - 1)
+ % returns -1 correct
+
+misc3:=e^(-log(x+e^-x));
+
+
+            - x     -1
+misc3 := (e     + x)
+ % returns 0 correct
+
+misc4:=e^(x-e^x);
+
+
+              x
+           - e  + x
+misc4 := e
+ % returns 0 correct
+
+% bb limit is infinity correct
+
+mrv_limit(ex,x,infinity);
+
+
+1
+ %1
+
+mrv_limit(ex1,x,infinity);
+
+
+-1
+ % -1
+
+%% mrv_limit(ex2,x,infinity); % -1
+
+%% mrv_limit(b,x,infinity); % -1
+
+mrv_limit(a,x,infinity);
+
+
+ - infinity
+ 
+
+%% mrv_limit(ex3,x,infinity);
+
+%% mrv_limit(ex4,x,infinity);
+
+%% mrv_limit(ex5,x,infinity);  % 0
+
+%% mrv_limit(ex6,x,infinity);
+
+mrv_limit(misc1,x,infinity);
+
+
+-1
+
+
+mrv_limit(misc2,x,infinity);
+
+
+ - infinity
+
+
+mrv_limit(misc3,x,infinity);
+
+
+0
+
+
+mrv_limit(misc4,x,infinity);
+
+
+0
+
+
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 425 ms  plus GC time: 9 ms
+real	0m0.874s
+user	0m0.000s
+sys	0m0.045s

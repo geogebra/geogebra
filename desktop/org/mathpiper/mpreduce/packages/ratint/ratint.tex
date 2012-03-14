@@ -1,0 +1,467 @@
+
+\documentstyle[11pt,reduce,fancyheadings]{article}
+\title{
+A Package to Integrate Rational Functions using the Minimal Algebraic
+Extension to the Constant Field
+}
+\author{Neil Langmead \\
+        Konrad-Zuse-Zentrum f\"ur Informationstechnik (ZIB) \\ 
+        Takustrasse 7  \\
+        D- 14195 Berlin Dahlem \\
+        Berlin
+        Germany}
+\date{January 1997}
+
+\def\foottitle{Rational Integration in \small{REDUCE}}
+\pagestyle{fancy}
+\lhead[]{{\footnotesize\leftmark}{}}
+\rhead[]{\thepage}
+\setlength{\headrulewidth}{0.6pt}
+\setlength{\footrulewidth}{0.6pt}
+\addtolength{\oddsidemargin}{-20 mm}
+\addtolength{\textwidth}{25 mm}
+\pagestyle{fancy}
+\setlength{\headrulewidth}{0.6pt}
+\setlength{\footrulewidth}{0.6pt}
+\setlength{\topmargin}{1 mm}
+\setlength{\footskip}{10 mm}
+\setlength{\textheight}{220 mm}
+\cfoot{}
+\rfoot{\small\foottitle}
+
+\def\exprlist   {exp$_{1}$,exp$_{2}$, \ldots ,exp$_{{\tt n}}$}
+\def\lineqlist  {lin\_eqn$_{1}$,lin\_eqn$_{2}$, \ldots ,lin\_eqn$_{n}$}
+\pagestyle{fancy}
+\begin{document}
+\maketitle{
+\begin{center} \Large Package to Integrate Rational Functions using the minimal algebraic extension to the constant field \end{center}}
+
+\pagebreak
+\tableofcontents
+\pagebreak
+\section{Rational Integration}
+\normalsize
+This package implements the Horowitz/ Rothstein/ Trager algorithms ~\cite{Ged92} for the integration of rational functions in \small{REDUCE}.\normalsize We work within a field $K$ of characteristic $0$ and functions $p,q \in K[x]$. $K$ is normally the field $Q$ of rational numbers, but not always. These procedures return $\int \frac{p}{q} dx.$
+ The aim is to be able to integrate any function of the form $p/q$ in $x$, where $p$ and $q$ are polynomials in the field $Q$. The algorithms used avoid algebraic number extensions wherever possible, and in general, express the integral using the minimal algebraic extension field. \\
+
+\subsection{Syntax of $ratint$}
+This function has the following syntax:
+\begin{center} \bf{ratint(p,q,var)} \end{center}
+where $ p/q$ is a rational function in $var$. The output of $ratint$ is a list of two elements: the first is the polynomial part of the integral, the second is the logarithmic part. The integral is the sum of these parts.
+\subsection{Examples}
+consider the following examples in \small{REDUCE}:
+\begin{verbatim}
+ratint(1,x^2-2,x);
+
+                sqrt(2)*x-2          sqrt(2)*x+2
+           log(-------------) - log(-------------)
+                  sqrt(2)              sqrt(2)
+{ 0,        ---------------------------------------    }
+                          2*sqrt(2)
+   
+
+p:=441*x^7+780*x^6-2861*x^5+4085*x^4+7695*x^3+3713*x^2-43253*x
+                                                       +24500;
+
+q:=9*x^6+6*x^5-65*x^4+20*x^3+135*x^2-154*x+49;
+
+ratint(p,q,x);
+
+   
+    49   6  226  5   268  4   1332  3   2809  2   752     256
+   ---*(x + ---*x  - ---*x  + ----*x  - ----*x  - ---*x + ---)
+    2       147      49        49       147       21       9
+ {-----------------------------------------------------------      , 0  }
+              4    2   3      2          7
+             x  - ---*x  - 4*x  + 6*x - ---
+                   3                     3
+
+    
+
+k:=36*x^6+126*x^5+183*x^4+(13807/6)*x^3-407*x^2-(3242/5)*x+(3044/15);
+l:=(x^2+(7/6)*x+(1/3))^2*(x-(2/5))^3;
+
+ratint(k,l,x);
+
+
+   5271    3    39547   2    31018       7142
+  ------*(x  + -------*x  - -------*x + -------)
+    5           52710        26355       26355
+{------------------------------------------------,
+       4    11   3    11   2    2        4
+      x  + ----*x  - ----*x  - ----*x + ----
+            30        25        25       75
+
+  37451            2      91125           2      128000           1
+ -------*(log(x - ---) + -------*log(x + ---) - --------*log(x + ---))}
+   16              5      37451           3      37451            2
+
+
+
+ratint(1,x^2+1,x);
+
+                    2    1
+{0,log_sum(beta,beta  + ---,0,log(2*beta*x - 1)*beta)}
+                         4
+
+\end{verbatim}
+
+The meaning of the log\_sum function will be explained later.
+\pagebreak
+\section{The Algorithm}
+The following main algorithm is used:
+
+procedure $ratint(p,q,x);$
+
+% p and q are polynomials in $x$, with coefficients in the %constant field Q
+
+    solution\_list $\leftarrow HorowitzReduction(p,q,x)$ 
+ \\
+    $c/d \leftarrow$ part(solution\_list,1)\\  
+    $poly\_part \leftarrow$ part(solution\_list,2)
+  \\
+    $rat\_part \leftarrow$ part(solution\_list,3)
+\\
+    $rat\_part \leftarrow LogarithmicPartIntegral(rat\_part,x) $
+\\
+ return($rat\_part+c/d +poly\_part$)
+\\
+end
+
+The algorithm contains two subroutines, $HorowitzReduction$ and $rt$. $HorowitzReduction$ is an implementation of Horowitz' method to reduce a given rational function into a polynomial part and a logarithmic part. The integration of the polynomial part is a trivial task, and is done by the $int$ operator in \small{REDUCE}. The integration of the logarithmic part is done by the routine $rt$, which is an impementation of the Rothstein and Trager method. These two answers are outputed in a list, the complete answer being the sum of these two parts.
+\\
+These two algorithms are as follows:
+
+procedure $how(p,q,x)$
+
+for a given rational function $p/q$ in $x$, this algorithm calculates the
+reduction of $ \int(p/q)$ into a polynomial part and logarithmic part. \\
+
+$ poly\_part \leftarrow quo(p,q); \hspace{3 mm}  p \leftarrow rem(p,q)$;
+
+$d \leftarrow GCD(q,q') $; \hspace{3 mm}    $b \leftarrow quo(q,d)$; \hspace{3 mm}
+$m \leftarrow deg(b)$; \\  $n \leftarrow deg(d)$;
+
+$a \leftarrow  \sum_{i=1}^{m-1} a_{i}x^{i}$; \hspace{3 mm}
+   $ c \leftarrow \sum_{i=1}^{n-1} c_{i}x^{i}$; \\ 
+
+$r \leftarrow b*c'-quo(b*d',d)+d*a; $\\
+\begin{tabbing}
+for $i$ from \= $0$ \=  to $m+n-1$ do \\
+\> \{ \\
+\> \>   $  eqns(i) \leftarrow coeff(p,i)=coeff(r,i)$; \\
+\> \};
+\end{tabbing}
+
+$solve(eqns,\{a(0),....,a(m-1),c(0),....,c(n-1)\});$
+
+return($c/d+\int poly\_part + \int a/b$);
+\\
+end;
+\newpage
+procedure RothsteinTrager($a,b,x$)
+
+\% Given a rational function $a/b$ in $x$ with $deg(a)<deg(b)$, with b monic and square free, we calculate $ \int(a/b)$ \\
+$R(z) \leftarrow residue(a-zb',b)$ \\
+$(r_{1}(z)...r_{k}(z)) \leftarrow factors(R(z))$ \\
+integral $\leftarrow 0 $\\
+\begin{tabbing}
+for $i$ from $1$ \= to \= $k$  do   \\
+\> \{ \\
+\> \> $ d  \leftarrow degree(r_{i}(z))$ \\
+\> \> if $d=1$ then \= \\
+\> \> \> \{ \\
+\> \> \> c $\leftarrow solve(r_{i}(z)=0,z)$ \\
+\> \> \> v $\leftarrow GCD(a-cb',b)$\\
+\> \> \> v $\leftarrow v/lcoeff(v) $\\
+
+\> \> \> $integral \leftarrow integral+c*log(v)$ \\
+\> \> \> \}\\
+
+\> \> else \= \{ \\
+\> \> \> \%  we need to do a GCD over algebraic number field\\
+\> \> \> v $\leftarrow GCD(a-\alpha*b',b)  $ \\
+\> \> \> v $\leftarrow v/lcoff(v) $, \hspace{3 mm}
+ where $\alpha=roof\_of(r_{i}(z)) $\\ 
+\> \> if d=2 then \= \{ \\
+\> \> \> \% give answer in terms of radicals  \\
+\> \> \> c $\leftarrow solve(r_{i}(z)=0,z) $ \\
+\> \> \> for j from 1 to 2 do \= \{ \\
+\> \> \> $v[j] \leftarrow substitute(\alpha=c[j],v) $ \\
+\> \> \> $integral \leftarrow integral+c[j]*log(v[j]) $ \\
+% \> \> \> \> \> \} \\
+\> \> \> \} \\
+\> \> \> else \= \{ \\
+\> \> \> \% Need answer in terms of root\_of notation \\
+\> \> \> for j from 1 to d do \= \{ \\
+\> \> \>  v[j] $\leftarrow substitute(\alpha=c[j],v) $ \\
+\> \> \> integral $ \leftarrow integral+c[j]*log(v[j]) $ \\
+\> \> \> \% where $c[j]=root\_of(r_{i}(z))$ \} \\
+% \> \> \> \> \> \> \} \\
+\> \> \> \} \\
+\> \> \} \\
+\> \} \\
+return(integral) \\
+end
+\end{tabbing}
+\pagebreak
+\section{The log\_sum operator}
+The algorithms above returns a sum of terms of the form
+\[ \sum_{\alpha \mid R(\alpha)=0} \log(S(\alpha,x)), \]
+
+where $R \in K[z]$ is square free, and $S \in K[z,x]$. In the cases where the degree of $R(\alpha)$ is less than two, this is merely a sum of logarithms. For cases where the degree is two or more, I have chosen to adopt this notation as the answer to the original problem of integrating the rational function. For example,
+consider the integral
+ \[ \int \frac{a}{b}=\int \frac{2x^5-19x^4+60x^3-159+x^2+50x+11}{x^6-13x^5+58x^4-85x^3-66x^2-17x+1}\, dx \]
+Calculating the resultant $R(z)=res_x(a-zb',b)$ and factorising gives
+  \[ R(z)=-190107645728000(z^3-z^2+z+1)^{2} \]
+Making the result monic, we have
+\[ R_2(z)=z^3-z^2+z+1 \]
+which does not split over the constant field $Q$.
+Continuting with the Rothstein Trager algorithm, we now calculate 
+\[ gcd(a-\alpha\,b',b)=z^2+(2*\alpha-5)*z+\alpha^2, \] where $\alpha$ is a root of $R_2(z)$. \\
+Thus we can write
+\[ \int \frac{a}{b}= \sum_{\alpha \mid \alpha^3-\alpha^2+\alpha+1=0} \alpha*\log(x^2+2\alpha x-5x+\alpha^2), \]
+
+and this is the answer now returned by \small{REDUCE}, via a function called $log\_sum$. This has the following syntax:
+\begin{center}$ log\_sum(\alpha,eqn(\alpha),0,sum\_term,var)$ \end{center}
+where $\alpha$ satisfies $eqn=0$, and $sum\_term$ is the term of the summation in the variable $var$. Thus in the above example, we have
+\[ \int \frac{a}{b}\,dx= log\_sum(\alpha,\alpha^3-\alpha^2+\alpha+1,0,\alpha*\log(x^2+2\alpha x-5x+\alpha^2),x) \]
+
+Many rational functions that could not be integrated by \small{REDUCE} previously can now be integrated with this package. The above is one example; some more are given on the next page.
+\pagebreak
+\subsection{More examples}
+\begin{eqnarray*}
+ \int \frac{1}{x^5+1} \, dx & = &\frac{1}{5}\log(x + 1) \\
+ &  & \mbox{} + 5log\_sum(\beta,\beta^4+\frac{1}{5}\beta^3+\frac{1}{25}\beta^2+\frac{1}{125}\beta+\frac{1}{625},0,\log(5*\beta+x)*\beta) 
+\end{eqnarray*}
+
+which should be read as
+\[
+\int \frac{1}{x^5+1}\,dx = \frac{1}{5}\log(x+1)+\sum_{\beta \mid \beta^4+\frac{1}{5}\beta^3+\frac{1}{25}\beta^2+\frac{1}{125}\beta+\frac{1}{625}=0} \log(5*\beta+x)\beta \]
+\vspace{5 mm}
+\begin{eqnarray*}
+\lefteqn{\int \frac{7x^{13}+10x^8+4x^7-7x^6-4x^3 -4x^2+3x+3}{x^{14}-2x^8-2x^7-2x^4-4x^3-x^2+2x+1} \, dx  =}  \\                                 
+& &  log\_sum(\alpha,\alpha^2  -\alpha -\frac{1}{4},0,log( - 2\alpha x^2  - 2\alpha x + x^7  + x^2  - 1)*\alpha,x) ,
+\end{eqnarray*}
+\[ \int \frac{1}{x^3+x+1} \, dx = log\_sum(\beta,\beta^3-\frac{3}{31}\beta^2-\frac{1}{31},0,\beta \log(-\frac{62}{9}\beta^2+\frac{31}{9} \beta +x+\frac{4}{9})). \]
+
+\section{Options}
+There are several alternative forms that the answer to the integration problem can take. One output is the $log\_sum$ form shown in the examples above. There is an option with this package to convert this to a "normal" sum of logarithms in the case when the degree of $eqn$ in $\alpha$ is two, and $\alpha$ can be expressed in surds. To do this, use the function $convert$, which has the following syntax:
+\begin{center}  convert(exp) \end{center}
+If exp is free of $log\_sum$ terms, then $exp$ itself is returned. If $exp$ contains $log\_sum$ terms, then $\alpha$ is represented as surds, and substituted into the $log\_sum$ expression. For example, using the last example, we have in \small{REDUCE}:
+\begin{verbatim}
+
+2: ratint(a,b,x); 
+
+
+  {0,
+
+                    2            1
+  log_sum(alpha,alpha  - alpha - ---,0,
+                                 4
+
+                         2                7    2
+         log( - 2*alpha*x  - 2*alpha*x + x  + x  - 1)*alpha,x)} 
+
+
+
+3: convert(ws);
+
+
+ 1                           2                7
+---*(sqrt(2)*log( - sqrt(2)*x  - sqrt(2)*x + x  - x - 1)
+ 2
+
+                             2                7
+      - sqrt(2)*log(sqrt(2)*x  + sqrt(2)*x + x  - x - 1)
+
+                        2                7
+      + log( - sqrt(2)*x  - sqrt(2)*x + x  - x - 1)
+
+                     2                7
+      + log(sqrt(2)*x  + sqrt(2)*x + x  - x - 1))
+
+\end{verbatim}
+\subsection{LogtoAtan function}
+The user could then combine these to form a more elegant answer, using the switch combinelogs if one so wished. Another option is to convert complex logarithms to real arctangents ~\cite{Bron97}, which is recommended if definite integration is the goal. This is implemented in \small{REDUCE} via a function $convert\_log$, which has the following syntax:
+\begin{center} \bf{convert\_log(exp)}, \end{center}
+where $exp$ is any log\_sum expression.\\
+
+
+The procedure to convert complex logarithms to real arctangents is based on an algorithm by Rioboo. Here is what it does: \\
+
+Given a field $K$ of characteristic 0 such that $\sqrt(-1) \not\in K$ and 
+$A, B \in K[x]$ with $B \not = 0$, return a sum $f$ of arctangents of polynomials in $K[x]$ such that
+\[  \frac{df}{dx}=\frac{d}{dx} i \log(\frac{A+ i B}{A- i B}) \]
+
+Example:
+\[ \int \frac{x^4-3*x^2+6}{x^6-5*x^4+5*x^2+4} \, dx = \sum_{ \alpha \mid 4\alpha+1=0} \alpha \log(x^3+2\alpha x^2-3 x-4 \alpha) \]
+
+Substituting $\alpha=i/2$ and $\alpha=-i/2$ gives the result
+
+\[ \frac{i}{2} \log(\frac{(x^3-3 x)+i (x^2-2)}{(x^3-3 x)-i (x^2-2)}) \]
+
+Applying logtoAtan now with $A=x^3-3 x$, and $B=x^2-2$ we obtain
+
+\[ \int \frac{x^4-3*x^2+6}{x^6-5*x^4+5*x^2+4} \, dx = \arctan(\frac{x^5-3 x^3+x}{2})+\arctan(x^3)+\arctan(x) , \]
+
+and this is the formula which should be used for definite integration. \\
+
+Another example in \small{REDUCE} is given below:
+\begin{verbatim}
+
+1: ratint(1,x^2+1,x);
+
+*** Domain mode rational changed to arnum
+
+                    2    1
+{0,log_sum(beta,beta  + ---,0,log(2*beta*x - 1)*beta)}
+                         4
+
+13: part(ws,2);
+
+                 2    1
+log_sum(beta,beta  + ---,0,log(2*beta*x - 1)*beta)
+                      4
+
+14: on combinelogs;
+
+15: convertlog(ws);
+
+ 1        - i*x + 1
+---*log(------------)*i 
+ 2         i*x + 1
+
+
+logtoAtan(-x,1,x);
+
+2*atan(x) 
+
+\end{verbatim}
+\section{Hermite's method}
+The package also implements Hermite's method to reduce the integral into its polynomial and logarithmic parts, but occasionally, \small{REDUCE} returns the incorrect answer when this algorithm is used. This is due to the REDUCE operator pf, which performs a complete partial fraction expansion when given a rational function as input. Work is presently being done to give the pf operator a facility which tells it that the input is already factored. This would then enable REDUCE to perform a partial fraction decomposition with respect to a square free denominator, which may not necessarily be fully factored over Q. 
+\newline
+For a complete explanation of this and the other algorithms used in this package, including the theoretical justification and proofs, please consult ~\cite{Ged92}.
+
+\section{Tracing the $ratint$ program}
+The package includes a facility to trace in some detail the inner workings of the $ratint$ program. Messages are given at the key stages of the algorithm, together with the results obtained. These messages are displayed when the switch $traceratint$ is on, which is done in \small{REDUCE} \normalsize with the command 
+\begin{verbatim}
+on traceratint;
+\end{verbatim}
+This switch is off by default. Here is an example of the output obtained with this switch on:
+
+\begin{verbatim}
+Loading image file: /silo/tony/red/lisp/psl/solaris/red/reduce.img
+REDUCE Development Version, 21-May-97 ...
+
+1: load_package ratint;
+
+2: on traceratint;
+
+
+3: ratint(1+x,x^2-2*x+1,x);
+
+                                     x + 1
+performing Howoritz reduction on --------------
+                                   2
+                                  x  - 2*x + 1
+
+                   - 2        1
+Howoritz gives: {-------,0,-------}
+                  x - 1     x - 1
+
+                                 1
+computing Rothstein Trager on -------
+                               x - 1
+
+integral in Rothstein T is log(x - 1)
+
+   - 2
+{-------,log(x - 1)}
+  x - 1
+
+\end{verbatim}
+
+\section{Bugs, suggestions and comments}
+This package was written when the author was working as a placement student at ZIB Berlin. All comments should therefore be reported to Winfried Neun, ZIB, Takustrasse 7, D 14195 Berlin Dahlem, Germany \\ (email: neun@zib.de).
+
+\pagebreak
+
+\begin{thebibliography}{999999} 
+\normalsize
+\bibitem[Bron97]{Bron97} Bronstein, Manuel,
+{\it Symbolic Integration I: Transendental Functions},
+Springer-Verlag, Heidelberg, 1997.
+
+\bibitem[Dav88]{Dav88} Davenport, James H. et al,
+{\it Computer Algebra- Systems and Algorithms for Algebraic Computation},
+Academic Press, 1988.
+
+\bibitem[Ged92]{Ged92} Geddes, K.O. et al,
+{\it Algorithms for Computer Algebra}, Klewer Academic \mbox{Publishers}, 1992.
+
+\bibitem[Red36]{Red36} Hearn, Anthony C. and Fitch, John F.
+{\it REDUCE User's Manual 3.6}, RAND Corporation, 1995
+\end{thebibliography}
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

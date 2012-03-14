@@ -1,0 +1,85 @@
+load_package redlog;
+
+
+rlset(qqe,ofsf);
+
+
+{}
+
+off rlverbose;
+
+
+
+% Examples from C. Strasser's diploma thesis
+% Ch.10. Software Verifikation, p.171
+f := ex({q},((j > 5 and radd(a,q) == qepsilon) or (radd(a,q) <<>>
+qepsilon and lhead(radd(a,q)) > 23 + j)) and lhead(radd(a,q)) = x)$
+
+
+
+rlqe f;
+
+
+(a - x = 0 and a - j - 23 > 0) or j - x + 23 < 0
+
+
+f := ex({a}, ((j > 5 and radd(a,q) == qepsilon) or (radd(a,q) <<>>
+qepsilon and lhead(radd(a,q)) > 23 + j)) and lhead(radd(a,q)) = x)$
+
+
+
+rlqe f;
+
+
+(q == qepsilon and j - x + 23 < 0)
+
+ or (lhead(q) - x = 0 and q <<>> qepsilon and lhead(q) - j - 23 > 0)
+
+
+% 2-periodic queue of odd length with prefix [0,0] and postfix [1,1]:
+p2 := ex(qp,q == ladd(0,ladd(0,radd(1,radd(1,qp)))) and
+ex({x,y},x <> y and ladd(y,ladd(x,qp)) == radd(y,radd(x,qp))))$
+
+
+
+rlqe p2;
+
+
+(ltail(ltail(ltail(ltail(rtail(rtail(q))))))
+
+ == rtail(rtail(ltail(ltail(rtail(rtail(q))))))
+
+ and rtail(ltail(ltail(rtail(rtail(q))))) <<>> qepsilon and 
+
+lhead(rtail(ltail(ltail(rtail(rtail(q))))))
+
+ - rhead(ltail(ltail(ltail(rtail(rtail(q)))))) = 0 and 
+
+lhead(ltail(ltail(rtail(rtail(q))))) - rhead(ltail(ltail(rtail(rtail(q))))) = 0 
+
+and rhead(ltail(ltail(ltail(rtail(rtail(q))))))
+
+ - rhead(ltail(ltail(rtail(rtail(q))))) <> 0
+
+ and rhead(ltail(rtail(rtail(q)))) - 1 = 0 and rhead(rtail(rtail(q))) - 1 = 0
+
+ and lhead(rtail(q)) = 0 and lhead(q) = 0) or (
+
+rtail(ltail(ltail(rtail(rtail(q))))) == qepsilon
+
+ and ltail(ltail(rtail(rtail(q)))) <<>> qepsilon and 
+
+lhead(ltail(ltail(rtail(rtail(q))))) - rhead(ltail(ltail(rtail(rtail(q))))) = 0
+
+ and rhead(ltail(rtail(rtail(q)))) - 1 = 0 and rhead(rtail(rtail(q))) - 1 = 0
+
+ and lhead(rtail(q)) = 0 and lhead(q) = 0)
+
+
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 28 ms  plus GC time: 2 ms
+real	0m0.527s
+user	0m0.015s
+sys	0m0.152s

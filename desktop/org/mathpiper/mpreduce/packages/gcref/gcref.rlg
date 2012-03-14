@@ -1,0 +1,30 @@
+on gcref;
+
+
+
+symbolic procedure p1(x,y);
+   p2(x) + y;
+
+symbolic procedure p2(x);
+   <<
+      if x>0 then p2(x-1);
+      p1(x-2,1);
+      p3(x)
+   >>;
+
+off gcref;
+p2 p2
+p1 p1
+#
+p2 p1
+p2 p2
+p1 p2
+
+
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 5 ms
+real	0m0.528s
+user	0m0.046s
+sys	0m0.091s

@@ -1,0 +1,1219 @@
+\documentclass[12pt]{article}
+
+%Sets size of page and margins
+\oddsidemargin -8mm  \evensidemargin -8mm
+\topmargin 0pt   \headheight 0pt   \headsep 0pt
+\textwidth 17cm
+
+\title{Programs for Applying Symmetries of PDEs}
+\author{Thomas Wolf \\                        
+        Department of Mathematics \\
+        Brock University \\
+        St.Catharines \\
+        Ontario, Canada L2S 3A1 \\
+        twolf@brocku.ca}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+In this paper the programs {\tt APPLYSYM}, {\tt QUASILINPDE} and
+{\tt DETRAFO} are described which aim at the utilization
+of infinitesimal symmetries of differential equations. The purpose
+of {\tt QUASILINPDE} is the general solution of
+quasilinear PDEs. This procedure is used by {\tt APPLYSYM}
+for the application of point symmetries for either
+\begin{itemize}
+\item calculating similarity variables to perform a point transformation
+which lowers the order of an ODE or effectively reduces the number of
+explicitly occuring independent variables in a PDE(-system) or for
+\item generalizing given special solutions of ODEs / PDEs with new constant
+parameters.
+\end{itemize}
+
+The program {\tt DETRAFO} performs arbitrary point- and contact
+transformations of ODEs / PDEs and is applied if similarity
+and symmetry variables have been found.
+The program {\tt APPLYSYM} is used in connection with the program
+{\tt LIEPDE} for formulating and solving the conditions for point- and
+contact symmetries which is described in \cite{LIEPDE}.
+The actual problem solving is done in all these programs through a call
+to the package {\tt CRACK} for solving overdetermined PDE-systems.
+\end{abstract}
+
+\tableofcontents
+%-------------------------------------------------------------------------
+\section{Introduction and overview of the symmetry \\ method}
+The investigation of infinitesimal symmetries of differential equations
+(DEs) with computer algebra programs attrackted considerable attention
+over the last years. Corresponding programs are available in all
+major computer algebra systems. In a review article by W.\ Hereman
+\cite{WHer} about 200 references are given, many of them describing related
+software.
+
+One reason for the popularity of the symmetry method
+is the fact that Sophus Lie's method
+\cite{lie1},\cite{lie2} is the most widely
+used method for computing exact solutions of non-linear DEs. Another reason is
+that the first step in this
+method, the formulation of the determining equation for the generators
+of the symmetries, can already be very cumbersome, especially in the
+case of PDEs of higher order and/or in case of many dependent and independent
+variables. Also, the formulation of the conditions is a straight forward
+task involving only differentiations and basic algebra - an ideal task for
+computer algebra systems. Less straight forward is the automatic solution
+of the symmetry conditions which is the strength of the program {\tt LIEPDE}
+(for a comparison with another program see \cite{LIEPDE}).
+
+The novelty described in this paper are programs aiming at
+the final third step: Applying symmetries for
+\begin{itemize}
+\item calculating similarity variables to perform a point transformation
+which lowers the order of an ODE or effectively reduces the number of
+explicitly occuring independent variables of a PDE(-system) or for
+\item generalizing given special solutions of ODEs/PDEs with new constant
+parameters.
+\end{itemize}
+Programs which run on their own but also allow interactive user control
+are indispensible for these calculations. On one hand the calculations can
+become quite lengthy, like variable transformations of PDEs (of higher order,
+with many variables). On the other hand the freedom of choosing the right
+linear combination of symmetries and choosing the optimal new symmetry- and
+similarity variables makes it necessary to `play' with the problem
+interactively.
+
+The focus in this paper is directed on questions of implementation and
+efficiency, no principally new mathematics is presented.
+
+In the following subsections a review of the first two steps of the symmetry
+method is given as well as the third, i.e.\ the application step is outlined.
+Each of the remaining sections is devoted to one procedure.
+%---------------------------------------
+\subsection{The first step: Formulating the symmetry conditions}
+
+To obey classical Lie-symmetries, differential equations
+\begin{equation}
+H_A = 0              \label{PDEs}
+\end{equation}
+for unknown functions $y^\alpha,\;\;1\leq \alpha \leq p$
+of independent variables $x^i,\;\;1\leq i \leq q$
+must be forminvariant against infinitesimal transformations
+\begin{equation}
+\tilde{x}^i = x^i + \varepsilon \xi^i, \;\; \;\;\;
+        \tilde{y}^\alpha = y^\alpha + \varepsilon \eta^\alpha  \label{tran}
+\end{equation}
+in first order of $\varepsilon.$ To transform the equations (\ref{PDEs})
+by (\ref{tran}), derivatives of $y^\alpha$ must be transformed, i.e. the part
+linear in $\varepsilon$ must be determined. The corresponding formulas are
+(see e.g. \cite{Olv}, \cite{Step})
+\begin{eqnarray}
+\tilde{y}^\alpha_{j_1\ldots j_k} & = &
+y^\alpha_{j_1\ldots j_k} + \varepsilon
+\eta^\alpha_{j_1\ldots j_k} + O(\varepsilon^2)  \nonumber \\ \vspace{3mm}
+\eta^\alpha_{j_1\ldots j_{k-1}j_k} & = &
+  \frac{D \eta^\alpha_{j_1\ldots j_{k-1}}}{D x^k} -
+  y^\alpha_{ij_1\ldots j_{k-1}}\frac{D \xi^i}{D x^k} \label{recur}
+\end{eqnarray}
+where $D/Dx^k$ means total differentiation w.r.t.\ $x^k$ and
+from now on lower latin indices of functions $y^\alpha,$ 
+(and later $u^\alpha$)
+denote partial differentiation w.r.t.\ the independent variables $x^i,$
+(and later $v^i$).
+The complete symmetry condition then takes the form
+\begin{eqnarray}
+X H_A & = & 0 \;\; \; \; \mbox{mod} \; \; \; H_A = 0\  \label{sbed1} \\
+X & = & \xi^i \frac{\partial}{\partial x^i} +
+ \eta^\alpha \frac{\partial}{\partial y^\alpha} +
+ \eta^\alpha_m \frac{\partial}{\partial y^\alpha_m} +
+ \eta^\alpha_{mn} \frac{\partial}{\partial y^\alpha_{mn}} + \ldots +
+ \eta^\alpha_{mn\ldots p} \frac{\partial}{\partial y^\alpha_{mn\ldots p}}.
+\label{sbed2}
+\end{eqnarray}
+where mod $H_A = 0$ means that the original PDE-system is used to replace
+some partial derivatives of $y^\alpha$ to reduce the number of independent
+variables, because the symmetry condition (\ref{sbed1}) must be
+fulfilled identically in $x^i, y^\alpha$ and all partial
+derivatives of $y^\alpha.$
+
+For point symmetries, $\xi^i, \eta^\alpha$ are functions of $x^j,
+y^\beta$ and for contact symmetries they depend on $x^j, y^\beta$ and
+$y^\beta_k.$ We restrict ourself to point symmetries as those are the only
+ones that can be applied by the current version of the program {\tt APPLYSYM}
+(see below). For literature about generalized symmetries see \cite{WHer}.
+
+Though the formulation of the symmetry conditions (\ref{sbed1}),
+(\ref{sbed2}), (\ref{recur})
+is straightforward and handled in principle by all related
+programs \cite{WHer}, the computational effort to formulate
+the conditions (\ref{sbed1}) may cause problems if
+the number of $x^i$ and $y^\alpha$ is high.  This can
+partially be avoided if at first only a few conditions are formulated
+and solved such that the remaining ones are much shorter and quicker to
+formulate.
+
+A first step in this direction is to investigate one PDE $H_A = 0$
+after another, as done in \cite{Cham}.  Two methods to partition the
+conditions for a single PDE are described by Bocharov/Bronstein
+\cite{Alex} and Stephani \cite{Step}.
+
+In the first method only those terms of the symmetry condition
+$X H_A = 0$ are calculated which contain 
+at least a derivative of $y^\alpha$ of a minimal order $m.$ 
+Setting coefficients
+of these $u$-derivatives to zero provides symmetry conditions. Lowering the
+minimal order $m$ successively then gradually provides all symmetry conditions.
+
+The second method is even more selective. If $H_A$ is of order $n$
+then only terms of the symmetry condition $X H_A = 0$ are generated which
+contain $n'$th order derivatives of $y^\alpha.$ Furthermore these derivatives
+must not occur in $H_A$ itself. They can therefore occur 
+in the symmetry condition
+(\ref{sbed1}) only in
+$\eta^\alpha_{j_1\ldots j_n},$ i.e. in the terms
+\[\eta^\alpha_{j_1\ldots j_n}
+\frac{\partial H_A}{\partial y^\alpha_{j_1\ldots j_n}}. \]
+If only coefficients of $n'$th order derivatives of $y^\alpha$ need to be
+accurate to formulate preliminary conditions
+then from the total derivatives to be taken in
+(\ref{recur}) only that part is performed which differentiates w.r.t.\ the
+highest $y^\alpha$-derivatives.
+This means, for example, to form only
+$y^\alpha_{mnk} \partial/\partial y^\alpha_{mn} $
+if the expression, which is to be differentiated totally w.r.t.\ $x^k$,
+contains at most second order derivatives of $y^\alpha.$
+
+The second method is applied in {\tt LIEPDE}.
+Already the formulation of the remaining conditions is speeded up
+considerably through this iteration process. These methods can be applied if
+systems of DEs or single PDEs of at least second order are investigated
+concerning symmetries.
+%---------------------------------------
+\subsection{The second step: Solving the symmetry conditions}
+The second step in applying the whole method consists in solving the
+determining conditions (\ref{sbed1}), (\ref{sbed2}), (\ref{recur})
+which are linear homogeneous PDEs for $\xi^i, \eta^\alpha$. The
+complete solution of this system is not algorithmic any more because the
+solution of a general linear PDE-system is as difficult as the solution of
+its non-linear characteristic ODE-system which is not covered by algorithms
+so far.
+
+Still algorithms are used successfully to simplify the PDE-system by
+calculating
+its standard normal form and by integrating exact PDEs
+if they turn up in this simplification process \cite{LIEPDE}.
+One problem in this respect, for example,
+concerns the optimization of the symbiosis of both algorithms. By that we
+mean the ranking of priorities between integrating, adding integrability
+conditions and doing simplifications by substitutions - all depending on
+the length of expressions and the overall structure of the PDE-system.
+Also the extension of the class of PDEs which can be integrated exactly is
+a problem to be pursuit further.
+
+The program {\tt LIEPDE} which formulates the symmetry conditions calls the
+program {\tt CRACK} to solve them. This is done in a number of successive
+calls in order to formulate and solve some first order PDEs of the
+overdetermined system first and use their solution to formulate and solve the
+next subset of conditions as described in the previous subsection. 
+Also, {\tt LIEPDE} can work on DEs that contain parametric constants and
+parametric functions. An ansatz for the symmetry generators can be
+formulated. For more details see \cite{LIEPDE} or \cite{WoBra}.
+
+The procedure {\tt LIEPDE} is called through \\
+{\tt LIEPDE({\it problem,symtype,flist,inequ}); } \\
+All parameters are lists. \vspace{6pt} \\
+The first parameter specifies the DEs to be investigated: \\
+{\it problem} has the form \{{\it equations, ulist, xlist}\} where
+\begin{tabbing}
+\hspace{0.5cm}
+ {\it equations } \=  is a list of equations,
+              each has the form {\tt df(ui,..)=...} where \\
+       \> the LHS (left hand side) {\tt df(ui,..)} is selected such that \\
+       \>  - The RHS (right h.s.) of an equations must not include     \\
+       \>$\;\,$ the derivative on the LHS nor a derivative of it.  \\
+       \>  - Neither the LHS nor any derivative of it of any equation \\
+       \>$\;\,$ may occur in any other equation.\\
+       \>  - Each of the unknown functions occurs on the LHS of \\
+       \>$\;\,$ exactly one equation.  \\
+\hspace{0.5cm}
+ {\it ulist} \>  is a list of function names, which can be chosen freely \\
+\hspace{0.5cm}
+ {\it xlist}  \>  is a list of variable names, which can be chosen freely 
+\end{tabbing}
+Equations can be given as a list of single differential expressions and then
+the program will try to bring them into the `solved form' {\tt df(ui,..)=...}
+automatically. If equations are given in the solved form then the above
+conditions are checked and execution is stopped it they are not satisfied.
+An easy way to get the equations in the desired form is to use \\
+\verb+    FIRST SOLVE({+{\it eq1,eq2,}...\verb+},{+{\it one highest
+derivative for each function u}\verb+})+  \\
+(see the example of the Karpman equations in {\tt LIEPDE.TST}). 
+The example of the Burgers equation in {\tt LIEPDE.TST} demonstrates 
+that the number of symmetries for a given maximal order of the infinitesimal
+generators depends on the derivative chosen for the LHS.
+
+The second parameter {\it symtype} of {\tt LIEPDE} is a list $\{\;\}$ that
+specifies the symmetry to be calculated. {\it symtype} can have the following
+values and meanings:
+\begin{tabbing}
+\verb+{"point"}         + \= Point symmetries with $\xi^i=\xi^i(x^j,u^{\beta}),\;
+                           \eta^{\alpha}=\eta^{\alpha}(x^j,u^{\beta})$ are \\
+                          \> determined.\\
+\verb+{"contact"}+ \> Contact symmetries with $\xi^i=0, \;
+                            \eta=\eta(x^j,u,u_k)$ are \\
+\> determined $(u_k = \partial u/\partial x^k)$, which is only applicable if a \\
+                      \> single equation (\ref{PDEs}) with an order $>1$ for a 
+                             single function \\
+                      \> $u$ is to be investigated. (The {\it symtype}
+                             \verb+{"contact"}+ \\
+\> is equivalent to \verb+{"general",1}+ (see below) apart from \\
+\> the additional checks done for \verb+{"contact"}+.)\\
+\verb+{"general"+,{\it order}\verb+}+ \> where {\it order} is an integer $>0$. 
+      Generalized symmetries $\xi^i=0,$ \\
+\> $\eta^{\alpha}=\eta^{\alpha}(x^j,u^{\beta},\ldots,u^{\beta}_K)$ 
+      of a specified order are determined \\
+\> (where $_K$ is a multiple index representing {\it order} many indices.) \\
+\> NOTE: Characteristic functions of generalized symmetries \\
+\> ($= \eta^{\alpha}$ if $\xi^i=0$) are equivalent if they are equal on\\
+\> the solution manifold. Therefore, all dependences of\\
+\> characteristic functions on the substituted derivatives \\
+\> and their derivatives are dropped. For example, if the heat \\
+\> equation is given as $u_t=u_{xx}$ (i.e.\ $u_t$ is substituted by $u_{xx}$) \\
+\> then \verb+{"general",2}+ would not include characteristic \\
+\> functions depending on $u_{tx}$ or $u_{xxx}$. \\
+\> THEREFORE: \\
+\> If you want to find {\it all} symmetries up to a given order then either \\
+\> - avoid using $H_A=0$ to substitute lower order \\
+\> $\;\,$derivatives by expressions involving higher derivatives, or \\
+\> - increase the order specified in {\it symtype}. \\
+\> For an illustration of this effect see the two symmetry \\
+\> determinations of the Burgers equation in the file \\
+\> {\tt LIEPDE.TST}. \\
+\verb+{xi!_+{\it x1}\verb+ =...,..., +  \>  \\ 
+\verb+ eta!_+{\it u1}\verb+=...,...}+  \> It is possible to specify an
+ansatz for the symmetry. Such \\
+\> an ansatz must specify all $\xi^i$ for all independent variables and \\
+\> all $\eta^{\alpha}$ for all dependent variables in terms of differential \\
+\> expressions which may involve unknown functions/constants. \\
+\> The dependences of the unknown functions have to be declared \\
+\> in advance by using the {\tt DEPEND} command. For example, \\
+\> \verb+    DEPEND f, t, x, u$  + \\
+\> specifies $f$ to be a function of $t,x,u$. If one wants to have $f$ as \\
+\> a function of derivatives of $u(t,x)$, say $f$ depending on $u_{txx}$, \\
+\> then one \underline{{\it cannot}} write \\
+\> \verb+    DEPEND f, df(u,t,x,2)$ + \\ 
+\> but instead must write \\
+\> \verb+    DEPEND f, u!`1!`2!`2$ + \\
+\> assuming {\it xlist} has been specified as \verb+ {t,x}+. 
+   Because $t$ is the \\
+\> first variable and $x$ is the second variable in {\it xlist} and $u$ is \\
+\> differentiated oncs wrt.\ $t$ and twice wrt.\ $x$ we therefore \\
+\> use \verb+ u!`1!`2!`2+. The character {\tt !} is the escape character \\
+\> to allow special characters like ` to occur in an identifier. \\
+\> \hspace{4mm} For generalized symmetries one usually sets all $\xi^i=0$.\\
+\> Then the $\eta^{\alpha}$ are equal to the characteristic functions.
+\end{tabbing}
+\noindent The third parameter {\it flist} of {\tt LIEPDE} is a list $\{\;\}$ 
+that includes
+\begin{itemize}
+\item all parameters and functions in the equations which are to
+      be determined such that symmetries exist (if any such 
+      parameters/functions are 
+      specified in {\it flist} then the symmetry conditions 
+      formulated in {\tt LIEPDE}
+      become non-linear conditions which may be much harder for
+      {\tt CRACK} to solve with many cases and subcases to be considered.)
+\item all unknown functions and constants in the ansatz 
+      \verb+xi!_..+ and \verb+eta!_..+
+      if that has been specified in {\it symtype}.
+\end{itemize}
+\noindent The fourth parameter {\it inequ} of {\tt LIEPDE} is a list $\{\;\}$ 
+that includes all non-vanishing expressions which represent
+inequalities for the functions in flist.
+
+The result of {\tt LIEPDE} is a list with 3 elements, each of which
+is a list:
+\[ \{\{{\it con}_1,{\it con}_2,\ldots\},
+     \{{\tt xi}\__{\ldots}=\ldots, \ldots,
+       {\tt eta}\__{\ldots}=\ldots, \ldots\},
+     \{{\it flist}\}\}. \]
+The first list contains remaining unsolved symmetry conditions {\it con}$_i$. It
+is the empty list \{\} if all conditions have been solved. The second list
+gives the symmetry generators, i.e.\ expressions for $\xi_i$ and $\eta_j$. The 
+last list contains all free constants and functions occuring in the first
+and second list.
+
+%That the automatic calculation of symmetries run in most practical cases
+%is shown with the following example. It is insofar difficult, as many
+%symmetries exist and the solution consequently more difficult is to deriv.
+%
+%---------------------------------------
+%\subsection{Example}
+%For the following PDE-system, which takes its simplest form in the
+%formalism of exterior forms:
+%
+%\begin{eqnarray*}
+%0 & = & 3k_t,_{tt}-2k_t,_{xx}-2k_t,_{yy}-2k_t,_{zz}-k_x,_{tx}-2k_zk_x,_y \\
+%  &   & +2k_yk_x,_z-k_y,_{ty}+2k_zk_y,_x-2k_xk_y,_z-k_z,_{tz}-2k_yk_z,_x+2k_xk_z,_y \\
+%0 & = & k_t,_{tx}-2k_zk_t,_y+2k_yk_t,_z+2k_x,_{tt}-3k_x,_{xx}-2k_x,_{yy} \\
+%  &   & -2k_x,_{zz}+2k_zk_y,_t-k_y,_{xy}-2k_tk_y,_z-2k_yk_z,_t-k_z,_{xz}+2k_tk_z,_y \\
+%0 & = & k_t,_{ty}+2k_zk_t,_x-2k_xk_t,_z-2k_zk_x,_t-k_x,_{xy}+2k_tk_x,_z \\
+%  &   & +2k_y,_{tt}-2k_y,_{xx}-3k_y,_{yy}-2k_y,_{zz}+2k_xk_z,_t-2k_tk_z,_x-k_z,_{yz} \\
+%0 & = & k_t,_{tz}-2k_yk_t,_x+2k_xk_t,_y+2k_yk_x,_t-k_x,_{xz}-2k_tk_x,_y \\
+%  &   & -2k_xk_y,_t+2k_tk_y,_x-k_y,_{yz}+2k_z,_{tt}-2k_z,_{xx}-2k_z,_{yy}-3k_z,_{zz}
+%\end{eqnarray*}
+%---------------------------------------
+\subsection{The third step: Application of infinitesimal symmetries}
+If infinitesimal symmetries have been found then
+the program {\tt APPLYSYM} can use them for the following purposes:
+\begin{enumerate}
+\item Calculation of one symmetry variable and further similarity variables.
+After transforming
+the DE(-system) to these variables, the symmetry variable will not occur
+explicitly any more. For ODEs this has the consequence that their order has
+effectively been reduced.
+\item Generalization of a special solution by one or more constants of
+integration.
+\end{enumerate}
+Both methods are described in the following section.
+%-------------------------------------------------------------------------
+\section{Applying symmetries with {\tt APPLYSYM}}
+%---------------------------------------
+\subsection{The first mode: Calculation of similarity and symmetry variables}
+In the following we assume that a symmetry generator $X$, given
+in (\ref{sbed2}), is known such that ODE(s)/PDE(s) $H_A=0$
+satisfy the symmetry condition (\ref{sbed1}). The aim is to
+find new dependent functions $u^\alpha = u^\alpha(x^j,y^\beta)$ and
+new independent variables $v^i = v^i(x^j,y^\beta),\;\;
+1\leq\alpha,\beta\leq p,\;1\leq i,j \leq q$
+such that the symmetry generator
+$X = \xi^i(x^j,y^\beta)\partial_{x^i} +
+     \eta^\alpha(x^j,y^\beta)\partial_{y^\alpha}$
+transforms to
+\begin{equation}
+X = \partial_{v^1}.    \label{sbed3}
+\end{equation}
+
+Inverting the above transformation to $x^i=x^i(v^j,u^\beta),
+y^\alpha=y^\alpha(v^j,u^\beta)$ and setting \\
+$H_A(x^i(v^j,u^\beta), y^\alpha(v^j,u^\beta),\ldots) =
+h_A(v^j, u^\beta,\ldots)$
+this means that
+\begin{eqnarray*}
+ 0 & = & X H_A(x^i,y^\alpha,y^\beta_j,\ldots)\;\;\; \mbox{mod} \;\;\; H_A=0 \\
+   & = & X h_A(v^i,u^\alpha,u^\beta_j,\ldots)\;\;\; \mbox{mod} \;\;\; h_A=0 \\
+   & = & \partial_{v^1}h_A(v^i,u^\alpha,u^\beta_j,\ldots)\;\;\; \mbox{mod}
+         \;\;\; h_A=0.
+\end{eqnarray*}
+Consequently, the variable $v^1$ does not occur explicitly in $h_A$.
+In the case of an ODE(-system) $(v^1=v)$
+the new equations $0=h_A(v,u^\alpha,du^\beta/dv,\ldots)$
+are then of lower total order
+after the transformation $z = z(u^1) = du^1/dv$ with now $z, u^2,\ldots u^p$
+as unknown functions and $u^1$ as independent variable.
+
+The new form (\ref{sbed3}) of $X$ leads directly to conditions for the
+symmetry variable $v^1$ and the similarity variables
+$v^i|_{i\neq 1}, u^\alpha$ (all functions of $x^k,y^\gamma$):
+\begin{eqnarray}
+ X v^1 = 1 & = & \xi^i(x^k,y^\gamma)\partial_{x^i}v^1 +
+                \eta^\alpha(x^k,y^\gamma)\partial_{y^\alpha}v^1 \label{ql1} \\
+ X v^j|_{j\neq 1} = X u^\beta = 0 & = &
+                 \xi^i(x^k,y^\gamma)\partial_{x^i}u^\beta +
+                 \eta^\alpha(x^k,y^\gamma)\partial_{y^\alpha}u^\beta \label{ql2}
+\end{eqnarray}
+The general solutions of (\ref{ql1}), (\ref{ql2}) involve free functions
+of $p+q-1$ arguments. From the general solution of equation (\ref{ql2}),
+$p+q-1$ functionally independent special solutions have to be selected
+($v^2,\ldots,v^p$ and $u^1,\ldots,u^q$), 
+whereas from (\ref{ql1}) only one solution $v^1$ is needed.
+Together, the expressions for the symmetry and similarity variables must
+define a non-singular transformation $x,y \rightarrow u,v$.
+
+Different special solutions selected at this stage
+will result in different
+resulting DEs which are equivalent under point transformations but may
+look quite differently. A transformation that is more difficult than another
+one will in general
+only complicate the new DE(s) compared with the simpler transformation.
+We therefore seek the simplest possible special
+solutions of (\ref{ql1}), (\ref{ql2}). They also
+have to be simple because the transformation has to be inverted to solve for
+the old variables in order to do the transformations.
+
+The following steps are performed in the corresponding mode of the
+program {\tt APPLYSYM}:
+\begin{itemize}
+\item The user is asked to specify a symmetry by selecting one symmetry
+from all the known symmetries or by specifying a linear combination of them.
+\item Through a call of the procedure {\tt QUASILINPDE} (described in a later
+section) the two linear first order PDEs (\ref{ql1}), (\ref{ql2}) are
+investigated and, if possible, solved.
+\item From the general solution of (\ref{ql1}) 1 special solution
+is selected and from (\ref{ql2}) $p+q-1$ special
+solutions are selected which should be as simple as possible.
+\item The user is asked whether the symmetry variable should be one of the
+independent variables (as it has been assumed so far) or one of the new
+functions (then only derivatives of this function and not the function itself
+turn up in the new DE(s)).
+\item Through a call of the procedure {\tt DETRAFO} the transformation
+$x^i,y^\alpha \rightarrow v^j,u^\beta$ of the DE(s) $H_A=0$ is finally done.
+\item The program returns to the starting menu.
+\end{itemize}
+%---------------------------------------
+\subsection{The second mode: Generalization of special solutions}
+A second application of infinitesimal symmetries is the generalization
+of a known special solution given in implicit form through
+$0 = F(x^i,y^\alpha)$. If one knows a symmetry variable $v^1$ and
+similarity variables $v^r, u^\alpha,\;\;2\leq r\leq p$ then
+$v^1$ can be shifted by a constant $c$ because of
+$\partial_{v^1}H_A = 0$ and
+therefore the DEs $0 = H_A(v^r,u^\alpha,u^\beta_j,\ldots)$
+are unaffected by the shift. Hence from
+\[0 = F(x^i, y^\alpha) = F(x^i(v^j,u^\beta), y^\alpha(v^j,u^\beta)) =
+\bar{F}(v^j,u^\beta)\] follows that
+\[ 0 = \bar{F}(v^1+c,v^r,u^\beta) =
+\bar{F}(v^1(x^i,y^\alpha)+c, v^r(x^i,y^\alpha), u^\beta(x^i,y^\alpha))\]
+defines implicitly a generalized solution $y^\alpha=y^\alpha(x^i,c)$.
+
+This generalization works only if $\partial_{v^1}\bar{F} \neq 0$ and
+if $\bar{F}$ does not already have
+a constant additive to $v^1$.
+
+The method above needs to know $x^i=x^i(u^\beta,v^j),\;
+y^\alpha=y^\alpha(u^\beta,v^j)$ \underline{and}
+$u^\alpha = u^\alpha(x^j,y^\beta), v^\alpha = v^\alpha(x^j,y^\beta)$
+which may be practically impossible.
+Better is, to integrate $x^i,y^\alpha$ along $X$:
+\begin{equation}
+\frac{d\bar{x}^i}{d\varepsilon} = \xi^i(\bar{x}^j(\varepsilon),
+                                  \bar{y}^\beta(\varepsilon)), \;\;\;\;\;
+\frac{d\bar{y}^\alpha}{d\varepsilon} = \eta^\alpha(\bar{x}^j(\varepsilon),
+                                       \bar{y}^\beta(\varepsilon))
+\label{ODEsys}
+\end{equation}
+with initial values $\bar{x}^i = x^i, \bar{y}^\alpha = y^\alpha$
+for $\varepsilon = 0.$
+(This ODE-system is the characteristic system of (\ref{ql2}).)
+
+Knowing only the finite transformations
+\begin{equation}
+\bar{x}^i = \bar{x}^i(x^j,y^\beta,\varepsilon),\;\;
+\bar{y}^\alpha = \bar{y}^\alpha(x^j,y^\beta,\varepsilon)  \label{ODEsol}
+\end{equation}
+gives immediately the inverse transformation
+$\bar{x}^i = \bar{x}^i(x^j,y^\beta,\varepsilon),\;\;
+\bar{y}^\alpha = \bar{y}^\alpha(x^j,y^\beta,\varepsilon)$
+just by $\varepsilon \rightarrow -\varepsilon$ and renaming
+$x^i,y^\alpha \leftrightarrow \bar{x}^i,\bar{y}^\alpha.$
+
+The special solution $0 = F(x^i,y^\alpha)$
+is generalized by the new constant
+$\varepsilon$ through
+\[ 0 = F(x^i,y^\alpha) = F(x^i(\bar{x}^j,\bar{y}^\beta,\varepsilon),
+                  y^\alpha(\bar{x}^j,\bar{y}^\beta,\varepsilon)) \]
+after dropping the $\bar{~}$.
+
+The steps performed in the corresponding mode of the
+program {\tt APPLYSYM} show features of both techniques:
+\begin{itemize}
+\item The user is asked to specify a symmetry by selecting one symmetry
+from all the known symmetries or by specifying a linear combination of them.
+\item The special solution to be generalized and the name of the new
+constant have to be put in.
+\item Through a call of the procedure {\tt QUASILINPDE}, the PDE (\ref{ql1})
+is solved which amounts to a solution of its characteristic ODE system
+(\ref{ODEsys}) where $v^1=\varepsilon$.
+\item {\tt QUASILINPDE} returns a list of constant expressions
+\begin{equation}
+c_i = c_i(x^k, y^\beta, \varepsilon),\;\;1\leq i\leq p+q
+\end{equation}
+which are solved for
+$x^j=x^j(c_i,\varepsilon),\;\; y^\alpha=y^\alpha(c_i,\varepsilon)$
+to obtain the generalized solution through
+\[ 0 = F(x^j, y^\alpha)
+     = F(     x^j(c_i(x^k, y^\beta, 0), \varepsilon),
+         y^\alpha(c_i(x^k, y^\beta, 0), \varepsilon)). \]
+\item The new solution is availabe for further generalizations w.r.t.\ other
+symmetries.
+\end{itemize}
+If one would like to generalize a given special solution with $m$ new
+constants because $m$ symmetries are known, then one could run the whole
+program $m$ times, each time with a different symmetry or one could run the
+program once with a linear combination of $m$ symmetry generators which
+again is a symmetry generator. Running the program once adds one constant
+but we have in addition $m-1$ arbitrary constants in the linear combination
+of the symmetries, so $m$ new constants are added.
+Usually one will generalize the solution gradually to make solving
+(\ref{ODEsys}) gradually more difficult.
+%---------------------------------------
+\subsection{Syntax}
+The call of {\tt APPLYSYM} is
+{\tt APPLYSYM}(\{{\it de}, {\it fun}, {\it var}\}, \{{\it sym}, {\it cons}\});
+\begin{itemize}
+\item {\it de} is a single DE or a list of DEs in the form of a vanishing
+      expression or in the form $\ldots=\ldots\;\;$.
+\item {\it fun} is the single function or the list of functions occuring
+      in {\it de}.
+\item {\it var} is the single variable or the list of variables in {\it de}.
+\item {\it sym} is a linear combination of all symmetries, each with a
+      different constant coefficient, in form of a list of the $\xi^i$ and
+      $\eta^\alpha$: \{xi\_\ldots=\ldots,\ldots,eta\_\ldots=\ldots,\ldots\},
+      where the indices after `xi\_' are the variable names and after `eta\_'
+      the function names.
+\item {\it cons} is the list of constants in {\it sym}, one constant for each
+      symmetry.
+\end{itemize}
+The list that is the first argument of {\tt APPLYSYM} is the same as the
+first argument of {\tt LIEPDE} and the
+second argument is the list that {\tt LIEPDE} returns without its first
+element (the unsolved conditions). An example is given below.
+
+What {\tt APPLYSYM} returns depends on the last performed modus.
+After modus 1 the return is \\
+\{\{{\it newde}, {\it newfun}, {\it newvar}\}, {\it trafo}\} \\
+where
+\begin{itemize}
+\item {\it newde} lists the transformed equation(s)
+\item {\it newfun} lists the new function name(s)
+\item {\it newvar} lists the new variable name(s)
+\item {\it trafo} lists the transformations $x^i=x^i(v^j,u^\beta),
+      y^\alpha=y^\alpha(v^j,u^\beta)$
+\end{itemize}
+After modus 2, {\tt APPLYSYM} returns the generalized special solution.
+%---------------------------------------
+\subsection{Example: A second order ODE}
+Weyl's class of solutions of Einsteins field equations consists of
+axialsymmetric time independent metrics of the form
+\begin{equation}
+{\rm{d}} s^2 = e^{-2 U} \left[ e^{2 k}  \left( \rm{d} \rho^2 + \rm{d}
+z^2 \right)+\rho^2 \rm{d} \varphi^2 \right] - e^{2 U} \rm{d} t^2,
+\end{equation}
+where $U$ and $k$ are functions of $\rho$ and $z$. If one is interested in
+generalizing these solutions to have a time dependence then the resulting
+DEs can be transformed such that one longer third order ODE for $U$ results
+which contains only $\rho$ derivatives \cite{Markus}. Because $U$ appears
+not alone but only as derivative, a substitution
+\begin{equation}
+g = dU/d\rho      \label{g1dgl}
+\end{equation}
+lowers the order and the introduction of a function
+\begin{equation}
+h = \rho g - 1    \label{g2dgl}
+\end{equation}
+simplifies the ODE to
+\begin{equation}
+0 = 3\rho^2h\,h''
+-5\rho^2\,h'^2+5\rho\,h\,h'-20\rho\,h^3h'-20\,h^4+16\,h^6+4\,h^2. \label{hdgl}
+\end{equation}
+where $'= d/d\rho$.
+Calling {\tt LIEPDE} through
+\small \begin{verbatim}
+depend h,r;
+prob:={{-20*h**4+16*h**6+3*r**2*h*df(h,r,2)+5*r*h*df(h,r)
+        -20*h**3*r*df(h,r)+4*h**2-5*r**2*df(h,r)**2},
+       {h}, {r}};
+sym:=liepde(prob, {"point"},{},{});
+end; \end{verbatim} \normalsize
+gives \small \begin{verbatim}
+                          3                       2
+sym := {{}, {xi_r= - c10*r  - c11*r, eta_h=c10*h*r }, {c10,c11}}.
+\end{verbatim} \normalsize
+All conditions have been solved because the first element of {\tt sym}
+is $\{\}$. The two existing symmetries are therefore
+\begin{equation}
+  - \rho^3 \partial_{\rho} +  h \rho^2 \,\partial_{h} \;\;\;\;\;\;\mbox{and}
+  \;\;\;\;\;\;\rho \partial_{\rho}.
+\end{equation}
+Corresponding finite
+transformations can be calculated with {\tt APPLYSYM} through
+\small \begin{verbatim}
+newde:=applysym(prob,rest sym);
+\end{verbatim} \normalsize
+The interactive session is given below with the user input following
+the prompt `{\tt Input:3:}' or following `?'. (Empty lines have been deleted.)
+\small \begin{verbatim}
+Do you want to find similarity and symmetry variables (enter `1;')
+or generalize a special solution with new parameters  (enter `2;')
+or exit the program                                   (enter  `;')
+Input:3: 1;
+\end{verbatim} \normalsize
+We enter `1;' because we want to reduce dependencies by finding similarity
+variables and one symmetry variable and then doing the transformation such
+that the symmetry variable does not explicitly occur in the DE.
+\small \begin{verbatim}
+----------------------   The 1.  symmetry is:
+         3
+xi_r= - r
+         2
+eta_h=h*r
+----------------------   The 2.  symmetry is:
+xi_r= - r
+----------------------
+Which single symmetry or linear combination of symmetries
+do you want to apply? 
+Enter an expression with `sy_(i)' for the i'th symmetry.
+sy_(1);
+\end{verbatim} \normalsize
+We could have entered `sy\_(2);' or a combination of both
+as well with the calculation running then
+differently.
+\small \begin{verbatim}
+The symmetry to be applied in the following is
+          3          2
+{xi_r= - r ,eta_h=h*r }
+Enter the name of the new dependent variables:
+Input:3: u;
+Enter the name of the new independent variables:
+Input:3: v;
+\end{verbatim} \normalsize
+This was the input part, now the real calculation starts.
+\small \begin{verbatim}
+The ODE/PDE (-system) under investigation is :
+                   2            2  2               3
+0 = 3*df(h,r,2)*h*r  - 5*df(h,r) *r  - 20*df(h,r)*h *r
+                           6       4      2
+     + 5*df(h,r)*h*r + 16*h  - 20*h  + 4*h
+for the function(s) : h.
+It will be looked for a new dependent variable u
+and an independent variable v such that the transformed
+de(-system) does not depend on u or v.
+1. Determination of the similarity variable
+                           2
+The quasilinear PDE:  0 = r *(df(u_,h)*h - df(u_,r)*r).
+The equivalent characteristic system:
+               3
+0= - df(u_,r)*r
+      2
+0= - r *(df(h,r)*r + h)
+for the functions: h(r)  u_(r).
+\end{verbatim} \normalsize
+The PDE is equation (\ref{ql2}).
+\small \begin{verbatim}
+The general solution of the PDE is given through
+0 = ff(u_,h*r)
+with arbitrary function ff(..).
+A suggestion for this function ff provides:
+0 =  - h*r + u_
+Do you like this choice? (Y or N)
+?y
+\end{verbatim} \normalsize
+For the following calculation only a single special solution of the PDE is
+necessary
+and this has to be specified from the general solution by choosing a special
+function {\tt ff}. (This function is called {\tt ff} to prevent a clash with
+names of user variables/functions.) In principle any choice of {\tt ff} would
+work, if it defines a non-singular coordinate transformation, i.e.\ here $r$
+must be a function of $u\_$. If we have $q$ independent variables and
+$p$ functions of them then {\tt ff} has $p+q$ arguments. Because of the
+condition $0 = ${\tt ff} one has essentially the freedom of choosing a function
+of $p+q-1$ arguments freely. This freedom is also necessary to select $p+q-1$
+different functions {\tt ff} and to find as many functionally independent
+solutions $u\_$ which all become the new similarity variables. $q$ of them
+become the new functions $u^\alpha$ and $p-1$ of them the new variables
+$v^2,\ldots,v^p$. Here we have $p=q=1$ (one single ODE).
+
+Though the program could have done that alone, once the general solution
+{\tt ff(..)} is known, the user can interfere here to enter a simpler solution,
+if possible.
+\small \begin{verbatim}
+2. Determination of the symmetry variable
+                                      2             3
+The quasilinear PDE:  0 = df(u_,h)*h*r  - df(u_,r)*r  - 1.
+The equivalent characteristic system:
+              3
+0=df(r,u_) + r
+                2
+0=df(h,u_) - h*r
+for the functions: r(u_)  h(u_)  .
+New attempt with a different independent variable
+The equivalent characteristic system:
+              2
+0=df(u_,h)*h*r  - 1
+   2
+0=r *(df(r,h)*h + r)
+for the functions: r(h)  u_(h)  .
+The general solution of the PDE is given through
+                  2  2       2
+             - 2*h *r *u_ + h
+0 = ff(h*r,--------------------)
+                    2
+with arbitrary function ff(..).
+A suggestion for this function ff(..) yields:
+      2        2
+     h *( - 2*r *u_ + 1)
+0 = ---------------------
+              2
+Do you like this choice? (Y or N)
+?y
+\end{verbatim} \normalsize
+Similar to above.
+\small \begin{verbatim}
+The suggested solution of the algebraic system which will
+do the transformation is:
+                        sqrt(v)*sqrt(2)
+{h=sqrt(v)*sqrt(2)*u,r=-----------------}
+                              2*v
+Is the solution ok? (Y or N)
+?y
+In the intended transformation shown above the dependent
+variable is u and the independent variable is v.
+The symmetry variable is v, i.e. the transformed expression
+will be free of v.
+Is this selection of dependent and independent variables ok? (Y or N)
+?n
+\end{verbatim} \normalsize
+We so far assumed that the symmetry variable is one of the new variables, but,
+of course we also could choose it to be one of the new functions.
+If it is one of the functions then only derivatives of this function occur
+in the new DE, not the function itself. If it is one of the variables then 
+this variable will not occur explicitly.
+
+In our case we prefer (without strong reason) to have the function as
+symmetry variable. We therefore answered with `no'. As a consequence, $u$ and
+$v$ will exchange names such that still all new functions have the name $u$
+and the new variables have name $v$:
+\small \begin{verbatim}
+Please enter a list of substitutions. For example, to
+make the variable, which is so far call u1, to an
+independent variable v2 and the variable, which is
+so far called v2, to an dependent variable u1,
+enter: `{u1=v2, v2=u1};'
+Input:3: {u=v,v=u};
+
+The transformed equation which should be free of u:
+                            3  6             2  3
+0=3*df(u,v,2)*v - 16*df(u,v) *v  - 20*df(u,v) *v  + 5*df(u,v)
+Do you want to find similarity and symmetry variables (enter `1;')
+or generalize a special solution with new parameters  (enter `2;')
+or exit the program                                   (enter  `;')
+Input:3: ;
+\end{verbatim}
+We stop here. The following is returned from our {\tt APPLYSYM} call:
+\small \begin{verbatim}
+                             3  6             2  3
+{{{3*df(u,v,2)*v - 16*df(u,v) *v  - 20*df(u,v) *v + 5*df(u,v)},
+  {u},
+  {v}},
+     sqrt(u)*sqrt(2)
+ {r=-----------------, h=sqrt(u)*sqrt(2)*v }}
+           2*u
+\end{verbatim} \normalsize
+The use of {\tt APPLYSYM} effectively provided us the finite
+transformation
+\begin{equation}
+  \rho=(2\,u)^{-1/2},\;\;\;\;\;h=(2\,u)^{1/2}\,v \label{trafo1}.
+\end{equation}
+and the new ODE
+\begin{equation}
+0 = 3u''v - 16u'^3v^6 - 20u'^2v^3 + 5u'        \label{udgl}
+\end{equation}
+where $u=u(v)$ and $'=d/dv.$
+Using one symmetry we reduced the 2.\,order ODE (\ref{hdgl})
+to a first order ODE (\ref{udgl}) for $u'$ plus one
+integration. The second symmetry can be used to reduce the remaining ODE
+to an integration too by introducing a variable $w$ through $v^3d/dv = d/dw$,
+i.e. $w = -1/(2v^2)$. With
+\begin{equation}
+p=du/dw                                       \label{udot}
+\end{equation}
+the remaining ODE is
+\[0 = 3\,w\,\frac{dp}{dw} + 2\,p\,(p+1)(4\,p+1)   \]
+with solution
+\[ \tilde{c}w^{-2}/4 = \tilde{c}v^4 = \frac{p^3(p+1)}{(4\,p+1)^4},\;\;\;
+ \tilde{c}=const. \]
+Writing (\ref{udot}) as $p = v^3(du/dp)/(dv/dp)$ we get $u$ by integration
+and with (\ref{trafo1}) further a parametric solution for $\rho,h$:
+\begin{eqnarray}
+\rho & = & \left(\frac{3c_1^2(2p-1)}{p^{1/2}(p+1)^{1/2}}+c_2\right)^{-1/2} \\
+h & = & \frac{(c_2p^{1/2}(p+1)^{1/2}+6c_1^2p-3c_1^2)^{1/2}p^{1/2}}{c_1(4p+1)}
+\end{eqnarray}
+where $c_1, c_2 = const.$ and $c_1=\tilde{c}^{1/4}.$ Finally, the metric
+function $U(p)$ is obtained as an integral from (\ref{g1dgl}),(\ref{g2dgl}).
+%---------------------------------------
+\subsection{Limitations of {\tt APPLYSYM}}
+Restrictions of the applicability of the program {\tt APPLYSYM} result
+from limitations of the program {\tt QUASILINPDE} described in a section below.
+Essentially this means that symmetry generators may only be polynomially
+non-linear in $x^i, y^\alpha$.
+Though even then the solvability can not be guaranteed, the
+generators of Lie-symmetries are mostly very simple such that the
+resulting PDE (\ref{PDE}) and the corresponding characteristic 
+ODE-system have good chances to be solvable.
+
+Apart from these limitations implied through the solution of differential
+equations with {\tt CRACK} and algebraic equations with {\tt SOLVE}
+the program {\tt APPLYSYM} itself is free of restrictions,
+i.e.\ if once new versions of {\tt CRACK, SOLVE}
+would be available then {\tt APPLYSYM} would not have to be changed.
+
+Currently, whenever a computational step could not be performed
+the user is informed and has the possibility of entering interactively
+the solution of the unsolved algebraic system or the unsolved linear PDE.
+%-------------------------------------------------------------------------
+\section{Solving quasilinear PDEs}
+%---------------------------------------
+\subsection{The content of {\tt QUASILINPDE}}
+The generalization of special solutions of DEs as well as the computation of
+similarity and symmetry variables involve the general solution of single
+first order linear PDEs.
+The procedure {\tt QUASILINPDE} is a general procedure
+aiming at the general solution of
+PDEs
+\begin{equation}
+   a_1(w_i,\phi)\phi_{w_1} + a_2(w_i,\phi)\phi_{w_2} + \ldots +
+   a_n(w_i,\phi)\phi_{w_n} = b(w_i,\phi) \label{PDE}
+\end{equation}
+in $n$ independent variables $w_i, i=1\ldots n$ for one unknown function
+$\phi=\phi(w_i)$.
+\begin{enumerate}
+\item
+The first step in solving a quasilinear PDE (\ref{PDE})
+is the formulation of the corresponding characteristic ODE-system
+\begin{eqnarray}
+\frac{dw_i}{d\varepsilon} & = & a_i(w_j,\phi) \label{char1}   \\
+\frac{d\phi}{d\varepsilon} & = & b(w_j,\phi)  \label{char2}
+\end{eqnarray}
+for $\phi, w_i$ regarded now as functions of one variable $\varepsilon$.
+
+Because the $a_i$ and $b$ do not depend explicitly on $\varepsilon$, one of the
+equations (\ref{char1}),(\ref{char2}) with non-vanishing right hand side
+can be used to divide all others through it and by that having a system
+with one less ODE to solve. 
+If the equation to divide through is one of
+(\ref{char1}) then the remaining system would be
+\begin{eqnarray}
+\frac{dw_i}{dw_k} & = & \frac{a_i}{a_k} , \;\;\;i=1,2,\ldots k-1,k+1,\ldots n
+  \label{char3} \\
+\frac{d\phi}{dw_k} & = & \frac{b}{a_k}  \label{char4}
+\end{eqnarray}
+with the independent variable $w_k$ instead of $\varepsilon$.
+If instead we divide through equation
+(\ref{char2}) then the remaining system would be
+\begin{eqnarray}
+\frac{dw_i}{d\phi} & = & \frac{a_i}{b} , \;\;\;i=1,2,\ldots n
+  \label{char3a}
+\end{eqnarray}
+with the independent variable $\phi$ instead of $\varepsilon$.
+
+The equation to divide through is chosen by a
+subroutine with a heuristic to find the ``simplest'' non-zero
+right hand side ($a_k$ or $b$), i.e.\ one which
+\begin{itemize}
+\item is constant or
+\item depends only on one variable or
+\item is a product of factors, each of which depends only on
+one variable.
+\end{itemize}
+
+One purpose of this division is to reduce the number of ODEs by one.
+Secondly, the general solution of (\ref{char1}), (\ref{char2}) involves
+an additive constant to $\varepsilon$ which is not relevant and would
+have to be set to zero. By dividing through one ODE we eliminate
+$\varepsilon$ and lose the problem of identifying this constant in the
+general solution before we would have to set it to zero.
+
+\item % from enumerate
+To solve the system (\ref{char3}), (\ref{char4}) or (\ref{char3a}),
+the procedure {\tt CRACK} is called.
+Although being designed primarily for the solution of overdetermined
+PDE-systems, {\tt CRACK} can also be used to solve simple not
+overdetermined ODE-systems. This solution
+process is not completely algorithmic. Improved versions of {\tt CRACK}
+could be used, without making any changes of {\tt QUASILINPDE} 
+necessary.
+
+If the characteristic ODE-system can not be solved in the form
+(\ref{char3}), (\ref{char4}) or (\ref{char3a})
+then successively all other ODEs of (\ref{char1}), (\ref{char2})
+with non-vanishing right hand side are used for division until 
+one is found
+such that the resulting ODE-system can be solved completely.
+Otherwise the PDE can not be solved by {\tt QUASILINPDE}.
+
+\item % from enumerate
+If the characteristic ODE-system (\ref{char1}), (\ref{char2}) has been
+integrated completely and in full generality to the implicit solution
+\begin{equation}
+0 = G_i(\phi, w_j, c_k, \varepsilon),\;\;
+i,k=1,\ldots,n+1,\;\;j=1,\ldots,n              \label{charsol1}
+\end{equation}
+then according to the general theory for solving first order PDEs,
+$\varepsilon$ has
+to be eliminated from one of the equations and to be substituted in the
+others to have left $n$ equations.
+Also the constant that turns up additively to $\varepsilon$
+is to be set to zero. Both tasks are automatically
+fulfilled, if, as described above, $\varepsilon$ is already eliminated
+from the beginning by dividing all equations of (\ref{char1}),
+(\ref{char2})
+through one of them.
+
+On either way one ends up with $n$ equations 
+\begin{equation}
+0=g_i(\phi,w_j,c_k),\;\;i,j,k=1\ldots n             \label{charsol2}
+\end{equation}
+involving $n$ constants $c_k$.
+
+The final step is to solve (\ref{charsol2}) for the $c_i$ to obtain
+\begin{equation}
+c_i = c_i(\phi, w_1,\ldots ,w_n) \;\;\;\;\;i=1,\ldots n  . \label{cons}
+\end{equation}
+The final solution $\phi = \phi(w_i)$ of the PDE (\ref{PDE}) is then
+given implicitly through
+\[ 0 = F(c_1(\phi,w_i),c_2(\phi,w_i),\ldots,c_n(\phi,w_i)) \]
+where $F$ is an arbitrary function with $n$ arguments.
+\end{enumerate}
+%---------------------------------------
+\subsection{Syntax}
+The call of {\tt QUASILINPDE} is \\
+{\tt QUASILINPDE}({\it de}, {\it fun}, {\it varlist});
+\begin{itemize}
+\item
+{\it de} is the differential expression which vanishes due to the PDE
+{\it de}$\; = 0$ or, {\it de} may be the differential equation itself in the
+form $\;\;\ldots = \ldots\;\;$.
+\item
+{\it fun} is the unknown function.
+\item
+{\it varlist} is the list of variables of {\it fun}.
+\end{itemize}
+The result of {\tt QUASILINPDE} is a list of general solutions
+\[      \{{\it sol}_1, {\it sol}_2, \ldots \}.  \]
+If {\tt QUASILINPDE} can not solve the PDE then it returns $\{\}$.
+Each solution ${\it sol}_i$ is a list of expressions
+\[      \{{\it ex}_1, {\it ex}_2, \ldots \}  \]
+such that the dependent function ($\phi$ in (\ref{PDE})) is determined
+implicitly through an arbitrary function $F$ and the algebraic
+equation \[ 0 = F({\it ex}_1, {\it ex}_2, \ldots). \]
+%---------------------------------------
+\subsection{Examples}
+{\em Example 1:}\\
+To solve the quasilinear first order PDE \[1 = xu,_x + uu,_y - zu,_z\]
+for the function $u = u(x,y,z),$ the input would be
+\small \begin{verbatim}
+depend u,x,y,z;
+de:=x*df(u,x)+u*df(u,y)-z*df(u,z) - 1;
+varlist:={x,y,z};
+QUASILINPDE(de,u,varlist);
+\end{verbatim} \normalsize
+In this example the procedure returns
+\[\{ \{ x/e^u, ze^u, u^2 - 2y \} \},\] 
+i.e. there is one general solution (because the outer list has only one
+element which itself is a list) and $u$ is given implicitly through 
+the algebraic equation
+\[ 0 = F(x/e^u, ze^u, u^2 - 2y)\] 
+with arbitrary function $F.$ \\
+{\em Example 2:}\\
+For the linear inhomogeneous PDE
+\[ 0 = y z,_x + x z,_y - 1, \;\;\;\;\mbox{for}\;\;\;\;z=z(x,y)\]
+{\tt QUASILINPDE} returns the result that for an arbitrary function $F,$ the
+equation
+\[ 0 = F\left(\frac{x+y}{e^z},e^z(x-y)\right) \]
+defines the general solution for $z$. \\
+{\em Example 3:}\\
+For the linear inhomogeneous PDE (3.8) from \cite{KamkePDE}
+\[ 0 = x w,_x + (y+z)(w,_y - w,_z), \;\;\;\;\mbox{for}\;\;\;\;w=w(x,y,z)\]
+{\tt QUASILINPDE} returns the result 
+that for an arbitrary function $F,$ the equation
+\[ 0 = F\left(w, \;y+z, \;\ln(x)(y+z)-y\right) \]
+defines the general solution for $w$, i.e.\ for any function $f$
+\[ w = f\left(y+z, \;\ln(x)(y+z)-y\right) \]
+solves the PDE.
+%---------------------------------------
+\subsection{Limitations of {\tt QUASILINPDE}}
+One restriction on the applicability of {\tt QUASILINPDE} results from
+the program {\tt CRACK} which tries to solve the
+characteristic ODE-system of the PDE. So far {\tt CRACK} can be
+applied only to polynomially non-linear DE's, i.e.\ the characteristic 
+ODE-system (\ref{char3}),(\ref{char4}) or (\ref{char3a}) may
+only be polynomially non-linear, i.e.\ in the PDE (\ref{PDE})
+the expressions $a_i$ and $b$ may only be rational in $w_j,\phi$.
+
+The task of {\tt CRACK} is simplified as (\ref{charsol1}) does not have to
+be solved for $w_j, \phi$. On the other hand (\ref{charsol1}) has to be
+solved for the $c_i$. This gives a 
+second restriction coming from the REDUCE function {\tt SOLVE}.
+Though {\tt SOLVE} can be applied
+to polynomial and transzendential equations, again no guarantee for
+solvability can be given.
+%-------------------------------------------------------------------------
+\section{Transformation of DEs}
+%---------------------------------------
+\subsection{The content of {\tt DETRAFO}}
+Finally, after having found the finite transformations,
+the program {\tt APPLYSYM} calls the procedure
+{\tt DETRAFO} to perform the transformations. {\tt DETRAFO}
+can also be used alone to do point- or higher order transformations
+which involve a considerable computational effort if the
+differential order of the expression to be transformed is high and
+if many dependent and independent variables are involved.
+This might be especially useful if one wants to experiment
+and try out different coordinate transformations interactively,
+using {\tt DETRAFO} as standalone procedure.
+
+To run {\tt DETRAFO}, the old functions $y^{\alpha}$ and old 
+variables $x^i$ must be 
+known explicitly in terms of algebraic or
+differential expressions of the new functions $u^{\beta}$ 
+and new variables $v^j$. Then for point transformations the identity
+\begin{eqnarray}
+dy^{\alpha} & = & \left(y^{\alpha},_{v^i} +
+                  y^{\alpha},_{u^{\beta}}u^{\beta},_{v^i}\right) dv^i \\
+            & = & y^{\alpha},_{x^j}dx^j  \\
+            & = & y^{\alpha},_{x^j}\left(x^j,_{v^i} +
+                  x^j,_{u^{\beta}}u^{\beta},_{v^i}\right) dv^i
+\end{eqnarray}
+provides the transformation
+\begin{equation}
+y^{\alpha},_{x^j} = \frac{dy^\alpha}{dv^i}\cdot
+                    \left(\frac{dx^j}{dv^i}\right)^{-1}   \label{trafo}
+\end{equation}
+with {\it det}$\left(dx^j/dv^i\right) \neq 0$ because of the regularity
+of the transformation which is checked by {\tt DETRAFO}. Non-regular
+transformations are not performed.
+
+{\tt DETRAFO} is not restricted to point transformations.
+In the case of
+contact- or higher order transformations, the total
+derivatives $dy^{\alpha}/dv^i$ and $dx^j/dv^i$ then only include all
+$v^i-$ derivatives of $u^{\beta}$ which occur in
+\begin{eqnarray*}
+y^{\alpha} & = & y^{\alpha}(v^i,u^{\beta},u^{\beta},_{v^j},\ldots) \\
+x^k        & = & x^k(v^i,u^{\beta},u^{\beta},_{v^j},\ldots).
+\end{eqnarray*}
+%---------------------------------------
+\subsection{Syntax}
+The call of {\tt DETRAFO} is
+\begin{tabbing}
+{\tt DETRAFO}(\=\{{\it ex}$_1$, {\it ex}$_2$, \ldots , {\it ex}$_m$\}, \\
+              \>\{{\it ofun}$_1=${\it fex}$_1$, {\it ofun}$_2=${\it fex}$_2$,
+               \ldots ,{\it ofun}$_p=${\it fex}$_p$\},  \\
+              \>\{{\it ovar}$_1=${\it vex}$_1$, {\it ovar}$_2=${\it vex}$_2$, \ldots ,
+                  {\it ovar}$_q=${\it vex}$_q$\},  \\
+              \>\{{\it nfun}$_1$, {\it nfun}$_2$, \ldots , {\it nfun}$_p$\},\\
+              \>\{{\it nvar}$_1$, {\it nvar}$_2$, \ldots , {\it nvar}$_q$\});
+\end{tabbing}     
+where $m,p,q$ are arbitrary.
+\begin{itemize}
+\item
+The {\it ex}$_i$ are differential expressions to be transformed.
+\item
+The second list is the list of old functions {\it ofun} expressed
+as expressions {\it fex} in terms
+of new functions {\it nfun} and new independent variables {\it nvar}.
+\item
+Similarly the third list expresses the old independent variables {\it ovar}
+as expressions {\it vex} in terms of new functions
+{\it nfun} and new independent variables {\it nvar}.
+\item
+The last two lists include the new functions {\it nfun}
+and new independent variables {\it nvar}.
+\end{itemize}
+Names for {\it ofun, ovar, nfun} and {\it nvar} can be arbitrarily
+chosen.
+
+As the result {\tt DETRAFO} returns the first argument of its input,
+i.e.\ the list
+\[\{{\it ex}_1, {\it ex}_2, \ldots , {\it ex}_m\}\]
+where all ${\it ex}_i$ are transformed.
+%---------------------------------------
+\subsection{Limitations of {\tt DETRAFO}}
+The only requirement is that
+the old independent variables $x^i$ and old functions $y^\alpha$ must be
+given explicitly in terms of new variables $v^j$ and new functions $u^\beta$
+as indicated in the syntax.
+Then all calculations involve only differentiations and basic algebra.
+%-------------------------------------------------------------------------
+\section{Availability}
+The programs run under {\tt REDUCE 3.6} and are available
+by anonymous ftp from \\ {\tt ftp.maths.qmw.ac.uk}, directory 
+{\tt pub/tw}.
+
+\begin{thebibliography}{99}
+\bibitem{WHer} W.\,Hereman, Chapter 13 in vol 3 of the CRC Handbook of
+Lie Group Analysis of Differential Equations, Ed.: N.H.\,Ibragimov,
+CRC Press, Boca Raton, Florida (1995).
+Systems described in this paper are among others:  \\
+DELiA (Alexei Bocharov et.al.) Pascal \\
+DIFFGROB2 (Liz Mansfield) Maple \\
+DIMSYM (James Sherring and Geoff Prince) REDUCE \\
+HSYM (Vladimir Gerdt) Reduce \\
+LIE (V. Eliseev, R.N. Fedorova and V.V. Kornyak) Reduce \\
+LIE (Alan Head) muMath \\
+Lie (Gerd Baumann) Mathematica \\
+LIEDF/INFSYM (Peter Gragert and Paul Kersten) Reduce \\
+Liesymm (John Carminati, John Devitt and Greg Fee) Maple \\
+MathSym (Scott Herod) Mathematica \\
+NUSY (Clara Nucci) Reduce \\
+PDELIE (Peter Vafeades) Macsyma \\
+SPDE (Fritz Schwarz) Reduce and Axiom \\
+SYM\_DE (Stanly Steinberg) Macsyma \\
+Symmgroup.c (Dominique Berube and Marc de Montigny) Mathematica \\
+STANDARD FORM (Gregory Reid and Alan Wittkopf) Maple \\
+SYMCAL (Gregory Reid) Macsyma and Maple \\
+SYMMGRP.MAX (Benoit Champagne, Willy Hereman and Pavel Winternitz) Macsyma \\
+LIE package (Khai Vu) Maple \\
+Toolbox for symmetries (Mark Hickman) Maple \\
+Lie symmetries (Jeffrey Ondich and Nick Coult) Mathematica.
+\bibitem{lie1} S.\, Lie, Sophus Lie's 1880 Transformation Group Paper,
+Translated by M.\, Ackerman, comments by R.\, Hermann, Mathematical Sciences 
+Press, Brookline, (1975).
+\bibitem{lie2} S.\,Lie, Differentialgleichungen, Chelsea Publishing Company,
+New York, (1967).
+\bibitem{LIEPDE} T.\,Wolf, An efficiency improved program {\tt LIEPDE}
+for determining Lie - symmetries of PDEs, Proceedings of the workshop on
+Modern group theory methods in Acireale (Sicily) Nov.\,(1992)
+\bibitem{Riq} C.\,Riquier, Les syst\`{e}mes d'\'{e}quations 
+aux d\'{e}riv\'{e}es partielles, Gauthier--Villars, Paris (1910).
+\bibitem{Th} J.\,Thomas, Differential Systems, AMS, Colloquium
+publications, v.\,21, N.Y.\,(1937).
+\bibitem{Ja} M.\,Janet, Le\c{c}ons sur les syst\`{e}mes d'\'{e}quations aux
+d\'{e}riv\'{e}es, Gauthier--Villars, Paris (1929).
+\bibitem{Topu} V.L.\,Topunov, Reducing Systems of Linear Differential
+Equations to a Passive Form, Acta Appl.\,Math.\,16 (1989) 191--206.
+\bibitem{Alex} A.V.\,Bocharov and M.L.\,Bronstein, Efficiently
+Implementing Two Methods of the Geometrical Theory of Differential
+Equations: An Experience in Algorithm and Software Design, Acta.\,Appl.
+Math.\,16 (1989) 143--166.
+\bibitem{Olv} P.J. Olver, Applications of Lie Groups to Differential
+Equations, Springer-Verlag New York (1986).
+\bibitem{Reid1} G.J.\,Reid, A triangularization algorithm which
+determines the Lie symmetry algebra of any system of PDEs, J.Phys.\,A:
+Math.\,Gen.\,23 (1990) L853-L859.
+\bibitem{FS} F.\,Schwarz, Automatically Determining Symmetries of Partial
+Differential Equations, Computing 34, (1985) 91-106.
+\bibitem{Fush} W.I.\,Fushchich and V.V.\,Kornyak, Computer Algebra
+Application for Determining Lie and Lie--B\"{a}cklund Symmetries of
+Differential Equations, J.\,Symb.\,Comp.\,7 (1989) 611--619.
+\bibitem{Ka} E.\,Kamke, Differentialgleichungen, L\"{o}sungsmethoden
+und L\"{o}sungen, Band 1, Gew\"{o}hnliche Differentialgleichungen,
+Chelsea Publishing Company, New York, 1959.
+\bibitem{KamkePDE} E.\,Kamke, Differentialgleichungen, L\"{o}sungsmethoden
+und L\"{o}sungen, Band 2, Partielle Differentialgleichungen, 6.Aufl.,
+Teubner, Stuttgart:Teubner, 1979.
+\bibitem{Wo} T.\,Wolf, An Analytic Algorithm for Decoupling and Integrating
+systems of Nonlinear Partial Differential Equations, J.\,Comp.\,Phys.,
+no.\,3, 60 (1985) 437-446 and, Zur analytischen Untersuchung und exakten
+L\"{o}sung von Differentialgleichungen mit Computeralgebrasystemen,
+Dissertation B, Jena (1989).
+\bibitem{WoBra} T.\,Wolf, A. Brand, The Computer Algebra Package {\tt CRACK}
+      for Investigating PDEs, Manual for the package {\tt CRACK} in the REDUCE
+      network library and in Proceedings of ERCIM School on Partial 
+      Differential Equations and Group Theory, April 1992 in Bonn, GMD Bonn.
+\bibitem{WM} M.A.H.\,MacCallum, F.J.\,Wright, Algebraic Computing with REDUCE,
+Clarendon Press, Oxford (1991).
+\bibitem{Mal} M.A.H.\, MacCallum, An Ordinary Differential Equation
+Solver for REDUCE, Proc.\, ISAAC'88, Springer Lect.\, Notes in Comp Sci.
+358, 196--205.
+\bibitem{Step} H.\,Stephani, Differential equations, Their solution using
+symmetries, Cambridge University Press (1989).
+\bibitem{Karp} V.I.\,Karpman, Phys.\,Lett.\,A 136, 216 (1989)
+\bibitem{Cham} B.\,Champagne, W.\,Hereman and P.\,Winternitz, The computer
+      calculation of Lie point symmetries of large systems of differential
+      equations, Comp.\,Phys.\,Comm.\,66, 319-340 (1991)
+\bibitem{Markus} M.\,Kubitza, private communication
+
+\end{thebibliography}
+
+\end{document}
+
+

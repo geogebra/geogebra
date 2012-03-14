@@ -1,0 +1,107 @@
+\documentstyle[11pt,reduce]{article}
+\title{COMPACT: Reduction of a Polynomial in the Presence of Side Relations}
+\date{}
+\author{Anthony C. Hearn\\ RAND\\
+Santa Monica CA 90407-2138\\
+Email: hearn@rand.org}
+\begin{document}
+\maketitle
+
+\index{COMPACT package} \index{side relations} \index{relations ! side}
+{COMPACT} is a package of functions for the reduction of a polynomial in
+the presence of side relations.  The package defines one operator {COMPACT}
+\index{COMPACT operator}
+whose syntax is:
+
+\begin{quote}
+\k{COMPACT}(\s{expression}, \s{list}):\s{expression}
+\end{quote}
+
+\s{expression} can be any well-formed algebraic expression, and
+\s{list} an expression whose value is a list
+of either expressions or equations.  For example
+
+\begin{verbatim}
+    compact(x**2+y**3*x-5y,{x+y-z,x-y-z1});
+    compact(sin(x)**10*cos(x)**3+sin(x)**8*cos(x)**5,
+            {cos(x)**2+sin(x)**2=1});
+    let y = {cos(x)**2+sin(x)**2-1};
+    compact(sin(x)**10*cos(x)**3+sin(x)**8*cos(x)**5,y);
+\end{verbatim}
+
+{COMPACT} applies the relations to the expression so that an equivalent
+expression results with as few terms as possible.  The method used is
+briefly as follows:
+
+\begin{enumerate}
+\item Side relations are applied separately to numerator and denominator, so
+that the problem is reduced to the reduction of a polynomial with respect to
+a set of polynomial side relations.
+
+\item Reduction is performed sequentially, so that the problem is reduced
+further to the reduction of a polynomial with respect to a single
+polynomial relation.
+
+\item The polynomial being reduced is reordered so that the variables
+(kernels) occurring in the side relation have least precedence.
+
+\item Each coefficient of the remaining kernels (which now only contain
+the kernels
+in the side relation) is reduced with respect to that side relation.
+
+\item A polynomial quotient/remainder calculation is performed on the
+coefficient.  The remainder is
+used instead of the original if it has fewer terms.
+
+\item The remaining expression is reduced with respect to the side relation
+using a ``nearest neighbor'' approach.
+\end{enumerate}
+
+As with the traveling salesman problem, a nearest neighbor approach to
+reduction does not necessarily achieve an optimal result.  In most cases
+it will be within a factor of two from the optimal result, but in extreme
+cases it may be much further away.
+
+Another source of sub-optimal results is that the given expression
+is reduced sequentially with respect to the side relations.  So for
+example in the case
+
+\begin{verbatim}
+        compact((a+b+c)*(a-b-c)*(-a+b-c)*(-a-b+c),
+                {x1=a+b+c,x2=a-b-c,x3=-a+b-c,x4=-a-b+c})
+\end{verbatim}
+
+the expression is actually $x_{1}x_{2}x_{3}x_{4}$, but any given relation
+cannot reduce the size of the expanded form
+$a^{4}-2a^{2}b^{2}-2a^{2}c^{2}+b^{4}-2b^{2}c^{2}+c^{4}$
+of the original expression, and so the final result is far from optimal.
+
+The only other program we have heard about that considers the compaction
+problem is that of Hornfeldt~\cite{Hornfeldt:82}.
+However, Hornfeldt reorders expressions so that the kernels in a side
+relation have highest order.  Consequently, their coefficients are
+polynomials rather than integers or other constants as in our approach.
+Furthermore, it is not clear just how general Hornfeldt's approach is from
+his description, since he only talks about sine and cosine substitutions.
+
+There are a number of projects that this work immediately suggests.  For
+example:
+
+\begin{enumerate}
+\item How does one do the reduction with the side relations in parallel?
+The above example shows this is necessary for an optimal solution.
+
+\item Should one reduce the side relations to a Groebner or other basis
+before doing any reduction?
+
+\item Should one check for the consistency of the basis?
+
+\item How does one do factorization and gcds on a polynomial whose
+variables are related by a set of side relations?
+\end{enumerate}
+
+The author would be interested in hearing from anyone wishing to work with
+him on any of these problems.
+\bibliography{compact}
+\bibliographystyle{plain}
+\end{document}

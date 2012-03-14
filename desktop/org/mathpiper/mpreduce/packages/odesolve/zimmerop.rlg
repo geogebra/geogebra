@@ -1,0 +1,880 @@
+REDUCE Development Version, Wed Sep 13 20:40:41 2000 ...
+
+
+
+
+
+
+
+ODESolve 1.065
+
+% -*- REDUCE -*-
+% The Postel/Zimmermann (11/4/96) ODE test examples.
+% Equation names from Postel/Zimmermann.
+% This version uses Maple-style functional notation wherever possible.
+
+% on trode;
+on div, intstr;
+
+  off allfac;
+
+            % to look prettier
+
+% 1  Single equations without initial conditions
+% ==============================================
+
+% 1.1 Linear equations
+% ====================
+
+operator y;
+
+
+
+% (1) Linear Bernoulli 1
+odesolve((x^4-x^3)*df(y(x),x) + 2*x^4*y(x) = x^3/3 + C, y(x), x);
+
+
+         - 2*x                1     -2    1       1
+       e      *arbconst(1) + ---*c*x   + ---*x - ---
+                              2           6       4
+{y(x)=-----------------------------------------------}
+                        2
+                       x  - 2*x + 1
+
+
+% (2) Linear Bernoulli 2
+odesolve(-1/2*df(y(x),x) + y(x) = sin x, y(x), x);
+
+
+       2*x                2            4
+{y(x)=e   *arbconst(2) + ---*cos(x) + ---*sin(x)}
+                          5            5
+
+
+% (3) Linear change of variables (FJW: shifted Euler equation)
+odesolve(df(y(x),x,2)*(a*x+b)^2 + 4df(y(x),x)*(a*x+b)*a + 2y(x)*a^2 = 0,
+   y(x), x);
+
+
+                    2                                    2
+       arbconst(4)*a *x + arbconst(4)*a*b + arbconst(3)*a
+{y(x)=-----------------------------------------------------}
+                       2  2              2
+                      a *x  + 2*a*b*x + b
+
+
+% (4) Adjoint
+odesolve((x^2-x)*df(y(x),x,2) + (2x^2+4x-3)*df(y(x),x) + 8x*y(x) = 1,
+   y(x), x);
+
+
+               2                                  2
+{df(y(x),x,2)*x  - df(y(x),x,2)*x + 2*df(y(x),x)*x  + 4*df(y(x),x)*x
+
+  - 3*df(y(x),x) + 8*y(x)*x - 1=0}
+
+
+% (5) Polynomial solutions
+% (FJW: Currently very slow, and fails anyway!)
+% odesolve((x^2-x)*df(y(x),x,2) + (1-2x^2)*df(y(x),x) + (4x-2)*y(x) = 0,
+%    y(x), x);
+
+% (6) Dependent variable missing
+odesolve(df(y(x),x,2) + 2x*df(y(x),x) = 2x, y(x), x);
+
+
+                     1
+{y(x)=arbconst(6) + ---*sqrt(pi)*arbconst(5)*erf(x) + x}
+                     2
+
+
+% (7) Liouvillian solutions
+% (FJW: INTEGRATION IMPOSSIBLY SLOW WITHOUT EITHER ALGINT OR NOINT OPTION)
+begin scalar !*allfac;  !*allfac := t;  return
+   odesolve((x^3/2-x^2)*df(y(x),x,2) + (2x^2-3x+1)*df(y(x),x) + (x-1)*y(x) = 0,
+      y(x), x, noint);
+end;
+
+
+                   -1
+        - 1/2   - x           - 1/2
+{y(x)=x      *e      *(x - 2)
+
+                                           1/x
+                                  sqrt(x)*e   *sqrt(x - 2)
+ *(arbconst(8) + arbconst(7)*int(--------------------------,x))}
+                                          3      2
+                                         x  - 2*x
+
+% WARNING: DO NOT RE-EVALUATE RESULT WITHOUT TURNING ON THE NOINT SWITCH
+
+% (8) Reduction of order
+% (FJW: Attempting to make explicit currently too slow.)
+odesolve(df(y(x),x,2) - 2x*df(y(x),x) + 2y(x) = 3, y(x), x);
+
+
+{arbconst(10) + sqrt(pi)*arbconst(9)
+
+                               erf(i*x)
+ *int(-----------------------------------------------------------,x)*i
+                                             2
+                                            x
+       sqrt(pi)*arbconst(9)*erf(i*x)*i*x + e  *arbconst(9) - 2*x
+
+                                       1
+  - 2*int(-----------------------------------------------------------,x)
+                                                 2
+                                                x
+           sqrt(pi)*arbconst(9)*erf(i*x)*i*x + e  *arbconst(9) - 2*x
+
+                3
+  - log(y(x) - ---)=0}
+                2
+
+
+% (9) Integrating factors
+% (FJW: Currently very slow, and fails anyway!)
+% odesolve(sqrt(x)*df(y(x),x,2) + 2x*df(y(x),x) + 3y(x) = 0, y(x), x);
+
+% (10) Radical solution (FJW: omitted for now)
+
+% (11) Undetermined coefficients
+odesolve(df(y(x),x,2) - 2/x^2*y(x) = 7x^4 + 3*x^3, y(x), x);
+
+
+                    2                 -1    1   6    1   5
+{y(x)=arbconst(13)*x  + arbconst(12)*x   + ---*x  + ---*x }
+                                            4        6
+
+
+% (12) Variation of parameters
+odesolve(df(y(x),x,2) + y(x) = csc(x), y(x), x);
+
+
+{y(x)=arbconst(15)*sin(x) + arbconst(14)*cos(x) - cos(x)*x + log(sin(x))*sin(x)}
+
+
+% (13) Linear constant coefficients
+<< factor exp(x);  write
+odesolve(df(y(x),x,7) - 14df(y(x),x,6) + 80df(y(x),x,5) - 242df(y(x),x,4)
+   + 419df(y(x),x,3) - 416df(y(x),x,2) + 220df(y(x),x) - 48y(x) = 0, y(x), x);
+remfac exp(x) >>;
+
+
+       4*x                 3*x
+{y(x)=e   *arbconst(17) + e   *arbconst(16)
+
+     2*x
+  + e   *(arbconst(19) + arbconst(18)*x)
+
+     x                                                2
+  + e *(arbconst(22) + arbconst(21)*x + arbconst(20)*x )}
+
+
+% (14) Euler
+odesolve(df(y(x),x,4) - 4/x^2*df(y(x),x,2) + 8/x^3*df(y(x),x) - 8/x^4*y(x) = 0,
+   y(x), x);
+
+
+                    4                 2                                  -1
+{y(x)=arbconst(26)*x  + arbconst(25)*x  + arbconst(24)*x + arbconst(23)*x  }
+
+
+% (15) Exact n-th order
+odesolve((1+x+x^2)*df(y(x),x,3) + (3+6x)*df(y(x),x,2) + 6df(y(x),x) = 6x,
+   y(x), x);
+
+
+                                        1                2    1   4
+       arbconst(29) + arbconst(28)*x + ---*arbconst(27)*x  + ---*x
+                                        2                     4
+{y(x)=--------------------------------------------------------------}
+                                 2
+                                x  + x + 1
+
+
+
+% 1.2 Nonlinear equations
+% =======================
+
+% (16) Integrating factors 1
+odesolve(df(y(x),x) = y(x)/(y(x)*log y(x) + x), y(x), x);
+
+
+                        1           2
+{x=arbconst(30)*y(x) + ---*log(y(x)) *y(x)}
+                        2
+
+
+% (17) Integrating factors 2
+odesolve(2y(x)*df(y(x),x)^2 - 2x*df(y(x),x) - y(x) = 0, y(x), x);
+
+
+                       4                 2      - 1/3             - 2/3  1/3
+{{y(x)=2*(4*arbparam(1)  - 12*arbparam(1)  + 9)      *arbparam(1)      *2
+
+  *arbconst(31)*arbparam(1),
+
+                    4                 2      - 1/3             - 2/3  1/3
+  x=2*(4*arbparam(1)  - 12*arbparam(1)  + 9)      *arbparam(1)      *2
+
+                           2                 4                 2      - 1/3
+  *arbconst(31)*arbparam(1)  - (4*arbparam(1)  - 12*arbparam(1)  + 9)
+
+               - 2/3  1/3
+  *arbparam(1)      *2   *arbconst(31),
+
+  arbparam(1)}}
+
+% This parametric solution is correct, cf. Zwillinger (1989) p.168 (41.10)
+% (except that first edition is missing the constant C)!
+
+% (18) Bernoulli 1
+odesolve(df(y(x),x) + y(x) = y(x)^3*sin x, y(x), x, explicit);
+
+
+{y(x)
+
+      2*x                                     - 1/2
+ =(5*e   *arbconst(32) + 2*cos(x) + 4*sin(x))      *sqrt(5)*plus_or_minus(tag_1)
+
+ }
+
+expand_plus_or_minus ws;
+
+
+          2*x                                     - 1/2
+{y(x)=(5*e   *arbconst(32) + 2*cos(x) + 4*sin(x))      *sqrt(5),
+
+             2*x                                     - 1/2
+ y(x)= - (5*e   *arbconst(32) + 2*cos(x) + 4*sin(x))      *sqrt(5)}
+
+
+% (19) Bernoulli 2
+operator P, Q;
+
+
+begin scalar soln, !*exp, !*allfac;  % for a neat solution
+   on allfac;
+   soln := odesolve(df(y(x),x) + P(x)*y(x) = Q(x)*y(x)^n, y(x), x);
+   off allfac;  return soln
+end;
+
+
+      - n          int(p(x),x)*n - int(p(x),x)
+{y(x)    *y(x)= - e
+
+                 int(p(x),x)
+                e           *q(x)
+ *((n - 1)*int(-------------------,x) - arbconst(33))}
+                  int(p(x),x)*n
+                 e
+
+odesolve(df(y(x),x) + P(x)*y(x) = Q(x)*y(x)^(2/3), y(x), x);
+
+
+     1/3   - 1/3*int(p(x),x)
+{y(x)   =e                  *arbconst(34)
+
+     1    - 1/3*int(p(x),x)      int(p(x),x)/3
+  + ---*e                  *int(e             *q(x),x)}
+     3
+
+
+% (20) Clairaut 1
+odesolve((x^2-1)*df(y(x),x)^2 - 2x*y(x)*df(y(x),x) + y(x)^2 - 1 = 0,
+   y(x), x, explicit);
+
+
+                                        2
+{y(x)=arbconst(35)*x + sqrt(arbconst(35)  + 1),
+
+                                        2
+ y(x)=arbconst(35)*x - sqrt(arbconst(35)  + 1),
+
+               2
+ y(x)=sqrt( - x  + 1),
+
+                  2
+ y(x)= - sqrt( - x  + 1)}
+
+
+% (21) Clairaut 2
+operator f, g;
+
+
+odesolve(f(x*df(y(x),x)-y(x)) = g(df(y(x),x)), y(x), x);
+
+
+{f(arbconst(36)*x - y(x)) - g(arbconst(36))=0}
+
+
+% (22) Equations of the form  y' = f(x,y)
+odesolve(df(y(x),x) = (3x^2-y(x)^2-7)/(exp(y(x))+2x*y(x)+1), y(x), x);
+
+
+                 y(x)       2             3
+{arbconst(37) + e     + y(x) *x + y(x) - x  + 7*x=0}
+
+
+% (23) Homogeneous
+odesolve(df(y(x),x) = (2x^3*y(x)-y(x)^4)/(x^4-2x*y(x)^3), y(x), x);
+
+
+                           3    3
+{arbconst(38)*y(x)*x + y(x)  + x =0}
+
+
+% (24) Factoring the equation
+odesolve(df(y(x),x)*(df(y(x),x)+y(x)) = x*(x+y(x)), y(x), x);
+
+
+        - x
+{y(x)=e    *arbconst(39) - x + 1,
+
+                      1   2
+ y(x)=arbconst(40) + ---*x }
+                      2
+
+
+% (25) Interchange variables
+% (NB: Soln in Zwillinger (1989) wrong, as is last eqn in Table 68!)
+odesolve(df(y(x),x) = x/(x^2*y(x)^2+y(x)^5), y(x), x);
+
+
+             3
+  2  2/3*y(x)                     3    3
+{x =e         *arbconst(41) - y(x)  - ---}
+                                       2
+
+
+% (26) Lagrange 1
+odesolve(y(x) = 2x*df(y(x),x) - a*df(y(x),x)^3, y(x), x);
+
+
+                                 -1    1             3
+{{y(x)=2*arbconst(42)*arbparam(2)   + ---*arbparam(2) *a,
+                                       2
+
+                            -2    3             2
+  x=arbconst(42)*arbparam(2)   + ---*arbparam(2) *a,
+                                  4
+
+  arbparam(2)}}
+
+odesolve(y(x) = 2x*df(y(x),x) - a*df(y(x),x)^3, y(x), x, implicit);
+
+
+                3  2                   2    2                        2
+{64*arbconst(43) *a  + 128*arbconst(43) *a*x  - 144*arbconst(43)*y(x) *a*x
+
+                     4          4            2  3
+  + 64*arbconst(43)*x  + 27*y(x) *a - 16*y(x) *x =0}
+
+% root_of quartic is VERY slow if explicit option used!
+
+% (27) Lagrange 2
+odesolve(y(x) = 2x*df(y(x),x) - df(y(x),x)^2, y(x), x);
+
+
+                                 -1    1             2
+{{y(x)=2*arbconst(44)*arbparam(3)   + ---*arbparam(3) ,
+                                       3
+
+                            -2    2
+  x=arbconst(44)*arbparam(3)   + ---*arbparam(3),
+                                  3
+
+  arbparam(3)}}
+
+odesolve(y(x) = 2x*df(y(x),x) - df(y(x),x)^2, y(x), x, implicit);
+
+
+                  2                                             3         3
+{ - 9*arbconst(45)  + 18*arbconst(45)*y(x)*x - 12*arbconst(45)*x  - 4*y(x)
+
+          2  2
+  + 3*y(x) *x =0}
+
+
+% (28) Riccati 1
+odesolve(df(y(x),x) = exp(x)*y(x)^2 - y(x) + exp(-x), y(x), x);
+
+
+         - x                         - x
+       e    *arbconst(46)*sin(x) - e    *cos(x)
+{y(x)=------------------------------------------}
+             arbconst(46)*cos(x) + sin(x)
+
+
+% (29) Riccati 2
+<< factor x;  write
+odesolve(df(y(x),x) = y(x)^2 - x*y(x) + 1, y(x), x);
+remfac x >>;
+
+
+                                 2
+                            1/2*x
+                         2*e      *arbconst(47)
+{y(x)=x + ----------------------------------------------------}
+                                                i*x
+           sqrt(pi)*sqrt(2)*arbconst(47)*erf(---------)*i - 2
+                                              sqrt(2)
+
+
+% (30) Separable
+odesolve(df(y(x),x) = (9x^8+1)/(y(x)^2+1), y(x), x);
+
+
+                      3               9
+{3*arbconst(48) + y(x)  + 3*y(x) - 3*x  - 3*x=0}
+
+
+% (31) Solvable for x
+odesolve(y(x) = 2x*df(y(x),x) + y(x)*df(y(x),x)^2, y(x), x);
+
+
+                                    -1
+{{y(x)= - 2*arbconst(49)*arbparam(4)  ,
+
+                               -2
+  x= - arbconst(49)*arbparam(4)   + arbconst(49),
+
+  arbparam(4)}}
+
+odesolve(y(x) = 2x*df(y(x),x) + y(x)*df(y(x),x)^2, y(x), x, implicit);
+
+
+                  2                          2
+{ - 4*arbconst(50)  + 4*arbconst(50)*x + y(x) =0}
+
+
+% (32) Solvable for y
+begin scalar !*allfac;  !*allfac := t;  return
+   odesolve(x = y(x)*df(y(x),x) - x*df(y(x),x)^2, y(x), x)
+end;
+
+
+                          2
+         - 1/2*arbparam(5)                           2
+{{y(x)=e                   *arbconst(51)*(arbparam(5)  + 1),
+
+                       2
+      - 1/2*arbparam(5)
+  x=e                   *arbconst(51)*arbparam(5),
+
+  arbparam(5)}}
+
+
+% (33) Autonomous 1
+odesolve(df(y(x),x,2)-df(y(x),x) = 2y(x)*df(y(x),x), y(x), x, explicit);
+
+
+{y(x)=
+
+     1                    1                               1
+  - ---*arbconst(52)*tan(---*arbconst(53)*arbconst(52) - ---*arbconst(52)*x)
+     2                    2                               2
+
+     1
+  - ---,
+     2
+
+ y(x)=arbconst(54)}
+
+
+% (34) Autonomous 2  (FJW: Slow without either algint or noint option.)
+odesolve(df(y(x),x,2)/y(x) - df(y(x),x)^2/y(x)^2 - 1 + 1/y(x)^3 = 0,
+   y(x), x, noint);
+
+
+{arbconst(57)*plus_or_minus(tag_4) + sqrt(3)
+
+                                     3                   3      - 1/2
+ *int(sqrt(y(x))*(3*arbconst(56)*y(x)  + 6*log(y(x))*y(x)  + 2)      ,y(x))
+
+  - plus_or_minus(tag_4)*x=0}
+
+
+% (35) Differentiation method
+odesolve(2y(x)*df(y(x),x,2) - df(y(x),x)^2 =
+   1/3(df(y(x),x) - x*df(y(x),x,2))^2, y(x), x, explicit);
+
+
+                  2  2                                                         2
+{y(x)=arbconst(59) *x  + 2*sqrt(3)*arbconst(59)*arbconst(58)*x + 4*arbconst(58)
+
+ ,
+
+                  2  2                                                         2
+ y(x)=arbconst(60) *x  - 2*sqrt(3)*arbconst(60)*arbconst(58)*x + 4*arbconst(58)
+
+ ,
+
+ y(x)=arbconst(61)}
+
+
+% (36) Equidimensional in x
+odesolve(x*df(y(x),x,2) = 2y(x)*df(y(x),x), y(x), x, explicit);
+
+
+          1
+{y(x)= - ---*arbconst(62)
+          2
+
+       1                               1                          1
+ *tan(---*arbconst(63)*arbconst(62) - ---*arbconst(62)*log(x)) - ---,
+       2                               2                          2
+
+ y(x)=arbconst(64)}
+
+
+% (37) Equidimensional in y
+odesolve((1-x)*(y(x)*df(y(x),x,2)-df(y(x),x)^2) + x^2*y(x)^2 = 0, y(x), x);
+
+
+                                             3        2
+        arbconst(66) + arbconst(65)*x + 1/6*x  + 1/2*x  - x        x
+       e                                                   *(x - 1)
+{y(x)=---------------------------------------------------------------}
+                                   x - 1
+
+
+% (38) Exact second order
+odesolve(x*y(x)*df(y(x),x,2) + x*df(y(x),x)^2 + y(x)*df(y(x),x) = 0,
+   y(x), x, explicit);
+
+
+{y(x)=sqrt( - arbconst(68) + log(x))*sqrt(arbconst(67))*sqrt(2),
+
+ y(x)= - sqrt( - arbconst(68) + log(x))*sqrt(arbconst(67))*sqrt(2),
+
+ y(x)=arbconst(69)}
+
+
+% (39) Factoring differential operator
+odesolve(df(y(x),x,2)^2 - 2df(y(x),x)*df(y(x),x,2) + 2y(x)*df(y(x),x) -
+   y(x)^2 = 0, y(x), x);
+
+
+       x                 x
+{y(x)=e *arbconst(71) + e *arbconst(70)*x,
+
+       x                  - x
+ y(x)=e *arbconst(73) + e    *arbconst(72)}
+
+
+% (40) Scale invariant (fails with algint option)
+odesolve(x^2*df(y(x),x,2) + 3x*df(y(x),x) = 1/(y(x)^3*x^4), y(x), x);
+
+
+{2*arbconst(75)*plus_or_minus(tag_7) + log(
+
+                        2      - 1/2                               2      - 1/2
+     - 2*(4*arbconst(74)  + 1)      *arbconst(74) + (4*arbconst(74)  + 1)
+
+                                2  2       4  4
+    *sqrt( - 4*arbconst(74)*y(x) *x  + y(x) *x  - 1)
+
+                      2      - 1/2     2  2
+     + (4*arbconst(74)  + 1)      *y(x) *x ) - 2*log(x)*plus_or_minus(tag_7)=0}
+
+
+% Revised scale-invariant example (hangs with algint option):
+ode := x^2*df(y(x),x,2) + 3x*df(y(x),x) + 2*y(x) = 1/(y(x)^3*x^4);
+
+
+                     2                               -3  -4
+ode := df(y(x),x,2)*x  + 3*df(y(x),x)*x + 2*y(x)=y(x)  *x
+
+% Choose full (explicit and expanded) solution:
+odesolve(ode, y(x), x, full);
+
+
+          1
+{y(x)= - ---*sqrt(15*arbconst(76)
+          2
+
+                            2                                         - 1/2  -1
+     - sqrt(225*arbconst(76)  - 64)*sin(2*arbconst(77) - 2*log(x)))*2      *x  ,
+
+          1
+ y(x)= - ---*sqrt(15*arbconst(76)
+          2
+
+                            2                                         - 1/2  -1
+     + sqrt(225*arbconst(76)  - 64)*sin(2*arbconst(77) - 2*log(x)))*2      *x  ,
+
+       1
+ y(x)=---*sqrt(15*arbconst(76)
+       2
+
+                                       2
+                - sqrt(225*arbconst(76)  - 64)*sin(2*arbconst(77) - 2*log(x)))
+
+    - 1/2  -1
+ *2      *x  ,
+
+       1
+ y(x)=---*sqrt(15*arbconst(76)
+       2
+
+                                       2
+                + sqrt(225*arbconst(76)  - 64)*sin(2*arbconst(77) - 2*log(x)))
+
+    - 1/2  -1
+ *2      *x  }
+           % or "explicit, expand"
+% Check it -- each solution should simplify to 0:
+foreach soln in ws collect
+   trigsimp sub(soln, num(lhs ode - rhs ode));
+
+
+{0,0,0,0}
+
+
+% (41) Autonomous, 3rd order
+odesolve((df(y(x),x)^2+1)*df(y(x),x,3) - 3df(y(x),x)*df(y(x),x,2)^2 = 0,
+   y(x), x);
+
+
+                                      2             2
+{y(x)=arbconst(81) + sqrt(arbconst(79) *arbconst(78)
+
+                                  2                                  2  2
+     - 2*arbconst(79)*arbconst(78) *x + 2*arbconst(79) + arbconst(78) *x  - 2*x)
+
+              -1
+ *arbconst(78)  *i,
+
+ y(x)=arbconst(82) + i*x,
+
+ y(x)=arbconst(83) - i*x,
+
+ y(x)=arbconst(84) + arbconst(80)*x}
+
+% odesolve((df(y(x),x)^2+1)*df(y(x),x,3) - 3df(y(x),x)*df(y(x),x,2)^2 = 0,
+%    y(x), x, implicit);
+% Implicit form is currently too messy!
+
+% (42) Autonomous, 4th order
+odesolve(3*df(y(x),x,2)*df(y(x),x,4) - 5df(y(x),x,3)^2 = 0, y(x), x);
+
+
+{y(x)=arbconst(89)*x + arbconst(88)
+
+                                                 -3
+  - 3*sqrt(arbconst(86) - x)*sqrt(6)*arbconst(85)  ,
+
+ y(x)=arbconst(91)*x + arbconst(90)
+
+                                                 -3
+  + 3*sqrt(arbconst(86) - x)*sqrt(6)*arbconst(85)  ,
+
+                                       1                2
+ y(x)=arbconst(93)*x + arbconst(92) + ---*arbconst(87)*x }
+                                       2
+
+
+
+% 1.3 Special equations
+% =====================
+
+% (43) Delay
+odesolve(df(y(x),x) + a*y(x-1) = 0, y(x), x);
+
+
+***** Arguments of y differ -- solving delay equations is not implemented.
+
+
+% (44) Functions with several parameters
+odesolve(df(y(x,a),x) = a*y(x,a), y(x,a), x);
+
+
+         a*x
+{y(x,a)=e   *arbconst(94)}
+
+
+
+% 2  Single equations with initial conditions
+% ===========================================
+
+% (45) Exact 4th order
+odesolve(df(y(x),x,4) = sin x, y(x), x,
+   {x=0, y(x)=0, df(y(x),x)=0, df(y(x),x,2)=0, df(y(x),x,3)=0});
+
+
+                1   3
+{y(x)=sin(x) + ---*x  - x}
+                6
+
+
+% (46) Linear polynomial coefficients -- Bessel J0
+odesolve(x*df(y(x),x,2) + df(y(x),x) + 2x*y(x) = 0, y(x), x,
+   {x=0, y(x)=1, df(y(x),x)=0});
+
+
+{y(x)=besselj(0,sqrt(2)*x)}
+
+
+% (47) Second-degree separable
+soln :=
+   odesolve(x*df(y(x),x)^2 - y(x)^2 + 1 = 0, y(x)=1, x=0, explicit);
+
+
+               1   2*sqrt(x)*plus_or_minus(tag_9)
+soln := {y(x)=---*e
+               2
+
+             1    - 2*sqrt(x)*plus_or_minus(tag_9)
+          + ---*e                                 }
+             2
+
+% Alternatively ...
+soln where e^~x => cosh x + sinh x;
+
+
+{y(x)=cosh(2*sqrt(x)*plus_or_minus(tag_9))}
+
+% but this works ONLY with `on div, intstr; off allfac;'
+% A better alternative is ...
+trigsimp(soln, hyp, combine);
+
+
+{y(x)=cosh(2*sqrt(x)*plus_or_minus(tag_9))}
+
+expand_plus_or_minus ws;
+
+
+{y(x)=cosh(2*sqrt(x))}
+
+
+% (48) Autonomous
+odesolve(df(y(x),x,2) + y(x)*df(y(x),x)^3 = 0, y(x), x,
+   {x=0, y(x)=0, df(y(x),x)=2});
+
+
+     3
+{y(x)  + 3*y(x) - 6*x=0}
+
+%% Only one explicit solution satisfies the conditions:
+begin scalar !*trode, !*fullroots;  !*fullroots := t;  return
+   odesolve(df(y(x),x,2) + y(x)*df(y(x),x)^3 = 0, y(x), x,
+      {x=0, y(x)=0, df(y(x),x)=2}, explicit);
+end;
+
+
+               2            1/3            2             - 1/3
+{y(x)=(sqrt(9*x  + 1) + 3*x)    - (sqrt(9*x  + 1) + 3*x)      }
+
+
+
+% 3  Systems of equations
+% =======================
+
+% (49) Integrable combinations
+operator x, z;
+
+
+odesolve({df(x(t),t) = -3y(t)*z(t), df(y(t),t) = 3x(t)*z(t),
+   df(z(t),t) = -x(t)*y(t)}, {x(t),y(t),z(t)}, t);
+
+
+odesolve-system({df(x(t),t) + 3*y(t)*z(t),
+
+                 df(y(t),t) - 3*x(t)*z(t),
+
+                 df(z(t),t) + x(t)*y(t)},{x(t),y(t),z(t)},t)
+
+
+% (50) Matrix Riccati
+operator a, b;
+
+
+odesolve({df(x(t),t) = a(t)*(y(t)^2-x(t)^2) + 2b(t)*x(t)*y(t) + 2c*x(t),
+   df(y(t),t) = b(t)*(y(t)^2-x(t)^2) - 2a(t)*x(t)*y(t) + 2c*y(t)},
+   {x(t),y(t)}, t);
+
+
+                          2            2
+odesolve-system({a(t)*x(t)  - a(t)*y(t)  - 2*b(t)*x(t)*y(t) + df(x(t),t)
+
+                  - 2*c*x(t),
+
+                                             2            2
+                 2*a(t)*x(t)*y(t) + b(t)*x(t)  - b(t)*y(t)  + df(y(t),t)
+
+                  - 2*c*y(t)},{x(t),y(t)},t)
+
+
+% (51) Triangular
+odesolve({df(x(t),t) = x(t)*(1 + cos(t)/(2+sin(t))),
+   df(y(t),t) = x(t) - y(t)}, {x(t),y(t)}, t);
+
+
+odesolve-system({( - cos(t)*x(t) + df(x(t),t)*sin(t) + 2*df(x(t),t)
+
+                     - sin(t)*x(t) - 2*x(t))/(sin(t) + 2),
+
+                 df(y(t),t) - x(t) + y(t)},{x(t),y(t)},t)
+
+
+% (52) Vector
+odesolve({df(x(t),t) = 9x(t) + 2y(t), df(y(t),t) = x(t) + 8y(t)},
+   {x(t),y(t)}, t);
+
+
+odesolve-system({df(x(t),t) - 9*x(t) - 2*y(t),
+
+                 df(y(t),t) - x(t) - 8*y(t)},{x(t),y(t)},t)
+
+
+% (53) Higher order
+odesolve({df(x(t),t) - x(t) + 2y(t) = 0,
+   df(x(t),t,2) - 2df(y(t),t) = 2t - cos(2t)}, {x(t),y(t)}, t);
+
+
+odesolve-system({df(x(t),t) - x(t) + 2*y(t),
+
+                 cos(2*t) + df(x(t),t,2) - 2*df(y(t),t) - 2*t},{x(t),y(t)},t)
+
+
+% (54) Inhomogeneous system
+equ := {df(x(t),t) = -1/(t*(t^2+1))*x(t) + 1/(t^2*(t^2+1))*y(t) + 1/t,
+        df(y(t),t) = -t^2/(t^2+1)*x(t) + (2t^2+1)/(t*(t^2+1))*y(t) + 1};
+
+
+                             -1         -2        -1
+                     - x(t)*t   + y(t)*t   + t + t
+equ := {df(x(t),t)=----------------------------------,
+                                  2
+                                 t  + 1
+
+                             2                    -1    2
+                     - x(t)*t  + 2*y(t)*t + y(t)*t   + t  + 1
+        df(y(t),t)=-------------------------------------------}
+                                      2
+                                     t  + 1
+
+odesolve(equ, {x(t),y(t)}, t);
+
+
+                              2                     -1         -1         -2
+                  df(x(t),t)*t  + df(x(t),t) - t + t  *x(t) - t   - y(t)*t
+odesolve-system({------------------------------------------------------------,
+                                             2
+                                            t  + 1
+
+                              2                 2         2
+                 (df(y(t),t)*t  + df(y(t),t) + t *x(t) - t  - 2*t*y(t)
+
+                             -1        2
+                     - y(t)*t   - 1)/(t  + 1)},{x(t),y(t)},t)
+
+
+end;
+
+
+
+Time for test: 20457 ms, plus GC time: 1387 ms
+

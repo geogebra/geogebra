@@ -1,0 +1,89 @@
+load_package redlog;
+
+
+rlset mri;
+
+
+
+{}
+
+on rlverbose;
+
+
+
+mrireal x,y;
+
+
+
+wex := ex(x,0<y-x and 4(y-x)<1 and cong(2x,1,2));
+
+
+wex := ex x (x - y < 0 and  - 4*x + 4*y - 1 < 0 and 2*x - 1 ~2~ 0)
+
+
+rlqe wex$
+
+++++++ MRI entering mri_qe
++++++ MRI current block is (ex x)
+++++ MRI picking next variable from (x) ... x (real)
++++ MRI expanding bounded quantifiers for real qe - no changes
++++ MRI truncating x
+x_trunc >= 0 and x_trunc - 1 < 0 and x_int + x_trunc - y < 0
+
+ and 4*x_int + 4*x_trunc - 4*y + 1 > 0 and 2*x_int + 2*x_trunc - 1 ~2~ 0
+
+++++ MRI introduced new quantified variables x_trunc and x_int for x
++++ MRI applying Lemma 3.3 (remove x_trunc from floors) - no changes
++++ MRI applying Theorem 3.1 Case 2 (remove x_trunc from congruences)
+x_trunc >= 0 and x_trunc - 1 < 0 and x_int + x_trunc - y < 0
+
+ and 4*x_int + 4*x_trunc - 4*y + 1 > 0 and 2*x_trunc - 1 = 0
+
++++ MRI entering real qe for x_trunc ... finished
+2*x_int - 2*y + 1 < 0 and 4*x_int - 4*y + 3 > 0
+
+++++ MRI picking next variable from (x_int) ... x_int (integer)
++++ MRI applying Lemma 3.2 (remove x_int from floors) - no changes
++++ MRI applying Theorem 3.1 Case 1 (restrict x_int to integer atfs)
+([2*y] - 2*x_int - 1 > 0 or ([2*y] - 2*x_int - 1 = 0 and [2*y] - 2*y < 0))
+
+ and [4*y] - 4*x_int - 2 <= 0
+
++++ MRI entering integer qe for x_int ... finished
+([4*y] - 2*[2*y] <= 0 and [2*y] - 2*y < 0 and [2*y] + 1 ~2~ 0) or bex g0002 [0
+
+ <= g0002 <= 4] ([4*y] - 2*[2*y] + g0002 < 0 and [4*y] + g0002 + 2 ~4~ 0) or bex
+
+ g0002 [ - 2 <= g0002 <= 0] ([4*y] - 2*[2*y] - 2*g0002 <= 0
+
+ and [2*y] + g0002 + 1 ~2~ 0)
+
+
+
+rlexpand ws;
+
+
+([4*y] - 2*[2*y] <= 0 and [2*y] - 2*y < 0 and [2*y] + 1 ~2~ 0)
+
+ or ([4*y] - 2*[2*y] + 4 < 0 and [4*y] + 2 ~4~ 0)
+
+ or ([4*y] - 2*[2*y] + 3 < 0 and [4*y] + 1 ~4~ 0)
+
+ or ([4*y] - 2*[2*y] + 2 < 0 and [4*y] ~4~ 0)
+
+ or ([4*y] - 2*[2*y] + 1 < 0 and [4*y] + 3 ~4~ 0)
+
+ or ([4*y] - 2*[2*y] < 0 and [4*y] + 2 ~4~ 0)
+
+ or ([4*y] - 2*[2*y] + 1 < 0 and [2*y] ~2~ 0)
+
+ or ([4*y] - 2*[2*y] + 3 < 0 and [2*y] + 1 ~2~ 0)
+
+
+end;
+
+Tested on x86_64-unknown-ubuntu11.04 CSL
+Time (counter 1): 0 ms
+real	0m0.193s
+user	0m0.120s
+sys	0m0.000s

@@ -1,0 +1,39 @@
+GUARDIAN:
+An experimental REDUCE package for computing with guarded expressions
+------------------------------------------------------------------------
+
+
+This package requires the package REDLOG.
+
+GUARDIAN has originally been described in the following technical report:
+
+Andreas Dolzmann and Thomas Sturm. Guarded expressions in practice.
+Technical Report MIP-9702, FMI, Universitaet Passau, D-94030 Passau,
+Germany, January 1997.
+
+A revised version of this report has appeared in:
+
+Andreas Dolzmann and Thomas Sturm. Guarded expressions in practice. In
+Wolfgang W. Kuechlin, editor, Proceedings of the 1997 International
+Symposium on Symbolic and Algebraic Computation (ISSAC 97), pages
+376-383, New York, July 1997. ACM, ACM Press.
+
+The file guardian.tex in this directory is essentially the text of MIP-9702.
+
+Switches and Commands:
+
+1. Use the switch "guardian" for turning the GUARDIAN on/off. After
+loading the package, it is on. Note that REDLOG procedures cannot be
+called with "guardian" on.
+
+2. The "smart mode" is toggled by the switch "gdsmart." It is on by
+default.
+
+3. Output mode can be selected using the function "gdomode." Possible
+choices:
+   a) gdomode matrix;
+   b) gdomode gcase;
+   c) gdomode gterm;
+
+
+Thomas Sturm, October 2009

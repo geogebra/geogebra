@@ -1,0 +1,332 @@
+% Tests and demonstrations for the ODESolve 1+ package --
+% an updated version of the original odesolve test file.
+
+% Original Author: M. A. H. MacCallum
+% Maintainer: F.J.Wright@Maths.QMW.ac.uk
+
+ODESolve_version;
+
+
+ODESolve 1.065
+
+on trode, combinelogs;
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% First-order differential equations
+% (using automatic variable and dependence declaration).
+
+% First-order quadrature case:
+odesolve(df(y,x) - x^2 - e^x);
+
+
+*** Dependent var(s) assumed to be y 
+
+*** Independent var assumed to be x 
+
+*** depend y , x
+This is a linear ODE of order 1.
+It is solved by quadrature.
+
+                       x    3
+    3*arbconst(1) + 3*e  + x
+{y=---------------------------}
+                3
+
+
+% First-order linear equation, with initial condition y = 1 at x = 0:
+odesolve(df(y,x) + y * tan x - sec x, y, x, {x=0, y=1});
+
+This is a linear ODE of order 1.
+It is solved by the integrating factor method.
+
+General solution is {y=arbconst(2)*cos(x) + sin(x)}
+
+
+Applying conditions {{x=0,y=1}}
+
+
+{y=cos(x) + sin(x)}
+
+odesolve(cos x * df(y,x) + y * sin x - 1, y, x, {x=0, y=1});
+
+This is a linear ODE of order 1.
+It is solved by the integrating factor method.
+
+General solution is {y=arbconst(3)*cos(x) + sin(x)}
+
+
+Applying conditions {{x=0,y=1}}
+
+
+{y=cos(x) + sin(x)}
+
+
+% A simple separable case:
+odesolve(df(y,x) - y^2, y, x, explicit);
+
+This is a nonlinear ODE of order 1.
+It is separable.
+
+Solution before trying to solve for dependent variable is 
+
+arbconst(4)*y - x*y - 1=0
+
+
+           1
+{y=-----------------}
+    arbconst(4) - x
+
+
+% A separable case, in different variables, with the initial condition
+% z = 2 at w = 1/2:
+odesolve((1-z^2)*w*df(z,w)+(1+w^2)*z, z, w, {w=1/2, z=2});
+
+
+*** depend z , w
+This is a nonlinear ODE of order 1.
+It is separable.
+
+                                                   2    2
+General solution is {4*arbconst(5) - 2*log(w*z) - w  + z =0}
+
+
+                         1
+Applying conditions {{w=---,z=2}}
+                         2
+
+
+                    2      2
+{ - 8*log(w*z) - 4*w  + 4*z  - 15=0}
+
+
+% Now a homogeneous one:
+odesolve(df(y,x) - (x-y)/(x+y), y, x);
+
+This is a nonlinear ODE of order 1.
+It is of algebraically homogeneous type 
+solved by a change of variables of the form `y = vx'.
+
+                        2            2
+{arbconst(6) + sqrt( - x  + 2*x*y + y )=0}
+
+
+% Reducible to homogeneous:
+% (Note this is the previous example with origin shifted.)
+odesolve(df(y,x) - (x-y-3)/(x+y-1), y, x);
+
+This is a nonlinear ODE of order 1.
+It is quasi-homogeneous if the result of shifting the origin is homogeneous ...
+It is of algebraically homogeneous type 
+solved by a change of variables of the form `y = vx'.
+
+                        2                  2
+{arbconst(7) + sqrt( - x  + 2*x*y + 6*x + y  - 2*y - 7)=0}
+
+
+% and the special case of reducible to homogeneous:
+odesolve(df(y,x) - (2x+3y+1)/(4x+6y+1), y, x);
+
+This is a nonlinear ODE of order 1.
+
+                                   2
+It is separable after letting y + ---*x => y
+                                   3
+
+
+{49*arbconst(8) - 3*log(14*x + 21*y + 5) - 21*x + 42*y=0}
+
+
+% A Bernoulli equation:
+odesolve(x*(1-x^2)*df(y,x) + (2x^2 -1)*y - x^3*y^3, y, x);
+
+This is a nonlinear ODE of order 1.
+It is of Bernoulli type.
+
+                          5
+  1    5*arbconst(9) + 2*x
+{----=----------------------}
+   2          4      2
+  y        5*x  - 5*x
+
+
+% and finally, in this set, an exact case:
+odesolve((2x^3 - 6x*y + 6x*y^2) + (-3x^2 + 6x^2*y - y^3)*df(y,x), y, x);
+
+This is a nonlinear ODE of order 1.
+It is exact and is solved by quadrature.
+
+                     4       2  2       2      4
+{4*arbconst(10) + 2*x  + 12*x *y  - 12*x *y - y =0}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Now for higher-order linear equations with constant coefficients
+
+% First, examples without driving terms
+% A simple one to start:
+odesolve(6df(y,x,2) + df(y,x) - 2y, y, x);
+
+This is a linear ODE of order 2.
+It has constant coefficients.
+
+     (7*x)/6
+    e       *arbconst(12) + arbconst(11)
+{y=--------------------------------------}
+                   (2*x)/3
+                  e
+
+
+% An example with repeated and complex roots:
+odesolve(ode := df(y,x,4) + 2df(y,x,2) + y, y, x);
+
+This is a linear ODE of order 4.
+It has constant coefficients.
+
+{y=arbconst(16)*sin(x) + arbconst(15)*cos(x) + arbconst(14)*sin(x)*x
+
+  + arbconst(13)*cos(x)*x}
+
+
+% A simple right-hand-side using the above example:
+odesolve(ode = exp(x), y, x);
+
+This is a linear ODE of order 4.
+It has constant coefficients.
+Constructing particular integral using `D-operator method'.
+
+{y=(4*arbconst(20)*sin(x) + 4*arbconst(19)*cos(x) + 4*arbconst(18)*sin(x)*x
+
+                                  x
+     + 4*arbconst(17)*cos(x)*x + e )/4}
+
+
+ode := df(y,x,2) + 4df(y,x) + 4y - x*exp(x);
+
+
+                                x
+ode := df(y,x,2) + 4*df(y,x) - e *x + 4*y
+
+% At x=1 let y=0 and df(y,x)=1:
+odesolve(ode, y, x, {x=1, y=0, df(y,x)=1});
+
+This is a linear ODE of order 2.
+It has constant coefficients.
+Constructing particular integral using `D-operator method'.
+
+                                                                 3*x        3*x
+                        27*arbconst(22) + 27*arbconst(21)*x + 3*e   *x - 2*e
+General solution is {y=---------------------------------------------------------
+                                                    2*x
+                                                27*e
+
+   }
+
+
+Applying conditions {{x=1,y=0,df(y,x)=1}}
+
+
+       3*x        3*x      3        3       2         2
+    3*e   *x - 2*e    - 6*e *x + 5*e  + 27*e *x - 27*e
+{y=-----------------------------------------------------}
+                              2*x
+                          27*e
+
+
+% For simultaneous equations you can use the machine, e.g. as follows:
+
+depend z,x;
+
+
+ode1 := df(y,x,2) + 5y - 4z + 36cos(7x);
+
+
+ode1 := 36*cos(7*x) + df(y,x,2) + 5*y - 4*z
+
+ode2 := y + df(z,x,2) - 99cos(7x);
+
+
+ode2 :=  - 99*cos(7*x) + df(z,x,2) + y
+
+ode := df(ode1,x,2) + 4ode2;
+
+
+ode :=  - 2160*cos(7*x) + df(y,x,4) + 5*df(y,x,2) + 4*y
+
+y := rhs first odesolve(ode, y, x);
+
+This is a linear ODE of order 4.
+It has constant coefficients.
+Constructing particular integral using `D-operator method'.
+
+y := arbconst(26)*sin(x) + arbconst(25)*cos(x) + arbconst(24)*sin(2*x)
+
+      + arbconst(23)*cos(2*x) + cos(7*x)
+
+z := rhs first solve(ode1,z);
+
+
+z := (4*arbconst(26)*sin(x) + 4*arbconst(25)*cos(x) + arbconst(24)*sin(2*x)
+
+       + arbconst(23)*cos(2*x) - 8*cos(7*x))/4
+
+clear ode1, ode2, ode, y, z;
+
+
+nodepend z,x;
+
+
+
+% A "homogeneous" n-th order (Euler) equation:
+odesolve(x*df(y,x,2) + df(y, x) + y/x + (log x)^3, y, x);
+
+This is a linear ODE of order 2.
+It has non-constant coefficients.
+It is of the homogeneous (Euler) type and is reducible to a simpler ODE ...
+It has constant coefficients.
+Constructing particular integral using `D-operator method'.
+
+                                                                    3
+{y=(2*arbconst(28)*sin(log(x)) + 2*arbconst(27)*cos(log(x)) - log(x) *x
+
+               2
+     + 3*log(x) *x - 3*log(x)*x)/2}
+
+
+% The solution here remains symbolic (because neither REDUCE nor Maple
+% can evaluate the resulting integral):
+odesolve(6df(y,x,2) + df(y,x) - 2y + tan x, y, x);
+
+This is a linear ODE of order 2.
+It has constant coefficients.
+Constructing particular integral using `D-operator method'.
+But cannot evaluate the integrals, so ...
+Constructing particular integral using `variation of parameters'.
+
+                    7
+The Wronskian is --------
+                     x/6
+                  6*e
+
+
+       (7*x)/6                                  (7*x)/6        sin(x)
+{y=(7*e       *arbconst(30) + 7*arbconst(29) - e       *int(-------------,x)
+                                                              x/2
+                                                             e   *cos(x)
+
+             (2*x)/3
+            e       *sin(x)          (2*x)/3
+     + int(-----------------,x))/(7*e       )}
+                cos(x)
+
+
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 273 ms  plus GC time: 11 ms
+real	0m0.730s
+user	0m0.015s
+sys	0m0.091s

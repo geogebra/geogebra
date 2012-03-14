@@ -1,0 +1,289 @@
+COMMENT
+        test file for the PHYSOP package;
+
+% load_package physop;  % Load a compiled version of the physop package.
+% showtime;
+linelength(72)$
+
+
+% Example 1: Quantum Mechanics of a Dirac particle in an external
+%                      electromagnetic field
+VECOP P,A,K;
+
+
+SCALOP M;
+
+
+NONCOM P,A;
+
+
+PHYSINDEX J,L;
+
+
+oporder M,K,A,P;
+
+
+
+% we have to set off allfac here since otherwise there appear
+% spurious negative powers in the printed output
+ off allfac;
+
+
+FOR ALL J,L LET COMM(P(J),A(L))=K(J)*A(L);
+
+
+H:= COMMUTE(P**2/(2*M),E/(4*M**2)*(P DOT A));
+
+
+            -1    -1    -1
+h := (2*e*(m  )*(m  )*(m  )*k(idx1)*a(idx2)*p(idx1)*p(idx2)
+
+             -1    -1    -1
+       + e*(m  )*(m  )*(m  )*k(idx1)*k(idx1)*a(idx2)*p(idx2)
+
+             -1    -1    -1
+       + e*(m  )*(m  )*(m  )*k(idx1)*k(idx1)*k(idx2)*a(idx2)
+
+               -1    -1    -1
+       + 2*e*(m  )*(m  )*(m  )*k(idx1)*k(idx2)*a(idx2)*p(idx1))/8
+
+% showtime;
+%assign the corresponding value to the adjoint of H
+H!+ := adj H;
+
+
+  +                +          +          +          +      -1      -1
+(h ) := (e*(a(idx2) )*(k(idx1) )*(k(idx1) )*(k(idx2) )*(m!+  )*(m!+  )
+
+              -1                +          +          +          +
+         *(m!+  ) + 2*e*(p(idx1) )*(a(idx2) )*(k(idx1) )*(k(idx2) )
+
+              -1      -1      -1                +          +          +
+         *(m!+  )*(m!+  )*(m!+  ) + 2*e*(p(idx1) )*(p(idx2) )*(a(idx2) )
+
+                  +      -1      -1      -1              +          +
+         *(k(idx1) )*(m!+  )*(m!+  )*(m!+  ) + e*(p(idx2) )*(a(idx2) )
+
+                  +          +      -1      -1      -1
+         *(k(idx1) )*(k(idx1) )*(m!+  )*(m!+  )*(m!+  ))/8
+
+% showtime;
+% note the ordering of operators in the result!
+% enhance the readability of the output
+ on allfac;
+
+
+ON CONTRACT;
+
+
+H;
+
+
+       3
+(e*m!-1
+
+                                            2            2
+ *(2*a dot p*k dot p + 2*k dot a*k dot p + k *a dot p + k *k dot a))/8
+
+% showtime;
+% Example 2: Virasoro Algebra from Conformal Field Theory
+
+
+operator  del;
+
+  % this is just a definition of a delta function
+for all n such that numberp n let del(n) =
+     if n=0 then 1
+     else 0;
+
+
+
+scalop l;
+
+
+noncom l,l;
+
+
+state bra,ket;
+
+
+% commutation relation of the operator l;
+for all n,m let comm(l(n),l(m)) =
+      (m-n)*l(n+m)+c/12*(m**3-m)*del(n+m)*unit;
+
+ %modified 1.1
+
+for all n let l!+(n) = l(-n);
+
+
+
+
+% relation for the states
+for all h let bra!+(h) = ket(h);
+
+
+for all p,q let bra(q) | ket(p) = del(p-q);
+
+
+
+for all r,h such that r < 0 or (r <2 and h=0) let
+             l(r) | ket(h) = 0;
+
+
+
+for all r,h such that r > 0 or (r  > -2 and h = 0) let
+             bra(h) | l(r) = 0;
+
+
+
+% define a procedure to calculate V.E.V.
+procedure Vak(X);
+bra(0) | X | ket(0);
+
+
+vak
+
+
+% and now some calculations;
+MA:= adj(l(3)*l(5))*l(3)*l(5);
+
+
+ma := 2*l(8)*l(-3)*l(-5) + 4*l(8)*l(-8) + l(5)*l(3)*l(-3)*l(-5)
+
+       + 2*l(5)*l(3)*l(-8) + 6*l(5)*l(0)*l(-5) + 8*l(5)*l(-2)*l(-3)
+
+       + 60*l(5)*l(-5) + 8*l(3)*l(2)*l(-5) + 10*l(3)*l(0)*l(-3)
+
+                                                 2
+       + 112*l(3)*l(-3) + 64*l(2)*l(-2) + 60*l(0)  + 556*l(0)
+
+             2
+       + 20*c *unit + 2*c*l(5)*l(-5) + 10*c*l(3)*l(-3) + 80*c*l(0)
+
+       + 332*c*unit
+  %modified 1.1
+% showtime;
+
+% here is the VEV of m
+vak(Ma);
+
+
+4*c*(5*c + 83)
+
+% showtime;
+% and now calculate another matrix element
+
+matel := bra(1) | ma  | ket(1);
+
+        *************** WARNING: ***************
+Evaluation incomplete due to missing elementary relations
+
+matel := bra(1) | (l(0) | 556*ket(1)) + bra(1) | (l(0) | 80*c*ket(1))
+
+                                                   2
+          + bra(1) | (l(0)*l(0) | 60*ket(1)) + 20*c  + 332*c
+  %modified 1.1
+% showtime;
+% this evaluation is incomplete so supply the missing relation
+for all h let l(0) | ket(h) = h*ket(h);
+
+
+% and reevaluate matel
+matel := matel;
+
+
+               2
+matel := 4*(5*c  + 103*c + 154)
+
+% showtime;
+
+
+% Example 4: some manipulations with gamma matrices to demonstrate
+%            the use of commutators and anticommutators
+
+
+off allfac;
+
+
+vecop gamma,q;
+
+
+tensop sigma(2);
+
+
+antisymmetric sigma;
+
+
+noncom gamma,gamma;
+
+
+noncom sigma,gamma;
+
+
+physindex mu,nu;
+
+
+operator delta;
+
+
+for all mu,nu let anticomm(gamma(mu),gamma(nu))=2*delta(mu,nu)*unit,
+                  comm(gamma(mu),gamma(nu))=2*I*sigma(mu,nu);
+
+
+
+oporder p,q,gamma,sigma;
+
+
+off allfac;
+
+
+on anticom;
+
+
+(gamma dot p)*(gamma dot q);
+
+
+p(idx4)*q(idx5)*gamma(idx4)*gamma(idx5)
+
+% showtime;
+
+off anticom;
+
+
+(gamma dot p)*(gamma dot q);
+
+
+p(idx6)*q(idx7)*gamma(idx6)*gamma(idx7)
+
+% showtime;
+
+commute((gamma dot p),(gamma dot q));
+
+
+2*i*p(idx8)*q(idx9)*sigma(idx8,idx9)
+
+% showtime;
+anticommute((gamma dot p),(gamma dot q));
+
+
+2*p(idx10)*q(idx11)*gamma(idx10)*gamma(idx11)
+
+ - 2*i*p(idx10)*q(idx11)*sigma(idx10,idx11)
+
+on anticom;
+
+
+anticommute((gamma dot p),(gamma dot q));
+
+
+2*delta(idx13,idx12)*p(idx12)*q(idx13)
+
+% showtime;
+
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 24 ms
+real	0m0.424s
+user	0m0.045s
+sys	0m0.060s

@@ -1,0 +1,2594 @@
+% Test of Assist Package version 2.31.
+% DATE : 30 August 1996
+% Author: H. Caprasse <hubert.caprasse@ulg.ac.be>
+%load_package assist$
+
+Comment 2. HELP for ASSIST:;
+
+;
+
+
+assist();
+
+
+ Argument of ASSISTHELP must be an integer between 3 and 14. 
+
+ Each integer corresponds to a section number in the documentation:
+
+ 3: switches    4: lists        5: bags      6: sets 
+
+ 7: utilities   8: properties and flags  9: control functions 
+
+ 10: handling of polynomials 
+
+ 11: handling of transcendental functions
+
+ 12: handling of n-dimensional vectors 
+
+ 13: grassmann variables           14: matrices
+
+;
+
+
+assisthelp(7);
+
+
+{{mkidnew,list_to_ids,oddp,followline,detidnum,dellastdigit,==},
+
+ {randomlist,mkrandtabl},
+
+ {permutations,perm_to_num,num_to_perm,combnum,combinations,cyclicpermlist,
+
+  symmetrize,remsym},
+
+ {extremum,sortnumlist,sortlist,algsort},
+
+ {funcvar,implicit,depatom,explicit,simplify,korderlist,remcom},
+
+ {checkproplist,extractlist,array_to_list,list_to_array},
+
+ {remvector,remindex,mkgam}}
+
+;
+
+
+Comment 3. CONTROL OF SWITCHES:;
+
+;
+
+
+switches;
+
+
+      **** exp:=t .................... allfac:= t ****
+
+      **** ezgcd:=nil ................. gcd:= nil ****
+
+      **** mcd:=t ....................... lcm:= t ****
+
+      **** div:=nil ................... rat:= nil ****
+
+      **** intstr:=nil ........... rational:= nil ****
+
+      **** precise:=t ............. reduced:= nil ****
+
+      **** complex:=nil ....... rationalize:= nil ****
+
+      **** factor:= nil ....... combineexpt:= nil ****
+
+      **** revpri:= nil ........ distribute:= nil ****
+off exp;
+
+ on gcd;
+
+ off precise;
+
+
+switches;
+
+
+      **** exp:=nil .................... allfac:= t ****
+
+      **** ezgcd:=nil ................. gcd:= t ****
+
+      **** mcd:=t ....................... lcm:= t ****
+
+      **** div:=nil ................... rat:= nil ****
+
+      **** intstr:=nil ........... rational:= nil ****
+
+      **** precise:=nil ............. reduced:= nil ****
+
+      **** complex:=nil ....... rationalize:= nil ****
+
+      **** factor:= nil ....... combineexpt:= nil ****
+
+      **** revpri:= nil ........ distribute:= nil ****
+switchorg;
+
+
+switches;
+
+
+      **** exp:=t .................... allfac:= t ****
+
+      **** ezgcd:=nil ................. gcd:= nil ****
+
+      **** mcd:=t ....................... lcm:= t ****
+
+      **** div:=nil ................... rat:= nil ****
+
+      **** intstr:=nil ........... rational:= nil ****
+
+      **** precise:=t ............. reduced:= nil ****
+
+      **** complex:=nil ....... rationalize:= nil ****
+
+      **** factor:= nil ....... combineexpt:= nil ****
+
+      **** revpri:= nil ........ distribute:= nil ****
+;
+
+
+if !*mcd then "the switch mcd is on";
+
+
+the switch mcd is on
+
+if !*gcd then "the switch gcd is on";
+
+
+;
+
+
+Comment 4. MANIPULATION OF THE LIST STRUCTURE:;
+
+;
+
+
+t1:=mklist(5);
+
+
+t1 := {0,0,0,0,0}
+
+
+Comment   MKLIST does NEVER destroy anything ;
+
+
+mklist(t1,10);
+
+
+{0,0,0,0,0,0,0,0,0,0}
+
+mklist(t1,3);
+
+
+{0,0,0,0,0}
+
+;
+
+
+sequences 3;
+
+
+{{0,0,0},
+
+ {1,0,0},
+
+ {0,1,0},
+
+ {1,1,0},
+
+ {0,0,1},
+
+ {1,0,1},
+
+ {0,1,1},
+
+ {1,1,1}}
+
+lisp;
+
+
+nil
+
+sequences 3;
+
+
+((0 0 0) (1 0 0) (0 1 0) (1 1 0) (0 0 1) (1 0 1) (0 1 1) (1 1 1))
+
+algebraic;
+
+
+;
+
+
+for i:=1:5 do t1:= (t1.i:=mkid(a,i));
+
+
+t1;
+
+
+{a1,
+
+ a2,
+
+ a3,
+
+ a4,
+
+ a5}
+
+;
+
+
+t1.5;
+
+
+a5
+
+;
+
+
+t1:=(t1.3).t1;
+
+
+t1 := {a3,a1,a2,a3,a4,a5}
+
+;
+
+
+% Notice the blank spaces ! in the following illustration: 
+1 . t1;
+
+
+{1,a3,a1,a2,a3,a4,a5}
+
+;
+
+
+% Splitting of a list:
+split(t1,{1,2,3});
+
+
+{{a3},
+
+ {a1,a2},
+
+ {a3,a4,a5}}
+ 
+;
+
+
+% It truncates the list :
+split(t1,{3});
+
+
+{{a3,a1,a2}}
+
+;
+
+
+% A KERNEL may be coerced to a list:
+kernlist sin x;
+
+
+{x}
+
+;
+
+
+% algnlist constructs a list which contains n-times a given list 
+algnlist(t1,2);
+
+
+{{a3,
+
+  a1,
+
+  a2,
+
+  a3,
+
+  a4,
+
+  a5},
+
+ {a3,
+
+  a1,
+
+  a2,
+
+  a3,
+
+  a4,
+
+  a5}}
+ 
+;
+
+
+% Delete :
+
+delete(x, {a,b,x,f,x});
+
+
+{a,b,f,x}
+
+;
+
+
+% delete_all eliminates ALL occurences of x: 
+delete_all(x,{a,b,x,f,x});
+
+
+{a,b,f}
+
+;
+
+
+remove(t1,4);
+
+
+{a3,a1,a2,a4,a5}
+
+;
+
+
+% delpair deletes a pair if it is possible.
+delpair(a1,pair(t1,t1));
+
+
+{{a3,a3},
+
+ {a2,a2},
+
+ {a3,a3},
+
+ {a4,a4},
+
+ {a5,a5}}
+
+;
+
+ 
+elmult(a1,t1);
+
+
+1
+
+;
+
+
+frequency append(t1,t1);
+
+
+{{a3,4},
+
+ {a1,2},
+
+ {a2,2},
+
+ {a4,2},
+
+ {a5,2}}
+
+;
+
+
+insert(a1,t1,3);
+
+
+{a3,a1,a1,a2,a3,a4,a5}
+
+;
+
+
+li:=list(1,2,5);
+
+
+li := {1,2,5}
+
+;
+
+
+%  Not to destroy an already ordered list during insertion:
+insert_keep_order(4,li,lessp);
+
+
+{1,2,4,5}
+
+insert_keep_order(bb,t1,ordp);
+
+
+{a3,
+
+ a1,
+
+ a2,
+
+ a3,
+
+ a4,
+
+ a5,
+
+ bb}
+
+;
+
+
+% the same function when appending two correctly ORDERED lists:
+merge_list(li,li,<);
+
+
+{1,1,2,2,5,5}
+
+;
+
+
+merge_list({5,2,1},{5,2,1},geq);
+
+
+{5,5,2,2,1,1}
+
+;
+
+
+depth list t1;
+
+
+2
+
+;
+
+
+depth a1;
+
+
+0
+
+% Any list can be flattened into a list of depth 1:
+mkdepth_one {1,{{a,b,c}},{c,{{d,e}}}};
+
+
+{1,
+
+ a,
+
+ b,
+
+ c,
+
+ c,
+
+ d,
+
+ e}
+
+position(a2,t1);
+
+
+3
+
+appendn(li,li,li);
+
+
+{1,2,5,1,2,5,1,2,5}
+
+;
+
+
+clear t1,li;
+
+
+comment 5. THE BAG STRUCTURE AND OTHER FUNCTION FOR LISTS AND BAGS.
+ ;
+
+aa:=bag(x,1,"A");
+
+
+aa := bag(x,1,A)
+
+putbag bg1,bg2;
+
+
+t
+
+on errcont;
+
+
+putbag list;
+
+
+***** list invalid as BAG
+
+off errcont;
+
+
+aa:=bg1(x,y**2);
+
+
+             2
+aa := bg1(x,y )
+
+;
+
+
+if bagp aa then "this is a bag";
+
+
+this is a bag
+
+;
+
+
+% A bag is a composite object:
+clearbag bg2;
+
+
+;
+
+
+depth bg2(x);
+
+
+0
+
+;
+
+
+depth bg1(x);
+
+
+1
+
+;
+
+
+if baglistp aa then "this is a bag or list";
+
+
+this is a bag or list
+
+if baglistp {x} then "this is a bag or list";
+
+
+this is a bag or list
+
+if bagp {x} then "this is a bag";
+
+
+if bagp aa then "this is a bag";
+
+
+this is a bag
+
+;
+
+
+ab:=bag(x1,x2,x3);
+
+
+ab := bag(x1,x2,x3)
+
+al:=list(y1,y2,y3);
+
+
+al := {y1,y2,y3}
+
+% The basic lisp functions are also active for bags:
+first ab;
+
+
+bag(x1)
+  third ab;
+
+
+bag(x3)
+  first al;
+
+
+y1
+
+last ab;
+
+
+bag(x3)
+ last al;
+
+
+y3
+
+belast ab;
+
+
+bag(x1,x2)
+ belast al;
+
+
+{y1,y2}
+ belast {a,b,a,b,a};
+
+
+{a,b,a,b}
+
+rest ab;
+
+
+bag(x2,x3)
+ rest al;
+
+
+{y2,y3}
+
+
+;
+
+
+% The "dot" plays the role of the function "part":
+ab.1;
+
+
+x1
+ al.3;
+
+
+y3
+
+on errcont;
+
+
+ab.4;
+
+
+*** Expression bag(x1,x2,x3) does not have part 4
+
+0
+
+off errcont;
+
+
+a.ab;
+
+
+bag(a,x1,x2,x3)
+
+% ... but notice
+1 . ab;
+
+
+bag(1,x1,x2,x3)
+
+% Coercion from bag to list and list to bag:
+kernlist(aa);
+
+
+    2
+{x,y }
+
+;
+
+
+listbag(list x,bg1);
+
+
+bg1(x)
+
+;
+
+
+length ab;
+
+
+3
+
+;
+
+
+remove(ab,3);
+
+
+bag(x1,x2)
+
+;
+
+
+delete(y2,al);
+
+
+{y1,y3}
+
+;
+
+
+reverse al;
+
+
+{y3,y2,y1}
+
+;
+
+
+member(x3,ab);
+
+
+bag(x3)
+
+;
+
+
+al:=list(x**2,x**2,y1,y2,y3);
+
+
+        2
+al := {x ,
+
+        2
+       x ,
+
+       y1,
+
+       y2,
+
+       y3}
+
+;
+
+
+elmult(x**2,al);
+
+
+2
+
+;
+
+
+position(y3,al);
+
+
+5
+
+;
+
+
+repfirst(xx,al);
+
+
+     2
+{xx,x ,y1,y2,y3}
+
+;
+
+
+represt(xx,ab);
+
+
+bag(x1,xx)
+
+;
+
+
+insert(x,al,3);
+
+
+  2  2
+{x ,x ,x,y1,y2,y3}
+
+insert( b,ab,2);
+
+
+bag(x1,b,xx)
+
+insert(ab,ab,1);
+
+
+bag(bag(x1,xx),x1,xx)
+
+;
+
+
+substitute (new,y1,al);
+
+
+  2  2
+{x ,x ,new,y2,y3}
+
+;
+
+
+appendn(ab,ab,ab);
+
+
+{x1,xx,x1,xx,x1,xx}
+
+;
+
+
+append(ab,al);
+
+
+           2  2
+bag(x1,xx,x ,x ,y1,y2,y3)
+
+append(al,ab);
+
+
+  2  2
+{x ,x ,y1,y2,y3,x1,xx}
+
+clear ab;
+
+ a1;
+
+
+a1
+
+;
+
+comment Association list or bag may be constructed and thoroughly used;
+
+;
+
+
+l:=list(a1,a2,a3,a4);
+
+
+l := {a1,a2,a3,a4}
+
+b:=bg1(x1,x2,x3);
+
+
+b := bg1(x1,x2,x3)
+
+al:=pair(list(1,2,3,4),l);
+
+
+al := {{1,a1},{2,a2},{3,a3},{4,a4}}
+
+ab:=pair(bg1(1,2,3),b);
+
+
+ab := bg1(bg1(1,x1),bg1(2,x2),bg1(3,x3))
+
+;
+
+
+clear b;
+
+
+comment : A BOOLEAN function abaglistp to test if it is an association;
+
+;
+
+
+if abaglistp bag(bag(1,2)) then "it is an associated bag";
+
+
+it is an associated bag
+
+;
+
+
+% Values associated to the keys can be extracted
+% first occurence ONLY.
+;
+
+
+asfirst(1,al);
+
+
+{1,a1}
+
+asfirst(3,ab);
+
+
+bg1(3,x3)
+
+;
+
+
+assecond(a1,al);
+
+
+{1,a1}
+
+assecond(x3,ab);
+
+
+bg1(3,x3)
+
+;
+
+
+aslast(z,list(list(x1,x2,x3),list(y1,y2,z)));
+
+
+{y1,y2,z}
+
+asrest(list(x2,x3),list(list(x1,x2,x3),list(y1,y2,z)));
+
+
+{x1,x2,x3}
+
+;
+
+
+clear a1;
+
+
+;
+
+
+% All occurences.
+asflist(x,bg1(bg1(x,a1,a2),bg1(x,b1,b2)));
+
+
+bg1(bg1(x,a1,a2),bg1(x,b1,b2))
+
+asslist(a1,list(list(x,a1),list(y,a1),list(x,y)));
+
+
+{{x,a1},{y,a1}}
+
+restaslist(bag(a1,x),bg1(bag(x,a1,a2),bag(a1,x,b2),bag(x,y,z)));
+
+
+bg1(bg1(x,b2),bg1(a1,a2))
+
+restaslist(list(a1,x),bag(bag(x,a1,a2),bag(a1,x,b2),bag(x,y,z)));
+
+
+bag(bag(x,b2),bag(a1,a2))
+
+;
+
+
+Comment 6. SETS AND THEIR MANIPULATION FUNCTIONS
+;
+
+ts:=mkset list(a1,a1,a,2,2);
+
+
+ts := {a1,a,2}
+
+if setp ts then "this is a SET";
+
+
+this is a SET
+
+;
+
+
+union(ts,ts);
+
+
+{a1,a,2}
+
+;
+
+
+diffset(ts,list(a1,a));
+
+
+{2}
+
+diffset(list(a1,a),ts);
+
+
+{}
+
+;
+
+
+symdiff(ts,ts);
+
+
+{}
+
+;
+
+
+intersect(listbag(ts,set1),listbag(ts,set2));
+
+
+set1(a1,a,2)
+
+
+
+Comment 7. GENERAL PURPOSE UTILITY FUNCTIONS :;
+
+;
+
+
+clear a1,a2,a3,a,x,y,z,x1,x2,op$
+
+
+;
+
+
+% DETECTION OF A GIVEN VARIABLE IN A GIVEN SET
+;
+
+
+mkidnew();
+
+
+g0001
+
+mkidnew(a);
+
+
+ag0002
+
+;
+
+
+dellastdigit 23;
+
+
+2
+
+;
+
+
+detidnum aa;
+
+
+detidnum a10;
+
+
+10
+
+detidnum a1b2z34;
+
+
+34
+
+;
+
+
+list_to_ids list(a,1,rr,22);
+
+
+a1rr22
+
+;
+
+
+if oddp 3 then "this is an odd integer";
+
+
+this is an odd integer
+
+;
+
+
+<<prin2 1; followline 7; prin2 8;>>;
+
+1
+       8
+;
+
+
+operator foo;
+
+
+foo(x):=x;
+
+
+foo(x) := x
+
+foo(x)==value;
+
+
+value
+
+
+x;
+
+
+value
+ 	% it is equal to value
+
+clear x;
+
+
+;
+
+
+randomlist(10,20);
+
+
+{8,1,8,0,5,7,3,8,0,5,5,9,0,5,2,0,7,5,5,1}
+
+% Generation of tables of random numbers:
+% One dimensional:
+mkrandtabl({4},10,ar);
+
+
+{4}
+
+array_to_list ar;
+
+
+{5,4,4,7}
+
+;
+
+
+% Two dimensional:
+mkrandtabl({3,4},10,ar);
+
+
+*** array ar redefined 
+
+{3,4}
+
+array_to_list ar;
+
+
+{{9,5,2,8},{7,3,5,2},{8,1,6,0}}
+ 
+;
+
+
+% With a base which is a decimal number:
+on rounded;
+
+
+mkrandtabl({5},3.5,ar);
+
+
+*** array ar redefined 
+
+{5}
+
+array_to_list ar;
+
+
+{2.77546499305,1.79693268486,3.43100115041,2.11636272025,3.45447023392}
+
+off rounded;
+
+
+;
+
+
+% Combinatorial functions :
+permutations(bag(a1,a2,a3));
+
+
+bag(bag(a1,a2,a3),bag(a1,a3,a2),bag(a2,a1,a3),bag(a2,a3,a1),bag(a3,a1,a2),
+
+    bag(a3,a2,a1))
+
+permutations {1,2,3};
+
+
+{{1,2,3},{1,3,2},{2,1,3},{2,3,1},{3,1,2},{3,2,1}}
+
+;
+
+
+cyclicpermlist{1,2,3};
+
+
+{{1,2,3},{2,3,1},{3,1,2}}
+
+;
+
+
+combnum(8,3);
+
+
+56
+
+;
+
+
+combinations({1,2,3},2);
+
+
+{{2,3},{1,2},{1,3}}
+
+;
+
+
+perm_to_num({3,2,1,4},{1,2,3,4});
+
+
+5
+
+num_to_perm(5,{1,2,3,4});
+
+
+{3,2,1,4}
+
+;
+
+
+operator op;
+
+
+symmetric op;
+
+
+op(x,y)-op(y,x);
+
+
+0
+
+remsym op;
+
+
+op(x,y)-op(y,x);
+
+
+op(x,y) - op(y,x)
+
+;
+
+
+labc:={a,b,c};
+
+
+labc := {a,b,c}
+
+symmetrize(labc,foo,cyclicpermlist);
+
+
+foo(a,b,c) + foo(b,c,a) + foo(c,a,b)
+
+symmetrize(labc,list,permutations);
+
+
+{a,b,c} + {a,c,b} + {b,a,c} + {b,c,a} + {c,a,b} + {c,b,a}
+
+symmetrize({labc},foo,cyclicpermlist);
+
+
+foo({a,b,c}) + foo({b,c,a}) + foo({c,a,b})
+
+;
+
+
+extremum({1,2,3},lessp);
+
+
+1
+
+extremum({1,2,3},geq);
+
+
+3
+
+extremum({a,b,c},nordp);
+
+
+c
+
+;
+
+
+funcvar(x+y);
+
+
+{x,y}
+
+funcvar(sin log(x+y));
+
+
+{x,y}
+
+funcvar(sin pi);
+
+
+funcvar(x+e+i);
+
+
+{x}
+
+funcvar sin(x+i*y);
+
+
+{y,x}
+
+;
+
+
+operator op;
+
+
+*** op already defined as operator 
+
+noncom op;
+
+
+op(0)*op(x)-op(x)*op(0);
+
+
+ - op(x)*op(0) + op(0)*op(x)
+
+remnoncom op;
+
+
+t
+
+op(0)*op(x)-op(x)*op(0);
+
+
+0
+
+clear op;
+
+
+;
+
+
+depatom a;
+
+
+a
+
+depend a,x,y;
+
+
+depatom a;
+
+
+{x,y}
+
+;
+
+
+depend op,x,y,z;
+
+
+;
+
+
+implicit op;
+
+
+op
+
+explicit op;
+
+
+op(x,y,z)
+
+depend y,zz;
+
+
+explicit op;
+
+
+op(x,y(zz),z)
+
+aa:=implicit op;
+
+
+aa := op
+
+clear op;
+
+
+;
+
+
+korder x,z,y;
+
+
+korderlist;
+
+
+(x z y)
+
+;
+
+
+if checkproplist({1,2,3},fixp) then "it is a list of integers";
+
+
+it is a list of integers
+
+;
+
+
+if checkproplist({a,b1,c},idp) then "it is a list of identifiers";
+
+
+it is a list of identifiers
+
+;
+
+
+if checkproplist({1,b1,c},idp) then "it is a list of identifiers";
+
+
+;
+
+
+lmix:={1,1/2,a,"st"};
+
+
+            1
+lmix := {1,---,a,st}
+            2
+
+;
+
+
+extractlist(lmix,fixp);
+
+
+{1}
+
+extractlist(lmix,numberp);
+
+
+    1
+{1,---}
+    2
+
+extractlist(lmix,idp);
+
+
+{a}
+
+extractlist(lmix,stringp);
+
+
+{st}
+
+;
+
+
+% From a list to an array:
+list_to_array({a,b,c,d},1,ar);
+
+
+*** array ar redefined 
+
+array_to_list ar;
+
+
+{a,b,c,d}
+  
+list_to_array({{a},{b},{c},{d}},2,ar);
+
+
+*** array ar redefined 
+
+;
+
+
+comment 8. PROPERTIES AND FLAGS:;
+
+;
+
+
+putflag(list(a1,a2),fl1,t);
+
+
+t
+
+putflag(list(a1,a2),fl2,t);
+
+
+t
+
+displayflag a1;
+
+
+{fl1,fl2}
+
+;
+
+
+clearflag a1,a2;
+
+
+displayflag a2;
+
+
+{}
+
+putprop(x1,propname,value,t);
+
+
+x1
+
+displayprop(x1,prop);
+
+
+{}
+
+displayprop(x1,propname);
+
+
+{propname,value}
+
+;
+
+
+putprop(x1,propname,value,0);
+
+
+displayprop(x1,propname);
+
+
+{}
+
+;
+
+
+Comment 9. CONTROL FUNCTIONS:;
+
+;
+
+
+alatomp z;
+
+
+t
+
+z:=s1;
+
+
+z := s1
+
+alatomp z;
+
+
+t
+
+;
+
+
+alkernp z;
+
+
+t
+
+alkernp log sin r;
+
+
+t
+
+;
+
+
+precp(difference,plus);
+
+
+t
+
+precp(plus,difference);
+
+
+precp(times,.);
+
+
+precp(.,times);
+
+
+t
+
+;
+
+
+if stringp x then "this is a string";
+
+
+if stringp "this is a string" then "this is a string";
+
+
+this is a string
+
+;
+
+
+if nordp(b,a) then "a is ordered before b";
+
+
+a is ordered before b
+
+operator op;
+
+
+for all x,y such that nordp(x,y) let op(x,y)=x+y;
+
+
+op(a,a);
+
+
+op(a,a)
+
+op(b,a);
+
+
+a + b
+
+op(a,b);
+
+
+op(a,b)
+
+clear op;
+
+
+;
+
+
+depvarp(log(sin(x+cos(1/acos rr))),rr);
+
+
+t
+
+;
+
+
+clear y,x,u,v;
+
+
+clear op;
+
+
+;
+
+
+% DISPLAY and CLEARING of user's objects of various types entered
+% to the console. Only TOP LEVEL assignments are considered up to now.
+% The following statements must be made INTERACTIVELY. We put them
+% as COMMENTS for the user to experiment with them. We do this because
+% in a fresh environment all outputs are nil.
+;
+
+
+% THIS PART OF THE TEST SHOULD BE REALIZED INTERACTIVELY.
+% SEE THE ** ASSIST LOG **  FILE .
+%v1:=v2:=1;
+%show scalars;
+%aa:=list(a);
+%show lists;
+%array ar(2);
+%show arrays;
+%load matr$
+%matrix mm;
+%show matrices;
+%x**2;
+%saveas res;
+%show saveids;
+%suppress scalars;
+%show scalars;
+%show lists;
+%suppress all;
+%show arrays;
+%show matrices;
+;
+
+
+comment end of the interactive part;
+
+;
+
+
+clear op;
+
+
+operator op;
+
+
+op(x,y,z);
+
+
+op(x,y,s1)
+
+clearop op;
+
+
+t
+
+;
+
+
+clearfunctions abs,tan;
+
+
+     *** abs is unprotected : Cleared ***
+     *** tan is a protected function: NOT cleared ***
+
+
+"Clearing is complete"
+
+;
+
+
+comment  THIS FUNCTION MUST BE USED WITH CARE !!!!!;
+
+;
+
+
+Comment 10. HANDLING OF POLYNOMIALS
+
+clear x,y,z;
+
+COMMENT  To see the internal representation :;
+
+;
+
+
+off pri;
+
+
+;
+
+
+pol:=(x-2*y+3*z**2-1)**3;
+
+
+        3    2               2               2              2              4
+pol := x  + x *( - 6*y + 9*s1  - 3) + x*(12*y  + y*( - 36*s1  + 12) + 27*s1  - 
+            2           3    2       2                    4        2
+       18*s1  + 3) - 8*y  + y *(36*s1  - 12) + y*( - 54*s1  + 36*s1  - 6) + 27*
+
+         6        4       2
+       s1  - 27*s1  + 9*s1  - 1
+
+;
+
+
+pold:=distribute pol;
+
+
+             6        4       2    3      2        2   2      2         2
+pold := 27*s1  - 27*s1  + 9*s1  + x  - 6*x *y + 9*x *s1  - 3*x  + 12*x*y  + 27*x
+
+           4          2            2                     3       2   2       2
+        *s1  - 18*x*s1  - 36*x*y*s1  + 12*x*y + 3*x - 8*y  + 36*y *s1  - 12*y  -
+
+                4          2
+         54*y*s1  + 36*y*s1  - 6*y - 1
+
+;
+
+
+on distribute;
+
+
+leadterm (pold);
+
+
+     6
+27*s1
+
+pold:=redexpr pold;
+
+
+                4       2    3      2        2   2      2         2          4
+pold :=  - 27*s1  + 9*s1  + x  - 6*x *y + 9*x *s1  - 3*x  + 12*x*y  + 27*x*s1  -
+
+                2            2                     3       2   2       2
+         18*x*s1  - 36*x*y*s1  + 12*x*y + 3*x - 8*y  + 36*y *s1  - 12*y  - 54*y*
+
+          4          2
+        s1  + 36*y*s1  - 6*y - 1
+
+leadterm pold;
+
+
+        4
+ - 27*s1
+
+;
+
+
+off distribute;
+
+
+polp:=pol$
+
+
+leadterm polp;
+
+
+ 3
+x
+
+polp:=redexpr polp;
+
+
+         2               2               2              2              4
+polp := x *( - 6*y + 9*s1  - 3) + x*(12*y  + y*( - 36*s1  + 12) + 27*s1  - 18*s1
+        2           3    2       2                    4        2             6
+          + 3) - 8*y  + y *(36*s1  - 12) + y*( - 54*s1  + 36*s1  - 6) + 27*s1  -
+
+              4       2
+         27*s1  + 9*s1  - 1
+
+leadterm polp;
+
+
+ 2               2
+x *( - 6*y + 9*s1  - 3)
+
+;
+
+
+monom polp;
+
+
+      6
+{27*s1 ,
+
+         4
+  - 27*s1 ,
+
+     2
+ 9*s1 ,
+
+       2
+  - 6*x *y,
+
+    2   2
+ 9*x *s1 ,
+
+       2
+  - 3*x ,
+
+       2
+ 12*x*y ,
+
+        4
+ 27*x*s1 ,
+
+           2
+  - 18*x*s1 ,
+
+             2
+  - 36*x*y*s1 ,
+
+ 12*x*y,
+
+ 3*x,
+
+       3
+  - 8*y ,
+
+     2   2
+ 36*y *s1 ,
+
+        2
+  - 12*y ,
+
+           4
+  - 54*y*s1 ,
+
+        2
+ 36*y*s1 ,
+
+  - 6*y,
+
+ -1}
+
+;
+
+
+on pri;
+
+
+;
+
+
+splitterms polp;
+
+
+      2  2
+{{9*s1 *x ,
+
+        2
+  12*x*y ,
+
+  12*x*y,
+
+       4
+  27*s1 *x,
+
+  3*x,
+
+       2  2
+  36*s1 *y ,
+
+       2
+  36*s1 *y,
+
+       6
+  27*s1 ,
+
+      2
+  9*s1 },
+
+     2
+ {6*x *y,
+
+     2
+  3*x ,
+
+       2
+  36*s1 *x*y,
+
+       2
+  18*s1 *x,
+
+     3
+  8*y ,
+
+      2
+  12*y ,
+
+       4
+  54*s1 *y,
+
+  6*y,
+
+       4
+  27*s1 ,
+
+  1}}
+
+;
+
+
+splitplusminus polp;
+
+
+        6       4         2  2        2  2        2         2        2
+{3*(9*s1  + 9*s1 *x + 3*s1 *x  + 12*s1 *y  + 12*s1 *y + 3*s1  + 4*x*y  + 4*x*y
+
+     + x),
+
+         4          4        2            2        2        2      3       2
+  - 54*s1 *y - 27*s1  - 36*s1 *x*y - 18*s1 *x - 6*x *y - 3*x  - 8*y  - 12*y
+
+  - 6*y - 1}
+
+;
+
+
+divpol(pol,x+2*y+3*z**2);
+
+
+     4       2          2         2    2                     2
+{9*s1  + 6*s1 *x - 24*s1 *y - 9*s1  + x  - 8*x*y - 3*x + 28*y  + 18*y + 3,
+
+        3       2
+  - 64*y  - 48*y  - 12*y - 1}
+
+;
+
+
+lowestdeg(pol,y);
+
+
+0
+
+;
+
+
+Comment 11.  HANDLING OF SOME TRANSCENDENTAL FUNCTIONS:;
+
+;
+
+
+trig:=((sin x)**2+(cos x)**2)**4;
+
+
+trig := 
+
+      8           6       2           4       4           2       6         8
+cos(x)  + 4*cos(x) *sin(x)  + 6*cos(x) *sin(x)  + 4*cos(x) *sin(x)  + sin(x)
+
+trigreduce trig;
+
+
+1
+
+trig:=sin (5x);
+
+
+trig := sin(5*x)
+
+trigexpand trig;
+
+
+                4            2       2         4
+sin(x)*(5*cos(x)  - 10*cos(x) *sin(x)  + sin(x) )
+
+trigreduce ws;
+
+
+sin(5*x)
+
+trigexpand sin(x+y+z);
+
+
+cos(s1)*cos(x)*sin(y) + cos(s1)*cos(y)*sin(x) + cos(x)*cos(y)*sin(s1)
+
+ - sin(s1)*sin(x)*sin(y)
+
+;
+
+
+;
+
+
+hypreduce (sinh x **2 -cosh x **2);
+
+
+-1
+
+;
+
+
+;
+
+
+clear a,b,c,d;
+
+
+;
+
+
+
+Comment 13. HANDLING OF N-DIMENSIONAL VECTORS:;
+
+;
+
+
+clear u1,u2,v1,v2,v3,v4,w3,w4;
+
+
+u1:=list(v1,v2,v3,v4);
+
+
+u1 := {v1,v2,v3,v4}
+
+u2:=bag(w1,w2,w3,w4);
+
+
+u2 := bag(w1,w2,w3,w4)
+
+%
+sumvect(u1,u2);
+
+
+{v1 + w1,
+
+ v2 + w2,
+
+ v3 + w3,
+
+ v4 + w4}
+
+minvect(u2,u1);
+
+
+bag( - v1 + w1, - v2 + w2, - v3 + w3, - v4 + w4)
+
+scalvect(u1,u2);
+
+
+v1*w1 + v2*w2 + v3*w3 + v4*w4
+
+crossvect(rest u1,rest u2);
+
+
+{v3*w4 - v4*w3,
+
+  - v2*w4 + v4*w2,
+
+ v2*w3 - v3*w2}
+
+mpvect(rest u1,rest u2, minvect(rest u1,rest u2));
+
+
+0
+
+scalvect(crossvect(rest u1,rest u2),minvect(rest u1,rest u2));
+
+
+0
+
+;
+
+
+Comment 14. HANDLING OF GRASSMANN OPERATORS:;
+
+;
+
+
+putgrass eta,eta1;
+
+
+grasskernel:=
+{eta(~x)*eta(~y) => -eta y * eta x when nordp(x,y),
+(~x)*(~x) => 0 when grassp x};
+
+
+grasskernel := {eta(~x)*eta(~y) =>  - eta(y)*eta(x) when nordp(x,y),
+
+                ~x*~x => 0 when grassp(x)}
+
+;
+
+
+eta(y)*eta(x);
+
+
+eta(y)*eta(x)
+
+eta(y)*eta(x) where grasskernel;
+
+
+ - eta(x)*eta(y)
+
+let grasskernel;
+
+
+eta(x)^2;
+
+
+0
+
+eta(y)*eta(x);
+
+
+ - eta(x)*eta(y)
+
+operator zz;
+
+
+grassparity (eta(x)*zz(y));
+
+
+1
+
+grassparity (eta(x)*eta(y));
+
+
+0
+
+grassparity(eta(x)+zz(y));
+
+
+parity undefined
+
+clearrules grasskernel;
+
+
+grasskernel:=
+{eta(~x)*eta(~y) => -eta y * eta x when nordp(x,y),
+eta1(~x)*eta(~y) => -eta x * eta1 y,
+eta1(~x)*eta1(~y) => -eta1 y * eta1 x when nordp(x,y),
+(~x)*(~x) => 0 when grassp x};
+
+
+grasskernel := {eta(~x)*eta(~y) =>  - eta(y)*eta(x) when nordp(x,y),
+
+                eta1(~x)*eta(~y) =>  - eta(x)*eta1(y),
+
+                eta1(~x)*eta1(~y) =>  - eta1(y)*eta1(x) when nordp(x,y),
+
+                ~x*~x => 0 when grassp(x)}
+
+;
+
+
+let grasskernel;
+
+
+eta1(x)*eta(x)*eta1(z)*eta1(w);
+
+
+ - eta(x)*eta1(s1)*eta1(w)*eta1(x)
+
+clearrules grasskernel;
+
+
+remgrass eta,eta1;
+
+
+clearop zz;
+
+
+t
+
+;
+
+
+Comment  15. HANDLING OF MATRICES:;
+
+;
+
+
+clear m,mm,b,b1,bb,cc,a,b,c,d,a1,a2;
+
+
+load_package matrix;
+
+
+baglmat(bag(bag(a1,a2)),m);
+
+
+t
+
+m;
+
+
+[a1  a2]
+
+
+on errcont;
+
+
+;
+
+
+baglmat(bag(bag(a1),bag(a2)),m);
+
+
+***** (mat ((*sq ((((a1 . 1) . 1)) . 1) t) (*sq ((((a2 . 1) . 1)) . 1) t))) 
+should be an identifier 
+
+off errcont;
+
+
+%    **** i.e. it cannot redefine the matrix! in order
+%         to avoid accidental redefinition of an already given matrix;
+
+clear m;
+
+ baglmat(bag(bag(a1),bag(a2)),m);
+
+
+t
+
+m;
+
+
+[a1]
+[  ]
+[a2]
+
+
+on errcont;
+
+
+baglmat(bag(bag(a1),bag(a2)),bag);
+
+
+***** operator bag invalid as matrix
+
+off errcont;
+
+
+comment  Right since a bag-like object cannot become a matrix.;
+
+;
+
+
+coercemat(m,op);
+
+
+op(op(a1),op(a2))
+
+coercemat(m,list);
+
+
+{{a1},{a2}}
+
+;
+
+
+on nero;
+
+
+unitmat b1(2);
+
+
+matrix b(2,2);
+
+
+b:=mat((r1,r2),(s1,s2));
+
+
+     [r1  r2]
+b := [      ]
+     [s1  s2]
+
+
+b1;
+
+
+[1  0]
+[    ]
+[0  1]
+
+b;
+
+
+[r1  r2]
+[      ]
+[s1  s2]
+
+
+mkidm(b,1);
+
+
+[1  0]
+[    ]
+[0  1]
+
+
+;
+
+
+seteltmat(b,newelt,2,2);
+
+
+[r1    r2  ]
+[          ]
+[s1  newelt]
+
+
+geteltmat(b,2,1);
+
+
+s1
+
+%
+b:=matsubr(b,bag(1,2),2);
+
+
+     [r1  r2]
+b := [      ]
+     [1   2 ]
+
+
+;
+
+
+submat(b,1,2);
+
+
+[1]
+
+
+;
+
+
+bb:=mat((1+i,-i),(-1+i,-i));
+
+
+      [i + 1   - i]
+bb := [           ]
+      [i - 1   - i]
+
+
+cc:=matsubc(bb,bag(1,2),2);
+
+
+      [i + 1  1]
+cc := [        ]
+      [i - 1  2]
+
+
+;
+
+
+cc:=tp matsubc(bb,bag(1,2),2);
+
+
+      [i + 1  i - 1]
+cc := [            ]
+      [  1      2  ]
+
+
+matextr(bb, bag,1);
+
+
+bag(i + 1, - i)
+
+;
+
+
+matextc(bb,list,2);
+
+
+{ - i, - i}
+
+;
+
+
+hconcmat(bb,cc);
+
+
+[i + 1   - i  i + 1  i - 1]
+[                         ]
+[i - 1   - i    1      2  ]
+
+
+vconcmat(bb,cc);
+
+
+[i + 1   - i ]
+[            ]
+[i - 1   - i ]
+[            ]
+[i + 1  i - 1]
+[            ]
+[  1      2  ]
+
+
+;
+
+
+tpmat(bb,bb);
+
+
+[ 2*i     - i + 1   - i + 1  -1]
+[                              ]
+[  -2     - i + 1   i + 1    -1]
+[                              ]
+[  -2     i + 1     - i + 1  -1]
+[                              ]
+[ - 2*i   i + 1     i + 1    -1]
+
+
+bb tpmat bb;
+
+
+[ 2*i     - i + 1   - i + 1  -1]
+[                              ]
+[  -2     - i + 1   i + 1    -1]
+[                              ]
+[  -2     i + 1     - i + 1  -1]
+[                              ]
+[ - 2*i   i + 1     i + 1    -1]
+
+
+;
+
+
+clear hbb;
+
+
+hermat(bb,hbb);
+
+
+[ - i + 1   - (i + 1)]
+[                    ]
+[   i          i     ]
+
+
+% id hbb changed to a matrix id and assigned to the hermitian matrix
+% of bb.
+;
+
+
+load_package HEPHYS;
+
+
+
+% Use of remvector.
+;
+
+
+vector v1,v2;
+
+
+v1.v2;
+
+
+v1.v2
+
+remvector v1,v2;
+
+
+on errcont;
+
+
+v1.v2;
+
+
+***** v1 v2 invalid as list or bag
+
+off errcont;
+
+
+% To see the compatibility with ASSIST:
+v1.{v2};
+
+
+{v1,v2}
+
+;
+
+
+index u;
+
+ vector v;
+
+
+(v.u)^2;
+
+
+v.v
+
+remindex u;
+
+
+t
+
+(v.u)^2;
+
+
+   2
+u.v
+
+;
+
+
+% Gamma matrices properties may be translated to any identifier:
+clear l,v;
+
+
+vector v;
+
+
+g(l,v,v);
+
+
+v.v
+
+mkgam(op,t);
+
+
+t
+
+op(l,v,v);
+
+
+v.v
+
+mkgam(g,0);
+
+
+operator g;
+
+
+g(l,v,v);
+
+
+g(l,v,v)
+
+;
+
+
+clear g,op;
+
+
+;
+
+
+% showtime;
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 57 ms  plus GC time: 6 ms
+real	0m1.473s
+user	0m0.045s
+sys	0m0.124s

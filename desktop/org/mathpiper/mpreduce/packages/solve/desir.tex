@@ -1,0 +1,387 @@
+\documentclass[a4paper]{article}
+
+\usepackage[dvipdfm]{graphicx}
+\usepackage[dvipdfm]{color}
+\usepackage[dvipdfm]{hyperref}
+
+\setlength{\parindent}{0cm}
+
+\title{{\bf DESIR} \\
+\ \\
+\ \\
+SOLUTIONS FORMELLES~ D'EQUATIONS DIFFERENTIELLES \\
+LINEAIRES ET HOMOGENES \\
+AU VOISINAGE DE POINTS SINGULIERS REGULIERS ET IRREGULIERS \\
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+Differential linear homogenous Equation Solutions in the \\
+neighbourhood of Irregular and Regular singular points \\
+\ \\
+Version 3.1~ -~ Septembre 89 \\
+\ \\
+\ \\
+Groupe de Calcul Formel de Grenoble \\
+laboratoire TIM3 \\
+\ \\
+(C. Dicrescenzo, F. Richard-Jung, E. Tournier) \\
+\ \\
+E-mail: dicresc@afp.imag.fr \\
+\ \\
+\ \\
+\end{center}
+
+\begin{enumerate}
+\item Introduction
+\item Form of solutions
+\item Interactive use
+\item Direct use
+\item Useful functions
+\item Limitations
+\item Implementation
+\end{enumerate}
+
+\section{INTRODUCTION}
+
+This software enables the basis of formal solutions to be computed for an
+ordinary homogeneous differential equation with polynomial coefficients
+over Q of any order, in the neighbourhood of zero ( regular or irregular
+singular point, or ordinary point ). \\
+Tools have been added to deal with equations with a polynomial right-hand
+side, parameters and a singular point not to be found at zero. \\
+
+This software can be used in two ways : 
+\begin{itemize}
+\item direct ( DELIRE procedure )
+\item interactive ( DESIR procedure)
+\end{itemize}
+
+The basic procedure is the DELIRE procedure which enables the solutions of
+a linear homogeneous differential equation to be computed in the neigh-
+bourhood of zero. \\
+
+The DESIR procedure is a procedure without argument whereby DELIRE can be
+called without preliminary treatment to the data, that is to say, in an
+interactive autonomous way. This procedure also proposes some transfor-
+mations on the initial equation. This allows one to start comfortably
+with an equation which has a non zero singular point, a polynomial
+right-hand side and parameters. \\
+This document is a succint user manual. For more details on the underlying
+mathematics and the algorithms used, the reader can refer to : \\
+\begin{center}
+\begin{description}
+\item[E. Tournier] : Solutions formelles d'equations differentielles - Le
+logiciel de calcul formel DESIR. \\
+These d'Etat de l'Universite Joseph Fourier (Grenoble - avril 87).
+\end{description}
+\end{center}
+
+He will find more precision on use of parameters in :
+\begin{center}
+\begin{description}
+\item[F. Richard-Jung] : Representation graphique de solutions d'equations
+differentielles dans le champ complexe. \\
+These de l'Universite Louis Pasteur (Strasbourg - septembre 88).
+\end{description}
+\end{center}
+
+\section{FORMS OF SOLUTIONS}
+We have tried to represent solutions in the simplest form possible. For
+that, we have had to choose different forms according to the complexity
+of the equation (parameters) and the later use we shall have of these
+solutions. \\
+
+\char`\"{}{\bf general solution}\char`\"{}~ =~ \{......, \{ split\_sol , cond \},....\} \\
+
+\begin{center}
+\begin{tabular}{lcp{9cm}}
+
+cond & = & list of conditions or empty list (if there is no condition)
+	     that parameters have to verify such that split\_sol is in the
+	     basis of solutions. In fact, if there are parameters, basis of
+	     solutions can have different expressions according to the values
+	     of parameters. ( Note : if cond=\{\}, the list \char`\"{}general
+	     solution\char`\"{} has one element only.) \\
+split\_sol &  = & \{ $q , ram , polysol , r$ \} \\
+	   &    & ( \char`\"{} split solution \char`\"{} enables precise information
+	           on the solution to be obtained immediately ) \\
+\end{tabular}
+\end{center}
+
+The variable in the differential operator being x, solutions are expressed in
+respect to a new variable xt, which is a fractional power of x, in the
+following way : \\
+
+\begin{center}
+\begin{tabular}{lcl}
+$q$ & : & polynomial in $1/xt$ with complex coefficients \\
+$ram$ & : & $xt$ = ${x}^{ram}$ ($1/ram$ is an integer) \\
+$polysol$ & : & $polynomial$ in $log(xt)$ with formal series in $xt$ coefficients \\
+$r$ & : & root of a complex coefficient polynomial (\char`\"{}indicial 
+          equation\char`\"{}). \\
+\end{tabular}
+\end{center}
+\ \\
+\char`\"{}{\bf standard solution}\char`\"{}~ = $e^{qx} x^{r*ram} polysolx$ \\
+
+$qx$ and $polysolx$ are $q$ and $polysol$ expressions in which $xt$ has been
+replaced by $x^{ram}$ \\
+
+N.B. : the form of these solutions is simplified according to the nature of
+the point zero.
+\begin{itemize}
+\item[-] if 0 is a regular singular point : the series appearing in $polysol$ are
+         convergent, $ram$ = 1 and $q$ = 0.
+\item[-] if 0 is a regular point, we also have : $polysol$ is constant in $log(xt)$
+         (no logarithmic terms).
+\end{itemize}
+
+\section{INTERACTIVE USE}
+\ \\
+\begin{tabular}{lcl}
+To call the procedure & : & desir(); \\
+                      &   & solution:=desir(); \\
+\end{tabular}
+\ \\
+The DESIR procedure computes formal solutions of a linear homogeneous
+differential equation in an interactive way. \\
+In this equation the variable \emph{must be x}. \\
+
+The procedure requires the order and the coefficients of the equation, the
+names of parameters if there are any, then if the user wants to transform
+this equation and how ( for example to bring back a singular point to zero
+see procedures changehom, changevar, changefonc - ). \par
+This procedure DISPLAYS the solutions and RETURNS a list of general term
+\{ lcoeff, \{....,\{ general\_solution \},....\}\}. The number of elements in
+this list is linked to the number of transformations requested : \\
+\begin{tabular}{rl}
+{*} & lcoeff : list of coefficients of the differential equation \\
+{*} & general\_solution : solution written in the general form \\
+\end{tabular}
+
+\section{DIRECT USE}
+
+{\bf procedure delire($x,k,grille,lcoeff,param$);} \\
+\ \\
+This procedure computes formal solutions of a linear homogeneous differential 
+equation with polynomial coefficients over Q and of any order, in the
+neighborhood of zero, regular or irregular singular point. In fact it
+initializes the call of the NEWTON procedure that is a recursive procedure
+(algorithm of NEWTON-RAMIS-MALGRANGE)
+
+\begin{center}
+\begin{tabular}{lcp{11cm}}
+$x$ & : & variable \\
+$k$ & : & \char`\"{}number of desired terms\char`\"{}. \\ 
+  &   & For each formal series in $xt$ appearing in $polysol$, \\
+  &   & $a_0+a_1 xt+a_2 xt^2+...+a_n xt^n+\ldots$, we compute the
+        $k+1$ first coefficients $a_0, a_1,\ldots,a_k.$ \\
+$grille$ & : & the coefficients of the differential operator are polynomial in
+	     $x^{grille}$ (in general $grille=1$) \\
+$lcoeff$ & : & list of coefficients of the differential operator (in increasing
+	     order of differentiation) \\
+$param$ & : & list of parameters \\
+\end{tabular}
+\end{center}
+\ \\
+This procedure RETURNS the list of general solutions.
+
+\section{USEFUL FUNCTIONS}
+
+\subsection{Reading of equation coefficients}
+
+{\bf procedure lectabcoef( );} \\
+\ \\
+This procedure is called by DESIR to read the coefficients of an equation,
+in \emph{increasing order of differentiation}, but can be used independently. \par
+
+reading of n : order of the equation. \\
+reading of parameters (only if a variable other than $x$ appears in the
+coefficients) \\
+this procedure returns the list \{ $lcoeff , param$ \} made up of the list
+of coefficients and the list of parameters (which can be empty).
+
+\subsection{Verification of results}
+
+{\bf procedure solvalide($solutions,solk,k$);} \\
+\ \\
+This procedure enables the validity of the solution number solk in the list
+\char`\"{}solutions\char`\"{} to be verified. \\
+$solutions$ = \{$lcoeff$,\{....,\{$general\_solution$\},....\}\} is any element
+of the list returned by DESIR or is \{$lcoeff,sol$\} where $sol$ is the list 
+returned by DELIRE. \\
+
+If we carry over the solution $e^{qx} x^{r*ram} polysolx$ in the equation, the
+result has the form $e^{qx} x^{r*ram} reste$, where $reste$ is a polynomial in
+$log(xt)$, with polynomial coefficients in $xt$. This procedure computes the
+minimal valuation V of $reste$ as polynomial in $xt$, using $k$ \char`\"{}number
+of desired terms\char`\"{} asked for at the call of DESIR or DELIRE, and DISPLAYS
+the \char`\"{}theoretical\char`\"{} size order of the regular part of the result
+: $x^{ram*(r+v)}$. \\
+
+On the other hand, this procedure carries over the solution in the equation
+and DISPLAYS the significative term of the result. This is of the form :
+
+\[e^{qx} x^a polynomial(log(xt)), \qquad \mbox{with} \quad a>=ram*(r+v).\]
+
+Finally this procedure RETURNS the complete result of the carry over of the
+solution in the equation. \par
+This procedure cannot be used if the solution number solk is linked to a
+condition.
+
+\subsection{Writing of different forms of results}
+
+{\bf procedure standsol(solutions);} \\
+\ \\
+This procedure enables the simplified form of each solution to be obtained
+from the list \char`\"{}solutions\char`\"{}, \{$lcoeff$,\{...,\{$general\_solution$\},....\}\}
+which is one of the elements of the list returned by DESIR, or \{$lcoeff,sol$\} where
+$sol$ is the list returned by DELIRE. \par
+This procedure RETURNS a list of 3 elements : \{ $lcoeff, solstand, solcond$ \} \\
+\ \\
+\begin{tabular}{lcp{9cm}}
+$lcoef$ & = & list of differential equation coefficients \\
+$solstand$ & = & list of solutions written in standard form \\
+$solcond$ & = & list of conditional solutions that have not been written
+              in standard form. This solutions remain in general form. \\
+\end{tabular} \\
+\ \\
+This procedure has no meaning for \char`\"{}conditional\char`\"{} solutions.
+In case, a value has to be given to~ the parameters, that can be done either by 
+calling the procedure SORPARAM that displays and returns these solutions in the
+standard form, either by calling the procedure SOLPARAM which returns
+these solutions in general form. \\
+\ \\
+{\bf procedure sorsol(sol);} \\
+\ \\
+This procedure is called by DESIR to write the solution $sol$, given in
+general form, in standard form with enumeration of different conditions (if
+there are any). \\
+It can be used independently.
+
+\subsection{Writing of solutions after the choice of parameters}
+
+{\bf procedure sorparam($solutions,param$);} \\
+\ \\
+This is an interactive procedure which displays the solutions evaluated :
+the value of parameters is requested. \\
+\ \\
+\begin{tabular}{lcl}
+$solutions$ & : & \{$lcoeff$,\{....,\{$general\_solution$\},....\}\} \\
+$param$ & : & list of parameters. \\
+\end{tabular} \\
+\ \\
+It returns the list formed of 2 elements :
+\begin{itemize}
+\item list of evaluated coefficients of the equation
+\item list of standard solutions evaluated for the value of parameters.
+\end{itemize}
+
+{\bf procedure solparam($solutions,param,valparam$);} \\
+\ \\
+This procedure evaluates the general solutions for the value of parameters
+given by valparam and returns these solutions in general form. \\
+\ \\
+\begin{tabular}{lcl}
+$solutions$ & : & \{$lcoeff$,\{....,\{$general\_solution$\},....\}\} \\
+$param$ & : & list of parameters \\
+$valparam$ & : & list of parameters values \\
+\end{tabular} \\
+\ \\
+It returns the list formed of 2 elements :
+\begin{itemize}
+\item list of evaluated coefficients of the equation 
+\item list of solutions in general form, evaluated for the value of parameters.
+\end{itemize}
+
+\subsection{Transformations}
+
+{\bf procedure changehom($lcoeff,x,secmember,id$);} \\
+\ \\
+Differentiation of an equation with right-hand side. \\
+\ \\
+\begin{tabular}{lcl}
+$lcoeff$ & : & list of coefficients of the equation \\
+$x$ & : & variable \\
+$secmember$ & : & right-hand side \\
+$id$ & : & order of the differentiation. \\
+\end{tabular} \\
+\ \\
+It returns the list of coefficients of the differentiated equation.
+It enables an equation with polynomial right-hand side to be transformed
+into a homogeneous equation by differentiating id times,
+$id$ = degre($secmember$) + 1. \\
+\ \\
+{\bf procedure changevar($lcoeff,x,v,fct$);} \\
+\ \\
+Changing of variable in the homogeneous equation defined by the list,lcoeff
+of its coefficients : the old variable $x$ and the new variable $v$ are linked
+by the relation $x = fct(v)$. \par
+
+It returns the list of coefficients in respect to the variable $v$ of the new
+equation. \par
+
+examples of use : \par
+
+\begin{itemize}
+\item[-] translation enabling a rational singularity to be brought back to zero.
+\item[-] $x = 1/v$ brings the infinity to 0.
+\end{itemize}
+
+{\bf procedure changefonc($lcoeff,x,q,fct$);} \\
+\ \\
+Changing of unknown function in the homogeneous equation defined by the
+list lcoeff of its coefficients : \\
+\ \\
+\begin{tabular}{lcl}
+$lcoeff$ & : & list of coefficients of the initial equation \\
+$x$      & : & variable \\
+$q$ & : & new unknown function \\
+$fct$ & : & $y$ being the unknown function~ $y = fct(q)$ \\
+\end{tabular} \\
+\ \\
+It returns the list of coefficients of the new equation. \par
+
+Example of use : \par
+
+this procedure enables the computation,in the neighbourhood of an irregular
+singularity, of the \char`\"{}reduced\char`\"{} equation associated to one
+of the slopes (the Newton polygon having a null slope of no null length). 
+This equation gives much informations on the associated divergent series.
+
+\subsection{Optional writing of intermediary results}
+
+{\bf switch trdesir} : when it is ON, at each step of the Newton algorithm, a
+description of the Newton polygon is displayed (it is possible to follow
+the break of slopes), and at each call of the FROBENIUS procedure ( case of
+a null slope ) the corresponding indicial equation is displayed. \par
+
+By default, this switch is OFF.
+
+\section{LIMITATIONS}
+
+\begin{enumerate}
+\item This DESIR version is limited to differential equations leading
+to indicial equations of degree $<=$ 3. To pass beyond this limit, a further
+version written in the D5 environment of the computation with algebraic
+numbers has to be used.
+\item The computation of a basis of solutions for an equation depending on
+parameters is assured only when the indicial equations are of degree $<=$ 2.
+\end{enumerate}
+
+\section{IMPLEMENTATION}
+
+This software uses the 3.3 version of REDUCE.
+
+\end{document}
+
+
+
+
+
+
+

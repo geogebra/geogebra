@@ -1,0 +1,251 @@
+load_package redlog;
+
+
+rlset pasf;
+
+
+*** turned on switch rlsusi 
+
+{}
+
+off rlverbose;
+
+
+
+% Information Flow Control
+sec := (a < b and cong(a+b,0,2) and 2*n = a+b and
+      (a < b and b-a = n or a >= b and a-b = n)) or
+   (a < b and ncong(a+b,0,2) and 2*n = a+b+1 and
+      (a < b and b-a = n or a >= b and a-b = n))$
+
+
+
+rlqe rlex sec;
+
+
+true
+
+
+rlqea rlex sec;
+
+
+{{true,{n = 1,b = 1,a = 0}},
+
+ {true,{n = 2,b = 3,a = 1}}}
+
+
+rlqe ex(n,sec);
+
+
+(3*a - b + 1 = 0 and a + b #2# 0 and a - b < 0)
+
+ or (3*a - b = 0 and a + b ~2~ 0 and a - b < 0)
+
+
+% Information Flow Control, Nonlinear Variant
+phi := ex(n,
+   (a < b and cong(a+b,0,2) and 2*n = a+b and
+      ((a<b and b-a=n^2) or (a >= b and a-b = n^2))) or
+   (a < b and ncong(a+b,0,2) and 2*n = a+b+1 and
+      ((a < b and b-a = n^2) or (a >= b and a-b = n^2))))$
+
+
+
+rlwqe phi;
+
+
+               2            2                  2            2
+bex g0020 [ - a  + 2*a*b - b  - 2 <= g0020 <= a  - 2*a*b + b  + 2] (a - b < 0
+
+                  2
+ and a - b + g0020  = 0 and a + b #2# 0 and a + b - 2*g0020 + 1 = 0) or bex 
+
+           2            2                  2            2
+g0019 [ - a  + 2*a*b - b  - 2 <= g0019 <= a  - 2*a*b + b  + 2] (a - b < 0
+
+                  2
+ and a - b + g0019  = 0 and a + b ~2~ 0 and a + b - 2*g0019 = 0)
+
+
+% Integer Roots
+phi := ex(x,x^5-3x^2+1 = 0 and 3x >= 1 and x <= 3)$
+
+
+
+rlwqe phi;
+
+
+false
+
+
+% Integer Roots of Generic Polynomial
+phi := ex(x,a*x^2+b*x+c=0)$
+
+
+
+rlwqe phi;
+
+
+               2    2                  2    2              2
+bex g0021 [ - b  - c  - 2 <= g0021 <= b  + c  + 2] (a*g0021  + b*g0021 + c = 0)
+
+
+% Feasibility of Parametric Integer Constraints
+las := ex(x,a*x>=b and c*x<=d)$
+
+
+
+rlwqe las;
+
+
+bex g0023 [ - abs(a) <= g0023 <= abs(a)] (
+
+((a*d - b*c - c*g0023 >= 0 and a > 0) or (a*d - b*c - c*g0023 <= 0 and a < 0))
+
+ and ((a > 0 and g0023 >= 0) or (a < 0 and g0023 <= 0)) and b + g0023 ~a~ 0
+
+ and a <> 0) or bex g0023 [ - abs(c) <= g0023 <= abs(c)] (
+
+((c > 0 and g0023 <= 0) or (c < 0 and g0023 >= 0)) and (
+
+(a*d + a*g0023 - b*c >= 0 and c > 0) or (a*d + a*g0023 - b*c <= 0 and c < 0))
+
+ and d + g0023 ~c~ 0 and c <> 0) or (b <= 0 and d >= 0)
+
+
+procedure t1(m);
+   rlsimpl ex(for i:=1:m collect mkid(x,i),
+      (for i:=1:m sum mkid(x,i))=a and
+      for i:=1:m mkand mkid(x,i)>=0);
+
+
+t1
+
+
+procedure t2(m);
+   rlsimpl ex(for i:=1:m join for j:=1:m collect mkid(mkid(x,i),j),
+      for i:=1:m mkand (for j:=1:m sum mkid(mkid(x,i),j))=mkid(a,i) and
+      for j:=1:m mkand (for i:=1:m sum mkid(mkid(x,i),j))=mkid(b,j) and
+      for i:=1:m mkand for j:=1:m mkand mkid(mkid(x,i),j)>=0);
+
+
+t2
+
+
+% We compute $T_{1,8}$. In the literature we have treated instances
+% with in the range t1(5), ..., t1(11):
+
+f:=t1(5)$
+
+ s:=rlwqe f$
+
+ rlatnum s;
+
+
+192
+ rlexpand s$
+
+ ws;
+
+
+a >= 0
+
+
+% We compute $T_{2,2}$. In the literature we have treated instances with
+% in the range t1(1), ..., t1(3):
+
+f:=t2(2)$
+
+ s:=rlwqe f$
+
+ rlatnum s;
+
+
+24
+ rlexpand s$
+
+ ws;
+
+
+(a1 + a2 - b1 - b2 = 0 and a2 - b2 <= 0 and a2 >= 0 and b1 >= 0)
+
+ or (a1 + a2 - b1 - b2 = 0 and a2 - b2 - 1 <= 0 and a2 > 0 and b1 > 0)
+
+ or (a1 + a2 - b1 - b2 = 0 and a2 - b1 - b2 <= 0 and a2 - b2 >= 0 and b2 >= 0)
+
+ or (a1 + a2 - b1 - b2 = 0 and a2 - b1 - b2 < 0 and a2 - b2 + 1 >= 0 and b2 > 0)
+
+ or (a1 + a2 - b1 - b2 = 0 and a2 - b1 - b2 < 0 and a2 - b1 + 1 >= 0 and b1 > 0)
+
+ or (a1 + a2 - b1 - b2 = 0 and a2 - b1 - b2 <= 0 and a2 - b1 >= 0 and b1 >= 0)
+
+ or (a1 + a2 - b1 - b2 = 0 and a2 - b1 - 1 <= 0 and a2 > 0 and b2 > 0)
+
+ or (a1 + a2 - b1 - b2 = 0 and a2 - b1 <= 0 and a2 >= 0 and b2 >= 0)
+
+
+% Dependency Analysis for Automatic Parallelization
+dep := ex({ii,j,ip,jp},0<=ii<=m and 0<=j<=m and 0<=ip<=m and 0<=jp<=m and
+(ii<>ip or j<>jp) and ii+j<>ip+jp and n*ii+j=n*ip+jp)$
+
+
+
+depsol := rlwqe dep$
+
+
+rlatnum depsol;
+
+
+11031
+
+
+rlexpand rlsimpl sub(m=4,n=4,depsol);
+
+
+true
+
+
+rlqe sub(m=4,n=4,dep);
+
+
+true
+
+
+rlqe sub(m=4,n=5,dep);
+
+
+false
+
+
+% Parametric Linear Optimization Problem with Univariately Nonlinear
+% Constraints
+f := ex({x,y},x+y <= z and x >= 0 and y >= 0 and x+y >= 0 and x^2-a >= 0);
+
+
+f := ex x ex y (x + y - z <= 0 and x >= 0 and y >= 0 and x + y >= 0
+
+             2
+ and  - a + x  >= 0)
+
+
+sol := rlwqe f$
+
+
+rlatnum sol;
+
+
+103
+
+rlexpand sub(a=10,sol);
+
+
+z - 3 > 0
+
+
+end;
+
+Tested on x86_64-unknown-ubuntu11.04 CSL
+Time (counter 1): 5569 ms  plus GC time: 100 ms
+real	0m5.947s
+user	0m5.870s
+sys	0m0.020s

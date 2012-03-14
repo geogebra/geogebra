@@ -1,0 +1,140 @@
+\chapter{ZTRANS: $Z$-transform package}
+\label{ZTRANS}
+\typeout{{ZTRANS: $Z$-transform package}}
+
+{\footnotesize
+\begin{center}
+Wolfram Koepf and Lisa Temme \\
+Konrad--Zuse--Zentrum f\"ur Informationstechnik Berlin \\
+Takustrass 7 \\
+D--14195 Berlin--Dahlem, Germany \\[0.05in]
+e--mail: Koepf@zib.de
+\end{center}
+}
+\ttindex{ZTRANS}
+
+The $Z$-Transform of a sequence $\{f_n\}$ is the discrete analogue
+of the Laplace Transform, and
+\[{\cal Z}\{f_n\} = F(z) = \sum^\infty_{n=0} f_nz^{-n}\;.\] \\
+This series converges in the region outside the circle 
+$|z|=|z_0|= \limsup\limits_{n \rightarrow \infty} \sqrt[n]{|f_n|}\;.$
+In the same way that a Laplace Transform can be used to
+solve differential equations, so $Z$-Transforms can be used
+to solve difference equations.
+
+\begin{tabbing}
+
+{\bf SYNTAX:}\ \ {\tt ztrans($f_n$, n,  z)}\ \ \ \ \ \ \ \
+  \=where $f_n$ is an expression, and $n$,$z$ \\
+  \> are identifiers.\\
+\end{tabbing}
+\ttindex{ztrans}
+
+\begin{tabbing}
+This pack\=age can compute the \= $Z$-Transforms of the \=following 
+list of $f_n$, and \\ certain combinations thereof.\\ \\
+
+\>$1$                             
+\>$e^{\alpha n}$                  
+\>$\frac{1}{(n+k)}$               \\ \\
+\>$\frac{1}{n!}$                  
+\>$\frac{1}{(2n)!}$               
+\>$\frac{1}{(2n+1)!}$             \\ \\
+\>$\frac{\sin(\beta n)}{n!}$      
+\>$\sin(\alpha n+\phi)$           
+\>$e^{\alpha n} \sin(\beta n)$    \\ \\
+\>$\frac{\cos(\beta n)}{n!}$      
+\>$\cos(\alpha n+\phi)$           
+\>$e^{\alpha n} \cos(\beta n)$    \\ \\
+\>$\frac{\sin(\beta (n+1))}{n+1}$ 
+\>$\sinh(\alpha n+\phi)$          
+\>$\frac{\cos(\beta (n+1))}{n+1}$ \\ \\
+\>$\cosh(\alpha n+\phi)$          
+\>${n+k \choose m}$\\
+\end{tabbing}
+
+\begin{tabbing}
+\underline {{\bf Other Combinations}}\= \\ \\
+
+\underline {Linearity}
+  \>${\cal Z} \{a f_n+b g_n \} = a{\cal Z} \{f_n\}+b{\cal Z}\{g_n\}$
+  \\ \\
+\underline {Multiplication by $n$}
+  \>${\cal Z} \{n^k \cdot f_n\} = -z \frac{d}{dz} \left({\cal Z}\{n^{k-1} \cdot f_n,n,z\} \right)$
+  \\ \\
+\underline {Multiplication by $\lambda^n$}
+  \>${\cal Z} \{\lambda^n \cdot f_n\}=F \left(\frac{z}{\lambda}\right)$
+  \\ \\
+\underline {Shift Equation}
+  \>${\cal Z} \{f_{n+k}\} = 
+           z^k \left(F(z) - \sum\limits^{k-1}_{j=0} f_j z^{-j}\right)$
+  \\ \\
+\underline {Symbolic Sums}
+
+  \> ${\cal Z} \left\{ \sum\limits_{k=0}^{n} f_k \right\} =
+                       \frac{z}{z-1} \cdot {\cal Z} \{f_n\}$ \\ \\
+
+  \>${\cal Z} \left\{ \sum\limits_{k=p}^{n+q} f_k \right\}$
+  \ \ \ combination of the above \\ \\
+  where $k$,$\lambda \in$ {\bf N}$- \{0\}$; and $a$,$b$ are variables
+  or fractions; and $p$,$q \in$ {\bf Z} or \\ 
+  are functions of $n$; and $\alpha$, $\beta$ and $\phi$ are angles 
+  in radians.
+\end{tabbing}
+
+
+The calculation of the Laurent coefficients of a regular function
+results in the following inverse formula for the $Z$-Transform:
+
+If $F(z)$ is a regular function in the region $|z|> \rho$ then
+$\exists$ a sequence \{$f_n$\} with ${\cal Z} \{f_n\}=F(z)$
+given by \[f_n = \frac{1}{2 \pi i}\oint F(z) z^{n-1} dz\]
+
+\begin{tabbing}
+
+{\bf SYNTAX:}\ \ {\tt invztrans($F(z)$, z,  n)}\ \ \ \ \ \ \ \
+  \=where $F(z)$ is an expression, \\
+  \> and $z$,$n$ are identifiers.
+\end{tabbing}
+\ttindex{invztrans}
+
+\begin{tabbing}
+  This \= package can compute the Inverse \= Z-Transforms of any 
+  rational function, \\ whose denominator can be factored over 
+  ${\bf Q}$, in addition to the following list \\ of $F(z)$.\\ \\
+
+\> $\sin \left(\frac{\sin (\beta)}{z} \ \right) 
+    e^{\left(\frac{\cos (\beta)}{z} \ \right)}$
+\> $\cos \left(\frac{\sin (\beta)}{z} \ \right) 
+    e^{\left(\frac{\cos (\beta)}{z} \ \right)}$ \\ \\
+\> $\sqrt{\frac{z}{A}} \sin \left( \sqrt{\frac{z}{A}} \ \right)$
+\> $\cos \left( \sqrt{\frac{z}{A}} \ \right)$ \\ \\
+\> $\sqrt{\frac{z}{A}} \sinh \left( \sqrt{\frac{z}{A}} \ \right)$
+\> $\cosh \left( \sqrt{\frac{z}{A}} \ \right)$ \\ \\
+\> $z \ \log \left(\frac{z}{\sqrt{z^2-A z+B}} \ \right)$
+\> $z \ \log \left(\frac{\sqrt{z^2+A z+B}}{z} \ \right)$ \\ \\
+\> $\arctan \left(\frac{\sin (\beta)}{z+\cos (\beta)} \ \right)$
+\\
+\end{tabbing}
+
+here $k$,$\lambda \in$ {\bf N}$ -  \{0\}$ and $A$,$B$ are fractions
+or variables ($B>0$) and $\alpha$,$\beta$, \&  $\phi$ are angles 
+in radians.
+
+Examples:
+\begin{verbatim}
+ztrans(sum(1/factorial(k),k,0,n),n,z);
+
+  1/z
+ e   *z
+--------
+ z - 1
+
+invztrans(z/((z-a)*(z-b)),z,n);
+
+  n    n
+ a  - b
+---------
+  a - b
+\end{verbatim}
+

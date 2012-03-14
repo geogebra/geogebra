@@ -1,0 +1,11 @@
+Set and export an environment variable RLMMA to your executable
+text-based Mathematica.
+
+For instance, on Mac OSX this is
+/Applications/Mathematica.app/Contents/MacOS/MathKernel, which is used as
+a default when RLMMA is not set.
+
+When the call to Mathematica fails in PSL-based Reduce, it can happen
+that you fall through into the underlying Lisp: If you obtain a prompt
+like "1 lisp>", then exit the session using the following command w/o
+the quotes: "(quit)".

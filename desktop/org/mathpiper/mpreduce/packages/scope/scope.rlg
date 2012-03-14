@@ -1,0 +1,1049 @@
+% Test SCOPE Package.
+% ==================
+% NOTE:  The SCOPE, GHORNER, GSTRUCTR and GENTRAN packages must be loaded
+% to run these tests.
+
+% Further reading: SCOPE 1.5 manual Section 3, example 1;
+
+scope_switches$
+
+
+ ON  :  evallhseqp  exp  ftch  nat  period  
+ OFF :  acinfo  again  double  fort  gentranopt  inputc  intern  prefix
+        priall  primat  roundbf  rounded  sidrel  vectorc  
+
+
+% Further reading: SCOPE 1.5 manual Section 3.1, examples 2,3,4 and 5.
+
+on priall$
+
+
+optimize z:=a^2*b^2+10*a^2*m^6+a^2*m^2+2*a*b*m^4+2*b^2*m^6+b^2*m^2
+	   iname s;
+
+
+      2  2       2  6    2  2          4      2  6    2  2
+z := a *b  + 10*a *m  + a *m  + 2*a*b*m  + 2*b *m  + b *m
+
+Sumscheme :
+
+   || EC|Far
+------------
+  0||  1| z
+------------
+
+
+
+Productscheme :
+
+   |  0  1  2| EC|Far
+---------------------
+  1|     2  2|  1| 0
+  2|  6     2| 10| 0
+  3|  2     2|  1| 0
+  4|  4  1  1|  2| 0
+  5|  6  2   |  2| 0
+  6|  2  2   |  1| 0
+---------------------
+0  : m
+1  : b
+2  : a
+
+Number of operations in the input is: 
+
+Number of (+/-) operations      : 5
+Number of unary - operations    : 0
+Number of * operations          : 10
+Number of integer ^ operations  : 11
+Number of / operations          : 0
+Number of function applications : 0
+
+
+s0 := b*a
+s4 := m*m
+s1 := s4*b*b
+s2 := s4*a*a
+s3 := s4*s4
+z := s1 + s2 + s0*(2*s3 + s0) + s3*(2*s1 + 10*s2)
+
+Number of operations after optimization is:
+
+Number of (+/-) operations      : 5
+Number of unary - operations    : 0
+Number of * operations          : 12
+Number of integer ^ operations  : 0
+Number of / operations          : 0
+Number of function applications : 0
+
+
+Sumscheme :
+
+   |  0  3  4  5| EC|Far
+------------------------
+  0|        1  1|  1| z
+ 15|        2 10|  1| 14
+ 17|  2  1      |  1| 16
+------------------------
+0  : s3
+3  : s0
+4  : s1
+5  : s2
+
+
+
+Productscheme :
+
+   |  8  9 10 11 17 18 19 20| EC|Far
+------------------------------------
+  7|                    1  1|  1| s0
+  8|  1                 2   |  1| s1
+  9|  1                    2|  1| s2
+ 10|  2                     |  1| s3
+ 11|                 2      |  1| s4
+ 14|     1                  |  1| 0
+ 16|              1         |  1| 0
+------------------------------------
+8  : s4
+9  : s3
+10 : s2
+11 : s1
+17 : s0
+18 : m
+19 : b
+20 : a
+
+off priall$
+
+
+on primat,acinfo$
+
+
+optimize
+     ghorner <<z:=a^2*b^2+10*a^2*m^6+a^2*m^2+2*a*b*m^4+2*b^2*m^6+b^2*m^2>>
+     vorder m
+     iname s;
+
+
+Sumscheme :
+
+   || EC|Far
+------------
+  0||  1| z
+  3||  1| 2
+  7||  1| 6
+ 10||  1| 9
+------------
+
+
+
+Productscheme :
+
+   |  0  1  2| EC|Far
+---------------------
+  1|     2  2|  1| 0
+  2|  2      |  1| 0
+  4|        2|  1| 3
+  5|     2   |  1| 3
+  6|  2      |  1| 3
+  8|     1  1|  2| 7
+  9|  2      |  1| 7
+ 11|        2| 10| 10
+ 12|     2   |  2| 10
+---------------------
+0  : m
+1  : b
+2  : a
+
+Number of operations in the input is: 
+
+Number of (+/-) operations      : 5
+Number of unary - operations    : 0
+Number of * operations          : 8
+Number of integer ^ operations  : 9
+Number of / operations          : 0
+Number of function applications : 0
+
+
+s0 := b*a
+s1 := b*b
+s2 := a*a
+s3 := m*m
+z := s0*s0 + s3*(s1 + s2 + s3*(2*s0 + s3*(2*s1 + 10*s2)))
+
+Number of operations after optimization is:
+
+Number of (+/-) operations      : 5
+Number of unary - operations    : 0
+Number of * operations          : 11
+Number of integer ^ operations  : 0
+Number of / operations          : 0
+Number of function applications : 0
+
+
+Sumscheme :
+
+   |  0  1  2| EC|Far
+---------------------
+  0|         |  1| z
+  3|     1  1|  1| 2
+  7|  2      |  1| 6
+ 10|     2 10|  1| 9
+---------------------
+0  : s0
+1  : s1
+2  : s2
+
+
+
+Productscheme :
+
+   |  3  4  5  9 10 11 12| EC|Far
+---------------------------------
+  1|           2         |  1| 0
+  2|  1                  |  1| 0
+  6|  1                  |  1| 3
+  9|  1                  |  1| 7
+ 13|                 1  1|  1| s0
+ 14|                 2   |  1| s1
+ 15|                    2|  1| s2
+ 16|              2      |  1| s3
+---------------------------------
+3  : s3
+4  : s2
+5  : s1
+9  : s0
+10 : m
+11 : b
+12 : a
+
+off exp,primat,acinfo$
+
+ 
+q:=a+b$
+
+
+r:=q+a+b$
+
+
+optimize x:=a+b,q:=:q^2,p(q)::=:r iname s;
+
+
+
+x := a + b
+q := x*x
+p(x) := 2*x
+
+on exp$
+
+
+clear q,r$
+
+
+
+% A similar example follows.
+% operator a$% Not necessary. Some differences between REDUCE 3.5 and REDUCE 3.6
+% when dealing with indices.
+
+on inputc$
+
+
+k:=j:=1$
+
+
+u:=c*x+d$
+
+
+v:=sin(u)$
+
+
+optimize {a(k,j):=v*(v^2*cos(u)^2+u),
+          a(k,j)::=:v*(v^2*cos(u)^2+u)} iname s;
+
+
+              2       2
+a(1,1) := v*(v *cos(u)  + u)
+
+                      2             3
+a(1,1) := cos(c*x + d) *sin(c*x + d)  + sin(c*x + d)*c*x + sin(c*x + d)*d
+
+
+s9 := cos(u)*v
+a(1,1) := v*(u + s9*s9)
+s6 := x*c + d
+s5 := sin(s6)
+s10 := s5*cos(s6)
+a(1,1) := s5*(s6 + s10*s10)
+
+off exp$
+
+
+optimize {a(k,j):=v*(v^2*cos(u)^2+u),
+          a(k,j)::=:v*(v^2*cos(u)^2+u)} iname s;
+
+
+              2       2
+a(1,1) := v*(v *cos(u)  + u)
+
+                                 2             2
+a(1,1) := (c*x + d + cos(c*x + d) *sin(c*x + d) )*sin(c*x + d)
+
+
+s9 := cos(u)*v
+a(1,1) := v*(u + s9*s9)
+s6 := x*c + d
+s5 := sin(s6)
+s10 := s5*cos(s6)
+a(1,1) := s5*(s6 + s10*s10)
+
+off inputc,period$
+
+
+optlang fortran$
+
+
+optimize z:=(6*a+18*b+9*c+3*d+6*j+18*f+6*g+5*h+5*k+3)^13 iname s;
+
+
+
+      s0=5*(h+k)+3*(3*c+d+1+6*(b+f)+2*(a+j+g))
+      s3=s0*s0*s0
+      s2=s3*s3
+      z=s0*s2*s2
+
+off ftch$
+
+
+optimize z:=(6*a+18*b+9*c+3*d+6*j+18*f+6*g+5*h+5*k+3)^13 iname s;
+
+
+      z=(5*(h+k)+3*(3*c+d+1+6*(b+f)+2*(a+j+g)))**13
+
+optlang c$
+
+
+optimize z:=(6*a+18*b+9*c+3*d+6*j+18*f+6*g+5*h+5*k+3)^13 iname s;
+
+
+
+{
+    s0=5*(h+k)+3*(3*c+d+1+6*(b+f)+2*(a+j+g));
+    s3=s0*s0*s0;
+    s2=s3*s3;
+    z=s0*s2*s2;
+}
+
+
+% Note: C code never contains exponentiations.
+
+on ftch$
+
+
+optimize {x:=3*a*p,y:=3*a*q,z:=6*a*r+2*b*p,u:=6*a*d+2*b*q,
+v:=9*a*c+4*b*d,w:=4*b} iname s;
+
+
+
+{
+    s2=3*a;
+    x=s2*p;
+    y=s2*q;
+    s0=2*b;
+    s3=6*a;
+    z=s0*p+s3*r;
+    u=s0*q+s3*d;
+    w=4*b;
+    v=w*d+9*c*a;
+}
+
+off ftch$
+
+
+optlang fortran$
+
+
+optimize {x:=3*a*p,y:=3*a*q,z:=6*a*r+2*b*p,u:=6*a*d+2*b*q,
+v:=9*a*c+4*b*d,w:=4*b} iname s;
+
+
+      x=3*p*a
+      y=3*q*a
+      z=2*b*p+6*r*a
+      u=2*b*q+6*d*a
+      v=4*d*b+9*c*a
+      w=4*b
+
+on ftch$
+
+
+setlength 2$
+
+
+optimize {x:=3*a*p,y:=3*a*q,z:=6*a*r+2*b*p,u:=6*a*d+2*b*q,
+v:=9*a*c+4*b*d,w:=4*b} iname s;
+
+
+      x=3*p*a
+      y=3*q*a
+      z=2*b*p+6*r*a
+      u=2*b*q+6*d*a
+      v=4*d*b+9*c*a
+      w=4*b
+
+resetlength$
+
+
+optlang nil$
+
+
+
+% Further reading: SCOPE 1.5 manual section 3.1, example 9 and section 3.2.
+
+u:=a*x+2*b$
+
+
+v:=sin(u)$
+
+
+w:=cos(u)$
+
+
+f:=v^2*w;
+
+
+                                  2
+f := cos(a*x + 2*b)*sin(a*x + 2*b)
+
+off exp$
+
+
+optimize f:=:f,g:=:f^2+f iname s$
+
+
+
+s3 := x*a + 2*b
+s2 := sin(s3)
+f := s2*s2*cos(s3)
+g := f*(f + 1)
+
+alst:=aresults;
+
+
+alst := {s3=a*x + 2*b,
+
+         s2=sin(s3),
+
+                     2
+         f=cos(s3)*s2 ,
+
+         g=(f + 1)*f}
+
+restorables;
+
+
+{f}
+
+f;
+
+
+f
+
+arestore f;
+
+
+f;
+
+
+                             2
+cos(a*x + 2*b)*sin(a*x + 2*b)
+
+alst;
+
+
+{s3=a*x + 2*b,
+
+ s2=sin(s3),
+
+                              2           2
+ cos(a*x + 2*b)*sin(a*x + 2*b) =cos(s3)*s2 ,
+
+                                 2                                   2
+ g=(cos(a*x + 2*b)*sin(a*x + 2*b)  + 1)*cos(a*x + 2*b)*sin(a*x + 2*b) }
+
+optimize f:=:f,g:=:f^2+f iname s$
+
+
+
+s3 := x*a + 2*b
+s2 := sin(s3)
+f := s2*s2*cos(s3)
+g := f*(f + 1)
+
+alst:=aresults$
+
+
+optimize f:=:f,g:=:f^2+f iname s$
+
+
+
+g := f*(f + 1)
+
+restoreall$
+
+
+f;
+
+
+f
+
+
+% Further reading: SCOPE 1.5 manual section 3.1, example 8. 
+%                  See also section 5.
+%                  Also recommended: section 9.
+
+clear a$
+
+
+matrix a(2,2)$
+
+
+a(1,1):=x+y+z$
+
+
+a(1,2):=x*y$
+
+
+a(2,1):=(x+y)*x*y$
+
+
+a(2,2):=(x+2*y+3)^3-x$
+
+
+on exp$
+
+
+off fort,nat$
+
+
+optimize detexp:=:det(a) out "expfile" iname s$
+
+
+
+off exp$
+
+
+optimize detnexp:=:det(a) out "nexpfile" iname t$
+
+
+
+in expfile$
+
+
+in nexpfile$
+
+
+on nat$
+
+
+detexp-detnexp;
+
+
+0
+
+system "rm expfile nexpfile"$
+
+
+
+% Further reading: SCOPE 1.5 manual section 4.2, example 15.
+% Although the output is similar, it is in general equivalent and
+% not identical when using REDUCE 3.6 in stead of REDUCE 3.5. This
+% is due to improvements in the simplification strategy.
+
+on acinfo$
+
+
+optimize 
+   gstructr<<a;aa:=(x+y)^2;b:=(x+y)*(y+z);c:=(x+2*y)*(y+z)*(z+x)^2>>
+name v iname s;
+
+
+Number of operations in the input is: 
+
+Number of (+/-) operations      : 8
+Number of unary - operations    : 0
+Number of * operations          : 8
+Number of integer ^ operations  : 3
+Number of / operations          : 0
+Number of function applications : 0
+
+
+v1 := y + z
+a(1,1) := v1 + x
+a(1,2) := y*x
+v3 := y + x
+a(2,1) := a(1,2)*v3
+s6 := 2*y + x
+s4 := s6 + 3
+a(2,2) := s4*s4*s4 - x
+aa := v3*v3
+b := v1*v3
+s5 := z + x
+c := s6*s5*s5*v1
+
+Number of operations after optimization is:
+
+Number of (+/-) operations      : 7
+Number of unary - operations    : 0
+Number of * operations          : 10
+Number of integer ^ operations  : 0
+Number of / operations          : 0
+Number of function applications : 5
+
+
+alst:=
+  algopt(algstructr({a,b=(x+y)^2,c=(x+y)*(y+z),d=(x+2*y)*(y+z)*(z+x)^2},v),s);
+
+
+Number of operations in the input is: 
+
+Number of (+/-) operations      : 8
+Number of unary - operations    : 0
+Number of * operations          : 8
+Number of integer ^ operations  : 3
+Number of / operations          : 0
+Number of function applications : 0
+
+
+
+Number of operations after optimization is:
+
+Number of (+/-) operations      : 7
+Number of unary - operations    : 0
+Number of * operations          : 10
+Number of integer ^ operations  : 0
+Number of / operations          : 0
+Number of function applications : 5
+
+
+*** a declared operator 
+
+alst := {v1=y + z,
+
+         a(1,1)=v1 + x,
+
+         a(1,2)=x*y,
+
+         v3=x + y,
+
+         a(2,1)=a(1,2)*v3,
+
+         s6=x + 2*y,
+
+         s4=s6 + 3,
+
+                  3
+         a(2,2)=s4  - x,
+
+             2
+         b=v3 ,
+
+         c=v1*v3,
+
+         s5=x + z,
+
+             2
+         d=s5 *s6*v1}
+
+off acinfo$
+
+
+
+% Further reading: SCOPE 1.5 manual section 4.3, example 16.
+
+clear a$
+
+
+procedure taylor(fx,x,x0,n);
+ sub(x=x0,fx)+(for k:=1:n sum(sub(x=x0,df(fx,x,k))*(x-x0)^k/factorial(k)))$
+
+
+hlst:={f1=taylor(e^x,x,0,4),f2=taylor(cos x,x,0,6)}$
+
+
+on rounded$
+
+
+hlst:=hlst;
+
+
+                              3      2
+hlst := {f1=0.0416666666667*(x  + 4*x  + 12*x + 24)*x + 1,
+
+                                  4       2         2
+         f2= - 0.00138888888889*(x  - 30*x  + 360)*x  + 1}
+
+optimize alghorner(hlst,{x}) iname g$
+
+
+
+g1 := x*x
+g0 := g1*x
+f1 := 1 + x*(0.166666666667*g1 + 0.0416666666667*g0 + 1 + 0.5*x)
+f2 := 1 + g1*(0.0416666666667*g1 - 0.5 - 0.00138888888889*g0*x)
+
+off rounded$
+
+
+
+% Further reading: SCOPE 1.5 manual section 3.1, examples 6 and 7.
+
+optimize z:=:for j:=2:6 sum a^(1/j) iname s$
+
+
+
+       1/60
+s0 := a
+s8 := s0*s0
+s7 := s8*s0
+s5 := s8*s7
+s3 := s5*s5
+s2 := s8*s3
+s1 := s7*s2
+s4 := s5*s1
+z := s3 + s2 + s1 + s4 + s4*s3
+
+optimize z1:=a+sqrt(sin(a^2+b^2)), z2:=b+sqrt(sin(a^2+b^2)), 
+         z3:=a+b+(a^2+b^2)^(1/2),  z4:=sqroot(a^2+b^2)+(a^2+b^2)^3, 
+         z5:=a^2+b^2+cos(a^2+b^2), z6:=(a^2+b^2)^(1/3)+(a^2+b^2)^(1/6)  
+iname s;
+
+
+
+s6 := b*b + a*a
+s8 := sqrt(sin(s6))
+z1 := s8 + a
+z2 := s8 + b
+        1/6
+s7 := s6
+s9 := s7*s7
+z3 := a + b + s9*s7
+z4 := sqroot(s6) + s6*s6*s6
+z5 := s6 + cos(s6)
+z6 := s7 + s9
+
+
+% Further reading: SCOPE 1.5 manual section 6, examples 18 and 19.
+
+optlang fortran$
+
+
+optimize {x(i+1,i-1):=a(i+1,i-1)+b(i),y(i-1):=a(i-1,i+1)-b(i)} iname s
+         declare <<x(4),a(4,4),y(5): real;b(5): integer>>;
+
+
+
+      integer b(5),i,s10,s9
+      real a(4,4),x(4),y(5)
+      s10=i+1
+      s9=i-1
+      x(s10,s9)=a(s10,s9)+b(i)
+      y(s9)=a(s9,s10)-b(i)
+
+optlang c$
+
+
+optimize {x(i+1,i-1):=a(i+1,i-1)+b(i),y(i-1):=a(i-1,i+1)-b(i)} iname s
+         declare <<x(4),a(4,4),y(5): real;b(5): integer>>;
+
+
+
+int b[6],i,s10,s9;
+float a[5][5],x[5],y[6];
+{
+    s10=i+1;
+    s9=i-1;
+    x[s10][s9]=a[s10][s9]+b[i];
+    y[s9]=a[s9][s10]-b[i];
+}
+
+optlang  pascal$
+
+
+optimize {x(i+1,i-1):=a(i+1,i-1)+b(i),y(i-1):=a(i-1,i+1)-b(i)} iname s
+         declare <<x(4),a(4,4),y(5): real;b(5): integer>>;
+
+
+
+var
+    s9,s10,i: integer;
+    b: array[0..5] of integer;
+    y: array[0..5] of real;
+    x: array[0..4] of real;
+    a: array[0..4,0..4] of real;
+begin
+    s10:=i+1;
+    s9:=i-1;
+    x[s10,s9]:=a[s10,s9]+b[i];
+    y[s9]:=a[s9,s10]-b[i]
+end;
+
+optlang ratfor$
+
+
+optimize {x(i+1,i-1):=a(i+1,i-1)+b(i),y(i-1):=a(i-1,i+1)-b(i)} iname s
+         declare <<x(4),a(4,4),y(5): real;b(5): integer>>;
+
+
+
+integer b(5),i,s10,s9
+real a(4,4),x(4),y(5)
+{
+    s10=i+1
+    s9=i-1
+    x(s10,s9)=a(s10,s9)+b(i)
+    y(s9)=a(s9,s10)-b(i)
+}
+
+precision 7$
+
+
+on rounded, double$
+
+
+optlang fortran$
+
+
+optimize x1:=2         *a + 10        *b,
+         x2:=2.00001   *a + 10        *b,
+         x3:=2         *a + 10.00001  *b,
+         x4:=6         *a + 10        *b,
+         x5:=2.0000001 *a + 10.000001 *b
+iname s
+declare << x1,x2,x3,x4,x5,a,b: real>>$
+
+
+
+      double precision a,b,s1,s2,x1,x2,x3,x4,x5
+      s1=2*a
+      s2=10*b
+      x1=s2+s1
+      x2=s2+2.00001d0*a
+      x3=s1+1.000001d1*b
+      x4=s2+6*a
+      x5=x1
+
+
+% Further reading: SCOPE 1.5 manual section 7, example 20.
+% Notice the double role of e: In the lhs as identifier. In the rhs as
+% exponential function.
+% Further notice that a is expected to be declared operator. This is
+% due to lower level scope activities.
+
+optimize a(1,x+1)  := g + h*r^f,
+         b(y+1)    := a(1,2*x+1)*(g+h*r^f),
+         c1        := (h*r)/g*a(2,1+x),
+         c2        := c1*a(1,x+1) + sin(d),
+         a(1,x+1)  := c1^(5/2),
+         d         := b(y+1)*a(1,x+1),
+         a(1,1+2*x):= (a(1,x+1)*b(y+1)*c)/(d*g^2),
+         b(y+1)    := a(1,1+x)+b(y+1) + sin(d),
+         a(1,x+1)  := b(y+1)*c + h/(g + sin(d)),
+         d         := k*e + d*(a(1,1+x) + 3),
+         e         := d*(a(1,1+x) + 3) + sin(d),
+         f         := d*(3 + a(1,1+x)) + sin(d),
+         g         := d*(3 + a(1,1+x)) + f
+iname s
+declare << a(5,5),b(7),c,c1,d,e,f,g,h,r: real*8; x,y: integer>>$
+
+
+*** a declared operator 
+
+
+      integer x,y,s0,s2,s6
+      double precision c,h,r,s34,s3,c1,c2,s4,s24,b(7),a(5,5),s29,k,d,s33
+     . ,e,f,g
+      s0=x+1
+      s34=r**f*h+g
+      s2=1+y
+      s6=2*x+1
+      s3=s34*a(1,s6)
+      c1=a(2,s0)*((r*h)/g)
+      c2=dsin(d)+s34*c1
+      s4=dsqrt(c1)*c1*c1
+      d=s4*s3
+      a(1,s6)=(d*c)/(g*g*d)
+      s24=dsin(d)
+      b(s2)=s4+s3+s24
+      a(1,s0)=h/(g+s24)+b(s2)*c
+      s29=3+a(1,s0)
+      d=s29*d+dexp(1.0d0)*k
+      s33=s29*d
+      e=s33+dsin(d)
+      f=dexp(1.0d0)
+      g=s33+f
+
+
+% Further reading: SCOPE 1.5 manual section 8, examples 21 and 22.
+%                  Also recommended: section 9.
+
+optlang nil$
+
+
+delaydecs$
+
+
+ gentran declare <<a,b,c,d,q,w: real>>$
+
+
+ gentran a:=b+c$
+
+
+ gentran d:=b+c$
+
+
+ gentran <<q:=b+c;w:=b+c>>$
+
+
+makedecs$
+
+      double precision a,b,c,d,q,w
+      a=b+c
+      d=b+c
+      q=b+c
+      w=b+c
+
+on gentranopt$
+
+
+delaydecs$
+
+
+ gentran declare <<a,b,c,d,q,w: real>>$
+
+
+ gentran a:=b+c$
+
+
+
+
+ gentran d:=b+c$
+
+
+
+
+ gentran <<q:=b+c;w:=b+c>>$
+
+
+
+
+makedecs$
+
+      double precision b,c,a,d,q,w
+      a=b+c
+      d=b+c
+      q=b+c
+      w=q
+
+off gentranopt$
+
+
+delayopts$
+
+
+ gentran declare <<a,b,c,d,q,w: real>>$
+
+
+ gentran a:=b+c$
+
+
+ gentran d:=b+c$
+
+
+ gentran <<q:=b+c;w:=b+c>>$
+
+
+makeopts$
+
+
+
+      a=b+c
+      d=a
+      q=a
+      w=a
+
+delaydecs$
+
+
+ gentran declare <<a,b,c,d,q,w: real>>$
+
+
+ delayopts$
+
+
+  gentran a:=b+c$
+
+
+  gentran d:=b+c$
+
+
+  gentran <<q:=b+c;w:=b+c>>$
+
+
+ makeopts$
+
+
+
+
+makedecs$
+
+      double precision b,c,a,d,q,w
+      a=b+c
+      d=a
+      q=a
+      w=a
+
+clear a,b,c,d,q,w$
+
+
+matrix a(2,2)$
+
+
+a:=mat(((b+c)*(c+d),(b+c+2)*(c+d-3)),((c+b-3)*(d+b),(c+b)*(d+b+4)));
+
+
+     [  (b + c)*(c + d)    (c + 2 + b)*(d - 3 + c)]
+a := [                                            ]
+     [(c - 3 + b)*(b + d)    (d + 4 + b)*(b + c)  ]
+
+
+gentranlang!*:='c$
+
+
+delayopts$
+
+
+ gentran aa:=:a$
+
+
+makeopts$
+
+
+
+{
+    {
+        g18=b+c;
+        g19=c+d;
+        aa[1][1]=g19*g18;
+        aa[1][2]=(g19-3)*(g18+2);
+        g17=b+d;
+        aa[2][1]=g17*(g18-3);
+        aa[2][2]=g18*(g17+4);
+    }
+}
+
+end;
+
+Tested on x86_64-unknown-ubuntu11.04 CSL
+Time (counter 1): 20 ms
+real	0m0.160s
+user	0m0.090s
+sys	0m0.010s

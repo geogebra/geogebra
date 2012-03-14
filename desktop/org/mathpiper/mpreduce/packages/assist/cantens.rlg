@@ -1,0 +1,1932 @@
+% Test of CANTENS.RED
+%
+%     Authors: H. Caprasse <hubert.caprasse@ulg.ac.be>
+%
+% Version and Date:  Version 1.1, 15 September 1998.
+%----------------------------------------------------------------
+off errcont;
+
+
+% Default : 
+onespace ?;
+
+
+yes
+
+wholespace_dim ?;
+
+
+dim
+  
+global_sign ? ;
+
+
+1
+ 
+signature ?;
+
+
+0
+ 
+% answers to the 4 previous commands: yes, dim, 1, 0
+wholespace_dim 4;
+
+
+4
+ 
+signature 1;
+
+
+1
+
+global_sign(-1);
+
+
+-1
+
+% answers to the three previous commands: 4, 1, (-1) 
+% answer to the command below: {}
+show_spaces();
+
+
+{}
+
+% Several spaces:
+off onespace;
+
+
+onespace ?;
+
+
+no
+ 
+% answer: no
+show_spaces();
+
+
+{}
+
+define_spaces wholespace={6,signature=1,indexrange=0 .. 5};
+
+
+t
+
+% indexrange command is superfluous since 'wholespace':
+show_spaces();
+
+
+{{wholespace,6,signature=1,indexrange=0 .. 5}}
+
+rem_spaces wholespace;
+
+
+t
+
+define_spaces wholespace={11,signature=1};
+
+
+t
+ 
+define_spaces mink={4,signature=1,indexrange=0 .. 3};
+
+
+t
+ 
+define_spaces eucl={6,euclidian,indexrange=4 .. 9};
+
+
+t
+ 
+show_spaces();
+
+
+{{wholespace,11,signature=1},
+
+ {mink,4,signature=1,indexrange=0 .. 3},
+
+ {eucl,6,euclidian,indexrange=4 .. 9}}
+
+%
+% if input error or modifications necessary:
+%
+define_spaces eucl={7,euclidian,indexrange=4 .. 10};
+
+*** Warning: eucl  cannot be (or is already) defined as space identifier 
+t
+
+%
+% do:
+%
+rem_spaces eucl;
+
+
+t
+
+define_spaces eucl={7,euclidian,indexrange=4 .. 10};
+
+
+t
+
+show_spaces();
+
+
+{{wholespace,11,signature=1},
+
+ {mink,4,signature=1,indexrange=0 .. 3},
+
+ {eucl,7,euclidian,indexrange=4 .. 10}}
+
+% done
+%
+define_spaces eucl1={1,euclidian,indexrange=11 .. 11};
+
+
+t
+ 
+show_spaces();
+
+
+{{wholespace,11,signature=1},
+
+ {mink,4,signature=1,indexrange=0 .. 3},
+
+ {eucl,7,euclidian,indexrange=4 .. 10},
+
+ {eucl1,1,euclidian,indexrange=11 .. 11}}
+
+rem_spaces wholespace,mink,eucl,eucl1;
+
+
+t
+
+show_spaces();
+
+
+{}
+
+%
+% Indices can be made to belong to a subspace or replaced 
+% in the whole space:
+define_spaces eucl={3,euclidean};
+
+
+t
+
+show_spaces();
+
+
+{{eucl,3,euclidean}}
+
+mk_ids_belong_space({a1,a2},eucl);
+
+
+t
+
+% a1,a2 belong to the subspace eucl.
+mk_ids_belong_anyspace a1,a2;
+
+
+t
+
+% replaced in the whole space.
+rem_spaces eucl;
+
+
+t
+
+%%  
+%% GENERIC TENSORS:
+on onespace;
+
+
+wholespace_dim dim;
+
+
+dim
+
+tensor te;
+
+
+t
+ 
+te(3,a,-4,b,-c,7);
+
+
+  3 a   b   7
+te
+      4   c 
+ 
+te(3,a,{x,y},-4,b,-c,7);
+
+
+   3 a   b   7
+te            (x,y)
+       4   c 
+
+te(3,a,-4,b,{u,v},-c,7);
+
+
+   3 a   b   7
+te            (u,v)
+       4   c 
+
+te({x,y});
+
+
+te(x,y)
+
+ 
+make_variables x,y;
+
+
+t
+
+te(x,y);
+
+
+te(x,y)
+
+
+te(x,y,a);
+
+
+   a
+te  (x,y)
+   
+ 
+remove_variables x;
+
+
+t
+
+te(x,y,a);
+
+
+   x a
+te    (y)
+   
+
+remove_variables y;
+
+
+t
+
+%
+% implicit dependence:
+%
+operator op2;
+
+
+depend op1,op2(x);
+
+
+df(op1,op2(x));
+
+
+df(op1,op2(x))
+
+% the next response is 0:
+df(op1,op2(y));
+
+
+0
+
+clear op2;
+
+
+% case of a tensor: 
+operator op1;
+
+
+depend te,op1(x);
+
+ 
+df(te(a,-b),op1(x));
+
+
+     a 
+df(te   ,op1(x))
+       b
+
+% next the outcome is 0:
+df(te(a,-b),op1(y));
+
+
+0
+
+%
+tensor x;
+
+
+t
+
+depend te,x;
+
+
+% outcome is NOT 0:
+df(te(a,-b),x(c));
+
+
+     a    c
+df(te   ,x )
+       b
+
+%
+% Substitutions:
+sub(a=-c,te(a,b));
+
+
+    b
+te
+  c 
+
+sub(a=-1,te(a,b));
+
+
+    b
+te
+  1 
+ 
+% the following operation is wrong:
+sub(a=-0,te(a,b));
+
+
+  0 b
+te
+  
+% should be made as following to be correct:
+sub(a=-!0,te(a,b));
+
+
+    b
+te
+  0 
+ 
+% dummy indices recognition
+dummy_indices();
+
+
+{}
+
+te(a,b,-c,-a);
+
+
+  a b 
+te
+      c a
+
+dummy_indices();
+
+
+{a}
+
+te(a,b,-c,-a);
+
+
+  a b 
+te
+      c a
+
+dummy_indices();
+
+
+{a}
+
+% hereunder an error message correctly occurs:
+on errcont;
+
+
+te(a,b,-c,a);
+
+
+***** ((c) (a b a)) are inconsistent lists of indices 
+
+off errcont;
+
+
+sub(c=b,te(a,b,-c,-a));
+
+
+  a b 
+te
+      b a
+
+dummy_indices();
+
+
+{b,a}
+
+% dummy indices suppression:
+on errcont;
+
+
+te(d,-d,d);
+
+
+***** ((d) (d d)) are inconsistent lists of indices 
+
+off errcont;
+
+
+dummy_indices();
+
+
+{d,b,a}
+
+rem_dummy_indices d;
+
+
+t
+
+te(d,d);
+
+
+  d d
+te
+
+dummy_indices();
+
+
+{b,a}
+
+rem_dummy_indices a,b;
+
+
+t
+
+onespace ?;
+
+
+yes
+
+% case of space of integer dimension:
+wholespace_dim 4;
+
+
+4
+
+signature 0;
+
+
+0
+
+% 7 out of range
+on errcont;
+
+
+te(3,a,-b,7);
+
+
+***** numeric indices out of range 
+
+off errcont;
+
+
+te(3,a,-b,3);
+
+
+  3 a   3
+te
+      b 
+
+te(4,a,-b,4);
+
+
+  4 a   4
+te
+      b 
+
+% an 'out-of-range' error is issued:
+on errcont;
+
+
+sub(a=5,te(3,a,-b,3));
+
+
+***** numeric indices out of range 
+
+off errcont;
+
+
+signature 1;
+
+
+1
+
+% now indices should run from 0 to 3 => error: 
+on errcont;
+
+
+te(4,a,-b,4);
+
+
+***** numeric indices out of range 
+
+off errcont;
+
+
+% correct:
+te(0,a,-b,3);
+
+
+  0 a   3
+te
+      b 
+
+%
+off onespace;
+
+
+define_spaces wholespace={4,euclidean};
+
+
+t
+
+% We MUST say that te BELONG TO A SPACE, here to wholespace:
+make_tensor_belong_space(te,wholespace);
+
+
+wholespace
+
+on errcont;
+
+
+te(a,5,-b);
+
+
+***** numeric indices out of range 
+
+off errcont;
+
+
+te(a,4,-b);
+
+
+  a 4 
+te
+      b
+
+rem_spaces wholespace;
+
+
+t
+
+define_spaces wholespace={5,signature=1};
+
+
+t
+
+define_spaces eucl={1,signature=0};
+
+
+t
+
+show_spaces();
+
+
+{{wholespace,5,signature=1},
+
+ {eucl,1,signature=0}}
+
+make_tensor_belong_space(te,eucl);
+
+
+eucl
+
+te(1);
+
+
+  1
+te
+
+% hereunder, an error message is issued: 
+on errcont;
+
+
+te(2);
+
+
+***** numeric indices out of range 
+
+off errcont;
+
+
+% hereunder, an error message should be issued, it is not 
+% because no indexrange has been declared:
+te(0);
+
+
+  0
+te
+
+rem_spaces eucl;
+
+
+t
+
+define_spaces eucl={1,signature=0,indexrange=1 .. 1};
+
+
+t
+
+% NOW an error message is issued:
+on errcont;
+
+
+te(0);
+
+
+***** numeric indices do not belong to (sub)-space 
+
+off errcont;
+
+
+te(1);
+
+
+  1
+te
+
+% again an error message:
+on errcont;
+
+
+te(2);
+
+
+***** numeric indices do not belong to (sub)-space 
+
+off errcont;
+
+
+%
+rem_dummy_indices a,b,c,d;
+
+
+t
+
+% symmetry properties:
+%
+symmetric te;
+
+
+te(a,-b,c,d);
+
+
+  a c d 
+te
+        b
+
+remsym te;
+
+
+antisymmetric te;
+
+
+te(a,b,-c,d);
+
+
+     a b d 
+ - te
+           c
+
+remsym te;
+
+
+% mixed symmetries:
+tensor r;
+
+
+t
+
+% 
+symtree(r,{!+,{!-,1,2},{!-,3,4}});
+
+
+ra:=r(b,a,c,d)$
+
+ 
+canonical ra;
+
+
+    a b c d
+ - r
+ 
+ra:=r(c,d,a,b)$
+
+
+canonical ra;
+
+
+ a b c d
+r
+
+% here canonical is short-cutted
+ra:=r(b,b,c,a);
+
+
+ra := 0
+
+%
+% symmetrization:
+on onespace;
+
+
+symmetrize(r(a,b,c,d),r,permutations,perm_sign);
+
+
+ a b c d    a b d c    a c b d    a c d b    a d b c    a d c b    b a c d
+r        - r        - r        + r        + r        - r        - r
+
+    b a d c    b c a d    b c d a    b d a c    b d c a    c a b d    c a d b
+ + r        + r        - r        - r        + r        + r        - r
+
+    c b a d    c b d a    c d a b    c d b a    d a b c    d a c b    d b a c
+ - r        + r        + r        - r        - r        + r        + r
+
+    d b c a    d c a b    d c b a
+ - r        - r        + r
+
+canonical ws;
+
+
+    a b c d    a c b d    a d b c
+8*(r        - r        + r       )
+
+off onespace;
+
+
+symmetrize({a,b,c,d},r,cyclicpermlist);
+
+
+ a b c d    b c d a    c d a b    d a b c
+r        + r        + r        + r
+
+canonical ws;
+
+
+    a b c d    a d b c
+2*(r        - r       )
+
+rem_tensor r;
+
+
+t
+
+% Declared bloc-diagonal tensor:
+rem_spaces wholespace,eucl;
+
+
+t
+
+define_spaces wholespace={7,signature=1};
+
+
+t
+
+define_spaces mink={4,signature=1,indexrange=0 .. 3};
+
+
+t
+
+define_spaces eucl={3,euclidian,indexrange=4 .. 6};
+
+
+t
+
+show_spaces();
+
+
+{{wholespace,7,signature=1},
+
+ {mink,4,signature=1,indexrange=0 .. 3},
+
+ {eucl,3,euclidian,indexrange=4 .. 6}}
+
+make_tensor_belong_space(te,eucl);
+
+
+eucl
+
+make_bloc_diagonal te;
+
+
+t
+
+mk_ids_belong_space({a,b,c},eucl);
+
+
+t
+
+te(a,b,z);
+
+
+  a b z
+te
+
+mk_ids_belong_space({m1,m2},mink);
+
+
+t
+
+te(a,b,m1);
+
+
+0
+
+te(a,b,m2);
+
+
+0
+
+mk_ids_belong_anyspace a,b,c,m1,m2;
+
+
+t
+
+te(a,b,m2);
+
+
+  a b m2
+te
+
+% how to ASSIGN a particular component ?
+% take the simplest context: 
+rem_spaces wholespace,mink,eucl;
+
+
+t
+
+on onespace;
+
+
+te({x,y},a,-0)==x*y*te(a,-0);
+
+
+  a 
+te   *x*y
+    0
+ 
+te({x,y},a,-0);
+
+
+  a 
+te   *x*y
+    0
+ 
+te({x,y},a,0);
+
+
+   a 0
+te    (x,y)
+   
+ 
+% hereunder an error message  is issued because already assigned:
+on errcont;
+
+
+te({x,y},a,-0)==x*y*te(a,-0);
+
+
+        a 
+***** te   *x*y invalid as setvalue kernel
+          0
+
+off errcont;
+
+
+% clear value:
+rem_value_tens te({x,y},a,-0);
+
+
+t
+
+te({x,y},a,-0);
+
+
+   a 
+te    (x,y)
+     0
+ 
+te({x,y},a,-0)==(x+y)*te(a,-0);
+
+
+  a 
+te   *(x + y)
+    0
+
+% A small illustration
+te(1)==sin th * cos phi;
+
+
+cos(phi)*sin(th)
+ 
+te(-1)==sin th * cos phi;
+
+
+cos(phi)*sin(th)
+
+te(2)==sin th * sin phi;
+
+
+sin(phi)*sin(th)
+
+te(-2)==sin th * sin phi;
+
+
+sin(phi)*sin(th)
+
+te(3)==cos th ;
+
+
+cos(th)
+
+te(-3)==cos th ;
+
+
+cos(th)
+
+for i:=1:3 sum te(i)*te(-i);
+
+
+        2        2          2           2        2
+cos(phi) *sin(th)  + cos(th)  + sin(phi) *sin(th)
+
+rem_value_tens te;
+
+
+t
+
+te(2);
+
+
+  2
+te
+
+let te({x,y},-0)=x*y;
+
+
+te({x,y},-0);
+
+
+x*y
+
+te({x,y},0);
+
+
+   0
+te  (x,y)
+   
+
+te({x,u},-0);
+
+
+te  (x,u)
+   0
+
+for all x,a let te({x},a,-b)=x*te(a,-b);
+
+
+te({u},1,-b);
+
+
+  1 
+te   *u
+    b
+
+te({u},c,-b);
+
+
+  c 
+te   *u
+    b
+
+te({u},b,-b);
+
+
+  b 
+te   *u
+    b
+
+te({u},a,-a);
+
+
+   a 
+te    (u)
+     a
+
+for all x,a clear te({x},a,-b);
+
+
+te({u},c,-b);
+
+
+   c 
+te    (u)
+     b
+
+% rule for indices only
+for all a,b let te({x},a,-b)=x*te(a,-b);
+
+
+te({x},c,-b);
+
+
+  c 
+te   *x
+    b
+
+te({x},a,-a);
+
+
+  a 
+te   *x
+    a
+
+% A BUG still exists for -0 i.e. rule does NOT apply:
+te({x},a,-0);
+
+
+   a 
+te    (x)
+     0
+
+% the cure is to use -!0 in this case
+te({x},0,-!0);
+
+
+  0 
+te   *x
+    0
+
+%
+% local rules: 
+%
+rul:={te(~a) => sin a};
+
+
+          ~a
+rul := {te   => sin(a)}
+
+te(1) where rul;
+
+
+sin(1)
+
+% 
+rul1:={te(~a,{~x,~y}) => x*y*sin(a)};
+
+
+           ~a 
+rul1 := {te   (~x,~y) => x*y*sin(a)}
+
+ 
+%
+te(a,{x,y}) where rul1;
+
+
+sin(a)*x*y
+
+te({x,y},a) where rul1;
+
+
+sin(a)*x*y
+
+%
+rul2:={te(-~a,{~x,~y}) => x*y*sin(-a)};
+
+
+rul2 := {te   (~x,~y) => x*y*sin( - a)}
+           ~a 
+
+% 
+te(-a,{x,y}) where rul2;
+
+
+ - sin(a)*x*y
+ 
+te({x,y},-a) where rul2;
+
+
+ - sin(a)*x*y
+
+%% CANONICAL 
+%
+% 1. Coherence of tensorial indices.
+%
+tensor te,tf;
+
+*** Warning:  te redefined as generic tensor  
+t
+ 
+dummy_indices();
+
+
+{a,b}
+
+make_tensor_belong_anyspace te;
+
+
+t
+
+on errcont;
+
+
+bb:=te(a,b)*te(-b)*te(b);
+
+
+            a b   b
+bb := te *te   *te
+        b
+
+% hereunder an error message is issued:
+canonical bb;
+
+
+***** ((b) (a b b)) are inconsistent lists of indices 
+
+off errcont;
+
+
+bb:=te(a,b)*te(-b);
+
+
+            a b
+bb := te *te
+        b
+
+% notice how it is rewritten by canonical:
+canonical bb;
+
+
+  a     b
+te   *te
+    b
+
+% 
+dummy_indices();
+
+
+{a,b}
+
+aa:=te(d,-c)*tf(d,-c);
+
+
+        d     d 
+aa := te   *tf
+          c     c
+
+% if a and c are FREE no error message:
+canonical aa;
+
+
+  d     d 
+te   *tf
+    c     c
+
+% do NOT introduce powers for NON-INVARIANT tensors:
+aa:=te(d,-c)*te(d,-c);
+
+
+         d   2
+aa := (te   )
+           c
+
+% Powers are taken away
+canonical aa;
+
+
+  d 
+te
+    c
+
+% A trace CANNOT be squared because powers are removed by 'canonical':
+cc:=te(a,-a)^2$
+
+
+canonical cc;
+
+
+  a 
+te
+    a
+
+%
+% Correct writing of the previous squared:
+cc:=te(a,-a)*te(b,-b)$
+
+
+canonical cc;
+
+
+  a     b 
+te   *te
+    a     b
+
+% all terms must have the same variance:
+on errcont;
+
+
+aa:=te(a,c)+x^2;
+
+
+        a c    2
+aa := te    + x
+
+canonical aa;
+
+
+***** scalar added with tensor(s) 
+
+aa:=te(a,b)+tf(a,c);
+
+
+        a b     a c
+aa := te    + tf
+
+canonical aa;
+
+
+***** mismatch in free indices :  ((a c) (a b)) 
+
+off errcont;
+
+
+dummy_indices();
+
+
+{a,b}
+
+rem_dummy_indices a,b,c;
+
+
+t
+
+dummy_indices();
+
+
+{}
+
+% a dummy VARIABLE is NOT a dummy INDEX
+dummy_names b;
+
+
+t
+
+dummy_indices();
+
+
+{}
+
+% so, no error message in the following: 
+canonical(te(b,c)*tf(b,c));
+
+
+  b c   b c
+te   *tf
+
+% it is an incorrect input for a variable.
+% correct input is:
+canonical(te({b},c)*tf({b},c));
+
+
+   c       c
+te  (b)*tf  (b)
+           
+
+clear_dummy_names;
+
+
+t
+
+% contravariant indices are placed before covariant ones if possible.
+% i.e. Riemanian spaces by default: 
+pp:=te(a,-a)+te(-a,a)+1;
+
+
+          a     a 
+pp := te    + te    + 1
+        a         a
+ 
+canonical pp;
+
+
+    a 
+2*te    + 1
+      a
+
+pp:=te(a,-c)+te(-b,b,a,-c);
+
+
+          b a       a 
+pp := te        + te
+        b     c       c
+
+canonical pp;
+
+
+  a       b   a 
+te    + te
+    c       b   c
+
+pp:=te(r,a,-f,d,-a,f)+te(r,-b,-c,d,b,c);
+
+
+        r     d b c     r a   d   f
+pp := te            + te
+          b c               f   a 
+
+canonical pp;
+
+
+    r a b d 
+2*te
+            a b
+
+% here, a case where a normal form cannot be obtained:
+tensor nt;
+
+
+t
+
+a1:=nt(-a,d)*nt(-c,a);
+
+
+          d     a
+a1 := nt   *nt
+        a     c 
+
+a2:=nt(-c,-a)*nt(a,d);
+
+
+              a d
+a2 := nt   *nt
+        c a
+ 
+% obviously, a1-a2 =0, but ....
+canonical(a1-a2);
+
+
+       d     a           a d
+ - nt   *nt    + nt   *nt
+     a     c       c a
+
+% does give the same expression with the sign changed.
+% zero is either:
+canonical a1 -a2;
+
+
+0
+
+% or
+a1 -canonical a2;
+
+
+0
+
+% below the result is a2:
+canonical a1;
+
+
+        a d
+nt   *nt
+  c a
+
+% below result is a1 again: 
+canonical ws;
+
+
+    d     a
+nt   *nt
+  a     c 
+
+%  the above manipulations are NOT DONE if space is AFFINE
+off onespace;
+
+
+define_spaces aff={dd,affine};
+
+
+t
+
+make_tensor_belong_space(te,aff);
+
+
+aff
+ 
+% dummy indices MUST be declared to belong 
+% to a well defined space. here to 'aff':
+mk_ids_belong_space({a,b},aff);
+
+
+t
+
+canonical(te(-a,a));
+
+
+    a
+te
+  a 
+
+canonical(te(-a,a)+te(b,-b));
+
+
+    a     a 
+te    + te
+  a         a
+
+canonical(te(-a,c));
+
+
+    c
+te
+  a 
+
+% put back  the system in the previous status: 
+make_tensor_belong_anyspace te;
+
+
+t
+
+mk_ids_belong_anyspace a,b;
+
+
+t
+
+rem_spaces aff;
+
+
+t
+
+on onespace;
+
+
+%
+% 2. Summations with DELTA tensor.
+%
+make_partic_tens(delta,delta);
+
+
+t
+
+aa:=delta(a,-b)*delta(b,-c)*delta(c,-a) + 1;
+
+
+           a       b       c 
+aa := delta  *delta  *delta   + 1
+           b       c       a
+
+% below, answer is dim+1:
+canonical aa;
+
+
+dim + 1
+
+aa:=delta(a,-b)*delta(b,-c)*delta(c,-d)*te(d,e)$
+
+
+canonical aa;
+
+
+  a e
+te
+
+% 3. Summations with DELTA and ETA tensors.
+make_partic_tens(eta,eta);
+
+
+t
+
+signature 1;
+
+
+1
+
+aa:=eta(a,b)*eta(-b,-c);
+
+
+                a b
+aa := eta   *eta
+         b c
+
+canonical aa;
+
+
+     a 
+delta
+     c
+
+aa:=eta(a,b)*eta(-b,-c)*eta(c,d);
+
+
+                a b    c d
+aa := eta   *eta   *eta
+         b c
+
+canonical aa;
+
+
+   a d
+eta
+
+aa:=eta(a,b)*eta(-b,-c)*eta(d,c)*te(d,-a) +te(d,d);
+
+
+                a b    c d   d       d d
+aa := eta   *eta   *eta   *te    + te
+         b c                   a
+
+canonical aa;
+
+
+    d d
+2*te
+
+aa:=delta(a,-b)*eta(b,c);
+
+
+           a     b c
+aa := delta  *eta
+           b
+
+canonical aa;
+
+
+   a c
+eta
+
+aa:=delta(a,-b)*delta(d,-a)*eta(-c,-d)*eta(b,c);
+
+
+           a       d            b c
+aa := delta  *delta  *eta   *eta
+           b       a     c d
+
+% below the answer is dim:
+canonical aa;
+
+
+dim
+
+aa:=delta(a,-b)*delta(d,-a)*eta(-d,-e)*te(f,g,e);
+
+
+           a       d           f g e
+aa := delta  *delta  *eta   *te
+           b       a     d e
+
+canonical aa;
+
+
+  f g 
+te
+      b
+
+% Summations with the addition of the METRIC tensor:
+make_partic_tens(g,metric);
+
+
+t
+
+g(1,2,{x})==1/4*sin x;
+
+
+ sin(x)
+--------
+   4
+
+g({x},1,2);
+
+
+ sin(x)
+--------
+   4
+
+aa:=g(a,b)*g(-a,-c);
+
+
+            a b
+aa := g   *g
+       a c
+ 
+canonical aa;
+
+
+     b 
+delta
+     c
+
+aa:=g(a,b)*g(c,d)*eta(-c,-b);
+
+
+              a b  c d
+aa := eta   *g   *g
+         b c
+
+% answer is g(a,d):
+canonical aa;
+
+
+ a d
+g
+
+tensor te;
+
+*** Warning:  te redefined as generic tensor  
+t
+
+aa:=g(a,b)*g(c,d)*eta(-c,-e)*eta(e,f)*te(-f,g);
+
+
+                e f  a b  c d     g
+aa := eta   *eta   *g   *g   *te
+         c e                    f 
+
+canonical aa;
+
+
+ a b   d g
+g   *te
+
+% Summations with the addition of the EPSILON tensor.
+dummy_indices();
+
+
+{c,f,b,a}
+
+rem_dummy_indices a,b,c,f;
+
+
+t
+
+dummy_indices();
+
+
+{}
+
+wholespace_dim ?;
+
+
+dim
+
+signature ?;
+
+
+1
+
+% define the generalized delta function:
+make_partic_tens(gd,del);
+
+
+t
+
+make_partic_tens(epsilon,epsilon);
+
+
+t
+
+aa:=epsilon(a,b)*epsilon(-c,-d);
+
+
+                        a b
+aa := epsilon   *epsilon
+             c d
+
+% Minus sign reflects the chosen signature.
+canonical aa;
+
+
+     a b
+ - gd
+     c d 
+
+aa:=epsilon(a,b)*epsilon(-a,-b);
+
+
+                        a b
+aa := epsilon   *epsilon
+             a b
+
+canonical aa;
+
+
+dim*( - dim + 1)
+
+aa:=epsilon(a,b,c,d)*epsilon(-a,-b,-c,-e);
+
+
+                            a b c d
+aa := epsilon       *epsilon
+             a b c e
+
+canonical aa;
+
+
+     d         3        2
+delta  *( - dim  + 6*dim  - 11*dim + 6)
+     e
+
+on exdelt;
+
+
+% extract delta function down to the bottom:
+aa:=epsilon(a,b,c)*epsilon(-b,-d,-e);
+
+
+                          a b c
+aa := epsilon     *epsilon
+             b d e
+
+canonical aa;
+
+
+     a       c               a       c         a       c 
+delta  *delta  *dim - 2*delta  *delta   - delta  *delta  *dim
+     d       e               d       e         e       d
+
+          a       c 
+ + 2*delta  *delta
+          e       d
+
+off exdelt;
+
+
+% below expressed in terms of 'gd' tensor.
+canonical aa;
+
+
+  a c
+gd    *(dim - 2)
+  d e 
+
+rem_dummy_indices a;
+
+
+t
+
+aa:=epsilon(- b,-c)*eta(a,b)*eta(a,c);
+
+
+                    a b    a c
+aa := epsilon   *eta   *eta
+             b c
+
+% answer below is zero:
+canonical aa;
+
+
+0
+
+aa:=epsilon(a,b,c)*te(-a)*te(-b);
+
+
+             a b c
+aa := epsilon     *te *te
+                     a   b
+
+% below the result is again zero.
+canonical aa;
+
+
+0
+
+%
+tensor tf,tg;
+
+*** Warning:  tf redefined as generic tensor  
+t
+
+aa:=epsilon(a,b,c)*te(-a)*tf(-b)*tg(-c)+epsilon(d,e,f)*te(-d)*tf(-e)*tg(-f);
+
+
+             a b c                      d e f
+aa := epsilon     *te *tf *tg  + epsilon     *te *tf *tg
+                     a   b   c                  d   e   f
+
+% below the result is twice the first term.
+canonical aa;
+
+
+         a b c
+2*epsilon     *te *tf *tg
+                 a   b   c
+
+aa:=epsilon(a,b,c)*te(-a)*tf(-c)*tg(-b)+epsilon(d,e,f)*te(-d)*tf(-e)*tg(-f);
+
+
+             a b c                      d e f
+aa := epsilon     *te *tf *tg  + epsilon     *te *tf *tg
+                     a   c   b                  d   e   f
+
+% below the result is zero.
+canonical aa;
+
+
+0
+
+% An illustration when working inside several spaces. 
+rem_dummy_indices a,b,c,d,e,f;
+
+
+t
+
+off onespace;
+
+
+define_spaces wholespace={dim,signature=1};
+
+
+t
+
+define_spaces sub4={4,signature=1};
+
+
+t
+
+define_spaces subd={dim-4,signature=0};
+
+
+t
+
+show_spaces();
+
+
+{{wholespace,dim,signature=1},
+
+ {sub4,4,signature=1},
+
+ {subd,dim - 4,signature=0}}
+
+make_partic_tens(epsilon,epsilon);
+
+*** Warning: epsilon redefined as particular tensor 
+t
+
+make_tensor_belong_space(epsilon,sub4);
+
+
+sub4
+
+make_partic_tens(kappa,epsilon);
+
+*** Warning: kappa MUST belong to a space 
+t
+
+make_tensor_belong_space(kappa,subd);
+
+
+subd
+
+show_epsilons();
+
+
+{{kappa,subd},{epsilon,sub4}}
+
+mk_ids_belong_space({i,j,k,l,m,n,r,s},sub4);
+
+
+t
+
+mk_ids_belong_space({a,b,c,d,e,f},subd);
+
+
+t
+
+off exdelt;
+
+
+aa:=kappa(a,b,c)*kappa(-d,-e,-f)*epsilon(i,j,k,l)*epsilon(-k,-l,-i,-j);
+
+
+                            i j k l                 a b c
+aa := epsilon       *epsilon       *kappa     *kappa
+             i j k l                     d e f
+
+canonical aa;
+
+
+        a b c
+ - 24*gd
+        d e f 
+
+aa:=kappa(a,b,c)*kappa(-d,-e,-f)*epsilon(i,j,k,l)*epsilon(-m,-n,-r,-s);
+
+
+                            i j k l                 a b c
+aa := epsilon       *epsilon       *kappa     *kappa
+             m n r s                     d e f
+
+canonical aa;
+
+
+     a b c    i j k l
+ - gd      *gd
+     d e f    m n r s 
+
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 39 ms
+real	0m0.603s
+user	0m0.061s
+sys	0m0.122s

@@ -1,0 +1,126 @@
+off echo,msg;
+
+\documentstyle{article}
+\begin{document}
+\begin{displaymath}
+\frac{a^{5}+5 a^{4} b+10 a^{3} b^{2}+10 a^{2} b^{3}+5 a b^{4}+b^{5}}{a^{4}-4 a
+^{3} b+6 a^{2} b^{2}-4 a b^{3}+b^{4}}
+\end{displaymath}
+\begin{displaymath}
+x=a^{3}+3 a^{2} b+3 a b^{2}+b^{3}
+\end{displaymath}
+\begin{displaymath}
+\left\{
+a^{3}+3 a^{2} b+3 a b^{2}+b^{3} , 3 \left(a^{2}+2 a b+b^{2}\right) , 6 \left(a
++b\right)
+\right\}
+\end{displaymath}
+\begin{displaymath}
+\left\{
+\left\{
+a , a^{3}+3 a^{2} b+3 a b^{2}+b^{3}
+\right\} , a^{3}+3 a^{2} b+3 a b^{2}+b^{3}
+\right\}
+\end{displaymath}
+\begin{verbatim}
+REDUCE Input:
+
+solve(a^7-13*a+5);
+
+
+Unknown: a
+
+\end{verbatim}
+\begin{displaymath}
+\left\{
+a={\rm root\_of} \left(a\_^{7}-13 a\_+5,a\_,tag\_1\right)
+\right\}
+\end{displaymath}
+\begin{verbatim}
+REDUCE Input:
+
+solve(a**(2*y)-3*a**y+2,y);
+
+
+\end{verbatim}
+\begin{displaymath}
+\left\{
+y=\left(2 {\rm arbint} _{2} i \pi +\log \,2\right)/\log \,a , y=\left(2 
+{\rm arbint} _{1} i \pi \right)/\log \,a
+\right\}
+\end{displaymath}
+\begin{verbatim}
+REDUCE Input:
+
+off verbatim;
+
+
+\end{verbatim}
+\begin{displaymath}
+3 \left(\frac{{\rm d}^{2}a}{{\rm d}c^{2}} a^{2}+2 \frac{{\rm d}^{2}a}{{\rm d}c
+^{2}} a b+\frac{{\rm d}^{2}a}{{\rm d}c^{2}} b^{2}+2 \left(\frac{{\rm d}\,a}{
+{\rm d}\,c}\right)^{2} a+2 \left(\frac{{\rm d}\,a}{{\rm d}\,c}\right)^{2} b
+\right)
+\end{displaymath}
+\begin{displaymath}
+\cos ^{2}\,\alpha +\sin ^{2}\,\alpha =1
+\end{displaymath}
+\begin{displaymath}
+\sin \left(\alpha +\beta \right)=\cos \,\alpha \: \sin \,\beta \:+\cos \,
+\beta \: \sin \,\alpha \:
+\end{displaymath}
+\begin{displaymath}
+\frac{\partial \,{\bf \tilde{u}}^{e}}{\partial \,t}+c \frac{\partial ^{2}{\bf 
+\tilde{u}}^{e}}{\partial x^{2}}+b \frac{\partial \,{\bf \tilde{u}}^{i}}{
+\partial \,x}={\bf f}^{e}
+\end{displaymath}
+\begin{displaymath}
+\frac{{\bf \tilde{u}}^{e}_{j+1,k}-{\bf \tilde{u}}^{e}_{jk}}{\delta \,t}+c 
+\frac{{\bf \tilde{u}}^{e}_{j,k+1}-2 {\bf \tilde{u}}^{e}_{jk}+{\bf \tilde{u}}^{
+e}_{j,k-1}}{\delta ^{2}\,x}+b \frac{{\bf \tilde{u}}^{i}_{j,k+1/2}-{\bf \tilde{
+u}}^{i}_{j,k-1/2}}{\delta \,x}={\bf f}^{e}
+\end{displaymath}
+\begin{verbatim}
+REDUCE Input:
+
+product(k=1,2*n+1,f(2*i k+1)\(i(2*k+1)-1));
+
+
+\end{verbatim}
+\begin{displaymath}
+\prod _{k=1}^{2 n+1}\frac{{\bf f}^{2 i_{k}+1}}{i_{2 k+1}-1}
+\end{displaymath}
+\begin{verbatim}
+REDUCE Input:
+
+int(u(e,j,k,x)*f(e,x),x);
+
+
+\end{verbatim}
+\begin{displaymath}
+\int {\bf \tilde{u}}^{e}_{jk}\left(x\right) {\bf f}^{e}\left(x\right)\:d\,x
+\end{displaymath}
+\begin{verbatim}
+REDUCE Input:
+
+sum(i=0,n,sqrt u(e,i));
+
+
+\end{verbatim}
+\begin{displaymath}
+\sum _{i=0}^{n}\sqrt {{\bf \tilde{u}}^{e}_{i}}
+\end{displaymath}
+\begin{verbatim}
+REDUCE Input:
+
+off latex,verbatim;
+
+
+\end{verbatim}
+\end{document}
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 109 ms  plus GC time: 30 ms
+real	0m1.464s
+user	0m0.093s
+sys	0m0.169s

@@ -1,0 +1,520 @@
+\TRIexa{Integration}{TeXindent}{1000}{int(1+x+x**2,x);}
+$$\displaylines{\qdd
+\frac{x\cdot 
+      \(2\cdot x^{2}
+        +3\cdot x
+        +6
+      \)
+      }{
+      6}
+\cr}$$
+\TRIexa{Integration}{TeXindent}{1000}{int(x**2*(2*x**2+x)**2,x);}
+$$\displaylines{\qdd
+\frac{x^{5}\cdot 
+      \(60\cdot x^{2}
+        +70\cdot x
+        +21
+      \)
+      }{
+      105}
+\cr}$$
+\TRIexa{Integration}{TeXindent}{1000}{int(x*(x**2+2*x+1),x);}
+$$\displaylines{\qdd
+\frac{x^{2}\cdot 
+      \(3\cdot x^{2}
+        +8\cdot x
+        +6
+      \)
+      }{
+      12}
+\cr}$$
+\TRIexa{Integration}{TeXindent}{1000}{int(1/x,x);}
+$$\displaylines{\qdd
+\ln 
+\(x
+\)
+\cr}$$
+\TRIexa{Integration}{TeXindent}{1000}{int((x+1)**3/(x-1)**4,x);}
+$$\displaylines{\qdd
+\(3\cdot \ln 
+  \(x
+    -1
+  \)
+  \cdot x^{3}
+  -9\cdot \ln 
+  \(x
+    -1
+  \)
+  \cdot x^{2}
+  +9\cdot \ln 
+  \(x
+    -1
+  \)
+  \cdot x
+  -3\cdot \ln 
+  \(x
+    -1
+  \)
+  -6\cdot x^{3}
+  -2
+\)
+/\nl 
+\(3\cdot 
+  \(x^{3}
+    -3\cdot x^{2}
+    +3\cdot x
+    -1
+  \)
+\)
+\nl}$$
+\TRIexa{Integration}{TeXindent}{1000}{int(1/(x*(x-1)*(x+1)**2),x);}
+$$\displaylines{\qdd
+\(\ln 
+  \(x
+    -1
+  \)
+  \cdot x
+  +\ln 
+  \(x
+    -1
+  \)
+  +3\cdot \ln 
+  \(x
+    +1
+  \)
+  \cdot x\nl 
+  \off{327680}
+  +3\cdot \ln 
+  \(x
+    +1
+  \)
+  -4\cdot \ln 
+  \(x
+  \)
+  \cdot x
+  -4\cdot \ln 
+  \(x
+  \)
+  +2\cdot x
+\)
+/\nl 
+\(4\cdot 
+  \(x
+    +1
+  \)
+\)
+\nl}$$
+\TRIexa{Integration}{TeXindent}{1000}{int((a*x+b)/((x-p)*(x-q)),x);}
+$$\displaylines{\qdd
+\frac{\ln 
+      \(p
+        -x
+      \)
+      \cdot a\cdot p
+      +\ln 
+      \(p
+        -x
+      \)
+      \cdot b
+      -\ln 
+      \(q
+        -x
+      \)
+      \cdot a\cdot q
+      -\ln 
+      \(q
+        -x
+      \)
+      \cdot b}{
+      p
+      -q}
+\cr}$$
+\TRIexa{Integration}{TeXindent}{1000}{int(1/(a*x**2+b*x+c),x);}
+$$\displaylines{\qdd
+\frac{2\cdot 
+      \sqrt{4\cdot a\cdot c
+            -b^{2}}\cdot \arctan 
+      \(\frac{2\cdot a\cdot x
+              +b}{
+              \sqrt{4\cdot a\cdot c
+                    -b^{2}}}
+      \)
+      }{
+      4\cdot a\cdot c
+      -b^{2}}
+\cr}$$
+\TRIexa{Integration}{TeXindent}{1000}{int((a*x+b)/(1+x**2),x);}
+$$\displaylines{\qdd
+\frac{2\cdot \arctan 
+      \(x
+      \)
+      \cdot b
+      +\ln 
+      \(x^{2}
+        +1
+      \)
+      \cdot a}{
+      2}
+\cr}$$
+\TRIexa{Integration}{TeXindent}{1000}{int(1/(x**2-2*x+3),x);}
+$$\displaylines{\qdd
+\frac{\sqrt{2}
+      \cdot \arctan 
+      \(\frac{x
+              -1}{
+              \sqrt{2}}
+      \)
+      }{
+      2}
+\cr}$$
+\TRIexa{Integration}{TeXindent}{1000}{int(1/((x-1)*(x**2+1))**2,x);}
+$$\displaylines{\qdd
+\(\arctan 
+  \(x
+  \)
+  \cdot x^{3}
+  -\arctan 
+  \(x
+  \)
+  \cdot x^{2}
+  +\arctan 
+  \(x
+  \)
+  \cdot x\nl 
+  \off{327680}
+  -\arctan 
+  \(x
+  \)
+  +\ln 
+  \(x^{2}
+    +1
+  \)
+  \cdot x^{3}
+  -\ln 
+  \(x^{2}
+    +1
+  \)
+  \cdot x^{2}\nl 
+  \off{327680}
+  +\ln 
+  \(x^{2}
+    +1
+  \)
+  \cdot x
+  -\ln 
+  \(x^{2}
+    +1
+  \)
+  -2\cdot \ln 
+  \(x
+    -1
+  \)
+  \cdot x^{3}\nl 
+  \off{327680}
+  +2\cdot \ln 
+  \(x
+    -1
+  \)
+  \cdot x^{2}
+  -2\cdot \ln 
+  \(x
+    -1
+  \)
+  \cdot x
+  +2\cdot \ln 
+  \(x
+    -1
+  \)
+  -x^{3}
+  -2\cdot x
+  +1
+\)
+/\nl 
+\(4\cdot 
+  \(x^{3}
+    -x^{2}
+    +x
+    -1
+  \)
+\)
+\nl}$$
+\TRIexa{Integration}{TeXindent}{1000}{int(x/((x-a)*(x-b)*(x-c)),x);}
+$$\displaylines{\qdd
+\(\ln 
+  \(a
+    -x
+  \)
+  \cdot a\cdot b
+  -\ln 
+  \(a
+    -x
+  \)
+  \cdot a\cdot c
+  -\ln 
+  \(b
+    -x
+  \)
+  \cdot a\cdot b\nl 
+  \off{327680}
+  +\ln 
+  \(b
+    -x
+  \)
+  \cdot b\cdot c
+  +\ln 
+  \(c
+    -x
+  \)
+  \cdot a\cdot c
+  -\ln 
+  \(c
+    -x
+  \)
+  \cdot b\cdot c
+\)
+/\nl 
+\(a^{2}\cdot b
+  -a^{2}\cdot c
+  -a\cdot b^{2}
+  +a\cdot c^{2}
+  +b^{2}\cdot c
+  -b\cdot c^{2}
+\)
+\nl}$$
+\TRIexa{Integration}{TeXindent}{1000}{int(x/((x**2+a**2)*(x**2+b**2)),x);}
+$$\displaylines{\qdd
+\frac{-\ln 
+      \(a^{2}
+        +x^{2}
+      \)
+      +\ln 
+      \(b^{2}
+        +x^{2}
+      \)
+      }{
+      2\cdot 
+      \(a^{2}
+        -b^{2}
+      \)
+      }
+\cr}$$
+\TRIexa{Integration}{TeXindent}{1000}{int(x**2/((x**2+a**2)*(x**2+b**2)),x);}
+$$\displaylines{\qdd
+\frac{\arctan 
+      \(\frac{x}{
+              a}
+      \)
+      \cdot a
+      -\arctan 
+      \(\frac{x}{
+              b}
+      \)
+      \cdot b}{
+      a^{2}
+      -b^{2}}
+\cr}$$
+\TRIexa{Integration}{TeXindent}{1000}{int(x/((x-1)*(x**2+1)),x);}
+$$\displaylines{\qdd
+\frac{2\cdot \arctan 
+      \(x
+      \)
+      -\ln 
+      \(x^{2}
+        +1
+      \)
+      +2\cdot \ln 
+      \(x
+        -1
+      \)
+      }{
+      4}
+\cr}$$
+\TRIexa{Integration}{TeXindent}{1000}{int(x/(1+x**3),x);}
+$$\displaylines{\qdd
+\frac{2\cdot 
+      \sqrt{3}\cdot \arctan 
+      \(\frac{2\cdot x
+              -1}{
+              \sqrt{3}}
+      \)
+      +\ln 
+      \(x^{2}
+        -x
+        +1
+      \)
+      -2\cdot \ln 
+      \(x
+        +1
+      \)
+      }{
+      6}
+\cr}$$
+\TRIexa{Integration}{TeXindent}{1000}{int(x**3/((x-1)**2*(x**3+1)),x);}
+$$\displaylines{\qdd
+\(-
+  \(4\cdot \ln 
+    \(x^{2}
+      -x
+      +1
+    \)
+    \cdot x
+  \)
+  +4\cdot \ln 
+  \(x^{2}
+    -x
+    +1
+  \)
+  \nl 
+  \off{327680}
+  +9\cdot \ln 
+  \(x
+    -1
+  \)
+  \cdot x
+  -9\cdot \ln 
+  \(x
+    -1
+  \)
+  -\ln 
+  \(x
+    +1
+  \)
+  \cdot x
+  +\ln 
+  \(x
+    +1
+  \)
+  -6\cdot x
+\)
+/\nl 
+\(12\cdot 
+  \(x
+    -1
+  \)
+\)
+\nl}$$
+\TRIexa{Integration}{TeXindent}{1000}{int(1/(1+x**4),x);}
+$$\displaylines{\qdd
+\(\sqrt{2}\cdot 
+  \(-
+    \(2\cdot \arctan 
+      \(\frac{\sqrt{2}
+              -2\cdot x}{
+              \sqrt{2}}
+      \)
+    \)
+    +2\cdot \arctan 
+    \(\frac{\sqrt{2}
+            +2\cdot x}{
+            \sqrt{2}}
+    \)
+    \nl 
+    \off{1277951}
+    -\ln 
+    \(-
+      \(\sqrt{2}\cdot x
+      \)
+      +x^{2}
+      +1
+    \)
+    +\ln 
+    \(\sqrt{2}\cdot x
+      +x^{2}
+      +1
+    \)
+  \)
+\)
+/8
+\nl}$$
+\TRIexa{Integration}{TeXindent}{1000}{int(x**2/(1+x**4),x);}
+$$\displaylines{\qdd
+\(\sqrt{2}\cdot 
+  \(-
+    \(2\cdot \arctan 
+      \(\frac{\sqrt{2}
+              -2\cdot x}{
+              \sqrt{2}}
+      \)
+    \)
+    +2\cdot \arctan 
+    \(\frac{\sqrt{2}
+            +2\cdot x}{
+            \sqrt{2}}
+    \)
+    \nl 
+    \off{1277951}
+    +\ln 
+    \(-
+      \(\sqrt{2}\cdot x
+      \)
+      +x^{2}
+      +1
+    \)
+    -\ln 
+    \(\sqrt{2}\cdot x
+      +x^{2}
+      +1
+    \)
+  \)
+\)
+/8
+\nl}$$
+\TRIexa{Integration}{TeXindent}{1000}{int(1/(1+x**2+x**4),x);}
+$$\displaylines{\qdd
+\(2\cdot 
+  \sqrt{3}\cdot \arctan 
+  \(\frac{2\cdot x
+          -1}{
+          \sqrt{3}}
+  \)
+  +2\cdot 
+  \sqrt{3}\cdot \arctan 
+  \(\frac{2\cdot x
+          +1}{
+          \sqrt{3}}
+  \)
+  \nl 
+  \off{327680}
+  -3\cdot \ln 
+  \(x^{2}
+    -x
+    +1
+  \)
+  +3\cdot \ln 
+  \(x^{2}
+    +x
+    +1
+  \)
+\)
+/12
+\nl}$$
+\TRIexa{Integration}{TeXindent}{1000}{int(sin x**2/x,x);}
+$$\displaylines{\qdd
+\frac{-ci
+      \(2\cdot x
+      \)
+      +\ln 
+      \(x
+      \)
+      }{
+      2}
+\cr}$$
+\TRIexa{Integration}{TeXindent}{1000}{int(x*cos(xi/sin(x))*cos(x)/sin(x)**2,x);}
+$$\displaylines{\qdd
+\int 
+\frac{\cos 
+      \(\frac{\xi }{
+              \sin 
+              \(x
+              \)
+              }
+      \)
+      \cdot \cos 
+      \(x
+      \)
+      \cdot x}{
+      \sin 
+      \(x
+      \)
+      ^{2}}\,dx
+\cr}$$

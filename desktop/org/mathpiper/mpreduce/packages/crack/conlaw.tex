@@ -1,0 +1,352 @@
+\documentclass[12pt]{article}
+%Sets size of page and margins
+\textheight 21cm
+\textwidth 15cm
+
+\title{Manual for CONLAW versions 1,2,3,4}
+\author{Thomas Wolf \\                        
+        Department of Mathematics \\
+        Brock University \\
+        St.Catharines \\
+        Ontario, Canada L2S 3A1 \\
+        twolf@brocku.ca}
+
+\begin{document}
+\maketitle
+\section{Purpose}
+The procedures {\tt CONLAW1, CONLAW2, CONLAW3, CONLAW4} 
+try to find conservation laws
+for a given single/system of differential equation(s) (ODEs or PDEs)
+\begin{equation}
+     u^{\alpha}_J = w^{\alpha}(x,u^{\beta},...,u^{\beta}_K,...)  \label{a1}
+\end{equation}
+{\tt CONLAW1} tries to find the conserved current $P^i$ by solving
+\begin{equation}
+   \mbox{Div}\;\,P = 0  \;\;\; \mbox{modulo}\;\; (\ref{a1})
+\label{a2}
+\end{equation}
+directly. {\tt CONLAW3} tries to find $P^i$ and the characteristic
+functions (integrating factors) $Q^{\nu}$ by solving
+\begin{equation}
+\mbox{Div}\,P = \sum_{\nu} Q^{\nu}\cdot (u^{\nu}_J - w^{\nu}) \label{a3}
+\end{equation}
+identically in all $u$-derivatives.
+Applying the Euler operator (variational derivative) for each $u^{\nu}$
+on (\ref{a3}) gives a zero left hand side and therefore
+conditions involving only $Q^{\nu}$. {\tt CONLAW4} tries to solve these
+conditions identically in all $u$-derivatives and to compute $P^i$
+afterwards. {\tt CONLAW2}
+does substitutions based on (\ref{a1}) before solving these
+conditions on $Q^{\nu}$
+and therefore computes adjoined symmetries. These are
+completed, if possible, to conservation laws by computing $P^i$ from
+the $Q^{\nu}$.
+
+All four procedures have the same syntax. They have two parameters,
+both are lists. The first parameter specifies the equations (\ref{a1}), 
+the second specifies the computation to be done. One can either specify an 
+ansatz for $P^i, Q^{\nu}$ or investigate a general situation, only specifying 
+the order of the characteristic functions or the conserved current. For a 
+more detailed description see the file {\tt conca.tex}.
+
+The file {\tt CONLAW0.RED} contains subroutines used in all four versions.
+
+\section{The Syntax}
+The procedures {\tt CONLAWi} $\;\;$ i=1,2,3,4 are called through \\
+{\tt CONLAWi({\it problem,runmode}); } \\
+where i=1,2,3,4. Both parameters {\it problem, runmode} are lists.
+The first specifies the DEs to be investigated: \\
+{\it problem} ... \{{\it equations, ulist, xlist}\}
+\begin{tabbing}
+\hspace{0.5cm}
+ {\it equations}\= ... \= list of equations,
+              each has the form {\tt df(ui,..)=...} where \\
+       \>  \> the LHS (left hand side) {\tt df(ui,..)} is selected such that \\
+       \>  \>  - The RHS (right h.s.) of an equations must not include     \\
+       \>  \>$\;\;$ the derivative on the LHS nor a derivative of it.  \\
+       \>  \>  - The LHS of any equation should not occur in any other\\
+       \>  \>$\;\;$ equation nor any derivative of the LHS.  \\
+       \>  \> If CONLAW3 or CONLAW4 are run where no substitutions\\
+       \>  \> are made then the LHS of equations can be {\tt df(ui,..)**n=...}\\
+       \>  \> where {\tt n} is a number. No difference is made between\\
+       \>  \> equations and constraints. \\
+\hspace{0.5cm}
+ {\it ulist} \>  ... \> list of function names, which can be chosen freely \\
+             \>      \> the number of functions and equations need not
+be equal \\
+\hspace{0.5cm}
+ {\it xlist}  \>  ... \> list of variable names, which can be chosen freely 
+\end{tabbing}
+The second parameter specifies the calculation to be done.  \\
+{\it runmode} ... \{{\it minord, maxord, expl, flist, inequ}\}
+\begin{tabbing}
+\hspace{0.5cm}
+     {\it minord} \= ... \= the minimum of the highest order of
+                          derivatives of u \\
+             \> \>        - in {\tt p\_t} for CONLAW1 where {\tt t} is the first variable in\\
+             \> \>        \ \  {\tt xlist} and \\
+             \> \>        - in {\tt q\_j} for CONLAW2,CONLAW3,CONLAW4  \\
+\hspace{0.5cm}
+     {\it maxord} \> ... \> the maximum of the highest order of 
+                          derivatives of u \\
+             \> \>        - in {\tt p\_i} for CONLAW1 where {\tt t} is the first variable in\\
+             \> \>        \ \  {\tt xlist} and  \\
+             \> \>        - in {\tt q\_j} for CONLAW2,CONLAW3,CONLAW4 \\
+\hspace{0.5cm}
+     {\it expl}       \> ... \> (t/nil) whether or not the charac.\ 
+                          functions {\tt q\_i} or conserved \\
+             \> \>        current may depend explicitly on
+                          the variables of xlist \\
+\hspace{0.5cm}
+     {\it flist}      \> ... \> a list of unknown functions in any ansatz for
+                          {\tt p\_i,q\_j}, \\
+        \>  \>            also all parameters and parametric functions in
+                          the equation \\
+        \>  \>            that are to be calculated such that
+                          conservation laws exist,\\
+        \>  \>            if there are no such unknown functions then
+                          {\it flist} is the \\
+        \>  \>            empty list: \verb+{}+ \\
+\hspace{0.5cm}
+     {\it inequ}      \> ... \> a list of expressions non of which
+                          may be identically \\ 
+        \>  \>            zero for the conservation
+                          law to be found, if there is no such \\
+        \>  \>            expression
+                          then {\it inequ} is an empty list: \verb+{}+
+\end{tabbing}
+The procedures {\tt CONLAWi} return a list of conservation laws
+\verb+ {+$C_1,C_2,\ldots$\verb+}+, if no
+non-trivial conservation law is found they return the empty list \verb+{}+.
+Each $C_i$ representing a conservation law
+has the form  \verb+ {{+$P^1,P^2,\ldots$\verb+},{+$Q^1,Q^2,\ldots$\verb+}}+.
+
+An ansatz for a conservation law can be formulated by specifying one
+or more of the components $P^i$ for {\tt CONLAW1}, one or more of the
+functions $Q^{\mu}$ for {\tt CONLAW2, CONLAW4} or one or more of 
+$P^i, Q^{\mu}$ for {\tt CONLAW3}. The $P^i$ are input as {\tt p\_i} where
+{\tt i} in {\tt p\_i} stands for a variable name, and the $Q^{\mu}$ are
+input as {\tt q\_i} where {\tt i} stands for an index - the number of the
+equation in the input list {\it equations} with which {\tt q\_i} is
+multiplied.
+
+There is a restriction in the structure of all the expressions for
+{\tt p\_i, q\_j} that are specified: they must be homogeneous linear
+in the
+unknown functions or constants which appear in these expressions. 
+The reason for this restriction is not
+for CRACK to be able to solve the resulting overdetermined system but for
+{\tt CONLAWi} to be able afterwards to extract the individual conservation
+laws from the general solution of the determining conditions.
+
+All such unknown functions and constants must be
+listed in {\it flist} (see above). The dependencies of such functions
+must be defined before calling {\tt CONLAWi}. This is done with the
+command {\tt DEPEND}, e.g. {\tt DEPEND f,t,x,u\$ } to specify $f$ as a
+function of $t,x,u$. If one wants to have $f$ as a function of derivatives
+of $u(t,x)$, say $f$ depending on $u_{txx}$, then one can {\it not} write \\
+\verb+    DEPEND f,df(u,t,x,2)$ + \\ 
+but instead \\
+\verb+    DEPEND f,u!`1!`2!`2$ + \\
+if {\it xlist} has been specified as \verb+ {t,x}+, because {\tt t} is the
+first variable and {\tt x} is the second variable in {\it xlist} and {\tt u}
+is differentiated ones wrt.\ {\tt t} and two times wrt.\ {x} we therefore get
+\verb+ u!`1!`2!`2+. The character {\tt !} is the exempt character to allow
+special characters like ` to occur in an identifier name. 
+
+It is possible to add extra conditions like PDEs for $P^i, Q^{\mu}$ as a list 
+{\tt cl\_condi} of expressions that shall vanish. \hspace{6pt}
+\noindent Remarks: 
+\begin{itemize}
+\item The input to {\tt CONLAW1, CONLAW2, CONLAW3, CONLAW4} is the 
+same apart from:
+\begin{itemize}
+\item an ansatz for $Q^{\nu}$ is ignored in {\tt CONLAW1}
+\item an ansatz for $P^i$ is ignored in {\tt CONLAW2, CONLAW4}
+\item the meaning of mindensord, maxdensord is different in {\tt CONLAW1} 
+on one hand and {\tt CONLAW2,CONLAW3,CONLAW4} on the other (see above).
+\end{itemize}
+
+\item
+It matters how the differential equations are input, i.e. which
+derivatives are eliminated. For example, the Korteweg - de Vries
+equation if input in the form $u_{xxx}=-uu_x-u_t$ instead of
+$u_t=-uu_x-u_{xxx}$
+in {\tt CONLAW1} and choosing {\tt maxdensord}=1 then
+$P^i$ will be of at most first order, Div $P$ of second order and $u_{xxx}$
+will not be substituted and no non-trival conservation laws can be found.
+This does not mean that one will not find low order conservation laws at
+all with the substitution $u_{xxx}$ one only has to go to 
+{\tt maxdensord}=2 with longer computations as a consequence compared to the 
+input $u_t=-uu_x-u_{xxx}$ where {\tt maxdensord}=0 is enough to find 
+non-trivial conservation laws.
+
+\item The drawback of using $u_t=\ldots$ compared with $u_{xxx}=\ldots$
+is that when seeking all conservation laws up to some order
+then one has to investigate a higher order ansatz, because with each
+substitution $u_t=-u_{xxx}+\ldots$ the order increases by 2.
+For example, if all conservation laws of order up to two in $Q^{\nu}$ 
+are to be determined then in order to include a $u_{tt}$-dependence the 
+dependence of $Q^{\nu}$ on $u_x$ up to $u_{6x}$ has to be considered.
+
+\item Although for any equivalence class of conserved currents $P^i$
+differing only by a curl, there exist characteristic functions $Q^{\mu}$,
+this need not be true for any particular $P^i$.
+Therefore one cannot specify a known density $P^i$ for {\tt CONLAW3}
+and hope to calculate the remaining $P^j$ and the corresponding $Q^{\mu}$
+with {\tt CONLAW3}. What one
+can do is to use {\tt CONLAW1} to calculate the remaining components 
+$P^j$ and from this a trivial conserved
+density $R$ and characteristic functions $Q^{\nu}$ are computed such that
+\[ \mbox{Div}\,(P-R) = \sum_{\nu} Q^{\nu}\cdot (u^{\nu}_J - w^{\nu}). \]
+
+\item The $Q^{\mu}$ are uniquely determined only modulo $\Delta=0$.
+If one makes an ansatz for $Q^{\mu}$ then this freedom should be removed
+by having
+the $Q^{\mu}$ independent of the LHS's of the equations and independent of
+derivatives of the LHS's of them. If the $Q^{\mu}$ were allowed to depend on
+anything, then (\ref{a3}) could simply be solved for one $Q^{\nu}$ in terms of
+arbitrary $P^j$ and other arbitrary $Q^{\rho}$, giving $Q^{\nu}$ that are
+singular for solutions of the differential equations as the expression
+of the differential equation would appear in the denominator of $Q^{\nu}$.
+
+\item Any ansatz for $P^i,Q^{\nu}$ should
+as well be independent of the LHS's of the equations (\ref{a1}) and 
+independent of derivatives of the LHS's of (\ref{a1}).
+
+\item If in equation (\ref{a3}) the right hand side is of order $m$ then
+from the conserved current $P^i$ a trivial conserved current can be
+subtracted such that the remaining conserved current is at most of order $m$.
+If the right hand side is linear in the highest derivatives of order
+$m$ then subtraction of a trivial conserved current can even achieve a
+conserved current of order $m-1$. The relevance of this result is that
+if the right hand side is known to be linear in the highest derivatives
+then for $P^i$ an ansatz of order $m-1$ is only necessary. To take
+advantage of this relation
+if the right hand side is known to be linear in the highest
+derivatives, a flag {\tt quasilin\_rhs} can be set to {\tt t} (see
+below). 
+
+\end{itemize}
+
+\section{Flags, parameters}
+
+\verb+    LISP (PRINT_:= NIL/0/1/ ...)$+ \\
+\verb+print_=nil+ suppresses all CRACK output, for \verb+print_=n+ 
+($n$ an integer) 
+{\tt CRACK} prints only equations with at most $n$ factors in its terms.
+
+%\verb+ LISP (LOGOPRINT_:=t/nil)$+ \\
+%to print/not print a logo at the start of {\tt CONLAWi}
+
+\verb+ CRACKHELP()$+ \\
+to show other flags controling the solution of the overdetermined PDE-system,
+
+\verb+ OFF BATCH_MODE$+ \\
+to solve the system of conditions with {\tt CRACK} interactively.
+
+\verb+ LISP(QUASILIN_RHS:=T)$+ \\
+reduces in the ansatz for $P^i$ the order to $m-1$ if the order of the
+right hand side is $m$. This can be used to speed up computations if
+the right hand side is known to be linear in the highest derivatives
+(see the note above).
+
+\section{Requirements}
+
+{\tt REDUCE 3.6} and 
+the files {\tt CRACK.RED, CONLAW0.RED}, one of the files
+{\tt CONLAW1.RED, CONLAW2.RED, CONLAW3.RED, CONLAW4.RED} depending which
+program should be used and all files {\tt CR*.RED} which 
+are read in from {\tt CRACK.RED}.
+
+One either has to read in files with \\
+\verb+ IN "crack.red","conlaw0.red","conlaw1.red"$+ \\
+\noindent (and appropriate paths) or compile them before with
+
+\begin{verbatim}
+    FASLOUT "crack"$
+    IN "crack"$
+    FASLEND$
+    FASLOUT "conlaw0"$
+    IN "conlaw0.red"$
+    FASLEND$
+    FASLOUT "conlaw1"$
+    IN "conlaw1.red"$
+    FASLEND$
+    BYE$
+\end{verbatim}
+and load them afterwards with \verb+ LOAD crack,conlaw0,conlaw1$+ \\
+\verb+conlaw2, conlaw3, conlaw4+ are treated like {\tt conlaw1}.
+
+\section{Examples}
+Below a {\tt CRACK}-procedure {\tt nodepnd} is used to clean up 
+after each run and delete all dependencies of each 
+function in the list of functions in the argument of {\tt nodepnd}.
+More details concerning these examples are given when running
+the file {\tt conlaw.tst}.
+
+\verb+ lisp(print_:=nil);  +   to suppress output from CRACK 
+\begin{itemize}
+\item a single PDE:
+\begin{verbatim}
+   depend u,x,t$
+   conlaw1({{df(u,t)=-u*df(u,x)-df(u,x,3)}, {u}, {t,x}},
+           {0, 1, t, {}, {}})$
+   nodepnd {u}$
+\end{verbatim}
+
+\item a system of equations:
+\begin{verbatim}
+   depend u,x,t$
+   depend v,x,t$
+   conlaw1({{df(u,t)=df(u,x,3)+6*u*df(u,x)+2*v*df(v,x),
+             df(v,t)=2*df(u,x)*v+2*u*df(v,x)           }, 
+            {u,v}, {t,x}},
+           {0, 1, t, {}, {}})$
+   nodepnd {u,v}$
+\end{verbatim}
+
+\item a system of equations with ansatz:
+\begin{verbatim}
+   depend u,x,t$
+   depend v,x,t$
+   depend r,t,x,u,v,u!`2,v!`2$
+   q_1:=r*df(u,x,2)$
+   conlaw2({{df(u,t)=df(v,x),
+             df(v,t)=df(u,x) }, {u,v}, {t,x}},
+           {2, 2, t, {r}, {r}})$
+   nodepnd {u,v,r}$
+\end{verbatim}
+
+\item for the 
+determination of parameters, such that conservation laws exist:
+\begin{verbatim}
+   depend u,x,t;
+   conlaw1({{df(u,t)=-df(u,x,5)-a*u**2*df(u,x)
+                     -b*df(u,x)*df(u,x,2)-c*u*df(u,x,3)}, 
+            {u}, {t,x}},
+           {0, 1, t, {a,b,c}, {}});
+   nodepnd {u};
+\end{verbatim}
+
+\item for first integrals of an ODE-system including the determination of
+parameter values s,b,r such that conservation laws exist:
+\begin{verbatim}
+   depend {x,y,z},t;
+   depend a1,x,t;
+   depend a2,y,t;
+   depend a3,z,t;
+
+   p_t:=a1+a2+a3;
+   conlaw2({{df(x,t) = - s*x + s*y,
+             df(y,t) = x*z + r*x - y,
+             df(z,t) = x*y - b*z},
+            {x,y,z},{t}
+           },
+           {0,0,t,{a1,a2,a3,s,r,b},{}});
+   nodepnd {x,y,z,a1,a2,a3};
+\end{verbatim}
+
+\end{itemize}
+
+\end{document}

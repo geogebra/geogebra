@@ -1,0 +1,481 @@
+\documentclass[11pt]{article}
+
+\usepackage{reduce}
+
+\title{\texttt{TRIGSIMP} \\
+A \REDUCE{} Package for the Simplification and Factorization of
+Trigonometric and Hyperbolic Expressions}
+
+\author{Wolfram Koepf \\
+	Andreas Bernig \\
+	Herbert Melenk \\
+	ZIB Berlin \\
+	~ \\
+	Revised by Francis Wright \\
+	QMW London \\
+	E-mail: \texttt{F.J.Wright@Maths.QMW.ac.uk}}
+
+\date{17 January 1999}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+The \REDUCE{} package TRIGSIMP is a useful tool for all kinds of
+problems related to trigonometric and hyperbolic simplification and
+factorization.  There are three operators included in TRIGSIMP:
+trigsimp, trigfactorize and triggcd.  The first is for simplifying
+trigonometric or hyperbolic expressions and has many options, the
+second is for factorizing them and the third is for finding the
+greatest common divisor of two trigonometric or hyperbolic
+polynomials.  This package is automatically loaded when one of these
+operators is used.
+
+
+\section{Simplifying trigonometric expressions}
+
+As there is no normal form for trigonometric and hyperbolic
+expressions, the same function can convert in many different
+directions, e.g.\ $\sin(2x) \leftrightarrow 2\sin(x)\cos(x)$.  The
+user has the possibility to give several parameters to the operator
+\texttt{trigsimp} in order to influence the transformations.  It is
+possible to decide whether or not a rational expression involving
+trigonometric and hyperbolic functions vanishes.
+
+To simplify an expression \texttt{f}, one uses
+\texttt{trigsimp(f[,options])}.  For example:
+\begin{verbatim}
+trigsimp(sin(x)^2+cos(x)^2);
+
+1
+\end{verbatim}
+The possible options (where $^*$ denotes the default) are:
+\begin{enumerate}
+\item \texttt{sin}$^*$ or \texttt{cos};
+\item \texttt{sinh}$^*$ or \texttt{cosh};
+\item \texttt{expand}$^*$, \texttt{combine} or \texttt{compact};
+\item \texttt{hyp}, \texttt{trig} or \texttt{expon};
+\item \texttt{keepalltrig};
+\item \texttt{tan} and/or \texttt{tanh};
+\item target arguments of the form \textit{variable} /
+\textit{positive integer}.
+\end{enumerate}
+From each of the first four groups one can use at most one option,
+otherwise an error message will occur.  Options can be given in any
+order.
+
+The first group fixes the preference used while transforming a
+trigonometric expression:
+\begin{verbatim}
+trigsimp(sin(x)^2);
+
+      2
+sin(x)
+
+trigsimp(sin(x)^2, cos);
+
+         2
+ - cos(x)  + 1
+\end{verbatim}
+The second group is the equivalent for the hyperbolic functions.
+
+The third group determines the type of transformation.  With the
+default, \texttt{expand}, an expression is transformed to use only
+simple variables as arguments:
+\begin{verbatim}
+trigsimp(sin(2x+y));
+
+                                 2
+2*cos(x)*cos(y)*sin(x) - 2*sin(x) *sin(y) + sin(y)
+\end{verbatim}
+With \texttt{combine}, products of trigonometric functions are
+transformed to trig\-onometric functions involving sums of variables:
+\begin{verbatim}
+trigsimp(sin(x)*cos(y), combine);
+
+ sin(x - y) + sin(x + y)
+-------------------------
+            2
+\end{verbatim}
+With \texttt{compact}, the \REDUCE{} operator \texttt{compact}
+\cite{hearns} is applied to \texttt{f}.  This often leads to a simple
+form, but in contrast to \texttt{expand} one does not get a normal
+form. For example:
+\begin{verbatim}
+trigsimp((1-sin(x)^2)^20*(1-cos(x)^2)^20, compact);
+
+      40       40
+cos(x)  *sin(x)
+\end{verbatim}
+
+With an option from the fourth group, the input expression is
+transformed to trigonometric, hyperbolic or exponential form
+respectively:
+\begin{verbatim}
+trigsimp(sin(x), hyp);
+
+ - sinh(i*x)*i
+
+trigsimp(sinh(x), expon);
+
+  2*x
+ e    - 1
+----------
+      x
+   2*e
+
+trigsimp(e^x, trig);
+
+cos(i*x) - sin(i*x)*i
+\end{verbatim}
+
+Usually, \texttt{tan}, \texttt{cot}, \texttt{sec}, \texttt{csc} are
+expressed in terms of \texttt{sin} and \texttt{cos}.  It can sometimes
+be useful to avoid this, which is handled by the option
+\texttt{keepalltrig}:
+\begin{verbatim}
+trigsimp(tan(x+y), keepalltrig);
+
+  - (tan(x) + tan(y))
+----------------------
+  tan(x)*tan(y) - 1
+\end{verbatim}
+Alternatively, the options \texttt{tan} and/or \texttt{tanh} can be
+given to convert the output to the specified form as far as possible:
+\begin{verbatim}
+trigsimp(tan(x+y), tan);
+
+  - (tan(x) + tan(y))
+----------------------
+  tan(x)*tan(y) - 1
+\end{verbatim}
+By default, the other functions used will be \texttt{cos} and/or
+\texttt{cosh}, unless the other desired functions are also specified
+in which case this choice will be respected.
+
+The final possibility is to specify additional target arguments for
+the trigonometric or hyperbolic functions, each of which should have
+the form of a variable divided by a positive integer.  These
+additional arguments are treated as if they had occurred within the
+expression to be simplified, and their denominators are used in
+determining the overall denominator to use for each variable in the
+simplified form:
+\begin{verbatim}
+trigsimp(csc x - cot x + csc y - cot y, x/2, y/2, tan);
+
+     x          y
+tan(---) + tan(---)
+     2          2
+\end{verbatim}
+
+It is possible to use the options of different groups simultaneously:
+\begin{verbatim}
+trigsimp(sin(x)^4, cos, combine);
+
+ cos(4*x) - 4*cos(2*x) + 3
+---------------------------
+             8
+\end{verbatim}
+
+Sometimes, it is necessary to handle an expression in separate steps:
+\begin{verbatim}
+trigsimp((sinh(x)+cosh(x))^n+(cosh(x)-sinh(x))^n, expon);
+
+  1   n    n*x
+(----)  + e
+   x
+  e
+
+trigsimp(ws, hyp);
+
+2*cosh(n*x)
+
+trigsimp((cosh(a*n)*sinh(a)*sinh(p)+cosh(a)*sinh(a*n)*sinh(p)+
+    sinh(a - p)*sinh(a*n))/sinh(a));
+
+cosh(a*n)*sinh(p) + cosh(p)*sinh(a*n)
+
+trigsimp(ws, combine);
+
+sinh(a*n + p)
+\end{verbatim}
+
+The \texttt{trigsimp} operator can be applied to equations, lists and
+matrices (and compositions thereof) as well as scalar expressions, and
+automatically maps itself recursively over such non-scalar data
+structures:
+\begin{verbatim}
+trigsimp( { sin(2x) = cos(2x) } );
+
+                            2
+{2*cos(x)*sin(x)= - 2*sin(x)  + 1}
+\end{verbatim}
+
+
+\section{Factorizing trigonometric expressions}
+
+With \texttt{trigfactorize(p,x)} one can factorize the trigonometric
+or hyperbolic polynomial \texttt{p} in terms of trigonometric
+functions of the argument \texttt{x}.  The output has the same format
+as that from the standard \REDUCE{} operator \texttt{factorize}.  For
+example:
+\begin{verbatim}
+trigfactorize(sin(x), x/2);
+
+             x            x
+{{2,1},{sin(---),1},{cos(---),1}}
+             2            2
+\end{verbatim}
+If the polynomial is not coordinated or balanced \cite{art}, the
+output will equal the input.  In this case, changing the value for
+\texttt{x} can help to find a factorization, e.g.
+\begin{verbatim}
+trigfactorize(1+cos(x), x);
+
+{{cos(x) + 1,1}}
+
+trigfactorize(1+cos(x), x/2);
+
+             x
+{{2,1},{cos(---),2}}
+             2
+\end{verbatim}
+The polynomial can consist of both trigonometric and hyperbolic functions:
+\begin{verbatim}
+trigfactorize(sin(2x)*sinh(2x), x);
+
+{{4,1}, {sinh(x),1}, {cosh(x),1}, {sin(x),1}, {cos(x),1}}
+\end{verbatim}
+
+The \texttt{trigfactorize} operator respects the standard \REDUCE{}
+\texttt{factorize} switch \texttt{nopowers} -- see the \REDUCE{}
+manual for details.  Turning it on gives the behaviour that was
+standard before \REDUCE~3.7:
+\begin{verbatim}
+on nopowers;
+
+trigfactorize(1+cos(x), x/2);
+
+        x        x
+{2,cos(---),cos(---)}
+        2        2
+\end{verbatim}
+
+
+\section{GCDs of trigonometric expressions}
+
+The operator \texttt{triggcd} is essentially an application of the
+algorithm behind \texttt{trigfactorize}.  With its help the user can
+find the greatest common divisor of two trigonometric or hyperbolic
+polynomials.  It uses the method described in \cite{art}.  The syntax
+is \texttt{triggcd(p,q,x)}, where \texttt{p} and \texttt{q} are the
+trigonometric polynomials and \texttt{x} is the argument to use.  For
+example:
+\begin{verbatim}
+triggcd(sin(x), 1+cos(x), x/2);
+
+     x
+cos(---)
+     2
+
+triggcd(sin(x), 1+cos(x), x);
+
+1
+\end{verbatim}
+The polynomials $p$ and $q$ can consist of both trigonometric and
+hyperbolic functions:
+\begin{verbatim}
+triggcd(sin(2x)*sinh(2x), (1-cos(2x))*(1+cosh(2x)), x);
+
+cosh(x)*sin(x)
+\end{verbatim}
+
+
+\section{Further Examples}
+
+With the help of this package the user can create identities:
+\begin{verbatim}
+trigsimp(tan(x)*tan(y));
+
+ sin(x)*sin(y)
+---------------
+ cos(x)*cos(y)
+
+trigsimp(ws, combine);
+\end{verbatim}
+
+{\samepage\begin{verbatim}
+ cos(x - y) - cos(x + y)
+-------------------------
+ cos(x - y) + cos(x + y)
+\end{verbatim}}
+
+\begin{verbatim}
+trigsimp((sin(x-a)+sin(x+a))/(cos(x-a)+cos(x+a)));
+
+ sin(x)
+--------
+ cos(x)
+
+trigsimp(cosh(n*acosh(x))-cos(n*acos(x)), trig);
+
+0
+
+trigsimp(sec(a-b), keepalltrig);
+
+  csc(a)*csc(b)*sec(a)*sec(b)
+-------------------------------
+ csc(a)*csc(b) + sec(a)*sec(b)
+
+trigsimp(tan(a+b), keepalltrig);
+
+  - (tan(a) + tan(b))
+----------------------
+  tan(a)*tan(b) - 1
+
+trigsimp(ws, keepalltrig, combine);
+
+tan(a + b)
+\end{verbatim}
+
+Some difficult expressions can be simplified:
+\begin{verbatim}
+df(sqrt(1+cos(x)), x, 4);
+
+            5           4            3       2            3
+( - 4*cos(x)  - 4*cos(x)  - 20*cos(x) *sin(x)  + 12*cos(x)
+
+             2       2            2                   4
+  - 24*cos(x) *sin(x)  + 20*cos(x)  - 15*cos(x)*sin(x)
+
+                    2                       4            2
+  + 12*cos(x)*sin(x)  + 8*cos(x) - 15*sin(x)  + 16*sin(x) )/
+
+(16*sqrt(cos(x) + 1)
+
+         4           3           2
+ *(cos(x)  + 4*cos(x)  + 6*cos(x)  + 4*cos(x) + 1))
+
+on rationalize;
+trigsimp(ws);
+
+ sqrt(cos(x) + 1)
+------------------
+        16
+
+off rationalize;
+load_package taylor;
+
+taylor(sin(x+a)*cos(x+b), x, 0, 4);
+
+cos(b)*sin(a) + (cos(a)*cos(b) - sin(a)*sin(b))*x
+
+                                    2
+ - (cos(a)*sin(b) + cos(b)*sin(a))*x
+
+    2*( - cos(a)*cos(b) + sin(a)*sin(b))   3
+ + --------------------------------------*x
+                     3
+
+    cos(a)*sin(b) + cos(b)*sin(a)   4      5
+ + -------------------------------*x  + O(x )
+                  3
+
+trigsimp(ws, combine);
+
+ sin(a - b) + sin(a + b)                               2
+------------------------- + cos(a + b)*x - sin(a + b)*x
+            2
+
+    2*cos(a + b)   3    sin(a + b)   4      5
+ - --------------*x  + ------------*x  + O(x )
+         3                  3
+\end{verbatim}
+
+Certain integrals whose evaluation was not possible in \REDUCE{}
+(without preprocessing) are now computable:
+\begin{verbatim}
+int(trigsimp(sin(x+y)*cos(x-y)*tan(x)), x);
+
+       2
+(cos(x) *x - cos(x)*sin(x) - 2*cos(y)*log(cos(x))*sin(y)
+
+          2
+  + sin(x) *x)/2
+
+int(trigsimp(sin(x+y)*cos(x-y)/tan(x)), x);
+
+                                   x  2
+(cos(x)*sin(x) - 2*cos(y)*log(tan(---)  + 1)*sin(y)
+                                   2
+
+                      x
+  + 2*cos(y)*log(tan(---))*sin(y) + x)/2
+                      2
+\end{verbatim}
+Without the package, the integration fails, and in the second case one
+does not receive an answer for many hours.
+
+\begin{verbatim}
+trigfactorize(sin(2x)*cos(y)^2, y/2);
+
+{{2*cos(x)*sin(x),1},
+
+       y          y
+ {cos(---) - sin(---),2},
+       2          2
+
+       y          y
+ {cos(---) + sin(---),2}}
+       2          2
+\end{verbatim}
+\begin{verbatim}
+trigfactorize(sin(y)^4-x^2, y);
+
+        2               2
+{{sin(y)  + x,1},{sin(y)  - x,1}}
+
+trigfactorize(sin(x)*sinh(x), x/2);
+
+{{4,1},
+
+        x
+ {sinh(---),1},
+        2
+
+        x
+ {cosh(---),1},
+        2
+
+       x
+ {sin(---),1},
+       2
+
+       x
+ {cos(---),1}}
+       2
+
+triggcd(-5+cos(2x)-6sin(x), -7+cos(2x)-8sin(x), x/2);
+
+       x        x
+2*cos(---)*sin(---) + 1
+       2        2
+
+triggcd(1-2cosh(x)+cosh(2x), 1+2cosh(x)+cosh(2x), x/2);
+
+        x  2
+2*sinh(---)  + 1
+        2
+\end{verbatim}
+
+\begin{thebibliography}{99}
+
+\bibitem{art}
+Roach, Kelly: Difficulties with Trigonometrics. Notes of a talk.
+
+\bibitem{hearns}
+Hearn, A.C.: COMPACT User Manual.
+
+\end{thebibliography}
+\end{document}

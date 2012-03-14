@@ -1,0 +1,1165 @@
+Fri Jul 21 09:24:26 PDT 1995
+REDUCE Development Version, 19-Jul-95 ...
+
+1: 1: 
+2: 2: 2: 
+(nil)
+
+3: 3: 
+4: 4: % test file for trigsimp package
+%
+%---------------------trigsimp---------------------------
+trigsimp(tan(x+y),keepalltrig);
+
+
+  - (tan(x) + tan(y))
+----------------------
+  tan(x)*tan(y) - 1
+
+trigsimp(ws,keepalltrig,combine);
+
+
+tan(x + y)
+
+trigsimp(sin(5x-9y));
+
+
+                     4       9                     4       7
+ - 4096*cos(x)*sin(x) *sin(y)  + 9216*cos(x)*sin(x) *sin(y)
+
+                     4       5                     4       3
+ - 6912*cos(x)*sin(x) *sin(y)  + 1920*cos(x)*sin(x) *sin(y)
+
+                    4                            2       9
+ - 144*cos(x)*sin(x) *sin(y) + 3072*cos(x)*sin(x) *sin(y)
+
+                     2       7                     2       5
+ - 6912*cos(x)*sin(x) *sin(y)  + 5184*cos(x)*sin(x) *sin(y)
+
+                     2       3                    2                           9
+ - 1440*cos(x)*sin(x) *sin(y)  + 108*cos(x)*sin(x) *sin(y) - 256*cos(x)*sin(y)
+
+                    7                    5                    3
+ + 576*cos(x)*sin(y)  - 432*cos(x)*sin(y)  + 120*cos(x)*sin(y)
+
+                                       5       8                     5       6
+ - 9*cos(x)*sin(y) + 4096*cos(y)*sin(x) *sin(y)  - 7168*cos(y)*sin(x) *sin(y)
+
+                     5       4                    5       2                   5
+ + 3840*cos(y)*sin(x) *sin(y)  - 640*cos(y)*sin(x) *sin(y)  + 16*cos(y)*sin(x)
+
+                     3       8                     3       6
+ - 5120*cos(y)*sin(x) *sin(y)  + 8960*cos(y)*sin(x) *sin(y)
+
+                     3       4                    3       2                   3
+ - 4800*cos(y)*sin(x) *sin(y)  + 800*cos(y)*sin(x) *sin(y)  - 20*cos(y)*sin(x)
+
+                            8                            6
+ + 1280*cos(y)*sin(x)*sin(y)  - 2240*cos(y)*sin(x)*sin(y)
+
+                            4                           2
+ + 1200*cos(y)*sin(x)*sin(y)  - 200*cos(y)*sin(x)*sin(y)  + 5*cos(y)*sin(x)
+
+trigsimp(ws,combine);
+
+
+sin(5*x - 9*y)
+
+trigsimp(cos(10x),cos);
+
+
+          10              8              6             4            2
+512*cos(x)   - 1280*cos(x)  + 1120*cos(x)  - 400*cos(x)  + 50*cos(x)  - 1
+
+trigsimp(cos(10x),sin);
+
+
+             10              8              6             4            2
+ - 512*sin(x)   + 1280*sin(x)  - 1120*sin(x)  + 400*sin(x)  - 50*sin(x)  + 1
+
+trigsimp((sin(x-a)+sin(x+a))/(cos(x-a) + cos(x+a)));
+
+
+ sin(x)
+--------
+ cos(x)
+
+trigsimp(cos(6x+4y),sin);
+
+
+                        5       3                           5
+256*cos(x)*cos(y)*sin(x) *sin(y)  - 128*cos(x)*cos(y)*sin(x) *sin(y)
+
+                           3       3                           3
+ - 256*cos(x)*cos(y)*sin(x) *sin(y)  + 128*cos(x)*cos(y)*sin(x) *sin(y)
+
+                                 3
+ + 48*cos(x)*cos(y)*sin(x)*sin(y)  - 24*cos(x)*cos(y)*sin(x)*sin(y)
+
+             6       4             6       2            6             4       4
+ - 256*sin(x) *sin(y)  + 256*sin(x) *sin(y)  - 32*sin(x)  + 384*sin(x) *sin(y)
+
+             4       2            4             2       4             2       2
+ - 384*sin(x) *sin(y)  + 48*sin(x)  - 144*sin(x) *sin(y)  + 144*sin(x) *sin(y)
+
+            2           4           2
+ - 18*sin(x)  + 8*sin(y)  - 8*sin(y)  + 1
+
+trigsimp(ws,expon);
+
+
+  12*i*x + 8*i*y
+ e               + 1
+---------------------
+     6*i*x + 4*i*y
+  2*e
+
+trigsimp(ws,hyp);
+
+
+                                 5          3
+256*cosh(i*x)*cosh(i*y)*sinh(i*x) *sinh(i*y)
+
+                                    5
+ + 128*cosh(i*x)*cosh(i*y)*sinh(i*x) *sinh(i*y)
+
+                                    3          3
+ + 256*cosh(i*x)*cosh(i*y)*sinh(i*x) *sinh(i*y)
+
+                                    3
+ + 128*cosh(i*x)*cosh(i*y)*sinh(i*x) *sinh(i*y)
+
+                                             3
+ + 48*cosh(i*x)*cosh(i*y)*sinh(i*x)*sinh(i*y)
+
+                                                             6          4
+ + 24*cosh(i*x)*cosh(i*y)*sinh(i*x)*sinh(i*y) + 256*sinh(i*x) *sinh(i*y)
+
+                6          2               6                4          4
+ + 256*sinh(i*x) *sinh(i*y)  + 32*sinh(i*x)  + 384*sinh(i*x) *sinh(i*y)
+
+                4          2               4                2          4
+ + 384*sinh(i*x) *sinh(i*y)  + 48*sinh(i*x)  + 144*sinh(i*x) *sinh(i*y)
+
+                2          2               2              4              2
+ + 144*sinh(i*x) *sinh(i*y)  + 18*sinh(i*x)  + 8*sinh(i*y)  + 8*sinh(i*y)  + 1
+
+trigsimp(ws,combine);
+
+
+cosh(6*i*x + 4*i*y)
+
+trigsimp(ws,trig,combine);
+
+
+cos(6*x + 4*y)
+
+trigsimp(sqrt(1-cos(2x)));
+
+
+sqrt(2)*abs(sin(x))
+
+trigsimp(sin(x)**20*cos(x)**20,sin);
+
+
+      20        20            18            16             14             12
+sin(x)  *(sin(x)   - 10*sin(x)   + 45*sin(x)   - 120*sin(x)   + 210*sin(x)
+
+                       10             8             6            4            2
+           - 252*sin(x)   + 210*sin(x)  - 120*sin(x)  + 45*sin(x)  - 10*sin(x)
+
+           + 1)
+
+trigsimp(sin(x)**20*cos(x)**20,cos);
+
+
+      20        20            18            16             14             12
+cos(x)  *(cos(x)   - 10*cos(x)   + 45*cos(x)   - 120*cos(x)   + 210*cos(x)
+
+                       10             8             6            4            2
+           - 252*cos(x)   + 210*cos(x)  - 120*cos(x)  + 45*cos(x)  - 10*cos(x)
+
+           + 1)
+
+trigsimp(sin(x)**20*cos(x)**20,compact);
+
+
+      20       20
+cos(x)  *sin(x)
+
+trigsimp(sin(x)**10,combine);
+
+
+  - cos(10*x) + 10*cos(8*x) - 45*cos(6*x) + 120*cos(4*x) - 210*cos(2*x) + 126
+------------------------------------------------------------------------------
+                                     512
+
+trigsimp(ws,hyp);
+
+
+            10
+ - sinh(i*x)
+
+trigsimp(ws,expon);
+
+
+     20*i*x       18*i*x       16*i*x        14*i*x        12*i*x        10*i*x
+( - e       + 10*e       - 45*e       + 120*e       - 210*e       + 252*e
+
+         8*i*x        6*i*x       4*i*x       2*i*x             10*i*x
+  - 210*e      + 120*e      - 45*e      + 10*e      - 1)/(1024*e      )
+
+trigsimp(ws,trig);
+
+
+      10
+sin(x)
+
+int(sin(x+y)*cos(x-y)*tan(x),x);
+
+
+int(cos(x - y)*sin(x + y)*tan(x),x)
+
+int(trigsimp(sin(x+y)*cos(x-y)*tan(x)),x);
+
+
+       2                                                         2
+ cos(x) *x - cos(x)*sin(x) - 2*cos(y)*log(cos(x))*sin(y) + sin(x) *x
+---------------------------------------------------------------------
+                                  2
+
+% int(sin(x+y)*cos(x-y)/tan(x),x) hangs
+int(trigsimp(sin(x+y)*cos(x-y)/tan(x)),x);
+
+
+                                   x  2
+(cos(x)*sin(x) - 2*cos(y)*log(tan(---)  + 1)*sin(y)
+                                   2
+
+                      x
+  + 2*cos(y)*log(tan(---))*sin(y) + x)/2
+                      2
+
+trigsimp(2*tan(x)*(sec(x)**2 - tan(x)**2 - 1));
+
+
+0
+
+df(sqrt(1+cos(x)),x,4);
+
+
+                              4            2       2            2
+(sqrt(cos(x) + 1)*( - 4*cos(x)  - 20*cos(x) *sin(x)  + 12*cos(x)
+
+                      2                       4            2
+     - 4*cos(x)*sin(x)  + 8*cos(x) - 15*sin(x)  + 16*sin(x) ))/(16
+
+           4           3           2
+   *(cos(x)  + 4*cos(x)  + 6*cos(x)  + 4*cos(x) + 1))
+
+trigsimp(ws);
+
+
+ sqrt(cos(x) + 1)
+------------------
+        16
+
+df(2cos((x+y)/2)*cos((x-y)/2),x);
+
+
+         x - y        x + y          x + y        x - y
+ - (cos(-------)*sin(-------) + cos(-------)*sin(-------))
+           2            2              2            2
+
+trigsimp(ws,combine);
+
+
+ - sin(x)
+
+df(int(1/cos(x),x),x);
+
+
+          x  2
+  - (tan(---)  + 1)
+          2
+--------------------
+        x  2
+   tan(---)  - 1
+        2
+
+trigsimp(ws,combine);
+
+
+   1
+--------
+ cos(x)
+
+trigsimp(cos(100x));
+
+
+                                     100
+633825300114114700748351602688*sin(x)
+
+                                          98
+ - 15845632502852867518708790067200*sin(x)
+
+                                           96
+ + 192128294097091018664344079564800*sin(x)
+
+                                            94
+ - 1505335087771022414277335056384000*sin(x)
+
+                                            92
+ + 8567473526884295537508113973248000*sin(x)
+
+                                             90
+ - 37750993877408064336851542202122240*sin(x)
+
+                                              88
+ + 134036108580690866727917044786790400*sin(x)
+
+                                              86
+ - 394078512785625681900511864396185600*sin(x)
+
+                                              84
+ + 978503372439851812055958467641344000*sin(x)
+
+                                               82
+ - 2082455895192505138478065456775168000*sin(x)
+
+                                               80
+ + 3842131126630171980492030767750184960*sin(x)
+
+                                               78
+ - 6200783636440931286187342812099379200*sin(x)
+
+                                               76
+ + 8816739233064449172547628060953804800*sin(x)
+
+                                                74
+ - 11108623702136905456127648087408640000*sin(x)
+
+                                                72
+ + 12460295938318846194767764735918080000*sin(x)
+
+                                                70
+ - 12489614281703125832873100652943769600*sin(x)
+
+                                                68
+ + 11221137831217652115471926367879168000*sin(x)
+
+                                               66
+ - 9058026923994972189597820080095232000*sin(x)
+
+                                               64
+ + 6581798018959761296303294062264320000*sin(x)
+
+                                               62
+ - 4310885252184171141438414824407040000*sin(x)
+
+                                               60
+ + 2547463753712583633893763260298035200*sin(x)
+
+                                               58
+ - 1358954443662228159129584379363328000*sin(x)
+
+                                              56
+ + 654531379770880870350000868032512000*sin(x)
+
+                                              54
+ - 284578860769948204500000377405440000*sin(x)
+
+                                              52
+ + 111631674825053695350740279623680000*sin(x)
+
+                                             50
+ - 39472960218138986676021762874933248*sin(x)
+
+                                             48
+ + 12566106098549963273941439584665600*sin(x)
+
+                                            46
+ - 3595780740528756614156758967910400*sin(x)
+
+                                           44
+ + 923024074019658505866132324352000*sin(x)
+
+                                           42
+ - 212040013118649088525828358144000*sin(x)
+
+                                          40
+ + 43468202689323063147794813419520*sin(x)
+
+                                         38
+ - 7925478751208973645460484915200*sin(x)
+
+                                         36
+ + 1280241627320751027747867852800*sin(x)
+
+                                        34
+ - 182395347175955031090266112000*sin(x)
+
+                                       32
+ + 22799418396994378886283264000*sin(x)
+
+                                      30                                     28
+ - 2485387148331694929142087680*sin(x)   + 234623135747458180159897600*sin(x)
+
+                                    26                                   24
+ - 19023497493037149742694400*sin(x)   + 1312104559685287280640000*sin(x)
+
+                                 22                                20
+ - 76111992112891822080000*sin(x)   + 3662889620432918937600*sin(x)
+
+                               18                             16
+ - 143850563845029888000*sin(x)   + 4517474603507712000*sin(x)
+
+                            14                          12
+ - 110586893598720000*sin(x)   + 2042087523840000*sin(x)
+
+                        10                      8                    6
+ - 27227833651200*sin(x)   + 246628928000*sin(x)  - 1386112000*sin(x)
+
+                 4              2
+ + 4165000*sin(x)  - 5000*sin(x)  + 1
+
+trigsimp(ws,combine);
+
+
+cos(100*x)
+
+trigsimp(sinh(3a+4b-5c)*cosh(3a-5b-6c));
+
+
+                                     5        10
+16384*cosh(a)*cosh(b)*cosh(c)*sinh(a) *sinh(c)
+
+                                        5        8
+ + 36864*cosh(a)*cosh(b)*cosh(c)*sinh(a) *sinh(c)
+
+                                        5        6
+ + 28672*cosh(a)*cosh(b)*cosh(c)*sinh(a) *sinh(c)
+
+                                       5        4
+ + 8960*cosh(a)*cosh(b)*cosh(c)*sinh(a) *sinh(c)
+
+                                      5        2
+ + 960*cosh(a)*cosh(b)*cosh(c)*sinh(a) *sinh(c)
+
+                                     5
+ + 16*cosh(a)*cosh(b)*cosh(c)*sinh(a)
+
+                                        3        10
+ + 16384*cosh(a)*cosh(b)*cosh(c)*sinh(a) *sinh(c)
+
+                                        3        8
+ + 36864*cosh(a)*cosh(b)*cosh(c)*sinh(a) *sinh(c)
+
+                                        3        6
+ + 28672*cosh(a)*cosh(b)*cosh(c)*sinh(a) *sinh(c)
+
+                                       3        4
+ + 8960*cosh(a)*cosh(b)*cosh(c)*sinh(a) *sinh(c)
+
+                                      3        2
+ + 960*cosh(a)*cosh(b)*cosh(c)*sinh(a) *sinh(c)
+
+                                     3
+ + 16*cosh(a)*cosh(b)*cosh(c)*sinh(a)
+
+                                               10
+ + 3072*cosh(a)*cosh(b)*cosh(c)*sinh(a)*sinh(c)
+
+                                               8
+ + 6912*cosh(a)*cosh(b)*cosh(c)*sinh(a)*sinh(c)
+
+                                               6
+ + 5376*cosh(a)*cosh(b)*cosh(c)*sinh(a)*sinh(c)
+
+                                               4
+ + 1680*cosh(a)*cosh(b)*cosh(c)*sinh(a)*sinh(c)
+
+                                              2
+ + 180*cosh(a)*cosh(b)*cosh(c)*sinh(a)*sinh(c)
+
+                                                            5                11
+ + 3*cosh(a)*cosh(b)*cosh(c)*sinh(a) + 16384*cosh(a)*sinh(a) *sinh(b)*sinh(c)
+
+                        5                9
+ + 45056*cosh(a)*sinh(a) *sinh(b)*sinh(c)
+
+                        5                7
+ + 45056*cosh(a)*sinh(a) *sinh(b)*sinh(c)
+
+                        5                5
+ + 19712*cosh(a)*sinh(a) *sinh(b)*sinh(c)
+
+                       5                3                      5
+ + 3520*cosh(a)*sinh(a) *sinh(b)*sinh(c)  + 176*cosh(a)*sinh(a) *sinh(b)*sinh(c)
+
+                        3                11
+ + 16384*cosh(a)*sinh(a) *sinh(b)*sinh(c)
+
+                        3                9
+ + 45056*cosh(a)*sinh(a) *sinh(b)*sinh(c)
+
+                        3                7
+ + 45056*cosh(a)*sinh(a) *sinh(b)*sinh(c)
+
+                        3                5
+ + 19712*cosh(a)*sinh(a) *sinh(b)*sinh(c)
+
+                       3                3                      3
+ + 3520*cosh(a)*sinh(a) *sinh(b)*sinh(c)  + 176*cosh(a)*sinh(a) *sinh(b)*sinh(c)
+
+                                       11
+ + 3072*cosh(a)*sinh(a)*sinh(b)*sinh(c)
+
+                                       9                                       7
+ + 8448*cosh(a)*sinh(a)*sinh(b)*sinh(c)  + 8448*cosh(a)*sinh(a)*sinh(b)*sinh(c)
+
+                                       5                                      3
+ + 3696*cosh(a)*sinh(a)*sinh(b)*sinh(c)  + 660*cosh(a)*sinh(a)*sinh(b)*sinh(c)
+
+                                                             6        11
+ + 33*cosh(a)*sinh(a)*sinh(b)*sinh(c) - 16384*cosh(b)*sinh(a) *sinh(c)
+
+                        6        9                        6        7
+ - 45056*cosh(b)*sinh(a) *sinh(c)  - 45056*cosh(b)*sinh(a) *sinh(c)
+
+                        6        5                       6        3
+ - 19712*cosh(b)*sinh(a) *sinh(c)  - 3520*cosh(b)*sinh(a) *sinh(c)
+
+                      6                                4        11
+ - 176*cosh(b)*sinh(a) *sinh(c) - 24576*cosh(b)*sinh(a) *sinh(c)
+
+                        4        9                        4        7
+ - 67584*cosh(b)*sinh(a) *sinh(c)  - 67584*cosh(b)*sinh(a) *sinh(c)
+
+                        4        5                       4        3
+ - 29568*cosh(b)*sinh(a) *sinh(c)  - 5280*cosh(b)*sinh(a) *sinh(c)
+
+                      4                               2        11
+ - 264*cosh(b)*sinh(a) *sinh(c) - 9216*cosh(b)*sinh(a) *sinh(c)
+
+                        2        9                        2        7
+ - 25344*cosh(b)*sinh(a) *sinh(c)  - 25344*cosh(b)*sinh(a) *sinh(c)
+
+                        2        5                       2        3
+ - 11088*cosh(b)*sinh(a) *sinh(c)  - 1980*cosh(b)*sinh(a) *sinh(c)
+
+                     2                              8
+ - 99*cosh(b)*sinh(a) *sinh(c) + 128*cosh(b)*sinh(b) *sinh(c)
+
+                      6                              4
+ + 224*cosh(b)*sinh(b) *sinh(c) + 120*cosh(b)*sinh(b) *sinh(c)
+
+                     2                              11                       9
+ + 20*cosh(b)*sinh(b) *sinh(c) - 512*cosh(b)*sinh(c)   - 1408*cosh(b)*sinh(c)
+
+                       7                      5                      3
+ - 1408*cosh(b)*sinh(c)  - 616*cosh(b)*sinh(c)  - 110*cosh(b)*sinh(c)
+
+                                            6                10
+ - 5*cosh(b)*sinh(c) - 16384*cosh(c)*sinh(a) *sinh(b)*sinh(c)
+
+                        6                8
+ - 36864*cosh(c)*sinh(a) *sinh(b)*sinh(c)
+
+                        6                6
+ - 28672*cosh(c)*sinh(a) *sinh(b)*sinh(c)
+
+                       6                4
+ - 8960*cosh(c)*sinh(a) *sinh(b)*sinh(c)
+
+                      6                2                     6
+ - 960*cosh(c)*sinh(a) *sinh(b)*sinh(c)  - 16*cosh(c)*sinh(a) *sinh(b)
+
+                        4                10
+ - 24576*cosh(c)*sinh(a) *sinh(b)*sinh(c)
+
+                        4                8
+ - 55296*cosh(c)*sinh(a) *sinh(b)*sinh(c)
+
+                        4                6
+ - 43008*cosh(c)*sinh(a) *sinh(b)*sinh(c)
+
+                        4                4
+ - 13440*cosh(c)*sinh(a) *sinh(b)*sinh(c)
+
+                       4                2                     4
+ - 1440*cosh(c)*sinh(a) *sinh(b)*sinh(c)  - 24*cosh(c)*sinh(a) *sinh(b)
+
+                       2                10
+ - 9216*cosh(c)*sinh(a) *sinh(b)*sinh(c)
+
+                        2                8
+ - 20736*cosh(c)*sinh(a) *sinh(b)*sinh(c)
+
+                        2                6
+ - 16128*cosh(c)*sinh(a) *sinh(b)*sinh(c)
+
+                       2                4
+ - 5040*cosh(c)*sinh(a) *sinh(b)*sinh(c)
+
+                      2                2                    2
+ - 540*cosh(c)*sinh(a) *sinh(b)*sinh(c)  - 9*cosh(c)*sinh(a) *sinh(b)
+
+                      9                      7                      5
+ + 128*cosh(c)*sinh(b)  + 288*cosh(c)*sinh(b)  + 216*cosh(c)*sinh(b)
+
+                     3                              10
+ + 60*cosh(c)*sinh(b)  - 512*cosh(c)*sinh(b)*sinh(c)
+
+                               8                              6
+ - 1152*cosh(c)*sinh(b)*sinh(c)  - 896*cosh(c)*sinh(b)*sinh(c)
+
+                              4                             2
+ - 280*cosh(c)*sinh(b)*sinh(c)  - 30*cosh(c)*sinh(b)*sinh(c)
+
+ + 4*cosh(c)*sinh(b)
+
+trigsimp(ws,combine);
+
+
+ sinh(9*b + c) + sinh(6*a - b - 11*c)
+--------------------------------------
+                  2
+
+trigsimp(sec(20x-y),keepalltrig);
+
+
+       20              20                20                   19
+(csc(x)  *csc(y)*sec(x)  *sec(y))/(csc(x)  *csc(y) + 20*csc(x)  *sec(x)*sec(y)
+
+                18              2              17       3
+    - 190*csc(x)  *csc(y)*sec(x)  - 1140*csc(x)  *sec(x) *sec(y)
+
+                 16              4               15       5
+    + 4845*csc(x)  *csc(y)*sec(x)  + 15504*csc(x)  *sec(x) *sec(y)
+
+                  14              6               13       7
+    - 38760*csc(x)  *csc(y)*sec(x)  - 77520*csc(x)  *sec(x) *sec(y)
+
+                   12              8                11       9
+    + 125970*csc(x)  *csc(y)*sec(x)  + 167960*csc(x)  *sec(x) *sec(y)
+
+                   10              10                9       11
+    - 184756*csc(x)  *csc(y)*sec(x)   - 167960*csc(x) *sec(x)  *sec(y)
+
+                   8              12               7       13
+    + 125970*csc(x) *csc(y)*sec(x)   + 77520*csc(x) *sec(x)  *sec(y)
+
+                  6              14               5       15
+    - 38760*csc(x) *csc(y)*sec(x)   - 15504*csc(x) *sec(x)  *sec(y)
+
+                 4              16              3       17
+    + 4845*csc(x) *csc(y)*sec(x)   + 1140*csc(x) *sec(x)  *sec(y)
+
+                2              18                   19                       20
+    - 190*csc(x) *csc(y)*sec(x)   - 20*csc(x)*sec(x)  *sec(y) + csc(y)*sec(x)  )
+
+trigsimp(csc(10a-9b),keepalltrig);
+
+
+          10       9       10       9           10       8
+( - csc(a)  *csc(b) *sec(a)  *sec(b) )/(9*csc(a)  *csc(b) *sec(b)
+
+               10       6       3             10       4       5
+    - 84*csc(a)  *csc(b) *sec(b)  + 126*csc(a)  *csc(b) *sec(b)
+
+               10       2       7         10       9            9       9
+    - 36*csc(a)  *csc(b) *sec(b)  + csc(a)  *sec(b)  - 10*csc(a) *csc(b) *sec(a)
+
+                9       7              2              9       5              4
+    + 360*csc(a) *csc(b) *sec(a)*sec(b)  - 1260*csc(a) *csc(b) *sec(a)*sec(b)
+
+                9       3              6            9                     8
+    + 840*csc(a) *csc(b) *sec(a)*sec(b)  - 90*csc(a) *csc(b)*sec(a)*sec(b)
+
+                8       8       2                     8       6       2       3
+    - 405*csc(a) *csc(b) *sec(a) *sec(b) + 3780*csc(a) *csc(b) *sec(a) *sec(b)
+
+                 8       4       2       5
+    - 5670*csc(a) *csc(b) *sec(a) *sec(b)
+
+                 8       2       2       7            8       2       9
+    + 1620*csc(a) *csc(b) *sec(a) *sec(b)  - 45*csc(a) *sec(a) *sec(b)
+
+                7       9       3              7       7       3       2
+    + 120*csc(a) *csc(b) *sec(a)  - 4320*csc(a) *csc(b) *sec(a) *sec(b)
+
+                  7       5       3       4
+    + 15120*csc(a) *csc(b) *sec(a) *sec(b)
+
+                  7       3       3       6
+    - 10080*csc(a) *csc(b) *sec(a) *sec(b)
+
+                 7              3       8              6       8       4
+    + 1080*csc(a) *csc(b)*sec(a) *sec(b)  + 1890*csc(a) *csc(b) *sec(a) *sec(b)
+
+                  6       6       4       3
+    - 17640*csc(a) *csc(b) *sec(a) *sec(b)
+
+                  6       4       4       5
+    + 26460*csc(a) *csc(b) *sec(a) *sec(b)
+
+                 6       2       4       7             6       4       9
+    - 7560*csc(a) *csc(b) *sec(a) *sec(b)  + 210*csc(a) *sec(a) *sec(b)
+
+                5       9       5              5       7       5       2
+    - 252*csc(a) *csc(b) *sec(a)  + 9072*csc(a) *csc(b) *sec(a) *sec(b)
+
+                  5       5       5       4
+    - 31752*csc(a) *csc(b) *sec(a) *sec(b)
+
+                  5       3       5       6
+    + 21168*csc(a) *csc(b) *sec(a) *sec(b)
+
+                 5              5       8              4       8       6
+    - 2268*csc(a) *csc(b)*sec(a) *sec(b)  - 1890*csc(a) *csc(b) *sec(a) *sec(b)
+
+                  4       6       6       3
+    + 17640*csc(a) *csc(b) *sec(a) *sec(b)
+
+                  4       4       6       5
+    - 26460*csc(a) *csc(b) *sec(a) *sec(b)
+
+                 4       2       6       7             4       6       9
+    + 7560*csc(a) *csc(b) *sec(a) *sec(b)  - 210*csc(a) *sec(a) *sec(b)
+
+                3       9       7              3       7       7       2
+    + 120*csc(a) *csc(b) *sec(a)  - 4320*csc(a) *csc(b) *sec(a) *sec(b)
+
+                  3       5       7       4
+    + 15120*csc(a) *csc(b) *sec(a) *sec(b)
+
+                  3       3       7       6
+    - 10080*csc(a) *csc(b) *sec(a) *sec(b)
+
+                 3              7       8             2       8       8
+    + 1080*csc(a) *csc(b)*sec(a) *sec(b)  + 405*csc(a) *csc(b) *sec(a) *sec(b)
+
+                 2       6       8       3
+    - 3780*csc(a) *csc(b) *sec(a) *sec(b)
+
+                 2       4       8       5
+    + 5670*csc(a) *csc(b) *sec(a) *sec(b)
+
+                 2       2       8       7            2       8       9
+    - 1620*csc(a) *csc(b) *sec(a) *sec(b)  + 45*csc(a) *sec(a) *sec(b)
+
+                      9       9                    7       9       2
+    - 10*csc(a)*csc(b) *sec(a)  + 360*csc(a)*csc(b) *sec(a) *sec(b)
+
+                        5       9       4                    3       9       6
+    - 1260*csc(a)*csc(b) *sec(a) *sec(b)  + 840*csc(a)*csc(b) *sec(a) *sec(b)
+
+                             9       8           8       10
+    - 90*csc(a)*csc(b)*sec(a) *sec(b)  - 9*csc(b) *sec(a)  *sec(b)
+
+               6       10       3             4       10       5
+    + 84*csc(b) *sec(a)  *sec(b)  - 126*csc(b) *sec(a)  *sec(b)
+
+               2       10       7         10       9
+    + 36*csc(b) *sec(a)  *sec(b)  - sec(a)  *sec(b) )
+
+trigsimp(ws,combine);
+
+
+             2*cos(a)
+----------------------------------
+ sin(11*a - 9*b) + sin(9*a - 9*b)
+
+trigsimp(cosh(50*acosh(x))-cos(50*acos(x)));
+
+
+0
+
+trigsimp(cos(n*acos(x))-cosh(n*acosh(x)),trig);
+
+
+0
+
+trigsimp((2*tan(log(x))*(sec(log(x))**2 - tan(log(x))**2 - 1))/x);
+
+
+0
+
+trigsimp(sech(10x),keepalltrig);
+
+
+        10        10          10             8        2              6        4
+(csch(x)  *sech(x)  )/(csch(x)   + 45*csch(x) *sech(x)  + 210*csch(x) *sech(x)
+
+                 4        6             2        8          10
+    + 210*csch(x) *sech(x)  + 45*csch(x) *sech(x)  + sech(x)  )
+
+trigsimp(ws,combine);
+
+
+     1
+------------
+ cosh(10*x)
+
+trigsimp(csch(3x-5y),keepalltrig);
+
+
+           3        5        3        5            3        4
+( - csch(x) *csch(y) *sech(x) *sech(y) )/(5*csch(x) *csch(y) *sech(y)
+
+                3        2        3          3        5
+    + 10*csch(x) *csch(y) *sech(y)  + csch(x) *sech(y)
+
+               2        5                     2        3                2
+    - 3*csch(x) *csch(y) *sech(x) - 30*csch(x) *csch(y) *sech(x)*sech(y)
+
+                2                        4
+    - 15*csch(x) *csch(y)*sech(x)*sech(y)
+
+                        4        2
+    + 15*csch(x)*csch(y) *sech(x) *sech(y)
+
+                        2        2        3                    2        5
+    + 30*csch(x)*csch(y) *sech(x) *sech(y)  + 3*csch(x)*sech(x) *sech(y)
+
+             5        3             3        3        2
+    - csch(y) *sech(x)  - 10*csch(y) *sech(x) *sech(y)
+
+                       3        4
+    - 5*csch(y)*sech(x) *sech(y) )
+
+trigsimp(ws,combine);
+
+
+        1
+-----------------
+ sinh(3*x - 5*y)
+
+off precise;
+
+
+trigsimp((sinh(x)+cosh(x))**n+(cosh(x)-sinh(x))**n,expon);
+
+
+  2*n*x
+ e      + 1
+------------
+     n*x
+    e
+
+on precise;
+
+
+trigsimp(ws,hyp);
+
+
+2*cosh(n*x)
+
+load taylor;
+
+
+taylor(sin(x+a)*cos(x+b),x,0,4);
+
+
+cos(b)*sin(a) + (cos(a)*cos(b) - sin(a)*sin(b))*x
+
+                                    2
+ - (cos(a)*sin(b) + cos(b)*sin(a))*x
+
+    2*( - cos(a)*cos(b) + sin(a)*sin(b))   3
+ + --------------------------------------*x
+                     3
+
+    cos(a)*sin(b) + cos(b)*sin(a)   4      5
+ + -------------------------------*x  + O(x )
+                  3
+
+trigsimp(ws,combine);
+
+
+ sin(a - b) + sin(a + b)                               2    2*cos(a + b)   3
+------------------------- + cos(a + b)*x - sin(a + b)*x  - --------------*x
+            2                                                    3
+
+    sin(a + b)   4      5
+ + ------------*x  + O(x )
+        3
+
+%----------------------trigfactorize------------------------
+trigfactorize(sin(x)**2,x);
+
+
+{sin(x),sin(x)}
+
+trigfactorize(1+cos(x),x);
+
+
+{cos(x) + 1}
+
+trigfactorize(1+cos(x),x/2);
+
+
+        x        x
+{2,cos(---),cos(---)}
+        2        2
+
+trigfactorize(1+cos(x),x/6);
+
+
+{2,
+
+           x  2
+  - 4*sin(---)  + 1,
+           6
+
+           x  2
+  - 4*sin(---)  + 1,
+           6
+
+      x
+ cos(---),
+      6
+
+      x
+ cos(---)}
+      6
+
+trigfactorize(sin(x)*(1-cos(x)),x);
+
+
+{sin(x)*( - cos(x) + 1)}
+
+trigfactorize(sin(x)*(1-cos(x)),x/2);
+
+
+{4,
+
+      x
+ cos(---),
+      2
+
+      x
+ sin(---),
+      2
+
+      x
+ sin(---),
+      2
+
+      x
+ sin(---)}
+      2
+
+trigfactorize(tan(x),x);
+
+
+{tan(x)}
+
+trigfactorize(sin(x*3),x);
+
+
+            2
+{ - 4*sin(x)  + 3,sin(x)}
+
+trigfactorize(sin(4x)-1,x);
+
+
+{-1,
+
+                           2
+ 2*cos(x)*sin(x) + 2*sin(x)  - 1,
+
+                           2
+ 2*cos(x)*sin(x) + 2*sin(x)  - 1}
+
+trigfactorize(sin(x)**4-1,x);
+
+
+           2
+{ - (sin(x)  + 1),cos(x),cos(x)}
+
+trigfactorize(cos(x)**4-1,x);
+
+
+             2
+{-1, - sin(x)  + 2,sin(x),sin(x)}
+
+trigfactorize(sin(x)**10-cos(x)**6,x);
+
+
+{-1,
+
+              2                  5
+ cos(x)*sin(x)  - cos(x) - sin(x) ,
+
+              2                  5
+ cos(x)*sin(x)  - cos(x) + sin(x) }
+
+trigfactorize(sin(x)*cos(y),x);
+
+
+{cos(y),sin(x)}
+
+trigfactorize(sin(2x)*cos(y)**2,y/2);
+
+
+{2*cos(x)*sin(x),
+
+      y          y
+ cos(---) + sin(---),
+      2          2
+
+      y          y
+ cos(---) + sin(---),
+      2          2
+
+      y          y
+ cos(---) - sin(---),
+      2          2
+
+      y          y
+ cos(---) - sin(---)}
+      2          2
+
+trigfactorize(sin(y)**4-x**2,y);
+
+
+          2               2
+{ - sin(y)  + x, - (sin(y)  + x)}
+
+trigfactorize(sin(x),x+1);
+
+
+***** error using trigfactorize, basis not possible 
+
+trigfactorize(sin(x),2x);
+
+
+***** error using trigfactorize, basis not possible 
+
+trigfactorize(sin(x)*cosh(x),x/2);
+
+
+{2,
+
+      x
+ cos(---),
+      2
+
+      x
+ sin(---),
+      2
+
+       x             x
+ cosh(---) - i*sinh(---),
+       2             2
+
+       x             x
+ cosh(---) + i*sinh(---)}
+       2             2
+
+trigfactorize(1+cos(2x)+2cos(x)*cosh(x),x/2);
+
+
+{4,
+
+      x         x            x         x
+ cos(---)*cosh(---) + i*sin(---)*sinh(---),
+      2         2            2         2
+
+      x         x            x         x
+ cos(---)*cosh(---) - i*sin(---)*sinh(---),
+      2         2            2         2
+
+      x          x
+ cos(---) + sin(---),
+      2          2
+
+      x          x
+ cos(---) - sin(---)}
+      2          2
+
+%------------------------gcd---------------------------------
+triggcd(sin(x),cos(x),x);
+
+
+1
+
+triggcd(1-cos(x)**2,sin(x)**2,x);
+
+
+         2
+ - sin(x)
+
+triggcd(sin(x)**4-1,cos(x)**2,x);
+
+
+         2
+ - sin(x)  + 1
+
+triggcd(sin(5x+1),cos(x),x);
+
+
+1
+
+triggcd(1-cos(2x),sin(2x),x);
+
+
+sin(x)
+
+triggcd(-5+cos(2x)-6sin(x),-7+cos(2x)-8sin(x),x/2);
+
+
+       x        x
+2*cos(---)*sin(---) + 1
+       2        2
+
+triggcd(1-2cosh(x)+cosh(2x),1+2cosh(x)+cosh(2x),x/2);
+
+
+        x  2
+2*sinh(---)  + 1
+        2
+
+triggcd(1+cos(2x)+2cos(x)*cosh(x),1+2cos(x)*cosh(x)+cosh(2x),x/2);
+
+
+        x  2         x  2
+ - sin(---)  + sinh(---)  + 1
+        2            2
+
+triggcd(-1+2*a*b+cos(2x)-2*a*sin(x)+2*b*sin(x),-1-2*a*b+cos(2x)-2*a*sin(x)
+-2*b*sin(x),x/2);
+
+
+       x        x
+2*cos(---)*sin(---) + a
+       2        2
+
+triggcd(sin(x)**10-1,cos(x),x);
+
+
+cos(x)
+
+triggcd(sin(5*x) + sin(3*x),cos(x),x);
+
+
+cos(x)
+
+triggcd(sin(3x)+sin(5x),sin(5x)+sin(7x),x);
+
+
+              2
+sin(x)*(sin(x)  - 1)
+
+
+end;
+
+5: 5: 5: 5: 5: 5: 5: 5: 5: 
+
+Time for test: 81520 ms, plus GC time: 5790 ms
+
+6: 6: 
+Quitting
+Fri Jul 21 09:25:53 PDT 1995

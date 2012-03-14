@@ -1,0 +1,35 @@
+\documentclass[12pt]{article}
+
+\newcommand{\ttindex}[1]{{\renewcommand{\_}{\protect\underscore}%
+                          \index{#1@{\tt #1}}}}
+
+\title{MODSR: Modular solve and roots}
+
+\author{
+Herbert Melenk \\
+Konrad--Zuse--Zentrum f\"ur Informationstechnik Berlin \\
+Takustra\"se 7 \\
+D--14195 Berlin--Dahlem, Germany \\[0.05in]
+e--mail: melenk@zib.de
+}
+
+\begin{document}
+\maketitle
+
+This package supports the SOLVE and ROOTS operators for modular polynomials
+and modular polynomial systems.  The moduli need not be primes.  {\tt
+M\_SOLVE} requires a modulus to be set.  {\tt M\_ROOTS} takes the
+modulus as a second argument. For example:
+
+\begin{verbatim}
+on modular; setmod 8;
+m_solve(2x=4);            ->  {{X=2},{X=6}}
+m_solve({x^2-y^3=3});
+    ->  {{X=0,Y=5}, {X=2,Y=1}, {X=4,Y=5}, {X=6,Y=1}}
+m_solve({x=2,x^2-y^3=3}); ->  {{X=2,Y=1}}
+off modular;
+m_roots(x^2-1,8);         ->  {1,3,5,7}
+m_roots(x^3-x,7);         ->  {0,1,6}
+\end{verbatim}
+
+\end{document}

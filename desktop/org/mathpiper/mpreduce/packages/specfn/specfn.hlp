@@ -1,0 +1,206 @@
+\chapter{SPECFN: Package for special functions}
+\label{SPECFN}
+\typeout{{SPECFN: Package for special functions}}
+
+{\footnotesize
+\begin{center}
+Chris Cannam \& Winfried Neun \\
+Konrad--Zuse--Zentrum f\"ur Informationstechnik Berlin \\
+Heilbronner Strasse 10 \\
+D--10711 Berlin--Wilmersdorf, Germany \\[0.05in]
+e--mail: neun@sc.ZIB--Berlin.de
+\end{center}
+}
+\ttindex{SPECFN}
+\index{Orthogonal polynomials}
+
+This package is designed to provide algebraic and numeric manipulations of
+several common special functions, namely:
+
+\begin{itemize}
+\item Bernoulli Numbers and Euler Numbers;
+\item Stirling Numbers;
+\item Binomial Coefficients;
+\item Pochhammer notation;
+\item The Gamma function;
+\item The Psi function and its derivatives;
+\item The Riemann Zeta function;
+\item The Bessel functions J and Y of the first and second kind;
+\item The modified Bessel functions I and K;
+\item The Hankel functions H1 and H2;
+\item The Kummer hypergeometric functions M and U;
+\item The Beta function, and Struve, Lommel and Whittaker functions;
+\item The Airy functions;
+\item The Exponential Integral, the Sine and Cosine Integrals;
+\item The Hyperbolic Sine and Cosine Integrals;
+\item The Fresnel Integrals and the Error function;
+\item The Dilog function;
+\item Hermite Polynomials;
+\item Jacobi Polynomials;
+\item Legendre Polynomials;
+\item Spherical and Solid Harmonics;
+\item Laguerre Polynomials;
+\item Chebyshev Polynomials;
+\item Gegenbauer Polynomials;
+\item Euler  Polynomials;
+\item Bernoulli Polynomials.
+\item Jacobi Elliptic Functions and Integrals;
+\item 3j symbols, 6j symbols and Clebsch Gordan coefficients;
+\item and some well-known constants.
+\end{itemize}
+
+
+
+\section{Simplification and Approximation}
+
+All of the operators supported by this package have certain algebraic
+simplification rules to handle special cases, poles, derivatives and so
+on.  Such rules are applied whenever they are appropriate.  However, if
+the {\tt ROUNDED} switch is on, numeric evaluation is also carried out.
+Unless otherwise stated below, the result of an application of a special
+function operator to real or complex numeric arguments in rounded mode
+will be approximated numerically whenever it is possible to do so.  All
+approximations are to the current precision.
+
+\section{Constants}
+\ttindex{Euler\_Gamma}\ttindex{Khinchin}\ttindex{Golden\_Ratio}
+\ttindex{Catalan}
+
+Some well-known constants are defined in the special function package.
+Important properties of these constants which can be used to define them
+are also known.  Numerical values are computed at arbitrary precision
+if the switch ROUNDED is on.
+
+\begin{itemize}
+\item Euler\_Gamma : Euler's constants, also available as -$\psi(1)$;
+\item Catalan : Catalan's constant;
+\item Khinchin : Khinchin's constant;
+\item Golden\_Ratio : $\frac{1 + \sqrt{5}}{2}$ 
+\end{itemize}
+
+\section{Functions}
+
+The functions provided by this package are given in the following
+tables.
+
+%%\index{Spherical and Solid Harmonics}\ttindex{SphericalHarmonicY}
+%%\ttindex{SolidHarmonicY}
+%%\ttindex{Jacobiamplitude}
+%%\ttindex{JacobiZeta}
+
+\begin{center}
+\fbox{
+\begin{tabular}{r l}\\
+Function & Operator \\\\
+%\hline 
+$\left( { n \atop m } \right)$ & {\tt Binomial(n,m)}\ttindex{Binomial}\index{Binomial coefficients} \\
+Bernoulli($n$) or $ B_n $ & {\tt Bernoulli(n)}\ttindex{Bernoulli}\index{Bernoulli numbers} \\
+Euler($n$) or $ E_n $ & {\tt Euler(n)}\ttindex{Euler}\index{Euler polynomials}  \\
+$S_n^{(m)}$ & {\tt Stirling1(n,m)}\ttindex{Stirling1}\index{Stirling numbers} \\
+${\bf S}_n^{(m)}$ & {\tt Stirling2(n,m)}\ttindex{Stirling2} \\
+$\Gamma(z)$ & {\tt Gamma(z)}\ttindex{Gamma}\index{Gamma function} \\
+$(a)_k$ & {\tt Pochhammer(a,k)}\ttindex{Pochhammer}\index{Pochhammer's symbol} \\
+$\psi(z)$ & {\tt Psi(z)}\ttindex{Psi}\index{Psi function}  \\
+$\psi^{(n)}(z)$ & {\tt Polygamma(n,z)}\ttindex{Polygamma}\index{Polygamma functions} \\
+$Riemann's \zeta(z)$ & {\tt Zeta(z)}\ttindex{Zeta}\index{Zeta function (Riemann's)} \\
+$J_\nu(z)$ & {\tt BesselJ(nu,z)}\ttindex{BesselJ}\index{Bessel functions}\\
+$Y_\nu(z)$ & {\tt BesselY(nu,z)}\ttindex{BesselY}\\
+$I_\nu(z)$ & {\tt BesselI(nu,z)}\ttindex{BesselI}\\
+$K_\nu(z)$ & {\tt BesselK(nu,z)}\ttindex{BesselK}\\
+$H^{(1)}_\nu(z)$ & {\tt Hankel1(nu,z)}\ttindex{Hankel1}\index{Hankel functions}\\
+$H^{(2)}_\nu(z)$ & {\tt Hankel2(nu,z)}\ttindex{Hankel2}\\
+$B(z,w)$ & {\tt Beta(z,w)}\ttindex{Beta}\index{Beta function}\\
+${\bf H}_{\nu}(z)$ & {\tt StruveH(nu,z)}\ttindex{StruveH}\index{Struve functions}\\
+${\bf L}_{\nu}(z)$ & {\tt StruveL(nu,z)}\ttindex{StruveL}\\
+$s_{a,b}(z)$ & {\tt Lommel1(a,b,z)}\ttindex{Lommel1}\index{Lommel functions}\\
+$S_{a,b}(z)$ & {\tt Lommel2(a,b,z)}\ttindex{Lommel2}\\
+\end{tabular}}
+\end{center}
+
+
+\begin{center}
+\fbox{
+\begin{tabular}{r l}\\
+Function & Operator \\\\
+%\hline
+$Ai(z)$ & {\tt Airy\_Ai(z)}\ttindex{Airy\_Ai}\index{Airy functions}\\
+$Bi(z)$ & {\tt Airy\_Bi(z)}\ttindex{Airy\_Bi}\\
+$Ai'(z)$ & {\tt Airy\_Aiprime(z)}\ttindex{Airy\_Aiprime}\\
+$Bi'(z)$ & {\tt Airy\_Biprime(z)}\ttindex{Airy\_Biprime}\\
+$M(a, b, z)$ or $_1F_1(a, b; z)$ or $\Phi(a, b; z)$ &
+{\tt KummerM(a,b,z)}\ttindex{KummerM}\index{Kummer functions} \\
+$U(a, b, z)$ or $z^{-a}{_2F_0(a, b; z)}$ or $\Psi(a, b; z)$ &
+{\tt KummerU(a,b,z)}\ttindex{KummerU}\\
+$M_{\kappa,\mu}(z)$ & {\tt WhittakerM(kappa,mu,z)}\ttindex{WhittakerM}\index{Whittaker functions}\\
+$W_{\kappa,\mu}(z)$ & {\tt WhittakerW(kappa,mu,z)}\ttindex{WhittakerW}\\
+$B_n(x)$ & {\tt BernoulliP(n,x)}\ttindex{BernoulliP}\\
+$E_n(x)$ & {\tt EulerP(n,x)}\ttindex{EulerP}\\
+$C_n^{(\alpha)}(x)$ & {\tt GegenbauerP(n,alpha,x)}\ttindex{GegenbauerP}\index{Gegenbauer polynomials}\\
+$H_n(x)$ & {\tt HermiteP(n,x)}\ttindex{HermiteP}\index{Hermite polynomials} \\
+$L_n(x)$ & {\tt LaguerreP(n,x)}\ttindex{LaguerreP}\index{Laguerre polynomials}\\
+$L_n^{(m)}(x)$ & {\tt LaguerreP(n,m,x)}\ttindex{LaguerreP}\\
+$P_n(x)$ & {\tt LegendreP(n,x)}\ttindex{LegendreP}\index{Legendre polynomials}\\
+$P_n^{(m)}(x)$ & {\tt LegendreP(n,m,x)}\ttindex{LegendreP}\\
+$P_n^{(\alpha,\beta)} (x)$ & {\tt JacobiP(n,alpha,beta,x)}\ttindex{JacobiP}\index{Jacobi's polynomials} \\
+$U_n(x)$ & {\tt ChebyshevU(n,x)}\ttindex{ChebyshevU}\index{Chebyshev polynomials} \\
+$T_n(x)$ & {\tt ChebyshevT(n,x)}\ttindex{ChebyshevT}\\
+\end{tabular}}
+\end{center}
+
+
+\begin{center}
+\fbox{
+\begin{tabular}{r l}\\
+Function & Operator \\\\
+%\hline
+$Y_n^{m}(x,y,z,r2)$ & {\tt SolidHarmonicY(n,m,x,y,z,r2)}\ttindex{SolidHarmonicY}\\
+$Y_n^{m}(\theta,\phi)$ & {\tt SphericalHarmonicY(n,m,theta,phi)}\ttindex{SphericalHarmonicY}\\
+$\left( {j_1 \atop m_1} {j_2 \atop m_2}
+ {j_3 \atop m_3} \right)$ & {\tt ThreeJSymbol(\{j1,m1\},\{j2,m2\},\{j3,m3\})}\ttindex{ThreeJSymbol}\index{3j and 6j symbols}\\
+$\left( {j_1m_1j_2m_2 | j_1j_2j_3 - m_3} \right)$ &
+{\tt Clebsch\_Gordan(\{j1,m1\},\{j2,m2\},\{j3,m3\})}\ttindex{Clebsch\_Gordan}\index{Clebsch Gordan coefficients}\\
+$\left\{ {j_1 \atop l_1} {j_2 \atop l_2}
+ {j_3 \atop l_3} \right\}$  & {\tt SixJSymbol(\{j1,j2,j3\},\{l1,l2,l3\})}\ttindex{SixJSymbol}\\
+\end{tabular}}
+\end{center}
+
+
+\begin{center}
+\fbox{
+\begin{tabular}{r l}\\
+Function & Operator \\\\
+%\hline
+$Si(z)$ & {\tt Si(z) }\ttindex{Si}\\
+$si(z)$ & {\tt s\_i(z) }\ttindex{s\_i}\\
+$Ci(z)$ & {\tt Ci(z) }\ttindex{Ci}\\
+$Shi(z)$ & {\tt Shi(z) }\ttindex{Shi}\\
+$Chi(z)$ & {\tt Chi(z) }\ttindex{Chi}\\
+$erf(z)$ & {\tt erf(z) }\ttindex{erf}\\
+$erfc(z)$ & {\tt erfc(z) }\ttindex{erfc}\\
+$Ei(z)$ & {\tt Ei(z) }\ttindex{Ei}\\
+$dilog(z)$ & {\tt dilog(z)}\ttindex{dilog}\index{Dilogarithm function} \\
+$C(x)$ & {\tt Fresnel\_C(x)}\ttindex{Fresnel\_C} \\
+$S(x)$ & {\tt Fresnel\_S(x)}\ttindex{Fresnel\_S} \\
+\\
+$sn(u|m)$ & {\tt Jacobisn(u,m)}\ttindex{Jacobisn}\index{Jacobi Elliptic Functions and {Integrals}}\\
+$dn(u|m)$ & {\tt Jacobidn(u,m)}\ttindex{Jacobidn}\\
+$cn(u|m)$ & {\tt Jacobicn(u,m)}\ttindex{Jacobicn}\\
+$cd(u|m)$ & {\tt Jacobicd(u,m)}\ttindex{Jacobicd}\\
+$sd(u|m)$ & {\tt Jacobisd(u,m)}\ttindex{Jacobisd}\\
+$nd(u|m)$ & {\tt Jacobind(u,m)}\ttindex{Jacobind}\\
+$dc(u|m)$ & {\tt Jacobidc(u,m)}\ttindex{Jacobidc}\\
+$nc(u|m)$ & {\tt Jacobinc(u,m)}\ttindex{Jacobinc}\\
+$sc(u|m)$ & {\tt Jacobisc(u,m)}\ttindex{Jacobisc}\\
+$ns(u|m)$ & {\tt Jacobins(u,m)}\ttindex{Jacobins}\\
+$ds(u|m)$ & {\tt Jacobids(u,m)}\ttindex{Jacobids}\\
+$cs(u|m)$ & {\tt Jacobics(u,m)}\ttindex{Jacobics}\\
+$F(\phi|m)$ & {\tt EllipticF(phi,m)}\ttindex{EllipticF}\\
+$K(m)$ & {\tt EllipticK(m)}\ttindex{EllipticK}\\
+$E(\phi|m) or E(m)$ & {\tt EllipticE(phi,m) or EllipticE(m)}\ttindex{EllipticE}\\
+$H(u|m), H_1(u|m), \Theta_1(u|m), \Theta(u|m)$ & {\tt EllipticTheta(a,u,m)}\ttindex{EllipticTheta}\\
+$\theta_1(u|m), \theta_2(u|m), \theta_3(u|m), \theta_4(u|m)$
+   & {\tt EllipticTheta(a,u,m)}\ttindex{EllipticTheta}\\
+$Z(u|m)$ & {\tt Zeta\_function(u,m)}\ttindex{Zeta\_function}
+\end{tabular}}
+\end{center}
+

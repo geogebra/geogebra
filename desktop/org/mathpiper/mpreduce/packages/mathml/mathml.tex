@@ -1,0 +1,534 @@
+\documentclass{article}
+\title{REDUCE-MathML Interface}
+\author{Luis Alvarez-Sobreviela \\ alvarez@zib.de \\ \\
+	Konrad--Zuse--Zentrum f\"ur Informationstechnik Berlin \\
+        Takustra\ss e 7 \\ D-14195 Berlin-Dahlem} 
+\date{August 9, 1999}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+MathML is intended to facilitate the use and re-use of mathematical and
+scientific content on the Web, and for other applications such as computer
+algebra systems. For this reason we believe MathML is an important step
+for the scientific community considering the widespread use of the
+Internet. We found necessary to include REDUCE in this trend, and
+developed the MathML-REDUCE interface.
+
+The MathML interface for REDUCE provides an easy to use series of
+commands, allowing it to evaluate and output MathML. This manual is
+therefore intended to give the user a good guideline on how to make of it a
+proper use. 
+\\
+
+The principal features of this package can be resumed as:  
+\begin{itemize}
+\item Evaluation of MathML code. Allows REDUCE to parse MathML expressions
+and evaluate them. 
+\item Generation of MathML compliant code. Provides the printing of REDUCE
+expressions in MathML source code, to be used directly in web page
+production. 
+
+\item Generation of MathML code surrounded by HTML $<$embed$>$$<$/embed$>$
+tags. This is useful for directly including MathML into a webpage. It can
+then easily be rendered on any browser with the IBM Tech Explorer plug-in
+\footnote{Currently available at
+http://www.software.ibm.com/network/techexplorer/}. 
+
+\end{itemize}
+
+We assume that the reader is familiar with MathML 1.0. If not, the
+specification. is available at: \\
+
+{\tt http://www.w3.org/Math/ }
+
+\section{Getting Started}
+
+\subsection{Loading}
+
+The MathML-REDUCE interface package is under the name {\tt mathml}, and so is
+loaded by supplying {\tt load mathml;}.
+
+\subsection{Switches}
+
+There are three switches which can be used alternatively and
+incrementally.  These are {\bf mathml}, {\bf web} and {\bf both}. There
+use can be described as follows:
+
+\begin{description}
+\item[{\tt mathml}:] All output will be printed in MathML.
+\item[{\tt both}:] All output will be printed in both MathML and normal
+REDUCE.
+
+\item[{\tt web}:] All output will be printed within an HTML $<embed>$ tag. 
+This is for direct use in an HTML web page when using IBM Tech Explorer.
+\end{description}
+
+MathML has often been said to be too verbose. If {\bf both} is on, an easy
+interpretation of the results is possible, improving MathML readability.
+
+\subsection{Entering MathML}
+
+The MathML-REDUCE interface gives the user various ways of providing
+input. This can be done via a file containing MathML or by writing MathML
+directly in the prompt. \\
+
+\subsubsection{Reading MathML from a File: {\tt MML}}
+
+When reading from a file the command {\bf mml} is used. {\bf mml} takes as
+argument the name of the file containing the MathML. \\
+
+{\tt mml}(FILE:{\it string}):{\it expression} 
+
+\paragraph{Example:} As long as the file given contains valid MathML, no
+errors should be produced.  
+
+{\tt 1:  mml "ex.mml";}
+
+\subsubsection{Reading MathML from Prompt: {\tt PARSEML}}
+
+By using the function {\bf parseml} it is possible to introduce a series of
+valid mathml tokens to the prompt. {\bf parseml} takes no arguments,
+although once it is called it will prompt you to enter mathml tags starting
+with {\tt $<$mathml$>$} and ending with {\tt $<$/mathml$>$}. It then returns
+an expression resulting from evaluating the input. \\
+
+\paragraph{Example:} Here is an extract of a REDUCE session where {\tt
+parseml()} is used:\\
+
+{\tt 2: parseml(); 
+
+2: <math> 
+
+2: <apply><plus/> 
+
+2: <cn>3</cn> 
+
+2: <cn>5</cn> 
+
+2: </apply> 
+
+2: </math> 
+\\
+
+\hspace*{1cm}  8 \\
+
+3: } \\
+
+If for some reason you do not want to continue typing in at the prompt, and
+cancel what has already been typed, it is possible to exit by calling 
+control {\tt C} or control {\tt D}.
+
+Although it is simpler to edit a file and then use {\tt mml}, we still
+added {\bf parseml} for completeness.     
+
+
+\section{The Evaluation of MathML}
+
+MathML is evaluated by the interface always before outputting any results.
+Just in the same way as REDUCE normally does. The program works in the same
+way as the {\tt algebraic} mode. Undefined variables remain undefined,
+and it is possible to use all normal REDUCE switches and packages.
+
+\paragraph{Example:}
+
+\noindent The following MathML:\\
+\\
+{\tt 
+\hspace*{0mm}<math>
+
+\hspace*{1mm}<reln><gt/>
+
+\hspace*{6mm}<ci>x</ci>
+
+\hspace*{6mm}<ci>y</ci>
+
+\hspace*{1mm}</reln>
+\\
+\hspace*{0mm}</math>}
+\\
+\\
+will evaluate to {\tt gt(x,y)}. This only states that x is greater than
+y.
+\\
+The interesting characteristic, is that we can set the undefined values of
+x and y.
+\\
+Suppose we enter the following:
+\\
+
+{\tt 5: x:=3; y:=2;
+\\
+
+x := 3
+\\
+
+y := 2}
+\\
+\\
+If we once again enter and evaluate the above piece of MathML we will have as
+result:
+\\
+
+{\tt t}
+\\
+\\
+because it is true that 3 is greater than 2. It is important to note that
+it is also possible to set only one of the two variables x or y above, say
+{\tt y:=4}. The expression will then not evaluate completely, and we will
+have:  \\
+
+{\tt gt(x,4)}
+\\
+\\
+When one of the switches is on, the MathML output will be:
+\\
+\\
+{\tt 
+\hspace*{1mm}<math>\\
+\hspace*{5mm}   <reln><gt/>\\
+\hspace*{9mm}      <ci>x</ci>\\
+\hspace*{9mm}      <cn type="integer">4</cn>\\
+\hspace*{5mm}   </reln>\\
+\hspace*{1mm}</math>\\}
+
+Hence, it is possible when dealing with a MathML formula representation in
+which there are a set of undefined variables to set each variable to the
+desired value and evaluate it. Let us consider a second example to make sure
+everything is clear.
+
+\paragraph{Example:}
+
+Let the file {\tt ex.mml} contain the following mathml:
+\\
+\\
+{\tt               <math>\\
+\hspace*{2mm}       <apply><int/>\\
+\hspace*{5mm}        <bvar>\\
+\hspace*{9mm}         <ci>x</ci>\\
+\hspace*{5mm}        </bvar>\\
+\hspace*{5mm}        <apply><fn><ci>F</ci><fn>\\
+\hspace*{9mm}         <ci>x</ci>\\
+\hspace*{5mm}        </apply>\\
+\hspace*{2mm}       </apply>\\
+                  </math>}  \\
+\\
+If we do the following:\\
+
+{\tt 1: mml "ex.mml";}\\
+\\
+This is what we get:
+\\
+\\
+{\tt int(f(x),x);}\\
+\\
+It is clear that this has remained unevaluated. We can now set the function
+{\tt f(x)} as follows:\\
+
+{\tt for all x let f(x)=2*x**2;}\\
+\\
+If we then enter '{\tt mml "ex.mml"}' once again, we will have the
+following result:\\
+
+{\Large \( \frac {2*x^{3}}{3}\)}
+\\
+\\
+Hence the MathML-REDUCE interface allows the user to set a value to a
+variable in order to manipulate the evaluation of the MathML, without needing
+to edit the MathML itself.
+
+\subsection{Using Boolean Values}
+
+Boolean values are not defined in MathML, despite their importance in REDUCE.
+To get around this problem, we can set a variable's value to a boolean value,
+and when evaluating, the MathML-REDUCE interface will use the boolean value
+of the variable.
+\\
+Suppose we want to evaluate the following expression:
+\\
+\\
+{\tt and(t,nil);}
+\\
+\\
+Then all we do, is we create a file with the following MathML:
+\\
+\\
+{\tt          $<$mathml$>$\\
+\hspace*{2mm} $<$apply$>$$<$and/$>$\\
+\hspace*{5mm}         $<$ci$>$ a $<$/ci$>$\\
+\hspace*{5mm}         $<$ci$>$ b $<$/ci$>$\\
+\hspace*{2mm}      $<$/apply$>$\\
+        $<$/mathml$>$\\}
+\\
+And before evaluating it, we set {\tt a} to {\tt true} and {\tt b} to {\tt
+nil}. When evaluating the MathML, it will produce the same result as the
+equivalent REDUCE expression.
+
+\section{Interpretation of Error Messages}
+
+The MathML-REDUCE interface has a set of error messages which aim to help the
+user understand and correct any invalid MathML. Because there can exist many
+different causes of errors, such error messages should be considered merely
+as advice. Here we shall consider the most important error messages.
+
+\paragraph{Missing tag:}
+
+Many MathML tags go by pairs, such as {\tt $<$apply$>$$<$/apply$>$,
+$<$reln$>$$<$/reln$>$}, {\tt $<$ci$>$$<$/ci$>$}, etc\ldots. In the
+case
+where the ending tag is missed out, or misspelled, it is very probable that an
+error of this type will be thrown. 
+
+\paragraph{Ambiguous or Erroneous Use of {\tt $<$apply$>$}}
+
+This error message defines an undefined error. When this error message
+appears, it is not very clear to the interface where exactly lies the error. 
+Probable causes are a misuse of the {\tt $<$apply$>$$<$/apply$>$} tags, or a
+mispelling of the tag preceding the {\tt $<$apply$>$}. However, other types
+of errors may cause this error message to appear. 
+
+Tags following an {\tt $<$apply$>$} tag may be misspelled without causing an
+error message, but they will be considered as operators by REDUCE and
+therefore evaluate to some unexpected expression.
+
+\paragraph{Syntax Errors}
+
+It is possible that the input MathML is not syntactically correct. In such
+a situation, the error will be spotted, and in some cases a solution might be
+presented. There are a variety of syntax errors messages, but relying on
+their advice might not always be helpful. 
+\\
+
+Despite the verbose nature of the error messages and their recommended
+solutions, we do recommend that in most situations reference to the MathML
+specification is made. 
+
+\section{Limitations of the Interface}
+
+Not all aspects of MathML have been perfectly fitted into the interface.
+There are still some problems unsolved in the present version of the
+interface:
+
+\begin{itemize} 
+\item MathML Presentation Markup is not supported. The
+interface will treat every presentation tag as an unknown tag, or a REDUCE
+operator. We found presentation markup not prioritary when dealing with
+computer algebra systems, although in the future, parsing of presentation
+markup within content markup shall be supported.  
+\item Certain MathML tags
+do not play an important role in the REDUCE environment. Such tags will not
+evaluate or affect in anyway the interface's behaviour. They will be parsed
+correctly, although their action will be ignored. These tags are: 
+\begin{enumerate} 
+{\tt 
+\item $<$interval$><$/interval$>$ 
+\item $<$inverse$><$/inverse$>$ 
+\item $<$condition$><$/condition$>$ 
+\item $<$compose$><$/compose$>$ 
+\item $<$ident$><$/ident$>$ 
+\item $<$forall/$>$
+\item $<$exists/$>$} 
+\end{enumerate} 
+
+Although {\tt $<$condition$><$/condition$>$} and {\tt
+$<$interval$><$/interval$>$} tags are supported when used within the
+following tags:  
+\begin{enumerate} 
+{\tt 
+\item $<$int/$>$ 
+\item $<$limit/$>$
+\item $<$sum/$>$ 
+\item $<$product/$>$} 
+\end{enumerate} 
+\item The {\tt $<$declare$>$} construct takes one or two arguments. It sets
+the first argument to the value of the second. In the case where the second
+argument is a vector or a matrix, an obscure error message is produced. It is
+clearly something which must be fixed in the future.\\ \item The program
+throws an error when it encounters {\tt nil} between {\tt $<$ci$><$/ci$>$}
+tags. It is not possible to use boolean values directly.  Please refer to the
+above subsection treating this matter.  
+\end{itemize}
+
+\section{Including MathML into a Webpage}
+
+We shall not get into the details of including MathML in the design of a
+web page, but it is important for completeness, to give a quick overview.
+One can include MathML in two ways:
+
+\begin{itemize} 
+
+\item By introducing MathML inside $<$math$>$$<$/math$>$ tags in any HTML 
+page.
+
+\item By having MathML being embeded inside HTML $<$embed$>$$<$/embed$>$
+tags. 
+
+\end{itemize} 
+
+When one has the {\bf mathml} switch on, MathML is generated inside
+$<$math$>$$<$/math$>$ tags. Browsers such as WebEQ \footnote{Available at
+http://www.webeq.com}can read this type of encoding. 
+
+\paragraph{Example:}
+\begin{verbatim} 
+<html>
+<body>
+<title>MathML example</title>
+<h1>Example of MathML</h1>
+<br>
+The following is MathML directly encoded within this homepage:
+<br><br>
+
+<math>
+   <apply><int>
+      <bvar>
+         <ci>x</ci>
+      </bvar>
+      <apply><power/>
+         <ci>x</ci>
+         <apply><power/>
+            <ci>x</ci>
+            <cn type="integer">2</cn>
+         </apply>
+      </apply>
+   </apply>
+</math>
+
+<br><br>
+On some browsers such as WebEQ, the MathML is rendered correctly.
+</html>
+
+\end{verbatim} 
+
+But most people on the web use either Netscape or Microsoft Internet
+Explorer, which do not at the moment support complete MathML rendering. 
+
+What must be done in cases where Netscape or Microsoft Internet Explorer
+are used, is to make available the IBM Tech Explorer Plug-in, and include
+the MathML inside the web page surrounded by $<$embed$>$$<$/embed$>$ tags.
+This is easily done with the REDUCE-MathML interface by having the {\bf
+web} switch on. Here is an example of how to do this:
+
+\paragraph{Example}
+
+\begin{verbatim} 
+
+<html>
+<body>
+<title>MathML example</title>
+<h1>Example of MathML</h1>
+<br>
+The following is MathML directly encoded within this homepage:
+<br><br>
+
+<EMBED TYPE="text/mathml" MMLDATA="<math><apply><int><bvar><ci>x</ci></bvar>
+<apply><power/><ci>x</ci><apply><power/><ci>x</ci><cn type=&quot;integer&quot;>
+2 </cn></apply></apply></apply></math>"
+HEIGHT=300 WIDTH=200>
+
+<br><br>
+On all browsers with the Tech Explorer Plug-in, this is rendered
+correctly.
+</html>
+
+\end{verbatim} 
+
+Another way to embed MathML in a web page document is by having a
+separate file contain MathML (usually a file with {\bf .mml} extension)
+and to embed it inside a page with the following code:
+
+\begin{verbatim} 
+
+<EMBED TYPE="text/mathml" src="mathml.mml" HEIGHT=300 WIDTH=200>
+
+\end{verbatim} 
+
+
+\section{Examples}
+
+We would like to present a series of examples which will illustrate the
+possibilities of the interface.
+
+\paragraph{Example 1} Type in the following and observe the resulting
+expression:
+
+\begin{verbatim}
+23: on mathml;
+
+24: solve({z=x*a+1},{z,x});
+\end{verbatim}
+\paragraph{Example 2}Have a file {\tt ex2.mml} containing the following
+MathML source code:\\
+\\
+{\tt                 $<$mathml$>$\\
+\hspace*{1mm}      $<$apply$>$$<$sum/$>$\\
+\hspace*{5mm}       $<$bvar$>$\\
+\hspace*{9mm}         $<$ci$>$x$<$/ci$>$\\
+\hspace*{5mm}       $<$/bvar$>$\\
+\hspace*{5mm}       $<$apply$>$$<$fn$>$$<$ci$>$F$<$/ci$>$$<$fn$>$\\
+\hspace*{9mm}         $<$ci$>$x$<$/ci$>$\\
+\hspace*{5mm}       $<$/apply$>$\\
+\hspace*{1mm}      $<$/apply$>$\\
+                  $<$/mathml$>$\\}
+\\
+and type:\\
+\\
+{\tt mml "ex2.mml"}
+
+\paragraph{Example 3} This example illustrates how practical the switch
+{\bf both} can be for interpreting verbose MathML.
+Introduce the following MathML source into a file, say {\tt ex3.mml}\\
+\\
+{\tt $<$mathml$>$\\
+\hspace*{1mm}  $<$apply$>$$<$int/$>$\\
+\hspace*{5mm}    $<$bvar$>$\\
+\hspace*{9mm}      $<$ci$>$x$<$/ci$>$\\
+\hspace*{5mm}    $<$/bvar$>$\\
+\hspace*{5mm}    $<$apply$>$$<$sin/$>$\\
+\hspace*{9mm}      $<$apply$>$$<$log/$>$\\
+\hspace*{13mm}       $<$ci$>$x$<$/ci$>$\\
+\hspace*{9mm}      $<$/apply$>$\\
+\hspace*{5mm}    $<$/apply$>$\\
+\hspace*{1mm}  $<$/apply$>$\\
+$<$/mathml$>$ \\}
+\\
+then do the following:
+
+\begin{verbatim}
+
+2: on both;
+
+3: mml "ml";
+
+\end{verbatim}
+
+\section{An overview of how the Interface Works}
+
+The interface is primarily built in two parts. A first one which parses
+and evaluates MathML, and a second one which parses REDUCE's algebraic
+expressions and prints them out in MathML format. Both parts work by
+recursive parsing, using Top-Down Recursive Descent parsing with one token
+look ahead.
+
+The BNF description of the MathML grammar is to be defined informally in
+APPENDIX E of the current MathML specification. It is with this document that
+we have developed the MathML parser. The MathML parser evaluates all
+that is possible and returns a valid REDUCE algebraic expression. When {\bf
+mathml} or {\bf both} are on, this algebraic expression is fed into the
+second part of the program which parses these expressions and transforms them
+back into MathML. 
+
+The MathML generator parses through the algebraic expression produced by
+either REDUCE itself or the MathML parser. It works in a very
+similar way as the MathML parser. It is simpler, since no evaluation is
+involved. All the generated code is MathML compliant. It is important to note
+that the MathML code generator sometimes introduces Presentation Markup tags,
+and other tags which are not understood by the MathML parser of the
+interface\footnote{The set of tags not understood by the MathML parser are
+detailed in section {\bf Limitations}.}.
+
+\end{document}
+

@@ -1,0 +1,692 @@
+%       Examples for the algorithmic calculation of formal 
+%       Puiseux, Laurent and power series,
+%
+%       Wolfram Koepf, Freie Universitaet Berlin, Germany
+%       (taken from the original paper and adapted to REDUCE 
+%        form by Winfried Neun, ZIB Berlin)
+
+% Formal Laurent series
+
+fps(E^x,x);
+
+
+              k
+             x
+infsum(--------------,k,0,infinity)
+        factorial(k)
+
+
+fps(E^x/(x^3),x);
+
+
+               k
+              x
+infsum(-----------------,k,0,infinity)
+                      3
+        factorial(k)*x
+
+
+fps(x * e^(x^4),x);
+
+
+            4*k
+           x   *x
+infsum(--------------,k,0,infinity)
+        factorial(k)
+
+
+fps(sin (x + y),x);
+
+
+         2*k       k
+        x   *( - 1) *cos(y)*x
+infsum(-----------------------,k,0,infinity)
+         factorial(2*k + 1)
+
+            2*k       k
+           x   *( - 1) *sin(y)
+ + infsum(---------------------,k,0,infinity)
+             factorial(2*k)
+
+
+simplede (sin x,x);
+
+
+df(y,x,2) + y
+ %find a DE for sin
+
+simplede (sin (x)^2,x,w);
+
+
+df(w,x,3) + 4*df(w,x)
+ % DE in w and x   
+
+fps(asin x,x);
+
+
+            2*k
+           x   *factorial(2*k)*x
+infsum(------------------------------,k,0,infinity)
+         2*k             2
+        2   *factorial(k) *(2*k + 1)
+
+
+fps((asin x)^2,x);
+
+
+         2*k  2*k             2  2
+        x   *2   *factorial(k) *x
+infsum(----------------------------,k,0,infinity)
+        factorial(2*k + 1)*(k + 1)
+
+
+fps(e^(asin x),x);
+
+
+         2*k  k         2
+        x   *2 *prod(2*j  - 2*j + 1,j,1,k)*x
+infsum(--------------------------------------,k,0,infinity)
+                 factorial(2*k + 1)
+
+            2*k         2
+           x   *prod(4*j  - 8*j + 5,j,1,k)
+ + infsum(---------------------------------,k,0,infinity)
+                   factorial(2*k)
+
+
+fps(e^(asinh x),x);
+
+
+            2*k       k
+         - x   *( - 1) *factorial(2*k)
+infsum(--------------------------------,k,0,infinity) + x
+           k             2
+          4 *factorial(k) *(2*k - 1)
+
+
+fps((x + sqrt(1+x^2))^A,x);
+
+
+         2*k       k  2*k              - a                 a
+        x   *( - 1) *2   *pochhammer(------,k)*pochhammer(---,k)
+                                       2                   2
+infsum(----------------------------------------------------------,k,0,infinity) 
+                             factorial(2*k)
+
+           2*k       k  2*k              - a + 1                 a + 1
+          x   *( - 1) *2   *pochhammer(----------,k)*pochhammer(-------,k)*a*x
+                                           2                       2
++ infsum(----------------------------------------------------------------------,
+                                   factorial(2*k + 1)
+
+         k,0,infinity)
+
+
+fps(e^(x^2)*erf x,x);
+
+
+           2*k           2*k
+        2*x   *sqrt(pi)*2   *factorial(k)*x
+infsum(-------------------------------------,k,0,infinity)
+               factorial(2*k + 1)*pi
+
+
+fps(e^x - 2 e^(-x/2) * cos(sqrt(3) * x/2 -pi/3),x);
+
+
+           3*k  2
+        9*x   *x *(k + 1)
+infsum(--------------------,k,0,infinity)
+        factorial(3*k + 3)
+
+
+% fps(int(e^(-a^2*t^2) * cos(2*x*t),t,0,infinity),x)  % not yet
+
+% fps(4/x * int(e^(t^2)*erf(t),t,0,sqrt(x)/2),x);
+
+fps(sin x * e^x,x);
+
+
+         k  k/2      k*pi
+        x *2   *sin(------)
+                      4
+infsum(---------------------,k,0,infinity)
+           factorial(k)
+
+
+fps(cos x * e^(2*x),x);
+
+
+         k  k/2           1
+        x *5   *cos(atan(---)*k)
+                          2
+infsum(--------------------------,k,0,infinity)
+              factorial(k)
+
+
+fps(1/(x-x^3),x);
+
+
+          k       k    k
+         x *( - 1)  - x
+ infsum(-----------------,k,0,infinity)*x + 1
+                    k
+            2*( - 1)
+----------------------------------------------
+                      x
+
+
+fps(1/(x^2 + 3 x + 2),x);
+
+
+           k  k    k
+        2*x *2  - x
+infsum(--------------,k,0,infinity)
+                k  k
+        2*( - 1) *2
+
+
+fps(x/(1-x-x^2),x);
+
+
+          x
+fps(--------------,x,0)
+                2
+     (1 - x) - x
+
+
+% Logarithmic singularities and Puisieux series
+
+fps(sin sqrt x,x);
+
+
+         (2*k + 1)/2       k
+        x           *( - 1)
+infsum(----------------------,k,0,infinity)
+         factorial(2*k + 1)
+
+
+fps(((1 + sqrt x)/x)^(1/3),x);
+
+
+         (6*k + 1)/6             2
+        x           *pochhammer(---,2*k)
+                                 3
+infsum(----------------------------------,k,0,infinity)
+              3*factorial(2*k + 1)
+
+            k              - 1
+           x *pochhammer(------,2*k)
+                           3
+ + infsum(---------------------------,k,0,infinity)
+               1/3
+              x   *factorial(2*k)
+
+
+fps(asech x,x);
+
+
+
+% some more (Wolfram Koepf, priv. comm.)
+
+fps((1+x)^alpha,x);
+
+
+         k       k
+        x *( - 1) *pochhammer( - alpha,k)
+infsum(-----------------------------------,k,0,infinity)
+                  factorial(k)
+
+
+fps((1+sqrt(1+x))^beta,x);
+
+
+          k       k  beta
+         x *( - 1) *2    *pochhammer( - beta,2*k)
+infsum(---------------------------------------------,k,0,infinity)
+         2*k
+        2   *factorial(k)*pochhammer( - beta + 1,k)
+
+
+fps(sin(x)^2+cos(x)^2,x);
+
+
+1
+
+
+fps(sin(x)^2*cos(x)^2,x);
+
+
+            2*k       k  4*k  2
+           x   *( - 1) *2   *x
+infsum(----------------------------,k,0,infinity)
+        factorial(2*k + 1)*(k + 1)
+
+
+fps(sin(x)*cos(x^2),x);
+
+
+                2
+fps(sin(x)*cos(x ),x,0)
+
+
+fps((x-1)^(-1),x);
+
+
+           k
+infsum( - x ,k,0,infinity)
+
+
+fps(atan(x+y),x);
+
+
+fps(atan(x + y),x,0)
+
+
+fps((1-x^5)^6,x);
+
+
+ 30      25       20       15       10      5
+x   - 6*x   + 15*x   - 20*x   + 15*x   - 6*x  + 1
+
+
+fps(asec x,x);
+
+
+
+fps(besseli(0,x),x);
+
+
+                2*k
+               x
+infsum(--------------------,k,0,infinity)
+         2*k             2
+        2   *factorial(k)
+
+fps(besseli(1,x),x);
+
+
+                        2*k
+                       x   *x
+infsum(--------------------------------------,k,0,infinity)
+           2*k
+        2*2   *factorial(k + 1)*factorial(k)
+
+
+fps(exp(x^(1/3)),x);
+
+
+            (3*k + 1)/3
+           x
+infsum(--------------------,k,0,infinity)
+        factorial(3*k + 1)
+
+                  k
+                 x
+ + infsum(----------------,k,0,infinity)
+           factorial(3*k)
+
+              (3*k + 2)/3
+           3*x           *(k + 1)
+ + infsum(------------------------,k,0,infinity)
+             factorial(3*k + 3)
+
+fps(log(1-x),x);
+
+
+            k
+         - x *x
+infsum(---------,k,0,infinity)
+         k + 1
+
+fps(exp x*sinh x,x);
+
+
+             k  k
+            x *2 *x
+infsum(------------------,k,0,infinity)
+        factorial(k + 1)
+
+fps(atan x,x);
+
+
+         2*k       k
+        x   *( - 1) *x
+infsum(----------------,k,0,infinity)
+           2*k + 1
+
+fps(sin x+sinh x,x);
+
+
+                4*k
+             2*x   *x
+infsum(--------------------,k,0,infinity)
+        factorial(4*k + 1)
+
+fps(sin x*sinh x,x);
+
+
+             4*k       k  2*k  2
+            x   *( - 1) *2   *x
+infsum(------------------------------,k,0,infinity)
+        factorial(4*k + 1)*(2*k + 1)
+
+fps(int(erf(x),x),x);
+
+
+            2*k                k
+         - x   *sqrt(pi)*( - 1)
+infsum(---------------------------,k,0,infinity)
+        factorial(k)*pi*(2*k - 1)
+
+fps(sqrt(2-x),x);
+
+
+            k
+         - x *sqrt(2)*factorial(2*k)
+infsum(------------------------------,k,0,infinity)
+          k             2
+         8 *factorial(k) *(2*k - 1)
+
+fps(sqrt(1+x)+sqrt(1-x),x);
+
+
+                 2*k
+            - 2*x   *factorial(4*k)
+infsum(--------------------------------,k,0,infinity)
+         2*k               2
+        4   *factorial(2*k) *(4*k - 1)
+
+fps(exp(a+b*x)*exp(c+d*x),x);
+
+
+         k  a + c        k
+        x *e     *(b + d)
+infsum(--------------------,k,0,infinity)
+           factorial(k)
+
+fps(1/cos(asin x),x);
+
+
+         2*k
+        x   *factorial(2*k)
+infsum(---------------------,k,0,infinity)
+         2*k             2
+        2   *factorial(k)
+
+fps(sqrt(1-x^2)+x*asin x,x);
+
+
+                2*k
+               x   *factorial(2*k)
+infsum(-----------------------------------,k,0,infinity)
+         k             2     2
+        4 *factorial(k) *(4*k  - 4*k + 1)
+
+fps(sqrt(1-sqrt(x)),x);
+
+
+                 (2*k + 1)/2
+              - x           *factorial(4*k)
+infsum(------------------------------------------,k,0,infinity)
+           4*k
+        2*2   *factorial(2*k + 1)*factorial(2*k)
+
+                    k
+                 - x *factorial(4*k)
+ + infsum(--------------------------------,k,0,infinity)
+            2*k               2
+           4   *factorial(2*k) *(4*k - 1)
+
+fps(cos(n*acos x),x);
+
+
+         2*k  2*k      n*pi                - n                 n
+        x   *2   *cos(------)*pochhammer(------,k)*pochhammer(---,k)
+                        2                  2                   2
+infsum(--------------------------------------------------------------,k,0,
+                               factorial(2*k)
+
+       infinity) + infsum(
+
+     2*k  2*k              - n + 1                 n + 1          n*pi
+    x   *2   *pochhammer(----------,k)*pochhammer(-------,k)*sin(------)*n*x
+                             2                       2             2
+   --------------------------------------------------------------------------,k,
+                               factorial(2*k + 1)
+
+   0,infinity)
+
+fps(cos x+I*sin x,x);
+
+
+            k  k
+           x *i
+infsum(--------------,k,0,infinity)
+        factorial(k)
+
+fps(cos(3*asinh x),x);
+
+
+         2*k       k         2
+        x   *( - 1) *prod(4*j  - 8*j + 13,j,1,k)
+infsum(------------------------------------------,k,0,infinity)
+                     factorial(2*k)
+
+fps(cos(n*asinh x),x);
+
+
+         2*k       k  2*k              - i*n                 i*n
+        x   *( - 1) *2   *pochhammer(--------,k)*pochhammer(-----,k)
+                                        2                     2
+infsum(--------------------------------------------------------------,k,0,
+                               factorial(2*k)
+
+       infinity)
+
+fps(sin(n*log(x+sqrt(1+x^2))),x);
+
+
+         2*k       k  2*k              - i*n + 1                 i*n + 1
+infsum((x   *( - 1) *2   *pochhammer(------------,k)*pochhammer(---------,k)*n*x
+                                          2                         2
+
+        )/factorial(2*k + 1),k,0,infinity)
+
+fps(sqrt(1+x^2)*asinh x-x,x);
+
+
+           2*k       k  2*k                                3
+        2*x   *( - 1) *2   *factorial(k + 1)*factorial(k)*x
+infsum(------------------------------------------------------,k,0,infinity)
+                         factorial(2*k + 3)
+
+
+fps(int(erf(x)/x,x),x);
+
+
+              2*k                k
+           2*x   *sqrt(pi)*( - 1) *x
+infsum(----------------------------------,k,0,infinity)
+                            2
+        factorial(k)*pi*(4*k  + 4*k + 1)
+
+                erf(x)
+ + sub(x=0,int(--------,x))
+                  x
+
+fps(asin(x)^2/x^4,x);
+
+
+            2*k  2*k             2
+           x   *2   *factorial(k)
+infsum(-------------------------------,k,0,infinity)
+                            2
+        factorial(2*k + 1)*x *(k + 1)
+
+
+
+% we had problems here:
+
+fps(cos(asin x),x);
+
+
+              2*k
+           - x   *factorial(2*k)
+infsum(----------------------------,k,0,infinity)
+         k             2
+        4 *factorial(k) *(2*k - 1)
+
+fps(sinh(log x),x);
+
+
+fps(sinh(log(x)),x,0)
+
+fps(atan(cot x),x);
+
+
+Could not find the limit of: atan(cot(x)),x,0
+
+ 
+% we can cure this one by defining the limit:
+
+let limit(atan(cot ~x),x,0) => pi/2;
+
+
+fps(atan(cot x),x);
+
+
+ pi - 2*x
+----------
+    2
+
+
+fps(exp(nnn*x)*cos(mmm*x),x);
+
+
+         k              2                                          2
+infsum((x *((impart(mmm)  + 2*impart(mmm)*repart(nnn) + impart(nnn)
+
+                                                       2              2    k
+              - 2*impart(nnn)*repart(mmm) + repart(mmm)  + repart(nnn) )**---
+                                                                           2
+
+                       impart(nnn) - repart(mmm)                    2
+            *cos(atan(---------------------------)*k) + (impart(mmm)
+                       impart(mmm) + repart(nnn)
+
+                                                         2
+                - 2*impart(mmm)*repart(nnn) + impart(nnn)
+
+                                                         2              2    k
+                + 2*impart(nnn)*repart(mmm) + repart(mmm)  + repart(nnn) )**---
+                                                                             2
+
+                       impart(nnn) + repart(mmm)                    2
+            *cos(atan(---------------------------)*k) - (impart(mmm)
+                       impart(mmm) - repart(nnn)
+
+                                                         2
+                - 2*impart(mmm)*repart(nnn) + impart(nnn)
+
+                                                         2              2    k
+                + 2*impart(nnn)*repart(mmm) + repart(mmm)  + repart(nnn) )**---
+                                                                             2
+
+                       impart(nnn) + repart(mmm)                      2
+            *sin(atan(---------------------------)*k)*i + (impart(mmm)
+                       impart(mmm) - repart(nnn)
+
+                                                         2
+                + 2*impart(mmm)*repart(nnn) + impart(nnn)
+
+                                                         2              2    k
+                - 2*impart(nnn)*repart(mmm) + repart(mmm)  + repart(nnn) )**---
+                                                                             2
+
+                       impart(nnn) - repart(mmm)
+            *sin(atan(---------------------------)*k)*i))/(2*factorial(k)),k,0,
+                       impart(mmm) + repart(nnn)
+
+       infinity)
+
+fps(sqrt(2-x^2),x);
+
+
+                   2*k
+              - 2*x   *factorial(2*k)
+infsum(------------------------------------,k,0,infinity)
+                 k             2
+        sqrt(2)*8 *factorial(k) *(2*k - 1)
+
+fps(ci x,x);
+
+
+                   2*k       k
+                  x   *( - 1) *infinity*x
+ci(0) + infsum(------------------------------,k,0,infinity)
+                factorial(2*k + 1)*(2*k + 1)
+
+fps(log(1-2*x*y+x^2),x);
+
+
+                     2
+fps(log(1 - 2*x*y + x ),x,0)
+
+
+FPS(sin x,x,pi);
+
+
+                   2*k       k
+        ( - pi + x)   *( - 1) *( - pi + x)
+infsum(------------------------------------,k,0,infinity)
+                factorial(2*k + 1)
+
+
+% This one takes ages :
+
+%fps(acos(cos(x)),x);
+
+fps_search_depth := 7;
+
+
+fps_search_depth := 7
+ % does not find aa DE with the default
+fps(sin(x^(1/3)),x);
+
+
+            2*k       k    k                         k
+infsum(( - x   *( - 1) *108 *factorial(k)*x)/(6*46656 *factorial(3*k + 1)
+
+                                          7                 5
+          *factorial(2*k + 1)*pochhammer(---,k)*pochhammer(---,k)),k,0,infinity)
+                                          6                 6
+
+            (6*k + 2)/3       k  2*k  3*k                              k
+ + infsum((x           *( - 1) *2   *3   *factorial(k + 1)*x)/(20*46656
+
+                                                                11
+             *factorial(3*k + 3)*factorial(2*k + 1)*pochhammer(----,k)
+                                                                6
+
+                          7
+             *pochhammer(---,k)),k,0,infinity) + infsum(
+                          6
+
+                   (6*k + 1)/3       k  2*k  3*k
+                  x           *( - 1) *2   *3   *factorial(k)
+   --------------------------------------------------------------------------,k,
+         k                                           7                 5
+    46656 *factorial(3*k)*factorial(2*k)*pochhammer(---,k)*pochhammer(---,k)
+                                                     6                 6
+
+   0,infinity)
+
+
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 3855 ms  plus GC time: 102 ms
+real	0m4.513s
+user	0m0.015s
+sys	0m0.091s

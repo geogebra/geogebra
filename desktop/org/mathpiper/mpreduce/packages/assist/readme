@@ -1,0 +1,20 @@
+Thanks for your interest to our new package!
+
+Files cantens.tst  is still in a draft status.
+Some illustrations are still lacking but the main capabilities of 
+the package are already displaied. 
+Run the test file  both in text mode and in graphic mode (if possible) 
+before using the package. The rlg file is the log of the test file run 
+in TEXT mode. In graphic mode, the outputs look the same as the ones 
+written usually on a sheet of paper. 
+
+The file selfgra.tst and its log file (rlg extension) show how to make 
+a non-trivial application of the package.  This application has been 
+proposed by Dr. A. Burnel who is an expert in gauge theories.
+We think it is a nice illustration of the capabilities of the package.
+
+An almost complete english version of the documentation is available.
+
+   
+                
+                                          HUBERT CAPRASSE

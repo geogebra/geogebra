@@ -1,0 +1,405 @@
+\documentclass[12pt]{article}
+%Sets size of page and margins
+\oddsidemargin -5mm  \evensidemargin -5mm
+\topmargin -25mm %   \headheight 0pt   \headsep 0pt
+\textwidth 17.2cm
+\textheight 26cm
+
+\title{Reference Manual for V3TOOLS}
+\author{Thomas Wolf \\                        
+        Department of Mathematics \\
+        Brock University \\
+        St.Catharines \\
+        Ontario, Canada L2S 3A1 \\
+        twolf@brocku.ca}
+
+\begin{document}
+\maketitle
+
+\section{Purpose}
+Procedures of this package perform computationally expensive and
+non-trivial computations with polynomials of products of 3-component vectors. 
+The individual procedures can be grouped into the following categories: 
+\begin{itemize}
+\item initialization of the package,
+\item generation of scalar vector expressions according to a multiple
+      weighting scheme where each vector has multiple weights
+\item conversions of scalar vector expressions between different
+      representations, 
+\item the computation of Poisson brackets between vector expressions,
+\item a computation determining whether a given scalar vector expression 
+      is functionally depending on a list of other scalar vector expressions.
+\end{itemize}
+A possible application of these procedures is the classification of
+integrable 'vectorial' Hamiltonians, the study whether obtained
+expressions are functionally independent of known expressions and 
+the compactification of results for publication.
+
+These routines were designed and implemented to support the classification
+of integrable Hamiltonians. Examples are chosen from this application.
+More details are given in \cite{SoWo04}.
+
+\section{Notation}
+The chosen conventions aim to display large vector expressions as
+compact as possible. All vectors have 3 components and are
+represented by a single letter, like $A$ or $B$. In this manual we use
+capital letters in mathematical formulas and lower case letters for REDUCE
+input and output. REDUCE is not case sensitive but output shows in lower 
+case letters. Vector components have an extra digit 1,2 or 3, like $A2,
+B3$. Products of vectors are represented by a single identifier where
+the following convention is used: $ABCD...$ stands for $(A\ ,\ B
+\times (C \times (D \times ...)))$ where $(\ ,\ )$ denotes the
+scalar vector product and $\times$ the skew symmetric vector
+product. For example, we have $AB = (A,B)$ and $ABC=(A,B\times C)$.
+In the following we distinguish between three forms of scalar vector
+expressions:
+\begin{description}
+\item[- the component form] involving only the components 
+        $A1,A2,A3,B1,...$,
+\item[- the standard vector form] involving only scalar products
+        $AB\,(=(A,B))$ and triple products $ABC\,(=(A,B \times C))$,
+\item[- the extended vector form] involving any product $ABCD...$.
+\end{description}
+Because of the commutativity of the scalar product $(A,B)=(B,A)$ there
+seem to be two identifiers $AB$ and $BA$ suited to represent the same
+product. Similarly for triple products we have the relation
+$ABC=BCA=CAB=-ACB=-CBA=-BAC$. In order to have an unambiguous
+notation such that vanishing rational expressions simplify to zero we
+adopt then convention that for scalar products and triple products
+only identifiers are used in which letters are sorted
+alphabetically. For example, the program uses {\it AB,AV,ABV,BUV} but
+not {\it BA,VA,BVA,VBU}. In order to simplify manual input one can
+assign expressions using identifiers, like {\it BA,BUA}, and afterwards
+convert them into proper notation using the procedure {\tt
+e2s} (see below or the beginning of the file {\tt v3tools.tst}).
+
+In order to use non-vectorial parameters, like {\it ALPHA} or {\it BETA2}
+every non-vectorial parameter is preceded by {\tt !\&}, e.g.\
+one would input {\tt !\&alpha} or {\tt !\&beta2}.
+
+\section{Initialization}
+Scalar and triple products of 3-component vectors satisfy 
+identities, for example, the four vectors $A,B,U,V$ satisfy
+\[ 0 = AB\ BUV - ABU\ BV + ABV\ BU - AUV\ BB. \]
+Therefore, scalar vector expressions, i.e.\ polynomials of scalar
+vector products do usually not have a unique form. They can be
+re-written using these identities, for example, in order to minimize
+the number of terms of the polynomial or to bring the expression into
+a canonical form. Sometimes computations have to
+be done modulo these identities, more precisely, modulo a Gr\"{o}bner
+basis of these identities. The computation of the identities and their
+Gr\"{o}bner basis has to be done only once with the procedure {\tt
+vinit} which initializes the global variables {\tt v\_,gbase\_,heads\_}. 
+The procedure {\tt vinit} takes as argument the list of
+all vectors that occur in the computation, for example, 
+{\tt vinit(\{u,v,w,z\})}. In the default case of
+vectors {\tt a,b,u,v} the global variables {\tt v\_,gbase\_,heads\_}
+are already assigned and {\tt vinit} does not have to be called
+initially. But if some of the vectors satisfy a special relation, like
+{\it AB=0} then this relations should be assigned (like {\tt ab:=0;})
+and {\tt vinit} should be run afterwards. Here an overview of the three global
+variables:
+\begin{description}
+\item[{\tt v\_}] : a list of vectors involved in all the computations. 
+      The global variable {\tt v\_} is needed in the procedure 
+      {\tt poisson\_v}. The default value is {\tt v\_=\{a,b,u,v\}} .
+\item[{\tt gbase\_}] : a list of polynomials which are a Gr\"{o}bner 
+      basis for all identities between scalar products % {\tt (A,B)} 
+      {\it AB} and triple products {\it ABC} % {\tt (A,B$\times$C)} 
+      of any vectors in the list {\tt v\_}.
+\item[{\tt heads\_}] : a list of leading terms of the polynomials in 
+      {\tt gbase\_}.
+\end{description}
+
+\section{Main Routines}
+Which routines work only for homogeneous vectorial expressions and 
+which for any vectorial expressions?
+\begin{description}
+  \item[vinit] : 
+        initializes all three global variables {\tt vl\_, gbase\_, heads\_}
+        for a given list of vectors. This procedure is not necessary if the
+        list of vectors is {\it A,B,U,V}. The procedure is necessary if some
+        of the vectors satisfy extra conditions, like {\it AB=0}. 
+        Example: \begin{verbatim}
+vinit({a,b,c,d}); \end{verbatim}
+  \item[e2s] : 
+        converts a vectorial polynomial from extended vector form into standard 
+        vector form by replacing products {\it ABCD..} through scalar
+        and triple products. Example: \begin{verbatim}
+e2s(buuav);  -->  abv*uu - auv*bu \end{verbatim}
+        It is also useful to convert from 
+        standard vector form into standard vector form if one wants
+        to sort factors in scalar and triple products lexicographically. 
+        This is useful for working with this package on expressions 
+        that have been generated outside this package and that do not obey
+        the lexicographical ordering of factors. 
+        Example: \begin{verbatim}
+e2s(avb*uu + uva*bu);  -->  - abv*uu + auv*bu \end{verbatim}
+  \item[v2c] : converts an expression from any vector form (extended or 
+        standard) into component form. Example: \begin{verbatim}
+v2c(abu); --> a1*b2*u3-a1*b3*u2-a2*b1*u3+a2*b3*u1+a3*b1*u2-a3*b2*u1\end{verbatim}
+  \item[c2sl] : converts an expression from component form into
+  standard vector form. The resulting vector expression is returned
+  partitioned as a list of sublists. Each sublist contains expressions
+  with the same multiplicity of each vector (the same homogeneity). 
+  The first expression of
+  each list is the vector equivalent of the corresponding input terms
+  in component form. All other expressions in each sublist are
+  identically vanishing vector expressions, i.e.\ vector identities
+  with the same multiplicity as the first expression in each
+  sublist. That means, the second, third,... expression in each
+  sublist multiplied with a constant could be added to the first
+  expression of each sublist in order to change its form but not its
+  value. Example: \begin{verbatim}
+c2sl(a1*b2*u3 - a1*b3*u2 - a2*b1*u3 + a2*b3*u1 + a3*b1*u2 - a3*b2*u1 + 
+     a1*b1*b2*u3*v1 - a1*b1*b2*u1*v3 + a1*b1*b3*u1*v2 - a1*b1*b3*u2*v1 - 
+     a1*b2**2*u2*v3 + a1*b2**2*u3*v2 - a1*b3**2*u2*v3 + a1*b3**2*u3*v2 + 
+     a2*b1**2*u1*v3 - a2*b1**2*u3*v1 + a2*b1*b2*u2*v3 - a2*b1*b2*u3*v2 + 
+     a2*b2*b3*u1*v2 - a2*b2*b3*u2*v1 + a2*b3**2*u1*v3 - a2*b3**2*u3*v1 - 
+     a3*b1**2*u1*v2 + a3*b1**2*u2*v1 + a3*b1*b3*u2*v3 - a3*b1*b3*u3*v2 - 
+     a3*b2**2*u1*v2 + a3*b2**2*u2*v1 - a3*b2*b3*u1*v3 + a3*b2*b3*u3*v1 );
+
+--> {{abu},{abu*bv - abv*bu, ab*buv - abu*bv + abv*bu - auv*bb}}
+\end{verbatim}
+  The input expression is equal to the sum of the first expressions of
+  all sublists, i.e.\ equal {\it ABU + ABU BV - ABV BU}. The second
+  expression of the second sublist is an identity, 
+  i.e.\ {\it 0=AB BUV - ABU BV + ABV BU - AUV BB}, where each vector 
+  occurs in each term equally often as in each term of the first expression 
+  in the second sublist.
+  \item[c2s] : is equivalent to {\tt c2sl} with the difference that all %first 
+  expressions of all sublists are added up with all identity expressions
+  obtaining a coefficient \verb+!&c1, !&c2,...+. Example: \begin{verbatim}
+c2s( same input as for c2sl );
+--> abu + abu*bv - abv*bu + !&c1*(ab*buv - abu*bv + abv*bu - auv*bb)\end{verbatim}
+  \item[s2s] : generates and uses vector identities to reduce the length of an 
+        expression in standard vector form. Example: \begin{verbatim}
+s2s( - abu*vv + abv*uv + av*buv);  -->  auv*bv \end{verbatim}
+  \item[s2e] : like s2s but also uses identities involving products
+        $ABCD..$ and thus transforms standard vector form into extended 
+        vector form. Example: 
+        \begin{verbatim}
+s2e(abv*uu - auv*bu);  -->  buuav \end{verbatim}
+        In its current form it only uses products that involve all
+        the vectors involved in each term of the standard vector form.
+        In the above example it would not try to use products with 4
+        factors but only with 5 factors, like {\tt buuav}.
+  \item[genpro] : generation of all scalar and triple products for a given 
+        vector list. Example: \begin{verbatim}
+genpro({a,b,u,v}); --> {aa,ab,au,av,bb,bu,bv,uu,uv,vv,abu,abv,auv,buv} \end{verbatim}
+  \item[genpro\_wg] : 
+        similar to {\tt genpro} with the difference that each vector
+        is accompanied by a list of weights and the resulting scalar
+        and triple products also come with a list of weights.
+        Example: \begin{verbatim}
+genpro_wg({{a,1,0,0},{b,0,1,0},{u,0,0,1},{v,1,0,1}});
+--> {{aa,2,0,0},{ab,1,1,0},{au,1,0,1},{av,2,0,1},{bb,0,2,0},
+     {bu,0,1,1},{bv,1,1,1},{uu,0,0,2},{uv,1,0,2},{vv,2,0,2},
+     {abu,1,1,1},{abv,2,1,1},{auv,2,0,2},{buv,1,1,2}} \end{verbatim}
+  \item[poisson\_c] : 
+     computes the poisson bracket of two arbitrary expressions. This
+     procedure needs as input the Poisson structure matrix which we
+     call {\tt struc\_cons} below. This is encoded as a list of lists,
+     specifying all non-vanishing Poisson brackets between any two
+     dynamical variables, here {\tt u1,u2,u3,v1,v2,v3}. For example,
+     the first sublist {\tt \{u1,u2,u3\}} of {\tt struc\_cons} below,
+     encodes the Poisson bracket relation $\{U1,U2\}=-\{U2,U1\}=U3$.
+     Poisson brackets associated to other Lie-algebras are appended to
+     the file {\tt v3tools.red}. The structure matrix below encodes
+     the Lie-Poisson bracket $e(3)$ for {\tt !\&kap=0}, $so(4)$ for
+     {\tt !\&kap=1} and $so(3,1)$ for {\tt !\&kap=-1}.  {\tt
+     poisson\_c} needs {\it all} of its arguments in component form.
+     Example: \begin{verbatim}
+ham:=v2c(ab*uu-2*au*bu+buv)$
+fi :=v2c(bu*(2*auv-!&kap*uu+vv))$
+!&kap:=-a1**2-a2**2-a3**2$
+struc_cons:={{u1,u2, u3}, {u2,u3, u1}, {u3,u1, u2},
+             {u1,v2, v3}, {u2,v3, v1}, {u3,v1, v2},
+             {u1,v3,-v2}, {u2,v1,-v3}, {u3,v2,-v1},
+             {v1,v2, !&kap*u3}, {v2,v3, !&kap*u1}, {v3,v1, !&kap*u2}}$
+
+poisson_c(ham,fi,struc_cons);  -->  0 \end{verbatim}
+The example shows that {\tt fi} is a first integral of {\tt ham} under the
+assumption {\tt !\&kap = - aa}. Note that {\tt !\&kap} could not have
+been expressed in terms of components of vectors before assigning {\tt fi}
+as then the argument to {\tt v2c} would not be a purely vectorial expression.
+  \item[poisson\_v] :
+     computes the Poisson bracket for two vector expressions.  It uses
+     the global variable {\tt gbase\_}. When {\tt poisson\_v} is
+     called the first time it computes the Poisson bracket between any
+     scalar and triple product once using the procedure {\tt
+     poisson\_c} and stores these elementary Poisson brackets under
+     the global operator {\tt poi\_}. Therefore, the third argument to
+     {\tt poisson\_v} (the Poisson structure matrix) has to be given
+     in component form. Example: Compare the following with the
+     example for the call of {\tt poisson\_c}. \begin{verbatim}
+ham:=ab*uu-2*au*bu+buv$
+fi :=bu*(2*auv-!&kap*uu+vv)$
+!&kap:=-a1**2-a2**2-a3**2$
+struc_cons:={{u1,u2, u3}, {u2,u3, u1}, {u3,u1, u2},
+             {u1,v2, v3}, {u2,v3, v1}, {u3,v1, v2},
+             {u1,v3,-v2}, {u2,v1,-v3}, {u3,v2,-v1},
+             {v1,v2, !&kap*u3}, {v2,v3, !&kap*u1}, {v3,v1, !&kap*u2}}$
+!&kap:=-aa$
+poisson_v(ham,fi,struc_cons);  -->  0 \end{verbatim}
+     When calling {\tt poisson\_v} a second time the computation proceeds
+     much faster as the Poisson brackets between scalar and triple products
+     had been stored with the operator {\tt poi\_}. 
+     Note that at first {\tt !\&kap}
+     is expressed in component form to have {\tt struc\_cons} in component
+     form but afterwards {\tt !\&kap} is expressed in vector form to have
+     {\tt ham,fi} in vector form at the time of calling {\tt poisson\_v}.
+  \item[gfi] : generates a vector expression with unknown coefficients
+     according to a specific list of weights $\{w_1,w_2,...\}$. 
+     The number of weights is arbitrary but fixed.
+     For example, the vector $V$ could be given weights
+     $\{w_1,w_2,w_3\}=\{1,0,1\}$ which will be input as {\tt \{v,1,0,1\}}
+     in the second argument to {\tt gfi}.
+     In the following example vectors $A,B,U,V$ are each given 3 weights 
+     $\{w_1,w_2,w_3\}$ and the most general polynomial is generated where the
+     sum of all $\{w_1,w_2,w_3\}$ values of all vectors in each term are 
+     equal $\{2,1,3\}$. Example: \begin{verbatim}
+gfi({2,1,3},                                    
+    {{a,1,0,0},{b,0,1,0},{u,0,0,1},{v,1,0,1}}, 
+    {aa, ab, bb, bu, uv, -aa*uu + vv, ab*uu - 2*au*bu + buv},
+    heads_                                      
+   );
+ --> {&r1*abu*uv + &r2*abv*uu + &r3*bv*uv + &r4*auv*bu + &r5*bu*vv 
+              2
+      + &r6*au *bu + &r7*ab*au*uu,
+      &r7,&r6,&r5,&r4,&r3,&r2,&r1} \end{verbatim} 
+  The meaning of the parameters: 
+        \begin{enumerate} 
+          \item The first parameter of {\tt gfi} is a list of the 
+                total weights of each term in the generated polynomial. 
+          \item The second parameter is the list of vectors to be used
+                for generating the expression, each comes 
+                with its list of weight values, like {\tt \{a,1,0,0\}}.  
+          \item The third parameter is a list of homogeneous vector
+                expressions. The polynomial returned by {\tt gfi} must
+                not include any expression that is functionally
+                dependent on the expressions in this list. In other
+                words, from the most general polynomial with proper
+                homogeneity that is generated at first within {\tt gfi}
+                terms are
+                dropped so that it is not possible to choose in the
+                remaining polynomial the undetermined coefficients
+                {\tt !\&r1,!\&r2,...} such that an expression results
+                which is functionally dependent only on the
+                expressions of the third parameter list.  In this
+                example we want to formulate an ansatz for a first
+                integral that is functionally independent of the
+                expressions
+{\tt aa, ab, bb} (because $A,B$ are assumed to be constant vectors and
+$U,V$ to be dynamical vectors), {\tt bu} (a known first integral),
+{\tt uv, -aa*uu + vv} (two Casimirs, i.e.\ first integrals) and
+{\tt (ab*uu - 2*au*bu + buv)} which is the Hamiltonian.  The third parameter
+prevents the generation of the term {\tt bu*aa*uu} which also has weights
+$\{2,1,3\}$ (as {\tt b} has weights $\{0,1,0\}$, {\tt u} has weights
+$\{0,0,1\}$ and {\tt a} has weights $\{1,0,0\}$). The term {\tt bu*aa*uu}
+is dropped because the resulting polynomial would otherwise contain the
+functionally dependent expression {\tt bu*(-aa*uu+vv)}.
+          \item The fourth parameter is the list of leading terms of
+                the Gr\"{o}bner basis of identities between the
+                vectors. The resulting polynomial contains only terms
+                which are not a multiple of any one of the terms in
+                this list. By excluding terms which are not multiples
+                of leading terms of identities in the Gr\"{o}bner
+                basis one defines a canonical form which vanishes
+                only if all terms vanish.  
+         \end{enumerate}
+     The result of {\tt gfi} is a list. 
+     Its first element is the most general polynomial that has the required
+     properties. The list of undetermined coefficients
+     {\tt !\&r..} is appended.
+  \item[fnc\_dep] : investigates whether a given
+     vectorial expression (the first parameter) is
+     functionally dependent on the elements of a list (the
+     second parameter). The third parameter is the list of
+     occurring vectors with their weights. In the following example it is to be
+     checked whether the first integral {\tt finew} is new or merely the known
+     one {\tt fiold} in disguised form. Example: \begin{verbatim} 
+ham:=ab*uu-1/2*au*bu+buv$ 
+fiold:=bu**2*((bu*aa-ab*au)**2*uu+2*(bu*aa-ab*au)*(bu*auv-buv*au)
+       -vv*abu**2-(bu*av-bv*au)**2-uu*vv*ab**2+aa*uu*vv*bb)$
+finew:=( - 16*aa**2*bu**4*uu + 96*aa*ab**2*bb*uu**3 -
+96*aa*ab*au*bb*bu*uu**2 + 32*aa*ab*au*bu**3*uu + 32*aa*abu*bu**3*uv -
+32*aa*abv*bu**3*uu + 24*aa*au**2*bb*bu **2*uu - 16*aa*bu**4*vv +
+56*ab**4*uu**3 - 84*ab**3*au*bu*uu**2 + 168*ab**2*abu* bv*uu**2 -
+168*ab**2*abv*bu*uu**2 + 26*ab**2*au**2*bu**2*uu + 360*ab**2*auv*bb*
+uu**2 + 168*ab**2*bb*uu**2*vv - 184*ab**2*bb*uu*uv**2 -
+168*ab**2*bu**2*uu*vv + 336*ab**2*bu*bv*uu*uv - 168*ab**2*bv**2*uu**2
++ 264*ab*abu*au*bb*uu*uv - 32*ab* abu*au*bu**2*uv -
+168*ab*abu*au*bu*bv*uu + 192*ab*abu*av*bb*uu**2 - 456*ab*abv*
+au*bb*uu**2 + 200*ab*abv*au*bu**2*uu - 7*ab*au**3*bu**3 -
+180*ab*au*bb*bu*uu*vv + 44*ab*au*bb*bu*uv**2 + 192*ab*au*bb*bv*uu*uv +
+116*ab*au*bu**3*vv - 168*ab*au* bu**2*bv*uv + 84*ab*au*bu*bv**2*uu +
+192*ab*av*bb*bu*uu*uv - 192*ab*av*bb*bv*uu **2 -
+264*abu*au**2*bb*bv*uu + 42*abu*au**2*bu**2*bv - 96*abu*au*av*bb*bu*uu
++ 96*abu*bb*bu*uv*vv - 136*abu*bb*bv*uu*vv + 24*abu*bb*bv*uv**2 -
+56*abu*bu**2*bv* vv + 112*abu*bu*bv**2*uv - 56*abu*bv**3*uu +
+360*abv*au**2*bb*bu*uu - 42*abv*au **2*bu**3 + 40*abv*bb*bu*uu*vv -
+24*abv*bb*bu*uv**2 + 56*abv*bu**3*vv - 112*abv* bu**2*bv*uv +
+56*abv*bu*bv**2*uu - 264*au**2*auv*bb**2*uu + 42*au**2*auv*bb*bu** 2 +
+96*au**2*bb**2*uu*vv - 40*au**2*bb*bu**2*vv - 96*au**2*bb*bv**2*uu +
+16*au** 2*bu**2*bv**2 - 192*au*av*bb**2*uu*uv + 192*au*av*bb*bu*bv*uu
+- 32*au*av*bu**3* bv - 136*auv*bb**2*uu*vv + 24*auv*bb**2*uv**2 +
+40*auv*bb*bu**2*vv + 112*auv*bb* bu*bv*uv - 56*auv*bb*bv**2*uu +
+96*av**2*bb**2*uu**2 - 96*av**2*bb*bu**2*uu + 16 *av**2*bu**4 -
+96*bb**2*uu*vv**2 + 96*bb**2*uv**2*vv + 96*bb*bu**2*vv**2 - 192*
+bb*bu*bv*uv*vv + 96*bb*bv**2*uu*vv)/8$
+
+if fnc_dep(finew,{aa,ab,bb,bu,uv,uu*aa-vv,ham,fiold}, 
+           {{A,1,0,0},{B,0,1,0},{U,0,0,1},{V,1,0,1}}) then 
+write"This is a known first integral."                          else 
+write"This is a new first integral!"$
+
+ --> 
+
+The expression in question is functionally dependent on
+the list of expressions {p_1,p_2,...} in the following way:
+              2                3                 2
+10*p_2*p_3*p_5 *p_7 + 7*p_2*p_7  + 12*p_3*p_6*p_7  - 2*p_8
+
+This is a known first integral. \end{verbatim}
+\end{description}
+
+\section{Complete list of global variables}
+
+\begin{center}
+\begin{tabular}{l|l|l} 
+ Type      &  name    & Purpose \\ \hline
+ algebraic &  v\_, gbase\_, heads\_ & needed for {\tt poisson\_v(), 
+                                      gfi(), fnc\_dep()} \\
+           &  !\&c1, !\&c2, ...     & constant coefficients introduced 
+                                      by {\tt c2s()}   \\ \hline
+ symbolic  &  fino\_, wgths\_       & used internally in {\tt gen()} \\
+           &  !\&r1, !\&r2, ...     & constant coefficients introduced 
+                                      by {\tt gfi()}   \\
+           &  tr\_vec               & global tracing flag \\ \hline
+ operator  &  poi\_                 & stores Poisson brackets between \\
+           &                        & scalar and triple products
+\end{tabular} 
+\end{center}
+
+\section{Requirements}
+{\tt REDUCE 3.6 .. 3.8} and 
+the files {\tt crack.red, v3tools.red} and 
+all files {\tt cr*.red} which are read in from {\tt crack.red}. \\
+\verb+    IN "crack.red","v3tools.red"$+ \\
+(and appropriate paths) or once only a compilation through \\
+\verb+    FASLOUT "crack"$+ \\
+\verb+    IN "crack.red"$+ \\
+\verb+    FASLEND$+ \\
+\verb+    FASLOUT "v3tools''$+ \\
+\verb+    IN "v3tools.red"$+ \\
+\verb+    FASLEND$+ \\
+\verb+    BYE$+ \\
+and loading afterwards with \verb+ LOAD_PACKAGE crack,v3tools$.+
+
+\begin{thebibliography}{99}
+\bibitem{SoWo04} V.V.Sokolov, T.Wolf, Integrable quadratic Hamiltonians on 
+                 $so(4)$ and $so(3,1)$, preprint nlin.SI/0405066 on arXiv.
+\end{thebibliography}
+
+\end{document}

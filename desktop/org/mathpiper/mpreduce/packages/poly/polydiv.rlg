@@ -1,0 +1,328 @@
+% polydiv.tst  -*- REDUCE -*-
+
+% Test and demonstration file for enhanced polynomial division
+% file polydiv.red.
+
+% F.J.Wright@Maths.QMW.ac.uk, 7 Nov 1995.
+
+% The example from "Computer Algebra" by Davenport, Siret & Tournier,
+% first edition, section 2.3.3.
+
+% First check that remainder still works as before.
+
+% Compute the gcd of the polynomials a and b by Euclid's algorithm:
+a := aa := x^8 + x^6 - 3x^4 - 3x^3 + 8x^2 + 2x - 5;
+
+
+            8    6      4      3      2
+a := aa := x  + x  - 3*x  - 3*x  + 8*x  + 2*x - 5
+
+b := bb := 3x^6 + 5x^4 - 4x^2 - 9x + 21;
+
+
+              6      4      2
+b := bb := 3*x  + 5*x  - 4*x  - 9*x + 21
+
+on rational;
+
+  off allfac;
+
+
+c := remainder(a, b);
+
+
+         5   4    1   2    1
+c :=  - ---*x  + ---*x  - ---
+         9        9        3
+  a := b$
+
+  b := c$
+
+
+c := remainder(a, b);
+
+
+         117   2          441
+c :=  - -----*x  - 9*x + -----
+         25               25
+  a := b$
+
+  b := c$
+
+
+c := remainder(a, b);
+
+
+      233150       102500
+c := --------*x - --------
+      19773         6591
+  a := b$
+
+  b := c$
+
+
+c := remainder(a, b);
+
+
+         1288744821
+c :=  - ------------
+         543589225
+  a := b$
+
+  b := c$
+
+
+c := remainder(a, b);
+
+
+c := 0
+
+off rational;
+
+
+
+% Repeat using pseudo-remainders, to avoid rational arithmetic:
+a := aa;
+
+
+      8    6      4      3      2
+a := x  + x  - 3*x  - 3*x  + 8*x  + 2*x - 5
+
+b := bb;
+
+
+        6      4      2
+b := 3*x  + 5*x  - 4*x  - 9*x + 21
+
+c := pseudo_remainder(a, b);
+
+
+            4      2
+c :=  - 15*x  + 3*x  - 9
+  a := b$
+
+  b := c$
+
+
+c := pseudo_remainder(a, b);
+
+
+            2
+c := 15795*x  + 30375*x - 59535
+  a := b$
+
+  b := c$
+
+
+c := pseudo_remainder(a, b);
+
+
+c := 1254542875143750*x - 1654608338437500
+  a := b$
+
+  b := c$
+
+
+c := pseudo_remainder(a, b);
+
+
+c := 12593338795500743100931141992187500
+  a := b$
+
+  b := c$
+
+
+c := pseudo_remainder(a, b);
+
+
+c := 0
+
+
+
+% Example from Chris Herssens <herc@sulu.luc.ac.be>
+% involving algebraic numbers in the coefficient ring
+% (for which naive pseudo-division fails in REDUCE):
+factor x;
+
+
+a:=8*(15*sqrt(2)*x**3 + 18*sqrt(2)*x**2 + 10*sqrt(2)*x + 12*sqrt(2) -
+   5*x**4 - 6*x**3 - 30*x**2 - 36*x);
+
+
+            4    3                       2
+a :=  - 40*x  + x *(120*sqrt(2) - 48) + x *(144*sqrt(2) - 240)
+
+      + x*(80*sqrt(2) - 288) + 96*sqrt(2)
+
+b:= - 16320*sqrt(2)*x**3 - 45801*sqrt(2)*x**2 - 50670*sqrt(2)*x -
+   26534*sqrt(2) + 15892*x**3 + 70920*x**2 + 86352*x + 24780;
+
+
+      3                               2
+b := x *( - 16320*sqrt(2) + 15892) + x *( - 45801*sqrt(2) + 70920)
+
+      + x*( - 50670*sqrt(2) + 86352) - 26534*sqrt(2) + 24780
+
+
+pseudo_remainder(a, b, x);
+
+
+ 2                  3/2
+x *( - 51343372800*2    + 72663731640*2 + 106394745600*sqrt(2) - 152808065280) +
+
+                    3/2
+ x*( - 77924736000*2    + 111722451600*2 + 167518488000*sqrt(2) - 236076547200)
+
+                3/2
+ - 26395315200*2    + 21508247760*2 + 58006274400*sqrt(2) - 51393323520
+
+% Note: We must specify the division variable even though the
+% polynomials are apparently univariate:
+pseudo_remainder(a, b);
+
+
+*** Main division variable selected is 2**(1/2) 
+
+        7           6            5            4            3            2
+652800*x  + 708360*x  - 2656800*x  - 2660160*x  + 4017600*x  + 3676320*x
+
+ - 2630400*x - 2378880
+
+
+% Confirm that quotient * b + remainder = constant * a:
+pseudo_divide(a, b, x);
+
+
+{x*(652800*sqrt(2) - 635680) - 1958400*2 + 858360*sqrt(2) + 2073984,
+
+  2                  3/2
+ x *( - 51343372800*2    + 72663731640*2 + 106394745600*sqrt(2) - 152808065280) 
+
+ + x
+
+                   3/2
+ *( - 77924736000*2    + 111722451600*2 + 167518488000*sqrt(2) - 236076547200)
+
+                 3/2
+  - 26395315200*2    + 21508247760*2 + 58006274400*sqrt(2) - 51393323520}
+
+first ws * b + second ws;
+
+
+ 4
+x *(20748595200*sqrt(2) - 31409618560)
+
+    3
+ + x *(119127169920*sqrt(2) - 162183113472)
+
+    2
+ + x *(237566198016*sqrt(2) - 337847596800)
+
+ + x*(212209122560*sqrt(2) - 309143634432) + 75383084544*sqrt(2) - 99593256960
+
+ws / a;
+
+
+  4                                      3
+(x *(2593574400*sqrt(2) - 3926202320) + x *(14890896240*sqrt(2) - 20272889184)
+
+     2
+  + x *(29695774752*sqrt(2) - 42230949600)
+
+  + x*(26526140320*sqrt(2) - 38642954304) + 9422885568*sqrt(2) - 12449157120)/(
+
+         4    3                     2
+    - 5*x  + x *(15*sqrt(2) - 6) + x *(18*sqrt(2) - 30) + x*(10*sqrt(2) - 36)
+
+    + 12*sqrt(2))
+                                 % is this constant?
+on rationalize;
+
+
+ws;
+
+
+ - 518714880*sqrt(2) + 785240464
+                                     % yes, it is constant
+off rationalize;
+
+
+
+on allfac;
+
+  remfac x;
+
+
+
+procedure test_pseudo_division(a, b, x);
+   begin scalar qr, L;
+      qr := pseudo_divide(a, b, x);
+      L := lcof(b,x);
+      %% For versions of REDUCE prior to 3.6 use:
+      %% L := if b freeof x then b else lcof(b,x);
+      if first qr * b + second qr =
+         L^(deg(a,x)-deg(b,x)+1) * a then
+         write "Pseudo-division OK"
+      else
+         write "Pseudo-division failed"
+   end;
+
+
+test_pseudo_division
+
+
+a := 5x^4 + 4x^3 + 3x^2 + 2x + 1;
+
+
+        4      3      2
+a := 5*x  + 4*x  + 3*x  + 2*x + 1
+
+test_pseudo_division(a, x, x);
+
+
+Pseudo-division OK
+
+test_pseudo_division(a, x^3, x);
+
+
+Pseudo-division OK
+
+test_pseudo_division(a, x^5, x);
+
+
+Pseudo-division OK
+
+test_pseudo_division(a, x^3 + x, x);
+
+
+Pseudo-division OK
+
+test_pseudo_division(a, 0, x);
+
+
+***** Zero divisor 
+          % intentional error!
+test_pseudo_division(a, 1, x);
+
+
+Pseudo-division OK
+
+
+test_pseudo_division(5x^3 + 7y^2, 2x - y, x);
+
+
+Pseudo-division OK
+
+test_pseudo_division(5x^3 + 7y^2, 2x - y, y);
+
+
+Pseudo-division OK
+
+
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 32 ms
+real	0m0.627s
+user	0m0.062s
+sys	0m0.138s

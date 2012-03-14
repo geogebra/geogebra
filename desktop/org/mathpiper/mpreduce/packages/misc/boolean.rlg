@@ -1,0 +1,152 @@
+% Test series for the boolean package.
+
+boolean true;
+
+
+1
+
+boolean false;
+
+
+0
+
+boolean (true and false);
+
+
+0
+
+boolean (true or false);
+
+
+1
+
+boolean (x and true);
+
+
+x
+
+boolean (x and false);
+
+
+0
+
+boolean (x or true);
+
+
+1
+
+boolean (x or false);
+
+
+x
+
+boolean (not(x and y));
+
+
+boolean(not(x) \/ not(y))
+
+boolean (not(x or y));
+
+
+boolean(not(x)/\not(y))
+
+boolean (x or y or(x and y));
+
+
+boolean(x \/ y)
+
+boolean (x and y and (x or y));
+
+
+boolean(x/\y)
+
+boolean (x or (not x));
+
+
+1
+
+boolean (x and (not x));
+
+
+0
+
+boolean (x and y or not x);
+
+
+boolean(not(x) \/ y)
+
+boolean (a and b implies c and d);
+
+
+boolean(not(a) \/ not(b) \/ c/\d)
+
+boolean (a and b implies c and d, and);
+
+
+boolean((not(a) \/ not(b) \/ c)/\(not(a) \/ not(b) \/ d))
+
+boolean (a or b implies c or d);
+
+
+boolean(not(a)/\not(b) \/ c \/ d)
+
+boolean (a or b implies c or d, and,full);
+
+
+boolean((a \/ not(b) \/ c \/ d)/\(not(a) \/ b \/ c \/ d)
+
+        /\(not(a) \/ not(b) \/ c \/ d))
+ 
+
+operator >;
+
+
+fm:=boolean(x>v or not (u>v));
+
+
+fm := boolean(not(u>v) \/ x>v)
+
+v:=10;
+
+
+v := 10
+
+testbool fm;
+
+
+boolean(not(u>10) \/ x>10)
+
+x:=3;
+
+
+x := 3
+
+testbool fm;
+
+
+boolean(not(u>10))
+
+clear x;
+
+
+x:=17;
+
+
+x := 17
+
+testbool fm;
+
+
+1
+
+clear v,x;
+
+
+
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 15 ms
+real	0m0.557s
+user	0m0.046s
+sys	0m0.122s

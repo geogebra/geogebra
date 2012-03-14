@@ -1,0 +1,272 @@
+\documentstyle[11pt,reduce]{article}
+\title{A \REDUCE{} package for Symmetry}
+\date{}
+\author{Karin Gatermann\\
+        Konrad-Zuse-Zentrum f\"ur Informationstechnik Berlin\\
+        Takustrasse\ 7\\
+        D--14195 Berlin--Dahlem\\
+        Federal Republic of Germany\\
+	E--mail: gatermann@zib.de}
+\begin{document}
+\maketitle
+\index{SYMMETRY package}
+
+This short note describes a package of \REDUCE{} procedures
+that compute symmetry-adapted bases and block diagonal forms
+of matrices which have the symmetry of a group.
+The SYMMETRY package is the implementation
+of the theory of linear representations
+for small finite groups such as the dihedral groups.
+
+\section{Introduction}
+
+The exploitation of symmetry is a very important principle in mathematics,
+physics and engineering sciences.
+The aim of the SYMMETRY package is to give an easy access to the
+underlying theory of linear representations for small groups. For
+example the
+dihedral groups $D_3,D_4,D_5,D_6$ are included.
+For an introduction to the theory see {\sc Serre} \cite{Se77} or
+{\sc Stiefel} and {\sc F\"assler} \cite{StFae79}.
+For a given orthogonal (or unitarian) linear representation
+\[
+\vartheta : G\longrightarrow GL(K^n), \qquad K=R,C.
+\]
+the character $\psi\rightarrow K$, the
+canonical decomposition or the bases of the isotypic
+components are computed. A matrix $A$ having the symmetry of a linear
+representation,e.g.
+\[
+\vartheta_t A = A \vartheta_t \quad \forall \, t\in G,
+\]
+is transformed to block diagonal form by a coordinate
+transformation.
+The dependence of the algorithm on the
+field of real or complex numbers is controled by the switch {\tt complex}.
+An example for this is given in the testfile {\em symmetry.tst}.
+
+As the algorithm needs information concerning the irreducible representations
+this information is stored for some groups (see the operators in Section 3).
+It is assumed that only orthogonal (unitar) representations are given.
+
+The package is loaded by
+
+{\tt load symmetry;}
+
+\section{Operators for linear representations}
+
+First the data structure for a linear representation has to be explained.
+{\em representation} is a list consisting of the group identifier and
+equations which assign matrices to the generators of the group.
+
+{\bf Example:}
+\begin{verbatim}
+   rr:=mat((0,1,0,0),
+           (0,0,1,0),
+           (0,0,0,1),
+           (1,0,0,0));
+
+   sp:=mat((0,1,0,0),
+           (1,0,0,0),
+           (0,0,0,1),
+           (0,0,1,0));
+
+   representation:={D4,rD4=rr,sD4=sp};
+\end{verbatim}
+
+For orthogonal (unitarian) representations the following operators
+are available.
+
+{\tt canonicaldecomposition(representation);}
+
+returns an equation giving the canonical decomposition of the linear
+representation.
+
+{\tt character(representation);}
+
+computes the character of the linear representation. The result is a list
+of the group identifier and of lists consisting of a
+list of group elements in one equivalence class and a real or complex number.
+
+{\tt symmetrybasis(representation,nr);}
+
+computes the basis of the isotypic component corresponding to the irreducible
+representation of type nr. If the nr-th irreducible representation is
+multidimensional, the basis is symmetry adapted. The output is a matrix.
+
+{\tt symmetrybasispart(representation,nr);}
+
+is similar as {\tt symmetrybasis}, but for multidimensional
+irreducible representations only the first part of the
+symmetry adapted basis is computed.
+
+{\tt allsymmetrybases(representation);}
+
+is similar as {\tt symmetrybasis} and {\tt symmetrybasispart},
+but the bases of all
+isotypic components are computed and thus a
+complete coordinate transformation is returned.
+
+{\tt diagonalize(matrix,representation);}
+
+returns the block diagonal form of matrix which has the symmetry
+of the given linear representation. Otherwise an error message occurs.
+
+{\tt on complex;}
+
+Of course the property of irreducibility depends on the field $K$ of
+real or complex numbers. This is why the algorithm depends on $K$.
+The type of computation is set by the switch {\em complex}.
+
+\section{Display Operators}
+
+In this section the operators are described which give access to the
+stored information for a group.
+First the operators for the abstract groups are given.
+Then it is described how to get the irreducible representations
+for a group.
+
+{\tt availablegroups();}
+
+returns the list of all groups for which the information such as
+irreducible representations is stored. In the following {\tt group}
+is always one of these group identifiers.
+
+{\tt printgroup(group);}
+
+returns the list of all group elements;
+
+{\tt generators(group);}
+
+returns a list of group elements which generates the group. For the
+definition of a linear representation matrices for these generators
+have to be defined.
+
+{\tt charactertable(group);}
+
+returns a list of the characters corresponding to the irreducible
+representations of this group.
+
+{\tt charactern(group,nr);}
+
+returns the character corresponding to the nr-th irreducible representation
+of this group as a list (see also {\tt character}).
+
+{\tt irreduciblereptable(group);}
+
+returns the list of irreducible representations of the group.
+
+{\tt irreduciblerepnr(group,nr);}
+
+returns an irreducible representation of the group. The output
+is a list of the group identifier and equations
+assigning the representation matrices to group elements.
+
+\section{Storing a new group}
+
+If the user wants to do computations for a group for which
+information is not predefined,
+the package SYMMETRY offers the possibility to supply information
+for this group.
+
+For this the following data structures are used.
+
+{\bf elemlist} = list of identifiers.
+
+{\bf relationlist}  = list of equations with identifiers and
+operators $@$ and $**$.
+
+{\bf grouptable} = matrix with the (1,1)-entry grouptable.
+
+{\bf filename} = "myfilename.new".
+
+\vspace{2cm}
+The following operators have to be used in this order.
+
+{\tt setgenerators(group,elemlist,relationlist);}
+
+{\bf Example:}
+\begin{verbatim}
+   setgenerators(K4,{s1K4,s2K4},
+     {s1K4^2=id,s2K4^2=id,s1K4@s2K4=s2K4@s1K4});
+\end{verbatim}
+
+{\bf setelements(group,relationlist);}
+
+The group elements except the neutral element
+are given as product of the defined
+generators. The neutral element is always called {\tt id}.
+
+{\bf Example:}
+\begin{verbatim}
+   setelements(K4,
+        {s1K4=s1K4,s2K4=s2K4,rK4=s1K4@s2K4});
+\end{verbatim}
+
+{\bf setgrouptable(group,grouptable);}
+
+installs the group table.
+
+{\bf Example:}
+\begin{verbatim}
+   tab:=
+    mat((grouptable,     id,    s1K4, s2K4, rK4),
+        (id        ,     id,    s1K4, s2K4, rK4),
+        (s1K4      ,    s1K4,     id,  rK4,s2K4),
+        (s2K4      ,    s2K4,    rK4,   id,s1K4),
+        (rK4       ,     rK4,   s2K4, s1K4,  id));
+
+   setgrouptable(K4,tab);
+\end{verbatim}
+
+{\bf Rsetrepresentation(representation,type);}
+
+is used to define the real irreducible representations of the group.
+The variable {\tt type} is either {\em realtype} or {\em complextype}
+which indicates the type of the real irreducible representation.
+
+{\bf Example:}
+\begin{verbatim}
+   eins:=mat((1));
+   mineins:=mat((-1));
+   rep3:={K4,s1K4=eins,s2K4=mineins};
+   Rsetrepresentation(rep3,realtype);
+\end{verbatim}
+
+{\bf Csetrepresentation(representation);}
+
+This defines the complex irreducible representations.
+
+{\bf setavailable(group);}
+
+terminates the installation of the group203. It checks some properties of the
+irreducible representations and makes the group available for the
+operators in Sections 2 and 3.
+
+{\bf storegroup(group,filename);}
+
+writes the information concerning the group to the file with name
+{\em filename}.
+
+{\bf loadgroups(filename);}
+
+loads a user defined group from the file {\em filename} into
+the system.
+
+\begin{thebibliography}{5}
+
+\bibitem{JaKer81} G.\ James, A.\ Kerber: {\it Representation Theory
+of the Symmetric Group.} Addison, Wesley (1981).
+
+\bibitem{LuFal88} W.\ Ludwig, C.\ Falter: {\it Symmetries in Physics.}
+Springer, Berlin, Heidelberg, New York (1988).
+
+\bibitem{Se77} J.--P.\ Serre, {\it Linear Representations of Finite
+Groups}. Springer, New~York (1977).
+
+\bibitem{StFae79} E.\  Stiefel, A.\  F{\"a}ssler, {\it Gruppentheoretische
+Methoden und ihre Anwendung}. Teubner, Stuttgart (1979).
+(English translation to appear by Birkh\"auser (1992)).
+
+\end{thebibliography}
+\end{document}

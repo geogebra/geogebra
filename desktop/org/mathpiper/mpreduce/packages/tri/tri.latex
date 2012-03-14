@@ -1,0 +1,917 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%               Typesetting REDUCE output with TeX             %%%%%
+%%%%%                       by Werner Antweiler                    %%%%%
+%%%%%              University of Cologne Computer Center           %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input tridefs
+\def\9{\TeX-REDUCE-Interface}
+%
+% LaTeX Version
+%
+\documentstyle[twocolumn]{article}
+\begin{document}
+%
+% Titel
+%
+\title{\Huge A \9}
+\author{Werner Antweiler\thanks{All three authors are with:
+        Rechenzentrum der Universit\"{a}t zu K\"{o}ln
+        (University of Cologne Computer Center),
+        Abt. Anwendungssoftware (Application Software
+        Department), Robert-Koch-Stra\ss e 10, 5000 K\"{o}ln 41,
+        West Germany.}   \\
+        Andreas Strotmann\\
+        Volker Winkelmann\\
+        University of Cologne Computer Center, West Germany}
+\date{Revised Version, \today}
+\maketitle
+%
+\section{Introduction}
+%
+REDUCE is a well known computer algebra system invented by
+Anthony C. Hearn. While every effort was made to improve
+the system's algebraic capabilities, the readability of the
+output remained poor by modern typesetting standards.
+Although a pretty-printer is already incorporated in REDUCE,
+the output is produced only in line-printer quality.
+The simple idea to produce high quality output from REDUCE
+is to link REDUCE with Donald E. Knuth's famous \TeX\ typesetting
+language. This draft reviews our efforts in this direction.
+Our major goals we pursue with TRI are:
+\begin{itemize}
+\item  We want to produce REDUCE-output in typesetting quality.
+\item  The intermediate files (\TeX-input files) should be easy to edit.
+       The reason is that it is likely that the proposed
+       line-breaks are sub-optimal from the user's point of view.
+\item  We apply a \TeX-like algorithm which ``optimizes''
+       the line-breaking over the whole expression. This differs
+       fundamentally from the standard left-to-right,
+       one-line look-ahead
+       pretty-printers of REDUCE, LISP and the like.
+\end{itemize}
+We introduce a program written in RLISP\footnote{the REDUCE
+implementation language, an extended Standard LISP with an
+ALGOL-like syntax.} which typesets REDUCE
+formulas with \TeX. Our \9 incorporates three
+levels of \TeX\ output: without line breaking, with line breaking,
+and with line breaking plus indentation. While speed
+without line breaking is comparable to that achieved with
+REDUCE's pretty-printer, line breaking consumes much more CPU time.
+Nevertheless, we reckon with a cost increase due to line breaking
+which is almost linear in the length of the expression to be broken.
+Our line breaking algorithm mimics \TeX's line breaking in a
+rather rudimentary fashion.
+This paper deals with some of the ideas and algorithms we have
+programmed and it summarizes some of the experiments we have made
+with our program.
+Furthermore, at the end of this paper we provide a small user's manual
+which gives a short introduction to the use of our \9.
+For simplicity's sake the name ``\9'' will be abbreviated to ``TRI''
+in this paper.
+%
+\section{From REDUCE to \TeX: basic concepts}
+%
+The function {\tt TeXvarpri} is the interface to the algebraic
+portion of REDUCE. It first calls a function named {\tt makeprefix}.
+Its job is to change a REDUCE algebraic expression to a standard
+prefix list while retaining the tree structure of the whole expression.
+After this has been done, the
+new intermediate expression is passed to the most important module
+of TRI: the {\tt maketag/makefunc}-family of functions.
+These functions recursively expand the structured list
+(or operator tree) into a flat list, translating each REDUCE symbol or
+expression into so-called \TeX-items on passing by.
+For that reason, the resulting list is called the \TeX-item list.
+If the simple \TeX-mode (without line breaking) was chosen, this list
+is then printed immediately without further considerations.
+Translation and printing this way is almost as fast as with
+the standard REDUCE pretty printer.\par
+When line-breaking has been enabled things get a bit more complicated.
+The greatest effort with TRI was to implement the line-breaking
+algorithm. More than half of the entire TRI code deals with this
+task.
+The ultimate goal is to add some ``break items'', i.e. \verb|\nl|-%
+\TeX-commands\footnote{This is not a \TeX-primitive but a TRI-specific
+\TeX-macro command which expands into a lot of stuff.},
+marking --- in a certain way --- optimal line-breaks.
+Additionally, these break items can be followed immediately by
+``indentation items'', i.e. \verb|\OFF{...}| \TeX-commands\footnote{see
+previous footnote}, specifying the amount of indentation
+(in scaled points) applicable for the next new line.
+The problem is to choose the right points where to insert these
+special \TeX-items. Therefore, the \TeX-item list undergoes
+three further transformation steps.\par
+First, the \TeX-item list gets enlarged by so-called ``glue items''.
+Glue items are two-element lists, where the first element is a width
+info and the second element is a penalty info.
+The width is determined according to the class of the two \TeX-items
+to the left and to the right. Each \TeX-item is associated with
+one out of eight classes. Following Knuth's \TeX book [Knu86],
+these classes are ORD (for ordinary items),
+LOP (for large operators such as square roots),
+BIN and REL (for binary and relational operators), OPN and CLO (for
+opening and closing parentheses), PCT (for punctuation) and finally
+INN (for ``inner'' items such as \TeX-brackets and -macros).
+The data for the width information is stored in a matrix.
+Therefore, for each pair of classes it is easy to determine how much
+(if any) space should be inserted between two consecutive \TeX-items.
+\par
+The ``penalty'' is
+a value in the range of $-10000\ldots+10000$ indicating a mark-up on a
+potential break-point, thus determining if this point is a 
+fairly good (if negative) or bad (if positive) choice.
+The amount of penalty depends heuristically
+(a) on the kind of \TeX-items surrounding the glue item,
+(b) on the bracket nesting, and finally
+(c) on special characteristics.\footnote{For example, the plus-  and
+the difference operator have special impact on the amount of
+penalty. These operators are considered as extremely good places
+for breaking up a line.}\par
+During the second level, the \TeX-item list is transformed
+into a so-called breaklist consisting of {\em active} and
+{\em passive} nodes.
+A passive node is simply a width info giving the total width of 
+\TeX-items not interspersed by glue items. On the other hand,
+active nodes are glue items enlarged by a third element, the
+offset info, indicating an indentation level which is used later
+for computing the actual amount of indentation.
+Active nodes are used as potential breakpoints.
+Moreover, while creating the breaklist, the \TeX-item list will be
+modified if necessary according to the length of fractions and square
+roots which cannot be broken if retained in their ``classical''
+form. Hence fractions look like {\tt (...)/(...)} if they don't fit
+into a single line, especially in the case of large
+polynomial fractions.\par
+The third and most important level is the line-breaking algorithm
+itself. The idea how to break lines is based
+on the article by Knuth/Plass(1981). Line-breaking can occur at
+active nodes only. So, you can loop through the breaklist considering
+all potential break-points. But in order to find a suitable way
+in a reasonable amount of time you have to limit the number of
+potential breakpoints considered. This is performed by associating
+a ``badness'' with each potential breakpoint, describing how
+good looking or bad looking a line turns out.
+If the badness is less than
+a given amount of ``tolerance'' --- as set by the user --- 
+then an active node is considered to be feasible and becomes
+a delta node. A delta node is simply an active node enlarged
+by four further infos: an identification number for this node,
+a pointer to the best feasible break-point (i.e. delta-node)
+to come from,%
+\footnote{If one were to break the formula at this delta-node, the
+best place to start this line  is given by this pointer. Note that
+this pointer points backward through the list. When all delta nodes
+have been inserted, you start at the very last delta node (which
+is always at the end of breaklist) and skip backward from one
+delta node to the next delta node pointed at. Thus, you find the
+best way to break up the list.}
+the total amount of demerits (a compound value derived from
+badness and penalty) accumulated so far, and a value indicating
+the amount of indentation applied to a new line beginning at this
+node.
+When the function dealing with line-breaking has stepped through
+the list, the breakpoints will have been determined.
+Afterwards all glue items (i.e. active nodes)
+are deleted from the \TeX-item list while break- and indentation-%
+items for those nodes marked as break-points are inserted.
+\par
+Finally the \TeX-item list is printed with regular ASCII-characters.
+The readabiltiy of the intermediate output is low,
+but it should be quite good enough for users to do some final
+editing work.
+Nevertheless, the nesting structure of the term is kept
+visible when printed, so it will be easy to distinguish between
+parenthesis levels simply by considering the amount of indentation.
+% ----------------------------------------------------------------------
+\section{Postprocessing with the module ``tridefs.tex''}
+% ----------------------------------------------------------------------
+When a \TeX-output file has been created with TRI it has to be
+processed by \TeX\ itself. But before you run \TeX\ you should make sure
+the file looks the way you want it. Sometimes you will 
+find it necessary to add some \TeX-code of your own or delete some
+other \TeX-code. This is also the right time to
+check the line breaks marked by \verb|\nl|-commands.
+This job is up to you before you finally run \TeX.\par
+During the \TeX-run the sizes of brackets are determined. This task is
+not done by TRI. In order to produce proper sized brackets
+we put some \verb|\left(| and \verb|\right)| \TeX-commands
+where brackets are opened or closed. A new problem arises when
+an expression has been broken up into several lines. Since, for every
+line, the number of \verb|\left(| and \verb|\right)|
+\TeX-commands must match
+but bracketed expressions may start in one line and end in another,
+we have to insert the required number of ``dummy'' parentheses
+(i.e.  \verb|\right.| and \verb|\left.| \TeX-commands)
+at the end of the current line and the beginning of the following line.
+This task is handled by the \verb|\nl|-\TeX-macro.\par
+There is a caveat against this method.
+Since opening and closing brackets
+needn't lie in the same line, it is possible that the height of the
+brackets can differ although they should correspond in height. That will
+happen if the height of the text in the opening line has a height
+different from the text in the closing line. We haven't found a 
+way of tackling this problem yet, but we think it is possible to program
+a small \TeX-macro for this task.\par
+There is at least one more line of \TeX-code you have to
+insert by hand into the \TeX-input file produced by TRI. This line runs
+\begin{verbatim}
+\input tridefs
+\end{verbatim}
+and inputs the module {\tt tridefs.tex} into the file. This is necessary
+because otherwise \TeX\ won't know how to deal with our macro calls.
+If you use the \TeX-input file as a ``stand-alone'' file, don't
+forget a final \verb|\bye| at the end of the text. If you use
+code produced by TRI as part of a larger text then simply put
+the input-line just at the beginning of your text.
+%
+\section{Experiments}
+%
+We have tested TRI on a Micro-VAX operating under ULTRIX,
+with no other users working during this phase in order to minimize
+interference with other processes, e.g., caused by paging.
+The TRI code has been compiled with the PSL~3.4 compiler.
+The following table presents results obtained with a small number of
+different terms. All data were measured in CPU-seconds
+as displayed by LISP's TIME-facility.
+For expressions where special packages such as {\tt solve} and {\tt int}
+were involved we have taken only effective output-time, i.e. the time
+consumption caused by producing the output and not by calculating
+the algebraic result.\footnote{That means we assigned the result of an
+evaluation to an itermediate variable, and then we printed this
+intermediate variable. Thus we could eliminate the time overhead
+produced by ``pure'' evaluation. Nevertheless, in terms of effective
+interactive answering time, the sum of evaluation and printing time
+might be much more interesting than the ``pure'' printing time.
+In such a context the percentage overhead caused by printing is
+the critical point. But since we talk about printing we decided
+to document the ``pure'' printing time.} First we display
+the six expressions we have tested.\par
+$$(x+y)^{12}\eqno(1)$$
+$$(x+y)^{24}\eqno(2)$$
+$$(x+y)^{36}\eqno(3)$$
+$$(x+y)^{16}/(v-w)^{16}\eqno(4)$$
+$$solve((1+\xi)x^2-2\xi x+\xi,x)\eqno(5)$$
+$$solve(x^3+x^2\mu+\nu,x)\eqno(6)$$
+The following table shows the results:
+%
+\medskip
+\begin{center}
+{\tt
+\begin{tabular}{|c|r|r|r|r|} \hline
+{\small\rm No.}&{\small\rm normal}&{\small\rm TeX}&
+{\small\rm Break}&{\small\rm Indent}\\
+\hline
+1& 0.65& 0.75& 3.30& 3.37\\
+2& 1.38& 1.79&11.81&12.10\\
+3& 2.31& 3.11&19.33&19.77\\
+4& 1.87& 2.26&11.78& 9.64\\
+5& 0.46& 0.75& 0.90& 0.88\\
+6& 4.52&21.52&31.34&29.78\\
+\hline
+\end{tabular}
+}
+\medskip
+\end{center}
+%
+This short table should give you an impression of the
+performance of TRI. It goes without saying that on other machines
+results may turn out which are quite different from our results. But our
+intention is to show the relative and not the absolute performance.
+Note that printing times are a function of expression complexity,
+as shown by rows three and six.
+% ----------------------------------------------------------------------
+\section{User's Guide to the TRI}
+% ----------------------------------------------------------------------
+If you intend to use TRI you are required to load the compiled code.
+This can be performed with the command
+\begin{verbatim}
+load!-package 'tri;
+\end{verbatim}
+During the load, some default initializations are performed. The
+default page width is set to 15 centimeters, the tolerance for
+line breaking is set to 20 by default. Moreover, TRI is enabled
+to translate greek names, e.g. TAU or PSI, into equivalent \TeX\
+symbols, e.g. $\tau$ or $\psi$, respectively. Letters are printed
+lowercase as defined through assertion of the set LOWERCASE. The whole
+operation produces the following lines of output
+\begin{verbatim}
+% TeX-REDUCE-Interface 0.50
+% set GREEK asserted
+% set LOWERCASE asserted
+% \hsize=150mm
+% \tolerance 20
+\end{verbatim}
+Make sure you have at least version 0.50 installed at your site.
+Now you can switch the three TRI modes on and off as you like.
+You can use the switches alternatively and incrementally.
+That means you have to switch on TeX for receiving standard
+\TeX-output, or TeXBreak to receive broken \TeX-output, or
+TeXIndent to receive broken  \TeX-output plus indentation.
+More specifically, if you switch off {\tt TeXBreak} you implicitly quit
+{\tt TeXIndent}, too, or, if you switch off {\tt TeX}, you
+implicitly quit {\tt TeXBreak} and, consequently, {\tt TeXIndent}.\par
+The most crucial point in defining how TRI breaks multiple lines
+of \TeX-code is your choice of the page width and the tolerance.
+As mentioned earlier, ``tolerance'' is related to \TeX's famous
+line-breaking algorithm. The value of ``tolerance'' determines which
+potential breakpoints are considered feasible and which are not. The
+higher the tolerance, the more breakpoints become feasible as determined
+by the value of ``badness'' associated with each breakpoint. Breakpoints
+are considered feasible if the badness is less than the tolerance.
+You can easily change the tolerance using
+\begin{verbatim}
+TeXtolerance(tolerance);
+\end{verbatim}
+where the {\em tolerance} is a positive integer in the closed interval
+$[0,10000]$.
+A tolerance of 0 means that actually no breakpoint will be considered
+feasible (except those carrying a negative penalty), while a value
+of 10000 allows any breakpoint to be considered feasible.
+Obviously, the choice of a tolerance has a great impact on the time
+consumption of our line-breaking algorithm since time consumption
+increases in proportion to the number of feasible breakpoints.
+So, the question is what values to choose. For line-breaking without
+indentation, suitable values for the tolerance lie between 10 and 100.
+As a rule of thumb, you should use higher values the deeper the term
+is nested --- if you can estimate. If you use indentation, you have to
+use much higher tolerance values. This is necessary because badness
+is worsened by indentation. Accordingly, TRI has to try harder to find
+suitable places where to break. Reasonable values for tolerance
+here lie between 700 and 1500. A value of 1000 should be your first
+guess. That will work for most expressions in a reasonable amount of
+time.\par
+The page width of the \TeX\ output page,
+measured in millimeters\footnote{You can
+also specify page width in scaled points (sp).
+Note: 1~pt = 65536~sp = 1/72.27~inch. The function automatically chooses
+the appropiate dimension according to the size: all values greater than
+400 are considered to be scaled points.}, can be changed by using
+\begin{verbatim}
+TeXpagewidth(page-width);
+\end{verbatim}
+You should choose a page width according to your purposes,
+but allow a few centimeters for errors in TRI's attempt to
+emulate \TeX's metric.
+For example, specify 140 millimeters for an effective page width of
+150 or 160 millimeters. That way you have a certain safety-margin to
+the borders of the page.\par
+Sometimes you want to add your own translations for REDUCE-symbols
+to be mapped to \TeX-items.
+For such a task, TRI provides a function named
+{\tt TeXlet} which binds any REDUCE-symbol to one of the predefined
+\TeX-items. A call to this function has the following syntax:
+\begin{verbatim}
+TeXlet(REDUCE-symbol,TeX-item)
+\end{verbatim}
+Three examples show how to do it right:
+\begin{verbatim}
+TeXlet(velocity,'!v);
+TeXlet(gamma,"\Gamma ");
+TeXlet(acceleration,"\vartheta ");
+\end{verbatim}
+Besides this method of single assertions you can choose to assert
+one of (currently) two standard sets providing substitutions
+for lowercase and greek letters. These sets are loaded by default.
+You can switch these sets on or off using the functions
+\begin{verbatim}
+TeXassertset setname;
+TeXretractset setname;
+\end{verbatim}
+where the setnames {\tt GREEK} and {\tt LOWERCASE}
+are currently defined and available.
+So far you have learned only how to connect REDUCE-atoms with predefined
+\TeX-items but not how to create new \TeX-items itself. We provide a
+way for adding standard \TeX-items of any class {\tt ORD, BIN, REL,
+OPN, CLO, PCT} and {\tt LOP} except for class {\tt INN} which is
+reserved for internal use by TRI only. You can call the function
+\begin{verbatim}
+TeXitem(item,class,list-of-widths)
+\end{verbatim}
+e.g. together with a binding
+\begin{verbatim}
+TeXitem("\nabla ",ORD,
+        {546135,437818,377748});
+TeXlet(NABLA,"\nabla ");
+\end{verbatim}
+where {\em item} is a legal \TeX-code name\footnote{Please note that
+any \TeX-name ending with a letter must be followed by a blank
+to prevent interference with letters of following \TeX-items.
+Note also that you can legalize a name by defining it as a \TeX-macro
+and declaring its width.},
+{\em class} is one of seven classes (see above) and {\em list-of-widths}
+is a non-empty list of elements, each one representing the width of
+the item in successive super-/subscript depth levels.
+That means that the first entry is the width in display mode,
+the second stands for scriptstyle and the third stands for
+scriptscriptstyle in \TeX-terminology.
+Starting with version 0.50, all arguments can be supplied without
+quotation marks, i.e., LISP notation is no longer required
+but still possible.\par
+But how can you retrieve the width information required?
+For this purpose we provide a small interactive \TeX\ facility
+called {\tt redwidth.tex}.
+It repeatedly prompts you for the \TeX-items for which you want
+to retrieve the width information.\par
+Finally, another command is supplied which displays all
+information stored about a specific \TeX-item.
+If, for example, you  call
+\begin{verbatim}
+TeXdisplay(NABLA);
+\end{verbatim}
+TRI will respond with
+\begin{verbatim}
+% TeX item \nabla  is of class ORD and
+                 has following widths:
+% 8.333358pt  6.680572pt  5.763977pt 
+\end{verbatim}
+%
+\section{Examples}
+%
+Some examples shall demonstrate the capabilities of TRI.
+For each example we state (a) the REDUCE command (i.e.
+the input), (b) the tolerance if it differs from the default, and
+(c) the output as produced in a \TeX\ run. The examples are
+displayed at the end of this article.\par
+% 
+\section{Caveats}
+% 
+Techniques for printing mathematical expressions are available
+everywhere. TRI adds only a highly specialized version for
+most REDUCE output. The emphasis is on the word {\em most}.
+One major caveat is that we cannot print SYMBOLIC-mode output
+from REDUCE. This could be done best in a WEB-like programming-plus-%
+documentation style. Nevertheless, as Knuth's WEB is allready available
+for PASCAL and C, hopefully someone will write a LISP-WEB or a
+REDUCE-WEB as well.\par
+\LaTeX\ users will be disappointed that we have not mentioned yet if and
+how TRI co-operates with \LaTeX. Nevertheless, TRI can be used
+together with \LaTeX, as this document proves. But there are some
+important restrictions. First, read in the module ``tridefs.tex''
+at the very beginning of a \LaTeX-run, before you apply any
+\LaTeX-specific command. Furthermore, the \TeX-macros used
+in this module {\em do} interfere with \LaTeX's own macros.
+You cannot use \LaTeX's \verb|\(|, \verb|\)|, \verb|\[| and \verb|\]|
+commands while you are using ``tridefs.tex''. If you avoid to
+use them you should be able to run TRI with \LaTeX\ smoothly.
+\par
+Whenever you discover a bug in our program please let us
+know. Send us a short report accompanied by an output listing.%
+\footnote{You can reach us via electronic mail at the following
+address: reduce@rrz.uni-koeln.de} We will try to fix the error.
+% 
+\section{Distribution}
+% 
+The whole TRI package consists of following files:
+\begin{itemize}
+\item {\tt tri.latex}: This text as a \TeX-input file.
+\item {\tt tri.tex}: A long version of this report, where we explain
+      our breaking algorithm thoroughly.
+\item {\tt tri.red}: This is the REDUCE-LISP source code
+      for TRI (approximately 58 KBytes of code).
+\item {\tt tridefs.tex}: The \TeX-input file to be used together with
+      output from TRI.
+\item {\tt redwidth.tex}: This is the \TeX-input file for interactive
+      determination of \TeX-item widths.
+\item {\tt tritest.red}: Run this REDUCE file to check if TRI works
+      correctly.
+\item {\tt tritest.tex}: When you have run the file {\tt tritest.red},
+      just make a \TeX\ run with this file to see all the nice things
+      TRI is able to produce.
+\end{itemize}
+You can obtain TRI package from a network library at The
+RAND Corporation, Santa Monica, Ca./USA.
+Simply send a note {\tt send index} to the network address
+{\tt reduce-netlib@rand.org} and you will receive a description
+on how to use the REDUCE netlib followed by a directory.
+Specific files may be requested with the command
+{\tt send }{\em library file}, where {\em library} is one the
+catalogues containing the different REDUCE packages, and {\em file}
+is the name of a particular file. For example, you can use
+the message {\tt send tex tri.red} to obtain the RLISP-code of
+the \9.
+% ----------------------------------------------------------------------
+\begin{thebibliography}{Knu88}
+\bibitem[Ant86]{an:be}Antweiler, W.; Strotmann, A.; Pfenning, Th.;
+        Winkelmann, V.: {\em Zwischenbericht \"{u}ber den Status der
+        Arbeiten am REDUCE-\TeX-Anschlu\ss.}
+        Internal Paper, Rechenzentrum an der Universit\"{a}t
+        zu K\"{o}ln, November 1986.
+\bibitem[Ant89]{an:Ab}Antweiler, W.: {\em A \TeX{}-REDUCE-Interface.}
+        Arbeits\-bericht RRZK 8901 des Regionalen Rechen\-zentrums an der
+        Uni\-versi\-t\"{a}t zu K\"{o}ln, Februar 1989.
+\bibitem[Fat87]{fa:Te}Fateman, Richard J.:
+        {\em\TeX\ Output from MACSYMA-like Systems.}
+        ACM SIGSAM Bulletin, Vol. 21, No. 4, Issue \#82, pp. 1--5,
+        November 1987.
+\bibitem[Knu81]{kn:br}Knuth, Donald E.; Plass, Michael F.:
+        {\em Breaking Paragraphs into Lines.}
+        Software---Practice and Experience, Vol. 11,
+        pp. 1119--1184, 1981.
+\bibitem[Knu86]{kn:Te}Knuth, Donald E.: {\em The \TeX\-book.}
+        Addison-Wesley, Readings/Ma. Sixth printing, 1986.
+\bibitem[Hea87]{he:RE}Hearn, Anthony C.: {\em REDUCE User's Manual,
+        Version 3.3.} The RAND Corporation, Santa Monica, Ca.,
+        July 1987.
+\end{thebibliography}
+%
+%
+\onecolumn
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%                                                              %%%%%
+%%%%%                    Examples for the TRI                      %%%%%
+%%%%%                                                              %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\TRIexa{Standard}{TeXindent}{250}{\verb|(x+y)**16/(v-w)**16|}
+$$\displaylines{\qdd
+\(x^{16}
+  +16\cdot x^{15}\cdot y
+  +120\cdot x^{14}\cdot y^{2}
+  +560\cdot x^{13}\cdot y^{3}\nl 
+  \OFF{327680}
+  +1820\cdot x^{12}\cdot y^{4}
+  +4368\cdot x^{11}\cdot y^{5}
+  +8008\cdot x^{10}\cdot y^{6}\nl 
+  \OFF{327680}
+  +11440\cdot x^{9}\cdot y^{7}
+  +12870\cdot x^{8}\cdot y^{8}
+  +11440\cdot x^{7}\cdot y^{9}\nl 
+  \OFF{327680}
+  +8008\cdot x^{6}\cdot y^{10}
+  +4368\cdot x^{5}\cdot y^{11}
+  +1820\cdot x^{4}\cdot y^{12}\nl 
+  \OFF{327680}
+  +560\cdot x^{3}\cdot y^{13}
+  +120\cdot x^{2}\cdot y^{14}
+  +16\cdot x\cdot y^{15}
+  +y^{16}
+\)
+/\nl 
+\(v^{16}
+  -16\cdot v^{15}\cdot w
+  +120\cdot v^{14}\cdot w^{2}
+  -560\cdot v^{13}\cdot w^{3}\nl 
+  \OFF{327680}
+  +1820\cdot v^{12}\cdot w^{4}
+  -4368\cdot v^{11}\cdot w^{5}
+  +8008\cdot v^{10}\cdot w^{6}
+  -11440\cdot v^{9}\cdot w^{7}\nl 
+  \OFF{327680}
+  +12870\cdot v^{8}\cdot w^{8}
+  -11440\cdot v^{7}\cdot w^{9}
+  +8008\cdot v^{6}\cdot w^{10}
+  -4368\cdot v^{5}\cdot w^{11}\nl 
+  \OFF{327680}
+  +1820\cdot v^{4}\cdot w^{12}
+  -560\cdot v^{3}\cdot w^{13}
+  +120\cdot v^{2}\cdot w^{14}
+  -16\cdot v\cdot w^{15}
+  +w^{16}
+\)
+\Nl}$$
+\TRIexa{Integration}{TeX}{-}{\verb|int(1/(x**3+2),x)|}
+$$
+-
+\(\frac{2^{\frac{1}{
+                 3}}\cdot 
+        \(2\cdot 
+          \sqrt{3}\cdot 
+          \arctan 
+          \(\frac{2^{\frac{1}{
+                           3}}
+                  -2\cdot x}{
+                  2^{\frac{1}{
+                           3}}\cdot 
+                  \sqrt{3}}
+          \)
+          +
+          \ln 
+          \(2^{\frac{2}{
+                     3}}
+            -2^{\frac{1}{
+                      3}}\cdot x
+            +x^{2}
+          \)
+          -2\cdot 
+          \ln 
+          \(2^{\frac{1}{
+                     3}}
+            +x
+          \)
+        \)
+        }{
+        12}
+\)
+$$
+\TRIexa{Integration}{TeXindent}{1000}%
+{\verb|int(1/(x{*}{*}4+3*x{*}{*}2-1,x)|}
+$$\displaylines{\qdd
+\(\sqrt{2}\cdot 
+  \(3\cdot 
+    \sqrt{
+          \sqrt{13}
+          -3}\cdot 
+    \sqrt{13}\cdot 
+    \ln 
+    \(-
+      \(\sqrt{
+              \sqrt{13}
+              -3}\cdot 
+        \sqrt{2}
+      \)
+      +2\cdot x
+    \)
+    \nl 
+    \OFF{2260991}
+    -3\cdot 
+    \sqrt{
+          \sqrt{13}
+          -3}\cdot 
+    \sqrt{13}\cdot 
+    \ln 
+    \(\sqrt{
+            \sqrt{13}
+            -3}\cdot 
+      \sqrt{2}
+      +2\cdot x
+    \)
+    \nl 
+    \OFF{2260991}
+    +13\cdot 
+    \sqrt{
+          \sqrt{13}
+          -3}\cdot 
+    \ln 
+    \(-
+      \(\sqrt{
+              \sqrt{13}
+              -3}\cdot 
+        \sqrt{2}
+      \)
+      +2\cdot x
+    \)
+    \nl 
+    \OFF{2260991}
+    -13\cdot 
+    \sqrt{
+          \sqrt{13}
+          -3}\cdot 
+    \ln 
+    \(\sqrt{
+            \sqrt{13}
+            -3}\cdot 
+      \sqrt{2}
+      +2\cdot x
+    \)
+    \nl 
+    \OFF{2260991}
+    +6\cdot 
+    \sqrt{
+          \sqrt{13}
+          +3}\cdot 
+    \sqrt{13}\cdot 
+    \arctan 
+    \(\frac{2\cdot x}{
+            \sqrt{
+                  \sqrt{13}
+                  +3}\cdot 
+            \sqrt{2}}
+    \)
+    \nl 
+    \OFF{2260991}
+    -26\cdot 
+    \sqrt{
+          \sqrt{13}
+          +3}\cdot 
+    \arctan 
+    \(\frac{2\cdot x}{
+            \sqrt{
+                  \sqrt{13}
+                  +3}\cdot 
+            \sqrt{2}}
+    \)
+  \)
+\)
+/104
+\Nl}$$
+\TRIexa{Solving Equations}{TeXindent}{1000}%
+{\verb|solve(x**3+x**2*mu+nu=0,x)|}
+$$\displaylines{\qdd
+\{x=
+  \[-
+    \(\(\(9\cdot 
+          \sqrt{4\cdot \mu ^{3}\cdot \nu 
+                +27\cdot \nu ^{2}}
+          -2\cdot 
+          \sqrt{3}\cdot \mu ^{3}
+          -27\cdot 
+          \sqrt{3}\cdot \nu 
+        \)
+        ^{\frac{2}{
+                3}}\cdot 
+        \sqrt{3}\cdot i\nl 
+        \OFF{3675021}
+        +
+        \(9\cdot 
+          \sqrt{4\cdot \mu ^{3}\cdot \nu 
+                +27\cdot \nu ^{2}}
+          -2\cdot 
+          \sqrt{3}\cdot \mu ^{3}
+          -27\cdot 
+          \sqrt{3}\cdot \nu 
+        \)
+        ^{\frac{2}{
+                3}}\nl 
+        \OFF{3675021}
+        +2\cdot 
+        \(9\cdot 
+          \sqrt{4\cdot \mu ^{3}\cdot \nu 
+                +27\cdot \nu ^{2}}
+          -2\cdot 
+          \sqrt{3}\cdot \mu ^{3}
+          -27\cdot 
+          \sqrt{3}\cdot \nu 
+        \)
+        ^{\frac{1}{
+                3}}\cdot \nl 
+        \OFF{3675021}
+        2^{\frac{1}{
+                 3}}\cdot 3^{\frac{1}{
+                                   6}}\cdot 
+        \mu 
+        -2^{\frac{2}{
+                  3}}\cdot 
+        \sqrt{3}\cdot 3^{\frac{1}{
+                                  3}}\cdot 
+        i\cdot \mu ^{2}
+        +2^{\frac{2}{
+                  3}}\cdot 3^{\frac{1}{
+                                    3}}\cdot 
+        \mu ^{2}
+      \)
+      /\nl 
+      \OFF{3347341}
+      \(6\cdot 
+        \(9\cdot 
+          \sqrt{4\cdot \mu ^{3}\cdot \nu 
+                +27\cdot \nu ^{2}}
+          -2\cdot 
+          \sqrt{3}\cdot \mu ^{3}
+          -27\cdot 
+          \sqrt{3}\cdot \nu 
+        \)
+        ^{\frac{1}{
+                3}}\cdot 2^{\frac{1}{
+                                  3}}\cdot 
+        3^{\frac{1}{
+                 6}}
+      \)
+    \)
+  \]
+  \CO\nl 
+  \OFF{327680}
+  x=
+  \[\(\(9\cdot 
+        \sqrt{4\cdot \mu ^{3}\cdot \nu 
+              +27\cdot \nu ^{2}}
+        -2\cdot 
+        \sqrt{3}\cdot \mu ^{3}
+        -27\cdot 
+        \sqrt{3}\cdot \nu 
+      \)
+      ^{\frac{2}{
+              3}}\cdot 
+      \sqrt{3}\cdot i\nl 
+      \OFF{2837617}
+      -
+      \(9\cdot 
+        \sqrt{4\cdot \mu ^{3}\cdot \nu 
+              +27\cdot \nu ^{2}}
+        -2\cdot 
+        \sqrt{3}\cdot \mu ^{3}
+        -27\cdot 
+        \sqrt{3}\cdot \nu 
+      \)
+      ^{\frac{2}{
+              3}}\nl 
+      \OFF{2837617}
+      -2\cdot 
+      \(9\cdot 
+        \sqrt{4\cdot \mu ^{3}\cdot \nu 
+              +27\cdot \nu ^{2}}
+        -2\cdot 
+        \sqrt{3}\cdot \mu ^{3}
+        -27\cdot 
+        \sqrt{3}\cdot \nu 
+      \)
+      ^{\frac{1}{
+              3}}\cdot \nl 
+      \OFF{2837617}
+      2^{\frac{1}{
+               3}}\cdot 3^{\frac{1}{
+                                 6}}\cdot \mu 
+      -2^{\frac{2}{
+                3}}\cdot 
+      \sqrt{3}\cdot 3^{\frac{1}{
+                                3}}\cdot i\cdot 
+      \mu ^{2}
+      -2^{\frac{2}{
+                3}}\cdot 3^{\frac{1}{
+                                  3}}\cdot 
+      \mu ^{2}
+    \)
+    /\nl 
+    \OFF{2509937}
+    \(6\cdot 
+      \(9\cdot 
+        \sqrt{4\cdot \mu ^{3}\cdot \nu 
+              +27\cdot \nu ^{2}}
+        -2\cdot 
+        \sqrt{3}\cdot \mu ^{3}
+        -27\cdot 
+        \sqrt{3}\cdot \nu 
+      \)
+      ^{\frac{1}{
+              3}}\cdot 2^{\frac{1}{
+                                3}}\cdot 3^{
+      \frac{1}{
+            6}}
+    \)
+  \]
+  \CO\nl 
+  \OFF{327680}
+  x=
+  \[\(\(9\cdot 
+        \sqrt{4\cdot \mu ^{3}\cdot \nu 
+              +27\cdot \nu ^{2}}
+        -2\cdot 
+        \sqrt{3}\cdot \mu ^{3}
+        -27\cdot 
+        \sqrt{3}\cdot \nu 
+      \)
+      ^{\frac{2}{
+              3}}\nl 
+      \OFF{2837617}
+      -
+      \(9\cdot 
+        \sqrt{4\cdot \mu ^{3}\cdot \nu 
+              +27\cdot \nu ^{2}}
+        -2\cdot 
+        \sqrt{3}\cdot \mu ^{3}
+        -27\cdot \nl 
+        \OFF{3675021}
+        \sqrt{3}\cdot \nu 
+      \)
+      ^{\frac{1}{
+              3}}\cdot 2^{\frac{1}{
+                                3}}\cdot 3^{
+      \frac{1}{
+            6}}\cdot \mu 
+      +2^{\frac{2}{
+                3}}\cdot 3^{\frac{1}{
+                                  3}}\cdot 
+      \mu ^{2}
+    \)
+    /\nl 
+    \OFF{2509937}
+    \(3\cdot 
+      \(9\cdot 
+        \sqrt{4\cdot \mu ^{3}\cdot \nu 
+              +27\cdot \nu ^{2}}
+        -2\cdot 
+        \sqrt{3}\cdot \mu ^{3}
+        -27\cdot 
+        \sqrt{3}\cdot \nu 
+      \)
+      ^{\frac{1}{
+              3}}\cdot 2^{\frac{1}{
+                                3}}\cdot 3^{
+      \frac{1}{
+            6}}
+    \)
+  \]
+\}
+\Nl}$$
+\TRIexa{Matrix Printing}{TeX}{--}{%
+\verb|mat((1,a-b,1/(c-d)),(a**2-b**2,1,sqrt(c)),((a+b)/(c-d),sqrt(d),1))|
+}
+$$
+\pmatrix{1&a
+         -b&
+         \frac{1}{
+               c
+               -d}\cr 
+         a^{2}
+         -b^{2}&1&
+         \sqrt{c}\cr 
+         \frac{a
+               +b}{
+               c
+               -d}&
+         \sqrt{d}&1\cr 
+         }
+$$
+%
+%
+\end{document}

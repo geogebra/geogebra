@@ -1,0 +1,80 @@
+\chapter[FPS: Formal power series]%
+        {FPS: Automatic calculation of formal power series}
+\label{FPS}
+\typeout{[FPS: Formal power series]}
+
+{\footnotesize
+\begin{center}
+Wolfram Koepf and Winfried Neun\\
+Konrad--Zuse--Zentrum f\"ur Informationstechnik Berlin \\
+Heilbronner Strasse 10 \\
+D--10711 Berlin--Wilmersdorf, Germany \\[0.05in]
+e--mail: Koepf@ZIB-Berlin.de and Neun@ZIB-Berlin.de
+\end{center}
+}
+
+\ttindex{FPS}
+
+This package can expand functions of certain type into
+their corresponding Laurent-Puiseux series as a sum of terms of the form
+\begin{displaymath}
+\sum_{k=0}^{\infty} a_{k} (x-x_{0})^{k/n + s}
+\end{displaymath}
+where $s$ is the `shift number', $n$ is the `Puiseux number',
+and $x_0$ is the `point of development'. The following types are
+supported:
+\begin{itemize}
+\item
+{\bf functions of `rational type'}, which are either rational or have a
+rational derivative of some order;
+\item
+{\bf functions of `hypergeometric type'} where $a_{k+m}/a_k$ is a rational
+function for some integer $m$, the `symmetry number';
+\item
+{\bf functions of `exp-like type'} which satisfy a linear homogeneous
+differential equation with constant coefficients.
+\end{itemize}
+
+{\tt FPS(f,x,x0)}\ttindex{FPS} tries to find a formal power
+series expansion for {\tt f} with respect to the variable {\tt x}
+at the point of development {\tt x0}.
+It also works for formal Laurent (negative exponents) and Puiseux series
+(fractional exponents). If the third
+argument is omitted, then {\tt x0:=0} is assumed.
+
+Example: {\tt FPS(asin(x)\verb+^+2,x)} results in
+\begin{verbatim}
+
+         2*k  2*k             2  2
+        x   *2   *factorial(k) *x
+infsum(----------------------------,k,0,infinity)
+        factorial(2*k + 1)*(k + 1)
+\end{verbatim}
+If possible, the output is given using factorials. In some cases, the
+use of the Pochhammer symbol {\tt pochhammer(a,k)}$:=a(a+1)\cdots(a+k-1)$
+is necessary.
+
+{\tt SimpleDE(f,x)} tries to find a homogeneous linear differential
+equation with polynomial coefficients for $f$ with respect to $x$.
+Make sure that $y$ is not a used variable.
+The setting {\tt factor df;} is recommended to receive a nicer output form.
+
+Examples: {\tt SimpleDE(asin(x)\verb+^+2,x)} then results in
+\begin{verbatim}
+            2
+df(y,x,3)*(x  - 1) + 3*df(y,x,2)*x + df(y,x)
+\end{verbatim}
+
+The depth for the search of a differential equation for {\tt f} is
+controlled by the variable {\tt
+fps\verb+_+search\verb+_+depth};\ttindex{fps\_search\_depth} higher
+values for {\tt fps\verb+_+search\verb+_+depth} will increase the
+chance to find the solution, but increases the complexity as well. The
+default value for {\tt fps\verb+_+search\verb+_+depth} is 5.  For {\tt
+FPS(sin(x\verb+^+(1/3)),x)}, or {\tt SimpleDE(sin(x\verb+^+(1/3)),x)}
+{\em e.g.}, a setting {\tt fps\verb+_+search\verb+_+depth:=6} is necessary.
+
+The output of the FPS package can be influenced by the\ttindex{TRACEFPS}
+switch {\tt tracefps}.  Setting {\tt on tracefps} causes various
+prints of intermediate results.
+

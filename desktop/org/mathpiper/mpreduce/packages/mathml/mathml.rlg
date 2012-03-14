@@ -1,0 +1,123 @@
+on mathml;
+
+ % output
+
+sin (x);
+
+
+<math>
+   <apply><sin/>
+      <ci>x</ci>
+   </apply>
+</math>
+
+
+(x + y)^5;
+
+
+<math>
+   <apply><plus/>
+      <apply><power/>
+         <ci>x</ci>
+         <cn type="integer">5</cn>
+      </apply>
+      <apply><times/>
+         <cn type="integer">5</cn>
+         <apply><power/>
+            <ci>x</ci>
+            <cn type="integer">4</cn>
+         </apply>
+         <ci>y</ci>
+      </apply>
+      <apply><times/>
+         <cn type="integer">10</cn>
+         <apply><power/>
+            <ci>x</ci>
+            <cn type="integer">3</cn>
+         </apply>
+         <apply><power/>
+            <ci>y</ci>
+            <cn type="integer">2</cn>
+         </apply>
+      </apply>
+      <apply><times/>
+         <cn type="integer">10</cn>
+         <apply><power/>
+            <ci>x</ci>
+            <cn type="integer">2</cn>
+         </apply>
+         <apply><power/>
+            <ci>y</ci>
+            <cn type="integer">3</cn>
+         </apply>
+      </apply>
+      <apply><times/>
+         <cn type="integer">5</cn>
+         <ci>x</ci>
+         <apply><power/>
+            <ci>y</ci>
+            <cn type="integer">4</cn>
+         </apply>
+      </apply>
+      <apply><power/>
+         <ci>y</ci>
+         <cn type="integer">5</cn>
+      </apply>
+   </apply>
+</math>
+
+
+off mathml;
+
+
+
+
+parseml();
+
+<math> 
+<apply><plus/> 
+<cn>3</cn> 
+<cn>5</cn> 
+</apply> 
+</math>
+
+8
+ 
+
+operator gt;
+
+
+
+ % MathML 1.x form
+parseml();
+
+<math>
+<reln><gt/>
+<ci>x</ci>
+<ci>y</ci>
+</reln>
+</math>
+
+x>y
+
+
+ % MathML 2.x form
+parseml();
+
+<math>
+<apply><gt/>
+<ci>x</ci>
+<ci>y</ci>
+</apply>
+</math>
+
+x>y
+
+
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 5 ms
+real	0m0.552s
+user	0m0.030s
+sys	0m0.077s

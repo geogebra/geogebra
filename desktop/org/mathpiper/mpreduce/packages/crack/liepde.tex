@@ -1,0 +1,260 @@
+\documentclass[12pt]{article}
+%Sets size of page and margins
+\oddsidemargin 1mm  \evensidemargin 1mm
+%\topmargin -25mm %   \headheight 0pt   \headsep 0pt
+\textwidth 16cm
+
+\title{Manual for LIEPDE}
+\author{Thomas Wolf \\                        
+        Department of Mathematics \\
+        Brock University \\
+        St.Catharines \\
+        Ontario, Canada L2S 3A1 \\
+        twolf@brocku.ca}
+
+\begin{document}
+\maketitle
+\section{Purpose}
+The procedure {\tt LIEPDE} computes infinitesimal symmetries
+for a given single/system of differential equation(s) (ODEs or PDEs)
+%\begin{equation}
+%     u^{\alpha}_J = w^{\alpha}(x,u^{\beta},...,u^{\beta}_K,...)  \label{a1}
+%\end{equation}
+\begin{equation}
+H_A = 0.              \label{PDEs}
+\end{equation}
+To obey symmetries, differential equations (\ref{PDEs})
+for unknown functions $u^\alpha$ of independent variables $x^i$
+must be form-invariant under infinitesimal transformations
+\begin{equation}
+\tilde{x}^i = x^i + \varepsilon \xi^i, \;\; \;\;\;
+        \tilde{u}^\alpha = u^\alpha + \varepsilon \eta^\alpha  \label{tran}
+\end{equation}
+of first order in $\varepsilon.$ To transform the equations (\ref{PDEs})
+by (\ref{tran}), derivatives of $u^\alpha$ must be transformed, i.e. the part 
+linear in $\varepsilon$ must be determined. The corresponding formulas are 
+(see e.g. \cite{Olv}, \cite{Step})
+\begin{eqnarray}
+\tilde{u}^\alpha_{j_1\ldots j_k} & = &
+u^\alpha_{j_1\ldots j_k} + \varepsilon
+\eta^\alpha_{j_1\ldots j_k} + O(\varepsilon^2)  \nonumber \\ \vspace{3mm}
+\eta^\alpha_{j_1\ldots j_{k-1}j_k} & = &
+  \frac{D \eta^\alpha_{j_1\ldots j_{k-1}}}{D x^k} - 
+  u^\alpha_{ij_1\ldots j_{k-1}}\frac{D \xi^i}{D x^k} \label{recur}
+\end{eqnarray}
+and the complete symmetry condition then takes the form
+\begin{eqnarray}
+X H_A & = & 0 \;\; \;\pmod{ H_A = 0}  \label{sbed1} \\
+X & = & \xi^i \frac{\partial}{\partial x^i} +
+ \eta^\alpha \frac{\partial}{\partial u^\alpha} +
+ \eta^\alpha_m \frac{\partial}{\partial u^\alpha_m} +
+ \eta^\alpha_{mn} \frac{\partial}{\partial u^\alpha_{mn}} + \ldots +
+ \eta^\alpha_{mn\ldots p} \frac{\partial}{\partial u^\alpha_{mn\ldots p}} ,
+\label{sbed2}
+\end{eqnarray}
+where mod $H_A = 0$ means that the original PDE-system is used to replace
+some partial derivatives of $u^\alpha$ to reduce the number of independent
+variables, because the symmetry condition (\ref{sbed1}) must be 
+fulfilled identically in $x^i, u^\alpha$ and all partial
+derivatives of $u^\alpha.$
+
+For point symmetries $\xi^i, \eta^\alpha$ are functions of $x^j,
+u^\beta$ only. For more general higher order symmetries $\xi^i, \eta^\alpha$
+may depend on derivatives of $u^\beta$. For those symmetries one can
+without loss of generality set $\xi^i=0$ due to a symmetry of the symmetry
+conditions on the manifold of solutions of $H_A=0$
+themselves (e.g.\ $\S$5.1 in \cite{Olv}). The shifted generators
+\[\tilde{\xi^i} = \xi^i + h^i, \; \; \; \; 
+  \tilde{\eta^{\alpha}} = \eta^{\alpha} + h^i u^{\alpha},_i\]
+with arbitrary $h^i=h^i(x^j, u^{\beta},\ldots, u^{\beta}_K)$
+represent generators of the same symmetry. 
+
+\section{Syntax of {\tt LIEPDE}}
+The procedure {\tt LIEPDE} is called through \\
+{\tt LIEPDE({\it problem,symtype,flist,inequ}); } \\
+All parameters are lists. \vspace{6pt} \\
+The first parameter specifies the DEs to be investigated: \\
+{\it problem} has the form \{{\it equations, ulist, xlist}\} where
+\begin{tabbing}
+\hspace{0.5cm}
+ {\it equations } \=  is a list of equations,
+              each has the form {\tt df(ui,..)=...} where \\
+       \> the LHS (left hand side) {\tt df(ui,..)} is selected such that \\
+       \>  - The RHS (right h.s.) of an equations must not include     \\
+       \>$\;\,$ the derivative on the LHS nor a derivative of it.  \\
+       \>  - Neither the LHS nor any derivative of it of any equation \\
+       \>$\;\,$ may occur in any other equation.\\
+       \>  - Each of the unknown functions occurs on the LHS of \\
+       \>$\;\,$ exactly one equation.  \\
+\hspace{0.5cm}
+ {\it ulist} \>  is a list of function names, which can be chosen freely \\
+\hspace{0.5cm}
+ {\it xlist}  \>  is a list of variable names, which can be chosen freely 
+\end{tabbing}
+Equations can be given as a list of single differential expressions and then
+the program will try to bring them into the `solved form' {\tt df(ui,..)=...}
+automatically. If equations are given in the solved form then the above
+conditions are checked and execution is stopped it they are not satisfied.
+An easy way to get the equations in the desired form is to use \\
+\verb+    FIRST SOLVE({+{\it eq1,eq2,}...\verb+},{+{\it one highest
+derivative for each function u}\verb+})+  \\
+(see the example of the Karpman equations in {\tt LIEPDE.TST}). 
+The example of the Burgers equation in {\tt LIEPDE.TST} demonstrates 
+that the number of symmetries for a given maximal order of the infinitesimal
+generators depends on the derivative chosen for the LHS.
+
+The second parameter {\it symtype} of {\tt LIEPDE} is a list $\{\;\}$ that
+specifies the symmetry to be calculated. {\it symtype} can have the following
+values and meanings:
+\begin{tabbing}
+\verb+{"point"}         + \= Point symmetries with $\xi^i=\xi^i(x^j,u^{\beta}),\;
+                           \eta^{\alpha}=\eta^{\alpha}(x^j,u^{\beta})$ are \\
+                          \> determined.\\
+\verb+{"contact"}+ \> Contact symmetries with $\xi^i=0, \;
+                            \eta=\eta(x^j,u,u_k)$ are \\
+\> determined $(u_k = \partial u/\partial x^k)$, which is only applicable if a \\
+                      \> single equation (\ref{PDEs}) with an order $>1$ for a 
+                             single function \\
+                      \> $u$ is to be investigated. (The {\it symtype}
+                             \verb+{"contact"}+ \\
+\> is equivalent to \verb+{"general",1}+ (see below) apart from \\
+\> the additional checks done for \verb+{"contact"}+.)\\
+\verb+{"general"+,{\it order}\verb+}+ \> where {\it order} is an integer $>0$. 
+      Generalized symmetries $\xi^i=0,$ \\
+\> $\eta^{\alpha}=\eta^{\alpha}(x^j,u^{\beta},\ldots,u^{\beta}_K)$ 
+      of a specified order are determined \\
+\> (where $_K$ is a multiple index representing {\it order} many indices.) \\
+\> NOTE: Characteristic functions of generalized symmetries \\
+\> ($= \eta^{\alpha}$ if $\xi^i=0$) are equivalent if they are equal on\\
+\> the solution manifold. Therefore, all dependences of\\
+\> characteristic functions on the substituted derivatives \\
+\> and their derivatives are dropped. For example, if the heat \\
+\> equation is given as $u_t=u_{xx}$ (i.e.\ $u_t$ is substituted by $u_{xx}$) \\
+\> then \verb+{"general",2}+ would not include characteristic \\
+\> functions depending on $u_{tx}$ or $u_{xxx}$. \\
+\> THEREFORE: \\
+\> If you want to find {\it all} symmetries up to a given order then either \\
+\> - avoid using $H_A=0$ to substitute lower order \\
+\> $\;\,$derivatives by expressions involving higher derivatives, or \\
+\> - increase the order specified in {\it symtype}. \\
+\> For an illustration of this effect see the two symmetry \\
+\> determinations of the Burgers equation in the file \\
+\> {\tt LIEPDE.TST}. \\
+\verb+{xi!_+{\it x1}\verb+ =...,..., +  \>  \\ 
+\verb+ eta!_+{\it u1}\verb+=...,...}+  \> It is possible to specify an
+ansatz for the symmetry. Such \\
+\> an ansatz must specify all $\xi^i$ for all independent variables and \\
+\> all $\eta^{\alpha}$ for all dependent variables in terms of differential \\
+\> expressions which may involve unknown functions/constants. \\
+\> The dependences of the unknown functions have to be declared \\
+\> in advance by using the {\tt DEPEND} command. For example, \\
+\> \verb+    DEPEND f, t, x, u$  + \\
+\> specifies $f$ to be a function of $t,x,u$. If one wants to have $f$ as \\
+\> a function of derivatives of $u(t,x)$, say $f$ depending on $u_{txx}$, \\
+\> then one \underline{{\it cannot}} write \\
+\> \verb+    DEPEND f, df(u,t,x,2)$ + \\ 
+\> but instead must write \\
+\> \verb+    DEPEND f, u!`1!`2!`2$ + \\
+\> assuming {\it xlist} has been specified as \verb+ {t,x}+. 
+   Because $t$ is the \\
+\> first variable and $x$ is the second variable in {\it xlist} and $u$ is \\
+\> differentiated oncs wrt.\ $t$ and twice wrt.\ $x$ we therefore \\
+\> use \verb+ u!`1!`2!`2+. The character {\tt !} is the escape character \\
+\> to allow special characters like ` to occur in an identifier. \\
+\> \hspace{4mm} For generalized symmetries one usually sets all $\xi^i=0$.\\
+\> Then the $\eta^{\alpha}$ are equal to the characteristic functions.
+\end{tabbing}
+\noindent The third parameter {\it flist} of {\tt LIEPDE} is a list $\{\;\}$ 
+that includes
+\begin{itemize}
+\item all parameters and functions in the equations which are to
+      be determined such that symmetries exist (if any such 
+      parameters/functions are 
+      specified in {\it flist} then the symmetry conditions 
+      formulated in {\tt LIEPDE}
+      become non-linear conditions which may be much harder for
+      {\tt CRACK} to solve with many cases and subcases to be considered.)
+\item all unknown functions and constants in the ansatz 
+      \verb+xi!_..+ and \verb+eta!_..+
+      if that has been specified in {\it symtype}.
+\end{itemize}
+\noindent The fourth parameter {\it inequ} of {\tt LIEPDE} is a list $\{\;\}$ 
+that includes all non-vanishing expressions which represent
+inequalities for the functions in flist.
+
+The procedure {\tt LIEPDE} returns a list containing a list of 
+unsolved conditions if any, a list containing the general solution for 
+$\xi^i, \eta^{\alpha}$ and a list of constants and functions appearing 
+in the general solution or in the remaining unsolved conditions.
+
+\section{Flags, parameters}
+Two flags specify whether symmetry conditions are formulated 
+and solved in stages or in one go. 
+
+If the equation to be investigated is of higher than first order 
+and point symmetries are investigated then {\tt LIEPDE} allows
+a set of preliminary conditions 
+to be formulated and solved before formulating and
+solving the full set of conditions for this equation (more 
+details in \cite{Step},
+\cite{Wo}). This successive execution is enabled by setting \\
+\verb+  LISP(PRELIM_:=t)$+. \\
+The default value is \\ 
+\verb+  LISP(PRELIM_:=NIL)$+. \\
+If the preliminary conditions are easy to solve completely then 
+it is advantageous
+to formulate and solve them first, otherwise the formulation of 
+the complete more
+overdetermined condition is better. Examples for both cases are 
+given together with comments in {\tt LIEPDE.TST}.
+
+If symmetries of a system of equations are to be investigated 
+then with the setting \\
+\verb+LISP(INDIVIDUAL_:=t)$+ conditions for the equations are formulated 
+and solved individually which provides a speed up if symmetry conditions are
+very overdetermined. The default value is \\ 
+\verb+  LISP(INDIVIDUAL_:=NIL)$+. \\
+By default {\tt LIEPDE} computes $\xi$ and $\eta$ for each
+symmetry. If a prolongation of the symmetry vector shall be calculated
+then the order of this prolongation can be specified by the setting 
+\verb+LISP(PROLONG_ORDER:= ...)$+. \\
+Flags that control the solution of the symmetry conditions by {\tt CRACK}
+are displayed with \verb+CRACKHELP()$+. Among them are: \\
+\verb+  LISP (PRINT_:= NIL/0/1/ ...)$+ \\
+\verb+PRINT_=NIL+ suppresses all CRACK output, for \verb+PRINT_=n+ 
+($n$ a positive integer) 
+{\tt CRACK} prints only equations with at most $n$ factors in their terms, and 
+%\verb+  LISP (LOGOPRINT_:=t/nil)$+ \\
+%to print/not print a logo at the start of {\tt LIEPDE} \\
+\verb+ OFF BATCH_MODE$+ 
+enables the interactive solution of the system of conditions with {\tt CRACK}.
+
+\section{Requirements}
+
+{\tt REDUCE 3.6} and 
+the files {\tt CRACK.RED, LIEPDE.RED} and 
+all files {\tt CR*.RED} which are read in from {\tt CRACK.RED}. \\
+\verb+    IN "crack.red","liepde.red"$+ \\
+(and appropriate paths) or compilation with \\
+\verb+    FASLOUT "crack"$+ \\
+\verb+    IN "crack.red"$+ \\
+\verb+    FASLEND$+ \\
+\verb+    FASLOUT "liepde"$+ \\
+\verb+    IN "liepde.red"$+ \\
+\verb+    FASLEND$+ \\
+\verb+    BYE$+ \\
+and loading afterwards with \verb+ LOAD_PACKAGE crack,liepde$.+
+
+\begin{thebibliography}{99}
+\bibitem{Olv} P.J. Olver, Applications of Lie Groups to Differential
+      Equations, Springer-Verlag, New York (1986).
+\bibitem{Step} H. Stephani, Differential Equations, Their solution using
+      symmetries, Ed. M.A.H. MacCallum, Cambridge Univ. Press (1989).
+\bibitem{Wo} T. Wolf, An efficiency improved program LIEPDE for 
+          determining Lie-symmetries
+          of PDEs, Proceedings of ``Modern Group Analysis: advanced analytical 
+          and computational methods in mathematical physics'', Acireale, Italy,
+          October 1992, Kluwer Academic Publishers, pP 377-385, 1993.
+\end{thebibliography}
+
+\end{document}

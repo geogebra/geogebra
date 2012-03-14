@@ -1,0 +1,412 @@
+\documentstyle[11pt,reduce]{article}
+\title{{\bf $Z$-Transform Package for {\tt REDUCE}}}
+\author{Wolfram Koepf \\ Lisa Temme \\ email: {\tt Koepf@zib.de}}
+\date{April 1995 : ZIB Berlin}
+\begin{document}
+\maketitle
+\section{$Z$-Transform}
+
+  The $Z$-Transform of a sequence $\{f_n\}$ is the discrete analogue
+  of the Laplace Transform, and
+  \[{\cal Z}\{f_n\} = F(z) = \sum^\infty_{n=0} f_nz^{-n}\;.\] \\
+  This series converges in the region outside the circle 
+  $|z|=|z_0|= \limsup\limits_{n \rightarrow \infty} \sqrt[n]{|f_n|}\;.$
+
+
+\begin{tabbing}
+
+{\bf SYNTAX:}\ \ {\tt ztrans($f_n$, n,  z)}\ \ \ \ \ \ \ \
+  \=where $f_n$ is an expression, and $n$,$z$ \\
+  \> are identifiers.\\
+\end{tabbing}
+
+
+\section{Inverse $Z$-Transform}
+  The calculation of the Laurent coefficients of a regular function
+  results in the following inverse formula for the $Z$-Transform:
+  \\
+  If $F(z)$ is a regular function in the region $|z|> \rho$ then
+  $\exists$ a sequence \{$f_n$\} with ${\cal Z} \{f_n\}=F(z)$
+  given by
+  \[f_n = \frac{1}{2 \pi i}\oint F(z) z^{n-1} dz\]
+
+
+\begin{tabbing}
+
+{\bf SYNTAX:}\ \ {\tt invztrans($F(z)$, z,  n)}\ \ \ \ \ \ \ \
+  \=where $F(z)$ is an expression, \\
+  \> and $z$,$n$ are identifiers.
+\end{tabbing}
+
+
+\section{Input for the $Z$-Transform}
+\begin{tabbing}
+  This pack\=age can compute the \= $Z$-Transforms of the \=following 
+  list of $f_n$, and \\ certain combinations thereof.\\ \\
+
+\>$1$                             
+\>$e^{\alpha n}$                  
+\>$\frac{1}{(n+k)}$               \\ \\
+\>$\frac{1}{n!}$                  
+\>$\frac{1}{(2n)!}$               
+\>$\frac{1}{(2n+1)!}$             \\ \\
+\>$\frac{\sin(\beta n)}{n!}$      
+\>$\sin(\alpha n+\phi)$           
+\>$e^{\alpha n} \sin(\beta n)$    \\ \\
+\>$\frac{\cos(\beta n)}{n!}$      
+\>$\cos(\alpha n+\phi)$           
+\>$e^{\alpha n} \cos(\beta n)$    \\ \\
+\>$\frac{\sin(\beta (n+1))}{n+1}$ 
+\>$\sinh(\alpha n+\phi)$          
+\>$\frac{\cos(\beta (n+1))}{n+1}$ \\ \\
+\>$\cosh(\alpha n+\phi)$          
+\>${n+k \choose m}$\\
+\end{tabbing}
+
+\begin{tabbing}
+\underline {{\bf Other Combinations}}\= \\ \\
+
+\underline {Linearity}
+  \>${\cal Z} \{a f_n+b g_n \} = a{\cal Z} \{f_n\}+b{\cal Z}\{g_n\}$
+  \\ \\
+\underline {Multiplication by $n$}
+  \>${\cal Z} \{n^k \cdot f_n\} = -z \frac{d}{dz} \left({\cal Z}\{n^{k-1} \cdot f_n,n,z\} \right)$
+  \\ \\
+\underline {Multiplication by $\lambda^n$}
+  \>${\cal Z} \{\lambda^n \cdot f_n\}=F \left(\frac{z}{\lambda}\right)$
+  \\ \\
+\underline {Shift Equation}
+  \>${\cal Z} \{f_{n+k}\} = 
+           z^k \left(F(z) - \sum\limits^{k-1}_{j=0} f_j z^{-j}\right)$
+  \\ \\
+\underline {Symbolic Sums}
+
+  \> ${\cal Z} \left\{ \sum\limits_{k=0}^{n} f_k \right\} =
+                       \frac{z}{z-1} \cdot {\cal Z} \{f_n\}$ \\ \\
+
+  \>${\cal Z} \left\{ \sum\limits_{k=p}^{n+q} f_k \right\}$
+  \ \ \ combination of the above \\ \\
+  where $k$,$\lambda \in$ {\bf N}$- \{0\}$; and $a$,$b$ are variables
+  or fractions; and $p$,$q \in$ {\bf Z} or \\ 
+  are functions of $n$; and $\alpha$, $\beta$ \& $\phi$ are angles 
+  in radians.
+\end{tabbing}
+
+\section{Input for the Inverse $Z$-Transform}
+\begin{tabbing}
+  This \= package can compute the Inverse \= Z-Transforms of any 
+  rational function, \\ whose denominator can be factored over 
+  ${\bf Q}$, in addition to the following list \\ of $F(z)$.\\ \\
+
+\> $\sin \left(\frac{\sin (\beta)}{z} \ \right) 
+    e^{\left(\frac{\cos (\beta)}{z} \ \right)}$
+\> $\cos \left(\frac{\sin (\beta)}{z} \ \right) 
+    e^{\left(\frac{\cos (\beta)}{z} \ \right)}$ \\ \\
+\> $\sqrt{\frac{z}{A}} \sin \left( \sqrt{\frac{z}{A}} \ \right)$
+\> $\cos \left( \sqrt{\frac{z}{A}} \ \right)$ \\ \\
+\> $\sqrt{\frac{z}{A}} \sinh \left( \sqrt{\frac{z}{A}} \ \right)$
+\> $\cosh \left( \sqrt{\frac{z}{A}} \ \right)$ \\ \\
+\> $z \ \log \left(\frac{z}{\sqrt{z^2-A z+B}} \ \right)$
+\> $z \ \log \left(\frac{\sqrt{z^2+A z+B}}{z} \ \right)$ \\ \\
+\> $\arctan \left(\frac{\sin (\beta)}{z+\cos (\beta)} \ \right)$
+\\
+\end{tabbing}
+
+  where $k$,$\lambda \in$ {\bf N}$ -  \{0\}$ and $A$,$B$ are fractions
+  or variables ($B>0$) and $\alpha$,$\beta$, \&  $\phi$ are angles 
+  in radians.
+
+\section{Application of the $Z$-Transform}
+\underline {{\bf Solution of difference equations}}\\
+
+  In the same way that a Laplace Transform can be used to
+  solve differential equations, so $Z$-Transforms can be used
+  to solve difference equations.\\ \\
+  Given a linear difference equation of $k$-th order
+\begin{equation}
+  f_{n+k} + a_1 f_{n+k-1}+ \ldots + a_k f_n = g_n
+\label{eq:1}
+\end{equation}
+
+  with initial conditions
+  $f_0 = h_0$, $f_1 = h_1$, $\ldots$, $f_{k-1} = h_{k-1}$ (where $h_j$
+  are given), it is possible to solve it in the following way.
+   If the coefficients $a_1, \ldots , a_k$ are constants, then the 
+  $Z$-Transform of (\ref{eq:1}) can be calculated using the shift
+  equation, and results in a solvable linear equation for 
+  ${\cal Z} \{f_n\}$. Application of the Inverse $Z$-Transform
+  then results in the solution of \ (\ref{eq:1}).\\
+  If the coefficients $a_1, \ldots , a_k$ are polynomials in $n$ then
+  the $Z$-Transform of (\ref{eq:1}) constitutes a differential
+  equation for ${\cal Z} \{f_n\}$. If this differential equation can
+  be solved then the Inverse $Z$-Transform once again yields the
+  solution of (\ref{eq:1}).
+  Some examples of these methods of solution can be found in
+  $\S$\ref{sec:Examples}.
+
+\section{EXAMPLES}
+\label{sec:Examples}
+\underline {{\bf Here are some examples for the $Z$-Transform}}\\
+\begin{verbatim}
+1: ztrans((-1)^n*n^2,n,z);
+
+    z*( - z + 1)
+---------------------
+  3      2
+ z  + 3*z  + 3*z + 1
+
+2: ztrans(cos(n*omega*t),n,z);
+
+   z*(cos(omega*t) - z)
+---------------------------
+                     2
+ 2*cos(omega*t)*z - z  - 1
+
+3: ztrans(cos(b*(n+2))/(n+2),n,z);
+
+                                 z
+z*( - cos(b) + log(------------------------------)*z)
+                                          2
+                    sqrt( - 2*cos(b)*z + z  + 1)
+
+4: ztrans(n*cos(b*n)/factorial(n),n,z);
+
+  cos(b)/z       sin(b)                 sin(b)
+ e        *(cos(--------)*cos(b) - sin(--------)*sin(b))
+                   z                      z
+---------------------------------------------------------
+                            z
+5: ztrans(sum(1/factorial(k),k,0,n),n,z);
+
+  1/z
+ e   *z
+--------
+ z - 1
+
+6: operator f$
+
+7: ztrans((1+n)^2*f(n),n,z);
+
+                          2
+df(ztrans(f(n),n,z),z,2)*z  - df(ztrans(f(n),n,z),z)*z 
++ ztrans(f(n),n,z)
+
+\end{verbatim}
+
+\underline {{\bf Here are some examples for the Inverse $Z$-Transform}}
+\begin{verbatim}
+
+8: invztrans((z^2-2*z)/(z^2-4*z+1),z,n);
+
+              n       n                n
+ (sqrt(3) - 2) *( - 1)  + (sqrt(3) + 2)
+-----------------------------------------
+                    2
+
+9: invztrans(z/((z-a)*(z-b)),z,n);
+
+  n    n
+ a  - b
+---------
+  a - b
+
+10: invztrans(z/((z-a)*(z-b)*(z-c)),z,n);
+
+  n      n      n      n      n      n
+ a *b - a *c - b *a + b *c + c *a - c *b
+-----------------------------------------
+  2      2        2      2    2        2
+ a *b - a *c - a*b  + a*c  + b *c - b*c
+
+11: invztrans(z*log(z/(z-a)),z,n);
+
+  n
+ a *a
+-------
+ n + 1
+
+12: invztrans(e^(1/(a*z)),z,n);
+
+        1
+-----------------
+  n
+ a *factorial(n)
+
+13: invztrans(z*(z-cosh(a))/(z^2-2*z*cosh(a)+1),z,n);
+
+cosh(a*n)
+
+
+\end{verbatim}
+
+\underline {{\bf Examples: Solutions of Difference Equations}}\\ \\
+\begin{tabbing}
+{\bf I} \ \ \ \ \ \ \= 
+
+  (See \cite{BS}, p.\ 651, Example 1).\\
+  \> Consider the \= homogeneous linear difference equation\\ \\
+  \>\>  $f_{n+5} - 2 f_{n+3} + 2 f_{n+2} - 3 f_{n+1} + 2 f_{n}=0$\\ \\
+
+  \> with \ initial conditions \ $f_0=0$, $f_1=0$, $f_2=9$, $f_3=-2$,
+     $f_4=23$. \  The\\
+  \> $Z$-Transform of the left hand side can be written as
+     $F(z)=P(z)/Q(z)$ \\
+  \> where \ $P(z)=9z^3-2z^2+5z$ \ 
+     and \ $Q(z)=z^5-2z^3+2z^2-3z+2$ \ $=$\\ 
+  \> $(z-1)^2(z+2)(z^2+1)$, \ which can be inverted to give\\ \\
+
+ \>\>  $f_n = 2n + (-2)^n - \cos \frac{\pi}{2}n\;.$ \\ \\
+
+  \> The following REDUCE session shows how the present package can
+\\ \> be used to solve the above problem.
+
+\end{tabbing}
+\begin{verbatim}
+14: operator f$ f(0):=0$ f(1):=0$ f(2):=9$ f(3):=-2$ f(4):=23$
+
+
+20: equation:=ztrans(f(n+5)-2*f(n+3)+2*f(n+2)-3*f(n+1)+2*f(n),n,z);
+
+                              5                       3
+equation := ztrans(f(n),n,z)*z  - 2*ztrans(f(n),n,z)*z
+
+                                   2
+             + 2*ztrans(f(n),n,z)*z  - 3*ztrans(f(n),n,z)*z
+
+                                       3      2
+             + 2*ztrans(f(n),n,z) - 9*z  + 2*z  - 5*z
+
+
+21: ztransresult:=solve(equation,ztrans(f(n),n,z));
+
+                                             2
+                                       z*(9*z  - 2*z + 5)
+ztransresult := {ztrans(f(n),n,z)=----------------------------}
+                                    5      3      2
+                                   z  - 2*z  + 2*z  - 3*z + 2
+
+22: result:=invztrans(part(first(ztransresult),2),z,n);
+
+                   n    n       n    n
+           2*( - 2)  - i *( - 1)  - i  + 4*n
+result := -----------------------------------
+                          2
+
+\end{verbatim}
+
+\begin{tabbing}
+\\ \\
+{\bf II} \ \ \ \ \ \ \= 
+
+  (See \cite{BS}, p.\ 651, Example 2).\\
+  \>    Consider the \= inhom\=ogeneous difference equation:\\ \\
+  \>\>  $f_{n+2} - 4 f_{n+1} + 3 f_{n} = 1$\\ \\
+
+  \> with initial conditions $f_0=0$, $f_1=1$. Giving  \\ \\
+\>\> $F(z)$\>$ = {\cal Z}\{1\} \left( \frac{1}{z^2-4z+3} + \frac{z}{z^2-4z+3} \right)$\\ \\
+\>\>\>       $ = \frac{z}{z-1} \left( \frac{1}{z^2-4z+3} + \frac{z}{z^2-4z+3} \right)$.
+\\ \\
+  \> The Inverse $Z$-Transform results in the solution\\ \\
+
+
+\>\>
+$f_n = \frac{1}{2} \left( \frac{3^{n+1}-1}{2}-(n+1) \right)$.\\ \\
+
+  \> The following REDUCE session shows how the present package can\\
+  \> be used to solve the above problem.
+
+\end{tabbing}
+\begin{verbatim}
+
+23: clear(f)$ operator f$ f(0):=0$ f(1):=1$
+
+
+27: equation:=ztrans(f(n+2)-4*f(n+1)+3*f(n)-1,n,z);
+
+                               3                       2
+equation := (ztrans(f(n),n,z)*z  - 5*ztrans(f(n),n,z)*z  
+
+                                                           2
+    + 7*ztrans(f(n),n,z)*z - 3*ztrans(f(n),n,z) - z )/(z - 1)
+
+28: ztransresult:=solve(equation,ztrans(f(n),n,z));
+
+                                      2
+                                     z
+result := {ztrans(f(n),n,z)=---------------------}
+                              3      2
+                             z  - 5*z  + 7*z - 3
+
+29: result:=invztrans(part(first(ztransresult),2),z,n);
+
+              n
+           3*3  - 2*n - 3
+result := ----------------
+                 4
+\end{verbatim}
+
+\begin{tabbing}
+\\ \\
+{\bf III} \ \ \ \ \ \ \= 
+
+    Consider the \=following difference equation, which has a
+    differential\\
+ \> equation for ${\cal Z}\{f_n\}$.\\ \\
+
+ \>\> $(n+1) \cdot f_{n+1}-f_n=0$\\ \\
+
+ \> with initial conditions $f_0=1$, $f_1=1$. It can be solved in REDUCE\\
+ \>  using the present package in the following way.\\
+
+\end{tabbing}
+\begin{verbatim}
+30: clear(f)$ operator f$ f(0):=1$ f(1):=1$
+
+
+34: equation:=ztrans((n+1)*f(n+1)-f(n),n,z);
+
+                                        2
+equation :=  - (df(ztrans(f(n),n,z),z)*z  + ztrans(f(n),n,z))
+
+35: operator tmp;
+
+36: equation:=sub(ztrans(f(n),n,z)=tmp(z),equation);
+
+                              2
+equation :=  - (df(tmp(z),z)*z  + tmp(z))
+
+37: load(odesolve);
+
+38: ztransresult:=odesolve(equation,tmp(z),z);
+
+                         1/z
+ztransresult := {tmp(z)=e   *arbconst(1)}
+
+39: preresult:=invztrans(part(first(ztransresult),2),z,n);
+
+              arbconst(1)
+preresult := --------------
+              factorial(n)
+
+40: solve({sub(n=0,preresult)=f(0),sub(n=1,preresult)=f(1)},
+arbconst(1));
+
+{arbconst(1)=1}
+
+41: result:=preresult where ws;
+
+                1
+result := --------------
+           factorial(n)
+
+\end{verbatim}
+
+\begin{thebibliography}{9}
+\bibitem{BS} Bronstein, I.N. and Semedjajew, K.A.,
+{\it Taschenbuch der Mathematik},
+Verlag Harri Deutsch, Thun und Frankfurt(Main),
+ 1981.\\ISBN 3 87144 492 8.
+\end{thebibliography}
+
+\end{document}
+

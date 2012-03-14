@@ -1,0 +1,225 @@
+% Test only multipliation:
+easy1 := (x1+1*x2)*(x1-1*x2);
+
+
+           2     2
+easy1 := x1  - x2
+
+easy2 := (a()*partial(x1)+b())*(c()*partial(x1)+d());
+
+
+                              2
+easy2 := (a()*c())*partial(x1)
+
+ + (a()*d() + a()*diff(c(),x1,1) + b()*c())*partial(x1)
+
+ + (a()*diff(d(),x1,1) + b()*d())
+
+
+% Domain for the next factorizations:
+lpdoset lpdoweyl(1,x1,x2);
+
+
+{-1}
+
+
+% Not really binomial but caused problems at some point:
+b3 := (a-partial(x1))*(a+partial(x1));
+
+
+                    2    2
+b3 :=  - partial(x1)  + a
+
+lpdofactorize b3;
+
+
+                 2
+{{partial(x1) + a , - partial(x1) + abs(a)}}
+
+
+% Differential binomial formulas:
+bin1 := (a()+partial(x1))*(a()+partial(x1));
+
+
+                   2                                                           2
+bin1 := partial(x1)  + (2*a_00_ + 2*a_01_*x2 + 2*a_10_*x1)*partial(x1) + (a_00_
+
+                                                 2   2
+    + 2*a_00_*a_01_*x2 + 2*a_00_*a_10_*x1 + a_01_ *x2  + 2*a_01_*a_10_*x1*x2
+
+           2   2
+    + a_10_ *x1  + a_10_)
+
+lpdofactorize bin1;
+
+
+{{partial(x1) + (a_00_ + a_01_*x2 + a_10_*x1),partial(x1)
+
+   + (a_00_ + a_01_*x2 + a_10_*x1)}}
+
+bin2 := (a()-partial(x1))*(a()-partial(x1));
+
+
+                   2
+bin2 := partial(x1)  + ( - 2*a_00_ - 2*a_01_*x2 - 2*a_10_*x1)*partial(x1) + (
+
+        2                                              2   2
+   a_00_  + 2*a_00_*a_01_*x2 + 2*a_00_*a_10_*x1 + a_01_ *x2
+
+                                 2   2
+    + 2*a_01_*a_10_*x1*x2 + a_10_ *x1  - a_10_)
+
+lpdofactorize bin2;
+
+
+{{partial(x1) + ( - a_00_ - a_01_*x2 - a_10_*x1),
+
+  partial(x1) + ( - a_00_ - a_01_*x2 - a_10_*x1)}}
+
+bin3 := (a()-partial(x1))*(a()+partial(x1));
+
+
+                      2         2
+bin3 :=  - partial(x1)  + (a_00_  + 2*a_00_*a_01_*x2 + 2*a_00_*a_10_*x1
+
+           2   2                              2   2
+    + a_01_ *x2  + 2*a_01_*a_10_*x1*x2 + a_10_ *x1  - a_10_)
+
+lpdofactorize bin3;
+
+
+{{partial(x1) + ( - a_00_ - a_01_*x2 - a_10_*x1),
+
+   - partial(x1) + ( - a_00_ - a_01_*x2 - a_10_*x1)}}
+
+
+% Beals-Kartashova 2005, Section 5.3, special case
+bkf := (partial(x1)+partial(x2)+(a10-a01)/2) *
+   (partial(x1)-partial(x2)+(a10+a01)/2);
+
+
+                  2              2
+bkf := partial(x1)  - partial(x2)  + a10*partial(x1) + a01*partial(x2)
+
+          2      2
+     - a01  + a10
+ + ----------------
+          4
+
+lpdofactorize bkf;
+
+
+                                - a01 + a10
+{{partial(x1) + partial(x2) + --------------,partial(x1) - partial(x2)
+                                    2
+
+      a01 + a10
+   + -----------}}
+          2
+
+
+% Ad hoc example:
+sth := (partial(x1)+partial(x2)+(a10+a01)) *
+   (partial(x1)-partial(x2)+(a10+a01));
+
+
+                  2              2
+sth := partial(x1)  - partial(x2)  + (2*a01 + 2*a10)*partial(x1)
+
+       2                  2
+ + (a01  + 2*a01*a10 + a10 )
+
+lpdofactorize sth;
+
+
+{{partial(x1) + partial(x2) + (a01 + a10),partial(x1) - partial(x2)
+
+   + (a01 + a10)}}
+
+
+% Blumberg 1912:
+p := partial(x1)+x1*partial(x2);
+
+
+p := partial(x1) + x1*partial(x2)
+
+q := partial(x1)+1;
+
+
+q := partial(x1) + 1
+
+r := partial(x1)^2+x1*partial(x1)*partial(x2)+partial(x1)+
+   (2+x1)*partial(x2);
+
+
+r := 
+
+           2
+partial(x1)  + x1*partial(x1)*partial(x2) + partial(x1) + (x1 + 2)*partial(x2)
+
+d := partial(x1)^3+x1*partial(x1)^2*partial(x2)+2*partial(x1)^2+
+   2*(x1+1)*partial(x1)*partial(x2)+(x1+2)*partial(x2)+partial(x1);
+
+
+                3                 2                            2
+d := partial(x1)  + x1*partial(x1) *partial(x2) + 2*partial(x1)
+
+ + (2*x1 + 2)*partial(x1)*partial(x2) + partial(x1) + (x1 + 2)*partial(x2)
+
+d - q*q*p;
+
+
+0
+
+d - r*q;
+
+
+0
+
+lpdofactorize(d,a()*partial(x1)+b());
+
+
+                             2
+{{partial(x1) + 1,partial(x1)  + x1*partial(x1)*partial(x2) + partial(x1)
+
+   + (x1 + 1)*partial(x2)}}
+
+
+% Approximate factorisations:
+
+% Blumberg 1912:
+lpdofactorizex(r,-1<x1<1 and -1<x2<1,q,p);
+
+
+{{epsilon - 1 >= 0,{partial(x1) + 1,partial(x1)}}}
+
+
+sol1 := lpdofactorizex(r,-1<x1<1 and -1<x2<1,q,partial(x1)+a()*partial(x2),1);
+
+
+sol1 := {{true,{partial(x1) + 1,partial(x1) + (2*x1)*partial(x2)}}}
+
+r - first second first sol1 * second second first sol1;
+
+
+ - x1*partial(x1)*partial(x2) - x1*partial(x2)
+
+
+sol2 := lpdofactorizex(r,-2<x1<2 and -2<x2<2,q,partial(x1)+a()*partial(x2),1);
+
+
+sol2 := {{true,{partial(x1) + 1,partial(x1) + x1*partial(x2)}}}
+
+r - first second first sol2 * second second first sol2;
+
+
+partial(x2)
+
+
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 3392 ms  plus GC time: 64 ms
+real	0m4.119s
+user	0m0.092s
+sys	0m0.107s

@@ -1,0 +1,13 @@
+\begin{Package}{EXCALC}
+\index{exterior calculus}\index{differential calculus}
+\index{differential form}
+Author: Eberhard Schruefer\\
+
+The \name{excalc} package is designed for easy use by all who are familiar
+with the calculus of Modern Differential Geometry.  The program is currently
+able to handle scalar-valued exterior forms, vectors and operations between
+them, as well as non-scalar valued forms (indexed forms).  It is thus an ideal
+tool for studying differential equations, doing calculations in general
+relativity and field theories, or doing simple things such as calculating the
+Laplacian of a tensor field for an arbitrary given frame. 
+\end{Package}

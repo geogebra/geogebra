@@ -1,0 +1,78 @@
+\documentstyle[12pt]{article}
+\begin{document}
+\begin{center} {\Large INEQ} \end{center}
+
+\begin{center} Herbert Melenk \\ Konrad-Zuse-Zentrum fuer
+Informationstechnik \\
+Takustra\"se 7 \\ 
+D14195 Berlin -- Dahlem\\ Germany \\ 
+melenk@zib.de \end{center}
+
+This package supports the operator {\bf ineq\_solve} that 
+tries to solves single inequalities and sets of coupled inequalities.
+The following types of systems are supported
+\footnote{For linear optimization problems please use the operator
+{\bf simplex} of the {\bf linalg} package}:
+\begin{itemize}
+\item only numeric coefficients (no parametric system),
+\item a linear system of mixed equations and $<=$ -- $>=$ 
+     inequalities, applying the method of Fourier and Motzkin
+     \footnote{described by G.B. Dantzig in {\em Linear Programming 
+      and Extensions.}},
+\item a univariate inequality with $<=$, $>=$, $>$ or $<$ operator
+     and polynomial or rational left--hand and right--hand sides,
+     or a system of such inequalities with only one variable.
+\end{itemize}
+
+Syntax:
+\begin{center}
+{\tt INEQ\_SOLVE($<$expr$>$ [,$<$vl$>$])}
+\end{center}
+where $<$expr$>$ is an inequality or a list of coupled inequalities
+and equations, and the optional argument $<$vl$>$ is a single
+variable (kernel) or a list of variables (kernels). If not
+specified, they are extracted automatically from $<$expr$>$.
+For multivariate input an explicit variable list specifies the
+elimination sequence: the last member is the most specific one.
+
+An error message occurs if the input cannot be processed by the
+currently implemented algorithms.
+
+The result is a list. It is empty if the system has no feasible solution.
+Otherwise the result presents the admissible ranges as set
+of equations where each variable is equated to 
+one expression or to an interval. 
+The most specific variable is the first one in the result list and
+each form contains only preceding variables (resolved form).
+The interval limits can be formal {\bf max} or {\bf min} expressions.
+Algebraic numbers are encoded as rounded number approximations.
+
+\noindent
+{\bf Examples}:
+
+\begin{verbatim}
+ineq_solve({(2*x^2+x-1)/(x-1) >=  (x+1/2)^2, x>0});
+
+{x=(0 .. 0.326583),x=(1 .. 2.56777)}
+
+ reg:=
+ {a + b - c>=0, a - b + c>=0, - a + b + c>=0, 0>=0, 2>=0,
+  2*c - 2>=0, a - b + c>=0, a + b - c>=0, - a + b + c - 2>=0,
+  2>=0, 0>=0, 2*b - 2>=0, k + 1>=0, - a - b - c + k>=0,
+   - a - b - c + k + 2>=0, - 2*b + k>=0,
+   - 2*c + k>=0, a + b + c - k>=0,
+  2*b + 2*c - k - 2>=0, a + b + c - k>=0}$
+
+ineq_solve (reg,{k,a,b,c});
+
+{c=(1 .. infinity),
+
+ b=(1 .. infinity),
+
+ a=(max( - b + c,b - c) .. b + c - 2),
+
+ k=a + b + c}
+\end{verbatim}
+
+\end{document}
+

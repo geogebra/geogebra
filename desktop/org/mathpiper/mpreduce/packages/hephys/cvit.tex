@@ -1,0 +1,421 @@
+\documentstyle[11pt,reduce]{article}
+\title{CVIT - Program for fast calculation of Dirac's $\gamma$-matrices
+traces}
+\date{(Version: 1.2. Release: March, 11, 1990)}
+\author{V. Ilyin, A. Kryukov, A. Rodionov and A. Taranov \\
+Institute for Nuclear Physics \\
+Moscow State University  \\
+Moscow, 119899 USSR  \\
+Phone 939-58-92  \\
+Telex 411483 MGU SU  \\
+Fax (011)7095-939-01-26}
+
+\begin{document}
+\maketitle
+\section*{Abstract}
+
+In modern high energy physics the calculation of Feynman diagrams are
+still very important. One of the difficulties of these calculations
+are trace calculations. So the calculation of traces of Dirac's
+$\gamma$-matrices were one of first task of computer algebra systems.
+All available algorithms are based on the fact that gamma-matrices
+constitute a basis of a Clifford algebra:
+\begin{verbatim}
+           {Gm,Gn} = 2gmn.
+\end{verbatim}
+
+We present the implementation of an alternative algorithm based on
+treating of gamma-matrices as 3-j symbols (details may be found in
+[1,2]).
+
+The program consists of 5 modules described below.
+
+\newpage
+\begin{verbatim}
+
+                    MODULES CROSS REFERENCES
+   +--------+
+   | REDUCE |
+   |________|                  |ISIMP1
+    ISIMP2|         +-----------------------+
+          +--->-----| RED_TO_CVIT_INTERFACE |
+                    |_______________________|
+                 CALC_SPUR|          |REPLACE_BY_VECTOR
+                          |          |REPLACE_BY_VECTORP
+                          |          |GAMMA5P
+                          ^          V
+                         +--------------+
+                         | CVITMAPPING  |
+                         |______________|
+                                ^
+                                |PRE-CALC-MAP
+                                |CALC_MAP_TAR
+                                |CALC_DENTAR
+                                |
+                         +-------------+
+                         | INTERFIERZ  |
+                         |_____________|
+                            |         |MK-NUMR
+                            |         |STRAND-ALG-TOP
+                            |         ^
+               MAP-TO-STRAND|    +------------+
+                   INCIDENT1|    | EVAL-MAPS  |
+                            |    |____________|
+                            ^               |DELETEZ1
+                            |               |CONTRACT-STRAND
+                  +----------------+        |COLOR-STRAND
+                  | MAP-TO-STRAND  |---->---+
+                  |________________|
+
+
+      Requires of REDUCE version: 3.2, 3.3.
+
+\end{verbatim}
+
+
+\section*{Module RED\_TO\_CVIT\_INTERFACE}
+
+\begin{center}
+Author: A.P.Kryukov \\
+Purpose:interface REDUCE and CVIT package
+\end{center}
+
+RED\_TO\_CVIT\_INTERFACE module is intended for connection of REDUCE
+with main module of CVIT package. The main idea is to preserve
+standard REDUCE syntax for high energy calculations.  For realization
+of this we redefine {\ SYMBOLIC PROCEDURE ISIMP1} from HEPhys module of
+REDUCE system.
+
+After loading CVIT package user may use switch CVIT which is {\tt ON} by
+default.  If switch CVIT is {\tt OFF} then calculations of Diracs matrices
+traces are performed using standard REDUCE facilities. If CVIT switch
+is {\tt ON} then CVIT package will be active.
+
+{\tt RED\_TO\_CVIT\_INTERFACE} module performs some primitive simplification
+and control input data independently.  For example it remove $G_mG_m$,
+check parity of the number of Dirac matrices in each trace {\em etc}.
+There is one principal restriction concerning G5-matrix. There are no
+closed form for trace in non-integer dimension case when trace include
+G5-matrix.  The next restriction is that if the space-time dimension
+is integer then it must be even (2,4,6,...).  If these and other
+restrictions are violated then the user get corresponding error
+message. List of messages is included.
+
+\begin{center}
+\begin{verbatim}
+                  LIST OF IMPORTED FUNCTIONS
+-------------------------------------------------
+ Function              From module
+-------------------------------------------------
+ ISIMP2                HEPhys
+ CALC_SPUR             CVITMAPPING
+-------------------------------------------------
+\end{verbatim}
+
+\begin{verbatim}
+                  LIST OF EXPORTED FUNCTION
+-------------------------------------------------
+ Function              To module
+-------------------------------------------------
+ ISIMP1                HEPhys (redefine)
+ REPLACE_BY_VECTOR     EVAL_MAP
+ REPLACE_BY_VECTORP    EVAL__MAP
+ GAMMA5P               CVITMAPPING, EVAL_MAP
+-------------------------------------------------
+\end{verbatim}
+\end{center}
+
+
+
+\section*{Module CVITMAPPING}
+
+\begin{center}
+Author: A.Ya.Rodionov \\
+Purpose: graphs reduction
+\end{center}
+
+CVITMAPPING module is intended for diagrams calculation according to
+Cvitanovic - Kennedy algorithm. The top function of this module
+CALC\_SPUR is called from RED\_TO\_CVIT\_INTERFACE interface module.
+The main idea of the algorithm consists in diagram simplification
+according to rules (1.9') and (1.14) from [1].  The input data - trace
+of Diracs gamma matrices (G-matrices) has a form of a list of
+identifiers lists with cyclic order. Some of identifiers may be
+identical.  In this case we assume summation over dummy indices. So
+trace Sp(GbGr).Sp(GwGbGcGwGcGr) is represented as list ((b r) (w b c w
+c r)).
+
+The first step is to transform the input data to ``map'' structure and
+then to reduce the map to a ``simple'' one. This transformation is made
+by function TRANSFORM\_MAP\_ (top function). Transformation is made in
+three steps. At the first step the input data are transformed to the
+internal form - a map (by function PREPARE\_MAP\_). At the second step
+a map is subjected to Fierz transformations (1.14) (function
+MK\_SIMPLE\_MAP\_). At this step of optimization can be maid (if
+switch CVITOP is on) by function MK\_FIRZ\_OP.  In this case Fierzing
+starts with linked vertices with minimal distance (number of vertices)
+between them.  After Fierz transformations map is further reduced by
+vertex simplification routine MK\_SIMPLE\_VERTEX using (1.9').
+Vertices reduced to primitive ones, that is to vertices with three or
+less edges.  This is the last (third) step in transformation from
+input to internal data.
+
+The next step is optional.  If switch CVITBTR is on factorisation of
+bubble (function FIND\_BUBBLES1) and triangle (function
+FIND\_TRIANGLES1) submaps is made.  This factorisation is very
+efficient for ``wheel'' diagrams and unnecessary for ``lattice'' diagrams.
+Factorisation is made recursively by substituting composed edges for
+bubbles and composed vertices for triangles.  So check (function
+SORT\_ATLAS) must be done to test possibility of future marking
+procedure.  If the check fails then a new attempt to reorganize atlas
+(so we call complicated structure witch consists of MAP, COEFFicient
+and DENOMinator) is made. This cause backtracking (but very seldom).
+Backtracking can be traced by turning on switch CVITRACE. FIND\_BUBLTR
+is the top function of this program's branch.
+
+Then atlases must be prepared (top function WORLD\_FROM\_ATLAS) for
+final algebraic calculations.  The resulted object called ``world''
+consists of edges names list (EDGELIST), their marking variants
+(VARIANTS) and WORLD1 structure. WORLD1 structure differs from WORLD
+structure in one point.  It contains MAP2 structure instead of MAP
+structure. MAP2 is very complicated structure and consist of VARIANTS,
+marking plan and GSTRAND.  (GSTRAND constructed by PRE!-CALC!-MAP\_
+from INTERFIERZ module.)  By marking we understand marking of edges
+with numbers according to Cvitanovic - Kennedy algorithm.
+
+The last step is performed by function CALC\_WORLD. At this step
+algebraic calculations are done.  Two functions CALC\_MAP\_TAR and
+CALC\_DENTAR from INTERFIERZ module make algebraic expressions in the
+prefix form. This expressions are further simplified by function
+{\tt REVAL}.  This is the REDUCE system general function for algebraic
+expressions simplification. {\tt REVAL} and {\tt SIMP!*} are the only REDUCE
+functions used in this module.
+
+There are also some functions for printing several internal
+structures: PRINT\_ATLAS, PRINT\_VERTEX, PRINT\_EDGE, PRINT\_COEFF,
+PRINT\_DENOM.  This functions can be used for debugging.
+
+If an error occur in module CVITMAPPING the error message ``ERROR IN
+MAP CREATING ROUTINES'' is displayed.  Error has number 55.  The switch
+CVITERROR allows to give full information about error: name of
+function where error occurs and names and values of function's
+arguments. If CVITERROR switch is on and backtracking fails message
+about error in SORT\_ATLAS function is printed.  The result of
+computation however will be correct because in this case factorized
+structure is not used. This happens extremely seldom.
+
+
+\begin{verbatim}
+                  List of imported function
+-------------------------------------------------
+ function              from module
+-------------------------------------------------
+ REVAL                 REDUCE
+ SIMP!*                REDUCE
+ CALC_MAP_TAR          INTERFIERZ
+ CALC_DENTAR           INTERFIERZ
+ PRE!-CALC!-MAP_       INTERFIERZ
+ GAMMA5P               RED_TO_CVIT_INTERFACE
+-------------------------------------------------
+\end{verbatim}
+
+\begin{verbatim}
+                  List of exported function
+-------------------------------------------------
+ function              to module
+-------------------------------------------------
+ CALC_SPUR             REDUCE - CVIT interface
+-------------------------------------------------
+\end{verbatim}
+
+\begin{verbatim}
+                        Data structure
+ WORLD     ::=  (EDGELIST,VARIANTS,WORLD1)
+ WORLD1    ::=  (MAP2,COEFF,DENOM)
+ MAP2      ::=  (MAPS,VARIANTS,PLAN)
+ MAPS      ::=  (EDGEPAIR . GSTRAND)
+ MAP1      ::=  (EDGEPAIR . MAP)
+ MAP       ::=  list of VERTICES (unordered)
+ EDGEPAIR  ::=  (OLDEDGELIST . NEWEDGELIST)
+ COEFF     ::=  list of WORLDS (unordered)
+ ATLAS     ::=  (MAP,COEFF,DENOM)
+ GSTRAND   ::=  (STRAND*,MAP,TADPOLES,DELTAS)
+ VERTEX    ::=  list of EDGEs (with cyclic order)
+ EDGE      ::=  (NAME,PROPERTY,TYPE)
+ NAME      ::=  ATOM
+ PROPERTY  ::=  (FIRSTPAIR . SECONDPAIR)
+ TYPE      ::=  T or NIL
+ ------------------------------------------------
+ *Define in module MAP!-TO!-STRAND.
+
+\end{verbatim}
+
+\section*{Modules INTERFIERZ, EVAL\_MAPS, AND MAP-TO-STRAND.}
+
+\begin{center}
+Author: A.Taranov \\
+Purpose: evaluate single Map
+\end{center}
+
+Module INTERFIERZ exports to module CVITMAPPING three functions:
+PRE-CALC-MAP\_, CALC-MAP\_TAR, CALC-DENTAR.
+
+Function PRE-CALC-MAP\_ is used for preliminary processing of a map. It
+returns a list of the form (STRAND NEWMAP TADEPOLES DELTAS) where
+STRAND is strand structure described in MAP-TO-STRAND module.  NEWMAP
+is a map structure without ``tadepoles'' and ``deltas''.  ``Tadepole'' is a
+loop connected with map with only one line (edge). ``Delta'' is a single
+line disconnected from a map.  TADEPOLES is a list of ``tadepole''
+submaps.  DELTAS is a list (CONS E1 E2) where E1 and E2 are
+
+Function CALC\_MAP\_TAR takes a list of the same form as returned by
+PRE-CALC-MAP\_, a-list, of the form (...  edge . weight ...  )  and
+returns a prefix form of algebraic expression corresponding to the map
+numerator.
+
+Function CALC-DENTAR returns a prefix form of algebraic expression
+corresponding to the map denominator.
+
+Module EVAL-MAP exports to module INTERFIERZ functions MK-NUMR and
+STRAND-ALG-TOP.
+
+Function MK-NUMR returns a prefix form for some combinatorial
+coefficient (Pohgammer symbol).
+
+Function STRAND-ALG-TOP performs an actual computation of a prefix
+form of algebraic expression corresponding to the map numerator. This
+computation is based on a ``strand'' structure constructed from the
+``map'' structure.
+
+Module MAP-TO-STRAND exports functions MAP-TO-STRAND, INCIDENT1 to
+module INTERFIERZ and functions DELETEZ1, CONTRACT-STRAND,
+COLOR-STRAND to module EVAL-MAPS.
+
+Function INCIDENT1 is a selector in ``strand'' structure.  DELETEZ1
+performs auxiliary optimization of ``strand''.  MAP-TO-STRAND transforms
+``map'' to ``strand'' structure.  The latter is describe in program
+module.
+
+CONTRACT-STRAND do strand vertex simplifications of ``strand'' and
+COLOR-STRAND finishes strand generation.
+
+\begin{verbatim}
+
+            Description of STRAND  data structure.
+ STRAND ::=<LIST OF VERTEX>
+ VERTEX ::=<NAME> . (<LIST OF ROAD> <LIST OF ROAD>)
+ ROAD   ::=<ID> . NUMBER
+ NAME   ::=NUMBER
+\end{verbatim}
+
+
+\subsection*{ LIST OF MESSAGES}
+
+\begin{itemize} 
+
+\item{CALC\_SPUR: $<$vecdim$>$ IS NOT EVEN SPACE-TIME DIMENSION}
+ The dimension of space-time $<$vecdim$ $is integer but not
+even. Only even numeric dimensions are allowed.
+
+\item{NOSPUR NOT YET IMPLEMENTED}
+ Attempt to calculate trace when NOSPUR switch is on.  This facility
+is not implemented now.
+
+\item{G5 INVALID FOR VECDIM NEQ 4}
+ Attempt to calculate trace with gamma5-matrix for space-time
+dimension not equal to 4.
+
+\item{CALC\_SPUR: $<$expr$>$ HAS NON-UNIT DENOMINATOR}
+The <expr> has non-unit denominator.
+
+\item{THREE INDICES HAVE NAME $<$name$>$}
+ There are three indices with equal names in evaluated expression.
+
+\end{itemize}
+
+\begin{verbatim}
+                  List of switches
+------------------------------------------------------------
+ switch           default    comment
+------------------------------------------------------------
+ CVIT             ON         If it is on then use Kennedy-
+                             Cvitanovic algorithm else use
+                             standard facilities.
+ CVITOP           OFF        Fierz optimization switch
+ CVITBTR          ON         Bubbles and triangles
+                             factorisation switch
+ CVITRACE         OFF        Backtracking tracing switch
+------------------------------------------------------------
+\end{verbatim}
+
+
+\begin{verbatim}
+                 Functions cross references*.
+
+CALC_SPUR
+ |
+ +-->SIMP!* (REDUCE)
+     |
+     +-->CALC_SPUR0
+         |
+         |--->TRANSFORM_MAP_
+         |    |
+         |    |--->MK_SIMPLE_VERTEX
+         |    +--->MK_SIMPLE_MAP_
+         |         |
+         |         +--->MK_SIMPLE_MAP_1
+         |              |
+         |              +--->MK_FIERS_OP
+         |
+         |--->WORLD_FROM_ATLAS
+         |    |
+         |    +--->CONSTR_WORLDS
+         |         |
+         |         +---->MK_WORLD1
+         |               |
+         |               +--->MAP_2_FROM_MAP_1
+         |                    |
+         |                    |--->MARK_EDGES
+         |                    +--->MAP_1_TO_STRAND
+         |                         |
+         |                         +-->PRE!-CALC!-MAP_
+         |                             (INTERFIRZ)
+         |
+         |--->CALC_WORLD
+         |    |
+         |    |--->CALC!-MAP_TAR (INTERFIRZ)
+         |    |--->CALC!-DENTAR (INTERFIRZ)
+         |    +--->REVAL (REDUCE)
+         |
+         +--->FIND_BUBLTR
+              |
+              +--->FIND_BUBLTR0
+                   |
+                   |--->SORT_ATLAS
+                   +--->FIND_BUBLTR1
+                        |
+                        |--->FIND_BUBLES1
+                        +--->FIND_TRIANGLES1
+*Unmarked functions are from CVITMPPING module.
+
+\end{verbatim}
+
+
+\section*{References}
+
+\begin{itemize}
+
+\item{1.}
+Ilyin V.A., Kryukov A.P., Rodionov A.Ya., Taranov A.Yu.
+Fast algorithm for calculation of Diracs gamma-matrices
+traces. SIGSAM Bull., 1989, v.23, no.4, pp.15-24.
+
+\item{2.}
+Kennedy A.D. Phys.Rev., 1982, D26, p.1936.
+\end{itemize}
+
+\section*{Keywords}
+
+REDUCE, GAMMA-MATRIX,  TRACE, SPACE-TIME  DIMENSION, HIGH  ENERGY PHYSICS.
+
+\end{document}

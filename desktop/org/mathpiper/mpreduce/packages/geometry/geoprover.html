@@ -1,0 +1,153 @@
+<html>
+<head>
+<title>GeoProver v. 1.3a</title>
+</head>
+<body>
+<h1 align="center">The GeoProver Package for Mechanized (Plane) Geometry Theorem Proving 
+<p> Version 1.3a</h1>
+
+ <h3 align="center">
+<table>
+<tr><td>AUTHOR   <td>: <td>Hans-Gert Graebe
+<tr><td> ADDRESS  <td>: <td>Univ. Leipzig, Institut f. Informatik, D - 04109 Leipzig, Germany
+<tr><td> URL    <td>: 
+<td> <a href="http://www.informatik.uni-leipzig.de/~graebe">http://www.informatik.uni-leipzig.de/~graebe</a> 
+</table>
+</h3>
+
+<h4>Introduction</h4>
+
+<p>The <b>GeoProver</b> is a small package for
+mechanized (plane) geometry manipulations with non degeneracy
+tracing, available for different CAS platforms (Maple, MuPAD,
+Mathematica, and Reduce).</p>
+
+<p>It provides the casual user with a couple of procedures that
+allow him/her to mechanize his/her own geometry proofs. Version
+1.1 grew out from a course of lectures for students of computer
+science on this topic held by the author at the Univ. of Leipzig
+in fall 1996 and was updated after a similar lecture in spring
+1998.  </p>
+
+<p>The (completely revised) version 1.2, finished in March 2002,
+was set up as a generic software project to manage the code for
+different platforms in a unified way. There is a close relationship
+to the SymbolicData project (see 
+<url>http://www.symbolicdata.org</url>).
+
+<p>For examples we refer to the test file, but also to the
+SymbolicData GEO collection. It contains many (generic) proof
+schemes of geometry theorems, mainly from Chou's book. These proof
+schemes can be translated to the GeoProver syntax for different
+platforms with SymbolicData tools.</p>
+
+<p>For version 1.3 the syntax definition (the <b>GeoCode</b>) was
+separated from the GeoProver implementation. The latter is an
+implementation of the GeoCode standard using the coordinate
+method. </p>
+
+<p>Note that function names change with different versions of the
+GeoCode standard. GeoProver 1.3 implements the GeoCode standard
+1.3. </p>
+
+<p>Please send comments, bug reports, hints, wishes, criticisms
+etc. to the author.</p>
+
+<h4>Basic Data Types</h4>
+
+<p>Basic data types are <b>Points</b>, <b>Lines</b>, and
+<b>Circles</b>.</p>
+  
+<p>A point <code>A:=Point(a,b)</code> represents a point with
+coordinates <math>(a1,a2)</math>. </p>
+
+<p>A line <code>l:=Line(a,b,c)</code> represents the line
+<math>{ (x,y) : a*x+b*y+c=0 }</math>. </p>
+
+<p>A circle <code>c:=Circle(c1,c2,c3,c4)</code> represents the
+circle <math>{ (x,y) : c1*(x^2+y^2)+c2*x+c3*y+c4=0 }</math>. </p>
+
+<h4>Available functions</h4>
+
+<p><table border align="center" cellpadding=8 width="80%">
+<tr><td align="center"> Point(a:Scalar, b:Scalar) <td> Point constructor. Returns a coding for the point with
+coordinates (a,b).
+<tr><td align="center"> altitude(A:Point, B:Point, C:Point) <td> The altitude from <math>A</math> onto <math>g(BC)</math>.
+<tr><td align="center"> angle_sum(a:Scalar, b:Scalar) <td> Returns <math>tan(alpha+beta)</math>, if <math>a=tan(alpha), b=tan(beta)</math>.
+<tr><td align="center"> centroid(A:Point, B:Point, C:Point) <td> Centroid of the triangle <math>ABC</math>.
+<tr><td align="center"> circle_center(c:Circle) <td> The center of the circle <math>c</math>.
+<tr><td align="center"> circle_slider(M:Point, A:Point, u:Scalar) <td> Choose a point on the circle with center <math>M</math> and point
+<math>A</math> on the perimeter using a rational parametrization with
+parameter <math>u</math>.
+<tr><td align="center"> circle_sqradius(c:Circle) <td> The squared radius of the circle <math>c</math>.
+<tr><td align="center"> circumcenter(A:Point, B:Point, C:Point) <td> The circumcenter of the triangle <math>ABC</math>.
+<tr><td align="center"> csym_point(P:Point, Q:Point) <td> The point symmetric to <math>P</math> wrt. <math>Q</math> as symmetry center.
+<tr><td align="center"> eq_angle(A:Point, B:Point, C:Point, D:Point, E:Point, F:Point) <td> Test for equal angle w(ABC) = w(DEF).
+<tr><td align="center"> eq_dist(A:Point, B:Point, C:Point, D:Point) <td> Test for equal distance d(AB) = d(CD).
+<tr><td align="center"> fixedpoint(A:Point, B:Point, u:Scalar) <td> The point <math>D=(1-u)*A+u*B</math> on the line AB for a fixed value of u.
+<tr><td align="center"> intersection_point(a:Line, b:Line) <td> The intersection point of the lines <math>a,b</math>.
+<tr><td align="center"> is_cc_tangent(c1:Circle, c2:Circle) <td> Zero iff circles <math>c_1</math> and <math>c_2</math> are tangent.
+<tr><td align="center"> is_cl_tangent(c:Circle, l:Line) <td> Zero iff the line <math>l</math> is tangent to the circle <math>c</math>.
+<tr><td align="center"> is_collinear(A:Point, B:Point, C:Point) <td> Zero iff <math>A,B,C</math> are on a common line. For the signed area
+of the triangle <math>ABC</math> use <tt>triangle_area</tt>.
+<tr><td align="center"> is_concurrent(a:Line, b:Line, c:Line) <td> Zero iff the lines <math>a,b,c</math> pass through a common point.
+<tr><td align="center"> is_concyclic(A:Point, B:Point, C:Point, D:Point) <td> Zero iff four given points are on a common circle.
+<tr><td align="center"> is_equal(A:Scalar, B:Scalar) <td> Test for equality of A and B.
+<tr><td align="center"> is_orthogonal(a:Line, b:Line) <td> zero iff the lines <math>a,b</math> are orthogonal.
+<tr><td align="center"> is_parallel(a:Line, b:Line) <td> Zero iff the lines <math>a,b</math> are parallel.
+<tr><td align="center"> l2_angle(a:Line, b:Line) <td> Tangens of the angle between <math>a</math> and <math>b</math>.
+<tr><td align="center"> line_slider(a:Line, u:Scalar) <td> Chooses a point on <math>a</math> using parameter <math>u</math>.
+<tr><td align="center"> median(A:Point, B:Point, C:Point) <td> The median line from <math>A</math> to <math>BC</math>.
+<tr><td align="center"> midpoint(A:Point, B:Point) <td> The midpoint of <math>AB</math>.
+<tr><td align="center"> on_bisector(P:Point, A:Point, B:Point, C:Point) <td> Zero iff <math>P</math> is a point on the (inner or outer) bisector of the
+angle <math>\angle ABC</math>.
+<tr><td align="center"> on_circle(P:Point, c:Circle) <td> Zero iff <math>P</math> is on the circle <math>c</math>.
+<tr><td align="center"> on_line(P:Point, a:Line) <td> Zero iff <math>P</math> is on the line
+<math>a</math>.
+<tr><td align="center"> ortho_line(P:Point, a:Line) <td> The line through <math>P</math> orthogonal to the line <math>a</math>.
+<tr><td align="center"> orthocenter(A:Point, B:Point, C:Point) <td> Orthocenter of the triangle <math>ABC</math>.
+<tr><td align="center"> other_cc_point(P:Point, c1:Circle, c2:Circle) <td> <math>c_1</math> and <math>c_2</math> intersect at <math>P</math>. 
+The procedure returns the second intersection point.
+<tr><td align="center"> other_cl_point(P:Point, c:Circle, l:Line) <td> <math>c</math> and <math>l</math> intersect at <math>P</math>. 
+The procedure returns the second intersection point.
+<tr><td align="center"> other_incenter(M:Point, A:Point, B:Point) <td> Let <math>ABC</math> be a triangle and <math>M</math> the incenter of
+<math>ABC</math>. Returns the excenter of <math>ABC</math> on the bisector
+<math>CM</math>.
+<tr><td align="center"> p3_angle(A:Point, B:Point, C:Point) <td> Tangens of the angle between <math>BA</math> and <math>BC</math>.
+<tr><td align="center"> p3_circle(A:Point, B:Point, C:Point) <td> The circle through 3 given points.
+<tr><td align="center"> p9_center(A:Point, B:Point, C:Point) <td> Center of the nine-point circle of the triangle <math>ABC</math>.
+<tr><td align="center"> p9_circle(A:Point, B:Point, C:Point) <td> The nine-point circle (Feuerbach circle) of the triangle <math>ABC</math>.
+<tr><td align="center"> p_bisector(B:Point, C:Point) <td> The perpendicular bisector of <math>BC</math>.
+<tr><td align="center"> pappus_line(A:Point, B:Point, C:Point, D:Point, E:Point, F:Point) <td> The Pappus line of a conic 6-tuple of points.
+<tr><td align="center"> par_line(P:Point, a:Line) <td> The line through <math>P</math> parallel to line <math>a</math>.
+<tr><td align="center"> par_point(A:Point, B:Point, C:Point) <td> Point D that makes <math>ABCD</math> a parallelogram.
+<tr><td align="center"> pc_circle(M:Point, A:Point) <td> The circle with given center <math>M</math> and circumfere point <math>A</math>.
+<tr><td align="center"> pedalpoint(P:Point, a:Line) <td> The pedal point of the perpendicular from <math>P</math> onto <math>a</math>.
+<tr><td align="center"> pp_line(A:Point, B:Point) <td> The line through <math>A</math> and <math>B</math>.
+<tr><td align="center"> radical_axis(c1:Circle, c2:Circle) <td> The radical axis of two circles, i.e. the line of point with equal pc_degree
+wrt. to both circles. If the circles intersect this is the line through their
+intersection points.  If the circles don't intersect this are the point with
+equal tangent segments to both circles.
+<tr><td align="center"> rotate(C:Point, A:Point, angle:Scalar) <td> Rotate point A (counterclockwise) around center C with angle angle*Pi.
+<tr><td align="center"> sqrdist(A:Point, B:Point) <td> Squared distance between <math>A</math> and <math>B</math>.
+<tr><td align="center"> sqrdist_pl(A:Point, l:Line) <td> Squared distance between point <math>A</math> and line 
+<math>l</math>.
+<tr><td align="center"> sym_line(a:Line, l:Line) <td> The line symmetric to <math>a</math> wrt. the line <math>l</math>.
+<tr><td align="center"> sym_point(P:Point, l:Line) <td> The point symmetric to <math>P</math> wrt. line <math>l</math>.
+<tr><td align="center"> triangle_area(A:Point, B:Point, C:Point) <td> Signed area of the directed triangle <math>ABC</math>.
+<tr><td align="center"> varpoint(A:Point, B:Point, u:Scalar) <td> The point <math>D=(1-u)*A+u*B</math> that slides on the line 
+AB, with parameter u.
+</table>
+
+<h4>Acknowledgements</h4>
+
+<p>Malte Witte translated the code of version 1.1 from Reduce to
+Maple, MuPAD, and Mathematica and compiled many examples for the
+SymbolicData GEO proof scheme collection, mainly from Chou's
+book.</p>
+
+<p>Benjamin Friedrich collected examples and solutions with
+geometric background from IMO contests.</p>
+
+</body>
+</html>

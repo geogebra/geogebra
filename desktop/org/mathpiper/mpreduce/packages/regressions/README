@@ -1,0 +1,18 @@
+The idea of this directory is that it is a place to put test scripts and
+corresponding output as a record when a bug is corrected. The protocol
+will be that files here come in pairs
+     testcase.tst         free-standing tesst script
+     testcase.rlg         corresponding CORRECT output
+I suggest that file-names include a date and that test scripts start
+with a comment that explains what big was fixed. I will put a sample
+initial one in.
+
+It is IMPORTANT that the file-name selected should not be the same as
+the name of any other package or test file, because if that did happen it
+could confuse some of the automated testing tools.
+
+Because there is a reference log the test script does not HAVE to
+check and validate its own output, however when convenient that could
+be seen as good form.
+
+Arthur Norman. August 2011

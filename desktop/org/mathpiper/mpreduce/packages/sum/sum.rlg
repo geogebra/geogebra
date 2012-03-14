@@ -1,0 +1,730 @@
+% Tests of the SUM package.
+
+% Author: Fujio Kako (kako@kako.math.sci.hiroshima-u.ac.jp)
+
+% 1) Summations.
+
+sum(n,n);
+
+
+ n*(n + 1)
+-----------
+     2
+
+
+for i:=2:10 do write sum(n**i,n);
+
+
+       2
+ n*(2*n  + 3*n + 1)
+--------------------
+         6
+
+  2   2
+ n *(n  + 2*n + 1)
+-------------------
+         4
+
+       4       3       2
+ n*(6*n  + 15*n  + 10*n  - 1)
+------------------------------
+              30
+
+  2     4      3      2
+ n *(2*n  + 6*n  + 5*n  - 1)
+-----------------------------
+             12
+
+       6       5       4      2
+ n*(6*n  + 21*n  + 21*n  - 7*n  + 1)
+-------------------------------------
+                 42
+
+  2     6       5       4      2
+ n *(3*n  + 12*n  + 14*n  - 7*n  + 2)
+--------------------------------------
+                  24
+
+        8       7       6       4       2
+ n*(10*n  + 45*n  + 60*n  - 42*n  + 20*n  - 3)
+-----------------------------------------------
+                      90
+
+  2     8       7       6       4       2
+ n *(2*n  + 10*n  + 15*n  - 14*n  + 10*n  - 3)
+-----------------------------------------------
+                      20
+
+       10       9       8       6       4       2
+ n*(6*n   + 33*n  + 55*n  - 66*n  + 66*n  - 33*n  + 5)
+-------------------------------------------------------
+                          66
+
+
+sum((n+1)**3,n);
+
+
+     3      2
+ n*(n  + 6*n  + 13*n + 12)
+---------------------------
+             4
+
+
+sum(x**n,n);
+
+
+  n
+ x *x
+-------
+ x - 1
+
+
+sum(n**2*x**n,n);
+
+
+  n     2  2      2      2
+ x *x*(n *x  - 2*n *x + n  - 2*n*x + 2*n + x + 1)
+--------------------------------------------------
+                3      2
+               x  - 3*x  + 3*x - 1
+
+
+sum(1/n,n);
+
+
+     1
+sum(---,n)
+     n
+
+
+sum(1/n/(n+2),n);
+
+
+   n*(3*n + 5)
+------------------
+     2
+ 4*(n  + 3*n + 2)
+
+
+sum(log (n/(n+1)),n);
+
+
+       1
+log(-------)
+     n + 1
+
+
+% 2) Expressions including trigonometric functions.
+
+sum(sin(n*x),n);
+
+
+         2*n*x + x
+  - cos(-----------)
+             2
+---------------------
+            x
+     2*sin(---)
+            2
+
+
+sum(n*sin(n*x),n,1,k);
+
+
+ sin(k*x + x)*k - sin(k*x)*k - sin(k*x)
+----------------------------------------
+             2*(cos(x) - 1)
+
+
+sum(cos((2*r-1)*pi/n),r);
+
+
+      2*pi*r
+ sin(--------)
+        n
+---------------
+         pi
+  2*sin(----)
+         n
+
+
+sum(cos((2*r-1)*pi/n),r,1,n);
+
+
+0
+
+
+sum(cos((2*r-1)*pi/(2*n+1)),r);
+
+
+       2*pi*r
+  sin(---------)
+       2*n + 1
+------------------
+          pi
+ 2*sin(---------)
+        2*n + 1
+
+
+sum(cos((2*r-1)*pi/(2*n+1)),r,1,n);
+
+
+       2*n*pi
+  sin(---------)
+       2*n + 1
+------------------
+          pi
+ 2*sin(---------)
+        2*n + 1
+
+
+sum(sin((2*r-1)*x),r,1,n);
+
+
+  - cos(2*n*x) + 1
+-------------------
+     2*sin(x)
+
+
+sum(cos((2*r-1)*x),r,1,n);
+
+
+ sin(2*n*x)
+------------
+  2*sin(x)
+
+
+sum(sin(n*x)**2,n);
+
+
+  - sin(2*n*x + x) + 2*sin(x)*n
+--------------------------------
+            4*sin(x)
+
+
+sum(cos(n*x)**2,n);
+
+
+ sin(2*n*x + x) + 2*sin(x)*n
+-----------------------------
+          4*sin(x)
+
+
+sum(sin(n*x)*sin((n+1)*x),n);
+
+
+  - sin(2*n*x + 2*x) + sin(2*x)*n
+----------------------------------
+             4*sin(x)
+
+
+sum(sec(n*x)*sec((n+1)*x),n);
+
+
+sum(sec(n*x + x)*sec(n*x),n)
+
+
+sum(1/2**n*tan(x/2**n),n);
+
+
+          x
+     tan(----)
+           n
+          2
+sum(-----------,n)
+         n
+        2
+
+
+sum(sin(r*x)*sin((r+1)*x),r,1,n);
+
+
+  - sin(2*n*x + 2*x) + sin(2*x)*n + sin(2*x)
+---------------------------------------------
+                  4*sin(x)
+
+
+sum(sec(r*x)*sec((r+1)*x),r,1,n);
+
+
+sum(sec(r*x + x)*sec(r*x),r,1,n)
+
+
+sum(1/2**r*tan(x/2**r),r,1,n);
+
+
+          x
+     tan(----)
+           r
+          2
+sum(-----------,r,1,n)
+         r
+        2
+
+
+sum(k*sin(k*x),k,1,n - 1);
+
+
+  - sin(n*x - x)*n + sin(n*x)*n - sin(n*x)
+-------------------------------------------
+              2*(cos(x) - 1)
+
+
+sum(k*cos(k*x),k,1,n - 1);
+
+
+  - cos(n*x - x)*n + cos(n*x)*n - cos(n*x) + 1
+-----------------------------------------------
+                2*(cos(x) - 1)
+
+
+sum(sin((2k - 1)*x),k,1,n);
+
+
+  - cos(2*n*x) + 1
+-------------------
+     2*sin(x)
+
+
+sum(sin(x + k*y),k,0,n);
+
+
+         2*n*y + 2*x + y          2*x - y
+  - cos(-----------------) + cos(---------)
+                2                    2
+--------------------------------------------
+                        y
+                 2*sin(---)
+                        2
+
+
+sum(cos(x + k*y),k,0,n);
+
+
+      2*n*y + 2*x + y          2*x - y
+ sin(-----------------) - sin(---------)
+             2                    2
+-----------------------------------------
+                      y
+               2*sin(---)
+                      2
+
+
+sum((-1)**(k - 1)*sin((2k - 1)*x),k,1,n + 1);
+
+
+       n
+ ( - 1) *sin(2*n*x + 2*x)
+--------------------------
+         2*cos(x)
+
+
+sum((-1)**(k - 1)*cos((2k - 1)*x),k,1,n + 1);
+
+
+       n
+ ( - 1) *cos(2*n*x + 2*x) + 1
+------------------------------
+           2*cos(x)
+
+
+sum(r**k*sin(k*x),k,1,n - 1);
+
+
+     n                   n
+  - r *sin(n*x - x)*r + r *sin(n*x) - sin(x)*r
+-----------------------------------------------
+                            2
+              2*cos(x)*r - r  - 1
+
+
+sum(r**k*cos(k*x),k,0,n - 1);
+
+
+     n                   n
+  - r *cos(n*x - x)*r + r *cos(n*x) + cos(x)*r - 1
+---------------------------------------------------
+                              2
+                2*cos(x)*r - r  - 1
+
+
+sum(sin(k*x)*sin((k + 1)*x),k,1,n);
+
+
+  - sin(2*n*x + 2*x) + sin(2*x)*n + sin(2*x)
+---------------------------------------------
+                  4*sin(x)
+
+
+sum(sin(k*x)*sin((k + 2)*x),k,1,n);
+
+
+  - sin(2*n*x + 3*x) + sin(3*x)*n + sin(3*x) - sin(x)*n
+--------------------------------------------------------
+                        4*sin(x)
+
+
+sum(sin(k*x)*sin((2k - 1)*x),k,1,n);
+
+
+         6*n*x + x          2*n*x - 3*x          2*n*x - x          2*n*x + x
+( - sin(-----------) + sin(-------------) + sin(-----------) + sin(-----------)
+             2                   2                   2                  2
+
+         3*x          x            3*x
+  + sin(-----) + sin(---))/(4*sin(-----))
+          2           2             2
+
+
+
+% The next examples cannot be summed in closed form.
+
+sum(1/(cos(x/2**k)*2**k)**2,k,1,n);
+
+
+            1
+sum(-----------------,k,1,n)
+      2*k      x   2
+     2   *cos(----)
+                k
+               2
+
+
+sum((2**k*sin(x/2**k)**2)**2,k,1,n);
+
+
+     2*k      x   4
+sum(2   *sin(----) ,k,1,n)
+               k
+              2
+
+
+sum(tan(x/2**k)/2**k,k,0,n);
+
+
+          x
+     tan(----)
+           k
+          2
+sum(-----------,k,0,n)
+         k
+        2
+
+
+sum(cos(k**2*2*pi/n),k,0,n - 1);
+
+
+            2
+         2*k *pi
+sum(cos(---------),k,0,n - 1)
+            n
+
+
+sum(sin(k*pi/n),k,1,n - 1);
+
+
+         2*n*pi - pi          pi
+  - cos(-------------) + cos(-----)
+             2*n              2*n
+------------------------------------
+                   pi
+            2*sin(-----)
+                   2*n
+
+
+% 3) Expressions including the factorial function.
+
+for all n,m such that fixp m let
+	factorial(n+m)=if m > 0 then factorial(n+m-1)*(n+m)
+		   else factorial(n+m+1)/(n+m+1);
+
+
+
+sum(n*factorial(n),n);
+
+
+factorial(n)*(n + 1)
+
+
+sum(n/factorial(n+1),n);
+
+
+          - 1
+----------------------
+ factorial(n)*(n + 1)
+
+
+sum((n**2+n-1)/factorial(n+2),n);
+
+
+          - 1
+----------------------
+ factorial(n)*(n + 2)
+
+
+sum(n*2**n/factorial(n+2),n);
+
+
+                 n
+            - 2*2
+-----------------------------
+                2
+ factorial(n)*(n  + 3*n + 2)
+
+
+sum(n*x**n/factorial(n+2),n);
+
+
+                             n
+                            x *n
+sum(-----------------------------------------------------,n)
+                   2
+     factorial(n)*n  + 3*factorial(n)*n + 2*factorial(n)
+
+
+for all n,m such that fixp m and m > 3 let
+	factorial((n+m)/2)= factorial((n+m)/2-1)*((n+m)/2),
+	factorial((n-m)/2)= factorial((n-m)/2+1)/((n-m)/2+1);
+
+
+
+sum(factorial(n-1/2)/factorial(n+1),n);
+
+
+                    2*n - 1
+         factorial(---------)
+                       2
+sum(-------------------------------,n)
+     factorial(n)*n + factorial(n)
+
+
+for all n,m such that fixp m and m > 3 clear factorial((n+m)/2);
+
+
+
+for all n,m such that fixp m and m > 3 clear factorial((n-m)/2);
+
+
+
+% 4) Expressions including combination.
+
+operator comb;
+
+          % Combination function.
+
+for all n ,m let comb(n,m)=factorial(n)/factorial(n-m)/factorial(m);
+
+
+
+sum((-1)**k*comb(n,k),k,1,m);
+
+
+          m                        m
+( - ( - 1) *factorial(n)*m + ( - 1) *factorial(n)*n
+
+  - factorial( - m + n)*factorial(m)*n)/(factorial( - m + n)*factorial(m)*n)
+
+
+sum(comb(n + p,q)/comb(n + r,q + 2),n,1,m);
+
+
+( - factorial( - q + r)*factorial(m + p - q)*factorial(m + r)*factorial(p)*m*p*q
+
+  - 2*factorial( - q + r)*factorial(m + p - q)*factorial(m + r)*factorial(p)*m*p
+
+  - factorial( - q + r)*factorial(m + p - q)*factorial(m + r)*factorial(p)*m*q
+
+  - 2*factorial( - q + r)*factorial(m + p - q)*factorial(m + r)*factorial(p)*m
+
+                                                                              2
+  + factorial( - q + r)*factorial(m + p - q)*factorial(m + r)*factorial(p)*p*q
+
+  - factorial( - q + r)*factorial(m + p - q)*factorial(m + r)*factorial(p)*p*q*r
+
+  + 2*factorial( - q + r)*factorial(m + p - q)*factorial(m + r)*factorial(p)*p*q
+
+  - 2*factorial( - q + r)*factorial(m + p - q)*factorial(m + r)*factorial(p)*p*r
+
+                                                                            2
+  + factorial( - q + r)*factorial(m + p - q)*factorial(m + r)*factorial(p)*q
+
+  - factorial( - q + r)*factorial(m + p - q)*factorial(m + r)*factorial(p)*q*r
+
+  + 2*factorial( - q + r)*factorial(m + p - q)*factorial(m + r)*factorial(p)*q
+
+  - 2*factorial( - q + r)*factorial(m + p - q)*factorial(m + r)*factorial(p)*r
+
+                                                                           2
+  - factorial(m - q + r)*factorial(m + p)*factorial(p - q)*factorial(r)*m*q
+
+  + factorial(m - q + r)*factorial(m + p)*factorial(p - q)*factorial(r)*m*q*r
+
+  - 2*factorial(m - q + r)*factorial(m + p)*factorial(p - q)*factorial(r)*m*q
+
+  + 2*factorial(m - q + r)*factorial(m + p)*factorial(p - q)*factorial(r)*m*r
+
+                                                                           2
+  - factorial(m - q + r)*factorial(m + p)*factorial(p - q)*factorial(r)*p*q
+
+  + factorial(m - q + r)*factorial(m + p)*factorial(p - q)*factorial(r)*p*q*r
+
+  - 2*factorial(m - q + r)*factorial(m + p)*factorial(p - q)*factorial(r)*p*q
+
+  + 2*factorial(m - q + r)*factorial(m + p)*factorial(p - q)*factorial(r)*p*r
+
+                                                                         2
+  - factorial(m - q + r)*factorial(m + p)*factorial(p - q)*factorial(r)*q
+
+  + factorial(m - q + r)*factorial(m + p)*factorial(p - q)*factorial(r)*q*r
+
+  - 2*factorial(m - q + r)*factorial(m + p)*factorial(p - q)*factorial(r)*q
+
+  + 2*factorial(m - q + r)*factorial(m + p)*factorial(p - q)*factorial(r)*r)/(
+
+   factorial(m + p - q)*factorial(m + r)*factorial(p - q)*factorial(r)*(m*p*q
+
+                                  2            2                2    2      2
+       - m*p*r - m*q*r + m*q + m*r  - m*r - p*q  + 2*p*q*r - p*r  + q *r - q
+
+              2            3    2
+       - 2*q*r  + 2*q*r + r  - r ))
+
+
+sum((-1)**(k + 1)*comb(n,k)/(k + 1),k,1,n);
+
+
+   n
+-------
+ n + 1
+
+
+for all n ,m clear comb(n,m);
+
+
+
+for all n,m such that fixp m clear factorial(n+m);
+
+
+
+% 3) Examples taken from
+%         "Decision procedure for indefinite hypergeometric summation"
+%          Proc. Natl. Acad. Sci. USA  vol. 75, no. 1 pp.40-42 (1978)
+%          R. William Gosper, Jr.
+%
+
+%            n
+%           ____     2
+%       f =  ||  (b*k +c*k+d)
+%           k=1
+%
+%            n
+%           ____     2
+%       g =  ||  (b*k +c*k+e)
+%           k=1
+%
+operator f,gg;
+
+  % gg used to avoid possible conflict with high energy
+		% physics operator.
+
+for all n,m such that fixp m let
+        f(n+m)=if m > 0 then f(n+m-1)*(b*(n+m)**2+c*(n+m)+d)
+                   else f(n+m+1)/(b*(n+m+1)**2+c*(n+m+1)+d);
+
+
+
+for all n,m such that fixp m let
+	gg(n+m)=if m > 0 then gg(n+m-1)*(b*(n+m)**2+c*(n+m)+e)
+		   else gg(n+m+1)/(b*(n+m+1)**2+c*(n+m+1)+e);
+
+
+
+sum(f(n-1)/gg(n),n);
+
+
+     f(n)
+---------------
+ gg(n)*(d - e)
+
+
+sum(f(n-1)/gg(n+1),n);
+
+
+          2  2      2        2
+(f(n)*(2*b *n  + 4*b *n + 2*b  + 2*b*c*n + 2*b*c + 2*b*d*n + 3*b*d - 2*b*e*n
+
+                             2            2            3    2      3        3
+        - b*e + c*d - c*e + d  - 2*d*e + e ))/(gg(n)*(b *d*n  + 2*b *d*n + b *d
+
+          3    2      3        3      2          2        2          2
+       - b *e*n  - 2*b *e*n - b *e + b *c*d*n + b *c*d - b *c*e*n - b *c*e
+
+            2  2  2      2  2        2  2    2          2  2  2      2  2
+       + 2*b *d *n  + 4*b *d *n + 2*b *d  + b *d*e - 2*b *e *n  - 4*b *e *n
+
+            2  2      2    2        2          2        2    2        2
+       - 3*b *e  - b*c *d*n  - 2*b*c *d*n - b*c *d + b*c *e*n  + 2*b*c *e*n
+
+            2            2            2          2            2      3  2
+       + b*c *e + 2*b*c*d *n + 2*b*c*d  - 2*b*c*e *n - 2*b*c*e  + b*d *n
+
+              3        3        2    2        2          2            2  2
+       + 2*b*d *n + b*d  - 3*b*d *e*n  - 6*b*d *e*n - b*d *e + 3*b*d*e *n
+
+                2            2      3  2        3          3    3        3
+       + 6*b*d*e *n + 3*b*d*e  - b*e *n  - 2*b*e *n - 3*b*e  - c *d*n - c *d
+
+          3        3      2        2  2      3        3        2            2
+       + c *e*n + c *e - c *d*e + c *e  + c*d *n + c*d  - 3*c*d *e*n - 3*c*d *e
+
+                2            2      3        3    3        2  2        3    4
+       + 3*c*d*e *n + 3*c*d*e  - c*e *n - c*e  + d *e - 3*d *e  + 3*d*e  - e ))
+
+
+for all n,m such that fixp m clear f(n+m);
+
+
+
+for all n,m such that fixp m clear gg(n+m);
+
+
+
+clear f,gg;
+
+
+
+% 4) Products.
+
+prod(n/(n+2),n);
+
+
+      2
+--------------
+  2
+ n  + 3*n + 2
+
+
+prod(x**n,n);
+
+
+   2
+ (n  + n)/2
+x
+
+
+prod(e**(sin(n*x)),n);
+
+
+                1
+----------------------------------
+  cos((2*n*x + x)/2)/(2*sin(x/2))
+ e
+
+
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 72 ms  plus GC time: 3 ms
+real	0m0.456s
+user	0m0.000s
+sys	0m0.046s

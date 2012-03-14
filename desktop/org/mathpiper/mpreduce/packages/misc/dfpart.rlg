@@ -1,0 +1,567 @@
+depend y,x;
+
+
+generic_function f(x,y);
+
+
+df(f(),x);
+
+
+df(y,x)*f (x,y) + f (x,y)
+         y         x
+
+df(f(x,y),x);
+
+
+df(y,x)*f (x,y) + f (x,y)
+         y         x
+
+df(f(x,x**3),x);
+
+
+      3            3   2
+f (x,x ) + 3*f (x,x )*x
+ x            y
+
+df(f(x,z**3),x);
+
+
+      3
+f (x,z )
+ x
+
+df(a*f(x,y),x);
+
+
+a*(df(y,x)*f (x,y) + f (x,y))
+            y         x
+
+dfp(a*f(x,y),x);
+
+
+f (x,y)*a
+ x
+
+df(f(x,y),x,2);
+
+
+                           2
+df(y,x,2)*f (x,y) + df(y,x) *f  (x,y) + df(y,x)*f  (x,y) + df(y,x)*f  (x,y)
+           y                  yy                 xy                 yx
+
+ + f  (x,y)
+    xx
+
+df(dfp(f(x,y),x),x);
+
+
+df(y,x)*f  (x,y) + f  (x,y)
+         xy         xx
+
+df(dfp(f(x,x**3),x),x);
+
+
+       3             3   2
+f  (x,x ) + 3*f  (x,x )*x
+ xx            xy
+
+
+% using a generic fucntion with commutative derivatives
+generic_function u(x,y);
+
+
+dfp_commute u(x,y);
+
+
+df(u(x,y),x,x);
+
+
+                           2
+df(y,x,2)*u (x,y) + df(y,x) *u  (x,y) + 2*df(y,x)*u  (x,y) + u  (x,y)
+           y                  yy                   xy         xx
+
+
+% explicitly declare 1st and second derivative commutative
+generic_function v(x,y);
+
+
+let dfp(v(~a,~b),{y,x}) => dfp(v(a,b),{x,y});
+
+
+df(v(),x,2);
+
+
+                           2
+df(y,x,2)*v (x,y) + df(y,x) *v  (x,y) + 2*df(y,x)*v  (x,y) + v  (x,y)
+           y                  yy                   xy         xx
+
+
+% substitute expressions for the arguments
+w:=df(f(),x,2);
+
+
+                                2
+w := df(y,x,2)*f (x,y) + df(y,x) *f  (x,y) + df(y,x)*f  (x,y) + df(y,x)*f  (x,y)
+                y                  yy                 xy                 yx
+
+      + f  (x,y)
+         xx
+
+sub(x=0,y=x,w);
+
+
+f  (0,x) + f  (0,x) + f  (0,x) + f  (0,x)
+ xx         xy         yx         yy
+
+
+% composite generic functions
+generic_function g(x,y);
+
+
+generic_function h(y,z);
+
+
+depend z,x;
+
+
+w:=df(g()*h(),x);
+
+
+w := 
+
+df(y,x)*g (x,y)*h() + df(y,x)*h (y,z)*g() + df(z,x)*h (y,z)*g() + g (x,y)*h()
+         y                     y                     z             x
+
+sub(y=0,w);
+
+
+df(z,x)*h (0,z)*g(x,0) + g (x,0)*h(0,z)
+         z                x
+
+% substituting g*h for f in a partial derivative of f,
+% inheriting the arguments of f. Here no derivative of h
+% appears because h does not depend of x.
+sub(f=g*h,dfp(f(a,b),x));
+
+
+g (a,b)*h(b,z)
+ x
+
+
+% indexes.
+
+% in the following total differential the partial
+% derivatives wrt i and j do not appear because i and
+% j do not depend of x.
+
+generic_function m(i,j,x,y);
+
+
+df(m(i,j,x,y),x);
+
+
+df(y,x)*m (i,j,x,y) + m (i,j,x,y)
+         y             x
+
+
+% computation with a differential equation.
+
+generic_function f(x,y);
+
+
+operator y;
+
+
+let df(y(~x),x) => f(x,y(x));
+
+
+
+% some derivatives
+
+df(y(x),x);
+
+
+f(x,y(x))
+
+df(y(x),x,2);
+
+
+f (x,y(x)) + f (x,y(x))*f(x,y(x))
+ x            y
+
+df(y(x),x,3);
+
+
+f  (x,y(x)) + f  (x,y(x))*f(x,y(x)) + f (x,y(x))*f (x,y(x))
+ xx            xy                      x          y
+
+                                                2             2
+ + f  (x,y(x))*f(x,y(x)) + f  (x,y(x))*f(x,y(x))  + f (x,y(x)) *f(x,y(x))
+    yx                      yy                       y
+
+sub(x=22,ws);
+
+
+f  (22,y(22)) + f  (22,y(22))*f(22,y(22)) + f (22,y(22))*f (22,y(22))
+ xx              xy                          x            y
+
+                                                        2
+ + f  (22,y(22))*f(22,y(22)) + f  (22,y(22))*f(22,y(22))
+    yx                          yy
+
+               2
+ + f (22,y(22)) *f(22,y(22))
+    y
+
+
+% taylor expansion for y
+
+load_package taylor;
+
+
+taylor(y(x0+h),h,0,3);
+
+
+                         f (x0,y(x0)) + f (x0,y(x0))*f(x0,y(x0))
+                          x              y                         2
+y(x0) + f(x0,y(x0))*h + -----------------------------------------*h  + (
+                                            2
+
+   f  (x0,y(x0)) + f  (x0,y(x0))*f(x0,y(x0)) + f (x0,y(x0))*f (x0,y(x0))
+    xx              xy                          x            y
+
+                                                           2
+    + f  (x0,y(x0))*f(x0,y(x0)) + f  (x0,y(x0))*f(x0,y(x0))
+       yx                          yy
+
+                  2                 3      4
+    + f (x0,y(x0)) *f(x0,y(x0)))/6*h  + O(h )
+       y
+
+
+clear w;
+
+
+
+%------------------------ Runge Kutta -------------------------
+% computing Runge Kutta formulas for ODE systems Y'=F(x,y(x));
+% forms corresponding to Ralston Rabinowitz
+
+load_package taylor;
+
+
+operator alpha,beta,w,k;
+
+
+
+% s= order of Runge Kutta formula
+
+s:=3;
+
+
+s := 3
+  
+
+generic_function f(x,y);
+
+
+operator y;
+
+
+*** y already defined as operator 
+
+
+% introduce ODE
+
+let df(y(~x),x)=>f(x,y(x));
+
+ 
+
+% formal series for solution
+
+y1_form := taylor(y(x0+h),h,0,s);
+
+
+                                    f (x0,y(x0)) + f (x0,y(x0))*f(x0,y(x0))
+                                     x              y                         2
+y1_form := y(x0) + f(x0,y(x0))*h + -----------------------------------------*h  
+                                                       2
+
+           + (f  (x0,y(x0)) + f  (x0,y(x0))*f(x0,y(x0))
+               xx              xy
+
+               + f (x0,y(x0))*f (x0,y(x0)) + f  (x0,y(x0))*f(x0,y(x0))
+                  x            y              yx
+
+                                          2               2                 3
+               + f  (x0,y(x0))*f(x0,y(x0))  + f (x0,y(x0)) *f(x0,y(x0)))/6*h
+                  yy                           y
+
+                 4
+            + O(h )
+
+
+% Runge-Kutta Ansatz:
+
+let alpha(1)=>0;
+
+
+
+for i:=1:s do
+   let k(i) => h*f(x0 + alpha(i)*h, 
+                  y(x0) + for j:=1:(i-1) sum beta(i,j)*k(j));
+
+
+y1_ansatz:= y(x0) + for i:=1:s sum w(i)*k(i);
+
+
+y1_ansatz := f(alpha(3)*h + x0,
+
+               beta(3,2)*f(alpha(2)*h + x0,beta(2,1)*f(x0,y(x0))*h + y(x0))*h
+
+                + beta(3,1)*f(x0,y(x0))*h + y(x0))*w(3)*h
+
+              + f(alpha(2)*h + x0,beta(2,1)*f(x0,y(x0))*h + y(x0))*w(2)*h
+
+              + f(x0,y(x0))*w(1)*h + y(x0)
+
+
+y1_ansatz := taylor(y1_ansatz,h,0,s);
+
+
+y1_ansatz := y(x0) + f(x0,y(x0))*(w(3) + w(2) + w(1))*h + (
+
+                alpha(3)*f (x0,y(x0))*w(3) + alpha(2)*f (x0,y(x0))*w(2)
+                          x                            x
+
+                 + beta(3,2)*f (x0,y(x0))*f(x0,y(x0))*w(3)
+                              y
+
+                 + beta(3,1)*f (x0,y(x0))*f(x0,y(x0))*w(3)
+                              y
+
+                                                             2
+                 + beta(2,1)*f (x0,y(x0))*f(x0,y(x0))*w(2))*h  + (
+                              y
+
+                        2
+                alpha(3) *f  (x0,y(x0))*w(3)
+                           xx
+
+                 + alpha(3)*beta(3,2)*f  (x0,y(x0))*f(x0,y(x0))*w(3)
+                                       xy
+
+                 + alpha(3)*beta(3,2)*f  (x0,y(x0))*f(x0,y(x0))*w(3)
+                                       yx
+
+                 + alpha(3)*beta(3,1)*f  (x0,y(x0))*f(x0,y(x0))*w(3)
+                                       xy
+
+                 + alpha(3)*beta(3,1)*f  (x0,y(x0))*f(x0,y(x0))*w(3)
+                                       yx
+
+                           2
+                 + alpha(2) *f  (x0,y(x0))*w(2)
+                              xx
+
+                 + 2*alpha(2)*beta(3,2)*f (x0,y(x0))*f (x0,y(x0))*w(3)
+                                         x            y
+
+                 + alpha(2)*beta(2,1)*f  (x0,y(x0))*f(x0,y(x0))*w(2)
+                                       xy
+
+                 + alpha(2)*beta(2,1)*f  (x0,y(x0))*f(x0,y(x0))*w(2)
+                                       yx
+
+                            2                          2
+                 + beta(3,2) *f  (x0,y(x0))*f(x0,y(x0)) *w(3)
+                               yy
+
+                                                                  2
+                 + 2*beta(3,2)*beta(3,1)*f  (x0,y(x0))*f(x0,y(x0)) *w(3)
+                                          yy
+
+                                                     2
+                 + 2*beta(3,2)*beta(2,1)*f (x0,y(x0)) *f(x0,y(x0))*w(3)
+                                          y
+
+                            2                          2
+                 + beta(3,1) *f  (x0,y(x0))*f(x0,y(x0)) *w(3)
+                               yy
+
+                            2                          2          3      4
+                 + beta(2,1) *f  (x0,y(x0))*f(x0,y(x0)) *w(2))/2*h  + O(h )
+                               yy
+
+
+% compute y1_form - y1_ans and collect coeffients of powers of h
+
+y1_diff := num(taylortostandard(y1_ansatz)-taylortostandard(y1_form))$
+
+
+cl := coeff(y1_diff,h);
+
+
+cl := {0,
+
+       6*f(x0,y(x0))*(w(3) + w(2) + w(1) - 1),
+
+       3*(2*alpha(3)*f (x0,y(x0))*w(3) + 2*alpha(2)*f (x0,y(x0))*w(2)
+                      x                              x
+
+           + 2*beta(3,2)*f (x0,y(x0))*f(x0,y(x0))*w(3)
+                          y
+
+           + 2*beta(3,1)*f (x0,y(x0))*f(x0,y(x0))*w(3)
+                          y
+
+           + 2*beta(2,1)*f (x0,y(x0))*f(x0,y(x0))*w(2) - f (x0,y(x0))
+                          y                               x
+
+           - f (x0,y(x0))*f(x0,y(x0))),
+              y
+
+                 2
+       3*alpha(3) *f  (x0,y(x0))*w(3)
+                    xx
+
+        + 3*alpha(3)*beta(3,2)*f  (x0,y(x0))*f(x0,y(x0))*w(3)
+                                xy
+
+        + 3*alpha(3)*beta(3,2)*f  (x0,y(x0))*f(x0,y(x0))*w(3)
+                                yx
+
+        + 3*alpha(3)*beta(3,1)*f  (x0,y(x0))*f(x0,y(x0))*w(3)
+                                xy
+
+        + 3*alpha(3)*beta(3,1)*f  (x0,y(x0))*f(x0,y(x0))*w(3)
+                                yx
+
+                    2
+        + 3*alpha(2) *f  (x0,y(x0))*w(2)
+                       xx
+
+        + 6*alpha(2)*beta(3,2)*f (x0,y(x0))*f (x0,y(x0))*w(3)
+                                x            y
+
+        + 3*alpha(2)*beta(2,1)*f  (x0,y(x0))*f(x0,y(x0))*w(2)
+                                xy
+
+        + 3*alpha(2)*beta(2,1)*f  (x0,y(x0))*f(x0,y(x0))*w(2)
+                                yx
+
+                     2                          2
+        + 3*beta(3,2) *f  (x0,y(x0))*f(x0,y(x0)) *w(3)
+                        yy
+
+                                                         2
+        + 6*beta(3,2)*beta(3,1)*f  (x0,y(x0))*f(x0,y(x0)) *w(3)
+                                 yy
+
+                                            2
+        + 6*beta(3,2)*beta(2,1)*f (x0,y(x0)) *f(x0,y(x0))*w(3)
+                                 y
+
+                     2                          2
+        + 3*beta(3,1) *f  (x0,y(x0))*f(x0,y(x0)) *w(3)
+                        yy
+
+                     2                          2
+        + 3*beta(2,1) *f  (x0,y(x0))*f(x0,y(x0)) *w(2) - f  (x0,y(x0))
+                        yy                                xx
+
+        - f  (x0,y(x0))*f(x0,y(x0)) - f (x0,y(x0))*f (x0,y(x0))
+           xy                          x            y
+
+                                                               2
+        - f  (x0,y(x0))*f(x0,y(x0)) - f  (x0,y(x0))*f(x0,y(x0))
+           yx                          yy
+
+                      2
+        - f (x0,y(x0)) *f(x0,y(x0))}
+           y
+
+
+% f_forms: forms of f and its derivatives which occur in cl
+
+f_forms :=q := {f(x0,y(x0))}$
+
+
+for i:=1:(s-1) do
+  <<q:= for each r in q join {dfp(r,x),dfp(r,y)};
+    f_forms := append(f_forms,q);
+  >>;
+
+
+f_forms;
+
+
+{f(x0,y(x0)),
+
+ f (x0,y(x0)),
+  x
+
+ f (x0,y(x0)),
+  y
+
+ f  (x0,y(x0)),
+  xx
+
+ f  (x0,y(x0)),
+  xy
+
+ f  (x0,y(x0)),
+  yx
+
+ f  (x0,y(x0))}
+  yy
+
+
+% extract coefficients of the f_forms in cl
+
+sys := cl$
+
+
+for each fr in f_forms do
+  sys:=for each c in sys join coeff(c,fr);
+
+
+% and eliminate zeros
+sys := for each c in sys join if c neq 0 then {c} else {};
+
+
+sys := {6*(w(3) + w(2) + w(1) - 1),
+
+        3*(2*alpha(3)*w(3) + 2*alpha(2)*w(2) - 1),
+
+        3*(2*beta(3,2)*w(3) + 2*beta(3,1)*w(3) + 2*beta(2,1)*w(2) - 1),
+
+                  2                  2
+        3*alpha(3) *w(3) + 3*alpha(2) *w(2) - 1,
+
+        6*alpha(2)*beta(3,2)*w(3) - 1,
+
+        3*alpha(3)*beta(3,2)*w(3) + 3*alpha(3)*beta(3,1)*w(3)
+
+         + 3*alpha(2)*beta(2,1)*w(2) - 1,
+
+        3*alpha(3)*beta(3,2)*w(3) + 3*alpha(3)*beta(3,1)*w(3)
+
+         + 3*alpha(2)*beta(2,1)*w(2) - 1,
+
+        6*beta(3,2)*beta(2,1)*w(3) - 1,
+
+                   2                                                2
+        3*beta(3,2) *w(3) + 6*beta(3,2)*beta(3,1)*w(3) + 3*beta(3,1) *w(3)
+
+                      2
+         + 3*beta(2,1) *w(2) - 1}
+
+
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 44 ms  plus GC time: 4 ms
+real	0m1.410s
+user	0m0.015s
+sys	0m0.076s

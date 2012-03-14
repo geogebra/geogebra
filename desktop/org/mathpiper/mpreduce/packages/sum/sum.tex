@@ -1,0 +1,69 @@
+\documentstyle[11pt,reduce]{article}
+\title{The REDUCE Sum Package \\ Ver 1.0 9 Oct 1989}
+\date{}
+\author{Fujio Kako \\ Department of Mathematics \\ Faculty of Science \\
+Hiroshima University \\ Hiroshima 730, JAPAN \\
+E-mail: kako@ics.nara-wu.ac.jp}
+\begin{document}
+\maketitle
+\index{Gosper's Algorithm} \index{SUM operator} \index{PROD operator}
+This package implements the Gosper algorithm for the summation of series.
+It defines operators SUM and PROD.  The operator SUM returns the indefinite
+or definite summation of a given expression, and the operator PROD returns
+the product of the given expression.  These are used with the syntax:
+
+\vspace{.1in}
+\noindent {\tt SUM}(EXPR:{\em expression}, K:{\em kernel},
+[LOLIM:{\em expression} [, UPLIM:{\em expression}]])
+\vspace{.1in}
+\noindent {\tt PROD}(EXPR:{\em expression}, K:{\em kernel},
+[LOLIM:{\em expression} [, UPLIM:{\em expression}]])
+
+If there is no closed form solution, these operators return the input
+unchanged.  UPLIM and LOLIM are optional parameters specifying the lower
+limit and upper limit of the summation (or product), respectively.  If UPLIM
+is not supplied, the upper limit is taken as K (the summation variable
+itself).
+
+For example:
+
+\begin{verbatim}
+     sum(n**3,n);
+
+     sum(a+k*r,k,0,n-1);
+
+     sum(1/((p+(k-1)*q)*(p+k*q)),k,1,n+1);
+
+     prod(k/(k-2),k);
+\end{verbatim}
+
+Gosper's algorithm succeeds whenever the ratio
+
+\[ \frac{\sum_{k=n_0}^n f(k)}{\sum_{k=n_0}^{n-1} f(k)} \]
+
+\noindent is a rational function of $n$.  The function SUM!-SQ
+handles basic functions such as polynomials, rational functions and
+exponentials. \ttindex{SUM-SQ}
+
+The trigonometric functions sin, cos, etc. are converted to exponentials
+and then Gosper's algorithm is applied.  The result is converted back into
+sin, cos, sinh and cosh.
+
+Summations of logarithms or products of exponentials are treated by the
+formula:
+
+\vspace{.1in}
+\hspace*{2em} \[ \sum_{k=n_0}^{n} \log f(k) = \log \prod_{k=n_0}^n f(k) \]
+\vspace{.1in}
+\hspace*{2em} \[ \prod_{k=n_0}^n \exp f(k) = \exp \sum_{k=n_0}^n f(k) \]
+\vspace{.1in}
+
+Other functions, as shown in the test file for the case of binomials and
+formal products, can be summed by providing LET rules which must relate the
+functions evaluated at $k$ and $k - 1$ ($k$ being the summation variable).
+
+\index{tracing ! SUM package} \ttindex{TRSUM}
+There is a switch TRSUM (default OFF).  If this switch is on, trace
+messages are printed out during the course of Gosper's algorithm.
+
+\end{document}

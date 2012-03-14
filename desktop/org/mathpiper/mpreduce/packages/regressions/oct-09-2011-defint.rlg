@@ -1,0 +1,38 @@
+on modular;
+
+
+
+setmod 3;
+
+
+1
+
+
+int(x,x);
+
+
+   2
+2*x
+
+
+lisp !*mode;
+
+
+algebraic
+
+
+int(sqrt(1-x^2),x,0,1);
+
+
+       1/2
+***** 2    invalid as (expression mod 3)
+ 
+
+lisp !*mode;
+
+
+algebraic
+
+
+end;
+

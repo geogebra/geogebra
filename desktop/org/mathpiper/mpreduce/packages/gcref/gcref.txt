@@ -1,0 +1,64 @@
+GCREF - A Graph Cross Referencer
+
+Author: A. Dolzmann, T. Sturm
+================================
+
+This package reuses the code of the RCREF package to create a graph displaying
+the interdependency of procedures in a Reduce source code file.
+
+
+1. Basic Usage
+--------------
+Similarly to the Reduce cross referencer, it is used via switches as follows:
+
+load_package gcref;
+on gcref;
+in "<filename>.red";
+off gcref;
+
+At "off gcref;" the graph is printed to the screen in TGF format. To redirect
+this output to a file, use the following:
+
+load_package gcref;
+on gcref;
+in "<filename>.red";
+out "<filename>.tgf";
+off gcref;
+shut "<filename>.tgf";
+
+
+2. Shell Script "gcref":
+------------------------
+There is a shell script "gcref" in this directory automizing this like
+
+./gcref filename.red
+
+"gcref" is configured to use CSL Reduce. To use PSL Reduce instead, set $REDUCE
+in the environment. To use PSL by default, define
+
+REDUCE=redpsl
+
+in line 3 of "gcref".
+
+
+3. Redering with yED:
+---------------------
+The obtained TGF file can be viewed with a graph editor. I recommend using the
+free software yED, which is written in Java and available for many platforms.
+
+http://www.yworks.com/en/products_yed_about.html
+
+Note that TGF is not suitable for storing rendering information. After opening
+the TGF file with yED, the graph has to be rendered explicitly as follows:
+
+* From menu "Layout" choose "Hierarchical Layout".
+
+To resize the nodes to the procedure names
+
+* from menu "Tools" choose "Fit Node to Label".
+
+Feel free to experiment with yED and use other layout and layout options, which
+might be suitable for your particular software.
+
+For saving your particular layout at the end, use the GRAPHML format instead of
+TGF.

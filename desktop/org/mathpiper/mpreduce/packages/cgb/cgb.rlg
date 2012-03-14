@@ -1,0 +1,2170 @@
+% Examples taken from the manual:
+
+% 1 Introduction
+oo := torder({x,y},lex)$
+
+
+cgb {a*x,x+y};
+
+
+{x + y,a*x,a*y}
+
+gsys {a*x,x+y};
+
+
+{{a <> 0,{x + y,a*x,a*y}},
+
+ {a = 0,{x + y}}}
+
+torder oo;
+
+
+{{x,y},lex}
+
+
+% 4 CGB: Comprehensive Groebner Basis
+oo := torder({x,y},lex)$
+
+
+cgb {a*x+y,x+b*y};
+
+
+{x + b*y,a*x + y,(a*b - 1)*y}
+
+torder oo;
+
+
+{{x,y},lex}
+
+
+% 5 GSYS: Groebner System
+oo := torder({x,y},lex)$
+
+
+gsys {a*x+y,x+b*y};
+
+
+{{a*b - 1 <> 0 and a <> 0,
+
+  {a*x + y,x + b*y,(a*b - 1)*y}},
+
+ {a <> 0 and a*b - 1 = 0,
+
+  {a*x + y,x + b*y}},
+
+ {a = 0,{x + b*y,y}}}
+
+torder oo;
+
+
+{{x,y},lex}
+
+
+% 6 GSYS2CGB: Groebner System to CGB
+oo := torder({x,y},lex)$
+
+
+gsys {a*x+y,x+b*y};
+
+
+{{a*b - 1 <> 0 and a <> 0,
+
+  {a*x + y,x + b*y,(a*b - 1)*y}},
+
+ {a <> 0 and a*b - 1 = 0,
+
+  {a*x + y,x + b*y}},
+
+ {a = 0,{x + b*y,y}}}
+
+gsys2cgb ws;
+
+
+{x + b*y,a*x + y,y,(a*b - 1)*y}
+
+torder oo;
+
+
+{{x,y},lex}
+
+
+% 7 Switch CGBREAL: Computing over the Real Numbers
+oo := torder({x,y},lex)$
+
+
+off cgbreal;
+
+
+gsys {a*x+y,x-a*y};
+
+
+   2
+{{a  + 1 <> 0 and a <> 0,
+
+                     2
+  {a*x + y,x - a*y,(a  + 1)*y}},
+
+              2
+ {a <> 0 and a  + 1 = 0,
+
+  {a*x + y,x - a*y}},
+
+ {a = 0,{x - a*y,y}}}
+
+on cgbreal;
+
+
+gsys({a*x+y,x-a*y});
+
+
+{{a <> 0,
+
+                     2
+  {a*x + y,x - a*y,(a  + 1)*y}},
+
+ {a = 0,{x - a*y,y}}}
+
+torder oo;
+
+
+{{x,y},lex}
+
+
+% Miscellaneous examples:
+
+% Dolzmann's Example
+oo := torder({x,y,z},lex);
+
+
+oo := {{},lex}
+
+cgb({a*x+b*y,c*x+d*y,(a*d-b*c)*z});
+
+
+{c*x + d*y,
+
+ a*x + b*y,
+
+ (a*d - b*c)*y,
+
+ (a*d - b*c)*z}
+
+gsys({a*x+b*y,c*x+d*y,(a*d-b*c)*z});
+
+
+{{a*d - b*c <> 0 and a <> 0 and c <> 0,
+
+  {a*x + b*y,
+
+   c*x + d*y,
+
+   (a*d - b*c)*y,
+
+   (a*d - b*c)*z}},
+
+ {a*d - b*c <> 0 and a <> 0 and d <> 0 and c = 0,
+
+  {a*x + b*y,d*y,(a*d - b*c)*z}},
+
+ {a*d - b*c <> 0 and a <> 0 and c = 0 and d = 0,
+
+  {a*x + b*y,(a*d - b*c)*z}},
+
+ {a*d - b*c <> 0 and b <> 0 and c <> 0 and a = 0,
+
+  {c*x + d*y,b*y,(a*d - b*c)*z}},
+
+ {a*d - b*c <> 0 and b <> 0 and d <> 0 and a = 0 and c = 0,
+
+  {b*y,d*y,(a*d - b*c)*z}},
+
+ {a*d - b*c <> 0 and b <> 0 and a = 0 and c = 0 and d = 0,
+
+  {b*y,(a*d - b*c)*z}},
+
+ {a*d - b*c <> 0 and c <> 0 and a = 0 and b = 0,
+
+  {c*x + d*y,(a*d - b*c)*z}},
+
+ {a*d - b*c <> 0 and d <> 0 and a = 0 and b = 0 and c = 0,
+
+  {d*y,(a*d - b*c)*z}},
+
+ {a*d - b*c <> 0 and a = 0 and b = 0 and c = 0 and d = 0,
+
+  {(a*d - b*c)*z}},
+
+ {a <> 0 and c <> 0 and a*d - b*c = 0,
+
+  {a*x + b*y,c*x + d*y}},
+
+ {a <> 0 and d <> 0 and a*d - b*c = 0 and c = 0,
+
+  {a*x + b*y,d*y}},
+
+ {a <> 0 and a*d - b*c = 0 and c = 0 and d = 0,
+
+  {a*x + b*y}},
+
+ {b <> 0 and c <> 0 and a*d - b*c = 0 and a = 0,
+
+  {c*x + d*y,b*y}},
+
+ {b <> 0 and d <> 0 and a*d - b*c = 0 and a = 0 and c = 0,
+
+  {b*y,d*y}},
+
+ {b <> 0 and a*d - b*c = 0 and a = 0 and c = 0 and d = 0,
+
+  {b*y}},
+
+ {c <> 0 and a*d - b*c = 0 and a = 0 and b = 0,
+
+  {c*x + d*y}},
+
+ {d <> 0 and a*d - b*c = 0 and a = 0 and b = 0 and c = 0,
+
+  {d*y}},
+
+ {a*d - b*c = 0 and a = 0 and b = 0 and c = 0 and d = 0,
+
+  {}}}
+
+gsys2cgb ws;
+
+
+{c*x + d*y,
+
+ a*x + b*y,
+
+ b*y,
+
+ d*y,
+
+ (a*d - b*c)*y,
+
+ (a*d - b*c)*z}
+
+torder oo;
+
+
+{{x,y,z},lex}
+
+
+% Forsman's Example (hybrid control system).
+oo := torder({x1,x2,y2,y1,y0},lex);
+
+
+oo := {{},lex}
+
+gsys({(u1*u2-u1)*x1+u2*x2+y2,(u2-1)*x1+u2*x2+y1,-x2+y0});
+
+
+{{u1*u2 - u1 <> 0,
+
+  {(u1*u2 - u1)*x1 + u2*x2 + y2,
+
+   (u2 - 1)*x1 + u2*x2 + y1,
+
+   x2 - y0,
+
+   y2 - u1*y1 - (u1*u2 - u2)*y0}},
+
+ {u2 - 1 <> 0 and u2 <> 0 and u1*u2 - u1 = 0,
+
+  {(u2 - 1)*x1 + u2*x2 + y1,u2*x2 + y2,x2 - y0,y2 + u2*y0}},
+
+ {u1*u2 - u1 = 0 and u2 - 1 = 0,
+
+  {u2*x2 + y2,u2*x2 + y1,x2 - y0,y2 - y1,y1 + u2*y0}},
+
+ {u1*u2 - u1 = 0 and u2 = 0,
+
+  {(u2 - 1)*x1 + u2*x2 + y1,x2 - y0,y2}}}
+
+torder oo;
+
+
+{{x1,x2,y2,y1,y0},lex}
+
+
+% Weispfenning's Example
+oo := torder({x,y},lex);
+
+
+oo := {{},lex}
+
+gsys({v*x*y + x,u*y^2 + x^2});
+
+
+{{u*v <> 0 and v <> 0,
+
+    2      2
+  {x  + u*y ,
+
+   v*x*y + x,
+
+          3      2
+   (u*v)*y  + u*y }},
+
+ {u <> 0 and v <> 0 and u*v = 0,
+
+    2      2                  2
+  {x  + u*y ,v*x*y + x,u*x,u*y }},
+
+ {u <> 0 and v = 0,
+
+    2      2      2
+  {x  + u*y ,x,u*y }},
+
+ {v <> 0 and u*v = 0 and u = 0,
+
+    2      2
+  {x  + u*y ,v*x*y + x}},
+
+                    2      2
+ {u = 0 and v = 0,{x  + u*y ,x}}}
+
+torder oo;
+
+
+{{x,y},lex}
+
+
+% The folllowing three examples are taken from
+% Weispfenning, Comprehensive Groebner Bases,
+% J. Symbolic Computation (1992) 14, 1-29
+
+% Weispfenning's Example 7.1
+oo := torder({x},lex);
+
+
+oo := {{},lex}
+
+gsys({a0*x**2 + a1*x + a2,b0*x**2 + b1*x + b2});
+
+
+    3   2     2                2              2      2        2
+{{a0 *b2  - a0 *a1*b1*b2 - 2*a0 *a2*b0*b2 + a0 *a2*b1  + a0*a1 *b0*b2
+
+                           2   2
+   - a0*a1*a2*b0*b1 + a0*a2 *b0  <> 0 and a0*b1 - a1*b0 <> 0 and a0 <> 0
+
+   and b0 <> 0,
+
+     3   2     2                2              2      2        2
+  {a0 *b2  - a0 *a1*b1*b2 - 2*a0 *a2*b0*b2 + a0 *a2*b1  + a0*a1 *b0*b2
+
+                            2   2
+    - a0*a1*a2*b0*b1 + a0*a2 *b0 }},
+
+                                                   3   2     2
+ {a0*b1 - a1*b0 <> 0 and a0 <> 0 and b0 <> 0 and a0 *b2  - a0 *a1*b1*b2
+
+         2              2      2        2                               2   2
+   - 2*a0 *a2*b0*b2 + a0 *a2*b1  + a0*a1 *b0*b2 - a0*a1*a2*b0*b1 + a0*a2 *b0
+
+   = 0,
+
+       2
+  {a0*x  + a1*x + a2,
+
+       2
+   b0*x  + b1*x + b2,
+
+   (a0*b1 - a1*b0)*x + (a0*b2 - a2*b0)}},
+
+       2                   2
+ {a0*b2  - a1*b1*b2 + a2*b1  <> 0 and a0 <> 0 and b1 <> 0 and b0 = 0,
+
+        2                   2
+  {a0*b2  - a1*b1*b2 + a2*b1 }},
+
+ {a0*b2 - a2*b0 <> 0 and a0 <> 0 and b0 <> 0 and a0*b1 - a1*b0 = 0,
+
+  {a0*b2 - a2*b0}},
+
+ {a0 <> 0 and b0 <> 0 and a0*b1 - a1*b0 = 0 and a0*b2 - a2*b0 = 0,
+
+       2                 2
+  {a0*x  + a1*x + a2,b0*x  + b1*x + b2}},
+
+                               2                   2
+ {a0 <> 0 and b1 <> 0 and a0*b2  - a1*b1*b2 + a2*b1  = 0 and b0 = 0,
+
+       2
+  {a0*x  + a1*x + a2,b1*x + b2}},
+
+ {a0 <> 0 and b2 <> 0 and b0 = 0 and b1 = 0,{b2}},
+
+ {a0 <> 0 and b0 = 0 and b1 = 0 and b2 = 0,
+
+       2
+  {a0*x  + a1*x + a2}},
+
+    2                   2
+ {a1 *b2 - a1*a2*b1 + a2 *b0 <> 0 and a1 <> 0 and b0 <> 0 and a0 = 0,
+
+     2                   2
+  {a1 *b2 - a1*a2*b1 + a2 *b0}},
+
+ {a1*b2 - a2*b1 <> 0 and a1 <> 0 and b1 <> 0 and a0 = 0 and b0 = 0,
+
+  {a1*b2 - a2*b1}},
+
+                                       2                   2
+ {a1 <> 0 and b0 <> 0 and a0 = 0 and a1 *b2 - a1*a2*b1 + a2 *b0 = 0,
+
+       2
+  {b0*x  + b1*x + b2,a1*x + a2}},
+
+ {a1 <> 0 and b1 <> 0 and a0 = 0 and a1*b2 - a2*b1 = 0 and b0 = 0,
+
+  {a1*x + a2,b1*x + b2}},
+
+ {a1 <> 0 and b2 <> 0 and a0 = 0 and b0 = 0 and b1 = 0,
+
+  {b2}},
+
+ {a1 <> 0 and a0 = 0 and b0 = 0 and b1 = 0 and b2 = 0,
+
+  {a1*x + a2}},
+
+ {a2 <> 0 and a0 = 0 and a1 = 0,{a2}},
+
+ {b0 <> 0 and a0 = 0 and a1 = 0 and a2 = 0,
+
+       2
+  {b0*x  + b1*x + b2}},
+
+ {b1 <> 0 and a0 = 0 and a1 = 0 and a2 = 0 and b0 = 0,
+
+  {b1*x + b2}},
+
+ {b2 <> 0 and a0 = 0 and a1 = 0 and a2 = 0 and b0 = 0 and b1 = 0,
+
+  {b2}},
+
+ {a0 = 0 and a1 = 0 and a2 = 0 and b0 = 0 and b1 = 0 and b2 = 0,
+
+  {}}}
+
+torder oo;
+
+
+{{x},lex}
+
+
+% Weispfenning's Example 7.2
+oo := torder({x,y},lex);
+
+
+oo := {{},lex}
+
+gsys({v*x*y + u*x**2 + x,u*y**2 + x**2});
+
+
+   4        3
+{{u *v + u*v  <> 0 and u <> 0 and v <> 0,
+
+      2
+  {u*x  + v*x*y + x,
+
+    2      2
+   x  + u*y ,
+
+                2  2
+   v*x*y + x - u *y ,
+
+    3       5      2  3   3     5    2  2   2
+   u *x + (u *v + u *v )*y  - (u  - u *v )*y ,
+
+     7  2    4  4   4       4  3   3     4  2   2
+   (u *v  + u *v )*y  + (2*u *v )*y  + (u *v )*y }},
+
+                         4        3
+ {u <> 0 and v <> 0 and u *v + u*v  = 0,
+
+      2
+  {u*x  + v*x*y + x,
+
+    2      2
+   x  + u*y ,
+
+                2  2
+   v*x*y + x - u *y ,
+
+    3       5      2  3   3     5    2  2   2
+   u *x + (u *v + u *v )*y  - (u  - u *v )*y ,
+
+       4  3   3     4  2   2
+   (2*u *v )*y  + (u *v )*y }},
+
+ {u <> 0 and v = 0,
+
+      2
+  {u*x  + v*x*y + x,
+
+    2      2
+   x  + u*y ,
+
+        2  2
+   x - u *y ,
+
+    5  4    2  2
+   u *y  + u *y }},
+
+ {v <> 0 and u = 0,
+
+    2      2
+  {x  + u*y ,v*x*y + x}},
+
+                    2      2
+ {u = 0 and v = 0,{x  + u*y ,x}}}
+
+torder oo;
+
+
+{{x,y},lex}
+
+
+% Weispfenning's Example 7.3
+oo := torder({x1,x2,x3,x4},lex);
+
+
+oo := {{},lex}
+
+gsys {x4 - (a4-a2),x1 + x2 + x3 + x4 + (a1 + a3 + a4),
+   x1*x3 + x1*x4 + x2*x3 + x3*x4 - (a1*a4 + a1*a3 + a3*a4),x1*x3*x4 - a1*a3*a4};
+
+
+       2                                  2     3     2          2
+{{a1*a2  - a1*a2*a3 - 3*a1*a2*a4 + 2*a1*a4  - a2  + a2 *a3 + 4*a2 *a4
+
+                         2          2       3
+   - 3*a2*a3*a4 - 5*a2*a4  + 2*a3*a4  + 2*a4  <> 0 and a2 - a4 = 0,
+
+        2                                  2     3     2          2
+  {a1*a2  - a1*a2*a3 - 3*a1*a2*a4 + 2*a1*a4  - a2  + a2 *a3 + 4*a2 *a4
+
+                          2          2       3
+    - 3*a2*a3*a4 - 5*a2*a4  + 2*a3*a4  + 2*a4 }},
+
+ {a2 - a4 <> 0,
+
+  {x1*x3*x4 - a1*a3*a4,
+
+   x1*x3 + x1*x4 + x2*x3 + x3*x4 - (a1*a3 + a1*a4 + a3*a4),
+
+   x1 + x2 + x3 + x4 + (a1 + a3 + a4),
+
+                    2
+   (a2 - a4)*x2 - x3  - (a1 - a2 + a3 + 2*a4)*x3
+
+                                   2                                   2
+    + (a1*a2 - a1*a3 - 2*a1*a4 - a2  + a2*a3 + 3*a2*a4 - 2*a3*a4 - 2*a4 ),
+
+     3                    2
+   x3  + (a1 + a3 + a4)*x3  + (a1*a3 + a1*a4 + a3*a4)*x3 - a1*a3*a4,
+
+   x4 + (a2 - a4)}},
+
+       2                                  2     3     2          2
+ {a1*a2  - a1*a2*a3 - 3*a1*a2*a4 + 2*a1*a4  - a2  + a2 *a3 + 4*a2 *a4
+
+                         2          2       3
+   - 3*a2*a3*a4 - 5*a2*a4  + 2*a3*a4  + 2*a4  = 0 and a2 - a4 = 0,
+
+  {x1*x3*x4 - a1*a3*a4,
+
+   x1*x3 + x1*x4 + x2*x3 + x3*x4 - (a1*a3 + a1*a4 + a3*a4),
+
+   x1 + x2 + x3 + x4 + (a1 + a3 + a4),
+
+        2
+    - x3  - (a1 - a2 + a3 + 2*a4)*x3
+
+                                   2                                   2
+    + (a1*a2 - a1*a3 - 2*a1*a4 - a2  + a2*a3 + 3*a2*a4 - 2*a3*a4 - 2*a4 ),
+
+   x4 + (a2 - a4)}}}
+
+torder oo;
+
+
+{{x1,x2,x3,x4},lex}
+
+
+% Pesch's example (Circle through three points)
+oo := torder({y,x},revgradlex);
+
+
+oo := {{},lex}
+
+gsys({2*b2*y + 2*a2*x - b2**2 + a2**2,2*b1*y + 2*a1*x - b1**2 + a1**2});
+
+
+    2           2        2        2
+{{a1 *a2 - a1*a2  + a1*b2  - a2*b1  <> 0 and a1 <> 0 and a2 <> 0 and b1 = 0
+
+   and b2 = 0,
+
+     2           2        2        2
+  {a1 *a2 - a1*a2  + a1*b2  - a2*b1 }},
+
+    2        2        2           2
+ {a1 *b2 - a2 *b1 - b1 *b2 + b1*b2  <> 0 and b1 <> 0 and b2 <> 0
+
+   and a1*b2 - a2*b1 = 0,
+
+     2        2        2           2
+  {a1 *b2 - a2 *b1 - b1 *b2 + b1*b2 }},
+
+    2     2
+ {a1  - b1  <> 0 and a1 = 0 and b1 = 0,
+
+     2     2
+  {a1  - b1 }},
+
+ {a1*b2 - a2*b1 <> 0 and b1 <> 0 and b2 <> 0,
+
+                            2     2
+  {(2*b1)*y + (2*a1)*x + (a1  - b1 ),
+
+                            2     2
+   (2*b2)*y + (2*a2)*x + (a2  - b2 ),
+
+                              2        2        2           2
+   (2*a1*b2 - 2*a2*b1)*x + (a1 *b2 - a2 *b1 - b1 *b2 + b1*b2 )}},
+
+                2     2
+ {a1 <> 0 and a2  - b2  <> 0 and a2 = 0 and b1 = 0 and b2 = 0,
+
+     2     2
+  {a2  - b2 }},
+
+                            2           2        2        2
+ {a1 <> 0 and a2 <> 0 and a1 *a2 - a1*a2  + a1*b2  - a2*b1  = 0 and b1 = 0
+
+   and b2 = 0,
+
+                 2     2
+  {(2*a1)*x + (a1  - b1 ),
+
+                 2     2
+   (2*a2)*x + (a2  - b2 )}},
+
+ {a1 <> 0 and b2 <> 0 and b1 = 0,
+
+                            2     2
+  {(2*b2)*y + (2*a2)*x + (a2  - b2 ),
+
+                 2     2
+   (2*a1)*x + (a1  - b1 )}},
+
+                2     2
+ {a1 <> 0 and a2  - b2  = 0 and a2 = 0 and b1 = 0 and b2 = 0,
+
+                 2     2
+  {(2*a1)*x + (a1  - b1 )}},
+
+    2     2
+ {a2  - b2  <> 0 and b1 <> 0 and a2 = 0 and b2 = 0,
+
+     2     2
+  {a2  - b2 }},
+
+    2     2            2     2
+ {a2  - b2  <> 0 and a1  - b1  = 0 and a1 = 0 and a2 = 0 and b1 = 0 and b2 = 0,
+
+     2     2
+  {a2  - b2 }},
+
+ {a2 <> 0 and b1 <> 0 and b2 = 0,
+
+                            2     2
+  {(2*b1)*y + (2*a1)*x + (a1  - b1 ),
+
+                 2     2
+   (2*a2)*x + (a2  - b2 )}},
+
+                2     2
+ {a2 <> 0 and a1  - b1  = 0 and a1 = 0 and b1 = 0 and b2 = 0,
+
+                 2     2
+  {(2*a2)*x + (a2  - b2 )}},
+
+                            2        2        2           2
+ {b1 <> 0 and b2 <> 0 and a1 *b2 - a2 *b1 - b1 *b2 + b1*b2  = 0
+
+   and a1*b2 - a2*b1 = 0,
+
+                            2     2
+  {(2*b1)*y + (2*a1)*x + (a1  - b1 ),
+
+                            2     2
+   (2*b2)*y + (2*a2)*x + (a2  - b2 )}},
+
+                2     2
+ {b1 <> 0 and a2  - b2  = 0 and a2 = 0 and b2 = 0,
+
+                            2     2
+  {(2*b1)*y + (2*a1)*x + (a1  - b1 )}},
+
+                2     2
+ {b2 <> 0 and a1  - b1  = 0 and a1 = 0 and b1 = 0,
+
+                            2     2
+  {(2*b2)*y + (2*a2)*x + (a2  - b2 )}},
+
+    2     2                      2     2
+ {a1  - b1  = 0 and a1 = 0 and a2  - b2  = 0 and a2 = 0 and b1 = 0 and b2 = 0,
+
+  {}}}
+
+torder oo;
+
+
+{{y,x},revgradlex}
+
+
+% Effelterre's example (Aspect graphs)
+f1 := -4-4*v**2-4*u**2+40*v*v1+24*v-120*v1+8*u-40*v2-68*v1**2-100*v2**2+40*u*v2+
+24*v1*v2-4*v1**2*u-4*v2**2*v**2+24*v2**2*v-24*v1*u*v2+8*v*v1*u*v2$
+
+
+f2 := 8*v*v1*u*v2-4*v1**2*u**2+4*v1**2-4*v2**2*v**2+4*v2**2-16*v**2-16*u**2+16$
+
+
+f3 := 16*v-48*u+16*v*v1**2-48*u*v2**2-12*v1**2*u+4*v2**2*v-36*v*v1*v2+
+12*v1*u*v2+12*v*v2**2*u-
+80*u*v1+80*v2*v-20*v1*u*v2**2+20*v2*v*v1**2-20*v1**3*u+20*v2**3*v-12*v1**2*v*u+
+12*v2*v**2*v1-12*v1*u**2*v2$
+
+
+f4 := -160u*v2-1596v2**2+3200*v2-1596-4*u**2+160*u$
+
+
+
+% Special case I2, v1=0
+oo := torder({v,u},lex);
+
+
+oo := {{},lex}
+
+gsys(sub(v1=0,{f1,f2,f4}));
+
+
+                  16                   15                    14
+{{1000557799569*v2   - 8971728968760*v2   + 32332553961916*v2
+
+                      13                    12                   11
+   - 56816638983720*v2   + 43557281160966*v2   - 2232864400680*v2
+
+                     10                    9                    8
+   - 2141149653636*v2   - 24710286679320*v2  + 22557177598385*v2
+
+                     7                   6                   5
+   - 4364899181280*v2  + 1970637124608*v2  - 2915313822720*v2
+
+                     4                   3                  2
+   + 1467702460416*v2  - 1340557025280*v2  + 685570158592*v2  - 140796887040*v2
+
+                                  7            6            5           4
+   + 63647907840 <> 0 and 55175*v2  - 184787*v2  + 144885*v2  + 44895*v2
+
+             3           2
+   - 13020*v2  - 35580*v2  + 320*v2 - 6368 <> 0,
+
+                   16                   15                    14
+  {1000557799569*v2   - 8971728968760*v2   + 32332553961916*v2
+
+                       13                    12                   11
+    - 56816638983720*v2   + 43557281160966*v2   - 2232864400680*v2
+
+                      10                    9                    8
+    - 2141149653636*v2   - 24710286679320*v2  + 22557177598385*v2
+
+                      7                   6                   5
+    - 4364899181280*v2  + 1970637124608*v2  - 2915313822720*v2
+
+                      4                   3                  2
+    + 1467702460416*v2  - 1340557025280*v2  + 685570158592*v2  - 140796887040*v2
+
+    + 63647907840}},
+
+            8              7              6             5             4
+ {3389663*v2  - 14658420*v2  + 20230730*v2  - 6945060*v2  - 3218385*v2
+
+              3             2                                       7
+   - 497040*v2  + 1656704*v2  - 257280*v2 + 255872 <> 0 and 55175*v2
+
+              6            5           4           3           2
+   - 184787*v2  + 144885*v2  + 44895*v2  - 13020*v2  - 35580*v2  + 320*v2 - 6368
+
+   = 0,
+
+             8              7              6             5             4
+  {3389663*v2  - 14658420*v2  + 20230730*v2  - 6945060*v2  - 3218385*v2
+
+               3             2
+    - 497040*v2  + 1656704*v2  - 257280*v2 + 255872}},
+
+          7            6            5           4           3           2
+ {55175*v2  - 184787*v2  + 144885*v2  + 44895*v2  - 13020*v2  - 35580*v2
+
+                                            16                   15
+   + 320*v2 - 6368 <> 0 and 1000557799569*v2   - 8971728968760*v2
+
+                      14                    13                    12
+   + 32332553961916*v2   - 56816638983720*v2   + 43557281160966*v2
+
+                     11                   10                    9
+   - 2232864400680*v2   - 2141149653636*v2   - 24710286679320*v2
+
+                      8                   7                   6
+   + 22557177598385*v2  - 4364899181280*v2  + 1970637124608*v2
+
+                     5                   4                   3
+   - 2915313822720*v2  + 1467702460416*v2  - 1340557025280*v2
+
+                    2
+   + 685570158592*v2  - 140796887040*v2 + 63647907840 = 0,
+
+      2       2        2           2                         2
+  {(v2  + 1)*v  - (6*v2  + 6)*v + u  - (10*v2 + 2)*u + (25*v2  + 10*v2 + 1),
+
+      2       2      2      2
+   (v2  + 4)*v  + 4*u  - (v2  + 4),
+
+        4        2                  3         2
+   (6*v2  + 30*v2  + 24)*v - (110*v2  - 122*v2  - 40*v2 - 8)*u
+
+              4          3          2
+    - (1223*v2  - 2390*v2  + 1303*v2  + 40*v2 + 8),
+
+    2                           2
+   u  + (40*v2 - 40)*u + (399*v2  - 800*v2 + 399),
+
+             7            6            5            4           3            2
+   (220700*v2  - 739148*v2  + 579540*v2  + 179580*v2  - 52080*v2  - 142320*v2
+
+                                       8              7              6
+     + 1280*v2 - 25472)*u + (3389663*v2  - 14658420*v2  + 20230730*v2
+
+                   5             4            3             2
+       - 6945060*v2  - 3218385*v2  - 497040*v2  + 1656704*v2  - 257280*v2
+
+       + 255872)}},
+
+            8              7              6             5             4
+ {3389663*v2  - 14658420*v2  + 20230730*v2  - 6945060*v2  - 3218385*v2
+
+              3             2                                      7
+   - 497040*v2  + 1656704*v2  - 257280*v2 + 255872 = 0 and 55175*v2
+
+              6            5           4           3           2
+   - 184787*v2  + 144885*v2  + 44895*v2  - 13020*v2  - 35580*v2  + 320*v2 - 6368
+
+   = 0,
+
+      2       2        2           2                         2
+  {(v2  + 1)*v  - (6*v2  + 6)*v + u  - (10*v2 + 2)*u + (25*v2  + 10*v2 + 1),
+
+      2       2      2      2
+   (v2  + 4)*v  + 4*u  - (v2  + 4),
+
+        4        2                  3         2
+   (6*v2  + 30*v2  + 24)*v - (110*v2  - 122*v2  - 40*v2 - 8)*u
+
+              4          3          2
+    - (1223*v2  - 2390*v2  + 1303*v2  + 40*v2 + 8),
+
+    2                           2
+   u  + (40*v2 - 40)*u + (399*v2  - 800*v2 + 399)}}}
+
+torder oo;
+
+
+{{v,u},lex}
+
+clear f1,f2,f3,f4;
+
+
+
+% Sit's Example 2.2
+oo := torder({z2,z2},revgradlex);
+
+
+oo := {{},lex}
+
+gsys({d*z2 + c*z1 - v,b*z2 + a*z1 - u});
+
+
+{{a*d*z1 - b*c*z1 + b*v - d*u <> 0 and b <> 0 and d <> 0,
+
+  {a*d*z1 - b*c*z1 + b*v - d*u}},
+
+ {a*z1 - u <> 0 and b = 0,{a*z1 - u}},
+
+ {b <> 0 and c*z1 - v <> 0 and d = 0,
+
+  {c*z1 - v}},
+
+ {b <> 0 and d <> 0 and a*d*z1 - b*c*z1 + b*v - d*u = 0,
+
+  {b*z2 + (a*z1 - u),d*z2 + (c*z1 - v)}},
+
+ {b <> 0 and c*z1 - v = 0 and d = 0,
+
+  {b*z2 + (a*z1 - u)}},
+
+ {c*z1 - v <> 0 and a*z1 - u = 0 and b = 0 and d = 0,
+
+  {c*z1 - v}},
+
+ {d <> 0 and a*z1 - u = 0 and b = 0,
+
+  {d*z2 + (c*z1 - v)}},
+
+ {a*z1 - u = 0 and b = 0 and c*z1 - v = 0 and d = 0,
+
+  {}}}
+
+torder oo;
+
+
+{{z2,z2},revgradlex}
+
+
+% Sit's Example 2.3
+oo := torder({z2,z2},revgradlex);
+
+
+oo := {{},lex}
+
+gsys({x**3*z2 + (x**2+1)*z1,x**2*z2 + x*z1 - 1});
+
+
+   2
+{{x *z1 + z1 <> 0 and x = 0,
+
+    2
+  {x *z1 + z1}},
+
+                     2
+ {x*z1 - 1 <> 0 and x *z1 + z1 = 0 and x = 0,
+
+  {x*z1 - 1}},
+
+ {x + z1 <> 0 and x <> 0,{x + z1}},
+
+ {x <> 0 and x + z1 = 0,
+
+    3        2           2
+  {x *z2 + (x *z1 + z1),x *z2 + (x*z1 - 1)}},
+
+   2
+ {x *z1 + z1 = 0 and x*z1 - 1 = 0 and x = 0,
+
+  {}}}
+
+torder oo;
+
+
+{{z2,z2},revgradlex}
+
+
+% Sit's Example 3.3
+oo := torder({z3,z2,z2},revgradlex);
+
+
+oo := {{},lex}
+
+gsys({z3 + b*z2 + a*z1 - 1,a*z3 + z2 + b*z1 - 1,b*z3 + a*z2 + z1 - 1});
+
+
+   3       2
+{{a *z1 - a  - 2*a*b*z1 + a*b + a + z1 - 1 <> 0 and a <> 0 and b = 0,
+
+    3       2
+  {a *z1 - a  - 2*a*b*z1 + a*b + a + z1 - 1}},
+
+   3       2                         3       2                            2
+ {a *z1 - a  - 3*a*b*z1 + a*b + a + b *z1 - b  + b + z1 - 1 <> 0 and a - b  <> 0
+
+   and a <> 0 and b <> 0,
+
+    3       2                         3       2
+  {a *z1 - a  - 3*a*b*z1 + a*b + a + b *z1 - b  + b + z1 - 1}},
+
+   2
+ {a *z1 - a - b*z1 + 1 <> 0 and a <> 0 and b <> 0 and a*b*z1 - b - z1 + 1 = 0
+
+                            2
+   and a*b - 1 = 0 and a - b  = 0,
+
+    2
+  {a *z1 - a - b*z1 + 1}},
+
+                  3       2
+ {2*a*b*z1 - a - b *z1 + b  - b - z1 + 1 <> 0 and b <> 0 and a = 0,
+
+                   3       2
+  {2*a*b*z1 - a - b *z1 + b  - b - z1 + 1}},
+
+                                                          2
+ {a*b*z1 - b - z1 + 1 <> 0 and a <> 0 and b <> 0 and a - b  = 0,
+
+  { - (a*b*z1 - b - z1 + 1)}},
+
+                                                                          2
+ {a*b - 1 <> 0 and a <> 0 and b <> 0 and a*b*z1 - b - z1 + 1 = 0 and a - b  = 0,
+
+  {z3 + b*z2 + (a*z1 - 1),
+
+   b*z3 + a*z2 + (z1 - 1),
+
+   a*z3 + z2 + (b*z1 - 1),
+
+                    2
+   (a*b - 1)*z2 + (a *z1 - a - b*z1 + 1)}},
+
+       2
+ {a - b  <> 0 and a <> 0 and b <> 0
+
+        3       2                         3       2
+   and a *z1 - a  - 3*a*b*z1 + a*b + a + b *z1 - b  + b + z1 - 1 = 0,
+
+  {z3 + b*z2 + (a*z1 - 1),
+
+   b*z3 + a*z2 + (z1 - 1),
+
+   a*z3 + z2 + (b*z1 - 1),
+
+         2
+   (a - b )*z2 - (a*b*z1 - b - z1 + 1)}},
+
+                         2
+ {a <> 0 and b <> 0 and a *z1 - a - b*z1 + 1 = 0 and a*b*z1 - b - z1 + 1 = 0
+
+                            2
+   and a*b - 1 = 0 and a - b  = 0,
+
+  {z3 + b*z2 + (a*z1 - 1),
+
+   b*z3 + a*z2 + (z1 - 1),
+
+   a*z3 + z2 + (b*z1 - 1)}},
+
+              3       2
+ {a <> 0 and a *z1 - a  - 2*a*b*z1 + a*b + a + z1 - 1 = 0 and b = 0,
+
+  {z3 + b*z2 + (a*z1 - 1),
+
+   a*z3 + z2 + (b*z1 - 1),
+
+   a*z2 + (z1 - 1)}},
+
+                             3       2
+ {b <> 0 and 2*a*b*z1 - a - b *z1 + b  - b - z1 + 1 = 0 and a = 0,
+
+  {z3 + b*z2 + (a*z1 - 1),
+
+   b*z3 + a*z2 + (z1 - 1),
+
+   z2 + (b*z1 - 1)}},
+
+ {z1 - 1 <> 0 and a = 0 and b = 0,{z1 - 1}},
+
+ {a = 0 and b = 0 and z1 - 1 = 0,
+
+  {z3 + b*z2 + (a*z1 - 1),z2 + (b*z1 - 1)}}}
+
+torder oo;
+
+
+{{z3,z2,z2},revgradlex}
+
+
+% Sit's Example 8.3
+oo := torder({z4,z3,z2,z2},revgradlex);
+
+
+oo := {{},lex}
+
+gsys({z4 + c*z3 + b*z2 + a*z1 - w2,2*z4 + z2 - w1,a*z4 - z3 - w4,d*z4 + z3 +
+2*z1 - w3,z4 + z1 - w5});
+
+
+   3         2           2  2         2  2       2           2         2
+{{a *c*z1 + a *b*c*w1 + a *c *w3 - 2*a *c *z1 + a *c*d*z1 - a *c*w2 + a *z1
+
+                                                                     2
+   + a*b*c*d*w1 - 2*a*b*c*w3 - 2*a*b*c*w4 + 4*a*b*c*z1 + a*b*w1 - a*c *d*w4
+
+   - a*c*d*w2 + 2*a*c*w3 + a*c*w4 - 4*a*c*z1 + a*d*z1 - a*w2 + b*d*w1 - 2*b*w3
+
+   - 2*b*w4 + 4*b*z1 - c*d*w4 - d*w2 + w3 + w4 - 2*z1 <> 0 and a*b + b*d <> 0
+
+   and a*c + 1 <> 0 and a <> 0 and d <> 0,
+
+    3         2           2  2         2  2       2           2         2
+  {a *c*z1 + a *b*c*w1 + a *c *w3 - 2*a *c *z1 + a *c*d*z1 - a *c*w2 + a *z1
+
+                                                                      2
+    + a*b*c*d*w1 - 2*a*b*c*w3 - 2*a*b*c*w4 + 4*a*b*c*z1 + a*b*w1 - a*c *d*w4
+
+    - a*c*d*w2 + 2*a*c*w3 + a*c*w4 - 4*a*c*z1 + a*d*z1 - a*w2 + b*d*w1 - 2*b*w3
+
+    - 2*b*w4 + 4*b*z1 - c*d*w4 - d*w2 + w3 + w4 - 2*z1}},
+
+   2  2       2  2       2                                                2
+ {a *c *w5 - a *c *z1 + a *c*z1 + a*b*c*w1 - 2*a*b*c*w5 + 2*a*b*c*z1 - a*c *w4
+
+   - a*c*w2 + 2*a*c*w5 - 2*a*c*z1 + a*z1 + b*w1 - 2*b*w5 + 2*b*z1 - c*w4 - w2
+
+   + w5 - z1 <> 0 and a*c - 2*b + 1 <> 0 and a*c + 1 <> 0 and a <> 0 and d <> 0 
+
+       2
+  and a *z1 + a*c*w3 - 2*a*c*z1 + a*d*z1 - a*w2 - c*d*w4 - d*w2 + w3 + w4 - 2*z1
+
+   = 0 and a*b + b*d = 0,
+
+    2  2       2  2       2                                                2
+  {a *c *w5 - a *c *z1 + a *c*z1 + a*b*c*w1 - 2*a*b*c*w5 + 2*a*b*c*z1 - a*c *w4
+
+    - a*c*w2 + 2*a*c*w5 - 2*a*c*z1 + a*z1 + b*w1 - 2*b*w5 + 2*b*z1 - c*w4 - w2
+
+    + w5 - z1}},
+
+   2           2
+ {a *c*d*z1 - a *z1 + a*b*c*d*w1 - 2*a*b*c*w3 + 4*a*b*c*z1 - a*b*w1 - a*c*d*w2
+
+   + a*w2 + 2*b*w4 + c*d*w4 - w4 <> 0 and a*b <> 0 and a*c*d - a <> 0 and a <> 0
+
+   and d <> 0 and a*c + 1 = 0,
+
+    2           2
+  {a *c*d*z1 - a *z1 + a*b*c*d*w1 - 2*a*b*c*w3 + 4*a*b*c*z1 - a*b*w1 - a*c*d*w2
+
+    + a*w2 + 2*b*w4 + c*d*w4 - w4}},
+
+   2         2
+ {a *c*w5 - a *c*z1 + a*c*d*w5 - a*c*d*z1 - a*c*w3 - a*c*w4 + 2*a*c*z1 + a*w5
+
+   - a*z1 + d*w5 - d*z1 - w3 - w4 + 2*z1 <> 0 and a*b + b*d <> 0
+
+                                               3         2           2  2
+   and a*c + 1 <> 0 and a <> 0 and d <> 0 and a *c*z1 + a *b*c*w1 + a *c *w3
+
+        2  2       2           2         2
+   - 2*a *c *z1 + a *c*d*z1 - a *c*w2 + a *z1 + a*b*c*d*w1 - 2*a*b*c*w3
+
+                                           2
+   - 2*a*b*c*w4 + 4*a*b*c*z1 + a*b*w1 - a*c *d*w4 - a*c*d*w2 + 2*a*c*w3 + a*c*w4
+
+   - 4*a*c*z1 + a*d*z1 - a*w2 + b*d*w1 - 2*b*w3 - 2*b*w4 + 4*b*z1 - c*d*w4
+
+   - d*w2 + w3 + w4 - 2*z1 = 0,
+
+    2         2
+  {a *c*w5 - a *c*z1 + a*c*d*w5 - a*c*d*z1 - a*c*w3 - a*c*w4 + 2*a*c*z1 + a*w5
+
+    - a*z1 + d*w5 - d*z1 - w3 - w4 + 2*z1}},
+
+   2
+ {a *z1 + a*b*w1 - 2*a*b*w5 + 2*a*b*z1 - a*w2 + w4 <> 0 and a*b*c <> 0
+
+   and a*b <> 0 and a <> 0 and d <> 0 and a*c*d - a = 0 and a*c + 1 = 0
+
+   and a*w3 - 2*a*z1 - d*w4 = 0,
+
+    2
+  {a *z1 + a*b*w1 - 2*a*b*w5 + 2*a*b*z1 - a*w2 + w4}},
+
+   2
+ {a *z1 + a*b*w1 + a*c*w3 - 2*a*c*z1 - a*w2 - 2*b*w3 - 2*b*w4 + 4*b*z1 + w3 + w4
+
+   - 2*z1 <> 0 and a*b <> 0 and a <> 0 and d = 0,
+
+    2
+  {a *z1 + a*b*w1 + a*c*w3 - 2*a*c*z1 - a*w2 - 2*b*w3 - 2*b*w4 + 4*b*z1 + w3
+
+    + w4 - 2*z1}},
+
+   2
+ {a *z1 + a*b*w1 - a*w2 - 2*b*w4 + w4 <> 0 and a*b <> 0 and a <> 0 and d <> 0
+
+   and a*b*c = 0 and a*c*d - a = 0 and a*c + 1 = 0 and a*w3 - 2*a*z1 - d*w4 = 0,
+
+    2
+  {a *z1 + a*b*w1 - a*w2 - 2*b*w4 + w4}},
+
+   2
+ {a *z1 + a*c*w3 - 2*a*c*z1 + a*d*z1 - a*w2 - c*d*w4 - d*w2 + w3 + w4 - 2*z1
+
+   <> 0 and a*c + 1 <> 0 and a <> 0 and d <> 0 and a*b + b*d = 0,
+
+    2
+  {a *z1 + a*c*w3 - 2*a*c*z1 + a*d*z1 - a*w2 - c*d*w4 - d*w2 + w3 + w4 - 2*z1}},
+
+   2
+ {a *z1 + a*c*w3 - 2*a*c*z1 - a*w2 + w3 + w4 - 2*z1 <> 0 and a <> 0 and a*b = 0
+
+   and d = 0,
+
+    2
+  {a *z1 + a*c*w3 - 2*a*c*z1 - a*w2 + w3 + w4 - 2*z1}},
+
+   2
+ {a *z1 - a*w2 + w4 <> 0 and a <> 0 and d <> 0 and a*b = 0 and a*c + 1 = 0,
+
+    2
+  {a *z1 - a*w2 + w4}},
+
+ {a*b*c <> 0 and a*b <> 0 and a <> 0 and d <> 0
+
+        2
+   and a *z1 + a*b*w1 - 2*a*b*w5 + 2*a*b*z1 - a*w2 + w4 = 0 and a*c*d - a = 0
+
+   and a*c + 1 = 0 and a*w3 - 2*a*z1 - d*w4 = 0,
+
+  {z4 + c*z3 + b*z2 + (a*z1 - w2),
+
+   a*z4 - z3 - w4,
+
+   d*z4 + z3 - (w3 - 2*z1),
+
+   2*z4 + z2 - w1,
+
+   z4 - (w5 - z1),
+
+                    2
+   (2*a*b*c)*z3 + (a *z1 + a*b*w1 - a*w2 - 2*b*w4 + w4),
+
+                2
+   (a*b)*z2 + (a *z1 - a*w2 + w4)}},
+
+                                                             3         2
+ {a*b + b*d <> 0 and a*c + 1 <> 0 and a <> 0 and d <> 0 and a *c*z1 + a *b*c*w1
+
+      2  2         2  2       2           2         2
+   + a *c *w3 - 2*a *c *z1 + a *c*d*z1 - a *c*w2 + a *z1 + a*b*c*d*w1
+
+                                                        2
+   - 2*a*b*c*w3 - 2*a*b*c*w4 + 4*a*b*c*z1 + a*b*w1 - a*c *d*w4 - a*c*d*w2
+
+   + 2*a*c*w3 + a*c*w4 - 4*a*c*z1 + a*d*z1 - a*w2 + b*d*w1 - 2*b*w3 - 2*b*w4
+
+                                                      2         2
+   + 4*b*z1 - c*d*w4 - d*w2 + w3 + w4 - 2*z1 = 0 and a *c*w5 - a *c*z1
+
+   + a*c*d*w5 - a*c*d*z1 - a*c*w3 - a*c*w4 + 2*a*c*z1 + a*w5 - a*z1 + d*w5
+
+   - d*z1 - w3 - w4 + 2*z1 = 0,
+
+  {z4 + c*z3 + b*z2 + (a*z1 - w2),
+
+   a*z4 - z3 - w4,
+
+   d*z4 + z3 - (w3 - 2*z1),
+
+   2*z4 + z2 - w1,
+
+   z4 - (w5 - z1),
+
+                               2
+   (a*c + 1)*z3 + (a*b)*z2 + (a *z1 - a*w2 + w4),
+
+                      2
+   (a*b + b*d)*z2 + (a *z1 + a*c*w3 - 2*a*c*z1 + a*d*z1 - a*w2 - c*d*w4 - d*w2
+
+       + w3 + w4 - 2*z1)}},
+
+ {a*b <> 0 and a*c*d*w5 - a*c*d*z1 - a*c*w3 + 2*a*c*z1 - a*w5 + a*z1 + w4 <> 0
+
+                                                 2           2
+   and a*c*d - a <> 0 and a <> 0 and d <> 0 and a *c*d*z1 - a *z1 + a*b*c*d*w1
+
+   - 2*a*b*c*w3 + 4*a*b*c*z1 - a*b*w1 - a*c*d*w2 + a*w2 + 2*b*w4 + c*d*w4 - w4
+
+   = 0 and a*c + 1 = 0,
+
+  {a*c*d*w5 - a*c*d*z1 - a*c*w3 + 2*a*c*z1 - a*w5 + a*z1 + w4}},
+
+                                                         2           2
+ {a*b <> 0 and a*c*d - a <> 0 and a <> 0 and d <> 0 and a *c*d*z1 - a *z1
+
+   + a*b*c*d*w1 - 2*a*b*c*w3 + 4*a*b*c*z1 - a*b*w1 - a*c*d*w2 + a*w2 + 2*b*w4
+
+   + c*d*w4 - w4 = 0
+
+   and a*c*d*w5 - a*c*d*z1 - a*c*w3 + 2*a*c*z1 - a*w5 + a*z1 + w4 = 0
+
+   and a*c + 1 = 0,
+
+  {z4 + c*z3 + b*z2 + (a*z1 - w2),
+
+   a*z4 - z3 - w4,
+
+   d*z4 + z3 - (w3 - 2*z1),
+
+   2*z4 + z2 - w1,
+
+   z4 - (w5 - z1),
+
+   (a*c*d - a)*z3 + (a*w3 - 2*a*z1 - d*w4),
+
+                2
+   (a*b)*z2 + (a *z1 - a*w2 + w4)}},
+
+ {a*b <> 0 and a*w3 - 2*a*z1 - d*w4 <> 0 and a <> 0 and d <> 0 and a*c*d - a = 0
+
+   and a*c + 1 = 0,
+
+  {a*w3 - 2*a*z1 - d*w4}},
+
+                                                                 2
+ {a*b <> 0 and a*w5 - a*z1 - w3 - w4 + 2*z1 <> 0 and a <> 0 and a *z1 + a*b*w1
+
+   + a*c*w3 - 2*a*c*z1 - a*w2 - 2*b*w3 - 2*b*w4 + 4*b*z1 + w3 + w4 - 2*z1 = 0
+
+   and d = 0,
+
+  {a*w5 - a*z1 - w3 - w4 + 2*z1}},
+
+                                      2
+ {a*b <> 0 and a <> 0 and d <> 0 and a *z1 + a*b*w1 - a*w2 - 2*b*w4 + w4 = 0
+
+   and a*b*c = 0 and a*c*d - a = 0 and a*c + 1 = 0 and a*w3 - 2*a*z1 - d*w4 = 0,
+
+  {z4 + c*z3 + b*z2 + (a*z1 - w2),
+
+   a*z4 - z3 - w4,
+
+   d*z4 + z3 - (w3 - 2*z1),
+
+   2*z4 + z2 - w1,
+
+   z4 - (w5 - z1),
+
+   (a*c)*z3 + (a*w5 - a*z1 - w4),
+
+                2
+   (a*b)*z2 + (a *z1 - a*w2 + w4)}},
+
+                           2
+ {a*b <> 0 and a <> 0 and a *z1 + a*b*w1 + a*c*w3 - 2*a*c*z1 - a*w2 - 2*b*w3
+
+   - 2*b*w4 + 4*b*z1 + w3 + w4 - 2*z1 = 0 and a*w5 - a*z1 - w3 - w4 + 2*z1 = 0
+
+   and d = 0,
+
+  {z4 + c*z3 + b*z2 + (a*z1 - w2),
+
+   a*z4 - z3 - w4,
+
+   2*z4 + z2 - w1,
+
+   z4 - (w5 - z1),
+
+   z3 - (w3 - 2*z1),
+
+                2
+   (a*b)*z2 + (a *z1 + a*c*w3 - 2*a*c*z1 - a*w2 + w3 + w4 - 2*z1)}},
+
+ {a*c*d*z1 - a*z1 + b*c*d*w1 - 2*b*c*d*w5 + 2*b*c*d*z1 - b*w1 + 2*b*w5 - 2*b*z1
+
+      2  2       2  2       2           2
+   - c *d *w5 + c *d *z1 + c *d*w3 - 2*c *d*z1 - c*d*w2 + 2*c*d*w5 - 2*c*d*z1
+
+   - c*w3 + 2*c*z1 + w2 - w5 + z1 <> 0 and a <> 0 and 2*b + c*d - 1 <> 0
+
+                                    2
+   and c*d - 1 <> 0 and d <> 0 and a *z1 - a*w2 + w4 = 0 and a*b = 0
+
+   and a*c + 1 = 0,
+
+  {a*c*d*z1 - a*z1 + b*c*d*w1 - 2*b*c*d*w5 + 2*b*c*d*z1 - b*w1 + 2*b*w5 - 2*b*z1
+
+       2  2       2  2       2           2
+    - c *d *w5 + c *d *z1 + c *d*w3 - 2*c *d*z1 - c*d*w2 + 2*c*d*w5 - 2*c*d*z1
+
+    - c*w3 + 2*c*z1 + w2 - w5 + z1}},
+
+ {a*c*w1 + 2*a*z1 - 2*c*w4 + w1 - 2*w2 <> 0 and a*c + 1 <> 0 and a <> 0
+
+   and d <> 0 and 
+
+   2
+  a *z1 + a*c*w3 - 2*a*c*z1 + a*d*z1 - a*w2 - c*d*w4 - d*w2 + w3 + w4 - 2*z1 = 0
+
+   and a*b + b*d = 0 and a*c - 2*b + 1 = 0,
+
+  { - (a*c*w1 + 2*a*z1 - 2*c*w4 + w1 - 2*w2)}},
+
+ {a*c*w5 - a*c*z1 + a*z1 - c*w4 - w2 + w5 - z1 <> 0 and a*c + 1 <> 0 and a <> 0
+
+   and d <> 0 and 
+
+   2
+  a *z1 + a*c*w3 - 2*a*c*z1 + a*d*z1 - a*w2 - c*d*w4 - d*w2 + w3 + w4 - 2*z1 = 0
+
+   and a*b + b*d = 0 and a*c*w1 + 2*a*z1 - 2*c*w4 + w1 - 2*w2 = 0
+
+   and a*c - 2*b + 1 = 0 and b = 0,
+
+  {a*c*w5 - a*c*z1 + a*z1 - c*w4 - w2 + w5 - z1}},
+
+                                                                 2  2
+ {a*c - 2*b + 1 <> 0 and a*c + 1 <> 0 and a <> 0 and d <> 0 and a *c *w5
+
+      2  2       2                                                2
+   - a *c *z1 + a *c*z1 + a*b*c*w1 - 2*a*b*c*w5 + 2*a*b*c*z1 - a*c *w4 - a*c*w2
+
+   + 2*a*c*w5 - 2*a*c*z1 + a*z1 + b*w1 - 2*b*w5 + 2*b*z1 - c*w4 - w2 + w5 - z1
+
+   = 0 and 
+
+   2
+  a *z1 + a*c*w3 - 2*a*c*z1 + a*d*z1 - a*w2 - c*d*w4 - d*w2 + w3 + w4 - 2*z1 = 0
+
+   and a*b + b*d = 0,
+
+  {z4 + c*z3 + b*z2 + (a*z1 - w2),
+
+   a*z4 - z3 - w4,
+
+   d*z4 + z3 - (w3 - 2*z1),
+
+   2*z4 + z2 - w1,
+
+   z4 - (w5 - z1),
+
+                               2
+   (a*c + 1)*z3 + (a*b)*z2 + (a *z1 - a*w2 + w4),
+
+   (a*c - 2*b + 1)*z2 - (a*c*w1 + 2*a*z1 - 2*c*w4 + w1 - 2*w2)}},
+
+ {a*c + 1 <> 0 and a <> 0 and b <> 0 and d <> 0 and 
+
+   2
+  a *z1 + a*c*w3 - 2*a*c*z1 + a*d*z1 - a*w2 - c*d*w4 - d*w2 + w3 + w4 - 2*z1 = 0
+
+   and a*b + b*d = 0 and a*c*w1 + 2*a*z1 - 2*c*w4 + w1 - 2*w2 = 0
+
+   and a*c - 2*b + 1 = 0,
+
+  {z4 + c*z3 + b*z2 + (a*z1 - w2),
+
+   a*z4 - z3 - w4,
+
+   d*z4 + z3 - (w3 - 2*z1),
+
+   2*z4 + z2 - w1,
+
+   z4 - (w5 - z1),
+
+                               2
+   (a*c + 1)*z3 + (a*b)*z2 + (a *z1 - a*w2 + w4),
+
+   b*z2 + (a*c*w5 - a*c*z1 + a*z1 - c*w4 - w2 + w5 - z1)}},
+
+ {a*c + 1 <> 0 and a <> 0 and d <> 0 and 
+
+   2
+  a *z1 + a*c*w3 - 2*a*c*z1 + a*d*z1 - a*w2 - c*d*w4 - d*w2 + w3 + w4 - 2*z1 = 0
+
+   and a*b + b*d = 0 and a*c*w1 + 2*a*z1 - 2*c*w4 + w1 - 2*w2 = 0
+
+   and a*c*w5 - a*c*z1 + a*z1 - c*w4 - w2 + w5 - z1 = 0 and a*c - 2*b + 1 = 0
+
+   and b = 0,
+
+  {z4 + c*z3 + b*z2 + (a*z1 - w2),
+
+   a*z4 - z3 - w4,
+
+   d*z4 + z3 - (w3 - 2*z1),
+
+   2*z4 + z2 - w1,
+
+   z4 - (w5 - z1),
+
+                               2
+   (a*c + 1)*z3 + (a*b)*z2 + (a *z1 - a*w2 + w4)}},
+
+ {a*d*z1 + b*d*w1 - 2*b*d*w5 + 2*b*d*z1 - d*w2 + w3 - 2*z1 <> 0 and a <> 0
+
+                                               2
+   and b*c*d <> 0 and b*d <> 0 and d <> 0 and a *z1 - a*w2 + w4 = 0 and a*b = 0
+
+   and a*c + 1 = 0 and c*d - 1 = 0,
+
+  {a*d*z1 + b*d*w1 - 2*b*d*w5 + 2*b*d*z1 - d*w2 + w3 - 2*z1}},
+
+ {a*d*z1 + b*d*w1 - 2*b*w3 - 2*b*w4 + 4*b*z1 - c*d*w4 - d*w2 + w3 + w4 - 2*z1
+
+   <> 0 and b*d <> 0 and d <> 0 and a = 0,
+
+  {a*d*z1 + b*d*w1 - 2*b*w3 - 2*b*w4 + 4*b*z1 - c*d*w4 - d*w2 + w3 + w4 - 2*z1}}
+
+ ,
+
+ {a*d*z1 + b*d*w1 - 2*b*w3 + 4*b*z1 - d*w2 + w3 - 2*z1 <> 0 and a <> 0
+
+                                2
+   and b*d <> 0 and d <> 0 and a *z1 - a*w2 + w4 = 0 and a*b = 0 and a*c + 1 = 0
+
+   and b*c*d = 0 and c*d - 1 = 0,
+
+  {a*d*z1 + b*d*w1 - 2*b*w3 + 4*b*z1 - d*w2 + w3 - 2*z1}},
+
+ {a*d*z1 - c*d*w4 - d*w2 + w3 + w4 - 2*z1 <> 0 and d <> 0 and a = 0 and b*d = 0,
+
+  {a*d*z1 - c*d*w4 - d*w2 + w3 + w4 - 2*z1}},
+
+                                                            2
+ {a*d*z1 - d*w2 + w3 - 2*z1 <> 0 and a <> 0 and d <> 0 and a *z1 - a*w2 + w4 = 0
+
+   and a*b = 0 and a*c + 1 = 0 and b*d = 0 and c*d - 1 = 0,
+
+  {a*d*z1 - d*w2 + w3 - 2*z1}},
+
+ {2*a*z1 - c*d*w1 + 2*c*w3 - 4*c*z1 + w1 - 2*w2 <> 0 and a <> 0 and c*d - 1 <> 0
+
+                   2
+   and d <> 0 and a *z1 - a*w2 + w4 = 0 and a*b = 0 and a*c + 1 = 0
+
+   and 2*b + c*d - 1 = 0,
+
+  {2*a*z1 - c*d*w1 + 2*c*w3 - 4*c*z1 + w1 - 2*w2}},
+
+ {2*a*z1 + 2*c*w3 - 4*c*z1 + w1 - 2*w2 <> 0 and a <> 0
+
+        2
+   and a *z1 + a*c*w3 - 2*a*c*z1 - a*w2 + w3 + w4 - 2*z1 = 0 and a*b = 0
+
+   and 2*b - 1 = 0 and d = 0,
+
+  {2*a*z1 + 2*c*w3 - 4*c*z1 + w1 - 2*w2}},
+
+ {2*a*z1 - 2*c*w4 + w1 - 2*w2 <> 0 and d <> 0
+
+   and a*d*z1 - c*d*w4 - d*w2 + w3 + w4 - 2*z1 = 0 and a = 0 and b*d = 0
+
+   and 2*b - 1 = 0,
+
+  {2*a*z1 - 2*c*w4 + w1 - 2*w2}},
+
+ {2*a*z1 - 2*c*w4 + w1 - 2*w2 <> 0 and a = 0 and 2*b - 1 = 0 and d = 0
+
+   and w3 + w4 - 2*z1 = 0,
+
+  {2*a*z1 - 2*c*w4 + w1 - 2*w2}},
+
+                                                     2
+ {2*a*z1 + w1 - 2*w2 <> 0 and a <> 0 and d <> 0 and a *z1 - a*w2 + w4 = 0
+
+   and a*b = 0 and a*c + 1 = 0 and a*d*z1 - d*w2 + w3 - 2*z1 = 0 and b*d = 0
+
+   and 2*b - 1 = 0 and c*d - 1 = 0 and c = 0,
+
+  {2*a*z1 + w1 - 2*w2}},
+
+ {a*z1 + b*w1 - 2*b*w5 + 2*b*z1 + c*w3 - 2*c*z1 - w2 + w5 - z1 <> 0 and a <> 0
+
+                         2
+   and 2*b - 1 <> 0 and a *z1 + a*c*w3 - 2*a*c*z1 - a*w2 + w3 + w4 - 2*z1 = 0
+
+   and a*b = 0 and d = 0,
+
+  {a*z1 + b*w1 - 2*b*w5 + 2*b*z1 + c*w3 - 2*c*z1 - w2 + w5 - z1}},
+
+ {a*z1 + b*w1 - 2*b*w5 + 2*b*z1 - c*w4 - w2 + w5 - z1 <> 0 and 2*b - 1 <> 0
+
+   and d <> 0 and a*d*z1 - c*d*w4 - d*w2 + w3 + w4 - 2*z1 = 0 and a = 0
+
+   and b*d = 0,
+
+  {a*z1 + b*w1 - 2*b*w5 + 2*b*z1 - c*w4 - w2 + w5 - z1}},
+
+ {a*z1 + b*w1 - 2*b*w5 + 2*b*z1 - c*w4 - w2 + w5 - z1 <> 0 and 2*b - 1 <> 0
+
+   and a = 0 and d = 0 and w3 + w4 - 2*z1 = 0,
+
+  {a*z1 + b*w1 - 2*b*w5 + 2*b*z1 - c*w4 - w2 + w5 - z1}},
+
+ {a*z1 + b*w1 - 2*b*w5 + 2*b*z1 - w2 + w5 - z1 <> 0 and a <> 0 and 2*b - 1 <> 0
+
+                   2
+   and d <> 0 and a *z1 - a*w2 + w4 = 0 and a*b = 0 and a*c + 1 = 0
+
+   and a*d*z1 - d*w2 + w3 - 2*z1 = 0 and b*d = 0 and c*d - 1 = 0 and c = 0,
+
+  {a*z1 + b*w1 - 2*b*w5 + 2*b*z1 - w2 + w5 - z1}},
+
+ {a*z1 - c*d*w5 + c*d*z1 + c*w3 - 2*c*z1 - w2 + w5 - z1 <> 0 and a <> 0
+
+                                    2
+   and c*d - 1 <> 0 and d <> 0 and a *z1 - a*w2 + w4 = 0 and a*b = 0
+
+   and a*c + 1 = 0 and 2*a*z1 - c*d*w1 + 2*c*w3 - 4*c*z1 + w1 - 2*w2 = 0
+
+   and 2*b + c*d - 1 = 0 and b = 0,
+
+  {a*z1 - c*d*w5 + c*d*z1 + c*w3 - 2*c*z1 - w2 + w5 - z1}},
+
+                                                     2
+ {a <> 0 and b*c*d <> 0 and b*d <> 0 and d <> 0 and a *z1 - a*w2 + w4 = 0
+
+   and a*b = 0 and a*c + 1 = 0
+
+   and a*d*z1 + b*d*w1 - 2*b*d*w5 + 2*b*d*z1 - d*w2 + w3 - 2*z1 = 0
+
+   and c*d - 1 = 0,
+
+  {z4 + c*z3 + b*z2 + (a*z1 - w2),
+
+   a*z4 - z3 - w4,
+
+   d*z4 + z3 - (w3 - 2*z1),
+
+   2*z4 + z2 - w1,
+
+   z4 - (w5 - z1),
+
+   (2*b*c*d)*z3 + (a*d*z1 + b*d*w1 - 2*b*w3 + 4*b*z1 - d*w2 + w3 - 2*z1),
+
+   (b*d)*z2 + (a*d*z1 - d*w2 + w3 - 2*z1)}},
+
+                                      2
+ {a <> 0 and b*d <> 0 and d <> 0 and a *z1 - a*w2 + w4 = 0 and a*b = 0
+
+   and a*c + 1 = 0 and a*d*z1 + b*d*w1 - 2*b*w3 + 4*b*z1 - d*w2 + w3 - 2*z1 = 0
+
+   and b*c*d = 0 and c*d - 1 = 0,
+
+  {z4 + c*z3 + b*z2 + (a*z1 - w2),
+
+   a*z4 - z3 - w4,
+
+   d*z4 + z3 - (w3 - 2*z1),
+
+   2*z4 + z2 - w1,
+
+   z4 - (w5 - z1),
+
+   (c*d)*z3 + (d*w5 - d*z1 - w3 + 2*z1),
+
+   (b*d)*z2 + (a*d*z1 - d*w2 + w3 - 2*z1)}},
+
+ {a <> 0 and 2*b + c*d - 1 <> 0 and c*d - 1 <> 0 and d <> 0
+
+        2
+   and a *z1 - a*w2 + w4 = 0 and a*b = 0 and a*c*d*z1 - a*z1 + b*c*d*w1
+
+                                                         2  2       2  2
+   - 2*b*c*d*w5 + 2*b*c*d*z1 - b*w1 + 2*b*w5 - 2*b*z1 - c *d *w5 + c *d *z1
+
+      2           2
+   + c *d*w3 - 2*c *d*z1 - c*d*w2 + 2*c*d*w5 - 2*c*d*z1 - c*w3 + 2*c*z1 + w2
+
+   - w5 + z1 = 0 and a*c + 1 = 0,
+
+  {z4 + c*z3 + b*z2 + (a*z1 - w2),
+
+   a*z4 - z3 - w4,
+
+   d*z4 + z3 - (w3 - 2*z1),
+
+   2*z4 + z2 - w1,
+
+   z4 - (w5 - z1),
+
+   (c*d - 1)*z3 + (b*d)*z2 + (a*d*z1 - d*w2 + w3 - 2*z1),
+
+   (2*b + c*d - 1)*z2 + (2*a*z1 - c*d*w1 + 2*c*w3 - 4*c*z1 + w1 - 2*w2)}},
+
+                                          2
+ {a <> 0 and 2*b - 1 <> 0 and d <> 0 and a *z1 - a*w2 + w4 = 0 and a*b = 0
+
+   and a*c + 1 = 0 and a*d*z1 - d*w2 + w3 - 2*z1 = 0
+
+   and a*z1 + b*w1 - 2*b*w5 + 2*b*z1 - w2 + w5 - z1 = 0 and b*d = 0
+
+   and c*d - 1 = 0 and c = 0,
+
+  {z4 + c*z3 + b*z2 + (a*z1 - w2),
+
+   a*z4 - z3 - w4,
+
+   d*z4 + z3 - (w3 - 2*z1),
+
+   2*z4 + z2 - w1,
+
+   z4 - (w5 - z1),
+
+   (2*b - 1)*z2 + (2*a*z1 + w1 - 2*w2)}},
+
+ {a <> 0 and 2*b - 1 <> 0
+
+        2
+   and a *z1 + a*c*w3 - 2*a*c*z1 - a*w2 + w3 + w4 - 2*z1 = 0 and a*b = 0
+
+   and a*z1 + b*w1 - 2*b*w5 + 2*b*z1 + c*w3 - 2*c*z1 - w2 + w5 - z1 = 0
+
+   and d = 0,
+
+  {z4 + c*z3 + b*z2 + (a*z1 - w2),
+
+   a*z4 - z3 - w4,
+
+   2*z4 + z2 - w1,
+
+   z4 - (w5 - z1),
+
+   z3 - (w3 - 2*z1),
+
+   (2*b - 1)*z2 + (2*a*z1 + 2*c*w3 - 4*c*z1 + w1 - 2*w2)}},
+
+                                                     2
+ {a <> 0 and b <> 0 and c*d - 1 <> 0 and d <> 0 and a *z1 - a*w2 + w4 = 0
+
+   and a*b = 0 and a*c + 1 = 0
+
+   and 2*a*z1 - c*d*w1 + 2*c*w3 - 4*c*z1 + w1 - 2*w2 = 0 and 2*b + c*d - 1 = 0,
+
+  {z4 + c*z3 + b*z2 + (a*z1 - w2),
+
+   a*z4 - z3 - w4,
+
+   d*z4 + z3 - (w3 - 2*z1),
+
+   2*z4 + z2 - w1,
+
+   z4 - (w5 - z1),
+
+   (c*d - 1)*z3 + (b*d)*z2 + (a*d*z1 - d*w2 + w3 - 2*z1),
+
+   b*z2 + (a*z1 - c*d*w5 + c*d*z1 + c*w3 - 2*c*z1 - w2 + w5 - z1)}},
+
+                                          2
+ {a <> 0 and c*d - 1 <> 0 and d <> 0 and a *z1 - a*w2 + w4 = 0 and a*b = 0
+
+   and a*c + 1 = 0 and 2*a*z1 - c*d*w1 + 2*c*w3 - 4*c*z1 + w1 - 2*w2 = 0
+
+   and a*z1 - c*d*w5 + c*d*z1 + c*w3 - 2*c*z1 - w2 + w5 - z1 = 0
+
+   and 2*b + c*d - 1 = 0 and b = 0,
+
+  {z4 + c*z3 + b*z2 + (a*z1 - w2),
+
+   a*z4 - z3 - w4,
+
+   d*z4 + z3 - (w3 - 2*z1),
+
+   2*z4 + z2 - w1,
+
+   z4 - (w5 - z1),
+
+   (c*d - 1)*z3 + (b*d)*z2 + (a*d*z1 - d*w2 + w3 - 2*z1)}},
+
+                                    2
+ {a <> 0 and c <> 0 and d <> 0 and a *z1 - a*w2 + w4 = 0 and a*b = 0
+
+   and a*c + 1 = 0 and a*d*z1 - d*w2 + w3 - 2*z1 = 0 and b*d = 0 and c*d - 1 = 0
+
+  ,
+
+  {z4 + c*z3 + b*z2 + (a*z1 - w2),
+
+   a*z4 - z3 - w4,
+
+   d*z4 + z3 - (w3 - 2*z1),
+
+   2*z4 + z2 - w1,
+
+   z4 - (w5 - z1),
+
+   (2*c)*z3 + (2*b - 1)*z2 + (2*a*z1 + w1 - 2*w2),
+
+   z2 - (w1 - 2*w5 + 2*z1)}},
+
+                         2
+ {a <> 0 and d <> 0 and a *z1 - a*w2 + w4 = 0 and a*b = 0 and a*c + 1 = 0
+
+   and a*d*z1 - d*w2 + w3 - 2*z1 = 0 and 2*a*z1 + w1 - 2*w2 = 0 and b*d = 0
+
+   and 2*b - 1 = 0 and c*d - 1 = 0 and c = 0,
+
+  {z4 + c*z3 + b*z2 + (a*z1 - w2),
+
+   a*z4 - z3 - w4,
+
+   d*z4 + z3 - (w3 - 2*z1),
+
+   2*z4 + z2 - w1,
+
+   z4 - (w5 - z1),
+
+   b*z2 + (a*z1 - w2 + w5 - z1)}},
+
+              2
+ {a <> 0 and a *z1 + a*c*w3 - 2*a*c*z1 - a*w2 + w3 + w4 - 2*z1 = 0 and a*b = 0
+
+   and 2*a*z1 + 2*c*w3 - 4*c*z1 + w1 - 2*w2 = 0 and 2*b - 1 = 0 and d = 0,
+
+  {z4 + c*z3 + b*z2 + (a*z1 - w2),
+
+   a*z4 - z3 - w4,
+
+   2*z4 + z2 - w1,
+
+   z4 - (w5 - z1),
+
+   z3 - (w3 - 2*z1),
+
+   b*z2 + (a*z1 + c*w3 - 2*c*z1 - w2 + w5 - z1)}},
+
+ {b*d <> 0 and d*w5 - d*z1 - w3 - w4 + 2*z1 <> 0 and d <> 0 and 
+
+  a*d*z1 + b*d*w1 - 2*b*w3 - 2*b*w4 + 4*b*z1 - c*d*w4 - d*w2 + w3 + w4 - 2*z1
+
+   = 0 and a = 0,
+
+  {d*w5 - d*z1 - w3 - w4 + 2*z1}},
+
+ {b*d <> 0 and d <> 0 and 
+
+  a*d*z1 + b*d*w1 - 2*b*w3 - 2*b*w4 + 4*b*z1 - c*d*w4 - d*w2 + w3 + w4 - 2*z1
+
+   = 0 and a = 0 and d*w5 - d*z1 - w3 - w4 + 2*z1 = 0,
+
+  {z4 + c*z3 + b*z2 + (a*z1 - w2),
+
+   d*z4 + z3 - (w3 - 2*z1),
+
+   2*z4 + z2 - w1,
+
+   z4 - (w5 - z1),
+
+    - z3 - w4,
+
+   (b*d)*z2 + (a*d*z1 - c*d*w4 - d*w2 + w3 + w4 - 2*z1)}},
+
+ {2*b - 1 <> 0 and d <> 0 and a*d*z1 - c*d*w4 - d*w2 + w3 + w4 - 2*z1 = 0
+
+   and a*z1 + b*w1 - 2*b*w5 + 2*b*z1 - c*w4 - w2 + w5 - z1 = 0 and a = 0
+
+   and b*d = 0,
+
+  {z4 + c*z3 + b*z2 + (a*z1 - w2),
+
+   d*z4 + z3 - (w3 - 2*z1),
+
+   2*z4 + z2 - w1,
+
+   z4 - (w5 - z1),
+
+    - z3 - w4,
+
+   (2*b - 1)*z2 + (2*a*z1 - 2*c*w4 + w1 - 2*w2)}},
+
+ {2*b - 1 <> 0 and a*z1 + b*w1 - 2*b*w5 + 2*b*z1 - c*w4 - w2 + w5 - z1 = 0
+
+   and a = 0 and d = 0 and w3 + w4 - 2*z1 = 0,
+
+  {z4 + c*z3 + b*z2 + (a*z1 - w2),
+
+   2*z4 + z2 - w1,
+
+   z4 - (w5 - z1),
+
+    - z3 - w4,
+
+   z3 - (w3 - 2*z1),
+
+   (2*b - 1)*z2 + (2*a*z1 - 2*c*w4 + w1 - 2*w2)}},
+
+ {d <> 0 and a*d*z1 - c*d*w4 - d*w2 + w3 + w4 - 2*z1 = 0
+
+   and 2*a*z1 - 2*c*w4 + w1 - 2*w2 = 0 and a = 0 and b*d = 0 and 2*b - 1 = 0,
+
+  {z4 + c*z3 + b*z2 + (a*z1 - w2),
+
+   d*z4 + z3 - (w3 - 2*z1),
+
+   2*z4 + z2 - w1,
+
+   z4 - (w5 - z1),
+
+    - z3 - w4,
+
+   b*z2 + (a*z1 - c*w4 - w2 + w5 - z1)}},
+
+ {w3 + w4 - 2*z1 <> 0 and a = 0 and d = 0,
+
+  {w3 + w4 - 2*z1}},
+
+ {2*a*z1 - 2*c*w4 + w1 - 2*w2 = 0 and a = 0 and 2*b - 1 = 0 and d = 0
+
+   and w3 + w4 - 2*z1 = 0,
+
+  {z4 + c*z3 + b*z2 + (a*z1 - w2),
+
+   2*z4 + z2 - w1,
+
+   z4 - (w5 - z1),
+
+    - z3 - w4,
+
+   z3 - (w3 - 2*z1),
+
+   b*z2 + (a*z1 - c*w4 - w2 + w5 - z1)}}}
+
+torder oo;
+
+
+{{z4,z3,z2,z2},revgradlex}
+
+
+% Two dimensional transportation problem
+oo := torder({x33,x32,x31,x23,x22,x21,x13,x12,x11},lex);
+
+
+oo := {{},lex}
+
+gsys({x11+x12+x13-a1,x11+x21+x31-b1,x12+x22+x32-b2,x13+x23+x33-b3,
+x21+x22+x23-a2,x31+x32+x33-a3});
+
+
+{{a1 + a2 + a3 - b1 - b2 - b3 <> 0,
+
+  {a1 + a2 + a3 - b1 - b2 - b3}},
+
+ {a1 + a2 + a3 - b1 - b2 - b3 = 0,
+
+  {x33 + x32 + x31 - a3,
+
+   x33 + x23 + x13 - b3,
+
+   x32 + x22 + x12 - b2,
+
+   x31 + x21 + x11 - b1,
+
+   x23 + x22 + x21 - a2,
+
+   x13 + x12 + x11 - a1}}}
+
+torder oo;
+
+
+{{x33,x32,x31,x23,x22,x21,x13,x12,x11},lex}
+
+
+% Thomas Weis's Example 1
+oo := torder({x,y,z},lex);
+
+
+oo := {{},lex}
+
+gsys({z*y*x-b*y*x-b*z*x+b**2*x-b*z*y+b**2*y+b**2*z-(n3+b**3),
+z*y*x-a*y*x-a*z*x+a**2*x-a*z*y+a**2*y+a**2*z-(n3+a**3),
+z*y*x-n1});
+
+
+   3        3
+{{a *b - a*b  + a*n1 - a*n3 - b*n1 + b*n3 <> 0 and a - b <> 0
+
+        2        2
+   and a *b - a*b  = 0,
+
+        3        3
+  { - (a *b - a*b  + a*n1 - a*n3 - b*n1 + b*n3)}},
+
+   3
+ {a  - n1 + n3 <> 0 and a - b = 0 and a = 0,
+
+    3
+  {a  - n1 + n3}},
+
+   2        2
+ {a *b - a*b  <> 0 and a - b <> 0,
+
+                            2              2      2       3
+  {x*y*z - a*x*y - a*x*z + a *x - a*y*z + a *y + a *z - (a  + n3),
+
+                            2              2      2       3
+   x*y*z - b*x*y - b*x*z + b *x - b*y*z + b *y + b *z - (b  + n3),
+
+   x*y*z - n1,
+
+                                 2    2                      2    2
+   (a - b)*x*y + (a - b)*x*z - (a  - b )*x + (a - b)*y*z - (a  - b )*y
+
+        2    2        3    3
+    - (a  - b )*z + (a  - b ),
+
+     2        2        2        2        2        2
+   (a *b - a*b )*x + (a *b - a*b )*y + (a *b - a*b )*z
+
+        3        3
+    - (a *b - a*b  + a*n1 - a*n3 - b*n1 + b*n3),
+
+     2        2   2     2        2
+   (a *b - a*b )*y  + (a *b - a*b )*y*z
+
+        3        3                                    2        2   2
+    - (a *b - a*b  + a*n1 - a*n3 - b*n1 + b*n3)*y + (a *b - a*b )*z
+
+        3        3
+    - (a *b - a*b  + a*n1 - a*n3 - b*n1 + b*n3)*z
+
+        3  2    2  3    2       2       2       2
+    + (a *b  - a *b  + a *n1 - a *n3 - b *n1 + b *n3),
+
+     2        2   3     3        3                               2
+   (a *b - a*b )*z  - (a *b - a*b  + a*n1 - a*n3 - b*n1 + b*n3)*z
+
+        3  2    2  3    2       2       2       2           2           2
+    + (a *b  - a *b  + a *n1 - a *n3 - b *n1 + b *n3)*z - (a *b*n1 - a*b *n1)}},
+
+                  3        3                                      2        2
+ {a - b <> 0 and a *b - a*b  + a*n1 - a*n3 - b*n1 + b*n3 = 0 and a *b - a*b  = 0
+
+  ,
+
+                            2              2      2       3
+  {x*y*z - a*x*y - a*x*z + a *x - a*y*z + a *y + a *z - (a  + n3),
+
+                            2              2      2       3
+   x*y*z - b*x*y - b*x*z + b *x - b*y*z + b *y + b *z - (b  + n3),
+
+   x*y*z - n1,
+
+                                 2    2                      2    2
+   (a - b)*x*y + (a - b)*x*z - (a  - b )*x + (a - b)*y*z - (a  - b )*y
+
+        2    2        3    3
+    - (a  - b )*z + (a  - b ),
+
+              2     2    2                   2     2    2          2    2   2
+   (a - b)*x*z  - (a  - b )*x*z + (a - b)*y*z  - (a  - b )*y*z - (a  - b )*z
+
+        3    2        2    3        3        3
+    + (a  + a *b - a*b  - b )*z - (a *b - a*b  - a*n3 + b*n3),
+
+            2  2     2    2   2       2    2     2     3    2        2    3
+   (a - b)*y *z  - (a  - b )*y *z - (a  - b )*y*z  + (a  + a *b - a*b  - b )*y*z
+
+        2  2      3                      3        3
+    - (a *b  - a*b  - a*n3 + b*n3)*y - (a *b - a*b  - a*n3 + b*n3)*z
+
+        3  2    2  3    2       2
+    + (a *b  - a *b  - a *n3 + b *n3)}},
+
+ {a <> 0 and a - b = 0,
+
+                            2              2      2       3
+  {x*y*z - a*x*y - a*x*z + a *x - a*y*z + a *y + a *z - (a  + n3),
+
+                            2              2      2       3
+   x*y*z - b*x*y - b*x*z + b *x - b*y*z + b *y + b *z - (b  + n3),
+
+   x*y*z - n1,
+
+                    2              2      2       3
+   a*x*y + a*x*z - a *x + a*y*z - a *y - a *z + (a  - n1 + n3),
+
+        2    2            2    2        2  2     3
+   a*x*z  - a *x*z + a*y*z  - a *y*z - a *z  + (a  - n1 + n3)*z + a*n1,
+
+      2  2    2  2      2    2     3
+   a*y *z  - a *y *z - a *y*z  + (a  - n1 + n3)*y*z + (a*n1)*y + (a*n1)*z
+
+       2
+    - a *n1}},
+
+   3
+ {a  - n1 + n3 = 0 and a - b = 0 and a = 0,
+
+                            2              2      2       3
+  {x*y*z - a*x*y - a*x*z + a *x - a*y*z + a *y + a *z - (a  + n3),
+
+                            2              2      2       3
+   x*y*z - b*x*y - b*x*z + b *x - b*y*z + b *y + b *z - (b  + n3),
+
+   x*y*z - n1}}}
+
+torder oo;
+
+
+{{x,y,z},lex}
+
+
+% Thomas Weis's Example 2
+oo := torder({z,y,x,w},lex);
+
+
+oo := {{},lex}
+
+gsys({w*x*y*z-x*y*z-w*y*z+y*z-w*x*z+x*z+w*z-z-w*x*y+x*y+w*y-
+y+w*x-x-w-(b-1),
+w*x*y*z-2*x*y*z-2*w*y*z+4*y*z-2*w*x*z+4*x*z+4*w*z-8*z-2*w*x*y+4x*y+
+4*w*y-8*y+4*w*x-8*x-8*w-(c-16),
+w*x*y*z-a,z+y+x+w-v});
+
+
+{{true,
+
+  {z*y*x*w - z*y*x - z*y*w + z*y - z*x*w + z*x + z*w - z - y*x*w + y*x + y*w - y
+
+    + x*w - x - w - (b - 1),
+
+   z*y*x*w - 2*z*y*x - 2*z*y*w + 4*z*y - 2*z*x*w + 4*z*x + 4*z*w - 8*z - 2*y*x*w
+
+    + 4*y*x + 4*y*w - 8*y + 4*x*w - 8*x - 8*w - (c - 16),
+
+   z*y*x*w - a,
+
+   z + y + x + w - v,
+
+    2      2        2      2                              2
+   y *x + y *w - 3*y  + y*x  + 2*y*x*w - (v + 3)*y*x + y*w  - (v + 3)*y*w
+
+                 2        2      2                              2
+    + (3*v)*y + x *w - 3*x  + x*w  - (v + 3)*x*w + (3*v)*x - 3*w  + (3*v)*w
+
+    + (b - c - 7*v + 15),
+
+      2                                2                        2
+   2*y  + 2*y*x + 2*y*w - (2*v)*y + 2*x  + 2*x*w - (2*v)*x + 2*w  - (2*v)*w
+
+    + (a - 2*b + c + 6*v - 14),
+
+      3      2            2        2
+   2*x  + 2*x *w - (2*v)*x  + 2*x*w  - (2*v)*x*w + (a - 2*b + c + 6*v - 14)*x
+
+         3          2
+    + 2*w  - (2*v)*w  + (a - 2*b + c + 6*v - 14)*w - (3*a - 4*b + c + 4*v - 12),
+
+      4          3                             2
+   2*w  - (2*v)*w  + (a - 2*b + c + 6*v - 14)*w  - (3*a - 4*b + c + 4*v - 12)*w
+
+    + 2*a}}}
+
+torder oo;
+
+
+{{z,y,x,w},lex}
+
+
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 119 ms  plus GC time: 26 ms
+real	0m0.687s
+user	0m0.046s
+sys	0m0.123s

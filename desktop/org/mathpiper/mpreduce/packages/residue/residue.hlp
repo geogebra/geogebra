@@ -1,0 +1,76 @@
+\chapter{RESIDUE: A residue package}
+\label{RESIDUE}
+\typeout{{RESIDUE: A residue package}}
+
+{\footnotesize
+\begin{center}
+Wolfram Koepf\\
+Konrad--Zuse--Zentrum f\"ur Informationstechnik Berlin \\
+Heilbronner Strasse 10 \\
+D--10711 Berlin--Wilmersdorf, Germany \\[0.05in]
+e--mail: Koepf@zib-berlin.de
+\end{center}
+}
+\ttindex{RESIDUE}
+\def\Res{\mathop{\rm Res}\limits}
+\newcommand{\C}{{\rm {\mbox{C{\llap{{\vrule height1.52ex}\kern.4em}}}}}}
+
+This package supports the calculation of residues. The residue
+$\Res_{z=a} f(z)$ of a function $f(z)$ at the point $a\in\C$ is defined
+as
+\[
+\Res_{z=a} f(z)=
+\frac{1}{2 \pi i}\oint f(z)\,dz
+\;,
+\]
+with integration along a closed curve around $z=a$ with winding number 1.
+
+It contains two \REDUCE\ operators:
+
+\begin{itemize}
+\item
+{\tt residue(f,z,a)}\ttindex{residue} determines the residue of $f$ at
+the point $z=a$ if $f$ is meromorphic at $z=a$.  The calculation of
+residues at essential singularities of $f$ is not supported.
+\item
+{\tt poleorder(f,z,a)}\ttindex{poleorder} determines the pole order
+of $f$ at the point $z=a$ if $f$ is meromorphic at $z=a$.
+\end{itemize}
+Note that both functions use the {\tt TAYLOR} package (chapter~\ref{TAYLOR}).
+
+\begin{verbatim}
+load_package residue;
+
+residue(x/(x^2-2),x,sqrt(2));
+
+ 1
+---
+ 2
+
+poleorder(x/(x^2-2),x,sqrt(2));
+
+1
+
+residue(sin(x)/(x^2-2),x,sqrt(2));
+
+ sqrt(2)*sin(sqrt(2))
+----------------------
+          4
+
+poleorder(sin(x)/(x^2-2),x,sqrt(2));
+
+1
+
+residue((x^n-y^n)/(x-y)^2,x,y);
+
+  n
+ y *n
+------
+  y
+
+poleorder((x^n-y^n)/(x-y)^2,x,y);
+
+1
+
+\end{verbatim}
+

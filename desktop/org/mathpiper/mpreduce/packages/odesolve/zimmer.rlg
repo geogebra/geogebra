@@ -1,0 +1,1848 @@
+REDUCE Development Version, Wed Sep 13 20:40:41 2000 ...
+
+
+
+
+
+
+
+ODESolve 1.065
+
+% -*- REDUCE -*-
+% The Postel/Zimmermann (11/4/96) ODE test examples.
+% Equation names from Postel/Zimmermann.
+% This version uses REDUCE-style variable notation wherever possible.
+
+on trode;
+
+
+on div, intstr;
+
+  off allfac;
+
+            % to look prettier
+
+% 1  Single equations without initial conditions
+% ==============================================
+
+% 1.1 Linear equations
+% ====================
+
+depend y, x;
+
+
+
+% (1) Linear Bernoulli 1
+odesolve((x^4-x^3)*df(y,x) + 2*x^4*y = x^3/3 + C, y, x);
+
+This is a linear ODE of order 1.
+It is solved by the integrating factor method.
+
+      - 2*x                1     -2    1       1
+    e      *arbconst(1) + ---*c*x   + ---*x - ---
+                           2           6       4
+{y=-----------------------------------------------}
+                     2
+                    x  - 2*x + 1
+
+
+% (2) Linear Bernoulli 2
+odesolve(-1/2*df(y,x) + y = sin x, y, x);
+
+This is a linear ODE of order 1.
+It is solved by the integrating factor method.
+
+    2*x                2            4
+{y=e   *arbconst(2) + ---*cos(x) + ---*sin(x)}
+                       5            5
+
+
+% (3) Linear change of variables (FJW: shifted Euler equation)
+odesolve(df(y,x,2)*(a*x+b)^2 + 4df(y,x)*(a*x+b)*a + 2y*a^2 = 0, y, x);
+
+This is a linear ODE of order 2.
+It has non-constant coefficients.
+It is of the homogeneous (Euler) type (with shifted coefficients) 
+and is reducible to a simpler ODE ...
+It has constant coefficients.
+
+                 2                                    2
+    arbconst(4)*a *x + arbconst(4)*a*b + arbconst(3)*a
+{y=-----------------------------------------------------}
+                    2  2              2
+                   a *x  + 2*a*b*x + b
+
+
+% (4) Adjoint
+odesolve((x^2-x)*df(y,x,2) + (2x^2+4x-3)*df(y,x) + 8x*y = 1, y, x);
+
+This is a linear ODE of order 2.
+It has non-constant coefficients.
+But ODESolve cannot solve it using linear techniques, so ...
+Interchanging dependent and independent variables ...
+
+              2                          3              3            2  2
+ - df(x,y,2)*x  + df(x,y,2)*x + 8*df(x,y) *x*y - df(x,y)  + 2*df(x,y) *x
+
+            2              2
+ + 4*df(x,y) *x - 3*df(x,y)
+
+This is a nonlinear ODE of order 2.
+Interchanging dependent and independent variables ...
+
+           2                            2
+df(y,x,2)*x  - df(y,x,2)*x + 2*df(y,x)*x  + 4*df(y,x)*x - 3*df(y,x) + 8*x*y - 1
+
+ODE simplifier loop interrupted! 
+ODESolve cannot solve this ODE!
+
+            2                            2
+{df(y,x,2)*x  - df(y,x,2)*x + 2*df(y,x)*x  + 4*df(y,x)*x - 3*df(y,x) + 8*x*y - 1
+
+ =0}
+
+
+% (5) Polynomial solutions
+% (FJW: currently very slow, and fails anyway!)
+% odesolve((x^2-x)*df(y,x,2) + (1-2x^2)*df(y,x) + (4x-2)*y = 0, y, x);
+
+% (6) Dependent variable missing
+odesolve(df(y,x,2) + 2x*df(y,x) = 2x, y, x);
+
+This is a linear ODE of order 2.
+It has non-constant coefficients.
+
+Performing trivial order reduction to give the order 1
+
+ linear ODE with coefficients (low -- high): {2*x,1}
+
+It is solved by the integrating factor method.
+
+                                     1
+Solution of order-reduced ODE is {{-----},1}
+                                      2
+                                     x
+                                    e
+
+
+                                                      1
+Restoring order, y => df(y,x,1), to give: df(y,x)={{-----},1} and re-solving ...
+                                                       2
+                                                      x
+                                                     e
+
+
+                  1
+{y=arbconst(6) + ---*sqrt(pi)*arbconst(5)*erf(x) + x}
+                  2
+
+
+% (7) Liouvillian solutions
+% (FJW: INTEGRATION IMPOSSIBLY SLOW WITHOUT EITHER ALGINT OR NOINT OPTION)
+begin scalar !*allfac;  !*allfac := t;  return
+   odesolve((x^3/2-x^2)*df(y,x,2) + (2x^2-3x+1)*df(y,x) + (x-1)*y = 0,
+      y, x, algint);
+end;
+
+This is a linear ODE of order 2.
+It has non-constant coefficients.
+It is exact, and the following linear ODE of order 1 is a first integral:
+
+         3              2    2
+df(y,x)*x  - 2*df(y,x)*x  + x *y - 2*x*y + 2*y=g10
+It is solved by the integrating factor method.
+
+                -1
+     - 1/2   - x           - 1/2
+{y=x      *e      *(x - 2)
+
+                                       1/x
+                                      e   *sqrt(x - 2)
+ *(arbconst(8) + arbconst(7)*int(--------------------------,x))}
+                                           2
+                                  sqrt(x)*x  - 2*sqrt(x)*x
+
+% NB: DO NOT RE-EVALUATE RESULT WITHOUT TURNING ON ALGINT OR NOINT SWITCH
+
+% (8) Reduction of order
+% (FJW: Attempting to make explicit currently too slow.)
+odesolve(df(y,x,2) - 2x*df(y,x) + 2y = 3, y, x);
+
+This is a linear ODE of order 2.
+It has non-constant coefficients.
+But ODESolve cannot solve it using linear techniques, so ...
+Interchanging dependent and independent variables ...
+
+                        3              3            2
+ - df(x,y,2) + 2*df(x,y) *y - 3*df(x,y)  - 2*df(x,y) *x
+
+This is a nonlinear ODE of order 2.
+
+                                                                        - 3
+This ODE can be simplified by the independent variable shift y => y - ------
+                                                                        2
+
+                                  3              2
+ to give:  - df(x,y,2) + 2*df(x,y) *y - 2*df(x,y) *x=0
+
+
+                                                                            G22
+This ODE is equidimensional in the independent variable y -- applying y => e
+
+ to transform to the simpler ODE: 
+
+                            3              2
+ - df(x,G22,2) + 2*df(x,G22)  - 2*df(x,G22) *x + df(x,G22)=0
+
+
+This ODE is autonomous -- transforming dependent variable 
+
+to derivative to give this ODE of order 1 lower: 
+
+                        3        2
+ - df(G23,x)*G23 + 2*G23  - 2*G23 *x + G23=0
+
+This is a nonlinear ODE that factorizes algebraically 
+and each distinct factor ODE will be solved separately ...
+
+                    2
+ - df(G23,x) + 2*G23  - 2*G23*x + 1=0
+
+This is a nonlinear ODE of order 1.
+
+It is of Riccati type and transforms into the linear second-order ODE: 
+
+df(G23,x,2) + 2*df(G23,x)*x + 2*G23=0
+
+It has non-constant coefficients.
+It is exact, and the following linear ODE of order 1 is a first integral:
+
+df(G23,x) + 2*G23*x=g26
+It is solved by the integrating factor method.
+Restoring order to give these first-order ODEs ...
+
+sqrt(pi)*arbconst(9)*df(x,G22)*erf(i*x)*i - sqrt(pi)*arbconst(9)*erf(i*x)*i*x
+
+     2
+    x
+ - e  *arbconst(9) - 2*df(x,G22) + 2*x=0
+
+This is a nonlinear ODE of order 1.
+It is separable.
+
+df(x,G22)=0
+
+This is a linear ODE of order 1.
+It is solved by quadrature.
+
+{arbconst(10) + sqrt(pi)*arbconst(9)
+
+                               erf(i*x)
+ *int(-----------------------------------------------------------,x)*i
+                                             2
+                                            x
+       sqrt(pi)*arbconst(9)*erf(i*x)*i*x + e  *arbconst(9) - 2*x
+
+                                       1
+  - 2*int(-----------------------------------------------------------,x)
+                                                 2
+                                                x
+           sqrt(pi)*arbconst(9)*erf(i*x)*i*x + e  *arbconst(9) - 2*x
+
+         2*y - 3
+  - log(---------)=0}
+            2
+
+
+% (9) Integrating factors
+% (FJW: Currently very slow, and fails anyway!)
+% odesolve(sqrt(x)*df(y,x,2) + 2x*df(y,x) + 3y = 0, y, x);
+
+% (10) Radical solution (FJW: omitted for now)
+
+% (11) Undetermined coefficients
+odesolve(df(y,x,2) - 2/x^2*y = 7x^4 + 3*x^3, y, x);
+
+This is a linear ODE of order 2.
+It has non-constant coefficients.
+It is of the homogeneous (Euler) type and is reducible to a simpler ODE ...
+It has constant coefficients.
+Constructing particular integral using `D-operator method'.
+
+                 2                 -1    1   6    1   5
+{y=arbconst(13)*x  + arbconst(12)*x   + ---*x  + ---*x }
+                                         4        6
+
+
+% (12) Variation of parameters
+odesolve(df(y,x,2) + y = csc(x), y, x);
+
+This is a linear ODE of order 2.
+It has constant coefficients.
+Constructing particular integral using `D-operator method'.
+But cannot evaluate the integrals, so ...
+Constructing particular integral using `variation of parameters'.
+The Wronskian is 1
+
+{y=arbconst(15)*sin(x) + arbconst(14)*cos(x) - cos(x)*x + log(sin(x))*sin(x)}
+
+
+% (13) Linear constant coefficients
+<< factor exp(x);  write
+odesolve(df(y,x,7) - 14df(y,x,6) + 80df(y,x,5) - 242df(y,x,4)
+   + 419df(y,x,3) - 416df(y,x,2) + 220df(y,x) - 48y = 0, y, x);
+remfac exp(x) >>;
+
+This is a linear ODE of order 7.
+It has constant coefficients.
+
+    4*x                 3*x                 2*x
+{y=e   *arbconst(17) + e   *arbconst(16) + e   *(arbconst(19) + arbconst(18)*x)
+
+     x                                                2
+  + e *(arbconst(22) + arbconst(21)*x + arbconst(20)*x )}
+
+
+% (14) Euler
+odesolve(df(y,x,4) - 4/x^2*df(y,x,2) + 8/x^3*df(y,x) - 8/x^4*y = 0, y, x);
+
+This is a linear ODE of order 4.
+It has non-constant coefficients.
+It is of the homogeneous (Euler) type and is reducible to a simpler ODE ...
+It has constant coefficients.
+
+                 4                 2                                  -1
+{y=arbconst(26)*x  + arbconst(25)*x  + arbconst(24)*x + arbconst(23)*x  }
+
+
+% (15) Exact n-th order
+odesolve((1+x+x^2)*df(y,x,3) + (3+6x)*df(y,x,2) + 6df(y,x) = 6x, y, x);
+
+This is a linear ODE of order 3.
+It has non-constant coefficients.
+
+Performing trivial order reduction to give the order 2
+
+                                                         2
+ linear ODE with coefficients (low -- high): {6,6*x + 3,x  + x + 1}
+
+But ODESolve cannot solve the reduced ODE! 
+It is exact, and the following linear ODE of order 2 is a first integral:
+
+           2
+df(y,x,2)*x  + df(y,x,2)*x + df(y,x,2) + 4*df(y,x)*x + 2*df(y,x) + 2*y
+
+          2
+=g34 + 3*x
+It is exact, and the following linear ODE of order 1 is a first integral:
+
+         2                                                  3
+df(y,x)*x  + df(y,x)*x + df(y,x) + 2*x*y + y=g34*x + g35 + x
+It is solved by the integrating factor method.
+
+                                     1                2    1   4
+    arbconst(29) + arbconst(28)*x + ---*arbconst(27)*x  + ---*x
+                                     2                     4
+{y=--------------------------------------------------------------}
+                              2
+                             x  + x + 1
+
+
+
+% 1.2 Nonlinear equations
+% =======================
+
+% (16) Integrating factors 1
+odesolve(df(y,x) = y/(y*log y + x), y, x);
+
+This is a nonlinear ODE of order 1.
+Interchanging dependent and independent variables ...
+
+ - df(x,y)*y + log(y)*y + x
+
+This is a linear ODE of order 1.
+It is solved by the integrating factor method.
+
+                     1        2
+{x=arbconst(30)*y + ---*log(y) *y}
+                     2
+
+
+% (17) Integrating factors 2
+odesolve(2y*df(y,x)^2 - 2x*df(y,x) - y = 0, y, x);
+
+This is a nonlinear ODE of order 1.
+
+It is of Lagrange type and reduces to this subsidiary ODE for x(y'): 
+
+               5                  3                          2
+4*df(x,G39)*G39  - 8*df(x,G39)*G39  + 3*df(x,G39)*G39 + 4*G39 *x + 2*x=0
+
+This is a first-order linear ODE solved by the integrating factor method.
+
+                                  1/3                 2    1/3
+                               2*2   *arbconst(31)*G39  - 2   *arbconst(31)
+The subsidiary solution is {x=----------------------------------------------}
+                                        2/3       4         2     1/3
+                                     G39   *(4*G39  - 12*G39  + 9)
+
+ and the main ODE can be solved parametrically in terms of the derivative.
+
+
+                    4                 2      - 1/3             - 2/3  1/3
+{{y=2*(4*arbparam(1)  - 12*arbparam(1)  + 9)      *arbparam(1)      *2
+
+  *arbconst(31)*arbparam(1),
+
+                    4                 2      - 1/3             - 2/3  1/3
+  x=2*(4*arbparam(1)  - 12*arbparam(1)  + 9)      *arbparam(1)      *2
+
+                           2                 4                 2      - 1/3
+  *arbconst(31)*arbparam(1)  - (4*arbparam(1)  - 12*arbparam(1)  + 9)
+
+               - 2/3  1/3
+  *arbparam(1)      *2   *arbconst(31),
+
+  arbparam(1)}}
+
+% This parametric solution is correct, cf. Zwillinger (1989) p.168 (41.10)
+% (except that first edition is missing the constant C)!
+
+% (18) Bernoulli 1
+odesolve(df(y,x) + y = y^3*sin x, y, x, explicit);
+
+This is a nonlinear ODE of order 1.
+It is of Bernoulli type.
+
+{y
+
+      2*x                                     - 1/2
+ =(5*e   *arbconst(32) + 2*cos(x) + 4*sin(x))      *sqrt(5)*plus_or_minus(tag_1)
+
+ }
+
+expand_plus_or_minus ws;
+
+
+       2*x                                     - 1/2
+{y=(5*e   *arbconst(32) + 2*cos(x) + 4*sin(x))      *sqrt(5),
+
+          2*x                                     - 1/2
+ y= - (5*e   *arbconst(32) + 2*cos(x) + 4*sin(x))      *sqrt(5)}
+
+
+% (19) Bernoulli 2
+depend {P, Q}, x;
+
+
+begin scalar soln, !*exp, !*allfac;  % for a neat solution
+   on allfac;
+   soln := odesolve(df(y,x) + P*y = Q*y^n, y, x);
+   off allfac;  return soln
+end;
+
+This is a nonlinear ODE of order 1.
+It is of Bernoulli type.
+
+                                                  int(p,x)
+   - n       int(p,x)*n - int(p,x)               e        *q
+{y    *y= - e                     *((n - 1)*int(-------------,x) - arbconst(33))
+                                                  int(p,x)*n
+                                                 e
+
+ }
+
+odesolve(df(y,x) + P*y = Q*y^(2/3), y, x);
+
+This is a nonlinear ODE of order 1.
+It is of Bernoulli type.
+
+  1/3   - 1/3*int(p,x)                 1    - 1/3*int(p,x)      int(p,x)/3
+{y   =e               *arbconst(34) + ---*e               *int(e          *q,x)}
+                                       3
+
+
+% (20) Clairaut 1
+odesolve((x^2-1)*df(y,x)^2 - 2x*y*df(y,x) + y^2 - 1 = 0, y, x, explicit);
+
+This is a nonlinear ODE of order 1.
+It is of Clairaut type.
+
+Solution before trying to solve for dependent variable is 
+
+            2  2               2                         2
+arbconst(35) *x  - arbconst(35)  - 2*arbconst(35)*x*y + y  - 1=0
+
+
+                                                              2    2
+Solution before trying to solve for dependent variable is  - x  - y  + 1=0
+
+
+                                     2
+{y=arbconst(35)*x + sqrt(arbconst(35)  + 1),
+
+                                     2
+ y=arbconst(35)*x - sqrt(arbconst(35)  + 1),
+
+            2
+ y=sqrt( - x  + 1),
+
+               2
+ y= - sqrt( - x  + 1)}
+
+
+% (21) Clairaut 2
+operator f, g;
+
+
+odesolve(f(x*df(y,x)-y) = g(df(y,x)), y, x);
+
+This is a nonlinear ODE of order 1.
+It is of Clairaut type.
+
+{f(arbconst(36)*x - y) - g(arbconst(36))=0}
+
+
+% (22) Equations of the form  y' = f(x,y)
+odesolve(df(y,x) = (3x^2-y^2-7)/(exp(y)+2x*y+1), y, x);
+
+This is a nonlinear ODE of order 1.
+It is exact and is solved by quadrature.
+
+                 y    3      2
+{arbconst(37) + e  - x  + x*y  + 7*x + y=0}
+
+
+% (23) Homogeneous
+odesolve(df(y,x) = (2x^3*y-y^4)/(x^4-2x*y^3), y, x);
+
+This is a nonlinear ODE of order 1.
+It is of algebraically homogeneous type 
+solved by a change of variables of the form `y = vx'.
+
+                     3    3
+{arbconst(38)*x*y + x  + y =0}
+
+
+% (24) Factoring the equation
+odesolve(df(y,x)*(df(y,x)+y) = x*(x+y), y, x);
+
+This is a nonlinear ODE that factorizes algebraically 
+and each distinct factor ODE will be solved separately ...
+
+df(y,x) + x + y=0
+
+This is a linear ODE of order 1.
+It is solved by the integrating factor method.
+
+df(y,x) - x=0
+
+This is a linear ODE of order 1.
+It is solved by quadrature.
+
+     - x                                        1   2
+{y=e    *arbconst(39) - x + 1,y=arbconst(40) + ---*x }
+                                                2
+
+
+% (25) Interchange variables
+% (NB: Soln in Zwillinger (1989) wrong, as is last eqn in Table 68!)
+odesolve(df(y,x) = x/(x^2*y^2+y^5), y, x);
+
+This is a nonlinear ODE of order 1.
+Interchanging dependent and independent variables ...
+
+                2  2    5
+ - df(x,y)*x + x *y  + y
+
+This is a nonlinear ODE of order 1.
+It is of Bernoulli type.
+
+          3
+  2  2/3*y                  3    3
+{x =e      *arbconst(41) - y  - ---}
+                                 2
+
+
+% (26) Lagrange 1
+odesolve(y = 2x*df(y,x) - a*df(y,x)^3, y, x);
+
+This is a nonlinear ODE of order 1.
+
+It is of Lagrange type and reduces to this subsidiary ODE for x(y'): 
+
+                        2
+ - df(x,G58)*G58 + 3*G58 *a - 2*x=0
+
+This is a first-order linear ODE solved by the integrating factor method.
+
+                                                     4
+                               4*arbconst(42) + 3*G58 *a
+The subsidiary solution is {x=---------------------------}
+                                             2
+                                        4*G58
+
+ and the main ODE can be solved parametrically in terms of the derivative.
+
+
+                              -1    1             3
+{{y=2*arbconst(42)*arbparam(2)   + ---*arbparam(2) *a,
+                                    2
+
+                            -2    3             2
+  x=arbconst(42)*arbparam(2)   + ---*arbparam(2) *a,
+                                  4
+
+  arbparam(2)}}
+
+odesolve(y = 2x*df(y,x) - a*df(y,x)^3, y, x, implicit);
+
+This is a nonlinear ODE of order 1.
+
+It is of Lagrange type and reduces to this subsidiary ODE for x(y'): 
+
+                        2
+ - df(x,G59)*G59 + 3*G59 *a - 2*x=0
+
+This is a first-order linear ODE solved by the integrating factor method.
+
+                                                     4
+                               4*arbconst(43) + 3*G59 *a
+The subsidiary solution is {x=---------------------------}
+                                             2
+                                        4*G59
+
+ and the main ODE can be solved parametrically in terms of the derivative.
+
+
+                3  2                   2    2                         2
+{64*arbconst(43) *a  + 128*arbconst(43) *a*x  - 144*arbconst(43)*a*x*y
+
+                     4         4       3  2
+  + 64*arbconst(43)*x  + 27*a*y  - 16*x *y =0}
+
+% root_of quartic is VERY slow if explicit option used!
+
+% (27) Lagrange 2
+odesolve(y = 2x*df(y,x) - df(y,x)^2, y, x);
+
+This is a nonlinear ODE of order 1.
+
+It is of Lagrange type and reduces to this subsidiary ODE for x(y'): 
+
+ - df(x,G60)*G60 + 2*G60 - 2*x=0
+
+This is a first-order linear ODE solved by the integrating factor method.
+
+                                                     3
+                               3*arbconst(44) + 2*G60
+The subsidiary solution is {x=-------------------------}
+                                            2
+                                       3*G60
+
+ and the main ODE can be solved parametrically in terms of the derivative.
+
+
+                              -1    1             2
+{{y=2*arbconst(44)*arbparam(3)   + ---*arbparam(3) ,
+                                    3
+
+                            -2    2
+  x=arbconst(44)*arbparam(3)   + ---*arbparam(3),
+                                  3
+
+  arbparam(3)}}
+
+odesolve(y = 2x*df(y,x) - df(y,x)^2, y, x, implicit);
+
+This is a nonlinear ODE of order 1.
+
+It is of Lagrange type and reduces to this subsidiary ODE for x(y'): 
+
+ - df(x,G61)*G61 + 2*G61 - 2*x=0
+
+This is a first-order linear ODE solved by the integrating factor method.
+
+                                                     3
+                               3*arbconst(45) + 2*G61
+The subsidiary solution is {x=-------------------------}
+                                            2
+                                       3*G61
+
+ and the main ODE can be solved parametrically in terms of the derivative.
+
+
+                  2                    3                            2  2      3
+{ - 9*arbconst(45)  - 12*arbconst(45)*x  + 18*arbconst(45)*x*y + 3*x *y  - 4*y
+
+ =0}
+
+
+% (28) Riccati 1
+odesolve(df(y,x) = exp(x)*y^2 - y + exp(-x), y, x);
+
+This is a nonlinear ODE of order 1.
+
+It is of Riccati type and transforms into the linear second-order ODE: 
+
+df(y,x,2) + y=0
+
+It has constant coefficients.
+
+      - x                         - x
+    e    *arbconst(46)*sin(x) - e    *cos(x)
+{y=------------------------------------------}
+          arbconst(46)*cos(x) + sin(x)
+
+
+% (29) Riccati 2
+factor x;
+
+
+odesolve(df(y,x) = y^2 - x*y + 1, y, x);
+
+This is a nonlinear ODE of order 1.
+
+It is of Riccati type and transforms into the linear second-order ODE: 
+
+df(y,x,2) + df(y,x)*x + y=0
+
+It has non-constant coefficients.
+It is exact, and the following linear ODE of order 1 is a first integral:
+
+df(y,x) + x*y=g66
+It is solved by the integrating factor method.
+
+                               2
+                          1/2*x
+                       2*e      *arbconst(47)
+{y=x + ------------------------------------------------------}
+                                            - 1/2
+        sqrt(pi)*sqrt(2)*arbconst(47)*erf(2      *x*i)*i - 2
+
+remfac x;
+
+
+
+% (30) Separable
+odesolve(df(y,x) = (9x^8+1)/(y^2+1), y, x);
+
+This is a nonlinear ODE of order 1.
+It is separable.
+
+                     9          3
+{3*arbconst(48) - 3*x  - 3*x + y  + 3*y=0}
+
+
+% (31) Solvable for x
+odesolve(y = 2x*df(y,x) + y*df(y,x)^2, y, x);
+
+This is a nonlinear ODE of order 1.
+
+It is of Lagrange type and reduces to this subsidiary ODE for x(y'): 
+
+             5                        2
+df(x,G68)*G68  - df(x,G68)*G68 - 2*G68 *x - 2*x=0
+
+This is a first-order linear ODE solved by the integrating factor method.
+
+                                               2
+                               arbconst(49)*G68  - arbconst(49)
+The subsidiary solution is {x=----------------------------------}
+                                                2
+                                             G68
+
+ and the main ODE can be solved parametrically in terms of the derivative.
+
+
+                                 -1
+{{y= - 2*arbconst(49)*arbparam(4)  ,
+
+                               -2
+  x= - arbconst(49)*arbparam(4)   + arbconst(49),
+
+  arbparam(4)}}
+
+odesolve(y = 2x*df(y,x) + y*df(y,x)^2, y, x, implicit);
+
+This is a nonlinear ODE of order 1.
+
+It is of Lagrange type and reduces to this subsidiary ODE for x(y'): 
+
+             5                        2
+df(x,G69)*G69  - df(x,G69)*G69 - 2*G69 *x - 2*x=0
+
+This is a first-order linear ODE solved by the integrating factor method.
+
+                                               2
+                               arbconst(50)*G69  - arbconst(50)
+The subsidiary solution is {x=----------------------------------}
+                                                2
+                                             G69
+
+ and the main ODE can be solved parametrically in terms of the derivative.
+
+
+                  2                       2
+{ - 4*arbconst(50)  + 4*arbconst(50)*x + y =0}
+
+
+% (32) Solvable for y
+begin scalar !*allfac;  !*allfac := t;  return
+   odesolve(x = y*df(y,x) - x*df(y,x)^2, y, x)
+end;
+
+This is a nonlinear ODE of order 1.
+
+It is of Lagrange type and reduces to this subsidiary ODE for x(y'): 
+
+                      2
+ - df(x,G70)*G70 - G70 *x + x=0
+
+This is a first-order linear ODE solved by the integrating factor method.
+
+                               arbconst(51)*G70
+The subsidiary solution is {x=------------------}
+                                       2
+                                    G70 /2
+                                   e
+
+ and the main ODE can be solved parametrically in terms of the derivative.
+
+
+                       2
+      - 1/2*arbparam(5)                           2
+{{y=e                   *arbconst(51)*(arbparam(5)  + 1),
+
+                       2
+      - 1/2*arbparam(5)
+  x=e                   *arbconst(51)*arbparam(5),
+
+  arbparam(5)}}
+
+
+% (33) Autonomous 1
+odesolve(df(y,x,2)-df(y,x) = 2y*df(y,x), y, x, explicit);
+
+This is a nonlinear ODE of order 2.
+
+This ODE is autonomous -- transforming dependent variable 
+
+to derivative to give this ODE of order 1 lower: df(G71,y)*G71 - 2*G71*y - G71=0
+
+This is a nonlinear ODE that factorizes algebraically 
+and each distinct factor ODE will be solved separately ...
+
+df(G71,y) - 2*y - 1=0
+
+This is a linear ODE of order 1.
+It is solved by quadrature.
+Restoring order to give these first-order ODEs ...
+
+                             2
+ - arbconst(52) + df(y,x) - y  - y=0
+
+This is a nonlinear ODE of order 1.
+It is separable.
+
+df(y,x)=0
+
+This is a linear ODE of order 1.
+It is solved by quadrature.
+
+Simplifying the arbconst expressions in 4*arbconst(53)*arbconst(52)
+
+ - arbconst(53) - 4*arbconst(52)*x
+
+                                            2*y + 1
+ + 2*sqrt(4*arbconst(52) - 1)*atan(--------------------------) + x
+                                    sqrt(4*arbconst(52) - 1)
+
+ by the rewrites ...
+
+
+sqrt(4*arbconst(52) - 1) => arbconst(52)
+
+
+Solution before trying to solve for dependent variable is 
+
+                         2               2
+arbconst(53)*arbconst(52)  - arbconst(52) *x
+
+                          2*y + 1
+ + 2*arbconst(52)*atan(--------------)=0
+                        arbconst(52)
+
+
+       1                    1                               1
+{y= - ---*arbconst(52)*tan(---*arbconst(53)*arbconst(52) - ---*arbconst(52)*x)
+       2                    2                               2
+
+     1
+  - ---,
+     2
+
+ y=arbconst(54)}
+
+
+% (34) Autonomous 2  (FJW: Slow without either algint or noint option.)
+odesolve(df(y,x,2)/y - df(y,x)^2/y^2 - 1 + 1/y^3 = 0, y, x, algint);
+
+This is a nonlinear ODE of order 2.
+
+This ODE is autonomous -- transforming dependent variable 
+
+to derivative to give this ODE of order 1 lower: 
+
+               2      2      3
+df(G75,y)*G75*y  - G75 *y - y  + 1=0
+
+This is a nonlinear ODE of order 1.
+It is of Bernoulli type.
+Restoring order to give these first-order ODEs ...
+
+sqrt(y)*sqrt(3)*df(y,x)
+
+                        3             3
+ - sqrt(3*arbconst(56)*y  + 6*log(y)*y  + 2)*plus_or_minus(tag_4)=0
+
+This is a nonlinear ODE of order 1.
+It is separable.
+
+{arbconst(57)*plus_or_minus(tag_4)
+
+                                  sqrt(y)
+  + sqrt(3)*int(-------------------------------------------,y)
+                                      3             3
+                 sqrt(3*arbconst(56)*y  + 6*log(y)*y  + 2)
+
+  - plus_or_minus(tag_4)*x=0}
+
+
+% (35) Differentiation method
+odesolve(2y*df(y,x,2) - df(y,x)^2 = 1/3(df(y,x) - x*df(y,x,2))^2, y, x, explicit);
+
+This is a nonlinear ODE of order 2.
+
+                                                                            G84
+This ODE is equidimensional in the independent variable x -- applying x => e
+
+                                                2
+ to transform to the simpler ODE:  - df(y,G84,2)  + 4*df(y,G84,2)*df(y,G84)
+
+                                2
+ + 6*df(y,G84,2)*y - 7*df(y,G84)  - 6*df(y,G84)*y=0
+
+
+This ODE is autonomous -- transforming dependent variable 
+
+to derivative to give this ODE of order 1 lower: 
+
+            2    2                  2                            2
+ - df(G85,y) *G85  + 4*df(G85,y)*G85  + 6*df(G85,y)*G85*y - 7*G85  - 6*G85*y=0
+
+This is a nonlinear ODE that factorizes algebraically 
+and each distinct factor ODE will be solved separately ...
+
+            2
+ - df(G85,y) *G85 + 4*df(G85,y)*G85 + 6*df(G85,y)*y - 7*G85 - 6*y=0
+
+This is a nonlinear ODE of order 1.
+
+It is of Lagrange type and reduces to this subsidiary ODE for x(y'): 
+
+             5                  4                   3                   2
+df(y,G86)*G86  - 8*df(y,G86)*G86  + 24*df(y,G86)*G86  - 26*df(y,G86)*G86
+
+                                          2
+ - 17*df(y,G86)*G86 + 42*df(y,G86) + 6*G86 *y - 12*G86*y - 18*y=0
+
+This is a first-order linear ODE solved by the integrating factor method.
+
+The subsidiary solution is {y
+
+                     2
+     arbconst(58)*G86  - 4*arbconst(58)*G86 + 7*arbconst(58)
+   =---------------------------------------------------------}
+                           2
+                        G86  - 4*G86 + 4
+
+ and the main ODE can be solved parametrically in terms of the derivative.
+
+Restoring order to give these first-order ODEs ...
+
+               2                                                           2
+16*arbconst(58)  + 4*arbconst(58)*df(y,G84) - 20*arbconst(58)*y + df(y,G84)
+
+                      2
+ - 4*df(y,G84)*y + 4*y =0
+
+This is a nonlinear ODE of order 1.
+It can be (partially) solved algebraically for the single-order derivative 
+and each `root ODE' will be solved separately ...
+
+2*arbconst(58) + df(y,G84)
+
+ - 2*sqrt( - arbconst(58) + y)*sqrt(arbconst(58))*sqrt(3) - 2*y=0
+
+This is a nonlinear ODE of order 1.
+It is separable.
+
+2*arbconst(58) + df(y,G84)
+
+ + 2*sqrt( - arbconst(58) + y)*sqrt(arbconst(58))*sqrt(3) - 2*y=0
+
+This is a nonlinear ODE of order 1.
+It is separable.
+
+df(y,G84)=0
+
+This is a linear ODE of order 1.
+It is solved by quadrature.
+
+                                            G84
+Simplifying the arbconst expressions in  - e   *arbconst(59)
+
+ - sqrt(arbconst(58))*sqrt(3) - sqrt( - arbconst(58) + y) by the rewrites ...
+
+
+sqrt(arbconst(58)) => arbconst(58)
+
+
+                                            G84
+Simplifying the arbconst expressions in  - e   *arbconst(60)
+
+ + sqrt(arbconst(58))*sqrt(3) - sqrt( - arbconst(58) + y) by the rewrites ...
+
+
+sqrt(arbconst(58)) => arbconst(58)
+
+
+Solution before trying to solve for dependent variable is 
+
+                                                               2
+ - arbconst(59)*x - sqrt(3)*arbconst(58) - sqrt( - arbconst(58)  + y)=0
+
+
+Solution before trying to solve for dependent variable is 
+
+                                                               2
+ - arbconst(60)*x + sqrt(3)*arbconst(58) - sqrt( - arbconst(58)  + y)=0
+
+
+               2  2                                                         2
+{y=arbconst(59) *x  + 2*sqrt(3)*arbconst(59)*arbconst(58)*x + 4*arbconst(58) ,
+
+               2  2                                                         2
+ y=arbconst(60) *x  - 2*sqrt(3)*arbconst(60)*arbconst(58)*x + 4*arbconst(58) ,
+
+ y=arbconst(61)}
+
+
+% (36) Equidimensional in x
+odesolve(x*df(y,x,2) = 2y*df(y,x), y, x, explicit);
+
+This is a nonlinear ODE of order 2.
+
+                                                                            G95
+This ODE is equidimensional in the independent variable x -- applying x => e
+
+ to transform to the simpler ODE: df(y,G95,2) - 2*df(y,G95)*y - df(y,G95)=0
+
+
+This ODE is autonomous -- transforming dependent variable 
+
+to derivative to give this ODE of order 1 lower: df(G96,y)*G96 - 2*G96*y - G96=0
+
+This is a nonlinear ODE that factorizes algebraically 
+and each distinct factor ODE will be solved separately ...
+
+df(G96,y) - 2*y - 1=0
+
+This is a linear ODE of order 1.
+It is solved by quadrature.
+Restoring order to give these first-order ODEs ...
+
+                               2
+ - arbconst(62) + df(y,G95) - y  - y=0
+
+This is a nonlinear ODE of order 1.
+It is separable.
+
+df(y,G95)=0
+
+This is a linear ODE of order 1.
+It is solved by quadrature.
+
+Simplifying the arbconst expressions in 4*arbconst(63)*arbconst(62)
+
+ - arbconst(63) - 4*arbconst(62)*G95
+
+                                            2*y + 1
+ + 2*sqrt(4*arbconst(62) - 1)*atan(--------------------------) + G95
+                                    sqrt(4*arbconst(62) - 1)
+
+ by the rewrites ...
+
+
+sqrt(4*arbconst(62) - 1) => arbconst(62)
+
+
+Solution before trying to solve for dependent variable is 
+
+                         2               2
+arbconst(63)*arbconst(62)  - arbconst(62) *log(x)
+
+                          2*y + 1
+ + 2*arbconst(62)*atan(--------------)=0
+                        arbconst(62)
+
+
+       1
+{y= - ---*arbconst(62)
+       2
+
+       1                               1                          1
+ *tan(---*arbconst(63)*arbconst(62) - ---*arbconst(62)*log(x)) - ---,
+       2                               2                          2
+
+ y=arbconst(64)}
+
+
+% (37) Equidimensional in y
+odesolve((1-x)*(y*df(y,x,2)-df(y,x)^2) + x^2*y^2 = 0, y, x);
+
+This is a nonlinear ODE of order 2.
+
+                                                                          G102
+This ODE is equidimensional in the dependent variable y -- applying y => e
+
+                                                                      2
+ to transform to the simpler ODE:  - df(G102,x,2)*x + df(G102,x,2) + x =0
+
+This is a linear ODE of order 2.
+It has constant coefficients.
+Constructing particular integral using `D-operator method'.
+
+                                          3        2
+     arbconst(66) + arbconst(65)*x + 1/6*x  + 1/2*x  - x        x
+    e                                                   *(x - 1)
+{y=---------------------------------------------------------------}
+                                x - 1
+
+
+% (38) Exact second order
+odesolve(x*y*df(y,x,2) + x*df(y,x)^2 + y*df(y,x) = 0, y, x, explicit);
+
+This is a nonlinear ODE of order 2.
+
+                                                                            G106
+This ODE is equidimensional in the independent variable x -- applying x => e
+
+                                                             2
+ to transform to the simpler ODE: df(y,G106,2)*y + df(y,G106) =0
+
+
+This ODE is autonomous -- transforming dependent variable 
+
+                                                                         2
+to derivative to give this ODE of order 1 lower: df(G107,y)*G107*y + G107 =0
+
+This is a nonlinear ODE that factorizes algebraically 
+and each distinct factor ODE will be solved separately ...
+
+df(G107,y)*y + G107=0
+
+This is a linear ODE of order 1.
+It is solved by the integrating factor method.
+Restoring order to give these first-order ODEs ...
+
+ - arbconst(67) + df(y,G106)*y=0
+
+This is a nonlinear ODE of order 1.
+It is separable.
+
+df(y,G106)=0
+
+This is a linear ODE of order 1.
+It is solved by quadrature.
+
+Solution before trying to solve for dependent variable is 
+
+                                                       2
+2*arbconst(68)*arbconst(67) - 2*arbconst(67)*log(x) + y =0
+
+
+{y=sqrt( - arbconst(68) + log(x))*sqrt(arbconst(67))*sqrt(2),
+
+ y= - sqrt( - arbconst(68) + log(x))*sqrt(arbconst(67))*sqrt(2),
+
+ y=arbconst(69)}
+
+
+% (39) Factoring differential operator
+odesolve(df(y,x,2)^2 - 2df(y,x)*df(y,x,2) + 2y*df(y,x) - y^2 = 0, y, x);
+
+This is a nonlinear ODE that factorizes algebraically 
+and each distinct factor ODE will be solved separately ...
+
+df(y,x,2) - 2*df(y,x) + y=0
+
+This is a linear ODE of order 2.
+It has constant coefficients.
+
+df(y,x,2) - y=0
+
+This is a linear ODE of order 2.
+It has constant coefficients.
+
+    x                 x
+{y=e *arbconst(71) + e *arbconst(70)*x,
+
+    x                  - x
+ y=e *arbconst(73) + e    *arbconst(72)}
+
+
+% (40) Scale invariant (fails with algint option)
+odesolve(x^2*df(y,x,2) + 3x*df(y,x) = 1/(y^3*x^4), y, x);
+
+This is a nonlinear ODE of order 2.
+
+                                              -1
+This ODE is scale invariant -- applying y => x  *G113
+
+ to transform to the simpler ODE: 
+
+                 3  2                  3         4
+df(G113,x,2)*G113 *x  + df(G113,x)*G113 *x - G113  - 1=0
+
+
+                                                                            G115
+This ODE is equidimensional in the independent variable x -- applying x => e
+
+                                                      3       4
+ to transform to the simpler ODE: df(G113,G115,2)*G113  - G113  - 1=0
+
+
+This ODE is autonomous -- transforming dependent variable 
+
+to derivative to give this ODE of order 1 lower: 
+
+                  3            4
+df(G116,G113)*G113 *G116 - G113  - 1=0
+
+This is a nonlinear ODE of order 1.
+It is separable.
+Restoring order to give these first-order ODEs ...
+
+                   2                2     2       4
+4*arbconst(74)*G113  + df(G113,G115) *G113  - G113  + 1=0
+
+This is a nonlinear ODE of order 1.
+It can be (partially) solved algebraically for the single-order derivative 
+and each `root ODE' will be solved separately ...
+
+df(G113,G115)*G113
+
+                              2       4
+ - sqrt( - 4*arbconst(74)*G113  + G113  - 1)*plus_or_minus(tag_6)=0
+
+This is a nonlinear ODE of order 1.
+It is separable.
+
+{2*arbconst(75)*plus_or_minus(tag_6)
+
+                                                     2  2    4  4         2  2
+          - 2*arbconst(74) + sqrt( - 4*arbconst(74)*x *y  + x *y  - 1) + x *y
+  + log(-----------------------------------------------------------------------)
+                                                  2
+                               sqrt(4*arbconst(74)  + 1)
+
+  - 2*log(x)*plus_or_minus(tag_6)=0}
+
+
+% Revised scale-invariant example (hangs with algint option):
+ode := x^2*df(y,x,2) + 3x*df(y,x) + 2*y = 1/(y^3*x^4);
+
+
+                  2                      -4  -3
+ode := df(y,x,2)*x  + 3*df(y,x)*x + 2*y=x  *y
+
+% Choose full (explicit and expanded) solution:
+odesolve(ode, y, x, full);
+
+This is a nonlinear ODE of order 2.
+
+                                              -1
+This ODE is scale invariant -- applying y => x  *G122
+
+ to transform to the simpler ODE: 
+
+                 3  2                  3         4
+df(G122,x,2)*G122 *x  + df(G122,x)*G122 *x + G122  - 1=0
+
+
+                                                                            G124
+This ODE is equidimensional in the independent variable x -- applying x => e
+
+                                                      3       4
+ to transform to the simpler ODE: df(G122,G124,2)*G122  + G122  - 1=0
+
+
+This ODE is autonomous -- transforming dependent variable 
+
+to derivative to give this ODE of order 1 lower: 
+
+                  3            4
+df(G125,G122)*G122 *G125 + G122  - 1=0
+
+This is a nonlinear ODE of order 1.
+It is separable.
+Restoring order to give these first-order ODEs ...
+
+                    2                  2     2         4
+15*arbconst(76)*G122  - 4*df(G122,G124) *G122  - 4*G122  - 4=0
+
+This is a nonlinear ODE of order 1.
+It can be (partially) solved algebraically for the single-order derivative 
+and each `root ODE' will be solved separately ...
+
+2*df(G122,G124)*G122
+
+                            2         4
+ - sqrt(15*arbconst(76)*G122  - 4*G122  - 4)*plus_or_minus(tag_7)=0
+
+This is a nonlinear ODE of order 1.
+It is separable.
+
+Solution before trying to solve for dependent variable is 
+
+                                                                  2  2
+                                             15*arbconst(76) - 8*x *y
+2*arbconst(77)*plus_or_minus(tag_7) - asin(------------------------------)
+                                                                 2
+                                            sqrt(225*arbconst(76)  - 64)
+
+ - 2*log(x)*plus_or_minus(tag_7)=0
+
+
+       1
+{y= - ---*sqrt(15*arbconst(76)
+       2
+
+                                       2
+                - sqrt(225*arbconst(76)  - 64)*sin(2*arbconst(77) - 2*log(x)))
+
+    - 1/2  -1
+ *2      *x  ,
+
+       1
+ y= - ---*sqrt(15*arbconst(76)
+       2
+
+                                       2
+                + sqrt(225*arbconst(76)  - 64)*sin(2*arbconst(77) - 2*log(x)))
+
+    - 1/2  -1
+ *2      *x  ,
+
+    1
+ y=---*sqrt(15*arbconst(76)
+    2
+
+                                    2
+             - sqrt(225*arbconst(76)  - 64)*sin(2*arbconst(77) - 2*log(x)))
+
+    - 1/2  -1
+ *2      *x  ,
+
+    1
+ y=---*sqrt(15*arbconst(76)
+    2
+
+                                    2
+             + sqrt(225*arbconst(76)  - 64)*sin(2*arbconst(77) - 2*log(x)))
+
+    - 1/2  -1
+ *2      *x  }
+              % or "explicit, expand"
+% Check it -- each solution should simplify to 0:
+foreach soln in ws collect
+   trigsimp sub(soln, num(lhs ode - rhs ode));
+
+
+{0,0,0,0}
+
+
+% (41) Autonomous, 3rd order
+odesolve((df(y,x)^2+1)*df(y,x,3) - 3df(y,x)*df(y,x,2)^2 = 0, y, x);
+
+This is a nonlinear ODE of order 3.
+
+Performing trivial order reduction to give the order 2 nonlinear ODE: 
+
+           2                        2
+df(y,x,2)*y  + df(y,x,2) - 3*df(y,x) *y=0
+
+
+This ODE is autonomous -- transforming dependent variable 
+
+to derivative to give this ODE of order 1 lower: 
+
+                 2                           2
+df(G131,y)*G131*y  + df(G131,y)*G131 - 3*G131 *y=0
+
+This is a nonlinear ODE that factorizes algebraically 
+and each distinct factor ODE will be solved separately ...
+
+            2
+df(G131,y)*y  + df(G131,y) - 3*G131*y=0
+
+This is a linear ODE of order 1.
+It is solved by the integrating factor method.
+Restoring order to give these first-order ODEs ...
+
+         2                    2         2
+ - sqrt(y  + 1)*arbconst(78)*y  - sqrt(y  + 1)*arbconst(78) + df(y,x)=0
+
+This is a nonlinear ODE of order 1.
+It is separable.
+
+df(y,x)=0
+
+This is a linear ODE of order 1.
+It is solved by quadrature.
+
+                                                             2
+Solution of order-reduced ODE is {arbconst(79)*arbconst(78)*y
+
+                                                  2
+    + arbconst(79)*arbconst(78) - arbconst(78)*x*y  - arbconst(78)*x
+
+            2           2
+    + sqrt(y  + 1)*y + y  + 1=0,
+
+   y=arbconst(80)}
+
+
+                                                                            2
+Restoring order, y => df(y,x,1), to give: {arbconst(79)*arbconst(78)*df(y,x)
+
+                                                      2
+    + arbconst(79)*arbconst(78) - arbconst(78)*df(y,x) *x - arbconst(78)*x
+
+             2               2
+    + df(y,x)  + sqrt(df(y,x)  + 1)*df(y,x) + 1=0,
+
+   df(y,x)=arbconst(80)} and re-solving ...
+
+
+Simplifying the arbconst expressions in (arbconst(81)*arbconst(78) + sqrt(
+
+                  2
+      arbconst(79) *arbconst(78) - 2*arbconst(79)*arbconst(78)*x
+
+                                        2
+       + 2*arbconst(79) + arbconst(78)*x  - 2*x)*sqrt(arbconst(78))*i)/arbconst(
+
+   78) by the rewrites ...
+
+
+sqrt(arbconst(78)) => arbconst(78)
+
+
+                                   2             2
+{y=arbconst(81) + sqrt(arbconst(79) *arbconst(78)
+
+                                  2                                  2  2
+     - 2*arbconst(79)*arbconst(78) *x + 2*arbconst(79) + arbconst(78) *x  - 2*x)
+
+              -1
+ *arbconst(78)  *i,
+
+ y=arbconst(82) + i*x,
+
+ y=arbconst(83) - i*x,
+
+ y=arbconst(84) + arbconst(80)*x}
+
+
+% (42) Autonomous, 4th order
+odesolve(3*df(y,x,2)*df(y,x,4) - 5df(y,x,3)^2 = 0, y, x);
+
+This is a nonlinear ODE of order 4.
+
+Performing trivial order reduction to give the order 2 nonlinear ODE: 
+
+                         2
+3*df(y,x,2)*y - 5*df(y,x) =0
+
+
+This ODE is autonomous -- transforming dependent variable 
+
+                                                                             2
+to derivative to give this ODE of order 1 lower: 3*df(G136,y)*G136*y - 5*G136 =0
+
+This is a nonlinear ODE that factorizes algebraically 
+and each distinct factor ODE will be solved separately ...
+
+3*df(G136,y)*y - 5*G136=0
+
+This is a linear ODE of order 1.
+It is solved by the integrating factor method.
+Restoring order to give these first-order ODEs ...
+
+    2/3
+ - y   *arbconst(85)*y + df(y,x)=0
+
+This is a nonlinear ODE of order 1.
+It is separable.
+
+df(y,x)=0
+
+This is a linear ODE of order 1.
+It is solved by quadrature.
+
+Solution of order-reduced ODE is {
+
+      2/3                                2/3
+   2*y   *arbconst(86)*arbconst(85) - 2*y   *arbconst(85)*x - 3=0,
+
+   y=arbconst(87)}
+
+
+Restoring order, y => df(y,x,2), to give: {
+
+              2/3                                        2/3
+   2*df(y,x,2)   *arbconst(86)*arbconst(85) - 2*df(y,x,2)   *arbconst(85)*x - 3
+
+   =0,
+
+   df(y,x,2)=arbconst(87)} and re-solving ...
+
+
+                                                                  2
+Simplifying the arbconst expressions in (arbconst(89)*arbconst(85) *x
+
+                               2
+    + arbconst(88)*arbconst(85)
+
+                                                                       2
+    - 3*sqrt(arbconst(86) - x)*sqrt(arbconst(85))*sqrt(6))/arbconst(85)
+
+ by the rewrites ...
+
+
+sqrt(arbconst(85)) => arbconst(85)
+
+
+                                                                  2
+Simplifying the arbconst expressions in (arbconst(91)*arbconst(85) *x
+
+                               2
+    + arbconst(90)*arbconst(85)
+
+                                                                       2
+    + 3*sqrt(arbconst(86) - x)*sqrt(arbconst(85))*sqrt(6))/arbconst(85)
+
+ by the rewrites ...
+
+
+sqrt(arbconst(85)) => arbconst(85)
+
+
+{y=arbconst(89)*x + arbconst(88)
+
+                                                 -3
+  - 3*sqrt(arbconst(86) - x)*sqrt(6)*arbconst(85)  ,
+
+ y=arbconst(91)*x + arbconst(90)
+
+                                                 -3
+  + 3*sqrt(arbconst(86) - x)*sqrt(6)*arbconst(85)  ,
+
+                                    1                2
+ y=arbconst(93)*x + arbconst(92) + ---*arbconst(87)*x }
+                                    2
+
+
+
+% 1.3 Special equations
+% =====================
+
+% (43) Delay
+operator y;
+
+
+odesolve(df(y(x),x) + a*y(x-1) = 0, y(x), x);
+
+
+***** Arguments of y differ -- solving delay equations is not implemented.
+
+
+% (44) Functions with several parameters
+odesolve(df(y(x,a),x) = a*y(x,a), y(x,a), x);
+
+This is a linear ODE of order 1.
+It is solved by the integrating factor method.
+
+         a*x
+{y(x,a)=e   *arbconst(94)}
+
+
+
+% 2  Single equations with initial conditions
+% ===========================================
+
+% (45) Exact 4th order
+odesolve(df(y,x,4) = sin x, y, x,
+   {x=0, y=0, df(y,x)=0, df(y,x,2)=0, df(y,x,3)=0});
+
+This is a linear ODE of order 4.
+It has constant coefficients.
+Constructing particular integral using `D-operator method'.
+
+General solution is {y
+
+                                                  2                 3
+   =arbconst(98) + arbconst(97)*x + arbconst(96)*x  + arbconst(95)*x  + sin(x)}
+
+
+Applying conditions {{x=0,y=0,df(y,x)=0,df(y,x,2)=0,df(y,x,3)=0}}
+
+
+             1   3
+{y=sin(x) + ---*x  - x}
+             6
+
+
+% (46) Linear polynomial coefficients -- Bessel J0
+odesolve(x*df(y,x,2) + df(y,x) + 2x*y = 0, y, x,
+   {x=0, y=1, df(y,x)=0});
+
+This is a linear ODE of order 2.
+It has non-constant coefficients.
+The reduced ODE can be solved in terms of special functions.
+
+General solution is {y
+
+   =arbconst(100)*bessely(0,sqrt(2)*x) + arbconst(99)*besselj(0,sqrt(2)*x)}
+
+
+Applying conditions {{x=0,y=1,df(y,x)=0}}
+
+
+{y=besselj(0,sqrt(2)*x)}
+
+
+% (47) Second-degree separable
+soln :=
+   odesolve(x*df(y,x)^2 - y^2 + 1 = 0, y=1, x=0, explicit);
+
+This is a nonlinear ODE of order 1.
+It can be (partially) solved algebraically for the single-order derivative 
+and each `root ODE' will be solved separately ...
+
+                        2
+sqrt(x)*df(y,x) - sqrt(y  - 1)*plus_or_minus(tag_8)=0
+
+This is a nonlinear ODE of order 1.
+It is separable.
+
+General solution is {arbconst(101)*plus_or_minus(tag_8)
+
+                                                 2
+    - 2*sqrt(x)*plus_or_minus(tag_8) + log(sqrt(y  - 1) + y)=0}
+
+
+Applying conditions {{x=0,y=1}}
+
+
+Solution before trying to solve for dependent variable is 
+
+                                              2
+ - 2*sqrt(x)*plus_or_minus(tag_8) + log(sqrt(y  - 1) + y)=0
+
+
+soln := 
+
+    1   2*sqrt(x)*plus_or_minus(tag_8)    1    - 2*sqrt(x)*plus_or_minus(tag_8)
+{y=---*e                               + ---*e                                 }
+    2                                     2
+
+% Alternatively ...
+soln where e^~x => cosh x + sinh x;
+
+
+{y=cosh(2*sqrt(x)*plus_or_minus(tag_8))}
+
+% but this works ONLY with `on div, intstr; off allfac;'
+% A better alternative is ...
+trigsimp(soln, hyp, combine);
+
+
+{y=cosh(2*sqrt(x)*plus_or_minus(tag_8))}
+
+expand_plus_or_minus ws;
+
+
+{y=cosh(2*sqrt(x))}
+
+
+% (48) Autonomous
+odesolve(df(y,x,2) + y*df(y,x)^3 = 0, y, x, {x=0, y=0, df(y,x)=2});
+
+This is a nonlinear ODE of order 2.
+
+This ODE is autonomous -- transforming dependent variable 
+
+                                                                       3
+to derivative to give this ODE of order 1 lower: df(G148,y)*G148 + G148 *y=0
+
+This is a nonlinear ODE that factorizes algebraically 
+and each distinct factor ODE will be solved separately ...
+
+                 2
+df(G148,y) + G148 *y=0
+
+This is a nonlinear ODE of order 1.
+It is separable.
+Restoring order to give these first-order ODEs ...
+
+                                   2
+2*arbconst(102)*df(y,x) - df(y,x)*y  + 2=0
+
+This is a nonlinear ODE of order 1.
+It is separable.
+
+df(y,x)=0
+
+This is a linear ODE of order 1.
+It is solved by quadrature.
+
+                                                                  3
+General solution is {6*arbconst(103) - 6*arbconst(102)*y - 6*x + y =0,y
+
+   =arbconst(104)}
+
+
+Applying conditions {{x=0,y=0,df(y,x)=2}}
+
+
+           3
+{ - 6*x + y  + 3*y=0}
+
+%% Only one explicit solution satisfies the conditions:
+begin scalar !*trode, !*fullroots;  !*fullroots := t;  return
+   odesolve(df(y,x,2) + y*df(y,x)^3 = 0, y, x,
+      {x=0, y=0, df(y,x)=2}, explicit);
+end;
+
+
+            2            1/3            2             - 1/3
+{y=(sqrt(9*x  + 1) + 3*x)    - (sqrt(9*x  + 1) + 3*x)      }
+
+
+
+% 3  Systems of equations
+% =======================
+
+% (49) Integrable combinations
+depend {x, y, z}, t;
+
+
+odesolve({df(x,t) = -3y*z, df(y,t) = 3x*z, df(z,t) = -x*y}, {x,y,z}, t);
+
+
+odesolve-system({df(x,t) + 3*y*z,
+
+                 df(y,t) - 3*x*z,
+
+                 df(z,t) + x*y},{x,y,z},t)
+
+
+% (50) Matrix Riccati
+depend {a, b}, t;
+
+
+odesolve({df(x,t) = a*(y^2-x^2) + 2b*x*y + 2c*x,
+   df(y,t) = b*(y^2-x^2) - 2a*x*y + 2c*y}, {x,y}, t);
+
+
+                              2      2
+odesolve-system({df(x,t) + a*x  - a*y  - 2*b*x*y - 2*c*x,
+
+                                        2      2
+                 df(y,t) + 2*a*x*y + b*x  - b*y  - 2*c*y},{x,y},t)
+
+
+% (51) Triangular
+odesolve({df(x,t) = x*(1 + cos(t)/(2+sin(t))), df(y,t) = x - y},
+   {x,y}, t);
+
+
+                   - cos(t)*x + df(x,t)*sin(t) + 2*df(x,t) - sin(t)*x - 2*x
+odesolve-system({-----------------------------------------------------------,
+                                         sin(t) + 2
+
+                 df(y,t) - x + y},{x,y},t)
+
+
+% (52) Vector
+odesolve({df(x,t) = 9x + 2y, df(y,t) = x + 8y}, {x,y}, t);
+
+
+odesolve-system({df(x,t) - 9*x - 2*y,df(y,t) - x - 8*y},{x,y},t)
+
+
+% (53) Higher order
+odesolve({df(x,t) - x + 2y = 0, df(x,t,2) - 2df(y,t) = 2t - cos(2t)},
+   {x,y}, t);
+
+
+odesolve-system({df(x,t) - x + 2*y,
+
+                 cos(2*t) + df(x,t,2) - 2*df(y,t) - 2*t},{x,y},t)
+
+
+% (54) Inhomogeneous system
+equ := {df(x,t) = -1/(t*(t^2+1))*x + 1/(t^2*(t^2+1))*y + 1/t,
+        df(y,t) = -t^2/(t^2+1)*x + (2t^2+1)/(t*(t^2+1))*y + 1};
+
+
+                      -1      -1    -2
+                 t - t  *x + t   + t  *y
+equ := {df(x,t)=-------------------------,
+                          2
+                         t  + 1
+
+                     2      2            -1
+                  - t *x + t  + 2*t*y + t  *y + 1
+        df(y,t)=----------------------------------}
+                               2
+                              t  + 1
+
+odesolve(equ, {x,y}, t);
+
+
+                           2                  -1      -1    -2
+                  df(x,t)*t  + df(x,t) - t + t  *x - t   - t  *y
+odesolve-system({------------------------------------------------,
+                                       2
+                                      t  + 1
+
+                           2              2      2            -1
+                  df(y,t)*t  + df(y,t) + t *x - t  - 2*t*y - t  *y - 1
+                 ------------------------------------------------------},{x,y},t
+                                          2
+                                         t  + 1
+
+)
+
+
+end;
+
+
+
+Time for test: 20727 ms, plus GC time: 1952 ms
+

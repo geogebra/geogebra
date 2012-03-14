@@ -1,0 +1,248 @@
+load_package defint;
+
+
+
+% used to do a car/cdr of nil
+int(xxx,x,-infinity, infinity);
+
+
+int(xxx,x, - infinity,infinity)
+
+
+df(erf(x),x);
+
+
+ 2*sqrt(pi)
+------------
+     2
+    x
+   e  *pi
+
+
+int(ws,x,-infinity, infinity);
+
+
+2
+
+
+int(exp(-x^2)/sqrt(pi),x,-infinity, infinity);
+
+
+1
+
+
+exp(-x^2)/sqrt(pi);
+
+
+      1
+--------------
+            2
+           x
+ sqrt(pi)*e
+
+
+int(ws,x,-infinity, infinity);
+
+
+1
+
+
+int(exp(-x^2)/sqrt(pi)/y,x,-infinity, infinity);
+
+
+ 1
+---
+ y
+
+
+exp(-x^2-x)/sqrt(pi);
+
+
+        1
+------------------
+            2
+           x  + x
+ sqrt(pi)*e
+
+
+int(ws,x,-infinity, infinity);
+
+
+  1/4          1
+ e   *( - erf(---) + 1)
+               2
+------------------------
+           2
+
+
+erf(x+1/2);
+
+
+     2*x + 1
+erf(---------)
+        2
+
+
+df(ws,x);
+
+
+       2*sqrt(pi)
+------------------------
+      2
+  (4*x  + 4*x + 1)/4
+ e                  *pi
+
+
+% doesn't work
+int(ws,x,-infinity, infinity);
+
+
+                  x
+      2*sqrt(pi)*e                              1
+int(------------------,x,0,infinity) + 1 - erf(---)
+          2                                     2
+      (4*x  + 1)/4
+     e            *pi
+
+
+e^(1/4)*erf(x+1/2);
+
+
+ 1/4      2*x + 1
+e   *erf(---------)
+             2
+
+
+df(ws,x);
+
+
+             1/4
+ 2*sqrt(pi)*e
+------------------
+           2
+  (2*x + 1) /4
+ e            *pi
+
+
+% nor does this
+int(ws,x,-infinity, infinity);
+
+
+                 1/4
+     2*sqrt(pi)*e
+int(------------------,x, - infinity,infinity)
+               2
+      (2*x + 1) /4
+     e            *pi
+
+
+erf(sqrt(log(2))*x);
+
+
+erf(sqrt(log(2))*x)
+
+
+df(ws,x);
+
+
+ 2*sqrt(pi)*sqrt(log(2))
+-------------------------
+           2
+          x
+         2  *pi
+
+
+% or this
+int(ws,x,-infinity, infinity);
+
+
+2
+
+
+int(exp(-5*x^2),x,-infinity, infinity);
+
+
+ sqrt(pi)
+----------
+ sqrt(5)
+
+
+int(exp(-sqrt(2)*x^2),x,-infinity, infinity);
+
+
+ sqrt(pi)
+----------
+    1/4
+   2
+
+
+% the following is not recognized as exponential
+int(2^(-x^2),x,-infinity, infinity);
+
+
+   sqrt(pi)
+--------------
+ sqrt(log(2))
+
+
+% standard simplification turns the following integrand into 2^(-x^2)
+int(exp(-log(2)*x^2),x,-infinity, infinity);
+
+
+   sqrt(pi)
+--------------
+ sqrt(log(2))
+
+
+int(exp(-a*x^2),x,-infinity, infinity);
+
+
+              2
+int(exp( - a*x ),x, - infinity,infinity)
+
+
+int(exp(-abs(a)*x^2),x,-infinity, infinity);
+
+
+                   2
+int(exp( - abs(a)*x ),x, - infinity,infinity)
+
+
+int(e^(-abs(a)^2*x^2),x,-infinity,infinity);
+
+
+              2  2
+      - abs(a) *x
+int(e             ,x, - infinity,infinity)
+
+
+int(e^(-abs(a^2)*x^2),x,-infinity,infinity);
+
+
+             2   2
+      - abs(a )*x
+int(e             ,x, - infinity,infinity)
+
+
+% not simplified since a may be complex
+int(exp(-a^2*x^2),x,-infinity, infinity);
+
+
+            2  2
+int(exp( - a *x ),x, - infinity,infinity)
+
+
+% but works if a is real
+let impart(a)=0;
+
+
+int(exp(-a^2*x^2),x,-infinity, infinity);
+
+
+ sqrt(pi)
+----------
+    a
+
+
+end;
+

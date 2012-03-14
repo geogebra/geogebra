@@ -1,0 +1,470 @@
+depend r,x;
+
+
+
+depend {u}, a, b, {a, b}, v;
+
+
+
+df(u,v);
+
+
+df(u,v)
+
+
+on expanddf;
+
+
+
+df(u,v);
+
+
+df(a,v)*df(u,a) + df(b,v)*df(u,b)
+
+
+operator f;
+
+
+
+df(f(a),v);
+
+
+df(f(a),a)*df(a,v)
+
+
+df(f(u),v);
+
+
+df(f(u),u)*(df(a,v)*df(u,a) + df(b,v)*df(u,b))
+
+
+let x^3=u;
+
+
+
+let f(r)^3=u;
+
+
+
+df(x,u);
+
+
+df(x,u)
+
+
+df (f(r),u);
+
+
+df(f(r),u)
+
+
+df(f(r,r^2),x);
+
+
+        2
+df(f(r,r ),r)*df(r,x)
+
+
+df(f(r,cos y),x);
+
+
+df(f(r,cos(y)),r)*df(r,x)
+
+
+df(f(r,cos(x)),x);
+
+
+df(f(r,cos(x)),x)
+
+
+df(f(r,cos y),x);
+
+
+df(f(r,cos(y)),r)*df(r,x)
+
+
+depend cos(y),x;
+
+
+
+df(f(r,cos y),x);
+
+
+df(f(r,cos(y)),r)*df(r,x)
+
+
+depend y,x;
+
+
+
+df(f(r,cos y),x);
+
+
+ - df(f(r,cos(y)),cos(y))*df(y,x)*sin(y) + df(f(r,cos(y)),r)*df(r,x)
+
+
+df(cos y,x);
+
+
+ - df(y,x)*sin(y)
+
+
+nodepend y,x;
+
+
+
+df(cos y,x);
+
+
+0
+
+
+off expanddf;
+
+
+
+df(f(r),r,x);
+
+
+df(f(r),r,x)
+
+
+on expanddf;
+
+
+
+df(f(r),r,x);
+
+
+df(f(r),r,2)*df(r,x)
+
+
+operator g;
+
+
+
+off expanddf;
+
+
+
+depend g(v),A1;
+
+
+
+df(g(v),A1);
+
+
+df(g(v),a1)
+
+
+on expanddf;
+
+
+
+df(g(v),A1);
+
+
+df(g(v),a1)
+
+
+off expanddf;
+
+
+
+df(df(int(g(v),v),A1),v);
+
+
+df(g(v),a1)
+
+
+on expanddf;
+
+
+
+df(df(int(g(v),v),A1),v);
+
+
+df(g(v),a1)
+
+
+% more chain rule tests: multiple derivatives
+
+off expanddf;
+
+
+operator y;
+
+
+depend ux,x;
+
+
+
+let df(ux,x) = 1/e**x;
+
+
+
+df(y(x),x);
+
+
+df(y(x),x)
+
+
+df(y(ux),x);
+
+
+df(y(ux),x)
+
+
+df(y(x),x,ux);
+
+
+0
+
+
+df(y(x),ux,x);
+
+
+0
+
+
+df(y(ux),x,ux);
+
+
+df(y(ux),ux,x)
+
+
+df(y(ux),ux,x);
+
+
+df(y(ux),ux,x)
+
+
+on expanddf;
+
+
+
+df(y(x),x);
+
+
+df(y(x),x)
+
+
+df(y(ux),x);
+
+
+ df(y(ux),ux)
+--------------
+       x
+      e
+
+
+df(y(x),x,ux);
+
+
+0
+
+
+df(y(x),ux,x);
+
+
+0
+
+
+df(y(ux),x,ux);
+
+
+ df(y(ux),ux,2)
+----------------
+        x
+       e
+
+
+df(y(ux),ux,x);
+
+
+ df(y(ux),ux,2)
+----------------
+        x
+       e
+
+
+% test commuting vs. non-commuting
+
+off expanddf;
+
+
+
+df(df(g(v),A1),v);
+
+
+df(g(v),a1,v)
+
+
+on expanddf;
+
+
+
+df(df(g(v),A1),v);
+
+
+df(g(v),a1,v)
+
+
+on commutedf;
+
+
+
+df(df(g(v),A1),v);
+
+
+df(g(v),a1,v)
+
+
+off commutedf;
+
+
+
+df(df(g(v),A1),v);
+
+
+df(g(v),a1,v)
+
+
+depend uuu,xxx;
+
+
+
+off expanddf;
+
+
+
+df(uuu,xxx,uuu);
+
+
+df(uuu,xxx,uuu)
+
+
+df(y(uuu),xxx,uuu);
+
+
+df(y(uuu),uuu,xxx)
+
+
+df(y(uuu),uuu,xxx);
+
+
+df(y(uuu),uuu,xxx)
+
+
+on commutedf;
+
+
+
+df(uuu,xxx,uuu);
+
+
+0
+
+
+df(y(uuu),xxx,uuu);
+
+
+df(y(uuu),uuu,xxx)
+
+
+df(y(uuu),uuu,xxx);
+
+
+df(y(uuu),uuu,xxx)
+
+
+off commutedf;
+
+
+on expanddf;
+
+
+
+df(uuu,xxx,uuu);
+
+
+df(uuu,xxx,uuu)
+
+
+df(y(uuu),xxx,uuu);
+
+
+df(y(uuu),uuu,2)*df(uuu,xxx) + df(y(uuu),uuu)*df(uuu,xxx,uuu)
+
+
+df(y(uuu),uuu,xxx);
+
+
+df(y(uuu),uuu,2)*df(uuu,xxx)
+
+
+on commutedf;
+
+
+
+df(uuu,xxx,uuu);
+
+
+0
+
+
+df(y(uuu),xxx,uuu);
+
+
+df(y(uuu),uuu,2)*df(uuu,xxx)
+
+
+df(y(uuu),uuu,xxx);
+
+
+df(y(uuu),uuu,2)*df(uuu,xxx)
+
+
+
+% test inconsistent dependencies
+
+operator h;
+
+
+
+depend u1,a2,b1;
+
+
+
+depend {a2,b1,c1},v1;
+
+
+
+depend h(u1),a2,b1,c1;
+
+
+
+off expanddf;
+
+
+
+df(h(u1),v1);
+
+
+df(h(u1),v1)
+
+
+on expanddf;
+
+
+
+df(h(u1),v1);
+
+
+*** Possible inconsistent dependencies in h(u1) 
+
+df(h(u1),v1)
+
+
+end;
+

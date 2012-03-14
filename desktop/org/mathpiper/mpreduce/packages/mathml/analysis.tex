@@ -1,0 +1,864 @@
+\chapter{OpenMath/MathML Translation} \label{analysis}
+
+MathML and OpenMath are closely related, serving a similar purpose of
+conveying mathematics across different applications. The aim of this
+analysis is to relate MathML and OpenMath to illustrate their
+similarities and differences. We intend it to be application
+independent, highlighting the problems arising when developing programs
+translating MathML to OpenMath and vice versa.
+
+As is stated in the OpenMath standard \cite{openmathspec}, OpenMath
+objects have the expressive power to cover all areas of computational
+mathematics. This is certainly not the case with MathML. However,
+MathML was designed to be displayed on any MathML compliant renderer.  
+The possibility to translate between them would allow OpenMath objects
+to be displayed, and MathML objects to have a wider semantic scope. But is
+a translation possible?
+
+OpenMath and MathML have many common aspects. Some features of the
+standards help facilitate the translation, mainly that the structure of
+both standards is very similar.  They both use prefix operators and are
+XML \cite{xml}\index{XML} based. They both construct their objects by
+applying certain rules recursively. Such similarities facilitate
+mapping across both standards.
+
+Because both standards are XML based, their syntax is governed by the
+rules of XML syntax. In other words, the details of using tags,
+attributes, entity references and so on are defined in the XML language
+specification. By complying with the XML standard it is possible to use
+generic XML generators and validators. These can be programmed for the
+application being developed, or existing ones can be used.
+
+Finally, OpenMath has specific content dictionaries\index{content
+dictionaries} mirroring MathML's semantic scope, which permit a
+straightforward mapping between both recommendations. Since both
+standards are simply different ways of representing mathematics,
+designed with translation in mind, mapping one to the other is
+certainly possible.
+
+We shall look at all the areas of both recommendations where
+differences occur and how they pose difficulties to designing a
+translator. It is important to understand how objects are constructed
+and what they represent. We will then discuss how functions and
+operators are applied on their arguments. There are various specific
+structural differences between both standards which need to be properly
+understood; we will attempt to explain these differences and offer a
+method of translation for each one. We will also discuss how MathML
+supports extensibility and to what extent it is possible to implement
+such extensibility to accept new OpenMath symbols. To finish we will
+give an explanation of how to handle the translation problem.
+
+Before we start our analysis, it is important that we define a few
+terms related to our analysis. We also encourage the reader to have a
+look at the standards in order to better appreciate this analysis.  
+MathML and OpenMath {\it
+objects}\index{MathML!objects|textbf}\index{OpenMath!objects|textbf}
+convey the meaning of a mathematical expression and are represented as
+labelled trees. An object can also be called an {\it expression}. A
+{\it symbol}\index{OpenMath!symbol|textbf} in OpenMath is used to
+represent a mathematical concept. For instance {\it plus} or {\it max}
+are considered symbols. We call {\it elements} the words enclosed
+within \texttt{$<$$>$} such as \texttt{$<$apply$>$} or
+\texttt{$<$OMA$>$}. Elements enclose other XML data called their
+`content' between a `start tag' (sometimes called a `begin tag') and an
+`end tag', much like in HTML\index{Html}. There are also `empty
+elements' such as \texttt{$<$plus/$>$}, whose start tag ends with /$>$
+to indicate that the element has no content or end tag.
+
+\section{Constructing Objects} \label{constructors}
+
+Constructing objects in MathML and OpenMath is done in similar ways.
+MathML uses elements termed {\it containers} and OpenMath uses elements
+called {\it constructs}.  They are both closely related, and most of
+them are easily interchangeable. The nature of the
+constructors\index{constructors} in both standards is rather different,
+but their usage is the same.
+
+OpenMath objects can be created by applying a symbol onto a series of
+arguments.  These are the objects created by {\it application} and are
+surrounded by \texttt{$<$OMA$>$\ldots$<$/OMA$>$} elements. In MathML
+the approach is different. MathML possesses more constructors and they
+are more specific.  It is important to note that OpenMath objects
+constructed with the \texttt{$<$OMA$>$} element may translate to
+various constructors in MathML.
+
+In OpenMath for instance, defining a list or a matrix would be done by
+applying the application constructor on the {\it list} or {\it matrix}
+symbol followed by the contents of the list or matrix. In MathML
+however, a list would require the \texttt{$<$list$>$$\ldots<$/list$>$}
+constructor, and a matrix would need the
+\texttt{$<$matrix$>$\ldots$<$/matrix$>$} constructor.
+
+Most OpenMath symbols constructed by application are constructed in
+MathML using the {\tt $<$apply$>$} constructor. But there are
+exceptions which do not map to {\tt $<$apply$>$} tags. It is important
+that all exceptions such as \verb|matrix|, \verb|list|, \verb|set| and
+others are determined and that the appropriate MathML constructor is
+used when translating. Table \ref{const} shows what possible MathML
+constructors {\tt $<$OMA$>$} can map to.
+
+OpenMath objects can also be constructed using the
+\texttt{$<$OMBIND$>$} element.  This consists in binding a symbol to a
+function with zero or more bound variables.  MathML does not have an
+equivalent, and so symbols which use the {\it binding} construct in
+OpenMath, like {\tt lambda} or {\tt forall}, may have different ways of
+being constructed in MathML. {\tt lambda} uses a specific constructor
+in MathML, whereas {\tt forall} uses the {\tt $<$apply$>$} construct.
+It is very important in order to ensure proper translation, to
+determine which OpenMath symbols use the binding constructor and what
+their MathML equivalent is.
+
+There are objects constructed by attributing a value to an object.
+These are objects constructed by {\it attribution} and employ the {\tt
+$<$OMATTR$>$} elements. MathML also allows objects to possess
+attributed values called attributes. The translation is
+straightforward.
+
+There are other constructors which we do not mention in more detail
+because there exists a direct mapping between both standards. This is
+the case of \texttt{$<$OMI$>$, $<$OMF$>$}, \texttt{$<$OMV$>$}
+\texttt{$<$cn$>$} and \texttt{$<$ci$>$}. Table \ref{const} shows the
+relation between them.
+
+\begin{table} 
+
+\begin{center}
+
+\begin{tabular}{|l|l|} 
+\hline 
+\label{const}
+
+{\bf OpenMath} 			&	{\bf MathML} \\ \hline
+
+\texttt{$<$OMA$>$}		&	\texttt{$<$interval$>$, $<$set$>$, $<$list$>$, $<$matrix$>$,}\\
+				&	\texttt{$<$vector$>$, $<$apply$>$, $<$lambda$>$, $<$reln$>$}. \\
+\texttt{$<$OMATTR$>$}		&	{\it attributes associated to a tag} \\
+\texttt{$<$OMI$>$, $<$OMF$>$}	&	\texttt{$<$cn$>$} \\
+\texttt{$<$OMV$>$}		&	\texttt{$<$ci$>$} \\
+\texttt{$<$OMSTR$>$}		&	{\it not supported} \\
+\texttt{$<$OMBIND$>$}		&	{\it not supported} \\
+{\it not supported}		&	\texttt{$<$declare$>$} \\
+
+\hline
+
+\end{tabular}
+
+\end{center}     
+\caption{Relation between constructors} 
+
+\end{table}     
+
+\section{Elements and Functions}
+\label{funcs}
+
+MathML has a classification\footnote{MathML standard section 4.2.3}
+which categorises elements according to the number of arguments they
+accept and the types of these arguments.  This classification can be
+summarised for our purpose into the following:
+
+\begin{description}
+
+\item[unary elements] accepting 1 argument
+
+\item [binary elements] accepting 2 arguments
+
+\item [nary elements] accepting 3 or more arguments
+
+\item [operators:] elements whose arguments are given following a
+specific syntax. This includes symbols such as {\tt int, sum, diff,
+limit, forall} and a few others.
+
+\end{description}
+
+This classification is not explicitly stated in the OpenMath standard
+but can also be used since OpenMath symbols fit well into these
+categories. By gathering OpenMath and MathML symbols into these defined
+groups according to their syntax, it is possible to define specific
+translating procedures which deal with all symbols in one group in the
+same way.
+
+For instance one procedure could parse through any unary function by
+reading in the symbol and then the one argument. Printing out unary
+functions would be done by one procedure which would output the symbol
+in MathML or OpenMath followed by that one argument.
+
+The advantages of this classification are that it greatly simplifies
+the translation.  Parsing and generation of all symbols would then be
+the task of a few generic procedures. However, symbols contained in the
+{\it operators} group require more attention, since they have different
+ways of reading in arguments. Specific procedures need to be
+implemented for such cases.  We will discuss these in more detail
+later.
+
+\subsection{The Scope of Symbols} \label{scope}
+
+When dealing with a function or an operator in mathematics, it is
+important that its scope is well defined. MathML and OpenMath both
+specify the scope\index{scope} of an operator by enclosing it with its
+arguments inside opening and closing tags. In MathML, the opening and
+closing tags \texttt{$<$apply$>$} are employed, and in OpenMath one
+uses the opening and closing tags \texttt{$<$OMA$>$}.
+
+However, OpenMath's grammar as it is defined in the OpenMath standard
+in section 4.1.2 can produce OpenMath objects where the scope of an
+operator is ambiguous, in which case a parser would have great
+difficulties validating the syntax for translation. Let us illustrate
+this problem with the two OpenMath expressions in figure \ref{omscope} which are grammatically
+correct.
+
+
+\begin{figure}[h]
+
+\begin{tabular}{ l l }
+
+{\bf Example 1}					& {\bf Example 2}\\
+						& \\
+\verb|<OMOBJ>|					&\verb|<OMOBJ>|\\  
+\verb| <OMA>|					&\verb| <OMA>|\\
+\verb|   <OMS cd=arith1 name=plus/>|		&\verb|   <OMS cd=arith1 name=plus/>| \\
+\verb|   <OMS cd=arith1 name=times/>|		&\verb|   <OMA>| \\
+\verb|   <OMV name=x/>|				&\verb|     <OMS cd=arith1 name=times/>| \\
+\verb|   <OMV name=y/>|				&\verb|     <OMV name=x/>| \\
+\verb|   <OMV name=z/>|				&\verb|     <OMV name=y/>| \\
+\verb|   <OMI>6</OMI>|				&\verb|   </OMA>| \\
+\verb| </OMA>|					&\verb|   <OMV name=y/>| \\
+\verb|</OMOBJ>|					&\verb|   <OMI>6</OMI>| \\
+						&\verb| </OMA>| \\
+						&\verb|</OMOBJ>| \\
+
+\end{tabular}  
+
+\caption{The importance of defining scopes}
+\label{omscope}
+\end{figure}  
+
+Example 2 demonstrates how the use of \verb|<OMA>| tags help define
+clearly the scope of each operator. A parser can then without
+difficulty interpret the expression and translate it correctly. Example
+1, on the other side, shows how insufficient use of \verb|<OMA>| tags
+can lead to ambiguous expressions both for automatic parsers and
+humans.
+
+MathML is stricter when defining the scopes of operators. Every
+operator must be enclosed with its own \verb|<apply>| tags. This
+difference between both standards is source of problems. The expression
+in Example 1 does not allow the scopes of the operators to be
+determined with accuracy, and so an equivalent MathML expression cannot
+be produced.
+
+When developing an OpenMath/MathML translator, it is important to
+specify that operator scopes in OpenMath must be accurately defined, or
+else translation to MathML is not possible. The use of \verb|<OMA>|
+tags must be imposed.
+
+\section{Differences in Structure}
+
+There are MathML and OpenMath elements which require special attention.
+Mainly because there are elements constructed differently in MathML as
+they are in OpenMath and because some elements have no equivalent in
+both standards. Such cases must be well understood before starting to
+implement any translator. We shall look at these cases and propose a
+reliable method for overcoming the differences and implementing an
+efficient solution. We will mention bound variables, element attributes
+and constants representation.
+
+There exist elements in both standards which represent the same
+mathematical concept, but where the syntactical structure is different.
+The following list shows these elements: {\it matrices, limits,
+integrals, definite integrals, differentiation, partial
+differentiation, sums, products, intervals, selection from a vector}
+and {\it
+selection from a matrix}.
+
+\subsection{Selector functions and Matrices}
+
+Let us first look at: {\it matrices, selection from a matrix} and {\it
+selection from a vector}.  These elements exist in both
+recommendations, but differ syntactically.
+
+Selection from a matrix and from a vector is done by the
+\verb|<selector/>| element in MathML and by the symbols {\it
+vector\_selector} and {\it matrix\_selector} in OpenMath. Because
+MathML uses the same element to deal both with matrices and vectors, it
+is necessary for the parser to determine what the arguments of the
+expression are before finding the correct equivalent OpenMath. If the
+expression has a matrix as argument, then {\it matrix\_selector} is the
+correct corresponding symbol. If the argument is a vector then the
+corresponding symbol is {\it vector\_selector}.
+
+It is important to note as well the order of arguments. The MathML
+\verb|<selector/>| tag first takes the vector or matrix object, and
+then the indices of selection. In OpenMath it is the other way around.
+First the indices of selection are given and then the object.
+
+Another element where differences in structure are important is the
+matrix element.  OpenMath has two ways of representing matrices. One
+representation defined in the \verb|"linalg1"| CD and the other defined
+in the \verb|"linalg2"| CD. A matrix is defined as a series of
+matrixrows in \verb|"linalg1"|, exactly as in MathML. For such
+matrices, translation is straightforward.
+
+However, \verb|"linalg2"| defines a matrix as a series of matrix
+columns. This representation has no equivalent in MathML. It is
+important that a translator is capable of understanding both
+representations in order to offer correct translation.
+
+When dealing with a \verb|"linalg2"| matrix, a procedure can be
+implemented which given the matrix columns of a matrix, returns a
+series of matrix rows representing the same matrix. From these matrix
+rows, a MathML expression can be generated.
+
+\subsection{Bound Variables} \label{boundvars}
+
+The remaining elements {\it limit, integrals, definite integrals,
+differentiation, partial differentiation, sums, and products} have a
+similar structure and can be treated in a similar way when translating.  
+Following the classification in section \ref{funcs} these elements go
+in the {\it operators} group.
+
+What characterises these elements is that in MathML they all specify
+their bound variables explicitly using the \verb|<bvar>| construct.
+However, in OpenMath, the bound variables are not explicitly stated.
+OpenMath expressions are the result of applying the symbol on a lambda
+expression. In order to determine the bound variable the parser must
+retrieve it from the lambda expression. Let us illustrate this problem
+by contrasting two equivalent expressions on figure \ref{bound}
+
+
+\begin{figure}[h]
+\begin{tabular}{ l l }    
+
+{\bf OpenMath} 						& {\bf MathML}\\
+							& \\
+\verb|<OMOBJ>| 						&\verb|<math>| \\
+\verb| <OMA>| 						&\verb| <apply><sum/>| \\
+\verb|  <OMS cd="arith1" name="sum"/>|    		&\verb|   <bvar>| \\
+\verb|  <OMA>|						&\verb|     <ci>i</ci>| \\
+\verb|   <OMS cd="interval1" name="interval"/>| 	&\verb|   </bvar>| \\
+\verb|   <OMI> 1 </OMI>|				&\verb|   <lowlimit>| \\
+\verb|   <OMI> 10 </OMI>|				&\verb|     <cn>0</cn>| \\
+\verb|  </OMA>|						&\verb|   </lowlimit>| \\
+\verb|  <OMBIND>|					&\verb|   <uplimit>| \\
+\verb|   <OMS cd="fns1" name="lambda"/>|		&\verb|     <cn>100</cn>| \\
+\verb|   <OMBVAR>|					&\verb|   </uplimit>| \\
+\verb|     <OMV name="x"/>|				&\verb|   <apply><power/>| \\
+\verb|   </OMBVAR>|					&\verb|       <ci>x</ci>| \\
+\verb|   <OMA>|						&\verb|       <ci>i</ci>| \\	
+\verb|    <OMS cd="arith1" name="divide"/>|		&\verb|   </apply>| \\
+\verb|    <OMI> 1 </OMI>|				&\verb| </apply>|  \\
+\verb|    <OMV name="x"/>|				&\verb|</math>|   \\
+\verb|   </OMA>|					& \\
+\verb|  </OMBIND>|					& \\
+\verb| </OMA>|						& \\
+\verb|</OMOBJ>|						& \\
+
+\end{tabular}  
+
+\caption{Use of bound variables}
+\label{bound}
+
+\end{figure}
+
+In MathML, the index variable is explicitly stated within the
+\verb|<bvar>| tags. It is part of the \verb|<sum/>| syntax and is
+obligatory.  In OpenMath, the {\it sum} symbol takes as arguments an
+interval giving the range of summation and a function. Specifying the
+bound variable is not part of the syntax. It is contained inside the
+lambda expression. This same difference in structure exists with the
+other operators mentioned above.
+
+When translating any of these elements, it is necessary to support
+automatic generation and decoding of lambda expressions. Thus when
+going from OpenMath to MathML, the bound variable and the function
+described by the lambda expression need to be extracted to generate
+valid MathML.
+
+When passing from MathML to OpenMath, the variable contained inside the
+\verb|<bvar>| tags and the function given as argument would have to be
+encoded as a lambda expression. This is possible for all MathML
+expressions of this type, and correct OpenMath is simple to produce.
+
+Thus by retrieving bound variable information from OpenMath lambda
+expressions, it is possible to translate to MathML. But OpenMath
+grammar does not impose the use of lambda expressions to define bound
+variables. Because of this flexibility, it is possible to construct
+OpenMath expressions which cannot be translated to MathML by an
+automatic translator. If one looks at the \verb|"calculus1"| CD, the
+OpenMath examples of {\it int} and {\it defint} do not specify their
+variable of integration. A parser would not determine the variables of
+integration and an equivalent MathML expression would not be possible.
+
+This is a problem for an OpenMath/MathML translator with no easy
+solution. A parser intelligent enough to extract the correct bound
+variables of an expression is very difficult to implement. We recommend
+that OpenMath expressions which do not specify all the necessary
+information for translation are ignored. The use of lambda expressions
+should be required.
+
+\subsection{Intervals}
+
+Some operators require an interval to be given specifying the range
+within which a variable ranges. The {\it sum} or {\it product} operator
+are some good examples. They both take as argument the interval giving
+the range of summation or multiplication. Other operators accepting 
+intervals in some cases are {\it int} and {\it condition}.
+
+Both in MathML and OpenMath these operators define ranges with
+intervals, but differently. OpenMath defines intervals using specific
+interval defining symbols found in the {\tt interval1} CD. MathML can
+use either the interval element or the tags \verb|<lowlimit>| and
+\verb|<upperlimit>|. These two tags do not have an OpenMath equivalent
+and so when encountered must be transformed into an interval. This is
+not difficult since one must simply merge the lower and upper limits
+into the edges of an interval.
+
+\subsection{MathML attributes}
+
+There are OpenMath symbols which map to the same MathML element, and
+are only distinguished by the attributes characterising the MathML
+element. A MathML element which illustrates this is \verb|<interval>|.
+The interval element in MathML has a \verb|closure| attribute which
+specifies the type of interval being represented. This attribute takes
+the following values:  \verb|open|, \verb|closed|, \verb|open_closed|,
+\verb|closed_open|.  Depending on the attribute value, a different
+OpenMath symbol will be used in the translation. The following example
+illustrates how one element with different attribute values maps to
+different OpenMath symbols.
+
+\begin{center}
+
+\begin{verbatim}
+      <interval type="closed">
+
+      <OMS cd="interval1" name="interval_cc"/>
+\end{verbatim}
+
+\end{center}
+
+\noindent are equivalent and so are
+
+\begin{center}
+
+\begin{verbatim}
+      <interval type="open">
+
+      <OMS cd="interval1" name="interval_oo"/>
+\end{verbatim}
+
+\end{center}
+
+When a translator encounters such elements, it is necessary that the
+MathML elements generated posses these attributes, or else semantic
+value is lost. Table \ref{allatts} shows the relation between all
+MathML elements whose attributes are of importance and their equivalent
+OpenMath symbols.
+
+\begin{table}[h]
+\begin{center}
+
+\begin{tabular}{|l|l|l|} \hline   
+\label{allatts}
+
+{\bf MathML element}  		&{\bf Attribute values}			& {\bf 
+OpenMath symbol} \\ \hline
+\verb|<interval>|		&{\it default}				& {\it interval} \\
+				&\verb|closure="open_closed"|		& {\it interval\_oc}	\\	
+				&\verb|closure="closed_open"|		& {\it interval\_co}	\\	
+				&\verb|closure="closed"|		& {\it interval\_cc}	\\	
+				&\verb|closure="open"|			& {\it interval\_oo}	\\ \hline
+\verb|<tendsto>|		&{\it default}				& {\it above} 	\\
+\verb||				&\verb|type="above"|			& {\it above}	\\
+\verb||				&\verb|type="below"|			& {\it below}	\\
+\verb||				&\verb|type="both_sides"|		& {\it null}	\\ \hline
+\verb|<set>|			&{\it default}				& {\it set}	\\
+				&\verb|type="normal"|			& {\it set}	\\
+				&\verb|type="multiset"|			& {\it multiset}	\\
+\hline
+
+\end{tabular}
+
+\end{center}     
+\caption{Equivalent OpenMath symbols to the different attribute values of MathML 
+elements }
+
+\end{table}     
+
+\subsection{MathML constants}
+
+In MathML, constants are defined as being any of the following:  
+\verb|e|, \verb|i|, \verb|pi|, \verb|gamma|, \verb|infinity|,
+\verb|true|, \verb|false| or \verb|not a number (NaN)|. They appear
+within \verb|<cn>| tags when the attribute \verb|type| is set to
+\verb|constant|. For instance $\pi$ would be represented in MathML as:
+
+\begin{verbatim}
+        <cn type="constant">pi</cn>
+\end{verbatim}
+
+In OpenMath, these constants all appear as different symbols and from
+different CDs.  Hence, we face a similar problem as we did with MathML
+attributes. The \verb|<cn>| tag with the attribute set to
+\verb|constant| can map to different OpenMath symbols.
+
+It is important that the translator detects the use of the
+\verb|constant| attribute value and maps the constant expressed to the
+correct OpenMath symbol.
+
+MathML also allows to define Cartesian complex numbers and polar
+complex numbers.  A complex number is of the form two real point
+numbers separated by the \verb|<sep/>| tag. For instance $3+4i$ is
+represented as:
+
+\begin{verbatim}
+        <cn type="cartesian_complex"> 3 <sep/> 4 </cn>
+\end{verbatim}
+
+OpenMath is more flexible in its definition of complex numbers. The
+real and imaginary parts, or the magnitude and argument of a complex
+number do not have to be only real numbers. They may be variables. This
+allows OpenMath to represent numbers such as $x+iy$ or $re^{i\theta}$
+which cannot be done in MathML.
+
+So how should one map such an OpenMath expression to MathML? Because
+there is no specific construct for such complex numbers, the easiest
+way is to generate a MathML representation using simple operators. The
+two expressions in figure \ref{compls} are equivalent and illustrate how a
+translator should perform:
+
+\begin{figure}[h]
+
+\begin{verbatim}
+      <OMOBJ>
+        <OMA>
+          <OMS cd="nums1" name="complex_polar"/>
+          <OMV name="x"/>
+          <OMV name="y"/>
+        </OMA>
+      </OMOBJ> 
+\end{verbatim}
+
+\begin{verbatim}
+       <math>
+          <apply><times/>
+             <ci> x </ci>
+             <apply><exp/>
+                <apply><times/>
+                   <ci> y </ci>
+                   <cn type="constant"> &imaginaryi; </cn>
+                </apply>
+             </apply>
+          </apply>
+       </math> 
+\end{verbatim}
+
+\caption{How to translate complex numbers}
+\label{compls}
+\end{figure}
+
+The problem is the same when representing rationals, since OpenMath
+allows variables to be used as elements of a rational number, whereas
+MathML only allows real numbers.
+
+\subsection{{\tt partialdiff} and {\tt diff}}
+
+In both standards it is possible to represent normal and partial
+differentiations. But the structures are different. Let us first look
+at {\tt diff}. In MathML, it is possible to specify the order of the
+derivative. In OpenMath, differentiation is always of first order.  
+The trouble here is translating MathML expressions where the order of
+derivation is higher than one. There is no equivalent representation in
+OpenMath.
+
+What can be done to overcome this discrepancy is to construct an
+OpenMath expression differentiated as many times as is specified by the
+MathML derivation order. For instance, when dealing with a MathML
+second order derivative, the equivalent OpenMath expression could be a
+first order derivative of a first order derivative.  This will surely
+generate very verbose OpenMath in cases where the order of derivation
+is high, but at least will convey the same semantic meaning and
+surmounts OpenMath's limitation.
+
+The case of partial differentiation is complicated. The representations
+in both standards are very different. In MathML one specifies all the
+variables of integration and the order of derivation of each variable.
+In OpenMath one specifies a list of integers which index the variables
+of the function. Suppose a function has bound variables $x$, $y$ and
+$z$. If we give as argument the integer list $\{1,3\}$ then we are
+differentiating with respect to $x$ and $z$. The differentiation is of
+first order for each variable.
+
+Translating partial differentials from OpenMath to MathML is simple,
+because the information conveyed by the OpenMath expression can be
+represented without difficulty by MathML syntax. However the other way
+around is difficult. Given OpenMath's limitation of only allowing first
+order differentiation for each variable, many MathML expressions which
+differentiate with respect to various variables and each at a different
+degree cannot be translated. We recommend that such MathML expressions
+are discarded by the translator.
+
+\section{Elements not Supported by both Standards}
+
+There are some elements which have no equivalent in both standards.
+These are mainly the MathML elements \verb|<condition>| and
+\verb|<declare>|and the OpenMath {\it matrixrow} and {\it matrixcolumn}
+symbols.
+
+
+\subsection{{\tt $<$condition$>$}}
+
+The \verb|<condition>| element is used often throughout MathML and is
+necessary to convey certain mathematical concepts. There is no direct
+equivalent in OpenMath, making translation impossible for certain
+expressions.
+
+The \verb|<condition>| element is used to define the `such that'
+construct in mathematical expressions.  Condition elements are used in
+a number of contexts in MathML. They are used to construct objects like
+sets and lists by rule instead of by enumeration. They can be used with
+the {\tt forall} and {\tt exists} operators to form logical
+expressions. And finally, they can be used in various ways in
+conjunction with certain operators. For example, they can be used with
+an int element to specify domains of integration, or to specify
+argument lists for operators like min and max.
+
+The example in figure \ref{forall} represents $\{\forall x | x<9:
+x<10\}$ and shows how the \verb|<condition>| tags can be used in a
+MathML expression. This MathML expression has no OpenMath equivalent
+because OpenMath does not allow to specify any conditions on bound
+variables.
+
+
+\begin{figure}[h]
+
+\begin{verbatim}
+      <math>   
+        <apply><forall/>
+          <bvar>
+            <ci> x </ci>
+          </bvar>
+          <condition>
+            <apply><lt/>
+              <ci> x </ci>
+              <cn> 9 </cn>      
+            </apply>
+          </condition>
+          <apply><lt/>
+            <ci> x </ci>
+            <cn> 10 </cn>      
+          </apply>
+        </apply>
+      </math>   
+\end{verbatim}
+
+\caption{Use of {\tt $<$condition$>$}}
+\label{forall}
+
+\end{figure}
+
+
+The \verb|<condition>| tags are used in the following MathML elements:
+{\it set, forall, exists, int, sum, product, limit, min} and {\it max}.
+In all of these elements except {\it limit}, the use of
+\verb|<condition>| tags makes translation impossible.
+
+The case of {\it limit} is different because OpenMath does allow
+constraints to be placed on the bound variable; mainly to define the
+limit point and the direction from which the limit point is approached.
+
+\subsection{{\tt $<$declare$>$}}
+
+The \verb|<declare>| construct is used to associate specific properties
+or meanings with an object. It was designed with computer algebra
+packages in mind. OpenMath's philosophy is to leave the application
+deal with the object once it has received it. It is not intended to be
+a query or programming language. This is why such a construct was not
+defined. A translator should deny such MathML expressions.
+
+\subsection{{\it matrixrow, matrixcolumn}}
+
+In the MathML specification it is stated that {\it `The matrixrow
+elements must always be contained inside of a matrix'}. This is not the
+case in OpenMath where the {\it matrixrow} symbol can appear on its
+own.  A matrix row encountered on its own has no MathML equivalent.
+However, when it is encountered within a matrix object, then
+translation is possible.
+
+As we mentioned earlier, it is possible to translate a matrix defined
+with matrixcolumns to MathML. However, if a matrixcolumn is found on
+its own it does not have a MathML equivalent.
+
+
+\section{Extensibility}
+
+OpenMath already possesses a set of CDs covering all of MathML's
+semantic scope. These CDs belong to the MathML CD Group.  It is clear
+that these CDs must be understood by an OpenMath/MathML interface.  
+There are as well a few other symbols from other CDs which are not in
+the MathML CD Group but can be mapped such as matrices defined in {\tt
+"linalg2"}.
+
+But OpenMath has the capability of extending its semantic scope by
+defining new symbols within new content dictionaries\index{content
+dictionaries}. This facility affects the design of any OpenMath
+compliant application. When it comes to translating to MathML, it is
+necessary that newly defined symbols are properly dealt with. A
+translator should have the ability to recognise any symbol with no
+mapping to MathML.
+
+But how do we deal with most symbols outside the MathML CD Group? Or
+with new symbols which will continue to appear as OpenMath evolves? How
+do we map them to MathML?
+
+MathML, as any system of content markup\index{content markup}, requires
+an extension mechanism which combines notation with semantics.
+Extensibility in MathML is not as efficient as in OpenMath, but it is
+possible to define and use functions which are not part of the MathML
+specification. MathML content markup specifies several ways of
+attaching an external semantic definition to content objects.
+
+Because OpenMath contains many elements which have no equivalent in
+MathML, and because OpenMath can have new CDs amended to it, we will
+need to use these mechanisms of extension. The \verb|<semantic>|
+element is used in MathML to bind a semantic definition with a symbol.
+An example taken from the MathML specification~\cite{mathml} section
+5.2.1\footnote{CHECK!!!!{\tt
+http://www.w3.org/WD$-$MathML2$-$19991222/chapter5.html\#mixing:parallel}}
+shows how the OpenMath `rank' operator (non existent in MathML) can be
+encoded using MathML. The MathML encoding of rank is shown in figure
+\ref{rank}:
+
+\begin{figure}[h]
+\begin{verbatim}
+      <math>	
+        <apply><eq/>
+          <apply><fn>
+              <semantics>
+                <ci><mo>rank</mo></ci>
+                <annotation-xml encoding="OpenMath">
+                  <OMS cd="linalg3" name="rank"/>
+                </annotation-xml>
+              </semantics>
+            </fn>
+            <apply><times/>
+              <apply><transpose/>
+                <ci>u</ci>
+              </apply>
+              <ci>v</ci>
+            </apply>
+          </apply>
+          <cn>1</cn>
+        </apply>
+      </math>
+\end{verbatim}
+\caption{Encoding of OpenMath symbol `rank' in MathML}
+\label{rank}
+\end{figure}
+
+It shows that an OpenMath operator without MathML equivalent is easily
+contained within \verb|<semantic>| tags and can be applied on any
+number of arguments.
+
+This method works well when dealing with operators constructed by {\it
+application} (between \verb|<OMA>| tags), because MathML also
+constructs expressions by application (between \verb|<apply>| tags). It
+is assumed they take any number of arguments. However, OpenMath can
+also construct expressions by binding symbols to their arguments. As we
+described earlier (section \ref{constructors}), this method has no
+equivalent in MathML.
+
+So what happens when a new symbol is encountered which is constructed
+by binding in OpenMath? Enveloping the new symbol inside
+\verb|<semantic>| tags will produce an incorrect translation.
+
+It is first necessary to determine if the new symbol encountered is
+constructed by binding or not. In order to do so, a file describing the
+new symbol specifying these details could be read in by the translator.
+This file could be the CD where the symbol is defined. But
+unfortunately CDs are written in a human readable way, and there is no
+way a program could determine the construction method of a particular
+symbol or the number and type of arguments it takes.
+
+One would need to read in the STS file of a symbol. But the best way
+would be by checking the tag preceding the new symbol given by the
+OpenMath input. If it was \verb|<OMBIND>| then we are sure this symbol
+is constructed by binding. Nonetheless, accurate mapping would be
+impossible. As we have seen before, MathML only offers extensibility
+constructing operators by application. It is not possible to define new
+containers, new types, or new operators constructed differently such as
+those constructed by binding.
+
+While it is possible to define certain new symbols in MathML, the
+advantages of OpenMath extensibility would create problems for a
+translator to MathML. This is why it is stated in the OpenMath standard
+in section 2.5 that {\it `it is envisioned that a software application
+dealing with a specific area of mathematics declares which content
+dictionaries\index{content dictionaries} it understands'}. A MathML
+translator deals with the area of mathematics defined by MathML and
+should understand all CDs within the MathML CD Group. Any other symbols
+will be properly translated if they are enclosed inside \verb|<OMA>|
+tags.
+
+Extensibility is limited by the extension mechanisms offered by MathML.
+
+\section{How to Handle the Translation problem}
+
+Although there are surely many ways to tackle the translation problem,
+there are a few requirements which must be respected by any
+OpenMath/MathML translator. Mainly that content dictionaries and
+symbols are dealt with correctly during translation in both directions.
+
+In OpenMath, symbols always appear next to the content
+dictionary\index{content dictionary} they belong to. The \verb|<OMS>|
+element always takes two attributes: the symbol's name and the
+symbol's corresponding CD. Two symbols with the same name coming from
+different CDs are considered to be different.
+
+When parsing OpenMath, a translator must ensure that the symbols read
+belong to the correct CDs, if not it should conclude the symbol has a
+meaning it does not understand and deal with it accordingly. Because
+an OpenMath/MathML translator will understand all MathML related CDs,
+symbols encountered are considered valid if they come from this CD
+group. Symbols with the same name, but from unknown CDs should be
+enclosed within \verb|<semantic>| tags when possible.
+
+We face the same requirement when generating OpenMath. All OpenMath
+symbols output from the translator must appear next to their correct
+CDs. If we are translating the MathML element \verb|<plus/>|, the
+corresponding OpenMath symbol {\it plus} must appear next to the
+\verb|arith1| CD.
+
+This requires a translator to keep a database relating each understood
+symbol with its CD. This database must allow the translator to detect
+unknown symbols, or to accept some symbols from different CDs with the
+same name which have MathML equivalents. This is the case of {\it
+matrix} which belongs to various CDs (\verb|linalg1|, \verb|linalg2|) as do
+the symbols {\it in}, {\it inverse}, {\it setdiff}, {\it vector}, {\it
+arcsinh} to name a few.
+
+These symbols belonging to various CDs pose a problem when
+translating from MathML to OpenMath. Which CD do we choose? {\it
+inverse} for instance belongs to {\it fns1} and {\it arith2}.
+Priority should be given to the CD belonging to the MathML CD group.
+If both CDs belong to the MathML then common sense should guide which
+CD to place. It is up to the designer.
+
+An OpenMath/MathML interface must be very rigorous when dealing with
+content dictionaries. Any mistake may produce invalid OpenMath or
+reject valid OpenMath expressions.
+
+\section{Conclusion}
+
+It is clear now that a translation is possible. Putting apart the
+difficulties described in this analysis, their are many similarities
+between both standards. As we have seen, expressions are constructed
+similarly and the application of functions is practically identical.
+
+However, the various differences of structure can limit the power of a
+translator in some situations. Mainly when translating partial
+differentiations or applying conditions to bound variables.
+
+The design of any translator requires a good understanding of both
+standards and how they represent mathematical concepts. The
+information described in this document will guide the design of an
+OpenMath/MathML translator.
+

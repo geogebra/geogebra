@@ -1,0 +1,435 @@
+\section{Taylor series}
+
+\begin{Introduction}{TAYLOR}
+This short note describes a package of REDUCE procedures that allow
+Taylor expansion in one or more variables and efficient manipulation
+of the resulting Taylor series. Capabilities include basic operations
+(addition, subtraction, multiplication and division) and also
+application of certain algebraic and transcendental functions. To a
+certain extent, Laurent expansion can be performed as well.
+\end{Introduction}
+
+\begin{Operator}{taylor}
+  The \name{taylor} operator is used for expanding an expression into a
+  Taylor series.
+
+  \begin{Syntax}
+    \name{taylor}\(\meta{expression}
+                   \name{,}\meta{var}\name{,}
+                   \meta{expression}\name{,}\meta{number}\\
+                   \{\name{,}\meta{var}\name{,}
+                   \meta{expression}\name{,}\meta{number}\}\optional\)
+  \end{Syntax}
+  \meta{expression} can be any valid REDUCE algebraic expression.
+  \meta{var} must be a \nameref{kernel}, and is the expansion
+  variable.  The \meta{expression} following it denotes the point
+  about which the expansion is to take place. \meta{number} must be a
+  non-negative integer and denotes the maximum expansion order.  If
+  more than one triple is specified \name{taylor} will expand its
+  first argument independently with respect to all the variables.
+  Note that once the expansion has been done it is not possible to
+  calculate higher orders.
+
+  Instead of a \nameref{kernel}, \meta{var} may also be a list of
+  kernels.  In this case expansion will take place in a way so that
+  the {\em sum\/} of the degrees of the kernels does not exceed the
+  maximum expansion order.  If the expansion point evaluates to the
+  special identifier \name{infinity}, \name{taylor} tries to expand in
+  a series in 1/\meta{var}.
+
+  The expansion is performed variable per variable, i.e.\ in the
+  example above by first expanding 
+  \IFTEX{$\exp(x^{2}+y^{2})$}{exp(x^2+y^2)}
+  with respect to
+  \name{x} and then expanding every coefficient with respect to \name{y}.
+
+  \begin{Examples}
+    taylor(e^(x^2+y^2),x,0,2,y,0,2);     &
+                1 + Y^{2} + X^{2} + Y^{2}*X^{2} + O(X^{2},Y^{2})   \\
+    taylor(e^(x^2+y^2),{x,y},0,2); & 1 + Y^{2} + X^{2} + O(\{X^{2},Y^{2}\})\\
+    \explanation{The following example shows the case of a non-analytical function.}\\
+    taylor(x*y/(x+y),x,0,2,y,0,2); & ***** Not a unit in argument to QUOTTAYLOR \\
+  \end{Examples}
+
+  \begin{Comments}
+    Note that it is not generally possible to apply the standard
+    reduce operators to a Taylor kernel. For example, \nameref{part},
+    \nameref{coeff}, or \nameref{coeffn} cannot be used. Instead, the
+    expression at hand has to be converted to standard form first
+    using the \nameref{taylortostandard} operator.
+
+    Differentiation of a Taylor expression is possible.  If you
+    differentiate with respect to one of the Taylor variables the
+    order will decrease by one.
+
+    Substitution is a bit restricted: Taylor variables can only be
+    replaced by other kernels.  There is one exception to this rule:
+    you can always substitute a Taylor variable by an expression that
+    evaluates to a constant.  Note that REDUCE will not always be able
+    to determine that an expression is constant: an example is
+    sin(acos(4)).
+
+    Only simple taylor kernels can be integrated. More complicated
+    expressions that contain Taylor kernels as parts of themselves are
+    automatically converted into a standard representation by means of
+    the \nameref{taylortostandard} operator. In this case a suitable
+    warning is printed.
+
+  \end{Comments}
+
+\end{Operator}
+
+
+\begin{Switch}{taylorautocombine}
+  If you set \name{taylorautocombine} to \name{on}, REDUCE
+  automatically combines Taylor expressions during the simplification
+  process.  This is equivalent to applying \nameref{taylorcombine} to
+  every expression that contains Taylor kernels.  Default is
+  \name{on}.
+\end{Switch}
+
+\begin{Switch}{taylorautoexpand}
+  \name{taylorautoexpand} makes Taylor expressions ``contagious'' in
+  the sense that \nameref{taylorcombine} tries to Taylor expand all
+  non-Taylor subexpressions and to combine the result with the rest.
+  Default is \name{off}.
+\end{Switch}
+
+\begin{Operator}{taylorcombine}
+  This operator tries to combine all Taylor kernels found in its
+  argument into one.  Operations currently possible are:
+  \begin{itemize}
+    \item Addition, subtraction, multiplication, and division.
+    \item Roots, exponentials, and logarithms.
+    \item Trigonometric and hyperbolic functions and their inverses.
+  \end{itemize}
+
+  \begin{Examples}
+    hugo := taylor(exp(x),x,0,2); & HUGO := 1 + X + \rfrac{1}{2}*X^{2} + O(X^{3})\\
+    taylorcombine log hugo; & X + O(X^{3})\\
+    taylorcombine(hugo + x); & (1 + X + \rfrac{1}{2}*X^{2} + O(X^{3})) + X\\
+    on taylorautoexpand; \\
+    taylorcombine(hugo + x); & 1 + 2*X + \rfrac{1}{2}*X^{2} + O(X^{3})
+  \end{Examples}
+
+  \begin{Comments}
+    Application of unary operators like \name{log} and \name{atan}
+    will nearly always succeed. For binary operations their arguments
+    have to be Taylor kernels with the same template. This means that
+    the expansion variable and the expansion point must match.
+    Expansion order is not so important, different order usually means
+    that one of them is truncated before doing the operation.
+
+    If \nameref{taylorkeeporiginal} is set to \name{on} and if all
+    Taylor kernels in its argument have their original expressions
+    kept \name{taylorcombine} will also combine these and store the
+    result as the original expression of the resulting Taylor kernel.
+    There is also the switch \nameref{taylorautoexpand}.
+
+    There are a few restrictions to avoid mathematically undefined
+    expressions: it is not possible to take the logarithm of a Taylor
+    kernel which has no terms (i.e. is zero), or to divide by such a
+    beast.  There are some provisions made to detect singularities
+    during expansion: poles that arise because the denominator has
+    zeros at the expansion point are detected and properly treated,
+    i.e.\ the Taylor kernel will start with a negative power.  (This
+    is accomplished by expanding numerator and denominator separately
+    and combining the results.)  Essential singularities of the known
+    functions (see above) are handled correctly.
+  \end{Comments}
+\end{Operator}
+
+\begin{Switch}{taylorkeeporiginal}
+  \name{taylorkeeporiginal}, if set to \name{on}, forces the
+  \nameref{taylor} and all Taylor kernel manipulation operators to
+  keep the original expression, i.e.\ the expression that was Taylor
+  expanded.  All operations performed on the Taylor kernels are also
+  applied to this expression which can be recovered using the operator
+  \nameref{taylororiginal}.  Default is \name{off}.
+\end{Switch}
+
+\begin{Operator}{taylororiginal}
+  Recovers the original expression (the one that was expanded) from
+  the Taylor kernel that is given as its argument.
+
+  \begin{Syntax}
+    \name{taylororiginal}\(\meta{expression}\) or
+    \name{taylororiginal} \meta{simple_expression}
+  \end{Syntax}
+
+  \begin{Examples}
+    hugo := taylor(exp(x),x,0,2); & HUGO := 1 + X + \rfrac{1}{2}*X^{2} + O(X^{3})\\
+    taylororiginal hugo; &
+       ***** Taylor kernel doesn't have an original part in TAYLORORIGINAL\\
+    on taylorkeeporiginal; \\
+    hugo := taylor(exp(x),x,0,2); & HUGO := 1 + X + \rfrac{1}{2}*X^{2} + O(X^{3})\\
+    taylororiginal hugo; & E^{X}
+  \end{Examples}
+
+  \begin{Comments}
+    An error is signalled if the argument is not a Taylor kernel or if
+    the original expression was not kept, i.e.\ if
+    \nameref{taylorkeeporiginal} was set \name{off} during expansion.
+  \end{Comments}
+
+\end{Operator}
+
+\begin{Switch}{taylorprintorder}
+  \name{taylorprintorder}, if set to \name{on}, causes the remainder
+  to be printed in big-O notation.  Otherwise, three dots are printed.
+  Default is \name{on}.
+\end{Switch}
+
+\begin{Variable}{taylorprintterms}
+  Only a certain number of (non-zero) coefficients are printed. If
+  there are more, an expression of the form \name{n terms} is printed
+  to indicate how many non-zero terms have been suppressed.  The
+  number of terms printed is given by the value of the shared
+  algebraic variable \name{taylorprintterms}.  Allowed values are
+  integers and the special identifier \name{all}. The latter setting
+  specifies that all terms are to be printed. The default setting is
+  5.
+
+  \begin{Examples}
+    taylor(e^(x^2+y^2),x,0,4,y,0,4); &
+           1 + Y^{2} + \rfrac{1}{2}*Y^{4} + X^{2} + Y^{2}*X^{2} +
+             (4 terms) + O(X^{5},Y^{5})\\
+    taylorprintterms := all; & TAYLORPRINTTERMS := ALL \\
+    taylor(e^(x^2+y^2),x,0,4,y,0,4); &
+    \begin{multilineoutput}{}
+1 + Y^{2} + \rfrac{1}{2}*Y^{4} + X^{2} + Y^{2}*X^{2} +%
+ \rfrac{1}{2}*Y^{4}*X^{2} + \rfrac{1}{2}*X^{4} +%
+ \rfrac{1}{2}*Y^{2}*X^{4}\\
+ + \rfrac{1}{4}*Y^{4}*X^{4} + O(X^{5},Y^{5})
+    \end{multilineoutput}
+  \end{Examples}
+
+\end{Variable}
+
+
+\begin{Operator}{taylorrevert}
+  \name{taylorrevert} allows reversion of a Taylor series of a
+  function f, i.e., to compute the first terms of the expansion of the
+  inverse of $f$ from the expansion of $f$.
+
+  \begin{Syntax}
+    \name{taylorrevert}\(\meta{expression}\name{,}
+                         \meta{var}\name{,}\meta{var}\)
+  \end{Syntax}
+
+  The first argument must evaluate to a Taylor kernel with the second
+  argument being one of its expansion variables. 
+
+  \begin{Examples}
+    taylor(u - u**2,u,0,5); &    U - U^{2} + O(U^{6}) \\
+    taylorrevert (ws,u,x);  &    X + X^{2} + 2*X^{3} + 5*X^{4} + 14*X^{5} + O(X^{6})
+  \end{Examples}
+
+\end{Operator}
+
+\begin{Operator}{taylorseriesp}
+  This operator may be used to determine if its argument is a Taylor
+  kernel.
+
+  \begin{Syntax}
+    \name{taylorseriesp}\(\meta{expression}\) or \name{taylorseriesp}
+    \meta{simple_expression}
+  \end{Syntax}
+
+  \begin{Examples}
+    hugo := taylor(exp(x),x,0,2); & HUGO := 1 + X + \rfrac{1}{2}*X^{2} + O(X^{3})\\
+    if taylorseriesp hugo then OK;& OK \\
+    if taylorseriesp(hugo + y) then OK else NO; & NO
+  \end{Examples}
+
+  \begin{Comments}
+    Note that this operator is subject to the same restrictions as,
+    e.g., \name{ordp} or \name{numberp}, i.e.\ it may only be used in
+    boolean expressions in \name{if} or \name{let} statements.
+  \end{Comments}
+
+\end{Operator}
+
+
+\begin{Operator}{taylortemplate}
+  The template of a Taylor kernel, i.e.\ the list of all variables
+  with respect to which expansion took place together with expansion
+  point and order can be extracted using
+
+  \begin{Syntax}
+    \name{taylortemplate}\(\meta{expression}\) or
+    \name{taylortemplate} \meta{simple_expression}
+  \end{Syntax}
+
+  This returns a list of lists with the three elements
+  (VAR,VAR0,ORDER).  An error is signalled if the argument is not a
+  Taylor kernel.
+
+  \begin{Examples}
+    hugo := taylor(exp(x),x,0,2); & HUGO := 1 + X + \rfrac{1}{2}*X^{2} + O(X^{3})\\
+    taylortemplate hugo; & \{\{X,0,2\}\}
+  \end{Examples}
+
+\end{Operator}
+
+\begin{Operator}{taylortostandard}
+  This operator converts all Taylor kernels in its argument into
+  standard form and resimplifies the result.
+
+\begin{Syntax}
+  \name{taylortostandard}\(\meta{expression}\) or
+  \name{taylortostandard} \meta{simple_expression}
+\end{Syntax}
+
+  \begin{Examples}
+    hugo := taylor(exp(x),x,0,2); & HUGO := 1 + X + \rfrac{1}{2}*X^{2} + O(X^{3})\\
+    taylortostandard hugo; & \rfrac{X^{2} + 2*X + 2}{2}
+  \end{Examples}
+
+\end{Operator}
+
+\endinput
+
+\section{Warnings and error messages}
+\index{errors ! TAYLOR package}
+\begin{itemize}
+
+\item \name{Branch point detected in ...}\\
+    This occurs if you take a rational power of a Taylor kernel
+    and raising the lowest order term of the kernel to this
+    power yields a non analytical term (i.e.\ a fractional power).
+
+\item \name{Cannot expand further... truncation done}\\
+    You will get this warning if you try to expand a Taylor kernel to
+    a higher order.
+
+\item \name{Converting Taylor kernels to standard representation}\\
+    This warning appears if you try to integrate an expression that
+    contains Taylor kernels.
+
+\item \name{Error during expansion (possible singularity)}\\
+    The expression you are trying to expand caused an error.
+    As far as I know this can only happen if it contains a function
+    with a pole or an essential singularity at the expansion point.
+    (But one can never be sure.)
+
+\item \name{Essential singularity in ...}\\
+    An essential singularity was detected while applying a
+    special function to a Taylor kernel.
+    This error occurs, for example, if you try to take
+    the logarithm of a Taylor kernel that starts with a negative
+    power in one of its variables, i.e.\ that has a pole
+    at the expansion point.
+
+\item \name{Expansion point lies on branch cut in ...}\\
+    The only functions with branch cuts this package knows of are
+    (natural) logarithm, inverse circular and hyperbolic tangent and
+    cotangent.  The branch cut of the logarithm is assumed to lie on
+    the negative real axis.  Those of the arc tangent and arc
+    cotangent functions are chosen to be compatible with this: both
+    have essential singularities at the points $\pm i$.  The branch
+    cut of arc tangent is the straight line along the imaginary axis
+    connecting $+1$ to $-1$ going through $\infty$ whereas that of arc
+    cotangent goes through the origin.  Consequently, the branch cut
+    of the inverse hyperbolic tangent resp.\ cotangent lies on the
+    real axis and goes from $-1$ to $+1$, that of the latter across
+    $0$, the other across $\infty$.
+    
+    The error message can currently only appear when you try to
+    calculate the inverse tangent or cotangent of a Taylor
+    kernel that starts with a negative degree.
+    The case of a logarithm of a Taylor kernel whose constant term
+    is a negative real number is not caught since it is
+    difficult to detect this in general.
+
+\item \name{Not a unity in ...}\\
+    This will happen if you try to divide by or take the logarithm of 
+    a Taylor series whose constant term vanishes.
+
+\item \name{Not implemented yet (...)}\\
+    Sorry, but I haven't had the time to implement this feature.
+    Tell me if you really need it, maybe I have already an improved
+    version of the package.
+
+\item \name{Reversion of Taylor series not possible: ...}\\
+\ttindex{TAYLORREVERT}
+    You tried to call the \name{TAYLORREVERT} operator with
+    inappropriate arguments. The second half of this error message
+    tells you why this operation is not possible.
+
+\item \name{Substitution of dependent variables ...}\\
+    You tried to substitute a variable that is already present in the
+    Taylor kernel or on which one of the Taylor variables depend.
+
+\item \name{Taylor kernel doesn't have an original part}\\
+\ttindex{TAYLORORIGINAL} \ttindex{TAYLORKEEPORIGINAL}
+    The Taylor kernel upon which you try to use \name{TAYLORORIGINAL}
+    was created with the switch \name{TAYLORKEEPORIGINAL}
+    set to \name{OFF}
+    and does therefore not keep the original expression.
+
+\item \name{Wrong number of arguments to TAYLOR}\\
+    You try to use the operator \name{TAYLOR} with a wrong number of
+    arguments.
+
+\item \name{Zero divisor in TAYLOREXPAND}\\
+    A zero divisor was found while an expression was being expanded.
+    This should not normally occur.
+
+\item \name{Zero divisor in Taylor substitution}\\
+    That's exactly what the message says.  As an example consider the
+    case of a Taylor kernel containing the term \name{1/x} and you try
+    to substitute \name{x| by \verb|0}.
+
+\item \name{... invalid as kernel}\\
+    You tried to expand with respect to an expression that is not a
+    kernel.
+
+\item \name{... invalid as order of Taylor expansion}\\
+    The order parameter you gave to \name{TAYLOR} is not an integer.
+
+\item \name{... invalid as Taylor kernel}\\
+\ttindex{TAYLORORIGINAL} \ttindex{TAYLORTEMPLATE}
+    You tried to apply \name{TAYLORORIGINAL| or \verb|TAYLORTEMPLATE}
+    to an expression that is not a Taylor kernel.
+
+\item \name{... invalid as Taylor variable}\\
+    You tried to substitute a Taylor variable by an expression that is
+    not a kernel.
+
+\item \name{... invalid as value of TaylorPrintTerms}\\
+\ttindex{TAYLORPRINTTERMS} 
+    You have assigned an invalid value to \name{TAYLORPRINTTERMS}.
+    Allowed values are: an integer or the special identifier
+    \name{ALL}.
+
+\item \name{TAYLOR PACKAGE (...): this can't happen ...}\\
+    This message shows that an internal inconsistency was detected.
+    This is not your fault, at least as long as you did not try to
+    work with the internal data structures of \REDUCE. Send input
+    and output to me, together with the version information that is
+    printed out.
+
+\end{itemize}
+
+\section{Comparison to other packages}
+
+At the moment there is only one \REDUCE{} package that I know of:
+the truncated power series package by Alan Barnes and Julian Padget.
+In my opinion there are two major differences:
+\begin{itemize}
+  \item The interface. They use the domain mechanism for their power
+        series, I decided to invent a special kind of kernel. Both
+        approaches have advantages and disadvantages: with domain
+        modes, it is easier
+        to do certain things automatically, e.g., conversions.
+  \item The concept of a truncated series. Their idea is to remember
+        the original expression and to compute more coefficients when
+        more of them are needed. My approach is to truncate at a
+        certain order and forget how the unexpanded expression
+        looked like.  I think that their method is more widely
+        usable, whereas mine is more efficient when you know in
+        advance exactly how many terms you need.
+\end{itemize}
+
+\end{document}

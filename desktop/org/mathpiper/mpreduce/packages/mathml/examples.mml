@@ -1,0 +1,1277 @@
+%  Description: This file contains a long list of examples demonstrating the abilities of
+%               the translator. Most of these examples come straight from the MathML spec. They
+%               were used during the development of the interface and should all be correctly
+%               translated into OpenMath.
+%
+%  Version 17 April 2000
+%
+%  Author: Luis Alvarez Sobreviela
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%       
+
+
+mml2om();
+<math>
+  <apply><sin/>
+     <apply><plus/>
+       <apply><cos/>
+         <ci> x </ci>
+       </apply>
+       <apply><power/>
+         <ci> x </ci>
+         <cn> 3 </cn>
+       </apply>
+     </apply>
+   </apply>
+</math>            
+
+
+mml2om();
+<math>
+  <apply><sin/>
+     <apply><plus/>
+       <apply><cos/>
+         <ci> x </ci>
+       </apply>
+       <apply><power/>
+         <ci type="real"> x </ci>
+         <cn> 3 </cn>
+       </apply>
+     </apply>
+   </apply>
+</math>      
+
+
+mml2om();
+<math>
+  <set type=normal>
+     <ci> b </ci>
+     <cn> 2 </cn>
+     <ci> c </ci>
+   </set>
+</math>
+
+
+mml2om();
+<math>
+  <set type="multiset">
+     <ci> b </ci>
+     <cn> 2 </cn>
+     <ci> c </ci>
+   </set>
+</math>
+
+
+mml2om();
+<math>
+  <vector>
+     <ci> b </ci>
+     <cn> 2 </cn>
+     <ci> c </ci>
+   </vector>
+</math>
+
+mml2om();
+<math>
+  <interval closure=closed>
+     <ci> b </ci>
+     <cn> 2 </cn>
+   </interval>
+</math>
+
+mml2om();
+<math>
+  <interval closure=open>
+     <ci> b </ci>
+     <cn> 2 </cn>
+   </interval>
+</math>
+
+mml2om();
+<math>
+  <interval closure=open-closed>
+     <ci> b </ci>
+     <cn> 2 </cn>
+   </interval>
+</math>
+
+
+mml2om();
+<math>
+  <interval closure=closed-open>
+     <ci> b </ci>
+     <cn> 2 </cn>
+   </interval>
+</math>
+
+
+mml2om();
+<math>
+   <cn type="complex-cartesian"> 6 <sep/> 3 </cn>
+</math>
+
+mml2om();
+<math>
+   <cn type="complex-polar"> 6 <sep/> 3 </cn>
+</math>
+
+mml2om();
+<math>
+   <cn type="integer" base="10"> 6 </cn>
+</math>
+
+mml2om();
+<math>
+  <apply><sum/>
+     <bvar>
+       <ci> x </ci>
+     </bvar>
+     <lowlimit>
+       <ci> a </ci>
+     </lowlimit>
+     <uplimit>
+       <ci> b </ci>
+     </uplimit>
+      <apply><plus/>
+         <ci> x </ci>
+         <apply><sin/>
+            <ci> y </ci>
+         </apply>
+      </apply>
+   </apply>
+</math>
+
+
+              
+mml2om();
+<math>
+  <apply><int/>
+     <bvar>
+       <ci> x </ci>
+     </bvar>
+     <lowlimit>
+       <ci> a </ci>
+     </lowlimit>
+     <uplimit>
+       <ci> b </ci>
+     </uplimit>
+     <apply><fn><ci> f </ci></fn>
+       <ci> x </ci>
+     </apply>
+   </apply>
+</math>  
+
+
+
+mml2om();
+<math>
+   <lambda>
+      <bvar>
+         <ci> x </ci>
+      </bvar>
+      <apply><sin/>
+         <ci> x </ci>
+      </apply>
+   </lambda>
+</math>          
+    
+
+mml2om();
+<math>
+ <apply><limit/>
+     <bvar>
+       <ci> x </ci>
+     </bvar>
+     <lowlimit>
+       <cn> 0 </cn>
+     </lowlimit>
+     <apply><sin/>
+       <ci> x </ci>
+     </apply>
+   </apply>
+</math>
+ 
+mml2om();            
+<math>
+  <apply><limit/>
+    <bvar>
+      <ci> x </ci>
+    </bvar>
+    <condition>
+      <apply>
+        <tendsto type="above"/>
+        <ci> x </ci>
+        <ci> a </ci>
+      </apply>
+    </condition>
+    <apply><sin/>
+       <ci> x </ci>
+    </apply>
+  </apply>
+</math>
+
+
+mml2om();
+<math>
+   <apply><not/>
+      <apply><exists/>
+         <bvar>
+            <ci> x </ci>
+         </bvar>
+         <bvar>
+            <ci> y </ci>
+         </bvar>
+         <bvar>
+            <ci> z </ci>
+         </bvar>
+         <bvar>
+            <ci> n </ci>
+         </bvar>
+         <apply><and/>
+            <apply><gt/>
+               <ci> n </ci>
+               <cn type="integer"> 2 </cn>
+            </apply>
+            <apply><eq/>
+               <apply><plus/>
+                  <apply><power/>
+                     <ci> x </ci>
+                     <ci> n </ci>
+                  </apply>
+                  <apply><power/>
+                     <ci> y </ci>
+                     <ci> n </ci>
+                  </apply>
+               </apply>
+               <apply><power/>
+                  <ci> z </ci>
+                  <ci> n </ci>
+               </apply>
+            </apply>
+         </apply>
+      </apply>
+   </apply>
+</math>      
+
+
+
+mml2om();
+<math>
+  <matrix>
+     <matrixrow>
+       <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+     </matrixrow>
+     <matrixrow>
+       <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+     </matrixrow>
+     <matrixrow>
+       <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+     </matrixrow>
+   </matrix>
+</math>
+
+mml2om();
+<math>
+   <apply><int/>
+      <bvar>
+         <ci>x</ci>
+      </bvar>
+      <apply><power/>
+         <ci>x</ci>
+         <cn type="integer">2</cn>
+      </apply>
+   </apply>
+</math>
+     
+mml2om();
+<math>
+   <apply><int/>
+      <bvar>
+         <ci> x </ci>
+      </bvar>
+      <apply><sin/>
+         <ci> x </ci>
+      </apply>
+   </apply>
+</math>                    
+
+
+mml2om();
+<math>
+<apply><sum/>
+     <bvar>
+       <ci> x </ci>
+     </bvar>
+     <lowlimit>
+       <ci> a </ci>
+     </lowlimit>
+     <uplimit>
+       <ci> b </ci>
+     </uplimit>
+     <apply><fn><ci> f </ci></fn>
+       <ci> x </ci>
+     </apply>
+   </apply>
+</math>
+                 
+
+
+mml2om();
+<math>
+  <apply><diff/>
+    <bvar>
+      <ci> x </ci>
+   </bvar>
+    <apply><fn><ci>f</ci></fn>
+       <ci> x </ci>
+    </apply>
+  </apply>
+</math>
+ 
+
+mml2om();
+<math>
+  <apply><diff/>
+    <bvar>
+      <ci> x </ci>
+      <degree> 
+        <cn> 2 </cn>
+      </degree> 
+   </bvar>
+    <apply><fn><ci>f</ci></fn>
+       <ci> x </ci>
+    </apply>
+  </apply>
+</math>
+ 
+
+mml2om();
+<math>
+  <apply><diff/>
+    <bvar>
+      <ci> x </ci>
+      <degree> 
+        <cn> 3 </cn>
+      </degree> 
+   </bvar>
+    <apply><fn><ci>f</ci></fn>
+       <ci> x </ci>
+    </apply>
+  </apply>
+</math>
+ 
+
+
+
+mml2om();
+<math>
+  <set type=normal>
+     <ci> b </ci>
+     <ci> a </ci>
+     <ci> c </ci>
+  </set>
+</math>
+
+mml2om();
+<math>
+   <list>
+     <ci> b </ci>
+     <ci> a </ci>
+     <ci> c </ci>
+   </list>
+</math>
+
+mml2om();
+<math>
+<list order="lexicographic">
+     <ci> b </ci>
+     <ci> a </ci>
+     <ci> c </ci>
+   </list>
+</math>
+
+mml2om();
+<math>
+<apply><union definitionurl="www.nag.co.uk"/>
+     <ci type="set"> A </ci>
+     <ci type="set"> B </ci>
+   </apply>
+</math>
+
+mml2om();
+<math>
+<apply><union/>
+  <set type="normal">
+     <ci> b </ci>
+     <cn> 2 </cn>
+     <ci> c </ci>
+   </set>
+   <set>
+     <ci> b </ci>
+     <ci> r </ci>
+     <cn> 2 </cn>
+     <cn> 4 </cn>
+     <ci> c </ci>
+   </set>
+   </apply>
+</math>
+
+mml2om();
+<math>
+<apply><intersect definitionurl="www.mit.edu"/>
+     <ci type="set"> A </ci>
+     <ci type="set"> B </ci>
+   </apply>
+</math>
+
+mml2om();
+<math>
+<apply><intersect/>
+  <set>
+     <ci> b </ci>
+     <cn> 2 </cn>
+     <ci> c </ci>
+   </set>
+   <set>
+     <ci> b </ci>
+     <ci> r </ci>
+     <cn> 2 </cn>
+     <cn> 4 </cn>
+     <ci> c </ci>
+   </set>
+ </apply>
+</math>
+
+
+mml2om();
+<math>
+<reln><in definitionurl="www.www.www"/>
+     <ci> a </ci>
+     <ci type="set"> A </ci>
+   </reln>
+</math>
+
+mml2om();
+<math>
+ <reln><notin definitionurl="www.www.www"/>
+   <ci> a </ci>
+   <ci> A </ci>
+ </reln>
+</math>
+
+mml2om();
+<math>
+<reln><prsubset definitionurl="www.www.www"/>
+     <ci> A </ci>
+     <ci> B </ci>
+   </reln>
+</math>
+
+mml2om();
+<math>
+<reln><notsubset definitionurl="www.www.www"/>
+     <ci> A </ci>
+     <ci> B </ci>
+   </reln>
+</math>
+
+mml2om();
+<math>
+<reln><notprsubset definitionurl="www.www.www"/>
+     <ci> A </ci>
+     <ci> B </ci>
+   </reln>
+</math>
+
+mml2om();
+<math>
+<apply><setdiff definitionurl="www.www.www"/>
+     <ci> A </ci>
+     <ci> B </ci>
+   </apply>
+</math>
+
+mml2om();
+<math>
+<apply><sum/>
+     <bvar>
+       <ci> x </ci>
+     </bvar>
+     <lowlimit>
+       <ci> a </ci>
+     </lowlimit>
+     <uplimit>
+       <ci> b </ci>
+     </uplimit>
+     <apply><fn><ci> f </ci></fn>
+       <ci> x </ci>
+     </apply>
+   </apply>
+</math>
+
+
+
+mml2om();
+<math>
+<apply><product/>
+     <bvar>
+       <ci> x </ci>
+     </bvar>
+     <lowlimit>
+       <ci> a </ci>
+     </lowlimit>
+     <uplimit>
+       <ci> b </ci>
+     </uplimit>
+     <apply><fn><ci> f </ci></fn>
+       <ci> x </ci>
+     </apply>
+   </apply>
+</math>
+
+mml2om();
+<math>
+ <apply><limit/>
+   <bvar>
+     <ci> V </ci>
+   </bvar>
+   <condition>
+     <apply>
+       <tendsto type=above/>
+       <ci> V </ci>
+       <cn> 0 </cn>
+     </apply>
+   </condition>
+   <apply><divide/>
+     <apply><int/>
+       <bvar>
+         <ci> S</ci>
+       </bvar>
+       <ci> a </ci>
+     </apply>
+     <ci> V </ci>
+   </apply>
+ </apply>
+</math>               
+
+mml2om();
+<math>
+<apply><limit/>
+     <bvar>
+       <ci> x </ci>
+     </bvar>
+     <lowlimit>
+       <cn> 0 </cn>
+     </lowlimit>
+     <apply><sin/>
+       <ci> x </ci>
+     </apply>
+   </apply>
+</math>
+
+mml2om();
+<math>
+<apply><limit/>
+     <bvar>
+       <ci> x </ci>
+     </bvar>
+     <condition>
+       <reln>
+         <tendsto type="above"/>
+         <ci> x </ci>
+         <ci> a </ci>
+       </reln>
+     </condition>
+     <apply><sin/>
+        <ci> x </ci>
+     </apply>
+   </apply>
+</math>
+
+
+mml2om();
+<math>
+<apply><sin/>
+     <apply><plus/>
+       <apply><cos/>
+         <ci> x </ci>
+       </apply>
+       <apply><power/>
+         <ci> x </ci>
+         <cn> 3 </cn>
+       </apply>
+     </apply>
+   </apply>
+</math>
+
+mml2om();
+<math>
+<apply><mean/>
+     <ci> b </ci>
+     <ci> r </ci>
+     <cn> 2 </cn>
+     <cn> 4 </cn>
+     <ci> c </ci>
+   </apply>
+</math>
+
+mml2om();
+<math>
+<apply><sdev/>
+     <ci> b </ci>
+     <ci> r </ci>
+     <cn> 2 </cn>
+     <cn> 4 </cn>
+     <ci> c </ci>
+   </apply>
+</math>
+
+mml2om();
+<math>
+ <apply><var/>
+     <ci> b </ci>
+     <ci> r </ci>
+     <cn> 2 </cn>
+     <cn> 4 </cn>
+     <ci> c </ci>
+ </apply>
+</math>
+
+
+mml2om();
+<math>
+<vector>
+     <cn> 1 </cn>
+     <cn> 2 </cn>
+     <cn> 3 </cn>
+     <ci> x </ci>
+   </vector>
+</math>
+
+mml2om();
+<math>
+<matrix>
+     <matrixrow>
+       <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
+     </matrixrow>
+     <matrixrow>
+       <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
+     </matrixrow>
+     <matrixrow>
+       <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
+     </matrixrow>
+   </matrix>
+</math>
+
+mml2om();
+<math>
+<apply><determinant/>
+<matrix>
+     <matrixrow>
+       <cn> 3 </cn> <cn> 1 </cn> <cn> 5 </cn>
+     </matrixrow>
+     <matrixrow>
+       <cn> 7 </cn> <cn> 0 </cn> <cn> 2 </cn>
+     </matrixrow>
+     <matrixrow>
+       <cn> 1 </cn> <cn> 7 </cn> <cn> 8 </cn>
+     </matrixrow>
+   </matrix>
+</apply>
+</math>
+
+mml2om();
+<math>
+<apply><transpose/>
+<matrix>
+     <matrixrow>
+       <cn> 3 </cn> <cn> 1 </cn> <cn> 5 </cn>
+     </matrixrow>
+     <matrixrow>
+       <cn> 7 </cn> <cn> 0 </cn> <cn> 2 </cn>
+     </matrixrow>
+     <matrixrow>
+       <cn> 1 </cn> <cn> 7 </cn> <cn> 8 </cn>
+     </matrixrow>
+   </matrix>
+</apply>
+</math>
+
+mml2om();
+<math>
+<apply><selector/>
+     <matrix>
+       <matrixrow>
+         <cn> 1 </cn> <cn> 2 </cn>
+       </matrixrow>
+       <matrixrow>
+         <cn> 3 </cn> <cn> 4 </cn>
+       </matrixrow>
+     </matrix>
+     <cn> 1 </cn>
+   </apply>
+</math>
+
+mml2om();
+<math>
+<apply><select/>
+     <matrix>
+       <matrixrow>
+         <cn> 1 </cn> <cn> 2 </cn>
+       </matrixrow>
+       <matrixrow>
+         <cn> 3 </cn> <cn> 4 </cn>
+       </matrixrow>
+     </matrix>
+     <cn> 2 </cn>
+     <cn> 2 </cn>
+   </apply>
+</math>
+
+mml2om();
+<math>
+<apply><determinant/>
+ <matrix>
+      <matrixrow>
+         <ci>a</ci>
+         <cn type="integer">1</cn>
+      </matrixrow>
+      <matrixrow>
+         <cn type="integer">2</cn>
+         <ci>s</ci>
+      </matrixrow>
+   </matrix>
+</apply>
+</math>
+
+
+mml2om();
+<math>
+ <apply><determinant/>
+  <apply><transpose/>
+   <matrix>
+      <matrixrow>
+         <cn type="integer">1</cn>
+         <cn type="integer">2</cn>
+         <cn type="integer">3</cn>
+         <cn type="integer">4</cn>
+      </matrixrow>
+      <matrixrow>
+         <cn type="integer">1</cn>
+         <cn type="integer">2</cn>
+         <cn type="integer">1</cn>
+         <cn type="integer">2</cn>
+      </matrixrow>
+      <matrixrow>
+         <cn type="integer">2</cn>
+         <cn type="integer">3</cn>
+         <cn type="integer">2</cn>
+         <cn type="integer">1</cn>
+      </matrixrow>
+      <matrixrow>
+         <cn type="integer">2</cn>
+         <cn type="integer">1</cn>
+         <cn type="integer">1</cn>
+         <cn type="integer">1</cn>
+      </matrixrow>
+   </matrix>
+  </apply>
+ </apply>
+</math>
+
+
+mml2om();
+<math>
+   <apply><plus/>
+      <apply><times/>
+         <cn type="integer">2</cn>
+         <apply><cos/>
+            <ci>x</ci>
+         </apply>
+         <ci>x</ci>
+      </apply>
+      <apply><minus/>
+         <apply><times/>
+            <apply><sin/>
+               <ci>x</ci>
+            </apply>
+            <apply><power/>
+               <ci>x</ci>
+               <cn type="integer">2</cn>
+            </apply>
+         </apply>
+      </apply>
+   </apply>
+</math>
+
+
+mml2om();
+<math>
+   <list>
+      <reln><eq/>
+         <ci>x</ci>
+         <apply><plus/>
+            <cn type="constant">&ImaginaryI;</cn>
+            <apply><minus/>
+               <cn type="integer">1</cn>
+            </apply>
+         </apply>
+      </reln>
+      <reln><eq/>
+         <ci>x</ci>
+         <apply><plus/>
+            <apply><minus/>
+               <cn type="constant">&ImaginaryI;</cn>
+            </apply>
+            <apply><minus/>
+               <cn type="integer">1</cn>
+            </apply>
+         </apply>
+      </reln>
+   </list>
+</math>
+
+
+
+mml2om();
+<math>
+   <apply><plus/>
+      <apply><minus/>
+         <apply><times/>
+            <apply><cos/>
+               <apply><times/>
+                  <ci>x</ci>
+                  <ci>y</ci>
+               </apply>
+            </apply>
+            <ci>x</ci>
+            <ci>y</ci>
+         </apply>
+      </apply>
+      <apply><times/>
+         <apply><power/>
+            <cn type="integer">2</cn>
+            <apply><times/>
+               <ci>x</ci>
+               <ci>y</ci>
+            </apply>
+         </apply>
+         <apply><power/>
+            <apply><log/>
+               <cn type="integer">2</cn>
+            </apply>
+            <cn type="integer">2</cn>
+         </apply>
+         <ci>x</ci>
+         <ci>y</ci>
+      </apply>
+      <apply><times/>
+         <apply><power/>
+            <cn type="integer">2</cn>
+            <apply><times/>
+               <ci>x</ci>
+               <ci>y</ci>
+            </apply>
+         </apply>
+         <apply><log/>
+            <cn type="integer">2</cn>
+         </apply>
+      </apply>
+      <apply><minus/>
+         <apply><sin/>
+            <apply><times/>
+               <ci>x</ci>
+               <ci>y</ci>
+            </apply>
+         </apply>
+      </apply>
+      <cn type="integer">1</cn>
+   </apply>
+</math>
+
+
+mml2om();
+<math>
+ <reln><eq/>
+  <cn>2</cn>
+  <cn>2</cn>
+  <cn>2</cn>
+ </reln>
+</math>
+
+mml2om();
+<math>
+ <reln><eq/>
+  <cn>2</cn>
+  <ci>A</ci>
+  <ci>u</ci>
+ </reln>
+</math>
+
+mml2om();
+<math>
+ <reln><neq/>
+  <cn>2</cn>
+  <cn>2</cn>
+ </reln>
+</math>
+
+mml2om();
+<math>
+ <reln><neq/>
+  <cn>2</cn>
+  <ci>A</ci>
+ </reln>
+</math>
+
+mml2om();
+<math>
+ <reln><lt/>
+  <cn>2</cn>
+  <cn>2</cn>
+  <cn>2</cn>
+ </reln>
+</math>
+
+mml2om();
+<math>
+ <reln><lt/>
+  <cn>2</cn>
+  <ci>A</ci>
+  <ci>u</ci>
+ </reln>
+</math>
+
+mml2om();
+<math>
+ <reln><gt/>
+  <cn>2</cn>
+  <cn>2</cn>
+  <cn>2</cn>
+ </reln>
+</math>
+
+mml2om();
+<math>
+ <reln><gt/>
+  <cn>2</cn>
+  <ci>A</ci>
+  <ci>u</ci>
+ </reln>
+</math>
+
+mml2om();
+<math>
+ <reln><geq/>
+  <cn>2</cn>
+  <cn>2</cn>
+  <cn>2</cn>
+ </reln>
+</math>
+
+mml2om();
+<math>
+ <reln><geq/>
+  <cn>2</cn>
+  <ci>A</ci>
+  <ci>u</ci>
+ </reln>
+</math>
+
+mml2om();
+<math>
+ <reln><leq/>
+  <cn>2</cn>
+  <cn>2</cn>
+  <cn>2</cn>
+ </reln>
+</math>
+
+mml2om();
+<math>
+ <reln><leq/>
+  <cn>2</cn>
+  <ci>A</ci>
+  <ci>u</ci>
+ </reln>
+</math>
+
+%The following examples work perfectly when read
+%in by mml2om() and prove that the tags employed
+%work correctly. The ir output can then be used
+%to see if the mathml produced works:
+
+mml2om();
+<math>
+   <apply><int/>
+      <bvar>
+         <ci>x</ci>
+      </bvar>
+      <lowlimit>
+         <cn type="integer">0</cn>
+      </lowlimit>
+      <uplimit>
+         <cn type="integer">1</cn>
+      </uplimit>
+      <apply><power/>
+         <ci>x</ci>
+         <cn type="integer">2</cn>
+      </apply>
+   </apply>
+</math>           
+
+
+mml2om();
+<math>
+   <apply><int/>
+      <bvar>
+         <ci>x</ci>
+      </bvar>
+      <lowlimit>
+         <cn type="integer">1</cn>
+      </lowlimit>
+      <uplimit>
+         <cn type="constant">&infin;</cn>
+      </uplimit>
+      <ci>x</ci>
+   </apply>
+</math>       
+
+mml2om();
+<math>       
+ <apply><int/>
+   <bvar>
+     <ci> x </ci>
+   </bvar>
+   <interval>
+      <ci> a </ci>
+      <ci> b </ci>
+    </interval>
+   <apply><cos/>
+     <ci> x </ci>
+   </apply>
+ </apply>
+</math>       
+
+%this example is MathML1.0 and when passed
+%through function mml2om() it translates it to
+%MathML2.0
+
+mml2om();
+<math>
+  <apply><diff/>
+    <bvar>
+      <ci> x </ci>
+      <degree>
+        <cn> 2 </cn>
+      </degree>
+    </bvar>
+    <apply><fn><ci>f</ci></fn>
+       <ci> x </ci>
+    </apply>
+  </apply>
+</math>             
+
+
+
+mml2om();
+<math>
+  <list>
+    <apply><plus/>
+       <ci> x </ci>
+       <ci> y </ci>
+    </apply>
+    <cn> 3 </cn>
+    <cn> 7 </cn>
+  </list>
+</math>       
+
+mml2om();
+<math>       
+  <interval closure="open-closed">
+    <ci> a </ci>
+    <ci> b </ci>
+  </interval>
+</math>       
+
+mml2om();
+<math>
+   <interval>
+     <ci> a </ci>
+     <ci> b </ci>
+   </interval>
+</math>
+
+mml2om();
+<math>
+   <list>
+      <list>
+         <reln><eq/>
+            <ci>x</ci>
+            <apply>
+               <csymbol definitionURL="..." encoding="...">
+                  <ci>root_of</ci>
+               </csymbol>
+               <apply><plus/>
+                  <apply><minus/>
+                     <apply><power/>
+                        <ci>y</ci>
+                        <ci>x_</ci>
+                     </apply>
+                  </apply>
+                  <apply><minus/>
+                     <apply><times/>
+                        <apply><int/>
+                           <bvar>
+                              <ci>x_</ci>
+                           </bvar>
+                           <apply><power/>
+                              <ci>x_</ci>
+                              <ci>x_</ci>
+                           </apply>
+                        </apply>
+                        <ci>y</ci>
+                     </apply>
+                  </apply>
+                  <ci>x_</ci>
+                  <ci>y</ci>
+               </apply>
+               <ci>x_</ci>
+               <ci>tag_1</ci>
+            </apply>
+         </reln>
+         <reln><eq/>
+            <ci>a</ci>
+            <apply><plus/>
+               <ci>x</ci>
+               <ci>y</ci>
+            </apply>
+         </reln>
+      </list>
+   </list>
+</math>          
+mml2om();
+<math>
+   <list>
+      <list>
+         <reln><eq/>
+            <ci>x</ci>
+            <apply>
+               <csymbol definitionURL="..." encoding="...">
+                  <ci>root_of</ci>
+               </csymbol>
+               <apply><plus/>
+                  <apply><times/>
+                     <apply><exp/>
+                        <apply><plus/>
+                           <cn type="constant">&ImaginaryI;</cn>
+                           <ci>x_</ci>
+                        </apply>
+                     </apply>
+                     <ci>y</ci>
+                  </apply>
+                  <apply><exp/>
+                     <apply><plus/>
+                        <cn type="constant">&ImaginaryI;</cn>
+                        <ci>x_</ci>
+                     </apply>
+                  </apply>
+                  <apply><power/>
+                     <ci>x_</ci>
+                     <apply><plus/>
+                        <ci>y</ci>
+                        <cn type="integer">1</cn>
+                     </apply>
+                  </apply>
+                  <apply><times/>
+                     <apply><int/>
+                        <bvar>
+                           <ci>x_</ci>
+                        </bvar>
+                        <apply><power/>
+                           <ci>x_</ci>
+                           <ci>x_</ci>
+                        </apply>
+                     </apply>
+                     <apply><power/>
+                        <ci>y</ci>
+                        <cn type="integer">2</cn>
+                     </apply>
+                  </apply>
+                  <apply><times/>
+                     <apply><int/>
+                        <bvar>
+                           <ci>x_</ci>                  
+                        </bvar>
+                        <apply><power/>
+                           <ci>x_</ci>
+                           <ci>x_</ci>
+                        </apply>
+                     </apply>
+                     <ci>y</ci>
+                  </apply>
+               </apply>
+               <ci>x_</ci>
+               <ci>tag_2</ci>
+            </apply>
+         </reln>
+         <reln><eq/>
+            <ci>z</ci>
+            <ci>y</ci>
+         </reln>
+      </list>
+   </list>
+</math>                   
+
+
+mml2om();
+<math>
+  <apply><curl/>
+  <vector>
+     <ci> b </ci>
+     <cn> 2 </cn>
+     <ci> c </ci>
+   </vector>
+  </apply>
+</math>       
+
+mml2om();
+<math>
+  <apply><divergence/>
+  <vector>
+     <ci> b </ci>
+     <cn> 2 </cn>
+     <ci> c </ci>
+   </vector>
+  </apply>
+</math>       
+
+mml2om();
+<math>
+  <apply><laplacian/>
+  <vector>
+     <ci> b </ci>
+     <cn> 2 </cn>
+     <ci> c </ci>
+   </vector>
+  </apply>
+</math>       
+
+mml2om();
+<math>
+   <apply><forall/>
+      <bvar>
+         <ci> a </ci>
+      </bvar>
+      <apply><eq/>
+         <apply><inverse/>
+            <apply><inverse/>
+               <ci> a </ci>
+            </apply>
+         </apply>
+         <ci> a </ci>
+      </apply>
+   </apply>
+</math>            
+
+end;

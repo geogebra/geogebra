@@ -1,0 +1,25 @@
+\documentclass[12pt]{article}
+
+\newcommand{\ttindex}[1]{{\renewcommand{\_}{\protect\underscore}%
+                          \index{#1@{\tt #1}}}}
+
+\title{RESET: Reset REDUCE to its initial state}
+
+
+\author{
+J. P. Fitch \\
+School of Mathematical Sciences, University of Bath\\
+BATH BA2 7AY, England \\[0.05in]
+e--mail: jpff@cs.bath.ac.uk
+}
+\begin{document}
+\maketitle
+
+This package defines a command {\tt RESETREDUCE}
+\ttindex{RESETREDUCE} that works through the history of previous
+commands, and clears any values which have been assigned, plus any
+rules, arrays and the like.  It also sets the various switches to
+their initial values.  It is not complete, but does work for most
+things that cause a gradual loss of space.
+
+\end{document}

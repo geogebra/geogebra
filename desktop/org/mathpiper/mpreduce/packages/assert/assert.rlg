@@ -1,0 +1,127 @@
+symbolic;
+
+
+nil
+
+
+struct any;
+*** struct any is not checked 
+
+
+
+nil
+
+struct number checked by numberp;
+
+
+numberp
+
+struct sf checked by sfpx;
+
+
+sfpx
+
+struct sq checked by sqp;
+
+
+sqp
+
+
+declare hugo: (number,any) -> number;
+
+
+(hugo)
+
+
+procedure hugo(x1,x2);
+   x2;
+*** local variable x1 in procedure hugo not used 
+
+
+
+hugo
+
+
+assert_install hugo;
+
+
+nil
+
+
+hugo(0,0);
+
+
+0
+
+hugo('x,0);
+
+
+*** declaration hugo: (number,any) -> number violated by arg1 x 
+
+0
+
+hugo(0,'x);
+
+
+*** declaration hugo: (number,any) -> number violated by result x 
+
+x
+
+
+declare addf: (sf,sf) -> sf;
+
+
+(addf hugo)
+
+declare addsq: (sq,sq) -> sq;
+
+
+(addsq addf hugo)
+
+
+assert_install addf,addsq;
+
+
+nil
+
+
+addsq(simp 'x,numr simp 'x);
+
+
+*** declaration addsq: (sq,sq) -> sq violated by arg2 (((x . 1) . 1)) 
+
+*** declaration addf: (sf,sf) -> sf violated by arg2 ((x . 1) . 1) 
+
+*** declaration addf: (sf,sf) -> sf violated by result ((x . 1) . 1) 
+
+*** declaration addsq: (sq,sq) -> sq violated by result (((x . 1) . 1)) 
+
+(((x . 1) . 1))
+
+
+algebraic;
+
+
+
+assert_analyze();
+
+------------------------------------------------------------------------
+function          #calls              #bad calls   #assertion violations
+------------------------------------------------------------------------
+addf                   1                       1                       2
+addsq                  1                       1                       2
+hugo                   3                       2                       2
+------------------------------------------------------------------------
+sum                    5                       4                       6
+------------------------------------------------------------------------
+
+
+assert_uninstall_all;
+
+
+
+end;
+
+Tested on x86_64-mac_10.7_lion-darwin11.1.0-nogui CSL
+Time (counter 1): 0 ms
+real	0m0.001s

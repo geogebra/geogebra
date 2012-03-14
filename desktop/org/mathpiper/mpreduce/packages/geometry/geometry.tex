@@ -1,0 +1,1475 @@
+\documentclass{article}
+
+\title{\geo\ : A Small Package for Mechanized (Plane) Geometry
+Manipulations\\[20pt] Version 1.1}
+
+\author{Hans-Gert Gr\"abe, Univ. Leipzig, Germany}
+
+\date{September 7, 1998}
+
+\newenvironment{code}{\tt \begin{tabbing}
+\hspace*{1cm}\=\hspace*{1cm}\=\hspace*{1cm}\=
+\hspace*{1cm}\=\hspace*{1cm}\=\kill
+}{\end{tabbing}}
+\newcommand{\formel}[1]{\[\begin{array}{l} #1\end{array}\]}
+\newcommand{\iks}{{\bf x}}
+\newcommand{\uhh}{{\bf u}}
+\newcommand{\vau}{{\bf v}}
+\newcommand{\geo}{{\sc Geometry}}
+\newcommand{\gr}{{Gr\"obner}}
+\newcommand{\xxyy}[2] {\noindent{\tt #1} \\\hspace*{1cm}
+\parbox[t]{9cm}{#2} \\[6pt]}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+Geometry is not only a part of mathematics with ancient roots but also
+a vivid area of modern research. Especially the field of geometry,
+called by some negligence ``elementary'', continues to attract the
+attention also of the great community of leisure mathematicians.  This
+is probably due to the small set of prerequisites necessary to
+formulate the problems posed in this area and the erudition and non
+formal approaches ubiquitously needed to solve them. Examples from
+this area are also an indispensable component of high school
+mathematical competitions of different levels upto the International
+Mathematics Olympiad (IMO) \cite{IMO}.
+\medskip
+
+The great range of ideas involved in elementary geometry theorem
+proving inspired mathematicians to search for a common toolbox that
+allows to discover such geometric statements or, at least, to prove
+them in a more unified way. These attempts again may be traced back
+until ancient times, e.g., to Euclid and his axiomatic approach to
+geometry. 
+
+Axiomatic approaches are mainly directed towards the introduction of
+coordinates that allow to quantify geometric statements and to use the
+full power of algebraic and even analytic arguments to prove geometry
+theorems. Different ways of axiomatization lead to different, even
+non-commutative, {\em rings of scalars}, the basic domain of
+coordinate values, see \cite{Wu:94}.
+
+Taking rational, real or even complex coordinates for granted (as we
+will do in the following) it turns out that geometry theorems may be
+classified due to their symmetry group as statements in, e.g.,
+projective, affine or Euclidean (Cartesian) geometry. Below such a
+distinction will be important for the freedom to choose appropriate
+coordinate systems.
+\medskip
+
+It may be surprising that tedious but mostly straightforward
+manipulations of the algebraic counterparts of geometric statements
+allow to prove many theorems in geometry with even ingenious ``true
+geometric'' proofs. With the help of a Computer Algebra System
+supporting algebraic manipulations this approach obtains new power.
+The method is not automatic, since one often needs a good feeling how
+to encode a problem efficiently, but mechanized in the sense that one
+can develop a tool box to support this encoding and some very standard
+tools to derive a (mathematically strong~!) proof from these encoded
+data.
+
+The attempts to algorithmize this part of mathematics found their
+culmination in the 80's in the work of W.-T. Wu \cite{Wu:94} on ``the
+Chinese Prover'' and the fundamental book \cite{Chou:88} of S.-C. Chou
+who proved 512 geometry theorems with this mechanized method, see also
+\cite{Chou:84}, \cite{Chou:90}, \cite{Wu:84a}, \cite{Wu:84b}.
+
+Since the geometric interpretation of algebraic expressions depends
+heavily on the properties of the field of scalars, we get another
+classification of geometry theorems: Those with coordinate version
+valid over the algebraically closed field ${\bf C}$ and those with
+coordinate version valid (or may be even formulated) only over ${\bf
+R}$. The latter statements include {\em ordered geometry}, that uses
+the distinction between ``inside'' and ``outside'', since ${\bf C}$
+doesn't admit monotone orderings.
+\medskip
+
+This package \geo, written in the algebraic mode of Reduce, should
+provide the casual user with a couple of procedures that allow him/her
+to mechanize his/her own geometry proofs. Together with the Reduce
+built-in simplifier for rational functions, the {\tt solve} function,
+and the \gr\ utilities\footnote{Unfortunately, the built in \gr\
+package of Reduce doesn't admit enough flexibility for our purposes.}
+of the author's package CALI \cite{CALI} (part of the Reduce library)
+it allows for proving a wide range of theorems of unordered geometry,
+see the examples below and in the test file {\tt geometry.tst}.
+
+This package grew up from a course of lectures for students of
+computer science on this topic held by the author at the Univ. of
+Leipzig in fall 1996 and was updated after a similar lecture in spring
+1998.
+
+\section{Mechanizing Geometry Proving}
+
+Most geometric statements are of the following form:
+\begin{quote}
+Given certain (more or less) arbitrarily chosen points and/or lines we
+construct certain derived points and lines from them. Then the
+(relative) position of these geometric objects is of a certain
+specific kind regardless of the (absolute) position of the chosen
+data. 
+\end{quote}
+
+To obtain evidence for such a statement (recommended before attempting
+to prove it~!) one makes usually one or several drawings, choosing the
+independent data appropriately and constructing the dependent ones out
+of them (best with ruler and compass, if possible). A computer may be
+helpful in such a task, since the constructions are purely algorithmic
+and computers are best suited for algorithmic tasks. Given appropriate
+data structures such construction steps may be encoded into {\em
+functions} that afterwards need only to be called with appropriate
+parameters.
+
+Even more general statements may be transformed into such a form and
+must be transformed to create drawings. This may sometimes involve
+constructions that can't be executed with ruler and compass as, e.g.,
+angle trisection in Morley's theorem or construction of a conic in
+Pascal's theorem.
+
+\subsection{Algorithmization of (plane) geometry}
+
+The representation of geometric objects through coordinates is best
+suited for both compact (finite) data encoding and regeometrization of
+derived objects, e.g., through graphic output. Note that the target
+language for realization of these ideas on a computer can be almost
+every computer language and is not restricted to those supporting
+symbolic computations. Different geometric objects may be collected
+into a {\em scene}. Rapid graphic output of such a scene with
+different parameters may be collected into animations or even
+interactive drag-and-move pictures if supported by the programming
+system. (All this is not (yet) supported by \geo.)
+\medskip
+
+We will demonstrate this approach on geometric objects, containing
+points and lines, represented as pairs {\tt P:Point=$(p_{1},p_{2})$}
+or tripels {\tt g:Line=$(g_{1}, g_{2}, g_{3})$} of a certain basic
+type {\tt Scalar}, e.g., floating point reals. Here $g$ represents the
+homogeneous coordinates of the line $\{(x,y)\, :\, g_{1}x + g_{2}y +
+g_{3}=0\}$.  In this setting geometric constructions may be understood
+as functions constructing new geometric objects from given ones.
+Implementing such functions variables occur in a natural way as formal
+parameters that are assigned with special values of the correct type
+during execution.
+\medskip
+
+1) For example, the equation
+\[(x-p_{1})(q_{2}-p_{2}) - (y-p_{2})(q_{1}-p_{1})=0\] 
+ of the line through two given points $P=(p_{1},p_{2}),\,
+Q=(q_{1},q_{2})$ yields the function
+\begin{code}
+pp\_line(P,Q:Point):Line == 
+	$(q_{2}-p_{2},p_{1}-q_{1},p_{2}q_{1}-p_{1}q_{2})$
+\end{code}
+that returns the (representation of the) line through these two
+points. In this function $P$ and $Q$ are neither special nor general
+points but formal parameters of type {\tt Point}.
+
+2) The (coordinates of the) intersection point of two lines may be
+computed solving the corresponding system of linear equations. We get
+a partially defined function, since there is no or a not uniquely
+defined intersection point, if the two lines are parallel. In this
+case our function terminates with an error message.
+\begin{code}
+intersection\_point(a,b:Line):Point == \+\\
+d:=$a_{1}b_{2}-a_{2}b_{1}$;\\
+if $d=0$ then error ``Lines are parallel''\\
+else return $((a_{2}b_{3}-a_{3}b_{2})/d,(a_{3}b_{1}-a_{1}b_{3})/d)$
+\end{code}
+Again $a$ and $b$ are formal parameters, here of the type {\tt Line}.
+
+3) In the same way we may define a line $l$ through a given point $P$ 
+perpendicular to a second line $a$ as
+\begin{code}
+lot(P:Point,a:Line):Line == $(a_{2},-a_{1},a_{1}p_{2}-a_{2}p_{1})$
+\end{code}
+and a line through $P$ parallel to $a$ as
+\begin{code}
+par(P:Point,a:Line):Line == $(a_{1},a_{2},-a_{1}p_{1}-a_{2}p_{2})$
+\end{code}
+
+4) All functions so far returned objects with coordinates being
+rational expressions in the input parameters, thus especially well
+suited for algebraic manipulations. To keep this nice property we
+introduce only the {\em squared Euclidean distance}
+\begin{code}
+sqrdist(P,Q:Point):Scalar == $(p_{1}-q_{1})^{2}+(p_{2}-q_{2})^{2}$
+\end{code}
+
+5) Due to the relative nature of geometric statements some of the
+points and lines may be chosen arbitrarily or with certain
+restrictions. Hence we need appropriate constructors for points and
+lines given by their coordinates
+\begin{code}
+Point(a,b:Scalar):Point == $(a,b)$\\
+Line(a,b,c::Scalar):Line == $(a,b,c)$
+\end{code}
+and also for a point on a given line. For this purpose we provide two
+different functions
+\begin{code}
+choose\_Point(a:Line,u:Scalar):Point == \+\\
+if $a_{2}=0$ then\+\\ 
+if $a_{1}=0$ then error ``a is not a line''\\
+else return $(-a_{3}/a_{1},u)$\-\\
+else return $(u,-(a_{3}+a_1\,u)/a_{2})$
+\end{code}
+that chooses a point on a line $a$ and
+\begin{code}
+varPoint(P,Q:Point,u:Scalar):Point == 
+$(u\,a_{1}+(1-u)\,b_{1},u\,a_{2}+(1-u)\,b_{2})$
+\end{code}
+that chooses a point on the line through two given points. The main
+reason to have also the second definition is that $u$ has a well
+defined geometric meaning in this case. For example, the midpoint of
+$PQ$ corresponds to $u={1\over 2}$:
+\begin{code}
+midPoint(P,Q:Point):Point == varPoint(P,Q,1/2)
+\end{code}
+
+6) One can compose these functions to get more complicated geometric
+objects as, e.g., the pedal point of a perpendicular
+\begin{code}
+pedalPoint(P:Point,a:Line):Point == intersection\_point(lot(P,a),a),
+\end{code}
+the midpoint perpendicular of $BC$ 
+\begin{code}
+mp(B,C:Point):Line == lot(midPoint(B,C),line(B,C)),
+\end{code}
+the altitude to $BC$ in the triangle $\Delta\,ABC$
+\begin{code}
+altitude(A,B,C:Point):Line == lot(A,line(B,C))
+\end{code}
+and the median line
+\begin{code}
+median(A,B,C:Point):Line == line(A,midPoint(B,C))
+\end{code}
+
+7) We can also test geometric conditions to be fulfilled, e.g., whether
+two lines $a$ and $b$ are parallel or orthogonal
+\begin{code}
+parallel(a,b:Line):Boolean == $(a_{1}b_{2}-a_{2}b_{1}=0)$
+\end{code}
+resp.
+\begin{code}
+orthogonal(a,b:Line):Boolean == $(a_{1}b_{1}+a_{2}b_{2}=0)$
+\end{code}
+or whether a given point is on a given line
+\begin{code}
+point\_on\_line(P:Point,a:Line):Boolean ==
+$(a_{1}p_{1}+a_{2}p_{2}+a_{3}=0)$
+\end{code}
+The corresponding procedures implemented in the package return the
+value of the expression to be equated to zero instead of a boolean.
+
+Even more complicated conditions may be checked as, e.g., whether
+three lines have a point in common or whether three points are on a
+common line. For a complete collection of the available procedures we
+refer to the section \ref{description}.
+\medskip
+
+Note that due to the linearity of points and lines all procedures
+considered so far return data with coordinates that are rational in
+the input parameters. One can easily enlarge the ideas presented in
+this section to handle also non linear objects as circles and angles,
+compute intersection points of circles, tangent lines etc., if the
+basic domain {\tt Scalar} admits to solve non-linear (mainly
+quadratic) equations. Since non-linear equations usually have more
+than one solution, branching ideas should be incorporated, too. For
+example, intersecting a circle and a line the program should consider
+both intersection points.
+
+\subsection{Mechanized evidence of geometric statements}
+
+With a computer and these prerequisites at hand one may obtain
+evidence of geometric statements not only from plots but also
+computationally, converting the statement to be checked into a
+function depending on the variable coordinates as parameters and
+plugging in different values for them. 
+
+For example, the following function tests whether the three midpoint
+perpendiculars in a triangle given by the coordinates of its vertices
+$A,B,C$ pass through a common point
+\begin{code}
+test(A,B,C:Point):Boolean ==\\\>\>\> 
+concurrent(mp(A,B,C),mp(B,C,A),mp(C,A,B))
+\end{code}
+Plugging in different values for $A,B,C$ we can verify the theorem for
+many different special geometric configurations. Of course this is
+not yet a {\bf proof}.
+\medskip
+
+Lets add another remark: {\tt Point} and {\tt Line} are not only the
+basic data types of our geometry, but data type functions parametrized
+by the data type {\tt Scalar}. To have the full functionality of our
+procedures {\tt Scalar} must be a field with effective zero test.
+
+\section{Geometry Theorems of Constructive Type}
+
+Implementing the functions described above in a system, that admits
+also symbolic computations, we can execute the same computations also
+with symbolic values, i.e. taking a pure transcendental extension of
+${\bf Q}$ as scalars. The procedures then return (simplified) symbolic
+expressions that specialize under (almost all) substitutions of
+``real'' values for these symbolic ones to the same values as if they
+were computed by the original procedures with the specialized input.
+This leads to the notion of {\em generic geometric configurations}. A
+geometric statement holds in this generic configuration, i.e., the
+corresponding symbolic expression simplifies to zero, if and only if
+it is ``generically true'', i.e., holds for all special coordinate
+values except degenerate ones.
+
+\subsection{Geometric configurations of constructive type}
+
+This approach is especially powerful, if all geometric objects
+involved into a configuration may be constructed step by step and have
+{\em rational} expressions in the algebraically independent variables
+as symbolic coordinates.
+\medskip
+
+{\sc Definition: } We say that a geometric configuration is of {\em
+constructive type}\footnote{This notion is different from
+\cite{Chou:88}.}, if its generic configuration may be constructed step
+by step in such a way, that the coordinates of each successive
+geometric object may be expressed as rational functions of the
+coordinates of objects already available or algebraically independent
+variables, and the conclusion may be expressed as vanishing of a
+rational function in the coordinates of the available geometric
+objects.
+\medskip
+
+Substituting the corresponding rational expressions of the coordinates
+of the involved geometric objects into the coordinate slots of newly
+constructed objects and finally into the conclusion expression, we
+obtain successively rational expressions in the given algebraically
+independent variables.
+\begin{quote}\it
+A geometry theorem of constructive type is generically true if and
+only if (its configuration is not contradictory and) the conclusion
+expression simplifies to zero.
+\end{quote}
+
+Indeed, if this expression simplifies to zero, the algebraic version
+of the theorem will be satisfied for all ``admissible'' values of the
+parameters. If the expression doesn't simplify to zero, the theorem
+fails for almost all such parameters.
+
+Note that due to cancelation of denominators the domain of definition
+of the simplified expression may be greater than the (common) domain
+of definition of the different parts of the unsimplified
+expression. The correct non degeneracy conditions describing
+``admissibility'' may be collected during the computation. Collecting
+up the zero expression indicates, that the geometric configuration is
+contradictory. Hence the statement, that a certain geometric
+configuration of constructive type is contradictory, is of
+constructive type, too.
+
+The package \geo\ provides procedures {\tt clear\_ndg(), print\_ndg()}
+to manage and print these non degeneracy conditions and also a
+procedure {\tt add\_ndg(d)} as a hook for their user driven
+management.
+
+\subsection{Some one line proofs}
+
+Take independent variables $a_1,a_2,b_1,b_2,c_1,c_2$ and
+\begin{code}
+A:=Point(a1,a2);\ B:=Point(b1,b2);\ C:=Point(c1,c2); 
+\end{code}
+as the vertices of a generic triangle. We can prove the following
+geometric statements about triangles computing the corresponding
+(compound) symbolic expressions and proving that they simplify to
+zero. Note that Reduce does simplification automatically.
+\medskip
+
+\noindent 1) The midpoint perpendiculars of $\Delta\,ABC$ pass through
+a common point since
+\begin{code}\+\>
+concurrent(mp(A,B),mp(B,C),mp(C,A));
+\end{code}
+simplifies to zero.
+\medskip
+
+\noindent 2) The intersection point of the midpoint perpendiculars
+\begin{code}\+\>
+M:=intersection\_point(mp(A,B),mp(B,C));
+\end{code}
+is the center of the circumscribed circle since
+\begin{code}\+\>
+sqrdist(M,A) - sqrdist(M,B);	
+\end{code}
+simplifies to zero.
+\medskip
+
+\noindent 3) {\em Euler's line}: 
+\begin{quote}
+The center $M$ of the circumscribed circle, the orthocenter $H$ and
+the barycenter $S$ are collinear and $S$ divides $MH$ with ratio 1:2.
+\end{quote}
+Compute the coordinates of the corresponding points
+\begin{code}\+\>
+M:=intersection\_point(mp(a,b,c),mp(b,c,a));\\
+H:=intersection\_point(altitude(a,b,c),altitude(b,c,a));\\
+S:=intersection\_point(median(a,b,c),median(b,c,a));
+\end{code}
+and then prove that
+\begin{code}\+\>
+		collinear(M,H,S);\\
+                sqrdist(S,varpoint(M,H,2/3));
+\end{code}
+both simplify to zero.
+\medskip
+
+\noindent 4) {\em Feuerbach's circle}: 
+\begin{quote}
+The midpoint $N$ of $MH$ is the center of a circle that passes through
+nine special points, the three pedal points of the altitudes, the
+midpoints of the sides of the triangle and the midpoints of the upper
+parts of the three altitudes.
+\end{quote}
+\begin{code}\+\>
+         N:=midpoint(M,H);\\[8pt]
+
+                sqrdist(N,midpoint(A,B))-sqrdist(N,midpoint(B,C));\\
+                sqrdist(N,midpoint(A,B))-sqrdist(N,midpoint(H,C));\\[8pt]
+
+         D:=intersection\_point(pp\_line(A,B),pp\_line(H,C));\\
+                sqrdist(N,midpoint(A,B))-sqrdist(N,D);
+\end{code}
+Again the last expression simplifies to zero thus proving the theorem.
+
+\section{Non-linear Geometric Objects}
+
+\geo\ provides several functions to handle angles and circles as
+non-linear geometric objects.
+
+\subsection{Angles and bisectors}
+
+(Oriented) angles between two given lines are presented as tangens of
+the difference of the corresponding slopes. Since
+\[\tan(\alpha-\beta) = \frac{\tan(\alpha)-\tan(\beta)}{1+
+\tan(\alpha)\, \tan(\beta)}\] 
+we get for the angle between two lines $g,h$
+\begin{code}\>
+l2\_angle(g,h:Line):Scalar == $\frac{g_2h_1-g_1h_2}{g_1h_1+g_2h_2}$
+\end{code}
+
+Note that in unordered geometry we can't distinguish between inner and
+outer angles. Hence we cannot describe (rationally) the parameters of
+the angle bisector of a triangle. For a point $P$ the equation 
+\begin{code}\>
+l2\_angle(pp\_line(A,B),pp\_line(P,B)) =\\\>\>\>
+	l2\_angle(pp\_line(P,B),pp\_line(C,B))
+\end{code}
+i.e., $\angle\,ABP=\angle\,PBC$, describes the condition to be located
+on either the inner or outer bisector of $\angle\,ABC$. Clearing
+denominators yields a procedure
+\begin{code}\>
+point\_on\_bisector(P,A,B,C)
+\end{code}
+that returns on generic input a polynomial of (total) degree 4 and
+quadratic in the coordinates of $P$ that describes the condition for
+$P$ to be on (either the inner or the outer) bisector of
+$\angle\,ABC$.
+\medskip
+
+With some more effort one can also employ such indirect geometric
+descriptions. For example, we can prove the following unordered
+version of the bisector intersection theorem.
+\medskip
+
+\noindent 5) There are four common points on the three bisector pairs
+of a given triangle $\Delta\,ABC$. Indeed, due to Cartesian symmetry
+we may choose a special coordinate system with origin $A$ and (after
+scaling) $x$-axes unit point $B$. The remaining point $C$ is
+arbitrary. Then the corresponding generic geometric configuration is
+described with two independent parameters $u_1,u_2$ -- the coordinates
+of $C$:
+\begin{code}\>
+A:=Point(0,0); B:=Point(1,0); C:=Point(u1,u2);
+\end{code}
+A point {\tt P:=Point(x1,x2)} is an intersection point of three
+bisectors iff it is a common zero of the polynomial system
+\begin{code}
+polys:=\{\>\>\+\+ point\_on\_bisector(P,A,B,C),\\ 
+point\_on\_bisector(P,B,C,A),\\
+point\_on\_bisector(P,C,A,B)\},
+\end{code}
+i.e., of the polynomial system
+\begin{quote}
+$\hspace*{-2ex}\{\ {x_1}^{2}\,u_2 -2\,x_1\,x_2\,u_1 +2\,x_1\,x_2
+-2\,x_1\,u_2 -{x_2}^{2}\,u_2 +2\,x_2\,u_1 -2 \,x_2 +u_2,\\
+2\,{x_1}^{2}\,u_1\,u_2 -{x_1}^{2}\,u_2 -2\,x_1\,x_2\,{u_1}^{2}
++2\,x_1\,x_2\,u_1 +2\,x_1\,x_2\,{u_2}^{2} -2\,x_1\,{u_1}^{2}\,u_2
+-2\,x_1\,{u_2}^{3} -2\,{x_2}^{2}\,u_1\, u_2 +{x_2}^{2}\,u_2
++2\,x_2\,{u_1}^{3} -2\,x_2\,{u_1}^{2} +2\,x_2\,u_1\,{u_2}^{2} -2\,x_2
+\,{u_2}^{2} +{u_1}^{2}\,u_2 +{u_2}^{3},\\ {x_1}^{2}\,u_2
+-2\,x_1\,x_2\,u_1 -{x_2}^{2}\,u_2\}$
+\end{quote}
+with indeterminates $x_1,x_2$ over the coefficient field ${\bf
+Q}(u_1,u_2)$. A \gr\ basis computation with CALI
+\begin{code}\>\+
+load cali;\\
+setring(\{$x_1,x_2$\},\{\},lex);\\
+setideal(polys,polys);\\
+gbasis polys;
+\end{code}
+yields the following equivalent system:
+\begin{quote}
+$\hspace*{-2ex}\{\ 4\,{x_2}^{4}\,u_2 -8\,{x_2}^{3}\,{u_1}^{2}
++8\,{x_2}^{3}\,u_1 -8\,{x_2}^{3}\,{u_2}^{2 }
++4\,{x_2}^{2}\,{u_1}^{2}\,u_2 -4\,{x_2}^{2}\,u_1\,u_2
++4\,{x_2}^{2}\,{u_2}^{3} -4\,{ x_2}^{2}\,u_2 +4\,x_2\,{u_2}^{2}
+-{u_2}^{3},\\ 2\,x_1\,u_1\,{u_2}^{2} -x_1\,{u_2}^{2} +2\,{
+x_2}^{3}\,u_2 -4\,{x_2}^{2}\,{u_1}^{2} +4\,{x_2}^{2}\,u_1
+-2\,{x_2}^{2}\,{u_2}^{2} -2\, x_2\,{u_1}^{2}\,u_2 +2\,x_2\,u_1\,u_2
+-2\,x_2\,u_2 -u_1\,{u_2}^{2} +{u_2}^{2}\} $
+\end{quote}
+The first equation has 4 solutions in $x_2$ and each of them may be
+completed with a single value for $x_1$ determined from the second
+equation. Hence the system $polys$ has four generic solutions
+corresponding to the four expected intersection points.  The solutions
+have algebraic coordinates of degree 4 over the generic field of
+scalars ${\bf Q}(u_1,u_2)$ and specialize to the correct ``special''
+intersection points for almost all values for the parameters $u_1$ and
+$u_2$.
+
+Although it is hard to give an explicit description through radicals
+of these symbolic values, one can compute with them knowing their
+minimal polynomials. Since in this situation $x_2$ is the distance
+from $P$ to the line $AB$, we can prove that each of the four points
+has equal distance to each of the 3 lines through two vertices of
+$\Delta\,ABC$, i.e., that these points are the centers of its incircle
+and the three excircles. First we compute the differences of the
+corresponding squared distances
+\begin{code}\>\+
+con1:=sqrdist(P,pedalpoint(p,pp\_line(A,C)))-x2\^{}2;\\
+con2:=sqrdist(p,pedalpoint(p,pp\_line(B,C)))-x2\^{}2;
+\end{code}
+The numerator of each of these two expressions should simplify to zero
+under the special algebraic values of $x_1,x_2$. This may be verified
+computing their normal forms with respect to the above \gr\ basis: 
+\begin{code}\>\+
+con1 mod gbasis polys;\\
+con2 mod gbasis polys;
+\end{code}
+Note that \cite{Wu:94} proposes also a constructive proof for the
+bisector intersection theorem:
+
+Start with $A,B$ and the intersection point $P$ of the bisectors
+through $A$ and $B$. Then $g(AC)$ and $g(BC)$ are symmetric to $g(AB)$
+wrt.\ $g(AP)$ and $g(BP)$ and $P$ must be on their bisector:
+\begin{code}\>\+
+A:=Point(0,0); B:=Point(1,0); P:=Point(u1,u2);\\
+l1:=pp\_line(A,B);\\
+l2:=symline(l1,pp\_line(A,P));\\
+l3:=symline(l1,pp\_line(B,P));\\[6pt]
+
+point\_on\_bisector(P,A,B,intersection\_point(l2,l3));
+\end{code}
+As desired the last expression simplifies to zero.
+
+
+\subsection{Circles}
+
+The package \geo\ supplies two different types for encoding circles.
+The first type is {\tt Circle1} that stores the pair $(M,s)$, the
+center and the squared radius of the circle. The implementation of
+{\tt point\_on\_circle1(P,c)} and \linebreak {\tt p3\_circle1(A,B,C)}
+is almost straightforward. The latter function finds the circle
+through 3 given points, computing its center as the intersection point
+of two midpoint perpendiculars.
+
+For purposes of analytic geometry it is often better to work with the
+representation {\tt Circle} derived from the description of the circle
+as the set of points $(x,y)$ for which the expression
+\[(x-m_1)^2+(y-m_2)^2-r^2 = (x^2+y^2) -2\,m_1\,x -2\,m_2\,y
++m_1^2+m_2^2-r^2 \] 
+vanishes. We use homogeneous coordinates {\tt k:Circle}
+$=(k_1,k_2,k_3,k_4)$ for the circle
+\[k:=\{\,(x,y)\ :\ k_1*(x^2+y^2)+k_2*x+k_3*y+k_4 = 0\}\]
+since they admit denominator free computations and include also lines
+as special circles with infinite radius: The line $g=(g_1,g_2,g_3)$ is
+the circle $(0,g_1,g_2,g_3)$.
+
+Its easy to derive formulas {\tt circle\_center(k)} for the center of
+the circle $k$ and {\tt circle\_sqradius(k)} for its squared radius.
+It is also straightforward to test {\tt point\_on\_circle(P,k)}.  The
+parameters of the circle {\tt p3\_circle(A,B,C)} through 3 given
+points 
+\begin{code}\>
+A:=Point($a_1,a_2$); B:=Point($b_1,b_2$); C=Point($c_1,c_2$); 
+\end{code}
+may be obtained from a nontrivial solution of the corresponding
+homogeneous linear system with coefficient matrix
+\[\left(\begin{array}{cccc} 
+a_1^2+a_2^2 & a_1 & a_2 & 1 \\ b_1^2+b_2^2 & b_1 & b_2 & 1 \\
+c_1^2+c_2^2 & c_1 & c_2 & 1 \\
+\end{array}\right)
+\] 
+The condition that 4 points are on a common circle then may be
+expressed as
+\begin{code}\>
+p4\_circle(A,B,C,D) == point\_on\_circle(D,p3\_circle(A,B,C));
+\end{code}
+For generic points $A,B,C,D$ this yields a polynomial $p_4$ of degree
+4 in their coordinates.
+
+Note that this condition is equivalent to the circular angle theorem:
+For generic points $A,B,C,D$
+\begin{code}\+\>
+  u:=angle(pp\_line(A,D),pp\_line(B,D));\\
+  v:=angle(pp\_line(A,C),pp\_line(B,C));\\
+  (num(u)*den(v)-den(u)*num(v));
+\end{code}
+yields the same condition $p_4$. The common denominator {\tt
+den(u)*den(v)} corresponds to the degeneracy condition that either
+$A,B,C$ or $A,B,D$ are collinear.
+\medskip
+
+This condition is also equivalent to {\em Ptolemy's theorem}:
+\begin{quote}
+For points $A,B,C,D$ are (in that order) on a circle iff
+\[l(AB)*l(CD)+l(AD)*l(BC) = l(AC)*l(BD),\]
+i.e., the sum of the products of the lengths of opposite sides of the
+cyclic quadrilateral $ABCD$ equals the product of the lengths of its
+diagonals. 
+\end{quote}
+For an elementary proof see \cite[2.61]{Coxeter:67}. To get a
+mechanized proof with the tools developed so far we are faced with
+several problems. First the theorem invokes distances and not their
+squares. Second the theorem uses the order of the given points.
+Unordered geometry can't even distinguish between sides and diagonals
+of a quadrilateral.
+
+The fist problem may be solved by repeated squaring. Denoting the
+lengths appropriately we get step by step
+\[\begin{array}{c}
+p\cdot r + q\cdot s = t\cdot u\\
+(p\,r)^2+(q\,s)^2-(t\,u)^2 = -(2\,p\,q\,r\,s)\\
+((p\,r)^2+(q\,s)^2-(t\,u)^2)^2 - (2\,p\,q\,r\,s)^2 = 0
+\end{array}\]
+arriving at an expression that contains only squared distances. This
+expression 
+\[{\tt poly:= }\ p^4\,r^4 - 2\,p^2\,q^2\,r^2\,s^2 -
+2\,p^2\,r^2\,t^2\,u^2 + q^4\,s^4 - 2\,q^2\, s ^2\,t^2\,u^2 + t^4\,u^4
+\] 
+is symmetric in pairs of opposite sides thus solving also the second
+problem. Substituting the corresponding squared distances of generic
+points $A,B,C,D$ we obtain exactly the square of the condition $p_4$. 
+\medskip
+
+As for bisector coordinates the coordinates of intersection points of
+a circle and a line generally can't be expressed rationally in terms
+of the coordinates of the circles. For a generic circle {\tt c:=
+Circle($c_1,c_2,c_3,c_4$)} and a generic line {\tt
+d:=Line($d_1,d_2,d_3$)} we may solve the line equation for $y$ and
+substitute the result into the circle equation to get a single
+polynomial $q(x)$ of degree 2 with zeroes being the $x$-coordinate of
+the two intersection points of {\tt c} and {\tt d}:
+\begin{code}\>\+
+vars:=\{x,y\};\\
+polys:=\{c1*(x\^{}2+y\^{}2)+c2*x+c3*y+c4, d1*x+d2*y+d3\};\\
+s:=solve(second polys,y);\\
+q:=num sub(s,first polys);
+\end{code}
+$q:={x}^{2}\,c_1\,({d_1}^{2} +{d_2}^{2}) +x\,(2\,c_1\,d_1\,d_3 +
+c_2\,{d_2}^{2} -c_3\,d_1\,d_2 ) +(c_1\,{d_3}^{2} -c_3\,d_2\,d_3
++c_4\,{d_2}^{2})$
+\medskip
+
+In many cases {\tt d} is the line through a specified point {\tt P:=
+Point($p_1,p_2$)} on the circle. Fixing these coordinates as generic
+ones we get the algebraic relations
+\begin{code}\>
+polys:=\{point\_on\_line(P,d), point\_on\_circle(P,c)\};
+\end{code}
+\formel{\{d_1\,p_1 +d_2\,p_2 +d_3, c_1\,{p_1}^{2} +c_1\,{p_2}^{2}
+ +c_2\,p_1 +c_3\,p_2 +c_4\}}
+between the coordinates of $c, d$ and $P$. This dependency may be
+removed solving these equations for $d_3$ and $c_4$. In the new
+coordinates the polynomial $q(x)$ factors
+\begin{code}\>\+
+s:=solve(polys,\{d3,c4\});\\
+factorize sub(s,q);
+\end{code}
+into $x-p_1$ and a second factor that is linear in $x$. This yields
+the coordinates for the intersection point of {\tt c} and {\tt d}
+different from {\tt P} that are saved into a function {\tt
+other\_cl\_point(P,c,d)}. Similarly we computed the coordinates of the
+second intersection point of two circles $c_1$ and $c_2$ passing
+through a common point {\tt P} and saved into a function {\tt
+other\_cc\_point(P,c1,c2)}. 
+
+Also conditions on the coordinates of a circle and a line resp.\ two
+circles to be tangent may be derived in a similar way.
+\medskip
+
+\noindent 6) These functions admit a constructive proof of {\em
+Miquels theorem}:
+\begin{quote} Let $\Delta\,ABC$ be a triangle. Fix arbitrary points
+$P,Q,R$ on the sides $AB, BC, AC$. Then the three circles through each
+vertex and the chosen points on adjacent sides pass through a common
+point.
+\end{quote}
+Take as above 
+\begin{code}\>
+A:=Point(0,0); B:=Point(1,0); C:=Point(c1,c2);
+\end{code}
+Generic points on the sides may be introduced with three auxiliary
+indeterminates: 
+\begin{code}\>\+
+P:=choose\_pl(pp\_line(A,B),u1);\\
+Q:=choose\_pl(pp\_line(B,C),u2);\\
+R:=choose\_pl(pp\_line(A,C),u3);
+\end{code}
+Then 
+\begin{code}\>
+X:=other\_cc\_point(P,p3\_circle(A,P,R),p3\_circle(B,P,Q));
+\end{code}
+is the intersection point of two of the circles different from {\tt P}
+(its generic coordinates contain 182 terms) and since
+\begin{code}\>
+point\_on\_circle(X,p3\_circle(C,Q,R));
+\end{code}
+simplifies to zero the third circle also passes through {\tt X}.
+
+\section{Geometry Theorems of Equational Type}
+
+As already seen in the last section non-linear geometric conditions
+are best given through implicit polynomial dependency conditions on
+the coordinates of the geometric objects. In this more general setting
+a geometric statement may be translated into a {\em generic geometric
+configuration}, involving different geometric objects with coordinates
+depending on (algebraically independent) variables $\vau = (v_1,
+\ldots, v_n)$, a system of {\em polynomial conditions} $F= \{f_1,
+\ldots, f_r\}$ expressing the implicit geometric conditions and a
+polynomial $g$ encoding the geometric conclusion, such that, for a
+certain polynomial non degeneracy condition $h$, the following holds:
+\begin{quote}\it
+The geometric statement is true iff for all non degenerate correct
+special geometric configurations, i.e., with coordinates, obtained
+from the generic ones by specialization $v_i\mapsto c_i$ in such a
+way, that $f({\bf c})=0$ for all $f\in F$ but $h({\bf c})\neq 0$, the
+conclusion holds, i.e., $g({\bf c})$ vanishes.
+\end{quote}
+Denoting by $Z(F)$ the set of zeroes of the polynomial system $F$ and
+writing $Z(h)=Z(\{h\})$ for short, we arrive at {\em geometry theorems
+of equational type}, that may be shortly stated in the form
+\[Z(F)\setminus Z(h) \subseteq Z(g).\]
+Over an algebraically closed field, e.g. ${\bf C}$, this is equivalent
+to the ideal membership problem
+\[g\cdot h\in rad\ I(F),\]
+where $rad\ I(F)$ is the radical of the ideal generated by $F$. Even
+if $h$ is unknown a detailed analysis of the different components of
+the ideal $I(F)$ allows to obtain more insight into the geometric
+problem.
+\medskip
+
+Note the symmetry between $g$ and $h$ in the latter formulation of
+geometry theorems. This allows to derive {\em non degeneracy
+conditions} for a given geometry theorem of equational type from the
+stable ideal quotient
+\[h\in rad\ I(F):g^\infty.\]
+Since every element of this ideal may serve as non degeneracy
+condition there is no weakest condition among them, if the ideal is
+not principal.
+
+\subsection{Dependent and independent variables}
+
+Let $S=R[v_1,\ldots,v_n]$ be the polynomial ring in the given
+variables over the field of scalars $R$. The polynomial system $F$
+describes algebraic dependency relations between these variables in
+such a way that the values of some of the variables may be chosen
+(almost) arbitrarily whereas the remaining variables are determined
+upto a finite number of values by these choices.
+\medskip
+
+A set of variables $\uhh\subset\vau$ is called {\em independent} wrt.\
+the ideal $I=I(F)$ iff $I\cap R[\uhh]=(0)$, i.e., the variables are
+algebraically independent modulo $I$. If $\uhh$ is a maximal subset
+with this property the remaining variables $\iks=\vau\setminus\uhh$
+are called {\em dependent}.
+
+Although a maximal set of independent variables may be read off from a
+\gr\ basis of $I$ there is often a natural choice of dependent and
+independent variables induced from the geometric problem. $\uhh$ is a
+maximal independent set of variables iff $F$ has a finite number of
+solutions as polynomial system in $\iks$ over the generic scalar field
+$R(\uhh)$. In many cases this may be proved with less effort than
+computing a \gr\ basis of $I$ over $S$.
+
+If $F$ has an infinite number of solutions then $\uhh$ was independent
+but not maximal. If $F$ has no solution then $\uhh$ was not
+independent. 
+
+\subsection{Geometry theorems of linear type}
+
+We arrive at a particularly nice situation in the case when $F$ is a
+non degenerate quadratic linear system of equations in $\iks$ over
+$R(\uhh)$. Such geometry theorems are called {\em of linear type}.
+
+In this case there is a unique (rational) solution $\iks = \iks(\uhh)$
+that may be substituted for the dependent variables into the geometric
+conclusion $g=g(\iks,\uhh)$. We obtain as for geometry theorems of
+constructive type a rational expression in $\uhh$ and 
+\begin{quote}\it
+the geometry theorem holds (under the non degeneracy condition
+$h=det(F)\in R[\uhh]$, where $det(F)$ is the determinant of the linear
+system $F$) iff this expression simplifies to zero.
+\end{quote}
+
+
+\noindent 7) As an example consider the {\em theorem of Pappus}:
+\begin{quote}
+Let $A,B,C$ and $P,Q,R$ be two triples of collinear points. Then the
+intersection points $g(AQ)\wedge g(BP), g(AR)\wedge g(CP)$ and
+$g(BR)\wedge g(CQ)$ are collinear.
+\end{quote}
+The geometric conditions put no restrictions on $A,B,P,Q$ and one
+restriction on each $C$ and $R$. Hence we may take as generic
+coordinates
+\begin{code}\>\+
+A:=Point(u1,u2); B:=Point(u3,u4); C:=Point(x1,u5);\\
+P:=Point(u6,u7); Q:=Point(u8,u9); R:=Point(u0,x2);
+\end{code}
+with $u_0,\ldots,u_9$ independent and $x_1,x_2$ dependent, as
+polynomial conditions
+\begin{code}\>
+F:=\{collinear(A,B,C), collinear(P,Q,R)\};
+\end{code}
+and as conclusion
+\begin{code}\+\+
+con:=collinear(\\
+	intersection\_point(pp\_line(A,Q),pp\_line(P,B)),\\
+	intersection\_point(pp\_line(A,R),pp\_line(P,C)),\\
+	intersection\_point(pp\_line(B,R),pp\_line(Q,C)));
+\end{code}
+a rational expression with 462 terms. The polynomial conditions are
+linear in $x_1,x_2$ and already separated. Hence
+\begin{code}\>\+
+sol:=solve(polys,\{x1,x2\});\\
+sub(sol,con);
+\end{code}
+proves the theorem since the expression obtained from $con$
+substituting the dependent variables by their rational expressions in
+$\uhh$ simplifies to zero.
+\medskip
+
+As for most theorems of linear type the linear system may be solved
+``geometrically'' and the whole theorem may be translated into a
+constructive geometric statement:
+\begin{code}\>\+
+A:=Point(u1,u2); B:=Point(u3,u4);\\ 
+P:=Point(u6,u7); Q:=Point(u8,u9);\\[6pt] 
+
+C:=choose\_pl(pp\_line(A,B),u5);\\
+R:=choose\_pl(pp\_line(P,Q),u0);\\[6pt]
+
+con:=collinear(\+\\
+	intersection\_point(pp\_line(A,Q),pp\_line(P,B)),\\
+	intersection\_point(pp\_line(A,R),pp\_line(P,C)),\\
+	intersection\_point(pp\_line(B,R),pp\_line(Q,C)));
+\end{code}
+
+\subsection{Geometry theorems of non-linear type}
+
+Lets return to the general situation of a polynomial system $F\subset
+S$ that describes algebraic dependency relations, a subdivision
+$\vau=\iks\cup\uhh$ of the variables into dependent and independent
+ones, and the conclusion polynomial $g(\iks,\uhh)\in S$. The set of
+zeros $Z(F)$ may be decomposed into irreducible components that
+correspond to prime components $P_\alpha$ of the ideal $I=I(F)$
+generated by $F$ over the ring $S=R[\iks,\uhh]$.
+
+Since $P_\alpha\supset I$ the variables $\uhh$ may become dependent
+wrt.\ $P_\alpha$. Prime components where $\uhh$ remains independent
+are called {\em generic}, the other components are called {\em
+special}.  Note that each special component contains a non zero
+polynomial in $R[\uhh]$. Multiplying them all together yields a non
+degeneracy condition $h=h(\uhh)\in R[\uhh]$ on the independent
+variables such that a zero $P\in Z(F)$ with $h(P)\neq 0$ necessarily
+belongs to one of the generic components. Hence they are the
+``essential'' components and we say that the geometry theorem is {\em
+generically true}, when the conclusion polynomial $g$ vanishes on all
+these generic components.
+\medskip
+
+If we compute in the ring $S'=R(\uhh)[\iks]$, i.e., consider the
+independent variables as parameters, exactly the generic components
+remain visible. Indeed, this corresponds to a localization of $S$ by
+the multiplicative set $R[\uhh]\setminus\{0\}$. Hence the geometry
+theorem is generically true iff $g\in rad(I)\cdot S'$, i.e. $g$
+belongs to the radical of the ideal $I$ in this special extension of
+$S$. A sufficient condition can be derived from a \gr\ basis $G$ of
+$F$ with the $\uhh$ variables as parameters: Test whether $g\ mod\ G
+=0$, i.e., the normal form vanishes. More subtle examples may be
+analyzed with the \gr\ factorizer or more advanced techniques from the
+authors package CALI, \cite{CALI}.
+\medskip
+
+\noindent 8) As an application we consider the following nice theorem
+from \cite[ch. 4, \S\ 2]{Coxeter:67} about Napoleon triangles:
+\begin{quote}
+Let $\Delta\,ABC$ be an arbitrary triangle and $P,Q$ and $R$ the third
+vertex of equilateral triangles erected externally on the sides $BC,
+AC$ and $AB$ of the triangle. Then the lines $g(AP), g(BQ)$ and
+$g(CR)$ pass through a common point, the {\em Fermat point} of the
+triangle $\Delta\,ABC$.
+\end{quote}
+
+A mechanized proof again will be faced with the difficulty that
+unordered geometry can't distinguish between different sides wrt.\ a
+line. A straightforward formulation of the geometric conditions starts
+with independent coordinates for $A,B,C$ and dependent coordinates for
+$P,Q,R$. W.l.o.g. we may fix the coordinates in the following way:
+\begin{code}\+\>
+A:=Point(0,0); B:=Point(0,2); C:=Point(u1,u2);\\
+P:=Point(x1,x2); Q:=Point(x3,x4); R:=Point(x5,x6);
+\end{code}
+There are 6 geometric conditions for the 6 dependent variables.
+\begin{code}\+\+
+polys:=\{\>\>sqrdist(P,B)-sqrdist(B,C), sqrdist(P,C)-sqrdist(B,C),\\ 
+	sqrdist(Q,A)-sqrdist(A,C), sqrdist(Q,C)-sqrdist(A,C),\\ 
+	sqrdist(R,B)-sqrdist(A,B), sqrdist(R,A)-sqrdist(A,B)\};
+\end{code}
+\formel{
+{x_1}^{2} +{x_2}^{2} -4\,x_2 -{u_1}^{2} -{u_2}^{2} +4\,u_2\\ 
+{x_1}^{2} -2\,x_1\,u_1 +{ x_2}^{2} -2\,x_2\,u_2 +4\,u_2 -4\\ 
+{x_3}^{2} +{x_4}^{2} -{u_1}^{2} -{u_2}^{2}\\ 
+{x_3}^{2} -2\,x_3\,u_1 +{x_4}^{2} -2\,x_4\,u_2\\ 
+{x_5}^{2} +{x_6}^{2} -4\,x_6\\ 
+{x_5}^{2} +{x_6}^{2} -4}
+These equations may be divided into three groups of two quadratic
+relations for the coordinates of each of the points $P,Q,R$. Each of
+this pairs has (only) two solutions, the inner and the outer triangle
+vertex, since it may easily be reduced to a quadratic and a linear
+equation, the line equation of the corresponding midpoint
+perpendicular. Hence the whole system has 8 solutions and by geometric
+reasons the conclusion
+\begin{code}\>
+con:=concurrent(pp\_line(A,P), pp\_line(B,Q), pp\_line(C,R));
+\end{code}
+will hold on at most two of them. Due to the special structure the
+interreduced polynomial system is already a \gr\ basis and hence can't
+be split by the \gr\ factorizer. A full decomposition into isolated
+primes yields four components over $R(\uhh)$, each corresponding to a
+pair of solutions over the algebraic closure. On one of them the
+conclusion polynomial reduces to zero thus proving the geometry
+theorem. 
+\begin{code}\>\+
+vars:=\{x1,x2,x3,x4,x5,x6\};\\
+setring(vars,\{\},lex);\\
+iso:=isolatedprimes polys;\\[6pt]
+
+for each u in iso collect con mod u;
+\end{code}
+With a formulation as in \cite[p.~123]{Chou:88}, that uses oriented
+angles, we may force all Napoleon triangles to be erected on the {\em
+same} side (internally resp.\ externally) and prove a more general
+theorem as above. Taking isosceles triangles with equal base angles
+and (due to one more degree of freedom) $x_5$ as independent the
+conclusion remains valid:
+\begin{code}
+polys2:=\{\>\>sqrdist(P,B)-sqrdist(P,C),\+\+\\ 
+	sqrdist(Q,A)-sqrdist(Q,C),  \\
+	sqrdist(R,A)-sqrdist(R,B), \\
+	num(p3\_angle(R,A,B)-p3\_angle(P,B,C)), \\
+	num(p3\_angle(Q,C,A)-p3\_angle(P,B,C))\};\-\-\\[6pt]
+
+sol:=solve(polys2,\{x1,x2,x3,x4,x6\});\\
+sub(first sol,con);
+\end{code}
+again simplifies to zero. Note that the new theorem is of linear type.
+
+\section{The Procedures Supplied by \geo}\label{description}
+
+This section contains a short description of all procedures available
+in \geo. We refer to the data types {\tt Scalar, Point, Line, Circle1}
+and {\tt Circle} described above. Booleans are represented as extended
+booleans, i.e.\ the procedure returns a {\tt Scalar} that is zero iff
+the condition is fulfilled. In some cases also a non zero result has a
+geometric meaning. For example, {\tt collinear(A,B,C)} returns the
+signed area of the corresponding parallelogram.
+\bigskip
+
+\xxyy{angle\_sum(a,b:Scalar):Scalar }{Returns $\tan(\alpha+\beta)$, if
+$a=\tan(\alpha), b=\tan(\beta)$.} 
+\xxyy{altitude(A,B,C:Point):Line }{The altitude from $A$ onto
+$g(BC)$. } 
+\xxyy{c1\_circle(M:Point,sqr:Scalar):Circle}{The circle with given
+center and sqradius.}  
+\xxyy{cc\_tangent(c1,c2:Circle):Scalar}{Zero iff $c_1$ and $c_2$ are
+tangent.}  
+\xxyy{choose\_pc(M:Point,r,u):Point}{Chooses a point on the circle
+around $M$ with radius $r$ using its rational parametrization with
+parameter  $u$.}
+\xxyy{choose\_pl(a:Line,u):Point }{Chooses a point on $a$ using
+parameter $u$.} 
+\xxyy{Circle(c1,c2,c3,c4:Scalar):Circle}{The {\tt Circle} constructor.} 
+\xxyy{Circle1(M:Point,sqr:Scalar):Circle1}{The {\tt Circle1}
+constructor. } 
+\xxyy{circle\_center(c:Circle):Point}{The center of $c$.} 
+\xxyy{circle\_sqradius(c:Circle):Point}{The sqradius of $c$.} 
+\xxyy{cl\_tangent(c:Circle,l:Line):Scalar}{Zero iff $l$ is tangent to
+$c$.} 
+\xxyy{collinear(A,B,C:Point):Scalar}{Zero iff $A,B,C$ are on a common
+line. In general the signed area of the parallelogram spanned by
+$\vec{AB}$ and $\vec{AC}$. }
+\xxyy{concurrent(a,b,c:Line):Scalar}{Zero iff $a,b,c$ have a common
+point.} 
+\xxyy{intersection\_point(a,b:Line):Point}{The intersection point of
+the lines $a,b$. }
+\xxyy{l2\_angle(a,b:Line):Scalar}{Tangens of the angle between $a$ and
+$b$. } 
+\xxyy{Line(a,b,c:Scalar):Line}{The {\tt Line} constructor.}
+\xxyy{lot(P:Point,a:Line):Line}{The perpendicular from $P$ onto $a$.}
+\xxyy{median(A,B,C:Point):Line}{The median line from $A$ to $BC$.}
+\xxyy{midpoint(A,B:Point):Point}{The midpoint of $AB$. }
+\xxyy{mp(B,C:Point):Line}{The midpoint perpendicular of $BC$.}
+\xxyy{orthogonal(a,b:Line):Scalar}{zero iff the lines $a,b$ are
+orthogonal. }
+\xxyy{other\_cc\_point(P:Point,c1,c2:Circle):Point}{ $c_1$ and $c_2$
+intersect at $P$. The procedure returns the second intersection
+point. }
+\xxyy{other\_cl\_point(P:Point,c:Circle,l:Line):Point}{$c$ and $l$
+intersect at $P$. The procedure returns the second intersection
+point.}
+\xxyy{p3\_angle(A,B,C:Point):Scalar}{Tangens of the angle between
+$\vec{BA}$ and $\vec{BC}$. }
+\xxyy{p3\_circle(A,B,C:Point):Circle\ {\rm or\ }\\
+p3\_circle1(A,B,C:Point):Circle1}{The circle through 3 given points. }
+\xxyy{p4\_circle(A,B,C,D:Point):Scalar}{Zero iff four given points
+are on a common circle. }
+\xxyy{par(P:Point,a:Line):Line}{The line through $P$ parallel to
+$a$. } 
+\xxyy{parallel(a,b:Line):Scalar}{Zero iff the lines $a,b$ are
+parallel. }
+\xxyy{pedalpoint(P:Point,a:Line):Point}{The pedal point of the
+perpendicular from $P$ onto $a$.} 
+\xxyy{Point(a,b:Scalar):Point}{The {\tt Point} constructor.}
+\xxyy{point\_on\_bisector(P,A,B,C:Point):Scalar}{Zero iff $P$ is a
+point on the (inner or outer) bisector of the angle $\angle\,ABC$.}  
+\xxyy{point\_on\_circle(P:Point,c:Circle):Scalar\ {\rm or\ }\\
+point\_on\_circle1(P:Point,c:Circle1):Scalar}{Zero iff $P$ is on the
+circle $c$.} 
+\xxyy{point\_on\_line(P:Point,a:Line):Scalar}{Zero iff $P$ is on the
+line $a$. }
+\xxyy{pp\_line(A,B:Point):Line}{The line through $A$ and $B$.}
+\xxyy{sqrdist(A,B:Point):Scalar}{Square of the distance between $A$
+and $B$.} 
+\xxyy{sympoint(P:Point,l:Line):Point}{The point symmetric to $P$ wrt.\
+the line $l$.} 
+\xxyy{symline(a:Line,l:Line):Line}{The line symmetric to $a$ wrt.\ the
+line $l$.} 
+\xxyy{varpoint(A,B:Point,u):Point}{The point $D=u\cdot A+(1-u)\cdot
+B$. }
+
+\noindent \geo\ supplies as additional tools the functions
+\bigskip
+
+\xxyy{extractmat(polys,vars)}{Returns the coefficient matrix of the
+list of equations $polys$ that are linear in the variables $vars$. }
+\xxyy{red\_hom\_coords(u:\{Line,Circle\})}{Returns the reduced
+homogeneous coordinates of $u$, i.e., divides out the content. }
+
+
+
+\section{More Examples}
+
+Here we give a more detailed explanation of some of the examples
+collected in the test file {\tt geometry.tst} and give a list of
+exercises. Their solutions can be found in the test file, too.
+
+\subsection{Theorems that can be translated into theorems of
+constructive or linear type}
+
+There are many geometry theorems that may be reformulated as theorems
+of constructive type.
+\medskip
+
+
+\noindent 9) The affine version of {\em Desargue's theorem}: 
+\begin{quote}
+If two triangles $\Delta\,ABC$ and $\Delta\,RST$ are in similarity
+position,\linebreak i.e., $g(AB)\,\|g(RS),\ g(BC)\|g(ST)$ and
+$g(AC)\|g(RT)$, then $g(AR),\linebreak g(BS)$ and $g(CT)$ pass through
+a common point (or are parallel).
+\end{quote}
+
+The given configuration may be constructed step by step in the
+following way: Take $A,B,C,R$ arbitrarily, choose $S$ arbitrarily on
+the line through $R$ parallel to $g(AB)$ and $T$ as the intersection
+point of the lines through $R$ parallel to $g(AC)$ and through $S$
+parallel to $g(BC)$.
+\begin{code}\>\+
+A:=Point(a1,a2); B:=Point(b1,b2);\\ 
+C:=Point(c1,c2); R:=Point(d1,d2);\\
+S:=choose\_pl(par(R,pp\_line(A,B)),u);\\
+T:=intersection\_point(\\\>\>
+	par(R,pp\_line(A,C)),par(S,pp\_line(B,C)));\\[6pt]
+
+con:=concurrent(pp\_line(A,R),pp\_line(B,S),pp\_line(C,T));
+\end{code}
+Another proof may be obtained translating the statement into a theorem
+of linear type. Since the geometric conditions put no restrictions on
+$A,B,C,R$, one restriction on $S$ ($g(AB)\|g(RS)$) and two
+restrictions on $T$ ($g(BC)\|g(ST),\,$ $g(AC)\|g(RT)$),
+we may take as generic coordinates
+\begin{code}\>\+
+A:=Point(u1,u2); B:=Point(u3,u4); C:=Point(u5,u6);\\
+R:=Point(u7,u8); S:=Point(u9,x1); T:=Point(x2,x3);
+\end{code}
+with $u_1,\ldots,u_9$ independent and $x_1,x_2,x_3$ dependent, as
+polynomial conditions
+\begin{code}\+\+
+polys:=\{\>\>parallel(pp\_line(R,S),pp\_line(A,B)),\\
+	parallel(pp\_line(S,T),pp\_line(B,C)),\\
+	parallel(pp\_line(R,T),pp\_line(A,C))\};
+\end{code}
+and as conclusion
+\begin{code}\>
+con:=concurrent(pp\_line(A,R),pp\_line(B,S),pp\_line(C,T));
+\end{code}
+The polynomial conditions are linear in $x_1,x_2,x_3$ and thus 
+\begin{code}\>\+
+sol:=solve(polys,\{x1,x2,x3\});\\
+sub(sol,con);
+\end{code}
+proves the theorem since the expression obtained from $con$
+substituting the dependent variables by their rational expressions in
+$\uhh$ simplifies to zero.
+\medskip
+
+The general version of {\em Desargue's theorem}:
+\begin{quote}
+The lines $g(AR),\ g(BS)$ and $g(CT)$ pass through a common point iff
+the intersection points $g(AB)\wedge g(RS),\ g(BC)\wedge g(ST)$ and
+$g(AC)\wedge g(RT)$ are collinear.
+\end{quote}
+may be reduced to the above theorem by a projective transformation
+mapping the line through the three intersection points to infinity.
+Its algebraic formulation
+\begin{code}\>\+
+A:=Point(0,0); B:=Point(0,1); C:=Point(u5,u6);\\
+R:=Point(u7,u8); S:=Point(u9,u1); T:=Point(u2,x1);\\[6pt]
+con1:=collinear(\+\\intersection\_point(pp\_line(R,S),pp\_line(A,B)),\\
+	intersection\_point(pp\_line(S,T),pp\_line(B,C)),\\
+	intersection\_point(pp\_line(R,T),pp\_line(A,C)));\-\\
+
+con2:=concurrent(pp\_line(A,R),pp\_line(B,S),pp\_line(C,T));
+\end{code}
+contains a polynomial $con_2$ linear in $x_1$ and a rational function
+$con_1$ with numerator quadratic in $x_1$ that factors as
+\[{\rm num}(con_1)=con_2\cdot {\rm collinear}(R,S,T)\]
+thus also proving the general theorem.
+\medskip
+
+\noindent 10) Consider the following theorem about the {\em Brocard
+points} (\cite[p.~336]{Chou:88})
+\begin{quote}
+Let $\Delta\,ABC$ be a triangle. The circles $c_1$ through $A,B$ and
+tangent to $g(AC)$, $c_2$ through $B,C$ and tangent to $g(AB)$, and
+$c_3$ through $A,C$ and tangent to $g(BC)$ pass through a common
+point.
+\end{quote}
+It leads to a theorem of linear type that can't be translated into
+constructive type in an obvious way. The circles may be described each
+by 3 dependent variables and 3 conditions
+\begin{code}\>\+
+A:=Point(0,0); B:=Point(1,0); C:=Point(u1,u2);\\[6pt]
+
+c1:=Circle(1,x1,x2,x3);\\
+c2:=Circle(1,x4,x5,x6);\\
+c3:=Circle(1,x7,x8,x9);\-\\[6pt]
+
+polys:=\{\>\>
+	cl\_tangent(c1,pp\_line(A,C)), \+\+\\
+	point\_on\_circle(A,c1), \\
+	point\_on\_circle(B,c1), \\
+	cl\_tangent(c2,pp\_line(A,B)), \\
+	point\_on\_circle(B,c2), \\
+	point\_on\_circle(C,c2), \\
+	cl\_tangent(c3,pp\_line(B,C)), \\
+	point\_on\_circle(A,c3), \\
+	point\_on\_circle(C,c3)\};
+\end{code}
+that are linear in the dependent variables. Hence the coordinates of
+the circles and the intersection point of two of them may be computed
+and checked for incidence with the third circle:
+\begin{code}\>\+
+vars:=\{x1,x2,x3,x4,x5,x6,x7,x8,x9\};\\
+sol:=solve(polys,vars);\\[6pt]
+
+P:=other\_cc\_point(C,sub(sol,c1),sub(sol,c2));\\
+con:=point\_on\_circle(P,sub(sol,c3));
+\end{code}
+Again $con$ simplifies to zero thus proving the theorem.
+\medskip
+
+Even some theorems involving nonlinear objects as circles may be
+translated into theorems of constructive type using a rational
+parametrization of the non linear object. For a circle with radius $r$
+and center $M=(m_1,m_2)$ we may use the rational parametrization
+\[\{(\frac{1-u^2}{1+u^2}r+m_1,\frac{2u}{1+u^2}r+m_2)\ |\ u\in {\bf
+C}\}.\] 
+This way we can prove
+\medskip
+
+\noindent 11) {\em Simson's theorem} (\cite[p. 261]{Chou:84},
+\cite[thm. 2.51]{Coxeter:67}):
+\begin{quote}
+Let $P$ be a point on the circle circumscribed to the triangle
+$\Delta\,ABC$ and $X,Y,Z$ the pedal points of the perpendiculars from
+$P$ onto the lines passing through pairs of vertices of the triangle.
+These points are collinear.
+\end{quote}
+
+Take the center $M$ of the circumscribed circle as the origin and $r$
+as its radius. The proof of the problem may be mechanized in the
+following way:
+\begin{code}\>\+
+        M:=Point(0,0);\\
+        A:=choose\_pc(M,r,u1);\\
+        B:=choose\_pc(M,r,u2);\\
+        C:=choose\_pc(M,r,u3);\\
+        P:=choose\_pc(M,r,u4);\\
+        X:=pedalpoint(P,pp\_line(A,B));\\
+        Y:=pedalpoint(P,pp\_line(B,C));\\
+        Z:=pedalpoint(P,pp\_line(A,C));\\[8pt]
+ 
+        con:=collinear(X,Y,Z);
+\end{code}
+Since $con$ simplifies to zero this proves the theorem.
+
+ 
+\subsection{Theorems of equational type}
+
+An ``almost'' constructive proof of Simson's theorem may be obtained
+in the following way:
+\begin{code}\>\+
+	A:=Point(0,0); B:=Point(u1,u2);\\
+	C:=Point(u3,u4); P:=Point(u5,x1);\\
+        X:=pedalpoint(P,pp\_line(A,B));\\
+        Y:=pedalpoint(P,pp\_line(B,C));\\
+        Z:=pedalpoint(P,pp\_line(A,C));\\[6pt]
+
+	poly:=p4\_circle(A,B,C,P);\\[6pt]
+ 
+        con:=collinear(X,Y,Z);
+\end{code}
+There is a single dependent variable bound by the quadratic condition
+$poly$ that the given points are on a common circle. $con$ is a
+rational expression with numerator equal to
+\formel{poly\cdot {\rm collinear}(A,B,C)^2. }
+Since the second factor may be considered as degeneracy condition this
+also proves Simson's theorem. The factors of the denominator
+\formel{{\rm den}(con)={\rm sqrdist}(A,B)\cdot {\rm sqrdist}(A,C)\cdot
+{\rm sqrdist}(B,C) }
+are exactly the non degeneracy conditions collected during the
+computation. They may be printed with {\tt print\_ndg()}.
+\medskip
+
+One may also substitute the rational coordinate construction of
+$X,Y,Z$ through {\tt pedalpoint} with additional dependent variables
+and polynomial conditions:
+\begin{code}\>\+
+M:=Point(0,0); A:=Point(0,1); \\
+B:=Point(u1,x1); C:=Point(u2,x2); P:=Point(u3,x3);\\
+X:=varpoint(A,B,x4);\\ Y:=varpoint(B,C,x5);\\ Z:=varpoint(A,C,x6);
+\end{code}
+The polynomial conditions
+\begin{code}
+polys:=\{\>\> sqrdist(M,B)-1, sqrdist(M,C)-1, sqrdist(M,P)-1,\+\+\\
+	orthogonal(pp\_line(A,B),pp\_line(P,X)),\\
+	orthogonal(pp\_line(A,C),pp\_line(P,Z)),\\
+	orthogonal(pp\_line(B,C),pp\_line(P,Y))\};
+\end{code}
+contain three quadratic polynomials in $x_1,x_2,x_3$ and three
+polynomials linear in $x_4,x_5,x_6$. The quadratic polynomials
+correspond to different points on the circle with given
+$x$-coordinate.  The best variable order eliminates linear variables
+first. Thus the following computations prove the theorem
+\begin{code}
+con:=collinear(X,Y,Z);\\[8pt]
+
+vars:=\{x4,x5,x6,x1,x2,x3\};\\
+setring(vars,\{\},lex);\\
+setideal(polys,polys);\\
+con mod gbasis polys;
+\end{code}
+since the conclusion polynomial reduces to zero.
+\medskip
+
+\noindent 12) The Butterfly Theorem (\cite[p. 269]{Chou:84},
+\cite[thm. 2.81]{Coxeter:67}) :
+\begin{quote}
+Let $A,B,C,D$ be four points on a circle with center $O$, $P$ the
+intersection point of $AC$ and $BD$ and $F$ resp. $G$ the intersection
+point of the line through $P$ perpendicular to $OP$ with $AB$
+resp. $CD$. Then $P$ is the midpoint of $FG$.
+\end{quote}
+Taking $P$ as the origin and the lines $g(FG)$ and $g(OP)$ as axes we
+get the following coordinatization:
+\begin{code}\>\+
+P:=Point(0,0); O:=Point(u1,0);\\
+A:=Point(u2,u3); B:=Point(u4,x1);\\
+C:=Point(x2,x3); D:=Point(x4,x5); \\
+F:=Point(0,x6); G:=Point(0,x7);\-\\[6pt]
+
+polys:=\{\>\> sqrdist(O,B)-sqrdist(O,A),\+\+\\
+	sqrdist(O,C)-sqrdist(O,A), \\
+	sqrdist(O,D)-sqrdist(O,A),\\
+	point\_on\_line(P,pp\_line(A,C)),\\
+	point\_on\_line(P,pp\_line(B,D)),\\
+	point\_on\_line(F,pp\_line(A,D)),\\
+	point\_on\_line(G,pp\_line(B,C))\};\-\-\\[6pt]
+
+con:=num sqrdist(P,midpoint(F,G));
+\end{code}
+Note that the formulation of the theorem includes $A\neq C$ and $B\neq
+D$. Hence the conclusion may (and will) fail on some of the components
+of $Z(polys)$. This can be avoided supplying appropriate constraints
+to the \gr\ factorizer:
+\begin{code}\>\+
+vars:=\{x6,x7,x3,x5,x1,x2,x4\};\\
+setring(vars,\{\},lex);\\[6pt]
+
+sol:=groebfactor(polys,\{sqrdist(A,C),sqrdist(B,D)\});\\[6pt]
+
+for each u in sol collect con mod u;
+\end{code}
+$sol$ contains a single solution that reduces the conclusion $con$ to
+zero. Hence the \gr\ factorizer could split the components and remove
+the auxiliary ones.
+
+
+
+Note that there is also a constructive proof of the Butterfly theorem,
+see {\tt geometry.tst}.
+\medskip
+
+
+\noindent 13) Let's prove another property of Feuerbach's circle
+(\cite[thm. 5.61]{Coxeter:67}): 
+\begin{quote}
+For an arbitrary triangle $\Delta\,ABC$ Feuerbach's circle is tangent
+to its in- and excircles (tangent circles for short).
+\end{quote}
+Take the same coordinates as in example 5 and construct the
+coordinates of the center $N$ of Feuerbach's circle $c_1$ as in
+example 4:
+\begin{code}\>\+
+A:=Point(0,0); B:=Point(2,0); C:=Point(u1,u2);\\
+ 
+M:=intersection\_point(mp(A,B),mp(B,C));\\
+H:=intersection\_point(altitude(A,B,C),altitude(B,C,A));\\
+N:=midpoint(M,H);\\[6pt]	
+
+c1:=c1\_circle(N,sqrdist(N,midpoint(A,B)));
+\end{code}
+The coordinates of the center {\tt P:=Point(x1,x2)} of one of the
+tangent circles are bound by the conditions
+\begin{code}
+polys:=\{point\_on\_bisector(P,A,B,C), point\_on\_bisector(P,B,C,A)\};
+\end{code}
+Due to the choice of the coordinates $x_2$ is the radius of this
+circle.  Hence the conclusion may be expressed as
+\begin{code}\>
+con:=cc\_tangent(c1\_circle(P,x2\^{}2),c1);
+\end{code}
+The polynomial conditions $polys$ have four generic solutions, the
+centers of the four tangent circles, as derived in example 5. Since
+\begin{code}\>\+
+vars:=\{x1,x2\};\\
+setring(vars,\{\},lex);\\
+setideal(polys,polys);\\
+num con mod gbasis polys;
+\end{code}
+yields zero this proves that all four circles are tangent to
+Feuerbach's circle. \cite[ch.5,\S 6]{Coxeter:67} points out that
+Feuerbach's circle of $\Delta\,ABC$ coincides with Feuerbach's circle
+of each of the triangles $\Delta\,ABH,\, \Delta\,ACH$ and
+$\Delta\,BCH$. Hence there are another 12 circles tangent to
+$c_1$. This may be proved
+
+
+
+
+Note that the proof in \cite{Coxeter:67} uses inversion geometry. The
+author doesn't know about a really ``elementary'' proof of this
+theorem.
+
+\section{Exercises}
+
+\begin{itemize}
+\item[1.] (\cite[p. 267]{Chou:84}) Let $ABCD$ be a square and $P$ a
+point on the line parallel to $BD$ through $C$ such that
+$l(BD)=l(BP)$, where $l(BD)$ denotes the distance between $B$ and
+$D$. Let $Q$ be the intersection point of $BF$ and $CD$. Show that
+$l(DP)=l(DQ)$.
+
+\item[2.] The altitudes' pedal points theorem: Let $P,Q,R$ be the
+altitudes' pedal points in the triangle $\Delta\,ABC$. Show that the
+altitude through $Q$ bisects $\angle\, PQR$.
+
+\item[3.] Let $\Delta\,ABC$ be an arbitrary triangle. Consider the
+three altitude pedal points and the pedal points of the perpendiculars
+from these points onto the the opposite sides of the triangle. Show
+that these 6 points are on a common circle, the {\em Taylor circle}.  
+
+\item[4.] Prove the formula \[F(\Delta\,ABC) = \frac{a\,b\,c}{4\,R},\]
+for the area of the triangle $\Delta\,ABC$, if $a,b,c$ are the lengths
+of its sides and $R$ the radius of its circumscribed circle.
+
+\item[5.] (\cite[p. 283]{Chou:84}) Let $k$ be a circle, $A$ the contact
+point of the tangent line from a point $B$ to $k$, $M$ the midpoint of
+$AB$ and $D$ a point on $k$. Let $C$ be the second intersection point
+of $DM$ with $k$, $E$ the second intersection point of $BD$ with $k$
+and $F$ the second intersection point of $BC$ with $k$. Show that $EF$
+is parallel to $AB$.
+
+\item[6.] (35th IMO 1995, Toronto, problem 1, \cite{IMO}) Let
+$A,B,C,D$ be four distinct points on a line, in that order. The
+circles with diameters $AC$ and $BD$ intersect at the points $X$ and
+$Y$. The line $XY$ meets $BC$ at the point $Z$. Let $P$ be a point on
+the line $XY$ different from $Z$. The line $CP$ intersects the circle
+with diameter $AC$ at the points $C$ and $M$, and the line $BP$
+intersects the circle with diameter $BD$ at the points $B$ and
+$N$. Prove that the lines $AM, DN$ and $XY$ are concurrent.
+
+\item[7.] (34th IMO 1994, Hong Kong, problem 2, \cite{IMO}) $ABC$ is
+an isosceles triangle with $AB = AC$. Suppose that
+\begin{enumerate}
+\item[(i)] $M$ is the midpoint of $BC$ and $O$ is the point on the
+line $AM$ such that $OB$ is perpendicular to $AB$;
+\item[(ii)] $Q$ is an arbitrary point on the segment $BC$ different
+from $B$ and $C$;
+\item[(iii)] $E$ lies on the line $AB$ and $F$ lies on the line $AC$
+such that $E, Q$ and $F$ are distinct and collinear.
+\end{enumerate}
+\noindent
+Prove that $OQ$ is perpendicular to $EF$ if and only if $QE = QF$.
+
+\item[8.] (4th IMO 1959, Czechia, problem 6, \cite{Morozova:68}) Show
+that the distance $d$ between the centers of the inscribed and the
+circumscribed circles of a triangle $\Delta\,ABC$ satisfies
+$d^2=r^2-2r\rho$, where $r$ is the radius of the circumscribed circle
+and $\rho$ the radius of the inscribed circle.
+
+\item[9.] (1th IMO 1959, Roumania, problem 5, \cite{Morozova:68}) Let
+$M$ be a point on AB, $AMCD$ and $MBEF$ squares to the same side of
+$g(AB)$ and $N$ the intersection point of their circumscribed circles,
+different from $M$.
+\begin{enumerate}
+\item[(i)] Show that $g(AF)$ and $g(BC)$ intersect at $N$.
+\item[(ii)] Show that all lines $g(MN)$ for various $M$ meet at a
+common point. 
+\end{enumerate}
+
+\end{itemize}
+
+
+\bibliographystyle{plain} \bibliography{geometry}
+
+\end{document}

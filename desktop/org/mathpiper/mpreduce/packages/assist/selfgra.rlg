@@ -1,0 +1,1402 @@
+1: load cantens$
+*** enlarging fasl space by 25000 items
+
+*** .. redefined 
+
+2: in "selfgra.tst";
+%%%%%%%%%%%%%%%%%%%  A. Burnel and H. Caprasse  %%%%%%%%%%%%%%%%%%%%%%
+
+% 
+% Application of CANTENS.RED 
+% Date: 15/09/98
+%
+% Computes the gluon contribution  to the gluon self-energy in the 
+% "finite" theory
+% contains initially 18 terms which are reduced to 10 by cantens 
+% in a dm-dimensional Minkowski space and 8 terms in a 4-dimensional 
+% Minkowski space. 
+% 
+%          *** Will look much nicer if run in the GRAPHIC mode 
+%
+% LOADING CANTENS
+
+load cantens$
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Structure definitions, Minkowski space  X internal symmetry space
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+off onespace;
+
+ % to be allowed to work within several subspaces
+
+define_spaces wholespace={dm+di,signature=1};
+
+
+t
+
+define_spaces mink={dm,signature=1};
+
+
+t
+%,indexrange=0 .. 3};
+define_spaces internal={di,signature=0};
+
+
+t
+%,indexrange=4 .. 11};
+%
+%  Memberships of indices:
+mk_ids_belong_space({mu1,mu2,nu1,nu2,tau},mink);
+
+
+t
+
+mk_ids_belong_space({a1,a2,b1,b2,c1,c2},internal);
+
+
+t
+
+
+                         %%%%%%%%%%%%%%%%
+                         % Used Tensors %
+                         %%%%%%%%%%%%%%%%
+
+%%                 variables x1,x2 and xi=x1-x2,
+%%                 aa, gluon field
+%%                 dd, contracted gluon field 
+%%                 which appears inside the expression
+%%                 a is the antisymmetric structure constant of SU3.
+%%                 It is called "a" to assure that it appears first 
+%%                 inside REDUCE expressions and to assure that they 
+%%                 factorize in front of the output expression.
+%
+tensor aa,dd,a,x1,x2,xi;
+
+
+t
+ % tensor declaration
+
+make_variables x1,x2,xi;
+
+
+t
+ % variable declaration
+
+% declare to which subspace the declared tensors belong to.
+
+make_tensor_belong_space(x1,mink);
+
+
+mink
+ 
+make_tensor_belong_space(x2,mink);
+
+
+mink
+
+make_tensor_belong_space(xi,mink);
+
+
+mink
+
+make_tensor_belong_space(a,internal);
+
+
+internal
+
+
+antisymmetric a;
+
+ % antisymmetry of structure constant.
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  % building of starting expression to be manipulated  and simplified.
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+es1:=g^2*a(a1,b1,c1)*a(a2,b2,c2);
+
+
+        a1 b1 c1  a2 b2 c2  2
+es1 := a        *a        *g
+
+as1:=-aa(x1,nu1,-b1)*aa(x2,nu2,-b2)*df(df(dd(xi,mu1,-c1,mu2,-c2),xi(nu
+1)),xi(nu2))
+*dd(xi,-mu1,-a1,-mu2,-a2);
+
+
+             nu1           nu2 
+as1 :=  - aa       (x1)*aa       (x2)*dd              (xi)
+                 b1            b2        mu1 a1 mu2 a2
+
+              mu1    mu2          nu1   nu2
+       *df(dd              (xi),xi   ,xi   )
+                  c1     c2
+
+as2:=-aa(x1,nu1,-b1)*aa(x2,nu2,-b2)*df(dd(xi,mu1,-c1,mu2,-a2),xi(nu1))
+
+*df(dd(xi,-mu1,-a1,-mu2,-c2),xi(nu2));
+
+
+             nu1           nu2 
+as2 :=  - aa       (x1)*aa       (x2)
+                 b1            b2
+
+                                  nu2
+       *df(dd              (xi),xi   )
+              mu1 a1 mu2 c2
+
+              mu1    mu2          nu1
+       *df(dd              (xi),xi   )
+                  c1     a2
+
+as3:=aa(x1,nu1,-b1)*df(aa(x2,mu2,-c2),x2(nu2))*df(dd(xi,mu1,-c1,nu2,-b
+2),xi(nu1))
+*dd(xi,-mu1,-a1,-mu2,-a2);
+
+
+          nu1                                   mu2          nu2
+as3 := aa       (x1)*dd              (xi)*df(aa       (x2),x2   )
+              b1        mu1 a1 mu2 a2               c2
+
+              mu1    nu2          nu1
+       *df(dd              (xi),xi   )
+                  c1     b2
+
+as4:=aa(x1,nu1,-b1)*df(aa(x2,mu2,-c2),x2(nu2))*df(dd(xi,mu1,-c1,-mu2,-
+a2),xi(nu1))
+*dd(xi,-mu1,-a1,nu2,-b2);
+
+
+          nu1                  nu2              mu2          nu2
+as4 := aa       (x1)*dd              (xi)*df(aa       (x2),x2   )
+              b1        mu1 a1     b2               c2
+
+              mu1                 nu1
+       *df(dd              (xi),xi   )
+                  c1 mu2 a2
+
+as5:=-aa(x1,nu1,-b1)*aa(x2,mu2,-a2)*df(dd(xi,mu1,-c1,nu2,-b2),xi(nu1))
+
+*df(dd(xi,-mu1,-a1,-mu2,-c2),xi(nu2));
+
+
+             nu1           mu2 
+as5 :=  - aa       (x1)*aa       (x2)
+                 b1            a2
+
+                                  nu2
+       *df(dd              (xi),xi   )
+              mu1 a1 mu2 c2
+
+              mu1    nu2          nu1
+       *df(dd              (xi),xi   )
+                  c1     b2
+
+as6:=-aa(x1,nu1,-b1)*aa(x2,mu2,-a2)*df(df(dd(xi,mu1,-c1,-mu2,-c2),xi(n
+u1)),xi(nu2))
+*dd(xi,-mu1,-a1,nu2,-b2);
+
+
+             nu1           mu2                  nu2 
+as6 :=  - aa       (x1)*aa       (x2)*dd              (xi)
+                 b1            a2        mu1 a1     b2
+
+              mu1                 nu1   nu2
+       *df(dd              (xi),xi   ,xi   )
+                  c1 mu2 c2
+
+as7:=-df(aa(x1,mu1,-c1),x1(nu1))*aa(x2,nu2,-b2)*df(dd(xi,nu1,-b1,mu2,-
+c2),xi(nu2))
+*dd(xi,-mu1,-a1,-mu2,-a2);
+
+
+             nu2 
+as7 :=  - aa       (x2)*dd              (xi)
+                 b2        mu1 a1 mu2 a2
+
+              mu1          nu1        nu1    mu2          nu2
+       *df(aa       (x1),x1   )*df(dd              (xi),xi   )
+                  c1                      b1     c2
+
+as8:=-df(aa(x1,mu1,-c1),x1(nu1))*aa(x2,nu2,-b2)*df(dd(xi,-mu1,-a1,mu2,
+-c2),xi(nu2))
+*dd(xi,nu1,-b1,-mu2,-a2);
+
+
+             nu2           nu1 
+as8 :=  - aa       (x2)*dd              (xi)
+                 b2            b1 mu2 a2
+
+              mu1          nu1               mu2          nu2
+       *df(aa       (x1),x1   )*df(dd              (xi),xi   )
+                  c1                  mu1 a1     c2
+
+as9:=df(aa(x1,mu1,-c1),x1(nu1))*df(aa(x2,mu2,-c2),x2(nu2))*dd(xi,nu1,-
+b1,nu2,-b2)
+*dd(xi,-mu1,-a1,-mu2,-a2);
+
+
+                               nu1    nu2 
+as9 := dd              (xi)*dd              (xi)
+          mu1 a1 mu2 a2            b1     b2
+
+              mu1          nu1        mu2          nu2
+       *df(aa       (x1),x1   )*df(aa       (x2),x2   )
+                  c1                      c2
+
+as10:=df(aa(x1,mu1,-c1),x1(nu1))*df(aa(x2,mu2,-c2),x2(nu2))*dd(xi,nu1,
+-b1,-mu2,-a2)
+*dd(xi,-mu1,-a1,nu2,-b2);
+
+
+                  nu2           nu1 
+as10 := dd              (xi)*dd              (xi)
+           mu1 a1     b2            b1 mu2 a2
+
+               mu1          nu1        mu2          nu2
+        *df(aa       (x1),x1   )*df(aa       (x2),x2   )
+                   c1                      c2
+
+as11:=-df(aa(x1,mu1,-c1),x1(nu1))*aa(x2,mu2,-a2)*df(dd(xi,-mu1,-a1,-mu
+2,-c2),xi(nu2))
+*dd(xi,nu1,-b1,nu2,-b2);
+
+
+              mu2           nu1    nu2 
+as11 :=  - aa       (x2)*dd              (xi)
+                  a2            b1     b2
+
+               mu1          nu1                            nu2
+        *df(aa       (x1),x1   )*df(dd              (xi),xi   )
+                   c1                  mu1 a1 mu2 c2
+
+as12:=-df(aa(x1,mu1,-c1),x1(nu1))*aa(x2,mu2,-a2)*df(dd(xi,nu1,-b1,-mu2
+,-c2),xi(nu2))
+*dd(xi,-mu1,-a1,nu2,-b2);
+
+
+              mu2                  nu2 
+as12 :=  - aa       (x2)*dd              (xi)
+                  a2        mu1 a1     b2
+
+               mu1          nu1        nu1                 nu2
+        *df(aa       (x1),x1   )*df(dd              (xi),xi   )
+                   c1                      b1 mu2 c2
+
+as13:=-aa(x1,mu1,-a1)*aa(x2,nu2,-b2)*df(dd(xi,nu1,-b1,mu2,-c2),xi(nu2)
+)
+*df(dd(xi,-mu1,-c1,-mu2,-a2),xi(nu1));
+
+
+              mu1           nu2 
+as13 :=  - aa       (x1)*aa       (x2)
+                  a1            b2
+
+                                   nu1
+        *df(dd              (xi),xi   )
+               mu1 c1 mu2 a2
+
+               nu1    mu2          nu2
+        *df(dd              (xi),xi   )
+                   b1     c2
+
+as14:=-aa(x1,mu1,-a1)*aa(x2,nu2,-b2)*dd(xi,nu1,-b1,mu2,-a2)
+*df(dd(xi,-mu1,-c1,-mu2,-c2),xi(nu1),xi(nu2));
+
+
+              mu1           nu2           nu1    mu2 
+as14 :=  - aa       (x1)*aa       (x2)*dd              (xi)
+                  a1            b2            b1     a2
+
+                                   nu1   nu2
+        *df(dd              (xi),xi   ,xi   )
+               mu1 c1 mu2 c2
+
+as15:=aa(x1,mu1,-a1)*df(aa(x2,mu2,-c2),x2(nu2))*dd(xi,nu1,-b1,nu2,-b2)
+
+*df(dd(xi,-mu1,-c1,-mu2,-a2),xi(nu1));
+
+
+           mu1           nu1    nu2              mu2          nu2
+as15 := aa       (x1)*dd              (xi)*df(aa       (x2),x2   )
+               a1            b1     b2               c2
+
+                                   nu1
+        *df(dd              (xi),xi   )
+               mu1 c1 mu2 a2
+
+as16:=aa(x1,mu1,-a1)*df(aa(x2,mu2,-c2),x2(nu2))*dd(xi,nu1,-b1,-mu2,-a2
+)
+*df(dd(xi,-mu1,-c1,nu2,-b2),xi(nu1));
+
+
+           mu1           nu1                     mu2          nu2
+as16 := aa       (x1)*dd              (xi)*df(aa       (x2),x2   )
+               a1            b1 mu2 a2               c2
+
+                      nu2          nu1
+        *df(dd              (xi),xi   )
+               mu1 c1     b2
+
+as17:=-aa(x1,mu1,-a1)*aa(x2,mu2,-a2)*df(dd(xi,-mu1,-c1,-mu2,-c2),xi(nu
+1),xi(nu2))
+*dd(xi,nu1,-b1,nu2,-b2);
+
+
+              mu1           mu2           nu1    nu2 
+as17 :=  - aa       (x1)*aa       (x2)*dd              (xi)
+                  a1            a2            b1     b2
+
+                                   nu1   nu2
+        *df(dd              (xi),xi   ,xi   )
+               mu1 c1 mu2 c2
+
+as18:=-aa(x1,mu1,-a1)*aa(x2,mu2,-a2)*df(dd(xi,-mu1,-c1,nu2,-b2),xi(nu1
+))
+*df(dd(xi,nu1,-b1,-mu2,-c2),xi(nu2));
+
+
+              mu1           mu2 
+as18 :=  - aa       (x1)*aa       (x2)
+                  a1            a2
+
+                      nu2          nu1
+        *df(dd              (xi),xi   )
+               mu1 c1     b2
+
+               nu1                 nu2
+        *df(dd              (xi),xi   )
+                   b1 mu2 c2
+
+
+     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+     % building of the gluon contribution to gluon self-energy %
+     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+es:=es1*for i:=1:18 sum mkid(as,i);
+
+
+       a1 b1 c1  a2 b2 c2  2        mu1           mu2 
+es := a        *a        *g *( - aa       (x1)*aa       (x2)
+                                        a1            a2
+
+             nu1    nu2 
+         *dd              (xi)
+                 b1     b2
+
+                                    nu1   nu2       mu1 
+         *df(dd              (xi),xi   ,xi   ) - aa       (x1)
+                mu1 c1 mu2 c2                           a1
+
+             mu2                     nu2          nu1
+         *aa       (x2)*df(dd              (xi),xi   )
+                 a2           mu1 c1     b2
+
+                nu1                 nu2       mu1 
+         *df(dd              (xi),xi   ) - aa       (x1)
+                    b1 mu2 c2                     a1
+
+             nu2           nu1    mu2 
+         *aa       (x2)*dd              (xi)
+                 b2            b1     a2
+
+                                    nu1   nu2       mu1 
+         *df(dd              (xi),xi   ,xi   ) - aa       (x1)
+                mu1 c1 mu2 c2                           a1
+
+             nu2                                  nu1
+         *aa       (x2)*df(dd              (xi),xi   )
+                 b2           mu1 c1 mu2 a2
+
+                nu1    mu2          nu2       mu1 
+         *df(dd              (xi),xi   ) + aa       (x1)
+                    b1     c2                     a1
+
+             nu1                     mu2          nu2
+         *dd              (xi)*df(aa       (x2),x2   )
+                 b1 mu2 a2               c2
+
+                       nu2          nu1       mu1 
+         *df(dd              (xi),xi   ) + aa       (x1)
+                mu1 c1     b2                     a1
+
+             nu1    nu2              mu2          nu2
+         *dd              (xi)*df(aa       (x2),x2   )
+                 b1     b2               c2
+
+                                    nu1       nu1 
+         *df(dd              (xi),xi   ) - aa       (x1)
+                mu1 c1 mu2 a2                     b1
+
+             mu2                  nu2 
+         *aa       (x2)*dd              (xi)
+                 a2        mu1 a1     b2
+
+                mu1                 nu1   nu2       nu1 
+         *df(dd              (xi),xi   ,xi   ) - aa       (x1)
+                    c1 mu2 c2                           b1
+
+             mu2                                  nu2
+         *aa       (x2)*df(dd              (xi),xi   )
+                 a2           mu1 a1 mu2 c2
+
+                mu1    nu2          nu1       nu1 
+         *df(dd              (xi),xi   ) - aa       (x1)
+                    c1     b2                     b1
+
+             nu2 
+         *aa       (x2)*dd              (xi)
+                 b2        mu1 a1 mu2 a2
+
+                mu1    mu2          nu1   nu2       nu1 
+         *df(dd              (xi),xi   ,xi   ) - aa       (x1)
+                    c1     c2                           b1
+
+             nu2                                  nu2
+         *aa       (x2)*df(dd              (xi),xi   )
+                 b2           mu1 a1 mu2 c2
+
+                mu1    mu2          nu1       nu1 
+         *df(dd              (xi),xi   ) + aa       (x1)
+                    c1     a2                     b1
+
+                                     mu2          nu2
+         *dd              (xi)*df(aa       (x2),x2   )
+             mu1 a1 mu2 a2               c2
+
+                mu1    nu2          nu1       nu1 
+         *df(dd              (xi),xi   ) + aa       (x1)
+                    c1     b2                     b1
+
+                    nu2              mu2          nu2
+         *dd              (xi)*df(aa       (x2),x2   )
+             mu1 a1     b2               c2
+
+                mu1                 nu1       mu2 
+         *df(dd              (xi),xi   ) - aa       (x2)
+                    c1 mu2 a2                     a2
+
+                    nu2              mu1          nu1
+         *dd              (xi)*df(aa       (x1),x1   )
+             mu1 a1     b2               c1
+
+                nu1                 nu2       mu2 
+         *df(dd              (xi),xi   ) - aa       (x2)
+                    b1 mu2 c2                     a2
+
+             nu1    nu2              mu1          nu1
+         *dd              (xi)*df(aa       (x1),x1   )
+                 b1     b2               c1
+
+                                    nu2       nu2 
+         *df(dd              (xi),xi   ) - aa       (x2)
+                mu1 a1 mu2 c2                     b2
+
+                                     mu1          nu1
+         *dd              (xi)*df(aa       (x1),x1   )
+             mu1 a1 mu2 a2               c1
+
+                nu1    mu2          nu2       nu2 
+         *df(dd              (xi),xi   ) - aa       (x2)
+                    b1     c2                     b2
+
+             nu1                     mu1          nu1
+         *dd              (xi)*df(aa       (x1),x1   )
+                 b1 mu2 a2               c1
+
+                       mu2          nu2
+         *df(dd              (xi),xi   ) + dd              (xi)
+                mu1 a1     c2                 mu1 a1 mu2 a2
+
+             nu1    nu2              mu1          nu1
+         *dd              (xi)*df(aa       (x1),x1   )
+                 b1     b2               c1
+
+                mu2          nu2              nu2 
+         *df(aa       (x2),x2   ) + dd              (xi)
+                    c2                 mu1 a1     b2
+
+             nu1                     mu1          nu1
+         *dd              (xi)*df(aa       (x1),x1   )
+                 b1 mu2 a2               c1
+
+                mu2          nu2
+         *df(aa       (x2),x2   ))
+                    c2
+
+
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      % Are some terms identical ? %
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+es:=canonical es;
+
+
+       a1 a2 b1  b2 c1 c2  2        mu1           mu2 
+es := a        *a        *g *( - aa       (x1)*aa       (x2)
+                                        b2            a1
+
+             nu1    nu2 
+         *dd              (xi)
+                 c1     a2
+
+                                    nu1   nu2       mu1 
+         *df(dd              (xi),xi   ,xi   ) + aa       (x1)
+                mu1 c2 mu2 b1                           b2
+
+             mu2           nu1    nu2 
+         *aa       (x2)*dd              (xi)
+                 a1            c1     a2
+
+                                    mu2   nu1       mu1 
+         *df(dd              (xi),xi   ,xi   ) + aa       (x1)
+                mu1 c2 nu2 b1                           b2
+
+             mu2           nu1    nu2 
+         *aa       (x2)*dd              (xi)
+                 a1            c1     a2
+
+                                    mu1   nu2       mu1 
+         *df(dd              (xi),xi   ,xi   ) - aa       (x1)
+                nu1 c2 mu2 b1                           b2
+
+             mu2           nu1    nu2 
+         *aa       (x2)*dd              (xi)
+                 a1            c1     a2
+
+                                    mu1   mu2       mu1 
+         *df(dd              (xi),xi   ,xi   ) + aa       (x1)
+                nu1 c2 nu2 b1                           b2
+
+             mu2                     nu2 
+         *aa       (x2)*df(dd              (xi),xi   )
+                 a1           mu1 c2     b1       nu1
+
+                                    nu2       mu1 
+         *df(dd              (xi),xi   ) - aa       (x1)
+                nu1 c1 mu2 a2                     b2
+
+             mu2                     nu2 
+         *aa       (x2)*df(dd              (xi),xi   )
+                 a1           mu1 c2     b1       nu1
+
+                                    mu2       mu1 
+         *df(dd              (xi),xi   ) - aa       (x1)
+                nu1 c1 nu2 a2                     b2
+
+             mu2                                  mu1
+         *aa       (x2)*df(dd              (xi),xi   )
+                 a1           nu1 c1 nu2 a2
+
+                nu1                           mu1 
+         *df(dd              (xi),xi   ) + aa       (x1)
+                    c2 mu2 b1       nu2           b2
+
+             mu2                                  mu1
+         *aa       (x2)*df(dd              (xi),xi   )
+                 a1           nu1 c1 nu2 a2
+
+                nu1    nu2          mu2       mu1 
+         *df(dd              (xi),xi   ) - aa       (x1)
+                    c2     b1                     b2
+
+             mu2    nu1 
+         *dd              (xi)*df(aa       (x2),x2   )
+                 c1     a1           nu1 a2       nu2
+
+                                    mu2       mu1 
+         *df(dd              (xi),xi   ) + aa       (x1)
+                mu1 c2 nu2 b1                     b2
+
+             mu2    nu1 
+         *dd              (xi)*df(aa       (x2),x2   )
+                 c1     a1           nu1 a2       nu2
+
+                                    mu1       mu1 
+         *df(dd              (xi),xi   ) + aa       (x1)
+                mu2 c2 nu2 b1                     b2
+
+             mu2    nu1              nu2          nu1
+         *dd              (xi)*df(aa       (x2),x2   )
+                 c1     a1               a2
+
+                                    mu2       mu1 
+         *df(dd              (xi),xi   ) - aa       (x1)
+                mu1 c2 nu2 b1                     b2
+
+             mu2    nu1              nu2          nu1
+         *dd              (xi)*df(aa       (x2),x2   )
+                 c1     a1               a2
+
+                                    mu1       mu1 
+         *df(dd              (xi),xi   ) + aa       (x2)
+                mu2 c2 nu2 b1                     b2
+
+             mu2    nu1 
+         *dd              (xi)*df(aa       (x1),x1   )
+                 a1     c1           mu2 a2       nu2
+
+                                    nu1       mu1 
+         *df(dd              (xi),xi   ) - aa       (x2)
+                nu2 b1 mu1 c2                     b2
+
+             mu2    nu1 
+         *dd              (xi)*df(aa       (x1),x1   )
+                 a1     c1           mu2 a2       nu2
+
+                                    mu1       mu1 
+         *df(dd              (xi),xi   ) - aa       (x2)
+                nu2 b1 nu1 c2                     b2
+
+             mu2    nu1              nu2          mu2
+         *dd              (xi)*df(aa       (x1),x1   )
+                 a1     c1               a2
+
+                                    nu1       mu1 
+         *df(dd              (xi),xi   ) + aa       (x2)
+                nu2 b1 mu1 c2                     b2
+
+             mu2    nu1              nu2          mu2
+         *dd              (xi)*df(aa       (x1),x1   )
+                 a1     c1               a2
+
+                                    mu1       mu1    mu2 
+         *df(dd              (xi),xi   ) - dd              (xi)
+                nu2 b1 nu1 c2                     b2     a1
+
+             nu1    nu2                           mu1
+         *dd              (xi)*df(aa       (x1),x1   )
+                 c1     a2           nu1 c2
+
+                             nu2       mu1    mu2 
+         *df(aa       (x2),x2   ) + dd              (xi)
+                mu2 b1                     b2     a1
+
+             nu1    nu2                           mu1
+         *dd              (xi)*df(aa       (x1),x1   )
+                 c1     a2           nu1 c2
+
+                             mu2
+         *df(aa       (x2),x2   ))
+                nu2 b1
+
+length es;
+
+
+18
+
+% no simplification
+    
+tensor dc;
+
+
+t
+  % new tensor
+make_tensor_belong_space(dc,mink);
+
+
+mink
+ % belongs to Minkowski space
+make_partic_tens(rho,metric);
+
+
+t
+ % "rho" is a metric tensor
+make_tensor_belong_space(rho,internal);
+
+
+internal
+ % in the internal space
+
+          %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          % rewriting rule and subsequent simplification %  
+          % dd(mu1,mu2,a,b)=>rho(a,b)*dc(mu1,mu2)        %
+          %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ddrule:={dd({~xi},~a,~b,~c,~d)=>rho(b,d)*dc({xi},a,c)};
+
+
+              ~a ~b ~c ~d            b d    a c
+ddrule := {dd            (~xi) => rho   *dc    (xi)}
+                                            
+
+
+
+          %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+          % simplification after application of the rule % 
+          %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+es:=(es where ddrule);
+
+
+       a1 a2 b1  b2 c1 c2  2        mu1           mu2 
+es := a        *a        *g *( - aa       (x1)*aa       (x2)
+                                        b2            a1
+
+             nu1 nu2                         nu1   nu2
+         *dc        (xi)*df(dc        (xi),xi   ,xi   )*rho
+                               mu1 mu2                     a2 c1
+
+                        mu1           mu2           nu1 nu2
+         *rho      + aa       (x1)*aa       (x2)*dc        (xi)
+             b1 c2          b2            a1        
+
+                              mu2   nu1
+         *df(dc        (xi),xi   ,xi   )*rho     *rho      + 
+                mu1 nu2                     a2 c1    b1 c2
+
+            mu1           mu2           nu1 nu2
+         aa       (x1)*aa       (x2)*dc        (xi)
+                b2            a1        
+
+                              mu1   nu2
+         *df(dc        (xi),xi   ,xi   )*rho     *rho      - 
+                nu1 mu2                     a2 c1    b1 c2
+
+            mu1           mu2           nu1 nu2
+         aa       (x1)*aa       (x2)*dc        (xi)
+                b2            a1        
+
+                              mu1   mu2
+         *df(dc        (xi),xi   ,xi   )*rho     *rho      + 
+                nu1 nu2                     a2 c1    b1 c2
+
+            mu1           mu2                  nu2
+         aa       (x1)*aa       (x2)*df(dc        (xi),xi   )
+                b2            a1           mu1           nu1
+
+                              nu2
+         *df(dc        (xi),xi   )*rho     *rho      - 
+                nu1 mu2               a2 c1    b1 c2
+
+            mu1           mu2                  nu2
+         aa       (x1)*aa       (x2)*df(dc        (xi),xi   )
+                b2            a1           mu1           nu1
+
+                              mu2
+         *df(dc        (xi),xi   )*rho     *rho      - 
+                nu1 nu2               a2 c1    b1 c2
+
+            mu1           mu2                            mu1
+         aa       (x1)*aa       (x2)*df(dc        (xi),xi   )
+                b2            a1           nu1 nu2
+
+                nu1 
+         *df(dc        (xi),xi   )*rho     *rho      + 
+                    mu2       nu2     a2 c1    b1 c2
+
+            mu1           mu2                            mu1
+         aa       (x1)*aa       (x2)*df(dc        (xi),xi   )
+                b2            a1           nu1 nu2
+
+                nu1 nu2       mu2
+         *df(dc        (xi),xi   )*rho     *rho      - 
+                                      a2 c1    b1 c2
+
+            mu1           mu2 nu1
+         aa       (x1)*dc        (xi)*df(aa       (x2),x2   )
+                b2                          nu1 a2       nu2
+
+                              mu2
+         *df(dc        (xi),xi   )*rho     *rho      + 
+                mu1 nu2               a1 c1    b1 c2
+
+            mu1           mu2 nu1
+         aa       (x1)*dc        (xi)*df(aa       (x2),x2   )
+                b2                          nu1 a2       nu2
+
+                              mu1
+         *df(dc        (xi),xi   )*rho     *rho      + 
+                mu2 nu2               a1 c1    b1 c2
+
+            mu1           mu2 nu1           nu2          nu1
+         aa       (x1)*dc        (xi)*df(aa       (x2),x2   )
+                b2                              a2
+
+                              mu2
+         *df(dc        (xi),xi   )*rho     *rho      - 
+                mu1 nu2               a1 c1    b1 c2
+
+            mu1           mu2 nu1           nu2          nu1
+         aa       (x1)*dc        (xi)*df(aa       (x2),x2   )
+                b2                              a2
+
+                              mu1
+         *df(dc        (xi),xi   )*rho     *rho      + 
+                mu2 nu2               a1 c1    b1 c2
+
+            mu1           mu2 nu1
+         aa       (x2)*dc        (xi)*df(aa       (x1),x1   )
+                b2                          mu2 a2       nu2
+
+                              nu1
+         *df(dc        (xi),xi   )*rho     *rho      - 
+                nu2 mu1               a1 c1    b1 c2
+
+            mu1           mu2 nu1
+         aa       (x2)*dc        (xi)*df(aa       (x1),x1   )
+                b2                          mu2 a2       nu2
+
+                              mu1
+         *df(dc        (xi),xi   )*rho     *rho      - 
+                nu2 nu1               a1 c1    b1 c2
+
+            mu1           mu2 nu1           nu2          mu2
+         aa       (x2)*dc        (xi)*df(aa       (x1),x1   )
+                b2                              a2
+
+                              nu1
+         *df(dc        (xi),xi   )*rho     *rho      + 
+                nu2 mu1               a1 c1    b1 c2
+
+            mu1           mu2 nu1           nu2          mu2
+         aa       (x2)*dc        (xi)*df(aa       (x1),x1   )
+                b2                              a2
+
+                              mu1
+         *df(dc        (xi),xi   )*rho     *rho      - 
+                nu2 nu1               a1 c1    b1 c2
+
+            mu1 mu2        nu1 nu2                        mu1
+         dc        (xi)*dc        (xi)*df(aa       (x1),x1   )
+                                             nu1 c2
+
+                             nu2
+         *df(aa       (x2),x2   )*rho     *rho      + 
+                mu2 b1               a1 b2    a2 c1
+
+            mu1 mu2        nu1 nu2                        mu1
+         dc        (xi)*dc        (xi)*df(aa       (x1),x1   )
+                                             nu1 c2
+
+                             mu2
+         *df(aa       (x2),x2   )*rho     *rho     )
+                nu2 b1               a1 b2    a2 c1
+
+%
+es:=canonical es;
+
+
+       a1 a2 b1  b2        2        mu1           mu2 
+es := a        *a        *g *( - aa       (x1)*aa       (x2)
+                    a1 a2               b1            b2
+
+             nu1 nu2                         nu1   nu2
+         *dc        (xi)*df(dc        (xi),xi   ,xi   ) + 
+                               mu1 mu2
+
+            mu1           mu2           nu1 nu2
+         aa       (x1)*aa       (x2)*dc        (xi)
+                b1            b2        
+
+                              mu2   nu1       mu1 
+         *df(dc        (xi),xi   ,xi   ) + aa       (x1)
+                mu1 nu2                           b1
+
+             mu2           nu1 nu2
+         *aa       (x2)*dc        (xi)
+                 b2        
+
+                              mu1   nu2       mu1 
+         *df(dc        (xi),xi   ,xi   ) - aa       (x1)
+                nu1 mu2                           b1
+
+             mu2           nu1 nu2
+         *aa       (x2)*dc        (xi)
+                 b2        
+
+                              mu1   mu2       mu1 
+         *df(dc        (xi),xi   ,xi   ) + aa       (x1)
+                nu1 nu2                           b1
+
+             mu2                  nu1
+         *aa       (x2)*df(dc        (xi),xi   )
+                 b2           mu1           nu2
+
+                              nu1       mu1           mu2 
+         *df(dc        (xi),xi   ) - aa       (x1)*aa       (x2)
+                nu2 mu2                     b1            b2
+
+                    nu1                                mu2
+         *df(dc        (xi),xi   )*df(dc        (xi),xi   ) - 
+                mu1           nu2        nu2 nu1
+
+            mu1           mu2                            nu2
+         aa       (x1)*aa       (x2)*df(dc        (xi),xi   )
+                b1            b2           nu1 mu2
+
+                nu1 nu2       mu1       mu1           mu2 
+         *df(dc        (xi),xi   ) + aa       (x1)*aa       (x2)
+                                            b1            b2
+
+                              mu2        nu1 nu2       mu1
+         *df(dc        (xi),xi   )*df(dc        (xi),xi   ) + 
+                nu1 nu2                  
+
+            mu1           mu2 nu1
+         aa       (x1)*dc        (xi)*df(aa       (x2),x2   )
+                b1                          nu1 b2       nu2
+
+                              mu2       mu1           mu2 nu1
+         *df(dc        (xi),xi   ) - aa       (x1)*dc        (xi)
+                mu1 nu2                     b1        
+
+                                                      mu1
+         *df(aa       (x2),x2   )*df(dc        (xi),xi   ) - 
+                nu1 b2       nu2        mu2 nu2
+
+            mu1           mu2 nu1           nu2          nu1
+         aa       (x1)*dc        (xi)*df(aa       (x2),x2   )
+                b1                              b2
+
+                              mu2       mu1           mu2 nu1
+         *df(dc        (xi),xi   ) + aa       (x1)*dc        (xi)
+                mu1 nu2                     b1        
+
+                nu2          nu1                      mu1
+         *df(aa       (x2),x2   )*df(dc        (xi),xi   ) - 
+                    b2                  mu2 nu2
+
+            mu1           mu2 nu1
+         aa       (x2)*dc        (xi)*df(aa       (x1),x1   )
+                b1                          mu2 b2       nu2
+
+                              nu1       mu1           mu2 nu1
+         *df(dc        (xi),xi   ) + aa       (x2)*dc        (xi)
+                nu2 mu1                     b1        
+
+                                                      mu1
+         *df(aa       (x1),x1   )*df(dc        (xi),xi   ) + 
+                mu2 b2       nu2        nu2 nu1
+
+            mu1           mu2 nu1           nu2          mu2
+         aa       (x2)*dc        (xi)*df(aa       (x1),x1   )
+                b1                              b2
+
+                              nu1       mu1           mu2 nu1
+         *df(dc        (xi),xi   ) - aa       (x2)*dc        (xi)
+                nu2 mu1                     b1        
+
+                nu2          mu2                      mu1
+         *df(aa       (x1),x1   )*df(dc        (xi),xi   ) - 
+                    b2                  nu2 nu1
+
+            mu1 mu2        nu1 nu2                        mu1
+         dc        (xi)*dc        (xi)*df(aa       (x1),x1   )
+                                             nu1 b1
+
+                             nu2       mu1 mu2        nu1 nu2
+         *df(aa       (x2),x2   ) + dc        (xi)*dc        (xi)
+                mu2 b2                                
+
+                             mu1                     mu2
+         *df(aa       (x1),x1   )*df(aa       (x2),x2   ))
+                nu1 b1                  nu2 b2
+
+
+
+               %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+               %         Particular gauge:                       %
+               % case of Fermi gauge : dc(mu1,mu2)=g(mu1,mu2)*dc %
+               %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+make_partic_tens(delta,delta);
+
+
+t
+ % delta tenseur defined with name "delta"
+
+% eta tenseur introduced with name "eta":
+make_partic_tens(eta,eta);
+
+
+t
+  
+make_tensor_belong_space(eta,mink);
+
+
+mink
+
+
+%  rule for the choice of gauge:
+
+dcrule:={dc({~xi},~a,~c)=>eta(a,c)*dc(xi)};
+
+
+              ~a ~c            a c   xi
+dcrule := {dc      (~xi) => eta   *dc  }
+              
+
+
+% rewriting of the expression
+
+res:=(es where dcrule);
+
+
+        a1 a2 b1  b2        2        mu1           mu2 
+res := a        *a        *g *( - aa       (x1)*aa       (x2)
+                     a1 a2               b1            b2
+
+                              mu1   mu2                nu1 nu2
+          *dc(xi)*df(dc(xi),xi   ,xi   )*eta       *eta        + 
+                                            nu1 nu2
+
+             mu1           mu2 
+          aa       (x1)*aa       (x2)*dc(xi)
+                 b1            b2
+
+                       mu1   nu2                nu1 nu2
+          *df(dc(xi),xi   ,xi   )*eta       *eta        + 
+                                     mu2 nu1
+
+             mu1           mu2 
+          aa       (x1)*aa       (x2)*dc(xi)
+                 b1            b2
+
+                       mu2   nu1                nu1 nu2
+          *df(dc(xi),xi   ,xi   )*eta       *eta        - 
+                                     mu1 nu2
+
+             mu1           mu2 
+          aa       (x1)*aa       (x2)*dc(xi)
+                 b1            b2
+
+                       nu1   nu2                nu1 nu2
+          *df(dc(xi),xi   ,xi   )*eta       *eta        - 
+                                     mu1 mu2
+
+             mu1           mu2             nu1 
+          aa       (x1)*aa       (x2)*delta    *df(dc(xi),xi   )
+                 b1            b2          mu1              nu2
+
+                       mu2                  mu1 
+          *df(dc(xi),xi   )*eta        + aa       (x1)
+                               nu1 nu2          b1
+
+              mu2             nu1 
+          *aa       (x2)*delta    *df(dc(xi),xi   )
+                  b2          mu1              nu2
+
+                       nu1                  mu1 
+          *df(dc(xi),xi   )*eta        + aa       (x1)
+                               mu2 nu2          b1
+
+              mu2                    mu1              mu2
+          *aa       (x2)*df(dc(xi),xi   )*df(dc(xi),xi   )
+                  b2
+
+                         nu1 nu2      mu1           mu2 
+          *eta       *eta        - aa       (x1)*aa       (x2)
+              nu1 nu2                     b1            b2
+
+                       mu1              nu2                nu1 nu2
+          *df(dc(xi),xi   )*df(dc(xi),xi   )*eta       *eta
+                                                mu2 nu1
+
+                mu1 
+           - aa       (x1)*dc(xi)*df(aa       (x2),x2   )
+                    b1                  nu1 b2       nu2
+
+                       mu1                mu2 nu1      mu1 
+          *df(dc(xi),xi   )*eta       *eta        + aa       (x1)
+                               mu2 nu2                     b1
+
+                                                      mu2
+          *dc(xi)*df(aa       (x2),x2   )*df(dc(xi),xi   )
+                        nu1 b2       nu2
+
+                         mu2 nu1      mu1 
+          *eta       *eta        + aa       (x1)*dc(xi)
+              mu1 nu2                     b1
+
+                 nu2          nu1              mu1
+          *df(aa       (x2),x2   )*df(dc(xi),xi   )*eta
+                     b2                                mu2 nu2
+
+              mu2 nu1      mu1 
+          *eta        - aa       (x1)*dc(xi)
+                               b1
+
+                 nu2          nu1              mu2
+          *df(aa       (x2),x2   )*df(dc(xi),xi   )*eta
+                     b2                                mu1 nu2
+
+              mu2 nu1      mu1 
+          *eta        + aa       (x2)*dc(xi)
+                               b1
+
+                                               mu1
+          *df(aa       (x1),x1   )*df(dc(xi),xi   )*eta
+                 mu2 b2       nu2                      nu1 nu2
+
+              mu2 nu1      mu1 
+          *eta        - aa       (x2)*dc(xi)
+                               b1
+
+                                               nu1
+          *df(aa       (x1),x1   )*df(dc(xi),xi   )*eta
+                 mu2 b2       nu2                      mu1 nu2
+
+              mu2 nu1      mu1 
+          *eta        - aa       (x2)*dc(xi)
+                               b1
+
+                 nu2          mu2              mu1
+          *df(aa       (x1),x1   )*df(dc(xi),xi   )*eta
+                     b2                                nu1 nu2
+
+              mu2 nu1      mu1 
+          *eta        + aa       (x2)*dc(xi)
+                               b1
+
+                 nu2          mu2              nu1
+          *df(aa       (x1),x1   )*df(dc(xi),xi   )*eta
+                     b2                                mu1 nu2
+
+              mu2 nu1           2                    mu1
+          *eta        - (dc(xi)) *df(aa       (x1),x1   )
+                                        nu1 b1
+
+                              nu2     mu1 mu2    nu1 nu2
+          *df(aa       (x2),x2   )*eta       *eta        + 
+                 mu2 b2
+
+                  2                    mu1
+          (dc(xi)) *df(aa       (x1),x1   )
+                          nu1 b1
+
+                              mu2     mu1 mu2    nu1 nu2
+          *df(aa       (x2),x2   )*eta       *eta       )
+                 nu2 b2
+
+
+% simplification
+
+res:=canonical res;
+
+
+        a1 a2 b1  b2        2        mu1 
+res := a        *a        *g *( - aa       (x1)*aa       (x2)
+                     a1 a2               b1        mu1 b2
+
+                                    mu2       mu1 
+          *dc(xi)*df(dc(xi),xi   ,xi   ) - aa       (x1)
+                              mu2                 b1
+
+              mu2                           mu1   mu2
+          *aa       (x2)*dc(xi)*df(dc(xi),xi   ,xi   )*dm + 2
+                  b2
+
+              mu1           mu2 
+          *aa       (x1)*aa       (x2)*dc(xi)
+                  b1            b2
+
+                       mu1   mu2       mu1           mu2 
+          *df(dc(xi),xi   ,xi   ) + aa       (x1)*aa       (x2)
+                                           b1            b2
+
+                       mu1              mu2          mu1 
+          *df(dc(xi),xi   )*df(dc(xi),xi   )*dm - aa       (x1)
+                                                         b1
+
+              mu2                    mu1              mu2
+          *aa       (x2)*df(dc(xi),xi   )*df(dc(xi),xi   ) - 
+                  b2
+
+             mu1 
+          aa       (x1)*dc(xi)*df(aa       (x2),x2   )
+                 b1                  mu1 b2       mu2
+
+                       mu2       mu1 
+          *df(dc(xi),xi   ) + aa       (x1)*dc(xi)
+                                     b1
+
+                 mu2          mu1              mu2
+          *df(aa       (x2),x2   )*df(dc(xi),xi   ) + 
+                     b2
+
+             mu1 
+          aa       (x2)*dc(xi)*df(aa       (x1),x1   )
+                 b1                  mu1 b2       mu2
+
+                       mu2       mu1 
+          *df(dc(xi),xi   ) - aa       (x2)*dc(xi)
+                                     b1
+
+                 mu2          mu1              mu2            2
+          *df(aa       (x1),x1   )*df(dc(xi),xi   ) + (dc(xi))
+                     b2
+
+                 mu1                                  mu2
+          *df(aa       (x1),x1   )*df(aa       (x2),x2   ) - 
+                     b1       mu2        mu1 b2
+
+                  2       mu1 
+          (dc(xi)) *df(aa       (x1),x1   )
+                              b1       mu2
+
+                              mu1
+          *df(aa       (x2),x2   ))
+                 mu2 b2
+
+
+                %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                % last rewriting rule:             %
+                % second derivative of dc(xi) with %
+                %  respect to xi tensor is zero    %
+                %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+dalrule:={df(dc(xi),xi(~a),xi(-~a))=>0};
+
+
+                 xi   ~a
+dalrule := {df(dc  ,xi  ,xi  ) => 0}
+                           ~a
+
+res:=(res where dalrule);
+
+
+        a1 a2 b1  b2        2        mu1           mu2 
+res := a        *a        *g *( - aa       (x1)*aa       (x2)
+                     a1 a2               b1            b2
+
+                              mu1   mu2            mu1 
+          *dc(xi)*df(dc(xi),xi   ,xi   )*dm + 2*aa       (x1)
+                                                       b1
+
+              mu2                           mu1   mu2
+          *aa       (x2)*dc(xi)*df(dc(xi),xi   ,xi   ) + 
+                  b2
+
+             mu1           mu2                    mu1
+          aa       (x1)*aa       (x2)*df(dc(xi),xi   )
+                 b1            b2
+
+                       mu2          mu1           mu2 
+          *df(dc(xi),xi   )*dm - aa       (x1)*aa       (x2)
+                                        b1            b2
+
+                       mu1              mu2       mu1 
+          *df(dc(xi),xi   )*df(dc(xi),xi   ) - aa       (x1)
+                                                      b1
+
+                                                      mu2
+          *dc(xi)*df(aa       (x2),x2   )*df(dc(xi),xi   ) + 
+                        mu1 b2       mu2
+
+             mu1                     mu2          mu1
+          aa       (x1)*dc(xi)*df(aa       (x2),x2   )
+                 b1                      b2
+
+                       mu2       mu1 
+          *df(dc(xi),xi   ) + aa       (x2)*dc(xi)
+                                     b1
+
+                                               mu2
+          *df(aa       (x1),x1   )*df(dc(xi),xi   ) - 
+                 mu1 b2       mu2
+
+             mu1                     mu2          mu1
+          aa       (x2)*dc(xi)*df(aa       (x1),x1   )
+                 b1                      b2
+
+                       mu2            2       mu1 
+          *df(dc(xi),xi   ) + (dc(xi)) *df(aa       (x1),x1   )
+                                                  b1       mu2
+
+                              mu2            2
+          *df(aa       (x2),x2   ) - (dc(xi))
+                 mu1 b2
+
+                 mu1                                  mu1
+          *df(aa       (x1),x1   )*df(aa       (x2),x2   ))
+                     b1       mu2        mu2 b2
+
+canonical res - res;
+
+
+0
+ % gives 0
+length res;
+
+
+10
+   
+dm:=4;
+
+
+dm := 4
+ % particularization to 4-dimensional Minkowski space
+res4:=res;
+
+
+         a1 a2 b1  b2        2          mu1           mu2 
+res4 := a        *a        *g *( - 2*aa       (x1)*aa       (x2)
+                      a1 a2                 b1            b2
+
+                               mu1   mu2         mu1 
+           *dc(xi)*df(dc(xi),xi   ,xi   ) + 3*aa       (x1)
+                                                     b1
+
+               mu2                    mu1              mu2
+           *aa       (x2)*df(dc(xi),xi   )*df(dc(xi),xi   ) - 
+                   b2
+
+              mu1 
+           aa       (x1)*dc(xi)*df(aa       (x2),x2   )
+                  b1                  mu1 b2       mu2
+
+                        mu2       mu1 
+           *df(dc(xi),xi   ) + aa       (x1)*dc(xi)
+                                      b1
+
+                  mu2          mu1              mu2
+           *df(aa       (x2),x2   )*df(dc(xi),xi   ) + 
+                      b2
+
+              mu1 
+           aa       (x2)*dc(xi)*df(aa       (x1),x1   )
+                  b1                  mu1 b2       mu2
+
+                        mu2       mu1 
+           *df(dc(xi),xi   ) - aa       (x2)*dc(xi)
+                                      b1
+
+                  mu2          mu1              mu2            2
+           *df(aa       (x1),x1   )*df(dc(xi),xi   ) + (dc(xi))
+                      b2
+
+                  mu1                                  mu2
+           *df(aa       (x1),x1   )*df(aa       (x2),x2   ) - 
+                      b1       mu2        mu1 b2
+
+                   2       mu1 
+           (dc(xi)) *df(aa       (x1),x1   )
+                               b1       mu2
+
+                               mu1
+           *df(aa       (x2),x2   ))
+                  mu2 b2
+
+length res4;
+
+
+8
+ % 8  is the correct number of terms.
+
+
+
+end;
+
+3: quit;
+
+Quitting

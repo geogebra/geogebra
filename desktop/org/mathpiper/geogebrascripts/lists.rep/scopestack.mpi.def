@@ -1,9 +1,0 @@
-NewStack
-PushStackFrame
-PopStackFrame
-StackDepth
-AddToStack
-IsOnStack
-FindOnStack
-}
-

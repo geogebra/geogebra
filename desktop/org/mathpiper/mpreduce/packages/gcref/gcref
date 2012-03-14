@@ -1,0 +1,16 @@
+#!/bin/sh
+if [ -z "$REDUCE" ] ; then
+    REDUCE=redcsl
+fi
+for a in $*; do
+    echo "creating $(basename $a .red).tgf ... "
+    $REDUCE <<EOF  | grep '[*+][*+][*+]'
+load_package gcref$
+on gcref$
+in "$(basename $a .red).red"$
+out "$(basename $a .red).tgf"$
+off gcref$
+shut "$(basename $a .red).tgf"$
+bye$
+EOF
+done

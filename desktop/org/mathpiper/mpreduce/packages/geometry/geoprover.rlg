@@ -1,0 +1,1227 @@
+% GeoProver test file for Reduce, created on Jan 18 2003
+load cali,geoprover;
+
+
+off nat;
+
+ on echo;
+
+
+
+% The following "in" fails in the test harness that I use at present and
+% so I have put the contents of the file that would have been read in-line
+% in the test script.
+
+%in "$reduce/packages/geometry/supp.red"$
+
+%###############################################################
+%
+% FILE:    supp.red
+% AUTHOR:  graebe
+% CREATED: 2/2002
+% PURPOSE: Interface for the extended GEO syntax to Reduce
+% VERSION: $Id: supp.red,v 1.1 2002/12/26 16:27:22 compalg Exp $
+
+
+% Redistribution and use in source and binary forms, with or without
+% modification, are permitted provided that the following conditions are met:
+%
+%    * Redistributions of source code must retain the relevant copyright
+%      notice, this list of conditions and the following disclaimer.
+%    * Redistributions in binary form must reproduce the above copyright
+%      notice, this list of conditions and the following disclaimer in the
+%      documentation and/or other materials provided with the distribution.
+%
+% THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+% AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+% THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+% PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNERS OR
+% CONTRIBUTORS
+% BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+% CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+% SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+% INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+% CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+% ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+% POSSIBILITY OF SUCH DAMAGE.
+%
+
+algebraic procedure geo_simplify u; u;
+
+
+geo_simplify$
+
+algebraic procedure geo_normal u; u;
+
+
+geo_normal$
+
+algebraic procedure geo_subs(a,b,c); sub(a=b,c);
+
+
+geo_subs$
+
+
+algebraic procedure geo_gbasis(polys,vars);
+  begin
+  setring(vars,{},lex);
+  setideal(uhu,polys);
+  return gbasis uhu;
+  end;
+
+
+geo_gbasis$
+
+
+algebraic procedure geo_groebfactor(polys,vars,nondeg);
+  begin
+  setring(vars,{},lex);
+  return groebfactor(polys,nondeg);
+  end;
+
+
+geo_groebfactor$
+
+
+algebraic procedure geo_normalf(p,polys,vars);
+  begin
+  setring(vars,{},lex);
+  return p mod polys;
+  end;
+
+
+geo_normalf$
+
+
+algebraic procedure geo_eliminate(polys,vars,elivars);
+  begin
+  setring(vars,{},lex);
+  return eliminate(polys,elivars);
+  end;
+
+
+geo_eliminate$
+
+
+algebraic procedure geo_solve(polys,vars);
+  solve(polys,vars);
+
+
+geo_solve$
+
+
+algebraic procedure geo_solveconstrained(polys,vars,nondegs);
+  begin scalar u;
+  setring(vars,{},lex);
+  u:=groebfactor(polys,nondegs);
+  return for each x in u join solve(x,vars);
+  end;
+
+
+geo_solveconstrained$
+
+
+algebraic procedure geo_eval(con,sol);
+  for each x in sol collect sub(x,con);
+
+
+geo_eval$
+
+
+% End of what was in supp.red
+
+
+
+
+
+% Example Arnon
+% 
+% The problem:
+% Let $ABCD$ be a square and $P$ a point on the line parallel to $BD$
+% through $C$ such that $l(BD)=l(BP)$, where $l(BD)$ denotes the
+% distance between $B$ and $D$. Let $Q$ be the intersection point of
+% $BF$ and $CD$. Show that $l(DP)=l(DQ)$.
+% 
+% The solution:
+
+vars_:=List(x1, x2, x3);
+
+
+vars_ := {x1,x2,x3}$
+
+% Points
+A__:=Point(0,0);
+
+
+a__ := {0,0}$
+ B__:=Point(1,0);
+
+
+b__ := {1,0}$
+ P__:=Point(x1,x2);
+
+
+p__ := {x1,x2}$
+
+% coordinates
+D__:=rotate(A__,B__,1/2);
+
+
+d__ := {0,1}$
+
+C__:=par_point(D__,A__,B__);
+
+
+c__ := {1,1}$
+ 
+Q__:=varpoint(D__,C__,x3);
+
+
+q__ := {x3,1}$
+
+% polynomials
+polys_:=List(on_line(P__,par_line(C__,pp_line(B__,D__))),
+  eq_dist(B__,D__,B__,P__), on_line(Q__,pp_line(B__,P__)));
+
+
+polys_ := {x1 + x2 - 2,
+ - x1**2 + 2*x1 - x2**2 + 1,
+ - x1 + x2*x3 - x2 + 1}$
+
+% conclusion
+con_:=eq_dist(D__,P__,D__,Q__);
+
+
+con_ := x1**2 + x2**2 - 2*x2 - x3**2 + 1$
+
+% solution
+gb_:=geo_gbasis(polys_,vars_);
+
+
+gb_ := {x3**2 + 2*x3 - 2,2*x2 - x3 - 2,2*x1 + x3 - 2}$
+
+result_:=geo_normalf(con_,gb_,vars_);
+
+
+result_ := 0$
+
+
+
+% Example CircumCenter_1
+% 
+% The problem:
+% The intersection point of the midpoint perpendiculars is the
+% center of the circumscribed circle.
+% 
+% The solution:
+
+parameters_:=List(a1, a2, b1, b2, c1, c2);
+
+
+parameters_ := {a1,
+a2,
+b1,
+b2,
+c1,
+c2}$
+
+% Points
+A__:=Point(a1,a2);
+
+
+a__ := {a1,a2}$
+
+B__:=Point(b1,b2);
+
+
+b__ := {b1,b2}$
+
+C__:=Point(c1,c2);
+
+
+c__ := {c1,c2}$
+
+% coordinates
+M__:=intersection_point(p_bisector(A__,B__),
+  p_bisector(B__,C__));
+
+
+m__ := {(a1**2*b2 - a1**2*c2 + a2**2*b2 - a2**2*c2 - a2*b1**2 - a2*b2**2 + a2*c1
+**2 + a2*c2**2 + b1**2*c2 + b2**2*c2 - b2*c1**2 - b2*c2**2)/(2*(a1*b2 - a1*c2 - 
+a2*b1 + a2*c1 + b1*c2 - b2*c1)),
+( - a1**2*b1 + a1**2*c1 + a1*b1**2 + a1*b2**2 - a1*c1**2 - a1*c2**2 - a2**2*b1 +
+ a2**2*c1 - b1**2*c1 + b1*c1**2 + b1*c2**2 - b2**2*c1)/(2*(a1*b2 - a1*c2 - a2*b1
+ + a2*c1 + b1*c2 - b2*c1))}$
+
+% conclusion
+result_:=List( eq_dist(M__,A__,M__,B__), eq_dist(M__,A__,M__,C__) );
+
+
+result_ := {0,0}$
+
+
+
+% Example EulerLine_1
+% 
+% The problem:
+% Euler's line: The center $M$ of the circumscribed circle,
+% the orthocenter $H$ and the barycenter $S$ are collinear and $S$
+% divides $MH$ with ratio 1:2.
+% 
+% The solution:
+
+parameters_:=List(a1, a2, b1, b2, c1, c2);
+
+
+parameters_ := {a1,
+a2,
+b1,
+b2,
+c1,
+c2}$
+
+% Points
+A__:=Point(a1,a2);
+
+
+a__ := {a1,a2}$
+
+B__:=Point(b1,b2);
+
+
+b__ := {b1,b2}$
+
+C__:=Point(c1,c2);
+
+
+c__ := {c1,c2}$
+
+% coordinates
+S__:=intersection_point(median(A__,B__,C__),median(B__,C__,A__));
+
+
+s__ := {(a1 + b1 + c1)/3,(a2 + b2 + c2)/3}$
+
+M__:=intersection_point(p_bisector(A__,B__),
+  p_bisector(B__,C__));
+
+
+m__ := {(a1**2*b2 - a1**2*c2 + a2**2*b2 - a2**2*c2 - a2*b1**2 - a2*b2**2 + a2*c1
+**2 + a2*c2**2 + b1**2*c2 + b2**2*c2 - b2*c1**2 - b2*c2**2)/(2*(a1*b2 - a1*c2 - 
+a2*b1 + a2*c1 + b1*c2 - b2*c1)),
+( - a1**2*b1 + a1**2*c1 + a1*b1**2 + a1*b2**2 - a1*c1**2 - a1*c2**2 - a2**2*b1 +
+ a2**2*c1 - b1**2*c1 + b1*c1**2 + b1*c2**2 - b2**2*c1)/(2*(a1*b2 - a1*c2 - a2*b1
+ + a2*c1 + b1*c2 - b2*c1))}$
+
+H__:=intersection_point(altitude(A__,B__,C__),altitude(B__,C__,A__));
+
+
+h__ := {( - a1*a2*b1 + a1*a2*c1 + a1*b1*b2 - a1*c1*c2 - a2**2*b2 + a2**2*c2 + a2
+*b2**2 - a2*c2**2 - b1*b2*c1 + b1*c1*c2 - b2**2*c2 + b2*c2**2)/(a1*b2 - a1*c2 - 
+a2*b1 + a2*c1 + b1*c2 - b2*c1),
+(a1**2*b1 - a1**2*c1 + a1*a2*b2 - a1*a2*c2 - a1*b1**2 + a1*c1**2 - a2*b1*b2 + a2
+*c1*c2 + b1**2*c1 + b1*b2*c2 - b1*c1**2 - b2*c1*c2)/(a1*b2 - a1*c2 - a2*b1 + a2*
+c1 + b1*c2 - b2*c1)}$
+
+% conclusion
+result_:=List(is_collinear(M__,H__,S__), sqrdist(S__,fixedpoint(M__,H__,1/3)));
+
+
+result_ := {0,0}$
+
+
+
+% Example Brocard_3
+% 
+% The problem:
+% Theorem about the Brocard points:
+% Let $\Delta\,ABC$ be a triangle. The circles $c_1$ through $A,B$ and
+% tangent to $g(AC)$, $c_2$ through $B,C$ and tangent to $g(AB)$, and
+% $c_3$ through $A,C$ and tangent to $g(BC)$ pass through a common
+% point.
+% 
+% The solution:
+
+parameters_:=List(u1, u2);
+
+
+parameters_ := {u1,u2}$
+
+% Points
+A__:=Point(0,0);
+
+
+a__ := {0,0}$
+
+B__:=Point(1,0);
+
+
+b__ := {1,0}$
+
+C__:=Point(u1,u2);
+
+
+c__ := {u1,u2}$
+
+% coordinates
+M_1_:=intersection_point(altitude(A__,A__,C__),p_bisector(A__,B__));
+
+
+m_1_ := {1/2,( - u1)/(2*u2)}$
+
+M_2_:=intersection_point(altitude(B__,B__,A__),p_bisector(B__,C__));
+
+
+m_2_ := {1,(u1**2 - 2*u1 + u2**2 + 1)/(2*u2)}$
+
+M_3_:=intersection_point(altitude(C__,C__,B__),p_bisector(A__,C__));
+
+
+m_3_ := {( - u1**2 + 2*u1 - u2**2)/2,(u1**3 - u1**2 + u1*u2**2 + u2**2)/(2*u2)}$
+
+c1_:=pc_circle(M_1_,A__);
+
+
+c1_ := {u2, - u2,u1,0}$
+
+c2_:=pc_circle(M_2_,B__);
+
+
+c2_ := {u2, - 2*u2, - u1**2 + 2*u1 - u2**2 - 1,u2}$
+
+c3_:=pc_circle(M_3_,C__);
+
+
+c3_ := {u2,
+u2*(u1**2 - 2*u1 + u2**2),
+ - u1**3 + u1**2 - u1*u2**2 - u2**2,
+0}$
+
+P__:=other_cc_point(B__,c1_,c2_);
+
+
+p__ := {(u1**3 - u1**2 + u1*u2**2 + u1 + u2**2)/(u1**4 - 2*u1**3 + 2*u1**2*u2**2
+ + 3*u1**2 - 2*u1*u2**2 - 2*u1 + u2**4 + 3*u2**2 + 1),
+(u2*(u1**2 - 2*u1 + u2**2 + 1))/(u1**4 - 2*u1**3 + 2*u1**2*u2**2 + 3*u1**2 - 2*
+u1*u2**2 - 2*u1 + u2**4 + 3*u2**2 + 1)}$
+
+% conclusion
+result_:= on_circle(P__,c3_);
+
+
+result_ := 0$
+
+
+
+% Example Feuerbach_1
+% 
+% The problem:
+% Feuerbach's circle or nine-point circle: The midpoint $N$ of $MH$ is
+% the center of a circle that passes through nine special points, the
+% three pedal points of the altitudes, the midpoints of the sides of the
+% triangle and the midpoints of the upper parts of the three altitudes.
+% 
+% The solution:
+
+parameters_:=List(u1, u2, u3);
+
+
+parameters_ := {u1,u2,u3}$
+
+% Points
+A__:=Point(0,0);
+
+
+a__ := {0,0}$
+
+B__:=Point(u1,0);
+
+
+b__ := {u1,0}$
+
+C__:=Point(u2,u3);
+
+
+c__ := {u2,u3}$
+
+% coordinates
+H__:=intersection_point(altitude(A__,B__,C__),altitude(B__,C__,A__));
+
+
+h__ := {u2,(u2*(u1 - u2))/u3}$
+
+D__:=intersection_point(pp_line(A__,B__),pp_line(H__,C__));
+
+
+d__ := {u2,0}$
+
+M__:=intersection_point(p_bisector(A__,B__),
+  p_bisector(B__,C__));
+
+
+m__ := {u1/2,( - u1*u2 + u2**2 + u3**2)/(2*u3)}$
+
+N__:=midpoint(M__,H__);
+
+
+n__ := {(u1 + 2*u2)/4,(u1*u2 - u2**2 + u3**2)/(4*u3)}$
+
+% conclusion
+result_:=List( eq_dist(N__,midpoint(A__,B__),N__,midpoint(B__,C__)),
+  eq_dist(N__,midpoint(A__,B__),N__,midpoint(H__,C__)),
+  eq_dist(N__,midpoint(A__,B__),N__,D__) );
+
+
+result_ := {0,0,0}$
+
+
+
+% Example FeuerbachTangency_1
+% 
+% The problem:
+% For an arbitrary triangle $\Delta\,ABC$ Feuerbach's circle (nine-point
+% circle) is tangent to its 4 tangent circles.
+% 
+% The solution:
+
+vars_:=List(x1, x2);
+
+
+vars_ := {x1,x2}$
+
+parameters_:=List(u1, u2);
+
+
+parameters_ := {u1,u2}$
+
+% Points
+A__:=Point(0,0);
+
+
+a__ := {0,0}$
+
+B__:=Point(2,0);
+
+
+b__ := {2,0}$
+
+C__:=Point(u1,u2);
+
+
+c__ := {u1,u2}$
+
+P__:=Point(x1,x2);
+
+
+p__ := {x1,x2}$
+
+% coordinates
+M__:=intersection_point(p_bisector(A__,B__), p_bisector(B__,C__));
+
+
+m__ := {1,(u1**2 - 2*u1 + u2**2)/(2*u2)}$
+
+H__:=intersection_point(altitude(A__,B__,C__),altitude(B__,C__,A__));
+
+
+h__ := {u1,(u1*( - u1 + 2))/u2}$
+
+N__:=midpoint(M__,H__);
+
+
+n__ := {(u1 + 1)/2,( - u1**2 + 2*u1 + u2**2)/(4*u2)}$
+
+c1_:=pc_circle(N__,midpoint(A__,B__));
+
+
+c1_ := {2*u2,
+ - 2*u2*(u1 + 1),
+u1**2 - 2*u1 - u2**2,
+2*u1*u2}$
+
+Q__:=pedalpoint(P__,pp_line(A__,B__));
+
+
+q__ := {x1,0}$
+
+% polynomials
+polys_:=List(on_bisector(P__,A__,B__,C__), on_bisector(P__,B__,C__,A__));
+
+
+polys_ := {2*( - 2*u1*x1*x2 + 4*u1*x2 + u2*x1**2 - 4*u2*x1 - u2*x2**2 + 4*u2 + 4
+*x1*x2 - 8*x2),
+2*( - u1**3*x2 + u1**2*u2*x1 - u1**2*u2 + u1**2*x1*x2 + 2*u1**2*x2 - u1*u2**2*x2
+ - u1*u2*x1**2 + u1*u2*x2**2 - 2*u1*x1*x2 + u2**3*x1 - u2**3 - u2**2*x1*x2 + 2*
+u2**2*x2 + u2*x1**2 - u2*x2**2)}$
+
+% conclusion
+con_:=is_cc_tangent(pc_circle(P__,Q__),c1_);
+
+
+con_ := 16*u2*( - u1**3*x1*x2 + u1**3*x2 + u1**2*u2*x1**2 - 2*u1**2*u2*x1 - u1**
+2*u2*x2**2 + u1**2*u2 + u1**2*x1**2*x2 + u1**2*x1*x2 - 2*u1**2*x2 + u1*u2**2*x1*
+x2 - u1*u2**2*x2 - 2*u1*u2*x1**3 + 4*u1*u2*x1**2 - 2*u1*u2*x1 + 2*u1*u2*x2**2 - 
+2*u1*x1**2*x2 + 2*u1*x1*x2 - u2**2*x1**2*x2 + u2**2*x1*x2 + u2*x1**4 - 2*u2*x1**
+3 + u2*x1**2 - u2*x2**2)$
+
+% solution
+gb_:=geo_gbasis(polys_,vars_);
+
+
+gb_ := {u1**2*u2*x2**2 - 2*u1**2*x2**3 - 2*u1*u2*x2**2 + 4*u1*x2**3 + u2**3*x2**
+2 - u2**3 - 2*u2**2*x2**3 + 4*u2**2*x2 + u2*x2**4 - 4*u2*x2**2,
+ - u1**2*u2*x2 - 2*u1**2*x2**2 + u1*u2**2*x1 - u1*u2**2 + 2*u1*u2*x2 + 4*u1*x2**
+2 - u2**2*x1 - u2**2*x2**2 + 2*u2**2 + u2*x2**3 - 4*u2*x2}$
+
+result_:=geo_normalf(con_,gb_,vars_);
+
+
+result_ := 0$
+
+
+
+% Example GeneralizedFermatPoint_1
+% 
+% The problem:
+% A generalized theorem about Napoleon triangles:
+% Let $\Delta\,ABC$ be an arbitrary triangle and $P,Q$ and $R$ the third
+% vertex of isosceles triangles with equal base angles erected
+% externally on the sides $BC, AC$ and $AB$ of the triangle. Then the
+% lines $g(AP), g(BQ)$ and $g(CR)$ pass through a common point.
+% 
+% The solution:
+
+vars_:=List(x1, x2, x3, x4, x5);
+
+
+vars_ := {x1,
+x2,
+x3,
+x4,
+x5}$
+
+parameters_:=List(u1, u2, u3);
+
+
+parameters_ := {u1,u2,u3}$
+
+% Points
+A__:=Point(0,0);
+
+
+a__ := {0,0}$
+
+B__:=Point(2,0);
+
+
+b__ := {2,0}$
+
+C__:=Point(u1,u2);
+
+
+c__ := {u1,u2}$
+
+P__:=Point(x1,x2);
+
+
+p__ := {x1,x2}$
+
+Q__:=Point(x3,x4);
+
+
+q__ := {x3,x4}$
+
+R__:=Point(x5,u3);
+
+
+r__ := {x5,u3}$
+
+% polynomials
+polys_:=List(eq_dist(P__,B__,P__,C__), 
+  eq_dist(Q__,A__,Q__,C__),  
+  eq_dist(R__,A__,R__,B__), 
+  eq_angle(R__,A__,B__,P__,B__,C__), 
+  eq_angle(Q__,C__,A__,P__,B__,C__));
+
+
+polys_ := { - u1**2 + 2*u1*x1 - u2**2 + 2*u2*x2 - 4*x1 + 4,
+ - u1**2 + 2*u1*x3 - u2**2 + 2*u2*x4,
+4*(x5 - 1),
+(u1*u3*x1 - 2*u1*u3 - u1*x2*x5 + u2*u3*x2 + u2*x1*x5 - 2*u2*x5 - 2*u3*x1 + 4*u3 
++ 2*x2*x5)/(x5*(u1*x1 - 2*u1 + u2*x2 - 2*x1 + 4)),
+( - u1**3*x2 + u1**2*u2*x1 - 2*u1**2*u2 - u1**2*x1*x4 + u1**2*x2*x3 + 2*u1**2*x2
+ + 2*u1**2*x4 - u1*u2**2*x2 + 2*u1*x1*x4 - 2*u1*x2*x3 - 4*u1*x4 + u2**3*x1 - 2*
+u2**3 - u2**2*x1*x4 + u2**2*x2*x3 + 2*u2**2*x2 + 2*u2**2*x4 - 2*u2*x1*x3 - 2*u2*
+x2*x4 + 4*u2*x3)/(u1**3*x1 - 2*u1**3 + u1**2*u2*x2 - u1**2*x1*x3 - 2*u1**2*x1 + 
+2*u1**2*x3 + 4*u1**2 + u1*u2**2*x1 - 2*u1*u2**2 - u1*u2*x1*x4 - u1*u2*x2*x3 + 2*
+u1*u2*x4 + 2*u1*x1*x3 - 4*u1*x3 + u2**3*x2 - 2*u2**2*x1 - u2**2*x2*x4 + 4*u2**2 
++ 2*u2*x1*x4 - 4*u2*x4)}$
+
+% conclusion
+con_:=is_concurrent(pp_line(A__,P__), pp_line(B__,Q__), pp_line(C__,R__));
+
+
+con_ :=  - u1*u3*x1*x4 + u1*u3*x2*x3 - 2*u1*u3*x2 + 2*u1*x2*x4 + u2*x1*x4*x5 - 2
+*u2*x1*x4 - u2*x2*x3*x5 + 2*u2*x2*x5 + 2*u3*x1*x4 - 2*x2*x4*x5$
+
+% solution
+sol_:=geo_solve(polys_,vars_);
+
+
+sol_ := {{x1=(u1 - u2*u3 + 2)/2,
+x2=(u1*u3 + u2 - 2*u3)/2,
+x3=(u1 + u2*u3)/2,
+x4=( - u1*u3 + u2)/2,
+x5=1}}$
+
+result_:=geo_eval(con_,sol_);
+
+
+result_ := {0}$
+
+
+
+% Example TaylorCircle_1
+% 
+% The problem:
+% Let $\Delta\,ABC$ be an arbitrary triangle. Consider the three
+% altitude pedal points and the pedal points of the perpendiculars from
+% these points onto the the opposite sides of the triangle. Show that
+% these 6 points are on a common circle, the {\em Taylor circle}.
+% 
+% The solution:
+
+parameters_:=List(u1, u2, u3);
+
+
+parameters_ := {u1,u2,u3}$
+
+% Points
+A__:=Point(u1,0);
+
+
+a__ := {u1,0}$
+
+B__:=Point(u2,0);
+
+
+b__ := {u2,0}$
+
+C__:=Point(0,u3);
+
+
+c__ := {0,u3}$
+
+% coordinates
+P__:=pedalpoint(A__,pp_line(B__,C__));
+
+
+p__ := {(u2*(u1*u2 + u3**2))/(u2**2 + u3**2),
+(u2*u3*( - u1 + u2))/(u2**2 + u3**2)}$
+
+Q__:=pedalpoint(B__,pp_line(A__,C__));
+
+
+q__ := {(u1*(u1*u2 + u3**2))/(u1**2 + u3**2),
+(u1*u3*(u1 - u2))/(u1**2 + u3**2)}$
+
+R__:=pedalpoint(C__,pp_line(A__,B__));
+
+
+r__ := {0,0}$
+
+P_1_:=pedalpoint(P__,pp_line(A__,B__));
+
+
+p_1_ := {(u2*(u1*u2 + u3**2))/(u2**2 + u3**2),0}$
+
+P_2_:=pedalpoint(P__,pp_line(A__,C__));
+
+
+p_2_ := {(u1*(u1**2*u2**2 + 2*u1*u2*u3**2 + u3**4))/(u1**2*u2**2 + u1**2*u3**2 +
+ u2**2*u3**2 + u3**4),
+(u3**3*(u1**2 - 2*u1*u2 + u2**2))/(u1**2*u2**2 + u1**2*u3**2 + u2**2*u3**2 + u3
+**4)}$
+
+Q_1_:=pedalpoint(Q__,pp_line(A__,B__));
+
+
+q_1_ := {(u1*(u1*u2 + u3**2))/(u1**2 + u3**2),0}$
+
+Q_2_:=pedalpoint(Q__,pp_line(B__,C__));
+
+
+q_2_ := {(u2*(u1**2*u2**2 + 2*u1*u2*u3**2 + u3**4))/(u1**2*u2**2 + u1**2*u3**2 +
+ u2**2*u3**2 + u3**4),
+(u3**3*(u1**2 - 2*u1*u2 + u2**2))/(u1**2*u2**2 + u1**2*u3**2 + u2**2*u3**2 + u3
+**4)}$
+
+R_1_:=pedalpoint(R__,pp_line(A__,C__));
+
+
+r_1_ := {(u1*u3**2)/(u1**2 + u3**2),(u1**2*u3)/(u1**2 + u3**2)}$
+
+R_2_:=pedalpoint(R__,pp_line(B__,C__));
+
+
+r_2_ := {(u2*u3**2)/(u2**2 + u3**2),(u2**2*u3)/(u2**2 + u3**2)}$
+
+% conclusion
+result_:=List( is_concyclic(P_1_,P_2_,Q_1_,Q_2_), 
+  is_concyclic(P_1_,P_2_,Q_1_,R_1_),
+  is_concyclic(P_1_,P_2_,Q_1_,R_2_));
+
+
+result_ := {0,0,0}$
+
+
+
+% Example Miquel_1
+% 
+% The problem:
+% Miquels theorem: Let $\Delta\,ABC$ be a triangle. Fix arbitrary points
+% $P,Q,R$ on the sides $AB, BC, AC$. Then the three circles through each
+% vertex and the chosen points on adjacent sides pass through a common
+% point.
+% 
+% The solution:
+
+parameters_:=List(c1, c2, u1, u2, u3);
+
+
+parameters_ := {c1,
+c2,
+u1,
+u2,
+u3}$
+
+% Points
+A__:=Point(0,0);
+
+
+a__ := {0,0}$
+
+B__:=Point(1,0);
+
+
+b__ := {1,0}$
+
+C__:=Point(c1,c2);
+
+
+c__ := {c1,c2}$
+
+% coordinates
+P__:=varpoint(A__,B__,u1);
+
+
+p__ := {u1,0}$
+
+Q__:=varpoint(B__,C__,u2);
+
+
+q__ := {c1*u2 - u2 + 1,c2*u2}$
+
+R__:=varpoint(A__,C__,u3);
+
+
+r__ := {c1*u3,c2*u3}$
+
+X__:=other_cc_point(P__,p3_circle(A__,P__,R__),p3_circle(B__,P__,Q__));
+
+
+x__ := {( - c1**4*u2*u3 + c1**4*u3**2 + c1**3*u1*u2 - c1**3*u1*u3 + 2*c1**3*u2*
+u3 - c1**3*u3 - 2*c1**2*c2**2*u2*u3 + 2*c1**2*c2**2*u3**2 - 2*c1**2*u1*u2 - c1**
+2*u1*u3 + c1**2*u1 - c1**2*u2*u3 + c1**2*u3 + c1*c2**2*u1*u2 - c1*c2**2*u1*u3 + 
+2*c1*c2**2*u2*u3 - c1*c2**2*u3 + c1*u1**2 + c1*u1*u2 - c1*u1 - c2**4*u2*u3 + c2
+**4*u3**2 - c2**2*u1*u3 + c2**2*u1 - c2**2*u2*u3 + c2**2*u3)/(c1**4*u2**2 - 2*c1
+**4*u2*u3 + c1**4*u3**2 - 4*c1**3*u2**2 + 4*c1**3*u2*u3 + 2*c1**3*u2 - 2*c1**3*
+u3 + 2*c1**2*c2**2*u2**2 - 4*c1**2*c2**2*u2*u3 + 2*c1**2*c2**2*u3**2 + 2*c1**2*
+u1*u2 - 2*c1**2*u1*u3 + 6*c1**2*u2**2 - 2*c1**2*u2*u3 - 6*c1**2*u2 + 2*c1**2*u3 
++ c1**2 - 4*c1*c2**2*u2**2 + 4*c1*c2**2*u2*u3 + 2*c1*c2**2*u2 - 2*c1*c2**2*u3 - 
+4*c1*u1*u2 + 2*c1*u1 - 4*c1*u2**2 + 6*c1*u2 - 2*c1 + c2**4*u2**2 - 2*c2**4*u2*u3
+ + c2**4*u3**2 + 2*c2**2*u1*u2 - 2*c2**2*u1*u3 + 2*c2**2*u2**2 - 2*c2**2*u2*u3 -
+ 2*c2**2*u2 + 2*c2**2*u3 + c2**2 + u1**2 + 2*u1*u2 - 2*u1 + u2**2 - 2*u2 + 1),
+(c2*(c1**2*u1*u2 - c1**2*u1*u3 + c1**2*u3 - 2*c1*u1*u2 + c2**2*u1*u2 - c2**2*u1*
+u3 + c2**2*u3 + u1**2 + u1*u2 - u1))/(c1**4*u2**2 - 2*c1**4*u2*u3 + c1**4*u3**2 
+- 4*c1**3*u2**2 + 4*c1**3*u2*u3 + 2*c1**3*u2 - 2*c1**3*u3 + 2*c1**2*c2**2*u2**2 
+- 4*c1**2*c2**2*u2*u3 + 2*c1**2*c2**2*u3**2 + 2*c1**2*u1*u2 - 2*c1**2*u1*u3 + 6*
+c1**2*u2**2 - 2*c1**2*u2*u3 - 6*c1**2*u2 + 2*c1**2*u3 + c1**2 - 4*c1*c2**2*u2**2
+ + 4*c1*c2**2*u2*u3 + 2*c1*c2**2*u2 - 2*c1*c2**2*u3 - 4*c1*u1*u2 + 2*c1*u1 - 4*
+c1*u2**2 + 6*c1*u2 - 2*c1 + c2**4*u2**2 - 2*c2**4*u2*u3 + c2**4*u3**2 + 2*c2**2*
+u1*u2 - 2*c2**2*u1*u3 + 2*c2**2*u2**2 - 2*c2**2*u2*u3 - 2*c2**2*u2 + 2*c2**2*u3 
++ c2**2 + u1**2 + 2*u1*u2 - 2*u1 + u2**2 - 2*u2 + 1)}$
+
+% conclusion
+result_:=on_circle(X__,p3_circle(C__,Q__,R__));
+
+
+result_ := 0$
+
+
+
+% Example PappusPoint_1
+% 
+% The problem:
+% Let $A,B,C$ and $P,Q,R$ be two triples of collinear points. Then by
+% the Theorem of Pappus the intersection points $g(AQ)\wedge g(BP),
+% g(AR)\wedge g(CP)$ and $g(BR)\wedge g(CQ)$ are collinear. 
+% 
+% Permuting $P,Q,R$ we get six such {\em Pappus lines}.  Those
+% corresponding to even resp. odd permutations are concurrent.
+% 
+% The solution:
+
+parameters_:=List(u1, u2, u3, u4, u5, u6, u7, u8);
+
+
+parameters_ := {u1,
+u2,
+u3,
+u4,
+u5,
+u6,
+u7,
+u8}$
+
+% Points
+A__:=Point(u1,0);
+
+
+a__ := {u1,0}$
+
+B__:=Point(u2,0);
+
+
+b__ := {u2,0}$
+
+P__:=Point(u4,u5);
+
+
+p__ := {u4,u5}$
+
+Q__:=Point(u6,u7);
+
+
+q__ := {u6,u7}$
+
+% coordinates
+C__:=varpoint(A__,B__,u3);
+
+
+c__ := { - u1*u3 + u1 + u2*u3,0}$
+
+R__:=varpoint(P__,Q__,u8);
+
+
+r__ := { - u4*u8 + u4 + u6*u8, - u5*u8 + u5 + u7*u8}$
+
+% conclusion
+result_:=is_concurrent(pappus_line(A__,B__,C__,P__,Q__,R__),
+  pappus_line(A__,B__,C__,Q__,R__,P__), 
+  pappus_line(A__,B__,C__,R__,P__,Q__));
+
+
+result_ := 0$
+
+
+
+% Example IMO/36_1
+% 
+% The problem:
+% Let $A,B,C,D$ be four distinct points on a line, in that order. The
+% circles with diameters $AC$ and $BD$ intersect at the points $X$ and
+% $Y$. The line $XY$ meets $BC$ at the point $Z$. Let $P$ be a point on
+% the line $XY$ different from $Z$. The line $CP$ intersects the circle
+% with diameter $AC$ at the points $C$ and $M$, and the line $BP$
+% intersects the circle with diameter $BD$ at the points $B$ and
+% $N$. Prove that the lines $AM, DN$ and $XY$ are concurrent.
+% 
+% The solution:
+
+vars_:=List(x1, x2, x3, x4, x5, x6);
+
+
+vars_ := {x1,
+x2,
+x3,
+x4,
+x5,
+x6}$
+
+parameters_:=List(u1, u2, u3);
+
+
+parameters_ := {u1,u2,u3}$
+
+% Points
+X__:=Point(0,1);
+
+
+x__ := {0,1}$
+
+Y__:=Point(0,-1);
+
+
+y__ := {0,-1}$
+
+M__:=Point(x1,x2);
+
+
+m__ := {x1,x2}$
+
+N__:=Point(x3,x4);
+
+
+n__ := {x3,x4}$
+
+% coordinates
+P__:=varpoint(X__,Y__,u3);
+
+
+p__ := {0, - 2*u3 + 1}$
+
+Z__:=midpoint(X__,Y__);
+
+
+z__ := {0,0}$
+
+l_:=p_bisector(X__,Y__);
+
+
+l_ := {0,1,0}$
+
+B__:=line_slider(l_,u1);
+
+
+b__ := {u1,0}$
+
+C__:=line_slider(l_,u2);
+
+
+c__ := {u2,0}$
+
+A__:=line_slider(l_,x5);
+
+
+a__ := {x5,0}$
+
+D__:=line_slider(l_,x6);
+
+
+d__ := {x6,0}$
+
+% polynomials
+polys_:=List(is_concyclic(X__,Y__,B__,N__), is_concyclic(X__,Y__,C__,M__),
+  is_concyclic(X__,Y__,B__,D__), is_concyclic(X__,Y__,C__,A__),
+  is_collinear(B__,P__,N__), is_collinear(C__,P__,M__));
+
+
+polys_ := { - u1**2*x3 + u1*x3**2 + u1*x4**2 - u1 + x3,
+ - u2**2*x1 + u2*x1**2 + u2*x2**2 - u2 + x1,
+ - u1**2*x6 + u1*x6**2 - u1 + x6,
+ - u2**2*x5 + u2*x5**2 - u2 + x5,
+ - 2*u1*u3 - u1*x4 + u1 + 2*u3*x3 - x3,
+ - 2*u2*u3 - u2*x2 + u2 + 2*u3*x1 - x1}$
+
+% constraints
+nondeg_:=List(x5-u2,x1-u2,x6-u1,x3-u1);
+
+
+nondeg_ := { - u2 + x5,
+ - u2 + x1,
+ - u1 + x6,
+ - u1 + x3}$
+
+% conclusion
+con_:=is_concurrent(pp_line(A__,M__),pp_line(D__,N__),pp_line(X__,Y__));
+
+
+con_ :=  - x1*x4*x6 + x2*x3*x5 - x2*x5*x6 + x4*x5*x6$
+
+% solution
+sol_:=geo_solveconstrained(polys_,vars_,nondeg_);
+
+
+sol_ := {{x1=(4*u2*u3**2 - 4*u2*u3)/(u2**2 + 4*u3**2 - 4*u3 + 1),
+x2=( - 2*u2**2*u3 + u2**2 - 2*u3 + 1)/(u2**2 + 4*u3**2 - 4*u3 + 1),
+x3=(4*u1*u3**2 - 4*u1*u3)/(u1**2 + 4*u3**2 - 4*u3 + 1),
+x4=( - 2*u1**2*u3 + u1**2 - 2*u3 + 1)/(u1**2 + 4*u3**2 - 4*u3 + 1),
+x5=( - 1)/u2,
+x6=( - 1)/u1}}$
+
+result_:=geo_eval(con_,sol_);
+
+
+result_ := {0}$
+
+
+
+% Example IMO/43_2
+% 
+% The problem:
+% 
+% No verbal problem description available
+% 
+% The solution:
+
+vars_:=List(x1, x2);
+
+
+vars_ := {x1,x2}$
+
+parameters_:=List(u1);
+
+
+parameters_ := {u1}$
+
+% Points
+B__:=Point(-1,0);
+
+
+b__ := {-1,0}$
+
+C__:=Point(1,0);
+
+
+c__ := {1,0}$
+
+% coordinates
+O__:=midpoint(B__,C__);
+
+
+o__ := {0,0}$
+
+gamma_:=pc_circle(O__,B__);
+
+
+gamma_ := {1,0,0,-1}$
+
+D__:=circle_slider(O__,B__,u1);
+
+
+d__ := {( - u1**2 + 1)/(u1**2 + 1),(2*u1)/(u1**2 + 1)}$
+
+E__:=circle_slider(O__,B__,x1);
+
+
+e__ := {( - x1**2 + 1)/(x1**2 + 1),(2*x1)/(x1**2 + 1)}$
+
+F__:=circle_slider(O__,B__,x2);
+
+
+f__ := {( - x2**2 + 1)/(x2**2 + 1),(2*x2)/(x2**2 + 1)}$
+
+A__:=sym_point(B__,pp_line(O__,D__));
+
+
+a__ := {( - u1**4 + 6*u1**2 - 1)/(u1**4 + 2*u1**2 + 1),(4*u1*(u1**2 - 1))/(u1**4
+ + 2*u1**2 + 1)}$
+
+J__:=intersection_point(pp_line(A__,C__), par_line(O__, pp_line(A__,D__)));
+
+
+j__ := {(2*(3*u1**2 - 1))/(u1**4 + 2*u1**2 + 1),(2*u1*(u1**2 - 3))/(u1**4 + 2*u1
+**2 + 1)}$
+
+m_:=p_bisector(O__,A__);
+
+
+m_ := {2*(u1**4 - 6*u1**2 + 1),8*u1*( - u1**2 + 1),u1**4 + 2*u1**2 + 1}$
+
+P_1_:=pedalpoint(J__,m_);
+
+
+p_1_ := {( - u1**8 + 20*u1**6 + 10*u1**4 - 12*u1**2 - 1)/(2*(u1**8 + 4*u1**6 + 6
+*u1**4 + 4*u1**2 + 1)),
+(4*u1**3*(u1**4 - 2*u1**2 - 3))/(u1**8 + 4*u1**6 + 6*u1**4 + 4*u1**2 + 1)}$
+
+P_2_:=pedalpoint(J__,pp_line(C__,E__));
+
+
+p_2_ := {(u1**4 - 2*u1**3*x1 + 6*u1**2*x1**2 + 2*u1**2 + 6*u1*x1 - 2*x1**2 + 1)/
+(u1**4*x1**2 + u1**4 + 2*u1**2*x1**2 + 2*u1**2 + x1**2 + 1),
+(u1**4*x1 + 2*u1**3 - 4*u1**2*x1 - 6*u1 + 3*x1)/(u1**4*x1**2 + u1**4 + 2*u1**2*
+x1**2 + 2*u1**2 + x1**2 + 1)}$
+
+P_3_:=pedalpoint(J__,pp_line(C__,F__));
+
+
+p_3_ := {(u1**4 - 2*u1**3*x2 + 6*u1**2*x2**2 + 2*u1**2 + 6*u1*x2 - 2*x2**2 + 1)/
+(u1**4*x2**2 + u1**4 + 2*u1**2*x2**2 + 2*u1**2 + x2**2 + 1),
+(u1**4*x2 + 2*u1**3 - 4*u1**2*x2 - 6*u1 + 3*x2)/(u1**4*x2**2 + u1**4 + 2*u1**2*
+x2**2 + 2*u1**2 + x2**2 + 1)}$
+
+% polynomials
+polys_:=List(on_line(E__,m_), on_line(F__,m_));
+
+
+polys_ := {( - u1**4*x1**2 + 3*u1**4 - 16*u1**3*x1 + 14*u1**2*x1**2 - 10*u1**2 +
+ 16*u1*x1 - x1**2 + 3)/(x1**2 + 1),
+( - u1**4*x2**2 + 3*u1**4 - 16*u1**3*x2 + 14*u1**2*x2**2 - 10*u1**2 + 16*u1*x2 -
+ x2**2 + 3)/(x2**2 + 1)}$
+
+% constraints
+nondegs_:=List(x1-x2);
+
+
+nondegs_ := {x1 - x2}$
+
+% conclusion
+con_:=List(eq_dist(J__,P_1_,J__,P_2_), eq_dist(J__,P_1_,J__,P_3_));
+
+
+con_ := {(u1**8*x1**4 - 2*u1**8*x1**2 - 3*u1**8 + 16*u1**7*x1**3 + 16*u1**7*x1 -
+ 20*u1**6*x1**4 + 8*u1**6*x1**2 + 28*u1**6 - 112*u1**5*x1**3 - 112*u1**5*x1 + 94
+*u1**4*x1**4 + 4*u1**4*x1**2 - 90*u1**4 + 240*u1**3*x1**3 + 240*u1**3*x1 - 132*
+u1**2*x1**4 - 24*u1**2*x1**2 + 108*u1**2 - 144*u1*x1**3 - 144*u1*x1 + 9*x1**4 - 
+18*x1**2 - 27)/(4*(u1**8*x1**4 + 2*u1**8*x1**2 + u1**8 + 4*u1**6*x1**4 + 8*u1**6
+*x1**2 + 4*u1**6 + 6*u1**4*x1**4 + 12*u1**4*x1**2 + 6*u1**4 + 4*u1**2*x1**4 + 8*
+u1**2*x1**2 + 4*u1**2 + x1**4 + 2*x1**2 + 1)),
+(u1**8*x2**4 - 2*u1**8*x2**2 - 3*u1**8 + 16*u1**7*x2**3 + 16*u1**7*x2 - 20*u1**6
+*x2**4 + 8*u1**6*x2**2 + 28*u1**6 - 112*u1**5*x2**3 - 112*u1**5*x2 + 94*u1**4*x2
+**4 + 4*u1**4*x2**2 - 90*u1**4 + 240*u1**3*x2**3 + 240*u1**3*x2 - 132*u1**2*x2**
+4 - 24*u1**2*x2**2 + 108*u1**2 - 144*u1*x2**3 - 144*u1*x2 + 9*x2**4 - 18*x2**2 -
+ 27)/(4*(u1**8*x2**4 + 2*u1**8*x2**2 + u1**8 + 4*u1**6*x2**4 + 8*u1**6*x2**2 + 4
+*u1**6 + 6*u1**4*x2**4 + 12*u1**4*x2**2 + 6*u1**4 + 4*u1**2*x2**4 + 8*u1**2*x2**
+2 + 4*u1**2 + x2**4 + 2*x2**2 + 1))}$
+
+% solution
+sol_:=geo_solveconstrained(polys_,vars_,nondegs_);
+
+
+sol_ := {{x1=(sqrt(3)*u1**4 + 2*sqrt(3)*u1**2 + sqrt(3) - 8*u1**3 + 8*u1)/(u1**4
+ - 14*u1**2 + 1),
+x2=(sqrt(3)*u1**4 + 2*sqrt(3)*u1**2 + sqrt(3) - 8*u1**3 + 8*u1)/(u1**4 - 14*u1**
+2 + 1)},
+{x1=(sqrt(3)*u1**4 + 2*sqrt(3)*u1**2 + sqrt(3) - 8*u1**3 + 8*u1)/(u1**4 - 14*u1
+**2 + 1),
+x2=( - sqrt(3)*u1**4 - 2*sqrt(3)*u1**2 - sqrt(3) - 8*u1**3 + 8*u1)/(u1**4 - 14*
+u1**2 + 1)},
+{x1=( - sqrt(3)*u1**4 - 2*sqrt(3)*u1**2 - sqrt(3) - 8*u1**3 + 8*u1)/(u1**4 - 14*
+u1**2 + 1),
+x2=(sqrt(3)*u1**4 + 2*sqrt(3)*u1**2 + sqrt(3) - 8*u1**3 + 8*u1)/(u1**4 - 14*u1**
+2 + 1)},
+{x1=( - sqrt(3)*u1**4 - 2*sqrt(3)*u1**2 - sqrt(3) - 8*u1**3 + 8*u1)/(u1**4 - 14*
+u1**2 + 1),
+x2=( - sqrt(3)*u1**4 - 2*sqrt(3)*u1**2 - sqrt(3) - 8*u1**3 + 8*u1)/(u1**4 - 14*
+u1**2 + 1)}}$
+ 
+result_:=geo_simplify(geo_eval(con_,sol_));
+
+
+result_ := {{0,0},{0,0},{0,0},{0,0}}$
+
+
+showtime;
+
+
+
+
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 259 ms  plus GC time: 35 ms
+real	0m0.736s
+user	0m0.015s
+sys	0m0.076s

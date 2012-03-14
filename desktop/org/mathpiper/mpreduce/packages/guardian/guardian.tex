@@ -1,0 +1,1053 @@
+\documentstyle[11pt]{article}
+\newenvironment{gex}{\left[\begin{array}{c|c}}{\end{array}\right]}
+\newcommand{\gc}[1]{\mbox{\boldmath$#1$}}
+\newcommand{\true}{{\rm T}}
+\newcommand{\false}{{\rm F}}
+\newcommand{\E}{{\rm E}}
+\newcommand{\GE}{{\rm GE}}
+\newcommand{\gscheme}{{\rm gscheme}}
+\newcommand{\sign}{{\rm sign}}
+\begin{document}
+\title{Guarded Expressions in Practice\thanks{This text is essentially
+    the Technical Report MIP-9702 of the Universit\"at Passau, Germany,
+    a revised version of which has appeared in the Proceedings of the
+    ISSAC 97. Some few references to former websites for distributing
+    Guardian and Redlog have been removed.}}
+\author{Andreas Dolzmann\\
+  {\tt andreas@dolzmann.de} \and
+  Thomas Sturm\\
+  Departamento de Matem\'aticas, Estad\'istica y Computaci\'on\\
+  Universidad de Cantabria, Santander, Spain\\
+  \texttt{sturmt@unican.es, sturm@redlog.eu}}
+\date{}
+\maketitle
+%
+\begin{abstract}
+Computer algebra systems typically drop some degenerate cases when
+evaluating expressions, e.g., $x/x$ becomes $1$ dropping the case
+$x=0$. We claim that it is feasible in practice to compute also the
+degenerate cases yielding {\em guarded expressions}. We work over real
+closed fields but our ideas about handling guarded expression can be
+easily transferred to other situations. Using formulas as guards
+provides a powerful tool for heuristically reducing the combinatorial
+explosion of cases: equivalent, redundant, tautological, and
+contradictive cases can be detected by simplification and quantifier
+elimination. Our approach allows to simplify the expressions on the
+basis of simplification knowledge on the logical side. The method
+described in this paper is implemented in the {\sc reduce} package
+{\sc guardian}.
+\end{abstract}
+%
+\section{Introduction}
+It is meanwhile a well-known fact that evaluations obtained with the
+interactive use of computer algebra systems ({\sc cas}) are not
+entirely correct in general. Typically, some degenerate cases are
+dropped. Consider for instance the evaluation
+$$
+\frac{x^2}{x}=x,
+$$
+which is correct only if $x\neq0$.
+The problem here is that {\sc cas} consider variables to be
+transcendental elements. The user, in contrast, has in mind variables
+in the sense of logic. In other words: The user does not think of
+rational functions but of terms.
+
+Next consider the valid expression
+$$
+\frac{\sqrt{x}+\sqrt{-x}}{x}.
+$$
+It is meaningless over the reals. {\sc Cas} often offer no choice than
+to interprete surds over the complex numbers even if they distinguish
+between a {\em real} and a {\em complex} mode.
+
+Corless and Jeffrey~\cite{CorlessJeffrey:92} have examined the
+behavior of a number of {\sc cas} with such input data. They come to
+the conclusion that simultaneous computation of all cases is exemplary
+but not feasible due to the combinatorial explosion of cases to be
+considered. Therefore, they suggest to ignore the degenerate cases but
+to provide the assumptions to the user on request. We claim, in
+contrast, that it is in fact feasible to compute all possible cases.
+
+Our setting is as follows: Expressions are evaluated to {\em guarded
+expressions} consisting of possibly several conventional expressions
+guarded by quantifier-free formulas. For the above examples, we would
+obtain
+$$
+\begin{gex}
+\gc{x\neq0}&\gc{x}
+\end{gex},\quad
+\begin{gex}
+\gc{\false}&\gc{\frac{\sqrt{x}+\sqrt{-x}}{x}}
+\end{gex}.
+$$
+As the second example illustrates, we are working in ordered fields,
+more precisely in real closed fields. The handling of guarded
+expressions as described in this paper can, however, be easily
+transferred to other situations.
+
+Our approach can also deal with redundant guarded expressions, such as
+$$
+\begin{gex}
+\gc{\true} & \gc{|x|-x}\\
+x\geq0 & 0\\
+x<0 & -2x
+\end{gex}
+$$
+which leads to algebraic simplification techniques based on logical
+simplification as proposed by Davenport and
+Faure \cite{DavenportFaure:94}.
+
+We use {\em formulas} over the language of ordered rings as guards.
+This provides powerful tools for heuristically reducing the
+combinatorial explosion of cases: equivalent, redundant, tautological,
+and contradictive cases can be detected by {\em
+simplification}~\cite{DolzmannSturm:95} and {\em quantifier
+elimination}~\cite{Tarski:48,Collins:75,Weispfenning:88,LoosWeispfenning:93,Weispfenning:96,Weispfenning:94}.
+In certain situations, we will allow the formulas also to contain
+extra functions such as $\sqrt{\cdot}$ or $|\cdot|$. Then we take care
+that there is no quantifier elimination applied.
+
+Simultaneous computation of several cases concerning certain
+expressions being zero or not has been extensively investigated as
+{\em dynamic
+evaluation}~\cite{GomezDiaz:93,DuvalReynaud:94,DuvalReynaud:94a,
+BroadberryGomezDiazWatt:95}. It has also been extended to real closed
+fields~\cite{DuvalGonzalesVega:93}. The idea behind the development of
+these methods is of a more theoretical nature than to overcome the
+problems with the interactive usage of {\sc cas} sketched above: one
+wishes to compute in algebraic (or real) extension fields of the
+rationals. Guarded expressions occur naturally when solving problems
+parametrically. Consider, e.g., the {\em Gr\"obner systems} used
+during the computation of {\em comprehensive Gr\"obner bases}
+\cite{Weispfenning:92}.
+
+The algorithms described in this paper are implemented in the {\sc
+reduce} package {\sc guardian}. It is based on the {\sc
+reduce}~\cite{HearnFitch:95,Melenk:95} package {\sc
+redlog}~\cite{DolzmannSturm:96,DolzmannSturm:96a} implementing a
+formula data type with corresponding algorithms, in particular
+including simplification and quantifier elimination.
+% Both {\sc guardian} and {\sc redlog} are available on the {\sc
+%   www}.\footnote{{\tt http://www.fmi.uni-passau.de/\~{}redlog/}}
+
+\section{An outline of our method}
+\subsection{Guarded expressions}
+A {\em guarded expression} is a scheme
+$$
+\begin{gex}
+\gc{\gamma_0} & \gc{t_0}\\
+\gamma_1 & t_1\\
+\vdots&\vdots\\
+\gamma_n& t_n
+\end{gex}
+$$
+where each $\gamma_i$ is a quantifier-free formula, the {\em guard},
+and each $t_i$ is an associated {\em conventional expression}. The
+idea is that some $t_i$ is a valid interpretation iff $\gamma_i$
+holds. Each pair $(\gamma_i,t_i)$ is called a {\em case}.
+
+The first case $(\gamma_0,t_0)$ is the {\em generic} case: $t_0$ is
+the expression the system would compute without our package, and
+$\gamma_0$ is the corresponding guard.
+
+The guards $\gamma_i$ need neither exclude one another, nor do we
+require that they form a complete case distinction. We shall, however,
+assume that all cases covered by a guarded expression are already
+covered by the generic case; in other words:
+\begin{equation}
+\bigwedge_{i=1}^n(\gamma_i\longrightarrow\gamma_0).\label{gencoversall}
+\end{equation}
+
+Consider the following evaluation of $|x|$ to a guarded expression:
+$$
+\begin{gex}
+\gc{\true} & \gc{|x|}\\
+x\geq0 & x\\
+x<0 & -x
+\end{gex}.
+$$
+Here the non-generic cases already cover the whole domain. The
+generic case is in some way {\em redundant}. It is just present for
+keeping track of the system's default behavior. Formally we have
+\begin{equation}
+\Bigl(\bigvee_{i=1}^n\gamma_i\Bigr)\longleftrightarrow\gamma_0.
+\label{formalredund}
+\end{equation}
+As an example for a non-redundant, i.e., {\em necessary} generic case
+we have the evaluation of the reciprocal $\frac{1}{x}$:
+$$
+\begin{gex}
+\gc{x\neq0}& \gc{\frac{1}{x}}
+\end{gex}.
+$$
+
+In every guarded expression, the generic case is explicitly marked as
+either necessary or redundant. The corresponding tag is inherited
+during the evaluation process. Unfortunately it can happen that
+guarded expressions satisfy~(\ref{formalredund}) without being tagged
+redundant, e.g., specialization of
+$$
+\begin{gex}
+\gc{\true}&\gc{\sin x}\\
+x=0&0
+\end{gex}
+$$
+to $x=0$ if the system cannot evaluate $\sin(0)$. This does not happen
+if one claims for necessary generic cases to have, as the reciprocal
+above, no alternative cases at all. Else, in the sequel ``redundant
+generic case'' has to be read as ``tagged redundant.''
+
+With guarded expressions, the evaluation splits into two independent
+parts: {\em Algebraic evaluation} and a subsequent {\em
+simplification} of the guarded expression obtained.
+%
+\subsection{Guarding schemes}
+In the introduction we have seen that certain operators introduce case
+distinctions. For this, with each operator $f$ there is a {\em
+guarding scheme} associated providing information on how to map
+$f(t_1,\ldots,t_m)$ to a guarded expression provided that one does not
+have to care for the argument expressions $t_1$, \dots,~$t_m$. In the
+easiest case, this is a rewrite rule
+$$
+f(a_1,\ldots,a_m)\to G(a_1,\ldots,a_m).
+$$
+The actual terms $t_1$, \dots,~$t_m$ are simply substituted for the
+formal symbols $a_1$, \dots,~$a_m$ into the generic guarded expression
+$G(a_1,\ldots,a_m)$. We give some examples:
+\begin{eqnarray}
+\frac{a_1}{a_2} & \to &
+\begin{gex}
+\gc{a_2\neq 0} & \gc{\frac{a_1}{a_2}}
+\end{gex}\nonumber\\
+\sqrt{a_1} & \to &
+\begin{gex}
+\gc{a_1\geq 0} & \gc{\sqrt{a_1}}
+\end{gex}\nonumber\\
+\sign(a_1) & \to &
+\begin{gex}
+\gc{\true} & \gc{\sign(a_1)}\\
+a_1>0 & 1\\
+a_1=0 & 0\\
+a_1<0 & -1
+\end{gex}\nonumber\\
+|a_1| & \to &
+\begin{gex}
+\gc{\true} & \gc{|a_1|}\\
+a_1\geq0 & a_1\\
+a_1<0 & -a_1
+\end{gex}\label{absrewrite}
+\end{eqnarray}
+
+For functions of arbitrary arity, e.g., $\min$ or $\max$, we formally
+assume infinitely many operators of the same name. Technically, we
+associate a procedure parameterized with the number of arguments $m$
+that generates the corresponding rewrite rule. As ${\tt
+min\_scheme(2)}$ we obtain, e.g.,
+\begin{eqnarray}
+\min(a_1,a_2) & \to &
+\begin{gex}
+\gc{\true} & \gc{\min(a_1,a_2)}\\
+a_1\leq a_2 & a_1\\
+a_2\leq a_1 & a_2
+\end{gex}\label{binminscheme},
+\end{eqnarray}
+while for higher arities there are more case distinctions necessary.
+
+For later complexity analysis, we state the concept of a guarding
+scheme formally: a guarding scheme for an $m$-ary operator $f$ is a
+map
+$$
+\gscheme_f: \E^m \to \GE
+$$
+where $\E$ is the set of expressions, and $\GE$ is the set of guarded
+expressions. This allows to split $f(t_1,\ldots,t_m)$ in dependence
+on the form of the parameter expressions $t_1$, \dots,~$t_m$.
+%
+\subsection{Algebraic evaluation}\label{algeval}
+\subsubsection{Evaluating conventional expressions}
+The evaluation of conventional expressions into guarded expressions is
+performed recursively: Constants $c$ evaluate to
+$$
+\begin{gex}
+\gc{\true} & \gc{c}
+\end{gex}.
+$$
+For the evaluation
+of $f(e_1,\ldots,e_m)$ the argument expressions $e_1$, \ldots, $e_m$
+are recursively evaluated to guarded expressions
+\begin{equation}
+e_i'=\begin{gex}
+\gc{\gamma_{i0}} & \gc{t_{i0}}\\
+\gamma_{i1} & t_{i1}\\
+\vdots & \vdots\\
+\gamma_{in_i} & t_{in_i}\end{gex}\quad\mbox{for}\quad 1\leq i\leq m.
+\label{eprimes}
+\end{equation}
+
+Then the operator $f$ is ``moved inside'' the $e_i'$ by combining all
+cases, technically a simultaneous Cartesian product computation of
+both the sets of guards and the sets of terms:
+\begin{equation}
+\Gamma=\prod_{i=1}^m\{\gamma_{i0},\ldots,\gamma_{in_i}\},\quad
+T=\prod_{i=1}^m\{t_{i0},\ldots,t_{in_i}\}.
+\label{cartprod}
+\end{equation}
+This leads to the intermediate result
+\begin{equation}
+\begin{gex}
+\gc{\gamma_{10}\land\dots\land\gamma_{m0}}&
+\gc{f(t_{10},\dots,t_{m0})}\\
+\vdots&\vdots\\
+\gamma_{1n_1}\land\dots\land\gamma_{m0}&
+f(t_{1n_1},\dots,t_{m0})\\
+\vdots&\vdots\\
+\gamma_{1n_1}\land\dots\land\gamma_{mn_m}&
+f(t_{1n_1},\dots,t_{mn_m})
+\end{gex}.
+\label{intermediate}
+\end{equation}
+The new generic case is exactly the combination of the generic cases
+of the $e_i'$. It is redundant if at least one of these combined cases
+is redundant.
+
+Next, all non-generic cases containing at least one {\em redundant}
+generic constituent $\gamma_{i0}$ in their guard are deleted. The
+reason for this is that generic cases are only used to keep track of
+the system default behavior. All other cases get the status of a
+non-generic case even if they contain necessary generic constituents
+in their guard.
+
+At this point, we apply the guarding scheme of $f$ to all remaining
+expressions $f(t_{1i_1},\ldots,t_{mi_m})$ in the
+form~(\ref{intermediate}) yielding a nested guarded expression
+\begin{equation}
+\begin{gex}
+\gc{\Gamma_0} &
+\begin{gex}
+\gc{\delta_{00}} & \gc{u_{00}}\\ \vdots & \vdots \\ \delta_{0k_0} & u_{0k_0}
+\end{gex}\\
+\vdots & \vdots\\
+\Gamma_N &
+\begin{gex}
+\gc{\delta_{N0}} & \gc{u_{N0}}\\ \vdots & \vdots \\ \delta_{Nk_N} & u_{Nk_N}
+\end{gex}
+\end{gex},\label{nestedge}
+\end{equation}
+which can be straightforwardly resolved to a guarded expression
+$$
+\begin{gex}
+\gc{\Gamma_0\land\delta_{00}} & \gc{u_{00}}\\
+\vdots & \vdots\\
+\Gamma_0\land\delta_{0k_0} & u_{0k_0}\\
+\vdots & \vdots\\
+\Gamma_N\land\delta_{N0} & u_{N0}\\
+\vdots & \vdots\\
+\Gamma_N\land\delta_{Nk_N} & u_{Nk_N}
+\end{gex}.
+$$
+This form is treated analogously to the form~(\ref{intermediate}): The
+new generic case $(\Gamma_0\land\delta_{00},u_{00})$ is redundant if
+at least one of $\bigl(\Gamma_0,f(t_{10},\dots,t_{m0})\bigr)$ and
+$(\delta_{00},u_{00})$ is redundant. Among the non-generic cases all
+those containing redundant generic constituents in their guard are
+deleted, and all those containing necessary generic constituents in
+their guard get the status of an ordinary non-generic case.
+
+Finally the standard evaluator of the system---{\tt reval} in the case
+of {\sc reduce}---is applied to all contained expressions, which
+completes the algebraic part of the evaluation.
+%
+\subsubsection{Evaluating guarded expressions}
+The previous section was concerned with the evaluation of pure
+conventional expressions into guarded expressions. Our system
+currently combines both conventional and guarded expressions. We are
+thus faced with the problem of treating guarded subexpressions during
+evaluation.
+
+When there is a {\em guarded} subexpression $e_i$ detected during
+evaluation, all contained expressions are recursively evaluated to
+guarded expressions yielding a nested guarded expression of the
+form~(\ref{nestedge}). This is resolved as described above yielding
+the evaluation subresult $e_i'$.
+
+As a special case, this explains how guarded expressions are
+(re)evaluated to guarded expressions.
+%
+\subsection{Example}
+We describe the evaluation of the expression $\min(x,|x|)$. The first
+argument $e_1=x$ evaluates recursively to
+\begin{equation}
+e_1'=\begin{gex} \gc{\true} & \gc{x} \end{gex}
+\label{evalx}
+\end{equation}
+with a necessary generic case. The nested $x$ inside $e_2=|x|$ evaluates
+to the same form~(\ref{evalx}). For obtaining $e_2'$, we apply the
+guarding scheme~(\ref{absrewrite}) of the absolute value to the only
+term of~(\ref{evalx}) yielding
+$$
+\begin{gex} \gc{\true} & \begin{gex}
+\gc{\true} & \gc{|x|}\\
+x\geq 0 & x\\
+x<0 & -x
+\end{gex}
+\end{gex},
+$$
+where the inner generic case is redundant. This form is resolved to
+$$
+e_2'=\begin{gex}
+\gc{\true\land\true} & \gc{|x|}\\
+\true\land x\geq 0 & x\\
+\true\land x<0 & -x
+\end{gex}
+$$
+with a redundant generic case. The next step is the combination of
+cases by Cartesian product computation. We obtain
+$$
+\begin{gex}
+\gc{\true\land(\true\land\true)} & \gc{\min(x,|x|)}\\
+\true\land(\true\land x\geq0) & \min(x,x)\\
+\true\land(\true\land x<0) & \min(x,-x)
+\end{gex},
+$$
+which corresponds to~(\ref{intermediate}) above. For the outer $\min$,
+we apply the guarding scheme~(\ref{binminscheme}) to all terms
+yielding the nested guarded expression
+$$
+\begin{gex}
+\gc{\true\land(\true\land\true)} & \begin{gex}
+\gc{\true} & \gc{\min(x,|x|)}\\
+x\leq |x| & x\\
+|x|\leq x & |x|
+\end{gex}\\
+\true\land(\true\land x\geq0) & \begin{gex}
+\gc{\true} & \gc{\min(x,x)}\\
+x\leq x & x\\
+x\leq x & x
+\end{gex}\\
+\true\land(\true\land x<0) & \begin{gex}
+\gc{\true} & \gc{\min(x,-x)}\\
+x\leq -x & x\\
+-x\leq x & -x
+\end{gex}
+\end{gex},
+$$
+which is in turn resolved to
+$$
+\begin{gex}
+\gc{(\true\land(\true\land\true))\land\true} & \gc{\min(x,|x|)}\\
+(\true\land(\true\land\true))\land x\leq |x| & x\\
+(\true\land(\true\land\true))\land |x|\leq x & |x|\\
+(\true\land(\true\land x\geq0))\land\true & \min(x,x)\\
+(\true\land(\true\land x\geq0))\land x\leq x & x\\
+(\true\land(\true\land x\geq0))\land x\leq x & x\\
+(\true\land(\true\land x<0))\land\true & \min(x,-x)\\
+(\true\land(\true\land x<0))\land x\leq -x & x\\
+(\true\land(\true\land x<0))\land -x\leq x & -x
+\end{gex}.
+$$
+From this, we delete the two non-generic cases obtained by combination
+with the redundant generic case of the $\min$. The final result of the
+algebraic evaluation step is the following:
+\begin{equation}
+\begin{gex}
+\gc{(\true\land(\true\land\true))\land\true} & \gc{\min(x,|x|)}\\
+(\true\land(\true\land\true))\land x\leq |x| & x\\
+(\true\land(\true\land\true))\land |x|\leq x & |x|\\
+(\true\land(\true\land x\geq0))\land x\leq x & x\\
+(\true\land(\true\land x\geq0))\land x\leq x & x\\
+(\true\land(\true\land x<0))\land x\leq -x & x\\
+(\true\land(\true\land x<0))\land -x\leq x & -x
+\end{gex}.\label{example}
+\end{equation}
+\subsection{Worst-case complexity}
+Our measure of complexity $|G|$ for guarded expressions $G$ is the
+number of contained cases:
+$$
+\left|\begin{gex}
+\gc{\gamma_0} & \gc{t_0}\\
+\gamma_1 & t_1\\
+\vdots&\vdots\\
+\gamma_n& t_n
+\end{gex}\right|=n+1.
+$$
+
+As in Section~\ref{algeval}, consider an $m$-ary operator $f$,
+guarded expression arguments $e_1'$, \dots,~$e_m'$ as in
+equation~(\ref{eprimes}), and the Cartesian product $T$ as in
+equation~(\ref{cartprod}). Then
+\begin{eqnarray*}
+\lefteqn{
+|f(e_1',\ldots,e_m')| \leq  \sum_{(t_1,\dots,t_m)\in
+T}|\gscheme_f(t_1,\dots,t_m)|}\\
+& &{}\leq  \max_{(t_1,\ldots,t_m)\in
+T}|\gscheme_f(t_1,\ldots,t_m)|\cdot \#T\\
+& & {}=  \max_{(t_1,\ldots,t_m)\in
+T}|\gscheme_f(t_1,\ldots,t_m)|\cdot \prod_{j=1}^m|e_j'|\\
+& & {}\leq  \max_{(t_1,\ldots,t_m)\in
+T}|\gscheme_f(t_1,\ldots,t_m)|\cdot\bigl(\max_{1\leq j\leq m}|e_j'|\bigr)^m.
+\end{eqnarray*}
+
+In the important special case that the guarding scheme of $f$ is a
+rewrite rule $f(a_1,\ldots,a_m)\to G$, the above complexity
+estimation simplifies to
+$$
+|f(e_1',\ldots,e_m')| \leq  |G|\cdot \prod_{j=1}^m|e_j'| \leq  |G|\cdot
+\bigl(\max_{1\leq j\leq m}|e_j'|\bigr)^m.
+$$
+In other words: $|G|$ plays the role of a factor, which, however,
+depends on $f$, and $|f(e_1',\ldots,e_m')|$ is polynomial in the size
+of the $e_i$ but exponential in the arity of $f$.
+
+%
+\subsection{Simplification}
+In view of the increasing size of the guarded expressions coming into
+existence with subsequent computations, it is indispensable to apply
+simplification strategies. There are two different algorithms involved
+in the simplification of guarded expressions:
+\begin{enumerate}
+\item
+A {\em formula simplifier} mapping quantifier-free formulas to
+equivalent simpler ones.
+\item
+Effective {\em quantifier elimination} for real closed fields
+over the language of ordered rings.
+\end{enumerate}
+
+It is not relevant, which simplifier and which quantifier elimination
+procedure is actually used. We use the formula simplifier described
+in~\cite{DolzmannSturm:95}. Our quantifier elimination uses test point
+methods developed by
+Weispfenning~\cite{Weispfenning:88,LoosWeispfenning:93,Weispfenning:96}.
+It is restricted to formulas obeying certain degree restrictions
+wrt.~the quantified variables. As an alternative, {\sc redlog}
+provides an interface to Hong's {\sc qepcad} quantifier elimination
+package \cite{Hong:93}. Compared to the simplification, the
+quantifier elimination is more time consuming. It can be turned off by
+a {\em switch}.
+
+The following simplification steps are applied in the given order:
+%
+\paragraph{Contraction of cases} This is restricted to the
+non-generic cases of the considered guarded expression. We contract
+different cases containing the same terms:
+$$
+\begin{gex}
+\gc{\gamma_0}&\gc{t_0}\\
+\vdots & \vdots\\
+\gamma_i & t_i\\
+\vdots & \vdots\\
+\gamma_j & t_i\\
+\vdots & \vdots
+\end{gex}\quad\mbox{becomes}\quad
+\begin{gex}
+\gc{\gamma_0}&\gc{t_0}\\
+\vdots & \vdots\\
+\gamma_i\lor\gamma_j & t_i\\
+\vdots & \vdots\\
+\end{gex}.
+$$
+\paragraph{Simplification of the guards} The simplifier is applied to
+all guards replacing them by simplified equivalents. Since our
+simplifier maps $\gamma\lor\gamma$ to $\gamma$, this together with the
+contraction of cases takes care for the deletion of duplicate cases.
+
+\paragraph{Keep one tautological case} If the guard of some
+non-generic case becomes ``$\true$,'' we delete all other non-generic
+cases. Else, if quantifier elimination is turned on, we try to detect
+a tautology by eliminating the universal closures
+$\underline\forall\gamma$ of the guards $\gamma$. This quantifier
+elimination is also applied to the guards of generic cases. These are,
+in case of success, simply replaced by ``$\true$'' without deleting
+the case.
+
+\paragraph{Remove contradictive cases} A non-generic case is  deleted if
+its guard has become ``$\false$.'' If quantifier elimination is turned
+on, we try to detect further contradictive cases by eliminating the
+existential closure $\underline\exists\gamma$ for each guard $\gamma$.
+This quantifier elimination is also applied to generic cases. In case
+of success they are not deleted but their guards are replaced by
+``$\false$.'' Our assumption (\ref{gencoversall}) allows then to
+delete all non-generic cases.
+
+\subsection{Example revisited}
+We turn back to the form~(\ref{example}) of our example $\min(x,|x|)$.
+Contraction of cases with subsequent simplification automatically
+yields
+$$
+\begin{gex}
+\gc{\true} & \gc{\min(x,|x|)}\\
+\true & x\\
+|x|-x\leq 0 & |x|\\
+\false & -x
+\end{gex},
+$$
+of which only the tautological non-generic case survives:
+\begin{equation}
+\begin{gex}
+\gc{\true} & \gc{\min(x,|x|)}\\
+\true & x
+\end{gex}.\label{minabs}
+\end{equation}
+
+\subsection{Output modes}
+An {\em output mode} determines which part of the information
+contained in the guarded expressions is provided to the user. {\sc
+Guardian} knows the following output modes:
+
+\paragraph{Matrix} Output matrices in the style used throughout this
+paper. We have already seen that these can become very large in
+general.
+\paragraph{Generic case} Output only the generic case.
+\paragraph{Generic term} Output only the generic term. Thus the output
+is exactly the same as without the guardian package. If the condition
+of the generic case becomes ``$\false$,'' a {\em warning} ``{\tt
+contradictive situation}'' is given. The computation can, however, be
+continued.\bigskip
+
+Note that output modes are restrictions concerning only the output;
+internally the system still computes with the complete guarded
+expressions.
+%
+\subsection{A smart mode}\label{smartmode}
+Consider the evaluation result~(\ref{minabs}) of $\min(x,|x|)$. The
+{\em generic term} output mode would output $\min(x,|x|)$, although
+more precise information could be given, namely $x$. The problem is
+caused by the fact that generic cases are used to keep track of the
+system's default behavior. In this section we will describe an
+optional {\em smart mode} with a different notion of {\em generic
+case}. To begin with, we show why the problem can not be overcome by a
+``smart output mode.''
+
+Assume that there is an output mode which outputs $x$
+for~(\ref{minabs}). As the next computation involving~(\ref{minabs})
+consider division by $y$. This would result in
+$$
+\begin{gex}
+\gc{y\neq0} & \gc{\frac{\min(x,|x|)}{y}}\\
+y\neq0 & \frac{x}{y}
+\end{gex}.
+$$
+Again, there are identic conditions for the generic case and some
+non-generic case, and, again, the term belonging to the latter is
+simpler. Our mode would output $\frac{x}{y}$. Next, we apply the
+absolute value once more yielding
+$$
+\begin{gex}
+\gc{y\neq 0} & \gc{\frac{|\min(x,|x|)|}{|y|}}\\
+xy\geq0 \land y\neq0 & \frac{x}{y}\\
+xy<0 \land y\neq0 & \frac{-x}{y}
+\end{gex}.
+$$
+Here, the condition of the generic case differs from all other
+conditions. We thus have to output the generic term. For the user, the
+evaluation of $|\frac{x}{y}|$ results in $\frac{|\min(x,|x|)|}{|y|}$.
+
+The smart mode can turn a non-generic case into a necessary generic
+one dropping the original generic case and all other non-generic
+cases. Consider, e.g.,~(\ref{minabs}), where the conditions are equal,
+and the non-generic term is ``simpler.''
+
+In fact, the relevant relationship between the conditions is that the
+generic condition {\em implies} the non-generic one. In other words:
+Some non-generic condition is not more restrictive than the generic
+condition, and thus covers the whole domain of the guarded expression.
+Note that from the implication and~(\ref{gencoversall}) we may
+conclude that the cases are even equivalent.
+
+Implication is heuristically checked by simplification. If this fails,
+quantifier elimination provides a decision procedure. Note that our
+test point methods are incomplete in this regard due to the degree
+restrictions. Also it cannot be applied straightforwardly to guards
+containing operators that do not belong to the language of ordered
+rings.
+
+Whenever we happen to detect a relevant implication, we actually turn
+the corresponding non-generic case into the generic one. From our
+motivation of non-generic cases, we may expect that non-generic
+expressions are generally more convenient than generic ones.
+%
+\section{Examples}\label{examples}
+We give the results for the following computations as they are printed
+in the output mode {\em matrix} providing the full information on the
+computation result. The reader can derive himself what the output in
+the mode {\em generic case} or {\em generic term} would be.
+\begin{itemize}
+\item Smart mode or not:
+$$
+\frac{1}{x^2+2x+1}=\begin{gex}
+\gc{x+1\neq0}& \gc{\frac{1}{x^2+2x+1}}
+		   \end{gex}.
+$$
+The simplifier recognizes that the denominator is a square.
+\item Smart mode or not:
+$$
+\frac{1}{x^2+2x+2}=\begin{gex}
+\gc{\true}& \gc{\frac{1}{x^2+2x+2}}
+		   \end{gex}.
+$$
+Quantifier elimination recognizes the positive definiteness of the
+denominator.
+\item Smart mode:
+$$
+|x|-\sqrt{x}=\begin{gex}
+\gc{x\geq 0} & \gc{-\sqrt{x}+x}
+	     \end{gex}.
+$$
+The square root allows to forget about the negative branch of the
+absolute value.
+\item Smart mode:
+$$
+|x^2+2x+1|=\begin{gex}
+\gc{\true}&\gc{x^2+2x+1}
+	   \end{gex}.
+$$
+The simplifier recognizes the positive semidefiniteness of
+the argument. {\sc Reduce} itself recognizes squares within absolute values
+only in very special cases such as $|x^2|$.
+\item Smart mode:
+$$
+\min\bigl(x,\max(x,y)\bigr)=\begin{gex}
+\gc{\true}&\gc{x}
+		  \end{gex}.
+$$
+Note that {\sc reduce} does not know any rules about nested minima and
+maxima.
+\item
+Smart mode:
+$$
+\min\bigl(\sign(x),-1\bigr)=\begin{gex}
+\gc{\true}&\gc{-1}
+		  \end{gex}.
+$$
+\item Smart mode or not:
+$$
+|x|-x=\begin{gex}
+\gc{\true}&\gc{|x|-x}\\
+x\geq0&0\\
+x<0&-2x
+      \end{gex}.
+$$
+This example is taken from~\cite{DavenportFaure:94}.
+\item
+Smart mode or not:
+$$
+\sqrt{1+x^2\relax y^2\relax
+(x^2+y^2-3)}={}
+\begin{gex}\gc{\true}&\gc{\sqrt{x^4\relax y^2 +
+x^2\relax y^4 - 3\relax x^2\relax y^2 + 1}}\end{gex}
+$$
+The {\em Motzkin polynomial} is recognized to be positive semidefinite
+by quantifier elimination.
+\end{itemize}
+The evaluation time for the last example is 119\,ms on a {\sc sun
+sparc-4}. This illustrates that efficiency is no problem with such
+interactive examples.
+\section{Outlook}
+This section describes possible extensions of the {\sc guardian}. The
+extensions proposed in Section~\ref{simplification} on simplification
+of terms and Section~\ref{background} on a background theory are clear
+from a theoretical point of view but not yet implemented.
+Section~\ref{integration} collects some ideas on the application of
+our ideas to the {\sc reduce} integrator. In this field, there is some
+more theoretical work necessary.
+%
+\subsection{Simplification of terms}\label{simplification}
+Consider the expression $\sign(x)x-|x|$. It evaluates to the following
+guarded expression:
+$$
+\begin{gex}
+\gc{\true} & \gc{-|x|+\sign(x)x}\\
+x\neq 0 & 0\\
+x=0 & -x
+\end{gex}.
+$$
+This suggests to substitute $-x$ by $0$ in the third case, which would
+in turn allow to contract the two non-generic cases yielding
+$$
+\begin{gex}
+\gc{\true} & \gc{-|x|+\sign(x)x}\\
+\true & 0\end{gex}.
+$$
+In smart mode second case would then become the only generic case.
+
+Generally, one would proceed as follows: If the guard is a conjunction
+containing as toplevel equations
+$$
+t_1=0,\quad \dots,\quad t_k=0,
+$$
+reduce the corresponding expression modulo the set of univariate
+linear polynomials among $t_1$, \dots,~$t_k$.
+
+A more general approach would reduce the expression modulo a Gr\"obner
+basis of all the $t_1$, \dots,~$t_k$. This leads, however, to larger
+expressions in general.
+
+One can also imagine to make use of non-conjunctive guards in the
+following way:
+\begin{enumerate}
+\item Compute a {\sc dnf} of the guard.
+\item Split the case into several cases corresponding to the
+conjunctions in the {\sc dnf}.
+\item Simplify the terms.
+\item Apply the standard simplification procedure to the resulting
+guarded expression. Note that it includes {\em contraction of cases}.
+\end{enumerate}
+According to experiences with similar ideas in the ``Gr\"obner
+simplifier'' described in~\cite{DolzmannSturm:95}, this should work
+well.
+%
+\subsection{Background theory}\label{background}
+In practice one often computes with quantities guaranteed to lie in a
+certain range. For instance, when computing an electrical resistance,
+one knows in advance that it will not be negative. For such cases one
+would like to have some facility to provide external information to
+the system. This can then be used to reduce the complexity of the
+guarded expressions.
+
+One would provide a function {\tt assert($\varphi$)}, which asserts
+the formula {\tt $\varphi$} to hold. Successive applications of {\tt
+assert} establish a {\em background theory}, which is a set of
+formulas considered conjunctively. The information contained in the
+background theory can be used with the guarded expression computation.
+The user must, however, not rely on all the background information to
+be actually used.
+
+Technically, denote by $\Phi$ the (conjunctive) background theory. For
+the {\em simplification of the guards}, we can make use of the fact
+that our simplifier is designed to simplify wrt.~a theory,
+cf.~\cite{DolzmannSturm:95}. For proving that some guard $\gamma$ is
+{\em tautological}, we try to prove
+$$\underline{\forall}(\Phi\longrightarrow\gamma)$$ instead of
+$\underline{\forall}\gamma$. Similarly, for proving that $\gamma$ is
+{\em contradictive}, we try to disprove
+$$\underline{\exists}(\Phi\land\gamma).$$ Instead of proving
+$\underline{\forall}(\gamma_1\longrightarrow\gamma_2)$ in smart mode, we try to
+prove
+$$\underline{\forall}\bigl((\Phi\land\gamma_1)\longrightarrow\gamma_2\bigr).$$
+
+Independently, one can imagine to use a background theory for reducing
+the {\em output} with the {\em matrix} output mode. For this, one
+simplifies each guard wrt.~the theory at the output stage treating
+contradictions and tautologies appropriately. Using the theory for
+replacing all cases by one at output stage in a smart mode manner
+leads once more to the problem of expressions or even guarded
+expressions ``mysteriously'' getting more complicated. Applying the
+theory only at the output stage makes it possible to implement a
+procedure {\tt unassert($\varphi$)} in a reasonable way.
+%
+\subsection{Integration}\label{integration}
+{\sc Cas} integrators make ``mistakes'' similar to those we have
+examined. Consider, e.g., the typical result
+$$
+\int x^a\,dx=\frac{1}{a+1}x^{a+1}.
+$$
+It does not cover the case $a=-1$, for which one wishes to obtain
+$$
+\int x^{-1}\,dx=\ln x.
+$$
+This problem can also be solved by using guarded expressions for
+integration results.
+
+Within the framework of this paper, we would have to associate a
+guarding scheme to the integrator {\tt int}. It is not hard to see
+that this cannot be done in a reasonable way without putting as much
+knowledge into the scheme as into the integrator itself. Thus for
+treating integration, one has to modify the integrator to provide
+guarded expressions.
+
+Next, we have to clarify what the guarded expression for the above
+integral would look like. Since we know that the integral is defined
+for all interpretations of the variables, our
+assumption~(\ref{gencoversall}) implies that the generic condition be
+``$\true$.'' We obtain the guarded expression
+$$
+\begin{gex}
+\gc{\true}& \gc{\int x^a\,dx}\\
+a\neq-1& \frac{1}{a+1}x^{a+1}\\
+a=-1 & \ln x
+\end{gex}.
+$$
+Note that the redundant generic case does not model the system's
+current behavior.
+%
+\subsection{Combining algebra with logic}
+Our method, in the described form, uses an already implemented
+algebraic evaluator. In the previous section, we have seen that this
+point of view is not sufficient for treating integration
+appropriately.
+
+Also our approach runs into trouble with built-in knowledge such as
+\begin{eqnarray}
+\sqrt{x^2}&=&|x|\label{sqrtrule},\\
+\sign(|x|)&=&1\label{signrule}.
+\end{eqnarray}
+Equation~(\ref{sqrtrule}) introduces an absolute value operator within
+a non-generic term without making a case distinction.
+Equation~(\ref{signrule}) is wrong when not considering $x$
+transcendental. In contrast to the situation with reciprocals, our
+technique cannot be used to avoid this ``mistake.'' We obtain
+$$
+\sign(|x|)=\begin{gex}
+\gc{\true} & \gc{1}\\
+x\neq0 & 1\\
+x=0 & 0
+	   \end{gex}
+$$
+yielding two different answers for $x=0$.
+
+We have already seen in the example Section~\ref{examples} that the
+implementation of knowledge such as~(\ref{sqrtrule})
+and~(\ref{signrule}) is usually quite {\it ad hoc}, and can be mostly
+covered by using guarded expressions. This obesrvation gives rise to
+the following question: When designing a new {\sc cas} based on guarded
+expressions, how should the knowledge be distributed between the
+algebraic side and the logic side?
+%
+\section{Conclusions}
+Guarded expressions can be used to overcome well-known problems with
+interpreting expressions as terms. We have explained in detail how to
+compute with guarded expressions including several simplification
+techniques. Moreover we gain algebraic simplification power from the
+logical simplifications. Numerous examples illustrate the power of our
+simplification methods. The largest part of our ideas is efficiently
+implemented, and the software is published. The outlook on background
+theories and on the treatment of integration by guarded expressions
+points on interesting future extensions.
+\nocite{Bradford:92}
+
+\begin{thebibliography}{10}
+
+\bibitem{Bradford:92}
+{Bradford, R.}
+\newblock Algebraic simplification of multiple valued functions.
+\newblock In {\em Design and Implementation of Symbolic Computation Systems\/}
+  (1992), J.~Fitch, Ed., vol.~721 of {\em Lecture Notes in Computer Science},
+  Springer-Verlag, pp.~13--21.
+\newblock Proceedings of the DISCO 92.
+
+\bibitem{BroadberryGomezDiazWatt:95}
+{Broadberry, P., G\'omez-D\'{\i}az, T., and Watt, S.}
+\newblock On the implementation of dynamic evaluation.
+\newblock In {\em Proceedings of the International Symposium on Symbolic and
+  Algebraic Manipulation (ISSAC 95)\/} (New York, N.Y., 1995), A.~Levelt, Ed.,
+  ACM Press, pp.~77--89.
+
+\bibitem{Collins:75}
+{Collins, G.~E.}
+\newblock Quantifier elimination for the elementary theory of real closed
+  fields by cylindrical algebraic decomposition.
+\newblock In {\em Automata Theory and Formal Languages. 2nd GI Conference\/}
+  (Berlin, Heidelberg, New York, May 1975), H.~Brakhage, Ed., vol.~33 of {\em
+  Lecture Notes in Computer Science}, Gesellschaft f\"ur Informatik,
+  Springer-Verlag, pp.~134--183.
+
+\bibitem{CorlessJeffrey:92}
+{Corless, R.~M., and Jeffrey, D.~J.}
+\newblock Well \dots it isn't quite that simple.
+\newblock {\em ACM SIGSAM Bulletin 26}, 3 (Aug. 1992), 2--6.
+\newblock Feature.
+
+\bibitem{DavenportFaure:94}
+{Davenport, J.~H., and Faure, C.}
+\newblock The ``unknown'' in computer algebra.
+\newblock {\em Programmirovanie 1}, 1 (1994).
+
+\bibitem{DolzmannSturm:95}
+{Dolzmann, A., and Sturm, T.}
+\newblock Simplification of quan\-ti\-fier-free formulas over ordered fields.
+\newblock Technical Report MIP-9517, FMI, Universit\"at Passau, D-94030 Passau,
+  Germany, Oct. 1995.
+\newblock To appear in the Journal of Symbolic Computation.
+
+\bibitem{DolzmannSturm:96}
+{Dolzmann, A., and Sturm, T.}
+\newblock Redlog---computer algebra meets computer logic.
+\newblock Technical Report MIP-9603, FMI, Universit\"at Passau, D-94030 Passau,
+  Germany, Feb. 1996.
+
+\bibitem{DolzmannSturm:96a}
+{Dolzmann, A., and Sturm, T.}
+\newblock Redlog user manual.
+\newblock Technical Report MIP-9616, FMI, Universit\"at Passau, D-94030 Passau,
+  Germany, Oct. 1996.
+\newblock Edition 1.0 for Version 1.0.
+
+\bibitem{DuvalGonzalesVega:93}
+{Duval, D., and Gonz\'ales-Vega, L.}
+\newblock Dynamic evaluation and real closure.
+\newblock In {\em Proceedings of the IMACS Symposium on Symbolic Computation\/}
+  (1993).
+
+\bibitem{DuvalReynaud:94}
+{Duval, D., and Reynaud, J.-C.}
+\newblock Sketches and computation {I}: Basic definitions and static
+  evaluation.
+\newblock {\em Mathematical Structures in Computer Science 4}, 2 (1994),
+  185--238.
+
+\bibitem{DuvalReynaud:94a}
+{Duval, D., and Reynaud, J.-C.}
+\newblock Sketches and computation {II}: Dynamic evaluation and applications.
+\newblock {\em Mathematical Structures in Computer Science 4}, 2 (1994),
+  239--271.
+
+\bibitem{GomezDiaz:93}
+{G\'omez-D\'{\i}az, T.}
+\newblock Examples of using dynamic constructible closure.
+\newblock In {\em Proceedings of the IMACS Symposium on Symbolic Computation\/}
+  (1993).
+
+\bibitem{HearnFitch:95}
+{Hearn, A.~C., and Fitch, J.~P.}
+\newblock {\em Reduce User's Manual for Version~3.6}.
+\newblock RAND, Santa Monica, CA 90407-2138, July 1995.
+\newblock RAND Publication CP78.
+
+\bibitem{Hong:93}
+{Hong, H., Collins, G.~E., Johnson, J.~R., and Encarnacion, M.~J.}
+\newblock {QEPCAD} interactive version 12.
+\newblock Kindly communicated to us by Hoon Hong, Sept. 1993.
+
+\bibitem{LoosWeispfenning:93}
+{Loos, R., and Weispfenning, V.}
+\newblock Applying linear quantifier elimination.
+\newblock {\em The Computer Journal 36}, 5 (1993), 450--462.
+\newblock Special issue on computational quantifier elimination.
+
+\bibitem{Melenk:95}
+{Melenk, H.}
+\newblock Reduce symbolic mode primer.
+\newblock In {\em REDUCE 3.6 User's Guide for UNIX}. Konrad-Zuse-Institut,
+  Berlin, 1995.
+
+\bibitem{Tarski:48}
+{Tarski, A.}
+\newblock A decision method for elementary algebra and geometry.
+\newblock Tech. rep., University of California, 1948.
+\newblock Second edn., rev. 1951.
+
+\bibitem{Weispfenning:88}
+{Weispfenning, V.}
+\newblock The complexity of linear problems in fields.
+\newblock {\em Journal of Symbolic Computation 5}, 1 (Feb. 1988), 3--27.
+
+\bibitem{Weispfenning:92}
+{Weispfenning, V.}
+\newblock Comprehensive {G}r\"obner bases.
+\newblock {\em Journal of Symbolic Computation 14\/} (July 1992), 1--29.
+
+\bibitem{Weispfenning:94}
+{Weispfenning, V.}
+\newblock Quantifier elimination for real algebra---the cubic case.
+\newblock In {\em Proceedings of the International Symposium on Symbolic and
+  Algebraic Computation in Oxford\/} (New York, July 1994), ACM Press,
+  pp.~258--263.
+
+\bibitem{Weispfenning:96}
+{Weispfenning, V.}
+\newblock Quantifier elimination for real algebra---the quadratic case and
+  beyond.
+\newblock To appear in AAECC.
+
+\end{thebibliography}
+\end{document}

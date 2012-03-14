@@ -1,0 +1,187 @@
+\documentstyle[11pt,reduce,fancyheadings]{article}
+\title{The Weierstrass substitution in REDUCE}
+
+\author{Neil Langmead \\
+        Konrad-Zuse-Zentrum f\"ur Informationstechnik (ZIB) \\ 
+        Takustrasse 7  \\
+        D- 14195 Berlin Dahlem \\
+        Berlin
+        Germany}
+\date{January 1997}
+
+\def\foottitle{The Weierstrass substitution}
+\pagestyle{fancy}
+\lhead[]{{\footnotesize\leftmark}{}}
+\rhead[]{\thepage}
+\lfoot[]{Neil Langmead}
+\rfoot[]{}
+\addtolength{\oddsidemargin}{-20 mm}
+\addtolength{\textwidth}{25 mm}
+\pagestyle{fancy}
+\setlength{\headrulewidth}{0.6pt}
+\setlength{\footrulewidth}{0.6pt}
+\setlength{\topmargin}{1 mm}
+\setlength{\footskip}{10 mm}
+\setlength{\textheight}{220 mm}
+\cfoot{}
+\rfoot{\small\foottitle}
+
+\def\exprlist   {exp$_{1}$,exp$_{2}$, \ldots ,exp$_{{\tt n}}$}
+\def\lineqlist  {lin\_eqn$_{1}$,lin\_eqn$_{2}$, \ldots ,lin\_eqn$_{n}$}
+\begin{document}
+\maketitle
+%\begin{center} \Large The Weirstrass Substitution in REDUCE
+%\end{center} }
+\pagebreak
+\tableofcontents
+\pagebreak
+\section{Introduction}
+This package is an implementation of a new algorithm proposed by D.J. Jeffrey and A.D. Rich ~\cite{Jeff} to remove "spurious" discontinuities from integrals. Their paper focuses on the Weirstrass substitution,$u=\tan(x/2)$, currently used in conjunction with the Risch algorithm in most computer algebra systems to evaluate trigonometric integrals. Expressions obtained using this substitution sometimes contain discontinuities, which limit the domain over which the expression is correct. The algorithm presented finds a better expression, in the sense that it is continous on wider intervals whilst still being an anti derivative of the integrand.
+
+\subsection{Example}
+ Consider the following problem:  \\
+     \begin{equation} \int \frac{3}{5-4\cos(x)}\,dx  \end{equation} 
+
+\small{REDUCE} \normalsize computes an anti derivative to the given function using the Weirstrass substitution $u=tan(\frac{x}{2})$, and then the Risch algorithm is used, returning: 
+    \begin{equation} \frac{2\arctan(3\tan(\frac{x}{2}))}{3}, \end{equation}
+which is discontinuous at all odd multiples of $\pi$. Yet our original function is continuous everywhere on the real line, and so by the Fundamental Theorem of Calculus, any anti-derivative should also be everywhere continuous. The problem arises from the substitution used to transform the given trigonometric function to a rational function: often, the substituted function is discontinuous, and spurious discontinuities are introduced as a result. \\
+Jeffery and Richs' algorithm returns the following to the given problem: \\
+\[ \int \frac{3}{5-4\cos(x)}\,dx = 2\arctan(3\tan(\frac{x}{2}))+2\pi\lfloor \frac{x-\pi}{2\pi} \rfloor \]
+which differs from (2) by the constant 2$\pi$, and this is the correct way of removing the discontinuity.
+\pagebreak 
+\section{Statement of the Algorithm}
+We define a Weierstrass substitution to be one that uses a function $u=\Phi(x)$ appearing in the following table: \\
+
+\begin{tabular}{|c|p{1in}|p{0.5in}|p{0.5in}|p{0.5in}|c|c||} \hline 
+\multicolumn{7}{|l|}{Functions $u=\Phi$ used in the Weirstrass Alg. and their corresponding substitutions} \\ \hline
+\multicolumn{1}{|c|}{Choice} 
+&\multicolumn{1}{|c|}{  $\Phi(x)$  } 
+&\multicolumn{1}{|c|}{  $\sin(x)$  } 
+&\multicolumn{1}{|c|}{  $\cos(x)$  } 
+&\multicolumn{1}{|c|}{  $dx$  } 
+&\multicolumn{1}{|c|}{  $b$  } 
+&\multicolumn{1}{|c|}{  $p$  }  \\  \hline
+$(a)$  & $\tan(x/2)$ & $\frac{2u}{1+u^{2}}$ & $ \frac{1-u^{2}}{1+u^{2}}$ & $\frac{2du}{1+u^{2}}$ & $\pi$ & $2\pi$ \\ \hline
+$(b)$  & $\tan(\frac{x}{2}+\frac{\pi}{4})$ & $\frac{u^{2}-1}{u^{2}+1}$ & $\frac{2u}{u^{2}+1} $ & $\frac{2du}{1+u^{2}}$ & $\frac{\pi}{2}$ & $2\pi$ \\ \hline
+$(c)$ & $\cot(x/2)$ & $\frac{2u}{1+u^{2}}$ & $\frac{u^{2}-1}{1+u^{2}}$ & $\frac{-2du}{1+u^{2}}$ & $0$ & $2\pi$ \\ \hline
+$(d)$ & $\tan(x)$ & $\frac{u}{\sqrt{1+u^{2}}}$ & $\frac{1}{\sqrt{1+u^{2}}}$ & $\frac{du}{1+u^{2}}$ & $\frac{\pi}{2}$ & $\pi$ \\ \hline         
+\end{tabular} \vspace{4mm}
+
+There are of course, other trigonometric substitutions, used by \small{REDUCE}, \normalsize such as $\sin$ and $\cos$, but since these are never singular, they cannot lead to problems with discontinuities. \\
+Given an integrable function $f(\sin x,\cos x)$ whose indefinite integral is required, select one of the substitutions listed in the table. The choice is based on the following heuristics: choice (a) is used for integrands not containing $\sin x$, choice (b) for integrands not containing $\cos x$; (c) is useful in cases when (a) gives an integral that cannot be evaluated by \small{REDUCE},\normalsize and (d) is good for conditions described in Gradshteyn and Ryzhik (1979, sect 2.50). The integral is then transformed using the entries in the table,; for example, with choice (c), we have:
+\[ \int f(\sin x,\cos x)\, dx = \int f(\frac{2u}{1+u^{2}},\frac{u^{2}-1}{1+u^{2}})\,\frac{-2 du}{1+u^{2}} . \]
+
+The integral in $u$ is now evaluated using the standard routines of the system, then $u$ is substituted for. Call the result $\hat{g}(x)$. Next we calculate
+ \[ K=\lim_{x \rightarrow b^{-}} \hat{g}(x) - \lim_{x \rightarrow b^{+}} \hat{g}(x), \]
+where the point $b$ is given in the table. the corrected integral is then
+\[ g(x)=\int f(\sin x,\cos x)\,dx = \hat{g}(x)+K\lfloor \frac{x-b}{p} \rfloor, \]
+where the period $p$ is taken from the table, and $\lfloor x \rfloor$ is the floor function.
+\pagebreak
+\section{REDUCE implementation}
+The name of the function used in \small{REDUCE} \normalsize to implement these ideas is trigint, which has the following syntax:
+\begin{center}  \bf{trigint(exp,var)}, \end{center}
+where exp is the expression to be integrated, and var is the variable of integration.  \\
+If trigint is used to calculate the integrals of trigonometric functions for which no substitution is necessary, then non standard results may occur. For example, if we calculate
+  \begin{center} \bf{trigint(cos(x),x)}, \end{center}
+we obtain \\
+\[ \frac{2\tan\frac{x}{2}}{\tan\frac{x}{2}^{2}+1} \]
+which, by using simple trigonometric identities, simplifies to: \\
+\[  \frac{2\tan\frac{x}{2}}{\tan\frac{x}{2}^{2}+1} \rightarrow \frac{2\tan\frac{x}{2}}{\sec^{2}\frac{x}{2}} \rightarrow 2\sin\frac{x}{2}\cos\frac{x}{2} \rightarrow \sin 2\frac{x}{2} \rightarrow \sin x, \]
+which is the answer we would normally expect. In the absence of a normal form for trigonometric functions though, both answers are equally valid, although most would prefer the simpler answer $\sin x.$ Thus, some interesting trigonometric identities could be derived from the program if one so wished. 
+\subsection{Examples}
+Using our example in (1), we compute the corrected result, and show a few other examples as well:
+\begin{verbatim}
+
+
+REDUCE Development Version,  4-Nov-96 ...
+
+1: trigint(3/(5-4*cos(x)),x);
+
+
+               x              - pi + x
+2*(atan(3*tan(---)) + floor(-----------)*pi)
+               2               2*pi
+
+\end{verbatim}
+\pagebreak
+\begin{verbatim}
+2: trigint(3/(5+4*sin(x)),x);
+
+                                         2
+               pi + 2*x              - pi  + 2*pi*x
+2*(atan(3*tan(----------)) + floor(-----------------)*pi
+                  4                        4
+
+              - pi + 2*x
+    + floor(-------------)*pi)
+                4*pi
+
+
+
+3: trigint(15/(cos(x)*(5-4*cos(x))),x);
+
+
+              x                - pi + x                   x
+8*atan(3*tan(---)) + 8*floor(-----------)*pi - 3*log(tan(---) - 1)
+              2                 2*pi                      2
+
+              x
+ + 3*log(tan(---) + 1)
+              2
+
+
+\end{verbatim}
+\section{Definite Integration}
+The corrected expressions can now be used to calculate some definite integrals, provided the region of integration lies between adjacent singularities. For example, using our earlier function, we can use the corrected primitive to calculate  
+     \begin{equation} \int_{0}^{4\pi} \frac{1}{2+\cos x}\,dx \end{equation}
+trigint returns the answer below to give an indefinite integral, $F(x)$:
+\begin{verbatim}
+        
+
+                       x
+                  tan(---)
+                       2               - pi + x
+ 2*sqrt(3)*(atan(----------) + floor(-----------)*pi)
+                  sqrt(3)               2*pi
+------------------------------------------------------                   (*) 
+                          3
+
+\end{verbatim}
+And now, we can apply the Fundamental Theorem of Calculus to give
+ \begin{equation} \int_{0}^{4\pi} \frac{1}{2+\cos x}\,dx = F(4\pi)-F(0) \end{equation}
+\begin{verbatim}
+
+sub(x=4*pi,F)-sub(x=0,F);
+
+
+   4*sqrt(3)*pi
+-----------------
+        3
+
+\end{verbatim}
+and this is the correct value of the definite integral.
+Note that although the expression in (*) is continuous, the functions value at the points $x=\pi,3\pi$ etc. must be intepreted as a limit, and these values cannot substituted directly into the formula given in (*). Hence care should be taken to ensure that the definite integral is well defined, and that singularities are dealt with appropriately. For more details of this in \small{REDUCE},\normalsize please see the documentation for the $cwi$ addition to the $defint$ package.
+
+\section{Tracing the $trigint$ function}
+
+The package includes a facility to trace in some detail the inner workings of the $ratint$ program. Messages are given at key points of the algorithm, together with the results obtained. These messages are displayed whenever the switch $tracetrig$ is on, which is done in \small{REDUCE} \normalsize with the following command:
+\begin{verbatim}
+on tracetrig;
+\end{verbatim}
+This switch is off by default. In particular, the messages inform the user which substitution is being tried, and the result of that substitution. The error message
+\begin{verbatim}
+cannot integrate after subs
+\end{verbatim}
+means that \small{REDUCE} \normalsize has tried all four of the Weierstra\ss \hspace{1 mm} substitutions, and the system's standard integrator is unable to integrate after the substitution has been completed.
+
+\section{Bugs, comments, suggestions}
+This program was written whilst the author was a placement student at ZIB Berlin. Please refer all suggestions, comments or bugs therefore to Winfried Neun, Symbolik, ZIB, Takustrasse 7, D- 14195 Berlin Dahlem, Germany (e-mail neun@zib.de).
+
+\begin{thebibliography}{99999}
+
+\bibitem[Jeff]{Jeff} Jeffery, D.J. and Rich, A.D.
+{\it The Evaluation of Trigonometric Integrals avoiding Spurious Discontinuities
+}, article appearing in ACM Trans. Math Software
+
+\end{thebibliography}
+\end{document}

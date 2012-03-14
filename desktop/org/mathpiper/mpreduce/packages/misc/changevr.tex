@@ -1,0 +1,183 @@
+\newcommand{\definedas}{\stackrel{\triangle}{=}}
+\newcommand{\spc}{\;\;\;\;\;}
+\newcommand{\mspc}{\;\;\;\;\;\;\;\;\;\;}
+\newcommand{\lspc}{\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;}
+
+\documentstyle[fleqn,11pt]{article}
+
+\renewcommand{\baselinestretch}{1.1}
+\newcommand{\eg}[1]{\begin{quote}{\tt #1} \end{quote}}
+\setlength{\textwidth}{15cm}
+\addtolength{\oddsidemargin}{-1cm}
+
+\title{                    CHANGEVR,  \\
+                         A REDUCE Facility   \\
+                              to   \\
+                    Perform Change of Independent Variable(s)\\
+                               in \\
+                    Differential Equations\\[2cm]
+        }
+\author{
+          G. \"{U}\c{c}oluk
+	     \thanks{Email address: UCOLUK@TRMETU.BITNET}
+                     \\
+                               Department of Physics \\
+                               Middle East Technical University \\
+                               Ankara, Turkey
+       }
+\date{October 1989}
+
+\begin{document}
+\maketitle
+\newpage
+
+\section{Introduction}
+The mathematics behind the change of independent variable(s) in differential
+equations is quite straightforward. It is basically the application of the
+chain rule. If the dependent variable of the differential equation is $F$,
+the independent variables are $x_{i}$ and the new independent variables are
+$u_{i}$ (where ${\scriptstyle i=1\ldots n}$) then the first derivatives are:
+\[
+    \frac{\partial F}{\partial x_{i}} = \frac{\partial F}{\partial u_{j}}
+                                        \frac{\partial u_{j}}{\partial x_{i}}
+\]
+We assumed Einstein's summation convention. Here the problem is to
+calculate the $\partial u_{j}/\partial x_{i}$ terms if the change of variables
+is given by
+\[
+    x_{i} = f_{i}(u_{1},\ldots,u_{n})
+\]
+The first thought might be solving the above given equations for $u_{j}$ and
+then differentiating them with respect to $x_{i}$, then again making use of the
+equations above, substituting new variables for the old ones in the calculated
+derivatives. This is not always a  preferable way to proceed. Mainly because
+the functions $f_{i}$ may not always be easily invertible. Another approach
+that makes use of the Jacobian is better. Consider the above given equations
+which relate the old variables to the new ones. Let us differentiate them:
+\begin{eqnarray*}
+  \frac{\partial x_{j}}{\partial x_{i}} & = &
+        \frac{\partial f_{j}}{\partial x_{i}}   \\
+  \delta_{ij} & = &
+        \frac{\partial f_{j}}{\partial u_{k}}
+        \frac{\partial u_{k}}{\partial x_{i}}
+\end{eqnarray*}
+The first derivative is nothing but the $(j,k)$ th entry of the Jacobian matrix.
+
+So if we speak in matrix language
+\[ {\bf 1 = J \cdot D} \]
+where we defined the Jacobian
+\[ {\bf J}_{ij} \definedas  \frac{\partial f_{i}}{\partial u_{j}} \]
+and the matrix of the derivatives we wanted to obtain as
+\[ {\bf D}_{ij} \definedas  \frac{\partial u_{i}}{\partial x_{j}}. \]
+If the Jacobian has a non-vanishing determinant then it is invertible and
+we are able to write from the matrix equation above:
+\[ {\bf  D = J^{-1}} \]
+so finally we have what we want
+\[
+   \frac{\partial u_{i}}{\partial x_{j}} = \left[{\bf J^{-1}}\right]_{ij}
+\]
+
+The higher derivatives are obtained by the successive application of the chain
+rule and using the definitions of the old variables in terms of the new ones. It
+
+can be easily verified that the only derivatives that are needed to be
+calculated are the first order ones which are obtained above.
+
+\section{How to Use CHANGEVR}
+{\bf This facility requires the matrix package to be present in the session}.
+So if it is not autoloaded in your REDUCE implementation, say
+\eg{LOAD\_PACKAGE MATRIX;}
+in the REDUCE environment. Then load {\tt CHANGEVR} by the statement:
+\eg{LOAD\_PACKAGE CHANGEVR\$}
+Now the REDUCE function {\tt CHANGEVAR} is ready to use. {\bf Note:  The
+package is named CHANGEVR, but the function has the name CHANGEVAR}.  The
+function {\tt CHANGEVAR} has (at least) four different arguments.  Here we
+give a list them:
+\begin{itemize}
+\item {\bf FIRST ARGUMENT} \\
+     Is a list of the dependent variables of the differential equation.
+     They shall be enclosed in a pair of curly braces and separated by commas.
+     If there is only one dependent variable there is no need for the curly
+     braces.
+\item {\bf SECOND ARGUMENT}  \\
+     Is a list of the {\bf new} independent variables. Similar to what is said
+     for the first argument, these shall also be separated by commas,
+     enclosed in curly braces and the curly braces can be omitted if there is
+     only one new variable.
+\item {\bf THIRD ARGUMENT}  \\
+     Is a list of equations separated by commas, where each of the equation
+     is of the form
+      \eg{{\em old variable} = {\em a function in new variables}}
+     The left hand side cannot be a non-kernel structure. In this argument
+     the functions which give the old variables in terms of the new ones are
+     introduced. It is possible to omit totally the curly braces which enclose
+     the list. {\bf Please note that only for this argument it is allowed to
+     omit the curly braces even if the list has \underline{more than one}
+     items}.
+\item {\bf LAST ARGUMENT}  \\
+     Is a list of algebraic expressions which evaluates to  differential
+     equations, separated by commas, enclosed in curly braces.
+     So, variables in which differential equations are already stored may be
+     used freely. Again it is possible to omit the curly braces if there is
+     only {\bf one} differential equation.
+\end{itemize}
+
+If the last argument is a list then the result of {\tt CHANGEVAR} is also a
+list.
+
+It is possible to display the entries of the inverse Jacobian, explained
+in the introduction.  To do so, turn {\tt ON} the flag {DISPJACOBIAN} by a
+statement: \eg{ON DISPJACOBIAN;}
+
+\section{AN EXAMPLE\ldots\ldots The 2-dim. Laplace Equation}
+The 2-dimensional Laplace equation in cartesian coordinates is:
+\[
+   \frac{\partial^{2} u}{\partial x^{2}} +
+   \frac{\partial^{2} u}{\partial y^{2}} = 0
+\]
+Now assume we want to obtain the polar coordinate form of Laplace equation.
+The change of variables is:
+\[
+   x = r \cos \theta, \mspc  y = r \sin \theta
+\]
+The solution using {\tt CHANGEVAR}  (of course after it is properly loaded)
+is as follows
+\eg{CHANGEVAR(\{u\},\{r,theta\},\{x=r*cos theta,y=r*sin theta\}, \\
+    \hspace*{2cm}     \{df(u(x,y),x,2)+df(u(x,y),y,2)\} )}
+Here we could omit the curly braces in the first and last arguments (because
+those lists have only one member) and the curly braces in the third argument
+(because they are optional), but you cannot leave off the curly braces in the
+second argument. So one could equivalently write
+\eg{CHANGEVAR(u,\{r,theta\},x=r*cos theta,y=r*sin theta,        \\
+    \hspace*{2cm}     df(u(x,y),x,2)+df(u(x,y),y,2) )}
+
+If you have tried out the above example, you will notice that the denominator
+contains a $\cos^{2} \theta + \sin^{2} \theta$ which is actually equal to $1$.
+This has of course nothing to do with the {\tt CHANGEVAR} facility introduced
+here.  One has to be overcome these pattern matching problems by the
+conventional methods REDUCE provides (a {\tt LET} statement, for example,
+will fix it).
+
+Secondly you will notice that your {\tt u(x,y)} operator has changed to
+{\tt u(r,theta)} in the result. Nothing magical  about this. That is just what
+we do with pencil and paper. {\tt u(r,theta)} represents the  the transformed
+dependent variable.
+
+\section{ANOTHER EXAMPLE\ldots\ldots An Euler Equation}
+Consider a differential equation which is of Euler type, for instance:
+\[
+   x^{3}y''' - 3 x^{2}y'' + 6 x y' - 6 y = 0
+\]
+Where prime denotes differentiation with respect to $x$. As is well known,
+Euler type of equations are solved by a change of variable:
+\[
+   x = e^{u}
+\]
+So our  {\tt CHANGEVAR} call reads as follows:
+\eg{CHANGEVAR(y, u, x=e**u, x**3*df(y(x),x,3)-   \\
+    \hspace*{2cm}   3*x**2*df(y(x),x,2)+6*x*df(y(x),x)-6*y(x))}
+
+\end{document}
+
+
+

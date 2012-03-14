@@ -331,7 +331,8 @@ office@geogebra.org
 			excludes="**/*.java,
 			geogebra/cas/maxima/**,
 			geogebra/cas/jacomax/**,
-			geogebra/cas/mathpiper/**" 
+			geogebra/cas/mathpiper/**,
+			org/mathpiper/mpreduce/Interpreter2.java" 
 		/>
 	</target>
 

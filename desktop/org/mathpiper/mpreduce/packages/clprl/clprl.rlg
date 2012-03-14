@@ -1,0 +1,344 @@
+off clprlverbose;
+
+
+
+% Choose real closed fields as the domain:
+rlset r;
+
+
+{ofsf}
+
+
+
+% Floor function:
+prog1 := {
+   nat(0) :- true,
+   nat(x+1) :- nat(x),
+   floor(x,y) :- nat(y) & y<=x & y+1>x};
+
+
+prog1 := {nat(0) :- true,
+
+          nat(x + 1) :- nat(x),
+
+          floor(x,y) :- nat(y) & ( - x + y + 1 > 0 and  - x + y <= 0)}
+
+
+goal1 := false :- floor(47.3,y);
+
+
+                         473
+goal1 := false :- floor(-----,y)
+                         10
+
+
+clp(prog1,goal1);
+
+
+y - 47 = 0
+
+
+
+% Loan computations:
+prog2 := {
+   loan(d,t,z,r,s) :- t=0 & d=s,
+   loan(d,t,z,r,s) :- t>0 & loan(d+d*z-r,t-1,z,r,s)};
+
+
+prog2 := {loan(d,t,z,r,s) :- (d - s = 0 and t = 0),
+
+          loan(d,t,z,r,s) :- loan(d*z + d - r,t - 1,z,r,s) & t > 0}
+
+
+goal2a := false :- loan(20000,36,0.01,600,s);
+
+
+                                   1
+goal2a := false :- loan(20000,36,-----,600,s)
+                                  100
+
+goal2b := false :- loan(20000,36,0.01,r,0);
+
+
+                                   1
+goal2b := false :- loan(20000,36,-----,r,0)
+                                  100
+
+goal2c := false :- loan(d,36,0.01,600,0);
+
+
+                               1
+goal2c := false :- loan(d,36,-----,600,0)
+                              100
+
+goal2d := false :- loan(20000,t,0.01,600,s) & s<=0;
+
+
+                                  1
+goal2d := false :- loan(20000,t,-----,600,s) & s <= 0
+                                 100
+
+
+clp(prog2,goal2a);
+
+
+25000000000000000000000000000000000000000000000000000000000000000000*s
+
+ - 69231216408419495739532429807393340691131328733907679880432182353696399 = 0
+
+clp(prog2,goal2b);
+
+
+430768783591580504260467570192606659308868671266092320119567817646303601*r
+
+ - 286153756718316100852093514038521331861773734253218464023913563529260720200
+
+ = 0
+
+clp(prog2,goal2c);
+
+
+1430768783591580504260467570192606659308868671266092320119567817646303601*d
+
+ - 25846127015494830255628054211556399558532120275965539207174069058778216060000
+
+ = 0
+
+clp(prog2,goal2d);
+
+
+250000000000000000000000000000000000000000000000000000000000000000000000000000*s
+
+ + 375237092410308372097728439755679164980769356169611980009221001478921176682\
+04101 = 0 and t - 41 = 0
+
+
+
+% Pythagorean triplets:
+na := {
+   nat(0) :- true,
+   nat(x+1) :- nat(x) & x>=0};
+
+
+na := {nat(0) :- true,nat(x + 1) :- nat(x) & x >= 0}
+
+
+py := append(na,{
+   pyth(x,y,z) :- nat(x) & nat(y) & nat(z) & 2<=x
+      and x<=y and y<=z and x**2+y**2=z**2});
+
+
+py := {nat(0) :- true,
+
+       nat(x + 1) :- nat(x) & x >= 0,
+
+       pyth(x,y,z) :- nat(z) & nat(y) & nat(x)
+
+                                                            2    2    2
+        & ( - x + 2 <= 0 and x - y <= 0 and y - z <= 0 and x  + y  - z  = 0)}
+
+
+clp(py, false :- pyth(3,4,z));
+
+
+z - 5 = 0
+
+clp(py, false :- pyth(9,y,z));
+
+
+ 2    2
+y  - z  + 81 = 0 and y - z <= 0 and y - 12 = 0 and z - 15 = 0
+
+clp(py, false :- pyth(x,y,9));
+
+
+false
+
+
+
+% Wilkonson's Polynomial:
+wi := {
+   wilk(x,e) :- (for i:=1:20 product x+i) + e*x^19 = 0};
+
+
+                       19    20        19          18            17
+wi := {wilk(x,e) :- e*x   + x   + 210*x   + 20615*x   + 1256850*x
+
+                    16               15                14                 13
+        + 53327946*x   + 1672280820*x   + 40171771630*x   + 756111184500*x
+
+                          12                    11                     10
+        + 11310276995381*x   + 135585182899530*x   + 1307535010540395*x
+
+                             9                      8                       7
+        + 10142299865511450*x  + 63030812099294896*x  + 311333643161390640*x
+
+                               6                        5
+        + 1206647803780373360*x  + 3599979517947607200*x
+
+                               4                         3
+        + 8037811822645051776*x  + 12870931245150988800*x
+
+                                2
+        + 13803759753640704000*x  + 8752948036761600000*x + 2432902008176640000
+
+        = 0}
+
+
+wi1 := clp(wi, false :- wilk(x,0) & -20 <= x <= -10);
+
+
+wi1 := x + 20 >= 0 and x + 10 <= 0 and (x + 20 = 0 or x + 19 = 0 or x + 18 = 0
+
+ or x + 17 = 0 or x + 16 = 0 or x + 15 = 0 or x + 14 = 0 or x + 13 = 0
+
+ or x + 12 = 0 or x + 11 = 0 or x + 10 = 0)
+
+wi2 := clp(wi, false :- wilk(x,2^-23) & -20 <= x <= -10);
+
+
+                20               19                 18                   17
+wi2 := 8388608*x   + 1761607681*x   + 172931153920*x   + 10543221964800*x
+
+                    16                      15                       14
+ + 447347234439168*x   + 14028108264898560*x   + 336985244869591040*x
+
+                        13                         12
+ + 6342720331186176000*x   + 94877480085669019648*x
+
+                           11                            10
+ + 1137370949952460554240*x   + 10968398649699241820160*x
+
+                            9                             8
+ + 85079777790228273561600*x  + 528740774622641958944768*x
+
+                              7                               6
+ + 2611655889692786813829120*x  + 10122095419974470210682880*x
+
+                               5                               4
+ + 30198816984091441338777600*x  + 67426052557934862488567808*x
+
+                                3                                2
+ + 107969196810523545855590400*x  + 115794329499468438700032000*x
+
+ + 73425049924762651852800000*x + 20408661249006627717120000 = 0 and x + 20 >= 0
+
+ and x + 10 <= 0
+
+realroots(part(wi2,1,1));
+
+
+{x =  - 20.8469,
+
+ x =  - 8.91725,
+
+ x =  - 8.00727,
+
+ x =  - 6.9997,
+
+ x =  - 6.00001,
+
+ x =  - 5.0,
+
+ x =  - 4.0,
+
+ x =  - 3.0,
+
+ x =  - 2.0,
+
+ x =  - 1}
+
+rlqe rlex wi2;
+
+
+false
+
+
+
+% Minimum (uses disjunction):
+mi := {
+   min(x,y,z) :- x<=y and z=x or x>=y and z=y,
+   max(x,y,z) :- x<=y and z=y or x>=y and z=x};
+
+
+mi := {min(x,y,z)
+
+        :- ((x - y <= 0 and  - x + z = 0) or (x - y >= 0 and  - y + z = 0)),
+
+       max(x,y,z)
+
+        :- ((x - y <= 0 and  - y + z = 0) or (x - y >= 0 and  - x + z = 0))}
+
+
+clp(mi, false :- min(3,4,z));
+
+
+z - 3 = 0
+
+clp(mi, false :- min(x,y,3));
+
+
+(x - y <= 0 and x - 3 = 0) or (x - y >= 0 and y - 3 = 0)
+
+
+
+% Central projection of x on u with light source in c
+% (uses quantified constraints):
+pr := {
+   proj(c1,c2,x1,x2,u1,u2) :-
+      ex(t,t>0 and for i := 1:2 mkand mkid(u,i)=t*(mkid(x,i)-mkid(c,i)))};
+
+
+pr := {proj(c1,c2,x1,x2,u1,u2) :- ex t (t > 0
+
+        and (true and c1*t - t*x1 + u1 = 0 and c2*t - t*x2 + u2 = 0))}
+
+
+clp(pr,false :- proj(42,4711,100,1000,u1,-1));
+
+
+3711*u1 - 58 = 0
+
+
+
+% Linear theory of p-adically valued fields as another domain:
+rlset(padics,101);
+
+
+*** p is set to 101 
+
+*** turned off switch rlqeheu 
+
+*** turned on switch rlsusi 
+
+{r}
+
+
+
+% Detect power of 101:
+va2 := {
+   ppow(1) :- true,
+   ppow(p*x) :- ppow(x) & 1 | x};
+
+
+va2 := {ppow(1) :- true,ppow(101*x) :- ppow(x) & 1 | x}
+
+
+clp(va2, false :- ppow(12201900399479668244827490915525641902001));
+
+
+true
+
+clp(va2, false :- ppow(12201900399479668244827490915525641902002));
+
+
+false
+
+
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 1759 ms  plus GC time: 36 ms
+real	0m2.507s
+user	0m0.015s
+sys	0m0.154s

@@ -1,0 +1,1236 @@
+% Vector test routine
+
+% Author: David Harper (algebra@liverpool.ac.uk)
+%         Computer Algebra Support Officer
+%         University of Liverpool Computer Laboratory.
+
+% Please compare carefully the output from running this test file with the
+% log file provided to make sure your implementation is correct.
+
+linelength 72;
+
+
+80
+
+off allfac;
+
+ on div;
+
+
+vec a,b,c;
+
+
+matrix q;
+
+
+a := avec(ax,ay,az);
+
+
+vec(x) := ax
+
+vec(y) := ay
+
+vec(z) := az
+
+
+b := avec(bx,by,bz);
+
+
+vec(x) := bx
+
+vec(y) := by
+
+vec(z) := bz
+
+
+q := mat((q11,q12,q13),(q21,q22,q23),(q31,q32,q33));
+
+
+     [q11  q12  q13]
+     [             ]
+q := [q21  q22  q23]
+     [             ]
+     [q31  q32  q33]
+
+
+
+c := a+b;
+
+
+vec(x) := ax + bx
+
+vec(y) := ay + by
+
+vec(z) := az + bz
+
+
+c := a-b;
+
+
+vec(x) := ax - bx
+
+vec(y) := ay - by
+
+vec(z) := az - bz
+
+
+c := a cross b;
+
+
+vec(x) := ay*bz - az*by
+
+vec(y) :=  - ax*bz + az*bx
+
+vec(z) := ax*by - ay*bx
+
+
+d := a dot b;
+
+
+d := ax*bx + ay*by + az*bz
+
+a dot c;
+
+
+0
+ b dot c;
+
+
+0
+
+q*a;
+
+
+vec(x) := ax*q11 + ay*q12 + az*q13
+
+vec(y) := ax*q21 + ay*q22 + az*q23
+
+vec(z) := ax*q31 + ay*q32 + az*q33
+
+
+c:=2*f*a - b/7;
+
+
+                    1
+vec(x) := 2*ax*f - ---*bx
+                    7
+
+                    1
+vec(y) := 2*ay*f - ---*by
+                    7
+
+                    1
+vec(z) := 2*az*f - ---*bz
+                    7
+
+
+c(0);
+
+
+          1
+2*ax*f - ---*bx
+          7
+ c(1);
+
+
+          1
+2*ay*f - ---*by
+          7
+ c(2);
+
+
+          1
+2*az*f - ---*bz
+          7
+
+
+1/vmod(a);
+
+
+   2     2     2  - 1/2
+(ax  + ay  + az )
+
+b/vmod(a);
+
+
+             2     2     2  - 1/2
+vec(x) := (ax  + ay  + az )      *bx
+
+             2     2     2  - 1/2
+vec(y) := (ax  + ay  + az )      *by
+
+             2     2     2  - 1/2
+vec(z) := (ax  + ay  + az )      *bz
+
+
+(a cross b)/(a dot b);
+
+
+               ay*bz - az*by
+vec(x) := -----------------------
+           ax*bx + ay*by + az*bz
+
+              - ax*bz + az*bx
+vec(y) := -----------------------
+           ax*bx + ay*by + az*bz
+
+               ax*by - ay*bx
+vec(z) := -----------------------
+           ax*bx + ay*by + az*bz
+
+
+2/3*vmod(a)*a*(a dot c)/(vmod(a cross c));
+
+
+           28     2   2     2   2
+vec(x) := ----*(ax *by  + ax *bz  - 2*ax*ay*bx*by - 2*ax*az*bx*bz
+           3
+
+                     2   2     2   2                     2   2     2   2
+                 + ay *bx  + ay *bz  - 2*ay*az*by*bz + az *bx  + az *by
+
+                     - 1         2     2     2    3      2     2   2
+                )**------*sqrt(ax  + ay  + az )*ax *f - ---*(ax *by
+                     2                                   3
+
+                  2   2                                     2   2
+              + ax *bz  - 2*ax*ay*bx*by - 2*ax*az*bx*bz + ay *bx
+
+                  2   2                     2   2     2   2     - 1
+              + ay *bz  - 2*ay*az*by*bz + az *bx  + az *by )**------
+                                                                2
+
+                  2     2     2    2       28     2   2     2   2
+          *sqrt(ax  + ay  + az )*ax *bx + ----*(ax *by  + ax *bz
+                                           3
+
+                                                  2   2     2   2
+              - 2*ax*ay*bx*by - 2*ax*az*bx*bz + ay *bx  + ay *bz
+
+                                  2   2     2   2     - 1
+              - 2*ay*az*by*bz + az *bx  + az *by )**------
+                                                      2
+
+                  2     2     2       2      2     2   2     2   2
+          *sqrt(ax  + ay  + az )*ax*ay *f - ---*(ax *by  + ax *bz
+                                             3
+
+                                                  2   2     2   2
+              - 2*ax*ay*bx*by - 2*ax*az*bx*bz + ay *bx  + ay *bz
+
+                                  2   2     2   2     - 1
+              - 2*ay*az*by*bz + az *bx  + az *by )**------
+                                                      2
+
+                  2     2     2              28     2   2     2   2
+          *sqrt(ax  + ay  + az )*ax*ay*by + ----*(ax *by  + ax *bz
+                                             3
+
+                                                  2   2     2   2
+              - 2*ax*ay*bx*by - 2*ax*az*bx*bz + ay *bx  + ay *bz
+
+                                  2   2     2   2     - 1
+              - 2*ay*az*by*bz + az *bx  + az *by )**------
+                                                      2
+
+                  2     2     2       2      2     2   2     2   2
+          *sqrt(ax  + ay  + az )*ax*az *f - ---*(ax *by  + ax *bz
+                                             3
+
+                                                  2   2     2   2
+              - 2*ax*ay*bx*by - 2*ax*az*bx*bz + ay *bx  + ay *bz
+
+                                  2   2     2   2     - 1
+              - 2*ay*az*by*bz + az *bx  + az *by )**------
+                                                      2
+
+                  2     2     2
+          *sqrt(ax  + ay  + az )*ax*az*bz
+
+           28     2   2     2   2
+vec(y) := ----*(ax *by  + ax *bz  - 2*ax*ay*bx*by - 2*ax*az*bx*bz
+           3
+
+                     2   2     2   2                     2   2     2   2
+                 + ay *bx  + ay *bz  - 2*ay*az*by*bz + az *bx  + az *by
+
+                     - 1         2     2     2    2         2     2   2
+                )**------*sqrt(ax  + ay  + az )*ax *ay*f - ---*(ax *by
+                     2                                      3
+
+                  2   2                                     2   2
+              + ax *bz  - 2*ax*ay*bx*by - 2*ax*az*bx*bz + ay *bx
+
+                  2   2                     2   2     2   2     - 1
+              + ay *bz  - 2*ay*az*by*bz + az *bx  + az *by )**------
+                                                                2
+
+                  2     2     2              28     2   2     2   2
+          *sqrt(ax  + ay  + az )*ax*ay*bx + ----*(ax *by  + ax *bz
+                                             3
+
+                                                  2   2     2   2
+              - 2*ax*ay*bx*by - 2*ax*az*bx*bz + ay *bx  + ay *bz
+
+                                  2   2     2   2     - 1
+              - 2*ay*az*by*bz + az *bx  + az *by )**------
+                                                      2
+
+                  2     2     2    3      2     2   2     2   2
+          *sqrt(ax  + ay  + az )*ay *f - ---*(ax *by  + ax *bz
+                                          3
+
+                                                  2   2     2   2
+              - 2*ax*ay*bx*by - 2*ax*az*bx*bz + ay *bx  + ay *bz
+
+                                  2   2     2   2     - 1
+              - 2*ay*az*by*bz + az *bx  + az *by )**------
+                                                      2
+
+                  2     2     2    2       28     2   2     2   2
+          *sqrt(ax  + ay  + az )*ay *by + ----*(ax *by  + ax *bz
+                                           3
+
+                                                  2   2     2   2
+              - 2*ax*ay*bx*by - 2*ax*az*bx*bz + ay *bx  + ay *bz
+
+                                  2   2     2   2     - 1
+              - 2*ay*az*by*bz + az *bx  + az *by )**------
+                                                      2
+
+                  2     2     2       2      2     2   2     2   2
+          *sqrt(ax  + ay  + az )*ay*az *f - ---*(ax *by  + ax *bz
+                                             3
+
+                                                  2   2     2   2
+              - 2*ax*ay*bx*by - 2*ax*az*bx*bz + ay *bx  + ay *bz
+
+                                  2   2     2   2     - 1
+              - 2*ay*az*by*bz + az *bx  + az *by )**------
+                                                      2
+
+                  2     2     2
+          *sqrt(ax  + ay  + az )*ay*az*bz
+
+           28     2   2     2   2
+vec(z) := ----*(ax *by  + ax *bz  - 2*ax*ay*bx*by - 2*ax*az*bx*bz
+           3
+
+                     2   2     2   2                     2   2     2   2
+                 + ay *bx  + ay *bz  - 2*ay*az*by*bz + az *bx  + az *by
+
+                     - 1         2     2     2    2         2     2   2
+                )**------*sqrt(ax  + ay  + az )*ax *az*f - ---*(ax *by
+                     2                                      3
+
+                  2   2                                     2   2
+              + ax *bz  - 2*ax*ay*bx*by - 2*ax*az*bx*bz + ay *bx
+
+                  2   2                     2   2     2   2     - 1
+              + ay *bz  - 2*ay*az*by*bz + az *bx  + az *by )**------
+                                                                2
+
+                  2     2     2              28     2   2     2   2
+          *sqrt(ax  + ay  + az )*ax*az*bx + ----*(ax *by  + ax *bz
+                                             3
+
+                                                  2   2     2   2
+              - 2*ax*ay*bx*by - 2*ax*az*bx*bz + ay *bx  + ay *bz
+
+                                  2   2     2   2     - 1
+              - 2*ay*az*by*bz + az *bx  + az *by )**------
+                                                      2
+
+                  2     2     2    2         2     2   2     2   2
+          *sqrt(ax  + ay  + az )*ay *az*f - ---*(ax *by  + ax *bz
+                                             3
+
+                                                  2   2     2   2
+              - 2*ax*ay*bx*by - 2*ax*az*bx*bz + ay *bx  + ay *bz
+
+                                  2   2     2   2     - 1
+              - 2*ay*az*by*bz + az *bx  + az *by )**------
+                                                      2
+
+                  2     2     2              28     2   2     2   2
+          *sqrt(ax  + ay  + az )*ay*az*by + ----*(ax *by  + ax *bz
+                                             3
+
+                                                  2   2     2   2
+              - 2*ax*ay*bx*by - 2*ax*az*bx*bz + ay *bx  + ay *bz
+
+                                  2   2     2   2     - 1
+              - 2*ay*az*by*bz + az *bx  + az *by )**------
+                                                      2
+
+                  2     2     2    3      2     2   2     2   2
+          *sqrt(ax  + ay  + az )*az *f - ---*(ax *by  + ax *bz
+                                          3
+
+                                                  2   2     2   2
+              - 2*ax*ay*bx*by - 2*ax*az*bx*bz + ay *bx  + ay *bz
+
+                                  2   2     2   2     - 1
+              - 2*ay*az*by*bz + az *bx  + az *by )**------
+                                                      2
+
+                  2     2     2    2
+          *sqrt(ax  + ay  + az )*az *bz
+
+
+
+a := avec(x**2*y**3,log(z+x),13*z-y);
+
+
+           2  3
+vec(x) := x *y
+
+vec(y) := log(x + z)
+
+vec(z) :=  - y + 13*z
+
+
+df(a,x);
+
+
+               3
+vec(x) := 2*x*y
+
+             1
+vec(y) := -------
+           x + z
+
+vec(z) := 0
+
+
+df(a,x,y);
+
+
+               2
+vec(x) := 6*x*y
+
+vec(y) := 0
+
+vec(z) := 0
+
+
+int(a,x);
+
+
+           1   3  3
+vec(x) := ---*x *y
+           3
+
+vec(y) := log(x + z)*x + log(x + z)*z - x
+
+vec(z) :=  - x*y + 13*x*z
+
+
+exp(a);
+
+
+            2  3
+           x *y
+vec(x) := e
+
+vec(y) := x + z
+
+            - y + 13*z
+vec(z) := e
+
+
+log sin b;
+
+
+vec(x) := log(sin(bx))
+
+vec(y) := log(sin(by))
+
+vec(z) := log(sin(bz))
+
+
+
+a := avec(ax,ay,az);
+
+
+vec(x) := ax
+
+vec(y) := ay
+
+vec(z) := az
+
+
+depend ax,x,y,z;
+
+ depend ay,x,y,z;
+
+ depend az,x,y,z;
+
+
+depend p,x,y,z;
+
+
+c := grad p;
+
+
+vec(x) := df(p,x)
+
+vec(y) := df(p,y)
+
+vec(z) := df(p,z)
+
+
+div c;
+
+
+df(p,x,2) + df(p,y,2) + df(p,z,2)
+
+delsq p;
+
+
+df(p,x,2) + df(p,y,2) + df(p,z,2)
+
+div a;
+
+
+df(ax,x) + df(ay,y) + df(az,z)
+
+curl a;
+
+
+vec(x) :=  - df(ay,z) + df(az,y)
+
+vec(y) := df(ax,z) - df(az,x)
+
+vec(z) :=  - df(ax,y) + df(ay,x)
+
+
+delsq a;
+
+
+vec(x) := df(ax,x,2) + df(ax,y,2) + df(ax,z,2)
+
+vec(y) := df(ay,x,2) + df(ay,y,2) + df(ay,z,2)
+
+vec(z) := df(az,x,2) + df(az,y,2) + df(az,z,2)
+
+
+
+depend h1,x,y,z;
+
+ depend h2,x,y,z;
+
+ depend h3,x,y,z;
+
+
+scalefactors(h1,h2,h3);
+
+
+grad p;
+
+
+                    -1
+vec(x) := df(p,x)*h1
+
+                    -1
+vec(y) := df(p,y)*h2
+
+                    -1
+vec(z) := df(p,z)*h3
+
+
+div a;
+
+
+           -1              -1              -1                 -1   -1
+df(ax,x)*h1   + df(ay,y)*h2   + df(az,z)*h3   + df(h1,y)*ay*h1  *h2
+
+                 -1   -1                 -1   -1                 -1   -1
+ + df(h1,z)*az*h1  *h3   + df(h2,x)*ax*h1  *h2   + df(h2,z)*az*h2  *h3
+
+                 -1   -1                 -1   -1
+ + df(h3,x)*ax*h1  *h3   + df(h3,y)*ay*h2  *h3
+
+curl a;
+
+
+                        -1              -1                 -1   -1
+vec(x) :=  - df(ay,z)*h3   + df(az,y)*h2   - df(h2,z)*ay*h2  *h3
+
+                           -1   -1
+           + df(h3,y)*az*h2  *h3
+
+                     -1              -1                 -1   -1
+vec(y) := df(ax,z)*h3   - df(az,x)*h1   + df(h1,z)*ax*h1  *h3
+
+                           -1   -1
+           - df(h3,x)*az*h1  *h3
+
+                        -1              -1                 -1   -1
+vec(z) :=  - df(ax,y)*h2   + df(ay,x)*h1   - df(h1,y)*ax*h1  *h2
+
+                           -1   -1
+           + df(h2,x)*ay*h1  *h2
+
+
+dp1 := delsq p;
+
+
+                             -3                      -1   -2
+dp1 :=  - df(h1,x)*df(p,x)*h1   + df(h1,y)*df(p,y)*h1  *h2
+
+                             -1   -2                      -2   -1
+        + df(h1,z)*df(p,z)*h1  *h3   + df(h2,x)*df(p,x)*h1  *h2
+
+                             -3                      -1   -2
+        - df(h2,y)*df(p,y)*h2   + df(h2,z)*df(p,z)*h2  *h3
+
+                             -2   -1                      -2   -1
+        + df(h3,x)*df(p,x)*h1  *h3   + df(h3,y)*df(p,y)*h2  *h3
+
+                             -3               -2               -2
+        - df(h3,z)*df(p,z)*h3   + df(p,x,2)*h1   + df(p,y,2)*h2
+
+                      -2
+        + df(p,z,2)*h3
+
+dp2 := div grad p;
+
+
+                             -3                      -1   -2
+dp2 :=  - df(h1,x)*df(p,x)*h1   + df(h1,y)*df(p,y)*h1  *h2
+
+                             -1   -2                      -2   -1
+        + df(h1,z)*df(p,z)*h1  *h3   + df(h2,x)*df(p,x)*h1  *h2
+
+                             -3                      -1   -2
+        - df(h2,y)*df(p,y)*h2   + df(h2,z)*df(p,z)*h2  *h3
+
+                             -2   -1                      -2   -1
+        + df(h3,x)*df(p,x)*h1  *h3   + df(h3,y)*df(p,y)*h2  *h3
+
+                             -3               -2               -2
+        - df(h3,z)*df(p,z)*h3   + df(p,x,2)*h1   + df(p,y,2)*h2
+
+                      -2
+        + df(p,z,2)*h3
+
+dp1-dp2;
+
+
+0
+
+delsq a;
+
+
+                       -2                       -3
+vec(x) := df(ax,x,2)*h1   - df(ax,x)*df(h1,x)*h1
+
+                                 -2   -1                       -2   -1
+           + df(ax,x)*df(h2,x)*h1  *h2   + df(ax,x)*df(h3,x)*h1  *h3
+
+                          -2                       -1   -2
+           + df(ax,y,2)*h2   + df(ax,y)*df(h1,y)*h1  *h2
+
+                                 -3                       -2   -1
+           - df(ax,y)*df(h2,y)*h2   + df(ax,y)*df(h3,y)*h2  *h3
+
+                          -2                       -1   -2
+           + df(ax,z,2)*h3   + df(ax,z)*df(h1,z)*h1  *h3
+
+                                 -1   -2                       -3
+           + df(ax,z)*df(h2,z)*h2  *h3   - df(ax,z)*df(h3,z)*h3
+
+                                   -2   -1
+           + 2*df(ay,x)*df(h1,y)*h1  *h2
+
+                                   -1   -2
+           - 2*df(ay,y)*df(h2,x)*h1  *h2
+
+                                   -2   -1
+           + 2*df(az,x)*df(h1,z)*h1  *h3
+
+                                   -1   -2                   -2   -1
+           - 2*df(az,z)*df(h3,x)*h1  *h3   + df(h1,x,y)*ay*h1  *h2
+
+                             -2   -1                          -3   -1
+           + df(h1,x,z)*az*h1  *h3   - df(h1,x)*df(h1,y)*ay*h1  *h2
+
+                                    -3   -1
+           - df(h1,x)*df(h1,z)*az*h1  *h3
+
+                                    -3   -1
+           - df(h1,x)*df(h2,x)*ax*h1  *h2
+
+                                    -3   -1                   -1   -2
+           - df(h1,x)*df(h3,x)*ax*h1  *h3   + df(h1,y,2)*ax*h1  *h2
+
+                     2      -2   -2                          -1   -3
+           - df(h1,y) *ax*h1  *h2   - df(h1,y)*df(h2,y)*ax*h1  *h2
+
+                                    -1   -2   -1
+           + df(h1,y)*df(h3,y)*ax*h1  *h2  *h3
+
+                             -1   -2           2      -2   -2
+           + df(h1,z,2)*ax*h1  *h3   - df(h1,z) *ax*h1  *h3
+
+                                    -1   -1   -2
+           + df(h1,z)*df(h2,z)*ax*h1  *h2  *h3
+
+                                    -1   -3                   -1   -2
+           - df(h1,z)*df(h3,z)*ax*h1  *h3   - df(h2,x,y)*ay*h1  *h2
+
+                             -1   -1   -1                   -2   -1
+           + df(h2,x,z)*az*h1  *h2  *h3   + df(h2,x,2)*ax*h1  *h2
+
+                     2      -2   -2                          -1   -3
+           - df(h2,x) *ax*h1  *h2   + df(h2,x)*df(h2,y)*ay*h1  *h2
+
+                                    -1   -2   -1
+           - df(h2,x)*df(h2,z)*az*h1  *h2  *h3
+
+                                      -1   -2   -1
+           - 2*df(h2,x)*df(h3,y)*ay*h1  *h2  *h3
+
+                                      -1   -1   -2
+           - 2*df(h2,z)*df(h3,x)*az*h1  *h2  *h3
+
+                             -1   -1   -1                   -1   -2
+           + df(h3,x,y)*ay*h1  *h2  *h3   - df(h3,x,z)*az*h1  *h3
+
+                             -2   -1           2      -2   -2
+           + df(h3,x,2)*ax*h1  *h3   - df(h3,x) *ax*h1  *h3
+
+                                    -1   -1   -2
+           - df(h3,x)*df(h3,y)*ay*h1  *h2  *h3
+
+                                    -1   -3
+           + df(h3,x)*df(h3,z)*az*h1  *h3
+
+                                   -2   -1
+vec(y) :=  - 2*df(ax,x)*df(h1,y)*h1  *h2
+
+                                   -1   -2                -2
+           + 2*df(ax,y)*df(h2,x)*h1  *h2   + df(ay,x,2)*h1
+
+                                 -3                       -2   -1
+           - df(ay,x)*df(h1,x)*h1   + df(ay,x)*df(h2,x)*h1  *h2
+
+                                 -2   -1                -2
+           + df(ay,x)*df(h3,x)*h1  *h3   + df(ay,y,2)*h2
+
+                                 -1   -2                       -3
+           + df(ay,y)*df(h1,y)*h1  *h2   - df(ay,y)*df(h2,y)*h2
+
+                                 -2   -1                -2
+           + df(ay,y)*df(h3,y)*h2  *h3   + df(ay,z,2)*h3
+
+                                 -1   -2                       -1   -2
+           + df(ay,z)*df(h1,z)*h1  *h3   + df(ay,z)*df(h2,z)*h2  *h3
+
+                                 -3                         -2   -1
+           - df(ay,z)*df(h3,z)*h3   + 2*df(az,y)*df(h2,z)*h2  *h3
+
+                                   -1   -2                   -2   -1
+           - 2*df(az,z)*df(h3,y)*h2  *h3   - df(h1,x,y)*ax*h1  *h2
+
+                                    -3   -1
+           + df(h1,x)*df(h1,y)*ax*h1  *h2
+
+                                    -3   -1
+           - df(h1,x)*df(h2,x)*ay*h1  *h2
+
+                             -1   -1   -1                   -1   -2
+           + df(h1,y,z)*az*h1  *h2  *h3   + df(h1,y,2)*ay*h1  *h2
+
+                     2      -2   -2
+           - df(h1,y) *ay*h1  *h2
+
+                                    -2   -1   -1
+           - df(h1,y)*df(h1,z)*az*h1  *h2  *h3
+
+                                    -1   -3
+           - df(h1,y)*df(h2,y)*ay*h1  *h2
+
+                                      -2   -1   -1
+           - 2*df(h1,y)*df(h3,x)*ax*h1  *h2  *h3
+
+                                    -1   -1   -2
+           + df(h1,z)*df(h2,z)*ay*h1  *h2  *h3
+
+                                      -1   -1   -2
+           - 2*df(h1,z)*df(h3,y)*az*h1  *h2  *h3
+
+                             -1   -2                   -2   -1
+           + df(h2,x,y)*ax*h1  *h2   + df(h2,x,2)*ay*h1  *h2
+
+                     2      -2   -2                          -1   -3
+           - df(h2,x) *ay*h1  *h2   - df(h2,x)*df(h2,y)*ax*h1  *h2
+
+                                    -2   -1   -1
+           + df(h2,x)*df(h3,x)*ay*h1  *h2  *h3
+
+                             -2   -1                          -3   -1
+           + df(h2,y,z)*az*h2  *h3   - df(h2,y)*df(h2,z)*az*h2  *h3
+
+                                    -3   -1                   -1   -2
+           - df(h2,y)*df(h3,y)*ay*h2  *h3   + df(h2,z,2)*ay*h2  *h3
+
+                     2      -2   -2                          -1   -3
+           - df(h2,z) *ay*h2  *h3   - df(h2,z)*df(h3,z)*ay*h2  *h3
+
+                             -1   -1   -1
+           + df(h3,x,y)*ax*h1  *h2  *h3
+
+                                    -1   -1   -2
+           - df(h3,x)*df(h3,y)*ax*h1  *h2  *h3
+
+                             -1   -2                   -2   -1
+           - df(h3,y,z)*az*h2  *h3   + df(h3,y,2)*ay*h2  *h3
+
+                     2      -2   -2                          -1   -3
+           - df(h3,y) *ay*h2  *h3   + df(h3,y)*df(h3,z)*az*h2  *h3
+
+                                   -2   -1
+vec(z) :=  - 2*df(ax,x)*df(h1,z)*h1  *h3
+
+                                   -1   -2
+           + 2*df(ax,z)*df(h3,x)*h1  *h3
+
+                                   -2   -1
+           - 2*df(ay,y)*df(h2,z)*h2  *h3
+
+                                   -1   -2                -2
+           + 2*df(ay,z)*df(h3,y)*h2  *h3   + df(az,x,2)*h1
+
+                                 -3                       -2   -1
+           - df(az,x)*df(h1,x)*h1   + df(az,x)*df(h2,x)*h1  *h2
+
+                                 -2   -1                -2
+           + df(az,x)*df(h3,x)*h1  *h3   + df(az,y,2)*h2
+
+                                 -1   -2                       -3
+           + df(az,y)*df(h1,y)*h1  *h2   - df(az,y)*df(h2,y)*h2
+
+                                 -2   -1                -2
+           + df(az,y)*df(h3,y)*h2  *h3   + df(az,z,2)*h3
+
+                                 -1   -2                       -1   -2
+           + df(az,z)*df(h1,z)*h1  *h3   + df(az,z)*df(h2,z)*h2  *h3
+
+                                 -3                   -2   -1
+           - df(az,z)*df(h3,z)*h3   - df(h1,x,z)*ax*h1  *h3
+
+                                    -3   -1
+           + df(h1,x)*df(h1,z)*ax*h1  *h3
+
+                                    -3   -1
+           - df(h1,x)*df(h3,x)*az*h1  *h3
+
+                             -1   -1   -1
+           + df(h1,y,z)*ay*h1  *h2  *h3
+
+                                    -2   -1   -1
+           - df(h1,y)*df(h1,z)*ay*h1  *h2  *h3
+
+                                      -1   -2   -1
+           - 2*df(h1,y)*df(h2,z)*ay*h1  *h2  *h3
+
+                                    -1   -2   -1
+           + df(h1,y)*df(h3,y)*az*h1  *h2  *h3
+
+                             -1   -2           2      -2   -2
+           + df(h1,z,2)*az*h1  *h3   - df(h1,z) *az*h1  *h3
+
+                                      -2   -1   -1
+           - 2*df(h1,z)*df(h2,x)*ax*h1  *h2  *h3
+
+                                    -1   -3
+           - df(h1,z)*df(h3,z)*az*h1  *h3
+
+                             -1   -1   -1
+           + df(h2,x,z)*ax*h1  *h2  *h3
+
+                                    -1   -2   -1
+           - df(h2,x)*df(h2,z)*ax*h1  *h2  *h3
+
+                                    -2   -1   -1
+           + df(h2,x)*df(h3,x)*az*h1  *h2  *h3
+
+                             -2   -1                          -3   -1
+           - df(h2,y,z)*ay*h2  *h3   + df(h2,y)*df(h2,z)*ay*h2  *h3
+
+                                    -3   -1                   -1   -2
+           - df(h2,y)*df(h3,y)*az*h2  *h3   + df(h2,z,2)*az*h2  *h3
+
+                     2      -2   -2                          -1   -3
+           - df(h2,z) *az*h2  *h3   - df(h2,z)*df(h3,z)*az*h2  *h3
+
+                             -1   -2                   -2   -1
+           + df(h3,x,z)*ax*h1  *h3   + df(h3,x,2)*az*h1  *h3
+
+                     2      -2   -2                          -1   -3
+           - df(h3,x) *az*h1  *h3   - df(h3,x)*df(h3,z)*ax*h1  *h3
+
+                             -1   -2                   -2   -1
+           + df(h3,y,z)*ay*h2  *h3   + df(h3,y,2)*az*h2  *h3
+
+                     2      -2   -2                          -1   -3
+           - df(h3,y) *az*h2  *h3   - df(h3,y)*df(h3,z)*ay*h2  *h3
+
+
+curl grad p;
+
+
+vec(x) := 0
+
+vec(y) := 0
+
+vec(z) := 0
+
+
+grad div a;
+
+
+                       -2                       -3
+vec(x) := df(ax,x,2)*h1   - df(ax,x)*df(h1,x)*h1
+
+                                 -2   -1                       -2   -1
+           + df(ax,x)*df(h2,x)*h1  *h2   + df(ax,x)*df(h3,x)*h1  *h3
+
+                          -1   -1                       -2   -1
+           + df(ay,x,y)*h1  *h2   + df(ay,x)*df(h1,y)*h1  *h2
+
+                                 -1   -1   -1
+           + df(ay,x)*df(h3,y)*h1  *h2  *h3
+
+                                 -1   -2                -1   -1
+           - df(ay,y)*df(h2,x)*h1  *h2   + df(az,x,z)*h1  *h3
+
+                                 -2   -1
+           + df(az,x)*df(h1,z)*h1  *h3
+
+                                 -1   -1   -1
+           + df(az,x)*df(h2,z)*h1  *h2  *h3
+
+                                 -1   -2                   -2   -1
+           - df(az,z)*df(h3,x)*h1  *h3   + df(h1,x,y)*ay*h1  *h2
+
+                             -2   -1                          -3   -1
+           + df(h1,x,z)*az*h1  *h3   - df(h1,x)*df(h1,y)*ay*h1  *h2
+
+                                    -3   -1
+           - df(h1,x)*df(h1,z)*az*h1  *h3
+
+                                    -3   -1
+           - df(h1,x)*df(h2,x)*ax*h1  *h2
+
+                                    -3   -1
+           - df(h1,x)*df(h3,x)*ax*h1  *h3
+
+                                    -2   -2
+           - df(h1,y)*df(h2,x)*ay*h1  *h2
+
+                                    -2   -2
+           - df(h1,z)*df(h3,x)*az*h1  *h3
+
+                             -1   -1   -1                   -2   -1
+           + df(h2,x,z)*az*h1  *h2  *h3   + df(h2,x,2)*ax*h1  *h2
+
+                     2      -2   -2
+           - df(h2,x) *ax*h1  *h2
+
+                                    -1   -2   -1
+           - df(h2,x)*df(h2,z)*az*h1  *h2  *h3
+
+                                    -1   -2   -1
+           - df(h2,x)*df(h3,y)*ay*h1  *h2  *h3
+
+                                    -1   -1   -2
+           - df(h2,z)*df(h3,x)*az*h1  *h2  *h3
+
+                             -1   -1   -1                   -2   -1
+           + df(h3,x,y)*ay*h1  *h2  *h3   + df(h3,x,2)*ax*h1  *h3
+
+                     2      -2   -2
+           - df(h3,x) *ax*h1  *h3
+
+                                    -1   -1   -2
+           - df(h3,x)*df(h3,y)*ay*h1  *h2  *h3
+
+                       -1   -1                       -2   -1
+vec(y) := df(ax,x,y)*h1  *h2   - df(ax,x)*df(h1,y)*h1  *h2
+
+                                 -1   -2
+           + df(ax,y)*df(h2,x)*h1  *h2
+
+                                 -1   -1   -1                -2
+           + df(ax,y)*df(h3,x)*h1  *h2  *h3   + df(ay,y,2)*h2
+
+                                 -1   -2                       -3
+           + df(ay,y)*df(h1,y)*h1  *h2   - df(ay,y)*df(h2,y)*h2
+
+                                 -2   -1                -1   -1
+           + df(ay,y)*df(h3,y)*h2  *h3   + df(az,y,z)*h2  *h3
+
+                                 -1   -1   -1
+           + df(az,y)*df(h1,z)*h1  *h2  *h3
+
+                                 -2   -1                       -1   -2
+           + df(az,y)*df(h2,z)*h2  *h3   - df(az,z)*df(h3,y)*h2  *h3
+
+                             -1   -1   -1                   -1   -2
+           + df(h1,y,z)*az*h1  *h2  *h3   + df(h1,y,2)*ay*h1  *h2
+
+                     2      -2   -2
+           - df(h1,y) *ay*h1  *h2
+
+                                    -2   -1   -1
+           - df(h1,y)*df(h1,z)*az*h1  *h2  *h3
+
+                                    -2   -2
+           - df(h1,y)*df(h2,x)*ax*h1  *h2
+
+                                    -1   -3
+           - df(h1,y)*df(h2,y)*ay*h1  *h2
+
+                                    -2   -1   -1
+           - df(h1,y)*df(h3,x)*ax*h1  *h2  *h3
+
+                                    -1   -1   -2
+           - df(h1,z)*df(h3,y)*az*h1  *h2  *h3
+
+                             -1   -2                          -1   -3
+           + df(h2,x,y)*ax*h1  *h2   - df(h2,x)*df(h2,y)*ax*h1  *h2
+
+                             -2   -1                          -3   -1
+           + df(h2,y,z)*az*h2  *h3   - df(h2,y)*df(h2,z)*az*h2  *h3
+
+                                    -3   -1
+           - df(h2,y)*df(h3,y)*ay*h2  *h3
+
+                                    -2   -2
+           - df(h2,z)*df(h3,y)*az*h2  *h3
+
+                             -1   -1   -1
+           + df(h3,x,y)*ax*h1  *h2  *h3
+
+                                    -1   -1   -2
+           - df(h3,x)*df(h3,y)*ax*h1  *h2  *h3
+
+                             -2   -1           2      -2   -2
+           + df(h3,y,2)*ay*h2  *h3   - df(h3,y) *ay*h2  *h3
+
+                       -1   -1                       -2   -1
+vec(z) := df(ax,x,z)*h1  *h3   - df(ax,x)*df(h1,z)*h1  *h3
+
+                                 -1   -1   -1
+           + df(ax,z)*df(h2,x)*h1  *h2  *h3
+
+                                 -1   -2                -1   -1
+           + df(ax,z)*df(h3,x)*h1  *h3   + df(ay,y,z)*h2  *h3
+
+                                 -2   -1
+           - df(ay,y)*df(h2,z)*h2  *h3
+
+                                 -1   -1   -1
+           + df(ay,z)*df(h1,y)*h1  *h2  *h3
+
+                                 -1   -2                -2
+           + df(ay,z)*df(h3,y)*h2  *h3   + df(az,z,2)*h3
+
+                                 -1   -2                       -1   -2
+           + df(az,z)*df(h1,z)*h1  *h3   + df(az,z)*df(h2,z)*h2  *h3
+
+                                 -3                   -1   -1   -1
+           - df(az,z)*df(h3,z)*h3   + df(h1,y,z)*ay*h1  *h2  *h3
+
+                                    -2   -1   -1
+           - df(h1,y)*df(h1,z)*ay*h1  *h2  *h3
+
+                                    -1   -2   -1
+           - df(h1,y)*df(h2,z)*ay*h1  *h2  *h3
+
+                             -1   -2           2      -2   -2
+           + df(h1,z,2)*az*h1  *h3   - df(h1,z) *az*h1  *h3
+
+                                    -2   -1   -1
+           - df(h1,z)*df(h2,x)*ax*h1  *h2  *h3
+
+                                    -2   -2
+           - df(h1,z)*df(h3,x)*ax*h1  *h3
+
+                                    -1   -3
+           - df(h1,z)*df(h3,z)*az*h1  *h3
+
+                             -1   -1   -1
+           + df(h2,x,z)*ax*h1  *h2  *h3
+
+                                    -1   -2   -1
+           - df(h2,x)*df(h2,z)*ax*h1  *h2  *h3
+
+                             -1   -2           2      -2   -2
+           + df(h2,z,2)*az*h2  *h3   - df(h2,z) *az*h2  *h3
+
+                                    -2   -2
+           - df(h2,z)*df(h3,y)*ay*h2  *h3
+
+                                    -1   -3                   -1   -2
+           - df(h2,z)*df(h3,z)*az*h2  *h3   + df(h3,x,z)*ax*h1  *h3
+
+                                    -1   -3                   -1   -2
+           - df(h3,x)*df(h3,z)*ax*h1  *h3   + df(h3,y,z)*ay*h2  *h3
+
+                                    -1   -3
+           - df(h3,y)*df(h3,z)*ay*h2  *h3
+
+
+div curl a;
+
+
+0
+
+
+% Examples of integration : (1) Volume integrals
+
+getcsystem 'spherical;
+
+
+(r theta phi)
+
+
+% Example 1 : integration of r**n over a sphere
+
+origin := avec(0,0,0);
+
+
+vec(r) := 0
+
+vec(theta) := 0
+
+vec(phi) := 0
+
+
+upperbound := avec(rr,pi,2*pi);
+
+
+vec(r) := rr
+
+vec(theta) := pi
+
+vec(phi) := 2*pi
+
+
+volintegral(r**n,origin,upperbound);
+
+
+     n      3
+ 4*rr *pi*rr
+--------------
+    n + 3
+
+
+% Substitute n=0 to get the volume of a sphere
+sub(n=0,ws);
+
+
+ 4       3
+---*pi*rr
+ 3
+
+
+% Example 2 : volume of a right-circular cone
+
+getcsystem 'cylindrical;
+
+
+(r z phi)
+
+upperbound := avec(pp*z,h,2*pi);
+
+
+vec(r) := pp*z
+
+vec(z) := h
+
+vec(phi) := 2*pi
+
+
+volintorder := avec(2,0,1);
+
+
+vec(r) := 2
+
+vec(z) := 0
+
+vec(phi) := 1
+
+      % Integrate in the order : phi, r, z
+cone := volintegral(1,origin,upperbound);
+
+
+         1   3      2
+cone := ---*h *pi*pp
+         3
+
+
+% Now we replace P*Z by RR to get the result in the familiar form
+
+let pp*h=rr;
+
+
+cone := cone;
+
+
+         1         2
+cone := ---*h*pi*rr
+         3
+                    % This is the familiar form
+clear pp*h;
+
+
+
+% Example 3 : line integral to obtain the length of a line of latitude
+%             on a sphere
+
+getcsystem 'spherical;
+
+
+(r theta phi)
+
+
+a := avec(0,0,1);
+
+
+vec(r) := 0
+
+vec(theta) := 0
+
+vec(phi) := 1
+
+            % Function vector is the tangent to the
+			     % line of latitude
+curve := avec(rr,latitude,phi);
+
+
+vec(r) := rr
+
+vec(theta) := latitude
+
+vec(phi) := phi
+
+   % Path is round a line of latitude
+
+deflineint(a,curve,phi,0,2*pi);
+
+
+2*sin(latitude)*pi*rr
+
+
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 54 ms  plus GC time: 27 ms
+real	0m0.746s
+user	0m0.061s
+sys	0m0.137s

@@ -1,0 +1,223 @@
+%===========================================
+%test file for ORTHOVEC version 2, June 1990
+%===========================================
+
+showtime;
+
+
+
+
+%example 1: vector identity
+a:=svec(a1,a2,a3);
+
+
+a := [a1,a2,a3]
+
+b:=svec(b1,b2,b3);
+
+
+b := [b1,b2,b3]
+
+c:=svec(c1,c2,c3);
+
+
+c := [c1,c2,c3]
+
+d:=svec(d1,d2,d3);
+
+
+d := [d1,d2,d3]
+
+
+a><b*c><d - (a*c)*(b*d) + (a*d)*(b*c);
+
+
+0
+
+%showtime;
+
+%example 2: Equation of Motion in cylindricals
+vstart$
+
+
+Select Coordinate System by number
+
+1] cartesian
+
+2] cylindrical
+
+3] spherical
+
+4] general
+
+5] others
+
+2
+
+coordinate type = 2
+
+coordinates = r,th,z
+
+scale factors = 1,r,1
+v:=svec(vr,vt,vz)$
+
+b:=svec(br,bt,bz)$
+
+
+depend v,r,th,z$
+
+
+depend b,r,th,z$
+
+
+depend p,r,th,z$
+
+
+
+eom:=vout( vdf(v,tt) + v dotgrad v + grad(p) - curl(b) >< b )$
+
+
+[1] ( - df(br,th)*bt - df(br,z)*bz*r + df(bt,r)*bt*r + df(bz,r)*bz*r + df(p,r)*r
+
+                                                         2     2
+      + df(vr,r)*r*vr + df(vr,th)*vt + df(vr,z)*r*vz + bt  - vt )/r
+
+[2] (df(br,th)*br - df(bt,r)*br*r - df(bt,z)*bz*r + df(bz,th)*bz + df(p,th)
+
+      + df(vt,r)*r*vr + df(vt,th)*vt + df(vt,z)*r*vz - br*bt + vr*vt)/r
+
+[3] (df(br,z)*br*r + df(bt,z)*bt*r - df(bz,r)*br*r - df(bz,th)*bt + df(p,z)*r
+
+      + df(vz,r)*r*vr + df(vz,th)*vt + df(vz,z)*r*vz)/r
+
+%showtime;
+
+%example 3: Taylor expansions
+on div;
+
+
+on revpri;
+
+
+vtaylor(sin(x)*cos(y)+e**z,svec(x,y,z),svec(0,0,0),svec(3,4,5));
+
+
+         1   2    1   3    1    4     1    5        1     2    1      4    1   3
+1 + z + ---*z  + ---*z  + ----*z  + -----*z  + x - ---*x*y  + ----*x*y  - ---*x
+         2        6        24        120            2          24          6
+
+    1    3  2     1    3  4
+ + ----*x *y  - -----*x *y
+    12           144
+
+vtaylor(sin(x)/x,x,0,5);
+
+
+     1   2     1    4
+1 - ---*x  + -----*x
+     6        120
+
+te:=vtaylor(svec(x/sin(x),(e**y-1)/y,(1+z)**10),svec(x,y,z),
+svec(0,0,0),5);
+
+
+                  2      4                      2       3      4    5
+        360 + 60*x  + 7*x    720 + 360*y + 120*y  + 30*y  + 6*y  + y
+te := [--------------------,------------------------------------------,1 + 10*z
+               360                             720
+
+             2        3        4        5
+       + 45*z  + 120*z  + 210*z  + 252*z ]
+
+%showtime;
+
+%example 4: extract components
+eom _2;
+
+
+ -1                -1                            -1
+r  *vr*vt - br*bt*r   + df(vt,z)*vz + df(vt,th)*r  *vt + df(vt,r)*vr
+
+             -1                 -1
+ + df(p,th)*r   + df(bz,th)*bz*r   - df(bt,z)*bz - df(bt,r)*br
+
+                 -1
+ + df(br,th)*br*r
+
+te _1;
+
+
+     1   2     7    4
+1 + ---*x  + -----*x
+     6        360
+
+off div;
+
+
+off revpri;
+
+
+%showtime;
+
+%example 5: Line Integral
+vstart$
+
+
+Select Coordinate System by number
+
+1] cartesian
+
+2] cylindrical
+
+3] spherical
+
+4] general
+
+5] others
+
+1
+
+coordinate type = 1
+
+coordinates = x,y,z
+
+scale factors = 1,1,1
+dlineint(svec(3*x**2+5*y,-12*y*z,2*x*y*z**2),svec(s,s**2,s**3),s,1,2);
+
+
+ 68491
+-------
+  42
+
+%showtime;
+
+%example 6: Volume Integral
+ub:=sqrt(r**2-x**2)$
+
+
+8 * dvolint(1,svec(0,0,0),svec(r,ub,ub),6);
+
+
+     3
+ 16*r
+-------
+   3
+
+
+%===========================================
+% end of test
+%===========================================
+showtime;
+
+
+
+
+;
+
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 56 ms  plus GC time: 20 ms
+real	0m0.689s
+user	0m0.077s
+sys	0m0.123s

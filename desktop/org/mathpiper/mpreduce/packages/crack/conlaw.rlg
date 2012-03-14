@@ -1,0 +1,2649 @@
+%*******************************************************************%
+%                                                                   %
+%                      C O N L A W . T S T                          %
+%                      -------------------                          %
+%  conlaw.tst  contains test examples for the programs conlaw0.red  %
+%  conlaw1.red, conlaw2.red, conlaw3.red, conlaw4.red. To run       %
+%  this test read in the files crack.red, conlaw0.red, conlaw1.red, %
+%  conlaw2.red, conlaw3.red, conlaw4.red or load their compiled     %
+%  version before.                                                  %
+%                                                                   %
+%  Author: Thomas Wolf                                              %
+%  Date:   15. June 1999, 6. May 2003                               %
+%                                                                   %
+%  Details about the syntax of conlaw1-4 are given in conlaw.tex.   %
+%  To run this file read in or load crack, conlaw0 before.          %
+%                                                                   %
+%  The statement lisp(print_:=nil); suppresses output of the        %
+%  computation. To see details of it do lisp(print_:=50).           %
+%                                                                   %
+%*******************************************************************%
+
+load crack ;
+
+ % ,conlaw0,conlaw1,conlaw2,conlaw3,conlaw4$
+
+lisp(depl!*:=nil)$
+
+     % clearing of all dependencies
+%setcrackflags()$       % standart flags
+lisp(print_:=nil)$
+
+     % no output of the calculation
+
+%% off batch_mode$
+
+comment -------------------------------------------------------------
+The following example calculates all conservation laws of the KdV-
+equation with a characteristic function of order not higher than two;
+
+
+nodepnd {u}$
+
+           % deletes all dependencies of u
+depend u,x,t$
+
+          % declares u to be a function of x,t
+conlaw4({{df(u,t) = u*df(u,x)+df(u,x,3)}, {u}, {t,x}},
+        {0, 2, t, {}, {}}                             )$
+
+
+--------------------------------------------------------------------------
+
+This is CONLAW4 - a program for calculating conservation laws of DEs
+
+The DE under investigation is :
+
+u =u   + u *u
+ t  3x    x
+
+for the function(s): u(t,x)
+
+======================================================
+Currently conservation laws with characteristic
+function(s) of order 0 are determined
+======================================================
+
+Conservation law:
+
+( u ) * ( u  - u   - u *u )
+           t    3x    x
+
+ = 
+
+     1   2
+df( ---*u , t )
+     2
+
++
+
+                1    2    1   3
+df(  - u  *u + ---*u   - ---*u , x )
+        2x      2   x     3
+
+======================================================
+
+Conservation law:
+
+( t*u + x ) * ( u  - u   - u *u )
+                 t    3x    x
+
+ = 
+
+     1     2
+df( ---*t*u  + u*x, t )
+     2
+
++
+
+                          1    2           1     3    1   2
+df(  - u  *t*u - u  *x + ---*u  *t + u  - ---*t*u  - ---*u *x, x )
+        2x        2x      2   x       x    3          2
+
+======================================================
+
+Conservation law:
+
+( 1 ) * ( u  - u   - u *u )
+           t    3x    x
+
+ = 
+
+df( u, t )
+
++
+
+              1   2
+df(  - u   - ---*u , x )
+        2x    2
+
+======================================================
+Currently conservation laws with characteristic
+function(s) of order 1 are determined
+======================================================
+
+There is no conservation law of this order.
+
+======================================================
+Currently conservation laws with characteristic
+function(s) of order 2 are determined
+======================================================
+
+Conservation law:
+
+              2
+(  - 2*u   - u  ) * ( u  - u   - u *u )
+        2x             t    3x    x
+
+ = 
+
+      2    1   3
+df( u   - ---*u , t )
+     x     3
+
++
+
+                    2        2    1   4
+df(  - 2*u *u  + u    + u  *u  + ---*u , x )
+          t  x    2x     2x       4
+
+======================================================
+
+                     2
+{{{ - 2*df(u,x,2) - u },
+
+             2    3
+    3*df(u,x)  - u
+  {-----------------,
+           3
+
+                                      2                2    4
+     - 8*df(u,t)*df(u,x) + 4*df(u,x,2)  + 4*df(u,x,2)*u  + u
+   -----------------------------------------------------------}},
+                                4
+
+                            2
+           - 2*df(u,x,2) - u
+ {{1},{u,---------------------}},
+                   2
+
+ {{t*u + x},
+
+    u*(t*u + 2*x)
+  {---------------,
+          2
+
+                                                  2                      3
+   ( - 6*df(u,x,2)*t*u - 6*df(u,x,2)*x + 3*df(u,x) *t + 6*df(u,x) - 2*t*u
+
+          2
+     - 3*u *x)/6}},
+
+ {{u},
+
+     2                               2      3
+    u     - 6*df(u,x,2)*u + 3*df(u,x)  - 2*u
+  {----,--------------------------------------}}}
+    2                     6
+
+
+comment -------------------------------------------------------------
+The next example demonstrates that one can specify an ansatz
+for the characteristic function of one or more equations of the
+PDE-system. In this example all conservation laws of the wave
+equation which is written as a first order system are calculated
+such that the characteristic functions of the first of both
+equations is proportional to df(u,x,2). (This will include zero
+as it is a multiple of df(u,x,2) too.)
+
+In the following input the equations are solved for the t-derivatives,
+so the t-derivatives will be substituted in the conservation-law-
+conditions, so the ansatz for q_1 should have no t-derivatives of u
+included. Therefore the function r in q_1 below is specified as
+depending on t,x,u,v,df(u,x),df(v,x). 
+In the call of conlaw2 the list of variables is {t,x} and x is
+the second of the variables (could equally well be in reverse order).
+Therefore df(u,x) takes the form u!`2 when the dependencies of r
+are specified (see conlaw.tex);
+
+
+nodepnd {u,v,r}$
+
+
+depend u,x,t$
+
+
+depend v,x,t$
+
+
+depend r,t,x,u,v,u!`2,v!`2$
+
+
+q_1:=r*df(u,x,2)$
+
+
+conlaw2({{df(u,t)=df(v,x),
+          df(v,t)=df(u,x) }, {u,v}, {t,x}},
+        {2, 2, t, {r}, {}})$
+
+
+--------------------------------------------------------------------------
+
+This is CONLAW2 - a program for calculating conservation laws of DEs
+
+The DEs under investigation are :
+
+u =v
+ t  x
+
+v =u
+ t  x
+
+for the function(s): u(x,t), v(x,t)
+
+======================================================
+A special ansatz of order 2 for the characteristic
+function(s) is investigated.
+
+
+Conservation law:
+
+( u   ) * ( u  - v  )
+   2x        t    x
+
++
+
+( v   ) * (  - u  + v  )
+   2x           x    t
+
+ = 
+
+        1    2    1    2
+df(  - ---*u   - ---*v  , t )
+        2   x     2   x
+
++
+
+df( u *u  - u *v  + v *v , x )
+     t  x    x  x    t  x
+
+======================================================
+
+{{{df(u,x,2),df(v,x,2)},
+
+               2          2
+     - (df(u,x)  + df(v,x) )
+  {--------------------------,
+               2
+
+   df(u,t)*df(u,x) - df(u,x)*df(v,x) + df(v,t)*df(v,x)}}}
+
+clear q_1$
+
+
+nodepnd {q_1}$
+
+
+
+comment -------------------------------------------------------------
+For the Burgers equation the following example finds all conservation
+laws of zero'th order in the characteristic function up to the solution
+of the linear heat equation. This is an example for what happens when 
+not all conditions could be solved, but it is also an example which 
+shows that not only characteristic functions of polynomial or rational
+form can be found;
+
+
+nodepnd {u}$
+
+
+depend u,x,t$
+
+
+conlaw1({{df(u,t)=df(u,x,2)+df(u,x)**2/2}, {u}, {t,x}}, 
+        {0, 0, t, {}, {}}                              )$
+
+
+--------------------------------------------------------------------------
+
+This is CONLAW1 - a program for calculating conservation laws of DEs
+
+The DE under investigation is :
+
+          1    2
+u =u   + ---*u
+ t  2x    2   x
+
+for the function(s): u(x,t)
+
+======================================================
+Currently conservation laws with a conserved density
+of order 0 are determined
+======================================================
+The function c_66(x,t) is not constant!
+
+There are remaining conditions: {c_66  + c_66  }
+                                     t       2x
+for the functions: c_66(x,t)
+Corresponding CLs might not be shown below as they
+could be of too low order.
+======================================================
+
+Conservation law:
+
+   u/2                        1    2
+( e   *c_66 ) * ( u  - u   - ---*u   )
+                   t    2x    2   x
+
+ = 
+
+       u/2
+df( 2*e   *c_66, t )
+
++
+
+       u/2          u/2
+df( 2*e   *c_66  - e   *u *c_66, x )
+               x         x
+
+An attempt to factor out linear differential operators:
+
+                  1    2
+eq_1:=u  - u   - ---*u
+       t    2x    2   x
+
+      u/2
+l_1:=e
+
+ u/2
+e   *eq_1 = 2*(l_1  - l_1  )
+                  t      2x
+
+======================================================
+
+    u/2
+{{{e   *c_66},
+
+      u/2
+  {2*e   *c_66,
+
+    u/2
+   e   *(2*df(c_66,x) - df(u,x)*c_66)}}}
+      
+
+comment -------------------------------------------------------------
+In this example all conservation laws of the Ito system are calculated
+that have a conserved density of order not higher than one.
+This is a further example of non-polynomial conservation laws;
+
+
+nodepnd {u,v}$
+
+
+depend u,x,t$
+
+
+depend v,x,t$
+
+
+conlaw1({{df(u,t)=df(u,x,3)+6*u*df(u,x)+2*v*df(v,x),
+          df(v,t)=2*df(u,x)*v+2*u*df(v,x)           }, {u,v}, {t,x}},
+        {0, 1, t, {}, {}})$
+
+
+--------------------------------------------------------------------------
+
+This is CONLAW1 - a program for calculating conservation laws of DEs
+
+The DEs under investigation are :
+
+u =u   + 6*u *u + 2*v *v
+ t  3x      x        x
+
+v =2*u *v + 2*v *u
+ t    x        x
+
+for the function(s): u(x,t), v(x,t)
+
+======================================================
+Currently conservation laws with a conserved density
+of order 0 are determined
+======================================================
+
+Conservation law:
+
+( -1 ) * (  - 2*u *v + v  - 2*v *u )
+                 x      t      x
+
++
+
+( 0 ) * ( u  - u   - 6*u *u - 2*v *v )
+           t    3x      x        x
+
+ = 
+
+df(  - v, t )
+
++
+
+df( 2*u*v, x )
+
+======================================================
+
+Conservation law:
+
+( 2*v ) * (  - 2*u *v + v  - 2*v *u )
+                  x      t      x
+
++
+
+( 2*u ) * ( u  - u   - 6*u *u - 2*v *v )
+             t    3x      x        x
+
+ = 
+
+     2    2
+df( u  + v , t )
+
++
+
+                   2      3        2
+df(  - 2*u  *u + u   - 4*u  - 4*u*v , x )
+          2x      x
+
+======================================================
+
+Conservation law:
+
+( 0 ) * (  - 2*u *v + v  - 2*v *u )
+                x      t      x
+
++
+
+( 1 ) * ( u  - u   - 6*u *u - 2*v *v )
+           t    3x      x        x
+
+ = 
+
+df( u, t )
+
++
+
+                2    2
+df(  - u   - 3*u  - v , x )
+        2x
+
+======================================================
+Currently conservation laws with a conserved density
+of order 1 are determined
+======================================================
+
+
+Conservation law:
+
+(  - 2*v ) * (  - 2*u *v + v  - 2*v *u )
+                     x      t      x
+
++
+
+(  - 2*u ) * ( u  - u   - 6*u *u - 2*v *v )
+                t    3x      x        x
+
+ = 
+
+        2    2
+df(  - u  - v , t )
+
++
+
+                2      3        2
+df( 2*u  *u - u   + 4*u  + 4*u*v , x )
+       2x      x
+
+======================================================
+
+Conservation law:
+
+(  - 4*u*v ) * (  - 2*u *v + v  - 2*v *u )
+                       x      t      x
+
++
+
+                2      2
+(  - 2*u   - 6*u  - 2*v  ) * ( u  - u   - 6*u *u - 2*v *v )
+        2x                      t    3x      x        x
+
+ = 
+
+      2      3        2
+df( u   - 2*u  - 2*u*v , t )
+     x
+
++
+
+                    2          2          2      4       2  2    4
+df(  - 2*u *u  + u    + 6*u  *u  + 2*u  *v  + 9*u  + 10*u *v  + v , x )
+          t  x    2x       2x         2x
+
+======================================================
+
+Conservation law:
+
+                 2        2
+   2*v  *v - 3*v   - 4*u*v
+      2x        x
+( -------------------------- ) * (  - 2*u *v + v  - 2*v *u )
+               4                         x      t      x
+              v
+
++
+
+   4
+( --- ) * ( u  - u   - 6*u *u - 2*v *v )
+   v         t    3x      x        x
+
+ = 
+
+          2        2
+      - v   + 4*u*v
+         x
+df( -----------------, t )
+            3
+           v
+
++
+
+               2                             2        2  2      4
+      - 4*u  *v  - 4*u *v *v + 2*v *v  - 2*v  *u - 8*u *v  - 8*v
+           2x         x  x        t  x      x
+df( --------------------------------------------------------------, x )
+                                   3
+                                  v
+
+======================================================
+
+                             2        2
+    2*df(v,x,2)*v - 3*df(v,x)  - 4*u*v    4
+{{{-------------------------------------,---},
+                     4                    v
+                    v
+
+              2        2
+     - df(v,x)  + 4*u*v
+  {----------------------,
+              3
+             v
+
+                       2                                                  2
+   (2*( - 2*df(u,x,2)*v  - 2*df(u,x)*df(v,x)*v + df(v,t)*df(v,x) - df(v,x) *u
+
+             2  2      4    3
+        - 4*u *v  - 4*v ))/v }},
+
+                                 2    2
+ {{ - 4*u*v,2*( - df(u,x,2) - 3*u  - v )},
+
+          2      3        2
+  {df(u,x)  - 2*u  - 2*u*v ,
+
+                                   2                2                2      4
+    - 2*df(u,t)*df(u,x) + df(u,x,2)  + 6*df(u,x,2)*u  + 2*df(u,x,2)*v  + 9*u
+
+          2  2    4
+    + 10*u *v  + v }},
+
+ {{ - 2*v, - 2*u},
+
+        2    2
+  { - (u  + v ),
+
+                          2      3        2
+   2*df(u,x,2)*u - df(u,x)  + 4*u  + 4*u*v }},
+
+                             2    2
+ {{0,1},{u, - df(u,x,2) - 3*u  - v }},
+
+ {{2*v,2*u},
+
+    2    2
+  {u  + v ,
+
+                             2      3        2
+    - 2*df(u,x,2)*u + df(u,x)  - 4*u  - 4*u*v }},
+
+ {{-1,0},{ - v,2*u*v}}}
+
+
+comment -------------------------------------------------------------
+In the next example the 5th order Korteweg - de Vries equation is
+investigated concerning conservation laws of order 0 and 1 in the
+conserved density P_t. Parameters a,b,c in the PDE are determined
+such that conservation laws exist. This complicates the problem by
+making it non-linear with a number of cases to be considered.
+Some of the subcases below can be combined to reduce their number
+which currently is not done automatically;
+
+
+nodepnd {u}$
+
+
+depend u,x,t$
+
+
+conlaw1({{df(u,t)=-df(u,x,5)-a*u**2*df(u,x)
+                  -b*df(u,x)*df(u,x,2)-c*u*df(u,x,3)}, 
+         {u}, {t,x}},
+        {0, 1, t, {a,b,c}, {}})$
+
+
+--------------------------------------------------------------------------
+
+This is CONLAW1 - a program for calculating conservation laws of DEs
+
+The DE under investigation is :
+
+                                       2
+u = - u   - u  *c*u - u  *u *b - u *a*u
+ t     5x    3x        2x  x      x
+
+for the function(s): u(x,t)
+
+======================================================
+Currently conservation laws with a conserved density
+of order 0 are determined
+======================================================
+The function c_232(x,t) is not constant!
+The function c_236(t) is not constant!
+
+There are remaining conditions: {c_232  + c_232   - c_236}
+                                      t        5x
+for the functions: c_236(t), c_232(x,t)
+Corresponding CLs might not be shown below as they
+could be of too low order.
+======================================================
+
+Conservation law:
+
+c=0,
+
+
+b=0,
+
+
+a=0,
+
+
+(  - c_232  ) * ( u  + u   )
+          x        t    5x
+
+ = 
+
+df(  - c_232 *u, t )
+            x
+
++
+
+df( c_232 *u + c_232  *u  - c_232  *u   + c_232  *u   - c_232 *u   + c_236*u, x
+         t          4x  x        3x  2x        2x  3x        x  4x
+
+ )
+
+======================================================
+
+Conservation law:
+
+a=0,
+
+
+b=3*c,
+
+
+( 1 ) * ( u  + u   + u  *c*u + 3*u  *u *c )
+           t    5x    3x          2x  x
+
+ = 
+
+df( u, t )
+
++
+
+                      2
+df( u   + u  *c*u + u  *c, x )
+     4x    2x        x
+
+======================================================
+
+Conservation law:
+
+a=0,
+
+
+b=3*c,
+
+
+(  - x ) * ( u  + u   + u  *c*u + 3*u  *u *c )
+              t    5x    3x          2x  x
+
+ = 
+
+df(  - u*x, t )
+
++
+
+                                   2
+df(  - u  *x + u   - u  *c*u*x - u  *c*x + u *c*u, x )
+        4x      3x    2x          x         x
+
+======================================================
+
+Conservation law:
+
+a=0,
+
+
+b=3*c,
+
+
+    2
+   x
+( ---- ) * ( u  + u   + u  *c*u + 3*u  *u *c )
+   c          t    5x    3x          2x  x
+
+ = 
+
+        2
+     u*x
+df( ------, t )
+      c
+
++
+
+          2                      2             2    2                   2
+     u  *x  - 2*u  *x + u  *c*u*x  + 2*u   + u  *c*x  - 2*u *c*u*x + c*u
+      4x         3x      2x             2x    x            x
+df( ----------------------------------------------------------------------, x )
+                                      c
+
+======================================================
+
+Conservation law:
+
+                                                 2
+( -6 ) * ( u  + u   + u  *c*u + u  *u *b + u *a*u  )
+            t    5x    3x        2x  x      x
+
+ = 
+
+df(  - 6*u, t )
+
++
+
+                               2         2          3
+df(  - 6*u   - 6*u  *c*u - 3*u  *b + 3*u  *c - 2*a*u , x )
+          4x      2x          x         x
+
+======================================================
+
+Conservation law:
+
+b=2*c,
+
+
+                                                       2
+(  - 4*u ) * ( u  + u   + u  *c*u + 2*u  *u *c + u *a*u  )
+                t    5x    3x          2x  x      x
+
+ = 
+
+          2
+df(  - 2*u , t )
+
++
+
+                                 2            2      4
+df(  - 4*u  *u + 4*u  *u  - 2*u    - 4*u  *c*u  - a*u , x )
+          4x        3x  x      2x       2x
+
+======================================================
+
+Conservation law:
+
+b=2*c,
+
+
+                                                   2
+( -6 ) * ( u  + u   + u  *c*u + 2*u  *u *c + u *a*u  )
+            t    5x    3x          2x  x      x
+
+ = 
+
+df(  - 6*u, t )
+
++
+
+                               2          3
+df(  - 6*u   - 6*u  *c*u - 3*u  *c - 2*a*u , x )
+          4x      2x          x
+
+======================================================
+The function c_254(x,t) is not constant!
+The function c_259(t) is not constant!
+
+There are remaining conditions: {c_254  + c_254   + c_259}
+                                      t        5x
+for the functions: c_259(t), c_254(x,t)
+Corresponding CLs might not be shown below as they
+could be of too low order.
+======================================================
+
+Conservation law:
+
+c=0,
+
+
+b=0,
+
+
+a=0,
+
+
+(  - 2*u ) * ( u  + u   )
+                t    5x
+
+ = 
+
+        2
+df(  - u , t )
+
++
+
+                               2
+df(  - 2*u  *u + 2*u  *u  - u   , x )
+          4x        3x  x    2x
+
+======================================================
+
+Conservation law:
+
+c=0,
+
+
+b=0,
+
+
+a=0,
+
+
+(  - c_254  ) * ( u  + u   )
+          x        t    5x
+
+ = 
+
+df(  - c_254 *u, t )
+            x
+
++
+
+df( c_254 *u + c_254  *u  - c_254  *u   + c_254  *u   - c_254 *u   + c_259*u, x
+         t          4x  x        3x  2x        2x  3x        x  4x
+
+ )
+
+======================================================
+
+Conservation law:
+
+b=0,
+
+
+c=0,
+
+
+    - 3                         2
+( ------ ) * ( u  + u   + u *a*u  )
+    a           t    5x    x
+
+ = 
+
+      - 3*u
+df( --------, t )
+       a
+
++
+
+                   3
+      - 3*u   - a*u
+           4x
+df( -----------------, x )
+            a
+
+======================================================
+
+Conservation law:
+
+b=0,
+
+
+c=0,
+
+
+                                2
+(  - 4*u ) * ( u  + u   + u *a*u  )
+                t    5x    x
+
+ = 
+
+          2
+df(  - 2*u , t )
+
++
+
+                                 2      4
+df(  - 4*u  *u + 4*u  *u  - 2*u    - a*u , x )
+          4x        3x  x      2x
+
+======================================================
+Currently conservation laws with a conserved density
+of order 1 are determined
+======================================================
+
+Conservation law:
+
+b=0,
+
+
+c=0,
+
+
+    - 4*u                         2
+( -------- ) * ( u  + u   + u *a*u  )
+     a            t    5x    x
+
+ = 
+
+           2
+      - 2*u
+df( ---------, t )
+        a
+
++
+
+                                  2      4
+      - 4*u  *u + 4*u  *u  - 2*u    - a*u
+           4x        3x  x      2x
+df( ---------------------------------------, x )
+                       a
+
+======================================================
+
+Conservation law:
+
+b=3*c,
+
+
+   3                                                 2
+( ---- ) * ( u  + u   + u  *c*u + 3*u  *u *c + u *a*u  )
+    2         t    5x    3x          2x  x      x
+   a
+
+ = 
+
+     3*u
+df( -----, t )
+      2
+     a
+
++
+
+                             2        3
+     3*u   + 3*u  *c*u + 3*u  *c + a*u
+        4x      2x          x
+df( ------------------------------------, x )
+                      2
+                     a
+
+======================================================
+The function c_294(x,t) is not constant!
+The function c_303(x) is not constant!
+
+There are remaining conditions: {c_294  + c_294   + c_303  }
+                                      t        5x        4x
+for the functions: c_303(x), c_294(x,t)
+Corresponding CLs might not be shown below as they
+could be of too low order.
+======================================================
+
+Conservation law:
+
+c=0,
+
+
+b=0,
+
+
+a=0,
+
+
+( 2*u ) * ( u  + u   )
+             t    5x
+
+ = 
+
+     2
+df( u , t )
+
++
+
+                            2
+df( 2*u  *u - 2*u  *u  + u   , x )
+       4x        3x  x    2x
+
+======================================================
+
+Conservation law:
+
+c=0,
+
+
+b=0,
+
+
+a=0,
+
+
+(  - 2*u   ) * ( u  + u   )
+        2x        t    5x
+
+ = 
+
+      2
+df( u  , t )
+     x
+
++
+
+                                2                          2         2    2
+df(  - 2*u *u  - 2*u  *u   + u    - 2*u  *u *c*u - 2*u  *u  *b - 2*u  *a*u , x )
+          t  x      4x  2x    3x       3x  x          2x  x         x
+
+======================================================
+
+Conservation law:
+
+c=0,
+
+
+b=0,
+
+
+a=0,
+
+
+(  - c_294  + c_303 ) * ( u  + u   )
+          x                t    5x
+
+ = 
+
+df(  - c_294 *u + c_303*u, t )
+            x
+
++
+
+df( c_294 *u + c_294  *u  - c_294  *u   + c_294  *u   - c_294 *u   - c_303  *u
+         t          4x  x        3x  2x        2x  3x        x  4x        3x  x
+
+ + c_303  *u   - c_303 *u   + u  *c_303 - u  *c*c_294*u - u  *u *b*c_294
+        2x  2x        x  3x    4x          3x              2x  x
+
+               2
+ - u *a*c_294*u , x )
+    x
+
+An attempt to factor out linear differential operators:
+
+eq_1:=u  + u
+       t    5x
+
+l_1:=u
+      x
+
+l_2:= - u
+
+l_3:=u    + u
+      t,x    6x
+
+eq_1  = l_3
+    x
+
+eq_1 = l_1   - l_2
+          4x      t
+
+======================================================
+
+Conservation law:
+
+a=0,
+
+
+b=3*c,
+
+
+( 1 ) * ( u  + u   + u  *c*u + 3*u  *u *c )
+           t    5x    3x          2x  x
+
+ = 
+
+df( u, t )
+
++
+
+                      2
+df( u   + u  *c*u + u  *c, x )
+     4x    2x        x
+
+======================================================
+
+Conservation law:
+
+a=0,
+
+
+b=3*c,
+
+
+( x ) * ( u  + u   + u  *c*u + 3*u  *u *c )
+           t    5x    3x          2x  x
+
+ = 
+
+df( u*x, t )
+
++
+
+                                2
+df( u  *x - u   + u  *c*u*x + u  *c*x - u *c*u, x )
+     4x      3x    2x          x         x
+
+======================================================
+
+Conservation law:
+
+a=0,
+
+
+b=3*c,
+
+
+       2
+    - x
+( ------- ) * ( u  + u   + u  *c*u + 3*u  *u *c )
+     c           t    5x    3x          2x  x
+
+ = 
+
+           2
+      - u*x
+df( ---------, t )
+        c
+
++
+
+             2                      2             2    2                   2
+      - u  *x  + 2*u  *x - u  *c*u*x  - 2*u   - u  *c*x  + 2*u *c*u*x - c*u
+         4x         3x      2x             2x    x            x
+df( -------------------------------------------------------------------------, x
+                                        c
+
+ )
+
+======================================================
+
+Conservation law:
+
+a=0,
+
+
+b=3*c,
+
+
+                  2
+(  - 6*u   - 3*c*u  ) * ( u  + u   + u  *c*u + 3*u  *u *c )
+        2x                 t    5x    3x          2x  x
+
+ = 
+
+        2      3
+df( 3*u   - c*u , t )
+       x
+
++
+
+                                      2        2                       2
+df(  - 6*u *u  - 6*u  *u   - 3*u  *c*u  + 3*u    + 6*u  *u *c*u - 6*u   *c*u
+          t  x      4x  2x      4x           3x       3x  x          2x
+
+           2              2            2  3       2    2
+ - 6*u  *u  *b + 12*u  *u  *c - 3*u  *c *u  - 6*u  *a*u , x )
+      2x  x          2x  x         2x            x
+
+======================================================
+
+Conservation law:
+
+   3    2
+a=----*c ,
+   10
+
+
+b=2*c,
+
+
+                                                3       2  2
+( -100 ) * ( u  + u   + u  *c*u + 2*u  *u *c + ----*u *c *u  )
+              t    5x    3x          2x  x      10   x
+
+ = 
+
+df(  - 100*u, t )
+
++
+
+                              2    2                               3    2
+df(  - 100*u   + 30*u  *u *b*c *t*u  - 100*u  *u *b*x - 60*u  *u *c *t*u
+            4x       2x  x                  2x  x           2x  x
+
+                                       2              2    4             2
+ + 200*u  *u *c*x - 100*u  *c*u - 50*u  *c + 30*u *a*c *t*u  - 100*u *a*u *x
+        2x  x            2x           x          x                  x
+
+         4    4          2  2         2  3
+ - 9*u *c *t*u  + 30*u *c *u *x - 10*c *u , x )
+      x               x
+
+======================================================
+
+Conservation law:
+
+   3    2
+a=----*c ,
+   10
+
+
+b=2*c,
+
+
+                                                    3       2  2
+(  - 100*u ) * ( u  + u   + u  *c*u + 2*u  *u *c + ----*u *c *u  )
+                  t    5x    3x          2x  x      10   x
+
+ = 
+
+           2
+df(  - 50*u , t )
+
++
+
+                                      2                2    3
+df(  - 100*u  *u + 100*u  *u  - 50*u    + 30*u  *u *b*c *t*u  - 100*u  *u *b*u*x
+            4x          3x  x       2x        2x  x                  2x  x
+
+              3    3                                 2            2    5
+ - 60*u  *u *c *t*u  + 200*u  *u *c*u*x - 100*u  *c*u  + 30*u *a*c *t*u
+       2x  x                2x  x              2x            x
+
+             3           4    5          2  3      15   2  4
+ - 100*u *a*u *x - 9*u *c *t*u  + 30*u *c *u *x - ----*c *u , x )
+        x             x               x            2
+
+======================================================
+
+Conservation law:
+
+   3    2
+a=----*c ,
+   10
+
+
+b=2*c,
+
+
+                       2                                          3       2  2
+(  - 1000*u   - 300*c*u  ) * ( u  + u   + u  *c*u + 2*u  *u *c + ----*u *c *u  )
+           2x                   t    5x    3x          2x  x      10   x
+
+ = 
+
+          2          3
+df( 500*u   - 100*c*u , t )
+         x
+
++
+
+                                              2          2
+df(  - 1000*u *u  - 1000*u  *u   - 300*u  *c*u  + 500*u    + 600*u  *u *c*u
+             t  x         4x  2x        4x             3x         3x  x
+
+          2                  2                2                  3    4
+ - 800*u   *c*u - 1000*u  *u  *b + 1400*u  *u  *c + 90*u  *u *b*c *t*u
+        2x              2x  x            2x  x          2x  x
+
+                   2                 4    4               2  2              2  3
+ - 300*u  *u *b*c*u *x - 180*u  *u *c *t*u  + 600*u  *u *c *u *x - 300*u  *c *u
+        2x  x                 2x  x                2x  x                2x
+
+          2    2         2  2  2            3    6               4
+ - 1000*u  *a*u  + 300*u  *c *u  + 90*u *a*c *t*u  - 300*u *a*c*u *x
+         x              x              x                  x
+
+          5    6          3  4         3  5
+ - 27*u *c *t*u  + 90*u *c *u *x - 18*c *u , x )
+       x               x
+
+======================================================
+
+Conservation law:
+
+   3    2
+a=----*c ,
+   10
+
+
+b=2*c,
+
+
+                          2    2
+    - 2000*u  *c*t - 600*c *t*u  + 2000*x
+            2x
+( ---------------------------------------- ) * ( u  + u   + u  *c*u + 2*u  *u *c
+                     c                            t    5x    3x          2x  x
+
+    3       2  2
+ + ----*u *c *u  )
+    10   x
+
+ = 
+
+            2            2    3
+     1000*u  *c*t - 200*c *t*u  + 2000*u*x
+           x
+df( ---------------------------------------, t )
+                       c
+
++
+
+                                                     2    2
+df( ( - 2000*u *u *c*t - 2000*u  *u  *c*t - 600*u  *c *t*u  + 2000*u  *x
+              t  x             4x  2x            4x                 4x
+
+                2                    2                          2  2
+      + 1000*u   *c*t + 1200*u  *u *c *t*u - 2000*u   - 1600*u   *c *t*u
+              3x              3x  x                3x         2x
+
+                   2                    2  2                  4  2  4
+      - 2000*u  *u  *b*c*t + 2800*u  *u  *c *t + 90*u  *u *b*c *t *u
+              2x  x                2x  x             2x  x
+
+                      2    2                    2               5  2  4
+      - 600*u  *u *b*c *t*u *x + 1000*u  *u *b*x  - 180*u  *u *c *t *u
+             2x  x                     2x  x             2x  x
+
+                     3    2                    2            3    3
+      + 1200*u  *u *c *t*u *x - 2000*u  *u *c*x  - 600*u  *c *t*u
+              2x  x                   2x  x             2x
+
+                                2        2         2  3    2          2
+      + 2000*u  *c*u*x - 2000*u  *a*c*t*u  + 600*u  *c *t*u  + 1000*u  *c*x
+              2x               x                  x                  x
+
+                 4  2  6             2    4                2  2          6  2  6
+      + 90*u *a*c *t *u  - 600*u *a*c *t*u *x + 1000*u *a*u *x  - 27*u *c *t *u
+            x                   x                     x               x
+
+                4    4             2  2  2                     4    5
+      + 180*u *c *t*u *x - 300*u *c *u *x  - 2000*u *c*u - 36*c *t*u
+             x                  x                  x
+
+             2  3
+      + 200*c *u *x)/c, x )
+
+======================================================
+
+Conservation law:
+
+      1   2    7          3    2
+a= - ---*b  + ----*b*c - ----*c ,
+      5        10         10
+
+
+                                              1      2  2    7           2
+( -100 ) * ( u  + u   + u  *c*u + u  *u *b - ---*u *b *u  + ----*u *b*c*u
+              t    5x    3x        2x  x      5   x          10   x
+
+    3       2  2
+ - ----*u *c *u  )
+    10   x
+
+ = 
+
+df(  - 100*u, t )
+
++
+
+                                    2          2              2    4
+df(  - 100*u   - 100*u  *c*u - 50*u  *b + 50*u  *c - 20*u *a*b *t*u
+            4x        2x           x          x          x
+
+                  4            2    4             2           4    4
+ + 70*u *a*b*c*t*u  - 30*u *a*c *t*u  - 100*u *a*u *x - 4*u *b *t*u
+       x                  x                  x             x
+
+          3      4          2  2    4          2  2              3    4
+ + 28*u *b *c*t*u  - 61*u *b *c *t*u  - 20*u *b *u *x + 42*u *b*c *t*u
+       x                 x                  x               x
+
+              2           4    4          2  2      20   2  3    70       3
+ + 70*u *b*c*u *x - 9*u *c *t*u  - 30*u *c *u *x + ----*b *u  - ----*b*c*u
+       x               x               x            3            3
+
+       2  3
+ + 10*c *u , x )
+
+======================================================
+
+Conservation law:
+
+      1   2    7          3    2
+a= - ---*b  + ----*b*c - ----*c ,
+      5        10         10
+
+
+                       2          2
+(  - 1000*u   - 200*b*u  + 100*c*u  ) * ( u  + u   + u  *c*u + u  *u *b
+           2x                              t    5x    3x        2x  x
+
+    1      2  2    7           2    3       2  2
+ - ---*u *b *u  + ----*u *b*c*u  - ----*u *c *u  )
+    5   x          10   x           10   x
+
+ = 
+
+          2    200     3    100     3
+df( 500*u   - -----*b*u  + -----*c*u , t )
+         x      3            3
+
++
+
+                                              2              2          2
+df(  - 1000*u *u  - 1000*u  *u   - 200*u  *b*u  + 100*u  *c*u  + 500*u
+             t  x         4x  2x        4x             4x             3x
+
+                                            2              2                 2
+ + 400*u  *u *b*u - 200*u  *u *c*u - 200*u   *b*u - 400*u   *c*u - 400*u  *u  *b
+        3x  x            3x  x            2x             2x             2x  x
+
+             2                  3            2  3          2    2
+ + 200*u  *u  *c - 200*u  *b*c*u  + 100*u  *c *u  - 1000*u  *a*u
+        2x  x           2x               2x               x
+
+         2  2  2         2      2         2  2  2            3    6
+ - 200*u  *b *u  + 700*u  *b*c*u  - 300*u  *c *u  - 40*u *a*b *t*u
+        x               x                x              x
+
+             2      6               2    6               4              3    6
+ + 160*u *a*b *c*t*u  - 130*u *a*b*c *t*u  - 200*u *a*b*u *x + 30*u *a*c *t*u
+        x                    x                    x                x
+
+               4           5    6          4      6           3  2    6
+ + 100*u *a*c*u *x - 8*u *b *t*u  + 60*u *b *c*t*u  - 150*u *b *c *t*u
+        x               x               x                  x
+
+          3  4             2  3    6           2    4              4    6
+ - 40*u *b *u *x + 145*u *b *c *t*u  + 160*u *b *c*u *x - 60*u *b*c *t*u
+       x                x                   x                 x
+
+             2  4           5    6          3  4        3  5       2    5
+ - 130*u *b*c *u *x + 9*u *c *t*u  + 30*u *c *u *x + 8*b *u  - 32*b *c*u
+        x                x               x
+
+         2  5      3  5
+ + 26*b*c *u  - 6*c *u , x )
+
+======================================================
+
+Conservation law:
+
+      1   2    7          3    2
+a= - ---*b  + ----*b*c - ----*c ,
+      5        10         10
+
+
+                                         2    2               2        2    2
+( ( - 2000*u  *b*t + 6000*u  *c*t - 400*b *t*u  + 1400*b*c*t*u  - 600*c *t*u
+            2x             2x
+
+                                                               1      2  2
+    - 2000*x)/(b - 3*c) ) * ( u  + u   + u  *c*u + u  *u *b - ---*u *b *u
+                               t    5x    3x        2x  x      5   x
+
+    7           2    3       2  2
+ + ----*u *b*c*u  - ----*u *c *u  )
+    10   x           10   x
+
+ = 
+
+            2              2        400   2    3    1400         3        2    3
+df( (1000*u  *b*t - 3000*u  *c*t - -----*b *t*u  + ------*b*c*t*u  - 200*c *t*u
+           x              x          3               3
+
+      - 2000*u*x)/(b - 3*c), t )
+
++
+
+df( ( - 2000*u *u *b*t + 6000*u *u *c*t - 2000*u  *u  *b*t + 6000*u  *u  *c*t
+              t  x             t  x             4x  2x             4x  2x
+
+                 2    2                   2            2    2
+      - 400*u  *b *t*u  + 1400*u  *b*c*t*u  - 600*u  *c *t*u  - 2000*u  *x
+             4x                 4x                 4x                 4x
+
+                2               2                   2
+      + 1000*u   *b*t - 3000*u   *c*t + 800*u  *u *b *t*u - 2800*u  *u *b*c*t*u
+              3x              3x             3x  x                3x  x
+
+                     2                         2  2              2
+      + 1200*u  *u *c *t*u + 2000*u   - 400*u   *b *t*u + 400*u   *b*c*t*u
+              3x  x                3x        2x                2x
+
+                2  2                 2  2                2
+      + 2400*u   *c *t*u - 800*u  *u  *b *t + 2800*u  *u  *b*c*t
+              2x                2x  x               2x  x
+
+                   2  2              2      3               2    3
+      - 1200*u  *u  *c *t - 400*u  *b *c*t*u  + 1400*u  *b*c *t*u
+              2x  x              2x                   2x
+
+                 3    3                           2        2          2        2
+      - 600*u  *c *t*u  - 2000*u  *c*u*x - 2000*u  *a*b*t*u  + 6000*u  *a*c*t*u
+             2x                 2x               x                   x
+
+              2  3    2          2  2      2          2    2    2          2
+      - 400*u  *b *t*u  + 2600*u  *b *c*t*u  - 4800*u  *b*c *t*u  - 1000*u  *b*x
+             x                  x                    x                    x
+
+               2  3    2          2                4  2  6             3    2  6
+      + 1800*u  *c *t*u  + 1000*u  *c*x - 40*u *a*b *t *u  + 280*u *a*b *c*t *u
+              x                  x            x                   x
+
+                  2  2  2  6             2    4                 3  2  6
+      - 610*u *a*b *c *t *u  - 400*u *a*b *t*u *x + 420*u *a*b*c *t *u
+             x                      x                    x
+
+                         4              4  2  6             2    4
+      + 1400*u *a*b*c*t*u *x - 90*u *a*c *t *u  - 600*u *a*c *t*u *x
+              x                    x                   x
+
+                   2  2         6  2  6          5    2  6           4  2  2  6
+      - 1000*u *a*u *x  - 8*u *b *t *u  + 84*u *b *c*t *u  - 330*u *b *c *t *u
+              x              x                x                   x
+
+               4    4             3  3  2  6           3      4
+      - 80*u *b *t*u *x + 595*u *b *c *t *u  + 560*u *b *c*t*u *x
+            x                  x                    x
+
+                2  4  2  6            2  2    4             2  2  2
+      - 495*u *b *c *t *u  - 1220*u *b *c *t*u *x - 200*u *b *u *x
+             x                     x                     x
+
+                  5  2  6             3    4                 2  2
+      + 189*u *b*c *t *u  + 840*u *b*c *t*u *x + 700*u *b*c*u *x
+             x                   x                    x
+
+               6  2  6           4    4             2  2  2
+      - 27*u *c *t *u  - 180*u *c *t*u *x - 300*u *c *u *x  + 2000*u *c*u
+            x                 x                  x                  x
+
+            4    5        3      5        2  2    5    400   2  3
+      + 16*b *t*u  - 112*b *c*t*u  + 244*b *c *t*u  + -----*b *u *x
+                                                        3
+
+               3    5    1400       3         4    5        2  3
+      - 168*b*c *t*u  - ------*b*c*u *x + 36*c *t*u  + 200*c *u *x)/(b - 3*c), x
+                          3
+
+ )
+
+======================================================
+
+Conservation law:
+
+b=2*c,
+
+
+                                                    2
+( 4*u ) * ( u  + u   + u  *c*u + 2*u  *u *c + u *a*u  )
+             t    5x    3x          2x  x      x
+
+ = 
+
+       2
+df( 2*u , t )
+
++
+
+                              2            2      4
+df( 4*u  *u - 4*u  *u  + 2*u    + 4*u  *c*u  + a*u , x )
+       4x        3x  x      2x       2x
+
+======================================================
+
+Conservation law:
+
+b=2*c,
+
+
+                                                  2
+( 6 ) * ( u  + u   + u  *c*u + 2*u  *u *c + u *a*u  )
+           t    5x    3x          2x  x      x
+
+ = 
+
+df( 6*u, t )
+
++
+
+                            2          3
+df( 6*u   + 6*u  *c*u + 3*u  *c + 2*a*u , x )
+       4x      2x          x
+
+======================================================
+
+Conservation law:
+
+a=0,
+
+
+b=2*c,
+
+
+( 2 ) * ( u  + u   + u  *c*u + 2*u  *u *c )
+           t    5x    3x          2x  x
+
+ = 
+
+df( 2*u, t )
+
++
+
+                          2
+df( 2*u   + 2*u  *c*u + u  *c, x )
+       4x      2x        x
+
+======================================================
+
+Conservation law:
+
+a=0,
+
+
+b=2*c,
+
+
+( 2*u ) * ( u  + u   + u  *c*u + 2*u  *u *c )
+             t    5x    3x          2x  x
+
+ = 
+
+     2
+df( u , t )
+
++
+
+                            2            2
+df( 2*u  *u - 2*u  *u  + u    + 2*u  *c*u , x )
+       4x        3x  x    2x       2x
+
+======================================================
+
+Conservation law:
+
+    - 6                                              2
+( ------ ) * ( u  + u   + u  *c*u + u  *u *b + u *a*u  )
+    a           t    5x    3x        2x  x      x
+
+ = 
+
+      - 6*u
+df( --------, t )
+       a
+
++
+
+                                2         2          3
+      - 6*u   - 6*u  *c*u - 3*u  *b + 3*u  *c - 2*a*u
+           4x      2x          x         x
+df( ---------------------------------------------------, x )
+                             a
+
+======================================================
+
+Conservation law:
+
+a=0,
+
+
+( 2 ) * ( u  + u   + u  *c*u + u  *u *b )
+           t    5x    3x        2x  x
+
+ = 
+
+df( 2*u, t )
+
++
+
+                          2       2
+df( 2*u   + 2*u  *c*u + u  *b - u  *c, x )
+       4x      2x        x       x
+
+======================================================
+
+{{{2},
+
+  {2*u,
+
+                                          2            2
+   2*df(u,x,4) + 2*df(u,x,2)*c*u + df(u,x) *b - df(u,x) *c}},
+
+     - 6
+ {{------},
+     a
+
+     - 6*u
+  {--------,
+      a
+
+                                                2              2          3
+     - 6*df(u,x,4) - 6*df(u,x,2)*c*u - 3*df(u,x) *b + 3*df(u,x) *c - 2*a*u
+   -------------------------------------------------------------------------}},
+                                       a
+
+ {{2*u},
+
+    2
+  {u ,
+
+                                                  2                  2
+   2*df(u,x,4)*u - 2*df(u,x,3)*df(u,x) + df(u,x,2)  + 2*df(u,x,2)*c*u }},
+
+ {{2},
+
+  {2*u,
+
+                                          2
+   2*df(u,x,4) + 2*df(u,x,2)*c*u + df(u,x) *c}},
+
+ {{6},
+
+  {6*u,
+
+                                            2          3
+   6*df(u,x,4) + 6*df(u,x,2)*c*u + 3*df(u,x) *c + 2*a*u }},
+
+ {{4*u},
+
+      2
+  {2*u ,
+
+                                                    2                  2      4
+   4*df(u,x,4)*u - 4*df(u,x,3)*df(u,x) + 2*df(u,x,2)  + 4*df(u,x,2)*c*u  + a*u }
+
+  },
+
+                                                     2    2            2
+ {{(200*( - 10*df(u,x,2)*b*t + 30*df(u,x,2)*c*t - 2*b *t*u  + 7*b*c*t*u
+
+               2    2
+          - 3*c *t*u  - 10*x))/(b - 3*c)},
+
+                   2                 2          2    3            3      2    3
+  {(200*(15*df(u,x) *b*t - 45*df(u,x) *c*t - 2*b *t*u  + 7*b*c*t*u  - 3*c *t*u
+
+          - 30*u*x))/(3*(b - 3*c)),
+
+   ( - 6000*df(u,t)*df(u,x)*b*t + 18000*df(u,t)*df(u,x)*c*t
+
+     - 6000*df(u,x,4)*df(u,x,2)*b*t + 18000*df(u,x,4)*df(u,x,2)*c*t
+
+                       2    2                         2                   2    2
+     - 1200*df(u,x,4)*b *t*u  + 4200*df(u,x,4)*b*c*t*u  - 1800*df(u,x,4)*c *t*u
+
+                                        2                     2
+     - 6000*df(u,x,4)*x + 3000*df(u,x,3) *b*t - 9000*df(u,x,3) *c*t
+
+                               2
+     + 2400*df(u,x,3)*df(u,x)*b *t*u - 8400*df(u,x,3)*df(u,x)*b*c*t*u
+
+                               2                                      2  2
+     + 3600*df(u,x,3)*df(u,x)*c *t*u + 6000*df(u,x,3) - 1200*df(u,x,2) *b *t*u
+
+                     2                         2  2
+     + 1200*df(u,x,2) *b*c*t*u + 7200*df(u,x,2) *c *t*u
+
+                             2  2                           2
+     - 2400*df(u,x,2)*df(u,x) *b *t + 8400*df(u,x,2)*df(u,x) *b*c*t
+
+                             2  2                     2      3
+     - 3600*df(u,x,2)*df(u,x) *c *t - 1200*df(u,x,2)*b *c*t*u
+
+                         2    3                   3    3
+     + 4200*df(u,x,2)*b*c *t*u  - 1800*df(u,x,2)*c *t*u  - 6000*df(u,x,2)*c*u*x
+
+                   2        2                2        2               2  3    2
+     - 6000*df(u,x) *a*b*t*u  + 18000*df(u,x) *a*c*t*u  - 1200*df(u,x) *b *t*u
+
+                   2  2      2                2    2    2               2
+     + 7800*df(u,x) *b *c*t*u  - 14400*df(u,x) *b*c *t*u  - 3000*df(u,x) *b*x
+
+                   2  3    2               2                      4  2  6
+     + 5400*df(u,x) *c *t*u  + 3000*df(u,x) *c*x - 120*df(u,x)*a*b *t *u
+
+                      3    2  6                   2  2  2  6
+     + 840*df(u,x)*a*b *c*t *u  - 1830*df(u,x)*a*b *c *t *u
+
+                       2    4                       3  2  6
+     - 1200*df(u,x)*a*b *t*u *x + 1260*df(u,x)*a*b*c *t *u
+
+                             4                    4  2  6
+     + 4200*df(u,x)*a*b*c*t*u *x - 270*df(u,x)*a*c *t *u
+
+                       2    4                     2  2               6  2  6
+     - 1800*df(u,x)*a*c *t*u *x - 3000*df(u,x)*a*u *x  - 24*df(u,x)*b *t *u
+
+                    5    2  6                4  2  2  6                4    4
+     + 252*df(u,x)*b *c*t *u  - 990*df(u,x)*b *c *t *u  - 240*df(u,x)*b *t*u *x
+
+                     3  3  2  6                 3      4
+     + 1785*df(u,x)*b *c *t *u  + 1680*df(u,x)*b *c*t*u *x
+
+                     2  4  2  6                 2  2    4
+     - 1485*df(u,x)*b *c *t *u  - 3660*df(u,x)*b *c *t*u *x
+
+                    2  2  2                  5  2  6                   3    4
+     - 600*df(u,x)*b *u *x  + 567*df(u,x)*b*c *t *u  + 2520*df(u,x)*b*c *t*u *x
+
+                         2  2               6  2  6                4    4
+     + 2100*df(u,x)*b*c*u *x  - 81*df(u,x)*c *t *u  - 540*df(u,x)*c *t*u *x
+
+                    2  2  2                          4    5        3      5
+     - 900*df(u,x)*c *u *x  + 6000*df(u,x)*c*u + 48*b *t*u  - 336*b *c*t*u
+
+            2  2    5        2  3            3    5             3
+     + 732*b *c *t*u  + 400*b *u *x - 504*b*c *t*u  - 1400*b*c*u *x
+
+            4    5        2  3
+     + 108*c *t*u  + 600*c *u *x)/(3*(b - 3*c))}},
+
+                               2      2
+ {{100*( - 10*df(u,x,2) - 2*b*u  + c*u )},
+
+                   2        3      3
+    100*(15*df(u,x)  - 2*b*u  + c*u )
+  {-----------------------------------,
+                    3
+
+                                                                         2
+    - 1000*df(u,t)*df(u,x) - 1000*df(u,x,4)*df(u,x,2) - 200*df(u,x,4)*b*u
+
+                       2                2
+    + 100*df(u,x,4)*c*u  + 500*df(u,x,3)  + 400*df(u,x,3)*df(u,x)*b*u
+
+                                               2                    2
+    - 200*df(u,x,3)*df(u,x)*c*u - 200*df(u,x,2) *b*u - 400*df(u,x,2) *c*u
+
+                           2                          2                        3
+    - 400*df(u,x,2)*df(u,x) *b + 200*df(u,x,2)*df(u,x) *c - 200*df(u,x,2)*b*c*u
+
+                     2  3               2    2              2  2  2
+    + 100*df(u,x,2)*c *u  - 1000*df(u,x) *a*u  - 200*df(u,x) *b *u
+
+                 2      2              2  2  2                 3    6
+    + 700*df(u,x) *b*c*u  - 300*df(u,x) *c *u  - 40*df(u,x)*a*b *t*u
+
+                     2      6                    2    6                    4
+    + 160*df(u,x)*a*b *c*t*u  - 130*df(u,x)*a*b*c *t*u  - 200*df(u,x)*a*b*u *x
+
+                    3    6                    4                5    6
+    + 30*df(u,x)*a*c *t*u  + 100*df(u,x)*a*c*u *x - 8*df(u,x)*b *t*u
+
+                  4      6                3  2    6               3  4
+    + 60*df(u,x)*b *c*t*u  - 150*df(u,x)*b *c *t*u  - 40*df(u,x)*b *u *x
+
+                   2  3    6                2    4                   4    6
+    + 145*df(u,x)*b *c *t*u  + 160*df(u,x)*b *c*u *x - 60*df(u,x)*b*c *t*u
+
+                     2  4                5    6               3  4        3  5
+    - 130*df(u,x)*b*c *u *x + 9*df(u,x)*c *t*u  + 30*df(u,x)*c *u *x + 8*b *u
+
+          2    5         2  5      3  5
+    - 32*b *c*u  + 26*b*c *u  - 6*c *u }},
+
+ {{-100},
+
+  { - 100*u,
+
+                                                      2                2
+   ( - 300*df(u,x,4) - 300*df(u,x,2)*c*u - 150*df(u,x) *b + 150*df(u,x) *c
+
+                     2    4                        4                 2    4
+     - 60*df(u,x)*a*b *t*u  + 210*df(u,x)*a*b*c*t*u  - 90*df(u,x)*a*c *t*u
+
+                      2                 4    4               3      4
+     - 300*df(u,x)*a*u *x - 12*df(u,x)*b *t*u  + 84*df(u,x)*b *c*t*u
+
+                    2  2    4               2  2                    3    4
+     - 183*df(u,x)*b *c *t*u  - 60*df(u,x)*b *u *x + 126*df(u,x)*b*c *t*u
+
+                        2                 4    4               2  2         2  3
+     + 210*df(u,x)*b*c*u *x - 27*df(u,x)*c *t*u  - 90*df(u,x)*c *u *x + 20*b *u
+
+               3       2  3
+     - 70*b*c*u  + 30*c *u )/3}},
+
+                                  2    2
+    200*( - 10*df(u,x,2)*c*t - 3*c *t*u  + 10*x)
+ {{----------------------------------------------},
+                         c
+
+                  2        2    3
+    200*(5*df(u,x) *c*t - c *t*u  + 10*u*x)
+  {-----------------------------------------,
+                       c
+
+   ( - 2000*df(u,t)*df(u,x)*c*t - 2000*df(u,x,4)*df(u,x,2)*c*t
+
+                      2    2                                    2
+     - 600*df(u,x,4)*c *t*u  + 2000*df(u,x,4)*x + 1000*df(u,x,3) *c*t
+
+                               2                                      2  2
+     + 1200*df(u,x,3)*df(u,x)*c *t*u - 2000*df(u,x,3) - 1600*df(u,x,2) *c *t*u
+
+                             2                               2  2
+     - 2000*df(u,x,2)*df(u,x) *b*c*t + 2800*df(u,x,2)*df(u,x) *c *t
+
+                               4  2  4                            2    2
+     + 90*df(u,x,2)*df(u,x)*b*c *t *u  - 600*df(u,x,2)*df(u,x)*b*c *t*u *x
+
+                                 2                          5  2  4
+     + 1000*df(u,x,2)*df(u,x)*b*x  - 180*df(u,x,2)*df(u,x)*c *t *u
+
+                               3    2                               2
+     + 1200*df(u,x,2)*df(u,x)*c *t*u *x - 2000*df(u,x,2)*df(u,x)*c*x
+
+                      3    3                                      2        2
+     - 600*df(u,x,2)*c *t*u  + 2000*df(u,x,2)*c*u*x - 2000*df(u,x) *a*c*t*u
+
+                  2  3    2               2                     4  2  6
+     + 600*df(u,x) *c *t*u  + 1000*df(u,x) *c*x + 90*df(u,x)*a*c *t *u
+
+                      2    4                     2  2               6  2  6
+     - 600*df(u,x)*a*c *t*u *x + 1000*df(u,x)*a*u *x  - 27*df(u,x)*c *t *u
+
+                    4    4                  2  2  2
+     + 180*df(u,x)*c *t*u *x - 300*df(u,x)*c *u *x  - 2000*df(u,x)*c*u
+
+           4    5        2  3
+     - 36*c *t*u  + 200*c *u *x)/c}},
+
+                               2
+ {{100*( - 10*df(u,x,2) - 3*c*u )},
+
+                 2      3
+  {100*(5*df(u,x)  - c*u ),
+
+                                                                         2
+    - 1000*df(u,t)*df(u,x) - 1000*df(u,x,4)*df(u,x,2) - 300*df(u,x,4)*c*u
+
+                   2                                            2
+    + 500*df(u,x,3)  + 600*df(u,x,3)*df(u,x)*c*u - 800*df(u,x,2) *c*u
+
+                            2                           2
+    - 1000*df(u,x,2)*df(u,x) *b + 1400*df(u,x,2)*df(u,x) *c
+
+                              3    4                              2
+    + 90*df(u,x,2)*df(u,x)*b*c *t*u  - 300*df(u,x,2)*df(u,x)*b*c*u *x
+
+                             4    4                          2  2
+    - 180*df(u,x,2)*df(u,x)*c *t*u  + 600*df(u,x,2)*df(u,x)*c *u *x
+
+                     2  3               2    2              2  2  2
+    - 300*df(u,x,2)*c *u  - 1000*df(u,x) *a*u  + 300*df(u,x) *c *u
+
+                    3    6                    4                 5    6
+    + 90*df(u,x)*a*c *t*u  - 300*df(u,x)*a*c*u *x - 27*df(u,x)*c *t*u
+
+                  3  4         3  5
+    + 90*df(u,x)*c *u *x - 18*c *u }},
+
+ {{ - 100*u},
+
+          2
+  { - 50*u ,
+
+                                                              2
+   ( - 200*df(u,x,4)*u + 200*df(u,x,3)*df(u,x) - 100*df(u,x,2)
+
+                               2    3
+     + 60*df(u,x,2)*df(u,x)*b*c *t*u  - 200*df(u,x,2)*df(u,x)*b*u*x
+
+                              3    3
+     - 120*df(u,x,2)*df(u,x)*c *t*u  + 400*df(u,x,2)*df(u,x)*c*u*x
+
+                        2                 2    5                  3
+     - 200*df(u,x,2)*c*u  + 60*df(u,x)*a*c *t*u  - 200*df(u,x)*a*u *x
+
+                   4    5               2  3         2  4
+     - 18*df(u,x)*c *t*u  + 60*df(u,x)*c *u *x - 15*c *u )/2}},
+
+ {{-100},
+
+  { - 100*u,
+
+                                              2    2
+    - 100*df(u,x,4) + 30*df(u,x,2)*df(u,x)*b*c *t*u  - 100*df(u,x,2)*df(u,x)*b*x
+
+                            3    2
+    - 60*df(u,x,2)*df(u,x)*c *t*u  + 200*df(u,x,2)*df(u,x)*c*x
+
+                                    2                   2    4
+    - 100*df(u,x,2)*c*u - 50*df(u,x) *c + 30*df(u,x)*a*c *t*u
+
+                     2                4    4               2  2         2  3
+    - 100*df(u,x)*a*u *x - 9*df(u,x)*c *t*u  + 30*df(u,x)*c *u *x - 10*c *u }},
+
+                          2
+ {{3*( - 2*df(u,x,2) - c*u )},
+
+            2      3
+  {3*df(u,x)  - c*u ,
+
+                                                                  2            2
+   3*( - 2*df(u,t)*df(u,x) - 2*df(u,x,4)*df(u,x,2) - df(u,x,4)*c*u  + df(u,x,3)
+
+                                              2                          2
+       + 2*df(u,x,3)*df(u,x)*c*u - 2*df(u,x,2) *c*u - 2*df(u,x,2)*df(u,x) *b
+
+                            2                2  3            2    2
+       + 4*df(u,x,2)*df(u,x) *c - df(u,x,2)*c *u  - 2*df(u,x) *a*u )}},
+
+        2
+     - x
+ {{-------},
+      c
+
+          2
+     - u*x
+  {---------,
+       c
+
+                  2                                  2
+   ( - df(u,x,4)*x  + 2*df(u,x,3)*x - df(u,x,2)*c*u*x  - 2*df(u,x,2)
+
+              2    2                        2
+     - df(u,x) *c*x  + 2*df(u,x)*c*u*x - c*u )/c}},
+
+ {{x},
+
+  {u*x,
+
+                                                      2
+   df(u,x,4)*x - df(u,x,3) + df(u,x,2)*c*u*x + df(u,x) *c*x - df(u,x)*c*u}},
+
+ {{1},
+
+  {u,
+
+                                      2
+   df(u,x,4) + df(u,x,2)*c*u + df(u,x) *c}},
+
+ {{ - df(c_294,x) + c_303},
+
+  {u*( - df(c_294,x) + c_303),
+
+   df(c_294,t)*u + df(c_294,x,4)*df(u,x) - df(c_294,x,3)*df(u,x,2)
+
+    + df(c_294,x,2)*df(u,x,3) - df(c_294,x)*df(u,x,4) - df(c_303,x,3)*df(u,x)
+
+    + df(c_303,x,2)*df(u,x,2) - df(c_303,x)*df(u,x,3) + df(u,x,4)*c_303
+
+                                                                         2
+    - df(u,x,3)*c*c_294*u - df(u,x,2)*df(u,x)*b*c_294 - df(u,x)*a*c_294*u }},
+
+ {{ - 2*df(u,x,2)},
+
+          2
+  {df(u,x) ,
+
+                                                           2
+    - 2*df(u,t)*df(u,x) - 2*df(u,x,4)*df(u,x,2) + df(u,x,3)
+
+                                                   2              2    2
+    - 2*df(u,x,3)*df(u,x)*c*u - 2*df(u,x,2)*df(u,x) *b - 2*df(u,x) *a*u }},
+
+ {{2*u},
+
+    2
+  {u ,
+
+                                                  2
+   2*df(u,x,4)*u - 2*df(u,x,3)*df(u,x) + df(u,x,2) }},
+
+    3
+ {{----},
+     2
+    a
+
+    3*u
+  {-----,
+     2
+    a
+
+                                             2        3
+    3*df(u,x,4) + 3*df(u,x,2)*c*u + 3*df(u,x) *c + a*u
+   -----------------------------------------------------}},
+                             2
+                            a
+
+     - 4*u
+ {{--------},
+      a
+
+          2
+     - 2*u
+  {---------,
+       a
+
+                                                        2      4
+     - 4*df(u,x,4)*u + 4*df(u,x,3)*df(u,x) - 2*df(u,x,2)  - a*u
+   --------------------------------------------------------------}},
+                                 a
+
+ {{ - 4*u},
+
+         2
+  { - 2*u ,
+
+                                                       2      4
+    - 4*df(u,x,4)*u + 4*df(u,x,3)*df(u,x) - 2*df(u,x,2)  - a*u }},
+
+     - 3
+ {{------},
+     a
+
+                                 3
+     - 3*u    - 3*df(u,x,4) - a*u
+  {--------,-----------------------}},
+      a                a
+
+ {{ - df(c_254,x)},
+
+  { - df(c_254,x)*u,
+
+   df(c_254,t)*u + df(c_254,x,4)*df(u,x) - df(c_254,x,3)*df(u,x,2)
+
+    + df(c_254,x,2)*df(u,x,3) - df(c_254,x)*df(u,x,4) + c_259*u}},
+
+ {{ - 2*u},
+
+       2
+  { - u ,
+
+                                                     2
+    - 2*df(u,x,4)*u + 2*df(u,x,3)*df(u,x) - df(u,x,2) }},
+
+ {{-6},
+
+  { - 6*u,
+
+                                               2          3
+    - 6*df(u,x,4) - 6*df(u,x,2)*c*u - 3*df(u,x) *c - 2*a*u }},
+
+ {{ - 4*u},
+
+         2
+  { - 2*u ,
+
+                                                       2                  2
+    - 4*df(u,x,4)*u + 4*df(u,x,3)*df(u,x) - 2*df(u,x,2)  - 4*df(u,x,2)*c*u
+
+         4
+    - a*u }},
+
+ {{-6},
+
+  { - 6*u,
+
+                                               2              2          3
+    - 6*df(u,x,4) - 6*df(u,x,2)*c*u - 3*df(u,x) *b + 3*df(u,x) *c - 2*a*u }},
+
+     2
+    x
+ {{----},
+    c
+
+       2
+    u*x
+  {------,
+     c
+
+               2                                  2
+   (df(u,x,4)*x  - 2*df(u,x,3)*x + df(u,x,2)*c*u*x  + 2*df(u,x,2)
+
+              2    2                        2
+     + df(u,x) *c*x  - 2*df(u,x)*c*u*x + c*u )/c}},
+
+ {{ - x},
+
+  { - u*x,
+
+                                                         2
+    - df(u,x,4)*x + df(u,x,3) - df(u,x,2)*c*u*x - df(u,x) *c*x + df(u,x)*c*u}},
+
+ {{1},
+
+  {u,
+
+                                      2
+   df(u,x,4) + df(u,x,2)*c*u + df(u,x) *c}},
+
+ {{ - df(c_232,x)},
+
+  { - df(c_232,x)*u,
+
+   df(c_232,t)*u + df(c_232,x,4)*df(u,x) - df(c_232,x,3)*df(u,x,2)
+
+    + df(c_232,x,2)*df(u,x,3) - df(c_232,x)*df(u,x,4) + c_236*u}}}
+
+
+comment -------------------------------------------------------------
+conlawi can also be used to determine first integrals of ODEs.
+The generality of the ansatz is not just specified by the order.
+For example, the Lorentz system below is a first order system
+therefore any first integrals are zero order expressions.
+The ansatz to be investigated below looks for first integrals of
+the form a1(x,1)+a2(y,t)+a3(x,t)=const. and determines parameters
+s,b,r such that first integrals exist;
+
+
+nodepnd {x,y,z,a1,a2,a3,b,s,r}$
+
+
+depend x,t$
+
+
+depend y,t$
+
+
+depend z,t$
+
+
+depend a1,x,t$
+
+
+depend a2,y,t$
+
+
+depend a3,z,t$
+
+
+
+p_t:=a1+a2+a3$
+
+
+conlaw1({{df(x,t) = - s*x + s*y,
+          df(y,t) = x*z + r*x - y,
+          df(z,t) = x*y - b*z},
+         {x,y,z},{t}
+	},
+	{0,0,t,{a1,a2,a3,s,r,b},{}})$
+
+
+--------------------------------------------------------------------------
+
+This is CONLAW1 - a program for calculating conservation laws of DEs
+
+The DEs under investigation are :
+
+x = - s*x + s*y
+ t
+
+y =r*x + x*z - y
+ t
+
+z = - b*z + x*y
+ t
+
+for the function(s): x(t), y(t), z(t)
+
+======================================================
+A special ansatz of order 0 for the conserved current is investigated.
+
+
+Conservation law:
+
+   1
+s=---*b,
+   2
+
+
+      b*t
+(  - e    ) * ( z  + b*z - x*y )
+                 t
+
++
+
+( 0 ) * ( y  - r*x - x*z + y )
+           t
+
++
+
+      b*t
+   2*e   *x              1         1
+( ---------- ) * ( x  + ---*b*x - ---*b*y )
+      b             t    2         2
+
+ = 
+
+         b*t        b*t  2
+      - e   *b*z + e   *x
+df( -----------------------, t )
+               b
+
+======================================================
+The function c_473(x) is not constant!
+======================================================
+
+Conservation law:
+
+s=0,
+
+
+( 0 ) * ( z  + b*z - x*y )
+           t
+
++
+
+( 0 ) * ( y  - r*x - x*z + y )
+           t
+
++
+
+( c_473  ) * ( x  )
+       x        t
+
+ = 
+
+df( c_473, t )
+
+======================================================
+
+Conservation law:
+
+b=1,
+
+
+s=1,
+
+
+        2*t
+(  - 2*e   *z ) * ( z  - x*y + z )
+                     t
+
++
+
+     2*t
+( 2*e   *y ) * ( y  - r*x - x*z + y )
+                  t
+
++
+
+        2*t
+(  - 2*e   *r*x ) * ( x  + x - y )
+                       t
+
+ = 
+
+        2*t    2    2*t  2    2*t  2
+df(  - e   *r*x  + e   *y  - e   *z , t )
+
+======================================================
+
+Conservation law:
+
+b=1,
+
+
+r=0,
+
+
+        2*t
+(  - 2*e   *z ) * ( z  - x*y + z )
+                     t
+
++
+
+     2*t
+( 2*e   *y ) * ( y  - x*z + y )
+                  t
+
++
+
+( 0 ) * ( x  + s*x - s*y )
+           t
+
+ = 
+
+     2*t  2    2*t  2
+df( e   *y  - e   *z , t )
+
+======================================================
+
+Conservation law:
+
+b=1,
+
+
+r=0,
+
+
+   1
+s=---,
+   2
+
+
+      t
+(  - e  ) * ( z  - x*y + z )
+               t
+
++
+
+( 0 ) * ( y  - x*z + y )
+           t
+
++
+
+     t               1       1
+( 2*e *x ) * ( x  + ---*x - ---*y )
+                t    2       2
+
+ = 
+
+     t  2    t
+df( e *x  - e *z, t )
+
+======================================================
+
+Conservation law:
+
+b=1,
+
+
+r=0,
+
+
+   1
+s=---,
+   2
+
+
+        2*t
+(  - 2*e   *z ) * ( z  - x*y + z )
+                     t
+
++
+
+     2*t
+( 2*e   *y ) * ( y  - x*z + y )
+                  t
+
++
+
+                1       1
+( 0 ) * ( x  + ---*x - ---*y )
+           t    2       2
+
+ = 
+
+     2*t  2    2*t  2
+df( e   *y  - e   *z , t )
+
+======================================================
+The function c_489(x) is not constant!
+======================================================
+
+Conservation law:
+
+b=1,
+
+
+r=0,
+
+
+s=0,
+
+
+        2*t
+(  - 2*e   *z ) * ( z  - x*y + z )
+                     t
+
++
+
+     2*t
+( 2*e   *y ) * ( y  - x*z + y )
+                  t
+
++
+
+( 0 ) * ( x  )
+           t
+
+ = 
+
+     2*t  2    2*t  2
+df( e   *y  - e   *z , t )
+
+======================================================
+
+Conservation law:
+
+b=1,
+
+
+r=0,
+
+
+s=0,
+
+
+( 0 ) * ( z  - x*y + z )
+           t
+
++
+
+( 0 ) * ( y  - x*z + y )
+           t
+
++
+
+( c_489  ) * ( x  )
+       x        t
+
+ = 
+
+df( c_489, t )
+
+======================================================
+
+{{{0,0,df(c_489,x)},{c_489}},
+
+         2*t      2*t
+ {{ - 2*e   *z,2*e   *y,0},
+
+    2*t   2    2
+  {e   *(y  - z )}},
+
+         2*t      2*t
+ {{ - 2*e   *z,2*e   *y,0},
+
+    2*t   2    2
+  {e   *(y  - z )}},
+
+       t      t
+ {{ - e ,0,2*e *x},
+
+    t   2
+  {e *(x  - z)}},
+
+         2*t      2*t
+ {{ - 2*e   *z,2*e   *y,0},
+
+    2*t   2    2
+  {e   *(y  - z )}},
+
+         2*t
+ {{ - 2*e   *z,
+
+      2*t
+   2*e   *y,
+
+         2*t
+    - 2*e   *r*x},
+
+    2*t        2    2    2
+  {e   *( - r*x  + y  - z )}},
+
+ {{0,0,df(c_473,x)},{c_473}},
+
+                 b*t
+       b*t    2*e   *x
+ {{ - e   ,0,----------},
+                 b
+
+     b*t            2
+    e   *( - b*z + x )
+  {--------------------}}}
+            b
+
+
+clear p_t$
+
+
+nodepnd {u,v,r,p_t,x,y,z,a1,a2,a3,b,s,r}$
+
+
+
+end$
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 256 ms
+real	0m16.847s
+user	0m0.107s
+sys	0m0.138s

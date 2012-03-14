@@ -1,0 +1,3072 @@
+% Author H.-G. Graebe | Univ. Leipzig | Version 28.6.1995
+% graebe@informatik.uni-leipzig.de
+
+COMMENT
+
+This is an example session demonstrating and testing the facilities
+offered by the commutative algebra package CALI.
+
+END COMMENT;
+
+
+algebraic;
+
+
+on echo;
+
+
+off nat;
+
+ % To make it easier to compare differing output.
+showtime;
+
+
+
+
+comment
+
+	####################################
+	###				 ###
+	###	Introductory Examples    ###
+	###				 ###
+	####################################
+
+end comment;
+
+
+% Example 1 : Generating ideals of affine and projective points.
+
+
+    vars:={t,x,y,z};
+
+
+vars := {t,x,y,z}$
+
+    setring(vars,degreeorder vars,revlex);
+
+
+{{t,x,y,z},{{1,1,1,1}},revlex,{1,1,1,1}}$
+
+    mm:=mat((1,1,1,1),(3,2,3,1),(2,1,3,2));
+
+
+mm := mat((1,1,1,1),(3,2,3,1),(2,1,3,2))$
+
+
+  % The ideal with zero set at the point in A^4 with coordinates
+  % equal to the row vectors of mm :
+
+    setideal(m1,affine_points mm);
+
+
+{y**2 - 4*y + 3,
+z**2 - 3*z + 2,
+y*z - y - 3*z + 3,
+t - y + z - 1,
+2*x - y + 2*z - 3}$
+
+
+	% All parameters are as they should be :
+
+    dim m1;
+
+
+0$
+
+    degree m1;
+
+
+3$
+
+    groebfactor m1;
+
+
+{{y - 3,z - 2,t - 2,x - 1},
+{y - 3,z - 1,t - 3,x - 2},
+{z - 1,y - 1,t - 1,x - 1}}$
+
+    resolve m1$
+
+
+    bettinumbers m1;
+
+
+{1,5,9,7,2}$
+
+
+  % The ideal with zero set at the point in P^3 with homogeneous 
+  % coordinates equal to the row vectors of mm :
+
+    setideal(m2,proj_points mm);
+
+
+{2*x**2 - 4*x*z - y*z + 3*z**2,
+2*y**2 - 2*x*z - 7*y*z + 7*z**2,
+3*t - 2*x - 2*y + z,
+2*x*y - 4*x*z - 3*y*z + 5*z**2}$
+
+
+	% All parameters as they should be ?
+
+    dim m2;
+
+
+1$
+
+    degree m2;
+
+
+3$
+
+    groebfactor m2;
+
+
+{{2*x**2 - 4*x*z - y*z + 3*z**2,
+2*y**2 - 2*x*z - 7*y*z + 7*z**2,
+3*t - 2*x - 2*y + z,
+2*x*y - 4*x*z - 3*y*z + 5*z**2}}$
+
+
+	% It seems to be prime ?
+
+    isprime m2;
+
+
+no$
+
+
+	% Not, of course, but it is known to be unmixed. 
+	% Hence we can use 
+
+    easyprimarydecomposition m2;
+
+
+{{{x - 2*z,y - 3*z,t - 3*z},
+{y - 3*z,x - 2*z,t - 3*z}},
+{{x - z,y - z,t - z},
+{y - z,x - z,t - z}},
+{{2*x - z,2*y - 3*z,t - z},
+{2*y - 3*z,2*x - z,t - z}}}$
+
+  
+% Example 2 : 
+% The affine monomial curve with generic point (t^7,t^9,t^10).
+
+    setideal(m,affine_monomial_curve({7,9,10},{x,y,z}));
+
+
+{x**3*y - z**3,
+x**4 - y**2*z,
+y**3 - x*z**2}$
+
+
+	% The base ring was changed as side effect :
+
+    getring();
+
+
+{{x,y,z},{{7,9,10}},revlex,{7,9,10}}$
+ 
+    vars:=first getring m;
+
+
+vars := {x,y,z}$
+
+
+  % Some advanced commutative algebra :
+  
+  % The analytic spread of m.
+
+    analytic_spread m;
+
+
+3$
+
+
+  % The Rees ring Rees_R(vars) over R=S/m.
+    
+    rees:=blowup(m,vars,{u,v,w});
+
+
+rees := {u**2*v*x - w**3,
+u*v*x**2 - w**2*z,
+v*x**3 - w*z**2,
+u**3*x - v**2*w,
+u**2*x**2 - v*w*y,
+u*x**3 - w*y**2,
+ - u*w**2 + v**3,
+v**2*y - w**2*x,
+v*y**2 - w*x*z,
+v*z - w*y,
+u*z - w*x,
+u*y - v*x,
+x**3*y - z**3,
+x**4 - y**2*z,
+ - x*z**2 + y**3}$
+ 
+
+  % It is multihomogeneous wrt. the degree vectors, constructed during
+  % blow up. Lets compute weighted Hilbert series :
+
+    setideal(rees,rees)$
+
+
+    weights:=second getring();
+
+
+weights := {{0,0,0,7,9,10},{7,9,10,0,0,0}}$
+
+    weightedhilbertseries(gbasis rees,weights);
+
+
+( - x**29*y + x**29 - x**20*y + x**20 - x**19*y**11 + x**19*y**10 - x**19*y + x
+**19 - x**18*y + x**18 - x**10*y**11 + x**10*y**10 - x**10*y + x**10 - x**9*y**
+21 + x**9*y**20 - x**9*y**11 + x**9*y**9 - x**9*y + x**9 + y**23 - y**22 + y**16
+ - y**15 + y**14 - y**11 + y**9 - y**8 + y**7 - y + 1)/(x**7*y - x**7 - y + 1)$
+
+
+  % gr_R(vars), the associated graded ring of the irrelevant ideal
+  % over R. The short way.
+
+    interreduce sub(x=0,y=0,z=0,rees);
+
+
+{w**3,v**2*w, - u*w**2 + v**3}$
+ 
+
+  % The long (and more general) way. Gives the result in another
+  % embedding. 
+  
+    % Restore the base ring, since it was changed by blowup as a side
+    % effect.  
+    setring getring m$
+
+
+    assgrad(m,vars,{u,v,w});
+
+
+{x,
+y,
+z,
+w**3,
+v**2*w,
+ - u*w**2 + v**3}$
+ 
+
+  % Comparing the Rees algebra and the symmetric algebra of M :
+  
+    setring getring m$
+
+
+    setideal(rees,blowup({},m,{a,b,c}));
+
+
+{ - y**2*a + z**2*b + x**3*c,
+x*a - y*b - z*c,
+ - y**2*a**2 + z**2*a*b + x**2*y*b*c + x**2*z*c**2,
+ - y**2*a**3 + z**2*a**2*b + x*y**2*b**2*c + 2*x*y*z*b*c**2 + x*z**2*c**3,
+ - y**2*a**4 + z**2*a**3*b + y**3*b**3*c + 3*y**2*z*b**2*c**2 + 3*y*z**2*b*c**3 
++ z**3*c**4}$
+
+
+	% Lets test weighted Hilbert series once more :
+
+    weights:=second getring();
+
+
+weights := {{0,0,0,30,28,27},{7,9,10,0,0,0}}$
+
+    weightedhilbertseries(gbasis rees,weights);
+
+
+(x**58*y**27 + x**30*y**25 - x**30*y**18 - x**30*y**7 - x**28*y**27 + 1)/(x**85*
+y**26 - x**85*y**19 - x**85*y**17 - x**85*y**16 + x**85*y**10 + x**85*y**9 + x**
+85*y**7 - x**85 - x**58*y**26 + x**58*y**19 + x**58*y**17 + x**58*y**16 - x**58*
+y**10 - x**58*y**9 - x**58*y**7 + x**58 - x**57*y**26 + x**57*y**19 + x**57*y**
+17 + x**57*y**16 - x**57*y**10 - x**57*y**9 - x**57*y**7 + x**57 - x**55*y**26 +
+ x**55*y**19 + x**55*y**17 + x**55*y**16 - x**55*y**10 - x**55*y**9 - x**55*y**7
+ + x**55 + x**30*y**26 - x**30*y**19 - x**30*y**17 - x**30*y**16 + x**30*y**10 +
+ x**30*y**9 + x**30*y**7 - x**30 + x**28*y**26 - x**28*y**19 - x**28*y**17 - x**
+28*y**16 + x**28*y**10 + x**28*y**9 + x**28*y**7 - x**28 + x**27*y**26 - x**27*y
+**19 - x**27*y**17 - x**27*y**16 + x**27*y**10 + x**27*y**9 + x**27*y**7 - x**27
+ - y**26 + y**19 + y**17 + y**16 - y**10 - y**9 - y**7 + 1)$
+
+
+	% The symmetric algebra :
+
+    setring getring m$
+
+
+    setideal(sym,sym(m,{a,b,c}));
+
+
+{y**2*a - z**2*b - x**3*c,
+x*a - y*b - z*c}$
+
+    modequalp(rees,sym);
+
+
+yes$
+
+
+  % Symbolic powers :
+
+    setring getring m$
+
+
+    setideal(m2,idealpower(m,2));
+
+
+{x**6*y**2 - 2*x**3*y*z**3 + z**6,
+x**8 - 2*x**4*y**2*z + y**4*z**2,
+y**6 - 2*x*y**3*z**2 + x**2*z**4,
+x**7*y - x**3*y**3*z - x**4*z**3 + y**2*z**4,
+x**3*y**4 - x**4*y*z**2 - y**3*z**3 + x*z**5,
+x**4*y**3 - y**5*z - x**5*z**2 + x*y**2*z**3}$
+
+
+	% Let's compute a second symbolic power :
+
+    setideal(m3,symbolic_power(m,2));
+
+
+{x**6*y**2 - 2*x**3*y*z**3 + z**6,
+x**8 - 2*x**4*y**2*z + y**4*z**2,
+y**6 - 2*x*y**3*z**2 + x**2*z**4,
+x**2*y**5 + x**7*z - 3*x**3*y**2*z**2 + y*z**5,
+x**7*y - x**3*y**3*z - x**4*z**3 + y**2*z**4,
+x**3*y**4 - x**4*y*z**2 - y**3*z**3 + x*z**5,
+x**4*y**3 - y**5*z - x**5*z**2 + x*y**2*z**3}$
+
+
+	% It is different from the ordinary second power.
+	% Hence m2 has a trivial component.
+
+    modequalp(m2,m3);
+
+
+no$
+
+
+	% Test x for non zero divisor property :
+
+    nzdp(x,m2);
+
+
+no$
+
+    nzdp(x,m3);
+
+
+yes$
+
+
+	% Here is the primary decomposition :
+
+    pd:=primarydecomposition m2;
+
+
+pd := {{{x**8 - 2*x**4*y**2*z + y**4*z**2,
+x**6*y**2 - 2*x**3*y*z**3 + z**6,
+x**2*z**4 - 2*x*y**3*z**2 + y**6,
+x**7*z - 3*x**3*y**2*z**2 + x**2*y**5 + y*z**5,
+x**7*y - x**4*z**3 - x**3*y**3*z + y**2*z**4,
+ - x**4*y*z**2 + x**3*y**4 + x*z**5 - y**3*z**3,
+ - x**5*z**2 + x**4*y**3 + x*y**2*z**3 - y**5*z},
+{ - x*z**2 + y**3,
+x**4 - y**2*z,
+x**3*y - z**3}},
+{{z**2,
+x**6*y**2,
+y**6,
+x**2*y**5*z,
+x**3*y**4,
+x**4*(x**4 - 2*y**2*z),
+x**3*y*(x**4 - y**2*z),
+y**3*(x**4 - y**2*z)},
+{x,z,y}}}$
+
+
+	% Compare the result with m2 :
+
+    setideal(m4,matintersect(first first pd, first second pd));
+
+
+{y**6 - 2*x*y**3*z**2 + x**2*z**4,
+x**6*y**2 - 2*x**3*y*z**3 + z**6,
+x**8 - 2*x**4*y**2*z + y**4*z**2,
+x**2*y**5*z + x**7*z**2 - 3*x**3*y**2*z**3 + y*z**6,
+x**4*y**3 - y**5*z - x**5*z**2 + x*y**2*z**3,
+x**3*y**4 - x**4*y*z**2 - y**3*z**3 + x*z**5,
+x**7*y - x**3*y**3*z - x**4*z**3 + y**2*z**4}$
+
+    modequalp(m2,m4);
+
+
+yes$
+
+
+	% Compare the result with m3 :
+
+    setideal(m4,first first pd)$
+
+
+    modequalp(m3,m4);
+
+
+yes$
+
+
+	% The trivial component can also be removed with a stable
+	% quotient computation : 
+
+    setideal(m5,matstabquot(m2,vars))$
+
+
+    modequalp(m3,m5);
+
+
+yes$
+
+
+
+% Example 3 : The Macaulay curve.
+
+    setideal(m,proj_monomial_curve({0,1,3,4},{w,x,y,z}));
+
+
+{x**3 - w**2*y,
+w*y**2 - x**2*z,
+y**3 - x*z**2,
+x*y - w*z}$
+
+    vars:=first getring();
+
+
+vars := {w,x,y,z}$
+
+    gbasis m;
+
+
+{x**3 - w**2*y,
+w*y**2 - x**2*z,
+y**3 - x*z**2,
+x*y - w*z}$
+
+ 
+  % Test whether m is prime :
+
+    isprime m;
+
+
+yes$
+
+
+  % A resolution of m :
+    
+    resolve m;
+
+
+{
+mat((x**3 - w**2*y),(w*y**2 - x**2*z),(y**3 - x*z**2),(x*y - w*z))$
+,
+
+mat((y,w,0, - x**2),(z,x,0, - w*y),(0, - y,w, - x*z),(0, - z,x, - y**2))$
+,
+
+mat((z, - y, - x,w))$
+,
+
+mat((0))$
+}$
+
+
+  % m has depth = 1 as can be seen from the 
+    
+    gradedbettinumbers m;
+
+
+{{0},{2,3,3,3},{4,4,4,4},{5}}$
+ 
+
+  % Another way to see the non perfectness of m :
+    
+    hilbertseries m;
+
+
+( - w**3 + 2*w**2 + 2*w + 1)/(w**2 - 2*w + 1)$
+ 
+
+  % Just a third approach. Divide out a parameter system :
+
+    ps:=for i:=1:2 collect random_linear_form(vars,1000);
+
+
+ps := {2*(197*w - 89*x + 15*y + 96*z), - 91*w + 12*x - 700*y - 585*z}$
+
+    setideal(m1,matsum(m,ps))$
+
+ 
+
+	% dim should be zero and degree > degree m = 4. 
+	% A Gbasis for m1 is computed automatically.
+
+    dim m1;
+
+
+0$
+ 
+    degree m1;
+
+
+5$
+ 
+
+  % The projections of m on the coord. hyperplanes.
+ 
+    for each x in vars collect eliminate(m,{x});
+
+
+{{ - x*z**2 + y**3},
+{ - w*z**3 + y**4},
+{ - w**3*z + x**4},
+{ - w**2*y + x**3}}$
+ 
+
+% Example 4 : Two submodules of S^4.
+  
+	% Get the stored result of the earlier computation.
+
+    r:=resolve m$
+
+
+
+  % See whether cali!=degrees contains a relict from earlier
+  % computations. 
+  
+    getdegrees();
+
+
+{}$
+
+
+  % Introduce the 2nd and 3rd syzygy module as new modules.
+  % Both are submodules in S^4.
+
+    setmodule(m1,second r)$
+
+ setmodule(m2,third r)$
+
+ 
+ 
+  % The second is already a gbasis.
+
+    setgbasis m2;
+
+
+mat((z, - y, - x,w))$
+ 
+    getleadterms m1;
+
+
+mat((0,x**3,0,0),(0,0,x**3,0),(0,0,w**2*y,0),(0,0,w*y**2,0),(0,0,w*x,0),(0,0,0,x
+**2),(0,0,0,w*y),(0,0,0,x*z),(0,0,0,y**2))$
+ getleadterms m2;
+
+
+mat((0,0,0,w))$
+
+
+  % Since rk(F/M)=rk(F/in(M)), they have ranks 1 resp. 3.
+
+    dim m1;
+
+
+4$
+
+    indepvarsets m1;
+
+
+{{w,x,y,z}}$
+
+
+  % Its intersection is zero :
+
+    matintersect(m1,m2);
+
+
+mat((0,0,0,0))$
+
+
+  % Its sum :
+ 
+    setmodule(m3,matsum(m1,m2));
+
+
+mat(( - y, - w,0,x**2),(0,y, - w,x*z),(0,z, - x,y**2),(z, - y, - x,w),( - y*z - 
+z,y**2 - x,x*y,0))$
+
+    dim m3;
+
+
+3$
+
+
+  % Hence it has a nontrivial annihilator :
+
+    annihilator m3;
+
+
+{w**2*y*z + w**2*z - w*x*y + w*y**3 - x**3*z - x**2*y*z - x**2*z**2 + x*y**3}$
+
+
+  % One can compute isolated primes and primary decomposition also for
+  % modules. Let's do it, although being trivial here:
+ 
+    isolatedprimes m3;
+
+
+{{w**2*y*z + w**2*z - w*x*y + w*y**3 - x**3*z - x**2*y*z - x**2*z**2 + x*y**3}}$
+
+
+    primarydecomposition m3;
+
+
+{{
+mat((z*( - w*x*z - w*y*z + w*y - w*z + x**2*z + x*y*z - y**3 + y**2*z),w**2*y + 
+w**2*z + w*x*y*z + w*x*z**2 - w*x*z + w*y*z**2 - x**2*z**2 + x*y**2*z, - w**3,0)
+,(z*( - w*y - w - x*z + y**2), - w*x + w*y*z - x**2*z + x*y**2,w**2*y,0),( - x*z
+**2,w*y + x*y*z + x*z**2 - y**3,w*( - w + y**2),0),( - x*z**2,y*(w + x*z), - w**
+2 + x**2*z,0),( - y*z, - (w*z + x*y),w*x,0),( - w*y**2 + x**2*z, - w**2*y + x**3
+,0,0),(w*y*z - w*y + w*z - x**2*z + y**3 - y**2*z, - w**2 + w*x - w*y*z + x**2*y
+ + x**2*z - x*y**2,0,0),( - w*y*z - w*z - y**3 + y**2*z, - w*x + w*y*z - x**2*z 
++ x*y**2,x**3,0),(z*( - w*y - w + y**2), - w*x + w*y**2 + w*y*z + x*y**2,0,0),( 
+- z*(y + 1), - x + y**2,x*y,0),(z, - y, - x,w),(w**2*y*z + w**2*z - w*x*y + w*y
+**3 - x**3*z - x**2*y*z - x**2*z**2 + x*y**3,0,0,0),( - y, - w,0,x**2),(0,y, - w
+,x*z),(0,z, - x,y**2))$
+,
+{w**2*y*z + w**2*z - w*x*y + w*y**3 - x**3*z - x**2*y*z - x**2*z**2 + x*y**3}}}$
+
+
+  % To get a meaningful Hilbert series make m1 homogeneous :
+ 
+    setdegrees {1,x,x,x};
+
+
+{1,x,x,x}$
+ 
+ 
+  % Reevaluate m1 with the new column degrees. 
+
+    setmodule(m1,m1)$
+
+
+    hilbertseries m1;
+
+
+(w**7 - 5*w**6 + 8*w**5 - 2*w**4 - 5*w**3 + 3*w + 1)/(w**4 - 4*w**3 + 6*w**2 - 4
+*w + 1)$
+
+
+% Example 5 : From the MACAULAY manual (D.Bayer, M.Stillman).
+% An elliptic curve on the Veronese in P^5.
+
+    rvars:={x,y,z}$
+
+ svars:={a,b,c,d,e,f}$
+
+
+    r:=setring(rvars,degreeorder rvars,revlex)$
+
+
+    s:=setring(svars,{for each x in svars collect 2},revlex)$
+
+
+    map:={s,r,{a=x^2,b=x*y,c=x*z,d=y^2,e=y*z,f=z^2}};
+
+
+map := {{{a,
+b,
+c,
+d,
+e,
+f},
+{{2,2,2,2,2,2}},
+revlex,
+{1,1,1,1,1,1}},
+{{x,y,z},
+{{1,1,1}},
+revlex,
+{1,1,1}},
+{a=x**2,
+b=x*y,
+c=x*z,
+d=y**2,
+e=y*z,
+f=z**2}}$
+
+    preimage({y^2z-x^3-x*z^2},map);
+
+
+{ - a*d + b**2,
+ - a*e + b*c,
+ - b*e + c*d,
+ - a*f + c**2,
+ - b*f + c*e,
+ - d*f + e**2,
+a**2 + a*f - b*e,
+a*b + b*f - d*e,
+a*c + c*f - d*f}$
+
+
+% Example 6 : The preimage under a rational map.
+
+    r:=setring({x,y},{},lex)$
+
+ s:=setring({t},{},lex)$
+
+
+    map:={r,s,{x=2t/(t^2+1),y=(t^2-1)/(t^2+1)}};
+
+
+map := {{{x,y},{},lex,{1,1}},
+{{t},{},lex,{1}},
+{x=(2*t)/(t**2 + 1),y=(t**2 - 1)/(t**2 + 1)}}$
+
+  
+  % The preimage of (0) is the equation of the circle :
+
+    ratpreimage({},map);
+
+
+{x**2 + y**2 - 1}$
+
+
+  % The preimage of the point (t=3/2) :
+
+    ratpreimage({2t-3},map);
+
+
+{13*x - 12,13*y - 5}$
+
+
+
+% Example 7 : A zerodimensional ideal.
+
+    setring({x,y,z},{},lex)$
+
+
+    setideal(n,{x**2 + y + z - 3,x + y**2 + z - 3,x + y + z**2 - 3});
+
+
+{x**2 + y + z - 3,x + y**2 + z - 3,x + y + z**2 - 3}$
+
+
+  % The groebner algorithm with factorization :
+
+    groebfactor n;
+
+
+{{y - 1,z - 1,x - 1},
+{y + 3,z + 3,x + 3},
+{y - z,z**2 - 2,x + z - 1},
+{z**2 - 2,x - z,y + z - 1},
+{y + z - 1,z**2 - 2*z - 1,x + z - 1}}$
+
+
+  % Change the term order and reevaluate n :
+
+    setring({x,y,z},{{1,1,1}},revlex)$
+
+
+    setideal(n,n);
+
+
+{x**2 + y + z - 3,y**2 + x + z - 3,z**2 + x + y - 3}$
+
+
+  % its primes :
+ 
+    zeroprimes n;
+
+
+{{x - z,z**2 - 2,y + z - 1},
+{x + z - 1,y + z - 1,z**2 - 2*z - 1},
+{z - 1,x - 1,y - 1},
+{z + 3,x + 3,y + 3},
+{y - z,z**2 - 2,x + z - 1}}$
+
+
+  % a vector space basis of S/n :
+
+    getkbase n;
+
+
+{1,x,x*y,x*y*z,x*z,y,y*z,z}$
+
+
+% Example 8 : A modular computation. Since REDUCE has no multivariate
+% factorizer, factorprimes has to be turned off !
+
+    on modular$
+
+ off factorprimes$
+
+
+    setmod 181;
+
+
+1$
+ setideal(n1,n);
+
+
+{x**2 + y + z + 178,y**2 + x + z + 178,z**2 + x + y + 178}$
+ zeroprimes n1;
+
+
+{{y + 180*z,z**2 + 179,x + z + 180},
+{x + z + 180,y + z + 180,z**2 + 179*z + 180},
+{x + 180*z,z**2 + 179,y + z + 180},
+{z + 180,x + 180,y + 180},
+{z + 3,x + 3,y + 3}}$
+
+    setmod 7;
+
+
+181$
+ setideal(n1,n);
+
+
+{x**2 + y + z + 4,y**2 + x + z + 4,z**2 + x + y + 4}$
+ zeroprimes n1;
+
+
+{{z + 6,x + 6,y + 6},
+{x + 4,z + 4,y + 2},
+{x + 4,z + 2,y + 4},
+{z + 4,x + 2,y + 4},
+{x + 3,z + 3,y + 3}}$
+
+ 
+	% Hence some of the primes glue together mod 7.
+
+    zeroprimarydecomposition n1;
+
+
+{{{z + 6,x + 6,y + 6},
+{z + 6,x + 6,y + 6}},
+{{z + 4,y + 2,x + 4},
+{x + 4,z + 4,y + 2}},
+{{z + 2,y + 4,x + 4},
+{x + 4,z + 2,y + 4}},
+{{z + 4,x + 2,y + 4},
+{z + 4,x + 2,y + 4}},
+{{x**2 + y + z + 4,
+x + y**2 + z + 4,
+x + y + z**2 + 4,
+3*(x + 5*y*z + 2*y + 2*z + 5),
+x*z + 6*x + 3*y + 6*z + 1,
+x*y + 6*x + 6*y + 3*z + 1},
+{x + 3,z + 3,y + 3}}}$
+
+    off modular$
+
+ on factorprimes$
+
+
+
+% Example 9 : Independent sets once more.
+  
+    n:=10$
+
+
+    vars:=for i:=1:(2*n) collect mkid(x,i)$
+
+
+    setring(vars,{},lex)$
+
+
+    setideal(m,for j:=0:n collect 
+            for i:=(j+1):(j+n) product mkid(x,i));
+
+
+{x1*x2*x3*x4*x5*x6*x7*x8*x9*x10,
+x2*x3*x4*x5*x6*x7*x8*x9*x10*x11,
+x3*x4*x5*x6*x7*x8*x9*x10*x11*x12,
+x4*x5*x6*x7*x8*x9*x10*x11*x12*x13,
+x5*x6*x7*x8*x9*x10*x11*x12*x13*x14,
+x6*x7*x8*x9*x10*x11*x12*x13*x14*x15,
+x7*x8*x9*x10*x11*x12*x13*x14*x15*x16,
+x8*x9*x10*x11*x12*x13*x14*x15*x16*x17,
+x9*x10*x11*x12*x13*x14*x15*x16*x17*x18,
+x10*x11*x12*x13*x14*x15*x16*x17*x18*x19,
+x11*x12*x13*x14*x15*x16*x17*x18*x19*x20}$
+
+    setgbasis m$
+
+
+    indepvarsets m;
+
+
+{{x2,x3,x4,x5,x6,x7,x8,x9,x10,x12,x13,x14,x15,x16,x17,x18,x19,x20},
+{x1,x3,x4,x5,x6,x7,x8,x9,x10,x12,x13,x14,x15,x16,x17,x18,x19,x20},
+{x1,x2,x4,x5,x6,x7,x8,x9,x10,x12,x13,x14,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x5,x6,x7,x8,x9,x10,x12,x13,x14,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x6,x7,x8,x9,x10,x12,x13,x14,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x7,x8,x9,x10,x12,x13,x14,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x8,x9,x10,x12,x13,x14,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x7,x9,x10,x12,x13,x14,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x7,x8,x10,x12,x13,x14,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x7,x8,x9,x12,x13,x14,x15,x16,x17,x18,x19,x20},
+{x1,x3,x4,x5,x6,x7,x8,x9,x10,x11,x13,x14,x15,x16,x17,x18,x19,x20},
+{x1,x2,x4,x5,x6,x7,x8,x9,x10,x11,x13,x14,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x5,x6,x7,x8,x9,x10,x11,x13,x14,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x6,x7,x8,x9,x10,x11,x13,x14,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x7,x8,x9,x10,x11,x13,x14,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x8,x9,x10,x11,x13,x14,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x7,x9,x10,x11,x13,x14,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x7,x8,x10,x11,x13,x14,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x7,x8,x9,x11,x13,x14,x15,x16,x17,x18,x19,x20},
+{x1,x2,x4,x5,x6,x7,x8,x9,x10,x11,x12,x14,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x5,x6,x7,x8,x9,x10,x11,x12,x14,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x6,x7,x8,x9,x10,x11,x12,x14,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x7,x8,x9,x10,x11,x12,x14,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x8,x9,x10,x11,x12,x14,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x7,x9,x10,x11,x12,x14,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x7,x8,x10,x11,x12,x14,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x7,x8,x9,x11,x12,x14,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x5,x6,x7,x8,x9,x10,x11,x12,x13,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x6,x7,x8,x9,x10,x11,x12,x13,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x7,x8,x9,x10,x11,x12,x13,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x8,x9,x10,x11,x12,x13,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x7,x9,x10,x11,x12,x13,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x7,x8,x10,x11,x12,x13,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x7,x8,x9,x11,x12,x13,x15,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x6,x7,x8,x9,x10,x11,x12,x13,x14,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x7,x8,x9,x10,x11,x12,x13,x14,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x8,x9,x10,x11,x12,x13,x14,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x7,x9,x10,x11,x12,x13,x14,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x7,x8,x10,x11,x12,x13,x14,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x7,x8,x9,x11,x12,x13,x14,x16,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x7,x8,x9,x10,x11,x12,x13,x14,x15,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x8,x9,x10,x11,x12,x13,x14,x15,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x7,x9,x10,x11,x12,x13,x14,x15,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x7,x8,x10,x11,x12,x13,x14,x15,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x7,x8,x9,x11,x12,x13,x14,x15,x17,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x8,x9,x10,x11,x12,x13,x14,x15,x16,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x7,x9,x10,x11,x12,x13,x14,x15,x16,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x7,x8,x10,x11,x12,x13,x14,x15,x16,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x7,x8,x9,x11,x12,x13,x14,x15,x16,x18,x19,x20},
+{x1,x2,x3,x4,x5,x6,x7,x9,x10,x11,x12,x13,x14,x15,x16,x17,x19,x20},
+{x1,x2,x3,x4,x5,x6,x7,x8,x10,x11,x12,x13,x14,x15,x16,x17,x19,x20},
+{x1,x2,x3,x4,x5,x6,x7,x8,x9,x11,x12,x13,x14,x15,x16,x17,x19,x20},
+{x1,x2,x3,x4,x5,x6,x7,x8,x10,x11,x12,x13,x14,x15,x16,x17,x18,x20},
+{x1,x2,x3,x4,x5,x6,x7,x8,x9,x11,x12,x13,x14,x15,x16,x17,x18,x20},
+{x1,x2,x3,x4,x5,x6,x7,x8,x9,x11,x12,x13,x14,x15,x16,x17,x18,x19}}$
+
+    dim m;
+
+
+18$
+
+    degree m;
+
+
+55$
+
+
+
+comment
+
+	####################################
+	###				 ###
+	###     Local Standard Bases     ###
+	###				 ###
+	####################################
+
+end comment;
+
+
+
+% Example 10 : An example from [ Alonso, Mora, Raimondo ] 
+
+    vars := {z,x,y}$
+
+
+    r:=setring(vars,{},lex)$
+
+
+    setideal(m,{x^3+(x^2-y^2)*z+z^4,y^3+(x^2-y^2)*z-z^4});
+
+
+{z**4 + z*x**2 - z*y**2 + x**3,
+ - z**4 + z*x**2 - z*y**2 + y**3}$
+
+    dim m;
+
+
+1$
+
+    degree m;
+
+
+12$
+
+
+  % 2 = codim m is the codimension of the curve m. The defining 
+  % equations of the singular locus with their nilpotent structure : 
+
+    singular_locus(m,2);
+
+
+{x**3 - y**3 + 2*z**4,
+x**3 + 2*x**2*z + y**3 - 2*y**2*z,
+y*(8*x**3 + 3*x**2*y - 11*y**3 + 12*y*z**3),
+y*(x**3 + 3*x**2*y + 2*x*y*z + y**3 - 2*y**2*z),
+3*x**5 + 3*x**4*y + 22*x**4 + 18*x**3*y**2 + 16*x**3*y + 21*x**2*y**3 + 3*x*y**4
+ - 16*x*y**3 + 18*y**5 - 42*y**4*z - 22*y**4 + 24*y**3*z**2}$
+ 
+    groebfactor ws;
+
+
+{{y,x,z},{81*x + 256,27*z - 64,81*y - 256}}$
+ 
+
+  % Hence this curve has two singular points : 
+  % (x=y=z=0) and (y=-x=256/81,z=64/27)
+  % Let's find the brances of the curve through the origin.
+  % The first critical tropism is (-1,-1,-1).
+
+    off noetherian$
+
+
+    setring(vars,{{-1,-1,-1}},lex)$
+
+
+    setideal(m,m);
+
+
+{z*x**2 - z*y**2 + x**3 + z**4,
+z*x**2 - z*y**2 + y**3 - z**4}$
+
+	% Let's first test two different approaches, not fully
+	% integrated into the algebraic interface :
+    setideal(m1,homstbasis m);
+
+
+{x**3 - y**3 + 2*z**4,
+z*x**2 - z*y**2 + y**3 - z**4,
+z*x*y**2 - z*y**3 - x*y**3 + 2*z**5 + z**4*x,
+x**2*y**3 + x*y**4 + y**5 - 2*z**5*x - 2*z**5*y - z**4*x**2 - z**4*x*y - z**4*y
+**2,
+6*z*y**5 + 2*x*y**5 - 2*y**6 - 4*z**6*x - 4*z**6*y - 2*z**5*x*y - 8*z**5*y**2 + 
+z**4*x**3 - 2*z**4*x*y**2 + 3*z**4*y**3}$
+
+    setideal(m2,lazystbasis m);
+
+
+{x**3 - y**3 + 2*z**4,
+z*x**2 - z*y**2 + y**3 - z**4,
+z*x*y**2 - z*y**3 - x*y**3 + 2*z**5 + z**4*x,
+x**2*y**3 + x*y**4 + y**5 - 2*z**5*x - 2*z**5*y - z**4*x**2 - z**4*x*y - z**4*y
+**2,
+3*z*y**5 + x*y**5 - y**6 - 2*z**6*x - 2*z**6*y - z**5*x**2 - z**5*x*y - 3*z**5*y
+**2 - z**4*x*y**2 + z**4*y**3}$
+
+    setgbasis m1$
+
+ setgbasis m2$
+
+
+    modequalp(m1,m2);
+
+
+yes$
+
+    gbasis m;
+
+
+{x**3 - y**3 + 2*z**4,
+z*x**2 - z*y**2 + y**3 - z**4,
+z*x*y**2 - z*y**3 - x*y**3 + 2*z**5 + z**4*x,
+x**2*y**3 + x*y**4 + y**5 - 2*z**5*x - 2*z**5*y - z**4*x**2 - z**4*x*y - z**4*y
+**2,
+3*z*y**5 + x*y**5 - y**6 - 2*z**6*x - 2*z**6*y - z**5*x**2 - z**5*x*y - 3*z**5*y
+**2 - z**4*x*y**2 + z**4*y**3}$
+
+    modequalp(m,m1);
+
+
+yes$
+
+    dim m;
+
+
+1$
+
+    degree m;
+
+
+9$
+
+
+  % Find the tangent directions not in z-direction :
+
+    tangentcone m;
+
+
+{x**3 - y**3,
+z*x**2 - z*y**2 + y**3,
+z*x*y**2 - z*y**3 - x*y**3,
+x**2*y**3 + x*y**4 + y**5,
+3*z*y**5 + x*y**5 - y**6}$
+ 
+    setideal(n,sub(z=1,ws));
+
+
+{x**3 - y**3,
+x**2 - y**2 + y**3,
+x*y**2 - y**3 - x*y**3,
+x**2*y**3 + x*y**4 + y**5,
+3*y**5 + x*y**5 - y**6}$
+
+    setring r$
+
+ on noetherian$
+
+ setideal(n,n)$
+
+
+    degree n;
+
+
+9$
+
+
+  % The points of n outside the origin.
+
+    matstabquot(n,{x,y});
+
+
+{y**2 - 3*y + 3,x - y + 3}$
+ 
+
+  % Hence there are two branches x=z'*(a-3+x'),y=z'*(a+y'),z=z'
+  % with the algebraic number a : a^2-3a+3=0
+  % and the new equations for (z',x',y') :
+
+    setrules {a^2=>3a-3};
+
+
+{a**2 => 3*a - 3}$
+
+    sub(x=z*(a-3+x),y=z*(a+y),m);
+
+
+{z**3*(a**3 + 3*a**2*x - 9*a**2 + 3*a*x**2 - 16*a*x - 2*a*y + 21*a + x**3 - 8*x
+**2 + 21*x - y**2 + z - 18),
+z**3*(a**3 + 3*a**2*y + 2*a*x + 3*a*y**2 - 2*a*y - 6*a + x**2 - 6*x + y**3 - y**
+2 - z + 9)}$
+
+    setideal(m1,matqquot(ws,z));
+
+
+{x**3 + (3*a - 7)*x**2 - (5*a - 6)*x + y**3 + (3*a - 2)*y**2 + (5*a - 9)*y,
+z - x**2 - (2*a - 6)*x - y**3 - (3*a - 1)*y**2 - (7*a - 9)*y}$
+
+
+  % This defines a loc. smooth system at the origin, since the
+  % jacobian at the origin of the gbasis is nonsingular :
+
+    off noetherian$
+
+
+    setring getring m;
+
+
+{{z,x,y},{{-1,-1,-1}},lex,{1,1,1}}$
+
+    setideal(m1,m1);
+
+
+{ - (5*a - 6)*x + (5*a - 9)*y + (3*a - 7)*x**2 + (3*a - 2)*y**2 + x**3 + y**3,
+z - (2*a - 6)*x - (7*a - 9)*y - x**2 - (3*a - 1)*y**2 - y**3}$
+
+    gbasis m1;
+
+
+{(5*a - 6)*x - (5*a - 9)*y - (3*a - 7)*x**2 - (3*a - 2)*y**2 - x**3 - y**3,
+(5*a - 6)*z + 27*y + (9*a - 18)*x**2 - (18*a - 45)*y**2 - (2*a - 6)*x**3 - (7*a 
+- 12)*y**3}$
+
+
+	% clear the rules previously set.
+
+    setrules {};
+
+
+{}$
+ 
+
+
+% Example 11 : The standard basis of another example. 
+
+	% Comparing different approaches.
+
+    vars:={x,y}$
+
+
+    setring(vars,localorder vars,lex);
+
+
+{{x,y},{{-1,-1}},lex,{1,1}}$
+
+    ff:=x^5+y^11+(x+x^3)*y^9;
+
+
+ff := x**5 + x**3*y**9 + x*y**9 + y**11$
+
+    setideal(p1,mat2list matjac({ff},vars));
+
+
+{5*x**4 + y**9 + 3*x**2*y**9,
+9*x*y**8 + 11*y**10 + 9*x**3*y**8}$
+
+    gbasis p1;
+
+
+{5*x**4 + y**9 + 3*x**2*y**9,
+9*x*y**8 + 11*y**10 + 9*x**3*y**8,
+73205*y**16 + 6561*y**17 - 32805*x**10*y**8 + 294030*x**6*y**12 - 292820*x**2*y
+**16 + 120285*x**9*y**10 - 239580*x**5*y**14 + 19683*x**2*y**17}$
+
+
+    gbtestversion 2$
+
+
+    setideal(p2,p1);
+
+
+{5*x**4 + y**9 + 3*x**2*y**9,
+9*x*y**8 + 11*y**10 + 9*x**3*y**8}$
+
+    gbasis p2;
+
+
+{5*x**4 + y**9 + 3*x**2*y**9,
+9*x*y**8 + 11*y**10 + 9*x**3*y**8,
+73205*y**16 + 6561*y**17 - 32805*x**10*y**8 + 294030*x**6*y**12 - 292820*x**2*y
+**16 + 120285*x**9*y**10 - 239580*x**5*y**14 + 19683*x**2*y**17}$
+
+
+    gbtestversion 3$
+
+
+    setideal(p3,p1);
+
+
+{5*x**4 + y**9 + 3*x**2*y**9,
+9*x*y**8 + 11*y**10 + 9*x**3*y**8}$
+
+    gbasis p3;
+
+
+{5*x**4 + y**9 + 3*x**2*y**9,
+9*x*y**8 + 11*y**10 + 9*x**3*y**8,
+73205*y**16 + 6561*y**17 - 32805*x**10*y**8 + 294030*x**6*y**12 - 292820*x**2*y
+**16 + 120285*x**9*y**10 - 239580*x**5*y**14 + 19683*x**2*y**17}$
+
+
+    gbtestversion 1$
+
+
+    modequalp(p1,p2);
+
+
+yes$
+
+    modequalp(p1,p3);
+
+
+yes$
+
+    dim p1;
+
+
+0$
+
+    degree p1;
+
+
+40$
+
+
+% Example 12 : A local intersection wrt. a non inflimited term order.
+
+    setring({x,y,z},{},revlex);
+
+
+{{x,y,z},{},revlex,{1,1,1}}$
+
+    m1:=matintersect({x-y^2,y-x^2},{x-z^2,z-x^2},{y-z^2,z-y^2});
+
+
+m1 := {y*z - x**3*y*z - x*y*z**2 + x**4*y*z**2 - y**2*z**2 + x**3*y**2*z**2 + x*
+y**2*z**3 - x**4*y**2*z**3,
+x*z - x**2*y*z - x**2*z**2 - x*y*z**2 + x**3*y*z**2 + x**2*y**2*z**2 + x**2*y*z
+**3 - x**3*y**2*z**3,
+x*y - x**2*y**2 - x**2*y*z - x*y**2*z + x**3*y**2*z + x**2*y**3*z + x**2*y**2*z
+**2 - x**3*y**3*z**2}$
+
+  
+	% Delete polynomial units post factum :
+  
+    deleteunits ws;
+
+
+{y*z,x*z,x*y}$
+
+
+	% Detecting polynomial units early :
+
+    on detectunits;
+
+
+    m1:=matintersect({x-y^2,y-x^2},{x-z^2,z-x^2},{y-z^2,z-y^2});
+
+
+m1 := {y*z,x*z,x*y}$
+
+    off detectunits;
+
+
+
+
+comment
+
+	####################################
+	###				 ###
+	###  More Advanced Computations  ###
+	###				 ###
+	####################################
+
+end comment;
+
+
+  % Return to a noetherian term order:
+   
+    vars:={x,y,z}$
+
+
+    setring(vars,degreeorder vars,revlex);
+
+
+{{x,y,z},{{1,1,1}},revlex,{1,1,1}}$
+
+    on noetherian;
+
+
+
+% Example 13 : Use of "mod".
+
+  % Polynomials modulo ideals :
+
+    setideal(m,{2x^2+y+5,3y^2+z+7,7z^2+x+1});
+
+
+{2*x**2 + y + 5,3*y**2 + z + 7,7*z**2 + x + 1}$
+
+    x^2*y^2*z^2 mod m;
+
+
+( - x*y*z - 7*x*y - 5*x*z - 35*x - y*z - 7*y - 5*z - 35)/42$
+
+
+  % Lists of polynomials modulo ideals :
+
+    {x^3,y^3,z^3} mod gbasis m;
+
+
+{(x*( - y - 5))/2,(y*( - z - 7))/3,( - z*(x + 1))/7}$
+
+
+  % Matrices modulo modules :
+
+    mm:=mat((x^4,y^4,z^4));
+
+
+mm := mat((x**4,y**4,z**4))$
+
+    mm1:=tp<< ideal2mat m>>;
+
+
+mm1 := mat((2*x**2 + y + 5,3*y**2 + z + 7,x + 7*z**2 + 1))$
+
+    mm mod mm1;
+
+
+mat(((y**2 + 10*y + 25)/4,( - 6*x**2*y**2 - 2*x**2*z - 14*x**2 + 4*y**4 + 3*y**3
+ + 15*y**2 + y*z + 7*y + 5*z + 35)/4,( - 2*x**3 - 14*x**2*z**2 - 2*x**2 + x*y + 
+5*x + 7*y*z**2 + y + 4*z**4 + 35*z**2 + 5)/4))$
+
+
+% Example 14 : Powersums through elementary symmetric functions.
+
+    vars:={a,b,c,d,e1,e2,e3,e4}$
+
+
+    setring(vars,{},lex)$
+
+
+    m:=interreduce {a+b+c+d-e1,
+        a*b+a*c+a*d+b*c+b*d+c*d-e2,
+        a*b*c+a*b*d+a*c*d+b*c*d-e3,
+        a*b*c*d-e4};
+
+
+m := {d**4 - d**3*e1 + d**2*e2 - d*e3 + e4,
+a + b + c + d - e1,
+c**3 + c**2*d - c**2*e1 + c*d**2 - c*d*e1 + c*e2 + d**3 - d**2*e1 + d*e2 - e3,
+b**2 + b*c + b*d - b*e1 + c**2 + c*d - c*e1 + d**2 - d*e1 + e2}$
+
+    
+    for n:=1:5 collect a^n+b^n+c^n+d^n mod m;
+
+
+{e1,
+e1**2 - 2*e2,
+e1**3 - 3*e1*e2 + 3*e3,
+e1**4 - 4*e1**2*e2 + 4*e1*e3 + 2*e2**2 - 4*e4,
+e1**5 - 5*e1**3*e2 + 5*e1**2*e3 + 5*e1*e2**2 - 5*e1*e4 - 5*e2*e3}$
+    
+
+% Example 15 : The setrules mechanism. 
+
+    setring({x,y,z},{},lex)$
+
+
+    setrules {aa^3=>aa+1};
+
+
+{aa**3 => aa + 1}$
+
+    setideal(m,{x^2+y+z-aa,x+y^2+z-aa,x+y+z^2-aa});
+
+
+{x**2 + y + z - aa,x + y**2 + z - aa,x + y + z**2 - aa}$
+
+    gbasis m;
+
+
+{y**2 - y - z**2 + z,
+x + y + z**2 - aa,
+2*y*z**2 - (2*aa - 2)*y + z**4 - (2*aa - 1)*z**2 + (aa**2 - aa),
+z**6 - (3*aa + 1)*z**4 + 4*z**3 + (3*aa**2 - 2*aa - 2)*z**2 - (4*aa - 4)*z + (3*
+aa**2 - 3*aa - 1)}$
+
+    
+	% Clear the rules previously set.
+
+    setrules {};
+
+
+{}$
+
+
+% Example 16 : The same example with advanced coefficient domains.
+
+    load_package arnum;
+
+
+    defpoly aa^3-aa-1;
+
+
+    setideal(m,{x^2+y+z-aa,x+y^2+z-aa,x+y+z^2-aa});
+
+
+{x**2 + y + z - aa,x + y**2 + z - aa,x + y + z**2 - aa}$
+
+    gbasis m;
+
+
+{y**2 - y - z**2 + z,
+x + y + z**2 - aa,
+y*z**2 - (aa - 1)*y + 1/2*z**4 - (aa - 1/2)*z**2 + (1/2*aa**2 - 1/2*aa),
+z**6 - (3*aa + 1)*z**4 + 4*z**3 + (3*aa**2 - 2*aa - 2)*z**2 - (4*aa - 4)*z + (3*
+aa**2 - 3*aa - 1)}$
+
+
+	% The following needs some more time since factorization of
+	% arnum's is not so easy :
+
+    groebfactor m;
+
+
+{{y - (aa**2 - aa - 1),
+z - (aa**2 - aa - 1),
+x + (aa**2 - aa - 2)},
+{y + (aa**2 - aa - 1),
+z + (aa**2 - aa - 1),
+x - (aa**2 - aa)},
+{y - z,x - z,z**2 + 2*z - aa},
+{z - (aa**2 - aa),
+y + (aa**2 - aa - 1),
+x + (aa**2 - aa - 1)},
+{z - (aa**2 - aa - 1),
+y + (aa**2 - aa - 2),
+x - (aa**2 - aa - 1)},
+{z + (aa**2 - aa - 2),
+y - (aa**2 - aa - 1),
+x - (aa**2 - aa - 1)},
+{z + (aa**2 - aa - 1),
+y - (aa**2 - aa),
+x + (aa**2 - aa - 1)}}$
+
+    off arnum;
+
+
+    off rational;
+
+
+
+
+comment
+
+	####################################
+	###				 ###
+	###  Using Advanced Scripts in   ###
+	###	a Complex Example	 ###
+	###				 ###
+	####################################
+
+end comment;
+
+
+
+% Example 17 : The square of the 2-minors of a symmetric 3x3-matrix.
+
+    vars:=for i:=1:6 collect mkid(x,i);
+
+
+vars := {x1,
+x2,
+x3,
+x4,
+x5,
+x6}$
+
+    setring(vars,degreeorder vars,revlex);
+
+
+{{x1,x2,x3,x4,x5,x6},{{1,1,1,1,1,1}},revlex,{1,1,1,1,1,1}}$
+
+
+	% Generating the ideal :
+
+    mm:=mat((x1,x2,x3),(x2,x4,x5),(x3,x5,x6));
+
+
+mm := mat((x1,x2,x3),(x2,x4,x5),(x3,x5,x6))$
+
+    m:=ideal_of_minors(mm,2);
+
+
+m := { - x1*x4 + x2**2,
+ - x1*x5 + x2*x3,
+ - x1*x6 + x3**2,
+ - x2*x5 + x3*x4,
+ - x2*x6 + x3*x5,
+ - x4*x6 + x5**2}$
+
+    setideal(n,idealpower(m,2));
+
+
+{x2**4 - 2*x1*x2**2*x4 + x1**2*x4**2,
+x3**4 - 2*x1*x3**2*x6 + x1**2*x6**2,
+x5**4 - 2*x4*x5**2*x6 + x4**2*x6**2,
+x2**2*x3**2 - 2*x1*x2*x3*x5 + x1**2*x5**2,
+x3**2*x5**2 - 2*x2*x3*x5*x6 + x2**2*x6**2,
+x2**3*x3 - x1*x2*x3*x4 - x1*x2**2*x5 + x1**2*x4*x5,
+x2*x3**3 - x1*x3**2*x5 - x1*x2*x3*x6 + x1**2*x5*x6,
+x2**2*x3*x4 - x1*x3*x4**2 - x2**3*x5 + x1*x2*x4*x5,
+x2**2*x3*x5 - x1*x3*x4*x5 - x2**3*x6 + x1*x2*x4*x6,
+x2*x3**2*x5 - x1*x3*x5**2 - x2**2*x3*x6 + x1*x2*x5*x6,
+x3**3*x5 - x2*x3**2*x6 - x1*x3*x5*x6 + x1*x2*x6**2,
+x2**2*x5**2 - x1*x4*x5**2 - x2**2*x4*x6 + x1*x4**2*x6,
+x2*x3*x5**2 - x1*x5**3 - x2*x3*x4*x6 + x1*x4*x5*x6,
+x3*x4*x5**2 - x2*x5**3 - x3*x4**2*x6 + x2*x4*x5*x6,
+x3*x5**3 - x3*x4*x5*x6 - x2*x5**2*x6 + x2*x4*x6**2,
+x3**2*x4**2 - 2*x2*x3*x4*x5 + x1*x4*x5**2 + x2**2*x4*x6 - x1*x4**2*x6,
+x2*x3**2*x4 - 2*x1*x3*x4*x5 + x1*x2*x5**2 - x2**3*x6 + x1*x2*x4*x6,
+x3**3*x4 - x1*x3*x5**2 - x2**2*x3*x6 - x1*x3*x4*x6 + 2*x1*x2*x5*x6,
+x3**2*x4*x5 - x1*x5**3 - 2*x2*x3*x4*x6 + x2**2*x5*x6 + x1*x4*x5*x6,
+x3**2*x4*x6 - 2*x2*x3*x5*x6 + x1*x5**2*x6 + x2**2*x6**2 - x1*x4*x6**2,
+x1*x3**2*x4 - 2*x1*x2*x3*x5 + x1**2*x5**2 + x1*x2**2*x6 - x1**2*x4*x6}$
+
+
+	% The ideal itself :
+
+    gbasis n;
+
+
+{x2**4 - 2*x1*x2**2*x4 + x1**2*x4**2,
+x3**4 - 2*x1*x3**2*x6 + x1**2*x6**2,
+x5**4 - 2*x4*x5**2*x6 + x4**2*x6**2,
+x2**2*x3**2 - 2*x1*x2*x3*x5 + x1**2*x5**2,
+x3**2*x5**2 - 2*x2*x3*x5*x6 + x2**2*x6**2,
+x2**3*x3 - x1*x2*x3*x4 - x1*x2**2*x5 + x1**2*x4*x5,
+x2*x3**3 - x1*x3**2*x5 - x1*x2*x3*x6 + x1**2*x5*x6,
+x2**2*x3*x4 - x1*x3*x4**2 - x2**3*x5 + x1*x2*x4*x5,
+x2**2*x3*x5 - x1*x3*x4*x5 - x2**3*x6 + x1*x2*x4*x6,
+x2*x3**2*x5 - x1*x3*x5**2 - x2**2*x3*x6 + x1*x2*x5*x6,
+x3**3*x5 - x2*x3**2*x6 - x1*x3*x5*x6 + x1*x2*x6**2,
+x2**2*x5**2 - x1*x4*x5**2 - x2**2*x4*x6 + x1*x4**2*x6,
+x2*x3*x5**2 - x1*x5**3 - x2*x3*x4*x6 + x1*x4*x5*x6,
+x3*x4*x5**2 - x2*x5**3 - x3*x4**2*x6 + x2*x4*x5*x6,
+x3*x5**3 - x3*x4*x5*x6 - x2*x5**2*x6 + x2*x4*x6**2,
+x3**2*x4**2 - 2*x2*x3*x4*x5 + x1*x4*x5**2 + x2**2*x4*x6 - x1*x4**2*x6,
+x2*x3**2*x4 - 2*x1*x3*x4*x5 + x1*x2*x5**2 - x2**3*x6 + x1*x2*x4*x6,
+x3**3*x4 - x1*x3*x5**2 - x2**2*x3*x6 - x1*x3*x4*x6 + 2*x1*x2*x5*x6,
+x3**2*x4*x5 - x1*x5**3 - 2*x2*x3*x4*x6 + x2**2*x5*x6 + x1*x4*x5*x6,
+x3**2*x4*x6 - 2*x2*x3*x5*x6 + x1*x5**2*x6 + x2**2*x6**2 - x1*x4*x6**2,
+x1*x3**2*x4 - 2*x1*x2*x3*x5 + x1**2*x5**2 + x1*x2**2*x6 - x1**2*x4*x6}$
+
+    length n;
+
+
+21$
+
+    dim n;
+
+
+3$
+
+    degree n;
+
+
+16$
+
+
+	% Its radical.
+
+    radical n;
+
+
+{ - x1*x5 + x2*x3,
+ - x2*x5 + x3*x4,
+ - x2*x6 + x3*x5,
+ - x1*x4 + x2**2,
+ - x1*x6 + x3**2,
+ - x4*x6 + x5**2}$
+
+
+	% Its unmixed radical.
+
+    unmixedradical n;
+
+
+{ - x1*x5 + x2*x3,
+x2*x5 - x3*x4,
+ - x2*x6 + x3*x5,
+ - x1*x4 + x2**2,
+ - x1*x6 + x3**2,
+ - x4*x6 + x5**2}$
+
+
+	% Its equidimensional hull :
+
+    n1:=eqhull n;
+
+
+n1 := {x1**2*x4**2 - 2*x1*x2**2*x4 + x2**4,
+x1**2*x6**2 - 2*x1*x3**2*x6 + x3**4,
+x4**2*x6**2 - 2*x4*x5**2*x6 + x5**4,
+x1**2*x5**2 - 2*x1*x2*x3*x5 + x2**2*x3**2,
+x2**2*x6**2 - 2*x2*x3*x5*x6 + x3**2*x5**2,
+x1**2*x4*x5 - x1*x2**2*x5 - x1*x2*x3*x4 + x2**3*x3,
+x1**2*x5*x6 - x1*x2*x3*x6 - x1*x3**2*x5 + x2*x3**3,
+x1*x2*x4*x5 - x1*x3*x4**2 - x2**3*x5 + x2**2*x3*x4,
+x1*x2*x4*x6 - x1*x3*x4*x5 - x2**3*x6 + x2**2*x3*x5,
+x1*x2*x5*x6 - x1*x3*x5**2 - x2**2*x3*x6 + x2*x3**2*x5,
+x1*x2*x6**2 - x1*x3*x5*x6 - x2*x3**2*x6 + x3**3*x5,
+x1*x4**2*x6 - x1*x4*x5**2 - x2**2*x4*x6 + x2**2*x5**2,
+x1*x4*x5*x6 - x1*x5**3 - x2*x3*x4*x6 + x2*x3*x5**2,
+x2*x4*x5*x6 - x2*x5**3 - x3*x4**2*x6 + x3*x4*x5**2,
+x2*x4*x6**2 - x2*x5**2*x6 - x3*x4*x5*x6 + x3*x5**3,
+ - x1*x4*x6 + x1*x5**2 + x2**2*x6 - 2*x2*x3*x5 + x3**2*x4}$
+
+    length n1;
+
+
+16$
+
+    setideal(n1,n1)$
+
+ 
+    submodulep(n,n1);
+
+
+yes$
+
+    submodulep(n1,n);
+
+
+no$
+
+
+	% Hence there is an embedded component. Let's find it making
+	% an excursion to symbolic mode. Of course, this can be done
+	% also algebraically. 
+
+    symbolic;
+
+
+nil
+
+    n:=get('n,'basis);
+
+
+(dpmat 21 0 ((1 ((((0 0 4) 4) . 1) (((0 1 2 0 1) 4) . -2) (((0 2 0 0 2) 4) . 1))
+3 0 nil) (2 ((((0 0 0 4) 4) . 1) (((0 1 0 2 0 0 1) 4) . -2) (((0 2 0 0 0 0 2) 4)
+ . 1)) 3 0 nil) (3 ((((0 0 0 0 0 4) 4) . 1) (((0 0 0 0 1 2 1) 4) . -2) (((0 0 0
+0 2 0 2) 4) . 1)) 3 0 nil) (4 ((((0 0 2 2) 4) . 1) (((0 1 1 1 0 1) 4) . -2) (((0
+2 0 0 0 2) 4) . 1)) 3 0 nil) (5 ((((0 0 0 2 0 2) 4) . 1) (((0 0 1 1 0 1 1) 4) . 
+-2) (((0 0 2 0 0 0 2) 4) . 1)) 3 0 nil) (6 ((((0 0 3 1) 4) . 1) (((0 1 1 1 1) 4)
+ . -1) (((0 1 2 0 0 1) 4) . -1) (((0 2 0 0 1 1) 4) . 1)) 4 0 nil) (7 ((((0 0 1 3
+) 4) . 1) (((0 1 0 2 0 1) 4) . -1) (((0 1 1 1 0 0 1) 4) . -1) (((0 2 0 0 0 1 1)
+4) . 1)) 4 0 nil) (8 ((((0 0 2 1 1) 4) . 1) (((0 1 0 1 2) 4) . -1) (((0 0 3 0 0
+1) 4) . -1) (((0 1 1 0 1 1) 4) . 1)) 4 0 nil) (9 ((((0 0 2 1 0 1) 4) . 1) (((0 1
+0 1 1 1) 4) . -1) (((0 0 3 0 0 0 1) 4) . -1) (((0 1 1 0 1 0 1) 4) . 1)) 4 0 nil)
+(10 ((((0 0 1 2 0 1) 4) . 1) (((0 1 0 1 0 2) 4) . -1) (((0 0 2 1 0 0 1) 4) . -1)
+(((0 1 1 0 0 1 1) 4) . 1)) 4 0 nil) (11 ((((0 0 0 3 0 1) 4) . 1) (((0 0 1 2 0 0
+1) 4) . -1) (((0 1 0 1 0 1 1) 4) . -1) (((0 1 1 0 0 0 2) 4) . 1)) 4 0 nil) (12 (
+(((0 0 2 0 0 2) 4) . 1) (((0 1 0 0 1 2) 4) . -1) (((0 0 2 0 1 0 1) 4) . -1) (((0
+1 0 0 2 0 1) 4) . 1)) 4 0 nil) (13 ((((0 0 1 1 0 2) 4) . 1) (((0 1 0 0 0 3) 4)
+ . -1) (((0 0 1 1 1 0 1) 4) . -1) (((0 1 0 0 1 1 1) 4) . 1)) 4 0 nil) (14 ((((0
+0 0 1 1 2) 4) . 1) (((0 0 1 0 0 3) 4) . -1) (((0 0 0 1 2 0 1) 4) . -1) (((0 0 1
+0 1 1 1) 4) . 1)) 4 0 nil) (15 ((((0 0 0 1 0 3) 4) . 1) (((0 0 0 1 1 1 1) 4) . 
+-1) (((0 0 1 0 0 2 1) 4) . -1) (((0 0 1 0 1 0 2) 4) . 1)) 4 0 nil) (16 ((((0 0 0
+2 2) 4) . 1) (((0 0 1 1 1 1) 4) . -2) (((0 1 0 0 1 2) 4) . 1) (((0 0 2 0 1 0 1)
+4) . 1) (((0 1 0 0 2 0 1) 4) . -1)) 5 0 nil) (17 ((((0 0 1 2 1) 4) . 1) (((0 1 0
+1 1 1) 4) . -2) (((0 1 1 0 0 2) 4) . 1) (((0 0 3 0 0 0 1) 4) . -1) (((0 1 1 0 1
+0 1) 4) . 1)) 5 0 nil) (18 ((((0 0 0 3 1) 4) . 1) (((0 1 0 1 0 2) 4) . -1) (((0
+0 2 1 0 0 1) 4) . -1) (((0 1 0 1 1 0 1) 4) . -1) (((0 1 1 0 0 1 1) 4) . 2)) 5 0
+nil) (19 ((((0 0 0 2 1 1) 4) . 1) (((0 1 0 0 0 3) 4) . -1) (((0 0 1 1 1 0 1) 4)
+ . -2) (((0 0 2 0 0 1 1) 4) . 1) (((0 1 0 0 1 1 1) 4) . 1)) 5 0 nil) (20 ((((0 0
+0 2 1 0 1) 4) . 1) (((0 0 1 1 0 1 1) 4) . -2) (((0 1 0 0 0 2 1) 4) . 1) (((0 0 2
+0 0 0 2) 4) . 1) (((0 1 0 0 1 0 2) 4) . -1)) 5 0 nil) (21 ((((0 1 0 2 1) 4) . 1)
+(((0 1 1 1 0 1) 4) . -2) (((0 2 0 0 0 2) 4) . 1) (((0 1 2 0 0 0 1) 4) . 1) (((0
+2 0 0 1 0 1) 4) . -1)) 5 0 nil)) nil nil)
+
+
+	% This needs even more time than the eqhull, of course.
+
+    u:=primarydecomposition!* n;
+
+
+(((dpmat 16 0 ((1 ((((0 0 2 1 0 1) 4) . 1) (((0 1 0 1 1 1) 4) . -1) (((0 0 3 0 0
+0 1) 4) . -1) (((0 1 1 0 1 0 1) 4) . 1)) 4 0 nil) (2 ((((0 0 1 2 0 1) 4) . 1) ((
+(0 1 0 1 0 2) 4) . -1) (((0 0 2 1 0 0 1) 4) . -1) (((0 1 1 0 0 1 1) 4) . 1)) 4 0
+nil) (3 ((((0 0 1 1 0 2) 4) . 1) (((0 1 0 0 0 3) 4) . -1) (((0 0 1 1 1 0 1) 4)
+ . -1) (((0 1 0 0 1 1 1) 4) . 1)) 4 0 nil) (4 ((((0 0 4) 4) . 1) (((0 1 2 0 1) 4
+) . -2) (((0 2 0 0 2) 4) . 1)) 3 0 nil) (5 ((((0 0 3 1) 4) . 1) (((0 1 1 1 1) 4)
+ . -1) (((0 1 2 0 0 1) 4) . -1) (((0 2 0 0 1 1) 4) . 1)) 4 0 nil) (6 ((((0 0 2 2
+) 4) . 1) (((0 1 1 1 0 1) 4) . -2) (((0 2 0 0 0 2) 4) . 1)) 3 0 nil) (7 ((((0 0
+2 1 1) 4) . 1) (((0 1 0 1 2) 4) . -1) (((0 0 3 0 0 1) 4) . -1) (((0 1 1 0 1 1) 4
+) . 1)) 4 0 nil) (8 ((((0 0 2 0 0 2) 4) . 1) (((0 1 0 0 1 2) 4) . -1) (((0 0 2 0
+1 0 1) 4) . -1) (((0 1 0 0 2 0 1) 4) . 1)) 4 0 nil) (9 ((((0 0 0 4) 4) . 1) (((0
+1 0 2 0 0 1) 4) . -2) (((0 2 0 0 0 0 2) 4) . 1)) 3 0 nil) (10 ((((0 0 0 0 0 4) 4
+) . 1) (((0 0 0 0 1 2 1) 4) . -2) (((0 0 0 0 2 0 2) 4) . 1)) 3 0 nil) (11 ((((0
+0 0 2 0 2) 4) . 1) (((0 0 1 1 0 1 1) 4) . -2) (((0 0 2 0 0 0 2) 4) . 1)) 3 0 nil
+) (12 ((((0 0 1 3) 4) . 1) (((0 1 0 2 0 1) 4) . -1) (((0 1 1 1 0 0 1) 4) . -1) (
+((0 2 0 0 0 1 1) 4) . 1)) 4 0 nil) (13 ((((0 0 0 3 0 1) 4) . 1) (((0 0 1 2 0 0 1
+) 4) . -1) (((0 1 0 1 0 1 1) 4) . -1) (((0 1 1 0 0 0 2) 4) . 1)) 4 0 nil) (14 ((
+((0 0 0 1 1 2) 4) . 1) (((0 0 1 0 0 3) 4) . -1) (((0 0 0 1 2 0 1) 4) . -1) (((0
+0 1 0 1 1 1) 4) . 1)) 4 0 nil) (15 ((((0 0 0 1 0 3) 4) . 1) (((0 0 0 1 1 1 1) 4)
+ . -1) (((0 0 1 0 0 2 1) 4) . -1) (((0 0 1 0 1 0 2) 4) . 1)) 4 0 nil) (16 ((((0
+0 0 2 1) 3) . 1) (((0 0 1 1 0 1) 3) . -2) (((0 1 0 0 0 2) 3) . 1) (((0 0 2 0 0 0
+1) 3) . 1) (((0 1 0 0 1 0 1) 3) . -1)) 5 0 nil)) nil t) (dpmat 6 0 ((1 ((((0 0 0
+1 0 1) 2) . 1) (((0 0 1 0 0 0 1) 2) . -1)) 2 0 nil) (2 ((((0 0 0 0 0 2) 2) . 1)
+(((0 0 0 0 1 0 1) 2) . -1)) 2 0 nil) (3 ((((0 0 0 1 1) 2) . 1) (((0 0 1 0 0 1) 2
+) . -1)) 2 0 nil) (4 ((((0 0 0 2) 2) . 1) (((0 1 0 0 0 0 1) 2) . -1)) 2 0 nil) (
+5 ((((0 0 1 1) 2) . 1) (((0 1 0 0 0 1) 2) . -1)) 2 0 nil) (6 ((((0 0 2) 2) . 1)
+(((0 1 0 0 1) 2) . -1)) 2 0 nil)) nil t)) ((dpmat 18 0 ((1 ((((0 0 1 0 0 3) 4)
+ . 1)) 1 0 nil) (2 ((((0 0 0 0 0 0 1) 1) . 1)) 1 0 nil) (3 ((((0 0 0 4) 4) . 1))
+1 0 nil) (4 ((((0 0 0 0 0 4) 4) . 1)) 1 0 nil) (5 ((((0 0 0 2 0 2) 4) . 1)) 1 0
+nil) (6 ((((0 0 0 3 0 1) 4) . 1)) 1 0 nil) (7 ((((0 0 0 1 0 3) 4) . 1)) 1 0 nil)
+(8 ((((0 0 0 0 1) 1) . 1)) 1 0 nil) (9 ((((0 0 3 0 0 1) 4) . 1)) 1 0 nil) (10 ((
+((0 0 2 1 0 1) 4) . 1)) 1 0 nil) (11 ((((0 0 1 2 0 1) 4) . 1)) 1 0 nil) (12 ((((
+0 0 2 0 0 2) 4) . 1)) 1 0 nil) (13 ((((0 0 1 1 0 2) 4) . 1)) 1 0 nil) (14 ((((0
+0 4) 4) . 1)) 1 0 nil) (15 ((((0 0 2 2) 4) . 1)) 1 0 nil) (16 ((((0 1) 1) . 1))
+1 0 nil) (17 ((((0 0 1 3) 4) . 1)) 1 0 nil) (18 ((((0 0 3 1) 4) . 1)) 1 0 nil))
+nil t) (dpmat 6 0 ((1 ((((0 0 0 0 0 0 1) 1) . 1)) 1 0 nil) (2 ((((0 0 0 0 1) 1)
+ . 1)) 1 0 nil) (3 ((((0 1) 1) . 1)) 1 0 nil) (4 ((((0 0 1) 1) . 1)) 1 0 nil) (5
+((((0 0 0 1) 1) . 1)) 1 0 nil) (6 ((((0 0 0 0 0 1) 1) . 1)) 1 0 nil)) nil t)))
+
+    for each x in u collect easydim!* cadr x;
+
+
+(3 0)
+
+    for each x in u collect degree!* car x;
+
+
+(16 20)
+
+
+	% Hence the embedded component is a trivial one. Let's divide
+	% it out by a stable ideal quotient calculation :
+
+    algebraic;
+
+
+    setideal(n2,matstabquot(n,vars));
+
+
+{x2**4 - 2*x1*x2**2*x4 + x1**2*x4**2,
+x3**4 - 2*x1*x3**2*x6 + x1**2*x6**2,
+x5**4 - 2*x4*x5**2*x6 + x4**2*x6**2,
+x2**2*x3**2 - 2*x1*x2*x3*x5 + x1**2*x5**2,
+x3**2*x5**2 - 2*x2*x3*x5*x6 + x2**2*x6**2,
+x2**3*x3 - x1*x2*x3*x4 - x1*x2**2*x5 + x1**2*x4*x5,
+x2*x3**3 - x1*x3**2*x5 - x1*x2*x3*x6 + x1**2*x5*x6,
+x2**2*x3*x4 - x1*x3*x4**2 - x2**3*x5 + x1*x2*x4*x5,
+x2**2*x3*x5 - x1*x3*x4*x5 - x2**3*x6 + x1*x2*x4*x6,
+x2*x3**2*x5 - x1*x3*x5**2 - x2**2*x3*x6 + x1*x2*x5*x6,
+x3**3*x5 - x2*x3**2*x6 - x1*x3*x5*x6 + x1*x2*x6**2,
+x2**2*x5**2 - x1*x4*x5**2 - x2**2*x4*x6 + x1*x4**2*x6,
+x2*x3*x5**2 - x1*x5**3 - x2*x3*x4*x6 + x1*x4*x5*x6,
+x3*x4*x5**2 - x2*x5**3 - x3*x4**2*x6 + x2*x4*x5*x6,
+x3*x5**3 - x3*x4*x5*x6 - x2*x5**2*x6 + x2*x4*x6**2,
+x3**2*x4 - 2*x2*x3*x5 + x1*x5**2 + x2**2*x6 - x1*x4*x6}$
+
+    modequalp(n1,n2);
+
+
+yes$
+
+
+
+comment
+
+	########################################
+	###				     ###
+	###  Test Examples for New Features  ###
+	###				     ###
+	########################################
+
+end comment;
+
+
+
+% ==> Testing the different zerodimensional solver 
+
+	vars:={x,y,z}$
+
+
+	setring(vars,degreeorder vars,revlex);
+
+
+{{x,y,z},{{1,1,1}},revlex,{1,1,1}}$
+
+	setideal(m,{x^3+y+z-3,y^3+x+z-3,z^3+x+y-3});
+
+
+{x**3 + y + z - 3,y**3 + x + z - 3,z**3 + x + y - 3}$
+
+	zerosolve1 m;
+
+
+{{x + y + z**3 - 3,
+y + z**3 + z - 3,
+z**6 + z**4 - 6*z**3 + z**2 - 3*z + 8},
+{x + y + z**3 - 3,
+2*y + z**3 - 3,
+z**6 - 2*z**4 - 6*z**3 + 4*z**2 + 6*z + 5},
+{x + y + z,
+y**2 + y*z + z**2 - 1,
+z**3 - z - 3},
+{x + z**3 + z - 3,
+y - z,
+z**6 + z**4 - 6*z**3 + z**2 - 3*z + 8},
+{x - z,y - z,z**2 + z + 3},
+{x - 1,y - 1,z - 1}}$
+
+	zerosolve2 m;
+
+
+{{x + y + z**3 - 3,
+y + z**3 + z - 3,
+z**6 + z**4 - 6*z**3 + z**2 - 3*z + 8},
+{x + y + z**3 - 3,
+2*y + z**3 - 3,
+z**6 - 2*z**4 - 6*z**3 + 4*z**2 + 6*z + 5},
+{x + y + z,
+y**2 + y*z + z**2 - 1,
+z**3 - z - 3},
+{x + z**3 + z - 3,
+y - z,
+z**6 + z**4 - 6*z**3 + z**2 - 3*z + 8},
+{x - z,y - z,z**2 + z + 3},
+{x - 1,y - 1,z - 1}}$
+
+	setring(vars,{},lex)$
+
+ setideal(m,m)$
+
+ m1:=gbasis m$
+
+
+	zerosolve  m1;
+
+
+{{x - 1,y - 1,z - 1},
+{x - z,y - z,z**2 + z + 3},
+{x + y + z,
+y**2 + y*z + z**2 - 1,
+z**3 - z - 3},
+{2*x + z**3 - 3,
+2*y + z**3 - 3,
+z**6 - 2*z**4 - 6*z**3 + 4*z**2 + 6*z + 5},
+{x + z**3 + z - 3,
+y - z,
+z**6 + z**4 - 6*z**3 + z**2 - 3*z + 8},
+{x - z,
+y + z**3 + z - 3,
+z**6 + z**4 - 6*z**3 + z**2 - 3*z + 8}}$
+
+	zerosolve1 m1;
+
+
+{{x - 1,y - 1,z - 1},
+{x - z,y - z,z**2 + z + 3},
+{x + y + z,
+y**2 + y*z + z**2 - 1,
+z**3 - z - 3},
+{x - y,
+2*y + z**3 - 3,
+z**6 - 2*z**4 - 6*z**3 + 4*z**2 + 6*z + 5},
+{x + z**3 + z - 3,
+y - z,
+z**6 + z**4 - 6*z**3 + z**2 - 3*z + 8},
+{x - z,
+y + z**3 + z - 3,
+z**6 + z**4 - 6*z**3 + z**2 - 3*z + 8}}$
+
+	zerosolve2 m1;
+
+
+{{x - 1,y - 1,z - 1},
+{x - z,y - z,z**2 + z + 3},
+{x + y + z,
+y**2 + y*z + z**2 - 1,
+z**3 - z - 3},
+{x - y,
+2*y + z**3 - 3,
+z**6 - 2*z**4 - 6*z**3 + 4*z**2 + 6*z + 5},
+{x + z**3 + z - 3,
+y - z,
+z**6 + z**4 - 6*z**3 + z**2 - 3*z + 8},
+{x - z,
+y + z**3 + z - 3,
+z**6 + z**4 - 6*z**3 + z**2 - 3*z + 8}}$
+
+
+% ==> Testing groebfactor, extendedgroebfactor, extendedgroebfactor1 
+
+  % Gerdt et al. : Seventh order KdV type equation.
+
+A1:=-2*L1**2+L1*L2+2*L1*L3-L2**2-7*L5+21*L6$
+
+
+A2:=7*L7-2*L1*L4+3/7*L1**3$
+
+
+B1:=L1*(5*L1-3*L2+L3)$
+
+
+B2:=L1*(2*L6-4*L4)$
+
+
+B3:=L1*L7/2$
+
+
+P1:=L1*(L4-L5/2+L6)$
+
+
+P2:=(2/7*L1**2-L4)*(-10*L1+5*L2-L3)$
+
+
+P3:=(2/7*L1**2-L4)*(3*L4-L5+L6)$
+
+
+P4:=A1*(-3*L1+2*L2)+21*A2$
+
+
+P5:=A1*(2*L4-2*L5)+A2*(-45*L1+15*L2-3*L3)$
+
+
+P6:=2*A1*L7+A2*(12*L4-3*L5+2*L6)$
+
+
+P7:=B1*(2*L2-L1)+7*B2$
+
+
+P8:=B1*L3+7*B2$
+
+
+P9:=B1*(-2*L4-2*L5)+B2*(2*L2-8*L1)+84*B3$
+
+
+P10:=B1*(8/3*L5+6*L6)+B2*(11*L1-17/3*L2+5/3*L3)-168*B3$
+
+
+P11:=15*B1*L7+B2*(5*L4-2*L5)+B3*(-120*L1+30*L2-6*L3)$
+
+
+P12:=-3*B1*L7+B2*(-L4/2+L5/4-L6/2)+B3*(24*L1-6*L2)$
+
+
+P13:=3*B2*L7+B3*(40*L4-8*L5+4*L6)$
+
+
+
+polys:={P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13};
+
+
+polys := {(l1*(2*l4 - l5 + 2*l6))/2,
+( - 20*l1**3 + 10*l1**2*l2 - 2*l1**2*l3 + 70*l1*l4 - 35*l2*l4 + 7*l3*l4)/7,
+(6*l1**2*l4 - 2*l1**2*l5 + 2*l1**2*l6 - 21*l4**2 + 7*l4*l5 - 7*l4*l6)/7,
+15*l1**3 - 7*l1**2*l2 - 6*l1**2*l3 + 5*l1*l2**2 + 4*l1*l2*l3 - 42*l1*l4 + 21*l1*
+l5 - 63*l1*l6 - 2*l2**3 - 14*l2*l5 + 42*l2*l6 + 147*l7,
+( - 135*l1**4 + 45*l1**3*l2 - 9*l1**3*l3 + 602*l1**2*l4 + 28*l1**2*l5 - 196*l1*
+l2*l4 - 14*l1*l2*l5 + 70*l1*l3*l4 - 28*l1*l3*l5 - 2205*l1*l7 - 14*l2**2*l4 + 14*
+l2**2*l5 + 735*l2*l7 - 147*l3*l7 - 98*l4*l5 + 294*l4*l6 + 98*l5**2 - 294*l5*l6)/
+7,
+(36*l1**3*l4 - 9*l1**3*l5 + 6*l1**3*l6 - 28*l1**2*l7 + 14*l1*l2*l7 + 28*l1*l3*l7
+ - 168*l1*l4**2 + 42*l1*l4*l5 - 28*l1*l4*l6 - 14*l2**2*l7 + 588*l4*l7 - 245*l5*
+l7 + 392*l6*l7)/7,
+l1*( - 5*l1**2 + 13*l1*l2 - l1*l3 - 6*l2**2 + 2*l2*l3 - 28*l4 + 14*l6),
+l1*(5*l1*l3 - 3*l2*l3 + l3**2 - 28*l4 + 14*l6),
+2*l1*(11*l1*l4 - 5*l1*l5 - 8*l1*l6 - l2*l4 + 3*l2*l5 + 2*l2*l6 - l3*l4 - l3*l5 +
+ 21*l7),
+(4*l1*( - 33*l1*l4 + 10*l1*l5 + 39*l1*l6 + 17*l2*l4 - 6*l2*l5 - 22*l2*l6 - 5*l3*
+l4 + 2*l3*l5 + 7*l3*l6 - 63*l7))/3,
+l1*(15*l1*l7 - 30*l2*l7 + 12*l3*l7 - 20*l4**2 + 8*l4*l5 + 10*l4*l6 - 4*l5*l6),
+(l1*( - 6*l1*l7 + 12*l2*l7 - 6*l3*l7 + 4*l4**2 - 2*l4*l5 + 2*l4*l6 + l5*l6 - 2*
+l6**2))/2,
+4*l1*l7*(2*l4 - l5 + 2*l6)}$
+
+vars:={L7,L6,L5,L4,L3,L2,L1};
+
+
+vars := {l7,
+l6,
+l5,
+l4,
+l3,
+l2,
+l1}$
+
+clear a1,a2,b1,b2,b3$
+
+
+
+	off lexefgb;
+
+ 
+	setring(vars,{},lex);
+
+
+{{l7,l6,l5,l4,l3,l2,l1},{},lex,{1,1,1,1,1,1,1}}$
+
+
+  % The factorized Groebner algorithm.
+	groebfactor polys;
+
+
+{{l1,l4,l7,21*l6 - 7*l5 - l2**2},
+{l1,
+l4,
+7*l5 - l3*l2 + 5*l2**2,
+56*l6 - 5*l3*l2 + 23*l2**2,
+588*l7 + 7*l3*l2**2 - 37*l2**3},
+{l1,
+l7,
+l3 - 5*l2,
+14*l6 - 21*l4 - l2**2,
+14*l5 - 63*l4 - l2**2},
+{l1,l4,l2,l5,l7},
+{7*l4 - 2*l1**2,
+l2 - 2*l1,
+l3 - 3*l1,
+147*l7 - 4*l1**3,
+7*l5 - 6*l1**2,
+7*l6 - l1**2},
+{7*l4 - 2*l1**2,
+2*l2 - 7*l1,
+l3 - 6*l1,
+147*l7 - 4*l1**3,
+7*l5 - 9*l1**2,
+14*l6 - 5*l1**2},
+{l1,
+l3 - 5*l2,
+63*l4 + 2*l2**2,
+63*l5 + 2*l2**2,
+63*l6 - 4*l2**2,
+1323*l7 + 10*l2**3},
+{l1,l2,l3,l7,l5 - l4,l6 + 2*l4},
+{l2 - 3*l1,
+l3 - 5*l1,
+14*l4 - 5*l1**2,
+98*l7 - 5*l1**3,
+7*l5 - 10*l1**2,
+14*l6 - 5*l1**2}}$
+
+
+  % The extended Groebner factorizer, producing triangular sets.
+	extendedgroebfactor polys;
+
+
+{{{98*l7 - 5*l1**3,
+14*l6 - 5*l1**2,
+7*l5 - 10*l1**2,
+14*l4 - 5*l1**2,
+l3 - 5*l1,
+l2 - 3*l1},
+{},
+{l1}},
+{{l7,l6 + 2*l4,l5 - l4,l3,l2,l1},{},{l4}},
+{{1323*l7 + 10*l2**3,
+63*l6 - 4*l2**2,
+63*l5 + 2*l2**2,
+63*l4 + 2*l2**2,
+l3 - 5*l2,
+l1},
+{},
+{l2}},
+{{147*l7 - 4*l1**3,
+14*l6 - 5*l1**2,
+7*l5 - 9*l1**2,
+7*l4 - 2*l1**2,
+l3 - 6*l1,
+2*l2 - 7*l1},
+{},
+{l1}},
+{{147*l7 - 4*l1**3,
+7*l6 - l1**2,
+7*l5 - 6*l1**2,
+7*l4 - 2*l1**2,
+l3 - 3*l1,
+l2 - 2*l1},
+{},
+{l1}},
+{{l7,l5,l4,l2,l1},{},{l6,l3}},
+{{l7,
+14*l6 - (l2**2 + 21*l4),
+14*l5 - (l2**2 + 63*l4),
+l3 - 5*l2,
+l1},
+{},
+{l4,l2}},
+{{588*l7 - (37*l2**3 - 7*l2**2*l3),
+56*l6 + (23*l2**2 - 5*l2*l3),
+7*l5 + (5*l2**2 - l2*l3),
+l4,
+l1},
+{},
+{l3,l2}},
+{{l7,21*l6 - (l2**2 + 7*l5),l4,l1},{},{l5,l3,l2}}}$
+
+
+  % The extended Groebner factorizer with subproblem removal check. 
+	extendedgroebfactor1 polys;
+
+
+{{{l7,21*l6 - (l2**2 + 7*l5),l4,l1},{},{l5,l3,l2}},
+{{588*l7 - (37*l2**3 - 7*l2**2*l3),
+56*l6 + (23*l2**2 - 5*l2*l3),
+7*l5 + (5*l2**2 - l2*l3),
+l4,
+l1},
+{},
+{l3,l2}},
+{{l7,
+14*l6 - (l2**2 + 21*l4),
+14*l5 - (l2**2 + 63*l4),
+l3 - 5*l2,
+l1},
+{},
+{l4,l2}},
+{{l7,l5,l4,l2,l1},{},{l6,l3}},
+{{147*l7 - 4*l1**3,
+7*l6 - l1**2,
+7*l5 - 6*l1**2,
+7*l4 - 2*l1**2,
+l3 - 3*l1,
+l2 - 2*l1},
+{},
+{l1}},
+{{147*l7 - 4*l1**3,
+14*l6 - 5*l1**2,
+7*l5 - 9*l1**2,
+7*l4 - 2*l1**2,
+l3 - 6*l1,
+2*l2 - 7*l1},
+{},
+{l1}},
+{{1323*l7 + 10*l2**3,
+63*l6 - 4*l2**2,
+63*l5 + 2*l2**2,
+63*l4 + 2*l2**2,
+l3 - 5*l2,
+l1},
+{},
+{l2}},
+{{l7,l6 + 2*l4,l5 - l4,l3,l2,l1},{},{l4}},
+{{98*l7 - 5*l1**3,
+14*l6 - 5*l1**2,
+7*l5 - 10*l1**2,
+14*l4 - 5*l1**2,
+l3 - 5*l1,
+l2 - 3*l1},
+{},
+{l1}}}$
+
+
+  % Gonnet's example (ACM SIGSAM Bulletin 17 (1983), 48 - 49)
+
+vars:={a0,a2,a3,a4,a5,b0,b1,b2,b3,b4,b5,c0,c1,c2,c3,c4,c5};
+
+
+vars := {a0,
+a2,
+a3,
+a4,
+a5,
+b0,
+b1,
+b2,
+b3,
+b4,
+b5,
+c0,
+c1,
+c2,
+c3,
+c4,
+c5}$
+
+polys:={a4*b4,
+a5*b1+b5+a4*b3+a3*b4,
+a2*b2,a5*b5,
+(a0+1+a4)*b2+a2*(b0+b1+b4)+c2,
+(a0+1+a4)*(b0+b1+b4)+(a3+a5)*b2+a2*(b3+b5)+c0+c1+c4,
+(a3+a5)*(b0+b1+b4)+(b3+b5)*(a0+1+a4)+c3+c5-1,
+(a3+a5)*(b3+b5),
+a5*(b3+b5)+b5*(a3+a5),
+b5*(a0+1+2*a4)+a5*(b0+b1+2*b4)+a3*b4+a4*b3+c5,
+a4*(b0+b1+2*b4)+a2*b5+a5*b2+(a0+1)*b4+c4,
+a2*b4+a4*b2,
+a4*b5+a5*b4,
+2*a3*b3+a3*b5+a5*b3,
+c3+b3*(a0+2+a4)+a3*(b0+2*b1+b4)+b5+a5*b1,
+c1+(a0+2+a4)*b1+a2*b3+a3*b2+(b0+b4),
+a2*b1+b2,
+a5*b3+a3*b5,
+b4+a4*b1};
+
+
+polys := {a4*b4,
+a3*b4 + a4*b3 + a5*b1 + b5,
+a2*b2,
+a5*b5,
+a0*b2 + a2*b0 + a2*b1 + a2*b4 + a4*b2 + b2 + c2,
+a0*b0 + a0*b1 + a0*b4 + a2*b3 + a2*b5 + a3*b2 + a4*b0 + a4*b1 + a4*b4 + a5*b2 + 
+b0 + b1 + b4 + c0 + c1 + c4,
+a0*b3 + a0*b5 + a3*b0 + a3*b1 + a3*b4 + a4*b3 + a4*b5 + a5*b0 + a5*b1 + a5*b4 + 
+b3 + b5 + c3 + c5 - 1,
+a3*b3 + a3*b5 + a5*b3 + a5*b5,
+a3*b5 + a5*b3 + 2*a5*b5,
+a0*b5 + a3*b4 + a4*b3 + 2*a4*b5 + a5*b0 + a5*b1 + 2*a5*b4 + b5 + c5,
+a0*b4 + a2*b5 + a4*b0 + a4*b1 + 2*a4*b4 + a5*b2 + b4 + c4,
+a2*b4 + a4*b2,
+a4*b5 + a5*b4,
+2*a3*b3 + a3*b5 + a5*b3,
+a0*b3 + a3*b0 + 2*a3*b1 + a3*b4 + a4*b3 + a5*b1 + 2*b3 + b5 + c3,
+a0*b1 + a2*b3 + a3*b2 + a4*b1 + b0 + 2*b1 + b4 + c1,
+a2*b1 + b2,
+a3*b5 + a5*b3,
+a4*b1 + b4}$
+
+
+	on lexefgb;
+
+ % Switching back to the default.
+	setring(vars,{},lex);
+
+
+{{a0,a2,a3,a4,a5,b0,b1,b2,b3,b4,b5,c0,c1,c2,c3,c4,c5},
+{},
+lex,
+{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}}$
+
+	groebfactor polys;
+
+
+{{c5,
+b5,
+c2,
+c4,
+b2,
+b4,
+a4,
+a2,
+a5,
+b3,
+a3*b1 + 1,
+b0 - b1*c3 + 2*b1,
+a0 - a3*c1 + c3,
+b1*c3**2 - 2*b1*c3 + b1 - c0 + c1*c3 - 2*c1,
+a3*c0 - a3*c1*c3 + 2*a3*c1 + c3**2 - 2*c3 + 1},
+{c5,
+c4,
+b5,
+b4,
+a4,
+b2,
+a5,
+a3,
+b1,
+b3 + 1,
+a0 - c3 + 2,
+b0*c3 - 2*b0 + c0,
+a2 - b0 - c1,
+b0**2 + b0*c1 + c2,
+b0*c0 + c0*c1 - c2*c3 + 2*c2,
+c0**2 - c0*c1*c3 + 2*c0*c1 + c2*c3**2 - 4*c2*c3 + 4*c2},
+{c5,
+b5,
+c2,
+c4,
+b2,
+b4,
+a4,
+a2,
+a5,
+a3,
+b3 + 1,
+b0 + b1*c3 + c1,
+a0 - c3 + 2,
+b1*c3**2 - 2*b1*c3 + b1 - c0 + c1*c3 - 2*c1}}$
+
+	extendedgroebfactor polys;
+
+
+{{{b1*a0 + (b1 + c1),
+a2,
+b1*a3 + 1,
+a4,
+a5,
+b0 + b1,
+b2,
+b3,
+b4,
+b5,
+c0 + c1,
+c2,
+c3 - 1,
+c4,
+c5},
+{b1,b1},
+{b1,c1}},
+{{a0,
+a2 - b0 - c1,
+a3,
+a4,
+a5,
+b0**2 + c1*b0 + c2,
+b1,
+b2,
+b3 + 1,
+b4,
+b5,
+c0,
+c3 - 2,
+c4,
+c5},
+{},
+{c1,c2}},
+{{a0 + 1,a2,a3,a4,a5,b0 + (b1 + c1),b2,b3 + 1,b4,b5,c0 + c1,c2,c3 - 1,c4,c5},
+{},
+{b1,c1}},
+{{a0 - (c3 - 2),
+a2,
+a3,
+a4,
+a5,
+(c3**2 - 2*c3 + 1)*b0 + (c0*c3 + c1),
+(c3**2 - 2*c3 + 1)*b1 - (c0 - c1*c3 + 2*c1),
+b2,
+b3 + 1,
+b4,
+b5,
+c2,
+c4,
+c5},
+{c3**2 - 2*c3 + 1,c3**2 - 2*c3 + 1},
+{c0,c1,c3}},
+{{a0 - (c3 - 2),
+(c3 - 2)*a2 + c0 - (c1*c3 - 2*c1),
+a3,
+a4,
+a5,
+(c3 - 2)*b0 + c0,
+b1,
+b2,
+b3 + 1,
+b4,
+b5,
+c0**2 - (c1*c3 - 2*c1)*c0 + (c2*c3**2 - 4*c2*c3 + 4*c2),
+c4,
+c5},
+{c3 - 2,c3 - 2},
+{c1,c2,c3}},
+{{(c0 - c1*c3 + 2*c1)*a0 + (c0*c3 + c1),
+a2,
+(c0 - c1*c3 + 2*c1)*a3 + (c3**2 - 2*c3 + 1),
+a4,
+a5,
+(c3**2 - 2*c3 + 1)*b0 - (c0*c3 - 2*c0 - c1*c3**2 + 4*c1*c3 - 4*c1),
+(c3**2 - 2*c3 + 1)*b1 - (c0 - c1*c3 + 2*c1),
+b2,
+b3,
+b4,
+b5,
+c2,
+c4,
+c5},
+{c0 - c1*c3 + 2*c1,
+c0 - c1*c3 + 2*c1,
+c3**2 - 2*c3 + 1,
+c3**2 - 2*c3 + 1},
+{c0,c1,c3}}}$
+
+	extendedgroebfactor1 polys;
+
+
+{{{(c0 - c1*c3 + 2*c1)*a0 + (c0*c3 + c1),
+a2,
+(c0 - c1*c3 + 2*c1)*a3 + (c3**2 - 2*c3 + 1),
+a4,
+a5,
+(c3**2 - 2*c3 + 1)*b0 - (c0*c3 - 2*c0 - c1*c3**2 + 4*c1*c3 - 4*c1),
+(c3**2 - 2*c3 + 1)*b1 - (c0 - c1*c3 + 2*c1),
+b2,
+b3,
+b4,
+b5,
+c2,
+c4,
+c5},
+{c0 - c1*c3 + 2*c1,
+c0 - c1*c3 + 2*c1,
+c3**2 - 2*c3 + 1,
+c3**2 - 2*c3 + 1},
+{c0,c1,c3}},
+{{a0 - (c3 - 2),
+(c3 - 2)*a2 + c0 - (c1*c3 - 2*c1),
+a3,
+a4,
+a5,
+(c3 - 2)*b0 + c0,
+b1,
+b2,
+b3 + 1,
+b4,
+b5,
+c0**2 - (c1*c3 - 2*c1)*c0 + (c2*c3**2 - 4*c2*c3 + 4*c2),
+c4,
+c5},
+{c3 - 2,c3 - 2},
+{c1,c2,c3}},
+{{a0 - (c3 - 2),
+a2,
+a3,
+a4,
+a5,
+(c3**2 - 2*c3 + 1)*b0 + (c0*c3 + c1),
+(c3**2 - 2*c3 + 1)*b1 - (c0 - c1*c3 + 2*c1),
+b2,
+b3 + 1,
+b4,
+b5,
+c2,
+c4,
+c5},
+{c3**2 - 2*c3 + 1,c3**2 - 2*c3 + 1},
+{c0,c1,c3}}}$
+
+
+  % Schwarz' example s5
+
+vars:=for k:=1:5 collect mkid(x,k);
+
+
+vars := {x1,
+x2,
+x3,
+x4,
+x5}$
+
+
+s5:={
+x1**2+x1+2*x2*x5+2*x3*x4,
+2*x1*x2+x2+2*x3*x5+x4**2,
+2*x1*x3+x2**2+x3+2*x4*x5,
+2*x1*x4+2*x2*x3+x4+x5**2,
+2*x1*x5+2*x2*x4+x3**2+x5};
+
+
+s5 := {x1**2 + x1 + 2*x2*x5 + 2*x3*x4,
+2*x1*x2 + x2 + 2*x3*x5 + x4**2,
+2*x1*x3 + x2**2 + x3 + 2*x4*x5,
+2*x1*x4 + 2*x2*x3 + x4 + x5**2,
+2*x1*x5 + 2*x2*x4 + x3**2 + x5}$
+
+
+	setring(vars,degreeorder vars,revlex);
+
+
+{{x1,x2,x3,x4,x5},{{1,1,1,1,1}},revlex,{1,1,1,1,1}}$
+
+	m:=groebfactor s5;
+
+
+m := {{x1**2 + 2*x3*x4 + 2*x2*x5 + x1,
+2*x1*x2 + x4**2 + 2*x3*x5 + x2,
+x2**2 + 2*x1*x3 + 2*x4*x5 + x3,
+2*x2*x3 + 2*x1*x4 + x5**2 + x4,
+x3**2 + 2*x2*x4 + 2*x1*x5 + x5,
+2*x1*x3*x4 + 2*x4**2*x5 + x3*x5**2 + x3*x4,
+5*x4**3 + 30*x3*x4*x5 + 15*x2*x5**2 - 2*x5,
+10*x3*x4**2 - 10*x1*x5**2 - 5*x5**2 - x4,
+625*x4*x5**3 + 50*x3*x4 + 75*x2*x5 - 6,
+15*x2*x4**2 + 30*x1*x4*x5 + 5*x5**3 + 15*x4*x5 + x3,
+100*x1*x4*x5**2 + 25*x5**4 + 50*x4*x5**2 + x4**2 + 4*x3*x5,
+1250*x1*x3*x5**2 + 625*x3*x5**2 - 75*x3*x4 - 50*x2*x5 + 8,
+75*x4**2*x5**2 + 50*x3*x5**3 + x2*x4 + 4*x1*x5 + 2*x5,
+150*x3*x4*x5**2 + 100*x2*x5**3 - 2*x1*x4 - 13*x5**2 - x4,
+625*x2*x5**4 - 50*x1*x4*x5 - 75*x5**3 - 25*x4*x5 - x3,
+1250*x3*x5**4 - 200*x2*x4*x5 - 50*x1*x5**2 - 25*x5**2 + 3*x4,
+625*x5**5 + 375*x4**2*x5 + 500*x3*x5**2 + 24*x1 + 12,
+10*x1*x4**2 + 20*x1*x3*x5 + 20*x4*x5**2 + 5*x4**2 + 10*x3*x5 + x2,
+75*x2*x4*x5**2 + 50*x1*x5**3 + 25*x5**3 - 2*x1*x3 - 3*x4*x5 - x3,
+1250*x1*x5**4 + 625*x5**4 + 100*x1*x3*x5 + 150*x4*x5**2 + 50*x3*x5 + 3*x2},
+{x5,x2,x4,x3,x1},
+{x5,x2,x4,x3,x1 + 1}}$
+
+
+  % Recompute a list of problems with listgroebfactor for another term 
+  % order. 
+	setring(vars,{},lex);
+
+
+{{x1,x2,x3,x4,x5},{},lex,{1,1,1,1,1}}$
+
+	listgroebfactor m;
+
+
+{{5*x5 - 1,
+5*x4 - 1,
+5*x1 + 4,
+5*x2 - 1,
+5*x3 - 1},
+{5*x5 + 1,
+5*x4 + 1,
+5*x1 + 1,
+5*x2 + 1,
+5*x3 + 1},
+{5*x1 + 2,
+x2 - x5,
+25*x5**2 - 5*x5 - 1,
+5*x4 + 5*x5 - 1,
+5*x3 + 5*x5 - 1},
+{5*x1 + 3,
+x2 - x5,
+25*x5**2 + 5*x5 - 1,
+5*x4 + 5*x5 + 1,
+5*x3 + 5*x5 + 1},
+{5*x1 + 3,
+5*x4 - 25*x5**2 + 10*x5 - 2,
+x3 - 25*x5**3 + 15*x5**2 - 3*x5,
+5*x2 + 125*x5**3 - 50*x5**2 + 10*x5 - 1,
+625*x5**4 - 375*x5**3 + 100*x5**2 - 10*x5 + 1},
+{5*x1 + 2,
+5*x2 + 5*x5 - 1,
+5*x4 - 250*x5**3 + 75*x5**2 - 30*x5 + 2,
+5*x3 + 250*x5**3 - 75*x5**2 + 30*x5 - 3,
+625*x5**4 - 250*x5**3 + 100*x5**2 - 15*x5 + 1},
+{x4 + 5*x5**2,
+5*x1 + 1,
+x3 - 25*x5**3,
+5*x2 + 125*x5**3 - 25*x5**2 + 5*x5 - 1,
+625*x5**4 - 125*x5**3 + 25*x5**2 - 5*x5 + 1},
+{x4 - 5*x5**2,
+5*x1 + 4,
+x3 - 25*x5**3,
+5*x2 + 125*x5**3 + 25*x5**2 + 5*x5 + 1,
+625*x5**4 + 125*x5**3 + 25*x5**2 + 5*x5 + 1},
+{5*x1 + 3,
+5*x2 + 5*x5 + 1,
+5*x4 - 250*x5**3 - 75*x5**2 - 30*x5 - 2,
+5*x3 + 250*x5**3 + 75*x5**2 + 30*x5 + 3,
+625*x5**4 + 250*x5**3 + 100*x5**2 + 15*x5 + 1},
+{5*x1 + 2,
+5*x4 + 25*x5**2 + 10*x5 + 2,
+x3 - 25*x5**3 - 15*x5**2 - 3*x5,
+5*x2 + 125*x5**3 + 50*x5**2 + 10*x5 + 1,
+625*x5**4 + 375*x5**3 + 100*x5**2 + 10*x5 + 1},
+{x5,
+x2,
+x4,
+x3,
+x1 + 1},
+{x5,
+x2,
+x4,
+x3,
+x1}}$
+
+
+
+% ==> Testing the linear algebra package
+
+  % Find the ideal of points in affine and projective space. 
+
+	vars:=for k:=1:6 collect mkid(x,k);
+
+
+vars := {x1,
+x2,
+x3,
+x4,
+x5,
+x6}$
+
+	setring(vars,degreeorder vars,revlex);
+
+
+{{x1,x2,x3,x4,x5,x6},{{1,1,1,1,1,1}},revlex,{1,1,1,1,1,1}}$
+
+	matrix mm(10,6);
+
+
+	on rounded;
+
+
+	for k:=1:6 do for l:=1:10 do mm(l,k):=floor(exp((k+l)/4));
+
+
+	off rounded;
+
+
+	mm;
+
+
+mat((1,2,2,3,4,5),(2,2,3,4,5,7),(2,3,4,5,7,9),(3,4,5,7,9,12),(4,5,7,9,12,15),(5,
+7,9,12,15,20),(7,9,12,15,20,25),(9,12,15,20,25,33),(12,15,20,25,33,42),(15,20,25
+,33,42,54))$
+
+	setideal(u,affine_points mm);
+
+
+{48337*x5**2 - 318*x4*x6 - 75336*x5*x6 + 29579*x6**2 - 11598*x1 - 11016*x2 - 
+11352*x3 - 2502*x4 + 18371*x5 - 1837*x6 - 1836,
+386696*x3*x6 + 239238*x4*x6 - 185716*x5*x6 - 182039*x6**2 - 270738*x1 - 1255800*
+x2 - 5052384*x3 - 2106864*x4 + 2351946*x5 + 2434483*x6 - 1562736,
+48337*x4**2 - 58746*x4*x6 + 148*x5*x6 + 17725*x6**2 + 2502*x1 + 576*x2 - 1302*x3
+ + 25721*x4 - 3488*x5 - 12857*x6 + 96,
+193348*x4*x5 - 151394*x4*x6 - 118604*x5*x6 + 92869*x6**2 + 1590*x1 + 8712*x2 + 
+16560*x3 - 3708*x4 + 43918*x5 - 43409*x6 + 1452,
+386696*x1*x6 + 175678*x4*x6 + 20108*x5*x6 - 233347*x6**2 - 5821074*x1 - 831000*
+x2 + 1382952*x3 + 741984*x4 - 2153934*x5 + 2692351*x6 - 1491936,
+386696*x2*x6 - 382090*x4*x6 - 43364*x5*x6 + 123645*x6**2 - 1313130*x1 - 4809120*
+x2 + 91464*x3 + 5853096*x4 + 1118658*x5 - 2323361*x6 - 28128,
+193348*x3*x4 - 19782*x4*x6 - 57060*x5*x6 + 1407*x6**2 - 86718*x1 - 378840*x2 - 
+1475924*x3 - 576996*x4 + 715078*x5 + 671885*x6 - 449836,
+386696*x3*x5 + 184150*x4*x6 - 329484*x5*x6 + 3733*x6**2 - 302634*x1 - 1062840*x2
+ - 3845096*x3 - 1562608*x4 + 1956858*x5 + 1752663*x6 - 1143880,
+193348*x6**3 - 78919578*x4*x6 - 63413004*x5*x6 + 81565689*x6**2 + 1412352942*x1 
++ 1563160200*x2 + 761482008*x3 + 10324224*x4 + 304232130*x5 - 1255484065*x6 - 
+643375200,
+96674*x3**2 + 56278*x4*x6 - 44916*x5*x6 - 20423*x6**2 - 85218*x1 - 315900*x2 - 
+1104614*x3 - 478348*x4 + 559514*x5 + 528787*x6 - 342672,
+193348*x1*x4 - 3606*x4*x6 + 6664*x5*x6 - 36689*x6**2 - 1729374*x1 - 256248*x2 + 
+422132*x3 + 345556*x4 - 671778*x5 + 747089*x6 - 429404,
+193348*x2*x4 - 186922*x4*x6 - 13484*x5*x6 + 80823*x6**2 - 400398*x1 - 1437268*x2
+ + 32400*x3 + 1825348*x4 + 346526*x5 - 749039*x6 - 13972,
+386696*x1*x5 + 139942*x4*x6 - 99156*x5*x6 - 94107*x6**2 - 4388370*x1 - 668088*x2
+ + 1063040*x3 + 468112*x4 - 1464774*x5 + 1964239*x6 - 1078088,
+386696*x2*x5 - 299774*x4*x6 - 183476*x5*x6 + 214259*x6**2 - 1032390*x1 - 3818088
+*x2 + 38568*x3 + 4563624*x4 + 1175646*x5 - 2005927*x6 - 56304,
+193348*x5*x6**2 - 59111766*x4*x6 - 58092824*x5*x6 + 68856463*x6**2 + 1134803514*
+x1 + 1224865560*x2 + 591403776*x3 - 36549312*x4 + 316517430*x5 - 1023460331*x6 -
+ 498675720,
+193348*x1**2 + 50726*x4*x6 + 4164*x5*x6 - 49995*x6**2 - 1502518*x1 - 234624*x2 +
+ 337000*x3 + 189344*x4 - 544926*x5 + 709519*x6 - 425800,
+193348*x1*x2 - 22834*x4*x6 - 3056*x5*x6 - 4123*x6**2 - 1183010*x1 - 780060*x2 + 
+282940*x3 + 989552*x4 - 238902*x5 + 102179*x6 - 226684,
+96674*x2**2 - 69590*x4*x6 - 7908*x5*x6 + 35327*x6**2 - 243426*x1 - 832910*x2 + 
+14700*x3 + 1041208*x4 + 204662*x5 - 420851*x6 - 26032,
+386696*x1*x3 + 153254*x4*x6 - 46332*x5*x6 - 109011*x6**2 - 2706290*x1 - 776040*
+x2 - 650592*x3 - 288096*x4 - 295470*x5 + 1856303*x6 - 1096080,
+386696*x2*x3 - 95202*x4*x6 - 92692*x5*x6 + 63421*x6**2 - 736122*x1 - 2670472*x2 
+- 1669344*x3 + 2061800*x4 + 1466002*x5 - 394913*x6 - 509528,
+96674*x4*x6**2 - 29277416*x4*x6 - 19752504*x5*x6 + 28388673*x6**2 + 433544670*x1
+ + 473916360*x2 + 235723620*x3 + 39729120*x4 + 97903830*x5 - 411516489*x6 - 
+188800920}$
+ setgbasis u$
+
+ dim u;
+
+
+0$
+ degree u;
+
+
+10$
+
+	setideal(u,proj_points mm);
+
+
+{457380*x5**3 - 13500*x2*x5*x6 - 20835*x3*x5*x6 + 76950*x4*x5*x6 - 1050234*x5**2
+*x6 + 100*x1*x6**2 + 10800*x2*x6**2 + 16568*x3*x6**2 - 60271*x4*x6**2 + 771366*
+x5*x6**2 - 179875*x6**3,
+330*x4**2 + 1665*x2*x5 + 555*x3*x5 - 4337*x4*x5 - 626*x5**2 + 6*x1*x6 - 1332*x2*
+x6 - 450*x3*x6 + 3013*x4*x6 + 2740*x5*x6 - 1635*x6**2,
+33*x1*x5 - 90*x2*x5 - 63*x3*x5 + 216*x4*x5 + 60*x5**2 - 25*x1*x6 + 72*x2*x6 + 49
+*x3*x6 - 170*x4*x6 - 171*x5*x6 + 97*x6**2,
+90*x3**2 - 483*x2*x5 - 183*x3*x5 + 1197*x4*x5 + 174*x5**2 - 2*x1*x6 + 384*x2*x6 
++ 68*x3*x6 - 937*x4*x6 - 738*x5*x6 + 485*x6**2,
+330*x3*x4 + 555*x2*x5 + 75*x3*x5 - 1519*x4*x5 - 172*x5**2 + 2*x1*x6 - 444*x2*x6 
+- 260*x3*x6 + 1041*x4*x6 + 950*x5*x6 - 545*x6**2,
+457380*x4*x5**2 - 10800*x2*x5*x6 - 9045*x3*x5*x6 - 662625*x4*x5*x6 - 265413*x5**
+2*x6 + 80*x1*x6**2 + 8640*x2*x6**2 + 7156*x3*x6**2 + 238408*x4*x6**2 + 391452*x5
+*x6**2 - 143900*x6**3,
+495*x1*x2 + 1977*x2*x5 + 87*x3*x5 - 4824*x4*x5 - 339*x5**2 - 164*x1*x6 - 1707*x2
+*x6 - 97*x3*x6 + 3782*x4*x6 + 2697*x5*x6 - 1840*x6**2,
+495*x2**2 + 1134*x2*x5 + 939*x3*x5 - 3771*x4*x5 - 822*x5**2 - 4*x1*x6 - 1257*x2*
+x6 - 734*x3*x6 + 2956*x4*x6 + 2709*x5*x6 - 1550*x6**2,
+990*x1*x3 - 5043*x2*x5 - 1263*x3*x5 + 12321*x4*x5 + 1866*x5**2 - 464*x1*x6 + 
+4008*x2*x6 + 788*x3*x6 - 9643*x4*x6 - 7968*x5*x6 + 5165*x6**2,
+495*x2*x3 + 1242*x2*x5 - 48*x3*x5 - 3555*x4*x5 - 267*x5**2 + 4*x1*x6 - 1218*x2*
+x6 - 157*x3*x6 + 2786*x4*x6 + 2142*x5*x6 - 1420*x6**2,
+66*x1*x4 + 345*x2*x5 + 93*x3*x5 - 861*x4*x5 - 120*x5**2 - 38*x1*x6 - 276*x2*x6 -
+ 76*x3*x6 + 659*x4*x6 + 540*x5*x6 - 337*x6**2,
+495*x2*x4 + 1770*x2*x5 + 645*x3*x5 - 4908*x4*x5 - 729*x5**2 + 4*x1*x6 - 1713*x2*
+x6 - 520*x3*x6 + 3677*x4*x6 + 3165*x5*x6 - 1915*x6**2,
+152460*x3*x5**2 + 5880*x2*x5*x6 - 237983*x3*x5*x6 - 6896*x4*x5*x6 - 71438*x5**2*
+x6 + 64*x1*x6**2 - 4704*x2*x6**2 + 92748*x3*x6**2 + 5427*x4*x6**2 + 113560*x5*x6
+**2 - 45061*x6**3,
+990*x1**2 - 1893*x2*x5 + 447*x3*x5 + 3771*x4*x5 + 426*x5**2 - 524*x1*x6 + 1488*
+x2*x6 - 322*x3*x6 - 2923*x4*x6 - 2478*x5*x6 + 1715*x6**2,
+457380*x2*x5**2 - 754524*x2*x5*x6 - 31530*x3*x5*x6 + 156561*x4*x5*x6 - 132597*x5
+**2*x6 + 136*x1*x6**2 + 310896*x2*x6**2 + 25088*x3*x6**2 - 122581*x4*x6**2 + 
+141732*x5*x6**2 - 30097*x6**3}$
+ setgbasis u$
+
+ dim u;
+
+
+1$
+ degree u;
+
+
+10$
+
+
+  % Change the term order to pure lex in dimension zero.
+  % Test both approaches, with and without precomputed borderbasis.
+
+	vars:=for k:=1:6 collect mkid(x,k);
+
+
+vars := {x1,
+x2,
+x3,
+x4,
+x5,
+x6}$
+
+	r1:=setring(vars,{},lex);
+
+
+r1 := {{x1,x2,x3,x4,x5,x6},{},lex,{1,1,1,1,1,1}}$
+
+	r2:=setring(vars,degreeorder vars,revlex);
+
+
+r2 := {{x1,x2,x3,x4,x5,x6},{{1,1,1,1,1,1}},revlex,{1,1,1,1,1,1}}$
+
+	setideal(m,{x1**2+x1+2*x2*x6+2*x3*x5+x4**2,
+		2*x1*x2+x2+2*x3*x6+2*x4*x5,
+		2*x1*x3+x2**2+x3+2*x4*x6+x5**2,
+		2*x1*x4+2*x2*x3+x4+2*x5*x6,
+		2*x1*x5+2*x2*x4+x3**2+x5+x6**2,
+		2*x1*x6+2*x2*x5+2*x3*x4+x6});
+
+
+{x1**2 + x4**2 + 2*x3*x5 + 2*x2*x6 + x1,
+2*x1*x2 + 2*x4*x5 + 2*x3*x6 + x2,
+x2**2 + 2*x1*x3 + x5**2 + 2*x4*x6 + x3,
+2*x2*x3 + 2*x1*x4 + 2*x5*x6 + x4,
+x3**2 + 2*x2*x4 + 2*x1*x5 + x6**2 + x5,
+2*x3*x4 + 2*x2*x5 + 2*x1*x6 + x6}$
+
+	gbasis m;
+
+
+{72*x1*x3*x5*x6 + 36*x3*x5*x6 - 2*x1*x6 - x6,
+2*x1*x2 + 2*x4*x5 + 2*x3*x6 + x2,
+2*x2*x3 + 2*x1*x4 + 2*x5*x6 + x4,
+2*x3*x4 + 2*x2*x5 + 2*x1*x6 + x6,
+10368*x6**7 + 5040*x4*x6**4 + 140*x4**2*x6 + 252*x2*x6**2 - 15*x6,
+1296*x4*x6**5 + 180*x4**2*x6**2 + 180*x2*x6**3 + 4*x2*x4 - 15*x6**2,
+2592*x3*x6**5 - 360*x2*x5*x6**2 + 2*x1*x4 + 12*x5*x6 + x4,
+72*x3*x5**2*x6 + 72*x2*x5*x6**2 - 2*x1*x4 - 8*x5*x6 - x4,
+36*x2*x5**3 - 108*x1*x4*x6**2 - 72*x5*x6**3 - 54*x4*x6**2 - 5*x3*x6,
+18*x4**2*x5 + 18*x3*x5**2 - 18*x1*x6**2 - 9*x6**2 - 2*x5,
+36*x4*x5**2 + 36*x4**2*x6 + 72*x3*x5*x6 + 36*x2*x6**2 - 5*x6,
+x1**2 + x4**2 + 2*x3*x5 + 2*x2*x6 + x1,
+x2**2 + 2*x1*x3 + x5**2 + 2*x4*x6 + x3,
+x3**2 + 2*x2*x4 + 2*x1*x5 + x6**2 + x5,
+2592*x5*x6**5 + 360*x4*x5*x6**2 + 360*x3*x6**3 - 2*x2*x5 + 10*x1*x6 + 5*x6,
+2592*x5**2*x6**3 + 1296*x4*x6**4 + 36*x4**2*x6 + 144*x3*x5*x6 + 180*x2*x6**2 - 
+13*x6,
+72*x5**3*x6 + 216*x4*x5*x6**2 + 72*x3*x6**3 + 2*x2*x5 + 6*x1*x6 + 3*x6,
+4*x4**3 - 12*x2*x5**2 - 24*x1*x5*x6 - 4*x6**3 - 12*x5*x6 - x4,
+12*x2*x4**2 - 24*x1*x3*x6 - 12*x5**2*x6 - 12*x4*x6**2 - 12*x3*x6 - x2,
+1296*x1*x6**5 + 648*x6**5 + 180*x1*x4*x6**2 + 180*x5*x6**3 + 90*x4*x6**2 + x4*x5
+ + 6*x3*x6,
+2592*x2*x6**5 + 360*x2*x4*x6**2 - 180*x6**4 - 6*x1*x3 - 3*x5**2 - 16*x4*x6 - 3*
+x3,
+72*x3*x5*x6**3 + 36*x2*x6**4 - x2*x5**2 - 4*x2*x4*x6 - 4*x1*x5*x6 - 6*x6**3 - 2*
+x5*x6,
+648*x4*x5*x6**3 + 324*x3*x6**4 - 9*x3*x5**2 - 18*x2*x5*x6 + 18*x1*x6**2 + 9*x6**
+2 + x5,
+2592*x1*x3*x6**3 + 1296*x4*x6**4 + 1296*x3*x6**3 - 36*x4**2*x6 - 72*x3*x5*x6 + 
+36*x2*x6**2 + 5*x6,
+1080*x2*x4*x6**3 + 216*x6**5 - 60*x1*x3*x6 - 30*x5**2*x6 - 90*x4*x6**2 - 30*x3*
+x6 - x2,
+72*x4**2*x6**3 + 36*x2*x6**4 + 3*x2*x5**2 + 8*x2*x4*x6 + 6*x1*x5*x6 - 2*x6**3 + 
+3*x5*x6,
+36*x1*x5**2*x6 + 36*x1*x4*x6**2 + 36*x5*x6**3 + 18*x5**2*x6 + 18*x4*x6**2 + x4*
+x5 + 2*x3*x6,
+18*x1*x5**3 - 54*x1*x3*x6**2 - 36*x4*x6**3 + 9*x5**3 - 27*x3*x6**2 + x3*x5 - 2*
+x2*x6,
+18*x1*x4*x5 + 18*x1*x3*x6 + 18*x5**2*x6 + 18*x4*x6**2 + 9*x4*x5 + 9*x3*x6 + x2,
+18*x2*x4*x5 + 18*x1*x5**2 + 18*x1*x4*x6 + 18*x5*x6**2 + 9*x5**2 + 9*x4*x6 + x3,
+2*x1*x4**2 + 4*x1*x3*x5 + 2*x5**3 + 8*x4*x5*x6 + 2*x3*x6**2 + x4**2 + 2*x3*x5,
+72*x1*x4*x6**3 + 36*x5*x6**4 + 36*x4*x6**3 - 2*x1*x3*x5 - x5**3 - 2*x4*x5*x6 + 2
+*x3*x6**2 - x3*x5,
+3240*x1*x5*x6**3 + 648*x6**5 + 1620*x5*x6**3 + 90*x1*x3*x6 + 90*x5**2*x6 + 180*
+x4*x6**2 + 45*x3*x6 + 2*x2,
+72*x2*x5**2*x6 + 72*x2*x4*x6**2 + 144*x1*x5*x6**2 + 36*x6**4 + 72*x5*x6**2 - 2*
+x1*x3 - x5**2 - x3,
+36*x5**4 - 216*x4**2*x6**2 - 432*x3*x5*x6**2 - 288*x2*x6**3 + 2*x2*x4 + 8*x1*x5 
++ 39*x6**2 + 4*x5,
+72*x3*x5**3 - 216*x1*x5*x6**2 - 36*x6**4 - 108*x5*x6**2 - 2*x1*x3 - 9*x5**2 - 8*
+x4*x6 - x3,
+1296*x2*x5*x6**3 + 648*x1*x6**4 + 324*x6**4 - 18*x1*x5**2 - 36*x1*x4*x6 - 72*x5*
+x6**2 - 9*x5**2 - 18*x4*x6 - x3,
+18*x1*x3*x5**2 + 18*x4**2*x6**2 + 54*x3*x5*x6**2 + 36*x2*x6**3 + 9*x3*x5**2 - x2
+*x4 - 2*x1*x5 - 5*x6**2 - x5}$
+
+	m1:=change_termorder(m,r1);
+
+
+m1 := {46656*x4*x5*x6**6 - x4*x5,
+80621568*x5*x6**13 + 44928*x5*x6**7 - x5*x6,
+637*x2 + 1077507256320*x6**17 - 927987840*x6**11 - 806157*x6**5,
+7*x4**2*x5 + 252*x4*x5*x6**3 - 30233088*x5*x6**12 - 17496*x5*x6**6,
+58773123072*x6**19 - 47869056*x6**13 - 45657*x6**7 + x6,
+2*x1*x4 + x4 + 1296*x5**3*x6**3 + 3*x5*x6,
+2548*x4**2*x6 + 91728*x4*x6**4 + 362797056*x6**13 - 33696*x6**7 - 141*x6,
+8491392*x4*x6**7 - 182*x4*x6 + 19591041024*x6**16 + 10917504*x6**10 - 243*x6**4,
+17199*x5**4*x6 + 1238328*x5**2*x6**5 + 4353564672*x6**15 - 5003856*x6**9 - 1328*
+x6**3,
+4245696*x5**2*x6**7 - 91*x5**2*x6 + 8707129344*x6**17 - 12130560*x6**11 + 256*x6
+**5,
+7*x3 - 567*x5**5 - 204120*x5**3*x6**4 + 524880*x5*x6**8 - 90*x5*x6**2,
+2916*x5**7 - 567*x5**3*x6**2 + 347680512*x5*x6**12 + 196668*x5*x6**6 - 4*x5,
+14*x1*x6 + 504*x4*x5*x6**2 + 252*x5**3*x6 + 20155392*x5*x6**11 + 8640*x5*x6**5 +
+ 7*x6,
+2548*x4**3 + 19813248*x4*x6**6 - 637*x4 + 39182082048*x6**15 + 30326400*x6**9 + 
+4428*x6**3,
+1911*x4*x5**2 - 68796*x4*x6**4 - 68796*x5**2*x6**3 - 362797056*x6**13 + 151632*
+x6**7 + 50*x6,
+1274*x1*x5 + 1651104*x4*x6**5 + 5733*x5**4 + 1238328*x5**2*x6**4 + 637*x5 + 
+6530347008*x6**14 - 1667952*x6**8 + 192*x6**2,
+1274*x1**2 + 1274*x1 + 1274*x4**2 + 206388*x5**6 - 85995*x5**2*x6**2 - 
+11754624614400*x6**18 + 9498228480*x6**12 + 9295668*x6**6}$
+
+	setring r2$
+
+ m2:=change_termorder1(m,r1);
+
+
+m2 := {46656*x4*x5*x6**6 - x4*x5,
+80621568*x5*x6**13 + 44928*x5*x6**7 - x5*x6,
+2*x1*x4 + x4 + 1296*x5**3*x6**3 + 3*x5*x6,
+637*x2 + 1077507256320*x6**17 - 927987840*x6**11 - 806157*x6**5,
+7*x4**2*x5 + 252*x4*x5*x6**3 - 30233088*x5*x6**12 - 17496*x5*x6**6,
+58773123072*x6**19 - 47869056*x6**13 - 45657*x6**7 + x6,
+2548*x4**2*x6 + 91728*x4*x6**4 + 362797056*x6**13 - 33696*x6**7 - 141*x6,
+17199*x5**4*x6 + 1238328*x5**2*x6**5 + 4353564672*x6**15 - 5003856*x6**9 - 1328*
+x6**3,
+4245696*x5**2*x6**7 - 91*x5**2*x6 + 8707129344*x6**17 - 12130560*x6**11 + 256*x6
+**5,
+7*x3 - 567*x5**5 - 204120*x5**3*x6**4 + 524880*x5*x6**8 - 90*x5*x6**2,
+8491392*x4*x6**7 - 182*x4*x6 + 19591041024*x6**16 + 10917504*x6**10 - 243*x6**4,
+2916*x5**7 - 567*x5**3*x6**2 + 347680512*x5*x6**12 + 196668*x5*x6**6 - 4*x5,
+14*x1*x6 + 504*x4*x5*x6**2 + 252*x5**3*x6 + 20155392*x5*x6**11 + 8640*x5*x6**5 +
+ 7*x6,
+1911*x4*x5**2 - 68796*x4*x6**4 - 68796*x5**2*x6**3 - 362797056*x6**13 + 151632*
+x6**7 + 50*x6,
+2548*x4**3 + 19813248*x4*x6**6 - 637*x4 + 39182082048*x6**15 + 30326400*x6**9 + 
+4428*x6**3,
+1274*x1*x5 + 1651104*x4*x6**5 + 5733*x5**4 + 1238328*x5**2*x6**4 + 637*x5 + 
+6530347008*x6**14 - 1667952*x6**8 + 192*x6**2,
+1274*x1**2 + 1274*x1 + 1274*x4**2 + 206388*x5**6 - 85995*x5**2*x6**2 - 
+11754624614400*x6**18 + 9498228480*x6**12 + 9295668*x6**6}$
+
+	setideal(m1,m1)$
+
+ setideal(m2,m2)$
+
+
+	setgbasis m1$
+
+ setgbasis m2$
+
+ modequalp(m1,m2);
+
+
+yes$
+
+
+% ==> Different hilbert series driver
+   
+    setideal(m,proj_monomial_curve(w1:={0,2,5,9},{w,x,y,z}));
+
+
+{x**5 - w**3*y**2,
+w*y**3 - x**3*z,
+y**4 - w*x*z**2,
+x**2*y - w**2*z}$
+
+    weights:={{1,1,1,1},w1};
+
+
+weights := {{1,1,1,1},{0,2,5,9}}$
+
+    hftestversion 2;
+
+
+hf!=whilb2$
+
+    f1:=weightedhilbertseries(gbasis m,weights);
+
+
+f1 := ( - w**5*x**17 + w**4*x**17 - w**4*x**15 + w**4*x**8 + w**3*x**15 + w**3*x
+**12 + w**3*x**6 + w**2*x**10 + w**2*x**7 + w**2*x**4 + w*x**5 + w*x**2 + 1)/(w
+**2*x**9 - w*x**9 - w + 1)$
+
+    sub(x=1,ws);
+
+
+( - w**5 + w**4 + 3*w**3 + 3*w**2 + 2*w + 1)/(w**2 - 2*w + 1)$
+ % The ordinary Hilbert series.
+    hftestversion 1;
+
+
+hf!=whilb1$
+ % The default.
+    f2:=weightedhilbertseries(gbasis m,weights);
+
+
+f2 := ( - w**5*x**17 + w**4*x**17 - w**4*x**15 + w**4*x**8 + w**3*x**15 + w**3*x
+**12 + w**3*x**6 + w**2*x**10 + w**2*x**7 + w**2*x**4 + w*x**5 + w*x**2 + 1)/(w
+**2*x**9 - w*x**9 - w + 1)$
+
+    sub(x=1,ws);
+
+
+( - w**5 + w**4 + 3*w**3 + 3*w**2 + 2*w + 1)/(w**2 - 2*w + 1)$
+ 
+    f1-f2;
+
+
+0$
+
+
+% ==> Different primary decomposition approaches. The example is due
+	% to Shimoyama Takeshi. CALI 2.2. produced auxiliary embedded
+	% primes on it.
+
+    vars:={dx,dy,x,y};
+
+
+vars := {dx,dy,x,y}$
+
+    setring(vars,degreeorder vars,revlex);
+
+
+{{dx,dy,x,y},{{1,1,1,1}},revlex,{1,1,1,1}}$
+
+    f3:={DY*( - X*DX + Y**2*DY - Y*DY),DX*(X**2*DX - X*DX - Y*DY)}$
+
+
+    primarydecomposition f3;
+
+
+{{{dx**3,
+dy**3,
+dx**2*dy,
+dx*dy**2,
+dy*( - dx*x + dy*y**2 - dy*y),
+dx*(dx*x**2 - dx*x - dy*y)},
+{dx,dy}},
+{{x*y - x - y,
+dx*x - dx - dy*y + dy,
+ - dx + dy*y**2 - 2*dy*y + dy},
+{x*y - x - y,
+dx*x - dx - dy*y + dy,
+ - dx + dy*y**2 - 2*dy*y + dy}},
+{{dy,x - 1},{dy,x - 1}},
+{{dy**2,
+dy*x,
+x**2,
+dx*x + dy*y},
+{dy,x}},
+{{dx,y - 1},{dx,y - 1}},
+{{dx**2,
+dx*y,
+y**2,
+dx*x + dy*y},
+{dx,y}},
+{{y**2,
+x**2,
+x*y,
+dx*x + dy*y},
+{y,x}}}$
+
+
+showtime;
+
+
+
+
+end;
+

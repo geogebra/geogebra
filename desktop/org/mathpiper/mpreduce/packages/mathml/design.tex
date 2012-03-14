@@ -1,0 +1,237 @@
+\chapter{Program Design and Implementation}
+
+The design of an OpenMath/MathML interface must aim to keep the structure simple, extensible if needed and easy to maintain. This document will
+attempt to describe the structure of the overall system and the individual modules which compose it. A common interface coordinating the separate
+components will be analysed and defined.
+
+Furthermore we will explain why the system will be table based and what advantages this offers for our application. Because both OpenMath and
+MathML are XML languages, we must specify the requirements the translator's lexer and parser must follow. Finally we will see what new
+functionalities can be added to the interface in possible future extensions.
+
+\section{System architecture}
+
+The task of translating one language to another, as is the case of our OpenMath/MathML interface, can be compared to the task performed by a
+compiler when passing from a programming language to a computer executable representation.
+
+We will need to lex and parse an expression, represent it in some intermediate language which allows a certain degree of freedom for manipulation,
+and then from there an expression can be generated in the target language.
+
+Following this approach, the architecture of the REDUCE OpenMath to MathML interface is going to be composed of four independent modules. One for
+each of the following tasks:
+
+\begin{itemize}
+
+\item Passing MathML to the intermediate representation
+
+\item Passing OpenMath to the intermediate representation
+
+\item Passing from the intermediate representation to MathML
+
+\item Passing from the intermediate representation to OpenMath
+
+\end{itemize}
+
+Dividing the interface into these separate modules gives us the possibility to better understand the overall process of translation. It has the
+advantage of permitting efficient modifications to the system.
+
+If MathML syntax were to change, for instance, it would only be necessary to modify two of the four modules. This separation also makes it easy to
+add extensions. By implementing a module going from the intermediate representation to \LaTeX, it is possible to extend the interface's
+capabilities to offer OpenMath to \LaTeX~or MathML to \LaTeX~translations. Figure \ref{archi} illustrates the system architecture.
+
+\begin{figure}
+
+\begin{center}
+
+{\includegraphics{architecture.eps}}
+%{\includegraphics{architecture.jpg}}
+
+\caption{OpenMath/MathML Interface System Architecture}
+\label{archi}
+
+\end{center}
+
+\end{figure}
+
+\subsection{Module Requirements}
+
+Each of these modules has several requirements to respect. These requirements ensure the system is efficient and behaves satisfactorily. {\it (Here
+IR stands for intermediate representation)}
+
+\begin{description}
+
+\item[MathML to IR:] This module parses through MathML and generates an equivalent expression in the intermediate representation. It should ensure
+that the input given is not lexically or syntactically incorrect. In which case the translation process is aborted. Incorrect or unimportant
+attribute values should be ignored unless they compromise the translation process. Both MathML 1.0 and MathML 2.0 expressions must be accepted as
+valid and parsed. It should be designed so any modification in MathML can be easily adapted to.
+
+\item[IR to MathML:] This module generates valid MathML from the intermediate representation of an expression. The user should have the option to
+generate either MathML 2.0 or MathML 1.0, since most applications today are only MathML 1.0 compliant . In order to embed MathML into a web page
+for rendering by a plug-in, there should also be an option outputting the MathML inside HTML \verb|<embed>| tags.
+
+\item[OpenMath to IR:] This module reads in OpenMath expressions and transforms them into the intermediate representation. It should ensure that
+the input given is not lexically or syntactically incorrect. In which case the translation process is aborted. Symbols must be checked to see if
+they have a MathML equivalent. This means checking each symbol against the CD it belongs to and then looking up in a table to see whether a mapping
+is possible. If there is no equivalent, this module must encode the OpenMath symbol into the intermediate representation as an unknown symbol for
+inclusion in MathML \verb|<semantic>| tags.
+
+\item[IR to OpenMath:] This module generates valid OpenMath from the intermediate representation. It is important that all symbols generated appear
+next to the correct CD to which they belong. This is done by consulting a table containing this information.
+
+\end{description}
+
+Because it is important to specify which OpenMath CDs an application handles, Appendix A gives a comprehensive list of all the OpenMath CDs and
+elements which are supported by the translator.
+
+\section{The Intermediate Representation}
+
+If the breakdown of the system into separate modules is to be effective, we need a clean interface between all parts. An intermediate
+representation representing expressions in a generic way accomplishes this task. For an intermediate representation to be useful, it is important
+that it conveys and preserves all the information MathML and OpenMath objects are capable of representing. Let us look at the requirements such an
+intermediate representation must satisfy for use in our OpenMath/MathML interface.
+
+Both OpenMath and MathML build expressions by using prefix operators. REDUCE's symbolic representation of expressions also uses prefix operators to
+construct expressions. This connection motivates us to use prefix operators in our intermediate representation, thus allowing an uncomplicated
+mapping between the intermediate representation, OpenMath, MathML and REDUCE's representation of expressions. Subsequently the intermediate
+representation is closely related to the parse trees of each language.
+
+Given that MathML elements may take attributes changing their semantic meaning, it is necessary that attribute values are represented by the
+intermediate representation. Thus permitting MathML elements mapping to different OpenMath symbols (depending on their attribute values) to be
+correctly translated from one standard to the other. The attributes conveyed by the intermediate representation are then interpreted differently by
+the various modules according to the context they appear in.
+
+Considering that OpenMath extensibility is a key issue, our intermediate representation must be able to encode objects without MathML equivalent.
+The unsupported OpenMath symbol and its CD will be passed on from the {\bf OpenMath to IR} module to the {\bf IR to MathML} module so that the
+MathML extension mechanism is employed.
+
+Moreover, the intermediate representation will need to be simple to manipulate. Since RLISP is the programming language in which this interface is
+written, we must keep in mind the possibilities and limitations this language offers. Therefore the intermediate representation expressions will be
+structured as lists. Lists are the basic data structures in RLISP and there exist many commands permitting very easy and efficient manipulation of
+them.
+
+Because our intermediate representation is designed in terms of the syntactic structure of both OpenMath and MathML, and certain subroutines are
+attached to the MathML and OpenMath production rules to produce proper intermediate encoding, we can classify our methodology as {\it
+syntax-directed translation}~\cite{compilers}. Basically, the actions of the syntax analysis phase guide the translation. Thus the intermediate
+code is generated as syntax analysis takes place.
+
+\section{Use of Tables in the Translation Process}
+
+The complexity and diversity of MathML and OpenMath elements require that a translator has some way of keeping information concerning all elements.
+The parsing and generation of OpenMath requires a translator to have some way of knowing which content dictionaries symbols belong to. Similarly,
+the correct procedures must be employed upon each element encountered. This information must be stored in a readily accessible way. It is important
+to design these tables and that we understand how each module will use them to appropriately accomplish their tasks.
+
+The information guiding the translator can be either hand coded into the program or gathered into tables. Hand coding is complex and useful only in
+situations where an element needs to be handled in a very precise way. Tables however can contain organized information related to each element
+useful when parsing and generating expressions.
+
+We believe using a table-based system is more efficient for our application and can produce better and more compact code, thus improving code
+readability, extensibility and maintenance. Because a translator must deal with a variety of elements, most of similar structure, a table-based
+system permits the translator to relate an element to a set of functions and/or information. This way, any modifications of the MathML standard can
+be easily adapted to by modifying a table or adding a new entry to it.
+
+The idea is to gather in a few tables all the necessary information for properly handling all MathML and OpenMath recognized elements. Let us
+describe the main tables\footnote{These tables are defined in the file {\tt tables.red}} which are used by the interface. To better understand the
+system we will describe how they should be used by each module to accomplish the task.
+
+\subsubsection{MathML to IR Module}
+
+All MathML elements are stored in the tables {\tt constructors!*}, {\tt relations!*} and {\tt functions!*}. These tables determine what functions
+must be called for each MathML element encountered and what the equivalent intermediate representation operator is.
+
+When a MathML object is encountered, the first element will inform us of how the expression is constructed. We look this element up in the {\tt
+constructors!*} table to call the proper function which deals with objects constructed in this manner.
+
+If the expression constructor is the \verb|<reln>| element then the {\tt relations!*} table is used. This table will determine which function to
+call as well as containing the equivalent intermediate representation operator. The {\tt functions!*} table is the same as the {\tt relations!*}
+table only that it contains all operators appearing within \verb|<apply>|\ldots\verb|</apply>| instead.
+
+These tables together will inform the translator of how to deal with all MathML elements
+
+New MathML elements can be added to these tables to modify the translator's scope. An existing procedure can be related to the new element, or a
+new procedure can be implemented and added to the table next to the element's entry. An equivalent intermediate operator must also be defined here.
+
+\subsubsection{IR to MathML Module}
+
+When an intermediate representation expression must be translated to MathML the table {\tt ir2om\_mml!*} specifies which function to call for the
+translation of each intermediate representation operator. As an intermediate expression is parsed, this table will ensure that proper production of
+MathML is achieved. This table also contains the function to call when producing OpenMath.
+
+New operators are added to this table. The procedure name specifying how the new IR operator is translated to MathML is also added to the table.
+
+\subsubsection{OpenMath to IR Module}
+
+OpenMath objects must be thoroughly checked for various reasons. Firstly, not all OpenMath symbols have MathML equivalents. Table {\tt mmleq!*}
+contains all OpenMath symbols which easily translate to MathML. If a symbol is not contained within this table then it is searched inside tables
+{\tt special\_cases!*} and {\tt special\_cases2!*}.
+
+Table {\tt special\_cases!*} contains all OpenMath symbols which have a MathML equivalent but under a different name. It also deals with OpenMath
+symbols mapping to one MathML element but with different attribute values. This table will also specify where necessary the correct attribute types
+and values the MathML equivalent element must take.
+
+Table {\tt special\_cases2!*} contains all OpenMath symbols which require careful translation. For each element, a specific function is associated.
+These functions are specially designed to deal with these elements efficiently.
+
+If a symbol is not contained within any of these tables, then the elements is considered unknown and the MathML extension mechanism is used to
+produce a reasonable translation.
+
+\subsubsection{IR to OpenMath Module}
+
+Producing OpenMath from the intermediate representation follows a similar procedure as that described for generation of MathML. The table {\tt
+ir2om\_mml!*} contains the function to call for each intermediate representation operator to produce OpenMath.
+
+\section{XML Lexing and Parsing}
+
+Because there are no XML lexers or parsers for REDUCE, it is necessary to design and implement them. In order to do so it is important to establish
+what the requirements of such procedures are.
+
+\subsection{The Lexer}
+
+Both MathML and OpenMath are based on the structures defined by XML. The lexer must validate XML markup languages and extract the necessary tokens
+from the successive characters in the input source.
+
+Hence it is important that our lexer tokenizes XML elements as well as determining the different attribute types and values an element may possess.
+These requirements must be met in order to retrieve the different attributes contained in MathML elements or to find out what symbol and content
+dictionary is expressed by an OpenMath \verb|<OMS>| tag.
+
+An XML lexer must also be flexible with spaces, ignoring any amount of spaces or return carriages contained in the input source.
+
+\subsection{The Parser}
+
+The lexical analysis and the following phase, the syntax analysis, will be grouped together into the same pass. Under that pass the lexer operates
+under the control of the parser. The parser will ask the lexical analyzer for the next token whenever it needs one. The lexer will return this
+information as well as storing the attribute types and values of the current token parsed. The parser will not generate a parse tree explicitly but
+rather go to intermediate code directly as syntax analysis takes place.
+
+The parser will stop its task when a syntactical error or a misspelled or unrecognized token is encountered. It should not attempt to correct it.
+In some cases a constructive error message\footnote{The efficiency of this facility will depend on the time left to correctly implement it} will be
+printed to the user.
+
+The parser we will implement will follow the widely used LL(1) parsing method also known as {\it predictive recursive descent} parsing. The parser
+will use top-down parsing following the grammars defined in both the MathML and OpenMath standards and will only need to look at the next token in
+the token stream ~\cite{compilers}.
+
+
+\section{Possible Future Extensions}
+
+The desire to extend the OpenMath/MathML interface to include new functions or adapt to changes was paramount in the design process. Here we would
+like to mention some possible extensions which could be added in the future.
+
+\begin{description}
+
+\item[Evaluation of expressions:] It should be possible to extend the interface to allow evaluation of OpenMath and MathML expressions using
+REDUCE's computational power. This extension is possible because the intermediate representation was designed imitating REDUCE's internal
+representation of expressions. Without difficulty a procedure could be implemented which would evaluate an intermediate representation expression
+by mapping it to REDUCE's internal representation. The appropriate modules would then print out the evaluated intermediate representation as MathML
+or OpenMath.
+
+\item[Separate Interfaces to REDUCE:] For the same reasons as expressed above, it is possible to modify the interface so it offers a MathML to
+REDUCE interface and/or an OpenMath to REDUCE interface. This would allow a REDUCE user to import and export MathML or OpenMath expressions
+separately for use in calculations or for transmission on the Internet to other applications.
+
+\item[Interfaces to other Representations:] Because the system architecture is designed around the intermediate representation, it is possible to
+implement modules which transform the intermediate representation into other representations such as \LaTeX, \TeX, HTML, or WEB\TeX, thus allowing
+translation from MathML or OpenMath to any of the mentioned representations.
+
+\end{description}
+
+

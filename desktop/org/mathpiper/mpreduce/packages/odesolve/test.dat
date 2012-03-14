@@ -1,0 +1,25 @@
+% Author: Anthony C. Hearn.
+% Modified by FJW for testing odesolve entirely within current directory.
+
+on errcont;   % So that computation continues after an error.
+
+symbolic <<!*_xxx_!* := time(); !*_yyy_!* := gctime()>>$
+
+linelength 80$   % So that logs match Unix versions better.
+
+symbolic load!-package 'odesolve;
+
+algebraic ODESolve_version;
+
+in "$testfile.tst";
+
+% The +- construct in the following is required to finesse Orthovec's
+% renaming of -.
+
+symbolic <<terpri(); terpri(); prin2 "Time for test: ";
+	   prin2 (time()+-!*_xxx_!*); prin2 " ms";
+	   if (!*_yyy_!* := gctime()+-!*_yyy_!*)>0
+	     then <<prin2 ", plus GC time: "; prin2 !*_yyy_!*;
+		    prin2 " ms"; terpri()>>>>$
+
+bye;

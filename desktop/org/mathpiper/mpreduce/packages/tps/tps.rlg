@@ -1,0 +1,389 @@
+% Author: Alan Barnes <barnesa@aston.ac.uk>
+
+psexplim 8;
+
+
+6
+
+% expand as far as 8th power (default is 6)
+
+cos!-series:=ps(cos x,x,0);
+
+
+                   1   2    1    4     1    6      1     8      9
+cos-series := 1 - ---*x  + ----*x  - -----*x  + -------*x  + O(x )
+                   2        24        720        40320
+
+sin!-series:=ps(sin x,x,0);
+
+
+                   1   3     1    5     1     7      9
+sin-series := x - ---*x  + -----*x  - ------*x  + O(x )
+                   6        120        5040
+
+atan!-series:=ps(atan x,x,0);
+
+
+                    1   3    1   5    1   7      9
+atan-series := x - ---*x  + ---*x  - ---*x  + O(x )
+                    3        5        7
+
+tan!-series:=ps(tan x,x,0);
+
+
+                   1   3    2    5    17    7      9
+tan-series := x + ---*x  + ----*x  + -----*x  + O(x )
+                   3        15        315
+
+
+cos!-series*tan!-series;
+
+
+     1   3     1    5     1     7      9
+x - ---*x  + -----*x  - ------*x  + O(x )
+     6        120        5040
+        % should series for sin(x)
+df(cos!-series,x);
+
+
+        1   3     1    5     1     7      9
+ - x + ---*x  - -----*x  + ------*x  + O(x )
+        6        120        5040
+              % series for sin(x) again
+
+cos!-series/atan!-series;
+
+
+ -1    1       77    3    313    5    104539    7      9
+x   - ---*x - -----*x  + ------*x  - ---------*x  + O(x )
+       6       360        3024        1814400
+       % should be expanded
+
+
+tmp:=ps(1/(1+x^2),x,infinity);
+
+
+        1      1      1      1        1
+tmp := ---- - ---- + ---- - ---- + O(----)
+         2      4      6      8        9
+        x      x      x      x        x
+
+df(tmp,x);
+
+
+      1        1        1        1
+ - 2*---- + 4*---- - 6*---- + O(----)
+       3        5        7        9
+      x        x        x        x
+
+ps(df(1/(1+x^2),x),x,infinity);
+
+
+      1        1        1        1
+ - 2*---- + 4*---- - 6*---- + O(----)
+       3        5        7        9
+      x        x        x        x
+
+
+tmp*x;
+
+
+  1      1      1      1        1
+(---- - ---- + ---- - ---- + O(----))*x
+   2      4      6      8        9
+  x      x      x      x        x
+  % not expanded as a single power series
+ps(tmp*x,x,infinity);
+
+
+ 1     1      1      1        1
+--- - ---- + ---- - ---- + O(----)
+ x      3      5      7        9
+       x      x      x        x
+   % now expanded
+
+ps(1/(a*x-b*x^2),x,a/b);
+
+
+                              2                3                 4
+    1        a  -1    b      b         a      b         a  2    b         a  3
+ - ---*(x - ---)   + ---- - ----*(x - ---) + ----*(x - ---)  - ----*(x - ---)
+    a        b         2      3        b       4        b        5        b
+                      a      a                a                 a
+
+     5                 6                 7                 8
+    b         a  4    b         a  5    b         a  6    b         a  7
+ + ----*(x - ---)  - ----*(x - ---)  + ----*(x - ---)  - ----*(x - ---)
+     6        b        7        b        8        b        9        b
+    a                 a                 a                 a
+
+     9
+    b          a  8           a  9
+ + -----*(x - ---)  + O((x - ---) )
+     10        b              b
+    a
+   % pole at expansion point
+
+ps(cos!-series*x,x,2);
+
+
+                                                                  2
+2*cos(2) + (cos(2) - 2*sin(2))*(x - 2) - (cos(2) + sin(2))*(x - 2)
+
+     - 3*cos(2) + 2*sin(2)         3    cos(2) + 2*sin(2)         4
+ + ------------------------*(x - 2)  + -------------------*(x - 2)
+              6                                12
+
+    5*cos(2) - 2*sin(2)         5     - cos(2) - 3*sin(2)         6
+ + ---------------------*(x - 2)  + ----------------------*(x - 2)
+            120                              360
+
+     - 7*cos(2) + 2*sin(2)         7    cos(2) + 4*sin(2)         8
+ + ------------------------*(x - 2)  + -------------------*(x - 2)
+             5040                             20160
+
+            9
+ + O((x - 2) )
+
+
+tmp:=ps(x/atan!-series,x,0);
+
+
+            1   2    4    4    44    6     428    8      9
+tmp := 1 + ---*x  - ----*x  + -----*x  - -------*x  + O(x )
+            3        45        945        14175
+
+tmp1:=ps(atan!-series/x,x,0);
+
+
+             1   2    1   4    1   6    1   8      9
+tmp1 := 1 - ---*x  + ---*x  - ---*x  + ---*x  + O(x )
+             3        5        7        9
+
+tmp*tmp1;
+
+
+1
+               % should be 1, of course
+
+
+cos!-sin!-series:=ps(cos sin!-series,x,0);
+
+
+                       1   2    5    4    37    6     457    8      9
+cos-sin-series := 1 - ---*x  + ----*x  - -----*x  + -------*x  + O(x )
+                       2        24        720        40320
+
+% cos(sin(x))
+tmp:=cos!-sin!-series^2;
+
+
+            2    2   4    14   6    37    8      9
+tmp := 1 - x  + ---*x  - ----*x  + -----*x  + O(x )
+                 3        45        315
+
+tmp1:=ps((sin(sin!-series))^2,x,0);
+
+
+         2    2   4    14   6    37    8      9
+tmp1 := x  - ---*x  + ----*x  - -----*x  + O(x )
+              3        45        315
+
+tmp+tmp1;
+
+
+       9
+1 + O(x )
+               % sin^2 + cos^2
+psfunction tmp1;
+
+
+           2
+sin(sin(x))
+
+% function represented by power series tmp1
+
+tmp:=tan!-series^2;
+
+
+        2    2   4    17   6    62    8      9
+tmp := x  + ---*x  + ----*x  + -----*x  + O(x )
+             3        45        315
+
+psdepvar tmp;
+
+
+x
+
+% in case we have forgotten the dependent variable
+psexpansionpt tmp;
+
+
+0
+      % .... or the expansion point
+psterm(tmp,6);
+
+
+ 17
+----
+ 45
+  % select 6th term
+psterm(tmp,10);
+
+
+ 1382
+-------
+ 14175
+ % select 10th term (series extended automtically)
+
+tmp1:=ps(1/(cos x)^2,x,0);
+
+
+             2    2   4    17   6    62    8      9
+tmp1 := 1 + x  + ---*x  + ----*x  + -----*x  + O(x )
+                  3        45        315
+
+tmp1-tmp;
+
+
+       9
+1 + O(x )
+       % sec^2-tan^2
+
+ps(int(e^(x^2),x),x,0);
+
+
+     1   3    1    5    1    7      9
+x + ---*x  + ----*x  + ----*x  + O(x )
+     3        10        42
+ % integrator not called
+tmp:=ps(1/(y+x),x,0);
+
+
+        1     1        1    2    1    3    1    4    1    5    1    6    1    7
+tmp := --- - ----*x + ----*x  - ----*x  + ----*x  - ----*x  + ----*x  - ----*x
+        y      2        3         4         5         6         7         8
+              y        y         y         y         y         y         y
+
+           1    8      9
+        + ----*x  + O(x )
+            9
+           y
+
+ps(int(tmp,y),x,0);
+
+
+          1        1     2     1     3     1     4     1     5     1     6
+log(y) + ---*x - ------*x  + ------*x  - ------*x  + ------*x  - ------*x
+          y          2           3           4           5           6
+                  2*y         3*y         4*y         5*y         6*y
+
+     1     7     1     8      9
+ + ------*x  - ------*x  + O(x )
+       7           8
+    7*y         8*y
+     % integrator called on each coefficient
+
+pscompose(cos!-series,sin!-series);
+
+
+     1   2    5    4    37    6     457    8      9
+1 - ---*x  + ----*x  - -----*x  + -------*x  + O(x )
+     2        24        720        40320
+
+% power series composition cos(sin(x)) again
+cos!-sin!-series;
+
+
+     1   2    5    4    37    6     457    8      9
+1 - ---*x  + ----*x  - -----*x  + -------*x  + O(x )
+     2        24        720        40320
+
+% should be same as previous result
+psfunction cos!-sin!-series;
+
+
+cos(sin(x))
+
+
+tmp:=ps(log x,x,1);
+
+
+                1         2    1         3    1         4    1         5
+tmp := x - 1 - ---*(x - 1)  + ---*(x - 1)  - ---*(x - 1)  + ---*(x - 1)
+                2              3              4              5
+
+           1         6    1         7    1         8            9
+        - ---*(x - 1)  + ---*(x - 1)  - ---*(x - 1)  + O((x - 1) )
+           6              7              8
+
+tmp1:=pscompose(tmp, cos!-series);
+
+
+            1   2    1    4    1    6     17    8      9
+tmp1 :=  - ---*x  - ----*x  - ----*x  - ------*x  + O(x )
+            2        12        45        2520
+
+% power series composition of log(cos(x))
+df(tmp1,x);
+
+
+        1   3    2    5    17    7      9
+ - x - ---*x  - ----*x  - -----*x  + O(x )
+        3        15        315
+     % series for -tan x
+
+psreverse tan!-series;
+
+
+     1   3    1   5    1   7      9
+x - ---*x  + ---*x  - ---*x  + O(x )
+     3        5        7
+
+% should be series for atan x
+atan!-series;
+
+
+     1   3    1   5    1   7      9
+x - ---*x  + ---*x  - ---*x  + O(x )
+     3        5        7
+
+tmp:=ps(e^x,x,0);
+
+
+                1   2    1   3    1    4     1    5     1    6     1     7
+tmp := 1 + x + ---*x  + ---*x  + ----*x  + -----*x  + -----*x  + ------*x
+                2        6        24        120        720        5040
+
+             1     8      9
+        + -------*x  + O(x )
+           40320
+
+psreverse tmp;
+
+
+         1         2    1         3    1         4    1         5    1         6
+x - 1 - ---*(x - 1)  + ---*(x - 1)  - ---*(x - 1)  + ---*(x - 1)  - ---*(x - 1)
+         2              3              4              5              6
+
+    1         7    1         8            9
+ + ---*(x - 1)  - ---*(x - 1)  + O((x - 1) )
+    7              8
+
+% NB expansion of log x  in powers of (x-1)
+
+pschangevar(tan!-series,y);
+
+
+     1   3    2    5    17    7      9
+y + ---*y  + ----*y  + -----*y  + O(y )
+     3        15        315
+
+
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 50 ms  plus GC time: 12 ms
+real	0m0.586s
+user	0m0.030s
+sys	0m0.122s

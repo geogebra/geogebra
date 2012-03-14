@@ -1,0 +1,879 @@
+n := 4;
+
+
+n := 4
+
+
+on rational, rat;
+
+
+off allfac;
+
+
+
+array p(n/2+2);
+
+
+
+harmonic u,v,w,x,y,z;
+
+
+
+weight e=1, b=1, d=1, a=1;
+
+
+{}
+
+
+%% Step1: Solve Kepler equation
+bige := fourier 0;
+
+
+bige := 0
+
+for k:=1:n do <<
+  wtlevel k;
+  bige:=fourier e * hsub(fourier(sin u), u, u, bige, k);
+>>;
+
+
+write "Kepler Eqn solution:", bige$
+
+
+                             1   4                3   3             1   4
+Kepler Eqn solution: - [( - ---*e )sin[4u] + ( - ---*e )sin[3u] + (---*e
+                             3                    8                 6
+
+    1   2             1   3
+ - ---*e )sin[2u] + (---*e  - e)sin[u]]
+    2                 8
+
+
+%% Ensure we do not calculate things of too high an order
+wtlevel n;
+
+
+4
+
+
+%% Step 2: Calculate r/a in terms of e and l
+dd:=-e*e;
+
+
+          2
+dd :=  - e
+ hh:=3/2;
+
+
+       3
+hh := ---
+       2
+ j:=1;
+
+
+j := 1
+ cc := 1;
+
+
+cc := 1
+
+for i:=1:n/2 do <<
+  j:=i*j; hh:=hh-1; cc:=cc+hh*(dd^i)/j
+>>;
+
+
+
+bb:=hsub(fourier(1-e*cos u), u, u, bige, n);
+
+
+            1   4                3   3             1   4    1   2
+bb := [( - ---*e )cos[4u] + ( - ---*e )cos[3u] + (---*e  - ---*e )cos[2u] + (
+            3                    8                 3        2
+
+       3   3                1   2
+      ---*e  - e)cos[u] + (---*e  + 1)]
+       8                    2
+
+aa:=fourier 1+hdiff(bige,u);
+
+
+         4   4             9   3                1   4    2                1   3
+aa := [(---*e )cos[4u] + (---*e )cos[3u] + ( - ---*e  + e )cos[2u] + ( - ---*e
+         3                 8                    3                         8
+
+       + e)cos[u] + 1]
+ ff:=hint(aa*aa*fourier cc,u);
+
+
+               103   4                13   3             11   4    5   2
+ff :=  - [( - -----*e )sin[4u] + ( - ----*e )sin[3u] + (----*e  - ---*e )sin[2u]
+               96                     12                 24        4
+
+           1   3                  1   4
+       + (---*e  - 2*e)sin[u] + (---*e  - 1)]
+           4                      8
+
+
+
+%% Step 3: a/r and f
+uu := hsub(bb,u,v);
+
+
+            1   4                3   3             1   4    1   2
+uu := [( - ---*e )cos[4v] + ( - ---*e )cos[3v] + (---*e  - ---*e )cos[2v] + (
+            3                    8                 3        2
+
+       3   3                1   2
+      ---*e  - e)cos[v] + (---*e  + 1)]
+       8                    2
+ uu:=hsub(uu,e,b);
+
+
+            1   4                3   3             1   4    1   2
+uu := [( - ---*b )cos[4v] + ( - ---*b )cos[3v] + (---*b  - ---*b )cos[2v] + (
+            3                    8                 3        2
+
+       3   3                1   2
+      ---*b  - b)cos[v] + (---*b  + 1)]
+       8                    2
+
+vv := hsub(aa,u,v);
+
+
+         4   4             9   3                1   4    2                1   3
+vv := [(---*e )cos[4v] + (---*e )cos[3v] + ( - ---*e  + e )cos[2v] + ( - ---*e
+         3                 8                    3                         8
+
+       + e)cos[v] + 1]
+ vv:=hsub(vv,e,b);
+
+
+         4   4             9   3                1   4    2                1   3
+vv := [(---*b )cos[4v] + (---*b )cos[3v] + ( - ---*b  + b )cos[2v] + ( - ---*b
+         3                 8                    3                         8
+
+       + b)cos[v] + 1]
+
+ww := hsub(ff,u,v);
+
+
+               103   4                13   3             11   4    5   2
+ww :=  - [( - -----*e )sin[4v] + ( - ----*e )sin[3v] + (----*e  - ---*e )sin[2v]
+               96                     12                 24        4
+
+           1   3                  1   4
+       + (---*e  - 2*e)sin[v] + (---*e  - 1)]
+           4                      8
+ ww:=hsub(ww,e,b);
+
+
+               103   4                13   3             11   4    5   2
+ww :=  - [( - -----*b )sin[4v] + ( - ----*b )sin[3v] + (----*b  - ---*b )sin[2v]
+               96                     12                 24        4
+
+           1   3                  1   4
+       + (---*b  - 2*b)sin[v] + (---*b  - 1)]
+           4                      8
+
+
+%% Step 4: Substitute f and f' into S
+yy:=ff-ww;
+
+
+         103   4             13   3                11   4    5   2
+yy := [(-----*e )sin[4u] + (----*e )sin[3u] + ( - ----*e  + ---*e )sin[2u] + (
+         96                  12                    24        4
+
+          1   3                     103   4                13   3
+       - ---*e  + 2*e)sin[u] + ( - -----*b )sin[4v] + ( - ----*b )sin[3v] + (
+          4                         96                     12
+
+       11   4    5   2             1   3                  1   4    1   4
+      ----*b  - ---*b )sin[2v] + (---*b  - 2*b)sin[v] + (---*b  - ---*e )]
+       24        4                 4                      8        8
+ zz:=ff+ww;
+
+
+               103   4                13   3             11   4    5   2
+zz :=  - [( - -----*e )sin[4u] + ( - ----*e )sin[3u] + (----*e  - ---*e )sin[2u]
+               96                     12                 24        4
+
+           1   3                     103   4                13   3
+       + (---*e  - 2*e)sin[u] + ( - -----*b )sin[4v] + ( - ----*b )sin[3v] + (
+           4                         96                     12
+
+       11   4    5   2             1   3                  1   4    1   4
+      ----*b  - ---*b )sin[2v] + (---*b  - 2*b)sin[v] + (---*b  + ---*e  - 2)]
+       24        4                 4                      8        8
+
+xx:=hsub(fourier((1-d*d)*cos(u)),u,u-v+w-x-y+z,yy,n)+
+    hsub(fourier(d*d*cos(v)),v,u+v+w+x+y-z,zz,n);
+
+
+               625   4                       4     3
+xx :=  - [( - -----*e )cos[5u-v+w-x-y+z] + (---*b*e )cos[4u+w-x-y+z] + (
+               384                           3
+
+          4   3                          4     3                        9   2  2
+       - ---*e )cos[4u-v+w-x-y+z] + ( - ---*b*e )cos[4u-2v+w-x-y+z] + (---*d *e
+          3                              3                              8
+
+                             17   2  2                       9    2  2
+      )cos[3u+v+w+x+y-z] + (----*d *e )sin[3u+v+w+x+y-z] + (----*b *e )cos[3u+v+
+                             12                              64
+
+                    9    4                       9     2
+      w-x-y+z] + (-----*e )cos[3u+v-w+x+y-z] + (---*b*e )cos[3u+w-x-y+z] + (
+                   128                           8
+
+       9   2  2    9   2  2    27   4    9   2                          9     2
+      ---*b *e  + ---*d *e  + ----*e  - ---*e )cos[3u-v+w-x-y+z] + ( - ---*b*e )
+       8           8           16        8                              8
+
+                                81   2  2                          2
+      cos[3u-2v+w-x-y+z] + ( - ----*b *e )cos[3u-3v+w-x-y+z] + (b*d *e)cos[2u+2v
+                                64
+
+                        2                          1    3
+      +w+x+y-z] + (2*b*d *e)sin[2u+2v+w+x+y-z] + (----*b *e)cos[2u+2v+w-x-y+z]
+                                                   12
+
+           1      3                        2                         2   2
+       + (----*b*e )cos[2u+2v-w+x+y-z] + (d *e)cos[2u+v+w+x+y-z] + (---*d *e)sin
+           12                                                        3
+
+                         1   2                         1    3
+      [2u+v+w+x+y-z] + (---*b *e)cos[2u+v+w-x-y+z] + (----*e )cos[2u+v-w+x+y-z]
+                         8                             12
+
+                2                              2                            2
+       + ( - b*d *e)cos[2u+w+x+y-z] + ( - 2*b*d *e)sin[2u+w+x+y-z] + ( - b*d *e
+
+          5     3                              1      3                     2
+       - ---*b*e  + b*e)cos[2u+w-x-y+z] + ( - ----*b*e )cos[2u-w+x+y-z] + (b *e
+          4                                    12
+
+          2      5   3                           5   3        2      5     3
+       + d *e + ---*e  - e)cos[2u-v+w-x-y+z] + (---*b *e + b*d *e + ---*b*e
+                 4                               4                   4
+
+                                       9   2                             4   3
+       - b*e)cos[2u-2v+w-x-y+z] + ( - ---*b *e)cos[2u-3v+w-x-y+z] + ( - ---*b *e
+                                       8                                 3
+
+                              9   2  2                       17   2  2
+      )cos[2u-4v+w-x-y+z] + (---*b *d )cos[u+3v+w+x+y-z] + (----*b *d )sin[u+3v+
+                              8                              12
+
+                    9    4                       9    2  2
+      w+x+y-z] + (-----*b )cos[u+3v+w-x-y+z] + (----*b *e )cos[u+3v-w+x+y-z] + (
+                   128                           64
+
+         2                       2     2                       1    3
+      b*d )cos[u+2v+w+x+y-z] + (---*b*d )sin[u+2v+w+x+y-z] + (----*b )cos[u+2v+w
+                                 3                             12
+
+                  1     2                          2  2    2  2    1   2
+      -x-y+z] + (---*b*e )cos[u+2v-w+x+y-z] + ( - b *d  - d *e  + ---*d )cos[u+v
+                  8                                                3
+
+                         2  2      2  2    2   2                         1    4
+      +w+x+y-z] + ( - 2*b *d  - 2*d *e  + ---*d )sin[u+v+w+x+y-z] + ( - ----*b
+                                           3                             48
+
+          1   2  2    1   2  2    1   2                         1   2  2
+       - ---*b *d  - ---*b *e  + ---*b )cos[u+v+w-x-y+z] + ( - ---*b *e
+          8           8           8                             8
+
+          1   2  2    1    4    1   2                           2
+       - ---*d *e  - ----*e  + ---*e )cos[u+v-w+x+y-z] + ( - b*d )cos[u+w+x+y-z]
+          8           48        8
+
+              2     2                         2      2
+       + ( - ---*b*d )sin[u+w+x+y-z] + ( - b*d  - b*e  + b)cos[u+w-x-y+z] + (
+              3
+
+          1     2                       1   2  2                      7    2  2
+       - ---*b*e )cos[u-w+x+y-z] + ( - ---*b *d )cos[u-v+w+x+y-z] + (----*b *d )
+          8                             8                             12
+
+                              7    4    2  2    2  2    2    2  2    2    7    4
+      sin[u-v+w+x+y-z] + ( - ----*b  - b *d  - b *e  + b  - d *e  + d  - ----*e
+                              64                                          64
+
+          2                          1   4    1   4
+       + e  - 1)cos[u-v+w-x-y+z] + (---*b  - ---*e )sin[u-v+w-x-y+z] + (
+                                     8        8
+
+          1    2  2                         1   2  2
+       - ----*b *e )cos[u-v-w+x+y-z] + ( - ---*d *e )cos[u-v-w-x-y+z] + (
+          64                                8
+
+          7    2  2                      5   3      2      2
+       - ----*d *e )sin[u-v-w-x-y+z] + (---*b  + b*d  + b*e  - b)cos[u-2v+w-x-y+
+          12                             4
+
+             27   4    9   2  2    9   2  2    9   2
+      z] + (----*b  + ---*b *d  + ---*b *e  - ---*b )cos[u-3v+w-x-y+z] + (
+             16        8           8           8
+
+          4   3                          625   4                       4   3
+       - ---*b )cos[u-4v+w-x-y+z] + ( - -----*b )cos[u-5v+w-x-y+z] + (---*b *e)
+          3                              384                           3
+
+                          9   2                            2
+      cos[4v-w+x+y-z] + (---*b *e)cos[3v-w+x+y-z] + ( - b*d *e)cos[2v+w+x+y-z]
+                          8
+
+                  2                          1    3
+       + ( - 2*b*d *e)sin[2v+w+x+y-z] + ( - ----*b *e)cos[2v+w-x-y+z] + (
+                                             12
+
+          5   3        2                                2
+       - ---*b *e - b*d *e + b*e)cos[2v-w+x+y-z] + ( - d *e)cos[v+w+x+y-z] + (
+          4
+
+          2   2                         1   2                         2      2
+       - ---*d *e)sin[v+w+x+y-z] + ( - ---*b *e)cos[v+w-x-y+z] + ( - b *e - d *e
+          3                             8
+
+                                2                        2
+       + e)cos[v-w+x+y-z] + (b*d *e)cos[w+x+y-z] + (2*b*d *e)sin[w+x+y-z] + (
+
+         2
+      b*d *e - b*e)cos[w-x-y+z]]
+
+
+%% Step 5: Calculate R
+zz:=bb*vv;
+
+
+            1   4                3      3                  3   3
+zz := [( - ---*e )cos[4u] + ( - ----*b*e )cos[3u+v] + ( - ---*e )cos[3u] + (
+            3                    16                        8
+
+          3      3                  1   2  2                   1     2
+       - ----*b*e )cos[3u-v] + ( - ---*b *e )cos[2u+2v] + ( - ---*b*e )cos[2u+v]
+          16                        4                          4
+
+           1   4    1   2                1     2                  1   2  2
+       + (---*e  - ---*e )cos[2u] + ( - ---*b*e )cos[2u-v] + ( - ---*b *e )cos[2
+           3        2                    4                        4
+
+                   9    3                    1   2                 1    3
+      u-2v] + ( - ----*b *e)cos[u+3v] + ( - ---*b *e)cos[u+2v] + (----*b *e
+                   16                        2                     16
+
+          3      3    1                   3   3                1    3
+       + ----*b*e  - ---*b*e)cos[u+v] + (---*e  - e)cos[u] + (----*b *e
+          16          2                   8                    16
+
+          3      3    1                      1   2                    9    3
+       + ----*b*e  - ---*b*e)cos[u-v] + ( - ---*b *e)cos[u-2v] + ( - ----*b *e)
+          16          2                      2                        16
+
+                    4   4             9   3                1   4    1   2  2
+      cos[u-3v] + (---*b )cos[4v] + (---*b )cos[3v] + ( - ---*b  + ---*b *e
+                    3                 8                    3        2
+
+          2                1   3    1     2                1   2
+       + b )cos[2v] + ( - ---*b  + ---*b*e  + b)cos[v] + (---*e  + 1)]
+                           8        2                      2
+ yy:=zz*zz*vv;
+
+
+            1   4                3     3                  1   3
+yy := [( - ---*e )cos[4u] + ( - ---*b*e )cos[3u+v] + ( - ---*e )cos[3u] + (
+            6                    8                        4
+
+          3     3                  9   2  2                   3     2
+       - ---*b*e )cos[3u-v] + ( - ---*b *e )cos[2u+2v] + ( - ---*b*e )cos[2u+v]
+          8                        8                          4
+
+              3   2  2    1   4    1   2                3     2
+       + ( - ---*b *e  + ---*e  - ---*e )cos[2u] + ( - ---*b*e )cos[2u-v] + (
+              4           6        2                    4
+
+          9   2  2                   53   3                    9   2
+       - ---*b *e )cos[2u-2v] + ( - ----*b *e)cos[u+3v] + ( - ---*b *e)cos[u+2v]
+          8                          8                         2
+
+              27   3      3     3                           2      1   3
+       + ( - ----*b *e + ---*b*e  - 3*b*e)cos[u+v] + ( - 3*b *e + ---*e  - 2*e)
+              8           8                                        4
+
+                    27   3      3     3                         9   2
+      cos[u] + ( - ----*b *e + ---*b*e  - 3*b*e)cos[u-v] + ( - ---*b *e)cos[u-2v
+                    8           8                               2
+
+               53   3                 77   4             53   3
+      ] + ( - ----*b *e)cos[u-3v] + (----*b )cos[4v] + (----*b )cos[3v] + (
+               8                      8                  8
+
+       7   4    27   2  2    9   2             27   3    9     2
+      ---*b  + ----*b *e  + ---*b )cos[2v] + (----*b  + ---*b*e  + 3*b)cos[v] + 
+       2        4            2                 8         2
+
+        15   4    9   2  2    3   2    3   2
+      (----*b  + ---*b *e  + ---*b  + ---*e  + 1)]
+        8         4           2        2
+
+
+on fourier;
+
+
+*** Domain mode rational changed to fourier 
+
+
+p(0):= fourier 1;
+
+
+p(0) := [1]
+ p(1) := xx;
+
+
+                 625   4                       4     3
+p(1) :=  - [( - -----*e )cos[5u-v+w-x-y+z] + (---*b*e )cos[4u+w-x-y+z] + (
+                 384                           3
+
+            4   3                          4     3                        9   2
+         - ---*e )cos[4u-v+w-x-y+z] + ( - ---*b*e )cos[4u-2v+w-x-y+z] + (---*d
+            3                              3                              8
+
+          2                       17   2  2                       9    2  2
+        *e )cos[3u+v+w+x+y-z] + (----*d *e )sin[3u+v+w+x+y-z] + (----*b *e )cos[
+                                  12                              64
+                           9    4                       9     2
+        3u+v+w-x-y+z] + (-----*e )cos[3u+v-w+x+y-z] + (---*b*e )cos[3u+w-x-y+z]
+                          128                           8
+
+             9   2  2    9   2  2    27   4    9   2
+         + (---*b *e  + ---*d *e  + ----*e  - ---*e )cos[3u-v+w-x-y+z] + (
+             8           8           16        8
+
+            9     2                           81   2  2
+         - ---*b*e )cos[3u-2v+w-x-y+z] + ( - ----*b *e )cos[3u-3v+w-x-y+z] + (b
+            8                                 64
+
+          2                              2                          1    3
+        *d *e)cos[2u+2v+w+x+y-z] + (2*b*d *e)sin[2u+2v+w+x+y-z] + (----*b *e)cos
+                                                                    12
+
+                            1      3                        2
+        [2u+2v+w-x-y+z] + (----*b*e )cos[2u+2v-w+x+y-z] + (d *e)cos[2u+v+w+x+y-z
+                            12
+
+              2   2                         1   2                         1    3
+        ] + (---*d *e)sin[2u+v+w+x+y-z] + (---*b *e)cos[2u+v+w-x-y+z] + (----*e
+              3                             8                             12
+
+                                    2                              2
+        )cos[2u+v-w+x+y-z] + ( - b*d *e)cos[2u+w+x+y-z] + ( - 2*b*d *e)sin[2u+w+
+
+                        2      5     3                              1      3
+        x+y-z] + ( - b*d *e - ---*b*e  + b*e)cos[2u+w-x-y+z] + ( - ----*b*e )cos
+                               4                                    12
+
+                         2      2      5   3                           5   3
+        [2u-w+x+y-z] + (b *e + d *e + ---*e  - e)cos[2u-v+w-x-y+z] + (---*b *e
+                                       4                               4
+
+              2      5     3                                 9   2
+         + b*d *e + ---*b*e  - b*e)cos[2u-2v+w-x-y+z] + ( - ---*b *e)cos[2u-3v+w
+                     4                                       8
+
+                       4   3                          9   2  2
+        -x-y+z] + ( - ---*b *e)cos[2u-4v+w-x-y+z] + (---*b *d )cos[u+3v+w+x+y-z]
+                       3                              8
+
+             17   2  2                        9    4                       9
+         + (----*b *d )sin[u+3v+w+x+y-z] + (-----*b )cos[u+3v+w-x-y+z] + (----
+             12                              128                           64
+
+          2  2                         2                       2     2
+        *b *e )cos[u+3v-w+x+y-z] + (b*d )cos[u+2v+w+x+y-z] + (---*b*d )sin[u+2v+
+                                                               3
+
+                     1    3                       1     2
+        w+x+y-z] + (----*b )cos[u+2v+w-x-y+z] + (---*b*e )cos[u+2v-w+x+y-z] + (
+                     12                           8
+
+            2  2    2  2    1   2                           2  2      2  2
+         - b *d  - d *e  + ---*d )cos[u+v+w+x+y-z] + ( - 2*b *d  - 2*d *e
+                            3
+
+            2   2                         1    4    1   2  2    1   2  2
+         + ---*d )sin[u+v+w+x+y-z] + ( - ----*b  - ---*b *d  - ---*b *e
+            3                             48        8           8
+
+            1   2                         1   2  2    1   2  2    1    4
+         + ---*b )cos[u+v+w-x-y+z] + ( - ---*b *e  - ---*d *e  - ----*e
+            8                             8           8           48
+
+            1   2                           2                       2     2
+         + ---*e )cos[u+v-w+x+y-z] + ( - b*d )cos[u+w+x+y-z] + ( - ---*b*d )sin[
+            8                                                       3
+
+                            2      2                           1     2
+        u+w+x+y-z] + ( - b*d  - b*e  + b)cos[u+w-x-y+z] + ( - ---*b*e )cos[u-w+x
+                                                               8
+
+                     1   2  2                      7    2  2
+        +y-z] + ( - ---*b *d )cos[u-v+w+x+y-z] + (----*b *d )sin[u-v+w+x+y-z] + 
+                     8                             12
+
+             7    4    2  2    2  2    2    2  2    2    7    4    2
+        ( - ----*b  - b *d  - b *e  + b  - d *e  + d  - ----*e  + e  - 1)cos[u-v
+             64                                          64
+
+                      1   4    1   4                         1    2  2
+        +w-x-y+z] + (---*b  - ---*e )sin[u-v+w-x-y+z] + ( - ----*b *e )cos[u-v-w
+                      8        8                             64
+
+                       1   2  2                         7    2  2
+        +x+y-z] + ( - ---*d *e )cos[u-v-w-x-y+z] + ( - ----*d *e )sin[u-v-w-x-y+
+                       8                                12
+
+               5   3      2      2                           27   4    9   2  2
+        z] + (---*b  + b*d  + b*e  - b)cos[u-2v+w-x-y+z] + (----*b  + ---*b *d
+               4                                             16        8
+
+            9   2  2    9   2                          4   3
+         + ---*b *e  - ---*b )cos[u-3v+w-x-y+z] + ( - ---*b )cos[u-4v+w-x-y+z]
+            8           8                              3
+
+                625   4                       4   3                       9   2
+         + ( - -----*b )cos[u-5v+w-x-y+z] + (---*b *e)cos[4v-w+x+y-z] + (---*b
+                384                           3                           8
+
+                                    2                              2
+        *e)cos[3v-w+x+y-z] + ( - b*d *e)cos[2v+w+x+y-z] + ( - 2*b*d *e)sin[2v+w+
+
+                      1    3                          5   3        2
+        x+y-z] + ( - ----*b *e)cos[2v+w-x-y+z] + ( - ---*b *e - b*d *e + b*e)cos
+                      12                              4
+
+                            2                         2   2
+        [2v-w+x+y-z] + ( - d *e)cos[v+w+x+y-z] + ( - ---*d *e)sin[v+w+x+y-z] + (
+                                                      3
+
+            1   2                         2      2                            2
+         - ---*b *e)cos[v+w-x-y+z] + ( - b *e - d *e + e)cos[v-w+x+y-z] + (b*d
+            8
+
+                                2                      2
+        *e)cos[w+x+y-z] + (2*b*d *e)sin[w+x+y-z] + (b*d *e - b*e)cos[w-x-y+z]]
+
+for i := 2:n/2+2 do <<
+  wtlevel n+4-2i;
+  p(i) := fourier ((2*i-1)/i)*xx*p(i-1) - fourier ((i-1)/i)*p(i-2);
+>>;
+
+
+
+wtlevel n;
+
+
+0
+
+for i:=n/2+2 step -1 until 3 do p(n/2+2):=fourier(a*a)*zz*p(n/2+2)+p(i-1);
+
+
+
+yy*p(n/2+2);
+
+
+   27   4                               25     3                           25
+[(----*e )cos[6u-2v+2w-2x-2y+2z] + ( - ----*b*e )cos[5u-v+2w-2x-2y+2z] + (----
+   32                                   64                                 32
+
+  3                            75   2  2                            175     3
+*e )cos[5u-2v+2w-2x-2y+2z] + (----*a *e )cos[5u-3v+3w-3x-3y+3z] + (-----*b*e )
+                               64                                   64
+
+                              13   2  2                     2  2
+cos[5u-3v+2w-2x-2y+2z] + ( - ----*d *e )cos[4u+2w] + ( - 2*d *e )sin[4u+2w] + (
+                              8
+
+    1    4                3     2                              15   2
+ - ----*e )cos[4u] + ( - ---*b*e )cos[4u-v+2w-2x-2y+2z] + ( - ----*a *b*e)cos[4u
+    24                    8                                    16
+
+                        15   2  2    3   2  2    15   4    3   2
+-2v+3w-3x-3y+3z] + ( - ----*b *e  - ---*d *e  - ----*e  + ---*e )cos[4u-2v+2w-2x
+                        8            2           8         4
+
+            15   2                              21     2
+-2y+2z] + (----*a *e)cos[4u-3v+3w-3x-3y+3z] + (----*b*e )cos[4u-3v+2w-2x-2y+2z]
+            16                                  8
+
+     35   4                            75   2                                51
+ + (----*a )cos[4u-4v+4w-4x-4y+4z] + (----*a *b*e)cos[4u-4v+3w-3x-3y+3z] + (----
+     64                                16                                    8
+
+  2  2                               9     2                       7     2
+*b *e )cos[4u-4v+2w-2x-2y+2z] + ( - ---*b*d *e)cos[3u+v+2w] + ( - ---*b*d *e)sin
+                                     4                             2
+
+              1    3                                3      3
+[3u+v+2w] + (----*b *e)cos[3u+v+2w-2x-2y+2z] + ( - ----*b*e )cos[3u+v] + (
+              64                                    32
+
+    3   2                     2                     1    3
+ - ---*d *e)cos[3u+2w] + ( - d *e)sin[3u+2w] + ( - ----*e )cos[3u] + (
+    2                                               16
+
+    5   2  2                           5   2  2                        5    2  2
+ - ---*a *d )cos[3u-v+3w-x-y+z] + ( - ---*a *d )sin[3u-v+3w-x-y+z] + (----*a *b
+    8                                  4                               64
+
+                              9     2                    1     2
+)cos[3u-v+3w-3x-3y+3z] + ( - ---*b*d *e)cos[3u-v+2w] + (---*b*d *e)sin[3u-v+2w]
+                              4                          2
+
+     3    3      3     2      57     3    3
+ + (----*b *e + ---*b*d *e + ----*b*e  - ---*b*e)cos[3u-v+2w-2x-2y+2z] + (
+     64          4            64          8
+
+    9    2  2                          3      3                  5   2
+ - ----*a *e )cos[3u-v+w-x-y+z] + ( - ----*b*e )cos[3u-v] + ( - ---*a *b)cos[3u-
+    64                                 32                        8
+                       15   2      3   2      57   3    3
+2v+3w-3x-3y+3z] + ( - ----*b *e - ---*d *e - ----*e  + ---*e)cos[3u-2v+2w-2x-2y+
+                       8           2          32        4
+           15   2  2    15   2  2    15   2  2    5   2
+2z] + ( - ----*a *b  - ----*a *d  - ----*a *e  + ---*a )cos[3u-3v+3w-3x-3y+3z]
+           4            8            4            8
+
+        369   3      21     2      399     3    21
+ + ( - -----*b *e - ----*b*d *e - -----*b*e  + ----*b*e)cos[3u-3v+2w-2x-2y+2z]
+        64           4             64           8
+
+     25   2                              51   2
+ + (----*a *b)cos[3u-4v+3w-3x-3y+3z] + (----*b *e)cos[3u-4v+2w-2x-2y+2z] + (
+     8                                   8
+
+ 635   2  2                            845   3
+-----*a *b )cos[3u-5v+3w-3x-3y+3z] + (-----*b *e)cos[3u-5v+2w-2x-2y+2z] + (
+ 64                                    64
+
+    1   4                            1   4
+ - ---*d )cos[2u+2v+2w+2x+2y-2z] + (---*d )sin[2u+2v+2w+2x+2y-2z] + (
+    4                                3
+
+    11   2  2                      13   2  2                   1    4
+ - ----*b *d )cos[2u+2v+2w] + ( - ----*b *d )sin[2u+2v+2w] + (----*b )cos[2u+2v+
+    4                              4                           32
+                 2  2                            3   2  2
+2w-2x-2y+2z] + (d *e )cos[2u+2v+2x+2y-2z] + ( - ---*d *e )sin[2u+2v+2x+2y-2z] + 
+                                                 4
+
+     9    2  2                   3    4                               7     2
+( - ----*b *e )cos[2u+2v] + ( - ----*e )cos[2u+2v-2w+2x+2y-2z] + ( - ---*b*d )
+     32                          64                                   4
+
+                    3     2                  1    3
+cos[2u+v+2w] + ( - ---*b*d )sin[2u+v+2w] + (----*b )cos[2u+v+2w-2x-2y+2z] + (
+                    2                        64
+
+    3      2                  7   2  2    1   4    17   2  2    1   2
+ - ----*b*e )cos[2u+v] + ( - ---*b *d  + ---*d  + ----*d *e  - ---*d )cos[2u+2w]
+    16                        4           2        4            2
+
+     1   2  2    4    9   2  2    2                   3    2
+ + (---*b *d  + d  + ---*d *e  - d )sin[2u+2w] + ( - ----*a *b*e)cos[2u+w-x-y+z]
+     2                2                               16
+
+        3    2  2    3   2  2    1    4    1   2             1     2
+ + ( - ----*b *e  + ---*d *e  + ----*e  - ---*e )cos[2u] + (---*b*d )cos[2u-v+2w
+        16           4           24        8                 4
+
+         3     2                  3    3    3     2    15     2    3
+] + ( - ---*b*d )sin[2u-v+2w] + (----*b  + ---*b*d  + ----*b*e  - ---*b)cos[2u-v
+         2                        64        4          16          8
+
+                     3    2                            3      2
++2w-2x-2y+2z] + ( - ----*a *e)cos[2u-v+w-x-y+z] + ( - ----*b*e )cos[2u-v] + (
+                     16                                16
+
+ 45   2                                3   2  2                      13   2  2
+----*a *b*e)cos[2u-2v+3w-3x-3y+3z] + (---*b *d )cos[2u-2v+2w] + ( - ----*b *d )
+ 16                                    2                             4
+
+                  5    4    39   4    15   2  2    75   2  2    15   2    3   4
+sin[2u-2v+2w] + (----*a  + ----*b  + ----*b *d  + ----*b *e  - ----*b  + ---*d
+                  16        64        4            16           8         4
+
+                     15   2  2    3   2    69   4    15   2    3
+                  + ----*d *e  - ---*d  + ----*e  - ----*e  + ---)cos[2u-2v+2w-2
+                     4            2        64        8         4
+
+                3    4    3    4                               9    2
+x-2y+2z] + ( - ----*b  + ----*e )sin[2u-2v+2w-2x-2y+2z] + ( - ----*a *b*e)cos[2u
+                16        16                                   16
+
+                    9    2  2                1   2  2                         3
+-2v+w-x-y+z] + ( - ----*b *e )cos[2u-2v] + (---*d *e )cos[2u-2v-2x-2y+2z] + (---
+                    32                       4                                4
+
+  2  2                            45   2                                 369   3
+*d *e )sin[2u-2v-2x-2y+2z] + ( - ----*a *e)cos[2u-3v+3w-3x-3y+3z] + ( - -----*b
+                                  16                                     64
+
+    21     2    105     2    21                                  225   2
+ - ----*b*d  - -----*b*e  + ----*b)cos[2u-3v+2w-2x-2y+2z] + ( - -----*a *b*e)cos
+    4           16           8                                   16
+
+                           115   4    51   2  2    255   2  2    51   2
+[2u-4v+3w-3x-3y+3z] + ( - -----*b  - ----*b *d  - -----*b *e  + ----*b )cos[2u-4
+                            8         4            16            8
+
+                   845   3                            1599   4
+v+2w-2x-2y+2z] + (-----*b )cos[2u-5v+2w-2x-2y+2z] + (------*b )cos[2u-6v+2w-2x-2
+                   64                                  64
+
+          1     2                          3     2
+y+2z] + (---*b*d *e)cos[u+3v+2x+2y-2z] + (---*b*d *e)sin[u+3v+2x+2y-2z] + (
+          4                                2
+
+    53   3                    49     3                              1   2
+ - ----*b *e)cos[u+3v] + ( - ----*b*e )cos[u+3v-2w+2x+2y-2z] + ( - ---*d *e)cos[
+    32                        64                                    2
+
+                   2                             9   2                    7    3
+u+2v+2x+2y-2z] + (d *e)sin[u+2v+2x+2y-2z] + ( - ---*b *e)cos[u+2v] + ( - ----*e
+                                                 8                        32
+
+                           23     2                   13     2
+)cos[u+2v-2w+2x+2y-2z] + (----*b*d *e)cos[u+v+2w] + (----*b*d *e)sin[u+v+2w] + (
+                           4                          2
+
+    3    3                               3   2  2
+ - ----*b *e)cos[u+v+2w-2x-2y+2z] + ( - ---*a *d )cos[u+v+w+x+y-z] + (
+    64                                   4
+
+    3   2  2                      33   2  2                         7     2
+ - ---*a *d )sin[u+v+w+x+y-z] + (----*a *b )cos[u+v+w-x-y+z] + ( - ---*b*d *e)
+    2                             64                                4
+
+                      3     2                            27   3      9     2
+cos[u+v+2x+2y-2z] + (---*b*d *e)sin[u+v+2x+2y-2z] + ( - ----*b *e + ---*b*d *e
+                      2                                  32          2
+
+    3      3    3                   33   2  2                      7      3
+ + ----*b*e  - ---*b*e)cos[u+v] + (----*a *e )cos[u+v-w+x+y-z] + (----*b*e )cos[
+    32          4                   64                             64
+
+                     5   2                   2                 3   2
+u+v-2w+2x+2y-2z] + (---*d *e)cos[u+2w] + (3*d *e)sin[u+2w] + (---*a *b)cos[u+w-x
+                     2                                         8
+
+             3   2        2      1    3    1               7     2
+-y+z] + ( - ---*b *e + 3*d *e + ----*e  - ---*e)cos[u] + (---*b*d *e)cos[u-v+2w]
+             4                   16        2               4
+
+     5     2                      9    3      9     2      39     3    9
+ + (---*b*d *e)sin[u-v+2w] + ( - ----*b *e - ---*b*d *e - ----*b*e  + ---*b*e)
+     2                            64          4            64          8
+
+                         3   2  2    33   2  2    3   2  2    3   2
+cos[u-v+2w-2x-2y+2z] + (---*a *b  - ----*a *d  + ---*a *e  + ---*a )cos[u-v+w-x-
+                         4           8            4           8
+
+            27   3      9     2      3      3    3
+y+z] + ( - ----*b *e + ---*b*d *e + ----*b*e  - ---*b*e)cos[u-v] + (
+            32          2            32          4
+
+    3     2                         5     2                         45   2
+ - ---*b*d *e)cos[u-v-2x-2y+2z] + (---*b*d *e)sin[u-v-2x-2y+2z] + (----*b *e
+    4                               2                               8
+
+    9   2      39   3    9                              9   2
+ + ---*d *e + ----*e  - ---*e)cos[u-2v+2w-2x-2y+2z] + (---*a *b)cos[u-2v+w-x-y+z
+    2          32        4                              8
+
+         9   2                 3   2                             2
+] + ( - ---*b *e)cos[u-2v] + (---*d *e)cos[u-2v-2x-2y+2z] + ( - d *e)sin[u-2v-2x
+         8                     2
+
+            285   2  2                           1107   3      63     2
+-2y+2z] + (-----*a *e )cos[u-3v+3w-3x-3y+3z] + (------*b *e + ----*b*d *e
+            64                                    64           4
+
+    273     3    63                                159   2  2
+ + -----*b*e  - ----*b*e)cos[u-3v+2w-2x-2y+2z] + (-----*a *b )cos[u-3v+w-x-y+z]
+    64           8                                 64
+
+        5   2  2                          5   2  2
+ + ( - ---*a *d )cos[u-3v+w-3x-3y+3z] + (---*a *d )sin[u-3v+w-3x-3y+3z] + (
+        8                                 4
+
+    53   3                 21     2                             11     2
+ - ----*b *e)cos[u-3v] + (----*b*d *e)cos[u-3v-2x-2y+2z] + ( - ----*b*d *e)sin[u
+    32                     4                                    2
+
+                     153   2                                2535   3
+-3v-2x-2y+2z] + ( - -----*b *e)cos[u-4v+2w-2x-2y+2z] + ( - ------*b *e)cos[u-5v+
+                      8                                      64
+                    63   2  2                         19   2  2
+2w-2x-2y+2z] + ( - ----*b *d )cos[4v+2x+2y-2z] + ( - ----*b *d )sin[4v+2x+2y-2z]
+                    8                                 2
+
+     77   4             255   2  2                            11     2
+ + (----*b )cos[4v] + (-----*b *e )cos[4v-2w+2x+2y-2z] + ( - ----*b*d )cos[3v+2x
+     32                 16                                    4
+
+               7     2                      53   3             105     2
++2y-2z] + ( - ---*b*d )sin[3v+2x+2y-2z] + (----*b )cos[3v] + (-----*b*e )cos[3v-
+               2                            32                 16
+                 17   2  2    1   4    7   2  2    1   2
+2w+2x+2y-2z] + (----*b *d  + ---*d  - ---*d *e  - ---*d )cos[2v+2x+2y-2z] + (
+                 4            2        4           2
+
+ 9   2  2    4    1   2  2    2                      7   4    27   2  2
+---*b *d  + d  + ---*d *e  - d )sin[2v+2x+2y-2z] + (---*b  - ----*b *d
+ 2                2                                  8        4
+
+    27   2  2    9   2                45   2
+ + ----*b *e  + ---*b )cos[2v] + ( - ----*a *b*e)cos[2v-w+x+y-z] + (
+    16           8                    16
+
+    75   2  2    15   2  2    15   2                         5     2
+ - ----*b *e  - ----*d *e  + ----*e )cos[2v-2w+2x+2y-2z] + (---*b*d )cos[v+2x+2y
+    16           4            8                              4
+
+         1     2                     27   3    9     2    9     2    3
+-2z] + (---*b*d )sin[v+2x+2y-2z] + (----*b  - ---*b*d  + ---*b*e  + ---*b)cos[v]
+         2                           32        2          8          4
+
+        15   2                         15     2
+ + ( - ----*a *e)cos[v-w+x+y-z] + ( - ----*b*e )cos[v-2w+2x+2y-2z] + (
+        16                             16
+
+    25   2  2                7   2  2                15   2
+ - ----*d *e )cos[2w] + ( - ---*d *e )sin[2w] + ( - ----*a *b*e)cos[w-x-y+z] + (
+    8                        2                       16
+
+ 5   2  2                      2  2                   9    4    15   4
+---*b *d )cos[2x+2y-2z] + ( - b *d )sin[2x+2y-2z] + (----*a  + ----*b
+ 8                                                    64        32
+
+    9   2  2    9    2  2    3   2    7   4    9   2  2    3   2    3   2    1
+ - ---*b *d  + ----*b *e  + ---*b  + ---*d  - ---*d *e  - ---*d  + ---*e  + ---)
+    4           16           8        6        4           2        8        4
+
+]
+
+
+showtime;
+
+
+
+
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 95 ms
+real	0m0.655s
+user	0m0.060s
+sys	0m0.138s

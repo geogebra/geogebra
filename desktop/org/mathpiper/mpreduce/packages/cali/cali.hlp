@@ -1,0 +1,57 @@
+\chapter{CALI: Computational Commutative Algebra}
+\label{CALI}
+\typeout{{CALI: Computational Commutative Algebra}}
+
+{\footnotesize
+\begin{center}
+Hans-Gert Gr\"abe \\
+Institut f\"ur Informatik, Universit\"at Leipzig\\ 
+Augustusplatz 10 -- 11\\
+04109 Leipzig, Germany \\[0.05in]
+e--mail: graebe@informatik.uni-leipzig.de
+\end{center}
+}
+
+\ttindex{CALI}
+
+This package contains algorithms for computations in commutative algebra
+closely related to the Gr\"obner algorithm for ideals and modules.  Its
+heart is a new implementation of the Gr\"obner algorithm that also allows
+for the computation of syzygies.  This implementation is also applicable to
+submodules of free modules with generators represented as rows of a matrix.
+As main topics CALI contains facilities for
+\begin{itemize}
+\item defining rings, ideals and modules,
+
+\item computing Gr\"obner bases and local standard bases,
+
+\item computing syzygies, resolutions and (graded) Betti numbers,
+
+\item computing (now also weighted) Hilbert series, multiplicities,
+independent sets, and dimensions,
+
+\item computing normal forms and representations,
+
+\item computing sums, products, intersections, quotients, stable
+quotients, elimination ideals etc.,
+
+\item primality tests, computation of radicals, unmixed radicals,
+equidimensional parts, primary decompositions etc. of ideals and
+modules,
+
+\item advanced applications of Gr\"obner bases (blowup, associated graded
+ring, analytic spread, symmetric algebra, monomial curves etc.),
+
+\item applications of linear algebra techniques to zero dimensional
+        ideals, as {\em e.g.\ }the FGLM change of term orders, border bases
+        and affine and projective ideals of sets of points,
+
+\item splitting polynomial systems of equations mixing factorisation and
+the Gr\"obner algorithm, triangular systems, and different versions of the
+extended Gr\"obner factoriser. 
+
+\end{itemize}
+
+There is more extended documentation on this package elsewhere, which
+includes facilities for tracing and switches to control its behaviour.
+

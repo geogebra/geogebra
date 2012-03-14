@@ -1,0 +1,344 @@
+% Tests of the COMPACT package.
+
+% Author: Anthony C. Hearn.
+
+% First some simple examples.
+
+aa := {cos(x)^2+sin(x)^2-1};
+
+
+             2         2
+aa := {cos(x)  + sin(x)  - 1}
+
+
+xx := 2*cos(x)^2+2*sin(x)^2-2;
+
+
+               2         2
+xx := 2*(cos(x)  + sin(x)  - 1)
+
+
+compact(xx,aa);
+
+
+0
+
+
+xx := (1-cos(x)^2)^4;
+
+
+            8           6           4           2
+xx := cos(x)  - 4*cos(x)  + 6*cos(x)  - 4*cos(x)  + 1
+
+
+compact(xx,aa);
+
+
+      8
+sin(x)
+
+
+% These examples are from Lars Hornfeldt.
+
+% This should be cos x^10*sin x^10.
+
+compact(((1-(sin x)**2)**5)*((1-(cos x)**2)**5)
+	    *(((sin x)**2+(cos x)**2)**5),
+	{cos x^2+sin x^2=1});
+
+
+      10           2       4         10           8           2
+sin(x)  *(10*cos(x) *sin(x)  - sin(x)   + 5*sin(x)  - 5*sin(x)  + 1)
+
+
+% This example illustrates the problem in the above. It is cos(x)^6.
+
+compact(-3cos(x)^2*sin(x)^2-sin(x)^6+1,{cos x^2+sin x^2-1});
+
+
+           2       2         6
+ - 3*cos(x) *sin(x)  - sin(x)  + 1
+
+
+compact(s*(1-(sin x**2))+c*(1-(cos x)**2)+(sin x)**2+(cos x)**2,
+	{cos x^2+sin x^2=1});
+
+
+      2           2
+cos(x) *s + sin(x) *c + 1
+
+
+xx := s*(1-(sin x**2))+c*(1-(cos x)**2)+(sin x)**2+(cos x)**2
+	*((sin x)**2+(cos x)**2)*(sin x)**499*(cos x)**499;
+
+
+            503       499         501       501         2           2
+xx := cos(x)   *sin(x)    + cos(x)   *sin(x)    - cos(x) *c - sin(x) *s
+
+               2
+       + sin(x)  + c + s
+
+
+compact(xx,{cos(x)^2+sin(x)^2=1});
+
+
+      501       499         2           2           2
+cos(x)   *sin(x)    + cos(x) *s + sin(x) *c + sin(x)
+
+
+compact((s*(1-(sin x**2))+c*(1-(cos x)**2)+(sin x)**2+(cos x)**2)
+	     *((sin x)**2+(cos x)**2)*(sin x)**499*(cos x)**499,
+	 {cos x^2+sin x^2=1});
+
+
+      499       499        2           2
+cos(x)   *sin(x)   *(cos(x) *s + sin(x) *c + 1)
+
+
+compact(df((1-(sin x)**2)**4,x),{cos x^2+sin x^2=1});
+
+
+                         2       2         6
+8*cos(x)*sin(x)*(3*cos(x) *sin(x)  + sin(x)  - 1)
+
+
+% End of Lars Hornfeld examples.
+
+xx := a*(cos(x)+2*sin(x))^3-w*(cos(x)-sin(x))^2;
+
+
+            3             2                  2                     2
+xx := cos(x) *a + 6*cos(x) *sin(x)*a - cos(x) *w + 12*cos(x)*sin(x) *a
+
+                                     3           2
+       + 2*cos(x)*sin(x)*w + 8*sin(x) *a - sin(x) *w
+
+
+compact(xx,aa);
+
+
+                2                                            3
+11*cos(x)*sin(x) *a + 2*cos(x)*sin(x)*w + cos(x)*a + 2*sin(x) *a + 6*sin(x)*a
+
+ - w
+
+
+xx := (1-cos(x)^2)^2+(1-sin(x)^2)^2;
+
+
+            4           2         4           2
+xx := cos(x)  - 2*cos(x)  + sin(x)  - 2*sin(x)  + 2
+
+
+compact(xx,aa);
+
+
+           2       2
+ - 2*cos(x) *sin(x)  + 1
+
+
+xx := (c^2-1)^6+7(s-1)^4+23(c+s)^5;
+
+
+       12      10       8       6       5        4         4        3  2
+xx := c   - 6*c   + 15*c  - 20*c  + 23*c  + 115*c *s + 15*c  + 230*c *s
+
+              2  3      2          4       5      4       3       2
+       + 230*c *s  - 6*c  + 115*c*s  + 23*s  + 7*s  - 28*s  + 42*s  - 28*s + 8
+
+
+compact(xx,{c+s=1});
+
+
+ 12      10       8       6       4      2
+c   - 6*c   + 15*c  - 20*c  + 22*c  - 6*c  + 24
+
+
+yy := (c+1)^6*s^6+7c^4+23;
+
+
+       6  6      5  6       4  6      4       3  6       2  6        6    6
+yy := c *s  + 6*c *s  + 15*c *s  + 7*c  + 20*c *s  + 15*c *s  + 6*c*s  + s  + 23
+
+
+compact(yy,{c+s=1});
+
+
+ 6  6      5  6       4  6      4       3  6       2  6        6    6
+c *s  + 6*c *s  + 15*c *s  + 7*c  + 20*c *s  + 15*c *s  + 6*c*s  + s  + 23
+
+
+zz := xx^3+c^6*s^6$
+
+
+
+compact(zz,{c+s=1});
+
+
+ 36       34        32        30         28         26          24          22
+c   - 18*c   + 153*c   - 816*c   + 3081*c   - 8820*c   + 20019*c   - 37272*c
+
+          20          18           16           14           12      11
+ + 58854*c   - 81314*c   + 100488*c   - 111840*c   + 111341*c   - 6*c
+
+          10       9          8      7          6          4          2
+ - 97545*c   - 20*c  + 80439*c  - 6*c  - 53783*c  + 40608*c  - 10368*c  + 13824
+
+
+xx := (c+s)^5 - 55(1-s)^2 + 77(1-c)^3 + (c+2s)^8;
+
+
+       8       7          6  2        5  3    5         4  4      4
+xx := c  + 16*c *s + 112*c *s  + 448*c *s  + c  + 1120*c *s  + 5*c *s
+
+               3  5       3  2       3         2  6       2  3        2
+       + 1792*c *s  + 10*c *s  - 77*c  + 1792*c *s  + 10*c *s  + 231*c
+
+                 7        4                8    5       2
+       + 1024*c*s  + 5*c*s  - 231*c + 256*s  + s  - 55*s  + 110*s + 22
+
+
+% This should reduce to something like:
+
+yy := 1 - 55c^2 + 77s^3 + (1+s)^8;
+
+
+             2    8      7       6       5       4        3       2
+yy :=  - 55*c  + s  + 8*s  + 28*s  + 56*s  + 70*s  + 133*s  + 28*s  + 8*s + 2
+
+
+% The result contains the same number but different terms.
+
+compact(xx,{c+s=1});
+
+
+ 8      7       6       5       4        3       2
+s  + 8*s  + 28*s  + 56*s  + 70*s  + 133*s  - 27*s  + 118*s - 53
+
+
+compact(yy,{c+s=1});
+
+
+ 8      7       6       5       4        3       2
+s  + 8*s  + 28*s  + 56*s  + 70*s  + 133*s  - 27*s  + 118*s - 53
+
+
+% Test showing order of expressions is important.
+
+d2:= - 4*r3a**2 - 4*r3b**2 - 4*r3c**2 + 3*r3**2$
+
+
+
+d1:=  4 * r3a**2 * r3
+   +  4 * r3b**2 * r3
+   +  4 * r3c**2 * r3
+   + 16 * r3a * r3b * r3c
+   -      r3**3$
+
+
+
+d0:= 16 * r3a**4
+   + 16 * r3b**4
+   + 16 * r3c**4
+   +       r3**4
+   - 32 * r3a**2 * r3b**2
+   - 32 * r3a**2 * r3c**2
+   - 32 * r3b**2 * r3c**2
+   -  8 * r3a**2 *  r3**2
+   -  8 * r3b**2 *  r3**2
+   -  8 * r3c**2 *  r3**2
+   - 64 * r3a * r3b * r3c * r3$
+
+
+
+alist := { c0 = d0, c1 = d1, c2 = d2}$
+
+
+
+blist := { c2 = d2, c1 = d1, c0 = d0}$
+
+
+
+d:= d2 * l*l + d1 * l + d0;
+
+
+        2   2      2    2      2    2      2    2       3             2
+d := 3*l *r3  - 4*l *r3a  - 4*l *r3b  - 4*l *r3c  - l*r3  + 4*l*r3*r3a
+
+                  2             2                        4       2    2
+      + 4*l*r3*r3b  + 4*l*r3*r3c  + 16*l*r3a*r3b*r3c + r3  - 8*r3 *r3a
+
+            2    2       2    2                             4         2    2
+      - 8*r3 *r3b  - 8*r3 *r3c  - 64*r3*r3a*r3b*r3c + 16*r3a  - 32*r3a *r3b
+
+              2    2         4         2    2         4
+      - 32*r3a *r3c  + 16*r3b  - 32*r3b *r3c  + 16*r3c
+
+
+compact(d,alist);
+
+
+                2
+c0 + c1*l + c2*l
+ % Works fine.
+
+compact(d,blist);
+
+
+    2                    2           2         3                          4
+c2*l  - c2*l*r3 + 2*c2*r3  + 8*c2*r3a  + 2*l*r3  + 16*l*r3a*r3b*r3c - 5*r3
+
+        2    2                             4         4         2    2         4
+ - 24*r3 *r3a  - 64*r3*r3a*r3b*r3c + 48*r3a  + 16*r3b  - 32*r3b *r3c  + 16*r3c
+ % Only c2=d2 is applied.
+
+% This example illustrates why parallel application of the individual
+% side relations is necessary.
+
+lst:={x1=a+b+c, x2=a-b-c, x3=-a+b-c, x4=-a-b+c};
+
+
+lst := {x1=a + b + c,
+
+        x2=a - b - c,
+
+        x3= - a + b - c,
+
+        x4= - a - b + c}
+
+
+z1:=(a+b+c)*(a-b-c)*(-a+b-c);
+
+
+          3    2      2        2                2    3    2        2    3
+z1 :=  - a  + a *b - a *c + a*b  + 2*a*b*c + a*c  - b  - b *c + b*c  + c
+    % This is x1*x2*x3.
+
+z2:=(a+b+c)*(a-b-c)*(-a+b-c)*(-a-b+c);
+
+
+       4      2  2      2  2    4      2  2    4
+z2 := a  - 2*a *b  - 2*a *c  + b  - 2*b *c  + c
+   % This is x1*x2*x3*x4.
+
+compact(z1,lst);
+
+
+                       2
+x1*(4*a*b + 2*c*x1 - x1 )
+ % Not the best solution but better than nothing.
+
+compact(z2,lst);
+
+
+ 4      2  2      2  2    4      2  2    4
+a  - 2*a *b  - 2*a *c  + b  - 2*b *c  + c
+ % Does nothing.
+
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 27 ms
+real	0m0.471s
+user	0m0.030s
+sys	0m0.091s

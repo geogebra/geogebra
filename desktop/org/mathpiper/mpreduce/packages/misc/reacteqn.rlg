@@ -1,0 +1,132 @@
+% Examples for the conversion of reaction equations to ordinary
+% differential equations.
+
+% Example taken from Feinberg (Chemical Engineering):
+
+   species := {A1,A2,A3,A4,A5};
+
+
+species := {a1,
+
+            a2,
+
+            a3,
+
+            a4,
+
+            a5}
+
+
+   reac2ode {  A1 + A4 <> 2A1,       rho, beta,
+               A1 + A2 <> A3,        gamma, epsilon,
+               A3      <> A2 + A5,   theta, mue};
+
+
+                             2
+{df(a1,t)=rho*a1*a4 - beta*a1  - gamma*a1*a2 + epsilon*a3,
+
+ df(a2,t)= - gamma*a1*a2 + epsilon*a3 + theta*a3 - mue*a2*a5,
+
+ df(a3,t)=gamma*a1*a2 - epsilon*a3 - theta*a3 + mue*a2*a5,
+
+                                2
+ df(a4,t)= - rho*a1*a4 + beta*a1 ,
+
+ df(a5,t)=theta*a3 - mue*a2*a5}
+
+        
+  inputmat;
+
+
+[1  0  0  1  0]
+[             ]
+[1  1  0  0  0]
+[             ]
+[0  0  1  0  0]
+
+
+
+  outputmat;
+
+
+[2  0  0  0  0]
+[             ]
+[0  0  1  0  0]
+[             ]
+[0  1  0  0  1]
+
+
+
+% Computation of the classical reaction matrix as difference
+% of output and input matrix:
+
+  reactmat := outputmat-inputmat;
+
+
+            [1   0   0   -1  0]
+            [                 ]
+reactmat := [-1  -1  1   0   0]
+            [                 ]
+            [0   1   -1  0   1]
+
+
+
+% Example with automatic generation of rate constants and automatic
+% extraction of species.
+ 
+   species := {};
+
+
+species := {}
+
+   reac2ode {  A1 + A4 <> 2A1, 
+               A1 + A2 <> A3,
+               A3      <> A2 + A5};
+
+new species: a1
+new species: a4
+new species: a2
+new species: a3
+new species: a5
+
+               2
+{df(a1,t)= - a1 *rate(2) + a1*a4*rate(1) - a1*a2*rate(3) + a3*rate(4),
+
+            2
+ df(a4,t)=a1 *rate(2) - a1*a4*rate(1),
+
+ df(a2,t)= - a1*a2*rate(3) - a2*a5*rate(6) + a3*rate(5) + a3*rate(4),
+
+ df(a3,t)=a1*a2*rate(3) + a2*a5*rate(6) - a3*rate(5) - a3*rate(4),
+
+ df(a5,t)= - a2*a5*rate(6) + a3*rate(5)}
+
+ 
+   on rounded;
+
+
+   species := {};
+
+
+species := {}
+
+   reac2ode {  A1 + A4 <> 2A1, 17.3* 22.4**1.5,
+                               0.04* 22.4**1.5 };
+
+new species: a1
+new species: a4
+
+                             2
+{df(a1,t)= - 4.24064598853*a1  + 1834.07939004*a1*a4,
+
+                          2
+ df(a4,t)=4.24064598853*a1  - 1834.07939004*a1*a4}
+
+
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 22 ms  plus GC time: 4 ms
+real	0m0.680s
+user	0m0.015s
+sys	0m0.152s

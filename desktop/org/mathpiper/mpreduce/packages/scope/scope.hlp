@@ -1,0 +1,111 @@
+\chapter[SCOPE: source code optimisation package]{SCOPE: REDUCE source code optimisation package}
+\label{SCOPE}
+\typeout{{SCOPE: REDUCE source code optimisation package}}
+
+{\footnotesize
+\begin{center}
+J.A. van Hulzen \\
+University of Twente, Department of Computer Science \\
+P.O. Box 217, 7500 AE Enschede \\
+The Netherlands \\[0.05in]
+e--mail: infhvh@cs.utwente.nl
+\end{center}
+}
+
+SCOPE is a package to produce optimised versions of algebraic
+expressions.  It can be used in two distinct fashions, as an adjunct
+to numerical code generation (using GENTRAN, described in
+chapter~\ref{GENTRAN}) or as a stand alone way of investigating
+structure in an expression.
+
+When used with GENTRAN\ttindex{GENTRAN} it is sufficient to set the
+switch {\tt GENTRANOPT}\ttindex{GENTRANOPT} on, and GENTRAN will then
+use SCOPE internally.  This is described in its internal detail in the
+GENTRAN manual and the SCOPE documentation.
+
+As a stand-alone package SCOPE provides the operator {\tt OPTIMIZE}.
+
+\ttindex{OPTIMIZE}
+A SCOPE application is easily performed and based on the use of
+the following syntax:
+
+\begin{center}
+\begin{tabular}{lcl}
+ $<$SCOPE\_application$>$ & $::=$ & {\tt OPTIMIZE} $<$object\_seq$>$
+ [{\tt INAME} $<$cse\_prefix$>$]\\
+ $<$object\_seq$>$ & $::=$ & $<$object$>$[,$<$object\_seq$>$]\\
+ $<$object$>$ & $::=$ & $<$stat$>~\mid~<$alglist$>~\mid~<$alglist\_production$>$ \\
+ $<$stat$>$ & $::=$ & $<$name$>~<$assignment operator$>~<$expression$>$\\
+ $<$assignment operator$>$ & $::=$ & $:=~\mid~::=~\mid~::=:~\mid~:=:$\\
+ $<$alglist$>$ & $::=$ & \{$<$eq\_seq$>$\}\\
+ $<$eq\_seq$>$ & $::=$ & $<$name$>~=~<$expression$>$[,$<$eq\_seq$>$]\\
+ $<$alglist\_production$>$ & $::=$ & $<$name$>~\mid~<$function\_application$>$\\
+ $<$name$>$ & $::=$ & $<$id$>~\mid~<$id$>(<$a\_subscript\_seq$>)$\\
+ $<$a\_subscript\_seq$>$ & $::=$ & $<$a\_subscript$>$[,$<$a\_subscript\_seq$>$]\\
+ $<$a\_subscript$>$ & $::=$ & $<$integer$>~\mid~<$integer infix\_expression$>$\\
+ $<$cse\_prefix$>$ & $::=$ & $<$id$>$
+\end{tabular}
+\end{center}
+
+A SCOPE action can be applied on one assignment statement, or to a
+sequence of such statements, separated by commas, or a list of expressions.
+
+\index{SCOPE option ! {\tt INAME}}
+The optional use of the {\tt INAME} extension in an {\tt OPTIMIZE}
+command is introduced to allow the user to influence the generation of
+cse-names.  The cse\_prefix is an identifier, used to generate
+cse-names, by extending it with an integer part. If the cse\_prefix
+consists of letters only, the initially selected integer part is 0.
+If the user-supplied cse\_prefix ends with an integer its value
+functions as initial integer part.
+
+\begin{verbatim}
+z:=a^2*b^2+10*a^2*m^6+a^2*m^2+2*a*b*m^4+2*b^2*m^6+b^2*m^2;
+
+      2  2       2  6    2  2          4      2  6    2  2
+z := a *b  + 10*a *m  + a *m  + 2*a*b*m  + 2*b *m  + b *m
+
+OPTIMIZE z:=:z ;
+
+
+G0 := b*a
+G4 := m*m
+G1 := G4*b*b
+G2 := G4*a*a
+G3 := G4*G4
+z := G1 + G2 + G0*(2*G3 + G0) + G3*(2*G1 + 10*G2)
+
+\end{verbatim}
+it can be desirable
+to rerun an optimisation request with a restriction on the minimal size of
+the righthandsides. The command
+
+\index{SCOPE function ! {\tt SETLENGTH}}
+\hspace*{1cm} {\tt SETLENGTH} $<$integer$>$\$
+
+can be used to produce rhs's with a minimal arithmetic complexity,
+dictated by the value of
+its integer argument. Statements, used to rename function applications, are
+not affected by the {\tt SETLENGTH} command. The default setting is restored
+with the command
+
+\hspace*{1cm} {\tt RESETLENGTH}\$
+\index{SCOPE function ! {\tt RESETLENGTH}}
+
+{\em Example:}
+\begin{verbatim}
+SETLENGTH 2$
+
+OPTIMIZE z:=:z INAME s$
+
+       2  2
+s1 := b *m
+       2  2
+s2 := a *m
+               4                       4
+z := (a*b + 2*m )*a*b + 2*(s1 + 5*s2)*m  + s1 + s2
+
+\end{verbatim}
+
+Details of the algorithm used is given in the Scope User's Manual.
+

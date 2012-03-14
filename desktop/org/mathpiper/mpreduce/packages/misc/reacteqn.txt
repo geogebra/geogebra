@@ -1,0 +1,195 @@
+ 
+      REDUCE Support for Reaction Equation Systems
+ 
+                 Herbert Melenk
+ 
+            Konrad-Zuse-Zentrum Berlin
+ 
+                 January 1991
+ 
+
+
+The REDUCE package REACTEQN allows one to transform chemical reaction 
+systems into ordinary differential equation systems (ode) 
+corresponding to the laws of pure mass action. 
+ 
+A single reaction equation is an expression of the form
+ 
+  <n1><s1> + <n2><s2> +  ... -> <n3><s3> + <n4><s4> +  ...
+                       or
+  <n1><s1> + <n2><s2> +  ... <> <n3><s3> + <n4><s4> +  ...
+ 
+where the <si> are arbitrary names of species (REDUCE symbols)
+and the <ni> are positive integer numbers. The number 1
+can be omitted. The connector -> describes a one way reaction,
+while <> describes a forward and backward reaction.
+
+A reaction system is a list of reaction equations, each of them
+optionally followed by one or two expressions for the rate
+constants. A rate constant can a number, a symbol or an 
+arbitrary REDUCE expression. If a rate constant is missing,
+an automatic constant of the form RATE(n) (where n is an
+integer counter) is generated. For double reactions the
+first constant is used for the forward direction, the second
+one for the backward direction.
+ 
+The names of the species are collected in a list bound to
+the REDUCE variable SPECIES. This list is automatically filled
+during the processing of a reaction system. The species enter
+in an order corresponding to their appearance in the reaction
+system and the resulting ode's will be ordered in the same manner. 
+If a list of species is preassigned to the variable
+SPECIES either explicitly or from previous operations, the 
+given order will be maintained and will dominate the formatting
+process. So the ordering of the result can be easily influenced
+by the user.
+ 
+Syntax:
+    reac2ode {   <reaction> [,<rate> [,<rate>]] 
+               [,<reaction> [,<rate> [,<rate>]]] 
+                       .... 
+                  };
+ 
+        where two rates are applicable only for <> reactions.
+
+        Result is a system of explicit ordinary differential
+        equations with polynomial righthand sides. As side
+        effect the following variables are set:
+
+         lists:
+
+           rates:  list of the rates in the system
+
+           species: list of the species in the system
+
+         matrices:
+ 
+           inputmat: matrix of the input coefficients
+ 
+           outputmat: matrix of the output coefficients
+               
+In the matrices the row number corresponds to the input reaction 
+number, while the column number corresponds to the species index.
+
+Note: if the rates are numerical values, it will be in most cases
+      appropriate to select a REDUCE evaluation mode for floating
+      point numbers. That is
+        REDUCE 3.3: on float,numval;
+        REDUCE 3.4: on rounded;
+ 
+Inputmat and outputmat can be used for linear algebra type 
+investigations of the reaction system. The classical reaction 
+matrix is the difference of these matrices; however, the two 
+matrices contain more information than their differences because 
+the appearance of a species on both sides is not reflected by 
+the reaction matrix.
+
+EXAMPLES:
+
+% Example taken from Feinberg (Chemical Engineering):
+
+   species := {A1,A2,A3,A4,A5};
+
+   reac2ode {  A1 + A4 <> 2A1,       rho, beta,
+               A1 + A2 <> A3,        gamma, epsilon,
+               A3      <> A2 + A5,   theta, mue};
+ 
+        
+                             2
+{DF(A1,T)=RHO*A1*A4 - BETA*A1  - GAMMA*A1*A2 + EPSILON*A3,
+
+ DF(A2,T)= - GAMMA*A1*A2 + EPSILON*A3 + THETA*A3 - MUE*A2*A5,
+
+ DF(A3,T)=GAMMA*A1*A2 - EPSILON*A3 - THETA*A3 + MUE*A2*A5,
+
+                                2
+ DF(A4,T)= - RHO*A1*A4 + BETA*A1 ,
+
+ DF(A5,T)=THETA*A3 - MUE*A2*A5}
+
+% the corresponding matrices:
+
+  inputmat;
+
+[1  0  0  1  0]
+[             ]
+[1  1  0  0  0]
+[             ]
+[0  0  1  0  0]
+
+
+  outputmat;
+
+[2  0  0  0  0]
+[             ]
+[0  0  1  0  0]
+[             ]
+[0  1  0  0  1]
+
+
+% computation of the classical reaction matrix as difference
+% of output and input matrix:
+
+  reactmat := outputmat-inputmat;
+
+            [1   0   0   -1  0]
+            [                 ]
+REACTMAT := [-1  -1  1   0   0]
+            [                 ]
+            [0   1   -1  0   1]
+
+% Example with automatic generation of rate constants
+% and automatic extraction of species
+ 
+   species := {};
+   reac2ode {  A1 + A4 <> 2A1, 
+               A1 + A2 <> A3,
+               a3      <> A2 + A5};
+ 
+new species: A1
+new species: A4
+new species: A3
+new species: A2
+new species: A5
+
+
+               2
+{DF(A1,T)= - A1 *RATE(2) + A1*A4*RATE(1) - A1*A2*RATE(3) + 
+
+     A3*RATE(4),
+
+            2
+ DF(A4,T)=A1 *RATE(2) - A1*A4*RATE(1),
+
+ DF(A2,T)= - A1*A2*RATE(3) - A2*A5*RATE(6) + A3*RATE(5) + A3*RATE(4),
+
+ DF(A3,T)=A1*A2*RATE(3) + A2*A5*RATE(6) - A3*RATE(5) - A3*RATE(4),
+
+ DF(A5,T)= - A2*A5*RATE(6) + A3*RATE(5)}
+
+
+% Example with rates computed from numerical expressions
+ 
+   species := {};
+   reac2ode {  A1 + A4 <> 2A1, 17.3* 22.4^1.5,
+                               0.04* 22.4^1.5 };
+ 
+new species: A1
+new species: A4
+
+                       2
+{DF(A1,T)= - 4.24065*A1  + 1834.08*A1*A4,
+
+                    2
+ DF(A4,T)=4.24065*A1  - 1834.08*A1*A4}
+
+Herbert Melenk
+Konrad-Zuse-Zentrum fuer Informationstechnik
+Heilbronner Str 10
+D 1000 Berlin 31
+Germany
+
+Phone: (49) 30 89604 195
+FAX:   (49) 30 89604 125
+E-mail:  melenk@zib.de
+

@@ -1,0 +1,294 @@
+\documentstyle[11pt,reduce]{article}
+\date{}
+\title{GNUPLOT Interface for REDUCE\\Version 3}
+\author{Herbert Melenk \\ 
+Konrad--Zuse--Zentrum f\"ur Informationstechnik Berlin \\
+E--mail: Melenk@sc.zib--berlin.de}
+\begin{document}
+\maketitle
+
+\index{GNUPLOT package}
+ 
+\section{Introduction}
+The GUNPLOT system provides easy to use graphics output 
+for curves or surfaces which are defined by  
+formulas and/or data sets. GNUPLOT supports 
+a great variety of output devices
+such as \verb+X-windows+, \verb+SUN tools+, 
+\verb+VGA screen+, \verb+postscript+, \verb+pic+ \TeX.
+The {\small REDUCE} GNUPLOT package lets one use the GNUPLOT
+graphical output directly from inside {\small REDUCE}, either for
+the interactive display of curves/surfaces or for the production
+of pictures on paper. 
+
+{\small REDUCE} supports GNUPLOT 3.2. For most systems GNUPLOT binaries
+are delivered together with {\small REDUCE}. However, this is a
+basic set only. If you intend to use more facilities of the GNUPLOT
+system or if your {\small REDUCE} has not been equipped with 
+GNUPLOT binaries you should pick up the full GNUPLOT file tree
+from a server, e.g.
+
+\begin{itemize}
+\item dartmouth.edu (129.170.16.4)
+\item monu1.cc.monash.edu.au (130.194.1.101)
+\item irisa.irisa.fr (131.254.2.3)
+\end{itemize}
+
+Under UNIX {\small REDUCE} evaluates the environment variable
+$gnuplot$; if this variable has been set, {\small REDUCE} redirects
+the GNUPLOT calls to the directory described there. Otherwise the
+binaries are expected in the directory $\$reduce/plot$.
+
+\section{Incompatibilities}
+
+In contrast to the previous {\small REDUCE} GNUPLOT package
+this version computes all data points inside REDUCE and
+passes them to GNUPLOT as a data file. 
+This simplifies the usage of the GNUPLOT package
+and reduces some incompatibilities and restrictions. 
+
+
+\section{Loading GNUPLOT}
+ 
+If on your computer the {\small REDUCE} GNUPLOT package
+has been installed with autoload, you can call the command
+\verb+PLOT(...)+ directly from any {\small REDUCE} session;
+otherwise enter once per session
+\begin{verbatim}
+     load_package gnuplot;
+\end{verbatim}
+
+\section{Command PLOT}
+
+The \verb+PLOT(...)+ command can have a variable number of
+parameters:
+
+\begin{itemize}
+\item A functions to plot; a function can be
+  \begin{itemize}
+    \item an expression with one unknown, e.g. $u*sin(u)**2$
+    \item an expression with two unknowns, e.g. 
+          $u*sin(u)**2+sqrt(v)$
+    \item an equation with a symbol on the left-hand side
+         and an expression with one or two unknowns on the
+         right-hand side, e.g.// $dome=1/(x**2+y**2)$
+    \item a list of points in 2 or 3 dimensions
+         e.g. \\ $\{0,0\},\{0,1\},\{1,1\}\}$ representing
+         a curve,
+    \item a list of lists of points in 2 or 3 dimensions
+         e.g.\\ $\{\{0,0\},\{0,1\},\{1,1\}\}
+                 \{0,0\},\{0,1\},\{1,1\}\}\}$
+         representing a family of curves.
+  \end{itemize}
+\item A range for a variable; this has the form\\
+    $variable=(lower\_bound\, . . \, upper\_bound)$ where
+  $lower\_bound$ and $upper\_bound$ must be expressions which
+  evaluate to numbers. If no range is specified the
+  default ranges for independent variables are $(-10\,\,..\,\,10)$
+  and the range for the dependent variable is set to 
+  maximum number of the GNUPLOT executable (using double
+  floats on most IEEE machines and single floats under DOS).
+\item A GNUPLOT option, either as fixed keyword,
+  e.g.\  $hidden3d$ or as equation e.g.\ $term=pictex$;
+  free texts such as titles and labels such be enclosed in
+  string quotes.
+\end{itemize}
+Please note that a blank has to be inserted between a number
+and a dot - otherwise the REDUCE translator will be mislead.
+ 
+If a function is given as an equation the left-hand side
+  is mainly used as label for the axis of the dependent variable.
+
+In two dimensions more than one function expressions can be given
+which are drawns into one picture; however,
+all these have to use the same independent variable name.
+One of the functions can be a point set or a point set list.
+Normally all functions and point sets are plotted by
+lines; only if functions and point sets are drawn into
+one picture the point set is drawn by points.
+
+The functional expressions are evaluated in $rounded$ mode.
+This is done automatically - it is not necessary to turn
+on rounded mode explicitly. 
+
+Examples:
+\begin{verbatim}
+plot(cos x);
+plot(s=sin phi,phi=(-3 .. 3));
+plot(sin phi,cos phi,phi=(-3 .. 3));
+plot (cos sqrt(x**2 + y**2),x=(-3 .. 3),y=(-3 .. 3),hidden3d);
+plot {{0,0},{0,1},{1,1},{0,0},{1,0},{0,1},{0.5,1.5},{1,1},{1,0}};
+
+ % parametric: screw
+
+on rounded;
+w:=for j:=1:200 collect {1/j*sin j,1/j*cos j,j/200}$
+plot w;
+
+ % parametric: globe
+dd:=pi/15$
+w:=for u:=dd step dd until pi-dd collect
+    for v:=0 step dd until 2pi collect
+      {sin(u)*cos(v), sin(u)*sin(v), cos(u)}$
+plot w;
+\end{verbatim}
+ 
+The following GNUPLOT options are supported:
+
+\begin{itemize}
+\item $title=name$: the title (string) is put on top
+     of the picture. 
+
+\item axes labels: $xlabel="text1"$, $ylabel="text2"$, and for
+  surfaces $zlabel="text3"$. If omitted the axes are labeled
+  by the independent and dependent variable names from the
+  expression. Note that the axes names $x$label, $y$label and
+  $z$label here are used in the usual sense, $x$ for the 
+  horizontal and $y$ for the vertical axis under 2-d and
+  $z$ for the perpendicular axis under 3-d -- these names
+  do not refer to the variable names used in the expressions.
+
+\begin{verbatim}
+          plot(1,X,(4*X**2-1)/2,(X*(12*X**2-5))/3,
+               x=(-1 .. 1), ylabel="L(x,n)",
+               title="Legendre Polynomials");
+\end{verbatim}
+
+\item $terminal=name$: redirect output to device $name$.
+     Every installation uses a default terminal as output
+     device; some installations support additional
+     devices such as printers; consult your local
+     GNUPLOT installation material for details.
+     If the GNUPLOT set terminal command allows
+     additional parameters you have to form the full
+     value set as string in {\small reduce};
+\item $size="s_x,s_y"$: rescale the graph (not the
+      window) where $s_x$ and $s_y$ are scaling
+     factors for the size in x or y
+     direction. Defaults are $s_x=1,x_z=1$.
+     Note that scaling factors greater than one
+     often will cause the picture to be too big for
+     the window.
+\begin{verbatim}
+      plot(1/(x**2+y**2),x=(0.1 .. 5),
+              y=(0.1 .. 5), size="0.7,1");
+\end{verbatim}
+\item $view="r_x,r_z"$: set viewpoint for 3 dimensions 
+     by turning the object around the x or z axis;
+     the values are degrees (integers).
+Defaults are $r_x=60,r_z=30$.
+\begin{verbatim}
+      plot(1/(x**2+y**2),x=(0.1 .. 5),
+              y=(0.1 .. 5), view="30,130");
+\end{verbatim}
+\item  $contour$ resp $nocontour$: in 3 dimensions an 
+       additional contour map is drawn (default: $nocontour$)
+\item $surface$ resp $nosurface$: in 3 dimensions the
+       surface is drawn resp suppressed (default: $surface$).
+\item $hidden3d$: hidden line removal in 3 dimensions.
+\end{itemize}
+
+
+\section{Mesh generation}
+
+Per default the functions are computed  at predefined
+mesh points: the ranges are divided by $plot\_xmesh$ resp
+$plot\_ymesh$, which are initially set to 20. These are
+share variables and you can modify them globally for your
+session by assigning different positive integer values. 
+Note that these values cannot be set in the plot command directly and
+that the names $plot\_xmesh$ and $plot\_ymesh$ are
+builtin and have to be used even if the unknowns of your
+expressions have different names.
+
+For two dimensions the given mesh is adaptively
+smoothed when the curves are too coarse, especially 
+if singularities are present. On the other hand
+refinement can be rather time consuming if used with
+complicated expressions. You can turn it off by 
+$OFF$ $PLOTREFINE$. At singularities the graph is
+interrupted.
+
+In three dimensions no refinement is possible as surfaces
+can be drawn only with a fixed grid. In the case
+of a singularity the near neighbourhood is
+tested; if a point there allows a function evaluation, its 
+clipped value used instead, otherwise a zero is inserted.
+
+When plotting surfaces in three dimensions you have the
+option of hidden line removal. Because of an error in
+Gnuplot 3.2 with "hidden3d" the axes cannot be labelled
+correctly; therefore they arn't labelled at all. Hidden line
+removal is not available with point lists.
+
+
+\section{GNUPLOT operation}
+
+The command verb+PLOTRESET;+ deletes the current GNUPLOT output
+window. The next call to verb+PLOT+ then will open a new one.
+
+If GNUPLOT is invoked directly by an output pipe (UNIX and Windows),
+an eventual error in the GNUPLOT data transmission might cause GNUPLOT to
+quit. As {\small REDUCE} is unable to detect the broken pipe, you
+have to reset the plot system by calling the 
+command \verb+PLOTRESET;+ explicitly. Afterwards new graphic output
+can be produced. 
+
+Under DOS Windows 3.1 GNUPLOT has a text and a graph window.
+If don't want to see the text window, iconify it and
+activate the option ``update wgnuplot.ini" from the
+graph window system menu - then the present screen layout
+(including the graph window size) will be saved and the text
+windows will com up iconified in future. You also can select 
+some more features there and so tailor the gaphic output.
+Before you terminate {\small REDUCE} you should terminate the
+graphic window by calling verb+PLOTRESET;+.
+If you terminate {\small REDUCE} without deleting the
+GNUPLOT windows before, use the command button from the
+GNUPLOT text window - it offers an exit function.
+
+\section{Saving GNUPLOT command sequence}
+
+If you want to use the internal GNUPLOT command sequence
+more than once (e.g. for producing a picture for a publication),
+you best set 
+
+$ON \,\, TRPLOT,PLOTKEEP$;
+
+$TRPLOT$ causes all GNUPLOT commands
+to be written additionally to the actual
+{\small REDUCE} output. Normally the data files are
+erased after calling GNUPLOT, however with $PLOTKEEP$ on
+the files are not erased.
+
+\section{Direct Call of GNUPLOT}
+
+GNUPLOT has many facilities which are not accessed by
+the operators and parameters described above. Therefore
+genuine GNUPLOT commands can be sent by {\small REDUCE}.
+Please consult the GNUPLOT manual for the available
+commands and parameters. The general syntax for a GNUPLOT call
+inside {\small REDUCE} is
+
+    $gnuplot(<cmd>,<p_1>,<p_2> \cdots)$
+
+where $<cmd>$ is a command name and $<p_1>,<p_2> \cdots$
+are the parameters, inside {\small REDUCE} separated by
+commas. The parameters are evaluated by
+{\small REDUCE} and then transmitted to GNUPLOT in
+GNUPLOT syntax. Usually a drawing is built by a
+sequence of commands which are buffered 
+by {\small REDUCE} or the operating
+system. For terminating and activating them use the {\small REDUCE}
+command $plotshow;$. Example:
+\begin{verbatim}
+     gnuplot(set,polar);
+     gnuplot(set,noparametric);
+     gnuplot(plot,x*sin x);
+     plotshow;
+\end{verbatim}
+Note that GNUPLOT restrictions with respect to variable
+and function names have to be taken into account when
+using this type of operation.
+
+\end{document}

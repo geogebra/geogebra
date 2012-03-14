@@ -1,0 +1,520 @@
+% Tests of PM.
+
+% TESTS OF BASIC CONSTRUCTS.
+
+% These names are used with varing numbers of arguments here in this
+% test script, so to avoid messages of complaint I tag them as
+% variadic.
+lisp flag('(f h !@), 'variadic);
+
+
+
+operator f, h$
+
+
+
+% A "literal" template.
+
+m(f(a),f(a));
+
+
+t
+
+
+% Not literally equal.
+
+m(f(a),f(b));
+
+
+
+%Nested operators.
+
+m(f(a,h(b)),f(a,h(b)));
+
+
+t
+
+
+% A "generic" template.
+
+m(f(a,b),f(a,?a));
+
+
+{?a->b}
+
+m(f(a,b),f(?a,?b));
+
+
+{?a->a,?b->b}
+
+
+% ??a takes "rest" of arguments.
+
+m(f(a,b),f(??a));
+
+
+{??a->[a,b]}
+
+
+% But ?a does not.
+
+m(f(a,b),f(?a));
+
+
+
+% Conditional matches.
+
+m(f(a,b),f(?a,?b _=(?a=?b)));
+
+
+
+m(f(a,a),f(?a,?b _=(?a=?b)));
+
+
+{?a->a,?b->a}
+
+
+% "plus" is symmetric.
+
+m(a+b+c,c+?a+?b);
+
+
+{?a->a,?b->b}
+
+
+%It is also associative.
+
+m(a+b+c,c+?a);
+
+
+{?a->a + b}
+
+
+% Note the effect of using multi-generic symbol is different.
+
+m(a+b+c,c+??c);
+
+
+{??c->[a,b]}
+
+
+%Flag h as associative.
+
+flag('(h),'assoc);
+
+
+
+m(h(a,b,d,e),h(?a,d,?b));
+
+
+{?a->h(a,b),?b->e}
+
+
+% Substitution tests.
+
+s(f(a,b),f(a,?b)->?b^2);
+
+
+ 2
+b
+
+
+s(a+b,a+b->a*b);
+
+
+a*b
+
+
+% "associativity" is used to group a+b+c in to (a+b) + c.
+
+s(a+b+c,a+b->a*b);
+
+
+a*b + c
+
+
+% Only substitute top at top level.
+
+s(a+b+f(a+b),a+b->a*b,inf,0);
+
+
+f(a + b) + a*b
+
+
+
+% SIMPLE OPERATOR DEFINITIONS.
+
+% Numerical factorial.
+
+operator nfac$
+
+
+
+s(nfac(3),{nfac(0)->1,nfac(?x)->?x*nfac(?x-1)},1);
+
+
+3*nfac(2)
+
+
+s(nfac(3),{nfac(0)->1,nfac(?x)->?x*nfac(?x-1)},2);
+
+
+6*nfac(1)
+
+
+si(nfac(3),{nfac(0)->1,nfac(?x)->?x*nfac(?x-1)});
+
+
+6
+
+
+% General factorial.
+
+operator gamma,fac;
+
+
+
+fac(?x _=Natp(?x)) ::- ?x*fac(?x-1);
+
+
+hold(?x*fac(?x - 1))
+
+
+fac(0)  :- 1;
+
+
+1
+
+
+fac(?x) :- Gamma(?x+1);
+
+
+gamma(?x + 1)
+
+
+fac(3);
+
+
+6
+
+
+fac(3/2);
+
+
+       5
+gamma(---)
+       2
+
+
+% Legendre polynomials in ?x of order ?n, ?n a natural number.
+
+operator legp;
+
+
+
+legp(?x,0) :- 1;
+
+
+1
+
+
+legp(?x,1) :- ?x;
+
+
+?x
+
+
+legp(?x,?n _=natp(?n))
+   ::- ((2*?n-1)*?x*legp(?x,?n-1)-(?n-1)*legp(?x,?n-2))/?n;
+
+
+      (2*?n - 1)*?x*legp(?x,?n - 1) - (?n - 1)*legp(?x,?n - 2)
+hold(----------------------------------------------------------)
+                                 ?n
+
+
+legp(z,5);
+
+
+        4       2
+ z*(63*z  - 70*z  + 15)
+------------------------
+           8
+
+
+legp(a+b,3);
+
+
+    3       2           2            3
+ 5*a  + 15*a *b + 15*a*b  - 3*a + 5*b  - 3*b
+---------------------------------------------
+                      2
+
+
+legp(x,y);
+
+
+legp(x,y)
+
+
+
+% TESTS OF EXTENSIONS TO BASIC PATTERN MATCHER.
+
+comment *: MSet[?exprn,?val] or ?exprn ::: ?val
+	assigns the value ?val to the projection ?exprn in such a way
+	as to store explicitly each form of ?exprn requested. *;
+
+ 
+Nosimp('mset,(t t));
+
+
+
+Newtok '((!: !: !: !-) Mset);
+
+
+
+infix :::-;
+
+
+
+precedence Mset,RSetd;
+
+
+
+?exprn :::- ?val ::- (?exprn ::- (?exprn :- ?val ));
+
+
+hold(?exprn::-(?exprn:-?val))
+
+
+scs := sin(?x)^2 + Cos(?x)^2 -> 1;
+
+
+              2          2
+scs := cos(?x)  + sin(?x) ->1
+
+
+% The following pattern substitutes the rule sin^2 + cos^2 into a sum of
+% such terms.  For 2n terms (ie n sin and n cos) the pattern has a worst
+% case complexity of O(n^3).
+
+operator trig,u;
+
+
+
+trig(?i) :::- Ap(+, Ar(?i,sin(u(?1))^2+Cos(u(?1))^2));
+
+
+                                       2             2
+hold(trig(?i):-ap(plus,ar(?i,sin(u(?1))  + cos(u(?1)) )))
+
+
+if si(trig 1,scs) = 1 then write("Pm ok") else Write("PM failed");
+
+
+Pm ok
+
+
+if si(trig 10,scs) = 10 then write("Pm ok") else Write("PM failed");
+
+
+Pm ok
+
+
+% The next one takes about 70 seconds on an HP 9000/350, calling UNIFY
+% 1927 times.
+
+% if si(trig 50,scs) = 50 then write("Pm ok") else Write("PM failed");
+
+% Hypergeometric Function simplification.
+
+newtok '((!#) !#);
+
+
+*** # redefined 
+
+
+flag('(#), 'symmetric);
+
+
+
+operator #,@,ghg;
+
+
+
+xx := ghg(4,3,@(a,b,c,d),@(d,1+a-b,1+a-c),1);
+
+
+xx := ghg(4,3,@(a,b,c,d),@(d,a - b + 1,a - c + 1),1)
+
+
+S(xx,sghg(3));
+
+
+*** sghg declared operator 
+
+ghg(4,3,@(a,b,c,d),@(d,a - b + 1,a - c + 1),1)
+
+
+s(ws,sghg(2));
+
+
+ghg(4,3,@(a,b,c,d),@(d,a - b + 1,a - c + 1),1)
+
+
+yy := ghg(3,2,@(a-1,b,c/2),@((a+b)/2,c),1);
+
+
+                         c      a + b
+yy := ghg(3,2,@(a - 1,b,---),@(-------,c),1)
+                         2        2
+
+
+S(yy,sghg(1));
+
+
+                   c      a + b
+ghg(3,2,@(a - 1,b,---),@(-------,c),1)
+                   2        2
+
+
+yy := ghg(3,2,@(a-1,b,c/2),@(a/2+b/2,c),1);
+
+
+                         c      a + b
+yy := ghg(3,2,@(a - 1,b,---),@(-------,c),1)
+                         2        2
+
+
+S(yy,sghg(1));
+
+
+                   c      a + b
+ghg(3,2,@(a - 1,b,---),@(-------,c),1)
+                   2        2
+
+
+% Some Ghg theorems.
+
+flag('(@), 'symmetric);
+
+
+
+% Watson's Theorem.
+
+SGhg(1) := Ghg(3,2,@(?a,?b,?c),@(?d _=?d=(1+?a+?b)/2,?e _=?e=2*?c),1) -> 
+     Gamma(1/2)*Gamma(?c+1/2)*Gamma((1+?a+?b)/2)*Gamma((1-?a-?b)/2+?c)/
+     (Gamma((1+?a)/2)*Gamma((1+?b)/2)*Gamma((1-?a)/2+?c)
+	*Gamma((1-?b)/2+?c));
+
+
+                                           1 + ?a + ?b
+sghg(1) := ghg(3,2,@(?a,?b,?c),@(?d _= ?d=-------------,?e _= ?e=2*?c),1)->(
+                                                2
+
+                      - ?a - ?b + 2*?c + 1          2*?c + 1
+              gamma(-----------------------)*gamma(----------)
+                               2                       2
+
+                      ?a + ?b + 1          1             - ?a + 2*?c + 1
+              *gamma(-------------)*gamma(---))/(gamma(------------------)
+                           2               2                   2
+
+                       - ?b + 2*?c + 1          ?a + 1          ?b + 1
+              *gamma(------------------)*gamma(--------)*gamma(--------))
+                             2                    2               2
+
+
+% Dixon's theorem.
+
+SGhg(2) := Ghg(3,2,@(?a,?b,?c),@(?d _=?d=1+?a-?b,?e _=?e=1+?a-?c),1) -> 
+     Gamma(1+?a/2)*Gamma(1+?a-?b)*Gamma(1+?a-?c)*Gamma(1+?a/2-?b-?c)/
+     (Gamma(1+?a)*Gamma(1+?a/2-?b)*Gamma(1+?a/2-?c)*Gamma(1+?a-?b-?c));
+
+
+sghg(2) := ghg(3,2,@(?a,?b,?c),@(?d _= ?d=1 + ?a - ?b,?e _= ?e=1 + ?a - ?c),1)->
+
+                                                         ?a - 2*?b - 2*?c + 2
+           (gamma(?a - ?b + 1)*gamma(?a - ?c + 1)*gamma(----------------------)
+                                                                  2
+
+                    ?a + 2
+            *gamma(--------))/(gamma(?a - ?b - ?c + 1)*gamma(?a + 1)
+                      2
+
+                      ?a - 2*?b + 2          ?a - 2*?c + 2
+              *gamma(---------------)*gamma(---------------))
+                            2                      2
+
+
+SGhg(3) := Ghg(?p,?q,@(?a,??b),@(?a,??c),?z)
+		   -> Ghg(?p-1,?q-1,@(??b),@(??c),?z);
+
+
+sghg(3) := 
+
+ghg(?p,?q,@(??b,?a),@(??c,?a),?z)->ghg(?p - 1,?q - 1,@(??b),@(??c),?z)
+
+
+SGhg(9) := Ghg(1,0,@(?a),?b,?z )       ->  (1-?z)^(-?a);
+
+
+                                        1
+sghg(9) := ghg(1,0,@(?a),?b,?z)->---------------
+                                             ?a
+                                  ( - ?z + 1)
+
+SGhg(10) := Ghg(0,0,?a,?b,?z)          ->  E^?z;
+
+
+                                ?z
+sghg(10) := ghg(0,0,?a,?b,?z)->e
+
+SGhg(11) := Ghg(?p,?q,@(??t),@(??b),0) ->  1;
+
+
+sghg(11) := ghg(?p,?q,@(??t),@(??b),0)->1
+
+
+% If one of the bottom parameters is zero or a negative integer the
+% hypergeometric functions may be singular, so the presence of a
+% functions of this type causes a warning message to be printed.
+
+% Note it seems to have an off by one level spec., so this may need
+% changing in future.
+%
+% Reference: AS 15.1; Slater, Generalized Hypergeometric Functions,
+%     Cambridge University Press,1966.
+
+s(Ghg(3,2,@(a,b,c),@(b,c),z),SGhg(3));
+
+
+ghg(2,1,@(a,b),@(b),z)
+
+
+si(Ghg(3,2,@(a,b,c),@(b,c),z),{SGhg(3),Sghg(9)});
+
+
+      1
+-------------
+           a
+ ( - z + 1)
+
+
+S(Ghg(3,2,@(a-1,b,c),@(a-b,a-c),1),sghg 2);
+
+
+                                  a - 2*b - 2*c + 1          a + 1
+ gamma(a - b)*gamma(a - c)*gamma(-------------------)*gamma(-------)
+                                          2                    2
+---------------------------------------------------------------------
+                         a - 2*b + 1          a - 2*c + 1
+ gamma(a - b - c)*gamma(-------------)*gamma(-------------)*gamma(a)
+                              2                    2
+
+
+end;
+
+Tested on i686-pc-windows-nogui CSL
+Time (counter 1): 10 ms
+real	0m0.010s

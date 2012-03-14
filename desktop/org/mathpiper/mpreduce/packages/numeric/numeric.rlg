@@ -1,0 +1,2240 @@
+on errcont;
+
+
+bounds (x,x=(1 .. 2));
+
+
+1 .. 2
+
+bounds (2*x,x=(1 .. 2));
+
+
+2 .. 4
+
+bounds (x**3,x=(1 .. 2));
+
+
+1 .. 8
+
+bounds (x*y,x=(1 .. 2),y=(-1 .. 0));
+
+
+ - 2 .. 0
+
+bounds (x**3+y,x=(1 .. 2),y=(-1 .. 0));
+
+
+0 .. 8
+
+bounds (x**3/y,{x=(1 .. 2),y=(-1 .. -0.5)});
+
+
+ - 16 .. -1
+
+bounds (x**3/y,x=(1 .. 2),y=(-1 .. -0.5));
+
+
+ - 16 .. -1
+
+   % unbounded expression (pole at y=0)
+bounds (x**3/y,x=(1 .. 2),y=(-1 .. 0.5));
+
+
+***** unbounded in range 
+
+
+on rounded;
+
+
+bounds(e**x,x=(1 .. 2));
+
+
+2.71828182846 .. 7.38905609893
+
+bounds((1/2)**x,x=(1 .. 2));
+
+
+0.25 .. 0.5
+
+off rounded;
+
+
+
+bounds(abs x,x=(1 .. 2));
+
+
+1 .. 2
+
+bounds(abs x,x=(-3 .. 2));
+
+
+0 .. 3
+
+bounds(abs x,x=(-3 .. -2));
+
+
+2 .. 3
+
+
+bounds(sin x,x=(1 .. 2));
+
+
+ - 1 .. 1
+
+ 
+on rounded;
+
+
+
+bounds(sin x,x=(1 .. 2));
+
+
+0.841470984808 .. 1
+
+bounds(sin x,x=(1 .. 10));
+
+
+ - 1 .. 1
+
+bounds(sin x,x=(1001 .. 1002));
+
+
+0.167266541974 .. 0.919990597586
+
+
+bounds(log x,x=(1 .. 10));
+
+
+0 .. 2.30258509299
+
+
+bounds(tan x,x=(1 .. 1.1));
+
+
+1.55740772465 .. 1.96475965725
+
+
+bounds(cot x,x=(1 .. 1.1));
+
+
+0.508968105239 .. 0.642092615934
+
+bounds(asin x,x=(-0.6 .. 0.6));
+
+
+ - 0.643501108793 .. 0.643501108793
+
+bounds(acos x,x=(-0.6 .. 0.6));
+
+
+0.927295218002 .. 2.21429743559
+
+
+bounds(sqrt(x),x=(1 .. 1.1));
+
+
+1 .. 1.04880884817
+
+bounds(x**(7/3),x=(1 .. 1.1));
+
+
+1 .. 1.2490589397
+
+bounds(x**y,x=(1 .. 1.1),y=(2 .. 4));
+
+
+1 .. 1.4641
+
+ 
+off rounded;
+
+
+
+
+% MINIMA  (steepest descent)
+
+% Rosenbrock function (minimum extremely hard to find).
+fktn := 100*(x1^2-x2)^2 + (1-x1)^2;
+
+
+              4         2        2                2
+fktn := 100*x1  - 200*x1 *x2 + x1  - 2*x1 + 100*x2  + 1
+
+num_min(fktn, x1=-1.2, x2=1, accuracy=6);
+
+
+{0.00000021870243927,{x1=0.999532844813,x2=0.999068072135}}
+
+
+% infinitely many local minima
+num_min(sin(x)+x/5, x=1);
+
+
+{ - 1.33422674663,{x= - 1.77215430279}}
+
+
+% bivariate polynomial
+num_min(x^4 + 3 x^2 * y + 5 y^2 + x + y, x=0.1, y=0.2);
+
+
+{ - 0.832523282274,{x= - 0.889601609042,y= - 0.33989805551}}
+
+
+
+% ROOTS (non polynomial: damped Newton)
+
+ num_solve (cos x -x, x=0,accuracy=6);
+
+
+{x=0.739085133215}
+
+
+   % automatically randomized starting point
+num_solve (cos x -x,x, accuracy=6);
+
+
+{x=0.739085133215}
+  
+ 
+   % syntactical errors: forms do not evaluate to purely 
+   % numerical values
+num_solve (cos x -x, x=a);
+
+
+***** a invalid as number
+
+num_solve (cos x -a, x=0);
+
+
+***** error during function evaluation (e.g. singularity) 
+
+
+num_solve (sin x = 0, x=3);
+
+
+{x=3.14159265359}
+
+
+  % blows up: no real solution exists
+num_solve(sin x = 2, x=1);
+
+
+***** Newton method does not converge 
+
+
+  % solution in complex plane(only fond with complex starting point):
+on complex;
+
+
+*** Domain mode rounded changed to complex-rounded 
+
+num_solve(sin x = 2, x=1+i);
+
+
+{x=1.57079632542 + 1.31695789681*i}
+
+off complex;
+
+
+*** Domain mode complex-rounded changed to rounded 
+
+
+  % blows up for derivative 0 in starting point 
+num_solve(x^2-1, x=0);
+
+
+***** division by zero 
+
+
+  % succeeds because of perturbed starting point
+num_solve(x^2-1, x=0.1);
+
+
+{x=1.00000000033}
+
+
+  % bivariate equation system
+num_solve({sin x=cos y, x + y = 1},{x=1,y=2});
+
+
+{x= - 4.99778714379,y=5.99778714379}
+
+on rounded,evallhseqp;
+
+
+sub(ws,{sin x=cos y, x + y = 1});
+
+
+{0.959549629982=0.959549629988,1=1}
+
+off rounded,evallhseqp;
+
+
+ 
+  % temporal member of the Barry Simon test sequence
+sys :={sin (x) + y^2 + log(z) = 7,
+       3*x + 2^y - z^3 = -90,
+       x^2 + y^2 + z^(1/2) = 16};
+
+
+                  2
+sys := {sin(x) + y  + log(z)=7,
+
+               y    3
+        3*x + 2  - z =-90,
+
+         2    2    1/2
+        x  + y  + z   =16}
+
+sol:=num_solve(sys,{x=1,y=1,z=1});
+
+
+sol := {x=2.93087675819,y= - 2.29328251176,z=4.62601269017}
+
+on rounded;
+
+
+for each s in sys collect sub(sol,lhs s-rhs s);
+
+
+{0,0,0}
+  
+off rounded;
+
+
+clear sys,sol;
+
+
+ 
+  % 2 examples taken from Nowak/Weimann (Tech.Rep TR91-10, ZIB Berlin)
+ 
+  % #1: exp/sin combination
+
+on rounded;
+
+
+sys := {e**(x1**2 + x2**2)-3, x1 + x2 - sin(3(x1 + x2))};
+
+
+           2     2
+         x1  + x2
+sys := {e          - 3,
+
+         - sin(3*x1 + 3*x2) + x1 + x2}
+
+num_solve(sys,x1=0.81, x2=0.82);
+
+
+*** precision increased to 14 
+
+*** precision increased to 18 
+
+*** precision increased to 20 
+
+{x1= - 0.256625076922,x2=1.01624596361}
+
+sub(ws,sys);
+
+
+{0,0}
+
+
+  % 2nd example (semiconductor simulation), here computed with 
+  % intermediate steps printed
+
+alpha := 38.683;
+
+
+alpha := 38.683
+
+ni := 1.22e10;
+
+
+ni := 1.22e+10
+
+v := 100;
+
+
+v := 100
+
+d := 1e17;
+
+
+d := 1.0e+17
+
+sys := { e**(alpha*(x3-x1)) - e**(alpha*(x1-x2)) - d/ni,
+         x2,
+         x3,
+         e**(alpha*(x6-x4)) - e**(alpha*(x4-x5)) + d/ni,
+         x5 - v,
+         x6 - v};
+
+
+             77.366*x1                     38.683*x1 + 38.683*x2
+sys := {( - e          - 8.19672131148e+6*e
+
+             38.683*x2 + 38.683*x3   38.683*x1 + 38.683*x2
+          + e                     )/e                     ,
+
+        x2,
+
+        x3,
+
+             77.366*x4                     38.683*x4 + 38.683*x5
+        ( - e          + 8.19672131148e+6*e
+
+             38.683*x5 + 38.683*x6   38.683*x4 + 38.683*x5
+          + e                     )/e                     ,
+
+        x5 - 100,
+
+        x6 - 100}
+
+on trnumeric;
+
+
+num_solve(sys,x1=1,x2=2,x3=3,x4=4,x5=5,x6=6,iterations=100);
+
+
+*** computing symbolic Jacobian 
+
+*** starting Newton iteration 
+
+*** Newton iteration 
+
+*** evalute function in the initial point 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+1. residue=(1.46329673989e+33 , 0 , 0 , 1.46329673988e+33 , 0.0 , 0.0)
+
+, step length=95.0
+ at ( - 1.97414885092 , 0 , 0 , 98.0258511491 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+2. residue=(5.38316786938e+32 , 0.0 , 0.0 , 5.38316786935e+32 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.94829770183 , 0.0 , 0.0 , 98.0517022982 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+3. residue=(1.98035678752e+32 , 0.0 , 0.0 , 1.98035678751e+32 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.92244655275 , 0.0 , 0.0 , 98.0775534473 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+4. residue=(7.28532548313e+31 , 0.0 , 0.0 , 7.28532548309e+31 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.89659540367 , 0.0 , 0.0 , 98.1034045963 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+5. residue=(2.68012146749e+31 , 0.0 , 0.0 , 2.68012146747e+31 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.87074425458 , 0.0 , 0.0 , 98.1292557454 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+6. residue=(9.8596158773e+30 , 0.0 , 0.0 , 9.85961587725e+30 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.8448931055 , 0.0 , 0.0 , 98.1551068945 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+7. residue=(3.62714997911e+30 , 0.0 , 0.0 , 3.62714997909e+30 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.81904195641 , 0.0 , 0.0 , 98.1809580436 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+8. residue=(1.33435390736e+30 , 0.0 , 0.0 , 1.33435390735e+30 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.79319080733 , 0.0 , 0.0 , 98.2068091927 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+9. residue=(4.90881369764e+29 , 0.0 , 0.0 , 4.90881369762e+29 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.76733965825 , 0.0 , 0.0 , 98.2326603418 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+10. residue=(1.8058516399e+29 , 0.0 , 0.0 , 1.80585163991e+29 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.74148850916 , 0.0 , 0.0 , 98.2585114908 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+11. residue=(6.64335692126e+28 , 0.0 , 0.0 , 6.64335692127e+28 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.71563736008 , 0.0 , 0.0 , 98.2843626399 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+12. residue=(2.4439544317e+28 , 0.0 , 0.0 , 2.4439544317e+28 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.689786211 , 0.0 , 0.0 , 98.310213789 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+13. residue=(8.99080590581e+27 , 0.0 , 0.0 , 8.99080590582e+27 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.66393506191 , 0.0 , 0.0 , 98.3360649381 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+14. residue=(3.30753265231e+27 , 0.0 , 0.0 , 3.30753265232e+27 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.63808391283 , 0.0 , 0.0 , 98.3619160872 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+15. residue=(1.21677326379e+27 , 0.0 , 0.0 , 1.21677326379e+27 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.61223276375 , 0.0 , 0.0 , 98.3877672363 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+16. residue=(4.47625868315e+26 , 0.0 , 0.0 , 4.47625868316e+26 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.58638161466 , 0.0 , 0.0 , 98.4136183853 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+17. residue=(1.64672354289e+26 , 0.0 , 0.0 , 1.6467235429e+26 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.56053046558 , 0.0 , 0.0 , 98.4394695344 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+18. residue=(6.05795736724e+25 , 0.0 , 0.0 , 6.05795736725e+25 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.5346793165 , 0.0 , 0.0 , 98.4653206835 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+19. residue=(2.2285979709e+25 , 0.0 , 0.0 , 2.2285979709e+25 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.50882816741 , 0.0 , 0.0 , 98.4911718326 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+20. residue=(8.19855376131e+24 , 0.0 , 0.0 , 8.19855376132e+24 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.48297701833 , 0.0 , 0.0 , 98.5170229817 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+21. residue=(3.01607937612e+24 , 0.0 , 0.0 , 3.01607937613e+24 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.45712586924 , 0.0 , 0.0 , 98.5428741308 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+22. residue=(1.10955359542e+24 , 0.0 , 0.0 , 1.10955359542e+24 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.43127472016 , 0.0 , 0.0 , 98.5687252798 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+23. residue=(4.08181956632e+23 , 0.0 , 0.0 , 4.08181956633e+23 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.40542357108 , 0.0 , 0.0 , 98.5945764289 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+24. residue=(1.50161750102e+23 , 0.0 , 0.0 , 1.50161750102e+23 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.37957242199 , 0.0 , 0.0 , 98.620427578 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+25. residue=(5.52414207128e+22 , 0.0 , 0.0 , 5.52414207133e+22 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.35372127291 , 0.0 , 0.0 , 98.6462787271 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+26. residue=(2.03221829814e+22 , 0.0 , 0.0 , 2.03221829815e+22 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.32787012383 , 0.0 , 0.0 , 98.6721298762 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+27. residue=(7.47611331856e+21 , 0.0 , 0.0 , 7.47611331863e+21 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.30201897474 , 0.0 , 0.0 , 98.6979810253 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+28. residue=(2.75030838977e+21 , 0.0 , 0.0 , 2.75030838979e+21 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.27616782566 , 0.0 , 0.0 , 98.7238321743 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+29. residue=(1.01178191348e+21 , 0.0 , 0.0 , 1.01178191349e+21 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.25031667658 , 0.0 , 0.0 , 98.7496833234 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+30. residue=(3.72213764917e+20 , 0.0 , 0.0 , 3.72213764921e+20 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.22446552749 , 0.0 , 0.0 , 98.7755344725 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+31. residue=(1.36929791834e+20 , 0.0 , 0.0 , 1.36929791835e+20 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.19861437841 , 0.0 , 0.0 , 98.8013856216 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+32. residue=(5.03736552996e+19 , 0.0 , 0.0 , 5.03736553001e+19 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.17276322933 , 0.0 , 0.0 , 98.8272367707 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+33. residue=(1.85314321614e+19 , 0.0 , 0.0 , 1.85314321616e+19 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.14691208024 , 0.0 , 0.0 , 98.8530879198 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+34. residue=(6.81733290764e+18 , 0.0 , 0.0 , 6.81733290771e+18 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.12106093116 , 0.0 , 0.0 , 98.8789390688 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+35. residue=(2.50795662034e+18 , 0.0 , 0.0 , 2.50795662037e+18 , 0.0 , 0.0)
+
+, step length=0.0258511490836
+ at ( - 1.09520978207 , 0.0 , 0.0 , 98.9047902179 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+36. residue=(9.2262567997e+17 , 0.0 , 0.0 , 9.22625679991e+17 , 0.0 , 0.0)
+
+, step length=0.0258511490837
+ at ( - 1.06935863299 , 0.0 , 0.0 , 98.930641367 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+37. residue=(3.39415019556e+17 , 0.0 , 0.0 , 3.39415019568e+17 , 0.0 , 0.0)
+
+, step length=0.0258511490838
+ at ( - 1.04350748391 , 0.0 , 0.0 , 98.9564925161 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+38. residue=(1.24863807717e+17 , 0.0 , 0.0 , 1.24863807725e+17 , 0.0 , 0.0)
+
+, step length=0.0258511490842
+ at ( - 1.01765633483 , 0.0 , 0.0 , 98.9823436652 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+39. residue=(4.59348278034e+16 , 0.0 , 0.0 , 4.59348278107e+16 , 0.0 , 0.0)
+
+, step length=0.0258511490853
+ at ( - 0.991805185743 , 0.0 , 0.0 , 99.0081948143 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+40. residue=(1.68984787804e+16 , 0.0 , 0.0 , 1.68984787874e+16 , 0.0 , 0.0)
+
+, step length=0.0258511490882
+ at ( - 0.965954036664 , 0.0 , 0.0 , 99.0340459633 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+41. residue=(6.21660292823e+15 , 0.0 , 0.0 , 6.21660293516e+15 , 0.0 , 0.0)
+
+, step length=0.0258511490961
+ at ( - 0.940102887593 , 0.0 , 0.0 , 99.0598971124 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+42. residue=(2.28696040906e+15 , 0.0 , 0.0 , 2.28696041594e+15 , 0.0 , 0.0)
+
+, step length=0.0258511491177
+ at ( - 0.914251738544 , 0.0 , 0.0 , 99.0857482616 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+43. residue=(8.41325715099e+14 , 0.0 , 0.0 , 8.41325721962e+14 , 0.0 , 0.0)
+
+, step length=0.0258511491762
+ at ( - 0.888400589553 , 0.0 , 0.0 , 99.1115994107 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+44. residue=(3.09506431748e+14 , 0.0 , 0.0 , 3.09506438604e+14 , 0.0 , 0.0)
+
+, step length=0.0258511493354
+ at ( - 0.862549440721 , 0.0 , 0.0 , 99.1374505601 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+45. residue=(1.13861050984e+14 , 0.0 , 0.0 , 1.13861057839e+14 , 0.0 , 0.0)
+
+, step length=0.0258511497682
+ at ( - 0.836698292322 , 0.0 , 0.0 , 99.1633017098 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+46. residue=(4.18871376415e+13 , 0.0 , 0.0 , 4.18871444947e+13 , 0.0 , 0.0)
+
+, step length=0.0258511509446
+ at ( - 0.8108471451 , 0.0 , 0.0 , 99.1891528608 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+47. residue=(1.54094146219e+13 , 0.0 , 0.0 , 1.54094214749e+13 , 0.0 , 0.0)
+
+, step length=0.0258511541423
+ at ( - 0.784996001075 , 0.0 , 0.0 , 99.2150040149 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+48. residue=(5.66880467397e+12 , 0.0 , 0.0 , 5.6688115269e+12 , 0.0 , 0.0)
+
+, step length=0.0258511628346
+ at ( - 0.759144865742 , 0.0 , 0.0 , 99.2408551778 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+49. residue=(2.08543452966e+12 , 0.0 , 0.0 , 2.08544138253e+12 , 0.0 , 0.0)
+
+, step length=0.0258511864627
+ at ( - 0.733293754037 , 0.0 , 0.0 , 99.2667063642 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+50. residue=(767186323467.0 , 0.0 , 0.0 , 767193176319.0 , 0.0 , 0.0)
+
+, step length=0.0258512506906
+ at ( - 0.70744270656 , 0.0 , 0.0 , 99.2925576149 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+51. residue=(282229910057.0 , 0.0 , 0.0 , 282236762901.0 , 0.0 , 0.0)
+
+, step length=0.0258514252812
+ at ( - 0.681591833671 , 0.0 , 0.0 , 99.3184090402 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+52. residue=(103824415727.0 , 0.0 , 0.0 , 103831268569.0 , 0.0 , 0.0)
+
+, step length=0.0258518998746
+ at ( - 0.655741435353 , 0.0 , 0.0 , 99.3442609401 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+53. residue=(3.81927022457e+10 , 0.0 , 0.0 , 3.8199555087e+10 , 0.0 , 0.0)
+
+, step length=0.0258531900044
+ at ( - 0.629892327003 , 0.0 , 0.0 , 99.3701141301 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+54. residue=(1.40481443717e+10 , 0.0 , 0.0 , 1.40549972128e+10 , 0.0 , 0.0)
+
+, step length=0.0258566973195
+ at ( - 0.604046724769 , 0.0 , 0.0 , 99.3959708274 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+55. residue=(5.16585846951e+9 , 0.0 , 0.0 , 5.17271131074e+9 , 0.0 , 0.0)
+
+, step length=0.0258662339895
+ at ( - 0.578210650353 , 0.0 , 0.0 , 99.4218370614 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+56. residue=(1.89824960589e+9 , 0.0 , 0.0 , 1.90510244878e+9 , 0.0 , 0.0)
+
+, step length=0.025892178044
+ at ( - 0.552400454575 , 0.0 , 0.0 , 99.4477292394 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+57. residue=(6.96167585052e+8 , 0.0 , 0.0 , 7.03020440594e+8 , 0.0 , 0.0)
+
+, step length=0.0259628545108
+ at ( - 0.526660451901 , 0.0 , 0.0 , 99.4736920939 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+58. residue=(2.53957444815e+8 , 0.0 , 0.0 , 2.60810394004e+8 , 0.0 , 0.0)
+
+, step length=0.026156110844
+ at ( - 0.501110133883 , 0.0 , 0.0 , 99.4998482048 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+59. residue=(9.13074482936e+7 , 0.0 , 0.0 , 9.81610893493e+7 , 0.0 , 0.0)
+
+, step length=0.0266899582516
+ at ( - 0.476067267452 , 0.0 , 0.0 , 99.526538163 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+60. residue=(3.15519019482e+7 , 0.0 , 0.0 , 3.8410646839e+7 , 0.0 , 0.0)
+
+, step length=0.0282064667415
+ at ( - 0.452345623749 , 0.0 , 0.0 , 99.5547446298 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+61. residue=(9.77481469301e+6 , 0.0 , 0.0 , 1.66708124709e+7 , 0.0 , 0.0)
+
+, step length=0.0328642948738
+ at ( - 0.431825342687 , 0.0 , 0.0 , 99.5876089247 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+62. residue=(2.23533931681e+6 , 0.0 , 0.0 , 9.38172386018e+6 , 0.0 , 0.0)
+
+, step length=0.0508561508748
+ at ( - 0.417764764235 , 0.0 , 0.0 , 99.6384650755 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+63. residue=(2.23262484734e+5 , 0.0 , 0.0 , 8.19715321429e+6 , 0.0 , 0.0)
+
+, step length=0.20466482746
+ at ( - 0.41222548566 , 0.0 , 0.0 , 99.843129903 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+*** reduce the difference limititeration to its half 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+*** reduce the difference limititeration to its half 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+*** reduce the difference limititeration to its half 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+*** reduce the difference limititeration to its half 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+*** reduce the difference limititeration to its half 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+*** reduce the difference limititeration to its half 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+*** reduce the difference limititeration to its half 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+64. residue=(2.23088062724e+5 , 0.0 , 0.0 , 8.19035290355e+6 , 0.0 , 0.0)
+
+, step length=0.383303021247
+ at ( - 0.412224950141 , 0.0 , 0.0 , 100.226432924 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+*** reduce the difference limititeration to its half 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+*** reduce the difference limititeration to its half 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+*** reduce the difference limititeration to its half 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+*** reduce the difference limititeration to its half 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+*** reduce the difference limititeration to its half 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+*** reduce the difference limititeration to its half 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+*** reduce the difference limititeration to its half 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+*** reduce the difference limititeration to its half 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+65. residue=(2.22216670074e+5 , 0.0 , 0.0 , 7.2288078e+6 , 0.0 , 0.0)
+
+, step length=0.129870827146
+ at ( - 0.412222274586 , 0.0 , 0.0 , 100.356303751 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+*** reduce the difference limititeration to its half 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+*** reduce the difference limititeration to its half 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+66. residue=(1.66845393097e+5 , 0.0 , 0.0 , 1.93472870727e+6 , 0.0 , 0.0)
+
+, step length=0.0482669644337
+ at ( - 0.412051690235 , 0.0 , 0.0 , 100.404570716 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+67. residue=(1653.19388834 , 0.0 , 0.0 ,  - 3.3219398641e+5 , 0.0 , 0.0)
+
+, step length=0.00798706792058
+ at ( - 0.411535983805 , 0.0 , 0.0 , 100.412557784 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+68. residue=(0.166671264823 , 0.0 , 0.0 ,  - 6386.15622619 , 0.0 , 0.0)
+
+, step length=0.00100688023827
+ at ( - 0.411530770947 , 0.0 , 0.0 , 100.411550903 , 100.0 , 100.0) 
+
+*** evaluate Jacobian (or its inverse) 
+
+*** compute the next point 
+
+*** evalute function in the next point 
+
+*** compute the point difference 
+
+*** compute the size of the point difference 
+
+69. residue=( - 0.000000122 , 0.0 , 0.0 ,  - 2.48519530414 , 0.0 , 0.0)
+
+, step length=0.00002012523636
+ at ( - 0.411530770421 , 0.0 , 0.0 , 100.411530778 , 100.0 , 100.0) 
+
+{x1= - 0.411530770421,x2=0.0,x3=0.0,x4=100.41153077,x5=100.0,x6=100.0}
+
+off trnumeric;
+
+
+clear alpha,ni,v,d,sys;
+
+
+off rounded;
+
+
+
+% INTEGRALS
+ 
+num_int( x**2,x=(1 .. 2),accuracy=3);
+
+
+ 7
+---
+ 3
+
+
+  % 1st case: using formal integral
+needle := 1/(10**-4 + x**2);
+
+
+              10000
+needle := --------------
+                  2
+           10000*x  + 1
+
+num_int(needle,x=(-1 .. 1),accuracy=3);
+
+
+312.159332022
+           % 312.16
+
+  % no formal integral, but easy Chebyshev fit
+num_int(sin x/x,x=(1 .. 10));
+
+
+0.712264523852
+
+
+  % using a Chebyshev fit of order 60
+num_int(exp(-x**2),x=(-10 .. 10),accuracy=3);
+
+
+1.77245387654
+     % 1.772
+
+   % cases with singularities
+
+num_int(1/sqrt x ,x=(0 .. 1),accuracy=2);
+
+
+2
+          % 1.999
+
+num_int(1/sqrt abs x ,x=(-1 .. 1),iterations=50);
+
+
+3.99999231465
+     % 3.999
+
+   % simple multidimensional integrals
+num_int(x+y,x=(0 .. 1),y=(2 .. 3));
+
+
+3.0
+
+
+num_int(sin(x+y),x=(0 .. 1),y=(0 .. 1));
+
+
+0.773135425204
+
+
+% some integrals with infinite bounds
+ 
+on rounded;
+
+ % for the error function
+
+num_int(e^(-x) ,x=(0 .. infinity));
+
+
+1.00000034605
+  % 1.000
+
+2/sqrt(pi)* num_int(e^(-x^2) ,x=(0 .. infinity));
+
+
+1.00000003784
+ % 1.00
+
+2/sqrt(pi)* num_int(e^(-x^2), x=(-infinity .. infinity));
+
+
+2.00000007569
+ % 2.00
+
+num_int(sin(x) * e^(-x), x=(0 .. infinity));
+
+
+0.500000522701
+ % 0.500
+ 
+off rounded;
+
+
+ 
+% APPROXIMATION
+ 
+  %approximate sin x by a cubic polynomial 
+num_fit(sin x,{1,x,x**2,x**3},x=for i:=0:20 collect 0.1*i);
+
+
+                     3                   2
+{ - 0.0847539694989*x  - 0.134641944765*x  + 1.06263064633*x - 0.00519313406463,
+
+ { - 0.00519313406463,1.06263064633, - 0.134641944765, - 0.0847539694989}}
+
+ 
+  % approximate x**2 by a harmonic series in the interval [0,1]
+num_fit(x**2,1 . for i:=1:5 join {sin(i*x)},
+               x=for i:=0:10 collect i/10);
+
+
+{ - 1.30957811515*sin(5*x) + 7.16375583558*sin(4*x) - 18.5490187013*sin(3*x)
+
+  + 26.560171601*sin(2*x) - 19.4492191035*sin(x) - 0.00197199700344,
+
+ { - 0.00197199700344, - 19.4492191035,26.560171601, - 18.5490187013,
+
+  7.16375583558, - 1.30957811515}}
+
+ 
+  % approximate a set of points by a polynomial
+pts:=for i:=1 step 0.1 until 3 collect i$
+
+
+vals:=for each p in pts collect (p+2)**3$
+
+
+num_fit(vals,{1,x,x**2,x**3},x=pts);
+
+
+      3                  2
+{1.0*x  + 5.99999999998*x  + 12.0*x + 7.99999999998,{7.99999999998,12.0,
+
+    5.99999999998,1.0}}
+
+  % compute the approximation error
+on rounded;
+
+
+first ws - (x+2)**3;
+
+
+                   3                             2
+2.50954812486e-12*x  - 0.0000000000155884194442*x  + 0.0000000000306474845502*x
+
+ - 0.0000000000188205007134
+
+off rounded;
+
+
+
+
+ 
+% ODE SOLUTION (Runge-Kutta)
+ 
+depend(y,x);
+
+
+
+   % approximate y=y(x) with df(y,x)=2y in interval [0 : 5]
+num_odesolve(df(y,x)=y,y=2,x=(0 .. 5),iterations=20);
+
+
+{{x,y},
+
+ {0.0,2.0},
+
+ {0.25,2.56805083337},
+
+ {0.5,3.2974425414},
+
+ {0.75,4.23400003322},
+
+ {1.0,5.43656365691},
+
+ {1.25,6.98068591491},
+
+ {1.5,8.96337814065},
+
+ {1.75,11.509205352},
+
+ {2.0,14.7781121978},
+
+ {2.25,18.9754716726},
+
+ {2.5,24.3649879213},
+
+ {2.75,31.2852637682},
+
+ {3.0,40.1710738461},
+
+ {3.25,51.5806798341},
+
+ {3.5,66.2309039169},
+
+ {3.75,85.0421639995},
+
+ {4.0,109.196300065},
+
+ {4.25,140.210824692},
+
+ {4.5,180.034262599},
+
+ {4.75,231.168569052},
+
+ {5.0,296.826318202}}
+
+ 
+   % same with negative direction
+num_odesolve(df(y,x)=y,y=2,x=(0 .. -5),iterations=20);
+
+
+{{x,y},
+
+ {0.0,2.0},
+
+ {-0.25,1.55760156614},
+
+ {-0.5,1.21306131943},
+
+ {-0.75,0.944733105483},
+
+ {-1.0,0.735758882344},
+
+ {-1.25,0.573009593722},
+
+ {-1.5,0.446260320298},
+
+ {-1.75,0.347547886902},
+
+ {-2.0,0.270670566474},
+
+ {-2.25,0.210798449125},
+
+ {-2.5,0.164169997249},
+
+ {-2.75,0.127855722414},
+
+ {-3.0,0.0995741367363},
+
+ {-3.25,0.0775484156639},
+
+ {-3.5,0.060394766845},
+
+ {-3.75,0.0470354917124},
+
+ {-4.0,0.0366312777778},
+
+ {-4.25,0.0285284678182},
+
+ {-4.5,0.0222179930767},
+
+ {-4.75,0.0173033904064},
+
+ {-5.0,0.0134758939983}}
+
+
+   % giving a nice picture when plotted
+num_odesolve(df(y,x)=1- x*y**2 ,y=0,x=(0 .. 4),iterations=20);
+
+
+{{x,y},
+
+ {0.0,0.0},
+
+ {0.2,0.199600912188},
+
+ {0.4,0.393714914166},
+
+ {0.6,0.569482634406},
+
+ {0.8,0.710657687564},
+
+ {1.0,0.805480022354},
+
+ {1.2,0.852604291055},
+
+ {1.4,0.860563377356},
+
+ {1.6,0.842333334456},
+
+ {1.8,0.80999200878},
+
+ {2.0,0.772211952811},
+
+ {2.2,0.734163640068},
+
+ {2.4,0.698433235122},
+
+ {2.6,0.666019196492},
+
+ {2.8,0.637070046905},
+
+ {3.0,0.611341375657},
+
+ {3.2,0.588447372601},
+
+ {3.4,0.567985133759},
+
+ {3.6,0.549587947292},
+
+ {3.8,0.532942255624},
+
+ {4.0,0.517787833735}}
+
+
+   % system of ordinary differential equations
+depend(y,x);
+
+
+depend(z,x);
+
+
+num_odesolve(
+    {df(z,x) = y, df(y,x)=  y+x},
+    {z=2, y=4},
+     x=(0 .. 5),iterations=20);
+
+
+{{x,z,y},
+
+ {0.0,2.0,4.0},
+
+ {0.25,3.13887708344,5.17012708344},
+
+ {0.5,4.61860635349,6.74360635349},
+
+ {0.75,6.55375008305,8.83500008305},
+
+ {1.0,9.09140914227,11.5914091423},
+
+ {1.25,12.4204647873,15.2017147873},
+
+ {1.5,16.7834453516,19.9084453516},
+
+ {1.75,22.4917633799,26.0230133799},
+
+ {2.0,29.9452804945,33.9452804945},
+
+ {2.25,39.6574291816,44.1886791816},
+
+ {2.5,52.2874698032,57.4124698032},
+
+ {2.75,68.6819094205,74.4631594205},
+
+ {3.0,89.9276846154,96.4276846154},
+
+ {3.25,117.420449585,124.701699585},
+
+ {3.5,152.952259792,161.077259792},
+
+ {3.75,198.824159999,207.855409999},
+
+ {4.0,257.990750164,267.990750164},
+
+ {4.25,334.245811731,345.277061731},
+
+ {4.5,432.460656499,444.585656499},
+
+ {4.75,558.890172631,572.171422631},
+
+ {5.0,721.565795506,736.065795506}}
+
+
+
+%----------------- Chebyshev fit -------------------------
+
+on rounded;
+
+
+
+func := x**2 * (x**2 - 2) * sin x;
+
+
+                2   2
+func := sin(x)*x *(x  - 2)
+
+ord := 15;
+
+
+ord := 15
+
+
+cx:=chebyshev_fit(func,x=(0 .. 2),ord)$
+
+
+cp:=first cx;
+
+
+                            13                       12                     11
+cp := 0.000000620105171977*x   + 0.0000168737299962*x   - 0.00026901433239*x
+
+                      10                     9                      8
+ + 0.000155646041369*x   + 0.00848163754631*x  + 0.000272748735738*x
+
+                   7                      6                  5
+ - 0.183540092089*x  + 0.000106808572358*x  + 1.33329694606*x
+
+                       4                  3                          2
+ + 0.0000077069632094*x  - 2.00000091555*x  + 0.0000000501523955698*x
+
+ - 0.000000000785028486661*x - 4.84723372551e-13
+
+cc:=second cx;
+
+
+cc := {2.69320512829,
+
+       2.76751928466,
+
+       2.25642507569,
+
+       0.955452569949,
+
+       0.0509075944268,
+
+        - 0.0868248678183,
+
+        - 0.0170919216091,
+
+       0.00104527137626,
+
+       0.000349190502034,
+
+        - 0.00000253521592344,
+
+        - 0.00000280798840681,
+
+        - 0.0000000157676046995,
+
+       0.0000000121753404453,
+
+       0.000000000118270172845,
+
+        - 0.0000000000331226914068}
+
+
+for u:=0 step 0.2 until 2 do write
+    "x:",u," true value:",sub(x=u,func),
+           " Chebyshev eval:", chebyshev_eval(cc,x=(0 .. 2),x=u),
+           " Chebyshev polynomial:",sub(x=u,cp);
+
+
+x:0 true value:0 Chebyshev eval: - 4.85389506366e-13 Chebyshev polynomial:
+
+ - 4.84723372551e-13
+
+x:0.2 true value: - 0.0155756755343 Chebyshev eval: - 0.0155756755339
+
+ Chebyshev polynomial: - 0.015575675548
+
+x:0.4 true value: - 0.114644759976 Chebyshev eval: - 0.114644759976
+
+ Chebyshev polynomial: - 0.114644759974
+
+x:0.6 true value: - 0.333364916292 Chebyshev eval: - 0.333364916292
+
+ Chebyshev polynomial: - 0.333364916295
+
+x:0.8 true value: - 0.624386741519 Chebyshev eval: - 0.624386741519
+
+ Chebyshev polynomial: - 0.624386741504
+
+x:1 true value: - 0.841470984808 Chebyshev eval: - 0.841470984808
+
+ Chebyshev polynomial: - 0.841470984841
+
+x:1.2 true value: - 0.751596318924 Chebyshev eval: - 0.751596318924
+
+ Chebyshev polynomial: - 0.751596318876
+
+x:1.4 true value: - 0.0772592588311 Chebyshev eval: - 0.0772592588311
+
+ Chebyshev polynomial: - 0.0772592588864
+
+x:1.6 true value:1.43298871732 Chebyshev eval:1.43298871732
+
+ Chebyshev polynomial:1.43298871738
+
+x:1.8 true value:3.91253024182 Chebyshev eval:3.91253024182
+
+ Chebyshev polynomial:3.91253024177
+
+x:2.0 true value:7.27437941461 Chebyshev eval:7.27437941461
+
+ Chebyshev polynomial:7.27437941467
+
+
+% integral
+
+   % integrate coefficients
+ci := chebyshev_int(cc,x=(0 .. 2));
+
+
+ci := {0.0310113015322,
+
+       0.2183900263,
+
+       0.453016678678,
+
+       0.367586246877,
+
+       0.130284679721,
+
+       0.00679995160359,
+
+        - 0.00732251159954,
+
+        - 0.00124579372222,
+
+       0.0000654879120115,
+
+       0.0000195554716912,
+
+        - 0.000000125972415937,
+
+        - 0.000000128189261239,
+
+        - 0.000000000661911453016,
+
+       0.000000000469556274487,
+
+       4.22393474448e-12}
+
+
+   % compare with true values (normalized absolute term)
+ci0:=chebyshev_eval(ci,x=(0 .. 2),x=0)$
+
+
+ifunc := int(func,x)$
+
+ if0 := sub(x=0,ifunc);
+
+
+if0 :=  - 28.0
+
+
+for u:=0 step 0.2 until 2 do write
+       {u,sub(x=u,ifunc) - if0,
+          chebyshev_eval(ci,x=(0 .. 2),x=u) - ci0};
+
+
+{0,0,0}
+
+{0.2, - 0.000785836355117, - 0.00078583635293}
+
+{0.4, - 0.0119047051867, - 0.0119047051858}
+
+{0.6, - 0.0548116700418, - 0.0548116700408}
+
+{0.8, - 0.150297976106, - 0.150297976105}
+
+{1, - 0.299838223412, - 0.29983822341}
+
+{1.2, - 0.466528961073, - 0.466528961072}
+
+{1.4, - 0.561460555384, - 0.561460555383}
+
+{1.6, - 0.441445769516, - 0.441445769514}
+
+{1.8,0.0768452822437,0.0768452822437}
+
+{2.0,1.18309971762,1.18309971762}
+
+
+% derivative
+
+   % differentiate coefficients
+cd := chebyshev_df(cc,x=(0 .. 2))$
+
+
+   % compute coefficients of derivative
+cds := second chebyshev_fit(df(func,x),x=(0 .. 2),ord)$
+
+
+   % compare coefficients
+for i:=1:ord do write {part(cd,i),part(cds,i)};
+
+
+{10.4140931324,10.4140931324}
+
+{9.23338917839,9.2333891784}
+
+{4.87905456308,4.87905456307}
+
+{0.207688875651,0.207688875654}
+
+{ - 0.853660856614, - 0.853660856625}
+
+{ - 0.199571879764, - 0.19957187976}
+
+{0.0145878215688,0.0145878215579}
+
+{0.00553117954515,0.00553117954883}
+
+{ - 0.0000459776989007, - 0.0000459777097749}
+
+{ - 0.0000558684874009, - 0.0000558684837244}
+
+{ - 0.000000343812278896, - 0.000000343823152606}
+
+{0.000000291280735327,0.000000291284408437}
+
+{0.00000000307502449398,0.00000000306414433602}
+
+{ - 0.00000000092743535939, - 0.000000000923749267882}
+
+{0, - 0.0000000000109233295089}
+
+
+clear func,ord,cc,cx,cd,cds,ci,ci0;
+
+
+
+% One from ISSAC '97 -- should be  ~ 1.10*10^36300
+
+f := x^(x^x);
+
+
+       x
+      x
+f := x
+ num_int(f,x= (1 .. 6),iterations=40);
+
+
+*** ROUNDBF turned on to increase accuracy 
+
+1.10267709584e+36300
+
+
+off rounded;
+
+
+
+end;
+
+Tested on i686-pc-windows-nogui CSL
+Time (counter 1): 421 ms  plus GC time: 49 ms
+real	0m0.473s

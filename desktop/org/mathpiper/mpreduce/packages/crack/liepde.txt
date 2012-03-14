@@ -1,0 +1,186 @@
+*********************************************************************
+*                                                                   *
+*  The program LIEPDE for computing point-, contact- and higher     *
+*  order symmetries of individual ODEs/PDEs or systems of ODEs/PDEs *
+*                                                                   *
+*  Author: Thomas Wolf                                              *
+*  Date:   20.July 1996                                             *
+*                                                                   *
+*********************************************************************
+
+Before using LIEPDE one must read in CRACK by 
+
+   in crack$
+
+or better because execution will be quicker:
+
+   faslout "crack"$
+   in crack$
+   faslend$
+   faslout "liepde"$
+   in liepde$
+   faslend$
+   bye$
+
+   reduce 
+   load crack,liepde$
+
+The program LIEPDE is called with:
+
+   liepde(problem,symtype,flist,inequ)$ 
+
+or, for example:
+
+   sym:=liepde(problem,symtype,flist,inequ)$
+
+The input data `problem',`symtype',`flist' and `inequ' are explained below.
+
+ problem:
+ ========
+           {{eq1,eq2, ...},   % equations
+	    { y1, y2, ...},   % functions
+	    { x1, x2, ...} }  % variables
+
+ Equations `eqi' can be given as single differential
+ expressions which have to vanish or they can be given
+ in the form df(..,..[,..]) = ..   .
+
+ If the equations are given as single differential
+ expressions then the program will try to bring it into
+ the `solved form' ..=.. automatically.
+
+ The solved forms (either from input or generated within 
+ LIEPDE) will be used for substitutions, to find 
+ all symmetries satisfied by solutions of the equations.
+ Sufficient conditions for this procedure to be correct, 
+ i.e. to get *all* symmetries of the specified type on the
+ solution space are:
+
+ - There are equally many equations and functions.
+ - Each function is used once for a substitution and
+   each equation is used once for a substitution.
+ - All functions differentiated on the left hand sides 
+   (lhs) depend on all variables.
+ - In no equation df(..,..[,..]) = .. does the right hand 
+   side contain the derivative on the lhs nor any 
+   derivative of it.
+ - No equation does contain a lhs or the derivative
+   of a lhs of another equation.
+           
+ These conditions are checked in LIEPDE and execution
+ is stoped if they are not satisfied, i.e. if the input
+ was not correct, or if the program was not able to
+ write the input expressions properly the solved 
+ form ..=..  . One then should find for each function
+ one derivative which occurs linearly in one equation.
+ The chosen derivatives should be as high as possible, 
+ at least there must no derivative of them occur in any 
+ equation. An easy way to get the equations in the
+ desired form is to use 
+ FIRST SOLVE({eq1,eq2,...},{list of derivatives})
+
+ NOTE that to improve efficiency it is advisable not to
+ express lower order derivatives on the left hand side
+ through higher order derivatives on the right hand side.
+ SEE also the implications on completeness for the
+ determination of generalized symmetries with
+ characteristic functions of a given order, as described
+ below and the two examples with the Burgers equation.
+
+ symtype:
+ ========
+           {"point"}          % for point   symmetries
+           {"contact"}        % for contact symmetries, is only
+                              % applicable if only one function,
+                              % only one equation of order>1
+           {"general",order}  % for generalized symmetries of
+                              % order `order' which is an integer>0
+                              % NOTE: Characteristic functions of
+                              % generalized symmetries (i.e. the
+                              % eta_.. if xi_..=0) are equivalent
+                              % if they are equal on the solution
+                              % manifold. Therefore all dependencies
+                              % of characteristic functions on
+                              % the substituted derivatives and their
+                              % derivatives are dropped. This has the
+                              % consequence that if, e.g. for the heat
+                              % equation df(u,t)=df(u,x,2), df(u,t) is
+                              % substituted by df(u,x,2) then
+                              % {"general",2) would not include
+                              % characteristic functions depending
+                              % on df(u,t,x), or df(u,x,3). THEREFORE:
+                              % If you want to find all symmetries up
+                              % to a given order then 
+                              % - either avoid substituting lower 
+                              %   order derivatives by expressions
+                              %   involving higher derivatives, or, 
+                              % - go up in the order specified in 
+                              %   symtype.
+                              % 
+                              % Example:
+                              %
+                              % depend u,t,x
+                              % liepde({{df(u,t)=df(u,x,2)+df(u,x)**2},
+                              %         {u},{t,x}},
+                              %        {"general",3},{})
+                              %
+                              % will give 10 symmetries + one infinite
+                              % family of symmetries whereas
+                              %
+                              % liepde({{df(u,x,2)=df(u,t)-df(u,x)**2},
+                              %         {u},{t,x}},
+                              %        {"general",3},{})
+                              %
+                              % will give 28 symmetries + one infinite
+                              % family of symmetries.
+
+           {xi!_x1 =...,
+               ...
+            eta!_y3=... }     % - An ansatz must specify all xi!_.. for
+                              %   all indep. variables and all eta!_..
+                              %   for all dep. variables in terms of
+                              %   differential expressions which may
+                              %   involve unknown functions/constants.
+                              %   The dependencies of the unknown
+                              %   functions have to declared earlier
+                              %   using the DEPEND command.
+                              % - If the ansatz should consist of the
+                              %   characteristic functions then set
+                              %   all xi!_..=0 and assign the charac-
+                              %   teristic functions to the eta!_.. .
+
+ flist:
+ ======
+           {- all parameters and functions in the equations which are to
+              be determined, such that there exist symmetries,
+            - if an ansatz has been made in symtype then flist contains
+              all unknown functions and constants in xi!_.. and eta!_..}
+
+ inequ:
+ =======
+           {all non-vanishing expressions which represent
+            inequalities for the functions in flist}
+  
+ Further comments:
+ =================
+ 
+ The syntax of input is the usual REDUCE syntax. For example, the
+ derivative of y3 wrt x1 once and x2 twice would be df(y3,x1,x2,2).
+ --> One exception: If in the equations or in the ansatz the dependence
+ of a free function F on a derivative, like df(y3,x1,x2,2) shall be
+ declared then the declaration has to have the form:
+ DEPEND F, Y3!`1!`2!`2
+ - the ! has to preceede each special character, like `,
+ - `i stands for the derivative with respect to the i'th variable in
+   the list of variables (the third list in the problem above)
+
+ If the REDUCE switch TIME is set on with ON TIME then times for the
+ individual steps in the calculation are shown.
+
+ Further switches and parameters which can be changed to affect the
+ output and performance of CRACK in solving the symmetry conditions
+ are listed in the file CRINIT.RED.
+
+  return list('LIST,'LIST . symcon,'LIST . append(xilist,etalist),
+              'LIST . flist);
+

@@ -1,0 +1,339 @@
+% randpoly.tst
+
+% F.J.Wright@Maths.QMW.ac.uk, 14 July 1994
+
+off allfac;
+
+  on div, errcont;
+
+
+
+% Univariate:
+% ----------
+randpoly x;
+
+
+       5       4       3       2
+ - 68*x  + 45*x  - 13*x  + 27*x  + 54*x - 15
+
+% Equivalent to above:
+randpoly {x};
+
+
+    5       4       3       2
+23*x  - 83*x  + 75*x  - 89*x  - 24*x + 54
+
+randpoly(x, dense);
+
+
+   5       4       3       2
+4*x  + 17*x  - 53*x  + 53*x  + 88*x - 12
+  % univariate default already dense
+randpoly(x, degree=10, ord=5);
+
+
+       10       9       8       7       6       5
+ - 83*x   + 28*x  - 13*x  - 65*x  + 55*x  - 26*x
+
+
+% Bivariate:
+% ---------
+% Default is sparse
+randpoly {x,y};
+
+
+    3  2       3         2           2
+29*x *y  + 12*x *y - 33*x *y - 64*x*y  - 19*x - 13
+
+randpoly({x,y}, dense);
+
+
+       5       4         4      3  2       3         3    2  3       2  2
+ - 12*x  + 11*x *y - 26*x  + 2*x *y  + 69*x *y - 93*x  + x *y  - 93*x *y
+
+       2         2         4         3         2                       5       4
+ + 19*x *y + 95*x  + 51*x*y  + 68*x*y  + 77*x*y  + 25*x*y - 27*x + 63*y  + 37*y
+
+       3       2
+ - 89*y  - 76*y  + 28*y - 67
+
+randpoly({x,y}, degree=10);
+
+
+    10       7       6       2  8       2  5         9
+19*x   + 16*x  + 86*x  + 82*x *y  - 62*x *y  + 41*x*y
+
+% Lots of terms:
+randpoly({x,y}, dense, degree=10);
+
+
+    9         9      8  2       8         8       7  3       7  2       7
+43*x *y + 67*x  - 6*x *y  - 11*x *y - 88*x  - 87*x *y  - 36*x *y  + 27*x *y
+
+       7       6  4       6  3       6  2       6         6       5  5
+ - 56*x  + 41*x *y  + 52*x *y  + 15*x *y  + 84*x *y - 76*x  - 59*x *y
+
+       5  4       5  3       5  2       5         5       4  6       4  5
+ + 74*x *y  + 90*x *y  - 50*x *y  - 35*x *y - 90*x  - 51*x *y  + 73*x *y
+
+      4  4       4  3       4  2       4         4       3  7       3  6
+ - 5*x *y  + 34*x *y  + 88*x *y  + 87*x *y - 33*x  - 41*x *y  - 12*x *y
+
+       3  5       3  4       3  3       3  2       3         3       2  8
+ + 29*x *y  - 14*x *y  - 35*x *y  - 77*x *y  + 21*x *y + 43*x  - 73*x *y
+
+       2  7       2  6       2  5       2  4       2  3       2  2       2
+ - 55*x *y  + 27*x *y  - 41*x *y  + 45*x *y  - 25*x *y  + 46*x *y  - 95*x *y
+
+       2         9         8         7         6         5         4         3
+ + 71*x  - 70*x*y  - 50*x*y  + 93*x*y  + 77*x*y  + 98*x*y  - 72*x*y  - 84*x*y
+
+         2                       10       9       8       7       6    5       4
+ - 39*x*y  - 86*x*y - 22*x - 66*y   + 31*y  - 58*y  + 60*y  - 65*y  - y  - 71*y
+
+       3       2
+ + 49*y  + 91*y  - 34*y + 49
+
+randpoly({x,y}, dense, degree=10, ord=5);
+
+
+    10       9         9       8  2       8      8       7  3       7  2       7
+55*x   - 23*x *y - 33*x  - 22*x *y  - 94*x *y + x  + 14*x *y  + 85*x *y  - 60*x
+
+       6  4      6  3       6  2       6         6       5  5       5  4
+ + 60*x *y  + 9*x *y  - 27*x *y  + 44*x *y + 43*x  + 75*x *y  + 10*x *y
+
+       5  3       5  2       5         5       4  6       4  5       4  4
+ + 30*x *y  - 48*x *y  + 63*x *y - 65*x  - 60*x *y  - 75*x *y  - 39*x *y
+
+       4  3       4  2       4         3  7       3  6       3  5       3  4
+ + 34*x *y  - 52*x *y  - 41*x *y + 86*x *y  - 65*x *y  - 44*x *y  + 40*x *y
+
+       3  3       3  2       2  8       2  7       2  6       2  5       2  4
+ + 67*x *y  - 84*x *y  + 45*x *y  - 36*x *y  + 32*x *y  - 85*x *y  - 53*x *y
+
+      2  3         9         7         6         5       10       9       8
+ + 7*x *y  - 10*x*y  + 19*x*y  + 22*x*y  + 32*x*y  - 38*y   - 24*y  - 93*y
+
+       7       6       5
+ + 25*y  + 53*y  + 83*y
+
+% Sparse:
+randpoly({x,y}, deg=10, ord=5);
+
+
+       8         7  2    3  4      3  3       2  8      9
+ - 68*x *y - 31*x *y  + x *y  + 8*x *y  + 72*x *y  - 3*y
+
+% Dense again:
+randpoly({x,y}, terms=1000, maxdeg=10, mindeg=5);
+
+
+    10       9         9       8  2       8         8       7  3       7  2
+41*x   + 31*x *y + 59*x  - 83*x *y  - 30*x *y + 21*x  + 82*x *y  + 74*x *y
+
+       7         7       6  4       6  3      6  2       6         6       5  5
+ - 21*x *y - 74*x  - 80*x *y  + 61*x *y  + 4*x *y  - 81*x *y + 14*x  - 91*x *y
+
+       5  4       5  3       5  2       5         5       4  5       4  4
+ + 61*x *y  - 61*x *y  + 21*x *y  - 60*x *y + 26*x  + 73*x *y  - 41*x *y
+
+       4  3    4  2       4         3  7       3  6       3  5       3  4
+ + 26*x *y  - x *y  - 28*x *y + 42*x *y  + 20*x *y  - 50*x *y  - 41*x *y
+
+       3  3       3  2       2  8       2  7       2  6       2  5       2  4
+ + 91*x *y  - 39*x *y  - 36*x *y  - 24*x *y  + 85*x *y  + 39*x *y  - 48*x *y
+
+      2  3         9         8         7         6         5         4       10
+ + 3*x *y  - 50*x*y  + 87*x*y  - 78*x*y  + 64*x*y  - 87*x*y  - 65*x*y  - 52*y
+
+       9       8       7      6       5
+ - 30*y  - 88*y  + 24*y  + 7*y  - 54*y
+
+
+% Exponent and coefficient functions:
+% ----------------------------------
+randpoly({x,y}, expons = rand(-10 .. 10));
+
+
+       4  -7                -1         -2      -4  3       -4  -5
+ - 70*x *y   - 61*x*y - 87*x  *y + 26*x   + 9*x  *y  + 16*x  *y
+
+% Trivial example:
+randpoly({x,y}, expons = proc 5);
+
+
+    5  5
+69*x *y
+
+randpoly({x,y}, expons = proc(2*random(0 .. 5)));
+
+
+    10  10       6  6       6  4        4  10       4
+21*x  *y   + 77*x *y  + 50*x *y  + 123*x *y   + 73*x
+
+
+randpoly({x,y}, coeffs = rand(-999 .. 999));
+
+
+    3          2          2          4         2        3
+58*x *y - 723*x *y + 113*x  - 200*x*y  + 61*x*y  + 311*y
+
+procedure coe; randpoly(a, terms=2)$
+
+
+randpoly({x,y}, coeffs = coe);
+
+
+    4  3  2       4  3         4  2         4    2       4  5       4  4
+97*a *x *y  + 97*a *x *y + 97*a *x *y + 97*a *x*y  + 97*a *y  + 97*a *y
+
+       2  3  2       2  3         2  2         2    2       2  5       2  4
+ - 85*a *x *y  - 85*a *x *y - 85*a *x *y - 85*a *x*y  - 85*a *y  - 85*a *y
+
+randpoly({x,y}, coeffs = coe, degree = 10);
+
+
+       5  6  2       5  5  5       5  5  2       5  4  6       5  4       5  6
+ - 44*a *x *y  - 44*a *x *y  - 44*a *x *y  - 44*a *x *y  - 44*a *x  - 44*a *y
+
+       3  6  2       3  5  5       3  5  2       3  4  6       3  4       3  6
+ + 33*a *x *y  + 33*a *x *y  + 33*a *x *y  + 33*a *x *y  + 33*a *x  + 33*a *y
+
+
+% Polynomials composed with general expressions:
+% ---------------------------------------------
+randpoly({x,y^2});
+
+
+    4  2       4       2  6         4         2       2
+43*x *y  - 45*x  + 83*x *y  - 24*x*y  + 73*x*y  + 36*y
+
+randpoly(x^2 - y^2);
+
+
+       10        8  2       8        6  4        6  2       6        4  6
+ - 44*x   + 220*x *y  + 92*x  - 440*x *y  - 368*x *y  - 48*x  + 440*x *y
+
+        4  4        4  2       4        2  8        2  6        2  4       2  2
+ + 552*x *y  + 144*x *y  + 42*x  - 220*x *y  - 368*x *y  - 144*x *y  - 84*x *y
+
+       2       10       8       6       4       2
+ + 52*x  + 44*y   + 92*y  + 48*y  + 42*y  - 52*y  + 30
+
+% This should give the constant term:
+sub(x=y, ws);
+
+
+30
+
+randpoly({x^2 - a^2, y - b});
+
+
+    6         6        4  2        4    2      4            4  2        4  2
+63*a *b - 63*a *y + 4*a *b  - 189*a *b*x  - 8*a *b*y + 189*a *x *y + 4*a *y
+
+       4       2  4        2  3        2  2  2        2  2  2        2    4
+ + 50*a  + 48*a *b  - 192*a *b *y - 8*a *b *x  + 288*a *b *y  + 189*a *b*x
+
+       2    2          2    3       2          2  4        2  2  2        2  2
+ + 16*a *b*x *y - 192*a *b*y  + 59*a *b - 189*a *x *y - 8*a *x *y  - 100*a *x
+
+       2  4       2         4  2        3  2         3      2  4        2  2  2
+ + 48*a *y  - 59*a *y - 48*b *x  + 192*b *x *y - 42*b  + 4*b *x  - 288*b *x *y
+
+        2           6        4            2  3         2          2       6
+ + 126*b *y - 63*b*x  - 8*b*x *y + 192*b*x *y  - 59*b*x  - 126*b*y  + 63*x *y
+
+      4  2       4       2  4       2         3
+ + 4*x *y  + 50*x  - 48*x *y  + 59*x *y + 42*y
+
+% This should give the constant term:
+sub(x=a, y=b, ws);
+
+
+0
+
+
+% Polynomials with specified zeros:
+% --------------------------------
+randpoly(x = a);
+
+
+    5        4         4        3  2       3         3        2  3       2  2
+32*a  - 160*a *x - 12*a  + 320*a *x  + 48*a *x - 31*a  - 320*a *x  - 72*a *x
+
+       2         2          4         3         2                        5
+ + 93*a *x + 87*a  + 160*a*x  + 48*a*x  - 93*a*x  - 174*a*x - 31*a - 32*x
+
+       4       3       2
+ - 12*x  + 31*x  + 87*x  + 31*x
+
+% This should give 0:
+sub(x=a, ws);
+
+
+0
+
+randpoly({x = a, y = b});
+
+
+       3  2       3           3  2       3       2  3       2  2          2  2
+ - 24*a *b  + 48*a *b*y - 24*a *y  - 26*a  + 92*a *b  + 72*a *b *x - 276*a *b *y
+
+        2              2    2       2    2       2         2  3       2      4
+ - 144*a *b*x*y + 276*a *b*y  + 72*a *x*y  + 78*a *x - 92*a *y  - 43*a  - a*b
+
+          3          3           2  2          2            2  2            2
+ - 184*a*b *x + 4*a*b *y - 72*a*b *x  + 552*a*b *x*y - 6*a*b *y  + 144*a*b*x *y
+
+              2          3         2  2         2            3               4
+ - 552*a*b*x*y  + 4*a*b*y  - 72*a*x *y  - 78*a*x  + 184*a*x*y  + 86*a*x - a*y
+
+           4         3  2      3           2  3        2  2        2    2
+ + 24*a + b *x + 92*b *x  - 4*b *x*y + 24*b *x  - 276*b *x *y + 6*b *x*y
+
+         3            2  2          3       3  2       3       2  3       2
+ - 48*b*x *y + 276*b*x *y  - 4*b*x*y  + 24*x *y  + 26*x  - 92*x *y  - 43*x
+
+      4
+ + x*y  - 24*x
+
+% This should give 0:
+sub(x=a, y=b, ws);
+
+
+0
+
+
+% Invalid input detection:
+% -----------------------
+randpoly({x,y}, degree=foo);
+
+
+***** degree=foo invalid as optional randpoly argument
+
+randpoly({x,y}, foo);
+
+
+***** foo invalid as optional randpoly argument
+
+randpoly({x,y}, degree=-5);
+
+
+***** degree=-5 invalid as optional randpoly argument
+
+
+on allfac;
+
+  off div, errcont;
+
+
+
+end;
+
+Tested on x86_64-w64-windows CSL
+Time (counter 1): 28 ms
+real	0m0.626s
+user	0m0.045s
+sys	0m0.183s
