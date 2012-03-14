@@ -65,7 +65,7 @@ public class ReduceImageInputStream extends InputStream {
     }
 
 
-    public String[] reduceImage = splitInto2280Character(GuiResources.INSTANCE.defaultImgBase64().getText());
+    public String[] reduceImage = splitInto2280Character(GuiResources.INSTANCE.getDefaultImgBase64Web().getText());
 
     private native JsArrayString nativeSplitIntoGivenLenghtCharacter(String imgText) /*-{
 		return imgText.match(/.{1,2280}/g);;
