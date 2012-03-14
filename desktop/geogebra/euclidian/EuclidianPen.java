@@ -68,6 +68,13 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	RecoSegment reco_queue_d = new RecoSegment();
 	RecoSegment reco_queue_e = new RecoSegment();
 	/**
+     * String representation of slant movement.
+     */
+	private static final String LEFT_UP = "Q";
+	private static final String RIGHT_UP = "W";
+	private static final String RIGHT_DOWN = "E";
+	private static final String LEFT_DOWN = "R";
+	/**
      * String representation of left movement.
      */
 	private static final String LEFT_MOVE = "L";
@@ -369,7 +376,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	    absTangent = ((float) absDeltaX) / absDeltaY;
 	    if (!((absDeltaX < gridSize) && (absDeltaY < gridSize)))
 	    {
-	    	if (absTangent < 1) 
+	    	if (absTangent < 0.5) 
 	        {
 	    		if (deltaY < 0)
 	    			this.saveMove(UP_MOVE);
@@ -377,7 +384,18 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	    			this.saveMove(DOWN_MOVE);
 	            startPoint = point;
 	        } 
-	        if (absTangent > 1)
+	    	if (absTangent >= 0.5 && absTangent <= 2)
+	    	{
+	    		if (deltaX > 0 && deltaY < 0)
+	    			this.saveMove(LEFT_UP);
+	    		if (deltaX < 0 && deltaY < 0)
+	    			this.saveMove(RIGHT_UP);
+	    		if (deltaX < 0 && deltaY > 0)
+	    			this.saveMove(RIGHT_DOWN);
+	    		if (deltaX > 0 && deltaY > 0)
+	    			this.saveMove(LEFT_DOWN);
+	    	}
+	        if (absTangent > 2)
 	        {
 	        	if (deltaX < 0)
 	        		this.saveMove(LEFT_MOVE);
