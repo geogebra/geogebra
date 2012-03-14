@@ -656,11 +656,46 @@ class Axis(Element):
     visible = property(_getvisible, _setvisible)
 
 
-class Polygon(ExpressionElement, NumberExpression):
+class Poly(ExpressionElement, NumberExpression):
+
+    @property
+    def boundary(self):
+        return self._factory.get_element(API.Geo.getPolygonBoundary(self.geo))
+
+    @property
+    def points(self):
+        try:
+            return self._points
+        except AttributeError:
+            points = map(self._factory.get_element,
+                         API.Geo.getPolygonPoints(self.geo))
+            self._points = points
+            return points
+
+    def __getitem__(self, index):
+        return self.points[index]
+
+    def __len__(self):
+        return len(self.points)
+
+
+class Polygon(Poly):
+    
+    def __len__(self):
+        return API.Geo.getPolygonSize(self.geo)
+
+    @property
+    def area(self):
+        return self.value
+
+    @property
+    def directed_area(self):
+        return API.Geo.getPolygonDirectedArea(self.geo)
+    
+
+class PolyLine(Poly):
     pass
 
-class PolyLine(ExpressionElement, NumberExpression):
-    pass
 
 class Text(Element):
     @specmethod.rawinit

@@ -37,6 +37,7 @@ import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolyLine;
+import geogebra.common.kernel.geos.GeoPolyLineInterface;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
@@ -675,6 +676,44 @@ public class PythonFlatAPI {
 		 */
 		public static void clearList(GeoList list) {
 			list.clear(); 
+		}
+		
+		/* GeoPolygon */
+		
+		/**
+		 * Return the boundary of a polygon
+		 * @param poly the polygon
+		 * @return the polygon's boundary
+		 */
+		public static Path getPolygonBoundary(GeoPolyLineInterface poly) {
+			return poly.getBoundary();
+		}
+		
+		/**
+		 * Return an array of points making a polygon
+		 * @param poly the polygon
+		 * @return an array containing all the polygon's points
+		 */
+		public static GeoPointND[] getPolygonPoints(GeoPolyLineInterface poly) {
+			return poly.getPoints();
+		}
+		
+		/**
+		 * Return the number of points in a polygon
+		 * @param poly the polygon
+		 * @return the polygon's number of points
+		 */
+		public static int getPolygonSize(GeoPolygon poly) {
+			return poly.getPointsLength();
+		}
+		
+		/**
+		 * Return the directed area of a polygon
+		 * @param poly the polygon
+		 * @return its directed area
+		 */
+		public static double getPolygonDirectedArea(GeoPolygon poly) {
+			return poly.getAreaWithSign();
 		}
 		
 	}
