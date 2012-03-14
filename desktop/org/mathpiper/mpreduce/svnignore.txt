@@ -1,0 +1,17 @@
+bin
+build
+build-local.properties
+java.policy.applet
+default.img
+.classpath
+META-INF
+version.txt
+*.ggb
+*.ggt
+*.dll
+*.class
+*.jar
+*.db
+*.jnilib
+*.so
+Interpreter2.java.save
