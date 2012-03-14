@@ -22,6 +22,7 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoDummyVariable;
@@ -1452,9 +1453,13 @@ public class ExpressionNode extends ValidExpression implements
 	 *            true for variable names, false for values of variables
 	 */
 	final public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
+		String ret;
+		
 		if (isLeaf()) { // leaf is GeoElement or not
 			if (left != null) {
-				return left.toLaTeXString(symbolic,tpl);
+				ret = left.toLaTeXString(symbolic,tpl);
+				
+				return checkMathML(ret, tpl);
 			}
 		}
 
@@ -1474,10 +1479,22 @@ public class ExpressionNode extends ValidExpression implements
 		}
 
 		// build latex string
-		String ret = operationToString(leftStr, rightStr, !symbolic,tpl);
+		ret = operationToString(leftStr, rightStr, !symbolic,tpl);
 		
 
-		return ret;
+		return checkMathML(ret, tpl);
+	}
+	
+	/*
+	 * make sure string wrapped in MathML if necessary
+	 * eg <ci>x</ci>
+	 */
+	private String checkMathML(String str, StringTemplate tpl) {
+		if (tpl.hasType(StringType.MATHML) && str.charAt(0) != '<') {
+			return "<ci>" + str + "</ci>";
+		}
+		
+		return str;
 	}
 
 	/**

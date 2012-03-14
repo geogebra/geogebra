@@ -528,7 +528,6 @@ public class GeoFunctionConditional extends GeoFunction {
 	 * @return LaTeX description of this function
 	 */
 	public String conditionalLaTeX(boolean substituteNumbers, StringTemplate tpl) {
-		AbstractApplication.printStacktrace("");
 		StringBuilder sb = new StringBuilder();
 
 		if (getElseFunction() == null && !ifFun.isGeoFunctionConditional()) {
@@ -786,7 +785,7 @@ public class GeoFunctionConditional extends GeoFunction {
 				
 				if (upper == null && lower != null) {
 					ret.append("<apply>");
-					ret.append(lowerSharp ? "<gt/>" : "<gte/>");
+					ret.append(lowerSharp ? "<gt/>" : "<geq/>");
 					ret.append("<ci>");
 					ret.append(varString);
 					ret.append("</ci><cn>");
@@ -795,7 +794,7 @@ public class GeoFunctionConditional extends GeoFunction {
 				}
 				else if (lower == null && upper != null) {
 					ret.append("<apply>");
-					ret.append(upperSharp ? "<lt/>" : "<lte/>");
+					ret.append(upperSharp ? "<lt/>" : "<leq/>");
 					ret.append("<ci>");
 					ret.append(varString);
 					ret.append("</ci><cn>");
@@ -812,28 +811,58 @@ public class GeoFunctionConditional extends GeoFunction {
 						ret.append(kernel.format(lower, tpl));
 						ret.append("</cn></apply>");
 					} else {
+
+						if (lowerSharp == upperSharp) {
+							ret.append("<apply>");
+							ret.append(lowerSharp ? "<lt/>" : "<leq/>");
+							ret.append("<cn>");
+							ret.append(kernel.format(lower, tpl));
+							ret.append("</cn>");
+							ret.append("<ci>");
+							ret.append(varString);
+							ret.append("</ci>");
+							ret.append("<cn>");
+							ret.append(kernel.format(upper, tpl));
+							ret.append("</cn>");
+							ret.append("</apply>");
+						} else {
+							// more complex for eg 3 < x <= 5
+							
+							ret.append("<apply>");//<apply>
+							ret.append("<and/>");//  <and/>
+							ret.append("<apply>");//  <apply>
+							ret.append(lowerSharp ? "<lt/>" : "<leq/>");//    <lt/>
+							ret.append("<cn>");
+							ret.append(kernel.format(lower, tpl));
+							ret.append("</cn>");//    <cn>3</cn>
+							ret.append("<ci>");
+							ret.append(varString);
+							ret.append("</ci>");//    <ci>x</ci>
+							ret.append("</apply>");//  </apply>
+							ret.append("<apply>");//  <apply>
+							ret.append(upperSharp ? "<lt/>" : "<leq/>");//    <leq/>
+							ret.append("<ci>");
+							ret.append(varString);
+							ret.append("</ci>");//    <ci>x</ci>
+							ret.append("<cn>");
+							ret.append(kernel.format(upper, tpl));
+							ret.append("</cn>");	//    <cn>5</cn>
+							ret.append("</apply>");//  </apply>
+							ret.append("</apply>");//</apply>
+						}
 						
-						// TODO
-						ret.append(kernel.format(lower, tpl));
-						ret.append(" ");
-						ret.append(lowerSharp ? "<" : Unicode.LESS_EQUAL);
-						ret.append(" ");
-						ret.append(varString);
-						ret.append( " ");
-						ret.append(upperSharp ? "<" : Unicode.LESS_EQUAL);
-						ret.append(" ");
-						ret.append(kernel.format(upper, tpl));
 					}
 				}
 				if (condition != null && ret == null) {
 					return condition.toLaTeXString(symbolic, tpl);
 				}
 				else if (condition != null) {
-					// TODO
-					ret.insert(0, "(");
-					ret.append(")\\wedge \\left(");
+					
+					// prepend
+					ret.insert(0,"<apply><and/>");
 					ret.append(condition.toLaTeXString(symbolic, tpl));
-					ret.append("\\right)");
+					ret.append("</apply>");
+
 				}
 				
 			}
