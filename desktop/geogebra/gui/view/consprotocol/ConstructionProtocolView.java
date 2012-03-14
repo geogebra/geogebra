@@ -1999,7 +1999,10 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 	
 	public void settingsChanged(AbstractSettings settings) {
 		ConstructionProtocolSettings cps = (ConstructionProtocolSettings)settings;
-		setColsVisibility(cps.getColsVisibility());
+
+		boolean gcv[] = cps.getColsVisibility();
+		if (gcv != null) if (gcv.length > 0)
+			setColsVisibility(gcv);
 
 		update();
 		getData().initView();

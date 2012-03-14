@@ -30,8 +30,8 @@ public class ConstructionProtocolSettings extends AbstractSettings {
 	/**
 	 * Show the visibility of construction protocol's columns
 	 */
-	private boolean cpColumnsVisible[] = {true, true, false, true, false, true, true, false};
-	
+	private static final boolean defaultCpColumnsVisible[] = {true, true, false, true, false, true, true, false};
+	private boolean cpColumnsVisible[] = defaultCpColumnsVisible;
 
 	public ConstructionProtocolSettings(LinkedList<SettingListener> listeners) {
 		super(listeners);
@@ -116,7 +116,7 @@ public class ConstructionProtocolSettings extends AbstractSettings {
 	public boolean[] getColsVisibility(){
 		return cpColumnsVisible;
 	}
-	
+
 	public void setColsVisibility(boolean[] cpColumnsVisible) {
 		// TODO Auto-generated method stub
 	/*	Iterator it = attrs.keySet().iterator();
@@ -126,7 +126,17 @@ public class ConstructionProtocolSettings extends AbstractSettings {
 			boolean isVisible = parseBoolean((String) ob);
 		*/	
 			//TODO: data.columns[colCounter] = isVisible
-		this.cpColumnsVisible = cpColumnsVisible;
+
+		this.cpColumnsVisible = new boolean[defaultCpColumnsVisible.length];
+
+		for (int i = 0; i < defaultCpColumnsVisible.length; i++)
+			if (cpColumnsVisible == null)
+				this.cpColumnsVisible[i] = defaultCpColumnsVisible[i];
+			else if (cpColumnsVisible.length <= i)
+				this.cpColumnsVisible[i] = defaultCpColumnsVisible[i];
+			else
+				this.cpColumnsVisible[i] = cpColumnsVisible[i];
+
 		settingChanged();
 		
 	}
