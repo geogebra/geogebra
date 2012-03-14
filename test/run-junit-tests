@@ -1,0 +1,87 @@
+#!/bin/sh
+# Runs junit tests from command line and returns the number of errors and failures
+
+# Prerequisities:
+#
+# * Maven
+# * XMLStarlet
+# * A precompiled GeoGebra desktop version (by using make-vanilla-jars)
+
+# @author Zoltan Kovacs <zoltan@geogebra.org>
+
+
+# 1. Testing prerequisities
+GGB_JARS=../geogebra/desktop/build
+
+XML=`which xml`
+if [ "$XML" = "" ]; then
+ XML=`which xmlstarlet`
+ fi
+if [ "$XML" = "" ]; then
+ echo "No XMLStarlet executable found on path"
+ exit 11
+ fi
+
+MAVEN=`which mvn`
+if [ "$MAVEN" = "" ]; then
+ echo "No mvn executable found on path"
+ exit 12
+ fi
+
+test -r $GGB_JARS/geogebra_main.jar || {
+ echo "GeoGebra desktop build is missing or incomplete"
+ exit 13
+ }
+
+# 2. Installing JAR files into the Maven repository (usually ~/.m2/repository/geogebra/*/current/*-current.jar)
+NAMESPACE="-N x=http://maven.apache.org/POM/4.0.0"
+# For namespace hacking consult http://xmlstar.sourceforge.net/doc/UG/ch05s01.html
+# and http://alistairisrael.wordpress.com/2007/09/26/querying-an-xml-document-using-xmlstarlet/,
+# for adding many <dependency> elements see
+# http://stackoverflow.com/questions/5954168/how-to-insert-a-new-element-under-another-with-xmlstarlet
+cp pom.xml mypom.xml
+for i in $GGB_JARS/*.jar; do
+ BASENAME=`basename $i`
+ PACKAGE=`basename $BASENAME .jar`
+ mvn install:install-file -Dfile=$i -Dpackaging=jar -DgroupId=geogebra -DartifactId=$PACKAGE -Dversion=current
+ cat mypom.xml | \
+  $XML ed $NAMESPACE -s /x:project/x:dependencies -t elem -n "mydependency" -v "" \
+   -s //mydependency -t elem -n "groupId" -v "geogebra"  \
+   -s //mydependency -t elem -n "artifactId" -v "$PACKAGE" \
+   -s //mydependency -t elem -n "version" -v "current" \
+   -r //mydependency -v dependency \
+  > mypom2.xml
+ mv mypom2.xml mypom.xml
+ done
+
+# 3. Adding required additional tags into the XML
+cat mypom.xml | \
+ $XML ed $NAMESPACE -s /x:project -t elem -n "build" -v "" \
+  -s /x:project/build -t elem -n "plugins" -v "" \
+  -s /x:project/build/plugins -t elem -n "plugin" -v "" \
+  -s /x:project/build/plugins/plugin -t elem -n "groupId" -v "org.apache.maven.plugins" \
+  -s /x:project/build/plugins/plugin -t elem -n "artifactId" -v "maven-compiler-plugin" \
+  -s /x:project/build/plugins/plugin -t elem -n "version" -v "2.3.2" \
+  -s /x:project/build/plugins/plugin -t elem -n "configuration" -v "" \
+  -s /x:project/build/plugins/plugin/configuration -t elem -n  "source" -v "1.5" \
+  -s /x:project/build/plugins/plugin/configuration -t elem -n  "target" -v "1.5" \
+ > mypom2.xml
+mv mypom2.xml mypom.xml
+
+# 4. Running the JUnit tests
+mvn -f mypom.xml test
+
+# 5. Summing up errors
+ERRORS=0
+for i in target/surefire-reports/*.txt; do
+ NEWERRORS=`cat $i | head -4 | tail -1 | awk '{print $7}' | sed s/,//`
+ ERRORS=`expr $ERRORS + $NEWERRORS`
+ done
+echo "$ERRORS errors"
+echo $ERRORS > .junit-tests-errors
+
+# 6. Returning result in exit code
+if [ "$ERRORS" -gt 0 ]; then
+ exit 1
+ fi
+exit 0
