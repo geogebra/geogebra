@@ -3,6 +3,8 @@ from geogebra.common.plugin import GeoClass
 from geogebra.common.plugin import Operation as OP
 from geogebra.common.plugin import EuclidianStyleConstants as STYLE
 
+from java.lang import IndexOutOfBoundsException
+
 from functools import partial
 
 from apiproxy import API
@@ -256,9 +258,6 @@ class Element:
 
     def __geo__(self):
         return self.geo
-
-
-
 
 
 
@@ -899,8 +898,29 @@ class Intersect(object):
 
 
 class List(Element):
+    
     def init(self, *args):
         self.geo = self._api.geoList([arg.geo for arg in args])
+
+    def __getitem__(self, index):
+        if index < 0:
+            index = len(self) - index
+        try:
+            return API.Geo.getListItem(self.geo, index)
+        except IndexOutOfBoundsException:
+            raise IndexError
+
+    def __delitem__(self, index):
+        API.Geo.removeListItem(self.geo, index)
+
+    def __len__(self):
+        return API.Geo.getListLength(self.geo)
+
+    def append(self, item):
+        API.Geo.appendToList(self.geo, self._factory.element(item).geo)
+
+    def clear(self):
+        API.Geo.clearList(self.geo)
 
 
 class Selection(object):

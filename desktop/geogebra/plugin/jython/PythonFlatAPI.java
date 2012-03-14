@@ -630,6 +630,53 @@ public class PythonFlatAPI {
 			geo.setText(value);
 		}
 		
+		/* List methods */
+		
+		/**
+		 * Return the item at a given position in a GeoList
+		 * @param list the GeoList
+		 * @param index the index of the item
+		 * @return the item at position index
+		 */
+		public static GeoElement getListItem(GeoList list, int index) {
+			return list.get(index);
+		}
+		
+		/**
+		 * Remove an item at a given position in a GeoList
+		 * @param list the GeoList
+		 * @param index the position of the item to remove
+		 */
+		public static void removeListItem(GeoList list, int index) {
+			list.remove(index);
+		}
+		
+		/**
+		 * Add an element to the end of a GeoList
+		 * @param list the GeoList
+		 * @param obj the element to add
+		 */
+		public static void appendToList(GeoList list, GeoElement obj) {
+			list.add(obj);
+		}
+		
+		/**
+		 * Return the length of a GeoList
+		 * @param list the GeoList
+		 * @return the length of the list
+		 */
+		public static int getListLength(GeoList list) {
+			return list.size();
+		}
+		
+		/**
+		 * Clear a GeoList (i.e. remove all its items)
+		 * @param list the GeoList to clear
+		 */
+		public static void clearList(GeoList list) {
+			list.clear(); 
+		}
+		
 	}
 
 	public Application app;
