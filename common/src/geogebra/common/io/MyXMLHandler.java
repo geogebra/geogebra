@@ -4726,14 +4726,18 @@ public class MyXMLHandler implements DocHandler {
 					((ExpressionNode) ve).setForcePoint();
 				} else if (type.equals("vector")) {
 					((ExpressionNode) ve).setForceVector();
-				} else if (type.equals("line")) {
-					((Equation) ve).setForceLine();
-				} else if (type.equals("plane")) {
-					((Equation) ve).setForcePlane();
-				} else if (type.equals("conic")) {
-					((Equation) ve).setForceConic();
-				} else if (type.equals("implicitPoly")) {
-					((Equation) ve).setForceImplicitPoly();
+				//we must check that we have Equation here as xAxis 
+				//has also type "line" but is parsed as ExpressionNode
+				} else if (ve instanceof Equation){
+					if(type.equals("line") ) {
+						((Equation) ve).setForceLine();
+					} else if (type.equals("plane")) {
+						((Equation) ve).setForcePlane();
+					} else if (type.equals("conic")) {
+						((Equation) ve).setForceConic();
+					} else if (type.equals("implicitPoly")) {
+						((Equation) ve).setForceImplicitPoly();
+					}
 				}
 			}
 
