@@ -68,6 +68,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
             Color fgColor, Color bgColor, boolean useCache) {
 		JsArrayInteger ret = null;
 		if (scriptloaded) {
+			AbstractApplication.debug(mathml);
 			ret = drawEquation(((geogebra.web.awt.Graphics2D)g2).getCanvas().getContext2d(), mathml, x, y);
 		} else {
 			needToDrawEquation  = true;

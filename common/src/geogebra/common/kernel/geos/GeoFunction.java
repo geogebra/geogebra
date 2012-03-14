@@ -1927,6 +1927,8 @@ public class GeoFunction extends GeoElement implements VarString,
 				// Application.debug(ret);
 			} else if (tpl.hasType(StringType.LATEX)) {
 				ret = geoFun.conditionalLaTeX(substituteNumbers, tpl);
+			} else if (tpl.hasType(StringType.MATHML)) {
+				ret = geoFun.conditionalMathML(substituteNumbers, tpl);
 			}
 
 		} else if (this.isGeoFunction()) {
@@ -1984,7 +1986,7 @@ public class GeoFunction extends GeoElement implements VarString,
 				ret = geoFun.toSymbolicString(tpl);
 				// Application.debug(ret);
 			} else if (tpl.hasType(StringType.LATEX)) {
-				ret = geoFun.conditionalLaTeX(substituteNumbers, tpl);
+				ret = app.getFormulaRenderingType() == StringType.MATHML ? geoFun.conditionalMathML(substituteNumbers, tpl) : geoFun.conditionalLaTeX(substituteNumbers, tpl);
 			}
 
 		}

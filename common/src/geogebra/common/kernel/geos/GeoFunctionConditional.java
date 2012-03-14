@@ -22,6 +22,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.CASGenericInterface;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.Unicode;
@@ -527,6 +528,7 @@ public class GeoFunctionConditional extends GeoFunction {
 	 * @return LaTeX description of this function
 	 */
 	public String conditionalLaTeX(boolean substituteNumbers, StringTemplate tpl) {
+		AbstractApplication.printStacktrace("");
 		StringBuilder sb = new StringBuilder();
 
 		if (getElseFunction() == null && !ifFun.isGeoFunctionConditional()) {
@@ -557,6 +559,49 @@ public class GeoFunctionConditional extends GeoFunction {
 				}
 			}
 			sb.append(" \\end{array}\\right. ");
+		}
+
+		return sb.toString();
+	}
+
+	/**
+	 * eg <piecewise><piece><cn> 0 </cn><apply> <lt/> <ci> x </ci> <cn> 0 </cn> </apply> </piece> <otherwise> <ci> x </ci> </otherwise> </piecewise> 
+	 * 
+	 * @param substituteNumbers true to replace names by values
+	 * @param tpl string template
+	 * @return MathML description of this function, eg 
+	 */
+	public String conditionalMathML(boolean substituteNumbers, StringTemplate tpl) {
+		StringBuilder sb = new StringBuilder();
+		
+
+		if (getElseFunction() == null && !ifFun.isGeoFunctionConditional()) {
+			sb.append("<piecewise><piece>");
+			sb.append(getIfFunction().getFormulaString(
+					StringTemplate.latexTemplate, substituteNumbers));
+			sb.append(getCondFunction().getFormulaString(
+					StringTemplate.latexTemplate, substituteNumbers));
+			sb.append("</piece></piecewise>");
+
+		} else {
+			sb.append("<piecewise>");
+			ArrayList<ExpressionNode> cases = new ArrayList<ExpressionNode>();
+			ArrayList<Bounds> conditions = new ArrayList<Bounds>();
+			boolean complete = collectCases(cases, conditions, new Bounds());
+			for (int i = 0; i < cases.size(); i++) {
+				if (i == cases.size() - 1 && complete) {
+					sb.append("<otherwise>");
+					sb.append(cases.get(i).toLaTeXString(!substituteNumbers, tpl));
+					sb.append("</otherwise>");
+				} else {
+					sb.append("<piece>");
+					sb.append(cases.get(i).toLaTeXString(!substituteNumbers, tpl));
+					sb.append(conditions.get(i).toLaTeXString(
+							!substituteNumbers, getVarString(tpl), tpl));
+					sb.append("</piece>");
+				}
+			}
+			sb.append("</piecewise>");
 		}
 
 		return sb.toString();
@@ -690,30 +735,112 @@ public class GeoFunctionConditional extends GeoFunction {
 		 */
 		public String toLaTeXString(boolean symbolic, String varString,
 				StringTemplate tpl) {
-			String ret = null;
-			if (upper == null && lower != null)
-				ret = varString + " "
-						+ (lowerSharp ? ">" : Unicode.GREATER_EQUAL) + " "
-						+ kernel.format(lower, tpl);
-			else if (lower == null && upper != null)
-				ret = varString + " " + (upperSharp ? "<" : Unicode.LESS_EQUAL)
-						+ " " + kernel.format(upper, tpl);
-			else if (lower != null && upper != null) {
-				if (Kernel.isEqual(lower, upper) && !lowerSharp && !upperSharp)
-					ret = varString + " = " + kernel.format(lower, tpl);
-				else
-					ret = kernel.format(lower, tpl) + " "
-							+ (lowerSharp ? "<" : Unicode.LESS_EQUAL) + " "
-							+ varString + " "
-							+ (upperSharp ? "<" : Unicode.LESS_EQUAL) + " "
-							+ kernel.format(upper, tpl);
+			StringBuilder ret = new StringBuilder();
+			
+			if (tpl.hasType(StringType.LATEX)) {
+			
+				if (upper == null && lower != null) {
+					ret.append(varString);
+					ret.append(" ");
+					ret.append(lowerSharp ? ">" : Unicode.GREATER_EQUAL);
+					ret.append(" ");
+					ret.append(kernel.format(lower, tpl));
+				}
+				else if (lower == null && upper != null) {
+					ret.append(varString);
+					ret.append(" ");
+					ret.append(upperSharp ? "<" : Unicode.LESS_EQUAL);
+					ret.append(" ");
+					ret.append(kernel.format(upper, tpl));
+				}
+				else if (lower != null && upper != null) {
+					if (Kernel.isEqual(lower, upper) && !lowerSharp && !upperSharp) {
+						ret.append(varString);
+						ret.append(" = ");
+						ret.append(kernel.format(lower, tpl));
+					} else {
+						ret.append(kernel.format(lower, tpl));
+						ret.append(" ");
+						ret.append(lowerSharp ? "<" : Unicode.LESS_EQUAL);
+						ret.append(" ");
+						ret.append(varString);
+						ret.append( " ");
+						ret.append(upperSharp ? "<" : Unicode.LESS_EQUAL);
+						ret.append(" ");
+						ret.append(kernel.format(upper, tpl));
+					}
+				}
+				if (condition != null && ret == null) {
+					return condition.toLaTeXString(symbolic, tpl);
+				}
+				else if (condition != null) {
+					ret.insert(0, "(");
+					ret.append(")\\wedge \\left(");
+					ret.append(condition.toLaTeXString(symbolic, tpl));
+					ret.append("\\right)");
+				}
+			
+			} else {
+				// StringType.MATHML
+				// <apply><lt/><ci>x</ci><cn>3</cn></apply>
+				
+				if (upper == null && lower != null) {
+					ret.append("<apply>");
+					ret.append(lowerSharp ? "<gt/>" : "<gte/>");
+					ret.append("<ci>");
+					ret.append(varString);
+					ret.append("</ci><cn>");
+					ret.append(kernel.format(lower, tpl));
+					ret.append("</cn></apply>");
+				}
+				else if (lower == null && upper != null) {
+					ret.append("<apply>");
+					ret.append(upperSharp ? "<lt/>" : "<lte/>");
+					ret.append("<ci>");
+					ret.append(varString);
+					ret.append("</ci><cn>");
+					ret.append(kernel.format(upper, tpl));
+					ret.append("</cn></apply>");
+				}
+				else if (lower != null && upper != null) {
+					if (Kernel.isEqual(lower, upper) && !lowerSharp && !upperSharp) {
+						ret.append("<apply>");
+						ret.append("<eq/>");
+						ret.append("<ci>");
+						ret.append(varString);
+						ret.append("</ci><cn>");
+						ret.append(kernel.format(lower, tpl));
+						ret.append("</cn></apply>");
+					} else {
+						
+						// TODO
+						ret.append(kernel.format(lower, tpl));
+						ret.append(" ");
+						ret.append(lowerSharp ? "<" : Unicode.LESS_EQUAL);
+						ret.append(" ");
+						ret.append(varString);
+						ret.append( " ");
+						ret.append(upperSharp ? "<" : Unicode.LESS_EQUAL);
+						ret.append(" ");
+						ret.append(kernel.format(upper, tpl));
+					}
+				}
+				if (condition != null && ret == null) {
+					return condition.toLaTeXString(symbolic, tpl);
+				}
+				else if (condition != null) {
+					// TODO
+					ret.insert(0, "(");
+					ret.append(")\\wedge \\left(");
+					ret.append(condition.toLaTeXString(symbolic, tpl));
+					ret.append("\\right)");
+				}
+				
 			}
-			if (condition != null && ret == null)
-				return condition.toLaTeXString(symbolic, tpl);
-			else if (condition != null)
-				ret = "(" + ret + ")\\wedge \\left("
-						+ condition.toLaTeXString(symbolic, tpl) + "\\right)";
-			return ret;
+			
+			AbstractApplication.debug(ret);
+			
+			return ret.toString();
 		}
 	}
 
