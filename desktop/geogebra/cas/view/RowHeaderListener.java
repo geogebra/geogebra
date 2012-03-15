@@ -6,13 +6,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class RowHeaderListener extends MouseAdapter implements KeyListener, ListSelectionListener {
+public class RowHeaderListener extends MouseAdapter implements KeyListener, ListSelectionListener, MouseMotionListener {
 
 	private final CASTable table;
 	private final JList rowHeader;
@@ -30,10 +31,10 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 		rightClick = Application.isRightClick(e);
 		table.stopEditing();
 		mousePressedRow = rowHeader.locationToIndex(e.getPoint());
-//		table.startEditingRow(mousePressedRow);
 		rowHeader.requestFocus();
 	}
 
+	@Override
 	public void mouseDragged(MouseEvent e) {
 		e.consume();
 
@@ -79,6 +80,7 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 
 	}
 
+	@Override
 	public void mouseMoved(MouseEvent e) {
 		e.consume();
 	}
