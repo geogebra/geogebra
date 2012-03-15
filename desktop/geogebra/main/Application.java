@@ -78,6 +78,7 @@ import geogebra.plugin.CallJavaScript;
 import geogebra.plugin.GgbAPI;
 import geogebra.plugin.PluginManager;
 import geogebra.plugin.ScriptManager;
+import geogebra.plugin.jython.AppletPythonBridge;
 import geogebra.plugin.jython.PythonBridge;
 import geogebra.sound.SoundManager;
 import geogebra.util.DebugPrinterDesktop;
@@ -452,7 +453,7 @@ public class Application extends AbstractApplication implements
 
 	protected Application(CommandLineArguments args, JFrame frame,
 			AppletImplementation appletImpl, Container comp, boolean undoActive) {
-		if(!args.containsArg("silent"))
+		if(args!= null && !args.containsArg("silent"))
 			AbstractApplication.dbg = new DebugPrinterDesktop();
 		
 
@@ -521,6 +522,7 @@ public class Application extends AbstractApplication implements
 		if (!isApplet) {
 			pythonBridge = new PythonBridge(this);
 		}
+		else pythonBridge = new AppletPythonBridge();
 		
 		// load file on startup and set fonts
 		// set flag to avoid multiple calls of setLabels() and

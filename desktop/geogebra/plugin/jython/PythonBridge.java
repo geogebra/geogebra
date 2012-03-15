@@ -26,6 +26,10 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	private PythonScriptInterface pyInterface = null;
 	private boolean ready = false;
 	
+	/** constructor for dummy implementation */
+	public PythonBridge() {
+		
+	}
 	/**
 	 * This constructor actually starts off the python interpreter
 	 * so it can take a while...
