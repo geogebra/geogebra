@@ -44,7 +44,18 @@
 
 	var BlobBuilder = obj.WebKitBlobBuilder || obj.MozBlobBuilder || obj.MSBlobBuilder || obj.BlobBuilder;
 
-	var crc32Table = (function() {
+	function Crc32() {
+		var crc = -1, that = this;
+		that.append = function(data) {
+			var offset, table = that.table;
+			for (offset = 0; offset < data.length; offset++)
+				crc = (crc >>> 8) ^ table[(crc ^ data[offset]) & 0xFF];
+		};
+		that.get = function() {
+			return ~crc;
+		};
+	}
+	Crc32.prototype.table = (function() {
 		var i, j, t, table = [];
 		for (i = 0; i < 256; i++) {
 			t = i;
@@ -57,18 +68,6 @@
 		}
 		return table;
 	})();
-
-	function Crc32() {
-		var crc = -1, that = this;
-		that.append = function(data) {
-			var offset;
-			for (offset = 0; offset < data.length; offset++)
-				crc = (crc >>> 8) ^ crc32Table[(crc ^ data[offset]) & 0xFF];
-		};
-		that.get = function() {
-			return ~crc;
-		};
-	}
 
 	function blobSlice(blob, index, length) {
 		if (blob.webkitSlice)
@@ -97,13 +96,6 @@
 	// Readers
 	function Reader() {
 	}
-	Reader.prototype.readBlob = function(index, length, callback, onerror) {
-		this.readUint8Array(index, length, function(array) {
-			var data = getDataHelper(array.length, array), blobBuilder = new BlobBuilder();
-			blobBuilder.append(data.buffer);
-			callback(blobBuilder.getBlob());
-		}, onerror);
-	};
 
 	function TextReader(text) {
 		var that = this, blobReader;
@@ -122,13 +114,8 @@
 			blobReader.readUint8Array(index, length, callback, onerror);
 		}
 
-		function readBlob(index, length, callback, onerror) {
-			blobReader.readBlob(index, length, callback, onerror);
-		}
-
 		that.size = 0;
 		that.init = init;
-		that.readBlob = readBlob;
 		that.readUint8Array = readUint8Array;
 	}
 	TextReader.prototype = new Reader();
@@ -181,13 +168,8 @@
 			reader.readAsArrayBuffer(blobSlice(blob, index, length));
 		}
 
-		function readBlob(index, length, callback, onerror) {
-			callback(blobSlice(blob, index, length));
-		}
-
 		that.size = 0;
 		that.init = init;
-		that.readBlob = readBlob;
 		that.readUint8Array = readUint8Array;
 	}
 	BlobReader.prototype = new Reader();
@@ -273,17 +255,8 @@
 			}, onerror);
 		}
 
-		function readBlob(index, length, callback, onerror) {
-			readArrayBuffer(index, length, function(arraybuffer) {
-				var blobBuilder = new BlobBuilder();
-				blobBuilder.append(arraybuffer);
-				callback(blobBuilder.getBlob());
-			}, onerror);
-		}
-
 		that.size = 0;
 		that.init = init;
-		that.readBlob = readBlob;
 		that.readUint8Array = readUint8Array;
 	}
 	HttpRangeReader.prototype = new Reader();

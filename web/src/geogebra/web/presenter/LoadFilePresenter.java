@@ -8,7 +8,6 @@ import geogebra.web.helper.UrlFetcher;
 import geogebra.web.html5.View;
 import geogebra.web.jso.JsUint8Array;
 import geogebra.web.main.Application;
-import geogebra.web.util.DataUtil;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayInteger;
@@ -25,12 +24,10 @@ public class LoadFilePresenter extends BasePresenter {
 	public void onPageLoad() {
 		
 		View view = getView();
-		String filename = view.getDataParamFileName();
+		String filename;
 		String base64String;
 		
-		if (!"".equals(filename)) {
-			fetch(filename);
-		} else if (!"".equals((base64String = view.getDataParamBase64String()))) {
+		if (!"".equals((base64String = view.getDataParamBase64String()))) {
 			process(base64String);
 		} else if (!"".equals((filename = view.getDataParamFileName()))) {
 			fetch(filename);
@@ -83,28 +80,9 @@ public class LoadFilePresenter extends BasePresenter {
 	}
 
 	private void process(String dataParamBase64String) {
-		try {
 			getView().processBase64String(dataParamBase64String);
-	        
-        } catch (Exception e) {
-        	Application.log("fallback for old file handling"+e.getLocalizedMessage());
-        	fileHandlerFallback(dataParamBase64String);
-        }
 	}
 	
-	private void fileHandlerFallback(String base64String) {
-		getView().showLoadAnimation();
-		byte[] bytes = DataUtil.decode(base64String);
-		JsArrayInteger jsBytes = JsArrayInteger.createArray().cast();
-		jsBytes.setLength(bytes.length);
-		for (int i = 0; i < bytes.length; i++) {
-			int x = bytes[i];
-			if (x < 0) x += 256;
-			
-			jsBytes.set(i, x);
-		}
-	   getView().fileContentLoaded(jsBytes);
-	}
 
 	public void onWorksheetConstructionFailed(String errorMessage) {
 		getView().showError(errorMessage);
@@ -118,10 +96,6 @@ public class LoadFilePresenter extends BasePresenter {
 	public void fetchGgbFileFromUserInput(String userUrl) {
 		fetch(urlFetcher.getAbsoluteGgbFileUrl(userUrl));
 	}
-	
-	public FileLoadCallback getFileLoadCallback() {
-		return fileLoadCallback;
-	}
 		
 	// Private Methods
 	private void fetch(String fileName) {
@@ -129,23 +103,5 @@ public class LoadFilePresenter extends BasePresenter {
 		String url = fileName.startsWith("http") ? fileName : GWT.getModuleBaseURL()+"../"+fileName;
 		getView().processFileName(url);
 	}
-	
-	private final FileLoadCallback fileLoadCallback = new FileLoadCallback() {
-		public void onSuccess(JsUint8Array zippedContent) {
-			JsArrayInteger jsBytes = JsArrayInteger.createArray().cast();
-			jsBytes.setLength(zippedContent.getLength());
-			for (int i = 0; i < zippedContent.getLength(); i++) {
-				int x = zippedContent.get(i);
-				if (x < 0) x += 256;
-				
-				jsBytes.set(i, x);
-			}
-		   getView().fileContentLoaded(jsBytes);
-		}
-		
-		public void onError(String errorMessage) {
-			getView().showError(errorMessage);
-		}
-	};
 	
 }

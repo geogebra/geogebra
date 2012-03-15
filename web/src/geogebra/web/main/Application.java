@@ -47,7 +47,6 @@ import geogebra.web.kernel.UndoManager;
 import geogebra.web.properties.ColorsConstants;
 import geogebra.web.properties.CommandConstants;
 import geogebra.web.properties.PlainConstants;
-import geogebra.web.util.DataUtil;
 import geogebra.web.util.DebugPrinterWeb;
 import geogebra.web.util.ImageManager;
 
@@ -609,12 +608,7 @@ public class Application extends AbstractApplication {
 		if (!IMAGE_EXTENSIONS.contains(ext)) {
 			return; // Ignore non image files
 		}
-		if (binaryContent.startsWith("data:image")) {
-			addExternalImage(filename, binaryContent);
-		} else {
-			String base64 = DataUtil.base64Encode(binaryContent);
-			addExternalImage(filename, createImageSrc(ext, base64));
-		}
+		addExternalImage(filename, binaryContent);
 	}
 
 	private String createImageSrc(String ext, String base64) {

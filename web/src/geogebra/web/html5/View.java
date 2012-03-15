@@ -8,7 +8,6 @@ import geogebra.web.jso.JsUint8Array;
 import geogebra.web.main.Application;
 import geogebra.web.main.GeoGebraTubeExportWeb;
 import geogebra.web.presenter.LoadFilePresenter;
-import geogebra.web.util.DataUtil;
 
 import java.util.HashMap;
 
@@ -98,12 +97,6 @@ public class View extends Widget {
 
 	public boolean getDataParamShowResetIcon() {
 		return ((ArticleElement) container).getDataParamShowResetIcon();
-    }	
-	
-	public void fileContentLoaded(JsUint8Array zippedContent) {
-		AbstractApplication.debug("start unzip");
-		DataUtil.unzip(zippedContent,this);    
-		AbstractApplication.debug("end unzip");
     }
 	
 	private void maybeLoadFile() {
@@ -124,12 +117,6 @@ public class View extends Widget {
 		AbstractApplication.debug("file loaded");
 		
 	}
-
-	public void fileContentLoaded(JsArrayInteger jsBytes) {
-		AbstractApplication.debug("start unzip");
-		DataUtil.unzip(jsBytes,this); 
-		AbstractApplication.debug("end unzip");
-    }
 
 	public void maybeLoadFile(HashMap<String, String> archiveCont) {
 	    archiveContent = archiveCont;

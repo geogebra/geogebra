@@ -928,6 +928,10 @@ public abstract class GgbAPI implements JavaScriptAPI{
 	    return app;
     }
 
+    
+    /**
+     * For web it needed a callback. Don't forget that.
+     */
 	public abstract String getBase64(boolean includeThumbnail);
 	
 	final public String getBase64() {
