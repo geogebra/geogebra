@@ -4722,9 +4722,9 @@ public class MyXMLHandler implements DocHandler {
 			// enforce point or vector or line or plane type if it was given in
 			// attribute type
 			if (type != null) {
-				if (type.equals("point")) {
+				if (type.equals("point") && ve instanceof ExpressionNode) {
 					((ExpressionNode) ve).setForcePoint();
-				} else if (type.equals("vector")) {
+				} else if (type.equals("vector") && ve instanceof ExpressionNode) {
 					((ExpressionNode) ve).setForceVector();
 				//we must check that we have Equation here as xAxis 
 				//has also type "line" but is parsed as ExpressionNode
