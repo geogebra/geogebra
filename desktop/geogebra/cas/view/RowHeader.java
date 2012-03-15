@@ -35,7 +35,7 @@ public class RowHeader extends JList {
 		// listener
 		RowHeaderListener rhl = new RowHeaderListener(table, this);
 		addMouseListener(rhl);
-		// addMouseMotionListener(rhl);
+		addMouseMotionListener(rhl);
 		addKeyListener(rhl);
 		this.getSelectionModel().addListSelectionListener(rhl);
 		// table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
