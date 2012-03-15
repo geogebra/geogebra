@@ -1,7 +1,9 @@
 package geogebra.common.main;
 
 import geogebra.common.awt.Font;
-
+/**
+ * Handles different fonts used by application
+ */
 public abstract class AbstractFontManager {
 
 	/**

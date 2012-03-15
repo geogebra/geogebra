@@ -14,8 +14,15 @@ package geogebra.common.main;
 
 import geogebra.common.kernel.geos.GeoElement;
 
+/**
+ * Listens to changes of selection
+ */
 public interface GeoElementSelectionListener {
 	
+	/**
+	 * @param geo selected element
+	 * @param addToSelection true to add to selecion
+	 */
 	public void geoElementSelected(GeoElement geo, boolean addToSelection);
 	
 }

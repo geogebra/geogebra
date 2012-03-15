@@ -1713,6 +1713,9 @@ public abstract class AbstractApplication {
 		labelDragsEnabled = flag;
 	}
 
+	/**
+	 * @param b  
+	 */
 	public void setScrollToShow(boolean b) {
 		// TODO Auto-generated method stub
 
@@ -1722,8 +1725,11 @@ public abstract class AbstractApplication {
 		// TODO Auto-generated method stub
 
 	}
-
-	public void setActiveView(int viewEuclidian2) {
+	/**
+	 * 
+	 * @param evID
+	 */
+	public void setActiveView(int evID) {
 		// TODO Auto-generated method stub
 
 	}
@@ -1810,48 +1816,46 @@ public abstract class AbstractApplication {
 				&& (getGuiManager().getPlotPanelView(viewID) != null)) {
 			return getGuiManager().getPlotPanelView(viewID);
 		}
-		else {
-			switch (viewID) {
-			case VIEW_EUCLIDIAN:
-				return getEuclidianView1();
-			case VIEW_ALGEBRA:
-				return getAlgebraView();
-			case VIEW_SPREADSHEET:
-				if (!isUsingFullGui())
-					return null;
-				else if (getGuiManager() == null)
-					initGuiManager();
-				return getGuiManager().getSpreadsheetView();
-			case VIEW_CAS:
-				if (!isUsingFullGui())
-					return null;
-				else if (getGuiManager() == null)
-					initGuiManager();
-				return getGuiManager().getCasView();
-			case VIEW_EUCLIDIAN2:
-				return hasEuclidianView2() ? getEuclidianView2() : null;
-			case VIEW_CONSTRUCTION_PROTOCOL:
-				if (!isUsingFullGui())
-					return null;
-				else if (getGuiManager() == null)
-					initGuiManager();
-				return getGuiManager().getConstructionProtocolData();
-			case VIEW_PROBABILITY_CALCULATOR:
-				if (!isUsingFullGui())
-					return null;
-				else if (getGuiManager() == null)
-					initGuiManager();
-				return getGuiManager().getProbabilityCalculator();
-				// case VIEW_FUNCTION_INSPECTOR: return (View)getGuiManager()..
-				// case VIEW_INSPECTOR: return
-				// (View)getGuiManager().getSpreadsheetView();
-				// case VIEW_EUCLIDIAN3D: return
-				// (View)getGuiManager().getSpreadsheetView();
-				// case VIEW_EUCLIDIAN_FOR_PLANE: return
-				// (View)getGuiManager().getSpreadsheetView();
-				// case VIEW_TEXT_PREVIEW: return
-				// (View)getGuiManager().getSpreadsheetView();
-			}
+		switch (viewID) {
+		case VIEW_EUCLIDIAN:
+			return getEuclidianView1();
+		case VIEW_ALGEBRA:
+			return getAlgebraView();
+		case VIEW_SPREADSHEET:
+			if (!isUsingFullGui())
+				return null;
+			else if (getGuiManager() == null)
+				initGuiManager();
+			return getGuiManager().getSpreadsheetView();
+		case VIEW_CAS:
+			if (!isUsingFullGui())
+				return null;
+			else if (getGuiManager() == null)
+				initGuiManager();
+			return getGuiManager().getCasView();
+		case VIEW_EUCLIDIAN2:
+			return hasEuclidianView2() ? getEuclidianView2() : null;
+		case VIEW_CONSTRUCTION_PROTOCOL:
+			if (!isUsingFullGui())
+				return null;
+			else if (getGuiManager() == null)
+				initGuiManager();
+			return getGuiManager().getConstructionProtocolData();
+		case VIEW_PROBABILITY_CALCULATOR:
+			if (!isUsingFullGui())
+				return null;
+			else if (getGuiManager() == null)
+				initGuiManager();
+			return getGuiManager().getProbabilityCalculator();
+			// case VIEW_FUNCTION_INSPECTOR: return (View)getGuiManager()..
+			// case VIEW_INSPECTOR: return
+			// (View)getGuiManager().getSpreadsheetView();
+			// case VIEW_EUCLIDIAN3D: return
+			// (View)getGuiManager().getSpreadsheetView();
+			// case VIEW_EUCLIDIAN_FOR_PLANE: return
+			// (View)getGuiManager().getSpreadsheetView();
+			// case VIEW_TEXT_PREVIEW: return
+			// (View)getGuiManager().getSpreadsheetView();
 		}
 
 		return null;
@@ -1936,6 +1940,9 @@ public abstract class AbstractApplication {
 
 
 
+	/**
+	 * @param auxiliaryObjects true to show Auxiliary objects 
+	 */
 	public void setShowAuxiliaryObjects(boolean auxiliaryObjects) {
 		// TODO Auto-generated method stub
 		
@@ -1989,6 +1996,9 @@ public abstract class AbstractApplication {
 
 	
 
+	/**
+	 * @param size preferred size 
+	 */
 	public void setPreferredSize(Dimension size) {
 		// TODO Auto-generated method stub
 		
@@ -2018,6 +2028,9 @@ public abstract class AbstractApplication {
 		this.useLocalizedLabels = useLocalizedLabels;
 	}
 
+	/**
+	 * @param ttl tooltip language 
+	 */
 	public void setTooltipLanguage(String ttl) {
 		// TODO Auto-generated method stub
 		
@@ -2025,11 +2038,18 @@ public abstract class AbstractApplication {
 	
 	public abstract DrawEquationInterface getDrawEquation();
 
+	/**
+	 * 
+	 * @param show
+	 */
 	public void setShowConstructionProtocolNavigation(boolean show) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/**
+	 * @param tmp_perspectives  
+	 */
 	public void setTmpPerspectives(ArrayList<Perspective> tmp_perspectives) {
 		// TODO Auto-generated method stub
 		
@@ -2039,7 +2059,10 @@ public abstract class AbstractApplication {
 			boolean playButton, double playDelay, boolean showProtButton);
 
 	
-
+	/**
+	 * 
+	 * @param ttt
+	 */
 	public void setTooltipTimeout(int ttt) {
 		// TODO Auto-generated method stub
 		
@@ -2060,7 +2083,14 @@ public abstract class AbstractApplication {
 	
 	public abstract double getHeight();
 
-	public Font getFontCommon(boolean b, int i, int size) {
+	/**
+	 * 
+	 * @param serif serif
+	 * @param style font style
+	 * @param size
+	 * @return
+	 */
+	public Font getFontCommon(boolean serif, int style, int size) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -2122,8 +2152,8 @@ public abstract class AbstractApplication {
 		euclidianView = newEuclidianView(showAxes, showGrid);
 		euclidianView.setAntialiasing(antialiasing);
 	}
-	abstract protected AbstractEuclidianView newEuclidianView(boolean[] showAxes,boolean showGrid);
-	abstract protected AbstractEuclidianController newEuclidianController(Kernel kernel);
+	abstract protected AbstractEuclidianView newEuclidianView(boolean[] showAxes1,boolean showGrid1);
+	abstract protected AbstractEuclidianController newEuclidianController(Kernel kernel1);
 	/**
 	 * 
 	 * @param cons
@@ -2219,7 +2249,11 @@ public abstract class AbstractApplication {
 		getEuclidianView1().remove(geo);
 	}
 
-	// TODO remove this after ggb v>=5 (replace with same from Application3D)
+	/**
+	 * TODO remove this after ggb v>=5 (replace with same from Application3D)
+	 * @param plane
+	 * @return
+	 */
 	public AbstractEuclidianView createEuclidianViewForPlane(Object plane) {
 		return null;
 	}

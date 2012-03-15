@@ -8,14 +8,24 @@ import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 
+/**
+ * Handles keyboard events. This class only dispatches
+ */
 public abstract class GlobalKeyDispatcher {
 
+	/**
+	 * Handle Fx keys for input bar when geo is selected
+	 * @param i x when Fx is pressed
+	 * @param geo selected geo
+	 */
 	public abstract void handleFunctionKeyForAlgebraInput(int i, GeoElement geo);
-	
+	/** application */
 	protected AbstractApplication app;
 	
-	protected TreeSet<AlgoElementInterface> tempSet;
-
+	private TreeSet<AlgoElementInterface> tempSet;
+	/**
+	 * @return temporary set of algos
+	 */
 	protected TreeSet<AlgoElementInterface> getTempSet() {
 		if (tempSet == null) {
 			tempSet = new TreeSet<AlgoElementInterface>();
@@ -28,9 +38,11 @@ public abstract class GlobalKeyDispatcher {
 	/**
 	 * Tries to move the given objects after pressing an arrow key on the
 	 * keyboard.
+	 * @param geos moved geos
+	 * @param xdiff translation in x direction
+	 * @param ydiff translation in y direction
+	 * @param zdiff translation in z direction
 	 * 
-	 * @param keyCode
-	 *            VK_UP, VK_DOWN, VK_RIGHT, VK_LEFT
 	 * @return whether any object was moved
 	 */
 	protected boolean handleArrowKeyMovement(ArrayList<GeoElement> geos,
