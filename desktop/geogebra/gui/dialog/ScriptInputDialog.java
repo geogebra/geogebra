@@ -68,7 +68,6 @@ public class ScriptInputDialog extends InputDialog {
 		createGUI(title, "", false, cols, rows, true, true, false, true, false, false, false);		
 		
 		// init dialog using text
-		setGeo(button);
 		
 		JPanel centerPanel = new JPanel(new BorderLayout());		
 		
@@ -78,12 +77,13 @@ public class ScriptInputDialog extends InputDialog {
 		languageSelector.addItem(app.getPlain("Python"));
 		languageSelector.addActionListener(this);
 		
+		setGeo(button);
+
 		if(forceJavaScript){
 			languageSelector.setSelectedIndex(1);
 			languageSelector.setEnabled(false);
+			setScriptType(ScriptType.JAVASCRIPT);
 		}
-		//setJSMode(forceJavaScript);
-		setScriptType(forceJavaScript ? ScriptType.JAVASCRIPT : ScriptType.GGBSCRIPT);
 		btPanel.add(languageSelector,0);
 			
 		centerPanel.add(inputPanel, BorderLayout.CENTER);		
@@ -196,22 +196,27 @@ public class ScriptInputDialog extends InputDialog {
 	private void setScriptType(ScriptType scriptType) {
 		this.scriptType = scriptType;
 		String scriptStr;
+		int index;
 		switch (scriptType) {
 		default:
 		case GGBSCRIPT:
 			scriptStr = "geogebra";
+			index = 0;
 			break;
 			
 		case PYTHON:
 			Application.debug("TODO");
 			scriptStr = "javascript";//python";
+			index = 2;
 			break;
 			
 		case JAVASCRIPT:
 			scriptStr = "javascript";
+			index = 1;
 			break;
 			
 		}
+		languageSelector.setSelectedIndex(index);
 		((GeoGebraEditorPane) inputPanel.getTextComponent()).setEditorKit(scriptStr);		
 	}
 	
