@@ -34,7 +34,6 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 		rowHeader.requestFocus();
 	}
 
-	@Override
 	public void mouseDragged(MouseEvent e) {
 		e.consume();
 
@@ -80,7 +79,6 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 
 	}
 
-	@Override
 	public void mouseMoved(MouseEvent e) {
 		e.consume();
 	}
