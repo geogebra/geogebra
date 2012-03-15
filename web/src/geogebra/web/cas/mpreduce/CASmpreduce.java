@@ -103,14 +103,7 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 					new InterpreterJs().getStartMessage();
 					
 					//this will be hard. 1; First async: we got CAS here. But we must load Lisp image.
-					InterpreterJs.casLoadImage(casInstance);
-					try {
-	                    CASmpreduce.initStaticMyMPReduceFunctions(CASmpreduce.mpreduce_static);
-                    } catch (Throwable e) {
-	                    // TODO Auto-generated catch block
-	                    e.printStackTrace();
-                    }
-	                    
+					InterpreterJs.casLoadImage(casInstance);      
 				}
 				
 				public void onFailure(Throwable reason) {

@@ -45,10 +45,10 @@ public class CASmpreduce extends AbstractCASmpreduce {
 			mpreduce_static = new Interpreter2();
 
 			// the first command sent to mpreduce produces an error
-			try {
+			/*try {
 				initStaticMyMPReduceFunctions(mpreduce_static);
 			} catch (Throwable e) {
-			}
+			}*/
 
 			AbstractApplication.setCASVersionString(getVersionString(mpreduce_static));
 		}
