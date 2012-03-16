@@ -98,7 +98,6 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 	@Override
 	public void installChooserPanel(JColorChooser enclosingChooser) {
 		super.installChooserPanel(enclosingChooser);
-		System.out.println("--------> install chooser panel");
 		this.enclosingChooser = (GeoGebraColorChooser) enclosingChooser;
 	}
 
