@@ -69,7 +69,7 @@ cat mypom.xml | \
 mv mypom2.xml mypom.xml
 
 # 4. Running the JUnit tests
-mvn -f mypom.xml test
+mvn -f mypom.xml clean test
 
 # 5. Summing up errors
 ERRORS=0
