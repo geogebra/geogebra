@@ -19,7 +19,7 @@ test -r $WIXDIR/candle.exe || {
 WINEVERSION=`wine --version | sed s/"\."/""/g | sed s/wine\-//`
 VERSIONOK=`expr $WINEVERSION '>=' 1320`
 
-if [ "$VERSIONOK" = "1" ]; then
+if [ "$VERSIONOK" != "1" ]; then
  echo Wine is almost surely too old to run this program, get at least 1.3.20
  exit 2
  fi
