@@ -457,6 +457,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 					if(j == 4)
 						temp = reco_queue_e;
 				}
+				recognizer_queue_length = recognizer_queue_length - j;
 				int te1 = 0;
 				int te2 = j;
 				RecoSegment t1 = null;
