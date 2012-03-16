@@ -9,7 +9,7 @@ test -r autotest.conf || {
 test -r autotest.conf && . ./autotest.conf
 
 MYDIR=$SVNDIR/geogebra/test/scripts/autotest
-TESTDIR=$SVNDIR/GeoGebraTest
+TESTDIR=$SVNDIR/geogebra/test
 
 cd $TESTDIR
 

@@ -11,7 +11,7 @@
 
 
 # 1. Testing prerequisities
-GGB_JARS=../geogebra/desktop/build
+GGB_JARS=../desktop/build
 
 XML=`which xml`
 if [ "$XML" = "" ]; then
