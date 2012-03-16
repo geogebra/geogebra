@@ -22,7 +22,6 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoDummyVariable;
@@ -1485,11 +1484,11 @@ public class ExpressionNode extends ValidExpression implements
 		return checkMathML(ret, tpl);
 	}
 	
-	/*
+	/**
 	 * make sure string wrapped in MathML if necessary
 	 * eg <ci>x</ci>
 	 */
-	private String checkMathML(String str, StringTemplate tpl) {
+	private static String checkMathML(String str, StringTemplate tpl) {
 		if (tpl.hasType(StringType.MATHML) && str.charAt(0) != '<') {
 			return "<ci>" + str + "</ci>";
 		}

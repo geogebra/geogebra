@@ -49,12 +49,13 @@ public class StringTemplate {
 	public static StringTemplate casTemplate = new StringTemplate();
 	static {
 		casTemplate.internationalizeDigits = false;
-		casTemplate.usePrefix = true;
+		casTemplate.usePrefix = false;
 		casTemplate.forceSF = true;
 		casTemplate.localizeCmds = false;
 		casTemplate.setType(StringType.MPREDUCE);
 		casTemplate.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
 	}
+	
 	/**
 	 * XML string type, do not internationalize digits
 	 */
