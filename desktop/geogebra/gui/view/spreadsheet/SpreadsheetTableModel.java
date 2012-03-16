@@ -67,9 +67,7 @@ public class SpreadsheetTableModel extends AbstractSpreadsheetTableModel {
 
 	@Override
 	public void setValueAt(Object value, int row, int column) {
-		if(defaultTableModel.getColumnCount()<column &&
-				defaultTableModel.getRowCount()<row)
-		defaultTableModel.setValueAt(value, row, column);
+			defaultTableModel.setValueAt(value, row, column);
 	}
 
 }
