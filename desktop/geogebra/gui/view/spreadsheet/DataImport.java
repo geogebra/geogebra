@@ -62,7 +62,7 @@ public class DataImport {
 
 		// print available data formats in Transferable contents
 		for (int i = 0; i < contents.getTransferDataFlavors().length; i++) {
-			 System.out.println(contents.getTransferDataFlavors()[i]);
+			// System.out.println(contents.getTransferDataFlavors()[i]);
 		}
 
 		// try to extract a string from the Transferable

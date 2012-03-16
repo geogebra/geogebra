@@ -516,8 +516,6 @@ public class RelativeCopy {
 		// Application.debug("isGeoFunction()=" + value2.isGeoFunction());
 		// Application.debug("row0 ="+row0+" dy="+dy+" column0= "+column0+" dx="+dx);
 		
-		//table.setValueAt(value2, row0 + dy, column0 + dx);
-		app.getSpreadsheetTableModel().setValueAt(value2, row0 + dy, column0 + dx);
 		return value2;
 
 	}
@@ -686,8 +684,6 @@ public class RelativeCopy {
 			value2.setVisualStyle(geoForStyle);
 		}
 
-		//((Application)app).getGuiManager().getSpreadsheetView().getTable().setValueAt(value2, row, column);
-		app.getSpreadsheetTableModel().setValueAt(value2, row, column);
 	}
 
 	public static String replaceAll(RegExp spreadsheetpattern, String text,

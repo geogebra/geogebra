@@ -57,7 +57,7 @@ public class CopyPasteCut {
 	/***************************************
 	 * Constructor
 	 */
-	public CopyPasteCut(Application app) {
+	public CopyPasteCut(AbstractApplication app) {
 
 		tableModel = app.getSpreadsheetTableModel();
 		this.app = app;
@@ -574,7 +574,7 @@ public class CopyPasteCut {
 										column, row);
 						// values2[iy][ix].setAuxiliaryObject(values2[iy][ix].isGeoNumeric());
 						values2[iy][ix].setAuxiliaryObject(true);
-						tableModel.setValueAt(values2[iy][ix], row, column);
+			
 					}
 				}
 			}
