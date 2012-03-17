@@ -3593,6 +3593,12 @@ public class Kernel {
 		AlgoDependentBoolean algo = new AlgoDependentBoolean(cons, label, root);
 		return algo.getGeoBoolean();
 	}
+	
+	final public GeoBoolean Prove(String label, GeoElement arg) {
+		AlgoProve algo = new AlgoProve(cons, label, arg);
+		GeoBoolean bool = algo.getGeoBoolean();
+		return bool;
+	}	
 
 	/** Point on path with cartesian coordinates (x,y) */
 	final public GeoPoint2 Point(String label, Path path, double x, double y,

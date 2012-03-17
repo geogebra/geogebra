@@ -2270,7 +2270,7 @@ public abstract class AbstractApplication {
 
 	abstract public CommandProcessor newCmdBarCode();
 
-	public final int selectedGeosSize() {
+		public final int selectedGeosSize() {
 		return selectedGeos.size();
 	}
 
@@ -2809,6 +2809,7 @@ public abstract class AbstractApplication {
 
 		return sbPlain.toString();
 	}
+
 
 
 

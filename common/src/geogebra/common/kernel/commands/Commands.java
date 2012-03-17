@@ -36,6 +36,7 @@ public enum Commands implements CommandsConstants{
    	Perimeter(TABLE_GEOMETRY), Locus(TABLE_GEOMETRY), Centroid(TABLE_GEOMETRY), TriangleCenter(TABLE_GEOMETRY), Barycenter(TABLE_GEOMETRY), Trilinear(TABLE_GEOMETRY), TriangleCubic(TABLE_GEOMETRY), 
    	TriangleCurve(TABLE_GEOMETRY),Vertex(TABLE_GEOMETRY), PolyLine(TABLE_GEOMETRY), PointIn(TABLE_GEOMETRY), AffineRatio(TABLE_GEOMETRY),
    	CrossRatio(TABLE_GEOMETRY), ClosestPoint(TABLE_GEOMETRY),
+   	Prove(TABLE_GEOMETRY),
 
   	//=============================================================
   	// text
@@ -186,6 +187,7 @@ public enum Commands implements CommandsConstants{
    	PerpendicularLine(TABLE_ENGLISH), PerpendicularVector(TABLE_ENGLISH), MinorAxis(TABLE_ENGLISH), SemiMinorAxisLength(TABLE_ENGLISH),
    	UnitPerpendicularVector(TABLE_ENGLISH), CorrelationCoefficient(TABLE_ENGLISH), FitLine(TABLE_ENGLISH), BinomialCoefficient(TABLE_ENGLISH),
    	RandomBetween(TABLE_ENGLISH),
+   	
    	//=================================================================
   	// 3D
 	//=============================================================

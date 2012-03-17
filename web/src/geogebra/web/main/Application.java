@@ -816,7 +816,7 @@ public class Application extends AbstractApplication {
 		AbstractApplication.debug("implementation needed really"); // TODO
 		return null;
 	}
-
+	
 	@Override
 	protected boolean isCommandChanged() {
 		return commandConstantsOld != commandConstants;

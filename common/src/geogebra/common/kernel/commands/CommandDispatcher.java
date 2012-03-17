@@ -970,6 +970,8 @@ public class CommandDispatcher {
 				return new CmdToolImage(kernel);
 			case BarCode:
 				return kernel.getApplication().newCmdBarCode();
+			case Prove:
+				return new CmdProve(kernel);
 			case DynamicCoordinates:
 				return new CmdDynamicCoordinates(kernel);
 			case Maximize:

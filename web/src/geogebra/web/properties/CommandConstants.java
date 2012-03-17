@@ -809,6 +809,9 @@ public interface CommandConstants extends ConstantsWithLookup {
 	@DefaultStringValue("BarCode")
 	String BarCode();
 
+	@DefaultStringValue("Prove")
+	String Prove();
+	
 	@DefaultStringValue("AffineRatio")
 	String AffineRatio();
 
@@ -1268,6 +1271,9 @@ public interface CommandConstants extends ConstantsWithLookup {
 	@DefaultStringValue("[ ]\n[ <Image> ]\n[ <Text or Number>, \"<Format (optional)>\" , \"<Error Correction (optional)>\", <Width (optional)>, <Height (optional)>]")
 	String BarCode_Syntax();
 
+	@DefaultStringValue("[ <Expression> ]")
+	String Prove_Syntax();
+	
 	@DefaultStringValue("[ <List> ]")
 	String RootList_Syntax();
 

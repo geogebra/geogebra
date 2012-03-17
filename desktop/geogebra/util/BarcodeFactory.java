@@ -1,7 +1,5 @@
 package geogebra.util;
 
-import geogebra.main.Application;
-
 import com.google.zxing.FormatException;
 
 public class BarcodeFactory {

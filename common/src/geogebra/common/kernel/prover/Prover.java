@@ -15,7 +15,13 @@ package geogebra.common.kernel.prover;
  */
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.geos.GeoElement;
+
+/**
+ * Prover package for GeoGebra.
+ * Allows using multiple backends for theorem proving.
+ */
 
 public class Prover {
 
@@ -26,12 +32,15 @@ public class Prover {
 	private int timeout = 10;
 	private ProverEngine engine = ProverEngine.BOTANAS_PROVER;
 	private Construction construction;
-	private ValidExpression statement;
+	private GeoElement statement;
 	
 	/* output */
 	private String NDGconditions;
 	private ProofResult result;
-	
+
+	/**
+	 * Constructor for the package.
+	 */
 	public Prover() {}
 
 	/**
@@ -61,10 +70,10 @@ public class Prover {
 	
 	/**
 	 * Sets the statement to be proven.
-	 * @param statement The statement to be proven
+	 * @param root The statement to be proven
 	 */
-	public void setStatement(ValidExpression statement) {
-		this.statement = statement;
+	public void setStatement(GeoElement root) {
+		this.statement = root;
 	}
 	
 	/**
@@ -73,6 +82,16 @@ public class Prover {
 	 */
 	public void compute() {
 		/* to be implemented */
+		if (statement != null) {
+
+			// getCASString may also be used 
+			String cd = statement.getCommandDescription(StringTemplate.xmlTemplate);
+			System.out.println("Statement to prove:" + cd);
+		}
+		else {
+			System.err.println("No statement to prove");
+		}
+
 		result = Prover.ProofResult.UNKNOWN;
 	}
 
