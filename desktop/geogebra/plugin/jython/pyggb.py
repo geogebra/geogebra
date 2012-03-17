@@ -119,8 +119,12 @@ class Interface(PythonScriptInterface):
     def reset(self):
         if self.pywin is not None:
             self.pywin.reset()
-        self.run(self.api.getInitScript())
-
+        # Run the init script and run ggbOnInit() if it exists
+        self.run(self.api.getInitScript() +
+                 "if 'ggbOnInit' in globals():"
+                 "    ggbOnInit()"
+        )
+    
     def getCurrentInitScript(self):
         if self.pywin is None:
             return None

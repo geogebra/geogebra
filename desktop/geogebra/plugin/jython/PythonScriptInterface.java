@@ -62,4 +62,5 @@ public interface PythonScriptInterface {
 	 * @return the value of the script in the editor or null
 	 */
 	public String getCurrentInitScript();
+
 }

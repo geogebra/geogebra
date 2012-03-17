@@ -128,11 +128,11 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	}
 	
 	public void reset() {
-		pyInterface.reset();
+		//pyInterface.reset();
 	} 
 	
 	public void clearView() {
-		pyInterface.reset();
+		//pyInterface.reset();
 	}
 	
 	public void setMode(int mode) {
@@ -175,6 +175,12 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 			return pyInterface.getCurrentInitScript();
 		}
 		return null;
+	}
+	/**
+	 * Execute the Python Script
+	 */
+	public void execScript() {
+		pyInterface.reset();
 	}
 }
 
