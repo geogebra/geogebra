@@ -1,7 +1,7 @@
 from __future__ import division, with_statement
 
 # Standard Library imports
-import re, sys, traceback
+import re, sys, traceback, codecs
 
 # FLAT
 #from geogebra.plugin.jython import PythonFlatAPI as API
@@ -151,7 +151,7 @@ class FileManager(object):
     def save_script(self):
         if self.script_path is None:
             return
-        with open(self.script_path, "wb") as stream:
+        with codecs.open(self.script_path, "wb", "utf-8") as stream:
             stream.write(self.script_area.input)
     
     def open_script(self):
@@ -159,7 +159,7 @@ class FileManager(object):
         if f is None:
             return
         self.script_path = f.absolutePath
-        with open(self.script_path, "rb") as stream:
+        with codecs.open(self.script_path, "rb", "utf-8") as stream:
             self.script_area.input = stream.read()
     
     def save_script_as(self):
