@@ -82,7 +82,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	private static final String LEFT_UP = "Q";
 	private static final String RIGHT_UP = "W";
 	private static final String RIGHT_DOWN = "E";
-	private static final String LEFT_DOWN = "R";
+	private static final String LEFT_DOWN = "T";
 	/**
      * String representation of left movement.
      */
