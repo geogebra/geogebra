@@ -39,7 +39,7 @@ public class DrawLocus extends Drawable {
 	 */
 	public DrawLocus(AbstractEuclidianView view, GeoLocus locus) {
 		this.view = view;
-		hitThreshold = AbstractEuclidianView.getCapturingThreshold();
+		hitThreshold = view.getCapturingThreshold();
 		this.locus = locus;
 		geo = locus;
 

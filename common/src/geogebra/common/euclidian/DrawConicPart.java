@@ -71,7 +71,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	 */
 	public DrawConicPart(AbstractEuclidianView view, GeoConicPart conicPart) {
 		this.view = view;
-		hitThreshold = AbstractEuclidianView.getCapturingThreshold();
+		hitThreshold = view.getCapturingThreshold();
 		initConicPart(conicPart);
 		update();
 	}

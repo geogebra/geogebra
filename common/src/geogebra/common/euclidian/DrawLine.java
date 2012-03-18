@@ -91,7 +91,7 @@ public class DrawLine extends Drawable implements Previewable {
      * @param g line*/
     public DrawLine(AbstractEuclidianView view, GeoLineND g) {      
     	this.view = view;   
-    	hitThreshold = AbstractEuclidianView.getCapturingThreshold();
+    	hitThreshold = view.getCapturingThreshold();
         this.g = g;
         geo = (GeoElement) g;              
         update();

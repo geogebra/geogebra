@@ -60,7 +60,7 @@ public class DrawSegment extends Drawable implements Previewable {
 	 */
 	public DrawSegment(AbstractEuclidianView view, GeoLineND s) {
 		this.view = view;
-		hitThreshold = AbstractEuclidianView.getCapturingThreshold();
+		hitThreshold = view.getCapturingThreshold();
 		this.s = s;
 		geo = (GeoElement) s;
 

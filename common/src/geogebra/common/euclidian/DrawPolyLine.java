@@ -53,7 +53,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	 */
 	public DrawPolyLine(AbstractEuclidianView view, ArrayList<?> points) {
 		this.view = view;
-		hitThreshold = AbstractEuclidianView.getCapturingThreshold();
+		hitThreshold = view.getCapturingThreshold();
 		this.points = points;
 
 		updatePreview();

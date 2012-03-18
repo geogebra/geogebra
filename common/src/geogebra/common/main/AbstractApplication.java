@@ -195,6 +195,10 @@ public abstract class AbstractApplication {
 				"Yiddish / \u05D9\u05D9\u05B4\u05D3\u05D9\u05E9");
 	}
 	
+	// object is hit if mouse is within this many pixels
+	// (more for points, see DrawPoint)
+	public int capturingThreshold = 3;
+	
 	private static String CASVersionString = "";
 
 	public static void setCASVersionString(String string) {

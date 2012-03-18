@@ -35,7 +35,7 @@ public class DrawImplicitPoly extends DrawLocus {
 	public DrawImplicitPoly(AbstractEuclidianView view,GeoImplicitPoly implicitPoly) {
 		super(view, implicitPoly.getLocus());
 		this.view=view;
-    	hitThreshold = AbstractEuclidianView.getCapturingThreshold();
+    	hitThreshold = view.getCapturingThreshold();
 		this.implicitPoly = implicitPoly;
 		this.geo=implicitPoly;
 		update();

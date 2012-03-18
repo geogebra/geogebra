@@ -112,7 +112,7 @@ public class DrawParametricCurve extends Drawable {
 	 */
 	public DrawParametricCurve(AbstractEuclidianView view, ParametricCurve curve) {
 		this.view = view;
-		hitThreshold = AbstractEuclidianView.getCapturingThreshold();
+		hitThreshold = view.getCapturingThreshold();
 		this.curve = curve;
 		geo = curve.toGeoElement();
 		update();

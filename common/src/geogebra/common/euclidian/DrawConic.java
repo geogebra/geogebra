@@ -150,7 +150,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	public DrawConic(AbstractEuclidianView view, GeoConicND c) {
 		this.view = view;
 		isPreview = false;
-		hitThreshold = AbstractEuclidianView.getCapturingThreshold();
+		hitThreshold = view.getCapturingThreshold();
 		initConic(c);
 		update();
 	}

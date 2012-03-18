@@ -41,7 +41,7 @@ public class DrawInequality extends Drawable {
 	 */
 	public DrawInequality(AbstractEuclidianView view, FunctionalNVar function) {
 		this.view = view;
-		hitThreshold = AbstractEuclidianView.getCapturingThreshold();
+		hitThreshold = view.getCapturingThreshold();
 		geo = (GeoElement) function;
 		this.function = function;
 		operation = function.getIneqs().getOperation();

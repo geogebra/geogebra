@@ -537,8 +537,8 @@ public final class DrawPoint extends Drawable {
 		return fillStrokes[pointSize];
 	}
 
-	private static int getSelectionDiamaterMin() {
-		return AbstractEuclidianView.getCapturingThreshold() + SELECTION_DIAMETER_MIN;
+	private int getSelectionDiamaterMin() {
+		return view.getCapturingThreshold() + SELECTION_DIAMETER_MIN;
 	}
 
 }

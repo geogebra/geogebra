@@ -251,12 +251,8 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 	
 
-	// object is hit if mouse is within this many pixels
-	// (more for points, see DrawPoint)
-	private static int capturingThreshold = 3;
 
-
-	private AbstractApplication application;
+	private AbstractApplication app;
 
 	private EuclidianSettings settings;
 
@@ -288,7 +284,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 				
 		this.euclidianController = ec;
 		kernel = ec.getKernel();
-		application = kernel.getApplication();
+		app = kernel.getApplication();
 		this.settings = settings;
 		// no repaint
 		xminObject = new GeoNumeric(kernel.getConstruction());
@@ -352,15 +348,15 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	/**
 	 * @param i capturing threshold
 	 */
-	public static void setCapturingThreshold(int i) {
-		capturingThreshold = i;
+	public void setCapturingThreshold(int i) {
+		app.capturingThreshold = i;
 	}
 
 	/**
 	 * @return capturing threshold
 	 */
-	public static int getCapturingThreshold() {
-		return capturingThreshold;
+	public int getCapturingThreshold() {
+		return app.capturingThreshold;
 	}
 
 	public int getMode() {
@@ -2500,11 +2496,11 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	 * @param application application
 	 */
 	protected void setApplication(AbstractApplication application) {
-		this.application = application;
+		this.app = application;
 	}
 	
 	public AbstractApplication getApplication() {
-		return this.application;
+		return this.app;
 	}
 
 	/**

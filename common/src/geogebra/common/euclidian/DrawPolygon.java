@@ -51,7 +51,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	 */
 	public DrawPolygon(AbstractEuclidianView view, GeoPolygon poly) {
 		this.view = view;
-		hitThreshold = AbstractEuclidianView.getCapturingThreshold();
+		hitThreshold = view.getCapturingThreshold();
 		this.poly = poly;
 		geo = poly;
 

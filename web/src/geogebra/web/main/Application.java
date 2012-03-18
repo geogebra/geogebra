@@ -123,7 +123,7 @@ public class Application extends AbstractApplication {
 		fontManager = new FontManager();
 		setFontSize(12);
 		// setLabelDragsEnabled(false);
-		AbstractEuclidianView.setCapturingThreshold(20);
+		capturingThreshold = 20;
 
 		// make sure undo allowed
 		hasFullPermissions = true;

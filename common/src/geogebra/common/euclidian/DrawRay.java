@@ -53,7 +53,7 @@ public class DrawRay extends Drawable implements Previewable {
 	 * @param ray ray*/
 	public DrawRay(AbstractEuclidianView view, GeoLineND ray) {
 		this.view = view;
-		hitThreshold = AbstractEuclidianView.getCapturingThreshold();
+		hitThreshold = view.getCapturingThreshold();
 		this.ray = ray;
 		geo = (GeoElement) ray;
 
