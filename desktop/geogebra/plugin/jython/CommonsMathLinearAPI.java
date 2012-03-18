@@ -1,5 +1,6 @@
 package geogebra.plugin.jython;
 
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.linear.AbstractRealMatrix;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.ArrayRealVector;
@@ -29,6 +30,8 @@ public class CommonsMathLinearAPI {
 	@SuppressWarnings("javadoc")
 	public static final Class<SingularValueDecompositionImpl> SingularValueDecompositionImplClass = SingularValueDecompositionImpl.class;
 	
+	@SuppressWarnings("javadoc")
+	public static final Class<MathRuntimeException> MathRuntimeExceptionClass = MathRuntimeException.class;
 	
 	/* Real Vector operations */
 	

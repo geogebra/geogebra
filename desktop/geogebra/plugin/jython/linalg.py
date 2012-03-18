@@ -1,11 +1,23 @@
 from geogebra.plugin.jython import CommonsMathLinearAPI as API
+from java.lang import Exception as JavaException
+
 from pygeo.generic import (
     generic, specmethod, GenericMethods, GenericError, sign
 )
+from functools import wraps
 
 __all__ = 'Vector', 'Matrix', 'SVDecomposition'
 
 Number = (int, long, float)
+
+def convert_java_error(f):
+    @wraps(f)
+    def wrapped(*args):
+        try:
+            return f(*args)
+        except JavaException, e:
+            raise RuntimeError(e.getMessage())
+    return wrapped
 
 class Vector(GenericMethods):
     @generic
@@ -14,6 +26,7 @@ class Vector(GenericMethods):
     
     @specmethod.__init__
     @sign(list)
+    @convert_java_error
     def init_fromlist(self, data):
         self._vector = API.ArrayRealVectorClass(data)
     
@@ -24,25 +37,30 @@ class Vector(GenericMethods):
     
     def __repr__(self):
         return str(self._vector)
-    
+
+    @convert_java_error
     def __add__(self, other):
         return Vector(API.add(self._vector, other._vector))
-    
+
+    @convert_java_error
     def __sub__(self, other):
         return Vector(API.subtract(self._vector, other._vector))
-    
+
+    @convert_java_error
     def __mul__(self, other):
         if isinstance(other, Number):
             return Vector(API.mapMultiply(self._vector, other))
         else:
             return Vector(API.dotProduct(self._vector, other._vector))
 
+    @convert_java_error
     def __getitem__(self, i):
         if 0 <= i < len(self):
             return API.getEntry(self._vector, i)
         else:
             raise IndexError
-    
+
+    @convert_java_error
     def __setitem__(self, i, val):
         if 0 <= i < len(self):
             API.setEntry(self._vector, i, val)
@@ -74,24 +92,28 @@ class Matrix(GenericMethods):
     
     @specmethod.__init__
     @sign(list)
+    @convert_java_error
     def init_fromdata(self, data):
         self._matrix = API.Array2DRowRealMatrixClass(data)
     
     def __repr__(self):
         return str(self._matrix)
-    
+
+    @convert_java_error
     def __add__(self, other):
         if isinstance(other, Number):
             return Matrix(API.scalarAdd(self._matrix, other))
         else:
             return Matrix(API.add(self._matrix, other._matrix))
-    
+
+    @convert_java_error
     def __sub__(self, other):
         if isinstance(other, Number):
             return Matrix(API.scalarAdd(self._matrix, -other))
         else:
             return Matrix(API.subtract(self._matrix, other._matrix))
-    
+
+    @convert_java_error
     def __mul__(self, other):
         if isinstance(other, Number):
             return Matrix(API.scalarMultiply(self._matrix, other))
@@ -99,19 +121,22 @@ class Matrix(GenericMethods):
             return Vector(API.operate(self._matrix, other._vector))
         else:
             return Matrix(API.multiply(self._matrix, other._matrix))
-    
+
+    @convert_java_error
     def __pow__(self, n):
         return Matrix(API.power(self._matrix, n))
     
-    
+    @convert_java_error
     def __setitem__(self, ij, val):
         i, j = ij
         API.setEntry(self._matrix, i, j, val)
-    
+
+    @convert_java_error
     def __getitem__(self, ij):
         i, j = ij
         return API.getEntry(self._matrix, i, j)
-    
+
+    @convert_java_error
     def increment(self, i, j, val):
         API.addToEntry(self._matrix, i, j, val)
     
