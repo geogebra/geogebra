@@ -81,6 +81,8 @@ public class PythonFlatAPI {
 	@SuppressWarnings("javadoc")
 	public static final Class<GeoFunction> GeoFunctionClass = GeoFunction.class;
 	@SuppressWarnings("javadoc")
+	public static final Class<GeoFunctionNVar> GeoFunctionNVarClass = GeoFunctionNVar.class;
+	@SuppressWarnings("javadoc")
 	public static final Class<GeoText> GeoTextClass = GeoText.class;
 	@SuppressWarnings("javadoc")
 	public static final Class<GeoButton> GeoButtonClass = GeoButton.class;
@@ -238,6 +240,7 @@ public class PythonFlatAPI {
 		public static boolean isFree(GeoElement geo) {
 			return geo.isIndependent();
 		}
+		
 		/* General GeoElement methods */
 
 		/**
@@ -723,6 +726,17 @@ public class PythonFlatAPI {
 		 */
 		public static double getPolygonDirectedArea(GeoPolygon poly) {
 			return poly.getAreaWithSign();
+		}
+		
+		/* Functions */
+		
+		/**
+		 * Return the number of variables of a GeoFunctionNVar
+		 * @param f the function 
+		 * @return the number of variables of f
+		 */
+		public static int getFunctionArity(GeoFunctionNVar f) {
+			return f.getVarNumber();
 		}
 		
 	}

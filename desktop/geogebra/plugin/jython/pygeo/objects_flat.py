@@ -866,7 +866,7 @@ class Function(Element):
     def __init__(self, factory, f):
         self._factory = factory
         self._api = factory.api
-        self.nargs = nargs = f.func_code.co_argcount
+        nargs = f.func_code.co_argcount
         self.varnames = varnames = f.func_code.co_varnames
         if nargs == 0:
             raise ValueError("function must have at least one variable")
@@ -881,13 +881,20 @@ class Function(Element):
     
     def __call__(self, *args):
         args = map(self._factory.expression, args)
-        
+
+    def _getarity(self):
+        if isinstance(self.geo, API.GeoFunctionClass):
+            return 1
+        else:
+            return API.Geo.getFunctionArity(self.geo)
+    arity = property(_getarity)
+    
     def _getimplicitcurve(self):
-        if self.nargs != 2:
+        if self.arity != 2:
             raise AttributeError
         else:
             geo = self._api.geoImplicitPoly(self.geo)
-            return ImplicitPoly(geo)
+            return ImplicitPoly.fromgeo(self._factory, geo)
     implicitcurve = property(_getimplicitcurve)
 
 
@@ -1017,6 +1024,9 @@ for obj in __objects__:
         geo2element[geo_class] = obj
     except AttributeError:
         pass
+
+# Special case of GeoFunctionNVar
+geo2element[API.GeoFunctionNVarClass] = Function
 
 for obj in __expressions__:
     setattr(ElementFactory, obj.__name__, obj)
