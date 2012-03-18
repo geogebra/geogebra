@@ -157,6 +157,11 @@ class Element:
     def _getdefined(self):
         return API.Geo.isDefined(self.geo)
     defined = property(_getdefined)
+
+    # property: free
+    def _getfree(self):
+        return API.Geo.isFree(self.geo)
+    free = property(_getfree)
     
     # property: label 
     def _getlabel(self):

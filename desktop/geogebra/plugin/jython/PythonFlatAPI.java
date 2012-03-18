@@ -229,6 +229,15 @@ public class PythonFlatAPI {
 		public static boolean isDefined(GeoElement geo) {
 			return geo.isDefined();
 		}
+		
+		/**
+		 * tells whether a GeoElement is dependent on others or not
+		 * @param geo the GeoElement
+		 * @return true if the GeoElement is free (does not depend on others)
+		 */
+		public static boolean isFree(GeoElement geo) {
+			return geo.isIndependent();
+		}
 		/* General GeoElement methods */
 
 		/**
