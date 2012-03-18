@@ -947,15 +947,18 @@ class List(Element):
 
     def __delitem__(self, index):
         API.Geo.removeListItem(self.geo, index)
+        self.update()
 
     def __len__(self):
         return API.Geo.getListLength(self.geo)
 
     def append(self, item):
         API.Geo.appendToList(self.geo, self._factory.element(item).geo)
-
+        self.update()
+        
     def clear(self):
         API.Geo.clearList(self.geo)
+        self.update()
 
 
 class Selection(object):
