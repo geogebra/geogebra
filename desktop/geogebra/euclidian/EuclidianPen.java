@@ -50,6 +50,15 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	double CIRCLE_MIN_DET=0.95;
 	double CIRCLE_MAX_SCORE=0.10;
 	double score=0;
+	double ARROW_MAXSIZE =  0.8; // max size of arrow tip relative to main segment
+	double ARROW_ANGLE_MIN  = (5*Math.PI/180); // arrow tip angles relative to main segment
+	double ARROW_ANGLE_MAX = (50*Math.PI/180);
+	double ARROW_ASYMMETRY_MAX_ANGLE = (30*Math.PI/180);
+	double ARROW_ASYMMETRY_MAX_LINEAR =  1.0; // size imbalance of two legs of tip
+	double ARROW_TIP_LINEAR_TOLERANCE = 0.30; // gap tolerance on tip segments
+	double ARROW_SIDEWAYS_GAP_TOLERANCE = 0.25; // gap tolerance in lateral direction
+	double ARROW_MAIN_LINEAR_GAP_MIN = -0.3; // gap tolerance on main segment
+	double ARROW_MAIN_LINEAR_GAP_MAX = 0.7; // gap tolerance on main segment
 	int brk[];
 	int recognizer_queue_length = 0;
 	int MAX_POLYGON_SIDES=4;
@@ -529,6 +538,11 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			{
 				recognizer_queue_length = 0;
 				System.out.println("Rectangle Recognized");
+			}
+			if(this.try_arrow())
+			{
+				recognizer_queue_length = 0;
+				System.out.println("Arrow Recognized");
 			}
 			if(n==1)//then stroke is a line
 			{
@@ -1509,4 +1523,188 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
     		avg_angle = Math.PI/2;
     	return true;
     }
+    boolean try_arrow()
+    {
+    	RecoSegment rs = null;
+    	RecoSegment temp = null;
+    	RecoSegment temp2 = null;
+    	int i,j;
+    	double alpha[] = new double[3];
+    	double pt[] = new double[2];
+    	double dist, tmp, delta;
+    	double x1, y1, x2, y2, angle;
+    	boolean rev[] = new boolean[3];
+    	if (recognizer_queue_length<3) 
+    		return false;
+    	if(recognizer_queue_length-3 == 0)
+    		rs = reco_queue_a;
+    	if(recognizer_queue_length-3 == 1)
+    		rs = reco_queue_b;
+    	if(recognizer_queue_length-3 == 2)
+    		rs = reco_queue_c;
+    	if(recognizer_queue_length-3 == 3)
+    		rs = reco_queue_d;
+    	if(recognizer_queue_length-3 == 4)
+    		rs = reco_queue_e;
+    	//System.out.println(rs.startpt);
+    	if(rs.startpt != 0)
+    		return false;
+    	for(i=1; i<=2; ++i)
+    	{
+    		if(recognizer_queue_length-3+i == 0)
+    			temp = reco_queue_a;
+    		if(recognizer_queue_length-3+i == 1)
+    			temp = reco_queue_b;
+    		if(recognizer_queue_length-3+i == 2)
+    			temp = reco_queue_c;
+    		if(recognizer_queue_length-3+i == 3)
+    			temp = reco_queue_d;
+    		if(recognizer_queue_length-3+i == 4)
+    			temp = reco_queue_e;
+    		if (temp.radius > ARROW_MAXSIZE*rs.radius)
+    			return false;
+    		rev[i] = (Math.hypot(temp.xcenter - rs.x1, temp.ycenter - rs.y1)) < (Math.hypot(temp.xcenter - rs.x2, temp.ycenter - rs.y2));
+    	}
+    	if(rev[1] != rev[2])
+    		return false;
+    	if(rev[1])
+    	{
+    		x1 = rs.x2;
+    		y1 = rs.y2; 
+    		x2 = rs.x1; 
+    		y2 = rs.y1;
+    		angle = rs.angle + Math.PI;
+    	}
+    	else
+    	{
+    		x1 = rs.x1;
+    		y1 = rs.y1; 
+    		x2 = rs.x2; 
+    		y2 = rs.y2;
+    		angle = rs.angle;
+    	}
+    	for(i=1; i<=2; ++i)
+    	{
+    		if(recognizer_queue_length-3+i == 0)
+    			temp = reco_queue_a;
+    		if(recognizer_queue_length-3+i == 1)
+    			temp = reco_queue_b;
+    		if(recognizer_queue_length-3+i == 2)
+    			temp = reco_queue_c;
+    		if(recognizer_queue_length-3+i == 3)
+    			temp = reco_queue_d;
+    		if(recognizer_queue_length-3+i == 4)
+    			temp = reco_queue_e;
+    		temp.reversed = false;
+    		alpha[i] = temp.angle - angle;
+    		while(alpha[i] < -Math.PI/2)
+    		{
+    			alpha[i] = alpha[i] + Math.PI;
+    			temp.reversed = !temp.reversed;
+    		}
+    		while(alpha[i] > Math.PI/2)
+    		{
+    			alpha[i] = alpha[i] - Math.PI;
+    			temp.reversed = !temp.reversed;
+    		}
+    		if(Math.abs(alpha[i]) < ARROW_ANGLE_MIN || Math.abs(alpha[i]) > ARROW_ANGLE_MAX)
+    			return false;
+    	}
+    	if(alpha[1]*alpha[2] > 0 || Math.abs(alpha[1] + alpha[2]) > ARROW_ASYMMETRY_MAX_ANGLE)
+    		return false;
+    	if(recognizer_queue_length-2 == 0)
+			temp = reco_queue_a;
+		if(recognizer_queue_length-2 == 1)
+			temp = reco_queue_b;
+		if(recognizer_queue_length-2 == 2)
+			temp = reco_queue_c;
+		if(recognizer_queue_length-2 == 3)
+			temp = reco_queue_d;
+		if(recognizer_queue_length-2 == 4)
+			temp = reco_queue_e;
+		if(recognizer_queue_length-1 == 0)
+			temp2 = reco_queue_a;
+		if(recognizer_queue_length-1 == 1)
+			temp2 = reco_queue_b;
+		if(recognizer_queue_length-1 == 2)
+			temp2 = reco_queue_c;
+		if(recognizer_queue_length-1 == 3)
+			temp2 = reco_queue_d;
+		if(recognizer_queue_length-1 == 4)
+			temp2 = reco_queue_e;
+		if(temp.radius/temp2.radius > 1+ARROW_ASYMMETRY_MAX_LINEAR)
+			return false;
+		if(temp2.radius/temp.radius > 1+ARROW_ASYMMETRY_MAX_LINEAR)
+			return false;
+		this.calc_edge_isect(temp, temp2, pt);
+		for(j=1; j<=2; ++j)
+		{
+			if(recognizer_queue_length-3+j == 0)
+    			temp = reco_queue_a;
+    		if(recognizer_queue_length-3+j == 1)
+    			temp = reco_queue_b;
+    		if(recognizer_queue_length-3+j == 2)
+    			temp = reco_queue_c;
+    		if(recognizer_queue_length-3+j == 3)
+    			temp = reco_queue_d;
+    		if(recognizer_queue_length-3+j == 4)
+    			temp = reco_queue_e;
+    		dist = Math.hypot(pt[0] - (temp.reversed?temp.x1:temp.x2), pt[1] - (temp.reversed?temp.y1:temp.y2));
+    		if (dist > ARROW_TIP_LINEAR_TOLERANCE*temp.radius) 
+    			return false;
+		}
+		dist = (pt[0] - x2)*Math.sin(angle) - (pt[1] - y2)*Math.cos(angle);
+		if(recognizer_queue_length-3+1 == 0)
+			temp = reco_queue_a;
+		if(recognizer_queue_length-3+1 == 1)
+			temp = reco_queue_b;
+		if(recognizer_queue_length-3+1 == 2)
+			temp = reco_queue_c;
+		if(recognizer_queue_length-3+1 == 3)
+			temp = reco_queue_d;
+		if(recognizer_queue_length-3+1 == 4)
+			temp = reco_queue_e;
+		if(recognizer_queue_length-3+2 == 0)
+			temp2 = reco_queue_a;
+		if(recognizer_queue_length-3+2 == 1)
+			temp2 = reco_queue_b;
+		if(recognizer_queue_length-3+2 == 2)
+			temp2 = reco_queue_c;
+		if(recognizer_queue_length-3+2 == 3)
+			temp2 = reco_queue_d;
+		if(recognizer_queue_length-3+2 == 4)
+			temp2 = reco_queue_e;
+		dist = dist/(temp.radius + temp2.radius);
+		if (Math.abs(dist) > ARROW_SIDEWAYS_GAP_TOLERANCE) 
+			return false;
+		dist = (pt[0] - x2)*Math.cos(angle) + (pt[1] - y2)*Math.sin(angle);
+		dist = dist/(temp.radius + temp2.radius);
+		if (dist < ARROW_MAIN_LINEAR_GAP_MIN || dist > ARROW_MAIN_LINEAR_GAP_MAX)
+			return false;
+		if (Math.abs(rs.angle) < SLANT_TOLERANCE) 
+		{ // nearly horizontal
+		    angle = angle - rs.angle;
+		    y1 = y2 = rs.ycenter;
+		}
+		if (rs.angle > Math.PI/2-SLANT_TOLERANCE) 
+		{ // nearly vertical
+		    angle = angle - (rs.angle - Math.PI/2);
+		    x1 = x2 = rs.xcenter;
+		}
+		if (rs.angle < -Math.PI/2+SLANT_TOLERANCE)
+		{ // nearly vertical
+		    angle = angle - (rs.angle+Math.PI/2);
+		    x1 = x2 = rs.xcenter;
+		}
+		return true;
+    }
+    void calc_edge_isect(RecoSegment r1, RecoSegment r2, double pt[])
+    {
+    	double t;
+    	t = (r2.xcenter - r1.xcenter)*Math.sin(r2.angle) - (r2.ycenter - r1.ycenter)*Math.cos(r2.angle);
+    	t = t/Math.sin(r2.angle - r1.angle);
+    	pt[0] = r1.xcenter + t*Math.cos(r1.angle);
+    	pt[1] = r1.ycenter + t*Math.sin(r1.angle);
+    }
+
 }
