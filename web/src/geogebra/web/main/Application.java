@@ -491,6 +491,7 @@ public class Application extends AbstractApplication {
 
 				setUndoActive(undoAct);
 				registerFileDropHandlers((CanvasElement) canvas.getElement().cast());
+				frame.finishAsyncLoading(articleElement, frame, this_app);
 			}
 			
 			public void onFailure(Throwable reason) {

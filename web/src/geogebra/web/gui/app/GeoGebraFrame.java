@@ -84,15 +84,18 @@ public class GeoGebraFrame extends VerticalPanel {
 		for (ArticleElement articleElement : geoGebraMobileTags) {
 			GeoGebraFrame inst = new GeoGebraFrame();
 			Application app = inst.createApplication(articleElement, inst);
-			inst.app = app;
-			inst.createSplash(articleElement);
-			useDataParamBorder(articleElement, inst);
-			inst.add(app.buildApplicationPanel());
-			RootPanel.get(articleElement.getId()).add(inst);
-			handleLoadFile(articleElement, app);
-
 		}
 	}
+
+	public static void finishAsyncLoading(ArticleElement articleElement,
+            GeoGebraFrame inst, Application app) {
+	    inst.app = app;
+	    inst.createSplash(articleElement);
+	    useDataParamBorder(articleElement, inst);
+	    inst.add(app.buildApplicationPanel());
+	    RootPanel.get(articleElement.getId()).add(inst);
+	    handleLoadFile(articleElement, app);
+    }
 	
 	public static void renderArticleElemnt(ArticleElement element) {
 		Date creationDate = new Date();
