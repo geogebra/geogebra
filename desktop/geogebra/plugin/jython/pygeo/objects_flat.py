@@ -539,7 +539,7 @@ class Vector(VectorOrPoint):
         
 class Point(VectorOrPoint):
     @specmethod.rawinit
-    @sign(VectorThing)
+    @sign((VectorThing, Vector))
     def initfromexpr(self, e):
         e = self._factory.expression(e).expr
         self.geo = self._api.geoPoint(e)
@@ -711,13 +711,19 @@ class Text(Element):
 
     # property: origin
     def _setorigin(self, point):
-        if isinstance(point, Point):
-            API.Geo.setTextOrigin(self.geo, point.geo)
-        else:
-            raise TypeError
+        if not isinstance(point, Point):
+            try:
+                point = self._factory.Point(point)
+            except Exception:
+                raise TypeError("text.origin must be a point")
+        API.Geo.setTextOrigin(self.geo, point.geo)
         API.Geo.updateRepaint(self.geo)
     def _getorigin(self):
-        return Point.fromgeo(self._factory, API.Geo.getTextOrigin(self.geo))
+        geo = API.Geo.getTextOrigin(self.geo)
+        if geo is None:
+            self._setorigin((0, 0))
+            return self._getorigin()
+        return Point.fromgeo(self._factory, geo)
     def _delorigin(self):
         API.Geo.removeTextOrigin(self.geo)
         API.Geo.updateRepaint(self.geo)
