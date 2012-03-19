@@ -1672,9 +1672,9 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				}
 				code.append("] plot ({");
 				code.append(format(r1));
-				code.append("*(-1-\\x^2)/(1-\\x^2)},{");
+				code.append("*(-1-(\\x)^2)/(1-(\\x)^2)},{");
 				code.append(format(r2));
-				code.append("*(-2)*\\x/(1-\\x^2)});\n");
+				code.append("*(-2)*(\\x)/(1-(\\x)^2)});\n");
 				endBeamer(code);
 				break;
 		}	
