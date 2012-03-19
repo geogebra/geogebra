@@ -120,20 +120,7 @@ public class Application extends AbstractApplication {
 		this.frame = gf;
 		this.useFullGui = ae.getDataParamGui();
 		dbg = new DebugPrinterWeb();
-		this.init();
-		fontManager = new FontManager();
-		setFontSize(12);
-		// setLabelDragsEnabled(false);
-		capturingThreshold = 20;
-
-		// make sure undo allowed
-		hasFullPermissions = true;
-
-		getScriptManager();// .ggbOnInit();//this is not called here because we have to delay it
-												// until the canvas is first drawn
-
-		setUndoActive(undoActive);
-		registerFileDropHandlers((CanvasElement) canvas.getElement().cast());
+		this.init(undoActive);
 	}
 
 	/**
@@ -446,8 +433,9 @@ public class Application extends AbstractApplication {
 
 	/**
 	 * Initializes the application, seeds factory prototypes, creates Kernel and MyXMLIO
+	 * @param undoActive 
 	 */
-	public void init() {
+	public void init(final boolean undoAct) {
 		geogebra.common.factories.AwtFactory.prototype = new geogebra.web.factories.AwtFactory();
 		geogebra.common.factories.FormatFactory.prototype = new geogebra.web.factories.FormatFactory();
 		geogebra.common.factories.CASFactory.prototype = new geogebra.web.factories.CASFactory();
@@ -489,6 +477,20 @@ public class Application extends AbstractApplication {
 				initImageManager();
 
 				myXMLio = new MyXMLio(kernel, kernel.getConstruction());
+				
+				fontManager = new FontManager();
+				setFontSize(12);
+				// setLabelDragsEnabled(false);
+				capturingThreshold = 20;
+
+				// make sure undo allowed
+				hasFullPermissions = true;
+
+				getScriptManager();// .ggbOnInit();//this is not called here because we have to delay it
+														// until the canvas is first drawn
+
+				setUndoActive(undoAct);
+				registerFileDropHandlers((CanvasElement) canvas.getElement().cast());
 			}
 			
 			public void onFailure(Throwable reason) {
