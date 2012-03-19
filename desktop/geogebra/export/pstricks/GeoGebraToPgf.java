@@ -1,7 +1,6 @@
 package geogebra.export.pstricks;
 
 import geogebra.common.euclidian.DrawPoint;
-import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
@@ -45,13 +44,10 @@ import geogebra.common.util.Unicode;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.main.Application;
-import geogebra.util.Util;
 
-import geogebra.awt.Color;
+import geogebra.common.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
-import java.awt.Rectangle;
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -540,7 +536,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
     	float xLabelHor = (x + xright) /2;
         float yLabelHor = y -(float)(
         		(euclidianView.getFont().getSize() + 2)/euclidianView.getYscale());
-		Color geocolor=((geogebra.awt.Color) geo.getObjectColor());
+		Color geocolor=geo.getObjectColor();
 		codePoint.append("\\draw[color=");
 		ColorCode(geocolor,codePoint);
 		codePoint.append("] ");
@@ -954,7 +950,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			startBeamer(code);
 			code.append("\\draw ");
 			// Color
-			Color geocolor = ((geogebra.awt.Color) geo.getObjectColor());
+			Color geocolor = geo.getObjectColor();
 			if (!geocolor.equals(Color.BLACK)) {
 				code.append("[color=");
 				ColorCode(geocolor, code);
@@ -983,7 +979,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			code.append("\\draw ");
 			
 			// Color
-			Color geocolor=((geogebra.awt.Color) geo.getObjectColor());
+			Color geocolor=geo.getObjectColor();
 			if (!geocolor.equals(Color.BLACK)){
 				code.append("[color=");
 				ColorCode(geocolor,code);
@@ -1099,7 +1095,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		double startAngle=geo.getParameterStart();
 		double endAngle=geo.getParameterEnd();
 		// Get all coefficients form the transform matrix
-		AffineTransform af=geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)geo.getAffineTransform());
+		geogebra.common.awt.AffineTransform af=geo.getAffineTransform();
 		double m11=af.getScaleX();
 		double m22=af.getScaleY();
 		double m12=af.getShearX();
@@ -1537,7 +1533,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			// if conic is an ellipse
 			case GeoConicNDConstants.CONIC_ELLIPSE:
 //	command:  \draw[rotate around={angle:center},lineOptions](x_center,y_center) ellipse (R1 and R2)
-				AffineTransform at=geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)geo.getAffineTransform());
+				geogebra.common.awt.AffineTransform at=geo.getAffineTransform();
 				double eigenvecX=at.getScaleX();
 				double eigenvecY=at.getShearY();
 				double x1=geo.getTranslationVector().getX();
@@ -1571,7 +1567,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 //command:  \draw[rotate around={angle:center},xshift=x1,yshift=y1,lineOptions] plot(\x,\x^2/2/p);
 				// parameter of the parabola
 				double p=geo.p;
-				at=geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)geo.getAffineTransform());
+				at=geo.getAffineTransform();
 				// first eigenvec
 				eigenvecX=at.getScaleX();
 				eigenvecY=at.getShearY();
@@ -1600,7 +1596,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		            k2 = i * i;
 		        }
 		        //x0 = k2/2 * p; // x = k*p
-		        x0 = i * p;    // y = sqrt(2k p^2) = i p
+		        x0 = i * p;    // y = sqrt(2k p^2) = i p 
 				angle=Math.toDegrees(Math.atan2(eigenvecY,eigenvecX))-90;
 				
 				startBeamer(code);
@@ -1618,15 +1614,19 @@ public class GeoGebraToPgf extends GeoGebraExport {
 					code.append(",");
 					code.append(s);					
 				}
-				code.append("] plot (\\x,\\x^2/2/");
+				code.append(",domain=");
+				code.append(-x0);
+				code.append(":");
+				code.append(x0);
+				code.append(")] plot (\\x,{(\\x)^2/2/");
 				code.append(p);
-				code.append(");\n");
+				code.append("});\n");
 				endBeamer(code);
 			break;
 			case GeoConicNDConstants.CONIC_HYPERBOLA:
 //command:  \draw[domain=-1:1,rotate around={angle:center},xshift=x1,yshift=y1,lineOptions] 
 //				plot({a(1+\x^2)/(1-\x^2)},2b\x/(1-\x^2));
-				at=geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)geo.getAffineTransform());
+				at=geo.getAffineTransform();
 				eigenvecX=at.getScaleX();
 				eigenvecY=at.getShearY();
 				x1=geo.getTranslationVector().getX();
@@ -1692,7 +1692,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			double z=gp.getZ();
 			x=x/z;
 			y=y/z;
-			Color dotcolor=((geogebra.awt.Color) gp.getObjectColor());
+			Color dotcolor=gp.getObjectColor();
 			double dotsize=gp.getPointSize();
 			int dotstyle=gp.getPointStyle();
 			
@@ -2155,7 +2155,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				double yLabel=drawGeo.getyLabel();
 				xLabel=euclidianView.toRealWorldCoordX(Math.round(xLabel));
 				yLabel=euclidianView.toRealWorldCoordY(Math.round(yLabel));
-				Color geocolor=((geogebra.awt.Color) geo.getObjectColor());
+				Color geocolor=geo.getObjectColor();
 				startBeamer(codePoint);			
 				FontMetrics fm=euclidianView.getFontMetrics(geogebra.awt.Font.getAwtFont(euclidianView.getFont()));
 				int width=fm.stringWidth(StringUtil.toLaTeXString(geo.getLabelDescription(),true));
@@ -2252,7 +2252,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				codeBeginDoc.append("] ");
 				FontMetrics fm=euclidianView.getFontMetrics(geogebra.awt.Font.getAwtFont(euclidianView.getFont()));
 				int width=fm.stringWidth(label[0]);
-			   	Rectangle rect = geogebra.awt.Rectangle.getAWTRectangle(euclidianView.getSelectionRectangle());
+			   	geogebra.common.awt.Rectangle rect = euclidianView.getSelectionRectangle();
 		    	double x=euclidianView.toRealWorldCoordX(euclidianView.getWidth()-10-width);
 			   	if( rect != null){
 		        	x=euclidianView.toRealWorldCoordX(rect.getMaxX()-10-width);		        	
@@ -2305,7 +2305,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				ColorCode(color,codeBeginDoc);
 				codeBeginDoc.append("] ");
 				FontMetrics fm=euclidianView.getFontMetrics(geogebra.awt.Font.getAwtFont(euclidianView.getFont()));
-			   	Rectangle rect = geogebra.awt.Rectangle.getAWTRectangle(euclidianView.getSelectionRectangle());
+			   	geogebra.common.awt.Rectangle rect = euclidianView.getSelectionRectangle();
 				double x=euclidianView.toRealWorldCoordX(euclidianView.getXZero()+5);
 				double y=euclidianView.toRealWorldCoordY(5+fm.getHeight());
 			   	if( rect != null){
@@ -2355,7 +2355,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	
 	private String LineOptionCode(GeoElement geo,boolean transparency){
 		StringBuilder sb=new StringBuilder(); 
-		Color linecolor=((geogebra.awt.Color) geo.getObjectColor());
+		Color linecolor=geo.getObjectColor();
 		int linethickness=geo.getLineThickness();
 		int linestyle=geo.getLineType();
 
@@ -2479,7 +2479,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			int green=c.getGreen();
 			int blue=c.getBlue();
 			int grayscale=(red+green+blue)/3;
-			c=new Color(grayscale,grayscale,grayscale);
+			c=geogebra.common.factories.AwtFactory.prototype.newColor(grayscale,grayscale,grayscale);
 			if (CustomColor.containsKey(c)){
 				colorname=CustomColor.get(c).toString();
 			}

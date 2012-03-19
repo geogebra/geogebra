@@ -1,7 +1,5 @@
 package geogebra.awt;
 
-import java.awt.geom.Point2D.Double;
-
 import geogebra.common.awt.Shape;
 
 public class AffineTransform implements geogebra.common.awt.AffineTransform {
@@ -47,6 +45,14 @@ public class AffineTransform implements geogebra.common.awt.AffineTransform {
 	public double getShearY() {
 		return at.getShearY();
 	}
+	
+	public double getTranslateX(){
+    	return at.getTranslateX();
+    }
+	
+    public double getTranslateY(){
+    	return at.getTranslateY();
+    }
 
 	public static java.awt.geom.AffineTransform getAwtAffineTransform(geogebra.common.awt.AffineTransform a) {
 		if (!(a instanceof AffineTransform))

@@ -15,4 +15,6 @@ public interface AffineTransform {
 	public geogebra.common.awt.AffineTransform createInverse() throws Exception;
 	public void scale(double xscale, double d);
 	public void translate(double ax, double ay);
+	public double getTranslateX();
+	public double getTranslateY();
 }
