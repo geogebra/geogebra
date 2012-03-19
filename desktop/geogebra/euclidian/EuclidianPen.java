@@ -60,6 +60,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	double ARROW_MAIN_LINEAR_GAP_MIN = -0.3; // gap tolerance on main segment
 	double ARROW_MAIN_LINEAR_GAP_MAX = 0.7; // gap tolerance on main segment
 	int brk[];
+	int count = 0;
 	int recognizer_queue_length = 0;
 	int MAX_POLYGON_SIDES=4;
 	double LINE_MAX_DET=0.015;
@@ -102,7 +103,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
     /**
      * Grid size. Default is 30.
      */
-    private int gridSize = 30;
+    private int gridSize = 15;
     private java.awt.Point startPoint = null;
     /**
      * String representation of gesture.
@@ -403,6 +404,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	    			this.saveMove(RIGHT_DOWN);
 	    		if (deltaX > 0 && deltaY > 0)
 	    			this.saveMove(LEFT_DOWN);
+	    		startPoint = point;
 	    	}
 	        if (absTangent > 2)
 	        {
@@ -429,11 +431,12 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		app.setDefaultCursor();
 
 		String gesture = this.getGesture();
-		System.out.println(gesture);
+		count = 0;
+		AbstractApplication.debug(gesture);
 		this.clearTemporaryInfo();
 		Point newPoint = new Point(e.getX() - penOffsetX, e.getY() - penOffsetY);
 		penPoints.add(newPoint);
-		//System.out.println(penPoints);
+		//AbstractApplication.debug(penPoints);
 		//if recognize_shape option is checked
 		brk=new int[5];
 		a = new Inertia();
@@ -444,11 +447,11 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		RecoSegment rs = null;
 		Inertia ss = null;
 		RecoSegment temp = null;
-		//System.out.println(penPoints);
+		//AbstractApplication.debug(penPoints);
 		Inertia s=new Inertia();
 		this.calc_inertia(0,penPoints.size()-1,s);
 		int n=this.findPolygonal(0,penPoints.size()-1,MAX_POLYGON_SIDES,0,0);
-		//System.out.println(n);
+		//AbstractApplication.debug.println(n);
 		if(n > 0)
 		{
 			this.optimize_polygonal(n);
@@ -537,16 +540,16 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			if(this.try_rectangle())
 			{
 				recognizer_queue_length = 0;
-				System.out.println("Rectangle Recognized");
+				AbstractApplication.debug("Rectangle Recognized");
 			}
 			if(this.try_arrow())
 			{
 				recognizer_queue_length = 0;
-				System.out.println("Arrow Recognized");
+				AbstractApplication.debug("Arrow Recognized");
 			}
 			if(n==1)//then stroke is a line
 			{
-				System.out.println("Current stroke is a line");
+				AbstractApplication.debug("Current stroke is a line");
 				double xcenter,ycenter,x1,y1,x2,y2,x,y,z,angle;
 				xcenter=a.sx/a.mass;
 				ycenter=a.sy/a.mass;
@@ -570,22 +573,21 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 				double y_first=view.toRealWorldCoordY(penPoints.get(0).y);
 				double x_last=view.toRealWorldCoordX(penPoints.get(penPoints.size()-1).x);
 				double y_last=view.toRealWorldCoordY(penPoints.get(penPoints.size()-1).y);
-				String equation=null;
 				if(x_first==x_last)
 				{
-					equation="x" + "=" + (x_first);
-					System.out.println(equation);
+					//equation="x" + "=" + (x_first);
+					//AbstractApplication.debug(equation);
 					GeoPoint2 p = new GeoPoint2(app.getKernel().getConstruction(), x_first, y_first, 1.0);
 					GeoPoint2 q = new GeoPoint2(app.getKernel().getConstruction(), x_last, y_last, 1.0);
-					AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), equation, p, q);
+					AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), null, p, q);
 				}
 				else if(y_last==y_first)
 				{
-					equation="y" + "=" + " " + (y_first);
-					System.out.println(equation);
+					//equation="y" + "=" + " " + (y_first);
+					//AbstractApplication.debug(equation);
 					GeoPoint2 p = new GeoPoint2(app.getKernel().getConstruction(), x_first, y_first, 1.0);
 					GeoPoint2 q = new GeoPoint2(app.getKernel().getConstruction(), x_last, y_last, 1.0);
-					AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), equation, p, q);
+					AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), null, p, q);
 				}
 				else
 				{
@@ -593,17 +595,17 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 					double x_diff=(x_last-x_first);
 					if(x_diff<0)
 					{
-						equation=y_diff + "x" + "-" + -x_diff + "y" + "=" + ((x_diff*y_first)+(y_diff*x_first));
-						AbstractApplication.debug(equation);
+						//equation=y_diff + "x" + "-" + -x_diff + "y" + "=" + ((x_diff*y_first)+(y_diff*x_first));
+						//AbstractApplication.debug(equation);
 					}
 					else
 					{
-						equation=y_diff + "x" + "+" + x_diff + "y" + "=" + ((x_diff*y_first)+(y_diff*x_first));
-						AbstractApplication.debug(equation);
+						//equation=y_diff + "x" + "+" + x_diff + "y" + "=" + ((x_diff*y_first)+(y_diff*x_first));
+						//AbstractApplication.debug(equation);
 					}
 					GeoPoint2 p = new GeoPoint2(app.getKernel().getConstruction(), x_first, y_first, 1.0);
 					GeoPoint2 q = new GeoPoint2(app.getKernel().getConstruction(), x_last, y_last, 1.0);
-					AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), equation, p, q);
+					AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), null, p, q);
 				}		
 			}
 		}
@@ -835,8 +837,8 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		Inertia s2=new Inertia();
 		int k, i1=0, i2=0, n1=0, n2;
 		double det1, det2;  
-		//System.out.println(start);
-		//System.out.println(end);
+		//AbstractApplication.debug(start);
+		//AbstractApplication.debug(end);
 		if (end == start) 
 			return 0; // no way
 		if (nsides <= 0) 
@@ -847,9 +849,9 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		for(k=0;k<nsides;++k)
 		{
 			i1 = start + (k*(end-start))/nsides; 
-			//System.out.println(i1);
+			//AbstractApplication.debug(i1);
 			i2 = start + ((k+1)*(end-start))/nsides;
-			//System.out.println(i2);
+			//AbstractApplication.debug(i2);
 			calc_inertia(i1,i2,s);
 			if(this.I_det(s) < LINE_MAX_DET)
 				break;
@@ -1159,8 +1161,12 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
      */
     private void saveMove(String move)
     {
+    	if((gesture.length() == 0) || (gesture.charAt(gesture.length() - 1) == move.charAt(0)) || count == 1)
+    		count++;
+    	else
+    		count = 1;
         // should not store two equal moves in succession
-        if ((gesture.length() > 0) && (gesture.charAt(gesture.length() - 1) == move.charAt(0)))
+        if ((gesture.length() > 0) && ((gesture.charAt(gesture.length() - 1) == move.charAt(0)) || count!=2))
             return;
         gesture.append(move);
     }
@@ -1455,7 +1461,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
     		rs = reco_queue_d;
     	if(recognizer_queue_length-4 == 4)
     		rs = reco_queue_e;
-    	//System.out.println(rs.startpt);
+    	//AbstractApplication.debug(rs.startpt);
     	if(rs.startpt != 0)
     		return false;
     	for(i=0; i<=3; ++i)
@@ -1480,7 +1486,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
     			r2 = reco_queue_d;
     		if(recognizer_queue_length-4+((i+1)%4) == 4)
     			r2 = reco_queue_e;
-    		//System.out.println(Math.abs(Math.abs(r1.angle-r2.angle)-Math.PI/2) > RECTANGLE_ANGLE_TOLERANCE);
+    		//AbstractApplication.debug(Math.abs(Math.abs(r1.angle-r2.angle)-Math.PI/2) > RECTANGLE_ANGLE_TOLERANCE);
     		if(Math.abs(Math.abs(r1.angle-r2.angle)-Math.PI/2) > RECTANGLE_ANGLE_TOLERANCE)
     			return false;
     		avg_angle = avg_angle + r1.angle;
@@ -1546,7 +1552,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
     		rs = reco_queue_d;
     	if(recognizer_queue_length-3 == 4)
     		rs = reco_queue_e;
-    	//System.out.println(rs.startpt);
+    	//AbstractApplication.debug(rs.startpt);
     	if(rs.startpt != 0)
     		return false;
     	for(i=1; i<=2; ++i)
