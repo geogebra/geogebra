@@ -636,11 +636,13 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 			// entry
 			selectedIndex = KeyboardSettings.supportedLocales.indexOf(loc) + 1;
 		}
-
 		// take care that this doesn't fire events by accident
 		cbKeyboardLanguage.removeActionListener(this);
 		cbKeyboardLanguage.setSelectedIndex(selectedIndex);
 		cbKeyboardLanguage.addActionListener(this);
+
+		// avoid blanking it out
+		app.getGuiManager().toggleKeyboard(false);
 	}
 
 	public void updateGUIFont() {
