@@ -368,7 +368,7 @@ public class CopyPasteCut {
 			tableModel.setRowCount(y4 + 1);
 		}
 		if (tableModel.getColumnCount() < x4 + 1) {
-			getTable().setMyColumnCount(x4 + 1);
+			tableModel.setColumnCount(x4 + 1);
 		}
 
 		GeoElement[][] values1 = cellBufferGeo;// RelativeCopy.getValues(table,
@@ -544,7 +544,7 @@ public class CopyPasteCut {
 				if (maxLen < data[iy].length)
 					maxLen = data[iy].length;
 				if (tableModel.getColumnCount() < column1 + data[iy].length) {
-					getTable().setMyColumnCount(column1 + data[iy].length);
+					tableModel.setColumnCount(column1 + data[iy].length);
 				}
 				for (int column = column1; column < column1 + data[iy].length; ++column) {
 					if (column < 0 || column > maxColumn)

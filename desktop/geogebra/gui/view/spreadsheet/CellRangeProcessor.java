@@ -999,7 +999,7 @@ public class CellRangeProcessor {
 		int columns = tableModel.getColumnCount();
 		if (columns == column1 + 1) {
 			// last column: need to insert one more
-			table.setMyColumnCount(tableModel.getColumnCount() + 1);
+			tableModel.setColumnCount(tableModel.getColumnCount() + 1);
 			table.getView().getColumnHeader().revalidate();
 			columns++;
 		}
@@ -1037,7 +1037,7 @@ public class CellRangeProcessor {
 		boolean succ = false;
 		if (columns == column1 + 1) {
 			// last column: insert another on right
-			table.setMyColumnCount(table.getColumnCount() + 1);
+			tableModel.setColumnCount(table.getColumnCount() + 1);
 			table.getView().getColumnHeader().revalidate();
 			// can't be undone
 		} else {

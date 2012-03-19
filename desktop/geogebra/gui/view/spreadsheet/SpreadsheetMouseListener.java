@@ -494,7 +494,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 
 				// increase size if we go beyond the right edge
 				if (table.dragingToColumn + 1 == table.getColumnCount() && table.dragingToColumn < Kernel.MAX_SPREADSHEET_COLUMNS) {
-					table.setMyColumnCount(table.getColumnCount() +1);		
+					model.setColumnCount(table.getColumnCount() +1);		
 					view.getColumnHeader().revalidate();
 					// Java's addColumn method will clear selection, so re-select our cell 
 					table.setSelection(oldSelection);

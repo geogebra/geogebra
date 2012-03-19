@@ -433,7 +433,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 				spreadsheet.getRowHeader().revalidate();
 			}
 			if (location.x >= tableModel.getColumnCount()) {
-				table.setMyColumnCount(location.x + 1);		
+				tableModel.setColumnCount(location.x + 1);		
 				JViewport cH = spreadsheet.getColumnHeader();
 
 				// bugfix: double-click to load ggb file gives cH = null
@@ -919,7 +919,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 			int newColumns = (spreadsheet.getWidth() - table.getWidth())
 			/ table.preferredColumnWidth();
 			table.removeComponentListener(this);
-			table.setMyColumnCount(table.getColumnCount() + newColumns);
+			tableModel.setColumnCount(table.getColumnCount() + newColumns);
 			table.addComponentListener(this);
 
 		}

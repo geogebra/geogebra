@@ -176,7 +176,7 @@ public class SpreadsheetKeyListener implements KeyListener
 			// auto increase spreadsheet size when you go off the right
 			
 			if (table.getSelectedColumn() + 1 == table.getColumnCount() && table.getSelectedColumn() < Kernel.MAX_SPREADSHEET_COLUMNS) {
-				table.setMyColumnCount(table.getColumnCount() +1);		
+				model.setColumnCount(table.getColumnCount() +1);		
 				view.getColumnHeader().revalidate();
 				
 				// these two lines are a workaround for Java 6

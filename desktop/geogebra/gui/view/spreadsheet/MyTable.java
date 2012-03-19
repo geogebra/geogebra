@@ -274,17 +274,7 @@ public class MyTable extends JTable implements FocusListener {
 		// getColumnModel().getSelectionModel().addListSelectionListener(columnHeader);
 
 		// add table model listener
-		tableModel.addTableModelListener(new TableModelListener() {
-
-			public void tableChanged(TableModelEvent e) {
-				// force rowHeader redraw when a new row is added (after drag
-				// down or arrow down)
-				if (e.getType() == TableModelEvent.INSERT) {
-					getView().updateRowHeader();
-				}
-			}
-
-		});
+		tableModel.addTableModelListener(new MyTableModelListener());
 
 		// relative copy
 		relativeCopy = new RelativeCopy(kernel);
@@ -306,11 +296,13 @@ public class MyTable extends JTable implements FocusListener {
 
 	}
 
-	 /** End table constructor
+	/**
+	 * End table constructor
 	 ******************************************************************/
-	
+
 	/**
 	 * Returns parent SpreadsheetView for this table
+	 * 
 	 * @return SpreadsheetView
 	 */
 	public SpreadsheetView getView() {
@@ -368,12 +360,12 @@ public class MyTable extends JTable implements FocusListener {
 	}
 
 	/**
-	 * Appends columns to the table if newColumnCount is larger than current
-	 * number of columns.
+	 * Appends columns to the table if table model column count is larger than
+	 * current number of table columns.
 	 */
-	public void setMyColumnCount(int newColumnCount) {
-		int oldColumnCount = tableModel.getColumnCount();
-		if (newColumnCount <= oldColumnCount)
+	protected void updateColumnCount() {
+
+		if (tableModel.getColumnCount() <= this.getColumnCount())
 			return;
 
 		// ensure that auto-create is off
@@ -382,13 +374,12 @@ public class MyTable extends JTable implements FocusListener {
 		}
 
 		// add new columns to table
-		for (int i = oldColumnCount; i < newColumnCount; ++i) {
+		for (int i = this.getColumnCount(); i < tableModel.getColumnCount(); ++i) {
 			TableColumn col = new TableColumn(i);
 			col.setHeaderRenderer(headerRenderer);
 			col.setPreferredWidth(preferredColumnWidth);
 			addColumn(col);
 		}
-		tableModel.setColumnCount(newColumnCount);
 
 		// addColumn destroys custom row heights, so we must reset them
 		resetRowHeights();
@@ -439,6 +430,22 @@ public class MyTable extends JTable implements FocusListener {
 
 	public void setPreferredColumnWidth(int preferredColumnWidth) {
 		this.preferredColumnWidth = preferredColumnWidth;
+	}
+
+	public class MyTableModelListener implements TableModelListener {
+
+		public void tableChanged(TableModelEvent e) {
+			// force rowHeader redraw when a new row is added (after drag
+			// down or arrow down)
+			if (e.getType() == TableModelEvent.INSERT) {
+				getView().updateRowHeader();
+			}
+			// update table column model if new columns added
+			if (e.getType() == TableModelEvent.UPDATE) {
+				updateColumnCount();
+			}
+
+		}
 	}
 
 	// ===============================================================

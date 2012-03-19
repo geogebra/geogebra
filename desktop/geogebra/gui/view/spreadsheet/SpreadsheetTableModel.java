@@ -18,11 +18,15 @@ public class SpreadsheetTableModel extends AbstractSpreadsheetTableModel {
 
 	private DefaultTableModel defaultTableModel;
 
-	/** Constructor
+	/**
+	 * Constructor
 	 * 
-	 * @param app	application
-	 * @param rows	number of rows
-	 * @param columns	number of columns
+	 * @param app
+	 *            application
+	 * @param rows
+	 *            number of rows
+	 * @param columns
+	 *            number of columns
 	 */
 	public SpreadsheetTableModel(Application app, int rows, int columns) {
 		super(app, rows, columns);
@@ -32,7 +36,8 @@ public class SpreadsheetTableModel extends AbstractSpreadsheetTableModel {
 
 	/**
 	 * Gets the JTable table model.
-	 * @return 	instance of Swing DefaultTableModel class
+	 * 
+	 * @return instance of Swing DefaultTableModel class
 	 */
 	public DefaultTableModel getDefaultTableModel() {
 		return defaultTableModel;
@@ -67,7 +72,11 @@ public class SpreadsheetTableModel extends AbstractSpreadsheetTableModel {
 
 	@Override
 	public void setValueAt(Object value, int row, int column) {
-			defaultTableModel.setValueAt(value, row, column);
+		// update column count if needed
+		if (column >= defaultTableModel.getColumnCount()) {
+			defaultTableModel.setColumnCount(column + 1);
+		}
+		defaultTableModel.setValueAt(value, row, column);
 	}
 
 }
