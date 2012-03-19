@@ -1,8 +1,12 @@
 package geogebra.common.kernel.arithmetic;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.main.AbstractApplication;
 
 /**
  * Arbitrary constant comming from reduce
@@ -18,6 +22,17 @@ public class MyArbitraryConstant extends MyDouble {
 	
 	private String latexString, internalString;
 	
+	private static Map<Integer,String> consts= new TreeMap<Integer,String>(), ints= new TreeMap<Integer,String>(), complexNumbers = new TreeMap<Integer,String>();
+	
+	private static String latexStr(String prefix,Map<Integer,String> map,Integer number,Construction cons){
+		String s = map.get(number);
+		AbstractApplication.debug("varname ="+s);
+		if(s!=null)
+			return s;
+		s = cons.getIndexLabel(prefix, number);
+		map.put(number, s);
+		return s;
+	}
 	/**
 	 * Creates an arbitrary constant coming from Reduce using
 	 * 
@@ -29,7 +44,7 @@ public class MyArbitraryConstant extends MyDouble {
 		super(kernel, 0);
 		
 		String numberStr = numberStrRaw.trim();
-		int number = 1;
+		Integer number = 1;
 		try {
 			number = (int) Math.round(Double.parseDouble(numberStr));
 		} catch (Exception e) {
@@ -40,17 +55,17 @@ public class MyArbitraryConstant extends MyDouble {
 		switch (arbID) {
 			case ARB_INT:	
 				internalString = build("arbint(", numberStr, ")");
-				latexString = cons.getIndexLabel("k", number);
+				latexString = latexStr("k",ints, number,cons);
 				break;
 				
 			case ARB_CONST:
 				internalString = build("arbconst(", numberStr, ")");
-				latexString = cons.getIndexLabel("c", number);
+				latexString = latexStr("c",consts, number,cons);
 				break;
 				
 			case ARB_COMPLEX:
 				internalString = build("arbconst(", numberStr, ")");
-				latexString = cons.getIndexLabel("z", number);
+				latexString = latexStr("z",complexNumbers, number,cons);
 				break;
 		}			
 	}
