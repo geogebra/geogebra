@@ -458,6 +458,9 @@ public class CASTable extends JTable {
 	}
 
 	private void doEditCellAt(final int editRow, final int editCol) {
+		
+		if(!this.contains(1, editRow))
+			return;
 		setRowSelectionInterval(editRow, editRow);
 		scrollRectToVisible(getCellRect(editRow, COL_CAS_CELLS, true));
 		boolean success = editCellAt(editRow, editCol);
