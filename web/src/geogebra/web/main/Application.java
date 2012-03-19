@@ -176,7 +176,7 @@ public class Application extends AbstractApplication {
 	/**
 	 * Register file drop handlers for the canvas of this application
 	 */
-	private native void registerFileDropHandlers(CanvasElement ce) /*-{
+	native void registerFileDropHandlers(CanvasElement ce) /*-{
 
 		var appl = this;
 		var canvas = ce;
