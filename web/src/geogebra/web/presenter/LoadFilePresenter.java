@@ -4,7 +4,6 @@ import geogebra.web.Web;
 import geogebra.web.css.GuiResources;
 import geogebra.web.helper.FileLoadCallback;
 import geogebra.web.helper.JavaScriptInjector;
-import geogebra.web.helper.UrlFetcher;
 import geogebra.web.html5.View;
 import geogebra.web.jso.JsUint8Array;
 import geogebra.web.main.Application;
@@ -14,11 +13,9 @@ import com.google.gwt.core.client.JsArrayInteger;
 
 public class LoadFilePresenter extends BasePresenter {
 	
-	private final UrlFetcher urlFetcher;
-	
 
-	public LoadFilePresenter(UrlFetcher urlFetcher) {
-		this.urlFetcher = urlFetcher;
+	public LoadFilePresenter() {
+		
 	}
 	
 	public void onPageLoad() {
@@ -75,10 +72,6 @@ public class LoadFilePresenter extends BasePresenter {
 		
 	}
 
-	public boolean isGgbFileParameterSpecified() {
-		return urlFetcher.isGgbFileParameterSpecified();
-	}
-
 	private void process(String dataParamBase64String) {
 			getView().processBase64String(dataParamBase64String);
 	}
@@ -91,12 +84,6 @@ public class LoadFilePresenter extends BasePresenter {
 	public void onWorksheetReady() {
 		getView().hide();
 	}
-	
-	//Reverse MVP	
-	public void fetchGgbFileFromUserInput(String userUrl) {
-		fetch(urlFetcher.getAbsoluteGgbFileUrl(userUrl));
-	}
-		
 	// Private Methods
 	private void fetch(String fileName) {
 		getView().showLoadAnimation();

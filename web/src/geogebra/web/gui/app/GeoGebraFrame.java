@@ -3,8 +3,6 @@ package geogebra.web.gui.app;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.gui.SplashDialog;
-import geogebra.web.helper.UrlFetcherImpl;
-import geogebra.web.helper.XhrFactory;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.View;
 import geogebra.web.main.Application;
@@ -30,11 +28,7 @@ public class GeoGebraFrame extends VerticalPanel {
 	private static GeoGebraFrame activeInstance;
 
 	/** Loads file into active GeoGebraFrame */
-	public static LoadFilePresenter fileLoader = new LoadFilePresenter(
-			new UrlFetcherImpl(XhrFactory.getSupportedXhr(),
-					GeoGebraConstants.URL_PARAM_GGB_FILE,
-					GeoGebraConstants.URL_PARAM_PROXY,
-					GeoGebraConstants.PROXY_SERVING_LOCATION));
+	public static LoadFilePresenter fileLoader = new LoadFilePresenter();
 
 	/** The application */
 	protected Application app;
