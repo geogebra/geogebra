@@ -153,6 +153,7 @@ public class OptionsDialog extends JDialog implements WindowListener, SetLabels 
 	 */
 	public void restoreDefaults() {
 		defaultsPanel.restoreDefaults();
+		advancedPanel.updateAfterReset();
 
 		// TODO
 		// --- add calls to other panels here

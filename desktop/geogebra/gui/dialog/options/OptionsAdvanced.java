@@ -627,6 +627,22 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 		updateTooltipLanguages();
 	}
 
+	// needed updating things on the reset defaults button
+	public void updateAfterReset() {
+		int selectedIndex = 0;
+		String loc = settings.getKeyboard().getKeyboardLocale();
+		if (loc != null) {
+			// look for index in locale list and add 1 to compensate default
+			// entry
+			selectedIndex = KeyboardSettings.supportedLocales.indexOf(loc) + 1;
+		}
+
+		// take care that this doesn't fire events by accident
+		cbKeyboardLanguage.removeActionListener(this);
+		cbKeyboardLanguage.setSelectedIndex(selectedIndex);
+		cbKeyboardLanguage.addActionListener(this);
+	}
+
 	public void updateGUIFont() {
 		cbGUIFont.removeActionListener(this);
 
