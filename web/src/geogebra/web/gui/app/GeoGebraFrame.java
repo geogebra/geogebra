@@ -102,11 +102,6 @@ public class GeoGebraFrame extends VerticalPanel {
 		element.setId(GeoGebraConstants.GGM_CLASS_NAME+creationDate.getTime());
 		GeoGebraFrame inst = new GeoGebraFrame();
 		Application app = inst.createApplication(element, inst);
-		inst.app = app;
-		inst.createSplash(element);
-		inst.add(app.buildApplicationPanel());
-		RootPanel.get(element.getId()).add(inst);
-		handleLoadFile(element, app);
 	}
 
 	private void createSplash(ArticleElement article) {
