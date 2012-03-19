@@ -224,24 +224,22 @@ public class OptionsDialog extends JDialog implements WindowListener, SetLabels 
 					// in order to avoid overwrite
 					app.getSettings().resetSettings();
 
+					// for geoelement defaults, this will do nothing, so it is OK here
 					GeoGebraPreferences.getPref().loadXMLPreferences(app);
 
 					// reset default line thickness etc
-					app.getKernel().getConstruction().getConstructionDefaults()
-							.resetDefaults();
+					app.getKernel().getConstruction().getConstructionDefaults().resetDefaults();
 
-					// reset defaults for geoelements
-					app.getKernel().getConstruction().getConstructionDefaults()
-							.createDefaultGeoElements();
+					// reset defaults for geoelements; this will create brand new objects
+					// so the options defaults dialog should be reset later
+					app.getKernel().getConstruction().getConstructionDefaults().createDefaultGeoElementsFromScratch();
 
 					// reset the stylebar defaultGeo
 					if (app.getEuclidianView1().hasStyleBar())
-						app.getEuclidianView1().getStyleBar()
-								.restoreDefaultGeo();
-					if (app.hasEuclidianView2EitherShowingOrNot()
-							&& app.getEuclidianView2().hasStyleBar())
-						app.getEuclidianView2().getStyleBar()
-								.restoreDefaultGeo();
+						app.getEuclidianView1().getStyleBar().restoreDefaultGeo();
+					if (app.hasEuclidianView2EitherShowingOrNot())
+						if (app.getEuclidianView2().hasStyleBar())
+							app.getEuclidianView2().getStyleBar().restoreDefaultGeo();
 
 					// restore dialog panels to display these defaults
 					restoreDefaults();

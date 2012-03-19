@@ -206,7 +206,14 @@ public class ConstructionDefaults {
 	protected String strDependent = " (dependent)";
 	/** suffix for default intersection*/
 	protected String strIntersection = " (intersection)";
-	
+
+	public void createDefaultGeoElementsFromScratch() {
+		defaultGeoElements = null;
+
+		// question: do we need not from scratch?
+		createDefaultGeoElements();
+	}
+
 	/**
 	 * Fills the list of default geos
 	 */

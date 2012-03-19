@@ -248,10 +248,15 @@ public class OptionsDefaults extends JPanel implements TreeSelectionListener,
 	 */
 	public void restoreDefaults() {
 		createDefaultMap();
-		// update panel selection
+
+		// update panel selection ... this should trigger the valueChanged method
 		TreePath path = tree.getSelectionPath();
 		tree.setSelectionPath(null);
 		tree.setSelectionPath(path);
+
+		// but if not, make sure that it is called certainly
+		//defaults = app.getKernel().getConstruction().getConstructionDefaults();
+		//valueChanged(null);
 	}
 
 	/**
