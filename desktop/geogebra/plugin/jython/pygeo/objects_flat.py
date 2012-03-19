@@ -615,7 +615,7 @@ class Line(Path):
             return False
     
     def _getdirection(self):
-        return Vector.fromgeo(self._factory, self._api.geoLineDirection(self.geo))
+        return self._factory.get_element(self._api.geoLineDirection(self.geo))
     direction = property(_getdirection)
 
 @Line.init.spec
@@ -722,8 +722,9 @@ class Text(Element):
         geo = API.Geo.getTextOrigin(self.geo)
         if geo is None:
             self._setorigin((0, 0))
+            self.update()
             return self._getorigin()
-        return Point.fromgeo(self._factory, geo)
+        return self._factory.get_element(geo)
     def _delorigin(self):
         API.Geo.removeTextOrigin(self.geo)
         API.Geo.updateRepaint(self.geo)
@@ -900,7 +901,7 @@ class Function(Element):
             raise AttributeError
         else:
             geo = self._api.geoImplicitPoly(self.geo)
-            return ImplicitPoly.fromgeo(self._factory, geo)
+            return self._factory.get_element(geo)
     implicitcurve = property(_getimplicitcurve)
 
 
