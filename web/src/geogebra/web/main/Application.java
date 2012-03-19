@@ -63,6 +63,7 @@ import com.google.gwt.canvas.dom.client.Context2d.TextBaseline;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayInteger;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -472,18 +473,32 @@ public class Application extends AbstractApplication {
 		canvas.setHeight("1px");
 		canvas.setCoordinateSpaceHeight(1);
 		canvas.setCoordinateSpaceWidth(1);
+		final Application this_app = this;
+		
+		//try to async loading of kernel, maybe we got quicker...
+		GWT.runAsync(new RunAsyncCallback() {
+			
+			public void onSuccess() {
+				kernel = new Kernel(this_app);
 
-		kernel = new Kernel(this);
+				// init settings
+				settings = new Settings();
 
-		// init settings
-		settings = new Settings();
+				initEuclidianViews();
 
-		initEuclidianViews();
+				initImageManager();
 
-		initImageManager();
-
-		myXMLio = new MyXMLio(kernel, kernel.getConstruction());
+				myXMLio = new MyXMLio(kernel, kernel.getConstruction());
+			}
+			
+			public void onFailure(Throwable reason) {
+				AbstractApplication.debug(reason);
+			}
+		});
+		
 	}
+	
+	
 
 	private void showSplashImageOnCanvas() {
 		if (this.canvas != null) {

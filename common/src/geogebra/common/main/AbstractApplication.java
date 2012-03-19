@@ -211,7 +211,7 @@ public abstract class AbstractApplication {
 
 	}
 
-	protected MyXMLio myXMLio;
+	public MyXMLio myXMLio;
 
 	// gui / menu fontsize (-1 = use appFontSize)
 	private int guiFontSize = -1;
@@ -239,10 +239,10 @@ public abstract class AbstractApplication {
 
 	protected final ArrayList<GeoElement> selectedGeos = new ArrayList<GeoElement>();
 
-	protected Kernel kernel;
+	public Kernel kernel;
 
 	protected boolean isOnTheFlyPointCreationActive = true;
-	protected Settings settings;
+	public Settings settings;
 	
 	public boolean useJavaFontsForLaTeX() {
 		return useJavaFontsForLaTeX;
