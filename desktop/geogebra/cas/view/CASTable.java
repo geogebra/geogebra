@@ -281,6 +281,8 @@ public class CASTable extends JTable {
 	 */
 	public void insertRow(final int selectedRow, GeoCasCell newValue,
 			final boolean startEditing) {
+		if(startEditing)
+			stopEditing();
 		if (newValue == null) {
 			newValue = new GeoCasCell(kernel.getConstruction());
 			if (selectedRow != tableModel.getRowCount())
