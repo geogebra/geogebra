@@ -92,6 +92,17 @@ public class StringTemplate {
 		regression.setType(StringType.GEOGEBRA_XML);
 	}
 	/**
+	 * OGP string type
+	 */
+	public static StringTemplate ogpTemplate = new StringTemplate();
+	static {
+		ogpTemplate.forceSF=true;
+		ogpTemplate.internationalizeDigits = false;
+		ogpTemplate.setType(StringType.OGP);
+		ogpTemplate.localizeCmds = false;
+		ogpTemplate.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
+	}
+	/**
 	 * Default template, just inccreases precision to max
 	 */
 	public static StringTemplate maxPrecision = new StringTemplate();
@@ -108,7 +119,7 @@ public class StringTemplate {
 	static{
 			casCellTemplate.symbolicArbConst = true;
 	}
-	
+		
 	private StringType stringType;
 	private boolean internationalizeDigits;
 	private String casPrintFormPI;

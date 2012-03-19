@@ -1610,6 +1610,9 @@ public class ExpressionNode extends ValidExpression implements
 		case EQUAL_BOOLEAN:
 			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<eq/>", leftStr, rightStr);
+			} else 
+			if (STRING_TYPE.equals(StringType.OGP)) {
+				sb.append("AreEqual[" + leftStr + "," + rightStr + "]");
 			} else {
 				append(sb, leftStr, left, operation, STRING_TYPE);
 				// sb.append(leftStr);
@@ -1855,6 +1858,10 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case PARALLEL:
+			if (STRING_TYPE.equals(StringType.OGP)) {
+				sb.append("IsParallel[" + leftStr + "," + rightStr + "]");
+				break;
+			}
 			append(sb, leftStr, left, operation, STRING_TYPE);
 			// sb.append(leftStr);
 			sb.append(' ');
@@ -1875,6 +1882,10 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case PERPENDICULAR:
+			if (STRING_TYPE.equals(StringType.OGP)) {
+				sb.append("IsPerpendicular[" + leftStr + "," + rightStr + "]");
+				break;
+			}
 			append(sb, leftStr, left, operation, STRING_TYPE);
 			// sb.append(leftStr);
 			sb.append(' ');

@@ -84,9 +84,12 @@ public class Prover {
 		/* to be implemented */
 		if (statement != null) {
 
+			String c = simplifiedXML(construction);
+			System.out.println("Construction: " + c);
 			// getCASString may also be used 
-			String cd = statement.getCommandDescription(StringTemplate.xmlTemplate);
-			System.out.println("Statement to prove:" + cd);
+			String cd = statement.getCommandDescription(StringTemplate.ogpTemplate);
+			System.out.println("Statement to prove: " + cd);
+
 		}
 		else {
 			System.err.println("No statement to prove");
@@ -135,7 +138,7 @@ public class Prover {
 	 */
 	// TODO: Cut even more unneeded parts to reduce unneeded traffic between OGP and GeoGebra.
 	// Maybe a third party XML library would be nice for this -- xstream?
-	private String simplifiedXML(Construction cons) {
+	private static String simplifiedXML(Construction cons) {
 		StringBuilder sb = new StringBuilder();
 		cons.getConstructionElementsXML(sb);
 		return sb.toString();

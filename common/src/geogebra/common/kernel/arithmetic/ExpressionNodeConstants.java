@@ -29,7 +29,9 @@ public interface ExpressionNodeConstants {
 		/** Reduce */
 		MPREDUCE,
 		/** MathML */
-		MATHML
+		MATHML,
+		/** OGP */
+		OGP
 	}
 	/** prefix for CAS row reference ($) */
 	public static final String CAS_ROW_REFERENCE_PREFIX = "$";
