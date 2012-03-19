@@ -789,8 +789,7 @@ public class ExpressionNode extends ValidExpression implements
 	/**
 	 * Replaces all XCOORD, YCOORD, ZCOORD nodes by mutliplication nodes, e.g.
 	 * x(x+1) becomes x*(x+1). The given function variables for "x", "y", "z"
-	 * are used in this process. TODO possibly remove the public modifier once
-	 * arithmetic is in common
+	 * are used in this process. 
 	 * @param xVar variable x
 	 * @param yVar variable y
 	 * @param zVar variable z
@@ -991,11 +990,10 @@ public class ExpressionNode extends ValidExpression implements
 
 	/**
 	 * transfers every non-polynomial in this tree to a polynomial. This is
-	 * needed to enable polynomial simplification by evaluate() TODO possibly
-	 * remove the public modifier once arithmetic is in common
+	 * needed to enable polynomial simplification by evaluate() 
 	 * @param equ equation
 	 */
-	public final void makePolynomialTree(Equation equ) {
+	protected final void makePolynomialTree(Equation equ) {
 
 		if (operation == Operation.FUNCTION_NVAR) {
 			if ((left instanceof FunctionalNVar) && (right instanceof MyList)) {
@@ -2357,11 +2355,22 @@ public class ExpressionNode extends ValidExpression implements
 				mathml(sb, "<divide/>", leftStr, rightStr);
 				break;
 			case LATEX:
-				sb.append("\\frac{");
-				sb.append(leftStr);
-				sb.append("}{");
-				sb.append(rightStr);
-				sb.append("}");
+				if(leftStr.startsWith("-") && (left.isConstant()||
+						(left instanceof ExpressionNode && isMultiplyOrDivide((ExpressionNode)left))
+						)){
+					sb.append("-\\frac{");
+					sb.append(leftStr.substring(1));
+					sb.append("}{");
+					sb.append(rightStr);
+					sb.append("}");
+				}else{
+				
+					sb.append("\\frac{");
+					sb.append(leftStr);
+					sb.append("}{");
+					sb.append(rightStr);
+					sb.append("}");
+				}
 				break;
 
 			case JASYMCA:
@@ -4130,6 +4139,11 @@ public class ExpressionNode extends ValidExpression implements
 		return sb.toString();
 	}
 	
+	private static boolean isMultiplyOrDivide(ExpressionNode exp) {
+		return exp.getOperation().equals(Operation.MULTIPLY) || 
+				exp.getOperation().equals(Operation.DIVIDE);
+	}
+
 	private static void mathml(StringBuilder sb, String op, String leftStr, String rightStr) {
 		mathml(sb, op, "", leftStr, "", "", rightStr, "");
 	}
