@@ -1,7 +1,6 @@
 package geogebra.plugin.jython;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.linear.AbstractRealMatrix;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.linear.DecompositionSolver;
