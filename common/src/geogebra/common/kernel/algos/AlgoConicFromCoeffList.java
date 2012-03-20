@@ -8,17 +8,10 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
-
-/*
- * AlgoConicFivePoints.java
- *
- * Created on 15. November 2001, 21:37
  */
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
@@ -26,70 +19,83 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 
-
 /**
- *
- * @author  Tam
- * @version 
+ * @since 4.0
+ * @author Tam
+ * @version 2012-03-20
  */
 public class AlgoConicFromCoeffList extends AlgoElement {
 
-    private GeoList L; // input  A list of 6 coeffs      
-    private GeoConic conic; // output             
+	private GeoList L; // input A list of 6 coeffs
+	private GeoConic conic; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param L
+	 *            coefficients
+	 */
+	public AlgoConicFromCoeffList(Construction cons, String label, GeoList L) {
+		super(cons);
+		this.L = L;
+		conic = new GeoConic(cons);
 
-    public AlgoConicFromCoeffList(Construction cons, String label, GeoList L) {
-        super(cons);
-        this.L = L;
-        conic = new GeoConic(cons, label, L);
-        
-        setInputOutput(); // for AlgoElement
+		setInputOutput(); // for AlgoElement
+		compute();
+		conic.setLabel(label);
 
-    }
+	}
 
-    @Override
+	@Override
 	public Algos getClassName() {
-        return Algos.AlgoConicFivePoints;
-    }
-    
-    @Override
-	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_CONIC_FIVE_POINTS;
-    }
+		return Algos.AlgoConicFromCoeffList;
+	}
 
-    // for AlgoElement
-    @Override
+	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
-        input = new GeoElement[] {L};
+		input = new GeoElement[] { L };
 
-        setOutputLength(1);
-        setOutput(0, conic);
-       
-        setDependencies(); // done by AlgoElement
-    }
+		setOutputLength(1);
+		setOutput(0, conic);
 
-    public GeoConic getConic() {
-        return conic;
-    }
-    
-    GeoList getCoeffList() {
-        return L;
-    }
+		setDependencies(); // done by AlgoElement
+	}
 
-    @Override
+	/**
+	 * @return output conic
+	 */
+	public GeoConic getConic() {
+		return conic;
+	}
+
+	/**
+	 * @return input coefficient list
+	 */
+	GeoList getCoeffList() {
+		return L;
+	}
+
+	@Override
 	public final void compute() {
-		conic.setCoeffs(((GeoNumeric)L.get(0)).getDouble(),
-				((GeoNumeric)L.get(3)).getDouble(),
-				((GeoNumeric)L.get(1)).getDouble(),
-				((GeoNumeric)L.get(4)).getDouble(),
-				((GeoNumeric)L.get(5)).getDouble(),
-				((GeoNumeric)L.get(2)).getDouble());
-    }
+		if (L.size() != 6) {
+			conic.setUndefined();
+		} else {
+			conic.setCoeffs(((GeoNumeric) L.get(0)).getDouble(),
+					((GeoNumeric) L.get(3)).getDouble(),
+					((GeoNumeric) L.get(1)).getDouble(),
+					((GeoNumeric) L.get(4)).getDouble(),
+					((GeoNumeric) L.get(5)).getDouble(),
+					((GeoNumeric) L.get(2)).getDouble());
+		}
+	}
 
-    @Override
+	@Override
 	final public String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-        return app.getPlain("ConicFromCoeffList",L.getLabel(tpl));
-    }
+		// Michael Borcherds 2008-03-30
+		// simplified to allow better Chinese translation
+		return app.getPlain("ConicFromCoeffListA", L.getLabel(tpl));
+	}
 }

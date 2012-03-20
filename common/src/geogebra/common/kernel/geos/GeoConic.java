@@ -81,35 +81,7 @@ public class GeoConic extends GeoConicND implements Traceable,
 		this(conic.cons);
 		set(conic);
 	}
-	/**
-	 * Creates new conic
-	 * @param c construction
-	 * @param label label 
-	 * @param coeffList list of coefficients
-	 */
-	public GeoConic(Construction c, String label, GeoList coeffList) {
-		this(c);
-
-		int numberCount = 0;
-		for (int i = 0; i < coeffList.size(); ++i) {
-			if (coeffList.get(i).isGeoNumeric())
-				++numberCount;
-		}
-
-		if (numberCount == 6) {
-			setCoeffs(((GeoNumeric) coeffList.get(0)).getDouble(),
-					((GeoNumeric) coeffList.get(1)).getDouble(),
-					((GeoNumeric) coeffList.get(2)).getDouble(),
-					((GeoNumeric) coeffList.get(3)).getDouble(),
-					((GeoNumeric) coeffList.get(4)).getDouble(),
-					((GeoNumeric) coeffList.get(5)).getDouble());
-		} else {
-			setUndefined();
-		}
-
-		setLabel(label);
-	}
-
+	
 	@Override
 	public String getClassName() {
 		return "GeoConic";
