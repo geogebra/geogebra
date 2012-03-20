@@ -66,6 +66,7 @@ import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
@@ -118,6 +119,7 @@ public class Application extends AbstractApplication {
 	public Application(ArticleElement ae, GeoGebraFrame gf, boolean undoActive) {
 		this.articleElement = ae;
 		this.frame = gf;
+		createSplash();
 		this.useFullGui = ae.getDataParamGui();
 		dbg = new DebugPrinterWeb();
 		this.init(undoActive);
@@ -1202,5 +1204,27 @@ public class Application extends AbstractApplication {
 	    // TODO Auto-generated method stub
 	    
     }
+	
+	private void createSplash() {
+		splash = new SplashDialog();
+		int splashWidth = 427;
+		int splashHeight = 120;
+		int width = articleElement.getDataParamWidth();
+		int height = articleElement.getDataParamHeight();
+		if (width > 0 && height > 0) {
+			frame.setWidth(width + "px");
+			setDataParamWidth(width);
+			setDataParamHeight(height);
+			frame.setHeight(height + "px");
+			splash.addStyleName("splash");
+			splash.getElement().getStyle()
+					.setTop((height / 2) - (splashHeight / 2), Unit.PX);
+			splash.getElement().getStyle()
+					.setLeft((width / 2) - (splashWidth / 2), Unit.PX);
+
+		}
+		frame.addStyleName("jsloaded");
+		frame.add(splash);
+	}
 
 }

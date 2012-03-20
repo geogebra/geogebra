@@ -90,7 +90,6 @@ public class GeoGebraFrame extends VerticalPanel {
 	public static void finishAsyncLoading(ArticleElement articleElement,
             GeoGebraFrame inst, Application app) {
 	    inst.app = app;
-	    inst.createSplash(articleElement);
 	    useDataParamBorder(articleElement, inst);
 	    inst.add(app.buildApplicationPanel());
 	    RootPanel.get(articleElement.getId()).add(inst);
@@ -104,27 +103,7 @@ public class GeoGebraFrame extends VerticalPanel {
 		Application app = inst.createApplication(element, inst);
 	}
 
-	private void createSplash(ArticleElement article) {
-		this.app.splash = new SplashDialog();
-		int splashWidth = 427;
-		int splashHeight = 120;
-		int width = article.getDataParamWidth();
-		int height = article.getDataParamHeight();
-		if (width > 0 && height > 0) {
-			setWidth(width + "px");
-			this.app.setDataParamWidth(width);
-			this.app.setDataParamHeight(height);
-			setHeight(height + "px");
-			this.app.splash.addStyleName("splash");
-			this.app.splash.getElement().getStyle()
-					.setTop((height / 2) - (splashHeight / 2), Unit.PX);
-			this.app.splash.getElement().getStyle()
-					.setLeft((width / 2) - (splashWidth / 2), Unit.PX);
-
-		}
-		addStyleName("jsloaded");
-		add(app.splash);
-	}
+	
 
 	private static void handleLoadFile(ArticleElement articleElement,
 			Application app) {
