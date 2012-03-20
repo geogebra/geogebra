@@ -888,7 +888,7 @@ public class PythonFlatAPI {
 	 * @param q direction vector for the line
 	 * @return new Geo line
 	 */
-	public GeoLine geoLinePV(GeoPoint2 p, GeoPoint2 q) {
+	public GeoLine geoLinePV(GeoPoint2 p, GeoVector q) {
 		return kernel.Line(null, p, q);
 	}
 
