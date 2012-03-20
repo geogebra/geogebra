@@ -22,6 +22,10 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.swing.CellEditor;
 import javax.swing.JTable;
@@ -584,6 +588,21 @@ public class CASTable extends JTable {
 	 */
 	public void setCurrentWidth(int currentWidth) {
 		this.currentWidth = currentWidth;
+	}
+
+	public boolean deleteCasCells(int[] selRows) {
+		boolean undoNeeded = false;
+		Set<Integer> removeIndices = new TreeSet<Integer>();
+		AbstractApplication.debug("selected");
+		for (int i=selRows.length-1; i >= 0; i--) {
+			AbstractApplication.debug(selRows[i]);
+			GeoCasCell casCell = getGeoCasCell(selRows[i]);
+			if (casCell != null) {
+				casCell.remove();
+				undoNeeded = true;
+			}
+		}
+		return undoNeeded;
 	}
 
 }

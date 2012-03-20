@@ -415,6 +415,13 @@ public class CASView extends JComponent implements View, Gridable {
 
 			processInput(command, null);
 			break;
+		case EuclidianConstants.MODE_DELETE:
+			// no parameters
+
+			boolean undo = consoleTable.deleteCasCells(consoleTable.getSelectedRows());
+			if(undo)
+				consoleTable.app.storeUndoInfo();
+			break;
 
 		case EuclidianConstants.MODE_CAS_SOLVE:
 		case EuclidianConstants.MODE_CAS_DERIVATIVE:

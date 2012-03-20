@@ -6,20 +6,27 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class RowHeaderListener extends MouseAdapter implements KeyListener, ListSelectionListener, MouseMotionListener {
+/**
+ * Handles mouse and key events in row headers ofthe CAS table
+ *
+ */
+public class RowHeaderListener extends MouseAdapter implements KeyListener, ListSelectionListener {
 
 	private final CASTable table;
 	private final JList rowHeader;
 	private int mousePressedRow;
 	private boolean rightClick;
 
+	/**
+	 * @param table CAS table
+	 * @param rowHeader row headers
+	 */
 	public RowHeaderListener(CASTable table, JList rowHeader) {
 		this.table = table;
 		this.rowHeader = rowHeader;
@@ -34,6 +41,7 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 		rowHeader.requestFocus();
 	}
 
+	@Override
 	public void mouseDragged(MouseEvent e) {
 		e.consume();
 
@@ -76,9 +84,10 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-
+		//not needed, we handle mouse events in mouseReleased
 	}
 
+	@Override
 	public void mouseMoved(MouseEvent e) {
 		e.consume();
 	}
@@ -90,12 +99,7 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 		case KeyEvent.VK_DELETE:
 		case KeyEvent.VK_BACK_SPACE:
 			int[] selRows = rowHeader.getSelectedIndices();
-			if (selRows.length > 0) {
-				for (int i = selRows.length - 1; i >= 0; i--) {
-					table.deleteRow(selRows[i]);
-				}
-				undoNeeded = true;
-			}
+			undoNeeded = table.deleteCasCells(selRows);
 			break;
 		}
 
@@ -106,11 +110,11 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 	}
 
 	public void keyReleased(KeyEvent e) {
-
+		//not needed, we handle key events in keyPressed
 	}
 
 	public void keyTyped(KeyEvent e) {
-
+		//not needed, we handle key events in keyPressed
 	}
 
 

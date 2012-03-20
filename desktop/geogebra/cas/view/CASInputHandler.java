@@ -86,7 +86,7 @@ public class CASInputHandler {
 				GeoCasCell cellValue = consoleTable.getGeoCasCell(consoleTable
 						.getSelectedRow());
 				if (cellValue.getInputVE() != null)
-					selRowInput = cellValue.toString();
+					selRowInput = cellValue.toString(StringTemplate.casCellTemplate);
 			}
 			if (selRowInput.length() == 0)
 				return;
@@ -265,6 +265,19 @@ public class CASInputHandler {
 		// process given row and below, then start editing
 		processRowThenEdit(selRow, true);
 	}
+	
+	public void deleteCurrentRow() {
+		int[] selected = consoleTable.getSelectedRows();
+		for(int current:selected){
+		GeoCasCell cell = consoleTable.getGeoCasCell(current);
+		if(cell!=null){
+		cell.remove();
+		consoleTable.app.storeUndoInfo();
+		}
+	}
+
+	}
+
 
 	/**
 	 * Determines the selected rows and tries to solve (solve is the only

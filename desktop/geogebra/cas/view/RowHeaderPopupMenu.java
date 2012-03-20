@@ -91,13 +91,7 @@ public class RowHeaderPopupMenu extends JPopupMenu implements ActionListener {
 			undoNeeded = true;
 		}
 		else if (ac.equals("delete")) {
-			for (int i=selRows.length-1; i >= 0; i--) {
-				GeoCasCell casCell = table.getGeoCasCell(selRows[i]);
-				if (casCell != null) {
-					casCell.remove();
-					undoNeeded = true;
-				}
-			}
+			undoNeeded = table.deleteCasCells(selRows);
 		}
 		else if(ac.equals("useAsText")) {
 			GeoCasCell casCell2 = table.getGeoCasCell(selRows[0]);

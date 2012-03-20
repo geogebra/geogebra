@@ -12,10 +12,10 @@ import javax.swing.JComponent;
 public class CasDockPanel extends DockPanel {
 	private static final long serialVersionUID = 1L;
 	
-	private Application app;
+	private Application appCas;
 	
 	/**
-	 * @param app
+	 * @param app application
 	 */
 	public CasDockPanel(Application app) {
 		super(
@@ -27,22 +27,22 @@ public class CasDockPanel extends DockPanel {
 			'K' // ctrl-shift-K
 		);
 		
-		this.app = app;
+		this.appCas = app;
 	}
 	
 
 	@Override
 	protected JComponent loadStyleBar() {
-		return app.getGuiManager().getCasView().getCASStyleBar();
+		return appCas.getGuiManager().getCasView().getCASStyleBar();
 	}
 	
 	@Override
 	protected JComponent loadComponent() {
-		return app.getGuiManager().getCasView().getCASViewComponent();
+		return appCas.getGuiManager().getCasView().getCASViewComponent();
 	}
 	
 	private static String getDefaultToolbar() {
-		return "1001 | 1002 | 1003  || 1005 | 1004 || 1006 | 1007 | 1010 || 1008 1009";		
+		return "1001 | 1002 | 1003  || 1005 | 1004 || 1006 | 1007 | 1010 || 1008 1009 || 6";		
 	}
 	
 	/**
@@ -51,8 +51,8 @@ public class CasDockPanel extends DockPanel {
 	 */
 	@Override
 	protected void setActiveToolBar(){		
-		app.getGuiManager().getCasView().setToolbarIsUpdatedByDockPanel(true);
+		appCas.getGuiManager().getCasView().setToolbarIsUpdatedByDockPanel(true);
 		super.setActiveToolBar();
-		app.getGuiManager().getCasView().setToolbarIsUpdatedByDockPanel(false);
+		appCas.getGuiManager().getCasView().setToolbarIsUpdatedByDockPanel(false);
 	}
 }
