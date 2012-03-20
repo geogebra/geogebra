@@ -2829,8 +2829,8 @@ public abstract class AbstractApplication {
 		setUseLocalizedDigits(false);
 		setUseLocalizedLabels(true);
 		pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
-		//getKernel().setInverseTrigReturnsAngle(false);
-		//getDrawEquation().setUseJavaFontsForLaTeX(this, false);
+		getKernel().setInverseTrigReturnsAngle(false);
+		getDrawEquation().setUseJavaFontsForLaTeX(this, false);
 
 		kernel.setNotifyViewsActive(nva);
 	}

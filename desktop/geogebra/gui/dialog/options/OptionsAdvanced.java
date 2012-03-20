@@ -629,6 +629,10 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 
 	// needed updating things on the reset defaults button
 	public void updateAfterReset() {
+		cbReturnAngleInverseTrig.setSelected(app.getKernel().getInverseTrigReturnsAngle());
+		cbUseJavaFonts.setSelected(app.useJavaFontsForLaTeX());
+		cbReverseMouseWheel.setSelected(app.isMouseWheelReversed());		
+
 		int selectedIndex = 0;
 		String loc = settings.getKeyboard().getKeyboardLocale();
 		if (loc != null) {
