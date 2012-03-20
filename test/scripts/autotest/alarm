@@ -55,6 +55,11 @@ if [ $RESULT = 0 ]; then
 
  if [ $JRESULT = 0 ]; then
   MESSAGE="Everything is OK at revision $REVISION"
+
+  # Creating javadoc:
+  cd $SVNDIR/tools/javadoc
+  ./create
+  
   exit 0 # Not sending an email
   fi
  if [ $JRESULT = 1 ]; then
