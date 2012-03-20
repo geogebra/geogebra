@@ -158,6 +158,7 @@
 # So that Jython can access GeoElement methods
 -keep class geogebra.plugin.jython.PythonAPI { <methods>; <fields>; }
 -keep class geogebra.plugin.jython.PythonFlatAPI { <methods>; <fields>; }
+-keep class geogebra.plugin.jython.CommonsMathLinearAPI { <methods>; <fields>; }
 
 # for the inner class 'Geo'
 -keepattributes InnerClasses
