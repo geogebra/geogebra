@@ -83,16 +83,16 @@ public class GeoGebraFrame extends VerticalPanel {
 
 		for (ArticleElement articleElement : geoGebraMobileTags) {
 			GeoGebraFrame inst = new GeoGebraFrame();
-			Application app = inst.createApplication(articleElement, inst);
+			inst.app = inst.createApplication(articleElement, inst);
+			useDataParamBorder(articleElement, inst);
+		    inst.add(inst.app.buildApplicationPanel());
+		    RootPanel.get(articleElement.getId()).add(inst);
+			
 		}
 	}
 
 	public static void finishAsyncLoading(ArticleElement articleElement,
             GeoGebraFrame inst, Application app) {
-	    inst.app = app;
-	    useDataParamBorder(articleElement, inst);
-	    inst.add(app.buildApplicationPanel());
-	    RootPanel.get(articleElement.getId()).add(inst);
 	    handleLoadFile(articleElement, app);
     }
 	
@@ -100,7 +100,10 @@ public class GeoGebraFrame extends VerticalPanel {
 		Date creationDate = new Date();
 		element.setId(GeoGebraConstants.GGM_CLASS_NAME+creationDate.getTime());
 		GeoGebraFrame inst = new GeoGebraFrame();
-		Application app = inst.createApplication(element, inst);
+		inst.app = inst.createApplication(element, inst);
+		useDataParamBorder(element, inst);
+	    inst.add(inst.app.buildApplicationPanel());
+	    RootPanel.get(element.getId()).add(inst);
 	}
 
 	
