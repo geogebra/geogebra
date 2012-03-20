@@ -2822,6 +2822,7 @@ public abstract class AbstractApplication {
 		kernel.setNotifyViewsActive(false);
 		setGUIFontSize(-1);
 		setTooltipLanguage(null);
+		setTooltipTimeout(0);
 		kernel.setNotifyViewsActive(nva);
 	}
 }
