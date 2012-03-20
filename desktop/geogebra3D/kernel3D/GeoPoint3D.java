@@ -21,10 +21,11 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.LocateableList;
+import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Region;
@@ -50,7 +51,6 @@ import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.view.algebra.AlgebraView;
 
-
 import java.util.ArrayList;
 import java.util.TreeSet;
 
@@ -60,7 +60,7 @@ import java.util.TreeSet;
  * @version
  */
 public class GeoPoint3D extends GeoVec4D implements GeoPointND,
-		PointProperties, Vector3DValue, Translateable, SpreadsheetTraceable {
+		PointProperties, Vector3DValue, Translateable, SpreadsheetTraceable, MatrixTransformable {
 
 	private boolean isInfinite, isDefined;
 	public int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
@@ -1084,5 +1084,34 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		
 		return spreadsheetTraceList;
 	}
+
+	public void matrixTransform(double a, double b, double c, double d) {
+		
+		double x = getX();
+		double y = getY();
+		double z = getZ();
+
+		Double x1 = a * x + b * y;
+		Double y1 = c * x + d * y;
+
+		setCoords(x1, y1, getZ(), getW());
+	}
+
+
+	public void matrixTransform(double a00, double a01, double a02, double a10,
+			double a11, double a12, double a20, double a21, double a22) {
+
+		double x = getX();
+		double y = getY();
+		double z = getZ();
+
+		double x1 = a00 * x + a01 * y + a02 * z;
+		double y1 = a10 * x + a11 * y + a12 * z;
+		double z1 = a20 * x + a21 * y + a22 * z;
+		
+		setCoords(x1, y1, z1, getW());
+
+	}
+
 
 }
