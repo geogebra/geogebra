@@ -33,6 +33,9 @@ public class OptionsCAS  extends JPanel implements ActionListener, SetLabels {
 	
 	/** */
 	private JComboBox cbTimeout;
+
+	/** */
+	private Integer[] cbTimeoutOptions = { 5, 10, 20, 30, 60 };
 	
 	/** show rational exponents as roots*/
 	private JCheckBox cbShowRoots;        
@@ -61,8 +64,8 @@ public class OptionsCAS  extends JPanel implements ActionListener, SetLabels {
 		JPanel timeoutPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(10,1));
-			
-		cbTimeout = new JComboBox(new Integer[] { 5, 10, 20, 30, 60 });
+
+		cbTimeout = new JComboBox(cbTimeoutOptions);
 		cbTimeout.addActionListener(this);
 		
 		timeoutLabel = new JLabel();
@@ -86,8 +89,17 @@ public class OptionsCAS  extends JPanel implements ActionListener, SetLabels {
 	 * @remark Do not call setLabels() here
 	 */
 	public void updateGUI() {
-		cbTimeout.setSelectedItem(casSettings.getTimeoutMilliseconds() / 1000);
+		casSettings = app.getSettings().getCasSettings();
+		cbTimeout.setSelectedItem(getTimeoutOption(
+				casSettings.getTimeoutMilliseconds() / 1000));
 		cbShowRoots.setSelected(casSettings.getShowExpAsRoots());
+	}
+
+	public Integer getTimeoutOption(long integer) {
+		for (int i = 0; i < cbTimeoutOptions.length; i++)
+			if (cbTimeoutOptions[i].intValue() == integer)
+				return cbTimeoutOptions[i];
+		return cbTimeoutOptions[0];
 	}
 
 	/**

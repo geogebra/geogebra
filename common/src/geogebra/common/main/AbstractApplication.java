@@ -2823,6 +2823,7 @@ public abstract class AbstractApplication {
 		boolean nva = kernel.isNotifyViewsActive();
 		kernel.setNotifyViewsActive(false);
 
+		// Options Advanced
 		setGUIFontSize(-1);
 		setTooltipLanguage(null);
 		setTooltipTimeout(0);
@@ -2831,6 +2832,10 @@ public abstract class AbstractApplication {
 		pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
 		getKernel().setInverseTrigReturnsAngle(false);
 		getDrawEquation().setUseJavaFontsForLaTeX(this, false);
+
+		// Options CAS
+		getSettings().getCasSettings().setTimeoutMilliseconds(5000);
+		getSettings().getCasSettings().setShowExpAsRoots(true);
 
 		kernel.setNotifyViewsActive(nva);
 	}
