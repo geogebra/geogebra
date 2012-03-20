@@ -2818,11 +2818,20 @@ public abstract class AbstractApplication {
 	// it would be easier in the factory default XML,
 	// but didn't know if it is allowed to change it or not
 	public void resetToDefaultsButtonExtra() {
+
+		// This is quite resource consuming, so it is suggested to use default preferences XML instead 
 		boolean nva = kernel.isNotifyViewsActive();
 		kernel.setNotifyViewsActive(false);
+
 		setGUIFontSize(-1);
 		setTooltipLanguage(null);
 		setTooltipTimeout(0);
+		setUseLocalizedDigits(false);
+		setUseLocalizedLabels(true);
+		pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
+		//getKernel().setInverseTrigReturnsAngle(false);
+		//getDrawEquation().setUseJavaFontsForLaTeX(this, false);
+
 		kernel.setNotifyViewsActive(nva);
 	}
 }
