@@ -2821,6 +2821,7 @@ public abstract class AbstractApplication {
 		boolean nva = kernel.isNotifyViewsActive();
 		kernel.setNotifyViewsActive(false);
 		setGUIFontSize(-1);
+		setTooltipLanguage(null);
 		kernel.setNotifyViewsActive(nva);
 	}
 }
