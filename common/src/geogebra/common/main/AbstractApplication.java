@@ -2585,7 +2585,7 @@ public abstract class AbstractApplication {
 		if (asPreference) {
 			sb.append("\t<menuFont ");
 			sb.append(" size=\"");
-			//sb.append(guiFontSize);
+			sb.append(guiFontSize);
 			sb.append("\"/>\n");
 
 			sb.append("\t<tooltipSettings ");
@@ -2814,7 +2814,13 @@ public abstract class AbstractApplication {
 		return sbPlain.toString();
 	}
 
-
-
-
+	// reset thing(s) which (are) not in the factory default XML
+	// it would be easier in the factory default XML,
+	// but didn't know if it is allowed to change it or not
+	public void resetToDefaultsButtonExtra() {
+		boolean nva = kernel.isNotifyViewsActive();
+		kernel.setNotifyViewsActive(false);
+		setGUIFontSize(-1);
+		kernel.setNotifyViewsActive(nva);
+	}
 }

@@ -643,6 +643,8 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 
 		// avoid blanking it out
 		app.getGuiManager().toggleKeyboard(false);
+
+		updateGUIFont();
 	}
 
 	public void updateGUIFont() {
