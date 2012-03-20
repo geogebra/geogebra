@@ -865,6 +865,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			g[1] = y;
 			g[2] = z;
 			sb.append(kernel.buildLHS(g, vars, KEEP_LEADING_SIGN, true,tpl));
+			return;
 		}
 		sb.append((CharSequence)sbToStringLHS);
 	}
