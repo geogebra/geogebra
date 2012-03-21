@@ -21,6 +21,7 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * 
@@ -52,6 +53,7 @@ public class DrawSlider extends Drawable {
 
 		// create point for slider
 		geoPoint = new GeoPoint2(view.getKernel().getConstruction());
+		geoPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		drawPoint = new DrawPoint(view, geoPoint);
 		drawPoint.setGeoElement(number);
 
