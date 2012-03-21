@@ -231,7 +231,6 @@ public abstract class AbstractApplication {
 	// moved to Application from EuclidianView as the same value is used across
 	// multiple EVs
 	public int maxLayerUsed = 0;
-	public int pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
 	public int booleanSize = 13;
 	public int rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE;
 
