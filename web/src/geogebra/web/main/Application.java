@@ -454,6 +454,7 @@ public class Application extends AbstractApplication {
 
 		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.web.euclidian.HatchingHandler();
 		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.web.euclidian.EuclidianStatic();
+		geogebra.common.euclidian.clipping.DoubleArrayFactory.prototype = new geogebra.common.euclidian.clipping.DoubleArrayFactoryImpl();
 
 		this.canvas = Canvas.createIfSupported();
 		euclidianViewPanel = new AbsolutePanel();
