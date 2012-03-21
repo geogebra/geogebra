@@ -18,6 +18,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.user.client.ui.RootPanel;
 
 
 
@@ -39,10 +40,16 @@ public class Web implements EntryPoint {
 		}
 		return articleNodes;
 	}
+	
+	public static boolean loadedAsApp = false;
 
 	public void onModuleLoad() {
 		//for debug
 		// DebugPrinterWeb.DEBUG_IN_PRODUCTION = true;
+		
+		//do we have an app?
+		Web.loadedAsApp = checkIfNeedToLoadAsApp();
+		
 		
 		//insert zip.js
 		JavaScriptInjector.inject(GuiResources.INSTANCE.zipJs().getText());
@@ -60,14 +67,27 @@ public class Web implements EntryPoint {
 		JavaScriptInjector.inject(GuiResources.INSTANCE.dataViewJs().getText());
 		JavaScriptInjector.inject(GuiResources.INSTANCE.base64Js().getText());
 		
-		
-		//we dont want to parse out of the box sometimes...
-		if (!calledFromExtension()) {
-			startGeoGebra(getGeoGebraMobileTags());
+		if (!Web.loadedAsApp) {
+			//we dont want to parse out of the box sometimes...
+			if (!calledFromExtension()) {
+				startGeoGebra(getGeoGebraMobileTags());
+			} else {
+				exportArticleTagRenderer();
+			}
 		} else {
-			exportArticleTagRenderer();
+			GWT.log("app!");
 		}
 	}
+	
+	/*
+	 * Checks, if the <body data-param-app="true" exists in html document
+	 * if yes, GeoGebraWeb will be loaded as a full app.
+	 * 
+	 * @return true if bodyelement has data-param-app=true
+	 */
+	private static boolean checkIfNeedToLoadAsApp() {
+	    return ("true".equals(RootPanel.getBodyElement().getAttribute("data-param-app")));
+    }
 	
 	private native void exportArticleTagRenderer() /*-{
 	    $wnd.GGW_ext.render = $entry(@geogebra.web.gui.app.GeoGebraFrame::renderArticleElemnt(Lgeogebra/web/html5/ArticleElement;));
