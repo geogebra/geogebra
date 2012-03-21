@@ -21,10 +21,10 @@ import java.util.ArrayList;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Font;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListSelectionModel;
@@ -47,18 +47,22 @@ public class CASView extends JComponent implements View, Gridable {
 	private static final long serialVersionUID = 1L;
 
 	private Kernel kernel;
-
-	CASTable consoleTable;
+	
+	private CASTable consoleTable;
 	private CASInputHandler casInputHandler;
 	private CASSubDialog subDialog;
 	private ListSelectionModel listSelModel;
 	private GeoGebraCAS cas;
-	private Application app;
-	final RowHeader rowHeader;
+	final private Application app;
+	final private RowHeader rowHeader;
 	private boolean toolbarIsUpdatedByDockPanel;
-
+	/** stylebar */
 	CASStyleBar styleBar;
 
+	/**
+	 * Creates new CAS view
+	 * @param app application
+	 */
 	public CASView(Application app) {
 		kernel = app.getKernel();
 		this.app = app;
@@ -109,48 +113,60 @@ public class CASView extends JComponent implements View, Gridable {
 		add(scrollPane, BorderLayout.CENTER);
 		this.setBackground(Color.white);
 
-		consoleTable.getSelectionModel().addListSelectionListener(
-				new ListSelectionListener() {
-					public void valueChanged(ListSelectionEvent e) {
-						if (e.getValueIsAdjusting())
-							return;
-
-						// table selection changed -> update stylebar
-						int[] selRows = consoleTable.getSelectedRows();
-						if (selRows.length > 0) {
-							// update list of selected objects in the stylebar
-							ArrayList<GeoElement> targetCells = new ArrayList<GeoElement>();
-							for (int i = 0; i < consoleTable.getRowCount(); i++)
-								targetCells.add(consoleTable
-										.getGeoCasCell(selRows[0]));
-							if (styleBar != null) {
-								styleBar.setSelectedRows(targetCells);
-							}
-						}
-					}
-				});
+		consoleTable.getSelectionModel().addListSelectionListener(selectionListener());
 
 		// listen to clicks below last row in consoleTable: create new row
-		scrollPane.addMouseListener(new MouseAdapter() {
+		scrollPane.addMouseListener(scrollPaneListener());
+
+		// input handler
+		casInputHandler = new CASInputHandler(this);
+
+		// addFocusListener(this);
+	}
+
+	private ListSelectionListener selectionListener() {
+		return new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				if (e.getValueIsAdjusting())
+					return;
+
+				// table selection changed -> update stylebar
+				int[] selRows = getConsoleTable().getSelectedRows();
+				if (selRows.length > 0) {
+					// update list of selected objects in the stylebar
+					ArrayList<GeoElement> targetCells = new ArrayList<GeoElement>();
+					for (int i = 0; i < getConsoleTable().getRowCount(); i++)
+						targetCells.add(getConsoleTable()
+								.getGeoCasCell(selRows[0]));
+					if (styleBar != null) {
+						styleBar.setSelectedRows(targetCells);
+					}
+				}
+			}
+		};
+	}
+
+	private MouseListener scrollPaneListener() {
+		return new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int clickedRow = consoleTable.rowAtPoint(e.getPoint());
+				int clickedRow = getConsoleTable().rowAtPoint(e.getPoint());
 				// boolean undoNeeded = false;
 
 				if (clickedRow < 0) {
 					// clicked outside of console table
-					int rows = consoleTable.getRowCount();
+					int rows = getConsoleTable().getRowCount();
 					if (rows == 0) {
 						// insert first row
-						consoleTable.insertRow(null, true);
+						getConsoleTable().insertRow(null, true);
 						// undoNeeded = true;
 					} else {
-						GeoCasCell cellValue = consoleTable
+						GeoCasCell cellValue = getConsoleTable()
 								.getGeoCasCell(rows - 1);
 						if (cellValue.isEmpty()) {
-							consoleTable.startEditingRow(rows - 1);
+							getConsoleTable().startEditingRow(rows - 1);
 						} else {
-							consoleTable.insertRow(null, true);
+							getConsoleTable().insertRow(null, true);
 							// undoNeeded = true;
 						}
 					}
@@ -161,14 +177,16 @@ public class CASView extends JComponent implements View, Gridable {
 				// getApp().storeUndoInfo();
 				// }
 			}
-		});
-
-		// input handler
-		casInputHandler = new CASInputHandler(this);
-
-		// addFocusListener(this);
+		};
 	}
 
+	/**
+	 * Shows dialog for substitution tool
+	 * @param prefix prefix (keep as is)
+	 * @param evalText evaluable text (do substitution here)
+	 * @param postfix postfix (keep as is again)
+	 * @param selRow row index (starting from 0)
+	 */
 	public void showSubstituteDialog(String prefix, String evalText,
 			String postfix, int selRow) {
 		if (subDialog != null && subDialog.isShowing())
@@ -181,27 +199,44 @@ public class CASView extends JComponent implements View, Gridable {
 		setSubstituteDialog(d);
 	}
 
+	/**
+	 * Make sure this view knows whether substitute dialog is open
+	 * @param d substitute dialog; null to "close"
+	 */
 	public void setSubstituteDialog(CASSubDialog d) {
 		subDialog = d;
-	}
-
-	public CASSubDialog getSubstituteDialog() {
-		return subDialog;
 	}
 
 	/**
 	 * Process currently selected cell using the given command and parameters,
 	 * e.g. "Integral", [ "x" ]
+	 * @param ggbcmd command name
+	 * @param params parameters
 	 */
 	public void processInput(String ggbcmd, String[] params) {
 		casInputHandler.processCurrentRow(ggbcmd, params);
 		getApp().storeUndoInfo();
 	}
-
+	
+	/**
+	 * Processes given row.
+	 * @see CASInputHandler#processRowThenEdit(int, boolean)
+	 * @param row
+	 *            row index
+	 * @param flag
+	 *            start editing
+	 */
 	public void processRowThenEdit(int row, boolean flag) {
 		casInputHandler.processRowThenEdit(row, flag);
 	}
 
+	/**
+	 * Resolves both static (#) and dynamic($) expressions in selected row,
+	 * replacement of dynamic references is also done statically.
+	 * @param inputExp input row
+	 * @param row row the expression is in
+	 * @return string with replaced references
+	 */
 	public String resolveCASrowReferences(String inputExp, int row) {
 		String result = casInputHandler.resolveCASrowReferences(inputExp, row,
 				CASInputHandler.ROW_REFERENCE_STATIC, false);
@@ -209,6 +244,9 @@ public class CASView extends JComponent implements View, Gridable {
 				CASInputHandler.ROW_REFERENCE_DYNAMIC, false);
 	}
 
+	/**
+	 * Updates GUI fonts
+	 */
 	public void updateFonts() {
 		if (app.getGUIFontSize() == getFont().getSize())
 			return;
@@ -216,10 +254,6 @@ public class CASView extends JComponent implements View, Gridable {
 		setFont(app.getPlainFont());
 		consoleTable.setFont(getFont());
 		validate();
-	}
-
-	public Font getBoldFont() {
-		return app.getBoldFont();
 	}
 
 	private void createCASTable() {
@@ -237,6 +271,9 @@ public class CASView extends JComponent implements View, Gridable {
 
 	}
 
+	/**
+	 * @return the GoGebraCAS used  by this view
+	 */
 	final public synchronized GeoGebraCAS getCAS() {
 		if (cas == null) {
 			cas = (geogebra.common.cas.GeoGebraCAS) kernel.getGeoGebraCAS();
@@ -245,6 +282,9 @@ public class CASView extends JComponent implements View, Gridable {
 		return cas;
 	}
 
+	/**
+	 * @return CAS table
+	 */
 	public CASTable getConsoleTable() {
 		return consoleTable;
 	}
@@ -310,6 +350,8 @@ public class CASView extends JComponent implements View, Gridable {
 
 	/**
 	 * Returns the output string in the n-th row of this CAS view.
+	 * @param n row index (starting from 0)
+	 * @return output value
 	 */
 	public String getRowOutputValue(int n) {
 		ValidExpression outVE = consoleTable.getGeoCasCell(n)
@@ -318,14 +360,16 @@ public class CASView extends JComponent implements View, Gridable {
 		// if we don't have an outputVE, we let GeoCasCell deal with it :)
 		if (outVE == null) {
 			return consoleTable.getGeoCasCell(n).getOutput(
-					StringTemplate.defaultTemplate);
+					StringTemplate.casCellTemplate);
 		}
-		return outVE.toString(StringTemplate.defaultTemplate);
+		return outVE.toString(StringTemplate.casCellTemplate);
 	}
 
 	/**
 	 * Returns the input string in the n-th row of this CAS view. If the n-th
 	 * cell has no output string, the input string of this cell is returned.
+	 * @param n row index (starting from 0)
+	 * @return input string in the n-th row of this CAS view
 	 */
 	public String getRowInputValue(int n) {
 		return consoleTable.getGeoCasCell(n).getInput(
@@ -334,19 +378,30 @@ public class CASView extends JComponent implements View, Gridable {
 
 	/**
 	 * Returns the number of rows of this CAS view.
+	 * @return the number of rows of this CAS view.
 	 */
 	public int getRowCount() {
 		return consoleTable.getRowCount();
 	}
 
+	/**
+	 * Component representation of this view
+	 * @return reference to self
+	 */
 	public JComponent getCASViewComponent() {
 		return this;
 	}
 
+	/**
+	 * @return row headers
+	 */
 	public RowHeader getRowHeader() {
 		return rowHeader;
 	}
 
+	/**
+	 * @return application of this view
+	 */
 	public Application getApp() {
 		return app;
 	}
@@ -418,7 +473,7 @@ public class CASView extends JComponent implements View, Gridable {
 		case EuclidianConstants.MODE_DELETE:
 			// no parameters
 
-			boolean undo = consoleTable.deleteCasCells(consoleTable.getSelectedRows());
+			boolean undo = deleteCasCells(consoleTable.getSelectedRows());
 			if(undo)
 				consoleTable.app.storeUndoInfo();
 			break;
@@ -433,6 +488,24 @@ public class CASView extends JComponent implements View, Gridable {
 		default:
 			// ignore other modes
 		}
+	}
+	
+	/**
+	 * Deletes given CAS cells both from view and from construction
+	 * @param selRows selected rows
+	 * @return true if undo needed
+	 */
+	public boolean deleteCasCells(int[] selRows) {
+		boolean undoNeeded = false;
+		//reverse order makes sure we don't move cells that are waiting for deletion
+		for (int i=selRows.length-1; i >= 0; i--) {
+			GeoCasCell casCell = consoleTable.getGeoCasCell(selRows[i]);
+			if (casCell != null) {
+				casCell.remove();
+				undoNeeded = true;
+			}
+		}
+		return undoNeeded;
 	}
 
 	/**
@@ -458,14 +531,20 @@ public class CASView extends JComponent implements View, Gridable {
 	}
 
 	public void updateAuxiliaryObject(GeoElement geo) {
+		//do nothing
 	}
 
+	/**
+	 * Attaches this view to kernel to receive messages
+	 */
 	public void attachView() {
 		clearView();
 		kernel.notifyAddAll(this);
 		kernel.attach(this);
 	}
-
+	/**
+	 * Detach this view from kernel
+	 */
 	public void detachView() {
 		kernel.detach(this);
 		clearView();
@@ -484,6 +563,9 @@ public class CASView extends JComponent implements View, Gridable {
 		}
 	}
 
+	/**
+	 * @return input handler
+	 */
 	public CASInputHandler getInputHandler() {
 		return casInputHandler;
 	}
@@ -498,6 +580,9 @@ public class CASView extends JComponent implements View, Gridable {
 	// return r;
 	// }
 
+	/**
+	 * Updates labels to match current locale
+	 */
 	public void setLabels() {
 		consoleTable.setLabels();
 	}
@@ -506,9 +591,10 @@ public class CASView extends JComponent implements View, Gridable {
 		return AbstractApplication.VIEW_CAS;
 	}
 
-	public boolean isToolbarIsUpdatedByDockPanel() {
-		return toolbarIsUpdatedByDockPanel;
-	}
+	/**
+	 * This should be called with "false" to ignore mode changes temporarily 
+	 * @param toolbarIsUpdatedByDockPanel whether toolbar is being updated by dock panel 
+	 */
 
 	public void setToolbarIsUpdatedByDockPanel(
 			boolean toolbarIsUpdatedByDockPanel) {
@@ -535,6 +621,10 @@ public class CASView extends JComponent implements View, Gridable {
 		return new Component[][] { { rowHeader, consoleTable } };
 	}
 
+	/**
+	 * Returns stylebar for this view; if not initialized so far, creates new one
+	 * @return style bar
+	 */
 	public CASStyleBar getCASStyleBar() {
 		if (styleBar == null) {
 			styleBar = newCASStyleBar();
@@ -542,6 +632,9 @@ public class CASView extends JComponent implements View, Gridable {
 		return styleBar;
 	}
 
+	/**
+	 * @return new instance of CASStyleBar
+	 */
 	protected CASStyleBar newCASStyleBar() {
 		return new CASStyleBar(this, app);
 	}

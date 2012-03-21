@@ -17,9 +17,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+/**
+ * Platform (Java / GWT) independent part of MPReduce CAS
+ */
 public abstract class AbstractCASmpreduce extends CASgeneric {
-
+	/** parser tools*/
 	protected CasParserTools parserTools;
+	/** variable ordering, e.g. for Integral[a*b] */
 	protected static StringBuilder varOrder = new StringBuilder(
 			"ggbtmpvarx, ggbtmpvary, ggbtmpvarz, ggbtmpvara, "
 					+ "ggbtmpvarb, ggbtmpvarc, ggbtmpvard, ggbtmpvare, ggbtmpvarf, "
@@ -27,6 +31,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 					+ "ggbtmpvarl, ggbtmpvarm, ggbtmpvarn, ggbtmpvaro, ggbtmpvarp, "
 					+ "ggbtmpvarq, ggbtmpvarr, ggbtmpvars, ggbtmpvart, ggbtmpvaru, "
 					+ "ggbtmpvarv, ggbtmpvarw");
+	/** number of significant digits; for -1 use kernel default */ 
 	protected int significantNumbers = -1;
 	/**
 	 * We escape any upper-letter words so Reduce doesn't switch them to /
@@ -36,14 +41,23 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 	final protected Set<String> predefinedFunctions = ExpressionNodeConstants.RESERVED_FUNCTION_NAMES;
 	private static Evaluate mpreduce;
 
+	/**
+	 * Creates new MPReduce CAS
+	 * @param casParser parser
+	 */
 	public AbstractCASmpreduce(CASparser casParser) {
 		super(casParser);
 	}
 
+	/**
+	 * @param exp MPREduce command
+	 * @return value returned from CAS
+	 */
 	public abstract String evaluateMPReduce(String exp);
 
 	@Override
-	final public String evaluateRaw(String exp) throws Throwable {
+	final public String evaluateRaw(String input) throws Throwable {
+		String exp = input;
 		// we need to escape any upper case letters and non-ascii codepoints
 		// with '!'
 		StringTokenizer tokenizer = new StringTokenizer(exp, "(),;[] ", true);
@@ -124,7 +138,8 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 
 	@Override
 	final public synchronized String evaluateGeoGebraCAS(
-			ValidExpression casInput,StringTemplate tpl) throws CASException {
+			ValidExpression inputExpression,StringTemplate tpl) throws CASException {
+		ValidExpression casInput = inputExpression;
 		// KeepInput[] command should set flag keepinput!!:=1
 		// so that commands like Substitute can work accordingly
 		boolean keepInput = casInput.isKeepInputUsed();
@@ -202,6 +217,8 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 	 * 
 	 * @param mpreduceString
 	 *            String in MPReduce syntax
+	 * @param tpl template that should be used for serialization. Should be casCellTemplate for CAS and
+	 * 	defaultTemplate for input bar
 	 * @return String in Geogebra syntax.
 	 * @throws CASException
 	 *             Throws if the underlying CAS produces an error
@@ -238,6 +255,9 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 		}
 	}
 
+	/**
+	 * @return MPReduce evaluator
+	 */
 	protected abstract Evaluate getMPReduce();
 
 	@Override
@@ -257,7 +277,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 	 * Sets the number of signficiant figures (digits) that should be used as
 	 * print precision for the output of Numeric[] commands.
 	 * 
-	 * @param significantNumbers
+	 * @param significantNumbers new number of sig digits
 	 */
 	@Override
 	public void setSignificantFiguresForNumeric(int significantNumbers) {
@@ -274,35 +294,35 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 	/**
 	 * Loads all packages and initializes all the functions which do not depend on the current kernel.
 	 * 
-	 * @param mpreduce
-	 * @throws Throwable
+	 * @param mpreduce1 MPReduce evaluator
+	 * @throws Throwable from evaluator when some of the initial commands fails
 	 */
 	protected static final void initStaticMyMPReduceFunctions(
-			Evaluate mpreduce) throws Throwable {
-		mpreduce.evaluate("load_package rsolve;");
-		mpreduce.evaluate("load_package numeric;");
-		mpreduce.evaluate("load_package specfn;");
-		mpreduce.evaluate("load_package odesolve;");
-		mpreduce.evaluate("load_package defint;");
-		mpreduce.evaluate("load_package linalg;");
-		mpreduce.evaluate("load_package reset;");
-		mpreduce.evaluate("load_package taylor;");
-		mpreduce.evaluate("load_package groebner;");
-		mpreduce.evaluate("load_package trigsimp;");
-		mpreduce.evaluate("load_package polydiv;");
-		mpreduce.evaluate("load_package myvector;");
+			Evaluate mpreduce1) throws Throwable {
+		mpreduce1.evaluate("load_package rsolve;");
+		mpreduce1.evaluate("load_package numeric;");
+		mpreduce1.evaluate("load_package specfn;");
+		mpreduce1.evaluate("load_package odesolve;");
+		mpreduce1.evaluate("load_package defint;");
+		mpreduce1.evaluate("load_package linalg;");
+		mpreduce1.evaluate("load_package reset;");
+		mpreduce1.evaluate("load_package taylor;");
+		mpreduce1.evaluate("load_package groebner;");
+		mpreduce1.evaluate("load_package trigsimp;");
+		mpreduce1.evaluate("load_package polydiv;");
+		mpreduce1.evaluate("load_package myvector;");
 		
 		// Initialize MPReduce
-				mpreduce.evaluate("off nat;");
-				mpreduce.evaluate("off pri;");
+				mpreduce1.evaluate("off nat;");
+				mpreduce1.evaluate("off pri;");
 
-				mpreduce.evaluate("off numval;");
-				mpreduce.evaluate("linelength 50000;");
-				mpreduce.evaluate("scientific_notation {16,5};");
-				mpreduce.evaluate("on fullroots;");
-				mpreduce.evaluate("printprecision!!:=15;");
+				mpreduce1.evaluate("off numval;");
+				mpreduce1.evaluate("linelength 50000;");
+				mpreduce1.evaluate("scientific_notation {16,5};");
+				mpreduce1.evaluate("on fullroots;");
+				mpreduce1.evaluate("printprecision!!:=15;");
 
-				mpreduce.evaluate("intrules!!:={"
+				mpreduce1.evaluate("intrules!!:={"
 						+ "int(~w/~x,~x) => w*log(abs(x)) when freeof(w,x),"
 						+ "int(~w/(~x+~a),~x) => w*log(abs(x+a)) when freeof(w,x) and freeof(a,x),"
 						+ "int((~b*~x+~w)/(~x+~a),~x) => int((b*xw)/(x+a),x)+w*log(abs(x+a)) when freeof(w,x) and freeof(a,x) and freeof(b,x),"
@@ -326,19 +346,19 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 						+ "int(~a+~w*csc(~x),~x) => int(a,x)+w*log(abs(tan(x / 2))) when freeof(w,x)"
 						+ "};");
 
-				mpreduce.evaluate("let {" + "df(asin(~x),x) => 1/sqrt(1-x^2),"
+				mpreduce1.evaluate("let {" + "df(asin(~x),x) => 1/sqrt(1-x^2),"
 						+ "df(acosh(~x),x) => 1/(sqrt(x-1)*sqrt(x+1)),"
 						+ "df(asinh(~x),x) => 1/sqrt(1+x^2),"
 						+ "df(acos(~x),x) => -1/sqrt(1-x^2)};");
 
-				mpreduce.evaluate("let {impart(arbint(~w)) => 0, arbint(~w)*i =>  0};");
-				mpreduce.evaluate("let {atan(sin(~x)/cos(~x))=>x, "
+				mpreduce1.evaluate("let {impart(arbint(~w)) => 0, arbint(~w)*i =>  0};");
+				mpreduce1.evaluate("let {atan(sin(~x)/cos(~x))=>x, "
 						+ "acos(1/sqrt(2)) => pi/4" + "};");
 
-				mpreduce.evaluate("solverules:={" + "logb(~x,~b)=>log(x)/log(b),"
+				mpreduce1.evaluate("solverules:={" + "logb(~x,~b)=>log(x)/log(b),"
 						+ "log10(~x)=>log(x)/log(10)" + "};");
 
-				mpreduce.evaluate("procedure myatan2(y,x);"
+				mpreduce1.evaluate("procedure myatan2(y,x);"
 						+ " begin scalar xinput, yinput;"
 						+ " xinput:=x; yinput:=y;"
 						+ " on rounded, roundall, numval;"
@@ -353,7 +373,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 						+ "   else if x=0 and y=0 then <<if numeric!!=0 then off rounded, roundall, numval; 0>>"
 						+ "   else '?" + " else" + "   '? end;");
 
-				mpreduce.evaluate("procedure mycoeff(p,x);"
+				mpreduce1.evaluate("procedure mycoeff(p,x);"
 						+ " begin scalar coefflist, bool!!;"
 						+ " coefflist:=coeff(p,x);"
 						+ " if 1=for each elem!! in coefflist product"
@@ -361,14 +381,14 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 						+ "   return reverse(coefflist)" + " else" + "   return '?"
 						+ " end;");
 
-				mpreduce.evaluate(" Degree := pi/180;");
+				mpreduce1.evaluate(" Degree := pi/180;");
 
-				mpreduce.evaluate("procedure myround(x);" + "floor(x+0.5);");
+				mpreduce1.evaluate("procedure myround(x);" + "floor(x+0.5);");
 
-				mpreduce.evaluate("procedure harmonic(n,m); for i:=1:n sum 1/(i**m);");
-				mpreduce.evaluate("procedure uigamma(n,m); gamma(n)-igamma(n,m);");
-				mpreduce.evaluate("procedure beta!Regularized(a,b,x); ibeta(a,b,x);");
-				mpreduce.evaluate("procedure myarg(x);"
+				mpreduce1.evaluate("procedure harmonic(n,m); for i:=1:n sum 1/(i**m);");
+				mpreduce1.evaluate("procedure uigamma(n,m); gamma(n)-igamma(n,m);");
+				mpreduce1.evaluate("procedure beta!Regularized(a,b,x); ibeta(a,b,x);");
+				mpreduce1.evaluate("procedure myarg(x);"
 						+ " if arglength(x)>-1 and part(x,0)='list then myatan2(part(x,2), part(x,1)) "
 						+ " else if arglength(x)>-1 and part(x,0)='mat then <<"
 						+ "   clear x!!;"
@@ -376,16 +396,16 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 						+ "   if row_dim(x!!)=1 then myatan2(x!!(1,2),x!!(1,1))"
 						+ "   else if column_dim(x!!)=1 then myatan2(x!!(2,1),x!!(2,1))"
 						+ "   else arg(x!!) >>" + " else myatan2(impart(x),repart(x));");
-				mpreduce.evaluate("procedure polartocomplex(r,phi); r*(cos(phi)+i*sin(phi));");
-				mpreduce.evaluate("procedure polartopoint!\u00a7(r,phi); list(r*cos(phi),r*sin(phi));");
-				mpreduce.evaluate("procedure complexexponential(r,phi); r*(cos(phi)+i*sin(phi));");
-				mpreduce.evaluate("procedure conjugate(x); conj(x);");
-				mpreduce.evaluate("procedure myrandom(); <<on rounded; random(100000001)/(random(100000000)+1)>>;");
-				mpreduce.evaluate("procedure gamma!Regularized(a,x); igamma(a,x);");
-				mpreduce.evaluate("procedure gamma2(a,x); gamma(a)*igamma(a,x);");
-				mpreduce.evaluate("procedure beta3(a,b,x); beta(a,b)*ibeta(a,b,x);");
-				mpreduce.evaluate("symbolic procedure isbound!! x; if get(x, 'avalue) then 1 else 0;");
-				mpreduce.evaluate("procedure myabs(x);"
+				mpreduce1.evaluate("procedure polartocomplex(r,phi); r*(cos(phi)+i*sin(phi));");
+				mpreduce1.evaluate("procedure polartopoint!\u00a7(r,phi); list(r*cos(phi),r*sin(phi));");
+				mpreduce1.evaluate("procedure complexexponential(r,phi); r*(cos(phi)+i*sin(phi));");
+				mpreduce1.evaluate("procedure conjugate(x); conj(x);");
+				mpreduce1.evaluate("procedure myrandom(); <<on rounded; random(100000001)/(random(100000000)+1)>>;");
+				mpreduce1.evaluate("procedure gamma!Regularized(a,x); igamma(a,x);");
+				mpreduce1.evaluate("procedure gamma2(a,x); gamma(a)*igamma(a,x);");
+				mpreduce1.evaluate("procedure beta3(a,b,x); beta(a,b)*ibeta(a,b,x);");
+				mpreduce1.evaluate("symbolic procedure isbound!! x; if get(x, 'avalue) then 1 else 0;");
+				mpreduce1.evaluate("procedure myabs(x);"
 						+ " if arglength(x!!)>-1 and part(x,0)='list then sqrt(for each elem!! in x sum elem!!^2)"
 						+ " else if arglength(x)>-1 and part(x,0)='mat then <<"
 						+ "   clear x!!;"
@@ -395,12 +415,12 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 						+ "   else abs(x!!) >>" + " else if freeof(x,i) then abs(x)"
 						+ " else sqrt(repart(x)^2+impart(x)^2);");
 
-				mpreduce.evaluate("procedure flattenlist a;"
+				mpreduce1.evaluate("procedure flattenlist a;"
 						+ "if 1=for each elem!! in a product length(elem!!) then for each elem!! in a join elem!! else a;");
 
-				mpreduce.evaluate("procedure depth a; if arglength(a)>0 and part(a,0)='list then 1+depth(part(a,1)) else 0;");
+				mpreduce1.evaluate("procedure depth a; if arglength(a)>0 and part(a,0)='list then 1+depth(part(a,1)) else 0;");
 
-				mpreduce.evaluate("procedure mysolve(eqn, var);"
+				mpreduce1.evaluate("procedure mysolve(eqn, var);"
 						+ " begin scalar solutions!!, bool!!;"
 						+ "  eqn:=mkdepthone({eqn});"
 						+ "  let solverules;"
@@ -425,7 +445,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 						+ "		 {} >>;" + "  clearrules solverules;"
 						+ "  return mkset(solutions!!);" + " end;");
 
-				mpreduce.evaluate("procedure mycsolve(eqn, var);"
+				mpreduce1.evaluate("procedure mycsolve(eqn, var);"
 						+ " begin scalar solutions!!, bool!!;"
 						+ "  eqn:=mkdepthone({eqn});"
 						+ "  let solverules;"
@@ -446,7 +466,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 						+ "  clearrules solverules;" + "  return mkset(solutions!!);"
 						+ " end;");
 
-				mpreduce.evaluate("procedure mysolve1(eqn);"
+				mpreduce1.evaluate("procedure mysolve1(eqn);"
 						+ " begin scalar solutions!!, bool!!;"
 						+ "  eqn:=mkdepthone({eqn});"
 						+ "  let solverules;"
@@ -471,7 +491,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 						+ "		 {} >>;" + "  clearrules solverules;"
 						+ "  return mkset(solutions!!);" + " end;");
 
-				mpreduce.evaluate("procedure mycsolve1(eqn);"
+				mpreduce1.evaluate("procedure mycsolve1(eqn);"
 						+ " begin scalar solutions!!, bool!!;" + "  let solverules;"
 						+ "  eqn:=mkdepthone({eqn});"
 						+ "  if arglength(eqn)>-1 and part(eqn,0)='list then"
@@ -490,7 +510,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 						+ "  clearrules solverules;" + "  return mkset(solutions!!);"
 						+ " end;");
 
-				mpreduce.evaluate("procedure mydot(vec1,vec2); "
+				mpreduce1.evaluate("procedure mydot(vec1,vec2); "
 						+ "	begin scalar tmplength; "
 						+ "  if myvecp(vec1) and myvecp(vec2) then"
 						+ "    return dot(vec1,vec2);"
@@ -522,7 +542,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 						+ "      >> " + "      else " + "		'? " + "    >> " + "  else "
 						+ "    '? " + "  >> " + "end;");
 
-				mpreduce.evaluate("procedure mycross(atmp,btmp); "
+				mpreduce1.evaluate("procedure mycross(atmp,btmp); "
 						+ "begin;"
 						+ "  if myvecp(atmp) then"
 						+ "    if myvecp(btmp) then"
@@ -576,10 +596,10 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 						+ "      else '?" + "    >> else << '? >>"
 						+ "  >> else << '? >> " + "end;");
 
-				mpreduce.evaluate("procedure mattoscalar(m);"
+				mpreduce1.evaluate("procedure mattoscalar(m);"
 						+ " if length(m)={1,1} then trace(m) else m;");
 
-				mpreduce.evaluate("procedure multiplication(a,b);"
+				mpreduce1.evaluate("procedure multiplication(a,b);"
 						+ "  if arglength(a)>-1 and part(a,0)='mat then"
 						+ "    if arglength(b)>-1 and part(b,0)='mat then"
 						+ "      mattoscalar(a*b)"
@@ -615,9 +635,9 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 						+ "		   else if (numberp(a) and a<0) or a=infinity then infinity"
 						+ "		   else '?" + "		 else" + "        a*b;");
 
-				mpreduce.evaluate("operator multiplication;");
+				mpreduce1.evaluate("operator multiplication;");
 
-				mpreduce.evaluate("procedure addition(a,b);"
+				mpreduce1.evaluate("procedure addition(a,b);"
 						+ "  if arglength(a)>-1 and part(a,0)='list and arglength(b)>-1 and part(b,0)='list then"
 						+ "    for i:=1:length(a) collect part(a,i)+part(b,i)"
 						+ "  else if arglength(a)>-1 and part(a,0)='list then"
@@ -629,9 +649,9 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 						+ "  else if (a=-infinity and b neq infinity) or (b=-infinity and a neq infinity) then"
 						+ "    -infinity" + "  else" + "    a+b;");
 
-				mpreduce.evaluate("operator addition;");
+				mpreduce1.evaluate("operator addition;");
 
-				mpreduce.evaluate("procedure subtraction(a,b);"
+				mpreduce1.evaluate("procedure subtraction(a,b);"
 						+ "  if arglength(a)>-1 and part(a,0)='list and arglength(b)>-1 and part(b,0)='list then"
 						+ "    for i:=1:length(a) collect part(a,i)-part(b,i)"
 						+ "  else if arglength(a)<-1 and part(a,0)='list then"
@@ -643,13 +663,13 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 						+ "  else if (a=-infinity and b neq -infinity) or (b=infinity and a neq infinity) then "
 						+ "    -infinity" + "  else" + "    a-b;");
 
-				mpreduce.evaluate("operator subtraction;");
+				mpreduce1.evaluate("operator subtraction;");
 
 				// erf in Reduce is currently broken:
 				// http://sourceforge.net/projects/reduce-algebra/forums/forum/899364/topic/4546339
 				// this is a numeric approximation according to Abramowitz & Stegun
 				// 7.1.26.
-				mpreduce.evaluate("procedure myerf(x); "
+				mpreduce1.evaluate("procedure myerf(x); "
 						+ "begin scalar a1!!, a2!!, a3!!, a4!!, a5!!, p!!, x!!, t!!, y!!, sign!!, result!!;"
 						+ "     on rounded;"
 						+ "		if numberp(x) then 1 else return !*hold(erf(x));"
@@ -669,27 +689,27 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 						+ "     if numeric!!=1 then off rounded;"
 						+ "     return result!! " + "end;");
 
-				mpreduce.evaluate("procedure mkdepthone(liste);"
+				mpreduce1.evaluate("procedure mkdepthone(liste);"
 						+ "	for each x in liste join "
 						+ "	if arglength(x)>-1 and part(x,0)='list then"
 						+ "	mkdepthone(x) else {x};");
 
-				mpreduce.evaluate("procedure listtocolumnvector(list); "
+				mpreduce1.evaluate("procedure listtocolumnvector(list); "
 						+ "begin scalar lengthoflist; "
 						+ "lengthoflist:=length(list); "
 						+ "matrix m!!(lengthoflist,1); " + "for i:=1:lengthoflist do "
 						+ "m!!(i,1):=part(list,i); " + "return m!! " + "end;");
 
-				mpreduce.evaluate("procedure listtorowvector(list); "
+				mpreduce1.evaluate("procedure listtorowvector(list); "
 						+ "begin scalar lengthoflist; "
 						+ "	lengthoflist:=length(list); "
 						+ "	matrix m!!(1,lengthoflist); "
 						+ "	for i:=1:lengthoflist do " + "		m!!(1,i):=part(list,i); "
 						+ "	return m!!; " + "end;");
 
-				mpreduce.evaluate("procedure mod!!(a,b);" + " a-b*div(a,b);");
+				mpreduce1.evaluate("procedure mod!!(a,b);" + " a-b*div(a,b);");
 
-				mpreduce.evaluate("procedure div(a,b);"
+				mpreduce1.evaluate("procedure div(a,b);"
 						+ " begin scalar a!!, b!!, result!!;" + "  a!!:=a; b!!:=b;"
 						+ "  on rounded, roundall, numval;" + "  return "
 						+ "  if numberp(a!!) and numberp(b!!) then <<"
@@ -703,14 +723,14 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 						+ "    result!!>>" + " end;");
 
 				// to avoid using the package assist
-				mpreduce.evaluate("procedure mkset a;" + " begin scalar result, bool;"
+				mpreduce1.evaluate("procedure mkset a;" + " begin scalar result, bool;"
 						+ "  result:=list();" + "  for each elem in a do <<"
 						+ "  bool:=1;" + "  for each x in result do"
 						+ "    if elem=x then bool:=0;" + "  if bool=1 then"
 						+ "    result:=elem . result;" + "  >>;"
 						+ "  return reverse(result)" + " end;");
 
-				mpreduce.evaluate("procedure shuffle a;"
+				mpreduce1.evaluate("procedure shuffle a;"
 						+ "begin scalar lengtha,s,tmp;" + " lengtha:=length(a);"
 						+ " if lengtha>1 then"
 						+ "  for i:=lengtha step -1 until 1 do <<"
@@ -718,7 +738,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 						+ "   a:=(part(a,i):=part(a,s));" + "   a:=(part(a,s):=tmp);"
 						+ "  >>;" + " return a " + "end;");
 
-				mpreduce.evaluate("procedure listofliststomat(a); "
+				mpreduce1.evaluate("procedure listofliststomat(a); "
 						+ " begin scalar length!!, bool!!, i!!, elem!!;"
 						+ "  return"
 						+ "  if arglength(a)>-1 and part(a,0)='list then <<"
@@ -741,7 +761,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 						+ "          matrix!!(i,j!!):=part(part(a,i),j!!);"
 						+ "      matrix!!>>" + "    >>" + " else" + "    a;" + " end;");
 
-				mpreduce.evaluate("procedure mattolistoflists(a);"
+				mpreduce1.evaluate("procedure mattolistoflists(a);"
 						+ " begin scalar list!!, j!!;" + "  tmpmatrix!!:=a;"
 						+ "  return" + "  if arglength(a)<0 or part(a,0) neq 'mat then"
 						+ "    tmpmatrix" + "  else"
@@ -749,7 +769,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 						+ "      for j!!:=1:part(length(a),2) collect"
 						+ "        tmpmatrix!!(i,j!!)" + " end;");
 
-				mpreduce.evaluate("procedure mysort a;"
+				mpreduce1.evaluate("procedure mysort a;"
 						+ "begin scalar leftlist, rightlist, eqlist;"
 						+ " leftlist:=list();"
 						+ " rightlist:=list();"
@@ -774,18 +794,18 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 						+ "    append(append(mysort(leftlist),eqlist),mysort(rightlist))"
 						+ " >> " + "end;");
 
-				mpreduce.evaluate("procedure getkernels(a);"
+				mpreduce1.evaluate("procedure getkernels(a);"
 						+ "	for each element in a sum"
 						+ "	  if arglength(element)=-1 then" + "	    element"
 						+ "	  else" + "	    getkernels(part(element,0):=list);");
 
-				mpreduce.evaluate("procedure mymainvaraux a;"
+				mpreduce1.evaluate("procedure mymainvaraux a;"
 						+ "if numberp(a) then currentx!! else a;");
 
-				mpreduce.evaluate("procedure mymainvar a;"
+				mpreduce1.evaluate("procedure mymainvar a;"
 						+ "mainvar(mymainvaraux(getkernels(list(a))));");
 
-				mpreduce.evaluate("procedure myint(exp!!, var!!, from!!, to!!);"
+				mpreduce1.evaluate("procedure myint(exp!!, var!!, from!!, to!!);"
 						+ "begin scalar integrand!!;"
 						+ "antiderivative!!:=int(exp!!, var!!);"
 						+ "return sub(var!!=to!!,antiderivative!!)-sub(var!!=from!!,antiderivative!!)"
@@ -793,8 +813,8 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 	}
 	/**
 	 * Initializes function which depend on the current kernel.
-	 * @param mpreduce1
-	 * @throws Throwable
+	 * @param mpreduce1 MPReduceevaluator
+	 * @throws Throwable from evaluator if some of the initialization commands fails
 	 */
 	protected final synchronized void initDependentMyMPReduceFunctions(
 			geogebra.common.cas.Evaluate mpreduce1) throws Throwable {

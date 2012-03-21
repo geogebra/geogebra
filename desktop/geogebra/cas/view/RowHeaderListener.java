@@ -98,7 +98,7 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 		case KeyEvent.VK_DELETE:
 		case KeyEvent.VK_BACK_SPACE:
 			int[] selRows = rowHeader.getSelectedIndices();
-			undoNeeded = table.deleteCasCells(selRows);
+			undoNeeded = table.getCASView().deleteCasCells(selRows);
 			break;
 		}
 

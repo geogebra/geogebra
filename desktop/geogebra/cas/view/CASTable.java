@@ -22,11 +22,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
 import javax.swing.CellEditor;
 import javax.swing.JTable;
 import javax.swing.JViewport;
@@ -42,11 +37,12 @@ import javax.swing.table.TableCellRenderer;
 public class CASTable extends JTable {
 
 	private static final long serialVersionUID = 1L;
-
+	/** column of the table containing CAS cells */
 	public final static int COL_CAS_CELLS = 0;
 
 	private CASTableModel tableModel;
-	protected Kernel kernel;
+	private Kernel kernel;
+	/** application */
 	protected Application app;
 	private CASView view;
 
@@ -203,7 +199,10 @@ public class CASTable extends JTable {
 		// this.sizeColumnsToFit(0);
 		// this.setSurrendersFocusOnKeystroke(true);
 	}
-
+	/**
+	 * Returns the CAS view which uses this table
+	 * @return CAS view
+	 */
 	public CASView getCASView() {
 		return view;
 	}
@@ -213,7 +212,7 @@ public class CASTable extends JTable {
 	 * 
 	 * @param p
 	 *            clicked position in table coordinates
-	 * @return
+	 * @return true if output panel of a cell row was clicked
 	 */
 	boolean isOutputPanelClicked(Point p) {
 		int row = rowAtPoint(p);
@@ -242,6 +241,9 @@ public class CASTable extends JTable {
 		return editor != null && editor.isEditing();
 	}
 
+	/**
+	 * Stops editing of current cell
+	 */
 	public void stopEditing() {
 		if (!isEditing())
 			return;
@@ -251,6 +253,10 @@ public class CASTable extends JTable {
 			editor1.stopCellEditing();
 	}
 
+	/**
+	 * Returns the cell editor
+	 * @return cell editor
+	 */
 	public CASTableCellEditor getEditor() {
 		return editor;
 	}
@@ -258,44 +264,46 @@ public class CASTable extends JTable {
 	/**
 	 * Inserts a row at the end and starts editing the new row.
 	 * 
-	 * @param newValue
-	 * @param startEditing
+	 * @param newValue CAS cell to be added
+	 * @param startEditing true to start editing
 	 */
 	public void insertRow(GeoCasCell newValue, boolean startEditing) {
+		GeoCasCell toInsert = newValue;
 		int lastRow = tableModel.getRowCount() - 1;
 		if (isRowEmpty(lastRow)) {
-			if (newValue == null) {
-				newValue = new GeoCasCell(kernel.getConstruction());
+			if (toInsert == null) {
+				toInsert = new GeoCasCell(kernel.getConstruction());
 				// kernel.getConstruction().setCasCellRow(newValue, lastRow);
 			}
-			setRow(lastRow, newValue);
+			setRow(lastRow, toInsert);
 			if (startEditing)
 				startEditingRow(lastRow);
 		} else {
-			insertRow(lastRow + 1, newValue, startEditing);
+			insertRow(lastRow + 1, toInsert, startEditing);
 		}
 	}
 
 	/**
 	 * Inserts a row at selectedRow and starts editing the new row.
 	 * 
-	 * @param selectedRow
-	 * @param newValue
-	 * @param startEditing
+	 * @param selectedRow row index
+	 * @param newValue new value of the cell
+	 * @param startEditing true to start editing
 	 */
 	public void insertRow(final int selectedRow, GeoCasCell newValue,
 			final boolean startEditing) {
 		if(startEditing)
 			stopEditing();
-		if (newValue == null) {
-			newValue = new GeoCasCell(kernel.getConstruction());
+		GeoCasCell toInsert = newValue;
+		if (toInsert == null) {
+			toInsert = new GeoCasCell(kernel.getConstruction());
 			if (selectedRow != tableModel.getRowCount())
 				// tell construction about new GeoCasCell if it is not at the
 				// end
-				kernel.getConstruction().setCasCellRow(newValue, selectedRow);
+				kernel.getConstruction().setCasCellRow(toInsert, selectedRow);
 		}
 
-		tableModel.insertRow(selectedRow, new Object[] { newValue });
+		tableModel.insertRow(selectedRow, new Object[] { toInsert });
 		// make sure the row is shown when at the bottom of the viewport
 		getTable().scrollRectToVisible(
 				getTable().getCellRect(selectedRow, 0, false));
@@ -308,8 +316,8 @@ public class CASTable extends JTable {
 	/**
 	 * Puts casCell into given row.
 	 * 
-	 * @param row
-	 * @param casCell
+	 * @param row row index (starting from 0)
+	 * @param casCell CAS cell
 	 */
 	final public void setRow(final int row, final GeoCasCell casCell) {
 		if (row < 0)
@@ -371,8 +379,8 @@ public class CASTable extends JTable {
 	 * For each row >= start and < end, the height of a row is set to the
 	 * preferred height of the tallest cell in that row.
 	 * 
-	 * @param start
-	 * @param end
+	 * @param start start row
+	 * @param end end row
 	 */
 	public void packRows(int start, int end) {
 		for (int r = start; r < end; r++) {
@@ -386,20 +394,35 @@ public class CASTable extends JTable {
 		}
 	}
 
+	/**
+	 * Updates given row
+	 * @param row row to update
+	 */
 	public void updateRow(int row) {
 		tableModel.fireTableRowsUpdated(row, row);
 	}
 
+	/**
+	 * Updates all rows
+	 */
 	public void updateAllRows() {
 		int rowCount = tableModel.getRowCount();
 		if (rowCount > 0)
 			tableModel.fireTableRowsUpdated(0, rowCount - 1);
 	}
 
+	/**
+	 * @param row row index (starting from 0)
+	 * @return CAS cell on given row 
+	 */
 	public GeoCasCell getGeoCasCell(int row) {
 		return (GeoCasCell) tableModel.getValueAt(row, COL_CAS_CELLS);
 	}
 
+	/**
+	 * @param row row index (starting from 0)
+	 * @return true if given cell is empty
+	 */
 	public boolean isRowEmpty(int row) {
 		if (row < 0)
 			return false;
@@ -408,26 +431,26 @@ public class CASTable extends JTable {
 		return value.isEmpty();
 	}
 
-	/*
-	 * Function: Delete a rolw, and set the focus at the right position
+	/**
+	 * Delete all rows
 	 */
 	public void deleteAllRows() {
 		tableModel.setRowCount(0);
 	}
 
-	/*
-	 * Function: Delete a rolw, and set the focus at the right position
+	/**
+	 * Delete a row, and set the focus at the right position
+	 * @param row row (staring from 0)
 	 */
 	public void deleteRow(int row) {
-		// stopEditing();
+		//we must stop editing here, otherwise content of deleted cell is copied below
+		boolean wasEditing = this.isEditing();
+		stopEditing();
 		if (row > -1 && row < tableModel.getRowCount())
 			tableModel.removeRow(row);
-
-		// int rowCount = tableModel.getRowCount();
-		// if (rowCount == 0)
-		// insertRow(null, true);
-		// else
-		// startEditingRow(Math.min(row, rowCount-1));
+		if(wasEditing){
+			startEditingRow(row);
+		}
 	}
 
 	// /**
@@ -450,8 +473,9 @@ public class CASTable extends JTable {
 	// }
 	// }
 
-	/*
-	 * Function: Set the focus on the specified row
+	/**
+	 * Set the focus on the specified row
+	 * @param editRow row number (starting from 0)
 	 */
 	public void startEditingRow(final int editRow) {
 		if (editRow >= tableModel.getRowCount()) {
@@ -464,8 +488,7 @@ public class CASTable extends JTable {
 	}
 
 	private void doEditCellAt(final int editRow, final int editCol) {
-		
-		if(!this.contains(1, editRow))
+		if(editRow<0)
 			return;
 		setRowSelectionInterval(editRow, editRow);
 		scrollRectToVisible(getCellRect(editRow, COL_CAS_CELLS, true));
@@ -533,6 +556,9 @@ public class CASTable extends JTable {
 		}
 	}
 
+	/**
+	 * Updates labels to match current locale
+	 */
 	public void setLabels() {
 		editor.setLabels();
 	}
@@ -589,20 +615,4 @@ public class CASTable extends JTable {
 	public void setCurrentWidth(int currentWidth) {
 		this.currentWidth = currentWidth;
 	}
-
-	public boolean deleteCasCells(int[] selRows) {
-		boolean undoNeeded = false;
-		Set<Integer> removeIndices = new TreeSet<Integer>();
-		AbstractApplication.debug("selected");
-		for (int i=selRows.length-1; i >= 0; i--) {
-			AbstractApplication.debug(selRows[i]);
-			GeoCasCell casCell = getGeoCasCell(selRows[i]);
-			if (casCell != null) {
-				casCell.remove();
-				undoNeeded = true;
-			}
-		}
-		return undoNeeded;
-	}
-
 }

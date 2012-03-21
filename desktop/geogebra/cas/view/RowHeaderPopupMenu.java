@@ -3,7 +3,6 @@ package geogebra.cas.view;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.main.Application;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,6 +11,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JPopupMenu;
 
+/**
+ * Popup menu for row headers
+ *
+ */
 public class RowHeaderPopupMenu extends JPopupMenu implements ActionListener {
 
 	private static final long serialVersionUID = -592258674730774706L;
@@ -22,6 +25,11 @@ public class RowHeaderPopupMenu extends JPopupMenu implements ActionListener {
 	
 	private JMenuItem cbUseAsText;
 
+	/**
+	 * Creates new popup menu
+	 * @param rowHeader row headers
+	 * @param table CAS table
+	 */
 	public RowHeaderPopupMenu(JList rowHeader, CASTable table) {
 		this.rowHeader = rowHeader;
 		this.table = table;
@@ -29,6 +37,9 @@ public class RowHeaderPopupMenu extends JPopupMenu implements ActionListener {
 		initMenu();
 	}
 
+	/**
+	 * Create menu items and put them into the menu
+	 */
 	protected void initMenu() {
 		// insert above
 		JMenuItem item5 = new JMenuItem(app.getMenu("InsertAbove"));
@@ -91,7 +102,7 @@ public class RowHeaderPopupMenu extends JPopupMenu implements ActionListener {
 			undoNeeded = true;
 		}
 		else if (ac.equals("delete")) {
-			undoNeeded = table.deleteCasCells(selRows);
+			undoNeeded = table.getCASView().deleteCasCells(selRows);
 		}
 		else if(ac.equals("useAsText")) {
 			GeoCasCell casCell2 = table.getGeoCasCell(selRows[0]);

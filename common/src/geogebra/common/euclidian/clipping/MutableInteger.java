@@ -31,37 +31,47 @@ package geogebra.common.euclidian.clipping;
  */
 public class MutableInteger extends Number {
 	private static final long serialVersionUID = 1L;
-	
+	/** value */
 	public int value = 0;
-	
+	/** 
+	 * Creates new mutable integer
+	 * @param value value
+	 */
 	public MutableInteger(int value) {
 		this.value = value;
 	}
 
+	@Override
 	public double doubleValue() {
 		return value;
 	}
 
+	@Override
 	public float floatValue() {
 		return value;
 	}
 
+	@Override
 	public int intValue() {
 		return value;
 	}
 
+	@Override
 	public long longValue() {
 		return value;
 	}
 	
+	@Override
 	public int hashCode() {
 		return value;
 	}
 	
+	@Override
 	public String toString() {
 		return Integer.toString(value);
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if(obj==this) return true;
 		if(obj instanceof MutableInteger) {

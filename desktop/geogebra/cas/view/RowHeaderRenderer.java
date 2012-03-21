@@ -11,11 +11,18 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 
+/**
+ * Renders row headers
+ */
 public class RowHeaderRenderer extends JLabel implements ListCellRenderer {
 		
 	private static final long serialVersionUID = 1L;    	    	
 	private CASTable casTable;	
 	
+	/**
+	 * Creates new renderer
+	 * @param casTable CAS table
+	 */
 	public RowHeaderRenderer(CASTable casTable) {
 		super("", SwingConstants.CENTER);		
 		this.casTable = casTable;
