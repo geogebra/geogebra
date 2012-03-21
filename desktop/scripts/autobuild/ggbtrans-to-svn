@@ -11,7 +11,7 @@
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
 # Edit these variables if needed:
-GGBTRANS_DIR=/home/arnaud/ggbtrans
+GGBTRANS_DIR=/home/ggbtrans/svn/ggbtrans
 GITCLONE_DIR=../geogebra
 
 # Remove the previous working copy of the git clone:

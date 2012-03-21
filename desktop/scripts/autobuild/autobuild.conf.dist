@@ -79,3 +79,10 @@ WWW_REMOTEDIR=www.geogebra.org:/Library/WebServer/GeoGebra/webstart/
 # GeoGebraTube remote server, account, and application.ini file
 GGT_SERVER_LOGIN=zoltan@www.geogebra.org
 GGT_APP_INI_FILE=/Library/WebServer/GeoGebraTube/application/configs/application.ini
+
+# Remote directories for nav and tube
+NAV_REMOTEDIR=zoltan@www.geogebra.org:/Library/WebServer/GeoGebra/navigation/
+TUBE_REMOTEDIR=zoltan@www.geogebra.org:/Library/WebServer/GeoGebraTube/languages/
+
+# Directory for ggbtrans
+GGBTRANS_DIR=/home/ggbtrans/svn/ggbtrans

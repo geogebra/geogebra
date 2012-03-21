@@ -8,7 +8,7 @@
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
 # Edit these variables if needed (you can override them by use settings from autobuild.conf):
-GGBTRANS_DIR=/home/arnaud/ggbtrans
+GGBTRANS_DIR=/home/ggbtrans/svn/ggbtrans
 TUBE_REMOTEDIR=www.geogebra.org:/tmp/rsync-www-test-tube
 NAV_REMOTEDIR=www.geogebra.org:/tmp/rsync-www-test-nav
 
@@ -48,9 +48,9 @@ rsync -avPO --rsh=ssh $PROP_DIR/nav/* $NAV_REMOTEDIR 2>&1 | grep -v failed | gre
 # /Library/WebServer/GeoGebra/navigation/cache/* and
 # /Library/WebServer/GeoGebraTube/tmp/cache/zend_cache---Zend_Translate_*
 # so that the properties are really used.
-ssh www.geogebra.org \
+ssh $WWW_SERVER_LOGIN \
  "cd /Library/WebServer/GeoGebra/navigation/cache && find . -name '*.php' | xargs rm"
-ssh www.geogebra.org \
+ssh $WWW_SERVER_LOGIN \
  "cd /Library/WebServer/GeoGebraTube/tmp/cache && find . -name 'zend_cache---Zend_Translate*' | xargs rm"
 
 date
