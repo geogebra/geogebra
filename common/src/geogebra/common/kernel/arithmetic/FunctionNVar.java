@@ -890,4 +890,8 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		return this;
 	}
 
+	public boolean replaceGeoDummyVariables(String var, ExpressionValue newOb) {
+		return false;
+	}
+
 }

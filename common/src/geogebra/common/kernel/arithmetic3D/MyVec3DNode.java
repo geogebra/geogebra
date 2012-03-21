@@ -24,6 +24,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ReplaceableValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.Geo3DVec;
 import geogebra.common.main.MyParseError;
@@ -268,6 +269,30 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		}
 
 		return this;
+	}
+	
+	public boolean replaceGeoDummyVariables(String var, ExpressionValue newOb) {
+		boolean didReplacement = false;
+		if(x instanceof GeoDummyVariable && 
+				var.equals(((GeoDummyVariable) x).toString(StringTemplate.defaultTemplate)))
+			x = newOb;
+		else if(x instanceof ReplaceableValue){
+			didReplacement |= ((ReplaceableValue)x).replaceGeoDummyVariables(var, newOb);
+		}
+		if(y instanceof GeoDummyVariable && 
+				var.equals(((GeoDummyVariable) z).toString(StringTemplate.defaultTemplate)))
+			y = newOb;
+		else if(y instanceof ReplaceableValue){
+			didReplacement |= ((ReplaceableValue)y).replaceGeoDummyVariables(var, newOb);
+		}
+		if(z instanceof GeoDummyVariable && 
+				var.equals(((GeoDummyVariable) z).toString(StringTemplate.defaultTemplate)))
+			z = newOb;
+		else 
+		if(z instanceof ReplaceableValue){
+			didReplacement |= ((ReplaceableValue)z).replaceGeoDummyVariables(var, newOb);
+		}
+		return didReplacement;
 	}
 
 	public Kernel getKernel() {

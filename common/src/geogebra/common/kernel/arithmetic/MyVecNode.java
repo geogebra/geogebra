@@ -20,6 +20,7 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.MyParseError;
@@ -308,6 +309,25 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 
 	public Kernel getKernel() {
 		return kernel;
+	}
+
+	public boolean replaceGeoDummyVariables(String var, ExpressionValue newOb) {
+		boolean didReplacement = false;
+		if(x instanceof GeoDummyVariable && 
+				var.equals(((GeoDummyVariable) x).toString(StringTemplate.defaultTemplate)))
+			x= newOb;
+		else 
+		if(x instanceof ReplaceableValue){
+			didReplacement |= ((ReplaceableValue)x).replaceGeoDummyVariables(var, newOb);
+		}
+		if(y instanceof GeoDummyVariable && 
+				var.equals(((GeoDummyVariable) y).toString(StringTemplate.defaultTemplate)))
+			y= newOb;
+		else 
+		if(y instanceof ReplaceableValue){
+			didReplacement |= ((ReplaceableValue)y).replaceGeoDummyVariables(var, newOb);
+		}
+		return didReplacement;
 	}
 
 }

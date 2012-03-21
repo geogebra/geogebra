@@ -504,45 +504,9 @@ public class ExpressionNode extends ValidExpression implements
 	 * @return whether replacement was done
 	 */
 	public boolean replaceGeoDummyVariables(String var, ExpressionValue newOb) {
-		boolean didReplacement = false;
-
-		// left wing
-		if (left instanceof GeoDummyVariable) {
-			if (var.equals(((GeoDummyVariable) left).toString(StringTemplate.defaultTemplate))) {
-				left = newOb;
-				didReplacement = true;
-			}
-		} else if (left instanceof Command) {
-			didReplacement = ((Command) left).replaceGeoDummyVariables(
-					var, newOb);
-		} else if (left instanceof Equation) {
-			didReplacement = ((Equation) left).replaceGeoDummyVariables(var,
-					newOb);
-		} else if (left.isExpressionNode()) {
-			didReplacement = ((ExpressionNode) left).replaceGeoDummyVariables(
-					var, newOb);
-		}
-
-		// right wing
-		if (right != null) {
-			if (right instanceof GeoDummyVariable) {
-				if (var.equals(((GeoDummyVariable) right).toString(StringTemplate.defaultTemplate))) {
-					right = newOb;
-					didReplacement = true;
-				}
-			} else if (right instanceof Command) {
-				didReplacement = ((Command) right)
-						.replaceGeoDummyVariables(var, newOb);
-			} else if (right instanceof Equation) {
-				didReplacement = ((Equation) right).replaceGeoDummyVariables(
-						var, newOb);
-			} else if (right.isExpressionNode()) {
-				didReplacement = ((ExpressionNode) right)
-						.replaceGeoDummyVariables(var, newOb) || didReplacement;
-			}
-		}
-
-		return didReplacement;
+		return 	// left wing
+		doReplaceGeoDummyVars(left,var,newOb) ||
+		doReplaceGeoDummyVars(right,var,newOb);
 	}
 
 	/**
@@ -563,6 +527,32 @@ public class ExpressionNode extends ValidExpression implements
 	 * (right instanceof GeoFunction) { right = new ExpressionNode(kernel,
 	 * right, ExpressionNode.FUNCTION, polyX); } } }
 	 */
+
+	private boolean doReplaceGeoDummyVars(ExpressionValue left2, String var,
+			ExpressionValue newOb) {
+		if(left2 == null)
+			return false;
+		boolean didReplacement = false;
+		if (left2 instanceof GeoDummyVariable) {
+			if (var.equals(((GeoDummyVariable) left2).toString(StringTemplate.defaultTemplate))) {
+				if(left2 == left) {left = newOb;} else {right = newOb;}
+				didReplacement = true;
+			}
+		} else if (left2 instanceof Command) {
+			didReplacement = ((Command) left2).replaceGeoDummyVariables(
+					var, newOb);
+		}else if (left2 instanceof MyList) {
+				didReplacement = ((MyList) left2).replaceGeoDummyVariables(
+						var, newOb);
+		} else if (left2 instanceof Equation) {
+			didReplacement = ((Equation) left2).replaceGeoDummyVariables(var,
+					newOb);
+		} else if (left2.isExpressionNode()) {
+			didReplacement = ((ExpressionNode) left2).replaceGeoDummyVariables(
+					var, newOb);
+		}
+		return didReplacement;
+	}
 
 	/**
 	 * @return true if there is at least one Polynomial in the tree

@@ -25,4 +25,11 @@ public interface ReplaceableValue extends ExpressionValue {
 	 */
 	public ExpressionValue replace(ExpressionValue oldOb, ExpressionValue newOb);
 	
+	/**
+	 * @param var dummy variable name
+	 * @param newOb new object
+	 * @return resulting expression
+	 */
+	public boolean replaceGeoDummyVariables(String var, ExpressionValue newOb);
+	
 }

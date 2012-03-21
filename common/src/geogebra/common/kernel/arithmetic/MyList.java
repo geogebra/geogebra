@@ -21,6 +21,7 @@ package geogebra.common.kernel.arithmetic;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.Operation;
@@ -973,6 +974,19 @@ public class MyList extends ValidExpression implements ListValue,
 			}
 		}
 		return this;
+	}
+	
+	public boolean replaceGeoDummyVariables(String var, ExpressionValue newOb) {
+		boolean didReplacement = false;
+		for (int i = 0; i < listElements.size(); i++) {
+			ExpressionValue ev = listElements.get(i);
+			if (ev instanceof ReplaceableValue) {
+				didReplacement |= ((ReplaceableValue) ev).replaceGeoDummyVariables(var, newOb);
+			}
+			else if(ev instanceof GeoDummyVariable && var.equals(((GeoDummyVariable) ev).toString(StringTemplate.defaultTemplate)))
+				listElements.set(i, newOb);
+		}
+		return didReplacement;
 	}
 
 	/**
