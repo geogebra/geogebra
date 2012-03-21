@@ -16,6 +16,9 @@ import javax.swing.text.ViewFactory;
  * Editor kit for styled text fields. Extends StyledEditorKit so that text is
  * vertically centered in its container.
  * 
+ * adapted from article by Stanislav Lapitsky:
+ * http://java-sl.com/wrap.html
+ * 
  * @author G. Sturr
  * 
  */
@@ -39,7 +42,7 @@ public class StyledTextFieldEditorKit extends StyledEditorKit {
 				if (kind.equals(AbstractDocument.ContentElementName)) {
 					return new LabelView(elem);
 				} else if (kind.equals(AbstractDocument.ParagraphElementName)) {
-					return new ParagraphView(elem);
+					return new NoWrapParagraphView(elem);
 				} else if (kind.equals(AbstractDocument.SectionElementName)) {
 					return new CenteredBoxView(elem, View.Y_AXIS);
 				} else if (kind.equals(StyleConstants.ComponentElementName)) {
@@ -52,6 +55,23 @@ public class StyledTextFieldEditorKit extends StyledEditorKit {
 			return new LabelView(elem);
 		}
 
+	}
+}
+
+/**
+ * Extends ParagraphView to prevent line wrapping.
+ */
+class NoWrapParagraphView extends ParagraphView {
+	public NoWrapParagraphView(Element elem) {
+		super(elem);
+	}
+
+	public void layout(int width, int height) {
+		super.layout(Short.MAX_VALUE, height);
+	}
+
+	public float getMinimumSpan(int axis) {
+		return super.getPreferredSpan(axis);
 	}
 }
 
