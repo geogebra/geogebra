@@ -1886,6 +1886,8 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			if ("true".equals(attrs.get("javaLatexFonts")))
 				app.getDrawEquation().setUseJavaFontsForLaTeX(app, true);
+			else
+				app.getDrawEquation().setUseJavaFontsForLaTeX(app, false);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -2091,10 +2093,10 @@ public class MyXMLHandler implements DocHandler {
 			LinkedHashMap<String, String> attrs) {
 		try {
 			String ttl = attrs.get("language");
-			if (ttl != null) {
-
+			if ("".equals(ttl)) {
+				app.setTooltipLanguage(null);
+			} else if (ttl != null) {
 				app.setTooltipLanguage(ttl);
-
 			}
 			int ttt = -1;
 			try { // "off" will be -1

@@ -2824,14 +2824,7 @@ public abstract class AbstractApplication {
 		kernel.setNotifyViewsActive(false);
 
 		// Options Advanced
-		setGUIFontSize(-1);
-		setTooltipLanguage(null);
-		setTooltipTimeout(0);
-		setUseLocalizedDigits(false);
-		setUseLocalizedLabels(true);
 		pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
-		getKernel().setInverseTrigReturnsAngle(false);
-		getDrawEquation().setUseJavaFontsForLaTeX(this, false);
 
 		// Options CAS
 		getSettings().getCasSettings().setTimeoutMilliseconds(5000);

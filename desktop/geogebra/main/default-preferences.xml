@@ -6,6 +6,9 @@
 	<labelingStyle  val="3"/>
 	<mouse reverseWheel="false"/>
 	<font  size="12"/>
+	<menuFont size="-1"/>
+	<tooltipSettings language="" timeout=""/>
+	<graphicsSettings javaLatexFonts="false"/>
 </gui>
 <euclidianView>
 	<size  width="640" height="480"/>
@@ -24,6 +27,8 @@
 	<angleUnit val="degree"/>
 	<algebraStyle val="0"/>
 	<coordStyle val="0"/>
+	<localization digits="false" labels="true"/>
+	<angleFromInvTrig val="false"/>
 </kernel>
 <scripting blocked="false"/>
 </geogebra>
