@@ -22,13 +22,13 @@ def convert_java_error(f):
 class Vector(GenericMethods):
     @generic
     def __init__(self):
-        self._vector = API.ArrayRealVectorClass()
+        self._vector = API.newArrayRealVector()
     
     @specmethod.__init__
     @sign(list)
     @convert_java_error
     def init_fromlist(self, data):
-        self._vector = API.ArrayRealVectorClass(data)
+        self._vector = API.newArrayRealVector(data)
     
     @specmethod.__init__
     @sign(API.ArrayRealVectorClass)
@@ -78,7 +78,7 @@ class Vector(GenericMethods):
 class Matrix(GenericMethods):
     @generic
     def __init__(self):
-        self._matrix = API.Array2DRowRealMatrixClass()
+        self._matrix = API.newArray2DRowRealMatrix()
     
     @specmethod.__init__
     @sign(API.RealMatrixClass)
@@ -88,13 +88,13 @@ class Matrix(GenericMethods):
     @specmethod.__init__
     @sign(int, int)
     def init_fromsize(self, rows, columns):
-        self._matrix = API.Array2DRowRealMatrixClass(rows, columns)
+        self._matrix = API.newArray2DRowRealMatrix(rows, columns)
     
     @specmethod.__init__
     @sign(list)
     @convert_java_error
     def init_fromdata(self, data):
-        self._matrix = API.Array2DRowRealMatrixClass(data)
+        self._matrix = API.newArray2DRowRealMatrix(data)
     
     def __repr__(self):
         return str(self._matrix)
@@ -193,7 +193,7 @@ class Decomposition(object):
     
 class SVDecomposition(Decomposition):
     def __init__(self, mat):
-        self._dec = API.SingularValueDecompositionImplClass(mat._matrix)
+        self._dec = API.newSingularValueDecompositionImpl(mat._matrix)
 
 if __name__ == "__main__":
     A = Matrix([[0, 1], [1, 0]])

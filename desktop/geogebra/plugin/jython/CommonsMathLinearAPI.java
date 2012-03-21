@@ -32,6 +32,61 @@ public class CommonsMathLinearAPI {
 	@SuppressWarnings("javadoc")
 	public static final Class<MathRuntimeException> MathRuntimeExceptionClass = MathRuntimeException.class;
 	
+	/* Creating new objects */
+	
+	/**
+	 * Create a new zero-length ArrayRealVector
+	 * @return newly created ArrayRealVector object
+	 */
+	public static final ArrayRealVector newArrayRealVector() {
+		return new ArrayRealVector();
+	}
+	
+	/**
+	 * create a new ArrayRealVector with given data array
+	 * @param values array of values
+	 * @return newly created ArrayRealVector object
+	 */
+	public static final ArrayRealVector newArrayRealVector(double values[]) {
+		return new ArrayRealVector(values);
+	}
+	
+	/**
+	 * Create a new Array2DRowRealMatrix with zero rows and zero columns
+	 * @return newly created Array2DRowRealMatrix object
+	 */
+	public static final Array2DRowRealMatrix newArray2DRowRealMatrix() {
+		return new Array2DRowRealMatrix();
+	}
+	
+	/**
+	 * Create a new Array2DRowRealMatrix of given size
+	 * @param rows number of rows for the new matrix
+	 * @param columns number of columns for the new matrix
+	 * @return newly created Array2DRowRealMatrix object
+	 */
+	public static final Array2DRowRealMatrix newArray2DRowRealMatrix(int rows, int columns) {
+		return new Array2DRowRealMatrix(rows, columns);
+	}
+	
+	/**
+	 * Create a new Array2DRowRealMatrix with given data
+	 * @param values array of rows of data
+	 * @return newly created Array2DRowRealMatrix object
+	 */
+	public static final Array2DRowRealMatrix newArray2DRowRealMatrix(double values[][]) {
+		return new Array2DRowRealMatrix(values);
+	}
+	
+	/**
+	 * Create a new SingularValueDecompositionImpl
+	 * @param mat the matrix to be decomposed
+	 * @return newly created SingularValueDecompositionImpl for mat
+	 */
+	public static final SingularValueDecompositionImpl newSingularValueDecompositionImpl(RealMatrix mat) {
+		return new SingularValueDecompositionImpl(mat);
+	}
+	
 	/* Real Vector operations */
 	
 	/**
