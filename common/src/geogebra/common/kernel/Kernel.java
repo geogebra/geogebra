@@ -6325,10 +6325,6 @@ public class Kernel {
 	final public GeoPoint2 Midpoint(String label, GeoPoint2 P, GeoPoint2 Q) {
 		AlgoMidpoint algo = new AlgoMidpoint(cons, label, P, Q);
 		GeoPoint2 M = algo.getPoint();
-
-		M.setMode(P.toStringMode); // complex etc)
-		M.update();
-
 		return M;
 	}
 
