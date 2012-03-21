@@ -6,8 +6,6 @@ import javax.swing.plaf.basic.BasicTextFieldUI;
 import javax.swing.text.EditorKit;
 import javax.swing.text.JTextComponent;
 
-import com.apple.laf.AquaTextFieldUI;
-
 
 
 /**
