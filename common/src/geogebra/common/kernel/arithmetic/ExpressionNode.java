@@ -528,27 +528,18 @@ public class ExpressionNode extends ValidExpression implements
 	 * right, ExpressionNode.FUNCTION, polyX); } } }
 	 */
 
-	private boolean doReplaceGeoDummyVars(ExpressionValue left2, String var,
+	private boolean doReplaceGeoDummyVars(ExpressionValue subtree, String var,
 			ExpressionValue newOb) {
-		if(left2 == null)
+		if(subtree == null)
 			return false;
 		boolean didReplacement = false;
-		if (left2 instanceof GeoDummyVariable) {
-			if (var.equals(((GeoDummyVariable) left2).toString(StringTemplate.defaultTemplate))) {
-				if(left2 == left) {left = newOb;} else {right = newOb;}
+		if (subtree instanceof GeoDummyVariable) {
+			if (var.equals(((GeoDummyVariable) subtree).toString(StringTemplate.defaultTemplate))) {
+				if(subtree == left) {left = newOb;} else {right = newOb;}
 				didReplacement = true;
 			}
-		} else if (left2 instanceof Command) {
-			didReplacement = ((Command) left2).replaceGeoDummyVariables(
-					var, newOb);
-		}else if (left2 instanceof MyList) {
-				didReplacement = ((MyList) left2).replaceGeoDummyVariables(
-						var, newOb);
-		} else if (left2 instanceof Equation) {
-			didReplacement = ((Equation) left2).replaceGeoDummyVariables(var,
-					newOb);
-		} else if (left2.isExpressionNode()) {
-			didReplacement = ((ExpressionNode) left2).replaceGeoDummyVariables(
+		} else if (subtree instanceof ReplaceableValue) {
+			didReplacement = ((ReplaceableValue) subtree).replaceGeoDummyVariables(
 					var, newOb);
 		}
 		return didReplacement;
