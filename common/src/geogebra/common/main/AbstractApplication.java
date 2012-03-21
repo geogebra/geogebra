@@ -2823,9 +2823,6 @@ public abstract class AbstractApplication {
 		boolean nva = kernel.isNotifyViewsActive();
 		kernel.setNotifyViewsActive(false);
 
-		// Options Advanced
-		pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
-
 		// Options CAS
 		getSettings().getCasSettings().setTimeoutMilliseconds(5000);
 		getSettings().getCasSettings().setShowExpAsRoots(true);

@@ -1687,7 +1687,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		int dotsize=geo.getPointSize();
 		int dotstyle=geo.getPointStyle();
 		if (dotstyle == -1) { // default
-			dotstyle = app.getEuclidianView1().getPointStyle();
+			dotstyle = EuclidianStyleConstants.POINT_STYLE_DOT;
 		}
 		boolean coma=false;
 		boolean bracket=false;

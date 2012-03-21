@@ -248,10 +248,6 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	public int getMode();
 
 	/**
-	 * @return point style
-	 */
-	public int getPointStyle();
-	/**
 	 * @return array of flags for positive direction only of axes
 	 */
 	public boolean[] getPositiveAxes(); 

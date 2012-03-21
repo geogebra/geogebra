@@ -1544,7 +1544,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             gp.getNameDescription();
             int dotstyle = gp.getPointStyle();
             if (dotstyle == -1) { // default
-                dotstyle = app.getEuclidianView1().getPointStyle();
+                dotstyle = EuclidianStyleConstants.POINT_STYLE_DOT;
             }                     // draw special dot styles
             if(dotstyle != EuclidianStyleConstants.POINT_STYLE_DOT) {
                 drawSpecialPoint(gp);
@@ -1571,7 +1571,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         double radius = dotsize * (2.54/72) * (frame.getXUnit());
         int dotstyle = geo.getPointStyle();
         if (dotstyle == -1) { // default
-            dotstyle = app.getEuclidianView1().getPointStyle();
+            dotstyle = EuclidianStyleConstants.POINT_STYLE_DOT;
         }
         double x = geo.getX(),
                y = geo.getY(),
@@ -2512,7 +2512,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         geogebra.common.awt.Color dotcolor = geo.getObjectColor();
         int dotstyle   = geo.getPointStyle();
         if (dotstyle == -1) { // default
-            dotstyle = app.getEuclidianView1().getPointStyle();
+            dotstyle = EuclidianStyleConstants.POINT_STYLE_DOT;
         }
         boolean comma = false; // add comma
         

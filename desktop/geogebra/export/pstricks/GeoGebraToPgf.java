@@ -1697,7 +1697,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			int dotstyle=gp.getPointStyle();
 			
 			if (dotstyle == -1) { // default
-				dotstyle = app.getEuclidianView1().getPointStyle();
+				dotstyle = EuclidianStyleConstants.POINT_STYLE_DOT;
 			}
 
 			startBeamer(codePoint);

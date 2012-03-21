@@ -1688,25 +1688,6 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	}
 
 	/**
-	 * Sets the global style for point drawing.
-	 * 
-	 * @param style point style
-	 */
-	public void setPointStyle(int style) {
-		if ((style > 0) && (style <= EuclidianStyleConstants.MAX_POINT_STYLE)) {
-			getApplication().pointStyle = style;
-		} else {
-			getApplication().pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
-		}
-
-		updateAllDrawables(true);
-	}
-
-	public int getPointStyle() {
-		return getApplication().pointStyle;
-	}
-
-	/**
 	 * @param setto tooltip mode
 	 */
 	public void setAllowToolTips(int setto) {

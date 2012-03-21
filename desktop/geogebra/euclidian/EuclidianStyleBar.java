@@ -17,6 +17,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.MyError;
+import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.color.ColorPopupMenuButton;
 import geogebra.gui.util.GeoGebraIcon;
@@ -777,7 +778,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 						int pointStyle = ((PointProperties) geo)
 								.getPointStyle();
 						if (pointStyle == -1) // global default point style
-							pointStyle = ev.getPointStyle();
+							pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
 						setSelectedIndex(pointStyleMap.get(pointStyle));
 						this.setKeepVisible(mode == EuclidianConstants.MODE_MOVE);
 					}

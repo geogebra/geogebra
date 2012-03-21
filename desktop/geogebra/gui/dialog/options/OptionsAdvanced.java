@@ -59,7 +59,7 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 	/** */
 	private JPanel virtualKeyboardPanel, guiFontsizePanel, tooltipPanel,
 			languagePanel, perspectivesPanel, miscPanel, angleUnitPanel,
-			continuityPanel, usePathAndRegionParametersPanel, pointStylePanel,
+			continuityPanel, usePathAndRegionParametersPanel,
 			checkboxSizePanel, rightAnglePanel, coordinatesPanel;
 
 	/**	*/
@@ -81,16 +81,14 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 	private JRadioButton angleUnitRadioDegree, angleUnitRadioRadian,
 			continuityRadioOn, continuityRadioOff,
 			usePathAndRegionParametersRadioOn,
-			usePathAndRegionParametersRadioOff, pointStyleRadio0,
-			pointStyleRadio1, pointStyleRadio2, pointStyleRadio3,
-			pointStyleRadio4, pointStyleRadio6, pointStyleRadio7,
+			usePathAndRegionParametersRadioOff,
 			checkboxSizeRadioRegular, checkboxSizeRadioLarge, rightAngleRadio1,
 			rightAngleRadio2, rightAngleRadio3, rightAngleRadio4,
 			coordinatesRadio1, coordinatesRadio2, coordinatesRadio3;
 
 	/** */
 	private ButtonGroup angleUnitButtonGroup, continuityButtonGroup,
-			usePathAndRegionParametersButtonGroup, pointStyleButtonGroup,
+			usePathAndRegionParametersButtonGroup,
 			checkboxSizeButtonGroup, rightAngleButtonGroup,
 			coordinatesButtonGroup;
 
@@ -140,7 +138,6 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 		initAngleUnitPanel();
 		initContinuityPanel();
 		initUsePathAndRegionParametersPanel();
-		initPointStylePanel();
 		initCheckboxSizePanel();
 		initRightAnglePanel();
 		initCoordinatesPanel();
@@ -155,7 +152,6 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 		panel.add(angleUnitPanel);
 		panel.add(continuityPanel);
 		panel.add(usePathAndRegionParametersPanel);
-		panel.add(pointStylePanel);
 		panel.add(checkboxSizePanel);
 		panel.add(rightAnglePanel);
 		panel.add(coordinatesPanel);
@@ -409,49 +405,6 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 	}
 
 	/**
-	 * Initialize the point style panel
-	 */
-	private void initPointStylePanel() {
-		pointStylePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		pointStyleButtonGroup = new ButtonGroup();
-
-		pointStyleRadio0 = new JRadioButton();
-		pointStyleRadio0.addActionListener(this);
-		pointStylePanel.add(pointStyleRadio0);
-		pointStyleButtonGroup.add(pointStyleRadio0);
-
-		pointStyleRadio2 = new JRadioButton();
-		pointStyleRadio2.addActionListener(this);
-		pointStylePanel.add(pointStyleRadio2);
-		pointStyleButtonGroup.add(pointStyleRadio2);
-
-		pointStyleRadio1 = new JRadioButton();
-		pointStyleRadio1.addActionListener(this);
-		pointStylePanel.add(pointStyleRadio1);
-		pointStyleButtonGroup.add(pointStyleRadio1);
-
-		pointStyleRadio3 = new JRadioButton();
-		pointStyleRadio3.addActionListener(this);
-		pointStylePanel.add(pointStyleRadio3);
-		pointStyleButtonGroup.add(pointStyleRadio3);
-
-		pointStyleRadio4 = new JRadioButton();
-		pointStyleRadio4.addActionListener(this);
-		pointStylePanel.add(pointStyleRadio4);
-		pointStyleButtonGroup.add(pointStyleRadio4);
-
-		pointStyleRadio6 = new JRadioButton();
-		pointStyleRadio6.addActionListener(this);
-		pointStylePanel.add(pointStyleRadio6);
-		pointStyleButtonGroup.add(pointStyleRadio6);
-
-		pointStyleRadio7 = new JRadioButton();
-		pointStyleRadio7.addActionListener(this);
-		pointStylePanel.add(pointStyleRadio7);
-		pointStyleButtonGroup.add(pointStyleRadio7);
-	}
-
-	/**
 	 * Initialize the checkbox size panel
 	 */
 	private void initCheckboxSizePanel() {
@@ -551,30 +504,6 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 		checkboxSizeRadioLarge.setSelected(app.getEuclidianView1()
 				.getBooleanSize() == 26);
 
-		switch (app.getEuclidianView1().getPointStyle()) {
-		case 1:
-			pointStyleRadio1.setSelected(true);
-			break;
-		case 2:
-			pointStyleRadio2.setSelected(true);
-			break;
-		case 3:
-			pointStyleRadio3.setSelected(true);
-			break;
-		case 4:
-			pointStyleRadio4.setSelected(true);
-			break;
-		case 6:
-			pointStyleRadio6.setSelected(true);
-			break;
-		case 7:
-			pointStyleRadio7.setSelected(true);
-			break;
-		case 0:
-		default:
-			pointStyleRadio0.setSelected(true);
-			break;
-		}
 
 		rightAngleRadio1.setSelected(app.getEuclidianView1()
 				.getRightAngleStyle() == 0);
@@ -809,21 +738,7 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 	}
 
 	private void handleEVOption(Object source, EuclidianView view) {
-		if (source == pointStyleRadio0) {
-			view.setPointStyle(0);
-		} else if (source == pointStyleRadio1) {
-			view.setPointStyle(1);
-		} else if (source == pointStyleRadio2) {
-			view.setPointStyle(2);
-		} else if (source == pointStyleRadio3) {
-			view.setPointStyle(3);
-		} else if (source == pointStyleRadio4) {
-			view.setPointStyle(4);
-		} else if (source == pointStyleRadio6) {
-			view.setPointStyle(6);
-		} else if (source == pointStyleRadio7) {
-			view.setPointStyle(7);
-		} else if (source == checkboxSizeRadioRegular) {
+		if (source == checkboxSizeRadioRegular) {
 			view.setBooleanSize(13);
 		} else if (source == checkboxSizeRadioLarge) {
 			view.setBooleanSize(26);
@@ -950,16 +865,6 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 		coordinatesRadio1.setText(app.getMenu("A = (x, y)"));
 		coordinatesRadio2.setText(app.getMenu("A(x | y)"));
 		coordinatesRadio3.setText(app.getMenu("A: (x, y)"));
-
-		pointStylePanel.setBorder(BorderFactory.createTitledBorder(app
-				.getPlain("DefaultPointStyle")));
-		pointStyleRadio0.setText(app.getMenu("\u25cf"));
-		pointStyleRadio1.setText(app.getMenu("\u2716"));
-		pointStyleRadio2.setText(app.getMenu("\u25cb"));
-		pointStyleRadio3.setText(app.getMenu("\u271a"));
-		pointStyleRadio4.setText(app.getMenu("\u25c6"));
-		pointStyleRadio6.setText(app.getMenu("\u25b2"));
-		pointStyleRadio7.setText(app.getMenu("\u25bc"));
 
 		perspectivesPanel.setBorder(BorderFactory.createTitledBorder(app
 				.getMenu("Perspectives")));

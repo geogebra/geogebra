@@ -1886,7 +1886,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			if ("true".equals(attrs.get("javaLatexFonts")))
 				app.getDrawEquation().setUseJavaFontsForLaTeX(app, true);
-			else
+			else if ("false".equals(attrs.get("javaLatexFonts")))
 				app.getDrawEquation().setUseJavaFontsForLaTeX(app, false);
 			return true;
 		} catch (Exception e) {

@@ -3707,7 +3707,6 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			UpdateablePropertiesPanel, SetLabels, ActionListener {
 		private static final long serialVersionUID = 1L;
 		private Object[] geos;
-		private JRadioButton[] buttons;
 		private JComboBox cbStyle; // G.Sturr 2010-1-24
 
 		public PointStylePanel() {
@@ -3726,19 +3725,6 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			cbStyle.setMaximumRowCount(EuclidianStyleConstants.MAX_POINT_STYLE + 1);
 			cbStyle.setBackground(getBackground());
 			cbStyle.addActionListener(this);
-
-			buttons = new JRadioButton[2];
-			buttons[0] = new JRadioButton(app.getPlain("Default"));
-			buttons[0].setActionCommand("default");
-			buttons[0].addActionListener(this);
-			buttons[1] = new JRadioButton();
-			add(buttons[0]);
-			add(buttons[1]);
-
-			ButtonGroup buttonGroup = new ButtonGroup();
-			buttonGroup.add(buttons[0]);
-			buttonGroup.add(buttons[1]);
-
 			add(cbStyle);
 
 			/*
@@ -3784,12 +3770,9 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			cbStyle.removeActionListener(this);
 			if (geo0.getPointStyle() == -1) {
 				// select default button
-				buttons[0].setSelected(true);
-				cbStyle.setSelectedIndex(app.getEuclidianView1().getPointStyle());
-
+				cbStyle.setSelectedIndex(EuclidianStyleConstants.POINT_STYLE_DOT);
 			} else {
 				// select custom button and set combo box selection
-				buttons[1].setSelected(true);
 				cbStyle.setSelectedIndex(geo0.getPointStyle());
 			}
 			cbStyle.addActionListener(this);
@@ -3833,15 +3816,6 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			// comboBox click
 			if (e.getSource() == cbStyle) {
 				style = cbStyle.getSelectedIndex();
-				buttons[1].removeActionListener(this);
-				buttons[1].setSelected(true);
-				buttons[1].addActionListener(this);
-			}
-			// default button click
-			if (e.getActionCommand() == "default") {
-				cbStyle.removeActionListener(this);
-				cbStyle.setSelectedIndex(app.getEuclidianView1().getPointStyle());
-				cbStyle.addActionListener(this);
 			}
 			// END G.STURR
 
