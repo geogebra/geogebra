@@ -77,7 +77,7 @@ WWW_REMOTEDIR=www.geogebra.org:/Library/WebServer/GeoGebra/webstart/
 # If not set, the default python3 executable will be used (if exists)
 
 # GeoGebraTube remote server, account, and application.ini file
-GGT_SERVER_LOGIN=zoltan@www.geogebra.org
+WWW_SERVER_LOGIN=zoltan@www.geogebra.org
 GGT_APP_INI_FILE=/Library/WebServer/GeoGebraTube/application/configs/application.ini
 
 # Remote directories for nav and tube
