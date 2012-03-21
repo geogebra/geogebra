@@ -38,7 +38,7 @@ import geogebra.web.euclidian.EuclidianView;
 import geogebra.web.gui.DialogManagerWeb;
 import geogebra.web.gui.GuiManager;
 import geogebra.web.gui.SplashDialog;
-import geogebra.web.gui.app.GeoGebraFrame;
+import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLio;

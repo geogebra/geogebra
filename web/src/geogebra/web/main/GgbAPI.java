@@ -18,7 +18,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.JavaScriptAPI;
 import geogebra.common.io.MyXMLio;
 
-import geogebra.web.gui.app.GeoGebraFrame;
+import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.helper.ScriptLoadCallback;
 import geogebra.web.html5.DynamicScriptElement;
 import geogebra.web.jso.JsUint8Array;

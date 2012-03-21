@@ -1,4 +1,4 @@
-package geogebra.web.gui.app;
+package geogebra.web.gui.applet;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.AbstractApplication;

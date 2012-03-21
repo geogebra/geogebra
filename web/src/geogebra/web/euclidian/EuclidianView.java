@@ -28,7 +28,7 @@ import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.web.awt.BasicStroke;
-import geogebra.web.gui.app.GeoGebraFrame;
+import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.main.Application;
 import geogebra.web.main.EuclidianViewPanel;
 

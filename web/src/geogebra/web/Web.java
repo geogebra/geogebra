@@ -8,7 +8,9 @@ import org.apache.tools.ant.taskdefs.Java;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.commands.AlgebraProcessor;
+import geogebra.common.main.AbstractApplication;
 import geogebra.web.css.GuiResources;
+import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.helper.JavaScriptInjector;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
@@ -16,6 +18,7 @@ import geogebra.web.main.Application;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -75,9 +78,24 @@ public class Web implements EntryPoint {
 				exportArticleTagRenderer();
 			}
 		} else {
-			GWT.log("app!");
+			loadAppAsync();
 		}
 	}
+	
+	private static void loadAppAsync() {
+	    GWT.runAsync(new RunAsyncCallback() {
+			
+			public void onSuccess() {
+				GeoGebraAppFrame app = new GeoGebraAppFrame();
+				RootPanel.getBodyElement().appendChild(app.getElement());
+			}
+			
+			public void onFailure(Throwable reason) {
+				AbstractApplication.debug(reason);
+			}
+		});
+	    
+    }
 	
 	/*
 	 * Checks, if the <body data-param-app="true" exists in html document
@@ -90,7 +108,7 @@ public class Web implements EntryPoint {
     }
 	
 	private native void exportArticleTagRenderer() /*-{
-	    $wnd.GGW_ext.render = $entry(@geogebra.web.gui.app.GeoGebraFrame::renderArticleElemnt(Lgeogebra/web/html5/ArticleElement;));
+	    $wnd.GGW_ext.render = $entry(@geogebra.web.gui.applet.GeoGebraFrame::renderArticleElemnt(Lgeogebra/web/html5/ArticleElement;));
     }-*/;
     
 	private native boolean calledFromExtension() /*-{
@@ -101,7 +119,7 @@ public class Web implements EntryPoint {
 	
 	private void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
 	 	
-		geogebra.web.gui.app.GeoGebraFrame.main(geoGebraMobileTags);
+		geogebra.web.gui.applet.GeoGebraFrame.main(geoGebraMobileTags);
 	    
     }
 	

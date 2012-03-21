@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import geogebra.common.awt.BufferedImage;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.AbstractImageManager;
-import geogebra.web.gui.app.GeoGebraFrame;
+import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.helper.ImageLoadCallback;
 import geogebra.web.helper.ImageWrapper;
 import geogebra.web.io.MyXMLio;

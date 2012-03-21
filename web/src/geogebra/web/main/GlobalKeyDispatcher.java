@@ -17,7 +17,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.CopyPaste;
 import geogebra.web.euclidian.EuclidianView;
-import geogebra.web.gui.app.GeoGebraFrame;
+import geogebra.web.gui.applet.GeoGebraFrame;
 
 import java.util.ArrayList;
 import java.util.Iterator;
