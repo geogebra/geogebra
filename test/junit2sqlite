@@ -1,0 +1,61 @@
+#!/bin/sh
+# This script exports the JUnit test XML output into
+# a SQLite3 database. Make sure to run the
+# createdb script in setup/ first.
+# @author Zoltan Kovacs <zoltan@geogebra.org>
+
+# 1. Testing prerequisities
+XML=`which xml`
+if [ "$XML" = "" ]; then
+ XML=`which xmlstarlet`
+ fi
+if [ "$XML" = "" ]; then
+ echo "No XMLStarlet executable found on path"
+ exit 11
+ fi
+
+SQLITE3=`which sqlite3`
+if [ "$SQLITE3" = "" ]; then
+ echo "No sqlite3 executable found on path"
+ exit 12
+ fi
+
+DIRNAME=`dirname $0`
+MYDIR=`cd $DIRNAME; pwd`
+cd $MYDIR
+
+test -d target/surefire-reports || {
+ echo "No JUnit tests were run. Try to run ./run-junit-tests first."
+ exit 13
+ }
+
+test -r sqlite3db || {
+ echo "No SQLite3 database is created. Enter 'cd setup; ./createdb; cd ..' first."
+ exit 14
+ }
+
+runsql () {
+ echo "$*"
+ echo "$*" | sqlite3 $MYDIR/sqlite3db
+}
+
+# 2. Collecting revision data
+
+REVISION=`svn info | grep ^Revision: | cut -f2 -d" "`
+TESTED=`date "+%Y-%m-%d %H:%M:%S"`
+runsql "insert into revisions (id, tested) values ('$REVISION', '$TESTED');"
+
+# 3. Collecting test output
+cd target/surefire-reports
+for i in *.xml; do
+ IFS="|"
+ cat $i | $XML sel -T -t -m /testsuite/testcase -s D:N:- "@name" -v \
+  "concat(@classname,'$IFS',@name,'$IFS',failure/@message,'$IFS',failure/@type)" -n |
+  while read CLASSNAME NAME MESSAGE TYPE; do
+   if [ "$TYPE" != "" ]; then
+    runsql "insert into names (id) values ('$NAME');"
+    runsql "insert into tests (classname, name, message, type, revision) values
+     ('$CLASSNAME', '$NAME', '$MESSAGE', '$TYPE', '$REVISION');"
+    fi
+  done
+ done

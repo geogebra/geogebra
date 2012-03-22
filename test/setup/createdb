@@ -1,0 +1,2 @@
+#!/bin/sh
+echo ".read junit.sql" | sqlite3 ../sqlite3db
