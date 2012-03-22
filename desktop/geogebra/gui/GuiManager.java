@@ -2655,10 +2655,10 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	public void setMode(int mode) {
 		getDialogManager().closePropertiesDialogIfNotListener();
 
-		kernel.notifyModeChanged(mode);
+		// select toolbar button, returns *actual* mode selected
+		mode = setToolbarMode(mode);
 
-		// select toolbar button
-		setToolbarMode(mode);
+		kernel.notifyModeChanged(mode);
 
 		if (mode == EuclidianConstants.MODE_PROBABILITY_CALCULATOR) {
 
@@ -2687,12 +2687,14 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	}
 
-	public void setToolbarMode(int mode) {
-		if (toolbarPanel == null)
-			return;
+	public int setToolbarMode(int mode) {
+		if (toolbarPanel == null) {
+			return -1;
+		}
 
-		toolbarPanel.setMode(mode);
+		int ret = toolbarPanel.setMode(mode);
 		layout.getDockManager().setToolbarMode(mode);
+		return ret;
 	}
 
 	/**

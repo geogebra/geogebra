@@ -187,12 +187,20 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 * 
 	 * @param mode
 	 */
-	public void setMode(int mode) {
+	public int setMode(int mode) {
+		int ret = -1;
 		for(Toolbar toolbar : toolbars) {
-			toolbar.setMode(mode, getViewId(toolbar) == activeToolbar);
+			int tmp = toolbar.setMode(mode);
+			
+			// this will be the actual mode set
+			if (getViewId(toolbar) == activeToolbar) {
+				ret = tmp;
+			}
 		}
 
 		updateHelpText();
+		
+		return ret;
 	}     
 
 	/**

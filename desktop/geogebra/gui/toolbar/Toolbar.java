@@ -55,7 +55,6 @@ public class Toolbar extends JToolBar {
 	private int mode;
 
 	private ArrayList<ModeToggleMenu> modeToggleMenus;
-	private ModeToggleMenu temporaryModes;
 
 	/**
 	 * Creates general toolbar.
@@ -98,28 +97,18 @@ public class Toolbar extends JToolBar {
 		// add menus with modes to toolbar
 		addCustomModesToToolbar(bg);
 
-		// add invisible temporary menu
-		temporaryModes = new ModeToggleMenu(app, this, bg);
-		temporaryModes.setVisible(false);
-		modeToggleMenus.add(temporaryModes);
-		add(temporaryModes);
-
-		setMode(app.getMode(), false);
+		setMode(app.getMode());
 	}
 
 	/**
 	 * Sets toolbar mode. This will change the selected toolbar icon.
+	 * @param mode see EuclidianConstants for mode numbers
 	 * 
-	 * @param mode
-	 *            Mode to set; see EuclidianConstants for mode numbers
-	 * @param createTemporaryMode
-	 *            If temporary modes should be added to the toolbar if the mode
-	 *            is not in the toolbar already. If the value is false the mode
-	 *            is set to the default one.
+	 * @param int mode Mode to set
 	 * 
-	 * @return true if mode could be selected in toolbar.
+	 * @return actual mode number selected (might be different if it's not available)
 	 */
-	public boolean setMode(int mode, boolean createTemporaryMode) {
+	public int setMode(int mode) {
 		boolean success = false;
 
 		// there is no special icon/button for the selection listener mode, use
@@ -127,11 +116,6 @@ public class Toolbar extends JToolBar {
 		// move mode button instead
 		if (mode == EuclidianConstants.MODE_SELECTION_LISTENER) {
 			mode = EuclidianConstants.MODE_MOVE;
-		}
-
-		if (temporaryModes != null && temporaryModes.isVisible()) {
-			temporaryModes.clearModes();
-			temporaryModes.setVisible(false);
 		}
 
 		if (modeToggleMenus != null) {
@@ -143,26 +127,17 @@ public class Toolbar extends JToolBar {
 				}
 			}
 
-			this.mode = mode;
 
 			if (!success) {
-				if (createTemporaryMode) {
-					// don't display move mode icon in other views, this is a
-					// bit irritating
-					if (dockPanel == null
-							|| mode != EuclidianConstants.MODE_MOVE) {
-						// we insert a temporary icon if possible
-						temporaryModes.addMode(mode);
-						temporaryModes.setVisible(true);
-						temporaryModes.selectMode(mode);
-					}
-				} else {
-					setMode(getFirstMode(), true);
-				}
+					mode = setMode(getFirstMode());
+				
 			}
+			
+			this.mode = mode;
+
 		}
 
-		return success;
+		return mode;
 	}
 
 	public int getSelectedMode() {
