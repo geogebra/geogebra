@@ -361,22 +361,28 @@ public class MyTextField extends JTextField implements ActionListener,
 		// redraw the text using color
 		boolean textMode = false;
 		for (int i = 0; i < text.length(); i++) {
+			
+			Color bg = null;
 
 			// determine the color
 			if (text.charAt(i) == '\"')
 				textMode = !textMode;
 			if (i == bracket1pos || i == bracket2pos) {
-				if (bracket2pos > -1)
-					g2.setColor(Color.RED); // matched
-				else
-					g2.setColor(Color.GREEN); // unmatched
-			} else
-				g2.setColor(Color.BLACK);
-			if (textMode || text.charAt(i) == '\"')
+				if (bracket2pos > -1) {
+					bg = Color.CYAN; // matched bracket
+				} else {
+					bg = Color.RED; // unmatched bracket
+				}
+			}
+			
+			if (textMode || text.charAt(i) == '\"') {
 				g2.setColor(Color.GRAY);
+			} else {
+				g2.setColor(Color.BLACK);
+			}
 
 			// now draw the text
-			drawText(text.charAt(i) + "", i >= selStart && i < selEnd);
+			drawText(text.charAt(i) + "", i >= selStart && i < selEnd, bg);
 
 			if (i + 1 == caret)
 				caretPos = pos;
@@ -398,30 +404,32 @@ public class MyTextField extends JTextField implements ActionListener,
 		TextLayout layout = new TextLayout(text, font, frc);
 		return layout.getAdvance();
 	}
-
-	private void drawText(String str, boolean selected) {
-		if ("".equals(str))
-			return;
+	
+	private void drawText(String str, boolean selected, Color bg) {
+		if ("".equals(str)) return;
 		TextLayout layout = new TextLayout(str, font, frc);
 		g2.setFont(font);
 		float advance = layout.getAdvance();
 
 		if (selected) {
 			g2.setColor(getSelectionColor());
-			// g2.fillRect((int)pos - scrollOffset + insets.left, insets.bottom
-			// + 2 , (int)advance, height - insets.bottom - insets.top - 4);
-			g2.fillRect((int) pos - scrollOffset + insets.left, textBottom
-					- fontHeight + 4, (int) advance, fontHeight);
+			g2.fillRect((int)pos - scrollOffset + insets.left, textBottom - fontHeight + 4 , (int)advance, fontHeight);
 			g2.setColor(getSelectedTextColor());
-		}
-	//	g2.setClip(0, 0, width, height);
-		if (pos - scrollOffset + advance + insets.left > 0
-				&& pos - scrollOffset < width)
+		} 
+		if (bg != null) {
+			Color col = g2.getColor();
+			g2.setColor(bg);
+			g2.fillRect((int)pos - scrollOffset + insets.left, textBottom - fontHeight + 4 , (int)advance, fontHeight);
+			g2.setColor(col);
+		} 
+		g2.setClip(0, 0, width, height);
+		if (pos - scrollOffset + advance + insets.left > 0 && pos - scrollOffset < width) {
 			g2.drawString(str, pos - scrollOffset + insets.left, textBottom);
-		// g2.drawString(str, pos - scrollOffset + insets.left, height -
-		// insets.bottom - insets.top - 4);
+		}
 		pos += layout.getAdvance();
+
 	}
+
 
 	/**
 	 * Locates bracket positions in a given string with given caret position.
