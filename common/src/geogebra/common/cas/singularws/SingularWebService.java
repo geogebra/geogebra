@@ -7,7 +7,7 @@ import geogebra.common.util.URLEncoder;
 /**
  * Maintains a Singular WebService.
  * For the SingularWS API please see the documentation of SingularWS
- * (or http://code.google.com/p/singularws/source/browse/inc/commands.php).   
+ * @see "http://code.google.com/p/singularws/source/browse/inc/commands.php"
  * 
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
@@ -22,6 +22,9 @@ public class SingularWebService {
 	private String wsHost = wsHostDefault;
 	private Boolean available; 
 	
+	/**
+	 * Creates a Singular webservice connection handler
+	 */
 	public SingularWebService() {}
 	
 	private String swsCommandResult(String command) {
@@ -69,7 +72,7 @@ public class SingularWebService {
 	/**
 	 * Sends a Singular program to the SingularWS server and returns the answer.
 
-	 * @param singularProgram
+	 * @param singularProgram The program code to be sent directly to Singular
 	 * @return the answer
 	 */
 	public String directCommand(String singularProgram) {
@@ -78,7 +81,7 @@ public class SingularWebService {
 
 	/** Sets the remote server being used for SingularWS.
 	 * 
-	 * @param site
+	 * @param site The remote http URL for the remote server 
 	 */
 	public void setConnectionSite(String site) {
 		this.wsHost = site;
@@ -102,12 +105,15 @@ public class SingularWebService {
 		else this.available = false;
 	}
 	
+	/**
+	 * Set the SingularWS connection handler to off 
+	 */
 	public void disable() {
 		this.available = false;
 	}
 	
 	/**
-	 * Sets the maximal time spent in SingularWS for a program.
+	 * Sets the maximal time spent in SingularWS for a program (not yet implemented).
 	 * 
 	 * @param timeout the timeout in seconds
 	 */

@@ -25,8 +25,40 @@ import geogebra.common.kernel.geos.GeoElement;
 
 public class Prover {
 
-	public enum ProverEngine {RECIOS_PROVER, BOTANAS_PROVER, OPENGEOPROVER, AUTO};
-	public enum ProofResult {TRUE, FALSE, UNKNOWN};
+	/**
+	 * Enum list of supported prover backends for GeoGebra
+	 * @author Zoltan Kovacs <zoltan@geogebra.org>
+	 *
+	 */
+	public enum ProverEngine {/**
+	 * Tomas Recio's method
+	 */
+	RECIOS_PROVER, /**
+	 * Francisco Botana's method
+	 */
+	BOTANAS_PROVER, /**
+	 * OpenGeoProver (http://code.google.com/p/open-geo-prover/)
+	 */
+	OPENGEOPROVER, /**
+	 * Default prover (GeoGebra decides internally)
+	 */
+	AUTO}
+	
+	/**
+	 * Possible results of an attempted proof
+	 * @author Zoltan Kovacs <zoltan@geogebra.org>
+	 *
+	 */
+	public enum ProofResult {/**
+	 * The proof is completed, the statement is generally true (with some NDG conditions)
+	 */
+	TRUE, /**
+	 * The proof is completed, the statement is generally false
+	 */
+	FALSE, /**
+	 * The statement cannot be proved by using the current backed within the given timeout 
+	 */
+	UNKNOWN}
 	
 	/* input */
 	private int timeout = 10;
