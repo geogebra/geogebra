@@ -1898,7 +1898,9 @@ public class ExpressionNode extends ValidExpression implements
 					}
 					sb.append("\\times");
 					break;
-	
+				case MPREDUCE:
+					sb.append('*');
+					break;
 				default:
 					sb.append(strVECTORPRODUCT);
 				}
