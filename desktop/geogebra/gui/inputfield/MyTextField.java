@@ -6,25 +6,28 @@ import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.main.Application;
 
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.StyledEditorKit;
 
 /**
  * Extends JTextField to add (1) dynamic coloring of bracket symbols and quote
@@ -34,7 +37,7 @@ import javax.swing.text.StyledEditorKit;
  * 
  */
 public class MyTextField extends JTextField implements ActionListener,
-		FocusListener, VirtualKeyboardListener, SetLabels {
+		FocusListener, VirtualKeyboardListener, CaretListener, SetLabels {
 
 	private static final long serialVersionUID = 1L;
 
@@ -50,13 +53,15 @@ public class MyTextField extends JTextField implements ActionListener,
 			this.getFont(), true);
 	private boolean showSymbolTableIcon = false;
 
+	// colored character rendering fields
+	boolean caretUpdated = true;
+	boolean caretShowing = true;
+
 	// border button fields
 	private BorderButton borderBtn;
 	private Border defaultBorder;
 
 	private boolean enableColoring = true;
-
-	protected StyledTextFieldDocument document;
 
 	/************************************
 	 * Construct an instance of MyTextField without a fixed column width
@@ -85,46 +90,22 @@ public class MyTextField extends JTextField implements ActionListener,
 	private void initField() {
 		setOpaque(true);
 		addFocusListener(this);
-		addKeyListener(new MyKeyListener());
+		addCaretListener(this);
 
 		JTextField dummy = new JTextField();
 		defaultBorder = dummy.getBorder();
 		borderBtn = new BorderButton(this);
 		borderBtn.setBorderButton(0, icon, this);
 		setDefaultBorder();
-
-		if (enableColoring) {
-			setupEditorKit();
-		}
-
 	}
 
 	/**
-	 * Replaces the JTextField editor kit with an editor kit that supports
-	 * styledDocuments with multi-colored text.
-	 */
-	public void setupEditorKit() {
-
-		// Replace the BasicTextFieldUI with our own customized subclass
-		// TODO: this call should be made once at startup
-		UIManager.put("TextFieldUI", StyledBasicTextFieldUI.class.getName());
-
-		// Store our editor kit as a client property. This will be retrieved by
-		// StyledBasicTextFieldUI.
-		StyledEditorKit kit = new StyledTextFieldEditorKit();
-		putClientProperty("editorKit", kit);
-
-		// prepare a new document that can handle styles
-		document = new StyledTextFieldDocument();
-		document.setStyles(getFont());
-		setDocument(document);
-	}
-
-	/**
-	 * @return true if bracket coloring is enabled
+	 * returns true if bracket coloring is enabled
+	 * 
+	 * @return
 	 */
 	public boolean enableColoring() {
-		return false;
+		return enableColoring;
 	}
 
 	/**
@@ -213,10 +194,17 @@ public class MyTextField extends JTextField implements ActionListener,
 	}
 
 	/**
+	 * Caret update
+	 */
+	public void caretUpdate(CaretEvent e) {
+		caretUpdated = true;
+		repaint();
+	}
+
+	/**
 	 * Inserts a string into the text at the current caret position
 	 */
 	public void insertString(String text) {
-
 		int start = getSelectionStart();
 		int end = getSelectionEnd();
 
@@ -301,29 +289,237 @@ public class MyTextField extends JTextField implements ActionListener,
 			tablePopup.setLabels();
 	}
 
+	private float pos = 0;
+	private int scrollOffset = 0;
+	private int width = 0, height = 0, textBottom, fontHeight;
+	private FontRenderContext frc;
+	private Font font;
+	private Graphics2D g2;
+	private Insets insets;
+
 	@Override
-	public void setFont(Font font) {
-		super.setFont(font);
-		if (document != null) {
-			document.setStyles(font);
+	public void paintComponent(Graphics gr) {
+		// moving caret doesn't work without this... why?
+		super.paintComponent(gr);
+
+		if (enableColoring == false)
+			return;
+
+		// flash caret if there's been no caret movement since last repaint
+		if (caretUpdated)
+			caretShowing = false;
+		else
+			caretShowing = !caretShowing;
+		caretUpdated = false;
+
+		g2 = (Graphics2D) gr;
+		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
+
+		insets = getInsets();
+		String text = getText();
+		width = getWidth(); 
+		height = getHeight();
+		fontHeight = g2.getFontMetrics().getHeight();
+		textBottom = (height - fontHeight) / 2 + fontHeight - 4;
+
+		// hide the drawn text with a white rectangle
+		g2.setColor(Color.WHITE);
+	//	g2.setClip(0, 0, width, height);
+		g2.fillRect(0, 0, width, height);
+
+		frc = g2.getFontRenderContext();
+		scrollOffset = getScrollOffset();
+		font = g2.getFont();
+
+		// be careful here: the caret position may not be set yet
+		int caret = getCaretPosition();
+
+		// get the starting position for text, pos
+		pos = 0;
+		// adjust if right-aligned
+		if (getHorizontalAlignment() == SwingConstants.RIGHT) {
+			pos = Math.max(0, getHorizontalVisibility().getExtent()
+					- getLength(text));
 		}
+
+		// get the bracket positions
+		int[] brkPos = getBracketPositions(text, caret);
+		int bracket1pos = brkPos[0];
+		int bracket2pos = brkPos[1];
+
+		// get selected text start and end positions
+		int selStart = getSelectionStart();
+		int selEnd = getSelectionEnd();
+
+		float caretPos = -1;
+		if (caret == 0)
+			caretPos = pos;
+
+		// redraw the text using color
+		boolean textMode = false;
+		for (int i = 0; i < text.length(); i++) {
+
+			// determine the color
+			if (text.charAt(i) == '\"')
+				textMode = !textMode;
+			if (i == bracket1pos || i == bracket2pos) {
+				if (bracket2pos > -1)
+					g2.setColor(Color.RED); // matched
+				else
+					g2.setColor(Color.GREEN); // unmatched
+			} else
+				g2.setColor(Color.BLACK);
+			if (textMode || text.charAt(i) == '\"')
+				g2.setColor(Color.GRAY);
+
+			// now draw the text
+			drawText(text.charAt(i) + "", i >= selStart && i < selEnd);
+
+			if (i + 1 == caret)
+				caretPos = pos;
+		}
+
+		// redraw the caret
+		if (caretShowing && caretPos > -1 && hasFocus()) {
+			g2.setColor(Color.black);
+			g2.fillRect((int) caretPos - scrollOffset + insets.left, textBottom
+					- fontHeight + 4, 1, fontHeight);
+			g2.setPaintMode();
+		}
+
+	}
+
+	private float getLength(String text) {
+		if (text == null || text.length() == 0)
+			return 0;
+		TextLayout layout = new TextLayout(text, font, frc);
+		return layout.getAdvance();
+	}
+
+	private void drawText(String str, boolean selected) {
+		if ("".equals(str))
+			return;
+		TextLayout layout = new TextLayout(str, font, frc);
+		g2.setFont(font);
+		float advance = layout.getAdvance();
+
+		if (selected) {
+			g2.setColor(getSelectionColor());
+			// g2.fillRect((int)pos - scrollOffset + insets.left, insets.bottom
+			// + 2 , (int)advance, height - insets.bottom - insets.top - 4);
+			g2.fillRect((int) pos - scrollOffset + insets.left, textBottom
+					- fontHeight + 4, (int) advance, fontHeight);
+			g2.setColor(getSelectedTextColor());
+		}
+	//	g2.setClip(0, 0, width, height);
+		if (pos - scrollOffset + advance + insets.left > 0
+				&& pos - scrollOffset < width)
+			g2.drawString(str, pos - scrollOffset + insets.left, textBottom);
+		// g2.drawString(str, pos - scrollOffset + insets.left, height -
+		// insets.bottom - insets.top - 4);
+		pos += layout.getAdvance();
 	}
 
 	/**
-	 * Key listener for updating colored brackets on left/right arrow key
-	 * presses
+	 * Locates bracket positions in a given string with given caret position.
 	 */
-	public class MyKeyListener extends KeyAdapter {
-		@Override
-		public void keyReleased(KeyEvent e) {
-			int keyCode = e.getKeyCode();
+	private static int[] getBracketPositions(String text, int caret) {
 
-			if (keyCode == KeyEvent.VK_LEFT) {
-				document.applyCharacterStyling(getCaretPosition(), true);
-			} else if (keyCode == KeyEvent.VK_RIGHT) {
-				document.applyCharacterStyling(getCaretPosition(), true);
+		// position to the left of the caret if a bracket exists
+		int bracketPos0 = -1;
+		// position of matching bracket if it exists
+		int bracketPos1 = -1;
+
+		int searchDirection = 0;
+		int searchEnd = 0;
+
+		char bracketToMatch = ' ';
+		char oppositeBracketToMatch = ' ';
+
+		if (caret > 0 && caret <= text.length()) {
+
+			// get the character just to the left of the caret
+			char c = text.charAt(caret - 1);
+			bracketPos0 = caret - 1;
+
+			// check if we have a bracket next to the caret
+			// and set the search parameters if we do
+			switch (c) {
+			case '(':
+				searchDirection = +1;
+				searchEnd = text.length();
+				oppositeBracketToMatch = '(';
+				bracketToMatch = ')';
+				break;
+			case '{':
+				searchDirection = +1;
+				searchEnd = text.length();
+				oppositeBracketToMatch = '{';
+				bracketToMatch = '}';
+				break;
+			case '[':
+				searchDirection = +1;
+				searchEnd = text.length();
+				oppositeBracketToMatch = '[';
+				bracketToMatch = ']';
+				break;
+			case ')':
+				searchDirection = -1;
+				searchEnd = -1;
+				oppositeBracketToMatch = ')';
+				bracketToMatch = '(';
+				break;
+			case '}':
+				searchDirection = -1;
+				searchEnd = -1;
+				oppositeBracketToMatch = '}';
+				bracketToMatch = '{';
+				break;
+			case ']':
+				searchDirection = -1;
+				searchEnd = -1;
+				oppositeBracketToMatch = ']';
+				bracketToMatch = '[';
+				break;
+			default:
+				searchDirection = 0;
+				bracketPos0 = -1;
+				bracketPos1 = -1;
+				break;
+			}
+
+		}
+
+		// search the text for a matching bracket
+
+		boolean textMode = false; // flag for quoted text
+		if (searchDirection != 0) {
+			int count = 0;
+			for (int i = caret - 1; i != searchEnd; i += searchDirection) {
+				if (text.charAt(i) == '\"') {
+					textMode = !textMode;
+				}
+				if (!textMode && text.charAt(i) == bracketToMatch) {
+					count++;
+				} else if (!textMode
+						&& text.charAt(i) == oppositeBracketToMatch) {
+					count--;
+				}
+
+				if (count == 0) {
+					bracketPos1 = i;
+					break;
+				}
 			}
 		}
 
+		int[] result = { bracketPos0, bracketPos1 };
+
+		return result;
+
 	}
+
 }
