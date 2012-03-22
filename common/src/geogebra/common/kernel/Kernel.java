@@ -4705,6 +4705,16 @@ public class Kernel {
 			sb.append(getApplication().isUsingLocalizedLabels());
 			sb.append("\"");
 			sb.append("/>\n");
+
+			sb.append("\t<casSettings");
+			sb.append(" timeout=\"");
+			sb.append(MyXMLHandler.getTimeoutOption(
+				app.getSettings().getCasSettings().getTimeoutMilliseconds() / 1000));
+			sb.append("\"");
+			sb.append(" expRoots=\"");
+			sb.append(app.getSettings().getCasSettings().getShowExpAsRoots());
+			sb.append("\"");
+			sb.append("/>\n");
 		}
 
 		sb.append("</kernel>\n");

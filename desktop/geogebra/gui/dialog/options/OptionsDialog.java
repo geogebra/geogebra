@@ -225,9 +225,6 @@ public class OptionsDialog extends JDialog implements WindowListener, SetLabels 
 					// in order to avoid overwrite
 					app.getSettings().resetSettings();
 
-					// this is here until it is not decided what should be done with the factory default XML
-					app.resetToDefaultsButtonExtra();
-
 					// for geoelement defaults, this will do nothing, so it is OK here
 					GeoGebraPreferences.getPref().loadXMLPreferences(app);
 

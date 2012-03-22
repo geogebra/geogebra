@@ -2812,20 +2812,4 @@ public abstract class AbstractApplication {
 
 		return sbPlain.toString();
 	}
-
-	// reset thing(s) which (are) not in the factory default XML
-	// it would be easier in the factory default XML,
-	// but didn't know if it is allowed to change it or not
-	public void resetToDefaultsButtonExtra() {
-
-		// This is quite resource consuming, so it is suggested to use default preferences XML instead 
-		boolean nva = kernel.isNotifyViewsActive();
-		kernel.setNotifyViewsActive(false);
-
-		// Options CAS
-		getSettings().getCasSettings().setTimeoutMilliseconds(5000);
-		getSettings().getCasSettings().setShowExpAsRoots(true);
-
-		kernel.setNotifyViewsActive(nva);
-	}
 }

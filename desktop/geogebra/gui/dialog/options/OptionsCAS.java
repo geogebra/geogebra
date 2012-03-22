@@ -1,5 +1,6 @@
 package geogebra.gui.dialog.options;
 
+import geogebra.common.io.MyXMLHandler;
 import geogebra.common.main.settings.CASSettings;
 import geogebra.gui.SetLabels;
 import geogebra.main.Application;
@@ -34,9 +35,6 @@ public class OptionsCAS  extends JPanel implements ActionListener, SetLabels {
 	/** */
 	private JComboBox cbTimeout;
 
-	/** */
-	private Integer[] cbTimeoutOptions = { 5, 10, 20, 30, 60 };
-	
 	/** show rational exponents as roots*/
 	private JCheckBox cbShowRoots;        
 	/**
@@ -65,7 +63,7 @@ public class OptionsCAS  extends JPanel implements ActionListener, SetLabels {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(10,1));
 
-		cbTimeout = new JComboBox(cbTimeoutOptions);
+		cbTimeout = new JComboBox(MyXMLHandler.cbTimeoutOptions);
 		cbTimeout.addActionListener(this);
 		
 		timeoutLabel = new JLabel();
@@ -90,16 +88,9 @@ public class OptionsCAS  extends JPanel implements ActionListener, SetLabels {
 	 */
 	public void updateGUI() {
 		casSettings = app.getSettings().getCasSettings();
-		cbTimeout.setSelectedItem(getTimeoutOption(
+		cbTimeout.setSelectedItem(MyXMLHandler.getTimeoutOption(
 				casSettings.getTimeoutMilliseconds() / 1000));
 		cbShowRoots.setSelected(casSettings.getShowExpAsRoots());
-	}
-
-	public Integer getTimeoutOption(long integer) {
-		for (int i = 0; i < cbTimeoutOptions.length; i++)
-			if (cbTimeoutOptions[i].intValue() == integer)
-				return cbTimeoutOptions[i];
-		return cbTimeoutOptions[0];
 	}
 
 	/**

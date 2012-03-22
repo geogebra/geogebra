@@ -124,6 +124,8 @@ public class MyXMLHandler implements DocHandler {
 	/** available tooltip timeouts (will be reused in OptionsAdvanced)*/
 	final public static String[] tooltipTimeouts = new String[] { "1", "3",
 			"5", "10", "20", "30", "60", "0" };
+	/** available CAS timeout options (will be reused in OptionsCAS)*/
+	final public static Integer[] cbTimeoutOptions = { 5, 10, 20, 30, 60 };
 
 	/** See JSplitPane.HORIZONTAL_SPLIT */
 	private static final int JSplitPane_HORIZONTAL_SPLIT = 1;
@@ -307,6 +309,13 @@ public class MyXMLHandler implements DocHandler {
 
 	public int getConsStep() {
 		return consStep;
+	}
+
+	public static Integer getTimeoutOption(long integer) {
+		for (int i = 0; i < cbTimeoutOptions.length; i++)
+			if (cbTimeoutOptions[i].intValue() == integer)
+				return cbTimeoutOptions[i];
+		return cbTimeoutOptions[0];
 	}
 
 	// ===============================================
@@ -1412,6 +1421,8 @@ public class MyXMLHandler implements DocHandler {
 			handleKernelStartAnimation(attrs);
 		} else if ("localization".equals(eName)) {
 			handleKernelLocalization(attrs);
+		} else if ("casSettings".equals(eName)) {
+			handleCasSettings(attrs);
 		} else
 			System.err.println("unknown tag in <kernel>: " + eName);
 	}
@@ -1484,6 +1495,25 @@ public class MyXMLHandler implements DocHandler {
 			app.setUseLocalizedDigits(digits);
 			boolean labels = parseBoolean(attrs.get("labels"));
 			app.setUseLocalizedLabels(labels);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	/**
+	 * Handle the casSettings XML element which is responsible for setting the Options CAS dialog
+	 * @param attrs - mapping of attributes names and values 
+	 * @return whether the operation was successful
+	 */
+	private boolean handleCasSettings(LinkedHashMap<String, String> attrs) {
+		try {
+			boolean expRoots = parseBoolean(attrs.get("expRoots"));
+			app.getSettings().getCasSettings().setShowExpAsRoots(expRoots);
+			int timeout = Integer.parseInt(attrs.get("timeout"));
+			if (timeout > 0)
+				app.getSettings().getCasSettings().setTimeoutMilliseconds(
+					getTimeoutOption(timeout) * 1000);
 			return true;
 		} catch (Exception e) {
 			return false;

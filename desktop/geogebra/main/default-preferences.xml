@@ -29,6 +29,7 @@
 	<coordStyle val="0"/>
 	<localization digits="false" labels="true"/>
 	<angleFromInvTrig val="false"/>
+	<casSettings timeout="5" expRoots="true"/>
 </kernel>
 <scripting blocked="false"/>
 </geogebra>
