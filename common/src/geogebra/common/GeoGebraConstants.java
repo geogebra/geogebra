@@ -65,9 +65,6 @@ public interface GeoGebraConstants {
 	/** CSS class name for GeoGebraWeb &article> tag*/
 	public static final String GGM_CLASS_NAME = "geogebraweb";
 	
-	/** relative path to load worker*/
-	//TODO should be public static final String GGB_LOAD_WORKER_URL = "../ggbloadworker/ggbloadworker.nocache.js";
-	public static final String GGB_LOAD_WORKER_URL = "../ggbloadworker/ggbnoworker.nocache.js";
 	/** relative path to mathml*/
 	public static final String MATHML_URL = "js/mathml_concat.js";
 	/** Splash timeout in miliseconds */
