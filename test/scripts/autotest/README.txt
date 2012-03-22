@@ -15,5 +15,6 @@ needed for checking the Java GUI automatically (without using a
 real graphical system).
 
 The junit-tests script starts the GeoGebra JUnit subsystem via xvfb.
+It tries to insert the XML output data into an SQLite3 database, too.
 
 @author Zoltan Kovacs <zoltan@geogebra.org>
