@@ -6,7 +6,7 @@ LOG=/tmp/pre-commit.log
 
 COMMIT_TEXT=`$SVNLOOK log -t $TXN $REPOS`
 CHANGED_TEXT=`$SVNLOOK changed -t $TXN $REPOS`
-CHANGED_TEXT_CLASS=`$SVNLOOK changed -t $TXN $REPOS | grep ^A | grep "\\.class$\|\\.dll\|\\.so\|\\.jnilib\|\\.db\|\\.jar\|\\.ggt\|\\.userlibraries"`
+CHANGED_TEXT_CLASS=`$SVNLOOK changed -t $TXN $REPOS | grep ^A | grep "\\.class$\|\\.dll$\|\\.so$\|\\.jnilib$\|\\.db$\|\\.jar$\|\\.ggt$\|\\.userlibraries$"`
 CHANGED_TEXT_LIB=`$SVNLOOK changed -t $TXN $REPOS | grep ^A | grep trunk/geogebra/desktop/lib`
 
 date >> $LOG
