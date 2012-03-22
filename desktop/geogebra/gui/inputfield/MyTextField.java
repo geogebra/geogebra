@@ -88,6 +88,7 @@ public class MyTextField extends JTextField implements ActionListener,
 	 * BorderButton
 	 */
 	private void initField() {
+
 		setOpaque(true);
 		addFocusListener(this);
 		addCaretListener(this);
@@ -289,7 +290,9 @@ public class MyTextField extends JTextField implements ActionListener,
 			tablePopup.setLabels();
 	}
 
-	private float pos = 0;
+	// fields for custom painting
+	private float pos = 0; // start position of text (not pixel location)
+	private int caret; // caret position
 	private int scrollOffset = 0;
 	private int width = 0, height = 0, textBottom, fontHeight;
 	private FontRenderContext frc;
@@ -299,69 +302,73 @@ public class MyTextField extends JTextField implements ActionListener,
 
 	@Override
 	public void paintComponent(Graphics gr) {
-		// moving caret doesn't work without this... why?
-		super.paintComponent(gr);
-
-		if (enableColoring == false)
-			return;
-
-		// flash caret if there's been no caret movement since last repaint
-		if (caretUpdated)
-			caretShowing = false;
-		else
-			caretShowing = !caretShowing;
-		caretUpdated = false;
 
 		g2 = (Graphics2D) gr;
+		super.paintComponent(g2);
+
+		// return without adding custom colors if coloring is not enabled or
+		// only the caret is to be repainted
+		if (!enableColoring || g2.getClip().getBounds().width < 10) {
+			return;
+		}
+
+		// ===============================================================
+		// prepare for custom drawing
+
 		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
-		insets = getInsets();
 		String text = getText();
-		width = getWidth(); 
-		height = getHeight();
+
+		// get font info
 		fontHeight = g2.getFontMetrics().getHeight();
-		textBottom = (height - fontHeight) / 2 + fontHeight - 4;
-
-		// hide the drawn text with a white rectangle
-		g2.setColor(Color.WHITE);
-	//	g2.setClip(0, 0, width, height);
-		g2.fillRect(0, 0, width, height);
-
+		textBottom = (getHeight() - fontHeight) / 2 + fontHeight - 4;
 		frc = g2.getFontRenderContext();
-		scrollOffset = getScrollOffset();
 		font = g2.getFont();
 
-		// be careful here: the caret position may not be set yet
-		int caret = getCaretPosition();
+		// get textField dimensions
+		insets = getInsets();
+		width = getWidth() - insets.right - insets.left;
+		height = getHeight() - insets.top - insets.bottom;
 
-		// get the starting position for text, pos
-		pos = 0;
-		// adjust if right-aligned
+		// get text position information
+		scrollOffset = getScrollOffset();
+		pos = 0; // text start position (not in pixels)
 		if (getHorizontalAlignment() == SwingConstants.RIGHT) {
 			pos = Math.max(0, getHorizontalVisibility().getExtent()
 					- getLength(text));
 		}
+		int selStart = getSelectionStart();
+		int selEnd = getSelectionEnd();
+
+		// get caret position information
+		caret = getCaretPosition();
+		float caretPos = -1;
+		if (caret == 0)
+			caretPos = pos;
 
 		// get the bracket positions
 		int[] brkPos = getBracketPositions(text, caret);
 		int bracket1pos = brkPos[0];
 		int bracket2pos = brkPos[1];
 
-		// get selected text start and end positions
-		int selStart = getSelectionStart();
-		int selEnd = getSelectionEnd();
-
-		float caretPos = -1;
-		if (caret == 0)
-			caretPos = pos;
+		// ===============================================================
+		// perform custom drawing
+		//
+		// NOTE: using setClip was disabled because it causes the field to bleed
+		// outside of bounds in some layouts
+		// g2.setClip(insets.left, insets.top, width, height);
+	
+		// hide previously drawn text with a white rectangle
+		g2.setColor(Color.WHITE);
+		g2.fillRect(insets.left, insets.top, width, height);
 
 		// redraw the text using color
 		boolean textMode = false;
 		for (int i = 0; i < text.length(); i++) {
-			
+
 			Color bg = null;
 
 			// determine the color
@@ -374,7 +381,7 @@ public class MyTextField extends JTextField implements ActionListener,
 					bg = Color.RED; // unmatched bracket
 				}
 			}
-			
+
 			if (textMode || text.charAt(i) == '\"') {
 				g2.setColor(Color.GRAY);
 			} else {
@@ -388,7 +395,13 @@ public class MyTextField extends JTextField implements ActionListener,
 				caretPos = pos;
 		}
 
-		// redraw the caret
+		// draw caret if there's been no caret movement since last repaint
+		if (caretUpdated)
+			caretShowing = false;
+		else
+			caretShowing = !caretShowing;
+		caretUpdated = false;
+
 		if (caretShowing && caretPos > -1 && hasFocus()) {
 			g2.setColor(Color.black);
 			g2.fillRect((int) caretPos - scrollOffset + insets.left, textBottom
@@ -404,32 +417,37 @@ public class MyTextField extends JTextField implements ActionListener,
 		TextLayout layout = new TextLayout(text, font, frc);
 		return layout.getAdvance();
 	}
-	
+
 	private void drawText(String str, boolean selected, Color bg) {
-		if ("".equals(str)) return;
+		if ("".equals(str))
+			return;
 		TextLayout layout = new TextLayout(str, font, frc);
 		g2.setFont(font);
 		float advance = layout.getAdvance();
 
 		if (selected) {
 			g2.setColor(getSelectionColor());
-			g2.fillRect((int)pos - scrollOffset + insets.left, textBottom - fontHeight + 4 , (int)advance, fontHeight);
+			g2.fillRect((int) pos - scrollOffset + insets.left, textBottom
+					- fontHeight + 4, (int) advance, fontHeight);
 			g2.setColor(getSelectedTextColor());
-		} 
+		}
 		if (bg != null) {
 			Color col = g2.getColor();
 			g2.setColor(bg);
-			g2.fillRect((int)pos - scrollOffset + insets.left, textBottom - fontHeight + 4 , (int)advance, fontHeight);
+			g2.fillRect((int) pos - scrollOffset + insets.left, textBottom
+					- fontHeight + 4, (int) advance, fontHeight);
 			g2.setColor(col);
-		} 
-		g2.setClip(0, 0, width, height);
-		if (pos - scrollOffset + advance + insets.left > 0 && pos - scrollOffset < width) {
+		}
+
+		// g2.setClip(0, 0, width, height);
+
+		if (pos - scrollOffset + insets.left > 0
+				&& pos + advance - scrollOffset < width) {
 			g2.drawString(str, pos - scrollOffset + insets.left, textBottom);
 		}
 		pos += layout.getAdvance();
 
 	}
-
 
 	/**
 	 * Locates bracket positions in a given string with given caret position.
