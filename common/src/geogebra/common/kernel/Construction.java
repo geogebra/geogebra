@@ -2195,6 +2195,14 @@ public class Construction {
 				}
 			}
 
+		} else if (label.length() == 1) {
+			if (label.equals("O")) {
+				
+				createdGeo = new GeoPoint2(this, 0d, 0d, 1d);
+				label = "O";
+				auxilliary = true;
+				fix = true;
+			} 
 		} else if (label.length() == 3) {
 			if (label.equals("lnx")) {
 				
