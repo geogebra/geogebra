@@ -1669,7 +1669,7 @@ public class Construction {
 	public void removeCasCellLabel(String variable, boolean unbindInCAS) {
 		if (geoCasCellTable != null) {
 			GeoCasCell geoCasCell = geoCasCellTable.remove(variable);
-			if (unbindInCAS)
+			if (unbindInCAS && geoCasCell!=null)
 				geoCasCell.unbindVariableInCAS();
 		}
 	}

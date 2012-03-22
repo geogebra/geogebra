@@ -738,13 +738,12 @@ public class RelativeCopy {
 	 * Returns 2D array, GeoElement[columns][rows], containing GeoElements found
 	 * in the cell range with upper left corner (column1, row1) and lower right
 	 * corner (column2, row2).
-	 * 
-	 * @param table
-	 * @param column1
-	 * @param row1
-	 * @param column2
-	 * @param row2
-	 * @return
+	 * @param app application 
+	 * @param column1 start column
+	 * @param row1 start row
+	 * @param column2 end column
+	 * @param row2 end row
+	 * @return array of geos in given range
 	 */
 	public static GeoElement[][] getValues(AbstractApplication app, int column1,
 			int row1, int column2, int row2) {
@@ -958,6 +957,7 @@ public class RelativeCopy {
 	 * and returns either (1) a new GeoElement for the cell or (2) null.
 	 * 
 	 * @param kernel
+	 * @param app 
 	 * @param table
 	 * @param text
 	 *            string representation of the new GeoElement
@@ -971,9 +971,9 @@ public class RelativeCopy {
 	 * @throws Exception
 	 */
 	public static GeoElement prepareAddingValueToTableNoStoringUndoInfo(
-			Kernel kernel, AbstractApplication app, String text, GeoElement oldValue,
+			Kernel kernel, AbstractApplication app, String inputText, GeoElement oldValue,
 			int column, int row) throws Exception {
-
+		String text = inputText;
 		// get the cell name
 		String name = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
 

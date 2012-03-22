@@ -73,6 +73,7 @@ public class SpreadsheetTraceManager extends geogebra.common.gui.view.spreadshee
 	// =============================================
 
 	/** Add a geo to the trace collection */
+	@Override
 	public void addSpreadsheetTraceGeo(GeoElement geo) {
 		SpreadsheetTraceSettings t = geo.getTraceSettings();
 		Construction cons = app.getKernel().getConstruction();
@@ -198,6 +199,7 @@ public class SpreadsheetTraceManager extends geogebra.common.gui.view.spreadshee
 
 	
 
+	@Override
 	public boolean isTraceGeo(GeoElement geo) {
 
 		return traceGeoCollection.containsKey(geo);
@@ -268,11 +270,8 @@ public class SpreadsheetTraceManager extends geogebra.common.gui.view.spreadshee
 		t.lastTrace.clear();
 	}
 
-	/**
-	 * If a user deletes the contents of a trace column then 1) re-insert the
-	 * header text cell (if header is shown) 2) reset the trace row to the top
-	 * of the column
-	 */
+	
+	@Override
 	public void handleColumnDelete(int column1, int column2) {
 		SpreadsheetTraceSettings t;
 		for (GeoElement geo : traceGeoCollection.keySet()) {
