@@ -35,24 +35,29 @@ public abstract class ScriptManagerCommon {
 	 * needed for eg File -> New
 	 */
 	public void resetListeners() {
-		if (addListeners != null)
+		if (addListeners != null) {
 			addListeners.clear();
+		}
 
-		if (removeListeners != null)
+		if (removeListeners != null) {
 			removeListeners.clear();
+		}
 
-		if (renameListeners != null)
+		if (renameListeners != null) {
 			renameListeners.clear();
+		}
 
-		if (updateListeners != null)
+		if (updateListeners != null) {
 			updateListeners.clear();
+		}
 
-		if (clearListeners != null)
+		if (clearListeners != null) {
 			clearListeners.clear();
+		}
 
-		if (penListeners != null)
+		if (penListeners != null) {
 			penListeners.clear();
-
+		}
 	}
 	
 	/**
@@ -66,8 +71,9 @@ public abstract class ScriptManagerCommon {
 	
 	private void registerGlobalListener(ArrayList<String> listenerList,
 			String jSFunctionName, String string) {
-		if (jSFunctionName == null || jSFunctionName.length() == 0)
+		if (jSFunctionName == null || jSFunctionName.length() == 0) {
 			return;				
+		}
 						
 		// init view
 		initJavaScriptView();
@@ -338,7 +344,7 @@ public abstract class ScriptManagerCommon {
 			if (!listenersEnabled) return;
 			int size = listeners.size();
 			for (int i=0; i < size; i++) {
-				String jsFunction = (String) listeners.get(i);										
+				String jsFunction = listeners.get(i);										
 				callJavaScript(jsFunction, args);					
 			}			
 		}	

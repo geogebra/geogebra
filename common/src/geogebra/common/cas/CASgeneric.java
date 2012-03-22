@@ -6,7 +6,6 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.AsynchronousCommand;
 import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.geos.GeoElement;
@@ -27,7 +26,7 @@ public abstract class CASgeneric implements CASGenericInterface,
 	 */
 	private long timeoutMillis = 5000;
 
-	protected CASparser casParser;
+	public CASparser casParser;
 	private Map<String,String> rbCasTranslations; // translates from GeogebraCAS
 												// syntax to the internal CAS
 												// syntax.

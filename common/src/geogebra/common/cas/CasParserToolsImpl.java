@@ -1,7 +1,5 @@
 package geogebra.common.cas;
 
-import geogebra.common.main.AbstractApplication;
-
 import com.google.gwt.regexp.shared.RegExp;
 
 public class CasParserToolsImpl implements CasParserTools {

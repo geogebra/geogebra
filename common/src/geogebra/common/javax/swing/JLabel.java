@@ -2,7 +2,6 @@ package geogebra.common.javax.swing;
 
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Font;
-import geogebra.common.gui.inputfield.AutoCompleteTextField;
 
 public abstract class JLabel {
 

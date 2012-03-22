@@ -5,9 +5,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.main.AbstractApplication;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 
 /**
  * Export GeoGebra worksheet to GeoGebraTube.

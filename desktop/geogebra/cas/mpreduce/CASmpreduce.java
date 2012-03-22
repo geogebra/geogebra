@@ -6,16 +6,12 @@ import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
 import geogebra.common.cas.mpreduce.AbstractCASmpreduce;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.cas.AsynchronousCommand;
 import geogebra.common.main.AbstractApplication;
 
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-import java.util.StringTokenizer;
 import java.util.concurrent.TimeoutException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -60,6 +56,7 @@ public class CASmpreduce extends AbstractCASmpreduce {
 	 * @return MPReduce interpreter using static interpreter with local kernel
 	 *         initialization.
 	 */
+	@Override
 	protected synchronized Evaluate getMPReduce() {
 		if (mpreduce == null) {
 			// create mpreduce as a private reference to mpreduce_static
@@ -70,13 +67,13 @@ public class CASmpreduce extends AbstractCASmpreduce {
 				// CASmpreduce instance
 				// because it depends on the current kernel's ggbcasvar prefix,
 				// see #1443
-				initDependentMyMPReduceFunctions((Evaluate)mpreduce);
+				initDependentMyMPReduceFunctions(mpreduce);
 			} catch (Throwable e) {
 				e.printStackTrace();
 			}
 		}
 
-		return (Evaluate)mpreduce;
+		return mpreduce;
 	}
 
 	/**

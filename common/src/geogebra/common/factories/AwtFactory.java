@@ -13,7 +13,6 @@ import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.Ellipse2DDouble;
 import geogebra.common.awt.Ellipse2DFloat;
 import geogebra.common.awt.Line2D;
-import geogebra.common.awt.Point;
 import geogebra.common.awt.Point2D;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;

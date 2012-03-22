@@ -10,7 +10,6 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
-import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.plugin.Operation;
 
 
@@ -33,7 +32,7 @@ public class CasExpressionFactory {
 	/* replace rational exponents by roots */
 	public ExpressionValue replaceExpByRoots(){
 		if(root.isExpressionNode()) 
-			root = replaceExpByRootsRecursive((ExpressionNode)root);
+			root = replaceExpByRootsRecursive(root);
 		return root;
 	}
 	
@@ -66,7 +65,7 @@ public class CasExpressionFactory {
 		//if branch is a list, go through all list elements
 		if(branch instanceof MyList){
 			for(int i=0; i < ((MyList)branch).size(); i++)
-				replaceRootsByExpRecursive((ExpressionValue)((MyList)branch).getListElement(i));
+				replaceRootsByExpRecursive(((MyList)branch).getListElement(i));
 					
 		}
 
