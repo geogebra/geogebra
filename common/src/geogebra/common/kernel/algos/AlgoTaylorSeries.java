@@ -170,7 +170,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 				// (k-thDerivative of f at a) * (x - a)^k / k!
 				ExpressionValue partExp;
 				MyDouble coeffMyDouble = null;
-				if (Kernel.isEqual(coeff, 1.0)) {
+				if (Kernel.isEqual(Math.abs(coeff), 1.0)) {
 					partExp = powerExp;
 				} else {
 					coeffMyDouble = new MyDouble(kernel, coeff);
