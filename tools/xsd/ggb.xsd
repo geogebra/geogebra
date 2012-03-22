@@ -435,7 +435,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element name="continuous" type="boolVal" minOccurs="0"/>
-				<xs:element name="usePathAndRegionParameters" type="boolVal" minOccurs="0"/>
+				<xs:element name="usePathAndRegionParameters" type="stringVal" minOccurs="0"/>
 				<xs:element name="decimals" type="intVal"/>
 				<xs:element name="significantFigures" type="intVal" minOccurs="0"/>
 				<xs:element name="angleUnit">
@@ -456,6 +456,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 					<xs:complexType>
 						<xs:attribute name="digits" type="xs:boolean"/>
 						<xs:attribute name="labels" type="xs:boolean"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="casSettings" minOccurs="0">
+					<xs:complexType>
+						<xs:attribute name="timeout" type="xs:double"/>
+						<xs:attribute name="expRoots" type="xs:boolean"/>
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
