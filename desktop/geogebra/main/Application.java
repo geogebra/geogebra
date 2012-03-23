@@ -973,7 +973,7 @@ public class Application extends AbstractApplication implements
 
 		// minimal applet => just display EV
 		
-		panel.add(((EuclidianView) euclidianView).getJPanel(), BorderLayout.CENTER);
+		panel.add(((EuclidianViewND) euclidianView).getJPanel(), BorderLayout.CENTER);
 		centerPanel.add(panel, BorderLayout.CENTER);
 		return panel;
 		
@@ -1495,15 +1495,14 @@ public class Application extends AbstractApplication implements
 	}
 
 	public void setShowAxesSelected(JCheckBoxMenuItem cb) {
-		cb.setSelected(((AbstractEuclidianView) getGuiManager()
-				.getActiveEuclidianView()).getShowXaxis()
-				&& ((AbstractEuclidianView) getGuiManager().getActiveEuclidianView())
-						.getShowYaxis());
+		cb.setSelected( getGuiManager()
+				.getActiveEuclidianView().getShowXaxis()
+				&& (getGuiManager().getActiveEuclidianView().getShowYaxis()));
 	}
 
 	public void setShowGridSelected(JCheckBoxMenuItem cb) {
-		cb.setSelected(((AbstractEuclidianView) getGuiManager()
-				.getActiveEuclidianView()).getShowGrid());
+		cb.setSelected(getGuiManager()
+				.getActiveEuclidianView().getShowGrid());
 	}
 
 
@@ -1606,7 +1605,7 @@ public class Application extends AbstractApplication implements
 	// }
 
 	public final void zoom(double px, double py, double zoomFactor) {
-		((AbstractEuclidianView) getGuiManager().getActiveEuclidianView()).zoom(px, py,
+		getGuiManager().getActiveEuclidianView().zoom(px, py,
 				zoomFactor, 15, true);
 	}
 
@@ -1615,17 +1614,17 @@ public class Application extends AbstractApplication implements
 	 * yscale / xscale;
 	 */
 	public final void zoomAxesRatio(double axesratio) {
-		((AbstractEuclidianView) getGuiManager().getActiveEuclidianView())
+		getGuiManager().getActiveEuclidianView()
 				.zoomAxesRatio(axesratio, true);
 	}
 
 	public final void setStandardView() {
-		((EuclidianView) getGuiManager().getActiveEuclidianView())
+		getGuiManager().getActiveEuclidianView()
 				.setStandardView(true);
 	}
 
 	public final void setViewShowAllObjects() {
-		((EuclidianView) getGuiManager().getActiveEuclidianView())
+		getGuiManager().getActiveEuclidianView()
 				.setViewShowAllObjects(true);
 	}
 
@@ -2416,7 +2415,7 @@ public class Application extends AbstractApplication implements
 		mainComp.setCursor(waitCursor);
 
 		if (euclidianView != null) {
-			((EuclidianView)euclidianView).setCursor(waitCursor);
+			getActiveEuclidianView().setCursor(waitCursor);
 		}
 
 		if (guiManager != null) {
@@ -2428,7 +2427,7 @@ public class Application extends AbstractApplication implements
 	public void setDefaultCursor() {
 		mainComp.setCursor(Cursor.getDefaultCursor());
 		if (euclidianView != null) {
-			((EuclidianView)euclidianView).setCursor(Cursor.getDefaultCursor());
+			getEuclidianView1().setCursor(Cursor.getDefaultCursor());
 		}
 		if ((guiManager != null) && guiManager.hasEuclidianView2()) {
 			guiManager.getEuclidianView2().setCursor(Cursor.getDefaultCursor());
