@@ -28,8 +28,12 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	private CASparser casParser;
 	private CASgeneric cas;
 	private AbstractCASmpreduce casMPReduce;
-	public CasType currentCAS = CasType.NO_CAS;
+	private CasType currentCAS = CasType.NO_CAS;
 
+	/**
+	 * Creates new CAS interface
+	 * @param kernel kernel
+	 */
 	public GeoGebraCAS(Kernel kernel) {
 		app = kernel.getApplication();
 		casParser = new CASparser(kernel);
@@ -109,7 +113,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * Sets the number of signficiant figures (digits) that should be used as
 	 * print precision for the output of Numeric[] commands.
 	 * 
-	 * @param significantNumbers
+	 * @param significantNumbers significant figures
 	 */
 	public void setSignificantFiguresForNumeric(int significantNumbers) {
 		getCurrentCAS().setSignificantFiguresForNumeric(significantNumbers);
@@ -144,7 +148,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	/**
 	 * Unbinds (deletes) variable.
 	 * 
-	 * @param var
+	 * @param var variable to be unbound
 	 */
 	public void unbindVariable(String var) {
 		getCurrentCAS().unbindVariable(var);
@@ -157,7 +161,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * @param casInput
 	 *            Input in GeoGebraCAS syntax
 	 * @return evaluation result
-	 * @throws CASException
+	 * @throws CASException if there is a timeout or the expression cannot be evaluated
 	 */
 	public String evaluateGeoGebraCAS(ValidExpression casInput,StringTemplate tpl)
 			throws CASException {
@@ -178,7 +182,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		if (casInput.isKeepInputUsed()
 				&& (exception != null || "?".equals(result))) {
 			// return original input
-			return casInput.toString();
+			return casInput.toString(tpl);
 		}
 
 		// pass on exception
@@ -199,9 +203,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	/**
 	 * Evaluates an expression in GeoGebraCAS syntax.
 	 * 
-	 * @param exp
+	 * @param exp expression to be evaluated
 	 * @return result string in GeoGebra syntax (null possible)
-	 * @throws CASException
+	 * @throws CASException if there is a timeout or the expression cannot be evaluated
 	 */
 	final public String evaluateGeoGebraCAS(String exp) throws CASException {
 		try {
@@ -214,10 +218,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 	/**
 	 * Evaluates an expression in the syntax of the currently active CAS
-	 * (MathPiper or Maxima).
 	 * 
 	 * @return result string (null possible)
-	 * @throws Throwable
+	 * @throws Throwable if there is a timeout or the expression cannot be evaluated
 	 */
 	final public String evaluateRaw(String exp) throws Throwable {
 		return getCurrentCAS().evaluateRaw(exp);
@@ -231,7 +234,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * @return result string (null possible)
 	 * @param exp
 	 *            the expression
-	 * @throws CASException
+	 * @throws CASException if there is a timeout or the expression cannot be evaluated
 	 * */
 	final public String evaluateMPReduce(String exp) throws CASException {
 		return getMPReduce().evaluateMPReduce(exp);
