@@ -535,10 +535,10 @@ public class Application extends AbstractApplication implements
 		// init xml io for construction loading
 		myXMLio = new MyXMLio((Kernel) kernel, kernel.getConstruction());
 		// init default preferences if necessary
-				if (!isApplet) {
-					GeoGebraPreferences.getPref().initDefaultXML(this);
-				}
-				
+		if (!isApplet) {
+			GeoGebraPreferences.getPref().initDefaultXML(this);
+		}
+
 		if (ggtloading) {
 			if (!isApplet) {
 				GeoGebraPreferences.getPref().loadXMLPreferences(this);
