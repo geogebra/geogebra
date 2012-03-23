@@ -93,6 +93,11 @@ public class ImageManager extends AbstractImageManager {
 	    return new geogebra.web.awt.BufferedImage(im);
     }
 
+	public void triggerSingleImageLoading(String imageFileName) {
+		externalImageTable.get(imageFileName).setSrc(
+		   externalImageSrcs.get(imageFileName));
+	}
+
 	public void triggerImageLoading(String construction, MyXMLio myXMLio, Application app) {
 		this.construction = construction;
 		this.myXMLio = myXMLio;	

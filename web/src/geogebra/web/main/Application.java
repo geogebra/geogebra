@@ -6,6 +6,7 @@ import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
@@ -20,7 +21,9 @@ import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
+import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractFontManager;
@@ -67,6 +70,7 @@ import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -209,28 +213,38 @@ public class Application extends AbstractApplication {
 				e.preventDefault();
 				e.stopPropagation();
 			}, false);
-			canvas
-					.addEventListener(
-							"drop",
-							function(e) {
-								e.preventDefault();
-								e.stopPropagation();
-								canvas.style.borderColor = "#000000";
-								var dt = e.dataTransfer;
-								if (dt.files.length) {
-									var fileToHandle = dt.files[0];
-									//console.log(fileToHandle.name);
-									var reader = new FileReader();
-									reader.onloadend = function(ev) {
-										if (reader.readyState === reader.DONE) {
-											var fileStr = reader.result;
-											appl.@geogebra.web.main.Application::loadGgbFileAgain(Ljava/lang/String;)(fileStr);
-
-										}
-									};
-									reader.readAsDataURL(fileToHandle);
-								}
-							}, false);
+			canvas.addEventListener("drop", function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				canvas.style.borderColor = "#000000";
+				var dt = e.dataTransfer;
+				if (dt.files.length) {
+					var fileToHandle = dt.files[0];
+					var imageRegEx = /\.(png|jpg|jpeg|gif)$/;
+					var ggbRegEx = /\.(ggb|ggt)$/;
+					if (fileToHandle.name.toLowerCase().match(imageRegEx)) {
+						var reader = new FileReader();
+						reader.onloadend = function(ev) {
+							if (reader.readyState === reader.DONE) {
+								var fileStr = reader.result;
+								var fileName = fileToHandle.name;
+								appl.@geogebra.web.main.Application::imageDropHappened(Ljava/lang/String;Ljava/lang/String;II)(fileName, fileStr, e.clientX, e.clientY);
+							}
+						};
+						reader.readAsDataURL(fileToHandle);
+					} else if (fileToHandle.name.toLowerCase().match(ggbRegEx)) {
+						var reader = new FileReader();
+						reader.onloadend = function(ev) {
+							if (reader.readyState === reader.DONE) {
+								var fileStr = reader.result;
+								appl.@geogebra.web.main.Application::loadGgbFileAgain(Ljava/lang/String;)(fileStr);
+							}
+						};
+						reader.readAsDataURL(fileToHandle);
+					}
+					//console.log(fileToHandle.name);
+				}
+			}, false);
 		}
 		$doc.body.addEventListener("dragover", function(e) {
 			e.preventDefault();
@@ -243,6 +257,31 @@ public class Application extends AbstractApplication {
 			e.stopPropagation();
 		}, false);
 	}-*/;
+
+	/**
+	 * Loads an image and puts it on the canvas (this happens by drag & drop)
+	 * 
+	 * @param imgFileName - the file name of the image
+	 * @param fileStr - the image data url
+	 * @param clientx - desired position on the canvas (x)
+	 * @param clienty - desired position on the canvas (y)
+	 */
+	public void imageDropHappened(String imgFileName, String fileStr, int clientx, int clienty) {
+		/*
+		((ImageManager)getImageManager()).addExternalImage(imgFileName, fileStr);
+		((ImageManager)getImageManager()).triggerSingleImageLoading(imgFileName);
+		GeoImage geoImage = new GeoImage(getKernel().getConstruction());
+		geoImage.setImageFileName(imgFileName);
+		double cx = getActiveEuclidianView().toRealWorldCoordX(clientx);
+		double cy = getActiveEuclidianView().toRealWorldCoordY(clienty);
+		GeoPoint2 gsp = new GeoPoint2(getKernel().getConstruction(), cx, cy, 1);
+		geoImage.setCorner(gsp, 0);
+		geoImage.setLabel(null);
+		GeoImage.updateInstances();
+		*/
+		//Application.debug("image dropped");
+		//Window.alert("Image dropped at client position ("+clientx+","+clienty+")");
+	}
 
 	@Override
 	public String getCommand(String key) {
