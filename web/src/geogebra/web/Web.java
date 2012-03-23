@@ -21,6 +21,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 
@@ -82,14 +84,14 @@ public class Web implements EntryPoint {
 		}
 	}
 	
-	private static void loadAppAsync() {
+	private void loadAppAsync() {
 	    GWT.runAsync(new RunAsyncCallback() {
 			
 			public void onSuccess() {
 				GeoGebraAppFrame app = new GeoGebraAppFrame();
-				RootPanel.getBodyElement().appendChild(app.getElement());
+				app.createGui();
 			}
-			
+
 			public void onFailure(Throwable reason) {
 				AbstractApplication.debug(reason);
 			}

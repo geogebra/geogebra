@@ -24,7 +24,8 @@
   <!-- <inherits name='com.google.gwt.user.theme.standard.Standard'/> -->
   <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
-
+  <!--  upBinder for GUI -->
+  <inherits name="com.google.gwt.uibinder.UiBinder" />
  
   <!-- Specify the app entry point class.                         -->
   <entry-point class='geogebra.web.Web'/>
