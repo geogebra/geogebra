@@ -306,9 +306,7 @@ public class MyTextField extends JTextField implements ActionListener,
 		g2 = (Graphics2D) gr;
 		super.paintComponent(g2);
 
-		// return without adding custom colors if coloring is not enabled or
-		// only the caret is to be repainted
-		if (!enableColoring || g2.getClip().getBounds().width < 10) {
+		if (!enableColoring) {
 			return;
 		}
 
@@ -441,8 +439,8 @@ public class MyTextField extends JTextField implements ActionListener,
 
 		// g2.setClip(0, 0, width, height);
 
-		if (pos - scrollOffset + insets.left > 0
-				&& pos + advance - scrollOffset < width) {
+		if (pos - scrollOffset + insets.left >= 0
+				&& pos + advance - scrollOffset <= width) {
 			g2.drawString(str, pos - scrollOffset + insets.left, textBottom);
 		}
 		pos += layout.getAdvance();
