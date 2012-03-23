@@ -531,19 +531,24 @@ public class Application extends AbstractApplication implements
 		// This is needed before handleFileArg because
 		// we don't want to redefine the toolbar string from the file.
 		boolean ggtloading = isLoadingTool(args);
+		
+		// init xml io for construction loading
+		myXMLio = new MyXMLio((Kernel) kernel, kernel.getConstruction());
+		// init default preferences if necessary
+				if (!isApplet) {
+					GeoGebraPreferences.getPref().initDefaultXML(this);
+				}
+				
 		if (ggtloading) {
 			if (!isApplet) {
 				GeoGebraPreferences.getPref().loadXMLPreferences(this);
 			}
 		}
 
-		// init default preferences if necessary
-		if (!isApplet) {
-			GeoGebraPreferences.getPref().initDefaultXML(this);
-		}
 
-		// init xml io for construction loading
-		myXMLio = new MyXMLio((Kernel) kernel, kernel.getConstruction());
+		
+
+		
 
 		// open file given by startup parameter
 		handleOptionArgsEarly(args); // for --regressionFile=...
@@ -569,8 +574,8 @@ public class Application extends AbstractApplication implements
 				GeoGebraPreferences.getPref().loadXMLPreferences(this);
 			}
 		}
-
-		if (isUsingFullGui() && (tmpPerspectives != null) && !ggtloading) {
+		//TODO shall ggtLoading affect this test ?
+		if (isUsingFullGui() && (tmpPerspectives != null)) {
 			getGuiManager().getLayout().setPerspectives(tmpPerspectives);
 		}
 
