@@ -430,7 +430,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	}
 
 	public void focusGained() {
-		if (!isInFocus) {
+		if (!isInFocus && !getApplication().isFullAppGui()) {
 			this.isInFocus = true;
 			GeoGebraFrame.useFocusedBorder(
 				getApplication().getArticleElement(),
@@ -608,5 +608,11 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		((geogebra.web.awt.Graphics2D)g).getCanvas().getContext2d().drawImage(
 			getResetImage(), w - 18, 2);
 	}
+
+
+	public void synCanvasSizeWithApp() {
+		//must be implemented properly
+		setCoordinateSpaceSize(g2p.getOffsetWidth(), g2p.getOffsetHeight());
+    }
 
 }

@@ -3,10 +3,19 @@
  */
 package geogebra.web.gui.app;
 
+import java.util.ArrayList;
+import java.util.Date;
+
+import geogebra.common.GeoGebraConstants;
 import geogebra.web.Web;
+import geogebra.web.html5.ArticleElement;
+import geogebra.web.html5.Dom;
+import geogebra.web.html5.View;
+import geogebra.web.main.Application;
 import geogebra.web.presenter.LoadFilePresenter;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Element;
@@ -34,14 +43,11 @@ public class GeoGebraAppFrame extends Composite {
 	@UiField GGWCommandLine ggwCommandLine;
 	@UiField GGWViewWrapper ggwViewWrapper;
 	@UiField GGWGraphicsView ggwGraphicsView;
-	
-	/**
-	 * Creates a GUI (main entry point of GUI);
-	 * 
-	 */
-	public void createGui() {
-		DockLayoutPanel outer = binder.createAndBindUi(this);
 
+	private Application app;
+	
+	public GeoGebraAppFrame() {
+		initWidget(binder.createAndBindUi(this));
 	    // Get rid of scrollbars, and clear out the window's built-in margin,
 	    // because we want to take advantage of the entire client area.
 	    Window.enableScrolling(false);
@@ -50,14 +56,46 @@ public class GeoGebraAppFrame extends Composite {
 	    // Add the outer panel to the RootLayoutPanel, so that it will be
 	    // displayed.
 	    RootLayoutPanel root = RootLayoutPanel.get();
-	    root.add(outer);
+	    root.add(this);
 	    root.forceLayout();
-	    
+	}
+	
+	/**
+	 * Creates a GUI (main entry point of GUI);
+	 * 
+	 */
+	public void createGui() {    
 	    init();
   }
 
+
 	private void init() {
-	    //here will be similar like GeoGebraFrame
+		ArticleElement article = ArticleElement.as(Dom.querySelector(GeoGebraConstants.GGM_CLASS_NAME));
+		Date creationDate = new Date();
+		article.setId(GeoGebraConstants.GGM_CLASS_NAME+creationDate.getTime());
+		
+		app = createApplication(article,this);
+		ggwGraphicsView.getElement().appendChild(app.buildApplicationPanel().getElement());
     }
+
+
+	private Application createApplication(ArticleElement article,
+            GeoGebraAppFrame geoGebraAppFrame) {
+		return new Application(article, geoGebraAppFrame);
+    }
+
+
+	public void finishAsyncLoading(ArticleElement articleElement,
+            GeoGebraAppFrame ins, Application app) {
+	    handleLoadFile(articleElement,app);
+	    
+    }
+	
+	private static void handleLoadFile(ArticleElement articleElement,
+			Application app) {
+		View view = new View(articleElement, app);
+		fileLoader.setView(view);
+		fileLoader.onPageLoad();
+	}
 
 }

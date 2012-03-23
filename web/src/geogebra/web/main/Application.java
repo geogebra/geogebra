@@ -38,6 +38,7 @@ import geogebra.web.euclidian.EuclidianView;
 import geogebra.web.gui.DialogManagerWeb;
 import geogebra.web.gui.GuiManager;
 import geogebra.web.gui.SplashDialog;
+import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.io.ConstructionException;
@@ -104,6 +105,8 @@ public class Application extends AbstractApplication {
 
 	private ArticleElement articleElement;
 	private GeoGebraFrame frame;
+	private GeoGebraAppFrame appFrame;
+	private boolean useFullAppGui = false;
 
 	// convenience method
 	public Application(ArticleElement ae, GeoGebraFrame gf) {
@@ -124,6 +127,19 @@ public class Application extends AbstractApplication {
 		dbg = new DebugPrinterWeb();
 		this.init(undoActive);
 	}
+
+	public Application(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame, boolean undoActive) {
+		this.articleElement = article;
+		this.appFrame = geoGebraAppFrame;
+		createAppSplash();
+		this.useFullAppGui  = true;
+		dbg = new DebugPrinterWeb();
+		this.init(undoActive);
+    }
+
+	public Application(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame) {
+	   this(article, geoGebraAppFrame, true);
+    }
 
 	/**
 	 * Inernationalization: instantiation using GWT.create() properties interfaces
@@ -494,7 +510,11 @@ public class Application extends AbstractApplication {
 
 				setUndoActive(undoAct);
 				registerFileDropHandlers((CanvasElement) canvas.getElement().cast());
-				frame.finishAsyncLoading(articleElement, frame, this_app);
+				if (frame != null) {
+					frame.finishAsyncLoading(articleElement, frame, this_app);
+				} else {
+					appFrame.finishAsyncLoading(articleElement,appFrame,this_app);
+				}
 			}
 			
 			public void onFailure(Throwable reason) {
@@ -565,6 +585,13 @@ public class Application extends AbstractApplication {
 		splash.canNowHide();
 		getEuclidianView1().requestFocusInWindow();
 	}
+	
+	public void afterLoadAppFile() {
+		kernel.initUndoInfo();
+		getEuclidianView1().setDisableRepaint(false);
+		getEuclidianView1().synCanvasSizeWithApp();
+		getEuclidianView1().repaintView();
+	}
 
 	private void loadFile(HashMap<String, String> archiveContent) throws Exception {
 
@@ -597,7 +624,11 @@ public class Application extends AbstractApplication {
 			//construction = DataUtil.utf8Decode(construction);//DataUtil.utf8Decode(construction);
 			myXMLio.processXMLString(construction, true, false);
 			setCurrentFile(archiveContent);
-			afterLoadFile();
+			if (!useFullAppGui) {
+				afterLoadFile();
+			} else {
+				afterLoadAppFile();
+			}
 		} else {
 			// on images do nothing here: wait for callback when images loaded.
 			imageManager.triggerImageLoading(/*DataUtil.utf8Decode(*/construction/*)/*DataUtil.utf8Decode(construction)*/,
@@ -1227,5 +1258,13 @@ public class Application extends AbstractApplication {
 		frame.addStyleName("jsloaded");
 		frame.add(splash);
 	}
+	
+	private void createAppSplash() {
+		//must be implemented with uiBinder
+	}
+
+	public boolean isFullAppGui() {
+	    return useFullAppGui;
+    }
 
 }

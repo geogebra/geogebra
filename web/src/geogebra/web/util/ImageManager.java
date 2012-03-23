@@ -70,7 +70,11 @@ public class ImageManager extends AbstractImageManager {
 		if (imagesLoaded == externalImageSrcs.size()) {
 			try {
 				myXMLio.processXMLString(construction, true, false);
-				app.afterLoadFile();
+				if (!app.isFullAppGui()) {
+					app.afterLoadFile();
+				} else {
+					app.afterLoadAppFile();
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
