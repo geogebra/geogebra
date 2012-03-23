@@ -724,7 +724,11 @@ public class JD2XX implements Runnable {
 	protected Thread notifier = null;
 
 	static {
-		System.loadLibrary("jd2xx");
+		String arch = System.getenv("PROCESSOR_ARCHITECTURE");
+		if ((arch != null) && ((arch.equals("AMD64")) || (arch.equals("IA64"))))
+			System.loadLibrary("jd2xx_64");
+		else
+			System.loadLibrary("jd2xx");          
 	}
 
 	/** Create a new unopened JD2XX object */

@@ -164,26 +164,15 @@ instructions.
 	<target name="jd2xx-windows-geogebra" depends="jd2xx-windows-amd64-geogebra, jd2xx-windows-x86-geogebra" if="winnt"/>
 
 	<target name="jd2xx-windows-x86-geogebra" if="winnt-x86">
-	<mkdir dir="lib/download"/>
-	<get src="http://dev.geogebra.org/download/lib/jd2xx-20111017.zip" dest="lib/download/jd2xx-20111017.zip"
-	    usetimestamp="true"/>
-	<unzip src="lib/download/jd2xx-20111017.zip" dest="./">
-	    <patternset>
-		<include name="jd2xx/*.dll"/>
-	    </patternset>
-	    <mapper type="glob" from="jd2xx/*.dll" to="lib/*.dll"/>
-	</unzip>
+		<get src="http://www.geogebra.org/download/lib/ftdi/JD2XX_2.08.17.dll" dest="lib/JD2XX.dll"
+		    usetimestamp="true"/>
 	</target>
 
 	<target name="jd2xx-windows-amd64-geogebra" if="winnt-amd64">
-	<mkdir dir="lib/download"/>
-	<get src="http://dev.geogebra.org/download/lib/jd2xx-dll-20111016.zip" dest="lib/download/jd2xx-dll-20111016.zip"
-	    usetimestamp="true"/>
-	<unzip src="lib/download/jd2xx-dll-20111016.zip" dest="lib/">
-	    <patternset>
-		<include name="*.dll"/>
-	    </patternset>
-	</unzip>
+		<get src="http://www.geogebra.org/download/lib/ftdi/JD2XX_2.08.17.dll" dest="lib/JD2XX.dll"
+		    usetimestamp="true"/>
+		<get src="http://www.geogebra.org/download/lib/ftdi/JD2XX_64_2.08.17.dll" dest="lib/JD2XX_64.dll"
+		    usetimestamp="true"/>
 	</target>
 
 	<!-- download ecj -->
