@@ -4001,14 +4001,14 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 													// option for lists of
 													// texts?
 				if (secondLineVisible) {
-					remove(secondLine);
 					secondLineVisible = false;
 				}
 			} else {
 				if (!secondLineVisible) {
-					add(secondLine, BorderLayout.SOUTH);
 					secondLineVisible = true;
 				}
+				
+				secondLine.setVisible(secondLineVisible);
 			}
 
 			int style = geo0.getFontStyle();
