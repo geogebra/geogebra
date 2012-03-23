@@ -818,6 +818,10 @@ public class AlgoIntersectConics extends AlgoIntersect {
 	    // Solving system of equations 
 	    solnr = sysSolver.solveSystemOfQuadraticEquations(param1, param2, res);
 	    
+	    if (solnr == -1) {
+	    	return false;
+	    }
+
 	    for(int i=0; i<solnr; i++)
 	    	points[i].setCoords(res[i][0], res[i][1], 1.0d);
 	    	
