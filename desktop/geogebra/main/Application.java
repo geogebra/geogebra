@@ -52,7 +52,6 @@ import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.DrawEquation;
 import geogebra.euclidian.EuclidianController;
-import geogebra.euclidian.EuclidianStatic;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.export.GeoGebraTubeExportDesktop;
@@ -356,7 +355,7 @@ public class Application extends AbstractApplication implements
 	protected GuiManager guiManager;
 	
 
-	private Component mainComp;
+	Component mainComp;
 	private boolean isApplet = false;
 
 	
@@ -401,7 +400,7 @@ public class Application extends AbstractApplication implements
 	private boolean rightClickEnabled = true;
 	private boolean chooserPopupsEnabled = true;
 	private boolean isErrorDialogsActive = true;
-	private boolean isErrorDialogShowing = false;
+	boolean isErrorDialogShowing = false;
 	private static LinkedList<File> fileList = new LinkedList<File>();
 	// private int guiFontSize;
 	// private int axesFontSize;
@@ -533,7 +532,7 @@ public class Application extends AbstractApplication implements
 		boolean ggtloading = isLoadingTool(args);
 		
 		// init xml io for construction loading
-		myXMLio = new MyXMLio((Kernel) kernel, kernel.getConstruction());
+		myXMLio = new MyXMLio(kernel, kernel.getConstruction());
 		// init default preferences if necessary
 		if (!isApplet) {
 			GeoGebraPreferences.getPref().initDefaultXML(this);
@@ -607,7 +606,7 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
-	private void initFactories() {
+	private static void initFactories() {
 		geogebra.common.factories.AwtFactory.prototype = new geogebra.factories.AwtFactory();
 		geogebra.common.factories.FormatFactory.prototype = new geogebra.factories.FormatFactory();
 		geogebra.common.factories.LaTeXFactory.prototype = new geogebra.factories.LaTeXFactory();
@@ -615,13 +614,6 @@ public class Application extends AbstractApplication implements
 		geogebra.common.factories.SwingFactory.prototype = new geogebra.factories.SwingFactory();
 		geogebra.common.factories.UtilFactory.prototype = new geogebra.factories.UtilFactory();
 		geogebra.common.util.StringUtil.prototype = new geogebra.util.StringUtil();
-		// TODO: probably there is better way
-		geogebra.common.awt.Color.black = geogebra.awt.Color.black;
-		geogebra.common.awt.Color.white = geogebra.awt.Color.white;
-		geogebra.common.awt.Color.blue = geogebra.awt.Color.blue;
-		geogebra.common.awt.Color.gray = geogebra.awt.Color.gray;
-		geogebra.common.awt.Color.lightGray = geogebra.awt.Color.lightGray;
-		geogebra.common.awt.Color.darkGray = geogebra.awt.Color.darkGray;
 		
 		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.euclidian.HatchingHandler();
 		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.euclidian.EuclidianStatic();
@@ -630,7 +622,7 @@ public class Application extends AbstractApplication implements
 		
 	}
 
-	private void handleHelpVersionArgs(CommandLineArguments args) {
+	private static void handleHelpVersionArgs(CommandLineArguments args) {
 		if (args.containsArg("help")) {
 			// help message
 			System.out
@@ -668,14 +660,14 @@ public class Application extends AbstractApplication implements
 
 	
 	@Override
-	protected EuclidianController newEuclidianController(Kernel kernel) {
-		return new EuclidianController(kernel);
+	protected EuclidianController newEuclidianController(Kernel kernel1) {
+		return new EuclidianController(kernel1);
 	}
 
 	@Override
-	protected AbstractEuclidianView newEuclidianView(boolean[] showAxes,
-			boolean showGrid) {
-		return new EuclidianView(euclidianController, showAxes, showGrid,
+	protected AbstractEuclidianView newEuclidianView(boolean[] showAxesFlags,
+			boolean showGridFlags) {
+		return new EuclidianView(euclidianController, showAxesFlags, showGridFlags,
 				getSettings().getEuclidian(1));
 	}
 
@@ -700,6 +692,7 @@ public class Application extends AbstractApplication implements
 	/**
 	 * Initialize the gui manager.
 	 */
+	@Override
 	final protected void initGuiManager() {
 		setWaitCursor();
 		guiManager = newGuiManager();
@@ -722,12 +715,11 @@ public class Application extends AbstractApplication implements
 
 
 
-	final public JApplet getJApplet() {
+	final public static JApplet getJApplet() {
 		if (appletImpl == null) {
 			return null;
-		} else {
-			return appletImpl.getJApplet();
 		}
+		return appletImpl.getJApplet();
 	}
 
 	final public Font getBoldFont() {
@@ -762,6 +754,7 @@ public class Application extends AbstractApplication implements
 	/**
 	 * @return the font manager to access fonts for different tasks
 	 */
+	@Override
 	final public FontManager getFontManager() {
 		return fontManager;
 	}
@@ -973,10 +966,9 @@ public class Application extends AbstractApplication implements
 						BorderLayout.NORTH);
 				menuBarPanel.add(panel, BorderLayout.CENTER);
 				return menuBarPanel;
-			} else {
-				// standard case: return
-				return panel;
 			}
+			// standard case: return
+			return panel;
 		}
 
 		// minimal applet => just display EV
@@ -1145,9 +1137,9 @@ public class Application extends AbstractApplication implements
 		}
 
 		if (args.containsArg("showAlgebraInput")) {
-			boolean showAlgebraInput = args.getBooleanValue("showAlgebraInput",
+			boolean showInputBar = args.getBooleanValue("showAlgebraInput",
 					true);
-			if (!showAlgebraInput) {
+			if (!showInputBar) {
 				setShowAlgebraInput(false, false);
 			}
 		}
@@ -1169,18 +1161,18 @@ public class Application extends AbstractApplication implements
 		}
 
 		if (args.containsArg("showAxes")) {
-			boolean showAxes = args.getBooleanValue("showAxes", true);
-			this.showAxes[0] = showAxes;
-			this.showAxes[1] = showAxes;
-			this.getSettings().getEuclidian(1).setShowAxes(showAxes, showAxes);
-			this.getSettings().getEuclidian(2).setShowAxes(showAxes, showAxes);
+			boolean showAxesParam = args.getBooleanValue("showAxes", true);
+			this.showAxes[0] = showAxesParam;
+			this.showAxes[1] = showAxesParam;
+			this.getSettings().getEuclidian(1).setShowAxes(showAxesParam, showAxesParam);
+			this.getSettings().getEuclidian(2).setShowAxes(showAxesParam, showAxesParam);
 		}
 
 		if (args.containsArg("showGrid")) {
-			boolean showGrid = args.getBooleanValue("showGrid", false);
-			this.showGrid = showGrid;
-			this.getSettings().getEuclidian(1).showGrid(showGrid);
-			this.getSettings().getEuclidian(2).showGrid(showGrid);
+			boolean showGridParam = args.getBooleanValue("showGrid", false);
+			this.showGrid = showGridParam;
+			this.getSettings().getEuclidian(1).showGrid(showGridParam);
+			this.getSettings().getEuclidian(2).showGrid(showGridParam);
 		}
 
 		if (args.containsArg("primary")) {
@@ -1326,6 +1318,7 @@ public class Application extends AbstractApplication implements
 
 	
 
+	@Override
 	public void reset() {
 		if (appletImpl != null) {
 			appletImpl.reset();
@@ -1469,6 +1462,7 @@ public class Application extends AbstractApplication implements
 		return (guiManager != null) && getGuiManager().hasEuclidianView2();
 	}
 
+	@Override
 	public boolean hasEuclidianView2EitherShowingOrNot() {
 		return (guiManager != null)
 				&& getGuiManager().hasEuclidianView2EitherShowingOrNot();
@@ -1647,9 +1641,9 @@ public class Application extends AbstractApplication implements
 	 * German , country: Austria, "noNONY" or "no_NO_NY" ... language: Norwegian
 	 * , country: Norway, variant: Nynorsk
 	 */
-	public static Locale getLocale(String languageCode) {
+	public static Locale getLocale(String languageISOCode) {
 		// remove "_" from string
-		languageCode = languageCode.replaceAll("_", "");
+		String languageCode = languageISOCode.replaceAll("_", "");
 
 		Locale loc;
 		if (languageCode.length() == 6) {
@@ -1718,6 +1712,7 @@ public class Application extends AbstractApplication implements
 		return tooltipLocale;
 	}
 	
+	@Override
 	public String getTooltipLanguageString() {
 		if(tooltipLocale==null)
 			return null;
@@ -1953,8 +1948,8 @@ public class Application extends AbstractApplication implements
 	}
 
 	@Override
-	final public String reverseGetColor(String str) {
-		str = StringUtil.removeSpaces(toLowerCase(str));
+	final public String reverseGetColor(String locColor) {
+		String str = StringUtil.removeSpaces(toLowerCase(locColor));
 		if (rbcolors == null) {
 			initColorsResourceBundle();
 		}
@@ -1994,6 +1989,7 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
+	@Override
 	final public String getPlainTooltip(String key) {
 
 		if (tooltipLocale == null) {
@@ -2021,13 +2017,13 @@ public class Application extends AbstractApplication implements
 		try {
 			ret = rbsymbol.getString("S." + key);
 		} catch (Exception e) {
+			//do nothing
 		}
 
 		if ("".equals(ret)) {
 			return null;
-		} else {
-			return ret;
 		}
+		return ret;
 	}
 
 	final public String getSymbolTooltip(int key) {
@@ -2040,13 +2036,13 @@ public class Application extends AbstractApplication implements
 		try {
 			ret = rbsymbol.getString("T." + key);
 		} catch (Exception e) {
+			//do nothing
 		}
 
 		if ("".equals(ret)) {
 			return null;
-		} else {
-			return ret;
 		}
+		return ret;
 	}
 
 	// final public String reverseGetPlain(String str) {
@@ -2170,10 +2166,10 @@ public class Application extends AbstractApplication implements
 		return null;
 	}
 
-	final public String getReverseCommand(String key) {
+	final public String getReverseCommand(String command) {
 		initTranslatedCommands();
 
-		key = toLowerCase(key);
+		String key = toLowerCase(command);
 		try {
 
 			Enumeration<String> enume = rbcommand.getKeys();
@@ -2486,9 +2482,8 @@ public class Application extends AbstractApplication implements
 	public static File getFromFileList(int i) {
 		if (fileList.size() > i) {
 			return fileList.get(i);
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	public static int getFileListSize() {
@@ -2508,6 +2503,7 @@ public class Application extends AbstractApplication implements
 
 	
 
+	@Override
 	public void updateUI() {
 		if (!initing) {
 			if (appletImpl != null) {
@@ -2520,6 +2516,7 @@ public class Application extends AbstractApplication implements
 		
 	}
 
+	@Override
 	public void resetFonts() {
 		getFontManager().setFontSize(getGUIFontSize());
 		updateFonts();
@@ -2600,7 +2597,7 @@ public class Application extends AbstractApplication implements
 			// MACRO
 			int macroID = mode - EuclidianConstants.MACRO_MODE_ID_OFFSET;
 			try {
-				Macro macro = (Macro) kernel.getMacro(macroID);
+				Macro macro = kernel.getMacro(macroID);
 				if (toolName) {
 					// TOOL NAME
 					ret = macro.getToolName();
@@ -2645,7 +2642,7 @@ public class Application extends AbstractApplication implements
 		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
 			int macroID = mode - EuclidianConstants.MACRO_MODE_ID_OFFSET;
 			try {
-				Macro macro = (Macro) kernel.getMacro(macroID);
+				Macro macro = kernel.getMacro(macroID);
 				String iconName = macro.getIconFileName();
 				BufferedImage img = getExternalImage(iconName);
 				if (img == null) {
@@ -2825,6 +2822,7 @@ public class Application extends AbstractApplication implements
 		chooserPopupsEnabled = flag;
 	}
 
+	@Override
 	final public boolean isRightClickEnabled() {
 		return rightClickEnabled;
 	}
@@ -2861,6 +2859,7 @@ public class Application extends AbstractApplication implements
 		setMoveMode();
 	}
 
+	@Override
 	public void updateMenubar() {
 		if (!showMenuBar || !isUsingFullGui() || isIniting()) {
 			return;
@@ -2985,7 +2984,7 @@ public class Application extends AbstractApplication implements
 	
 	@Override
 	public AbstractEuclidianView createEuclidianView() {
-		return (AbstractEuclidianView)this.euclidianView;
+		return this.euclidianView;
 	}
 
 	/***************************************************************************
@@ -3310,6 +3309,7 @@ public class Application extends AbstractApplication implements
 	 */
 
 	
+	@Override
 	protected void getWindowLayoutXML(StringBuilder sb, boolean asPreference) {
 		// save the dimensions of the current window
 				sb.append("\t<window width=\"");
@@ -3549,9 +3549,10 @@ public class Application extends AbstractApplication implements
 	
 	/**
 	 * handle shift key pressed or released
+	 * @param isShiftDown whether shift is pressed
 	 */
 	protected void handleShiftEvent(boolean isShiftDown){
-		
+		//we may overwrite in subclasses
 	}
 
 	@Override
@@ -3622,6 +3623,7 @@ public class Application extends AbstractApplication implements
 		return ggbapi;
 	}
 	
+	@Override
 	public PythonBridge getPythonBridge() {
 		if (!pythonBridge.isReady()) {
 			pythonBridge.init();
@@ -3654,6 +3656,7 @@ public class Application extends AbstractApplication implements
 		return getPythonBridge().isWindowVisible();
 	}
 
+	@Override
 	public ScriptManager getScriptManager() {
 		if (scriptManager == null) {
 			scriptManager = new ScriptManager(this);
@@ -3806,7 +3809,9 @@ public class Application extends AbstractApplication implements
 	 * 
 	 * @return fileName of image stored in imageManager
 	 */
-	public String createImage(BufferedImage img, String fileName) {
+	public String createImage(BufferedImage image, String imageFileName) {
+		String fileName = imageFileName;
+		BufferedImage img = image;
 		try {
 			// Michael Borcherds 2007-12-10 START moved MD5 code from GeoImage
 			// to here
@@ -3871,23 +3876,22 @@ public class Application extends AbstractApplication implements
 						&& (oldImg.getHeight() == img.getHeight())) {
 					// same size and filename => we consider the images as equal
 					return fileName;
-				} else {
-					// same name but different size: change filename
-					// Michael Borcherds: this bit of code should now be
-					// redundant as it
-					// is near impossible for the filename to be the same unless
-					// the files are the same
-					int n = 0;
-					do {
-						n++;
-						int pos = fileName.lastIndexOf('.');
-						String firstPart = pos > 0 ? fileName.substring(0, pos)
-								: "";
-						String extension = pos < fileName.length() ? fileName
-								.substring(pos) : "";
-						fileName = firstPart + n + extension;
-					} while (ImageManager.getExternalImage(fileName) != null);
 				}
+				// same name but different size: change filename
+				// Michael Borcherds: this bit of code should now be
+				// redundant as it
+				// is near impossible for the filename to be the same unless
+				// the files are the same
+				int n = 0;
+				do {
+					n++;
+					int pos = fileName.lastIndexOf('.');
+					String firstPart = pos > 0 ? fileName.substring(0, pos)
+							: "";
+					String extension = pos < fileName.length() ? fileName
+							.substring(pos) : "";
+					fileName = firstPart + n + extension;
+				} while (ImageManager.getExternalImage(fileName) != null);
 			}
 
 			imageManager.addExternalImage(fileName, img);
@@ -3917,9 +3921,8 @@ public class Application extends AbstractApplication implements
 
 		if ((dotPos <= 0) || (dotPos == (fileName.length() - 1))) {
 			return "";
-		} else {
-			return fileName.substring(dotPos + 1).toLowerCase(Locale.US); // Michael
 		}
+		return fileName.substring(dotPos + 1).toLowerCase(Locale.US); // Michael
 	}
 
 	public static File addExtension(File file, String fileExtension) {
@@ -3928,10 +3931,9 @@ public class Application extends AbstractApplication implements
 		}
 		if (getExtension(file).equals(fileExtension)) {
 			return file;
-		} else {
-			return new File(file.getParentFile(), // path
-					file.getName() + '.' + fileExtension); // filename
 		}
+		return new File(file.getParentFile(), // path
+				file.getName() + '.' + fileExtension); // filename
 	}
 
 	public static File removeExtension(File file) {
@@ -3943,10 +3945,9 @@ public class Application extends AbstractApplication implements
 
 		if (dotPos <= 0) {
 			return file;
-		} else {
-			return new File(file.getParentFile(), // path
-					fileName.substring(0, dotPos));
 		}
+		return new File(file.getParentFile(), // path
+				fileName.substring(0, dotPos));
 	}
 
 	public static String removeExtension(String fileName) {
@@ -3957,9 +3958,8 @@ public class Application extends AbstractApplication implements
 
 		if (dotPos <= 0) {
 			return fileName;
-		} else {
-			return fileName.substring(0, dotPos);
 		}
+		return fileName.substring(0, dotPos);
 	}
 
 	final static int MEMORY_CRITICAL = 100 * 1024;
@@ -4000,7 +4000,6 @@ public class Application extends AbstractApplication implements
 
 		clearSelectedGeos();
 
-		final Application app = this;
 
 		Thread runner = new Thread() {
 			@Override
@@ -4042,7 +4041,7 @@ public class Application extends AbstractApplication implements
 
 	}
 
-	private void simpleExportToClipboard(EuclidianView ev) {
+	static void simpleExportToClipboard(EuclidianView ev) {
 		double scale = 2d;
 		double size = ev.getExportWidth() * ev.getExportHeight();
 
@@ -4110,12 +4109,12 @@ public class Application extends AbstractApplication implements
 					BufferedImage.TYPE_INT_ARGB);
 
 			Graphics2D g = (Graphics2D) image.getGraphics();
-			EuclidianView.setAntialiasing(g);
+			EuclidianViewND.setAntialiasing(g);
 			g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
 					RenderingHints.VALUE_STROKE_PURE);
 
 			g.setColor(Color.DARK_GRAY);
-			g.setStroke(geogebra.awt.BasicStroke.getAwtStroke(EuclidianStatic.getStroke(2,
+			g.setStroke(geogebra.awt.BasicStroke.getAwtStroke(geogebra.common.euclidian.EuclidianStatic.getStroke(2,
 					EuclidianStyleConstants.LINE_TYPE_FULL)));
 
 			g.drawOval((10 * size) / 48, (10 * size) / 48, (30 * size) / 48,
@@ -4332,7 +4331,10 @@ public class Application extends AbstractApplication implements
 		try {
 			str = (String) contents.getTransferData(DataFlavor.stringFlavor);
 		} catch (UnsupportedFlavorException e) {
+			if(contents.getTransferDataFlavors()!=null && contents.getTransferDataFlavors().length > 0)
+				debug(contents.getTransferDataFlavors()[0]);
 		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		return str;
 	}
@@ -4415,6 +4417,7 @@ public class Application extends AbstractApplication implements
 	// eg so that GeoGebraTube can notice it's a version of the same file
 	private String uniqueId = "" + UUID.randomUUID();
 
+	@Override
 	public String getUniqueId() {
 		return uniqueId;
 	}
@@ -4424,6 +4427,7 @@ public class Application extends AbstractApplication implements
 		this.uniqueId = uniqueId;
 	}
 
+	@Override
 	public void resetUniqueId() {
 		uniqueId = "" + UUID.randomUUID();
 	}
@@ -4454,10 +4458,10 @@ public class Application extends AbstractApplication implements
 
 
 	@Override
-	public void evalPythonScript(AbstractApplication app, String script,
+	public void evalPythonScript(AbstractApplication app, String pythonScript,
 			String arg) {
-		if (arg != null) script = "arg="+arg+";"+script;
-		Application.debug(script);
+		String script= arg != null ? "arg="+arg+";"+pythonScript : pythonScript;
+		AbstractApplication.debug(script);
 		getPythonBridge().eval(script);
 		
 	}
@@ -4487,6 +4491,7 @@ public class Application extends AbstractApplication implements
 		return str.toLowerCase(Locale.US);
 	}
 
+	@Override
 	public String toUpperCase(String s) {
 		return s.toUpperCase(Locale.US);
 	}
@@ -4718,6 +4723,7 @@ public class Application extends AbstractApplication implements
 		return StringType.LATEX;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public DialogManager getDialogManager() {
 		
