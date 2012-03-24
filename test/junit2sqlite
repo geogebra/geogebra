@@ -52,10 +52,10 @@ for i in *.xml; do
  cat $i | $XML sel -T -t -m /testsuite/testcase -s D:N:- "@name" -v \
   "concat(@classname,'$IFS',@name,'$IFS',failure/@message,'$IFS',error/@message,'$IFS',failure/@type,'$IFS',error/@type)" -n |
   while read CLASSNAME NAME MESSAGE EMESSAGE TYPE ETYPE; do
-   if [ "$TYPE" != "" ]; then
+   if [ "$TYPE" != "" -o "$ETYPE" != "" ]; then
     runsql "insert into names (id) values ('$NAME');"
     ERROR=0
-    if [ "$EMESSAGE" != "" ]; then
+    if [ "$ETYPE" != "" ]; then
      ERROR=1
      MESSAGE="$EMESSAGE"
      TYPE="$ETYPE"
