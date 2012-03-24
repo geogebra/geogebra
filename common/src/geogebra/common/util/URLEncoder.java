@@ -1,9 +1,9 @@
 package geogebra.common.util;
 
 /**
- * Common URLEncoder
  * @author Zoltan Kovacs <zoltan@geogebra.org>
- *
+ * Common abstract class for URLEncoder, implemented by
+ * different ways in desktop and web
  */
 public abstract class URLEncoder {
 	/**

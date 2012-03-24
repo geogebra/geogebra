@@ -1303,7 +1303,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 	
 	/**
 	 * returns some class-specific xml tags for getConstructionRegressionOut
-	 * @return  some class-specific xml tags for getConstructionRegressionOut
+	 * @return some class-specific xml tags for getConstructionRegressionOut
 	 */
 	protected String getXMLtagsMinimal() {
 		StringBuffer sb = new StringBuffer();

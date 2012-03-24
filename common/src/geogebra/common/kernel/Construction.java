@@ -1066,9 +1066,8 @@ public class Construction {
 	}
 	
 	/**
-	 * Returns this construction in regression file .out format. Markus
-	 * suggested to use the logic from getConstructionXML for this method. --
-	 * Zoltan, 2011-07-26
+	 * Returns this construction in regression file .out format.
+	 * @author Zoltan Kovacs <zoltan@geogebra.org>
 	 * 
 	 * @param sb
 	 *            string builder
