@@ -189,7 +189,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 			return ret;
 		}
 		Command cmd = casInput.getTopLevelCommand();
-		if("Delete".equals(cmd.getName()) && "true".equals(result)){
+		if(cmd!=null && "Delete".equals(cmd.getName()) && "true".equals(result)){
 			GeoElement geo = casParser.getKernel().getConstruction().lookupLabel(cmd.getArgument(0).toString(tpl));
 			if(geo!=null)
 				geo.remove();
