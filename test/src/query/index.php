@@ -74,13 +74,24 @@ $sql="SELECT id FROM names";
 
 foreach ($db->query($sql) as $name) {
  $n=$name['id'];
- $content.="<tr><td>$n</td>";
+ $nformatted=str_replace("_"," ",$n);
+ $content.="<tr><td>$nformatted</td>";
  foreach ($revs as $rev) {
   $content.="<td ";
   $sql2="SELECT * from tests where name='$n' and revision='$rev'";
   $result=$db->query($sql2);
-  if (!$result) {
-   $content.="bgcolor=lightgreen align=center>ok";
+  $sql2count=str_replace("SELECT * ","SELECT count(*) ",$sql2);
+  $resultno=$db->query($sql2count);
+  $numrows=$resultno->fetchColumn();
+  if ($numrows==0) {
+   // Checking if there was a problem earlier
+   $sql3count="SELECT COUNT(*) from tests where name='$n'";
+   $resultno=$db->query($sql3count);
+   $numrows=$resultno->fetchColumn();
+   if ($numrows>=2)
+    $content.="bgcolor=lightgreen align=center>OK";
+   else
+    $content.="bgcolor=white align=center>";
    }
   else {
    foreach ($result as $row) {
@@ -105,15 +116,10 @@ foreach ($db->query($sql) as $name) {
     if (substr($type,$tl-5,5)=="Error");
      $type=substr($type,0,$tl-5);
     
-    //$content.="<a href=\"#\" class=info_link>$cname/$type</a>";
-    //$content.="<span class=info>$message</span>";
-
     $content.="<a href=\"#\" title=\"$message\">$cname<br><b>$type</b></a>";
-
     }
    }
   $content.="</td>";
-  
   }
  $content.="</tr>";
  }
