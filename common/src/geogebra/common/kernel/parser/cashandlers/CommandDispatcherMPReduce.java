@@ -30,7 +30,9 @@ public class CommandDispatcherMPReduce {
 		/** arbitrary integer (comes from trig equations)*/
 		arbint,
 		/** derivative*/
-		df
+		df,
+		/** logb */
+		logb
 	}
 
 	/**
@@ -74,6 +76,13 @@ public class CommandDispatcherMPReduce {
 				ret = new MyArbitraryConstant(kernel,
 						MyArbitraryConstant.ARB_INT, args.getListElement(0)
 								.toString(tpl));
+				break;
+				
+			case logb:
+				// e.g. logb[x,3] becomes log(3,x)
+				ret = new ExpressionNode(kernel,
+						 args.getListElement(1),Operation.LOGB,
+								args.getListElement(0));
 				break;
 
 			case df:
