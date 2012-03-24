@@ -31,5 +31,11 @@ public interface ReplaceableValue extends ExpressionValue {
 	 * @return resulting expression
 	 */
 	public boolean replaceGeoDummyVariables(String var, ExpressionValue newOb);
+	/**
+	 * Replaces exponents 1/3, 1/2 by sqrt and cbrt or vice versa
+	 * @param toRoot true to use sqrt and cbrt in result
+	 * @return true if replacement was necessary
+	 */
+	public boolean replacePowersRoots(boolean toRoot);
 	
 }

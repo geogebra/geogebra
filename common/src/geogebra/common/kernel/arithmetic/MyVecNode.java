@@ -330,4 +330,16 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 		return didReplacement;
 	}
 
+	public boolean replacePowersRoots(boolean toRoot) {
+		boolean didReplacement = false;
+		if(x instanceof ReplaceableValue){
+			didReplacement |= ((ReplaceableValue)x).replacePowersRoots(toRoot);
+		}
+		 
+		if(y instanceof ReplaceableValue){
+			didReplacement |= ((ReplaceableValue)y).replacePowersRoots(toRoot);
+		}
+		return didReplacement;
+	}
+
 }

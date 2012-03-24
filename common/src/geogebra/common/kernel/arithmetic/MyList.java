@@ -1071,4 +1071,14 @@ public class MyList extends ValidExpression implements ListValue,
 		return ret;
 	}
 
+	public boolean replacePowersRoots(boolean toRoot) {
+		boolean success = false;
+		for(int i=0;i<size();i++){
+			ExpressionValue insert = getListElement(i);
+			if(insert instanceof ReplaceableValue)
+				success |= ((ReplaceableValue)insert).replacePowersRoots(toRoot);
+		}
+		return success;
+	}
+
 }

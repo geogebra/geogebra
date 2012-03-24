@@ -534,6 +534,12 @@ public class Equation extends ValidExpression implements ReplaceableValue {
 		return didReplacement;
 	}
 	
+	public boolean replacePowersRoots(boolean toRoot) {
+		boolean didReplacement = lhs.replacePowersRoots(toRoot);
+		didReplacement = rhs.replacePowersRoots(toRoot) || didReplacement;
+		return didReplacement;
+	}
+	
 	public Kernel getKernel() {
 		return kernel;
 	}

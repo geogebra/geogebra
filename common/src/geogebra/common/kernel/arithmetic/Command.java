@@ -436,4 +436,14 @@ public class Command extends ValidExpression implements ReplaceableValue,
 		return this;
 	}
 
+	public boolean replacePowersRoots(boolean toRoot) {
+			int size = args.size();
+			boolean didReplacement = false;
+			for (int i = 0; i < size; i++) {
+				didReplacement = args.get(i).replacePowersRoots(toRoot)
+						|| didReplacement;
+			}
+			return didReplacement;
+	}
+
 }

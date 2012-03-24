@@ -889,9 +889,16 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		expression = expression.replaceAndWrap(oldOb, newOb);
 		return this;
 	}
-
+	/**
+	 * We don't want to do any replacement here as replacing GeoDummyVariables in
+	 * ExpressionNode(f,FUNCTION_NVAR,(x,y,z)) would change the function
+	 */
 	public boolean replaceGeoDummyVariables(String var, ExpressionValue newOb) {
 		return false;
+	}
+
+	public boolean replacePowersRoots(boolean toRoot) {
+		return expression.replacePowersRoots(toRoot);
 	}
 
 }

@@ -4499,4 +4499,58 @@ public class ExpressionNode extends ValidExpression implements
 		}
 	}
 
+	public boolean replacePowersRoots(boolean toRoot) {
+		boolean hit = false;
+		
+		if(left instanceof ReplaceableValue){
+			hit|= ((ReplaceableValue)left).replacePowersRoots(toRoot);
+		}
+		if(right instanceof ReplaceableValue){
+			hit|= ((ReplaceableValue)right).replacePowersRoots(toRoot);
+		}
+		
+		if(toRoot && getOperation()==Operation.POWER && getRight().isExpressionNode()){
+			ExpressionNode rightLeaf = (ExpressionNode)getRight();
+			
+			
+			//replaces 1 DIVIDE 2 by SQRT 2, and same for CBRT
+			if((rightLeaf.getOperation()==Operation.DIVIDE)) {
+					if(rightLeaf.getRight().toString(StringTemplate.defaultTemplate).equals("2")){
+						setOperation(Operation.SQRT);
+						hit = true;
+					}else if(rightLeaf.getRight().toString(StringTemplate.defaultTemplate).equals("3")){
+						setOperation(Operation.CBRT);
+						hit = true;
+					}
+					if(hit){
+						if(rightLeaf.getLeft().toString(StringTemplate.defaultTemplate).equals("1")){
+							setRight(new MyDouble(kernel, Double.NaN)); 
+						}
+						else{   // to parse x^(c/2) to sqrt(x^c)
+							setLeft(new ExpressionNode(kernel, getLeft(), Operation.POWER, rightLeaf.getLeft()));
+						}
+					}
+										
+			}
+		}
+		else if(!toRoot){	
+			//replaces   SQRT 2 by 1 DIVIDE 2, and same for CBRT
+			ExpressionNode power = null;
+			if((getOperation()==Operation.SQRT)) {
+				power = new ExpressionNode(kernel, new MyDouble(kernel, 1), Operation.DIVIDE, new MyDouble(kernel, 2));
+				hit = true;
+			}
+			if((getOperation()==Operation.CBRT)){
+				power = new ExpressionNode(kernel, new MyDouble(kernel, 1), Operation.DIVIDE, new MyDouble(kernel, 3));
+				hit = true;
+			}	
+			if(hit){
+				setOperation(Operation.POWER);
+				setRight(power);
+			}
+		}
+	
+		return hit;
+	}
+
 }

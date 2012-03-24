@@ -294,6 +294,21 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		}
 		return didReplacement;
 	}
+	
+	public boolean replacePowersRoots(boolean toRoot) {
+		boolean didReplacement = false;
+		if(x instanceof ReplaceableValue){
+			didReplacement |= ((ReplaceableValue)x).replacePowersRoots(toRoot);
+		}
+		 
+		if(y instanceof ReplaceableValue){
+			didReplacement |= ((ReplaceableValue)y).replacePowersRoots(toRoot);
+		}
+		if(z instanceof ReplaceableValue){
+			didReplacement |= ((ReplaceableValue)y).replacePowersRoots(toRoot);
+		}
+		return didReplacement;
+	}
 
 	public Kernel getKernel() {
 		return kernel;
