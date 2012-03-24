@@ -14,10 +14,12 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
@@ -41,6 +43,7 @@ public class AlgoStemPlot extends AlgoElement {
 	public AlgoStemPlot(Construction cons, GeoList geoList, GeoNumeric scaleAdjustment) {
 		super(cons);
 		this.geoList = geoList;
+		AbstractApplication.debug(geoList.toValueString(StringTemplate.defaultTemplate));
 		this.scaleAdjustment = scaleAdjustment;
 
 		text = new GeoText(cons);
@@ -184,9 +187,8 @@ public class AlgoStemPlot extends AlgoElement {
 			n  = (int) Math.round(data[i] * stemFactor);
 			stem = n / 10;
 			leaf = Math.abs(n % 10);
-
 			// if our stem is not the current one, add stems until we reach it
-			while(currentStem != stem){
+			while(currentStem < stem){
 				currentStem++;
 				lines.add(new ArrayList<Integer>());
 				lines.get(lines.size()-1).add(currentStem);
@@ -219,7 +221,7 @@ public class AlgoStemPlot extends AlgoElement {
 		double[] data = new double[size];
 		for (int i = 0 ; i < size ; i++) {
 			GeoElement geo = geoList.get(i);
-			if (!geo.isGeoNumeric()) {
+			if (!geo.isGeoNumeric() || !geo.isDefined()) {
 				text.setTextString("");
 				return;
 			}    		
