@@ -4500,16 +4500,17 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	public boolean replacePowersRoots(boolean toRoot) {
-		boolean hit = false;
+		boolean didReplacement = false;
 		
 		if(left instanceof ReplaceableValue){
-			hit|= ((ReplaceableValue)left).replacePowersRoots(toRoot);
+			didReplacement |= ((ReplaceableValue)left).replacePowersRoots(toRoot);
 		}
 		if(right instanceof ReplaceableValue){
-			hit|= ((ReplaceableValue)right).replacePowersRoots(toRoot);
+			didReplacement |= ((ReplaceableValue)right).replacePowersRoots(toRoot);
 		}
 		
 		if(toRoot && getOperation()==Operation.POWER && getRight().isExpressionNode()){
+			boolean hit = false;
 			ExpressionNode rightLeaf = (ExpressionNode)getRight();
 			
 			
@@ -4523,6 +4524,7 @@ public class ExpressionNode extends ValidExpression implements
 						hit = true;
 					}
 					if(hit){
+						didReplacement = true;
 						if(rightLeaf.getLeft().toString(StringTemplate.defaultTemplate).equals("1")){
 							setRight(new MyDouble(kernel, Double.NaN)); 
 						}
@@ -4534,6 +4536,7 @@ public class ExpressionNode extends ValidExpression implements
 			}
 		}
 		else if(!toRoot){	
+			boolean hit = false;
 			//replaces   SQRT 2 by 1 DIVIDE 2, and same for CBRT
 			ExpressionNode power = null;
 			if((getOperation()==Operation.SQRT)) {
@@ -4545,12 +4548,13 @@ public class ExpressionNode extends ValidExpression implements
 				hit = true;
 			}	
 			if(hit){
+				didReplacement = true;
 				setOperation(Operation.POWER);
 				setRight(power);
 			}
 		}
 	
-		return hit;
+		return didReplacement;
 	}
 
 }
