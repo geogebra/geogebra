@@ -85,10 +85,10 @@ foreach ($db->query($sql) as $name) {
   $numrows=$resultno->fetchColumn();
   if ($numrows==0) {
    // Checking if there was a problem earlier
-   $sql3count="SELECT COUNT(*) from tests where name='$n'";
+   $sql3count="SELECT COUNT(*) from tests where name='$n' and revision<'$rev'";
    $resultno=$db->query($sql3count);
    $numrows=$resultno->fetchColumn();
-   if ($numrows>=2)
+   if ($numrows>=1)
     $content.="bgcolor=lightgreen align=center>OK";
    else
     $content.="bgcolor=white align=center>";
