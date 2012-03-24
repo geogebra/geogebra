@@ -63,8 +63,8 @@ for i in *.xml; do
     # Fixing issue with apostrophes:
     echo $MESSAGE | sed s/"'"/"''"/g > .message
     MESSAGE=`cat .message`
-    runsql "insert into tests (classname, name, message, type, revision) values
-     ('$CLASSNAME', '$NAME', '$MESSAGE', '$TYPE', '$REVISION');"
+    runsql "insert into tests (classname, name, message, type, revision, error) values
+     ('$CLASSNAME', '$NAME', '$MESSAGE', '$TYPE', '$REVISION', $ERROR);"
     fi
   done
  done
