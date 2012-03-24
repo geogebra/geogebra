@@ -54,7 +54,7 @@ runsql "select name from tests where revision='$REVISION' except
   runsql "select classname, message, type from tests where revision='$REVISION' and name='$NAME';"\
    | while read CLASSNAME MESSAGE TYPE; do
    runsql "insert into warnings (level, warning, name, revision) values
-    (4, 'New problem appeared at [$REVISION]: The $NAME named $CLASSNAME test with type $TYPE gives message $MESSAGE (does not occur in [$PREV_REVISION)',
+    (4, 'New problem appeared at [$REVISION]: The $NAME named $CLASSNAME test with type $TYPE gives message $MESSAGE (does not occur in [$PREV_REVISION])',
      '$NAME','$REVISION');"
     done
   done 
