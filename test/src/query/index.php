@@ -108,7 +108,7 @@ foreach ($db->query($sql) as $name) {
     //$content.="<a href=\"#\" class=info_link>$cname/$type</a>";
     //$content.="<span class=info>$message</span>";
 
-    $content.="<a href=\"#\" title=\"$message\">$cname/$type</a>";
+    $content.="<a href=\"#\" title=\"$message\">$cname<br><b>$type</b></a>";
 
     }
    }
