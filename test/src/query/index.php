@@ -110,7 +110,7 @@ foreach ($db->query($sql) as $name) {
     for ($i=strlen($cn); $i>=0 && $cn[$i]!="."; --$i)
      $cname=$cn[$i].$cname;
     $cnl=strlen($cname);
-    if (substr($cname,$cnl-4,4)=="Test");
+    if (substr($cname,$cnl-4,4)=="Test")
      $cname=substr($cname,0,$cnl-4);
 
     // Creating type (plus trimming)
@@ -118,7 +118,7 @@ foreach ($db->query($sql) as $name) {
     for ($i=strlen($t); $i>=0 && $t[$i]!="."; --$i)
      $type=$t[$i].$type;
     $tl=strlen($type);
-    if (substr($type,$tl-5,5)=="Error");
+    if (substr($type,$tl-5,5)=="Error")
      $type=substr($type,0,$tl-5);
      
     // Changing " to '' in the message (no better idea)
