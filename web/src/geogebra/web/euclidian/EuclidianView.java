@@ -610,8 +610,9 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	}
 
 
-	public void synCanvasSizeWithApp() {
-		//must be implemented properly
+	public void synCanvasSizeWithApp(int canvasWidth, int canvasHeight) {
+		g2p.setWidth(canvasWidth);
+		g2p.setHeight(canvasHeight);
 		setCoordinateSpaceSize(g2p.getOffsetWidth(), g2p.getOffsetHeight());
     }
 

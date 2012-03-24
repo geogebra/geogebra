@@ -2,8 +2,12 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
-		
+		.workspace {
+			background-color:green;
+		}
+	
 	</ui:style>
 	<g:HTMLPanel>
+		<p class="{style.workspace}">Arpad's workspace</p>
 	</g:HTMLPanel>
 </ui:UiBinder> 

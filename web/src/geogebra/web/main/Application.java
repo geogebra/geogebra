@@ -111,6 +111,9 @@ public class Application extends AbstractApplication {
 	private GeoGebraFrame frame;
 	private GeoGebraAppFrame appFrame;
 	private boolean useFullAppGui = false;
+	//needed to remember the original size of the canvas
+	private int canvasHeight;
+	private int canvasWidth;
 
 	// convenience method
 	public Application(ArticleElement ae, GeoGebraFrame gf) {
@@ -162,7 +165,13 @@ public class Application extends AbstractApplication {
 		createAppSplash();
 		this.useFullAppGui  = true;
 		dbg = new DebugPrinterWeb();
-		this.init(undoActive);
+		initCommonObjects();
+		
+		this.canvas = appFrame.getEuclidianView1Canvas();
+		this.euclidianViewPanel = appFrame.getEuclidianView1Panel();
+		
+		initCoreObjects(undoActive, this);
+		appFrame.finishAsyncLoading(article, geoGebraAppFrame, this);
     }
 
 	public Application(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame) {
@@ -602,10 +611,18 @@ public class Application extends AbstractApplication {
 		getEuclidianView1().requestFocusInWindow();
 	}
 	
+	/** Does some refining after file loaded in the App.
+	 * Also note, that only one euclidianview is used now,
+	 * later it must be retought.
+	 * We save the original widht, height of the canvas,
+	 * and restore it after file loading, as it needed to be fixed after all.
+	 */
 	public void afterLoadAppFile() {
 		kernel.initUndoInfo();
+		this.canvasWidth = euclidianViewPanel.getOffsetWidth();
+		this.canvasHeight = euclidianViewPanel.getOffsetHeight();
 		getEuclidianView1().setDisableRepaint(false);
-		getEuclidianView1().synCanvasSizeWithApp();
+		getEuclidianView1().synCanvasSizeWithApp(canvasWidth,canvasHeight);
 		getEuclidianView1().repaintView();
 	}
 

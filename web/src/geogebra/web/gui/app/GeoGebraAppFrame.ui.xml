@@ -4,9 +4,8 @@
   xmlns:web='urn:import:geogebra.web.gui.app'>
   
    <ui:style>
-  .debugborder {
-    border:1px solid black;
-  }
+	  .debugborder { border:1px solid black; background-color:red;}
+	  .debugeview { background-color:green; border: 1px solid black; width:100%; height:100%;}
   </ui:style>
 
   <g:DockLayoutPanel styleName="{style.debugborder}" unit='EM'>
@@ -21,7 +20,7 @@
         </g:west>
 
         <g:center>
-          <web:GGWGraphicsView styleName="{style.debugborder}" ui:field='ggwGraphicsView' />
+          <web:GGWGraphicsView styleName="{style.debugeview}" ui:field='ggwGraphicsView' />
         </g:center>
         
       </g:SplitLayoutPanel>
