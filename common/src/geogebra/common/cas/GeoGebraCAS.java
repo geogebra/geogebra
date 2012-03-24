@@ -210,7 +210,11 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	final public String evaluateGeoGebraCAS(String exp) throws CASException {
 		try {
 			ValidExpression inVE = casParser.parseGeoGebraCASInput(exp);
-			return evaluateGeoGebraCAS(inVE,StringTemplate.defaultTemplate);
+			String ret = evaluateGeoGebraCAS(inVE,StringTemplate.defaultTemplate);
+			if(ret == null)
+				throw new CASException(
+						new Exception(app.getError("CAS.GeneralErrorMessage")));
+			return ret;
 		} catch (Throwable t) {
 			throw new CASException(t);
 		}
