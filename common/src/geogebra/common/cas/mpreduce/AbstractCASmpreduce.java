@@ -11,6 +11,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 
 import java.util.Map;
@@ -184,8 +185,14 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 		// convert result back into GeoGebra syntax
 		if (casInput instanceof FunctionNVar) {
 			// function definition f(x) := x^2 should return x^2
-			String ret = casInput.toString(StringTemplate.defaultTemplate);
+			String ret = casInput.toString(tpl);
 			return ret;
+		}
+		Command cmd = casInput.getTopLevelCommand();
+		if("Delete".equals(cmd.getName()) && "true".equals(result)){
+			GeoElement geo = casParser.getKernel().getConstruction().lookupLabel(cmd.getArgument(0).toString(tpl));
+			if(geo!=null)
+				geo.remove();
 		}
 		// standard case
 		return toGeoGebraString(result,tpl);
