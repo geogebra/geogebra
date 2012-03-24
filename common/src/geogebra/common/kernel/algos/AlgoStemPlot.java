@@ -14,36 +14,49 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 
+/**
+ * Creates stem and leaf plot for given list of numbers,
+ * output is a LaTeX table 
+ * @author Michael
+ */
 public class AlgoStemPlot extends AlgoElement {
 
 	private GeoList geoList; //input
 	private GeoNumeric scaleAdjustment; //input
 	private GeoText text; //output	
-	StringBuilder low, high;
+	private StringBuilder low, high;
 
 	private StringBuffer sb = new StringBuffer();
 
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param geoList list of numbers
+	 * @param scaleAdjustment decimal point shift (+1/0/-1)
+	 */
 	public AlgoStemPlot(Construction cons, String label, GeoList geoList, GeoNumeric scaleAdjustment) {
 		this(cons, geoList, scaleAdjustment);
 		text.setLabel(label);
 	}
 
+	/**
+	 * @param cons construction
+	 * @param geoList list of numbers
+	 * @param scaleAdjustment decimal point shift (+1/0/-1)
+	 */
 	public AlgoStemPlot(Construction cons, GeoList geoList, GeoNumeric scaleAdjustment) {
 		super(cons);
 		this.geoList = geoList;
-		AbstractApplication.debug(geoList.toValueString(StringTemplate.defaultTemplate));
 		this.scaleAdjustment = scaleAdjustment;
 
 		text = new GeoText(cons);
@@ -74,7 +87,9 @@ public class AlgoStemPlot extends AlgoElement {
         super.setOutput(0, text);
 		setDependencies(); // done by AlgoElement
 	}
-
+	/**
+	 * @return resulting LaTeX table
+	 */
 	public GeoText getResult() {
 		return text;
 	}
