@@ -123,13 +123,37 @@ public class Application extends AbstractApplication {
 	 * @param undoActive
 	 *          if true you can undo by CTRL+Z and redo by CTRL+Y
 	 */
-	public Application(ArticleElement ae, GeoGebraFrame gf, boolean undoActive) {
+	public Application(ArticleElement ae, GeoGebraFrame gf, final boolean undoActive) {
 		this.articleElement = ae;
 		this.frame = gf;
 		createSplash();
 		this.useFullGui = ae.getDataParamGui();
 		dbg = new DebugPrinterWeb();
-		this.init(undoActive);
+		initCommonObjects();
+		
+		this.canvas = Canvas.createIfSupported();
+		euclidianViewPanel = new AbsolutePanel();
+		euclidianViewPanel.add(this.canvas); // canvas must be the 1rst widget in the euclidianViewPanel
+		// because we will use euclidianViewPanel.getWidget(0) later
+		canvas.setWidth("1px");
+		canvas.setHeight("1px");
+		canvas.setCoordinateSpaceHeight(1);
+		canvas.setCoordinateSpaceWidth(1);
+		final Application this_app = this;
+		
+		//try to async loading of kernel, maybe we got quicker...
+		GWT.runAsync(new RunAsyncCallback() {
+			
+			public void onSuccess() {
+				initCoreObjects(undoActive, this_app);
+				frame.finishAsyncLoading(articleElement, frame, this_app);
+			}
+			
+			public void onFailure(Throwable reason) {
+				AbstractApplication.debug(reason);
+			}
+		});
+		
 	}
 
 	public Application(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame, boolean undoActive) {
@@ -493,7 +517,11 @@ public class Application extends AbstractApplication {
 	 * @param undoActive 
 	 */
 	public void init(final boolean undoAct) {
-		geogebra.common.factories.AwtFactory.prototype = new geogebra.web.factories.AwtFactory();
+		initCommonObjects();
+	}
+
+	private void initCommonObjects() {
+	    geogebra.common.factories.AwtFactory.prototype = new geogebra.web.factories.AwtFactory();
 		geogebra.common.factories.FormatFactory.prototype = new geogebra.web.factories.FormatFactory();
 		geogebra.common.factories.CASFactory.prototype = new geogebra.web.factories.CASFactory();
 		geogebra.common.factories.SwingFactory.prototype = new geogebra.web.factories.SwingFactory();
@@ -510,58 +538,7 @@ public class Application extends AbstractApplication {
 		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.web.euclidian.HatchingHandler();
 		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.web.euclidian.EuclidianStatic();
 		geogebra.common.euclidian.clipping.DoubleArrayFactory.prototype = new geogebra.common.euclidian.clipping.DoubleArrayFactoryImpl();
-
-		this.canvas = Canvas.createIfSupported();
-		euclidianViewPanel = new AbsolutePanel();
-		euclidianViewPanel.add(this.canvas); // canvas must be the 1rst widget in the euclidianViewPanel
-		// because we will use euclidianViewPanel.getWidget(0) later
-		canvas.setWidth("1px");
-		canvas.setHeight("1px");
-		canvas.setCoordinateSpaceHeight(1);
-		canvas.setCoordinateSpaceWidth(1);
-		final Application this_app = this;
-		
-		//try to async loading of kernel, maybe we got quicker...
-		GWT.runAsync(new RunAsyncCallback() {
-			
-			public void onSuccess() {
-				kernel = new Kernel(this_app);
-
-				// init settings
-				settings = new Settings();
-
-				initEuclidianViews();
-
-				initImageManager();
-
-				myXMLio = new MyXMLio(kernel, kernel.getConstruction());
-				
-				fontManager = new FontManager();
-				setFontSize(12);
-				// setLabelDragsEnabled(false);
-				capturingThreshold = 20;
-
-				// make sure undo allowed
-				hasFullPermissions = true;
-
-				getScriptManager();// .ggbOnInit();//this is not called here because we have to delay it
-														// until the canvas is first drawn
-
-				setUndoActive(undoAct);
-				registerFileDropHandlers((CanvasElement) canvas.getElement().cast());
-				if (frame != null) {
-					frame.finishAsyncLoading(articleElement, frame, this_app);
-				} else {
-					appFrame.finishAsyncLoading(articleElement,appFrame,this_app);
-				}
-			}
-			
-			public void onFailure(Throwable reason) {
-				AbstractApplication.debug(reason);
-			}
-		});
-		
-	}
+    }
 	
 	
 
@@ -1304,6 +1281,40 @@ public class Application extends AbstractApplication {
 
 	public boolean isFullAppGui() {
 	    return useFullAppGui;
+    }
+
+	/**
+	 * @param undoActive
+	 * @param this_app
+	 * 
+	 * Initializes Kernel, EuclidianView, EuclidianSettings, etc..
+	 */
+	void initCoreObjects(final boolean undoActive,
+            final Application this_app) {
+	    kernel = new Kernel(this_app);
+
+	    // init settings
+	    settings = new Settings();
+
+	    initEuclidianViews();
+
+	    initImageManager();
+
+	    myXMLio = new MyXMLio(kernel, kernel.getConstruction());
+	    
+	    fontManager = new FontManager();
+	    setFontSize(12);
+	    // setLabelDragsEnabled(false);
+	    capturingThreshold = 20;
+
+	    // make sure undo allowed
+	    hasFullPermissions = true;
+
+	    getScriptManager();// .ggbOnInit();//this is not called here because we have to delay it
+	    										// until the canvas is first drawn
+
+	    setUndoActive(undoActive);
+	    registerFileDropHandlers((CanvasElement) canvas.getElement().cast());
     }
 
 }
