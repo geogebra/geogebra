@@ -195,6 +195,8 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 				geo.remove();
 		}
 		// standard case
+		if("".equals(result))
+			return null;
 		return toGeoGebraString(result,tpl);
 	}
 
