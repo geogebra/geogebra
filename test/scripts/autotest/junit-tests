@@ -13,19 +13,20 @@ TESTDIR=$SVNDIR/geogebra/test
 
 cd $TESTDIR
 
+RETVAL=0
 sleep 3 # Dirty hack to ensure xvfb can run properly
-xvfb-run -w 3 ./run-junit-tests || exit 1 # Problem running the tests
+xvfb-run -w 3 ./run-junit-tests || RETVAL=1 # Problem running the tests
 ./junit2sqlite # Copying XML data into an SQL database
 ./warnings > .warnings
 
 ERRORS=`cat .junit-tests-errors`
 if [ $ERRORS -gt 0 ]; then
- exit 2 # Errors occured during the JUnit tests
+ RETVAL=2 # Errors occured during the JUnit tests
  fi
 
 FAILURES=`cat .warnings`
 if [ "$FAILURES" != "" ]; then
- exit 3 # A new failure has been introduced
+ RETVAL=3 # A new failure has been introduced
  fi
 
-exit 0 # No error
+exit $RETVAL
