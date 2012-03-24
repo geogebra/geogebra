@@ -23,7 +23,6 @@ import junit.framework.Assert;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.common.base.Throwables;
@@ -192,8 +191,6 @@ public class GeoGebraCasIntegrationTest {
 	 * Checks if the assignment of variables by using the ':=' operator is
 	 * working
 	 */
-	// FIXME commented out because of #1860
-	@Ignore
 	@Test
 	public void Assignment_0() {
 		t("a", "a");
@@ -551,9 +548,6 @@ public class GeoGebraCasIntegrationTest {
 		t("CFactor[x^2 + 4]", "(x + 2 * ί) * (x - 2 * ί)");
 	}
 
-	// FIXME commented out because of #1861
-/**{@code
-
 	@Test
 	public void CFactor_1() {
 		t("CFactor[a^2 + x^2, a]", "(a + x * ί) * (a - x * ί)",
@@ -566,7 +560,7 @@ public class GeoGebraCasIntegrationTest {
 				"(x + ί * a) * (x - ί * a)");
 	}
 	
-}*/
+
 
 	/* ChiSquared */
 
@@ -579,15 +573,11 @@ public class GeoGebraCasIntegrationTest {
 
 	/* Numeric Evaluation */
 
-	// FIXME commented out because of #1862
-/**{@code
 	
 	@Test
 	public void ChiSquared_Numeric_0() {
 		t("Numeric[ChiSquared[4, 3], 3]", "0.442");
 	}
-
-}*/
 
 	/* CommonDenomiator */
 
@@ -687,8 +677,7 @@ public class GeoGebraCasIntegrationTest {
 
 	/* Several Equations and Variables */
 
-	// FIXME commented out because of #1866
-/**{@code
+
 
 	@Test
 	public void CSolve_Several_0() {
@@ -696,7 +685,7 @@ public class GeoGebraCasIntegrationTest {
 				"{{x = 1 + 2 * ί, y = 1 + ί}, {x = 1 - 2 * ί, y = 1 - ί}}");
 	}
 	
-}*/
+
 
 	/* Decimal */
 
@@ -712,10 +701,12 @@ public class GeoGebraCasIntegrationTest {
 
 	/* Degree */
 
-	// TODO uncomment when working again
-	/*
-	 * @Test public void Degree_0() { t("Degree[x^4 + 2 x^2]", "4"); }
-	 */
+
+
+	 @Test public void Degree_0() {
+		 t("Degree[x^4 + 2 x^2]", "4"); 
+	}
+	 
 
 	@Test
 	public void Degree_1() {
@@ -729,8 +720,6 @@ public class GeoGebraCasIntegrationTest {
 
 	/* Delete */
 
-	// FIXME commented out because of #1860
-/**{@code
 	
 	@Test
 	public void Delete_0() {
@@ -746,8 +735,7 @@ public class GeoGebraCasIntegrationTest {
 		t("Delete[a]", "true");
 		t("a", "a");
 	}
-	
-}*/
+
 
 	/* Denominator */
 
@@ -920,9 +908,7 @@ public class GeoGebraCasIntegrationTest {
 				"(a^(2) + 2 * a * b + b^(2)) / (c^(2) + 2 * c * d + d^(2))");
 	}
 
-	// FIXME commented out because of #1867
-/**{@code
-	
+
 	@Test
 	public void Expand_2() {
 		StringBuilder expectedResult = new StringBuilder("");
@@ -956,7 +942,6 @@ public class GeoGebraCasIntegrationTest {
 				"x^(6) / 720 + x^(5) / 120 + x^(4) / 24 + x^(3) / 6 + x^(2) / 2 + x + 1");
 	}
 	
-}*/
 
 	/* Exponential */
 
@@ -1046,8 +1031,7 @@ public class GeoGebraCasIntegrationTest {
 		t("Factor[(a^2 - 2 * a * b + b^2)^2]", "(a - b)^(4)");
 	}
 
-	// FIXME commented out because of #1868
-/**{@code
+
 	
 	@Test
 	public void Factor_Variables_11() {
@@ -1059,7 +1043,6 @@ public class GeoGebraCasIntegrationTest {
 		t("Factor[x^2 - y^2, y]", "(-x - y) * (-x + y)");
 	}
 	
-}*/
 
 	/* Factors */
 
@@ -1125,16 +1108,11 @@ public class GeoGebraCasIntegrationTest {
 
 	/* Fit Pow */
 
-	// FIXME commented out because of #1870
-/**{@code
-	
 	@Test
 	public void FitPow_0() {
 		t("FitPow[{(1, 1), (3, 2), (7, 4)}]",
 				"0.9744885773742909 * x^(0.7084753128560123)");
 	}
-	
-}*/
 
 	// TODO Abstract, as well?
 
@@ -1628,15 +1606,10 @@ public class GeoGebraCasIntegrationTest {
 		t("Numeric[((15 + 9) * 3.5 - 2 * 0.5) / 4]", "20.75");
 	}
 
-	// FIXME commented out because of #1862
-/**{@code
-	
 	@Test
 	public void NumericEvaluation_ConstantsOnly_2() {
 		t("Numeric[π,15]", "3.14159265358979");
 	}
-	
-}*/
 
 	@Test
 	public void NumericEvaluation_ConstantsOnly_3() {
@@ -1678,15 +1651,11 @@ public class GeoGebraCasIntegrationTest {
 
 	/* Precision */
 
-	// FIXME commented out because of #1862
-/**{@code
-	
 	@Test
 	public void NumericEvaluation_Precision_0() {
 		t("Numeric[10 + 22/7, 6]", "13.1429");
 	}
-	
-}*/
+
 
 	@Test
 	public void NumericEvaluation_Precision_1() {
@@ -2189,46 +2158,31 @@ public class GeoGebraCasIntegrationTest {
 
 	/* Constants only */
 
-	// FIXME commented out because of #1871
-/**{@code
-	
 	@Test
 	public void Solve_ConstantsOnly_0() {
 		s("Solve[1 = 1]", "{x = c_INDEX}");
 	}
-	
-}*/
 
 	@Test
 	public void Solve_ConstantsOnly_1() {
 		t("Solve[1 = 2]", "{}");
 	}
 
-	// FIXME commented out because of #1871
-/**{@code	
-
 	@Test
 	public void Solve_ConstantsOnly_2() {
 		s("Solve[1 = 1, x]", "{x = c_INDEX}");
 	}
-	
-}*/
 
 	@Test
 	public void Solve_ConstantsOnly_3() {
 		t("Solve[1 = 2, x]", "{}");
 	}
 
-	// FIXME commented out because of #1871
-/**{@code
-	
 	@Test
 	public void Solve_ConstantsOnly_4() {
 		s("Solve[{1 = 1, 2 = 2}, {x, y}]",
 				"{{x = c_INDEX, y = c_INDEX}}");
 	}
-	
-}*/
 
 	@Test
 	public void Solve_ConstantsOnly_5() {
@@ -2272,15 +2226,10 @@ public class GeoGebraCasIntegrationTest {
 		t("Solve[x^2 - 4 = 0, x]", "{x = 2, x = -2}");
 	}
 
-	// FIXME commented out because of #1584
-/**{@code
-	
 	@Test
 	public void Solve_OneVariable_7() {
 		t("Solve[x^2 - 4 x - 1 = 0, x]", "{x = sqrt(5) + 2, x = -sqrt(5) + 2}");
 	}
-	
-}*/
 
 	@Test
 	public void Solve_OneVariable_8() {
@@ -2294,32 +2243,22 @@ public class GeoGebraCasIntegrationTest {
 
 	/* One Variable, variable Coefficients */
 
-	// FIXME commented out because of #1584
-/**{@code
-
 	@Test
 	public void Solve_OneVariableVC_0() {
 		t("Solve[a x^2 + b x + c, x]",
 				"{x = (sqrt(-4 * a * c + b^(2)) - b) / (2 * a), x = (-sqrt(-4 * a * c + b^(2)) - b) / (2 * a)}");
 	}
-	
-}*/
 
 	@Test
 	public void Solve_OneVariableVC_1() {
 		t("Solve[1 / p - (a - k^2) / a = k^2 / (p a), a]", "{a = k^(2)}");
 	}
 
-	// FIXME commented out because of #1584
-/**{@code
-	
 	@Test
 	public void Solve_OneVariableVC_2() {
 		t("Solve[1 / p - (a - k^2) / a = k^2 / (p a), k]",
 				"{k = sqrt(a), k = -sqrt(a)}");
 	}
-	
-}*/
 
 	@Test
 	public void Solve_OneVariableVC_3() {
@@ -2338,30 +2277,22 @@ public class GeoGebraCasIntegrationTest {
 	}
 
 	// FIXME commented out because of #1873
-/**{@code
-	
+
 	@Test
 	public void Solve_OneVariableVC_6() {
 		t("Solve[a = b^c, b]", "{b = a^(1 / c)}");
 	}
-	
-}*/
 
 	@Test
 	public void Solve_OneVariableVC_7() {
 		t("Solve[a = b^c, c]", "{c = log(a) / log(b)}");
 	}
 
-	// FIXME commented out because of #1873
-/**{@code
-	
 	@Test
 	public void Solve_OneVariableVC_8() {
 		// TODO Resolve whether we can have this.
 		t("Solve[0 = b^c, b]", "{b = 0}");
 	}
-	
-}*/
 
 	@Test
 	public void Solve_OneVariableVC_9() {
@@ -2393,15 +2324,10 @@ public class GeoGebraCasIntegrationTest {
 
 	/* Several Equations and Variables */
 
-	// FIXME commented out because of #1874
-/**{@code
-	
 	@Test
 	public void Solve_Several_0() {
 		t("Solve[{x = 4 x + y , y + x = 2}, {x, y}]", "{{x = -1, y = 3}}");
 	}
-	
-}*/
 
 	@Test
 	public void Solve_Several_1() {
@@ -2424,16 +2350,10 @@ public class GeoGebraCasIntegrationTest {
 	}
 	
 
-
-	// FIXME commented out because of #1875
-/**{@code	
-	
 	@Test
 	public void SolveODE_1() {
 		s("SolveODE[y / x, y, x]", "y = c_INDEX * x");
 	}
-	
-}*/
 
 	/* Substitute */
 
@@ -2457,9 +2377,6 @@ public class GeoGebraCasIntegrationTest {
 	public void Substitute_3() {
 		t("Substitute[(3 m - 3)^2 - (m + 3)^2, m, a]", "8 * a^(2) - 24 * a");
 	}
-
-	// FIXME commented out because of #1876
-/**{@code	
 	
 	@Test
 	public void Substitute_4() {
@@ -2476,7 +2393,7 @@ public class GeoGebraCasIntegrationTest {
 		t("Substitute[2x + 3y - z, {x=a, y=2, z=b}]", "2 * a - b + 6");
 	}
 	
-}*/
+
 
 	/* Sum */
 
@@ -2512,9 +2429,6 @@ public class GeoGebraCasIntegrationTest {
 
 	/* Variable not specified */
 
-	// FIXME commented out because of #1877
-/**{@code	
-	
 	@Test
 	public void TaylorPolynomial_VariableNotSpecified_0() {
 		try {
@@ -2539,8 +2453,6 @@ public class GeoGebraCasIntegrationTest {
 		t("TaylorPolynomial[x^2, a, 1]", "2 * x * a - a^(2)");
 	}
 	
-}*/
-
 	/* Variable specified */
 
 	@Test
@@ -2649,16 +2561,11 @@ public class GeoGebraCasIntegrationTest {
 		t("UnitPerpendicularVector[(3, 4)]", "((-4) / 5, 3 / 5)");
 	}
 
-	// FIXME commented out because of #1584
-/**{@code	
-	
 	@Test
 	public void UnitPerpendicularVector_1() {
 		t("UnitPerpendicularVector[(a, b)]",
 				"((-b) / sqrt(a^(2) + b^(2)), -b / sqrt(a^(2) + b^(2)))");
 	}
-	
-}*/
 
 	/* UnitVector */
 
@@ -2667,16 +2574,11 @@ public class GeoGebraCasIntegrationTest {
 		t("UnitVector[(3, 4)]", "(3 / 5, 4 / 5)");
 	}
 
-	// FIXME commented out because of #1584
-/**{@code	
-	
 	@Test
 	public void UnitVector_1() {
 		t("UnitVector[(a, b)]",
 				"(a / sqrt(a^(2) + b^(2)), b / sqrt(a^(2) + b^(2)))");
 	}
-	
-}*/
 
 	@Test
 	public void UnitVector_2() {
@@ -2707,8 +2609,7 @@ public class GeoGebraCasIntegrationTest {
 	/* Ticket 1336: Support for brackets with built-in functions */
 
 	// FIXME commented out because of #1336
-/**{@code
-	
+
 	@Test
 	public void Ticket_Ticket1336_0() {
 		t("Abs[17]", "17");
@@ -2733,8 +2634,7 @@ public class GeoGebraCasIntegrationTest {
 	public void Ticket_Ticket1336_4() {
 		t("(5 + 3 ί) + Conjugate[5 + 3 ί]", "10");
 	}
-	
-}*/
+
 
 	/* Ticket 1477: e gets E in CAS */
 
