@@ -35,7 +35,7 @@ test -r sqlite3db || {
  }
 
 runsql () {
- echo "$*"
+ echo "$*" >/dev/stderr
  echo "$*" | sqlite3 $MYDIR/sqlite3db
 }
 

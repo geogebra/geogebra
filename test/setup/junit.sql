@@ -7,8 +7,14 @@ create table names (
 
 create table tests (
  classname varchar(50),
- name varchar(50),
+ name varchar(50) not null,
  message text,
  type varchar(100),
  revision varchar(50) not null,
  unique (name, revision));
+
+create table warnings (
+ level int,
+ warning text,
+ name varchar(50) not null,
+ revision varchar(50) not null);
