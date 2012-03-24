@@ -1,0 +1,73 @@
+#!/bin/sh
+# Examines SQL database for the latest revision,
+# creates entries for the warnings table,
+# and prints them.
+
+# @author Zoltan Kovacs <zoltan@geogebra.org>
+
+# 1. Testing prerequisities
+SQLITE3=`which sqlite3`
+if [ "$SQLITE3" = "" ]; then
+ echo "No sqlite3 executable found on path"
+ exit 11
+ fi
+
+DIRNAME=`dirname $0`
+MYDIR=`cd $DIRNAME; pwd`
+cd $MYDIR
+
+test -r sqlite3db || {
+ echo "No SQLite3 database exists"
+ exit 12
+ }
+
+runsql () {
+ echo "$*" >/dev/stderr
+ echo "$*" | sqlite3 $MYDIR/sqlite3db
+}
+
+# 2. Getting the latest and previous revisions
+NREVS=`runsql "select count(*) from revisions;"`
+if [ $NREVS -lt 2 ]; then
+ echo "At least 2 revisions are required, $NREVS exist(s)"
+ exit 21
+ fi
+
+REVISION=`runsql "select id from revisions order by tested desc limit 1;"`
+PREV_REVISION=`runsql "select id from revisions order by tested desc limit 1,1;"`
+IFS="|"
+
+# 3. Disappearing names
+runsql "select name from tests where revision='$PREV_REVISION' except
+ select name from tests where revision='$REVISION';" | while read NAME; do
+  runsql "select classname, message, type from tests where revision='$PREV_REVISION' and name='$NAME';"\
+   | while read CLASSNAME MESSAGE TYPE; do
+   runsql "insert into warnings (level, warning, name, revision) values
+    (5, 'Old problem of [$REVISION] disappeared: The $NAME named $CLASSNAME test with type $TYPE gives no longer message $MESSAGE at [$REVISION]',
+     '$NAME','$REVISION');"
+    done
+  done
+
+# 4. Appearing names
+runsql "select name from tests where revision='$REVISION' except
+ select name from tests where revision='$PREV_REVISION';" | while read NAME; do
+  runsql "select classname, message, type from tests where revision='$REVISION' and name='$NAME';"\
+   | while read CLASSNAME MESSAGE TYPE; do
+   runsql "insert into warnings (level, warning, name, revision) values
+    (4, 'New problem appeared at [$REVISION]: The $NAME named $CLASSNAME test with type $TYPE gives message $MESSAGE (does not occur in [$PREV_REVISION)',
+     '$NAME','$REVISION');"
+    done
+  done 
+
+# 5. Errors
+runsql "select name from tests where revision='$REVISION' and error=1;" | while read NAME; do
+  runsql "select classname, message, type from tests where revision='$REVISION' and name='$NAME';"\
+   | while read CLASSNAME MESSAGE TYPE; do
+   runsql "insert into warnings (level, warning, name, revision) values
+    (3, 'Error at [$REVISION]: The $NAME named $CLASSNAME test with type $TYPE gives message $MESSAGE',
+     '$NAME','$REVISION');"
+    done
+  done 
+
+# 6. Printing warnings
+runsql "select warning from warnings where revision='$REVISION' and level <= 4 order by name;"

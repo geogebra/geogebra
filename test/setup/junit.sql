@@ -11,6 +11,7 @@ create table tests (
  message text,
  type varchar(100),
  revision varchar(50) not null,
+ error bool,
  unique (name, revision));
 
 create table warnings (

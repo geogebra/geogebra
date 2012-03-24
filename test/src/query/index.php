@@ -95,7 +95,12 @@ foreach ($db->query($sql) as $name) {
    }
   else {
    foreach ($result as $row) {
-    $content.="bgcolor=pink align=center>";
+    $error=$row['error'];
+    if ($error==1)
+     $color="orangered";
+    else
+     $color="pink";
+    $content.="bgcolor=$color align=center>";
     $cn=$row['classname'];
     $t=$row['type'];
     $message=$row['message'];

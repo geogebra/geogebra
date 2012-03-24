@@ -50,10 +50,16 @@ cd target/surefire-reports
 for i in *.xml; do
  IFS="|"
  cat $i | $XML sel -T -t -m /testsuite/testcase -s D:N:- "@name" -v \
-  "concat(@classname,'$IFS',@name,'$IFS',failure/@message,'$IFS',failure/@type)" -n |
-  while read CLASSNAME NAME MESSAGE TYPE; do
+  "concat(@classname,'$IFS',@name,'$IFS',failure/@message,'$IFS',error/@message,'$IFS',failure/@type,'$IFS',error/@type)" -n |
+  while read CLASSNAME NAME MESSAGE EMESSAGE TYPE ETYPE; do
    if [ "$TYPE" != "" ]; then
     runsql "insert into names (id) values ('$NAME');"
+    ERROR=0
+    if [ "$EMESSAGE" != "" ]; then
+     ERROR=1
+     MESSAGE="$EMESSAGE"
+     TYPE="$ETYPE"
+     fi
     # Fixing issue with apostrophes:
     echo $MESSAGE | sed s/"'"/"''"/g > .message
     MESSAGE=`cat .message`
