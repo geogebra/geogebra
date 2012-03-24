@@ -67,8 +67,15 @@ if [ $RESULT = 0 ]; then
   RESULT=11
   fi
  if [ $JRESULT = 2 ]; then
-  MESSAGE="Errors occured during JUnit tests at revision $REVISION"
+  NERRS=`cat ../../.junit-tests-errors`
+  MESSAGE="Errors occured during JUnit tests at revision $REVISION ($NERRS errors)"
+  LOG=`cat ../../.warnings | awk '{printf("%s\\\n",$0);}'`
   RESULT=12
+  fi
+ if [ $JRESULT = 3 ]; then
+  MESSAGE="A newly introduced failure has been detected by JUnit tests at revision $REVISION"
+  LOG=`cat ../../.warnings | awk '{printf("%s\\\n",$0);}'`
+  RESULT=13
   fi
 
  fi

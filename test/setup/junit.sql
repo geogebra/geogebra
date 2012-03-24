@@ -14,7 +14,8 @@ create table tests (
  unique (name, revision));
 
 create table warnings (
- level int,
+ level int, -- http://stackoverflow.com/questions/5007720/good-guidance-for-when-to-use-which-log-level-info-warn-debug-etc-for-appli
+ -- 0: emergency, 1: alert, 2: critical, 3: error, 4: warning, 5: notice, 6: informational, 7: debug, 8: trace
  warning text,
  name varchar(50) not null,
  revision varchar(50) not null);
