@@ -62,6 +62,8 @@ if [ $RESULT = 0 ]; then
   
   exit 0 # Not sending an email
   fi
+
+ LOG=`cat ../../.warnings | awk '{printf("%s\\\n",$0);}'`
  if [ $JRESULT = 1 ]; then
   MESSAGE="A JUnit build problem occurred at revision $REVISION"
   RESULT=11
@@ -69,12 +71,10 @@ if [ $RESULT = 0 ]; then
  if [ $JRESULT = 2 ]; then
   NERRS=`cat ../../.junit-tests-errors`
   MESSAGE="Errors occured during JUnit tests at revision $REVISION ($NERRS errors)"
-  LOG=`cat ../../.warnings | awk '{printf("%s\\\n",$0);}'`
   RESULT=12
   fi
  if [ $JRESULT = 3 ]; then
   MESSAGE="A newly introduced failure has been detected by JUnit tests at revision $REVISION"
-  LOG=`cat ../../.warnings | awk '{printf("%s\\\n",$0);}'`
   RESULT=13
   fi
 

@@ -115,6 +115,9 @@ foreach ($db->query($sql) as $name) {
     $tl=strlen($type);
     if (substr($type,$tl-5,5)=="Error");
      $type=substr($type,0,$tl-5);
+     
+    // Changing " to '' in the message (no better idea)
+    $message=str_replace('"',"''",$message);
     
     $content.="<a href=\"#\" title=\"$message\">$cname<br><b>$type</b></a>";
     }

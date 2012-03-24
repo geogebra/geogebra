@@ -54,6 +54,9 @@ for i in *.xml; do
   while read CLASSNAME NAME MESSAGE TYPE; do
    if [ "$TYPE" != "" ]; then
     runsql "insert into names (id) values ('$NAME');"
+    # Fixing issue with apostrophes:
+    echo $MESSAGE | sed s/"'"/"''"/g > .message
+    MESSAGE=`cat .message`
     runsql "insert into tests (classname, name, message, type, revision) values
      ('$CLASSNAME', '$NAME', '$MESSAGE', '$TYPE', '$REVISION');"
     fi
