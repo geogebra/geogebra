@@ -569,10 +569,11 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 					x2=xcenter;
 				}
 				//	line1=new Line2D();
-				double x_first=view.toRealWorldCoordX(penPoints.get(0).x);
-				double y_first=view.toRealWorldCoordY(penPoints.get(0).y);
-				double x_last=view.toRealWorldCoordX(penPoints.get(penPoints.size()-1).x);
-				double y_last=view.toRealWorldCoordY(penPoints.get(penPoints.size()-1).y);
+				//System.out.println(penOffsetX);
+				double x_first=view.toRealWorldCoordX(penPoints.get(0).x + penOffsetX);
+				double y_first=view.toRealWorldCoordY(penPoints.get(0).y + penOffsetY);
+				double x_last=view.toRealWorldCoordX(penPoints.get(penPoints.size()-1).x + penOffsetX);
+				double y_last=view.toRealWorldCoordY(penPoints.get(penPoints.size()-1).y + penOffsetY);
 				if(x_first==x_last)
 				{
 					//equation="x" + "=" + (x_first);
@@ -1087,24 +1088,24 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		}
 		int size=temp.size();
 		String equation=null;
-		double x1=view.toRealWorldCoordX(temp.get(0).x);
-		double y1=view.toRealWorldCoordY(temp.get(0).y);
-		double x2=view.toRealWorldCoordX(temp.get(size/3).x);
-		double y2=view.toRealWorldCoordY(temp.get(size/3).y);
-		double x3=view.toRealWorldCoordX(temp.get(2*size/3).x);
-		double y3=view.toRealWorldCoordY(temp.get(2*size/3).y);
+		double x1=view.toRealWorldCoordX(temp.get(0).x + penOffsetX);
+		double y1=view.toRealWorldCoordY(temp.get(0).y + penOffsetY);
+		double x2=view.toRealWorldCoordX(temp.get(size/3).x + penOffsetX);
+		double y2=view.toRealWorldCoordY(temp.get(size/3).y + penOffsetY);
+		double x3=view.toRealWorldCoordX(temp.get(2*size/3).x + penOffsetX);
+		double y3=view.toRealWorldCoordY(temp.get(2*size/3).y + penOffsetY);
 		double m1=(y2-y1)/(x2-x1);
 		double m2=(y3-y2)/(x3-x2); 
 		if(x2 == x1)
 		{
-			x1=view.toRealWorldCoordX(temp.get(size/4).x);
-			y1=view.toRealWorldCoordY(temp.get(size/4).y);
+			x1=view.toRealWorldCoordX(temp.get(size/4).x + penOffsetX);
+			y1=view.toRealWorldCoordY(temp.get(size/4).y + penOffsetY);
 			m1=(y2-y1)/(x2-x1);
 		}
 		if(x2 == x3)
 		{
-			x3=view.toRealWorldCoordX(temp.get(11*size/12).x);
-			y3=view.toRealWorldCoordY(temp.get(11*size/12).y);
+			x3=view.toRealWorldCoordX(temp.get(11*size/12).x + penOffsetX);
+			y3=view.toRealWorldCoordY(temp.get(11*size/12).y + penOffsetY);
 			m2=(y3-y2)/(x3-x2);
 		}
 		double x_center=(((m1*m2)*(y1-y3)) + (m2*(x1+x2)) - (m1*(x2+x3)))/(2*(m2-m1));
