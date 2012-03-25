@@ -1,12 +1,5 @@
 package geogebra.web.cas.mpreduce;
 
-import org.mathpiper.mpreduce.Interpretable;
-import org.mathpiper.mpreduce.InterpreterJs;
-
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.core.client.Scheduler.RepeatingCommand;
-
 import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
@@ -15,6 +8,13 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.cas.AsynchronousCommand;
 import geogebra.common.main.AbstractApplication;
+
+import org.mathpiper.mpreduce.Interpretable;
+import org.mathpiper.mpreduce.InterpreterJs;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 
 /**
  * Web implementation of MPReduce CAS
@@ -124,7 +124,6 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 
 			// convert MPReduce's scientific notation from e.g. 3.24e-4 to
 			// 3.2E-4
-			AbstractApplication.debug("TODO: convertScientificFloatNotation()");
 			ret = parserTools.convertScientificFloatNotation(ret);
 
 			return ret;
