@@ -27,7 +27,7 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoPolygon;
-import geogebra.common.kernel.algos.AlgoPolygonRegularInterface;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -330,7 +330,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 		if (points.length == 3) {
 
 			// make sure segment opposite C is called c not a_1
-			if (getParentAlgorithm() instanceof AlgoPolygonRegularInterface)
+			if (getParentAlgorithm().getClassName().equals(Algos.AlgoPolygonRegular))
 				points[2].setLabel(null);
 
 			setLabel(segments[0], points[2]);
@@ -1590,7 +1590,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	 */
 	public boolean isVertexCountFixed() {
 		// regularPolygon[vertex,vertex,count]
-		if (getParentAlgorithm() instanceof AlgoPolygonRegularInterface)
+		if (getParentAlgorithm().getClassName().equals(Algos.AlgoPolygonRegular))
 			return false;
 		// polygon[list]
 		if (getParentAlgorithm().getInput().length < 3)

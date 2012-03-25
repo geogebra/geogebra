@@ -18,13 +18,22 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoPolygon;
 
 
-
+/**
+ * Computes union of two polygons
+ * @author George Sturr
+ */
 public class AlgoPolygonUnion extends AlgoPolygonOperation {
-    
+	
+	/**
+	 * @param cons construction
+	 * @param labels labels for output
+	 * @param inPoly0 first input polygon
+	 * @param inPoly1 second input polygon
+	 */
 	public AlgoPolygonUnion(Construction cons, String[] labels,
 			GeoPolygon inPoly0, GeoPolygon inPoly1) {
 		
-		super(cons, labels, inPoly0, inPoly1, AlgoPolygonOperation.TYPE_UNION);
+		super(cons, labels, inPoly0, inPoly1, PolyOperation.UNION);
 	}
 	
 	@Override

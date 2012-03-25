@@ -50,18 +50,31 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 	private GeoPolygon poly; //output	
 
 	private GeoPoint2 [] points;
-	private int operationType;
+	private PolyOperation operationType;
 	private EuclidianViewInterfaceSlim ev;
 
 	private boolean labelPointsAndSegments;
 	private boolean labelsNeedIniting;
 
-	public static final int TYPE_INTERSECTION = 0;
-	public static final int TYPE_UNION = 1;
-	public static final int TYPE_DIFFERENCE = 2;
+	/** operation type */
+	public enum PolyOperation  {
+		/** intersection */
+		INTERSECTION,
+		/** union */
+		UNION,
+		/** difference TODO -- not working*/
+		DIFFERENCE
+	}
 
+	/**
+	 * @param cons construction
+	 * @param labels labels for output
+	 * @param inPoly0 first input polygon
+	 * @param inPoly1 second input polygon
+	 * @param operationType operation type (intersection, union, difference)
+	 */
 	public AlgoPolygonOperation(Construction cons, String[] labels,
-			GeoPolygon inPoly0, GeoPolygon inPoly1, int operationType) {
+			GeoPolygon inPoly0, GeoPolygon inPoly1, PolyOperation operationType) {
 
 		super(cons);
 
@@ -135,8 +148,8 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		else {
 			// size = poly + points + segments
 			GeoSegmentND[] segments = poly.getSegments();
-			GeoPointND[] points = poly.getPoints();
-			int size = 1 + segments.length + points.length;
+			GeoPointND[] pts = poly.getPoints();
+			int size = 1 + segments.length + pts.length;
 
 			super.setOutputLength(size);
 			int k = 0;
@@ -146,12 +159,15 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 				super.setOutput(++k, (GeoElement) segments[i]);
 			}
 
-			for (int i = 0; i < points.length; i++) {
-				super.setOutput(++k, (GeoElement) points[i]);
+			for (int i = 0; i < pts.length; i++) {
+				super.setOutput(++k, (GeoElement) pts[i]);
 			}
 		}
 	}
 
+	/**
+	 * @return resulting polygon
+	 */
 	GeoPolygon getPoly() {
 		return poly;
 	}
@@ -159,18 +175,22 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 	/**
 	 * Convert array of polygon GeoPoints to an Area object
 	 */
-	private Area getArea(GeoPointND[] points) {
+	private Area getArea(GeoPointND[] pts) {
 
 		double [] coords = new double[2]; 
 		GeneralPathClipped gp = new GeneralPathClipped(ev);
 
 		// first point
-		points[0].getInhomCoords(coords);		
+		pts[0].getInhomCoords(coords);
+		if(!pts[0].isDefined())
+			return null;
 		gp.moveTo(coords[0], coords[1]);   
 
-		for (int i=1; i < points.length; i++) {
-			points[i].getInhomCoords(coords);			
+		for (int i=1; i < pts.length; i++) {
+			pts[i].getInhomCoords(coords);			
 			gp.lineTo(coords[0], coords[1]);
+			if(!pts[i].isDefined())
+				return null;
 		}
 		gp.closePath();
 
@@ -187,23 +207,26 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		// Convert input polygons to Area objects
 		Area a1 = getArea(inPoly0.getPoints());
 		Area a2 = getArea(inPoly1.getPoints());
-
+		Area testArea = null;
+		if(a1 != null && a2 != null){
 		// test for empty intersection
-		Area testArea = getArea(inPoly0.getPoints());
-		testArea.intersect(a2);
-		if(testArea.isEmpty()) {
+			testArea = getArea(inPoly0.getPoints());
+			testArea.intersect(a2);
+		}
+		if(testArea==null || testArea.isEmpty()) {
 			poly.setUndefined();
+			
 		}
 		// if intersection is non-empty perform operation
 		else {
 			switch (operationType) {
-			case TYPE_INTERSECTION:
+			case INTERSECTION:
 				a1.intersect(a2);
 				break;
-			case TYPE_UNION:
+			case UNION:
 				a1.add(a2);
 				break;
-			case TYPE_DIFFERENCE:
+			case DIFFERENCE:
 				a1.subtract(a2);
 				break;
 			}
@@ -262,12 +285,12 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 		// update new points and segments 
 		if (n != oldPointNumber) {
-			updateSegmentsAndPointsLabels(oldPointNumber);
+			updateSegmentsAndPointsLabels();
 		}    	    	
 	}         
 
 
-	private void updateSegmentsAndPointsLabels(int oldPointNumber) {
+	private void updateSegmentsAndPointsLabels() {
 		if (labelsNeedIniting)
 			return;
 
@@ -374,9 +397,9 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 			// make sure we don't remove the polygon as well
 			if (algo instanceof AlgoJoinPointsSegment
 					&& ((AlgoJoinPointsSegment) algo).getPoly() == poly) {
-			} else {
-				algo.remove();
+				continue;
 			}
+			algo.remove();
 		}
 
 		algoList.clear();

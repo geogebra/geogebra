@@ -19,12 +19,23 @@ import geogebra.common.kernel.geos.GeoPolygon;
 
 
 
+/**
+ * Computes intersection of two polygons
+ * @author George Sturr
+ *
+ */
 public class AlgoPolygonIntersection extends AlgoPolygonOperation {
     
+	/**
+	 * @param cons construction
+	 * @param labels labels for output
+	 * @param inPoly0 first input polygon
+	 * @param inPoly1 second input polygon
+	 */
 	public AlgoPolygonIntersection(Construction cons, String[] labels,
 			GeoPolygon inPoly0, GeoPolygon inPoly1) {
 		
-		super(cons, labels, inPoly0, inPoly1, AlgoPolygonOperation.TYPE_INTERSECTION);
+		super(cons, labels, inPoly0, inPoly1, PolyOperation.INTERSECTION);
 	}
 	
 	@Override
