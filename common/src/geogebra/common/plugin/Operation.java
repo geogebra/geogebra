@@ -20,4 +20,4 @@ VEC_FUNCTION,DERIVATIVE,ELEMENT_OF,
 // spreadsheet absolute reference using $ signs
 $VAR_ROW,$VAR_COL,$VAR_ROW_COL,
 
-LOGB}
+LOGB,CI,SI}

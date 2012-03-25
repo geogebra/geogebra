@@ -1144,6 +1144,34 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				str = new String[]{ "IllegalArgument", "atanh", lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
+		case CI:
+			// tanh(number)
+			if (lt.isNumberValue()) {
+				return ((NumberValue) lt).getNumber().cosineIntegral();
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
+				lt = ((Polynomial) lt).getConstantCoefficient();
+				return new Polynomial(kernel, new Term(kernel,
+						new ExpressionNode(kernel, lt, Operation.CI, null),
+						""));
+			} else {
+				str = new String[]{ "IllegalArgument", "cosineIntegral", lt.toString(errorTemplate) };
+				throw new MyError(app, str);
+			}
+		case SI:
+			// tanh(number)
+			if (lt.isNumberValue()) {
+				return ((NumberValue) lt).getNumber().sineIntegral();
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
+				lt = ((Polynomial) lt).getConstantCoefficient();
+				return new Polynomial(kernel, new Term(kernel,
+						new ExpressionNode(kernel, lt, Operation.SI, null),
+						""));
+			} else {
+				str = new String[]{ "IllegalArgument", "sineIntegral", lt.toString(errorTemplate) };
+				throw new MyError(app, str);
+			}
 
 		case CSC:
 			// csc(number)

@@ -3166,6 +3166,38 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(rightBracket(STRING_TYPE));
 			}
 			break;
+		case CI:
+			switch (STRING_TYPE) {
+				case LATEX:
+					sb.append("\\operatorname{ci} \\left( ");
+					break;
+	
+				case MPREDUCE:
+					sb.append("ci(");
+					break;
+	
+				default:
+					sb.append("cosIntegral(");
+				}
+				sb.append(leftStr);
+				sb.append(rightBracket(STRING_TYPE));
+			break;
+		case SI:
+			switch (STRING_TYPE) {
+				case LATEX:
+					sb.append("\\operatorname{si} \\left( ");
+					break;
+	
+				case MPREDUCE:
+					sb.append("si(");
+					break;
+	
+				default:
+					sb.append("sinIntegral(");
+				}
+				sb.append(leftStr);
+				sb.append(rightBracket(STRING_TYPE));
+			break;
 
 		case EXP:
 			// Application.debug("EXP");

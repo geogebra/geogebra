@@ -32,7 +32,11 @@ public class CommandDispatcherMPReduce {
 		/** derivative*/
 		df,
 		/** logb */
-		logb
+		logb,
+		/** sine integral */
+		si,
+		/** cosine integral */
+		ci
 	}
 
 	/**
@@ -83,6 +87,18 @@ public class CommandDispatcherMPReduce {
 				ret = new ExpressionNode(kernel,
 						 args.getListElement(1),Operation.LOGB,
 								args.getListElement(0));
+				break;
+				
+			case ci:
+				// e.g. logb[x,3] becomes log(3,x)
+				ret = new ExpressionNode(kernel,
+						 args.getListElement(0),Operation.CI,null);
+				break;
+			case si:
+				// e.g. logb[x,3] becomes log(3,x)
+				ret = new ExpressionNode(kernel,
+						 args.getListElement(0),Operation.SI,
+								null);
 				break;
 
 			case df:

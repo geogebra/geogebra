@@ -618,6 +618,22 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return this;
 	}
 	/**
+	 * @return atanh(this)
+	 */
+	final public MyDouble cosineIntegral() {
+		val = MyMath.ci(val);
+		isAngle = false;
+		return this;
+	}
+	/**
+	 * @return atanh(this)
+	 */
+	final public MyDouble sineIntegral() {
+		val = MyMath.si(val);
+		isAngle = false;
+		return this;
+	}
+	/**
 	 * @return this!
 	 */
 	final public MyDouble factorial() {
