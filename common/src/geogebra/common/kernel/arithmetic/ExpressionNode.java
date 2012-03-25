@@ -3169,7 +3169,7 @@ public class ExpressionNode extends ValidExpression implements
 		case CI:
 			switch (STRING_TYPE) {
 				case LATEX:
-					sb.append("\\operatorname{ci} \\left( ");
+					sb.append("\\operatorname{Ci} \\left( ");
 					break;
 	
 				case MPREDUCE:
@@ -3185,7 +3185,7 @@ public class ExpressionNode extends ValidExpression implements
 		case SI:
 			switch (STRING_TYPE) {
 				case LATEX:
-					sb.append("\\operatorname{si} \\left( ");
+					sb.append("\\operatorname{Si} \\left( ");
 					break;
 	
 				case MPREDUCE:
@@ -3201,7 +3201,7 @@ public class ExpressionNode extends ValidExpression implements
 		case EI:
 			switch (STRING_TYPE) {
 				case LATEX:
-					sb.append("\\operatorname{ei} \\left( ");
+					sb.append("\\operatorname{Ei} \\left( ");
 					break;
 	
 				case MPREDUCE:

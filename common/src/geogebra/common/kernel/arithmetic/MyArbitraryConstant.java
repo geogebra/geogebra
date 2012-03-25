@@ -6,7 +6,6 @@ import java.util.TreeMap;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.main.AbstractApplication;
 
 /**
  * Arbitrary constant comming from reduce
@@ -26,7 +25,6 @@ public class MyArbitraryConstant extends MyDouble {
 	
 	private static String latexStr(String prefix,Map<Integer,String> map,Integer number,Construction cons){
 		String s = map.get(number);
-		AbstractApplication.debug("varname ="+s);
 		if(s!=null)
 			return s;
 		s = cons.getIndexLabel(prefix, number);

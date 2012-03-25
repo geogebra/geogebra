@@ -8,7 +8,6 @@ import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.Variable;
-import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.Operation;
 
 /**
@@ -56,7 +55,6 @@ public class CommandDispatcherMPReduce {
 		try {
 			ExpressionValue ret = null;
 			Kernel kernel = args.getKernel();
-			AbstractApplication.debug(cmdName);
 			//TODO -- template is not important for arb*, but is this correct for df?
 			StringTemplate tpl = StringTemplate.casTemplate;
 			switch (commands.valueOf(cmdName)) {
