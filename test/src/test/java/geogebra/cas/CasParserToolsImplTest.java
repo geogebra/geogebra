@@ -43,7 +43,7 @@ public class CasParserToolsImplTest {
 	@Test
 	public void convertMultipleOccurences() {
 		assertThat(parserTools.convertScientificFloatNotation("(3.4b-2)/(0.2b+3)"), equalTo("(3.4E-2)/(0.2E+3)"));
-		assertThat(parserTools.convertScientificFloatNotation("2b4b"), equalTo("2E4E"));
+		assertThat(parserTools.convertScientificFloatNotation("2b4b"), equalTo("2E4b"));
 	}
 	
 }
