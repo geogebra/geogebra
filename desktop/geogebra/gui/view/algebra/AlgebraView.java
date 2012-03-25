@@ -310,7 +310,7 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 	private void initTreeCellRendererEditor() {
 		renderer = newMyRenderer(app);
 		editTF = new MathTextField(app);
-		editTF.enableColoring(false);
+		editTF.enableColoring(true);
 		editTF.setShowSymbolTableIcon(true);
 		editor = new MyDefaultTreeCellEditor(this, renderer, new MyCellEditor(
 				editTF, app));
