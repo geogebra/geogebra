@@ -1155,7 +1155,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new ExpressionNode(kernel, lt, Operation.CI, null),
 						""));
 			} else {
-				str = new String[]{ "IllegalArgument", "cosineIntegral", lt.toString(errorTemplate) };
+				str = new String[]{ "IllegalArgument", "cosIntegral", lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 		case SI:
@@ -1169,7 +1169,21 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						new ExpressionNode(kernel, lt, Operation.SI, null),
 						""));
 			} else {
-				str = new String[]{ "IllegalArgument", "sineIntegral", lt.toString(errorTemplate) };
+				str = new String[]{ "IllegalArgument", "sinIntegral", lt.toString(errorTemplate) };
+				throw new MyError(app, str);
+			}
+		case EI:
+			// tanh(number)
+			if (lt.isNumberValue()) {
+				return ((NumberValue) lt).getNumber().expIntegral();
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
+				lt = ((Polynomial) lt).getConstantCoefficient();
+				return new Polynomial(kernel, new Term(kernel,
+						new ExpressionNode(kernel, lt, Operation.EI, null),
+						""));
+			} else {
+				str = new String[]{ "IllegalArgument", "expIntegral", lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
 

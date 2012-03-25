@@ -621,7 +621,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * @return atanh(this)
 	 */
 	final public MyDouble cosineIntegral() {
-		val = MyMath.ci(val);
+		val = MyMath2.ci(val);
 		isAngle = false;
 		return this;
 	}
@@ -629,7 +629,16 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * @return atanh(this)
 	 */
 	final public MyDouble sineIntegral() {
-		val = MyMath.si(val);
+		val = MyMath2.si(val);
+		isAngle = false;
+		return this;
+	}
+	
+	/**
+	 * @return atanh(this)
+	 */
+	final public MyDouble expIntegral() {
+		val = MyMath2.ei(val);
 		isAngle = false;
 		return this;
 	}
@@ -646,7 +655,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * @return gamma(this)
 	 */
 	final public MyDouble gamma() {
-		val = MyMath2.gamma(val, kernel);
+		val = MyMath2.gamma(val);
 		isAngle = false;
 		return this;
 	}
@@ -658,7 +667,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	final public MyDouble apply(Evaluatable lt) {
 		val = lt.evaluate(val);
 		isAngle = false; // want function to return numbers eg f(x) = sin(x),
-							// f(45�)
+							// f(45^o)
 		return this;
 	}
 

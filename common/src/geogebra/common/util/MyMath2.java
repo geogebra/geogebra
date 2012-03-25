@@ -4,6 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.special.Beta;
 import org.apache.commons.math.special.Erf;
 import org.apache.commons.math.special.Gamma;
@@ -18,7 +19,7 @@ public class MyMath2 {
 		try {
 			// see http://mathworld.wolfram.com/RegularizedGammaFunction.html
 			// http://en.wikipedia.org/wiki/Incomplete_gamma_function#Regularized_Gamma_functions_and_Poisson_random_variables
-			return Gamma.regularizedGammaP(a, x) * gamma(a, kernel);
+			return Gamma.regularizedGammaP(a, x) * gamma(a);
 		} catch (MathException e) {
 			return Double.NaN;
 		}
@@ -97,7 +98,7 @@ public class MyMath2 {
 		factorialTable[4] = 24.0;
 	}
 
-	final public static double gamma(double x, Kernel kernel) {
+	final public static double gamma(double x) {
 
 		// Michael Borcherds 2008-05-04
 		if (x <= 0 && Kernel.isEqual(x, Math.round(x)))
@@ -143,6 +144,126 @@ public class MyMath2 {
 		default: return Double.NaN;
 		}
 	}
+	
+	/** Euler's constant */
+	public static double EULER = 0.57721566;
+	private static double TMIN = 2.0;
+	private static int MAXIT = 100; // Maximum number of iterations allowed.
+	private static Complex cisi(double a2) {
 
+		int i, k;
+		boolean odd;
+		double a, err, fact, sign, sum, sumc, sums, t, term;
+		//double him, hre, bim, bre, cim, cre, dim, dre, delim = 0, delre = 0;
+		Complex h,b,c,d,del,one,two;
+		one = new Complex(1,0);
+		two = new Complex(2,0);
+		t = Math.abs(a2);
+		if (t == 0.0) {
+			return new Complex(Double.NEGATIVE_INFINITY,0);
+
+		}
+		if (t > TMIN) {
+			b= new Complex(1,t);
+			c = new Complex(1000,0);
+			d = one.divide(b);
+			h = one.divide(b); 
+			// d=h=1/b=1/(bre+ibim)=bre-ibim/(bre^2+bim^2);
+			
+			
+			for (i = 2; i <= MAXIT; i++) {
+				a = -(i - 1) * (i - 1);
+				b = b.add(two);
+				// dinv = a*d+b
+				// d=1/dinv; Denominators cannot be zero.
+				d = one.divide(b.add(d.multiply(a)));
+				// c=b+a/c
+				c = b.add(one.divide(c).multiply(a));
+				del = c.multiply(d);
+				// del = c*d
+				h=h.multiply(del);
+				
+				//AbstractApplication.debug(Math.abs(delre - 1.0)+ Math.abs(delim));
+				if (Math.abs(del.getReal() - 1.0) + Math.abs(del.getImaginary()) < Kernel.MIN_PRECISION)
+					break;
+			}
+			//if (i > MAXIT)
+				//return new Complex(Double.NaN,Double.NaN);
+			// h = (cos(t)-isin(t))*h
+			h = h.multiply(new Complex(Math.cos(t),-Math.sin(t)));
+
+			return new Complex (-h.getReal(),Math.signum(a2)*(Kernel.PI_HALF + h.getImaginary()));
+		}
+		if (t < Math.sqrt(Kernel.EPSILON)) {
+			sumc = 0.0;
+			sums = t;
+		} else {
+			sum = sums = sumc = 0.0;
+			sign = fact = 1.0;
+			odd = true;
+			for (k = 1; k <= MAXIT; k++) {
+				fact *= t / k;
+				term = fact / k;
+				sum += sign * term;
+				err = term / Math.abs(sum);
+				if (odd) {
+					sign = -sign;
+					sums = sum;
+					sum = sumc;
+				} else {
+					sumc = sum;
+					sum = sums;
+				}
+				if (err < Kernel.EPSILON)
+					break;
+				odd = !odd;
+			}
+			if (k > MAXIT)
+				return new Complex(Double.NaN,Double.NaN);
+		}
+		
+		return	new Complex(sumc + Math.log(t) + EULER, Math.signum(a2)*sums);
+		
+			
+
+	}
+
+	/**
+	 * Returns cosine integral of given number, 
+	 * for negative values returns undefined
+	 * @param a number
+	 * @return cosine integral of given number
+	 */
+	final public static double ci(double a) {
+		if(a<0)
+			return Double.NaN;
+		return cisi(a).getReal();
+	}
+	/**
+	 * Returns sine integral of given number, 
+	 * for negative values returns undefined
+	 * @param a number
+	 * @return sine integral of given number
+	 */
+	final public static double si(double a) {
+		return cisi(a).getImaginary();
+	}
+	
+	/**
+	 * Returns exponential integral of given number, 
+	 * for negative values returns undefined
+	 * @param a number
+	 * @return exponential integral of given number
+	 * http://mathworld.wolfram.com/ExponentialIntegral.html
+	 */
+	final public static double ei(double a) {
+		double ret = EULER + Math.log(Math.abs(a)) +a;
+		double add = a;
+		for(int i=2;i<MAXIT;i++){
+			add = add*a*(i-1)/i/i;
+			ret = ret + add;
+		}
+		return ret;
+	}
 
 }

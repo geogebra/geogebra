@@ -377,7 +377,8 @@ TOKEN: {
 |	< GAMMA_FUNC: ( "gamma(" | "igamma(" | "Gamma(" ) > 
 |	< GAMMA_REGULARIZED_FUNC:  "gammaRegularized(" >
 |	< CI_FUNC:  "cosIntegral("| "CosIntegral(" >
-|	< SI_FUNC:  "sinIntegral(" | "SinIntegral(" >  
+|	< SI_FUNC:  "sinIntegral(" | "SinIntegral(" >
+|	< EI_FUNC:  "expIntegral(" | "ExpIntegral(" >    
 |	< SQRT_FUNC: ( "sqrt(" | "Sqrt(" ) > 
 |	< CBRT_FUNC:   "cbrt("  > 
 |	< ABS_FUNC:  ( "abs(" | "Abs(" ) > 
@@ -2039,12 +2040,15 @@ ExpressionNode numberFunction():
 |
     <EXP_FUNC> en = expressionOrEquation() ")"
       { return new ExpressionNode(kernel, en, Operation.EXP, null); }
-      |
+|
     <CI_FUNC> en = expressionOrEquation() ")"
       { return new ExpressionNode(kernel, en, Operation.CI, null); }
-      |
+|
     <SI_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, Operation.SI, null); }      
+      { return new ExpressionNode(kernel, en, Operation.SI, null); }
+| 
+    <EI_FUNC> en = expressionOrEquation() ")"
+      { return new ExpressionNode(kernel, en, Operation.EI, null); }
 |
 	LOOKAHEAD (2147483647)
     <LOG_FUNC> ( en = expressionOrEquation() ) < COMMA > ( en2 = expressionOrEquation() ) ")"

@@ -101,13 +101,7 @@ public final class MyMath {
 		return 1 / sin;
 	}
 
-	final public static double ci(double a) {
-		return cisi(a, false);
-	}
-
-	final public static double si(double a) {
-		return cisi(a, true);
-	}
+	
 
 	final public static double sec(double a) {
 
@@ -205,101 +199,6 @@ public final class MyMath {
 
 	}
 
-	/** Euler's constant */
-	public static double EULER = 0.57721566;
-	private static double TMIN = 2.0;
-	private static int MAXIT = 100; // Maximum number of iterations allowed.
+	
 
-	// #define PIBY2 1.5707963 .
-	// #define FPMIN 1.0e-30 Close to smallest representable floating-point
-	// number.
-	// #define TMIN 2.0 Dividing line between using the series and continued
-	// frac-
-	// #define TRUE 1 tion.
-	// #define ONE Complex(1.0,0.0)
-	public static double cisi(double a2, boolean sine) {
-
-		int i, k;
-		boolean odd;
-		double a, err, fact, sign, sum, sumc, sums, t, term;
-		double him, hre, bim, bre, cim, cre, dim, dre, delim = 0, delre = 0;
-		t = Math.abs(a2);
-		if (t == 0.0) {
-			return sine ? 0.0 : Double.NEGATIVE_INFINITY;
-
-		}
-		if (t > TMIN) {
-			bre = 1;
-			bim = t;
-			cre = 1000000;
-			cim = 0;
-			// d=h=1/b=1/(bre+ibim)=bre-ibim/(bre^2+bim^2);
-			double babs2 = bre * bre + bim * bim;
-			dre = bre / babs2;
-			dim = -bim / babs2;
-			hre = bre / babs2;
-			him = -bim / babs2;
-			for (i = 2; i <= MAXIT; i++) {
-				a = -(i - 1) * (i - 1);
-				bre = bre + 2;
-				// dinv = a*d+b
-				double dinvre = a * dre + bre, dinvim = a * dim + bim, dinvabs2 = dinvre
-						* dinvre + dinvim * dinvim;
-				// d=1/dinv; Denominators cannot be zero.
-				dre = dinvre / dinvabs2;
-				dim = -dinvim / dinvabs2;
-				// c=b+a/c
-				double cabs2 = cre * cre + cim * cim;
-				cre = bre + (cabs2 == 0 ? 0 : a * cre / cabs2);
-				cim = bim - (cabs2 == 0 ? 0 : a * cim / cabs2);
-				// del = c*d
-				delre = cre * dre - cim * dim;
-				delim = cre * dim + dre * cim;
-				// h = h*del
-				hre = delre * hre - delim * him;
-				him = delre * him + hre * delim;
-				//AbstractApplication.debug(Math.abs(delre - 1.0)+ Math.abs(delim));
-				if (Math.abs(delre - 1.0) + Math.abs(delim) < Kernel.MIN_PRECISION)
-					break;
-			}
-			if (i > MAXIT)
-				return Double.NaN;
-			// h = (cos(t)-isin(t))*h
-			hre = Math.cos(t) * hre + Math.sin(t) * him;
-			him = -Math.sin(t) * hre + Math.cos(t) * him;
-
-			return sine ? Math.signum(a2)*(Kernel.PI_HALF + him) : -hre;
-		}
-		if (t < Math.sqrt(Kernel.EPSILON)) {
-			sumc = 0.0;
-			sums = t;
-		} else {
-			sum = sums = sumc = 0.0;
-			sign = fact = 1.0;
-			odd = true;
-			for (k = 1; k <= MAXIT; k++) {
-				fact *= t / k;
-				term = fact / k;
-				sum += sign * term;
-				err = term / Math.abs(sum);
-				if (odd) {
-					sign = -sign;
-					sums = sum;
-					sum = sumc;
-				} else {
-					sumc = sum;
-					sum = sums;
-				}
-				if (err < Kernel.EPSILON)
-					break;
-				odd = !odd;
-			}
-			if (k > MAXIT)
-				return Double.NaN;
-		}
-		if (sine)
-			return Math.signum(a2)*sums;
-		return sumc + Math.log(t) + EULER;
-
-	}
 }

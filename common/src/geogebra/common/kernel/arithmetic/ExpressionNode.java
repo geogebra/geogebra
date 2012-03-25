@@ -3198,6 +3198,22 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 				sb.append(rightBracket(STRING_TYPE));
 			break;
+		case EI:
+			switch (STRING_TYPE) {
+				case LATEX:
+					sb.append("\\operatorname{ei} \\left( ");
+					break;
+	
+				case MPREDUCE:
+					sb.append("ei(");
+					break;
+	
+				default:
+					sb.append("expIntegral(");
+				}
+				sb.append(leftStr);
+				sb.append(rightBracket(STRING_TYPE));
+			break;
 
 		case EXP:
 			// Application.debug("EXP");
