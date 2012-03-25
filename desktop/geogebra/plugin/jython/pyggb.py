@@ -14,6 +14,7 @@ from pygeo.apiproxy import (
     API, APIProxy, start_new_thread, run_in_main_thread,
     in_new_thread, in_main_thread,
 )
+from pygeo.pylexing import pythonify
 
 from geogebra.awt import Color
 
@@ -107,6 +108,7 @@ class Interface(PythonScriptInterface):
             except AttributeError:
                 pass
             return
+        code = pythonify(code)
         code = "\n".join("\t" + line for line in code.split("\n"))
         # print "setting %s listener for %s" % (evt, el)
         try:
@@ -146,7 +148,7 @@ class Interface(PythonScriptInterface):
 
     def format_source(self, source):
         if isinstance(source, basestring):
-            return source.replace("$", "geo.")
+            return pythonify(source)
         else:
             return source
     

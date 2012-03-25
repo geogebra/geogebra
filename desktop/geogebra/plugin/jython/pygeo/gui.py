@@ -12,6 +12,7 @@ from pyggb import interface
 
 # Local imports
 import lexing
+from pylexing import PyLexer
 
 # Java imports
 from java.lang import Runnable
@@ -123,6 +124,7 @@ class OutputPane(object):
         """Remove all text"""
         self.doc.remove(0, self.doc.length)
 
+
 class FileManager(object):
     
     def __init__(self, pywin):
@@ -228,39 +230,6 @@ def later(f):
     SwingUtilities.invokeLater(Later(f))
     return f
 
-
-import keyword, __builtin__
-
-class PyLexer(lexing.Lexer):
-    separators = [
-        'space', 'punctuation', 'assignment', 'grouper', 'operator',
-        'shortstring', 'geo'
-    ]
-    order = [
-        'float', 'integer', 'shortstring',
-        'operator', 'assignment',
-        'grouper',
-        'keyword', 'builtin', 'identifier', 
-        'space', 'punctuation'
-        'comment',
-    ]
-
-    space = r'\s'
-    decorator = r'^\s*@'
-    punctuation = r"[.,;:]"
-    assignment = r"=|\+=|-=|\*\*=|\*=|/=|//=|<<=|>>=|\^=|\|=|&="
-    grouper = r"[(){}\[\]]"
-    operator = r"\+|-|\*\*|\*|//|/|\^|&|\||~|<=|>=|==|!="
-    keyword = r"(%s)(?!\w)" % "|".join(keyword.kwlist)
-    builtin = r"(%s)(?!\w)" % "|".join(dir(__builtin__))
-    integer = r"[0-9]+"
-    identifier = r"[a-zA-Z_]\w*"
-    float = r"[0-9]+\.[0-9]*([eE][+-]?[0-9]+)?"
-    shortstring = r"[uU]?[rR]?'([^'\n\\]|\\[^\n])*'" \
-                  r'|[uU]?[rR]?"([^"\n\\]|\\[^\n])*"'
-    comment = r'#.*'
-    geo = r"\$" + identifier
-    decorator = "@" + identifier
 
 tok_style_map = {
     PyLexer.keyword: "kw",
