@@ -120,6 +120,25 @@ table {
     color: red;
     background-color: #ddccdd;
     }
+.rev {
+ text-align: center;
+ }
+.failure {
+ text-align: center;
+ background-color: pink;
+ }
+.error {
+ text-align: center;
+ background-color: darkpink;
+ }
+.ok {
+ text-align: center;
+ background-color: lightgreen;
+ }
+.unknown {
+ text-align: center;
+ background-color: white;
+ }
 
 thead {
     color: white;
@@ -127,4 +146,3 @@ thead {
     }
 
 </style>
-

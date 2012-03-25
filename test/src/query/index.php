@@ -59,12 +59,12 @@ foreach ($db->query($sql) as $revision) {
  $i++;
  $rev=$revision['id'];
  $revs[]=$rev;
- $content.="<td align=center>";
+ $content.="<td class=\"rev\">";
  if ($i==1)
-  $content.="<a href=".mydir()."?lastrev=$rev>&lt;</a> ";
+  $content.="<a href=\"".mydir()."?lastrev=$rev\">&lt;</a> ";
  $content.="<a href=http://dev.geogebra.org/trac/changeset/$rev>[$rev]</a>";
  if ($i==$maxrevs || $i==$numrows)
-  $content.=" <a href=".mydir()."?firstrev=$rev>&gt;</a>";
+  $content.=" <a href=\"".mydir()."?firstrev=$rev\">&gt;</a>";
  $content.="</td>";
 }
 $content.="</tr></thead>";
@@ -89,18 +89,17 @@ foreach ($db->query($sql) as $name) {
    $resultno=$db->query($sql3count);
    $numrows=$resultno->fetchColumn();
    if ($numrows>=1)
-    $content.="bgcolor=lightgreen align=center>OK";
+    $content.="class=\"ok\">OK";
    else
-    $content.="bgcolor=white align=center>";
+    $content.="class=\"unknown\">";
    }
   else {
    foreach ($result as $row) {
     $error=$row['error'];
     if ($error==1)
-     $color="orangered";
+     $content.="class=\"error\">";
     else
-     $color="pink";
-    $content.="bgcolor=$color align=center>";
+     $content.="class=\"failure\">";
     $cn=$row['classname'];
     $t=$row['type'];
     $message=$row['message'];
