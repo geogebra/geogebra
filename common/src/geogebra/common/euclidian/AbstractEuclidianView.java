@@ -53,6 +53,7 @@ import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoTextField;
+import geogebra.common.kernel.geos.GeoTurtle;
 import geogebra.common.kernel.geos.ParametricCurve;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicND;
@@ -2106,6 +2107,10 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 		case LIST:
 			d = new DrawList(this, (GeoList) geo);
+			break;
+			
+		case TURTLE:
+			d = new DrawTurtle(this, (GeoTurtle) geo);
 			break;
 		}
 

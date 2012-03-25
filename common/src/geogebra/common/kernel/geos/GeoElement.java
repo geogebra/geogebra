@@ -1117,6 +1117,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			typePriority = 10;
 			break;
 		case IMAGE:
+		case TURTLE:
 		case TEXTFIELD:
 		case BUTTON:
 		case BOOLEAN:
@@ -2983,6 +2984,8 @@ public abstract class GeoElement extends ConstructionElement implements
 				return defaultNumberedLabel("Name.textfield");
 			} else if (isGeoButton()) {
 				return defaultNumberedLabel("Name.button");
+			} else if (isGeoTurtle()) {
+				return defaultNumberedLabel("Name.turtle");
 			} else if (isGeoList()) {
 				final GeoList list = (GeoList) this;
 				return defaultNumberedLabel(list.isMatrix() ? "Name.matrix"
@@ -5286,6 +5289,12 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return true for images
 	 */
 	public boolean isGeoImage() {
+		return false;
+	}
+	/**
+	 * @return true for turtles
+	 */
+	public boolean isGeoTurtle() {
 		return false;
 	}
 	/**
