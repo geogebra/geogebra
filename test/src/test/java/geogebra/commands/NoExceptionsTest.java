@@ -88,7 +88,7 @@ public class NoExceptionsTest {
 		}catch(Throwable e){
 			System.out.println("error occured:"+e.getClass().getName());
 			e.printStackTrace();
-			Assert.assertTrue(e==null||e.getMessage().contains("sun.awt.geom.Edge"));
+			Assert.assertNull(e);
 		}
 		
 	}
