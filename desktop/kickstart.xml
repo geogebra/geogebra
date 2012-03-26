@@ -164,14 +164,14 @@ instructions.
 	<target name="jd2xx-windows-geogebra" depends="jd2xx-windows-amd64-geogebra, jd2xx-windows-x86-geogebra" if="winnt"/>
 
 	<target name="jd2xx-windows-x86-geogebra" if="winnt-x86">
-		<get src="http://www.geogebra.org/download/lib/ftdi/JD2XX_2.08.17.dll" dest="lib/JD2XX.dll"
+		<get src="http://dev.geogebra.org/download/lib/ftdi/JD2XX_2.08.17.dll" dest="lib/JD2XX.dll"
 		    usetimestamp="true"/>
 	</target>
 
 	<target name="jd2xx-windows-amd64-geogebra" if="winnt-amd64">
-		<get src="http://www.geogebra.org/download/lib/ftdi/JD2XX_2.08.17.dll" dest="lib/JD2XX.dll"
+		<get src="http://dev.geogebra.org/download/lib/ftdi/JD2XX_2.08.17.dll" dest="lib/JD2XX.dll"
 		    usetimestamp="true"/>
-		<get src="http://www.geogebra.org/download/lib/ftdi/JD2XX_64_2.08.17.dll" dest="lib/JD2XX_64.dll"
+		<get src="http://dev.geogebra.org/download/lib/ftdi/JD2XX_64_2.08.17.dll" dest="lib/JD2XX_64.dll"
 		    usetimestamp="true"/>
 	</target>
 
