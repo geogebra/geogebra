@@ -15,6 +15,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.ParametricCurve;
+import geogebra.common.kernel.kernelND.Geo3DVec;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
@@ -67,7 +68,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		// handle list operations first
 
 		if (lt.isListValue()) {
-			if ((operation == Operation.MULTIPLY) && rt.isVectorValue()) {
+			if ((operation == Operation.MULTIPLY) ) {
+				
+				
+				if (rt.isVectorValue()) {
 				MyList myList = ((ListValue) lt).getMyList();
 				boolean isMatrix = myList.isMatrix();
 				int rows = myList.getMatrixRows();
@@ -83,6 +87,21 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					// 3x3 matrix, assume it's affine
 					myVec.multiplyMatrixAffine(myList, rt);
 					return myVec;
+				}
+				
+				} else if (rt.isVector3DValue()) {
+						MyList myList = ((ListValue) lt).getMyList();
+						boolean isMatrix = myList.isMatrix();
+						int rows = myList.getMatrixRows();
+						int cols = myList.getMatrixCols();
+						if (isMatrix && (rows == 3) && (cols == 3)) {
+							Geo3DVec myVec = ((Vector3DValue) rt).get3DVec();
+							// 3x3 matrix * 3D vector / point
+							myVec.multiplyMatrix(myList, rt);
+							return myVec;
+						}
+					
+					
 				}
 
 			} else if ((operation == Operation.VECTORPRODUCT)

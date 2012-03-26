@@ -27,12 +27,15 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.main.AbstractApplication;
 
 
 import java.util.HashSet;
@@ -631,6 +634,47 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
 		public boolean isEqual(geogebra.common.kernel.kernelND.Geo3DVec vec) {
 			Geo3DVec v= (Geo3DVec) vec;
 			return Kernel.isEqual(x, v.x) && Kernel.isEqual(y, v.y) && Kernel.isEqual(z, v.z);
+		}
+
+		/**
+		 * multiplies 3D vector/point by a 3x3 matrix a b c d e f g h i
+		 * 
+		 * @param list
+		 *            3x3 matrix
+		 * @param rt
+		 *            Vector3DValue (as ExpressionValue) to get coords from
+		 */
+		public void multiplyMatrix(MyList list, ExpressionValue rt) {
+			if (list.getMatrixCols() != 3 || list.getMatrixRows() != 3)
+				return;
+
+			double a, b, c, d, e, f, g, h, i, z1, xx = x, yy = y, zz = 1;
+
+			if (rt.isVector3DValue()) {
+				geogebra.common.kernel.kernelND.Geo3DVec v = ((Vector3DValue) rt).get3DVec();
+				xx = v.getX();
+				yy = v.getY();
+				zz = v.getZ();
+
+			} else {
+				AbstractApplication.debug("error in Geo3DVec");
+			}
+
+			a = (MyList.getCell(list, 0, 0).evaluateNum()).getDouble();
+			b = (MyList.getCell(list, 1, 0).evaluateNum()).getDouble();
+			c = (MyList.getCell(list, 2, 0).evaluateNum()).getDouble();
+			d = (MyList.getCell(list, 0, 1).evaluateNum()).getDouble();
+			e = (MyList.getCell(list, 1, 1).evaluateNum()).getDouble();
+			f = (MyList.getCell(list, 2, 1).evaluateNum()).getDouble();
+			g = (MyList.getCell(list, 0, 2).evaluateNum()).getDouble();
+			h = (MyList.getCell(list, 1, 2).evaluateNum()).getDouble();
+			i = (MyList.getCell(list, 2, 2).evaluateNum()).getDouble();
+
+			x = a * xx + b * yy + c * zz;
+			y = d * xx + e * yy + f * zz;
+			z = g * xx + h * yy + i * zz;
+
+			return;
 		}
 
 }
