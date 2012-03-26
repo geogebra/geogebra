@@ -1,3 +1,11 @@
 gwt-unitCache
 .gwt
 test-classes
+bin
+build
+*.ggb
+*.ggt
+*.class
+*.jar
+*.jnilib
+*.so
