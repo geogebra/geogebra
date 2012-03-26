@@ -60,6 +60,7 @@ import geogebra.gui.GuiManager;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.layout.DockBar;
+import geogebra.gui.toolbar.Toolbar;
 import geogebra.gui.util.ImageSelection;
 import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.gui.view.spreadsheet.SpreadsheetTableModel;
@@ -533,6 +534,7 @@ public class Application extends AbstractApplication implements
 		
 		// init xml io for construction loading
 		myXMLio = new MyXMLio(kernel, kernel.getConstruction());
+		
 		// init default preferences if necessary
 		if (!isApplet) {
 			GeoGebraPreferences.getPref().initDefaultXML(this);
@@ -543,11 +545,6 @@ public class Application extends AbstractApplication implements
 				GeoGebraPreferences.getPref().loadXMLPreferences(this);
 			}
 		}
-
-
-		
-
-		
 
 		// open file given by startup parameter
 		handleOptionArgsEarly(args); // for --regressionFile=...
@@ -573,9 +570,13 @@ public class Application extends AbstractApplication implements
 				GeoGebraPreferences.getPref().loadXMLPreferences(this);
 			}
 		}
-		//TODO shall ggtLoading affect this test ?
+		
 		if (isUsingFullGui() && (tmpPerspectives != null)) {
 			getGuiManager().getLayout().setPerspectives(tmpPerspectives);
+		}
+		
+		if(isUsingFullGui() && ggtloading) {
+			getGuiManager().setToolBarDefinition(Toolbar.getAllTools(this));
 		}
 
 		setUndoActive(undoActive);
