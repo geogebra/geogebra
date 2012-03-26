@@ -182,15 +182,18 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		return penWritingToExistingImage;
 	}
 	
+	@Override
 	public GeoImage getPenGeo() {
 		return penGeo;
 	}
 
+	@Override
 	public void setPenGeo(GeoImage penGeo) {
 		this.penGeo = penGeo;
 		penWritingToExistingImage = penGeo!= null;
 	}
 
+	@Override
 	public void resetPenOffsets() {
 		penOffsetX = 0;
 		penOffsetY = 0;
@@ -642,6 +645,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 
 	}
 
+	@Override
 	public void doDrawPoints(GeoImage gi, List<Point> penPoints2) {
 		PolyBezier pb = new PolyBezier(penPoints2);
 		BufferedImage penImage2 = gi == null ? penImage
@@ -656,12 +660,12 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			GraphicsDevice gs = ge.getDefaultScreenDevice();
 
 			GraphicsConfiguration gc = gs.getDefaultConfiguration();
-			penImage2 = gc.createCompatibleImage(view.getWidth(),
-					view.getHeight(), Transparency.BITMASK);
+			penImage2 = gc.createCompatibleImage(Math.max(300,view.getWidth()),
+					Math.max(view.getHeight(),200), Transparency.BITMASK);
 		}
 		Graphics2D g2d = (Graphics2D) penImage2.getGraphics();
 
-		EuclidianView.setAntialiasing(g2d);
+		EuclidianViewND.setAntialiasing(g2d);
 		g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
 				RenderingHints.VALUE_STROKE_PURE);
 
@@ -678,10 +682,11 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		}
 		g2d.draw(pb.gp);
 
-		EuclidianView ev = (EuclidianView) app.getActiveEuclidianView();
+		EuclidianViewND ev = app.getActiveEuclidianView();
 
 		app.refreshViews(); // clear trace
-		ev.getGraphics().drawImage(penImage2, penOffsetX, penOffsetY, null);
+		//TODO -- did we need the following line?
+		//ev.getGraphics().drawImage(penImage2, penOffsetX, penOffsetY, null);
 
 		if (giNeedsInit
 				|| (gi == null && lastPenImage == null && !penWritingToExistingImage)) {
@@ -815,10 +820,12 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		maxX = Integer.MIN_VALUE;
 	}
 
+	@Override
 	public void setFreehand(boolean b) {
 		freehand = b;
 	}
 
+	@Override
 	public void handleMouseReleasedForPenMode(AbstractEvent event) {
 		handleMouseReleasedForPenMode(geogebra.euclidian.event.MouseEvent.getEvent(event));
 	}

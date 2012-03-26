@@ -1591,8 +1591,10 @@ public class Application extends AbstractApplication implements
 
 	@Override
 	public geogebra.common.awt.BufferedImage getExternalImageAdapter(String filename) {
-		return new geogebra.awt.BufferedImage(
-				ImageManager.getExternalImage(filename));
+		BufferedImage im = ImageManager.getExternalImage(filename);
+		if(im==null)
+			return null;
+		return new geogebra.awt.BufferedImage(im);
 	}
 
 	public void addExternalImage(String filename, BufferedImage image) {
