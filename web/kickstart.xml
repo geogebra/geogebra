@@ -24,6 +24,10 @@ your workstation.
 	    description="For command line developers (mostly Unix): to create GeoGebraWeb builds">
 	</target>
 
+	<target name="geogebraweb-packager-commandline" depends="geogebraweb-developer-commandline, gae-sdk"
+	    description="For command line developers (mostly Unix): to create GeoGebraWeb builds">
+	</target>
+
 	<target name="geogebraweb-developer" 
 	    description="For Eclipse developers: to create GeoGebraWeb builds">
 	</target>
@@ -62,5 +66,16 @@ your workstation.
 	<unzip src="lib/download/gwt-sdk.zip" dest=".."> <!-- FIXME: Find a better place for GWT SDK -->
 	</unzip>
 	</target>
+
+	<target name="gae-sdk">
+	<mkdir dir="lib"/>
+	<mkdir dir="lib/download"/>
+	<get
+	    src="http://googleappengine.googlecode.com/files/appengine-java-sdk-1.6.3.1.zip"
+	    dest="lib/download/gae-sdk.zip" usetimestamp="true"/>
+	<unzip src="lib/download/gae-sdk.zip" dest=".."> <!-- FIXME: Find a better place for GAE SDK -->
+	</unzip>
+	</target>
+
 	
 </project>

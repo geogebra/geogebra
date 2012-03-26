@@ -10,3 +10,6 @@ JAVA_HOME=/usr/lib/jvm/java-6-sun-1.6.0.26
 # If you used "ant -f kickstart.xml geogebraweb-developer-commandline", then you
 # have GWT SDK in a different directory:
 GWTDIR=../gwt-2.4.0
+GAEDIR=../appengine-java-sdk-1.6.3.1
+GAEEMAIL=apps@geogebra.org
+GAEAPP=geogebraweb

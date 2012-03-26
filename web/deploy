@@ -1,0 +1,45 @@
+#!/bin/sh
+# Deploys GeoGebraWeb to Google App Engine via command line.
+# You need to download GAE-SDK first by running
+#
+# ant -f kickstart.xml geogebraweb-packager-commandline
+#
+# Make sure that you run this script from its directory.
+# @author Zoltan Kovacs <zoltan@geogebra.org>
+
+# 1. Setting up environment variables
+# Override them if needed by using autobuild.conf
+GAEDIR=../appengine-java-sdk-1.6.3.1
+GAEEMAIL=apps@geogebra.org
+GAEAPP=geogebraweb
+
+test -r autobuild.conf && . ./autobuild.conf && echo "* Using autobuild.conf for overriding defaults"
+
+# 2. Setting defaults
+if [ "$SVNDIR" = "" ]; then
+ ORIGDIR=`dirname $0`
+ WORKDIR=`cd $ORIGDIR; pwd`
+else
+ WORKDIR=`cd $SVNDIR/geogebra/web; pwd`
+ fi
+
+cd $WORKDIR
+WEBDIR=`pwd`
+
+# 4. Testing configuration
+test -d $GAEDIR || {
+ echo "Error: No GAE SDK directory exists at $GAEDIR"
+ exit 4
+}
+
+GAEDIR=`cd $GAEDIR; pwd` # Making it absolute path
+
+echo "* GAE SDK directory is set to $GAEDIR"
+
+# 5. Uploading
+cd $GAEDIR/bin
+./appcfg.sh --email=$GAEEMAIL -A $GAEAPP update $WEBDIR/war
+
+# 6. Finished
+echo "Now you might want to check this upload
+by pointing your web browser to http://$GAEAPP.appspot.com"
