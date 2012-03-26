@@ -273,7 +273,6 @@ office@geogebra.org
 					ccsd/**,
 					geogebra/usb/**,
 					edu/mas/**,
-					edu/jas/**,
 					edu/uci/**,
 					org/apache/**,
 					org/apache/log4j/**, 
