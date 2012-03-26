@@ -6,10 +6,8 @@ import geogebra.common.awt.Font;
 import geogebra.common.awt.Graphics2D;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Shape;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.awt.FontRenderContext;
 
 public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic {
 

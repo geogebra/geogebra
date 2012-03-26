@@ -581,7 +581,7 @@ public class CreateObjectDialog extends InputDialog implements
 					app.getPlainFont().getSize() - 1);
 
 			if (latexStr != null && newGeo.isLaTeXDrawableGeo(latexStr)) {
-				drawLatexImageIcon(latexIcon, latexStr, latexFont, false,
+				app.getDrawEquation().drawLatexImageIcon(app, latexIcon, latexStr, latexFont, false,
 						Color.black, null);
 				lblPreview.setText(" ");
 			} else {
@@ -614,54 +614,6 @@ public class CreateObjectDialog extends InputDialog implements
 			createNewGeo();
 			typeList.addListSelectionListener(this);
 		}
-	}
-
-	/**
-	 * Draw a LaTeX image in the cell icon. Drawing is done twice. First draw
-	 * gives the needed size of the image. Second draw renders the image with
-	 * the correct dimensions.
-	 */
-	private void drawLatexImageIcon(ImageIcon latexIcon, String latex,
-			Font font, boolean serif, Color fgColor, Color bgColor) {
-
-		// Create image with dummy size, then draw into it to get the correct
-		// size
-		BufferedImage image = new BufferedImage(100, 100,
-				BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2image = image.createGraphics();
-		g2image.setBackground(bgColor);
-		g2image.clearRect(0, 0, image.getWidth(), image.getHeight());
-		g2image.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
-
-		geogebra.common.awt.Dimension d = new geogebra.awt.Dimension();
-
-		d = app.getDrawEquation().drawEquation(app, null,
-				new geogebra.awt.Graphics2D(g2image), 0, 0, latex,
-				new geogebra.awt.Font(font), serif,
-				new geogebra.awt.Color(fgColor),
-				new geogebra.awt.Color(bgColor), true);
-
-		// Now use this size and draw again to get the final image
-		image = new BufferedImage(d.getWidth(), d.getHeight(),
-				BufferedImage.TYPE_INT_ARGB);
-		g2image = image.createGraphics();
-		g2image.setBackground(bgColor);
-		g2image.clearRect(0, 0, image.getWidth(), image.getHeight());
-		g2image.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
-		d = app.getDrawEquation().drawEquation(app, null,
-				new geogebra.awt.Graphics2D(g2image), 0, 0, latex,
-				new geogebra.awt.Font(font), serif,
-				new geogebra.awt.Color(fgColor),
-				new geogebra.awt.Color(bgColor), true);
-
-		latexIcon.setImage(image);
-
 	}
 
 	@Override

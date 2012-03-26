@@ -13,8 +13,11 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import java.util.Iterator;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import org.scilab.forge.jlatexmath.AlphabetRegistration;
@@ -273,7 +276,7 @@ public class DrawEquation implements DrawEquationInterface {
 				bgColor, useCache, null, null));
 	}
 
-	final public Dimension drawEquation(final Application app,
+	final public static Dimension drawEquation(final Application app,
 			final GeoElement geo, final Graphics2D g2, final int x, final int y, final String text,
 			final geogebra.common.awt.Font font, final boolean serif, final geogebra.common.awt.Color fgColor,
 			final geogebra.common.awt.Color bgColor,
@@ -285,6 +288,59 @@ public class DrawEquation implements DrawEquationInterface {
 				lineSpace);
 		// else return drawEquationHotEqn(app, g2, x, y, text, font, fgColor,
 		// bgColor);
+	}
+	
+	/**
+	 * Draw a LaTeX image in the cell icon. Drawing is done twice. First draw
+	 * gives the needed size of the image. Second draw renders the image with
+	 * the correct dimensions.
+	 * @param app needed for {@link #drawEquationJLaTeXMath(Application, GeoElement, Graphics2D, int, int, String, geogebra.common.awt.Font, boolean, Color, Color, boolean, Integer, Float)}
+	 * @param latexIcon the LaTeX String will be drawn there
+	 * @param latex the LaTeX String to be drawn
+	 * @param font 
+	 * @param serif 
+	 * @param fgColor foreground color
+	 * @param bgColor background color
+	 */
+	public void drawLatexImageIcon(final Application app, ImageIcon latexIcon, final String latex,
+			final Font font, final boolean serif, final Color fgColor, final Color bgColor) {
+
+		// Create image with dummy size, then draw into it to get the correct
+		// size
+		BufferedImage image = new BufferedImage(100, 100,
+				BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g2image = image.createGraphics();
+		g2image.setBackground(bgColor);
+		g2image.clearRect(0, 0, image.getWidth(), image.getHeight());
+		g2image.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
+
+		geogebra.common.awt.Dimension d = new geogebra.awt.Dimension();
+		d = drawEquation(app, null,
+				new geogebra.awt.Graphics2D(g2image), 0, 0, latex,
+				new geogebra.awt.Font(font), serif,
+				new geogebra.awt.Color(fgColor),
+				new geogebra.awt.Color(bgColor), true);
+
+		// Now use this size and draw again to get the final image
+		image = new BufferedImage(d.getWidth(), d.getHeight(),
+				BufferedImage.TYPE_INT_ARGB);
+		g2image = image.createGraphics();
+		g2image.setBackground(bgColor);
+		g2image.clearRect(0, 0, image.getWidth(), image.getHeight());
+		g2image.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
+		d = drawEquation(app, null,
+				new geogebra.awt.Graphics2D(g2image), 0, 0, latex,
+				new geogebra.awt.Font(font), serif,
+				new geogebra.awt.Color(fgColor),
+				new geogebra.awt.Color(bgColor), true);
+
+		latexIcon.setImage(image);
 	}
 
 }
