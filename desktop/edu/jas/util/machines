@@ -1,9 +1,0 @@
-# maschines file for jas
-
-10.1.1.254:7114  # first host is master
-10.1.1.254:8114  # first client host, master-port+1000 
-10.1.1.254:8114  # second host with port
-#localhost:7411  # next host with port
-#localhost:7411  # last host 
-
-# eof
