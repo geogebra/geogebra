@@ -109,7 +109,7 @@ public class AlgoDerivative extends AlgoCasBase {
         
         if (var != null) {
         	// Derivative[ a x^2, x ]
-        	sb.append(super.toString());
+        	sb.append(super.toString(tpl));
         } else {
         	// 2. Derivative of a x^2
 	        if (order != null) {

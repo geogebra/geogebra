@@ -94,10 +94,10 @@ public class CmdDerivative extends CommandProcessor {
 			// Derivative[ f(a,b), a, 2 ]
 			try {
 				arg = resArgsLocalNumVar(c, 1, 1);
-				if (arg[0] instanceof GeoFunctionNVar && arg[1].isGeoNumeric()
+				if (arg[0] instanceof CasEvaluableFunction && arg[1].isGeoNumeric()
 						&& arg[2].isNumberValue()) {
 					GeoElement[] ret = { kernelA.Derivative(label,
-							(GeoFunctionNVar) arg[0], // function
+							(CasEvaluableFunction) arg[0], // function
 							(GeoNumeric) arg[1], (NumberValue) arg[2]) }; // var
 					return ret;
 				}
