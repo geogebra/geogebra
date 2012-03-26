@@ -12,6 +12,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoDependentPoint;
 import geogebra.common.kernel.algos.AlgoDependentVector;
+import geogebra.common.kernel.algos.AlgoTurtle;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -43,6 +44,7 @@ import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoTextField;
+import geogebra.common.kernel.geos.GeoTurtle;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Traceable;
@@ -108,6 +110,8 @@ public class PythonFlatAPI {
 	public static final Class<GeoPolygon> GeoPolygonClass = GeoPolygon.class;
 	@SuppressWarnings("javadoc")
 	public static final Class<GeoPolyLine> GeoPolyLineClass = GeoPolyLine.class;
+	@SuppressWarnings("javadoc")
+	public static final Class<GeoTurtle> GeoTurtleClass = GeoTurtle.class;
 	
 	/**
 	 * Wrapper for various kinds of ExpressionValues
@@ -1078,6 +1082,19 @@ public class PythonFlatAPI {
 	public GeoList geoList(GeoElement[] geos) {
 		ArrayList<GeoElement> geoslist = new ArrayList<GeoElement>(Arrays.asList(geos));
 		return kernel.List(null, geoslist, true);
+	}
+	
+	/* Turtles */
+	
+	/**
+	 * Create a new GeoTurtle
+	 * @return the newly created GeoTurtle
+	 */
+	public GeoTurtle geoTurtle() {
+		AlgoTurtle algo = new AlgoTurtle(cons, null);
+		GeoTurtle geo = algo.getTurtle();
+		geo.setEuclidianVisible(true);
+		return geo;
 	}
 	
 	/*

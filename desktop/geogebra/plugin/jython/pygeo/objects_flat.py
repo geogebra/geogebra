@@ -905,6 +905,14 @@ class Function(Element):
     implicitcurve = property(_getimplicitcurve)
 
 
+class Turtle(Element):
+
+    def __init__(self, factory):
+        self._factory = factory
+        self._api = factory.api
+        self.geo = self._api.geoTurtle()
+
+
 class Intersect(object):
 
     __metaclass__ = MetaFactoryProduct
@@ -1016,6 +1024,7 @@ __objects__ = [
     Locus, Function, ImplicitPoly,
     Button, List, Text, TextField,
     Axis,
+    Turtle,
 ]
 
 __expressions__ = [
