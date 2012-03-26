@@ -14,6 +14,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.awt.BufferedImage;
 import geogebra.common.awt.Color;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -74,12 +75,11 @@ public class GeoTurtle extends GeoElement {
 
 		this.turn(turnAngle);
 
-		String imagePath = "geogebra/gui/images/";
 		turtleImageList = new ArrayList<BufferedImage>();
-
-		this.getGraphicsAdapter().setImageOnly(
-				app.getExternalImageAdapter(imagePath + "go-next.png"));
-		turtleImageList.add(this.getFillImage());
+		
+		//String imagePath = "geogebra/gui/images/";
+		//turtleImageList.add(app.getInternalImageAdapter(imagePath + "go-next.png"));
+		
 
 	}
 
@@ -133,12 +133,20 @@ public class GeoTurtle extends GeoElement {
 	}
 
 	/**
-	 * @return current turn angle in degrees [0,30)
+	 * @return current turn angle in degrees [0,360)
 	 */
 	public double getTurnAngle() {
 		return (turnAngle * 180 / Math.PI) % 360;
 	}
 
+	/**
+	 * @return current sin and cos of turn angle
+	 */
+	public double[] getAngleRotators() {
+		double[] ar = {this.cosAngle, this.sinAngle};
+		return ar;
+	}
+	
 	/**
 	 * @return current turtle coordinates
 	 */
@@ -179,6 +187,13 @@ public class GeoTurtle extends GeoElement {
 		turtleImageList.add(image);
 	}
 
+	
+	public void setTurtleImageList(BufferedImage image) {
+		
+		turtleImageList.add(image);
+	}
+	
+	
 	public int getTurtle() {
 		return turtleImageIndex;
 	}
@@ -193,8 +208,6 @@ public class GeoTurtle extends GeoElement {
 
 	public void forward(double distance) {
 
-		double[] pos = new double[3];
-
 		position[0] += distance * cosAngle;
 		position[1] += distance * sinAngle;
 
@@ -202,7 +215,7 @@ public class GeoTurtle extends GeoElement {
 
 		GeoPointND pt = new GeoPoint2(cons, position[0], position[1], 1d);
 		cmdList.add(pt);
-		currentPoint.setCoords(pos[0], pos[1], 1.0);
+		currentPoint.setCoords(position[0], position[1], 1.0);
 
 	}
 
@@ -233,8 +246,7 @@ public class GeoTurtle extends GeoElement {
 	}
 
 	public void setPenColor(int r, int g, int b) {
-		// TODO: how to get new color from r,g,b?
-		// setPenColor(new Color(r,g,b));
+		setPenColor(AwtFactory.prototype.newColor(r, g, b));
 	}
 
 	public void setPenColor(Color penColor) {

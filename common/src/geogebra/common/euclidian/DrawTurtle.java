@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.BufferedImage;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.kernel.geos.GeoElement;
@@ -138,19 +137,46 @@ public class DrawTurtle extends Drawable {
 		}
 	}
 
+	private geogebra.common.awt.Ellipse2DDouble circle = geogebra.common.factories.AwtFactory.prototype
+			.newEllipse2DDouble();
+	private geogebra.common.awt.Line2D line = geogebra.common.factories.AwtFactory.prototype
+			.newLine2D();
+
 	private void drawTurtleShape(geogebra.common.awt.Graphics2D g2) {
 
-		BufferedImage img = turtle.getTurtleImageList().get(turtle.getTurtle());
 		turtle.getPosition().getInhomCoords(coords);
 		view.toScreenCoords(coords);
 
-		int x = (int) (coords[0] - img.getWidth() / 2);
-		int y = (int) (coords[1] - img.getHeight() / 2);
+		// BufferedImage img =
+		// turtle.getTurtleImageList().get(turtle.getTurtle());
+		// int x = (int) (coords[0] - img.getWidth() / 2);
+		// int y = (int) (coords[1] - img.getHeight() / 2);
 
 		// rotate the shape according to the turn angle
-
 		// draw the image
-		g2.drawImage(img, null, x, y);
+		// g2.drawImage(img, null, x, y);
+
+		int diameter = 12;
+		int x = (int) (coords[0]);
+		int y = (int) (coords[1]);
+		int x2 = (int) (x + diameter * turtle.getAngleRotators()[0]);
+		int y2 = (int) (y - diameter * turtle.getAngleRotators()[1]);
+
+		circle.setFrame(x - diameter / 2, y - diameter / 2, diameter, diameter);
+
+		g2.setStroke(objStroke);
+		g2.setColor(Color.black);
+		line.setLine(x, y, x2, y2);
+		g2.draw(line);
+
+		g2.setColor(Color.green);
+		g2.fill(circle);
+
+		g2.setColor(Color.black);
+		g2.draw(circle);
+
+		circle.setFrame(x - 1, y - 1, 2, 2);
+		g2.fill(circle);
 
 	}
 
@@ -191,9 +217,8 @@ public class DrawTurtle extends Drawable {
 				drawLabel(g2);
 			}
 
-		//	drawTurtleShape(g2);
+			drawTurtleShape(g2);
 
-		
 		}
 	}
 
