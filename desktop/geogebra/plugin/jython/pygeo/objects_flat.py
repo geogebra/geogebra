@@ -921,6 +921,39 @@ class Turtle(Element):
         API.Geo.setTurtlePenColor(self.geo, c)
     pen_color = property(_get_pen_color, _set_pen_color)
 
+    # property: pen_thickness
+    def _get_pen_thickness(self):
+        return API.Geo.getTurtlePenThickness(self.geo)
+    def _set_pen_thickness(self, val):
+        return API.Geo.setTurtlePenThickness(self.geo, int(val))
+    pen_thickness = property(_get_pen_thickness, _set_pen_thickness)
+
+    # property: angle
+    def _get_angle(self):
+        return API.Geo.getTurtleAngle(self.geo)
+    def _set_angle(self, val):
+        API.Geo.setTurtleAngle(self.geo, float(val))
+    angle = property(_get_angle, _set_angle)
+
+    # property: position
+    def _get_position(self):
+        return self._factory.get_element(API.Geo.getTurtlePosition(self.geo))
+    def _set_position(self, point):
+        if not isinstance(point, Point):
+            try:
+                point = self._factory.Point(point)
+            except Exception:
+                raise TypeError("turtle.position must be a point")
+        API.Geo.setTurtlePosition(self.geo, point.geo)
+    position = property(_get_position, _set_position)
+
+    # property: pen_down
+    def _get_pen_down(self):
+        return API.Geo.isTurtlePenDown(self.geo)
+    def _set_pen_down(self, val):
+        API.Geo.setTurtlePenDown(self.geo, bool(val))
+    pen_down = property(_get_pen_down, _set_pen_down)
+    
     def turn_left(self, angle):
         API.Geo.turtleTurn(self.geo, float(angle))
 
