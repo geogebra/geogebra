@@ -51,6 +51,7 @@ public class GeoTurtle extends GeoElement {
 	private double cosAngle = 1d;
 	private int turtleImageIndex = 0;
 
+	private boolean autoUpdate = true;
 	/**
 	 * Constructor with label
 	 * 
@@ -202,9 +203,20 @@ public class GeoTurtle extends GeoElement {
 		this.turtleImageIndex = index;
 	}
 
+	public boolean isAutoUpdate() {
+		return autoUpdate;
+	}
+
+	public void setAutoUpdate(boolean autoUpdate) {
+		this.autoUpdate = autoUpdate;
+	}
+	
+	
 	// ===============================================
 	// LOGO COMMANDS
 	// ===============================================
+
+	
 
 	public void forward(double distance) {
 
@@ -216,6 +228,7 @@ public class GeoTurtle extends GeoElement {
 		GeoPointND pt = new GeoPoint2(cons, position[0], position[1], 1d);
 		cmdList.add(pt);
 		currentPoint.setCoords(position[0], position[1], 1.0);
+		doUpdate();
 
 	}
 
@@ -228,6 +241,7 @@ public class GeoTurtle extends GeoElement {
 
 		GeoPoint2 pt = new GeoPoint2(cons, position[0], position[1], 1d);
 		cmdList.add(pt);
+		doUpdate();
 	}
 
 	public void turn(double turnAngle) {
@@ -238,15 +252,18 @@ public class GeoTurtle extends GeoElement {
 		this.cosAngle = Math.cos(this.turnAngle);
 
 		cmdList.add(turnAngle);
+		doUpdate();
 	}
 
 	public void setPenDown(boolean penDown) {
 		this.penDown = penDown;
 		cmdList.add(penDown);
+		doUpdate();
 	}
 
 	public void setPenColor(int r, int g, int b) {
 		setPenColor(AwtFactory.prototype.newColor(r, g, b));
+		doUpdate();
 	}
 
 	public void setPenColor(Color penColor) {
@@ -254,6 +271,7 @@ public class GeoTurtle extends GeoElement {
 			return;
 		this.penColor = penColor;
 		cmdList.add(penColor);
+		doUpdate();
 	}
 
 	public void clear() {
@@ -262,6 +280,12 @@ public class GeoTurtle extends GeoElement {
 		setPenDown(false);
 		setPosition(0,0);
 		setPenDown(true);
+		doUpdate();
+	}
+	
+	private void doUpdate(){
+		if(autoUpdate)
+			updateRepaint();
 	}
 
 	// ===========================================================

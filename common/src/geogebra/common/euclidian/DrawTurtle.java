@@ -37,6 +37,15 @@ public class DrawTurtle extends Drawable {
 	private Rectangle boundRect;
 
 	private double turnAngle = 0.0;
+	
+	
+	// turtle image circle
+	private geogebra.common.awt.Ellipse2DDouble turtleCircle = geogebra.common.factories.AwtFactory.prototype
+			.newEllipse2DDouble();
+	private geogebra.common.awt.Ellipse2DDouble turtleCircle2 = geogebra.common.factories.AwtFactory.prototype
+			.newEllipse2DDouble();
+	private geogebra.common.awt.Line2D line = geogebra.common.factories.AwtFactory.prototype
+			.newLine2D();
 
 	/**
 	 * @param view
@@ -107,19 +116,26 @@ public class DrawTurtle extends Drawable {
 			}
 
 		}
+		
+		
+		turtle.getPosition().getInhomCoords(coords);
+		view.toScreenCoords(coords);
+		int diameter = 12;
+		int x = (int) (coords[0]);
+		int y = (int) (coords[1]);
+		turtleCircle.setFrame(x - diameter / 2, y - diameter / 2, diameter, diameter);
+		turtleCircle2.setFrame(x - 2, y - 2, 4, 4);
+		
+		int x2 = (int) (x + .7 * diameter * turtle.getAngleRotators()[0]);
+		int y2 = (int) (y - .7 * diameter * turtle.getAngleRotators()[1]);
 
-		// get bounds
-		for (GeneralPathClipped path : gpList) {
-			if (boundRect == null)
-				boundRect = path.getBounds();
-			else
-				boundRect = boundRect.union(path.getBounds());
-		}
+		line.setLine(x, y, x2, y2);
+		
 
 		// turtle path on screen?
 		isVisible = false;
-		isVisible = boundRect != null
-				&& boundRect
+		isVisible = getBounds() != null
+				&& getBounds()
 						.intersects(0, 0, view.getWidth(), view.getHeight());
 
 	}
@@ -137,15 +153,11 @@ public class DrawTurtle extends Drawable {
 		}
 	}
 
-	private geogebra.common.awt.Ellipse2DDouble circle = geogebra.common.factories.AwtFactory.prototype
-			.newEllipse2DDouble();
-	private geogebra.common.awt.Line2D line = geogebra.common.factories.AwtFactory.prototype
-			.newLine2D();
+	
 
 	private void drawTurtleShape(geogebra.common.awt.Graphics2D g2) {
 
-		turtle.getPosition().getInhomCoords(coords);
-		view.toScreenCoords(coords);
+		
 
 		// BufferedImage img =
 		// turtle.getTurtleImageList().get(turtle.getTurtle());
@@ -156,27 +168,27 @@ public class DrawTurtle extends Drawable {
 		// draw the image
 		// g2.drawImage(img, null, x, y);
 
-		int diameter = 12;
-		int x = (int) (coords[0]);
-		int y = (int) (coords[1]);
-		int x2 = (int) (x + diameter * turtle.getAngleRotators()[0]);
-		int y2 = (int) (y - diameter * turtle.getAngleRotators()[1]);
 
-		circle.setFrame(x - diameter / 2, y - diameter / 2, diameter, diameter);
-
-		g2.setStroke(objStroke);
-		g2.setColor(Color.black);
-		line.setLine(x, y, x2, y2);
-		g2.draw(line);
-
+		
+		// draw turtle body
 		g2.setColor(Color.green);
-		g2.fill(circle);
+		
+		g2.fill(turtleCircle);
 
 		g2.setColor(Color.black);
-		g2.draw(circle);
+		g2.draw(turtleCircle);
+		
+		// draw orientation line
+				g2.setStroke(objStroke);
+				g2.setColor(Color.black);
+				g2.draw(line);
+				g2.setStroke(objStroke);
 
-		circle.setFrame(x - 1, y - 1, 2, 2);
-		g2.fill(circle);
+
+		// small dot in center colored with current pencolor
+		g2.setColor(turtle.getPenColor());
+	//	g2.fill(turtleCircle2);
+		
 
 	}
 
@@ -259,7 +271,7 @@ public class DrawTurtle extends Drawable {
 			return null;
 		}
 
-		boundRect = null;
+		boundRect = turtleCircle.getBounds();
 		// get bounds
 		for (GeneralPathClipped path : gpList) {
 			if (boundRect == null)
