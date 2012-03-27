@@ -798,6 +798,60 @@ public class PythonFlatAPI {
 		public static void setTurtlePenColor(GeoTurtle t, Color c) {
 			t.setPenColor(c);
 		}
+		
+		/**
+		 * Return the turtle pen thickness
+		 * @param t the GeoTurtle
+		 * @return the thickness of the turtle pen
+		 */
+		public static int getTurtlePenThickness(GeoTurtle t) {
+			return t.getPenThickness();
+		}
+		
+		/**
+		 * Define the thickness of the turtle pen
+		 * @param t the GeoTurtle
+		 * @param val the new thickness
+		 */
+		public static void setTurtlePenThickness(GeoTurtle t, int val) {
+			// TODO
+		}
+		
+		/**
+		 * Get the position of the turtle
+		 * @param t the GeoTurtle
+		 * @return the position of the turtle
+		 */
+		public static GeoPointND getTurtlePosition(GeoTurtle t) {
+			return t.getPosition();
+		}
+		
+		/**
+		 * Set the position of the turtle
+		 * @param t the GeoTurtle
+		 * @param p the new position of the turtle
+		 */
+		public static void setTurtlePosition(GeoTurtle t, GeoPointND p) {
+			t.setPosition(p.getX2D(), p.getY2D());
+		}
+		
+		/**
+		 * Get the turning angle of the turtle
+		 * @param t the GeoTurtle
+		 * @return the turning angle of the turtle
+		 */
+		public static double getTurtleAngle(GeoTurtle t) {
+			return t.getTurnAngle();
+		}
+		
+		/**
+		 * Set the turning angle of the turtle
+		 * @param t the GeoTurtle
+		 * @param a the new angle
+		 */
+		public static void setTurtleAngle(GeoTurtle t, double a) {
+			t.setTurnAngle(a);
+		}
 	}
 	
 	public Application app;
