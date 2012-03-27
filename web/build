@@ -33,6 +33,7 @@ $GGDIR/common/src:\
 $GGDIR/common/war/WEB-INF/lib:\
 $GGDIR/common/src/geogebra/jre:\
 $GGDIR/common/src/geogebra/webapache:\
+$GGDIR/common/src/geogebra/jung:\
 /web/test-classes:\
 $GGDIR/web/war/WEB-INF/classes:\
 $GWTDIR/gwt-user.jar:\
@@ -188,6 +189,7 @@ cd ../web/src/geogebra
 ln -s ../../../common/src/com
 ln -s ../../../common/src/geogebra/common
 ln -s ../../../common/src/geogebra/webapache
+ln -s ../../../common/src/geogebra/jung
 
 cd $WEBDIR
 $ANT $JAVAC_CLEANUP javac || exit 6
