@@ -187,7 +187,9 @@ public class WeightedChoice<T>
 		@Override
         public String toString()
 		{
-			return String.format("[L:%s, H:%s, %.3f]", light, heavy, weight);
+			//TODO: improve the format of string. Look at the next row.
+			//return String.format("[L:%s, H:%s, %.3f]", light, heavy, weight);
+			return "[L:"+light+", H:"+heavy+", "+weight+"]";
 		}
 	}
 }

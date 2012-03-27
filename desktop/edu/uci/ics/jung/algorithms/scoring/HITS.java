@@ -139,7 +139,9 @@ public class HITS<V,E> extends HITSWithPriors<V,E>
     	@Override
         public String toString()
     	{
-    		return String.format("[h:%.4f,a:%.4f]", this.hub, this.authority);
+    		//TODO: improve the format of string. Look at the next row.
+    		//return String.format("[h:%.4f,a:%.4f]", this.hub, this.authority);
+    		return "[h:"+this.hub+",a:"+this.authority+"]";
     	}
     }
 }

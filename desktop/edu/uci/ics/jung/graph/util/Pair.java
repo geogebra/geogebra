@@ -202,8 +202,12 @@ public final class Pair<T> implements Collection<T>, Serializable
     public <S> S[] toArray(S[] a) {
         S[] to_return = a;
         Class<?> type = a.getClass().getComponentType();
-        if (a.length < 2)
-            to_return = (S[])java.lang.reflect.Array.newInstance(type, 2);
+        if (a.length < 2){
+        	// TODO check
+        	//to_return = (S[])java.lang.reflect.Array.newInstance(type, 2);
+        	Object[] arr = new Object[2];
+        	to_return = (S[]) arr;
+        }
         to_return[0] = (S)first;
         to_return[1] = (S)second;
         

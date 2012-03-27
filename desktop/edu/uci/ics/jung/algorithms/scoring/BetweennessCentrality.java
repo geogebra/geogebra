@@ -69,8 +69,8 @@ public class BetweennessCentrality<V, E>
 		{
 			double e_weight = edge_weights.transform(e).doubleValue();
         	if (e_weight < 0)
-        		throw new IllegalArgumentException(String.format(
-        				"Weight for edge '%s' is < 0: %d", e, e_weight)); 
+        		throw new IllegalArgumentException(
+        				"Weight for edge '"+e+"' is < 0: "+e_weight); 
 		}
 			
 		initialize(graph);
