@@ -139,6 +139,13 @@ public class GeoTurtle extends GeoElement {
 	public double getTurnAngle() {
 		return (turnAngle * 180 / Math.PI) % 360;
 	}
+	
+	/**
+	 * @param a the new turning angle
+	 */
+	public void setTurnAngle(double a) {
+		turn(a - turnAngle * 180 / Math.PI);
+	}
 
 	/**
 	 * @return current sin and cos of turn angle
