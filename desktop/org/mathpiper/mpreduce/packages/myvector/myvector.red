@@ -1,5 +1,6 @@
 % This is a simple vector package for vectors arbitrary dimension. The
 % methods are very similar to those in avector.
+% Author: Simon Weitzhofer
 
 module myvector;
 
@@ -538,11 +539,14 @@ myvectorfn('listtomyvect,'listtomyvector);
 
 symbolic procedure listtomyvector vargs;
   begin scalar x, vargstmp;
-%debug%write("myvectoravec called with parameter ",vargs," # ");terpri();
+%debug%write("listtomyvector called with parameter ",vargs," # ");terpri();
  % Build a vector from the argument list
 %  if not eqn(length(vargs),3) then
 %            rerror(myvector,17,"Incorrect number of args in AVEC");
-  
+  if length(vargs)=1 and atom car vargs then
+  	return listtomyvector(list(getmyavalue car vargs));
+  if length(car vargs)<2 then
+  	rerror(myvector,21,"an error occured");
   x := mkvect(length(car vargs)-2);
   vargstmp:=car vargs;
   if not((car vargstmp)='list) then

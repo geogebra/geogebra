@@ -624,7 +624,7 @@ public class GeoGebraCasIntegrationTest {
 		t("Cross[{a, b, c}, {d, e, f}]",
 				"{b * f - c * e, -a * f + c * d, a * e - b * d}");
 	}
-
+	
 	@Test
 	public void Cross_2() {
 		t("Cross[(1, 3, 2), (0, 3, -2)]", "(-12, 2, 3)");
@@ -635,7 +635,12 @@ public class GeoGebraCasIntegrationTest {
 		t("Cross[(a, b, c), (d, e, f)]",
 				"(b * f - c * e, -a * f + c * d, a * e - b * d)");
 	}
-
+	
+	@Test
+	public void Cross_4() {
+		t("Cross[(a, b), (d, e)]",
+				"(0,0, a * e - b * d)");
+	}
 	/* CSolutions */
 
 	@Test
@@ -863,6 +868,11 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void Dot_0() {
 		t("Dot[{1, 3, 2}, {0, 3, -2}]", "5");
+	}
+	
+	@Test
+	public void Dot_1() {
+		t("(1,2) \u2297 (a,b)","a+2*b");
 	}
 
 	/* Element */
@@ -2599,7 +2609,74 @@ public class GeoGebraCasIntegrationTest {
 	public void Variance_1() {
 		t("Variance[{1, 2, a}]", "(2 * a^(2) - 6 * a + 6) / 9");
 	}
-
+	
+	//MyVector Package
+	
+	@Test
+	public void Vectors_AddingVectors_1() {
+		t("(1, 2)+(3,4)","(4,6)");
+	}
+	
+	@Test
+	public void Vectors_AddingVectors_2() {
+		t("(1, 2)+{3,3}","(4,5)");
+	}
+	
+	@Test
+	public void Vectors_AddingVectors_3() {
+		t("{a, b}+(3,2)","(a+3,b+2)");
+	}
+	
+	@Test
+	public void Vectors_SubtractingVectors_1() {
+		t("(1, 2)-(3,4)","(-2,-2)");
+	}
+	
+	@Test
+	public void Vectors_SubtractingVectors_2() {
+		t("(1, 2)-{3,3}","(-2,-1)");
+	}
+	
+	@Test
+	public void Vectors_SubtractingVectors_3() {
+		t("{a, b}-(3,2)","(a-3,b-2)");
+	}
+	
+	@Test
+	public void Vectors_ScalarProduct_1() {
+		t("(1, 2)*(3,4)","11");
+	}
+	
+	@Test
+	public void Vectors_ScalarProduct_2() {
+		t("{1, 2}*(3,4)","11");
+	}
+	
+	@Test
+	public void Vectors_ScalarProduct_3() {
+		t("(1, 2)*{3,4}","11");
+	}
+	
+	@Test
+	public void Vectors_ScalarProduct_4() {
+		t("(x, 2)*{3,4}","3*x+8");
+	}
+	
+	@Test
+	public void Vectors_MatrixTimesVector_1() {
+		t("{{a,b},{c,d}}*(x,y)","(x*a+y*b,x*c+y*d)");
+	}
+	
+	@Test
+	public void Vectors_MatrixTimesVector_2() {
+		t("{{1,2},{2,1}}*(3,4)","(11,10)");
+	}
+	
+	@Test
+	public void Vectors_MatrixTimesVector_3() {
+		t("(a,b)*{{1,2},{3,4}}","(a+3*b,2*a+4*b)");
+	}
+	
 	/* Ticket */
 
 	/* Ticket 1274: Derivative of exp(2x) wrong */
