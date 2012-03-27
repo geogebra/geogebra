@@ -912,6 +912,24 @@ class Turtle(Element):
         self._api = factory.api
         self.geo = self._api.geoTurtle()
 
+    # Turtle driving commands
+
+    # property: pen_color
+    def _get_pen_color(self):
+        return API.Geo.getTurtlePenColor(self.geo)
+    def _set_pen_color(self, c):
+        API.Geo.setTurtlePenColor(self.geo, c)
+    pen_color = property(_get_pen_color, _set_pen_color)
+
+    def turn_left(self, angle):
+        API.Geo.turtleTurn(self.geo, float(angle))
+
+    def turn_right(self, angle):
+        API.Geo.turtleTurn(self.geo, -float(angle))
+
+    def forward(self, d):
+        API.Geo.turtleForward(self.geo, float(d))
+
 
 class Intersect(object):
 

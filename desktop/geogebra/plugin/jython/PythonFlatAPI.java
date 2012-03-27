@@ -742,9 +742,64 @@ public class PythonFlatAPI {
 		public static int getFunctionArity(GeoFunctionNVar f) {
 			return f.getVarNumber();
 		}
+	
+		/* Turtles */
 		
+		/**
+		 * Make a turtle move forward
+		 * @param t the GeoTurtle
+		 * @param d the distance to move
+		 */
+		public static void turtleForward(GeoTurtle t, double d) {
+			t.forward(d);
+		}
+		
+		/**
+		 * Make turtle turn
+		 * @param t the GeoTurtle
+		 * @param angle the angle to move (positive means anticlockwise)
+		 */
+		public static void turtleTurn(GeoTurtle t, double angle) {
+			t.turn(angle);
+		}
+		
+		/**
+		 * Check is turtle pen is down
+		 * @param t the GeoTurtle
+		 * @return true if the turtle pen is down
+		 */
+		public static boolean isTurtlePenDown(GeoTurtle t) {
+			return t.getPenDown();
+		}
+		
+		/**
+		 * Set the state of the turtle pen
+		 * @param t the GeoTurtle
+		 * @param penIsDown true to put the pen down, false to lift it
+		 */
+		public static void setTurtlePenDown(GeoTurtle t, boolean penIsDown) {
+			t.setPenDown(penIsDown);
+		}
+		
+		/**
+		 * Get the color of the turtle pen
+		 * @param t the GeoTurtle
+		 * @return the color of the turtle pen
+		 */
+		public static Color getTurtlePenColor(GeoTurtle t) {
+			return t.getPenColor();
+		}
+		
+		/**
+		 * Set the color of the turtle pen
+		 * @param t the GeoTurtle
+		 * @param c the new color
+		 */
+		public static void setTurtlePenColor(GeoTurtle t, Color c) {
+			t.setPenColor(c);
+		}
 	}
-
+	
 	public Application app;
 	public Kernel kernel;
 	public Construction cons;
