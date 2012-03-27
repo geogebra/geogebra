@@ -341,6 +341,11 @@ office@geogebra.org
 				<include name="**/*.class" />
 			</fileset>
 		</copy>
+		<copy todir="${src.dir}/edu">
+			<fileset dir="${src.dir}/../common/src/geogebra/jung/edu">
+				<include name="**/*.class" />
+			</fileset>
+		</copy>
 		<jar jarfile="${build.dir}/geogebra_algos.jar"
 			basedir="${src.dir}"
 			includes="geogebra/kernel/discrete/**,
