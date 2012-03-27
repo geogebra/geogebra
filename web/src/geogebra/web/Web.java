@@ -21,6 +21,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -55,9 +56,13 @@ public class Web implements EntryPoint {
 		//do we have an app?
 		Web.loadedAsApp = checkIfNeedToLoadAsApp();
 		
-		
+		// insert mathquill css
+		StyleInjector.inject(GuiResources.INSTANCE.mathquillCss().getText());
+
 		//insert zip.js
 		JavaScriptInjector.inject(GuiResources.INSTANCE.zipJs().getText());
+		JavaScriptInjector.inject(GuiResources.INSTANCE.jQueryJs().getText());
+		JavaScriptInjector.inject(GuiResources.INSTANCE.mathquillJs().getText());
 		Web.webWorkerSupported = chekcWorkerSupport(GWT.getModuleBaseURL());
 		if (!webWorkerSupported) {
 			JavaScriptInjector.inject(GuiResources.INSTANCE.deflateJs().getText());
