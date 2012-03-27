@@ -6,22 +6,16 @@ import geogebra.main.Application;
 import geogebra.common.util.StringUtil;
 import geogebra.gui.util.ImageSelection;
 
-import java.awt.AWTException;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Robot;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-
+import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-import javax.swing.JTable;
 
 /**
  * Provides a popup menu for copying the text of a {@link GeoCasCell} to the
@@ -56,16 +50,17 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 		copyItem.setActionCommand("copy");
 		copyItem.addActionListener(this);
 		add(copyItem);
+		addSeparator();
 
-		JMenuItem copyToLaTeXItem = new JMenuItem(
-				table.app.getMenu("CopyToLaTeX"));
-		copyToLaTeXItem.setActionCommand("copyToLaTeX");
-		copyToLaTeXItem.addActionListener(this);
-		add(copyToLaTeXItem);
+		JMenuItem copyToLatexItem = new JMenuItem(
+				table.app.getMenu("CopyAsLaTeX"));
+		copyToLatexItem.setActionCommand("copyAsLatex");
+		copyToLatexItem.addActionListener(this);
+		add(copyToLatexItem);
 
 		JMenuItem copyToImageItem = new JMenuItem(
-				table.app.getMenu("CopyToImage"));
-		copyToImageItem.setActionCommand("copyToImage");
+				table.app.getMenu("CopyAsImage"));
+		copyToImageItem.setActionCommand("copyAsImage");
 		copyToImageItem.addActionListener(this);
 		add(copyToImageItem);
 	}
@@ -81,24 +76,22 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 
 		if (ac.equals("copy")) {
 			data = new StringSelection(
-					value.toOutputValueString(StringTemplate.defaultTemplate));
-		} else if (ac.equals("copyToLaTeX")) {
-			data = new StringSelection(StringUtil.toLaTeXString(
-					value.getLaTeXOutput(), true));
-		} else if (ac.equals("copyToImage")) {
-			try {
-				Robot robot = new Robot();
-				Point tableLocation = table.getLocationOnScreen();
-				Rectangle rowBounds = getRowBounds(table, value.getRowNumber());
-				rowBounds.setLocation((int) tableLocation.getX(),
-						(int) (tableLocation.getY() + rowBounds.getLocation()
-								.getY()));
-				BufferedImage image = robot.createScreenCapture(rowBounds);
+					value.getOutput(StringTemplate.defaultTemplate));
+		} else if (ac.equals("copyAsLatex")) {
+			String latexOutput = value.getLaTeXOutput();
+			data = new StringSelection(StringUtil.toLaTeXString(latexOutput,
+					true));
+		} else if (ac.equals("copyAsImage")) {
+			ImageIcon latexIcon = new ImageIcon();
+			Font latexFont = new Font(table.app.getPlainFont().getName(),
+					table.app.getPlainFont().getStyle(), table.app
+							.getPlainFont().getSize() - 1);
 
-				data = new ImageSelection(image);
-			} catch (AWTException ex) {
-				ex.printStackTrace();
-			}
+			table.app.getDrawEquation().drawLatexImageIcon(table.app,
+					latexIcon, value.getLaTeXOutput(), latexFont, false,
+					CASOutputPanel.TEXT_COLOR, table.getBackground());
+
+			data = new ImageSelection(latexIcon.getImage());
 		}
 
 		if (data == null) {
@@ -106,24 +99,5 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 		}
 
 		sysClip.setContents(data, null);
-	}
-
-	/**
-	 * Returns the bounds of a {@link JTable} row
-	 * 
-	 * @param table
-	 *            the {@link JTable} where the row is
-	 * @param row
-	 *            the number of the row where the bounds are needed
-	 * @return the bounds of the row
-	 */
-	private static Rectangle getRowBounds(JTable table, int row) {
-		Rectangle result = table.getCellRect(row, -1, true);
-		Insets i = table.getInsets();
-
-		result.x = i.left;
-		result.width = table.getWidth() - i.left - i.right;
-
-		return result;
 	}
 }

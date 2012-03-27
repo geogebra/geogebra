@@ -16,7 +16,10 @@ public class CASOutputPanel extends JPanel {
 	
 	//public static final int INDENT = 20; // pixel
 	
-	private static Color TEXT_COLOR = Color.blue;
+	/**
+	 * The text color of the output
+	 */
+	public static Color TEXT_COLOR = Color.blue;
 	private static Color ERROR_COLOR = Color.red;
 	private static Color OUTPUT_PREFIX_COLOR = Color.gray;
 	private static String OUTPUT_PREFIX = "\u2192";
