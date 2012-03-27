@@ -9,7 +9,9 @@ import geogebra.cas.logging.CASTestLogger;
 import geogebra.common.cas.CASparser;
 import geogebra.common.cas.mpreduce.AbstractCASmpreduce;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.main.AbstractApplication;
@@ -45,6 +47,7 @@ public class GeoGebraCasIntegrationTest {
 		app.setLanguage(Locale.US);
 		// app.getKernel()
 		kernel = app.getKernel();
+		arbconst =  new MyArbitraryConstant(new GeoNumeric(kernel.getConstruction()));
 		cas = kernel.getGeoGebraCAS();
 		logger = new CASTestLogger();
 	}
@@ -57,7 +60,7 @@ public class GeoGebraCasIntegrationTest {
 		if(!silent)
 			logger.handleLogs();
 	}
-
+	private static MyArbitraryConstant arbconst;
 	/**
 	 * Executes the given expression in the CAS.
 	 * 
@@ -69,7 +72,7 @@ public class GeoGebraCasIntegrationTest {
 		CASparser parser = (CASparser) cas.getCASparser();
 		ValidExpression inputVe = parser
 				.parseGeoGebraCASInputAndResolveDummyVars(input);
-		String result = cas.evaluateGeoGebraCAS(inputVe, StringTemplate.casCellTemplate);
+		String result = cas.evaluateGeoGebraCAS(inputVe, arbconst);
 
 		if (result == null || result.length() <= 0) {
 			return "";
