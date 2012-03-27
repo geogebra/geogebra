@@ -4,30 +4,20 @@
   xmlns:web='urn:import:geogebra.web.gui.app'>
   
    <ui:style>
-	  .debugborder { border:1px solid black; background-color:red;}
-	  .debugeview { background-color:green; border: 1px solid black; width:100%; height:100%;}
+	  .debugborder { border:1px solid black;}
   </ui:style>
 
-  <g:DockLayoutPanel styleName="{style.debugborder}" unit='EM'>
-    <g:north size='3'>
-      <web:GGWToolBar styleName="{style.debugborder}" ui:field='ggwToolBar' />
+  <g:DockLayoutPanel addStyleNames="{style.debugborder}" unit='PX'>
+    <g:north size='50'>
+      <web:GGWToolBar addStyleNames="{style.debugborder}" ui:field='ggwToolBar' />
     </g:north>
 
     <g:center>
-      <g:SplitLayoutPanel>
-        <g:west size='300'>
-          <web:GGWViewWrapper styleName="{style.debugborder}" ui:field='ggwViewWrapper' />
-        </g:west>
-
-        <g:center>
-          <web:GGWGraphicsView styleName="{style.debugeview}" ui:field='ggwGraphicsView' />
-        </g:center>
-        
-      </g:SplitLayoutPanel>
+      <web:ggwSplitLayoutPanel ui:field='ggwSplitLayoutPanel'></web:ggwSplitLayoutPanel>
     </g:center>
     
-    <g:south size='2'>
-          <web:GGWCommandLine styleName="{style.debugborder}" ui:field='ggwCommandLine' />
+    <g:south size='50'>
+          <web:GGWCommandLine addStyleNames="{style.debugborder}" ui:field='ggwCommandLine' />
     </g:south>
   </g:DockLayoutPanel>
 

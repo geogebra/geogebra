@@ -2784,6 +2784,7 @@ public abstract class AbstractApplication {
 	}
 	
 	private final StringBuilder sbPlain = new StringBuilder();
+	protected boolean useFullAppGui = false;
 	
 	// Michael Borcherds 2008-03-25
 	// Markus Hohenwarter 2008-09-18
@@ -2811,5 +2812,20 @@ public abstract class AbstractApplication {
 		}
 
 		return sbPlain.toString();
+	}
+
+	public boolean isFullAppGui() {
+	    return useFullAppGui;
+	}
+	
+	protected int appCanvasHeight;
+	protected int appCanvasWidth;
+
+	public int getAppCanvasWidth() {
+		return appCanvasWidth;
+	}
+
+	public int getAppCanvasHeight() {
+		return appCanvasHeight;
 	}
 }

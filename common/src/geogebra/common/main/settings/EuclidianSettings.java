@@ -629,6 +629,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 	public void setPreferredSize(Dimension dimension) {
 		preferredSize = dimension;
+		settingChanged();
 
 	}
 

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.main.AbstractApplication;
 import geogebra.web.Web;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
@@ -24,7 +25,9 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -41,14 +44,16 @@ public class GeoGebraAppFrame extends Composite {
 	/** Loads file into active GeoGebraFrame */
 	public static LoadFilePresenter fileLoader = new LoadFilePresenter();
 	
-	
+	//declared in uibinder xml!
+	private static int GGWVIewWrapper_WIDTH = 300;
+	private static int GGWToolBar_HEIGHT = 50;
+	private static int GGWCommandLine_HEIGHT = 50;
 	
 	@UiField GGWToolBar ggwToolBar;
 	@UiField GGWCommandLine ggwCommandLine;
-	@UiField GGWViewWrapper ggwViewWrapper;
-	@UiField GGWGraphicsView ggwGraphicsView;
+	@UiField ggwSplitLayoutPanel ggwSplitLayoutPanel;
 
-	private Application app;
+	private AbstractApplication app;
 	
 	public GeoGebraAppFrame() {
 		initWidget(binder.createAndBindUi(this));
@@ -64,24 +69,44 @@ public class GeoGebraAppFrame extends Composite {
 	    root.forceLayout();
 	}
 	
-	/**
-	 * Creates a GUI (main entry point of GUI);
-	 * 
-	 */
-	public void createGui() {    
-	    init();
-  }
+	@Override
+    protected void onLoad() {
+		init();
+	}
+	
+	private int cw;
+	private int ch;
 
 
 	private void init() {
 		ArticleElement article = ArticleElement.as(Dom.querySelector(GeoGebraConstants.GGM_CLASS_NAME));
 		Date creationDate = new Date();
 		article.setId(GeoGebraConstants.GGM_CLASS_NAME+creationDate.getTime());
+		cw = (Window.getClientWidth() - (GGWVIewWrapper_WIDTH + ggwSplitLayoutPanel.getSplitLayoutPanel().getSplitterSize())); 
+		ch = (Window.getClientHeight() - (GGWToolBar_HEIGHT + GGWCommandLine_HEIGHT));
 		app = createApplication(article,this);
     }
+	
+	/**
+	 * @return int computed width of the canvas
+	 * 
+	 * (Window.clientWidth - GGWViewWrapper (left - side) - splitter size)
+	 */
+	public int getCanvasCountedWidth() {
+		return cw;
+	}
+	
+	/**
+	 * @return int computed height of the canvas
+	 * 
+	 * (Window.clientHeight - GGWToolbar - GGWCommandLine)
+	 */
+	public int getCanvasCountedHeight() {
+		return ch;
+	}
 
 
-	private Application createApplication(ArticleElement article,
+	private AbstractApplication createApplication(ArticleElement article,
             GeoGebraAppFrame geoGebraAppFrame) {
 		return new Application(article, geoGebraAppFrame);
     }
@@ -106,7 +131,7 @@ public class GeoGebraAppFrame extends Composite {
 	 * Return the canvas in UiBinder of EuclidianView1.ui.xml
 	 */
 	public Canvas getEuclidianView1Canvas() {
-		return ggwGraphicsView.getEuclidianView1Wrapper().getCanvas();
+		return ggwSplitLayoutPanel.getGGWGraphicsView().getEuclidianView1Wrapper().getCanvas();
 	}
 	
 	/**
@@ -115,7 +140,11 @@ public class GeoGebraAppFrame extends Composite {
 	 * EuclidianViewPanel for wrapping textfields
 	 */
 	public AbsolutePanel getEuclidianView1Panel() {
-		return ggwGraphicsView.getEuclidianView1Wrapper().getEuclidianPanel();
+		return ggwSplitLayoutPanel.getGGWGraphicsView()	.getEuclidianView1Wrapper().getEuclidianPanel();
+	}
+	
+	public SplitLayoutPanel getGGWSplitLayoutPanel() {
+		return ggwSplitLayoutPanel.getSplitLayoutPanel();
 	}
 
 }

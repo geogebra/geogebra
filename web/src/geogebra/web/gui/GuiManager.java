@@ -15,13 +15,14 @@ import geogebra.web.main.Application;
 
 import java.util.ArrayList;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
 public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	private DialogManagerWeb dialogManager;
 
-	public Application app;
+	public AbstractApplication app;
 	protected Kernel kernel;
 
 	private AbsolutePanel main;
@@ -29,7 +30,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	private int width;
 	private int height;
 
-	public GuiManager(Application app) {
+	public GuiManager(AbstractApplication app) {
 		this.app = app;
 		this.kernel = app.getKernel();
 	}
@@ -219,6 +220,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		this.height = height;
 
 		// experimental resize of canvas
-		app.getEuclidianView1().setPreferredSize(width, height);
+		//app.getEuclidianView1().setPreferredSize(width, height);
+		GWT.log("why not use Settigns for that?");
 	}
 }

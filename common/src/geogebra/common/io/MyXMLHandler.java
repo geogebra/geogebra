@@ -1065,8 +1065,15 @@ public class MyXMLHandler implements DocHandler {
 		// return true;
 
 		try {
-			int width = (app.getDataParamWidth() > 0 && !app.getUseFullGui()) ? app.getDataParamWidth() :  Integer.parseInt(attrs.get("width"));
-			int height = (app.getDataParamHeight() > 0 && !app.getUseFullGui()) ? app.getDataParamHeight() : Integer.parseInt(attrs.get("height"));
+			int width;
+			int height;
+			if (!app.isFullAppGui()) {
+				width = (app.getDataParamWidth() > 0 && !app.getUseFullGui()) ? app.getDataParamWidth() :  Integer.parseInt(attrs.get("width"));
+				height = (app.getDataParamHeight() > 0 && !app.getUseFullGui()) ? app.getDataParamHeight() : Integer.parseInt(attrs.get("height"));
+			} else {
+				width = app.getAppCanvasWidth();
+				height = app.getAppCanvasHeight();
+			}
 			ev.setPreferredSize(geogebra.common.factories.AwtFactory.prototype
 					.newDimension(width, height));
 			return true;

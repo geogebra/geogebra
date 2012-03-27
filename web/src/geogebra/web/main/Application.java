@@ -41,6 +41,7 @@ import geogebra.web.euclidian.EuclidianView;
 import geogebra.web.gui.DialogManagerWeb;
 import geogebra.web.gui.GuiManager;
 import geogebra.web.gui.SplashDialog;
+import geogebra.web.gui.app.EuclidianPanel;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.html5.ArticleElement;
@@ -71,6 +72,7 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -78,6 +80,7 @@ import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -110,11 +113,6 @@ public class Application extends AbstractApplication {
 	private ArticleElement articleElement;
 	private GeoGebraFrame frame;
 	private GeoGebraAppFrame appFrame;
-	private boolean useFullAppGui = false;
-	//needed to remember the original size of the canvas
-	private int canvasHeight;
-	private int canvasWidth;
-
 	// convenience method
 	public Application(ArticleElement ae, GeoGebraFrame gf) {
 		this(ae, gf, true);
@@ -135,7 +133,7 @@ public class Application extends AbstractApplication {
 		initCommonObjects();
 		
 		this.canvas = Canvas.createIfSupported();
-		euclidianViewPanel = new AbsolutePanel();
+		euclidianViewPanel = new AbsolutePanel();	
 		euclidianViewPanel.add(this.canvas); // canvas must be the 1rst widget in the euclidianViewPanel
 		// because we will use euclidianViewPanel.getWidget(0) later
 		canvas.setWidth("1px");
@@ -164,6 +162,8 @@ public class Application extends AbstractApplication {
 		this.appFrame = geoGebraAppFrame;
 		createAppSplash();
 		this.useFullAppGui  = true;
+		appCanvasHeight = appFrame.getCanvasCountedHeight();
+		appCanvasWidth = appFrame.getCanvasCountedWidth();
 		dbg = new DebugPrinterWeb();
 		initCommonObjects();
 		
@@ -171,6 +171,11 @@ public class Application extends AbstractApplication {
 		this.euclidianViewPanel = appFrame.getEuclidianView1Panel();
 		
 		initCoreObjects(undoActive, this);
+		getSettings().getEuclidian(1).setPreferredSize(geogebra.common.factories.AwtFactory.prototype
+		.newDimension(appCanvasWidth, appCanvasHeight));
+		getEuclidianView1().setDisableRepaint(false);
+		getEuclidianView1().synCanvasSize();
+		getEuclidianView1().repaintView();
 		appFrame.finishAsyncLoading(article, geoGebraAppFrame, this);
     }
 
@@ -619,10 +624,8 @@ public class Application extends AbstractApplication {
 	 */
 	public void afterLoadAppFile() {
 		kernel.initUndoInfo();
-		this.canvasWidth = euclidianViewPanel.getOffsetWidth();
-		this.canvasHeight = euclidianViewPanel.getOffsetHeight();
 		getEuclidianView1().setDisableRepaint(false);
-		getEuclidianView1().synCanvasSizeWithApp(canvasWidth,canvasHeight);
+		getEuclidianView1().synCanvasSize();
 		getEuclidianView1().repaintView();
 	}
 
@@ -1296,10 +1299,6 @@ public class Application extends AbstractApplication {
 		//must be implemented with uiBinder
 	}
 
-	public boolean isFullAppGui() {
-	    return useFullAppGui;
-    }
-
 	/**
 	 * @param undoActive
 	 * @param this_app
@@ -1307,7 +1306,7 @@ public class Application extends AbstractApplication {
 	 * Initializes Kernel, EuclidianView, EuclidianSettings, etc..
 	 */
 	void initCoreObjects(final boolean undoActive,
-            final Application this_app) {
+            final AbstractApplication this_app) {
 	    kernel = new Kernel(this_app);
 
 	    // init settings

@@ -36,6 +36,7 @@ public class Web implements EntryPoint {
 	public void t(String s,AlgebraProcessor ap) throws Exception{
 		ap.processAlgebraCommandNoExceptionHandling(s, false,false, true);
 	}
+	
 	private ArrayList<ArticleElement> getGeoGebraMobileTags() {
 		NodeList<Element> nodes = Dom.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
 		ArrayList<ArticleElement> articleNodes = new ArrayList<ArticleElement>();
@@ -94,7 +95,6 @@ public class Web implements EntryPoint {
 			
 			public void onSuccess() {
 				GeoGebraAppFrame app = new GeoGebraAppFrame();
-				app.createGui();
 			}
 
 			public void onFailure(Throwable reason) {
