@@ -15,6 +15,7 @@ package geogebra.common.kernel.cas;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 
 /**
@@ -32,10 +33,10 @@ public class AlgoFactor extends AlgoCasBase {
 	public Algos getClassName() {
 		return Algos.AlgoFactor;
 	}
-
+	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {
 		// factor value form of f
-		g.setUsingCasCommand("Factor(%)", f, false);		
+		g.setUsingCasCommand("Factor(%)", f, false,arbconst);		
 	}
 }

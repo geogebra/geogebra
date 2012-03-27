@@ -5900,7 +5900,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			diffSb.append("-(");
 			diffSb.append(f.getFormulaString(StringTemplate.defaultTemplate, true));
 			diffSb.append(")");
-			final String diff = kernel.evaluateGeoGebraCAS(diffSb.toString());
+			final String diff = kernel.evaluateGeoGebraCAS(diffSb.toString(),null);
 			return (Double.valueOf(diff) == 0d);
 		} catch (final Throwable e) {
 			return false;

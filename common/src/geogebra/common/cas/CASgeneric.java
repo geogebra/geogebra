@@ -5,6 +5,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.cas.AsynchronousCommand;
 import geogebra.common.kernel.cas.CASGenericInterface;
@@ -46,7 +47,7 @@ public abstract class CASgeneric implements CASGenericInterface,
 	 * @throws CASException
 	 */
 	public abstract String evaluateGeoGebraCAS(ValidExpression casInput,
-			StringTemplate tpl)
+			MyArbitraryConstant tpl)
 			throws CASException;
 
 	/**

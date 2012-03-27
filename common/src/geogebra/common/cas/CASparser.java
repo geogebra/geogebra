@@ -19,6 +19,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.cas.CASParserInterface;
 import geogebra.common.kernel.geos.GeoDummyVariable;
@@ -116,9 +117,9 @@ public class CASparser implements CASParserInterface{
 	/**
 	 * Tries to convert the given MathPiper string to GeoGebra syntax.
 	 */
-	public String toGeoGebraString(ExpressionValue ev,StringTemplate tpl) throws CASException {
+	public String toGeoGebraString(ExpressionValue ev,MyArbitraryConstant tpl) throws CASException {
 		try {
-			return toString(ev, tpl);
+			return toString(ev, StringTemplate.defaultTemplate);
 		} catch (Throwable e) {
 			e.printStackTrace();
 			throw new CASException(e);

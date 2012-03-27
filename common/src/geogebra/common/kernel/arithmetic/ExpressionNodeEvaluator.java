@@ -1912,6 +1912,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			// error if we get here
 			str = new String[]{ "IllegalArgument", rt.toString(errorTemplate) };
 			throw new MyError(app, str);
+		case ARBCONST:
+		case ARBINT:
+		case ARBCOMPLEX:
+			return new MyDouble(kernel,0.0);
 
 		default:
 			throw new MyError(app, "ExpressionNode: Unhandled operation."

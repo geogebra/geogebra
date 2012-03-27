@@ -5,6 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.AsynchronousCommand;
@@ -163,7 +164,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * @return evaluation result
 	 * @throws CASException if there is a timeout or the expression cannot be evaluated
 	 */
-	public String evaluateGeoGebraCAS(ValidExpression casInput,StringTemplate tpl)
+	public String evaluateGeoGebraCAS(ValidExpression casInput,MyArbitraryConstant tpl)
 			throws CASException {
 
 		String result = null;
@@ -182,7 +183,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		if (casInput.isKeepInputUsed()
 				&& (exception != null || "?".equals(result))) {
 			// return original input
-			return casInput.toString(tpl);
+			return casInput.toString(StringTemplate.defaultTemplate);
 		}
 
 		// pass on exception
@@ -207,15 +208,16 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * @return result string in GeoGebra syntax (null possible)
 	 * @throws CASException if there is a timeout or the expression cannot be evaluated
 	 */
-	final public String evaluateGeoGebraCAS(String exp) throws CASException {
+	final public String evaluateGeoGebraCAS(String exp,MyArbitraryConstant arbconst) throws CASException {
 		try {
 			ValidExpression inVE = casParser.parseGeoGebraCASInput(exp);
-			String ret = evaluateGeoGebraCAS(inVE,StringTemplate.defaultTemplate);
+			String ret = evaluateGeoGebraCAS(inVE,arbconst);
 			if(ret == null)
 				throw new CASException(
 						new Exception(app.getError("CAS.GeneralErrorMessage")));
 			return ret;
 		} catch (Throwable t) {
+			t.printStackTrace();
 			throw new CASException(t);
 		}
 	}

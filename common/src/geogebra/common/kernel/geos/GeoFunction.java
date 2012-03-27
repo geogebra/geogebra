@@ -32,6 +32,7 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.Functional;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.IneqTree;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -414,11 +415,11 @@ public class GeoFunction extends GeoElement implements VarString,
 	 *            the function that the CAS command is applied to
 	 */
 	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f,
-			boolean symbolic) {
+			boolean symbolic,MyArbitraryConstant arbconst) {
 		GeoFunction ff = (GeoFunction) f;
 
 		if (ff.isDefined()) {
-			fun = (Function) ff.fun.evalCasCommand(ggbCasCmd, symbolic);
+			fun = (Function) ff.fun.evalCasCommand(ggbCasCmd, symbolic,arbconst);
 			isDefined = fun != null;
 		} else {
 			isDefined = false;
@@ -1470,7 +1471,7 @@ public class GeoFunction extends GeoElement implements VarString,
 			sb.append(Unicode.Infinity);
 			sb.append(')');
 
-			gradientStrMinus = kernel.evaluateCachedGeoGebraCAS(sb.toString());
+			gradientStrMinus = kernel.evaluateCachedGeoGebraCAS(sb.toString(),null);
 			// Application.debug(sb.toString()+" = "+gradientStrMinus,1);
 
 			double grad;
@@ -1499,7 +1500,7 @@ public class GeoFunction extends GeoElement implements VarString,
 				sb.append(')');
 
 				interceptStrMinus = kernel.evaluateCachedGeoGebraCAS(sb
-						.toString());
+						.toString(),null);
 				// Application.debug(sb.toString()+" = "+interceptStrMinus,1);
 
 				if (!GeoFunction.CASError(interceptStrMinus, false, app)) {
@@ -1560,7 +1561,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		sb.append(")");
 
 		try {
-			String limit = kernel.evaluateCachedGeoGebraCAS(sb.toString())
+			String limit = kernel.evaluateCachedGeoGebraCAS(sb.toString(),null)
 					.trim();
 
 			// Application.debug(sb.toString()+" = "+limit,1);
@@ -1623,7 +1624,7 @@ public class GeoFunction extends GeoElement implements VarString,
 
 		try {
 			String verticalAsymptotes = kernel.evaluateCachedGeoGebraCAS(sb
-					.toString());
+					.toString(),null);
 			// Application.debug(sb.toString()+" = "+verticalAsymptotes,1);
 
 			if (!GeoFunction.CASError(verticalAsymptotes, false, app)
@@ -1697,7 +1698,7 @@ public class GeoFunction extends GeoElement implements VarString,
 
 						try {
 							String limit = kernel.evaluateCachedGeoGebraCAS(sb
-									.toString());
+									.toString(),null);
 							// Application.debug("checking for vertical asymptote: "+sb.toString()+" = "+limit,1);
 							if (limit.equals("?")
 									|| !GeoFunction.CASError(limit, true, app)) {

@@ -4,7 +4,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
-import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.Variable;
@@ -23,21 +22,31 @@ public class CommandDispatcherMPReduce {
 	 */
 	public enum commands {
 		/** arbitrary complex number*/
-		arbcomplex,
+		arbcomplex(Operation.ARBCOMPLEX),
 		/** arbitrary constant*/
-		arbconst,
+		arbconst(Operation.ARBCONST),
 		/** arbitrary integer (comes from trig equations)*/
-		arbint,
+		arbint(Operation.ARBINT),
 		/** derivative*/
-		df,
+		df(Operation.DERIVATIVE),
 		/** logb */
-		logb,
+		logb(Operation.LOGB),
 		/** sine integral */
-		si,
+		si(Operation.SI),
 		/** cosine integral */
-		ci,
+		ci(Operation.CI),
 		/** cosine integral */
-		ei
+		ei(Operation.EI);
+		private Operation op;
+		private commands(Operation op){
+			this.op = op;
+		}
+		/**
+		 * @return single variable operation
+		 */
+		public Operation getOperation(){
+			return op;
+		}
 	}
 
 	/**
@@ -58,52 +67,30 @@ public class CommandDispatcherMPReduce {
 			//TODO -- template is not important for arb*, but is this correct for df?
 			StringTemplate tpl = StringTemplate.casTemplate;
 			switch (commands.valueOf(cmdName)) {
-			case arbcomplex:
-				// e.g. arbcomplex(2) from MPreduce becomes next free index
-				// label, e.g. z_5
-				ret = new MyArbitraryConstant(kernel,
-						MyArbitraryConstant.ARB_COMPLEX, args.getListElement(0)
-								.toString(tpl));
-				break;
-
-			case arbconst:
-				// e.g. arbconst(3) from MPreduce becomes next free index label,
-				// e.g. c_4
-				ret = new MyArbitraryConstant(kernel,
-						MyArbitraryConstant.ARB_CONST, args.getListElement(0)
-								.toString(tpl));
-				break;
-
-			case arbint:
-				// e.g. arbint(2) from MPreduce becomes next free index label,
-				// e.g. k_3
-				ret = new MyArbitraryConstant(kernel,
-						MyArbitraryConstant.ARB_INT, args.getListElement(0)
-								.toString(tpl));
-				break;
-				
 			case logb:
 				// e.g. logb[x,3] becomes log(3,x)
 				ret = new ExpressionNode(kernel,
 						 args.getListElement(1),Operation.LOGB,
 								args.getListElement(0));
 				break;
+			case arbcomplex:
+				
+
+			case arbconst:
+				
+
+			case arbint:
+				
+			
 				
 			case ci:
-				// e.g. logb[x,3] becomes log(3,x)
-				ret = new ExpressionNode(kernel,
-						 args.getListElement(0),Operation.CI,null);
-				break;
+				
 			case si:
-				// e.g. logb[x,3] becomes log(3,x)
-				ret = new ExpressionNode(kernel,
-						 args.getListElement(0),Operation.SI,
-								null);
-				break;
+				
 			case ei:
 				// e.g. logb[x,3] becomes log(3,x)
 				ret = new ExpressionNode(kernel,
-						 args.getListElement(0),Operation.EI,
+						 args.getListElement(0),commands.valueOf(cmdName).getOperation(),
 								null);
 				break;
 

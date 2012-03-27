@@ -15,6 +15,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
@@ -2235,8 +2236,8 @@ public class Kernel {
 	 * @return result string (null possible)
 	 * @throws Throwable
 	 */
-	final public String evaluateGeoGebraCAS(String exp) throws Throwable {
-		return evaluateGeoGebraCAS(exp, false);
+	final public String evaluateGeoGebraCAS(String exp,MyArbitraryConstant arbconst) throws Throwable {
+		return evaluateGeoGebraCAS(exp, false,arbconst);
 	}
 
 	/**
@@ -2247,8 +2248,8 @@ public class Kernel {
 	 * @return result string (null possible)
 	 * @throws Throwable
 	 */
-	final public String evaluateCachedGeoGebraCAS(String exp) throws Throwable {
-		return evaluateGeoGebraCAS(exp, true);
+	final public String evaluateCachedGeoGebraCAS(String exp,MyArbitraryConstant  arbconst) throws Throwable {
+		return evaluateGeoGebraCAS(exp, true,arbconst);
 	}
 
 	/**
@@ -2260,7 +2261,7 @@ public class Kernel {
 	 * @return result string (null possible)
 	 * @throws Throwable
 	 */
-	private String evaluateGeoGebraCAS(String exp, boolean useCaching)
+	private String evaluateGeoGebraCAS(String exp, boolean useCaching,MyArbitraryConstant arbconst)
 			throws Throwable {
 		String result = null;
 		if (useCaching && hasCasCache()) {
@@ -2275,7 +2276,7 @@ public class Kernel {
 		}
 
 		// evaluate in GeoGebraCAS
-		result = getGeoGebraCAS().evaluateGeoGebraCAS(exp);
+		result = getGeoGebraCAS().evaluateGeoGebraCAS(exp,arbconst);
 
 		if (useCaching) {
 			getCasCache().put(exp, result);

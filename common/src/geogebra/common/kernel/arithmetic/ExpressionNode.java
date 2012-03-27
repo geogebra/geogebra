@@ -3214,7 +3214,24 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 				sb.append(rightBracket(STRING_TYPE));
 			break;
-
+		case ARBCONST:
+				sb.append("arbconst(");
+				sb.append(leftStr);
+				sb.append(")");
+			break;
+		case ARBINT:
+				sb.append("arbint(");
+				sb.append(leftStr);
+				sb.append(")");
+			break;
+		case ARBCOMPLEX:
+			
+				sb.append("arbcomplex(");
+				sb.append(leftStr);
+				sb.append(")");
+				
+			
+		break;
 		case EXP:
 			// Application.debug("EXP");
 			switch (STRING_TYPE) {

@@ -16,6 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -61,7 +62,7 @@ public class AlgoDegree extends AlgoElement {
 	public GeoNumeric getResult() {
 		return num;
 	}
-
+	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 	@Override
 	public final void compute() {
 		if (!f.isDefined()) {
@@ -82,7 +83,7 @@ public class AlgoDegree extends AlgoElement {
 		sb.append(")");
 		String functionOut;
 		try {
-			functionOut = kernel.evaluateCachedGeoGebraCAS(sb.toString());
+			functionOut = kernel.evaluateCachedGeoGebraCAS(sb.toString(),arbconst);
 			num.setValue(Double.parseDouble(functionOut));
 		} catch (Throwable e) {
 			System.err.println("AlgoDegree: " + e.getMessage());

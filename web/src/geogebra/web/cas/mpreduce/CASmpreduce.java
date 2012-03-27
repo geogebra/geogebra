@@ -227,7 +227,7 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 				try{
 					inVE = casParser.parseGeoGebraCASInput(input);
 					//TODO: arbconst()
-					result = evaluateGeoGebraCAS(inVE,StringTemplate.defaultTemplate);
+					result = evaluateGeoGebraCAS(inVE,null);
 				}catch(Throwable exception){
 					result ="";
 					CASAsyncFinished(inVE, result, exception, command, input);

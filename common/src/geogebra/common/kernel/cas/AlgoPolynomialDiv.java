@@ -16,6 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 
@@ -63,7 +64,7 @@ public class AlgoPolynomialDiv extends AlgoElement {
 	public GeoFunction getResult() {
 		return g;
 	}
-
+	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 	@Override
 	public final void compute() {
 		if (!f1.isDefined() || !f2.isDefined()) {
@@ -88,7 +89,7 @@ public class AlgoPolynomialDiv extends AlgoElement {
 			// cached evaluation of MPReduce as we are only using variable
 			// values
 			String functionOut = kernel
-					.evaluateCachedGeoGebraCAS(sb.toString());
+					.evaluateCachedGeoGebraCAS(sb.toString(),arbconst);
 			if (functionOut == null || functionOut.length() == 0) {
 				g.setUndefined();
 			} else {

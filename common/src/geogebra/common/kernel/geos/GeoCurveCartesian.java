@@ -26,6 +26,7 @@ import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
@@ -224,12 +225,12 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 * Set this curve by applying CAS command to f.
 	 */
 	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f,
-			boolean symbolic) {
+			boolean symbolic,MyArbitraryConstant arbconst) {
 		GeoCurveCartesian c = (GeoCurveCartesian) f;
 
 		if (c.isDefined()) {
-			funX = (Function) c.funX.evalCasCommand(ggbCasCmd, symbolic);
-			funY = (Function) c.funY.evalCasCommand(ggbCasCmd, symbolic);
+			funX = (Function) c.funX.evalCasCommand(ggbCasCmd, symbolic,arbconst);
+			funY = (Function) c.funY.evalCasCommand(ggbCasCmd, symbolic,arbconst);
 			isDefined = !(funX == null || funY == null);
 			if (isDefined)
 				setInterval(c.startParam, c.endParam);

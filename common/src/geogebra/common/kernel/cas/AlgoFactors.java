@@ -16,6 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
@@ -61,7 +62,7 @@ public class AlgoFactors extends AlgoElement {
 	public GeoList getResult() {
 		return g;
 	}
-
+	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 	@Override
 	public final void compute() {
 		if (!f.isDefined()) {
@@ -82,7 +83,7 @@ public class AlgoFactors extends AlgoElement {
 			sb.append("))");
 			// cached evaluation of MPReduce as we are only using variable
 			// values
-			String listOut = kernel.evaluateCachedGeoGebraCAS(sb.toString());
+			String listOut = kernel.evaluateCachedGeoGebraCAS(sb.toString(),arbconst);
 
 			if (listOut == null || listOut.length() == 0) {
 				g.setUndefined();

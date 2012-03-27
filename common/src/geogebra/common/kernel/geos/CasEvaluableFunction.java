@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 
 /**
  * Interface to unify object types that allow evaluation with CAS commands,
@@ -28,10 +29,11 @@ public interface CasEvaluableFunction extends ToGeoElement {
 	 * where the function f should be substituted, e.g. "Derivative(%,x)"
 	 * @param f the function that the CAS command is applied to
 	 * @param symbolic true to keep variable names
+	 * @param arbconst arbitrary constant manager
 	 * 
 	 */
 	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f, 
-			boolean symbolic);
+			boolean symbolic,MyArbitraryConstant arbconst);
 	/**
 	 * @param tpl string template
 	 * @return string representation; variables represented by names

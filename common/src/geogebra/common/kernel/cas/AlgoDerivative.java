@@ -16,6 +16,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
@@ -75,11 +76,10 @@ public class AlgoDerivative extends AlgoCasBase {
         if (order != null)
             input[++length] = order.toGeoElement();
 
-        setOutputLength(1);
-        setOutput(0, g.toGeoElement());
+        setOnlyOutput(g);
         setDependencies(); // done by AlgoElement
     }  
-    
+    private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {
 		
@@ -99,7 +99,7 @@ public class AlgoDerivative extends AlgoCasBase {
 		 sbAE.append(")");
 		 
 		 // find symbolic derivative of f
-		 g.setUsingCasCommand(sbAE.toString(), f, true);	
+		 g.setUsingCasCommand(sbAE.toString(), f, true,arbconst);	
 
 	}
   

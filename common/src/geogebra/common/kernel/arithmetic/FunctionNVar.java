@@ -426,9 +426,10 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 	 * @param symb
 	 *            true for symbolic evaluation, false to use values of
 	 *            GeoElement variables
+	 * @param arbconst arbitrary constant handler
 	 * @return resulting function
 	 */
-	final public FunctionNVar evalCasCommand(String ggbCasCmd, boolean symb) {
+	final public FunctionNVar evalCasCommand(String ggbCasCmd, boolean symb,MyArbitraryConstant arbconst) {
 		StringBuilder sb = new StringBuilder(80);
 		// remember expression and its CAS string
 		boolean useCaching = true;
@@ -486,8 +487,8 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 			}
 
 			// evaluate expression by CAS
-			String result = symbolic ? kernel.evaluateGeoGebraCAS(casString) : // symbolic
-					kernel.evaluateCachedGeoGebraCAS(casString); // value string
+			String result = symbolic ? kernel.evaluateGeoGebraCAS(casString,arbconst) : // symbolic
+					kernel.evaluateCachedGeoGebraCAS(casString,arbconst); // value string
 			// System.out.println("evaluateGeoGebraCAS: " + casString + " -> " +
 			// result);
 

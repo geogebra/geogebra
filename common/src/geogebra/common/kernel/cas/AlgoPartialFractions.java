@@ -16,6 +16,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 
 public class AlgoPartialFractions extends AlgoCasBase {
@@ -29,7 +30,7 @@ public class AlgoPartialFractions extends AlgoCasBase {
 	public Algos getClassName() {
 		return Algos.AlgoPartialFractions;
 	}
-
+	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {
 
@@ -45,7 +46,7 @@ public class AlgoPartialFractions extends AlgoCasBase {
 		sbAE.append(varStr);
 		sbAE.append(")");
 
-		g.setUsingCasCommand(sbAE.toString(), f, false);
+		g.setUsingCasCommand(sbAE.toString(), f, false,arbconst);
 	}
 
 }

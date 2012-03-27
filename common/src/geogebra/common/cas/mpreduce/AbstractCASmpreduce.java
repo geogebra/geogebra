@@ -6,13 +6,18 @@ import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasExpressionFactory;
 import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.plugin.Operation;
 
 import java.util.Map;
 import java.util.Set;
@@ -139,7 +144,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 
 	@Override
 	final public synchronized String evaluateGeoGebraCAS(
-			ValidExpression inputExpression,StringTemplate tpl) throws CASException {
+			ValidExpression inputExpression,MyArbitraryConstant tpl) throws CASException {
 		ValidExpression casInput = inputExpression;
 		// KeepInput[] command should set flag keepinput!!:=1
 		// so that commands like Substitute can work accordingly
@@ -185,12 +190,12 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 		// convert result back into GeoGebra syntax
 		if (casInput instanceof FunctionNVar) {
 			// function definition f(x) := x^2 should return x^2
-			String ret = casInput.toString(tpl);
+			String ret = casInput.toString(StringTemplate.defaultTemplate);
 			return ret;
 		}
 		Command cmd = casInput.getTopLevelCommand();
 		if(cmd!=null && "Delete".equals(cmd.getName()) && "true".equals(result)){
-			GeoElement geo = casParser.getKernel().getConstruction().lookupLabel(cmd.getArgument(0).toString(tpl));
+			GeoElement geo = casParser.getKernel().getConstruction().lookupLabel(cmd.getArgument(0).toString(StringTemplate.defaultTemplate));
 			if(geo!=null)
 				geo.remove();
 		}
@@ -232,7 +237,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 	 * @throws CASException
 	 *             Throws if the underlying CAS produces an error
 	 */
-	final public synchronized String toGeoGebraString(String mpreduceString,StringTemplate tpl)
+	final public synchronized String toGeoGebraString(String mpreduceString,MyArbitraryConstant tpl)
 			throws CASException {
 		ValidExpression ve = casParser.parseMPReduce(mpreduceString);
 
@@ -243,7 +248,14 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 			factory.replaceExpByRoots();
 		else
 			factory.replaceRootsByExp();
-
+		if(tpl!=null){
+			tpl.reset();
+			if(ve.isExpressionNode()){
+				ExpressionValue v = ((ExpressionNode)ve).getRight();
+				if(v instanceof ExpressionNode && ((ExpressionNode)v).getOperation()==Operation.ARBCONST)
+					((ExpressionNode)ve).setRight(tpl.nextConst());
+			}
+		}
 		return casParser.toGeoGebraString(ve,tpl);
 	}
 

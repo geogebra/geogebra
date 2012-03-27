@@ -781,8 +781,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		sb.append(",");
 		sb.append(n);
 		sb.append(")");
-
-		return (Function) evalCasCommand(sb.toString(), true);
+		//for derivative we don't need arbconst
+		return (Function) evalCasCommand(sb.toString(), true,null);
 	}
 
 	/**
@@ -831,7 +831,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		String casString = sb.toString();
 
 		// eval cas string "Derivative( <funY>, t ) / Derivative( %, t)"
-		return (Function) funX.evalCasCommand(casString, symbolic);
+		return (Function) funX.evalCasCommand(casString, symbolic,null);
 	}
 
 	/**

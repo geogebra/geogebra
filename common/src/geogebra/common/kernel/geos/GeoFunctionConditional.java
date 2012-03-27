@@ -18,6 +18,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -506,17 +507,17 @@ public class GeoFunctionConditional extends GeoFunction {
 	 */
 	@Override
 	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f,
-			boolean symbolic) {
+			boolean symbolic,MyArbitraryConstant arbconst) {
 		GeoFunctionConditional ff = (GeoFunctionConditional) f;
 
 		if (ff.ifFun != null) {
-			ifFun.setUsingCasCommand(ggbCasCmd, ff.ifFun, symbolic);
+			ifFun.setUsingCasCommand(ggbCasCmd, ff.ifFun, symbolic,arbconst);
 		} else {
 			ifFun = null;
 		}
 
 		if (ff.elseFun != null) {
-			elseFun.setUsingCasCommand(ggbCasCmd, ff.elseFun, symbolic);
+			elseFun.setUsingCasCommand(ggbCasCmd, ff.elseFun, symbolic,arbconst);
 		} else {
 			elseFun = null;
 		}

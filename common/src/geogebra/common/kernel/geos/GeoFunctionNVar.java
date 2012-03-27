@@ -25,6 +25,7 @@ import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.IneqTree;
 import geogebra.common.kernel.arithmetic.Inequality;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
@@ -222,11 +223,12 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	 * where the function f should be substituted, e.g. "Derivative(%,x)"
 	 * @param f the function that the CAS command is applied to
 	 */
-	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f, boolean symbolic){
+	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f, boolean symbolic,
+			MyArbitraryConstant arbconst){
 		GeoFunctionNVar ff = (GeoFunctionNVar) f;
 		
 		if (ff.isDefined()) {
-			fun = ff.fun.evalCasCommand(ggbCasCmd, symbolic);
+			fun = ff.fun.evalCasCommand(ggbCasCmd, symbolic,arbconst);
 			isDefined = fun != null;
 		} else {
 			isDefined = false;

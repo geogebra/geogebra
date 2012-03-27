@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.main.AbstractApplication.CasType;
@@ -17,7 +18,7 @@ public interface GeoGebraCasInterface {
 
     public CASGenericInterface getCurrentCAS();
 
-	public String evaluateGeoGebraCAS(ValidExpression evalVE,StringTemplate tpl);
+	public String evaluateGeoGebraCAS(ValidExpression evalVE,MyArbitraryConstant tpl);
 
 	public CASParserInterface getCASparser();
 
@@ -29,7 +30,7 @@ public interface GeoGebraCasInterface {
 
 	public String[] getPolynomialCoeffs(String exp, String variable);
 
-	public String evaluateGeoGebraCAS(String exp);
+	public String evaluateGeoGebraCAS(String exp,MyArbitraryConstant cons);
 
 	public void unbindVariable(String addCASVariablePrefix);
 

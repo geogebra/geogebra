@@ -10,6 +10,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
@@ -1378,6 +1379,7 @@ public class GeoCasCell extends GeoElement {
 	 */
 	private GeoElement silentEvalInGeoGebra(ValidExpression ve) {
 		boolean oldValue = kernel.isSilentMode();
+		
 		kernel.setSilentMode(true);
 
 		try {
@@ -1411,7 +1413,7 @@ public class GeoCasCell extends GeoElement {
 		}
 		return true; // simulate success
 	}
-
+	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 	/**
 	 * Computes the output of this CAS cell based on its current input settings.
 	 * 
@@ -1440,7 +1442,7 @@ public class GeoCasCell extends GeoElement {
 				if (evalVE == null) {
 					throw new CASException("Invalid input (evalVE is null)");
 				}
-				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(evalVE,StringTemplate.casCellTemplate);
+				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(evalVE,arbconst);
 				success = result != null;
 			} catch (CASException e) {
 				System.err.println("GeoCasCell.computeOutput(), CAS eval: "

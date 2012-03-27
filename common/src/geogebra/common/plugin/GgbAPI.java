@@ -6,6 +6,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AlgebraProcessor;
@@ -147,7 +148,8 @@ public abstract class GgbAPI implements JavaScriptAPI{
 		String ret = "";
 		GeoGebraCasInterface ggbcas = kernel.getGeoGebraCAS();
 		try {
-			ret = ggbcas.evaluateGeoGebraCAS(cmdString);
+			//TODO -- allow  to parametrize this
+			ret = ggbcas.evaluateGeoGebraCAS(cmdString,null);
 		} catch (Throwable t) {
 			AbstractApplication.debug(t.toString());
 		}// try-catch

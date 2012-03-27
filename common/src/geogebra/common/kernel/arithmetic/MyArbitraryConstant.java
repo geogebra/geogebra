@@ -1,17 +1,19 @@
 package geogebra.common.kernel.arithmetic;
 
-import java.util.Map;
-import java.util.TreeMap;
-
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.algos.ConstructionElement;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
+
+import java.util.ArrayList;
 
 /**
  * Arbitrary constant comming from reduce
  *
  */
-public class MyArbitraryConstant extends MyDouble {
+public class MyArbitraryConstant  {
 	/** arbitrary integer*/
 	public static final int ARB_INT = 0;
 	/** arbitrary double*/
@@ -21,81 +23,91 @@ public class MyArbitraryConstant extends MyDouble {
 	
 	private String latexString, internalString;
 	
-	private static Map<Integer,String> consts= new TreeMap<Integer,String>(), ints= new TreeMap<Integer,String>(), complexNumbers = new TreeMap<Integer,String>();
-	
-	private static String latexStr(String prefix,Map<Integer,String> map,Integer number,Construction cons){
+	private ArrayList<GeoNumeric> consts= new ArrayList<GeoNumeric>(), ints= new ArrayList<GeoNumeric>(), complexNumbers = new ArrayList<GeoNumeric>();
+	private ConstructionElement ce;
+	public MyArbitraryConstant(ConstructionElement ce){
+		this.ce = ce;
+	}
+	/*public static String latexStr(String prefix,Map<Integer,String> map,Integer number,Construction cons){
 		String s = map.get(number);
 		if(s!=null)
 			return s;
 		s = cons.getIndexLabel(prefix, number);
 		map.put(number, s);
 		return s;
-	}
+	}*/
+	private int position = 0;
 	/**
-	 * Creates an arbitrary constant coming from Reduce using
-	 * 
-	 * @param kernel kernel
-	 * @param arbID ARB_INT, ARB_CONST, ARB_COMPLEX
-	 * @param numberStrRaw string representation of the number
+	 * @return real constant
 	 */
-	public MyArbitraryConstant(Kernel kernel, int arbID, String numberStrRaw) {
-		super(kernel, 0);
-		
-		String numberStr = numberStrRaw.trim();
-		Integer number = 1;
-		try {
-			number = (int) Math.round(Double.parseDouble(numberStr));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		Construction cons = kernel.getConstruction();
-		switch (arbID) {
-			case ARB_INT:	
-				internalString = build("arbint(", numberStr, ")");
-				latexString = latexStr("k",ints, number,cons);
-				break;
-				
-			case ARB_CONST:
-				internalString = build("arbconst(", numberStr, ")");
-				latexString = latexStr("c",consts, number,cons);
-				break;
-				
-			case ARB_COMPLEX:
-				internalString = build("arbconst(", numberStr, ")");
-				latexString = latexStr("z",complexNumbers, number,cons);
-				break;
-		}			
+	public ExpressionValue nextConst() {
+		return nextConst(consts);
 	}
 	
-	@Override
-	public String toString(StringTemplate tpl) {
-		if(tpl.isSymbolicArbConst())
-			return latexString;
-		switch (tpl.getStringType()) {						
-			case LATEX:
-				// return e.g. "k_1" 
-				return latexString;
-							
-			case MPREDUCE:			
-				// return e.g. "arbint(2)"
-				return internalString;
-				
-			default:
-				//case GEOGEBRA:
-				// treat arbitrary constant as 0, 
-				// see #1428 problem with Integral[x^2]
-				return "0";
-		}					
+	private ExpressionValue nextConst(ArrayList<GeoNumeric> consts2) {
+		Construction c = ce.getConstruction();
+		if(position >= consts2.size() || consts2.get(position)==null){
+			GeoNumeric add = new GeoNumeric(c);
+			add.setAuxiliaryObject(true);
+			add.setLabel(c.getIndexLabel("c"));
+			AlgoDependentArbconst algo = new AlgoDependentArbconst(c,add,ce);
+			c.removeFromConstructionList(algo);
+			consts2.add(position,add);
+			return add;
+		}
+		GeoNumeric ret = consts2.get(position);
+		position++;
+		return ret;
 	}
 
-	private static String build(String str1, String str2, String str3) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(str1);
-		sb.append(str2);
-		if (str3 != null)
-			sb.append(str3);
-		return sb.toString();
+	public void reset(){
+		position=0;
 	}
+	
+	
+	/**
+	 * Ensures that update of the constant (if visualised as slider) triggers
+	 * update of resulting geo. This is not meant to be contained in construction protocol.
+	 *
+	 */
+	public class AlgoDependentArbconst extends AlgoElement{
+		private GeoElement constant;
+		private ConstructionElement outCE;
+		private ArrayList<AlgoElement> updateList;
+		public AlgoDependentArbconst(Construction c,GeoElement constant,ConstructionElement outCE) {
+			super(c,false);
+			this.constant=constant;
+			this.outCE = outCE;
+			if(outCE instanceof AlgoElement){
+				updateList = new ArrayList<AlgoElement>();
+				updateList.add((AlgoElement)outCE);
+			}
+				
+			setInputOutput();
+		}
+
+		@Override
+		protected void setInputOutput() {
+			input = new GeoElement[] {constant}; 
+			setDependencies();
+		}
+
+		@Override
+		public void compute() {
+			if(updateList!=null)
+				AlgoElement.updateCascadeAlgos(updateList);
+			else if(outCE!=null)
+				outCE.update();
+		}
+
+		@Override
+		public Algos getClassName() {
+			return Algos.AlgoDependentNumber;
+		}
+		
+	}
+	
+	
+	
 		
 }
