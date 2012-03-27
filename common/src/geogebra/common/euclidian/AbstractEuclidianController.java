@@ -5668,7 +5668,7 @@ public abstract class AbstractEuclidianController {
 						}
 						else if ((hit != null) && hit.isGeoBoolean()) {
 							GeoBoolean bool = (GeoBoolean) (hits.get(0));
-							if (!bool.isCheckboxFixed()) { // otherwise changed on mouse
+							if (!isCheckboxFixed(bool)) { // otherwise changed on mouse
 															// down
 								bool.setValue(!bool.getBoolean());
 								app.removeSelectedGeo(bool); // make sure doesn't get
@@ -6508,7 +6508,7 @@ public abstract class AbstractEuclidianController {
 	
 			// if fixed checkbox dragged, behave as if it's been clicked
 			// important for electronic whiteboards
-			if (movedGeoBoolean.isCheckboxFixed()) {
+			if (isCheckboxFixed(movedGeoBoolean)) {
 				movedGeoBoolean.setValue(!movedGeoBoolean.getBoolean());
 				app.removeSelectedGeo(movedGeoBoolean); // make sure doesn't get
 														// selected
@@ -6599,6 +6599,16 @@ public abstract class AbstractEuclidianController {
 			moveMode = MOVE_NONE;
 		}
 	
+	}
+
+	/*
+	 * Dragging a fixed checkbox should change its state (important for EWB etc)
+	 * 
+	 * Also for iPads etc
+	 * TODO: change check for app.isHTML5Applet() when we have an HTML5 GUI
+	 */
+	private boolean isCheckboxFixed(GeoBoolean geoBool) {
+		return geoBool.isCheckboxFixed() || app.isHTML5Applet();
 	}
 
 	protected void updateSelectionRectangle(boolean keepScreenRatio) {
