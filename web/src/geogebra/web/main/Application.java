@@ -852,8 +852,8 @@ public class Application extends AbstractApplication {
 	@Override
 	public AlgoElement newAlgoShortestDistance(Construction cons, String label,
 			GeoList list, GeoPointND start, GeoPointND end, GeoBoolean weighted) {
-		AbstractApplication.debug("implementation needed really"); // TODO
-		return null;
+		return new geogebra.common.kernel.discrete.AlgoShortestDistance(cons, label, list, start, end, weighted);
+		
 	}
 
 	@Override
