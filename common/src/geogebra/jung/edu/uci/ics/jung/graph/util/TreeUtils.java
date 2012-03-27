@@ -49,11 +49,11 @@ public class TreeUtils
      * @throws IllegalAccessException 
      */
 	@SuppressWarnings("unchecked")
-	public static <V,E> Tree<V,E> getSubTree(Forest<V,E> forest, V root) throws InstantiationException, IllegalAccessException 
+	public static <V,E> Tree<V,E> getSubTree(Forest<V,E> forest, V root) 
 	{
 	    if (!forest.containsVertex(root))
 	        throw new IllegalArgumentException("Specified tree does not contain the specified root as a vertex");
-		Forest<V,E> subforest = forest.getClass().newInstance();
+		Forest<V,E> subforest = (Forest<V, E>) forest.newInstance();
 		subforest.addVertex(root);
 		growSubTree(forest, subforest, root);
 		

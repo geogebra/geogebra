@@ -19,6 +19,10 @@ package org.apache.commons.collections15;
 
 import java.util.*;
 
+import org.apache.commons.collections15.collection.AbstractCollectionDecorator;
+import org.apache.commons.collections15.collection.UnmodifiableCollection;
+
+
 /**
  * Provides utility methods and decorators for {@link Collection} instances.
  *
@@ -1022,9 +1026,9 @@ public class CollectionUtils {
      * @return an unmodifiable collection backed by the given collection
      * @throws IllegalArgumentException if the collection is null
      */
-//    public static <E> Collection<E> unmodifiableCollection(Collection<E> collection) {
-//        return UnmodifiableCollection.decorate(collection);
-//    }
+    public static <E> Collection<E> unmodifiableCollection(Collection<E> collection) {
+        return UnmodifiableCollection.decorate(collection);
+    }
 
     /**
      * Returns a predicated (validating) collection backed by the given collection.
