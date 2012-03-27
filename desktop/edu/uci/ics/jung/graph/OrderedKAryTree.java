@@ -23,6 +23,7 @@ import org.apache.commons.collections15.Factory;
 
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.graph.util.Pair;
+import geogebra.common.main.AbstractApplication;
 
 /**
  * An implementation of <code>Tree</code> in which each vertex has
@@ -792,4 +793,12 @@ public class OrderedKAryTree<V, E> extends AbstractTypedGraph<V, E> implements T
 	        throw new IllegalArgumentException("inputs must not be null");
 		return addEdge(edge, endpoints.getFirst(), endpoints.getSecond(), edgeType);
 	}
+
+	public OrderedKAryTree<V, E> newInstance() {
+		// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed");
+		return null;
+	}
+
+
 }

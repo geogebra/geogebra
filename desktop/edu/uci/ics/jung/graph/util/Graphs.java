@@ -448,6 +448,11 @@ public class Graphs {
 		public synchronized boolean containsVertex(V vertex) {
 			return delegate.containsVertex(vertex);
 		}
+		
+		public Graph<V, E> newInstance() {
+			return delegate.newInstance();
+		}
+
         
 	}
 	
@@ -879,6 +884,11 @@ public class Graphs {
 		public boolean containsVertex(V vertex) {
 			return delegate.containsVertex(vertex);
 		}
+		
+		public Graph<V, E> newInstance() {
+			return delegate.newInstance();
+		}
+
 	}
 	
 	@SuppressWarnings("serial")

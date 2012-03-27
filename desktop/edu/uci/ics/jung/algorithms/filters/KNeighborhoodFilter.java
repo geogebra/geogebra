@@ -121,7 +121,7 @@ public class KNeighborhoodFilter<V,E> implements Filter<V,E> {
 		}
 		Graph<V,E> ug = null;
 		try {
-			ug = graph.getClass().newInstance();
+			ug = graph.newInstance();
 			for(E edge : graph.getEdges()) {
 				Pair<V> endpoints = graph.getEndpoints(edge);
 				if(acceptedVertices.containsAll(endpoints)) {
@@ -129,11 +129,7 @@ public class KNeighborhoodFilter<V,E> implements Filter<V,E> {
 				}
 			}
 		} 
-        catch (InstantiationException e)
-        {
-            throw new RuntimeException("Unable to create copy of existing graph: ", e);
-        }
-        catch (IllegalAccessException e)
+        catch (Exception e)
         {
             throw new RuntimeException("Unable to create copy of existing graph: ", e);
         }

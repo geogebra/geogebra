@@ -45,17 +45,13 @@ public class VertexPredicateFilter<V,E> implements Filter<V,E>
         Graph<V, E> filtered;
         try
         {
-            filtered = g.getClass().newInstance();
+            filtered = g.newInstance();
         }
-        catch (InstantiationException e)
+        catch (Exception e)
         {
             throw new RuntimeException("Unable to create copy of existing graph: ", e);
         }
-        catch (IllegalAccessException e)
-        {
-            throw new RuntimeException("Unable to create copy of existing graph: ", e);
-        }
-
+ 
         for (V v : g.getVertices())
             if (vertex_pred.evaluate(v))
                 filtered.addVertex(v);

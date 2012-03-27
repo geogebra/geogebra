@@ -259,4 +259,8 @@ public class DirectedSparseMultigraph<V,E>
 	public int getVertexCount() {
 		return vertices.size();
 	}
+
+	public DirectedSparseMultigraph<V, E> newInstance() {
+		return new DirectedSparseMultigraph<V,E>();
+	}
 }

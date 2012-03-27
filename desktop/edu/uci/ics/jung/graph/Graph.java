@@ -243,5 +243,7 @@ public interface Graph<V,E> extends Hypergraph<V,E>
      * @param edge the edge to be queried
      * @return the vertex at the other end of <code>edge</code> from <code>vertex</code>
      */
-    V getOpposite(V vertex, E edge); 
+    V getOpposite(V vertex, E edge);
+
+	Graph<V, E> newInstance(); 
 }

@@ -433,4 +433,6 @@ public interface Hypergraph<V, E>
      * <code>vertex</code> in this graph
      */
     Collection<V> getSuccessors(V vertex);
+    
+    public Hypergraph<V, E> newInstance();
 }

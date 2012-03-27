@@ -286,4 +286,8 @@ public class DirectedSparseGraph<V,E> extends AbstractTypedGraph<V, E> implement
         edges.remove(edge);
         return true;
     }
+
+	public DirectedSparseGraph<V, E> newInstance() {
+		return new DirectedSparseGraph<V,E>();
+	}
 }

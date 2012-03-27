@@ -44,7 +44,7 @@ public class FilterUtils
 		G subgraph = null;
 		try 
 		{
-			subgraph = (G)graph.getClass().newInstance();
+			subgraph = (G)graph.newInstance();
 			
 			for (V v : vertices)
 			{
@@ -61,11 +61,7 @@ public class FilterUtils
 					subgraph.addEdge(e, incident, graph.getEdgeType(e));
 			}
 		} 
-        catch (InstantiationException e)
-        {
-            throw new RuntimeException("Unable to create copy of existing graph: ", e);
-        }
-        catch (IllegalAccessException e)
+        catch (Exception e)
         {
             throw new RuntimeException("Unable to create copy of existing graph: ", e);
         }

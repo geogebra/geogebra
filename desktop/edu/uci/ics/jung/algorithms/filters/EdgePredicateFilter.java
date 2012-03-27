@@ -44,13 +44,9 @@ public class EdgePredicateFilter<V, E> implements Filter<V, E>
         Graph<V, E> filtered;
         try
         {
-            filtered = g.getClass().newInstance();
+            filtered = g.newInstance();
         }
-        catch (InstantiationException e)
-        {
-            throw new RuntimeException("Unable to create copy of existing graph: ", e);
-        }
-        catch (IllegalAccessException e)
+        catch (Exception e)
         {
             throw new RuntimeException("Unable to create copy of existing graph: ", e);
         }

@@ -240,4 +240,9 @@ public class UndirectedSparseGraph<V, E> extends AbstractTypedGraph<V, E>
         edges.remove(edge);
         return true;
     }
+    
+	public UndirectedSparseGraph<V, E> newInstance() {
+		return new UndirectedSparseGraph<V,E>();
+	}
+
 }

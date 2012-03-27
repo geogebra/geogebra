@@ -370,4 +370,9 @@ public class SparseGraph<V,E>
 	{
 		return EdgeType.UNDIRECTED;
 	}
+	
+	public SparseGraph<V, E> newInstance() {
+		return new SparseGraph<V, E>();
+	}
+
 }

@@ -341,4 +341,8 @@ public class SetHypergraph<V,H>
 	{
 		return getNeighbors(vertex);
 	}
+
+	public SetHypergraph<V, H> newInstance() {
+		return new SetHypergraph<V, H>();
+	}
 }

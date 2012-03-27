@@ -94,7 +94,7 @@ public class EdmondsKarpMaxFlow<V,E> extends IterativeProcess {
         this.edgeCapacityTransformer = edgeCapacityTransformer;
         this.edgeFactory = edgeFactory;
         try {
-			mFlowGraph = directedGraph.getClass().newInstance();
+			mFlowGraph = (DirectedGraph<V, E>) directedGraph.newInstance();
 			for(E e : mOriginalGraph.getEdges()) {
 				mFlowGraph.addEdge(e, mOriginalGraph.getSource(e), 
 						mOriginalGraph.getDest(e), EdgeType.DIRECTED);
@@ -103,9 +103,7 @@ public class EdmondsKarpMaxFlow<V,E> extends IterativeProcess {
 				mFlowGraph.addVertex(v);
 			}
 
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
         mMaxFlow = 0;

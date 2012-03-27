@@ -329,4 +329,8 @@ public class GraphDecorator<V,E> implements Graph<V,E>, Serializable {
 	public boolean containsVertex(V vertex) {
 		return delegate.containsVertex(vertex);
 	}
+
+	public Graph<V, E> newInstance() {
+		return delegate.newInstance();
+	}
 }

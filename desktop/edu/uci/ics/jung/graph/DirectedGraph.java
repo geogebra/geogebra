@@ -21,4 +21,6 @@ package edu.uci.ics.jung.graph;
  * @param <E>   type specification for edges
  */
 public interface DirectedGraph<V,E> extends Graph<V,E> {
+	public Graph<V, E> newInstance();
+
 }

@@ -246,4 +246,8 @@ public class UndirectedSparseMultigraph<V,E>
         return vertices.size();
     }
 
+	public UndirectedSparseMultigraph<V, E> newInstance() {
+		return new UndirectedSparseMultigraph<V,E>();
+	}
+    
 }

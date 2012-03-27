@@ -317,4 +317,9 @@ public class SparseMultigraph<V,E>
 	{
 		return EdgeType.UNDIRECTED;
 	}
+	
+	public SparseMultigraph<V, E> newInstance() {
+		return new SparseMultigraph<V, E>();
+	}
+
 }
