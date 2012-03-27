@@ -277,6 +277,7 @@ office@geogebra.org
 					org/apache/**,
 					org/apache/log4j/**, 
 			com/bric/**,
+			jd2xx/**,
 			com/quantimegroup/**,
 			com/google/zxing/**,
 			scripts/**,
@@ -306,6 +307,7 @@ office@geogebra.org
 			includes="org/concord/**,
 					org/OpenNI/**,
 						ccsd/**,
+			jd2xx/**,
 			geogebra/usb/**"
 			excludes="**/*.java" 
 		/>

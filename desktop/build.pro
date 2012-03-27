@@ -176,6 +176,9 @@
 -keep class geogebra.plugin.GgbAPI { <methods>; }
 -keep class geogebra.common.plugin.GgbAPI { <methods>; }
 
+# so that it can be accessed from Jython
+-keep class jd2xx.JD2XX { <methods>; }
+
 # -keep public class * {
 #    public protected *;
 # }

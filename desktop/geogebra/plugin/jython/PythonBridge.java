@@ -51,6 +51,7 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 			interpreter = new PythonInterpreter();
 			interpreter.exec("import sys; sys.path.extend(['__pyclasspath__/geogebra/plugin/jython', '__pyclasspath__/Lib'])");
 			interpreter.exec("from pyggb import interface");
+			interpreter.exec("from eyes import Eyes");
 			pyInterface = (PythonScriptInterface)interpreter.get("interface").__tojava__(PythonScriptInterface.class);
 			pyInterface.init(api);
 			application.getKernel().attach(this);

@@ -63,13 +63,26 @@
   </resources>
     <resources os="Windows" arch="x86">
       <nativelib href = "usb/openni.jar" />
+      <nativelib href = "usb/jd2xx.jar" />
+      <nativelib href = "usb/vernier_ccsd-win.jar" />
     </resources>
     <resources os="Windows" arch="amd64">
       <nativelib href = "usb/openni64.jar" />
+      <nativelib href = "usb/jd2xx64.jar" />
+      <nativelib href = "usb/vernier_ccsd-win.jar" />
     </resources>
     <resources os="Windows" arch="x86_64">
       <nativelib href = "usb/openni64.jar" />
+      <nativelib href = "usb/jd2xx64.jar" />
+      <nativelib href = "usb/vernier_ccsd-win.jar" />
     </resources>
+        <resources os="Mac OS X" arch="i386">
+      <nativelib href = "usb/vernier_ccsd-macintel-static.jar" />
+    </resources>
+    <resources os="Mac OS X" arch="x86_64">
+      <nativelib href = "usb/vernier_ccsd-macintel-static.jar" />
+    </resources>
+    
   <application-desc main-class="geogebra.GeoGebra">
   </application-desc>
 </jnlp>

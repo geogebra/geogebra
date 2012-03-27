@@ -31,7 +31,7 @@ needs J2DXX.dll in Java run path
 and ftd2xx.dll (installed by CDM20814_Setup.exe)
  */
 
-package geogebra.plugin.jd2xx;
+package geogebra.plugin.jd2xxP;
 
 import java.io.IOException;
 
