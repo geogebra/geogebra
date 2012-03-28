@@ -139,7 +139,7 @@ public class ButtonDialog extends JDialog
 				GeoElement geo = it.next();				
 				if (!geo.isGeoImage() && !(geo.isGeoButton()) && !(geo.isGeoBoolean())) {				
 					comboModel.addElement(geo);
-					String str = geo.toString();
+					String str = geo.toString(StringTemplate.defaultTemplate);
 					if (width < fm.stringWidth(str))
 						width = fm.stringWidth(str);
 				}

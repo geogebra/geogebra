@@ -116,7 +116,7 @@ public class PythonAPI {
 
 		@Override
 		public String toString() {
-			return expr.toString();
+			return expr.toString(StringTemplate.defaultTemplate);
 		}
 
 		/**
@@ -222,7 +222,7 @@ public class PythonAPI {
 
 		@Override
 		public String toString() {
-			return geo.toString();
+			return geo.toString(StringTemplate.defaultTemplate);
 		}
 
 		/**
