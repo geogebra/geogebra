@@ -18,8 +18,6 @@ from pygeo.pylexing import pythonify
 
 from geogebra.awt import Color
 
-from eyes import Eyes
-
 class Interface(PythonScriptInterface):
     
     def init(self, raw_api):
