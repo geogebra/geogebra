@@ -24,7 +24,7 @@ test -r war/web/web.nocache.js || {
  }
 
 # 3. Creating index.html
-./ggb2html -i war/GeoGebraWeb.ggb -o war/indexhtml
+./ggb2html -v -i war/GeoGebraWeb.ggb -o indexhtml
 
 # 4. Copying files to the ZIPDIR directory
 REVISION=`svn info | grep ^Revision: | awk '{print $2}'`
