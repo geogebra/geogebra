@@ -177,7 +177,13 @@
 -keep class geogebra.common.plugin.GgbAPI { <methods>; }
 
 # so that it can be accessed from Jython
--keep class jd2xx.JD2XX { <methods>; }
+-keep class jd2xx.JD2XX { <methods>; <fields>; }
+-keep class jd2xx.JD2XX$ProgramData { <methods>; <fields>; }
+-keep class jd2xx.JD2XX$DeviceInfo { <methods>; <fields>; }
+-keep class jd2xx.JD2XXEvent { <methods>; <fields>; }
+-keep class jd2xx.JD2XXEventListener { <methods>; <fields>; }
+-keep class jd2xx.JD2XXInputStream { <methods>; <fields>; }
+-keep class jd2xx.JD2XXOutputStream { <methods>; <fields>; }
 
 # -keep public class * {
 #    public protected *;
