@@ -165,8 +165,8 @@ public class Eyes {
 		fd.write(clock_sel);
 		fd.write(OCR0);
 
-		byte[] res = fd.read(1);
-		if (res[0] != 'D')
+		String res = fd.read(1);
+		if (res.charAt(0) != 'D')
 			return Double.NaN;
 		if (setpoint == 0)
 			return freq0;
