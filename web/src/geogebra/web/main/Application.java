@@ -81,6 +81,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -654,7 +655,12 @@ public class Application extends AbstractApplication {
 		kernel.initUndoInfo();
 		getEuclidianView1().setDisableRepaint(false);
 		getEuclidianView1().synCanvasSize();
+		splashDialog.canNowHide();
 		getEuclidianView1().repaintView();
+	}
+	
+	public void appSplashCanNowHide() {
+		splashDialog.canNowHide();
 	}
 
 	private void loadFile(HashMap<String, String> archiveContent) throws Exception {
@@ -1323,8 +1329,10 @@ public class Application extends AbstractApplication {
 		frame.add(splash);
 	}
 	
+	private geogebra.web.gui.app.SplashDialog splashDialog = null;
+	
 	private void createAppSplash() {
-		//must be implemented with uiBinder
+		splashDialog = new geogebra.web.gui.app.SplashDialog();
 	}
 
 	/**

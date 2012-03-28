@@ -1,5 +1,6 @@
 package geogebra.web.presenter;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.web.Web;
 import geogebra.web.css.GuiResources;
 import geogebra.web.helper.FileLoadCallback;
@@ -24,15 +25,19 @@ public class LoadFilePresenter extends BasePresenter {
 		String filename;
 		String base64String;
 		
+		Application app = view.getApplication();
+		
 		if (!"".equals((base64String = view.getDataParamBase64String()))) {
 			process(base64String);
 		} else if (!"".equals((filename = view.getDataParamFileName()))) {
 			fetch(filename);
 		} else {
-			view.promptUserForGgbFile();
+			//we dont have content, it is an app
+			AbstractApplication.console("no base64content, possibly App loaded?");
+			app.appSplashCanNowHide();
 		}
 		
-		Application app = view.getApplication();
+		
 		
 		//app.setUseBrowserForJavaScript(useBrowserForJavaScript);
 		//app.setRightClickEnabled(enableRightClick);
