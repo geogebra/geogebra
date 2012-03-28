@@ -40,7 +40,8 @@ cd $ZIPDIR || exit 41
 rm *.ggb *.txt *.html
 mv indexhtml index.html
 rm -fR ggbloadworker WEB-INF
-find -name .svn | xargs rm -fR
+find -name .svn -or -name svnignore.txt | xargs rm -fR
+rm web/web.devmode.js web/statictexts/defaultbase64.img
 
 # 5. Adding license file and version
 cp $WEBDIR/../desktop/geogebra/gui/_license.txt .
