@@ -1353,6 +1353,7 @@ public class NoExceptionsTest {
 		t("Point[ obj ]");
 		t("Point[ obj, prob]");
 		t("Point[ Pt1,v1]");
+		t("Point[ list1]");
 
 	}
 
