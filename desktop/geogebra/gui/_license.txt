@@ -63,6 +63,7 @@ CONTRIBUTORS
 
 TRANSLATORS
   * Albanian: Pellumb Klogjeri (Albania)
+  * Armenian: Gagik Aghekyan (Armenia)
   * Arabic: Brahim Boulakbech, Haboubi Abdessalem (Tunisia),
       Maha Ah (Egypt)
   * Basque: Gonzalo Elcano Vizcay (Spain)
