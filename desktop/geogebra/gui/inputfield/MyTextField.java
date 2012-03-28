@@ -305,8 +305,8 @@ public class MyTextField extends JTextField implements ActionListener,
 
 		g2 = (Graphics2D) gr;
 		super.paintComponent(g2);
-
-		if (!enableColoring) {
+		
+		if (!enableColoring || !this.hasFocus()) {
 			return;
 		}
 
