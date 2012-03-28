@@ -18,6 +18,11 @@ else
 cd $WORKDIR
 WEBDIR=`pwd`
 
+test -r war/web/web.nocache.js || {
+ echo "GeoGebraWeb does not seem to be compiled. Try running ./build first."
+ exit 2
+ }
+
 # 3. Creating index.html
 ./ggb2html -i war/GeoGebraWeb.ggb -o war/indexhtml
 
@@ -31,7 +36,7 @@ rm -fR $ZIPDIR
 cp -a war $ZIPDIR
 
 # 4. Removing unnecessary files
-cd $ZIPDIR || exit 1
+cd $ZIPDIR || exit 41
 rm *.ggb *.txt *.html
 mv indexhtml index.html
 rm -fR ggbloadworker WEB-INF
@@ -44,4 +49,8 @@ echo $REVISION > revision.txt
 
 # 6. Zipping
 cd $WEBDIR
+rm -f $ZIPDIR.zip
 zip -r $ZIPDIR.zip $ZIPDIR
+
+# 7. Done
+echo "Done! Result .zip file is in $ZIPDIR.zip."
