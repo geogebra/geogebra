@@ -644,7 +644,10 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 		Style def = StyleContext.getDefaultStyleContext().getStyle(
 				StyleContext.DEFAULT_STYLE);
 		Style regular = doc.addStyle("regular", def);
-		StyleConstants.setFontFamily(def, "SansSerif");
+		
+		// changed to use getFontCanDisplayAwt() so that Armenian displays OK
+		StyleConstants.setFontFamily(def, app.getFontCanDisplayAwt(description).getFamily());
+		
 		Style s = doc.addStyle("italic", regular);
 		StyleConstants.setItalic(s, true);
 
