@@ -801,7 +801,7 @@ public class JD2XX implements Runnable {
 		return listDevices(OPEN_BY_LOCATION);
 	}
 
-	/** Read bytes from device helper function */
+	/** Read bytes from device helper function *
 	public byte[] read(int s) throws IOException {
 		byte[] b = new byte[s];
 		int r = read(b);
@@ -810,6 +810,23 @@ public class JD2XX implements Runnable {
 			byte[] c = new byte[r];
 			System.arraycopy(b, 0, c, 0, r);
 			return c;
+		}
+	}*/
+
+	/** Read bytes from device helper function 
+	 * 
+	 *  changed to return String for eyes.py (from expEYES project)
+	 * */
+	public String read(int s) throws IOException {
+		byte[] b = new byte[s];
+		int r = read(b);
+		
+		String ret = new String(b);
+
+		if (r == b.length) {
+			return ret;
+		}else {
+			return ret.substring(0, r);
 		}
 	}
 
