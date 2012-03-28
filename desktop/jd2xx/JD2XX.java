@@ -28,6 +28,8 @@
 
 package jd2xx;
 
+import geogebra.main.Application;
+
 import java.io.IOException;
 import java.util.TooManyListenersException;
 
@@ -724,11 +726,19 @@ public class JD2XX implements Runnable {
 	protected Thread notifier = null;
 
 	static {
-		String arch = System.getenv("PROCESSOR_ARCHITECTURE");
-		if ((arch != null) && ((arch.equals("AMD64")) || (arch.equals("IA64"))))
-			System.loadLibrary("jd2xx_64");
-		else
-			System.loadLibrary("jd2xx");          
+		
+		if (Application.WINDOWS) {
+		
+			String arch = System.getenv("PROCESSOR_ARCHITECTURE");
+			if ((arch != null) && ((arch.equals("AMD64")) || (arch.equals("IA64")))) {
+				System.loadLibrary("jd2xx_64");
+			} else {
+				System.loadLibrary("jd2xx");
+			}
+		
+		} else {
+			Application.printStacktrace("Linux / Mac support for JD2XX not enabled");
+		}
 	}
 
 	/** Create a new unopened JD2XX object */
