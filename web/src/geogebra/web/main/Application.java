@@ -86,9 +86,14 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class Application extends AbstractApplication {
 
-	// Internationalization constants
+	/**
+	 * Constants related to internationalization
+	 *  
+	 */
 	public final static String DEFAULT_LANGUAGE = "en";
 	public final static String DEFAULT_LOCALE = "default";
+	public final static String A_DOT = ".";
+	public final static String AN_UNDERSCORE = "_";
 
 	private FontManager fontManager;
 
@@ -331,7 +336,7 @@ public class Application extends AbstractApplication {
 		
 		initTranslatedCommands();
 
-		return commandConstants.getString(key);
+		return commandConstants.getString(crossReferencingPropertiesKeys(key));
 	}
 
 	@Override
@@ -345,11 +350,34 @@ public class Application extends AbstractApplication {
 			initPlainConstants();
 		}
 		
-		//TODO Implementation of cross-referencing of keys is needed
-
-		return plainConstants.getString(key.replace(".", "_"));
+		
+		return plainConstants.getString(crossReferencingPropertiesKeys(key));
 	}
-
+	
+	/**
+	 * @author Rana
+	 * Cross-Referencing properties keys: from old system of properties keys' 
+		naming convention to new GWt compatible system
+	 */
+	private static String crossReferencingPropertiesKeys(String key) {
+		
+		if(key == null) {
+			return "";
+		}
+		
+		String aStr = null;
+		if(key.equals("X->Y")) {
+			aStr = "X_Y";
+		} else if(key.equals("Y<-X")) {
+			aStr = "Y_X";
+		} else {
+			aStr = key;
+		}
+		
+		return aStr.replace(A_DOT, AN_UNDERSCORE);
+	}
+	
+	
 	@Override
 	public String getMenu(String cmdName) {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
