@@ -201,13 +201,16 @@ cd $WORKDIR
 # 8. Creating Windows and Mac OS X installer
 runstep 8 .installer "Creating installers" ant -f installer.xml
 
-# 9. Copying and text replacing
+# 9/1. Copying and text replacing
 log "Recreating $WWWDIR/$MYDIR directory"
 MYVER=`cat build/unpacked/version.txt`
 cd $WORKDIR/build
 test -d $WWWDIR/$MYDIR && rm -fR $WWWDIR/$MYDIR
 mkdir -p $WWWDIR/$MYDIR || exit 4
 chmod g+rwx $WWWDIR/$MYDIR || exit 4
+
+# 9/2. Copying geogebra.map
+cp $WORKDIR/geogebra.map $WWWDIR/$MYDIR/geogebra-$MYVER.map
 
 # 10/1. Copying dynamically generated files (autobuild)
 log "Generating dynamic files"

@@ -38,7 +38,7 @@
 # see http://proguard.sourceforge.net/manual/troubleshooting.html
 -dontskipnonpubliclibraryclasses
 
-#-printmapping geogebra.map 	 
+-printmapping geogebra.map 	 
 #-applymapping geogebra3-2-0-0.map	 
 
 # Keep GeoGebra application
