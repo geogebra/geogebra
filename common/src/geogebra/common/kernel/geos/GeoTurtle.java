@@ -248,6 +248,7 @@ public class GeoTurtle extends GeoElement {
 
 		GeoPoint2 pt = new GeoPoint2(cons, position[0], position[1], 1d);
 		cmdList.add(pt);
+		currentPoint.setCoords(position[0], position[1], 1.0);
 		doUpdate();
 	}
 

@@ -939,6 +939,9 @@ class Turtle(Element):
     def _get_position(self):
         return self._factory.get_element(API.Geo.getTurtlePosition(self.geo))
     def _set_position(self, point):
+        if isinstance(point, tuple) and len(point) == 2:
+            x, y = point
+            API.Geo.setTurtlePosition(self.geo, float(x), float(y))
         if not isinstance(point, Point):
             try:
                 point = self._factory.Point(point)

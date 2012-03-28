@@ -831,8 +831,18 @@ public class PythonFlatAPI {
 		 * @param t the GeoTurtle
 		 * @param p the new position of the turtle
 		 */
-		public static void setTurtlePosition(GeoTurtle t, GeoPointND p) {
-			t.setPosition(p.getX2D(), p.getY2D());
+		public static void setTurtlePosition(GeoTurtle t, GeoPoint2 p) {
+			t.setPosition(p.getInhomX(), p.getInhomY());
+		}
+		
+		/**
+		 * Set the position of the turtle
+		 * @param t the GeoTurtle
+		 * @param x new x-coordinate
+		 * @param y new y-coordinate
+		 */
+		public static void setTurtlePosition(GeoTurtle t, double x, double y) {
+			t.setPosition(x, y);
 		}
 		
 		/**
