@@ -1,0 +1,71 @@
+#!/bin/sh
+# Yes! This script will create a GeoGebraWeb HTML file from your .ggb file!
+# @author Zoltan Kovacs <zoltan@geogebra.org>
+
+VERBOSE=0
+SOURCE=web
+ 
+# Reading command line arguments
+while [ $# -gt 0 ]; do
+ case $1 in
+  -h | -help | --help)
+   echo "This tool converts a GGB file to HTML for GeoGebraWeb."
+   echo
+   echo "Usage: $0 [options]"
+   echo " Where options can be (defaults in parentheses):"
+   echo "  -h, -help, --help   This help"
+   echo "  -i [file]           Defines input file"
+   echo "  -o [file]           Defines output file"
+   echo "  -s [directory]      Source directory for GeoGebraWeb"
+   echo "  -v, --verbose       Be verbose"
+   echo
+   echo "Example: $0 -i myfile.ggb -o web/myfile.html"
+   exit 0
+   ;;
+
+  -i)
+   shift
+   IN="$1"
+   ;;
+
+  -o)
+   shift
+   OUT="$1"
+   ;;
+
+  -s)
+   shift
+   SOURCE="$1"
+   ;;
+
+  -v | --verbose)
+   VERBOSE=1
+   ;;
+   
+  *)
+   echo "Unknown parameter: $1. Use \"$0 -h\" for help."
+   exit 1
+   ;;
+
+  esac
+ shift
+ done
+
+cat > $OUT << END
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Welcome to GeoGebraWeb</title>
+    <script type="text/javascript" language="javascript"
+END
+echo "     src=\"$SOURCE/web.nocache.js\"></script>" >> $OUT
+cat >> $OUT << END
+</head>
+    <article class="geogebraweb" data-param-showResetIcon="true"
+END
+echo -n "data-param-ggbbase64=\"" >> $OUT
+base64 -w 0 $IN >> $OUT
+echo -n "\"></article>
+</body>
+</html>" >> $OUT

@@ -1,0 +1,47 @@
+#!/bin/sh
+# Creates a GeoGebraWeb .zip file.
+# Make sure that you run this script from its directory.
+# @author Zoltan Kovacs <zoltan@geogebra.org>
+
+# 1. Setting up environment variables
+# Override them if needed by using autobuild.conf
+test -r autobuild.conf && . ./autobuild.conf && echo "* Using autobuild.conf for overriding defaults"
+
+# 2. Setting defaults
+if [ "$SVNDIR" = "" ]; then
+ ORIGDIR=`dirname $0`
+ WORKDIR=`cd $ORIGDIR; pwd`
+else
+ WORKDIR=`cd $SVNDIR/geogebra/web; pwd`
+ fi
+
+cd $WORKDIR
+WEBDIR=`pwd`
+
+# 3. Creating index.html
+./ggb2html -i war/GeoGebraWeb.ggb -o war/indexhtml
+
+# 4. Copying files to the ZIPDIR directory
+REVISION=`svn info | grep ^Revision: | awk '{print $2}'`
+VERSIONFILE=$WEBDIR/../common/src/geogebra/common/GeoGebraConstants.java
+VERSION=`cat $VERSIONFILE | grep "public static final String VERSION\_STRING" \
+ | awk '{print $7}' | sed s/\"//g | sed s/";"/""/`
+ZIPDIR=GeoGebraWeb-$VERSION
+rm -fR $ZIPDIR
+cp -a war $ZIPDIR
+
+# 4. Removing unnecessary files
+cd $ZIPDIR || exit 1
+rm *.ggb *.txt *.html
+mv indexhtml index.html
+rm -fR ggbloadworker WEB-INF
+find -name .svn | xargs rm -fR
+
+# 5. Adding license file and version
+cp $WEBDIR/../desktop/geogebra/gui/_license.txt .
+echo $VERSION > version.txt
+echo $REVISION > revision.txt
+
+# 6. Zipping
+cd $WEBDIR
+zip -r $ZIPDIR.zip $ZIPDIR
