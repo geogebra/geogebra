@@ -257,7 +257,7 @@ public class AlgoFit extends AlgoElement {
 			System.out.println();
 		} else if (ev.isGeoElement()) {
 			GeoElement geo = (GeoElement) ev;
-			System.out.print("   geo.label " + geo.toString());
+			System.out.print("   geo.label " + geo.toString(StringTemplate.defaultTemplate));
 		} else if (ev.isVariable()) {
 			System.out.print("   var: ");
 		} else if (ev.isNumberValue()) {

@@ -1,5 +1,6 @@
 package geogebra.common.util;
 
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 
 import java.util.ArrayList;
@@ -75,7 +76,7 @@ public class SpreadsheetTraceSettings {
 	 */
 	public void debug(GeoElement geo) {
 		System.out.println("=====================================");
-		System.out.println(geo.toString());
+		System.out.println(geo.toString(StringTemplate.defaultTemplate));
 		System.out.println("traceColumn1 = " + traceColumn1);
 		System.out.println("traceColumn2 = " + traceColumn2);
 		System.out.println("traceRow1 = " + traceRow1);

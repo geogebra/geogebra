@@ -81,6 +81,7 @@ public class CASparser implements CASParserInterface{
 	/**
 	 * Resolves all variables in ValidExpression. Unknown variables are
 	 * kept as symbolic variables.
+	 * TODO check that we need default template here
 	 */
 	public synchronized void resolveVariablesForCAS(ExpressionValue ev) {
 		
@@ -92,11 +93,10 @@ public class CASparser implements CASParserInterface{
 			Construction cmdCons = kernel.getConstruction();  
 			funVars = ((Function) ev).getFunctionVariables();
 			for (FunctionVariable funVar : funVars) {
-				GeoElement localVarGeo = new GeoDummyVariable(cmdCons, funVar.toString());
-				cmdCons.addLocalVariable(funVar.toString(), localVarGeo);
+				GeoElement localVarGeo = new GeoDummyVariable(cmdCons, funVar.toString(StringTemplate.defaultTemplate));
+				cmdCons.addLocalVariable(funVar.toString(StringTemplate.defaultTemplate), localVarGeo);
 			}
 		}
-		
 		// resolve variables of valid expression
 		kernel.setResolveUnkownVarsAsDummyGeos(true);
 		ev.resolveVariables();
@@ -107,7 +107,6 @@ public class CASparser implements CASParserInterface{
 			Construction cmdCons = kernel.getConstruction();  
 			funVars = ((Function) ev).getFunctionVariables();
 			for (FunctionVariable funVar : funVars) {	
-				cmdCons.removeLocalVariable(funVar.toString());
 			}
 		}
 	}

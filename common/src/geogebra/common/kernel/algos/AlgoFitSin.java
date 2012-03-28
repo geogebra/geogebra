@@ -576,24 +576,24 @@ public class AlgoFitSin extends AlgoElement {
 		GeoElement geoelement;
 		// GeoList newlist;
 		// This is code duplication of AlgoSort, but for the time being:
-		Class<? extends GeoElement> geoClass = geolist.get(0).getClass();
-		TreeSet<GeoElement> sortedSet;
-		sortedSet = new TreeSet(GeoPoint2.getComparatorX());
+		TreeSet<GeoPoint2> sortedSet;
+		sortedSet = new TreeSet<GeoPoint2>(GeoPoint2.getComparatorX());
 		for (int i = 0; i < size; i++) {
 			geoelement = geolist.get(i);
-			if (geoelement.getClass().equals(geoClass)) {
-				sortedSet.add(geoelement);
+			if (geoelement instanceof GeoPoint2) {
+				sortedSet.add((GeoPoint2)geoelement);
 			} else {
 				error = true;
 			}// if point
 		}// for all points
-		Iterator<GeoElement> iter = sortedSet.iterator();
+		Iterator<GeoPoint2> iter = sortedSet.iterator();
 		int i = 0;
 		xlist = new double[size];
 		ylist = new double[size];
+		GeoPoint2 gp;
 		while (iter.hasNext()) {
-			geoelement = iter.next();
-			((GeoPoint2) geoelement).getInhomCoords(xy);
+			gp = iter.next();
+			gp.getInhomCoords(xy);
 			xlist[i] = xy[0];
 			ylist[i] = xy[1];
 			i++;

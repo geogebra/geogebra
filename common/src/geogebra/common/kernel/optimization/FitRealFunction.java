@@ -196,7 +196,7 @@ public class FitRealFunction implements org.apache.commons.math.optimization.fit
 		if(geo.isGeoFunction()){
 			setFunction(((GeoFunction)geo).getFunction());
 		}else{
-			System.err.println(""+geo.toString()+" is not a GeoFunction");
+			System.err.println(""+geo.toString(StringTemplate.defaultTemplate)+" is not a GeoFunction");
 		}//if GeoFunction
 	}//Test constructor
 	

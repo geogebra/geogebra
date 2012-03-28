@@ -1602,7 +1602,10 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	}
 
 	public void pathChanged(final GeoPointND PI) {
-
+		if(size()==0){
+			PI.setUndefined();
+			return;
+		}
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
 		if (!getKernel().usePathAndRegionParameters(this)) {

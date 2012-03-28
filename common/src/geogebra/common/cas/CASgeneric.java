@@ -259,7 +259,7 @@ public abstract class CASgeneric implements CASGenericInterface,
 		if (exp.isKeepInputUsed()
 				&& ("?".equals(result))) {
 			// return original input
-			c.handleCASoutput(exp.toString(), input.hashCode());
+			c.handleCASoutput(exp.toString(StringTemplate.maxPrecision), input.hashCode());
 		}
 
 		
