@@ -187,10 +187,7 @@ public class Application extends AbstractApplication implements
 			supportedLocales.add(new Locale("sq")); // Albanian
 		}
 
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add(new Locale("hy")); // Armenian
-		}
-
+		supportedLocales.add(new Locale("hy")); // Armenian
 		supportedLocales.add(new Locale("ar")); // Arabic
 		supportedLocales.add(new Locale("eu")); // Basque
 		supportedLocales.add(new Locale("bs")); // Bosnian
