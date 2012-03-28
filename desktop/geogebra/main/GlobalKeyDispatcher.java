@@ -625,7 +625,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 			int width = ev.getWidth();
 			int height = ev.getHeight();
-			if (ev.hasFocus())
+			if (ev.hasFocus() && app.isShiftDragZoomEnabled())
 				switch (keyCode) {
 
 				case KeyEvent.VK_PAGE_UP:
