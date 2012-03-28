@@ -446,4 +446,12 @@ public class Command extends ValidExpression implements ReplaceableValue,
 			return didReplacement;
 	}
 
+	public ExpressionValue replaceArbConsts(MyArbitraryConstant tpl) {
+		int size = args.size();
+		for (int i = 0; i < size; i++) {
+			args.get(i).replaceArbConsts(tpl);
+		}
+		return this;
+	}
+
 }

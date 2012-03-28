@@ -37,5 +37,7 @@ public interface ReplaceableValue extends ExpressionValue {
 	 * @return true if replacement was necessary
 	 */
 	public boolean replacePowersRoots(boolean toRoot);
+
+	public ExpressionValue replaceArbConsts(MyArbitraryConstant tpl);
 	
 }

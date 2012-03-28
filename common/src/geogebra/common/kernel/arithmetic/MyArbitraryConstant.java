@@ -20,11 +20,14 @@ public class MyArbitraryConstant  {
 	public static final int ARB_CONST = 1;
 	/** arbitrary complex number*/
 	public static final int ARB_COMPLEX = 2;
-	
-	private String latexString, internalString;
+
 	
 	private ArrayList<GeoNumeric> consts= new ArrayList<GeoNumeric>(), ints= new ArrayList<GeoNumeric>(), complexNumbers = new ArrayList<GeoNumeric>();
 	private ConstructionElement ce;
+	/**
+	 * Creates new arbitrary constant handler
+	 * @param ce associated construction element
+	 */
 	public MyArbitraryConstant(ConstructionElement ce){
 		this.ce = ce;
 	}
@@ -41,15 +44,27 @@ public class MyArbitraryConstant  {
 	 * @return real constant
 	 */
 	public ExpressionValue nextConst() {
-		return nextConst(consts);
+		return nextConst(consts,"c");
+	}
+	/**
+	 * @return integer constant
+	 */
+	public ExpressionValue nextInt() {
+		return nextConst(ints,"k");
+	}
+	/**
+	 * @return complex constant
+	 */
+	public ExpressionValue nextComplex() {
+		return nextConst(complexNumbers,"z");
 	}
 	
-	private ExpressionValue nextConst(ArrayList<GeoNumeric> consts2) {
+	private ExpressionValue nextConst(ArrayList<GeoNumeric> consts2,String prefix) {
 		Construction c = ce.getConstruction();
 		if(position >= consts2.size() || consts2.get(position)==null){
 			GeoNumeric add = new GeoNumeric(c);
 			add.setAuxiliaryObject(true);
-			add.setLabel(c.getIndexLabel("c"));
+			add.setLabel(c.getIndexLabel(prefix));
 			AlgoDependentArbconst algo = new AlgoDependentArbconst(c,add,ce);
 			c.removeFromConstructionList(algo);
 			consts2.add(position,add);
@@ -60,6 +75,10 @@ public class MyArbitraryConstant  {
 		return ret;
 	}
 
+	/**
+	 * Resets the handler; must be called before the first next*() call
+	 * in each update of the CAS algo that is creating arbconsts
+	 */
 	public void reset(){
 		position=0;
 	}

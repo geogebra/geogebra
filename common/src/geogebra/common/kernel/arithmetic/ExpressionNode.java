@@ -4622,4 +4622,18 @@ public class ExpressionNode extends ValidExpression implements
 		return didReplacement;
 	}
 
+	public ExpressionValue replaceArbConsts(MyArbitraryConstant arbconst) {
+		if(getOperation()==Operation.ARBCONST)
+			return arbconst.nextConst();
+		if(getOperation()==Operation.ARBINT)
+			return arbconst.nextInt();
+		if(getOperation()==Operation.ARBCOMPLEX)
+			return arbconst.nextComplex();
+		if(left instanceof ReplaceableValue)
+			left = ((ReplaceableValue)left).replaceArbConsts(arbconst);
+		if(right instanceof ReplaceableValue)
+			right = ((ReplaceableValue)right).replaceArbConsts(arbconst);
+		return this;
+	}
+
 }

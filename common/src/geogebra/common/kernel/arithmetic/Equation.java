@@ -543,5 +543,11 @@ public class Equation extends ValidExpression implements ReplaceableValue {
 	public Kernel getKernel() {
 		return kernel;
 	}
+
+	public ExpressionValue replaceArbConsts(MyArbitraryConstant tpl) {
+		lhs.replaceArbConsts(tpl);
+		rhs.replaceArbConsts(tpl);
+		return this;
+	}
  
 } // end of class Equation

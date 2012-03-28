@@ -1081,4 +1081,13 @@ public class MyList extends ValidExpression implements ListValue,
 		return success;
 	}
 
+	public ExpressionValue replaceArbConsts(MyArbitraryConstant tpl) {
+		for(int i=0;i<size();i++){
+			ExpressionValue insert = getListElement(i);
+			if(insert instanceof ReplaceableValue)
+				listElements.set(i,((ReplaceableValue)insert).replaceArbConsts(tpl));
+		}
+		return this;
+	}
+
 }

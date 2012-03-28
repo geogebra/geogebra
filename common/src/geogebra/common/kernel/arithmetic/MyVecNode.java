@@ -341,5 +341,16 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 		}
 		return didReplacement;
 	}
-
+	
+	public ExpressionValue replaceArbConsts(MyArbitraryConstant arbconst) {
+		if(x instanceof ReplaceableValue){
+			((ReplaceableValue)x).replaceArbConsts(arbconst);
+		}
+		 
+		if(y instanceof ReplaceableValue){
+			((ReplaceableValue)y).replaceArbConsts(arbconst);
+		}
+		return this;
+	}
+	
 }

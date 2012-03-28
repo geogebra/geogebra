@@ -902,4 +902,9 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		return expression.replacePowersRoots(toRoot);
 	}
 
+	public ExpressionValue replaceArbConsts(MyArbitraryConstant tpl) {
+		expression.replaceArbConsts(tpl);
+		return this;
+	}
+
 }

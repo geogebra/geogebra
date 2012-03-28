@@ -21,6 +21,7 @@ package geogebra.common.kernel.arithmetic3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ReplaceableValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
@@ -305,9 +306,23 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 			didReplacement |= ((ReplaceableValue)y).replacePowersRoots(toRoot);
 		}
 		if(z instanceof ReplaceableValue){
-			didReplacement |= ((ReplaceableValue)y).replacePowersRoots(toRoot);
+			didReplacement |= ((ReplaceableValue)z).replacePowersRoots(toRoot);
 		}
 		return didReplacement;
+	}
+
+	public ExpressionValue replaceArbConsts(MyArbitraryConstant arbconst) {
+		if(x instanceof ReplaceableValue){
+			x=((ReplaceableValue)x).replaceArbConsts(arbconst);
+		}
+		 
+		if(y instanceof ReplaceableValue){
+			y=((ReplaceableValue)y).replaceArbConsts(arbconst);
+		}
+		if(z instanceof ReplaceableValue){
+			z=((ReplaceableValue)z).replaceArbConsts(arbconst);
+		}
+		return this;
 	}
 
 	public Kernel getKernel() {
