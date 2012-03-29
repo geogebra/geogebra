@@ -26,6 +26,15 @@ else
 cd $WORKDIR
 WEBDIR=`pwd`
 
+# 3. Testing if packaging is already done
+VERSIONFILE=$WEBDIR/../common/src/geogebra/common/GeoGebraConstants.java
+VERSION=`cat $VERSIONFILE | grep "public static final String VERSION\_STRING" \
+ | awk '{print $7}' | sed s/\"//g | sed s/";"/""/`
+test -r GeoGebraWeb-$VERSION.zip || {
+ echo "Version $VERSION is not yet packed, consider running ./pack first"
+ exit 3
+ }
+
 # 4. Testing configuration
 test -d $GAEDIR || {
  echo "Error: No GAE SDK directory exists at $GAEDIR"
@@ -40,6 +49,11 @@ echo "* GAE SDK directory is set to $GAEDIR"
 cd $GAEDIR/bin
 sh ./appcfg.sh --email=$GAEEMAIL -A $GAEAPP update $WEBDIR/war
 
+cd $WEBDIR
+../desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebraWeb $MYVER (platform-independent)" \
+ -p geogebra -u $GC_USER -w "$GC_PASS" -l Test GeoGebraWeb-$VERSION.zip
+
 # 6. Finished
 echo "Now you might want to check this upload
-by pointing your web browser to http://$GAEAPP.appspot.com"
+by pointing your web browser to http://$GAEAPP.appspot.com
+and also http://geogebra.googlecode.com/files/GeoGebraWeb-$VERSION.zip"

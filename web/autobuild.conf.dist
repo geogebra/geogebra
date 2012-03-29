@@ -16,3 +16,7 @@ GAEDIR=../appengine-java-sdk-1.6.3.1
 
 GAEEMAIL=apps@geogebra.org
 GAEAPP=geogebraweb
+
+# Google Code credentials
+GC_USER=kovzol
+GC_PASS=xxx
