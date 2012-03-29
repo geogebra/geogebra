@@ -812,6 +812,11 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			return levelOfDetail!=null;
 		}
 		
+		/**
+		 * Returns whether this function can be drawn in 3D and 
+		 * hence needs level of detail.s
+		 * @return true if this is valid function RxR->R
+		 */
 		public boolean needsLevelOfDetail() {
 			return (fun!=null) && (fun.getVarNumber()==2) && !isInequality();
 		}

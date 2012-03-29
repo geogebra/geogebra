@@ -55,8 +55,8 @@ public class GeoTurtle extends GeoElement {
 	/**
 	 * Constructor with label
 	 * 
-	 * @param c
-	 * @param label
+	 * @param c construction
+	 * @param label label
 	 */
 	public GeoTurtle(Construction c, String label) {
 		this(c);
@@ -66,7 +66,7 @@ public class GeoTurtle extends GeoElement {
 	/**
 	 * Constructor without label.
 	 * 
-	 * @param c
+	 * @param c construction
 	 */
 	public GeoTurtle(Construction c) {
 		super(c);
@@ -225,6 +225,10 @@ public class GeoTurtle extends GeoElement {
 
 	
 
+	/**
+	 * Moves the turtle forward (in direction given by current turn angle)
+	 * @param distance distance
+	 */
 	public void forward(double distance) {
 
 		position[0] += distance * cosAngle;
@@ -239,6 +243,10 @@ public class GeoTurtle extends GeoElement {
 
 	}
 
+	/**
+	 * @param x x-coordinate
+	 * @param y y-coordinate
+	 */
 	public void setPosition(double x, double y) {
 
 		position[0] = x;
@@ -252,28 +260,45 @@ public class GeoTurtle extends GeoElement {
 		doUpdate();
 	}
 
-	public void turn(double turnAngle) {
+	/**
+	 * @param turnAngleChange change of turn angle in degrees
+	 */
+	public void turn(double turnAngleChange) {
 
-		this.turnAngle += turnAngle * Math.PI / 180;
+		this.turnAngle += turnAngleChange * Math.PI / 180;
 
 		this.sinAngle = Math.sin(this.turnAngle);
 		this.cosAngle = Math.cos(this.turnAngle);
 
-		cmdList.add(turnAngle);
+		cmdList.add(turnAngleChange);
 		doUpdate();
 	}
 
+	/**
+	 * Puts the pen down or up, i.e. starts / stops drawing
+	 * @param penDown true to put pen down
+	 */
 	public void setPenDown(boolean penDown) {
 		this.penDown = penDown;
 		cmdList.add(penDown);
 		doUpdate();
 	}
 
+	/**
+	 * Changes pen color used by the turtle
+	 * @param r red component
+	 * @param g green component
+	 * @param b blue component
+	 */
 	public void setPenColor(int r, int g, int b) {
 		setPenColor(AwtFactory.prototype.newColor(r, g, b));
 		doUpdate();
 	}
 
+	/**
+	 * Changes pen color used by the turtle
+	 * @param penColor new pen color
+	 */
 	public void setPenColor(Color penColor) {
 		if (penColor.equals(this.penColor))
 			return;
@@ -282,6 +307,9 @@ public class GeoTurtle extends GeoElement {
 		doUpdate();
 	}
 
+	/**
+	 * 
+	 */
 	public void clear() {
 		cmdList.clear();
 		turn(-turnAngle);

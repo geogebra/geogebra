@@ -770,7 +770,7 @@ public class GeoFunctionConditional extends GeoFunction {
 						ret.append(kernel.format(upper, tpl));
 					}
 				}
-				if (condition != null && ret == null) {
+				if (condition != null) {
 					return condition.toLaTeXString(symbolic, tpl);
 				}
 				else if (condition != null) {
@@ -854,7 +854,7 @@ public class GeoFunctionConditional extends GeoFunction {
 						
 					}
 				}
-				if (condition != null && ret == null) {
+				if (condition != null) {
 					return condition.toLaTeXString(symbolic, tpl);
 				}
 				else if (condition != null) {
