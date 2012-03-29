@@ -52,6 +52,9 @@ export CLASSPATH
 GWTDIR=../gwt-2.4.0 # Override it if needed by using autobuild.conf
 XML=`which xml 2>/dev/null`
 if [ "$XML" = "" ]; then
+ XML=`which xmlstarlet 2>/dev/null`
+ fi
+if [ "$XML" = "" ]; then
  XML=`pwd`/xml
  fi
 GGDIR=`cd ..; pwd`
@@ -182,6 +185,7 @@ echo "* Compilation style: $STYLE"
 
 # 5. (Re)creating parser
 cd ../desktop
+export JAVA_HOME
 $ANT compile-grammar-cl || exit 5
 
 # 6. Compiling web with javac
