@@ -38,7 +38,7 @@ echo "* GAE SDK directory is set to $GAEDIR"
 
 # 5. Uploading
 cd $GAEDIR/bin
-./appcfg.sh --email=$GAEEMAIL -A $GAEAPP update $WEBDIR/war
+sh ./appcfg.sh --email=$GAEEMAIL -A $GAEAPP update $WEBDIR/war
 
 # 6. Finished
 echo "Now you might want to check this upload
