@@ -351,7 +351,7 @@ public class ToolNameIconPanel extends JPanel {
 		cmdName = cmdName.replaceAll(" ", "");
 		try {
 			String parsed = app.getKernel().getAlgebraProcessor().parseLabel(cmdName);
-			if (parsed != tfCmdName.getText())
+			if (!parsed.equals(tfCmdName.getText()))
 				tfCmdName.setText(parsed);
 		} catch (Error err) {
 			tfCmdName.setText(defaultToolName());

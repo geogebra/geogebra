@@ -104,7 +104,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import javax.swing.text.JTextComponent;
 
 /**
  * Handles all geogebra.gui package related objects and methods for Application.
@@ -485,19 +484,19 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 			sb.append("\t<consProtNavigationBar ");
 			sb.append("show=\"");
 			sb.append(app.showConsProtNavigation());
-			sb.append("\"");
+			sb.append('\"');
 			sb.append(" playButton=\"");
 			sb.append(constProtocolNavigation.isPlayButtonVisible());
-			sb.append("\"");
+			sb.append('\"');
 			sb.append(" playDelay=\"");
 			sb.append(constProtocolNavigation.getPlayDelay());
-			sb.append("\"");
+			sb.append('\"');
 			sb.append(" protButton=\"");
 			sb.append(constProtocolNavigation.isConsProtButtonVisible());
-			sb.append("\"");
+			sb.append('\"');
 			sb.append(" consStep=\"");
 			sb.append(kernel.getConstructionStep());
-			sb.append("\"");
+			sb.append('\"');
 			sb.append("/>\n");
 		}
 
@@ -1014,7 +1013,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 				&& app.getEuclidianView1().hasStyleBar())
 			app.getEuclidianView1().getStyleBar().setLabels();
 
-		if (hasEuclidianView2() == true
+		if (hasEuclidianView2()
 				&& app.getEuclidianView2().hasStyleBar())
 			getEuclidianView2().getStyleBar().setLabels();
 
@@ -1714,7 +1713,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 				}
 
 				// remove all special characters from HTML filename
-				if (fileExtension == Application.FILE_EXT_HTML) {
+				if (fileExtension.equals(Application.FILE_EXT_HTML)) {
 					file = removeExtension(file);
 					file = new File(file.getParent(),
 							Util.keepOnlyLettersAndDigits(file.getName()));
@@ -2566,7 +2565,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		urlOffline.append(Application.getCodeBaseFolder());
 		urlOffline.append("help/");
 		urlOffline.append(app.getLocale().getLanguage()); // eg en
-		urlOffline.append("/");
+		urlOffline.append('/');
 
 		urlSB.append(GeoGebraConstants.GEOGEBRA_WEBSITE);
 		urlSB.append("help/");
@@ -2749,7 +2748,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 				int nr = frame.getInstanceNumber();
 				sb.append(" (");
 				sb.append(nr + 1);
-				sb.append(")");
+				sb.append(')');
 			}
 		}
 		frame.setTitle(sb.toString());

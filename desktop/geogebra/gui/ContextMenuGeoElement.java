@@ -32,7 +32,6 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.layout.DockPanel;
-import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.main.Application;
 
 import java.awt.Color;

@@ -24,7 +24,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextPane;
-import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
@@ -135,14 +134,14 @@ public class DynamicTextInputPane extends JTextPane {
 						sb.append("\"+");
 						sb.append("Name[");
 						sb.append(tf.getText());
-						sb.append("]");
+						sb.append(']');
 						sb.append("+\"");
 					}
 					else if (latex || tf.getMode() == DynamicTextField.MODE_FORMULATEXT){
 						sb.append("\"+");
 						sb.append("LaTeX["); // internal name for FormulaText[ ]
 						sb.append(tf.getText());
-						sb.append("]");
+						sb.append(']');
 						sb.append("+\"");
 					} else {
 						//tf.getMode() == DynamicTextField.MODE_VALUE

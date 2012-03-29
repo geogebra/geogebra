@@ -206,7 +206,7 @@ implements ActionListener {
               }         
           }                           
           sb.append(perc);
-          sb.append("%");             
+          sb.append('%');             
           
           mi = new JMenuItem(sb.toString());
           mi.setActionCommand("" + zoomFactors[i]);

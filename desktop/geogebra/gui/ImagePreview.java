@@ -1,7 +1,6 @@
 package geogebra.gui;
 
 import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -122,11 +121,11 @@ public class ImagePreview extends JPanel implements PropertyChangeListener {
 			if (largerSide > SIZE) { // only resize large images
 				double scale = (double) SIZE / (double) largerSide;
 
-				width = (int) (scale * (double) width);
-				height = (int) (scale * (double) height);
+				width = (int) (scale * width);
+				height = (int) (scale * height);
 			} else { // centre small images
-				x = (int) (HALF_SIZE - (width / 2));
-				y = (int) (HALF_SIZE - (height / 2));
+				x = (HALF_SIZE - (width / 2));
+				y = (HALF_SIZE - (height / 2));
 			}
 
 			// draw the image
