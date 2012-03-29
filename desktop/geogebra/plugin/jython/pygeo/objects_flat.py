@@ -966,6 +966,9 @@ class Turtle(Element):
     def forward(self, d):
         API.Geo.turtleForward(self.geo, float(d))
 
+    def clear(self):
+        API.Geo.clearTurtle(self.geo)
+
 
 class Intersect(object):
 

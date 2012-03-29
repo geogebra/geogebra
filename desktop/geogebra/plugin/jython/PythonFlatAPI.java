@@ -862,6 +862,14 @@ public class PythonFlatAPI {
 		public static void setTurtleAngle(GeoTurtle t, double a) {
 			t.setTurnAngle(a);
 		}
+		
+		/**
+		 * Clear a turtle (i.e reset position and angle and erase path)
+		 * @param t the GeoTurtle
+		 */
+		public static void clearTurtle(GeoTurtle t) {
+			t.clear();
+		}
 	}
 	
 	public Application app;
