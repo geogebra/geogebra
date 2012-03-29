@@ -210,7 +210,7 @@ mkdir -p $WWWDIR/$MYDIR || exit 4
 chmod g+rwx $WWWDIR/$MYDIR || exit 4
 
 # 9/2. Copying geogebra.map
-cp $WORKDIR/geogebra.map $WWWDIR/$MYDIR/geogebra-$MYVER.map.txt
+cp $WORKDIR/geogebra.map $WWWDIR/$MYDIR/geogebra-map-$MYVER.txt
 
 # 10/1. Copying dynamically generated files (autobuild)
 log "Generating dynamic files"
