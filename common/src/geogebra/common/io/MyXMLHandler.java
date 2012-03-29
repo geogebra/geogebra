@@ -311,6 +311,10 @@ public class MyXMLHandler implements DocHandler {
 		return consStep;
 	}
 
+	/**
+	 * @param integer option index
+	 * @return timeout in seconds
+	 */
 	public static Integer getTimeoutOption(long integer) {
 		for (int i = 0; i < cbTimeoutOptions.length; i++)
 			if (cbTimeoutOptions[i].intValue() == integer)
