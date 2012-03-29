@@ -38,6 +38,10 @@ public interface ReplaceableValue extends ExpressionValue {
 	 */
 	public boolean replacePowersRoots(boolean toRoot);
 
-	public ExpressionValue replaceArbConsts(MyArbitraryConstant tpl);
+	/**
+	 * @param arbconst arbitrary constant handler
+	 * @return rhis expression with arbitrary constans replaced by numbers
+	 */
+	public ExpressionValue replaceArbConsts(MyArbitraryConstant arbconst);
 	
 }

@@ -93,6 +93,11 @@ public class MyArbitraryConstant  {
 		private GeoElement constant;
 		private ConstructionElement outCE;
 		private ArrayList<AlgoElement> updateList;
+		/**
+		 * @param c construction
+		 * @param constant the constant as a (complex) number
+		 * @param outCE element that needs updating if the constant changes
+		 */
 		public AlgoDependentArbconst(Construction c,GeoElement constant,ConstructionElement outCE) {
 			super(c,false);
 			this.constant=constant;
