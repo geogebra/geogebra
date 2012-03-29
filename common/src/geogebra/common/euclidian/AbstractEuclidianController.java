@@ -3022,10 +3022,13 @@ public abstract class AbstractEuclidianController {
 			
 			// points needed
 			addSelectedPoint(hits, 1, false);
-			if (selPoints() == 1) {
+			if (selPoints() >= 1) {
 				// fetch the selected point
 				GeoPointND[] points = getSelectedPointsND();
 				loc = points[0];
+			} else if (!selectionPreview) {
+				loc = new GeoPoint2(kernel.getConstruction());
+				loc.setCoords(xRW, yRW, 1.0);
 			}
 		}
 	
@@ -3067,10 +3070,13 @@ public abstract class AbstractEuclidianController {
 		} else {
 			// points needed
 			addSelectedPoint(hits, 1, false);
-			if (selPoints() == 1) {
+			if (selPoints() >= 1) {
 				// fetch the selected point
 				GeoPoint2[] points = getSelectedPoints();
 				loc = points[0];
+			} else if (!selectionPreview) {
+				loc = new GeoPoint2(kernel.getConstruction());
+				loc.setCoords(xRW, yRW, 1.0);
 			}
 		}
 	
