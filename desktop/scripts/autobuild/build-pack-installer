@@ -193,7 +193,10 @@ if [ $STOPONECJERR = 1 ]; then
 # 7/1. Doing the rest (packing)
 runstep 71 .pack "Packing" ant -f pack.xml $PROJECT-aftervanilla
 
-# 7/2. Testing packed jars
+# 7/2. Copying geogebra.map to unpacked
+cp $WORKDIR/geogebra.map $WORKDIR/build/unpacked/geogebra-map-$MYVER.txt
+
+# 7/3. Testing packed jars
 cd $WORKDIR/scripts/autobuild
 runstep 72 .jartest "Testing packed JARs" ./test-packed-jars 
 cd $WORKDIR
@@ -208,9 +211,6 @@ cd $WORKDIR/build
 test -d $WWWDIR/$MYDIR && rm -fR $WWWDIR/$MYDIR
 mkdir -p $WWWDIR/$MYDIR || exit 4
 chmod g+rwx $WWWDIR/$MYDIR || exit 4
-
-# 9/2. Copying geogebra.map
-cp $WORKDIR/geogebra.map $WWWDIR/$MYDIR/geogebra-map-$MYVER.txt
 
 # 10/1. Copying dynamically generated files (autobuild)
 log "Generating dynamic files"
