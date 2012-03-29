@@ -50,10 +50,14 @@ cd $GAEDIR/bin
 sh ./appcfg.sh --email=$GAEEMAIL -A $GAEAPP update $WEBDIR/war
 
 cd $WEBDIR
-../desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebraWeb $MYVER (platform-independent)" \
+../desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebraWeb $VERSION (platform-independent)" \
  -p geogebra -u $GC_USER -w "$GC_PASS" -l Test GeoGebraWeb-$VERSION.zip
 
-# 6. Finished
+# 6. Cleanup
+rm -f GeoGebraWeb-$VERSION.zip
+rm -fR GeoGebraWeb-$VERSION
+
+# 7. Finished
 echo "Now you might want to check this upload
 by pointing your web browser to http://$GAEAPP.appspot.com
 and also http://geogebra.googlecode.com/files/GeoGebraWeb-$VERSION.zip"
