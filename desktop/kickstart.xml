@@ -109,7 +109,7 @@ instructions.
 
 	<!-- download jlatexmath from GeoGebra repository -->
 	<target name="jlatexmath-geogebra">
-	<get src="http://dev.geogebra.org/download/lib/jlatexmath-2011-11-23.jar" dest="lib/jlatexmath.jar" usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/lib/jlatexmath-20120329.jar" dest="lib/jlatexmath.jar" usetimestamp="true"/>
 	<get src="http://dev.geogebra.org/download/lib/jlm_cyrillic-2011-11-23.jar" dest="lib/jlm_cyrillic.jar" usetimestamp="true"/>
 	<get src="http://dev.geogebra.org/download/lib/jlm_greek-2011-11-23.jar" dest="lib/jlm_greek.jar" usetimestamp="true"/>
 	</target>
