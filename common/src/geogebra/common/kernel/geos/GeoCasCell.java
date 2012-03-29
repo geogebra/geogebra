@@ -179,14 +179,15 @@ public class GeoCasCell extends GeoElement {
 	/**
 	 * Returns the evaluation text (between prefix and postfix) of this row
 	 * using internal command names. This method is important to process this
-	 * row using GeoGebraCAS.
+	 * row using GeoGebraCAS. 
+	 * XML template is used because we need both maximal precision and internal commands
 	 * @return the evaluation text
 	 */
 	public String getEvalText() {
 		if (evalVE == null) {
 			return "";
 		}
-		return evalVE.toString(StringTemplate.casTemplate);
+		return evalVE.toString(StringTemplate.xmlTemplate);
 	}
 
 	/**
