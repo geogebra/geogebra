@@ -339,9 +339,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 				oldCaption = caption;
 				labelDesc = GeoElement.indicesToHTML(caption, true);
 			}
-			box.setVisible(false); // avoid redraw error
 			label.setText(labelDesc);
-			box.setVisible(true);
 		} else {
 			// put back to "" from "   " so that the position is the same in ggb40 and ggb42
 			label.setText("");
@@ -366,10 +364,8 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		textField.setFocusable(true);
 		textField.setEditable(true);
 		geoTextField.updateText(textField);
-		// set checkbox state
-		// jButton.removeItemListener(bl);
-		// jButton.setSelected(geo.getBoolean());
-		// jButton.addItemListener(bl);
+
+		box.validate();
 
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;

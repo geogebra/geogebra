@@ -18,6 +18,10 @@ public abstract class Box {
 
 	public abstract Rectangle getBounds();
 
+	public void validate() {
+		
+	}
+
 	//public abstract Box createHorizontalBox();
 
 }
