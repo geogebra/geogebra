@@ -42,6 +42,12 @@ mv indexhtml index.html
 rm -fR ggbloadworker WEB-INF
 find -name .svn -or -name svnignore.txt | xargs rm -fR
 rm web/web.devmode.js web/statictexts/defaultbase64.img
+# Removing MathQuill fonts (for now)
+find -name '*.cache.svg' -or -name '*.cache.ttf' -or -name '*.cache.woff' \
+ -or -name '*.cache.eot' -or -name '*.cache.otf' | xargs rm
+find -name 'Symbola.svg' -or -name 'Symbola.ttf' -or -name 'Symbola.woff' \
+ -or -name 'Symbola.eot' -or -name 'Symbola.otf' | xargs rm
+find -name mathquill.css | xargs rm
 
 # 5. Adding license file and version
 cp $WEBDIR/../desktop/geogebra/gui/_license.txt .
