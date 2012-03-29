@@ -2,8 +2,6 @@ package geogebra.web.css;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.CssResource;
-import com.google.gwt.resources.client.DataResource;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.TextResource;
 
@@ -58,21 +56,6 @@ public interface GuiResources extends ClientBundle {
 	
 	@Source("geogebra/resources/css/mathquill.css")
 	TextResource mathquillCss();
-	
-	@Source("geogebra/resources/css/font/Symbola.eot")
-	DataResource symbolaEot();
-	
-	@Source("geogebra/resources/css/font/Symbola.otf")
-	DataResource symbolaOtf();
-	
-	@Source("geogebra/resources/css/font/Symbola.svg")
-	DataResource symbolaSvg();
-	
-	@Source("geogebra/resources/css/font/Symbola.ttf")
-	DataResource symbolaTtf();
-	
-	@Source("geogebra/resources/css/font/Symbola.woff")
-	DataResource symbolaWoff();
 	
 	@Source("geogebra/resources/js/jquery-1.7.2.min.js")
 	TextResource jQueryJs();
