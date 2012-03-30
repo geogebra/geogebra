@@ -6,7 +6,6 @@ import geogebra.common.awt.font.TextLayout;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoButton;
 
-
 //import java.awt.Color;
 
 /**
@@ -16,61 +15,84 @@ public class MyButton {
 
 	private GeoButton geoButton;
 	private AbstractEuclidianView view;
-	private int x,y,width,height;
+	private int x, y, width, height;
 	private boolean selected;
 	private String text;
 
+	private final static int margin = 5;
+	private final static int minSize = 24;
+	private final static int arcSize = 9;
+
 	private Font font;
 
-	private boolean pressed,draggedOrContext;
+	private boolean pressed, draggedOrContext;
+
 	/**
-	 * @param button geo for this button
-	 * @param view view
+	 * @param button
+	 *            geo for this button
+	 * @param view
+	 *            view
 	 */
 	public MyButton(GeoButton button, AbstractEuclidianView view) {
 		this.geoButton = button;
 		this.view = view;
-		this.x=20;
-		this.y=20;
-		this.width=40;
-		this.height=30;
+		this.x = 20;
+		this.y = 20;
+		this.width = 40;
+		this.height = 30;
 	}
 
-	
-	
-	
+	private String getCaption() {
+		if (geoButton.getFillImage() == null) {
+			return geoButton.getCaption(StringTemplate.defaultTemplate);
+		}
+		return geoButton.getCaptionDescription(StringTemplate.defaultTemplate);
+	}
+
 	/**
 	 * Paint this on given graphics
-	 * @param g graphics
+	 * 
+	 * @param g
+	 *            graphics
 	 */
 	protected void paintComponent(geogebra.common.awt.Graphics2D g) {
 
-		//Graphics2D g2 = geogebra.awt.Graphics2D.getAwtGraphics(g);
+		// Graphics2D g2 = geogebra.awt.Graphics2D.getAwtGraphics(g);
 
 		view.setAntialiasing(g);
-		
 		g.setFont(font);
-		TextLayout t= geogebra.common.factories.AwtFactory.prototype.newTextLayout(geoButton.getCaption(StringTemplate.defaultTemplate), font, g.getFontRenderContext());
-		
-		float textHeight = t.getAscent() + t.getDescent();
-		
-		width=Math.max((int)(t.getAdvance() * 1.1),24);
-		
-		height=Math.max((int)(textHeight * 1.1),24);
-		
-		int spareHeight = height - (int)(textHeight);
 
-		int spareWidth = width - (int)(t.getAdvance());
-		
+		boolean hasText = getCaption().length() > 0;
+
+		int imgHeight = 0;
+		int imgWidth = 0;
+		int imgGap = 0;
+		float textHeight = 0;
+		float textWidth = 0;
+		if (geoButton.getFillImage() != null) {
+			imgHeight = geoButton.getFillImage().getHeight();
+			imgWidth = geoButton.getFillImage().getWidth();
+			if (hasText)
+				imgGap = 4;
+		}
+		TextLayout t = null;
+
+		// get dimensions
+		if (hasText) {
+			t = geogebra.common.factories.AwtFactory.prototype.newTextLayout(
+					getCaption(), font, g.getFontRenderContext());
+			textHeight = t.getAscent() + t.getDescent();
+			textWidth = t.getAdvance();
+		}
+		width = Math.max((int) (textWidth + 2 * margin), minSize);
+		width = Math.max(width, imgWidth + 2 * margin);
+		height = Math.max((int) (textHeight + imgHeight + imgGap + 2 * margin),
+				minSize);
+
+		// prepare colors and paint
 		g.setColor(view.getBackgroundCommon());
-
-		// this was commented out to avoid corners with non-fitting colors
-		//g.fillRect(x, y, getWidth(), getHeight());
-
 		geogebra.common.awt.Paint p;
-
-		geogebra.common.awt.Color bg = geoButton
-				.getBackgroundColor(), bg2;
+		geogebra.common.awt.Color bg = geoButton.getBackgroundColor(), bg2;
 		if (bg == null)
 			bg = geogebra.common.awt.Color.lightGray;
 		if (isSelected()) {
@@ -79,52 +101,62 @@ public class MyButton {
 		} else {
 			bg2 = bg.brighter();
 		}
-		if(!pressed){
-			p = geogebra.common.factories.AwtFactory.prototype.newGradientPaint(x, y, bg2, x, y+getHeight(), bg);
-		}else{
-			p = geogebra.common.factories.AwtFactory.prototype.newGradientPaint(x, y, bg, x, y+getHeight(), bg2);
+		if (!pressed) {
+			p = geogebra.common.factories.AwtFactory.prototype
+					.newGradientPaint(x, y, bg2, x, y + getHeight(), bg);
+		} else {
+			p = geogebra.common.factories.AwtFactory.prototype
+					.newGradientPaint(x, y, bg, x, y + getHeight(), bg2);
 		}
 		geogebra.common.awt.Paint oldPaint = g.getPaint();
 
+		// =======================================
+		// Drawing
+		// =======================================
+
+		// background color
+
 		g.setPaint(p);
+		g.fillRoundRect(x, y, getWidth(), getHeight(), arcSize, arcSize);
 
-		g.fillRoundRect(x, y, getWidth(), getHeight(), getHeight() / 3,
-				getHeight() / 3);
-
+		// draw border
 		g.setPaint(oldPaint);
-
-		g.setColor(geogebra.common.awt.Color.black);
-
+		g.setColor(geogebra.common.awt.Color.DARK_GRAY);
 		g.setStroke(EuclidianStatic.getDefaultStroke());
-		g.drawRoundRect(x, y, getWidth() - 1, getHeight() - 1,
-				getHeight() / 3, getHeight() / 3);
+		g.drawRoundRect(x, y, getWidth() - 1, getHeight() - 1, arcSize, arcSize);
 
+		// prepare to draw text
 		g.setColor(geoButton.getObjectColor());
-
-
-
-
 		this.setForeground(geogebra.common.awt.Color.white);
 
-		// center the label on the button
-		g.drawString(geoButton.getCaption(StringTemplate.defaultTemplate), x + spareWidth / 2,
-				y + t.getAscent() + spareHeight / 2);
+		// draw image
+		if (geoButton.getFillImage() != null) {
+			g.drawImage(geoButton.getFillImage(), x + (width - imgWidth) / 2, y
+					+ margin, null);
+		}
+
+		// draw the text center-aligned to the button
+		if (hasText) {
+			int xPos = (int) (x + (width - t.getAdvance()) / 2);
+			int yPos = (int) (y + margin + imgHeight + imgGap + t.getAscent());
+			g.drawString(geoButton.getCaption(StringTemplate.defaultTemplate),
+					xPos, yPos);
+		}
+
 	}
 
-
 	/**
-	 * @param white color 
+	 * @param white
+	 *            color
 	 */
 	private void setForeground(geogebra.common.awt.Color white) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 	private boolean isSelected() {
 		return selected;
 	}
-
 
 	/**
 	 * @return width in pixels
@@ -133,7 +165,6 @@ public class MyButton {
 		return width;
 	}
 
-
 	/**
 	 * @return height in pixels
 	 */
@@ -141,34 +172,36 @@ public class MyButton {
 		return height;
 	}
 
-
 	/**
 	 * Resizes and moves the button
-	 * @param labelRectangle new bounds
+	 * 
+	 * @param labelRectangle
+	 *            new bounds
 	 */
 	public void setBounds(Rectangle labelRectangle) {
-		x=(int)labelRectangle.getMinX();
-		y=(int)labelRectangle.getMinY();
-		width = (int)labelRectangle.getWidth();
-		height = (int)labelRectangle.getHeight();
-		
+		x = (int) labelRectangle.getMinX();
+		y = (int) labelRectangle.getMinY();
+		width = (int) labelRectangle.getWidth();
+		height = (int) labelRectangle.getHeight();
+
 	}
-	
+
 	/**
 	 * @return boundsof this button
 	 */
-	public Rectangle getBounds(){
-		return geogebra.common.factories.AwtFactory.prototype.newRectangle(x,y,width,height);
+	public Rectangle getBounds() {
+		return geogebra.common.factories.AwtFactory.prototype.newRectangle(x,
+				y, width, height);
 	}
 
 	/**
-	 * @param selected new selected flag
+	 * @param selected
+	 *            new selected flag
 	 */
 	public void setSelected(boolean selected) {
 		this.selected = selected;
-		
-	}
 
+	}
 
 	/**
 	 * @return x-coord
@@ -176,7 +209,6 @@ public class MyButton {
 	public int getX() {
 		return x;
 	}
-
 
 	/**
 	 * @return y-coord
@@ -186,11 +218,13 @@ public class MyButton {
 	}
 
 	/**
-	 * @param labelDesc text for this button
+	 * @param labelDesc
+	 *            text for this button
 	 */
 	public void setText(String labelDesc) {
-		text = labelDesc;		
+		text = labelDesc;
 	}
+
 	/**
 	 * @return text of this button
 	 */
@@ -199,33 +233,33 @@ public class MyButton {
 	}
 
 	/**
-	 * @param font new font
+	 * @param font
+	 *            new font
 	 */
 	public void setFont(Font font) {
 		this.font = font;
-		
+
 	}
 
-
-
-
 	/**
-	 * @param b new pressed flag
+	 * @param b
+	 *            new pressed flag
 	 */
 	public void setPressed(boolean b) {
-		if(b){
+		if (b) {
 			draggedOrContext = false;
 		}
-		//releasing
-		else if(!draggedOrContext){
+		// releasing
+		else if (!draggedOrContext) {
 			geoButton.runScripts(null);
 		}
-			
+
 		pressed = b;
 	}
 
 	/**
-	 * @param b new "dragged or context menu" flag
+	 * @param b
+	 *            new "dragged or context menu" flag
 	 */
 	public void setDraggedOrContext(boolean b) {
 		draggedOrContext = b;

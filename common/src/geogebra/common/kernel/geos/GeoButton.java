@@ -301,6 +301,15 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 		return true;
 	}
 
+	@Override
+	public boolean isFillable() { 
+		return true;
+	}
+	
+	@Override
+	public int getFillType(){
+		return GeoElement.FILL_IMAGE;
+	}
 
 
 }

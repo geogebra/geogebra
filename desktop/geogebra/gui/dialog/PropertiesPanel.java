@@ -4380,8 +4380,9 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		private JButton btnOpenFile;
 
 		private PopupMenuButton btnImage;
-		private String[] fileNameArray;
 		private JLabel lblFillInverse;
+		private boolean hasGeoButton = false;
+		private ArrayList<String> imgFileNameList;
 
 		public FillingPanel() {
 
@@ -4542,33 +4543,43 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			// =============================================
 			// create array of image files from toolbar icons
 			// for testing only ...
-			ImageIcon[] iconArray = new ImageIcon[20];
-			fileNameArray = new String[20];
-			String modeStr;
-			for (int i = 0; i < 20; i++) {
-				modeStr = kernel.getModeText(i).toLowerCase(Locale.US);
-				fileNameArray[i] = "/geogebra/gui/toolbar/images/mode_"
-						+ modeStr + "_32.gif";
+			
+			imgFileNameList = new ArrayList<String>();
+			String imagePath = "/geogebra/gui/images/";
+			
+			imgFileNameList.add(""); // for delete
+			imgFileNameList.add(imagePath + "go-down.png");
+			imgFileNameList.add(imagePath + "go-up.png");
+			imgFileNameList.add(imagePath + "go-previous.png");
+			imgFileNameList.add(imagePath + "go-next.png");
+					
+			imgFileNameList.add(imagePath + "exit.png");
+			
+			
+			ImageIcon[] iconArray = new ImageIcon[imgFileNameList.size()];
+			iconArray[0] = GeoGebraIcon.createNullSymbolIcon(24, 24);  
+			for (int i = 1; i < iconArray.length; i++) {
 				iconArray[i] = GeoGebraIcon.createFileImageIcon(app,
-						fileNameArray[i], 1.0f, new Dimension(32, 32));
+						imgFileNameList.get(i), 1.0f, new Dimension(32, 32));
 			}
 			// ============================================
 
 			// panel for button to open external file
-
-			btnImage = new PopupMenuButton(app, iconArray, -1, -1,
+						
+			btnImage = new PopupMenuButton(app, iconArray, -1, 4,
 					new Dimension(32, 32), SelectionTable.MODE_ICON);
 			btnImage.setSelectedIndex(1);
 			btnImage.setStandardButton(true);
+			btnImage.setKeepVisible(false);
 			btnImage.addActionListener(this);
 
 			btnOpenFile = new JButton();
 			btnOpenFile.addActionListener(this);
 
 			JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-			// btnPanel.add(btnImage);
+			btnPanel.add(btnImage);
 			btnPanel.add(btnOpenFile);
-
+			
 			// =====================================
 			// put all sub panels together
 
@@ -4579,7 +4590,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		}
 
 		private void updateFillTypePanel(int fillType) {
-
+			
 			switch (fillType) {
 
 			case GeoElement.FILL_STANDARD:
@@ -4598,6 +4609,15 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				transparencyPanel.setVisible(true);
 				hatchFillPanel.setVisible(false);
 				imagePanel.setVisible(true);
+				this.btnImage.setVisible(true);
+
+				// for GeoButtons only show the image file button
+				if(hasGeoButton){
+					transparencyPanel.setVisible(false);
+					lblFillType.setVisible(false); 
+					cbFillType.setVisible(false); 
+					this.btnImage.setVisible(true);
+				}
 				break;
 
 			}
@@ -4637,22 +4657,30 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			fillingSlider.addChangeListener(this);
 			angleSlider.addChangeListener(this);
 			distanceSlider.addChangeListener(this);
-
-			// imageList.removeListSelectionListener(this);
-			// imageList.setSelectedValue(((GeoElement)
-			// geos[0]).getImageFileName(), true);
-			// imageList.addListSelectionListener(this);
+			
+			// set selected image to first geo image
+			if (hasGeoButton) {
+				int index = imgFileNameList
+						.lastIndexOf(((GeoElement) geos[0])
+								.getImageFileName());
+				btnImage.setSelectedIndex(index > 0 ? index : 0);
+			} else {
+				btnImage.setSelectedIndex(0);
+			}
 
 			return this;
 		}
 
 		private boolean checkGeos(Object[] geos) {
 			boolean geosOK = true;
+			hasGeoButton = false;
 			cbFillInverse.setVisible(true);
 			lblFillInverse.setVisible(true);
 			lblFillType.setVisible(true); // TODO remove this (see below)
 			cbFillType.setVisible(true); // TODO remove this (see below)
 			for (int i = 0; i < geos.length; i++) {
+					
+				hasGeoButton = ((GeoElement) geos[i]).isGeoButton();
 				if (!(((GeoElement) geos[i]).isInverseFillable()) 
 						// transformed objects copy inverse filling from parents, so users can't change this
 						|| (((GeoElement) geos[i]).getParentAlgorithm() instanceof AlgoTransformation)) {
@@ -4663,7 +4691,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 					geosOK = false;
 					break;
 				}
-
+				
 				// TODO add fill type for 3D elements
 				if (((GeoElement) geos[i]).isGeoElement3D() || ((GeoElement) geos[i]).isGeoImage()) {
 					lblFillType.setVisible(false);
@@ -4704,25 +4732,25 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 
 			// handle change in fill type
 			if (source == cbFillType) {
-
+				
 				int fillType = cbFillType.getSelectedIndex();
+				
+				// set selected image to first geo image
+				if (fillType == GeoElement.FILL_IMAGE
+						&& ((GeoElement) geos[0]).getFillImage() != null) {
+					btnImage.setSelectedIndex(this.imgFileNameList
+							.lastIndexOf(((GeoElement) geos[0]).getImageFileName()));
+				}else{
+					btnImage.setSelectedIndex(-1);
+				}
+				
 				for (int i = 0; i < geos.length; i++) {
 					geo = (GeoElement) geos[i];
 					geo.setFillType(fillType);
-
-					// set default image to first imageList element
-					if (fillType == GeoElement.FILL_IMAGE
-							&& geo.getFillImage() == null) {
-						// String fileName =
-						// (String)(imageList.getModel()).getElementAt(0);
-						// geo.setFillImage(geo.getImageFileName());
-						// imageList.setSelectedIndex(0);
-						// imageTable.repaint();
-					}
-
 					geo.updateRepaint();
 				}
 				fillingPanel.updateFillTypePanel(fillType);
+				
 			} else if (source == cbFillInverse) {
 
 				for (int i = 0; i < geos.length; i++) {
@@ -4734,7 +4762,12 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			}
 			// handle image button selection
 			else if (source == this.btnImage) {
-				String fileName = fileNameArray[btnImage.getSelectedIndex()];
+				String fileName = null;
+				if (btnImage.getSelectedIndex() == 0) {
+					fileName = "";
+				} else {
+					fileName = imgFileNameList.get(btnImage.getSelectedIndex());
+				}
 				if (fileName != null)
 					for (int i = 0; i < geos.length; i++) {
 						geo = (GeoElement) geos[i];
