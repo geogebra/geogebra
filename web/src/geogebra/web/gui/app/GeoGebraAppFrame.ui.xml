@@ -11,10 +11,6 @@
     <g:north size='50'>
       <web:GGWToolBar addStyleNames="{style.debugborder}" ui:field='ggwToolBar' />
     </g:north>
-
-    <g:center>
-      <web:ggwSplitLayoutPanel ui:field='ggwSplitLayoutPanel'></web:ggwSplitLayoutPanel>
-    </g:center>
     
     <g:south size='50'>
           <web:GGWCommandLine addStyleNames="{style.debugborder}" ui:field='ggwCommandLine' />

@@ -1372,4 +1372,17 @@ public class Application extends AbstractApplication {
 	    registerFileDropHandlers((CanvasElement) canvas.getElement().cast());
     }
 
+	/**
+	 * @param ggwGraphicsViewWidth
+	 * 
+	 * Resets the width of the Canvas converning the Width of its wrapper (splitlayoutpanel center)
+	 */
+	public void ggwGraphicsViewWidthChanged(int ggwGraphicsViewWidth) {
+		getSettings().getEuclidian(1).setPreferredSize(geogebra.common.factories.AwtFactory.prototype
+				.newDimension(ggwGraphicsViewWidth, appCanvasHeight));
+				getEuclidianView1().setDisableRepaint(false);
+				getEuclidianView1().synCanvasSize();
+				getEuclidianView1().repaintView();
+    }
+
 }

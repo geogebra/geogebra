@@ -45,18 +45,22 @@ public class GeoGebraAppFrame extends Composite {
 	public static LoadFilePresenter fileLoader = new LoadFilePresenter();
 	
 	//declared in uibinder xml!
-	private static int GGWVIewWrapper_WIDTH = 300;
-	private static int GGWToolBar_HEIGHT = 50;
-	private static int GGWCommandLine_HEIGHT = 50;
+	public static int GGWVIewWrapper_WIDTH = 300;
+	public static int GGWToolBar_HEIGHT = 50;
+	public static int GGWCommandLine_HEIGHT = 50;
 	
 	@UiField GGWToolBar ggwToolBar;
 	@UiField GGWCommandLine ggwCommandLine;
-	@UiField ggwSplitLayoutPanel ggwSplitLayoutPanel;
+	MySplitLayoutPanel ggwSplitLayoutPanel;
+	
+	DockLayoutPanel outer = null;
 
 	private AbstractApplication app;
 	
 	public GeoGebraAppFrame() {
-		initWidget(binder.createAndBindUi(this));
+		initWidget(outer = binder.createAndBindUi(this));
+		outer.add(ggwSplitLayoutPanel = new MySplitLayoutPanel());
+		
 	    // Get rid of scrollbars, and clear out the window's built-in margin,
 	    // because we want to take advantage of the entire client area.
 	    Window.enableScrolling(false);
@@ -85,6 +89,7 @@ public class GeoGebraAppFrame extends Composite {
 		cw = (Window.getClientWidth() - (GGWVIewWrapper_WIDTH + ggwSplitLayoutPanel.getSplitLayoutPanel().getSplitterSize())); 
 		ch = (Window.getClientHeight() - (GGWToolBar_HEIGHT + GGWCommandLine_HEIGHT));
 		app = createApplication(article,this);
+		ggwSplitLayoutPanel.attachApp(app);
     }
 	
 	/**
