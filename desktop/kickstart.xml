@@ -30,11 +30,11 @@ instructions.
 	    description="(DEFAULT) For Eclipse developers: to create GeoGebra 4 or 5 builds (JOGL1 included)">
 	</target>
 
-	<target name="geogebra4-developer-commandline" depends="_classpath-open, geogebra4-developer, ecj, java150-rt, _classpath-close"
+	<target name="geogebra4-developer-commandline" depends="_classpath-open, geogebra4-developer, ecj, _classpath-close"
 	    description="For command line developers (mostly Unix): to create GeoGebra 4 builds">
 	</target>
 
-	<target name="geogebra5-developer-commandline" depends="_classpath-open, geogebra5-developer, ecj, java150-rt, _classpath-close"
+	<target name="geogebra5-developer-commandline" depends="_classpath-open, geogebra5-developer, ecj, _classpath-close"
 	    description="For command line developers (mostly Unix): to create GeoGebra 5 builds">
 	</target>
 	
@@ -62,7 +62,7 @@ instructions.
 
 
 	<!-- download external libraries -->
-	<target name="_lib" depends="_lib-runtime, _lib-build-geogebra5, _lib-pack, ecj, java150-rt"
+	<target name="_lib" depends="_lib-runtime, _lib-build-geogebra5, _lib-pack, ecj"
 	    description="Internal target, please do not use manually. Downloads all packages for the current OS and architecture">
 	</target>
 
@@ -190,6 +190,11 @@ instructions.
 	    dest="lib/build/ecj-3.6.2.jar" usetimestamp="true"/>
 	</target>
 	
+	<!-- FIXME: this file is not applicable for Mac builds!
+	For command line compilations, this file is not required at all,
+	only if Sun Java 1.5 is used. I suggest to remove this target
+	completely, but convenience we still host this file if someone
+	wants to download and use it.-->
 	<target name="java150-rt">
 	<mkdir dir="lib/build"/>
 	<get 
