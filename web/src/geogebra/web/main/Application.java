@@ -1256,6 +1256,9 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public StringType getFormulaRenderingType() {
+		if (false) {
+			return StringType.LATEX;
+		}
 		return StringType.MATHML;
 	}
 

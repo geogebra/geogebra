@@ -15,12 +15,20 @@ import geogebra.web.html5.DynamicScriptElement;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayInteger;
+import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.user.client.ui.InlineHTML;
+
+import java.util.HashMap;
 
 public class DrawEquationWeb implements DrawEquationInterface {
 	
 	private static boolean scriptloaded = false;
+
+	private static HashMap<String, InlineHTML> equations;
 	private boolean needToDrawEquation = false;
 	private AbstractApplication app;
 	
@@ -28,6 +36,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		//export module base url;
 		exportGetModuleBaseUrl();
 		this.app = app;
+		this.equations = new HashMap<String, InlineHTML>();
 		//Load script first
 		DynamicScriptElement script = (DynamicScriptElement) Document.get().createScriptElement();
 		script.setSrc(GWT.getModuleBaseURL()+GeoGebraConstants.MATHML_URL);
@@ -64,19 +73,49 @@ public class DrawEquationWeb implements DrawEquationInterface {
     }
 
 	public Dimension drawEquation(AbstractApplication app, GeoElement geo,
-            Graphics2D g2, int x, int y, String mathml, Font font, boolean serif,
+            Graphics2D g2, int x, int y, String eqstring, Font font, boolean serif,
             Color fgColor, Color bgColor, boolean useCache) {
+
+		if (false) { // the new way to draw an Equation (latex)
+			// no scriptloaded things yet
+			// no remove of unused equations yet
+			AbstractApplication.debug(eqstring);
+
+			// remove $s
+			eqstring = eqstring.trim();
+			while (eqstring.startsWith("$")) eqstring = eqstring.substring(1).trim();
+			while (eqstring.endsWith("$")) eqstring = eqstring.substring(0, eqstring.length() - 1).trim();
+
+			InlineHTML ih = equations.get(eqstring);
+			if (ih == null) {
+				ih = new InlineHTML();
+				ih.setHTML(eqstring);
+				ih.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+				drawEquationMathQuill(
+					//((geogebra.web.awt.Graphics2D)g2).getCanvas().getCanvasElement(),
+					((Application)app).getCanvas().getCanvasElement(),
+					ih.getElement());
+				equations.put(eqstring, ih);
+			} else {
+				ih.getElement().getStyle().setDisplay(Style.Display.INLINE);
+			}
+			ih.getElement().getStyle().setLeft(x, Style.Unit.PX);
+			ih.getElement().getStyle().setTop(y, Style.Unit.PX);
+			return new geogebra.web.awt.Dimension(ih.getElement().getOffsetWidth(), ih.getElement().getOffsetHeight());
+		}
+
+		// the old way to draw an Equation (mathml)
 		JsArrayInteger ret = null;
 		if (scriptloaded) {
-			AbstractApplication.debug(mathml);
-			ret = drawEquation(((geogebra.web.awt.Graphics2D)g2).getCanvas().getContext2d(), mathml, x, y);
+			AbstractApplication.debug(eqstring);
+			ret = drawEquation(((geogebra.web.awt.Graphics2D)g2).getCanvas().getContext2d(), eqstring, x, y);
 		} else {
 			needToDrawEquation  = true;
 		}
 			
 	    return new geogebra.web.awt.Dimension(ret == null ? 100 : ret.get(0),ret == null ? 100 : ret.get(1));
     }
-	
+
 	public static native JsArrayInteger drawEquation(Context2d ctx, String mathmlStr, int x, int y) /*-{
 		var script_loaded = @geogebra.web.main.DrawEquationWeb::scriptloaded;
 		if (script_loaded) {
@@ -117,6 +156,13 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		}
 	}-*/;
 
-
-
+	/**
+	 * The JavaScript/JQuery bit of drawing an equation with MathQuill
+	 * 
+	 * @param ctx: the Context2d of the canvas to draw over to
+	 * @param el: the element which should be drawn  
+	 */
+	public static native void drawEquationMathQuill(CanvasElement canv, Element el) /*-{
+		$wnd.jQuery(el).appendTo($wnd.jQuery(canv).parent()).mathquill();
+	}-*/;
 }
