@@ -140,9 +140,6 @@ public class AlgebraProcessor {
 	 * @throws MyError e.g. on syntax error
 	 */
 	final public void processCasCell(GeoCasCell casCell) throws MyError {
-		// TODO: remove
-		System.out.println("*** processCasCell: " + casCell);
-
 		// check for CircularDefinition
 		if (casCell.isCircularDefinition()) {
 			// set twin geo to undefined
