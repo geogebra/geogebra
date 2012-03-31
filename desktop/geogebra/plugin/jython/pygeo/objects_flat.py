@@ -77,6 +77,38 @@ class GeoNamespace(object):
     
     def __setattr__(self, name, value):
         self._factory.set_element_by_name(name, value)
+
+    @staticmethod
+    def _get_item_name(key):
+        if isinstance(key, tuple) and len(key) == 2:
+            column, row = key
+            if isinstance(column, (int, long)):
+                if 1 <= column <= 26:
+                    column = chr(64 + column)
+                else:
+                    raise ValueError("Column index must be in the range 1-26")
+            elif isinstance(column, basestring):
+                column = column.upper()
+                if not(len(column) == 1 or 'A' <= column <= 'Z'):
+                    raise ValueError("Column must be in the range A-Z")
+            else:
+                raise TypeError("Column must be integer or letter")
+            if isinstance(row, (int, long)):
+                if not(1 <= row <= 100):
+                    raise ValueError("Row must be in the range 1-100")
+            else:
+                raise TypeError("Row must be an integer")
+            return "%s%s" % (column, row)
+        elif isinstance(key, basestring):
+            return key
+        else:
+            raise TypeError("Key must be a string or pair 'column, row'")
+
+    def __getitem__(self, key):
+        return getattr(self, self._get_item_name(key))
+
+    def __setitem__(self, key, value):
+        return setattr(self, self._get_item_name(key), value)
     
     @property
     def __points__(self):

@@ -29,7 +29,7 @@ class PyLexer(lexing.Lexer):
     shortstring = r"[uU]?[rR]?'([^'\n\\]|\\[^\n])*'" \
                   r'|[uU]?[rR]?"([^"\n\\]|\\[^\n])*"'
     comment = r'#.*'
-    geo = r"\$" + identifier
+    geo = r"\$(%s|\[)" % identifier
     decorator = "@" + identifier
 
 def pythonify(source):
@@ -39,7 +39,10 @@ def pythonify(source):
         try:
             for tok in PyLexer.scan(source, pos):
                 if tok.toktype == PyLexer.geo:
-                    bit = "geo." + tok.strval[1:]
+                    if tok.strval[1] == '[':
+                        bit = "geo" + tok.strval[1:]
+                    else:
+                        bit = "geo." + tok.strval[1:]
                 else:
                     bit = tok.strval
                 true_python_bits.append(bit)
