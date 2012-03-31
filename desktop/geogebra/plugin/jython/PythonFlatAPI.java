@@ -870,6 +870,22 @@ public class PythonFlatAPI {
 		public static void clearTurtle(GeoTurtle t) {
 			t.clear();
 		}
+		
+		public static double getTurtleSpeed(GeoTurtle t) {
+			return t.getSpeed();
+		}
+		
+		public static void setTurtleSpeed(GeoTurtle t, double speed) {
+			t.setSpeed(speed);
+		}
+		
+		public static void rewindTurtle(GeoTurtle t) {
+			t.resetProgress();
+		}
+		
+		public static void stepTurtle(GeoTurtle t) {
+			t.stepTurtle();
+		}
 	}
 	
 	public Application app;

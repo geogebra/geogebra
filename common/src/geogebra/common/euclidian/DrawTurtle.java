@@ -15,6 +15,7 @@ package geogebra.common.euclidian;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoTurtle;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -84,8 +85,14 @@ public class DrawTurtle extends Drawable {
 			boolean penDown = true;
 			boolean needsNewPath = true;
 			GeoPointND startPoint = turtle.getStartPoint();
-
-			for (int i = 0; i < turtle.getTurtleCommandList().size(); i++) {
+			startPoint.getInhomCoords(coords);
+			view.toScreenCoords(coords);
+			turnAngle = 0d;
+			int ncommands = turtle.getTurtleCommandList().size();
+			if (turtle.getSpeed() != 0d) {
+				ncommands = turtle.getNumberOfCompletedCommands();
+			}
+			for (int i = 0; i < ncommands; i++) {
 
 				Object cmd = turtle.getTurtleCommandList().get(i);
 
@@ -94,7 +101,7 @@ public class DrawTurtle extends Drawable {
 				}
 
 				if (cmd instanceof Double) {
-					turnAngle = (Double) cmd;
+					turnAngle += (Double) cmd;
 				}
 
 				else if (cmd instanceof GeoPointND) {
@@ -114,20 +121,50 @@ public class DrawTurtle extends Drawable {
 					needsNewPath = true;
 				}
 			}
+			// If a command is in progress:
+			if (ncommands < turtle.getTurtleCommandList().size()) {
+				Object cmd  = turtle.getTurtleCommandList().get(ncommands);
+				double progress = turtle.getCurrentCommandProgress();
+				
+				if (cmd instanceof Boolean) {
+					// TODO
+				}
+				
+				if (cmd instanceof Double) {
+					turnAngle += ((Double) cmd)*progress;
+				}
+				
+				else if (cmd instanceof GeoPointND) {
+					if (needsNewPath) {
+						gp = new GeneralPathClipped(view);
+						addPointToPath(gp, startPoint, false);
+						cmdList.add(gp);
+						gpList.add(gp);
+					}
+					double[] startCoords = new double[2];
+					startPoint.getInhomCoords(startCoords);
+					double[] endCoords = new double[2];
+					((GeoPointND) cmd).getInhomCoords(endCoords);
+					coords[0] = startCoords[0]*(1d - progress) + endCoords[0]*progress;
+					coords[1] = startCoords[1]*(1d - progress) + endCoords[1]*progress;
+					addPointToPath(gp, penDown);
+				}
+			}
 
 		}
 		
 		
-		turtle.getPosition().getInhomCoords(coords);
-		view.toScreenCoords(coords);
+		// turtle.getPosition().getInhomCoords(coords);
+		// view.toScreenCoords(coords);
 		int diameter = 12;
 		int x = (int) (coords[0]);
 		int y = (int) (coords[1]);
 		turtleCircle.setFrame(x - diameter / 2, y - diameter / 2, diameter, diameter);
 		turtleCircle2.setFrame(x - 2, y - 2, 4, 4);
 		
-		int x2 = (int) (x + .7 * diameter * turtle.getAngleRotators()[0]);
-		int y2 = (int) (y - .7 * diameter * turtle.getAngleRotators()[1]);
+		turnAngle *= Math.PI/180;
+		int x2 = (int) (x + .7 * diameter * Math.cos(turnAngle));
+		int y2 = (int) (y - .7 * diameter * Math.sin(turnAngle));
 
 		line.setLine(x, y, x2, y2);
 		
@@ -140,19 +177,22 @@ public class DrawTurtle extends Drawable {
 
 	}
 
-	private void addPointToPath(GeneralPathClipped gp, GeoPointND pt,
-			boolean penDown) {
+	private void addPointToPath(GeneralPathClipped gp, boolean penDown) {
 
-		pt.getInhomCoords(coords);
 		view.toScreenCoords(coords);
-
+		
 		if (penDown) {
 			gp.lineTo(coords[0], coords[1]);
 		} else {
 			gp.moveTo(coords[0], coords[1]);
 		}
 	}
-
+	
+	private void addPointToPath(GeneralPathClipped gp, GeoPointND pt, boolean penDown) {
+		pt.getInhomCoords(coords);
+		addPointToPath(gp, penDown);
+	}
+	
 	
 
 	private void drawTurtleShape(geogebra.common.awt.Graphics2D g2) {

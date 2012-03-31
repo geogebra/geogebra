@@ -51,6 +51,10 @@ public class GeoTurtle extends GeoElement {
 	private double cosAngle = 1d;
 	private int turtleImageIndex = 0;
 
+	private int nCompletedCommands = 0;
+	private double currentCommandProgress = 0d;
+	private double speed = 0.1;
+	
 	private boolean autoUpdate = true;
 	/**
 	 * Constructor with label
@@ -74,7 +78,7 @@ public class GeoTurtle extends GeoElement {
 		// TODO: put this in default construction?
 		this.setObjColor(Color.GRAY);
 
-		this.turn(turnAngle);
+		// this.turn(turnAngle);
 
 		turtleImageList = new ArrayList<BufferedImage>();
 		
@@ -146,7 +150,7 @@ public class GeoTurtle extends GeoElement {
 	public void setTurnAngle(double a) {
 		turn(a - turnAngle * 180 / Math.PI);
 	}
-
+	
 	/**
 	 * @return current sin and cos of turn angle
 	 */
@@ -218,6 +222,45 @@ public class GeoTurtle extends GeoElement {
 		this.autoUpdate = autoUpdate;
 	}
 	
+	public double getSpeed() {
+		return speed;
+	}
+	
+	public void setSpeed(double s) {
+		if (s > 1d) {
+			speed = 1d;
+		} else if (s < 0d) {
+			speed = 0d;
+		} else {
+			speed = s;
+		}
+	}
+	
+	public int getNumberOfCompletedCommands() {
+		return nCompletedCommands;
+	}
+	
+	public double getCurrentCommandProgress() {
+		return currentCommandProgress;
+	}
+	
+	public void resetProgress() {
+		nCompletedCommands = 0;
+		currentCommandProgress = 0d;
+		doUpdate();
+	}
+	
+	public void stepTurtle() {
+		if (speed == 0d || nCompletedCommands >= cmdList.size()) {
+			return;
+		}
+		currentCommandProgress += speed;
+		if (currentCommandProgress >= 1d) {
+			nCompletedCommands += 1;
+			currentCommandProgress -= 1d;
+		}
+		doUpdate();
+	}
 	
 	// ===============================================
 	// LOGO COMMANDS
@@ -259,7 +302,7 @@ public class GeoTurtle extends GeoElement {
 		currentPoint.setCoords(position[0], position[1], 1.0);
 		doUpdate();
 	}
-
+	
 	/**
 	 * @param turnAngleChange change of turn angle in degrees
 	 */
@@ -311,11 +354,18 @@ public class GeoTurtle extends GeoElement {
 	 * 
 	 */
 	public void clear() {
+		// Temporarily set speed to 0 in order to avoid stepping
+		double s = speed;
+		speed = 0;
+		resetProgress();
 		cmdList.clear();
-		turn(-turnAngle);
-		setPenDown(false);
-		setPosition(0,0);
-		setPenDown(true);
+		turnAngle = 0d;
+		sinAngle = 0d;
+		cosAngle = 1d;
+		position[0] = 0d;
+		position[1] = 0d;
+		currentPoint.setCoords(0d, 0d, 1d);
+		speed = s;
 		doUpdate();
 	}
 	

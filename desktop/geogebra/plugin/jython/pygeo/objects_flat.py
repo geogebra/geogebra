@@ -6,8 +6,9 @@ from geogebra.common.plugin import EuclidianStyleConstants as STYLE
 from java.lang import IndexOutOfBoundsException
 
 from functools import partial
+import time
 
-from apiproxy import API
+from apiproxy import API, in_new_thread, in_main_thread
 
 from generic import generic, specmethod, GenericMethods, GenericError, sign
 
@@ -943,6 +944,8 @@ class Turtle(Element):
         self._factory = factory
         self._api = factory.api
         self.geo = self._api.geoTurtle()
+        self.running = True
+        turtle_driver.add_turtle(self)
 
     # Turtle driving commands
 
@@ -989,6 +992,13 @@ class Turtle(Element):
         API.Geo.setTurtlePenDown(self.geo, bool(val))
     pen_down = property(_get_pen_down, _set_pen_down)
     
+    # property: speed
+    def _get_speed(self):
+        return API.Geo.getTurtleSpeed(self.geo)
+    def _set_speed(self, value):
+        API.Geo.setTurtleSpeed(self.geo, float(value))
+    speed = property(_get_speed, _set_speed)
+    
     def turn_left(self, angle):
         API.Geo.turtleTurn(self.geo, float(angle))
 
@@ -1000,6 +1010,33 @@ class Turtle(Element):
 
     def clear(self):
         API.Geo.clearTurtle(self.geo)
+
+    def rewind(self):
+        API.Geo.rewindTurtle(self.geo)
+
+    def step(self):
+        API.Geo.stepTurtle(self.geo)
+        
+
+class TurtleDriver(object):
+    def __init__(self):
+        self.turtles = []
+        self.run()
+    def add_turtle(self, turtle):
+        if turtle not in self.turtles:
+            self.turtles.append(turtle)
+    @in_new_thread
+    def run(self):
+        while True:
+            self.step_turtles()
+            time.sleep(0.05)
+    @in_main_thread
+    def step_turtles(self):
+        for turtle in self.turtles:
+            if turtle.running:
+                turtle.step()
+        
+turtle_driver = TurtleDriver()
 
 
 class Intersect(object):
