@@ -281,7 +281,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	@Override
 	public String getAssignmentLHS(StringTemplate tpl){
 		sbToString.setLength(0);
-		sbToString.append(label);
+		sbToString.append(kernel.printVariableName(label, tpl));
 		sbToString.append("(");
 		sbToString.append(getVarString(tpl));
 		sbToString.append(")");
@@ -814,7 +814,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		
 		/**
 		 * Returns whether this function can be drawn in 3D and 
-		 * hence needs level of detail.s
+		 * hence needs level of detail.
 		 * @return true if this is valid function RxR->R
 		 */
 		public boolean needsLevelOfDetail() {

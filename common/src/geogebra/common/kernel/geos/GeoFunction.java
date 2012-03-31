@@ -953,7 +953,7 @@ public class GeoFunction extends GeoElement implements VarString,
 	@Override
 	public String getAssignmentLHS(StringTemplate tpl) {
 		sbToString.setLength(0);
-		sbToString.append(label);
+		sbToString.append(kernel.printVariableName(label,tpl));
 		sbToString.append("(");
 		sbToString.append(getVarString(tpl));
 		sbToString.append(")");

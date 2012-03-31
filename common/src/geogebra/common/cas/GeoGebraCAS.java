@@ -4,12 +4,16 @@ import geogebra.common.cas.mpreduce.AbstractCASmpreduce;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.cas.AsynchronousCommand;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.util.MaxSizeHashMap;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractApplication.CasType;
@@ -308,6 +312,11 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	}
 
 	final private static String toString(ExpressionValue ev, boolean symbolic,StringTemplate tpl) {
+		if(ev.isExpressionNode() && ev.isLeaf()){
+			ExpressionValue lft = ((ExpressionNode)ev).getLeft();
+			if(lft instanceof GeoFunction || lft instanceof GeoFunctionNVar)
+				return ((GeoElement)lft).getAssignmentLHS(tpl);
+		}
 		if (symbolic) {
 			return ev.toString(tpl);
 		}
@@ -424,10 +433,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					if (pos >= 0 && pos < args.size()) {
 						// success: insert argument(pos)
 						ExpressionValue ev = (ExpressionValue) args.get(pos);
-						if (symbolic)
-							sbCASCommand.append(ev.toString(tpl));
-						else
-							sbCASCommand.append(ev.toValueString(tpl));
+						sbCASCommand.append(toString(ev,symbolic,tpl));
 					} else {
 						// failed
 						sbCASCommand.append(ch);
