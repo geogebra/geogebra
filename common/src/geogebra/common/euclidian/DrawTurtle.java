@@ -15,7 +15,6 @@ package geogebra.common.euclidian;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoTurtle;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
