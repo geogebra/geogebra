@@ -10,11 +10,13 @@ import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.cas.AsynchronousCommand;
 import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.CASSettings;
 import geogebra.common.main.settings.SettingListener;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -144,13 +146,38 @@ public abstract class CASgeneric implements CASGenericInterface,
 		Kernel kernel = ve.getKernel();
 
 		try {
-			ValidExpression tmp = ve;
+			ExpressionNode tmp = null;
 			if (!ve.isExpressionNode())
 				tmp = new ExpressionNode(kernel, ve);
-
-			String body = ((ExpressionNode) tmp).getCASstring(casStringType,
+			else tmp = ((ExpressionNode)ve);
+			String body = tmp.getCASstring(casStringType,
 					true);
-
+			ArrayList<GeoFunction> derivativeFunctions= new ArrayList<GeoFunction>();
+			ArrayList<Integer> derivativeDegrees= new ArrayList<Integer>();
+			tmp.collectDerivatives(derivativeFunctions,derivativeDegrees);
+			StringTemplate casTpl = StringTemplate.casTemplate;
+			for(int i=0;i<derivativeDegrees.size();i++){
+				GeoFunction f = derivativeFunctions.get(i);
+				StringBuilder sb = new StringBuilder(80);
+				sb.append(f.getLabel(casTpl));
+				int deg = derivativeDegrees.get(i);
+				for(int j=0;j<deg;j++)
+					sb.append("'");
+				sb.append("(");
+				sb.append(f.getVarString(casTpl));
+				sb.append("):=df(");
+				sb.append(f.getAssignmentLHS(casTpl));
+				sb.append(",");
+				sb.append(f.getVarString(casTpl));
+				sb.append(",");
+				sb.append(deg);
+				sb.append(")");
+				try{
+					this.evaluateRaw(sb.toString());
+				}catch(Throwable t){
+					t.printStackTrace();
+				}
+			}
 			// handle assignments
 			String label = ve.getLabel();
 			if (label != null) { // is an assignment or a function declaration

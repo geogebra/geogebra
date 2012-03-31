@@ -36,6 +36,7 @@ import geogebra.common.plugin.Operation;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -4635,5 +4636,19 @@ public class ExpressionNode extends ValidExpression implements
 			right = ((ReplaceableValue)right).replaceArbConsts(arbconst);
 		return this;
 	}
-
+	public void collectDerivatives(ArrayList<GeoFunction> derivativeFunctions,
+			ArrayList<Integer> derivativeDegrees) {
+		if(operation ==Operation.DERIVATIVE){
+			derivativeFunctions.add((GeoFunction)left);
+			if(right instanceof NumberValue)
+				derivativeDegrees.add((int)((NumberValue)right).getDouble());
+			else
+				derivativeDegrees.add(1);
+		}
+		if(left instanceof ExpressionNode)
+			((ExpressionNode)left).collectDerivatives(derivativeFunctions, derivativeDegrees);
+		if(right instanceof ExpressionNode)
+			((ExpressionNode)right).collectDerivatives(derivativeFunctions, derivativeDegrees);
+		
+	}
 }
