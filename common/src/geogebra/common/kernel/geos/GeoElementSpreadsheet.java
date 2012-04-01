@@ -67,16 +67,19 @@ public class GeoElementSpreadsheet {
 	 * 
 	 * @param cellName
 	 *            given cell name
-	 * @return coordinates of spreedsheet cell
+	 * @return coordinates of spreadsheet cell
 	 */
 	public static Point spreadsheetIndices(String cellName) {
 
-		MatchResult matcher = spreadsheetPattern
-				.exec(cellName);
-		int column = getSpreadsheetColumn(matcher);
-		int row = getSpreadsheetRow(matcher);
+		MatchResult matcher = spreadsheetPattern.exec(cellName);
 
-		return new Point(column, row);
+		// return (-1,-1) if not a spreadsheet cell name
+		if (matcher.getGroup(0).length() != cellName.length()) {
+			return new Point(-1, -1);
+		}
+
+		return new Point(getSpreadsheetColumn(matcher),
+				getSpreadsheetRow(matcher));
 	}
 
 	/**
@@ -86,15 +89,16 @@ public class GeoElementSpreadsheet {
 	 * @author Michael Borcherds
 	 */
 	public static boolean isSpreadsheetLabel(String str) {
-		if(str==null)
+		if (str == null)
 			return false;
-		//Matcher matcher = spreadsheetPattern.matcher(str);
-		 MatchResult matcher = spreadsheetPattern.exec(str);
-			//if (matcher.matches()) {
-				if (matcher != null) {
-			return true;
+
+		MatchResult matcher = spreadsheetPattern.exec(str);		
+		if (matcher == null) {
+			return false;
 		}
-		return false;
+		
+		// Must match the entire string
+	    return matcher.getGroup(0).length() == str.length();
 	}
 
 	/**
