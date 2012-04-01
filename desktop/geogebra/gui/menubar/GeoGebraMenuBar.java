@@ -206,24 +206,24 @@ public class GeoGebraMenuBar extends JMenuBar {
 	*/					
 						
 						DockManager dm=app.getGuiManager().getLayout().getDockManager();
-						
+						geogebra.export.PrintPreview pre;
 						if (dm.getFocusedPanel()==dm.getPanel(AbstractApplication.VIEW_CAS))
-							new geogebra.export.PrintPreview(app, app.getGuiManager().getCasView(), PageFormat.LANDSCAPE);
+							pre = new geogebra.export.PrintPreview(app, app.getGuiManager().getCasView(), PageFormat.LANDSCAPE);
 						else if (dm.getFocusedPanel()==dm.getPanel(AbstractApplication.VIEW_CONSTRUCTION_PROTOCOL))
-							new geogebra.export.PrintPreview(app, app.getGuiManager().getConstructionProtocolView(), PageFormat.LANDSCAPE);
+							pre = new geogebra.export.PrintPreview(app, app.getGuiManager().getConstructionProtocolView(), PageFormat.LANDSCAPE);
 						else if (dm.getFocusedPanel()==dm.getPanel(AbstractApplication.VIEW_SPREADSHEET))
-							new geogebra.export.PrintPreview(app, app.getGuiManager().getSpreadsheetView(), PageFormat.LANDSCAPE);
+							pre = new geogebra.export.PrintPreview(app, app.getGuiManager().getSpreadsheetView(), PageFormat.LANDSCAPE);
 						else if (dm.getFocusedPanel()==dm.getPanel(AbstractApplication.VIEW_EUCLIDIAN2))
-							new geogebra.export.PrintPreview(app, app.getEuclidianView2(), PageFormat.LANDSCAPE);
+							pre = new geogebra.export.PrintPreview(app, app.getEuclidianView2(), PageFormat.LANDSCAPE);
 						else if (dm.getFocusedPanel()==dm.getPanel(AbstractApplication.VIEW_ALGEBRA))
-							new geogebra.export.PrintPreview(app, app.getGuiManager().getAlgebraView(), PageFormat.LANDSCAPE);
+							pre = new geogebra.export.PrintPreview(app, app.getGuiManager().getAlgebraView(), PageFormat.LANDSCAPE);
 						else if (dm.getFocusedPanel()==dm.getPanel(AbstractApplication.VIEW_EUCLIDIAN))
-							new geogebra.export.PrintPreview(app, app.getEuclidianView1(), PageFormat.LANDSCAPE);
+							pre = new geogebra.export.PrintPreview(app, app.getEuclidianView1(), PageFormat.LANDSCAPE);
 						//if there is no view in focus (e.g. just closed the focused view),
 						// it prints the GeoGebra main window
 						else //if (dm.getFocusedPanel()==null)
-							new geogebra.export.PrintPreview(app, (Printable) app.getMainComponent(), PageFormat.LANDSCAPE);
-						
+							pre = new geogebra.export.PrintPreview(app, (Printable) app.getMainComponent(), PageFormat.LANDSCAPE);
+						pre.setVisible(true);
 					} catch (Exception e) {
 						AbstractApplication.debug("Print preview not available");
 					} finally{

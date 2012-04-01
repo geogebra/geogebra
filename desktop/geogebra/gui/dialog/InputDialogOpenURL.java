@@ -6,7 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 
 public class InputDialogOpenURL extends InputDialog{
-	
+	private static final long serialVersionUID = 1L;
 	
 	public InputDialogOpenURL(Application app) {
 		super(app.getFrame(), false);

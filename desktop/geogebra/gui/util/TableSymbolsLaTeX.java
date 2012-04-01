@@ -338,7 +338,7 @@ public class TableSymbolsLaTeX {
 			 i++;
 		 }
 		return mathfrak;
-	};
+	}
 
 	
 	public final static String[] mathcal() {
@@ -350,7 +350,7 @@ public class TableSymbolsLaTeX {
 			 i++;
 		 }
 		return mathcal;
-	};
+	}
 
 	
 	public final static String[] mathbb() {
@@ -362,7 +362,7 @@ public class TableSymbolsLaTeX {
 			 i++;
 		 }
 		return mathbb;
-	};
+	}
 	
 	
 	
@@ -375,7 +375,7 @@ public class TableSymbolsLaTeX {
 			 i++;
 		 }
 		return mathscr;
-	};
+	}
 	
 	
 	

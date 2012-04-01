@@ -13,7 +13,7 @@ import javax.swing.JList;
  * @author Arnaud Delobelle
  */
 public class CommandCompletionListCellRenderer extends DefaultListCellRenderer {
-	
+	private static final long serialVersionUID = 1L;
 	@Override
 	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 		String cmd = (String) value;

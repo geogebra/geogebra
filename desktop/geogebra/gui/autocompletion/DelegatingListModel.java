@@ -13,7 +13,7 @@ import javax.swing.ListModel;
  * @author Julian Lettner
  */
 public class DelegatingListModel extends AbstractListModel {
-
+	private static final long serialVersionUID = 1L;
 	private List<?> delegate = Collections.emptyList();
 	
 	public int getSize() {

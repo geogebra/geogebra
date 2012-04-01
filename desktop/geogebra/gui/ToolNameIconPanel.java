@@ -45,6 +45,7 @@ import javax.swing.JTextField;
  * @version 2010-06-14
  */
 public class ToolNameIconPanel extends JPanel {	
+	private static final long serialVersionUID = 1L;
 	
 	/** With of tool icon in pixels **/
 	public static final int ICON_WIDTH = 32;

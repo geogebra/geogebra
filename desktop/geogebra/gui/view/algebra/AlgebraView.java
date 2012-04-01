@@ -75,7 +75,7 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 	 * ORDER:
 	 * Construction Protocol order
 	 */
-	public static enum SortMode { DEPENDENCY, TYPE, VIEW, ORDER, LAYER };
+	public static enum SortMode { DEPENDENCY, TYPE, VIEW, ORDER, LAYER }
 
 	/**
 	 */

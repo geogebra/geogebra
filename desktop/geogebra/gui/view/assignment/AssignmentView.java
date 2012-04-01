@@ -23,7 +23,7 @@ import javax.swing.JScrollPane;
  *
  */
 public class AssignmentView extends JPanel implements View, Gridable {
-	
+	private static final long serialVersionUID = 1L;
 	private Application app;
 	private Kernel kernel;
 	

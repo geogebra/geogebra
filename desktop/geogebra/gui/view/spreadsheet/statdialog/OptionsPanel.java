@@ -38,7 +38,7 @@ import javax.swing.JTextField;
  *
  */
 public class OptionsPanel extends JPanel implements PropertyChangeListener, ActionListener, FocusListener, StatPanelInterface{
-
+	private static final long serialVersionUID = 1L;
 
 	private Application app;
 	private StatDialog statDialog;

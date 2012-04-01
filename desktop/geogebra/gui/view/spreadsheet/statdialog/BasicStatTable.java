@@ -39,7 +39,7 @@ import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
 public class BasicStatTable extends JPanel implements StatPanelInterface {
-
+	private static final long serialVersionUID = 1L;
 	// ggb 
 	protected Application app;
 	private Kernel kernel; 

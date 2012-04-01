@@ -52,7 +52,7 @@ public class GeoGebraColorChooser extends JColorChooser{
 
 	
 	protected class MyColorSelectionModel extends DefaultColorSelectionModel{
-
+		private static final long serialVersionUID = 1L;
 		@Override
 		public void setSelectedColor(Color color){
 			boolean isNullColor = color == null;

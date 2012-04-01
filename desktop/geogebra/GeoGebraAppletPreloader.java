@@ -10,7 +10,7 @@ import javax.swing.JApplet;
  * Applet to load all GeoGebra jar files in the background.
  */
 public class GeoGebraAppletPreloader extends JApplet {
-
+	private static final long serialVersionUID = 1L;
 	@Override
 	public void init() {
 		setBackground(Color.white);
@@ -20,6 +20,7 @@ public class GeoGebraAppletPreloader extends JApplet {
 	
 	/**
 	 * Loads all jar files in a background task. 
+	 * @param loadJavaScriptJAR true to load geogebra_javascript.jar
 	 */
 	public static void loadAllJarFiles(final boolean loadJavaScriptJAR) {
 		Thread jarLoader = new Thread() {

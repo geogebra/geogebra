@@ -11,7 +11,7 @@ import java.util.logging.Level;
  * http://blogs.sun.com/nickstephen/entry/java_redirecting_system_out_and
  */
 public class StdOutErrLevel extends Level {
-
+	private static final long serialVersionUID = 1L;
     /**
      * Private constructor
      */

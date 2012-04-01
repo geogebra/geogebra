@@ -13,7 +13,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class FrequencyTable extends JTable implements StatPanelInterface{
-
+	private static final long serialVersionUID = 1L;
 
 	protected Application app;
 	private Kernel kernel; 

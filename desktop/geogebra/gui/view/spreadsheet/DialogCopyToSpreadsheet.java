@@ -24,7 +24,7 @@ import javax.swing.JRadioButton;
  * 
  */
 public class DialogCopyToSpreadsheet extends JDialog implements ActionListener {
-
+	private static final long serialVersionUID = 1L;
 	private SpreadsheetViewDnD dndHandler;
 	private Application app;
 

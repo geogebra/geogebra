@@ -58,7 +58,7 @@ import javax.swing.event.ChangeListener;
  */
 public class StatComboPanel extends JPanel implements ActionListener, FocusListener,
 StatPanelInterface{
-
+	private static final long serialVersionUID = 1L;
 	// ggb fields
 	private Application app;
 	private StatDialog statDialog;
@@ -934,6 +934,7 @@ StatPanelInterface{
 	//============================================================
 
 	private static class MyRenderer extends JLabel implements ListCellRenderer {
+		private static final long serialVersionUID = 1L;
 
 		public static final String SEPARATOR = "SEPARATOR";
 		JSeparator separator;

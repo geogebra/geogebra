@@ -428,7 +428,7 @@ public class PlotPanelEuclidianView extends EuclidianView implements
 	 * image of the view.
 	 */
 	private class ContextMenu extends JPopupMenu {
-
+		private static final long serialVersionUID = 1L;
 		public ContextMenu() {
 			this.setOpaque(true);
 			setFont(getApplication().getPlainFont());

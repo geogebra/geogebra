@@ -16,7 +16,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 public class StatDialogOptionsPanel extends JPanel implements  ActionListener, StatPanelInterface{
-
+	private static final long serialVersionUID = 1L;
 	private Application app;
 	private StatDialog statDialog;
 	

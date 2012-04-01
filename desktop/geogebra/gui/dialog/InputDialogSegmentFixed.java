@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 
 public class InputDialogSegmentFixed extends InputDialog{
-	
+	private static final long serialVersionUID = 1L;
 	private GeoPoint2 geoPoint1;
 
 	private Kernel kernel;

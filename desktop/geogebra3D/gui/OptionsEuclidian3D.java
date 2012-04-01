@@ -24,7 +24,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 public class OptionsEuclidian3D extends OptionsEuclidian {
-	
+	private static final long serialVersionUID = 1L;
 	private AxisPanel3D zAxisPanel;
 	
 	private JCheckBox cbUseClipping, cbShowClipping;
@@ -517,7 +517,7 @@ public class OptionsEuclidian3D extends OptionsEuclidian {
 	}
 	
 	protected class AxisPanel3D extends AxisPanel{
-		
+		private static final long serialVersionUID = 1L;
 		final static protected int AXIS_Z = 2;
 
 		public AxisPanel3D(int axis) {

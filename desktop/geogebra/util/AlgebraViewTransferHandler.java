@@ -22,7 +22,7 @@ import javax.swing.TransferHandler;
  * 
  */
 public class AlgebraViewTransferHandler extends TransferHandler implements Transferable {
-
+	private static final long serialVersionUID = 1L;
 	private Application app;
 
 	public static DataFlavor algebraViewFlavor = new DataFlavor(AlgebraView.class, "algebraView");

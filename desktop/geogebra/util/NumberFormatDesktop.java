@@ -7,6 +7,7 @@ import java.util.Locale;
 import geogebra.common.util.NumberFormatAdapter;
 
 public class NumberFormatDesktop extends DecimalFormat implements NumberFormatAdapter  {
+	private static final long serialVersionUID = 1L;
 	public NumberFormatDesktop(){
 		super();
 		this.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));

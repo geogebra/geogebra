@@ -204,8 +204,9 @@ public class StringUtil {
 		// Guy Hed 30.8.2009
 	    // Fix Hebrew 'undefined' problem in Latex text.
 	    if( prototype.isRightToLeftChar(c) ) {
-	      int j;
-	      for( j=i; j<length && (prototype.isRightToLeftChar(str.charAt(j)) || str.charAt(j)=='\u00a0'); j++ );
+	      int j = i;
+	      while( j<length && (prototype.isRightToLeftChar(str.charAt(j)) || str.charAt(j)=='\u00a0'))
+	    	  j++;
 	      for( int k=j-1; k>=i ; k-- )
 	    	  sbReplaceExp.append(str.charAt(k));
 	      sbReplaceExp.append(' ');

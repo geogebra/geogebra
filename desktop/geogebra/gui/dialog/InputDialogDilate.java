@@ -20,7 +20,7 @@ import java.util.Arrays;
 import javax.swing.JPanel;
 
 public class InputDialogDilate extends InputDialog {
-		
+	private static final long serialVersionUID = 1L;
 	GeoPoint2[] points;
 	GeoElement[] selGeos;
 

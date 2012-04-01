@@ -82,7 +82,7 @@ public class TableSymbols {
 
 		return array;
 
-	};
+	}
 
 	public final static String[] basicSymbols(Application app){
 
@@ -93,7 +93,7 @@ public class TableSymbols {
 		while (app.getSymbol(index) != null){
 			extraSymbols.add(app.getSymbol(index));
 			index++;
-		};
+		}
 		
 		// build the array from the basic symbol array and the extra symbol list
 		String[] array = new String[basicSymbolsMap(app).length + extraSymbols.size()];
@@ -104,7 +104,7 @@ public class TableSymbols {
 			array[i + basicSymbolsMap(app).length] = extraSymbols.get(i);
 		}
 		return array;
-	};
+	}
 
 
 	public final static String[] basicSymbolsToolTips(Application app){
@@ -116,7 +116,7 @@ public class TableSymbols {
 		while (app.getSymbol(index) != null){
 			extraTooltips.add(app.getSymbolTooltip(index));
 			index++;
-		};
+		}
 		String[] array = basicSymbols(app);
 		for(int i=0; i< basicSymbolsMap(app).length; i++){
 			array[i] = basicSymbolsMap(app)[i][1];
@@ -125,7 +125,7 @@ public class TableSymbols {
 			array[i + basicSymbolsMap(app).length] = extraTooltips.get(i);
 		}
 		return array;
-	};
+	}
 
 
 

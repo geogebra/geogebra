@@ -15,7 +15,7 @@ import javax.media.opengl.GLCanvas; //JOGL1
  */
 public class Component3D extends GLCanvas{ //JOGL1
 //public class Component3D extends GLJPanel{ //JOGL2
-
+	private static final long serialVersionUID = 1L;
 	
 	public Component3D(){
 

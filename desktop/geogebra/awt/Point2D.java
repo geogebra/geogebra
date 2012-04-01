@@ -21,42 +21,50 @@ public class Point2D extends geogebra.common.awt.Point2D {
 
 	
 	
+	@Override
 	public double getX() {
 		return impl.x;
 	}
 
 	
+	@Override
 	public double getY() {
 		return impl.y;
 	}
 
 	
+	@Override
 	public void setX(double x) {
 		impl.x=x;
 
 	}
 
 	
+	@Override
 	public void setY(double y) {
 		impl.y=y;
 	}
 	
+	@Override
 	public double distance(geogebra.common.awt.Point2D q) {
 		// TODO Auto-generated method stub
 		return impl.distance(q.getX(),q.getY());
 	}
 	
+	@Override
 	public double distance(double x, double y) {
 		return impl.distance(x,y);
 	}
 	
+	@Override
 	public boolean equals(Object o){
 		if(!(o instanceof Point2D))
 			return false;
 		return impl.equals(((Point2D)o).impl);
 	}
 	
-	public int hashcode(){
+	@Override
+	public int hashCode(){
 		return impl.hashCode(); 
 	}
 

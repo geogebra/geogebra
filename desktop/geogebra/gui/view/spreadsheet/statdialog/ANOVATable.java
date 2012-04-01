@@ -20,7 +20,7 @@ import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 
 
 public class ANOVATable extends BasicStatTable {
-
+	private static final long serialVersionUID = 1L;
 	public ANOVATable(Application app, StatDialog statDialog){
 		super(app, statDialog, -1);
 		this.setMinimumSize(this.getPreferredSize());
@@ -197,7 +197,7 @@ public class ANOVATable extends BasicStatTable {
 
 		
 		FDistribution fdist = new FDistributionImpl(dfbg, dfwg);    
-		double P = 1.0 - fdist.cumulativeProbability(F);;
+		double P = 1.0 - fdist.cumulativeProbability(F);
 		
 		return new AnovaStats(dfbg, dfwg,F, P, ssbg,sswg,sst, msbg, mswg);
 	}

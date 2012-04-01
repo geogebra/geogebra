@@ -72,7 +72,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 
 	private MyJTree cmdTree, fcnTree;
 	private DefaultMutableTreeNode functionTitleNode, rootSubCommands,
-			rootAllCommands;;
+			rootAllCommands;
 	private DefaultTreeModel cmdTreeModel;
 
 	private String selectedCommand, rollOverCommand;
@@ -705,7 +705,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 			setLeafIcon(GeoGebraIcon.createEmptyIcon(5, 1));
 
 			selectionColor = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
-			; // this.getBackgroundSelectionColor()
+			 // this.getBackgroundSelectionColor()
 			rollOverColor = Color.LIGHT_GRAY;
 
 			this.setTextSelectionColor(Color.black);

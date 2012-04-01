@@ -44,7 +44,7 @@ import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math.stat.inference.TTestImpl;
 
 public class TwoVarInferencePanel extends JPanel implements ActionListener, FocusListener, StatPanelInterface{
-
+	private static final long serialVersionUID = 1L;
 	private Application app;
 	private StatDialog statDialog;
 	private StatTable resultTable;
@@ -551,7 +551,7 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener, Focu
 			model.setValueAt(statDialog.format(df), 0, 5);
 
 			break;
-		};
+		}
 
 
 	}

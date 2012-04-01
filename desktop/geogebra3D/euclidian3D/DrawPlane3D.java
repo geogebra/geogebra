@@ -82,7 +82,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		//renderer.setMatrix(getMatrix());
 		//setHighlightingColor(1f);
 		drawGeometryHidden(renderer);
-	}; 
+	}
 
 	public void drawGeometryHidden(Renderer renderer){ 
 		
@@ -99,7 +99,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		renderer.getGeometryManager().draw(gridOutlineIndex);
 
 		
-	};
+	}
 	
 	/**
 	 * 

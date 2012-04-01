@@ -742,7 +742,7 @@ public class MyTable extends JTable implements FocusListener {
 
 	public boolean setSelection(CellRange cr) {
 
-		if (!cr.isValid())
+		if (cr!=null && !cr.isValid())
 			return false;
 
 		try {

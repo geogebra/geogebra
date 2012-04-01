@@ -17,7 +17,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.TableCellEditor;
 
 public class MyCellEditorButton extends AbstractCellEditor implements TableCellEditor {
-
+	private static final long serialVersionUID = 1L;
 	  private JButton delegate = new JButton();
 	  private GeoButton editGeo;
 	 // Font fontPoint = app.getPlainFont().deriveFont(Font.PLAIN, fontSize);

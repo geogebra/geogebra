@@ -32,7 +32,7 @@ import javax.swing.border.EmptyBorder;
  *
  */
 public class StatisticsPanel extends JPanel implements StatPanelInterface, ActionListener {
-
+	private static final long serialVersionUID = 1L;
 	// inference mode constants 
 	public static final int SUMMARY_STATISTICS = 0;
 	// one var
@@ -350,7 +350,7 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 	//============================================================
 
 	private static class MyRenderer extends JLabel implements ListCellRenderer {
-
+		private static final long serialVersionUID = 1L;
 		public static final String SEPARATOR = "SEPARATOR";
 		JSeparator separator;
 

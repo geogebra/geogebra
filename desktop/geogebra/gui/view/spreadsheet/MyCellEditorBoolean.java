@@ -18,7 +18,7 @@ import javax.swing.SwingConstants;
  *
  */
 public class MyCellEditorBoolean extends DefaultCellEditor {
-
+	private static final long serialVersionUID = 1L;
 	private Kernel kernel;
 	private Application app;
 	private GeoBoolean editGeo;

@@ -149,7 +149,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 	// GUI layout panels
 	private JPanel controlPanel, distPanel, probPanel, tablePanel;
-	private JSplitPane mainSplitPane, plotSplitPane;;	
+	private JSplitPane mainSplitPane, plotSplitPane;
 	private int defaultDividerSize;  
 	private PlotPanelEuclidianView plotPanel;
 	private PlotSettings plotSettings;
@@ -310,7 +310,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 	}
 	
 	public void setLineGraph(boolean isLineGraph) {
-		if(this.isLineGraph = isLineGraph) return;
+		if(this.isLineGraph == isLineGraph) return;
 		
 		this.isLineGraph = isLineGraph;
 		updateAll();

@@ -22,7 +22,7 @@ import javax.swing.JList;
  * @author Julian Lettner
  */
 public class FileChooserCompletionListCellRenderer extends DefaultListCellRenderer {
-	
+	private static final long serialVersionUID = 1L;
 	private static final String ICON_LOCATION = "/geogebra/gui/images/";
 	
 	private static final Icon DIRECTORY_ICON = loadIcon("folder.png");

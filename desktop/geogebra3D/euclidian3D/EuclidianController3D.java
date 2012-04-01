@@ -1530,7 +1530,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	
 	//TODO
 	@Override
-	public void processModeLock(){}; 
+	public void processModeLock(){}
 
 	///////////////////////////////////////////
 	// EMPTY METHODS IN EuclidianController USED FOR EuclidianView3D	

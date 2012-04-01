@@ -25,7 +25,7 @@ import javax.swing.JToolBar;
  *
  */
 public class SpreadsheetStyleBar extends JToolBar implements ActionListener{
-
+	private static final long serialVersionUID = 1L;
 	private SpreadsheetView view;
 	private Application app;
 	private MyTable table;

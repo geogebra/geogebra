@@ -53,7 +53,7 @@ public  class TextValue extends JTextField implements KeyListener {
 	}
 	
 	
-	public void keyReleased(KeyEvent e){};
+	public void keyReleased(KeyEvent e){}
 	public String toString(){
 		return actionCommand; 
 	}

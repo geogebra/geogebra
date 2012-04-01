@@ -299,7 +299,7 @@ public class PrintPreview extends JDialog {
 					}
 				};
 				runner.start();
-			};
+			}
 		};
 		titlePanel.addActionListener(lst);
 			

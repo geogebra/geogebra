@@ -7,7 +7,7 @@ the Free Software Foundation.
  */
 
 package geogebra.export.pstricks;
-import geogebra.awt.Color;
+import geogebra.common.awt.Color;
 import geogebra.common.euclidian.DrawPoint;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.kernel.Kernel;
@@ -2807,7 +2807,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         int red=c.getRed(), green=c.getGreen(), blue=c.getBlue();
         if (grayscale){
             int grayscale = (red+green+blue)/3;
-            c = new Color(grayscale,grayscale,grayscale);
+            c = geogebra.common.factories.AwtFactory.prototype.newColor(grayscale,grayscale,grayscale);
             sb.append("\\color[rgb]{"
                 +format(grayscale/255d)+","
                 +format(grayscale/255d)+","

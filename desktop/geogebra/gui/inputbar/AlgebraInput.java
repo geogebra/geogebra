@@ -288,11 +288,11 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 			inputField.showError(ee);
 			return;
 		}
-			boolean success = null != geos;
+			
 
 			// create texts in the middle of the visible view
 			// we must check that size of geos is not 0 (ZoomIn, ZoomOut, ...)
-			if (success && geos.length > 0 && geos[0] != null && geos[0].isGeoText()) {
+			if (geos.length > 0 && geos[0] != null && geos[0].isGeoText()) {
 				GeoText text = (GeoText)geos[0];
 				if (!text.isTextCommand() && text.getStartPoint() == null) {
 
@@ -315,10 +315,10 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 
 			app.setScrollToShow(false);
 
-			if (success) {						   
-				inputField.addToHistory(input);
-				inputField.setText(null);  							  			   
-			}			  
+									   
+			inputField.addToHistory(input);
+			inputField.setText(null);  							  			   
+						  
 		} else app.getGlobalKeyDispatcher().handleGeneralKeys(e); // handle eg ctrl-tab
 	}
 

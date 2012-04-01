@@ -232,8 +232,7 @@ public class EuclidianView extends EuclidianViewND implements
 		int colors = tk.getMaximumCursorColors();
 		if (!d.equals(new Dimension(0, 0)) && (colors != 0)) {
 			// load cursor image
-			if (image != null) {
-				try {
+			try {
 					// Create custom cursor from the image
 					Cursor cursor = tk.createCustomCursor(image,
 						new java.awt.Point(16, 16), "custom cursor");
@@ -243,8 +242,8 @@ public class EuclidianView extends EuclidianViewND implements
 					// cursor
 					AbstractApplication
 							.debug("Unable to create custom cursor.");
-				}
 			}
+			
 		}
 		return null;
 	}

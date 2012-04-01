@@ -21,7 +21,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.text.JTextComponent;
 
 public class InputDialogAngleFixed extends AngleInputDialog implements KeyListener {
-	
+	private static final long serialVersionUID = 1L;
 	private static String defaultRotateAngle = "45\u00b0"; // 45 degrees
 
 	private GeoPoint2 geoPoint1;

@@ -353,6 +353,11 @@ public class CellRange {
 		return false;
 	}
 	
+	@Override
+	public int hashCode(){
+		return (minColumn << 24) ^ ((maxColumn-minColumn) << 16) ^ (minRow << 8) ^ (maxRow-minRow);
+	}
+	
 	public boolean contains(Object obj) {
 		
 		CellRange cr;

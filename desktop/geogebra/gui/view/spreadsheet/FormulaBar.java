@@ -26,7 +26,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 public class FormulaBar extends JToolBar implements ActionListener, FocusListener{
-
+	private static final long serialVersionUID = 1L;
 	private Application app;
 	private SpreadsheetView view;
 	private MyTable table;

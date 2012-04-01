@@ -414,7 +414,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 				 * direction getParentAlgorithm().update();
 				 */
 			} else {
-				Coords coords = (Coords) getInhomCoords().add(rwTransVec);
+				Coords coords = getInhomCoords().add(rwTransVec);
 				setCoords(coords);
 			}
 
@@ -646,10 +646,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 			AlgoElement parent = getParentAlgorithm();
 			int index = parent.getConstructionIndex();
 			getRegion().toGeoElement().removeAlgorithm(parent);
-			((Construction) getConstruction()).removeFromAlgorithmList(parent);
+			getConstruction().removeFromAlgorithmList(parent);
 			setParentAlgorithm(null);
-			((Construction) getConstruction()).removeFromConstructionList(parent);
-			((Construction) getConstruction()).addToConstructionList(this, index);
+			getConstruction().removeFromConstructionList(parent);
+			getConstruction().addToConstructionList(this, index);
 
 			// remove the region
 			setRegion(null);
@@ -659,7 +659,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 			// move from Dependent to Independent in AlgebraView
 			if (app.isUsingFullGui())
 				((AlgebraView) (app.getAlgebraView()))
-						.rename((GeoElement) this);
+						.rename(this);
 		}
 
 	}
@@ -943,10 +943,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 
 	public double[] getPointAsDouble() {
 		return getInhomCoords().get();
-	};
+	}
 
 	public Geo3DVec get3DVec() {
-		return new Geo3DVec((Kernel)kernel, getX(), getY(), getZ());
+		return new Geo3DVec(kernel, getX(), getY(), getZ());
 	}
 
 	// ////////////////////////////////

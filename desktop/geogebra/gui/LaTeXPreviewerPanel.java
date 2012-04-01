@@ -31,6 +31,8 @@ import org.scilab.forge.jlatexmath.TeXFormula;
  * @author Calixte DENIZET
  */
 public class LaTeXPreviewerPanel extends JPanel {
+	
+	private static final long serialVersionUID = 1L;
 	private static final int INSET = 3;
 	private static final Rectangle NULLRECT = new Rectangle(0, 0, 0, 0);
 

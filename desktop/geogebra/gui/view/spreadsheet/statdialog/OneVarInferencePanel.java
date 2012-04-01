@@ -44,7 +44,7 @@ import org.apache.commons.math.stat.inference.TTestImpl;
  * 
  */
 public class OneVarInferencePanel extends JPanel implements ActionListener,  FocusListener, StatPanelInterface {
-
+	private static final long serialVersionUID = 1L;
 	// ggb fields
 	private Application app;
 	private Kernel kernel;
@@ -339,7 +339,7 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 			model.setValueAt(statDialog.format(N), 7, 0);
 			model.setValueAt(statDialog.format(mean), 8, 0);
 			break;
-		};
+		}
 
 	}
 

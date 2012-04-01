@@ -351,7 +351,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 				largeSwatchSize);
 		protected Dimension gap = new Dimension(1, 1);
 		protected Dimension numSwatches;
-		protected Dimension selectedSwatch = new Dimension(-1, -1);;
+		protected Dimension selectedSwatch = new Dimension(-1, -1);
 		protected Dimension hoverSwatch = new Dimension(-1, -1);
 		protected Dimension prevHoverSwatch = new Dimension(-1, -1);
 

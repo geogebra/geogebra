@@ -16,7 +16,7 @@ import java.net.URL;
  *
  */
 public class InputDialogOpenDataFolderURL extends InputDialog{
-	
+	private static final long serialVersionUID = 1L;
 	private SpreadsheetView view;
 	
 	public InputDialogOpenDataFolderURL(Application app, SpreadsheetView view, String initString) {

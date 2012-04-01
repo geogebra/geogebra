@@ -43,7 +43,7 @@ import javax.swing.JPanel;
  */
 
 public class ImagePreview extends JPanel implements PropertyChangeListener {
-
+	private static final long serialVersionUID = 1L;
 	/*
 	 * Ideas: - Currently throws an IllegalArgumentException on .ico images ->
 	 * add plug-in to support this file type (important under Windows) - Speed

@@ -23,7 +23,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 public class LinearRegressionPanel extends JPanel implements StatPanelInterface{
-
+	private static final long serialVersionUID = 1L;
 	private Application app;
 	private Kernel kernel;
 	private JList dataSourceList;
@@ -116,7 +116,7 @@ public class LinearRegressionPanel extends JPanel implements StatPanelInterface{
 	}
 
 	class RowHeaderRenderer extends JLabel implements ListCellRenderer {
-
+		private static final long serialVersionUID = 1L;
 		RowHeaderRenderer(JTable table) {
 			JTableHeader header = table.getTableHeader();
 			setOpaque(true);

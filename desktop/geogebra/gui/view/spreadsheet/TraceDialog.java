@@ -69,7 +69,7 @@ implements
 	ListSelectionListener, WindowListener 
 	
 	{
-	
+	private static final long serialVersionUID = 1L;
 	// external components
 	private Application app;
 	private SpreadsheetView view;
@@ -893,7 +893,7 @@ implements
 	 * Custom cell renderer that displays GeoElement descriptions.
 	 */
 	private static class MyCellRenderer extends DefaultListCellRenderer {
-		
+		private static final long serialVersionUID = 1L;
 		@Override
 		public Component getListCellRendererComponent(JList list, Object value,
 				int index, boolean isSelected, boolean hasFocus) {

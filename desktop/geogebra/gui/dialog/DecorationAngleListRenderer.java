@@ -16,7 +16,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 /**
- * @author Lo�c Le Coq
+ * @author Loic Le Coq
  * date 31/10/2006
  * This class defines the renderer for the ComboBox where
  * the user chooses the decoration for GeoAngle
@@ -26,6 +26,7 @@ import javax.swing.ListCellRenderer;
  * */
 
 public class DecorationAngleListRenderer extends JPanel implements ListCellRenderer {
+	private static final long serialVersionUID = 1L;
 	private Line2D.Double tick=new Line2D.Double();
 	private Arc2D.Double arc=new Arc2D.Double();
     private GeneralPath polygon = new GeneralPath(); // Michael Borcherds 2007-10-28

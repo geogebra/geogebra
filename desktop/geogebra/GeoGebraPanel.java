@@ -18,7 +18,7 @@ import javax.swing.SwingUtilities;
  * into other applications.
  */
 public class GeoGebraPanel extends JPanel {
-	
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Test method that demonstrates how to embed a GeoGebraPanel
 	 * into another application.

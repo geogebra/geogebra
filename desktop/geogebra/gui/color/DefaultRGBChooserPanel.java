@@ -68,6 +68,7 @@ import javax.swing.event.ChangeListener;
  */
 public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 {
+	private static final long serialVersionUID = 1L;
 	/**
 	 * This class handles the slider value changes for all three sliders.
 	 */
@@ -423,7 +424,7 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 	 * 
 	 */
 	class MyPreviewPanel extends JPanel{
-
+		private static final long serialVersionUID = 1L;
 		public MyPreviewPanel() {
 			this.setPreferredSize(new Dimension(140,25));
 			Border border = BorderFactory.createCompoundBorder(

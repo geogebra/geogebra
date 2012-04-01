@@ -42,7 +42,7 @@ import javax.swing.JSplitPane;
 
 public class StatDialog extends JDialog  implements ActionListener, View, Printable,
 SpecialNumberFormatInterface {
-
+	private static final long serialVersionUID = 1L;
 	// ggb 
 	private Application app;
 	private Kernel kernel; 
@@ -554,7 +554,7 @@ SpecialNumberFormatInterface {
 
 
 	private void doPrint(){
-		new geogebra.export.PrintPreview(app, this, PageFormat.LANDSCAPE);
+		new geogebra.export.PrintPreview(app, this, PageFormat.LANDSCAPE).setVisible(true);
 	}
 
 

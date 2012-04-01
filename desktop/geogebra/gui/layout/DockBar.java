@@ -90,7 +90,7 @@ public class DockBar extends JPanel implements ActionListener {
 				updateLayout();
 			}
 		}
-	};
+	}
 
 	/**
 	 * Updates the layout to either show the dockbar and its components or show

@@ -149,8 +149,8 @@ public class VoronoiAlgorithm {
                 statusstructure.removeNode(eventqueue, currnode);
                 
                 // Remove Circle Events for prev (pi) and next (pk)
-                prevnode.removeCircleEvents(eventqueue);
-                nextnode.removeCircleEvents(eventqueue);
+                if ( prevnode!=null )prevnode.removeCircleEvents(eventqueue);
+                if ( nextnode!=null )nextnode.removeCircleEvents(eventqueue);
                 
                 // Determine circle events for p1,pi,(pjremoved),pk and pi,(pjremoved),pk,p2
                 if ( prevnode!=null ) prevnode.addCircleEvent(eventqueue);

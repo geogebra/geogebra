@@ -24,7 +24,7 @@ import javax.swing.JTable;
  *
  */
 public class MyCellEditorList extends DefaultCellEditor implements ActionListener{
-
+	private static final long serialVersionUID = 1L;
 	private GeoList editGeo;
 	private JComboBox comboBox;	
 	private DefaultComboBoxModel model;
@@ -88,7 +88,7 @@ public class MyCellEditorList extends DefaultCellEditor implements ActionListene
 	 * Custom cell renderer that displays GeoElement descriptions.
 	 */
 	static private class MyListCellRenderer extends DefaultListCellRenderer {
-		
+		private static final long serialVersionUID = 1L;
 		@Override
 		public Component getListCellRendererComponent(JList list, Object value,
 				int index, boolean isSelected, boolean hasFocus) {

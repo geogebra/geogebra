@@ -400,7 +400,6 @@ class OptionsMenu extends BaseMenu implements ActionListener {
 			} catch (Exception e) {
 				app.showError(e.toString());
 			}
-			;
 		}
 
 		// decimal places

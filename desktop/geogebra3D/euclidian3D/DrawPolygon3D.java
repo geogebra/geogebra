@@ -70,7 +70,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	}
 	
 	
-	public void drawGeometryHidden(Renderer renderer){};
+	public void drawGeometryHidden(Renderer renderer){}
 	
 	
 	

@@ -145,7 +145,7 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 
 	public Coords getMainDirection() {
 		return coordSys.getNormal();
-	};
+	}
 
 	// ///////////////////////////////////////
 	// GeoConicND

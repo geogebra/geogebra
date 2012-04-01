@@ -35,7 +35,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 public class StatTable extends JScrollPane {
-
+	private static final long serialVersionUID = 1L;
 	private MyTable myTable;
 	private MyRowHeader rowHeader;
 	boolean isRowHeaderPainted = true;
@@ -104,6 +104,7 @@ public class StatTable extends JScrollPane {
 	}
 
 	private static class Corner extends JPanel {
+		private static final long serialVersionUID = 1L;
 		protected void paintComponent(Graphics g) {
 			g.setColor(TABLE_HEADER_COLOR);
 			g.fillRect(0, 0, getWidth(), getHeight());
@@ -353,7 +354,7 @@ public class StatTable extends JScrollPane {
 	//======================================================
 
 	private static class MyCellRenderer extends DefaultTableCellRenderer {
-
+		private static final long serialVersionUID = 1L;
 		public MyCellRenderer(){
 			// cell padding
 			setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
@@ -382,7 +383,7 @@ public class StatTable extends JScrollPane {
 	//======================================================
 
 	public class MyRowHeader extends JList  {
-
+		private static final long serialVersionUID = 1L;
 		JTable table;
 
 
@@ -394,7 +395,7 @@ public class StatTable extends JScrollPane {
 		}
 
 		class RowHeaderRenderer extends JLabel implements ListCellRenderer {
-
+			private static final long serialVersionUID = 1L;
 			public RowHeaderRenderer(JTable table) {  
 
 				if(isRowHeaderPainted)
@@ -437,6 +438,7 @@ public class StatTable extends JScrollPane {
 	//======================================================
 
 	public class MyComboBoxRenderer extends JPanel implements TableCellRenderer {
+		private static final long serialVersionUID = 1L;
 		JComboBox comboBox;
 		JLabel label;
 		public MyComboBoxRenderer(String text, String[] items) {
@@ -469,6 +471,7 @@ public class StatTable extends JScrollPane {
 	//======================================================
 
 	public class MyComboBoxEditor extends DefaultCellEditor implements ItemListener {
+		private static final long serialVersionUID = 1L;
 		JComboBox comboBox;
 		JLabel label;
 		int row, column;
@@ -515,7 +518,7 @@ public class StatTable extends JScrollPane {
 	//        MyTable
 	//======================================================
 	public  class MyTable extends JTable{
-
+		private static final long serialVersionUID = 1L;
 		// disable cell editing
 		@Override
 		public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -564,7 +567,7 @@ public class StatTable extends JScrollPane {
 			else
 				return super.getCellRenderer(row, column);
 		}
-	};
+	}
 
 
 

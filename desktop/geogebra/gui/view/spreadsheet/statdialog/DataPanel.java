@@ -49,7 +49,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
 public class DataPanel extends JPanel implements ActionListener, StatPanelInterface  {
-
+	private static final long serialVersionUID = 1L;
 
 	private Application app;
 	private StatDialog statDialog;
@@ -94,6 +94,7 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 	private void buildDataTable()
 	{	
 		dataTable = new JTable(){
+			private static final long serialVersionUID = 1L;
 			// disable cell edits (for now)
 			@Override
 			public boolean isCellEditable(int rowIndex, int vColIndex) { 
@@ -310,7 +311,7 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 
 
 	private class Corner extends JPanel {
-
+		private static final long serialVersionUID = 1L;
 		@Override
 		protected void paintComponent(Graphics g) {
 			g.setColor(TABLE_HEADER_COLOR);
@@ -384,8 +385,9 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 	//=================================================
 
 
-	protected class MyColumnHeaderRenderer extends JLabel implements TableCellRenderer  
+	protected class MyColumnHeaderRenderer extends JLabel implements TableCellRenderer
 	{
+		private static final long serialVersionUID = 1L;
 		public MyColumnHeaderRenderer() {    		
 			super("", SwingConstants.CENTER);
 			setOpaque(true);
@@ -410,6 +412,7 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 	//======================================================
 
 	class MyCellRenderer extends DefaultTableCellRenderer {
+		private static final long serialVersionUID = 1L;
 
 		public MyCellRenderer(){
 			setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));	
@@ -450,6 +453,7 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 
 
 	public class MyRowHeader extends JList implements MouseListener{
+		private static final long serialVersionUID = 1L;
 
 		//DefaultListModel model;
 		JTable table;
@@ -468,7 +472,7 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 
 
 		class RowHeaderRenderer extends JLabel implements ListCellRenderer {
-
+			private static final long serialVersionUID = 1L;
 			private ImageIcon iconChecked, iconUnChecked;
 
 			RowHeaderRenderer(JTable table) {

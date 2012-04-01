@@ -207,7 +207,7 @@ public abstract class GeoElement3D extends GeoElement implements
 	}
 	
 	//TODO remove this
-	public Coords getMainDirection(){ return null;};
+	public Coords getMainDirection(){ return null;}
 
 
 	////////////////////////////

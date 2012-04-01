@@ -13,7 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 
 public class InputDialogRegularPolygon extends InputDialog{
-	
+	private static final long serialVersionUID = 1L;
 	private GeoPoint2 geoPoint1, geoPoint2;
 
 	private Kernel kernel;

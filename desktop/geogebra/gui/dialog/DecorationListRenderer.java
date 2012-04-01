@@ -13,11 +13,12 @@ import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
 /**
- * @author Le Coq Lo�c 30/10/2006 This class defines the renderer for the
+ * @author Le Coq Loic 30/10/2006 This class defines the renderer for the
  *         ComboBox where the user chooses the decoration for GeoSegment
  * 
  */
 public class DecorationListRenderer extends JPanel implements ListCellRenderer {
+	private static final long serialVersionUID = 1L;
 	int id = 0;
 
 	public DecorationListRenderer() {

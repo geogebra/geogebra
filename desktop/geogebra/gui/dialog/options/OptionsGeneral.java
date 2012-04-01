@@ -142,6 +142,7 @@ public class OptionsGeneral extends JPanel implements SetLabels {
 	 */
 	private class SwatchCheckBox extends JCheckBox
 	{
+		private static final long serialVersionUID = 1L;
 		private Color color;
 		
 		public SwatchCheckBox(Color color) {
@@ -158,7 +159,7 @@ public class OptionsGeneral extends JPanel implements SetLabels {
 	private class SwatchCheckBoxUI extends BasicCheckBoxUI
 	{
 		@Override
-		public void paint(Graphics g, JComponent c)
+		public synchronized void paint(Graphics g, JComponent c)
 		{
 			SwatchCheckBox b = (SwatchCheckBox)c;
 			

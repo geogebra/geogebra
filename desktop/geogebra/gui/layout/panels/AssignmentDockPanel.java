@@ -11,7 +11,7 @@ import javax.swing.JComponent;
  *
  */
 public class AssignmentDockPanel extends DockPanel {
-
+	private static final long serialVersionUID = 1L;
 	public AssignmentDockPanel(Application app) {
 		super(
 			AbstractApplication.VIEW_ASSIGNMENT, 	// view id

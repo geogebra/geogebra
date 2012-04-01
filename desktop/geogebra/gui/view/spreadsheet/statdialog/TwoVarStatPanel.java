@@ -34,7 +34,7 @@ import org.apache.commons.math.stat.descriptive.SummaryStatistics;
  * 
  */
 public class TwoVarStatPanel extends StatTable implements  ActionListener {
-
+	private static final long serialVersionUID = 1L;
 	protected Application app;
 	private Kernel kernel; 
 	protected StatDialog statDialog;

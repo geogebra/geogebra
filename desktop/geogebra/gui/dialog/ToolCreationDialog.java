@@ -61,7 +61,7 @@ import javax.swing.event.ListDataListener;
  */
 public class ToolCreationDialog extends javax.swing.JDialog implements
 		GeoElementSelectionListener {
-
+	private static final long serialVersionUID = 1L;
 	private Application app;
 	private JTabbedPane tabbedPane;
 	private ToolNameIconPanel namePanel;
@@ -112,7 +112,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 	}
 
 	private class OutputListModel extends DefaultListModel {
-
+		private static final long serialVersionUID = 1L;
 		private DefaultComboBoxModel cbOutputAddList;
 
 		public OutputListModel(DefaultComboBoxModel cbOutputAddList) {
@@ -152,7 +152,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 	}
 
 	private class InputListModel extends DefaultListModel {
-
+		private static final long serialVersionUID = 1L;
 		private DefaultComboBoxModel cbInputAddList;
 
 		public InputListModel(DefaultComboBoxModel cbInputAddList) {
@@ -349,6 +349,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 		// input and output objects combobox
 		cbOutputAddList = new DefaultComboBoxModel();
 		cbInputAddList = new DefaultComboBoxModel() {
+			private static final long serialVersionUID = 1L;
 			@Override
 			public void removeElement(Object geo) {
 				super.removeElement(geo);
@@ -741,6 +742,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 }
 
 class MyCellRenderer extends DefaultListCellRenderer {
+	private static final long serialVersionUID = 1L;
 	/*
 	 * This is the only method defined by ListCellRenderer. We just reconfigure
 	 * the Jlabel each time we're called.

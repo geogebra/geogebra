@@ -124,6 +124,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 		//========================================
 		// rotate view button
 		btnRotateView = new PopupMenuButton(app, null, -1, -1, null, -1,  false,  true){
+			private static final long serialVersionUID = 1L;
 			@Override
 			public void update(Object[] geos) {
 				this.setVisible(geos.length == 0 && mode != EuclidianConstants.MODE_PEN);	  
@@ -151,6 +152,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 		//========================================
 		// view perspective button	
 		btnViewDefault = new MyToggleButton(app.getImageIcon("view_default.gif"), iconHeight) {
+			private static final long serialVersionUID = 1L;
 		      @Override
 			public void update(Object[] geos) {
 				this.setVisible(geos.length == 0  && mode != EuclidianConstants.MODE_PEN);	  
@@ -163,6 +165,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 		//========================================
 		// view xy button	
 		btnViewXY = new MyToggleButton(app.getImageIcon("view_xy.gif"), iconHeight) {
+			private static final long serialVersionUID = 1L;
 		      @Override
 			public void update(Object[] geos) {
 				this.setVisible(geos.length == 0  && mode != EuclidianConstants.MODE_PEN);	  
@@ -174,6 +177,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 		//========================================
 		// view xz button	
 		btnViewXZ = new MyToggleButton(app.getImageIcon("view_xz.gif"), iconHeight) {
+			private static final long serialVersionUID = 1L;
 		      @Override
 			public void update(Object[] geos) {
 				this.setVisible(geos.length == 0  && mode != EuclidianConstants.MODE_PEN);	  
@@ -185,6 +189,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 		//========================================
 		// view yz button	
 		btnViewYZ = new MyToggleButton(app.getImageIcon("view_yz.gif"), iconHeight) {
+			private static final long serialVersionUID = 1L;
 		      @Override
 			public void update(Object[] geos) {
 				this.setVisible(geos.length == 0  && mode != EuclidianConstants.MODE_PEN);	  
@@ -204,7 +209,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 	}	
 	
 	private class ProjectionPopup extends PopupMenuButton implements ActionListener{
-		
+		private static final long serialVersionUID = 1L;
 		public ProjectionPopup(Application app, ImageIcon[] projectionIcons){
 			super(app, projectionIcons, 1, projectionIcons.length, new Dimension(16, 16), SelectionTable.MODE_ICON, true, false);
 			addActionListener(this);

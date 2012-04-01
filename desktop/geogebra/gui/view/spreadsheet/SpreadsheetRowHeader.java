@@ -34,7 +34,7 @@ public class SpreadsheetRowHeader extends JList
 implements MouseListener, MouseMotionListener, KeyListener, ListSelectionListener
 
 {
-
+	private static final long serialVersionUID = 1L;
 	private Application app;
 	private SpreadsheetView view;
 	private MyTable table;

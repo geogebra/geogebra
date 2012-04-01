@@ -8,7 +8,7 @@ import java.awt.Color;
 
 
 public class OptionsDialog3D extends OptionsDialog {
-	
+	private static final long serialVersionUID = 1L;
 	private OptionsEuclidian3D euclidianPanel3D;
 
 	public OptionsDialog3D(Application app) {

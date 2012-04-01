@@ -26,7 +26,7 @@ import javax.swing.SwingUtilities;
  * The "View" menu.
  */
 class ViewMenu extends BaseMenu {
-
+	private static final long serialVersionUID = 1L;
 	private final Layout layout;
 
 	private AbstractAction showAlgebraInputAction,

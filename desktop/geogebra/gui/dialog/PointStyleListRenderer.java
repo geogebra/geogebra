@@ -25,7 +25,7 @@ import javax.swing.ListCellRenderer;
  */
 
 public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
-
+	private static final long serialVersionUID = 1L;
 	private int pointStyle = -1;
 
 	// for drawing

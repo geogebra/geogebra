@@ -67,7 +67,7 @@ import javax.swing.tree.TreePath;
  * 
  */
 public class FileBrowserPanel extends JPanel implements ActionListener, TreeSelectionListener, TreeExpansionListener {
-
+	private static final long serialVersionUID = 1L;
 	// components
 	private SpreadsheetView view;
 	private Application app;
@@ -204,7 +204,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 	//=============================================
 
 	private class ContextMenu extends JPopupMenu{
-
+		private static final long serialVersionUID = 1L;
 		JMenuItem menuItem;
 
 		public  ContextMenu(){
@@ -238,7 +238,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 	//=============================================
 
 	private class FileBrowserMenu extends JPopupMenu{
-
+		private static final long serialVersionUID = 1L;
 		JMenuItem menuItem;
 
 		public  FileBrowserMenu(){
@@ -481,7 +481,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 			}
 		}
 
-	};
+	}
 
 
 
@@ -523,7 +523,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 	// =============================================
 
 	private class MyRenderer extends DefaultTreeCellRenderer {
-
+		private static final long serialVersionUID = 1L;
 		public MyRenderer() { }
 
 		public Component getTreeCellRendererComponent(JTree tree, Object value,

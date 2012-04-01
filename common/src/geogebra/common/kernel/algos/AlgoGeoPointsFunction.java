@@ -71,8 +71,6 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement{
             GeoFunction f) {
         	super(cons);
         	this.f=f;
-        	
-        	new GeoPoint2(cons);
             
             //  make sure root points is not null
             int number = 1;

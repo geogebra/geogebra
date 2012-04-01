@@ -13,7 +13,7 @@ import geogebra3D.Application3D;
  *
  */
 public class ContextMenuGraphicsWindow3D extends ContextMenuGraphicsWindow {
-
+	private static final long serialVersionUID = 1L;
 	/** default constructor
 	 * @param app
 	 * @param px

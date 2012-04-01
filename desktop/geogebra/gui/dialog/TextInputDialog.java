@@ -844,7 +844,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 			try {
 				GeoText newText = (GeoText) kernel.getAlgebraProcessor()
 						.changeGeoElement(editGeo, inputValue, true, true);
-
+				
 				// make sure newText is using correct LaTeX setting
 				newText.setLaTeX(isLaTeX, true);
 				if(newText.getParentAlgorithm()!=null)
@@ -853,7 +853,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 					newText.updateRepaint();
 
 				app.doAfterRedefine(newText);
-				return newText != null;
+				return true;
 			} catch (Exception e) {
 				app.showError("ReplaceFailed");
 				return false;

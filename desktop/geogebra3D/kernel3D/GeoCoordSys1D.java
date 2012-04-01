@@ -195,7 +195,7 @@ Translateable{
 	
 	public Coords getMainDirection(){ 
 		return getCoordSys().getMatrixOrthonormal().getVx();
-	};
+	}
 
 	
 	

@@ -336,7 +336,7 @@ public class RestrictedFileSystemView extends FileSystemView {
 			if (psf != null) {
 				if (isFileSystem(psf)) {
 					File f = psf;
-					if (f != null && !f.exists()) {
+					if (!f.exists()) {
 						// This could be a node under "Network Neighborhood".
 						File ppsf = psf.getParentFile();
 						if (ppsf == null || !isFileSystem(ppsf)) {

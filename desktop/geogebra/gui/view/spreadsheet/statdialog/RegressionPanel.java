@@ -30,7 +30,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 public class RegressionPanel extends JPanel implements  ActionListener, StatPanelInterface{
-
+	private static final long serialVersionUID = 1L;
 
 	private Application app;
 	private StatDialog statDialog;
