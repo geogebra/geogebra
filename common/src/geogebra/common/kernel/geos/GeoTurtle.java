@@ -49,7 +49,7 @@ public class GeoTurtle extends GeoElement {
 	private double turnAngle = 0d;
 	private double sinAngle = 0d;
 	private double cosAngle = 1d;
-	private int turtleImageIndex = 0;
+	private int turtleImageIndex = 1;
 
 	private int nCompletedCommands = 0;
 	private double currentCommandProgress = 0d;
@@ -81,9 +81,6 @@ public class GeoTurtle extends GeoElement {
 		// this.turn(turnAngle);
 
 		turtleImageList = new ArrayList<BufferedImage>();
-		
-		//String imagePath = "geogebra/gui/images/";
-		//turtleImageList.add(app.getInternalImageAdapter(imagePath + "go-next.png"));
 		
 
 	}
@@ -211,6 +208,7 @@ public class GeoTurtle extends GeoElement {
 	}
 
 	public void setTurtle(int index) {
+		index = index % 4;
 		this.turtleImageIndex = index;
 	}
 

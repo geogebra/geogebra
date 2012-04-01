@@ -1,20 +1,25 @@
 package geogebra.gui.layout;
 
+
 import geogebra.common.kernel.algos.AlgoTurtle;
 import geogebra.common.kernel.geos.GeoTurtle;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.gui.dialog.TurtleDriverPanel;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -22,6 +27,8 @@ import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
@@ -410,15 +417,39 @@ public class DockBar extends JPanel implements ActionListener {
 	// Turtle demo code
 	//
 	// =============================================================
-
+	
+	
+	
+	public class MyDialog extends JDialog{
+		public MyDialog(TurtleDriverPanel turtlePanel){
+			super(app.getFrame(), "Turtle Driver", false);
+			getContentPane().add(turtlePanel, "Center");
+			setSize(300, 300);
+			pack();
+		};
+	}
+	
 	private void createTurtle(int demo) {
 
 		AlgoTurtle algo = new AlgoTurtle(app.getKernel().getConstruction(),
 				null);
 		GeoTurtle geo = algo.getTurtle();
-
 		geo.setEuclidianVisible(true);
 
+		TurtleDriverPanel turtlePanel = new TurtleDriverPanel(geo);
+		
+		MyDialog dlg = new MyDialog(turtlePanel);
+		dlg.setVisible(true);
+
+		
+		
+		/*
+		geo.turn(45);
+		geo.forward(2);
+		geo.turn(20);
+		geo.update();
+		
+		demo = 3;
 		if (demo == 1) {
 			geo.setPenColor(geogebra.awt.Color.green);
 			randomWalk(geo);
@@ -434,8 +465,19 @@ public class DockBar extends JPanel implements ActionListener {
 			drawDragonCurves(geo);
 			geo.update();
 		}
+		*/
 
 	}
+	
+	public static BufferedImage imageToBufferedImage(Image im) {
+	     BufferedImage bi = new BufferedImage
+	        (im.getWidth(null),im.getHeight(null),BufferedImage.TYPE_INT_RGB);
+	     Graphics bg = bi.getGraphics();
+	     bg.drawImage(im, 0, 0, null);
+	     bg.dispose();
+	     return bi;
+	  }
+
 
 	private void randomWalk(GeoTurtle t) {
 		t.setPenDown(false);
