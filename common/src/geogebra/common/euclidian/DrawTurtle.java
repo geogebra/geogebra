@@ -205,7 +205,7 @@ public class DrawTurtle extends Drawable {
 	@Override
 	final public void draw(geogebra.common.awt.Graphics2D g2) {
 
-		System.out.println("TURTLE isVisible: " + isVisible);
+		//System.out.println("TURTLE isVisible: " + isVisible);
 
 		if (isVisible) {
 
@@ -399,8 +399,8 @@ public class DrawTurtle extends Drawable {
 		case 3:
 
 			// draw turtle body
+			ellipse.setFrame(-r, -r, 2 * r, 2 * r);
 			g2.setColor(Color.green);
-
 			g2.fill(ellipse);
 
 			g2.setColor(Color.black);
