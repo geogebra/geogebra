@@ -18,6 +18,7 @@ import geogebra.common.awt.Rectangle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTurtle;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.util.Cloner;
 
 import java.util.ArrayList;
 
@@ -45,8 +46,8 @@ public class DrawTurtle extends Drawable {
 	private double[] currentCoords;
 
 	/**
-	 * @param view
-	 * @param turtle
+	 * @param view view
+	 * @param turtle turtle
 	 */
 	public DrawTurtle(AbstractEuclidianView view, GeoTurtle turtle) {
 		this.view = view;
@@ -83,7 +84,7 @@ public class DrawTurtle extends Drawable {
 			GeoPointND startPoint = turtle.getStartPoint();
 			startPoint.getInhomCoords(coords);
 			view.toScreenCoords(coords);
-			currentCoords = coords.clone();
+			currentCoords = Cloner.clone(coords);
 			turnAngle = 0d;
 
 			int ncommands = turtle.getTurtleCommandList().size();
@@ -251,8 +252,8 @@ public class DrawTurtle extends Drawable {
 	@Override
 	final public boolean hit(int x, int y) {
 		if (isVisible) {
-			for (GeneralPathClipped path : gpList) {
-				if (path.intersects(x - hitThreshold, y - hitThreshold,
+			for (GeneralPathClipped gp : gpList) {
+				if (gp.intersects(x - hitThreshold, y - hitThreshold,
 						2 * hitThreshold, 2 * hitThreshold)) {
 					return true;
 				}
@@ -287,8 +288,8 @@ public class DrawTurtle extends Drawable {
 		}
 
 		boundRect = turtleImageBounds;
-		for (GeneralPathClipped path : gpList) {
-			boundRect = boundRect.union(path.getBounds());
+		for (GeneralPathClipped gp : gpList) {
+			boundRect = boundRect.union(gp.getBounds());
 		}
 
 		return boundRect;
