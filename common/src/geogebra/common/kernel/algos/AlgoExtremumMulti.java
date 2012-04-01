@@ -21,7 +21,6 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.main.AbstractApplication;
-//import geogebra.main.Application;
 
 import java.util.ArrayList;
 

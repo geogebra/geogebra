@@ -1,5 +1,6 @@
 package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.geos.GeoElement;
@@ -7,7 +8,6 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.Kernel;
 /**
  * TriangleCurve[Point,Point,Point,Equation in A,B,C]
  * @author Zbynek

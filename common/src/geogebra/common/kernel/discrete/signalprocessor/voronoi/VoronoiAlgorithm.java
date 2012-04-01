@@ -8,7 +8,6 @@ import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.A
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.VLinkedNode;
 import geogebra.common.main.AbstractApplication;
 
-//import java.awt.Graphics2D;
 import java.util.Collection;
 
 public class VoronoiAlgorithm {

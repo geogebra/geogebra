@@ -20,6 +20,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -30,9 +31,8 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.AlgoIntegralDefiniteInterface;
-import geogebra.common.util.StringUtil;
-import geogebra.common.kernel.AbstractAnimationManager;
 import geogebra.common.plugin.GeoClass;
+import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Comparator;

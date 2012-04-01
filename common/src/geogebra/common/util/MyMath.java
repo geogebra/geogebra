@@ -15,7 +15,6 @@ package geogebra.common.util;
 //import geogebra.AbstracKernel.AbstracKernel;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.main.AbstractApplication;
 
 import java.math.BigDecimal;
 

@@ -11,10 +11,10 @@
  */
 package edu.uci.ics.jung.algorithms.scoring;
 
+import org.apache.commons.collections15.Transformer;
+
 import edu.uci.ics.jung.algorithms.scoring.util.ScoringUtils;
 import edu.uci.ics.jung.graph.Graph;
-
-import org.apache.commons.collections15.Transformer;
 
 /**
  * Assigns hub and authority scores to each vertex depending on the topology of

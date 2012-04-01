@@ -22,15 +22,14 @@ import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.Line2D;
 import geogebra.common.euclidian.clipping.ClipLine;
 import geogebra.common.factories.AwtFactory;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ConstructionDefaults;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.util.MyMath;
-
 
 import java.util.ArrayList;
 

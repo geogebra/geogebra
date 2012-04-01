@@ -11,14 +11,14 @@ the Free Software Foundation.
  */
 package geogebra.common.kernel;
 
-import geogebra.common.util.MaxSizeHashMap;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.MyError;
 import geogebra.common.main.AbstractApplication.CasType;
+import geogebra.common.main.MyError;
+import geogebra.common.util.MaxSizeHashMap;
 
 import java.util.LinkedHashMap;
 

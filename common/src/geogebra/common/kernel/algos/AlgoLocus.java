@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
+import geogebra.common.awt.Point2D;
+import geogebra.common.awt.Rectangle2D;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -26,8 +28,6 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.AbstractApplication;
 
-import geogebra.common.awt.Point2D;
-import geogebra.common.awt.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;

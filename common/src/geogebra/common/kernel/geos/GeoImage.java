@@ -14,8 +14,9 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.awt.BufferedImage;
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.Construction;
+import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.StringTemplate;
@@ -24,7 +25,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
-import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 
 import java.util.ArrayList;
 import java.util.Vector;

@@ -1,10 +1,10 @@
 package geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.binarysearchtreeimpl;
 
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.VoronoiShared;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.eventqueue.EventQueue;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.eventqueue.VSiteEvent;
-import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.VLinkedNode;
-import geogebra.common.kernel.discrete.signalprocessor.voronoi.VoronoiShared;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.AbstractStatusStructure;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.VLinkedNode;
 
 public class BSTStatusStructure extends AbstractStatusStructure {
     

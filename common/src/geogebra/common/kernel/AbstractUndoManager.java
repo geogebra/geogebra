@@ -1,9 +1,9 @@
 package geogebra.common.kernel;
 
+import geogebra.common.main.AbstractApplication;
+
 import java.util.LinkedList;
 import java.util.ListIterator;
-
-import geogebra.common.main.AbstractApplication;
 
 /**
  * Undo manager common to Desktop and Web

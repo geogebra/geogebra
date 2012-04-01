@@ -4,7 +4,6 @@ import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-
 import java.util.ArrayList;
 
 

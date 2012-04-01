@@ -22,12 +22,12 @@
 package geogebra.common.euclidian.clipping;
 
 
-import geogebra.common.awt.Graphics2D;
-import geogebra.common.awt.Shape;
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.GeneralPath;
+import geogebra.common.awt.Graphics2D;
 import geogebra.common.awt.PathIterator;
 import geogebra.common.awt.Rectangle2D;
+import geogebra.common.awt.Shape;
 import geogebra.common.factories.AwtFactory;
 
 import java.util.Arrays;

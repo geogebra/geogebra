@@ -11,12 +11,12 @@ package geogebra.common.kernel.commands;
  the Free Software Foundation.
 
  */
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.Kernel;
 
 /**
  * ResidualPlot[<List of Points>,<Funtion>]

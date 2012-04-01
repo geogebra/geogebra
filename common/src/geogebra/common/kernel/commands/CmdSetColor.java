@@ -1,5 +1,6 @@
 package geogebra.common.kernel.commands;
 
+import geogebra.common.awt.Color;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
@@ -9,8 +10,6 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.MyError;
 import geogebra.common.util.StringUtil;
-
-import geogebra.common.awt.Color;
 
 /**
  *SetColor

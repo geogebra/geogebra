@@ -28,7 +28,6 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
-import geogebra.common.euclidian.EuclidianStatic;
 
 import java.util.ArrayList;
 

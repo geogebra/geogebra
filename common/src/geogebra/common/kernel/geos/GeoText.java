@@ -11,25 +11,25 @@ the Free Software Foundation.
  */
 package geogebra.common.kernel.geos;
 
+import geogebra.common.awt.Font;
+import geogebra.common.awt.Rectangle2D;
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoDependentText;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoSequence;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.arithmetic.TextValue;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
-import geogebra.common.kernel.algos.AlgoDependentText;
 
-import geogebra.common.awt.Font;
-import geogebra.common.awt.Rectangle2D;
 import java.util.Comparator;
 
 /**

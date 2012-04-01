@@ -10,7 +10,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.Operation;
-//import geogebra.euclidian.DrawImplicitPoly;
 
 import java.util.TreeSet;
 

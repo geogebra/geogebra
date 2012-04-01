@@ -1,12 +1,12 @@
 package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.Kernel;
 
 /**
  * CurvatureVector[<Point>,<Curve>], CurvatureVector[<Point>,<Function>]

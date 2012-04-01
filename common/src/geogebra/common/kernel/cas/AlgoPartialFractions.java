@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.cas;
 
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.Algos;

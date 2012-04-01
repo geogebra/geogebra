@@ -1,6 +1,5 @@
 package geogebra.common.awt;
 
-import geogebra.common.awt.Rectangle;
 
 public interface Rectangle2D extends RectangularShape{
 

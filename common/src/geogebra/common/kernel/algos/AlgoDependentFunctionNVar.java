@@ -16,7 +16,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
-//import geogebra.main.Application;
 import geogebra.common.main.AbstractApplication;
 
 /**

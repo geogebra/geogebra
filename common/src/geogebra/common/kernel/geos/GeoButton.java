@@ -12,12 +12,11 @@
 
 package geogebra.common.kernel.geos;
 
+import geogebra.common.awt.Font;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.plugin.GeoClass;
-
-import geogebra.common.awt.Font;
 
 
 /**

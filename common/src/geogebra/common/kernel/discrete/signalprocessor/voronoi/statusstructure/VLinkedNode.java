@@ -1,10 +1,10 @@
 package geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure;
 
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
+import geogebra.common.kernel.discrete.signalprocessor.voronoi.VoronoiShared;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.eventqueue.EventQueue;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.eventqueue.VCircleEvent;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.eventqueue.VSiteEvent;
-import geogebra.common.kernel.discrete.signalprocessor.voronoi.VoronoiShared;
 
 import java.util.ArrayList;
 

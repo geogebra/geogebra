@@ -1,13 +1,13 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.Kernel;
 
 /**
  * Sequence[ <expression>, <number-var>, <from>, <to> ] Sequence[ <expression>,

@@ -16,11 +16,11 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
+import geogebra.common.kernel.PathMoverLocus;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.PathMoverLocus;
 import geogebra.common.kernel.algos.AlgoLocusSliderInterface;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.plugin.GeoClass;
 
 import java.util.ArrayList;

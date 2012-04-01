@@ -14,6 +14,8 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
+import geogebra.common.awt.Area;
+import geogebra.common.awt.PathIterator;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.kernel.Construction;
@@ -25,9 +27,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.util.Cloner;
 
-
-import geogebra.common.awt.Area;
-import geogebra.common.awt.PathIterator;
 import java.util.ArrayList;
 
 /**

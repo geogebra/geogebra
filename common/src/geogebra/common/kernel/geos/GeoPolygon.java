@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
+import geogebra.common.awt.Color;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
@@ -26,19 +27,17 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
-import geogebra.common.util.MyMath;
-import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.plugin.GeoClass;
-import geogebra.common.awt.Color;
+import geogebra.common.util.MyMath;
 
 import java.util.ArrayList;
 import java.util.HashSet;

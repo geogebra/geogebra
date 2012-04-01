@@ -11,12 +11,6 @@
  */
 package edu.uci.ics.jung.algorithms.cluster;
 
-import edu.uci.ics.jung.algorithms.scoring.VoltageScorer;
-import edu.uci.ics.jung.algorithms.util.DiscreteDistribution;
-import edu.uci.ics.jung.algorithms.util.KMeansClusterer;
-import edu.uci.ics.jung.algorithms.util.KMeansClusterer.NotEnoughClustersException;
-import edu.uci.ics.jung.graph.Graph;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -29,6 +23,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+
+import edu.uci.ics.jung.algorithms.scoring.VoltageScorer;
+import edu.uci.ics.jung.algorithms.util.DiscreteDistribution;
+import edu.uci.ics.jung.algorithms.util.KMeansClusterer;
+import edu.uci.ics.jung.algorithms.util.KMeansClusterer.NotEnoughClustersException;
+import edu.uci.ics.jung.graph.Graph;
 
 /**
  * <p>Clusters vertices of a <code>Graph</code> based on their ranks as

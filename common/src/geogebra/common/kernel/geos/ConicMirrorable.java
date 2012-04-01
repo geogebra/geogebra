@@ -1,6 +1,5 @@
 package geogebra.common.kernel.geos;
 
-import geogebra.common.kernel.geos.GeoConic;
 
 
 /**

@@ -14,7 +14,6 @@ import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
-import geogebra.common.kernel.geos.GeoText;
 
 import java.util.HashSet;
 import java.util.Iterator;

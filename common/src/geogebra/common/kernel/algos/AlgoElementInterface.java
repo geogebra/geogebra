@@ -1,9 +1,9 @@
 package geogebra.common.kernel.algos;
 
-import java.util.ArrayList;
-
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
+
+import java.util.ArrayList;
 
 
 public interface AlgoElementInterface {

@@ -17,7 +17,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.Traceable;
 
-
 import java.util.ArrayList;
 
 /**

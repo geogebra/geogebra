@@ -12,11 +12,15 @@
 
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.Line2D;
+import geogebra.common.awt.Arc2D;
 import geogebra.common.awt.Ellipse2DDouble;
+import geogebra.common.awt.GeneralPath;
+import geogebra.common.awt.Line2D;
+import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.Shape;
 import geogebra.common.factories.AwtFactory;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoAngleLines;
 import geogebra.common.kernel.algos.AlgoAnglePoints;
@@ -32,11 +36,6 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.common.awt.GeneralPath;
-import geogebra.common.awt.Rectangle;
-import geogebra.common.awt.Shape;
-import geogebra.common.awt.Arc2D;
-//import java.awt.geom.Line2D;
 
 import java.util.ArrayList;
 

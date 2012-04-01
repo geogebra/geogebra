@@ -19,8 +19,6 @@
 
 package geogebra.common.io;
 
-import geogebra.common.io.DocHandler;
-
 import java.io.Reader;
 import java.util.LinkedHashMap;
 import java.util.Stack;

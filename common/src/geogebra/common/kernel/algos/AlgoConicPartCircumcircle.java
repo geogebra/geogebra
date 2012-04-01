@@ -14,15 +14,14 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.geos.GeoConic;
+import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
-import geogebra.common.kernel.geos.GeoConic;
-import geogebra.common.kernel.geos.GeoConicPart;
-import geogebra.common.main.AbstractApplication;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
-import geogebra.common.kernel.algos.AlgoCircleThreePoints;
+import geogebra.common.main.AbstractApplication;
 
 /**
  * Circle arc or sector defined by three points.

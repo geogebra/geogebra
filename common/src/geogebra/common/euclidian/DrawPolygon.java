@@ -12,9 +12,9 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian;
 
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -25,7 +25,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.MyMath;
 
-//import java.awt.Shape;
 import java.util.ArrayList;
 
 /**

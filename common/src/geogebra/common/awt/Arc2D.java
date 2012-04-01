@@ -1,6 +1,5 @@
 package geogebra.common.awt;
 
-import geogebra.common.awt.Point2D;
 /**
  * Wrapper for java.awt.geom.Arc2D compatible classes
  */

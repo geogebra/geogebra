@@ -6,7 +6,6 @@ import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.V
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.binarysearchtreeimpl.VInternalNode;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.binarysearchtreeimpl.VLeafNode;
 
-//import java.awt.Graphics2D;
 import java.util.Collection;
 
 // Note: this implementation is specifically dependant on the

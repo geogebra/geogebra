@@ -2,14 +2,14 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
-import geogebra.common.util.Unicode;
-import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
+import geogebra.common.util.Unicode;
 
 /**
  * Boolean function of the type a(<|<=)x(<|<=)b

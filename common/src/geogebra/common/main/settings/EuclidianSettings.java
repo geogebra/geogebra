@@ -1,14 +1,12 @@
 package geogebra.common.main.settings;
 
+import geogebra.common.awt.Color;
+import geogebra.common.awt.Dimension;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Unicode;
-//import geogebra.euclidian.EuclidianView;
-
-import geogebra.common.awt.Color;
-import geogebra.common.awt.Dimension;
 
 /**
  * Settings for an euclidian view. To which view these settings are associated

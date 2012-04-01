@@ -1,11 +1,11 @@
 package geogebra.common.kernel;
 
-import java.util.ArrayList;
-import java.util.TreeSet;
-
 import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.geos.GeoElement;
+
+import java.util.ArrayList;
+import java.util.TreeSet;
 
 /**
  * Updates all animated geos based on slider ticks

@@ -13,12 +13,13 @@ package geogebra.common.euclidian;
 
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.StringTemplate;
-
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.Test;
-import geogebra.common.kernel.kernelND.*;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicND.HitType;
+import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 
 import java.util.ArrayList;
 import java.util.Iterator;

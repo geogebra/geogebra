@@ -13,8 +13,8 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 //import geogebra.kernel.AlgoElement;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -24,6 +24,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.roots.RealRootAdapter;
 import geogebra.common.kernel.roots.RealRootUtil;
 import geogebra.common.main.AbstractApplication;
+
 import java.util.ArrayList;
 
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;

@@ -12,11 +12,8 @@ package geogebra.common.kernel.statistics;
 
  */
 
-import java.util.Iterator;
-import java.util.TreeSet;
-
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -30,6 +27,9 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.Operation;
+
+import java.util.Iterator;
+import java.util.TreeSet;
 
 /*******************
  * AlgoFitLogistic * *****************

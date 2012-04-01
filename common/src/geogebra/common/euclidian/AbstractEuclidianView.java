@@ -1,10 +1,5 @@
 package geogebra.common.euclidian;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.TreeSet;
-
 import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.BufferedImage;
 import geogebra.common.awt.Color;
@@ -73,6 +68,11 @@ import geogebra.common.util.MyMath;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 /**
  * View containing graphic representation of construction elements

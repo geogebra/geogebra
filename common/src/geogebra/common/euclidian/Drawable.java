@@ -18,12 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian;
 
-import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.main.AbstractApplication;
-import geogebra.common.plugin.EuclidianStyleConstants;
-
+import geogebra.common.awt.Area;
 import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Dimension;
@@ -33,7 +28,11 @@ import geogebra.common.awt.Point;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Shape;
 import geogebra.common.factories.AwtFactory;
-import geogebra.common.awt.Area;
+import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.main.AbstractApplication;
+import geogebra.common.plugin.EuclidianStyleConstants;
 
 
 /**

@@ -11,17 +11,15 @@ the Free Software Foundation.
 */
 package geogebra.common.gui;
 
-import java.util.ArrayList;
-
 import geogebra.common.awt.Point;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.dialog.DialogManager;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.main.AbstractApplication;
+
+import java.util.ArrayList;
 
 public abstract class GuiManager {
 

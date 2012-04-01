@@ -20,8 +20,8 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.awt.Color;
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
@@ -34,7 +34,6 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 
-//import java.awt.Color;
 import java.util.TreeMap;
 
 /**

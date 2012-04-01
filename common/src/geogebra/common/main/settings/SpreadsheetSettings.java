@@ -3,6 +3,7 @@ package geogebra.common.main.settings;
 
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Point;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 

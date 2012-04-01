@@ -1,13 +1,13 @@
 package geogebra.common.kernel.cas;
 
-import java.util.ArrayList;
-
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.main.AbstractApplication.CasType;
+
+import java.util.ArrayList;
 
 
 public interface GeoGebraCasInterface {

@@ -11,13 +11,13 @@ the Free Software Foundation.
 */
 package geogebra.common.io;
 
-import java.util.ArrayList;
-
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.AbstractApplication;
+
+import java.util.ArrayList;
 
 /**
  * Converts GeoGebra constructions to strings and vice versa

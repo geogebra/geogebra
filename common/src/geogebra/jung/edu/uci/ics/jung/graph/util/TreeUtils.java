@@ -11,12 +11,12 @@
  */
 package edu.uci.ics.jung.graph.util;
 
-import edu.uci.ics.jung.graph.Forest;
-import edu.uci.ics.jung.graph.Tree;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import edu.uci.ics.jung.graph.Forest;
+import edu.uci.ics.jung.graph.Tree;
 
 /**
  * Contains static methods for operating on instances of <code>Tree</code>.

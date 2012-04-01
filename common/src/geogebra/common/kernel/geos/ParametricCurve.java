@@ -14,7 +14,6 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.roots.RealRootFunction;
-//import geogebra.kernel.geos.GeoVec2D;
 
 /**
  * Curve in parametric form (f(t),g(t))

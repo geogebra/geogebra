@@ -1,10 +1,10 @@
 package geogebra.common.euclidian;
 
-import java.util.List;
 import geogebra.common.awt.Point;
-
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.geos.GeoImage;
+
+import java.util.List;
 /**
  * Pen for free drawing in EV
  */

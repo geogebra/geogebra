@@ -14,7 +14,18 @@ package geogebra.common.kernel.geos;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
-import geogebra.common.kernel.kernelND.*;
+import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoCoordSys1DInterface;
+import geogebra.common.kernel.kernelND.GeoCoordSys2D;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
+import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoPolygon3DInterface;
+import geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
+import geogebra.common.kernel.kernelND.GeoQuadricND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
+import geogebra.common.kernel.kernelND.Region3D;
 import geogebra.common.main.AbstractApplication;
 
 

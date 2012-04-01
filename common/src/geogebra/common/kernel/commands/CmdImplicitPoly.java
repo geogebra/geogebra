@@ -1,7 +1,7 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;

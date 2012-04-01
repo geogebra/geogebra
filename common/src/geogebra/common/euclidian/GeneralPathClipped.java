@@ -5,7 +5,6 @@ import geogebra.common.euclidian.clipping.ClipLine;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.MyPoint;
 
-//import java.awt.Shape;
 import java.util.ArrayList;
 
 /**

@@ -22,7 +22,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 
-
 import java.util.HashSet;
 
 /**

@@ -28,8 +28,8 @@ import geogebra.common.awt.RectangularShape;
 import geogebra.common.awt.Shape;
 import geogebra.common.euclidian.clipping.ClipShape;
 import geogebra.common.factories.AwtFactory;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
@@ -49,9 +49,6 @@ import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 
-//import java.awt.Rectangle;
-//import java.awt.geom.Area;
-//import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
 /**

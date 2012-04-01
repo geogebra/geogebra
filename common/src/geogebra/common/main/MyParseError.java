@@ -18,7 +18,6 @@ the Free Software Foundation.
 
 package geogebra.common.main;
 
-import geogebra.common.main.AbstractApplication;
 
 /**
  *

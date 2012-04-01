@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
@@ -28,7 +29,9 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoAsymptoteInterface;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.TangentAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -37,12 +40,9 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.util.MyMath;
-import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.algos.TangentAlgo;
-import geogebra.common.kernel.algos.AlgoAsymptoteInterface;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
+import geogebra.common.util.MyMath;
 
 import java.util.ArrayList;
 

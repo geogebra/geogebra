@@ -1,12 +1,12 @@
 package geogebra.common.main;
 
-import java.util.ArrayList;
-import java.util.TreeSet;
-
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+
+import java.util.ArrayList;
+import java.util.TreeSet;
 
 /**
  * Handles keyboard events. This class only dispatches

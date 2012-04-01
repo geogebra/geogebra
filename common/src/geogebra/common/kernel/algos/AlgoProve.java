@@ -16,7 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.prover.*;
+import geogebra.common.kernel.prover.Prover;
 import geogebra.common.kernel.prover.Prover.ProverEngine;
 
 /**

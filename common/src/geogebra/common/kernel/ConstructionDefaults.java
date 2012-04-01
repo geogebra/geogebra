@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.awt.Color;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoConic;
@@ -34,7 +35,6 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.plugin.EuclidianStyleConstants;
 
-import geogebra.common.awt.Color;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;

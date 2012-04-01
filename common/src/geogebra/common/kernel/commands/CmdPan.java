@@ -1,12 +1,12 @@
 package geogebra.common.kernel.commands;
 
+import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra.common.euclidian.AbstractEuclidianController;
-import geogebra.common.kernel.Kernel;
 
 /**
  *Pan

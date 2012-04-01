@@ -28,17 +28,17 @@ import geogebra.common.kernel.TransformMirror;
 import geogebra.common.kernel.Matrix.CoordNearest;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
-import geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
-import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.kernelND.GeoConicNDConstants;
-import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.algos.AlgoConicPartCircle;
+import geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
 import geogebra.common.kernel.algos.AlgoConicPartConicParameters;
 import geogebra.common.kernel.algos.AlgoConicPartConicPoints;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoSemicircle;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.integration.EllipticArcLength;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.plugin.GeoClass;
 
 /**

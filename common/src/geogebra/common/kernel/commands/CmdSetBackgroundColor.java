@@ -1,8 +1,8 @@
 package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.main.MyError;
-import geogebra.common.kernel.Kernel;
 /**
  * SetBackgroundColor[Object,Color]
  *

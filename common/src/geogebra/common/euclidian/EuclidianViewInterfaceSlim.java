@@ -1,15 +1,15 @@
 package geogebra.common.euclidian;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import geogebra.common.awt.Rectangle;
 import geogebra.common.kernel.LayerView;
+import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.algos.AlgoElementInterface;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Minimal interface for Euclidian view

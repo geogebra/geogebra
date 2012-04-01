@@ -20,9 +20,9 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
+import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;

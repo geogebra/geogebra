@@ -18,15 +18,14 @@ import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Transform;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
 import geogebra.common.kernel.algos.AlgoDirection;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.kernelND.GeoRayND;
-import geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
 import geogebra.common.kernel.algos.AlgoJoinPointsRay;
 import geogebra.common.kernel.algos.AlgoRayPointVector;
 import geogebra.common.kernel.algos.AlgoTranslate;
-import geogebra.common.kernel.geos.GeoConicPart;
+import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.plugin.GeoClass;
 
 

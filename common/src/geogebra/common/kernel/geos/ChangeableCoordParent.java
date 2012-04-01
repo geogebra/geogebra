@@ -1,9 +1,9 @@
 package geogebra.common.kernel.geos;
 
-import java.util.ArrayList;
-
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
+
+import java.util.ArrayList;
 
 /**
  * Parent (number+direction) for changing coords of prism, cylinder, etc.

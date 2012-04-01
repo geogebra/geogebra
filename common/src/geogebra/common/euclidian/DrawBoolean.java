@@ -12,20 +12,15 @@
 
 package geogebra.common.euclidian;
 
-import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.geos.GeoBoolean;
-import geogebra.common.kernel.geos.GeoElement;
-
-//import java.awt.Color;
-//import java.awt.Dimension;
-//import java.awt.Graphics;
-
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Graphics2D;
 import geogebra.common.awt.Point;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.factories.AwtFactory;
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.geos.GeoBoolean;
+import geogebra.common.kernel.geos.GeoElement;
 
 
 /**

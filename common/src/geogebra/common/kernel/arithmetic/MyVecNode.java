@@ -24,7 +24,6 @@ import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.MyParseError;
-//import geogebra.kernel.geos.GeoVec2D;
 
 import java.util.HashSet;
 

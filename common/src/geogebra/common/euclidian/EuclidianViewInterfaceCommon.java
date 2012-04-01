@@ -1,7 +1,5 @@
 package geogebra.common.euclidian;
 
-import java.util.ArrayList;
-
 import geogebra.common.awt.Point;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.event.AbstractEvent;
@@ -11,6 +9,8 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
+
+import java.util.ArrayList;
 
 /**
  * Interface for n-dimensional Euclidian view

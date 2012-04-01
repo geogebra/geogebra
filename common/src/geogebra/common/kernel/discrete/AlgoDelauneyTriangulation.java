@@ -1,8 +1,9 @@
 package geogebra.common.kernel.discrete;
 
+import geogebra.common.awt.Point2D;
 import geogebra.common.factories.AwtFactory;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
@@ -15,7 +16,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-import geogebra.common.awt.Point2D;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
