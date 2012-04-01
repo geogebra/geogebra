@@ -1594,6 +1594,14 @@ public class Application extends AbstractApplication implements
 			return null;
 		return new geogebra.awt.BufferedImage(im);
 	}
+	
+	@Override
+	public geogebra.common.awt.Image getInternalImageAdapter(String filename) {
+		Image im = imageManager.getInternalImage(filename);
+		if(im==null)
+			return null;
+		return new geogebra.awt.GenericImage(im);
+	}
 
 	public void addExternalImage(String filename, BufferedImage image) {
 		imageManager.addExternalImage(filename, image);

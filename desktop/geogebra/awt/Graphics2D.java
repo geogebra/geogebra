@@ -291,6 +291,12 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 		impl.drawImage(geogebra.awt.BufferedImage.getAwtBufferedImage(img),(geogebra.awt.BufferedImageOp) op, x, y);
 		
 	}
+	
+	@Override
+	public void drawImage(geogebra.common.awt.Image img, int x, int y) {
+		impl.drawImage(GenericImage.getAwtImage(img), x, y, null);
+		
+	}
 
 	@Override
 	public void fillRect(int x, int y, int width, int height) {
@@ -306,7 +312,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 	public void setClip(geogebra.common.awt.Shape shape) {
 		if (shape == null){
 			impl.setClip(null);
-		} else if (shape instanceof geogebra.common.awt.Shape){
+		} else if (shape instanceof geogebra.awt.Shape){
 			impl.setClip(geogebra.awt.GenericShape.getAwtShape((geogebra.awt.Shape)shape));
 		}
 	}
@@ -327,7 +333,6 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 			impl.fill(((geogebra.awt.Shape)s).getAwtShape());
 		if(s instanceof GeneralPathClipped)
 			impl.fill(geogebra.awt.GeneralPath.getAwtGeneralPath(((GeneralPathClipped)s).getGeneralPath()));
-
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package geogebra.common.main;
 import geogebra.common.awt.BufferedImage;
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Font;
+import geogebra.common.awt.Image;
 import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.DrawEquationInterface;
@@ -2827,5 +2828,12 @@ public abstract class AbstractApplication {
 
 	public int getAppCanvasHeight() {
 		return appCanvasHeight;
+	}
+
+	/**
+	 * @param filename filename (without /gui/images prefix) 
+	 */
+	public Image getInternalImageAdapter(String filename) {
+		return null;
 	}
 }

@@ -786,4 +786,9 @@ public abstract class Graphics2D {
 	public abstract void drawRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight);
 
 	public abstract void fillRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight);
+
+	public void drawImage(Image img, int x, int y) {
+		// TODO Auto-generated method stub
+		
+	}
 }
