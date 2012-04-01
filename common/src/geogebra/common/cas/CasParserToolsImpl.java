@@ -2,12 +2,19 @@ package geogebra.common.cas;
 
 import com.google.gwt.regexp.shared.RegExp;
 
+/**
+ * Helper class for CAS output processing
+ */
 public class CasParserToolsImpl implements CasParserTools {
 	
 	private static final char DEFAULT_EXP_CHAR = 'E';
 	
 	private final RegExp pattern;
 	
+	/**
+	 * Creates new parser helper.
+	 * @param foreignExpChar character used for scientific notation
+	 */
 	public CasParserToolsImpl(char foreignExpChar) {
 		//e.g. ggbcasvar1e cannot be matched
 		pattern = RegExp.compile("((^|\\W)[0-9]+)" + foreignExpChar,"g");

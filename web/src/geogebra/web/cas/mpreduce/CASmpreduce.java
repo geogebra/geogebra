@@ -4,7 +4,7 @@ import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
 import geogebra.common.cas.mpreduce.AbstractCASmpreduce;
-import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.cas.AsynchronousCommand;
 import geogebra.common.main.AbstractApplication;
@@ -54,16 +54,17 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 		}
 	};
 	private static boolean asyncstarted = false;
-	
+	private Kernel kernel;
 	private Interpretable mpreduce;
 	
 	/**
 	 * Creates new CAS
 	 * @param casParser parser
 	 * @param parserTools scientific notation convertor
+	 * @param kernel kernel
 	 */
-	public CASmpreduce(CASparser casParser, CasParserTools parserTools) {
-		super(casParser);
+	public CASmpreduce(CASparser casParser, CasParserTools parserTools,Kernel kernel) {
+		super(casParser,kernel.getCasVariablePrefix());
 		this.parserTools = parserTools;
     }
 	
@@ -249,6 +250,6 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 	        // TODO Auto-generated catch block
 	        e.printStackTrace();
         }
-        casParser.getKernel().getApplication().getGgbApi().initCAS();
+        kernel.getApplication().getGgbApi().initCAS();
     }
 }

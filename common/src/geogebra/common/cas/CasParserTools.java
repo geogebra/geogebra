@@ -1,5 +1,8 @@
 package geogebra.common.cas;
 
+/**
+ * Helper class for CAS output processing
+ */
 public interface CasParserTools {
 	
 	/**

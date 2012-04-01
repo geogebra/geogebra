@@ -3,7 +3,6 @@ package geogebra.common.cas.mpreduce;
 import geogebra.common.cas.CASException;
 import geogebra.common.cas.CASgeneric;
 import geogebra.common.cas.CASparser;
-import geogebra.common.cas.CasExpressionFactory;
 import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
 import geogebra.common.kernel.StringTemplate;
@@ -27,6 +26,7 @@ import java.util.StringTokenizer;
 public abstract class AbstractCASmpreduce extends CASgeneric {
 	/** parser tools*/
 	protected CasParserTools parserTools;
+	private String casPrefix;
 	/** variable ordering, e.g. for Integral[a*b] */
 	protected static StringBuilder varOrder = new StringBuilder(
 			"ggbtmpvarx, ggbtmpvary, ggbtmpvarz, ggbtmpvara, "
@@ -48,9 +48,11 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 	/**
 	 * Creates new MPReduce CAS
 	 * @param casParser parser
+	 * @param casPrefix prefix for CAS variables
 	 */
-	public AbstractCASmpreduce(CASparser casParser) {
+	public AbstractCASmpreduce(CASparser casParser,String casPrefix) {
 		super(casParser);
+		this.casPrefix = casPrefix;
 	}
 
 	/**
@@ -167,9 +169,9 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 		sb.append("<<keepinput!!:=");
 		sb.append(keepInput ? 1 : 0);
 		sb.append("$ numeric!!:=0$ precision 30$ print\\_precision 16$ off complex, rounded, numval, factor, div, combinelogs, expandlogs, pri$ currentx!!:= ");
-		sb.append(casParser.getKernel().getCasVariablePrefix());
+		sb.append(casPrefix);
 		sb.append("x; currenty!!:= ");
-		sb.append(casParser.getKernel().getCasVariablePrefix());
+		sb.append(casPrefix);
 		sb.append("y;");
 		sb.append(mpreduceInput);
 		sb.append(">>");
@@ -193,7 +195,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 		}
 		Command cmd = casInput.getTopLevelCommand();
 		if(cmd!=null && "Delete".equals(cmd.getName()) && "true".equals(result)){
-			GeoElement geo = casParser.getKernel().getConstruction().lookupLabel(cmd.getArgument(0).toString(StringTemplate.defaultTemplate));
+			GeoElement geo = inputExpression.getKernel().getConstruction().lookupLabel(cmd.getArgument(0).toString(StringTemplate.defaultTemplate));
 			if(geo!=null)
 				geo.remove();
 		}
@@ -240,12 +242,13 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 		ExpressionValue ve = casParser.parseMPReduce(mpreduceString);
 
 		// replace rational exponents by roots or vice versa
-		CasExpressionFactory factory = new CasExpressionFactory(ve);
-		if (ve.getKernel().getApplication().getSettings().getCasSettings()
-				.getShowExpAsRoots())
-			factory.replaceExpByRoots();
-		else
-			factory.replaceRootsByExp();
+		
+		if(ve instanceof ReplaceableValue){
+			boolean toRoot = ve.getKernel().getApplication().getSettings().getCasSettings()
+					.getShowExpAsRoots();
+				((ReplaceableValue)ve).replacePowersRoots(toRoot);
+		}
+		
 		if(tpl!=null){
 			tpl.reset();
 			if(ve instanceof ReplaceableValue)
@@ -864,8 +867,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 				+ "ggbcasvarq, ggbcasvarr, ggbcasvars, ggbcasvart, ggbcasvaru, "
 				+ "ggbcasvarv, ggbcasvarw";
 		// make sure to use current kernel's variable prefix
-		variableOrdering = variableOrdering.replace("ggbcasvar", casParser
-				.getKernel().getCasVariablePrefix());
+		variableOrdering = variableOrdering.replace("ggbcasvar", casPrefix);
 		if (varOrder.length() > 0 && variableOrdering.length() > 0) {
 			varOrder.append(',');
 		}
@@ -879,8 +881,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 				+ "procedure ggbcasvary(a); second(a);"
 				+ "procedure ggbcasvarz(a); third(a);";
 		// make sure to use current kernel's variable prefix
-		xyzCoordFunctions = xyzCoordFunctions.replace("ggbcasvar", casParser
-				.getKernel().getCasVariablePrefix());
+		xyzCoordFunctions = xyzCoordFunctions.replace("ggbcasvar", casPrefix);
 		mpreduce1.evaluate(xyzCoordFunctions);
 
 	}

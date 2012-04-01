@@ -21,6 +21,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class is responsible for dispatching  CAS commands, parsing and processing results
+ */
 public abstract class CASgeneric implements CASGenericInterface,
 		SettingListener {
 
@@ -28,12 +31,16 @@ public abstract class CASgeneric implements CASGenericInterface,
 	 * Timeout for CAS in milliseconds.
 	 */
 	private long timeoutMillis = 5000;
-
+	/** CAS result parser */
 	public CASparser casParser;
 	private Map<String,String> rbCasTranslations; // translates from GeogebraCAS
 												// syntax to the internal CAS
 												// syntax.
 
+	/**
+	 * Creates new CAS
+	 * @param casParser parser of CAS results
+	 */
 	public CASgeneric(CASparser casParser) {
 		this.casParser = casParser;
 		
@@ -45,11 +52,12 @@ public abstract class CASgeneric implements CASGenericInterface,
 	 * 
 	 * @param casInput
 	 *            in GeoGebraCAS syntax
+	 * @param arbconst arbitrary constant handler
 	 * @return evaluation result
-	 * @throws CASException
+	 * @throws CASException if evaluation fails
 	 */
 	public abstract String evaluateGeoGebraCAS(ValidExpression casInput,
-			MyArbitraryConstant tpl)
+			MyArbitraryConstant arbconst)
 			throws CASException;
 
 	/**
@@ -59,7 +67,7 @@ public abstract class CASgeneric implements CASGenericInterface,
 	 * @param exp
 	 *            The expression to be evaluated.
 	 * @return result string (null possible)
-	 * @throws Throwable
+	 * @throws Throwable if evaluation fails
 	 */
 	public abstract String evaluateRaw(String exp) throws Throwable;
 
@@ -102,6 +110,8 @@ public abstract class CASgeneric implements CASGenericInterface,
 
 	/**
 	 * Returns whether the CAS command key is available, e.g. "Expand.1"
+	 * @param commandKey command name suffixed by . and number of arguments, e.g. Derivative.2, Sum.N
+	 * @return true if available
 	 */
 	final public boolean isCommandAvailable(String commandKey) {
 		return getTranslatedCASCommand(commandKey) != null;
@@ -121,6 +131,9 @@ public abstract class CASgeneric implements CASGenericInterface,
 		return rbCasTranslations;
 	}
 	
+	/**
+	 * @return map from GGB CAS syntax to syntax of specific CAS, parameters are represented as %0, %1, ...
+	 */
 	public abstract Map<String,String> initTranslationMap();
 
 	public final String toAssignment(GeoElement ge,StringTemplate tpl) {
@@ -247,7 +260,7 @@ public abstract class CASgeneric implements CASGenericInterface,
 	 * Sets the number of signficiant figures (digits) that should be used as
 	 * print precision for the output of Numeric[] commands.
 	 * 
-	 * @param significantNumbers
+	 * @param significantNumbers number of significant digits (-1 to use default)
 	 */
 	public abstract void setSignificantFiguresForNumeric(int significantNumbers);
 
@@ -266,11 +279,24 @@ public abstract class CASgeneric implements CASGenericInterface,
 		return cmdSet;
 	}
 
+	/**
+	 * Call CAS asynchronously
+	 * @param c command that should receive the result
+	 */
 	public void evaluateGeoGebraCASAsync(AsynchronousCommand c) {
 		AbstractApplication.debug("Only MPReduce supports async calls");
 		
 	}
 	
+	/**
+	 * This method is called when asynchronous CAS call is finished.
+	 * It tells the calling algo to update itself and adds the result to cache if suitable.
+	 * @param exp parsed CAS output
+	 * @param result2 output as string (for cacheing)
+	 * @param exception exception which stopped the computation (null if there wasn't one)
+	 * @param c command that called the CAS asynchronously
+	 * @param input input string (for cacheing)
+	 */
 	public void CASAsyncFinished(ValidExpression exp,String result2,
 			Throwable exception,AsynchronousCommand c,
 			String input){
@@ -296,12 +322,12 @@ public abstract class CASgeneric implements CASGenericInterface,
 			// get names of escaped global variables right
 			// e.g. "ggbcasvar1a" needs to be changed to "a"
 			// e.g. "ggbtmpvara" needs to be changed to "a"
-			result = casParser.getKernel().removeCASVariablePrefix(result, " ");
+			result = exp.getKernel().removeCASVariablePrefix(result, " ");
 		}
 
 		c.handleCASoutput(result,input.hashCode());
 		if(c.useCacheing())
-			casParser.getKernel().putToCasCache(input, result);
+			exp.getKernel().putToCasCache(input, result);
 	}
 
 }

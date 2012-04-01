@@ -29,8 +29,8 @@ public class CASmpreduce extends AbstractCASmpreduce {
 	private static Interpreter2 mpreduce_static;
 	private Interpreter2 mpreduce;
 
-	public CASmpreduce(CASparser casParser, CasParserTools parserTools) {
-		super(casParser);
+	public CASmpreduce(CASparser casParser, CasParserTools parserTools,String casPrefix) {
+		super(casParser,casPrefix);
 		this.parserTools = parserTools;
 		getMPReduce();
 	}

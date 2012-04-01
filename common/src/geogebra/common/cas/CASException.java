@@ -16,14 +16,22 @@ public class CASException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 	private String key;
 
+	/**
+	 * Creates new CAS exception
+	 * @param message exception message
+	 */
 	public CASException(String message)
 	{
 		super(message);
 	}
 	
-	public CASException(Throwable t)
+	/**
+	 * Creates new CAS exception
+	 * @param cause Throwable that caused this exception
+	 */
+	public CASException(Throwable cause)
 	{
-		super(t.getMessage());
+		super(cause.getMessage());
 	}
 	
 	/**

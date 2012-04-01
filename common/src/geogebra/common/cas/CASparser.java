@@ -25,7 +25,7 @@ import geogebra.common.kernel.cas.CASParserInterface;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.parser.ParseException;
-import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.parser.Parser;
 
 /**
  * Handles parsing and evaluating of input in the CAS view.
@@ -33,15 +33,16 @@ import geogebra.common.kernel.Kernel;
  * @author Markus Hohenwarter
  */
 public class CASparser implements CASParserInterface{
-	private Kernel kernel;
+	private Parser parser;
 	
-	public CASparser(Kernel kernel) {	
-		this.kernel = kernel;
+	/**
+	 * Creates new CAS parser
+	 * @param parser parser
+	 */
+	public CASparser(Parser parser) {	
+		this.parser = parser;
 	}
 	
-	public Kernel getKernel() {
-		return kernel;
-	}
 	
 	/**
 	 * Parses the given expression and returns it as a ValidExpression.
@@ -49,7 +50,7 @@ public class CASparser implements CASParserInterface{
 	 */
 	public ValidExpression parseGeoGebraCASInput(String exp) throws CASException {
 		try {
-			return kernel.getParser().parseGeoGebraCAS(exp);
+			return parser.parseGeoGebraCAS(exp);
 		} catch (ParseException e) {
 			throw new CASException(e);
 		}
@@ -90,7 +91,7 @@ public class CASparser implements CASParserInterface{
 		boolean isFunction = ev instanceof Function;
 		FunctionVariable [] funVars;
 		if (isFunction) {
-			Construction cmdCons = kernel.getConstruction();  
+			Construction cmdCons = ev.getKernel().getConstruction();  
 			funVars = ((Function) ev).getFunctionVariables();
 			for (FunctionVariable funVar : funVars) {
 				GeoElement localVarGeo = new GeoDummyVariable(cmdCons, funVar.toString(StringTemplate.defaultTemplate));
@@ -98,25 +99,23 @@ public class CASparser implements CASParserInterface{
 			}
 		}
 		// resolve variables of valid expression
-		kernel.setResolveUnkownVarsAsDummyGeos(true);
+		ev.getKernel().setResolveUnkownVarsAsDummyGeos(true);
 		ev.resolveVariables();
-		kernel.setResolveUnkownVarsAsDummyGeos(false);
+		ev.getKernel().setResolveUnkownVarsAsDummyGeos(false);
 		
-		// remove local variables from kernel
-		if (isFunction) {
-			Construction cmdCons = kernel.getConstruction();  
-			funVars = ((Function) ev).getFunctionVariables();
-			for (FunctionVariable funVar : funVars) {	
-			}
-		}
+		//TODO: remove local variables from kernel ?
 	}
 	
 	
 	
 	/**
-	 * Tries to convert the given MathPiper string to GeoGebra syntax.
+	 * Tries to convert parsed CAS output to GeoGebra syntax.
+	 * @param ev parsed CAS output
+	 * @param arbconst arbitrary constant handler
+	 * @return GeoGebra string representation of 
+	 * @throws CASException in case the conversion failed
 	 */
-	public String toGeoGebraString(ExpressionValue ev,MyArbitraryConstant tpl) throws CASException {
+	public String toGeoGebraString(ExpressionValue ev,MyArbitraryConstant arbconst) throws CASException {
 		try {
 			return toString(ev, StringTemplate.defaultTemplate);
 		} catch (Throwable e) {
@@ -127,17 +126,19 @@ public class CASparser implements CASParserInterface{
 	
 	/**
 	 * Tries to convert the given CAS string to the given syntax.
-	 * @param STRING_TYPE one of StringType.GEOGEBRA, STRING_TYPE_GEOGEBRA_XML
+	 * @param ev parsed CAS output
+	 * @param tpl template to be used
+	 * @return string representation of ev in given syntax
 	 */
-	public String toString(ExpressionValue ev, StringTemplate STRING_TYPE) {
+	public String toString(ExpressionValue ev, StringTemplate tpl) {
 		String GeoGebraString;
-		
+		ExpressionNode expr;
 		if (!ev.isExpressionNode()) {
-			ev = new ExpressionNode(kernel, ev);			
+			expr = new ExpressionNode(ev.getKernel(), ev);			
 		}
-		
-		ExpressionNode en = (ExpressionNode) ev;
-		GeoGebraString = en.getCASstring(STRING_TYPE, true);		
+		else
+			expr = (ExpressionNode) ev;
+		GeoGebraString = expr.getCASstring(tpl, true);		
 		return GeoGebraString;
 	}
 	
@@ -145,10 +146,13 @@ public class CASparser implements CASParserInterface{
 	
 	/**
 	 * Tries to convert the given MathPiper string to GeoGebra syntax.
+	 * @param exp MathPiper output
+	 * @return parsed expression
+	 * @throws CASException if parsing goes wrong
 	 */
 	public ValidExpression parseMathPiper(String exp) throws CASException {
 		try {
-			return kernel.getParser().parseMathPiper(exp);
+			return parser.parseMathPiper(exp);
 		} catch (Throwable t) {
 			throw new CASException(t);
 		}
@@ -156,10 +160,13 @@ public class CASparser implements CASParserInterface{
 	
 	/**
 	 * Tries to convert the given MPReduce string to GeoGebra syntax.
+	 * @param exp MPReduce output
+	 * @return parsed expression
+	 * @throws CASException if parsing goes wrong
 	 */
 	public ValidExpression parseMPReduce(String exp) throws CASException {
 		try {
-			return kernel.getParser().parseMPReduce(exp);
+			return parser.parseMPReduce(exp);
 		} catch (Throwable t) {
 			throw new CASException(t);
 		}		
@@ -167,10 +174,13 @@ public class CASparser implements CASParserInterface{
 	
 	/**
 	 * Tries to convert the given Maxima string to GeoGebra syntax.
+	 * @param exp maxima output
+	 * @return parsed output
+	 * @throws CASException if parsing goes wrong
 	 */
 	public ValidExpression parseMaxima(String exp) throws CASException {
 		try {
-			return kernel.getParser().parseMaxima(exp);
+			return parser.parseMaxima(exp);
 		} catch (Throwable t) {
 			throw new CASException(t);
 		}	
@@ -181,6 +191,8 @@ public class CASparser implements CASParserInterface{
 	 * Converts all index characters ('_', '{', '}') in the given String
 	 * to "unicode" + charactercode + DELIMITER Strings. This is needed because
 	 * MathPiper does not handle indices correctly.
+	 * @param str input string with _,{,}
+	 * @return string where _,{,} are replaced
 	 */
 	public synchronized String replaceIndices(String str) {
 		int len = str.length();
@@ -237,8 +249,10 @@ public class CASparser implements CASParserInterface{
 
 	/**
 	 * Reverse operation of removeSpecialChars().
-	 * @see ExpressionNode#operationToString() for XCOORD, YCOORD
+	 * @param str input string
+	 * @return input string with 'replaced by !' etc.
 	 */
+	// see ExpressionNode#operationToString() for XCOORD, YCOORD
 	public String insertSpecialChars(String str) {
 		int prefixLen = ExpressionNodeConstants.UNICODE_PREFIX.length();
 		

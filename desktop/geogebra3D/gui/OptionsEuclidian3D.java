@@ -278,7 +278,7 @@ public class OptionsEuclidian3D extends OptionsEuclidian {
 			return buttons[i];
 		}
 		
-		private void setSelected(int i){
+		void setSelected(int i){
 			buttons[buttonSelected].setSelected(false);
 			buttonSelected = i;
 			buttons[buttonSelected].setSelected(true);

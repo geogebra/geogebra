@@ -41,7 +41,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 */
 	public GeoGebraCAS(Kernel kernel) {
 		app = kernel.getApplication();
-		casParser = new CASparser(kernel);
+		casParser = new CASparser(kernel.getParser());
 
 		// DO NOT init underlying CAS here to avoid hanging animation,
 		// see http://www.geogebra.org/trac/ticket/1565
@@ -139,7 +139,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	private synchronized AbstractCASmpreduce getMPReduce() {
 		if (casMPReduce == null)
 			casMPReduce = geogebra.common.factories.CASFactory.prototype.newMPReduce(casParser,
-					new CasParserToolsImpl('e'));
+					new CasParserToolsImpl('e'),app.getKernel());
 		return casMPReduce;
 	}
 
