@@ -18,7 +18,7 @@ public class GeoElementSpreadsheet {
 	 * match A1, ABG1, A123 but not A0, A000, A0001 etc
 	 */
 	public static final RegExp spreadsheetPattern = RegExp
-			.compile("\\$?([A-Z]+)\\$?([1-9][0-9]*)");
+			.compile("^\\$?([A-Z]+)\\$?([1-9][0-9]*)$");
 
 	//public static final RegExp spreadsheetPatternGlobal = RegExp
 	//		.compile("\\$?([A-Z]+)\\$?([1-9][0-9]*)", "g");
@@ -74,10 +74,6 @@ public class GeoElementSpreadsheet {
 		MatchResult matcher = spreadsheetPattern.exec(cellName);
 
 		// return (-1,-1) if not a spreadsheet cell name
-		if (matcher == null || matcher.getGroup(0).length() != cellName.length()) {
-			return new Point(-1, -1);
-		}
-
 		return new Point(getSpreadsheetColumn(matcher),
 				getSpreadsheetRow(matcher));
 	}
@@ -93,12 +89,7 @@ public class GeoElementSpreadsheet {
 			return false;
 
 		MatchResult matcher = spreadsheetPattern.exec(str);		
-		if (matcher == null) {
-			return false;
-		}
-		
-		// Must match the entire string
-	    return matcher.getGroup(0).length() == str.length();
+		return matcher != null;
 	}
 
 	/**
