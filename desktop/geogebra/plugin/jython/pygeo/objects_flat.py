@@ -1028,7 +1028,8 @@ class TurtleDriver(object):
     @in_new_thread
     def run(self):
         while True:
-            self.step_turtles()
+            if self.turtles:
+                self.step_turtles()
             time.sleep(0.05)
     @in_main_thread
     def step_turtles(self):
