@@ -247,13 +247,13 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 			boolean toRoot = ve.getKernel().getApplication().getSettings().getCasSettings()
 					.getShowExpAsRoots();
 				((ReplaceableValue)ve).replacePowersRoots(toRoot);
+			if(tpl!=null){
+				tpl.reset();
+				ve = ((ReplaceableValue)ve).replaceArbConsts(tpl);
+			}
 		}
 		
-		if(tpl!=null){
-			tpl.reset();
-			if(ve instanceof ReplaceableValue)
-				ve = ((ReplaceableValue)ve).replaceArbConsts(tpl);
-		}
+		
 		return casParser.toGeoGebraString(ve,tpl);
 	}
 

@@ -64,10 +64,14 @@ public class MyArbitraryConstant  {
 		if(position >= consts2.size() || consts2.get(position)==null){
 			GeoNumeric add = new GeoNumeric(c);
 			add.setAuxiliaryObject(true);
+			boolean oldLabeling = c.isSuppressLabelsActive();
+			c.setSuppressLabelCreation(false);
 			add.setLabel(c.getIndexLabel(prefix));
+			c.setSuppressLabelCreation(oldLabeling);
 			AlgoDependentArbconst algo = new AlgoDependentArbconst(c,add,ce);
 			c.removeFromConstructionList(algo);
 			consts2.add(position,add);
+			position++;
 			return add;
 		}
 		GeoNumeric ret = consts2.get(position);
