@@ -10,7 +10,7 @@
    font-family:Arial, Helvetica, sans-serif;
    background:url(ggbg.png) top left;
    }
-   a {color:#000000; text-shadow:1px 1px 1px #cccccc;}
+   a {color:#000000;}
    p {text-align:justify;}
      header, footer, aside, section {display:block;}
    h1 {
@@ -117,32 +117,59 @@ color:red;
 }
 
 table {
-    color: red;
-    background-color: #ddccdd;
+    color: white;
+    background-color: #2020bb;
+    border-collapse: collapse;
+    border: 1px solid #404040;
+    
     }
+table a{
+ color: white;
+}
 .rev {
  text-align: center;
  }
 .failure {
  text-align: center;
  background-color: pink;
+ color: black;
  }
+.failure a {
+ color: red;
+ }
+
 .error {
  text-align: center;
- background-color: darkpink;
+ background-color: red;
+ }
+.error a {
+ color: white;
+ text-decoration: none;
+ text-shadow: 0 0 0;
+ }
+.failure a {
+ text-decoration: none;
+ text-shadow: 0 0 0;
  }
 .ok {
  text-align: center;
  background-color: lightgreen;
+ color: darkgreen;
+ 
  }
 .unknown {
  text-align: center;
  background-color: white;
  }
 
+
+
+
 thead {
     color: white;
-    background-color: #ff4020;
+    background-color: #101080;
+    font-size: 20px;
+    font-weight: bold;
+
     }
 
-</style>

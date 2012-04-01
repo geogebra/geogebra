@@ -89,7 +89,7 @@ foreach ($db->query($sql) as $name) {
    $resultno=$db->query($sql3count);
    $numrows=$resultno->fetchColumn();
    if ($numrows>=1)
-    $content.="class=\"ok\">OK";
+    $content.="class=\"ok\">";
    else
     $content.="class=\"unknown\">";
    }
@@ -133,7 +133,7 @@ foreach ($db->query($sql) as $name) {
 
 $content.="</table>";
 
-$title="The recent $maxrevs tests";
+$title="The <a href=\"".mydir()."\">recent $maxrevs</a> tests";
 if ($lastrev!="")
  $title.=" (not later than [$lastrev])";
 if ($firstrev!="")
