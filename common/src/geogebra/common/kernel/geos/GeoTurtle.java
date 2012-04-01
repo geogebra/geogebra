@@ -38,6 +38,8 @@ public class GeoTurtle extends GeoElement {
 	// List to store sequential turtle drawing commands.
 	// TODO: use a better data structure?
 	private ArrayList<Object> cmdList;
+	// List to store the amount of time each command takes
+	private ArrayList<Double> timeList;
 
 	// turtle status fields
 	private GeoPointND startPoint = new GeoPoint2(cons, 0d, 0d, 1d);
@@ -75,6 +77,8 @@ public class GeoTurtle extends GeoElement {
 	public GeoTurtle(Construction c) {
 		super(c);
 		cmdList = new ArrayList<Object>();
+		timeList = new ArrayList<Double>();
+		
 		// TODO: put this in default construction?
 		this.setObjColor(Color.GRAY);
 
@@ -239,7 +243,10 @@ public class GeoTurtle extends GeoElement {
 	}
 	
 	public double getCurrentCommandProgress() {
-		return currentCommandProgress;
+		if (currentCommandProgress == 0d) {
+			return 0d;
+		}
+		return currentCommandProgress/timeList.get(nCompletedCommands);
 	}
 	
 	public void resetProgress() {
@@ -249,13 +256,23 @@ public class GeoTurtle extends GeoElement {
 	}
 	
 	public void stepTurtle() {
-		if (speed == 0d || nCompletedCommands >= cmdList.size()) {
+		stepTurtle(1d);
+	}
+	
+	public void stepTurtle(double nSteps) {
+		int totalNCommands = cmdList.size();
+		if (speed == 0d || nCompletedCommands >= totalNCommands) {
 			return;
 		}
-		currentCommandProgress += speed;
-		if (currentCommandProgress >= 1d) {
+		currentCommandProgress += speed*nSteps;
+		double t;
+		while (currentCommandProgress >= (t = timeList.get(nCompletedCommands))) {
 			nCompletedCommands += 1;
-			currentCommandProgress -= 1d;
+			currentCommandProgress -= t;
+			if (nCompletedCommands == totalNCommands) {
+				currentCommandProgress = 0d;
+				break;
+			}
 		}
 		doUpdate();
 	}
@@ -279,6 +296,7 @@ public class GeoTurtle extends GeoElement {
 
 		GeoPointND pt = new GeoPoint2(cons, position[0], position[1], 1d);
 		cmdList.add(pt);
+		timeList.add(distance);
 		currentPoint.setCoords(position[0], position[1], 1.0);
 		doUpdate();
 
@@ -289,7 +307,9 @@ public class GeoTurtle extends GeoElement {
 	 * @param y y-coordinate
 	 */
 	public void setPosition(double x, double y) {
-
+		
+		double distance = Math.hypot(x - position[0], y - position[1]);
+		
 		position[0] = x;
 		position[1] = y;
 
@@ -297,6 +317,7 @@ public class GeoTurtle extends GeoElement {
 
 		GeoPoint2 pt = new GeoPoint2(cons, position[0], position[1], 1d);
 		cmdList.add(pt);
+		timeList.add(distance);
 		currentPoint.setCoords(position[0], position[1], 1.0);
 		doUpdate();
 	}
@@ -312,6 +333,7 @@ public class GeoTurtle extends GeoElement {
 		this.cosAngle = Math.cos(this.turnAngle);
 
 		cmdList.add(turnAngleChange);
+		timeList.add(Math.abs(turnAngleChange)/90);
 		doUpdate();
 	}
 
@@ -322,6 +344,7 @@ public class GeoTurtle extends GeoElement {
 	public void setPenDown(boolean penDown) {
 		this.penDown = penDown;
 		cmdList.add(penDown);
+		timeList.add(0d);
 		doUpdate();
 	}
 
@@ -345,6 +368,7 @@ public class GeoTurtle extends GeoElement {
 			return;
 		this.penColor = penColor;
 		cmdList.add(penColor);
+		timeList.add(0d);
 		doUpdate();
 	}
 
@@ -357,6 +381,7 @@ public class GeoTurtle extends GeoElement {
 		speed = 0;
 		resetProgress();
 		cmdList.clear();
+		timeList.clear();
 		turnAngle = 0d;
 		sinAngle = 0d;
 		cosAngle = 1d;
