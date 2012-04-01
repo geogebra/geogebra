@@ -74,7 +74,7 @@ public class GeoElementSpreadsheet {
 		MatchResult matcher = spreadsheetPattern.exec(cellName);
 
 		// return (-1,-1) if not a spreadsheet cell name
-		if (matcher.getGroup(0).length() != cellName.length()) {
+		if (matcher == null || matcher.getGroup(0).length() != cellName.length()) {
 			return new Point(-1, -1);
 		}
 
