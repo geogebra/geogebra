@@ -18,7 +18,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.DivElement;
+import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style;
@@ -31,7 +31,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	
 	private static boolean scriptloaded = false;
 
-	private static HashMap<String, DivElement> equations = new HashMap<String, DivElement>();
+	private static HashMap<String, SpanElement> equations = new HashMap<String, SpanElement>();
 	private boolean needToDrawEquation = false;
 	private AbstractApplication app;
 	
@@ -80,7 +80,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	 * @param ev: latexes of only this EuclidianView - TODO: implement
 	 */
 	public static void clearLaTeXes(EuclidianView ev) {
-		Iterator<DivElement> eei = equations.values().iterator();
+		Iterator<SpanElement> eei = equations.values().iterator();
 		while(eei.hasNext())
 			eei.next().getStyle().setDisplay(Style.Display.NONE);
 	}
@@ -91,7 +91,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	 * @param ev: latexes of only this EuclidianView - TODO: implement
 	 */
 	public static void deleteLaTeXes(EuclidianView ev) {
-		Iterator<DivElement> eei = equations.values().iterator();
+		Iterator<SpanElement> eei = equations.values().iterator();
 		while(eei.hasNext())
 			eei.next().removeFromParent();
 		equations.clear();
@@ -112,7 +112,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			while (eqstring.startsWith("$")) eqstring = eqstring.substring(1).trim();
 			while (eqstring.endsWith("$")) eqstring = eqstring.substring(0, eqstring.length() - 1).trim();
 
-			DivElement ih = equations.get(eqstring);
+			SpanElement ih = equations.get(eqstring);
 			if (ih == null) {
 				ih = DOM.createSpan().cast();
 				drawEquationMathQuill(
@@ -227,9 +227,6 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		el.appendChild(elsecond);
 
 		canv.parentElement.appendChild(el);
-		// this should be fixed as MathQuill makes the subelements selectable by default
-		//$wnd.jQuery(el).appendTo($wnd.jQuery(canv).parent());
-
 		$wnd.jQuery(elsecond).mathquill();
 	}-*/;
 }
