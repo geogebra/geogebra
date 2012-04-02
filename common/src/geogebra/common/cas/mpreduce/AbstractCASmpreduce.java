@@ -178,7 +178,6 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 
 		// evaluate in MPReduce
 		String result = evaluateMPReduce(sb.toString());
-
 		if (keepInput) {
 			// when keepinput was treated in MPReduce, it is now > 1
 			String keepinputVal = evaluateMPReduce("keepinput!!;");
@@ -190,8 +189,9 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 		// convert result back into GeoGebra syntax
 		if (casInput instanceof FunctionNVar) {
 			// function definition f(x) := x^2 should return x^2
-			String ret = casInput.toString(StringTemplate.defaultTemplate);
-			return ret;
+			// f(x):=Derivative[x^2] should return 2x
+			return toGeoGebraString(evaluateMPReduce(result+"("+
+			((FunctionNVar)casInput).getVarString(StringTemplate.casTemplate)+")"),tpl);
 		}
 		Command cmd = casInput.getTopLevelCommand();
 		if(cmd!=null && "Delete".equals(cmd.getName()) && "true".equals(result)){
@@ -240,7 +240,6 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 	final public synchronized String toGeoGebraString(String mpreduceString,MyArbitraryConstant tpl)
 			throws CASException {
 		ExpressionValue ve = casParser.parseMPReduce(mpreduceString);
-
 		// replace rational exponents by roots or vice versa
 		
 		if(ve instanceof ReplaceableValue){
