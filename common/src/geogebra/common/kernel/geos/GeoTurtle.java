@@ -14,6 +14,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.awt.BufferedImage;
 import geogebra.common.awt.Color;
+import geogebra.common.awt.Image;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
@@ -33,7 +34,7 @@ public class GeoTurtle extends GeoElement {
 	// private GeoPointND[] points;
 	private boolean defined = true;
 
-	private ArrayList<BufferedImage> turtleImageList;
+	private ArrayList<Image> turtleImageList;
 
 	// List to store sequential turtle drawing commands.
 	// TODO: use a better data structure?
@@ -83,9 +84,8 @@ public class GeoTurtle extends GeoElement {
 		this.setObjColor(Color.GRAY);
 
 		// this.turn(turnAngle);
-
-		turtleImageList = new ArrayList<BufferedImage>();
-		
+		turtleImageList = new ArrayList<Image>();
+		turtleImageList.add(c.getApplication().getInternalImageAdapter("/gui/images/go-next.png"));
 
 	}
 
@@ -192,16 +192,16 @@ public class GeoTurtle extends GeoElement {
 		return startPoint;
 	}
 
-	public ArrayList<BufferedImage> getTurtleImageList() {
+	public ArrayList<Image> getTurtleImageList() {
 		return turtleImageList;
 	}
 
-	public void addTurtleImage(BufferedImage image) {
+	public void addTurtleImage(Image image) {
 		turtleImageList.add(image);
 	}
 
 	
-	public void setTurtleImageList(BufferedImage image) {
+	public void setTurtleImageList(Image image) {
 		
 		turtleImageList.add(image);
 	}

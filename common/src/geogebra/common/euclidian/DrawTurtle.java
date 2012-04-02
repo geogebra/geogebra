@@ -14,6 +14,7 @@ package geogebra.common.euclidian;
 
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.Color;
+import geogebra.common.awt.Image;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTurtle;
@@ -46,8 +47,10 @@ public class DrawTurtle extends Drawable {
 	private double[] currentCoords;
 
 	/**
-	 * @param view view
-	 * @param turtle turtle
+	 * @param view
+	 *            view
+	 * @param turtle
+	 *            turtle
 	 */
 	public DrawTurtle(AbstractEuclidianView view, GeoTurtle turtle) {
 		this.view = view;
@@ -133,7 +136,7 @@ public class DrawTurtle extends Drawable {
 
 			// Handle the next turtle command. Line segments and angles are
 			// partially drawn according to the turtle progress field value
-			
+
 			if (ncommands < turtle.getTurtleCommandList().size()) {
 				Object cmd = turtle.getTurtleCommandList().get(ncommands);
 				double progress = turtle.getCurrentCommandProgress();
@@ -204,8 +207,6 @@ public class DrawTurtle extends Drawable {
 
 	@Override
 	final public void draw(geogebra.common.awt.Graphics2D g2) {
-
-		//System.out.println("TURTLE isVisible: " + isVisible);
 
 		if (isVisible) {
 
@@ -319,7 +320,7 @@ public class DrawTurtle extends Drawable {
 	 * 
 	 * @param g2
 	 */
-	private static void drawTurtleShape(geogebra.common.awt.Graphics2D g2,
+	private void drawTurtleShape(geogebra.common.awt.Graphics2D g2,
 			int shapeNumber, Color penColor) {
 
 		int r = 8; // turtle radius
@@ -330,7 +331,7 @@ public class DrawTurtle extends Drawable {
 
 		case 0: // no turtle is drawn
 			break;
-			
+
 		case 1: // ellipse body with legs and head
 
 			// back legs
@@ -370,6 +371,13 @@ public class DrawTurtle extends Drawable {
 			g2.fill(ellipse);
 			g2.setColor(Color.black);
 			g2.draw(ellipse);
+			
+			// pen color dot
+			ellipse.setFrame(-3, -3, 6, 6);
+			g2.setColor(turtle.getPenColor());
+			g2.fill(ellipse);
+			//g2.setColor(Color.black);
+			//g2.draw(ellipse);
 
 			break;
 
@@ -385,11 +393,11 @@ public class DrawTurtle extends Drawable {
 			g2.draw(ellipse);
 
 			// triangle
-			x = (float) (r * Math.cos(3 * Math.PI / 4));
-			y = (float) (r * Math.sin(3 * Math.PI / 4));
+			x = (float) (r * Math.cos(2*Math.PI / 3));
+			y = (float) (r * Math.sin(2*Math.PI / 3));
 			path.moveTo(r, 0);
 			path.lineTo(x, y);
-			path.lineTo(-x, -y);
+			path.lineTo(x, -y);
 			path.lineTo(r, 0);
 			g2.setColor(penColor);
 			g2.fill(path);
@@ -398,25 +406,8 @@ public class DrawTurtle extends Drawable {
 
 		case 3:
 
-			// draw turtle body
-			ellipse.setFrame(-r, -r, 2 * r, 2 * r);
-			g2.setColor(Color.green);
-			g2.fill(ellipse);
-
-			g2.setColor(Color.black);
-			g2.draw(ellipse);
-
-			// draw orientation line
-			g2.setStroke(stroke1);
-			g2.setColor(Color.black);
-			line.setLine(0, 0, r + 3, 0);
-			g2.draw(line);
-			g2.setStroke(stroke2);
-
-			// small dot in center colored with current pencolor
-			ellipse.setFrame(-2, -2, 4, 4);
-			g2.setColor(penColor);
-			g2.fill(ellipse);
+			Image img = turtle.getTurtleImageList().get(0);
+			g2.drawImage(img, -8, -8);
 
 		}
 	}
