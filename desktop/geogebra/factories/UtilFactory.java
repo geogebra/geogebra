@@ -1,12 +1,13 @@
 package geogebra.factories;
 
+import geogebra.common.util.DebugPrinter;
 import geogebra.common.util.HttpRequest;
 import geogebra.common.util.URLEncoder;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-
+/**
+ * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * Desktop implementations for various utils
+ */
 public class UtilFactory extends geogebra.common.factories.UtilFactory {
 
 	@Override
@@ -17,6 +18,11 @@ public class UtilFactory extends geogebra.common.factories.UtilFactory {
 	@Override
 	public URLEncoder newURLEncoder() {
 		return new geogebra.util.URLEncoder();
+	}
+
+	@Override
+	public DebugPrinter newDebugPrinter() {
+		return new geogebra.util.DebugPrinter();
 	}
 
 }

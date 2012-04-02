@@ -437,7 +437,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			}
 
 			// Initialize Singular web service
-			// initSingularWS();
+			initSingularWS();
 		}
 
 		/**
@@ -493,7 +493,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 				try {
 					HttpRequest httpr = UtilFactory.prototype.newHttpRequest();
-					newestVersion = httpr.getResponse(VERSION_URL);
+					newestVersion = httpr.sendRequestGetResponseSync(VERSION_URL);
 					newestVersion = newestVersion.replaceAll("-", ".");
 					Long newestVersionL = versionToLong(newestVersion);
 					Long currentVersionL = versionToLong(GeoGebraConstants.VERSION_STRING);

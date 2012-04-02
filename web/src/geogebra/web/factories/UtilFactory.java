@@ -1,17 +1,27 @@
 package geogebra.web.factories;
 
+import geogebra.common.util.DebugPrinter;
 import geogebra.common.util.HttpRequest;
 import geogebra.common.util.URLEncoder;
 
-import com.google.gwt.http.client.*;
-
+/**
+ * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * Web implementations for various utils
+ */
 public class UtilFactory extends geogebra.common.factories.UtilFactory {
 
-	public HttpRequest newHttpRequest() {
+	@Override
+    public HttpRequest newHttpRequest() {
 		return new geogebra.web.util.HttpRequest();
 	}
 
-	public URLEncoder newURLEncoder() {
+	@Override
+    public URLEncoder newURLEncoder() {
 	    return new geogebra.web.util.URLEncoder();
+    }
+
+	@Override
+    public DebugPrinter newDebugPrinter() {
+	    return new geogebra.web.util.DebugPrinter();
     }
 }

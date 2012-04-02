@@ -2,6 +2,7 @@ package geogebra.web.main;
 
 import geogebra.common.awt.BufferedImage;
 import geogebra.common.awt.Font;
+import geogebra.common.cas.singularws.SingularWebService;
 import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.DrawEquationInterface;
@@ -52,6 +53,7 @@ import geogebra.web.kernel.UndoManager;
 import geogebra.web.properties.ColorsConstants;
 import geogebra.web.properties.CommandConstants;
 import geogebra.web.properties.PlainConstants;
+import geogebra.web.util.DebugPrinter;
 import geogebra.web.util.DebugPrinterWeb;
 import geogebra.web.util.ImageManager;
 
@@ -135,7 +137,7 @@ public class Application extends AbstractApplication {
 		this.frame = gf;
 		createSplash();
 		this.useFullGui = ae.getDataParamGui();
-		dbg = new DebugPrinterWeb();
+		dbg = new DebugPrinter();
 		initCommonObjects();
 		
 		this.canvas = Canvas.createIfSupported();
@@ -586,9 +588,18 @@ public class Application extends AbstractApplication {
 		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.web.euclidian.HatchingHandler();
 		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.web.euclidian.EuclidianStatic();
 		geogebra.common.euclidian.clipping.DoubleArrayFactory.prototype = new geogebra.common.euclidian.clipping.DoubleArrayFactoryImpl();
-    }
-	
-	
+    
+		// initialize SingularWS
+		SingularWebService sws = new SingularWebService();
+		DebugPrinter dp = new DebugPrinter();
+		sws.enable();
+		if (sws.isAvailable()) {
+			dp.print("SingularWS is available at " + sws.getConnectionSite());
+			dp.print(sws.directCommand("ring r=0,(x,y),dp;ideal I=x^2,x;groebner(I);"));
+		} else {
+			dp.print("No SingularWS is available at " + sws.getConnectionSite());
+			}
+	}
 
 	private void showSplashImageOnCanvas() {
 		if (this.canvas != null) {

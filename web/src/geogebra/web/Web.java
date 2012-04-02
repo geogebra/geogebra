@@ -4,8 +4,6 @@ package geogebra.web;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.apache.tools.ant.taskdefs.Java;
-
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.main.AbstractApplication;
@@ -14,7 +12,7 @@ import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.helper.JavaScriptInjector;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
-import geogebra.web.main.Application;
+import geogebra.web.util.DebugPrinterWeb;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -22,8 +20,6 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.StyleInjector;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 
@@ -52,7 +48,7 @@ public class Web implements EntryPoint {
 
 	public void onModuleLoad() {
 		//for debug
-		// DebugPrinterWeb.DEBUG_IN_PRODUCTION = true;
+		DebugPrinterWeb.DEBUG_IN_PRODUCTION = true;
 		
 		//do we have an app?
 		Web.loadedAsApp = checkIfNeedToLoadAsApp();
@@ -77,7 +73,7 @@ public class Web implements EntryPoint {
 		}
 		JavaScriptInjector.inject(GuiResources.INSTANCE.dataViewJs().getText());
 		JavaScriptInjector.inject(GuiResources.INSTANCE.base64Js().getText());
-		
+				
 		if (!Web.loadedAsApp) {
 			//we dont want to parse out of the box sometimes...
 			if (!calledFromExtension()) {
@@ -150,4 +146,5 @@ public class Web implements EntryPoint {
 	    worker.terminate();
 	    return true;
     }-*/;
+	
 }

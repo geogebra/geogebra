@@ -1,6 +1,7 @@
 package geogebra.common.cas.singularws;
 
 import geogebra.common.factories.UtilFactory;
+import geogebra.common.util.DebugPrinter;
 import geogebra.common.util.HttpRequest;
 import geogebra.common.util.URLEncoder;
 
@@ -13,7 +14,7 @@ import geogebra.common.util.URLEncoder;
  */
 public class SingularWebService {
 
-	private int timeout = 10;
+	private int timeout = 1;
 	//private String wsHostDefault = "http://ws.geogebra.org/Singular";
 	private final String wsHostDefault = "http://140.78.116.130:8085";
 	private final String testConnectionCommand = "t";
@@ -39,7 +40,9 @@ public class SingularWebService {
 			getRequest += "&p=" + encodedParameters;
 		}
 		HttpRequest httpr = UtilFactory.prototype.newHttpRequest();
-		String response = httpr.getResponse(getRequest); // FIXME: unimplemented in GeoGebraWeb!
+		httpr.setTimeout(timeout);
+		httpr.sendRequest(getRequest);
+		String response = httpr.getResponse(); // will not work in web
 		return response;
 	}
 	
@@ -99,7 +102,10 @@ public class SingularWebService {
 	 * If the test connection is working, then set the webservice "available".
 	 */
 	public void enable() {
-		if (testConnection()) {
+		DebugPrinter dp = UtilFactory.prototype.newDebugPrinter();
+		dp.print("Trying to enable SingularWS connection");
+		Boolean tc = testConnection();
+		if (tc != null && tc) {
 			this.available = true;
 		}
 		else this.available = false;

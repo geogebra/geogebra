@@ -1,27 +1,26 @@
 package geogebra.web.util;
 
 import geogebra.common.util.DebugPrinter;
-import geogebra.web.main.Application;
 
-public class DebugPrinterWeb extends DebugPrinter{
+/**
+ * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * Minimal debugging class for web
+ */
+public class DebugPrinterWeb extends DebugPrinter {
 
-	@Override
-    public void print(String s, String info, int level) {
-		System.out.println(info);
-		System.out.print("\t");
-		System.out.println(s);
-    }
-
-	@Override
-    public void getMemoryInfo(StringBuilder sb) {
-	    // we don't have access to this
-    }
+    @Override
+    public native void print(String s, String info, int level) /*-{
+		$wnd.console.log(info + "\t" + s);
+    }-*/;
 
 	@Override
     public void print(String s) {
-	   
-		Application.console(s);
+	    print(s, "debug:", 0);
+	    }
+
+	@Override
+    public void debug(String s, boolean showMemory, boolean showTime, int level) {
+	    print(s); // TODO: Implement to handle missing parameters
 	    
     }
-
 }

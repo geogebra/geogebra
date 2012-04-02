@@ -1,8 +1,13 @@
 package geogebra.web.util;
 
+/**
+ * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * Implements URL encoding for web
+ */
 public class URLEncoder extends geogebra.common.util.URLEncoder {
 
-	public String encode(String decodedURL) {
+	@Override
+    public String encode(String decodedURL) {
 		return com.google.gwt.http.client.URL.encode(decodedURL);
 	}
 
