@@ -1,6 +1,7 @@
 package geogebra.gui.layout;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.DockSplitPaneData;
 import geogebra.common.io.layout.Perspective;
@@ -11,7 +12,6 @@ import geogebra.common.main.settings.SettingListener;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.InputHandler;
 import geogebra.gui.dialog.InputDialog;
-import geogebra.gui.toolbar.Toolbar;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
 
@@ -120,7 +120,7 @@ public class Layout implements SettingListener {
 		spData = new DockSplitPaneData[1];
 		spData[0] = new DockSplitPaneData("", 0.25, JSplitPane.HORIZONTAL_SPLIT);
 
-		defToolbar = Toolbar.getAllToolsNoMacros();
+		defToolbar = ToolBar.getAllToolsNoMacros();
 
 		defaultPerspectives[0] = new Perspective("AlgebraAndGraphics", spData, dpData, defToolbar, true, false, true, true, true, false);
 		

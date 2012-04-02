@@ -1,9 +1,9 @@
 package geogebra3D.gui.layout.panels;
 
+import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.main.AbstractApplication;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
-import geogebra.gui.toolbar.Toolbar;
 import geogebra.main.Application;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 
@@ -24,7 +24,7 @@ public class EuclidianDockPanelForPlane extends EuclidianDockPanelAbstract {
 		super(
 			AbstractApplication.VIEW_EUCLIDIAN_FOR_PLANE,	// view id 
 			"GraphicsViewForPlaneA", 				// view title
-			Toolbar.getAllToolsNoMacrosForPlane(),// toolbar string
+			ToolBar.getAllToolsNoMacrosForPlane(),// toolbar string
 			true,						// style bar?
 			-1,							// menu order
 			'P'
