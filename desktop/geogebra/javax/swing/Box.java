@@ -4,16 +4,26 @@ import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 
-//import geogebra.gui.inputfield.AutoCompleteTextField;
-
+/**
+ * Wrapper for javax.swing.Box
+ * @author Judit Elias
+ */
 public class Box extends geogebra.common.javax.swing.Box {
 	
 	private javax.swing.Box impl = null; 
 	
+	/**
+	 * Creates new wrapper Box
+	 * @param box box to be wrapped
+	 */
 	public Box(javax.swing.Box box) {
 		this.impl = box;
 	}
 		
+	/**
+	 * Returns the wrapped box
+	 * @return wrapped box
+	 */
 	public javax.swing.Box getImpl() {
 		return this.impl;
 	}

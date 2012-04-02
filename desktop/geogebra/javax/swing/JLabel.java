@@ -2,20 +2,32 @@ package geogebra.javax.swing;
 
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Font;
-import geogebra.common.gui.inputfield.AutoCompleteTextField;
-
+/**
+ * Wrapper for javax.swing.JLabel
+ * @author Judit Elias
+ */
 public class JLabel extends geogebra.common.javax.swing.JLabel{
 	private javax.swing.JLabel impl;
 
+	/**
+	 * Creates label wrapper 
+	 * @param string text of the label
+	 */
 	public JLabel(String string) {
 		impl = new javax.swing.JLabel(string);
 	}
 
-	public void JLabel() {
+	/**
+	 * Creates new label wrapper 
+	 */
+	public JLabel() {
 		impl = new javax.swing.JLabel();
 		
 	}
 
+	/**
+	 * @return unwrapped label
+	 */
 	public javax.swing.JLabel getImpl(){
 		return impl;
 	}

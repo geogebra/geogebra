@@ -8,7 +8,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;

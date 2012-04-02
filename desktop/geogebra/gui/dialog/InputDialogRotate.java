@@ -1,23 +1,17 @@
 package geogebra.gui.dialog;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.util.Unicode;
 import geogebra.gui.InputHandler;
-import geogebra.gui.dialog.handler.NumberInputHandler;
 import geogebra.main.Application;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.swing.text.JTextComponent;
 

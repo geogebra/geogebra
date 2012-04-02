@@ -35,7 +35,7 @@ public class AlgoSample extends AlgoElement {
 	// maximum size for a sample
 	private static int SAMPLE_MAXSIZE = 10000;
 
-	private static final long serialVersionUID = 1L;
+	
 	private GeoList inputList; //input
 	private GeoBoolean replacement;
 	private NumberValue num;

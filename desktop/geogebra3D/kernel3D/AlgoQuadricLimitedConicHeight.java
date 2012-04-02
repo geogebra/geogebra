@@ -5,9 +5,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoConicND;
-import geogebra.common.kernel.kernelND.GeoSegmentND;
 
 /**
  * Algo for cylinder/cone from a conic and a height

@@ -1,10 +1,10 @@
 package geogebra.gui.view.spreadsheet;
 
-import java.awt.BasicStroke;
-import java.awt.Graphics2D;
 import geogebra.common.awt.Point;
 import geogebra.common.main.GeoGebraColorConstants;
 
+import java.awt.BasicStroke;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.HashMap;
 import java.util.Set;

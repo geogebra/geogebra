@@ -29,7 +29,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 
 public class AlgoRootMeanSquare extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
+	
 	private GeoList inputList; //input
 	private GeoNumeric result; //output	
 	private int size;

@@ -1,11 +1,12 @@
 package geogebra.gui.view.spreadsheet;
 
+import geogebra.common.awt.Point;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.GeoGebraColorConstants;
@@ -21,7 +22,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import geogebra.common.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.FocusEvent;

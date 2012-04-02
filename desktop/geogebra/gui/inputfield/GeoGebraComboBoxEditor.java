@@ -1,6 +1,7 @@
 package geogebra.gui.inputfield;
 
 import geogebra.main.Application;
+
 import java.awt.Component;
 import java.awt.event.ActionListener;
 

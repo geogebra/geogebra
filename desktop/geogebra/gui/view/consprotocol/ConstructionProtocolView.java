@@ -11,8 +11,8 @@ the Free Software Foundation.
 
  */
 
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.ConstructionElement;
@@ -69,9 +69,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTable.PrintMode;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.JTable.PrintMode;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TableColumnModelEvent;

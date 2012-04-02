@@ -1,11 +1,11 @@
 package geogebra.awt;
 
-import java.awt.Shape;
-
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.PathIterator;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
+
+import java.awt.Shape;
 
 public class Ellipse2DDouble implements geogebra.awt.RectangularShape, geogebra.common.awt.Ellipse2DDouble{
 	

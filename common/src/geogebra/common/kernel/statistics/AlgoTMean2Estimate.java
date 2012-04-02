@@ -33,7 +33,7 @@ import org.apache.commons.math.stat.descriptive.SummaryStatistics;
  */
 public class AlgoTMean2Estimate extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
+	
 	private GeoList geoList1, geoList2; //input
 	private GeoNumeric geoLevel, geoMean1, geoSD1, geoN1, geoMean2, geoSD2, geoN2; //input
 	private GeoBoolean geoPooled; //input
@@ -123,8 +123,7 @@ public class AlgoTMean2Estimate extends AlgoElement {
 			input[7] = geoPooled;
 		}
 
-		output = new GeoElement[1];
-		output[0] = result;
+		setOnlyOutput(result);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -148,12 +147,9 @@ public class AlgoTMean2Estimate extends AlgoElement {
 		
 		if(pooled)
 			return n1 + n2 - 2;
-
-		else
-
-			return (((v1 / n1) + (v2 / n2)) * ((v1 / n1) + (v2 / n2))) /
-			((v1 * v1) / (n1 * n1 * (n1 - 1d)) + (v2 * v2) /
-					(n2 * n2 * (n2 - 1d)));
+		return (((v1 / n1) + (v2 / n2)) * ((v1 / n1) + (v2 / n2))) /
+		((v1 * v1) / (n1 * n1 * (n1 - 1d)) + (v2 * v2) /
+				(n2 * n2 * (n2 - 1d)));
 	}
 
 
@@ -180,13 +176,11 @@ public class AlgoTMean2Estimate extends AlgoElement {
 			return a * se;
 			
 		
-		}else{
-
-			double se = Math.sqrt((v1 / n1) + (v2 / n2));
-			tDist = new TDistributionImpl(getDegreeOfFreedom(v1, v2, n1, n2, pooled));
-			double a = tDist.inverseCumulativeProbability((confLevel + 1d)/2);
-			return a * se;
 		}
+		double se = Math.sqrt((v1 / n1) + (v2 / n2));
+		tDist = new TDistributionImpl(getDegreeOfFreedom(v1, v2, n1, n2, pooled));
+		double a = tDist.inverseCumulativeProbability((confLevel + 1d)/2);
+		return a * se;
 
 	}
 

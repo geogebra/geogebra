@@ -1,15 +1,11 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
 
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.settings.SpreadsheetSettings;
-import geogebra.gui.view.spreadsheet.MyTable;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;

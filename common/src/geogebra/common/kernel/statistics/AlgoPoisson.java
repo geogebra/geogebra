@@ -29,7 +29,7 @@ import org.apache.commons.math.distribution.PoissonDistribution;
 
 public class AlgoPoisson extends AlgoDistribution {
 	
-	private static final long serialVersionUID = 1L;
+	
 
 	
 	public AlgoPoisson(Construction cons, String label, NumberValue a,NumberValue b, GeoBoolean isCumulative) {

@@ -1,13 +1,11 @@
 package geogebra.awt;
 
-import java.awt.Shape;
-
-import org.python.core.imp;
-
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.PathIterator;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
+
+import java.awt.Shape;
 
 public class Line2D extends geogebra.common.awt.Line2D implements geogebra.awt.Shape{
 	private java.awt.geom.Line2D impl;

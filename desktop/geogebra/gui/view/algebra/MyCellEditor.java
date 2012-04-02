@@ -4,7 +4,6 @@
 package geogebra.gui.view.algebra;
 
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.main.Application;
 

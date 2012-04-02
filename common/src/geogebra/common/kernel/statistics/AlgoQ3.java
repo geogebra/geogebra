@@ -31,7 +31,7 @@ import java.util.Arrays;
 
 public class AlgoQ3 extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
+	
 	private GeoList inputList; //input
     private GeoNumeric Q3; //output	
     private int size;

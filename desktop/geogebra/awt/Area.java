@@ -1,13 +1,12 @@
 package geogebra.awt;
 
-import java.awt.Shape;
-
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.PathIterator;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
-import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.main.Application;
+
+import java.awt.Shape;
 
 public class Area implements geogebra.common.awt.Area, geogebra.awt.Shape{
 	private java.awt.geom.Area impl;

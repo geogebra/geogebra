@@ -1,20 +1,5 @@
 package geogebra.gui.dialog;
 
-import java.awt.Point;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
@@ -43,6 +28,20 @@ import geogebra.gui.util.GeoGebraFileChooser;
 import geogebra.gui.view.functioninspector.FunctionInspector;
 import geogebra.main.Application;
 import geogebra.main.MyResourceBundle;
+
+import java.awt.Point;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 /**
  * Class to manage all kind of dialogs, including the file chooser, appearing in

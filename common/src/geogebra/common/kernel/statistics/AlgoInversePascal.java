@@ -25,7 +25,7 @@ import org.apache.commons.math.distribution.PascalDistribution;
 
 public class AlgoInversePascal extends AlgoDistribution {
 
-	private static final long serialVersionUID = 1L;
+	
     
     public AlgoInversePascal(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c) {
         super(cons, label, a, b, c, null);

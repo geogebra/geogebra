@@ -1,7 +1,7 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
 import geogebra.common.kernel.algos.AlgoClasses;
 import geogebra.common.kernel.algos.AlgoDependentList;
@@ -11,6 +11,8 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoFitPoly;
 import geogebra.common.kernel.algos.AlgoFitPow;
 import geogebra.common.kernel.algos.AlgoFitSin;
+import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
+import geogebra.common.kernel.algos.AlgoHistogram;
 import geogebra.common.kernel.algos.AlgoListElement;
 import geogebra.common.kernel.algos.AlgoListMax;
 import geogebra.common.kernel.algos.AlgoListMin;
@@ -40,8 +42,6 @@ import geogebra.common.kernel.statistics.AlgoFitLog;
 import geogebra.common.kernel.statistics.AlgoFitLogistic;
 import geogebra.common.kernel.statistics.AlgoMean;
 import geogebra.common.kernel.statistics.AlgoStandardDeviation;
-import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
-import geogebra.common.kernel.algos.AlgoHistogram;
 import geogebra.common.plugin.Operation;
 import geogebra.main.Application;
 

@@ -56,8 +56,8 @@ public class FontManager extends AbstractFontManager {
 
 		// certain languages need special fonts to display its characters
 		final StringBuilder testCharacters = new StringBuilder();
-		final LinkedList tryFontsSansSerif = new LinkedList(Arrays.asList(FONT_NAMES_SANSSERIF));
-		final LinkedList tryFontsSerif = new LinkedList(Arrays.asList(FONT_NAMES_SERIF));
+		final LinkedList<String> tryFontsSansSerif = new LinkedList<String>(Arrays.asList(FONT_NAMES_SANSSERIF));
+		final LinkedList<String> tryFontsSerif = new LinkedList<String>(Arrays.asList(FONT_NAMES_SERIF));
 
 		final String testChar = Unicode.getTestChar(lang);
 		if (testChar != null) {

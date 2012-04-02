@@ -25,7 +25,7 @@ import org.apache.commons.math.distribution.ChiSquaredDistribution;
 
 public class AlgoInverseChiSquared extends AlgoDistribution {
 
-	private static final long serialVersionUID = 1L;
+	
     
     public AlgoInverseChiSquared(Construction cons, String label, NumberValue a,NumberValue b) {
         super(cons, label, a, b, null, null);

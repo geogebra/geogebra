@@ -5,8 +5,6 @@ import geogebra.main.Application;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 
 /**

@@ -1,21 +1,20 @@
 package geogebra.gui.view.spreadsheet;
 
+import geogebra.common.awt.Point;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
-import geogebra.common.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.regex.Matcher;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.JTextComponent;

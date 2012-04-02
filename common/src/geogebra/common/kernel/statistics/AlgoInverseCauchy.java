@@ -25,7 +25,7 @@ import org.apache.commons.math.distribution.CauchyDistribution;
 
 public class AlgoInverseCauchy extends AlgoDistribution {
 
-	private static final long serialVersionUID = 1L;
+	
     
     public AlgoInverseCauchy(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c) {
         super(cons, label, a, b, c, null);

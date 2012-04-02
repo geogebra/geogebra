@@ -7,7 +7,6 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdPointIn;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra3D.kernel3D.Kernel3D;
 
 
 /*

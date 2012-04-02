@@ -25,7 +25,7 @@ import org.apache.commons.math.distribution.ExponentialDistribution;
 
 public class AlgoInverseExponential extends AlgoDistribution {
 
-	private static final long serialVersionUID = 1L;
+	
     
     public AlgoInverseExponential(Construction cons, String label, NumberValue a,NumberValue b) {
         super(cons, label, a, b, null, null);

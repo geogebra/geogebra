@@ -1,9 +1,9 @@
 package geogebra.gui.dialog;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoDependentText;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -19,7 +19,6 @@ import geogebra.common.main.MyError;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.util.GeoGebraIcon;
-import geogebra.main.Application;
 
 import java.awt.Color;
 import java.awt.Dimension;

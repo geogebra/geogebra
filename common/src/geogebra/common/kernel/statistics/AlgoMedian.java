@@ -31,7 +31,7 @@ import java.util.Arrays;
 
 public class AlgoMedian extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
+	
 	private GeoList inputList; //input
     private GeoNumeric median; //output	
     private int size;

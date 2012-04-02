@@ -1,15 +1,14 @@
 package geogebra.gui.view.spreadsheet;
 
 
+import geogebra.common.awt.Point;
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import geogebra.common.awt.Point;
-import geogebra.common.main.AbstractApplication;
-
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -28,7 +27,6 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 
 public class SpreadsheetRowHeader extends JList 
 implements MouseListener, MouseMotionListener, KeyListener, ListSelectionListener

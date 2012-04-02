@@ -32,7 +32,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 
 public abstract class AlgoStats1D extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
+	
 	private GeoList geoList; //input
 	public GeoNumeric Truncate; //input	
 	public GeoNumeric result; //output	

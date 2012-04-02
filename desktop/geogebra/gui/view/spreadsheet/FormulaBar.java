@@ -1,7 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.AbstractApplication;
 import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.main.Application;

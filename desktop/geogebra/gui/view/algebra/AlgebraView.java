@@ -22,7 +22,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.LayerView;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.SetLabels;

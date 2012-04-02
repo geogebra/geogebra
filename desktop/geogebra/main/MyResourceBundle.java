@@ -29,10 +29,21 @@ import java.util.ResourceBundle;
 public class MyResourceBundle extends PropertyResourceBundle implements ResourceBundleAdapter{	
 		
 	
+	/**
+	 * Creates new bundle from a stream
+	 * @param in input stream
+	 * @throws IOException if problem occurs reading the stream
+	 */
 	public MyResourceBundle(InputStream in) throws IOException {	
 			super(in);
 	}
 	
+	/**
+	 * Creates bundle given the filename and locale
+	 * @param name filename of .properties file (without extension
+	 * @param locale language locale
+	 * @return created bundle
+	 */
 	final  public  static ResourceBundle createBundle(String name, Locale locale) {						
 		MyResourceBundle bundle, temp = null;
 		
@@ -92,6 +103,11 @@ public class MyResourceBundle extends PropertyResourceBundle implements Resource
     	return bundle;
 	}
 	
+    /**
+     * Creates bundle from given file, but in single language only
+     * @param name filename (without .properties extension)
+     * @return created bundle
+     */
     public  static MyResourceBundle loadSingleBundleFile(String name) {    	    	
     	//Application.debug("loadBundle: " + name);
     	

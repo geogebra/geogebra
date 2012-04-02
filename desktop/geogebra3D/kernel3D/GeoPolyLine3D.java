@@ -1,7 +1,7 @@
 package geogebra3D.kernel3D;
 
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -24,7 +24,7 @@ import geogebra3D.euclidian3D.Drawable3D;
  * 
  */
 public class GeoPolyLine3D extends GeoPolyLine implements
-		GeoElement3DInterface, Path {
+		GeoElement3DInterface {
 
 	private boolean defined = false;
 

@@ -13,15 +13,14 @@ the Free Software Foundation.
 package geogebra.gui.dialog;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ConstructionDefaults;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
-import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoElementSelectionListener;
-import geogebra.euclidian.EuclidianView;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.GeoTreeCellRenderer;
 import geogebra.gui.SetLabels;

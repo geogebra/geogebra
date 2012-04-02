@@ -1,7 +1,6 @@
 package geogebra.awt;
 
 import geogebra.common.awt.AffineTransform;
-import geogebra.common.awt.AlphaComposite;
 import geogebra.common.awt.AttributedCharacterIterator;
 import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.BufferedImage;
@@ -21,7 +20,6 @@ import geogebra.common.awt.RenderedImage;
 import geogebra.common.awt.RenderingHints;
 import geogebra.common.euclidian.GeneralPathClipped;
 
-import java.awt.Shape;
 import java.util.Map;
 
 /**

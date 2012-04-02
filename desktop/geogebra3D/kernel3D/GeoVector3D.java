@@ -1,10 +1,8 @@
 package geogebra3D.kernel3D;
 
-import java.util.ArrayList;
-
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
@@ -19,6 +17,8 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.plugin.GeoClass;
 
+import java.util.ArrayList;
+
 
 /**
  * 3D vector class
@@ -26,7 +26,7 @@ import geogebra.common.plugin.GeoClass;
  * @author ggb3D
  * 
  */
-public class GeoVector3D extends GeoVec4D implements GeoVectorND, Locateable,
+public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		Vector3DValue, SpreadsheetTraceable {
 
 	private GeoPointND startPoint;

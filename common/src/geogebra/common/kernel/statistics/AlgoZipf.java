@@ -26,7 +26,7 @@ import org.apache.commons.math.distribution.ZipfDistribution;
 
 public class AlgoZipf extends AlgoDistribution {
 
-	private static final long serialVersionUID = 1L;
+	
     
     public AlgoZipf(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c, GeoBoolean isCumulative) {
         super(cons, label, a, b, c, isCumulative);

@@ -25,7 +25,7 @@ import org.apache.commons.math.distribution.WeibullDistribution;
 
 public class AlgoInverseWeibull extends AlgoDistribution {
 
-	private static final long serialVersionUID = 1L;
+	
     
     public AlgoInverseWeibull(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c) {
         super(cons, label, a, b, c, null);

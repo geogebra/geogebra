@@ -1,18 +1,17 @@
 package geogebra.gui.view.assignment;
 
+import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.View;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.AbstractApplication;
+import geogebra.gui.view.Gridable;
+import geogebra.main.Application;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.print.PageFormat;
 import java.awt.print.PrinterException;
-
-import geogebra.gui.view.Gridable;
-import geogebra.gui.view.consprotocol.ConstructionProtocolView.ConstructionTableData;
-import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.View;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;

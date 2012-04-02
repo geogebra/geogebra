@@ -27,7 +27,7 @@ import geogebra.common.util.Cloner;
 
 public class AlgoPascalBarChart extends AlgoFunctionAreaSums {
 
-	private static final long serialVersionUID = 1L;
+	
 
 	public AlgoPascalBarChart(Construction cons, String label, 
 			NumberValue n, NumberValue p) {

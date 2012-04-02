@@ -28,7 +28,6 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
@@ -426,7 +425,7 @@ public class DockBar extends JPanel implements ActionListener {
 			getContentPane().add(turtlePanel, "Center");
 			setSize(300, 300);
 			pack();
-		};
+		}
 	}
 	
 	private void createTurtle(int demo) {

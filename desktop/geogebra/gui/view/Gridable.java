@@ -18,9 +18,9 @@ the Free Software Foundation.
 
 package geogebra.gui.view;
 
-import java.awt.Component;
-
 import geogebra.main.Application;
+
+import java.awt.Component;
 
 /**
  * This interface is needed by PrintGridable to print an Object on more than one page

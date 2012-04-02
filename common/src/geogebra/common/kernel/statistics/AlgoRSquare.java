@@ -32,7 +32,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 
 public class AlgoRSquare extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
+	
 	private GeoList inputList; //input
 	private GeoFunctionable function; //input
     private GeoNumeric r2; //output	

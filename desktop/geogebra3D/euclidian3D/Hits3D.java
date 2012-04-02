@@ -149,7 +149,7 @@ public class Hits3D extends Hits {
 
 		
 		for (Iterator<Drawable3D> iter = hitSetSet.first().iterator(); iter.hasNext();) {
-			Drawable3D d = (Drawable3D) iter.next();
+			Drawable3D d = iter.next();
 			topHits.add(d.getGeoElement());
 		}
 		
@@ -161,7 +161,7 @@ public class Hits3D extends Hits {
 		for (Iterator<TreeSetOfDrawable3D> iterSet = hitSetSet.iterator(); iterSet.hasNext();) {
 			TreeSetOfDrawable3D set = iterSet.next();
 			for (Iterator<Drawable3D> iter = set.iterator(); iter.hasNext();) {
-				Drawable3D d = (Drawable3D) iter.next();
+				Drawable3D d = iter.next();
 				drawables3D.add(d);
 				GeoElement geo = d.getGeoElement();
 				this.add(geo);
@@ -229,7 +229,7 @@ public class Hits3D extends Hits {
 			
 			for (Iterator<Drawable3D> iter = set.iterator();
 			iter.hasNext() && geoNCount < geoN;) {
-				Drawable3D d = (Drawable3D) iter.next();
+				Drawable3D d = iter.next();
 				GeoElement geo = d.getGeoElement();
 				ret.add(geo);
 				geoNCount++;
@@ -294,7 +294,7 @@ public class Hits3D extends Hits {
 	public void removeAllPolygonsAndQuadricsButOne(){
 		boolean foundTarget = false;
 		for (int i = 0 ; i < size() - 1 ; ++i ) {
-			GeoElement geo = (GeoElement) get(i);
+			GeoElement geo = get(i);
 			if (geo.isGeoPolygon() || geo instanceof GeoQuadric3D || geo.isGeoConic()){
 				if (foundTarget)
 					//not removing when found first time
@@ -307,7 +307,7 @@ public class Hits3D extends Hits {
 	public void removeAllGeoCoordSys2DsButOne(){
 		boolean foundTarget = false;
 		for (int i = 0 ; i < size() - 1 ; ++i ) {
-			GeoElement geo = (GeoElement) get(i);
+			GeoElement geo = get(i);
 			if (geo instanceof GeoCoordSys2D || geo instanceof GeoQuadric3D){
 				if (foundTarget)
 					//not removing when found first time

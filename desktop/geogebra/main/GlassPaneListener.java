@@ -32,6 +32,11 @@ public class GlassPaneListener implements MouseListener, MouseMotionListener, Ke
 	private Component glassPane, destComp;
 	private Container contentPane;
 	
+	/**
+	 * @param glassPane glass pane
+	 * @param contentPane container
+	 * @param destComp destination component
+	 */
 	public GlassPaneListener(Component glassPane, Container contentPane, Component destComp) {
 		this.glassPane = glassPane;
 		this.contentPane = contentPane;

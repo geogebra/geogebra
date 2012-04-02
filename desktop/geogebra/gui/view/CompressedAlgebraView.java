@@ -1,15 +1,15 @@
 package geogebra.gui.view;
 
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.gui.view.algebra.AlgebraController;
+import geogebra.gui.view.algebra.AlgebraView;
+
 import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.Timer;
-
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.gui.view.algebra.AlgebraController;
-import geogebra.gui.view.algebra.AlgebraView;
 
 /**
  * This class will collect update events in a time slice and bundles them in a

@@ -57,10 +57,9 @@ import java.util.TreeSet;
 /**
  * 
  * @author Markus + ggb3D
- * @version
  */
 public class GeoPoint3D extends GeoVec4D implements GeoPointND,
-		PointProperties, Vector3DValue, Translateable, SpreadsheetTraceable, MatrixTransformable {
+		Vector3DValue, Translateable, SpreadsheetTraceable, MatrixTransformable {
 
 	private boolean isInfinite, isDefined;
 	public int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;

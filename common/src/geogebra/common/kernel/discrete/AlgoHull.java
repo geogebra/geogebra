@@ -41,7 +41,7 @@ import java.util.Collection;
 
 public class AlgoHull extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
+	
 	protected GeoList inputList; // input
 	private GeoNumeric percentage; // input
 	protected GeoLocus locus; // output

@@ -32,7 +32,7 @@ import org.apache.commons.math.stat.descriptive.SummaryStatistics;
  */
 public class AlgoTMeanEstimate extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
+	
 	private GeoList geoList; //input
 	private GeoNumeric geoLevel, geoMean, geoSD, geoN; //input
 	private GeoList  result;     // output   

@@ -23,7 +23,6 @@ import geogebra.gui.util.HelpAction;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.main.Application;
-import geogebra.util.Util;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

@@ -25,7 +25,7 @@ import org.apache.commons.math.distribution.GammaDistribution;
 
 public class AlgoInverseGamma extends AlgoDistribution {
 
-	private static final long serialVersionUID = 1L;
+	
     
     public AlgoInverseGamma(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c) {
         super(cons, label, a, b, c, null);

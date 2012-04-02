@@ -29,7 +29,7 @@ import org.apache.commons.math.stat.descriptive.rank.Percentile;
 
 public class AlgoPercentile extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
+	
 	private GeoList inputList; //input
 	private GeoNumeric value; //input
 	private GeoNumeric result; //output	

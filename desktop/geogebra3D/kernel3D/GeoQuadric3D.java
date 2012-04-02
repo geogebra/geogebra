@@ -1,7 +1,7 @@
 package geogebra3D.kernel3D;
 
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
@@ -17,7 +17,6 @@ import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.kernelND.Region3D;
 import geogebra.common.plugin.GeoClass;
-
 import geogebra.main.Application;
 
 /**

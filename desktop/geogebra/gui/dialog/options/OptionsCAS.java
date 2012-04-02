@@ -5,16 +5,16 @@ import geogebra.common.main.settings.CASSettings;
 import geogebra.gui.SetLabels;
 import geogebra.main.Application;
 
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JCheckBox;
 /**
  * Options for the CAS view.
  */

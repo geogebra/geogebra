@@ -26,7 +26,7 @@ import org.apache.commons.math.distribution.PascalDistribution;
 
 public class AlgoPascal extends AlgoDistribution {
 
-	private static final long serialVersionUID = 1L;
+	
     
     public AlgoPascal(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c, GeoBoolean isCumulative) {
         super(cons, label, a, b, c, isCumulative);

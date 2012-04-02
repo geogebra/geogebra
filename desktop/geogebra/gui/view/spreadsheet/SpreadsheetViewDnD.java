@@ -1,15 +1,13 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.gui.view.algebra.AlgebraView;
-import geogebra.main.Application;
-import geogebra.util.AlgebraViewTransferHandler;
-
 import geogebra.common.awt.Point;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.gui.view.algebra.AlgebraView;
+import geogebra.main.Application;
+import geogebra.util.AlgebraViewTransferHandler;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;

@@ -33,7 +33,7 @@ import java.util.TreeSet;
 
 public class AlgoOrdinalRank extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
+	
 	private GeoList inputList; //input
     private GeoList outputList; //output	
     private int size;

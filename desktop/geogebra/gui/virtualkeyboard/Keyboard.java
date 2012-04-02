@@ -1,7 +1,6 @@
 package geogebra.gui.virtualkeyboard;
 
 import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
 
 import java.awt.AWTException;
 import java.awt.Robot;

@@ -1,7 +1,6 @@
 package geogebra.gui.autocompletion;
 
 import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
 
 import java.awt.Component;
 import java.awt.Container;

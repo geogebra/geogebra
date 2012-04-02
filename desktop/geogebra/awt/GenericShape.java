@@ -1,12 +1,13 @@
 package geogebra.awt;
 
-import java.awt.Shape;
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.PathIterator;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
 import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.main.Application;
+
+import java.awt.Shape;
 
 public class GenericShape implements geogebra.awt.Shape{
 	private java.awt.Shape impl; 

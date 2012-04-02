@@ -1,7 +1,7 @@
 package geogebra3D.kernel3D;
 
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Manager3DInterface;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;

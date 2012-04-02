@@ -25,7 +25,7 @@ import org.apache.commons.math.distribution.TDistribution;
 
 public class AlgoInverseTDistribution extends AlgoDistribution {
 
-	private static final long serialVersionUID = 1L;
+	
     
     public AlgoInverseTDistribution(Construction cons, String label, NumberValue a,NumberValue b) {
         super(cons, label, a, b, null, null);

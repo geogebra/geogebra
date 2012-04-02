@@ -1,12 +1,12 @@
 package geogebra.awt;
 
-import java.awt.Shape;
-
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.PathIterator;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.Rectangle2D;
 import geogebra.main.Application;
+
+import java.awt.Shape;
 
 public class GenericRectangle2D implements geogebra.awt.Rectangle2D{
 

@@ -374,10 +374,10 @@ public class ClipShape {
 		double initialY = 0;
 		int k;
 		double[] f = doubleFactory.getArray(6);
-		double rTop = (double)r.getY();
-		double rLeft = (double)r.getX();
-		double rRight = (double)(r.getX()+r.getWidth());
-		double rBottom = (double)(r.getY()+r.getHeight());
+		double rTop = r.getY();
+		double rLeft = r.getX();
+		double rRight = (r.getX()+r.getWidth());
+		double rBottom = (r.getY()+r.getHeight());
 		boolean shouldClose = false;
 		double lastX = 0;
 		double lastY = 0;
@@ -470,8 +470,8 @@ public class ClipShape {
 						//Remember we can make redundant horizontal/vertical lines
 						//all we want to because the ClippedPath will clean up
 						//the mess.
-						x = (double)xf.evaluate(interestingTimes[a]);
-						y = (double)yf.evaluate(interestingTimes[a]);
+						x = xf.evaluate(interestingTimes[a]);
+						y = yf.evaluate(interestingTimes[a]);
 						cappedX = x;
 						cappedY = y;
 						
@@ -488,8 +488,8 @@ public class ClipShape {
 						
 						thisValueIsCapped = !(Math.abs(x-cappedX)<TOLERANCE && Math.abs(y-cappedY)<TOLERANCE);
 						
-						x2 = (double)xf.evaluate((interestingTimes[a]+interestingTimes[a-1])/2);
-						y2 = (double)yf.evaluate((interestingTimes[a]+interestingTimes[a-1])/2);
+						x2 = xf.evaluate((interestingTimes[a]+interestingTimes[a-1])/2);
+						y2 = yf.evaluate((interestingTimes[a]+interestingTimes[a-1])/2);
 						midValueInvalid = !(rLeft<=x2 && x2<=rRight && rTop<=y2 && y2<=rBottom);
 							
 						if(( xf instanceof LFunction) || thisValueIsCapped || lastValueWasCapped || midValueInvalid ) {
@@ -503,8 +503,8 @@ public class ClipShape {
 						lastValueWasCapped = thisValueIsCapped;
 					}
 				}
-				lastX = (double)xf.evaluate(1);
-				lastY = (double)yf.evaluate(1);
+				lastX = xf.evaluate(1);
+				lastY = yf.evaluate(1);
 			}
 			if(shouldClose) {
 				p.closePath();

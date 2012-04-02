@@ -524,9 +524,9 @@ public class RelativeCopy {
 	 * spreadsheet of offset (dx,dy) (changes only dependents of value) eg
 	 * change A1 < 3 to A2 < 3 for a vertical copy
 	 */
-	public static String updateCellReferences(GeoElement value, String text,
+	public static String updateCellReferences(GeoElement value, String inputText,
 			int dx, int dy) {
-
+		String text = inputText;
 		StringBuilder before = new StringBuilder();
 		StringBuilder after = new StringBuilder();
 
@@ -663,6 +663,15 @@ public class RelativeCopy {
 
 	}
 
+	/**
+	 * @param kernel kernel
+	 * @param app application
+	 * @param text definition text
+	 * @param geoForStyle geo to be used for style of output
+	 * @param column column
+	 * @param row row
+	 * @throws Exception if definition of new geo fails
+	 */
 	public static void doCopyNoStoringUndoInfo1(Kernel kernel, AbstractApplication app,
 			String text, GeoElement geoForStyle, int column, int row)
 			throws Exception {
@@ -794,7 +803,8 @@ public class RelativeCopy {
 	// =========================================================================
 
 	private static GeoElement prepareNewValue(Kernel kernel, String name,
-			String text) throws Exception {
+			String inputText) throws Exception {
+		String text = inputText;
 		if (text == null) {
 			return null;
 		}
@@ -1032,8 +1042,8 @@ public class RelativeCopy {
 	 * @param s
 	 * @return	true if the given string represents a number.
 	 */
-	public static boolean isNumber(String s) {
-		
+	public static boolean isNumber(String str) {
+		String s = str;
 		// trim and return false if empty string
 		s = s.trim();
 		if(s == null || s.length() == 0) return false;

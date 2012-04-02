@@ -22,7 +22,6 @@ import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.kernel3D.GeoPlane3D;
-import geogebra3D.kernel3D.GeoPoint3D;
 
 
 public class AlgebraProcessor3D extends AlgebraProcessor {

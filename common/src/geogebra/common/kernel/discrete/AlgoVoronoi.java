@@ -40,7 +40,7 @@ import java.util.TreeSet;
 
 public class AlgoVoronoi extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
+	
 	private GeoList inputList; //input
     private GeoLocus locus; // output   
     private ArrayList<MyPoint> al;

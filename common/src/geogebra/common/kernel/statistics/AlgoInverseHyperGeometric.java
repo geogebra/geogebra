@@ -25,7 +25,7 @@ import org.apache.commons.math.distribution.HypergeometricDistribution;
 
 public class AlgoInverseHyperGeometric extends AlgoDistribution {
 
-	private static final long serialVersionUID = 1L;
+	
     
     public AlgoInverseHyperGeometric(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c, NumberValue d) {
         super(cons, label, a, b, c, d);

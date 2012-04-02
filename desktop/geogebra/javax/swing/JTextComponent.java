@@ -1,10 +1,12 @@
 package geogebra.javax.swing;
 
-import geogebra.gui.inputfield.AutoCompleteTextField;
-
+/**
+ * Wrapper for javax.swing.JTextComponent
+ * @author Judit Elias
+ */
 public class JTextComponent extends geogebra.common.javax.swing.JTextComponent {
 	
-	public javax.swing.text.JTextComponent impl = null; 
+	private javax.swing.text.JTextComponent impl = null; 
 	
 	private JTextComponent(javax.swing.text.JTextComponent impl) {
 		this.impl = impl;
@@ -15,10 +17,18 @@ public class JTextComponent extends geogebra.common.javax.swing.JTextComponent {
 		impl.replaceSelection(string);
 	}
 
+	/**
+	 * Wraps given component
+	 * @param textField text component to be wrapped
+	 * @return wrapped text component
+	 */
 	public static JTextComponent wrap(javax.swing.text.JTextComponent textField) {
 		return new JTextComponent(textField);
 	}
 	
+	/**
+	 * @return unwrapped text component
+	 */
 	public javax.swing.text.JTextComponent getImpl() {
 		return this.impl;
 	}

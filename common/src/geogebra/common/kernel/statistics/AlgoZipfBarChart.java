@@ -27,7 +27,7 @@ import geogebra.common.util.Cloner;
 
 public class AlgoZipfBarChart extends AlgoFunctionAreaSums {
 
-	private static final long serialVersionUID = 1L;
+	
 
 	public AlgoZipfBarChart(Construction cons, String label, 
 			NumberValue n, NumberValue p) {

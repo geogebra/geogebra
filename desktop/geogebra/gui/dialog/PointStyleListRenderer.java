@@ -2,7 +2,6 @@ package geogebra.gui.dialog;
 
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidian.EuclidianStatic;
-import geogebra.euclidian.EuclidianView;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

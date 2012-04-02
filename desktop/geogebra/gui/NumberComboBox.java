@@ -19,6 +19,7 @@ import geogebra.common.util.NumberFormatAdapter;
 import geogebra.main.Application;
 
 import java.awt.Dimension;
+
 import javax.swing.JComboBox;
 
 public class NumberComboBox extends JComboBox {

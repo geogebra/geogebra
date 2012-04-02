@@ -1,11 +1,11 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;

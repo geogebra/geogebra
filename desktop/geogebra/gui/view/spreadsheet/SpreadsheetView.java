@@ -1,6 +1,7 @@
 
 package geogebra.gui.view.spreadsheet;
 
+import geogebra.common.awt.Point;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
@@ -20,7 +21,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import geogebra.common.awt.Point;
 import java.awt.SystemColor;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;

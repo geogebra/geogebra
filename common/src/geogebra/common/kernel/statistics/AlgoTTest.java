@@ -33,7 +33,7 @@ import org.apache.commons.math.stat.inference.TTestImpl;
  */
 public class AlgoTTest extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
+	
 	private GeoList geoList; //input
 	private GeoNumeric hypMean, mean, sd, n; //input
 	private GeoText tail; //input

@@ -24,7 +24,7 @@ import geogebra.common.kernel.geos.GeoList;
 
 public class AlgoListSXX extends AlgoStats2D {
 
-	private static final long serialVersionUID = 1L;
+	
 
 	public AlgoListSXX(Construction cons, String label, GeoList geoListx) {
         super(cons,label,geoListx,AlgoStats2D.STATS_SXX);

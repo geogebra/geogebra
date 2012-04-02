@@ -32,7 +32,7 @@ import org.apache.commons.math.stat.inference.TTestImpl;
  */
 public class AlgoTTestPaired extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
+	
 	private GeoList geoList0, geoList1; //input
 	private GeoText tail; //input
 	private GeoList  result;     // output   

@@ -6,9 +6,6 @@ import geogebra.common.kernel.commands.CmdRay;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
-import geogebra3D.kernel3D.GeoElement3D;
-import geogebra3D.kernel3D.GeoPoint3D;
-import geogebra3D.kernel3D.Kernel3D;
 
 
 

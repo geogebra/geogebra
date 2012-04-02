@@ -1,8 +1,8 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
@@ -14,7 +14,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.plugin.GeoClass;
 import geogebra.euclidian.EuclidianView;
-
 import geogebra3D.euclidian3D.Drawable3D;
 
 /**

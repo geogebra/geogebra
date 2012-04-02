@@ -6,7 +6,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
 
 /**
  * @author ggb3D

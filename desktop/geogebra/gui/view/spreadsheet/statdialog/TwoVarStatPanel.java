@@ -2,25 +2,13 @@ package geogebra.gui.view.spreadsheet.statdialog;
 
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoListLength;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.statistics.AlgoMean;
-import geogebra.common.kernel.statistics.AlgoSampleStandardDeviation;
-import geogebra.common.kernel.statistics.AlgoStandardDeviation;
 import geogebra.main.Application;
 
-import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
-
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.table.TableCellRenderer;
 
 import org.apache.commons.math.stat.StatUtils;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;

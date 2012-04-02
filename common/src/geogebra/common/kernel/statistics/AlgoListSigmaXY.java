@@ -24,7 +24,7 @@ import geogebra.common.kernel.geos.GeoList;
 
 public class AlgoListSigmaXY extends AlgoStats2D {
 
-	private static final long serialVersionUID = 1L;
+	
 
 	public AlgoListSigmaXY(Construction cons, String label, GeoList geoListx) {
         super(cons,label,geoListx,AlgoStats2D.STATS_SIGMAXY);

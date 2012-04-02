@@ -24,7 +24,7 @@ import geogebra.common.kernel.geos.GeoList;
 
 public class AlgoListSampleSDY extends AlgoStats2D {
 
-	private static final long serialVersionUID = 1L;
+	
 
 	public AlgoListSampleSDY(Construction cons, String label, GeoList geoListy) {
         super(cons,label,geoListy,AlgoStats2D.STATS_SAMPLESDY);

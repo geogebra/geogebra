@@ -1,7 +1,7 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoListLength;
 import geogebra.common.kernel.algos.AlgoListMax;

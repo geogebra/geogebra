@@ -2405,8 +2405,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	// SELECTIONS
 	
 	/** selected 1D coord sys */
-	@SuppressWarnings("unchecked")
-	protected ArrayList selectedCS1D = new ArrayList();
+	protected ArrayList<GeoCoordSys1D> selectedCS1D = new ArrayList<GeoCoordSys1D>();
 	
 	/** add hits to selectedCS1D
 	 * @param hits hits
@@ -2431,13 +2430,12 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 	/** return selected 1D coord sys
 	 * @return selected 1D coord sys
 	 */
-	@SuppressWarnings("unchecked")
 	final protected GeoCoordSys1D[] getSelectedCS1D() {
 		GeoCoordSys1D[] lines = new GeoCoordSys1D[selectedCS1D.size()];
 		int i = 0;
-		Iterator it = selectedCS1D.iterator();
+		Iterator<GeoCoordSys1D> it = selectedCS1D.iterator();
 		while (it.hasNext()) {
-			lines[i] = (GeoCoordSys1D) it.next();
+			lines[i] = it.next();
 			i++;
 		}
 		clearSelection(selectedCS1D);

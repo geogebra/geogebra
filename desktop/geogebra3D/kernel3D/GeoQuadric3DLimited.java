@@ -12,7 +12,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.plugin.GeoClass;
-import geogebra.main.Application;
 
 
 /**

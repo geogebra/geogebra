@@ -6,24 +6,20 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.TextValue;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.euclidian.EuclidianView;
 import geogebra.main.Application;
 import geogebra.util.BarcodeFactory;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Locale;
-
-import javax.imageio.ImageIO;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
@@ -60,7 +56,6 @@ public class CmdBarCode extends CommandProcessor {
 		GeoElement[] arg;
 		arg = resArgs(c);
 
-		double r;
 		switch (n) {
 		case 0:
 			// decode barcode from active Graphics View
@@ -70,11 +65,11 @@ public class CmdBarCode extends CommandProcessor {
 			if (ev.getSelectedWidth() > 600 || ev.getSelectedHeight() > 600) {
 				// if it's too big, get scaled image
 				image = ((Application) app).getExportImage(600, 600);
-				Application.debug("600x600");
+				AbstractApplication.debug("600x600");
 			} else {
 				// otherwise get image at 1:1
 				image = ev.getExportImage(1.0);
-				Application.debug("1.0");
+				AbstractApplication.debug("1.0");
 			}
 
 			/*

@@ -32,7 +32,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 
 public abstract class AlgoStats2D extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
+	
 	private GeoList geoListx; //input
 	private GeoList geoListy; //input
     public GeoNumeric result; //output	

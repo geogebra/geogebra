@@ -25,7 +25,7 @@ import org.apache.commons.math.distribution.PoissonDistribution;
 
 public class AlgoInversePoisson extends AlgoDistribution {
 
-	private static final long serialVersionUID = 1L;
+	
 
 	public AlgoInversePoisson(Construction cons, String label, NumberValue a,
 			NumberValue b) {

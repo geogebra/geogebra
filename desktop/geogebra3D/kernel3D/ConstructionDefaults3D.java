@@ -6,7 +6,6 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.main.Application;
 
 import java.awt.Color;
 

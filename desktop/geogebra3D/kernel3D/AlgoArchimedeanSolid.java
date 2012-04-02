@@ -1,14 +1,13 @@
 package geogebra3D.kernel3D;
 
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-
 import geogebra3D.archimedean.support.ArchimedeanSolidFactory;
 import geogebra3D.archimedean.support.IArchimedeanSolid;
 import geogebra3D.archimedean.support.IFace;

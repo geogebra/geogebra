@@ -31,7 +31,7 @@ import org.apache.commons.math.stat.correlation.SpearmansCorrelation;
  */
 public class AlgoSpearman extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
+	
 	private GeoList geoListPts, geoListX, geoListY; //input
 	private GeoNumeric  result;     // output   
 	private SpearmansCorrelation sp;

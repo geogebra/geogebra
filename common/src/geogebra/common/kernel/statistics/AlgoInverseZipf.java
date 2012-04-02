@@ -25,7 +25,7 @@ import org.apache.commons.math.distribution.ZipfDistribution;
 
 public class AlgoInverseZipf extends AlgoDistribution {
 
-	private static final long serialVersionUID = 1L;
+	
     
     public AlgoInverseZipf(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c) {
         super(cons, label, a, b, c, null);

@@ -1,17 +1,12 @@
 package geogebra3D.kernel3D.commands;
 
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CmdAngle;
 import geogebra.common.kernel.commands.CmdTranslate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.common.kernel.geos.GeoVec3D;
-import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Translateable;
-import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.MyError;
 

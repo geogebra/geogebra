@@ -4,13 +4,9 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CmdCurveCartesian;
-import geogebra.common.kernel.commands.CmdLine;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
-import geogebra3D.kernel3D.GeoElement3D;
-import geogebra3D.kernel3D.GeoPoint3D;
-import geogebra3D.kernel3D.Kernel3D;
 
 
 

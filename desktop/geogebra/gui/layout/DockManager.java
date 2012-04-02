@@ -2,7 +2,6 @@ package geogebra.gui.layout;
 
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.DockSplitPaneData;
-import geogebra.euclidian.EuclidianView;
 import geogebra.euclidian.EuclidianViewJPanel;
 import geogebra.gui.SetLabels;
 import geogebra.gui.layout.panels.ErrorDockPanel;

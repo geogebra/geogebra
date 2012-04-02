@@ -1,8 +1,8 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.io.DocHandler;
-import geogebra.gui.dialog.InputDialog;
 import geogebra.common.io.QDParser;
+import geogebra.gui.dialog.InputDialog;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;

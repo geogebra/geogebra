@@ -110,7 +110,7 @@ public class AlgoFitSin extends AlgoElement {
 	private static RegressionMath regMath = null; // Reference to detXX
 
 	// / --- GeoGebra obligatory: --- ///
-	private static final long serialVersionUID = 1L;
+	
 	private GeoList geolist; // input
 	private GeoFunction geofunction; // output
 
