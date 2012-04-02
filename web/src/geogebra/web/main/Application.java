@@ -173,6 +173,10 @@ public class Application extends AbstractApplication {
 		dbg = new DebugPrinterWeb();
 		initCommonObjects();
 		
+		initGuiManager();
+		
+		getGuiManager().getLayout().setPerspectives(tmpPerspectives);
+		
 		this.canvas = appFrame.getEuclidianView1Canvas();
 		this.euclidianViewPanel = appFrame.getEuclidianView1Panel();
 		
@@ -184,6 +188,7 @@ public class Application extends AbstractApplication {
 		getEuclidianView1().repaintView();
 		appFrame.finishAsyncLoading(article, geoGebraAppFrame, this);
     }
+
 
 	public Application(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame) {
 	   this(article, geoGebraAppFrame, true);
@@ -1311,9 +1316,20 @@ public class Application extends AbstractApplication {
 
 	@Override
     protected void initGuiManager() {
-	    // TODO Auto-generated method stub
+		setWaitCursor();
+		guiManager = newGuiManager();
+		guiManager.setLayout(new geogebra.web.gui.layout.Layout());
+		guiManager.initialize();
+		setDefaultCursor();
 	    
     }
+	
+	/**
+	 * @return a GuiManager for GeoGebraWeb
+	 */
+	protected GuiManager newGuiManager() {
+		return new GuiManager(Application.this);
+	}
 	
 	private void createSplash() {
 		splash = new SplashDialog();

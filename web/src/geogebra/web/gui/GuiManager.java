@@ -12,6 +12,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.euclidian.EuclidianView;
+import geogebra.web.gui.layout.Layout;
 import geogebra.web.main.Application;
 
 import java.util.ArrayList;
@@ -33,9 +34,13 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	private String strCustomToolbarDefinition;
 
+	private Layout layout;
+
 	public GuiManager(AbstractApplication app) {
 		this.app = app;
 		this.kernel = app.getKernel();
+		
+		//AGdialogManagerFactory = new DialogManager.Factory();
 	}
 
 	public void redo() {
@@ -232,10 +237,27 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	}
 
 	public String getToolbarDefinition() {
-		if (strCustomToolbarDefinition == null)
+		if (strCustomToolbarDefinition == null) {
 			return geogebra.web.gui.toolbar.ToolBar.getAllTools((Application) app);
-		else
-			return strCustomToolbarDefinition;
+		}
+		return strCustomToolbarDefinition;
+	}
+
+	/**
+	 * Initializes GuiManager for web
+	 */
+	public void initialize() {
+		//do nothing yet
+	    // TODO Auto-generated method stub
+	    
+    }
+	
+	public void setLayout(Layout layout) {
+		this.layout = layout;
+	}
+
+	public Layout getLayout() {
+		return layout;
 	}
 	
 	

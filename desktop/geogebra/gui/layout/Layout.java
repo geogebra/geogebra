@@ -43,22 +43,11 @@ import javax.swing.SwingUtilities;
  * 
  * @author Florian Sonner
  */
-public class Layout implements SettingListener {	
+public class Layout extends geogebra.common.gui.Layout implements SettingListener {	
 	private boolean isInitialized = false;
 	
 	private Application app;
 	private DockManager dockManager;
-	private ArrayList<Perspective> perspectives;
-	
-	/**
-	 * Layout settings.
-	 */
-	private LayoutSettings settings;
-	
-	/**
-	 * An array with the default perspectives.
-	 */
-	public static Perspective[] defaultPerspectives;
 	
 	/**
 	 * {@link #initialize(Application)} has to be called once in order to use this class.
@@ -160,34 +149,7 @@ public class Layout implements SettingListener {
 
 	}
 	
-	/**
-	 * Set a list of perspectives as the perspectives of this user and
-	 * apply the "tmp" perspective if one was found.
-	 * 
-	 * @param perspectives
-	 */
-	public void setPerspectives(ArrayList<Perspective> perspectives) {
-		boolean foundTmp = false;
-		
-		if(perspectives != null) {
-			this.perspectives = perspectives;
-			
-			for(Perspective perspective : perspectives) {
-				if(perspective.getId().equals("tmp")) {
-					perspectives.remove(perspective);
-					applyPerspective(perspective);
-					foundTmp = true;
-					break;
-				}
-			}
-		} else {
-			this.perspectives = new ArrayList<Perspective>();
-		}
-		
-		if(!foundTmp) {
-			applyPerspective(defaultPerspectives[0]);
-		}
-	}
+	
 	
 	/**
 	 * Apply a new perspective.
