@@ -42,6 +42,8 @@ import geogebra.common.kernel.algos.AlgoDependentPoint;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoElementInterface;
+import geogebra.common.kernel.algos.SymbolicParameters;
+import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyVecNode;
@@ -71,8 +73,8 @@ import java.util.TreeSet;
  */
 final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		PathOrPoint, Translateable, PointRotateable, Mirrorable, Dilateable,
-		MatrixTransformable, ConicMirrorable, GeoPointND,
-		Animatable, Transformable, SpreadsheetTraceable {
+		MatrixTransformable, ConicMirrorable, GeoPointND, Animatable,
+		Transformable, SpreadsheetTraceable, SymbolicParametersAlgo {
 
 	// don't set point size here as this would overwrite
 	// setConstructionDefaults()
@@ -1998,5 +2000,12 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		}
 
 		return spreadsheetTraceList;
+	}
+
+	public SymbolicParameters getSymbolicParameters() {
+		if (algoParent != null && algoParent instanceof SymbolicParametersAlgo)
+			return ((SymbolicParametersAlgo) algoParent)
+					.getSymbolicParameters();
+		return null;
 	}
 }
