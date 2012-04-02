@@ -4,6 +4,7 @@ import geogebra.common.awt.Point;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.dialog.DialogManager;
+import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.javax.swing.JTextComponent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
@@ -29,6 +30,8 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	private int width;
 	private int height;
+
+	private String strCustomToolbarDefinition;
 
 	public GuiManager(AbstractApplication app) {
 		this.app = app;
@@ -223,4 +226,17 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		//app.getEuclidianView1().setPreferredSize(width, height);
 		GWT.log("why not use Settigns for that?");
 	}
+
+	public void setToolBarDefinition(String toolBarDefinition) {
+		strCustomToolbarDefinition = toolBarDefinition;
+	}
+
+	public String getToolbarDefinition() {
+		if (strCustomToolbarDefinition == null)
+			return geogebra.web.gui.toolbar.ToolBar.getAllTools((Application) app);
+		else
+			return strCustomToolbarDefinition;
+	}
+	
+	
 }
