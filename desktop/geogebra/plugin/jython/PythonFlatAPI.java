@@ -886,6 +886,10 @@ public class PythonFlatAPI {
 		public static void stepTurtle(GeoTurtle t) {
 			t.stepTurtle();
 		}
+		
+		public static void stepTurtle(GeoTurtle t, double nSteps) {
+			t.stepTurtle(nSteps);
+		}
 	}
 	
 	public Application app;

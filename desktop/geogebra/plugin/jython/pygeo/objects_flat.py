@@ -1001,12 +1001,15 @@ class Turtle(Element):
     
     def turn_left(self, angle):
         API.Geo.turtleTurn(self.geo, float(angle))
+        return self
 
     def turn_right(self, angle):
         API.Geo.turtleTurn(self.geo, -float(angle))
+        return self
 
     def forward(self, d):
         API.Geo.turtleForward(self.geo, float(d))
+        return self
 
     def clear(self):
         API.Geo.clearTurtle(self.geo)
@@ -1014,12 +1017,19 @@ class Turtle(Element):
     def rewind(self):
         API.Geo.rewindTurtle(self.geo)
 
-    def step(self):
-        API.Geo.stepTurtle(self.geo)
-        
+    def step(self, dt = 0.0):
+        API.Geo.stepTurtle(self.geo, float(dt))
+
+    # Short commands
+    fd = forward
+    tl = turn_left
+    tr = turn_right
+    
 
 class TurtleDriver(object):
-    def __init__(self):
+    def __init__(self, frequency=20):
+        self.frequency = frequency
+        self.sleep_time = 1/frequency
         self.turtles = []
         self.run()
     def add_turtle(self, turtle):
@@ -1027,15 +1037,18 @@ class TurtleDriver(object):
             self.turtles.append(turtle)
     @in_new_thread
     def run(self):
+        t0 = time.time()
         while True:
+            time.sleep(self.sleep_time)
+            t1 = time.time()
             if self.turtles:
-                self.step_turtles()
-            time.sleep(0.05)
+                self.step_turtles((t1 - t0)*self.frequency)
+            t0 = t1
     @in_main_thread
-    def step_turtles(self):
+    def step_turtles(self, dt):
         for turtle in self.turtles:
             if turtle.running:
-                turtle.step()
+                turtle.step(dt)
         
 turtle_driver = TurtleDriver()
 
