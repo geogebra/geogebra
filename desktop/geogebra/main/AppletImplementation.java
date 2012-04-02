@@ -199,7 +199,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 			// add document base to file name
 			URL base = applet.getDocumentBase();
 			String documentBase = base.toString();
-			if (fileStr.startsWith("/")) {
+			if (fileStr.charAt(0) == '/') {
 				fileStr = base.getProtocol() + "://" + base.getHost() + fileStr;
 			} else {
 				String path = documentBase.substring(0,

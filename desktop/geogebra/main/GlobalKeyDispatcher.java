@@ -7,9 +7,6 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoElementInterface;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -19,7 +16,6 @@ import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.CopyPaste;
-import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
 import geogebra.gui.app.GeoGebraFrame;
@@ -730,7 +726,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 					sb.append(it.next().getFormulaString(StringTemplate.defaultTemplate,
 							false));
 					if (it.hasNext())
-						sb.append(",");
+						sb.append(',');
 				}
 				sb.append('}');
 

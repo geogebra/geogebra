@@ -52,7 +52,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	private JPanel toolbarHelpPanel;
 
 	/**
-	 * Lable in the help panel showing the current mode name.
+	 * Label in the help panel showing the current mode name.
 	 */
 	private JLabel modeNameLabel;
 

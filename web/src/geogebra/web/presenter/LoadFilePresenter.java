@@ -33,7 +33,7 @@ public class LoadFilePresenter extends BasePresenter {
 			fetch(filename);
 		} else {
 			//we dont have content, it is an app
-			AbstractApplication.console("no base64content, possibly App loaded?");
+			Application.console("no base64content, possibly App loaded?");
 			app.appSplashCanNowHide();
 		}
 		

@@ -1389,5 +1389,11 @@ public class Application extends AbstractApplication {
 				getEuclidianView1().synCanvasSize();
 				getEuclidianView1().repaintView();
     }
+	
+	public static native void console(String string) /*-{
+		if ($wnd && $wnd.console) {
+			$wnd.console.log(string);
+		}
+	}-*/;
 
 }

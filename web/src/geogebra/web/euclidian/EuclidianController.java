@@ -7,6 +7,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.main.Application;
 
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Touch;
@@ -46,7 +47,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 	public EuclidianController(Kernel kernel) {
 		setKernel(kernel);
-		setApplication((AbstractApplication) kernel.getApplication());
+		setApplication(kernel.getApplication());
 		
 		tempNum = new MyDouble(kernel);
 	}
@@ -73,7 +74,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	}
 	
 	public void setApplication(AbstractApplication app) {
-		this.app = (AbstractApplication)app;
+		this.app = app;
 	}
 	
 	public  void setView(AbstractEuclidianView view) {
@@ -103,7 +104,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 
 	public void onTouchCancel(TouchCancelEvent event) {
 		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
-		 app.console(event.getAssociatedType().getName());
+		 Application.console(event.getAssociatedType().getName());
 	}
 
 	public void onTouchMove(TouchMoveEvent event) {

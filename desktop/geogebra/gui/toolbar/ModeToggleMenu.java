@@ -41,7 +41,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 /**
- * JToggle button combined with popup menu for mode selction
+ * JToggle button combined with popup menu for mode selection
  */
 public class ModeToggleMenu extends JPanel {
 

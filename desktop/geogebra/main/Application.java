@@ -2734,7 +2734,7 @@ public class Application extends AbstractApplication implements
 	@Override
 	public void setShowConstructionProtocolNavigation(boolean flag) {
 		if ((flag == showConsProtNavigation)
-				&& (showConstProtNavigationNeedsUpdate == false)) {
+				&& (!showConstProtNavigationNeedsUpdate)) {
 			return;
 		}
 		showConsProtNavigation = flag;
@@ -3588,7 +3588,7 @@ public class Application extends AbstractApplication implements
 			String thisLine;
 			while ((thisLine = br.readLine()) != null) {
 				sb.append(thisLine);
-				sb.append("\n");
+				sb.append('\n');
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
