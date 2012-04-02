@@ -296,7 +296,7 @@ public class GeoTurtle extends GeoElement {
 
 		GeoPointND pt = new GeoPoint2(cons, position[0], position[1], 1d);
 		cmdList.add(pt);
-		timeList.add(distance);
+		timeList.add(Math.abs(distance));
 		currentPoint.setCoords(position[0], position[1], 1.0);
 		doUpdate();
 
