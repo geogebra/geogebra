@@ -188,6 +188,32 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	 * @param el: the element which should be drawn  
 	 */
 	public static native void drawEquationMathQuill(CanvasElement canv, Element el) /*-{
+		el.style.cursor = "default";
+		if (typeof el.style.MozUserSelect != "undefined") {
+			el.style.MozUserSelect = "-moz-none";
+		} else if (typeof el.style.webkitUserSelect != "undefined") {
+			el.style.webkitUserSelect = "none";
+		} else if (typeof el.style.khtmlUserSelect != "undefined") {
+			el.style.khtmlUserSelect = "none";
+		} else if (typeof el.style.oUserSelect != "undefined") {
+			el.style.oUserSelect = "none";
+		} else if (typeof el.style.userSelect != "undefined") {
+			el.style.userSelect = "none";
+		} else if (typeof el.onselectstart != "undefined") {
+			el.onselectstart = function(event) {
+				return false;
+			}
+			el.ondragstart = function(event) {
+				return false;
+			}
+		}
+		el.onmousedown = function(event) {
+			if (event.preventDefault)
+				event.preventDefault();
+			return false;
+		}
+
+		// this should be fixed as MathQuill makes the subelements selectable by default
 		$wnd.jQuery(el).appendTo($wnd.jQuery(canv).parent()).mathquill();
 	}-*/;
 }
