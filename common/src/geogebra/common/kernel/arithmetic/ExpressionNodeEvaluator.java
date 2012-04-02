@@ -115,7 +115,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					return listL;
 				}
 
-			} else if ((operation != Operation.EQUAL_BOOLEAN // added
+			}
+			// we cannot use elseif here as we might need multiplication
+			if ((operation != Operation.EQUAL_BOOLEAN // added
 																// EQUAL_BOOLEAN
 																// Michael
 					)
