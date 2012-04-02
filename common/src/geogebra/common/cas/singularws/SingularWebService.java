@@ -14,7 +14,7 @@ import geogebra.common.util.URLEncoder;
  */
 public class SingularWebService {
 
-	private int timeout = 1;
+	private int timeout = 10;
 	//private String wsHostDefault = "http://ws.geogebra.org/Singular";
 	private final String wsHostDefault = "http://140.78.116.130:8085";
 	private final String testConnectionCommand = "t";

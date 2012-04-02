@@ -1,7 +1,6 @@
 package geogebra.web.util;
 
 import com.google.gwt.http.client.*;
-import com.google.gwt.user.client.Timer;
 
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org>

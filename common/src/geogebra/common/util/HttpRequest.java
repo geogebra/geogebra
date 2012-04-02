@@ -1,8 +1,9 @@
 package geogebra.common.util;
 
 /**
- * @author Zoltan Kovacs <zoltan@geogebra.org> Common abstract class for
- *         HttpRequest, implemented by different ways in desktop and web
+ * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * 
+ * Common abstract class for HttpRequest, implemented by different ways in desktop and web
  */
 public abstract class HttpRequest {
 	/**
@@ -28,9 +29,9 @@ public abstract class HttpRequest {
 	protected String responseText;
 
 	/**
+	 * Gets a response from a remote HTTP server         
 	 * @return the full textual content of the result after the request
 	 *         processed (the output page itself)
-	 * Gets a response from a remote HTTP server         
 	 */
 	public String getResponse() {
 		return responseText;
