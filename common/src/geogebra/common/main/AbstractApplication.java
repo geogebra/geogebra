@@ -2050,14 +2050,23 @@ public abstract class AbstractApplication {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	protected ArrayList<Perspective> tmpPerspectives = new ArrayList<Perspective>();
 
 	/**
-	 * @param tmp_perspectives  
+	 * Save all perspectives included in a document into an array with temporary
+	 * perspectives.
+	 * 
+	 * @param perspectives
 	 */
-	public void setTmpPerspectives(ArrayList<Perspective> tmp_perspectives) {
-		// TODO Auto-generated method stub
-		
+	public void setTmpPerspectives(ArrayList<Perspective> perspectives) {
+		tmpPerspectives = perspectives;
 	}
+
+	public ArrayList<Perspective> getTmpPerspectives() {
+		return tmpPerspectives;
+	}
+
 
 	public abstract void setShowConstructionProtocolNavigation(boolean show,
 			boolean playButton, double playDelay, boolean showProtButton);

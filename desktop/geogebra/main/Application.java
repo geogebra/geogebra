@@ -406,7 +406,7 @@ public class Application extends AbstractApplication implements
 
 	protected JPanel centerPanel, topPanel, bottomPanel;
 
-	private ArrayList<Perspective> tmpPerspectives = new ArrayList<Perspective>();
+	
 
 	private GgbAPI ggbapi = null;
 	private PluginManager pluginmanager = null;
@@ -1383,21 +1383,7 @@ public class Application extends AbstractApplication implements
 		preferredSize = geogebra.awt.Dimension.getAWTDimension(size);
 	}
 
-	/**
-	 * Save all perspectives included in a document into an array with temporary
-	 * perspectives.
-	 * 
-	 * @param perspectives
-	 */
-	@Override
-	public void setTmpPerspectives(ArrayList<Perspective> perspectives) {
-		tmpPerspectives = perspectives;
-	}
-
-	public ArrayList<Perspective> getTmpPerspectives() {
-		return tmpPerspectives;
-	}
-
+	
 	/**
 	 * Check if just the euclidian view is visible in the document just loaded.
 	 * 
