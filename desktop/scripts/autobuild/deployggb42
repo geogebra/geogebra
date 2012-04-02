@@ -47,7 +47,7 @@ cd $SVNDIR/geogebra/desktop/build
 rm -fR $WWWDIR/history/$MYVER || exit 4
 mkdir -p $WWWDIR/history/$MYVER || exit 4
 chmod g+rwx $WWWDIR/history/$MYVER || exit 4
-find . -name '*.jar' -or -name '*.jar.pack.gz' -or -name version.txt -or -name 'geogebra-map-*.txt' -or -name preload.html -or -name '*.var' | while read filename; do
+find . -name '*.jar' -or -name '*.jar.pack.gz' -or -name version.txt -or -name geogebra-map.txt -or -name preload.html -or -name '*.var' | while read filename; do
  directory=`dirname $filename`
  mkdir -p $WWWDIR/$MYDIR/$directory $WWWDIR/history/$MYVER/$directory || exit 5
  chmod g+rwx $WWWDIR/$MYDIR/$directory $WWWDIR/history/$MYVER/$directory || exit 5

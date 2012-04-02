@@ -194,7 +194,7 @@ if [ $STOPONECJERR = 1 ]; then
 runstep 71 .pack "Packing" ant -f pack.xml $PROJECT-aftervanilla
 
 # 7/2. Copying geogebra.map to unpacked
-cp $WORKDIR/geogebra.map $WORKDIR/build/unpacked/geogebra-map-$MYVER.txt
+cp $WORKDIR/geogebra.map $WORKDIR/build/unpacked/geogebra-map.txt
 
 # 7/3. Testing packed jars
 cd $WORKDIR/scripts/autobuild
