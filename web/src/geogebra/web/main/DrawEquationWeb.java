@@ -9,6 +9,7 @@ import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.css.GuiResources;
+import geogebra.web.euclidian.EuclidianView;
 import geogebra.web.helper.ScriptLoadCallback;
 import geogebra.web.html5.DynamicScriptElement;
 
@@ -23,12 +24,13 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.InlineHTML;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class DrawEquationWeb implements DrawEquationInterface {
 	
 	private static boolean scriptloaded = false;
 
-	private static HashMap<String, InlineHTML> equations;
+	private static HashMap<String, InlineHTML> equations = new HashMap<String, InlineHTML>();
 	private boolean needToDrawEquation = false;
 	private AbstractApplication app;
 	
@@ -36,7 +38,6 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		//export module base url;
 		exportGetModuleBaseUrl();
 		this.app = app;
-		this.equations = new HashMap<String, InlineHTML>();
 		//Load script first
 		DynamicScriptElement script = (DynamicScriptElement) Document.get().createScriptElement();
 		script.setSrc(GWT.getModuleBaseURL()+GeoGebraConstants.MATHML_URL);
@@ -72,13 +73,37 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	    // not relevant for web
     }
 
+	/**
+	 * This should make all the LaTeXes temporarily disappear
+	 * 
+	 * @param ev: latexes of only this EuclidianView - TODO: implement
+	 */
+	public static void clearLaTeXes(EuclidianView ev) {
+		Iterator<InlineHTML> eei = equations.values().iterator();
+		while(eei.hasNext())
+			eei.next().getElement().getStyle().setDisplay(Style.Display.NONE);
+	}
+
+	/**
+	 * Does not only clear the latexes, but also deletes them (on special occasions)
+	 * 
+	 * @param ev: latexes of only this EuclidianView - TODO: implement
+	 */
+	public static void deleteLaTeXes(EuclidianView ev) {
+		Iterator<InlineHTML> eei = equations.values().iterator();
+		while(eei.hasNext())
+			eei.next().getElement().removeFromParent();
+		equations.clear();
+	}
+
 	public Dimension drawEquation(AbstractApplication app, GeoElement geo,
             Graphics2D g2, int x, int y, String eqstring, Font font, boolean serif,
             Color fgColor, Color bgColor, boolean useCache) {
 
-		if (false) { // the new way to draw an Equation (latex)
+		if (true) { // the new way to draw an Equation (latex)
 			// no scriptloaded things yet
 			// no remove of unused equations yet
+			// no setcolor yet
 			AbstractApplication.debug(eqstring);
 
 			// remove $s
@@ -159,7 +184,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	/**
 	 * The JavaScript/JQuery bit of drawing an equation with MathQuill
 	 * 
-	 * @param ctx: the Context2d of the canvas to draw over to
+	 * @param canv: the canvas element to draw over to
 	 * @param el: the element which should be drawn  
 	 */
 	public static native void drawEquationMathQuill(CanvasElement canv, Element el) /*-{

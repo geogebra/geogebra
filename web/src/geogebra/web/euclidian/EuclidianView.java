@@ -335,8 +335,10 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 
     public void repaint() {
-    	if (!disableRepaint)
+    	if (!disableRepaint) {
+			geogebra.web.main.DrawEquationWeb.clearLaTeXes(this);
     		paint(g2p);
+    	}
     }
 
 	@Override

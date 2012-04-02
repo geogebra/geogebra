@@ -623,6 +623,8 @@ public class Application extends AbstractApplication {
 	}
 
 	public void loadGgbFileAgain(String dataUrl) {
+		geogebra.web.main.DrawEquationWeb.deleteLaTeXes(
+			(EuclidianView)getActiveEuclidianView());
 		imageManager.reset();
 		GeoGebraFrame.fileLoader.getView().processBase64String(dataUrl);
 	}
@@ -1166,6 +1168,9 @@ public class Application extends AbstractApplication {
 		kernel.initUndoInfo();
 		setCurrentFile(null);
 		setMoveMode();
+
+		geogebra.web.main.DrawEquationWeb.deleteLaTeXes(
+				(EuclidianView)getActiveEuclidianView());
 		// }
 	}
 
@@ -1256,7 +1261,7 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public StringType getFormulaRenderingType() {
-		if (false) {
+		if (true) {
 			return StringType.LATEX;
 		}
 		return StringType.MATHML;
