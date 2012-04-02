@@ -18,10 +18,11 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.ui.InlineHTML;
+import com.google.gwt.user.client.DOM;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,7 +31,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	
 	private static boolean scriptloaded = false;
 
-	private static HashMap<String, InlineHTML> equations = new HashMap<String, InlineHTML>();
+	private static HashMap<String, DivElement> equations = new HashMap<String, DivElement>();
 	private boolean needToDrawEquation = false;
 	private AbstractApplication app;
 	
@@ -79,9 +80,9 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	 * @param ev: latexes of only this EuclidianView - TODO: implement
 	 */
 	public static void clearLaTeXes(EuclidianView ev) {
-		Iterator<InlineHTML> eei = equations.values().iterator();
+		Iterator<DivElement> eei = equations.values().iterator();
 		while(eei.hasNext())
-			eei.next().getElement().getStyle().setDisplay(Style.Display.NONE);
+			eei.next().getStyle().setDisplay(Style.Display.NONE);
 	}
 
 	/**
@@ -90,9 +91,9 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	 * @param ev: latexes of only this EuclidianView - TODO: implement
 	 */
 	public static void deleteLaTeXes(EuclidianView ev) {
-		Iterator<InlineHTML> eei = equations.values().iterator();
+		Iterator<DivElement> eei = equations.values().iterator();
 		while(eei.hasNext())
-			eei.next().getElement().removeFromParent();
+			eei.next().removeFromParent();
 		equations.clear();
 	}
 
@@ -111,22 +112,20 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			while (eqstring.startsWith("$")) eqstring = eqstring.substring(1).trim();
 			while (eqstring.endsWith("$")) eqstring = eqstring.substring(0, eqstring.length() - 1).trim();
 
-			InlineHTML ih = equations.get(eqstring);
+			DivElement ih = equations.get(eqstring);
 			if (ih == null) {
-				ih = new InlineHTML();
-				ih.setHTML(eqstring);
-				ih.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+				ih = DOM.createSpan().cast();
 				drawEquationMathQuill(
-					//((geogebra.web.awt.Graphics2D)g2).getCanvas().getCanvasElement(),
-					((Application)app).getCanvas().getCanvasElement(),
-					ih.getElement());
+					ih,
+					eqstring,
+					((Application)app).getCanvas().getCanvasElement());
 				equations.put(eqstring, ih);
 			} else {
-				ih.getElement().getStyle().setDisplay(Style.Display.INLINE);
+				ih.getStyle().setDisplay(Style.Display.INLINE);
 			}
-			ih.getElement().getStyle().setLeft(x, Style.Unit.PX);
-			ih.getElement().getStyle().setTop(y, Style.Unit.PX);
-			return new geogebra.web.awt.Dimension(ih.getElement().getOffsetWidth(), ih.getElement().getOffsetHeight());
+			ih.getStyle().setLeft(x, Style.Unit.PX);
+			ih.getStyle().setTop(y, Style.Unit.PX);
+			return new geogebra.web.awt.Dimension(ih.getOffsetWidth(), ih.getOffsetHeight());
 		}
 
 		// the old way to draw an Equation (mathml)
@@ -183,11 +182,14 @@ public class DrawEquationWeb implements DrawEquationInterface {
 
 	/**
 	 * The JavaScript/JQuery bit of drawing an equation with MathQuill
+	 * More could go into GWT, but it was easier with JSNI
 	 * 
 	 * @param canv: the canvas element to draw over to
 	 * @param el: the element which should be drawn  
 	 */
-	public static native void drawEquationMathQuill(CanvasElement canv, Element el) /*-{
+	public static native void drawEquationMathQuill(Element el, String htmlt, CanvasElement canv) /*-{
+
+		el.style.position = "absolute";
 		el.style.cursor = "default";
 		if (typeof el.style.MozUserSelect != "undefined") {
 			el.style.MozUserSelect = "-moz-none";
@@ -213,7 +215,21 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			return false;
 		}
 
+		var elfirst = $doc.createElement("div");
+		elfirst.style.position = "absolute";
+		elfirst.style.zIndex = 2;
+		elfirst.style.width = "100%";
+		elfirst.style.height = "100%";
+		el.appendChild(elfirst);
+
+		var elsecond = $doc.createElement("span");
+		elsecond.innerHTML = htmlt;
+		el.appendChild(elsecond);
+
+		canv.parentElement.appendChild(el);
 		// this should be fixed as MathQuill makes the subelements selectable by default
-		$wnd.jQuery(el).appendTo($wnd.jQuery(canv).parent()).mathquill();
+		//$wnd.jQuery(el).appendTo($wnd.jQuery(canv).parent());
+
+		$wnd.jQuery(elsecond).mathquill();
 	}-*/;
 }
